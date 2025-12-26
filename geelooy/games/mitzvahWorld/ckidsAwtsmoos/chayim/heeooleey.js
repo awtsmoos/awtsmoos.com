@@ -2,11 +2,13 @@
 B"H
 **/
 
+/**
+ * Heeoolee - The foundational essence of event-driven existence.
+ * Has event listeners for when an update has occurred.
+ */
 export default class Heeoolee {
     events = {};
-    constructor() {
-
-    }
+    constructor() {}
 
 	static extend(target) {
 	 Object.getOwnPropertyNames(Heeoolee.prototype).forEach((name) => {
@@ -21,41 +23,29 @@ export default class Heeoolee {
 	}
 
     clearAll() {
-        Object.keys(this.events)
-        .forEach(w => {
-            try {
-                delete this.events[w]
-            } catch(e){
-
-            }
-        });
         this.events = {}
     }
 	
     clear(shaym, func=null) {
-        if(typeof(shaym) != "string") {
-            return null;
-        }
+        if(typeof(shaym) != "string") return null;
         if(this.events[shaym]) {
             if(typeof(func) == "function") {
-                var fnd = this.events[shaym].find(q=>q.peula==func);
-                if(!fnd) {
-                    delete this.events[shaym];
-                    return;
+                var fndIdx = this.events[shaym].findIndex(q=>q.peula==func);
+                if(fndIdx > -1) {
+                    this.events[shaym].splice(fndIdx, 1);
                 }
-                var ind = this.events[shaym].indexOf(fnd);
-                this.events[shaym].splice(ind, 1);
             } else
                 delete this.events[shaym];
         }
     }
 
+    /**
+     * B"H: Corrected remove logic to target the array within the events map.
+     * We find the index of the specific listener object by matching its 'peula' property.
+     */
     remove(shaym, peula) {
-        if(typeof(shaym) != "string") {
-            return false;
-        }
+        if(typeof(shaym) != "string") return false;
 
-        
         if(typeof(peula) != "function") {
             if(this.events[shaym]) {
                 delete this.events[shaym];
@@ -64,42 +54,32 @@ export default class Heeoolee {
         }
 
         var ev = this.events[shaym]
-        if(!ev || !Array.isArray(ev)) {
-            return false;
-        }
+        if(!ev || !Array.isArray(ev)) return false;
 
-        var ind = ev.indexOf(peula)
-        if(
-            ind > -1
-        ) {
-            this.events.splice(ind, 1);
+        // B"H: Correctly locating the listener in the array of objects
+        var ind = ev.findIndex(q => q.peula === peula);
+        if(ind > -1) {
+            ev.splice(ind, 1); 
             return true;
         }
         return false;
     }
 
     on(shaym, peula/*function*/, oneTime=false) {
-        if(typeof(shaym) != "string") {
-            return null;
-        }
+        if(typeof(shaym) != "string") return null;
 
         if(typeof(peula) != "function") {
             if(typeof(peula) == "string") {
                 /*try to resolve string as 
                 function, maybe passed from worker
                 or socket etc.*/
-                
                 try {
                     peula = eval("("+peula+")");
                 } catch(e) {
-                    
                     return null;
                 }
-                
             }
-            
         }
-
 
         if(!this.events[shaym]) {
             this.events[shaym] = [];
@@ -113,10 +93,7 @@ export default class Heeoolee {
             this.events[shaym] : null : null;
     }
 
-    ayshPeula/*fire event*/(
-        shaym/*name*/, 
-        ...dayuh/*data*/
-    ) {
+    ayshPeula/*fire event*/(shaym/*name*/, ...dayuh/*data*/) {
         var asyncs = [];
         var results = [];
         if(this.events[shaym]) {

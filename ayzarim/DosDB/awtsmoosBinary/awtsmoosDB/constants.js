@@ -1,84 +1,79 @@
+
 // B"H
+/**
+ * @file constants.js
+ * @description The physical laws governing the AwtsmoosDB vessels.
+ */
+
 module.exports = {
     BLOCK_SIZE: 4096,
-    HEADER_SIZE: 64,
-    UNIT_SIZE: 16, 
-    POINTER_SIZE: 16,
-    
-    BITMAP_OFFSET: 4, 
-    BITMAP_SIZE: 32, 
-    
-    MAGIC_JSON: "AJS", 
-    MAGIC_ARRAY: "AAR",
-    HEAP_PAGE_MAGIC: 0x4850, 
-    MAGIC_SEQ_NODE: "SN",
-    MAGIC_DICT_DIR: "DD",
-    MAGIC_MAP_NODE: "MN",
+    UNIT_SIZE: 32,
+    HEADER_SIZE: 32,
+    BITMAP_OFFSET: 4,
+    BITMAP_SIZE: 16,
+    MAGIC_MAP_NODE: "AMAP",
+    MAGIC_SEQ_NODE: "ASEQ",
+    MAGIC_DICT_DIR: "ADIC",
+    MAGIC_JSON: "AJS0",
+    MAGIC_ARRAY: "AAR0",
+    HEAP_PAGE_MAGIC: 0x4850,
     
     BLOCK_TYPE: {
-        FREE: 0, PAGE: 1, BTREE_NODE: 2, 
-        COLLECTION_HEADER: 3, COLLECTION_PAGE: 4, 
-        OVERFLOW: 5, META: 6, SUPERBLOCK: 7
+        SUPER: 0,
+        PAGE: 1,
+        OVERFLOW: 2
     },
 
-    MODE_INLINE: 0, 
-    MODE_HEAP: 1,   
-    MODE_BLOCK: 2,  
-
-    // B"H: The 64 Sparks of Data (Unified Type Registry)
     VAL_TYPE: {
-        NULL: 0, 
-        UNDEFINED: 1, 
-        BOOLEAN: 2, 
-        SMALL_INT: 3, 
-        STRING_7BIT: 4, 
-        BUFFER: 5, 
-        SEQUENCE: 6, 
-        DICTIONARY: 7, 
-        MAP: 8, 
-        JSON: 9, 
-        DATE: 10, 
-        REGEXP: 11, 
-        ERROR: 12, 
-        FUNCTION: 13, 
-        TYPED_ARRAY: 14, 
-        CUSTOM_INSTANCE: 15, 
-        SYMBOL: 16, 
-        SET: 17, 
-        
-        // Scalar Manifestations
-        UINT8: 24, 
-        UINT16: 25, 
-        UINT32: 26, 
-        UINT64: 27,
-        INT8_NEG: 28, 
-        INT16_NEG: 29, 
-        INT32_NEG: 30, 
-        INT64_NEG: 31,
-        FLOAT_1: 32, 
-        FLOAT_2: 33, 
-        FLOAT_4: 34,
-        FLOAT_NEG_1: 35, 
-        FLOAT_NEG_2: 36, 
-        FLOAT_NEG_4: 37,
-        DOUBLE_POS: 38, 
-        DOUBLE_NEG: 39,
-        NAN: 40, 
-        INFINITY: 41, 
-        NEG_INFINITY: 42,
-        BOOLEAN_TRUE: 43,
-        BOOLEAN_FALSE: 44,
-
-        BIGINT: 19, 
-        BIGINT_POS: 45,
-        BIGINT_NEG: 46,
-        
-        STRING_OMNI: 20, 
-        SMART_OBJECT: 21, 
-        SMART_ARRAY: 22,
-        STRING: 23 
+        NULL: 0,
+        UNDEFINED: 1,
+        BOOLEAN: 2,
+        SMALL_INT: 3,
+        NUMBER: 4,
+        STRING: 5,
+        STRING_OMNI: 6,
+        DATE: 7,
+        BIGINT: 8,
+        BUFFER: 9,
+        ARRAY: 10,
+        OBJECT: 11,
+        MAP: 12,
+        SET: 13,
+        DICTIONARY: 14,
+        SEQUENCE: 15,
+        JSON: 16,
+        CUSTOM_INSTANCE: 17,
+        SMART_OBJECT: 18,
+        SMART_ARRAY: 19,
+        UINT8: 20,
+        UINT16: 21,
+        UINT32: 22,
+        UINT64: 23,
+        INT8_NEG: 24,
+        INT16_NEG: 25,
+        INT32_NEG: 26,
+        INT64_NEG: 27,
+        FLOAT_1: 28,
+        FLOAT_2: 29,
+        FLOAT_4: 30,
+        FLOAT_NEG_1: 31,
+        FLOAT_NEG_2: 32,
+        FLOAT_NEG_4: 33,
+        DOUBLE_POS: 34,
+        DOUBLE_NEG: 35,
+        NAN: 36,
+        INFINITY: 37,
+        NEG_INFINITY: 38,
+        SYMBOL: 39,
+        FUNCTION: 40,
+        TYPED_ARRAY: 41
     },
 
-    SYMBOLS: { INTERNALS: Symbol.for('Awtsmoos.Internals') },
-    DEFAULT_CACHE_BLOCKS: 500 
+    MODE_BLOCK: 0,
+    MODE_HEAP: 1,
+    MODE_INLINE: 2,
+
+    SYMBOLS: {
+        INTERNALS: Symbol.for('Awtsmoos.Internals')
+    }
 };

@@ -1,6 +1,5 @@
-
+// B"H
 /**
- * B"H
  * @file OctreeMath.js
  * Collision mathematics for OctreeWorld.
  */
@@ -12,6 +11,9 @@ const _v3 = new THREE.Vector3();
 const _tempTri = new THREE.Triangle();
 const _plane = new THREE.Plane();
 
+/**
+ * OctreeMath - The geometry of intersection.
+ */
 export default class OctreeMath {
     
     /**
@@ -27,7 +29,9 @@ export default class OctreeMath {
         
         if ((d1 > 0 && d2 > 0) || (d1 < -cap.radius && d2 < -cap.radius)) return false;
 
-        const delta = Math.abs(d1 / (Math.abs(d1) + Math.abs(d2)));
+        // B"H: Added safety guard against potential NaN if d1 and d2 are exactly zero by checking sum.
+        const totalDist = Math.abs(d1) + Math.abs(d2);
+        const delta = totalDist < 1e-10 ? 0.5 : Math.abs(d1 / totalDist);
         const intersectPoint = _v3.copy(cap.start).lerp(cap.end, delta);
         
         if (tri.containsPoint(intersectPoint)) {

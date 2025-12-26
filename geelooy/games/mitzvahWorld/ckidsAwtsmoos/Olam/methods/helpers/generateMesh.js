@@ -2,6 +2,7 @@
  * B"H
  * @file generateMesh.js
  * Generates Three.js meshes from golem definitions.
+ * Refined to ensure robustness against invalid input types.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import GeometryManager from '../../math/GeometryManager.js';
@@ -12,12 +13,23 @@ export default async function generateThreeJsMesh(golem, olamContext) {
     
     const keyMap = {
         color: val => new THREE.Color(val),
-        map: async (val) => await olamContext.loadTexture({ url: val.startsWith("awtsmoos://") ? olamContext.getComponent(val) : val })
+        map: async (val) => {
+            if (typeof val !== 'string') return null;
+            const url = val.startsWith("awtsmoos://") ? olamContext.getComponent(val) : val;
+            return await olamContext.loadTexture({ url });
+        }
     };
 
     // --- Geometry Creation ---
     const guf = golem.guf || golem.body || { "BoxGeometry": [1, 1, 1] };
     const gufEntries = Object.entries(guf);
+    
+    // B"H: Safety guard for empty geometry definitions
+    if (gufEntries.length === 0) {
+        console.warn("B\"H: Golem definition has no body. Providing default Cube.");
+        gufEntries.push(["BoxGeometry", [1, 1, 1]]);
+    }
+
     const geomType = gufEntries[0][0];
     const geomArgs = gufEntries[0][1];
     
@@ -36,6 +48,11 @@ export default async function generateThreeJsMesh(golem, olamContext) {
     const toyr = golem.toyr || golem.material || { "MeshLambertMaterial": { color: "white" } };
     const toyrEntries = Object.entries(toyr);
     let tzurah;
+
+    if (toyrEntries.length === 0) {
+        toyrEntries.push(["MeshLambertMaterial", { color: "white" }]);
+    }
+
     const materialName = toyrEntries[0][0];
     const materialOptions = toyrEntries[0][1] || {};
 
@@ -60,7 +77,8 @@ export default async function generateThreeJsMesh(golem, olamContext) {
 
         tzurah = new THREE[materialName](finalOptions);
     } else {
-         throw "No model or valid geometry/material was given";
+         // B"H Fallback material if creation fails
+         tzurah = new THREE.MeshLambertMaterial({ color: "magenta", wireframe: true });
     }
 
     let mesh;

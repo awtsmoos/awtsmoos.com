@@ -1,23 +1,26 @@
-
 // B"H
 /**
  * interaction.js - The hands of the Chossid, manipulating the world through the power of intention.
- * Refined to prevent "Basic Errors" in raycasting and accidental destruction.
+ * Refined to prevent "Basic Errors" in raycasting and ensure stability.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
 export default {
     actionList: {
+        /**
+         * B"H: Removing an object from existence.
+         */
         async Delete(self) {
             if (!self.selected || !self.selected.niv) return;
             
             const nivName = self.selected.niv.name || "this Creation";
             
-            // B"H: The Confirmation Dialogue
+            // B"H: The Confirmation Dialogue - concatenation for environment stability. 
+            // Changed "Type" to "Enter" to avoid misinterpretation as a keyword.
             const confirmResult = await self.olam.ayshPeula("send ui event", "inputModal", {
                 requestInput: {
                     title: "Sacred Confirmation",
-                    placeholder: `Type 'YES' to remove ${nivName}`
+                    placeholder: "Enter 'YES' to remove " + nivName
                 }
             });
 
@@ -59,7 +62,6 @@ export default {
     handleClick(e) {
         if (this.olam.chossid && (this.olam.chossid.state === 'talking' || this.olam.chossid.nivraTalkingTo)) return;
 
-        // Simulate hover check one last time before clicking to ensure hit data is fresh
         this.checkHover(this.olam, true);
 
         if (this.intersected && this.intersected.niv) {
@@ -129,8 +131,9 @@ export default {
         if(!olam.isLookingForSomething) return;
         if (olam.chossid && (olam.chossid.state === 'talking' || olam.chossid.nivraTalkingTo)) return;
 
-        // B"H: Guard coordinate normalization
         if (!olam.pointer || isNaN(olam.pointer.x)) return;
+
+        if (!olam.ayin) return;
 
         var hit = olam.ayin.getHovered(this.getRayStart(), this.getRayDirection());
         var niv = hit?.nivraAwtsmoos || hit?.object?.nivraAwtsmoos;
@@ -155,11 +158,13 @@ export default {
                 const dist = olam.chossid.mesh.position.distanceTo(niv.mesh.position);
                 const inRange = dist <= (niv.proximity || 5);
                 
+                const labelTxt = "B\"H\n" + (niv.name || 'Creation') + "\n" + (inRange ? '(Click to Interact)' : '(Get Closer)');
+                
                 await olam.htmlAction({
                     shaym: "minimap label",
                     properties: {
-                        innerHTML: `B"H\n${niv.name || 'Creation'}\n${inRange ? '(Click to Interact)' : '(Get Closer)'}`,
-                        style: { transform:`translate(${olam.achbar.x}px, ${olam.achbar.y}px)` }
+                        innerHTML: labelTxt,
+                        style: { transform:"translate(" + olam.achbar.x + "px, " + olam.achbar.y + "px)" }
                     },
                     methods: { classList: { remove: "invisible" } }
                 });

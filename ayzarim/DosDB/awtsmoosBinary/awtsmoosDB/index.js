@@ -1,81 +1,97 @@
-//B"H
-
+// B"H
 /**
- * @namespace AwtsmoosDB
- * @description 
- *  The Sefirah of Keter - The Absolute Source.
- *  Everything is immediate. Everything is persistent. Zero Await.
+ * @file index.js
+ * @description The Malchut - The manifestation of the Neural Nexus database.
  */
 
-const Pager = require('./core/pager.js');
+const SynchronousPager = require('./core/pager.js');
 const AllocatorV2 = require('./core/type_allocator.js');
-const constants = require('./constants.js');
 const Lifecycle = require('./core/db/lifecycle.js');
+const Operations = require('./core/db/operations.js');
+const Iteration = require('./core/db/iteration.js');
+const Background = require('./core/db/background.js');
+const Io = require('./core/db/io.js');
+const Concurrency = require('./core/concurrency.js');
+const AIManager = require('./api/ai/index.js');
+const GraphManager = require('./api/graph/index.js');
+const SearchManager = require('./api/search/index.js');
+const VectorManager = require('./api/vector/index.js');
+const LiveHandle = require('./api/liveHandle/index.js');
 
 class AwtsmoosDB {
     constructor(filePath, options = {}) {
-        this.config = { debug: options.debug || false, ...options };
-        this.pager = new Pager(filePath, this.config);
-        this.allocator = new AllocatorV2(this.pager, this, this.config);
-        this.root = null; 
+        this.filePath = filePath;
+        this.options = options;
+        this.debug = options.debug || false;
+        
+        this.pager = new SynchronousPager(filePath, options);
+        this.allocator = new AllocatorV2(this.pager, this);
+        this.lock = new Concurrency();
+        
+        this.root = null;
         this.rootPtrRaw = null;
         this.mutationCount = 0;
         
-        this.Map = class AwtsmoosMap extends Map {};
-        this.List = class AwtsmoosList extends Array {};
-        this.Set = class AwtsmoosSet extends Set {};
-        this.Object = class AwtsmoosObject {};
+        this.ai = new AIManager(this);
+        this.graph = new GraphManager(this);
+        this.search = new SearchManager(this);
+        this.vector = new VectorManager(this);
         
-        this.structureCache = new Map();
-        this.STRUCT_CACHE_LIMIT = 200; // Minimal cache for 20MB RAM
+        this.sysCache = { loaded: false, search: new Set(), vector: new Set() };
+        this._pendingIndexOps = [];
+        this._isFlushing = false;
+        this._structureCache = new Map();
+        
+        // Helper Classes
+        this.Map = function() { return { _isAwtsmoosMarker: true, type: 'Map' }; };
+        this.List = function() { return { _isAwtsmoosMarker: true, type: 'List' }; };
+        this.Object = function() { return { _isAwtsmoosMarker: true, type: 'Object' }; };
     }
 
-    /**
-     * @description Opens the database vessels immediately.
-     */
     open() {
-        this.pager.init();
-        this.allocator.init();
         Lifecycle.open(this);
         return this;
     }
 
-    ensureOpen() { if (!this.root) this.open(); }
-
     close() {
-        this.pager.close();
-        this.root = null;
+        Lifecycle.close(this);
     }
 
-    set(key, value) {
-        this.ensureOpen();
-        return this.root.set(key, value);
+    ensureOpen() {
+        if (!this.root) this.open();
     }
 
-    get(key) {
-        this.ensureOpen();
-        return this.root[key];
-    }
-
-    batch(fn) {
-        return fn();
-    }
-
-    // B"H: Provided for backward compatibility in existing test scripts.
-    async waitForIdle() { return true; }
-
-    _readChainSafe(ptr) { return require('./core/db/io.js').readChainSafe(this, ptr); }
-    _writeChainSafe(ptr, data) { return require('./core/db/io.js').writeChainSafe(this, ptr, data); }
+    // Facades
+    set(key, value) { return Operations.set(this, key, value); }
+    get(key) { return Operations.get(this, key); }
+    has(handle, key) { return Operations.has(this, handle, key); }
+    size(handle) { return Operations.size(this, handle); }
     
-    cacheStructure(blockId, node) {
-        if (this.structureCache.size >= this.STRUCT_CACHE_LIMIT) {
-            this.structureCache.delete(this.structureCache.keys().next().value);
-        }
-        this.structureCache.set(blockId, node);
+    keys(handle) { return Iteration.keys(this, handle); }
+    values(handle) { return Iteration.values(this, handle); }
+    entries(handle) { return Iteration.entries(this, handle); }
+
+    batch(fn) { return Background.batch(this, fn); }
+    waitForIdle() { return Background.waitForIdle(this); }
+    _flushBackgroundTasks() { return Background.flushBackgroundTasks(this); }
+
+    _readChainSafe(ptr) { return Io.readChainSafe(this, ptr); }
+    _writeChainSafe(ptr, data) { return Io.writeChainSafe(this, ptr, data); }
+
+    cacheStructure(id, node) { this._structureCache.set(id, node); }
+    getCachedStructure(ptr) { return this._structureCache.get(ptr.blockId); }
+
+    // Marker Support
+    createMap(parent, key) {
+        const handle = parent[key];
+        handle.writer.createMap();
+        return handle;
     }
 
-    getCachedStructure(ptr) {
-        return this.structureCache.get(ptr.blockId);
+    createList(parent, key) {
+        const handle = parent[key];
+        handle.writer.createSequence();
+        return handle;
     }
 }
 

@@ -1,36 +1,18 @@
 
 // B"H
-const SYMB_GL_PREFIX = "@@SYMB_GL:";
-const SYMB_UN_PREFIX = "@@SYMB_UN:";
+/**
+ * @file keyEncoding.js
+ * @description Standardizes the transformation of keys into searchable binary vessels.
+ */
 
 module.exports = {
     encode(key) {
-        if (typeof key === 'symbol') {
-            const globalKey = Symbol.keyFor(key);
-            if (globalKey) return SYMB_GL_PREFIX + globalKey;
-            return SYMB_UN_PREFIX + String(key);
-        }
-        return String(key);
+        if (Buffer.isBuffer(key)) return key;
+        const str = typeof key === 'string' ? key : String(key);
+        return Buffer.from(str, 'utf8');
     },
-
-    decode(keyInput) {
-        // B"H: Auto-convert Buffer keys to string for JS Map compatibility
-        let keyStr = keyInput;
-        if (Buffer.isBuffer(keyInput)) {
-            keyStr = keyInput.toString('utf8');
-        }
-        
-        if (typeof keyStr !== 'string') return keyStr;
-        
-        if (keyStr.startsWith(SYMB_GL_PREFIX)) {
-            return Symbol.for(keyStr.substring(SYMB_GL_PREFIX.length));
-        }
-        if (keyStr.startsWith(SYMB_UN_PREFIX)) {
-            const raw = keyStr.substring(SYMB_UN_PREFIX.length);
-            const descMatch = raw.match(/^Symbol\((.*)\)$/);
-            const desc = descMatch ? descMatch[1] : raw;
-            return Symbol(desc);
-        }
-        return keyStr;
+    decode(buf) {
+        if (!Buffer.isBuffer(buf)) return buf;
+        return buf.toString('utf8');
     }
 };

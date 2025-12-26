@@ -1,4 +1,3 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree as AwtsmoosOctree } from "../AwtsmoosOctree/index.js";
@@ -10,6 +9,9 @@ const _v3 = new THREE.Vector3();
 const _tempBox = new THREE.Box3();
 const _tempTri = new THREE.Triangle();
 
+/**
+ * OctreeBuilder - Constructing the physical geometry of the Olam.
+ */
 export default class OctreeBuilder {
     constructor(world) {
         this.world = world;
@@ -96,10 +98,11 @@ export default class OctreeBuilder {
                 job.clone = job.proxy.mesh.clone();
                 if(job.clone.parent) job.clone.parent = null;
                 job.clone.updateMatrix();
-                job.step = JOB_STEP.MATRICES;
+                // B"H: Transitioning to the BOUNDS step (1)
+                job.step = JOB_STEP.BOUNDS;
                 continue;
             }
-            if (job.step === JOB_STEP.MATRICES) {
+            if (job.step === JOB_STEP.BOUNDS) {
                 job.clone.position.copy(job.proxy.mesh.position);
                 job.clone.quaternion.copy(job.proxy.mesh.quaternion);
                 job.clone.scale.copy(job.proxy.mesh.scale);
@@ -116,7 +119,6 @@ export default class OctreeBuilder {
                 job.step = JOB_STEP.SETUP_ITER;
                 continue;
             }
-            if (job.step === JOB_STEP.BOUNDS) { job.step++; continue; }
             if (job.step === JOB_STEP.SETUP_ITER) {
                 const g = job.clone.geometry;
                 job.attr = g.attributes.position;

@@ -1,10 +1,8 @@
-
-// B"H
-// FILE: code/js/state.js
-
+//B"H
 /**
  * --- APPLICATION STATE ---
  * Centralized state management for the entire application.
+ * B"H - Every state change is a new creation from the Awtsmoos.
  */
 export const State = {
     tabs: [],
@@ -13,7 +11,7 @@ export const State = {
     workspaces: [],
     nextWorkspaceId: 0,
     contextTarget: null,
-    contextTabTarget: null, // B"H - Current tab targeted for context menu
+    contextTabTarget: null,
     hexEditorInstance: null,
     zipExplorerInstance: null, 
     gitDb: null,
@@ -37,14 +35,18 @@ export const State = {
     consoleInstances: new Map(), 
     previewIframes: new Map(),   
     
-    activeTasks: new Map(), // B"H - background taskId -> { card, label }
+    activeTasks: new Map(), 
     
-    closedTabHistory: [], // B"H - Stack for reopening tabs
+    closedTabHistory: [], 
 
-    // B"H - NEW: Intelligence & Folding State
-    // We keep a global registry for simplicity, keyed by the unique ID inside the fold marker.
+    // B"H - Intelligence & Folding State
     foldedRegistry: new Map(), 
-    nextFoldId: 1
+    nextFoldId: 1,
+
+    // B"H - Vibe Coding Settings (Vessels for Divine logic)
+    vibeIterations: 1,
+    customVibePrompt: "",
+    isVibeStopRequested: false
 };
 
 /**
@@ -53,7 +55,7 @@ export const State = {
 export const DOM = {};
 
 /**
- * This function finds all DOM elements and populates the DOM object.
+ * B"H - Finding the physical handles of the UI.
  */
 export function initializeDOM() {
     DOM.sidebar = document.getElementById('sidebar');
@@ -91,7 +93,6 @@ export function initializeDOM() {
 	DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
     DOM.zipExplorerWrapper = document.getElementById('zip-editor-wrapper');
     
-    // B"H - New Element
     DOM.intelligenceTooltip = document.getElementById('intelligence-tooltip');
     if (!DOM.intelligenceTooltip) {
         DOM.intelligenceTooltip = document.createElement('div');

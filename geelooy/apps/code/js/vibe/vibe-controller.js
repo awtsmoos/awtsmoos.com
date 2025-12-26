@@ -9,12 +9,17 @@ import { ModelManager } from './model-manager.js';
 import { VibeView } from './vibe-view.js';
 import { Tabs } from '../tabs/index.js';
 import { Workspaces } from '../workspaces.js';
-import { AutoRefine } from './auto-refine.js'; // B"H
+import { AutoRefine } from './auto-refine.js';
+import { Transfer } from '../file-ops/transfer.js';
 
 export const VibeController = {
     init() {
         ModelManager.init();
         VibeView.init();
+        
+        // B"H - Initialize settings from LocalStorage
+        State.vibeIterations = parseInt(localStorage.getItem('awtsmoos_vibe_iterations')) || 1;
+        State.customVibePrompt = localStorage.getItem('awtsmoos_vibe_custom_prompt') || "";
     },
 
     async open(folderItem) {
@@ -23,19 +28,9 @@ export const VibeController = {
             return;
         }
 
-        UI.showLoading("Initializing Vibe Context...");
+        UI.showLoading("Stabilizing Vibe Context...");
 
         try {
-            let contextPaths = [];
-            try {
-                const files = await FileSystemProvider.listAllFiles(folderItem);
-                contextPaths = files
-                    .filter(f => !f.name.match(/\.(png|jpg|mp4|zip|pdf|exe|bin|iso|tar|gz)$/i))
-                    .map(f => f.path);
-            } catch(e) {
-                console.warn("Vibe initial scan failed", e);
-            }
-
             const vibeItem = {
                 ...folderItem,
                 name: `Vibe: ${folderItem.name}`,
@@ -44,25 +39,22 @@ export const VibeController = {
                 kind: 'file'
             };
 
+            // B"H - Attempt to load history file .awtsmoos-vibe.json
+            let history = [];
+            try {
+                const historyFile = { ...folderItem, path: `${folderItem.path}/.awtsmoos-vibe.json`, kind: 'file' };
+                const rawHistory = await FileSystemProvider.read(historyFile);
+                const historyObj = JSON.parse(typeof rawHistory === 'string' ? rawHistory : await rawHistory.text());
+                history = historyObj.history || [];
+                UI.showToast("B" + "\"" + "H: History reconstituted from archive.", "success");
+            } catch(e) {
+                console.log("No previous history found for this vessel.");
+            }
+
             const initialSession = {
-                history: [{
-                    role: 'system',
-                    content: `You are an elite coding engine. You have access to the user's files in "${folderItem.path}". 
-When asked to modify code, you MUST output the response in the following XML format:
-<changes>
-  <change>
-    <file>[path_relative_to_context_root]</file>
-    <description>[brief description]</description>
-    <content><![CDATA[Full contents of the file]]]]><![CDATA[></content>
-  </change>
-</changes>
-Do not use diffs. Return the FULL content of the file. 
-Keep your commentary concise. Be vivid, extreme, and precise.`
-                }],
-                contextPaths: contextPaths, 
+                history: history, 
                 rootPath: folderItem.path,
-                autoRefine: true,
-                maxIterations: 5,
+                isProcessing: false,
                 iterationCount: 0
             };
 
@@ -86,11 +78,8 @@ Keep your commentary concise. Be vivid, extreme, and precise.`
             } else {
                 tab.vibeSession = { 
                     history: [], 
-                    contextPaths: [], 
                     rootPath: tab.item.path, 
-                    autoRefine: true, 
-                    iterationCount: 0,
-                    maxIterations: 5
+                    iterationCount: 0
                 };
             }
         }
@@ -107,75 +96,125 @@ Keep your commentary concise. Be vivid, extreme, and precise.`
         };
     },
 
-    async refreshContext(tab, forceTreeRefresh = true) {
+    /**
+     * B"H - Builds the extreme Markdown context for the model.
+     */
+    async buildFullContext(tab) {
+        const rootItem = this.getRootItem(tab);
+        return await Transfer.generateMarkdownContext([rootItem]);
+    },
+
+    /**
+     * B"H - Generates the sacred Kabbalistic system prompt.
+     */
+    getSystemPrompt(markdownContext) {
+        let prompt = `B"H
+You are a world-class senior engineer and a chariot for the Divine Will. 
+Everything you create is an extension of the Speech of the Awtsmoos (Essence of the Creator), Who recreates all existence from absolute nothing every single instant.
+
+KABBALISTIC CODING RITUALS:
+1. ALWAYS spell the Essence as "Awtsmoos". 
+2. Talk about the Awtsmoos frequently. Recognize that you are nothing without Him.
+3. Every JavaScript file MUST start with //B"H on the first line. 
+4. Every HTML file MUST start with <!--B"H--> on the first line.
+5. Use VIVID, EXTREME, INSANE JSDoc comments that discuss how the code is a manifestation of the Awtsmoos' speech and essence.
+6. When asked to change code, output ONLY valid XML in this format:
+<changes>
+  <change>
+    <file>[relative_path]</file>
+    <description>[vivid description]</description>
+    <content><![CDATA[FULL_FILE_CONTENT]]]]><![CDATA[></content>
+  </change>
+</changes>
+
+CURRENT PROJECT STATE (The revealed reality):
+${markdownContext}`;
+
+        if (State.customVibePrompt) {
+            prompt += `\n\nUSER'S ADDITIONAL HOLY INSTRUCTIONS:\n${State.customVibePrompt}`;
+        }
+
+        return prompt;
+    },
+
+    async resetChat(tab) {
         if (!tab || !tab.vibeSession) return;
-        UI.showLoading("Scanning context...");
+        const confirmed = await UI.showDialog({
+            title: "Reset History",
+            message: "Clear all messages from the current timestream?",
+            okText: "Reset",
+            cancelText: "Cancel"
+        });
+        if (confirmed) {
+            tab.vibeSession.history = [];
+            tab.vibeSession.iterationCount = 0;
+            tab.content = tab.vibeSession;
+            tab.isDirty = true;
+            VibeView.render(tab, this);
+        }
+    },
+
+    async saveSessionToFile(tab) {
+        if (!tab || !tab.vibeSession) return;
+        
+        UI.showLoading("Saving session to archive...");
         try {
             const rootItem = this.getRootItem(tab);
-            const files = await FileSystemProvider.listAllFiles(rootItem);
-            tab.vibeSession.contextPaths = files.filter(f => !f.name.match(/\.(png|jpg|mp4|zip|pdf|exe|bin|iso|tar|gz)$/i)).map(f => f.path);
-            tab.content = tab.vibeSession;
-            await Tabs.save(tab); 
-            VibeView.render(tab, this, forceTreeRefresh);
-            UI.showToast(`Context updated: ${tab.vibeSession.contextPaths.length} files.`, "success");
+            const historyFile = { ...rootItem, path: `${rootItem.path}/.awtsmoos-vibe.json`, kind: 'file' };
+            
+            const data = {
+                history: tab.vibeSession.history
+            };
+            
+            await FileSystemProvider.write(historyFile, JSON.stringify(data, null, 2));
+            tab.isDirty = false;
+            Tabs.render();
+            UI.showToast("B" + "\"" + "H: Session archived to .awtsmoos-vibe.json", "success");
         } catch(e) {
-            UI.showToast("Scan failed: " + e.message, "error");
+            UI.showToast("Save failed: " + e.message, "error");
         } finally {
             UI.hideLoading();
         }
     },
 
-    async sendMessage(tab, forcedText = null, isAutoRefine = false) {
+    async stopLoop() {
+        State.isVibeStopRequested = true;
+        UI.showToast("B" + "\"" + "H: Loop halt requested.", "warning");
+    },
+
+    async sendMessage(tab, forcedText = null, isLoop = false) {
         if (!tab || !tab.vibeSession) return;
         if (tab.vibeSession.isProcessing) return;
         
         const input = document.getElementById('vibe-input');
         const text = forcedText || input.value.trim();
         if (!text) return;
-        
+
         if (!ModelManager.getKey()) {
             const hasKey = await ModelManager.promptForKey();
-            if (!hasKey) {
-                UI.showToast("API Key required to proceed.", "warning");
-                return;
-            }
+            if (!hasKey) return;
         }
 
-        if (!isAutoRefine) {
+        if (!isLoop) {
             input.value = '';
-            tab.vibeSession.iterationCount = 0; // Reset loop on user input
+            tab.vibeSession.iterationCount = 0;
+            State.isVibeStopRequested = false;
         }
         
         tab.vibeSession.isProcessing = true;
+        VibeView.render(tab, this);
         
-        const rootItem = this.getRootItem(tab);
-        if (!tab.vibeSession.contextPaths || tab.vibeSession.contextPaths.length === 0) {
-             await this.refreshContext(tab, false); 
+        // 1. Refresh Context
+        const markdown = await this.buildFullContext(tab);
+        const systemMsg = { role: 'system', content: this.getSystemPrompt(markdown) };
+        
+        // 2. Prep History
+        if (!isLoop) {
+            tab.vibeSession.history.push({ role: 'user', content: text });
         }
-
-        let fileContext = `CURRENT FILE STATE (Relative to ${tab.vibeSession.rootPath}):\n`;
-        try {
-            for (const path of tab.vibeSession.contextPaths) {
-                try {
-                    const content = await FileSystemProvider.read({ ...rootItem, path: path });
-                    if (typeof content === 'string' && content.length < 50000) {
-                        fileContext += `--- FILE: ${path} ---\n${content}\n\n`;
-                    }
-                } catch(e) {}
-            }
-        } catch(e) { console.error("Context build error", e); }
         
-        tab.vibeSession.history.push({ role: 'user', content: text });
-        tab.content = tab.vibeSession;
-        tab.isDirty = true; 
-        
-        VibeView.render(tab, this); 
-        
-        const apiMessages = [
-            tab.vibeSession.history[0], 
-            ...tab.vibeSession.history.slice(1, -1), 
-            { role: 'user', content: `${fileContext}\n\n${isAutoRefine ? 'AUTO-REFINE INSTRUCTION' : 'USER REQUEST'}: ${text}` }
-        ];
+        // First message is always our refreshed system prompt
+        const apiMessages = [systemMsg, ...tab.vibeSession.history];
         
         const historyContainer = document.getElementById('vibe-chat-history');
         const msgDiv = VibeView.showStreamingMessage(historyContainer);
@@ -193,8 +232,7 @@ Keep your commentary concise. Be vivid, extreme, and precise.`
             async (finalText) => {
                 tab.vibeSession.history.push({ role: 'model', content: finalText });
                 tab.vibeSession.isProcessing = false;
-                tab.content = tab.vibeSession;
-                Tabs.save(tab); 
+                tab.isDirty = true;
                 
                 await this.processResponse(finalText, tab);
             },
@@ -202,8 +240,8 @@ Keep your commentary concise. Be vivid, extreme, and precise.`
                 tab.vibeSession.isProcessing = false;
                 msgDiv.textContent += `\n[ERROR: ${error.message}]`;
                 if (error.message === 'QUOTA_EXCEEDED') {
-                    if (ModelManager.rotateKey()) this.sendMessage(tab, text, isAutoRefine); 
-                    else if (ModelManager.downgradeModel()) this.sendMessage(tab, text, isAutoRefine);
+                    if (ModelManager.rotateKey()) this.sendMessage(tab, text, isLoop); 
+                    else if (ModelManager.downgradeModel()) this.sendMessage(tab, text, isLoop);
                     else UI.showToast("All quotas exhausted.", "error");
                 }
             }
@@ -217,7 +255,7 @@ Keep your commentary concise. Be vivid, extreme, and precise.`
         else {
             const rawXmlMatch = text.match(/<changes>([\s\S]*?)<\/changes>/i);
             if (rawXmlMatch) xmlContent = rawXmlMatch[0];
-            else return; // No code to process
+            else return; 
         }
 
         const parser = new DOMParser();
@@ -225,116 +263,65 @@ Keep your commentary concise. Be vivid, extreme, and precise.`
         const changes = xmlDoc.getElementsByTagName('change');
         
         if (changes.length > 0) {
-            let diffHtml = "";
             const changeList = [];
-            const rootPath = tab.vibeSession.rootPath || '/';
             const rootItem = this.getRootItem(tab);
             
             for (let i = 0; i < changes.length; i++) {
                 const file = changes[i].getElementsByTagName('file')[0]?.textContent?.trim();
-                const desc = changes[i].getElementsByTagName('description')[0]?.textContent?.trim();
                 const content = changes[i].getElementsByTagName('content')[0]?.textContent;
-                
                 if (file && content !== undefined) {
                     const relFile = file.startsWith('/') ? file.substring(1) : file;
-                    const targetPath = rootPath.endsWith('/') ? rootPath + relFile : rootPath + '/' + relFile;
-                    changeList.push({ file: targetPath, content, originalName: file });
-                    const escapedSnippet = content.substring(0, 300).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    diffHtml += `<div style="margin-bottom: 15px; border-left: 2px solid var(--neon-cyan); padding-left: 10px;">
-                        <div class="diff-info" style="font-weight:bold; color:var(--neon-cyan);">File: ${targetPath}</div>
-                        <div style="font-size:0.85em; opacity:0.8; margin-bottom:5px;">${desc || 'Updating code...'}</div>
-                        <pre class="diff-add" style="font-size:0.8em; max-height:100px; overflow:hidden; margin:0;"><code>${escapedSnippet}${content.length > 300 ? '\n...' : ''}</code></pre>
-                    </div>`;
+                    const targetPath = rootItem.path.endsWith('/') ? rootItem.path + relFile : rootItem.path + '/' + relFile;
+                    changeList.push({ file: targetPath, content });
                 }
             }
             
-            // Check loop limit
-            const runAutoLoop = tab.vibeSession.autoRefine && tab.vibeSession.iterationCount < tab.vibeSession.maxIterations;
+            // 1. APPLY CHANGES
+            await this.applyChanges(changeList, rootItem);
+            
+            // 2. CHECK LOOP
+            if (State.isVibeStopRequested) {
+                UI.showToast("B" + "\"" + "H: Optimization stopped by Divine command.", "info");
+                VibeView.render(tab, this);
+                return;
+            }
 
-            if (runAutoLoop) {
-                // --- THE TIKKUN LOOP ---
-                
-                // 1. APPLY CHANGES
-                await this.applyChanges(changeList, rootItem, tab);
-                
-                // 2. VALIDATE (Linter/Static Check)
-                let combinedErrors = "";
-                for (const change of changeList) {
-                    const err = await AutoRefine.validate(change.file, change.content);
-                    if (err) combinedErrors += `\nFile: ${change.file}\n${err}\n`;
-                }
-                
+            if (tab.vibeSession.iterationCount < State.vibeIterations) {
                 tab.vibeSession.iterationCount++;
+                UI.showToast(`B"H: Validating Reality (Iteration ${tab.vibeSession.iterationCount}/${State.vibeIterations})...`, "success");
                 
-                if (combinedErrors) {
-                    // 3a. ERROR RECTIFICATION
-                    UI.showToast(`Errors detected. Auto-Correcting (Attempt ${tab.vibeSession.iterationCount})...`, "warning");
-                    const prompt = `B"H\nThe changes you made had the following critical errors:\n${combinedErrors}\n\nPlease fix them and rewrite the files. Make it 100% correct.`;
-                    await this.sendMessage(tab, prompt, true);
-                } else {
-                    // 3b. RECURSIVE OPTIMIZATION ("Make it better")
-                    UI.showToast(`Code is valid. Optimizing (Pass ${tab.vibeSession.iterationCount})...`, "success");
-                    // B"H - The Requested "Extreme" Prompt
-                    const prompt = `B"H\nThe code is valid. Now, make it significantly better. Optimize performance, enhance aesthetics, and refine logic. Refactor to be cleaner and stronger. Do this 12893812039123 times better. Go.`;
-                    await this.sendMessage(tab, prompt, true);
-                }
+                const prompt = `B"H
+The changes have been applied. The vessels are full. 
+Now, make them significantly better. Optimize performance, enhance aesthetics, and refine logic. Refactor to be cleaner and stronger. Do this 12893812039123 times better. Go.`;
+                
+                await this.sendMessage(tab, prompt, true);
             } else {
-                if (tab.vibeSession.autoRefine) {
-                    UI.showToast("Optimization loop complete.", "success");
-                }
+                UI.showToast("B" + "\"" + "H: Tikkun complete. The code is optimized.", "success");
+                VibeView.render(tab, this);
+            }
+        }
+    },
+    
+    async applyChanges(changeList, rootItem) {
+        const parentsToRefresh = new Set();
+        for (const change of changeList) {
+            try {
+                const targetItem = { ...rootItem, path: change.file, kind: 'file' };
+                await FileSystemProvider.write(targetItem, change.content);
+                const lastSlash = change.file.lastIndexOf('/');
+                parentsToRefresh.add(lastSlash === -1 ? '/' : (change.file.substring(0, lastSlash) || '/'));
                 
-                // Manual Review Mode (Fallback)
-                VibeView.showReviewDialog(diffHtml, async () => {
-                    await this.applyChanges(changeList, rootItem, tab);
-                    UI.showToast(`Successfully updated ${changeList.length} file(s).`, "success");
-                }, () => {
-                    UI.showToast("Changes discarded.", "info");
-                });
-            }
-        }
-    },
-    
-    async applyChanges(changeList, rootItem, tab) {
-        // Don't block UI with loading overlay during recursion, it flickers too much.
-        try {
-            const parentsToRefresh = new Set();
-            for (const change of changeList) {
-                try {
-                    const targetItem = { ...rootItem, path: change.file, kind: 'file' };
-                    await FileSystemProvider.write(targetItem, change.content);
-                    const lastSlash = change.file.lastIndexOf('/');
-                    const parentPath = lastSlash === -1 ? '/' : (change.file.substring(0, lastSlash) || '/');
-                    parentsToRefresh.add(parentPath);
-                    
-                    // Refresh open tab if exists
-                    const openTab = State.tabs.find(t => t.item.path === change.file && t.item.workspaceId === rootItem.workspaceId);
-                    if (openTab) {
-                        openTab.forceReload = true;
-                        // Reload content silently
-                        if (State.activeTabId === openTab.id) await Tabs.activate(openTab.id);
-                    }
-                } catch(e) {
-                    UI.showToast(`Failed to update ${change.file}: ${e.message}`, "error");
+                const openTab = State.tabs.find(t => t.item.path === change.file && t.item.workspaceId === rootItem.workspaceId);
+                if (openTab) {
+                    openTab.forceReload = true;
+                    if (State.activeTabId === openTab.id) await Tabs.activate(openTab.id);
                 }
+            } catch(e) {
+                UI.showToast(`Failed to update ${change.file}: ${e.message}`, "error");
             }
-            for (const p of parentsToRefresh) {
-                const parentItem = { ...rootItem, path: p, kind: 'directory' };
-                await Workspaces.refreshNode(parentItem);
-            }
-            await this.refreshContext(tab, true);
-        } finally {
-            // UI.hideLoading();
         }
-    },
-
-    async openSettings() {
-        import('../app.js').then(m => m.App.showSettings());
-    },
-    
-    toggleAutoRefine(tab) {
-        if(tab && tab.vibeSession) {
-            tab.vibeSession.autoRefine = !tab.vibeSession.autoRefine;
-            VibeView.render(tab, this);
+        for (const p of parentsToRefresh) {
+            await Workspaces.refreshNode({ ...rootItem, path: p, kind: 'directory' });
         }
     }
 }

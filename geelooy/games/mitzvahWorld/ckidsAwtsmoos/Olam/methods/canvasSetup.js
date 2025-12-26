@@ -1,8 +1,7 @@
-
+// B"H
 /**
- * B"H
- * 
- * methods related to initally setting up the main (and/or minimap) canvas(es)
+ * @file canvasSetup.js
+ * Methods related to initally setting up the main (and/or minimap) canvas(es).
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -12,12 +11,10 @@ export default class {
      * In the tale of Ayin's quest to illuminate the world,
      * The canvas is our stage, where the story is unfurled.
      * @param {HTMLCanvasElement} canvas - The stage where the graphics will dance.
-     * @example
-     * takeInCanvas(document.querySelector('#myCanvas'));
+     * @param {number} devicePixelRatio - The clarity of the divine image.
      */
     takeInCanvas(canvas, devicePixelRatio = 1) {
        
-        // B"H - SIMPLIFIED AND ROBUST LOGIC
         if (!THREE.WebGLRenderer) {
             console.error("B\"H: Critical Error - THREE.WebGLRenderer is not available. Check Three.js import.");
             this.ayshPeula("error", {
@@ -26,18 +23,18 @@ export default class {
             return; 
         }
 
-        // B"H: Do NOT call getContext() manually. It 'consumes' the context configuration.
-        // Let Three.js handle the OffscreenCanvas context creation internally.
-        
         try {
+            // B"H: Proper initialization of the WebGL rendering context.
             this.renderer = new THREE.WebGLRenderer({ 
                 antialias: true, 
                 canvas: canvas,
-                logarithmicDepthBuffer: true,
-                alpha: false // Opaque background usually safer for 3D worlds
+                logarithmicDepthBuffer: true, 
+                alpha: false,
+                stencil: false,
+                depth: true
             });
             
-            if(!this.renderer.compute) this.renderer.compute = () => {}
+            if(!this.renderer.compute) this.renderer.compute = function() {}
             if(!this.renderer.renderAsync) {
                 this.renderer.clearAsync = this.renderer.clear;
                 this.renderer.renderAsync = this.renderer.render;
@@ -45,7 +42,6 @@ export default class {
             
             this.renderer.setPixelRatio(devicePixelRatio);
             
-            // Sync size immediately if dimensions exist
             if (canvas.width && canvas.height) {
                 this.renderer.setSize(canvas.width, canvas.height, false);
                 this.width = canvas.width;
@@ -58,7 +54,7 @@ export default class {
         } catch(e) {
             console.error("B\"H - FATAL: Could not create WebGL Renderer.", e);
              this.ayshPeula("error", {
-                message: "Failed to initialize WebGL Graphics.",
+                message: "Failed to initialize WebGL Graphics. The hardware may be reaching its limits.",
                 details: e.toString()
             });
         }
@@ -129,15 +125,12 @@ export default class {
         this.width = newWidth;
         this.height = newHeight;
 		
-        width = newWidth;
-        height = newHeight;
-        
-        if(typeof width === "number" && typeof height === "number" ) {
+        if(typeof this.width === "number" && typeof this.height === "number" ) {
             if(this.renderer) {
-                this.renderer.setSize(width, height, false);
+                this.renderer.setSize(this.width, this.height, false);
             }
             
-            await this.updateHtmlOverlaySize(width, height, desiredAspectRatio);
+            await this.updateHtmlOverlaySize(this.width, this.height, desiredAspectRatio);
             await this.getBoundingRect();
             this.adjustPostProcessing();
         }

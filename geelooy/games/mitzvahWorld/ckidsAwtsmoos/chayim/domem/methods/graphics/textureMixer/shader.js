@@ -1,15 +1,14 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 
-export const MAX_SEGMENTS_FOR_SHADER = 200;
+/**
+ * MAX_SEGMENTS_FOR_SHADER - The number of segments the GPU can process.
+ * B"H: Reduced to 50 (100 vec3s) to prevent exceeding uniform register limits on mobile/integrated GPUs.
+ */
+export const MAX_SEGMENTS_FOR_SHADER = 50;
 export const TOTAL_VEC3_COUNT = MAX_SEGMENTS_FOR_SHADER * 2;
 
 export function getShader(base, overlay, repeatX, repeatY, textureScale, usePathMixing, feather, intensity, lowHeight, highHeight, pathSegments, numActualSegments) {
-    console.log("B\"H [TextureMixerShader] Generating shader with:", {
-        repeatX, repeatY, textureScale, usePathMixing, numActualSegments
-    });
-
     return {
         uniforms: {
             baseTexture: { value: base },
@@ -87,7 +86,7 @@ export function getShader(base, overlay, repeatX, repeatY, textureScale, usePath
             #include <bsdfs>
             #include <lights_pars_begin>
             #include <normal_pars_fragment>
-            #include <lights_phong_pars_fragment>
+            #include <lights_lambert_pars_fragment>
             #include <shadowmap_pars_fragment>
             #include <bumpmap_pars_fragment>
             #include <normalmap_pars_fragment>
@@ -116,18 +115,15 @@ export function getShader(base, overlay, repeatX, repeatY, textureScale, usePath
                 #include <normal_fragment_begin>
                 #include <normal_fragment_maps>
                 #include <emissivemap_fragment>
-                #include <lights_phong_fragment>
+                #include <lights_lambert_fragment>
                 #include <lights_fragment_begin>
                 #include <lights_fragment_maps>
                 #include <lights_fragment_end>
                 #include <aomap_fragment>
 
-                // Custom Texture Mixing Logic
-                vec4 dirtColor = vec4(1.0);
-                if(true) dirtColor = texture2D(baseTexture, (vWorldPosition.xz * textureScale) * repeatVector);
-                
-                vec4 grassColor = vec4(0.5, 0.8, 0.5, 1.0);
-                if(true) grassColor = texture2D(overlayTexture, (vWorldPosition.xz * textureScale) * repeatVector);
+                vec2 customUv = (vWorldPosition.xz * textureScale) * repeatVector;
+                vec4 dirtColor = texture2D(baseTexture, customUv);
+                vec4 grassColor = texture2D(overlayTexture, customUv);
 
                 float mixFactor = 0.0;
                 if (usePathMixing && numPathSegments > 0) {
@@ -143,7 +139,7 @@ export function getShader(base, overlay, repeatX, repeatY, textureScale, usePath
                 }
                 
                 vec4 mixedColor = mix(dirtColor, grassColor, mixFactor);
-                outgoingLight *= mixedColor.rgb; // Modulate lighting result with texture mix
+                outgoingLight *= mixedColor.rgb; 
 
                 #include <envmap_fragment>
                 #include <output_fragment>

@@ -1,42 +1,17 @@
-
-
+//B"H
 /**
- * B"H
- * Player = Chossid
+ * CHOSSID
+ * An entity that represents a pious individual, characterized by joy and service.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import InventoryManager from '../../systems/InventoryManager.js';
-import Medabeir from '../medabeir.js';
-
-// Import Methods
-import controlMethods from './methods/controls.js';
-import interactionMethods from './methods/interaction.js';
-import lifecycleMethods from './methods/lifecycle.js';
-import visualMethods from './methods/visuals.js';
-import updateMethods from './methods/update.js';
-import inventorySetupMethods from './methods/inventory-setup.js'; // B"H
-
-export default class Chossid extends Medabeir {
-    type = "chossid";
-    rayLength = 50;
+export class Chossid {
+    constructor(data) {
+        this.id = data.id;
+        this.type = 'Chossid';
+        this.data = data;
+        this.mesh = null;
+    }
     
-    _optionsSpeed = null;
-    approachedEntities = [];
-    
-    constructor(options, olam) {
-        super(options, olam);
-        this.inventory = new InventoryManager(this);
-        this.selectedInventorySlot = 0;
-        
-        this.rotateOffset = 0;
-        this.optionsSpeed = options.speed;
+    dance() {
+        console.log('B"H - The Chossid is dancing with joy!');
     }
 }
-
-// B"H - Apply Modular Methods
-Object.assign(Chossid.prototype, controlMethods);
-Object.assign(Chossid.prototype, interactionMethods);
-Object.assign(Chossid.prototype, lifecycleMethods);
-Object.assign(Chossid.prototype, visualMethods);
-Object.assign(Chossid.prototype, updateMethods);
-Object.assign(Chossid.prototype, inventorySetupMethods); // B"H

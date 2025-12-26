@@ -1,7 +1,4 @@
 
-// B"H
-// FILE: js/app/event-listeners.js
-
 import { State, DOM } from '../state.js';
 import { UI } from '../ui.js';
 import { Tabs } from '../tabs/index.js';
@@ -19,12 +16,12 @@ import { FileSystemProvider } from '../fs-provider.js';
 import { WorkspaceAddition } from '../features/workspace-addition.js'; 
 import { CommandPalette } from '../command-palette.js'; 
 import { Effects } from '../effects.js'; 
-import { VisualEngine } from '../visuals/index.js'; // B"H
-import { ASTEngine } from '../tools/ast-engine.js'; // B"H
+import { VisualEngine } from '../visuals/index.js'; 
+import { ASTEngine } from '../tools/ast-engine.js'; 
+import { VibeController } from '../vibe/vibe-controller.js'; // B"H
 
 export function setupEventListeners() {
     window.addEventListener('message', async (event) => {
-        // ... (Existing PostMessage Logic retained) ...
         const { type, payload, requestId, error } = event.data;
         
         const handleFileRead = async (workspaceId, path) => {
@@ -131,7 +128,6 @@ export function setupEventListeners() {
         }
     });
 
-    // B"H - Listen for fold clicks from the virtualized overlay
     DOM.editor.addEventListener('fold-click', (e) => {
         ASTEngine.unfoldById(e.detail.foldId);
     });
@@ -226,16 +222,14 @@ export function setupEventListeners() {
                 SelectionManager.end();
             }
         }
-        VisualEngine.onCaretMove(); // B"H - Trigger Visuals
+        VisualEngine.onCaretMove(); 
     });
 
     DOM.editor.addEventListener('input', (e) => {
-        // B"H - Trigger Effects & Visuals
         Effects.spawnParticles();
         Effects.resetEntropy();
         VisualEngine.onInput(DOM.editor.value, e.inputType === 'deleteContentBackward');
         
-        // Time Travel Recording
         if (!State.sessionHistory) State.sessionHistory = [];
         if (State.sessionHistory.length > 500) State.sessionHistory.shift();
         if (!DOM.editor.historyTimeout) {
@@ -258,7 +252,7 @@ export function setupEventListeners() {
 
     DOM.editor.addEventListener('scroll', () => {
         UI.syncScroll();
-        VisualEngine.onScroll(); // B"H
+        VisualEngine.onScroll(); 
         
         if (State.isRestoring) return;
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
@@ -270,11 +264,11 @@ export function setupEventListeners() {
 
     DOM.editor.addEventListener('keyup', (e) => {
         StatusBar.update();
-        VisualEngine.onCaretMove(); // B"H
+        VisualEngine.onCaretMove(); 
     });
     DOM.editor.addEventListener('click', (e) => {
         StatusBar.update();
-        VisualEngine.onCaretMove(); // B"H
+        VisualEngine.onCaretMove(); 
     });
     
     new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
@@ -291,11 +285,9 @@ export function setupEventListeners() {
     
     DOM.addWorkspaceBtn.onclick = () => WorkspaceAddition.showDialog();
     
-    // KEYBOARD SHORTCUTS
     window.addEventListener('keydown', (e) => {
         const hasModifier = e.ctrlKey || e.metaKey;
         const shift = e.shiftKey;
-        const alt = e.altKey;
         
         if (!hasModifier && e.key.length === 1) {
             Effects.playKeystrokeSound(e.key);
@@ -354,7 +346,12 @@ export function setupEventListeners() {
 
         if (hasModifier && e.key.toLowerCase() === 's') {
             e.preventDefault();
-            Tabs.saveActive();
+            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+            if (activeTab && activeTab.fileType === 'vibe') {
+                VibeController.saveSessionToFile(activeTab);
+            } else {
+                Tabs.saveActive();
+            }
         }
         if (hasModifier && e.key.toLowerCase() === 'f') {
             e.preventDefault();
@@ -363,7 +360,6 @@ export function setupEventListeners() {
         }
     });
     
-    // Editor Specific Shortcuts
     DOM.editor.addEventListener('keydown', (e) => {
         const hasModifier = e.ctrlKey || e.metaKey;
         const shift = e.shiftKey;
@@ -421,27 +417,18 @@ export function setupEventListeners() {
             const editor = DOM.editor;
             const fullText = editor.value;
             const cursorPosition = editor.selectionStart;
-            
-            // Find start of current line to read its indentation
             const lineStartPos = fullText.substring(0, cursorPosition).lastIndexOf('\n') + 1;
             const currentLineText = fullText.substring(lineStartPos, cursorPosition);
-            
-            // Detect leading whitespace (indentation)
             const leadingWhitespaceMatch = currentLineText.match(/^\s*/);
             let indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
-            
-            // Smart Indentation: Increase indent if line ends with block opener
             const trimmed = currentLineText.trim();
             const lastChar = trimmed.slice(-1);
             if (['{', '[', '('].includes(lastChar)) {
                 indent += App.getTabString();
             }
-            
             const textToInsert = '\n' + indent;
             editor.setRangeText(textToInsert, cursorPosition, editor.selectionEnd, 'end');
             editor.dispatchEvent(new Event('input', { bubbles: true }));
-            
-            // Trigger Visual Engine updates
             VisualEngine.onCaretMove();
         }
     });

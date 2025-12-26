@@ -1,15 +1,14 @@
-
 // B"H
 // FILE: js/vibe/model-manager.js
 
 import { UI } from '../ui.js';
+import { State } from '../state.js';
 import { VibeAPI } from './api-client.js';
 
 export const ModelManager = {
     keys: [],
     currentKeyIndex: 0,
     currentModel: 'gemini-3-flash-preview', 
-    // B"H - Populate fallbackOrder from VibeAPI definitions
     fallbackOrder: [
         'gemini-3-flash-preview',
         'gemini-3-pro-preview',
@@ -66,7 +65,6 @@ export const ModelManager = {
         return true;
     },
 
-    // B"H - Returns HTML for embedding in Main Settings
     getSettingsPanelHTML() {
         const keyListHtml = this.keys.map((k, i) => 
             `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--color-border); align-items:center;">
@@ -85,7 +83,7 @@ export const ModelManager = {
 
         return `
             <div class="vibe-settings-panel" style="border: 1px solid var(--color-border); padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.2);">
-                <h4 style="margin-top:0; color:var(--neon-cyan);">Gemini API Configuration</h4>
+                <h4 style="margin-top:0; color:var(--neon-cyan);">Awtsmoos Vibe Configuration</h4>
                 
                 <div style="margin-bottom:15px;">
                     <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">Active Model</label>
@@ -94,17 +92,22 @@ export const ModelManager = {
                     </select>
                 </div>
 
+                <div style="margin-bottom:15px; display:flex; gap:10px; align-items:center;">
+                    <label style="font-size:0.9em; color:var(--color-text-secondary);">Recursive Iterations</label>
+                    <input type="number" id="vibe-iter-input" value="${State.vibeIterations}" min="1" max="10" style="width:60px;">
+                </div>
+
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">Custom System Prompt Extension</label>
+                    <textarea id="vibe-custom-prompt" style="width:100%; height:80px; font-size:0.85em;" placeholder="Append your holy instructions here...">${State.customVibePrompt}</textarea>
+                </div>
+
                 <div style="margin-bottom:10px;">
                     <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">API Keys</label>
                     <div id="vibe-key-list" style="margin-bottom:10px; max-height:120px; overflow-y:auto; border:1px solid var(--color-border); border-radius:4px; background:var(--color-bg-primary);">
                         ${keyListHtml || '<div style="padding:10px; color:gray; text-align:center;">No keys added.</div>'}
                     </div>
                     
-                    <a href="https://aistudio.google.com/api-keys" target="_blank" style="display:inline-block; margin-bottom:10px; color:var(--neon-cyan); text-decoration:none; font-size:0.85em; display:flex; align-items:center; gap:5px;">
-                        <svg class="svg-icon" style="width:1em; height:1em;"><use href="#icon-external-link"></use></svg>
-                        Get API Key from Google AI Studio
-                    </a>
-
                     <div style="display:flex; gap:5px;">
                         <input type="password" id="vibe-new-key" placeholder="Paste Gemini API Key" style="flex-grow:1;">
                         <button id="vibe-add-key-btn" class="primary-btn" style="padding: 0 15px;">Add</button>
@@ -114,9 +117,7 @@ export const ModelManager = {
         `;
     },
 
-    // B"H - Handles events within the settings dialog container
     bindSettingsEvents(container, refreshCallback) {
-        // Add Key
         const addBtn = container.querySelector('#vibe-add-key-btn');
         const input = container.querySelector('#vibe-new-key');
         if (addBtn && input) {
@@ -124,12 +125,11 @@ export const ModelManager = {
                 const val = input.value.trim();
                 if (val) {
                     this.addKey(val);
-                    if(refreshCallback) refreshCallback(); // Refresh the dialog content
+                    if(refreshCallback) refreshCallback();
                 }
             };
         }
 
-        // Remove Key
         const list = container.querySelector('#vibe-key-list');
         if (list) {
             list.onclick = (e) => {
@@ -143,12 +143,27 @@ export const ModelManager = {
             };
         }
 
-        // Model Select
         const select = container.querySelector('#vibe-model-select');
         if (select) {
             select.onchange = () => {
                 this.currentModel = select.value;
                 this.save();
+            };
+        }
+
+        const iterInput = container.querySelector('#vibe-iter-input');
+        if (iterInput) {
+            iterInput.onchange = () => {
+                State.vibeIterations = parseInt(iterInput.value) || 1;
+                localStorage.setItem('awtsmoos_vibe_iterations', State.vibeIterations);
+            };
+        }
+
+        const customPrompt = container.querySelector('#vibe-custom-prompt');
+        if (customPrompt) {
+            customPrompt.oninput = () => {
+                State.customVibePrompt = customPrompt.value;
+                localStorage.setItem('awtsmoos_vibe_custom_prompt', State.customVibePrompt);
             };
         }
     },
@@ -157,12 +172,6 @@ export const ModelManager = {
         const html = `
             <div style="display: flex; flex-direction: column; gap: 15px; padding: 10px 0;">
                 <p>To use Vibe Coding, you need a Google Gemini API Key.</p>
-                
-                <a href="https://aistudio.google.com/api-keys" target="_blank" class="menu-button" style="text-decoration: none; justify-content: center; background: var(--color-bg-tertiary); border: 1px solid var(--neon-cyan); color: var(--neon-cyan);">
-                    <svg class="svg-icon"><use href="#icon-external-link"></use></svg>
-                    Get API Key from Google AI Studio
-                </a>
-
                 <div style="display:flex; gap:10px; align-items: center; margin-top: 10px;">
                     <input type="password" id="vibe-quick-key" placeholder="Paste your API Key here" style="flex-grow:1;">
                 </div>
@@ -177,7 +186,6 @@ export const ModelManager = {
         });
 
         if (result) {
-            // Retrieve value from DOM before it's gone
             const input = document.getElementById('vibe-quick-key');
             if (input && input.value.trim()) {
                 this.addKey(input.value.trim());

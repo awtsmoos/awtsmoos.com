@@ -10,6 +10,58 @@ import { Tabs } from '../tabs/index.js';
 import { Exporter } from './exporter.js';
 
 export const Transfer = {
+    /**
+     * B"H - Generates a comprehensive Markdown string of a directory hierarchy.
+     * This is the technical manifestation of the entire codebase's essence.
+     */
+    async generateMarkdownContext(items) {
+        let combinedContent = 'B"H\n\n'; 
+        
+        const processItem = async (item) => {
+            if (!item || !item.kind) return;
+
+            if (item.kind === 'file') {
+                const ext = item.name.split('.').pop().toLowerCase();
+                if (['png', 'jpg', 'zip', 'pdf', 'exe', 'bin', 'mp4'].includes(ext)) return;
+
+                try {
+                    const content = await FileSystemProvider.read(item);
+                    let textContent = '';
+
+                    if (typeof content === 'string') {
+                        textContent = content;
+                    } else if (content instanceof Blob) {
+                        textContent = await content.text();
+                    }
+
+                    combinedContent += `### File: \`${item.path || item.name}\`\n\n`;
+                    combinedContent += '```\n';
+                    combinedContent += textContent.trim() + '\n'; 
+                    combinedContent += '```\n\n';
+                    combinedContent += '---\n\n'; 
+                } catch(e) {
+                    console.warn(`Could not read ${item.path} for context.`);
+                }
+
+            } else if (item.kind === 'directory') {
+                combinedContent += `## Directory: \`${item.path || item.name}\`\n\n`;
+                const children = await FileSystemProvider.list(item);
+                for (const child of children) {
+                    const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
+                    if (workspace) {
+                        await processItem({ ...workspace, ...child, workspaceId: workspace.id });
+                    }
+                }
+            }
+        };
+
+        for (const item of items) {
+            await processItem(item);
+        }
+        
+        return combinedContent;
+    },
+
     async copySelected() {
         const selectedPaths = Array.from(State.selectedItems);
         if (selectedPaths.length === 0) {
@@ -31,56 +83,13 @@ export const Transfer = {
         const taskId = `copy-contents-${Date.now()}`;
         UI.startTask(taskId, "Preparing markdown...");
         
-        let combinedContent = 'B"H\n\n'; 
-        let processedCount = 0;
-
         try {
-            const processItem = async (item) => {
-                if (!item || !item.kind) return;
-
-                processedCount++;
-                UI.updateTask(taskId, 50, `Reading: ${item.name}`);
-
-                if (item.kind === 'file') {
-                    const content = await FileSystemProvider.read(item);
-                    let textContent = '';
-
-                    if (typeof content === 'string') {
-                        textContent = content;
-                    } else if (content instanceof Blob) {
-                        textContent = await content.text();
-                    } else if (typeof content === 'object' && content !== null && content.isBinary) {
-                        textContent = `[Binary file content not displayed: ${item.name}]`;
-                    }
-
-                    combinedContent += `### File: \`${item.path || item.name}\`\n\n`;
-                    combinedContent += '```\n';
-                    combinedContent += textContent.trim() + '\n'; 
-                    combinedContent += '```\n\n';
-                    combinedContent += '---\n\n'; 
-
-                } else if (item.kind === 'directory') {
-                    combinedContent += `## Directory: \`${item.path || item.name}\`\n\n`;
-                    const children = await FileSystemProvider.list(item);
-                    for (const child of children) {
-                        const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
-                        if (workspace) {
-                            await processItem({ ...workspace, ...child, workspaceId: workspace.id });
-                        }
-                    }
-                }
-            };
-
-            for (const item of items) {
-                await processItem(item);
-            }
-
+            const combinedContent = await this.generateMarkdownContext(items);
             UI.updateTask(taskId, 90, "Finalizing...");
             const fakeFile = new File([combinedContent], "Selection_Export.txt", { type: "text/plain" });
             const success = await Clipboard.write(fakeFile);
             if (success) UI.endTask(taskId, 'success', 'Copied content to clipboard!');
             else UI.endTask(taskId, 'error', 'Clipboard write failed.');
-
         } catch (error) {
             UI.endTask(taskId, 'error', `Error: ${error.message}`);
         }
@@ -167,7 +176,6 @@ export const Transfer = {
         try {
             const sourceItems = State.fileClipboard.map(p => State.domItemMap.get(p)?.item).filter(Boolean);
             
-            // B"H - Pre-scan to count files for progress bar
             let totalFiles = 0;
             const countRecursive = async (item) => {
                 totalFiles++;

@@ -1,16 +1,14 @@
 
 // B"H
 class BinaryHeap {
-    constructor(scoreFunction) {
+    constructor(scoreFn) {
         this.content = [];
-        this.scoreFunction = scoreFunction;
+        this.scoreFn = scoreFn;
     }
-
     push(element) {
         this.content.push(element);
         this.bubbleUp(this.content.length - 1);
     }
-
     pop() {
         const result = this.content[0];
         const end = this.content.pop();
@@ -20,51 +18,31 @@ class BinaryHeap {
         }
         return result;
     }
-
-    peek() {
-        return this.content[0];
-    }
-
-    size() {
-        return this.content.length;
-    }
-
+    size() { return this.content.length; }
     bubbleUp(n) {
-        const element = this.content[n];
-        const score = this.scoreFunction(element);
+        const element = this.content[n], score = this.scoreFn(element);
         while (n > 0) {
-            const parentN = Math.floor((n + 1) / 2) - 1;
-            const parent = this.content[parentN];
-            if (score >= this.scoreFunction(parent)) break;
+            const parentN = Math.floor((n + 1) / 2) - 1, parent = this.content[parentN];
+            if (score >= this.scoreFn(parent)) break;
             this.content[parentN] = element;
             this.content[n] = parent;
             n = parentN;
         }
     }
-
     sinkDown(n) {
-        const length = this.content.length;
-        const element = this.content[n];
-        const elemScore = this.scoreFunction(element);
-
+        const length = this.content.length, element = this.content[n], elemScore = this.scoreFn(element);
         while (true) {
-            const child2N = (n + 1) * 2;
-            const child1N = child2N - 1;
+            const child2N = (n + 1) * 2, child1N = child2N - 1;
             let swap = null;
-            let child1Score;
-
             if (child1N < length) {
-                const child1 = this.content[child1N];
-                child1Score = this.scoreFunction(child1);
+                const child1 = this.content[child1N], child1Score = this.scoreFn(child1);
                 if (child1Score < elemScore) swap = child1N;
             }
-
             if (child2N < length) {
-                const child2 = this.content[child2N];
-                const child2Score = this.scoreFunction(child2);
-                if (child2Score < (swap === null ? elemScore : child1Score)) swap = child2N;
+                const child2 = this.content[child2N], child2Score = this.scoreFn(child2),
+                    scoreToCompare = (swap === null) ? elemScore : this.scoreFn(this.content[child1N]);
+                if (child2Score < scoreToCompare) swap = child2N;
             }
-
             if (swap === null) break;
             this.content[n] = this.content[swap];
             this.content[swap] = element;
