@@ -21,37 +21,33 @@ class GraphUtils {
      * @description 
      *  Determines the unique Graph ID for a handle.
      *  B"H: Now strictly uses Pointer-based IDs for all graph operations.
-     *  This ensures that a node has the same ID whether reached via the root path
-     *  or an edge pointer, solving the "net.n10" vs "851_960" duality.
+     *  Ensures that a node has a stable identity derived from its physical location.
      */
-    getId(handle) {
+    async getId(handle) {
         if (!handle) return null;
         
-        // 1. Retrieve the Internal Soul
+        // 1. String Passthrough: If already an ID, return it.
+        if (typeof handle === 'string') return handle;
+
+        // 2. Retrieve the Internal Soul
         let h = HandleRegistry.getSoul(handle);
-        
-        // Fallback for cross-module boundaries
         if (!h && handle[constants.SYMBOLS.INTERNALS]) {
             h = handle[constants.SYMBOLS.INTERNALS];
         }
         
-        // 2. Pointer-based identity is the global truth for the Graph index.
-        // Paths are relative, but pointers are absolute addresses in the essence.
-        if (h && h.ptr) {
-            return this.getIdFromPtr(h.ptr);
+        if (h) {
+            // 3. Absolute Resolution: Ensure we have the latest pointer.
+            await h.ensureResolved();
+            if (h.ptr) {
+                return this.getIdFromPtr(h.ptr);
+            }
         }
 
-        // 3. Fallback for raw pointers or objects with ptr property
-        // Must check carefully to avoid Proxy navigation traps
-        try {
-            if (typeof handle === 'object' && handle !== null) {
-                const rawPtr = handle.ptr;
-                if (Buffer.isBuffer(rawPtr)) {
-                    return this.getIdFromPtr(rawPtr);
-                }
-            }
-        } catch(e) {}
-        
+        // 4. Fallback for raw pointers stored in Buffers
+        if (Buffer.isBuffer(handle) && handle.length === 16) {
+            return this.getIdFromPtr(handle);
+        }
+
         return null;
     }
 

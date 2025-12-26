@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../../constants.js');
 const keyEncoding = require('../../../utils/keyEncoding.js');
@@ -113,31 +112,6 @@ class MapWriter {
             return res.success;
         }
         return false;
-    }
-
-    /**
-     * @description Creates a nested structure (Map or Dictionary) at the specified key.
-     */
-    async createStructure(key, type) {
-        const structPtr = await this.common.resolveStructPtr();
-        if (!structPtr) {
-             throw new Error(`B"H Fatal: Cannot create structure at '${key}' - unresolved parent.`);
-        }
-
-        let newPtr;
-        let finalType;
-        if (type === 'map') {
-            const map = new (require('../../../structure/map/index.js'))(this.db.allocator);
-            newPtr = await map.create();
-            finalType = constants.TYPE_MAP;
-        } else {
-            const dict = new (require('../../../structure/dictionary/index.js'))(this.db.allocator);
-            newPtr = await dict.create();
-            finalType = constants.TYPE_DICTIONARY;
-        }
-
-        await this.set(key, newPtr, { isPtr: true });
-        return this.handle[key];
     }
 }
 

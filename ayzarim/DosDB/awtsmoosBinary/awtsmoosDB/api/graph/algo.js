@@ -6,17 +6,25 @@ class GraphAlgorithms {
         this.manager = manager;
     }
 
+    /**
+     * @description
+     *  Finds the shortest path between two vessels using BFS.
+     *  The Awtsmoos guides the search through the shortest sequence of manifestations.
+     */
     async shortestPath(startHandle, endHandle, options = {}) {
         await this.manager.ensureInit();
         
         const s = HandleRegistry.getSoul(startHandle);
         const e = HandleRegistry.getSoul(endHandle);
         
+        if (!s || !e) return null;
+        
         await s.ensureResolved();
         await e.ensureResolved();
 
-        const startId = this.manager.utils.getId(s);
-        const endId = this.manager.utils.getId(e);
+        // B"H: getId is async and must be awaited to get the stable pointer-based string ID.
+        const startId = await this.manager.utils.getId(s);
+        const endId = await this.manager.utils.getId(e);
         
         console.log(`B"H [GRAPH_ALGO] ShortestPath: ${startId} -> ${endId}`);
 
@@ -64,13 +72,18 @@ class GraphAlgorithms {
         return null;
     }
 
+    /**
+     * @description
+     *  Traverses the graph starting from a specific vessel.
+     */
     async traverse(startHandle, visitor, options = {}) {
         await this.manager.ensureInit();
         
         const s = HandleRegistry.getSoul(startHandle);
+        if (!s) return;
         await s.ensureResolved();
 
-        const startId = this.manager.utils.getId(s);
+        const startId = await this.manager.utils.getId(s);
         const maxDepth = options.maxDepth || 3;
         const direction = options.direction || 'OUT';
         const strategy = options.strategy || 'BFS'; 

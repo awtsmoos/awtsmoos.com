@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../../constants.js');
 const SmartPointer = require('../../../utils/smartPointer.js');
@@ -188,25 +187,6 @@ class SequenceWriter {
         await seq.splice(index, 1);
         await this.common.checkAutoCompact(seq, constants.TYPE_SEQUENCE);
         return true;
-    }
-
-    async createStructureInList(indexKey, type) {
-        const index = parseInt(indexKey);
-        let newPtr;
-        if (type === 'map') {
-            const map = new (require('../../../structure/map/index.js'))(this.db.allocator);
-            newPtr = await map.create();
-        } else {
-            const dict = new (require('../../../structure/dictionary/index.js'))(this.db.allocator);
-            newPtr = await dict.create();
-        }
-
-        const structPtr = await this.common.resolveStructPtr();
-        const seq = await this.common.getEngine(structPtr, constants.TYPE_SEQUENCE);
-        const len = await seq.length();
-        if (index === len) await seq.push(newPtr);
-        else await seq.splice(index, 1, newPtr);
-        await this.common.checkAutoCompact(seq, constants.TYPE_SEQUENCE);
     }
 }
 

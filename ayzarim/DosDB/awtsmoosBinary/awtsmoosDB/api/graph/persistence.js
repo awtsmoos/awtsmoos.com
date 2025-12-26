@@ -1,12 +1,14 @@
 // B"H
+/**
+ * @file persistence.js
+ * @description
+ *  The Scribe of the Connections. Handles the physical storage of nodes and edges.
+ *  Refactored to use idiomatic vessel assignments.
+ */
+
 const HandleRegistry = require('../../core/handleRegistry.js');
 const constants = require('../../constants.js');
 
-/**
- * @class GraphPersistence
- * @description
- *  The Scribe of the Connections. Handles the physical storage of nodes and edges.
- */
 class GraphPersistence {
     constructor(manager) {
         this.manager = manager;
@@ -23,14 +25,13 @@ class GraphPersistence {
             const src = HandleRegistry.getSoul(sourceHandle);
             const tgt = HandleRegistry.getSoul(targetHandle);
             
-            // B"H: Ensure souls are fully resolved before identifying them.
             await Promise.all([
                 src ? src.ensureResolved(true) : Promise.resolve(),
                 tgt ? tgt.ensureResolved(true) : Promise.resolve()
             ]);
 
-            const sourceId = this.manager.utils.getId(sourceHandle);
-            const targetId = this.manager.utils.getId(targetHandle);
+            const sourceId = await this.manager.utils.getId(sourceHandle);
+            const targetId = await this.manager.utils.getId(targetHandle);
             
             if (!sourceId || !targetId) {
                 throw new Error("B\"H: Object cannot be a Graph Node (Unresolved or Invalid Pointer).");
@@ -71,11 +72,12 @@ class GraphPersistence {
         await internal.ensureResolved();
         
         if (!internal.ptr) {
-            await this.db.createMap(this.manager.graphRoot, nodeId);
+            // B"H: Idiomatic assignment to create a marker-backed Map vessel.
+            this.manager.graphRoot[nodeId] = new this.db.Map();
             await internal.ensureResolved(true);
             const newNode = this.manager.graphRoot[nodeId]; 
-            await this.db.createMap(newNode, "in");
-            await this.db.createMap(newNode, "out");
+            newNode.in = new this.db.Map();
+            newNode.out = new this.db.Map();
         }
     }
 
@@ -88,7 +90,8 @@ class GraphPersistence {
         await listInt.ensureResolved();
         
         if (!listInt.ptr) {
-            await this.db.createList(dirMap, label);
+            // B"H: Idiomatic assignment for block-backed List.
+            dirMap[label] = new this.db.List();
             const newList = dirMap[label];
             await newList.push(edge);
         } else {
@@ -97,9 +100,7 @@ class GraphPersistence {
     }
 
     /**
-     * @description
-     *  Relocates node metadata when a physical pointer changes.
-     *  Essential for pointer-based IDs surviving compaction.
+     * @description Relocates node metadata when a physical pointer changes.
      */
     async _relocateNode(oldId, newId) {
         if (oldId === newId) return;
@@ -124,19 +125,17 @@ class GraphPersistence {
             const soul = HandleRegistry.getSoul(nodeIdentifier);
             if (soul) await soul.ensureResolved(true);
 
-            const nodeId = this.manager.utils.getId(nodeIdentifier);
+            const nodeId = await this.manager.utils.getId(nodeIdentifier);
             
             if (!nodeId) return;
 
             const nodeEntry = this.manager.graphRoot[nodeId];
             const nodeInt = HandleRegistry.getSoul(nodeEntry);
-            await nodeInt.ensureResolved(true); // Force check existence
+            await nodeInt.ensureResolved(true); 
             
             if (!nodeInt.ptr) return; 
 
-            // Clean incoming edges from other nodes
             await this._cleanEdges(nodeEntry, "in", "out", nodeId);
-            // Clean outgoing edges from other nodes
             await this._cleanEdges(nodeEntry, "out", "in", nodeId);
 
             await this.manager.graphRoot.delete(nodeId);
@@ -165,16 +164,11 @@ class GraphPersistence {
         }
     }
 
-    /**
-     * @description 
-     *  Defensively removes an edge from a neighbor. 
-     *  Ensures neighbor still exists before writing to avoid path errors.
-     */
     async _removeEdgeFromOther(otherId, dir, label, targetNodeIdToRemove) {
         const otherNode = this.manager.graphRoot[otherId];
         const otherInt = HandleRegistry.getSoul(otherNode);
-        await otherInt.ensureResolved(true); // Ensure neighbor is still in index
-        if (!otherInt.ptr) return; // Neighbor gone, no work to do
+        await otherInt.ensureResolved(true);
+        if (!otherInt.ptr) return;
 
         const dirMap = otherNode[dir];
         const dirInt = HandleRegistry.getSoul(dirMap);
@@ -198,7 +192,7 @@ class GraphPersistence {
         });
 
         if (filtered.length === 0) {
-            await dirMap.delete(label); // Cleanup label map if empty
+            await dirMap.delete(label); 
         } else if (filtered.length !== edges.length) {
             await dirMap.set(label, filtered);
         }

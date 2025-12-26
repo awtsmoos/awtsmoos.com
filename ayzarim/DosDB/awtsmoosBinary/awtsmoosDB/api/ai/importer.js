@@ -1,5 +1,10 @@
 // B"H
-// File: /BH/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/ai/importer.js
+/**
+ * @file importer.js
+ * @description
+ *  Manifests GGUF models into the database vessels.
+ *  Refactored to use idiomaticassignments.
+ */
 
 const fs = require('fs');
 const GGUFParser = require('./utils/gguf_parser.js');
@@ -22,15 +27,15 @@ class ModelImporter {
         
         const root = this.db.root;
         
-        // Ensure ai/models exists
-        if (!await this.db.has(root, 'ai')) await this.db.createMap(root, 'ai');
-        if (!await this.db.has(root.ai, 'models')) await this.db.createMap(root.ai, 'models');
+        // B"H: Marker assignments for AI registry.
+        if (!await this.db.has(root, 'ai')) root.ai = new this.db.Map();
+        if (!await this.db.has(root.ai, 'models')) root.ai.models = new this.db.Map();
         
         // Create Model Container
         if (await this.db.has(root.ai.models, modelName)) {
             console.log(`\x1b[33mB"H Importer: Model ${modelName} exists. Overwriting...\x1b[0m`);
         } else {
-            await this.db.createMap(root.ai.models, modelName);
+            root.ai.models[modelName] = new this.db.Map();
         }
         
         const modelHandle = root.ai.models[modelName];
@@ -43,7 +48,7 @@ class ModelImporter {
         };
         
         if (!await this.db.has(modelHandle, 'tensors')) {
-            await this.db.createMap(modelHandle, 'tensors');
+            modelHandle.tensors = new this.db.Map();
         }
         const tensorsHandle = modelHandle.tensors;
 
@@ -53,17 +58,13 @@ class ModelImporter {
         let count = 0;
         const startTime = Date.now();
 
-        // B"H: Visual Progress Helper
         const renderProgress = (current, total) => {
             const width = 30;
             const filled = Math.floor((current / total) * width);
-            const empty = width - filled;
-            const pct = Math.floor((current / total) * 100);
-            const bar = "=".repeat(filled) + ">" + "-".repeat(empty);
-            process.stdout.write(`\r    \x1b[35m[${bar}] ${pct}% (${current}/${total} Tensors)\x1b[0m`);
+            const bar = "=".repeat(filled) + ">" + "-".repeat(width - filled);
+            process.stdout.write(`\r    \x1b[35m[${bar}] ${Math.floor((current/total)*100)}% (${current}/${total} Tensors)\x1b[0m`);
         };
 
-        // Use batch to accelerate the gathering of sparks
         await this.db.batch(async () => {
             for (const [name, info] of parsed.tensorMap) {
                 try {
@@ -73,41 +74,26 @@ class ModelImporter {
                     const byteLength = Math.ceil(numElements / blockElements) * blockSize;
                     
                     const tensorData = buffer.subarray(start, start + byteLength);
-                    
-                    // Copy to new buffer to detach from file buffer
                     const persistentBuffer = Buffer.from(tensorData);
                     
                     await tensorsHandle.set(name, persistentBuffer);
                     
                     metaObj.tensorInfos.push({
-                        name: info.name,
-                        dims: info.dims,
-                        type: info.type,
-                        dataOffset: 0 
+                        name: info.name, dims: info.dims, type: info.type, dataOffset: 0 
                     });
                     
                     count++;
-                    if (count % 5 === 0 || count === totalTensors) {
-                        renderProgress(count, totalTensors);
-                    }
-                } catch (e) {
-                    console.error(`\n\x1b[31mB"H Error importing tensor '${name}': ${e.message}\x1b[0m`);
-                    throw e;
-                }
+                    if (count % 5 === 0 || count === totalTensors) renderProgress(count, totalTensors);
+                } catch (e) { throw e; }
             }
         });
         
         console.log(`\n\x1b[36mB"H Importer: Saving Metadata Architecture...\x1b[0m`);
         await modelHandle.set('info', metaObj);
-        
-        console.log(`\x1b[36mB"H Importer: Sealing the Vessels (Flushing Disk)...\x1b[0m`);
         await this.db.waitForIdle();
         
-        const duration = ((Date.now() - startTime) / 1000).toFixed(2);
-        console.log(`\x1b[32mB"H Importer: ${modelName} successfully manifested in ${duration}s.\x1b[0m`);
-        
+        console.log(`\x1b[32mB"H Importer: ${modelName} manifested in ${((Date.now()-startTime)/1000).toFixed(2)}s.\x1b[0m`);
         return modelHandle;
     }
 }
-
 module.exports = ModelImporter;

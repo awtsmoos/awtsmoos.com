@@ -7,11 +7,17 @@ class GraphQuery {
         this.db = manager.db;
     }
 
+    /**
+     * @description Retrieves relationships for a handle, awaiting the ID resolution.
+     */
     async getRelationships(handle, direction = 'BOTH', label = null) {
         await this.manager.ensureInit();
         const h = HandleRegistry.getSoul(handle);
+        if (!h) return [];
         await h.ensureResolved();
-        const nodeId = this.manager.utils.getId(h);
+        
+        // B"H: getId must be awaited as it performs physical pointer verification.
+        const nodeId = await this.manager.utils.getId(h);
         if (!nodeId) return [];
         return await this.getEdgesFromId(nodeId, direction, label);
     }
@@ -88,6 +94,7 @@ class GraphQuery {
                         adjList.get(nodeKey).push(target);
                         
                         if(!reverseAdj.has(target)) reverseAdj.set(target, []);
+                        reverseAdj.set(target, []);
                         reverseAdj.get(target).push(nodeKey);
                     }
                 }

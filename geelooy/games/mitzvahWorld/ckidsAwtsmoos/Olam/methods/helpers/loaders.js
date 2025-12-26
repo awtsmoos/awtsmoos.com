@@ -2,6 +2,7 @@
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
+import { ITEM_REGISTRY } from '../../../systems/inventory/data/registry.js';
 
 export default {
     async loadGLTF(url) {
@@ -46,30 +47,25 @@ export default {
     },
     
     async getIconFromType(type) {
-        var icon;
-        // Dynamic import to avoid circular dependency issues at the root level
-        const AWTSMOOS = await import('../../../awtsmoosCkidsGames.js');
-        
 		if(type && typeof(type) == "string") {
-			var collectableItem = AWTSMOOS[type];
-			if(collectableItem) {
-				var ty = collectableItem.iconId;
-				if(ty) {
-					icon = ty;
-				}
+			const itemData = ITEM_REGISTRY[type];
+			if(itemData && itemData.icon) {
+                // If it's a raw SVG string or Data URI, return it
+                if(itemData.icon.startsWith("<svg") || itemData.icon.startsWith("data:")) {
+                    return itemData.icon;
+                }
+                // If it's a path to a module (legacy), try to fetch it
+                if(itemData.icon.endsWith(".js")) {
+                    try {
+                        const module = await import(itemData.icon);
+                        return module.default;
+                    } catch(e) {
+                        console.warn("B\"H: Failed to load icon module", e);
+                    }
+                }
+                return itemData.icon;
 			}
 		}
-		var iconData = null;
-		if(typeof(icon) == "string") {
-			try {
-				var iconic = await import("../../../icons/items/"+ icon+".js")
-				if(iconic && iconic.default) {
-					iconData = iconic.default
-				}
-			} catch(e){
-				return null;
-			}
-		}
-		return iconData
+		return null;
     }
 };

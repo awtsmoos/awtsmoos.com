@@ -35,7 +35,8 @@ class GraphManager {
         
         const hasGraph = await this.db.has(this.db.root, "__graph__");
         if (!hasGraph) {
-            await this.db.createMap(this.db.root, "__graph__");
+            // B"H: New assignment paradigm.
+            this.db.root.__graph__ = new this.db.Map();
         }
         this.graphRoot = this.db.root.__graph__;
     }

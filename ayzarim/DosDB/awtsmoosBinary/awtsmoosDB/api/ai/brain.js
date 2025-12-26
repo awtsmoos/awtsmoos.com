@@ -23,7 +23,8 @@ class AwtsmoosBrain {
         const root = this.db.root;
         if (!await this.db.has(root, this.memoryPath)) {
             Logger.log(`[Brain] Creating Memory Cortex at 'root.${this.memoryPath}'...`);
-            await this.db.createList(root, this.memoryPath);
+            // B"H: New assignment paradigm.
+            root[this.memoryPath] = new this.db.List();
         }
 
         const memHandle = root[this.memoryPath];
