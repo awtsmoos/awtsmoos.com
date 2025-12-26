@@ -25,9 +25,7 @@ function serializeValue(value, fullBuffer = true) {
     const traceId = Math.floor(Math.random() * 0xFFFFFF).toString(16);
     
     if (!serializeArray_fn) {
-        log(`[${traceId}] Loading Array Serializer...`);
         serializeArray_fn = require("./array.js");
-        log(`[CONSTANTS] OBJECT=${constants.VAL_TYPE.OBJECT}, ARRAY=${constants.VAL_TYPE.ARRAY}`);
     }
     if (!serializeJSON_fn) {
         const objModule = require("./obj.js");
@@ -109,9 +107,7 @@ function serializeValue(value, fullBuffer = true) {
     else if (value instanceof Set) {
         type = constants.VAL_TYPE.SET; data = serializeArray_fn(Array.from(value.values()));
     }
-    // B"H: ERROR HANDLING FIX
     else if (value instanceof Error || (value && typeof value.message === 'string' && value.stack)) {
-        // log(`[${traceId}] Serializing ERROR Object: ${value.name}`);
         type = constants.VAL_TYPE.OBJECT; 
         
         const isAgg = (typeof AggregateError !== 'undefined' && value instanceof AggregateError) || 
@@ -122,26 +118,20 @@ function serializeValue(value, fullBuffer = true) {
         const finalName = isAgg ? "AggregateError" : rawName;
 
         const info = {
-            name: String(finalName),
+            name: String(finalName || "Error"),
             message: String(value.message || ""),
             stack: String(value.stack || ""),
             __awtsmoosError__: true, 
-            __errorType__: String(finalName)
+            __errorType__: String(finalName || "Error")
         };
         
         if (value.cause) info.cause = value.cause;
         if (isAgg) {
             info.isAggregate = true;
             info.errors = Array.isArray(value.errors) ? value.errors : Array.from(value.errors || []);
-            log(`[${traceId}] Error 'errors' prop is Array(len=${info.errors.length}).`);
         }
 
-        try {
-            data = serializeJSON_fn(info);
-        } catch (e) {
-            console.error(`B"H [Serialize:${traceId}] Error Serialization Failed: ${e.message}`);
-            throw e;
-        }
+        data = serializeJSON_fn(info);
     }
     else if (ArrayBuffer.isView(value) && !Buffer.isBuffer(value)) {
         type = constants.VAL_TYPE.TYPED_ARRAY;
@@ -165,7 +155,6 @@ function serializeValue(value, fullBuffer = true) {
     }
     else if (Array.isArray(value)) {
         type = constants.VAL_TYPE.ARRAY; 
-        log(`[${traceId}] Serialize Array detected. TypeID=${type}.`);
         data = serializeArray_fn(value);
     } 
     else if (typeof value === 'object') {
@@ -180,8 +169,6 @@ function serializeValue(value, fullBuffer = true) {
     if (!data) data = Buffer.alloc(0);
     const lenInfo = writeConditional(data.length);
     const typeByte = packTypeAndLengthSize(type, lenInfo.size);
-
-    // log(`[${traceId}] Packed: Type=${type}, TypeByte=${typeByte}, Len=${data.length}`);
 
     if (!fullBuffer) {
         return { type, data, valueLengthInfo: lenInfo, typeLengthByte: typeByte };

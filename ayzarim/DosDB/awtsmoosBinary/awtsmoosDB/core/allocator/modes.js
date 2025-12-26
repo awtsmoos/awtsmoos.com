@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../constants.js');
 const BitmapManager = require('./bitmap.js');
@@ -44,8 +43,10 @@ class AllocationModes {
         }
 
         // 3. Setup New Active Page in RAM
-        // B"H: Use Buffer.alloc (Zeroed) to prevent garbage pointers
-        const newBlock = Buffer.alloc(this.allocator.BLOCK_SIZE);
+        // B"H: Optimization - use allocUnsafe then fill(0)
+        const newBlock = Buffer.allocUnsafe(this.allocator.BLOCK_SIZE);
+        newBlock.fill(0);
+        
         newBlock.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
         BitmapManager.markHeader(newBlock, this.allocator.HEADER_SIZE, this.allocator.UNIT_SIZE);
         

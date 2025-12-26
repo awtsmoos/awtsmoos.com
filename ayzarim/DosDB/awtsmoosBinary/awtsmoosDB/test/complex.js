@@ -1,4 +1,3 @@
-
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs').promises;
@@ -15,14 +14,14 @@ async function runTest() {
     await db.open();
     
     console.log("[Test 1] BTree Sorting Verification...");
-    await db.createMap(db.root, "dictionary");
+    // B"H: New marker assignment paradigm.
+    db.root.dictionary = new db.Map();
     
     const words = ["zebra", "apple", "mango", "banana", "zen", "apricot"];
     for(let w of words) {
         await db.root.dictionary.set(w, `Meaning of ${w}`);
     }
     
-    // Verify Order
     let last = "";
     for await (const k of db.root.dictionary) {
         if (k.key < last) throw new Error("Unsorted Keys!");
@@ -45,8 +44,8 @@ async function runTest() {
     console.log("✅ Nested Object Verified.");
     
     console.log("[Test 3] Collection in Map...");
-    await db.createMap(db.root, "users");
-    await db.createList(db.root.users, "active");
+    db.root.users = new db.Map();
+    db.root.users.active = new db.List();
     await db.root.users.active.push({ id: 1, name: "Reuven" });
     await db.root.users.active.push({ id: 2, name: "Shimon" });
     

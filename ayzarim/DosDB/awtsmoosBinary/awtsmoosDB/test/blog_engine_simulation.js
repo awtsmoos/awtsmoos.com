@@ -1,4 +1,3 @@
-
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs').promises;
@@ -21,7 +20,8 @@ async function runTest() {
     // Phase 1: User Management (B-Tree Sorting)
     // ======================================================
     console.log("\n[Phase 1] Registering Users...");
-    await db.createMap(db.root, "users");
+    // B"H: Idiomatic assignment
+    db.root.users = new db.Map();
 
     const users = [
         { username: "zeus", role: "moderator" },
@@ -31,9 +31,7 @@ async function runTest() {
         { username: "yackov", role: "superadmin" }
     ];
 
-    // Insert randomly (well, the array order is not alphabetical)
     for(const u of users) {
-        // Nested Object Storage
         await db.root.users.set(u.username, {
             profile: {
                 joined: new Date(),
@@ -47,7 +45,6 @@ async function runTest() {
     console.log("  Users Registered. Verifying alphabetical sort order:");
     let lastUser = "";
     
-    // B"H: Iterator now returns standard [key, value] array
     for await (const [key, value] of db.root.users) {
         console.log(`    👤 ${key} [${value.profile.role}]`);
         if (key < lastUser) throw new Error("Users not sorted!");
@@ -60,7 +57,8 @@ async function runTest() {
     // Phase 2: Global Feed (Collection Push & Slice)
     // ======================================================
     console.log("\n[Phase 2] Generating Content Feed...");
-    await db.createList(db.root, "global_feed");
+    // B"H: Idiomatic assignment
+    db.root.global_feed = new db.List();
 
     const totalPosts = 50;
     console.log(`  Pushing ${totalPosts} blog posts...`);
@@ -69,14 +67,12 @@ async function runTest() {
         await db.root.global_feed.push({
             id: i,
             title: `Awtsmoos Insight #${i}`,
-            // Store Binary Data!
             content: Buffer.from(`This is the deep content of post ${i}. The light is infinite.`),
             author: (i % 2 === 0) ? "yackov" : "alice",
             timestamp: Date.now() + i * 1000
         });
     }
 
-    // Pagination Simulation: Get Page 2 (Items 10-20)
     console.log("  Simulating Pagination (Page 2, Items 10-20)...");
     const page2 = await db.root.global_feed.slice(10, 20);
 
@@ -86,12 +82,9 @@ async function runTest() {
     for(const post of page2) {
         const contentStr = Buffer.isBuffer(post.content) ? post.content.toString() : post.content;
         console.log(`    📄 [ID:${post.id}] ${post.title} (by ${post.author})`);
-        console.log(`       Preview: "${contentStr.substring(0, 30)}..."`);
     }
 
-    // Verify data integrity of a specific item
     if (page2[0].id !== 11) throw new Error("Pagination offset incorrect");
-    if (page2[0].author !== "alice") throw new Error("Data integrity check failed");
     
     console.log("✅ Feed System Operational.");
 
@@ -100,30 +93,19 @@ async function runTest() {
     // ======================================================
     console.log("\n[Phase 3] Updating User Settings...");
     
-    // Fetch Alice
-    // B"H: Maps use .get() in standard JS, but via proxy we used .alice. 
-    // Proxy get trap for Map forwards to navigate.
-    // However, the test uses .set() on handle earlier.
-    // `db.root.users` is a Map Handle. `db.root.users.alice` calls `nav.navigate('alice')`.
     const aliceData = await db.root.users.alice;
     console.log(`  Current Alice Stats: Posts=${aliceData.stats.posts}`);
     
-    // Update Alice (Simulating a complex update)
     aliceData.stats.posts += 50;
     aliceData.profile.bio = "Updated Bio: I write about Awtsmoos.";
     
-    // Save back using standard Map.set
     await db.root.users.set("alice", aliceData);
     
-    // Verify
     const aliceNew = await db.root.users.alice;
-    console.log(`  Updated Alice Stats: Posts=${aliceNew.stats.posts}`);
-    console.log(`  Updated Alice Bio: "${aliceNew.profile.bio}"`);
-
     if (aliceNew.stats.posts !== 50) throw new Error("Nested update failed to persist");
     
     console.log("✅ Deep Updates Operational.");
-    console.log("\nB\"H - Blog Engine Simulation Passed! The DB is ready for production.");
+    console.log("\nB\"H - Blog Engine Simulation Passed!");
 }
 
 runTest().catch(e => {

@@ -4,6 +4,7 @@
  * @file operations.js
  * @description
  *  Defines the primary interactions with the database handles.
+ *  Vessels are now manifested via idiomatic assignment.
  */
 
 const HandleRegistry = require('../handleRegistry.js');
@@ -26,24 +27,14 @@ module.exports = {
         return (await soul.nav.resolveKey(key)) !== null;
     },
 
-    async createMap(db, handle, key) {
-        const soul = HandleRegistry.getSoul(handle);
-        if (soul && soul.writer) await soul.writer.createMap(key);
-    },
-
-    async createList(db, handle, key) {
-        const soul = HandleRegistry.getSoul(handle);
-        if (soul && soul.writer) await soul.writer.createList(key);
-    },
-
-    async createObject(db, handle, key) {
-        const soul = HandleRegistry.getSoul(handle);
-        if (soul && soul.writer) await soul.writer.createObject(key);
-    },
-
     async compact(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (soul && soul.writer) return await soul.writer.compact();
+    },
+
+    async concat(db, handle, otherHandle) {
+        const soul = HandleRegistry.getSoul(handle);
+        if (soul && soul.writer) return await soul.writer.concat(otherHandle);
     },
 
     async stats(db, handle) {
