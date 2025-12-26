@@ -2,37 +2,17 @@
 /**
  * @file index.js
  * @description
- *  The Sefirah of Keter - The Absolute Source.
- *  Aggregates the modularized pointer logic into a single unified class.
- *  Exports early to solve circular dependency klipah.
+ *  The Keter of Pointers.
+ *  Resolves physical pointers into hydrated JS reality instantly with Omni-Decompression.
  */
 
 const codec = require('./codec.js');
 const constants = require('../../constants.js');
-const { writePointer48 } = require('../binaryHelpers.js');
+const { readPointer48, writePointer48 } = require('../binaryHelpers.js');
 
 class SmartPointer {
     static encode(type, mode, payload) { return codec.encode(type, mode, payload); }
     static decode(buf) { return codec.decode(buf); }
-
-    // Bitwise Access
-    static getMode(buf) { return codec.getMode(buf); }
-    static getType(buf) { return codec.getType(buf); }
-    static getBlockId(buf) { return codec.getBlockId(buf); }
-    static getLength(buf) { return codec.getLength(buf); }
-    static getOffset(buf) { return codec.getOffset(buf); }
-    static isChain(buf) { return codec.isChain(buf); }
-
-    // Factory Methods
-    static inline(type, dataBuffer) { return codec.encode(type, constants.MODE_INLINE, dataBuffer); }
-
-    static heap(type, blockId, offset, length) {
-        const payload = Buffer.allocUnsafe(14); 
-        writePointer48(payload, blockId, 0);
-        payload.writeUInt32BE(offset, 6);
-        payload.writeUInt32BE(length, 10);
-        return codec.encode(type, constants.MODE_HEAP, payload);
-    }
 
     static block(type, blockId, length = 0, isChain = false, offset = 0) {
         const payload = Buffer.allocUnsafe(15);
@@ -43,31 +23,47 @@ class SmartPointer {
         return codec.encode(type, constants.MODE_BLOCK, payload);
     }
 
-    // Hydration - Uses late-bound hydrator to break circular requirements
-    /**
-     * @description Resolves a 16-byte pointer into its living JS form.
-     */
-    static async resolve(ptrBuf, allocator, context) {
-        const hydrator = require('./hydrator.js');
-        return await hydrator.resolve(ptrBuf, allocator, context, SmartPointer);
+    static heap(type, blockId, offset, length) {
+        const payload = Buffer.allocUnsafe(15);
+        writePointer48(payload, blockId, 0);
+        payload.writeUInt32BE(offset, 6);
+        payload.writeUInt32BE(length, 10);
+        return codec.encode(type, constants.MODE_HEAP, payload);
     }
 
-    /**
-     * @description Decodes raw data from an inline pointer.
-     */
-    static async decodeInline(type, payload, allocator, context) {
-        const hydrator = require('./hydrator.js');
-        return await hydrator.decodeInline(type, payload, allocator, context, SmartPointer);
-    }
+    static resolve(ptrBuf, allocator) {
+        const ptr = codec.decode(ptrBuf);
+        if (!ptr) return undefined;
 
-    /**
-     * @description Decodes raw buffer data based on a given type.
-     */
-    static async decodeValue(type, buffer, allocator, context, ctxKey) {
-        const hydrator = require('./hydrator.js');
-        return await hydrator.decodeValue(type, buffer, allocator, context, ctxKey, SmartPointer);
+        if (ptr.mode === constants.MODE_INLINE) {
+            return require('./hydrator_inline_sync.js')(ptr.type, ptr.payload, allocator);
+        }
+
+        const blockId = readPointer48(ptr.payload, 0);
+        const length = (ptr.mode === constants.MODE_BLOCK) ? ptr.payload.readUInt32BE(6) : ptr.payload.readUInt32BE(10);
+        const offset = (ptr.mode === constants.MODE_BLOCK) ? ptr.payload.readUInt32BE(10) : ptr.payload.readUInt32BE(6);
+        const isChain = (ptr.mode === constants.MODE_BLOCK) && ptr.payload.readUInt8(14) === 1;
+
+        if (ptr.mode === constants.MODE_BLOCK && (
+            ptr.type === constants.VAL_TYPE.SEQUENCE || 
+            ptr.type === constants.VAL_TYPE.MAP || 
+            ptr.type === constants.VAL_TYPE.DICTIONARY
+        )) {
+            return { isStructure: true, type: ptr.type, blockId, length, offset, isChain };
+        }
+
+        const db = allocator.v1.db;
+        let raw;
+        if (ptr.mode === constants.MODE_HEAP) {
+             const block = allocator.v1.readBlockLocked(blockId, true);
+             raw = block.subarray(offset, offset + length);
+        } else {
+             raw = require('../../core/db/io.js').readChainSafe(db, { blockId, length, isChain, offset });
+        }
+
+        if (!raw) return undefined;
+        return require('./hydrator_value_sync.js')(ptr.type, raw, allocator);
     }
 }
 
-// B"H: Export early so required modules get the full class definition
 module.exports = SmartPointer;

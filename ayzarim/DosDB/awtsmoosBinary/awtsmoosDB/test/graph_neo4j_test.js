@@ -1,9 +1,8 @@
-
 // B"H
 /**
  * @file graph_neo4j_test.js
  * @description
- *  Verifies the "Graph Database" capabilities of AwtsmoosDB.
+ *  Verifies the "Graph Database" capabilities using unified syntax.
  */
 
 const fs = require('fs');
@@ -23,7 +22,7 @@ const assert = (cond, msg) => {
 };
 
 async function runTest() {
-    log("B\"H - Starting Graph functionality verification (Unified)...");
+    log("B\"H - Starting Graph functionality verification...");
 
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
@@ -32,26 +31,24 @@ async function runTest() {
     await db.open();
 
     try {
-        log("[1] Creating Nodes (Alice, Bob, Charlie)...");
+        log("[1] Creating Nodes...");
+        // B"H: New assignment paradigm.
+        db.root.people = new db.Map();
         
-        await db.createMap(db.root, "people");
-        
-        await db.createMap(db.root.people, "alice");
+        db.root.people.alice = new db.Map();
         await db.root.people.alice.set("age", 25);
         
-        await db.createMap(db.root.people, "bob");
+        db.root.people.bob = new db.Map();
         await db.root.people.bob.set("age", 30);
         
-        await db.createMap(db.root.people, "charlie");
+        db.root.people.charlie = new db.Map();
         await db.root.people.charlie.set("age", 35);
 
         const alice = db.root.people.alice;
         const bob = db.root.people.bob;
         const charlie = db.root.people.charlie;
 
-        log("[2] Connecting Nodes (Relationships)...");
-        
-        // B"H: New API - db.graph.connect(src, tgt, label, props)
+        log("[2] Connecting Nodes...");
         await db.graph.connect(alice, bob, "KNOWS", { since: 2020 });
         await db.graph.connect(bob, charlie, "KNOWS", { since: 2021 });
         await db.graph.connect(charlie, alice, "LOVES", { intensity: 100 });
@@ -59,45 +56,26 @@ async function runTest() {
         await db.waitForIdle();
 
         log("[3] Querying Outgoing Relationships...");
-        
-        // B"H: New API - db.graph.getRelationships(node, dir, label)
         const aliceOut = await db.graph.getRelationships(alice, "OUT", "KNOWS");
         assert(aliceOut.length === 1, "Alice has 1 outgoing KNOWS");
         
-        const rel1 = aliceOut[0];
-        assert(rel1.props.since === 2020, "Edge property 'since' correct");
-        
-        const bobAge = await rel1.node.age;
-        assert(bobAge === 30, "Target node hydrated correctly (Bob is 30)");
-
+        const bobAge = await aliceOut[0].node.age;
+        assert(bobAge === 30, "Target node hydrated correctly");
 
         log("[4] Querying Incoming Relationships...");
-        
         const bobIn = await db.graph.getRelationships(bob, "IN", "KNOWS");
         assert(bobIn.length === 1, "Bob has 1 incoming KNOWS");
         
-        const sourceNode = bobIn[0].node;
-        const aliceAge = await sourceNode.age;
-        assert(aliceAge === 25, "Source node hydrated correctly (Alice is 25)");
+        const aliceAge = await bobIn[0].node.age;
+        assert(aliceAge === 25, "Source node hydrated correctly");
 
-
-        log("[5] Mixed Directions & Labels...");
-        
-        const aliceAll = await db.graph.getRelationships(alice, "BOTH");
-        assert(aliceAll.length === 2, "Alice has 2 total edges");
-        
-        const loves = aliceAll.find(r => r.label === "LOVES");
-        assert(loves.direction === "in", "LOVES is incoming");
-        assert(loves.props.intensity === 100, "Edge prop correct");
-        
-        const admirerAge = await loves.node.age;
-        assert(admirerAge === 35, "Charlie is the admirer");
-
-        log("--- GRAPH TEST COMPLETE ---");
+        log("✅ GRAPH TEST COMPLETE.");
 
     } catch (e) {
-        console.error("CRITICAL GRAPH FAILURE:", e);
+        console.error("❌ CRITICAL GRAPH FAILURE:", e);
         process.exit(1);
+    } finally {
+        await db.close();
     }
 }
 

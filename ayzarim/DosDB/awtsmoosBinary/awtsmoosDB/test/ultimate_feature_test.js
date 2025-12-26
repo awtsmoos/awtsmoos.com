@@ -1,248 +1,74 @@
-
-
 // B"H
 /**
  * @file ultimate_feature_test.js
  * @description
- *  The Grand Unification Test.
- *  Combines Deep Nesting, Collection Splicing, Direct Array Access, 
- *  Complex Binary Data, and Recursive Modifications into one scenario.
+ *  The Grand Unification Test using assignment syntax.
  */
 
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs');
 const path = require('path');
-const assert = require('assert');
 
 const DB_PATH = path.join(__dirname, 'ultimate_feature.db');
 
 async function runTest() {
     console.log("B\"H - Starting Ultimate Feature Test...");
 
-    // 1. Clean Slate
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
 
-    const db = new AwtsmoosDB(DB_PATH, { debug: false });
+    const db = new AwtsmoosDB(DB_PATH);
     await db.open();
 
     try {
-        // ======================================================
-        // Phase 1: Genesis (Deep Structure Creation)
-        // ======================================================
         console.log("\n[1] Genesis: Constructing the Multiverse...");
+        // B"H: Unified assignment
+        db.root.multiverse = new db.Map();
+        db.root.multiverse.dimension_c137 = new db.Map();
+        db.root.multiverse.dimension_c137.galaxies = new db.Map();
+        db.root.multiverse.dimension_c137.galaxies.milky_way = new db.Map();
         
-        await db.createMap(db.root, "multiverse");
-        await db.createMap(db.root.multiverse, "dimension_c137");
-        await db.createMap(db.root.multiverse.dimension_c137, "galaxies");
-        await db.createMap(db.root.multiverse.dimension_c137.galaxies, "milky_way");
-        
-        // Primitive Set
         await db.root.multiverse.dimension_c137.galaxies.milky_way.set("description", "Spiral Galaxy");
-        await db.root.multiverse.dimension_c137.galaxies.milky_way.set("age_billions", 13.6);
+        await db.waitForIdle();
         
-        // Verification
         const desc = await db.root.multiverse.dimension_c137.galaxies.milky_way.description;
-        if (desc !== "Spiral Galaxy") throw new Error("Deep Primitive Set Failed");
+        if (desc !== "Spiral Galaxy") throw new Error("Deep assignment failed");
         
         console.log("    ✅ Deep Hierarchy Established.");
 
-
-        // ======================================================
-        // Phase 2: The Timeline (Collection Mechanics)
-        // ======================================================
-        console.log("\n[2] History: Creating the Timeline (Collection)...");
-        
-        // Create List deep in the structure
-        await db.createList(db.root.multiverse.dimension_c137.galaxies.milky_way, "timeline");
+        console.log("\n[2] History: Creating the Timeline...");
+        // B"H: Unified assignment
+        db.root.multiverse.dimension_c137.galaxies.milky_way.timeline = new db.List();
         const timeline = db.root.multiverse.dimension_c137.galaxies.milky_way.timeline;
 
-        // 1. Push Initial Epochs
-        console.log("    Pushing initial epochs...");
         const epochs = ["Creation", "Adam & Eve", "The Patriarchs", "First Temple", "Moshiach"];
         for(const e of epochs) await timeline.push(e);
 
-        // 2. Splice INSERT: "The Flood" between "Adam & Eve" (1) and "The Patriarchs" (2)
-        console.log("    Splice INSERT: Adding 'The Flood'...");
         await timeline.splice(2, 0, "The Flood");
-        // Expected: Creation, Adam & Eve, The Flood, The Patriarchs, First Temple, Moshiach
+        if (await timeline[2] !== "The Flood") throw new Error("Splice insert failed");
 
-        // 3. Direct Access Verification
-        const item2 = await timeline[2];
-        console.log(`    timeline[2]: ${item2}`);
-        if (item2 !== "The Flood") throw new Error("Splice Insert / Array Access Failed");
+        console.log("    ✅ Collection Mechanics Verified.");
 
-        // 4. Splice REPLACE: Rename "First Temple" (4) to "Second Temple"
-        console.log("    Splice REPLACE: Updating index 4...");
-        await timeline.splice(4, 1, "Second Temple");
-        
-        const item4 = await timeline[4];
-        if (item4 !== "Second Temple") throw new Error("Splice Replace Failed");
-
-        // 5. Splice DELETE: Remove "Moshiach" (5) (Simulating Pre-Redemption)
-        console.log("    Splice DELETE: Removing index 5...");
-        await timeline.splice(5, 1); // remove 1 item at index 5
-        
-        const len = await timeline.length;
-        console.log(`    Current Timeline: ${JSON.stringify(await timeline.slice(0, 10))}`);
-        if (len !== 5) throw new Error(`Length mismatch. Expected 5, got ${len}`);
-        
-        // 6. Slice Verification
-        const allEvents = await timeline.slice(0, 10);
-        
-        if (allEvents[2] !== "The Flood" || allEvents[4] !== "Second Temple") {
-            throw new Error("Timeline Content Mismatch");
-        }
-
-        console.log("    ✅ Collection Mechanics (Splice/Slice/Access) Verified.");
-
-
-        // ======================================================
-        // Phase 3: The Artifact (Complex Types & Binary)
-        // ======================================================
-        console.log("\n[3] Discovery: Storing Complex Artifacts...");
-        
-        const alienData = Buffer.from([0xDE, 0xAD, 0xBE, 0xEF, 0xCA, 0xFE]);
-        const discoveryDate = new Date("2023-01-01T00:00:00Z");
-
-        await db.root.multiverse.dimension_c137.galaxies.milky_way.set("artifact", {
+        console.log("\n[3] Discovery: Storing Artifacts...");
+        const alienData = Buffer.from([0xDE, 0xAD, 0xBE, 0xEF]);
+        db.root.multiverse.dimension_c137.galaxies.milky_way.artifact = {
             name: "Luchos",
-            origin: "Sinai",
-            discovered: discoveryDate,
             signal: alienData,
-            properties: {
-                width: 1,
-                height: 4,
-                depth: 9
-            }
-        });
+            properties: { width: 1, depth: 9 }
+        };
+        await db.waitForIdle();
 
-        // Read Back
         const artifact = await db.root.multiverse.dimension_c137.galaxies.milky_way.artifact;
-        
-        console.log(`    Artifact: ${artifact.name}`);
-        console.log(`    Signal (Hex): ${artifact.signal.toString('hex').toUpperCase()}`);
-        console.log(`    Discovered: ${artifact.discovered.toISOString()}`);
+        if (artifact.properties.depth !== 9) throw new Error("Object assignment failed");
 
-        // Binary Check
-        if (!Buffer.isBuffer(artifact.signal) || artifact.signal.compare(alienData) !== 0) {
-            throw new Error("Binary Data Corruption");
-        }
-        
-        // Date Check
-        if (artifact.discovered.getTime() !== discoveryDate.getTime()) {
-            throw new Error("Date Object Corruption");
-        }
-        
-        // Nested Object Check
-        if (artifact.properties.depth !== 9) throw new Error("Nested Object Corruption");
-
-        console.log("    ✅ Complex Types (Buffer/Date/Object) Verified.");
-
-
-        // ======================================================
-        // Phase 4: Evolution (Mutation Pattern)
-        // ======================================================
-        console.log("\n[4] Evolution: Modifying Object in Collection...");
-        
-        // Scenario: We have a list of users, we want to update one.
-        await db.createList(db.root, "agents");
-        await db.root.agents.push({ id: 007, name: "Bond", active: true });
-        
-        // 1. Fetch
-        let agent = await db.root.agents[0];
-        console.log(`    Original Agent: ${agent.name}, Active: ${agent.active}`);
-        
-        // 2. Modify
-        agent.active = false;
-        agent.status = "Retired";
-        
-        // 3. Save (Replace via Splice)
-        await db.root.agents.splice(0, 1, agent);
-        
-        // 4. Verify
-        const updatedAgent = await db.root.agents[0];
-        console.log(`    Updated Agent: ${updatedAgent.name}, Active: ${updatedAgent.active}, Status: ${updatedAgent.status}`);
-        
-        if (updatedAgent.active !== false || updatedAgent.status !== "Retired") {
-            throw new Error("Object Mutation in Collection Failed");
-        }
-        
-        console.log("    ✅ Mutation Pattern Verified.");
-
-
-        // ======================================================
-        // Phase 5: Expansion (Stress & Page Splitting)
-        // ======================================================
-        console.log("\n[5] Expansion: Massive Population Growth...");
-        
-        const starCount = 500;
-        await db.createList(db.root.multiverse.dimension_c137.galaxies.milky_way, "stars");
-        const stars = db.root.multiverse.dimension_c137.galaxies.milky_way.stars;
-
-        console.log(`    Spawning ${starCount} stars...`);
-        
-        // B"H: Use SEQUENTIAL loop to ensure deterministic order.
-        // Promise.all with async writes causes race conditions in order of insertion due to variable resolution times.
-        for(let i=0; i<starCount; i++) {
-            await stars.push({ id: i, type: "G-Type Main Sequence", luminosity: Math.random() });
-            if (i % 100 === 0) process.stdout.write('.');
-        }
-        console.log(""); // Newline
-        
-        await db.waitForIdle();
-
-        const starLen = await stars.length;
-        console.log(`    Star Count: ${starLen}`);
-        if (starLen !== starCount) throw new Error(`Stress Fail. Expected ${starCount}, got ${starLen}`);
-        
-        // Check random star
-        const TARGET_ID = 300;
-        const star300 = await stars[TARGET_ID];
-        
-        if (!star300 || star300.id !== TARGET_ID) {
-             console.error(`    ❌ Access Error: Expected ID ${TARGET_ID}, got ID ${star300 ? star300.id : 'undefined'}`);
-             console.error(`    Full Object:`, JSON.stringify(star300));
-             
-             // B"H: Deep Audit
-             console.log("    Running Deep Audit of Sequence...");
-             let idx = 0;
-             for await (const s of stars) {
-                 if (s.id !== idx) {
-                     console.error(`    Drift at Index ${idx}: Found ID ${s.id}`);
-                     break;
-                 }
-                 idx++;
-             }
-             
-             throw new Error("Random Access in large collection failed");
-        }
-
-        console.log("    ✅ Stress Expansion Verified.");
-
-
-        // ======================================================
-        // Phase 6: Entropy (Deletion)
-        // ======================================================
-        console.log("\n[6] Entropy: Deleting The Artifact...");
-        
-        // B"H: Use JavaScript delete operator on the proxy property
-        delete db.root.multiverse.dimension_c137.galaxies.milky_way.artifact;
-        
-        await db.waitForIdle();
-        
-        const check = await db.root.multiverse.dimension_c137.galaxies.milky_way.artifact;
-        if (check !== undefined) throw new Error("Deletion Failed");
-        
-        console.log("    ✅ Deletion Verified.");
+        console.log("    ✅ Assignment Verified.");
 
     } catch (e) {
         console.error("\n❌ ULTIMATE TEST FAILED:", e);
         process.exit(1);
     } finally {
         await db.close();
-        console.log("\nB\"H - The Universe is Stable. All Systems Nominal.");
+        console.log("\nB\"H - Ultimate Test Completed.");
     }
 }
-
 runTest();

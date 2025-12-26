@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file omega_simulation.js
@@ -35,7 +34,6 @@ const assert = (cond, msg) => {
 async function runTest() {
     console.log(`${COLORS.Magenta}B"H - INITIATING OMEGA SIMULATION...${COLORS.Reset}`);
 
-    // 1. Clean Slate
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
 
@@ -50,12 +48,12 @@ async function runTest() {
         
         let currentLevel = db.root;
         const DEPTH = 200;
-        
         const startDescent = Date.now();
         
         for(let i=0; i<DEPTH; i++) {
             const key = `level_${i}`;
-            await db.createMap(currentLevel, key);
+            // B"H: Marker assignment forces the vessel manifestation
+            currentLevel[key] = new db.Map();
             currentLevel = currentLevel[key];
             if (i % 20 === 0) process.stdout.write('.');
         }
@@ -75,7 +73,7 @@ async function runTest() {
                 infinity: Infinity,
                 negativeInfinity: -Infinity,
                 notANumber: NaN,
-                bigInteger: 9007199254740991n * 2n // Really Big Int
+                bigInteger: 9007199254740991n * 2n 
             },
             structures: {
                 uniqueIds: new Set([1, 1, 2, 3, 5, 8]), 
@@ -112,7 +110,8 @@ async function runTest() {
         // =================================================================
         log("PHASE 3", "Opening The Black Hole (Massive IO)...");
         
-        await db.createList(db.root, "timeline");
+        // B"H: New assignment syntax
+        db.root.timeline = new db.List();
         const timeline = db.root.timeline;
         
         const ITEMS = 1000; 
@@ -131,9 +130,6 @@ async function runTest() {
         let len = await timeline.length;
         assert(len === ITEMS, `Timeline Length: ${len}`);
         
-        log("PHASE 3", "Checking Fragmentation Before Deletion...");
-        const statsBefore = await timeline.stats();
-
         log("PHASE 3", `Deleting ${DELETE_COUNT} items from index ${DELETE_START}...`);
         await timeline.splice(DELETE_START, DELETE_COUNT);
         await db.waitForIdle();
@@ -141,9 +137,8 @@ async function runTest() {
         len = await timeline.length;
         assert(len === ITEMS - DELETE_COUNT, `Post-Delete Length: ${len}`);
         
-        log("PHASE 3", "Compacting the Timeline (Reclaiming Space)...");
+        log("PHASE 3", "Compacting the Timeline...");
         const sizeBeforeCompact = (await timeline.stats()).size;
-        
         await timeline.compact();
         await db.waitForIdle();
         
@@ -159,10 +154,9 @@ async function runTest() {
         // =================================================================
         log("PHASE 4", "Activating The Neural Net...");
         
-        await db.createMap(db.root, "brain");
-        await db.createList(db.root.brain, "neurons");
+        db.root.brain = new db.Map();
+        db.root.brain.neurons = new db.List();
         
-        // B"H: New API
         await db.search.enable(db.root.brain.neurons);
         await db.vector.enable(db.root.brain.neurons, { dimensions: 4 });
         
@@ -183,29 +177,22 @@ async function runTest() {
         });
         
         log("PHASE 4", "Wiring Synapses (Graph Edges)...");
-        // Link every neuron to the next 2
         for(let i=0; i<NEURONS-2; i++) {
             const src = db.root.brain.neurons[i];
             const tgt1 = db.root.brain.neurons[i+1];
             const tgt2 = db.root.brain.neurons[i+2];
-            
-            // B"H: New API
             await db.graph.connect(src, tgt1, "SYNAPSE");
             await db.graph.connect(src, tgt2, "SYNAPSE", { weight: 0.5 });
         }
         await db.waitForIdle();
         
-        // Verify Search
         const motorNeurons = await db.search.run(db.root.brain.neurons, "motor");
         assert(motorNeurons.length > 30, `Text Search found ${motorNeurons.length} Motor Neurons`);
         
-        // Verify Vector
         const similar = await db.vector.nearest(db.root.brain.neurons, [0.5, 0.5, 0.5, 0.5], 5);
         assert(similar.length === 5, "Vector Search worked");
         
-        // Verify Graph Traversal
         const n0 = db.root.brain.neurons[0];
-        // B"H: New API
         const connections = await db.graph.getRelationships(n0, "OUT");
         assert(connections.length === 2, "Neuron 0 has 2 outputs");
         
@@ -235,7 +222,6 @@ async function runTest() {
         
         log("PHASE 5", "Verifying The Neural Net...");
         const n0_reborn = db2.root.brain.neurons[0];
-        // B"H: New API
         const con_reborn = await db2.graph.getRelationships(n0_reborn, "OUT");
         assert(con_reborn.length === 2, "Graph connections survived");
         

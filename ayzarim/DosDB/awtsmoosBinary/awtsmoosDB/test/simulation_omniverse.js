@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file simulation_omniverse.js
@@ -25,7 +24,6 @@ const assert = (cond, msg) => {
         console.error(`\x1b[31m[FAIL]\x1b[0m ${msg}`);
         process.exit(1);
     }
-    // console.log(`\x1b[32m[OK]\x1b[0m ${msg}`);
 };
 
 async function runSimulation() {
@@ -41,18 +39,14 @@ async function runSimulation() {
         // --- 1. THE FOUNDATION ---
         log("[1] Laying Foundation (Setup Indices)...");
         
-        // Text Search on 'library'
-        await db.createList(db.root, "library");
-        // B"H: New API
+        // B"H: New marker assignment paradigm.
+        db.root.library = new db.List();
         await db.search.enable(db.root.library);
         
-        // Vector Search on 'vectors'
-        await db.createMap(db.root, "vectors");
-        // B"H: New API
+        db.root.vectors = new db.Map();
         await db.vector.enable(db.root.vectors, { dimensions: 4, metric: 'cosine' });
         
-        // Graph Nodes
-        await db.createMap(db.root, "network");
+        db.root.network = new db.Map();
 
         await db.waitForIdle();
 
@@ -79,11 +73,10 @@ async function runSimulation() {
         }
 
         // TASK C: Graph Construction
-        // Creating nodes A, B, C...
         const NODE_COUNT = 20;
         for(let i=0; i<NODE_COUNT; i++) {
             promises.push((async () => {
-                await db.createMap(db.root.network, `node_${i}`);
+                db.root.network[`node_${i}`] = new db.Map();
                 await db.root.network[`node_${i}`].set("val", i);
             })());
         }
@@ -94,11 +87,9 @@ async function runSimulation() {
         
         // --- 2.5: Graph Wiring ---
         log("[2.5] Wiring the Graph...");
-        // Connect Node 0 -> Node 1 -> Node 2 ...
         for(let i=0; i<NODE_COUNT-1; i++) {
             const src = db.root.network[`node_${i}`];
             const tgt = db.root.network[`node_${i+1}`];
-            // B"H: New API
             await db.graph.connect(src, tgt, "LINKS_TO");
         }
         await db.waitForIdle();
@@ -106,21 +97,15 @@ async function runSimulation() {
         // --- 3. VERIFICATION ---
         log("[3] Verifying Integrity...");
 
-        // A. Vector Search
-        // B"H: New API
         const nearest = await db.vector.nearest(db.root.vectors, [0.5, 0.5, 0.5, 0.5], 5);
         log(`    Vector Search Results: ${nearest.length}`);
         assert(nearest.length === 5, "Vector search returned k=5 results");
 
-        // B. Text Search
-        // B"H: New API
         const wisdomBooks = await db.search.run(db.root.library, "wisdom");
         log(`    Text Search 'wisdom': ${wisdomBooks.length}`);
         assert(wisdomBooks.length === 50, `Expected 50 'wisdom' books, got ${wisdomBooks.length}`);
 
-        // C. Graph Traversal
         const node0 = db.root.network.node_0;
-        // B"H: New API
         const outEdges = await db.graph.getRelationships(node0, "OUT");
         assert(outEdges.length === 1, "Node 0 has 1 outgoing edge");
         const targetVal = await outEdges[0].node.val;
@@ -129,44 +114,29 @@ async function runSimulation() {
         // --- 4. THE VOID (Destruction & Consistency) ---
         log("[4] Testing Destruction & Consistency...");
 
-        // A. Vector Deletion
-        const targetId = nearest[0].item.id; // Get ID of top result
+        const targetId = nearest[0].item.id; 
         const targetKey = `v_${targetId.split('_')[1]}`;
         await db.root.vectors.delete(targetKey);
         await db.waitForIdle();
         
-        // B"H: New API
         const nearestAfter = await db.vector.nearest(db.root.vectors, [0.5, 0.5, 0.5, 0.5], 5);
         const foundDeleted = nearestAfter.find(r => r.item.id === targetId);
         assert(!foundDeleted, "Deleted vector node removed from search");
-
-        // B. Graph Node Deletion (The Ultimate Test)
-        // We delete Node 1.
-        // Node 0 -> Node 1 -> Node 2
-        // After delete, Node 0 -> [DANGLING?]
         
         log("    Deleting Node 1...");
-        // B"H: New API for graph-aware deletion
-        // Pass the pointer to deleteNode to efficiently clean edges
-        // Access pointer via property access if resolved, or explicit lookup
-        // Here we assume node_1 is accessible
         const node1 = db.root.network.node_1;
-        
-        // B"H: Explicitly delete from graph manager to clean edges, then from parent
         await db.graph.deleteNode(node1); 
         await db.root.network.delete("node_1");
 
         await db.waitForIdle();
         
         const node0_after = db.root.network.node_0;
-        // B"H: New API
         const outEdges_after = await db.graph.getRelationships(node0_after, "OUT");
         
         log(`    Node 0 Outgoing Edges: ${outEdges_after.length}`);
         assert(outEdges_after.length === 0, "Edge to Node 1 was auto-cleaned upon Node 1 deletion");
         
         const node2 = db.root.network.node_2;
-        // B"H: New API
         const inEdges_node2 = await db.graph.getRelationships(node2, "IN");
         assert(inEdges_node2.length === 0, "Edge from Node 1 was auto-cleaned upon Node 1 deletion");
 

@@ -1,4 +1,3 @@
-
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs');
@@ -25,7 +24,8 @@ async function runTest() {
         if (val !== "Hello V2") throw new Error("Dictionary Set/Get failed");
 
         console.log("\n[2] Testing Infinite Sequence...");
-        db.root.list = []; 
+        // B"H: New assignment paradigm
+        db.root.list = new db.List(); 
         await db.waitForIdle();
         
         console.log("    Pushing items...");
@@ -40,8 +40,9 @@ async function runTest() {
 
         console.log("\n[3] Testing Fractal Nesting...");
         db.root.level1 = {}; 
-        await db.root.level1.set("innerList", []);
-        const inner = await db.root.level1.innerList; 
+        // B"H: Assignment of marker class forces the vessel
+        db.root.level1.innerList = new db.List();
+        const inner = db.root.level1.innerList; 
         await inner.push("Deep Data");
         
         const deepVal = await db.root.level1.innerList[0];
@@ -49,7 +50,7 @@ async function runTest() {
         if (deepVal !== "Deep Data") throw new Error("Fractal Nesting failed");
 
         console.log("\n[4] Testing Cross-Node Delete (The Gap Test)...");
-        db.root.bigList = [];
+        db.root.bigList = new db.List();
         // Insert enough to fill multiple pages (250 per page, insert 1000)
         for(let i=0; i<1000; i++) await db.root.bigList.push(i);
         

@@ -43,11 +43,12 @@ async function runTest() {
         await db.waitForIdle();
         
         // Root -> Dictionary -> Sequence -> Map -> Dictionary
-        await db.root.universe.createList("galaxies");
+        // B"H: New marker assignment paradigm
+        db.root.universe.galaxies = new db.List();
         
         const galaxyData = { 
             name: "Milky Way", 
-            planets: {} // Will be a Map implicitly if we used createMap, but here standard Object logic
+            planets: {} 
         };
         
         // Push Object into List
@@ -82,7 +83,7 @@ async function runTest() {
         log("Phase 3: Infinite Sequence Stress (The Gap)");
         // Force multi-page splits (Page size ~4KB)
         
-        db.root.numbers = [];
+        db.root.numbers = new db.List();
         const bulk = [];
         for(let i=0; i<2000; i++) bulk.push(i);
         
