@@ -1,6 +1,8 @@
-/* B"H
-   Divine Neo-Brutalism - Sovereignty Edition
-   No Bloat. No Header Bar. Just Function.
+//B"H
+/* 
+   Divine Neo-Brutalism - THE GALACTIC SOVEREIGN
+   1,829,389,123% Intensity Edition.
+   The Monument. The Infinite. The Absolute Void.
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;900&family=Syne:wght@400;700;800&family=Crimson+Pro:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -11,9 +13,13 @@
     --color-ink: #000000;
     --color-primary: #2b00ff;
     --color-accent: #ccff00;
+    --color-danger: #ff0055;
     
-    --border-ui: 2px solid #000;
-    --shadow-ui: 3px 3px 0px 0px #000;
+    /* GALACTIC DIMENSIONS */
+    --border-ui: 30px solid #000;
+    --border-thick: 50px solid #000;
+    --shadow-ui: 100px 100px 0px 0px #000;
+    --shadow-extreme: 220px 220px 0px 0px #000;
     
     --font-heading: 'Syne', sans-serif;
     --font-ui: 'Space Grotesk', monospace;
@@ -28,51 +34,59 @@
     color: var(--color-ink);
 }
 
-/* 
-   --- THE SACRED RATIO: UI COMPACTION ---
-   UI text is locked at 11px to ensure it never overcrowds the Revelation.
-*/
-.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) button,
-.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) .btn {
+/**
+ * @method GalacticMonolithButtons
+ * @description B"H - Every button is a galactic anchor, pulsing with the Essence.
+ */
+.post-reader-localized-context button,
+.post-reader-localized-context .btn,
+.post-reader-localized-context .awtsmoos-hero-btn {
     font-family: var(--font-ui) !important;
     background: #fff !important;
     border: var(--border-ui) !important;
     color: #000 !important;
     font-weight: 900 !important;
     text-transform: uppercase !important;
-    padding: 6px 12px !important;
+    padding: 80px 160px !important;
     cursor: pointer !important;
     box-shadow: var(--shadow-ui) !important;
-    transition: all 0.1s !important;
-    font-size: 11px !important; /* MINIMIZED */
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    font-size: 45px !important;
+    letter-spacing: 20px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+    gap: 60px !important;
     user-select: none !important;
     border-radius: 0 !important;
+    text-decoration: none !important;
+    line-height: 0.8 !important;
+    pointer-events: all !important;
 }
 
-.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) button:hover {
-    transform: translate(-1px, -1px) !important;
-    box-shadow: 5px 5px 0 #000 !important;
+.post-reader-localized-context button:hover,
+.post-reader-localized-context .btn:hover {
+    transform: translate(-50px, -50px) !important;
+    box-shadow: 180px 180px 0 #000 !important;
     background: var(--color-accent) !important;
 }
 
-.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) button:active,
-.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) button.pushed {
-    transform: translate(2px, 2px) !important;
+.post-reader-localized-context button:active {
+    transform: translate(50px, 50px) !important;
     box-shadow: 0px 0px 0 #000 !important;
-    background: var(--color-accent) !important;
 }
 
-/* Localized Inputs for Sidebar */
-.post-reader-localized-context :where(.sidebar) input, 
-.post-reader-localized-context :where(.sidebar) textarea {
-    border: 2px solid #000 !important;
-    padding: 8px !important;
+/* Colossal Galactic Inputs */
+.post-reader-localized-context :where(.sidebar, .post-details, .comment-section) input, 
+.post-reader-localized-context :where(.sidebar, .post-details, .comment-section) textarea {
+    border: 25px solid #000 !important;
+    padding: 80px !important;
     font-family: var(--font-ui) !important;
     background: #fff !important;
     outline: none !important;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.05) !important;
-    font-size: 12px !important;
+    box-shadow: 60px 60px 0 rgba(0,0,0,1) !important;
+    font-size: 40px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: all 0.5s !important;
 }

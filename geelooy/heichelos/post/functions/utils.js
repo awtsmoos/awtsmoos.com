@@ -47,23 +47,23 @@ export function appendWithSubChildren(node, parent, array) {
 }
 
 /**
- * B"H - Adjusts font size STRICTLY within the #realPost element via CSS variable.
- * This prevents scaling of global headers, sidebars, or static UI buttons.
+ * @method adjustFontSize
+ * @description B"H - THE GALACTIC FONT ENGINE. 
+ * Increments set to 50px for immediate transition to the Throne Room scale of Atzilus.
  */
 window.adjustFontSize = function(action) {
     const contentArea = document.getElementById('realPost');
     if (!contentArea) return;
 
-    // Pull current value localized to this container
     let currentStr = contentArea.style.getPropertyValue('--post-text-size') || 
                      window.getComputedStyle(contentArea).getPropertyValue('--post-text-size') || 
-                     '24px';
+                     '150px';
                      
     let current = parseFloat(currentStr);
     
-    const MAX_FONT_SIZE = 120;
-    const MIN_FONT_SIZE = 12;
-    const FONT_SIZE_INCREMENT = 4; 
+    const MAX_FONT_SIZE = 2500; // Galactic scale.
+    const MIN_FONT_SIZE = 60;
+    const FONT_SIZE_INCREMENT = 50; // Galactic leaps
 
     if (action == 'increase' && current < MAX_FONT_SIZE) {
         current += FONT_SIZE_INCREMENT;
@@ -71,9 +71,11 @@ window.adjustFontSize = function(action) {
         current -= FONT_SIZE_INCREMENT;
     }
     
-    // Setting the variable localized to #realPost container ONLY
     contentArea.style.setProperty('--post-text-size', current + 'px');
     localStorage.currentPostFontSize = current + 'px';
+    
+    // Total physical feedback - The Shudder of Reality
+    if(navigator.vibrate) navigator.vibrate([50, 20, 50, 20, 100, 50, 200]);
 }
 
 export function loadFontSize() {
@@ -84,7 +86,7 @@ export function loadFontSize() {
     if (fs) {
         contentArea.style.setProperty('--post-text-size', fs);
     } else {
-        contentArea.style.setProperty('--post-text-size', '24px'); 
+        contentArea.style.setProperty('--post-text-size', '150px'); 
     }
 }
 

@@ -1,4 +1,3 @@
-
 //B"H
 import { isFirstCharacterHebrew } from "../functions/utils.js";
 import { handleMenuOption } from "./actions.js";
@@ -14,7 +13,6 @@ export { sanitizeComment, addImageGallery, makeTitleDiv } from "./render/utils.j
 /**
  * @method populateCommentElement
  * @description B"H - Route to AI renderer or Standard renderer.
- * Now accepts `branches` to pass down for tree rendering.
  */
 export function populateCommentElement(comment, parentElement) {
     parentElement.innerHTML = '';
@@ -33,8 +31,6 @@ export function populateCommentElement(comment, parentElement) {
     
     // Branch Logic
     if (normalizedComment.dayuh?.conversation && Array.isArray(normalizedComment.dayuh.conversation)) {
-        // Pass the original comment's branches (which were attached in panel.js) 
-        // to the renderer. JSON.stringify above wiped custom props, so use `comment`.
         renderBranchingThread(parentElement, normalizedComment, comment.id, comment.branches);
     } else {
         renderStandardComment(parentElement, normalizedComment);
@@ -69,44 +65,37 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
         
         // 1. Reply Button (Visible)
         var replyBtn = document.createElement("button");
-        replyBtn.className = "comment-tool-btn reply";
+        replyBtn.className = "btn secondary small";
         replyBtn.innerHTML = "↩ Reply";
         replyBtn.onclick = (e) => {
             e.stopPropagation();
-            // Use the closest comment content to append the reply box
             handleMenuOption("Reply", comment, cmCont);
         };
         standardToolbar.appendChild(replyBtn);
 
         // 2. Collapse Below Button (Visible)
         var collapseBelowBtn = document.createElement("button");
-        collapseBelowBtn.className = "comment-tool-btn collapse-below";
+        collapseBelowBtn.className = "btn small";
         collapseBelowBtn.innerHTML = "▼";
-        collapseBelowBtn.title = "Collapse/Expand all comments below";
         
         let isBelowCollapsed = false;
         collapseBelowBtn.onclick = (e) => {
             e.stopPropagation();
             isBelowCollapsed = !isBelowCollapsed;
-            
-            // Iterate siblings following this comment in the same container
             let sibling = cmCont.nextElementSibling;
             while(sibling) {
                 if(sibling.classList.contains('comment-content')) {
-                    if(isBelowCollapsed) sibling.style.display = 'none';
-                    else sibling.style.display = 'block'; 
+                    sibling.style.display = isBelowCollapsed ? 'none' : 'block'; 
                 }
                 sibling = sibling.nextElementSibling;
             }
-            
             collapseBelowBtn.innerHTML = isBelowCollapsed ? "▲" : "▼";
-            collapseBelowBtn.title = isBelowCollapsed ? "Expand Below" : "Collapse Below";
         };
         standardToolbar.appendChild(collapseBelowBtn);
 
         cmCont.appendChild(standardToolbar);
 
-        // B"H - Hidden Menu (Existing Logic)
+        // B"H - Hidden Menu
         var menuContainer = document.createElement("div");
         menuContainer.className = "menu-container";
         cmCont.appendChild(menuContainer);
@@ -121,12 +110,11 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
         menuOptions.style.display = "none";
         menuContainer.appendChild(menuOptions);
 
-        var opts = ["Copy"]; // Reply removed from here as it's now primary
+        var opts = ["Copy"];
         if(window?.curAlias == comment.author) opts = opts.concat(["Edit", "Add Audio", "Delete"]);
         if(comment?.dayuh?.transcripted) {
             if(window?.curAlias == comment.author) opts.push("Add Timesheet");
             opts.push("Play");
-            // Audio setup
             var audio = document.createElement("audio");
             audio.controls = true; 
             audio.src = `https://${comment.dayuh.transcripted.bucket}.awtsmoos.com/${comment.dayuh.transcripted.path}`;
@@ -154,22 +142,16 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
             menuOptions.style.display = isHidden ? "block" : "none";
         };
 
-        document.addEventListener("click", (e) => {
-            if (!menuContainer.contains(e.target)) {
-                menuOptions.style.display = "none";
-            }
-        });
-
-        // B"H - Children Slot for Threading
+        // Children Slot for Threading
         var childrenSlot = document.createElement("div");
         childrenSlot.className = "children-slot";
-        childrenSlot.style.marginLeft = "20px";
-        childrenSlot.style.borderLeft = "2px solid #eee";
-        childrenSlot.style.paddingLeft = "10px";
+        childrenSlot.style.marginLeft = "25px";
+        childrenSlot.style.borderLeft = "4px solid #f0f0f0";
+        childrenSlot.style.paddingLeft = "15px";
         cmCont.appendChild(childrenSlot);
 
     } catch(e) {
-        console.error("%c B\"H - Error in makeHTMLFromComment:", "color: red;", e);
+        console.error("B\"H Error in makeHTMLFromComment:", e);
     }
 
     return comment;
@@ -183,35 +165,24 @@ export function makeInlineComment(alias, comment) {
     var incom = document.createElement("div");
     incom.className = "inline-comment";
     incom.style.position = "relative";
+    incom.style.borderLeft = "8px solid #000";
+    incom.style.paddingLeft = "20px";
+    incom.style.marginBottom = "3rem";
     
     // Action Button (Expand to sidebar)
     var actionBtn = document.createElement("div");
-    actionBtn.className = "inline-action-btn";
-    actionBtn.innerHTML = "&#8599;"; // North East Arrow
-    actionBtn.title = "Open Full Comment";
-    
+    actionBtn.className = "btn small secondary";
+    actionBtn.innerHTML = "↗";
     actionBtn.style.position = "absolute";
-    actionBtn.style.top = "8px";
-    actionBtn.style.right = "8px";
-    actionBtn.style.width = "24px";
-    actionBtn.style.height = "24px";
-    actionBtn.style.display = "flex";
-    actionBtn.style.alignItems = "center";
-    actionBtn.style.justifyContent = "center";
-    actionBtn.style.cursor = "pointer";
-    actionBtn.style.borderRadius = "50%";
-    actionBtn.style.background = "#f0f0f0";
-    actionBtn.style.color = "#666";
-    actionBtn.style.fontSize = "14px";
-    actionBtn.style.transition = "all 0.2s";
+    actionBtn.style.top = "0";
+    actionBtn.style.right = "0";
+    actionBtn.style.width = "35px";
+    actionBtn.style.height = "35px";
+    actionBtn.style.padding = "0";
+    actionBtn.title = "Focus in Sidebar";
     
-    actionBtn.onmouseover = () => { actionBtn.style.background = "#0066cc"; actionBtn.style.color = "white"; };
-    actionBtn.onmouseout = () => { actionBtn.style.background = "#f0f0f0"; actionBtn.style.color = "#666"; };
-
     actionBtn.onclick = async (e) => {
         e.stopPropagation();
-        
-        // B"H - Broken static cycle; using window global exposed by commentLogic.js
         if(window.openCommentsPanelToAlias) {
             var c = await window.openCommentsPanelToAlias(alias);
             if (!c) return;
@@ -222,9 +193,7 @@ export function makeInlineComment(alias, comment) {
                     con.classList.add('highlight-flash'); 
                     setTimeout(()=>con.classList.remove('highlight-flash'), 1000);
                 }
-            }, 300);
-        } else {
-            console.error("Comments panel logic not ready.");
+            }, 400);
         }
     };
     
@@ -236,9 +205,9 @@ export function makeInlineComment(alias, comment) {
     
     // B"H - Inline Reply Capability
     var inlineReply = document.createElement("button");
-    inlineReply.className = "comment-tool-btn reply";
-    inlineReply.innerHTML = "↩ Reply";
-    inlineReply.style.marginTop = "5px";
+    inlineReply.className = "btn secondary small";
+    inlineReply.innerHTML = "Reply +";
+    inlineReply.style.marginTop = "1rem";
     inlineReply.onclick = (e) => {
         e.stopPropagation();
         handleMenuOption("Reply", comment, incom);

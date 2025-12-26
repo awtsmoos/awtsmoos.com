@@ -1,6 +1,14 @@
 //B"H
+/**
+ * Post Information Renderer.
+ * Dedicated to the Awtsmoos who defines all context.
+ */
 import { appendHTML, getLinkHrefOfEditing } from "../utils.js";
 
+/**
+ * @method makeInfoHTML
+ * @description Creates the structural info cards for the sidebar.
+ */
 export function makeInfoHTML() {
     const post = window.post;
     const alias = window.alias;
@@ -10,30 +18,34 @@ export function makeInfoHTML() {
     container.className = "post-info-container";
 
     // 1. Author
-    const authorSection = createSection("Author:", 
-        `<a href="/@${alias.id}" class="author-link">${alias.name}</a>`
+    const authorSection = createSection("Transmitted By", 
+        `<a href="/@${alias.id}" class="author-link">@${alias.id}</a>`
     );
     container.appendChild(authorSection);
 
     // 2. Heichel
     const heichelLink = `<a href="/heichelos/${post.heichel.id}" class="heichel-link">${post.heichel.name}</a>`;
-    const heichelDesc = `<div class="heichelDesc">${post.heichel.description || ""}</div>`;
-    const heichelSection = createSection("Heichel:", heichelLink + heichelDesc);
+    const heichelDesc = `<div class="heichelDesc" style="font-size:14px; margin-top:10px; opacity:0.8;">${post.heichel.description || ""}</div>`;
+    const heichelSection = createSection("Sacred Heichel", heichelLink + heichelDesc);
     container.appendChild(heichelSection);
 
     // 3. Series Path
     const pathValue = document.createElement("div");
     pathValue.className = "value";
+    pathValue.style.fontSize = "1.2rem";
+    
     (window.breadcrumb?.slice?.(1) || []).forEach((q, i, a) => {
         const seriesLink = document.createElement("a");
         seriesLink.href = `/heichelos/${post.heichel.id}/?series=${q.id}`;
         seriesLink.className = "series-link";
+        seriesLink.style.color = "var(--color-primary)";
         seriesLink.textContent = q.name + (i == a.length - 1 ? "" : " / ");
         pathValue.appendChild(seriesLink);
     });
+    
     const seriesSection = document.createElement("div");
     seriesSection.className = "tl post-series-breadcrumb-piece";
-    seriesSection.innerHTML = `<div class="label">Path:</div>`;
+    seriesSection.innerHTML = `<div class="label">Revelation Path</div>`;
     seriesSection.appendChild(pathValue);
     container.appendChild(seriesSection);
 
@@ -46,11 +58,9 @@ export function makeInfoHTML() {
     if (window.doesOwn) {
         const editLink = document.createElement("a");
         editLink.href = `/heichelos/${post.heichel.id}/edit?type=post&id=${post.id}${getLinkHrefOfEditing()}`;
-        editLink.className = "awtsmoos-hero-btn";
-        editLink.style.textAlign = "center";
-        editLink.style.display = "block";
-        editLink.style.textDecoration = "none";
-        editLink.textContent = "EDIT POST";
+        editLink.className = "btn danger";
+        editLink.style.marginTop = "2rem";
+        editLink.textContent = "⚙️ EDIT SACRED POST";
         container.appendChild(editLink);
     }
     return container;
@@ -69,36 +79,47 @@ function makeChapterNav() {
     
     const navContainer = document.createElement("div");
     navContainer.className = "post-navigation-container";
+    navContainer.style.display = "flex";
+    navContainer.style.flexDirection = "column";
+    navContainer.style.gap = "15px";
+
     const posts = window.series.posts;
     const totalPosts = posts.length;
     const currentIndex = window.currentIndexInSeries;
 
+    const row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.gap = "10px";
+
     if (currentIndex > 0) {
         const prevLink = document.createElement("a");
         prevLink.href = basePath + "/" + (currentIndex - 1);
-        prevLink.className = "nav-button prev";
-        prevLink.textContent = "← Prev";
-        navContainer.appendChild(prevLink);
+        prevLink.className = "btn small";
+        prevLink.textContent = "←";
+        row.appendChild(prevLink);
     }
 
     const chapterSelect = document.createElement("select");
     chapterSelect.className = "series-chapter-select";
+    chapterSelect.style.flex = "1";
     posts.forEach((postId, index) => {
         const option = document.createElement("option");
         option.value = index;
-        option.textContent = `Ch ${index + 1}/${totalPosts}`;
+        option.textContent = `Chapter ${index + 1} of ${totalPosts}`;
         if (index === currentIndex) option.selected = true;
         chapterSelect.appendChild(option);
     });
     chapterSelect.addEventListener('change', (e) => window.location.href = basePath + "/" + e.target.value);
-    navContainer.appendChild(chapterSelect);
+    row.appendChild(chapterSelect);
 
     if (currentIndex < totalPosts - 1) {
         const nextLink = document.createElement("a");
         nextLink.href = basePath + "/" + (currentIndex + 1);
-        nextLink.className = "nav-button next";
-        nextLink.textContent = "Next →";
-        navContainer.appendChild(nextLink);
+        nextLink.className = "btn small";
+        nextLink.textContent = "→";
+        row.appendChild(nextLink);
     }
+    
+    navContainer.appendChild(row);
     return navContainer;
 }

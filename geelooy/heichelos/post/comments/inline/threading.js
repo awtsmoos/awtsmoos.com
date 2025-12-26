@@ -1,7 +1,7 @@
 //B"H
 /**
- * Inline Threading Logic.
- * Purged of obsolete JS-based CSS injectors.
+ * Inline Threading Logic - Sovereignty & Union Edition.
+ * Handles the manifestation of both AI and Human insights within the reading flow.
  */
 import { updateQueryStringParameter } from "../../functions/utils.js";
 import { makeInlineComment } from "../render.js";
@@ -11,35 +11,87 @@ import { registerFork } from "../render/ai/structure.js";
 
 /**
  * @method renderThreadContent
- * @description B"H - Populates the inline thread container.
+ * @description B"H - Populates the inline thread with high-intensity controls and commentaries.
  */
 export async function renderThreadContent(threadContainer, idx, sub) {
-    threadContainer.innerHTML = `<div class="thread-loading">Gathering revelations...</div>`;
+    threadContainer.innerHTML = `
+        <div class="thread-loading">
+            <div class="loading-bar"></div>
+            <span>DRAWING FORTH REVELATIONS...</span>
+        </div>
+    `;
     
-    const addControls = () => {
+    const addControls = (isEmpty = false) => {
+        // --- THE SOVEREIGN X ---
         const closeBtn = document.createElement('button');
         closeBtn.className = 'thread-close-btn';
-        closeBtn.innerHTML = '&times;';
-        closeBtn.onclick = () => {
-            threadContainer.style.opacity = '0';
-            setTimeout(() => threadContainer.remove(), 300);
+        closeBtn.innerHTML = '×';
+        closeBtn.onclick = (e) => {
+            e.preventDefault(); e.stopPropagation();
+            threadContainer.classList.add('manifest-closing');
+            updateQueryStringParameter("idx", null);
+            updateQueryStringParameter("sub", null);
             updateQueryStringParameter("cid", null);
-            updateQueryStringParameter("mid", null);
+            if(window.chai) window.chai.deselectAll();
+            if(window.subChai) window.subChai.deselectAll();
+            setTimeout(() => threadContainer.remove(), 250);
         };
         threadContainer.appendChild(closeBtn);
 
+        // --- THE DUAL PORTAL ---
         if(window.curAlias) {
-            const newThreadBtn = document.createElement("button");
-            newThreadBtn.className = "btn primary small";
-            newThreadBtn.innerText = "Start New Thread";
-            newThreadBtn.style.margin = "0 0 15px 15px";
-            newThreadBtn.onclick = async () => {
+            const portalWrapper = document.createElement("div");
+            portalWrapper.className = isEmpty ? "thread-hero-portal" : "thread-compact-portal";
+            
+            if (isEmpty) {
+                portalWrapper.innerHTML = `<div class="empty-msg-text">No commentaries found here. Start one</div>`;
+            }
+
+            const btnRow = document.createElement("div");
+            btnRow.className = "portal-btn-row";
+
+            // Path 1: Human Insight
+            const humanBtn = document.createElement("button");
+            humanBtn.className = "btn primary portal-btn human-path";
+            humanBtn.innerHTML = "<span>WRITE HUMAN INSIGHT</span>";
+            humanBtn.onclick = async (e) => {
+                e.stopPropagation();
+                const { CommentSection } = await import("../../CommentSection.js");
+                const entryPoint = document.createElement("div");
+                entryPoint.className = "inline-comment-entry-point";
+                
+                // B"H - Anchor the input locally
+                portalWrapper.after(entryPoint);
+                const cs = new CommentSection(entryPoint);
+                
+                // Auto-trigger the box focus
+                setTimeout(() => {
+                    const box = entryPoint.querySelector('.comment-box');
+                    if(box) {
+                        box.style.display = 'block';
+                        box.focus();
+                        entryPoint.querySelector('.add-comment').style.display = 'none';
+                    }
+                }, 50);
+
+                humanBtn.disabled = true;
+            };
+
+            // Path 2: AI Transception
+            const aiBtn = document.createElement("button");
+            aiBtn.className = "btn secondary portal-btn ai-path";
+            aiBtn.innerHTML = "<span>ASK AWTSMOOS AI</span>";
+            aiBtn.onclick = async (e) => {
+                e.stopPropagation();
                 const { openAIChat } = await import("../../ai/chat.js");
                 updateQueryStringParameter("idx", idx);
                 if(sub !== null) updateQueryStringParameter("sub", sub);
                 openAIChat(); 
             };
-            threadContainer.appendChild(newThreadBtn);
+
+            btnRow.append(humanBtn, aiBtn);
+            portalWrapper.appendChild(btnRow);
+            threadContainer.appendChild(portalWrapper);
         }
     };
 
@@ -47,25 +99,27 @@ export async function renderThreadContent(threadContainer, idx, sub) {
     let aliases = await getAndSaveAliases(false, true, idx, sub, false); 
 
     threadContainer.innerHTML = ""; 
-    addControls();
-
+    
     if (!aliases || aliases.length === 0) {
-        threadContainer.innerHTML += `<div class="thread-empty">No commentaries found here. Start one?</div>`;
+        addControls(true);
         return;
     }
 
+    addControls(false); 
+
     let foundAny = false;
+    const scrollContainer = document.createElement("div");
+    scrollContainer.className = "thread-scroll-area";
+
     for (const alias of aliases) {
         if (isAliasInline(alias)) {
             const aliasGroup = document.createElement("div");
             aliasGroup.className = "thread-alias-group";
             aliasGroup.innerHTML = `
                 <div class="thread-alias-header">@${alias}</div>
-                <div style="font-size:12px; color:#666; padding: 5px; font-style:italic;">
-                    (Currently reading inline below)
-                </div>
+                <div class="inline-reading-status">Reading inline in text flow.</div>
             `;
-            threadContainer.appendChild(aliasGroup);
+            scrollContainer.appendChild(aliasGroup);
             foundAny = true;
             continue;
         }
@@ -79,18 +133,14 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             get: { verseSection: idx, map: true } 
         });
         
-        let relevant = [];
-        if (Array.isArray(allVerseComments)) {
-            relevant = allVerseComments.filter(c => {
-                let d = c.dayuh || {};
-                const cSub = d.subSection;
-                if (sub === null || sub === undefined) {
-                    return cSub === undefined || cSub === null || cSub === 'main' || cSub === 'root';
-                } else {
-                    return String(cSub) === String(sub);
-                }
-            });
-        }
+        let relevant = (Array.isArray(allVerseComments) ? allVerseComments : []).filter(c => {
+            const cSub = c?.dayuh?.subSection;
+            if (sub === null || sub === undefined) {
+                return cSub === undefined || cSub === null || cSub === 'main' || cSub === 'root';
+            } else {
+                return String(cSub) === String(sub);
+            }
+        });
 
         if (relevant.length > 0) {
             foundAny = true;
@@ -98,60 +148,54 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             aliasGroup.className = "thread-alias-group";
             aliasGroup.innerHTML = `<div class="thread-alias-header">@${alias}</div>`;
             
-            const forks = [];
-            const roots = [];
-
             relevant.forEach(c => {
                 c.id = String(c.id);
-                let d = c.dayuh || {};
-                c.dayuh = d;
                 const contentStr = (typeof c.content === 'string') ? c.content.trim() : "";
-                const isFork = !!(c.forkedFrom || d.forkedFrom || contentStr.startsWith("Fork from") || contentStr.startsWith("Branch:"));
+                const isFork = !!(c.forkedFrom || (c.dayuh || {}).forkedFrom || contentStr.startsWith("Fork") || contentStr.startsWith("Branch"));
 
                 if (isFork) {
-                    if(!c.dayuh.forkedFrom && c.forkedFrom) c.dayuh.forkedFrom = c.forkedFrom;
-                    forks.push(c);
+                    registerFork(c);
                 } else {
-                    roots.push(c);
+                    const incom = makeInlineComment(alias, c);
+                    aliasGroup.appendChild(incom);
                 }
             });
-
-            roots.forEach(c => {
-                const incom = makeInlineComment(alias, c);
-                aliasGroup.appendChild(incom);
-            });
-            forks.forEach(c => registerFork(c));
-            threadContainer.appendChild(aliasGroup);
+            scrollContainer.appendChild(aliasGroup);
         }
     }
     
-    if (!foundAny) {
-        threadContainer.innerHTML += `<div class="thread-empty">No commentaries specifically on this section.</div>`;
+    if (foundAny) {
+        threadContainer.appendChild(scrollContainer);
+    } else {
+        threadContainer.innerHTML = "";
+        addControls(true);
     }
 }
 
+/**
+ * @method showSectionCommentaryInline
+ * @description B"H - Triggers the manifesting of the inline thread container.
+ */
 export async function showSectionCommentaryInline(idx, sub, targetEl) {
     if (!targetEl || !targetEl.querySelector) {
         const sel = (sub !== null && sub !== undefined) 
             ? `.sub-awtsmoos[data-awtsmoos-sub='${sub}']` 
             : `.section[data-awtsmoos-idx='${idx}']`;
         targetEl = document.querySelector(sel);
-        if (!targetEl) return console.error("Target element not found for candle");
+        if (!targetEl) return;
     }
 
     const subKey = (sub !== null && sub !== undefined) ? sub : 'main';
     const threadId = `${idx}-${subKey}`;
-    const parentContainer = targetEl.parentNode;
-    const existing = parentContainer ? parentContainer.querySelector(`.awtsmoos-inline-thread[data-unique-thread="${threadId}"]`) : null;
+    const existing = document.querySelector(`.awtsmoos-inline-thread[data-unique-thread="${threadId}"]`);
 
     if (existing) {
-        existing.style.opacity = '0';
-        existing.style.transform = 'translateY(-10px) scale(0.98)';
-        setTimeout(() => existing.remove(), 250); 
-        updateQueryStringParameter("cid", null);
-        updateQueryStringParameter("mid", null);
+        existing.querySelector('.thread-close-btn')?.click();
         return;
     }
+
+    // Single-thread focus mode
+    document.querySelectorAll('.awtsmoos-inline-thread').forEach(t => t.querySelector('.thread-close-btn')?.click());
 
     const threadContainer = document.createElement("div");
     threadContainer.className = 'awtsmoos-inline-thread';
@@ -167,5 +211,6 @@ export async function showSectionCommentaryInline(idx, sub, targetEl) {
         else targetEl.appendChild(threadContainer);
     }
 
+    setTimeout(() => threadContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
     await renderThreadContent(threadContainer, idx, sub);
 }

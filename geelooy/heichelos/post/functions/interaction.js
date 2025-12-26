@@ -51,7 +51,7 @@ export function scrollToActiveEl() {
                 const paragraph = section.querySelector(`.sub-awtsmoos[data-awtsmoos-sub="${sub}"]`);
                 if (paragraph) target = paragraph;
             }
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return; 
         }
         requestAnimationFrame(() => setTimeout(tryScroll, 100));
@@ -89,6 +89,11 @@ export function initializeFootnotes() {
                         setTimeout(() => item.classList.remove('active'), 2000);
                     }
                 }, 450);
+            } else {
+                // Fallback if Sidebar isn't initialized
+                const footnotes = window.post?.dayuh?.footnotes;
+                const note = footnotes?.find(n => String(n.id) === String(id));
+                if(note) createFootnoteOverlay(note.content);
             }
         };
     });
@@ -153,7 +158,34 @@ export function createFootnoteOverlay(content) {
     if (existing) existing.remove();
     const overlay = document.createElement('div');
     overlay.id = 'footnote-overlay';
+    
+    // Brutalist Overlay
+    Object.assign(overlay.style, {
+        position: 'fixed',
+        bottom: '40px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: '#fff',
+        border: '5px solid #000',
+        padding: '2rem',
+        boxShadow: '15px 15px 0 #000',
+        zIndex: '10000',
+        maxWidth: '90%',
+        maxHeight: '40vh',
+        overflowY: 'auto',
+        fontFamily: 'Crimson Pro, serif',
+        fontSize: '1.2rem'
+    });
+
     overlay.innerHTML = content;
-    overlay.onclick = () => overlay.remove();
+    const close = document.createElement('div');
+    close.innerHTML = '&times;';
+    Object.assign(close.style, {
+        position: 'absolute', top: '5px', right: '10px', fontSize: '24px', cursor: 'pointer', fontWeight: '900'
+    });
+    close.onclick = () => overlay.remove();
+    overlay.appendChild(close);
+
     document.body.appendChild(overlay);
+    overlay.onclick = (e) => { if(e.target === overlay) overlay.remove(); };
 }

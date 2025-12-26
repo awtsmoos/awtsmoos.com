@@ -1,93 +1,87 @@
-/* B"H - Localized Tab & Card Dynamics */
-.awtsmoos-tab-pane-container {
-    flex: 1;
-    background: #fff;
-    position: relative;
-    overflow: hidden;
-}
+/* B"H - Tectonic Tab & Card Dynamics */
 
 /* --- Information Cards --- */
 .post-info-container {
-    padding: 3.5rem;
+    padding: 5rem 0;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 8rem;
 }
 
 .tl {
-    border: 8px solid #000;
-    padding: 2.5rem;
+    border: 15px solid #000;
+    padding: 6rem;
     background: #fff;
-    box-shadow: 15px 15px 0 rgba(0,0,0,1);
-    transition: transform 0.2s;
+    box-shadow: 50px 50px 0px rgba(0,0,0,1);
+    transition: all 0.3s;
     position: relative;
 }
 
 .tl:hover {
-    transform: translate(-6px, -6px);
-    box-shadow: 22px 22px 0 #000;
+    transform: translate(-15px, -15px);
+    box-shadow: 80px 80px 0 #000;
 }
 
 .tl .label {
-    font-size: 1rem;
+    font-size: 1.5rem;
     text-transform: uppercase;
     font-weight: 900;
-    background: var(--accent);
+    background: var(--color-accent);
     color: #000;
     display: inline-block;
-    padding: 8px 20px;
-    border: 5px solid #000;
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.3em;
+    padding: 15px 40px;
+    border: 10px solid #000;
+    margin-bottom: 3rem;
+    letter-spacing: 0.4em;
+    position: absolute;
+    top: -40px;
+    left: 40px;
 }
 
 .tl .value {
-    font-size: 1.6rem;
-    font-weight: 700;
+    font-size: 4rem;
+    font-weight: 900;
     word-break: break-word;
     color: #000;
+    line-height: 1;
+    letter-spacing: -2px;
 }
 
-/* --- List Items (Neo-Brutalist Row) --- */
+/* --- List Items (Tectonic Row) --- */
 .awtsmoos-list-item {
-    padding: 2.5rem 3.5rem;
-    border-bottom: 5px solid #000;
+    padding: 5rem;
+    border: 10px solid #000;
+    margin-bottom: 5rem;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.2s;
+    transition: all 0.3s;
     background: #fff;
+    box-shadow: 30px 30px 0 #000;
 }
 
 .awtsmoos-list-item:hover {
-    background: var(--accent);
-    border-left: 30px solid #000;
-    padding-left: 3rem;
+    background: var(--color-accent);
+    transform: translate(-10px, -10px);
+    box-shadow: 50px 50px 0 #000;
 }
 
-.awtsmoos-hero-btn {
-    width: 100%;
-    background: #000;
+.awtsmoos-list-item.ai-card {
+    background: var(--color-primary);
     color: #fff;
-    padding: 2.5rem;
+    box-shadow: 30px 30px 0 var(--color-accent);
+    border-color: #000;
+}
+
+.awtsmoos-list-item-arrow {
+    font-size: 60px;
     font-weight: 900;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    box-shadow: 15px 15px 0 var(--accent);
-    transition: all 0.1s;
-    margin-top: 3rem;
-    font-size: 1.3rem;
-    letter-spacing: 4px;
 }
 
-.awtsmoos-hero-btn:hover {
-    transform: translate(-8px, -8px);
-    box-shadow: 25px 25px 0 var(--primary);
-}
-
-.awtsmoos-hero-btn:active {
-    transform: translate(10px, 10px);
-    box-shadow: 0px 0px 0 #000;
+/* Footnotes List */
+.footnotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
 }

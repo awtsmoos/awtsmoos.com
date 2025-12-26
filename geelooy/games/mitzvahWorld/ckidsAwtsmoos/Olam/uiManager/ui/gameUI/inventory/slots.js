@@ -1,7 +1,8 @@
-
-
-
-// B"H
+// B"H 
+/**
+ * @file slots.js
+ * @description Renders the inventory grid. Enhanced for Worker compatibility.
+ */
 export default function updateSlots(e, $, ui) {
     const data = e.detail || e;
     const slotsData = data.slots || (Array.isArray(data) ? data : []); 
@@ -44,19 +45,7 @@ export default function updateSlots(e, $, ui) {
 
     if(Array.isArray(slotsData)) {
         slotsData.forEach((slotData, index) => {
-            const showTooltip = (event) => {
-                if (!slotData) return;
-                const tooltip = $("icon tooltip");
-                if (tooltip) {
-                    tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
-                    tooltip.classList.remove('hidden');
-                    const x = event.clientX || (event.touches && event.touches[0].clientX);
-                    const y = event.clientY || (event.touches && event.touches[0].clientY);
-                    if(x && y) { tooltip.style.left = (x + 15) + 'px'; tooltip.style.top = (y + 15) + 'px'; }
-                }
-            };
-            const hideTooltip = () => $("icon tooltip")?.classList.add('hidden');
-
+            
             let iconStyle = {};
             let className = 'slotBtn';
             let textIcon = null;
@@ -98,51 +87,94 @@ export default function updateSlots(e, $, ui) {
                 }
             }
 
-            const handleClick = (event) => {
-                    if (!slotData) return;
-                    
-                    const currentSourceType = containerMode ? 'container' : 'inventory';
-                    const isContainer = slotData.isContainer || slotData.className === 'Container' || (slotData.customData && slotData.customData.slots);
-
-                    if (isContainer) {
-                        if (!containerMode) {
-                            ui.peula("ikar", { 
-                            olamPeula: { 
-                                openContainer: { 
-                                    item: slotData, 
-                                    index: index, 
-                                    sourceType: currentSourceType 
-                                } 
-                            } 
-                        });
-                        return;
-                        }
-                    }
-                    
-                    const rect = event.target ? event.target.getBoundingClientRect() : { right: event.clientX, top: event.clientY };
-                    ui.peula($("inventoryScreen"), {
-                    showContextMenu: { 
-                        item: slotData, 
-                        index: index, 
-                        x: rect.right || event.clientX, 
-                        y: rect.top || event.clientY, 
-                        sourceType: currentSourceType 
-                    }
-                });
-            };
-
             ui.html({
                 parent: slotsContainer,
                 className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
+                // B"H: Attaching metadata to the DOM element for retrieval on Main Thread
+                awtsmoosSlotData: slotData, 
+                awtsmoosIndex: index,
+                awtsmoosSourceType: containerMode ? 'container' : 'inventory',
                 ready(el) {
-                        if(typeof window !== 'undefined' && typeof window.attachSlotDragListeners === 'function') {
-                        const sourceType = containerMode ? 'container' : 'inventory';
-                        window.attachSlotDragListeners(el, { item: slotData }, sourceType, index, ui, handleClick);
-                        }
+                    if(typeof window !== 'undefined' && typeof window['attachSlotDragListeners'] === 'function') {
+                        const sData = el['awtsmoosSlotData'];
+                        const sType = el['awtsmoosSourceType'];
+                        const sIdx = el['awtsmoosIndex'];
+                        
+                        const handleClick = (event) => {
+                             const targetEl = event.currentTarget;
+                             const data = targetEl['awtsmoosSlotData']; 
+                             const idx = targetEl['awtsmoosIndex'];
+                             const src = targetEl['awtsmoosSourceType'];
+                             
+                             if (!data) return;
+
+                             const isContainer = data.isContainer || data.className === 'Container' || (data.customData && data.customData.slots);
+                             
+                             if (isContainer) {
+                                if (src !== 'container') {
+                                    var ikar = document.getElementById("ikar");
+                                    if(ikar) {
+                                        ikar.dispatchEvent(new CustomEvent("olamPeula", {
+                                            detail: {
+                                                openContainer: { 
+                                                    item: data, 
+                                                    index: idx, 
+                                                    sourceType: src 
+                                                } 
+                                            }
+                                        }));
+                                    }
+                                    return;
+                                }
+                             }
+                             
+                             const rect = targetEl.getBoundingClientRect();
+                             var ikar = document.getElementById("ikar");
+                             if(ikar) {
+                                 ikar.dispatchEvent(new CustomEvent("olamPeula", {
+                                    detail: {
+                                        uiEvent: {
+                                            shaym: "inventoryScreen",
+                                            ob: {
+                                                showContextMenu: { 
+                                                    item: data, 
+                                                    index: idx, 
+                                                    x: rect.right || event.clientX, 
+                                                    y: rect.top || event.clientY, 
+                                                    sourceType: src 
+                                                }
+                                            }
+                                        }
+                                    }
+                                 }));
+                             }
+                        };
+                        
+                        window['attachSlotDragListeners'](el, { item: sData }, sType, sIdx, ui, handleClick);
+                    }
                 },
                 children: [{
                     className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
-                    on: { mouseenter: showTooltip, mouseleave: hideTooltip },
+                    on: { 
+                        mouseenter: function(e, $, ui, me) {
+                            const parent = me.parentElement;
+                            const sData = parent ? parent['awtsmoosSlotData'] : null;
+                            if (!sData) return;
+                            
+                            const tooltip = $("icon tooltip");
+                            if (tooltip) {
+                                tooltip.innerHTML = `<div class="header">${sData.name || 'Item'}</div><div class="description">${sData.description || ''}</div>`;
+                                tooltip.classList.remove('hidden');
+                                const x = e.clientX || (e.touches && e.touches[0].clientX);
+                                const y = e.clientY || (e.touches && e.touches[0].clientY);
+                                if(x && y) { tooltip.style.left = (x + 15) + 'px'; tooltip.style.top = (y + 15) + 'px'; }
+                            }
+                        }, 
+                        mouseleave: function() {
+                             const tooltip = document.querySelector('[shaym="icon tooltip"]');
+                             if(tooltip) tooltip.classList.add('hidden');
+                        }
+                    },
                     children: slotData ? [
                         { tag: 'div', className: className, style: iconStyle, textContent: textIcon }, 
                         { tag: 'div', className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }

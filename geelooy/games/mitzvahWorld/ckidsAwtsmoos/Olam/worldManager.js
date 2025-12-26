@@ -1,7 +1,7 @@
 //B"H
 /**
  * ManagerOfAllWorlds - Orchestrating the manifestation of worlds from within the main thread.
- * purifed to ensure the Global Bridge is stable for all incoming Worker events.
+ * Refined to ensure canvas control is properly managed between world transitions.
  */
  
 import Utils from "../utils.js";
@@ -137,6 +137,21 @@ class ManagerOfAllWorlds {
 
         var canvas = this.ui.$g("canvasEssence");
         if (!canvas) return false;
+
+        /**
+         * B"H - RECREATE THE CANVAS
+         * A DOM element's control can only be transferred to offscreen ONCE.
+         * To allow a new worker to take control after a world switch, we manifest a fresh vessel.
+         */
+        const freshCanvas = document.createElement("canvas");
+        freshCanvas.id = canvas.id;
+        freshCanvas.className = canvas.className;
+        freshCanvas.style.cssText = canvas.style.cssText;
+        canvas.parentNode.replaceChild(freshCanvas, canvas);
+        canvas = freshCanvas;
+        
+        // B"H: Inform the UI manager of the new physical manifestation
+        this.ui.setHtmlByShaym("canvasEssence", canvas);
 
         var man = new OlamWorkerManager(
             "./ckidsAwtsmoos/Olam/oyved.js", 

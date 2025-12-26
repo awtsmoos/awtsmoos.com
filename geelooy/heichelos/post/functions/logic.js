@@ -1,4 +1,8 @@
 //B"H
+/**
+ * Post Content Logic - The Interpreter of Dayuh.
+ * Refined for the Divine Neo-Brutalist Architecture.
+ */
 import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "./utils.js";
 import { weaveDropdownFromAwtsmoos, initializeFootnotes } from "./interaction.js";
 
@@ -22,18 +26,19 @@ export async function interpretPostDayuh(post) {
 
     realPost.innerHTML = "";
 
+    // --- Post Header ---
     const hd = document.createElement("div");
     hd.classList.add("post-title");
 
-    const seriesName = window.series?.prateem?.name || "Series";
+    const seriesName = window.series?.prateem?.name || "Sacred Series";
     const ser = document.createElement("a");
     ser.classList.add("series-name");
     ser.href = `/heichelos/${post.heichel?.id}/?view=posts&series=${window.series?.id}`;
-    ser.textContent = seriesName + ": ";
+    ser.textContent = seriesName;
     hd.appendChild(ser);
 
     const pt = document.createElement("div");
-    pt.textContent = post.title || "Untitled";
+    pt.textContent = post.title || "Untitled Revelation";
     hd.appendChild(pt);
     realPost.appendChild(hd);
 
@@ -92,7 +97,7 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
     el.className = "section";
     el.dataset.awtsmoosIdx = i; 
 
-    // B"H - First Character Audit
+    // B"H - First Character Audit for Direction
     const sample = sectionText || (Array.isArray(dynamic) ? (typeof dynamic[0] === 'string' ? dynamic[0] : dynamic[0]?.text) : null) || "";
     el.classList.add(isFirstCharacterHebrew(sample) ? "heb" : "eng");
 
@@ -103,7 +108,10 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
     const nm = document.createElement("div");
     nm.className = "awtsmoos-verse-number";
     if (!data?.hideVerseNumber) {
-        nm.addEventListener('click', () => weaveDropdownFromAwtsmoos(hdr));
+        nm.addEventListener('click', (e) => {
+            e.stopPropagation();
+            weaveDropdownFromAwtsmoos(hdr);
+        });
     } else nm.classList.add("hidden");
     nm.textContent = (vs !== undefined && vs !== null) ? vs : (i + 1);
     hdr.appendChild(nm);
@@ -143,9 +151,10 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
             const subIndicator = document.createElement("div");
             subIndicator.className = "awtsmoos-comment-indicator sub-indicator";
             
-            const quickBtn = document.createElement("span");
-            quickBtn.className = "awtsmoos-quick-comment-btn";
-            quickBtn.innerHTML = "+";
+            const quickBtn = document.createElement("button");
+            quickBtn.className = "btn secondary small";
+            quickBtn.innerHTML = "INSIGHTS +";
+            quickBtn.style.padding = "4px 8px";
             quickBtn.onclick = async (e) => {
                 e.stopPropagation();
                 const { showSectionCommentaryInline } = await import("../comments/inline.js");

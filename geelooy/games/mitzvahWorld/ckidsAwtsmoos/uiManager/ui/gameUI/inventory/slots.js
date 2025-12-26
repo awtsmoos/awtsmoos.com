@@ -1,5 +1,8 @@
-
 // B"H 
+/**
+ * @file slots.js
+ * @description Renders the inventory grid. Enhanced for Worker compatibility and closure stability.
+ */
 export default function updateSlots(e, $, ui) {
     const data = e.detail || e;
     const slotsData = data.slots || (Array.isArray(data) ? data : []); 
@@ -55,8 +58,8 @@ export default function updateSlots(e, $, ui) {
                         const color = slotData.customData.color;
                         iconStyle = {
                             backgroundColor: color,
-                            maskImage: `url(${slotData.icon})`,
-                            WebkitMaskImage: `url(${slotData.icon})`,
+                            maskImage: "url(" + slotData.icon + ")",
+                            WebkitMaskImage: "url(" + slotData.icon + ")",
                             maskSize: "contain",
                             WebkitMaskSize: "contain",
                             maskRepeat: "no-repeat",
@@ -68,7 +71,7 @@ export default function updateSlots(e, $, ui) {
                         className = 'slotBtn tinted-icon';
                     } else {
                         iconStyle = { 
-                            backgroundImage: `url(${slotData.icon})` 
+                            backgroundImage: "url(" + slotData.icon + ")"
                         };
                     }
                 } else if (slotData.icon) {
@@ -87,38 +90,38 @@ export default function updateSlots(e, $, ui) {
             ui.html({
                 parent: slotsContainer,
                 className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
-                // B"H: Attach data to the element so it survives serialization to Main Thread
-                awtsmoosSlotData: slotData, 
-                awtsmoosIndex: index,
-                awtsmoosSourceType: containerMode ? 'container' : 'inventory',
-                ready(el) {
-                    // B"H: Read data from element, not closure
-                    if(typeof window !== 'undefined' && typeof window.attachSlotDragListeners === 'function') {
-                        const sData = el.awtsmoosSlotData;
-                        const sType = el.awtsmoosSourceType;
-                        const sIdx = el.awtsmoosIndex;
+                // B"H: Attaching metadata to the DOM element for retrieval on Main Thread.
+                // Property names are quoted to survive potential optimization/minification.
+                "awtsmoosSlotData": slotData, 
+                "awtsmoosIndex": index,
+                "awtsmoosSourceType": containerMode ? 'container' : 'inventory',
+                ready(el, $, ui) {
+                    // B"H: Using bracket notation to safely access decorated properties from the Main Thread.
+                    if(typeof window !== 'undefined' && typeof window['attachSlotDragListeners'] === 'function') {
+                        const sData = el['awtsmoosSlotData'];
+                        const sType = el['awtsmoosSourceType'];
+                        const sIdx = el['awtsmoosIndex'];
                         
-                        // Handler for Click (also recreated on Main Thread)
                         const handleClick = (event) => {
-                             const data = event.currentTarget.awtsmoosSlotData; 
-                             const idx = event.currentTarget.awtsmoosIndex;
-                             const src = event.currentTarget.awtsmoosSourceType;
+                             const targetEl = event.currentTarget;
+                             const slotObj = targetEl['awtsmoosSlotData']; 
+                             const slotIdx = targetEl['awtsmoosIndex'];
+                             const source = targetEl['awtsmoosSourceType'];
                              
-                             if (!data) return;
+                             if (!slotObj) return;
 
-                             const isContainer = data.isContainer || data.className === 'Container' || (data.customData && data.customData.slots);
+                             const isContainer = slotObj.isContainer || slotObj.className === 'Container' || (slotObj.customData && slotObj.customData.slots);
                              
                              if (isContainer) {
-                                if (src !== 'container') {
-                                    // Send message back to Worker
+                                if (source !== 'container') {
                                     var ikar = document.getElementById("ikar");
                                     if(ikar) {
                                         ikar.dispatchEvent(new CustomEvent("olamPeula", {
                                             detail: {
                                                 openContainer: { 
-                                                    item: data, 
-                                                    index: idx, 
-                                                    sourceType: src 
+                                                    item: slotObj, 
+                                                    index: slotIdx, 
+                                                    sourceType: source 
                                                 } 
                                             }
                                         }));
@@ -127,28 +130,20 @@ export default function updateSlots(e, $, ui) {
                                 }
                              }
                              
-                             const rect = event.target.getBoundingClientRect();
-                             var ikar = document.getElementById("ikar");
-                             if(ikar) {
-                                 // Trigger context menu via UI event
-                                 // Note: We use a UI event to show the menu, which lives on Main Thread
-                                 // But context menu logic usually needs to send commands back to worker.
-                                 
-                                 // Since `showContextMenu` is defined in `inventory/index.js` which runs on Main Thread in response to Worker,
-                                 // we can manually trigger the local UI logic or ask Worker to trigger it.
-                                 // Asking Worker is safer for consistency.
-                                 
-                                 ikar.dispatchEvent(new CustomEvent("olamPeula", {
+                             const rect = targetEl.getBoundingClientRect();
+                             var ikarElement = document.getElementById("ikar");
+                             if(ikarElement) {
+                                 ikarElement.dispatchEvent(new CustomEvent("olamPeula", {
                                     detail: {
-                                        uiEvent: {
+                                        sendUiEvent: {
                                             shaym: "inventoryScreen",
                                             ob: {
                                                 showContextMenu: { 
-                                                    item: data, 
-                                                    index: idx, 
+                                                    item: slotObj, 
+                                                    index: slotIdx, 
                                                     x: rect.right || event.clientX, 
                                                     y: rect.top || event.clientY, 
-                                                    sourceType: src 
+                                                    sourceType: source 
                                                 }
                                             }
                                         }
@@ -157,21 +152,21 @@ export default function updateSlots(e, $, ui) {
                              }
                         };
                         
-                        window.attachSlotDragListeners(el, { item: sData }, sType, sIdx, ui, handleClick);
+                        window['attachSlotDragListeners'](el, { item: sData }, sType, sIdx, ui, handleClick);
                     }
                 },
                 children: [{
                     className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                     on: { 
                         mouseenter: function(e, $, ui, me) {
-                            // B"H: Read from parent's data
+                            // B"H: Accessing slot data from parent element context.
                             const parent = me.parentElement;
-                            const sData = parent ? parent.awtsmoosSlotData : null;
+                            const sData = parent ? parent['awtsmoosSlotData'] : null;
                             if (!sData) return;
                             
                             const tooltip = $("icon tooltip");
                             if (tooltip) {
-                                tooltip.innerHTML = `<div class="header">${sData.name || 'Item'}</div><div class="description">${sData.description || ''}</div>`;
+                                tooltip.innerHTML = '<div class="header">' + (sData.name || 'Item') + '</div><div class="description">' + (sData.description || '') + '</div>';
                                 tooltip.classList.remove('hidden');
                                 const x = e.clientX || (e.touches && e.touches[0].clientX);
                                 const y = e.clientY || (e.touches && e.touches[0].clientY);

@@ -1,5 +1,8 @@
-
 //B"H
+/**
+ * Comment Indicator Logic.
+ * Lighting the flames of commentary with high-intensity feedback.
+ */
 import { updateQueryStringParameter } from "../../functions/utils.js";
 import { showSectionCommentaryInline } from "./threading.js";
 
@@ -18,7 +21,7 @@ export async function manifestCommentIndicators() {
     const urlParams = new URLSearchParams(window.location.search);
     const targetIdx = urlParams.get('idx');
     const targetSub = urlParams.get('sub');
-    const targetCid = urlParams.get('cid'); // Comment ID
+    const targetCid = urlParams.get('cid');
 
     for (const section of sections) {
         const idx = section.dataset.awtsmoosIdx;
@@ -28,11 +31,13 @@ export async function manifestCommentIndicators() {
         if (mainAliases && mainAliases.length > 0) {
             const indicatorSlot = section.querySelector('.awtsmoos-comment-indicator:not(.sub-indicator)');
             if (indicatorSlot) {
-                indicatorSlot.innerHTML = `<span class="awtsmoos-flame" title="Verse commentators">🕯️</span>`;
+                indicatorSlot.innerHTML = `<span class="awtsmoos-flame" title="Open Insight Thread">🕯️</span>`;
                 indicatorSlot.classList.add('visible');
+                
+                // Absolute Event Binding
                 indicatorSlot.onclick = (e) => {
+                    e.preventDefault();
                     e.stopPropagation();
-                    // Update URL params without wiping CID unless we are changing context
                     updateQueryStringParameter("idx", idx);
                     updateQueryStringParameter("sub", null);
                     showSectionCommentaryInline(idx, null, section);
@@ -48,9 +53,11 @@ export async function manifestCommentIndicators() {
             if (subAliases && subAliases.length > 0) {
                 const subIndicator = subEl.querySelector('.awtsmoos-comment-indicator.sub-indicator');
                 if (subIndicator) {
-                    subIndicator.innerHTML = `<span class="awtsmoos-flame small" title="Paragraph commentators">🕯️</span>`;
+                    subIndicator.innerHTML = `<span class="awtsmoos-flame resonance" title="Open Paragraph Insights">🕯️</span>`;
                     subIndicator.classList.add('visible');
+                    
                     subIndicator.onclick = (e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         updateQueryStringParameter("idx", idx);
                         updateQueryStringParameter("sub", subIdx);
@@ -61,16 +68,15 @@ export async function manifestCommentIndicators() {
         }
     }
 
-    // B"H - Auto-open if deep linked
+    // B"H - Auto-open Deep Link
     if (targetCid && targetIdx !== null) {
-        const targetElSelector = targetSub !== null 
+        const targetElSelector = (targetSub !== null && targetSub !== "null")
             ? `.sub-awtsmoos[data-awtsmoos-sub='${targetSub}']` 
             : `.section[data-awtsmoos-idx='${targetIdx}']`;
         
         const el = document.querySelector(targetElSelector);
         if(el) {
-            // Slight delay to ensure layout
-            setTimeout(() => showSectionCommentaryInline(targetIdx, targetSub, el), 500);
+            setTimeout(() => showSectionCommentaryInline(targetIdx, targetSub, el), 600);
         }
     }
 }

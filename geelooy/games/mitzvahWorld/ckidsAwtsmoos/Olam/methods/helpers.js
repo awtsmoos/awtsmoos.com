@@ -1,4 +1,3 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import Utils from '../../utils.js'
@@ -6,6 +5,10 @@ import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 import ShlichusHandler from "../../systems/quests/ShlichusHandler.js";
 import { ITEM_REGISTRY } from '../../systems/inventory/data/registry.js';
 
+/**
+ * Helpers - The practical vessels that facilitate the manifestation of the Olam.
+ * Integrated loading and transform utilities.
+ */
 export default class {
     
     async loadGLTF(url) {
@@ -16,6 +19,43 @@ export default class {
             console.log(e);
             return null;
         }
+    }
+
+    /**
+     * B"H
+     * loadTexture - Draws a texture from the infinite potential into the physical world.
+     * Hardened to work within workers and handle missing entity contexts.
+     */
+    loadTexture({ nivra, url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
+        return new Promise((resolve) => {
+            if (!url) return resolve(null);
+
+            let loader;
+            // B"H: Attempt to leverage an existing GLTF parser's loader if available
+            if (nivra && nivra.asset && nivra.asset.parser && nivra.asset.parser.textureLoader) {
+                loader = nivra.asset.parser.textureLoader;
+            } else {
+                // B"H: Fallback to a universal TextureLoader (works in workers via ImageBitmapLoader)
+                loader = new THREE.TextureLoader();
+            }
+
+            loader.load(
+                url,
+                (texture) => {
+                    if (shouldRepeat) {
+                        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                        texture.repeat.set(repeatX, repeatY);
+                    }
+                    texture.needsUpdate = true;
+                    resolve(texture);
+                },
+                undefined,
+                (err) => {
+                    console.warn('B"H: Error loading texture:', url, err);
+                    resolve(null);
+                }
+            );
+        });
     }
 
     serialize() {
