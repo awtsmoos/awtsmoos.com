@@ -41,10 +41,29 @@ class VectorManager {
         
         if (!existing) {
             const regPath = `__reg_${path.replace(/\./g, '_')}`;
+            // B"H: Robust Creation - Verify Type immediately
             await this.db.createList(sysVector, regPath);
+            
+            // Check immediately after creation to ensure persistence
+            const checkReg = sysVector[regPath];
+            const checkRegSoul = checkReg[constants.SYMBOLS.INTERNALS] || checkReg;
+            await checkReg.ensureResolved(true);
+            
+            if (checkRegSoul.type !== constants.TYPE_SEQUENCE) {
+                 // Force recreation if type mismatch occurred during race
+                 await this.db.createList(sysVector, regPath);
+            }
             
             const mapPath = `__map_${path.replace(/\./g, '_')}`;
             await this.db.createMap(sysVector, mapPath);
+            
+            const checkMap = sysVector[mapPath];
+            const checkMapSoul = checkMap[constants.SYMBOLS.INTERNALS] || checkMap;
+            await checkMap.ensureResolved(true);
+            
+            if (checkMapSoul.type !== constants.TYPE_MAP && checkMapSoul.type !== constants.TYPE_DICTIONARY) {
+                 await this.db.createMap(sysVector, mapPath);
+            }
 
             const meta = {
                 dim: options.dimensions || 1536,
@@ -67,9 +86,17 @@ class VectorManager {
         
         if (this.indexes.has(path)) {
             const idx = this.indexes.get(path);
-            await idx.registryHandle.ensureResolved(true);
-            await idx.keyMap.ensureResolved(true);
-            return idx;
+            try {
+                // Access souls to verify pointers
+                const regSoul = idx.registryHandle[constants.SYMBOLS.INTERNALS] || idx.registryHandle;
+                const mapSoul = idx.keyMap[constants.SYMBOLS.INTERNALS] || idx.keyMap;
+                
+                await regSoul.ensureResolved(true);
+                await mapSoul.ensureResolved(true);
+                return idx;
+            } catch(e) {
+                this.indexes.delete(path); // Invalidate if broken
+            }
         }
 
         const metaH = sysVector[path];
@@ -94,12 +121,25 @@ class VectorManager {
         const registryHandle = sysVector[meta.regPath];
         const mapHandle = sysVector[meta.mapPath];
         
-        await registryHandle.ensureResolved(true);
-        await mapHandle.ensureResolved(true);
+        const regSoul = registryHandle[constants.SYMBOLS.INTERNALS] || registryHandle;
+        const mapSoul = mapHandle[constants.SYMBOLS.INTERNALS] || mapHandle;
         
-        if (!registryHandle.ptr) {
-             if (this.db.debug) console.warn(`B"H VectorManager: Registry ${meta.regPath} missing (Ptr Null). Corruption possible.`);
-             return null;
+        await regSoul.ensureResolved(true);
+        await mapSoul.ensureResolved(true);
+        
+        // B"H: Integrity Check - Ensure registry is actually a Sequence
+        // MUST use unwrapped 'regSoul' to check properties, otherwise Proxy returns Handles (truthy)!
+        if (!regSoul.ptr || regSoul.type !== constants.TYPE_SEQUENCE) {
+             if (this.db.debug) console.warn(`B"H VectorManager: Registry corrupted for ${path} (Type: ${regSoul.type}). Repairing...`);
+             await this.db.createList(sysVector, meta.regPath);
+             await regSoul.ensureResolved(true);
+        }
+        
+        // B"H: Integrity Check - Ensure map is actually a Map
+        if (!mapSoul.ptr) {
+             if (this.db.debug) console.warn(`B"H VectorManager: Map corrupted for ${path}. Repairing...`);
+             await this.db.createMap(sysVector, meta.mapPath);
+             await mapSoul.ensureResolved(true);
         }
 
         const hnsw = new HNSW(this.db, registryHandle, mapHandle, meta);
@@ -142,6 +182,8 @@ class VectorManager {
             await index.insertBatch(items);
         } catch(e) {
             console.error(`B"H Vector Flush Failed for ${path}:`, e);
+            // B"H: Attempt to recover by clearing cache to force reload next time
+            this.indexes.delete(path);
         }
     }
 
@@ -178,116 +220,125 @@ class VectorManager {
              return [];
         }
         
-        await index.flushCache();
-        await index._validateEntryPoint();
+        try {
+            await index.flushCache();
+            await index._validateEntryPoint();
 
-        let vec = queryVector;
-        if (Array.isArray(queryVector)) vec = new Float32Array(queryVector);
+            let vec = queryVector;
+            if (Array.isArray(queryVector)) vec = new Float32Array(queryVector);
 
-        if (index.registryPtrs.length === 0 || index.entryNodeID === -1) {
-             const size = await this.db.size(h);
-             if (size > 0) {
-                 if (this.db.debug) console.warn(`B"H VectorManager: Index empty but data exists (${size} items). Triggering Auto-Reindex for ${path}.`);
-                 await this.reindex(path);
-                 await index._validateEntryPoint();
-             }
+            if (index.registryPtrs.length === 0 || index.entryNodeID === -1) {
+                 const size = await this.db.size(h);
+                 if (size > 0) {
+                     if (this.db.debug) console.warn(`B"H VectorManager: Index empty but data exists (${size} items). Triggering Auto-Reindex for ${path}.`);
+                     await this.reindex(path);
+                     await index._validateEntryPoint();
+                 }
+            }
+
+            if (index.entryNodeID === -1 || index.entryNodeID === undefined) {
+                 return [];
+            }
+
+            const entryNode = await index._getNode(index.entryNodeID);
+            if (!entryNode) return [];
+
+            const ef = Math.max(k * 2, 100);
+            const results = await index._searchLayer(entryNode, vec, ef, 0); 
+            const topK = results.slice(0, k);
+            
+            const hydrated = [];
+            for(const res of topK) {
+                const ptr = res.node.payloadPtr;
+                const item = await require('../liveHandle/index.js').resolvePointer(ptr, this.db); 
+                hydrated.push({ item, score: res.dist });
+            }
+            return hydrated;
+        } catch(e) {
+            console.error(`B"H Vector Search Failed for ${path}:`, e);
+            return [];
         }
-
-        if (index.entryNodeID === -1 || index.entryNodeID === undefined) {
-             return [];
-        }
-
-        const entryNode = await index._getNode(index.entryNodeID);
-        if (!entryNode) return [];
-
-        const ef = Math.max(k * 2, 100);
-        const results = await index._searchLayer(entryNode, vec, ef, 0); 
-        const topK = results.slice(0, k);
-        
-        const hydrated = [];
-        for(const res of topK) {
-            const ptr = res.node.payloadPtr;
-            const item = await require('../liveHandle/index.js').resolvePointer(ptr, this.db); 
-            hydrated.push({ item, score: res.dist });
-        }
-        return hydrated;
     }
 
     async reindex(path) {
-        const index = await this.getIndex(path);
-        if (!index) return;
+        try {
+            const index = await this.getIndex(path);
+            if (!index) return;
 
-        const parts = [];
-        const rawParts = path.split('.');
-        for(const p of rawParts) if (p !== 'root') parts.push(p);
+            const parts = [];
+            const rawParts = path.split('.');
+            for(const p of rawParts) if (p !== 'root') parts.push(p);
 
-        let curr = this.db.root[constants.SYMBOLS.INTERNALS] || this.db.root;
-        for (let i = 0; i < parts.length; i++) {
-            const next = curr.nav.navigate(parts[i]); 
-            const nextInt = next[constants.SYMBOLS.INTERNALS] || next;
-            await nextInt.ensureResolved(); 
-            if (!nextInt.ptr) return; 
-            curr = nextInt;
-        }
-
-        const ptr = curr.ptr;
-        if (!ptr) return;
-
-        const res = await SmartPointer.resolve(ptr, this.db.allocator);
-        
-        let iterator;
-        if (curr.type === constants.TYPE_MAP) {
-            const map = new MapEngine(this.db.allocator, res);
-            iterator = map.iterateRaw();
-        } else if (curr.type === constants.TYPE_SEQUENCE) {
-            const seq = new Sequence(this.db.allocator, res);
-            iterator = seq.iterateRaw();
-        } else {
-            return;
-        }
-
-        let count = 0;
-        // Batch reindexing as well
-        const BATCH_SIZE = 100;
-        let batch = [];
-
-        for await (const item of iterator) {
-            const ptr = item.ptr;
-            let value = item.value;
-            let key = item.key;
-
-            if (value === undefined && ptr) {
-                value = await SmartPointer.resolve(ptr, this.db.allocator);
+            let curr = this.db.root[constants.SYMBOLS.INTERNALS] || this.db.root;
+            for (let i = 0; i < parts.length; i++) {
+                const next = curr.nav.navigate(parts[i]); 
+                const nextInt = next[constants.SYMBOLS.INTERNALS] || next;
+                await nextInt.ensureResolved(); 
+                if (!nextInt.ptr) return; 
+                curr = nextInt;
             }
 
-            let keyStr = count;
-            if (key !== undefined) {
-                keyStr = Buffer.isBuffer(key) ? key.toString('utf8') : String(key);
-            }
+            const ptr = curr.ptr;
+            if (!ptr) return;
 
-            const hydrated = await this._hydrateForIndex(value);
-            const vec = this._extractVector(hydrated);
+            const res = await SmartPointer.resolve(ptr, this.db.allocator);
             
-            if (vec) {
-                const stablePtr = Buffer.alloc(16);
-                ptr.copy(stablePtr);
-                
-                let v = vec;
-                if(Array.isArray(v)) v = new Float32Array(v);
-                
-                batch.push({ key: keyStr, vector: v, payload: stablePtr });
-                
-                if (batch.length >= BATCH_SIZE) {
-                    await index.insertBatch(batch);
-                    batch = [];
-                }
+            let iterator;
+            if (curr.type === constants.TYPE_MAP) {
+                const map = new MapEngine(this.db.allocator, res);
+                iterator = map.iterateRaw();
+            } else if (curr.type === constants.TYPE_SEQUENCE) {
+                const seq = new Sequence(this.db.allocator, res);
+                iterator = seq.iterateRaw();
+            } else {
+                return;
             }
-            count++;
+
+            let count = 0;
+            // Batch reindexing as well
+            const BATCH_SIZE = 100;
+            let batch = [];
+
+            for await (const item of iterator) {
+                const ptr = item.ptr;
+                let value = item.value;
+                let key = item.key;
+
+                if (value === undefined && ptr) {
+                    value = await SmartPointer.resolve(ptr, this.db.allocator);
+                }
+
+                let keyStr = count;
+                if (key !== undefined) {
+                    keyStr = Buffer.isBuffer(key) ? key.toString('utf8') : String(key);
+                }
+
+                const hydrated = await this._hydrateForIndex(value);
+                const vec = this._extractVector(hydrated);
+                
+                if (vec) {
+                    const stablePtr = Buffer.alloc(16);
+                    ptr.copy(stablePtr);
+                    
+                    let v = vec;
+                    if(Array.isArray(v)) v = new Float32Array(v);
+                    
+                    batch.push({ key: keyStr, vector: v, payload: stablePtr });
+                    
+                    if (batch.length >= BATCH_SIZE) {
+                        await index.insertBatch(batch);
+                        batch = [];
+                    }
+                }
+                count++;
+            }
+            
+            if (batch.length > 0) await index.insertBatch(batch);
+            
+            await index.flushCache();
+        } catch(e) {
+            console.error(`B"H Vector Reindex Failed for ${path}:`, e);
         }
-        
-        if (batch.length > 0) await index.insertBatch(batch);
-        
-        await index.flushCache();
     }
 
     _extractVector(value) {

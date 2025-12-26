@@ -1,0 +1,48 @@
+/* B"H - Localized Footnote Aesthetics */
+#realPost sup.footnote-ref, 
+#realPost .active-footnote-ref {
+    font-weight: 900;
+    color: var(--primary);
+    cursor: pointer;
+    padding: 4px 12px;
+    background: rgba(43, 0, 255, 0.15);
+    border: 3px solid transparent;
+    transition: all 0.2s;
+    vertical-align: super;
+    font-size: 0.6em;
+}
+
+#realPost sup.footnote-ref:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: #000;
+    transform: scale(1.5);
+    box-shadow: 6px 6px 0 #000;
+}
+
+#realPost sup.footnote-ref.active-footnote-match {
+    background: #000;
+    color: var(--accent);
+    border-color: #000;
+    transform: scale(1.8);
+    box-shadow: 0 0 20px rgba(204, 255, 0, 0.8);
+}
+
+/* Sidebar Item */
+.footnote-item {
+    border-left: 10px solid transparent;
+}
+
+.footnote-item.active {
+    background: #fffde7 !important;
+    border-left-color: var(--accent) !important;
+}
+
+.footnote-item .footnote-id {
+    font-weight: 900;
+    background: #000;
+    color: #fff;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+}

@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file hnsw.js
@@ -177,14 +178,20 @@ class HNSW {
         if (nodeId === -1 || nodeId === undefined) return null;
         if (this.nodeCache.has(nodeId)) return this.nodeCache.get(nodeId);
 
-        const ptr = await this._getRegistryPtr(nodeId);
-        if (!ptr) return null;
-        
-        const node = await this.storage.loadNode(ptr);
-        if (!node) return null;
-        
-        this._cacheNode(nodeId, node);
-        return node;
+        try {
+            const ptr = await this._getRegistryPtr(nodeId);
+            if (!ptr) return null;
+            
+            const node = await this.storage.loadNode(ptr);
+            if (!node) return null;
+            
+            this._cacheNode(nodeId, node);
+            return node;
+        } catch(e) {
+            // B"H: Recover from corruption
+            if (this.db.debug) console.warn(`B"H HNSW _getNode(${nodeId}) failed: ${e.message}`);
+            return null;
+        }
     }
     
     _cacheNode(nodeId, node) {
