@@ -29,14 +29,9 @@ export {default as Heeooleey} from "./chayim/heeooleey.js";
 export {default as InventoryManager} from "./systems/InventoryManager.js";
 
 export {default as Brick} from "./dvarim/brick.js";
-export {default as Interaction} from 
-    "../tochen/helpers/tzomayachInteraction.js";
-
-export {default as Dialogue} from 
-    "../tochen/helpers/dialogue.js";
-
-export {default as ShlichusActions} from 
-    "../tochen/helpers/shlichusActions.js";
+export {default as Interaction} from "./tochen/helpers/tzomayachInteraction.js";
+export {default as Dialogue} from "./tochen/helpers/dialogue.js";
+export {default as ShlichusActions} from "./tochen/helpers/shlichusActions.js";
 
 export {default as CharacterMaker} from "./dvarim/characterMaker.js";
 export {default as CustomNpc} from "./dvarim/customNpc.js";
@@ -46,7 +41,7 @@ export {default as ProceduralTree} from "./dvarim/nature/proceduralTree.js";
 export {default as NatureTool} from "./dvarim/nature/natureTool.js";
 export {default as ProceduralCloud} from "./dvarim/nature/proceduralCloud.js";
 export {default as Fire} from "./dvarim/fire.js";
-export {default as Lava} from "./dvarim/lava.js"; // B"H: New Lava
+export {default as Lava} from "./dvarim/lava.js"; 
 export {default as ProceduralRiver} from "./dvarim/nature/proceduralRiver.js";
 export {default as Forest} from "./dvarim/nature/forest.js";
 export {default as ProceduralPool} from "./dvarim/nature/proceduralPool.js";
@@ -70,6 +65,3 @@ export {default as Teffilin} from "./dvarim/teffilin.js";
 
 // B"H: VoxelTerrain
 export {default as VoxelTerrain} from "./dvarim/terrain/VoxelTerrain.js";
-
-export class ok{}
-        

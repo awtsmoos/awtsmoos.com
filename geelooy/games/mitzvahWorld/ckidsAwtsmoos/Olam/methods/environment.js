@@ -29,6 +29,23 @@ export default class Environment {
     }
 
     /**
+     * Forces rain to start (Legacy Support)
+     */
+    startRain() {
+        this.weatherType = 'RAIN';
+        this.weatherTimer = 300;
+        this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Rain Started", color: "cyan" });
+    }
+
+    /**
+     * Forces rain to stop (Legacy Support)
+     */
+    stopRain() {
+        this.weatherType = 'CLEAR';
+        this.weatherTimer = 600;
+    }
+
+    /**
      * The Great Update - Refreshes the atmosphere every pulse.
      * @param {number} dt Delta time
      * @param {THREE.Vector3} playerPos Current player position

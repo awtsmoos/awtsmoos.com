@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * B"H
@@ -42,7 +43,18 @@ export default /*css*/`
     .menuItm { margin:0; text-align:center; position:absolute; width:80%; height:80%; top:50%; left:50%; transform: translate(-50%,-50%); opacity:95%; z-index:4; transition: 0.4s all ease-in-out; }
     .menu .info { position:absolute; top:50%; text-align: center; left:50%; transform: translate(-50%,-50%); }
 
-    /* B"H: Sefirotic Block Selector Menu */
+    /* B"H: Sefirotic Block Selector Menu with Dynamic Animation */
+    @keyframes ringPulse {
+        0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
+        100% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+    }
+    
+    @keyframes optionFloat {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0px); }
+    }
+
     .blockSelected {
         position: absolute;
         left: 50%;
@@ -51,7 +63,9 @@ export default /*css*/`
         gap: 20px;
         transform: translate(-50%, -50%);
         pointer-events: auto;
+        animation: ringPulse 1.5s infinite alternate ease-in-out;
     }
+    
     .blockSelected > div {
         width: 80px;
         height: 80px;
@@ -66,17 +80,27 @@ export default /*css*/`
         border: 2px solid #4cc9f0;
         box-shadow: 0 0 15px #4cc9f0;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-transform: uppercase;
+        animation: optionFloat 3s infinite ease-in-out;
     }
+    
+    /* Staggered animation */
+    .blockSelected > div:nth-child(1) { animation-delay: 0s; }
+    .blockSelected > div:nth-child(2) { animation-delay: 0.2s; }
+    
     .blockSelected > div:hover {
-        transform: scale(1.2) rotate(15deg);
+        transform: scale(1.3) rotate(5deg);
         background: #4cc9f0;
         color: black;
-        box-shadow: 0 0 30px #4cc9f0;
+        box-shadow: 0 0 40px #4cc9f0, inset 0 0 20px white;
+        z-index: 10;
     }
+    
+    /* Specific Colors for Actions */
     .blockSelected > div.Delete { border-color: #ff4757; box-shadow: 0 0 15px #ff4757; }
-    .blockSelected > div.Delete:hover { background: #ff4757; box-shadow: 0 0 30px #ff4757; }
+    .blockSelected > div.Delete:hover { background: #ff4757; box-shadow: 0 0 50px #ff4757; }
+    
     .blockSelected > div.Grab { border-color: #ffd700; box-shadow: 0 0 15px #ffd700; }
-    .blockSelected > div.Grab:hover { background: #ffd700; box-shadow: 0 0 30px #ffd700; }
+    .blockSelected > div.Grab:hover { background: #ffd700; box-shadow: 0 0 50px #ffd700; }
 `;

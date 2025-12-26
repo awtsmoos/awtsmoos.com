@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * Olam Worker Entry Point - Absolute Safety Edition
@@ -17,6 +16,9 @@ self.onerror = function(msg, url, lineNo, columnNo, error) {
         type: "Global Worker Error"
     };
     
+    // Log to console in worker as well
+    console.error("B\"H WORKER ERROR CAUGHT:", errorInfo);
+    
     try {
         self.postMessage({ error: errorInfo });
     } catch(e) {
@@ -27,6 +29,7 @@ self.onerror = function(msg, url, lineNo, columnNo, error) {
 
 // 2. Trap unhandled promises
 self.addEventListener('unhandledrejection', function(event) {
+    console.error("B\"H WORKER UNHANDLED REJECTION:", event.reason);
     self.postMessage({
         error: {
             message: "Unhandled Promise Rejection: " + event.reason,
@@ -38,27 +41,71 @@ self.addEventListener('unhandledrejection', function(event) {
 
 // 3. Async Bootstrap
 (async function bootstrapWorker() {
-    console.log("B\"H - Worker Bootstrap Starting...");
+    console.log("B\"H - Worker Bootstrap Starting... Diagnostic Mode Enabled.");
 
     var Utils, THREE, OlamClass;
 
-    // A. Load Core Dependencies
+    // A. Load Core Dependencies Individually
     try {
-        // Load Utils
+        console.log("B\"H - 1. Loading Utils.js...");
+        // Path: ../../utils.js (relative to ckidsAwtsmoos/Olam/oyved/index.js)
         var utilsModule = await import("../../utils.js").catch(e => {
             throw new Error("Failed to load Utils.js: " + e.message);
         });
         Utils = utilsModule.default;
-        
-        // Load Three.js
+        console.log("B\"H - Utils.js Loaded.");
+
+        console.log("B\"H - 2. Loading THREE.js...");
         var threeModule = await import('/games/scripts/build/three.module.js').catch(e => {
             throw new Error("Failed to load THREE.js: " + e.message);
         });
         THREE = threeModule;
         self.THREE = THREE; 
+        console.log("B\"H - THREE.js Loaded.");
 
+        // B"H - 3. Diagnostic Load of Olam Dependencies
+        // These paths must be relative to THIS file (ckidsAwtsmoos/Olam/oyved/index.js)
+        console.log("B\"H - 3a. Checking Olam Dependencies...");
+        
+        try {
+            console.log("B\"H - 3a.1. Checking ../../chayim/nivra.js...");
+            await import("../../chayim/nivra.js");
+            console.log("B\"H - 3a.1. OK.");
+        } catch(e) { throw new Error("Failed Olam Dependency: nivra.js. " + e.message); }
+
+        try {
+             console.log("B\"H - 3a.2. Checking ../camera/index.js...");
+             await import("../camera/index.js");
+             console.log("B\"H - 3a.2. OK.");
+        } catch(e) { throw new Error("Failed Olam Dependency: camera/index.js. " + e.message); }
+
+        try {
+             console.log("B\"H - 3a.3. Checking ../../systems/UserProgressManager.js...");
+             await import("../../systems/UserProgressManager.js");
+             console.log("B\"H - 3a.3. OK.");
+        } catch(e) { throw new Error("Failed Olam Dependency: UserProgressManager.js. " + e.message); }
+
+        try {
+             console.log("B\"H - 3a.4. Checking ../methods/environment.js...");
+             await import("../methods/environment.js");
+             console.log("B\"H - 3a.4. OK.");
+        } catch(e) { throw new Error("Failed Olam Dependency: methods/environment.js. " + e.message); }
+        
+        try {
+             console.log("B\"H - 3a.5. Checking ../methods/properties.js...");
+             await import("../methods/properties.js");
+             console.log("B\"H - 3a.5. OK.");
+        } catch(e) { throw new Error("Failed Olam Dependency: methods/properties.js. " + e.message); }
+
+        try {
+             console.log("B\"H - 3a.6. Checking ../materials/Grass.js...");
+             await import("../materials/Grass.js");
+             console.log("B\"H - 3a.6. OK.");
+        } catch(e) { throw new Error("Failed Olam Dependency: materials/Grass.js. " + e.message); }
+
+
+        console.log("B\"H - 3. Loading Olam Core (../index.js)...");
         // Load Olam Core
-        // B"H: If this fails with "Unexpected string", it's a syntax error in Olam/index.js (imports)
         var olamModule = await import("../index.js").catch(e => {
             console.error("B\"H - Olam Core Load Error Detail:", e);
             throw new Error(`Failed to load Olam Core (../index.js). Likely Syntax Error in imports. Details: ${e.message}`);
@@ -82,7 +129,9 @@ self.addEventListener('unhandledrejection', function(event) {
 
     // B. Initialize Logic
     try {
+        console.log("B\"H - 4. Starting Worker Logic...");
         await startWorkerLogic(OlamClass, Utils);
+        console.log("B\"H - 4. Worker Logic Started.");
     } catch (e) {
          self.postMessage({
             error: {

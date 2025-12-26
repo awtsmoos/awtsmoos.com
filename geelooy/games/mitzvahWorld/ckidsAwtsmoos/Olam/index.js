@@ -4,18 +4,24 @@
  * The Olam class represents a 3D World or "Scene" in a game.
  */
 
-// Static Core Dependencies
+import eventListeners from "./eventListeners/index.js";
+import methods from "./methods/index.js";
+import init from "./init.js"
+import GrassMaterial from "./materials/Grass.js"
 import * as THREE from '/games/scripts/build/three.module.js';
-import * as AWTSMOOS from '../awtsmoosCkidsGames.js';
+
+// B"H: DIRECT IMPORT OF NIVRA to avoid circular dependency with awtsmoosCkidsGames.js
+// We DO NOT import the bundle here.
+import Nivra from "../chayim/nivra.js"; 
+
 import Ayin from "./camera/index.js";
 import UserProgressManager from "../systems/UserProgressManager.js"; 
 import Environment from "./methods/environment.js";
-import GrassMaterial from "./materials/Grass.js"
 
-// B"H: Import Properties statically to ensure constructor has 'scene', 'renderer', etc.
+// B"H: Import Properties statically
 import properties from "./methods/properties.js";
 
-export default class Olam extends AWTSMOOS.Nivra {
+export default class Olam extends Nivra {
     ASPECT_X = 1920;
     ASPECT_Y = 1080;
     official = "official"
@@ -29,11 +35,14 @@ export default class Olam extends AWTSMOOS.Nivra {
     constructor() {
         super();
         try {
-            // B"H: Apply properties immediately so 'this.scene' exists
+            // B"H: Apply properties immediately
             const props = new properties();
             Object.assign(this, props);
 
-            // B"H: Initialize Ayin (Camera) which needs 'this.scene'
+            // B"H: Bind methods and listeners
+            methods.bind(this)();
+            eventListeners.bind(this)();
+
             this.ayin = new Ayin(this);
             this.ayin.camera.far = 4828;
             
@@ -48,77 +57,23 @@ export default class Olam extends AWTSMOOS.Nivra {
             
             // B"H: Initialize Environment
             this.environment = new Environment({ scene: this.scene, olam: this });
-
-            // Note: shlichusHandler will be started in init() after methods are loaded
-            // this.startShlichusHandler(this); 
             
+            if(this.startShlichusHandler) {
+                 this.startShlichusHandler(this);
+            }
+
             this.scene.add(this.octreeDebugHelper);
         } catch(e) {
             console.error("B\"H - Olam Constructor Error:", e);
+            this.ayshPeula("error", {
+                code: "constructor_WORLD_PROBLEM",
+                details: e.toString(),
+                message: "An issue happened in the constructor of the Olam class."
+            })
         }
     }
 
     get camera() { return this.activeCamera || this.ayin.camera; }
     set pixelRatio(pr) { if(this.renderer) this.renderer.setPixelRatio(pr); }
-    
-    /**
-     * B"H
-     * Robust Initialization: Dynamically imports logic modules.
-     * This isolates syntax errors in methods/listeners from crashing the entire worker.
-     */
-    async init() { 
-        console.log("B\"H - Olam.init() starting dynamic module load...");
-        this.ayshPeula("increase loading percentage", {
-            amount: 0,
-            reset: true,
-            action: "Booting System...",
-            subAction: "Loading Core Logic"
-        });
-
-        try {
-            // 1. Load Init Helper
-            const initFn = await import("./init.js");
-            this.ayshPeula("increase loading percentage", { amount: 5 });
-
-            // 2. Load Methods (Logic)
-            this.ayshPeula("increase loading percentage", { 
-                amount: 0, 
-                subAction: "Loading Methods..." 
-            });
-            const methodsModule = await import("./methods/index.js");
-            // Bind methods to this instance
-            await methodsModule.default.bind(this)();
-            this.ayshPeula("increase loading percentage", { amount: 5 });
-
-            // 3. Load Event Listeners
-            this.ayshPeula("increase loading percentage", { 
-                amount: 0, 
-                subAction: "Connecting Listeners..." 
-            });
-            const listenersModule = await import("./eventListeners/index.js");
-            listenersModule.default.bind(this)();
-            this.ayshPeula("increase loading percentage", { amount: 5 });
-
-            // 4. Initialize Systems that rely on methods
-            this.startShlichusHandler(); // Now safe to call
-            
-            // 5. Run Init
-            await initFn.default(this);
-            
-            console.log("B\"H - Olam logic modules loaded successfully.");
-            this.ayshPeula("increase loading percentage", { 
-                amount: 0, 
-                subAction: "System Ready." 
-            });
-
-        } catch(e) {
-            console.error("B\"H - CRITICAL: Failed to load Olam logic modules!", e);
-            this.ayshPeula("error", {
-                code: "MODULE_LOAD_FAIL",
-                details: e.toString(),
-                message: "A syntax error in game logic prevented startup. Check console."
-            });
-            throw e; // Rethrow to stop tzimtzum
-        }
-    }
+    async init() { await init(this); }
 }

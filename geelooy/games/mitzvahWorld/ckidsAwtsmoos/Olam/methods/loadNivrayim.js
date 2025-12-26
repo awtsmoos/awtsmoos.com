@@ -3,16 +3,25 @@
  * B"H
  * the method to load Nivrayim
  * RESTORED & OPTIMIZED: Sequential, Reliable, No Size Pre-calc.
+ * Dynamic import of AWTSMOOS to prevent cycles.
  */
 
 import Utils from '../../utils.js'
-import * as AWTSMOOS from '../../awtsmoosCkidsGames.js';
 
 export default class {
 
     async addObject(type, options) {
+        
+        let AWTSMOOS;
+        try {
+            AWTSMOOS = await import('../../awtsmoosCkidsGames.js');
+        } catch(e) {
+            console.error("B\"H [addObject] CRITICAL IMPORT ERROR: awtsmoosCkidsGames.js failed to load!", e);
+            return;
+        }
+
         if (!AWTSMOOS[type]) {
-            console.error(`B"H - Olam.addObject: Type "${type}" does not exist.`);
+            console.error(`B"H - Olam.addObject: Type "${type}" does not exist in AWTSMOOS library.`);
             return;
         }
 
@@ -76,13 +85,29 @@ export default class {
     }
 
     async loadNivrayim(nivrayim) {
+        console.log("B\"H [loadNivrayim] STARTING.");
+        
+        let AWTSMOOS;
         try {
-            console.log("B\"H - loadNivrayim started (Fast Mode)");
+            AWTSMOOS = await import('../../awtsmoosCkidsGames.js');
+        } catch(e) {
+            console.error("B\"H [loadNivrayim] CRITICAL: Failed to load Game Library.", e);
+            this.ayshPeula("error", {
+                code: "GAME_LIB_IMPORT_FAIL",
+                message: "Failed to load game entity library.",
+                details: e.toString()
+            });
+            throw e;
+        }
+
+        try {
+            console.log("B\"H [loadNivrayim] Processing entities list...");
             var nivrayimMade = [];
             var ent = Object.entries(nivrayim);
             
             // --- 1. Instantiation Phase ---
             for (var [type, nivraOptions] of ent) {
+                
                 var ar = Array.isArray(nivraOptions) ? nivraOptions : Object.entries(nivraOptions);
                 
                 for (var entry of ar) {
@@ -102,17 +127,14 @@ export default class {
                             nivra = new c({ name, ...evaledObject }, this);
                             if(nivra) nivrayimMade.push(nivra);
                         } else {
-                            console.warn(`B"H - Class ${type} not found!`);
+                            console.warn(`B"H [loadNivrayim] Class ${type} not found in AWTSMOOS library!`);
                         }
                     } catch (e) {
-                        console.error("B\"H - Error instantiating nivra", options, e);
+                        console.error(`B"H [loadNivrayim] Error instantiating ${type} (${name})`, options, e);
                     }
                 }
             }
 
-            // B"H: SKIPPED SIZE CALCULATION (Etching) as requested.
-            // We just assume 100% / total entities for the progress bar.
-            
             // --- 2. Execution Phases ---
             
             const total = nivrayimMade.length;
@@ -145,7 +167,6 @@ export default class {
             }
 
             // Phase B: Structure & Logic
-            // These are usually fast, can group them or keep sequential for safety
             for (const nivra of nivrayimMade) {
                 try {
                     if (nivra.madeAll) await nivra.madeAll(this);

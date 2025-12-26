@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * 
@@ -10,10 +9,12 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from "/games/scripts/jsm/loaders/DRACOLoader.js"
 
-// B"H: Reverted to monolithic file import as requested
-import { OctreeWorld as Octree } from '../math/OctreeWorld.js';
+// B"H: Update to point to the index file of the directory
+import { OctreeWorld as Octree } from '../math/OctreeWorld/index.js';
 
 //import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
+
+console.log("B\"H [Olam/methods/properties.js] Module loading...");
 
 // B"H: Polyfill Image for Web Worker environment so GLTFLoader checks pass
 // Enhanced Polyfill to satisfy GLTFLoader requirements
