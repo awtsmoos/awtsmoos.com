@@ -3,15 +3,16 @@
  * 
  */
 
+import Tzomayach from "../chayim/tzomayach.js";
+import Interaction from "../../tochen/helpers/tzomayachInteraction.js";
 
-import * as AWTSMOOS from "../awtsmoosCkidsGames.js";
-export default class Portal extends AWTSMOOS.Tzomayach {
+export default class Portal extends Tzomayach {
     constructor(opts) {
         super(opts);
         this.worldPath = opts.worldPath;
         console.log("Path?",this.worldPath)
         var self = this;
-        this.interactionHandler = new AWTSMOOS.Interaction(
+        this.interactionHandler = new Interaction(
             this, {
                 approachShaym: 
                 "approach portal msg",

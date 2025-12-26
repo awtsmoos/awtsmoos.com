@@ -184,7 +184,7 @@ export default class {
                     "alert", 
                     "set size of renderer ",width,height
                 )
-                console.log("About to set size",width,height)
+                // console.log("About to set size",width,height)
                 // Updates the size of the renderer context in pixels and let the canvas's style width and height be managed by CSS (the third parameter, false).
                 this.renderer.setSize(width, height, false);
             } else {
@@ -214,7 +214,8 @@ export default class {
             }
         });
 
-        if(info[0]) {
+        // B"H: Safety check for undefined info array
+        if(info && info[0]) {
             var rect = info[0]
                 ?.methodsCalled
                 ?.getBoundingClientRect;

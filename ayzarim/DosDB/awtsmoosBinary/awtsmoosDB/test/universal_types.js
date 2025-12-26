@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file universal_types.js
@@ -17,6 +16,7 @@ const log = (msg) => console.log(`\x1b[36m[UNIVERSAL]\x1b[0m ${msg}`);
 const assert = (cond, msg) => {
     if (!cond) {
         console.error(`\x1b[31m[FAIL]\x1b[0m ${msg}`);
+        // Dump trace logic here if needed
         process.exit(1);
     } else {
         console.log(`\x1b[32m[PASS]\x1b[0m ${msg}`);
@@ -29,7 +29,7 @@ async function runTest() {
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
 
-    const db = new AwtsmoosDB(DB_PATH);
+    const db = new AwtsmoosDB(DB_PATH, {debug:true});
     await db.open();
 
     try {
@@ -50,14 +50,22 @@ async function runTest() {
         const lAgg = await db.root.errors.agg;
 
         if (lErr.name !== "RangeError") {
-            console.log("DEBUG lErr:", lErr);
-            console.log("DEBUG lErr name:", lErr.name);
-            console.log("DEBUG lErr constructor:", lErr.constructor.name);
+            console.log("\n--- DEBUG FAILURE DUMP (RangeError) ---");
+            console.log("Raw lErr:", lErr);
+            console.log("--------------------------\n");
         }
 
         assert(lErr.name === "RangeError", "RangeError name preserved");
         assert(lErr.message === "Out of bounds!", "RangeError message preserved");
         assert(lErr.cause === "Bad Input", "Error cause preserved");
+
+        if (lAgg.errors.length !== 2) {
+             console.log("\n--- DEBUG FAILURE DUMP (AggregateError) ---");
+             console.log("lAgg:", lAgg);
+             console.log("lAgg.errors:", lAgg.errors);
+             console.log("lAgg.errors length:", lAgg.errors ? lAgg.errors.length : 'undefined');
+             console.log("--------------------------\n");
+        }
 
         assert(lAgg.name === "AggregateError", "AggregateError name preserved");
         assert(lAgg.errors.length === 2, "AggregateError sub-errors preserved");

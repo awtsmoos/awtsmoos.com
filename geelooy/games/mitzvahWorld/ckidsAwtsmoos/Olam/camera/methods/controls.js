@@ -1,8 +1,8 @@
+
 // B"H
 /**
  * @file controls.js
  * Camera control methods.
- * Purified of redundant conversions to ensure smooth rotation.
  */
 export default {
     lerp(start, end, percent) {
@@ -20,6 +20,13 @@ export default {
         let rangeZero = 360;
         if (value >= 0 && value <= 360) return value;
         return (value % rangeZero);
+    },
+
+    // B"H: Added missing clampAngle method
+    clampAngle(angle, min, max) {
+        if (angle < -360) angle += 360;
+        if (angle > 360) angle -= 360;
+        return Math.max(Math.min(angle, max), min);
     },
 
     zoom(deltaY) {

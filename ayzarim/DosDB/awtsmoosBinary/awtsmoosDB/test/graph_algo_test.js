@@ -18,7 +18,7 @@ async function runTest() {
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
     
-    const db = new AwtsmoosDB(DB_PATH);
+    const db = new AwtsmoosDB(DB_PATH, {debug: true});
     await db.open();
 
     try {

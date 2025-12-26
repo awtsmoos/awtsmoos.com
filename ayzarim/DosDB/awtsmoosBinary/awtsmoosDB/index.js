@@ -11,7 +11,8 @@ const Pager = require('./core/pager.js');
 const AllocatorV2 = require('./core/type_allocator.js');
 const constants = require('./constants.js');
 const ReadWriteLock = require('./core/concurrency.js');
-const GraphManager = require('./api/graphManager.js');
+// B"H: Update import to new modular structure
+const GraphManager = require('./api/graph/index.js');
 const SearchManager = require('./api/search/index.js');
 const VectorManager = require('./api/vector/index.js');
 const AIManager = require('./api/ai/index.js');

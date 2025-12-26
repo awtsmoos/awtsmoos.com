@@ -1,3 +1,4 @@
+
 //B"H
 /**
  * @file index.js
@@ -5,8 +6,8 @@
  * Purified of experimental extensions to ensure stable legacy support.
  */
 
-import Chai from "../chai.js";
-import * as AWTSMOOS from "../../awtsmoosCkidsGames.js";
+import Chai from "../chai/index.js";
+import Dialogue from "../../tochen/helpers/dialogue.js";
 import Utils from "../../utils.js";
 import Lev from "../lev.js"; 
 
@@ -49,7 +50,7 @@ export default class Medabeir extends Chai {
         this.goofOptions = options.goof;
         if(options.state) this.state = options.state;
 
-        this.dialogueHandler = new AWTSMOOS.Dialogue(
+        this.dialogueHandler = new Dialogue(
             this, {
                 approachShaym: "approach npc msg",
                 npcMessageShaym: "msg npc",

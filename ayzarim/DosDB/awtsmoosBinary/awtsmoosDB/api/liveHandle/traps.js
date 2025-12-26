@@ -28,6 +28,33 @@ module.exports = {
             get: (tgt, prop, receiver) => {
                 if (prop === constants.SYMBOLS.INTERNALS) return state;
 
+                // --- Primitive Conversion Traps (B"H Fix) ---
+                if (prop === Symbol.toPrimitive) {
+                    return (hint) => {
+                        if (hint === 'string' || hint === 'default') {
+                            const path = state.getPath();
+                            if (path && path !== 'root') return `[LiveHandle: ${path}]`;
+                            const id = state.db.graph ? state.db.graph.utils.getIdFromPtr(state.ptr) : 'unresolved';
+                            return `[LiveHandle: ${id}]`;
+                        }
+                        return 0; // number
+                    };
+                }
+                if (prop === 'toString') {
+                    return () => {
+                        const path = state.getPath();
+                        if (path && path !== 'root') return `[LiveHandle: ${path}]`;
+                        const id = state.db.graph ? state.db.graph.utils.getIdFromPtr(state.ptr) : 'unresolved';
+                        return `[LiveHandle: ${id}]`;
+                    };
+                }
+                if (prop === 'valueOf') {
+                    return () => 0; 
+                }
+                if (prop === 'toJSON') {
+                    return () => state.getPath(); 
+                }
+
                 // --- Internal Control Sparks ---
                 if (prop === 'ensureResolved') return state.ensureResolved;
                 if (prop === 'getPath') return state.getPath;
@@ -95,14 +122,10 @@ module.exports = {
             },
 
             apply: async (tgt, thisArg, args) => {
-                // If the handle itself is called as a function (e.g., db.root())
-                // First ensure it exists in the physical realm
                 await state.ensureResolved();
                 
                 const HandleRegistry = require('../../core/handleRegistry.js');
 
-                // Handle method calls on handles (e.g., list.push(...))
-                // This occurs when a getter returns a navigation proxy for a method name
                 if (state.context && state.context.parent) {
                     const parentH = HandleRegistry.getSoul(state.context.parent);
                     const method = state.context.key;
@@ -118,7 +141,6 @@ module.exports = {
                     }
                 }
 
-                // Handle callable functions stored in DB as source code
                 if (state.ptr) {
                     const SmartPointer = require('../../utils/smartPointer.js');
                     const source = await SmartPointer.resolve(state.ptr, state.db.allocator);

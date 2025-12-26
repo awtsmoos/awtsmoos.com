@@ -19,7 +19,10 @@ module.exports = {
      */
     updatePointer: async (state, newPtrBuffer) => {
         if (!newPtrBuffer) return;
+        
+        const oldPtr = state.ptr;
         state.ptr = newPtrBuffer;
+        
         const decoded = SmartPointer.decode(newPtrBuffer);
         if(decoded) state.type = decoded.type;
         
@@ -33,6 +36,17 @@ module.exports = {
         if (db) {
             db.mutationCount = (db.mutationCount || 0) + 1;
             state.lastMutationCount = db.mutationCount; 
+            
+            // B"H: Graph Relocation Hook
+            // If the graph manager is active and the pointer changed, 
+            // relocate the node metadata to the new physical ID.
+            if (db.graph && oldPtr) {
+                const oldId = db.graph.utils.getIdFromPtr(oldPtr);
+                const newId = db.graph.utils.getIdFromPtr(newPtrBuffer);
+                if (oldId && newId && oldId !== newId) {
+                    await db.graph._relocateNode(oldId, newId);
+                }
+            }
         }
 
         try {

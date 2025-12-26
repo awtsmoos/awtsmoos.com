@@ -4,10 +4,10 @@
  * @file customNpc.js
  */
 
-import Medabeir from "../chayim/medabeir.js";
+import Medabeir from "../chayim/medabeir/index.js";
 import Utils from "../utils.js";
-import * as AWTSMOOS from "../awtsmoosCkidsGames.js";
-import { QUEST_STATE } from "../shleechoosHandler.js";
+// B"H: Direct import to avoid circular dependency
+import { QUEST_STATE } from "../systems/quests/Shlichus.js";
 
 // B"H: Icon SVG Data URIs
 const ICON_EXCLAMATION_YELLOW = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNDUgMTUgTDU1IDE1IEw1MyA2NSBMNDcgNjUgWiBNNDUgNzUgTDU1IDc1IEw1NSA4NSBMNDUgODUgWiIgZmlsbD0iI0ZGRDcwMCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=";
@@ -25,17 +25,14 @@ export default class CustomNpc extends Medabeir {
         op.name = customData.name || "Anonymous Soul";
         op.placeholderName = op.name;
         
-        // B"H: NPCs are not "Solid" in terms of static octree geometry (they move), 
-        // but they must be "Interactable" for raycasting.
         op.isSolid = false; 
-        op.interactable = true; // Force interactable
+        op.interactable = true; 
         
         op.path = customData.modelPath || "awtsmoos://awduhm";
         op.heesHawveh = true;
         
         if(op.proximity === undefined) op.proximity = 3.5;
 
-        // B"H: Pass olam to super
         super(op, olam);
         
         if(olam) this.olam = olam;
@@ -47,7 +44,6 @@ export default class CustomNpc extends Medabeir {
         this.shopInventory = customData.shopInventory || [];
         this.balance = customData.balance || 0;
         
-        // B"H: Pre-enrich shop items
         if (this.shopInventory) {
             this.shopInventory.forEach(item => {
                 if (!item.className) item.className = "Brick"; 
@@ -57,17 +53,14 @@ export default class CustomNpc extends Medabeir {
         
         this.iconState = null;
         
-        // Hook into lifecycle
         this.on("ready", () => {
             this.registerMyQuests();
             this.updateOverheadIcon();
         });
 
-        // Dynamic Message Tree to handle Quest Logic AND Shop
         this.messageTree = (myself) => {
              const handler = this.olam ? this.olam.shlichusHandler : null;
              
-             // --- 1. Check for Turn-Ins ---
              if (handler) {
                  const turnIns = Array.from(handler.activeQuests.values()).filter(q => 
                      q.returnToId === this.id && q.state === QUEST_STATE.READY_TO_TURN_IN
@@ -85,7 +78,6 @@ export default class CustomNpc extends Medabeir {
                  }
              }
              
-             // --- 2. Check for Available Quests ---
              if (handler) {
                  const available = Array.from(handler.activeQuests.values()).filter(q => 
                      q.giverId === this.id && q.state === QUEST_STATE.AVAILABLE
@@ -106,20 +98,17 @@ export default class CustomNpc extends Medabeir {
                  }
              }
              
-             // --- 3. Check Active (Waiting) ---
              if (handler) {
                  const waiting = Array.from(handler.activeQuests.values()).filter(q => 
                      q.returnToId === this.id && q.state === QUEST_STATE.ACTIVE
                  );
                  
                  if (waiting.length > 0) {
-                     // Check if shop is available while waiting
                      const baseResponses = [{ text: "I'm on it.", type: "close" }];
                      if (this.shopInventory && this.shopInventory.length > 0) {
                          baseResponses.push({
                              text: "Can I browse your shop meanwhile?",
                              action: (me) => {
-                                 // B"H: Enrich Items!
                                  const rawPlayerItems = me.olam.player.inventory.slots;
                                  const enrichedPlayerItems = rawPlayerItems.map(s => s ? me.olam.player.inventory.enrichItemData(s) : null);
                                  const enrichedShopItems = this.shopInventory.map(s => me.olam.player.inventory.enrichItemData(s));
@@ -144,7 +133,6 @@ export default class CustomNpc extends Medabeir {
                  }
              }
 
-             // --- 4. Default Dialogue + Shop Injection ---
              let tree = this.customData.dialogueTree;
              
              if (!tree || !Array.isArray(tree) || tree.length === 0) {

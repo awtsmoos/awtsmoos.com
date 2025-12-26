@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file index.js
@@ -66,6 +67,32 @@ class SequenceEngine {
         const newPtrs = [];
         for(const item of items) newPtrs.push((Buffer.isBuffer(item) && item.length === 16) ? item : await this.allocator.save(item));
         await this.ops.splice(start, deleteCount, newPtrs);
+    }
+
+    async slice(start, end) {
+        const len = await this.length();
+        let s = (start === undefined) ? 0 : start;
+        let e = (end === undefined) ? len : end;
+        
+        if (s < 0) s = Math.max(0, len + s);
+        if (e < 0) e = Math.max(0, len + e);
+        
+        if (s > len) s = len;
+        if (e > len) e = len;
+        if (s > e) s = e; 
+
+        const result = [];
+        const SmartPointer = require('../../utils/smartPointer.js');
+        
+        for (let i = s; i < e; i++) {
+            const ptr = await this.getPtr(i);
+            if (ptr) {
+                result.push(await SmartPointer.resolve(ptr, this.allocator));
+            } else {
+                result.push(undefined);
+            }
+        }
+        return result;
     }
 
     async get(index, context) {

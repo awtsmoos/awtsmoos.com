@@ -63,8 +63,11 @@ export default class NatureSystem {
                                         matIndex = materials.length - 1;
                                     }
                                     
+                                    // B"H FIX: Calculate actual count. 'Infinity' crashes WebGLRenderer.
+                                    const count = g.index ? g.index.count : g.attributes.position.count;
+                                    
                                     g.clearGroups();
-                                    g.addGroup(0, Infinity, matIndex);
+                                    g.addGroup(0, count, matIndex);
                                     geometries.push(g);
                                 }
                             });

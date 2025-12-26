@@ -1,3 +1,6 @@
+
+
+
 // B"H
 const constants = require('../../constants.js');
 const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
@@ -15,8 +18,7 @@ class SequenceNode {
 
     async create(isLeaf, isWeak = false) {
         const ptr = await this.allocator.v1.allocate(constants.BLOCK_SIZE);
-        const buf = Buffer.allocUnsafe(constants.BLOCK_SIZE);
-        buf.fill(0);
+        const buf = Buffer.alloc(constants.BLOCK_SIZE); // B"H: Zero-fill for safety
         
         const node = { ptr, buffer: buf, isLeaf, isWeak, itemCount: 0, totalCount: 0, totalBytes: 0, totalCapacity: constants.BLOCK_SIZE };
         this.db.cacheStructure(ptr.blockId, node);
@@ -30,34 +32,39 @@ class SequenceNode {
             ptr = { blockId: ptrOrId, offset: 0, length: constants.BLOCK_SIZE, isChain: false };
         }
         
-        // B"H: Debug Check
         if (!ptr || !ptr.blockId) {
-             console.error("B\"H SequenceNode: Invalid Pointer passed to load:", ptr);
-             throw new Error(`B"H: SequenceNode Load Failed - Null or Invalid Pointer: ${JSON.stringify(ptr)}`);
+             throw new Error(`B"H: SequenceNode Load Failed - Invalid Pointer: ${JSON.stringify(ptr)}`);
         }
         
         const cached = this.db.getCachedStructure(ptr);
         if (cached) return cached;
         
-        // B"H: Optimization - Zero copy read
         let buf;
         if (ptr.isChain) {
             buf = await this.allocator.v1.db._readChainSafe(ptr);
         } else {
-            buf = await this.allocator.v1.readBlockLocked(ptr.blockId, true);
-            if(buf) {
-                const copy = Buffer.allocUnsafe(buf.length);
-                buf.copy(copy);
-                buf = copy;
+            buf = await this.allocator.v1.readBlockLocked(ptr.blockId, false);
+            if (buf && ptr.offset !== undefined) {
+                if (ptr.offset > 0) {
+                    buf = buf.subarray(ptr.offset, ptr.offset + (ptr.length || constants.BLOCK_SIZE));
+                }
             }
         }
         
         if (!buf) throw new Error(`Sequence Node ${ptr.blockId} missing`);
         
+        // B"H: Sanity Check Buffer Length
+        if (buf.length < 4) {
+             throw new Error(`Sequence Node B${ptr.blockId} buffer too small (${buf.length} bytes)`);
+        }
+
         const magic = buf.toString('utf8', 0, 4);
         let node;
         
         if (magic !== constants.MAGIC_SEQ_NODE) {
+             // Debug hex dump for corruption analysis
+             const hexStart = buf.subarray(0, 16).toString('hex');
+             
              if (magic === '\x00\x00\x00\x00') {
                  node = { 
                     ptr, buffer: buf, isLeaf: true, isWeak: false,
@@ -65,7 +72,7 @@ class SequenceNode {
                     totalBytes: 0, totalCapacity: constants.BLOCK_SIZE
                 };
              } else {
-                 throw new Error(`Invalid Sequence Node Signature at ${ptr.blockId}:${ptr.offset}. Expected SQND, got ${magic.replace(/\0/g, '\\0')}`);
+                 throw new Error(`Invalid Sequence Node Signature at ${ptr.blockId}:${ptr.offset || 0}. Expected SQND, got '${magic.replace(/\0/g, '\\0')}' (Hex: ${hexStart}). Pointer: ${JSON.stringify(ptr)}`);
              }
         } else {
             const flags = buf.readUInt8(4);
@@ -76,13 +83,10 @@ class SequenceNode {
 
             const isLeaf = (flags & 1) === 1;
 
+            // Self-Healing for Counts
             if (isLeaf) {
-                if (itemCount > 200) { 
-                    itemCount = 200;
-                }
-                if (totalCount !== itemCount) {
-                    totalCount = itemCount;
-                }
+                if (itemCount > 200) itemCount = 200;
+                if (totalCount !== itemCount) totalCount = itemCount;
             }
 
             node = { 
@@ -100,13 +104,18 @@ class SequenceNode {
 
     async save(node) {
         if (node.isLeaf) {
-            if (node.itemCount > 200) {
-                node.itemCount = 200;
-            }
+            if (node.itemCount > 200) node.itemCount = 200;
             node.totalCount = node.itemCount;
         }
         
         this.log(`Saving B${node.ptr.blockId} (Leaf:${node.isLeaf}, Count:${node.totalCount}, Items:${node.itemCount})`);
+
+        // B"H: Ensure we are writing to a buffer that is large enough
+        if (node.buffer.length < constants.BLOCK_SIZE) {
+             const newBuf = Buffer.alloc(constants.BLOCK_SIZE);
+             node.buffer.copy(newBuf);
+             node.buffer = newBuf;
+        }
 
         node.buffer.write(constants.MAGIC_SEQ_NODE, 0);
         
@@ -131,9 +140,6 @@ class SequenceNode {
             node.buffer.fill(0, endOfData);
         }
 
-        // B"H: Optimization - Keep cache for sequential burst writes.
-        // this.db.structureCache.delete(node.ptr.blockId);
-        
         await this.allocator.v1.db._writeChainSafe(node.ptr, node.buffer);
     }
 }

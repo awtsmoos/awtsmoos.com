@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * Ayin - An enhanced Three.js camera class.
@@ -21,6 +20,7 @@ export default class Ayin {
         this.distance = 5.0;
         this.offsetFromWall = 3.6;
         this.maxDistance = 20; this.minDistance = 0.1;
+        this.speedDistance = 5;
         this.xSpeed = 75.0; this.ySpeed = 75.0;
         this.zoomRate = .01;
         this.xDeg = 0.0; this.yDeg = 0.0;
@@ -40,6 +40,11 @@ export default class Ayin {
         olam.scene.add(this.camera);
         this.camera.rotation.order = 'YXZ';
         
+        // B"H FIX: Initialize cameraFollower for movement vector calculations
+        this.cameraFollower = new THREE.Object3D();
+        this.cameraFollower.rotation.order = 'YXZ';
+        olam.scene.add(this.cameraFollower);
+
         this.raycaster = new THREE.Raycaster();
         this.mouseRaycaster = new THREE.Raycaster();
         
