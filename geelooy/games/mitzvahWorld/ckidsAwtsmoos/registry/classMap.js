@@ -1,8 +1,7 @@
 // B"H
 /**
  * @file classMap.js
- * @description The map of divine archetypes to their physical module vessels.
- * Uses relative paths to ensure correct resolution from the Olam/methods context.
+ * @description The map of divine archetypes.
  */
 export default {
     "Domem": "../../chayim/domem/index.js",
@@ -31,18 +30,27 @@ export default {
     "Shovel": "../../dvarim/tools/shovel.js",
     "Pickaxe": "../../dvarim/tools/pickaxe.js",
     "RoadTool": "../../dvarim/tools/roadTool.js",
+    
+    // B"H: Vehicles
+    "Vehicle": "../../dvarim/vehicles/vehicle.js",
     "ProceduralCar": "../../dvarim/vehicles/proceduralCar.js",
     "HotAirBalloon": "../../dvarim/vehicles/hotAirBalloon.js",
     "Telescope": "../../dvarim/tools/telescope.js",
     "MagicalChariot": "../../dvarim/vehicles/magicalChariot.js",
     "Hoverboard": "../../dvarim/vehicles/hoverboard.js",
-    "GrapplingHook": "../../dvarim/tools/grapplingHook.js",
+    "CloudMount": "../../dvarim/vehicles/cloudMount.js",
     "ProceduralBoat": "../../dvarim/vehicles/proceduralBoat.js",
+    
+    "GrapplingHook": "../../dvarim/tools/grapplingHook.js",
     "Blueprint": "../../dvarim/tools/blueprint.js",
     "FishingRod": "../../dvarim/tools/fishingRod.js",
     "Teffilin": "../../dvarim/teffilin.js",
     "VoxelTerrain": "../../dvarim/terrain/VoxelTerrain.js",
     "Brick": "../../dvarim/brick.js",
     "Stairs": "../../dvarim/stairs.js",
-    "Apparel": "../../dvarim/apparel.js"
+    "Apparel": "../../dvarim/apparel.js",
+    "Mazik": "../../chayim/mazik.js",
+    
+    // B"H: Water
+    "FluidSystem": "../../dvarim/nature/fluidSystem.js"
 };

@@ -10,7 +10,18 @@ import { ITEM_REGISTRY } from '../../systems/inventory/data/registry.js';
  * Integrated loading and transform utilities.
  */
 export default class {
+    /**
+     * $gc - Sacred alias for getComponent.
+     */
+    $gc(shaym) {
+        return this.getComponent(shaym);
+    }
     
+    /**
+     * B"H
+     * loadGLTF - Brings a complex form into the world.
+     * @param {string} url 
+     */
     async loadGLTF(url) {
         try {
             const gltf = await (new GLTFLoader().loadAsync(url));
@@ -24,40 +35,48 @@ export default class {
     /**
      * B"H
      * loadTexture - Draws a texture from the infinite potential into the physical world.
-     * Hardened to work within workers and handle missing entity contexts.
+     * Re-engineered for Worker compatibility by using native createImageBitmap,
+     * bypassing all document dependencies.
+     * @param {Object} options
      */
-    loadTexture({ nivra, url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
-        return new Promise((resolve) => {
-            if (!url) return resolve(null);
+    async loadTexture({ url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
+        if (!url) return null;
 
-            let loader;
-            // B"H: Attempt to leverage an existing GLTF parser's loader if available
-            if (nivra && nivra.asset && nivra.asset.parser && nivra.asset.parser.textureLoader) {
-                loader = nivra.asset.parser.textureLoader;
-            } else {
-                // B"H: Fallback to a universal TextureLoader (works in workers via ImageBitmapLoader)
-                loader = new THREE.TextureLoader();
+        try {
+            /**
+             * B"H: Native Vessel Loading
+             * We fetch the raw bytes and manifest an ImageBitmap directly.
+             */
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("B\"H: Texture fetch failed.");
+            
+            const blob = await response.blob();
+            
+            /**
+             * B"H: Orientation is key.
+             * Three.js standard UVs expect flipped Y for bitmaps.
+             */
+            const imageBitmap = await createImageBitmap(blob, { imageOrientation: 'flipY' });
+
+            const texture = new THREE.Texture(imageBitmap);
+            
+            if (shouldRepeat) {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(repeatX, repeatY);
             }
-
-            loader.load(
-                url,
-                (texture) => {
-                    if (shouldRepeat) {
-                        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                        texture.repeat.set(repeatX, repeatY);
-                    }
-                    texture.needsUpdate = true;
-                    resolve(texture);
-                },
-                undefined,
-                (err) => {
-                    console.warn('B"H: Error loading texture:', url, err);
-                    resolve(null);
-                }
-            );
-        });
+            
+            texture.needsUpdate = true;
+            return texture;
+        } catch (err) {
+            console.warn('B"H: Worker texture manifestation failed:', url, err);
+            return null;
+        }
     }
 
+    /**
+     * B"H
+     * serialize - Converts the state of the world into a portable essence.
+     */
     serialize() {
         super.serialize();
         this.serialized = {
@@ -67,6 +86,10 @@ export default class {
         return this.serialized;
     }
 
+    /**
+     * B"H
+     * getForwardVector - Determines the path ahead.
+     */
     getForwardVector() {
         return Utils.getForwardVector(
             this.ayin.camera,
@@ -74,6 +97,10 @@ export default class {
         )
     }
 
+    /**
+     * B"H
+     * getSideVector - Determines the lateral potential.
+     */
     getSideVector() {
         return Utils.getSideVector(
             this.ayin.cameraFollower,
@@ -81,10 +108,33 @@ export default class {
         )
     }
 
+    /**
+     * B"H
+     * refreshCameraAspect - Adjusts the visual lens to the dimensions of the vessel.
+     */
+    refreshCameraAspect() {
+        if(!this.activeCamera) {
+            if(this.ayin) {
+                this.ayin.setSize(this.width, this.height);
+            }
+        } else {
+            this.activeCamera.aspect = this.width / this.height;
+            this.activeCamera.updateProjectionMatrix();
+        }
+    }
+
+    /**
+     * B"H
+     * startShlichusHandler - Ignites the mission system.
+     */
     startShlichusHandler() {
         this.shlichusHandler = new ShlichusHandler(this); 
     }
 
+    /**
+     * B"H
+     * go - Directs data to its intended destination.
+     */
     go(ob, id=this.official) {
         if(!Array.isArray(ob)) {
             return ob;
@@ -94,23 +144,19 @@ export default class {
         return f
     }
 
+    /**
+     * B"H
+     * fetchGetSize - Measures the magnitude of an external resource.
+     * Silent dummy for rapid manifestation.
+     */
     async fetchGetSize(url) {
-        try {
-            const response = await fetch(url, { method: 'HEAD' });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const contentLength = response.headers.get('Content-Length');
-            if (!contentLength) {
-                throw new Error('Content-Length header not found in response');
-            }
-            return parseInt(contentLength, 10);
-        } catch(e) {
-            console.log(e)
-            return 0
-        }
+        return 1024;
     }
 
+    /**
+     * B"H
+     * fetchWithProgress - Fetches with awareness of the journey.
+     */
     async fetchWithProgress(url, options = {}, otherOptions) {
         var {onProgress} = otherOptions;
         var headers = options?.headers || {};
@@ -157,6 +203,10 @@ export default class {
         };
     }
     
+    /**
+     * B"H
+     * callMethods - Invokes the powers of a vessel dynamically.
+     */
     callMethods(baseObj, methods) {
         if(!baseObj || !methods) return null;
         if(typeof(methods) != "object") return null;
@@ -173,6 +223,10 @@ export default class {
         }
     }
 
+    /**
+     * B"H
+     * getIconFromType - Extracts the visual symbol of a class.
+     */
     async getIconFromType(type) {
         try {
             if(type && typeof(type) == "string") {

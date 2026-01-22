@@ -26,6 +26,10 @@ class ManagerOfAllWorlds {
         this.ui = ui;
     }
 
+    /**
+     * B"H
+     * registerServiceWorker - Sets up the background guard for assets.
+     */
     async registerServiceWorker(workerPath) {
         try {
             var registration = await navigator.serviceWorker.register(workerPath);
@@ -35,6 +39,10 @@ class ManagerOfAllWorlds {
         }
     }
 
+    /**
+     * B"H
+     * setOnmessage - Listens for whispers from the workers.
+     */
     setOnmessage() {
         try {
             if(this.socket) {
@@ -52,12 +60,23 @@ class ManagerOfAllWorlds {
         }
     }
 
+    /**
+     * B"H
+     * destroyWorld - Dissolves the current world to make room for the new.
+     * Terminates the worker thread to release its ownership of the OffscreenCanvas sequence.
+     */
     async destroyWorld() {
         return new Promise((r,j) => {
-            if(!this.socket) { r(false); return; }
+            if(!this.socket) { r(true); return; }
             this.socket.onmessage = e=>{
 				var dst = e.data.destroyed;
                 if(dst) {
+                    /**
+                     * B"H: We must terminate the physical thread to free the sequence.
+                     */
+                    if (this.socket.eved) {
+                        this.socket.eved.terminate();
+                    }
                     delete this.socket;
                     r(true);
                 }
@@ -67,6 +86,10 @@ class ManagerOfAllWorlds {
         });
     }
 
+    /**
+     * B"H
+     * switchWorlds - Transitions between realms of existence.
+     */
     async switchWorlds({ worldDayuh, gameState }) {
         if(gameState && gameState.shaym) {
             this.gameState[gameState.shaym] = gameState;
@@ -82,6 +105,11 @@ class ManagerOfAllWorlds {
         this.startWorld({ worldDayuh });
     }
 
+    /**
+     * B"H
+     * startWorld - Manifests a new world and its associated worker.
+     * Recreates the canvas element to reset the 'Transfer Control' state.
+     */
     async startWorld(ob = {}) {
         var { worldDayuh, worldDayuhURL, gameUiHTML, sourcePath } = ob;
         
@@ -139,18 +167,20 @@ class ManagerOfAllWorlds {
         if (!canvas) return false;
 
         /**
-         * B"H - RECREATE THE CANVAS
-         * A DOM element's control can only be transferred to offscreen ONCE.
-         * To allow a new worker to take control after a world switch, we manifest a fresh vessel.
+         * B"H - THE GREAT CANVAS RE-MANIFESTATION
+         * Because transferControlToOffscreen can only be called once,
+         * we must manifest a Fresh Vessel for the new soul (Worker).
          */
         const freshCanvas = document.createElement("canvas");
         freshCanvas.id = canvas.id;
         freshCanvas.className = canvas.className;
         freshCanvas.style.cssText = canvas.style.cssText;
+        
+        // Swap them in the physical world (DOM)
         canvas.parentNode.replaceChild(freshCanvas, canvas);
         canvas = freshCanvas;
         
-        // B"H: Inform the UI manager of the new physical manifestation
+        // Update the UI manager's internal map
         this.ui.setHtmlByShaym("canvasEssence", canvas);
 
         var man = new OlamWorkerManager(

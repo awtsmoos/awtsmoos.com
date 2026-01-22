@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * world.js - Orchestrating the laws of the digital universe from within the Worker.
@@ -12,33 +13,22 @@ export default function(me, OlamClass) {
             me.olam = new OlamClass();
             
             me.olam.on("updateProgress", (data) => {
+                // B"H: Broadcast only. Do NOT trigger save() here, as save() fires updateProgress.
                 postMessage({ updateProgress: data });
-                if (me.olam.userProgressManager) me.olam.userProgressManager.save();
-                // B"H REMOVED: me.olam.ohr() call here was causing an infinite light loop!
             });
 
-            // B"H: The Missing Link! Bridge loading updates to the UI.
             me.olam.on("increased percentage", (data) => {
                 postMessage({ increasedOlamLoading: data });
             });
 
-            // B"H: Bridge for Window Size requests from Olam (resizing.js)
             me.olam.on("get window size", async () => {
                 const id = "ws_" + Date.now() + "_" + Math.random();
                 postMessage({ getWindowSize: id });
-                // Return the promise so ayshPeula waits for the response from Main Thread
                 return await me.registerPromise(id);
             });
 
             me.olam.on("updateQuestLog", () => {
-                if (me.olam.shlichusHandler) {
-                    const active = Array.from(me.olam.shlichusHandler.activeQuests.values()).map(q => ({
-                        id: q.id, shaym: q.title, objective: q.description,
-                        progress: q.collected / (q.totalCollectedObjects || 1) * 100,
-                        state: q.state, priority: q.priority
-                    }));
-                    postMessage({ sendUiEvent: { shaym: "questLog", ob: { updateQuests: { active } } } });
-                }
+                postMessage({ sendUiEvent: { shaym: "questLog", ob: { refresh: true } } });
             });
 
             me.olam.on("hide loading screen", () => postMessage({ hideLoadingScreen: true }));
@@ -54,6 +44,37 @@ export default function(me, OlamClass) {
             } catch(e) {
                 return { tawchlees: { code: "ERROR", error: e.stack } };
             }
+        },
+
+        async getQuests({ sortBy }) {
+            if (!me.olam || !me.olam.shlichusHandler) return { quests: [] };
+            const list = me.olam.shlichusHandler.getSortedQuests(sortBy);
+            return { 
+                tawchlees: { 
+                    quests: list.map(q => ({ 
+                        id: q.id, title: q.title, description: q.description, 
+                        priority: q.priority, expiresAt: q.expiresAt, state: q.state 
+                    })) 
+                } 
+            };
+        },
+
+        async markQuestComplete(questId) {
+             if (me.olam && me.olam.shlichusHandler) {
+                 const q = me.olam.shlichusHandler.activeQuests.get(questId);
+                 if (q) q.markAsComplete();
+             }
+        },
+
+        async dropQuest(questId) {
+             if (me.olam && me.olam.shlichusHandler) {
+                 const q = me.olam.shlichusHandler.activeQuests.get(questId);
+                 if (q) {
+                     me.olam.shlichusHandler.activeQuests.delete(questId);
+                     me.olam.shlichusHandler.notifyUpdate();
+                     me.olam.ayshPeula("ui event", "effectsOverlay", { text: "Mission Abandoned", color: "orange" });
+                 }
+             }
         },
 
         async executeCommand(cmdStr) {
@@ -96,31 +117,6 @@ export default function(me, OlamClass) {
                     break;
                 }
             }
-        },
-
-        async downloadWorld(a) {
-            try {
-                var olamStringed = me?.olam?.getCompiledNivrayimInfo?.();
-                postMessage({ downloadWorld: { text: JSON.stringify(olamStringed, null, "\t"), ...a } });
-            } catch(e){ console.log("Issue saving world: ",e); }
-        },
-        
-        async updateLiveEntity(info) {
-             const { id, data } = info;
-             if (!me.olam || !me.olam.nivrayim) return;
-             
-             // Find entity by Name or ID (some use name as ID)
-             const entity = me.olam.nivrayim.find(n => n.name === id || n.id === id);
-             
-             if (entity) {
-                 if (entity.updateProperties) {
-                     entity.updateProperties(data);
-                 } else {
-                     // Fallback for generic entities
-                     if (data.name) entity.name = data.name;
-                     if (data.customData) entity.customData = { ...entity.customData, ...data.customData };
-                 }
-             }
         }
     };
 }

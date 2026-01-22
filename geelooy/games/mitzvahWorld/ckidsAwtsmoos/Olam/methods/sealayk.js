@@ -1,7 +1,7 @@
 /**
  * B"H
  * method to remove nivra from olam
- * 
+ * Refined to prevent infinite recursion.
  */
 
 export default class {
@@ -10,11 +10,13 @@ export default class {
      * the olam if it exists in it
      * @param {AWTSMOOS.Nivra} nivra 
      */
-
     sealayk(nivra) {
-        if(!nivra) return;
+        if(!nivra || nivra.wasSealayked) return;
+        
         /**
-         * keep track of if it was removed
+         * B"H - THE GUARD OF MANIFESTATION
+         * We mark the vessel as removed immediately to prevent 
+         * recursive calls from event listeners.
          */
         nivra.wasSealayked = true;
         
@@ -44,9 +46,7 @@ export default class {
                     this.interactiveOctree.removeMesh(nivra);
                 }
                 nivra.removeFromParent();
-            } catch(e) {
-
-            }
+            } catch(e) {}
         }
      
         var m = nivra.mesh;
@@ -92,8 +92,6 @@ export default class {
         if(ind > -1) {
             this.nivrayim.splice(ind, 1);
             nivra.clearAll();
-        } else {
-          //  console.log("Couldnt find",nivra,ind)
         }
     }
 }

@@ -1,96 +1,62 @@
-
 // B"H
 /**
- * tzimtzum.js - The initial "tzimtzum" setup method for Olam.
- * Refined to ensure no null pointer exceptions occur during world manifestation.
+ * tzimtzum.js - The Initial Contraction.
+ * Defines the order in which the Nothingness becomes Something.
+ * Refined with strict phase-ordering and atomic security.
  */
 import defaultConfig from "../../defaultConfig.js";
 
 export default class {
     /**
-     * Manifests the world from the provided data.
-     * @param {Object} options - System and user info.
+     * tzimtzum - The Great Manifestation Pulse.
      */
     async tzimtzum({ systemInfo = {}, userInfo = {} } = {}) {
-        console.log("B\"H - Starting Tzimtzum Process...");
-        var info = { ...systemInfo, ...userInfo };
-        var { worldDayuhURL } = info;
+        console.log("B\"H - Tzimtzum Pulse Initiated.");
+        let info = { ...systemInfo, ...userInfo };
+        const { worldDayuhURL } = info;
         
-        if (typeof worldDayuhURL == "string") {
-            try {
+        try {
+            // PHASE 1: CHOCHMAH (Wisdom) - Accessing the Divine Blueprint
+            if (typeof worldDayuhURL == "string") {
                 this.ayshPeula("increase loading percentage", {
-                    amount: 5,
-                    action: "World Gen",
-                    subAction: "Importing World Data..."
+                    amount: 5, reset: true, action: "Divine Will", subAction: "Accessing Blueprint..."
                 });
-                
-                var f = await import(worldDayuhURL);
+                const f = await import(worldDayuhURL);
                 if (f?.default) {
                     Object.assign(info, f.default);
                     Object.assign(userInfo, f.default);
-                    console.log("B\"H - World Data Imported Successfully");
                 }
-            } catch (e) {
-                console.warn("B\"H - Couldn't load dayuh: ", worldDayuhURL);
             }
-        }
-        
-        if (defaultConfig && defaultConfig.components) {
-            info.components = { ...defaultConfig.components, ...(info.components || {}) };
-        }
-
-        try {
-            var on = info.on;
-            if (typeof on == "object") {
-                Object.keys(on).forEach(q => { this.on(q, on[q]); });
-            }
-
-            if (info.shaym) this.shaym = info.shaym;
-            await this.loadHebrewFonts();
             
-            if (!info.nivrayim) info.nivrayim = {};
-            if (info.components) await this.loadComponents(info.components);
+            if (defaultConfig?.components) {
+                info.components = { ...defaultConfig.components, ...(info.components || {}) };
+            }
+
+            // PHASE 2: BINAH (Understanding) - Initializing Environmental Laws and Modules
+            await this.loadHebrewFonts();
+            if (info.modules) await this.getModules(info.modules);
             if (info.vars) this.vars = { ...info.vars };
             if (info.assets) this.setAssets(info.assets);
-            if (info.modules) await this.getModules(info.modules);
+            
+            // PHASE 3: DA'AT (Knowledge) - The Unified Draw-Down
+            // All components are summoned into the local cache before the forge begins
+            if (info.components) await this.loadComponents(info.components);
             
             if (info.set) {
                 Object.assign(this, info.set);
                 if (this.userProgressManager) this.userProgressManager.load();
             }
 
-            if (!this.resetY) this.resetY = -6;
-
-            if (info.html) {
-                if (!this.styled) { 
-                    var style = {
-                        tag: "style",
-                        innerHTML: /*css*/`
-                            .ikarGameMenu { overflow: hidden; position: absolute; transform-origin:top left; bottom:0; right:0; top: 0; left: 0; }
-                            .gameUi > div { position:absolute; }
-                        `
-                    };
-                    this.styled = true;
-                    var par = {
-                        shaym: `ikarGameMenu`,
-                        parent: "main av",
-                        children: [info.html, style],
-                        className: `ikarGameMenu`
-                    };
-                    await this.ayshPeula("htmlCreate", par);
-                    this.htmlUI = par;
-                }
-            }
-
-            var loaded = await this.loadNivrayim(info.nivrayim);
+            // PHASE 4: MALCHUT (Kingship) - The Atomic Forge
+            // This is where conceptual blueprints are projected into physical vessels
+            const loaded = await this.loadNivrayim(info.nivrayim || {});
             
-            // B"H: Guard against undefined gameState
+            // Sync saved states
             const gState = info.gameState || {};
-            var st = gState[this.shaym];
-            if (st && st.shaym == this.shaym) {
-                this.setGameState(st);
-            }
+            const st = gState[this.shaym];
+            if (st && st.shaym == this.shaym) this.setGameState(st);
 
+            // PHASE 5: REVELATION - Awakening the Scene
             this.ayshPeula("ready", this, loaded);
             this.ayshPeula("reset loading percentage");
             this.ayshPeula("setup map");
@@ -98,12 +64,13 @@ export default class {
             
             this.baseInfo = userInfo;
             return loaded;
+
         } catch (e) {
-            console.error("B\"H - Critical Issue in Tzimtzum:", e);
+            console.error("B\"H - Create Error in Tzimtzum Phase:", e);
             this.ayshPeula("error", {
-                code: "ISSUE_IN_TZIMTZUM",
+                code: "TZIMTZUM_SHATTERED",
                 details: e.stack,
-                message: "A fundamental error prevented the world from forming."
+                message: "The creation sequence was interrupted by an imperfection in the blueprint."
             });
         }
     }

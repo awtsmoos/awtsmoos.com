@@ -1,6 +1,7 @@
 /**B"H
  * @file minimapShader.js
  * Optimized TSL Shader for Minimap rendering.
+ * Hardened to prevent 'length of undefined' crash by initializing uniform array values.
  */
 import { 
     uniform, vec3, dot, float, radians, tan, vec2, tslFn, length, normalize, 
@@ -14,7 +15,8 @@ const cameraDirection = uniform( 'vec3' );
 const cameraFOV = uniform( 'float' );
 const cameraAspect = uniform( 'float' );
 
-const objectPositions = uniform( 'vec3' ); 
+// B"H: Initializing with a TypedArray ensures the internal renderer sees a valid length
+const objectPositions = uniform( new Float32Array( 64 * 3 ), 'vec3' ); 
 const numberOfDvarim = uniform( 'int' );
 const playerPos = uniform( 'vec3' );
 const playerRot = uniform( 'float' );
@@ -23,7 +25,6 @@ const minimapRadius = uniform( 'float' );
 const calculateMinimapPosition = tslFn( ( [ worldPos_immutable ] ) => {
 	const worldPos = vec3( worldPos_immutable ).toVar();
 	const relativePosition = vec3( worldPos.sub( cameraPos ) ).toVar();
-    // B"H: Renamed to depthVal to avoid collision with 'depth' import from three/nodes
 	const depthVal = float( dot( relativePosition, cameraDirection ) ).toVar();
 	const fovFactor = float( tan( radians( cameraFOV ).div( 2.0 ) ) ).toVar();
 	const aspectFactor = float( cameraAspect ).toVar();
@@ -124,11 +125,9 @@ const main = tslFn( () => {
 		} );
 	} );
 
-	// B"H: Returning the final modulated color as mandated by TSL entry requirements
     return texel.mul( opacity );
 } );
 
-// layouts
 calculateMinimapPosition.setLayout( { name: 'calculateMinimapPosition', type: 'vec2', inputs: [ { name: 'worldPos', type: 'vec3' } ] } );
 normalizeVec2.setLayout( { name: 'normalizeVec2', type: 'vec2', inputs: [ { name: 'v', type: 'vec2' } ] } );
 clampToCircle.setLayout( { name: 'clampToCircle', type: 'vec2', inputs: [ { name: 'position', type: 'vec2' } ] } );

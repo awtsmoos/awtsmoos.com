@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * Master UI Index - Aggregating the spiritual vessels of interaction.
@@ -14,7 +13,7 @@ import saveGameScreen from "../screens/saveGame.js";
 import constructionScreen from "./constructionScreen.js"; 
 import inputModal from "./inputModal.js";
 import CommandConsole from "./CommandConsole.js"; 
-import lavaMenu from "./lavaMenu.js"; // B"H: Added Lava Menu
+import lavaMenu from "./lavaMenu.js"; 
 
 import initDragSystem from "./dragSystem.js";
 import topMenu from "./topMenu.js";
@@ -23,9 +22,14 @@ import { Saving, DragGhost, Tooltips, QuantityModal } from "./general.js";
 import actionBar from "./actionBar.js";
 import inventoryScreen from "./inventory/index.js";
 
+// B"H: New Components
+import apiKeyModal from "./apiKeyModal.js";
+import hud from "./hud.js";
+
 initDragSystem();
 
 var ui = [
+    hud, // B"H: Always visible HUD
     instructions, 
     topMenu,
     ...dialogues,
@@ -43,7 +47,8 @@ var ui = [
     constructionScreen,
     inputModal,
     CommandConsole,
-    lavaMenu // B"H
+    lavaMenu,
+    apiKeyModal // B"H: Modal for keys
 ].concat(shlichusUI);
 
 if (navigator.userAgent.includes("Mobile")) {
@@ -51,4 +56,3 @@ if (navigator.userAgent.includes("Mobile")) {
 }
 
 export default ui;
-        

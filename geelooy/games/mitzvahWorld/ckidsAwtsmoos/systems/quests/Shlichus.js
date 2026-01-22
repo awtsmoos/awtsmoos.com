@@ -1,8 +1,8 @@
-
 // B"H
 /**
  * @file Shlichus.js
- * Represents a single mission/quest instance.
+ * Represents a single mission instance in the Olam.
+ * A task given to the soul to elevate the physical into the spiritual.
  */
 import Utils from "../../utils.js";
 
@@ -15,126 +15,93 @@ export const QUEST_STATE = {
     LOCKED: 'LOCKED'
 };
 
-export const QUEST_TYPE = {
-    GATHER: 'GATHER',
-    TALK: 'TALK',
-    ACTION: 'ACTION',
-    VISIT: 'VISIT'
-};
-
 export default class Shlichus {
+    /**
+     * constructor - Manifests the mission's essence.
+     * @param {Object} data Genetic information of the mission.
+     * @param {Object} handler The manager overseeing the shlichus.
+     */
     constructor(data, handler) {
         this.handler = handler;
         this.olam = handler.olam;
         this.data = data;
-        this.on = data.on || {}; // Legacy callbacks
 
         this.id = data.id || Utils.generateID();
-        this.title = data.title || data.shaym || "Unknown Mitzvah";
-        this.shaym = this.title; // Legacy alias
+        this.title = data.title || data.shaym || "Mitzvah Opportunity";
+        this.description = data.description || "A task to bring light.";
         
-        this.description = data.description || "";
+        // B"H: Priority Levels: 1 (Standard), 2 (Important), 3 (Vital/Sacred)
         this.priority = data.priority || 1; 
         
+        // B"H: Due Date logic (Time limits in minutes)
+        this.timeLimitRaw = data.timeLimit || 0; 
+        this.expiresAt = 0; 
+
         this.giverId = data.giverId;
         this.returnToId = data.returnToId || data.giverId;
         
-        this.type = data.type || QUEST_TYPE.GATHER;
         this.requirements = data.requirements || {}; 
-        
-        this.timeLimit = data.timeLimit || 0; 
         this.rewards = data.rewards || []; 
         this.spawnItems = data.spawnItems || []; 
         this._spawnedInstances = [];
-        this.onStart = data.onStart; 
         
-        // Tracking
-        this.totalCollectedObjects = data.totalCollectedObjects || 0;
         this.collected = data.collected || 0;
-        this.completeText = data.completeText || "Mitzvah Complete!";
-        this.progressDescription = data.progressDescription || "Progress";
+        this.totalCollectedObjects = data.totalCollectedObjects || 0;
         
-        this.startTime = 0;
-        this.lastUpdateTime = 0;
         this.state = QUEST_STATE.AVAILABLE;
+        this.manualCompletionRequested = false;
     }
 
-    collectItem() {
-        if (this.state !== QUEST_STATE.ACTIVE) return;
-        this.collected++;
-        
-        if (typeof(this.on.progress) === 'function') {
-            this.on.progress(this.collected, this);
-        }
-        
-        this.checkProgress();
-    }
-
-    initiate() {
-        this.activate();
-    }
-
+    /**
+     * activate - The soul accepts the mission.
+     */
     activate() {
         this.state = QUEST_STATE.ACTIVE;
         this.startTime = Date.now();
-        this.spawnWorldItems();
         
-        this.handler.progressManager.updateQuestState(this.id, { status: this.state, startTime: this.startTime });
+        if (this.timeLimitRaw > 0) {
+            this.expiresAt = this.startTime + (this.timeLimitRaw * 60000);
+        }
+
+        this.spawnWorldItems();
+        this.handler.progressManager.updateQuestState(this.id, { 
+            status: this.state, 
+            startTime: this.startTime,
+            expiresAt: this.expiresAt
+        });
         this.handler.notifyUpdate();
         
-        if (typeof(this.on.creation) === 'function') {
-            this.on.creation(this);
-        } else {
-            this.olam.ayshPeula("ui event", "effectsOverlay", { 
-                text: "MISSION BEGUN: " + this.title, 
-                color: this.priority >= 2 ? "#FFD700" : "#4cc9f0"
-            });
-            this.olam.playSound("awtsmoos://dingSound", { volume: 0.3 });
-        }
-    }
-
-    spawnWorldItems() {
-        if (!this.spawnItems || this.spawnItems.length === 0) return;
-        
-        this.spawnItems.forEach(itemDef => {
-            const itemData = {
-                id: itemDef.id || "quest_item_" + Utils.generateID(),
-                className: itemDef.className || 'CollectableItem',
-                name: itemDef.name || "Quest Object",
-                isQuestItem: true,
-                shlichusId: this.id,
-                ...itemDef.itemData 
-            };
-
-            const opts = { ...itemDef, itemData, isQuestItem: true, shlichusId: this.id };
-            opts.on = opts.on || {};
-            opts.on.collected = (worldObject, collector) => {
-                if (collector && collector.inventory) {
-                    collector.inventory.addItem(itemData);
-                    this.olam.ayshPeula("ui event", "effectsOverlay", { text: `Refined: ${itemData.name}`, color: "#FFFF00" });
-                }
-                setTimeout(() => this.checkProgress(), 100);
-            };
-            
-            // Use Olam's addObject which handles dynamic import internally
-            this.olam.addObject(itemDef.className || 'CollectableItem', opts).then(nivra => {
-                if (nivra) this._spawnedInstances.push(nivra);
-            });
+        this.olam.ayshPeula("ui event", "effectsOverlay", { 
+            text: "MISSION BEGUN: " + this.title, 
+            color: this.priority >= 3 ? "#bc13fe" : "#FFD700"
         });
     }
 
-    despawnWorldItems() {
-        this._spawnedInstances.forEach(n => this.olam.sealayk(n));
-        this._spawnedInstances = [];
+    /**
+     * markAsComplete - Explicitly signals the fulfillment of the task.
+     */
+    markAsComplete() {
+        if (this.state !== QUEST_STATE.ACTIVE) return;
+        this.manualCompletionRequested = true;
+        this.checkProgress();
     }
 
+    /**
+     * checkProgress - Evaluates the manifestation of the mission's requirements.
+     */
     checkProgress() {
         if (this.state !== QUEST_STATE.ACTIVE) return;
+
+        // B"H: Check Expiration
+        if (this.expiresAt > 0 && Date.now() > this.expiresAt) {
+            this.fail("Time for this Mitzvah has passed.");
+            return;
+        }
+
         let isComplete = false;
 
-        const qType = (this.type || "").toUpperCase();
-
-        if (qType === QUEST_TYPE.GATHER) {
+        // B"H: Automatic Requirement Check (Inventory items)
+        if (Object.keys(this.requirements).length > 0) {
             const inventory = this.olam.player.inventory;
             let hasAll = true;
             for (const [itemId, qtyNeeded] of Object.entries(this.requirements)) {
@@ -143,27 +110,25 @@ export default class Shlichus {
             }
             isComplete = hasAll;
         } 
-        else {
-            if (this.totalCollectedObjects > 0 && this.collected >= this.totalCollectedObjects) {
-                isComplete = true;
-            }
+        
+        // B"H: Progress Item Check (World objects collected)
+        if (this.totalCollectedObjects > 0 && this.collected >= this.totalCollectedObjects) {
+            isComplete = true;
+        }
+
+        // B"H: Manual Flag Check (Intent-based completion)
+        if (this.manualCompletionRequested) {
+            isComplete = true;
         }
 
         if (isComplete) {
             this.state = QUEST_STATE.READY_TO_TURN_IN;
             this.handler.notifyUpdate();
-            
             this.olam.ayshPeula("ui event", "effectsOverlay", { 
-                text: "MISSION READY FOR REDEMPTION", 
+                text: "MITZVAH READY", 
                 color: "#00FF00" 
             });
-            this.olam.playSound("awtsmoos://dingSound", { volume: 0.6 });
         }
-        return isComplete;
-    }
-
-    finish() {
-        this.complete();
     }
 
     complete() {
@@ -171,22 +136,33 @@ export default class Shlichus {
         this.state = QUEST_STATE.COMPLETED;
         this.despawnWorldItems();
         
+        // Distribute rewards
         if (this.rewards) {
-            this.rewards.forEach(r => {
-                this.olam.player.inventory.addItem(r);
-            });
+            this.rewards.forEach(r => this.olam.player.inventory.addItem(r));
         }
 
         this.handler.progressManager.updateQuestState(this.id, { status: this.state });
         this.handler.notifyUpdate();
+        this.olam.ayshPeula("ui event", "effectsOverlay", { text: "MISSION SUCCESS", color: "#bc13fe" });
+    }
 
-        if (typeof(this.on.complete) === 'function') {
-            this.on.complete(this);
-        } else if (typeof(this.on.finish) === 'function') {
-            this.on.finish(this);
-        }
+    fail(reason) {
+        this.state = QUEST_STATE.AVAILABLE; 
+        this.despawnWorldItems();
+        this.handler.notifyUpdate();
+        this.olam.ayshPeula("ui event", "effectsOverlay", { text: reason, color: "red" });
+    }
 
-        this.olam.ayshPeula("ui event", "effectsOverlay", { text: "MITZVAH COMPLETED!", effect: "transaction", color: "#bc13fe" });
-        this.olam.playSound("awtsmoos://dingSound", { volume: 1.0 });
+    spawnWorldItems() {
+        this.spawnItems.forEach(itemDef => {
+            this.olam.addObject(itemDef.className, { ...itemDef, shlichusId: this.id }).then(n => {
+                if (n) this._spawnedInstances.push(n);
+            });
+        });
+    }
+
+    despawnWorldItems() {
+        this._spawnedInstances.forEach(n => this.olam.sealayk(n));
+        this._spawnedInstances = [];
     }
 }

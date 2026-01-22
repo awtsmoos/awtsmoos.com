@@ -1,7 +1,14 @@
 // B"H
 /**
- * Environment - Controls the atmosphere, transitions between realms, and the Weather Cycle.
- * Features Celestial Realm shifting, solid cloud jumping, and now: Rain, Storms, and Rainbows.
+ * environment.js - Managing the Atmosphere of the Olam.
+ * 
+ * The environment is the "Space" created by the Tzimtzum.
+ * It transitions through the 4 spiritual worlds based on the passage of time.
+ * 
+ * 1. Atzilut (Noon) - Brilliant, Infinite White/Gold.
+ * 2. Beriah (Afternoon) - The vast blue of creation.
+ * 3. Yetzirah (Dusk) - The formation of fire and amber.
+ * 4. Asiyah (Night) - The deep靛 (indigo) of physical potential.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import WeatherEffects from './WeatherEffects.js';
@@ -10,175 +17,106 @@ export default class Environment {
     constructor({ scene, olam }) {
         this.scene = scene;
         this.olam = olam;
-        this.gameTime = 12; 
+        this.gameTime = 12; // Start at Noon (Atzilut Peak)
+        this.timeSpeed = 0.05; // The speed of the Cosmic Clock
         
-        this.heavenlyColor = new THREE.Color(0x241550); // Violet Nebula
-        this.earthlyColor = new THREE.Color(0x88ccee);
-        this.stormColor = new THREE.Color(0x2f4875);
+        this.weatherType = 'CLEAR';
+        this.weatherIntensity = 0;
         
-        this.scene.background = this.earthlyColor.clone();
-        this.scene.fog = new THREE.Fog(this.earthlyColor.clone(), 1, 1000);
-        this.inHeaven = false;
-
-        // Weather Cycle State
-        this.weatherType = 'CLEAR'; // CLEAR, RAIN, STORM
-        this.weatherIntensity = 0; // 0 to 1
-        this.weatherTimer = Math.random() * 300 + 300; // Next change in 5-10 mins
+        // 4 Worlds Color Palette
+        this.atzilutColor = new THREE.Color(0xfffbe6); // Divine Gold/White
+        this.beriahColor = new THREE.Color(0x88ccee);  // Celestial Blue
+        this.yetzirahColor = new THREE.Color(0xffa500); // Amber Formation
+        this.asiyahColor = new THREE.Color(0x050510);   // Deep Physical Indigo
         
         this.weatherEffects = new WeatherEffects(this.olam);
+        this.initAtmosphericMesh();
     }
 
     /**
-     * Forces rain to start (Legacy Support)
+     * initAtmosphericMesh - Creates a physical "Sky Box" that can be manipulated by shaders.
      */
-    startRain() {
-        this.weatherType = 'RAIN';
-        this.weatherTimer = 300;
-        this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Rain Started", color: "cyan" });
+    initAtmosphericMesh() {
+        const skyGeo = new THREE.SphereGeometry(2000, 32, 32);
+        const skyMat = new THREE.MeshBasicMaterial({
+            side: THREE.BackSide,
+            color: this.atzilutColor
+        });
+        this.skyVessel = new THREE.Mesh(skyGeo, skyMat);
+        this.scene.add(this.skyVessel);
     }
 
     /**
-     * Forces rain to stop (Legacy Support)
-     */
-    stopRain() {
-        this.weatherType = 'CLEAR';
-        this.weatherTimer = 600;
-    }
-
-    /**
-     * The Great Update - Refreshes the atmosphere every pulse.
-     * @param {number} dt Delta time
-     * @param {THREE.Vector3} playerPos Current player position
+     * update - The constant pulse of the universe.
      */
     update(dt, playerPos) {
-        // 1. Time constant creation
-        this.gameTime = (this.gameTime + dt * 0.05) % 24;
+        // 1. Advance the Cosmic Clock
+        this.gameTime = (this.gameTime + dt * this.timeSpeed) % 24;
         
-        // 2. Weather Cycle Logic
-        this.weatherTimer -= dt;
-        if (this.weatherTimer <= 0) {
-            this.changeWeather();
-        }
-
-        // Smooth transition for weather intensity
-        if (this.weatherType !== 'CLEAR' && this.weatherIntensity < 1) {
-            this.weatherIntensity = Math.min(1, this.weatherIntensity + dt * 0.2);
-        } else if (this.weatherType === 'CLEAR' && this.weatherIntensity > 0) {
-            this.weatherIntensity = Math.max(0, this.weatherIntensity - dt * 0.2);
-        }
-
-        const isDay = this.gameTime > 6 && this.gameTime < 18;
-        const targetBgColor = isDay ? this.earthlyColor.clone() : new THREE.Color(0x050510);
+        // 2. Determine Current Spiritual Quality
+        const cycle = this.calculateSpiritualCycle();
         
-        // Darken if storming
-        if (this.weatherIntensity > 0) {
-            targetBgColor.lerp(this.stormColor, this.weatherIntensity * 0.6);
+        // 3. Manifest the Atmospheric Color
+        this.manifestAtmosphere(cycle);
+
+        // 4. Update the Sun Vessel (Hashgacha)
+        if (this.olam.mainSun) {
+            this.updateSunPosition();
         }
 
-        // B"H: Safety guard - if player position is not ready, just update basic background
-        if (!playerPos || !this.olam.player || !this.olam.player.mesh || isNaN(playerPos.y)) {
-             this.scene.background.copy(targetBgColor);
-             this.scene.fog.color.copy(targetBgColor);
-             return;
-        }
-
-        const altitude = playerPos.y;
-        
-        // 3. ATMOSPHERIC SHIFT
-        if (altitude > 40) {
-            const factor = Math.min(1, (altitude - 40) / 100);
-            const bgColor = targetBgColor.lerp(this.heavenlyColor, factor);
-            this.scene.background.copy(bgColor);
-            this.scene.fog.color.copy(bgColor);
-            
-            // GRAVITY CONTRACT (Tzimtzum)
-            this.olam.GRAVITY = 30 * (1 - factor * 0.5);
-
-            // REALM TRANSITION (Y > 100)
-            if (factor > 0.8 && !this.inHeaven) {
-                this.inHeaven = true;
-                this.olam.ayshPeula("ui event", "effectsOverlay", { 
-                    text: "REACHING CELESTIAL EMPIRE", 
-                    color: "gold" 
-                });
-                this.toggleCloudSolidity(true);
-                this.spawnCloudEmpire();
-            } else if (factor < 0.2 && this.inHeaven) {
-                this.inHeaven = false;
-                this.toggleCloudSolidity(false);
-            }
-        } else {
-            this.scene.background.copy(targetBgColor);
-            this.scene.fog.color.copy(targetBgColor);
-        }
-
-        // 4. Update Weather Visuals
+        // 5. Weather Phenomena
         this.weatherEffects.update(dt, this.weatherType, this.weatherIntensity, this.gameTime);
     }
 
-    /**
-     * Changes the destiny of the world's weather.
-     */
-    changeWeather() {
-        const rand = Math.random();
-        if (rand < 0.6) {
-            this.weatherType = 'CLEAR';
-            this.weatherTimer = 600; // Clear for a while
-        } else if (rand < 0.9) {
-            this.weatherType = 'RAIN';
-            this.weatherTimer = 300;
-            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Gentle Rain", color: "cyan" });
-        } else {
-            this.weatherType = 'STORM';
-            this.weatherTimer = 200;
-            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Incoming Storm!", color: "#bc13fe" });
+    calculateSpiritualCycle() {
+        const time = this.gameTime;
+        // 6-10: Sunrise (Asiyah -> Beriah)
+        // 10-14: Noon (Atzilut)
+        // 14-18: Afternoon (Beriah -> Yetzirah)
+        // 18-20: Sunset (Yetzirah -> Asiyah)
+        // 20-6: Night (Profound Asiyah)
+        
+        if (time >= 10 && time <= 14) return { world: 'ATZILUT', factor: 1 };
+        if (time > 6 && time < 10) return { world: 'RISING', factor: (time - 6) / 4 };
+        if (time > 14 && time < 18) return { world: 'SETTING', factor: (time - 14) / 4 };
+        return { world: 'ASIYAH', factor: 0 };
+    }
+
+    manifestAtmosphere(cycle) {
+        let targetColor = this.asiyahColor.clone();
+        
+        if (cycle.world === 'ATZILUT') {
+            targetColor = this.atzilutColor;
+        } else if (cycle.world === 'RISING') {
+            targetColor.lerp(this.beriahColor, cycle.factor);
+        } else if (cycle.world === 'SETTING') {
+            targetColor = this.beriahColor.clone().lerp(this.yetzirahColor, cycle.factor);
         }
-    }
 
-    /**
-     * Changes cloud entities from background art to solid platforms.
-     */
-    toggleCloudSolidity(isSolid) {
-        this.olam.nivrayim.forEach(n => {
-            if (n.type === 'proceduralCloud') {
-                n.isSolid = isSolid;
-                if (isSolid) {
-                    n.mesh.userData.isSolid = true;
-                    if(this.olam.worldOctree) this.olam.worldOctree.addObject(n.mesh);
-                } else {
-                    if(this.olam.worldOctree) this.olam.worldOctree.removeMesh(n.mesh);
-                }
-            }
-        });
-    }
-
-    /**
-     * Manifests high-altitude portals and platforms.
-     */
-    async spawnCloudEmpire() {
-        if(!this.olam.player || !this.olam.player.mesh) return;
-
-        const center = this.olam.player.mesh.position.clone();
-        center.y = 200; // Sky height
-
-        for(let i=0; i<5; i++) {
-            const angle = (i / 5) * Math.PI * 2;
-            const x = center.x + Math.cos(angle) * 20;
-            const z = center.z + Math.sin(angle) * 20;
-            
-            await this.olam.addObject("ProceduralCloud", {
-                name: `heaven_island_${i}`,
-                position: { x, y: 190 + (Math.random() * 20), z },
-                isSolid: true,
-                scale: { x: 5, y: 1, z: 5 }
-            });
+        this.scene.background.copy(targetColor);
+        if (this.scene.fog) {
+            this.scene.fog.color.copy(targetColor);
+            // Night is denser Asiyah, Day is clearer Atzilut
+            this.scene.fog.density = THREE.MathUtils.lerp(0.015, 0.005, cycle.factor);
         }
         
-        await this.olam.addObject("Portal", {
-            name: "Heavenly Gate",
-            position: { x: center.x, y: 250, z: center.z },
-            worldPath: "world2File", 
-            interactable: true
-        });
+        this.skyVessel.material.color.copy(targetColor);
+    }
+
+    updateSunPosition() {
+        const time = this.gameTime;
+        // Sun moves in a sacred arc
+        const angle = (time / 24) * Math.PI * 2 + Math.PI;
+        const radius = 500;
+        
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        const z = Math.sin(angle * 0.5) * radius * 0.5;
+
+        this.olam.mainSun.position.set(x, y, z);
+        
+        // Intensity of Divine Hashgacha fades at night
+        const intensity = Math.max(0, Math.sin(angle - Math.PI));
+        this.olam.mainSun.intensity = intensity * 1.8;
     }
 }

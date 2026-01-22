@@ -1,26 +1,21 @@
-
 //B"H
 /**
- * UI Worker Handlers - Relaying the spiritual commands to the physical UI.
+ * UI Worker Handlers - Relaying spiritual commands to the physical UI.
+ * Refined for smoother radial loading updates and robust error modal management.
  */
 export default function uiHandlers(manager) {
     const { eved, myUi } = manager;
 
     return {
         /**
-         * Dissolves the veil of the loading screen.
+         * hideLoadingScreen - Dissolves the veil of the loading screen.
          */
         hideLoadingScreen() {
             try {
-                const el = myUi.getHtml("loading");
-                if (el) {
-                    el.classList.add("hidden");
-                    el.style.display = "none";
-                }
                 myUi.htmlAction({
                     shaym: "loading",
                     methods: { classList: { add: "hidden" } },
-                    properties: { style: { display: "none" } }
+                    properties: { style: { display: "none", opacity: "0" } }
                 });
             } catch(e) {
                 console.error("B\"H - Error in hideLoadingScreen:", e);
@@ -28,21 +23,23 @@ export default function uiHandlers(manager) {
         },
 
         resetPercentage() {
-            // Updated for Radial Loader
             this.increasedOlamLoading({ amount: 0, reset: true });
         },
 
+        /**
+         * increasedOlamLoading - Manifests the descent of light into the radial vessel.
+         */
         increasedOlamLoading(data) {
             const { amount, total, action, reset, subAction, error } = data || {};
             
-            // B"H: Handle Critical Errors
+            // 1. ERROR MANIFESTATION
             if (error) {
                 myUi.htmlAction({
                     shaym: "loading-error-modal",
                     methods: { classList: { remove: "hidden" } }
                 });
-                myUi.htmlAction({ shaym: "error-title", properties: { textContent: error.title || "Error" } });
-                myUi.htmlAction({ shaym: "error-message", properties: { textContent: error.message || "An error occurred." } });
+                myUi.htmlAction({ shaym: "error-title", properties: { textContent: error.title || "Forge Shattered" } });
+                myUi.htmlAction({ shaym: "error-message", properties: { textContent: error.message || "An imperfection was found." } });
                 myUi.htmlAction({ shaym: "error-details", properties: { textContent: error.details || "" } });
                 return;
             }
@@ -50,13 +47,14 @@ export default function uiHandlers(manager) {
             let t = total;
             if(reset) t = amount;
             
-            // Update Radial Gradient
+            // 2. RADIAL GRADIENT UPDATE
             const percent = Math.min(100, Math.max(0, t));
             
             myUi.htmlAction({ 
                 shaym: "radial-progress", 
                 properties: { 
                     style: { 
+                        // Conic gradient reflects the unified descent of assets
                         background: `conic-gradient(#00f3ff ${percent}%, #bc13fe ${percent}%, rgba(255,255,255,0.1) ${percent}%)` 
                     } 
                 } 
@@ -67,6 +65,7 @@ export default function uiHandlers(manager) {
                 properties: { textContent: Math.round(percent) + "%" } 
             });
 
+            // 3. TEXTUAL ALIGNMENT
             if (subAction) {
                 myUi.htmlAction({ shaym: "sub action loading", properties: { textContent: subAction } });
             }
@@ -76,16 +75,12 @@ export default function uiHandlers(manager) {
             }
         },
 
-        /**
-         * Channels events to specific UI components.
-         */
         sendUiEvent(data) {
             const { shaym, ob, id } = data || {};
             try {
                 if (shaym && myUi) {
-                    // B"H: Special Handling for Input Requests
                     if (ob && ob.requestInput) {
-                        ob.requestInput.id = id; // Pass promise ID to response bridge
+                        ob.requestInput.id = id; 
                         myUi.peula(shaym, { requestInput: ob.requestInput });
                     } else {
                         myUi.peula(shaym, ob, id);

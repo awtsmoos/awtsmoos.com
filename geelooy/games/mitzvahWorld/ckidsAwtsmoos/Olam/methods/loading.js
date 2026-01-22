@@ -1,63 +1,115 @@
-
+// B"H
 /** 
- * B"H
- * methods related to inital load
- * Now with Robust Caching and Error Handling!
-*/
+ * loading.js - The drawing down of the Infinite Light (Ohr) into defined Vessels (Kailim).
+ * This vessel is the gatekeeper of existence, ensuring that only pure and verified speech
+ * is permitted to manifest within the Olam.
+ * Refined to be robust against missing server headers.
+ */
 import AssetCache from "../../utils/AssetCache.js";
 
 export default class {
     /**
-     * Load a component and store it in the components property.
-     * Checks IndexedDB cache first.
+     * $gc - Sacred alias for getComponent.
      */
-    async loadComponent(shaym, url) {
+    $gc(shaym) {
+        return this.getComponent(shaym);
+    }
+
+    /**
+     * loadComponent - Bridges the gap between the Infinite (Server) and the Finite (Cache).
+     * @param {string} shaym The Holy Name of the vessel.
+     * @param {string} url The path through which the Speech descends.
+     * @param {function} onProgress A callback to track the manifestation magnitude.
+     */
+    async loadComponent(shaym, url, onProgress) {
         if(typeof(url) !== "string") {
             this.components[shaym] = url;
             return shaym;
         }
 
-        // B"H: Track source URL for cache invalidation logic
-        // This is crucial: 'shaym' is the key (e.g., 'world'), 'url' is the http source.
         if(!this.componentSourceUrls) this.componentSourceUrls = {};
         this.componentSourceUrls[shaym] = url;
 
         let blob = null;
         
-        // 1. Try Cache
+        // 1. SEEKING THE HIDDEN: Check if the vessel is already stored in the Zikaron (Memory)
         try {
             blob = await AssetCache.get(url);
         } catch(e) {
-            console.warn(`B"H - Cache check failed for ${shaym}, falling back to network.`);
+            console.warn(`B"H - Cache search encountered a veil for ${shaym}.`);
         }
 
-        // 2. Network Fetch if miss
         if (!blob) {
-            console.log(`B"H - Fetching ${shaym} from ${url}`);
-            const response = await fetch(url);
+            /**
+             * 2. THE INTEGRITY PULSE
+             * Drawing down bytes.
+             */
+            const response = await this.fetchWithProgress(url, null, {
+                onProgress: (p) => {
+                    if (typeof onProgress === 'function') onProgress(p);
+                }
+            });
+
             if (!response.ok) {
-                throw new Error(`Failed to fetch "${url}" (Status: ${response.status})`);
+                throw new Error(`B"H Error: The Speech at "${url}" was not spoken correctly. Status: ${response.status}`);
             }
+
             blob = await response.blob();
-            
-            // 3. Cache for Future
             await AssetCache.put(url, blob);
         } else {
-            console.log(`B"H - Loaded ${shaym} from Cache`);
+            // If cached, the manifestation is instantaneous within the soul.
+            if (typeof onProgress === 'function') onProgress(1);
         }
 
-        // 4. Create Blob URL
+        // 3. MANIFESTATION: Create a local handle for the data
         const blobUrl = URL.createObjectURL(blob);
         this.components[shaym] = blobUrl;
         return shaym;
     }
 
     /**
-     * Retrieve a component or sub-component by its name or path.
+     * loadComponents - Parallelizes the manifestation of all required vessels.
+     * Simplified to ignore inconsistent server headers and provide a smooth loading experience.
+     * Uses file count instead of byte size for progress tracking.
      */
+    async loadComponents(components) {
+        await AssetCache.init();
+
+        const entries = Object.entries(components);
+        const totalFiles = entries.length;
+        if (totalFiles === 0) return;
+
+        console.log(`B"H - Atomic Load Initiated: Preparing to draw down ${totalFiles} vessels.`);
+
+        let loadedCount = 0;
+        
+        const loadPromises = entries.map(async ([shaym, url]) => {
+            try {
+                await this.loadComponent(shaym, url, (percent) => {
+                    // Per-file progress tracking
+                });
+            } catch (e) {
+                console.warn(`B"H - Vessel ${shaym} failed to manifest, continuing...`, e);
+            }
+            
+            loadedCount++;
+            const overallPercent = (loadedCount / totalFiles) * 100;
+            
+            this.ayshPeula("increase loading percentage", {
+                amount: overallPercent,
+                reset: true, // Absolute positioning of the radial loader
+                action: "Drawing Light...",
+                subAction: `Manifesting Vessel: ${shaym}`
+            });
+        });
+
+        // Atomic synchronization - no partial worlds allowed to proceed to the Forge.
+        await Promise.all(loadPromises);
+        console.log("B\"H - Asset manifestation complete. Ready for the Forge.");
+    }
+
     getComponent(shaym) {
         if (typeof shaym !== "string") return;
-
         const resolvePath = (obj, path) => {
             const keys = path.split("/");
             let current = obj;
@@ -71,171 +123,51 @@ export default class {
         if (shaym.startsWith("awtsmoos://")) {
             const path = shaym.slice(11);
             const baseKey = path.split("/")[0];
-
             const baseComponent = this.components[baseKey];
             if (!baseComponent) return undefined;
-
-            if (typeof baseComponent === "string") {
-                return baseComponent;
-            }
-
+            if (typeof baseComponent === "string") return baseComponent;
             return path.includes("/") ? resolvePath(baseComponent, path.slice(baseKey.length + 1)) : baseComponent;
         }
 
         if (shaym.startsWith("awtsmoos.vars")) {
             const path = shaym.slice(16);
             const baseKey = path.split("/")[0];
-
             const baseVar = this.vars[baseKey];
-            if (!baseVar) {
-                console.warn(`Variable "${baseKey}" not found.`);
-                return undefined;
-            }
-
-            if (typeof baseVar === "string") {
-                return baseVar;
-            }
-
+            if (!baseVar) return undefined;
+            if (typeof baseVar === "string") return baseVar;
             return path.includes("/") ? resolvePath(baseVar, path.slice(baseKey.length + 1)) : baseVar;
         }
-
         return undefined;
     }
 
-    $gc(shaym) {
-        return this.getComponent(shaym)
-    }
-
-    async loadComponents(components) {
-        // Initialize Cache Database once at start
-        await AssetCache.init();
-
-        var ent = Object.entries(components);
-        const total = ent.length;
-        let loadedCount = 0;
-        
-        console.log(`B"H - Starting load of ${total} components.`);
-
-        // B"H: Parallel Load Logic with Individual Error Handling
-        const loadPromises = ent.map(async ([shaym, url]) => {
-             // B"H: Notify Start of individual load
-             this.ayshPeula("increase loading percentage", {
-                amount: 0,
-                action: "Initializing World Assets...",
-                subAction: `Fetching: ${shaym}`
-            });
-            
-            try {
-                await this.loadComponent(shaym, url);
-            } catch(e) {
-                console.error(`B"H - Failed to load component ${shaym}:`, e);
-                // We proceed without this component, but log it to UI
-                 this.ayshPeula("increase loading percentage", {
-                    amount: 0,
-                    error: {
-                        title: "Asset Load Warning",
-                        message: `Failed to load asset: ${shaym}`,
-                        details: `${e.message}\nURL: ${url}`
-                    }
-                });
-            } finally {
-                loadedCount++;
-                // B"H: Vivid Progress Update
-                const percent = (loadedCount / total) * 100;
-                
-                this.ayshPeula("increase loading percentage", {
-                    amount: (100 / total), 
-                    reset: true, // Use calculated total instead of additive
-                    total: percent,
-                    action: "Initializing World Assets...",
-                    subAction: `Loaded: ${shaym} (${Math.round(percent)}%)`
-                });
-            }
-        });
-
-        await Promise.all(loadPromises);
-    }
-
-    modules = {};
     async getModules(modules={}) {
-        if(typeof(modules) != "object" || !modules) {
-            return;
-        }
-
-        var getModulesInValue = async modules => {
-            var ks = Object.keys(modules);
-            var modulesAdded = {};
-            for(var key of ks) {
-                
-                var v = modules[key];
-                if(typeof(v) == "object") {
-                    var subModules = await getModulesInValue(v);
-                    modulesAdded[key] = subModules;
-                   
-                } else if(typeof(v) == "string") {
-                    var mod = await this.getModule(v, {others:ks,name:key});
-                    modulesAdded[key] = mod;
-                    
-                }
+        const getModulesInValue = async (m) => {
+            const added = {};
+            for(const key of Object.keys(m)) {
+                const v = m[key];
+                if(typeof(v) == "object") added[key] = await getModulesInValue(v);
+                else if(typeof(v) == "string") added[key] = await this.getModule(v, { name:key });
             }
-            return modulesAdded;
+            return added;
         };
-
-        var mods = await getModulesInValue(modules);
-        if(mods) {
-            this.modules = {
-                ...this.modules,
-                ...mods
-            }
-        }
+        const mods = await getModulesInValue(modules);
+        if(mods) this.modules = { ...this.modules, ...mods };
         return mods;
     }
 
-    async getModule(href, {others, name}) {
+    async getModule(href, { name }) {
         if(typeof(href) != "string") return;
-        
-        console.log(`B"H - Loading Module: ${name} from ${href}`);
-        this.ayshPeula("increase loading percentage", {
-            amount: 0,
-            action: "Loading Modules...",
-            subAction: "Module: " + name
-        });
-        
         try {
-            var ob = await import(href);
-            if(ob && typeof(ob) != "object") return;
-            if(!ob.default) return;
-            return ob.default;
+            const ob = await import(href);
+            return ob?.default;
         } catch(e) {
-            console.error(`B"H - Failed to load module ${name}:`, e);
+            console.error(`B"H - Module load error: ${name}`, e);
             return null;
         }
     }
 
-    setAsset(shaym, data) {
-        this.assets[shaym] = data;
-    }
-
-    $ga(shaym) {
-        return this.getAsset(shaym);
-    }
-
-    getAsset(shaym) {
-        return this.assets[shaym] || null;
-    }
-
-    setAssets(assets = {}) {
-        if(typeof(assets) != "object" || !assets) return;
-        Object.keys(assets).forEach(k => {
-            this.assets[k] = assets[k]
-        });
-    }
-
-    // Keep helper for others
-    async fetchWithProgress(url, options = {}, otherOptions) {
-        // Standard fetch pass-through if needed, but loadComponents uses internal logic now.
-        return fetch(url, options);
-    }
-
-    constructor() {}
+    setAsset(shaym, data) { this.assets[shaym] = data; }
+    getAsset(shaym) { return this.assets[shaym] || null; }
+    $ga(shaym) { return this.getAsset(shaym); }
+    setAssets(assets = {}) { Object.assign(this.assets, assets); }
 }

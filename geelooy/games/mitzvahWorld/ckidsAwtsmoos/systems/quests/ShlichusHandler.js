@@ -1,95 +1,105 @@
-
+// B"H
 /**
- * B"H
  * @file ShlichusHandler.js
- * The Manager of Quests.
+ * The overseer of all spiritual missions within the Olam.
+ * Bridges the Divine Will (Blueprint) with the active service of the souls.
  */
-import Utils from "../../utils.js";
 import Shlichus, { QUEST_STATE } from "./Shlichus.js";
 
 export default class ShlichusHandler {
     constructor(olam) {
         this.olam = olam;
-        this.activeQuests = new Map(); // id -> Shlichus instance
-        this.questDefinitions = new Map(); // id -> Data
+        this.activeQuests = new Map(); 
         this.progressManager = olam.userProgressManager; 
-        
-        this.olam.on("heesHawvoos", (dt) => this.update(dt));
     }
 
+    /**
+     * registerQuest - Introduces a new potentiality to the world.
+     */
     registerQuest(npc, questData) {
-        if (!questData.id) questData.id = Utils.generateID();
-        questData.giverId = npc.id;
-        
-        this.questDefinitions.set(questData.id, questData);
-        
-        const savedState = this.progressManager.getQuestState(questData.id);
-        
         const q = new Shlichus(questData, this);
-        if (savedState) {
-            if (savedState.status === QUEST_STATE.COMPLETED) {
-                if (q.repeats !== 0 && this.progressManager.checkCooldown(q.id, q.cooldown)) {
-                    q.state = QUEST_STATE.AVAILABLE;
-                } else {
-                    q.state = QUEST_STATE.COMPLETED;
-                }
-            } else if (savedState.status === QUEST_STATE.ACTIVE) {
-                 q.state = QUEST_STATE.ACTIVE;
-                 q.startTime = savedState.startTime || Date.now();
-                 q.spawnWorldItems();
-            }
-        }
-        
         this.activeQuests.set(q.id, q);
         this.notifyUpdate();
     }
-    
-    getShlichusByShaym(shaym) {
-        for (const q of this.activeQuests.values()) {
-            if (q.title === shaym || q.id === shaym) return q;
-        }
-        return null;
-    }
-    
-    getQuest(id) { return this.activeQuests.get(id); }
-    
-    getNpcState(npcId) {
-        let highestPriority = null;
 
+    /**
+     * getNpcState - Determines the spiritual availability of an NPC.
+     * Maps the state of missions associated with a soul to visual indicators.
+     * @param {string} npcId 
+     * @returns {string|null} 'READY', 'WAITING', 'AVAILABLE', or null.
+     */
+    getNpcState(npcId) {
+        let currentState = null;
         for (const q of this.activeQuests.values()) {
+            if (q.state === QUEST_STATE.COMPLETED) continue;
+
+            // Priority 1: Ready to turn in (Completion is imminent)
             if (q.returnToId === npcId && q.state === QUEST_STATE.READY_TO_TURN_IN) {
                 return 'READY';
             }
+
+            // Priority 2: In progress (The soul is waiting for the player)
             if (q.returnToId === npcId && q.state === QUEST_STATE.ACTIVE) {
-                if (highestPriority !== 'READY') highestPriority = 'WAITING';
+                currentState = 'WAITING';
             }
+
+            // Priority 3: Available to start (A new potentiality)
             if (q.giverId === npcId && q.state === QUEST_STATE.AVAILABLE) {
-                if (!highestPriority) highestPriority = 'AVAILABLE';
+                if (currentState !== 'WAITING') currentState = 'AVAILABLE';
             }
         }
-        return highestPriority;
+        return currentState;
+    }
+
+    /**
+     * getShlichusByID - Retrieves a mission vessel by its unique spiritual ID.
+     */
+    getShlichusByID(id) {
+        return this.activeQuests.get(id) || null;
+    }
+
+    /**
+     * getShlichusByShaym - Locates a mission by its Holy Name.
+     */
+    getShlichusByShaym(shaym) {
+        for (const q of this.activeQuests.values()) {
+            if (q.title === shaym || q.shaym === shaym) return q;
+        }
+        return null;
+    }
+
+    /**
+     * getSortedQuests - Returns a list of missions ordered by the requested quality.
+     */
+    getSortedQuests(sortBy = 'PRIORITY') {
+        const list = Array.from(this.activeQuests.values());
+        
+        switch(sortBy) {
+            case 'PRIORITY':
+                return list.sort((a, b) => b.priority - a.priority);
+            case 'DATE':
+                return list.sort((a, b) => (a.expiresAt || Infinity) - (b.expiresAt || Infinity));
+            case 'TITLE':
+                return list.sort((a, b) => a.title.localeCompare(b.title));
+            default:
+                return list;
+        }
     }
 
     acceptQuest(questId) {
         const q = this.activeQuests.get(questId);
-        if (q && q.state === QUEST_STATE.AVAILABLE) {
-            q.activate();
-            if (q.onStart) q.onStart(q);
-        }
+        if (q) q.activate();
     }
 
     update(dt) {
-        if (Math.random() < 0.05) { 
-            for (const q of this.activeQuests.values()) {
-                if (q.state === QUEST_STATE.ACTIVE) q.checkProgress();
-            }
+        // Periodic check for expiration or automated completion
+        if (Math.random() < 0.02) {
+            this.activeQuests.forEach(q => q.checkProgress());
         }
     }
-    
+
     notifyUpdate() {
+        // Sync with the physical UI
         this.olam.ayshPeula("updateQuestLog");
-        this.olam.nivrayim.forEach(n => {
-            if (n.updateOverheadIcon) n.updateOverheadIcon();
-        });
     }
 }
