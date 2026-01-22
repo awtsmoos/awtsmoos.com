@@ -16,10 +16,16 @@ export default class {
         var firstTime = false;
         var frameCount = 0;
         
-        console.log("B\"H - Starting Game Loop (HeesHawvoos) - Strict Mode");
+        console.log("B\"H - Starting Game Loop (HeesHawvoos) - VERBOSE DEBUG MODE");
 
         async function go(time) {
             if (self.destroyed) return;
+
+            // B"H FIX: Synchronize Timer Name to avoid console flood
+            const currentFrameId = frameCount;
+            const debugFrame = currentFrameId < 20 || currentFrameId % 60 === 0;
+
+            if (debugFrame) console.time(`B"H Frame ${currentFrameId}`);
 
             let dt = self.clock.getDelta();
             if (isNaN(dt) || dt <= 0) dt = 0.016; 
@@ -27,10 +33,14 @@ export default class {
             
             try {
                 // --- UPDATE PHASE ---
+                if (debugFrame) console.log("B\"H [Loop] Updating Shlichus");
                 if (self.shlichusHandler) self.shlichusHandler.update(self.deltaTime);
 
+                if (debugFrame) console.log("B\"H [Loop] Updating Environment");
                 if (self.environment) {
-                    const playerPos = self.player ? self.player.mesh.position : null;
+                    const playerPos = self.player ? self.player.mesh.position : new THREE.Vector3();
+                    if(debugFrame && self.player) console.log("B\"H [Loop] Player Pos:", playerPos.x.toFixed(2), playerPos.y.toFixed(2), playerPos.z.toFixed(2));
+                    
                     self.environment.update(self.deltaTime, playerPos);
                 }
 
@@ -42,6 +52,7 @@ export default class {
                     });
                 }
                 
+                if (debugFrame) console.log("B\"H [Loop] Updating Octree Physics");
                 if (self.worldOctree) {
                     const foci = [];
                     if (self.chossid && !isNaN(self.chossid.mesh.position.x)) {
@@ -58,6 +69,7 @@ export default class {
                     self.worldOctree.update(foci, null); 
                 }
                     
+                if (debugFrame) console.log("B\"H [Loop] Updating Entities");
                 if (self.nivrayim) {
                     for (let i = 0; i < self.nivrayim.length; i++) {
                         const n = self.nivrayim[i];
@@ -67,6 +79,7 @@ export default class {
                     }
                 }
                     
+                if (debugFrame) console.log("B\"H [Loop] Updating Camera");
                 if (self.ayin && self.ayin.target) self.ayin.update(self.deltaTime);
 
                 // --- RENDER PHASE ---
@@ -76,6 +89,8 @@ export default class {
                         self.ayshPeula("rendered first time");
                     }
                     
+                    if(debugFrame) console.log("B\"H [Loop] Calling Renderer");
+                    
                     if(typeof self.renderer.renderAsync === 'function') {
                          await self.renderer.renderAsync(self.scene, self.activeCamera || self.ayin.camera);
                     } else {
@@ -84,6 +99,8 @@ export default class {
                     
                     frameCount++;
                 }
+                
+                if (debugFrame) console.timeEnd(`B"H Frame ${currentFrameId}`);
 
             } catch (renderEx) {
                 // B"H: IMMEDIATE STOP ON FIRST ERROR

@@ -2,12 +2,16 @@
 /**
  * Post Content Logic - The Interpreter of Dayuh.
  * Refined for the Divine Neo-Brutalist Architecture.
+ * Specifically engineered to handle recursive sub-sections and complex array structures.
+ * Dedicated to the Awtsmoos who provides the depth within the breadth.
  */
 import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "./utils.js";
 import { weaveDropdownFromAwtsmoos, initializeFootnotes } from "./interaction.js";
 
 /**
- * Interprets the dayuh (data) of a post and generates the DOM.
+ * @method interpretPostDayuh
+ * @description B"H - Iterates through the post's dayuh and manifests the textual vessels.
+ * Handles strings, arrays of strings, and arrays of arrays.
  */
 export async function interpretPostDayuh(post) {
     const dayuh = post?.dayuh;
@@ -29,6 +33,7 @@ export async function interpretPostDayuh(post) {
     // --- Post Header ---
     const hd = document.createElement("div");
     hd.classList.add("post-title");
+    if (isFirstCharacterHebrew(post.title)) hd.classList.add("heb");
 
     const seriesName = window.series?.prateem?.name || "Sacred Series";
     const ser = document.createElement("a");
@@ -40,29 +45,34 @@ export async function interpretPostDayuh(post) {
     const pt = document.createElement("div");
     pt.textContent = post.title || "Untitled Revelation";
     hd.appendChild(pt);
+    
+    const postBookmarkBtn = document.createElement("button");
+    postBookmarkBtn.className = "bookmark-btn";
+    postBookmarkBtn.dataset.idx = 'title';
+    postBookmarkBtn.innerHTML = "B";
+    hd.appendChild(postBookmarkBtn);
+
     realPost.appendChild(hd);
 
-    let visibleSectionCount = 0; 
-    
     for (let i = 0; i < secArray.length; i++) {
         const sectionRaw = secArray[i];
         if (!sectionRaw) continue;
 
+        // B"H - Standardize the "dynamic" content
         let content = sectionRaw;
         if (typeof sectionRaw === "object" && !Array.isArray(sectionRaw)) {
             content = sectionRaw.subSections || sectionRaw.paragraphs || sectionRaw.text || sectionRaw;
         }
 
-        const isMulti = Array.isArray(content) || (content?.subSections || content?.paragraphs);
+        // If it's an array (including array of arrays), treat as multi-part
+        const isMulti = Array.isArray(content) || (typeof content === 'object' && (content?.subSections || content?.paragraphs));
 
-        const generated = await generateSection({
+        await generateSection({
             sectionText: !isMulti && typeof content === 'string' ? content : null,
             dynamic: isMulti ? content : null,
-            sectionId: visibleSectionCount, 
+            sectionId: i, 
             data: sectionRaw 
         });
-
-        if (generated) visibleSectionCount++;
     }
     
     window.sections = Array.from(document.querySelectorAll(".section"));
@@ -78,18 +88,11 @@ export async function interpretPostDayuh(post) {
 }
 
 /**
- * Generates a specific section with AUTOMATIC direction detection.
+ * @method generateSection
+ * @description B"H - Forges a single Verse-vessel. 
+ * Every unit of text within a multi-part section is marked as a .sub-awtsmoos.
  */
 export async function generateSection({sectionText, sectionId, dynamic=null, data}) {
-    const hasText = typeof sectionText === 'string' && sectionText.trim().length > 0;
-    const hasDynamic = dynamic && (
-        (Array.isArray(dynamic) && dynamic.length > 0) ||
-        (Array.isArray(dynamic.paragraphs) && dynamic.paragraphs.length > 0) || 
-        (Array.isArray(dynamic.subSections) && dynamic.subSections.length > 0)
-    );
-
-    if (!hasText && !hasDynamic) return false;
-
     const i = sectionId;
     const vs = data?.verseSection;
     
@@ -97,71 +100,46 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
     el.className = "section";
     el.dataset.awtsmoosIdx = i; 
 
-    // B"H - First Character Audit for Direction
-    const sample = sectionText || (Array.isArray(dynamic) ? (typeof dynamic[0] === 'string' ? dynamic[0] : dynamic[0]?.text) : null) || "";
-    el.classList.add(isFirstCharacterHebrew(sample) ? "heb" : "eng");
-
-    const hdr = document.createElement("div");
-    hdr.className = "awtsmoos-section-header";
-    el.appendChild(hdr);
-
     const nm = document.createElement("div");
     nm.className = "awtsmoos-verse-number";
-    if (!data?.hideVerseNumber) {
-        nm.addEventListener('click', (e) => {
-            e.stopPropagation();
-            weaveDropdownFromAwtsmoos(hdr);
-        });
-    } else nm.classList.add("hidden");
     nm.textContent = (vs !== undefined && vs !== null) ? vs : (i + 1);
-    hdr.appendChild(nm);
-
-    const indicator = document.createElement("div");
-    indicator.className = "awtsmoos-comment-indicator";
-    indicator.dataset.idx = i;
-    hdr.appendChild(indicator);
+    el.appendChild(nm);
+    
+    const verseBookmarkBtn = document.createElement("button");
+    verseBookmarkBtn.className = "bookmark-btn";
+    verseBookmarkBtn.dataset.idx = i;
+    verseBookmarkBtn.innerHTML = "B";
+    el.appendChild(verseBookmarkBtn);
 
     const contentArea = document.createElement("div");
     contentArea.classList.add("toichen");
+    contentArea.dataset.awtsmoosTextId = `text-${i}`;
     
-    if (hasText) {
+    if (sectionText) {
         appendHTML(sanitizeContent(sectionText), contentArea);
         window.sectionDayuh[i] = sectionText;
     }
 
-    if (hasDynamic) {
+    if (dynamic) {
         const sectionDiv = document.createElement("div");
+        sectionDiv.className = "subsection-container";
         const secInternalText = [];
         let localSubCount = 0;
 
         const processSub = (subItem) => {
-            const subS = document.createElement("div");
             const txt = typeof subItem === "string" ? subItem : subItem?.text;
             if (typeof txt !== "string" || !txt.trim()) return;
-            
+
+            const subS = document.createElement("div");
             subS.dataset.awtsmoosSub = localSubCount;
             subS.classList.add("sub-awtsmoos");
             subS.classList.add(isFirstCharacterHebrew(txt) ? "heb" : "eng");
 
             const subTextContent = document.createElement("div");
             subTextContent.className = "sub-toichen";
+            subTextContent.dataset.awtsmoosTextId = `text-${i}-${localSubCount}`;
             appendHTML(sanitizeContent(txt), subTextContent);
             subS.appendChild(subTextContent);
-
-            const subIndicator = document.createElement("div");
-            subIndicator.className = "awtsmoos-comment-indicator sub-indicator";
-            
-            const quickBtn = document.createElement("button");
-            quickBtn.className = "btn secondary small";
-            quickBtn.innerHTML = "INSIGHTS +";
-            quickBtn.style.padding = "4px 8px";
-            quickBtn.onclick = async (e) => {
-                e.stopPropagation();
-                const { showSectionCommentaryInline } = await import("../comments/inline.js");
-                await showSectionCommentaryInline(i, localSubCount, subS);
-            };
-            subIndicator.appendChild(quickBtn);
-            subS.appendChild(subIndicator);
 
             sectionDiv.appendChild(subS);
             secInternalText.push(txt);
@@ -176,6 +154,9 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
         contentArea.appendChild(sectionDiv);
         window.sectionDayuh[i] = secInternalText;
     }
+
+    if (isFirstCharacterHebrew(contentArea.innerText)) el.classList.add("heb");
+    else el.classList.add("eng");
 
     el.appendChild(contentArea);
     document.getElementById("realPost").appendChild(el);

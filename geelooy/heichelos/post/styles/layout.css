@@ -1,106 +1,105 @@
-/* B"H - The Galactic Sovereignty Void */
+//B"H
+/**
+ * THE TWO SCROLLS FRAMEWORK - B"H
+ * A layout of pure, parallel revelation.
+ */
 
-.post-reader-localized-context .awtsmoos-floating-controls {
-    position: fixed !important;
-    top: 150px !important; 
-    right: 150px !important;
-    z-index: 10000 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 120px !important;
-    pointer-events: none !important;
-}
-
-.post-reader-localized-context .awtsmoos-floating-controls > * {
-    pointer-events: auto !important;
-}
-
-/* THE SATELLITE ORBS (GALACTIC SCALE) */
-.post-reader-localized-context .awtsmoos-floating-controls button {
-    width: 280px !important;
-    height: 280px !important;
+/* B"H - Global Dimensional Stability */
+html, body {
+    overflow: hidden !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
     padding: 0 !important;
-    font-size: 120px !important;
-    border-radius: 50% !important;
-    box-shadow: 60px 60px 0px #000 !important;
-    background: #fff !important;
-    border: 30px solid #000 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    background-color: var(--bg-vellum) !important;
 }
 
-.post-reader-localized-context .awtsmoos-floating-controls button:hover {
-    transform: scale(1.3) rotate(90deg) !important;
-    background: var(--color-accent) !important;
-    box-shadow: 90px 90px 0px var(--color-primary) !important;
+.post-reader-localized-context .post-frame {
+    position: relative !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex; /* B"H - THE CORE OF THE TWO SCROLLS */
 }
 
-/* --- THE GALACTIC MONUMENT (MAXIMIZED FIELD) --- */
+/* THE MAIN SCROLL */
 .post-reader-localized-context #realPost {
-    flex: 1 !important;
+    flex: 1; /* Occupy all available space */
+    min-width: 0; /* Allow shrinking */
     height: 100% !important;
     overflow-y: auto !important;
-    padding: 600px 35% 1800px 35% !important; /* TOTAL ABSORPTION CANYON */
-    background-color: #fff !important;
-    background-image: 
-        linear-gradient(rgba(0,0,0,0.2) 15px, transparent 15px),
-        linear-gradient(90deg, rgba(0,0,0,0.2) 15px, transparent 15px) !important;
-    background-size: 450px 450px !important; /* Tectonic structural grid */
-    background-attachment: local !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-    
-    /* THE GALACTIC SCALE */
-    --post-text-size: 150px; 
-}
-
-.post-reader-localized-context #realPost::-webkit-scrollbar {
-    display: none !important;
+    scrollbar-gutter: stable;
+    background-color: transparent;
+    scroll-behavior: smooth;
+    --post-text-size: 28px;
+    padding: 15vh max(2vw, 20px) !important; /* REDUCED PADDING */
+    box-sizing: border-box !important;
+    transition: flex-basis 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .post-reader-localized-context #realPost > * {
-    max-width: 2800px !important; 
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 980px !important; /* INCREASED MAX-WIDTH */
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box !important;
+    position: relative !important;
 }
 
-/* --- THE INFINITE HORIZON (SIDEBAR) --- */
-.post-reader-localized-context .sidebar {
-    width: 95vw !important; /* Reality Contraction (Tzimtzum) */
-    background: #fff !important;
-    border-left: 80px solid #000 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    z-index: 9000 !important;
-    box-shadow: -250px 0 600px rgba(0,0,0,0.9) !important;
-    transition: transform 2.5s cubic-bezier(0.19, 1, 0.22, 1) !important;
+/* --- THE COMMENTARY SCROLL --- */
+.post-reader-localized-context .commentary-scroll {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 0; /* Starts hidden */
+    width: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: var(--glass-ultra);
+    -webkit-backdrop-filter: var(--glass-ultra);
+    border-left: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 9000;
+    overflow: hidden;
+    transition: flex-basis 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    mask-image: linear-gradient(transparent, black 5%, black 95%, transparent);
 }
 
-.post-reader-localized-context .sidebar.hidden-comments {
-    transform: translateX(110%) !important;
+.post-reader-localized-context .commentary-scroll:not(.hidden-comments) {
+    flex-basis: 420px; /* Unfurls to this width */
+    width: 420px;
 }
 
-.post-reader-localized-context .post-details {
-    position: fixed !important;
-    top: 150px !important;
-    right: 450px !important;
-    background: #fff !important;
-    border: 30px solid #000 !important;
-    padding: 25rem !important;
-    box-shadow: 150px 150px 0px 0px #000 !important;
-    z-index: 9500 !important;
-    min-width: 1200px !important;
-    animation: galacticInversion 2s cubic-bezier(0.19, 1, 0.22, 1);
+/* --- THE ACTION ORB (CONTEXTUAL MENU) --- */
+.awtsmoos-action-orb {
+    position: absolute;
+    z-index: 10000;
+    background: #000;
+    border-radius: 50px;
+    display: flex;
+    gap: 4px;
+    padding: 6px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    animation: orb-fade-in 0.2s ease-out;
 }
 
-@keyframes galacticInversion {
-    from { transform: translateX(1000px) rotate(45deg) scale(0.1); opacity: 0; filter: blur(200px); }
-    to { transform: translateX(0) rotate(0) scale(1); opacity: 1; filter: blur(0); }
+@keyframes orb-fade-in {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
-@media (max-width: 2000px) {
-    .post-reader-localized-context #realPost {
-        padding: 400px 10% 1200px 10% !important;
-    }
+.awtsmoos-action-orb button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.awtsmoos-action-orb button:hover {
+    background: rgba(255,255,255,0.2);
 }

@@ -1,117 +1,173 @@
-/* B"H - Divine Galactic Monumental Typography */
+//B"H
+/**
+ * THE SACRED SCROLL - TYPOGRAPHY
+ * Where the Essence meets the Eye with gravitas and clarity.
+ */
 
-#realPost {
-    font-family: 'Crimson Pro', serif !important;
-    line-height: 1.1 !important; 
-    color: #000 !important;
+.post-reader-localized-context #realPost {
+    font-family: var(--font-manuscript) !important;
+    line-height: 1.6 !important; 
+    color: var(--color-ink) !important;
+    font-weight: 400;
 }
 
-/* THE GALACTIC TITLE */
-#realPost .post-title {
-    font-family: 'Syne', sans-serif !important;
+/* POST HEADER */
+.post-reader-localized-context #realPost .post-title {
+    font-family: var(--font-manuscript) !important;
     font-weight: 900 !important;
-    font-size: calc(var(--post-text-size) * 18) !important; /* 18x scale - COSMIC SUPREMACY */
-    line-height: 0.6 !important;
-    letter-spacing: -0.2em !important;
-    margin-bottom: 6em !important;
-    padding-bottom: 2.5em !important;
-    border-bottom: 150px solid #000 !important;
-    text-transform: uppercase !important;
-    text-align: left !important;
-    word-break: break-word !important;
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    line-height: 1.05 !important; 
+    margin-bottom: 2rem !important;
+    padding-bottom: 1rem !important;
+    text-align: right;
+    letter-spacing: -0.01em;
+    border-bottom: 2px solid var(--color-ink);
 }
 
-#realPost .series-name {
+.post-reader-localized-context #realPost .series-name {
     display: block !important;
-    font-family: 'Space Grotesk', monospace !important;
-    font-size: 0.08em !important;
-    color: var(--color-primary) !important;
-    letter-spacing: 10rem !important;
-    font-weight: 900 !important;
+    font-family: var(--font-manuscript) !important;
+    font-size: 16px !important;
+    color: var(--color-ink-secondary) !important;
+    background: transparent !important;
+    padding: 0 !important;
+    text-transform: none !important;
+    letter-spacing: 0.5px !important;
+    font-weight: 500 !important;
     text-decoration: none !important;
-    margin-bottom: 5em !important;
-    text-transform: uppercase;
+    margin-bottom: 1rem !important;
+    text-align: right;
 }
 
-/* THE SACRED REVELATION */
-#realPost .section {
-    margin-bottom: 80rem !important; /* Galactic gaps for silence */
+/* SECTIONING */
+.post-reader-localized-context #realPost .section {
+    margin-bottom: 3.5rem !important; 
     position: relative !important;
+    width: 100% !important;
 }
 
-#realPost .toichen, #realPost p {
+/* B"H - THE HUMBLE MARKER (VERSE NUMBER) */
+.post-reader-localized-context #realPost .awtsmoos-verse-number {
+    position: absolute !important;
+    top: 14px !important;
+    font-family: var(--font-ui), monospace !important;
+    font-weight: 500 !important;
+    color: var(--color-ink-secondary) !important;
+    opacity: 0.8;
+    font-size: 14px !important;
+    line-height: 1;
+    user-select: none;
+    right: 100%;
+    margin-right: 1.5rem;
+}
+
+
+/* B"H - THE SUBTLE SUMMONS (+ GLYPH) */
+.post-reader-localized-context #realPost .awtsmoos-action-glyph {
+    position: absolute !important;
+    left: 100%;
+    margin-left: 1.5rem;
+    top: 10px !important;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #aaa;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.post-reader-localized-context #realPost .section:hover .awtsmoos-action-glyph {
+    opacity: 1;
+}
+
+.post-reader-localized-context #realPost .awtsmoos-action-glyph:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.post-reader-localized-context #realPost .awtsmoos-action-glyph::before {
+    content: "+";
+}
+
+/* PARAGRAPH FLOW */
+.post-reader-localized-context #realPost .toichen, 
+.post-reader-localized-context #realPost p {
     font-size: var(--post-text-size) !important;
-    margin: 5em 0 !important;
-    text-align: left !important;
-    font-weight: 900 !important;
-    letter-spacing: -2px;
+    margin: 1rem 0 !important;
+    width: 100% !important;
+    transition: padding-right 0.4s ease;
 }
 
-#realPost .heb .toichen, #realPost .heb p {
+.post-reader-localized-context #realPost .heb {
+    direction: rtl !important;
     text-align: right !important;
-    line-height: 1.05 !important;
-    font-family: 'David Libre', serif !important;
+    font-weight: 500;
 }
 
-/* THE GALACTIC SUB-TEXT */
-#realPost .sub-awtsmoos {
-    background: #fff !important;
-    border: 50px solid #000 !important;
-    padding: 30rem !important;
-    margin: 50rem 0 !important;
-    box-shadow: 200px 200px 0 #000 !important;
+/* B"H - SUB-SECTION DIALOGUE (FLEXBOX) */
+.post-reader-localized-context #realPost .subsection-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+.post-reader-localized-context #realPost .heb .subsection-container {
+    justify-content: flex-end;
+}
+.post-reader-localized-context #realPost .eng .subsection-container {
+    justify-content: flex-start;
 }
 
-#realPost .sub-toichen {
-    font-size: calc(var(--post-text-size) * 2.2) !important; 
-    font-weight: 900 !important;
-    letter-spacing: -10px;
+/* SUB-TEXT BLOCKS (QUOTES/INSETS) */
+.post-reader-localized-context #realPost .sub-awtsmoos {
+    position: relative; /* Anchor for its own action glyph */
+    flex: 1 1 340px; /* Grow, shrink, with a basis for side-by-side */
+    min-width: 300px;
+    background: transparent !important;
+    border-right: 2px solid var(--color-ink-secondary) !important;
+    padding: 0 25px !important;
+    margin: 1rem 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    transition: all 0.3s ease !important;
+    font-size: 0.9em;
+    font-style: italic;
+    color: var(--color-ink-secondary);
 }
 
-/* THE SOVEREIGN INDEX */
-#realPost .awtsmoos-verse-number {
-    background: #000 !important;
-    color: var(--color-accent) !important;
-    font-family: var(--font-ui) !important;
-    font-weight: 900 !important;
-    padding: 80px 160px !important;
-    font-size: 120px !important;
-    box-shadow: 60px 60px 0 var(--color-primary) !important;
-    cursor: pointer !important;
-    border: 30px solid #000 !important;
-    position: absolute;
-    left: -500px;
-    top: -100px;
-    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-}
-
-#realPost .awtsmoos-verse-number:hover {
-    transform: rotate(-90deg) scale(1.8);
-    background: var(--color-primary) !important;
-    color: #fff !important;
-    box-shadow: 100px 100px 0 var(--color-accent) !important;
-}
-
-#realPost .heb .awtsmoos-verse-number {
+/* Reposition glyph for sub-sections to be less intrusive */
+.post-reader-localized-context #realPost .sub-awtsmoos .awtsmoos-action-glyph {
+    top: 1rem;
+    right: 1rem;
     left: auto;
-    right: -500px;
+    transform: none;
+    margin-left: 0;
 }
 
-/* THE NAVIGATION HUB */
-#realPost .nav {
+
+/* NAVIGATION */
+.post-reader-localized-context #realPost .nav {
     display: flex !important;
-    flex-direction: column !important;
-    gap: 250px !important;
-    margin-top: 100rem !important;
-    padding: 50rem 0 !important;
-    border-top: 200px solid #000 !important;
+    gap: 20px !important;
+    margin-top: 6rem !important;
+    padding-top: 2rem !important;
+    border-top: 1px solid rgba(0,0,0,0.1) !important;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#realPost .nav .controls {
-    font-size: 30rem !important;
-    font-weight: 900 !important;
-    letter-spacing: -50px !important;
-    color: #000 !important;
-    line-height: 0.5;
-    opacity: 0.05;
+.post-reader-localized-context #realPost .nav .controls {
+    font-family: var(--font-manuscript);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-ink-secondary);
+    opacity: 0.7;
+    font-size: 11px;
+    letter-spacing: 1.5px;
 }

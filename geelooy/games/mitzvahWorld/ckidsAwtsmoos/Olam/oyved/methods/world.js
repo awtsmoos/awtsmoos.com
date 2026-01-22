@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * world.js - Orchestrating the laws of the digital universe from within the Worker.
@@ -15,7 +14,7 @@ export default function(me, OlamClass) {
             me.olam.on("updateProgress", (data) => {
                 postMessage({ updateProgress: data });
                 if (me.olam.userProgressManager) me.olam.userProgressManager.save();
-                if (me.olam.ohr) me.olam.ohr(); 
+                // B"H REMOVED: me.olam.ohr() call here was causing an infinite light loop!
             });
 
             // B"H: The Missing Link! Bridge loading updates to the UI.
