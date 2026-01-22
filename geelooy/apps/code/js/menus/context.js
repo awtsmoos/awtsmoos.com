@@ -108,7 +108,8 @@ export const ContextMenu = {
 
         menuItems.push({ isSeparator: true });
         menuItems.push({ label: "Select", action: "start-selection", icon: "select-all" });
-        menuItems.push({ label: "Copy All Contents", action: "copy-all-contents", icon: "clipboard" });
+        menuItems.push({ label: "Copy All Contents (MD)", action: "copy-all-contents", icon: "clipboard" });
+         menuItems.push({ label: "Download All Contents (MD)", action: "download-all-contents", icon: "clipboard" });
         
         if (isLocal && !isWorkspaceRoot && !isReadOnly) {
              menuItems.push({ isSeparator: true });

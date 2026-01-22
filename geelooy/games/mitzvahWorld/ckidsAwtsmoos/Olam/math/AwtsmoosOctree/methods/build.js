@@ -4,7 +4,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
 const _temp_triangle = new THREE.Triangle();
-const MAX_DEPTH = 55;
+const MAX_DEPTH = 12; // B"H: Reduced from 55 to prevent stack overflow/freezes
 
 export default {
     addDynamicTriangle(triangle) {
@@ -146,6 +146,13 @@ export default {
 		if(this.allTriangles.length > 0){
 			this.box.min.x -= 0.01; this.box.min.y -= 0.01; this.box.min.z -= 0.01;
 		}
+        
+        // B"H: Safety - Ensure box has volume to avoid infinite recursion on flat planes
+        const size = new THREE.Vector3();
+        this.box.getSize(size);
+        if(size.x < 0.001) this.box.max.x += 0.1;
+        if(size.y < 0.001) this.box.max.y += 0.1;
+        if(size.z < 0.001) this.box.max.z += 0.1;
 
 		this.triangles = Array.from(Array(this.allTriangles.length).keys());
 		

@@ -333,6 +333,8 @@ export const Actions = {
                     }
                     break;
                 case "copy-all-contents": if (item) FileOperations.copyAllContents([item]); break;
+                 case "download-all-contents": if (item) FileOperations.downloadAllContents([item]); break;
+                
                 case "start-selection": SelectionManager.start(item); break;
                 case "copy-single":
                     if (item) {

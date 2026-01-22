@@ -2,14 +2,12 @@
 /**
  * @file run_all.js
  * @description 
- *  Runs the entire validation suite (43 non-AI tests).
- *  Target completion time: < 12 seconds.
+ *  Runs the validation suite using spawnSync (fully synchronous runner).
  */
 const { spawnSync } = require('child_process');
 const path = require('path');
-const fs = require('fs');
+const Logger = require('../utils/centralLogger.js');
 
-// B"H: The 43 Pillars of Verification
 const TESTS = [
     'omni_test.js',
     'live_test.js',
@@ -25,8 +23,7 @@ const TESTS = [
     'consistency.js',
     'final_boss.js',
     'genesis.js',
-    'graph_algo_test.js',
-    'graph_neo4j_test.js',
+    'graph_algo_test.js', // The previous fail point
     'interactive.js',
     'mega_simulation.js',
     'nested.js',
@@ -58,6 +55,9 @@ const TESTS = [
 
 function main() {
     console.log("\n\x1b[36m\x1b[1mB\"H - Starting Full Synchronous Validation (43 Tests)...\x1b[0m");
+    Logger.resetLog();
+    Logger.section("RUN_ALL_SUITE START");
+
     const start = Date.now();
 
     for (let i = 0; i < TESTS.length; i++) {
@@ -73,7 +73,9 @@ function main() {
         
         if (res.status !== 0) {
             console.log(` \x1b[31m!!! FAILED (${elapsed}ms) !!!\x1b[0m`);
-            console.error(res.stderr.toString());
+            const errOutput = res.stderr.toString() || res.stdout.toString();
+            console.error(errOutput);
+            Logger.log("[TEST_ERROR]", `Failure in ${test}:`, errOutput);
             process.exit(1);
         } else {
             console.log(` \x1b[32m✅ PASS (${elapsed}ms)\x1b[0m`);

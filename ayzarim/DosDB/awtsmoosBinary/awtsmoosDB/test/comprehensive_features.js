@@ -1,25 +1,33 @@
 // B"H
+/**
+ * @file comprehensive_features.js
+ * @description
+ *  The Validation of the Comprehensive Features.
+ *  TOTAL PURGE: All traces of async/await abolished.
+ *  Verifies B-Tree Map iteration, List sequence, and Deep nesting.
+ */
 const AwtsmoosDB = require('../index.js');
-const fs = require('fs').promises;
+const fs = require('fs');
+const path = require('path');
 
-const DB_PATH = './comprehensive_features.db';
+const DB_PATH = path.join(__dirname, 'comprehensive_features.db');
 
-async function runTest() {
-    console.log("B\"H - Starting Comprehensive Feature Test...");
+function runTest() {
+    console.log(`\x1b[36mB"H - Starting Comprehensive Feature Test (PURE SYNC)...\x1b[0m`);
 
+    // --- CLEANING THE VOID ---
     try {
-        await fs.unlink(DB_PATH);
-        await fs.unlink(DB_PATH + '.wal');
+        if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
+        if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
     } catch(e) {}
 
     const db = new AwtsmoosDB(DB_PATH);
-    await db.open();
+    db.open();
 
     // ==========================================
     // Test 1: Nested B-Trees & Sorting
     // ==========================================
     console.log("\n[Test 1] Nested B-Trees & Sorting");
-    // B"H: New marker assignment paradigm.
     db.root.store = new db.Map();
     db.root.store.inventory = new db.Map();
     
@@ -33,23 +41,35 @@ async function runTest() {
     ];
 
     for (const p of products) {
-        await db.root.store.inventory.set(p.id, p);
+        db.root.store.inventory.set(p.id, p);
     }
 
-    console.log("  Iterating Inventory (Should be sorted by Key ID):");
+    console.log("  Iterating Inventory (B-Tree B\"H Iterator)...");
     let lastKey = "";
     let count = 0;
     
-    for await (const item of db.root.store.inventory) {
-        const name = await item.value.name;
-        const price = await item.value.price;
-        console.log(`    - ${item.key}: ${name} ($${price})`);
-        if (item.key < lastKey) throw new Error("Unsorted keys!");
-        lastKey = item.key;
+    // JS Map-style iteration on the LiveHandle Proxy
+    for (const item of db.root.store.inventory) {
+        const key = item.key;
+        const val = item.value;
+
+        if (val === undefined) {
+            throw new Error(`Item value undefined for ${key}`);
+        }
+
+        const name = val.name;
+        const price = val.price;
+        console.log(`    - ${key}: ${name} ($${price})`);
+        
+        if (key < lastKey) {
+            throw new Error(`Unsorted key sequence identified: ${key} < ${lastKey}`);
+        }
+        
+        lastKey = key;
         count++;
     }
     
-    if (count !== products.length) throw new Error("Missing items in inventory!");
+    if (count !== products.length) throw new Error("Total Map count mismatch.");
     console.log("  ✅ B-Tree Sorting Verified.");
 
     // ==========================================
@@ -60,44 +80,51 @@ async function runTest() {
     
     console.log("  Pushing 20 transaction records...");
     for (let i = 1; i <= 20; i++) {
-        await db.root.store.transactions.push({ 
+        db.root.store.transactions.push({ 
             id: i, ts: Date.now(), note: `Transaction #${i}`,
             data: Buffer.from(`Data for ${i}`) 
         });
     }
     
     console.log("  Fetching Slice [5...10]...");
-    const slice = await db.root.store.transactions.slice(5, 10);
+    const slice = db.root.store.transactions.slice(5, 10);
     
     console.log(`  Retrieved ${slice.length} items.`);
-    if (slice.length !== 5) throw new Error(`Slice length incorrect.`);
+    if (slice.length !== 5) throw new Error(`Slice length mismatch.`);
     
-    const id0 = await slice[0].id;
-    if (id0 !== 6) throw new Error(`Slice content mismatch.`);
+    if (slice[0].id !== 6) throw new Error(`Sequence integrity breached.`);
     
     console.log("  ✅ Collection Slicing Verified.");
 
     // ==========================================
-    // Test 3: Mixed Nested Types & Deep Retrieval
+    // Test 3: Deep Nesting & Mixed Types
     // ==========================================
     console.log("\n[Test 3] Deep Nesting & Mixed Types");
-    await db.root.set("deepData", {
+    db.root.deepData = {
         meta: { created: new Date(), creator: "Admin" },
         content: { sections: [ { title: "Section A", blob: Buffer.from("B\"H - Hidden Light") } ] }
-    });
+    };
 
-    console.log("  Retrieving deep nested object...");
-    const deep = await db.root.deepData;
-    const blobStr = Buffer.isBuffer(deep.content.sections[0].blob) ? deep.content.sections[0].blob.toString() : "Not a buffer";
+    console.log("  Navigating the fractal hierarchy...");
+    const deep = db.root.deepData;
+    const blob = deep.content.sections[0].blob;
     
-    console.log(`  Retrieved Deep Buffer: "${blobStr}"`);
-    if (blobStr !== "B\"H - Hidden Light") throw new Error("Deep nested buffer mismatch");
+    const blobStr = blob.toString();
+    console.log(`  Recovered Binary: "${blobStr}"`);
+    if (blobStr !== "B\"H - Hidden Light") throw new Error("Binary integrity failed in deep nesting.");
+    
     console.log("  ✅ Deep Structure Verified.");
-
-    console.log("\nB\"H - All Comprehensive Tests Passed Successfully.");
+    console.log("\nB\"H - Comprehensive Features Validated.");
+    
+    db.close();
 }
 
-runTest().catch(e => {
-    console.error("❌ TEST FAILED:", e);
-    process.exit(1);
-});
+if (require.main === module) {
+    try {
+        runTest();
+    } catch(e) {
+        console.error("❌ TEST FAILED:", e);
+        process.exit(1);
+    }
+}
+module.exports = runTest;

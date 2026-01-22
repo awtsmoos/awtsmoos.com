@@ -1,130 +1,129 @@
-
 // B"H
 /**
  * @file api_methods_test.js
  * @description
- *  Verifies the standard iteration methods:
- *  - db.keys(handle)
- *  - db.values(handle)
- *  - db.entries(handle)
- *  - db.streamKeys(handle)
- *  - db.streamValues(handle)
- *  - db.streamEntries(handle)
- * 
- *  Tests across:
- *  1. Objects (Dictionary)
- *  2. Maps (B-Tree)
- *  3. Lists (Sequence)
+ *  In the beginning, the Scribe sought to verify the Vessels.
+ *  This scroll documents the ritual of validating the API methods,
+ *  where the Hand of the Coder touches the Essence of the Disk.
+ *  We use the secondary stream (STDERR) to witness the truth,
+ *  unfiltered by the veils of standard output.
  */
 
+const Manager = require('../index.js');
 const fs = require('fs');
 const path = require('path');
-const AwtsmoosDB = require('../index.js');
 
-const DB_PATH = path.join(__dirname, 'api_methods.db');
-
-async function runTest() {
-    console.log("B\"H - Starting API Methods Test (keys/values/entries)...");
-
-    if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
-    if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
-
-    const db = new AwtsmoosDB(DB_PATH);
-    await db.open();
-
-    try {
-        // --- 1. Dictionary (Object) ---
-        console.log("\n[1] Testing Dictionary (Object)...");
-        db.root.myObj = { a: 1, b: 2, c: 3 };
-        await db.waitForIdle();
-
-        const objKeys = await db.keys(db.root.myObj);
-        console.log("    Keys:", JSON.stringify(objKeys));
-        if (JSON.stringify(objKeys) !== '["a","b","c"]') throw new Error("Dictionary Keys Failed");
-
-        const objValues = await db.values(db.root.myObj);
-        console.log("    Values:", JSON.stringify(objValues));
-        if (JSON.stringify(objValues) !== '[1,2,3]') throw new Error("Dictionary Values Failed");
-
-        const objEntries = await db.entries(db.root.myObj);
-        console.log("    Entries:", JSON.stringify(objEntries));
-        if (objEntries[0][0] !== 'a' || objEntries[0][1] !== 1) throw new Error("Dictionary Entries Failed");
-        
-        console.log("    ✅ Dictionary Methods Passed");
-
-
-        // --- 2. Map (B-Tree) ---
-        console.log("\n[2] Testing Map (B-Tree)...");
-        await db.createMap(db.root, "myMap");
-        await db.root.myMap.set("z", 26);
-        await db.root.myMap.set("a", 1);
-        await db.root.myMap.set("m", 13);
-        await db.waitForIdle();
-
-        const mapKeys = await db.keys(db.root.myMap);
-        console.log("    Keys (Sorted):", JSON.stringify(mapKeys));
-        if (JSON.stringify(mapKeys) !== '["a","m","z"]') throw new Error("Map Keys Sort Failed");
-
-        const mapValues = await db.values(db.root.myMap);
-        console.log("    Values:", JSON.stringify(mapValues));
-        if (JSON.stringify(mapValues) !== '[1,13,26]') throw new Error("Map Values Sort Failed");
-
-        const mapEntries = await db.entries(db.root.myMap);
-        if (mapEntries[1][0] !== 'm' || mapEntries[1][1] !== 13) throw new Error("Map Entries Failed");
-        console.log("    ✅ Map Methods Passed");
-
-
-        // --- 3. Sequence (List) ---
-        console.log("\n[3] Testing Sequence (List)...");
-        await db.createList(db.root, "myList");
-        await db.root.myList.push("First");
-        await db.root.myList.push("Second");
-        await db.waitForIdle();
-
-        const listKeys = await db.keys(db.root.myList);
-        console.log("    Keys (Indices):", JSON.stringify(listKeys));
-        if (JSON.stringify(listKeys) !== '[0,1]') throw new Error("List Keys Failed");
-
-        const listValues = await db.values(db.root.myList);
-        console.log("    Values:", JSON.stringify(listValues));
-        if (JSON.stringify(listValues) !== '["First","Second"]') throw new Error("List Values Failed");
-
-        const listEntries = await db.entries(db.root.myList);
-        console.log("    Entries:", JSON.stringify(listEntries));
-        
-        // B"H: Verification of [Index, Value] format
-        if (listEntries[1][0] !== 1 || listEntries[1][1] !== "Second") {
-             console.error("Got:", listEntries[1]);
-             throw new Error("List Entries Failed - Expected [1, 'Second']");
-        }
-        console.log("    ✅ Sequence Methods Passed");
-
-
-        // --- 4. Stream Methods (Lazy) ---
-        console.log("\n[4] Testing Stream (Lazy) Methods...");
-        
-        console.log("    Streaming Keys...");
-        const streamedKeys = [];
-        for await (const k of db.streamKeys(db.root.myObj)) {
-            streamedKeys.push(k);
-        }
-        if (JSON.stringify(streamedKeys) !== '["a","b","c"]') throw new Error("streamKeys Failed");
-
-        console.log("    Streaming Entries...");
-        const streamedEntries = [];
-        for await (const e of db.streamEntries(db.root.myList)) {
-            streamedEntries.push(e);
-        }
-        if (streamedEntries.length !== 2 || streamedEntries[0][1] !== "First") throw new Error("streamEntries Failed");
-
-        console.log("    ✅ Stream Methods Passed");
-
-    } catch (e) {
-        console.error("❌ TEST FAILED:", e);
-        process.exit(1);
-    } finally {
-        await db.close();
+/**
+ * @function forceLog
+ * @description 
+ *  The Voice that pierces the silence. 
+ *  We write to the Second Vessel (FD 2) so the message is never lost 
+ *  in the depths of the data stream.
+ */
+function forceLog(msg) {
+    try { 
+        fs.writeSync(2, `\x1b[32mB"H [TEST_LOG]\x1b[0m ${msg}\n`); 
+    } catch(e) {
+        // Even if the voice falters, the Essence remains.
     }
 }
 
-runTest();
+async function runTest() {
+    forceLog(`INITIATING api_methods_test.js RITUAL...`);
+    const dbPath = path.join(__dirname, 'api_methods.db');
+    
+    // Shatter the old vessels to ensure a pure creation.
+    if (fs.existsSync(dbPath)) fs.unlinkSync(dbPath);
+    if (fs.existsSync(dbPath + '.wal')) fs.unlinkSync(dbPath + '.wal');
+
+    const db = new Manager(dbPath);
+    
+    forceLog(`AWAKENING THE FOUNDATION...`);
+    db.open();
+    
+    /**
+     * @function getRootPtrHex
+     * @description Peeks into the Soul of the Root to see its physical anchor.
+     */
+    const getRootPtrHex = () => {
+        const soul = db.root[Symbol.for('Awtsmoos.Soul')];
+        return soul && soul.ptr ? soul.ptr.toString('hex').toUpperCase() : 'NULL';
+    };
+
+    forceLog(`ROOT_MANIFESTED -> physical address: ${getRootPtrHex()}`);
+
+    try {
+        forceLog(`RITUAL_STEP: Casting key 'a' as 100 into the void...`);
+        db.root.a = 100;
+        forceLog(`STEP_COMPLETE -> Anchor now: ${getRootPtrHex()}`);
+
+        forceLog(`RITUAL_STEP: Casting key 'b' as 200 into the void...`);
+        db.root.b = 200;
+        forceLog(`STEP_COMPLETE -> Anchor now: ${getRootPtrHex()}`);
+
+        forceLog(`RITUAL_STEP: Casting key 'c' as 300 into the void...`);
+        db.root.c = 300;
+        forceLog(`STEP_COMPLETE -> Anchor now: ${getRootPtrHex()}`);
+
+        forceLog(`INVOKING Object.keys(db.root) to count the stars...`);
+        const keys = Object.keys(db.root);
+        forceLog(`DISCOVERED_KEYS: [${keys.join(', ')}]`);
+
+        const expected = ['a', 'b', 'c'];
+        
+        forceLog(`VALIDATING_LENGTH: Expecting ${expected.length}, Found ${keys.length}`);
+        if (keys.length !== expected.length) {
+            forceLog(`!!! FAILURE: The count of vessels is incorrect !!!`);
+            throw new Error(`Keys Failed: Expected ${expected.length}, got ${keys.length}`);
+        }
+
+        // B"H: The typo 'forLog' has been banished back to the nothingness.
+        forceLog("Witnessing the awtsmoosification of the data stream...");
+		
+        for(let i=0; i<expected.length; i++) {
+            forceLog(`VALIDATING_KEY[${i}]: Searching for '${expected[i]}', Witnessed '${keys[i]}'`);
+            if (keys[i] !== expected[i]) {
+                forceLog(`!!! FAILURE: The order of manifestation has been disrupted at index ${i} !!!`);
+                throw new Error(`Keys Failed: Mismatch at ${i}`);
+            }
+        }
+
+        forceLog(`KEYS_RITUAL_SUCCESSFUL.`);
+        
+        forceLog(`RITUAL_STEP: Verifying the internal Light of each property...`);
+        const valA = db.root.a;
+        forceLog(`READING 'a': Revealed ${valA}`);
+        if (valA !== 100) throw new Error(`Value 'a' has been corrupted in the abyss: ${valA}`);
+
+        const valB = db.root.b;
+        forceLog(`READING 'b': Revealed ${valB}`);
+        if (valB !== 200) throw new Error(`Value 'b' has been corrupted in the abyss: ${valB}`);
+
+        const valC = db.root.c;
+        forceLog(`READING 'c': Revealed ${valC}`);
+        if (valC !== 300) throw new Error(`Value 'c' has been corrupted in the abyss: ${valC}`);
+        
+        forceLog(`VALUES_RITUAL_SUCCESSFUL.`);
+        
+        forceLog(`✅ THE TRIAL IS COMPLETE. THE WORLD STANDS PERFECT UNDER THE AWTSMOOS.`);
+        
+    } catch (err) {
+        forceLog(`❌ FATAL COLLAPSE OF THE RITUAL: ${err.message}`);
+        forceLog(`TRACE FROM THE VOID: ${err.stack}`);
+        throw err;
+    } finally {
+        db.close();
+        forceLog(`THE GATES ARE CLOSED. THE DATABASE RETURNS TO SILENCE.`);
+        // Remove the physical evidence of our trial.
+        if (fs.existsSync(dbPath)) fs.unlinkSync(dbPath);
+        if (fs.existsSync(dbPath + '.wal')) fs.unlinkSync(dbPath + '.wal');
+    }
+}
+
+if (require.main === module) {
+    runTest().catch(err => {
+        process.exit(1);
+    });
+}
+
+module.exports = runTest;

@@ -94,6 +94,31 @@ export const Transfer = {
             UI.endTask(taskId, 'error', `Error: ${error.message}`);
         }
     },
+    
+    async downloadAllContents(items) {
+        if (!items || items.length === 0) {
+            UI.showToast("Nothing selected to copy.", "info");
+            return;
+        }
+
+        const taskId = `download-contents-${Date.now()}`;
+        UI.startTask(taskId, "Preparing markdown...");
+        
+        try {
+            const combinedContent = await this.generateMarkdownContext(items);
+            UI.updateTask(taskId, 90, "Finalizing...");
+            const fakeFile = new File([combinedContent], "Selection_Export.txt", { type: "text/plain" });
+            const success = URL.createObjectURL(fakeFile);
+            var a = document.createElement("a")
+            a.download = "markdown.md";
+            a.href = success;
+            a.click()
+            if (success) UI.endTask(taskId, 'success', 'Downlaoded content as markdown!');
+            else UI.endTask(taskId, 'error', 'Download as MD failed.');
+        } catch (error) {
+            UI.endTask(taskId, 'error', `Error: ${error.message}`);
+        }
+    },
 
     async deleteSelected() {
         const selectedPaths = Array.from(State.selectedItems);

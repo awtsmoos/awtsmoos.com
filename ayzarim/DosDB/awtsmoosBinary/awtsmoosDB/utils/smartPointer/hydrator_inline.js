@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../constants.js');
 const bigIntUtils = require('../bigIntUtils.js');
@@ -8,9 +7,10 @@ module.exports = async function decodeInline(type, payload, allocator, context, 
     const T = constants.VAL_TYPE;
     
     // --- Variable Length Types ---
+    // B"H: FIX - Added T.FUNCTION to variable length type list for correct extraction
     const variableLengthTypes = [
         T.STRING, T.BUFFER, T.TYPED_ARRAY, T.SYMBOL, 
-        T.BIGINT_POS, T.BIGINT_NEG
+        T.BIGINT_POS, T.BIGINT_NEG, T.FUNCTION
     ];
 
     let data = payload;
@@ -24,6 +24,16 @@ module.exports = async function decodeInline(type, payload, allocator, context, 
     if (type === T.BIGINT_NEG) return bigIntUtils.fromBuffer(data, true);
     if (type === T.BUFFER) return data;
     if (type === T.STRING) return data.toString('utf8');
+
+    // B"H: FIX - Added Inline Function Resurrection
+    if (type === T.FUNCTION) {
+        const source = data.toString('utf8');
+        try {
+            return (new Function('return ' + source))();
+        } catch(e) {
+            return source;
+        }
+    }
 
     // Typed Array Inline
     if (type === T.TYPED_ARRAY) {

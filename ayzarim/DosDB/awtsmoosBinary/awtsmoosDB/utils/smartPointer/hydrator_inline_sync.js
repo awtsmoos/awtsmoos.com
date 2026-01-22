@@ -24,6 +24,11 @@ module.exports = function hydrateInlineSync(type, payload, allocator) {
     // Short-String Inlining Recovery
     if (type === T.STRING) {
         const len = payload[0];
+        // B"H: Robust safety check. 
+        // If payload is corrupted or length mismatch, return empty string or safe slice.
+        if (1 + len > payload.length) {
+             return payload.toString('utf8', 1); // Best effort
+        }
         return payload.toString('utf8', 1, 1 + len);
     }
 

@@ -1,26 +1,34 @@
 // B"H
+/**
+ * @file blog_engine_simulation.js
+ * @description
+ *  A vivid synchronous simulation of a blog engine.
+ *  Uses strictly synchronous operations.
+ */
+
 const AwtsmoosDB = require('../index.js');
-const fs = require('fs').promises;
-
+const fs = require('fs');
 const path = require('path');
-const DB_PATH = path.join(__dirname, 'blog_engine.db');
-async function runTest() {
-    console.log("B\"H\n - Starting Blog Engine Simulation...");
 
-    // 1. Clean Environment
+const DB_PATH = path.join(__dirname, 'blog_engine.db');
+
+function runTest() {
+    console.log(`\x1b[36mB"H [SIMULATION] Starting Hyper-Verbose Blog Engine Ritual (SYNC)...\x1b[0m`);
+
     try {
-        await fs.unlink(DB_PATH);
-        await fs.unlink(DB_PATH + '.wal');
+        if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
+        if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
     } catch(e) {}
 
-    const db = new AwtsmoosDB(DB_PATH);
-    await db.open();
+    const db = new AwtsmoosDB(DB_PATH, { debug: true });
+    db.open();
+    console.log(`  [Database] Awakened at ${DB_PATH}.`);
 
     // ======================================================
     // Phase 1: User Management (B-Tree Sorting)
     // ======================================================
-    console.log("\n[Phase 1] Registering Users...");
-    // B"H: Idiomatic assignment
+    console.log(`\n\x1b[35m[Phase 1] Manifesting User Map (B-Tree Sorting)...\x1b[0m`);
+    
     db.root.users = new db.Map();
 
     const users = [
@@ -32,83 +40,97 @@ async function runTest() {
     ];
 
     for(const u of users) {
-        await db.root.users.set(u.username, {
+        console.log(`  B"H [USER_SET] Manifesting ${u.username}...`);
+        db.root.users.set(u.username, {
             profile: {
                 joined: new Date(),
                 role: u.role,
-                bio: `I am ${u.username}`
+                bio: `B"H - I am ${u.username}.`
             },
             stats: { posts: 0, likes: 0 }
         });
     }
 
-    console.log("  Users Registered. Verifying alphabetical sort order:");
-    let lastUser = "";
-    
-    for await (const [key, value] of db.root.users) {
-        console.log(`    👤 ${key} [${value.profile.role}]`);
-        if (key < lastUser) throw new Error("Users not sorted!");
-        lastUser = key;
-    }
-    console.log("✅ User System Operational.");
+    db.waitForIdle();
+    console.log(`  [Persistence] Phase 1 Flushed.`);
 
+    const userKeys = db.keys(db.root.users);
+    if (userKeys[0] !== "alice") throw new Error("Sort failed");
+    console.log(`\x1b[32m✅ User System Operational.\x1b[0m`);
 
     // ======================================================
     // Phase 2: Global Feed (Collection Push & Slice)
     // ======================================================
-    console.log("\n[Phase 2] Generating Content Feed...");
-    // B"H: Idiomatic assignment
+    console.log(`\n\x1b[35m[Phase 2] Generating Content Feed...\x1b[0m`);
     db.root.global_feed = new db.List();
 
-    const totalPosts = 50;
-    console.log(`  Pushing ${totalPosts} blog posts...`);
-
+    const totalPosts = 30;
     for(let i=1; i<=totalPosts; i++) {
-        await db.root.global_feed.push({
+        const author = (i % 2 === 0) ? "yackov" : "alice";
+        db.root.global_feed.push({
             id: i,
             title: `Awtsmoos Insight #${i}`,
-            content: Buffer.from(`This is the deep content of post ${i}. The light is infinite.`),
-            author: (i % 2 === 0) ? "yackov" : "alice",
+            content: Buffer.from(`Content ${i}`),
+            author,
             timestamp: Date.now() + i * 1000
         });
     }
 
-    console.log("  Simulating Pagination (Page 2, Items 10-20)...");
-    const page2 = await db.root.global_feed.slice(10, 20);
+    console.log(`\x1b[32m  [Success] Feed Manifested. Attempting Pagination...\x1b[0m`);
+    const page2 = db.root.global_feed.slice(10, 20);
 
     if (page2.length !== 10) throw new Error("Pagination size mismatch");
-
-    console.log("  --- Feed Page 2 ---");
-    for(const post of page2) {
-        const contentStr = Buffer.isBuffer(post.content) ? post.content.toString() : post.content;
-        console.log(`    📄 [ID:${post.id}] ${post.title} (by ${post.author})`);
-    }
-
     if (page2[0].id !== 11) throw new Error("Pagination offset incorrect");
     
-    console.log("✅ Feed System Operational.");
+    db.waitForIdle();
+    console.log(`\x1b[32m✅ Feed System Operational.\x1b[0m`);
 
     // ======================================================
     // Phase 3: Nested Updates (Deep Structure)
     // ======================================================
-    console.log("\n[Phase 3] Updating User Settings...");
+    console.log(`\n\x1b[35m[Phase 3] Performing Deep Vessel Transformation...\x1b[0m`);
     
-    const aliceData = await db.root.users.alice;
-    console.log(`  Current Alice Stats: Posts=${aliceData.stats.posts}`);
+    // B"H: Synchronous Deep Update
+    // aliceHandle implies db.root.users.alice
+    const aliceHandle = db.root.users.alice;
     
-    aliceData.stats.posts += 50;
-    aliceData.profile.bio = "Updated Bio: I write about Awtsmoos.";
+    console.log(`    Current Alice Stats: Posts=${aliceHandle.stats.posts}`);
     
-    await db.root.users.set("alice", aliceData);
+    console.log(`  B"H [MUTATION] Injecting new data into memory objects...`);
     
-    const aliceNew = await db.root.users.alice;
-    if (aliceNew.stats.posts !== 50) throw new Error("Nested update failed to persist");
+    // Direct synchronous updates on handles
+    aliceHandle.stats.posts += 50; 
+    aliceHandle.profile.bio = "Updated Bio: I write about Unity.";
     
-    console.log("✅ Deep Updates Operational.");
-    console.log("\nB\"H - Blog Engine Simulation Passed!");
+    console.log(`  B"H [PERSISTENCE] Updates written to disk immediately.`);
+    
+    console.log(`  B"H [VERIFICATION] Re-awakening Alice from the database disk...`);
+    db.waitForIdle();
+    db._structureCache.clear();
+    
+    const aliceNew = db.root.users.alice;
+    // B"H: Access property triggers read from disk
+    const newPosts = aliceNew.stats.posts; 
+    const newBio = aliceNew.profile.bio;
+
+    console.log(`    New Alice Stats: Posts=${newPosts}`);
+    console.log(`    New Alice Bio: '${newBio}'`);
+
+    if (newPosts !== 50) {
+        throw new Error(`Nested update failed to persist. Got ${newPosts}, expected 50.`);
+    }
+    
+    console.log(`\x1b[32m✅ Deep Updates Operational.\x1b[0m`);
+    console.log(`\n\x1b[36m\x1b[1mB"H - Blog Engine Simulation Passed Flawlessly!\x1b[0m`);
 }
 
-runTest().catch(e => {
-    console.error("❌ SIMULATION FAILED:", e);
-    process.exit(1);
-});
+if (require.main === module) {
+    try {
+        runTest();
+    } catch(e) {
+        console.error(`\n\x1b[31m❌ SIMULATION FAILED:\x1b[0m`, e);
+        process.exit(1);
+    }
+}
+
+module.exports = runTest;

@@ -27,8 +27,10 @@ module.exports = async function decodeValue(type, buffer, allocator, context, ct
         }
         return new Map();
     }
+    // B"H: Fixed Set Rehydration
     if (type === T.SET) {
         const parsed = parser.parse(buffer);
+        // parser.parse returns an Array for T.ARRAY/T.SET structure structure
         return Array.isArray(parsed) ? new Set(parsed) : new Set();
     }
     if (type === T.ARRAY) return parser.parse(buffer);
@@ -41,10 +43,18 @@ module.exports = async function decodeValue(type, buffer, allocator, context, ct
     if (type === T.BIGINT_POS) return bigIntUtils.fromBuffer(buffer, false);
     if (type === T.BIGINT_NEG) return bigIntUtils.fromBuffer(buffer, true);
     if (type === T.SYMBOL) return Symbol.for(buffer.toString('utf8'));
-    if (type === T.FUNCTION) return buffer.toString('utf8');
+    
+    if (type === T.FUNCTION) {
+        const source = buffer.toString('utf8');
+        try {
+            return (new Function('return ' + source))();
+        } catch(e) {
+            return source;
+        }
+    }
+    
     if (type === T.DATE) return new Date(buffer.readDoubleBE(0));
     
-    // RegExp
     if (type === T.REGEXP) {
         try {
             const sRes = serializer.readVarInt(buffer, 0);
@@ -54,15 +64,12 @@ module.exports = async function decodeValue(type, buffer, allocator, context, ct
         } catch(e) { return /ErrorDecodingRegExp/; }
     }
 
-    // Errors (Binary rehydration - Fixed)
     if (type === T.ERROR) {
         try {
-            // B"H: Use binary parser to read AwtsmoosJSON object
             const rawObj = parser.parse(buffer);
             let e;
             
             if (rawObj.isAggregate) {
-                // If serializeValue correctly handled array recursion, errors is array of error objects/structs
                 e = new AggregateError(rawObj.errors || [], rawObj.message);
             } else {
                 if (rawObj.name === 'RangeError') e = new RangeError(rawObj.message);
@@ -73,18 +80,15 @@ module.exports = async function decodeValue(type, buffer, allocator, context, ct
                 else if (rawObj.name === 'EvalError') e = new EvalError(rawObj.message);
                 else e = new Error(rawObj.message);
             }
-            
             e.name = rawObj.name;
             if (rawObj.stack) e.stack = rawObj.stack;
             if (rawObj.cause) e.cause = rawObj.cause;
-            
             return e;
         } catch(err) { 
             return new Error("B\"H: Error decoding failed: " + err.message); 
         }
     }
 
-    // Custom Classes
     if (type === T.CUSTOM_INSTANCE) {
         let offset = 0;
         const nameInfo = serializer.readString(buffer, offset); offset += nameInfo.bytesRead;
@@ -113,7 +117,6 @@ module.exports = async function decodeValue(type, buffer, allocator, context, ct
         let instance = Cls ? Object.create(Cls.prototype) : { __className__: nameInfo.value, __source__: sourceInfo.value };
         if (ctxKey) context.set(ctxKey, instance);
         
-        // Populate properties recursively
         const Reader = require('../../api/liveHandle/reader.js');
         const Navigator = require('../../api/liveHandle/navigator.js');
         
@@ -137,7 +140,6 @@ module.exports = async function decodeValue(type, buffer, allocator, context, ct
         return instance;
     }
 
-    // Typed Arrays
     if (type === T.TYPED_ARRAY) {
         const viewType = buffer[0]; const raw = buffer.subarray(1);
         const ab = raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength);
