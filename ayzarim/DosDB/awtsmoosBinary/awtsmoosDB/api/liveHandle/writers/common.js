@@ -14,10 +14,9 @@ class WriterCommon {
         this.db = writer.db;
         this._cachedEngine = null;
         this._cachedStructPtrHash = null;
-        this._cachedMutationCount = -1;
     }
 
-    async resolveStructPtr() {
+    resolveStructPtr() {
         if (this.handle.ptr) {
             const decoded = SmartPointer.decode(this.handle.ptr);
             if (!decoded) return null;
@@ -30,19 +29,17 @@ class WriterCommon {
                     isChain: decoded.payload.readUInt8(14) === 1
                 };
             }
-            
             if (decoded.mode === constants.MODE_HEAP) {
                 return {
                     blockId: readPointer48(decoded.payload, 0),
                     offset: decoded.payload.readUInt32BE(6),
                     length: decoded.payload.readUInt32BE(10),
-                    isChain: false,
                     isHeap: true
                 };
             }
-        } 
+        }
         
-        const isRoot = (this.handle.context === null || (this.db.root && HandleRegistry.getSoul(this.db.root) === this.handle));
+        const isRoot = (!this.handle.context || (this.db.root && HandleRegistry.getSoul(this.db.root) === this.handle));
         if (isRoot && this.db.rootPtrRaw) {
              const decoded = SmartPointer.decode(this.db.rootPtrRaw);
              return {
@@ -55,74 +52,58 @@ class WriterCommon {
         return null;
     }
 
-    async getEngine(structPtr, type) {
-        const ptrHash = structPtr ? `${structPtr.blockId}:${structPtr.offset}` : 'null';
-        const currentMutation = this.db.mutationCount || 0;
+    // B"H: Synchronous Factory with Robust Hashing
+    getEngine(structPtr, type) {
+        const ptrHash = structPtr ? `${structPtr.blockId}:${structPtr.offset}:${structPtr.length}` : 'null';
+        if (this._cachedEngine && this._cachedStructPtrHash === ptrHash) return this._cachedEngine;
         
-        if (this._cachedEngine && this._cachedStructPtrHash === ptrHash && this._cachedMutationCount === currentMutation) {
-            return this._cachedEngine;
+        let engine = null;
+        const T = constants.VAL_TYPE;
+        
+        // Flexible matching
+        if (type === T.SEQUENCE || type === constants.TYPE_SEQUENCE) {
+            engine = new Sequence(this.db.allocator, structPtr);
+        }
+        else if (type === T.MAP || type === constants.TYPE_MAP) {
+            engine = new MapEngine(this.db.allocator, structPtr);
+        }
+        else if (type === T.DICTIONARY || type === constants.TYPE_DICTIONARY || type === T.OBJECT) {
+            engine = new Dictionary(this.db.allocator, structPtr);
         }
         
-        let engine;
-        if (type === constants.TYPE_SEQUENCE) engine = new Sequence(this.db.allocator, structPtr);
-        else if (type === constants.TYPE_MAP) engine = new MapEngine(this.db.allocator, structPtr);
-        else if (type === constants.TYPE_DICTIONARY) engine = new Dictionary(this.db.allocator, structPtr);
-        else return null; 
+        if (!engine) return null;
         
         this._cachedEngine = engine;
         this._cachedStructPtrHash = ptrHash;
-        this._cachedMutationCount = currentMutation;
         return engine;
     }
 
     invalidateEngine() {
         this._cachedEngine = null;
-        this._cachedStructPtrHash = null;
-        this._cachedMutationCount = -1;
     }
 
-    /**
-     * @description Triggers a pointer update bubble. Crucial for hierarchical consistency.
-     */
-    async checkAutoCompact(engine, type) {
-        const newPtr = SmartPointer.block(type, engine.ptr.blockId, engine.ptr.length, engine.ptr.isChain, engine.ptr.offset);
-        // B"H: Always update pointer to ensure bubble-up hierarchy is synced to current db.mutationCount
-        await this.handle._updatePointer(newPtr);
-    }
-
-    _ptrsEqual(p1, p2) {
-        if (!p1 || !p2) return p1 === p2;
-        if (p1.blockId !== undefined) {
-             if (Buffer.isBuffer(p2)) {
-                 const decoded = SmartPointer.decode(p2);
-                 const bid = readPointer48(decoded.payload, 0);
-                 const off = decoded.payload.readUInt32BE(10);
-                 return p1.blockId === bid && p1.offset === off;
-             }
-        }
-        if (Buffer.isBuffer(p1) && Buffer.isBuffer(p2)) return p1.compare(p2) === 0;
-        return false;
-    }
-
-    async getSearchIndex(path) {
-        if (!this.db.sysCache.loaded) return false;
-        return this.db.sysCache.search.has(path);
-    }
-
-    async getVectorIndex(path) {
-        if (!this.db.sysCache.loaded) return false;
-        return this.db.sysCache.vector.has(path);
-    }
-
-    extractVector(value) {
-        if (!value || typeof value !== 'object') return null;
-        return value.vector || value.embedding || value.vec || null;
-    }
-
-    async checkGraphCleanup(ptrBuf) {
-        if (this.db.graph) {
-             await this.db.graph.deleteNode(ptrBuf);
+    checkAutoCompact(engine, type) {
+        if (!engine || !engine.ptr) return;
+        
+        const blockId = engine.ptr.blockId;
+        const length = engine.ptr.length;
+        const isChain = engine.ptr.isChain;
+        const offset = engine.ptr.offset;
+        
+        // Ensure type header is correct
+        const newPtr = SmartPointer.block(type, blockId, length, isChain, offset);
+        
+        this.handle._updatePointer(newPtr);
+        
+        const newHash = `${blockId}:${offset}:${length}`;
+        if (this._cachedStructPtrHash !== newHash) {
+             this._cachedStructPtrHash = newHash;
         }
     }
+
+    getSearchIndex(path) { return this.db.sysCache.search.has(path); }
+    getVectorIndex(path) { return this.db.sysCache.vector.has(path); }
+    extractVector(val) { return val && (val.vector || val.embedding); }
+    checkGraphCleanup(ptr) { if (this.db.graph) this.db.graph.deleteNode(ptr); }
 }
 module.exports = WriterCommon;

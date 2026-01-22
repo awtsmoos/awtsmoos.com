@@ -2,200 +2,28 @@
 /**
  * @file persistence.js
  * @description
- *  The Scribe of the Connections. Handles the physical storage of nodes and edges.
- *  Refactored to use idiomatic vessel assignments.
+ *  Delegator for persistence operations.
+ *  Uses `persistence_node.js` and `persistence_edge.js`.
  */
-
-const HandleRegistry = require('../../core/handleRegistry.js');
-const constants = require('../../constants.js');
+const NodeOps = require('./persistence_node.js');
+const EdgeOps = require('./persistence_edge.js');
 
 class GraphPersistence {
     constructor(manager) {
-        this.manager = manager;
-        this.db = manager.db;
+        this.nodeOps = new NodeOps(manager);
+        this.edgeOps = new EdgeOps(manager);
     }
 
-    /**
-     * @description Manifests a connection between two nodes in the graph.
-     */
-    async connect(sourceHandle, targetHandle, label, props = {}) {
-        await this.db.batch(async () => {
-            await this.manager.ensureInit();
-            
-            const src = HandleRegistry.getSoul(sourceHandle);
-            const tgt = HandleRegistry.getSoul(targetHandle);
-            
-            await Promise.all([
-                src ? src.ensureResolved(true) : Promise.resolve(),
-                tgt ? tgt.ensureResolved(true) : Promise.resolve()
-            ]);
-
-            const sourceId = await this.manager.utils.getId(sourceHandle);
-            const targetId = await this.manager.utils.getId(targetHandle);
-            
-            if (!sourceId || !targetId) {
-                throw new Error("B\"H: Object cannot be a Graph Node (Unresolved or Invalid Pointer).");
-            }
-
-            await this._ensureNode(sourceId);
-            await this._ensureNode(targetId);
-
-            const edge = { 
-                targetId, sourceId, label, props, timestamp: Date.now(),
-                sourcePtr: src.ptr,
-                targetPtr: tgt.ptr,
-                sourceType: src.type,
-                targetType: tgt.type
-            };
-            
-            await this._addEdge(sourceId, "out", label, edge);
-            await this._addEdge(targetId, "in", label, edge);
-        });
+    connect(src, tgt, label, props) {
+        this.edgeOps.connect(src, tgt, label, props);
     }
 
-    /**
-     * @description Ensures a specific ID is represented in the __graph__ map.
-     */
-    async _ensureNode(nodeId) {
-        let rootInt = HandleRegistry.getSoul(this.manager.graphRoot);
-        await rootInt.ensureResolved();
-        
-        if (!rootInt.ptr) {
-            this.manager.graphRoot = null;
-            await this.manager.ensureInit();
-            rootInt = HandleRegistry.getSoul(this.manager.graphRoot);
-            await rootInt.ensureResolved(true);
-        }
-        
-        const nodeEntry = rootInt.nav.navigate(nodeId);
-        const internal = HandleRegistry.getSoul(nodeEntry);
-        await internal.ensureResolved();
-        
-        if (!internal.ptr) {
-            // B"H: Idiomatic assignment to create a marker-backed Map vessel.
-            this.manager.graphRoot[nodeId] = new this.db.Map();
-            await internal.ensureResolved(true);
-            const newNode = this.manager.graphRoot[nodeId]; 
-            newNode.in = new this.db.Map();
-            newNode.out = new this.db.Map();
-        }
+    deleteNode(nodeIdentifier) {
+        this.nodeOps.deleteNode(nodeIdentifier);
     }
 
-    async _addEdge(nodeId, dir, label, edge) {
-        const nodeEntry = this.manager.graphRoot[nodeId];
-        const dirMap = nodeEntry[dir]; 
-        const labelList = dirMap[label]; 
-        
-        const listInt = HandleRegistry.getSoul(labelList);
-        await listInt.ensureResolved();
-        
-        if (!listInt.ptr) {
-            // B"H: Idiomatic assignment for block-backed List.
-            dirMap[label] = new this.db.List();
-            const newList = dirMap[label];
-            await newList.push(edge);
-        } else {
-            await labelList.push(edge);
-        }
-    }
-
-    /**
-     * @description Relocates node metadata when a physical pointer changes.
-     */
-    async _relocateNode(oldId, newId) {
-        if (oldId === newId) return;
-        await this.db.batch(async () => {
-            await this.manager.ensureInit();
-            const exists = await this.db.has(this.manager.graphRoot, oldId);
-            if (!exists) return;
-
-            const data = await this.manager.graphRoot[oldId];
-            await this.manager.graphRoot.set(newId, data);
-            await this.manager.graphRoot.delete(oldId);
-        });
-    }
-
-    /**
-     * @description Severs a node from the graph and cleans all its edges.
-     */
-    async deleteNode(nodeIdentifier) {
-        await this.db.batch(async () => {
-            await this.manager.ensureInit();
-            
-            const soul = HandleRegistry.getSoul(nodeIdentifier);
-            if (soul) await soul.ensureResolved(true);
-
-            const nodeId = await this.manager.utils.getId(nodeIdentifier);
-            
-            if (!nodeId) return;
-
-            const nodeEntry = this.manager.graphRoot[nodeId];
-            const nodeInt = HandleRegistry.getSoul(nodeEntry);
-            await nodeInt.ensureResolved(true); 
-            
-            if (!nodeInt.ptr) return; 
-
-            await this._cleanEdges(nodeEntry, "in", "out", nodeId);
-            await this._cleanEdges(nodeEntry, "out", "in", nodeId);
-
-            await this.manager.graphRoot.delete(nodeId);
-        });
-    }
-
-    async _cleanEdges(nodeEntry, myDir, otherDir, myId) {
-        const map = nodeEntry[myDir];
-        const mapInt = HandleRegistry.getSoul(map);
-        await mapInt.ensureResolved();
-        
-        if (mapInt.ptr) {
-            const labels = await this.db.keys(map);
-            for (const label of labels) {
-                const list = map[label]; 
-                const edges = await list; 
-                if (Array.isArray(edges)) {
-                    for (const edge of edges) {
-                        if (edge) {
-                            const otherId = (myDir === 'in') ? edge.sourceId : edge.targetId;
-                            await this._removeEdgeFromOther(otherId, otherDir, edge.label, myId);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    async _removeEdgeFromOther(otherId, dir, label, targetNodeIdToRemove) {
-        const otherNode = this.manager.graphRoot[otherId];
-        const otherInt = HandleRegistry.getSoul(otherNode);
-        await otherInt.ensureResolved(true);
-        if (!otherInt.ptr) return;
-
-        const dirMap = otherNode[dir];
-        const dirInt = HandleRegistry.getSoul(dirMap);
-        await dirInt.ensureResolved(true);
-        if (!dirInt.ptr) return;
-
-        const listHandle = dirMap[label]; 
-        const listInt = HandleRegistry.getSoul(listHandle);
-        await listInt.ensureResolved();
-        if (!listInt.ptr) return;
-
-        const edges = await listHandle;
-        if (!Array.isArray(edges)) return;
-
-        const targetStr = String(targetNodeIdToRemove);
-        const filtered = edges.filter(edge => {
-            if (!edge) return false;
-            const match = (dir === 'out' && String(edge.targetId) === targetStr) ||
-                          (dir === 'in' && String(edge.sourceId) === targetStr);
-            return !match;
-        });
-
-        if (filtered.length === 0) {
-            await dirMap.delete(label); 
-        } else if (filtered.length !== edges.length) {
-            await dirMap.set(label, filtered);
-        }
+    _relocateNode(oldId, newId) {
+        this.nodeOps.relocateNode(oldId, newId);
     }
 }
 

@@ -4,27 +4,27 @@ class Projector {
         this.evaluator = evaluator;
     }
 
-    async project(item, mapSpec) {
+    project(item, mapSpec) {
         if (!mapSpec) return item;
         if (mapSpec === true) {
-             if (item && item.reader) return await item.reader.resolveSelf();
+             if (item && item.reader) return item.reader.resolveSelf();
              return item;
         }
         const result = {};
         for (const key in mapSpec) {
             const rule = mapSpec[key];
             if (rule === true) {
-                result[key] = await this.evaluator._resolvePath(item, key);
+                result[key] = this.evaluator._resolvePath(item, key);
             }
             else if (typeof rule === 'string') {
-                result[key] = await this.evaluator._resolvePath(item, rule);
+                result[key] = this.evaluator._resolvePath(item, rule);
             }
             else if (typeof rule === 'object') {
-                if (rule.$check) result[key] = await this.evaluator.evaluate(item, rule.$check);
+                if (rule.$check) result[key] = this.evaluator.evaluate(item, rule.$check);
                 else if (rule.$value) result[key] = rule.$value; 
                 else {
-                    const subItem = await this.evaluator._resolvePath(item, key);
-                    result[key] = await this.project(subItem, rule);
+                    const subItem = this.evaluator._resolvePath(item, key);
+                    result[key] = this.project(subItem, rule);
                 }
             }
         }

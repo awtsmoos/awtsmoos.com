@@ -3,12 +3,6 @@ const constants = require('../../../constants.js');
 const keyEncoding = require('../../../utils/keyEncoding.js');
 const SmartPointer = require('../../../utils/smartPointer.js');
 
-/**
- * @class MapWriter
- * @description
- *  The Scribe of the B-Tree and Dictionary vessels.
- *  Handles the manifestation of key-value pairs and structure growth.
- */
 class MapWriter {
     constructor(common, builder) {
         this.common = common;
@@ -17,102 +11,55 @@ class MapWriter {
         this.handle = common.handle;
     }
 
-    /**
-     * @description Sets a key-value pair in a Map or Dictionary.
-     */
-    async set(key, value, options) {
+    set(key, value, options) {
         const isPtr = (options === true) || (options && options.isPtr);
         const skipFree = (options && typeof options === 'object' && options.skipFree) || false;
-
-        const valToSet = isPtr ? value : await this.builder.build(value);
+        
+        const valToSet = isPtr ? value : this.builder.build(value);
+        
         const encodedKey = keyEncoding.encode(key);
+        const structPtr = this.common.resolveStructPtr();
         
-        const path = this.handle.getPath();
-        
-        const searchIndexed = await this.common.getSearchIndex(path);
-        const vectorIndex = await this.common.getVectorIndex(path);
+        // Use VAL_TYPE to ensure consistency regardless of constant structure
+        const T = constants.VAL_TYPE;
 
-        const structPtr = await this.common.resolveStructPtr();
-
-        if (this.handle.type === constants.TYPE_MAP) {
-            const map = await this.common.getEngine(structPtr, constants.TYPE_MAP);
+        if (this.handle.type === T.MAP) {
+            const map = this.common.getEngine(structPtr, T.MAP);
+            if (!map) throw new Error("B\"H Fatal: Could not create Map Engine");
             
-            let oldPtr = null;
-            let oldVal = null;
+            if (!structPtr) map.create();
             
-            if (searchIndexed) {
-                try {
-                    oldPtr = await map.getPtr(encodedKey);
-                    if (oldPtr) {
-                        oldVal = await SmartPointer.resolve(oldPtr, this.db.allocator);
-                    }
-                } catch(e) {}
-            }
-
-            await map.set(encodedKey, valToSet, { isPtr: true, skipFree });
-            await this.common.checkAutoCompact(map, constants.TYPE_MAP);
+            map.set(encodedKey, valToSet, { isPtr: true, skipFree });
+            this.common.checkAutoCompact(map, T.MAP);
+        } else {
+            // Default to Dictionary for Object/Dictionary/Etc
+            const dict = this.common.getEngine(structPtr, T.DICTIONARY);
+            if (!dict) throw new Error("B\"H Fatal: Could not create Dictionary Engine. Type ID: " + this.handle.type);
             
-            if (searchIndexed) {
-                try {
-                    await this.db.search.updateIndex(path, valToSet, oldPtr, oldVal, value);
-                } catch(e) {}
-            }
-
-            if (vectorIndex) {
-                const vec = this.common.extractVector(value);
-                if (vec) await this.db.vector.insert(path, key, vec, valToSet);
-            }
-            return;
+            if (!structPtr) dict.create();
+            
+            dict.set(encodedKey, valToSet, { isPtr: true, skipFree });
+            this.common.checkAutoCompact(dict, T.DICTIONARY);
         }
-
-        // B"H: Dictionary Path
-        const dict = await this.common.getEngine(structPtr, constants.TYPE_DICTIONARY);
-        await dict.set(encodedKey, valToSet, { isPtr: true, skipFree });
-        
-        // B"H: CRITICAL - Always trigger bubbling to propagate changes up the fractal tree
-        await this.common.checkAutoCompact(dict, constants.TYPE_DICTIONARY);
     }
-
-    /**
-     * @description Removes a key from the vessel.
-     */
-    async delete(key) {
+    
+    delete(key) {
         const encodedKey = keyEncoding.encode(key);
-        const structPtr = await this.common.resolveStructPtr();
-        
-        const path = this.handle.getPath();
-        const vectorIndex = await this.common.getVectorIndex(path);
-        const searchIndexed = await this.common.getSearchIndex(path);
+        const structPtr = this.common.resolveStructPtr();
+        if (!structPtr) return false;
+        const T = constants.VAL_TYPE;
 
-        if (this.handle.type === constants.TYPE_DICTIONARY) {
-            const dict = await this.common.getEngine(structPtr, constants.TYPE_DICTIONARY);
-            const res = await dict.delete(encodedKey);
-            await this.common.checkAutoCompact(dict, constants.TYPE_DICTIONARY);
+        if (this.handle.type === T.DICTIONARY || this.handle.type === T.OBJECT) {
+            const dict = this.common.getEngine(structPtr, T.DICTIONARY);
+            const res = dict.delete(encodedKey);
+            this.common.checkAutoCompact(dict, T.DICTIONARY);
             return res;
-        }
-        
-        if (this.handle.type === constants.TYPE_MAP) {
-            const map = await this.common.getEngine(structPtr, constants.TYPE_MAP);
-            const res = await map.delete(encodedKey);
-            
-            if (res.success && res.deletedPtr) {
-                if (searchIndexed) {
-                    try {
-                        const temp = await SmartPointer.resolve(res.deletedPtr, this.db.allocator);
-                        await this.db.search.updateIndex(path, null, res.deletedPtr, temp, null);
-                    } catch(e) {}
-                }
-                
-                await this.common.checkGraphCleanup(res.deletedPtr);
-                if (vectorIndex) await this.db.vector.delete(path, key);
-                await this.db.allocator.free(res.deletedPtr);
-            }
-            
-            await this.common.checkAutoCompact(map, constants.TYPE_MAP);
+        } else {
+            const map = this.common.getEngine(structPtr, T.MAP);
+            const res = map.delete(encodedKey);
+            this.common.checkAutoCompact(map, T.MAP);
             return res.success;
         }
-        return false;
     }
 }
-
 module.exports = MapWriter;

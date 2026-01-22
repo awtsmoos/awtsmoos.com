@@ -32,7 +32,11 @@ class GraphAlgorithms {
         const direction = options.direction || 'OUT';
         const label = options.label || null;
 
-        if (!startId || !endId) return null;
+        if (!startId || !endId) {
+            console.log(`B"H [GRAPH_ALGO] Invalid IDs. Start: ${startId}, End: ${endId}`);
+            return null;
+        }
+        
         if (startId === endId) return [{ node: startHandle }];
 
         // BFS Queue: { id, path: [ { node, edge? } ] }
@@ -54,6 +58,8 @@ class GraphAlgorithms {
                 // instead of re-calculating from the snapshot handle (Pointer-Based).
                 const neighborId = edgeObj.id; 
                 
+                if (!neighborId) continue;
+
                 if (neighborId === endId) {
                     console.log(`B"H [GRAPH_ALGO] Found path! Length: ${path.length + 1}`);
                     return [...path, { edge: edgeObj, node: neighborHandle }];

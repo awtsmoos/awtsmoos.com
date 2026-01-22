@@ -1,5 +1,8 @@
-
 // B"H
+/**
+ * @file evaluator.js
+ * @description Synchronous Filter Evaluation.
+ */
 const operators = require('./operators.js');
 const constants = require('../../constants.js');
 
@@ -8,31 +11,30 @@ class FilterEvaluator {
         this.db = db;
     }
 
-    async evaluate(item, criteria) {
+    evaluate(item, criteria) {
         if (!criteria) return true;
         if (criteria.$and) {
-            for (const sub of criteria.$and) if (!(await this.evaluate(item, sub))) return false;
+            for (const sub of criteria.$and) if (!this.evaluate(item, sub)) return false;
             return true;
         }
         if (criteria.$or) {
-            for (const sub of criteria.$or) if (await this.evaluate(item, sub)) return true;
+            for (const sub of criteria.$or) if (this.evaluate(item, sub)) return true;
             return false;
         }
-        if (criteria.$not) return !(await this.evaluate(item, criteria.$not));
+        if (criteria.$not) return !this.evaluate(item, criteria.$not);
         
-        // B"H: Handle Top-Level Graph Query
         if (criteria.$relatedTo) {
-             const match = await this._checkGraphRelationship(item, criteria.$relatedTo);
+             const match = this._checkGraphRelationship(item, criteria.$relatedTo);
              if (!match) return false;
         }
 
         for (const key in criteria) {
             if (key.startsWith('$')) continue;
             const condition = criteria[key];
-            const value = await this._resolvePath(item, key);
+            const value = this._resolvePath(item, key);
 
             if (condition && typeof condition === 'object' && condition.$relatedTo) {
-                const match = await this._checkGraphRelationship(item, condition.$relatedTo);
+                const match = this._checkGraphRelationship(item, condition.$relatedTo);
                 if (!match) return false;
                 continue;
             }
@@ -43,35 +45,33 @@ class FilterEvaluator {
         return true;
     }
 
-    async _resolvePath(item, path) {
+    _resolvePath(item, path) {
         if (!item) return undefined;
         if (path.indexOf('.') === -1) return this._getValue(item, path);
         const parts = path.split('.');
         let current = item;
         for (const part of parts) {
-            current = await this._getValue(current, part);
+            current = this._getValue(current, part);
             if (current === undefined || current === null) return undefined;
         }
         return current;
     }
 
-    async _getValue(obj, key) {
-        // B"H: Robust check for LiveHandle via Proxy or Internal
+    _getValue(obj, key) {
         const h = obj && obj[constants.SYMBOLS.INTERNALS] ? obj[constants.SYMBOLS.INTERNALS] : obj;
         
         if (h && h.isLiveHandle) {
-            // 1. Try Structural Navigation
+            // Structural Navigation
             const childHandle = h.nav.navigate(key);
-            // Internal handle check
             const childInt = childHandle[constants.SYMBOLS.INTERNALS];
-            await childInt.ensureResolved(); 
+            childInt.ensureResolved(); 
             
             if (childInt.ptr) {
-                 return await childInt.reader.resolveSelf();
+                 return childInt.reader.resolveSelf();
             }
             
-            // 2. Fallback
-            const resolvedObj = await h.reader.resolveSelf();
+            // Fallback to hydrated access
+            const resolvedObj = h.reader.resolveSelf();
             if (resolvedObj && typeof resolvedObj === 'object') {
                 return resolvedObj[key];
             }
@@ -95,25 +95,20 @@ class FilterEvaluator {
         return true;
     }
 
-    async _checkGraphRelationship(sourceHandle, criteria) {
+    _checkGraphRelationship(sourceHandle, criteria) {
         const h = sourceHandle && sourceHandle[constants.SYMBOLS.INTERNALS] ? sourceHandle[constants.SYMBOLS.INTERNALS] : sourceHandle;
         if (!h || !h.isLiveHandle) return false;
 
         const direction = criteria.direction || 'BOTH';
         const label = criteria.label || null;
         
-        // Access via db manager because handle.relationships might be hidden or this is internal handle
-        // Wait, handle.relationships IS exposed on Proxy but h is internal handle.
-        // Internal handle doesn't have `relationships` method (it's in Proxy get trap).
-        // So we use db.graph.getRelationships directly.
-        
-        const edges = await this.db.graph.getRelationships(h, direction, label);
+        const edges = this.db.graph.getRelationships(h, direction, label);
         
         if (!criteria.match) return edges.length > 0;
         
         for (const edge of edges) {
             const targetNode = edge.node;
-            if (await this.evaluate(targetNode, criteria.match)) {
+            if (this.evaluate(targetNode, criteria.match)) {
                 return true;
             }
         }
