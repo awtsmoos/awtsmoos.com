@@ -17,7 +17,7 @@ var currentTab = null;
  * @method renderAIChat
  * @description B"H - Renders the AI Chat with dynamic context refreshing.
  */
-export function renderAIChat({ tab }) {
+export function renderAIChat({ tab, options = { prefill: "", autoSend: false } }) {
     currentTab = tab;
     tab.awtsmoosType = "ai chat"; 
     tab.innerHTML = "";
@@ -25,77 +25,67 @@ export function renderAIChat({ tab }) {
     const container = document.createElement("div");
     container.className = "ai-chat-container";
     
-    const controls = document.createElement("div");
-    controls.className = "ai-controls";
+    // --- Header & Controls ---
+    const header = document.createElement("div");
+    header.className = "ai-chat-header";
     
-    const leftControls = document.createElement("div");
-    leftControls.className = "ai-controls-left";
+    const leftHead = document.createElement("div");
+    leftHead.style.display = "flex";
+    leftHead.style.alignItems = "center";
+    leftHead.style.gap = "10px";
 
-    const titleInput = document.createElement("input");
-    titleInput.type = "text";
-    titleInput.className = "ai-title-input";
-    titleInput.value = chatTitle;
-    titleInput.placeholder = "Chat Title...";
-    titleInput.oninput = (e) => { chatTitle = e.target.value; };
+    const title = document.createElement("h3");
+    title.innerText = "Awtsmoos Insight";
+    
+    const contextBadge = document.createElement("span");
+    contextBadge.className = "ai-context-badge";
+    contextBadge.innerText = "Global Context"; 
+    
+    leftHead.appendChild(title);
+    leftHead.appendChild(contextBadge);
+    header.appendChild(leftHead);
 
-    const contextCheckbox = document.createElement("input");
-    contextCheckbox.type = "checkbox";
-    contextCheckbox.checked = true; 
-    contextCheckbox.id = "ai-context-toggle";
-    
-    const contextLabel = document.createElement("label");
-    contextLabel.htmlFor = "ai-context-toggle";
-    contextLabel.className = "ai-context-label";
-    
-    function updateLabels() {
+    // Save Button
+    const saveBtn = document.createElement("button");
+    saveBtn.className = "ai-save-action-btn";
+    saveBtn.innerHTML = "💾 SAVE";
+    saveBtn.title = "Save this conversation to comments";
+    saveBtn.onclick = async () => {
+        if (!history.length) return alert("Nothing to save!");
+        saveBtn.disabled = true;
+        saveBtn.innerText = "...";
+        const s = new URLSearchParams(location.search);
+        const idx = s.get("idx") ?? "root";
+        await saveChat(history, idx);
+        saveBtn.disabled = false;
+        saveBtn.innerText = "SAVED";
+        setTimeout(() => saveBtn.innerText = "💾 SAVE", 2000);
+    };
+    header.appendChild(saveBtn);
+
+    container.appendChild(header);
+
+    // --- Dynamic Context Logic ---
+    function updateContext() {
         const s = new URLSearchParams(location.search);
         const idx = s.get("idx");
-        const hasSpecificContext = idx !== null;
         
-        if (!hasSpecificContext) {
-            contextLabel.textContent = "Analyzing: Full Post";
-            contextCheckbox.style.display = "none";
+        if (idx !== null) {
+            contextBadge.classList.add("active");
+            contextBadge.innerText = `Verse ${parseInt(idx) + 1}`;
+            const rawText = getContextContent(idx);
+            const cleanText = stripTags(rawText).replace(/\s+/g, " ").trim().substring(0, 50);
+            contextBadge.title = cleanText + "...";
         } else {
-            contextCheckbox.style.display = "inline-block";
-            if (contextCheckbox.checked) {
-                const rawText = getContextContent(idx);
-                const cleanText = stripTags(rawText).replace(/\s+/g, " ").trim();
-                const preview = cleanText.length > 20 ? cleanText.substring(0, 20) + "..." : cleanText;
-                contextLabel.textContent = `Sec ${parseInt(idx) + 1}: "${preview}"`;
-                contextLabel.title = cleanText; 
-            } else {
-                contextLabel.textContent = "Full Post";
-                contextLabel.title = "";
-            }
+            contextBadge.classList.remove("active");
+            contextBadge.innerText = "Full Post";
         }
     }
     
-    window.refreshAIChatContext = updateLabels;
-    updateLabels();
-    contextCheckbox.onchange = updateLabels;
-    
-    leftControls.appendChild(titleInput);
-    leftControls.appendChild(contextCheckbox);
-    leftControls.appendChild(contextLabel);
-    controls.appendChild(leftControls);
+    window.refreshAIChatContext = updateContext;
+    updateContext();
 
-    const saveBtn = document.createElement("button");
-    saveBtn.className = "ai-save-btn";
-    saveBtn.innerText = activeCommentId ? "Update Saved Chat" : "Save to Comments";
-    
-    saveBtn.onclick = async () => {
-        saveBtn.disabled = true;
-        saveBtn.innerText = "Saving...";
-        const s = new URLSearchParams(location.search);
-        const idx = s.get("idx");
-        await saveChat(history, idx !== null ? idx : "root");
-        saveBtn.innerText = activeCommentId ? "Update Saved Chat" : "Save to Comments";
-        saveBtn.disabled = false;
-    };
-    controls.appendChild(saveBtn);
-
-    container.appendChild(controls);
-
+    // --- Messages Area ---
     const messagesDiv = document.createElement("div");
     messagesDiv.className = "ai-messages";
     container.appendChild(messagesDiv);
@@ -106,6 +96,7 @@ export function renderAIChat({ tab }) {
         appendMessage("ai", "B\"H! I am ready to help you explore this Torah content. What would you like to know?", messagesDiv);
     }
 
+    // --- Input Area ---
     const inputArea = document.createElement("div");
     inputArea.className = "ai-input-area";
     
@@ -113,11 +104,14 @@ export function renderAIChat({ tab }) {
     textarea.className = "ai-input-box";
     textarea.placeholder = "Ask a question...";
     textarea.rows = 1;
+    textarea.value = options.prefill || "";
     
-    textarea.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
-    });
+    const resizeTx = () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    };
+    if (textarea.value) resizeTx();
+    textarea.addEventListener('input', resizeTx);
 
     textarea.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -135,15 +129,14 @@ export function renderAIChat({ tab }) {
         if (!text) return;
         
         textarea.value = "";
-        textarea.style.height = 'auto';
+        resizeTx();
         
         appendMessage("user", text, messagesDiv);
         history.push({ role: "user", text });
         
         const s = new URLSearchParams(location.search);
         const idx = s.get("idx");
-        const useSection = (idx !== null) && contextCheckbox.checked;
-        const contextText = getContextContent(useSection ? idx : null);
+        const contextText = getContextContent(idx); 
         
         const aiMsgDiv = appendMessage("ai", "", messagesDiv, true);
         const contentDiv = aiMsgDiv.querySelector(".content");
@@ -189,6 +182,10 @@ export function renderAIChat({ tab }) {
     
     tab.appendChild(container);
     setTimeout(() => messagesDiv.scrollTop = messagesDiv.scrollHeight, 100);
+
+    if (options.autoSend && textarea.value) {
+        setTimeout(() => sendBtn.click(), 100);
+    }
 }
 
 export function loadChat(conversation, commentId, title) {
@@ -198,13 +195,16 @@ export function loadChat(conversation, commentId, title) {
     openAIChat();
 }
 
-export function openAIChat() {
+export function openAIChat(options = { prefill: "", autoSend: false }) {
     if(window.openPanel) window.openPanel();
+
+    const chatOptions = typeof options === 'string' ? { prefill: options, autoSend: false } : options;
+
     window.tabManager.addTab({
         header: "Awtsmoos AI",
         content: "",
         async onopen({ actualTab }) {
-            renderAIChat({ tab: actualTab });
+            renderAIChat({ tab: actualTab, options: chatOptions });
         }
     }).open();
 }
@@ -213,18 +213,27 @@ function appendMessage(role, text, container, isLoading = false) {
     const msgDiv = document.createElement("div");
     msgDiv.className = `ai-message ${role}`;
     
+    const icon = document.createElement("div");
+    icon.className = "ai-msg-icon";
+    icon.innerHTML = role === "user" ? "👤" : "✨";
+    msgDiv.appendChild(icon);
+
+    const bubble = document.createElement("div");
+    bubble.className = "ai-msg-bubble";
+
     const content = document.createElement("div");
     content.className = "content";
     content.innerHTML = role === "user" ? text.replace(/\n/g, "<br>") : markdownToHtml(text);
-    msgDiv.appendChild(content);
+    bubble.appendChild(content);
 
     if (isLoading) {
         const indicator = document.createElement("div");
         indicator.className = "typing-indicator";
         indicator.innerHTML = "<span></span><span></span><span></span>";
-        msgDiv.appendChild(indicator);
+        bubble.appendChild(indicator);
     }
 
+    msgDiv.appendChild(bubble);
     container.appendChild(msgDiv);
     container.scrollTop = container.scrollHeight;
     return msgDiv;
@@ -262,20 +271,15 @@ function extractTextFromChunk(chunk) {
     if (typeof chunk !== 'string') return "";
     try {
         const d = JSON.parse(chunk);
-        const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if(txt) return txt;
+        return d?.candidates?.[0]?.content?.parts?.[0]?.text || "";
     } catch(e) {}
     const lines = chunk.split('\n');
     let extractedText = "";
     for(const line of lines) {
-        const trimmed = line.trim();
-        if(!trimmed) continue;
         try {
-            let cleanLine = trimmed;
-            if(cleanLine.startsWith(',')) cleanLine = cleanLine.substring(1);
-            if(cleanLine.startsWith('[')) cleanLine = cleanLine.substring(1);
-            if(cleanLine.endsWith(']')) cleanLine = cleanLine.substring(0, cleanLine.length - 1);
-            const d = JSON.parse(cleanLine);
+            let clean = line.trim().replace(/^,+|^\[|\]$/g, ''); 
+            if(!clean) continue;
+            const d = JSON.parse(clean);
             const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text;
             if(txt) extractedText += txt;
         } catch(e) {}
@@ -285,58 +289,44 @@ function extractTextFromChunk(chunk) {
 }
 
 async function saveChat(chatHistory, verseSection) {
-    if (!chatHistory || chatHistory.length === 0) {
-        return AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Chat is empty!" });
-    }
-    const currentAlias = window.currentAlias || window.curAlias;
+    const currentAlias = window.curAlias;
     if (!currentAlias) {
-        return AwtsmoosPrompt.go({ isAlert: true, headerTxt: "You must be logged in with an alias to save comments." });
+        return alert("Log in to save!");
     }
+    const heichelId = window.post?.heichel?.id;
+    const postId = window.post?.id;
+    
+    const dayuhObject = {
+        conversation: chatHistory,
+        verseSection: verseSection === "root" ? "root" : parseInt(verseSection)
+    };
+    
+    const method = activeCommentId ? "PUT" : "POST";
+    const bodyParams = {
+        aliasId: currentAlias,
+        seriesId: window?.post?.parentSeriesId,
+        dayuh: JSON.stringify(dayuhObject),
+        content: chatTitle || "AI Conversation"
+    };
+    
+    if (activeCommentId) {
+        bodyParams.commentId = activeCommentId;
+    }
+
     try {
-        const s = new URLSearchParams(location.search);
-        const sub = s.get("sub");
-        const heichelId = window.post?.heichel?.id;
-        const postId = window.post?.id;
-        const dayuhObject = {
-            conversation: chatHistory,
-            verseSection: verseSection === "root" ? "root" : parseInt(verseSection)
-        };
-        if (sub !== null && sub !== undefined) {
-            dayuhObject.subSection = parseInt(sub);
-        }
-        const content = chatTitle || "Chat with Awtsmoos AI";
-        const method = activeCommentId ? "PUT" : "POST";
-        const bodyParams = {
-            aliasId: currentAlias,
-            seriesId: window?.post?.parentSeriesId,
-            dayuh: JSON.stringify(dayuhObject),
-            content: content
-        };
-        if (activeCommentId) {
-            bodyParams.commentId = activeCommentId;
-            bodyParams.verseSection = verseSection === "root" ? "root" : parseInt(verseSection);
-        }
-        const response = await fetch(location.origin + `/api/social/heichelos/${heichelId}/post/${postId}/comments/`, {
+        const response = await fetch(`/api/social/heichelos/${heichelId}/post/${postId}/comments/`, {
             method: method,
             body: new URLSearchParams(bodyParams),
         });
         const json = await response.json();
         if (json.success) {
-            const newCommentId = json.details?.id || activeCommentId;
-            activeCommentId = newCommentId; 
-            const newCommentData = { id: newCommentId, author: currentAlias, content: content, dayuh: dayuhObject };
-            await window.commentLogic.handleNewComment({
-                aliasId: currentAlias,
-                verseSection: verseSection,
-                commentId: newCommentId,
-                newCommentData: newCommentData
-            });
-            AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Chat saved successfully!" });
+            activeCommentId = json.details?.id || activeCommentId;
+            alert("Saved successfully!");
         } else {
-            AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Failed to save: " + (json.error || "Unknown error") });
+            alert("Error: " + json.error);
         }
     } catch (e) {
-        console.error("Save chat error:", e);
-        AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Network error saving chat." });
+        console.error(e);
+        alert("Network Error");
     }
 }

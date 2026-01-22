@@ -1,4 +1,3 @@
-
 //B"H
 import { createFootnoteOverlay } from "../../functions/interaction.js";
 
@@ -17,60 +16,30 @@ export function renderFootnotesPanel(actualTab) {
     footnotes.forEach((note, i) => {
         const item = document.createElement("div");
         item.className = "awtsmoos-list-item footnote-item";
-        item.style.flexDirection = "column";
-        item.style.alignItems = "flex-start";
-        item.style.gap = "5px";
         
+        // Ensure ID matches what's in the text (often just the index + 1 or a specific ID)
         const idVal = note.id || (i + 1);
-        const contentVal = note.content || "";
-        
-        // B"H - Tag sidebar item with ID for syncing
         item.dataset.footnoteId = idVal;
-
+        
         item.innerHTML = `
             <div class="footnote-id">${idVal}</div>
-            <div style="font-size:0.9em; color:#333;">${contentVal}</div>
+            <div style="font-size:14px; line-height:1.5;">${note.content || ""}</div>
         `;
         
-        // B"H - Scroll to text element instead of overlay
+        // Click Side -> Scroll to Text
         item.onclick = (e) => {
             e.stopPropagation();
-            
-            // Try precise selector first
-            let textEl = document.querySelector(`sup[data-footnote-id="${CSS.escape(idVal)}"], .footnote-ref[data-footnote-id="${CSS.escape(idVal)}"]`);
-            
-            // If ID has issues (e.g. *), try looping as fallback if simple selector failed
-            if (!textEl) {
-                const allRefs = document.querySelectorAll('sup, .footnote-ref');
-                for(let ref of allRefs) {
-                    if(ref.dataset.footnoteId === String(idVal)) {
-                        textEl = ref;
-                        break;
-                    }
-                }
-            }
-
-            if (textEl) {
-                // Scroll main window to the element
-                textEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            // Look for both sup and .footnote-ref
+            const ref = document.querySelector(`sup[data-footnote-id="${CSS.escape(idVal)}"], .footnote-ref[data-footnote-id="${CSS.escape(idVal)}"]`);
+            if(ref) {
+                ref.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                ref.classList.add('active-footnote-match');
+                setTimeout(() => ref.classList.remove('active-footnote-match'), 2000);
                 
-                // Add intense active class
-                document.querySelectorAll('.active-footnote-match').forEach(el => el.classList.remove('active-footnote-match'));
-                textEl.classList.add('active-footnote-match');
-                
-                // Auto-remove after animation
-                setTimeout(() => textEl.classList.remove('active-footnote-match'), 2000);
-                
-                // On mobile, maybe close the sidebar to see the text?
+                // On mobile, close sidebar to see text
                 if (window.innerWidth <= 900) {
-                    const sidebar = document.querySelector(".sidebar");
-                    if (sidebar) sidebar.classList.add("hidden-comments");
-                    const btn = document.getElementById("commentaryBtn");
-                    if (btn) btn.classList.remove("pushed");
+                    import("../../logic/listeners.js").then(m => m.toggleSidebar(false));
                 }
-            } else {
-                // Fallback to overlay if not found in text (weird edge case)
-                createFootnoteOverlay(contentVal);
             }
         };
         

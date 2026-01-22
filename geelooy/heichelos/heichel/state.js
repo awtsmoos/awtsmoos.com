@@ -9,6 +9,12 @@ export const appState = {
     breadcrumb: [], // Track navigation path
     ownsIt: false,
     
+    // Content Cache for Filtering
+    currentContent: {
+        posts: [],
+        subSeries: []
+    },
+    
     // UI State
     isSelectionMode: false,
     selectedItems: new Map(), // Map of 'type-id' -> itemObject

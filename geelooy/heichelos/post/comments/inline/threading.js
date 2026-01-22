@@ -2,6 +2,7 @@
 /**
  * Inline Threading Logic - Sovereignty & Union Edition.
  * Handles the manifestation of both AI and Human insights within the reading flow.
+ * RE-FORGED for CSS GRID architecture.
  */
 import { updateQueryStringParameter } from "../../functions/utils.js";
 import { makeInlineComment } from "../render.js";
@@ -11,76 +12,69 @@ import { registerFork } from "../render/ai/structure.js";
 
 /**
  * @method renderThreadContent
- * @description B"H - Populates the inline thread with high-intensity controls and commentaries.
+ * @description B"H - Populates the marginal gloss with high-intensity controls and commentaries.
  */
 export async function renderThreadContent(threadContainer, idx, sub) {
     threadContainer.innerHTML = `
-        <div class="thread-loading">
-            <div class="loading-bar"></div>
-            <span>DRAWING FORTH REVELATIONS...</span>
+        <div class="thread-loading" style="font-size:12px; color: var(--color-ink-secondary);">
+            Loading Revelations...
         </div>
     `;
     
     const addControls = (isEmpty = false) => {
-        // --- THE SOVEREIGN X ---
+        // --- Close Button ---
         const closeBtn = document.createElement('button');
         closeBtn.className = 'thread-close-btn';
         closeBtn.innerHTML = '×';
+        closeBtn.title = "Close Insight Panel";
         closeBtn.onclick = (e) => {
             e.preventDefault(); e.stopPropagation();
-            threadContainer.classList.add('manifest-closing');
+            document.getElementById('realPost')?.classList.remove('has-gloss');
+            threadContainer.remove();
+            
             updateQueryStringParameter("idx", null);
             updateQueryStringParameter("sub", null);
             updateQueryStringParameter("cid", null);
-            if(window.chai) window.chai.deselectAll();
-            if(window.subChai) window.subChai.deselectAll();
-            setTimeout(() => threadContainer.remove(), 250);
         };
         threadContainer.appendChild(closeBtn);
 
-        // --- THE DUAL PORTAL ---
+        // --- The Collapsed Portal ---
         if(window.curAlias) {
             const portalWrapper = document.createElement("div");
-            portalWrapper.className = isEmpty ? "thread-hero-portal" : "thread-compact-portal";
+            portalWrapper.className = "thread-portal";
             
             if (isEmpty) {
-                portalWrapper.innerHTML = `<div class="empty-msg-text">No commentaries found here. Start one</div>`;
+                portalWrapper.innerHTML = `<div class="empty-msg-text">No commentaries found here.</div>`;
             }
 
             const btnRow = document.createElement("div");
-            btnRow.className = "portal-btn-row";
+            btnRow.className = "portal-btn-row collapsed";
 
-            // Path 1: Human Insight
+            const expandBtn = document.createElement("button");
+            expandBtn.className = "btn expand-portal-btn";
+            expandBtn.innerHTML = "+ Add Insight";
+            
             const humanBtn = document.createElement("button");
-            humanBtn.className = "btn primary portal-btn human-path";
-            humanBtn.innerHTML = "<span>WRITE HUMAN INSIGHT</span>";
+            humanBtn.className = "btn portal-btn human-path";
+            humanBtn.innerHTML = "Human";
             humanBtn.onclick = async (e) => {
                 e.stopPropagation();
                 const { CommentSection } = await import("../../CommentSection.js");
                 const entryPoint = document.createElement("div");
                 entryPoint.className = "inline-comment-entry-point";
-                
-                // B"H - Anchor the input locally
                 portalWrapper.after(entryPoint);
-                const cs = new CommentSection(entryPoint);
-                
-                // Auto-trigger the box focus
+                new CommentSection(entryPoint);
                 setTimeout(() => {
-                    const box = entryPoint.querySelector('.comment-box');
-                    if(box) {
-                        box.style.display = 'block';
-                        box.focus();
-                        entryPoint.querySelector('.add-comment').style.display = 'none';
-                    }
+                    entryPoint.querySelector('.add-comment')?.click();
                 }, 50);
-
                 humanBtn.disabled = true;
+                aiBtn.style.display = 'none';
+                expandBtn.style.display = 'none';
             };
 
-            // Path 2: AI Transception
             const aiBtn = document.createElement("button");
-            aiBtn.className = "btn secondary portal-btn ai-path";
-            aiBtn.innerHTML = "<span>ASK AWTSMOOS AI</span>";
+            aiBtn.className = "btn portal-btn ai-path";
+            aiBtn.innerHTML = "AI";
             aiBtn.onclick = async (e) => {
                 e.stopPropagation();
                 const { openAIChat } = await import("../../ai/chat.js");
@@ -88,8 +82,13 @@ export async function renderThreadContent(threadContainer, idx, sub) {
                 if(sub !== null) updateQueryStringParameter("sub", sub);
                 openAIChat(); 
             };
+            
+            expandBtn.onclick = () => {
+                btnRow.classList.remove('collapsed');
+                expandBtn.style.display = 'none';
+            };
 
-            btnRow.append(humanBtn, aiBtn);
+            btnRow.append(expandBtn, humanBtn, aiBtn);
             portalWrapper.appendChild(btnRow);
             threadContainer.appendChild(portalWrapper);
         }
@@ -100,37 +99,20 @@ export async function renderThreadContent(threadContainer, idx, sub) {
 
     threadContainer.innerHTML = ""; 
     
-    if (!aliases || aliases.length === 0) {
-        addControls(true);
-        return;
-    }
+    addControls(!aliases || aliases.length === 0); 
 
-    addControls(false); 
+    if (!aliases || aliases.length === 0) return;
 
     let foundAny = false;
     const scrollContainer = document.createElement("div");
     scrollContainer.className = "thread-scroll-area";
 
     for (const alias of aliases) {
-        if (isAliasInline(alias)) {
-            const aliasGroup = document.createElement("div");
-            aliasGroup.className = "thread-alias-group";
-            aliasGroup.innerHTML = `
-                <div class="thread-alias-header">@${alias}</div>
-                <div class="inline-reading-status">Reading inline in text flow.</div>
-            `;
-            scrollContainer.appendChild(aliasGroup);
-            foundAny = true;
-            continue;
-        }
+        if (isAliasInline(alias)) continue;
 
         const allVerseComments = await getCommentsOfAlias({
-            seriesId: window?.post?.parentSeriesId,
-            postId: window?.post?.id,
-            heichelId: window?.post?.heichel.id,
-            aliasId: alias,
-            fromCache: false, 
-            get: { verseSection: idx, map: true } 
+            seriesId: window?.post?.parentSeriesId, postId: window?.post?.id, heichelId: window?.post?.heichel.id,
+            aliasId: alias, fromCache: false, get: { verseSection: idx, map: true } 
         });
         
         let relevant = (Array.isArray(allVerseComments) ? allVerseComments : []).filter(c => {
@@ -150,15 +132,9 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             
             relevant.forEach(c => {
                 c.id = String(c.id);
-                const contentStr = (typeof c.content === 'string') ? c.content.trim() : "";
-                const isFork = !!(c.forkedFrom || (c.dayuh || {}).forkedFrom || contentStr.startsWith("Fork") || contentStr.startsWith("Branch"));
-
-                if (isFork) {
-                    registerFork(c);
-                } else {
-                    const incom = makeInlineComment(alias, c);
-                    aliasGroup.appendChild(incom);
-                }
+                registerFork(c);
+                const incom = makeInlineComment(alias, c);
+                aliasGroup.appendChild(incom);
             });
             scrollContainer.appendChild(aliasGroup);
         }
@@ -166,51 +142,30 @@ export async function renderThreadContent(threadContainer, idx, sub) {
     
     if (foundAny) {
         threadContainer.appendChild(scrollContainer);
-    } else {
-        threadContainer.innerHTML = "";
-        addControls(true);
     }
 }
 
 /**
  * @method showSectionCommentaryInline
- * @description B"H - Triggers the manifesting of the inline thread container.
+ * @description B"H - Triggers the manifesting of the marginal gloss within the CSS Grid.
  */
 export async function showSectionCommentaryInline(idx, sub, targetEl) {
-    if (!targetEl || !targetEl.querySelector) {
-        const sel = (sub !== null && sub !== undefined) 
-            ? `.sub-awtsmoos[data-awtsmoos-sub='${sub}']` 
-            : `.section[data-awtsmoos-idx='${idx}']`;
-        targetEl = document.querySelector(sel);
-        if (!targetEl) return;
-    }
-
-    const subKey = (sub !== null && sub !== undefined) ? sub : 'main';
-    const threadId = `${idx}-${subKey}`;
-    const existing = document.querySelector(`.awtsmoos-inline-thread[data-unique-thread="${threadId}"]`);
-
-    if (existing) {
-        existing.querySelector('.thread-close-btn')?.click();
-        return;
-    }
-
-    // Single-thread focus mode
-    document.querySelectorAll('.awtsmoos-inline-thread').forEach(t => t.querySelector('.thread-close-btn')?.click());
+    // Single-thread focus mode: close all others
+    document.querySelectorAll('.awtsmoos-inline-thread .thread-close-btn').forEach(btn => btn.click());
+    
+    const realPost = document.getElementById('realPost');
+    if (!realPost) return;
 
     const threadContainer = document.createElement("div");
     threadContainer.className = 'awtsmoos-inline-thread';
-    threadContainer.dataset.uniqueThread = threadId;
     
-    if (sub !== null && sub !== undefined) {
-        const indicatorEl = targetEl.querySelector('.awtsmoos-comment-indicator');
-        if (indicatorEl) indicatorEl.after(threadContainer);
-        else targetEl.appendChild(threadContainer);
-    } else {
-        const textContentEl = targetEl.querySelector('.toichen');
-        if (textContentEl) textContentEl.after(threadContainer);
-        else targetEl.appendChild(threadContainer);
-    }
+    // B"H - Place the thread container and command the grid to make space.
+    realPost.appendChild(threadContainer);
+    realPost.classList.add('has-gloss');
 
-    setTimeout(() => threadContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+    setTimeout(() => {
+        // Scroll the main content area to bring the target element into view
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150);
     await renderThreadContent(threadContainer, idx, sub);
 }

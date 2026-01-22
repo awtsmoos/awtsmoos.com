@@ -1,4 +1,4 @@
-
+// /BH/awtsmoos.com/geelooy/heichelos/post/comments/panel.js
 //B"H
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { getCurrentVerse, getCurrentSub } from "./state.js";
@@ -67,7 +67,6 @@ export async function showAllComments({ alias, post, tab, withCurrentVerse = tru
             btn.style.marginTop = "10px";
             btn.innerText = "Check Entire Verse";
             btn.onclick = async () => {
-                // Fetch verse-level comments (ignoring sub-section)
                 const verseComsRaw = await getCommentsOfAlias({
                     seriesId: window?.post?.parentSeriesId, postId: post.id, heichelId: post.heichel.id, aliasId: alias,
                     fromCache: true, get: { verseSection: cv, map: true }
@@ -75,7 +74,6 @@ export async function showAllComments({ alias, post, tab, withCurrentVerse = tru
                 
                 const verseComs = Array.isArray(verseComsRaw) 
                     ? verseComsRaw.filter(c => {
-                        // Safe check for subSection absence
                         let d = c.dayuh;
                         if(typeof d !== 'object' || !d) d = {};
                         const cSub = d.subSection;
@@ -103,27 +101,29 @@ export async function openCommentsPanelToAlias(alias, open=true) {
     if(window.reloadRoot) await window.reloadRoot(); 
     if(open && window.openPanel) window.openPanel();
     
-    const tabs = window.tabManager.getTabs();
-    if(tabs.length === 1) {
-        return new Promise(resolve => {
-            window.tabManager.addTab({
-                header: "@" + alias,
-                content: "Loading...",
-                async onopen({actualTab, tab}) {
-                     tab.awtsmoosType = "specific alias comments";
-                     window.currentAliasTabContainer = actualTab; 
-                     window.currentAliasBeingViewed = alias;
-                     await openCommentsOfAlias({ alias, actualTab, post: window.post });
-                     resolve(actualTab);
-                }
-            }).open();
-        });
-    }
-    
+    // Check if we are already viewing this alias
     const current = window.tabManager.getCurrent();
     if(current && window.currentAliasBeingViewed === alias) {
+         // Just refresh content
          await openCommentsOfAlias({ alias, actualTab: current.actual, post: window.post });
          return current.actual;
     }
-	return null; 
+
+    // Otherwise open new tab
+    return new Promise(resolve => {
+        window.tabManager.addTab({
+            header: "@" + alias,
+            content: "Loading...",
+            async onopen({actualTab, tab}) {
+                 tab.awtsmoosType = "specific alias comments";
+                 window.currentAliasTabContainer = actualTab; 
+                 window.currentAliasBeingViewed = alias;
+                 await openCommentsOfAlias({ alias, actualTab, post: window.post });
+                 resolve(actualTab);
+            }
+        }).open();
+    });
 }
+
+// B"H - CRITICAL: Expose to Window so the inline button can find it
+window.openCommentsPanelToAlias = openCommentsPanelToAlias;

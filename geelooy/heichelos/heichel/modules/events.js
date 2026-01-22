@@ -18,6 +18,13 @@ export function initializeEventListeners(navigator) {
     DOMElements.postsTab.addEventListener('click', () => navigator.switchView('posts'));
     DOMElements.seriesTab.addEventListener('click', () => navigator.switchView('series'));
 
+    // Search Listener
+    if (DOMElements.searchInput) {
+        DOMElements.searchInput.addEventListener('input', (e) => {
+            navigator.filterContent(e.target.value);
+        });
+    }
+
     // Selection Mode Controls
     //DOMElements.selectionBtn.addEventListener('click', () => ui.toggleSelectionMode(!appState.isSelectionMode, navigator));
     DOMElements.exitSelectionBtn.addEventListener('click', () => ui.toggleSelectionMode(false, navigator));

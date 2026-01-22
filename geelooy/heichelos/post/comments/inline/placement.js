@@ -1,9 +1,23 @@
-
+// /BH/awtsmoos.com/geelooy/heichelos/post/comments/inline/placement.js
 //B"H
 import { isFirstCharacterHebrew, updateQueryStringParameter } from "../../functions/utils.js";
-import { makeInlineComment, makeInlineCommentHolder } from "../render.js";
+import { makeInlineComment, makeInlineCommentHolder, renderTreeItem } from "../render.js";
 import { hideCommentsInline, getInlineAliases, isAliasInline } from "./state.js";
-import { registerFork } from "../render/ai/structure.js";
+
+function buildCommentTree(comments) {
+    const map = {};
+    const roots = [];
+    comments.forEach(c => { map[c.id] = { comment: c, children: [] }; });
+    comments.forEach(c => {
+        const node = map[c.id];
+        const dayuh = c.dayuh || {};
+        const parentId = dayuh.replyToId || dayuh.forkedFrom?.commentId;
+        if (parentId && map[parentId]) map[parentId].children.push(node);
+        else roots.push(node);
+    });
+    roots.sort((a, b) => parseInt(a.comment.id.split('_')[1]) - parseInt(b.comment.id.split('_')[1]));
+    return roots;
+}
 
 export function createAndPlaceRootCommentHolder(alias) {
     const postContent = document.getElementById("realPost");
@@ -15,18 +29,30 @@ export function createAndPlaceRootCommentHolder(alias) {
     inlineHolder.className = "commentator inline root-comments-holder";
     inlineHolder.dataset.alias = alias;
     
-    var inHeader = document.createElement("div");
-    inHeader.classList.add("alias-name");
-    var a = document.createElement("a");
-    a.href = "/@" + alias;
-    if (!isFirstCharacterHebrew(alias)) inHeader.classList.add("en");
-    a.textContent = "@" + alias;
-    inHeader.appendChild(a);
-    inlineHolder.appendChild(inHeader);
+    // B"H - Toggle Button (The ONLY Header)
+    const toggleBtn = document.createElement("button");
+    toggleBtn.className = "inline-summary-btn";
+    toggleBtn.innerHTML = `💬 Post Comments (@${alias})`;
+    
+    // B"H - The Scroll Lock Container
+    const scrollContainer = document.createElement("div");
+    scrollContainer.className = "inline-scroll-container"; // New Class for containment
 
-    var commentHolder = document.createElement("div");
-    commentHolder.classList.add("comments-holder-inline");
-    inlineHolder.appendChild(commentHolder);
+    const commentHolder = document.createElement("div");
+    commentHolder.className = "comments-holder-inline"; 
+    
+    toggleBtn.onclick = () => {
+        const isHidden = getComputedStyle(scrollContainer).display === "none";
+        scrollContainer.style.display = isHidden ? "block" : "none";
+        commentHolder.classList.toggle("expanded", isHidden);
+        toggleBtn.classList.toggle("active", isHidden);
+    };
+
+    // Default state: Hidden
+    scrollContainer.style.display = "none";
+    scrollContainer.appendChild(commentHolder);
+
+    inlineHolder.append(toggleBtn, scrollContainer);
 
     const postTitle = postContent.querySelector(".post-title");
     if (postTitle && postTitle.nextSibling) postTitle.parentNode.insertBefore(inlineHolder, postTitle.nextSibling);
@@ -48,32 +74,37 @@ export function addCommentsInline(comments, alias) {
 
     for (const verseKey in commentsByVerse) {
         const commentsForThisVerse = commentsByVerse[verseKey];
+        const treeRoots = buildCommentTree(commentsForThisVerse);
+
         if (verseKey === 'root') {
+            const rootHolderDiv = document.querySelector(".commentator.inline.root-comments-holder[data-alias='" + alias + "']");
+            let wasExpanded = false;
+            let expandedReplies = new Set();
+            if (rootHolderDiv) {
+                const scrollContainer = rootHolderDiv.querySelector('.inline-scroll-container');
+                if (scrollContainer && getComputedStyle(scrollContainer).display !== "none") {
+                    wasExpanded = true;
+                }
+                scrollContainer.querySelectorAll('.reply-toggle-btn[data-expanded="true"]').forEach(btn => {
+                    const card = btn.closest('.comment-wrapper')?.querySelector('[data-cid]');
+                    if (card) expandedReplies.add(card.dataset.cid);
+                });
+            }
+
             const rootCommentHolder = createAndPlaceRootCommentHolder(alias);
             if (rootCommentHolder) {
-                commentsForThisVerse.forEach(c => {
-                    // B"H - NUCLEAR FORK FILTER
-                    const dayuh = c.dayuh || {};
-                    const contentStr = (typeof c.content === 'string') ? c.content.trim() : "";
-                    
-                    const isFork = !!(
-                        c.forkedFrom || 
-                        dayuh.forkedFrom || 
-                        contentStr.startsWith("Fork from") || 
-                        contentStr.startsWith("Branch:")
-                    );
-
-                    if (isFork) {
-                        registerFork(c);
-                        return; // Skip rendering in main list
-                    }
-
-                    if (!rootCommentHolder.querySelector(`[data-cid='${c.id}']`)) {
-                        const incom = makeInlineComment(alias, c);
-                        incom.dataset.cid = c.id;
-                        rootCommentHolder.appendChild(incom);
-                    }
-                });
+                rootCommentHolder.innerHTML = "";
+                treeRoots.forEach(node => renderTreeItem(node, rootCommentHolder, (c) => makeInlineComment(c), 'inline', expandedReplies));
+                
+                const btn = rootCommentHolder.closest('.commentator').querySelector('.inline-summary-btn');
+                if(btn) btn.innerHTML = `💬 ${commentsForThisVerse.length} Post Insights (@${alias})`;
+                
+                if (wasExpanded) {
+                    const scrollContainer = rootCommentHolder.closest('.inline-scroll-container');
+                    if (scrollContainer) scrollContainer.style.display = "block";
+                    rootCommentHolder.classList.add("expanded");
+                    if(btn) btn.classList.add("active");
+                }
             }
             continue;
         }
@@ -81,69 +112,73 @@ export function addCommentsInline(comments, alias) {
         const targetSectionElement = document.querySelector(`.section[data-awtsmoos-idx='${verseKey}']`);
         if (!targetSectionElement) continue;
         
-        commentsForThisVerse.forEach((c, i) => {
-            // B"H - NUCLEAR FORK FILTER (Repeated for safety)
-            const dayuh = c.dayuh || {};
-            const contentStr = (typeof c.content === 'string') ? c.content.trim() : "";
-            
-            const isFork = !!(
-                c.forkedFrom || 
-                dayuh.forkedFrom || 
-                contentStr.startsWith("Fork from") || 
-                contentStr.startsWith("Branch:")
-            );
+        const rootsBySub = treeRoots.reduce((acc, node) => {
+            const sub = (node.comment.dayuh?.subSection !== undefined && node.comment.dayuh?.subSection !== null) ? node.comment.dayuh.subSection : 'main';
+            if(!acc[sub]) acc[sub] = [];
+            acc[sub].push(node);
+            return acc;
+        }, {});
 
-            if (isFork) {
-                registerFork(c);
-                return; // Skip rendering
-            }
-
-            const subIdx = c?.dayuh?.subSection;
+        for (const subKey in rootsBySub) {
+            const subRoots = rootsBySub[subKey];
             let parentElement = targetSectionElement;
             let isParagraph = false;
-            
-            const hasSub = (subIdx !== undefined && subIdx !== null && subIdx !== 'main' && subIdx !== 'root');
-            
-            if (hasSub) {
-                const subStr = String(subIdx);
-                const subEl = targetSectionElement.querySelector(`.sub-awtsmoos[data-awtsmoos-sub='${subStr}']`);
+
+            if (subKey !== 'main') {
+                const subEl = targetSectionElement.querySelector(`.sub-awtsmoos[data-awtsmoos-sub='${subKey}']`);
                 if (subEl) {
                     parentElement = subEl;
                     isParagraph = true;
                 }
             }
-            
+
             if (parentElement) {
-                let commentHolder = parentElement.querySelector(`.commentator.inline[data-alias='${alias}'][data-idx='${i}'] .comments-holder-inline`);
-                if (!commentHolder) {
-                     const wrapper = makeInlineCommentHolder(alias, parentElement, i);
-                     
+                let wrapper = parentElement.querySelector(`.commentator.inline[data-alias='${alias}']`);
+                let commentHolder;
+
+                let wasExpanded = false;
+                let expandedReplies = new Set();
+                if (wrapper) {
+                    const holder = wrapper.querySelector('.comments-holder-inline');
+                    if (holder && holder.style.display !== 'none') {
+                        wasExpanded = true;
+                    }
+                    holder.querySelectorAll('.reply-toggle-btn[data-expanded="true"]').forEach(btn => {
+                        const card = btn.closest('.comment-wrapper')?.querySelector('[data-cid]');
+                        if(card) expandedReplies.add(card.dataset.cid);
+                    });
+                }
+
+                if (!wrapper) {
+                     wrapper = makeInlineCommentHolder(alias, parentElement, 0);
                      if (isParagraph) {
                          const indicatorEl = parentElement.querySelector('.awtsmoos-comment-indicator');
-                         if (indicatorEl && parentElement.contains(indicatorEl)) {
-                             indicatorEl.after(wrapper);
-                         } else {
-                             parentElement.appendChild(wrapper);
-                         }
+                         if (indicatorEl) indicatorEl.after(wrapper); else parentElement.appendChild(wrapper);
                      } else {
                          const textContentEl = parentElement.querySelector('.toichen');
-                         if (textContentEl && parentElement.contains(textContentEl)) {
-                             textContentEl.after(wrapper);
-                         } else {
-                             parentElement.appendChild(wrapper);
-                         }
+                         if (textContentEl) textContentEl.after(wrapper); else parentElement.appendChild(wrapper);
                      }
-                     
-                     commentHolder = wrapper.querySelector('.comments-holder-inline');
                 }
+                commentHolder = wrapper.querySelector('.comments-holder-inline');
                 
-                if (commentHolder && !commentHolder.querySelector(`[data-cid='${c.id}']`)) {
-                    const incom = makeInlineComment(alias, c);
-                    incom.dataset.cid = c.id;
-                    commentHolder.appendChild(incom);
+                commentHolder.innerHTML = "";
+                subRoots.forEach(node => renderTreeItem(node, commentHolder, (c) => makeInlineComment(c), 'inline', expandedReplies));
+                
+                const totalCount = subRoots.reduce((sum, node) => {
+                    const countChildren = (n) => 1 + n.children.reduce((s, c) => s + countChildren(c), 0);
+                    return sum + countChildren(node);
+                }, 0);
+
+                const btn = wrapper.querySelector('.inline-summary-btn');
+                if(btn) btn.innerHTML = `💬 ${totalCount} Insight${totalCount > 1 ? 's' : ''} (@${alias})`;
+
+                if (wasExpanded) {
+                    commentHolder.style.display = "block";
+                    commentHolder.classList.add("expanded");
+                    if(btn) btn.classList.add("active");
                 }
             }
-        });
+        }
     }
 }
 

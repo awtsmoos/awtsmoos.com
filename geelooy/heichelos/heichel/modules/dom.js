@@ -30,6 +30,8 @@ export function initializeDOMElements() {
     DOMElements.editorHolder = document.querySelector(".editors-holder")
     DOMElements.heichelPageContainer = document.querySelector('.heichel-page-container');
     DOMElements.mainTitle = document.getElementById('heichel-main-title');
+    DOMElements.searchInput = document.getElementById('heichel-search-input'); // Added Search Input
+    
     DOMElements.sidebarTitle = document.getElementById('sidebar-title');
     DOMElements.sidebarDesc = document.getElementById('sidebar-description');
     

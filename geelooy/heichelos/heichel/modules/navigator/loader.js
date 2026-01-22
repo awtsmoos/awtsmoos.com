@@ -13,6 +13,12 @@ function ensureArray(data) {
 
 export async function loadContent(navigator, seriesId) {
     ui.showLoading();
+    
+    // Reset search input if exists
+    if(document.getElementById('heichel-search-input')) {
+        document.getElementById('heichel-search-input').value = "";
+    }
+
     if (appState.isSelectionMode) ui.toggleSelectionMode(false, navigator);
     appState.currentSeries = seriesId;
 
@@ -26,7 +32,8 @@ export async function loadContent(navigator, seriesId) {
     if (!containerSeries) {
         ui.hideLoading();
         ui.notify(`Error: Series '${seriesId}' collapsed into void.`, 'error');
-        ui.renderContentGrids({ posts: [], subSeries: [] }, navigator);
+        appState.currentContent = { posts: [], subSeries: [] };
+        ui.renderContentGrids(appState.currentContent, navigator);
         return;
     }
 
@@ -39,6 +46,9 @@ export async function loadContent(navigator, seriesId) {
         posts: ensureArray(postsFromApi),
         subSeries: ensureArray(subSeriesFromApi)
     };
+    
+    // SAVE TO STATE FOR SEARCH/FILTERING
+    appState.currentContent = contentForGrid;
     
     navigator.renderPostsAndSeries(contentForGrid);
     
@@ -58,15 +68,7 @@ export async function loadContent(navigator, seriesId) {
 export function renderPostsAndSeries(navigator, content) {
     ui.renderBreadcrumb(appState.breadcrumb, navigator);
     
-    // We need the container series info again, but it was fetched in loadContent.
-    // Ideally state stores it, or we re-fetch. For now, assume renderSeriesInfo handles the global state logic
-    // or pass it down. Simplified:
-    ui.renderSeriesInfo({ name: "Loading..." }); // Placeholder, fix in real implementation or state
-    
-    // Actually, ui.renderSeriesInfo logic in ui.js handles 'currentSeries' checks well.
-    // We just need to make sure series data is available.
-    // Let's rely on api.getSeriesDetails cached or re-fetched if needed, 
-    // BUT optimization: loadContent should store it in appState.
+    ui.renderSeriesInfo({ name: "Loading..." }); 
     
     ui.renderOwnerControls(appState.breadcrumb, navigator);
     ui.renderContentGrids(content, navigator);

@@ -17306,9 +17306,12 @@ class WebGLRenderer {
 				}
 
 				if ( object.layers.test( camera.layers ) ) {
-
+					try {
 					renderObject( object, scene, camera, geometry, material, group );
-
+						} catch(e) {
+							console.log(
+								"THREE! ", e, e.stack)
+							} 
 				}
 
 			}

@@ -76,4 +76,21 @@ export class HeichelNavigator {
         ui.updateActiveTab(this.currentView);
         this.updateURL();
     }
+
+    filterContent(query) {
+        const lowerQ = query.toLowerCase();
+        const filterFn = (item) => {
+            const title = (item.name || item.title || "").toLowerCase();
+            const desc = (item.description || item.content || "").substring(0, 500).toLowerCase();
+            return title.includes(lowerQ) || desc.includes(lowerQ);
+        };
+
+        const filteredPosts = (appState.currentContent.posts || []).filter(filterFn);
+        const filteredSeries = (appState.currentContent.subSeries || []).filter(filterFn);
+
+        ui.renderContentGrids({ posts: filteredPosts, subSeries: filteredSeries }, this);
+        
+        // Ensure Drag Drop is re-initialized if needed
+        if (appState.ownsIt) DND.initialize();
+    }
 }

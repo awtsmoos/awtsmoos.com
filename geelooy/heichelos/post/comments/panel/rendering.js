@@ -1,22 +1,35 @@
-
+// /BH/awtsmoos.com/geelooy/heichelos/post/comments/panel/rendering.js
 //B"H
 import { CommentSection } from "/heichelos/post/CommentSection.js";
-import { makeHTMLFromComment } from "../render.js";
+import { makeHTMLFromComment, renderTreeItem } from "../render.js";
 import { isAliasInline, toggleInlineForComments } from "../inline.js";
-import { registerFork } from "../render/ai/structure.js";
 import { renderAIChat } from "../../ai/chat.js";
 import { openCommentsOfAlias } from "../panel.js"; 
 import { getAndSaveAliases } from "./fetching.js"; 
 
-export { renderFootnotesPanel } from "./footnotes.js"; // Re-export
+export { renderFootnotesPanel } from "./footnotes.js"; 
+
+// Helper: Build Tree Structure (Duplicate for modular isolation)
+function buildCommentTree(comments) {
+    const map = {};
+    const roots = [];
+    comments.forEach(c => { map[c.id] = { comment: c, children: [] }; });
+    comments.forEach(c => {
+        const node = map[c.id];
+        const dayuh = c.dayuh || {};
+        const parentId = dayuh.replyToId || dayuh.forkedFrom?.commentId;
+        if (parentId && map[parentId]) map[parentId].children.push(node);
+        else roots.push(node);
+    });
+    roots.sort((a, b) => parseInt(a.comment.id.split('_')[1]) - parseInt(b.comment.id.split('_')[1]));
+    return roots;
+}
 
 export function makeAddCommentSection(par) {
 	var div = document.createElement("div");
 	div.classList.add("comment-section");
     div.style.margin = "0";
     div.style.borderBottom = "1px solid #eee";
-    div.style.borderRadius = "0";
-    div.style.boxShadow = "none";
 	par.appendChild(div);
 	new CommentSection(div);
 }
@@ -29,10 +42,10 @@ export async function makeCommentatorList(actualTab, forceFresh = false) {
     const aiRow = document.createElement("div");
     aiRow.className = "awtsmoos-list-item ai-card";
     aiRow.innerHTML = `
-        <span style="font-weight:600; display:flex; align-items:center; gap:8px;">
-            ✨ Ask Awtsmoos AI
+        <span style="font-weight:900; display:flex; align-items:center; gap:8px;">
+            ✨ ASK AWTSMOOS AI
         </span>
-        <span class="awtsmoos-list-item-arrow">&#8250;</span>
+        <span class="awtsmoos-list-item-arrow">→</span>
     `;
     aiRow.onclick = () => {
         window.tabManager.addTab({
@@ -47,7 +60,7 @@ export async function makeCommentatorList(actualTab, forceFresh = false) {
 
     var commentorList = document.createElement("div");
     commentorList.className = "commentors-list";
-    commentorList.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">Loading...</div>`;
+    commentorList.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">Loading Revelations...</div>`;
     actualTab.appendChild(commentorList);
     
     var aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
@@ -61,8 +74,8 @@ export async function makeCommentatorList(actualTab, forceFresh = false) {
         const empty = document.createElement("div");
         empty.style.padding = "40px 20px";
         empty.style.textAlign = "center";
-        empty.style.color = "#999";
-        empty.style.fontStyle = "italic";
+        empty.style.color = "var(--color-ink-secondary)";
+        empty.style.fontWeight = "700";
         empty.innerHTML = `
             ${hasSub ? "No commentaries on this paragraph." : "No commentaries found here."}
         `;
@@ -100,17 +113,18 @@ function renderAliasesList(aliases, container) {
         row.innerHTML = `
             <div style="display:flex; align-items:center; gap:12px;">
                 <div style="
-                    width:32px; height:32px; 
-                    background:#f3f4f6; 
-                    border-radius:50%; display:flex; align-items:center; justify-content:center;
-                    font-weight:600; color:#555; font-size:13px;
-                    border:1px solid #e5e7eb;
+                    width:36px; height:36px; 
+                    background:var(--color-ink); 
+                    color:var(--bg-surface);
+                    display:flex; align-items:center; justify-content:center;
+                    font-weight:900; font-size:14px;
+                    border:2px solid var(--color-ink);
                 ">${initial}</div>
                 <div style="display:flex; flex-direction:column;">
-                    <span style="color:#333; font-weight:500; font-size:14px;">@${alias}</span>
+                    <span style="color:var(--color-ink); font-weight:900; font-size:16px;">@${alias}</span>
                 </div>
             </div>
-            <span class="awtsmoos-list-item-arrow">&#8250;</span>
+            <span class="awtsmoos-list-item-arrow">→</span>
         `;
         row.onclick = () => {
             window.tabManager.addTab({
@@ -132,94 +146,48 @@ function renderAliasesList(aliases, container) {
     });
 }
 
-/**
- * B"H - Renders the comment list. 
- * STRICT SEPARATION: Roots render immediately. Forks go to the waiting room.
- * REVISED: Standard forks are manually nested into parent's .children-slot
- */
 export function renderControlsAndComments(coms, alias, tab) {
     tab.innerHTML = "";
     
 	var controls = document.createElement("div");
-    controls.style.padding = "10px";
-    controls.style.borderBottom = "1px solid #eee";
+    controls.style.padding = "15px";
+    controls.style.borderBottom = "4px solid var(--color-ink)";
     controls.style.textAlign = "right";
+    controls.style.background = "var(--bg-vellum)";
 
 	var ri = document.createElement("button");
-	ri.className = "btn secondary";
-    ri.style.padding = "4px 8px";
-    ri.style.fontSize = "12px";
-	ri.textContent = isAliasInline(alias) ? "Hide Inline" : "Read Inline";
+    let isInline = isAliasInline(alias);
+    
+    const updateBtn = () => {
+        ri.className = isInline ? "btn" : "btn secondary";
+        ri.style.width = "100%";
+        ri.style.fontWeight = "900";
+        ri.style.textTransform = "uppercase";
+        ri.innerHTML = isInline ? "📖 Hide from Text" : "📖 Read Inline";
+    };
+    updateBtn();
+    
 	ri.onclick = () => {
 		toggleInlineForComments(coms, alias);
-		ri.textContent = isAliasInline(alias) ? "Hide Inline" : "Read Inline";
+        isInline = isAliasInline(alias);
+        updateBtn();
+        setTimeout(() => renderControlsAndComments(coms, alias, tab), 50);
 	};
+    
     controls.appendChild(ri);
 	tab.appendChild(controls);
     
-    const roots = [];
-    const forks = [];
-
-    coms.forEach(c => {
-        c.id = String(c.id);
-        if (typeof c.dayuh === 'string') {
-             try { c.dayuh = JSON.parse(c.dayuh); } catch(e) { c.dayuh = {}; }
-        }
-        let d = c.dayuh || {};
-        c.dayuh = d; 
-        
-        const contentStr = (typeof c.content === 'string') ? c.content.trim() : "";
-        
-        const isFork = !!(
-            c.forkedFrom || 
-            d.forkedFrom ||
-            d.replyToId || // Standard replies use this
-            contentStr.startsWith("Fork from") || 
-            contentStr.startsWith("Branch:")
-        );
-        
-        if (isFork) {
-            // Normalization
-            if(!c.dayuh.forkedFrom) {
-                if(d.replyToId) {
-                     c.dayuh.forkedFrom = { commentId: d.replyToId };
-                } else {
-                    c.dayuh.forkedFrom = c.forkedFrom || {
-                        author: "Unknown", 
-                        msgIndex: 0 
-                    };
-                }
-            }
-            forks.push(c);
-        } else {
-            roots.push(c);
-        }
+    // B"H - NEW TREE LOGIC
+    const treeRoots = buildCommentTree(coms);
+    
+    const listContainer = document.createElement("div");
+    listContainer.className = "sidebar-comment-list";
+    listContainer.style.padding = "10px";
+    
+    // Render the tree using the shared factory
+    treeRoots.forEach(node => {
+        renderTreeItem(node, listContainer, (c) => makeHTMLFromComment(c), 'sidebar');
     });
-
-    // 1. Render all ROOT comments normally
-    const sortedRoots = [...roots].sort((a, b) => {
-             const tA = parseInt(a.id.split('_')[1]) || 0;
-             const tB = parseInt(b.id.split('_')[1]) || 0;
-             return tB - tA; 
-    });
-
-    sortedRoots.forEach(c => {
-        makeHTMLFromComment({ comment: c, aliasId: alias, tab });
-    });
-
-    // 2. Handle Forks (Nesting)
-    // If it's an AI thread, register it for structure.js
-    // If it's a standard reply, nest it manually in the panel
-    forks.forEach(f => {
-        const parentId = f.dayuh.forkedFrom?.commentId;
-        const parentEl = tab.querySelector(`.comment-content[data-cid="${parentId}"] .children-slot`);
-        
-        if (parentEl) {
-            // Found parent in DOM, nest it!
-            makeHTMLFromComment({ comment: f, aliasId: alias, tab: parentEl });
-        } else {
-            // Parent not found or it's an AI fork that needs structure.js logic
-            registerFork(f);
-        }
-    });
+    
+    tab.appendChild(listContainer);
 }

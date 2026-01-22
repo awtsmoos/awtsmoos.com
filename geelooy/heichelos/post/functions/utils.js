@@ -1,9 +1,20 @@
 //B"H
 /**
- * Text, DOM, and Navigation utilities.
- * Dedicated to the Awtsmoos who recreates all from absolute nothingness every instant.
+ * @file utils.js
+ * @description 
+ * In the beginning, the Awtsmoos created the possibility of expression. 
+ * This module provides the elemental tools—the "Otiyot" (Letters)—used 
+ * to manipulate the physical form of the Revelation. It handles DOM 
+ * construction, font-scaling, and textual analysis.
+ * 
+ * Each function is a Sefirah, a vessel for the infinite light of the data 
+ * to manifest within the user's perception.
  */
 
+/**
+ * @method appendHTML
+ * @description Manifests raw HTML strings into a parent vessel.
+ */
 export function appendHTML(html, par) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, "text/html");
@@ -12,6 +23,11 @@ export function appendHTML(html, par) {
     });
 }
 
+/**
+ * @method appendWithSubChildren
+ * @description Recursively weaves the Otiyot (nodes) into the parent structure,
+ * respecting the scripts and custom transformations like "toldafy".
+ */
 export function appendWithSubChildren(node, parent, array) {
     if (node.tagName === "SCRIPT" && !node.src) {
         try { 
@@ -19,6 +35,7 @@ export function appendWithSubChildren(node, parent, array) {
                 eval(node.innerHTML); 
             }
         } catch (error) { 
+            console.warn("B\"H - Script ignition failed in append.", error);
         }
     } else {
         var result = null;
@@ -48,22 +65,23 @@ export function appendWithSubChildren(node, parent, array) {
 
 /**
  * @method adjustFontSize
- * @description B"H - THE GALACTIC FONT ENGINE. 
- * Increments set to 50px for immediate transition to the Throne Room scale of Atzilus.
+ * @description B"H - THE FONT ENGINE. 
+ * Unified to command the root context for absolute consistency.
+ * This is now a proper EXPORT to satisfy the Aggregator's requirements.
  */
-window.adjustFontSize = function(action) {
-    const contentArea = document.getElementById('realPost');
-    if (!contentArea) return;
+export function adjustFontSize(action) {
+    const context = document.querySelector('.post-reader-localized-context');
+    if (!context) return;
 
-    let currentStr = contentArea.style.getPropertyValue('--post-text-size') || 
-                     window.getComputedStyle(contentArea).getPropertyValue('--post-text-size') || 
-                     '150px';
+    let currentStr = context.style.getPropertyValue('--post-text-size') || 
+                     window.getComputedStyle(context).getPropertyValue('--post-text-size') || 
+                     '28px';
                      
     let current = parseFloat(currentStr);
     
-    const MAX_FONT_SIZE = 2500; // Galactic scale.
-    const MIN_FONT_SIZE = 60;
-    const FONT_SIZE_INCREMENT = 50; // Galactic leaps
+    const MAX_FONT_SIZE = 120; 
+    const MIN_FONT_SIZE = 16;
+    const FONT_SIZE_INCREMENT = 4; 
 
     if (action == 'increase' && current < MAX_FONT_SIZE) {
         current += FONT_SIZE_INCREMENT;
@@ -71,22 +89,28 @@ window.adjustFontSize = function(action) {
         current -= FONT_SIZE_INCREMENT;
     }
     
-    contentArea.style.setProperty('--post-text-size', current + 'px');
+    context.style.setProperty('--post-text-size', current + 'px');
     localStorage.currentPostFontSize = current + 'px';
-    
-    // Total physical feedback - The Shudder of Reality
-    if(navigator.vibrate) navigator.vibrate([50, 20, 50, 20, 100, 50, 200]);
 }
 
+/**
+ * @method loadFontSize
+ * @description B"H - Loads user preference from the memory of the vessel (LocalStorage).
+ */
 export function loadFontSize() {
-    const fs = localStorage.currentPostFontSize;
-    const contentArea = document.getElementById('realPost');
-    if (!contentArea) return;
+    let fs = localStorage.currentPostFontSize;
+    const context = document.querySelector('.post-reader-localized-context');
+    if (!context) return;
 
     if (fs) {
-        contentArea.style.setProperty('--post-text-size', fs);
+        let val = parseFloat(fs);
+        if (val > 150 || val < 10) {
+            fs = '28px';
+            localStorage.currentPostFontSize = fs;
+        }
+        context.style.setProperty('--post-text-size', fs);
     } else {
-        contentArea.style.setProperty('--post-text-size', '150px'); 
+        context.style.setProperty('--post-text-size', '28px'); 
     }
 }
 
@@ -100,12 +124,21 @@ export function isFirstCharacterHebrew(str) {
     return /[\u0590-\u05FF]/.test(sample);
 }
 
+export function containsHebrew(str) {
+    if(!str) return false;
+    return /[\u0590-\u05FF]/.test(str);
+}
+
 export function stripTags(html) {
     const div = document.createElement("div");
     div.innerHTML = html.split("</br>").join("\n");
     return div.textContent || div.innerText || "";
 }
 
+/**
+ * @method copyToClipboard
+ * @description Safely transmits text to the user's local clipboard vessel.
+ */
 export function copyToClipboard({ text, successMsg }, makeToast) {
     const htmlBlob = new Blob([text], { type: "text/html" });
     const textBlob = new Blob([stripTags(text)], { type: "text/plain" });
@@ -114,7 +147,7 @@ export function copyToClipboard({ text, successMsg }, makeToast) {
     ]).then(() => {
         if(makeToast) makeToast(successMsg || "Copied with formatting!");
     }).catch(err => {
-        console.error("Clipboard error:", err);
+        console.error("B\"H - Clipboard error:", err);
         if(makeToast) makeToast("Failed to copy!");
     });
 }
@@ -130,9 +163,10 @@ export function updateQueryStringParameter(key, value) {
 }
 
 export function getLinkHrefOfEditing() {
-    return `&parentSeriesId=${window.series?.id}&returnURL=${location.href}`;
+    return `&parentSeriesId=${window.series?.id}&returnURL=${encodeURIComponent(location.href)}`;
 }
 
 export function sanitizeContent(txt) {
+    if (typeof txt !== 'string') return "";
     return txt.split("[cup]").join("<b>").split("[/cup]").join("</b>");
 }
