@@ -1,20 +1,30 @@
 // B"H
+/**
+ * @file tensor_source.js
+ * @description Synchronous abstraction for fetching raw tensor bytes.
+ * REMOVED ASYNC/AWAIT.
+ */
 const fs = require('fs');
 const HandleRegistry = require('../../../core/handleRegistry.js');
 
 class TensorSource {
     constructor() { this.type = 'base'; }
-    async getTensorData(info) { throw new Error("Not implemented"); }
+    getTensorData(info) { throw new Error("Not implemented"); }
 }
 
 class FileSource extends TensorSource {
     constructor(filePath) {
         super();
         this.type = 'file';
-        this.buffer = fs.readFileSync(filePath);
+        this.filePath = filePath;
+        this.buffer = null;
     }
-    async init() { return this.buffer; }
-    async getTensorData(info) { return null; }
+    
+    init() {
+        if (!this.buffer) {
+            this.buffer = fs.readFileSync(this.filePath);
+        }
+    }
 }
 
 class DbSource extends TensorSource {
@@ -22,31 +32,29 @@ class DbSource extends TensorSource {
         super();
         this.type = 'db';
         this.handle = modelHandle;
-        this.tensorsHandle = null;
         this.meta = null;
+        this.tensorsHandle = null;
     }
 
-    async init() {
-        console.log(`\x1b[36mB"H [DbSource] Awakening Model from DB vessels...\x1b[0m`);
+    init() {
         const soul = HandleRegistry.getSoul(this.handle);
         if (!soul) throw new Error("B\"H Fatal: Invalid Model Handle.");
-        
-        await soul.ensureResolved();
-        
-        console.log(`\x1b[35m    Manifesting Metadata Architecture...\x1b[0m`);
-        this.meta = await this.handle.info; 
+        soul.ensureResolved();
 
-        console.log(`\x1b[35m    Mapping Neural Cortex (Tensors)...\x1b[0m`);
+        this.meta = this.handle.info; 
+        if (!this.meta) throw new Error("Model metadata missing in DB vessel.");
+
         this.tensorsHandle = this.handle.tensors;
-        await soul.db.ensureResolved(this.tensorsHandle);
+        if (!this.tensorsHandle) throw new Error("Model tensors map missing.");
+        
+        const tSoul = HandleRegistry.getSoul(this.tensorsHandle);
+        tSoul.ensureResolved();
     }
     
-    async getTensorData(name) {
-        const tensorHandle = this.tensorsHandle[name];
-        const soul = HandleRegistry.getSoul(tensorHandle);
-        await soul.ensureResolved();
-        if (!soul.ptr) return null;
-        return await tensorHandle; 
+    getTensorData(name) {
+        const val = this.tensorsHandle[name];
+        if (Buffer.isBuffer(val)) return val;
+        return null;
     }
 }
 
