@@ -1,0 +1,36 @@
+/* B"H - THEME ENGINE: THE "DIGITAL SCRIBE" COVENANT */
+.post-reader-localized-context {
+    /* --- LIGHT THEME (DEFAULT) --- */
+    --bg-surface: #ffffff;
+    --bg-vellum: #fcfaf3; /* A warmer, more authentic parchment */
+    --color-ink: #1f1d1a; /* A softer, ink-like black */
+    --color-ink-secondary: #706b64;
+    --color-primary: #a1332f; /* A deep, rich crimson for rubrication */
+    --color-accent: #d9933d; /* A vibrant, warm ochre for highlights */
+    --color-danger: #c23b22;
+    
+    /* REFINED MONOLITH DIMENSIONS */
+    --border-ui: 2px solid var(--color-ink);
+    --border-thick: 4px solid var(--color-ink);
+    --shadow-ui: 4px 4px 0px 0px rgba(0,0,0,0.1);
+    --shadow-hover: 6px 6px 0px 0px rgba(0,0,0,0.15);
+    
+    /* FONTS */
+    --font-manuscript: 'Cardo', serif;
+    --font-heading: 'Syne', sans-serif;
+    --font-ui: 'Space Grotesk', monospace;
+    --font-content: var(--font-manuscript);
+}
+
+.post-reader-localized-context[data-theme="dark"] {
+    --bg-surface: #1a1816;
+    --bg-vellum: #121110;
+    --color-ink: #e0dcd5;
+    --color-ink-secondary: #918c85;
+    --color-primary: #d46a65;
+    --color-accent: #e0ac65;
+    --color-danger: #db6a59;
+    
+    --shadow-ui: 4px 4px 0px 0px rgba(0,0,0,0.5);
+    --shadow-hover: 6px 6px 0px 0px rgba(0,0,0,0.7);
+}

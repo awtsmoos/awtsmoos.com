@@ -1,0 +1,71 @@
+/* B"H - STRUCTURE
+   Cleaning up the CSS to allow JavaScript-driven resizing.
+*/
+
+.post-reader-localized-context .sidebar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-surface);
+    border-left: 4px solid var(--color-ink);
+    z-index: 50;
+    
+    /* REMOVED: Rigid width/height locks */
+    flex-shrink: 0;
+    overflow: visible; 
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* RESIZER HANDLES */
+.post-reader-localized-context .awtsmoos-sidebar-resizer {
+    position: absolute;
+    z-index: 2000;
+    background: transparent;
+    touch-action: none;
+}
+
+@media (min-width: 901px) {
+    .post-reader-localized-context .awtsmoos-sidebar-resizer {
+        top: 0; bottom: 0;
+        left: -15px; /* Wider hit area */
+        width: 30px;
+        cursor: col-resize;
+    }
+}
+
+@media (max-width: 900px) {
+    .post-reader-localized-context .sidebar {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        border-left: none;
+        border-top: 4px solid var(--color-ink);
+    }
+    
+    .post-reader-localized-context .awtsmoos-sidebar-resizer {
+        top: -25px; left: 0; right: 0;
+        height: 50px;
+        width: 100%;
+        cursor: row-resize;
+        display: flex; align-items: center; justify-content: center;
+    }
+    
+    .post-reader-localized-context .awtsmoos-sidebar-resizer::after {
+        content: ''; width: 60px; height: 6px;
+        background: var(--color-ink-secondary);
+        border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+}
+
+/* Performance Optimizations */
+#virtual-scroll-container {
+    will-change: transform;
+}
+
+.scroll-chunk {
+    margin-bottom: 2rem;
+}
+
+body.resizing-active {
+    cursor: grabbing !important;
+}

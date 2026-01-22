@@ -1,0 +1,50 @@
+/* /BH/awtsmoos.com/geelooy/heichelos/post/styles/comments/structure.css */
+/* B"H - THE CIRCUIT OF MALCHUS (Layout & Threading) */
+
+/* The Container of Descendants */
+.post-reader-localized-context .children-slot {
+    position: relative;
+    margin-left: 2rem;
+    padding-left: 1rem;
+    margin-top: 1rem;
+    
+    /* THE MAIN TRUNK: A solid beam of light/ink */
+    border-left: 4px solid var(--color-ink);
+}
+
+/* Individual Comment Wrapper within the slot */
+/* We target the direct children to handle the connector */
+.post-reader-localized-context .children-slot > .comment-content {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+/* THE BRANCH: An "L" Connector from Trunk to Card */
+.post-reader-localized-context .children-slot > .comment-content::before {
+    content: '';
+    position: absolute;
+    
+    /* Geometry of the connection */
+    top: 2rem;       /* Align with the card's visual center or header */
+    left: -1rem;     /* Reach back to the trunk */
+    width: 1rem;     /* Length of the horizontal branch */
+    height: 4px;     /* Thickness */
+    
+    background-color: var(--color-ink);
+    z-index: 1;
+    
+    /* Transition for the "Light Up" effect */
+    transition: background-color 0.2s ease;
+}
+
+/* HOVER EFFECT: Lighting up the Path */
+/* When you hover a child, its specific branch lights up */
+.post-reader-localized-context .children-slot > .comment-content:hover::before {
+    background-color: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+}
+
+/* When you hover the trunk (the slot), the main line lights up */
+.post-reader-localized-context .children-slot:hover {
+    border-left-color: var(--color-ink-secondary);
+}

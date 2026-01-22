@@ -1,0 +1,49 @@
+/* B"H - THE SACRED SCROLL
+   Optimized for High-Intensity Highlighting.
+*/
+
+.sub-awtsmoos {
+    position: relative;
+    padding: 1.5rem 2rem !important;
+    margin: 0.5rem 0;
+    transition: 
+        background-color 0.4s ease, 
+        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        opacity 0.4s ease,
+        border-left-color 0.3s ease;
+    border-left: 6px solid transparent;
+    opacity: 0.5; /* Default un-focused state */
+}
+
+/* THE WINNER: Active Sub-section */
+.active-reading-sub {
+    opacity: 1 !important;
+    transform: scale(1.03) translateX(10px) !important;
+    background: rgba(255, 255, 255, 0.95);
+    border-left-color: var(--color-primary) !important;
+    box-shadow: 
+        -10px 15px 40px rgba(0,0,0,0.1),
+        10px 10px 0 var(--color-accent);
+    z-index: 100;
+}
+
+/* Parent Verse Highlighting - subtle underglow */
+.active-reading-section {
+    background: rgba(255,255,255,0.4);
+    border-radius: 15px;
+    box-shadow: inset 0 0 50px rgba(255,255,255,0.5);
+}
+
+.post-reader-localized-context[data-theme="dark"] .active-reading-sub {
+    background: rgba(30, 30, 30, 0.95);
+    color: #fff;
+    box-shadow: 
+        -10px 15px 40px rgba(0,0,0,0.6),
+        10px 10px 0 var(--color-primary);
+}
+
+/* Ensure Virtual Chunks don't flicker */
+.scroll-chunk {
+    transition: opacity 0.3s;
+    contain: content;
+}

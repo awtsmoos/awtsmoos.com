@@ -1,0 +1,101 @@
+/* /BH/awtsmoos.com/geelooy/heichelos/post/styles/comments/card.css */
+/* B"H - THE VESSEL (Card Aesthetics) */
+
+.post-reader-localized-context .comment-content {
+    background-color: var(--bg-surface);
+    border: 3px solid var(--color-ink);
+    color: var(--color-ink);
+    
+    /* The "Heavy Block" Shadow - Gives it physical weight */
+    box-shadow: 6px 6px 0px var(--color-ink);
+    
+    /* Sharp corners for intensity */
+    border-radius: 0; 
+    
+    display: flex;
+    flex-direction: column;
+    transition: all 0.15s cubic-bezier(0.2, 0, 0, 1);
+    position: relative;
+    z-index: 2; /* Sit above connectors */
+}
+
+/* HOVER STATE: Levitation */
+.post-reader-localized-context .comment-content:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0px var(--color-primary);
+    border-color: var(--color-primary);
+    z-index: 10;
+}
+
+/* --- THE HEADER (Author & Meta) --- */
+.post-reader-localized-context .comment-content::after {
+    /* Optional: A decorative header strip */
+    content: '';
+    display: block;
+    height: 6px;
+    width: 100%;
+    background: var(--color-ink);
+}
+
+/* --- THE TEXT BODY --- */
+.post-reader-localized-context .comment-text {
+    padding: 1.5rem;
+    font-family: var(--font-content);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Markdown Elements inside Comment */
+.post-reader-localized-context .comment-text strong {
+    background: var(--color-accent);
+    color: #000;
+    padding: 0 4px;
+}
+
+.post-reader-localized-context .comment-text blockquote {
+    border-left: 6px solid var(--color-primary);
+    background: rgba(0,0,0,0.05);
+    margin: 1rem 0;
+    padding: 1rem;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* --- THE FOOTER (Toolbar) --- */
+.post-reader-localized-context .comment-toolbar {
+    border-top: 3px solid var(--color-ink);
+    background: var(--bg-vellum);
+    padding: 0.8rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Action Buttons inside Toolbar */
+.post-reader-localized-context .comment-toolbar button {
+    font-size: 0.8rem !important;
+    padding: 6px 12px !important;
+    background: transparent !important;
+    border: 2px solid var(--color-ink) !important;
+    box-shadow: none !important;
+}
+
+.post-reader-localized-context .comment-toolbar button:hover {
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
+    box-shadow: 3px 3px 0 var(--color-accent) !important;
+}
+
+/* FLASH ANIMATION (For new comments) */
+@keyframes intense-flash {
+    0% { background-color: var(--color-accent); transform: scale(1.02); }
+    50% { background-color: #fff; }
+    100% { background-color: var(--bg-surface); transform: scale(1); }
+}
+
+.post-reader-localized-context .comment-content.highlight-flash {
+    animation: intense-flash 1s ease-out;
+    border-color: var(--color-accent);
+}
