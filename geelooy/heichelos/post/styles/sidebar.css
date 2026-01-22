@@ -1,94 +1,148 @@
-/* B"H - Insight Galactic Dimension Stack Engine */
+/* B"H
+   THE GATES OF REVELATION - SIDEBAR STYLES
+   Structured clarity for the seeker.
+*/
 
-.sidebar .awtsmoos-sidebar-header {
-    background: #000 !important;
-    color: #fff !important;
-    flex-shrink: 0 !important;
-    border-bottom: 60px solid #000 !important;
+.post-reader-localized-context .awtsmoos-sidebar-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg-surface);
 }
 
-/* Stack Breadcrumb Path (Galactic Scale) */
-.sidebar .awtsmoos-breadcrumb-trail {
-    padding: 50px 8rem !important;
-    background: #000 !important;
-    font-size: 24px !important;
+/* Chrome Header area */
+.post-reader-localized-context .awtsmoos-sidebar-header-chrome {
+    padding: 15px 20px;
+    background: var(--bg-surface);
+    border-bottom: 4px solid var(--color-ink);
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-reader-localized-context .awtsmoos-current-view-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* B"H - REFINED BREADCRUMBS
+   Fixes the horizontal scroll 'recursion' issue by wrapping correctly.
+*/
+.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap; /* B"H - Wrap instead of scrolling infinitely */
+    gap: 4px;
+    padding: 10px 0 0 0;
+    margin-top: 10px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.post-reader-localized-context .awtsmoos-crumb-link {
+    background: none !important;
+    border: none !important;
+    padding: 2px 6px !important;
+    font-family: var(--font-ui) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
     text-transform: uppercase !important;
-    letter-spacing: 20px !important;
-    color: #444 !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 40px !important;
-    font-family: 'Space Grotesk', monospace !important;
-}
-
-.sidebar .awtsmoos-breadcrumb-trail span:hover {
-    color: var(--color-accent) !important;
-    text-shadow: 0 0 50px var(--color-accent);
-}
-
-.sidebar .awtsmoos-nav-row {
-    display: flex !important;
+    color: var(--color-ink-secondary) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
     align-items: center !important;
-    padding: 8rem 8rem !important;
-    height: 320px !important; 
-    box-sizing: border-box !important;
+    box-shadow: none !important;
+    letter-spacing: 1px !important;
+    transition: color 0.15s ease !important;
 }
 
-.sidebar .awtsmoos-nav-title {
-    flex: 1 !important;
-    text-align: center !important;
+.post-reader-localized-context .awtsmoos-crumb-link:hover {
+    color: var(--color-primary) !important;
+    transform: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-crumb-link.active-crumb {
+    color: var(--color-ink) !important;
+    pointer-events: none !important;
+}
+
+.post-reader-localized-context .crumb-arrow {
+    margin-left: 6px;
+    font-size: 14px;
+    color: var(--color-accent);
+    font-weight: 900;
+}
+
+/* Internal View Navigation */
+.post-reader-localized-context .awtsmoos-view-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-ink);
+}
+
+.post-reader-localized-context .awtsmoos-back-btn {
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
+    font-size: 10px !important;
+    padding: 6px 12px !important;
     font-weight: 900 !important;
-    text-transform: uppercase !important;
-    font-size: 6rem !important;
-    letter-spacing: 0.6em !important;
-}
-
-/* VIEWPORT CONTAINER (TOTAL VOID) */
-.sidebar .awtsmoos-tab-pane-container {
-    flex: 1 !important;
-    position: relative !important; 
-    overflow: hidden !important; 
-    background: #000 !important;
-}
-
-/* INDIVIDUAL SLIDING TAB (GALACTIC) */
-.sidebar .awtsmoos-individual-tab {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: #fff !important;
-    overflow-y: auto !important; 
-    padding: 15rem !important; 
-    box-sizing: border-box !important;
-    font-size: 40px !important;
-    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s !important;
-}
-
-/* Animation States */
-.sidebar .awtsmoos-individual-tab.active { transform: translateX(0) !important; opacity: 1 !important; z-index: 10 !important; }
-.sidebar .awtsmoos-individual-tab.next-page { transform: translateX(110%) !important; opacity: 0 !important; z-index: 1 !important; }
-.sidebar .awtsmoos-individual-tab.slide-out-left { transform: translateX(-80%) !important; opacity: 0 !important; filter: blur(150px); }
-
-/* Buttons */
-.sidebar .awtsmoos-nav-back {
-    background: var(--color-accent) !important;
-    border: 20px solid #000 !important;
-    width: 200px !important;
-    height: 200px !important;
+    margin-right: 15px !important;
+    border: none !important;
+    border-radius: 2px !important;
     cursor: pointer !important;
-    margin-right: 80px !important;
-    box-shadow: 40px 40px 0 #fff !important;
-    font-size: 100px !important;
 }
 
-.sidebar .awtsmoos-close-sidebar-btn {
-    background: #ff4747 !important;
-    border: 20px solid #000 !important;
-    width: 200px !important;
-    height: 200px !important;
-    cursor: pointer !important;
-    box-shadow: 40px 40px 0 #fff !important;
-    font-size: 140px !important;
+.post-reader-localized-context .awtsmoos-back-btn:hover {
+    background: var(--color-primary) !important;
+    transform: translate(-2px, -2px) !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-title-text {
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+/* Chamber Sliding Physics */
+.post-reader-localized-context .awtsmoos-slide-viewport {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view {
+    position: absolute;
+    inset: 0;
+    padding: 20px;
+    overflow-y: auto;
+    background: var(--bg-surface);
+    transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1), opacity 0.3s;
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 10;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view.active-view {
+    transform: translateX(0);
+    opacity: 1;
+    z-index: 20;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view.slide-out-left {
+    transform: translateX(-30%) scale(0.95);
+    opacity: 0.5;
+    filter: blur(2px);
+    pointer-events: none;
 }

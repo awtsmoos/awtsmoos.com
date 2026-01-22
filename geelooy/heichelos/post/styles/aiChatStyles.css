@@ -1,66 +1,153 @@
-/* B"H - Neo-Brutalist AI Chat Aesthetics */
-.ai-chat-container {
+/* B"H - REFINED AI CHAT - "DIGITAL SCRIBE" EDITION */
+
+.post-reader-localized-context .ai-chat-container {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: #fff;
-    font-size: 13px !important; /* Standardized UI scale */
+    background: var(--bg-vellum);
+    font-family: var(--font-ui);
 }
 
-.ai-controls {
-    padding: 0.8rem;
-    border-bottom: 2px solid #000;
-}
-
-.ai-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.2rem;
-    background: #fdfdfb;
-}
-
-.ai-message {
-    margin-bottom: 1.5rem;
-    max-width: 95%;
-    border: 2px solid #000;
-    padding: 1rem;
-    box-shadow: 4px 4px 0 #000;
-    background: #fff;
-}
-
-.ai-message.model {
-    border-color: var(--color-primary);
-    box-shadow: 4px 4px 0 var(--color-primary);
-}
-
-.ai-message.user {
-    align-self: flex-end;
-    background: var(--color-accent);
-}
-
-.ai-input-area {
-    padding: 0.8rem;
-    border-top: 2px solid #000;
+.post-reader-localized-context .ai-chat-header {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 2px solid var(--color-ink);
+    background: var(--bg-surface);
+    flex-shrink: 0;
 }
 
-.ai-input-box {
-    flex: 1;
-    border: 2px solid #000;
-    padding: 8px;
-    font-size: 13px;
-}
-
-.ai-send-btn {
-    background: #000;
-    color: var(--color-accent);
-    width: 40px;
-}
-
-.ai-role-tag {
+.post-reader-localized-context .ai-chat-header h3 {
+    margin: 0;
+    font-size: 12px;
     font-weight: 900;
     text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.post-reader-localized-context .ai-context-badge {
     font-size: 10px;
-    letter-spacing: 1px;
+    background: transparent;
+    color: var(--color-ink-secondary);
+    padding: 4px 8px;
+    border: 1px solid var(--color-ink-secondary);
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.post-reader-localized-context .ai-context-badge.active {
+    background: var(--color-accent);
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+}
+
+.post-reader-localized-context .ai-save-action-btn {
+    font-size: 10px !important;
+    padding: 5px 10px !important;
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+}
+
+.post-reader-localized-context .ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post-reader-localized-context .ai-message {
+    display: flex;
+    gap: 12px;
+    max-width: 85%;
+}
+
+.post-reader-localized-context .ai-message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.post-reader-localized-context .ai-msg-icon {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--color-ink);
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.post-reader-localized-context .ai-msg-bubble {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+    line-height: 1.6;
+    font-family: var(--font-content);
+}
+
+.post-reader-localized-context .ai-message.user .ai-msg-bubble {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.post-reader-localized-context .ai-message.ai .ai-msg-bubble {
+    background: var(--bg-surface);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.post-reader-localized-context[data-theme="dark"] .ai-message.ai .ai-msg-bubble {
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+
+.post-reader-localized-context .ai-input-area {
+    padding: 15px;
+    border-top: 2px solid var(--color-ink);
+    display: flex;
+    gap: 10px;
+    background: var(--bg-surface);
+    align-items: flex-end;
+}
+
+.post-reader-localized-context .ai-input-box {
+    flex: 1;
+    border: 2px solid var(--color-ink-secondary) !important;
+    border-radius: 6px !important;
+    padding: 10px 15px !important;
+    max-height: 120px;
+    font-size: 1rem !important;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    font-family: var(--font-content);
+    line-height: 1.5;
+}
+
+.post-reader-localized-context .ai-input-box:focus {
+    border-color: var(--color-primary) !important;
+    background: #fff !important;
+}
+
+.post-reader-localized-context .ai-send-btn {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 6px !important;
+    padding: 0 !important;
+    background: var(--color-ink) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 1.2rem !important;
+}
+
+.post-reader-localized-context .ai-send-btn:hover {
+    background: var(--color-primary) !important;
 }

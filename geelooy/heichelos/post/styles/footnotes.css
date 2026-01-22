@@ -1,48 +1,44 @@
-/* B"H - Localized Footnote Aesthetics */
-#realPost sup.footnote-ref, 
-#realPost .active-footnote-ref {
-    font-weight: 900;
-    color: var(--primary);
+/* B"H - SACRED FOOTNOTES 
+   Precise markers of the Kav.
+*/
+
+.post-reader-localized-context #realPost sup.footnote-ref, 
+.post-reader-localized-context #realPost .active-footnote-ref {
+    font-weight: 800;
+    color: var(--color-primary);
     cursor: pointer;
-    padding: 4px 12px;
-    background: rgba(43, 0, 255, 0.15);
-    border: 3px solid transparent;
+    padding: 2px 6px;
+    background: rgba(43, 0, 255, 0.05);
+    border-radius: 4px;
     transition: all 0.2s;
     vertical-align: super;
     font-size: 0.6em;
+    text-decoration: none;
 }
 
-#realPost sup.footnote-ref:hover {
-    background: var(--accent);
+.post-reader-localized-context #realPost sup.footnote-ref:hover {
+    background: var(--color-accent);
     color: #000;
-    border-color: #000;
-    transform: scale(1.5);
-    box-shadow: 6px 6px 0 #000;
-}
-
-#realPost sup.footnote-ref.active-footnote-match {
-    background: #000;
-    color: var(--accent);
-    border-color: #000;
-    transform: scale(1.8);
-    box-shadow: 0 0 20px rgba(204, 255, 0, 0.8);
 }
 
 /* Sidebar Item */
-.footnote-item {
-    border-left: 10px solid transparent;
+.post-reader-localized-context .footnote-item {
+    border-left: 6px solid transparent;
+    padding: 16px;
+    background: #f9f9f9;
 }
 
-.footnote-item.active {
-    background: #fffde7 !important;
-    border-left-color: var(--accent) !important;
+.post-reader-localized-context .footnote-item.active {
+    background: var(--color-highlight) !important;
+    border-left-color: #000 !important;
 }
 
-.footnote-item .footnote-id {
+.post-reader-localized-context .footnote-item .footnote-id {
     font-weight: 900;
     background: #000;
     color: #fff;
-    padding: 4px 10px;
-    margin-bottom: 10px;
+    padding: 2px 8px;
+    font-size: 10px;
+    margin-bottom: 8px;
     display: inline-block;
 }

@@ -1,202 +1,207 @@
 //B"H
 /**
  * @file commentLogic.js
- * @description 
- * The Master Conductor of the Insight Realm. 
- * This module acts as the central hub, a Malkhus that receives the flow from 
- * the Specialized Panels and Conduits, then projects it outward to the 
- * rest of the application. 
- * 
- * It ensures the synchrony between the Observer's location on the Scroll 
- * and the Revelations stored in the Side Chambers.
+ * @description
+ * Orchestrator of Insights. Fixed to ensure signatures match calls.
  */
-
-import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
-import { updateQueryStringParameter } from "./functions/utils.js";
+import { CommentSection } from "./CommentSection.js";
 import { 
-    invalidateVerseCache, 
-    setCurrentVerse, 
-    setCurrentSub, 
-    loadedInlineVerses, 
-    getCurrentVerse, 
-    getCurrentSub 
-} from "./comments/state.js";
-
+    getCommentsByAlias, getCommentsOfAlias, AwtsmoosPrompt 
+} from "/scripts/awtsmoos/api/utils.js";
 import { 
-    makeCommentatorList, 
-    openCommentsPanelToAlias, 
-    openCommentsOfAlias, 
-    updateCommentHeader, 
-    getAndSaveAliases,
-    loadRootComments as _loadRootComments // B"H - Import the core logic to re-export it
-} from "./comments/panel.js";
+    addTab, updateQueryStringParameter, isFirstCharacterHebrew 
+} from "/heichelos/post/postFunctions.js";
+import { markdownToHtml } from "/heichelos/post/parsing.js";
 
-import { addCommentsInline, getInlineAliases } from "./comments/inline.js";
+// STATE
+var activeVerse = null;
+var activeSub = null;
+var cachedAliases = {};
 
-/**
- * @method loadRootComments
- * @description B"H - Revealing the sacred gateway to the external modules. 
- * This ensures that postLogic can summon the commentary into the Vessel.
- */
-export const loadRootComments = _loadRootComments;
+// EXPORT 1: BRIDGE FUNCTION
+export async function loadRootComments({ parent, tab }) {
+    return await makeCommentatorList(parent, tab);
+}
 
-/**
- * @method getIdx
- * @description Deciphers the current Verse coordinate from the URL's Tzimtzum.
- */
-export function getIdx() {
+// EXPORT 2: INIT
+export async function init({ post, parent, tab }) {
+    window.post = post;
+    window.mainCommentArea = parent;
+    window.rootCommentTabObj = tab;
+    // Initial sync
     const s = new URLSearchParams(location.search);
     const idx = s.get("idx");
-    if(idx === null) return null;
-    return parseInt(idx);
-}
-
-/**
- * @method getSub
- * @description Deciphers the current Paragraph coordinate from the URL's Tzimtzum.
- */
-export function getSub() {
-    const s = new URLSearchParams(location.search);
     const sub = s.get("sub");
-    if(sub === null || sub === "null") return null;
-    return parseInt(sub);
+    if(idx !== null) {
+        activeVerse = parseInt(idx);
+        if(sub !== null) activeSub = parseInt(sub);
+        // Force refresh logic immediately
+        indexSwitch(true);
+    }
 }
 
-/**
- * @method init
- * @description Initializes the conduit, binding the Post and its containers 
- * to the global awareness of the conductor.
- */
-export async function init({ post, mainParent, parent, tab }) {
-    console.log("B\"H - [Conductor] Initializing Comment Logic conduits.");
-    window.post = post;
-    window.mainParent = mainParent;
-    window.parent = parent;
-    window.tabComment = tab;
+// EXPORT 3: CONDUCTOR
+export async function indexSwitch(force = false) {
+    const s = new URLSearchParams(location.search);
+    const rawIdx = s.get("idx");
+    const rawSub = s.get("sub");
     
-    const inlines = getInlineAliases();
-    if(inlines.length > 0) await reloadRoot();
-}
+    const newVerse = (rawIdx === null) ? "root" : parseInt(rawIdx);
+    const newSub = (rawSub === null) ? null : parseInt(rawSub);
 
-/**
- * @method reloadRoot
- * @description Forces a complete celestial refresh, clearing caches and re-conducting.
- */
-export async function reloadRoot() {
-    console.log("B\"H - [Conductor] reloadRoot: Requesting fresh transmission.");
-    await indexSwitch(true);
-}
-window.reloadRoot = reloadRoot;
-
-/**
- * @method indexSwitch
- * @description 🎼 The Symphony of State. Orchestrates the transition as the eye moves 
- * through the Scroll. High-Intensity synchronization for Verse and Paragraph.
- */
-export async function indexSwitch(forceOrEvent = false) {
-    let idxNum, subNum;
+    if (!force && activeVerse === newVerse && activeSub === newSub) return;
     
-    // B"H - Handle both manual triggers and Highlighting events
-    if (forceOrEvent && forceOrEvent.detail) {
-        idxNum = forceOrEvent.detail.idx !== undefined ? forceOrEvent.detail.idx : getIdx();
-        subNum = forceOrEvent.detail.sub !== undefined ? forceOrEvent.detail.sub : getSub();
-    } else {
-        idxNum = getIdx();
-        subNum = getSub();
+    activeVerse = newVerse;
+    activeSub = newSub;
+    console.log(`B"H - Context Sync: Verse ${activeVerse}, Sub ${activeSub}`);
+
+    // Update Root List
+    if (window.insightManager) {
+        const currentView = window.insightManager.getCurrent();
+        
+        // If we are looking at the main list (no specific alias view pushed)
+        // or if we forced a refresh
+        if (window.mainCommentArea) {
+             await makeCommentatorList(window.mainCommentArea, window.rootCommentTabObj);
+        }
+        
+        // If we are deep inside a specific alias view, refresh it
+        if (window.currentAliasBeingViewed && window.currentAliasTabContainer) {
+             await renderAliasInsights({
+                 alias: window.currentAliasBeingViewed,
+                 actualTab: window.currentAliasTabContainer,
+                 post: window.post
+             });
+        }
+    }
+}
+
+// DATA FETCHING
+async function getCommentatorList() {
+    const vs = activeVerse ?? "root";
+    try {
+        // We do NOT use sub-section filtering for the main list, we show everyone in the Verse.
+        const res = await getCommentsByAlias({
+            seriesId: window.post.parentSeriesId,
+            postId: window.post.id,
+            heichelId: window.post.heichel.id,
+            fromCache: false,
+            get: { verseSection: vs, map: true }
+        });
+        return Array.isArray(res) ? res : [];
+    } catch(e) { return []; }
+}
+
+export async function makeCommentatorList(parentEl, rootTabObj) {
+    parentEl.innerHTML = "";
+    
+    // 1. Transcription Portal
+    const writingWrap = document.createElement("div");
+    parentEl.appendChild(writingWrap);
+    new CommentSection(writingWrap);
+
+    // 2. List of Commentators
+    const listWrap = document.createElement("div");
+    listWrap.className = "awtsmoos-insight-list-wrap";
+    parentEl.appendChild(listWrap);
+    
+    const aliases = await getCommentatorList();
+    if (aliases.length === 0) {
+        listWrap.innerHTML = `<div class="awtsmoos-empty-placeholder">No insights manifest here yet.</div>`;
+        return;
     }
 
-    const targetVerse = (idxNum === null) ? "root" : idxNum;
-    const force = (forceOrEvent === true);
-    
-    // Performance guard: Only act if the Kav of the observer actually shifted
-    if (!force && getCurrentVerse() === targetVerse && getCurrentSub() === subNum) return;
-    
-    console.log(`B"H - [Conductor] Syncing Reality: Verse ${targetVerse}, Sub ${subNum}`);
-    
-    setCurrentVerse(targetVerse);
-    setCurrentSub(subNum);
-    
-    // 1. Refresh the Main Commentator List in the Sidebar
-    if (window.tabComment && window.tabComment.awtsmoosType === "main commentator list") {
-        await makeCommentatorList(window.tabParent, window.tabComment);
-    }
-
-    // 2. Refresh open tabs for specific Aliases or AI
-    if (window.tabManager) {
-        const activeTab = window.tabManager.getCurrent();
-        if (activeTab?.awtsmoosType === "specific alias comments") {
-            if (window.currentAliasTabContainer) {
-                await openCommentsOfAlias({
-                    alias: window.currentAliasBeingViewed,
-                    actualTab: window.currentAliasTabContainer,
-                    post: window.post,
-                });
+    aliases.forEach(aliasId => {
+        window.insightManager.addTab({
+            header: "@" + aliasId,
+            onopen: async ({ actualTab }) => {
+                window.currentAliasBeingViewed = aliasId;
+                window.currentAliasTabContainer = actualTab;
+                await renderAliasInsights({ alias: aliasId, actualTab, post: window.post });
+            },
+            onclose: () => {
+                window.currentAliasBeingViewed = null;
+                window.currentAliasTabContainer = null;
             }
-        } else if (activeTab?.awtsmoosType === "ai chat") {
-            if (window.refreshAIChatContext) window.refreshAIChatContext();
-        }
-    }
-    
-    await updateCommentHeader();
-
-    // 3. Coordinate the Inline "Flames" (Commentary nested in text)
-    const inlineAliases = getInlineAliases();
-    if (inlineAliases.length > 0) {
-        const commentators = await getAndSaveAliases(true);
-        for (const aliasId of commentators) {
-            if (!inlineAliases.includes(aliasId)) continue;
-            
-            const cacheKey = `${aliasId}-${targetVerse}-${subNum}`;
-            if (loadedInlineVerses[cacheKey]) continue;
-
-            const comments = await getCommentsOfAlias({
-                seriesId: window?.post?.parentSeriesId,
-                postId: window?.post?.id,
-                heichelId: window?.post?.heichel.id,
-                aliasId: aliasId,
-                get: { verseSection: targetVerse, map: true }
-            });
-
-            addCommentsInline(comments, aliasId);
-            loadedInlineVerses[cacheKey] = true;
-        }
-    }
+        });
+    });
 }
+
+async function renderAliasInsights({ alias, actualTab, post }) {
+    actualTab.innerHTML = `<div class="awtsmoos-loading-text">Gathering sparks...</div>`;
+    
+    const comments = await getCommentsOfAlias({
+        seriesId: post.parentSeriesId,
+        postId: post.id,
+        heichelId: post.heichel.id,
+        aliasId: alias,
+        fromCache: true,
+        get: { verseSection: activeVerse, map: true }
+    });
+
+    actualTab.innerHTML = "";
+    
+    // Filter for sub-section if active
+    let displayComments = Array.isArray(comments) ? comments : [];
+    if (activeSub !== null) {
+        displayComments = displayComments.filter(c => {
+            // Include root comments of the verse AND comments specific to the sub-paragraph
+            // Usually, standard is: show everything in verse, maybe highlight specific?
+            // User requested: "Commenting on SPECIFIC idx or sub section".
+            // So if sub is active, we prioritise showing that.
+            const cSub = c.dayuh?.subSection;
+            return cSub == activeSub; // Loose equality for string/int mix
+        });
+        if(displayComments.length === 0) {
+             actualTab.innerHTML = `<div class="awtsmoos-empty-placeholder">@${alias} has no insights on Paragraph ${activeSub+1}.<br><button onclick="window.commentLogic.showAllVerse()" class="btn-text">Show Verse</button></div>`;
+             return;
+        }
+    }
+
+    if (displayComments.length === 0) {
+        actualTab.innerHTML = `<div class="awtsmoos-empty-placeholder">Empty vessel.</div>`;
+        return;
+    }
+
+    displayComments.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "awtsmoos-comment-card " + (isFirstCharacterHebrew(c.content) ? "heb" : "en");
+        
+        // Render content
+        card.innerHTML = `<div class="content">${markdownToHtml(c.content)}</div>`;
+        
+        // Actions
+        const actions = document.createElement("div");
+        actions.className = "card-actions";
+        
+        const replyBtn = document.createElement("button");
+        replyBtn.innerHTML = "↩ Reply";
+        replyBtn.onclick = () => import("./comments/actions.js").then(m => m.handleReply(c, card));
+        
+        actions.appendChild(replyBtn);
+        card.appendChild(actions);
+        
+        actualTab.appendChild(card);
+    });
+}
+
+// Allow switching back to full verse view from sub view error
+window.commentLogic = window.commentLogic || {};
+window.commentLogic.showAllVerse = async () => {
+    activeSub = null; // Clear sub filter locally
+    if(window.currentAliasBeingViewed && window.currentAliasTabContainer) {
+        await renderAliasInsights({ alias: window.currentAliasBeingViewed, actualTab: window.currentAliasTabContainer, post: window.post });
+    }
+};
 
 /**
  * @method handleNewComment
- * @description ✨ The Ritual of Return. Called when a new Insight is transmitted 
- * to ensure all levels of the application are updated instantly.
+ * @description Re-fetch and re-render everything after submission.
  */
-export async function handleNewComment({ aliasId, verseSection, commentId, newCommentData }) {
-    console.log(`B"H - [Conductor] Manifesting newly transmitted Insight: ${commentId}`);
-    invalidateVerseCache(verseSection);
-
-    // Update inline visuals if the author is currently manifest in the Scroll
-    const inlines = getInlineAliases();
-    if (inlines.includes(aliasId) && newCommentData) {
-        const memoryKey = `${aliasId}-${verseSection}`;
-        delete loadedInlineVerses[memoryKey];
-        addCommentsInline([newCommentData], aliasId);
-        loadedInlineVerses[memoryKey] = true;
-    }
-    
-    await reloadRoot(); 
-    
-    // Open the alias tab and illuminate the new comment
-    const aliasTab = await openCommentsPanelToAlias(aliasId, true);
-    if (aliasTab && commentId) {
-        setTimeout(() => {
-            const highlightTarget = aliasTab.querySelector(`.comment-content[data-cid="${commentId}"]`);
-            if (highlightTarget) {
-                highlightTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                highlightTarget.classList.add('highlight-flash');
-                setTimeout(() => highlightTarget.classList.remove('highlight-flash'), 2500);
-            }
-        }, 400);
-    }
+export async function handleNewComment(data) {
+    console.log("B\"H - New Insight Anchored. Refreshing...");
+    await indexSwitch(true); // Force refresh
 }
 
-// B"H - Global synchronization event binding
-removeEventListener("awtsmoos index", indexSwitch);
-addEventListener("awtsmoos index" , indexSwitch);
+addEventListener("awtsmoos index", indexSwitch);
+window.commentLogic.handleNewComment = handleNewComment;

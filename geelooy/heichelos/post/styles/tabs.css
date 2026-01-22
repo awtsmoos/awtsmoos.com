@@ -1,87 +1,61 @@
-/* B"H - Tectonic Tab & Card Dynamics */
+/* B"H - TECTONIC COMPONENT STYLES 
+   Bold. Clear. Intentional.
+*/
 
-/* --- Information Cards --- */
-.post-info-container {
-    padding: 5rem 0;
+.post-reader-localized-context .post-info-container {
     display: flex;
     flex-direction: column;
-    gap: 8rem;
+    gap: 24px;
+    padding-bottom: 40px;
 }
 
-.tl {
-    border: 15px solid #000;
-    padding: 6rem;
+.post-reader-localized-context .tl {
+    border: var(--border-thick);
+    padding: 24px;
     background: #fff;
-    box-shadow: 50px 50px 0px rgba(0,0,0,1);
-    transition: all 0.3s;
+    box-shadow: var(--shadow-ui);
     position: relative;
 }
 
-.tl:hover {
-    transform: translate(-15px, -15px);
-    box-shadow: 80px 80px 0 #000;
-}
-
-.tl .label {
-    font-size: 1.5rem;
+.post-reader-localized-context .tl .label {
+    font-size: 10px;
     text-transform: uppercase;
     font-weight: 900;
-    background: var(--color-accent);
-    color: #000;
+    background: #000;
+    color: #fff;
+    padding: 4px 10px;
+    margin-bottom: 12px;
     display: inline-block;
-    padding: 15px 40px;
-    border: 10px solid #000;
-    margin-bottom: 3rem;
-    letter-spacing: 0.4em;
-    position: absolute;
-    top: -40px;
-    left: 40px;
 }
 
-.tl .value {
-    font-size: 4rem;
-    font-weight: 900;
+.post-reader-localized-context .tl .value {
+    font-size: 20px;
+    font-weight: 800;
     word-break: break-word;
-    color: #000;
-    line-height: 1;
-    letter-spacing: -2px;
+    line-height: 1.2;
 }
 
-/* --- List Items (Tectonic Row) --- */
-.awtsmoos-list-item {
-    padding: 5rem;
-    border: 10px solid #000;
-    margin-bottom: 5rem;
+/* LIST ITEMS */
+.post-reader-localized-context .awtsmoos-list-item {
+    padding: 20px;
+    border: var(--border-thick);
+    margin-bottom: 16px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.3s;
     background: #fff;
-    box-shadow: 30px 30px 0 #000;
+    box-shadow: var(--shadow-ui);
+    transition: all 0.2s;
 }
 
-.awtsmoos-list-item:hover {
+.post-reader-localized-context .awtsmoos-list-item:hover {
     background: var(--color-accent);
-    transform: translate(-10px, -10px);
-    box-shadow: 50px 50px 0 #000;
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-hover);
 }
 
-.awtsmoos-list-item.ai-card {
+.post-reader-localized-context .awtsmoos-list-item.ai-card {
     background: var(--color-primary);
     color: #fff;
-    box-shadow: 30px 30px 0 var(--color-accent);
-    border-color: #000;
-}
-
-.awtsmoos-list-item-arrow {
-    font-size: 60px;
-    font-weight: 900;
-}
-
-/* Footnotes List */
-.footnotes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6rem;
 }

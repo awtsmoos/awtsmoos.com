@@ -2,219 +2,194 @@
 /**
  * @file scribe.js
  * @description 
- * The Scribe is the master of recursive manifestation. It takes the layered 
- * structure of the Dayuh and weaves it into the physical DOM. 
- * Every array of arrays, every object, and every string is accounted for.
- * 
- * NO LOGIC CUT. NO CORNERS SKIPPED.
+ * B"H - THE VIRTUAL SCRIBE.
+ * This module is the Sefirah of Yesod (The Foundation), funneling the infinite 'Dayuh' 
+ * (Knowledge) into physical 'Otiyot' (DOM Elements). It uses chunk-based rendering 
+ * to ensure that even the longest scrolls are manifest instantly without shattering 
+ * the user's perception (lag).
  */
 
-import { sanitizeContent, appendHTML, isFirstCharacterHebrew } from "../functions/utils.js";
-import { weaveDropdownFromAwtsmoos, initializeFootnotes } from "../functions/interaction.js";
+import { sanitizeContent, appendHTML, isFirstCharacterHebrew, updateQueryStringParameter } from "../postFunctions.js";
+import { weaveDropdownFromAwtsmoos, initializeFootnotes } from "../postFunctions.js";
+
+let allSectionData = [];
+let chunkMap = new Map();
+const CHUNK_SIZE = 12; // Small, agile chunks for rapid manifestion
 
 /**
- * @method mapSectionData
- * @description Standardizes various data patterns from the higher worlds.
+ * interpretPostDayuh
+ * @description B"H - The primary ritual of the Scribe. Takes the raw post data 
+ * and establishes the 'Virtual Scroll Container'—the scaffolding of Atzilus.
+ * @param {Object} post - The post object containing the dayuh.
  */
-function mapSectionData(sec) {
-    if (sec?.subSections || sec?.paragraphs || Array.isArray(sec)) {
-        return sec;
+export async function interpretPostDayuh(post) {
+    const dayuh = post?.dayuh;
+    if (!dayuh?.sections) return;
+
+    window.sectionDayuh = [];
+    
+    // Normalize sections into a processable array
+    const rawSections = Array.isArray(dayuh.sections) ? dayuh.sections : Object.values(dayuh.sections);
+    allSectionData = rawSections.map((s, i) => ({ data: s, index: i }));
+    
+    // Cache the pure text for deep-logic access
+    allSectionData.forEach(item => {
+        window.sectionDayuh[item.index] = extractTextFromData(item.data);
+    });
+
+    const realPost = document.getElementById("realPost");
+    if(!realPost) return;
+    realPost.innerHTML = "";
+
+    // 1. FORGE THE VIRTUAL SCAFFOLDING
+    const scrollContainer = document.createElement("div");
+    scrollContainer.id = "virtual-scroll-container";
+    realPost.appendChild(scrollContainer);
+
+    const totalChunks = Math.ceil(allSectionData.length / CHUNK_SIZE);
+    console.log(`B"H - [Scribe] Manifesting ${allSectionData.length} sections in ${totalChunks} chunks.`);
+
+    for (let c = 0; c < totalChunks; c++) {
+        const chunk = document.createElement("div");
+        chunk.className = "scroll-chunk";
+        chunk.dataset.chunkId = c;
+        // Placeholder height to maintain scrollbar integrity
+        chunk.style.minHeight = `${CHUNK_SIZE * 60}px`; 
+        chunk.style.contain = "content"; 
+        scrollContainer.appendChild(chunk);
+    }
+
+    // 2. SYSTEMS IGNITION
+    // B"H - We MUST ensure ViewEffects (and the Observer) are ready before rendering first chunk
+    const { setupViewEffects } = await import("./viewEffects.js");
+    setupViewEffects();
+
+    // 3. INITIAL LANDING
+    const s = new URLSearchParams(location.search);
+    const startIdx = parseInt(s.get("idx"));
+    
+    if (!isNaN(startIdx)) {
+        const targetChunkId = Math.floor(startIdx / CHUNK_SIZE);
+        console.log(`B"H - [Scribe] Landing coordinates: Chunk ${targetChunkId}`);
+        await renderChunk(targetChunkId, document.querySelector(`.scroll-chunk[data-chunk-id="${targetChunkId}"]`));
+        // Manifest immediate neighbors for smoothness
+        for(let i=-1; i<=1; i++) {
+            const neighbor = targetChunkId + i;
+            if(neighbor >= 0 && neighbor < totalChunks) {
+                renderChunk(neighbor, document.querySelector(`.scroll-chunk[data-chunk-id="${neighbor}"]`));
+            }
+        }
     } else {
-        return sec?.text || sec;
+        // Start from the beginning of the scroll
+        await renderChunk(0, document.querySelector('.scroll-chunk[data-chunk-id="0"]'));
     }
 }
 
 /**
- * @method interpretPostDayuh
- * @description Parses the sections of the post and generates the DOM structure.
+ * renderChunk
+ * @description B"H - Transforms the potential data into physical nodes within a specific chunk.
  */
-export async function interpretPostDayuh(post) {
-    console.log("B\"H - [Scribe] interpretPostDayuh: Engaging.");
-    const dayuh = post?.dayuh;
-    if (!dayuh || typeof dayuh !== "object") return null;
-
-    const rawSections = dayuh.sections;
-    if (!rawSections) return;
-
-    window.sectionDayuh = [];
-    window.sectionData = [];
-
-    const realPost = document.getElementById("realPost");
-    if (!realPost) return;
-
-    // The Scribe clears the parchment
-    realPost.innerHTML = "";
-
-    // Manifest the title if it wasn't already manifest
-    if (!document.querySelector(".post-title")) {
-        const hd = document.createElement("div");
-        hd.classList.add("post-title");
-        const seriesName = window.series?.prateem?.name || "Sacred Series";
-        const pt = document.createElement("div");
-        pt.textContent = post.title || "Untitled Revelation";
-        hd.appendChild(pt);
-        realPost.appendChild(hd);
-    }
-
-    // Normalize into an array of sections
-    let sections = Array.isArray(rawSections) ? rawSections : Object.values(rawSections);
+async function renderChunk(chunkId, container) {
+    if (!container || chunkMap.has(chunkId)) return;
+    chunkMap.set(chunkId, true);
     
-    // Account for complex section objects
-    if (sections.length > 0 && typeof sections[0] === "object") {
-        sections = sections.map(mapSectionData);
-    }
+    const startIndex = chunkId * CHUNK_SIZE;
+    const endIndex = Math.min(startIndex + CHUNK_SIZE, allSectionData.length);
+    const chunkItems = allSectionData.slice(startIndex, endIndex);
 
-    let sectionCounter = 0;
-    for (let i = 0; i < sections.length; i++) {
-        const item = sections[i];
-        if (item === null || item === undefined) continue;
-
-        // Logic check: Is this a multi-layered section (Array of arrays, objects with paragraph keys)?
-        const isMulti = (item?.subSections || item?.paragraphs) || Array.isArray(item);
-
-        const manifestResult = await generateSection({
-            sectionText: !isMulti && typeof item === 'string' ? item : null,
-            dynamic: isMulti ? item : null,
-            sectionId: sectionCounter, 
-            allSections: sections,
-            data: item 
-        });
-
-        if (manifestResult) {
-            sectionCounter++;
+    const frag = document.createDocumentFragment();
+    for (const item of chunkItems) {
+        const dom = await createSectionDOM(item.data, item.index);
+        if (dom) {
+            frag.appendChild(dom);
+            
+            // B"H - REGISTRATION WITH THE WATCHMAN
+            // We tell the Observer that a new vessel is manifest.
+            if (window.registerObservable) {
+                window.registerObservable(dom);
+            }
         }
     }
     
-    // Conclude Scribal work
-    window.sections = Array.from(document.querySelectorAll(".section"));
-    initializeFootnotes();
+    container.style.minHeight = ""; 
+    container.appendChild(frag);
     
-    const inlineModule = await import("../comments/inline.js");
-    if (inlineModule.manifestCommentIndicators) {
-        await inlineModule.manifestCommentIndicators();
-    }
-
-    // Refresh highlighting engine bounds
-    if (window.chai) window.chai.updateParagraphs();
-    if (window.subChai) window.subChai.updateParagraphs();
+    // Update any external highlight engines
+    if (window.chai) window.chai.updateParagraphs(); 
+    
+    const { initializeFootnotes: initFN } = await import("../postFunctions.js");
+    initFN();
 }
 
 /**
- * @method generateSection
- * @description Forges a singular Verse Vessel (.section). 
- * Every internal division is targetable as a .sub-awtsmoos.
+ * createSectionDOM
+ * @description B"H - Forges the individual Verse-vessel.
  */
-export async function generateSection({sectionText, sectionId, dynamic=null, allSections, data}) {
-    const i = sectionId;
-    const vs = data?.verseSection;
-    
+async function createSectionDOM(data, index) {
+    const vs = data.verseSection;
+    let dynamicContent = data.subSections || data.paragraphs || (Array.isArray(data) ? data : null);
+    let flatText = (typeof data === 'string') ? data : data.text;
+
     const sectionEl = document.createElement("div");
     sectionEl.className = "section";
-    sectionEl.dataset.awtsmoosIdx = i;
-    sectionEl.dataset.idx = i; // Compatibility with legacy highlighters
+    sectionEl.dataset.idx = index;
+    sectionEl.dataset.awtsmoosIdx = index;
 
-    // 1. Manifest Section Header (Number + Menu)
-    const header = document.createElement("div");
-    header.className = "awtsmoos-section-header";
-    sectionEl.appendChild(header);
-
-    const verseNum = document.createElement("div");
-    verseNum.className = "awtsmoos-verse-number";
-    verseNum.textContent = (vs !== undefined && vs !== null) ? vs : (i + 1);
+    const hdr = document.createElement("div");
+    hdr.className = "awtsmoos-section-header";
     
-    // Bind interaction dropdown
-    verseNum.addEventListener('click', () => {
-        const actions = {
-            Share: async () => {
-                const url = new URL(window.location);
-                url.searchParams.set("idx", i);
-                if (navigator.share) navigator.share({ title: 'Verse', url: url.href });
-                else navigator.clipboard.writeText(url.href);
-            },
-            Comment: async () => {
-                const { updateQueryStringParameter } = await import("../functions/utils.js");
-                updateQueryStringParameter("idx", i);
-                if(window.openPanelToComments) window.openPanelToComments();
-            }
-        };
-        weaveDropdownFromAwtsmoos(header, actions);
+    const num = document.createElement("div");
+    num.className = "awtsmoos-verse-number";
+    num.textContent = (vs !== undefined && vs !== null) ? vs : (index + 1);
+    
+    // Bind dropdown interaction to the verse number
+    num.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const { atzilusActions } = await import("./conductor.js"); 
+        weaveDropdownFromAwtsmoos(hdr, atzilusActions || {});
     });
-    header.appendChild(verseNum);
-    
-    // Section Bookmark
-    const bookmark = document.createElement("button");
-    bookmark.className = "bookmark-btn";
-    bookmark.dataset.idx = i;
-    bookmark.innerHTML = "B";
-    sectionEl.appendChild(bookmark);
 
-    const contentArea = document.createElement("div");
-    contentArea.classList.add("toichen");
-    contentArea.dataset.awtsmoosTextId = `text-${i}`;
-    
-    // 2. Manifest Content
-    // Case A: Flat String
-    if (sectionText) {
-        appendHTML(sanitizeContent(sectionText), contentArea);
-        window.sectionDayuh[i] = sectionText;
-    }
+    hdr.appendChild(num);
+    sectionEl.appendChild(hdr);
 
-    // Case B: Recursive Expanse (Arrays/Objects)
-    if (dynamic) {
-        const subContainer = document.createElement("div");
-        subContainer.className = "subsection-container";
-        const internalTextStack = [];
-        let subCounter = 0;
+    const body = document.createElement("div");
+    body.className = "toichen";
+    sectionEl.appendChild(body);
 
-        // Recursive processor to handle Arrays of Arrays and nested objects
-        const processSubLayer = (item) => {
-            if (Array.isArray(item)) {
-                item.forEach(processSubLayer);
-                return;
-            }
+    if (flatText) appendHTML(sanitizeContent(flatText), body);
 
-            const txt = typeof item === "string" ? item : item?.text;
-            if (typeof txt !== "string" || !txt.trim()) return;
-
-            const subVessel = document.createElement("div");
-            subVessel.dataset.awtsmoosSub = subCounter;
-            subVessel.dataset.idx = subCounter; // Required for interaction sync
-            subVessel.classList.add("sub-awtsmoos"); 
-            subVessel.classList.add(isFirstCharacterHebrew(txt) ? "heb" : "eng");
-
-            const subBody = document.createElement("div");
-            subBody.className = "sub-toichen";
-            subBody.dataset.awtsmoosTextId = `text-${i}-${subCounter}`;
+    if (dynamicContent) {
+        const subWrap = document.createElement("div");
+        subWrap.className = "awtsmoos-subsection-wrap";
+        const list = Array.isArray(dynamicContent) ? dynamicContent : [];
+        
+        list.forEach((subItem, sIdx) => {
+            const txt = typeof subItem === 'string' ? subItem : subItem.text;
+            if (!txt) return;
             
-            appendHTML(sanitizeContent(txt), subBody);
-            subVessel.appendChild(subBody);
-
-            subContainer.appendChild(subVessel);
-            internalTextStack.push(txt);
-            subCounter++;
-        };
-
-        // Normalize collection sources
-        let collection = [];
-        if (Array.isArray(dynamic)) collection = dynamic;
-        else if (dynamic?.paragraphs) collection = dynamic.paragraphs;
-        else if (dynamic?.subSections) collection = dynamic.subSections;
-
-        collection.forEach(processSubLayer);
-        contentArea.appendChild(subContainer);
-        window.sectionDayuh[i] = internalTextStack;
+            const subEl = document.createElement("div");
+            subEl.className = "sub-awtsmoos " + (isFirstCharacterHebrew(txt) ? "heb" : "en");
+            subEl.dataset.awtsmoosSub = sIdx;
+            subEl.dataset.awtsmoosIdx = index;
+            subEl.dataset.idx = sIdx;
+            
+            appendHTML(sanitizeContent(txt), subEl);
+            subWrap.appendChild(subEl);
+        });
+        body.appendChild(subWrap);
     }
+    
+    if (isFirstCharacterHebrew(body.innerText)) sectionEl.classList.add("heb");
+    else sectionEl.classList.add("en");
 
-    // 3. Finalize Vessel
-    if (isFirstCharacterHebrew(contentArea.innerText)) sectionEl.classList.add("heb");
-    else sectionEl.classList.add("eng");
+    return sectionEl;
+}
 
-    // Existence check
-    if (!contentArea.innerText.trim().length && !contentArea.querySelector('img')) {
-        return false;
-    }
-
-    sectionEl.appendChild(contentArea);
-    document.getElementById("realPost").appendChild(sectionEl);
-    return true;
+function extractTextFromData(d) {
+    if (typeof d === 'string') return d;
+    if (d.text) return d.text;
+    if (Array.isArray(d)) return d.map(extractTextFromData).join(" ");
+    if (d.paragraphs) return d.paragraphs.map(extractTextFromData).join(" ");
+    if (d.subSections) return d.subSections.map(extractTextFromData).join(" ");
+    return "";
 }

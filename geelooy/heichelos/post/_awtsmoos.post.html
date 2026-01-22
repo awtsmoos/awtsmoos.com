@@ -6,62 +6,164 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/heichelos/new-style.css" type="text/css">
+    <link rel="stylesheet" href="/heichelos/new-style.css?v=localized" type="text/css">
     
     <!-- B"H - Divine Separation of Styles -->
-    <link rel="stylesheet" href="/heichelos/post/styles/layout.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/sidebar.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/tabs.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/content.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/footnotes.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/aiChatStyles.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/commentSectionStyles.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/imageUploaderStyles.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/inlineThreadStyles.css">
+    <link rel="stylesheet" href="/heichelos/post/styles/theme.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/layout.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/structure.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/components.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/scroll.css?v=localized">
+    
+    <link rel="stylesheet" href="/heichelos/post/styles/sidebar.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/tabs.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/content.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/footnotes.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/aiChatStyles.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/commentSectionStyles.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/imageUploaderStyles.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/inlineThreadStyles.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/commandPalette.css?v=localized">
 
-    <link rel="stylesheet" href="/style/home/main.css">
+    <link rel="stylesheet" href="/style/home/main.css?v=localized">
+    
+    <!-- B"H - The Scribe's Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Frank+Ruhl+Libre:wght@400;700&family=Inter:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+
 
 	 <title>Awtsmoos | Torah Revelation </title>
 </head>
 
 <body>
-    
+    <!-- This style tag is for user-defined custom CSS -->
+    <style id="awtsmoos-custom-styles"></style>
+
+    <!-- WRAPPER: NOW CONTAINS EVERYTHING -->
     <div class="all awtsmoospage post-reader-localized-context">
-        <!-- GLOBAL SERVER HEADER (PERFECT AS IS) -->
-        <?<script> return $a("nav/header.html") 
-        </script>?>
         
-        <!-- B"H - SOVEREIGN FLOATING CONTROLS (NO BAR) -->
-	    <div class="awtsmoos-floating-controls">
-            <button id="minMax" title="Typography">A</button>
-            <button id="commentaryBtn" title="Insights">i</button>
+        <!-- HEADER: Inside the flex column to ensure visibility -->
+        <div class="awtsmoos-integrated-header">
+            <?<script> return $a("nav/header.html") </script>?>
         </div>
 
-        <!-- Typography Dropdown -->
-        <div class="post-details hidden-details" id="postDetails">
-            <div class="settings">
-                <div class="text-controls" style="display:flex; flex-direction:column; gap:12px;">
-                    <span style="font-weight:900; text-transform:uppercase; font-size:10px; color:#000; letter-spacing:1px; border-bottom:1px solid #000; padding-bottom:4px;">Text Display</span>
-                    <button onclick="adjustFontSize('increase')">Scale Up +</button>
-                    <button onclick="adjustFontSize('decrease')">Scale Down -</button>
+        <!-- B"H - THE EXPANDED FLOATING ARK (HORIZONTAL) -->
+	    <div class="awtsmoos-floating-controls">
+            <button id="typographyBtn" title="Typography & Settings">A</button>
+            <button id="commentaryBtn" title="Insights & Bookmarks">i</button>
+        </div>
+        
+        <!-- B"H - THE SCRIBE'S LENS -->
+        <div id="scribeLensOverlay" class="scribe-lens-overlay"></div>
+
+        <!-- THE VESSEL OF CUSTOMIZATION (Typography Dropdown) -->
+        <div class="typography-details hidden-details" id="typographyDetails">
+            <div class="typography-content">
+                <!-- Scribe's Lens -->
+                <div class="settings-group">
+                    <div class="control-label">Scribe's Lens</div>
+                    <div class="focus-mode-control">
+                        <span class="setting-name">Focus Mode</span>
+                        <input type="checkbox" id="focusModeToggle" class="awtsmoos-toggle">
+                        <label for="focusModeToggle" class="awtsmoos-toggle-label"></label>
+                    </div>
+                </div>
+
+                <!-- Text Scale -->
+                <div class="settings-group">
+                    <div class="control-label">Text Scale</div>
+                    <div class="text-controls">
+                        <button class="font-adjust-btn" id="fontDecreaseBtn">-</button>
+                        <div class="font-size-display">Aa</div>
+                        <button class="font-adjust-btn" id="fontIncreaseBtn">+</button>
+                    </div>
+                </div>
+
+                <!-- Font Alchemist -->
+                <div class="settings-group">
+                    <div class="control-label">Font Alchemist</div>
+                    <select id="fontSelector" class="font-selector">
+                        <option value="'Cardo', serif">Cardo</option>
+                        <option value="'Crimson Pro', serif">Crimson Pro</option>
+                        <option value="'Source Serif 4', serif">Source Serif 4</option>
+                        <option value="'EB Garamond', serif">EB Garamond</option>
+                        <option value="'Lora', serif">Lora</option>
+                        <option value="'Inter', sans-serif">Inter</option>
+                    </select>
+                </div>
+
+                <!-- THEME ALCHEMIST'S WORKSHOP -->
+                <div class="settings-group">
+                    <div class="control-label">Theme Engine</div>
+                    <div class="theme-controls">
+                        <button id="themeToggleBtn" title="Toggle Light/Dark">L</button>
+                        <select id="themeSelector">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Live Tincture -->
+                <div class="settings-group">
+                    <div class="control-label">Live Tincture</div>
+                    <div class="color-picker-grid">
+                        <div class="color-control"><label for="inkColorPicker">Ink</label><input type="color" id="inkColorPicker" data-css-var="--color-ink" class="ink-pot"></div>
+                        <div class="color-control"><label for="vellumColorPicker">Vellum</label><input type="color" id="vellumColorPicker" data-css-var="--bg-vellum" class="ink-pot"></div>
+                        <div class="color-control"><label for="primaryColorPicker">Primary</label><input type="color" id="primaryColorPicker" data-css-var="--color-primary" class="ink-pot"></div>
+                        <div class="color-control"><label for="accentColorPicker">Accent</label><input type="color" id="accentColorPicker" data-css-var="--color-accent" class="ink-pot"></div>
+                    </div>
+                </div>
+                
+                <!-- Custom CSS -->
+                <div class="settings-group custom-css-group">
+                     <div class="control-label">Custom Theme Editor</div>
+                     <textarea id="customCssInput" placeholder="Enter custom CSS..."></textarea>
+                     <div class="theme-saver">
+                        <input type="text" id="themeNameInput" placeholder="Theme Name">
+                        <button id="saveThemeBtn">Save</button>
+                     </div>
+                     <button id="applyCustomCssBtn" class="btn-small">Apply Unsaved</button>
                 </div>
             </div>
+            
+            <!-- Reset Footer -->
+            <div class="reset-section">
+                <button id="resetDefaultsBtn" class="danger-outline">Reset to Defaults</button>
+            </div>
         </div>
-
+        
         <div class="main">
-            <div id="postFrame" class="post-frame" style="width:100%; display:flex;">
+            <!-- Scroll View Wrapper for Split Screen -->
+            <div class="scroll-view-wrapper">
                 <div class="content" id="realPost">
                     <?<script>
                         return $a("loading.html")
                     </script>?>
                 </div>
-                <div class="sidebar hidden-comments">
-                    <!-- Managed by TabManager.js -->
+                
+                <!-- B"H - THE ATZEI CHAIM (TREES OF LIFE) -->
+                <div class="scroll-roll-top">
+                    <div class="scroll-wood left"></div>
+                    <div class="scroll-wood right"></div>
                 </div>
+                <div class="scroll-roll-bottom">
+                    <div class="scroll-wood left"></div>
+                    <div class="scroll-wood right"></div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR: Default state is hidden -->
+            <div class="sidebar hidden-comments">
+                <!-- Managed by TabManager.js -->
             </div>
         </div>
         
-        <script type="module" src="/heichelos/post/postLogic.js"></script>
+        <!-- B"H - THE ARK OF COMMAND -->
+        <div id="command-palette-container"></div>
+        
+        <script type="module" src="/heichelos/post/postLogic.js?v=localized"></script>
     </div>
 </body>
 </html>

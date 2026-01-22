@@ -13,6 +13,7 @@
  */
 
 // 1. Emanations of Utility and Textual Deciphering
+// B"H - Now correctly exporting adjustFontSize which exists in the revised utils.js
 export { 
     appendHTML, 
     appendWithSubChildren,
@@ -43,12 +44,10 @@ export {
 } from "./functions/logic.js";
 
 // 4. Emanations of Focused Interaction (The Watchman's Engine)
-// B"H - Restoration of the missing startHighlighting export
 export { 
     startHighlighting, 
     scrollToActiveEl, 
     initializeFootnotes,
-    syncFootnotesInSidebar,
     weaveDropdownFromAwtsmoos,
     createFootnoteOverlay
 } from "./functions/interaction.js";

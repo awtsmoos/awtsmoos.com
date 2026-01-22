@@ -1,92 +1,82 @@
+// /BH/awtsmoos.com/geelooy/heichelos/post/CommentSection.js
 //B"H
-/**
- * Comment Section Component.
- * Purged of obsolete JS-based CSS injectors.
- */
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { ImageUploader } from "./ImageUploader.js";
 
-class CommentSection {
+export class CommentSection {
     imgResults = [];
     constructor(container) {
         this.container = container;
         this.init();
-        window.commentSection = this;
     }
 
     init() {
         this.addCommentArea = document.createElement("div");
-        this.addCommentArea.classList.add("add-comment-area");
+        this.addCommentArea.classList.add("awtsmoos-comment-entry-monolith");
         this.container.appendChild(this.addCommentArea);
-
         this.createInitialButton();
         this.createCommentBox();
-        this.createImageUploadIcon();
+        this.createImageUploadControls();
         this.createGalleryContainer();
         this.createButtons();
     }
 
     createInitialButton() {
-        this.btn = document.createElement("div");
-        this.btn.classList.add("btn", "add-comment");
-        this.btn.innerText = "Add a comment...";
+        this.btn = document.createElement("button");
+        this.btn.classList.add("btn", "awtsmoos-add-comment-btn");
+        this.btn.innerHTML = "<span>✍️ Transcribe your Insight...</span>";
         this.btn.onclick = async () => {
-            const currentAlias = window.curAlias;
-            if (!currentAlias) {
-                await AwtsmoosPrompt.go({
-                    isAlert: true,
-                    headerTxt: "You need to be logged in with an alias to comment!",
-                });
+            if (!window.curAlias) {
+                await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Authentication Required", bodyTxt: "You must choose an Alias to contribute." });
                 return;
             }
             this.btn.style.display = "none";
             this.commentBox.style.display = "block";
-            this.commentBox.focus(); 
+            this.commentBox.focus();
+            this.buttonContainer.classList.add("revealed");
         };
         this.addCommentArea.appendChild(this.btn);
     }
 
     createCommentBox() {
         this.commentBox = document.createElement("div");
-        this.commentBox.classList.add("comment-box");
+        this.commentBox.className = "awtsmoos-writing-surface";
         this.commentBox.contentEditable = true;
-        this.commentBox.placeholder = "Write your thoughts...";
+        this.commentBox.dataset.placeholder = "Channel the Infinite...";
         this.commentBox.style.display = "none";
-
-        const showButtons = () => {
-            this.buttonContainer.style.display = "flex";
-            this.submitBtn.disabled = this.commentBox.innerText.trim().length === 0;
+        this.commentBox.oninput = () => {
+            this.submitBtn.disabled = !this.commentBox.innerText.trim() && this.imgResults.length === 0;
         };
-
-        this.commentBox.oninput = showButtons;
-        this.commentBox.onfocus = showButtons; 
         this.addCommentArea.appendChild(this.commentBox);
     }
 
-    createImageUploadIcon() {
+    createImageUploadControls() {
         this.imageUploader = new ImageUploader(this.createGalleryContainer());
-        const imageUploadIcon = document.createElement("div");
-        imageUploadIcon.classList.add("image-upload-icon");
-        imageUploadIcon.innerHTML = "📷"; 
-        imageUploadIcon.onclick = async () => {
-            var res = await this.imageUploader.uploadImages();
+        const trigger = document.createElement("div");
+        trigger.className = "awtsmoos-media-trigger";
+        trigger.innerHTML = `<span>📷 Add Sacred Imagery</span>`;
+        trigger.onclick = async () => {
+            const res = await this.imageUploader.uploadImages();
             this.imgResults = res;
+            this.galleryContainer.innerHTML = "";
             res.forEach(r => {
-                var img = document.createElement("img");
-                img.src = r?.data?.thumb?.url;
-                this.galleryContainer.appendChild(img)
-            })
-            this.galleryContainer.style.display = "flex";
-            this.buttonContainer.style.display = "flex"; 
+                if(r?.success) {
+                    const img = document.createElement("img");
+                    img.src = r.data?.thumb?.url;
+                    img.className = "awtsmoos-creation-thumbnail";
+                    this.galleryContainer.appendChild(img);
+                }
+            });
+            this.galleryContainer.style.display = res.length > 0 ? "flex" : "none";
             this.submitBtn.disabled = false;
         };
-        this.addCommentArea.appendChild(imageUploadIcon);
+        this.addCommentArea.appendChild(trigger);
     }
 
     createGalleryContainer() {
         if(this.galleryContainer) return this.galleryContainer;
         this.galleryContainer = document.createElement("div");
-        this.galleryContainer.classList.add("image-gallery");
+        this.galleryContainer.className = "awtsmoos-comment-gallery-grid";
         this.galleryContainer.style.display = "none";
         this.addCommentArea.appendChild(this.galleryContainer);
         return this.galleryContainer;
@@ -94,71 +84,53 @@ class CommentSection {
 
     createButtons() {
         this.buttonContainer = document.createElement("div");
-        this.buttonContainer.classList.add("button-container");
+        this.buttonContainer.className = "awtsmoos-comment-actions-bar";
         this.addCommentArea.appendChild(this.buttonContainer);
-
         const cancelBtn = document.createElement("button");
-        cancelBtn.classList.add("btn", "cancel-comment");
+        cancelBtn.className = "btn awtsmoos-action-cancel";
         cancelBtn.innerText = "Cancel";
-        cancelBtn.onclick = () => {
-            this.commentBox.innerText = "";
-            this.galleryContainer.innerHTML = "";
-            this.galleryContainer.style.display = "none";
-            this.commentBox.style.display = "none";
-            this.buttonContainer.style.display = "none";
-            this.btn.style.display = "block";
-            this.submitBtn.disabled = true;
-        };
-
+        cancelBtn.onclick = () => this.resetForm();
         this.submitBtn = document.createElement("button");
-        this.submitBtn.classList.add("btn", "submit-comment");
-        this.submitBtn.innerText = "Post"; 
+        this.submitBtn.className = "btn awtsmoos-action-submit";
+        this.submitBtn.innerHTML = "<span>Transmit</span>";
         this.submitBtn.disabled = true;
         this.submitBtn.onclick = this.submitComment.bind(this);
+        this.buttonContainer.append(cancelBtn, this.submitBtn);
+    }
 
-        this.buttonContainer.appendChild(cancelBtn);
-        this.buttonContainer.appendChild(this.submitBtn);
+    resetForm() {
+        this.commentBox.innerText = "";
+        this.imgResults = [];
+        this.galleryContainer.innerHTML = "";
+        this.galleryContainer.style.display = "none";
+        this.commentBox.style.display = "none";
+        this.buttonContainer.classList.remove("revealed");
+        this.btn.style.display = "flex";
+        this.submitBtn.disabled = true;
     }
 
     async submitComment() {
         const content = this.commentBox.innerText.trim();
-        const images = this.imgResults.map(q=>q?.success ? ({
-            medium: q?.data?.medium?.url,
-            thumbnail: q?.data?.thumb?.url,
-            img: q?.data?.url,
-            height: q?.data?.height,
-            width: q?.data?.width,
-            size: q.data?.size
-        }) : null).filter(Boolean);
+        const images = this.imgResults.map(q => q?.success ? { medium: q.data.medium?.url, thumbnail: q.data.thumb?.url, img: q.data.url } : null).filter(Boolean);
+        if (!content && images.length === 0) return;
 
-        if (!content && images.length === 0) {
-            alert("Comment cannot be empty.");
-            return;
-        }
-
-        this.submitBtn.innerText = "Posting...";
+        this.submitBtn.innerText = "...Transmitting...";
         this.submitBtn.disabled = true;
 
         try {
-            const currentAlias = window.currentAlias || window.curAlias;
-            if (!currentAlias) {
-                await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Current alias is not set. Please log in." });
-                return;
-            }
-
-            const s = new URLSearchParams(location.search);
-            const idx = s.get("idx");
-            const sub = s.get("sub");
+            const sParams = new URLSearchParams(location.search);
+            const idx = sParams.get("idx");
+            const sub = sParams.get("sub");
             const verseSection = idx !== null ? parseInt(idx) : "root";
 
             let dayuhObject = { images };
-            if (idx !== null) dayuhObject.verseSection = parseInt(idx);
-            if (sub !== null) dayuhObject.subSection = parseInt(sub);
+            if (idx !== null) dayuhObject.verseSection = verseSection;
+            if (sub !== null && sub !== "null") dayuhObject.subSection = parseInt(sub);
             
-            const response = await fetch(location.origin + `/api/social/heichelos/${window.post?.heichel?.id}/post/${window.post?.id}/comments/`, {
+            const response = await fetch(`/api/social/heichelos/${window.post?.heichel?.id}/post/${window.post?.id}/comments/`, {
                 method: "POST",
                 body: new URLSearchParams({
-                    aliasId: currentAlias,
+                    aliasId: window.curAlias,
                     content: content,
                     seriesId: window?.post?.parentSeriesId,
                     dayuh: JSON.stringify(dayuhObject),
@@ -166,34 +138,31 @@ class CommentSection {
             });
 
             const json = await response.json();
+            if (!json.success) throw new Error(json.error || "Void response.");
 
-            if (json.success && json.details?.id) {
-                const newCommentId = json.details.id;
-                const newCommentData = { id: newCommentId, author: currentAlias, content: content, dayuh: dayuhObject };
-                await window.commentLogic.handleNewComment({
-                    aliasId: currentAlias,
+            // B"H - SAFE ID SCANNER (Same as actions.js)
+            let newId = null;
+            if (json.details?.id) newId = json.details.id;
+            else if (json.success?.id) newId = json.success.id;
+            else if (json.id) newId = json.id;
+
+            if (newId && window.awtsmoosConductor?.handleNewComment) {
+                const newCommentData = { id: newId, author: window.curAlias, content, dayuh: dayuhObject };
+                await window.awtsmoosConductor.handleNewComment({
+                    aliasId: window.curAlias,
                     verseSection: verseSection,
-                    commentId: newCommentId,
+                    commentId: newId,
                     newCommentData: newCommentData
                 });
-                this.commentBox.innerText = "";
-                this.galleryContainer.innerHTML = "";
-                this.galleryContainer.style.display = "none";
-                this.commentBox.style.display = "none";
-                this.buttonContainer.style.display = "none";
-                this.btn.style.display = "block";
-            } else {
-                const errorMessage = json.error || "An unknown error occurred.";
-                await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Submission failed: " + errorMessage });
             }
+            this.resetForm();
+
         } catch (e) {
-            console.error(e);
-            await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "A network error occurred." });
+            console.error("B\"H - Transmission failed:", e);
+            await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Error", bodyTxt: e.message });
         } finally {
-            this.submitBtn.innerText = "Post";
+            this.submitBtn.innerText = "Transmit";
             this.submitBtn.disabled = false;
         }
     }
 }
-
-export { CommentSection };

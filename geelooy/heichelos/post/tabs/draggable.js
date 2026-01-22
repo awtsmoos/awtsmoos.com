@@ -1,215 +1,113 @@
 //B"H
 /**
- * Persistence state for dimensions across modes.
- * Dedicated to the Awtsmoos who remembers all.
+ * @file draggable.js
+ * @description 
+ * The Physics Engine of the Sidebar.
+ * FIXED: Re-enabled Desktop flex-basis manipulation for reliable resizing.
  */
-let lastDesktopWidth = null;
-let lastMobileHeight = null;
 
-/**
- * Enables Vertical dragging for the mobile sidebar.
- * Refined for the Divine Will.
- */
-export function makeDraggable({
-    sidebar, 
-    headers, 
-    onclose = (() => {})
-}) {
-    if (!sidebar) return;
-    
-    const dragTargets = (Array.isArray(headers) ? headers : [headers]).filter(Boolean);
-    if (dragTargets.length === 0) return;
+let lastDesktopWidth = 420;
+let lastMobileHeight = 400; 
 
-    let isDragging = false;
-    let startY = 0;
-    let startHeight = 0;
-    let rafId = null;
-
-    function onPointerDown(e) {
-        if (window.innerWidth > 900) return;
-
-        // Skip interactive elements
-        if (e.target.closest('button, .awtsmoos-list-item, input, textarea, .awtsmoos-close-sidebar-btn, .awtsmoos-nav-back')) {
-            return;
-        }
-
-        isDragging = true;
-        startY = e.clientY;
-        startHeight = sidebar.offsetHeight;
-        
-        sidebar.classList.add('is-dragging');
-        
-        if (e.target.setPointerCapture) {
-             e.target.setPointerCapture(e.pointerId);
-        }
-
-        document.addEventListener('pointermove', onPointerMove, { passive: false });
-        document.addEventListener('pointerup', onPointerUp);
-        document.addEventListener('pointercancel', onPointerUp);
-        
-        // Prevent default touch actions (scrolling)
-        e.preventDefault(); 
-    }
-
-    function onPointerMove(e) {
-        if (!isDragging) return;
-        
-        if (rafId) cancelAnimationFrame(rafId);
-
-        rafId = requestAnimationFrame(() => {
-            const currentY = e.clientY;
-            const deltaY = currentY - startY;
-            
-            // Dragging UP (negative delta) -> Increase Height
-            let newHeight = startHeight - deltaY;
-            
-            const minHeight = 80;
-            const maxHeight = window.innerHeight * 0.95; // Little more space at top
-            
-            // Elasticity check (optional, here strict clamping)
-            if (newHeight < minHeight) newHeight = minHeight;
-            if (newHeight > maxHeight) newHeight = maxHeight;
-            
-            lastMobileHeight = newHeight;
-            sidebar.style.setProperty('height', `${newHeight}px`, 'important');
-        });
-    }
-
-    function onPointerUp(e) {
-        if (!isDragging) return;
-        isDragging = false;
-        if(rafId) cancelAnimationFrame(rafId);
-        
-        sidebar.classList.remove('is-dragging');
-        
-        document.removeEventListener('pointermove', onPointerMove);
-        document.removeEventListener('pointerup', onPointerUp);
-        document.removeEventListener('pointercancel', onPointerUp);
-        
-        // Snap logic: if too small, close it.
-        if (sidebar.offsetHeight < 150) {
-            onclose();
-        }
-    }
-
-    dragTargets.forEach(header => {
-        header.style.touchAction = "none"; // Critical for mobile to prevent scroll interaction
-        header.addEventListener('pointerdown', onPointerDown);
-    });
-}
-
-/**
- * Enables Horizontal resizing for the desktop sidebar.
- * Refined for absolute layout dominance.
- */
 export function makeResizable({ sidebar, target }) {
     if (!sidebar || !target) return;
     
-    target.style.pointerEvents = "auto";
     target.style.touchAction = "none";
+    target.style.userSelect = "none";
+    target.style.pointerEvents = "auto";
 
     let isResizing = false;
-    let startX = 0;
-    let startWidth = 0;
-    let rafId = null;
+    let startVal = 0;
+    let startDim = 0;
+    let pointerId = null;
 
-    function onPointerDown(e) {
-        if (window.innerWidth <= 900) return; 
+    target.addEventListener('pointerdown', (e) => {
+        // Prevent scroll/selection interactions
+        if(e.cancelable) e.preventDefault(); 
+        e.stopPropagation();
         
         isResizing = true;
-        startX = e.clientX;
-        startWidth = sidebar.getBoundingClientRect().width;
+        pointerId = e.pointerId;
+        target.setPointerCapture(pointerId);
         
-        if (target.setPointerCapture) {
-             target.setPointerCapture(e.pointerId);
-        }
-        
+        const isMobile = window.innerWidth <= 900;
+        document.body.classList.add('resizing-active');
         sidebar.classList.add('is-resizing');
-        document.body.style.cursor = 'ew-resize';
-        document.body.style.userSelect = 'none';
-        
-        document.addEventListener('pointermove', onPointerMove, { passive: false });
-        document.addEventListener('pointerup', onPointerUp);
-        document.addEventListener('pointercancel', onPointerUp);
-        
-        e.preventDefault();
-        e.stopPropagation();
-    }
 
-    function onPointerMove(e) {
-        if (!isResizing) return;
+        if (isMobile) {
+            startVal = e.clientY;
+            startDim = sidebar.getBoundingClientRect().height;
+        } else {
+            startVal = e.clientX;
+            startDim = sidebar.getBoundingClientRect().width;
+        }
+    });
+
+    target.addEventListener('pointermove', (e) => {
+        if (!isResizing || e.pointerId !== pointerId) return;
+        if (e.cancelable) e.preventDefault();
         
-        if (rafId) cancelAnimationFrame(rafId);
-        
-        rafId = requestAnimationFrame(() => {
-            const currentX = e.clientX;
-            const delta = startX - currentX; // Dragging left increases width if sidebar is on right
-            // Sidebar is on right (border-left), but layout logic places sidebar last.
-            // If sidebar is flex-basis, increasing width pushes content left.
-            // Assuming sidebar is on the RIGHT side of the flex container:
-            // Mouse moving LEFT (smaller X) should INCREASE width.
+        requestAnimationFrame(() => {
+            const isMobile = window.innerWidth <= 900;
+            const currentVal = isMobile ? e.clientY : e.clientX;
             
-            // Wait, previous layout.js puts sidebar as second child in flex row.
-            // Actually usually sidebars are on right.
-            // Let's assume standard right sidebar:
-            let newWidth = startWidth + delta;
+            // delta = start - current
+            const delta = startVal - currentVal;
             
-            const minWidth = 280;
-            const maxWidth = window.innerWidth * 0.7;
-            
-            if (newWidth < minWidth) newWidth = minWidth; 
-            if (newWidth > maxWidth) newWidth = maxWidth; 
-            
-            lastDesktopWidth = newWidth; 
-            sidebar.style.setProperty('width', `${newWidth}px`, 'important');
-            sidebar.style.setProperty('flex-basis', `${newWidth}px`, 'important');
+            if (isMobile) {
+                let h = startDim + delta;
+                h = Math.max(100, Math.min(h, window.innerHeight - 80));
+                lastMobileHeight = h;
+                sidebar.style.setProperty('height', `${h}px`, 'important');
+                sidebar.style.removeProperty('width');
+                sidebar.style.removeProperty('flex-basis');
+            } else {
+                let w = startDim + delta;
+                w = Math.max(280, Math.min(w, window.innerWidth * 0.7));
+                lastDesktopWidth = w;
+                // ON DESKTOP, flex-basis is required for flex layouts to respect size
+                sidebar.style.setProperty('width', `${w}px`, 'important');
+                sidebar.style.setProperty('flex-basis', `${w}px`, 'important');
+                sidebar.style.removeProperty('height');
+            }
         });
-    }
+    });
 
-    function onPointerUp(e) {
+    const stop = (e) => {
         if (!isResizing) return;
         isResizing = false;
-        if(rafId) cancelAnimationFrame(rafId);
-        
+        document.body.classList.remove('resizing-active');
         sidebar.classList.remove('is-resizing');
-        document.body.style.cursor = '';
-        document.body.style.userSelect = '';
-        
-        document.removeEventListener('pointermove', onPointerMove);
-        document.removeEventListener('pointerup', onPointerUp);
-        document.removeEventListener('pointercancel', onPointerUp);
-    }
+        if (target.hasPointerCapture(pointerId)) {
+            target.releasePointerCapture(pointerId);
+        }
+    };
 
-    target.addEventListener('pointerdown', onPointerDown);
+    target.addEventListener('pointerup', stop);
+    target.addEventListener('pointercancel', stop);
 }
 
 export function setupLayoutSyncer(sidebar) {
     if (!sidebar) return;
-
     let wasMobile = window.innerWidth <= 900;
 
-    window.addEventListener('resize', () => {
+    const sync = () => {
         const isMobile = window.innerWidth <= 900;
-        
-        if (isMobile !== wasMobile) {
+        if (isMobile !== wasMobile || !sidebar.style.height) {
+            sidebar.style.cssText = ""; // Reset
             if (isMobile) {
-                // Desktop -> Mobile
-                sidebar.style.removeProperty('width');
-                sidebar.style.removeProperty('flex-basis');
-                
-                if (lastMobileHeight) {
-                    sidebar.style.setProperty('height', `${lastMobileHeight}px`, 'important');
-                }
+                sidebar.style.height = `${lastMobileHeight}px`;
+                sidebar.style.width = '100%';
             } else {
-                // Mobile -> Desktop
-                sidebar.style.removeProperty('height');
-                
-                if (lastDesktopWidth) {
-                    sidebar.style.setProperty('width', `${lastDesktopWidth}px`, 'important');
-                    sidebar.style.setProperty('flex-basis', `${lastDesktopWidth}px`, 'important');
-                }
+                sidebar.style.width = `${lastDesktopWidth}px`;
+                sidebar.style.flexBasis = `${lastDesktopWidth}px`;
+                sidebar.style.height = '100%';
             }
             wasMobile = isMobile;
         }
-    }, { passive: true });
+    };
+    window.addEventListener('resize', sync);
+    setTimeout(sync, 100);
 }
+
+export function makeDraggable() {}
