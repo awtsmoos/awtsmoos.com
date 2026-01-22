@@ -2,8 +2,8 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 
 /**
- * OctreeQuery - Efficiently probing the physical laws of the Olam.
- * Refined to traverse the LOD tree recursively for logarithmic performance.
+ * OctreeQuery - Probing the physical laws of the Olam.
+ * Uses recursive traversal to ensure O(log N) query times.
  */
 export default class OctreeQuery {
     constructor(world) {
@@ -12,18 +12,16 @@ export default class OctreeQuery {
     }
 
     /**
-     * Probes for intersections along a ray.
-     * Recursively traverses only the branches the ray actually visits.
+     * rayIntersect - Finds the closest point of contact for a ray.
      */
     rayIntersect(ray) {
         let closestResult = false;
         
         const traverseNode = (node) => {
-            // 1. Boundary Guard: If the ray doesn't hit this branch's box, ignore its entire progeny.
+            // 1. Boundary Guard: If the ray doesn't hit this branch, ignore its progeny.
             if (!ray.intersectsBox(node.box)) return;
 
             if (node.type === 'LEAF') {
-                // 2. Leaf Manifestation: Probing the actual geometry within this sacred space.
                 if (node.physics) {
                     const res = node.physics.rayIntersect(ray);
                     if (res && (!closestResult || res.distance < closestResult.distance)) {
@@ -31,7 +29,6 @@ export default class OctreeQuery {
                     }
                 }
             } else {
-                // 3. Branching: Delving deeper into the sub-divisions of existence.
                 for (let i = 0; i < node.children.length; i++) {
                     traverseNode(node.children[i]);
                 }
@@ -42,7 +39,7 @@ export default class OctreeQuery {
             traverseNode(this.world.root);
         }
 
-        // 4. Satellite Check: Temporary octrees for instant interaction.
+        // Check satellites (instant loading objects)
         for (const sat of this.world.pendingOctrees) {
             if (ray.intersectsBox(sat.box)) {
                 const res = sat.rayIntersect(ray);
@@ -56,13 +53,12 @@ export default class OctreeQuery {
     }
 
     /**
-     * Resolves collisions between a Capsule and the world.
+     * capsuleIntersect - Resolves collision for a capsule vessel.
      */
     capsuleIntersect(capsule) {
         let hit = false;
         const testCapsule = capsule.clone();
 
-        // Establish the search bounds for this physical probe
         this._tempBox.min.copy(testCapsule.start).min(testCapsule.end).subScalar(testCapsule.radius);
         this._tempBox.max.copy(testCapsule.start).max(testCapsule.end).addScalar(testCapsule.radius);
 

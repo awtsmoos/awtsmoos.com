@@ -11,8 +11,14 @@ export default {
 
     performOptimizedRaycasting(isCorrected) {
         let isSceneChanged = this.isSceneChanged();
+        
+        // B"H: If the player is driving, we ignore the vehicle mesh to avoid instant camera zoom-in
+        const ignoreMesh = (this.target && this.target.drivingVehicle) ? this.target.drivingVehicle.mesh : null;
 
         for (let obj of this.objectsInScene) {
+            // Skip the vehicle the player is currently driving
+            if (obj === ignoreMesh) continue;
+
             let collisionResults;
             if (isSceneChanged || !this.previousResults.has(obj)) {
                 collisionResults = this.raycaster.intersectObject(obj, true);

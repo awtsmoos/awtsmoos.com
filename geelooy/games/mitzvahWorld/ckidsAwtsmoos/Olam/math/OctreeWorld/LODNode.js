@@ -1,14 +1,18 @@
 
-// B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-import { NODE_STATE } from "./constants.js";
+/**
+ * B"H
+ * LODNode Class
+ */
+import { Group } from '/games/scripts/build/three.module.js';
+import { NODE_STATE } from './constants.js';
 
-export class LODNode {
-    box;
-    children = [];
-    type = 'LEAF';
-    state = NODE_STATE.EMPTY;
-    physics = null;
-    physicsMeshGroup = new THREE.Group();
-    constructor(box) { this.box = box; }
+export default class LODNode {
+    constructor(box) {
+        this.box = box;
+        this.children = [];
+        this.type = 'LEAF';
+        this.state = NODE_STATE.EMPTY;
+        this.physics = null;
+        this.physicsMeshGroup = new Group();
+    }
 }

@@ -7,6 +7,11 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 import GeometryManager from '../../math/GeometryManager.js';
 
+/**
+ * generateThreeJsMesh - Synthesizes a mesh from its golem essence.
+ * @param {Object} golem 
+ * @param {Object} olamContext 
+ */
 export default async function generateThreeJsMesh(golem, olamContext) {
     const originalGolem = golem;
     if (!golem) golem = {};
@@ -14,7 +19,9 @@ export default async function generateThreeJsMesh(golem, olamContext) {
     const keyMap = {
         color: val => new THREE.Color(val),
         map: async (val) => {
-            if (typeof val !== 'string') return null;
+            // B"H: Extreme safety - handle potential non-string values
+            if (typeof val !== 'string' || !val) return null;
+            
             const url = val.startsWith("awtsmoos://") ? olamContext.getComponent(val) : val;
             return await olamContext.loadTexture({ url });
         }
@@ -91,14 +98,16 @@ export default async function generateThreeJsMesh(golem, olamContext) {
         const texTop = texFront.clone(); 
 
         [texFront, texSide, texTop].forEach(t => {
-            t.wrapS = THREE.RepeatWrapping;
-            t.wrapT = THREE.RepeatWrapping;
-            t.needsUpdate = true; 
+            if (t) {
+                t.wrapS = THREE.RepeatWrapping;
+                t.wrapT = THREE.RepeatWrapping;
+                t.needsUpdate = true; 
+            }
         });
 
-        texFront.repeat.set(width, height);
-        texSide.repeat.set(depth, height);
-        texTop.repeat.set(width, depth);
+        if (texFront) texFront.repeat.set(width, height);
+        if (texSide) texSide.repeat.set(depth, height);
+        if (texTop) texTop.repeat.set(width, depth);
 
         const matFront = tzurah.clone(); matFront.map = texFront;
         const matSide = tzurah.clone(); matSide.map = texSide;

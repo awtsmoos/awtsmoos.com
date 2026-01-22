@@ -1,10 +1,18 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 import { ITEM_REGISTRY } from '../../../systems/inventory/data/registry.js';
 
+/**
+ * Loaders - Modular handlers for importing assets into the Olam.
+ * Refined for absolute Worker compatibility.
+ */
 export default {
+    /**
+     * B"H
+     * loadGLTF - Manifests a form from its digital blueprint.
+     * @param {string} url 
+     */
     async loadGLTF(url) {
         try {
             const gltf = await (new GLTFLoader().loadAsync(url));
@@ -15,46 +23,43 @@ export default {
         }
     },
 
-    loadTexture({ nivra, url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
-        return new Promise((resolve) => {
-            if(!nivra) {
-                nivra = this?.nivrayim?.find(q => q?.asset);
+    /**
+     * B"H
+     * loadTexture - Draws a texture from the infinite potential into the physical world.
+     * Re-engineered to avoid all document dependencies in Worker context.
+     * @param {Object} options
+     */
+    async loadTexture({ url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
+        if (!url) return null;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("B\"H: Fetch fail in loaders.");
+            const blob = await response.blob();
+            const imageBitmap = await createImageBitmap(blob, { imageOrientation: 'flipY' });
+            const texture = new THREE.Texture(imageBitmap);
+            if (shouldRepeat) {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(repeatX, repeatY);
             }
-            if(!nivra) return resolve({error: "No nivra found"});
-            var a = nivra.asset;
-            if(!a) return resolve({error: "No asset nivra"});
-            var loader = nivra?.asset?.parser?.textureLoader;
-            if(!loader) return resolve({error: "No texture loader"});
-            
-            loader.load(
-                url,
-                function (imageBitmap) {
-                    var texture = new THREE.Texture(imageBitmap);
-                    if (shouldRepeat) {
-                        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                        texture.repeat.set(repeatX, repeatY);
-                    }
-                    texture.needsUpdate = true;
-                    resolve(texture);
-                },
-                undefined,
-                function (err) {
-                    console.warn('B"H: Error loading texture, resolving null to prevent hang:', url, err);
-                    resolve(null);
-                }
-            );
-        });
+            texture.needsUpdate = true; // B"H: CRITICAL for manifesting on GPU
+            return texture;
+        } catch(err) {
+            console.warn('B"H: Loaders texture error:', url, err);
+            return null;
+        }
     },
     
+    /**
+     * B"H
+     * getIconFromType - Retrieves the sacred icon for an item type.
+     */
     async getIconFromType(type) {
 		if(type && typeof(type) == "string") {
 			const itemData = ITEM_REGISTRY[type];
 			if(itemData && itemData.icon) {
-                // If it's a raw SVG string or Data URI, return it
                 if(itemData.icon.startsWith("<svg") || itemData.icon.startsWith("data:")) {
                     return itemData.icon;
                 }
-                // If it's a path to a module (legacy), try to fetch it
                 if(itemData.icon.endsWith(".js")) {
                     try {
                         const module = await import(itemData.icon);

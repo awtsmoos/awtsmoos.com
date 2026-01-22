@@ -1,4 +1,3 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import { LODNode } from "../LODNode.js";
@@ -8,7 +7,19 @@ const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
 
 export default {
+    /**
+     * assessAndQueueWork - Evaluates the spiritual proximity of vessels to focal points.
+     * Refined to handle initial calls from OctreeWorld.update which may only pass foci.
+     */
     assessAndQueueWork(node, foci) {
+        // B"H: Entry Point Guard. If node is an array, it's actually the foci from the root call.
+        if (Array.isArray(node)) {
+            foci = node;
+            node = this.world.root;
+        }
+
+        if (!node || !node.box) return;
+
         const center = node.box.getCenter(_v1);
         let highestPriority = 'MERGE';
         let detailLevel = Infinity;

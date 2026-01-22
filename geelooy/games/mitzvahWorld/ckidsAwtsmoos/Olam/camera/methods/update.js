@@ -1,17 +1,21 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import CameraMath from './calculatePosition.js';
 
+/**
+ * update - The constant adjustment of the spiritual eye (Ayin).
+ * Calculates the kav (line) between the target and the observer.
+ */
 export default function update() {
     if (!this.target || !this.target.mesh) return;
     
-    // B"H: NaN Check
+    // B"H: NaN Guard - If the world forge is in flux, do not glitch the eye.
     if (isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y)) return;
 
     this.newMovement = false;
-    const isWDown = this.rightMouseIsDown && this.mouseIsDown;
     
+    // Mouse movement input logic
+    const isWDown = this.rightMouseIsDown && this.mouseIsDown;
     if(isWDown) {
         if(this.target.olam) this.target.olam.ayshPeula("setInput", { code: "KeyW" });
         this.sentToOlam = true;
@@ -20,8 +24,10 @@ export default function update() {
         if(this.target.olam) this.target.olam.ayshPeula("setInputOut", { code: "KeyW" });
     }
 
+    // --- Distance and Mode Logic ---
     if(!this.isFPS) {
         if(this.lastDistance !== null) {
+            // Restore from FPS mode
             this.desiredDistance = this.lastDistance;
             this.lastDistance = null; 
             if(this.target.modelMesh) this.target.modelMesh.visible = true;
@@ -31,11 +37,13 @@ export default function update() {
             this.previousTargetRotation = this.target.rotation.y * 180 / Math.PI;
             if(this.target.rotateOffset !== undefined) this.target.rotateOffset = 0;
         } else {
+            // Standard Zoom
             const dY = (typeof this.deltaY === 'number' && !isNaN(this.deltaY)) ? this.deltaY : 0;
             this.desiredDistance -= dY * 0.02 * this.zoomRate * Math.abs(this.desiredDistance) * this.speedDistance;
-            this.desiredDistance = Math.max(Math.min(this.desiredDistance, this.maxDistance), this.minDistance);
+            this.desiredDistance = THREE.MathUtils.clamp(this.desiredDistance, this.minDistance, this.maxDistance);
         }
     } else {
+        // FPS Mode: Target is hidden, distance is zero
         if(this.lastDistance === null) {
             this.lastDistance = this.desiredDistance;
             if(this.target.modelMesh) this.target.modelMesh.visible = false;
@@ -48,17 +56,17 @@ export default function update() {
         this.desiredDistance = 0;
     }
 
+    // --- Rotation Sync ---
     this.targetRotation = this.target.mesh.rotation.y * 180 / Math.PI;
     if (this.previousTargetRotation === undefined) this.previousTargetRotation = this.targetRotation;
     const rotationDelta = this.targetRotation - this.previousTargetRotation;
 
     if(!this.isFPS) {
         if (!(this.mouseIsDown || this.rightMouseIsDown)) {
+            // Camera follows target rotation when not being manually rotated
             this.userInputTheta += rotationDelta;
-        } else {
-             this.userInputTheta -= this.mouseX * this.xSpeed * this.sensitivity;
-        }
-        this.userInputPhi -= this.mouseY * this.ySpeed * this.sensitivity;
+        } 
+        // Note: manual rotation (dragging) is handled in rotateAroundTarget via controls.js
         this.previousTargetRotation = this.targetRotation;
     } 
 
@@ -68,16 +76,15 @@ export default function update() {
     this.euler = new THREE.Euler(this.userInputPhi * THREE.MathUtils.DEG2RAD, this.userInputTheta * THREE.MathUtils.DEG2RAD, 0, 'YXZ');
     const rotation = new THREE.Quaternion().setFromEuler(this.euler);
     
-    // --- Modular Math Calls ---
-    let tHeight = typeof(this.targetHeight) === 'number' && !isNaN(this.targetHeight) ? this.targetHeight : 1.5;
+    // --- Final Position Calculation ---
+    let tHeight = (typeof(this.targetHeight) === 'number' && !isNaN(this.targetHeight)) ? this.targetHeight : 1.5;
     
-    // 1. Initial Position Calculation
     const { position: rawPosition, vTargetOffset } = CameraMath.calculateDesiredPosition(this.target.mesh, rotation, tHeight, this.desiredDistance, this.isFPS);
     
     this.correctedDistance = this.desiredDistance;
     let isCorrected = false;
 
-    // 2. Wall Collision
+    // 1. Wall Collision Detection
     if(!this.isFPS) {
         const trueTargetPosition = this.target.mesh.position.clone().sub(vTargetOffset);
         const dist = CameraMath.checkWallCollision(trueTargetPosition, rawPosition, this.olam.worldOctree, this.offsetFromWall, this.desiredDistance);
@@ -87,29 +94,24 @@ export default function update() {
         }
     }
 
+    // 2. Smoothing
     let smoothedDistance = (!isCorrected || this.correctedDistance > this.currentDistance) ?
         this.lerp(this.currentDistance, this.correctedDistance, 0.02 * this.zoomDampening) :
         this.correctedDistance;
     
-    // 3. Player Sphere Collision
+    // 3. Player Vessel Clipping Guard
     let minimumAllowedDistance = this.minDistance;
     if (!this.isFPS && this.target.collider) {
         minimumAllowedDistance = CameraMath.checkPlayerCollision(this.target.mesh.position, vTargetOffset, rotation, this.target.collider, this.minDistance);
     }
     
-    let finalDistance = Math.max(minimumAllowedDistance, smoothedDistance);
-    finalDistance = Math.min(this.maxDistance, finalDistance); 
+    this.currentDistance = THREE.MathUtils.clamp(Math.max(minimumAllowedDistance, smoothedDistance), this.minDistance, this.maxDistance);
     
-    if (finalDistance === minimumAllowedDistance && smoothedDistance < minimumAllowedDistance) {
-        this.desiredDistance = minimumAllowedDistance;
-    }
-    
-    this.currentDistance = finalDistance;
-    
-    // 4. Final Position
+    // 4. Set Final Position
     const finalPosInfo = CameraMath.calculateDesiredPosition(this.target.mesh, rotation, tHeight, this.currentDistance, this.isFPS);
     const finalPosition = finalPosInfo.position;
 
+    // 5. FPS and Mouse State Alignments
     if(this.isFPS) {
          if (this.mouseIsDown || this.rightMouseIsDown) {
              this.target.rotation.y = this.euler.y;
@@ -124,12 +126,14 @@ export default function update() {
         this.target.rotation.y = this.euler.y;
     }
 
+    // 6. Apply to Camera
     this.camera.rotation.copy(this.euler);
     if (!isNaN(finalPosition.x)) {
         this.camera.position.copy(finalPosition);
         this.cameraFollower.position.copy(finalPosition);
     }
 
+    // 7. LookAt Sync
     const lookAtPos = this.target.mesh.position.clone();
     lookAtPos.y += tHeight;
     if (!isNaN(lookAtPos.x)) {
