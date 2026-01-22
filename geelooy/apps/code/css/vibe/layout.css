@@ -1,0 +1,68 @@
+/* B"H - VIBE LAYOUT (The Structure) */
+
+#vibe-editor-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-bg-deep);
+}
+
+.vibe-container {
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* LEFT PANEL (Chat) */
+.vibe-chat-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 320px; /* Minimum width to prevent UI breakage */
+    position: relative;
+    z-index: 1;
+    border-right: 1px solid var(--color-border);
+}
+
+/* RESIZER */
+.vibe-resizer {
+    width: 6px;
+    cursor: col-resize;
+    background: var(--color-bg-deep);
+    position: relative;
+    z-index: 100;
+    flex-shrink: 0;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    transition: background 0.2s;
+}
+.vibe-resizer:hover { background: var(--neon-cyan); }
+
+/* RIGHT PANEL (Sidebar) */
+.vibe-side-panel {
+    width: 350px;
+    background-color: var(--color-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    flex-shrink: 0;
+    /* B"H - The Fix: overflow-x hidden preventing internal blowout */
+    min-width: 0; 
+    max-width: 60vw; 
+    overflow: hidden;
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Collapsed State - Total Disappearance */
+.vibe-side-panel.collapsed {
+    width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
