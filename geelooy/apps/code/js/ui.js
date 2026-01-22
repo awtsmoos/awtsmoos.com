@@ -1,6 +1,5 @@
-
 // B"H
-// FILE: code/js/ui.js
+// FILE: js/ui.js
 
 import { State, DOM } from './state.js';
 import { ColorOrbs } from './visuals/color-orbs.js';
@@ -85,76 +84,90 @@ export const UI = {
             }, 500);
         }, 3000);
     },
-    
+
     showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', inputValue = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
-    return new Promise(resolve => {
-        const dialog = DOM.genericDialog;
-        let tertiaryButtonHTML = '';
-        if (tertiary) tertiaryButtonHTML = `<button class="secondary-btn ${tertiary.class || ''}" id="dialog-tertiary-btn" style="margin-right: auto;">${tertiary.text}</button>`;
-        let secondaryOkButtonHTML = '';
-        if (secondaryOk) secondaryOkButtonHTML = `<button class="secondary-btn" id="dialog-secondary-ok-btn">${secondaryOk.text}</button>`;
+        return new Promise(resolve => {
+            const dialog = DOM.genericDialog;
+            let tertiaryButtonHTML = '';
+            if (tertiary) tertiaryButtonHTML = `<button class="secondary-btn ${tertiary.class || ''}" id="dialog-tertiary-btn" style="margin-right: auto;">${tertiary.text}</button>`;
+            let secondaryOkButtonHTML = '';
+            if (secondaryOk) secondaryOkButtonHTML = `<button class="secondary-btn" id="dialog-secondary-ok-btn">${secondaryOk.text}</button>`;
 
-        dialog.innerHTML = `
-            <div class="dialog-content" id="dialog-content">
-                <h3>${title}</h3>
-                ${message ? `<p>${message}</p>` : ''}
-                ${contentHTML}
-                ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}" value="${inputValue}">` : ''}
-                ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
-                <div class="dialog-button-bar">
-                    ${tertiaryButtonHTML}
-                    ${cancelText ? `<button class="secondary-btn" id="dialog-cancel-btn">${cancelText}</button>` : ''}
-                    ${secondaryOkButtonHTML}
-                    ${okText ? `<button class="primary-btn" id="dialog-ok-btn">${okText}</button>` : ''}
-                </div>
-            </div>`;
-        
-        const okBtn = dialog.querySelector('#dialog-ok-btn');
-        const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
-        const tertiaryBtn = dialog.querySelector('#dialog-tertiary-btn');
-        const secondaryOkBtn = dialog.querySelector('#dialog-secondary-ok-btn');
-        const inputEl = dialog.querySelector('#dialog-input');
-        const textareaEl = dialog.querySelector('#dialog-textarea');
+            dialog.innerHTML = `
+                <div class="dialog-content" id="dialog-content">
+                    <h3>${title}</h3>
+                    ${message ? `<p>${message}</p>` : ''}
+                    ${contentHTML}
+                    ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}" value="${inputValue}">` : ''}
+                    ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
+                    <div class="dialog-button-bar">
+                        ${tertiaryButtonHTML}
+                        ${cancelText ? `<button class="secondary-btn" id="dialog-cancel-btn">${cancelText}</button>` : ''}
+                        ${secondaryOkButtonHTML}
+                        ${okText ? `<button class="primary-btn" id="dialog-ok-btn">${okText}</button>` : ''}
+                    </div>
+                </div>`;
+            
+            const okBtn = dialog.querySelector('#dialog-ok-btn');
+            const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
+            const tertiaryBtn = dialog.querySelector('#dialog-tertiary-btn');
+            const secondaryOkBtn = dialog.querySelector('#dialog-secondary-ok-btn');
+            const inputEl = dialog.querySelector('#dialog-input');
+            const textareaEl = dialog.querySelector('#dialog-textarea');
 
-        const cleanupAndResolve = (value) => {
-            dialog.classList.remove('visible');
-            document.removeEventListener('keydown', keydownHandler);
-            resolve(value);
-        };
+            const cleanupAndResolve = (value) => {
+                dialog.classList.remove('visible');
+                document.removeEventListener('keydown', keydownHandler);
+                resolve(value);
+            };
 
-        const keydownHandler = (e) => {
-            if (e.key === 'Escape') { e.preventDefault(); cancelBtn?.click(); }
-            if (e.key === 'Enter') {
-                if (textareaEl && document.activeElement === textareaEl && !e.ctrlKey) return; 
-                e.preventDefault(); okBtn?.click();
-            }
-        };
-        if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? inputEl.value : (hasTextarea ? textareaEl.value : true));
-        if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
-        if (tertiaryBtn) tertiaryBtn.onclick = () => cleanupAndResolve('tertiary');
-        if (secondaryOkBtn) secondaryOkBtn.onclick = () => cleanupAndResolve(secondaryOk.actionKey);
-        dialog.classList.add('visible');
-        if (inputEl) { inputEl.focus(); if (inputValue) inputEl.select(); } 
-        else if (textareaEl) textareaEl.focus();
-        else if (okBtn) okBtn.focus();
-        document.addEventListener('keydown', keydownHandler);
-    });
-},
+            const keydownHandler = (e) => {
+                if (e.key === 'Escape') { e.preventDefault(); cancelBtn?.click(); }
+                
+                // B"H - UPDATED ENTER LOGIC
+                if (e.key === 'Enter') {
+                    const active = document.activeElement;
+                    
+                    // If focusing on a textarea, Enter adds a newline. Ctrl+Enter submits.
+                    if (active === textareaEl) {
+                        if (e.ctrlKey) {
+                            e.preventDefault(); 
+                            okBtn?.click();
+                        }
+                        // else do nothing, allow default newline
+                        return;
+                    }
+                    
+                    // Default behavior for other inputs
+                    e.preventDefault(); 
+                    okBtn?.click();
+                }
+            };
+            
+            if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? inputEl.value : (hasTextarea ? textareaEl.value : true));
+            if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
+            if (tertiaryBtn) tertiaryBtn.onclick = () => cleanupAndResolve('tertiary');
+            if (secondaryOkBtn) secondaryOkBtn.onclick = () => cleanupAndResolve(secondaryOk.actionKey);
+            
+            dialog.classList.add('visible');
+            
+            if (inputEl) { inputEl.focus(); if (inputValue) inputEl.select(); } 
+            else if (textareaEl) textareaEl.focus();
+            else if (okBtn) okBtn.focus();
+            
+            document.addEventListener('keydown', keydownHandler);
+        });
+    },
 
     updateLineNumbers: (errors = []) => {
         if (DOM.editorWrapper.classList.contains('hidden')) return;
         const text = DOM.editor.value;
-        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         const lines = text.split('\n');
-
+        
         let foldableLines = [];
-        // Only run AST check if we are NOT viewing folded code, to save perf,
-        // or just accept that getFoldableLines ignores the string literal lines.
-        if (VisualSettings.get('folding') && activeTab && activeTab.fileType === 'text') {
-            try { 
-                foldableLines = ASTEngine.getFoldableLines(text); 
-            } catch(e) {}
-        }
+        try { 
+            if(VisualSettings.get('folding')) foldableLines = ASTEngine.getFoldableLines(text); 
+        } catch(e) {}
 
         const errorMap = new Map();
         errors.forEach(e => errorMap.set(e.line, e));
@@ -162,19 +175,14 @@ export const UI = {
         let html = '';
         for (let i = 1; i <= lines.length; i++) {
             const lineText = lines[i-1];
-            
-            // B"H - New Detection logic for comment based fold markers
             const isActuallyFolded = lineText.match(/\/\* \[FOLD:\d+\] \*\//);
             const isFoldablePotential = foldableLines.includes(i);
-            
             const markerClass = errorMap.has(i) ? 'lint-marker' : '';
             
             let foldIcon = '';
             if (isActuallyFolded) {
-                // Expanding Point (Right Arrow) - Indicates currently folded
                 foldIcon = `<span class="fold-gutter-icon folded" data-line="${i}" title="Expand" style="cursor:pointer; color:var(--neon-magenta); margin-right:5px; font-size:10px;">▶</span>`;
             } else if (isFoldablePotential) {
-                // Contracting Point (Down Arrow) - Indicates can be folded
                 foldIcon = `<span class="fold-gutter-icon potential" data-line="${i}" title="Fold" style="cursor:pointer; color:var(--neon-cyan); margin-right:5px; font-size:10px; opacity:0.8;">▼</span>`;
             } else {
                 foldIcon = `<span style="display:inline-block; width:18px;"></span>`;
@@ -185,7 +193,6 @@ export const UI = {
         }
         DOM.lineNumbers.innerHTML = html;
 
-        // Re-attach fold listener if missing
         if (!DOM.lineNumbers.dataset.foldListener) {
             DOM.lineNumbers.onclick = (e) => {
                 const icon = e.target.closest('.fold-gutter-icon');
@@ -196,7 +203,6 @@ export const UI = {
             };
             DOM.lineNumbers.dataset.foldListener = "true";
         }
-        
         requestAnimationFrame(() => ColorOrbs.scanAndRender(DOM.lineNumbers));
     },
     
@@ -211,8 +217,16 @@ export const UI = {
         if (DOM.zipExplorerWrapper) DOM.zipExplorerWrapper.classList.add('hidden');
         const vibeWrapper = document.getElementById('vibe-editor-wrapper');
         if(vibeWrapper) vibeWrapper.classList.add('hidden');
+        
+        // B"H - FIX: Hide Minimap in non-editor views to prevent click blocking
+        const minimap = document.getElementById('minimap-canvas');
+        if (minimap) minimap.classList.add('hidden');
+
         switch(viewName) {
-            case 'editor': DOM.editorWrapper.classList.remove('hidden'); break;
+            case 'editor': 
+                DOM.editorWrapper.classList.remove('hidden'); 
+                if (minimap) minimap.classList.remove('hidden'); // Show only in editor
+                break;
             case 'preview': DOM.previewer.classList.remove('hidden'); break;
             case 'console': DOM.consoleHost.classList.remove('hidden'); break;
             case 'altar': DOM.dataAltarContainer.classList.remove('hidden'); break;

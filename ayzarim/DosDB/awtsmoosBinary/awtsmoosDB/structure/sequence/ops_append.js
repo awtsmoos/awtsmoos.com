@@ -1,10 +1,18 @@
 // B"H
 const SmartPointer = require('../../utils/smartPointer.js');
+const constants = require('../../constants.js');
+const utils = require('./ops_utils.js');
 
+/**
+ * @class AppendOps
+ * @description
+ *  The Sefirah of Chesed - The Outpouring of Manifestation.
+ */
 class AppendOps {
     constructor(sequence) {
         this.seq = sequence;
         this.nodeIO = sequence.nodeIO;
+        this.db = sequence.db;
     }
 
     append(itemPtr) {
@@ -12,75 +20,57 @@ class AppendOps {
         const res = this._appendRecursive(root, itemPtr);
         
         if (res.splitNode) {
-            const newRoot = this.nodeIO.create(false, root.isWeak);
-            const leftPtr = SmartPointer.block(constants.VAL_TYPE.SEQUENCE, root.ptr.blockId, root.ptr.length, root.ptr.isChain, root.ptr.offset);
-            const rightPtr = SmartPointer.block(constants.VAL_TYPE.SEQUENCE, res.splitNode.ptr.blockId, res.splitNode.ptr.length, res.splitNode.ptr.isChain, res.splitNode.ptr.offset);
-            
-            // Logic for internal node entry construction
-            const entry1 = Buffer.alloc(20); leftPtr.copy(entry1); entry1.writeUInt32BE(root.totalCount, 16);
-            const entry2 = Buffer.alloc(20); rightPtr.copy(entry2); entry2.writeUInt32BE(res.splitNode.totalCount, 16);
-            
-            entry1.copy(newRoot.buffer, 23);
-            entry2.copy(newRoot.buffer, 43);
-            newRoot.itemCount = 2;
-            newRoot.totalCount = root.totalCount + res.splitNode.totalCount;
-            this.nodeIO.save(newRoot);
-            this.seq.ptr = newRoot.ptr;
+            utils.handleRootSplit(this.nodeIO, this.seq, root, [res.splitNode]);
+            return { newPtr: this.seq.ptr };
         }
+        return { newPtr: res.newPtr || this.seq.ptr };
     }
 
     _appendRecursive(node, itemPtr) {
+        const itemSize = utils.getPtrSize(itemPtr);
+        
         if (node.isLeaf) {
             if (node.itemCount < 200) {
                 itemPtr.copy(node.buffer, 23 + (node.itemCount * 16));
                 node.itemCount++;
                 node.totalCount = node.itemCount;
-                this.nodeIO.save(node);
-                return { deltaCount: 1, splitNode: null };
+                node.totalBytes = (node.totalBytes || 0) + itemSize;
+                const newPtr = this.nodeIO.save(node);
+                return { deltaCount: 1, deltaBytes: itemSize, splitNode: null, newPtr };
             } else {
                 const newNode = this.nodeIO.create(true, node.isWeak);
                 itemPtr.copy(newNode.buffer, 23);
-                newNode.itemCount = 1;
-                newNode.totalCount = 1;
+                newNode.itemCount = 1; newNode.totalCount = 1; newNode.totalBytes = itemSize;
                 this.nodeIO.save(newNode);
-                return { deltaCount: 1, splitNode: newNode };
+                return { deltaCount: 1, deltaBytes: itemSize, splitNode: newNode };
             }
         } else {
             const lastIdx = node.itemCount - 1;
             const entryOff = 23 + (lastIdx * 20);
-            const childPtr = this._decodePtrBuf(node.buffer.subarray(entryOff, entryOff + 16));
+            const childPtr = utils.decodePtr(node.buffer.subarray(entryOff, entryOff + 16));
             const childNode = this.nodeIO.load(childPtr);
             const res = this._appendRecursive(childNode, itemPtr);
             
+            if (res.newPtr) {
+                const enc = utils.encodePtr(res.newPtr);
+                enc.copy(node.buffer, entryOff);
+            }
             node.buffer.writeUInt32BE(childNode.totalCount, entryOff + 16);
+            
             if (res.splitNode) {
                 if (node.itemCount < 200) {
                     const newOff = 23 + (node.itemCount * 20);
-                    const snPtr = SmartPointer.block(constants.VAL_TYPE.SEQUENCE, res.splitNode.ptr.blockId, res.splitNode.ptr.length, res.splitNode.ptr.isChain, res.splitNode.ptr.offset);
-                    snPtr.copy(node.buffer, newOff);
+                    utils.encodePtr(res.splitNode.ptr).copy(node.buffer, newOff);
                     node.buffer.writeUInt32BE(res.splitNode.totalCount, newOff + 16);
                     node.itemCount++;
-                    node.totalCount += 1;
-                    this.nodeIO.save(node);
-                    return { deltaCount: 1, splitNode: null };
-                } else {
-                    // Internal split logic omitted for brevity, unified kernel handles it via physical block reuse
-                    return { deltaCount: 1, splitNode: null };
                 }
             }
+            
             node.totalCount += 1;
-            this.nodeIO.save(node);
-            return res;
+            node.totalBytes = (node.totalBytes || 0) + itemSize;
+            const myNewPtr = this.nodeIO.save(node);
+            return { deltaCount: 1, deltaBytes: itemSize, splitNode: res.splitNode, newPtr: myNewPtr };
         }
-    }
-
-    _decodePtrBuf(buf) {
-        return { 
-            blockId: SmartPointer.getBlockId(buf), 
-            length: SmartPointer.getLength(buf), 
-            offset: SmartPointer.getOffset(buf), 
-            isChain: SmartPointer.isChain(buf) 
-        };
     }
 }
 module.exports = AppendOps;

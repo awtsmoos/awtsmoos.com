@@ -1,74 +1,63 @@
 // B"H
 /**
- * @module serializer
- * @description 
- *  The Sefirah of Gevurah - The Constraint of Number.
- *  Variable Integer serialization with strictly deterministic decoding.
+ * @file serializer.js
+ * @description
+ *  The Sefirah of Chesed - The Flow of Numbers.
+ *  Provides strictly synchronous VarInt and String serialization.
  */
-
-/**
- * @function writeVarInt
- * @description Encodes a number into a variable-length LEB128 buffer.
- */
-function writeVarInt(value) {
-    const val = Math.abs(Math.floor(value));
-    const bytes = [];
-    let v = val;
-    while (v >= 128) {
-        bytes.push((v % 128) | 128);
-        v = Math.floor(v / 128);
-    }
-    bytes.push(v);
-    return Buffer.from(bytes);
-}
 
 /**
  * @function writeVarIntTo
- * @description Zero-allocation encoding of a number into an existing buffer.
+ * @description Manifests a number as a LEB128 variable-length integer.
  */
-function writeVarIntTo(buf, offset, value) {
-    const val = Math.abs(Math.floor(value));
-    let v = val;
-    let currentOffset = offset;
-    while (v >= 128) {
-        buf.writeUInt8((v % 128) | 128, currentOffset++);
-        v = Math.floor(v / 128);
+function writeVarIntTo(buffer, offset, value) {
+    let v = value;
+    let bytesWritten = 0;
+    while (v > 127) {
+        buffer[offset + bytesWritten] = (v & 127) | 128;
+        v >>>= 7; // Unsigned shift
+        bytesWritten++;
     }
-    buf.writeUInt8(v, currentOffset++);
-    return currentOffset - offset;
+    buffer[offset + bytesWritten] = v & 127;
+    return bytesWritten + 1;
 }
 
 /**
  * @function readVarInt
- * @description Decodes a variable-length integer with a strict 10-byte safety limit.
+ * @description Resolves a LEB128 variable-length integer from binary data.
  */
-function readVarInt(buf, offset) {
+function readVarInt(buffer, offset) {
     let value = 0;
+    let shift = 0;
     let bytesRead = 0;
-    let multiplier = 1;
-    while (offset + bytesRead < buf.length) {
-        const b = buf.readUInt8(offset + bytesRead);
-        value += (b & 0x7F) * multiplier;
+    while (true) {
+        if (offset + bytesRead >= buffer.length) throw new Error("B\"H: VarInt read out of bounds");
+        const byte = buffer[offset + bytesRead];
+        // B"H: Use arithmetic for shift > 28 to avoid signed 32-bit overflow issues in JS bitwise ops
+        if (shift < 28) {
+            value |= (byte & 127) << shift;
+        } else {
+            value += (byte & 127) * Math.pow(2, shift);
+        }
+        
         bytesRead++;
-        if ((b & 0x80) === 0) break;
-        multiplier *= 128;
-        if (bytesRead >= 10) break; // B"H: Absolute limit for 64-bit safe floats
+        if (!(byte & 128)) break;
+        shift += 7;
+        if (shift > 49) throw new Error("B\"H: VarInt exceeds safe integer capacity");
     }
     return { value, bytesRead };
 }
 
 /**
  * @function readString
- * @description Decodes a VarInt-prefixed UTF-8 string.
+ * @description Hydrates a UTF-8 string from a length-prefixed binary sequence.
  */
-function readString(buf, offset) {
-    const len = readVarInt(buf, offset);
-    if (len.bytesRead === 0) return { value: "", bytesRead: 0 };
-    const start = offset + len.bytesRead;
-    const end = start + len.value;
-    if (end > buf.length) return { value: "", bytesRead: len.bytesRead };
-    const str = buf.toString('utf8', start, end);
-    return { value: str, bytesRead: len.bytesRead + len.value };
+function readString(buffer, offset) {
+    const lenInfo = readVarInt(buffer, offset);
+    const start = offset + lenInfo.bytesRead;
+    if (start + lenInfo.value > buffer.length) throw new Error("B\"H: String read out of bounds");
+    const str = buffer.subarray(start, start + lenInfo.value).toString('utf8');
+    return { value: str, bytesRead: lenInfo.bytesRead + lenInfo.value };
 }
 
-module.exports = { writeVarInt, writeVarIntTo, readVarInt, readString };
+module.exports = { writeVarIntTo, readVarInt, readString };

@@ -10,7 +10,7 @@ import { App } from '../app.js';
 import { DataAltar } from '../DataAltar.js';
 import { getItemUniquePath } from '../workspaces.js'; 
 import { ZipExplorer } from '../zip/zip-explorer.js';
-import { VibeController } from '../vibe/vibe-controller.js'; // B"H
+import { VibeController } from '../vibe/vibe-controller.js'; 
 
 import { TabsRenderer } from './rendering.js';
 import { TabsPersistence } from './persistence.js';
@@ -314,24 +314,29 @@ export const Tabs = {
 	    }
         
         if (tabToClose.isDirty && !force) {
+            // B"H - Updated Dialog Logic with 'Don't Save' as a distinct action
             const choice = await UI.showDialog({
                  title: 'Unsaved Changes',
-                 message: `You have unsaved changes in "${tabToClose.item.name}". Do you want to save them?`,
+                 message: `You have unsaved changes in "${tabToClose.item.name}".`,
                  okText: 'Save',
-                 cancelText: 'Don\'t Save'
+                 cancelText: 'Cancel',
+                 tertiary: { text: "Don't Save", class: 'danger' }
             });
 
-            if (choice === true) {
+            if (choice === true) { // "Save"
                 await this.save(tabToClose);
-            } else if (choice === null) {
-                return;
+            } else if (choice === 'tertiary') { // "Don't Save"
+                // B"H - Must clear dirty flag to allow close
+                tabToClose.isDirty = false;
+            } else { // "Cancel" (null)
+                return; // Abort closing
             }
         }
 
-        // B"H - Save to history before removal
+        // Save to history before removal
         if (tabToClose.item.type !== 'temp') {
             State.closedTabHistory.push(tabToClose.item);
-            if (State.closedTabHistory.length > 20) State.closedTabHistory.shift(); // Keep last 20
+            if (State.closedTabHistory.length > 20) State.closedTabHistory.shift(); 
         }
 
         this._cleanupTabResources(tabToClose);
@@ -350,7 +355,6 @@ export const Tabs = {
         }
     },
     
-    // B"H - New Method
     async reopenLastClosed() {
         const item = State.closedTabHistory.pop();
         if (item) {
@@ -402,6 +406,8 @@ export const Tabs = {
             App.saveSession();
             tab.isDirty = false;
             this.render();
+            // B"H - Trigger Vibe History Save Logic
+            import('../vibe/vibe-controller.js').then(m => m.VibeController.saveSessionToFile(tab));
             return;
         }
         return TabsPersistence.save(tab, this);

@@ -3,53 +3,54 @@
 /**
  * @file iteration.js
  * @description
- *  Manages the streaming and collection of keys, values, and entries from database handles.
+ *  Manages the collection of keys, values, and entries from database handles synchronously.
+ *  Every trace of async and await has been purged.
  */
 
 const HandleRegistry = require('../handleRegistry.js');
 
 module.exports = {
-    async keys(db, handle) {
+    keys(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (!soul || !soul.reader) return [];
         const arr = [];
-        for await (const k of soul.reader.keys()) arr.push(k);
+        for (const k of soul.reader.keys()) arr.push(k);
         return arr;
     },
 
-    async values(db, handle) {
+    values(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (!soul || !soul.reader) return [];
         const arr = [];
-        for await (const v of soul.reader.values()) arr.push(v);
+        for (const v of soul.reader.values()) arr.push(v);
         return arr;
     },
 
-    async entries(db, handle) {
+    entries(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (!soul || !soul.reader) return [];
         const arr = [];
-        for await (const e of soul.reader.entries()) arr.push(e);
+        for (const e of soul.reader.entries()) arr.push(e);
         return arr;
     },
 
-    async *streamKeys(db, handle) {
+    *streamKeys(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (soul && soul.reader) yield* soul.reader.keys();
     },
 
-    async *streamValues(db, handle) {
+    *streamValues(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (soul && soul.reader) yield* soul.reader.values();
     },
 
-    async *streamEntries(db, handle) {
+    *streamEntries(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (soul && soul.reader) yield* soul.reader.entries();
     },
 
-    async *range(db, handle, start, end) {
+    *range(db, handle, start, end) {
         const soul = HandleRegistry.getSoul(handle);
-        if (soul && soul.reader) yield* soul.reader.range(start, end);
+        if (soul && soul.reader) yield* soul.reader.iter.range(start, end);
     }
 };

@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/menus/context.js
 
@@ -6,6 +5,7 @@ import { State, DOM } from '../state.js';
 import { getItemUniquePath } from '../workspaces.js';
 import { MenuUI } from './ui.js';
 import { Menus } from './index.js';
+import { Tabs } from '../tabs.js'; // B"H - Ensure Tabs is available
 
 // B"H - Helper to find the nearest Git Root ancestor
 const findGitRoot = (item) => {
@@ -20,36 +20,25 @@ const findGitRoot = (item) => {
     if (!ws) return null;
 
     let currPath = item.path;
-    // Safety limit for traversal
     let limit = 20; 
     
     while (limit-- > 0) {
         const uniquePath = `${wsId}::${currPath}`;
         const entry = State.domItemMap.get(uniquePath);
         
-        // Check if this specific folder is marked as a repo (e.g. sub-repo)
         if (entry && entry.item && entry.item.isGitClone) {
             return entry.item;
         }
         
         if (currPath === '/' || currPath === '') break;
-        
-        // Go up one level
         const lastSlash = currPath.lastIndexOf('/');
         currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
     }
 
-    // Fallback: Check if the workspace itself is a root repo
     if (ws.isGitClone) return { ...ws, path: '/', kind: 'directory' };
-    
     return null;
 };
 
-/**
- * --- CONTEXT MENU RITUALS ---
- * Generates and positions context menus based on the essence of the target item.
- * B"H.
- */
 export const ContextMenu = {
     show(e, item) {
         e.preventDefault();
@@ -77,15 +66,17 @@ export const ContextMenu = {
         const isReadOnly = workspace?.readOnly || false;
         
         const isLocal = item.type === 'local' || item.type === 'opfs';
-        
-        // B"H - Git Awareness Check
-        const gitRoot = findGitContext(item);
+        const gitRoot = findGitRoot(item);
         const isGitAware = !!gitRoot;
-        
-        // Check if this SPECIFIC item is a candidate for init (must be dir, not already git)
         const isCandidateForInit = isDir && !isReadOnly && !isGitAware && item.type !== "github";
 
         const menuItems = [];
+        
+        // B"H - Add Explicit Open Option for Files
+        if (isFile) {
+            menuItems.push({ label: "Open in Editor", action: "open-file-tab", icon: "file" });
+            menuItems.push({ isSeparator: true });
+        }
         
         if (isDir) {
             menuItems.push({ label: "Refresh", action: "refresh", icon: "brain" }); 
@@ -120,10 +111,7 @@ export const ContextMenu = {
 
         if (!isReadOnly) {
             if (isGitAware) {
-                // B"H - Show Git Actions for ANY file in the repo
                 menuItems.push({ label: "Git Actions...", action: "git-actions", icon: "git-branch" });
-                
-                // Show Switch Branch only if we are at the root or workspace level to avoid confusion
                 if (isWorkspaceRoot || item.isGitClone) {
                     menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
                 }
@@ -173,7 +161,6 @@ export const ContextMenu = {
         }
         
         menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
-        
         menuItems.push({ isSeparator: true });
         menuItems.push({ label: "Select", action: "start-selection", icon: "select-all" });
         menuItems.push({ label: "Copy All Contents", action: "copy-all-contents", icon: "clipboard" });
@@ -196,37 +183,9 @@ export const ContextMenu = {
 
         menuItems.push({ isSeparator: true });
         menuItems.push({ label: "Delete from Zip", action: "delete", icon: "trash", danger: true });
-
         menuItems.push({ isSeparator: true });
         menuItems.push({ label: "Cancel", action: "cancel-menu", icon: "x" });
 
         MenuUI.renderMenu(DOM.contextMenu, menuItems, e);
     }
 };
-
-// Internal Helper Reuse
-function findGitContext(item) {
-    if (!item) return null;
-    if (item.type === 'github') {
-        const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
-        return ws ? { ...ws, path: '/', kind: 'directory' } : null;
-    }
-    
-    const wsId = item.workspaceId || item.id;
-    const ws = State.workspaces.find(w => w.id === wsId);
-    if (!ws) return null;
-
-    let currPath = item.path;
-    let limit = 20; 
-    while (limit-- > 0) {
-        const uniquePath = `${wsId}::${currPath}`;
-        const entry = State.domItemMap.get(uniquePath);
-        if (entry && entry.item && entry.item.isGitClone) return entry.item;
-        if (currPath === '/' || currPath === '') break;
-        const lastSlash = currPath.lastIndexOf('/');
-        currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
-    }
-
-    if (ws.isGitClone) return { ...ws, path: '/', kind: 'directory' };
-    return null;
-}

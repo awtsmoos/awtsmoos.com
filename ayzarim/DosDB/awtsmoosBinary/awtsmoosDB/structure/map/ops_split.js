@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -7,6 +6,13 @@ const { readPointer48 } = require('../../utils/binaryHelpers.js');
 // B"H: Splitting Logic for B-Trees
 const MAX_KEYS = 200; 
 
+/**
+ * @class MapSplitOps
+ * @description
+ *  The Dividing Light. Manages the expansion of the B-Tree vessels.
+ *  Every split is a manifestation of the Awtsmoos creating more room 
+ *  for Knowledge while maintaining perfect balance.
+ */
 class MapSplitOps {
     constructor(mapOps) {
         this.mapOps = mapOps;
@@ -15,10 +21,15 @@ class MapSplitOps {
 
     _getPtrSize(ptrBuf) { return this.mapOps._getPtrSize(ptrBuf); }
 
-    async checkSplit(node) {
+    /**
+     * @description Checks if a node needs to split and manifests the sibling if necessary.
+     */
+    checkSplit(node) {
         if (node.keys.length <= MAX_KEYS) {
             return null;
         }
+        
+        console.log(`B"H [MAP_SPLIT] Splitting node at block ${node.selfPtr?.blockId}. Current Keys: ${node.keys.length}`);
         
         const mid = Math.floor(node.keys.length / 2);
         const rightKeys = node.keys.splice(mid);
@@ -30,19 +41,21 @@ class MapSplitOps {
             sibling.keys = rightKeys; 
             sibling.values = node.values.splice(mid);
             sibling.next = node.next;
-            await this.recalcStats(node); await this.recalcStats(sibling);
+            this.recalcStats(node); 
+            this.recalcStats(sibling);
         } else {
             splitKey = rightKeys.shift();
             sibling.keys = rightKeys; 
             sibling.children = node.children.splice(mid + 1);
-            await this.sumChildrenStats(node); await this.sumChildrenStats(sibling);
+            this.sumChildrenStats(node); 
+            this.sumChildrenStats(sibling);
         }
         
-        const sibPtr = await this.nodeIO.save(sibling);
+        const sibPtr = this.nodeIO.save(sibling);
         
         if (node.isLeaf) node.next = sibPtr.blockId; 
         
-        const newSelfPtr = await this.nodeIO.save(node, node.selfPtr);
+        const newSelfPtr = this.nodeIO.save(node, node.selfPtr);
         
         return { 
             key: splitKey, 
@@ -51,15 +64,21 @@ class MapSplitOps {
         };
     }
 
-    async recalcStats(leaf) {
+    /**
+     * @description Recalculates statistics for a leaf node.
+     */
+    recalcStats(leaf) {
         leaf.totalCount = leaf.keys.length; leaf.totalBytes = 0;
         for(let i=0; i<leaf.keys.length; i++) {
-            leaf.totalBytes += leaf.keys[i].length; // key is Buffer
+            leaf.totalBytes += leaf.keys[i].length; 
             leaf.totalBytes += this._getPtrSize(leaf.values[i]);
         }
     }
 
-    async sumChildrenStats(internal) {
+    /**
+     * @description Aggregates statistics from child nodes for internal vessels.
+     */
+    sumChildrenStats(internal) {
         internal.totalCount = 0; internal.totalBytes = 0;
         for(const childPtrBuf of internal.children) {
             const decoded = SmartPointer.decode(childPtrBuf);
@@ -70,12 +89,16 @@ class MapSplitOps {
                 isChain: decoded.payload.readUInt8(14) === 1
             };
             
-            const child = await this.nodeIO.load(childPtr);
-            internal.totalCount += child.totalCount; internal.totalBytes += child.totalBytes;
+            const child = this.nodeIO.load(childPtr);
+            internal.totalCount += (child.totalCount || 0); 
+            internal.totalBytes += (child.totalBytes || 0);
         }
     }
 
-    async handleSplit(node, idx, split) {
+    /**
+     * @description Integrates a split result from a child into the current internal node.
+     */
+    handleSplit(node, idx, split) {
         node.keys.splice(idx, 0, split.key);
         node.children.splice(idx + 1, 0, split.ptr);
         
@@ -89,13 +112,13 @@ class MapSplitOps {
             );
         }
 
-        const res = await this.checkSplit(node);
+        const res = this.checkSplit(node);
         
         let newPtr = null;
         if (res) {
              return { split: res, deltaCount: 0, deltaBytes: 0, newPtr };
         } else {
-             newPtr = await this.nodeIO.save(node, node.selfPtr);
+             newPtr = this.nodeIO.save(node, node.selfPtr);
         }
 
         return { split: null, deltaCount: 0, deltaBytes: 0, newPtr };

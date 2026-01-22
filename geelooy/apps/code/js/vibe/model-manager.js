@@ -49,22 +49,6 @@ export const ModelManager = {
         return this.keys[this.currentKeyIndex];
     },
 
-    rotateKey() {
-        if (this.keys.length <= 1) return false; 
-        this.currentKeyIndex = (this.currentKeyIndex + 1) % this.keys.length;
-        UI.showToast(`Rotating to API Key #${this.currentKeyIndex + 1}`, "info");
-        return true;
-    },
-
-    downgradeModel() {
-        const idx = this.fallbackOrder.indexOf(this.currentModel);
-        const nextIdx = (idx + 1) % this.fallbackOrder.length;
-        this.currentModel = this.fallbackOrder[nextIdx];
-        this.save();
-        UI.showToast(`Switching model to ${this.currentModel}`, "warning");
-        return true;
-    },
-
     getSettingsPanelHTML() {
         const keyListHtml = this.keys.map((k, i) => 
             `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--color-border); align-items:center;">
@@ -92,14 +76,18 @@ export const ModelManager = {
                     </select>
                 </div>
 
-                <div style="margin-bottom:15px; display:flex; gap:10px; align-items:center;">
-                    <label style="font-size:0.9em; color:var(--color-text-secondary);">Recursive Iterations</label>
-                    <input type="number" id="vibe-iter-input" value="${State.vibeIterations}" min="1" max="10" style="width:60px;">
+                <!-- B"H - Iteration Loop Settings -->
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">Auto-Refine Loops (Iterations)</label>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <input type="number" id="vibe-iter-input" value="${State.vibeIterations}" min="1" max="20" style="width: 80px; padding:8px; background:var(--color-bg-primary); color:white; border:1px solid var(--color-border);">
+                        <span style="font-size:0.8em; color:gray;">(1 = Single pass, >1 = Recursive improvement)</span>
+                    </div>
                 </div>
 
                 <div style="margin-bottom:15px;">
                     <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">Custom System Prompt Extension</label>
-                    <textarea id="vibe-custom-prompt" style="width:100%; height:80px; font-size:0.85em;" placeholder="Append your holy instructions here...">${State.customVibePrompt}</textarea>
+                    <textarea id="vibe-custom-prompt" style="width:100%; height:120px; font-size:0.85em; background:var(--color-bg-primary); color:white; border:1px solid var(--color-border); padding:8px;" placeholder="Append your holy instructions here... (Press Enter for new lines)">${State.customVibePrompt}</textarea>
                 </div>
 
                 <div style="margin-bottom:10px;">
@@ -109,7 +97,7 @@ export const ModelManager = {
                     </div>
                     
                     <div style="display:flex; gap:5px;">
-                        <input type="password" id="vibe-new-key" placeholder="Paste Gemini API Key" style="flex-grow:1;">
+                        <input type="password" id="vibe-new-key" placeholder="Paste Gemini API Key" style="flex-grow:1; background:var(--color-bg-primary); color:white; border:1px solid var(--color-border); padding:8px;">
                         <button id="vibe-add-key-btn" class="primary-btn" style="padding: 0 15px;">Add</button>
                     </div>
                 </div>
@@ -120,12 +108,21 @@ export const ModelManager = {
     bindSettingsEvents(container, refreshCallback) {
         const addBtn = container.querySelector('#vibe-add-key-btn');
         const input = container.querySelector('#vibe-new-key');
+        
         if (addBtn && input) {
-            addBtn.onclick = () => {
+            addBtn.onclick = (e) => {
+                if(e) e.stopPropagation();
                 const val = input.value.trim();
                 if (val) {
                     this.addKey(val);
                     if(refreshCallback) refreshCallback();
+                }
+            };
+            input.onkeydown = (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    addBtn.click();
                 }
             };
         }
@@ -154,9 +151,15 @@ export const ModelManager = {
         const iterInput = container.querySelector('#vibe-iter-input');
         if (iterInput) {
             iterInput.onchange = () => {
-                State.vibeIterations = parseInt(iterInput.value) || 1;
-                localStorage.setItem('awtsmoos_vibe_iterations', State.vibeIterations);
+                let val = parseInt(iterInput.value);
+                if (isNaN(val) || val < 1) val = 1;
+                State.vibeIterations = val;
+                localStorage.setItem('awtsmoos_vibe_iterations', val);
             };
+            // Prevent Enter from closing dialog on number input
+            iterInput.onkeydown = (e) => {
+                if (e.key === 'Enter') e.stopPropagation();
+            }
         }
 
         const customPrompt = container.querySelector('#vibe-custom-prompt');
@@ -164,6 +167,12 @@ export const ModelManager = {
             customPrompt.oninput = () => {
                 State.customVibePrompt = customPrompt.value;
                 localStorage.setItem('awtsmoos_vibe_custom_prompt', State.customVibePrompt);
+            };
+            // B"H - CRITICAL FIX: Stop propagation on Enter to allow newlines
+            customPrompt.onkeydown = (e) => {
+                if (e.key === 'Enter') {
+                    e.stopPropagation(); 
+                }
             };
         }
     },

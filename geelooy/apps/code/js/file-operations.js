@@ -12,6 +12,7 @@ export const FileOperations = {
     paste: (target) => Transfer.paste(target),
     copyAllContents: (items) => Transfer.copyAllContents(items),
     
+    downloadAllContents: (items) => Transfer.downloadAllContents(items),
     copyAsZip: (items) => Exporter.copyAsZip(items),
     downloadAsZip: (items) => Exporter.downloadAsZip(items),
     downloadFile: (item) => Exporter.downloadFile(item),

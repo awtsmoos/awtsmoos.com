@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/workspaces.js
 import { State , DOM} from './state.js';
@@ -9,14 +8,13 @@ import { UI } from './ui.js';
 import { FileOperations } from './file-operations.js'; 
 import { Tabs } from './tabs.js';
 import { WorkspaceTreeRenderer } from './workspaces/tree-rendering.js'; 
-import { GitMetaProvider } from './git/meta.js'; // B"H
+import { GitMetaProvider } from './git/meta.js';
 
 export const getItemUniquePath = (item) => {
     if (item.type === 'zip-entry') {
         return `zip-${item.zipTabId}::${item.path}`;
     }
     const wsId = item.workspaceId ?? item.id;
-    // B"H - Ensure consistent root path format
     let safePath = item.path ?? '/';
     if (!safePath.startsWith('/')) safePath = '/' + safePath;
     
@@ -32,12 +30,13 @@ export const Workspaces = {
             return;
         }
         
-        // B"H - Ensure metadata is fresh for all workspaces
         for (const ws of State.workspaces) {
+            // Re-check git status quietly
             if (ws.type === 'local' || ws.type === 'indexeddb' || ws.type === 'opfs') {
                 if (ws.isGitClone === undefined) {
-                    const info = await GitMetaProvider.getGitInfoForFolder({ ...ws, path: '/' });
-                    ws.isGitClone = !!info;
+                    GitMetaProvider.getGitInfoForFolder({ ...ws, path: '/' }).then(info => {
+                        ws.isGitClone = !!info;
+                    });
                 }
             }
             this.renderWorkspace(ws, DOM.workspacesContainer);
@@ -55,12 +54,9 @@ export const Workspaces = {
         
         State.workspaces.push(newWs);
         
-        // B"H - Check git status immediately if not known
         if (newWs.isGitClone === undefined && (newWs.type === 'local' || newWs.type === 'indexeddb' || newWs.type === 'opfs')) {
              GitMetaProvider.getGitInfoForFolder({ ...newWs, path: '/' }).then(info => {
                  newWs.isGitClone = !!info;
-                 // Re-render specifically this workspace header if it changed? 
-                 // Easier to just let next render handle it, or force update if crucial.
              });
         }
         
@@ -70,6 +66,7 @@ export const Workspaces = {
         }
     },
 
+    // B"H - Drag & Drop Logic
     setupDragDrop(element, item) {
         if (!item || (item.kind !== 'directory' && item.path !== '/')) return;
 
@@ -93,6 +90,7 @@ export const Workspaces = {
             e.stopPropagation();
             element.classList.remove('drag-over-target');
             
+            // Files logic
             if (e.dataTransfer.types.includes('Files')) {
                 await FileOperations.handleDrop(e, item);
             }
@@ -116,14 +114,14 @@ export const Workspaces = {
 
         let statusBadge = '';
         if (ws.isLocked) {
-            statusBadge = /*html*/`<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-warning); color: #000;">🔒 Resume</span>`;
+            statusBadge = `<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-warning); color: #000;">🔒 Resume</span>`;
         } else if (ws.isLost) {
-            statusBadge = /*html*/`<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-danger); color: #fff;">⚠️ Lost</span>`;
+            statusBadge = `<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-danger); color: #fff;">⚠️ Lost</span>`;
         }
 
         const showGitActions = rootItem.isGitClone || rootItem.type === 'github';
 
-        wsRoot.innerHTML = /*html*/ `
+        wsRoot.innerHTML = `
             <div class="workspace-header ${ws.isLocked ? 'locked-workspace' : ''}" title="${ws.isLocked ? 'Click to resume session' : rootItem.name}">
                 <div class="workspace-header-title">
                     <strong>
@@ -140,6 +138,7 @@ export const Workspaces = {
         
         container.appendChild(wsRoot);
         
+        // Setup D&D on the workspace header itself
         const header = wsRoot.querySelector('.workspace-header');
         this.setupDragDrop(header, rootItem);
 
@@ -155,11 +154,15 @@ export const Workspaces = {
                         if (stateWs) stateWs.isLocked = false;
                         wsRoot.remove();
                         this.renderWorkspace(ws, container);
-                        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-                        if (activeTab && activeTab.item.workspaceId === ws.id) {
-                            activeTab.forceReload = true;
-                            await Tabs.activate(activeTab.id);
-                        }
+                        
+                        // Reload tabs associated with this workspace
+                        State.tabs.forEach(async tab => {
+                            if (tab.item.workspaceId === ws.id) {
+                                tab.forceReload = true;
+                                if(State.activeTabId === tab.id) await Tabs.activate(tab.id);
+                            }
+                        });
+                        
                         UI.showToast("Workspace resumed.", "success");
                         App.saveSession();
                     } else {
@@ -183,9 +186,7 @@ export const Workspaces = {
             if (isCurrentlyExpanded) {
                 wsRoot.classList.remove('expanded');
                 const tree = wsRoot.querySelector('ul.workspace-tree');
-                if (tree) {
-                    tree.remove(); 
-                }
+                if (tree) tree.remove(); 
             } else {
                 wsRoot.classList.add('expanded');
                 const tree = document.createElement('ul');
@@ -234,7 +235,6 @@ export const Workspaces = {
 
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
-        
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
         if (workspace && workspace.type === 'github') {
             workspace._treeCache = null; 
@@ -243,18 +243,13 @@ export const Workspaces = {
         if (!entry) return;
 
         const directoryElement = entry.el;
-        
-        // B"H - Force expansion during refresh to show the new reality
-        // We do this by ensuring the class 'expanded' is present and State tracks it.
         if (!State.expandedFolders.has(uniquePath)) {
             State.expandedFolders.add(uniquePath);
         }
         directoryElement.classList.add('expanded');
         
         let childrenContainer = directoryElement.querySelector('ul');
-        if (childrenContainer) {
-            childrenContainer.remove();
-        }
+        if (childrenContainer) childrenContainer.remove();
         
         childrenContainer = document.createElement('ul');
         const isRoot = directoryElement.classList.contains('workspace-root');

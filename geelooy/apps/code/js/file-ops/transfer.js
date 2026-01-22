@@ -12,7 +12,6 @@ import { Exporter } from './exporter.js';
 export const Transfer = {
     /**
      * B"H - Generates a comprehensive Markdown string of a directory hierarchy.
-     * This is the technical manifestation of the entire codebase's essence.
      */
     async generateMarkdownContext(items) {
         let combinedContent = 'B"H\n\n'; 
@@ -95,26 +94,32 @@ export const Transfer = {
         }
     },
     
+    // B"H - NEW: Download Content as Markdown File
     async downloadAllContents(items) {
         if (!items || items.length === 0) {
-            UI.showToast("Nothing selected to copy.", "info");
+            UI.showToast("Nothing selected to download.", "info");
             return;
         }
 
         const taskId = `download-contents-${Date.now()}`;
-        UI.startTask(taskId, "Preparing markdown...");
+        UI.startTask(taskId, "Generating Markdown...");
         
         try {
             const combinedContent = await this.generateMarkdownContext(items);
-            UI.updateTask(taskId, 90, "Finalizing...");
-            const fakeFile = new File([combinedContent], "Selection_Export.txt", { type: "text/plain" });
-            const success = URL.createObjectURL(fakeFile);
-            var a = document.createElement("a")
-            a.download = "markdown.md";
-            a.href = success;
-            a.click()
-            if (success) UI.endTask(taskId, 'success', 'Downlaoded content as markdown!');
-            else UI.endTask(taskId, 'error', 'Download as MD failed.');
+            UI.updateTask(taskId, 90, "Starting download...");
+            
+            const blob = new Blob([combinedContent], { type: "text/markdown" });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `context_export_${Date.now()}.md`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            UI.endTask(taskId, 'success', 'Markdown downloaded!');
         } catch (error) {
             UI.endTask(taskId, 'error', `Error: ${error.message}`);
         }

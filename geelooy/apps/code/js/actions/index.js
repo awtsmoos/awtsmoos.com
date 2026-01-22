@@ -84,6 +84,10 @@ export const Actions = {
                         }
                     }, 100);
                     break;
+                    
+             case "open-file-tab": 
+                if (item && item.kind === 'file') Tabs.create(item);
+                break;
                 case "insert-cyber-ipsum": TextActions.insertCyberIpsum(); break;
                 case "zalgo-text": TextActions.zalgoText(); break;
                 case "text-binary": TextActions.textBinary(); break;
@@ -333,7 +337,7 @@ export const Actions = {
                     }
                     break;
                 case "copy-all-contents": if (item) FileOperations.copyAllContents([item]); break;
-                 case "download-all-contents": if (item) FileOperations.downloadAllContents([item]); break;
+                case "download-all-contents": if (item) FileOperations.downloadAllContents([item]); break;
                 
                 case "start-selection": SelectionManager.start(item); break;
                 case "copy-single":

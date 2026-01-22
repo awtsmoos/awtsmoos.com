@@ -28,6 +28,16 @@ export const SelectionManager = {
                     FileOperations.copyAllContents(itemsToCopy);
                 }
                 this.end(); 
+            } else if (action === 'download-contents-selection') {
+                // B"H - Added handler for Download Contents
+                const itemsToCopy = Array.from(State.selectedItems)
+                    .map(path => State.domItemMap.get(path)?.item)
+                    .filter(Boolean);
+
+                if (itemsToCopy.length > 0) {
+                    FileOperations.downloadAllContents(itemsToCopy);
+                }
+                this.end(); 
             } else if (action === 'copy-zip-selection') {
                 const items = Array.from(State.selectedItems)
                     .map(path => State.domItemMap.get(path)?.item)
@@ -100,8 +110,6 @@ export const SelectionManager = {
     showMenu(event) {
         DOM.selectionMenu.classList.add('visible');
         this.updateMenu();
-        // Position must happen AFTER it's visible to get dimensions, 
-        // but before it paints to avoid jumpiness.
         requestAnimationFrame(() => this.positionMenu(event));
     },
 
@@ -149,6 +157,11 @@ export const SelectionManager = {
                     <span class="menu-button-label">Copy Contents (MD)</span>
                 </button>
                 
+                <button class="menu-button" data-action="download-contents-selection" title="Download Contents as Markdown" ${count === 0 ? 'disabled' : ''}>
+                    <svg class="svg-icon"><use href="#icon-download"></use></svg>
+                    <span class="menu-button-label">Download Contents (MD)</span>
+                </button>
+                
                 <button class="menu-button" data-action="copy-zip-selection" title="Copy as ZIP" ${count === 0 ? 'disabled' : ''}>
                     <svg class="svg-icon"><use href="#icon-save"></use></svg> 
                     <span class="menu-button-label">Copy as ZIP</span>
@@ -185,25 +198,19 @@ export const SelectionManager = {
         let x = event.clientX + 10;
         let y = event.clientY + 10;
 
-        // Smart Horizontal Positioning
         if (x + rect.width > winW - 10) {
             x = event.clientX - rect.width - 10;
         }
         
-        // Safety: Prevent going off left edge
         if (x < 10) x = 10;
 
-        // Smart Vertical Positioning (Up vs Down)
         if (y + rect.height > winH - 10) {
-            // Check if it fits ABOVE the cursor
             const spaceAbove = event.clientY - 10;
             if (spaceAbove > rect.height) {
                 y = event.clientY - rect.height - 10;
             } else {
-                // If it doesn't fit above OR below perfectly, force it to fit within screen
-                // but prioritize seeing the top of the menu if possible, or pin to bottom
                 y = winH - rect.height - 10;
-                if (y < 10) y = 10; // Top constraint
+                if (y < 10) y = 10; 
             }
         }
 

@@ -17,7 +17,7 @@ export const DropHandler = {
         try {
             const state = { 
                 overwriteAll: false,
-                mergeAll: false, // B"H - Added mergeAll flag
+                mergeAll: false,
                 processedCount: 0,
                 taskId: taskId
             };
@@ -39,7 +39,6 @@ export const DropHandler = {
     },
 
     async _processDroppedEntry(entry, parentDir, state) {
-        // Update UI every 5 items or if it's a directory (major step)
         state.processedCount++;
         if (entry.isDirectory || state.processedCount % 5 === 0) {
             UI.updateTask(state.taskId, 50, `Importing: ${entry.name}`);
@@ -69,9 +68,10 @@ export const DropHandler = {
                 content = await file.arrayBuffer();
             }
 
+            const pathPrefix = parentDir.path === '/' ? '' : parentDir.path;
             const itemToWrite = { 
                 ...parentDir, 
-                path: `${parentDir.path === '/' ? '' : parentDir.path}/${entry.name}`, 
+                path: `${pathPrefix}/${entry.name}`, 
                 kind: 'file' 
             };
             await FileSystemProvider.write(itemToWrite, content);
@@ -79,7 +79,6 @@ export const DropHandler = {
         } else if (entry.isDirectory) {
             const exists = await this._checkExists(parentDir, entry.name, 'directory');
             
-            // B"H - Merge logic check
             if (exists && !state.mergeAll && !state.overwriteAll) {
                  const choice = await UI.showDialog({
                      title: "Folder Conflict",
@@ -97,9 +96,10 @@ export const DropHandler = {
                 await FileSystemProvider.create(parentDir, entry.name, 'directory');
             }
 
+            const pathPrefix = parentDir.path === '/' ? '' : parentDir.path;
             const newParent = { 
                 ...parentDir, 
-                path: `${parentDir.path === '/' ? '' : parentDir.path}/${entry.name}`, 
+                path: `${pathPrefix}/${entry.name}`, 
                 kind: 'directory' 
             };
 
@@ -110,6 +110,7 @@ export const DropHandler = {
 
             let childEntries = [];
             let batch = await readEntries();
+            // webkitFileSystem readEntries returns batches, need to loop until empty
             while(batch.length > 0) {
                 childEntries = childEntries.concat(batch);
                 batch = await readEntries();
