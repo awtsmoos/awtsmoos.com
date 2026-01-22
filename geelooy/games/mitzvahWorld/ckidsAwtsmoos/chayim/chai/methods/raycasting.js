@@ -1,5 +1,3 @@
-
-
 /**
  * B"H
  * @file raycasting.js
@@ -41,7 +39,6 @@ export default {
             this.activeRay.group.parent.remove(this.activeRay.group);
         }
         this.activeRay = null;
-        this.olam.remove("setFPS");
     },
 
     async makeRay(length = 72) {
@@ -51,6 +48,7 @@ export default {
         }
 
         const rayGroup = new THREE.Group();
+        // B"H: Attach ray to camera in FPS, or player model in TPS
         const parent = this.olam.ayin.isFPS ? this.olam.ayin.camera : this.emptyCopy;
         
         parent.add(rayGroup);
@@ -60,8 +58,10 @@ export default {
         rayGroup.position.copy(localStart);
 
         if (this.olam.ayin.isFPS) {
+            // FPS: Ray follows camera
             rayGroup.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
         } else {
+            // TPS: Ray extends from body forward
             rayGroup.quaternion.identity();
         }
 
@@ -69,27 +69,12 @@ export default {
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const cylinderMesh = new THREE.Mesh(geometry, material);
 
+        // Cylinder default is Y-axis. Rotate to Z-axis (Forward).
         cylinderMesh.rotation.x = Math.PI / 2;
         cylinderMesh.position.z = length / 2;
         rayGroup.add(cylinderMesh);
 
         this.activeRay = { group: rayGroup, visual: cylinderMesh };
-
-        if(this._fpsSwitchListener) {
-            this.olam.remove("setFPS", this._fpsSwitchListener);
-        }
-
-        this._fpsSwitchListener = () => {
-            const hadObject = !!this.activeObject;
-            setTimeout(() => {
-                this.removeRay();
-                this.makeRay(length).then(() => {
-                    if (hadObject) this.placeBlockOnRay();
-                });
-            }, 50);
-        };
-
-        this.olam.on("setFPS", this._fpsSwitchListener, { once: true });
     },
 
     updateRayColor() {
@@ -100,10 +85,10 @@ export default {
 
         if (item && item.isPainter) {
             if(this.isPaintingMode) {
-                mat.color.setHex(0xFFD700); // B"H: Gold for Active Painting Mode
+                mat.color.setHex(0xFFD700); 
                 mat.opacity = 0.8;
             } else {
-                mat.color.setHex(0x00ff00); // Green for Painter held but inactive
+                mat.color.setHex(0x00ff00); 
                 mat.opacity = 0.5;
             }
         } else if (item && item.isBuildable) {

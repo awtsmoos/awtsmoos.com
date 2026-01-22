@@ -1,9 +1,7 @@
-
+// B"H
 /**
- * B"H
- * @file physics/index.js
- * @description The 'Kav' (Line) of physics that maintains order in the Olam.
- * Aggregates physics logic from modular files.
+ * physics/index.js - The Kav (Line) of physical existence.
+ * Re-aligned for absolute first-frame stability.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Tzomayach from "../../../tzomayach.js"; 
@@ -47,6 +45,7 @@ export default {
     },
 
     heesHawvoos(dt) {
+        // B"H: Delta Guard - Ensure a stable first heartbeat
         const deltaTime = Math.min(dt, 0.1);
         
         if (this.isTeleporting) {
@@ -54,9 +53,10 @@ export default {
             return;
         }
         
-        // B"H: NaN Protection
+        // B"H: NaN Protection - Healing the vessel if its location becomes non-existent
         if (this.mesh && (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z))) {
-            console.warn("B\"H: Player position became NaN! Resetting to safe default.");
+            console.warn("B\"H: Vessel position became NaN! Resetting to safe location.");
+            // B"H FIX: Removed manual error throw to allow self-healing
             this.velocity.set(0, 0, 0);
             this.setPosition(new THREE.Vector3(0, 15, 0)); 
             if(this.olam && this.olam.ayin) {
@@ -77,20 +77,20 @@ export default {
         const isWorldBusy = this.olam.worldOctree ? this.olam.worldOctree.isProcessing : true;
         const steepSlopeAngle = Math.cos(THREE.MathUtils.degToRad(50));
 
-        // 1. Ground Check
+        // 1. Ground Check (The Relationship with the Floor)
         this.checkGround(steepSlopeAngle);
 
-        // 2. Forces
+        // 2. Apply Forces (Gravity/Hover Guard)
         this.applyForces(deltaTime, isWorldBusy);
 
-        // 3. Movement Calc
+        // 3. Movement Calculations
         const moveData = this.calculateMovementVectors(deltaTime, this.onFloor);
         const { combinedVector, isWalking } = moveData;
 
         this.velocity.x += combinedVector.x;
         this.velocity.z += combinedVector.z;
 
-        // 4. Jump
+        // 4. The Leap of Faith (Jump)
         if (this.onFloor && this.moving.jump) {
             this.jumped = true;
             this.velocity.y = this.jumpHeight;
@@ -102,14 +102,14 @@ export default {
             if (this.didJump) this.didJump = false;
         }
 
-        // 5. Execution
+        // 5. Physical Execution (Move & Collide)
         this.executeMovement(deltaTime);
 
-        // 6. Ground Stick (Re-check ground after movement)
+        // 6. Ground Snap (Snapping to Reality)
         const finalGroundHit = this.checkGround(steepSlopeAngle); 
         this.snapToGround(finalGroundHit, steepSlopeAngle, isWalking);
 
-        // 7. Animation
+        // 7. Animation Synchrony
         const rotationSpeed = this.rotationSpeed * deltaTime;
         let isTurning = false;
 
@@ -172,7 +172,7 @@ export default {
             }
         }
 
-        // 8. Sync
+        // 8. Visual & State Sync
         this.syncMesh(deltaTime);
         this.updateSpheres(deltaTime);
         

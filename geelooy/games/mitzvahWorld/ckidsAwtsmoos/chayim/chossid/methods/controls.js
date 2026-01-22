@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @file controls.js
@@ -7,13 +6,26 @@
 
 const ACTION_TOGGLE = "KeyB";
 const ACTION_SELECT = "Enter";
+const ATTACK_KEY = "KeyF"; 
 const CAMERA_PAN_UP = "KeyR";
-const CAMERA_PAN_DOWN = "KeyF";
+const CAMERA_PAN_DOWN = "KeyZ"; 
 const CAMERA_FPS_TOGGLE = "KeyT";
+const DISMOUNT_KEY = "KeyX"; // B"H: New key for dismount
+
 var isInEditorMode = false;
 
 export default {
     controls(deltaTime) {
+        // B"H: If driving, disable player movement logic, but check for dismount
+        if (this.isDriving && this.drivingVehicle) {
+            // Check for dismount
+            if (this.olam.keyStates[DISMOUNT_KEY]) {
+                 this.drivingVehicle.dismount();
+                 return;
+            }
+            return; // Skip normal controls
+        }
+
         this.resetMoving();
 
         if(this.olam.showingImportantMessage) return;
@@ -82,7 +94,7 @@ export default {
             this.dialogueControls(k);
             switch(k.code) {
                 case "KeyR":
-                    this.rotatePreview();
+                    // Pan up handled in loop
                     break;
                 
                 case "KeyQ":
@@ -105,7 +117,6 @@ export default {
                     break;
                 
                 case "KeyV": // Dance
-                    // Find a dance animation if available
                     if (this.animations) {
                         const dance = this.animations.find(a => a.name.toLowerCase().includes("dance"));
                         if (dance) {
@@ -113,6 +124,18 @@ export default {
                             if(this.isDancing) this.playChaweeyoos("dance silly"); // Or specific name
                             else this.playChaweeyoos(this.getChaweeyoos("idle"));
                         }
+                    }
+                    break;
+                
+                case ATTACK_KEY:
+                    if (this.shootHebrewLetter) {
+                        this.shootHebrewLetter();
+                    }
+                    break;
+                
+                case DISMOUNT_KEY:
+                    if (this.isDriving && this.drivingVehicle) {
+                        this.drivingVehicle.dismount();
                     }
                     break;
 

@@ -1,4 +1,3 @@
-
 //B"H
 /**
  * @file index.js
@@ -16,6 +15,7 @@ import dialogueMethods from "./methods/dialogue.js";
 import stateMethods from "./methods/state.js";
 import visualMethods from "./methods/visuals.js";
 import lifecycleMethods from "./methods/lifecycle.js";
+import brainMethods from "./methods/brain.js"; // B"H: New Brain Logic
 
 export default class Medabeir extends Chai {
     type = "medabeir";
@@ -30,6 +30,9 @@ export default class Medabeir extends Chai {
     _messageTree = [];
     _messageTreeFunction = null;
     _tempTree = null;
+    
+    // AI Memory
+    historyLog = [];
 
     constructor(options, olam) {
         if(options.proximity === undefined) options.proximity = 3.0;
@@ -65,6 +68,7 @@ export default class Medabeir extends Chai {
         this.on("nivraNeechnas", nivra => {
             this.dialogueHandler.nivraNeechnas(nivra);
             if(this.lev) this.lev.react("GREET", 0.1);
+            if(this.addToHistory) this.addToHistory(`Saw ${nivra.name}`);
         });
         
         this.on("nivraYotsee", nivra => {
@@ -76,6 +80,7 @@ export default class Medabeir extends Chai {
         
         this.on("heesHawvoos", (dt) => {
             if(this.lev) this.lev.update(dt);
+            if(this.updateBrain) this.updateBrain(dt); // B"H: Brain Update
         });
     }
 
@@ -111,3 +116,4 @@ Object.assign(Medabeir.prototype, dialogueMethods);
 Object.assign(Medabeir.prototype, stateMethods);
 Object.assign(Medabeir.prototype, visualMethods);
 Object.assign(Medabeir.prototype, lifecycleMethods);
+Object.assign(Medabeir.prototype, brainMethods); // B"H

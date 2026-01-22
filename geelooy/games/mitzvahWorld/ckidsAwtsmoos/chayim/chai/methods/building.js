@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * building.js - The Chochmah of architecture and spatial refinement.
@@ -101,6 +100,8 @@ export default {
         }
 
         const type = item.className || 'Domem';
+        
+        // B"H: Trigger actual creation
         await this.olam.addObject(type, {
             position: worldPos,
             rotation: new THREE.Euler().setFromQuaternion(worldQuat),
@@ -113,7 +114,11 @@ export default {
 
         this.spawnHebrewParticles(worldPos);
         this.removeActiveObject();
-        this.removeRay();
+        // Don't remove ray, allow rapid building
+        // this.removeRay(); 
+        
+        // Force refresh of ghost
+        this.placeBlockOnRay();
     },
 
     alignObject() {
@@ -134,4 +139,3 @@ export default {
         }
     }
 };
-        

@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @file treeGenerator.js
@@ -19,13 +18,11 @@ export default class TreeGenerator {
     }
 
     generate() {
-        // Reset arrays
         this.branches = { verts: [], normals: [], indices: [], uvs: [] };
         this.leaves = { verts: [], normals: [], indices: [], uvs: [] };
         
         const branchQueue = [];
         
-        // Initial Trunk
         branchQueue.push(new Branch(
             new THREE.Vector3(), new THREE.Euler(), 
             this.options.branch.length[0], this.options.branch.radius[0], 
@@ -51,8 +48,6 @@ export default class TreeGenerator {
         
         let divisor = (this.options.type === 'evergreen' ? 1 : Math.max(1, this.options.branch.levels - 1));
         let sectionLength = branch.length / branch.sectionCount / divisor;
-        
-        // B"H: Track texture V-coordinate by accumulated length to prevent distortion
         let textureV = 0; 
         let sections = [];
         
@@ -66,8 +61,6 @@ export default class TreeGenerator {
                 let angle = (2.0 * Math.PI * j) / branch.segmentCount;
                 let v = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle)).multiplyScalar(r).applyEuler(orientation).add(origin);
                 let n = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle)).applyEuler(orientation).normalize();
-                
-                // B"H FIX: Use continuous texture V based on length
                 let uv = new THREE.Vector2(j / branch.segmentCount, textureV);
                 
                 this.branches.verts.push(v.x, v.y, v.z);
@@ -75,16 +68,13 @@ export default class TreeGenerator {
                 this.branches.uvs.push(uv.x, uv.y);
                 if (j === 0) first = { v, n, uv };
             }
-            // Close the loop
             this.branches.verts.push(first.v.x, first.v.y, first.v.z);
             this.branches.normals.push(first.n.x, first.n.y, first.n.z);
             this.branches.uvs.push(1, first.uv.y);
             
             sections.push({ origin: origin.clone(), orientation: orientation.clone(), radius: r });
             origin.add(new THREE.Vector3(0, sectionLength, 0).applyEuler(orientation));
-            
-            // Accumulate texture length for next section
-            textureV += (sectionLength * 0.2); // 0.2 scale factor keeps UVs reasonable
+            textureV += (sectionLength * 0.2); 
 
             const gnarl = Math.max(1, 1/Math.sqrt(r)) * (this.options.branch.gnarliness[branch.level] || 0);
             orientation.x += this.rng.random(gnarl, -gnarl);
@@ -121,7 +111,6 @@ export default class TreeGenerator {
                  ));
              }
         } else {
-            // Terminal branch - add leaves
             this.generateLeaves(sections);
         }
     }
@@ -165,49 +154,32 @@ export default class TreeGenerator {
             const idx = Math.floor(start * (sections.length - 1));
             const secA = sections[idx];
             const secB = sections[Math.min(idx+1, sections.length-1)];
-            
-            // Randomly position around the branch
             const origin = new THREE.Vector3().lerpVectors(secA.origin, secB.origin, Math.random());
-            
-            // Add slight random offset from branch center so they don't look like they are inside
             const offset = new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).normalize().multiplyScalar(secA.radius);
             origin.add(offset);
 
-            const leafOrient = new THREE.Euler(
-                Math.random() * Math.PI, 
-                Math.random() * Math.PI * 2, 
-                Math.random() * Math.PI
-            ); 
-            
+            const leafOrient = new THREE.Euler(Math.random() * Math.PI, Math.random() * Math.PI * 2, Math.random() * Math.PI); 
             this.generateLeafQuad(origin, leafOrient);
         }
     }
     
     generateLeafQuad(origin, orientation) {
         let i = this.leaves.verts.length / 3;
-        // B"H FIX: Ensure leaf size is visible
         let size = Math.max(0.5, this.options.leaves.size * (1 + this.rng.random(0.2, -0.2)));
         
         const makeQuad = (rotOffset) => {
-            // Leaf centered at bottom
             const v = [
                 new THREE.Vector3(-size/2, size, 0), new THREE.Vector3(-size/2, 0, 0),
                 new THREE.Vector3(size/2, 0, 0), new THREE.Vector3(size/2, size, 0)
             ].map(vec => vec.applyEuler(new THREE.Euler(0, rotOffset, 0)).applyEuler(orientation).add(origin));
             
             v.forEach(vec => this.leaves.verts.push(vec.x, vec.y, vec.z));
-            
-            // Normals pointing generally out
             const n = new THREE.Vector3(0,0,1).applyEuler(orientation);
             for(let k=0; k<4; k++) this.leaves.normals.push(n.x, n.y, n.z);
-            
-            // Standard Quad UVs
             this.leaves.uvs.push(0,1, 0,0, 1,0, 1,1);
-            
             this.leaves.indices.push(i, i+1, i+2, i, i+2, i+3);
             i+=4;
         };
-        
         makeQuad(0);
         if(this.options.leaves.billboard === 'double') makeQuad(Math.PI/2);
     }
