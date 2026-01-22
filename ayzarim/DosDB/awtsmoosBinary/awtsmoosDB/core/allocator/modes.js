@@ -1,6 +1,11 @@
 // B"H
 const constants = require('../../constants.js');
 const BitmapManager = require('./bitmap.js');
+const fs = require('fs');
+
+function log(msg) {
+    try { fs.writeSync(2, `\x1b[33mB"H [ALLOC] ${msg}\x1b[0m\n`); } catch(e) {}
+}
 
 class AllocationModes {
     constructor(allocator) {
@@ -8,27 +13,23 @@ class AllocationModes {
     }
 
     async allocateSmall(unitsNeeded, sizeBytes) {
-        // B"H: LIGHTNING STRATEGY - RAM ONLY
-        
         // 1. Check Active Page
         if (this.allocator.activePage.id !== -1) {
             const block = this.allocator.activePage.buffer;
             
-            // Verify valid PAGE - must have PAGE magic to prevent corruption of other block types
             if (block.readUInt32BE(0) === constants.BLOCK_TYPE.PAGE) {
                 const startUnit = BitmapManager.findGap(block, unitsNeeded);
                 if (startUnit !== -1) {
                     BitmapManager.mark(block, startUnit, unitsNeeded, true);
-                    block.fill(0, startUnit * this.allocator.UNIT_SIZE, (startUnit * this.allocator.UNIT_SIZE) + sizeBytes);
                     this.allocator.activePage.dirty = true;
+                    // log(`Gap Found in Block ${this.allocator.activePage.id}, Unit ${startUnit}`);
                     return { blockId: this.allocator.activePage.id, offset: startUnit * this.allocator.UNIT_SIZE, length: sizeBytes };
                 }
             } else {
-                // Active page invalid type (shouldn't happen but defensive)
-                this.allocator.activePage.id = -1; 
+                 this.allocator.activePage.id = -1; 
             }
             
-            // Active page full or invalid. Flush.
+            // log(`ActivePage ${this.allocator.activePage.id} Full. Flushing.`);
             await this.allocator.flush();
             this.allocator.activePage.id = -1;
         }
@@ -41,9 +42,10 @@ class AllocationModes {
             newPageId = this.allocator.cursor;
             this.allocator.cursor++;
         }
+        
+        // log(`Allocating NEW Page: ${newPageId}`);
 
         // 3. Setup New Active Page in RAM
-        // B"H: Optimization - use allocUnsafe then fill(0)
         const newBlock = Buffer.allocUnsafe(this.allocator.BLOCK_SIZE);
         newBlock.fill(0);
         
@@ -59,10 +61,13 @@ class AllocationModes {
             dirty: true 
         };
         
+        this.allocator.updateSuperBlock(); 
+        
         return { blockId: newPageId, offset: startUnit * this.allocator.UNIT_SIZE, length: sizeBytes };
     }
 
     async allocateLarge(units, size) {
+        log(`Large Allocation Request: ${size} bytes`);
         await this.allocator.flush();
 
         const availablePerBlock = this.allocator.BLOCK_SIZE - this.allocator.HEADER_SIZE;
@@ -76,6 +81,8 @@ class AllocationModes {
             blk.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
             await this.allocator._writeBlockSynced(startBlock + i, blk);
         }
+        
+        this.allocator.updateSuperBlock();
 
         return { blockId: startBlock, offset: this.allocator.HEADER_SIZE, length: size, isChain: true };
     }

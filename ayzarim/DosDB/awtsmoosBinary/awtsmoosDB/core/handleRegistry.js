@@ -20,7 +20,8 @@ module.exports = {
     getSoul(obj) {
         if (!obj) return undefined;
         if (registry.has(obj)) return registry.get(obj);
-        if (obj[SOUL_SIG]) return obj;
+        if (obj && obj[SOUL_SIG]) return obj;
+        // B"H: If obj is a simple object wrapping a handle (rare) or user-data
         return undefined;
     },
 

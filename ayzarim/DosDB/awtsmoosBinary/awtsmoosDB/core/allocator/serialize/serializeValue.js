@@ -1,12 +1,8 @@
 // B"H
 /**
  * @file serializeValue.js
- * @description
- *  The Sefirah of Chesed - The Infinite Flow of Data.
- *  Serializes JS values into binary.
+ * @description Manifests raw JS primitives into binary. Strictly synchronous.
  */
-
-module.exports = serializeValue;
 
 const { packTypeAndLengthSize, writeConditional } = require("../../../utils/binaryHelpers.js");
 const constants = require("../../../constants.js");
@@ -14,41 +10,17 @@ const floatHandler = require("../../../utils/floatHandler.js");
 const stringPacker = require("../../../utils/stringPacker.js");
 const bigIntUtils = require("../../../utils/bigIntUtils.js");
 
-let serializeArray_fn = null;
-let serializeJSON_fn = null;
-
-function log(msg) {
-    console.error(`B"H [SERIALIZE] ${msg}`);
-}
-
 function serializeValue(value, fullBuffer = true) {
-    const traceId = Math.floor(Math.random() * 0xFFFFFF).toString(16);
-    
-    if (!serializeArray_fn) {
-        serializeArray_fn = require("./array.js");
-    }
-    if (!serializeJSON_fn) {
-        const objModule = require("./obj.js");
-        serializeJSON_fn = objModule.serializeJSON;
-    }
+    const objModule = require("./obj.js");
+    const arrModule = require("./array.js");
 
     let type = 0;
     let data; 
 
-    if (value === null) {
-        type = constants.VAL_TYPE.NULL;
-    }
-    else if (value === undefined) {
-        type = constants.VAL_TYPE.UNDEFINED;
-    }
-    else if (value === true) {
-        type = constants.VAL_TYPE.BOOLEAN_TRUE;
-        data = Buffer.from([1]);
-    }
-    else if (value === false) {
-        type = constants.VAL_TYPE.BOOLEAN_FALSE;
-        data = Buffer.from([0]);
-    }
+    if (value === null) { type = constants.VAL_TYPE.NULL; }
+    else if (value === undefined) { type = constants.VAL_TYPE.UNDEFINED; }
+    else if (value === true) { type = constants.VAL_TYPE.BOOLEAN_TRUE; data = Buffer.from([1]); }
+    else if (value === false) { type = constants.VAL_TYPE.BOOLEAN_FALSE; data = Buffer.from([0]); }
     else if (typeof value === 'bigint') {
         const { buffer, isNegative } = bigIntUtils.toBuffer(value);
         data = buffer; 
@@ -56,17 +28,13 @@ function serializeValue(value, fullBuffer = true) {
     }
     else if (typeof value === 'symbol') {
         type = constants.VAL_TYPE.SYMBOL;
-        const key = Symbol.keyFor(value) || value.description || "Symbol";
-        data = Buffer.from(key, 'utf8');
+        data = Buffer.from(Symbol.keyFor(value) || value.description || "Symbol", 'utf8');
     }
     else if (typeof value === 'number') {
-        if (isNaN(value)) {
-            type = constants.VAL_TYPE.NAN;
-        } else if (value === Infinity) {
-            type = constants.VAL_TYPE.INFINITY;
-        } else if (value === -Infinity) {
-            type = constants.VAL_TYPE.NEG_INFINITY;
-        } else {
+        if (isNaN(value)) { type = constants.VAL_TYPE.NAN; }
+        else if (value === Infinity) { type = constants.VAL_TYPE.INFINITY; }
+        else if (value === -Infinity) { type = constants.VAL_TYPE.NEG_INFINITY; }
+        else {
             const isNeg = value < 0; const absValue = Math.abs(value);
             if (absValue <= Number.MAX_SAFE_INTEGER && absValue % 1 === 0) {
                 if (absValue <= 0xFF) { data = Buffer.allocUnsafe(1); data.writeUInt8(absValue, 0); type = isNeg ? constants.VAL_TYPE.INT8_NEG : constants.VAL_TYPE.UINT8; }
@@ -74,20 +42,8 @@ function serializeValue(value, fullBuffer = true) {
                 else if (absValue <= 0xFFFFFFFF) { data = Buffer.allocUnsafe(4); data.writeUInt32BE(absValue, 0); type = isNeg ? constants.VAL_TYPE.INT32_NEG : constants.VAL_TYPE.UINT32; }
                 else { data = Buffer.allocUnsafe(8); data.writeBigUInt64BE(BigInt(absValue), 0); type = isNeg ? constants.VAL_TYPE.INT64_NEG : constants.VAL_TYPE.UINT64; }
             } else {
-                const encoded = floatHandler.writeDynamicFloat(value);
-                if (encoded !== null) {
-                    const size = (encoded <= 0xFF) ? 1 : (encoded <= 0xFFFF) ? 2 : 4;
-                    data = Buffer.allocUnsafe(size);
-                    if (size === 1) data.writeUInt8(encoded, 0); else if (size === 2) data.writeUInt16BE(encoded, 0); else data.writeUInt32BE(encoded, 0);
-                    if (!isNeg) {
-                        if (size === 1) type = constants.VAL_TYPE.FLOAT_1; else if (size === 2) type = constants.VAL_TYPE.FLOAT_2; else type = constants.VAL_TYPE.FLOAT_4;
-                    } else {
-                        if (size === 1) type = constants.VAL_TYPE.FLOAT_NEG_1; else if (size === 2) type = constants.VAL_TYPE.FLOAT_NEG_2; else type = constants.VAL_TYPE.FLOAT_NEG_4;
-                    }
-                } else {
-                    type = isNeg ? constants.VAL_TYPE.DOUBLE_NEG : constants.VAL_TYPE.DOUBLE_POS;
-                    data = Buffer.allocUnsafe(8); data.writeDoubleBE(absValue);
-                }
+                type = isNeg ? constants.VAL_TYPE.DOUBLE_NEG : constants.VAL_TYPE.DOUBLE_POS;
+                data = Buffer.allocUnsafe(8); data.writeDoubleBE(absValue);
             }
         }
     } 
@@ -98,73 +54,32 @@ function serializeValue(value, fullBuffer = true) {
         type = constants.VAL_TYPE.REGEXP;
         const sourceBuf = Buffer.from(value.source, 'utf8');
         const flagsBuf = Buffer.from(value.flags, 'utf8');
-        const { localWriteVarInt } = require("./obj.js");
-        data = Buffer.concat([localWriteVarInt(sourceBuf.length), sourceBuf, flagsBuf]);
+        data = Buffer.concat([objModule.localWriteVarInt(sourceBuf.length), sourceBuf, flagsBuf]);
     }
     else if (value instanceof Map) {
-        type = constants.VAL_TYPE.MAP; data = serializeArray_fn(Array.from(value.entries()));
+        type = constants.VAL_TYPE.MAP; data = arrModule(Array.from(value.entries()));
     }
     else if (value instanceof Set) {
-        type = constants.VAL_TYPE.SET; data = serializeArray_fn(Array.from(value.values()));
+        type = constants.VAL_TYPE.SET; data = arrModule(Array.from(value.values()));
     }
-    else if (value instanceof Error || (value && typeof value.message === 'string' && value.stack)) {
-        type = constants.VAL_TYPE.OBJECT; 
-        
-        const isAgg = (typeof AggregateError !== 'undefined' && value instanceof AggregateError) || 
-                      (value.name === 'AggregateError') || 
-                      (Array.isArray(value.errors));
-
-        const rawName = value.name || (value.constructor ? value.constructor.name : "Error");
-        const finalName = isAgg ? "AggregateError" : rawName;
-
-        const info = {
-            name: String(finalName || "Error"),
-            message: String(value.message || ""),
-            stack: String(value.stack || ""),
-            __awtsmoosError__: true, 
-            __errorType__: String(finalName || "Error")
-        };
-        
-        if (value.cause) info.cause = value.cause;
-        if (isAgg) {
-            info.isAggregate = true;
-            info.errors = Array.isArray(value.errors) ? value.errors : Array.from(value.errors || []);
-        }
-
-        data = serializeJSON_fn(info);
+    else if (value instanceof Error) {
+        type = constants.VAL_TYPE.ERROR;
+        data = objModule.serializeJSON({ name: value.name, message: value.message, stack: value.stack, cause: value.cause });
     }
     else if (ArrayBuffer.isView(value) && !Buffer.isBuffer(value)) {
         type = constants.VAL_TYPE.TYPED_ARRAY;
-        const getTypedArrayType = (v) => {
-            if (v instanceof Int8Array) return 1; if (v instanceof Uint8Array) return 2;
-            if (v instanceof Uint8ClampedArray) return 3; if (v instanceof Int16Array) return 4;
-            if (v instanceof Uint16Array) return 5; if (v instanceof Int32Array) return 6;
-            if (v instanceof Uint32Array) return 7; if (v instanceof Float32Array) return 8;
-            if (v instanceof Float64Array) return 9; if (v instanceof BigInt64Array) return 10;
-            if (v instanceof BigUint64Array) return 11; return 0;
-        };
-        const viewType = getTypedArrayType(value);
+        let vt = 0;
+        if (value instanceof Int8Array) vt = 1; else if (value instanceof Uint8Array) vt = 2; else if (value instanceof Uint8ClampedArray) vt = 3;
+        else if (value instanceof Int16Array) vt = 4; else if (value instanceof Uint16Array) vt = 5; else if (value instanceof Int32Array) vt = 6;
+        else if (value instanceof Uint32Array) vt = 7; else if (value instanceof Float32Array) vt = 8; else if (value instanceof Float64Array) vt = 9;
+        else if (value instanceof BigInt64Array) vt = 10; else if (value instanceof BigUint64Array) vt = 11;
         const raw = Buffer.from(value.buffer, value.byteOffset, value.byteLength);
-        data = Buffer.concat([Buffer.from([viewType]), raw]);
+        data = Buffer.concat([Buffer.from([vt]), raw]);
     }
-    else if (typeof value === 'function') {
-        type = constants.VAL_TYPE.FUNCTION; data = Buffer.from(value.toString());
-    }
-    else if (Buffer.isBuffer(value) || value instanceof ArrayBuffer) {
-        type = constants.VAL_TYPE.BUFFER; data = Buffer.isBuffer(value) ? value : Buffer.from(value);
-    }
-    else if (Array.isArray(value)) {
-        type = constants.VAL_TYPE.ARRAY; 
-        data = serializeArray_fn(value);
-    } 
-    else if (typeof value === 'object') {
-        type = constants.VAL_TYPE.OBJECT; 
-        data = serializeJSON_fn(value);
-    }
-    else if (typeof value === 'string') {
-        type = constants.VAL_TYPE.STRING;
-        data = Buffer.from(value, 'utf8');
-    }
+    else if (Buffer.isBuffer(value)) { type = constants.VAL_TYPE.BUFFER; data = value; }
+    else if (Array.isArray(value)) { type = constants.VAL_TYPE.ARRAY; data = arrModule(value); } 
+    else if (typeof value === 'object') { type = constants.VAL_TYPE.OBJECT; data = objModule.serializeJSON(value); }
+    else if (typeof value === 'string') { type = constants.VAL_TYPE.STRING; data = Buffer.from(value, 'utf8'); }
 
     if (!data) data = Buffer.alloc(0);
     const lenInfo = writeConditional(data.length);
@@ -178,6 +93,6 @@ function serializeValue(value, fullBuffer = true) {
     wrapper[0] = typeByte;
     lenInfo.buffer.copy(wrapper, 1);
     data.copy(wrapper, 1 + lenInfo.size);
-    
     return wrapper;
 }
+module.exports = serializeValue;

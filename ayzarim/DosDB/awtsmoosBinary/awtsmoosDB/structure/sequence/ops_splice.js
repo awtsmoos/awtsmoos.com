@@ -1,61 +1,115 @@
 // B"H
-const SmartPointer = require('../../utils/smartPointer.js');
+const utils = require('./ops_utils.js');
+const SpliceInternalOps = require('./ops_splice_internal.js');
+const Logger = require('../../utils/centralLogger.js');
 
 class SpliceOps {
     constructor(sequence) {
         this.seq = sequence;
         this.nodeIO = sequence.nodeIO;
+        this.internalOps = new SpliceInternalOps(sequence);
     }
 
     splice(start, deleteCount, newItems) {
+        const len = this.seq.length();
+        let s = start;
+        if (s < 0) s = Math.max(0, len + s);
+        if (s > len) s = len;
+        
+        const d = Math.max(0, Math.min(deleteCount, len - s));
+        const insertItems = Array.isArray(newItems) ? newItems : [];
+
+        // Logger.log("[SPLICE]", `Request: s=${s} d=${d} len=${len} new=${insertItems.length}`);
+
         const root = this.nodeIO.load(this.seq.ptr);
-        this._spliceRecursive(root, start, deleteCount, newItems);
+        
+        if (!root) {
+            // Lazy Creation logic
+            if (s === 0 && d === 0 && insertItems.length === 0) return { newPtr: this.seq.ptr };
+            this.seq.create();
+            const newRoot = this.nodeIO.load(this.seq.ptr);
+            const res = this._spliceRecursive(newRoot, s, d, insertItems);
+            return { newPtr: res.newPtr || this.seq.ptr };
+        }
+
+        const res = this._spliceRecursive(root, s, d, insertItems);
+
+        if (res.splitNodes && res.splitNodes.length > 0) {
+            utils.handleRootSplit(this.nodeIO, this.seq, root, res.splitNodes);
+            return { newPtr: this.seq.ptr };
+        }
+
+        return { newPtr: res.newPtr || this.seq.ptr };
     }
 
     _spliceRecursive(node, start, deleteCount, newItems) {
         if (node.isLeaf) {
-            const ptrs = [];
-            for(let i=0; i<node.itemCount; i++) {
-                const p = Buffer.alloc(16);
-                node.buffer.copy(p, 0, 23 + (i * 16), 39 + (i * 16));
-                ptrs.push(p);
-            }
-            ptrs.splice(start, deleteCount, ...newItems);
-            // Re-fill node buffer (simplified: assume fits in one page for sync proof)
-            node.itemCount = Math.min(ptrs.length, 200);
-            node.totalCount = node.itemCount;
-            node.buffer.fill(0, 23);
-            for(let i=0; i<node.itemCount; i++) {
-                ptrs[i].copy(node.buffer, 23 + (i * 16));
-            }
-            this.nodeIO.save(node);
+            return this._spliceLeaf(node, start, deleteCount, newItems);
+        }
+        return this.internalOps.process(node, start, deleteCount, newItems);
+    }
+
+    _spliceLeaf(node, start, deleteCount, newItems) {
+        const ptrs = [];
+        
+        // Extract existing
+        for(let i=0; i<node.itemCount; i++) {
+            const off = 23 + (i * 16);
+            if (off + 16 > node.buffer.length) break;
+            const p = Buffer.allocUnsafe(16);
+            node.buffer.copy(p, 0, off, off + 16);
+            ptrs.push(p);
+        }
+
+        // Apply mutation
+        ptrs.splice(start, deleteCount, ...newItems);
+        
+        const MAX_LEAF = 200;
+        const splitNodes = [];
+        let currentNode = node;
+        
+        // Handle Leaf Split
+        if (ptrs.length > MAX_LEAF) {
+             const all = [...ptrs];
+             
+             // Current node keeps first chunk
+             const keep = all.splice(0, MAX_LEAF);
+             this._pourIntoLeaf(currentNode, keep);
+             // Must return pointer updated if location changed
+             const newPtr = this.nodeIO.save(currentNode);
+             
+             // Remainder
+             while(all.length > 0) {
+                 const chunk = all.splice(0, MAX_LEAF);
+                 const nextNode = this.nodeIO.create(true, currentNode.isWeak);
+                 this._pourIntoLeaf(nextNode, chunk);
+                 this.nodeIO.save(nextNode);
+                 splitNodes.push(nextNode);
+             }
+             return { newPtr, splitNodes };
+             
         } else {
-            // Internal splice logic omitted: delegating to child nodes
-            let currentOffset = 0;
-            for(let i=0; i<node.itemCount; i++) {
-                const entryOff = 23 + (i * 20);
-                const count = node.buffer.readUInt32BE(entryOff + 16);
-                if (start < currentOffset + count) {
-                     const childPtr = this._decodePtrBuf(node.buffer.subarray(entryOff, entryOff + 16));
-                     const child = this.nodeIO.load(childPtr);
-                     this._spliceRecursive(child, Math.max(0, start - currentOffset), deleteCount, newItems);
-                     node.buffer.writeUInt32BE(child.totalCount, entryOff + 16);
-                     // Recalc total omitted
-                     break;
-                }
-                currentOffset += count;
-            }
-            this.nodeIO.save(node);
+             this._pourIntoLeaf(currentNode, ptrs);
+             const newPtr = this.nodeIO.save(currentNode);
+             return { newPtr, splitNodes: null };
         }
     }
 
-    _decodePtrBuf(buf) {
-        return { 
-            blockId: SmartPointer.getBlockId(buf), 
-            length: SmartPointer.getLength(buf), 
-            offset: SmartPointer.getOffset(buf), 
-            isChain: SmartPointer.isChain(buf) 
-        };
+    _pourIntoLeaf(leafNode, ptrArray) {
+        leafNode.itemCount = ptrArray.length;
+        leafNode.totalCount = ptrArray.length;
+        leafNode.totalBytes = 0;
+
+        const req = 23 + (ptrArray.length * 16);
+        if (!leafNode.buffer || leafNode.buffer.length < req) {
+            leafNode.buffer = Buffer.allocUnsafe(req).fill(0);
+        }
+
+        for(let i=0; i<ptrArray.length; i++) {
+             ptrArray[i].copy(leafNode.buffer, 23 + (i * 16));
+             leafNode.totalBytes += utils.getPtrSize(ptrArray[i]);
+        }
     }
 }
+
 module.exports = SpliceOps;

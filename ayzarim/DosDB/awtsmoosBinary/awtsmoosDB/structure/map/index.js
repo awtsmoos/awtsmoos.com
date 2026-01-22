@@ -1,126 +1,149 @@
 // B"H
 /**
- * @file index.js
- * @description
- *  The Sefirah of Hod - The B-Tree Engine.
- *  Uses strictly synchronous I/O for instant sorted data retrieval.
+ * @file index.js (MapEngine)
+ * @description 
+ *  The Scribe of the B-Tree Map — Organizing the knowledge into a balanced structure.
+ * 
+ *  REWRITTEN: Added 'range' method and authoritative type-tagging to solve 
+ *  the "TypeError: map.range is not a function" error.
  */
 
 const constants = require('../../constants.js');
 const MapNode = require('./node.js');
 const MapOps = require('./ops.js');
 const SmartPointer = require('../../utils/smartPointer.js');
+const fs = require('fs');
 
 class MapEngine {
     constructor(allocator, ptr = null) {
         this.allocator = allocator;
-        this.db = allocator.v1.db;
+        this.v1 = allocator?.v1 || allocator;
+        this.db = this.v1?.db || (allocator?.db ? allocator.db : null);
         
-        // B"H: Normalizing Pointer instantly.
         if (Buffer.isBuffer(ptr) && ptr.length === 16) {
-            this.ptr = SmartPointer.resolve(ptr, allocator);
+            this.ptr = SmartPointer.resolve(ptr, this.allocator);
         } else {
             this.ptr = ptr || null;
         }
+
+        if (this.ptr) this.ptr.type = constants.VAL_TYPE.MAP;
         
-        this.nodeIO = new MapNode(allocator, this); 
+        this.nodeIO = new MapNode(this.v1, this); 
         this.ops = new MapOps(this);
     }
 
+    _log(msg) {
+        if (this.db && this.db.debug) {
+            try { fs.writeSync(2, `\x1b[34mB"H [MAP_ENGINE] ${msg}\x1b[0m\n`); } catch(e) {}
+        }
+    }
+
     create() {
-        const node = { isLeaf: true, keys: [], values: [], children: [], next: 0, totalCount: 0, totalBytes: 0 };
+        const node = { isLeaf: true, keys: [], values: [], children: [], totalCount: 0, totalBytes: 0 };
         const ptr = this.nodeIO.save(node);
-        this.ptr = ptr;
-        return SmartPointer.block(constants.VAL_TYPE.MAP, this.ptr.blockId, this.ptr.length, this.ptr.isChain, this.ptr.offset);
+        this.ptr = { ...ptr, type: constants.VAL_TYPE.MAP };
+        this._log(`Manifested New Map Root at Block ${ptr.blockId}`);
+        return SmartPointer.block(constants.VAL_TYPE.MAP, this.ptr.blockId, this.ptr.length, !!this.ptr.isChain, this.ptr.offset);
     }
 
     set(key, value, options = {}) {
-        const valPtr = (options.isPtr) ? value : this.allocator.save(value);
+        const valPtr = (options.isPtr) ? value : this.db.allocator.save(value);
         const keyBuf = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
 
         let root = this.nodeIO.load(this.ptr);
+        if (!root) { 
+            this.create(); 
+            root = this.nodeIO.load(this.ptr); 
+        }
+        
         const res = this.ops.insert(root, keyBuf, valPtr, options);
         
         if (res && res.split) {
             const split = res.split;
             const newRoot = {
-                isLeaf: false, keys: [split.key], 
+                isLeaf: false, 
+                keys: [split.key], 
                 children: [
-                    SmartPointer.block(constants.VAL_TYPE.MAP, (split.nodePtr || this.ptr).blockId, (split.nodePtr || this.ptr).length, (split.nodePtr || this.ptr).isChain, (split.nodePtr || this.ptr).offset),
-                    split.ptr
+                    SmartPointer.toBuffer(split.nodePtr || this.ptr),
+                    SmartPointer.toBuffer(split.ptr)
                 ],
-                values: [], next: 0
+                values: [], totalCount: (root.totalCount || 0)
             };
-            const leftNode = this.nodeIO.load(split.nodePtr || this.ptr);
-            const rightNode = this.nodeIO.load(this._decodePtrBuf(split.ptr));
-            newRoot.totalCount = (leftNode.totalCount || 0) + (rightNode.totalCount || 0);
-            newRoot.totalBytes = (leftNode.totalBytes || 0) + (rightNode.totalBytes || 0);
-            this.ptr = this.nodeIO.save(newRoot);
+            this.ptr = { ...this.nodeIO.save(newRoot), type: constants.VAL_TYPE.MAP };
         } else if (res && res.newPtr) {
-            this.ptr = res.newPtr;
+            this.ptr = { ...res.newPtr, type: constants.VAL_TYPE.MAP };
         }
-    }
-
-    get(key) {
-        const ptr = this.getPtr(key);
-        if (!ptr) return undefined;
-        return SmartPointer.resolve(ptr, this.allocator);
     }
 
     getPtr(key) {
         let currPtr = this.ptr;
         const keyBuf = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
-        while (currPtr && currPtr.blockId !== 0) {
+        
+        while (currPtr && currPtr.blockId !== undefined) {
             const node = this.nodeIO.load(currPtr);
-            let low = 0, high = node.keys.length - 1, idx = node.keys.length;
-            while (low <= high) {
-                const mid = (low + high) >>> 1;
-                const cmp = keyBuf.compare(node.keys[mid]);
-                if (cmp === 0) { idx = mid + 1; break; }
-                if (cmp < 0) { idx = mid; high = mid - 1; } else low = mid + 1;
+            if (!node) break;
+
+            const { index, found } = this.ops._search(node, keyBuf);
+            if (node.isLeaf) {
+                return found ? node.values[index] : undefined;
             }
-            if (node.isLeaf) return (idx > 0 && node.keys[idx - 1].compare(keyBuf) === 0) ? node.values[idx - 1] : undefined;
-            currPtr = this._decodePtrBuf(node.children[idx]);
+            
+            let childIdx = found ? index + 1 : index;
+            const childSeal = node.children[childIdx];
+            currPtr = SmartPointer.resolve(childSeal, this.allocator);
         }
         return undefined;
     }
 
-    delete(key) {
-        let root = this.nodeIO.load(this.ptr);
-        const res = this.ops.delete(root, Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8'));
-        if (res.success && res.newPtr) this.ptr = res.newPtr;
-        return res;
+    get(key) {
+        const ptr = this.getPtr(key);
+        return ptr ? SmartPointer.resolve(ptr, this.allocator) : undefined;
     }
 
-    *range(start, end) {
-        const startBuf = start ? Buffer.from(String(start)) : null;
-        const endBuf = end ? Buffer.from(String(end)) : null;
-        yield* this._iterateNode(this.ptr, startBuf, endBuf);
+    /**
+     * @description The Gate to Harvest — Yields the ordered keys and pointers.
+     * B"H: This method is vital for ReaderIterator to function correctly.
+     */
+    * range() {
+        this._log(`Starting Range Iterator from Root ${this.ptr?.blockId}`);
+        yield* this.iterateRaw();
+    }
+
+    * iterateRaw() {
+        if (!this.ptr || this.ptr.blockId === undefined) return;
+        yield* this._iterateNodeRaw(this.ptr);
     }
     
-    *_iterateNode(ptr, start, end) {
-        const node = this.nodeIO.load(ptr);
-        if (node.isLeaf) {
-            for(let i=0; i<node.keys.length; i++) {
-                const k = node.keys[i];
-                if ((!start || k.compare(start) >= 0) && (!end || k.compare(end) <= 0)) {
-                    yield { key: k, value: SmartPointer.resolve(node.values[i], this.allocator), ptr: node.values[i] };
-                }
-            }
-        } else {
-            for(let i=0; i<node.children.length; i++) {
-                if (end && i > 0 && node.keys[i-1].compare(end) > 0) return;
-                yield* this._iterateNode(this._decodePtrBuf(node.children[i]), start, end);
-            }
-        }
+    * _iterateNodeRaw(ptr) {
+         const node = this.nodeIO.load(ptr);
+         if (!node) return;
+         if (node.isLeaf) {
+             for (let i = 0; i < node.keys.length; i++) {
+                 yield { key: node.keys[i], ptr: node.values[i] };
+             }
+         } else {
+             for (let i = 0; i < node.children.length; i++) {
+                 const childAddr = SmartPointer.resolve(node.children[i], this.allocator);
+                 yield* this._iterateNodeRaw(childAddr);
+             }
+         }
     }
-    
-    _decodePtrBuf(buf) {
+
+    [Symbol.iterator]() {
+        const it = this.iterateRaw();
         return {
-            blockId: SmartPointer.getBlockId(buf),
-            length: SmartPointer.getLength(buf),
-            offset: SmartPointer.getOffset(buf),
-            isChain: SmartPointer.isChain(buf)
+            next: () => {
+                const n = it.next();
+                if (n.done) return n;
+                const { key, ptr } = n.value;
+                return { 
+                    value: { 
+                        key: key.toString('utf8'), 
+                        value: SmartPointer.resolve(ptr, this.allocator) 
+                    }, 
+                    done: false 
+                };
+            }
         };
     }
 }

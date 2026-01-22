@@ -1,176 +1,106 @@
-
 // B"H
+/**
+ * @file storage.js
+ * @description Synchronous Serialization of Vector Nodes.
+ */
 const constants = require('../../constants.js');
 const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
 const SmartPointer = require('../../utils/smartPointer.js');
 
-const MAGIC_VEC_NODE = "VNOD";
-
-const M = 12; 
-const M_MAX0 = 24; 
+const MAGIC_VEC = "VN01";
+const M_MAX0 = 24;
+const M = 12;
 
 class VectorStorage {
     constructor(allocator) {
         this.allocator = allocator;
     }
 
-    _calculateMaxSize(vecLen, level) {
-        const headerSize = 30;
-        const vecSize = vecLen;
-        let neighborSize = 0;
+    saveNode(node) {
+        // Calculate size
+        // Magic(4) + Flags(1) + Level(1) + VecLen(4) + Vector(N*4) + Payload(16) + ID(4) + Neighbors...
+        const vecSize = node.vector.length * 4;
+        let size = 30 + vecSize; 
         
-        for(let l=0; l<=level; l++) {
-            const maxNeighbors = (l === 0) ? M_MAX0 : M;
-            neighborSize += 2 + (maxNeighbors * 4);
+        for(let i=0; i<=node.level; i++) {
+            size += 2; // Count
+            size += (node.neighbors[i] || []).length * 4; // IDs
         }
         
-        return headerSize + vecSize + neighborSize;
+        // Pad for max growth or reallocate?
+        // Simple: Just allocate exact needed now. If it grows, pointer updates.
+        
+        const buf = Buffer.allocUnsafe(size);
+        let off = 0;
+        buf.write(MAGIC_VEC, off); off += 4;
+        buf.writeUInt8(node.deleted ? 1 : 0, off++);
+        buf.writeUInt8(node.level, off++);
+        buf.writeUInt32BE(vecSize, off); off += 4;
+        
+        const floatView = new Uint8Array(node.vector.buffer);
+        buf.set(floatView, off); off += vecSize;
+        
+        node.payloadPtr.copy(buf, off); off += 16;
+        buf.writeUInt32BE(node.id, off); off += 4;
+        
+        for(let i=0; i<=node.level; i++) {
+            const nb = node.neighbors[i] || [];
+            buf.writeUInt16BE(nb.length, off); off += 2;
+            for(const nId of nb) {
+                buf.writeUInt32BE(nId, off); off += 4;
+            }
+        }
+        
+        // Save using allocator synchronously
+        const ptr = this.allocator.allocate(size); // allocate returns {blockId...}
+        // Write data
+        this.allocator.db._writeChainSafe(ptr, buf);
+        
+        return SmartPointer.block(constants.TYPE_CUSTOM_INSTANCE, ptr.blockId, ptr.length, ptr.isChain, ptr.offset);
     }
 
-    async createNode(vector, level, payloadPtr, nodeId) {
-        const floatArr = new Float32Array(vector);
-        // B"H: Optimization - allocUnsafe
-        const vecBuffer = Buffer.allocUnsafe(floatArr.byteLength);
-        const sourceView = new Uint8Array(floatArr.buffer, floatArr.byteOffset, floatArr.byteLength);
-        vecBuffer.set(sourceView);
+    loadNode(ptrBuf) {
+        const decoded = SmartPointer.decode(ptrBuf);
+        // Sync Read
+        const buf = this.allocator.db._readChainSafe({
+            blockId: readPointer48(decoded.payload, 0),
+            length: decoded.payload.readUInt32BE(6),
+            offset: decoded.payload.readUInt32BE(10),
+            isChain: decoded.payload.readUInt8(14) === 1
+        });
         
-        const totalSize = this._calculateMaxSize(vecBuffer.length, level);
+        if (!buf || buf.length < 30) return null;
+        if (buf.subarray(0, 4).toString() !== MAGIC_VEC) return null;
         
-        // B"H: Optimization - allocUnsafe + fill(0)
-        const buffer = Buffer.allocUnsafe(totalSize);
-        buffer.fill(0);
+        let off = 4;
+        const deleted = buf.readUInt8(off++) === 1;
+        const level = buf.readUInt8(off++);
+        const vecLen = buf.readUInt32BE(off); off += 4;
         
-        let offset = 0;
+        const vecBuf = buf.subarray(off, off + vecLen);
+        // Create TypedArray copy
+        const vector = new Float32Array(vecBuf.length / 4);
+        Buffer.from(vector.buffer).set(vecBuf);
+        off += vecLen;
         
-        buffer.write(MAGIC_VEC_NODE, offset); offset += 4;
-        buffer.writeUInt8(0, offset); offset += 1; 
-        buffer.writeUInt8(level, offset); offset += 1;
-        buffer.writeUInt32BE(vecBuffer.length, offset); offset += 4;
+        const payloadPtr = Buffer.allocUnsafe(16);
+        buf.copy(payloadPtr, 0, off, off + 16); off += 16;
         
-        vecBuffer.copy(buffer, offset); offset += vecBuffer.length;
-        if (payloadPtr) payloadPtr.copy(buffer, offset);
-        offset += 16;
-
-        buffer.writeUInt32BE(nodeId, offset); offset += 4;
+        const id = buf.readUInt32BE(off); off += 4;
         
-        let neighborOffset = offset;
+        const neighbors = [];
         for(let i=0; i<=level; i++) {
-            buffer.writeUInt16BE(0, neighborOffset); 
-            neighborOffset += 2;
-            const maxNeighbors = (i === 0) ? M_MAX0 : M;
-            neighborOffset += (maxNeighbors * 4);
-        }
-        
-        const ptr = await this.allocator.v1.allocate(totalSize);
-        await this.allocator.v1.db._writeChainSafe(ptr, buffer);
-        
-        return SmartPointer.block(constants.TYPE_CUSTOM_INSTANCE, ptr.blockId, totalSize, ptr.isChain, ptr.offset);
-    }
-
-    async loadNode(ptrBuf) {
-        const ptr = SmartPointer.decode(ptrBuf);
-        const blockId = readPointer48(ptr.payload, 0);
-        const length = ptr.payload.readUInt32BE(6);
-        const offsetVal = ptr.payload.readUInt32BE(10);
-        const isChain = ptr.payload.readUInt8(14) === 1;
-
-        const buffer = await this.allocator.v1.db._readChainSafe({ blockId, length, isChain, offset: offsetVal });
-        let offset = 0;
-        
-        if (!buffer || buffer.length < 4) {
-             // B"H: Corrupt read or empty
-             return null;
-        }
-        
-        if (buffer.toString('utf8', 0, 4) !== MAGIC_VEC_NODE) {
-             if (this.allocator.v1.db.debug) console.warn(`B"H [Storage] Invalid Vector Node Magic at ${blockId}:${offsetVal}`);
-             return null; // B"H: Return null on corruption to prevent further errors
-        }
-        offset += 4;
-        
-        const flags = buffer.readUInt8(offset); offset += 1;
-        const deleted = (flags & 1) === 1;
-        const level = buffer.readUInt8(offset); offset += 1;
-        const vecLen = buffer.readUInt32BE(offset); offset += 4;
-        
-        const vecBuf = buffer.subarray(offset, offset + vecLen);
-        
-        const vector = new Float32Array(vecLen / 4);
-        const targetBuffer = Buffer.from(vector.buffer);
-        vecBuf.copy(targetBuffer);
-        
-        offset += vecLen;
-        
-        const payloadPtr = buffer.subarray(offset, offset + 16);
-        offset += 16;
-        const id = buffer.readUInt32BE(offset); offset += 4;
-        
-        const neighbors = []; 
-        for(let i=0; i<=level; i++) {
-            if (offset + 2 > buffer.length) break;
-            const count = buffer.readUInt16BE(offset); offset += 2;
-            const levelNeighbors = [];
+            if (off >= buf.length) break;
+            const count = buf.readUInt16BE(off); off += 2;
+            const nb = [];
             for(let j=0; j<count; j++) {
-                if (offset + 4 > buffer.length) break;
-                levelNeighbors.push(buffer.readUInt32BE(offset));
-                offset += 4;
+                nb.push(buf.readUInt32BE(off)); off += 4;
             }
-            const maxNeighbors = (i === 0) ? M_MAX0 : M;
-            const remaining = maxNeighbors - count;
-            offset += (remaining * 4);
-            
-            neighbors.push(levelNeighbors);
+            neighbors.push(nb);
         }
-
-        return { id, ptr: ptrBuf, level, vector, payloadPtr, neighbors, deleted };
-    }
-
-    async saveNode(nodeData) {
-        // B"H: Safety check for partial nodes
-        if (!nodeData || !nodeData.vector) {
-             if (this.allocator.v1.db.debug) console.warn("B\"H [VectorStorage] Skipping save of invalid node", nodeData ? nodeData.id : 'null');
-             return null;
-        }
-
-        const floatArr = nodeData.vector;
-        const vecBuffer = Buffer.allocUnsafe(floatArr.byteLength);
-        const sourceView = new Uint8Array(floatArr.buffer, floatArr.byteOffset, floatArr.byteLength);
-        vecBuffer.set(sourceView);
         
-        const ptrInfo = SmartPointer.decode(nodeData.ptr);
-        const totalAllocatedSize = ptrInfo.payload.readUInt32BE(6);
-        
-        const buffer = Buffer.allocUnsafe(totalAllocatedSize);
-        buffer.fill(0); // Zeroing for safety as we jump offsets
-        
-        let offset = 0;
-        buffer.write(MAGIC_VEC_NODE, offset); offset += 4;
-        buffer.writeUInt8(nodeData.deleted ? 1 : 0, offset); offset += 1; 
-        buffer.writeUInt8(nodeData.level, offset); offset += 1;
-        buffer.writeUInt32BE(vecBuffer.length, offset); offset += 4;
-        vecBuffer.copy(buffer, offset); offset += vecBuffer.length;
-        nodeData.payloadPtr.copy(buffer, offset); offset += 16;
-        buffer.writeUInt32BE(nodeData.id, offset); offset += 4;
-        
-        for(let i=0; i<=nodeData.level; i++) {
-            const list = nodeData.neighbors[i] || [];
-            buffer.writeUInt16BE(list.length, offset); offset += 2;
-            for(const nId of list) { 
-                buffer.writeUInt32BE(nId, offset); offset += 4; 
-            }
-            const maxNeighbors = (i === 0) ? M_MAX0 : M;
-            const remaining = maxNeighbors - list.length;
-            offset += (remaining * 4);
-        }
-
-        const blockId = readPointer48(ptrInfo.payload, 0);
-        const offVal = ptrInfo.payload.readUInt32BE(10);
-        const isChain = ptrInfo.payload.readUInt8(14) === 1;
-        
-        const writePtr = { blockId, offset: offVal, length: totalAllocatedSize, isChain };
-        await this.allocator.v1.db._writeChainSafe(writePtr, buffer);
-        
-        return nodeData.ptr;
+        return { id, level, vector, payloadPtr, neighbors, deleted, ptr: ptrBuf };
     }
 }
+
 module.exports = VectorStorage;
