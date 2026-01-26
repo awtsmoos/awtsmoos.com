@@ -56,10 +56,7 @@ export function renderAIChat({ tab, options = { prefill: "", autoSend: false } }
         saveBtn.innerText = "...";
         const s = new URLSearchParams(location.search);
         const idx = s.get("idx") ?? "root";
-        await saveChat(history, idx);
-        saveBtn.disabled = false;
-        saveBtn.innerText = "SAVED";
-        setTimeout(() => saveBtn.innerText = "💾 SAVE", 2000);
+        await saveChat(history, idx, saveBtn);
     };
     header.appendChild(saveBtn);
 
@@ -265,32 +262,62 @@ function constructPrompt(currentMsg, context, hist) {
 }
 
 function extractTextFromChunk(chunk) {
-    if (typeof chunk === 'object') {
+    // 1. If it's already an object, safely extract content
+    if (typeof chunk === 'object' && chunk !== null) {
         return chunk?.candidates?.[0]?.content?.parts?.[0]?.text || "";
     }
-    if (typeof chunk !== 'string') return "";
+    
+    // 2. Filter out explicit metadata/debug tags that might leak
+    if (typeof chunk === 'string') {
+        if(chunk.includes("[AIS_METADATA")) return "";
+    } else {
+        return "";
+    }
+
+    // 3. Try parsing the entire chunk as JSON
     try {
         const d = JSON.parse(chunk);
+        // Handle array of candidates or single response
+        if(Array.isArray(d)) {
+             return d[0]?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        }
         return d?.candidates?.[0]?.content?.parts?.[0]?.text || "";
     } catch(e) {}
+
+    // 4. Try parsing line-by-line (NDJSON or streaming list)
     const lines = chunk.split('\n');
     let extractedText = "";
+    let parsedAny = false;
+
     for(const line of lines) {
+        const clean = line.trim().replace(/^,+|^\[|\]$/g, ''); // Remove leading comma/brackets
+        if(!clean) continue;
         try {
-            let clean = line.trim().replace(/^,+|^\[|\]$/g, ''); 
-            if(!clean) continue;
             const d = JSON.parse(clean);
             const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if(txt) extractedText += txt;
+            if(txt) {
+                extractedText += txt;
+                parsedAny = true;
+            }
         } catch(e) {}
     }
-    if(extractedText) return extractedText;
+
+    if(parsedAny) return extractedText;
+
+    // 5. Fallback for raw text ONLY if it doesn't look like partial JSON
+    const trimmed = chunk.trim();
+    if (trimmed.startsWith('{') || trimmed.startsWith('[') || trimmed.includes('"candidates":')) {
+        return ""; // Suppress partial JSON to avoid artifacts
+    }
+
     return chunk; 
 }
 
-async function saveChat(chatHistory, verseSection) {
+async function saveChat(chatHistory, verseSection, btn) {
     const currentAlias = window.curAlias;
     if (!currentAlias) {
+        btn.disabled = false;
+        btn.innerText = "💾 SAVE";
         return alert("Log in to save!");
     }
     const heichelId = window.post?.heichel?.id;
@@ -319,14 +346,54 @@ async function saveChat(chatHistory, verseSection) {
             body: new URLSearchParams(bodyParams),
         });
         const json = await response.json();
+        
+        btn.disabled = false;
+        btn.innerText = "SAVED";
+        setTimeout(() => btn.innerText = "💾 SAVE", 2000);
+
         if (json.success) {
-            activeCommentId = json.details?.id || activeCommentId;
-            alert("Saved successfully!");
+            const newId = json.details?.id || activeCommentId;
+            activeCommentId = newId;
+            
+            // Notify system of new comment
+            if(window.awtsmoosConductor?.handleNewComment) {
+                await window.awtsmoosConductor.handleNewComment({
+                    aliasId: currentAlias,
+                    verseSection: verseSection === "root" ? "root" : parseInt(verseSection),
+                    commentId: newId,
+                    newCommentData: { id: newId, author: currentAlias, content: bodyParams.content, dayuh: dayuhObject }
+                });
+            }
+
+            AwtsmoosPrompt.go({
+                headerTxt: "Chat Immortalized!",
+                bodyTxt: "Your conversation has been saved as a comment on this verse.",
+                options: [
+                    {
+                        text: "View Comment",
+                        action: async () => {
+                            if(window.openCommentsPanelToAlias) {
+                                await window.openCommentsPanelToAlias(currentAlias);
+                                setTimeout(() => {
+                                    const el = document.querySelector(`.comment-content[data-cid="${newId}"]`);
+                                    if(el) {
+                                        el.scrollIntoView({behavior:"smooth", block:"center"});
+                                        el.classList.add("highlight-flash");
+                                    }
+                                }, 500);
+                            }
+                        }
+                    },
+                    { text: "Continue Chatting" }
+                ]
+            });
         } else {
             alert("Error: " + json.error);
         }
     } catch (e) {
         console.error(e);
+        btn.disabled = false;
+        btn.innerText = "💾 SAVE";
         alert("Network Error");
     }
 }

@@ -2,23 +2,41 @@
 //B"H
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { ImageUploader } from "./ImageUploader.js";
+import { createWysiwygEditor } from "./logic/wysiwyg.js";
+import { markdownToHtml } from "./parsing.js";
 
 export class CommentSection {
     imgResults = [];
-    constructor(container) {
+    
+    constructor(container, options = {}) {
         this.container = container;
+        this.options = options;
         this.init();
     }
 
     init() {
+        // Main wrapper
         this.addCommentArea = document.createElement("div");
         this.addCommentArea.classList.add("awtsmoos-comment-entry-monolith");
         this.container.appendChild(this.addCommentArea);
+
+        // 1. Initial "Write" Button (The Trigger)
         this.createInitialButton();
-        this.createCommentBox();
+
+        // 2. The Editor (Hidden initially)
+        this.createEditorInterface();
+
+        // 3. Image Upload Logic
         this.createImageUploadControls();
         this.createGalleryContainer();
+
+        // 4. Action Buttons (Submit/Cancel)
         this.createButtons();
+
+        // B"H - Auto Reveal if requested (for Inline threads)
+        if (this.options.autoReveal && window.curAlias) {
+            this.revealEditor();
+        }
     }
 
     createInitialButton() {
@@ -27,49 +45,125 @@ export class CommentSection {
         this.btn.innerHTML = "<span>✍️ Transcribe your Insight...</span>";
         this.btn.onclick = async () => {
             if (!window.curAlias) {
-                await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Authentication Required", bodyTxt: "You must choose an Alias to contribute." });
+                await AwtsmoosPrompt.go({ 
+                    isAlert: true, 
+                    headerTxt: "Authentication Required", 
+                    bodyTxt: "You must choose an Alias to contribute." 
+                });
                 return;
             }
-            this.btn.style.display = "none";
-            this.commentBox.style.display = "block";
-            this.commentBox.focus();
-            this.buttonContainer.classList.add("revealed");
+            this.revealEditor();
         };
         this.addCommentArea.appendChild(this.btn);
     }
 
-    createCommentBox() {
-        this.commentBox = document.createElement("div");
-        this.commentBox.className = "awtsmoos-writing-surface";
-        this.commentBox.contentEditable = true;
+    createEditorInterface() {
+        // Ensure factory exists before calling
+        if (typeof createWysiwygEditor !== 'function') {
+            console.error("B\"H - WYSIWYG Factory missing!");
+            this.commentBox = document.createElement("div"); // Fallback
+            this.editorWrapper = document.createElement("div");
+            this.editorWrapper.appendChild(this.commentBox);
+        } else {
+            const { editorWrapper, contentArea, sourceArea } = createWysiwygEditor();
+            this.editorWrapper = editorWrapper;
+            this.commentBox = contentArea;
+            this.sourceArea = sourceArea; // Keep ref to source for syncing
+        }
+        
         this.commentBox.dataset.placeholder = "Channel the Infinite...";
-        this.commentBox.style.display = "none";
+        
+        // Hide initially
+        this.editorWrapper.style.display = "none";
+        
+        // Input listener to enable submit button
         this.commentBox.oninput = () => {
-            this.submitBtn.disabled = !this.commentBox.innerText.trim() && this.imgResults.length === 0;
+            const hasText = this.commentBox.innerText.trim().length > 0;
+            const hasImages = this.imgResults.length > 0;
+            this.submitBtn.disabled = !(hasText || hasImages);
         };
-        this.addCommentArea.appendChild(this.commentBox);
+
+        this.addCommentArea.appendChild(this.editorWrapper);
+
+        // B"H - ADD AI BAR AT THE BOTTOM OF THE EDITOR
+        this.aiDraftBar = document.createElement("div");
+        this.aiDraftBar.className = "ai-draft-bar";
+        this.aiDraftBar.innerHTML = `
+            <div class="ai-label">Awtsmoos AI Assistant</div>
+            <button class="btn-ai-draft">✨ Draft Insight</button>
+        `;
+        this.aiDraftBar.querySelector("button").onclick = () => this.openAiDraftModal();
+        
+        // Append inside wrapper, at the end (below text area)
+        this.editorWrapper.appendChild(this.aiDraftBar);
+    }
+
+    async openAiDraftModal() {
+        const userIntent = prompt("Describe what you want to say:");
+        if (!userIntent) return;
+
+        // Visual feedback
+        this.commentBox.innerHTML = "<p><i>AI is weaving letters...</i></p>";
+        
+        // Context Gathering
+        const s = new URLSearchParams(location.search);
+        const idx = s.get("idx");
+        let contextText = "";
+        if (idx !== null && window.sectionDayuh && window.sectionDayuh[idx]) {
+            let sec = window.sectionDayuh[idx];
+            contextText = Array.isArray(sec) ? sec.flat(Infinity).join("\n") : sec;
+        } else {
+            contextText = document.getElementById("realPost")?.innerText.substring(0, 1000) || "";
+        }
+        
+        const strip = (html) => {
+            let tmp = document.createElement("DIV");
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || "";
+        };
+        contextText = strip(contextText);
+
+        const promptText = `B"H\nUser intent: "${userIntent}"\nContext: "${contextText.substring(0, 500)}..."\nDraft a short, relevant comment in Markdown format.`;
+
+        try {
+            const draftMarkdown = await window.awtsmoosAi({ prompt: promptText });
+            
+            // B"H - PARSE MARKDOWN TO HTML
+            const draftHtml = markdownToHtml(draftMarkdown);
+            
+            this.commentBox.innerHTML = draftHtml; 
+            
+            // Sync source view if it exists
+            if(this.sourceArea) this.sourceArea.value = draftHtml;
+            
+            this.submitBtn.disabled = false;
+        } catch (e) {
+            alert("AI Error: " + e.message);
+            this.commentBox.innerHTML = "";
+        }
+    }
+
+    revealEditor() {
+        this.btn.style.display = "none";
+        this.editorWrapper.style.display = "flex"; 
+        this.buttonContainer.classList.add("revealed");
+        this.commentBox.focus();
     }
 
     createImageUploadControls() {
         this.imageUploader = new ImageUploader(this.createGalleryContainer());
+        
         const trigger = document.createElement("div");
         trigger.className = "awtsmoos-media-trigger";
         trigger.innerHTML = `<span>📷 Add Sacred Imagery</span>`;
+        
         trigger.onclick = async () => {
             const res = await this.imageUploader.uploadImages();
             this.imgResults = res;
-            this.galleryContainer.innerHTML = "";
-            res.forEach(r => {
-                if(r?.success) {
-                    const img = document.createElement("img");
-                    img.src = r.data?.thumb?.url;
-                    img.className = "awtsmoos-creation-thumbnail";
-                    this.galleryContainer.appendChild(img);
-                }
-            });
-            this.galleryContainer.style.display = res.length > 0 ? "flex" : "none";
+            this.updateGallery();
             this.submitBtn.disabled = false;
         };
+        
         this.addCommentArea.appendChild(trigger);
     }
 
@@ -78,41 +172,74 @@ export class CommentSection {
         this.galleryContainer = document.createElement("div");
         this.galleryContainer.className = "awtsmoos-comment-gallery-grid";
         this.galleryContainer.style.display = "none";
+        this.galleryContainer.style.gap = "8px";
+        this.galleryContainer.style.marginTop = "8px";
         this.addCommentArea.appendChild(this.galleryContainer);
         return this.galleryContainer;
+    }
+
+    updateGallery() {
+        this.galleryContainer.innerHTML = "";
+        this.imgResults.forEach(r => {
+            if(r?.success) {
+                const img = document.createElement("img");
+                img.src = r.data?.thumb?.url;
+                img.className = "awtsmoos-creation-thumbnail";
+                img.style.height = "60px";
+                img.style.border = "1px solid #ccc";
+                this.galleryContainer.appendChild(img);
+            }
+        });
+        this.galleryContainer.style.display = this.imgResults.length > 0 ? "flex" : "none";
     }
 
     createButtons() {
         this.buttonContainer = document.createElement("div");
         this.buttonContainer.className = "awtsmoos-comment-actions-bar";
         this.addCommentArea.appendChild(this.buttonContainer);
+
         const cancelBtn = document.createElement("button");
         cancelBtn.className = "btn awtsmoos-action-cancel";
         cancelBtn.innerText = "Cancel";
         cancelBtn.onclick = () => this.resetForm();
+
         this.submitBtn = document.createElement("button");
         this.submitBtn.className = "btn awtsmoos-action-submit";
         this.submitBtn.innerHTML = "<span>Transmit</span>";
         this.submitBtn.disabled = true;
         this.submitBtn.onclick = this.submitComment.bind(this);
+
         this.buttonContainer.append(cancelBtn, this.submitBtn);
     }
 
     resetForm() {
-        this.commentBox.innerText = "";
+        this.commentBox.innerHTML = ""; 
+        if(this.sourceArea) this.sourceArea.value = "";
+        
         this.imgResults = [];
-        this.galleryContainer.innerHTML = "";
-        this.galleryContainer.style.display = "none";
-        this.commentBox.style.display = "none";
+        this.updateGallery();
+        
+        this.editorWrapper.style.display = "none";
         this.buttonContainer.classList.remove("revealed");
-        this.btn.style.display = "flex";
+        this.btn.style.display = "flex"; 
         this.submitBtn.disabled = true;
     }
 
     async submitComment() {
-        const content = this.commentBox.innerText.trim();
+        // B"H - Ensure we grab from whichever view is active/latest
+        let content = this.commentBox.innerHTML; 
+        if (this.sourceArea && this.sourceArea.style.display !== 'none') {
+            content = this.sourceArea.value;
+        }
+        
+        const plainText = this.commentBox.innerText.trim();
+        
         const images = this.imgResults.map(q => q?.success ? { medium: q.data.medium?.url, thumbnail: q.data.thumb?.url, img: q.data.url } : null).filter(Boolean);
-        if (!content && images.length === 0) return;
+        
+        // Strip HTML to check meaningful content
+        const stripped = content.replace(/<[^>]*>?/gm, '').trim();
+        
+        if (!stripped && images.length === 0 && !content.includes('img')) return;
 
         this.submitBtn.innerText = "...Transmitting...";
         this.submitBtn.disabled = true;
@@ -121,6 +248,7 @@ export class CommentSection {
             const sParams = new URLSearchParams(location.search);
             const idx = sParams.get("idx");
             const sub = sParams.get("sub");
+            
             const verseSection = idx !== null ? parseInt(idx) : "root";
 
             let dayuhObject = { images };
@@ -131,7 +259,7 @@ export class CommentSection {
                 method: "POST",
                 body: new URLSearchParams({
                     aliasId: window.curAlias,
-                    content: content,
+                    content: content, 
                     seriesId: window?.post?.parentSeriesId,
                     dayuh: JSON.stringify(dayuhObject),
                 }),
@@ -140,11 +268,7 @@ export class CommentSection {
             const json = await response.json();
             if (!json.success) throw new Error(json.error || "Void response.");
 
-            // B"H - SAFE ID SCANNER (Same as actions.js)
-            let newId = null;
-            if (json.details?.id) newId = json.details.id;
-            else if (json.success?.id) newId = json.success.id;
-            else if (json.id) newId = json.id;
+            let newId = json.details?.id || json.success?.id || json.id;
 
             if (newId && window.awtsmoosConductor?.handleNewComment) {
                 const newCommentData = { id: newId, author: window.curAlias, content, dayuh: dayuhObject };

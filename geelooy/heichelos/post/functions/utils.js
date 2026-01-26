@@ -16,6 +16,7 @@
  * @description Manifests raw HTML strings into a parent vessel.
  */
 export function appendHTML(html, par) {
+    if (!par) return;
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, "text/html");
     Array.from(doc.body.childNodes).forEach((node, index, array) => {
@@ -29,6 +30,14 @@ export function appendHTML(html, par) {
  * respecting the scripts and custom transformations like "toldafy".
  */
 export function appendWithSubChildren(node, parent, array) {
+    if (!parent) return;
+    
+    // B"H - Footnote newline fix: If a P tag only contains a SUP, append the SUP directly.
+    if (node.nodeType === 1 && node.tagName === "P" && node.childNodes.length === 1 && node.firstChild.nodeType === 1 && node.firstChild.tagName === "SUP") {
+        appendWithSubChildren(node.firstChild, parent, array);
+        return; 
+    }
+
     if (node.tagName === "SCRIPT" && !node.src) {
         try { 
             if(!node.innerHTML.includes("var x = /")) {
@@ -67,7 +76,6 @@ export function appendWithSubChildren(node, parent, array) {
  * @method adjustFontSize
  * @description B"H - THE FONT ENGINE. 
  * Unified to command the root context for absolute consistency.
- * This is now a proper EXPORT to satisfy the Aggregator's requirements.
  */
 export function adjustFontSize(action) {
     const context = document.querySelector('.post-reader-localized-context');
@@ -120,8 +128,11 @@ export function isHebrewWord(word) {
 
 export function isFirstCharacterHebrew(str) {
     if(!str) return false;
-    const sample = str.substring(0, 100);
-    return /[\u0590-\u05FF]/.test(sample);
+    // Check first significant character
+    const match = str.match(/[\S]/);
+    if (!match) return false;
+    const charCode = match[0].charCodeAt(0);
+    return charCode >= 0x0590 && charCode <= 0x05FF;
 }
 
 export function containsHebrew(str) {
@@ -130,8 +141,9 @@ export function containsHebrew(str) {
 }
 
 export function stripTags(html) {
+    if (!html) return "";
     const div = document.createElement("div");
-    div.innerHTML = html.split("</br>").join("\n");
+    div.innerHTML = html.split("</br>").join("\n").replace(/<br\s*\/?>/gi, '\n');
     return div.textContent || div.innerText || "";
 }
 

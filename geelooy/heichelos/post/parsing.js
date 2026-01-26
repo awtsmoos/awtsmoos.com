@@ -1,7 +1,16 @@
 //B"H
 /**
- * Markdown Parser - The Scribe of Awtsmoos
- * A state-based parser handling blocks, lists, and inline styles.
+ * @file parsing.js
+ * @description
+ * The Scribe of Awtsmoos. 
+ * Converts raw text (Dayuh) into the HTML vessels of the browser (Otiyot).
+ * Handles:
+ * - Headers (#, ##)
+ * - Lists (-, *, 1.) with nesting
+ * - Blockquotes (>)
+ * - Code Blocks (```)
+ * - Inline Styles (**, *, `)
+ * - Links (Intelligent routing)
  */
 
 import { isFirstCharacterHebrew } from "./functions/utils.js";
@@ -15,7 +24,7 @@ export function markdownToHtml(markdown) {
     // 1. Normalize line endings
     let src = markdown.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
-    // 2. Extract Code Blocks to protect them
+    // 2. Extract Code Blocks to protect them from processing
     const codeBlocks = [];
     src = src.replace(/^```(\w*)\n([\s\S]*?)```/gm, (match, lang, code) => {
         const id = `__CODE_BLOCK_${codeBlocks.length}__`;
@@ -141,6 +150,8 @@ export function markdownToHtml(markdown) {
 
         // --- Empty Line ---
         if (line.trim() === "") {
+            // Keep empty lines as spacers if needed, or ignore
+            // For now, we'll insert a break if previous wasn't a block end
             return; 
         }
 
@@ -190,8 +201,15 @@ function parseInline(text) {
     // 2. Images ![alt](url)
     text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="md-img" />');
 
-    // 3. Links [text](url)
-    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+    // 3. Links [text](url) - INTELLIGENT ROUTING
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
+        // If it starts with #, it's an internal anchor -> No target blank
+        if (url.startsWith('#')) {
+            return `<a href="${url}" class="internal-link">${linkText}</a>`;
+        }
+        // Otherwise, open in new tab
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+    });
 
     // 4. Bold **text**
     text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');

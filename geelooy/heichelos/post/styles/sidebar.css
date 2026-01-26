@@ -36,6 +36,43 @@
     letter-spacing: 2px;
 }
 
+.post-reader-localized-context .awtsmoos-chrome-btn {
+    background: transparent !important;
+    border: 2px solid transparent !important;
+    color: var(--color-ink) !important;
+    font-weight: 900 !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+    padding: 2px 8px !important;
+    line-height: 1 !important;
+    transition: all 0.2s !important;
+    border-radius: 4px !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn:hover {
+    background: var(--color-accent) !important;
+    border-color: var(--color-ink) !important;
+    box-shadow: 2px 2px 0 var(--color-ink) !important;
+    transform: translate(-1px, -1px) !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn.close:hover {
+    background: var(--color-danger) !important;
+    color: white !important;
+}
+
+/* FULLSCREEN MODE */
+.post-reader-localized-context .sidebar.fullscreen-mode {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
 /* B"H - REFINED BREADCRUMBS
    Fixes the horizontal scroll 'recursion' issue by wrapping correctly.
 */

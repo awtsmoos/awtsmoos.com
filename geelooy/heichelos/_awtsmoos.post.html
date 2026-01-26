@@ -6,23 +6,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/heichelos/new-style.css" type="text/css">
+    <link rel="stylesheet" href="/heichelos/new-style.css?v=localized" type="text/css">
     
     <!-- B"H - Divine Separation of Styles -->
-    <link rel="stylesheet" href="/heichelos/post/styles/layout.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/sidebar.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/tabs.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/content.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/footnotes.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/aiChatStyles.css">
-     <link rel="stylesheet" href="/heichelos/post/styles/comments/structure.css?v=insane">
+    <link rel="stylesheet" href="/heichelos/post/styles/theme.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/layout.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/structure.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/components.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/scroll.css?v=localized">
+    
+    <link rel="stylesheet" href="/heichelos/post/styles/sidebar.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/tabs.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/content.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/footnotes.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/aiChatStyles.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/comments/structure.css?v=insane">
     <link rel="stylesheet" href="/heichelos/post/styles/comments/card.css?v=insane">
     <link rel="stylesheet" href="/heichelos/post/styles/comments/inputs.css?v=insane">
-    <link rel="stylesheet" href="/heichelos/post/styles/imageUploaderStyles.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/inlineThreadStyles.css">
-    <link rel="stylesheet" href="/heichelos/post/styles/commandPalette.css">
+    <link rel="stylesheet" href="/heichelos/post/styles/comments/editor.css?v=insane">
+    <link rel="stylesheet" href="/heichelos/post/styles/imageUploaderStyles.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/inlineThreadStyles.css?v=localized">
+    <link rel="stylesheet" href="/heichelos/post/styles/commandPalette.css?v=localized">
 
-    <link rel="stylesheet" href="/style/home/main.css">
+    <link rel="stylesheet" href="/style/home/main.css?v=localized">
     
     <!-- B"H - The Scribe's Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,12 +43,15 @@
     <!-- This style tag is for user-defined custom CSS -->
     <style id="awtsmoos-custom-styles"></style>
 
-    <!-- GLOBAL SERVER HEADER: Physically outside the wrapper to remain sovereign -->
-    <?<script> return $a("nav/header.html") </script>?>
-
+    <!-- WRAPPER: NOW CONTAINS EVERYTHING -->
     <div class="all awtsmoospage post-reader-localized-context">
         
-        <!-- B"H - THE EXPANDED FLOATING ARK -->
+        <!-- HEADER: Inside the flex column to ensure visibility -->
+        <div class="awtsmoos-integrated-header">
+            <?<script> return $a("nav/header.html") </script>?>
+        </div>
+
+        <!-- B"H - THE EXPANDED FLOATING ARK (HORIZONTAL) -->
 	    <div class="awtsmoos-floating-controls">
             <button id="typographyBtn" title="Typography & Settings">A</button>
             <button id="bookmarksBtn" title="Bookmarks">B</button>
@@ -69,9 +78,10 @@
                 <div class="settings-group">
                     <div class="control-label">Text Scale</div>
                     <div class="text-controls">
-                        <button class="font-adjust-btn" onclick="adjustFontSize('decrease')">-</button>
+                        <!-- B"H - ADDED IDS FOR LISTENERS -->
+                        <button class="font-adjust-btn" id="fontDecreaseBtn">-</button>
                         <div class="font-size-display">Aa</div>
-                        <button class="font-adjust-btn" onclick="adjustFontSize('increase')">+</button>
+                        <button class="font-adjust-btn" id="fontIncreaseBtn">+</button>
                     </div>
                 </div>
 
@@ -130,22 +140,26 @@
         </div>
         
         <div class="main">
-            <div class="content" id="realPost">
-                <?<script>
-                    return $a("loading.html")
-                </script>?>
-            </div>
-            
-            <!-- B"H - THE ATZEI CHAIM (TREES OF LIFE) -->
-            <div class="scroll-roll-top">
-                <div class="scroll-wood left"></div>
-                <div class="scroll-wood right"></div>
-            </div>
-            <div class="scroll-roll-bottom">
-                <div class="scroll-wood left"></div>
-                <div class="scroll-wood right"></div>
+            <!-- Scroll View Wrapper for Split Screen -->
+            <div class="scroll-view-wrapper">
+                <div class="content" id="realPost">
+                    <?<script>
+                        return $a("loading.html")
+                    </script>?>
+                </div>
+                
+                <!-- B"H - THE ATZEI CHAIM (TREES OF LIFE) -->
+                <div class="scroll-roll-top">
+                    <div class="scroll-wood left"></div>
+                    <div class="scroll-wood right"></div>
+                </div>
+                <div class="scroll-roll-bottom">
+                    <div class="scroll-wood left"></div>
+                    <div class="scroll-wood right"></div>
+                </div>
             </div>
 
+            <!-- SIDEBAR: Default state is hidden -->
             <div class="sidebar hidden-comments">
                 <!-- Managed by TabManager.js -->
             </div>
@@ -154,7 +168,7 @@
         <!-- B"H - THE ARK OF COMMAND -->
         <div id="command-palette-container"></div>
         
-        <script type="module" src="/heichelos/post/postLogic.js"></script>
+        <script type="module" src="/heichelos/post/postLogic.js?v=localized"></script>
     </div>
 </body>
 </html>

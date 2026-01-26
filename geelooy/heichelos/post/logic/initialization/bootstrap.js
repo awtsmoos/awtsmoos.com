@@ -62,6 +62,7 @@ export async function ignite() {
             name: "revelation",
             onopen: async ({ actualTab }) => populateRevelationTab(actualTab, post, tabRefs)
         });
+        tabRefs.revelation = revelationTab; // B"H - Register root tab
 
         applyUserPreferences();
         setupUIListeners(); 
@@ -75,12 +76,32 @@ export async function ignite() {
             appendHTML(makeNavBars(post, series, pIdx), viewport);
         }
         
-        // B"H - THE RESET: Command the Revelation tab to open first.
-        // This ensures the stack is clean and the Back button is hidden correctly.
         revelationTab.open();
 
         await indexSwitch(true);
         await updateCommentHeader();
+        
+        // B"H - URL STATE RESTORATION
+        const urlParams = new URLSearchParams(window.location.search);
+        const panelToOpen = urlParams.get('panel');
+        const userToOpen = urlParams.get('u');
+
+        if (panelToOpen && panelToOpen !== 'revelation') { // Don't re-open root
+            const targetTab = Object.values(tabRefs).find(t => t.name === panelToOpen);
+            if (targetTab) {
+                console.log(`B"H - [Bootstrap] Restoring panel state from URL: ${panelToOpen}`);
+                toggleSidebar(true);
+                targetTab.open();
+                
+                if (panelToOpen === 'insights' && userToOpen) {
+                    setTimeout(async () => {
+                        console.log(`B"H - [Bootstrap] Restoring user view from URL: @${userToOpen}`);
+                        const { openCommentsPanelToAlias } = await import("../comments/panel.js");
+                        await openCommentsPanelToAlias(userToOpen, false); 
+                    }, 500);
+                }
+            }
+        }
         
         if (new URLSearchParams(location.search).get("idx")) {
             setTimeout(() => scrollToActiveEl(), 600);

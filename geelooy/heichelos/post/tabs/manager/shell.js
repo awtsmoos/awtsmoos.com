@@ -31,18 +31,39 @@ export function createSidebarShell(parent, headerTxt, onGlobalClose) {
     titleEl.className = "awtsmoos-current-view-title";
     titleEl.innerText = headerTxt;
 
+    const controls = document.createElement("div");
+    controls.style.display = "flex";
+    controls.style.gap = "8px";
+
+    // Fullscreen Toggle
+    const fullScreenBtn = document.createElement("button");
+    fullScreenBtn.className = "awtsmoos-chrome-btn";
+    fullScreenBtn.innerHTML = "⛶"; // Expand icon
+    fullScreenBtn.title = "Toggle Fullscreen";
+    fullScreenBtn.onclick = (e) => {
+        e.stopPropagation();
+        parent.classList.toggle("fullscreen-mode");
+        const isFull = parent.classList.contains("fullscreen-mode");
+        fullScreenBtn.innerHTML = isFull ? "╬" : "⛶"; // Contract vs Expand
+    };
+
     const closeBtn = document.createElement("button");
-    closeBtn.className = "awtsmoos-chrome-close";
+    closeBtn.className = "awtsmoos-chrome-btn close";
     closeBtn.innerHTML = "×";
     closeBtn.title = "Close the Sidebar Gate";
     closeBtn.onclick = (e) => {
         e.stopPropagation();
         console.log("B\"H - [Shell] Command received: Collapsing the expanse.");
+        // Reset fullscreen on close
+        parent.classList.remove("fullscreen-mode");
+        fullScreenBtn.innerHTML = "⛶";
+        
         toggleSidebar(false);
         if(onGlobalClose) onGlobalClose();
     };
 
-    chromeRow.append(titleEl, closeBtn);
+    controls.append(fullScreenBtn, closeBtn);
+    chromeRow.append(titleEl, controls);
     headerChrome.appendChild(chromeRow);
 
     // Breadcrumbs: The tiny stars that mark the path

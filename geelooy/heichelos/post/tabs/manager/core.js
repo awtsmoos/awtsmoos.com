@@ -43,10 +43,8 @@ export default class TabManager {
         return tabObj;
     }
 
-    // HELPER: Enforce Back Button State
     enforceBackBtnState(tabObj) {
         if(!tabObj || !tabObj.backBtn) return;
-        // B"H - ABSOLUTE TRUTH: Only show back if depth > 1
         if (this.stack.length > 1) {
             tabObj.backBtn.style.setProperty("display", "flex", "important");
         } else {
@@ -83,7 +81,7 @@ export default class TabManager {
         const current = this.stack[this.stack.length - 1];
         this.stack.push(tabObj);
         
-        this.enforceBackBtnState(tabObj); // ENFORCE STATE
+        this.enforceBackBtnState(tabObj);
         
         slideIn(tabObj, current, this.viewport);
         this.updateCrumbs();
@@ -102,8 +100,10 @@ export default class TabManager {
         slideOut(leaving, returning, this.viewport);
         
         if (returning) {
-            this.enforceBackBtnState(returning); // ENFORCE STATE ON RETURN
+            this.enforceBackBtnState(returning);
             this.syncUrl(returning);
+        } else if (!isInternalJump) { // Popped the last tab
+             this.syncUrl(null);
         }
 
         this.updateCrumbs();

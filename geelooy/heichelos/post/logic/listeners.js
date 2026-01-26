@@ -3,13 +3,9 @@
  * @file listeners.js
  * @description 
  * B"H - THE GATES OF PERCEPTION.
- * This module governs the sensory input of the Scribe's interface. 
- * It ensures the "i" and "A" keys function as physical latches, manifesting
- * the Sidebar and Typography panels. Crucially, it commits the state of the 
- * gates to the 'Memory of the Vessel' (LocalStorage), allowing the seeker's 
- * perspective to persist through the constant recreation of the page.
+ * Connects the physical inputs (buttons, keys) to the metaphysical changes (styles, state).
  */
-import { updateQueryStringParameter } from "../functions/utils.js";
+import { updateQueryStringParameter, adjustFontSize } from "../functions/utils.js";
 
 /**
  * toggleSidebar
@@ -28,12 +24,12 @@ export function toggleSidebar(forceState = null) {
     const shouldShow = forceState !== null ? forceState : currentlyHidden;
 
     if (shouldShow) {
-        console.log("B\"H - [Listeners] Expanding the Sidebar Gate.");
+        // console.log("B\"H - [Listeners] Expanding the Sidebar Gate.");
         sidebar.classList.remove("hidden-comments");
         if(commBtn) commBtn.classList.add("pushed");
         localStorage.setItem("awtsmoos-sidebar-visible", "true");
     } else {
-        console.log("B\"H - [Listeners] Collapsing the Sidebar Gate.");
+        // console.log("B\"H - [Listeners] Collapsing the Sidebar Gate.");
         sidebar.classList.add("hidden-comments");
         if(commBtn) commBtn.classList.remove("pushed");
         localStorage.setItem("awtsmoos-sidebar-visible", "false");
@@ -56,18 +52,16 @@ export async function renderBookmarksPanel(tab) {
 
     const list = document.createElement("ul");
     list.className = "bookmarks-list";
-    list.style.listStyle = "none";
-    list.style.padding = "0";
     
     bookmarks.forEach((bm, i) => {
         const li = document.createElement("li");
-        li.style.cssText = "padding: 15px; border-bottom: 2px solid var(--color-ink); cursor: pointer; position: relative;";
-        li.innerHTML = `<div style="font-weight: 900; text-transform: uppercase; font-size: 12px; margin-bottom: 5px;">${bm.title}</div><div style="font-size: 14px; opacity: 0.8;">${bm.textPreview}</div>`;
+        li.style.cssText = "padding: 15px; border-bottom: 1px solid var(--color-ink); cursor: pointer; position: relative; background: var(--bg-surface);";
+        li.innerHTML = `<div style="font-weight: 900; text-transform: uppercase; font-size: 11px; margin-bottom: 5px;">${bm.title}</div><div style="font-size: 13px; opacity: 0.8; line-height: 1.3;">${bm.textPreview}</div>`;
         
         // Remove Btn
         const del = document.createElement("button");
         del.innerHTML = "×";
-        del.style.cssText = "position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; font-weight: 900; cursor: pointer; color: var(--color-danger);";
+        del.className = "bookmark-delete-btn"; // Use CSS class
         del.onclick = (e) => {
             e.stopPropagation();
             bookmarks.splice(i, 1);
@@ -102,14 +96,27 @@ export function setupUIListeners() {
         toggleSidebar(false);
     }
 
-    // 2. Global Click Dispatcher
+    // 2. FONT SIZE CONTROLS (The "+" and "-" buttons)
+    // We bind these explicitly here to ensure they catch the event.
+    const fontInc = document.getElementById('fontIncreaseBtn');
+    const fontDec = document.getElementById('fontDecreaseBtn');
+    
+    if (fontInc) fontInc.onclick = (e) => { 
+        e.preventDefault(); e.stopPropagation(); 
+        adjustFontSize('increase'); 
+    };
+    if (fontDec) fontDec.onclick = (e) => { 
+        e.preventDefault(); e.stopPropagation(); 
+        adjustFontSize('decrease'); 
+    };
+
+    // 3. Global Click Dispatcher
     document.body.addEventListener("click", (e) => {
         
         // --- SIDEBAR TOGGLE (THE "i" SIGNAL) ---
         const commBtn = e.target.closest("#commentaryBtn");
         if (commBtn) {
             e.preventDefault(); e.stopPropagation();
-            console.log("B\"H - [Listeners] 'i' button clicked.");
             toggleSidebar();
             return;
         }
@@ -118,7 +125,6 @@ export function setupUIListeners() {
         const typeBtn = e.target.closest("#typographyBtn");
         if (typeBtn) {
             e.preventDefault(); e.stopPropagation();
-            console.log("B\"H - [Listeners] 'A' button clicked.");
             const panel = document.getElementById("typographyDetails");
             if (panel) {
                 const wasHidden = panel.classList.contains("hidden-details");
@@ -152,16 +158,15 @@ export function setupUIListeners() {
         }
     });
 
-    // 3. COLOR ENGINE LISTENERS
+    // 4. COLOR ENGINE LISTENERS
     document.querySelectorAll('.color-control input[type="color"]').forEach(input => {
         input.addEventListener('input', (e) => {
             const cssVar = e.target.dataset.cssVar;
-            console.log(`B"H - [Listeners] Tincture Shift: ${cssVar} to ${e.target.value}`);
             document.querySelector('.post-reader-localized-context').style.setProperty(cssVar, e.target.value);
         });
     });
     
-    // 4. RESET RITUAL
+    // 5. RESET RITUAL
     const resetBtn = document.getElementById("resetDefaultsBtn");
     if(resetBtn) {
         resetBtn.addEventListener("click", () => {

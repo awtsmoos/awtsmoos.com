@@ -1,7 +1,7 @@
 //B"H
 /**
  * Image Uploader Component.
- * Purged of obsolete JS-based CSS injectors.
+ * Flawless execution. Neo-Brutalist UI.
  */
 class ImageUploader {
     results = [];
@@ -13,119 +13,128 @@ class ImageUploader {
     uploadImages() {
         return new Promise((resolve) => {
             const self = this;
-            const popup = document.createElement("div");
-            popup.classList.add("image-upload-popup");
+            const popupOverlay = document.createElement("div");
+            popupOverlay.className = "awtsmoos-modal-overlay";
+            popupOverlay.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(0,0,0,0.8); z-index: 20000;
+                display: flex; align-items: center; justify-content: center;
+                backdrop-filter: blur(5px);
+            `;
 
-            const closeButton = document.createElement("div");
-            closeButton.classList.add("btn");
-            closeButton.innerText = "x";
+            const popup = document.createElement("div");
+            popup.className = "image-upload-popup";
+            popup.style.cssText = `
+                background: #fff; border: 4px solid #000; padding: 30px;
+                box-shadow: 10px 10px 0 #2b00ff; max-width: 500px; width: 90%;
+                display: flex; flex-direction: column; gap: 20px;
+                font-family: 'Space Grotesk', monospace; position: relative;
+            `;
+
+            popupOverlay.appendChild(popup);
+
+            const header = document.createElement("h3");
+            header.innerText = "MANIFEST IMAGERY";
+            header.style.cssText = "margin: 0; font-weight: 900; font-size: 24px; text-transform: uppercase;";
+            popup.appendChild(header);
+
+            const closeButton = document.createElement("button");
+            closeButton.innerText = "×";
+            closeButton.style.cssText = `
+                position: absolute; top: 10px; right: 10px;
+                background: transparent; border: none; font-size: 28px; font-weight: 900;
+                cursor: pointer; color: #000;
+            `;
+            closeButton.onclick = () => popupOverlay.remove();
             popup.appendChild(closeButton);
-            closeButton.onclick = () => popup.remove();
+
+            const apiKeyInput = document.createElement("input");
+            apiKeyInput.type = "password"; // Secure visibility
+            apiKeyInput.placeholder = "Enter ImgBB API Key";
+            apiKeyInput.style.cssText = `
+                padding: 12px; border: 2px solid #000; font-family: inherit; width: 100%;
+                box-sizing: border-box; font-size: 14px;
+            `;
+            popup.appendChild(apiKeyInput);
+
+            const savedApiKey = localStorage.getItem("imgbb-api-key");
+            if (savedApiKey) apiKeyInput.value = savedApiKey;
+
+            apiKeyInput.oninput = () => localStorage.setItem("imgbb-api-key", apiKeyInput.value);
 
             const dropzone = document.createElement("div");
-            dropzone.classList.add("dropzone");
-            dropzone.innerText = "Drop your pictures here or click to select.";
+            dropzone.className = "dropzone";
+            dropzone.innerText = "DROP FILES HERE OR CLICK TO SELECT";
+            dropzone.style.cssText = `
+                border: 4px dashed #000; padding: 40px; text-align: center;
+                font-weight: 800; cursor: pointer; background: #f0f0f0;
+                transition: all 0.2s;
+            `;
             popup.appendChild(dropzone);
 
             const fileInput = document.createElement("input");
             fileInput.type = "file";
             fileInput.accept = "image/*";
             fileInput.multiple = true;
+            fileInput.style.display = "none";
             dropzone.appendChild(fileInput);
 
-            dropzone.addEventListener("click", () => fileInput.click());
-            dropzone.addEventListener("dragover", (e) => {
+            dropzone.onclick = () => fileInput.click();
+            dropzone.ondragover = (e) => { e.preventDefault(); dropzone.style.background = "#d9933d"; };
+            dropzone.ondragleave = () => { dropzone.style.background = "#f0f0f0"; };
+            dropzone.ondrop = (e) => {
                 e.preventDefault();
-                dropzone.classList.add("drag-over");
-            });
-            dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag-over"));
-            dropzone.addEventListener("drop", (e) => {
-                e.preventDefault();
-                dropzone.classList.remove("drag-over");
+                dropzone.style.background = "#f0f0f0";
                 fileInput.files = e.dataTransfer.files;
-            });
-
-            const apiKeyInput = document.createElement("input");
-            apiKeyInput.type = "text";
-            apiKeyInput.placeholder = "Enter your ImgBB API key";
-            popup.appendChild(apiKeyInput);
-
-            const savedApiKey = localStorage.getItem("imgbb-api-key");
-            if (savedApiKey) {
-                apiKeyInput.value = savedApiKey;
-            }
-
-            apiKeyInput.oninput = apiKeyInput.onchange = () => {
-                localStorage.setItem("imgbb-api-key", apiKeyInput.value);
+                handleFiles();
             };
+            fileInput.onchange = handleFiles;
 
-            const overallProgress = document.createElement("div");
-            overallProgress.classList.add("progress-bar");
-            const individualProgress = document.createElement("div");
-            individualProgress.classList.add("radial-loader");
-            popup.appendChild(overallProgress);
-            popup.appendChild(individualProgress);
+            const progressArea = document.createElement("div");
+            progressArea.style.cssText = "font-size: 12px; font-weight: 700; min-height: 20px;";
+            popup.appendChild(progressArea);
 
-            const gallery = document.createElement("div");
-            gallery.classList.add("gallery");
-            popup.appendChild(gallery);
-
-            const uploadBtn = document.createElement("button");
-            uploadBtn.innerText = "Upload Images";
-            popup.appendChild(uploadBtn);
-
-            const doneBtn = document.createElement("button");
-            doneBtn.innerText = "Done";
-            doneBtn.style.display = "none";
-            popup.appendChild(doneBtn);
-
-            document.body.appendChild(popup);
-
-            uploadBtn.onclick = async () => {
-                if (!apiKeyInput.value) {
-                    alert("Please enter an API key");
+            async function handleFiles() {
+                const key = apiKeyInput.value.trim();
+                if (!key) {
+                    alert("API Key Required.");
                     return;
                 }
-                const files = fileInput.files;
-                if (!files.length) {
-                    alert("Please select images to upload");
-                    return;
-                }
-                overallProgress.style.width = "0%";
-                let completed = 0;
-                for (const file of Array.from(files)) {
+                const files = Array.from(fileInput.files);
+                if (!files.length) return;
+
+                progressArea.innerText = `Uploading ${files.length} images...`;
+                
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    progressArea.innerText = `Uploading ${i + 1}/${files.length}: ${file.name}...`;
+                    
                     const formData = new FormData();
                     formData.append("image", file);
-                    individualProgress.classList.add("loading");
-                    const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKeyInput.value}`, { method: "POST", body: formData });
-                    const result = await response.json();
-                    individualProgress.classList.remove("loading");
-                    if (result.data) {
-                        const thumbnail = document.createElement("div");
-                        thumbnail.classList.add("thumbnail");
-                        thumbnail.style.backgroundImage = `url(${result.data.thumb.url})`;
-                        thumbnail.title = file.name;
-                        const removeBtn = document.createElement("div");
-                        removeBtn.classList.add("remove-btn");
-                        removeBtn.innerText = "x";
-                        thumbnail.appendChild(removeBtn);
-                        removeBtn.onclick = () => {
-                            gallery.removeChild(thumbnail);
-                            self.results = self.results.filter((r) => r.data.id !== result.data.id);
-                        };
-                        gallery.appendChild(thumbnail);
-                        self.results.push(result);
+                    
+                    try {
+                        const res = await fetch(`https://api.imgbb.com/1/upload?key=${key}`, { 
+                            method: "POST", body: formData 
+                        });
+                        const json = await res.json();
+                        
+                        if (json.success) {
+                            self.results.push(json);
+                        } else {
+                            console.error("Upload failed", json);
+                            alert(`Failed to upload ${file.name}: ${json.error?.message}`);
+                        }
+                    } catch(e) {
+                        alert(`Network error uploading ${file.name}`);
                     }
-                    completed++;
-                    overallProgress.style.width = `${(completed / files.length) * 100}%`;
                 }
-                doneBtn.style.display = "block";
-            };
-
-            doneBtn.onclick = () => {
+                
+                progressArea.innerText = "Upload Complete.";
                 resolve(self.results);
-                popup.remove();
-            };
+                popupOverlay.remove();
+            }
+
+            document.body.appendChild(popupOverlay);
         });
     }
 }

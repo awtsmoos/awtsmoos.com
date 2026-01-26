@@ -30,6 +30,10 @@ export async function renderThreadContent(threadContainer, idx, sub) {
         closeBtn.onclick = (e) => {
             e.preventDefault(); e.stopPropagation();
             document.getElementById('realPost')?.classList.remove('has-gloss');
+            
+            // B"H - Only remove the commentary focus border, NOT the reading highlight
+            document.querySelectorAll('.commentary-focus').forEach(el => el.classList.remove('commentary-focus'));
+            
             threadContainer.remove();
             
             updateQueryStringParameter("idx", null);
@@ -63,10 +67,10 @@ export async function renderThreadContent(threadContainer, idx, sub) {
                 const entryPoint = document.createElement("div");
                 entryPoint.className = "inline-comment-entry-point";
                 portalWrapper.after(entryPoint);
-                new CommentSection(entryPoint);
-                setTimeout(() => {
-                    entryPoint.querySelector('.add-comment')?.click();
-                }, 50);
+                
+                // B"H - Pass autoReveal: true to force the editor open immediately
+                new CommentSection(entryPoint, { autoReveal: true });
+                
                 humanBtn.disabled = true;
                 aiBtn.style.display = 'none';
                 expandBtn.style.display = 'none';
@@ -133,7 +137,7 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             relevant.forEach(c => {
                 c.id = String(c.id);
                 registerFork(c);
-                const incom = makeInlineComment(alias, c);
+                const incom = makeInlineComment(c);
                 aliasGroup.appendChild(incom);
             });
             scrollContainer.appendChild(aliasGroup);
@@ -147,25 +151,38 @@ export async function renderThreadContent(threadContainer, idx, sub) {
 
 /**
  * @method showSectionCommentaryInline
- * @description B"H - Triggers the manifesting of the marginal gloss within the CSS Grid.
+ * @description B"H - Triggers the manifesting of the marginal gloss.
  */
 export async function showSectionCommentaryInline(idx, sub, targetEl) {
-    // Single-thread focus mode: close all others
-    document.querySelectorAll('.awtsmoos-inline-thread .thread-close-btn').forEach(btn => btn.click());
+    // 1. Clean up existing threads but DO NOT remove reading highlights
+    document.querySelectorAll('.awtsmoos-inline-thread').forEach(el => el.remove());
     
+    // Remove only the locked focus border, preserve the underlying reading selection
+    document.querySelectorAll('.commentary-focus').forEach(el => el.classList.remove('commentary-focus'));
+    
+    // 2. Lock Focus on Target
+    if (targetEl) {
+        targetEl.classList.add('commentary-focus');
+        if (targetEl.classList.contains('sub-awtsmoos')) {
+            targetEl.closest('.section')?.classList.add('active-reading-section');
+        }
+    }
+
     const realPost = document.getElementById('realPost');
     if (!realPost) return;
 
+    // 3. Create Thread Container
     const threadContainer = document.createElement("div");
-    threadContainer.className = 'awtsmoos-inline-thread';
+    threadContainer.className = "awtsmoos-inline-thread";
     
-    // B"H - Place the thread container and command the grid to make space.
-    realPost.appendChild(threadContainer);
-    realPost.classList.add('has-gloss');
-
+    // Append to context to allow fixed positioning
+    const context = document.querySelector('.post-reader-localized-context') || document.body;
+    context.appendChild(threadContainer);
+    
+    // 4. Scroll text into view
     setTimeout(() => {
-        // Scroll the main content area to bring the target element into view
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 150);
+        if(targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+    
     await renderThreadContent(threadContainer, idx, sub);
 }
