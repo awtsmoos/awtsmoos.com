@@ -80,6 +80,7 @@ export default class Medabeir extends Chai {
         
         this.on("heesHawvoos", (self) => {
             var dt = self.olam.deltaTime;
+            //console.log("What",dt)
             if(isNaN(dt)) {
 	            console.trace("deltastic", self, dt);
 	            throw "NAN DELT"    
