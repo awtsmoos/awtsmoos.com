@@ -147,7 +147,7 @@ export default {
                 this.playChaweeyoos("attack"); // Hammering
                 this.needs.wealth += 1 * dt;
                 if (Math.random() < 0.01) {
-                     this.olam.player.spawnHebrewParticles(this.mesh.position, 1);
+                     if(this.olam && this.olam.player) this.olam.player.spawnHebrewParticles(this.mesh.position, 1);
                 }
                 break;
             case "BUILD":
@@ -169,7 +169,10 @@ export default {
                          golem: type === "Brick" ? { guf: { BoxGeometry: [1,1,1] }, toyr: { MeshLambertMaterial: { color: "gold" } } } : null
                      });
                      
-                     this.olam.player.spawnHebrewParticles(pos, 10);
+                     // B"H: Guard against race condition where player is not yet set on olam
+                     if (this.olam && this.olam.player) {
+                        this.olam.player.spawnHebrewParticles(pos, 10);
+                     }
                      this.setDecision("IDLE", null); // Done building
                  }
                  break;

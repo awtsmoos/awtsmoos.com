@@ -51,7 +51,7 @@ export default class Environment {
      */
     update(dt, playerPos) {
         // Guard against NaN
-        if (isNaN(dt)) dt = 0.016;
+        if (isNaN(dt) || dt <= 0) dt = 0.016;
         
         // 1. Advance the Cosmic Clock
         this.gameTime = (this.gameTime + dt * this.timeSpeed) % 24;

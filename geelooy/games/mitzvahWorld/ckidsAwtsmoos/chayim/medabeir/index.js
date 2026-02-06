@@ -78,7 +78,12 @@ export default class Medabeir extends Chai {
 		
         this.initShlichusChecker();
         
-        this.on("heesHawvoos", (dt) => {
+        this.on("heesHawvoos", (self) => {
+            var dt = self.olam.deltaTime;
+            if(isNaN(dt)) {
+	            console.trace("deltastic", self, dt);
+	            throw "NAN DELT"    
+            }
             if(this.lev) this.lev.update(dt);
             if(this.updateBrain) this.updateBrain(dt); // B"H: Brain Update
         });

@@ -33,7 +33,7 @@ export default class Chai extends Tzomayach {
     _movementSpeed = this._speed;
     jumpHeight = 12;
 
-    velocity = new THREE.Vector3();
+    _velocity = new THREE.Vector3();
     collider;
     cameraRotation = null;
     
@@ -112,7 +112,14 @@ export default class Chai extends Tzomayach {
 
     get speed() { return this._speed; }
     set speed(v) { this._speed = v; }
-
+	get velocity() {
+		return this._velocity;    
+	}
+	set velocity(v) {
+	    console.log("SET velcoity?!?!")
+		this._velocity = new THREE.Vector3.clone(v);
+		    
+	}
     constructor(options, olam) {
         super(options, olam);
         this.rotationSpeed = options.rotationSpeed || 2;
@@ -181,6 +188,9 @@ export default class Chai extends Tzomayach {
 
     // B"H: Update logic includes Regen
     heesHawvoos(dt) {
+        if(isNaN(dt)) {
+	        throw "nan delta time heeshawvoos!"    
+        }
         super.heesHawvoos(dt); // Calls physics.js logic
         
         // Regeneration

@@ -15,7 +15,18 @@ export default class MathUtils {
         var dir = direction || new THREE.Vector3();
         object3D.getWorldDirection(dir);
         dir.y = 0;
-        dir.normalize();
+        
+        // B"H: The Kav of Existence cannot be born from Nothingness.
+        // If the direction vector has no magnitude (e.g., looking straight up/down),
+        // normalizing it creates NaN, which spreads like a spiritual sickness.
+        // We must guard against this Ayin (Nothingness) and provide a default direction.
+        if (dir.lengthSq() < 0.0001) {
+            // Default to a safe forward direction if vector is zero
+            dir.set(0, 0, -1);
+        } else {
+            dir.normalize();
+        }
+
         return dir;
     }
     
@@ -23,8 +34,20 @@ export default class MathUtils {
         var dir = direction || new THREE.Vector3();
         object3D.getWorldDirection(dir);
         dir.y = 0;
-        dir.normalize();
-        dir.cross(object3D.up);
+        
+        // B"H: Similar guard for the side vector
+        if (dir.lengthSq() < 0.0001) {
+            // If forward is zero, we can't get a side vector from it.
+            // We must rely on the object's direct orientation.
+            dir.set(1, 0, 0); // Default to world X
+            dir.applyQuaternion(object3D.quaternion); // Apply object's rotation
+            dir.y = 0;
+            dir.normalize();
+        } else {
+            dir.normalize();
+            dir.cross(object3D.up);
+        }
+        
         return dir;
     }
 

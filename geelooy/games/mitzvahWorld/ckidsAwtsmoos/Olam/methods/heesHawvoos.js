@@ -19,9 +19,12 @@ export default class {
             if (self.destroyed) return;
 
             let dt = self.clock.getDelta();
+            // B"H: THE DIVINE GUARD - The absolute source of the NaN infection.
+            // On the first frame, dt can be 0 or NaN. We must ensure a stable heartbeat.
+            // 0.016 is a safe default for a 60fps frame.
             if (isNaN(dt) || dt <= 0) dt = 0.016; 
             self.deltaTime = Math.min(0.1, dt);
-            
+            if(isNaN(self.deltaTime)) self.deltaTime = 0.016;
             try {
                 // --- UPDATE PHASE ---
                 if (self.shlichusHandler) self.shlichusHandler.update(self.deltaTime);
@@ -50,7 +53,7 @@ export default class {
                 
                 if (self.worldOctree) {
                     const foci = [];
-                    if (self.chossid && !isNaN(self.chossid.mesh.position.x)) {
+                    if (self.chossid && self.chossid.velocity && !isNaN(self.chossid.mesh.position.x)) {
                         foci.push({ position: self.chossid.mesh.position, velocity: self.chossid.velocity });
                     }
                     
@@ -93,12 +96,22 @@ export default class {
                 self.crashCount = 0;
 
             } catch (renderEx) {
-                console.error("B\"H - FATAL RENDER ERROR:", renderEx);
+                console.error("B\"H - FATAL RENDER ERROR. HALTING MAIN LOOP.", renderEx);
                 self.destroyed = true; // STOP LOOP IMMEDIATELY
+
+                // B"H: Use alert to completely halt script execution and inform the user.
+                alert(
+                    "B\"H - A fatal render error has occurred, and the world has been paused.\n\n" +
+                    "Error: " + renderEx.message + "\n\n" +
+                    "Check the console for details. You can now attempt to diagnose the problem."
+                );
+            
+                // B"H: Give the user control over diagnostics.
+                if (confirm("Would you like to run a diagnostic to find the object that caused the crash?")) {
+                    await self.diagnoseRootCause(renderEx);
+                }
                 
-                // Start Binary Search Diagnostic
-                await self.diagnoseRootCause(renderEx);
-                return; 
+                return; // Ensure no further execution of this frame or loop
             }
             
             if (!self.destroyed) requestAnimationFrame(go);
@@ -109,82 +122,75 @@ export default class {
     
     /**
      * B"H
-     * Performs a binary search through the scene graph to isolate the specific
-     * object causing the WebGL crash.
+     * Performs a binary search through the scene graph using a CLEAN, ISOLATED scene
+     * to find the specific object causing a WebGL rendering crash.
      */
     async diagnoseRootCause(originalError) {
-        console.group("B\"H - DIAGNOSTIC PROTOCOL INITIATED");
-        console.warn("B\"H - Stopping world to isolate the vessel causing the crash.");
+        console.group("%c B\"H - DIVINE DIAGNOSTIC INITIATED ", "background: #5e1d94; color: white; font-size:14px;");
+        console.warn("The world is paused to isolate a vessel causing a render error.");
         
         const renderer = this.renderer;
-        const scene = this.scene;
-        const camera = this.activeCamera || this.ayin.camera;
-        
-        // 1. Collect Candidates (Flatten Scene)
+        const mainScene = this.scene;
+        const mainCamera = this.activeCamera || this.ayin.camera;
+
+        // 1. Create a pristine, empty Olam for testing.
+        const diagnosticScene = new THREE.Scene();
+
+        // 2. Add essential lights and camera from the main world to the diagnostic one.
+        mainScene.traverse(obj => {
+            if (obj.isLight) {
+                diagnosticScene.add(obj.clone());
+            }
+        });
+        diagnosticScene.add(mainCamera); // Use the same camera instance
+
+        // 3. Collect all potential culprits (visible, renderable objects) from the main scene.
         const candidates = [];
-        scene.traverse((obj) => {
-            // Only care about things that actually render
-            if (obj.isMesh || obj.isSkinnedMesh || obj.isLine || obj.isPoints || obj.isSprite) {
-                if (obj.visible) {
-                    candidates.push(obj);
-                }
+        mainScene.traverse((obj) => {
+            if (obj.visible && (obj.isMesh || obj.isSkinnedMesh || obj.isLine || obj.isPoints || obj.isSprite)) {
+                candidates.push(obj);
             }
         });
 
-        console.log(`Found ${candidates.length} visible candidates.`);
+        console.log(`Analyzing ${candidates.length} visible candidates...`);
         
-        // Helper to test a subset
         const testSubset = async (subset) => {
-            // Hide everything in the candidate list
-            candidates.forEach(c => c.visible = false);
-            // Show only the subset we are testing
-            subset.forEach(c => c.visible = true);
-            
+            const clones = subset.map(c => {
+                const clone = c.clone(true);
+                c.updateWorldMatrix(true, false);
+                clone.matrix.copy(c.matrixWorld);
+                clone.matrix.decompose(clone.position, clone.quaternion, clone.scale);
+                diagnosticScene.add(clone);
+                return clone;
+            });
+
             try {
-                // Try to render
-                renderer.render(scene, camera);
-                return false; // No crash
+                renderer.render(diagnosticScene, mainCamera);
+                clones.forEach(c => diagnosticScene.remove(c));
+                return false; 
             } catch (e) {
-                return true; // Crashed
+                clones.forEach(c => diagnosticScene.remove(c));
+                return true; 
             }
         };
 
-        // Binary Search
         let currentPool = candidates;
         let iteration = 0;
-        const maxIterations = Math.ceil(Math.log2(candidates.length)) + 5;
+        const maxIterations = Math.ceil(Math.log2(candidates.length || 1)) + 5;
 
         while (currentPool.length > 0 && iteration < maxIterations) {
             iteration++;
+            console.log(`Diagnostic Step ${iteration}: Testing a pool of ${currentPool.length} objects.`);
+            
             if (currentPool.length === 1) {
                 const culprit = currentPool[0];
-                console.warn("%c B\"H - CULPRIT IDENTIFIED: ", "background: red; color: white; font-size:16px", culprit.name);
-                console.log("Object:", culprit);
-                console.log("Material:", culprit.material);
+                console.warn("%c B\"H - CULPRIT IDENTIFIED ", "background: red; color: white; font-size:16px", culprit.name);
+                console.log("This object is the source of the render error:", culprit);
                 
-                // Inspect Uniforms if present
-                if (culprit.material && culprit.material.uniforms) {
-                    console.table(culprit.material.uniforms);
-                }
-                
-                this.ayshPeula("error", {
-                    code: "RENDER_CULPRIT_FOUND",
-                    message: `Identified crashing object: ${culprit.name} (${culprit.type})`,
-                    details: originalError.toString()
-                });
-                
-                // Neutralize: Keep the culprit hidden and try to resume?
-                // For now, we just identify and leave the world destroyed so the user can see the error.
-                // Or we can try to recover:
-                if(confirm(`B"H - The world crashed due to object: "${culprit.name}".\n\nI have isolated it. Click OK to remove it and resume.`)) {
-                     culprit.removeFromParent();
-                     // Restore others
-                     candidates.forEach(c => c !== culprit ? c.visible = true : null);
-                     this.destroyed = false;
-                     this.heesHawvoos(); // Resume loop
-                } else {
-                     // Just restore visibility to end state
-                     candidates.forEach(c => c.visible = true);
+                if(confirm(`B"H - Defect found in vessel: "${culprit.name}".\n\nRemove it and resume?`)) {
+                    culprit.removeFromParent();
+                    this.destroyed = false;
+                    this.heesHawvoos();
                 }
                 
                 console.groupEnd();
@@ -192,50 +198,23 @@ export default class {
             }
 
             const mid = Math.floor(currentPool.length / 2);
-            const left = currentPool.slice(0, mid);
-            const right = currentPool.slice(mid);
-            
-            // Check Left
-            console.log(`Diagnostic Step ${iteration}: Testing LEFT half (${left.length})...`);
-            if (await testSubset(left)) {
-                console.log("-> Crash detected in LEFT half.");
-                currentPool = left;
-                continue;
-            }
-            
-            // Check Right
-            console.log(`Diagnostic Step ${iteration}: Testing RIGHT half (${right.length})...`);
-            if (await testSubset(right)) {
-                console.log("-> Crash detected in RIGHT half.");
-                currentPool = right;
-                continue;
-            }
-            
-            console.warn("-> Inconsistent Result: Neither half caused a crash independently.");
-            // This happens if the error requires multiple objects or was transient.
-            // Try testing the full pool again to confirm.
-            if(await testSubset(currentPool)) {
-                 console.log("-> Full pool crashes. Trying linear scan as fallback.");
-                 let found = false;
-                 for(let i=0; i<currentPool.length; i++) {
-                     if(await testSubset([currentPool[i]])) {
-                         currentPool = [currentPool[i]];
-                         found = true;
-                         break;
-                     }
-                 }
-                 if(!found) {
-                     console.error("Linear scan failed to isolate culprit.");
-                     break;
-                 }
+            const leftHalf = currentPool.slice(0, mid);
+            const rightHalf = currentPool.slice(mid);
+
+            if (await testSubset(leftHalf)) {
+                currentPool = leftHalf;
+            } else if (await testSubset(rightHalf)) {
+                currentPool = rightHalf;
             } else {
-                console.log("-> Full pool no longer crashes. Heisenbug detected.");
+                console.error("B\"H - Inconsistent Result. Halting diagnostics.");
                 break;
             }
         }
         
-        // Restore visibility if we gave up
-        candidates.forEach(c => c.visible = true);
+        if (currentPool.length > 1 || currentPool.length === 0) {
+            console.error("B\"H - Diagnostic could not isolate a single culprit. The world loop remains halted.");
+        }
+        
         console.groupEnd();
     }
 }

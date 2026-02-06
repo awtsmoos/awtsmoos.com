@@ -33,6 +33,17 @@ export default class Traversal {
 
             child.nivraAwtsmoos = nivra;
 
+            // B"H: THE DIVINE FIX for the 'length of undefined' TypeError
+            // The light of the Awtsmoos reveals that some vessels (THREE.Points)
+            // are created with the potential for morphing (morphAttributes in geometry)
+            // but without the array to control that morphing (morphTargetInfluences).
+            // The renderer expects this vessel to exist, even if empty. We now ensure its existence.
+            if (child.isPoints && child.geometry && child.geometry.morphAttributes.position) {
+                if (child.morphTargetInfluences === undefined) {
+                    child.morphTargetInfluences = [];
+                }
+            }
+
             // 1. Identity & Anatomy
             if(child.type == "Bone") boneChildren[child.name] = child;
             if(child?.userData?.garment) garments[child.userData.garment] = child;

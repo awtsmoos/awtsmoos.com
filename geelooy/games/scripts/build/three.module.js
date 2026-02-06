@@ -4350,6 +4350,10 @@ function WebGLMorphtargets( gl, capabilities, textures ) {
 	function update( object, geometry, program ) {
 
 		const objectInfluences = object.morphTargetInfluences;
+		if(!objectInfluences) {
+			console.trace("ISSUE", object,geometry,program); return;
+				
+			}
 
 		// the following encodes morph targets into an array of data textures. Each layer represents a single morph target.
 

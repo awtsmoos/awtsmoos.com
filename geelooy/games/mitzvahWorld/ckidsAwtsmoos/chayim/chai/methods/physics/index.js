@@ -54,6 +54,39 @@ export default {
             this.offset = intersects[0].distance;
         }
     },
+    
+    _checkNaNAndReset() {
+        const p = this.mesh.position;
+        const v = this.velocity;
+        const r = this.rotation;
+
+        if (
+            (this.mesh && (isNaN(p.x) || isNaN(p.y) || isNaN(p.z))) ||
+            (v && (isNaN(v.x) || isNaN(v.y) || isNaN(v.z))) ||
+            (r && isNaN(r.y))
+        ) {
+            console.trace("B\"H: Physics state corrupted! Resetting.", { 
+                pos: p.clone(), 
+                vel: v.clone(), 
+                rot: r.clone() 
+            });
+            
+            // B"H: Reset ALL physics state to heal the vessel completely.
+            this.velocity.set(0, 0, 0);
+            this.rotation.set(0,0,0); // Full reset of the Kav rotation
+            this.setPosition(new THREE.Vector3(0, 15, 0)); // Resets collider and mesh position
+            
+            // B"H: Also reset the camera's memory to prevent it from re-corrupting the rotation
+            if(this.olam && this.olam.ayin) {
+                this.olam.ayin.currentDistance = 5;
+                this.olam.ayin.userInputTheta = 0; 
+                this.olam.ayin.userInputPhi = 0;
+            }
+
+            return true; // Skip rest of update for this frame to allow stabilization
+        }
+        return false;
+    },
 
     heesHawvoos(dt) {
         // B"H: Delta Guard - Ensure a stable first heartbeat
@@ -64,27 +97,9 @@ export default {
             return;
         }
         
-        // B"H: Pre-update NaN Check
-        if (isNaN(this.velocity.x)) this.velocity.set(0,0,0);
-
-        // B"H: NaN Protection - Healing the vessel if its location becomes non-existent
-        if (this.mesh && (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z))) {
-            console.warn("B\"H: Vessel position became NaN! Resetting to safe location.");
-            this.velocity.set(0, 0, 0);
-            
-            // Force reset collider as well
-            const safePos = new THREE.Vector3(0, 15, 0);
-            this.mesh.position.copy(safePos);
-            
-            if(this.collider) {
-                this.collider.start.set(safePos.x, safePos.y + this.height/2, safePos.z);
-                this.collider.end.set(safePos.x, safePos.y + this.height, safePos.z);
-            }
-            
-            if(this.olam && this.olam.ayin) {
-                this.olam.ayin.currentDistance = 5;
-            }
-            return;
+        // B"H: Pre-update NaN Check & HEALING
+        if (this._checkNaNAndReset()) {
+            return; // If reset happened, stop this frame's update.
         }
 
         this.updateRayColor();      

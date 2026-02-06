@@ -7,12 +7,23 @@ import CameraMath from './calculatePosition.js';
  * Calculates the kav (line) between the target and the observer.
  */
 export default function update() {
+    // B"H: Absolute NaN Guards to protect the spiritual eye of the world.
     if (!this.target || !this.target.mesh) return;
-    
-    // B"H: NaN Guard - If the world forge is in flux, do not glitch the eye.
-    // This prevents the camera from getting invalid matrices which crashes the renderer.
-    if (isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y) || isNaN(this.target.mesh.position.z)) {
-        return;
+
+    // 1. Check for internal camera state corruption. If found, reset and wait.
+    if (isNaN(this.userInputTheta) || isNaN(this.userInputPhi)) {
+        console.warn("B\"H: Camera's internal memory (angles) became corrupted. Resetting.");
+        this.userInputTheta = 0;
+        this.userInputPhi = 0;
+        return; // Skip this frame to allow stabilization.
+    }
+
+    // 2. Check if the target vessel is in a corrupted state. If so, do not look, lest the eye also be corrupted.
+    if (
+        isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y) || isNaN(this.target.mesh.position.z) ||
+        isNaN(this.target.mesh.rotation.y)
+    ) {
+        return; // Skip this frame; the physics engine's healing process will handle the target.
     }
 
     this.newMovement = false;
