@@ -2,15 +2,16 @@
 /* /style/heichelos/revamped-partials/sidebar.css */
 /* All laws governing the sidebar and its divine function. */
 
-.heichel-sidebar { 
-    display: flex; 
-    flex-direction: column; 
+.heichel-sidebar {
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
     position: sticky;
     top: 2rem;
     align-self: start;
     height: calc(100vh - 4rem);
     overflow-y: auto;
+    overflow-x: visible;
     transition: opacity 0.2s ease-out, visibility 0.2s;
     visibility: visible;
     opacity: 1;
@@ -60,11 +61,11 @@
     gap: 2rem 0;
 }
 .heichel-page-container.sidebar-collapsed .heichel-sidebar {
-    opacity: 0;
-    visibility: hidden;
+    /* opacity: 0; */
+    /* visibility: hidden; */
     padding-left: 0;
+    /* height: 100px; */
 }
-
 /* B"H --- RE-FORGED SIDEBAR TOGGLE --- */
 .sidebar-toggle {
     position: fixed; /* B"H - Anchor to viewport */
@@ -74,10 +75,14 @@
     
     /* B"H - New Neo-brutalist style from screenshot */
     all: unset;
+    position: absolute;
+    right: 370px;
+    /* margin-left: -50px; */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    float: right;
     width: 50px; /* Square */
     height: 50px;
     background: var(--bg-surface);
@@ -87,6 +92,10 @@
     font-weight: bold;
     box-shadow: var(--shadow-ui);
     transition: all 0.1s ease-out;
+}
+
+.heichel-page-container.sidebar-collapsed .sidebar-toggle {
+    right:0px;
 }
 .sidebar-toggle:hover {
     transform: translate(-2px, -2px);
