@@ -78,7 +78,7 @@
 .post-reader-localized-context #realPost .sub-awtsmoos {
     position: relative;
     margin-bottom: 0 !important; /* Handled by gap */
-    /* padding: 0.75em; */ /* Minimal padding */
+    padding: 0.15em; /* Minimal padding */
     /* border: 1px dashed var(--color-ink-secondary); */
     transition: all 0.3s ease;
     flex-grow: 1;
@@ -86,8 +86,8 @@
     flex-basis: 300px; /* Allow wrapping */
 }
 .post-reader-localized-context #realPost .sub-awtsmoos:hover {
-    border-style: solid;
-    border-color: var(--color-primary);
+    
+    box-shadow: 0px 0px 2px var(--color-primary) inset;
     background: rgba(0,0,0,0.02);
 }
 
@@ -111,7 +111,7 @@
     box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
     cursor: pointer;
     z-index: 5;
-    transition: all 0.2s ease;
+    transition: all 0.4s ease;
 }
 
 /* RTL Verse Number Position */

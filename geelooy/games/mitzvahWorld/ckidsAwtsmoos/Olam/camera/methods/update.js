@@ -10,7 +10,10 @@ export default function update() {
     if (!this.target || !this.target.mesh) return;
     
     // B"H: NaN Guard - If the world forge is in flux, do not glitch the eye.
-    if (isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y)) return;
+    // This prevents the camera from getting invalid matrices which crashes the renderer.
+    if (isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y) || isNaN(this.target.mesh.position.z)) {
+        return;
+    }
 
     this.newMovement = false;
     
@@ -126,11 +129,13 @@ export default function update() {
         this.target.rotation.y = this.euler.y;
     }
 
-    // 6. Apply to Camera
-    this.camera.rotation.copy(this.euler);
-    if (!isNaN(finalPosition.x)) {
+    // 6. Apply to Camera - Only if Valid
+    if (!isNaN(finalPosition.x) && !isNaN(finalPosition.y) && !isNaN(finalPosition.z)) {
+        this.camera.rotation.copy(this.euler);
         this.camera.position.copy(finalPosition);
         this.cameraFollower.position.copy(finalPosition);
+    } else {
+        console.warn("B\"H: Camera calculated NaN position. Skipping update.");
     }
 
     // 7. LookAt Sync

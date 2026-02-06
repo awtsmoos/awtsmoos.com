@@ -50,8 +50,12 @@ export default class Environment {
      * update - The constant pulse of the universe.
      */
     update(dt, playerPos) {
+        // Guard against NaN
+        if (isNaN(dt)) dt = 0.016;
+        
         // 1. Advance the Cosmic Clock
         this.gameTime = (this.gameTime + dt * this.timeSpeed) % 24;
+        if(isNaN(this.gameTime)) this.gameTime = 12;
         
         // 2. Determine Current Spiritual Quality
         const cycle = this.calculateSpiritualCycle();
@@ -105,6 +109,8 @@ export default class Environment {
 
     updateSunPosition() {
         const time = this.gameTime;
+        if(isNaN(time)) return;
+
         // Sun moves in a sacred arc
         const angle = (time / 24) * Math.PI * 2 + Math.PI;
         const radius = 500;
@@ -113,7 +119,9 @@ export default class Environment {
         const y = Math.sin(angle) * radius;
         const z = Math.sin(angle * 0.5) * radius * 0.5;
 
-        this.olam.mainSun.position.set(x, y, z);
+        if(!isNaN(x)) {
+            this.olam.mainSun.position.set(x, y, z);
+        }
         
         // Intensity of Divine Hashgacha fades at night
         const intensity = Math.max(0, Math.sin(angle - Math.PI));

@@ -1,6 +1,6 @@
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
-import { LODNode } from "../LODNode.js";
+import  LODNode  from "../LODNode.js";
 import { NODE_STATE, MAX_DEPTH } from "../constants.js";
 
 const _v1 = new THREE.Vector3();

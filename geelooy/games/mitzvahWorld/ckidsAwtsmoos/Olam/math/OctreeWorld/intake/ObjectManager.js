@@ -1,7 +1,6 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
-import { LODNode } from "../LODNode.js";
+import LODNode from "../LODNode.js";
 import { Octree as AwtsmoosOctree } from "../../AwtsmoosOctree/index.js";
 
 const _v1 = new THREE.Vector3();
@@ -11,8 +10,21 @@ export default {
         if (!mesh) return false;
 
         mesh.updateMatrixWorld(true);
+        
+        // B"H: NaN Guard
+        const p = mesh.position;
+        if (isNaN(p.x) || isNaN(p.y) || isNaN(p.z)) {
+            console.warn(`B"H: Rejected mesh ${mesh.name} from Octree due to NaN position.`);
+            return false;
+        }
+
         if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
         const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+
+        if (isNaN(worldBox.min.x) || isNaN(worldBox.max.x)) {
+             console.warn(`B"H: Rejected mesh ${mesh.name} from Octree due to NaN bounding box.`);
+             return false;
+        }
 
         if (!this.world.root) {
             this.world.root = new LODNode(worldBox.clone());
@@ -63,7 +75,7 @@ export default {
         
         group.updateMatrixWorld(true);
         const groupBox = new THREE.Box3().setFromObject(group);
-        if (groupBox.isEmpty()) return;
+        if (groupBox.isEmpty() || isNaN(groupBox.min.x)) return;
 
         if (!this.world.root) {
             this.world.root = new LODNode(groupBox.clone());
@@ -81,13 +93,17 @@ export default {
         const meshes = [];
         group.traverse(obj => {
             if (obj.isMesh && obj.geometry && !obj.userData.notSolid) {
-                meshes.push(obj);
+                if (!isNaN(obj.position.x)) {
+                     meshes.push(obj);
+                }
             }
         });
 
         for (const mesh of meshes) {
             if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
             const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+            
+            if (isNaN(worldBox.min.x)) continue;
 
             const clone = new THREE.Mesh(mesh.geometry.clone());
             mesh.getWorldPosition(clone.position);
@@ -118,6 +134,8 @@ export default {
         const visualRef = mesh.userData?.visualReference || mesh;
 
         const meshBox = new THREE.Box3().setFromObject(mesh);
+        if(isNaN(meshBox.min.x)) return;
+
         const nodes = this.findLeafNodesInBox(this.world.root, meshBox);
 
         nodes.forEach(node => {

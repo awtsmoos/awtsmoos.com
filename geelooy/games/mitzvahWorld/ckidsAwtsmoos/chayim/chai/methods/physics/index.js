@@ -24,11 +24,22 @@ export default {
         if (!this.olam.worldOctree) return; 
         const result = this.olam.worldOctree.capsuleIntersect(this.collider);
         if (result) {
+            // B"H: NaN Guard for collision response
+            if (isNaN(result.depth) || isNaN(result.normal.x)) {
+                return; 
+            }
+            
             this.collider.translate(result.normal.multiplyScalar(result.depth));
+            
             // Sliding logic
             const velocityAlongNormal = result.normal.dot(this.velocity);
-            if (velocityAlongNormal < 0) {
+            if (!isNaN(velocityAlongNormal) && velocityAlongNormal < 0) {
                  this.velocity.addScaledVector(result.normal, -velocityAlongNormal);
+            }
+            
+            // B"H: Post-collision velocity check
+            if (isNaN(this.velocity.x) || isNaN(this.velocity.y) || isNaN(this.velocity.z)) {
+                this.velocity.set(0,0,0);
             }
         }
     },
@@ -53,12 +64,23 @@ export default {
             return;
         }
         
+        // B"H: Pre-update NaN Check
+        if (isNaN(this.velocity.x)) this.velocity.set(0,0,0);
+
         // B"H: NaN Protection - Healing the vessel if its location becomes non-existent
         if (this.mesh && (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z))) {
             console.warn("B\"H: Vessel position became NaN! Resetting to safe location.");
-            // B"H FIX: Removed manual error throw to allow self-healing
             this.velocity.set(0, 0, 0);
-            this.setPosition(new THREE.Vector3(0, 15, 0)); 
+            
+            // Force reset collider as well
+            const safePos = new THREE.Vector3(0, 15, 0);
+            this.mesh.position.copy(safePos);
+            
+            if(this.collider) {
+                this.collider.start.set(safePos.x, safePos.y + this.height/2, safePos.z);
+                this.collider.end.set(safePos.x, safePos.y + this.height, safePos.z);
+            }
+            
             if(this.olam && this.olam.ayin) {
                 this.olam.ayin.currentDistance = 5;
             }
@@ -87,8 +109,11 @@ export default {
         const moveData = this.calculateMovementVectors(deltaTime, this.onFloor);
         const { combinedVector, isWalking } = moveData;
 
-        this.velocity.x += combinedVector.x;
-        this.velocity.z += combinedVector.z;
+        // B"H: Vector Safety
+        if (!isNaN(combinedVector.x)) {
+            this.velocity.x += combinedVector.x;
+            this.velocity.z += combinedVector.z;
+        }
 
         // 4. The Leap of Faith (Jump)
         if (this.onFloor && this.moving.jump) {
