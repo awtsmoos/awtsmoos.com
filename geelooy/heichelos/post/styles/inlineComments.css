@@ -1,0 +1,79 @@
+/* B"H 
+- INLINE COMMENT AESTHETICS ("THE GLITCH IN THE MATRIX") */
+
+/* Holder for an entire alias's comments on a verse/paragraph */
+.post-reader-localized-context .commentator.inline {
+    width: 100%;
+    margin: 1em 0;
+    padding: 0.5em;
+    border: 1px dashed var(--color-ink-secondary);
+    background: rgba(0,0,0,0.02);
+}
+.post-reader-localized-context .dark .commentator.inline {
+    background: rgba(255,255,255,0.03);
+}
+
+/* Individual inline comment card */
+.post-reader-localized-context .inline-comment {
+    font-size: 13px;
+    border: 1px solid var(--color-ink-secondary);
+    background: var(--bg-surface);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+    margin: 8px 0;
+    position: relative;
+    padding-left: 10px;
+}
+
+.post-reader-localized-context .inline-comment::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-primary);
+    transition: all 0.3s ease;
+}
+
+.post-reader-localized-context .inline-comment:hover::before {
+    box-shadow: 0 0 10px var(--color-primary);
+}
+
+.post-reader-localized-context .inline-comment .comment-text {
+    border-bottom: none; /* No separator inside inline */
+    padding: 10px;
+}
+
+/* Focus button (top right) */
+.post-reader-localized-context .inline-comment .focus-trigger {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--color-ink-secondary);
+    color: var(--color-ink-secondary);
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.post-reader-localized-context .inline-comment:hover .focus-trigger {
+    background: var(--color-accent);
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+    transform: scale(1.1);
+}
+
+/* Reply button at bottom */
+.post-reader-localized-context .inline-comment .btn.small {
+    width: calc(100% - 20px);
+    margin: 0 10px 10px 10px;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+}

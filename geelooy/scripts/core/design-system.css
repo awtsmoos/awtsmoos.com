@@ -1,0 +1,122 @@
+/*
+B"H
+THE COVENANT OF FORM - THE DIVINE NEO-BRUTALIST CANON
+From this single scroll of law, all visual reality is derived.
+There shall be no other styles before it.
+Its laws of ink, vellum, border, and shadow are absolute and eternal.
+*/
+
+:root {
+    /* The Palette of Creation */
+    --bg-surface: #ffffff;
+    --bg-vellum: #f9f4e9; /* A warmer, aged parchment */
+    --color-ink: #2a251e; /* A rich, dark sepia, not quite black */
+    --color-ink-secondary: #7d7365;
+    --color-primary: #8a2b06; /* A deep, dignified crimson for holy days */
+    --color-accent: #c5a372; /* The gold of the Menorah */
+    --color-danger: #a12a2a;
+    --color-success: #367b36;
+
+    /* The Fonts of the Scribe */
+    --font-heading: 'Syne', 'Frank Ruhl Libre', serif; /* For power and presence */
+    --font-ui: 'Space Grotesk', sans-serif; /* For clarity and function */
+    --font-content: 'Cardo', 'Frank Ruhl Libre', serif; /* For immersive reading */
+
+    /* The Measures of the Temple */
+    --border-thick: 4px solid var(--color-ink);
+    --border-ui: 2px solid var(--color-ink);
+    --shadow-hard: 8px 8px 0px var(--color-ink);
+    --shadow-hover: 12px 12px 0px var(--color-ink);
+    --shadow-ui: 4px 4px 0px rgba(0,0,0,0.1);
+
+    /* The Sacred Vessel (Post Text) Size */
+    --post-text-size: 28px;
+}
+
+/* --- THE DARK MIRROR (Night Theme) --- */
+.awtsmoos-dark-theme {
+    --bg-surface: #1a1816;
+    --bg-vellum: #121110;
+    --color-ink: #e0dcd5;
+    --color-ink-secondary: #918c85;
+    --color-primary: #d46a65;
+    --color-accent: #e0ac65;
+    --color-danger: #db6a59;
+}
+
+/*
+==============================================
+THE UNIVERSAL LAWS (Applied Everywhere)
+==============================================
+*/
+
+/* --- THE ONE TRUE BUTTON (`.btn`) --- */
+.btn {
+    font-family: var(--font-ui) !important;
+    background: var(--bg-surface) !important;
+    border: var(--border-ui) !important;
+    color: var(--color-ink) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    padding: 10px 20px !important;
+    cursor: pointer !important;
+    box-shadow: var(--shadow-ui) !important;
+    transition: all 0.15s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    font-size: 13px !important;
+    letter-spacing: 1.5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    line-height: 1 !important;
+}
+.btn:hover {
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.2) !important;
+    background: var(--color-accent) !important;
+    border-color: var(--color-ink) !important;
+}
+.btn:active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 0 0 0 transparent !important;
+}
+
+/* Variations */
+.btn.primary { background: var(--color-primary) !important; color: #fff !important; }
+.btn.danger { background: var(--color-danger) !important; color: #fff !important; }
+
+/* --- THE ONE TRUE CARD (`.card`) --- */
+.card {
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    padding: 2rem;
+    box-shadow: var(--shadow-hard);
+    transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.card:hover {
+    transform: translate(-5px, -5px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* --- THE ONE TRUE INPUT (`.input-field`) --- */
+.input-field {
+    border: var(--border-ui) !important;
+    padding: 12px !important;
+    font-family: var(--font-ui) !important;
+    background: var(--bg-surface) !important;
+    color: var(--color-ink) !important;
+    outline: none !important;
+    box-shadow: var(--shadow-ui) !important;
+    font-size: 15px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s !important;
+}
+.input-field:focus {
+    box-shadow: 6px 6px 0 var(--color-primary) !important;
+    transform: translate(-2px, -2px) !important;
+    border-color: var(--color-primary) !important;
+}
+
+/* Add more unified components here: .modal, .tooltip, etc. */

@@ -1,0 +1,72 @@
+/* /BH/awtsmoos.com/geelooy/heichelos/post/styles/comments/reply.css */
+/* B"H - THE REPLY VESSEL - INTENSE & NESTED */
+
+.awtsmoos-reply-box {
+    padding: 1rem;
+    border: 2px dashed var(--color-primary);
+    background: var(--bg-vellum);
+    animation: slideDown 0.3s ease;
+    margin-bottom: 1rem; /* Space from next item in thread */
+}
+.dark .awtsmoos-reply-box {
+    background: rgba(0,0,0,0.2);
+}
+
+.reply-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: var(--color-ink-secondary);
+}
+
+.close-reply {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--color-ink-secondary);
+    padding: 0 5px;
+    line-height: 1;
+}
+.close-reply:hover {
+    color: var(--color-danger);
+}
+
+.reply-submit {
+    /* Uses .btn styles */
+    width: 100%;
+    margin-top: 10px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Make editor smaller in reply context */
+.awtsmoos-reply-box .awtsmoos-writing-surface {
+    min-height: 80px !important;
+    padding: 10px !important;
+    font-size: 14px !important;
+}
+.awtsmoos-reply-box .awtsmoos-writing-surface:empty::before {
+    font-size: 14px !important;
+    top: 10px; left: 10px;
+}
+.awtsmoos-reply-box .awtsmoos-wysiwyg-toolbar {
+    padding: 5px;
+}
+.awtsmoos-reply-box .wysiwyg-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+}
