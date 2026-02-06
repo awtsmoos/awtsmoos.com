@@ -4,7 +4,7 @@ import { createSidebarShell } from "./shell.js";
 import { createChamberDOM } from "./chamber.js";
 import { renderBreadcrumbs } from "./breadcrumbs.js";
 import { slideIn, slideOut } from "./transitions.js";
-import { updateQueryStringParameter } from "../../functions/utils.js"; 
+import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js"; 
 
 export default class TabManager {
     constructor({ parent, headerTxt = "Divine Context", onclose = () => {} } = {}) {

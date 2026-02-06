@@ -1,36 +1,62 @@
-/* B"H - THEME ENGINE: THE "DIGITAL SCRIBE" COVENANT */
+/* B"H - THEME ENGINE: THE "DIGITAL SCRIBE" COVENANT 
+   FULL DEFINITION - NO PLACEHOLDERS
+*/
+
 .post-reader-localized-context {
-    /* --- LIGHT THEME (DEFAULT) --- */
+    /* --- LIGHT THEME (THE DAY MODE) --- */
     --bg-surface: #ffffff;
-    --bg-vellum: #fcfaf3; /* A warmer, more authentic parchment */
-    --color-ink: #1f1d1a; /* A softer, ink-like black */
-    --color-ink-secondary: #706b64;
-    --color-primary: #a1332f; /* A deep, rich crimson for rubrication */
-    --color-accent: #d9933d; /* A vibrant, warm ochre for highlights */
-    --color-danger: #c23b22;
+    --bg-vellum: #fdfbf7; /* Authentic warm parchment */
     
-    /* REFINED MONOLITH DIMENSIONS */
+    /* TEXTURE: A subtle SVG noise pattern for the vellum feel */
+    --bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+
+    --color-ink: #050505; /* Pure, dense black */
+    --color-ink-secondary: #555555;
+    --color-primary: #aa2222; /* High-Intensity Crimson (Rubrication) */
+    --color-accent: #ffae00; /* Molten Gold */
+    --color-highlight: #fff9c4;
+    --color-danger: #ff0000;
+    --color-void: #000000;
+
+    /* NEO-BRUTALIST PHYSICS */
+    --border-thin: 1px solid var(--color-ink);
     --border-ui: 2px solid var(--color-ink);
     --border-thick: 4px solid var(--color-ink);
-    --shadow-ui: 4px 4px 0px 0px rgba(0,0,0,0.1);
-    --shadow-hover: 6px 6px 0px 0px rgba(0,0,0,0.15);
     
-    /* FONTS */
-    --font-manuscript: 'Cardo', serif;
-    --font-heading: 'Syne', sans-serif;
-    --font-ui: 'Space Grotesk', monospace;
+    /* SHADOWS: The "Levitation" System */
+    --shadow-ui: 4px 4px 0px 0px var(--color-ink);
+    --shadow-hover: 8px 8px 0px 0px var(--color-ink);
+    --shadow-active: 0px 0px 0px 0px var(--color-ink);
+    --shadow-glow: 0 0 40px var(--color-accent);
+    
+    /* ANIMATION CURVES (iOS/Platform smoothness) */
+    --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ease-snap: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+    
+    /* TYPOGRAPHY STACK */
+    --font-manuscript: 'Cardo', 'Crimson Pro', serif;
+    --font-heading: 'Syne', sans-serif; /* Aggressive Headers */
+    --font-ui: 'Space Grotesk', 'Inter', monospace; /* Technical UI */
     --font-content: var(--font-manuscript);
 }
 
 .post-reader-localized-context[data-theme="dark"] {
-    --bg-surface: #1a1816;
-    --bg-vellum: #121110;
-    --color-ink: #e0dcd5;
-    --color-ink-secondary: #918c85;
-    --color-primary: #d46a65;
-    --color-accent: #e0ac65;
-    --color-danger: #db6a59;
+    /* --- DARK THEME (THE NIGHT VIGIL) --- */
+    --bg-surface: #0a0a0a;
+    --bg-vellum: #050505; 
     
-    --shadow-ui: 4px 4px 0px 0px rgba(0,0,0,0.5);
-    --shadow-hover: 6px 6px 0px 0px rgba(0,0,0,0.7);
+    --bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+
+    --color-ink: #e5e5e5;
+    --color-ink-secondary: #888888;
+    --color-primary: #ff4444; /* Neon Crimson */
+    --color-accent: #ffd700; /* Cyber Gold */
+    --color-highlight: #222222;
+    --color-danger: #ff3333;
+    --color-void: #ffffff;
+
+    --shadow-ui: 4px 4px 0px 0px rgba(255,255,255,0.15);
+    --shadow-hover: 8px 8px 0px 0px rgba(255,255,255,0.25);
+    --shadow-glow: 0 0 50px rgba(255, 215, 0, 0.2);
 }

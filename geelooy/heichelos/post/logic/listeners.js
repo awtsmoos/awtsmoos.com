@@ -6,6 +6,7 @@
  * Connects the physical inputs (buttons, keys) to the metaphysical changes (styles, state).
  */
 import { updateQueryStringParameter, adjustFontSize } from "../functions/utils.js";
+import { performGeometricCheck } from "./visuals/observer.js";
 
 /**
  * toggleSidebar
@@ -24,16 +25,17 @@ export function toggleSidebar(forceState = null) {
     const shouldShow = forceState !== null ? forceState : currentlyHidden;
 
     if (shouldShow) {
-        // console.log("B\"H - [Listeners] Expanding the Sidebar Gate.");
         sidebar.classList.remove("hidden-comments");
         if(commBtn) commBtn.classList.add("pushed");
         localStorage.setItem("awtsmoos-sidebar-visible", "true");
     } else {
-        // console.log("B\"H - [Listeners] Collapsing the Sidebar Gate.");
         sidebar.classList.add("hidden-comments");
         if(commBtn) commBtn.classList.remove("pushed");
         localStorage.setItem("awtsmoos-sidebar-visible", "false");
     }
+
+    // B"H - After the transition, re-center the universe's focus.
+    setTimeout(performGeometricCheck, 350);
 }
 
 /**
@@ -88,7 +90,7 @@ export async function renderBookmarksPanel(tab) {
 export function setupUIListeners() {
     console.log("B\"H - [Listeners] Establishing Conduits of Interaction.");
 
-    // 1. Restore Sidebar State from Memory
+    // B"H - The sidebar begins its journey collapsed, as per the Divine Will.
     const sidebarStoredState = localStorage.getItem("awtsmoos-sidebar-visible");
     if (sidebarStoredState === "true") {
         toggleSidebar(true);
@@ -97,7 +99,6 @@ export function setupUIListeners() {
     }
 
     // 2. FONT SIZE CONTROLS (The "+" and "-" buttons)
-    // We bind these explicitly here to ensure they catch the event.
     const fontInc = document.getElementById('fontIncreaseBtn');
     const fontDec = document.getElementById('fontDecreaseBtn');
     

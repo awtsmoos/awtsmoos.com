@@ -1,75 +1,67 @@
-/* B"H - THE SACRED SCROLL
-   Optimized for High-Intensity Highlighting. The seeker's eye is guided by the Awtsmoos's light,
-   making the currently revealed spark shine with unparalleled intensity.
-*/
+/* B"H - FOCUS PHYSICS (STABILIZED) */
 
-.post-reader-localized-context #realPost .section,
-.post-reader-localized-context #realPost .sub-awtsmoos {
-    transition: 
-        background-color 0.4s ease, 
-        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        opacity 0.4s ease,
-        border-left-color 0.3s ease,
-        box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.post-reader-localized-context #realPost .sub-awtsmoos {
-    position: relative;
-    padding: 0.5rem 1rem 0.5rem 2rem !important;
-    margin: 0 0 1rem 0 !important;
-    border-left: 4px solid transparent;
-    /* B"H - By default, all paragraphs recede into potentiality */
-    opacity: 0.4; 
-}
-
-/* THE WINNER: Active Sub-section - THIS IS THE INTENSE REVELATION */
+/* ACTIVE SUB-SECTION (The "Red Line" Highlight) */
 .active-reading-sub {
     opacity: 1 !important;
-    transform: scale(1.02) !important;
-    background: var(--bg-surface);
-    border-left-color: var(--color-primary) !important;
-    /* A profound shadow, making the text emerge from the page */
+    background: rgba(0,0,0,0.02);
+    
+    /* Instead of scaling (which blurs text), we use high-contrast borders */
+    border-left: 4px solid var(--color-primary) !important;
+    
+    /* Add padding to prevent text jumping when border appears */
+    padding-left: calc(1em - 4px) !important; 
+    
     box-shadow: 
-        0px 20px 50px rgba(0,0,0,0.15),
-        0px 0px 0px 4px var(--color-accent);
-    z-index: 100;
+        var(--shadow-ui), /* Lift it up */
+        0 0 20px rgba(0,0,0,0.05); /* Softer Glow */
+    
+    z-index: 50;
 }
 
-/* B"H - LOCKED FOCUS FOR COMMENTARY */
+/* RTL Active State */
+.post-reader-localized-context .heb .active-reading-sub {
+    border-left: none !important;
+    border-right: 4px solid var(--color-primary) !important;
+    padding-left: 1em !important;
+    padding-right: calc(1em - 4px) !important;
+}
+
+/* LOCKED STATE (When you click 'Comment') */
 .commentary-focus {
-    opacity: 1 !important;
-    transform: scale(1.03) !important;
     background: var(--bg-surface) !important;
-    border-left-color: var(--color-highlight) !important;
-    border-right: 4px solid var(--color-highlight); /* Highlight both sides for locked state */
-    box-shadow: 
-        0px 25px 60px rgba(0,0,0,0.25),
-        0px 0px 0px 6px var(--color-ink) !important; /* Strong ink border */
-    z-index: 101 !important;
+    outline: 2px solid var(--color-accent); /* Use outline to not affect layout */
+    box-shadow: 0 0 0 100vmax rgba(0,0,0,0.7) !important; /* Dim the world */
+    z-index: 1000 !important;
+    position: relative;
 }
 
-/* Parent Verse Highlighting - a subtle underglow for context */
-.active-reading-section > .toichen > .sub-awtsmoos,
-.active-reading-section > .toichen {
-    opacity: 1; /* Bring all children of the active verse into focus */
+/* 
+   INLINE COMMENT INDICATOR BUTTONS (SUBTLE REDESIGN)
+*/
+.post-reader-localized-context .commentator.inline {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
 }
 
-.post-reader-localized-context[data-theme="dark"] .active-reading-sub {
-    background: var(--bg-vellum);
-    color: var(--color-ink);
-    box-shadow: 
-        0px 20px 60px rgba(0,0,0,0.5),
-        0px 0px 0px 4px var(--color-accent);
+.post-reader-localized-context .inline-summary-btn {
+    all: unset;
+    /* SCALING FIX: Font size relative to parent text */
+    font-size: 0.6em !important; 
+    font-family: var(--font-ui) !important;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--color-ink-secondary) !important;
+    border-bottom: 2px dashed var(--color-ink-secondary) !important;
+    line-height: 1; 
+    padding: 0 2px 1px 2px !important;
+    transition: all 0.2s ease;
 }
 
-.post-reader-localized-context[data-theme="dark"] .commentary-focus {
-    background: #2a2a2a !important;
-    border-right-color: var(--color-highlight);
-    box-shadow: 0px 0px 0px 6px var(--color-ink) !important;
-}
-
-/* Ensure Virtual Chunks don't flicker */
-.scroll-chunk {
-    transition: opacity 0.3s;
-    contain: content;
+.post-reader-localized-context .inline-summary-btn:hover,
+.post-reader-localized-context .inline-summary-btn.active {
+    color: var(--color-primary) !important;
+    border-bottom-color: var(--color-primary) !important;
+    border-bottom-style: solid;
 }

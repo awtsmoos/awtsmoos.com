@@ -1,159 +1,152 @@
-/* B"H - THE SACRED LAYOUT
-   Ensuring buttons are clickable, Z-Indices are God-tier, and structure is monolithic.
-   REFINED: Sidebar hidden state now absolute.
-*/
+/* B"H - THE UNBREAKABLE LAYOUT (REPAIRED) */
 
+/* 1. WORLD FRAME */
 .post-reader-localized-context {
+    all: unset;
     position: fixed !important;
-    top: 0 !important; left: 0 !important;
-    width: 100vw !important; height: 100vh !important;
-    overflow: hidden !important;
-    margin: 0 !important; padding: 0 !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw; height: 100vh;
     display: flex !important;
     flex-direction: column !important;
+    overflow: hidden !important;
     background-color: var(--bg-vellum);
+    background-image: var(--bg-noise);
     font-family: var(--font-ui);
     color: var(--color-ink);
+    z-index: 0;
 }
 
-/* Header must stay on top but not block scroll clicks underneath */
+/* 2. HEADER (Fixed Height) */
 .post-reader-localized-context .awtsmoos-integrated-header {
     width: 100%;
     flex-shrink: 0;
-    z-index: 100;
+    z-index: 1000;
     position: relative;
     background: var(--bg-surface);
-    border-bottom: 2px solid var(--color-ink);
+    border-bottom: var(--border-thick);
 }
 
-/* --- THE FLOATING ARK CONTROLS (Top Right Buttons) --- */
-.post-reader-localized-context .awtsmoos-floating-controls {
-    position: fixed !important;
-    top: 80px !important; /* MOVED DOWN to avoid header overlap */
-    right: 20px !important;
-    /* MAX_SAFE_INTEGER for Z-Index to guarantee clickability over overlays */
-    z-index: 2147483647 !important; 
+/* 3. MAIN STAGE (Flex Row) */
+.post-reader-localized-context .main {
+    flex: 1; /* Fills remaining height */
     display: flex !important;
-    flex-direction: column !important; /* STACKED VERTICALLY to fix overlap */
-    gap: 15px !important;
-    /* Wrapper passes events through, buttons capture them */
-    pointer-events: none !important; 
+    flex-direction: row !important;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
-.post-reader-localized-context .awtsmoos-floating-controls button {
-    pointer-events: auto !important;
-    width: 52px !important;
-    height: 52px !important;
-    padding: 0 !important;
-    font-family: var(--font-heading) !important;
-    font-weight: 900 !important;
-    font-size: 20px !important;
-    background: var(--bg-surface) !important;
-    color: var(--color-ink) !important;
-    
-    /* NEO-BRUTALIST HARD BORDERS AND SHADOWS */
-    border: 3px solid var(--color-ink) !important;
-    box-shadow: 6px 6px 0px var(--color-ink) !important;
-    border-radius: 6px !important;
-    
-    transition: transform 0.1s, box-shadow 0.1s !important;
-    cursor: pointer !important;
-    display: flex; align-items: center; justify-content: center;
+/* 4. SCROLL VIEW (The Feed) */
+.post-reader-localized-context .scroll-view-wrapper {
+    flex: 1; /* Takes all available width */
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 10; /* Below sidebar */
 }
 
-.post-reader-localized-context .awtsmoos-floating-controls button:hover {
-    transform: translate(-2px, -2px) !important;
-    box-shadow: 8px 8px 0px var(--color-ink) !important;
-    background: var(--color-accent) !important;
-}
-
-.post-reader-localized-context .awtsmoos-floating-controls button:active {
-    transform: translate(4px, 4px) !important;
-    box-shadow: 0px 0px 0px var(--color-ink) !important;
-}
-
-.post-reader-localized-context .awtsmoos-floating-controls button.pushed {
-    background: var(--color-ink) !important;
-    color: var(--bg-surface) !important;
-    transform: translate(6px, 6px) !important;
-    box-shadow: 0px 0px 0px transparent !important;
-}
-
-/* SETTINGS PANEL (Typography) */
-.post-reader-localized-context .typography-details {
-    position: fixed !important;
-    top: 85px !important;
-    right: 20px !important;
-    width: 320px !important;
-    background: var(--bg-surface) !important;
-    border: 4px solid var(--color-ink) !important;
-    box-shadow: 12px 12px 0px var(--color-ink) !important;
-    z-index: 2147483646 !important; /* Just below buttons */
+/* 5. SIDEBAR (The Drawer) - DESKTOP */
+.post-reader-localized-context .sidebar {
+    width: 420px;
+    height: 100%;
+    flex-shrink: 0;
+    border-left: var(--border-thick);
+    background: var(--bg-surface);
+    z-index: 500;
     display: flex;
     flex-direction: column;
-    max-height: 80vh;
-    overflow-y: auto;
-    pointer-events: auto !important;
+    
+    /* Transition Logic */
+    transition: margin-right 0.3s var(--ease-snap), transform 0.3s var(--ease-snap), width 0.3s var(--ease-snap), height 0.3s var(--ease-snap);
+    
+    /* Default: Visible on Right */
+    margin-right: 0;
+    position: relative; /* In flow for desktop */
 }
 
+/* HIDDEN STATE (Desktop) */
+.post-reader-localized-context .sidebar.hidden-comments {
+    margin-right: -420px; /* Slide off screen right */
+    box-shadow: none;
+    pointer-events: none;
+}
+
+/* 6. FLOATING CONTROLS (Absolute to World Frame) */
+.post-reader-localized-context .awtsmoos-floating-controls {
+    position: absolute !important;
+    top: 80px;
+    left: 20px; /* MOVED TO LEFT */
+    z-index: 20000; /* Above everything */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    pointer-events: none; /* Let clicks pass through container */
+}
+.post-reader-localized-context .awtsmoos-floating-controls button {
+    pointer-events: auto; /* Re-enable buttons */
+}
+
+/* 7. SETTINGS PANEL (Anchored relative to buttons) */
+.post-reader-localized-context .typography-details {
+    position: absolute !important;
+    top: 80px;
+    left: 90px; /* MOVED TO LEFT */
+    z-index: 19999;
+    width: 320px;
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-high);
+}
+
+/* Ensure hidden state wins */
 .post-reader-localized-context .typography-details.hidden-details {
     display: none !important;
 }
 
-/* LAYOUT COLUMNS */
-.post-reader-localized-context .main {
-    flex: 1;
-    display: flex;
-    flex-direction: row !important;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-}
-
-.post-reader-localized-context .scroll-view-wrapper {
-    flex: 1;
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-}
-
-.post-reader-localized-context .sidebar {
-    width: 420px !important;
-    flex-shrink: 0;
-    border-left: 4px solid var(--color-ink) !important;
-    background: var(--bg-surface) !important;
-    z-index: 50;
-    display: flex; flex-direction: column;
-    transition: width 0.3s cubic-bezier(0.2, 0, 0, 1), margin-right 0.3s cubic-bezier(0.2, 0, 0, 1) !important;
-}
-
-/* B"H - THE GATES ARE CLOSED */
-.post-reader-localized-context .sidebar.hidden-comments {
-    width: 0 !important;
-    margin-right: -420px !important;
-    border-left: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-}
-
+/* 8. MOBILE LAYOUT (Overlay Mode) */
 @media (max-width: 900px) {
-    .post-reader-localized-context .main { flex-direction: column !important; }
-    .post-reader-localized-context .sidebar {
-        position: fixed !important;
-        bottom: 0; left: 0;
-        width: 100% !important;
-        height: 60vh !important;
-        border-left: none !important;
-        border-top: 4px solid var(--color-ink) !important;
-        z-index: 200; /* Above text, below alerts */
-        box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
-        transition: height 0.3s cubic-bezier(0.2, 0, 0, 1), margin-bottom 0.3s cubic-bezier(0.2, 0, 0, 1) !important;
+    .post-reader-localized-context .main {
+        position: relative;
     }
+
+    .post-reader-localized-context .sidebar {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 40vh; /* Start height for mobile */
+        max-height: 85vh;
+        border-left: none;
+        border-top: var(--border-thick);
+        box-shadow: 0 -10px 50px rgba(0,0,0,0.3);
+        transform: translateY(0);
+        margin-right: 0;
+        transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+    }
+
+    /* HIDDEN STATE (Mobile) */
     .post-reader-localized-context .sidebar.hidden-comments {
-        height: 0 !important;
-        margin-bottom: -60vh !important;
-        width: 100% !important;
-        margin-right: 0 !important;
-        border-top: none !important;
+        transform: translateY(100%);
+        pointer-events: none;
+    }
+
+    /* Move buttons to bottom on mobile */
+    .post-reader-localized-context .awtsmoos-floating-controls {
+        top: auto;
+        bottom: 20px;
+        flex-direction: row; /* UPDATED from row-reverse */
+    }
+    
+    /* Center Modal on Mobile */
+    .post-reader-localized-context .typography-details {
+        top: 50%; left: 50%;
+        right: auto;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        position: fixed !important;
     }
 }

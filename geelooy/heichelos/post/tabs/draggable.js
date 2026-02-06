@@ -5,6 +5,7 @@
  * The Physics Engine of the Sidebar.
  * FIXED: Re-enabled Desktop flex-basis manipulation for reliable resizing.
  */
+import { performGeometricCheck } from '../logic/visuals/observer.js';
 
 let lastDesktopWidth = 420;
 let lastMobileHeight = 400; 
@@ -22,7 +23,6 @@ export function makeResizable({ sidebar, target }) {
     let pointerId = null;
 
     target.addEventListener('pointerdown', (e) => {
-        // Prevent scroll/selection interactions
         if(e.cancelable) e.preventDefault(); 
         e.stopPropagation();
         
@@ -33,6 +33,11 @@ export function makeResizable({ sidebar, target }) {
         const isMobile = window.innerWidth <= 900;
         document.body.classList.add('resizing-active');
         sidebar.classList.add('is-resizing');
+        // B"H - Store current width for the CSS var
+        if(!isMobile) {
+            document.documentElement.style.setProperty('--sidebar-width', `${sidebar.getBoundingClientRect().width}px`);
+        }
+
 
         if (isMobile) {
             startVal = e.clientY;
@@ -51,7 +56,6 @@ export function makeResizable({ sidebar, target }) {
             const isMobile = window.innerWidth <= 900;
             const currentVal = isMobile ? e.clientY : e.clientX;
             
-            // delta = start - current
             const delta = startVal - currentVal;
             
             if (isMobile) {
@@ -65,10 +69,11 @@ export function makeResizable({ sidebar, target }) {
                 let w = startDim + delta;
                 w = Math.max(280, Math.min(w, window.innerWidth * 0.7));
                 lastDesktopWidth = w;
-                // ON DESKTOP, flex-basis is required for flex layouts to respect size
                 sidebar.style.setProperty('width', `${w}px`, 'important');
                 sidebar.style.setProperty('flex-basis', `${w}px`, 'important');
                 sidebar.style.removeProperty('height');
+                document.documentElement.style.setProperty('--sidebar-width', `${w}px`);
+
             }
         });
     });
@@ -81,6 +86,7 @@ export function makeResizable({ sidebar, target }) {
         if (target.hasPointerCapture(pointerId)) {
             target.releasePointerCapture(pointerId);
         }
+        performGeometricCheck();
     };
 
     target.addEventListener('pointerup', stop);
@@ -93,15 +99,17 @@ export function setupLayoutSyncer(sidebar) {
 
     const sync = () => {
         const isMobile = window.innerWidth <= 900;
-        if (isMobile !== wasMobile || !sidebar.style.height) {
-            sidebar.style.cssText = ""; // Reset
+        if (isMobile !== wasMobile) {
+            // More gentle reset
+            sidebar.style.width = '';
+            sidebar.style.height = '';
+            sidebar.style.flexBasis = '';
+
             if (isMobile) {
                 sidebar.style.height = `${lastMobileHeight}px`;
-                sidebar.style.width = '100%';
             } else {
                 sidebar.style.width = `${lastDesktopWidth}px`;
                 sidebar.style.flexBasis = `${lastDesktopWidth}px`;
-                sidebar.style.height = '100%';
             }
             wasMobile = isMobile;
         }

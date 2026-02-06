@@ -1,8 +1,6 @@
-/* B"H
-   THE GATES OF REVELATION - SIDEBAR STYLES
-   Structured clarity for the seeker.
-*/
+/* B"H - SIDEBAR INTERNALS (REPAIRED & SANCTIFIED) */
 
+/* 1. SHELL */
 .post-reader-localized-context .awtsmoos-sidebar-shell {
     display: flex;
     flex-direction: column;
@@ -10,15 +8,21 @@
     width: 100%;
     overflow: hidden;
     background: var(--bg-surface);
+    
+    /* B"H - THE SANCTIFICATION: This law applies to all children of the shell */
+    * { box-sizing: border-box; }
 }
 
-/* Chrome Header area */
+/* 2. CHROME HEADER */
 .post-reader-localized-context .awtsmoos-sidebar-header-chrome {
-    padding: 15px 20px;
+    padding: 15px; /* Slightly reduced padding */
     background: var(--bg-surface);
-    border-bottom: 4px solid var(--color-ink);
-    z-index: 100;
+    border-bottom: var(--border-thick);
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 10;
 }
 
 .post-reader-localized-context .awtsmoos-chrome-row {
@@ -30,156 +34,86 @@
 .post-reader-localized-context .awtsmoos-current-view-title {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: 13px;
     font-weight: 900;
+    font-size: 16px; /* Slightly smaller */
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
+/* Close/Expand Buttons */
 .post-reader-localized-context .awtsmoos-chrome-btn {
     background: transparent !important;
-    border: 2px solid transparent !important;
+    border: 1px solid var(--color-ink) !important;
     color: var(--color-ink) !important;
-    font-weight: 900 !important;
-    font-size: 16px !important;
-    cursor: pointer !important;
-    padding: 2px 8px !important;
-    line-height: 1 !important;
-    transition: all 0.2s !important;
-    border-radius: 4px !important;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
 }
-
 .post-reader-localized-context .awtsmoos-chrome-btn:hover {
-    background: var(--color-accent) !important;
-    border-color: var(--color-ink) !important;
-    box-shadow: 2px 2px 0 var(--color-ink) !important;
-    transform: translate(-1px, -1px) !important;
-}
-
-.post-reader-localized-context .awtsmoos-chrome-btn.close:hover {
-    background: var(--color-danger) !important;
-    color: white !important;
-}
-
-/* FULLSCREEN MODE */
-.post-reader-localized-context .sidebar.fullscreen-mode {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 9999 !important;
-    border: none !important;
-    margin: 0 !important;
-}
-
-/* B"H - REFINED BREADCRUMBS
-   Fixes the horizontal scroll 'recursion' issue by wrapping correctly.
-*/
-.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
-    display: flex;
-    flex-wrap: wrap; /* B"H - Wrap instead of scrolling infinitely */
-    gap: 4px;
-    padding: 10px 0 0 0;
-    margin-top: 10px;
-    border-top: 1px solid rgba(0,0,0,0.1);
-}
-
-.post-reader-localized-context .awtsmoos-crumb-link {
-    background: none !important;
-    border: none !important;
-    padding: 2px 6px !important;
-    font-family: var(--font-ui) !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
-    text-transform: uppercase !important;
-    color: var(--color-ink-secondary) !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    box-shadow: none !important;
-    letter-spacing: 1px !important;
-    transition: color 0.15s ease !important;
-}
-
-.post-reader-localized-context .awtsmoos-crumb-link:hover {
-    color: var(--color-primary) !important;
-    transform: none !important;
-}
-
-.post-reader-localized-context .awtsmoos-crumb-link.active-crumb {
-    color: var(--color-ink) !important;
-    pointer-events: none !important;
-}
-
-.post-reader-localized-context .crumb-arrow {
-    margin-left: 6px;
-    font-size: 14px;
-    color: var(--color-accent);
-    font-weight: 900;
-}
-
-/* Internal View Navigation */
-.post-reader-localized-context .awtsmoos-view-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid var(--color-ink);
-}
-
-.post-reader-localized-context .awtsmoos-back-btn {
     background: var(--color-ink) !important;
     color: var(--bg-surface) !important;
-    font-size: 10px !important;
-    padding: 6px 12px !important;
-    font-weight: 900 !important;
-    margin-right: 15px !important;
-    border: none !important;
-    border-radius: 2px !important;
-    cursor: pointer !important;
 }
 
-.post-reader-localized-context .awtsmoos-back-btn:hover {
-    background: var(--color-primary) !important;
-    transform: translate(-2px, -2px) !important;
+/* 3. BREADCRUMBS (See tabs.css for full redesign) */
+.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--color-ink-secondary);
 }
 
-.post-reader-localized-context .awtsmoos-view-title-text {
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 1px;
-}
-
-/* Chamber Sliding Physics */
+/* 4. SLIDING VIEWPORTS */
 .post-reader-localized-context .awtsmoos-slide-viewport {
     flex: 1;
     position: relative;
     overflow: hidden;
+    background: var(--bg-vellum);
 }
 
 .post-reader-localized-context .awtsmoos-slide-view {
     position: absolute;
     inset: 0;
-    padding: 20px;
     overflow-y: auto;
-    background: var(--bg-surface);
-    transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1), opacity 0.3s;
-    transform: translateX(100%);
+    background: var(--bg-vellum);
+    transition: transform 0.4s var(--ease-snap), opacity 0.4s ease;
+    transform: translate3d(100%, 0, 0);
     opacity: 0;
-    z-index: 10;
+    padding: 20px; /* Padding applied here */
 }
 
 .post-reader-localized-context .awtsmoos-slide-view.active-view {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
     z-index: 20;
 }
 
 .post-reader-localized-context .awtsmoos-slide-view.slide-out-left {
-    transform: translateX(-30%) scale(0.95);
-    opacity: 0.5;
-    filter: blur(2px);
-    pointer-events: none;
+    transform: translate3d(-30%, 0, 0);
+    opacity: 0;
+}
+
+/* 5. FULLSCREEN MODE */
+.post-reader-localized-context .sidebar.fullscreen-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    flex-basis: auto !important;
+    border: none;
+    z-index: 50000;
+    margin: 0 !important;
+    transform: none !important;
+}
+
+.post-reader-localized-context .sidebar.fullscreen-mode .awtsmoos-sidebar-header-chrome {
+    border-radius: 0;
+    border-bottom: var(--border-thick);
 }

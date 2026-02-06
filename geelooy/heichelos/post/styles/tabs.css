@@ -1,61 +1,97 @@
 /* B"H - TECTONIC COMPONENT STYLES 
-   Bold. Clear. Intentional.
+   REFORGED for the TORAH MATRIX - NAVIGATION INTENSIFIED
 */
 
-.post-reader-localized-context .post-info-container {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    padding-bottom: 40px;
+/* B"H - REFORGED BREADCRUMBS */
+.post-reader-localized-context .awtsmoos-crumb-link,
+.post-reader-localized-context .awtsmoos-back-btn {
+    all: unset; box-sizing: border-box; display: inline-flex;
+    align-items: center; font-family: var(--font-mono); font-size: 11px;
+    text-transform: uppercase; font-weight: 700; padding: 4px 8px;
+    cursor: pointer; color: var(--color-ink-secondary); transition: all 0.2s;
+    border: 1px solid transparent;
+}
+.post-reader-localized-context .awtsmoos-crumb-link:hover,
+.post-reader-localized-context .awtsmoos-back-btn:hover {
+    background: var(--color-accent); color: var(--color-ink);
+    border-color: var(--color-ink);
+}
+.post-reader-localized-context .awtsmoos-crumb-link.active-crumb {
+    background: var(--color-ink); color: var(--bg-surface);
+    pointer-events: none; border-color: var(--color-ink);
+}
+.post-reader-localized-context .crumb-arrow { margin: 0 4px; }
+.post-reader-localized-context .awtsmoos-back-btn {
+    font-weight: 900; font-size: 14px; padding: 2px 8px; margin-right: 5px;
 }
 
+/* INFO CARDS IN SIDEBAR */
 .post-reader-localized-context .tl {
-    border: var(--border-thick);
-    padding: 24px;
-    background: #fff;
-    box-shadow: var(--shadow-ui);
-    position: relative;
+    border: var(--border-ui); padding: 1rem; background: var(--bg-vellum);
+    box-shadow: var(--shadow-ui); position: relative;
+    transition: all 0.2s var(--ease-snap);
 }
-
+.post-reader-localized-context .tl:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-hover); }
 .post-reader-localized-context .tl .label {
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight: 900;
-    background: #000;
-    color: #fff;
-    padding: 4px 10px;
-    margin-bottom: 12px;
-    display: inline-block;
+    font-family: var(--font-mono); font-size: 9px; text-transform: uppercase;
+    font-weight: 700; background: var(--color-ink); color: var(--bg-surface);
+    padding: 3px 8px; margin-bottom: 10px; display: inline-block; letter-spacing: 1px;
 }
-
 .post-reader-localized-context .tl .value {
-    font-size: 20px;
-    font-weight: 800;
-    word-break: break-word;
-    line-height: 1.2;
+    font-family: var(--font-ui); font-size: 1rem; font-weight: 700;
+    word-break: break-word; line-height: 1.4;
+}
+.post-reader-localized-context .tl .value a {
+    color: var(--color-primary); text-decoration: none;
+    border-bottom: 2px dashed var(--color-primary); padding-bottom: 1px; transition: all 0.2s;
+}
+.post-reader-localized-context .tl .value a:hover {
+    background: var(--color-primary); color: var(--bg-surface); border-bottom-style: solid;
 }
 
-/* LIST ITEMS */
+/* LIST ITEMS (e.g., Commentator List) */
 .post-reader-localized-context .awtsmoos-list-item {
-    padding: 20px;
-    border: var(--border-thick);
-    margin-bottom: 16px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    box-shadow: var(--shadow-ui);
-    transition: all 0.2s;
+    padding: 1rem; border: var(--border-ui); margin-bottom: 1rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--bg-surface); box-shadow: var(--shadow-ui); transition: all 0.2s;
 }
-
+.post-reader-localized-context .awtsmoos-list-item .commentator-info { cursor: pointer; display: flex; align-items: center; gap: 12px; }
 .post-reader-localized-context .awtsmoos-list-item:hover {
-    background: var(--color-accent);
-    transform: translate(-2px, -2px);
-    box-shadow: var(--shadow-hover);
+    transform: translate(-2px, -2px); box-shadow: var(--shadow-hover);
+    border-color: var(--color-ink);
 }
-
+.post-reader-localized-context .awtsmoos-list-item .commentator-info:hover { background: var(--color-accent); }
 .post-reader-localized-context .awtsmoos-list-item.ai-card {
-    background: var(--color-primary);
-    color: #fff;
+    background: var(--color-primary); color: var(--bg-surface);
+    border-color: var(--color-ink); cursor: pointer;
+}
+.post-reader-localized-context .awtsmoos-list-item.ai-card:hover { background: var(--color-accent); color: var(--color-ink); }
+.post-reader-localized-context .awtsmoos-list-item-arrow { font-weight: bold; transition: transform 0.2s; margin-left: 10px; }
+.post-reader-localized-context .awtsmoos-list-item .commentator-info:hover .awtsmoos-list-item-arrow { transform: translateX(5px); }
+.commentator-actions { display: flex; align-items: center; gap: 15px; }
+.commentator-avatar {
+    width: 36px; height: 36px; background: var(--color-ink); color: var(--bg-surface);
+    display: flex; align-items: center; justify-content: center; font-weight: 900;
+    font-size: 14px; border: 2px solid var(--color-ink);
+}
+.commentator-name { color: var(--color-ink); font-weight: 900; font-size: 16px; }
+
+/* B"H - THE INLINE TOGGLE SWITCH */
+.inline-toggle-label {
+    position: relative; display: inline-block; width: 40px; height: 22px; cursor: pointer;
+}
+.inline-toggle-input { opacity: 0; width: 0; height: 0; }
+.inline-toggle-label::before { /* The track */
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--bg-vellum); border: 2px solid var(--color-ink-secondary);
+    transition: .2s;
+}
+.inline-toggle-label::after { /* The knob */
+    content: ""; position: absolute; top: 3px; left: 3px;
+    width: 12px; height: 12px; background-color: var(--color-ink-secondary);
+    border: 2px solid var(--color-ink-secondary); transition: .2s;
+}
+.inline-toggle-input:checked + .inline-toggle-label::before { background-color: var(--color-primary); border-color: var(--color-primary); }
+.inline-toggle-input:checked + .inline-toggle-label::after {
+    transform: translateX(18px); background-color: white; border-color: var(--color-primary);
 }
