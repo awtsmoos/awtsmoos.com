@@ -1,4 +1,4 @@
-/* B"H - THE UNBREAKABLE LAYOUT (REPAIRED) */
+/* B"H - THE UNBREAKABLE LAYOUT (REFORGED & SANCTIFIED) */
 
 /* 1. WORLD FRAME */
 .post-reader-localized-context {
@@ -44,7 +44,7 @@
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
-    z-index: 10; /* Below sidebar */
+    z-index: 10;
 }
 
 /* 5. SIDEBAR (The Drawer) - DESKTOP */
@@ -57,18 +57,14 @@
     z-index: 500;
     display: flex;
     flex-direction: column;
-    
-    /* Transition Logic */
-    transition: margin-right 0.3s var(--ease-snap), transform 0.3s var(--ease-snap), width 0.3s var(--ease-snap), height 0.3s var(--ease-snap);
-    
-    /* Default: Visible on Right */
+    transition: margin-right 0.3s var(--ease-snap), transform 0.3s var(--ease-snap);
     margin-right: 0;
     position: relative; /* In flow for desktop */
 }
 
 /* HIDDEN STATE (Desktop) */
 .post-reader-localized-context .sidebar.hidden-comments {
-    margin-right: -420px; /* Slide off screen right */
+    margin-right: calc(-1 * var(--sidebar-width, 420px));
     box-shadow: none;
     pointer-events: none;
 }
@@ -77,22 +73,22 @@
 .post-reader-localized-context .awtsmoos-floating-controls {
     position: absolute !important;
     top: 80px;
-    left: 20px; /* MOVED TO LEFT */
+    left: 20px;
     z-index: 20000; /* Above everything */
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 15px;
-    pointer-events: none; /* Let clicks pass through container */
+    pointer-events: none;
 }
 .post-reader-localized-context .awtsmoos-floating-controls button {
-    pointer-events: auto; /* Re-enable buttons */
+    pointer-events: auto;
 }
 
 /* 7. SETTINGS PANEL (Anchored relative to buttons) */
 .post-reader-localized-context .typography-details {
     position: absolute !important;
     top: 80px;
-    left: 90px; /* MOVED TO LEFT */
+    left: 90px;
     z-index: 19999;
     width: 320px;
     background: var(--bg-surface);
@@ -100,7 +96,6 @@
     box-shadow: var(--shadow-high);
 }
 
-/* Ensure hidden state wins */
 .post-reader-localized-context .typography-details.hidden-details {
     display: none !important;
 }
@@ -128,20 +123,17 @@
         transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
     }
 
-    /* HIDDEN STATE (Mobile) */
     .post-reader-localized-context .sidebar.hidden-comments {
         transform: translateY(100%);
         pointer-events: none;
     }
 
-    /* Move buttons to bottom on mobile */
     .post-reader-localized-context .awtsmoos-floating-controls {
         top: auto;
         bottom: 20px;
-        flex-direction: row; /* UPDATED from row-reverse */
+        flex-direction: row;
     }
     
-    /* Center Modal on Mobile */
     .post-reader-localized-context .typography-details {
         top: 50%; left: 50%;
         right: auto;

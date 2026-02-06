@@ -1,9 +1,9 @@
 // /BH/awtsmoos.com/geelooy/heichelos/post/tabs/manager/core.js
 //B"H
-import { createSidebarShell } from "./shell.js";
-import { createChamberDOM } from "./chamber.js";
-import { renderBreadcrumbs } from "./breadcrumbs.js";
-import { slideIn, slideOut } from "./transitions.js";
+import { createSidebarShell } from "/heichelos/post/tabs/manager/shell.js";
+import { createChamberDOM } from "/heichelos/post/tabs/manager/chamber.js";
+import { renderBreadcrumbs } from "/heichelos/post/tabs/manager/breadcrumbs.js";
+import { slideIn, slideOut } from "/heichelos/post/tabs/manager/transitions.js";
 import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js"; 
 
 export default class TabManager {

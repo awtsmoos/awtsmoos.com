@@ -1,56 +1,74 @@
-/* B"H - BRUTALIST THREADING ARCHITECTURE */
-
-.post-reader-localized-context .comment-wrapper {
-    position: relative;
-}
+/* B"H - THREADING ARCHITECTURE (REFINED) */
 
 .post-reader-localized-context .children-slot {
-    position: relative;
-    margin-left: 1.5rem; /* Indent */
+    margin-left: 1.25rem;
     padding-left: 1.25rem;
-    margin-top: 1.25rem;
-    border-left: 2px solid var(--color-ink-secondary); 
+    margin-top: 1rem;
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem; 
+    gap: 1rem;
 }
 
-.post-reader-localized-context .children-slot.hidden {
-    display: none !important;
-}
-
-/* The L-shaped connector line */
-.post-reader-localized-context .children-slot > .comment-wrapper::before {
+/* THE TRUNK: A clean, solid line of connection */
+.post-reader-localized-context .children-slot::before {
     content: '';
     position: absolute;
-    top: 1.5rem;       
-    left: -1.25rem;     
-    width: 1.25rem;     
-    height: 2px;     
-    background-color: var(--color-ink-secondary);
-    z-index: 1;
+    top: 0; 
+    left: 0;
+    width: 2px; /* Thinner line */
+    height: 100%;
+    background: var(--color-ink-secondary);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+/* HOVER: Illuminate the Path */
+.post-reader-localized-context .children-slot:hover::before {
+    background: var(--color-primary);
+    opacity: 1;
+}
+
+/* THE BRANCH CONNECTOR */
+.post-reader-localized-context .children-slot > .comment-wrapper {
+    position: relative;
+}
+
+.post-reader-localized-context .children-slot > .comment-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 1.5rem; 
+    left: -1.25rem;
+    width: 1.25rem; 
+    height: 2px;
+    background: var(--color-ink-secondary);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.post-reader-localized-context .children-slot > .comment-wrapper:hover::after {
+    background: var(--color-primary);
+    opacity: 1;
 }
 
 /* REPLY TOGGLE BUTTON */
 .post-reader-localized-context .reply-toggle-btn {
-    display: inline-block;
     width: auto;
-    margin-top: 10px;
-    padding: 6px 12px !important;
-    background: var(--bg-surface) !important;
-    color: var(--color-ink) !important;
-    border: 1px solid var(--color-ink) !important;
-    font-family: var(--font-ui) !important;
-    font-weight: 900 !important;
-    font-size: 10px !important;
-    text-transform: uppercase !important;
-    cursor: pointer !important;
-    text-align: left !important;
-    box-shadow: 2px 2px 0 var(--color-ink) !important;
-    transition: all 0.1s;
+    display: inline-block;
+    padding: 5px 10px !important;
+    font-size: 9px !important;
+    text-transform: uppercase;
+    background: transparent !important;
+    border: 1px solid var(--color-ink-secondary) !important;
+    color: var(--color-ink-secondary) !important;
+    box-shadow: none !important;
+    margin-top: 8px;
+    border-radius: 4px;
 }
 
 .post-reader-localized-context .reply-toggle-btn:hover {
-    transform: translate(-1px, -1px) !important;
-    box-shadow: 3px 3px 0 var(--color-accent) !important;
+    background: var(--bg-surface) !important;
+    border-style: solid !important;
+    color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
 }

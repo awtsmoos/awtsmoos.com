@@ -1,6 +1,6 @@
 //B"H
 import { markdownToHtml } from "/heichelos/post/parsing.js";
-import { toggleBranchInput } from "./input.js";
+import { toggleBranchInput } from "/heichelos/post/comments/render/ai/input.js";
 
 /**
  * B"H - Creates a clean message node.

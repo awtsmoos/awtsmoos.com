@@ -1,13 +1,13 @@
-/* B"H - CONTENT STYLES ("TORAH MATRIX" UNLEASHED) */
+/* B"H - CONTENT STYLES ("TORAH MATRIX" EDITION) */
 
 .post-reader-localized-context #realPost {
     width: 100% !important;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 5vh;
+    padding-top: 50vh;
     padding-bottom: 20vh;
-    isolation: isolate; 
+    isolation: isolate;
 }
 
 /* THE MONOLITH TITLE */
@@ -19,7 +19,7 @@
     text-transform: uppercase;
     text-align: center;
     color: var(--color-ink);
-    margin: 0 0 2rem 0 !important;
+    margin: 0 0 2rem 0 !important; /* Reduced margin */
     padding: 0 20px;
     max-width: 900px;
 }
@@ -28,12 +28,12 @@
 .post-reader-localized-context #realPost .section {
     position: relative !important;
     width: 100% !important;
-    max-width: 950px;
-    padding: 1rem 0.5rem;
-    margin-bottom: 2rem !important;
+    /* max-width: 950px; */ /* Wider for inline */
+    /* padding: 1rem 0.5rem; */ /* Reduced padding */
+    margin-bottom: 2rem !important; /* Reduced margin */
     box-sizing: border-box;
     transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
-}
+} 
 
 /* SPOTLIGHT LOGIC */
 .post-reader-localized-context #realPost .section:not(.active-reading-section) {
@@ -66,30 +66,32 @@
     line-height: 1.7 !important;
 }
 
-/* B"H - THE DYNAMIC FLOW CONTAINER */
+/* B"H - THE INLINE MATRIX CONTAINER */
 .post-reader-localized-context #realPost .subsection-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 0.5em; /* Minimal gap */
     justify-content: center;
-    align-items: flex-start;
 }
 
-/* SUB-SECTIONS (Paragraphs) - REFORGED FOR DYNAMIC FLOW */
+/* SUB-SECTIONS (Paragraphs) */
 .post-reader-localized-context #realPost .sub-awtsmoos {
     position: relative;
-    margin: 0 !important;
-    padding: 0.75em;
-    border: 1px dashed var(--color-ink-secondary);
+    margin-bottom: 0 !important; /* Handled by gap */
+    /* padding: 0.75em; */ /* Minimal padding */
+    /* border: 1px dashed var(--color-ink-secondary); */
     transition: all 0.3s ease;
-    /* B"H - No flex-grow, no flex-basis. Let the content dictate the vessel. */
-    max-width: 100%;
+    flex-grow: 1;
+    display:inline-block;
+    flex-basis: 300px; /* Allow wrapping */
 }
 .post-reader-localized-context #realPost .sub-awtsmoos:hover {
     border-style: solid;
     border-color: var(--color-primary);
     background: rgba(0,0,0,0.02);
 }
+
+/* B"H - THE FIRST LETTER STYLE IS REMOVED ENTIRELY */
 
 /* THE VERSE NUMBER (Floating in Margin) */
 .post-reader-localized-context #realPost .awtsmoos-verse-number {

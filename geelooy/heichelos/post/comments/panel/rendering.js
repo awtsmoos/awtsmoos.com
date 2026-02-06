@@ -1,13 +1,13 @@
 // /BH/awtsmoos.com/geelooy/heichelos/post/comments/panel/rendering.js
 //B"H
 import { CommentSection } from "/heichelos/post/CommentSection.js";
-import { makeHTMLFromComment, renderTreeItem } from "../render.js";
-import { isAliasInline, toggleInlineForComments } from "../inline.js";
-import { openAIChat } from "../../ai/chat.js";
-import { openCommentsOfAlias } from "../panel.js"; 
-import { getAndSaveAliases } from "./fetching.js"; 
+import { makeHTMLFromComment, renderTreeItem } from "/heichelos/post/comments/render.js";
+import { isAliasInline, toggleInlineForComments } from "/heichelos/post/comments/inline.js";
+import { openAIChat } from "/heichelos/post/ai/chat.js";
+import { openCommentsOfAlias } from "/heichelos/post/comments/panel.js"; 
+import { getAndSaveAliases } from "/heichelos/post/comments/panel/fetching.js"; 
 
-export { renderFootnotesPanel } from "./footnotes.js"; 
+export { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.js"; 
 
 // Helper: Build Tree Structure (Duplicate for modular isolation)
 function buildCommentTree(comments) {

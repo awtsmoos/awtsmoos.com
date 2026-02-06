@@ -14,7 +14,8 @@ export function initializeDOMElements() {
     const requiredIds = [
         'heichel-main-title', 'sidebar-title', 'postsTab', 'seriesTab',
         'postsList', 'seriesList', 'toast-container', 'creation-modal',
-        'editorControlsHeader', 'editorHeaderArrow', 'sidebar-toggle-btn'
+        'editorControlsHeader', 'editorHeaderArrow', 'sidebar-toggle-btn',
+        'editorsHeader'
     ];
     for (const id of requiredIds) {
         if (!document.getElementById(id)) {
@@ -30,8 +31,8 @@ export function initializeDOMElements() {
     DOMElements.postsTab = document.getElementById('postsTab');
     DOMElements.seriesTab = document.getElementById('seriesTab');
     DOMElements.breadcrumbContainer = document.getElementById('breadcrumb-container');
-    DOMElements.postsContainer = document.querySelector('.posts');
-    DOMElements.seriesContainer = document.querySelector('.series');
+    DOMElements.postsContainer = document.querySelector('.view.posts');
+    DOMElements.seriesContainer = document.querySelector('.view.series');
     DOMElements.postsControls = document.querySelector('.posts-controls');
     DOMElements.seriesControlsContainer = document.querySelector('.series-controls');
     DOMElements.seriesControls = document.getElementById('seriesControls');
@@ -45,7 +46,7 @@ export function initializeDOMElements() {
     DOMElements.editorControlsHeader = document.getElementById('editorControlsHeader');
     DOMElements.controlsContainer = document.querySelector('.editor-controls-area .controls-container');
     DOMElements.editorControlsArrow = document.querySelector('.editor-controls-area .controls-arrow');
-    DOMElements.editorsSection = document.querySelector('.editors-section .editors-header');
+    DOMElements.editorsSection = document.getElementById('editorsHeader');
     DOMElements.editorHolder = document.querySelector('.editors-holder');
     DOMElements.editorHeaderArrow = document.getElementById('editorHeaderArrow');
     DOMElements.modalRoot = document.getElementById('creation-modal');

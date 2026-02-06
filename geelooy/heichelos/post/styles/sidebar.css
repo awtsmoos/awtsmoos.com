@@ -57,7 +57,7 @@
     color: var(--bg-surface) !important;
 }
 
-/* 3. BREADCRUMBS (See tabs.css for full redesign) */
+/* 3. BREADCRUMBS */
 .post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
     display: flex;
     flex-wrap: wrap;

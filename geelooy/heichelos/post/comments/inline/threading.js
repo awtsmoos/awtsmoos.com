@@ -5,10 +5,10 @@
  * RE-FORGED for CSS GRID architecture.
  */
 import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
-import { makeInlineComment } from "../render.js";
+import { makeInlineComment } from "/heichelos/post/comments/render.js";
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
-import { isAliasInline } from "./state.js";
-import { registerFork } from "../render/ai/structure.js"; 
+import { isAliasInline } from "/heichelos/post/comments/inline/state.js";
+import { registerFork } from "/heichelos/post/comments/render/ai/structure.js"; 
 
 /**
  * @method renderThreadContent
@@ -98,7 +98,7 @@ export async function renderThreadContent(threadContainer, idx, sub) {
         }
     };
 
-    const { getAndSaveAliases } = await import("../panel.js");
+    const { getAndSaveAliases } = await import("/heichelos/post/comments/panel.js");
     let aliases = await getAndSaveAliases(false, true, idx, sub, false); 
 
     threadContainer.innerHTML = ""; 

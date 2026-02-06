@@ -6,6 +6,7 @@
     border: 2px dashed var(--color-primary);
     background: var(--bg-vellum);
     animation: slideDown 0.3s ease;
+    margin-top: 1rem;
     margin-bottom: 1rem; /* Space from next item in thread */
 }
 .dark .awtsmoos-reply-box {

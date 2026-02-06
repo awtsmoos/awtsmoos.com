@@ -33,7 +33,7 @@ export function renderBreadcrumb(breadcrumbData, navigator) {
         return;
     }
     container.classList.remove("hidden");
-    container.innerHTML = pathItems.map(item => `<a href="#" data-series-id="${item.id}">${item.name || "Unnamed"}</a>`).join('<span> / </span>');
+    container.innerHTML = pathItems.map(item => `<a href="#" data-series-id="${item.id}">${item.name || "Unnamed"}</a>`).join('<span class="crumb-separator">/</span>');
     container.querySelectorAll('a').forEach(a => {
         a.onclick = e => {
             e.preventDefault();
@@ -80,16 +80,11 @@ export function renderContentGrids(seriesDetails, navigator, appState) {
 
 function renderGrid(container, items, type, parentId, navigator, appState) {
     container.innerHTML = "";
-    
-    // B"H - Filter out items that appear to be replies, as they don't belong here.
-    const filteredItems = (items || []).filter(item => !(item.title && item.title.toUpperCase().startsWith("REPLY TO ")));
-
-    if (filteredItems.length === 0) {
+    if (!items || items.length === 0) {
         container.innerHTML = `<p class="empty-message">No ${type}s found in this expanse.</p>`;
         return;
     }
-    
-    filteredItems.forEach((item, idx) => {
+    items.forEach((item, idx) => {
         const data = item;
         const id = item.id || item.postId;
         if (!data || !id) return;

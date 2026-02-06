@@ -1,6 +1,6 @@
 //B"H
 import { copyToClipboard, updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
-import { makeToast } from "../ui.js";
+import { makeToast } from "/heichelos/post/functions/ui.js";
 
 export async function showCustomContextMenu(x, y, e) {
     const getSelectedText = () => window.getSelection().toString();
@@ -30,7 +30,7 @@ export async function showCustomContextMenu(x, y, e) {
         };
         
         menuActions[`View Commentary`] = async () => {
-            const inlineModule = await import("../../comments/inline.js");
+            const inlineModule = await import("/heichelos/post/comments/inline.js");
             const targetEl = subSection || mainSection;
             await inlineModule.showSectionCommentaryInline(idx, sub, targetEl);
         };

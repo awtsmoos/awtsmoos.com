@@ -4,7 +4,7 @@
  * Lighting the flames of commentary with high-intensity feedback.
  */
 import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
-import { showSectionCommentaryInline } from "./threading.js";
+import { showSectionCommentaryInline } from "/heichelos/post/comments/inline/threading.js";
 
 /**
  * @method manifestCommentIndicators
@@ -14,7 +14,7 @@ export async function manifestCommentIndicators() {
     const post = window.post;
     if (!post) return;
     
-    const { getAndSaveAliases } = await import("../panel.js");
+    const { getAndSaveAliases } = await import("/heichelos/post/comments/panel.js");
     const sections = document.querySelectorAll('.section');
     
     // Check URL for Deep Link

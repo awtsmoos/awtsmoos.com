@@ -1,6 +1,6 @@
 //B"H
 import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
-import { loadedInlineVerses } from "../state.js";
+import { loadedInlineVerses } from "/heichelos/post/comments/state.js";
 
 var inlineComments = {};
 

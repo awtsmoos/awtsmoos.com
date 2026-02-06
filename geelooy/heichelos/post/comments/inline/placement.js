@@ -1,8 +1,8 @@
 // /BH/awtsmoos.com/geelooy/heichelos/post/comments/inline/placement.js
 //B"H
 import { isFirstCharacterHebrew, updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
-import { makeInlineComment, makeInlineCommentHolder, renderTreeItem } from "../render.js";
-import { hideCommentsInline, getInlineAliases, isAliasInline } from "./state.js";
+import { makeInlineComment, makeInlineCommentHolder, renderTreeItem } from "/heichelos/post/comments/render.js";
+import { hideCommentsInline, getInlineAliases, isAliasInline } from "/heichelos/post/comments/inline/state.js";
 
 function buildCommentTree(comments) {
     const map = {};

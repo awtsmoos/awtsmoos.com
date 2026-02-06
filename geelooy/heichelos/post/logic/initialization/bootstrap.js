@@ -10,9 +10,9 @@ import { setupUIListeners, renderBookmarksPanel, toggleSidebar } from "/heichelo
 import { setupViewEffects } from "/heichelos/post/logic/viewEffects.js"; 
 import { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.js";
 import TabManager from "/heichelos/post/TabManager.js";
-import { loadInitial } from "./coordinates.js";
-import { populateRevelationTab } from "./sidebarContent.js";
-import { addCommentsInline } from "../../comments/inline.js";
+import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js";
+import { populateRevelationTab } from "/heichelos/post/logic/initialization/sidebarContent.js";
+import { addCommentsInline } from "/heichelos/post/comments/inline.js";
 
 async function restoreInlineState() {
     console.log("B\"H - [Bootstrap] Checking for inline state memory...");
