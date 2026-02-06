@@ -17,11 +17,11 @@ import { setupScribeLens } from "./visuals/lens.js";
  */
 export function setupViewEffects() {
     console.log("B\"H - Visual Engine Ignition.");
-    const realPost = document.getElementById('realPost');
+    const scroller = document.querySelector('.scroll-view-wrapper');
     
-    if (realPost) {
+    if (scroller) {
         // 1. Start the Observer (Hunter)
-        setupActiveVerseObserver(realPost);
+        setupActiveVerseObserver(scroller);
         
         // 2. Perform initial geometric sweep
         requestAnimationFrame(() => {

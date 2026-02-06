@@ -1,6 +1,5 @@
-
 //B"H
-import { markdownToHtml } from "../../../parsing.js";
+import { markdownToHtml } from "/heichelos/post/parsing.js";
 import { toggleBranchInput } from "./input.js";
 
 /**

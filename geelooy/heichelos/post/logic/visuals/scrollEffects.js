@@ -7,8 +7,8 @@
  */
 
 export function setupScrollUnrollEffect() {
-    const realPost = document.getElementById('realPost');
-    if (!realPost) return;
+    const scroller = document.querySelector('.scroll-view-wrapper');
+    if (!scroller) return;
 
     // 1. One-time Canvas Generation
     let canvas = document.getElementById('awtsmoos-scroll-fx');
@@ -49,9 +49,9 @@ export function setupScrollUnrollEffect() {
     const topRoll = document.querySelector('.scroll-roll-top');
     const bottomRoll = document.querySelector('.scroll-roll-bottom');
 
-    realPost.addEventListener('scroll', () => {
+    scroller.addEventListener('scroll', () => {
         if(!topRoll || !bottomRoll) return;
-        const y = realPost.scrollTop;
+        const y = scroller.scrollTop;
         const shift = (y * 0.22).toFixed(1); 
         
         topRoll.style.backgroundPositionY = `${shift}px`;

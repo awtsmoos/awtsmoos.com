@@ -33,7 +33,7 @@ export function populateRevelationTab(actualTab, post, tabRefs) {
     actionsArea.appendChild(createBtn("Insights & Comments", "💬", () => tabRefs.insights.open()));
     
     actionsArea.appendChild(createBtn("Consult AI Oracle", "✨", async () => {
-         const { openAIChat } = await import("../../ai/chat.js");
+         const { openAIChat } = await import("/heichelos/post/ai/chat.js");
          openAIChat();
     }));
 

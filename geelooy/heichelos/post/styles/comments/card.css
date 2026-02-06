@@ -1,99 +1,54 @@
-/* /BH/awtsmoos.com/geelooy/heichelos/post/styles/comments/card.css */
-/* B"H - THE VESSEL (Card Aesthetics) - Professional & Compact */
+/* B"H - NEO-BRUTALIST INSIGHT VESSELS */
 
-.post-reader-localized-context .comment-content {
-    background-color: var(--bg-surface);
-    border: 1px solid rgba(0,0,0,0.1);
-    color: var(--color-ink);
+.post-reader-localized-context .comment-content,
+.post-reader-localized-context .inline-comment {
+    background: var(--bg-surface);
+    border: 2px solid var(--color-ink);
+    margin-bottom: 20px;
     
-    /* Subtle, professional shadow */
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    box-shadow: 5px 5px 0 var(--color-ink-secondary);
+    transition: transform 0.2s var(--ease-snap), box-shadow 0.2s var(--ease-snap);
     
-    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-    position: relative;
-    z-index: 2;
-    margin-bottom: 8px; /* Tighter spacing */
 }
 
-/* HOVER STATE */
-.post-reader-localized-context .comment-content:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    border-color: var(--color-ink-secondary);
-    z-index: 10;
+.post-reader-localized-context .comment-content:hover,
+.post-reader-localized-context .inline-comment:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--color-accent);
+    border-color: var(--color-ink);
+    z-index: 5;
 }
 
-/* --- THE TEXT BODY --- */
+.post-reader-localized-context .inline-comment {
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
 .post-reader-localized-context .comment-text {
-    padding: 10px 14px;
+    padding: 1rem 1.25rem;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 2px solid var(--color-ink);
     font-family: var(--font-content);
-    /* B"H - Dynamic size, significantly smaller than main text for clarity */
-    font-size: 0.925rem; 
-    line-height: 1.5;
+    word-wrap: break-word;
+}
+.post-reader-localized-context[data-theme="dark"] .comment-text {
+    border-bottom-color: rgba(255,255,255,0.1);
+}
+.post-reader-localized-context .inline-comment .comment-text {
+    padding: 12px;
+    font-size: 13px;
 }
 
-/* Markdown Elements inside Comment */
-.post-reader-localized-context .comment-text strong {
-    font-weight: 700;
-    color: var(--color-primary);
-}
-
-.post-reader-localized-context .comment-text p {
-    margin-bottom: 0.5rem;
-}
-.post-reader-localized-context .comment-text p:last-child {
-    margin-bottom: 0;
-}
-
-.post-reader-localized-context .comment-text blockquote {
-    border-left: 2px solid var(--color-accent);
-    background: rgba(0,0,0,0.03);
-    margin: 6px 0;
-    padding: 6px 10px;
-    font-size: 0.9em;
-    font-style: italic;
-    color: var(--color-ink-secondary);
-}
-
-/* --- THE FOOTER (Toolbar) --- */
 .post-reader-localized-context .comment-toolbar {
-    border-top: 1px solid rgba(0,0,0,0.05);
-    background: rgba(0,0,0,0.015);
-    padding: 4px 10px;
+    background: var(--bg-vellum);
+    padding: 8px 12px;
     display: flex;
-    justify-content: flex-end;
-    gap: 6px;
     align-items: center;
-}
-
-/* Action Buttons inside Toolbar */
-.post-reader-localized-context .comment-toolbar button {
-    font-size: 10px !important;
-    padding: 2px 6px !important;
-    background: transparent !important;
-    border: 1px solid transparent !important;
-    box-shadow: none !important;
-    color: var(--color-ink-secondary) !important;
-    font-weight: 600 !important;
-    text-transform: uppercase;
-    border-radius: 2px !important;
-}
-
-.post-reader-localized-context .comment-toolbar button:hover {
-    color: var(--color-primary) !important;
-    background: rgba(0,0,0,0.05) !important;
-    border-color: rgba(0,0,0,0.1) !important;
-}
-
-/* FLASH ANIMATION */
-@keyframes intense-flash {
-    0% { background-color: var(--color-accent); box-shadow: 0 0 10px var(--color-accent); }
-    100% { background-color: var(--bg-surface); }
-}
-
-.post-reader-localized-context .comment-content.highlight-flash {
-    animation: intense-flash 1.5s ease-out;
+    justify-content: flex-end;
+    gap: 10px;
 }

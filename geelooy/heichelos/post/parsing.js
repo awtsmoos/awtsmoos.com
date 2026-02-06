@@ -13,7 +13,7 @@
  * - Links (Intelligent routing)
  */
 
-import { isFirstCharacterHebrew } from "./functions/utils.js";
+import { isFirstCharacterHebrew } from "/heichelos/post/functions/utils.js";
 
 /**
  * Main parser entry point.

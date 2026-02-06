@@ -2,29 +2,22 @@
 //B"H
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { getCurrentVerse, getCurrentSub } from "./state.js";
-
-// Import Refactored Modules
 import { getAndSaveAliases as fetchAliases, fetchRelevantComments } from "./panel/fetching.js";
 import { makeCommentatorList as renderCommentatorList, renderControlsAndComments } from "./panel/rendering.js";
 
-// Export for other modules to use
 export { getAndSaveAliases } from "./panel/fetching.js";
 
 export async function loadRootComments({ parent, tab }) {
-    console.log("B\"H - loadRootComments called");
 	window.tabComment = tab;
 	window.tabParent = parent;
 	window.rootLevelCommentatorTab = tab;
-    
     tab.awtsmoosType = "main commentator list";
-
 	parent.innerHTML = "";
 	await updateCommentHeader();
 	await makeCommentatorList(parent, tab);
 }
 
-// Delegate to rendering module
-export async function makeCommentatorList(actualTab, tabObj, forceFresh = false) {
+export async function makeCommentatorList(actualTab, forceFresh = false) {
     return await renderCommentatorList(actualTab, forceFresh);
 }
 
@@ -45,85 +38,58 @@ export async function updateCommentHeader() {
     }
 }
 
-export async function openCommentsOfAlias({ alias, actualTab, post, all=false }) {
-	await showAllComments({ tab: actualTab, post, alias, withCurrentVerse: !all });
+export async function openCommentsOfAlias({ alias, actualTab, post, all = false }) {
+	await showAllComments({ tab: actualTab, post, alias, all });
 }
 
-export async function showAllComments({ alias, post, tab, withCurrentVerse = true }) {
+export async function showAllComments({ alias, post, tab, all = false }) {
 	var cv = getCurrentVerse();
     var cs = getCurrentSub();
 	
-    let coms = await fetchRelevantComments(alias, cv, cs);
+    let coms;
+    if (all) {
+        // B"H - TOTAL SEARCH: Fetch ALL comments for this user on this post.
+        coms = await getCommentsOfAlias({
+            seriesId: window?.post?.parentSeriesId, postId: post.id, heichelId: post.heichel.id, 
+            aliasId: alias, fromCache: false, get: { all: true }
+        });
+    } else {
+        // Standard context-sensitive search.
+        coms = await fetchRelevantComments(alias, cv, cs);
+    }
     
 	if (!Array.isArray(coms) || coms.length === 0) {
         let contextMsg = (cs !== null && cs !== undefined) ? "this paragraph" : "this verse";
-		tab.innerHTML = `<div style="padding:40px 20px; text-align:center; color:#888;">
-            No comments from @${alias} on ${contextMsg}.
-        </div>`;
-        
-        if (cs !== null && cs !== undefined) {
-            const btn = document.createElement("button");
-            btn.className = "btn secondary";
-            btn.style.marginTop = "10px";
-            btn.innerText = "Check Entire Verse";
-            btn.onclick = async () => {
-                const verseComsRaw = await getCommentsOfAlias({
-                    seriesId: window?.post?.parentSeriesId, postId: post.id, heichelId: post.heichel.id, aliasId: alias,
-                    fromCache: true, get: { verseSection: cv, map: true }
-                });
-                
-                const verseComs = Array.isArray(verseComsRaw) 
-                    ? verseComsRaw.filter(c => {
-                        let d = c.dayuh;
-                        if(typeof d !== 'object' || !d) d = {};
-                        const cSub = d.subSection;
-                        return cSub === undefined || cSub === null || cSub === 'main' || cSub === 'root';
-                    })
-                    : [];
-
-                if(verseComs && verseComs.length > 0) {
-                    tab.innerHTML = "";
-                    renderControlsAndComments(verseComs, alias, tab);
-                } else {
-                    btn.innerText = "No verse comments either";
-                    btn.disabled = true;
-                }
-            };
-            tab.lastChild.appendChild(btn);
-        }
+		tab.innerHTML = `<div class="awtsmoos-empty-placeholder">No comments from @${alias} on ${contextMsg}.</div>`;
 		return;
 	}
 
     renderControlsAndComments(coms, alias, tab);
 }
 
-export async function openCommentsPanelToAlias(alias, open=true) {
-    if(window.reloadRoot) await window.reloadRoot(); 
-    if(open && window.openPanel) window.openPanel();
+export async function openCommentsPanelToAlias(alias, open = true, searchAll = false) {
+    if (open && window.toggleSidebar) window.toggleSidebar(true);
     
-    // Check if we are already viewing this alias
     const current = window.tabManager.getCurrent();
-    if(current && window.currentAliasBeingViewed === alias) {
-         // Just refresh content
-         await openCommentsOfAlias({ alias, actualTab: current.actual, post: window.post });
+    if (current && window.currentAliasBeingViewed === alias && !searchAll) {
+         await openCommentsOfAlias({ alias, actualTab: current.actual, post: window.post, all: false });
          return current.actual;
     }
 
-    // Otherwise open new tab
     return new Promise(resolve => {
         window.tabManager.addTab({
             header: "@" + alias,
+            name: "user-" + alias,
             content: "Loading...",
-            async onopen({actualTab, tab}) {
+            async onopen({ actualTab, tab }) {
                  tab.awtsmoosType = "specific alias comments";
                  window.currentAliasTabContainer = actualTab; 
                  window.currentAliasBeingViewed = alias;
-                 await openCommentsOfAlias({ alias, actualTab, post: window.post });
+                 await openCommentsOfAlias({ alias, actualTab, post: window.post, all: searchAll });
                  resolve(actualTab);
             }
         }).open();
     });
 }
 
-// B"H - CRITICAL: Expose to Window so the inline button can find it
 window.openCommentsPanelToAlias = openCommentsPanelToAlias;

@@ -1,200 +1,161 @@
-/* B"H
-   THE HOLY SCROLL - TYPOGRAPHIC ARCHITECTURE
-   A vessel for the Revelation, forged with Neo-Brutalist intensity.
-   Every letter is a world, every word a soul, every paragraph a light.
-   Refined to ensure margins breathe and the text flows as one.
-*/
+/* B"H - CONTENT STYLES ("TORAH MATRIX" UNLEASHED) */
 
-.post-reader-localized-context #realPost,
-.post-reader-localized-context #realPost * {
-    user-select: text !important;
-    -webkit-user-select: text !important;
-    cursor: auto;
-}
-
-/* INTERACTIVE SIGILS */
-.post-reader-localized-context #realPost a,
-.post-reader-localized-context #realPost button,
-.post-reader-localized-context #realPost .awtsmoos-verse-number,
-.post-reader-localized-context #realPost .bookmark-btn,
-.post-reader-localized-context #realPost .marginal-sigil {
-    cursor: pointer !important;
-}
-
-/* THE CORE SCROLL CONTAINER */
 .post-reader-localized-context #realPost {
-    font-family: var(--font-content) !important;
-    line-height: 1.8 !important;
-    color: var(--color-ink) !important;
-    font-weight: 400;
-    text-rendering: optimizeLegibility;
-    font-feature-settings: "kern" 1, "liga" 1;
     width: 100% !important;
-    height: 100% !important;
-    overflow-y: auto !important;
-    box-sizing: border-box !important;
-    scroll-behavior: smooth;
-    max-width: 100% !important;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centering the pillar of light */
+    align-items: center;
+    padding-top: 5vh;
+    padding-bottom: 20vh;
+    isolation: isolate; 
 }
 
-/* HEBREW MANIFESTATION */
-.post-reader-localized-context #realPost .heb,
-.post-reader-localized-context #realPost .heb p,
-.post-reader-localized-context #realPost .heb .toichen {
-    font-family: 'Frank Ruhl Libre', serif !important;
-    line-height: 1.6 !important;
-    direction: rtl !important;
-    text-align: right !important;
-}
-
-/* MASSIVE TITLE OF REVELATION */
+/* THE MONOLITH TITLE */
 .post-reader-localized-context #realPost .post-title {
-    position: relative;
     font-family: var(--font-heading) !important;
     font-weight: 900 !important;
-    font-size: clamp(2.5rem, 10vw, 6rem); 
-    line-height: 0.95 !important; 
-    margin: 2rem 0 5rem 0 !important;
-    padding-bottom: 2rem !important;
-    text-align: center;
-    letter-spacing: -0.04em;
-    border-bottom: 8px solid var(--color-ink);
+    font-size: clamp(2rem, 8vw, 5rem); 
+    line-height: 1.1 !important;
     text-transform: uppercase;
-    width: 100%;
-    max-width: 1200px;
+    text-align: center;
+    color: var(--color-ink);
+    margin: 0 0 2rem 0 !important;
+    padding: 0 20px;
+    max-width: 900px;
 }
 
-/* THE BREADCRUMB PATH */
-.post-reader-localized-context #realPost .series-name {
-    display: block !important;
-    font-family: var(--font-ui) !important;
-    font-size: 16px !important;
-    color: var(--color-primary) !important;
-    background: var(--color-ink) !important;
-    color: var(--bg-surface) !important;
-    padding: 4px 12px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 3px !important;
-    font-weight: 900 !important;
-    text-decoration: none !important;
-    margin: 0 auto 2rem auto !important;
-    width: fit-content;
-    box-shadow: 4px 4px 0 var(--color-accent);
-}
-
-/* SECTIONAL BOUNDARIES (VERSES) */
+/* THE SECTION (VERSE) CONTAINER */
 .post-reader-localized-context #realPost .section {
-    margin-bottom: 3rem !important;
     position: relative !important;
     width: 100% !important;
-    padding: 3rem 2rem;
-    max-width: 900px; /* Optimal reading width */
-    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-    border-bottom: 2px solid rgba(0,0,0,0.1);
+    max-width: 950px;
+    padding: 1rem 0.5rem;
+    margin-bottom: 2rem !important;
+    box-sizing: border-box;
+    transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
 }
 
-/* 
-   B"H - CONTENT SIZE SCALING 
-*/
-.post-reader-localized-context #realPost .toichen,
-.post-reader-localized-context #realPost .sub-awtsmoos,
-.post-reader-localized-context #realPost p {
-    font-size: var(--post-text-size, 28px) !important;
+/* SPOTLIGHT LOGIC */
+.post-reader-localized-context #realPost .section:not(.active-reading-section) {
+    opacity: 0.4;
+    filter: grayscale(0.5);
+    transform: scale(0.98);
+}
+.post-reader-localized-context #realPost .section.active-reading-section {
+    opacity: 1;
+    filter: none;
+    transform: scale(1);
+    z-index: 10;
 }
 
-/* SUB-SECTIONS (PARAGRAPHS) - REDESIGNED FOR FLOW */
+/* THE TEXT (TOICHEN) - The Source of Truth for Size */
+.post-reader-localized-context #realPost .toichen {
+    font-family: var(--font-content) !important;
+    color: var(--color-ink) !important;
+    font-size: var(--post-text-size, 24px) !important; 
+    line-height: 1.6 !important;
+    font-weight: 400;
+}
+
+/* HEBREW OVERRIDES */
+.post-reader-localized-context #realPost .heb,
+.post-reader-localized-context #realPost .heb .toichen {
+    font-family: 'Frank Ruhl Libre', serif !important;
+    direction: rtl !important;
+    text-align: right !important;
+    line-height: 1.7 !important;
+}
+
+/* B"H - THE DYNAMIC FLOW CONTAINER */
+.post-reader-localized-context #realPost .subsection-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* SUB-SECTIONS (Paragraphs) - REFORGED FOR DYNAMIC FLOW */
 .post-reader-localized-context #realPost .sub-awtsmoos {
     position: relative;
-    padding: 0.5rem 1rem 0.5rem 2rem !important;
-    margin: 0 0 1rem 0 !important;
-    font-style: normal !important;
-    color: var(--color-ink);
-    transition: all 0.2s ease;
-    border-left: 4px solid transparent;
-    /* REMOVED hard border and shadow for a cleaner flow */
-    box-shadow: none;
-    background: transparent;
+    margin: 0 !important;
+    padding: 0.75em;
+    border: 1px dashed var(--color-ink-secondary);
+    transition: all 0.3s ease;
+    /* B"H - No flex-grow, no flex-basis. Let the content dictate the vessel. */
+    max-width: 100%;
 }
 .post-reader-localized-context #realPost .sub-awtsmoos:hover {
-    background: var(--bg-surface);
-    border-left-color: var(--color-accent);
+    border-style: solid;
+    border-color: var(--color-primary);
+    background: rgba(0,0,0,0.02);
 }
 
-/* VERSE INDICATORS */
+/* THE VERSE NUMBER (Floating in Margin) */
 .post-reader-localized-context #realPost .awtsmoos-verse-number {
     position: absolute;
-    top: 3rem;
-    right: 100%;
-    margin-right: 2rem;
-    font-family: var(--font-ui);
-    font-weight: 900;
-    font-size: 18px;
-    background: var(--color-ink);
-    color: var(--bg-surface);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 4px 4px 0 var(--color-accent);
+    top: 0.5em;
+    left: -4rem; 
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.7em;
+    width: 2.8em; 
+    height: 2.8em;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-surface);
+    border: 2px solid var(--color-ink-secondary);
+    color: var(--color-ink-secondary);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.2s ease;
 }
 
-/* BOOKMARK SIGILS */
+/* RTL Verse Number Position */
+.post-reader-localized-context #realPost .heb .awtsmoos-verse-number {
+    left: auto;
+    right: -4rem;
+}
+.post-reader-localized-context #realPost .section.active-reading-section .awtsmoos-verse-number {
+    background: var(--color-accent);
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+    transform: scale(1.1);
+}
+
+/* BOOKMARK BUTTON */
 .post-reader-localized-context .bookmark-btn {
     position: absolute;
-    top: calc(3rem + 50px);
-    right: 100%;
-    margin-right: 2rem;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    font-size: 14px;
-    border: 3px solid var(--color-ink);
-    background: var(--bg-surface);
-    color: var(--color-ink);
-    opacity: 0.2;
-    transition: all 0.2s;
+    top: 3.5em;
+    left: -4rem;
+    font-size: 0.7em;
+    width: 2.8em; height: 2.8em;
+    background: transparent;
+    border: none;
+    color: var(--color-ink-secondary);
+    opacity: 0.3;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
 }
-.post-reader-localized-context .section:hover .bookmark-btn,
+.post-reader-localized-context #realPost .heb .bookmark-btn {
+    left: auto; right: -4rem;
+}
+.post-reader-localized-context .bookmark-btn:hover,
 .post-reader-localized-context .bookmark-btn.bookmarked {
     opacity: 1;
-    background: var(--color-highlight);
-    box-shadow: 4px 4px 0 var(--color-ink);
+    color: var(--color-primary);
 }
 
-/* THE FOOTER OF TRANSITION */
+/* NAV FOOTER */
 .post-reader-localized-context #realPost .nav {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 5rem !important;
+    padding: 2rem !important;
+    border-top: var(--border-thick) !important;
     display: flex !important;
-    gap: 30px !important;
-    margin-top: 10rem !important;
-    padding: 4rem 0 !important;
-    border-top: 8px solid var(--color-ink) !important;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 850px;
-}
-
-.post-reader-localized-context #realPost .nav .controls {
-    font-family: var(--font-heading);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 20px;
-    letter-spacing: 4px;
-}
-
-/* DARK MODE ADJUSTMENTS */
-.post-reader-localized-context[data-theme="dark"] .sub-awtsmoos:hover {
-    background: rgba(40, 40, 40, 0.8);
-}
-.post-reader-localized-context[data-theme="dark"] .section {
-    border-bottom-color: rgba(255,255,255,0.1);
-}
-.post-reader-localized-context[data-theme="dark"] .awtsmoos-verse-number {
     background: var(--bg-surface);
-    color: var(--color-ink);
-    box-shadow: 4px 4px 0 var(--color-primary);
 }

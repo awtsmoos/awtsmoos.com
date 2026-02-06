@@ -1,6 +1,6 @@
 // /BH/awtsmoos.com/geelooy/heichelos/post/logic/initialization/bootstrap.js
 //B"H
-import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
+import { getHeichelDetails, getAliasName, getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { makeNavBars, loadFontSize, scrollToActiveEl, appendHTML } from "/heichelos/post/postFunctions.js";
 import { interpretPostDayuh } from "/heichelos/post/logic/scribe.js";
 import { loadRootComments, updateCommentHeader } from "/heichelos/post/comments/panel.js";
@@ -12,6 +12,37 @@ import { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.j
 import TabManager from "/heichelos/post/TabManager.js";
 import { loadInitial } from "./coordinates.js";
 import { populateRevelationTab } from "./sidebarContent.js";
+import { addCommentsInline } from "../../comments/inline.js";
+
+async function restoreInlineState() {
+    console.log("B\"H - [Bootstrap] Checking for inline state memory...");
+    const urlParams = new URLSearchParams(window.location.search);
+    const inlineParam = urlParams.get("inline");
+    if(!inlineParam) return;
+
+    try {
+        const inlineAliases = JSON.parse(inlineParam);
+        if(!Array.isArray(inlineAliases) || inlineAliases.length === 0) return;
+
+        console.log(`B"H - Restoring inline views for: ${inlineAliases.join(", ")}`);
+
+        for(const alias of inlineAliases) {
+            const comments = await getCommentsOfAlias({
+                seriesId: window?.post?.parentSeriesId, 
+                postId: window?.post?.id, 
+                heichelId: window?.post?.heichel.id,
+                aliasId: alias, 
+                fromCache: false, 
+                get: { all: true }
+            });
+            if(comments && comments.length > 0) {
+                addCommentsInline(comments, alias);
+            }
+        }
+    } catch(e) {
+        console.error("B\"H - Failed to parse inline state from URL", e);
+    }
+}
 
 export async function ignite() {
     console.log("%c B\"H - [BOOTSTRAP] RE-MANIFESTATION INITIATED.", "color: #ff00ff; background: #000; font-weight: 900; font-size: 14px;");
@@ -29,6 +60,7 @@ export async function ignite() {
         post.heichel = { id: hId, ...meta };
         window.alias = window.aliasDetails = { id: post.author, ...aDetails };
         window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || null;
+        window.doesOwn = (window.curAlias === post.author);
 
         window.tabManager = window.insightManager = new TabManager({
             parent: sidebar,
@@ -62,7 +94,7 @@ export async function ignite() {
             name: "revelation",
             onopen: async ({ actualTab }) => populateRevelationTab(actualTab, post, tabRefs)
         });
-        tabRefs.revelation = revelationTab; // B"H - Register root tab
+        tabRefs.revelation = revelationTab; 
 
         applyUserPreferences();
         setupUIListeners(); 
@@ -77,6 +109,9 @@ export async function ignite() {
         }
         
         revelationTab.open();
+        
+        // B"H - Restore inline comments AFTER main content is on page
+        await restoreInlineState();
 
         await indexSwitch(true);
         await updateCommentHeader();
@@ -96,7 +131,7 @@ export async function ignite() {
                 if (panelToOpen === 'insights' && userToOpen) {
                     setTimeout(async () => {
                         console.log(`B"H - [Bootstrap] Restoring user view from URL: @${userToOpen}`);
-                        const { openCommentsPanelToAlias } = await import("../comments/panel.js");
+                        const { openCommentsPanelToAlias } = await import("/heichelos/post/comments/panel.js");
                         await openCommentsPanelToAlias(userToOpen, false); 
                     }, 500);
                 }

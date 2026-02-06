@@ -4,7 +4,7 @@
  * Handles the manifestation of both AI and Human insights within the reading flow.
  * RE-FORGED for CSS GRID architecture.
  */
-import { updateQueryStringParameter } from "../../functions/utils.js";
+import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 import { makeInlineComment } from "../render.js";
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { isAliasInline } from "./state.js";
@@ -63,7 +63,7 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             humanBtn.innerHTML = "Human";
             humanBtn.onclick = async (e) => {
                 e.stopPropagation();
-                const { CommentSection } = await import("../../CommentSection.js");
+                const { CommentSection } = await import("/heichelos/post/CommentSection.js");
                 const entryPoint = document.createElement("div");
                 entryPoint.className = "inline-comment-entry-point";
                 portalWrapper.after(entryPoint);
@@ -81,7 +81,7 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             aiBtn.innerHTML = "AI";
             aiBtn.onclick = async (e) => {
                 e.stopPropagation();
-                const { openAIChat } = await import("../../ai/chat.js");
+                const { openAIChat } = await import("/heichelos/post/ai/chat.js");
                 updateQueryStringParameter("idx", idx);
                 if(sub !== null) updateQueryStringParameter("sub", sub);
                 openAIChat(); 

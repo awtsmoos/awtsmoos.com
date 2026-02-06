@@ -3,7 +3,7 @@
 import { CommentSection } from "/heichelos/post/CommentSection.js";
 import { makeHTMLFromComment, renderTreeItem } from "../render.js";
 import { isAliasInline, toggleInlineForComments } from "../inline.js";
-import { renderAIChat } from "../../ai/chat.js";
+import { openAIChat } from "../../ai/chat.js";
 import { openCommentsOfAlias } from "../panel.js"; 
 import { getAndSaveAliases } from "./fetching.js"; 
 
@@ -48,13 +48,7 @@ export async function makeCommentatorList(actualTab, forceFresh = false) {
         <span class="awtsmoos-list-item-arrow">→</span>
     `;
     aiRow.onclick = () => {
-        window.tabManager.addTab({
-            header: "Awtsmoos AI",
-            content: "",
-            async onopen({ actualTab: chatTab }) {
-                renderAIChat({ tab: chatTab });
-            }
-        }).open();
+        openAIChat();
     };
     actualTab.appendChild(aiRow);
 
@@ -109,26 +103,29 @@ function renderAliasesList(aliases, container) {
     aliases.forEach(alias => {
         const row = document.createElement("div");
         row.className = "awtsmoos-list-item";
+        row.dataset.alias = alias;
+        
+        const isInline = isAliasInline(alias);
         const initial = alias.charAt(0).toUpperCase();
+
         row.innerHTML = `
-            <div style="display:flex; align-items:center; gap:12px;">
-                <div style="
-                    width:36px; height:36px; 
-                    background:var(--color-ink); 
-                    color:var(--bg-surface);
-                    display:flex; align-items:center; justify-content:center;
-                    font-weight:900; font-size:14px;
-                    border:2px solid var(--color-ink);
-                ">${initial}</div>
-                <div style="display:flex; flex-direction:column;">
-                    <span style="color:var(--color-ink); font-weight:900; font-size:16px;">@${alias}</span>
-                </div>
+            <div class="commentator-info">
+                <div class="commentator-avatar">${initial}</div>
+                <span class="commentator-name">@${alias}</span>
             </div>
-            <span class="awtsmoos-list-item-arrow">→</span>
+            <div class="commentator-actions">
+                 <div class="inline-toggle-wrapper" title="Read Inline">
+                    <input type="checkbox" id="inline-toggle-${alias}" class="inline-toggle-input" data-alias="${alias}" ${isInline ? 'checked' : ''}>
+                    <label for="inline-toggle-${alias}" class="inline-toggle-label"></label>
+                </div>
+                <span class="awtsmoos-list-item-arrow">→</span>
+            </div>
         `;
-        row.onclick = () => {
+
+        row.querySelector('.commentator-info').onclick = () => {
             window.tabManager.addTab({
                 header: "@" + alias,
+                name: "user-" + alias,
                 content: `<div class="center loading" style="padding:20px;">Loading comments...</div>`,
                 async onopen({ actualTab: aliasContentArea, tab }) { 
                     tab.awtsmoosType = "specific alias comments";
@@ -142,6 +139,12 @@ function renderAliasesList(aliases, container) {
                 }
             }).open();
         };
+
+        row.querySelector('.inline-toggle-input').addEventListener('change', (e) => {
+            // Pass a dummy comments object; the function will fetch the correct full list.
+            toggleInlineForComments([], e.target.dataset.alias);
+        });
+
         container.appendChild(row);
     });
 }
@@ -149,42 +152,12 @@ function renderAliasesList(aliases, container) {
 export function renderControlsAndComments(coms, alias, tab) {
     tab.innerHTML = "";
     
-	var controls = document.createElement("div");
-    controls.style.padding = "15px";
-    controls.style.borderBottom = "4px solid var(--color-ink)";
-    controls.style.textAlign = "right";
-    controls.style.background = "var(--bg-vellum)";
-
-	var ri = document.createElement("button");
-    let isInline = isAliasInline(alias);
+    // B"H - No more global "Read Inline" button. It's now a per-commentator toggle.
     
-    const updateBtn = () => {
-        ri.className = isInline ? "btn" : "btn secondary";
-        ri.style.width = "100%";
-        ri.style.fontWeight = "900";
-        ri.style.textTransform = "uppercase";
-        ri.innerHTML = isInline ? "📖 Hide from Text" : "📖 Read Inline";
-    };
-    updateBtn();
-    
-	ri.onclick = () => {
-		toggleInlineForComments(coms, alias);
-        isInline = isAliasInline(alias);
-        updateBtn();
-        setTimeout(() => renderControlsAndComments(coms, alias, tab), 50);
-	};
-    
-    controls.appendChild(ri);
-	tab.appendChild(controls);
-    
-    // B"H - NEW TREE LOGIC
     const treeRoots = buildCommentTree(coms);
-    
     const listContainer = document.createElement("div");
     listContainer.className = "sidebar-comment-list";
-    listContainer.style.padding = "10px";
     
-    // Render the tree using the shared factory
     treeRoots.forEach(node => {
         renderTreeItem(node, listContainer, (c) => makeHTMLFromComment(c), 'sidebar');
     });

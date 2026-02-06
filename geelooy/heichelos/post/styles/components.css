@@ -1,112 +1,105 @@
-/* B"H - COMPONENTS OF CREATION */
+/* B"H - INTERACTIVE COMPONENTS (REPAIRED & INTENSIFIED) */
 
-/* 
-   BUTTONS - STRICTLY SCOPED 
-   Only targets buttons inside the Post Reader's functional areas.
-   Explicitly excludes the Header.
+/* 1. FLOATING ACTION ORBS ("A" and "i")
+   The highest priority component.
 */
-.post-reader-localized-context .main button,
-.post-reader-localized-context .main .btn,
-.post-reader-localized-context .main .awtsmoos-hero-btn,
-.post-reader-localized-context .awtsmoos-floating-controls button,
-.post-reader-localized-context .typography-details button,
-.post-reader-localized-context #command-palette-container button,
-.post-reader-localized-context .modal button {
-    font-family: var(--font-ui) !important;
-    background: var(--bg-surface) !important;
-    border: var(--border-ui) !important;
-    color: var(--color-ink) !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    padding: 12px 24px !important;
-    cursor: pointer !important;
-    box-shadow: var(--shadow-ui) !important;
-    transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1) !important;
-    font-size: 14px !important;
-    letter-spacing: 1px !important;
-    display: inline-flex !important;
+.post-reader-localized-context .awtsmoos-floating-controls button {
+    all: unset;
+    display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 10px !important;
-    user-select: none !important;
-    border-radius: 4px !important;
-    text-decoration: none !important;
-    line-height: 1 !important;
-    pointer-events: all !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+
+    /* ORB DIMENSIONS */
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 50% !important;
+
+    /* ORB AESTHETICS */
+    background: var(--bg-surface) !important;
+    border: 3px solid var(--color-ink) !important;
+    color: var(--color-ink) !important;
+    box-shadow: 6px 6px 0px var(--color-ink) !important;
+    
+    /* ORB TYPOGRAPHY */
+    font-family: 'Times New Roman', serif !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+
+    /* ORB PHYSICS */
+    transition: all 0.1s ease-out !important;
 }
 
-/* HOVER STATES */
-.post-reader-localized-context .main button:hover,
-.post-reader-localized-context .main .btn:hover,
-.post-reader-localized-context .awtsmoos-floating-controls button:hover,
-.post-reader-localized-context .typography-details button:hover,
-.post-reader-localized-context #command-palette-container button:hover {
+.post-reader-localized-context .awtsmoos-floating-controls button:hover {
     transform: translate(-3px, -3px) !important;
-    box-shadow: var(--shadow-hover) !important;
+    box-shadow: 9px 9px 0px var(--color-accent) !important;
     background: var(--color-accent) !important;
     color: #000 !important;
     border-color: #000 !important;
 }
 
-/* ACTIVE STATES */
-.post-reader-localized-context .main button:active,
-.post-reader-localized-context .awtsmoos-floating-controls button:active,
-.post-reader-localized-context .typography-details button:active {
+.post-reader-localized-context .awtsmoos-floating-controls button:active {
+    transform: translate(3px, 3px) !important;
+    box-shadow: 0px 0px 0px var(--color-ink) !important;
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button.pushed {
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5) !important;
     transform: translate(2px, 2px) !important;
-    box-shadow: 0px 0px 0 #000 !important;
 }
 
-/* INPUTS - SCOPED */
-.post-reader-localized-context .main input,
-.post-reader-localized-context .main textarea,
-.post-reader-localized-context .main select,
-.post-reader-localized-context .typography-details input,
-.post-reader-localized-context .typography-details textarea,
-.post-reader-localized-context .typography-details select,
-.post-reader-localized-context #command-palette-container input {
-    border: 2px solid var(--color-ink) !important;
-    padding: 12px !important;
-    font-family: var(--font-ui) !important;
-    background: var(--bg-surface) !important;
-    color: var(--color-ink) !important;
-    outline: none !important;
-    box-shadow: 3px 3px 0 var(--color-ink) !important;
-    font-size: 15px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    transition: all 0.2s !important;
-    border-radius: 4px !important;
-}
-
-.post-reader-localized-context .main input:focus,
-.post-reader-localized-context .main textarea:focus,
-.post-reader-localized-context .main select:focus,
-.post-reader-localized-context .typography-details input:focus {
-    box-shadow: 6px 6px 0 var(--color-primary) !important;
-    transform: translate(-2px, -2px) !important;
-    border-color: var(--color-primary) !important;
-}
-
-/* TOGGLES - SCOPED */
-.post-reader-localized-context .awtsmoos-toggle { display: none; }
-.post-reader-localized-context .awtsmoos-toggle-label {
-    width: 50px;
-    height: 26px;
-    background: #e0e0e0;
-    border: 3px solid var(--color-ink);
-    position: relative;
+/* 2. GENERAL PURPOSE BUTTONS (Inside menus, etc.) */
+.post-reader-localized-context button.btn,
+.post-reader-localized-context .awtsmoos-hero-btn,
+.post-reader-localized-context .settings-group button {
+    all: unset;
+    display: inline-flex;
+    align-items: center; justify-content: center;
     cursor: pointer;
-    transition: 0.2s;
-    border-radius: 20px;
+    background: var(--bg-surface);
+    border: var(--border-ui);
+    color: var(--color-ink);
+    padding: 10px 20px;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    box-shadow: var(--shadow-ui);
+    transition: all 0.1s;
 }
-.post-reader-localized-context .awtsmoos-toggle-label::after {
-    content: '';
-    position: absolute;
-    top: 3px; left: 3px;
-    width: 14px; height: 14px;
-    background: var(--color-ink);
-    border-radius: 50%;
-    transition: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+.post-reader-localized-context button.btn:hover,
+.post-reader-localized-context .awtsmoos-hero-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-hover);
+    background: var(--color-accent);
 }
-.post-reader-localized-context .awtsmoos-toggle:checked + .awtsmoos-toggle-label { background: var(--color-accent); border-color: #000; }
-.post-reader-localized-context .awtsmoos-toggle:checked + .awtsmoos-toggle-label::after { transform: translateX(24px); background: #000; }
+.post-reader-localized-context button.btn:active,
+.post-reader-localized-context .awtsmoos-hero-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+/* 3. INPUTS & FORMS */
+.post-reader-localized-context input,
+.post-reader-localized-context textarea,
+.post-reader-localized-context select {
+    background: var(--bg-surface);
+    border: var(--border-ui);
+    padding: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-ink);
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s;
+    outline: none;
+}
+.post-reader-localized-context input:focus,
+.post-reader-localized-context textarea:focus,
+.post-reader-localized-context select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
+}

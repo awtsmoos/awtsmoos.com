@@ -2,6 +2,7 @@
 /**
  * AI Branching Thread Structure.
  * Purged of obsolete JS-based CSS injectors.
+ * REFORGED with unbreakable Event Delegation.
  */
 import { sanitizeComment } from "../utils.js";
 import { markdownToHtml } from "/heichelos/post/parsing.js";
@@ -15,10 +16,17 @@ export { registerFork, processPendingForks };
  * @method renderBranchingThread
  * @description B"H - Initiates the visual timeline for an AI thread.
  */
-export function renderBranchingThread(parentElement, commentData, commentId) {
+export function renderBranchingThread(parentElement, commentData, commentId, options = {}) {
+    const { isInline = false } = options;
+
     const threadWrapper = document.createElement("div");
     threadWrapper.className = "ai-thread-wrapper";
     threadWrapper.dataset.commentId = commentId; 
+    
+    // B"H - Default to minimized for inline views
+    if (isInline) {
+        threadWrapper.classList.add("minimized");
+    }
     
     // --- Header Construction ---
     const headerDiv = document.createElement("div");
@@ -32,24 +40,22 @@ export function renderBranchingThread(parentElement, commentData, commentId) {
     const controls = document.createElement("div");
     controls.className = "ai-controls-row";
 
-    const minBtn = createHeaderBtn("[-]", "Minimize", (e) => {
-        threadWrapper.classList.toggle("minimized");
-        minBtn.innerText = threadWrapper.classList.contains("minimized") ? "[+]" : "[-]";
-    });
-
-    const viewFullBtn = createHeaderBtn("↗", "Focus View", async (e) => {
-        if(window.openCommentsPanelToAlias) {
-            await window.openCommentsPanelToAlias(commentData.author);
-            setTimeout(() => {
-                const el = document.querySelector(`.comment-content[data-cid="${commentId}"]`);
-                if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
-            }, 500);
-        }
-    });
+    const minBtn = createHeaderBtn(isInline ? "[+]" : "[-]", "Minimize", "minimize");
+    const viewFullBtn = createHeaderBtn("↗", "Focus View", "focus-view");
 
     controls.append(minBtn, viewFullBtn);
     headerDiv.append(titleSpan, controls);
     threadWrapper.appendChild(headerDiv);
+    
+    // --- Preview for Minimized State ---
+    const previewDiv = document.createElement("div");
+    previewDiv.className = "ai-thread-preview";
+    const firstUserMsg = commentData.dayuh.conversation?.find(m => m.role === 'user');
+    if (firstUserMsg) {
+        previewDiv.innerHTML = `<span>USER:</span> ${sanitizeComment(firstUserMsg.text).substring(0, 100)}...`;
+    }
+    threadWrapper.appendChild(previewDiv);
+
 
     // --- Timeline ---
     const threadContainer = document.createElement("div");
@@ -58,14 +64,42 @@ export function renderBranchingThread(parentElement, commentData, commentId) {
     renderThreadSequence(threadContainer, commentData.dayuh.conversation, commentData, commentId, 0, true);
 
     threadWrapper.appendChild(threadContainer);
+    
+    // --- B"H - SOVEREIGN EVENT DELEGATION ---
+    threadWrapper.addEventListener('click', (e) => {
+        const actionTarget = e.target.closest('[data-action]');
+        if (!actionTarget) return;
+
+        e.stopPropagation();
+        const action = actionTarget.dataset.action;
+
+        switch (action) {
+            case 'minimize':
+                const isMinimized = threadWrapper.classList.toggle("minimized");
+                actionTarget.innerText = isMinimized ? "[+]" : "[-]";
+                break;
+            
+            case 'focus-view':
+                if (window.openCommentsPanelToAlias) {
+                    window.openCommentsPanelToAlias(commentData.author).then(() => {
+                        setTimeout(() => {
+                            const el = document.querySelector(`.comment-content[data-cid="${commentId}"]`);
+                            if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 500);
+                    });
+                }
+                break;
+        }
+    });
+
     parentElement.appendChild(threadWrapper);
 }
 
-function createHeaderBtn(text, title, onClick) {
+function createHeaderBtn(text, title, actionName) {
     const btn = document.createElement("button");
     btn.className = "ai-header-btn";
     btn.innerText = text;
     btn.title = title;
-    btn.onclick = (e) => { e.stopPropagation(); onClick(e); };
+    btn.dataset.action = actionName; // For delegation
     return btn;
 }

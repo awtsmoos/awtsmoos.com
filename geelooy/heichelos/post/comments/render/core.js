@@ -1,12 +1,12 @@
 // /BH/awtsmoos.com/geelooy/heichelos/post/comments/render/core.js
 //B"H
-import { isFirstCharacterHebrew } from "../../functions/utils.js";
-import { handleMenuOption } from "../actions.js";
-import { isAliasInline } from "../inline/state.js"; 
-import { renderBranchingThread } from "./aiThread.js";
-import { renderStandardComment } from "./standard.js";
-import { makeTitleDiv } from "./utils.js";
-import { expandPathToComment } from "./tree.js";
+import { isFirstCharacterHebrew } from "/heichelos/post/functions/utils.js";
+import { handleMenuOption } from "/heichelos/post/comments/actions.js";
+import { isAliasInline } from "/heichelos/post/comments/inline/state.js"; 
+import { renderBranchingThread } from "/heichelos/post/comments/render/aiThread.js";
+import { renderStandardComment } from "/heichelos/post/comments/render/standard.js";
+import { makeTitleDiv } from "/heichelos/post/comments/render/utils.js";
+import { expandPathToComment } from "/heichelos/post/comments/render/tree.js";
 
 export function populateCommentElement(comment, parentElement) {
     parentElement.innerHTML = '';
@@ -55,11 +55,6 @@ export function makeHTMLFromComment(comment) {
         };
         toolbar.appendChild(locateBtn);
     }
-    const replyBtn = document.createElement("button");
-    replyBtn.className = "btn secondary small";
-    replyBtn.innerHTML = "↩ Reply";
-    replyBtn.onclick = (e) => { e.stopPropagation(); handleMenuOption("Reply", comment, cmCont); };
-    toolbar.appendChild(replyBtn);
     cmCont.appendChild(toolbar);
     const menuContainer = document.createElement("div");
     menuContainer.className = "menu-container";
@@ -110,11 +105,6 @@ export function makeInlineComment(comment) {
     const body = document.createElement("div");
     incom.appendChild(body);
     populateCommentElement(comment, body);
-    const replyBtn = document.createElement("button");
-    replyBtn.className = "btn secondary small";
-    replyBtn.innerText = "Reply Here";
-    replyBtn.onclick = (e) => { e.stopPropagation(); handleMenuOption("Reply", comment, incom); };
-    incom.appendChild(replyBtn);
     return incom;
 }
 

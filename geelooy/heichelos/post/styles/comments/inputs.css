@@ -1,20 +1,11 @@
 /* /BH/awtsmoos.com/geelooy/heichelos/post/styles/comments/inputs.css */
 /* B"H - THE COMMAND CONSOLES (Containers & Buttons) */
 
-/* The Main Wrapper */
+/* The Main Wrapper for adding a new root comment */
 .post-reader-localized-context .awtsmoos-comment-entry-monolith {
-    border: 2px solid var(--color-ink);
-    background: var(--bg-surface);
+    border-bottom: var(--border-thick);
     margin-bottom: 20px;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.05);
-    border-radius: 4px;
-    padding: 15px;
-    transition: all 0.2s;
-}
-
-.post-reader-localized-context .awtsmoos-comment-entry-monolith:focus-within {
-    border-color: var(--color-primary);
-    box-shadow: 4px 4px 0 var(--color-primary);
+    padding-bottom: 20px;
 }
 
 /* Buttons Area */
@@ -22,9 +13,7 @@
     display: none; 
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 2px dashed rgba(0,0,0,0.1);
+    margin-top: 10px;
 }
 
 .awtsmoos-comment-actions-bar.revealed {
@@ -34,108 +23,58 @@
 /* Initial "Write" Button */
 .awtsmoos-add-comment-btn {
     width: 100%;
-    text-align: left;
-    background: rgba(0,0,0,0.03) !important;
+    text-align: center;
+    background: var(--bg-surface) !important;
     border: 2px dashed var(--color-ink-secondary) !important;
     color: var(--color-ink-secondary) !important;
-    padding: 20px 25px !important;
+    padding: 15px !important;
     box-shadow: none !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
     font-weight: 700 !important;
     transition: all 0.2s !important;
+    text-transform: uppercase;
 }
 
 .awtsmoos-add-comment-btn:hover {
-    background: #fff !important;
     border-color: var(--color-primary) !important;
     color: var(--color-primary) !important;
-    box-shadow: 4px 4px 0 var(--color-primary) !important;
-    transform: translate(-2px, -2px);
+    border-style: solid;
 }
 
 /* Submit/Cancel Buttons */
 .awtsmoos-action-submit {
-    background: var(--color-primary) !important;
-    color: #fff !important;
-    border: 2px solid var(--color-primary) !important;
-    padding: 10px 20px !important;
-    font-size: 14px !important;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.2) !important;
+    /* Uses .btn styles from components.css */
 }
-.awtsmoos-action-submit:hover {
-    background: #fff !important;
-    color: var(--color-primary) !important;
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.2) !important;
-}
-
 .awtsmoos-action-cancel {
     background: transparent !important;
-    border: 2px solid transparent !important;
+    border-color: transparent !important;
     box-shadow: none !important;
     color: var(--color-ink-secondary) !important;
-    padding: 10px 20px !important;
-    font-size: 14px !important;
 }
 .awtsmoos-action-cancel:hover {
     color: var(--color-danger) !important;
-    border-color: var(--color-danger) !important;
+    background: transparent !important;
 }
 
-/* Media Trigger */
-.awtsmoos-media-trigger {
-    margin-top: 12px;
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--color-ink-secondary);
-    cursor: pointer;
-    display: inline-block;
-    padding: 6px 12px;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    text-transform: uppercase;
-}
-.awtsmoos-media-trigger:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-    background: rgba(0,0,0,0.02);
-}
 
 /* AI Draft Bar */
 .ai-draft-bar {
-    background: var(--bg-surface);
-    padding: 10px 20px;
+    background: var(--bg-vellum);
+    padding: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 2px solid rgba(0,0,0,0.1);
-    margin-top: 0; 
+    border-top: 2px solid var(--color-ink);
 }
 
 .ai-draft-bar .ai-label {
-    font-size: 11px;
-    font-weight: 900;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
     color: var(--color-ink-secondary);
-    letter-spacing: 1px;
 }
 
 .btn-ai-draft {
-    background: var(--bg-surface);
-    color: var(--color-ink);
-    border: 2px solid var(--color-ink);
-    padding: 8px 16px;
-    font-family: var(--font-ui);
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 11px;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 var(--color-accent);
-    transition: all 0.1s;
-}
-
-.btn-ai-draft:hover {
-    background: var(--color-accent);
-    color: #000;
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 var(--color-ink);
+    font-size: 10px !important;
+    padding: 4px 8px !important;
 }

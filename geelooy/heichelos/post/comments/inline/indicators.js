@@ -3,7 +3,7 @@
  * Comment Indicator Logic.
  * Lighting the flames of commentary with high-intensity feedback.
  */
-import { updateQueryStringParameter } from "../../functions/utils.js";
+import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 import { showSectionCommentaryInline } from "./threading.js";
 
 /**

@@ -5,7 +5,7 @@
  * The Watcher of the Text.
  */
 import Highlighter from "/api/nav/highlighter.js";
-import { updateQueryStringParameter } from "../utils.js";
+import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 
 export function startHighlighting(elId, targetClass, callback, desCallback) {
     console.log("B\"H - [Interaction] Engaging High-Intensity Watchers.");

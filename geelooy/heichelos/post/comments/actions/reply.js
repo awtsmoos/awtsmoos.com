@@ -1,116 +1,131 @@
-// /BH/awtsmoos.com/geelooy/heichelos/post/comments/actions/reply.js
+// /BH/awtsmoos.com/geelooy/heichelos/post/ai/api.js
 //B"H
+/**
+ * AI Chat API & Logic.
+ */
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
-import { createWysiwygEditor } from "../../logic/wysiwyg.js";
+import { stripTags } from "../functions/utils.js";
+import { markdownToHtml } from "../parsing.js";
+import { getHistory, setHistory, setActiveCommentId } from "./chat.js";
 
-export function handleReply(originalComment, containerElement) {
-    if (!window.curAlias) {
-        return AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Login Required", bodyTxt: "Please sign in to reply." });
+function getContextContent(idx) {
+    if (idx !== null && window.sectionDayuh?.[idx]) {
+        let sec = window.sectionDayuh[idx];
+        return Array.isArray(sec) ? sec.flat(Infinity).join("\n") : sec;
     }
+    return window.sectionDayuh?.flat(Infinity).join("\n\n") || document.getElementById("realPost")?.innerText || "";
+}
 
-    if (containerElement.querySelector('.awtsmoos-reply-box')) return;
+function constructPrompt(currentMsg, context, hist) {
+    let cleanContext = stripTags(context);
+    let prompt = `B"H\nYou are a helpful, knowledgeable Torah assistant analyzing the following text:\n\n---\n${cleanContext}\n---\n\n`;
+    if (hist.length > 1) { 
+        prompt += "Conversation History:\n";
+        hist.slice(0, -1).forEach(h => { prompt += `${h.role === 'user' ? 'User' : 'AI'}: ${h.text}\n`; });
+        prompt += "\n";
+    }
+    prompt += `User: ${currentMsg}\nAI:`;
+    return prompt;
+}
 
-    const replyContainer = document.createElement("div");
-    replyContainer.className = "awtsmoos-reply-box";
-    
-    const snippet = originalComment.content ? originalComment.content.substring(0, 50).replace(/\n/g, ' ') : "Media content";
-    
-    // Header
-    const header = document.createElement("div");
-    header.className = "reply-header";
-    header.innerHTML = `
-        <span>Replying to @${originalComment.author}</span>
-        <button class="close-reply">×</button>
-    `;
-    replyContainer.appendChild(header);
+function extractTextFromChunk(chunk) {
+    if (typeof chunk === 'object' && chunk !== null) return chunk?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    if (typeof chunk === 'string' && chunk.includes("[AIS_METADATA")) return "";
+    try {
+        const d = JSON.parse(chunk);
+        if(Array.isArray(d)) return d[0]?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        return d?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    } catch(e) {}
+    return chunk; 
+}
 
-    // WYSIWYG Editor
-    const { editorWrapper, contentArea } = createWysiwygEditor();
-    contentArea.dataset.placeholder = "Transmit your response...";
-    replyContainer.appendChild(editorWrapper);
-
-    // Submit Button
-    const submitBtn = document.createElement("button");
-    submitBtn.className = "reply-submit";
-    submitBtn.innerText = "TRANSMIT REPLY";
-    replyContainer.appendChild(submitBtn);
-
-    const closeBtn = header.querySelector('.close-reply');
-    closeBtn.onclick = () => replyContainer.remove();
-
-    submitBtn.onclick = async () => {
-        const text = contentArea.innerText.trim(); // Get text content
-        const html = contentArea.innerHTML; // Get HTML content
+export async function handleSend(text, aiMsgDiv, messagesDiv) {
+    const contentDiv = aiMsgDiv.querySelector(".content");
+    try {
+        const idx = new URLSearchParams(location.search).get("idx");
+        const contextText = getContextContent(idx);
+        const history = getHistory();
+        const prompt = constructPrompt(text, contextText, history);
+        let streamedResponse = "";
         
-        // Basic validation (check if empty)
-        if (!text && !contentArea.querySelector('img')) return;
-
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Transmitting...";
-
-        // Construct the quote block manually for Markdown/HTML mixing
-        const replyContent = `> [Reply to @${originalComment.author}](#comment-${originalComment.id}): ${snippet}...\n\n${html}`;
-        
-        const verseSection = originalComment.dayuh?.verseSection ?? "root";
-        const subSection = originalComment.dayuh?.subSection;
-
-        const dayuh = {
-            verseSection,
-            replyToId: originalComment.id 
-        };
-        if(subSection !== undefined && subSection !== null) dayuh.subSection = subSection;
-
-        try {
-            const endpoint = `/api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/`;
-            
-            const response = await fetch(endpoint, {
-                method: "POST",
-                body: new URLSearchParams({
-                    aliasId: window.curAlias,
-                    seriesId: window.post.parentSeriesId,
-                    content: replyContent,
-                    dayuh: JSON.stringify(dayuh)
-                })
-            });
-
-            const res = await response.json();
-
-            if (res && (res.success || res.status === "success" || res.ok)) {
-                replyContainer.remove();
-                
-                let newId = res.details?.id || res.success?.id || res.id || res.postId || res.commentId;
-
-                if (!newId && window.reloadRoot) window.reloadRoot();
-
-                if (newId && window.awtsmoosConductor && window.awtsmoosConductor.handleNewComment) {
-                    await window.awtsmoosConductor.handleNewComment({
-                        aliasId: window.curAlias,
-                        verseSection: verseSection,
-                        commentId: newId,
-                        newCommentData: { 
-                            id: newId, 
-                            author: window.curAlias, 
-                            content: replyContent, 
-                            dayuh 
-                        }
-                    });
+        const finalResponse = await window.awtsmoosAi({
+            prompt: prompt,
+            onstream: (chunk) => {
+                const txt = extractTextFromChunk(chunk);
+                if (txt) {
+                    streamedResponse += txt;
+                    contentDiv.innerHTML = markdownToHtml(streamedResponse);
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
                 }
-            } else {
-                const errMsg = res?.error?.message || res?.error || "Unknown Server Error";
-                alert("Failed: " + errMsg);
-                submitBtn.disabled = false;
-                submitBtn.innerText = "TRANSMIT REPLY";
             }
-        } catch (e) {
-            console.error("B\"H - Reply Error:", e);
-            alert("Network error.");
-            submitBtn.disabled = false;
-            submitBtn.innerText = "TRANSMIT REPLY";
-        }
-    };
+        });
+        
+        const responseText = (typeof finalResponse === 'string' && finalResponse.length > 0) ? finalResponse : streamedResponse;
+        contentDiv.innerHTML = markdownToHtml(responseText);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        
+        const newHistory = getHistory();
+        newHistory.push({ role: "model", text: responseText });
+        setHistory(newHistory);
+        
+    } catch (e) {
+        console.error(e);
+        contentDiv.textContent = "Error: Could not reach Awtsmoos AI.";
+    } finally {
+        aiMsgDiv.classList.remove("loading");
+        const typingInd = aiMsgDiv.querySelector(".typing-indicator");
+        if(typingInd) typingInd.remove();
+    }
+}
 
-    containerElement.appendChild(replyContainer);
+export async function saveChat(chatHistory, verseSection, activeCommentId, chatTitle, btn) {
+    const currentAlias = window.curAlias;
+    if (!currentAlias) {
+        btn.disabled = false;
+        btn.innerText = "💾 SAVE";
+        return alert("Log in to save!");
+    }
     
-    // Focus the editor
-    setTimeout(() => contentArea.focus(), 100);
+    const dayuhObject = {
+        conversation: chatHistory,
+        verseSection: verseSection === "root" ? "root" : parseInt(verseSection)
+    };
+    
+    const method = activeCommentId ? "PUT" : "POST";
+    const bodyParams = {
+        aliasId: currentAlias, seriesId: window.post?.parentSeriesId,
+        dayuh: JSON.stringify(dayuhObject), content: chatTitle || "AI Conversation"
+    };
+    if (activeCommentId) bodyParams.commentId = activeCommentId;
+
+    try {
+        const response = await fetch(`/api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/`, {
+            method: method, body: new URLSearchParams(bodyParams),
+        });
+        const json = await response.json();
+        
+        btn.disabled = false;
+        btn.innerText = "SAVED";
+        setTimeout(() => btn.innerText = "💾 SAVE", 2000);
+
+        if (json.success) {
+            const newId = json.details?.id || activeCommentId;
+            setActiveCommentId(newId);
+            
+            if(window.awtsmoosConductor?.handleNewComment) {
+                await window.awtsmoosConductor.handleNewComment({
+                    aliasId: currentAlias, verseSection: dayuhObject.verseSection, commentId: newId,
+                    newCommentData: { id: newId, author: currentAlias, content: bodyParams.content, dayuh: dayuhObject }
+                });
+            }
+
+            AwtsmoosPrompt.go({ /* ... prompt options ... */ });
+        } else {
+            alert("Error: " + json.error);
+        }
+    } catch (e) {
+        btn.disabled = false;
+        btn.innerText = "💾 SAVE";
+        alert("Network Error");
+    }
 }

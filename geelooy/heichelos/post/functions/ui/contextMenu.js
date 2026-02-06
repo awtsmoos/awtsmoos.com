@@ -1,5 +1,5 @@
 //B"H
-import { copyToClipboard, updateQueryStringParameter } from "../utils.js";
+import { copyToClipboard, updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 import { makeToast } from "../ui.js";
 
 export async function showCustomContextMenu(x, y, e) {
