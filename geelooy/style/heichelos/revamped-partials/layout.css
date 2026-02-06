@@ -1,0 +1,61 @@
+/* B"H */
+/* /style/heichelos/revamped-partials/layout.css */
+/* The grand architecture and page structure. */
+
+.heichel-page-container {
+    background: var(--bg-vellum);
+    color: var(--color-ink);
+    font-family: var(--font-ui);
+    padding: 1.5rem 2rem;
+    min-height: 100vh;
+    position: relative;
+}
+
+.main-content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    grid-template-areas: "header sidebar" "content sidebar";
+    gap: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    transition: grid-template-columns 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.heichel-header { grid-area: header; }
+.heichel-content-panel { grid-area: content; }
+.heichel-sidebar { grid-area: sidebar; }
+
+/* B"H --- INTENSE BREADCRUMBS --- */
+#breadcrumb-container { 
+    font-size: 0.8rem; 
+    text-transform: uppercase; 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+#breadcrumb-container:not(.hidden) { margin-bottom: 1rem; }
+
+#breadcrumb-container a {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    background: var(--bg-surface);
+    border: var(--border-ui);
+    box-shadow: var(--shadow-ui);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: all 0.1s ease-out;
+}
+#breadcrumb-container a:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-hover);
+    background: var(--color-accent);
+}
+
+.crumb-separator { 
+    display: none; /* Hide the old slash */
+}

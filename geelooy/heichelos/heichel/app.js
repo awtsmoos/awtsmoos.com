@@ -1,33 +1,34 @@
+// B"H
 // /heichelos/heichel/app.js
-// B"H 
-//- The Awtsmoos's Point of Inception
+// The single point of ignition for the Great Library's consciousness.
 
 import { HeichelNavigator } from './modules/navigator.js';
 import { initializeEventListeners } from './modules/events.js';
 import { appState } from './state.js';
-import { initializeDOMElements } from './modules/dom.js'; // FIX: Import initialization function
+import { initializeDOMElements } from './modules/dom.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // FIX: Populate DOMElements object now that the DOM is ready.
-    // This resolves the error where elements were null.
-    initializeDOMElements(); 
+    try {
+        console.log("B\"H - Awakening the Great Library...");
+        
+        initializeDOMElements();
+        console.log("B\"H - The physical form of the Library is recognized.");
 
-    console.log("B\"H - Quantum Datastream Engaging...");
-    const heichelId = window.location.pathname.split('/')[2];
+        const heichelId = window.location.pathname.split('/')[2];
+        if (!heichelId) {
+            throw new Error('Heichel ID missing from the sacred path (URL).');
+        }
+        appState.heichelId = heichelId;
 
-    if (!heichelId) {
-        document.body.innerHTML = '<h1>FATAL ERROR: Heichel ID missing from URL. Cannot initialize.</h1>';
-        return;
+        const navigator = new HeichelNavigator(heichelId);
+
+        navigator.initialize().then(() => {
+            initializeEventListeners(navigator);
+            console.log("B\"H - The Library's consciousness is fully awake.");
+        });
+
+    } catch (error) {
+        console.error("A fatal rupture occurred in the Library's creation:", error);
+        document.body.innerHTML = `<h1>Error: ${error.message}</h1>`;
     }
-    appState.heichelId = heichelId;
-
-    const navigator = new HeichelNavigator(heichelId);
-
-    navigator.initialize().then(() => {
-        initializeEventListeners(navigator);
-        console.log("B\"H - Heichel Consciousness Fully Awake.");
-    }).catch(error => {
-        console.error("Initialization failed:", error);
-        document.body.innerHTML = '<h1>Error initializing Heichel. See console for details.</h1>';
-    });
 });

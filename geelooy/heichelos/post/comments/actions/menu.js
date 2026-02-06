@@ -27,10 +27,6 @@ export async function handleMenuOption(option, comment, el) {
                 await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Error: " + e.message });
             }
             break;
-        case "Reply": 
-            const container = el.closest('.comment-content') || el.closest('.inline-comment');
-            if(container) handleReply(comment, container); 
-            break;
         case "Play":
             var aud = document.querySelector("audio[data-awtsmoos-audio='" + comment.id + "'");
             if(!aud) return alert("No audio found.");

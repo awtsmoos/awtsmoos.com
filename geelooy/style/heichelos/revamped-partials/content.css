@@ -1,0 +1,75 @@
+/* B"H */
+/* /style/heichelos/revamped-partials/content.css */
+/* Laws for the main content panel. */
+
+#heichel-main-title {
+    font-family: var(--font-heading);
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 2rem 0;
+}
+
+#heichel-search-input {
+    font-size: 1.2rem;
+    box-shadow: var(--shadow-hard);
+}
+
+.content-tabs { display: flex; border-bottom: var(--border-thick); margin-bottom: 2rem; }
+.tab {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-bottom: 8px solid transparent;
+    margin-bottom: -4px;
+    color: var(--color-ink-secondary);
+}
+.tab.Active { color: var(--color-ink); border-bottom-color: var(--color-primary); }
+
+.view.hidden { display: none; }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.card-wrapper {
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    padding: 1.2rem;
+    text-decoration: none;
+    color: var(--color-ink);
+    display: block;
+    position: relative;
+    transition: all 0.2s;
+}
+.card-wrapper.selected { outline: 4px solid var(--color-accent); transform: scale(1.02); }
+.card-wrapper:hover { transform: translateY(-5px); box-shadow: 12px 12px 0 var(--color-ink); }
+
+.card-wrapper h2 {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-size: 2.3rem;
+    margin: 0 0 1rem 0;
+    line-height: 1.1;
+}
+.card-wrapper .post-preview {
+    font-family: var(--font-content);
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+.context-menu-icon {
+    position: absolute;
+    top: 10px; right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--color-ink-secondary);
+}
+.context-menu-icon:hover { color: var(--color-primary); }

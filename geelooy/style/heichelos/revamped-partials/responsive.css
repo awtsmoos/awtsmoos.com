@@ -1,0 +1,22 @@
+/* B"H */
+/* /style/heichelos/revamped-partials/responsive.css */
+/* Laws for adapting to different screen sizes. */
+
+@media (max-width: 900px) {
+    .main-content-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-areas: "header" "content" "sidebar";
+    }
+    .heichel-sidebar {
+        position: static;
+        height: auto;
+        overflow-y: visible;
+        border-left: none;
+        border-top: var(--border-thick);
+        padding-left: 0;
+        padding-top: 2rem;
+    }
+    .heichel-page-container { padding: 1rem; }
+    .grid-container { gap: 1.5rem; }
+    .sidebar-toggle { display: none; }
+}

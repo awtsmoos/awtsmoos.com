@@ -1,81 +1,53 @@
+//B"H
 // /heichelos/heichel/modules/dom.js
-// B"H 
-//- Centralized DOM element access. The single point of interaction with the HTML structure.
-//- The object is populated by initializeDOMElements() after the DOM has loaded.
+// The sacred map, charting the physical layout of the Library.
 
 export const DOMElements = {};
 
+/**
+ * @function initializeDOMElements
+ * @description The holy act of recognizing the physical form. This function maps every critical DOM element 
+ * to the DOMElements object, ensuring that the application's soul (JavaScript) can interact with its body (HTML). 
+ * It is the bridge between potentiality and actuality, a microcosm of the Awtsmoos giving form to the void.
+ */
 export function initializeDOMElements() {
-    // FIX: All critical elements, including the form and its inputs, are now checked.
-    const requiredElementIds = [
-        'heichel-main-title', 'sidebar-title', 'sidebar-description', 'postsTab', 
-        'seriesTab',  
-        
-        'postsList', 'seriesList', 'toast-container', 'bulk-actions-bar',
-        // --- Modal Element Checklist ---
-        'creation-modal', 'creation-form', 'modal-title', 'modal-input-title',
-        'modal-input-description', 'modal-cancel-btn', 'modal-submit-btn'
+    const requiredIds = [
+        'heichel-main-title', 'sidebar-title', 'postsTab', 'seriesTab',
+        'postsList', 'seriesList', 'toast-container', 'creation-modal',
+        'editorControlsHeader', 'editorHeaderArrow', 'sidebar-toggle-btn'
     ];
-    
-    for (const id of requiredElementIds) {
+    for (const id of requiredIds) {
         if (!document.getElementById(id)) {
-            // This provides a precise error message if any part of the HTML is broken or missing.
-            throw new Error(`CRITICAL DOM ERROR: Element with ID '#${id}' was not found. The application cannot start.`);
+            throw new Error(`CRITICAL VESSEL MISSING: Element #${id} was not found.`);
         }
     }
 
-    DOMElements.controlsContainer = document.querySelector(".controls-container")
-    DOMElements.controlsArea = document.querySelector(".editor-controls-area")
-    DOMElements.editorsSection = document.querySelector(".editors-section")
-    DOMElements.editorHolder = document.querySelector(".editors-holder")
-    DOMElements.heichelPageContainer = document.querySelector('.heichel-page-container');
+    DOMElements.pageContainer = document.querySelector('.heichel-page-container');
     DOMElements.mainTitle = document.getElementById('heichel-main-title');
-    DOMElements.searchInput = document.getElementById('heichel-search-input'); // Added Search Input
-    
+    DOMElements.searchInput = document.getElementById('heichel-search-input');
     DOMElements.sidebarTitle = document.getElementById('sidebar-title');
     DOMElements.sidebarDesc = document.getElementById('sidebar-description');
-    
     DOMElements.postsTab = document.getElementById('postsTab');
     DOMElements.seriesTab = document.getElementById('seriesTab');
-    //DOMElements.selectionBtn = document.getElementById('selectionModeBtn');
-    
-    DOMElements.seriesNameInfo = document.getElementById('seriesNameAndInfo');
     DOMElements.breadcrumbContainer = document.getElementById('breadcrumb-container');
-    DOMElements.seriesName = document.getElementById('seriesNm');
-    DOMElements.seriesDesc = document.getElementById('seriesDesc');
-    DOMElements.seriesControls = document.getElementById('seriesControls');
-    
     DOMElements.postsContainer = document.querySelector('.posts');
     DOMElements.seriesContainer = document.querySelector('.series');
-
-    DOMElements.editorControlsHeader = document.querySelector(
-       ".heichel-page-container .editor-controls-area .controls-header"
-    );
-    DOMElements.editorHeaderArrow = document.querySelector(
-        ".heichel-page-container .editors-section .controls-arrow"
-    );
-    DOMElements.editorControlsArrow =  document.querySelector(
-        ".heichel-page-container .editor-controls-area .controls-header .controls-arrow"
-    );
-    
-    
-    DOMElements.postsControls = document.querySelector(".posts-controls")
-    DOMElements.seriesControlsContainer =document.querySelector(".series-controls")
-    
+    DOMElements.postsControls = document.querySelector('.posts-controls');
+    DOMElements.seriesControlsContainer = document.querySelector('.series-controls');
+    DOMElements.seriesControls = document.getElementById('seriesControls');
     DOMElements.postsList = document.getElementById('postsList');
     DOMElements.seriesList = document.getElementById('seriesList');
-    
     DOMElements.loadingPosts = document.getElementById('loadingPosts');
     DOMElements.loadingSeries = document.getElementById('loadingSeries');
-    
     DOMElements.toastContainer = document.getElementById('toast-container');
-    
-    DOMElements.bulkActionsBar = document.getElementById('bulk-actions-bar');
-    DOMElements.selectionCount = document.getElementById('selection-count');
-    DOMElements.bulkDeleteBtn = document.getElementById('bulk-delete-btn');
-    DOMElements.exitSelectionBtn = document.getElementById('exit-selection-mode-btn');
-
-    // FIX: All modal elements are now guaranteed to be found because of the check above.
+    DOMElements.authorName = document.getElementById('author-name');
+    DOMElements.controlsArea = document.querySelector('.editor-controls-area');
+    DOMElements.editorControlsHeader = document.getElementById('editorControlsHeader');
+    DOMElements.controlsContainer = document.querySelector('.editor-controls-area .controls-container');
+    DOMElements.editorControlsArrow = document.querySelector('.editor-controls-area .controls-arrow');
+    DOMElements.editorsSection = document.querySelector('.editors-section .editors-header');
+    DOMElements.editorHolder = document.querySelector('.editors-holder');
+    DOMElements.editorHeaderArrow = document.getElementById('editorHeaderArrow');
     DOMElements.modalRoot = document.getElementById('creation-modal');
     DOMElements.modalBackdrop = DOMElements.modalRoot.querySelector('.modal-backdrop');
     DOMElements.modalForm = document.getElementById('creation-form');
@@ -85,6 +57,11 @@ export function initializeDOMElements() {
     DOMElements.modalIdInput = document.getElementById('modal-input-id');
     DOMElements.modalCancelBtn = document.getElementById('modal-cancel-btn');
     DOMElements.modalSubmitBtn = document.getElementById('modal-submit-btn');
+    DOMElements.sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
 
-    DOMElements.authorName = document.getElementById("author-name")
+    // B"H - Mapping the vessels for bulk actions, which were previously lost in the void.
+    DOMElements.bulkActionsBar = document.getElementById('bulk-actions-bar');
+    DOMElements.selectionCount = document.getElementById('selection-count');
+    DOMElements.bulkDeleteBtn = document.getElementById('bulk-delete-btn');
+    DOMElements.exitSelectionBtn = document.getElementById('exit-selection-mode-btn');
 }

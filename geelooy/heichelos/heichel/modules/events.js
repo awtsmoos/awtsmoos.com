@@ -25,6 +25,15 @@ export function initializeEventListeners(navigator) {
         });
     }
 
+    // Sidebar Toggle Listener
+    if(DOMElements.sidebarToggleBtn) {
+        DOMElements.sidebarToggleBtn.addEventListener('click', () => {
+            const isCollapsed = DOMElements.pageContainer.classList.toggle('sidebar-collapsed');
+            DOMElements.sidebarToggleBtn.innerHTML = isCollapsed ? '‹' : '›';
+            DOMElements.sidebarToggleBtn.title = isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar';
+        });
+    }
+
     // Selection Mode Controls
     //DOMElements.selectionBtn.addEventListener('click', () => ui.toggleSelectionMode(!appState.isSelectionMode, navigator));
     DOMElements.exitSelectionBtn.addEventListener('click', () => ui.toggleSelectionMode(false, navigator));

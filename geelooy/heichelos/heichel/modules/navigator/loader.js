@@ -50,7 +50,7 @@ export async function loadContent(navigator, seriesId) {
     // SAVE TO STATE FOR SEARCH/FILTERING
     appState.currentContent = contentForGrid;
     
-    navigator.renderPostsAndSeries(contentForGrid);
+    await navigator.renderPostsAndSeries(contentForGrid, containerSeries);
     
     // Auto-switch view if empty
     if(contentForGrid.posts.length === 0 && contentForGrid.subSeries.length > 0) {
@@ -65,10 +65,10 @@ export async function loadContent(navigator, seriesId) {
     navigator.updateURL();
 }
 
-export function renderPostsAndSeries(navigator, content) {
+export async function renderPostsAndSeries(navigator, content, seriesData) {
     ui.renderBreadcrumb(appState.breadcrumb, navigator);
     
-    ui.renderSeriesInfo({ name: "Loading..." }); 
+    await ui.renderSeriesInfo(seriesData); 
     
     ui.renderOwnerControls(appState.breadcrumb, navigator);
     ui.renderContentGrids(content, navigator);

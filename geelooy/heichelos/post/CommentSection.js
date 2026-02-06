@@ -1,9 +1,9 @@
 // /BH/awtsmoos.com/geelooy/heichelos/post/CommentSection.js
 //B"H
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
-import { ImageUploader } from "./ImageUploader.js";
-import { createWysiwygEditor } from "./logic/wysiwyg.js";
-import { markdownToHtml } from "./parsing.js";
+import { ImageUploader } from "/heichelos/post/ImageUploader.js";
+import { createWysiwygEditor } from "/heichelos/post/logic/wysiwyg.js";
+import { markdownToHtml } from "/heichelos/post/parsing.js";
 
 export class CommentSection {
     imgResults = [];

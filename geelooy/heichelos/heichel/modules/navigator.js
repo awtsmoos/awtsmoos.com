@@ -18,7 +18,7 @@ export class HeichelNavigator {
         
         // Bind sub-module functions to this instance context
         this.loadContent = (seriesId) => loadContent(this, seriesId);
-        this.renderPostsAndSeries = (details) => renderPostsAndSeries(this, details);
+        this.renderPostsAndSeries = async (details, seriesData) => await renderPostsAndSeries(this, details, seriesData);
         
         // Bind actions
         this.promptCreateSeries = () => handleCreateSeries(this);

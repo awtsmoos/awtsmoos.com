@@ -3,10 +3,9 @@
  * AI Chat Logic.
  * Purged of obsolete JS-based CSS injectors.
  */
-import { markdownToHtml } from "../parsing.js";
-import { stripTags } from "../functions/utils.js";
+import { markdownToHtml } from "/heichelos/post/parsing.js";
+import { stripTags } from "/heichelos/post/functions/utils.js";
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
-import { addTab } from "/heichelos/post/functions/tabs.js";
 
 var history = [];
 var activeCommentId = null; 

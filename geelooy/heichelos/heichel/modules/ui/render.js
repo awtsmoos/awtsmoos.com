@@ -43,11 +43,11 @@ export function renderBreadcrumb(breadcrumbData, navigator) {
 }
 
 export async function renderSeriesInfo(seriesData, heichelGlobal, currentSeriesId) {
-    if (currentSeriesId !== 'root' && seriesData) {
-        DOMElements.sidebarTitle.textContent = seriesData.name || 'Unnamed Series';
-        DOMElements.sidebarDesc.innerHTML = (seriesData.description && seriesData.description !== 'undefined') ? seriesData.description : "";
-        var auth = seriesData.author;
-        DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`;
+    if (currentSeriesId !== 'root' && seriesData && seriesData.prateem) {
+        DOMElements.sidebarTitle.textContent = seriesData.prateem.name || 'Unnamed Series';
+        DOMElements.sidebarDesc.innerHTML = (seriesData.prateem.description && seriesData.prateem.description !== 'undefined') ? seriesData.prateem.description : "";
+        var auth = seriesData.prateem.owner || seriesData.prateem.author;
+        DOMElements.authorName.innerHTML = auth ? `<a href="/@${auth}">@${auth}</a>` : 'Unknown Author';
         DOMElements.editorsSection.classList.add("hidden");
         DOMElements.sidebarTitle.classList.remove("hidden");
     } else {
@@ -55,8 +55,8 @@ export async function renderSeriesInfo(seriesData, heichelGlobal, currentSeriesI
         DOMElements.sidebarTitle.textContent = heichelGlobal?.name || "";
         DOMElements.sidebarDesc.innerHTML = heichelGlobal?.description || "";
         DOMElements.sidebarTitle.classList.add("hidden");
-        var auth = heichelGlobal?.author;
-        DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`;
+        var auth = heichelGlobal?.owner || heichelGlobal?.author;
+        DOMElements.authorName.innerHTML = auth ? `<a href="/@${auth}">@${auth}</a>` : 'Unknown Owner';
         
         let editors = await api.getEditors(heichelGlobal?.id);
         if(!Array.isArray(editors)) editors = [];
@@ -80,11 +80,16 @@ export function renderContentGrids(seriesDetails, navigator, appState) {
 
 function renderGrid(container, items, type, parentId, navigator, appState) {
     container.innerHTML = "";
-    if (!items || items.length === 0) {
+    
+    // B"H - Filter out items that appear to be replies, as they don't belong here.
+    const filteredItems = (items || []).filter(item => !(item.title && item.title.toUpperCase().startsWith("REPLY TO ")));
+
+    if (filteredItems.length === 0) {
         container.innerHTML = `<p class="empty-message">No ${type}s found in this expanse.</p>`;
         return;
     }
-    items.forEach((item, idx) => {
+    
+    filteredItems.forEach((item, idx) => {
         const data = item;
         const id = item.id || item.postId;
         if (!data || !id) return;

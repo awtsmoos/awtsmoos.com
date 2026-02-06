@@ -1,0 +1,78 @@
+/* B"H */
+/* /style/heichelos/revamped-partials/overlays.css */
+/* Laws for modals, toasts, and other floating elements. */
+
+/* --- MODAL --- */
+#creation-modal.modal-hidden { 
+    display: none; 
+}
+#creation-modal {
+    position: fixed; inset: 0;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+}
+.modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    position: relative;
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-hard);
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+}
+#creation-form { display: flex; flex-direction: column; gap: 1rem; }
+#modal-title { margin: 0 0 1rem 0; font-family: var(--font-heading); text-transform: uppercase; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
+
+/* --- OTHER OVERLAYS --- */
+#bulk-actions-bar {
+    position: fixed;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-ink);
+    color: var(--bg-surface);
+    padding: 1rem;
+    border: var(--border-thick);
+    border-bottom: none;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 500;
+    transition: transform 0.3s;
+    transform: translate(-50%, 100%);
+}
+#bulk-actions-bar.visible { transform: translateX(-50%); }
+
+.context-menu {
+    position: absolute;
+    z-index: 2000;
+    background: var(--bg-surface);
+    border: var(--border-ui);
+    box-shadow: var(--shadow-ui);
+    padding: 0.5rem 0;
+}
+.context-menu-item {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+}
+.context-menu-item:hover { background: var(--color-accent); }
+
+#toast-container {
+    position: fixed; top: 1rem; right: 1rem; z-index: 3000;
+}
+.toast {
+    background: var(--color-ink);
+    color: var(--bg-surface);
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    box-shadow: var(--shadow-ui);
+    border: var(--border-ui);
+}
+.toast.error { background: var(--color-danger); }
+.toast.success { background: green; }

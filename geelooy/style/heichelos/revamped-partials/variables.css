@@ -1,0 +1,25 @@
+/* B"H */
+/* /style/heichelos/revamped-partials/variables.css */
+/* The core essence from which all forms are derived. */
+
+:root {
+    --bg-surface: #ffffff;
+    --bg-vellum: #f9f4e9;
+    --color-ink: #2a251e;
+    --color-ink-secondary: #7d7365;
+    --color-primary: #8a2b06;
+    --color-accent: #c5a372;
+    --color-danger: #d9534f;
+
+    --border-thin: 1px solid var(--color-ink);
+    --border-ui: 2px solid var(--color-ink);
+    --border-thick: 4px solid var(--color-ink);
+    
+    --shadow-ui: 4px 4px 0px 0px var(--color-ink);
+    --shadow-hover: 8px 8px 0px 0px var(--color-ink);
+    --shadow-active: 0px 0px 0px 0px var(--color-ink);
+    
+    --font-heading: 'Syne', serif;
+    --font-ui: 'Space Grotesk', sans-serif;
+    --font-content: 'Georgia', serif;
+}
