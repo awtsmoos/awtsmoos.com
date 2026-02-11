@@ -4586,6 +4586,11 @@ class Quaternion {
  * const d = a.distanceTo( b );
  * ```
  */
+ function checkNan(x,y,z) {
+	if(isNaN(x) || isNaN(y) || isNaN(z)) {
+		console.trace("NAN VALUE FOUND!")
+	}
+ }
 class Vector3 {
 
 	/**
@@ -4595,8 +4600,35 @@ class Vector3 {
 	 * @param {number} [y=0] - The y value of this vector.
 	 * @param {number} [z=0] - The z value of this vector.
 	 */
+	 _x = 0
+	 _y = 0
+	 _z = 0;
+	 get x() {
+		 return this._x;
+	 }
+	 set x(v) {
+		this._x = v;
+		
+		checkNan(v,0,0)
+	 }
+	 get y() {
+		 return this._y;
+	 }
+	 set y(v) {
+		this._y = v;
+		
+		checkNan(0,v,0)
+	 }
+	 get z() {
+		 return this._z;
+		 
+	 }
+	 set z(v) {
+		this._z = v;
+		checkNan(0,0,v)
+	 }
 	constructor( x = 0, y = 0, z = 0 ) {
-
+		checkNan(x,y,z)
 		/**
 		 * This flag can be used for type testing.
 		 *
@@ -4605,7 +4637,7 @@ class Vector3 {
 		 * @default true
 		 */
 		Vector3.prototype.isVector3 = true;
-
+		
 		/**
 		 * The x value of this vector.
 		 *
@@ -4626,7 +4658,8 @@ class Vector3 {
 		 * @type {number}
 		 */
 		this.z = z;
-
+		
+		checkNan(this.x,this.y,this.z)
 	}
 
 	/**
@@ -4638,7 +4671,7 @@ class Vector3 {
 	 * @return {Vector3} A reference to this vector.
 	 */
 	set( x, y, z ) {
-
+		checkNan(x,y,z)
 		if ( z === undefined ) z = this.z; // sprite.scale.set(x,y)
 
 		this.x = x;
@@ -4660,7 +4693,8 @@ class Vector3 {
 		this.x = scalar;
 		this.y = scalar;
 		this.z = scalar;
-
+		
+		checkNan(scalar, scalar, scalar)
 		return this;
 
 	}
@@ -4672,7 +4706,7 @@ class Vector3 {
 	 * @return {Vector3} A reference to this vector.
 	 */
 	setX( x ) {
-
+		checkNan(x,0,0)
 		this.x = x;
 
 		return this;
@@ -4686,7 +4720,7 @@ class Vector3 {
 	 * @return {Vector3} A reference to this vector.
 	 */
 	setY( y ) {
-
+		checkNan(0,y,0)
 		this.y = y;
 
 		return this;
@@ -4700,7 +4734,7 @@ class Vector3 {
 	 * @return {Vector3} A reference to this vector.
 	 */
 	setZ( z ) {
-
+		checkNan(0,0,z)
 		this.z = z;
 
 		return this;
@@ -4724,7 +4758,7 @@ class Vector3 {
 			default: throw new Error( 'index is out of range: ' + index );
 
 		}
-
+		checkNan(this.x, this.y, this.z)
 		return this;
 
 	}
@@ -4770,7 +4804,7 @@ class Vector3 {
 		this.x = v.x;
 		this.y = v.y;
 		this.z = v.z;
-
+		checkNan(v.x,v.y,v.z)
 		return this;
 
 	}
@@ -4786,7 +4820,7 @@ class Vector3 {
 		this.x += v.x;
 		this.y += v.y;
 		this.z += v.z;
-
+		checkNan(this.x, this.y, this.z)
 		return this;
 
 	}
@@ -4802,7 +4836,7 @@ class Vector3 {
 		this.x += s;
 		this.y += s;
 		this.z += s;
-
+		checkNan(s,s,s)
 		return this;
 
 	}
@@ -4819,7 +4853,7 @@ class Vector3 {
 		this.x = a.x + b.x;
 		this.y = a.y + b.y;
 		this.z = a.z + b.z;
-
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4836,7 +4870,8 @@ class Vector3 {
 		this.x += v.x * s;
 		this.y += v.y * s;
 		this.z += v.z * s;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4852,7 +4887,8 @@ class Vector3 {
 		this.x -= v.x;
 		this.y -= v.y;
 		this.z -= v.z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4868,7 +4904,8 @@ class Vector3 {
 		this.x -= s;
 		this.y -= s;
 		this.z -= s;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4885,7 +4922,8 @@ class Vector3 {
 		this.x = a.x - b.x;
 		this.y = a.y - b.y;
 		this.z = a.z - b.z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4901,7 +4939,8 @@ class Vector3 {
 		this.x *= v.x;
 		this.y *= v.y;
 		this.z *= v.z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4917,7 +4956,8 @@ class Vector3 {
 		this.x *= scalar;
 		this.y *= scalar;
 		this.z *= scalar;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4934,7 +4974,8 @@ class Vector3 {
 		this.x = a.x * b.x;
 		this.y = a.y * b.y;
 		this.z = a.z * b.z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4947,8 +4988,10 @@ class Vector3 {
 	 */
 	applyEuler( euler ) {
 
-		return this.applyQuaternion( _quaternion$4.setFromEuler( euler ) );
-
+		var rul = this.applyQuaternion( _quaternion$4.setFromEuler( euler ) );
+		
+		checkNan(this.x,this.y,this.z)
+		return rul;
 	}
 
 	/**
@@ -4960,8 +5003,11 @@ class Vector3 {
 	 */
 	applyAxisAngle( axis, angle ) {
 
-		return this.applyQuaternion( _quaternion$4.setFromAxisAngle( axis, angle ) );
+		var ax = this.applyQuaternion( _quaternion$4.setFromAxisAngle( axis, angle ) );
 
+		
+		checkNan(this.x,this.y,this.z)
+		return ax;
 	}
 
 	/**
@@ -4978,7 +5024,8 @@ class Vector3 {
 		this.x = e[ 0 ] * x + e[ 3 ] * y + e[ 6 ] * z;
 		this.y = e[ 1 ] * x + e[ 4 ] * y + e[ 7 ] * z;
 		this.z = e[ 2 ] * x + e[ 5 ] * y + e[ 8 ] * z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -4992,8 +5039,10 @@ class Vector3 {
 	 */
 	applyNormalMatrix( m ) {
 
-		return this.applyMatrix3( m ).normalize();
-
+		var ap = this.applyMatrix3( m ).normalize();
+		
+		checkNan(this.x,this.y,this.z)
+		return ap;
 	}
 
 	/**
@@ -5013,7 +5062,8 @@ class Vector3 {
 		this.x = ( e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z + e[ 12 ] ) * w;
 		this.y = ( e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] ) * w;
 		this.z = ( e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] ) * w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5040,7 +5090,8 @@ class Vector3 {
 		this.x = vx + qw * tx + qy * tz - qz * ty;
 		this.y = vy + qw * ty + qz * tx - qx * tz;
 		this.z = vz + qw * tz + qx * ty - qy * tx;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5054,8 +5105,11 @@ class Vector3 {
 	 */
 	project( camera ) {
 
-		return this.applyMatrix4( camera.matrixWorldInverse ).applyMatrix4( camera.projectionMatrix );
-
+		var f = this.applyMatrix4( camera.matrixWorldInverse ).applyMatrix4( camera.projectionMatrix );
+		
+		checkNan(this.x,this.y,this.z)
+		
+		return f;
 	}
 
 	/**
@@ -5089,7 +5143,8 @@ class Vector3 {
 		this.x = e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z;
 		this.y = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z;
 		this.z = e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this.normalize();
 
 	}
@@ -5105,7 +5160,8 @@ class Vector3 {
 		this.x /= v.x;
 		this.y /= v.y;
 		this.z /= v.z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5118,8 +5174,10 @@ class Vector3 {
 	 */
 	divideScalar( scalar ) {
 
-		return this.multiplyScalar( 1 / scalar );
-
+		var m = this.multiplyScalar( 1 / scalar );
+		
+		checkNan(this.x,this.y,this.z)
+		return m;
 	}
 
 	/**
@@ -5134,7 +5192,8 @@ class Vector3 {
 		this.x = Math.min( this.x, v.x );
 		this.y = Math.min( this.y, v.y );
 		this.z = Math.min( this.z, v.z );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5151,7 +5210,8 @@ class Vector3 {
 		this.x = Math.max( this.x, v.x );
 		this.y = Math.max( this.y, v.y );
 		this.z = Math.max( this.z, v.z );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5173,7 +5233,8 @@ class Vector3 {
 		this.x = clamp( this.x, min.x, max.x );
 		this.y = clamp( this.y, min.y, max.y );
 		this.z = clamp( this.z, min.z, max.z );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5193,7 +5254,8 @@ class Vector3 {
 		this.x = clamp( this.x, minVal, maxVal );
 		this.y = clamp( this.y, minVal, maxVal );
 		this.z = clamp( this.z, minVal, maxVal );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5300,8 +5362,11 @@ class Vector3 {
 	 */
 	dot( v ) {
 
-		return this.x * v.x + this.y * v.y + this.z * v.z;
+		var d = this.x * v.x + this.y * v.y + this.z * v.z;
+		
+		checkNan(this.x,this.y,this.z)
 
+		return d;
 	}
 
 	// TODO lengthSquared?
@@ -5362,8 +5427,11 @@ class Vector3 {
 	 */
 	setLength( length ) {
 
-		return this.normalize().multiplyScalar( length );
+		var l = this.normalize().multiplyScalar( length );
 
+		
+		checkNan(this.x,this.y,this.z)
+		return l;
 	}
 
 	/**
@@ -5380,7 +5448,8 @@ class Vector3 {
 		this.x += ( v.x - this.x ) * alpha;
 		this.y += ( v.y - this.y ) * alpha;
 		this.z += ( v.z - this.z ) * alpha;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5400,7 +5469,8 @@ class Vector3 {
 		this.x = v1.x + ( v2.x - v1.x ) * alpha;
 		this.y = v1.y + ( v2.y - v1.y ) * alpha;
 		this.z = v1.z + ( v2.z - v1.z ) * alpha;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5413,8 +5483,10 @@ class Vector3 {
 	 */
 	cross( v ) {
 
-		return this.crossVectors( this, v );
-
+		var d = this.crossVectors( this, v );
+		
+		checkNan(this.x,this.y,this.z)
+		return d;
 	}
 
 	/**
@@ -5433,7 +5505,8 @@ class Vector3 {
 		this.x = ay * bz - az * by;
 		this.y = az * bx - ax * bz;
 		this.z = ax * by - ay * bx;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5452,8 +5525,10 @@ class Vector3 {
 
 		const scalar = v.dot( this ) / denominator;
 
-		return this.copy( v ).multiplyScalar( scalar );
-
+		var c = this.copy( v ).multiplyScalar( scalar );
+		
+		checkNan(this.x,this.y,this.z)
+		return c
 	}
 
 	/**
@@ -5497,7 +5572,8 @@ class Vector3 {
 		const theta = this.dot( v ) / denominator;
 
 		// clamp, to handle numerical problems
-
+		
+		checkNan(this.x,this.y,this.z)
 		return Math.acos( clamp( theta, -1, 1 ) );
 
 	}
@@ -5509,7 +5585,7 @@ class Vector3 {
 	 * @return {number} The distance.
 	 */
 	distanceTo( v ) {
-
+		
 		return Math.sqrt( this.distanceToSquared( v ) );
 
 	}
@@ -5550,8 +5626,10 @@ class Vector3 {
 	 */
 	setFromSpherical( s ) {
 
-		return this.setFromSphericalCoords( s.radius, s.phi, s.theta );
-
+		var f =  this.setFromSphericalCoords( s.radius, s.phi, s.theta );
+		
+		checkNan(this.x,this.y,this.z)
+		return f;
 	}
 
 	/**
@@ -5569,7 +5647,8 @@ class Vector3 {
 		this.x = sinPhiRadius * Math.sin( theta );
 		this.y = Math.cos( phi ) * radius;
 		this.z = sinPhiRadius * Math.cos( theta );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5582,8 +5661,10 @@ class Vector3 {
 	 */
 	setFromCylindrical( c ) {
 
-		return this.setFromCylindricalCoords( c.radius, c.theta, c.y );
-
+		var f = this.setFromCylindricalCoords( c.radius, c.theta, c.y );
+		
+		checkNan(this.x,this.y,this.z)
+		return f;
 	}
 
 	/**
@@ -5599,7 +5680,8 @@ class Vector3 {
 		this.x = radius * Math.sin( theta );
 		this.y = y;
 		this.z = radius * Math.cos( theta );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5618,7 +5700,8 @@ class Vector3 {
 		this.x = e[ 12 ];
 		this.y = e[ 13 ];
 		this.z = e[ 14 ];
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5639,7 +5722,8 @@ class Vector3 {
 		this.x = sx;
 		this.y = sy;
 		this.z = sz;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5653,8 +5737,11 @@ class Vector3 {
 	 */
 	setFromMatrixColumn( m, index ) {
 
-		return this.fromArray( m.elements, index * 4 );
+		var f = this.fromArray( m.elements, index * 4 );
+		
+		checkNan(this.x,this.y,this.z)
 
+		return f;
 	}
 
 	/**
@@ -5681,7 +5768,8 @@ class Vector3 {
 		this.x = e._x;
 		this.y = e._y;
 		this.z = e._z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5698,7 +5786,8 @@ class Vector3 {
 		this.x = c.r;
 		this.y = c.g;
 		this.z = c.b;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5728,7 +5817,8 @@ class Vector3 {
 		this.x = array[ offset ];
 		this.y = array[ offset + 1 ];
 		this.z = array[ offset + 2 ];
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5746,7 +5836,7 @@ class Vector3 {
 		array[ offset ] = this.x;
 		array[ offset + 1 ] = this.y;
 		array[ offset + 2 ] = this.z;
-
+		
 		return array;
 
 	}
@@ -5763,7 +5853,8 @@ class Vector3 {
 		this.x = attribute.getX( index );
 		this.y = attribute.getY( index );
 		this.z = attribute.getZ( index );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -5779,7 +5870,7 @@ class Vector3 {
 		this.x = Math.random();
 		this.y = Math.random();
 		this.z = Math.random();
-
+	
 		return this;
 
 	}
@@ -7853,7 +7944,8 @@ class Vector4 {
 		 * @type {number}
 		 */
 		this.w = w;
-
+		
+		checkNan(this.x,this.y,this.z)
 	}
 
 	/**
@@ -7870,7 +7962,8 @@ class Vector4 {
 	set width( value ) {
 
 		this.z = value;
-
+		
+		checkNan(this.x,this.y,this.z)
 	}
 
 	/**
@@ -7887,7 +7980,8 @@ class Vector4 {
 	set height( value ) {
 
 		this.w = value;
-
+		
+		checkNan(this.x,this.y,this.z)
 	}
 
 	/**
@@ -7905,7 +7999,8 @@ class Vector4 {
 		this.y = y;
 		this.z = z;
 		this.w = w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -7922,7 +8017,8 @@ class Vector4 {
 		this.y = scalar;
 		this.z = scalar;
 		this.w = scalar;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -7936,7 +8032,8 @@ class Vector4 {
 	setX( x ) {
 
 		this.x = x;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -7950,7 +8047,8 @@ class Vector4 {
 	setY( y ) {
 
 		this.y = y;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -7964,7 +8062,8 @@ class Vector4 {
 	setZ( z ) {
 
 		this.z = z;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -7978,7 +8077,8 @@ class Vector4 {
 	setW( w ) {
 
 		this.w = w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8002,7 +8102,8 @@ class Vector4 {
 			default: throw new Error( 'index is out of range: ' + index );
 
 		}
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8051,7 +8152,8 @@ class Vector4 {
 		this.y = v.y;
 		this.z = v.z;
 		this.w = ( v.w !== undefined ) ? v.w : 1;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8068,7 +8170,8 @@ class Vector4 {
 		this.y += v.y;
 		this.z += v.z;
 		this.w += v.w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8085,7 +8188,8 @@ class Vector4 {
 		this.y += s;
 		this.z += s;
 		this.w += s;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8103,7 +8207,8 @@ class Vector4 {
 		this.y = a.y + b.y;
 		this.z = a.z + b.z;
 		this.w = a.w + b.w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8121,7 +8226,8 @@ class Vector4 {
 		this.y += v.y * s;
 		this.z += v.z * s;
 		this.w += v.w * s;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8138,7 +8244,8 @@ class Vector4 {
 		this.y -= v.y;
 		this.z -= v.z;
 		this.w -= v.w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8155,7 +8262,8 @@ class Vector4 {
 		this.y -= s;
 		this.z -= s;
 		this.w -= s;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8173,7 +8281,8 @@ class Vector4 {
 		this.y = a.y - b.y;
 		this.z = a.z - b.z;
 		this.w = a.w - b.w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8190,7 +8299,8 @@ class Vector4 {
 		this.y *= v.y;
 		this.z *= v.z;
 		this.w *= v.w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8207,7 +8317,8 @@ class Vector4 {
 		this.y *= scalar;
 		this.z *= scalar;
 		this.w *= scalar;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8227,7 +8338,8 @@ class Vector4 {
 		this.y = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] * w;
 		this.z = e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] * w;
 		this.w = e[ 3 ] * x + e[ 7 ] * y + e[ 11 ] * z + e[ 15 ] * w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8244,7 +8356,8 @@ class Vector4 {
 		this.y /= v.y;
 		this.z /= v.z;
 		this.w /= v.w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8291,7 +8404,8 @@ class Vector4 {
 			this.z = q.z / s;
 
 		}
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8408,7 +8522,8 @@ class Vector4 {
 			}
 
 			this.set( x, y, z, angle );
-
+			
+			checkNan(this.x,this.y,this.z)
 			return this; // return 180 deg rotation
 
 		}
@@ -8428,7 +8543,8 @@ class Vector4 {
 		this.y = ( m13 - m31 ) / s;
 		this.z = ( m21 - m12 ) / s;
 		this.w = Math.acos( ( m11 + m22 + m33 - 1 ) / 2 );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8448,7 +8564,8 @@ class Vector4 {
 		this.y = e[ 13 ];
 		this.z = e[ 14 ];
 		this.w = e[ 15 ];
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8466,7 +8583,8 @@ class Vector4 {
 		this.y = Math.min( this.y, v.y );
 		this.z = Math.min( this.z, v.z );
 		this.w = Math.min( this.w, v.w );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8484,7 +8602,8 @@ class Vector4 {
 		this.y = Math.max( this.y, v.y );
 		this.z = Math.max( this.z, v.z );
 		this.w = Math.max( this.w, v.w );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8507,7 +8626,8 @@ class Vector4 {
 		this.y = clamp( this.y, min.y, max.y );
 		this.z = clamp( this.z, min.z, max.z );
 		this.w = clamp( this.w, min.w, max.w );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8528,7 +8648,8 @@ class Vector4 {
 		this.y = clamp( this.y, minVal, maxVal );
 		this.z = clamp( this.z, minVal, maxVal );
 		this.w = clamp( this.w, minVal, maxVal );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8640,8 +8761,10 @@ class Vector4 {
 	 */
 	dot( v ) {
 
-		return this.x * v.x + this.y * v.y + this.z * v.z + this.w * v.w;
-
+		var d =  this.x * v.x + this.y * v.y + this.z * v.z + this.w * v.w;
+		
+		checkNan(this.x,this.y,this.z)
+		return d;
 	}
 
 	/**
@@ -8719,7 +8842,8 @@ class Vector4 {
 		this.y += ( v.y - this.y ) * alpha;
 		this.z += ( v.z - this.z ) * alpha;
 		this.w += ( v.w - this.w ) * alpha;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8740,7 +8864,8 @@ class Vector4 {
 		this.y = v1.y + ( v2.y - v1.y ) * alpha;
 		this.z = v1.z + ( v2.z - v1.z ) * alpha;
 		this.w = v1.w + ( v2.w - v1.w ) * alpha;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8771,7 +8896,8 @@ class Vector4 {
 		this.y = array[ offset + 1 ];
 		this.z = array[ offset + 2 ];
 		this.w = array[ offset + 3 ];
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -8790,7 +8916,8 @@ class Vector4 {
 		array[ offset + 1 ] = this.y;
 		array[ offset + 2 ] = this.z;
 		array[ offset + 3 ] = this.w;
-
+		
+		checkNan(this.x,this.y,this.z)
 		return array;
 
 	}
@@ -8808,7 +8935,8 @@ class Vector4 {
 		this.y = attribute.getY( index );
 		this.z = attribute.getZ( index );
 		this.w = attribute.getW( index );
-
+		
+		checkNan(this.x,this.y,this.z)
 		return this;
 
 	}
@@ -11579,6 +11707,11 @@ class Matrix4 {
 		te[ 2 ] = n31; te[ 6 ] = n32; te[ 10 ] = n33; te[ 14 ] = n34;
 		te[ 3 ] = n41; te[ 7 ] = n42; te[ 11 ] = n43; te[ 15 ] = n44;
 
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -11629,7 +11762,11 @@ class Matrix4 {
 		te[ 4 ] = me[ 4 ]; te[ 5 ] = me[ 5 ]; te[ 6 ] = me[ 6 ]; te[ 7 ] = me[ 7 ];
 		te[ 8 ] = me[ 8 ]; te[ 9 ] = me[ 9 ]; te[ 10 ] = me[ 10 ]; te[ 11 ] = me[ 11 ];
 		te[ 12 ] = me[ 12 ]; te[ 13 ] = me[ 13 ]; te[ 14 ] = me[ 14 ]; te[ 15 ] = me[ 15 ];
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -11648,7 +11785,11 @@ class Matrix4 {
 		te[ 12 ] = me[ 12 ];
 		te[ 13 ] = me[ 13 ];
 		te[ 14 ] = me[ 14 ];
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -11671,7 +11812,7 @@ class Matrix4 {
 			0, 0, 0, 1
 
 		);
-
+		
 		return this;
 
 	}
@@ -11689,7 +11830,11 @@ class Matrix4 {
 		xAxis.setFromMatrixColumn( this, 0 );
 		yAxis.setFromMatrixColumn( this, 1 );
 		zAxis.setFromMatrixColumn( this, 2 );
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -11710,7 +11855,7 @@ class Matrix4 {
 			xAxis.z, yAxis.z, zAxis.z, 0,
 			0, 0, 0, 1
 		);
-
+	
 		return this;
 
 	}
@@ -11752,7 +11897,11 @@ class Matrix4 {
 		te[ 13 ] = 0;
 		te[ 14 ] = 0;
 		te[ 15 ] = 1;
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -11884,7 +12033,11 @@ class Matrix4 {
 		te[ 13 ] = 0;
 		te[ 14 ] = 0;
 		te[ 15 ] = 1;
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -11954,7 +12107,11 @@ class Matrix4 {
 		te[ 0 ] = _x.x; te[ 4 ] = _y.x; te[ 8 ] = _z.x;
 		te[ 1 ] = _x.y; te[ 5 ] = _y.y; te[ 9 ] = _z.y;
 		te[ 2 ] = _x.z; te[ 6 ] = _y.z; te[ 10 ] = _z.z;
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -12026,7 +12183,12 @@ class Matrix4 {
 		te[ 7 ] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
 		te[ 11 ] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
 		te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!", a, b);
+				throw "got nan value";
+			}
+		});
 		return this;
 
 	}
@@ -12045,7 +12207,11 @@ class Matrix4 {
 		te[ 1 ] *= s; te[ 5 ] *= s; te[ 9 ] *= s; te[ 13 ] *= s;
 		te[ 2 ] *= s; te[ 6 ] *= s; te[ 10 ] *= s; te[ 14 ] *= s;
 		te[ 3 ] *= s; te[ 7 ] *= s; te[ 11 ] *= s; te[ 15 ] *= s;
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -12129,7 +12295,11 @@ class Matrix4 {
 			te[ 14 ] = z;
 
 		}
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -12201,7 +12371,11 @@ class Matrix4 {
 		te[ 1 ] *= x; te[ 5 ] *= y; te[ 9 ] *= z;
 		te[ 2 ] *= x; te[ 6 ] *= y; te[ 10 ] *= z;
 		te[ 3 ] *= x; te[ 7 ] *= y; te[ 11 ] *= z;
-
+		te.forEach(w => {
+			if(isNaN(w)) {
+				console.trace("FOUND matrix NaN!")
+			}
+		});
 		return this;
 
 	}
@@ -12256,7 +12430,7 @@ class Matrix4 {
 			);
 
 		}
-
+		
 		return this;
 
 	}
@@ -14417,8 +14591,20 @@ class Object3D extends EventDispatcher {
 
 				} else {
 
+					
+					this.parent.matrixWorld.elements.forEach(w => {
+							if(isNaN(w)) {
+								console.trace("Got NaN matrix here", this.parent, this, this.matrix);
+								throw "parent matrix something"
+							}
+					})
+					this.matrix.elements.forEach(w => {
+							if(isNaN(w)) {
+								console.trace("Got NaN matrix here", this.parent, this, this.matrix);
+								throw "parent matrix something"
+							}
+					});
 					this.matrixWorld.multiplyMatrices( this.parent.matrixWorld, this.matrix );
-
 				}
 
 			}
@@ -26642,7 +26828,7 @@ class Frustum {
 		return this;
 
 	}
-
+	
 	/**
 	 * Returns `true` if the 3D object's bounding sphere is intersecting this frustum.
 	 *
@@ -26664,9 +26850,14 @@ class Frustum {
 			const geometry = object.geometry;
 
 			if ( geometry.boundingSphere === null ) geometry.computeBoundingSphere();
-
+			object.matrixWorld.elements.forEach(w => {
+					if(isNaN(w)) {
+						console.trace("FOUND NAN VALUE!",w,object,w,object.matrixWorld);
+						throw "Got NaN value here";
+					}
+			})
 			_sphere$3.copy( geometry.boundingSphere ).applyMatrix4( object.matrixWorld );
-
+			
 		}
 
 		return this.intersectsSphere( _sphere$3 );

@@ -2,6 +2,7 @@
 /**
  * boyrayNivra.js - The art of low-level mesh creation.
  * Implements "Hierarchical Yielding" via Traversal module.
+ * Added Bounding Box diagnostics to identify spatial entrapment.
  */
 import Utils from '../../utils.js'
 import * as THREE from '/games/scripts/build/three.module.js';
@@ -64,6 +65,15 @@ export default class {
                 // B"H: THE SACRED CLONE
                 console.log(`B"H - Cloning Sacred Vessel for ${nivra.name}...`);
                 const meshRoot = gltf.scene.clone();
+
+                // B"H DIAGNOSTIC: Measure the physical magnitude of this vessel.
+                const box = new THREE.Box3().setFromObject(meshRoot);
+                const size = new THREE.Vector3();
+                box.getSize(size);
+                console.log(`B"H - Physical Magnitude: Width:${size.x.toFixed(2)}, Height:${size.y.toFixed(2)}, Depth:${size.z.toFixed(2)}`);
+                if (size.length() > 5000) {
+                    console.warn(`B"H - ALERT: This vessel is GARGANTUAN. It may encompass the camera!`);
+                }
 
                 const placeholders = {}, thingsToRemove = [], materials = [];
                 const boneChildren = {}, garments= {}, bodyParts = {};

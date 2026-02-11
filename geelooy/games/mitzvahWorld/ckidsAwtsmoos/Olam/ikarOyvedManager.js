@@ -1,6 +1,5 @@
-
+// B"H
 /**
- * B"H
  * The OlamWorkerManager class (Refactored & Robust)
  */
 
@@ -73,6 +72,23 @@ export default class OlamWorkerManager {
         this.postMessage({ pawsawch: true });
         this.opened = true;
         this.processQueue();
+    }
+
+    /**
+     * _safeCallUiMethod - A sacred vessel for invoking UI actions from the main thread.
+     * It guards against incomplete or missing methods in the external UI framework,
+     * preventing runtime errors and ensuring the flow of creation remains unbroken.
+     * @param {string} methodName The name of the UI method to invoke.
+     * @param {...any} args Arguments to pass to the UI method.
+     * @returns {any} The result of the UI method call, or `undefined` if the method doesn't exist.
+     */
+    _safeCallUiMethod(methodName, ...args) {
+        if (this.myUi && typeof this.myUi[methodName] === 'function') {
+            return this.myUi[methodName](...args);
+        } else {
+            console.warn(`B"H - UI method "${methodName}" not found on external UI instance. Skipping invocation.`);
+            return undefined; // Indicate that the method was not called
+        }
     }
 
     postMessage(data) {

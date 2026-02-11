@@ -118,7 +118,11 @@ export default {
         let damping = Math.exp(-20 * deltaTime) - 1;
         if(isNaN(damping)) damping = 0;
         var n = checkNan(this.velocity.x, this.velocity.y, this.velocity.z);
-        if(n) this.velocity.set(0,0,0)
+        if(n) {
+			this.velocity.set(0,0,0)
+			console.log("SET VVELOCITY", this.velocity, this)
+		}
+		checkNan(this.velocity.x, this.velocity.y, this.velocity.z)
         if (!this.onFloor) {
             if(!this.olam.GRAVITY) this.olam.GRAVITY = 1;
             if (!isWorldBusy) this.velocity.y -= this.olam.GRAVITY * deltaTime;

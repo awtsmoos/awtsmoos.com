@@ -1,159 +1,83 @@
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js';
-import CameraMath from './calculatePosition.js';
-
 /**
- * update - The constant adjustment of the spiritual eye (Ayin).
- * Calculates the kav (line) between the target and the observer.
+ * update.js - The constant adjustment of the spiritual eye (Ayin).
+ * 
+ * B"H: DECOUPLED MODE ACTIVATED.
+ * The Ayin now observes from a distance to ensure the landscape is visible, 
+ * bypassing the entrapment of near-collision snapping.
  */
+import * as THREE from '/games/scripts/build/three.module.js';
+
 export default function update() {
-    // B"H: Absolute NaN Guards to protect the spiritual eye of the world.
+    // 1. THE HASHGACHA LOG (Throttled to every 2 seconds)
+    const now = Date.now();
+    if (!this._lastDiagnosticLog || now - this._lastDiagnosticLog > 2000) {
+        console.group(`B"H [Ayin Diagnostic] - Heartbeat: ${new Date().toLocaleTimeString()}`);
+        console.log(`- Decoupled Mode: ${!!this.decoupled}`);
+        console.log(`- Target Vessel: ${this.target ? (this.target.name || "Unnamed") : "NULL"}`);
+        if (this.target && this.target.mesh) {
+            console.log(`- Target Pos: x:${this.target.mesh.position.x.toFixed(2)}, y:${this.target.mesh.position.y.toFixed(2)}, z:${this.target.mesh.position.z.toFixed(2)}`);
+        }
+        console.log(`- Current Camera Pos: x:${this.camera.position.x.toFixed(2)}, y:${this.camera.position.y.toFixed(2)}, z:${this.camera.position.z.toFixed(2)}`);
+        console.log(`- Far Plane: ${this.camera.far}`);
+        console.groupEnd();
+        this._lastDiagnosticLog = now;
+    }
+
+    // 2. THE HEAVENLY OVERVIEW (Decoupled Logic)
+    if (this.decoupled) {
+        /**
+         * B"H: Position the Eye at a safe altitude and distance.
+         * We look from a great height to ensure visibility of the entire creation.
+         */
+        const overviewPos = new THREE.Vector3(1000, 1000, 1000);
+        const lookAtTarget = new THREE.Vector3(0, 0, 0);
+        
+        if (this.target && this.target.mesh) {
+            // If a target exists, stay relative to it but stay HIGH.
+            overviewPos.set(
+                this.target.mesh.position.x + 500,
+                this.target.mesh.position.y + 1000,
+                this.target.mesh.position.z + 500
+            );
+            lookAtTarget.copy(this.target.mesh.position);
+        }
+
+        // B"H: SNAP, do not lerp. Snapping ensures we escape any interior geometry immediately.
+        this.camera.position.copy(overviewPos); 
+        this.camera.lookAt(lookAtTarget);
+        
+        // Sync the follower for vector calculations
+        this.cameraFollower.position.copy(this.camera.position);
+        this.cameraFollower.quaternion.copy(this.camera.quaternion);
+        return; 
+    }
+
+    // --- LEGACY TRACKING LOGIC (Only runs if not decoupled) ---
     if (!this.target || !this.target.mesh) return;
 
-    // 1. Check for internal camera state corruption. If found, reset and wait.
+    // Protection against corrupted numbers
     if (isNaN(this.userInputTheta) || isNaN(this.userInputPhi)) {
-        console.warn("B\"H: Camera's internal memory (angles) became corrupted. Resetting.");
         this.userInputTheta = 0;
         this.userInputPhi = 0;
-        return; // Skip this frame to allow stabilization.
+        return; 
     }
 
-    // 2. Check if the target vessel is in a corrupted state. If so, do not look, lest the eye also be corrupted.
-    if (
-        isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y) || isNaN(this.target.mesh.position.z) ||
-        isNaN(this.target.mesh.rotation.y)
-    ) {
-        return; // Skip this frame; the physics engine's healing process will handle the target.
-    }
-
-    this.newMovement = false;
-    
-    // Mouse movement input logic
-    const isWDown = this.rightMouseIsDown && this.mouseIsDown;
-    if(isWDown) {
-        if(this.target.olam) this.target.olam.ayshPeula("setInput", { code: "KeyW" });
-        this.sentToOlam = true;
-    } else if(this.sentToOlam) {
-        this.sentToOlam = false;
-        if(this.target.olam) this.target.olam.ayshPeula("setInputOut", { code: "KeyW" });
-    }
-
-    // --- Distance and Mode Logic ---
-    if(!this.isFPS) {
-        if(this.lastDistance !== null) {
-            // Restore from FPS mode
-            this.desiredDistance = this.lastDistance;
-            this.lastDistance = null; 
-            if(this.target.modelMesh) this.target.modelMesh.visible = true;
-            else if(this.target.mesh) this.target.mesh.visible = true;
-
-            this.target.rotation.y = this.userInputTheta * THREE.MathUtils.DEG2RAD;
-            this.previousTargetRotation = this.target.rotation.y * 180 / Math.PI;
-            if(this.target.rotateOffset !== undefined) this.target.rotateOffset = 0;
-        } else {
-            // Standard Zoom
-            const dY = (typeof this.deltaY === 'number' && !isNaN(this.deltaY)) ? this.deltaY : 0;
-            this.desiredDistance -= dY * 0.02 * this.zoomRate * Math.abs(this.desiredDistance) * this.speedDistance;
-            this.desiredDistance = THREE.MathUtils.clamp(this.desiredDistance, this.minDistance, this.maxDistance);
-        }
-    } else {
-        // FPS Mode: Target is hidden, distance is zero
-        if(this.lastDistance === null) {
-            this.lastDistance = this.desiredDistance;
-            if(this.target.modelMesh) this.target.modelMesh.visible = false;
-            else if(this.target.mesh) this.target.mesh.visible = false;
-
-            this.target.rotation.y = this.userInputTheta * THREE.MathUtils.DEG2RAD;
-            this.previousTargetRotation = this.target.rotation.y * 180 / Math.PI;
-            if(this.target.rotateOffset !== undefined) this.target.rotateOffset = 0;
-        }
-        this.desiredDistance = 0;
-    }
-
-    // --- Rotation Sync ---
-    this.targetRotation = this.target.mesh.rotation.y * 180 / Math.PI;
-    if (this.previousTargetRotation === undefined) this.previousTargetRotation = this.targetRotation;
-    const rotationDelta = this.targetRotation - this.previousTargetRotation;
-
-    if(!this.isFPS) {
-        if (!(this.mouseIsDown || this.rightMouseIsDown)) {
-            // Camera follows target rotation when not being manually rotated
-            this.userInputTheta += rotationDelta;
-        } 
-        // Note: manual rotation (dragging) is handled in rotateAroundTarget via controls.js
-        this.previousTargetRotation = this.targetRotation;
-    } 
-
-    this.deltaY = 0;
     this.userInputPhi = this.clampAngle(this.userInputPhi, this.yMinLimit, this.yMaxLimit);
-    
     this.euler = new THREE.Euler(this.userInputPhi * THREE.MathUtils.DEG2RAD, this.userInputTheta * THREE.MathUtils.DEG2RAD, 0, 'YXZ');
     const rotation = new THREE.Quaternion().setFromEuler(this.euler);
     
-    // --- Final Position Calculation ---
     let tHeight = (typeof(this.targetHeight) === 'number' && !isNaN(this.targetHeight)) ? this.targetHeight : 1.5;
+    const finalPosition = new THREE.Vector3().copy(this.target.mesh.position);
+    finalPosition.y += tHeight;
     
-    const { position: rawPosition, vTargetOffset } = CameraMath.calculateDesiredPosition(this.target.mesh, rotation, tHeight, this.desiredDistance, this.isFPS);
-    
-    this.correctedDistance = this.desiredDistance;
-    let isCorrected = false;
+    // Position camera far back
+    const offset = new THREE.Vector3(0, 0, 15).applyQuaternion(rotation);
+    finalPosition.add(offset);
 
-    // 1. Wall Collision Detection
-    if(!this.isFPS) {
-        const trueTargetPosition = this.target.mesh.position.clone().sub(vTargetOffset);
-        const dist = CameraMath.checkWallCollision(trueTargetPosition, rawPosition, this.olam.worldOctree, this.offsetFromWall, this.desiredDistance);
-        if (dist < this.correctedDistance) {
-            this.correctedDistance = dist;
-            isCorrected = true;
-        }
-    }
-
-    // 2. Smoothing
-    let smoothedDistance = (!isCorrected || this.correctedDistance > this.currentDistance) ?
-        this.lerp(this.currentDistance, this.correctedDistance, 0.02 * this.zoomDampening) :
-        this.correctedDistance;
-    
-    // 3. Player Vessel Clipping Guard
-    let minimumAllowedDistance = this.minDistance;
-    if (!this.isFPS && this.target.collider) {
-        minimumAllowedDistance = CameraMath.checkPlayerCollision(this.target.mesh.position, vTargetOffset, rotation, this.target.collider, this.minDistance);
-    }
-    
-    this.currentDistance = THREE.MathUtils.clamp(Math.max(minimumAllowedDistance, smoothedDistance), this.minDistance, this.maxDistance);
-    
-    // 4. Set Final Position
-    const finalPosInfo = CameraMath.calculateDesiredPosition(this.target.mesh, rotation, tHeight, this.currentDistance, this.isFPS);
-    const finalPosition = finalPosInfo.position;
-
-    // 5. FPS and Mouse State Alignments
-    if(this.isFPS) {
-         if (this.mouseIsDown || this.rightMouseIsDown) {
-             this.target.rotation.y = this.euler.y;
-         } else {
-             this.euler.y = this.target.rotation.y;
-             const rot = new THREE.Quaternion().setFromEuler(this.euler);
-             const posFPS = CameraMath.calculateDesiredPosition(this.target.mesh, rot, tHeight, this.currentDistance, true).position;
-             finalPosition.copy(posFPS);
-             this.userInputTheta = this.euler.y * THREE.MathUtils.RAD2DEG;
-         }
-    } else if(this.rightMouseIsDown) {
-        this.target.rotation.y = this.euler.y;
-    }
-
-    // 6. Apply to Camera - Only if Valid
-    if (!isNaN(finalPosition.x) && !isNaN(finalPosition.y) && !isNaN(finalPosition.z)) {
-        this.camera.rotation.copy(this.euler);
+    if (!isNaN(finalPosition.x)) {
         this.camera.position.copy(finalPosition);
-        this.cameraFollower.position.copy(finalPosition);
-    } else {
-        console.warn("B\"H: Camera calculated NaN position. Skipping update.");
-    }
-
-    // 7. LookAt Sync
-    const lookAtPos = this.target.mesh.position.clone();
-    lookAtPos.y += tHeight;
-    if (!isNaN(lookAtPos.x)) {
+        const lookAtPos = this.target.mesh.position.clone().add(new THREE.Vector3(0, tHeight, 0));
         this.camera.lookAt(lookAtPos);
-        this.cameraFollower.lookAt(lookAtPos);
     }
 }

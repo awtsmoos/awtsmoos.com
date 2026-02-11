@@ -6,24 +6,22 @@
     background: rgba(0,0,0,0.02);
     
     /* Instead of scaling (which blurs text), we use high-contrast borders */
-    border-left: 4px solid var(--color-primary) !important;
+    /* border-left: 4px solid var(--color-primary) !important; */
     
     /* Add padding to prevent text jumping when border appears */
-    padding-left: calc(1em - 4px) !important; 
-    
+    /* padding-left: calc(1em - 4px) !important; */
     box-shadow: 
         var(--shadow-ui), /* Lift it up */
         0 0 20px rgba(0,0,0,0.05); /* Softer Glow */
-    
     z-index: 50;
 }
 
 /* RTL Active State */
 .post-reader-localized-context .heb .active-reading-sub {
     border-left: none !important;
-    border-right: 4px solid var(--color-primary) !important;
-    padding-left: 1em !important;
-    padding-right: calc(1em - 4px) !important;
+    box-shadow: -5px 0px 0px 1px var(--color-primary) inset;
+    /* padding-left: 1em !important; */
+    /* padding-right: calc(1em - 4px) !important; */
 }
 
 /* LOCKED STATE (When you click 'Comment') */

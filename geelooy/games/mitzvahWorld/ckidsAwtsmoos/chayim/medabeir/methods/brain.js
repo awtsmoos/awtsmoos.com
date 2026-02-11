@@ -104,6 +104,7 @@ export default {
     },
 
     executeState(dt) {
+        
         if (!this.navTarget) return;
 
         const dist = this.mesh.position.distanceTo(this.navTarget);
@@ -114,7 +115,22 @@ export default {
             
             // Jump if stuck or random joy
             if (this.onFloor && Math.random() < 0.005) this.velocity.y = 8;
-
+            if(isNaN(dt)) {
+                console.trace("Delta nan")
+                throw "NAN delta!"
+            }
+            if(isNaN(this.speed)) {
+                console.trace("speed nan")
+                throw "NAN speed!"
+            }
+            if(isNaN(dir.x)) {
+                console.trace("dir.x nan", this.navTarget, this.mesh.position)
+                throw "NAN dir.x!"
+            }
+            if(isNaN(dir.z)) {
+                console.trace("dir.z nan", this.navTarget, this.mesh.position)
+                throw "NAN dir.x!"
+            }
             this.velocity.x = dir.x * this.speed * dt;
             this.velocity.z = dir.z * this.speed * dt;
             

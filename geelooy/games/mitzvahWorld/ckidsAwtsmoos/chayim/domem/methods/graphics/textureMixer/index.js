@@ -14,8 +14,10 @@ export default class TextureMixer {
         if (!nivra.olam) return;
 
         console.log(`B"H [TextureMixer] SAFE MODE: Applying simple texture to ${nivra.name}`);
+        console.log(`B"H [TextureMixer] BaseTexture Input:`, baseTexture);
 
         const bTexUrl = nivra.olam.$gc(baseTexture) || baseTexture;
+        console.log(`B"H [TextureMixer] Resolved URL:`, bTexUrl);
         
         let base = null;
         try {
@@ -24,10 +26,15 @@ export default class TextureMixer {
                 if (base) {
                     base.wrapS = base.wrapT = THREE.RepeatWrapping;
                     base.needsUpdate = true;
+                    console.log(`B"H [TextureMixer] Texture Loaded Successfully.`);
+                } else {
+                    console.warn(`B"H [TextureMixer] Texture Load Returned Null.`);
                 }
+            } else {
+                console.warn(`B"H [TextureMixer] No URL resolved for base texture.`);
             }
         } catch (e) {
-            console.warn("B\"H TextureMixer: Base texture failed.", e);
+            console.warn("B\"H TextureMixer: Base texture failed exception.", e);
         }
 
         let targetChild = null;
@@ -47,7 +54,10 @@ export default class TextureMixer {
              });
         }
 
-        if (!targetChild) return;
+        if (!targetChild) {
+            console.warn(`B"H [TextureMixer] Target child '${childNameToSetItTo}' not found in ${nivra.name}.`);
+            return;
+        }
 
         // B"H: Use Lambert Material (No custom shaders)
         const simpleMaterial = new THREE.MeshLambertMaterial({
@@ -62,5 +72,7 @@ export default class TextureMixer {
         targetChild.material = simpleMaterial;
         targetChild.material.needsUpdate = true;
         targetChild.userData.isTerrain = true;
+        
+        console.log(`B"H [TextureMixer] Applied simple material to ${targetChild.name}. Map exists: ${!!base}`);
     }
 }

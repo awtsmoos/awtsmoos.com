@@ -3,7 +3,7 @@
  * loading.js - The drawing down of the Infinite Light (Ohr) into defined Vessels (Kailim).
  * This vessel is the gatekeeper of existence, ensuring that only pure and verified speech
  * is permitted to manifest within the Olam.
- * Refined to be robust against missing server headers.
+ * Refined to be robust against missing server headers and allow direct component access.
  */
 import AssetCache from "../../utils/AssetCache.js";
 
@@ -44,18 +44,23 @@ export default class {
              * 2. THE INTEGRITY PULSE
              * Drawing down bytes.
              */
-            const response = await this.fetchWithProgress(url, null, {
-                onProgress: (p) => {
-                    if (typeof onProgress === 'function') onProgress(p);
+            try {
+                const response = await this.fetchWithProgress(url, null, {
+                    onProgress: (p) => {
+                        if (typeof onProgress === 'function') onProgress(p);
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Status: ${response.status}`);
                 }
-            });
 
-            if (!response.ok) {
-                throw new Error(`B"H Error: The Speech at "${url}" was not spoken correctly. Status: ${response.status}`);
+                blob = await response.blob();
+                await AssetCache.put(url, blob);
+            } catch(e) {
+                console.error(`B"H - Failed to manifest component '${shaym}' from '${url}':`, e);
+                return null;
             }
-
-            blob = await response.blob();
-            await AssetCache.put(url, blob);
         } else {
             // If cached, the manifestation is instantaneous within the soul.
             if (typeof onProgress === 'function') onProgress(1);
@@ -109,7 +114,8 @@ export default class {
     }
 
     getComponent(shaym) {
-        if (typeof shaym !== "string") return;
+        if (typeof shaym !== "string") return undefined;
+
         const resolvePath = (obj, path) => {
             const keys = path.split("/");
             let current = obj;
@@ -124,7 +130,10 @@ export default class {
             const path = shaym.slice(11);
             const baseKey = path.split("/")[0];
             const baseComponent = this.components[baseKey];
-            if (!baseComponent) return undefined;
+            if (!baseComponent) {
+                console.warn(`B"H getComponent: Base key '${baseKey}' not found for '${shaym}'`);
+                return undefined;
+            }
             if (typeof baseComponent === "string") return baseComponent;
             return path.includes("/") ? resolvePath(baseComponent, path.slice(baseKey.length + 1)) : baseComponent;
         }
@@ -137,6 +146,20 @@ export default class {
             if (typeof baseVar === "string") return baseVar;
             return path.includes("/") ? resolvePath(baseVar, path.slice(baseKey.length + 1)) : baseVar;
         }
+        
+        // B"H: Direct lookup fallback
+        // If the key exists directly in the components map, return it.
+        // This is crucial for internal calls like $gc("dirtTexture").
+        if (this.components && this.components[shaym]) {
+            return this.components[shaym];
+        }
+
+        // B"H: Diagnostic Logging for missing textures
+        if (shaym.toLowerCase().includes("texture")) {
+            console.warn(`B"H getComponent: FAILED to find '${shaym}'.`);
+            console.log("B\"H Available Components:", Object.keys(this.components || {}));
+        }
+
         return undefined;
     }
 

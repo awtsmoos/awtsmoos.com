@@ -17,8 +17,8 @@ export default {
         await Nivra.prototype.heescheel.call(this, olam);
         
         if(this.isTemplate) {
-            console.log(`B"H - ${this.name} is a template, skipping physical forge.`);
-            return true;
+           
+           return true;
         } else {
             try {
                 let res;
@@ -116,19 +116,20 @@ export default {
     },
 
     setMesh(mesh) {
-        console.log(`B"H - Manually anchoring mesh for ${this.name}`);
-        this.mesh = mesh;
+       
+       this.mesh = mesh;
         this.mesh.nivraAwtsmoos = this;
         this.proximityCollider = null;
     },
 
     async madeAll(olam) {
-        console.log(`B"H - Logical sync complete for ${this.name}.`);
+        
+        
     },
 
     async ready() {
-        console.log(`B"H - ${this.name} is fully manifest and standing in the Light.`);
-        await Nivra.prototype.ready.call(this);
+      
+      await Nivra.prototype.ready.call(this);
     },
     
     async afterBriyah() {
