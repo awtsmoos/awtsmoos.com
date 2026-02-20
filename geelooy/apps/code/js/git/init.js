@@ -39,7 +39,12 @@ export const GitInit = {
 	    if (!result) return;
 	
 	    const repoName = document.getElementById('repo-name').value.trim();
-	    const description = result; // result is the textarea content
+	    
+	    // B"H - SANITIZE DESCRIPTION
+	    // GitHub API 422s if description contains newlines or control characters.
+	    const rawDescription = typeof result === 'string' ? result : "";
+	    const cleanDescription = rawDescription.replace(/[\r\n\x00-\x1F\x7F]/g, " ").trim();
+	    
 	    const isPrivate = document.getElementById('repo-private').checked;
 	
 	    if (!repoName) return UI.showToast("Repository name is required.", "error");
@@ -51,7 +56,11 @@ export const GitInit = {
 	        // 1. Create the Repo
 	        const newRepoData = await FileSystemProvider.GitHub.api('/user/repos', {
 	            method: 'POST',
-	            body: JSON.stringify({ name: repoName, description, private: isPrivate })
+	            body: JSON.stringify({ 
+	                name: repoName, 
+	                description: cleanDescription, 
+	                private: isPrivate 
+	            })
 	        });
 	
 	        const repoInfo = { owner: newRepoData.owner.login, repo: newRepoData.name };
@@ -84,7 +93,7 @@ export const GitInit = {
 	            'B"H: Initial Manifestation'
 	        );
 	
-	        // 2. Refresh tree and write Ikar
+	        // 2. Refresh and update Ikar
 	        const newTree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch });
 	        const gitInfo = { isClone: true, repoInfo, branch, baseCommitSHA: initialCommitSHA, remoteTree: newTree.tree };
 	        
@@ -96,7 +105,9 @@ export const GitInit = {
 	        await Workspaces.refreshNode(folderItem);
 	
 	    } catch (e) {
+	        // e.message now contains the detailed GitHub error strings
 	        UI.endTask(taskId, 'error', `Init failed: ${e.message}`);
+	        console.error("[Git Init] Error:", e);
 	    }
 	}
 };

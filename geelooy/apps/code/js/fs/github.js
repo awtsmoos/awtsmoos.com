@@ -6,41 +6,57 @@ import { UI } from '../ui.js';
 import { IndexedDBProvider } from './indexeddb.js'; // B"H
 
 export const GitHubProvider = {
-    api: async (endpoint, options = {}) => {
-        const method = options.method || 'GET';
-        const headers = {
-         'Accept': 'application/vnd.github+json', 
-         'Content-Type': 'application/json',
-         'X-GitHub-Api-Version': '2022-11-28', 
-         ...options.headers 
-        };
+    // B"H
+api: async (endpoint, options = {}) => {
+    const method = options.method || 'GET';
+    const headers = {
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        ...options.headers
+    };
 
-        if (State.githubToken) {
-            headers['Authorization'] = `Bearer ${State.githubToken}`;
-        } else if (method !== 'GET') {
-            throw new Error("A GitHub token is required for this action.");
+    if (State.githubToken) {
+        headers['Authorization'] = `Bearer ${State.githubToken}`;
+    } else if (method !== 'GET') {
+        throw new Error("A GitHub token is required for this action.");
+    }
+
+    let fetchEndpoint = endpoint;
+    if (method === 'GET') {
+        const cacheBuster = `_cb=${Date.now()}`;
+        fetchEndpoint += (fetchEndpoint.includes('?') ? '&' : '?') + cacheBuster;
+    }
+
+    const response = await fetch(`https://api.github.com${fetchEndpoint}`, { ...options, headers });
+
+    if (!response.ok) {
+        let errorData;
+        try {
+            errorData = await response.json();
+        } catch (e) {
+            errorData = { message: response.statusText };
         }
-         
-        let fetchEndpoint = endpoint;
-        if (method === 'GET') {
-            const cacheBuster = `_cb=${Date.now()}`;
-            fetchEndpoint += (fetchEndpoint.includes('?') ? '&' : '?') + cacheBuster;
+
+        // B"H - ACCURATE ERROR PARSING
+        let errorMessage = errorData.message || `API Error ${response.status}`;
+        
+        if (errorData.errors && Array.isArray(errorData.errors)) {
+            const details = errorData.errors.map(err => {
+                const fieldPrefix = err.field ? `${err.field}: ` : '';
+                return `${fieldPrefix}${err.message || err.code}`;
+            }).join('; ');
+            errorMessage += ` (${details})`;
         }
+
+        if (response.status === 401) throw new Error("Invalid GitHub token.");
+        if (response.status === 422) throw new Error(errorMessage);
         
-        const response = await fetch(`https://api.github.com${fetchEndpoint}`, { ...options, headers });
-        
-        if (response.status === 422) {
-            throw new Error("Sorry, your input was too large to process. Consider creating the blob in a local clone of the repository and then pushing it to GitHub.");
-        }
-        
-        if (!response.ok) {
-            const err = await response.json().catch(() => ({ message: response.statusText }));
-            if (response.status === 401) throw new Error("Bad credentials. Your GitHub token may be invalid or expired.");
-            throw new Error(err.message || `GitHub API Error: ${response.status}`);
-        }
-        
-        return response.status === 204 ? null : response.json();
-    },
+        throw new Error(errorMessage);
+    }
+
+    return response.status === 204 ? null : response.json();
+},
     
     utf8_to_b64: str => btoa(unescape(encodeURIComponent(str))),
     b64_to_utf8: str => decodeURIComponent(escape(atob(str))),

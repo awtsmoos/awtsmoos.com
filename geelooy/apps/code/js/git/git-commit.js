@@ -109,7 +109,7 @@ export const GitCommit = {
 
         } catch (e) {
             UI.endTask(taskId, 'error', `Commit failed: ${e.message}`);
-            throw e;
+	        throw e;
         }
     },
 
