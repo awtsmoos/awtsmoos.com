@@ -82,7 +82,7 @@ export const CommandPalette = {
         { id: 'ast', label: 'Tool: Show AST Explorer', action: 'show-ast', icon: 'brain' },
         { id: 'outline', label: 'Tool: Show Symbol Outline', action: 'show-outline', icon: 'list' },
         { id: 'vibe', label: 'Tool: Open Vibe Coding', action: 'open-vibe-context', icon: 'brain-circuit' },
-        
+        { id: 'apply-ai', label: 'Tool: Apply External AI Changes', action: 'apply-external-ai-context', icon: 'upload' },
         // APP
         { id: 'settings', label: 'App: Settings', action: 'settings', icon: 'settings' },
         { id: 'refresh', label: 'App: Reload Window', action: 'reload-window', icon: 'refresh' },
@@ -233,6 +233,23 @@ export const CommandPalette = {
                  });
              } else {
                  UI.showToast("No active file to infer Vibe context.", "warning");
+             }
+        } else if (cmd.action === 'apply-external-ai-context') {
+             const tab = State.tabs.find(t => t.id === State.activeTabId);
+             if (tab && tab.item) {
+                 import('./features/ai-manifestation/index.js').then(m => {
+                     const parentPath = tab.item.path.substring(0, tab.item.path.lastIndexOf('/')) || '/';
+                     const parentItem = { 
+                         ...tab.item, 
+                         path: parentPath, 
+                         kind: 'directory', 
+                         workspaceId: tab.item.workspaceId, 
+                         name: parentPath.split('/').pop() || 'Root' 
+                     };
+                     m.AIManifestation.showDialog(parentItem);
+                 });
+             } else {
+                 UI.showToast("No active file to infer workspace context.", "warning");
              }
         } else if (cmd.action === 'show-graph-nav') {
             VisualEngine.triggerGraphNav();

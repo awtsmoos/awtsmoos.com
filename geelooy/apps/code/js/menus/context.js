@@ -8,25 +8,31 @@ import { Menus } from './index.js';
 import { Tabs } from '../tabs.js'; // B"H - Ensure Tabs is available
 
 // B"H - Helper to find the nearest Git Root ancestor
-const findGitRoot = (item) => {
+export const findGitRoot = (item) => {
     if (!item) return null;
+    
+    // 1. GitHub Workspaces: The Workspace object itself is the root
     if (item.type === 'github') {
         const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
         return ws ? { ...ws, path: '/', kind: 'directory' } : null;
     }
-    
-    const wsId = item.workspaceId || item.id;
-    const ws = State.workspaces.find(w => w.id === wsId);
-    if (!ws) return null;
 
+    // 2. Local Clones: Search upwards from the file/folder
+    const wsId = item.workspaceId || item.id;
     let currPath = item.path;
+
+    // If it's a file, start searching from its parent directory
+    if (item.kind === 'file') {
+        currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
+    }
+
     let limit = 20; 
-    
     while (limit-- > 0) {
         const uniquePath = `${wsId}::${currPath}`;
         const entry = State.domItemMap.get(uniquePath);
         
-        if (entry && entry.item && entry.item.isGitClone) {
+        // We found a folder marked during 'renderTree' or 'clone' as a Git Repo
+        if (entry?.item?.isGitClone) {
             return entry.item;
         }
         
@@ -34,8 +40,11 @@ const findGitRoot = (item) => {
         const lastSlash = currPath.lastIndexOf('/');
         currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
     }
+    
+    // Fallback: Check if the workspace itself was initialized as a repo
+    const ws = State.workspaces.find(w => w.id === wsId);
+    if (ws?.isGitClone) return { ...ws, path: '/', kind: 'directory' };
 
-    if (ws.isGitClone) return { ...ws, path: '/', kind: 'directory' };
     return null;
 };
 
@@ -83,10 +92,23 @@ export const ContextMenu = {
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander", icon: "folder" });
             menuItems.push({ label: "Search in this Folder...", action: "search-in-folder", icon: "search" });
             menuItems.push({ label: "✨ Vibe Code", action: "open-vibe", icon: "brain-circuit" });
+            menuItems.push({ label: "Apply External AI Changes...", action: "apply-external-ai", icon: "upload" });
             menuItems.push({ isSeparator: true });
         }
+        
+        const isGithubRoot = item.type === 'github' && item.path === '/';
+		const hasRepoInClipboard = State.clipboardCloneSource !== null;
+		
+		if (isGithubRoot) {
+		    menuItems.push({ label: "Copy as Clone Source", action: "copy-for-clone", icon: "git-branch" });
+		}
+		
+		if (isDir && hasRepoInClipboard && !isReadOnly) {
+		    menuItems.push({ label: `Clone "${State.clipboardCloneSource.name}" here`, action: "clone-repo-here", icon: "download" });
+		}
 
         menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
+        
         menuItems.push({ label: "Copy Relative Path", action: "copy-relative-path", icon: "link" }); 
         
         if (isDir) {
@@ -110,12 +132,12 @@ export const ContextMenu = {
         menuItems.push({ isSeparator: true });
 
         if (!isReadOnly) {
-            if (isGitAware) {
-                menuItems.push({ label: "Git Actions...", action: "git-actions", icon: "git-branch" });
-                if (isWorkspaceRoot || item.isGitClone) {
-                    menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
-                }
-            } else if (isCandidateForInit) {
+            if (isGitAware || item.isGitClone) { // Add item.isGitClone check
+		        menuItems.push({ label: "Git Actions...", action: "git-actions", icon: "git-branch" });
+		        if (isWorkspaceRoot || item.isGitClone) {
+		            menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
+		        }
+		    } else if (isCandidateForInit) {
                 menuItems.push({ label: "Initialize as GitHub Repo...", action: "git-init", icon: "github" });
             }
         }

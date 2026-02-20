@@ -9,7 +9,7 @@ import { FileOperations } from './file-operations.js';
 import { Tabs } from './tabs.js';
 import { WorkspaceTreeRenderer } from './workspaces/tree-rendering.js'; 
 import { GitMetaProvider } from './git/meta.js';
-
+import {FileSystemProvider} from './fs-provider.js'
 export const getItemUniquePath = (item) => {
     if (item.type === 'zip-entry') {
         return `zip-${item.zipTabId}::${item.path}`;
@@ -97,120 +97,141 @@ export const Workspaces = {
         });
     },
 
-    renderWorkspace(ws, container) {
-        const wsRoot = document.createElement('div');
-        wsRoot.className = 'workspace-root';
-
-        const rootItem = { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' };
-        const uniquePath = getItemUniquePath(rootItem);
-        const isExpanded = State.expandedFolders.has(uniquePath);
-        if (isExpanded) wsRoot.classList.add('expanded');
-
-        const icon = rootItem.isGitClone ? 'git-folder' : 
-                     rootItem.type === 'local' ? 'laptop' : 
-                     rootItem.type === 'github' ? 'github' : 
-                     rootItem.type === 'ssh' ? 'ssh' : 
-                     rootItem.type === 'opfs' ? 'save' : 'brain';
-
-        let statusBadge = '';
-        if (ws.isLocked) {
-            statusBadge = `<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-warning); color: #000;">🔒 Resume</span>`;
-        } else if (ws.isLost) {
-            statusBadge = `<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-danger); color: #fff;">⚠️ Lost</span>`;
-        }
-
-        const showGitActions = rootItem.isGitClone || rootItem.type === 'github';
-
-        wsRoot.innerHTML = `
-            <div class="workspace-header ${ws.isLocked ? 'locked-workspace' : ''}" title="${ws.isLocked ? 'Click to resume session' : rootItem.name}">
-                <div class="workspace-header-title">
-                    <strong>
-                        <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
-                        ${rootItem.name}
-                        ${statusBadge}
-                    </strong>
-                </div>
-                <div class="workspace-header-actions">
-                    ${showGitActions ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
-                </div>
-            </div>
-        `;
-        
-        container.appendChild(wsRoot);
-        
-        // Setup D&D on the workspace header itself
-        const header = wsRoot.querySelector('.workspace-header');
-        this.setupDragDrop(header, rootItem);
-
-        const headerTitle = wsRoot.querySelector('.workspace-header-title');
-
-        headerTitle.onclick = async () => {
-            if (ws.isLocked && !ws.isLost) {
-                try {
-                    const perm = await ws.handle.requestPermission({ mode: 'readwrite' });
-                    if (perm === 'granted') {
-                        ws.isLocked = false;
-                        const stateWs = State.workspaces.find(w => w.id === ws.id);
-                        if (stateWs) stateWs.isLocked = false;
-                        wsRoot.remove();
-                        this.renderWorkspace(ws, container);
-                        
-                        // Reload tabs associated with this workspace
-                        State.tabs.forEach(async tab => {
-                            if (tab.item.workspaceId === ws.id) {
-                                tab.forceReload = true;
-                                if(State.activeTabId === tab.id) await Tabs.activate(tab.id);
-                            }
-                        });
-                        
-                        UI.showToast("Workspace resumed.", "success");
-                        App.saveSession();
-                    } else {
-                        UI.showToast("Permission denied.", "warning");
-                    }
-                } catch (e) {
-                    console.error("Resume error:", e);
-                    UI.showToast("Error resuming workspace.", "error");
-                }
-                return; 
-            }
-
-            const isCurrentlyExpanded = State.expandedFolders.has(uniquePath);
-            if (isCurrentlyExpanded) {
-                State.expandedFolders.delete(uniquePath);
-            } else {
-                State.expandedFolders.add(uniquePath);
-            }
-            App.saveSession();
-
-            if (isCurrentlyExpanded) {
-                wsRoot.classList.remove('expanded');
-                const tree = wsRoot.querySelector('ul.workspace-tree');
-                if (tree) tree.remove(); 
-            } else {
-                wsRoot.classList.add('expanded');
-                const tree = document.createElement('ul');
-                tree.className = 'workspace-tree';
-                wsRoot.appendChild(tree);
-                WorkspaceTreeRenderer.renderTree(tree, rootItem, 1);
-            }
-        };
-
-        wsRoot.querySelector('.workspace-header').oncontextmenu = (e) => Menus.show(e, rootItem);
-        const gitBtn = wsRoot.querySelector('.git-actions-btn');
-        if (gitBtn) {
-            gitBtn.onclick = (e) => { e.stopPropagation(); GitManager.showGitUI(rootItem); };
-        }
-        
-        State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItem });
-
-        if (isExpanded && !ws.isLocked) {
-           const tree = document.createElement('ul');
-           tree.className = 'workspace-tree';
-           wsRoot.appendChild(tree);
-           WorkspaceTreeRenderer.renderTree(tree, rootItem, 1);
-        }
-    },
+    // B"H
+	async renderWorkspace(ws, container) {
+	    const wsRoot = document.createElement('div');
+	    wsRoot.className = 'workspace-root';
+	
+	    const rootItem = { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' };
+	    const uniquePath = getItemUniquePath(rootItem);
+	    const isExpanded = State.expandedFolders.has(uniquePath);
+	    if (isExpanded) wsRoot.classList.add('expanded');
+	
+	    const icon = rootItem.isGitClone ? 'git-folder' : 
+	                 rootItem.type === 'local' ? 'laptop' : 
+	                 rootItem.type === 'github' ? 'github' : 
+	                 rootItem.type === 'ssh' ? 'ssh' : 
+	                 rootItem.type === 'opfs' ? 'save' : 'brain';
+	
+	    let statusBadge = '';
+	    if (ws.isLocked) {
+	        statusBadge = `<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-warning); color: #000;">🔒 Resume</span>`;
+	    } else if (ws.isLost) {
+	        statusBadge = `<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-danger); color: #fff;">⚠️ Lost</span>`;
+	    }
+	
+	    const showGitActions = rootItem.isGitClone || rootItem.type === 'github';
+	
+	    wsRoot.innerHTML = `
+	        <div class="workspace-header ${ws.isLocked ? 'locked-workspace' : ''}" title="${ws.isLocked ? 'Click to resume session' : rootItem.name}">
+	            <div class="workspace-header-title">
+	                <strong>
+	                    <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
+	                    ${rootItem.name}
+	                    ${statusBadge}
+	                </strong>
+	            </div>
+	            <div class="workspace-header-actions">
+	                ${showGitActions ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
+	            </div>
+	        </div>
+	    `;
+	    
+	    container.appendChild(wsRoot);
+	    
+	    // B"H - PROACTIVE ROOT DETECTION
+	    // Peer into the root of the workspace to see if the WHOLE workspace is a clone
+	    try {
+	        const children = await FileSystemProvider.list(rootItem);
+	        if (children.some(c => c.name === '.awtsmoos-repo')) {
+	            ws.isGitClone = true;
+	            rootItem.isGitClone = true;
+	            const iconUse = wsRoot.querySelector('.workspace-header .svg-icon use');
+	            if (iconUse) iconUse.setAttribute('href', '#icon-git-folder');
+	            
+	            // Re-add Git button if it was missing
+	            if (!wsRoot.querySelector('.git-actions-btn')) {
+	                const actionsContainer = wsRoot.querySelector('.workspace-header-actions');
+	                if (actionsContainer) {
+	                    actionsContainer.innerHTML = `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>`;
+	                    actionsContainer.querySelector('.git-actions-btn').onclick = (e) => { 
+	                        e.stopPropagation(); 
+	                        GitManager.showGitUI(rootItem); 
+	                    };
+	                }
+	            }
+	        }
+	    } catch(e) {
+	        console.warn("[Workspaces] Root peek failed", e);
+	    }
+	
+	    this.setupDragDrop(wsRoot.querySelector('.workspace-header'), rootItem);
+	
+	    const headerTitle = wsRoot.querySelector('.workspace-header-title');
+	    headerTitle.onclick = async () => {
+	        if (ws.isLocked && !ws.isLost) {
+	            try {
+	                const perm = await ws.handle.requestPermission({ mode: 'readwrite' });
+	                if (perm === 'granted') {
+	                    ws.isLocked = false;
+	                    const stateWs = State.workspaces.find(w => w.id === ws.id);
+	                    if (stateWs) stateWs.isLocked = false;
+	                    wsRoot.remove();
+	                    this.renderWorkspace(ws, container);
+	                    State.tabs.forEach(async tab => {
+	                        if (tab.item.workspaceId === ws.id) {
+	                            tab.forceReload = true;
+	                            if(State.activeTabId === tab.id) await Tabs.activate(tab.id);
+	                        }
+	                    });
+	                    UI.showToast("Workspace resumed.", "success");
+	                    App.saveSession();
+	                } else {
+	                    UI.showToast("Permission denied.", "warning");
+	                }
+	            } catch (e) {
+	                console.error("Resume error:", e);
+	                UI.showToast("Error resuming workspace.", "error");
+	            }
+	            return; 
+	        }
+	
+	        const isCurrentlyExpanded = State.expandedFolders.has(uniquePath);
+	        if (isCurrentlyExpanded) State.expandedFolders.delete(uniquePath);
+	        else State.expandedFolders.add(uniquePath);
+	        
+	        App.saveSession();
+	
+	        if (isCurrentlyExpanded) {
+	            wsRoot.classList.remove('expanded');
+	            const tree = wsRoot.querySelector('ul.workspace-tree');
+	            if (tree) tree.remove(); 
+	        } else {
+	            wsRoot.classList.add('expanded');
+	            const tree = document.createElement('ul');
+	            tree.className = 'workspace-tree';
+	            wsRoot.appendChild(tree);
+	            WorkspaceTreeRenderer.renderTree(tree, rootItem, 1);
+	        }
+	    };
+	
+	    const header = wsRoot.querySelector('.workspace-header');
+	    header.oncontextmenu = (e) => Menus.show(e, rootItem);
+	    
+	    const gitBtn = wsRoot.querySelector('.git-actions-btn');
+	    if (gitBtn) {
+	        gitBtn.onclick = (e) => { e.stopPropagation(); GitManager.showGitUI(rootItem); };
+	    }
+	    
+	    State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItem });
+	
+	    if (isExpanded && !ws.isLocked) {
+	       const tree = document.createElement('ul');
+	       tree.className = 'workspace-tree';
+	       wsRoot.appendChild(tree);
+	       WorkspaceTreeRenderer.renderTree(tree, rootItem, 1);
+	    }
+	},
 
     async remove(workspaceId) {
         UI.showLoading('Removing workspace...');

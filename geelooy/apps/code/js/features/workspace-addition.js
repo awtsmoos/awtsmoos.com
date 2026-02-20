@@ -94,138 +94,117 @@ export const WorkspaceAddition = {
         }
     },
 
-    async addGithub() {
-        if (!State.githubToken) {
-            const token = await UI.showDialog({
-                title: "GitHub Token Required",
-                message: "A Personal Access Token (classic) with 'repo' scope is required to access GitHub.",
-                hasInput: true, 
-                inputType: 'password', 
-                placeholder: "ghp_...", 
-                okText: "Save Token",
-                cancelText: "Cancel"
-            });
-            if (!token) return;
-            State.githubToken = token;
-            App.saveSettings();
-        }
-
-        const contentHTML = /*html*/`
-            <p>Enter the repository path (owner/repo) or full URL.</p>
-            <input type="text" id="repo-input" placeholder="awtsmoos/editor" style="margin-bottom: 10px;">
-            <div id="repo-list-container" style="border: 1px solid var(--color-border); border-radius: 4px; overflow: hidden; margin-top: 10px;">
-                <button id="load-repos-btn" class="menu-button" style="width: 100%; justify-content: space-between; border:none; background: var(--color-bg-secondary);">
-                    <span>Load My Repositories</span>
-                    <svg class="svg-icon" style="transition: transform 0.2s;"><use href="#icon-arrow-left" style="transform: rotate(-90deg);"></use></svg>
-                </button>
-                <div id="repo-list" style="display: none; max-height: 200px; overflow-y: auto; background: var(--color-bg-primary); border-top: 1px solid var(--color-border);">
-                    <div style="padding: 10px; text-align: center; color: var(--color-text-tertiary);">Loading...</div>
-                </div>
-            </div>`;
-
-        setTimeout(() => {
-            const loadBtn = document.getElementById('load-repos-btn');
-            const repoList = document.getElementById('repo-list');
-            const input = document.getElementById('repo-input');
-            const icon = loadBtn?.querySelector('.svg-icon');
-
-            if (loadBtn && repoList && input) {
-                repoList.onclick = (e) => {
-                    const item = e.target.closest('.repo-item');
-                    if (item) {
-                        input.value = item.dataset.full_name;
-                        repoList.style.display = 'none';
-                        if(icon) icon.style.transform = 'rotate(-90deg)';
-                    }
-                };
-
-                loadBtn.onclick = async () => {
-                    const isHidden = repoList.style.display === 'none';
-                    repoList.style.display = isHidden ? 'block' : 'none';
-                    if(icon) icon.style.transform = isHidden ? 'rotate(90deg)' : 'rotate(-90deg)';
-                    
-                    if (isHidden && !repoList.dataset.loaded) {
-                        try {
-                            const repos = await FileSystemProvider.GitHub.api('/user/repos?sort=updated&per_page=100');
-                            repoList.dataset.loaded = 'true';
-                            if(repos.length === 0) {
-                                 repoList.innerHTML = `<div style="padding:10px; text-align:center;">No repositories found.</div>`;
-                            } else {
-                                repoList.innerHTML = repos.map(r => `
-                                    <div class="repo-item" data-full_name="${r.full_name}" style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid var(--color-border); font-size: 0.9em; display:flex; justify-content:space-between;">
-                                        <strong>${r.name}</strong> 
-                                        <span style="color: var(--color-text-tertiary); font-size: 0.8em;">${r.private ? '🔒' : 'globe'}</span>
-                                    </div>
-                                `).join('');
-                            }
-                        } catch (e) {
-                            repoList.innerHTML = `<div style="padding: 10px; color: var(--color-accent-danger);">Error: ${e.message}</div>`;
-                        }
-                    }
-                };
-            }
-        }, 50);
-
-        const result = await UI.showDialog({
-            title: "Add GitHub Repository",
-            contentHTML,
-            okText: "Next",
-            cancelText: "Cancel"
-        });
-        
-        if (!result) return;
-        
-        const repoInput = document.getElementById('repo-input');
-        if(!repoInput) return;
-        const repoUrl = repoInput.value;
-        if (!repoUrl) return;
-
-        let owner, repo;
-        const clean = repoUrl.replace('https://github.com/', '').replace(/\/$/, '');
-        const parts = clean.split('/');
-        if (parts.length >= 2) {
-            owner = parts[parts.length - 2];
-            repo = parts[parts.length - 1];
-        } else {
-            UI.showToast("Invalid repository format. Use 'owner/repo'.", "error");
-            return;
-        }
-
-        const branch = await UI.showDialog({
-            title: "Select Branch",
-            message: "Enter the branch name to checkout (default: main).",
-            hasInput: true, 
-            placeholder: "main", 
-            inputValue: "main", 
-            okText: "Add Workspace",
-            cancelText: "Cancel"
-        });
-        if (!branch) return;
-
-        UI.showLoading("Connecting to GitHub...");
-        try {
-            const repoInfo = { owner, repo };
-            await FileSystemProvider.GitHub.api(`/repos/${owner}/${repo}`);
-            
-            const wsId = State.nextWorkspaceId++;
-            Workspaces.add({
-                id: wsId,
-                name: `${owner}/${repo} (${branch})`,
-                type: 'github',
-                repoInfo,
-                branch
-            }, true);
-            
-            UI.showToast(`Connected to ${owner}/${repo}`, "success");
-        } catch (e) {
-            console.error(e);
-            let msg = e.message;
-            if(e.message === 'Not Found') msg = "Repository not found or token invalid.";
-            UI.showToast(`Connection failed: ${msg}`, "error");
-        } finally {
-            UI.hideLoading();
-        }
-    },
+    // B"H
+	async addGithub() {
+	    if (!State.githubToken) {
+	        const token = await UI.showDialog({
+	            title: "GitHub Token Required",
+	            message: "A Personal Access Token is required.",
+	            hasInput: true, 
+	            inputType: 'password', 
+	            okText: "Save Token"
+	        });
+	        if (!token) return;
+	        State.githubToken = token;
+	        App.saveSettings();
+	    }
+	
+	    let allRepos = []; // Cache for filtering
+	
+	    const contentHTML = /*html*/`
+	        <div class="repo-search-container">
+	            <p style="margin-bottom:10px; font-size:0.9em; opacity:0.8;">Search or select a repository to add as a workspace.</p>
+	            <input type="text" id="repo-search-input" placeholder="Type to search your repos..." autocomplete="off">
+	            <div id="repo-list-vessel" style="margin-top: 10px; border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden; background: var(--color-bg-primary);">
+	                <div id="repo-loading-status" style="padding:15px; text-align:center; color:var(--color-text-tertiary);">
+	                    <span class="loading-text">Initializing...</span>
+	                </div>
+	                <div id="repo-list-items" style="max-height: 250px; overflow-y: auto; display:none;"></div>
+	            </div>
+	        </div>
+	        <style>
+	            .repo-item { 
+	                padding: 10px 15px; cursor: pointer; border-bottom: 1px solid var(--color-border); 
+	                display: flex; justify-content: space-between; transition: background 0.2s;
+	            }
+	            .repo-item:hover { background: var(--color-bg-tertiary); color: var(--neon-cyan); }
+	            .repo-item.selected { background: var(--color-bg-accent-translucent); border-left: 3px solid var(--neon-cyan); }
+	            .repo-meta { font-size: 0.8em; color: var(--color-text-tertiary); }
+	        </style>`;
+	
+	    UI.showDialog({
+	        title: "Add GitHub Repository",
+	        contentHTML,
+	        okText: "Next",
+	        cancelText: "Cancel"
+	    }).then(async (result) => {
+	        if (!result) return;
+	        const input = document.getElementById('repo-search-input');
+	        const repoPath = input.dataset.selectedPath || input.value;
+	        if (!repoPath) return;
+	
+	        const [owner, repo] = repoPath.split('/');
+	        const branch = await UI.showDialog({
+	            title: "Select Branch",
+	            hasInput: true, placeholder: "main", inputValue: "main", okText: "Add Workspace"
+	        });
+	        if (!branch) return;
+	
+	        const wsId = State.nextWorkspaceId++;
+	        Workspaces.add({
+	            id: wsId,
+	            name: `${owner}/${repo}`, // Display name only
+	            type: 'github',
+	            repoInfo: { owner, repo },
+	            branch,
+	            path: '/' // Internal logic uses /
+	        }, true);
+	    });
+	
+	    // --- Logic Loop ---
+	    setTimeout(async () => {
+	        const input = document.getElementById('repo-search-input');
+	        const listVessel = document.getElementById('repo-list-items');
+	        const status = document.getElementById('repo-loading-status');
+	
+	        const renderList = (filter = "") => {
+	            const filtered = allRepos.filter(r => r.full_name.toLowerCase().includes(filter.toLowerCase()));
+	            if (filtered.length === 0) {
+	                listVessel.innerHTML = `<div style="padding:15px; color:gray; text-align:center;">No matches found.</div>`;
+	            } else {
+	                listVessel.innerHTML = filtered.map(r => `
+	                    <div class="repo-item" data-full_name="${r.full_name}">
+	                        <strong>${r.name}</strong>
+	                        <span class="repo-meta">${r.private ? '🔒' : 'globe'}</span>
+	                    </div>
+	                `).join('');
+	            }
+	            status.style.display = 'none';
+	            listVessel.style.display = 'block';
+	        };
+	
+	        // Auto-load repos immediately
+	        try {
+	            status.innerHTML = "Fetching your repositories...";
+	            const data = await FileSystemProvider.GitHub.api('/user/repos?sort=full_name&per_page=100');
+	            allRepos = data.sort((a, b) => a.name.localeCompare(b.name));
+	            renderList();
+	        } catch (e) {
+	            status.innerHTML = `<span style="color:var(--color-accent-danger)">Error: ${e.message}</span>`;
+	        }
+	
+	        input.oninput = () => renderList(input.value);
+	        listVessel.onclick = (e) => {
+	            const item = e.target.closest('.repo-item');
+	            if (item) {
+	                input.value = item.dataset.full_name;
+	                input.dataset.selectedPath = item.dataset.full_name;
+	                listVessel.querySelectorAll('.repo-item').forEach(el => el.classList.remove('selected'));
+	                item.classList.add('selected');
+	            }
+	        };
+	    }, 50);
+	},
 
     addIdb() {
         const wsId = State.nextWorkspaceId++;

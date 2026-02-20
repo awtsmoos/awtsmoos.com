@@ -39,84 +39,46 @@ export const TabsPersistence = {
                 ASTEngine.unfoldAll();
             }
 
-            const gitRootItem = await TabsController._getGitInfoForTab(tab);
-
-            let contentToSave;
-            if (tab.content instanceof Blob || tab.content instanceof Uint8Array || (typeof tab.content === 'string' && tab.id !== State.activeTabId)) {
-                 contentToSave = tab.content;
-            } else if (tab.id === State.activeTabId) {
-                 if (tab.isHexView) contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
-                 else if (tab.isAltarView) contentToSave = JSON.stringify(DataAltar.liveDataObject, null, '\t');
-                 else contentToSave = Editor.getContent();
-            } else {
-                 contentToSave = tab.content;
-            }
-            
-            if (!gitRootItem) {
-                if (tab.item.readOnly) {
-                    UI.showToast("This is a read-only file.", "warning");
-                    UI.endTask(taskId, 'error', "Read-only");
-                    return;
-                }
-                await FileSystemProvider.write(tab.item, contentToSave);
-                tab.isDirty = false;
-                tab.isUncommitted = false;
-                tab.content = contentToSave; 
-                TabsController.render();
-                UI.endTask(taskId, 'success', `Saved to disk.`);
-                return;
-            }
-            
-            const savePromises = [];
-            savePromises.push(FileSystemProvider.write(tab.item, contentToSave));
-            
-            if (gitRootItem.type !== 'github') {
-                let relativePath;
-                // B"H - Normalize Paths (Remove trailing/leading slashes for comparison)
-                // cloneRootPath is the folder that contains .awtsmoos-repo
-                const cloneRootPath = gitRootItem.path.endsWith('/') && gitRootItem.path.length > 1 
-                    ? gitRootItem.path.slice(0, -1) 
-                    : gitRootItem.path;
-                    
-                const fileFullPath = tab.item.path;
-
-                if (cloneRootPath === '/') {
-                    relativePath = fileFullPath.startsWith('/') ? fileFullPath.substring(1) : fileFullPath;
-                } else if (fileFullPath && fileFullPath.startsWith(cloneRootPath)) {
-                    // Check if it's an exact match (file is root?) or subpath
-                    if (fileFullPath === cloneRootPath) {
-                         throw new Error("File path equals repo root path.");
-                    }
-                    // Handle slash
-                    if (fileFullPath[cloneRootPath.length] === '/') {
-                        relativePath = fileFullPath.substring(cloneRootPath.length + 1);
-                    } else {
-                         throw new Error(`Path mismatch: ${fileFullPath} is not inside ${cloneRootPath}`);
-                    }
-                } else {
-                    console.error("Path Resolution Error:", { cloneRootPath, fileFullPath });
-                    throw new Error(`Cannot determine relative path. Root: ${cloneRootPath}, File: ${fileFullPath}`);
-                }
-                
-                const itemForStaging = { ...tab.item, path: relativePath };
-                const uniquePathForStaging = `${gitRootItem.workspaceId || gitRootItem.id}::${relativePath}`;
-                savePromises.push(FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging));
-            }
-
-            UI.updateTask(taskId, 50);
-            await Promise.all(savePromises);
-
-            tab.isDirty = false;
-            tab.isUncommitted = true;
-            tab.content = contentToSave;
-            TabsController.render();
-            UI.endTask(taskId, 'success', `Saved and Staged.`);
-
-        } catch (e) {
-            UI.endTask(taskId, 'error', `Save failed: ${e.message}`);
-            console.error("SAVE FAILED:", e);
-        }
-    },
+            // 1. USE THE CONTROLLER TO FIND THE GIT ROOT (FIXED LINE)
+	        const gitRootItem = await TabsController._getGitInfoForTab(tab); 
+	
+	        // 2. Get the content
+	        const contentToSave = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
+	        
+	        // 3. Always write to local disk first
+	        await FileSystemProvider.write(tab.item, contentToSave);
+	        
+	        // 4. Handle Staging
+	        if (gitRootItem) {
+	            let relativePath = "";
+	            const filePath = tab.item.path;
+	            const rootPath = gitRootItem.path.replace(/\/+$/, "") || "/";
+	
+	            // Calculate path relative to the REPO root
+	            if (rootPath === "/" || rootPath === "") {
+	                relativePath = filePath.startsWith("/") ? filePath.substring(1) : filePath;
+	            } else if (filePath.startsWith(rootPath + "/")) {
+	                relativePath = filePath.substring(rootPath.length + 1);
+	            }
+	
+	            if (relativePath && relativePath !== rootPath) {
+	                const itemForStaging = { ...tab.item, path: relativePath };
+	                const uniquePathForStaging = `${gitRootItem.workspaceId || gitRootItem.id}::${relativePath}`;
+	                await FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging);
+	                tab.isUncommitted = true;
+	            }
+	        }
+	
+	        tab.isDirty = false;
+	        tab.content = contentToSave;
+	        TabsController.render();
+	        UI.endTask(taskId, 'success', `Saved.`);
+	
+	    } catch (e) {
+	        UI.endTask(taskId, 'error', `Save failed: ${e.message}`);
+	        console.error("SAVE FAILED:", e);
+	    }
+	},
 
     async saveAs(tab, TabsController) {
         try {

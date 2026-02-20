@@ -11,13 +11,30 @@ import { Exporter } from './exporter.js';
 
 export const Transfer = {
     /**
-     * B"H - Generates a comprehensive Markdown string of a directory hierarchy.
+     * B"H - Generates a comprehensive Markdown string.
+     * relativize: Ensures paths shown to AI are relative to the 'basePath'.
      */
-    async generateMarkdownContext(items) {
+    async generateMarkdownContext(items, basePath = "") {
         let combinedContent = 'B"H\n\n'; 
         
+        // Helper to normalize and strip base
+        const getRelative = (fullPath) => {
+            if (!basePath || basePath === "/") return fullPath;
+            
+            const normBase = basePath.replace(/\/+$/, ""); // remove trailing /
+            const normFull = fullPath.replace(/\/+$/, ""); 
+            
+            if (normFull === normBase) return ""; // It's the root itself
+            if (normFull.startsWith(normBase + "/")) {
+                return normFull.substring(normBase.length + 1);
+            }
+            return fullPath; // Fallback
+        };
+
         const processItem = async (item) => {
             if (!item || !item.kind) return;
+
+            const displayPath = getRelative(item.path) || item.name;
 
             if (item.kind === 'file') {
                 const ext = item.name.split('.').pop().toLowerCase();
@@ -26,24 +43,20 @@ export const Transfer = {
                 try {
                     const content = await FileSystemProvider.read(item);
                     let textContent = '';
+                    if (typeof content === 'string') textContent = content;
+                    else if (content instanceof Blob) textContent = await content.text();
 
-                    if (typeof content === 'string') {
-                        textContent = content;
-                    } else if (content instanceof Blob) {
-                        textContent = await content.text();
-                    }
-
-                    combinedContent += `### File: \`${item.path || item.name}\`\n\n`;
+                    combinedContent += `### File: \`${displayPath}\`\n\n`;
                     combinedContent += '```\n';
                     combinedContent += textContent.trim() + '\n'; 
                     combinedContent += '```\n\n';
                     combinedContent += '---\n\n'; 
                 } catch(e) {
-                    console.warn(`Could not read ${item.path} for context.`);
+                    console.warn(`[Transfer] Failed to read ${item.path}`, e);
                 }
 
             } else if (item.kind === 'directory') {
-                combinedContent += `## Directory: \`${item.path || item.name}\`\n\n`;
+                combinedContent += `## Directory: \`${displayPath}\`\n\n`;
                 const children = await FileSystemProvider.list(item);
                 for (const child of children) {
                     const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
@@ -63,54 +76,37 @@ export const Transfer = {
 
     async copySelected() {
         const selectedPaths = Array.from(State.selectedItems);
-        if (selectedPaths.length === 0) {
-            UI.showToast("No items selected.", "info");
-            return;
-        }
+        if (selectedPaths.length === 0) return UI.showToast("No items selected.", "info");
         State.fileClipboard = selectedPaths;
         State.clipboardZip = null;
-        UI.showToast(`${selectedPaths.length} item(s) copied to clipboard.`, 'success');
+        UI.showToast(`${selectedPaths.length} item(s) copied.`, 'success');
         SelectionManager.end();
     },
 
     async copyAllContents(items) {
-        if (!items || items.length === 0) {
-            UI.showToast("Nothing selected to copy.", "info");
-            return;
-        }
-
+        if (!items || items.length === 0) return UI.showToast("Nothing to copy.", "info");
         const taskId = `copy-contents-${Date.now()}`;
-        UI.startTask(taskId, "Preparing markdown...");
-        
+        UI.startTask(taskId, "Preparing context...");
         try {
-            const combinedContent = await this.generateMarkdownContext(items);
-            UI.updateTask(taskId, 90, "Finalizing...");
-            const fakeFile = new File([combinedContent], "Selection_Export.txt", { type: "text/plain" });
-            const success = await Clipboard.write(fakeFile);
-            if (success) UI.endTask(taskId, 'success', 'Copied content to clipboard!');
-            else UI.endTask(taskId, 'error', 'Clipboard write failed.');
+            const basePath = (items.length === 1 && items[0].kind === 'directory') ? items[0].path : "";
+            const content = await this.generateMarkdownContext(items, basePath);
+            const success = await Clipboard.write(content);
+            if (success) UI.endTask(taskId, 'success', 'Copied to clipboard!');
+            else UI.endTask(taskId, 'error', 'Clipboard failed.');
         } catch (error) {
-            UI.endTask(taskId, 'error', `Error: ${error.message}`);
+            UI.endTask(taskId, 'error', error.message);
         }
     },
     
-    // B"H - NEW: Download Content as Markdown File
     async downloadAllContents(items) {
-        if (!items || items.length === 0) {
-            UI.showToast("Nothing selected to download.", "info");
-            return;
-        }
-
-        const taskId = `download-contents-${Date.now()}`;
+        if (!items || items.length === 0) return UI.showToast("Nothing to download.", "info");
+        const taskId = `dl-contents-${Date.now()}`;
         UI.startTask(taskId, "Generating Markdown...");
-        
         try {
-            const combinedContent = await this.generateMarkdownContext(items);
-            UI.updateTask(taskId, 90, "Starting download...");
-            
-            const blob = new Blob([combinedContent], { type: "text/markdown" });
+            const basePath = (items.length === 1 && items[0].kind === 'directory') ? items[0].path : "";
+            const content = await this.generateMarkdownContext(items, basePath);
+            const blob = new Blob([content], { type: "text/markdown" });
             const url = URL.createObjectURL(blob);
-            
             const a = document.createElement("a");
             a.href = url;
             a.download = `context_export_${Date.now()}.md`;
@@ -118,20 +114,17 @@ export const Transfer = {
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            
-            UI.endTask(taskId, 'success', 'Markdown downloaded!');
+            UI.endTask(taskId, 'success', 'Downloaded!');
         } catch (error) {
-            UI.endTask(taskId, 'error', `Error: ${error.message}`);
+            UI.endTask(taskId, 'error', error.message);
         }
     },
 
     async deleteSelected() {
         const selectedPaths = Array.from(State.selectedItems);
         if (selectedPaths.length === 0) return;
-        const itemsToDelete = selectedPaths.map(p => State.domItemMap.get(p)?.item).filter(Boolean);
-        if (itemsToDelete.length === 0) return;
-
-        await this.deleteSelectedSequentially(itemsToDelete, 'Standard');
+        const items = selectedPaths.map(p => State.domItemMap.get(p)?.item).filter(Boolean);
+        await this.deleteSelectedSequentially(items, 'Standard');
     },
 
     async deleteSelectedSequentially(itemsToDelete, typeLabel) {
@@ -144,12 +137,10 @@ export const Transfer = {
 
         const taskId = `delete-${Date.now()}`;
         UI.startTask(taskId, `Deleting...`);
-
         try {
-            let count = 0;
-            for (const item of itemsToDelete) {
-                count++;
-                UI.updateTask(taskId, (count / itemsToDelete.length) * 100, `Deleting: ${item.name}`);
+            for (let i = 0; i < itemsToDelete.length; i++) {
+                const item = itemsToDelete[i];
+                UI.updateTask(taskId, (i / itemsToDelete.length) * 100, `Deleting: ${item.name}`);
                 const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
                 if (tab) await Tabs.close(tab.id, true);
                 await FileSystemProvider.delete(item);
@@ -157,19 +148,19 @@ export const Transfer = {
             await this._refreshParents(itemsToDelete);
             UI.endTask(taskId, 'success', `Deleted ${itemsToDelete.length} items.`);
         } catch (e) {
-            UI.endTask(taskId, 'error', `Failed: ${e.message}`);
+            UI.endTask(taskId, 'error', e.message);
         } finally {
             SelectionManager.end();
         }
     },
 
     async _refreshParents(items) {
-        const parentPaths = new Set();
+        const parents = new Set();
         items.forEach(item => {
-            const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
-            parentPaths.add(`${item.workspaceId}::${parentPath}`);
+            const p = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+            parents.add(`${item.workspaceId}::${p}`);
         });
-        for (const up of parentPaths) {
+        for (const up of parents) {
             const entry = State.domItemMap.get(up);
             if (entry) await Workspaces.refreshNode(entry.item);
         }
@@ -183,62 +174,30 @@ export const Transfer = {
                 const blob = State.clipboardZip.type === 'lazy-zip' 
                     ? await Exporter.createZipBlob(State.clipboardZip.items)
                     : State.clipboardZip.blob;
-                
                 const newItem = { ...destinationDir, name: State.clipboardZip.name, kind: 'file', path: `${destinationDir.path === '/' ? '' : destinationDir.path}/${State.clipboardZip.name}` };
                 await FileSystemProvider.write(newItem, await blob.arrayBuffer());
                 UI.endTask(taskId, 'success', "Pasted ZIP.");
-            } catch(e) {
-                UI.endTask(taskId, 'error', "Paste failed.");
-            } finally {
-                await Workspaces.refreshNode(destinationDir);
-            }
+            } catch(e) { UI.endTask(taskId, 'error', "Paste failed."); }
+            finally { await Workspaces.refreshNode(destinationDir); }
             return;
         }
 
-        if (!State.fileClipboard || State.fileClipboard.length === 0) {
-            UI.showToast("Clipboard is empty.", "warning");
-            return;
-        }
-
+        if (!State.fileClipboard?.length) return UI.showToast("Clipboard empty.", "warning");
         const taskId = `paste-${Date.now()}`;
-        UI.startTask(taskId, "Scanning source items...");
-        
+        UI.startTask(taskId, "Copying items...");
         try {
             const sourceItems = State.fileClipboard.map(p => State.domItemMap.get(p)?.item).filter(Boolean);
-            
-            let totalFiles = 0;
-            const countRecursive = async (item) => {
-                totalFiles++;
-                if (item.kind === 'directory') {
-                    const children = await FileSystemProvider.list(item);
-                    for (const child of children) await countRecursive({ ...item, ...child });
-                }
-            };
-            for (const item of sourceItems) await countRecursive(item);
-
-            let copiedCount = 0;
-            const onFile = (name) => {
-                copiedCount++;
-                UI.updateTask(taskId, (copiedCount / totalFiles) * 100, `Copying (${copiedCount}/${totalFiles}): ${name}`);
-            };
-
             for (const source of sourceItems) {
-                await this._copyRecursive(source, destinationDir, onFile);
+                await this._copyRecursive(source, destinationDir);
             }
-            UI.endTask(taskId, 'success', `Pasted ${totalFiles} items.`);
-        } catch(e) {
-            UI.endTask(taskId, 'error', "Paste failed: " + e.message);
-        } finally {
-            await Workspaces.refreshNode(destinationDir);
-        }
+            UI.endTask(taskId, 'success', `Paste complete.`);
+        } catch(e) { UI.endTask(taskId, 'error', e.message); }
+        finally { await Workspaces.refreshNode(destinationDir); }
     },
 
-    async _copyRecursive(source, dest, onProgress) {
-        if (onProgress) onProgress(source.name);
-
+    async _copyRecursive(source, dest) {
         const newPath = dest.path === '/' ? `/${source.name}` : `${dest.path}/${source.name}`;
         const newItem = { ...dest, name: source.name, path: newPath };
-
         if (source.kind === 'file') {
             const content = await FileSystemProvider.read(source);
             await FileSystemProvider.write(newItem, content);
@@ -247,8 +206,191 @@ export const Transfer = {
             const children = await FileSystemProvider.list(source);
             for (const child of children) {
                 const workspace = State.workspaces.find(ws => ws.id === (source.workspaceId ?? source.id));
-                await this._copyRecursive({ ...workspace, ...child }, { ...newItem, kind: 'directory' }, onProgress);
+                await this._copyRecursive({ ...workspace, ...child }, { ...newItem, kind: 'directory' });
             }
         }
-    }
+    },
+    
+    async cloneRepo(githubSource, localTargetDir) {
+	    const taskId = `clone-${Date.now()}`;
+	    UI.startTask(taskId, `Cloning ${githubSource.name}...`);
+	
+	    try {
+	        // 1. Fetch Remote State
+	        const treeData = await FileSystemProvider.GitHub.getFullTree(githubSource);
+	        const files = treeData.tree.filter(n => n.type === 'blob');
+	        const total = files.length;
+	
+	        // 2. Create the wrapper folder locally
+	        // Use the repo name (last part of user/repo)
+	        const repoFolderName = githubSource.name.split('/').pop();
+	        await FileSystemProvider.create(localTargetDir, repoFolderName, 'directory');
+	        
+	        const localRootPath = localTargetDir.path === '/' ? `/${repoFolderName}` : `${localTargetDir.path}/${repoFolderName}`;
+	        const localRoot = { ...localTargetDir, path: localRootPath, kind: 'directory' };
+	
+	        // 3. Recursive Manifestation
+	        for (let i = 0; i < files.length; i++) {
+	            const file = files[i];
+	            UI.updateTask(taskId, (i / total) * 100, `Cloning: ${file.path}`);
+	            
+	            // Read remote
+	            const content = await FileSystemProvider.read({ ...githubSource, path: file.path, sha: file.sha });
+	            
+	            // Ensure local directory exists
+	            const parts = file.path.split('/');
+	            parts.pop(); // Remove filename
+	            let currentPath = localRootPath;
+	            
+	            for(const part of parts) {
+	                const parent = { ...localTargetDir, path: currentPath, kind: 'directory' };
+	                try { await FileSystemProvider.create(parent, part, 'directory'); } catch(e){}
+	                currentPath += `/${part}`;
+	            }
+	
+	            // Write local file
+	            const localFileItem = { ...localTargetDir, path: `${localRootPath}/${file.path}`, kind: 'file' };
+	            await FileSystemProvider.write(localFileItem, content);
+	        }
+	
+			// 4. Link with Ikar metadata
+	        const gitInfo = {
+	            isClone: true,
+	            repoInfo: githubSource.repoInfo,
+	            branch: githubSource.branch,
+	            baseCommitSHA: treeData.sha,
+	            remoteTree: treeData.tree
+	        };
+	
+	        await FileSystemProvider.create(localRoot, '.awtsmoos-repo', 'directory');
+	        const ikarPath = `${localRootPath}/.awtsmoos-repo/ikar.js`;
+	        const ikarContent = `// B"H\n\nconst ikar = ${JSON.stringify(gitInfo, null, 4)};`;
+	        await FileSystemProvider.write({ ...localTargetDir, path: ikarPath, kind: 'file' }, ikarContent);
+	
+	        localRoot.isGitClone = true; // Mark the object as a clone
+	        const uniquePath = getItemUniquePath(localRoot);
+	        
+	        // If it's already in the DOM map, update its icon immediately
+	        const entry = State.domItemMap.get(uniquePath);
+	        if (entry) {
+	            entry.item.isGitClone = true;
+	            const iconUse = entry.el.querySelector('.svg-icon use');
+	            if (iconUse) iconUse.setAttribute('href', '#icon-git-folder');
+	        }
+	        // ---------------------------
+	
+	        UI.endTask(taskId, 'success', `Clone of ${githubSource.name} complete.`);
+	        Workspaces.refreshNode(localTargetDir);
+	
+	    } catch (e) {
+	        UI.endTask(taskId, 'error', `Clone failed: ${e.message}`);
+	    }
+	},
+	
+	
+	
+	// B"H
+	async pullAndOverwrite(gitContextItem, gitInfo) {
+	    const taskId = `pull-${Date.now()}`;
+	    UI.startTask(taskId, `Syncing with GitHub...`);
+	
+	    try {
+	        // 1. Fetch remote reality
+	        const treeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+	        const remoteFiles = treeData.tree.filter(n => n.type === 'blob');
+	        const total = remoteFiles.length;
+	
+	        const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
+	        let localRootPath = gitContextItem.path.replace(/\/+$/, "") || "/";
+	        if (!localRootPath.startsWith('/')) localRootPath = '/' + localRootPath;
+	
+	        // 2. Clear Local Staging first to prevent conflicts after pull
+	        const uncommitted = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
+	        for (const entry of uncommitted) {
+	            const relToWs = entry.item.path; // Already has workspace absolute path
+	            if (relToWs.startsWith(localRootPath)) {
+	                await FileSystemProvider.IndexedDB.deleteUncommitted(entry.uniquePath);
+	            }
+	        }
+	
+	        // 3. Manifest remote files locally
+	        for (let i = 0; i < remoteFiles.length; i++) {
+	            const file = remoteFiles[i];
+	            UI.updateTask(taskId, (i / total) * 100, `Downloading: ${file.path}`);
+	            
+	            // Read from GitHub explicitly
+	            const content = await FileSystemProvider.GitHub.read({
+	                workspaceId: workspaceId,
+	                repoInfo: gitInfo.repoInfo,
+	                branch: gitInfo.branch,
+	                path: file.path,
+	                sha: file.sha,
+	                name: file.path.split('/').pop()
+	            });
+	
+	            // Ensure directory structure
+	            const pathParts = file.path.split('/');
+	            pathParts.pop(); 
+	            let currentPathAccum = localRootPath;
+	            for (const part of pathParts) {
+	                const parent = { ...gitContextItem, path: currentPathAccum, kind: 'directory' };
+	                try { await FileSystemProvider.create(parent, part, 'directory'); } catch(e){}
+	                currentPathAccum += (currentPathAccum === '/' ? '' : '/') + part;
+	            }
+	
+	            // Write to Local Store (IDB/Local)
+	            const fullLocalPath = (localRootPath === '/' ? '/' : localRootPath + '/') + file.path.replace(/^\/+/, '');
+	            await FileSystemProvider.write({ ...gitContextItem, path: fullLocalPath, kind: 'file' }, content);
+	            
+	            // Refresh open tabs
+	            const uniquePath = `${workspaceId}::${fullLocalPath}`;
+	            const tab = State.tabs.find(t => t.uniquePath === uniquePath);
+	            if (tab) {
+	                tab.content = (typeof content === 'string') ? content : (content instanceof Blob ? await content.text() : content);
+	                tab.isDirty = false;
+	                tab.isUncommitted = false;
+	                tab.item.sha = file.sha;
+	                if (State.activeTabId === tab.id) {
+	                    const { Editor } = await import('../editor.js');
+	                    Editor.setCurrentContent(tab.content);
+	                }
+	            }
+	        }
+	
+	        // 4. Cleanup deletions (Files on local that are not on remote)
+	        // Only if not a fresh clone.
+	        const remotePaths = new Set(remoteFiles.map(f => f.path));
+	        if (gitInfo.remoteTree) {
+	            for (const oldFile of gitInfo.remoteTree) {
+	                if (oldFile.type === 'blob' && !remotePaths.has(oldFile.path)) {
+	                    const fullDelPath = (localRootPath === '/' ? '/' : localRootPath + '/') + oldFile.path;
+	                    try {
+	                        await FileSystemProvider.delete({ ...gitContextItem, path: fullDelPath, kind: 'file' });
+	                    } catch(e) {}
+	                }
+	            }
+	        }
+	
+	        // 5. Save the new State to ikar.js
+	        const updatedMetadata = {
+	            ...gitInfo,
+	            isClone: true,
+	            baseCommitSHA: treeData.sha,
+	            remoteTree: treeData.tree
+	        };
+	
+	        const ikarPath = (localRootPath === '/' ? '' : localRootPath) + '/.awtsmoos-repo/ikar.js';
+	        const ikarContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedMetadata, null, 4)};`;
+	        await FileSystemProvider.write({ ...gitContextItem, path: ikarPath, kind: 'file' }, ikarContent);
+	
+	        UI.endTask(taskId, 'success', `B"H: Pulled ${total} files. Workspace synchronized.`);
+	        
+	        const { Workspaces } = await import('../workspaces.js');
+	        await Workspaces.refreshNode(gitContextItem);
+	
+	    } catch (e) {
+	        console.error("[Pull Error]", e);
+	        UI.endTask(taskId, 'error', "Pull Failed: " + e.message);
+	    }
+	}
 };

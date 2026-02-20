@@ -22,19 +22,22 @@ export const FileSystemProvider = {
     OPFS: OPFSProvider, // B"H
 
     async list(item) {
-        try {
-            switch (item.type) {
-                case 'local': return this.Local.list(item);
-                case 'ssh': return this.SSH.list(item);
-                case 'indexeddb': return this.IndexedDB.list(item);
-                case 'github': return this.GitHub.list(item);
-                case 'osfolder': return this.OSFolder.list(item);
-                case 'zip-entry': return ZipExplorer.fs.list(item);
-                case 'opfs': return this.OPFS.list(item); // B"H
-                default: throw new Error('Unsupported workspace type');
-            }
-        } catch (e) { console.error(`[FS LIST FAILED]`, e); throw e; }
-    },
+	    try {
+	        switch (item.type) {
+	            case 'local': return await this.Local.list(item);
+	            case 'ssh': return await this.SSH.list(item);
+	            case 'indexeddb': return await this.IndexedDB.list(item);
+	            case 'github': return await this.GitHub.list(item);
+	            case 'osfolder': return await this.OSFolder.list(item);
+	            case 'zip-entry': return await ZipExplorer.fs.list(item);
+	            case 'opfs': return await this.OPFS.list(item);
+	            default: throw new Error('Unsupported workspace type');
+	        }
+	    } catch (e) { 
+	        console.error(`[FS LIST FAILED]`, e); 
+	        throw e; 
+	    }
+	},
     
     async listAllFiles(item) {
         try {

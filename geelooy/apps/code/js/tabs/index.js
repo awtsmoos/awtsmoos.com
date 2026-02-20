@@ -284,24 +284,39 @@ export const Tabs = {
     },
 
     async _getGitInfoForTab(tab) {
-        if (tab.item.type === 'zip-entry') return null; 
-        if (tab.item.type === 'github') {
-            return State.workspaces.find(ws => ws.id === tab.item.workspaceId);
-        }
-        if (tab.item.type === 'local' || tab.item.type === 'indexeddb') {
-            const findGitRoot = (item) => {
-                if (!item || !item.path) return null;
-                const uniquePath = getItemUniquePath(item);
-                const entry = State.domItemMap.get(uniquePath);
-                if (entry?.item.isGitClone) return entry.item;
-                const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
-                if (item.path === parentPath) return null;
-                return findGitRoot({ ...item, path: parentPath, kind: 'directory' });
-            };
-            return findGitRoot(tab.item);
-        }
-        return null;
-    },
+	    if (!tab.item || tab.item.type === 'zip-entry') return null; 
+	    
+	    // 1. Direct GitHub Workspace
+	    if (tab.item.type === 'github') {
+	        return State.workspaces.find(ws => ws.id === tab.item.workspaceId);
+	    }
+	
+	    // 2. Cloned Folders (Recursive search)
+	    const wsId = tab.item.workspaceId;
+	    let currPath = tab.item.path;
+	    
+	    // If it's a file, we look starting from its parent folder
+	    if (tab.item.kind === 'file') {
+	        currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
+	    }
+	
+	    let limit = 20;
+	    const { getItemUniquePath } = await import('../workspaces.js');
+	    
+	    while (limit-- > 0) {
+	        const uniquePath = `${wsId}::${currPath}`;
+	        const entry = State.domItemMap.get(uniquePath);
+	        
+	        // If this folder was detected as a git clone by the sidebar
+	        if (entry?.item?.isGitClone) return entry.item;
+	        
+	        if (currPath === '/' || currPath === '') break;
+	        const lastSlash = currPath.lastIndexOf('/');
+	        currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
+	    }
+	    
+	    return null;
+	},
 
     async close(tabId, force = false) {
         const tabIndex = State.tabs.findIndex(t => t.id === tabId);

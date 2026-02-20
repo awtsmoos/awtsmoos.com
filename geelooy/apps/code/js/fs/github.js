@@ -228,20 +228,51 @@ export const GitHubProvider = {
         }
     },
 
-    async getFullTree({ repoInfo, branch }) {
-        const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
-
-        if (latestCommitSHA === null) {
-            return { sha: null, tree: [] };
-        }
-
-        const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
-        
-        return {
-            sha: latestCommitSHA,
-            tree: treeData.tree 
-        };
-    },
+    // B"H
+    //to build a proper directory map
+	async getFullTree(item) {
+	    const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId || item.id));
+	    const repoInfo = item.repoInfo || workspace?.repoInfo;
+	    const branch = item.branch || workspace?.branch || 'main';
+	
+	    if (!repoInfo) throw new Error("Missing repository info for tree fetch.");
+	
+	    const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
+	    if (!latestCommitSHA) return { sha: null, tree: [] };
+	
+	    const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
+	    
+	    // B"H - THE FIX: Convert flat list to a Folder Map
+	    const treeMap = new Map();
+	    treeMap.set('', []); // Root
+	
+	    treeData.tree.forEach(node => {
+	        const parts = node.path.split('/');
+	        const fileName = parts.pop();
+	        const parentPath = parts.join('/');
+	
+	        if (!treeMap.has(parentPath)) treeMap.set(parentPath, []);
+	        
+	        treeMap.get(parentPath).push({
+	            name: fileName,
+	            kind: node.type === 'tree' ? 'directory' : 'file',
+	            path: node.path,
+	            sha: node.sha,
+	            size: node.size
+	        });
+	    });
+	
+	    if (workspace) {
+	        workspace._treeCache = treeMap;
+	        workspace.baseCommitSHA = latestCommitSHA;
+	    }
+	
+	    return {
+	        sha: latestCommitSHA,
+	        tree: treeData.tree,
+	        map: treeMap
+	    };
+	},
 
     async commitMultipleFiles({ repoInfo, branch, commitMessage, changeSet }) {
         return null; 

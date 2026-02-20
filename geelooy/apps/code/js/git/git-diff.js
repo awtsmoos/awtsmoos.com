@@ -30,13 +30,32 @@ export const GitDiff = {
         const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
 
         // Helper to normalize paths
-        const getRelativePath = (fullPath) => {
-            if (gitContextItem.type === 'github') return fullPath; 
-            const cloneRoot = gitContextItem.path;
-            if (cloneRoot === '/') return fullPath.startsWith('/') ? fullPath.substring(1) : fullPath;
-            if (fullPath.startsWith(cloneRoot + '/')) return fullPath.substring(cloneRoot.length + 1);
-            return null;
-        };
+        // B"H
+		const getRelativePath = (fullPath) => {
+		    // If it's a direct GitHub workspace, paths are already relative
+		    if (gitContextItem.type === 'github') {
+		        return fullPath.startsWith('/') ? fullPath.substring(1) : fullPath;
+		    }
+		
+		    // For Local Clones (Nested or Root):
+		    // Root is localRootPath (from gitContextItem.path)
+		    const cloneRoot = gitContextItem.path.replace(/\/+$/, "");
+		    
+		    // Case 1: Repo is the workspace root
+		    if (cloneRoot === "" || cloneRoot === "/") {
+		        return fullPath.startsWith('/') ? fullPath.substring(1) : fullPath;
+		    }
+		    
+		    // Case 2: Repo is a subfolder
+		    if (fullPath.startsWith(cloneRoot + '/')) {
+		        return fullPath.substring(cloneRoot.length + 1);
+		    }
+		    
+		    // Case 3: Exact match (the folder itself)
+		    if (fullPath === cloneRoot) return "";
+		
+		    return null;
+		};
 
         const handledPaths = new Set(); 
 

@@ -18,5 +18,6 @@ export const FileOperations = {
     downloadFile: (item) => Exporter.downloadFile(item),
     
     deleteSelected: () => Transfer.deleteSelected(),
-    pullAndOverwrite: (folder, info) => Transfer.pullAndOverwrite(folder, info)
+    pullAndOverwrite: (folder, info) => Transfer.pullAndOverwrite(folder, info),
+    cloneRepo: (githubSource, localTarget) => Transfer.cloneRepo(githubSource, localTarget)
 };

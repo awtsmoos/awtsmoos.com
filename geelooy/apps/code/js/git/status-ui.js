@@ -190,89 +190,178 @@ export const GitStatusUI = {
         }
     },
 
-    renderDialog() {
-        const defaultMsg = `B"H\nBiezras Hashem\n[${new Date().toLocaleString()}] Update`;
+    // B"H
+	renderDialog() {
+	    const defaultMsg = `B"H\nBiezras Hashem\n[${new Date().toLocaleString()}] Update`;
+	
+	    const dialogHTML = `
+	        <div class="git-toolbar">
+	            <button id="git-btn-refresh" class="menu-button" title="Scan local files for changes"><svg class="svg-icon"><use href="#icon-refresh"></use></svg> Local Scan</button>
+	            <button id="git-btn-check-remote" class="menu-button" title="Check GitHub for incoming updates"><svg class="svg-icon"><use href="#icon-download"></use></svg> Check for Remote Changes</button>
+	            <button id="git-btn-force-pull" class="menu-button danger"><svg class="svg-icon"><use href="#icon-alert-triangle"></use></svg> Force Reset (Pull All)</button>
+	            <div style="flex-grow:1;"></div>
+	            <button id="git-btn-stage-all" class="secondary-btn" style="margin-right: 10px;">Stage All</button>
+	            <button id="git-magic-push-btn" class="primary-btn" title="Stage All, Commit, and Push immediately">⚡ Stage & Push All</button>
+	        </div>
+	
+	        <div class="git-stage-container">
+	            <div class="git-col">
+	                <div class="git-col-header unstaged"><span>Unstaged <span id="git-unstaged-count">(0)</span></span><button class="icon-button" onclick="window.gitStageAll()"><svg class="svg-icon" style="width:14px;height:14px;"><use href="#icon-plus"></use></svg></button></div>
+	                <div id="git-unstaged-list" class="git-file-list"></div>
+	            </div>
+	            <div class="git-col">
+	                <div class="git-col-header staged"><span>Staged <span id="git-staged-count">(0)</span></span><button class="icon-button" onclick="window.gitUnstageAll()"><svg class="svg-icon" style="width:14px;height:14px;"><use href="#icon-x"></use></svg></button></div>
+	                <div id="git-staged-list" class="git-file-list"></div>
+	            </div>
+	        </div>
+	
+	        <div class="commit-area">
+	            <textarea id="git-commit-msg" class="commit-message-input" rows="4">${defaultMsg}</textarea>
+	            <div class="commit-actions">
+	                <label class="git-force-option" title="Rewrite remote history (Dangerous)">
+	                    <input type="checkbox" id="git-force-push"> ⚠️ Force Push
+	                </label>
+	                <button id="git-cancel-btn" class="secondary-btn">Close</button>
+	                <button id="git-commit-btn" class="primary-btn" disabled>Commit Staged</button>
+	            </div>
+	        </div>
+	    `;
+	
+	    const dialog = document.getElementById('generic-dialog');
+	    dialog.innerHTML = `<div class="dialog-content" style="max-width: 900px; width: 95%;">
+	        <h3 style="color:var(--neon-cyan); border-bottom:1px solid var(--color-border); padding-bottom:10px; margin-bottom:15px;">Git Control: ${GitStageManager.gitContext.name}</h3>
+	        ${dialogHTML}
+	    </div>`;
+	    dialog.classList.add('visible');
+	
+	    GitStageManager.render();
+	
+	    // Handlers
+	    document.getElementById('git-cancel-btn').onclick = () => dialog.classList.remove('visible');
+	    
+	    document.getElementById('git-btn-refresh').onclick = () => { 
+	        dialog.classList.remove('visible'); 
+	        this.showGitUI(GitStageManager.gitContext, true); 
+	    };
+	
+	    // B"H - NEW: REVIEW FLOW
+	    document.getElementById('git-btn-check-remote').onclick = async () => {
+	        UI.showLoading("Checking GitHub for the latest light...");
+	        try {
+	            const gitInfo = GitStageManager.gitInfo;
+	            const treeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+	            
+	            // Compare local ikar.js tree with fresh GitHub tree
+	            const localTree = gitInfo.remoteTree || [];
+	            const incomingChanges = this._calculateIncomingChanges(localTree, treeData.tree);
+	            
+	            UI.hideLoading();
+	
+	            if (incomingChanges.length === 0 && treeData.sha === gitInfo.baseCommitSHA) {
+	                UI.showToast("B\"H: Everything is already up to date.", "info");
+	                return;
+	            }
+	
+	            // Show Review Dialog
+	            this._showPullReviewDialog(incomingChanges, treeData, gitInfo);
+	
+	        } catch (e) {
+	            UI.hideLoading();
+	            UI.showToast("Fetch failed: " + e.message, "error");
+	            console.error(e);
+	        }
+	    };
+	
+	    document.getElementById('git-btn-force-pull').onclick = async () => {
+	        const c = await UI.showDialog({ 
+	            title: "Force Pull / Reset", 
+	            message: "This will wipe any local edits and restore the folder to exactly match GitHub's current state. Continue?", 
+	            okText: "Yes, Reset Local", 
+	            cancelText: "No" 
+	        });
+	        if(c) {
+	            dialog.classList.remove('visible');
+	            await FileOperations.pullAndOverwrite(GitStageManager.gitContext, GitStageManager.gitInfo);
+	        }
+	    };
+	
+	    document.getElementById('git-btn-stage-all').onclick = () => window.gitStageAll();
+	
+	    const commitAction = async (stagedOnly = true) => {
+	        const msg = document.getElementById('git-commit-msg').value.trim();
+	        if (!msg) return UI.showToast("Message required.", "warning");
+	        if (!stagedOnly) GitStageManager.stageAll();
+	        if (GitStageManager.staged.size === 0) return UI.showToast("Nothing to commit.", "warning");
+	
+	        const isForce = document.getElementById('git-force-push').checked;
+	        const stagedArray = Array.from(GitStageManager.staged);
+	        const finalChangeSet = {
+	            creations: stagedArray.filter(i => i.status === 'added'),
+	            updates: stagedArray.filter(i => i.status === 'modified'),
+	            deletions: stagedArray.filter(i => i.status === 'deleted')
+	        };
+	
+	        dialog.classList.remove('visible');
+	        await GitStatusUI._handleCommit(GitStageManager.gitContext, GitStageManager.gitInfo, finalChangeSet, msg, isForce);
+	    };
+	
+	    document.getElementById('git-commit-btn').onclick = () => commitAction(true);
+	    document.getElementById('git-magic-push-btn').onclick = () => commitAction(false);
+	},
+	
+	// B"H - Helper to calculate what's new on GitHub
+	_calculateIncomingChanges(localKnownTree, remoteFreshTree) {
+	    const localMap = new Map(localKnownTree.map(f => [f.path, f.sha]));
+	    const changes = [];
+	
+	    remoteFreshTree.forEach(node => {
+	        if (node.type !== 'blob') return;
+	        const localSha = localMap.get(node.path);
+	        
+	        if (localSha === undefined) {
+	            changes.push({ path: node.path, type: 'added', sha: node.sha });
+	        } else if (localSha !== node.sha) {
+	            changes.push({ path: node.path, type: 'updated', sha: node.sha });
+	        }
+	        localMap.delete(node.path);
+	    });
+	
+	    // Anything left in localMap but not in remote was deleted on remote
+	    localMap.forEach((sha, path) => {
+	        changes.push({ path, type: 'deleted', sha: null });
+	    });
+	
+	    return changes;
+	},
 
-        const dialogHTML = `
-            <div class="git-toolbar">
-                <button id="git-btn-refresh" class="menu-button"><svg class="svg-icon"><use href="#icon-refresh"></use></svg> Scan</button>
-                <button id="git-btn-pull" class="menu-button"><svg class="svg-icon"><use href="#icon-download"></use></svg> Pull</button>
-                <button id="git-btn-force-pull" class="menu-button danger"><svg class="svg-icon"><use href="#icon-alert-triangle"></use></svg> Force Pull</button>
-                <div style="flex-grow:1;"></div>
-                <button id="git-btn-stage-all" class="secondary-btn" style="margin-right: 10px;">Stage All</button>
-                <button id="git-magic-push-btn" class="primary-btn" title="Stage All, Commit, and Push immediately">⚡ Stage & Push All</button>
-            </div>
-
-            <div class="git-stage-container">
-                <div class="git-col">
-                    <div class="git-col-header unstaged"><span>Unstaged <span id="git-unstaged-count">(0)</span></span><button class="icon-button" onclick="window.gitStageAll()"><svg class="svg-icon" style="width:14px;height:14px;"><use href="#icon-plus"></use></svg></button></div>
-                    <div id="git-unstaged-list" class="git-file-list"></div>
-                </div>
-                <div class="git-col">
-                    <div class="git-col-header staged"><span>Staged <span id="git-staged-count">(0)</span></span><button class="icon-button" onclick="window.gitUnstageAll()"><svg class="svg-icon" style="width:14px;height:14px;"><use href="#icon-x"></use></svg></button></div>
-                    <div id="git-staged-list" class="git-file-list"></div>
-                </div>
-            </div>
-
-            <div class="commit-area">
-                <textarea id="git-commit-msg" class="commit-message-input" rows="4">${defaultMsg}</textarea>
-                <div class="commit-actions">
-                    <label class="git-force-option" title="Rewrite remote history (Dangerous)">
-                        <input type="checkbox" id="git-force-push"> ⚠️ Force Push
-                    </label>
-                    <button id="git-cancel-btn" class="secondary-btn">Close</button>
-                    <button id="git-commit-btn" class="primary-btn" disabled>Commit Staged</button>
-                </div>
-            </div>
-        `;
-
-        const dialog = document.getElementById('generic-dialog');
-        dialog.innerHTML = `<div class="dialog-content" style="max-width: 900px; width: 95%;">
-            <h3 style="color:var(--neon-cyan); border-bottom:1px solid var(--color-border); padding-bottom:10px; margin-bottom:15px;">Git Control: ${GitStageManager.gitContext.name}</h3>
-            ${dialogHTML}
-        </div>`;
-        dialog.classList.add('visible');
-
-        GitStageManager.render();
-
-        // Handlers
-        document.getElementById('git-cancel-btn').onclick = () => dialog.classList.remove('visible');
-        document.getElementById('git-btn-refresh').onclick = () => { dialog.classList.remove('visible'); this.showGitUI(GitStageManager.gitContext, true); };
-        document.getElementById('git-btn-pull').onclick = () => { dialog.classList.remove('visible'); FileOperations.pullAndOverwrite(GitStageManager.gitContext, GitStageManager.gitInfo); };
-        document.getElementById('git-btn-stage-all').onclick = () => window.gitStageAll();
-        
-        document.getElementById('git-btn-force-pull').onclick = async () => {
-            dialog.classList.remove('visible');
-            const c = await UI.showDialog({ title: "Force Pull", message: "Wipe local changes?", okText: "Yes", cancelText: "No" });
-            if(c) FileOperations.pullAndOverwrite(GitStageManager.gitContext, GitStageManager.gitInfo);
-        };
-
-        const commitAction = async (stagedOnly = true) => {
-            const msg = document.getElementById('git-commit-msg').value.trim();
-            if (!msg) return UI.showToast("Message required.", "warning");
-            
-            // If !stagedOnly (Magic Push), we stage everything first
-            if (!stagedOnly) {
-                GitStageManager.stageAll();
-            }
-
-            if (GitStageManager.staged.size === 0) return UI.showToast("Nothing to commit.", "warning");
-
-            const isForce = document.getElementById('git-force-push').checked;
-            const stagedArray = Array.from(GitStageManager.staged);
-            const finalChangeSet = {
-                creations: stagedArray.filter(i => i.status === 'added'),
-                updates: stagedArray.filter(i => i.status === 'modified'),
-                deletions: stagedArray.filter(i => i.status === 'deleted')
-            };
-
-            dialog.classList.remove('visible');
-            await GitStatusUI._handleCommit(GitStageManager.gitContext, GitStageManager.gitInfo, finalChangeSet, msg, isForce);
-        };
-
-        document.getElementById('git-commit-btn').onclick = () => commitAction(true);
-        document.getElementById('git-magic-push-btn').onclick = () => commitAction(false);
-    },
+	// B"H
+	async _showPullReviewDialog(changes, treeData, gitInfo) {
+	    const changeListHTML = changes.map(c => {
+	        const color = c.type === 'added' ? 'var(--neon-lime)' : (c.type === 'deleted' ? 'var(--color-accent-danger)' : 'var(--neon-cyan)');
+	        const symbol = c.type === 'added' ? '[+]' : (c.type === 'deleted' ? '[-]' : '[*]');
+	        return `<div style="padding:4px 0; font-family:monospace; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.9em;">
+	            <span style="color:${color}; margin-right:8px;">${symbol} ${c.type.toUpperCase()}</span> ${c.path}
+	        </div>`;
+	    }).join('');
+	
+	    const confirmed = await UI.showDialog({
+	        title: `Incoming Changes (${changes.length})`,
+	        contentHTML: `
+	            <p>The following changes were found on GitHub branch <strong>${gitInfo.branch}</strong>.</p>
+	            <div style="max-height:300px; overflow-y:auto; background:var(--color-bg-primary); padding:10px; border-radius:4px; margin:10px 0; border:1px solid var(--color-border);">
+	                ${changeListHTML}
+	            </div>
+	            <p style="color:var(--color-accent-warning); font-size:0.85em;">Warning: Pulling will overwrite any local edits to these files.</p>
+	        `,
+	        okText: "Pull & Manifest",
+	        cancelText: "Cancel"
+	    });
+	
+	    if (confirmed) {
+	        document.getElementById('generic-dialog').classList.remove('visible');
+	        await FileOperations.pullAndOverwrite(GitStageManager.gitContext, gitInfo);
+	    }
+	},
 
     async _handleCommit(gitContextItem, gitInfo, finalChangeSet, commitMessage, force) {
         const taskId = `post-commit-${Date.now()}`;

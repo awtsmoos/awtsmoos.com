@@ -28,6 +28,7 @@ export const State = {
     
     fileClipboard: [], 
     clipboardZip: null, 
+    clipboardCloneSource: false,
     selectedItems: new Set(), 
     
     isSelectionModeActive: false,
@@ -46,7 +47,8 @@ export const State = {
     // B"H - Vibe Coding Settings (Vessels for Divine logic)
     vibeIterations: 1,
     customVibePrompt: "",
-    isVibeStopRequested: false
+    isVibeStopRequested: false,
+    
 };
 
 /**
