@@ -11,7 +11,7 @@ import { Tabs } from '../tabs.js'; // B"H - Ensure Tabs is available
 export const findGitRoot = (item) => {
     if (!item) return null;
     
-    // 1. Direct GitHub connections are always Git Roots
+    // 1. Direct GitHub connections are always their own Git root
     if (item.type === 'github') {
         const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
         return ws ? { ...ws, path: '/', kind: 'directory' } : null;
@@ -20,17 +20,18 @@ export const findGitRoot = (item) => {
     const wsId = item.workspaceId || item.id;
     let currPath = item.path;
 
-    // Start climb from the parent if current item is a file
+    // Start climb from parent if the item is a file
     if (item.kind === 'file') {
         currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
     }
 
-    let limit = 20;  
+    let limit = 20; 
     while (limit-- > 0) {
         const uniquePath = `${wsId}::${currPath}`;
         const entry = State.domItemMap.get(uniquePath);
         
-        // B"H - Look for the folder that was flagged as containing .awtsmoos-repo
+        // We only return if the UI object has been explicitly flagged 
+        // by the tree renderer as containing .awtsmoos-repo
         if (entry?.item?.isGitClone === true) {
             return entry.item;
         }

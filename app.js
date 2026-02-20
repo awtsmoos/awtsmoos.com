@@ -94,59 +94,24 @@ export const App = {
 	async commitAllChanges() {
 	    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
 	    if (!activeTab) {
-	        UI.showToast("No active file to commit.", "warning");
+	        UI.showToast("No active file.", "warning");
 	        return;
 	    }
 	
-	    UI.showLoading("Locating Git anchor...");
+	    UI.showLoading("Finding Git Context...");
 	
-	    let targetRepo = null;
-	    let item = activeTab.item;
-	    
-	    // 1. Check if the workspace itself is a direct GitHub connection
-	    if (item.type === 'github') {
-	        targetRepo = State.workspaces.find(w => w.id === item.workspaceId);
-	    } else {
-	        // 2. Local Clones: Find the NEAREST ancestor that is a clone
-	        let currentPath = item.path;
-	        
-	        // Start from parent if editing a file
-	        if (item.kind === 'file') {
-	            currentPath = currentPath.substring(0, currentPath.lastIndexOf('/')) || '/';
-	        }
-	
-	        let safety = 0;
-	        while (safety++ < 50) {
-	            const uniquePath = `${item.workspaceId}::${currentPath}`;
-	            const entry = State.domItemMap.get(uniquePath);
-	            
-	            // B"H - Only stop at the first folder that contains the .awtsmoos-repo marker
-	            if (entry && entry.item && entry.item.isGitClone && entry.item.kind !== 'file') {
-	                targetRepo = entry.item;
-	                break; // THE FIX: Stop at the nearest repo
-	            }
-	            
-	            if (currentPath === '/' || currentPath === '') break;
-	            const lastSlash = currentPath.lastIndexOf('/');
-	            currentPath = lastSlash <= 0 ? '/' : currentPath.substring(0, lastSlash);
-	        }
-	        
-	        // 3. Fallback: Is the workspace root itself a clone?
-	        if (!targetRepo) {
-	            const ws = State.workspaces.find(w => w.id === item.workspaceId);
-	            if (ws && ws.isGitClone) {
-	                targetRepo = { ...ws, path: '/', kind: 'directory', workspaceId: ws.id };
-	            }
-	        }
-	    }
+	    // B"H - THE FIX: Directly find the NEAREST git root.
+	    // This uses the improved logic that stops at the first clone found.
+	    // Since we fixed the icon "virus", only the actual root will have the flag.
+	    const targetRepo = findGitRoot(activeTab.item);
 	
 	    UI.hideLoading();
 	
 	    if (targetRepo) {
-	        // Only manage the nearest one found
+	        // Open the UI for the nearest repo
 	        GitManager.showGitUI(targetRepo);
 	    } else {
-	        UI.showToast("This file is not inside a recognized Git repository.", "warning");
+	        UI.showToast("This file is not inside a Git repository.", "warning");
 	    }
 	},
 
