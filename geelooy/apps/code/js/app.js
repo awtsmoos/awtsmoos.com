@@ -18,32 +18,51 @@ import { setupEventListeners } from './app/event-listeners.js';
 import { TabManagerOverlay } from './tab-manager-overlay.js';
 import { ModelManager } from './vibe/model-manager.js'; // B"H - Import Model Manager
 // B"H - Internal helper for Git discovery within the App module
-const findGitRoot = (item) => {
+const findGitRoot = async (item) => {
     if (!item) return null;
     
     // 1. Direct GitHub connections are always their own Git root
     if (item.type === 'github') {
-        const { State } = import('./state.js'); // Dynamic check if needed, but State is usually global
         const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
         return ws ? { ...ws, path: '/', kind: 'directory' } : null;
     }
 
     const wsId = item.workspaceId || item.id;
-    let currPath = item.path;
+    const workspace = State.workspaces.find(w => w.id === wsId);
+    if (!workspace) return null;
+
+    let currPath = item.path || '/';
 
     // Start climb from parent if the item is a file
     if (item.kind === 'file') {
         currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
     }
 
-    let limit = 20; 
+    let limit = 15; // Safety depth
     while (limit-- > 0) {
+        // First, check the fast way (UI cache)
         const uniquePath = `${wsId}::${currPath}`;
         const entry = State.domItemMap.get(uniquePath);
-        
-        // Return the first (closest) ancestor that is a clone
-        if (entry?.item?.isGitClone === true) {
-            return entry.item;
+        if (entry?.item?.isGitClone) return entry.item;
+
+        // Second, perform the physical "Peek" ritual
+        try {
+            const checkItem = { ...workspace, path: currPath, kind: 'directory', workspaceId: wsId };
+            const { FileSystemProvider } = await import('./fs-provider.js');
+            const result = await FileSystemProvider.list(checkItem);
+            
+            // Check if result is the new {entries, isGitRoot} format or standard array
+            const entries = Array.isArray(result) ? result : result.entries;
+            const isRoot = Array.isArray(result) ? result.some(c => c.name === '.awtsmoos-repo') : result.isGitRoot;
+
+            if (isRoot) {
+                // Found it physically! Mark it and return.
+                checkItem.isGitClone = true;
+                if (entry) entry.item.isGitClone = true;
+                return checkItem;
+            }
+        } catch(e) {
+            console.warn("[Git Discovery] Peek failed at " + currPath, e);
         }
         
         if (currPath === '/' || currPath === '') break;
@@ -52,8 +71,7 @@ const findGitRoot = (item) => {
     }
     
     // Final check for workspace root
-    const ws = State.workspaces.find(w => w.id === wsId);
-    if (ws?.isGitClone === true) return { ...ws, path: '/', kind: 'directory', workspaceId: ws.id };
+    if (workspace?.isGitClone) return { ...workspace, path: '/', kind: 'directory', workspaceId: wsId };
 
     return null;
 };
@@ -132,24 +150,28 @@ export const App = {
     // B"H
     async commitAllChanges() {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (!activeTab) {
+        if (!activeTab || !activeTab.item) {
             UI.showToast("No active file to commit.", "warning");
             return;
         }
 
-        UI.showLoading("Locating Git anchor...");
+        UI.showLoading("Searching for Git anchor...");
 
-        // B"H - Now 'findGitRoot' is defined in this file's scope
-        const targetRepo = findGitRoot(activeTab.item);
+        try {
+            // B"H - Now awaiting the deep discovery
+            const targetRepo = await findGitRoot(activeTab.item);
 
-        UI.hideLoading();
+            UI.hideLoading();
 
-        if (targetRepo) {
-            // Only manage the nearest one found
-            const { GitManager } = await import("./git/index.js"); 
-            GitManager.showGitUI(targetRepo);
-        } else {
-            UI.showToast("This file is not inside a recognized Git repository.", "warning");
+            if (targetRepo) {
+                const { GitManager } = await import("./git/index.js"); 
+                GitManager.showGitUI(targetRepo);
+            } else {
+                UI.showToast("This file is not inside a recognized Git repository.", "warning");
+            }
+        } catch (err) {
+            UI.hideLoading();
+            UI.showToast("Discovery error: " + err.message, "error");
         }
     },
 
