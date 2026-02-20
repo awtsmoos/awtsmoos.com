@@ -31,4 +31,4 @@ TO DELETE A FILE:
   <file>path/to/delete.js</file>
   <operation>delete</operation>
   <description>Reason for removal</description>
-</change>`;`;
+</change>`;

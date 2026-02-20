@@ -83,7 +83,7 @@ export const App = {
             useTabs: State.useTabs
         }));
     },
-
+ 
     loadSettings: () => {
         const settings = JSON.parse(localStorage.getItem('vividX_settings_profound') || '{}');
         State.githubToken = settings.githubToken || null;
@@ -98,86 +98,20 @@ export const App = {
 	        return;
 	    }
 	
-	    UI.showLoading("Finding Git contexts...");
+	    UI.showLoading("Finding Git Context...");
 	
-	    const gitContexts = [];
-	    let item = activeTab.item;
-	    
-	    if (item.type === 'github') {
-	        const ws = State.workspaces.find(w => w.id === item.workspaceId);
-	        if (ws) gitContexts.push(ws);
-	    } else {
-	        let currentPath = item.path;
-	        
-	        // B"H - If editing a file, start search from its parent folder
-	        if (item.kind === 'file') {
-	            currentPath = currentPath.substring(0, currentPath.lastIndexOf('/')) || '/';
-	        }
-	
-	        let safety = 0;
-	        while (safety++ < 50) {
-	            const uniquePath = `${item.workspaceId}::${currentPath}`;
-	            const entry = State.domItemMap.get(uniquePath);
-	            
-	            // Only suggest DIRECTORIES that are marked as clones
-	            if (entry && entry.item && entry.item.isGitClone && entry.item.kind !== 'file') {
-	                // Prevent duplicate root entries
-	                if (!gitContexts.some(ctx => ctx.path === entry.item.path)) {
-	                    gitContexts.push(entry.item);
-	                }
-	            }
-	            
-	            if (currentPath === '/' || currentPath === '') break;
-	            const lastSlash = currentPath.lastIndexOf('/');
-	            currentPath = lastSlash <= 0 ? '/' : currentPath.substring(0, lastSlash);
-	        }
-	        
-	        // Final check: Is the workspace root itself a clone?
-	        const ws = State.workspaces.find(w => w.id === item.workspaceId);
-	        if (ws && ws.isGitClone && !gitContexts.some(ctx => ctx.path === '/')) {
-	            gitContexts.push({ ...ws, path: '/', kind: 'directory', workspaceId: ws.id });
-	        }
-	    }
+	    // B"H - THE FIX: Directly find the NEAREST git root.
+	    // This uses the improved logic that stops at the first clone found.
+	    // Since we fixed the icon "virus", only the actual root will have the flag.
+	    const targetRepo = findGitRoot(activeTab.item);
 	
 	    UI.hideLoading();
 	
-	    if (gitContexts.length === 0) {
-	        UI.showToast("This file is not part of a Git repository.", "warning");
-	    } else if (gitContexts.length === 1) {
-	        GitManager.showGitUI(gitContexts[0]);
+	    if (targetRepo) {
+	        // Open the UI for the nearest repo
+	        GitManager.showGitUI(targetRepo);
 	    } else {
-	        // Build the selection buttons
-	        const buttonsHtml = gitContexts.map((ctx, idx) => `
-	            <button class="menu-button" data-index="${idx}" style="margin-bottom:8px;">
-	                <svg class="svg-icon"><use href="#icon-git-branch"></use></svg>
-	                <div style="display:flex; flex-direction:column; align-items:flex-start;">
-	                    <span style="font-weight:bold;">${ctx.name}</span>
-	                    <span style="font-size:0.8em; opacity:0.7;">Path: ${ctx.path}</span>
-	                </div>
-	            </button>
-	        `).join('');
-	        
-	        const dialogEl = document.getElementById('generic-dialog');
-	        
-	        await UI.showDialog({
-	            title: "Multiple Git Repositories Detected",
-	            message: "Which repository would you like to manage?",
-	            contentHTML: `<div id="git-choice-container" style="margin-top:10px;">${buttonsHtml}</div>`,
-	            okText: "", 
-	            cancelText: "Cancel"
-	        });
-	        
-	        const container = document.getElementById('git-choice-container');
-	        if (container) {
-	            container.onclick = (e) => {
-	                const btn = e.target.closest('button[data-index]');
-	                if (btn) {
-	                    const idx = parseInt(btn.dataset.index);
-	                    GitManager.showGitUI(gitContexts[idx]);
-	                    dialogEl.classList.remove('visible');
-	                }
-	            };
-	        }
+	        UI.showToast("This file is not inside a Git repository.", "warning");
 	    }
 	},
 

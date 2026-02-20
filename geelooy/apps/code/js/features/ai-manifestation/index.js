@@ -13,127 +13,98 @@ import { HistoryManager } from './history.js';
 
 export const AIManifestation = {
     async showDialog(folderItem) {
-        const workspace = State.workspaces.find(ws => ws.id === (folderItem.workspaceId || folderItem.id));
-        const fullDisplayPath = `${workspace ? workspace.name : 'Unknown'} :: ${folderItem.path}`;
+        console.log("[AIManifestation] showDialog for:", folderItem.path);
+        const folderName = folderItem.path.split('/').filter(Boolean).pop() || folderItem.name;
 
-        const dialogId = 'ai-manifest-dialog';
-        
-        // We use a custom flow, so we handle buttons manually
         UI.showDialog({
             title: `External AI Manifestation`,
-            contentHTML: ManifestationUI.getMainDialogHTML(fullDisplayPath),
-            okText: "Review Changes", // Initial State
+            contentHTML: ManifestationUI.getMainDialogHTML(folderName),
+            okText: "Review Changes", 
             cancelText: "Close"
-        }).then(result => {
-            if (result === 'execute') {
-                // Execution handled by internal event listeners
-            }
         });
 
-        // Use a short timeout to ensure DOM is ready
-        setTimeout(() => this._attachListeners(folderItem), 50);
+        setTimeout(() => this._attachListeners(folderItem), 150);
     },
 
     _attachListeners(folderItem) {
+        console.log("[AIManifestation] Attaching UI listeners...");
         const container = document.querySelector('.ai-manifest-container');
-        if (!container) return;
+        if (!container) {
+            console.error("[AIManifestation] Could not find UI container!");
+            return;
+        }
 
-        const inputView = container.querySelector('#ai-view-input');
-        const historyView = container.querySelector('#ai-view-history');
-        const previewView = container.querySelector('#ai-view-preview');
         const okBtn = document.getElementById('dialog-ok-btn');
-        const cancelBtn = document.getElementById('dialog-cancel-btn');
+        const downloadBtn = document.getElementById('download-context-btn');
+        const copyBtn = document.getElementById('copy-prompt-btn');
 
-        // 1. Tab Switching
+        // Tab Switching
         container.querySelectorAll('.ai-tab').forEach(tab => {
             tab.onclick = () => {
                 container.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
                 container.querySelectorAll('.ai-tab').forEach(t => t.style.borderBottom = 'none');
-                container.querySelectorAll('.ai-tab').forEach(t => t.style.color = 'var(--color-text-secondary)');
-                
                 tab.classList.add('active');
                 tab.style.borderBottom = '2px solid var(--neon-cyan)';
-                tab.style.color = 'var(--neon-cyan)';
 
-                if (tab.dataset.view === 'input') {
-                    inputView.style.display = 'block';
-                    historyView.style.display = 'none';
-                    previewView.style.display = 'none';
-                    okBtn.style.display = 'inline-block';
-                    okBtn.textContent = 'Review Changes';
-                } else {
-                    inputView.style.display = 'none';
-                    historyView.style.display = 'block';
-                    previewView.style.display = 'none';
-                    okBtn.style.display = 'none';
-                    this._renderHistory();
-                }
+                const isInput = tab.dataset.view === 'input';
+                container.querySelector('#ai-view-input').style.display = isInput ? 'block' : 'none';
+                container.querySelector('#ai-view-history').style.display = isInput ? 'none' : 'block';
+                container.querySelector('#ai-view-preview').style.display = 'none';
+                
+                okBtn.style.display = isInput ? 'inline-block' : 'none';
+                okBtn.textContent = 'Review Changes';
+                if (!isInput) this._renderHistory();
             };
         });
 
-        // 2. Button Actions
-        const copyBtn = document.getElementById('copy-prompt-btn');
-        const promptArea = document.getElementById('ai-system-prompt');
-        if (copyBtn) copyBtn.onclick = () => {
-            navigator.clipboard.writeText(promptArea.value);
-            copyBtn.textContent = "✓";
-            setTimeout(() => copyBtn.textContent = "Copy", 1500);
-        };
+        if (downloadBtn) {
+            downloadBtn.onclick = () => {
+                console.log("[AIManifestation] Downloading context for:", folderItem.path);
+                FileOperations.downloadAllContents([folderItem]);
+            };
+        }
 
-        document.getElementById('download-context-btn').onclick = () => {
-            FileOperations.downloadAllContents([folderItem]);
-        };
+        if (copyBtn) {
+            copyBtn.onclick = () => {
+                const prompt = document.getElementById('ai-system-prompt').value;
+                navigator.clipboard.writeText(prompt).then(() => {
+                    copyBtn.textContent = "✓";
+                    setTimeout(() => copyBtn.textContent = "Copy", 1500);
+                });
+            };
+        }
 
-        document.getElementById('ai-clear-history').onclick = () => {
-            HistoryManager.clear();
-            this._renderHistory();
-        };
-
-        // 3. Review / Execute Logic
         let parsedChanges = [];
-
         okBtn.onclick = async (e) => {
-            e.stopPropagation(); // Prevent dialog auto-close logic from UI.js defaults
+            e.stopPropagation();
 
-            // State A: "Review Changes" -> Go to Preview
             if (okBtn.textContent === 'Review Changes') {
                 const xmlText = document.getElementById('ai-xml-response').value;
-                if (!xmlText.trim()) return UI.showToast("Paste the XML first.", "warning");
+                console.log("[AIManifestation] User pasted XML. Length:", xmlText.length);
+                
+                if (!xmlText.trim()) return UI.showToast("Paste the XML response.", "warning");
 
                 parsedChanges = ResponseParser.parseChanges(xmlText, folderItem.path);
                 
                 if (parsedChanges.length === 0) {
-                    return UI.showToast("No valid <change> tags found.", "error");
+                    console.error("[AIManifestation] Parsing failed or no changes found.");
+                    return UI.showToast("No valid <change> blocks found. Check console.", "error");
                 }
 
-                // Render Preview
-                inputView.style.display = 'none';
-                previewView.style.display = 'block';
-                
-                const list = document.getElementById('ai-change-list');
-                list.innerHTML = parsedChanges.map(c => ManifestationUI.getChangeItemHTML(c)).join('');
-                
-                document.getElementById('ai-preview-summary').textContent = `Ready to apply ${parsedChanges.length} changes to '${folderItem.name}'.`;
+                container.querySelector('#ai-view-input').style.display = 'none';
+                container.querySelector('#ai-view-preview').style.display = 'block';
+                document.getElementById('ai-change-list').innerHTML = parsedChanges.map(c => ManifestationUI.getChangeItemHTML(c, folderItem.path)).join('');
+                document.getElementById('ai-preview-summary').textContent = `Parsed ${parsedChanges.length} changes correctly.`;
                 
                 okBtn.textContent = 'Manifest';
-                okBtn.classList.add('pulse'); // Add visual cue
+                okBtn.classList.add('pulse');
             } 
-            // State B: "Manifest" -> Execute
             else if (okBtn.textContent === 'Manifest') {
-                document.getElementById('generic-dialog').classList.remove('visible'); // Close Dialog
+                console.log("[AIManifestation] Beginning execution of parsed changes...");
+                document.getElementById('generic-dialog').classList.remove('visible');
                 await this._execute(folderItem, parsedChanges);
             }
         };
-    },
-
-    _renderHistory() {
-        const list = document.getElementById('ai-history-list');
-        const history = HistoryManager.getHistory();
-        if (history.length === 0) {
-            list.innerHTML = '<div style="text-align:center; color:gray; padding:20px;">No history in this session.</div>';
-        } else {
-            list.innerHTML = history.map(entry => ManifestationUI.getHistoryItemHTML(entry)).join('');
-        }
     },
 
     async _execute(folderItem, changes) {
@@ -143,49 +114,62 @@ export const AIManifestation = {
         try {
             const workspaceId = folderItem.workspaceId || folderItem.id;
             const workspace = State.workspaces.find(ws => ws.id === workspaceId);
+            if (!workspace) throw new Error("Workspace context lost.");
+
             const affectedParents = new Set();
 
             for (let i = 0; i < changes.length; i++) {
                 const change = changes[i];
-                UI.updateTask(taskId, 30 + ((i / changes.length) * 60), `${change.operation}: ${change.path.split('/').pop()}`);
+                console.log(`[AIManifestation] Executing ${i+1}/${changes.length}:`, change.path);
+                UI.updateTask(taskId, (i / changes.length) * 100, `Writing: ${change.path.split('/').pop()}`);
 
-                const item = { ...workspace, path: change.path, kind: 'file', workspaceId };
+                const item = { ...workspace, path: change.path, kind: 'file', workspaceId, type: workspace.type };
 
                 if (change.operation === 'delete') {
+                    console.log("[AIManifestation] Deleting file:", item.path);
                     await FileSystemProvider.delete(item);
                     const tab = State.tabs.find(t => t.uniquePath === `${workspaceId}::${change.path}`);
                     if (tab) await Tabs.close(tab.id, true);
                 } else {
+                    console.log("[AIManifestation] Writing file content:", item.path);
                     await FileSystemProvider.write(item, change.content);
+                    
                     const tab = State.tabs.find(t => t.uniquePath === `${workspaceId}::${change.path}`);
                     if (tab) {
                         tab.content = change.content;
                         tab.isDirty = false;
                         if (State.activeTabId === tab.id) {
-                            import('../../editor.js').then(m => m.Editor.setCurrentContent(change.content));
+                            const { Editor } = await import('../../editor.js');
+                            Editor.setCurrentContent(change.content);
                         }
                     }
                 }
-
-                // Parent refresh logic
                 const lastSlash = change.path.lastIndexOf('/');
-                const parentPath = lastSlash === -1 ? '/' : (change.path.substring(0, lastSlash) || '/');
-                affectedParents.add(parentPath);
+                affectedParents.add(lastSlash === -1 ? '/' : (change.path.substring(0, lastSlash) || '/'));
             }
 
-            // Save to History
+            console.log("[AIManifestation] Saving history and refreshing folders:", Array.from(affectedParents));
             HistoryManager.addBatch(folderItem.path, changes);
-
-            // Refresh Workspace
             for (const parentPath of affectedParents) {
                 await Workspaces.refreshNode({ ...workspace, path: parentPath, kind: 'directory', workspaceId });
             }
 
-            UI.endTask(taskId, 'success', `Manifested ${changes.length} changes.`);
+            UI.endTask(taskId, 'success', `Manifested ${changes.length} updates.`);
+            UI.showToast(`B"H: Manifestation successful.`, "success");
 
         } catch (e) {
-            console.error(e);
+            console.error("[AIManifestation] FATAL EXECUTION ERROR:", e);
             UI.endTask(taskId, 'error', `Manifestation halted: ${e.message}`);
+        }
+    },
+
+    _renderHistory() {
+        const list = document.getElementById('ai-history-list');
+        const history = HistoryManager.getHistory();
+        if (history.length === 0) {
+            list.innerHTML = '<div style="text-align:center; color:white; padding:20px; opacity:0.6;">No history.</div>';
+        } else {
+            list.innerHTML = history.map(entry => ManifestationUI.getHistoryItemHTML(entry)).join('');
         }
     }
 };

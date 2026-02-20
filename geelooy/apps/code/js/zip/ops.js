@@ -13,19 +13,18 @@ import { ZipRenderer } from './render.js';
 export const ZipOps = {
     
     async openEntry(zipTab, entry) {
-        // Only open files
         if (entry.isDir) return;
 
-        UI.showLoading(`Extracting ${entry.filename}...`);
+        const taskId = `zip-open-${Date.now()}`;
+        UI.startTask(taskId, `Extracting ${entry.filename.split('/').pop()}...`);
+
         try {
             const state = zipTab.zipState;
             let content;
             
-            // Check modifications first (priority)
             if (state.modifications.has(entry.filename)) {
                 content = state.modifications.get(entry.filename);
             } 
-            // If not in modifications, fallback to entry data
             if (!content) {
                 const blob = await entry.getData();
                 content = blob; 
@@ -40,12 +39,11 @@ export const ZipOps = {
             };
             
             await Tabs.create({ ...item, content: content }, false, false); 
+            UI.endTask(taskId, 'success', 'File extracted.');
             
         } catch(e) {
             console.error(e);
-            UI.showToast("Error extracting file: " + e.message, 'error');
-        } finally {
-            UI.hideLoading();
+            UI.endTask(taskId, 'error', "Extraction failed: " + e.message);
         }
     },
 
@@ -260,9 +258,11 @@ export const ZipOps = {
 
         if (!targetFolderName) return;
 
-        UI.showLoading("Extracting archive...");
+        // B"H - Start non-obstructive task
+        const taskId = `zip-ext-${Date.now()}`;
+        UI.startTask(taskId, "Preparing extraction...");
+
         try {
-            // 1. Create Target Directory
             const workspace = State.workspaces.find(ws => ws.id === sourceItem.workspaceId);
             if (!workspace) throw new Error("Workspace not found.");
 
@@ -271,60 +271,50 @@ export const ZipOps = {
             
             try {
                 await FileSystemProvider.create(parentDirItem, targetFolderName, 'directory');
-            } catch(e) {
-                console.warn("Folder might exist, merging...", e);
-            }
+            } catch(e) {}
 
             const targetRootPath = parentPath === '/' ? `/${targetFolderName}` : `${parentPath}/${targetFolderName}`;
             const targetRootItem = { ...workspace, workspaceId, path: targetRootPath, kind: 'directory' };
 
-            // 2. Iterate Display Entries
             const entriesToExtract = ZipState.getDisplayEntries(state);
+            const total = entriesToExtract.length;
             let successCount = 0;
-            let errorCount = 0;
 
-            for (const entry of entriesToExtract) {
+            for (let i = 0; i < total; i++) {
+                const entry = entriesToExtract[i];
+                
+                // Update progress in the bottom corner
+                UI.updateTask(taskId, (i / total) * 100, `Extracting: ${entry.filename.split('/').pop()}`);
+
                 try {
                     const parts = entry.filename.split('/');
                     const fileName = parts.pop();
                     const dirPath = parts.join('/');
                     
-                    // Ensure directories exist
-                    let currentDir = targetRootItem;
+                    let currentPathAccum = targetRootPath;
                     if (dirPath) {
                         const dirs = dirPath.split('/');
-                        let currentPathAccum = targetRootPath;
                         for (const dir of dirs) {
-                            const nextPath = `${currentPathAccum}/${dir}`;
-                            // Try to create dir, ignore if exists
+                            const parentForDir = { ...workspace, workspaceId, path: currentPathAccum, kind: 'directory' };
                             try {
-                                await FileSystemProvider.create(
-                                    { ...workspace, workspaceId, path: currentPathAccum, kind: 'directory' }, 
-                                    dir, 
-                                    'directory'
-                                );
+                                await FileSystemProvider.create(parentForDir, dir, 'directory');
                             } catch(e) {}
-                            currentPathAccum = nextPath;
+                            currentPathAccum += (currentPathAccum === '/' ? '' : '/') + dir;
                         }
-                        currentDir = { ...workspace, workspaceId, path: currentPathAccum, kind: 'directory' };
                     }
 
                     if (!entry.isDir) {
-                        let content;
-                        // Check modifications first
-                        if (state.modifications.has(entry.filename)) {
-                            content = state.modifications.get(entry.filename);
-                        } else {
+                        let content = state.modifications.get(entry.filename);
+                        if (!content) {
                             const blob = await entry.getData();
                             content = blob;
                         }
                         
                         const dataToWrite = await this._normalizeContent(content);
-
                         const fileItem = { 
                             ...workspace, 
                             workspaceId, 
-                            path: `${currentDir.path}/${fileName}`, 
+                            path: `${currentPathAccum}/${fileName}`, 
                             kind: 'file' 
                         };
                         
@@ -333,22 +323,16 @@ export const ZipOps = {
                     }
                 } catch(entryError) {
                     console.error(`Failed to extract ${entry.filename}:`, entryError);
-                    errorCount++;
                 }
             }
             
-            const msg = errorCount > 0 
-                ? `Extracted ${successCount} files. ${errorCount} failed.` 
-                : "Extraction complete!";
-            
-            UI.showToast(msg, errorCount > 0 ? "warning" : "success");
+            UI.endTask(taskId, 'success', `B"H: Extracted ${successCount} files.`);
+            const { Workspaces } = await import('../workspaces.js');
             await Workspaces.refreshNode(parentDirItem);
 
         } catch (e) {
             console.error(e);
-            UI.showToast("Extraction failed: " + e.message, "error");
-        } finally {
-            UI.hideLoading();
+            UI.endTask(taskId, 'error', "Extraction failed: " + e.message);
         }
     },
 

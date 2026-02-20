@@ -22,14 +22,24 @@ import { SearchSystem } from '../search-system.js';
 import { FileSystemProvider } from '../fs-provider.js'; // B"H
 import { GitMetaProvider } from '../git/meta.js'; // B"H
 import { IndexedDBProvider } from '../fs/indexeddb.js'; // B"H
-
+import {AIManifestation } from "../features/ai-manifestation/index.js";
 export const Actions = {
     async handle(action, item = State.contextTarget) {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
 
         try {
             switch (action) {
-                // ... (Existing cases unchanged) ...
+                case "copy-for-clone":
+				    State.clipboardCloneSource = item;
+				    UI.showToast(`Source marked: ${item.name}. Now "Clone Here" into a local folder.`, "success");
+				    break;
+				
+				case "clone-repo-here":
+				    if (State.clipboardCloneSource && item.kind === 'directory') {
+				        FileOperations.cloneRepo(State.clipboardCloneSource, item);
+				        State.clipboardCloneSource = null; // Clear after use
+				    }
+			    break;
                 case "toggle-line-comment": ViewActions.toggleLineComment(); break;
                 case "insert-line-before": ViewActions.insertLineBefore(); break;
                 case "insert-line-after": ViewActions.insertLineAfter(); break;
@@ -93,7 +103,7 @@ export const Actions = {
                 
                 case "apply-external-ai":
                 if (item && item.kind === 'directory') {
-                    import('../features/ai-manifestation.js').then(m => m.AIManifestation.showDialog(item));
+                    AIManifestation.showDialog(item);
                 } else {
                     UI.showToast("Please select a folder to apply changes to.", "warning");
                 }

@@ -21,18 +21,31 @@ export const FileSystemProvider = {
     PostMessage: PostMessageProvider,
     OPFS: OPFSProvider, // B"H
 
-    async list(item) {
+    // B"H
+	async list(item) {
 	    try {
+	        let children;
 	        switch (item.type) {
-	            case 'local': return await this.Local.list(item);
-	            case 'ssh': return await this.SSH.list(item);
-	            case 'indexeddb': return await this.IndexedDB.list(item);
-	            case 'github': return await this.GitHub.list(item);
-	            case 'osfolder': return await this.OSFolder.list(item);
-	            case 'zip-entry': return await ZipExplorer.fs.list(item);
-	            case 'opfs': return await this.OPFS.list(item);
+	            case 'local': children = await this.Local.list(item); break;
+	            case 'ssh': children = await this.SSH.list(item); break;
+	            case 'indexeddb': children = await this.IndexedDB.list(item); break;
+	            case 'github': children = await this.GitHub.list(item); break;
+	            case 'osfolder': children = await this.OSFolder.list(item); break;
+	            case 'zip-entry': children = await ZipExplorer.fs.list(item); break;
+	            case 'opfs': children = await this.OPFS.list(item); break;
 	            default: throw new Error('Unsupported workspace type');
 	        }
+	
+	        // B"H - THE CORE DETECTION LOGIC
+	        // We look for the presence of our metadata folder.
+	        const containsGitMeta = children.some(c => c && c.name === '.awtsmoos-repo');
+	        
+	        // We return the children, but we attach the 'isGitRoot' property to the data itself.
+	        // This ensures the information is fresh and not "inherited" from parent objects.
+	        return {
+	            entries: children,
+	            isGitRoot: containsGitMeta
+	        };
 	    } catch (e) { 
 	        console.error(`[FS LIST FAILED]`, e); 
 	        throw e; 
