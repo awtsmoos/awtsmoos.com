@@ -17,10 +17,10 @@ export const ResponseParser = {
             return [];
         }
 
-        // We use text/html because it is highly tolerant of raw code symbols (<, >, &)
+        // We use text/xml for CDATA parsing because it is highly tolerant of raw code symbols (<, >, &)
         // that would normally cause a text/xml parser to crash.
         const parser = new DOMParser();
-        const doc = parser.parseFromString(text, "text/html");
+        const doc = parser.parseFromString(text, "text/xml");
         
         const changes = [];
         const changeNodes = doc.querySelectorAll('change');
