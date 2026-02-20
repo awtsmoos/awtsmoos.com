@@ -14,21 +14,22 @@ export const Transfer = {
      * B"H - Generates a comprehensive Markdown string.
      * relativize: Ensures paths shown to AI are relative to the 'basePath'.
      */
+    /**
+     * B"H - Generates a comprehensive Markdown string.
+     * This version is corrected to handle the new object format from FileSystemProvider.list
+     */
     async generateMarkdownContext(items, basePath = "") {
         let combinedContent = 'B"H\n\n'; 
         
-        // Helper to normalize and strip base
         const getRelative = (fullPath) => {
             if (!basePath || basePath === "/") return fullPath;
-            
-            const normBase = basePath.replace(/\/+$/, ""); // remove trailing /
+            const normBase = basePath.replace(/\/+$/, ""); 
             const normFull = fullPath.replace(/\/+$/, ""); 
-            
-            if (normFull === normBase) return ""; // It's the root itself
+            if (normFull === normBase) return ""; 
             if (normFull.startsWith(normBase + "/")) {
                 return normFull.substring(normBase.length + 1);
             }
-            return fullPath; // Fallback
+            return fullPath;
         };
 
         const processItem = async (item) => {
@@ -45,6 +46,7 @@ export const Transfer = {
                     let textContent = '';
                     if (typeof content === 'string') textContent = content;
                     else if (content instanceof Blob) textContent = await content.text();
+                    else if (content && content.base64Content) textContent = atob(content.base64Content);
 
                     combinedContent += `### File: \`${displayPath}\`\n\n`;
                     combinedContent += '```\n';
@@ -57,12 +59,23 @@ export const Transfer = {
 
             } else if (item.kind === 'directory') {
                 combinedContent += `## Directory: \`${displayPath}\`\n\n`;
-                const children = await FileSystemProvider.list(item);
-                for (const child of children) {
-                    const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
-                    if (workspace) {
-                        await processItem({ ...workspace, ...child, workspaceId: workspace.id });
+                
+                try {
+                    const result = await FileSystemProvider.list(item);
+                    
+                    // B"H - THE CRITICAL FIX IS HERE:
+                    // We check if the result is our new object or an old array format.
+                    // This ensures `children` is always an array that can be looped over.
+                    const children = Array.isArray(result) ? result : (result.entries || []);
+                    
+                    for (const child of children) {
+                        const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
+                        if (workspace) {
+                            await processItem({ ...workspace, ...child, workspaceId: workspace.id });
+                        }
                     }
+                } catch(e) {
+                    console.error(`[Transfer] Failed to list directory ${displayPath}`, e);
                 }
             }
         };
