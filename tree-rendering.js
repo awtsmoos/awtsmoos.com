@@ -23,31 +23,47 @@ export const WorkspaceTreeRenderer = {
         parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
         try {
             let children;
+            let isParentGitRoot = false;
             const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
 
+            // 1. Fetch data from GitHub or Local
             if (parentItem.type === 'github' && workspace) {
                 if (!workspace._treeCache) await FileSystemProvider.GitHub.getFullTree(parentItem);
                 const lookupPath = parentItem.path === '/' ? '' : (parentItem.path.startsWith('/') ? parentItem.path.slice(1) : parentItem.path);
                 children = workspace._treeCache?.get(lookupPath) || [];
+                // Direct GitHub connections are always git roots at the top level
+                isParentGitRoot = (parentItem.path === '/' || parentItem.path === '');
             } else {
-                children = await FileSystemProvider.list(parentItem);
+                const result = await FileSystemProvider.list(parentItem);
+                children = result.entries;
+                isParentGitRoot = result.isGitRoot;
             }
 
             parentElement.innerHTML = '';
             if (!Array.isArray(children)) children = [];
 
-            // B"H - Detect if THIS specific parent is a Git root
-            const hasGitMeta = children.some(c => c.name === '.awtsmoos-repo');
-            if (hasGitMeta) {
-                parentItem.isGitClone = true;
+            // 2. B"H - Update Parent Icon (Reach-back)
+            // If the filesystem just told us this folder IS a Git Root, update its icon.
+            if (isParentGitRoot) {
+                parentItem.isGitClone = true; // Mark UI object
                 const parentUnique = getItemUniquePath(parentItem);
                 const parentEntry = State.domItemMap.get(parentUnique);
                 if (parentEntry) {
                     const iconUse = parentEntry.el.querySelector('.tree-item-name-wrap .svg-icon use');
                     if (iconUse) iconUse.setAttribute('href', '#icon-git-folder');
                 }
+            } else {
+                // Not a git root, ensure it doesn't have the icon (clears the "virus")
+                parentItem.isGitClone = false;
+                const parentUnique = getItemUniquePath(parentItem);
+                const parentEntry = State.domItemMap.get(parentUnique);
+                if (parentEntry && parentItem.path !== '/') { // Don't reset workspace root icons
+                     const iconUse = parentEntry.el.querySelector('.tree-item-name-wrap .svg-icon use');
+                     if (iconUse) iconUse.setAttribute('href', '#icon-folder');
+                }
             }
 
+            // 3. Filter and Sort children
             const displayChildren = children.filter(c => c && c.name !== '.gitkeep' && c.name !== '.awtsmoos-repo');
             displayChildren.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' || a.kind === 'folder' ? -1 : 1));
 
@@ -56,20 +72,19 @@ export const WorkspaceTreeRenderer = {
                 return;
             }
 
+            // 4. Forge the UI elements
             const fragment = document.createDocumentFragment();
             for (const child of displayChildren) {
-                // B"H - THE FIX: Remove isGitClone from the parentItem before spreading to child
-                const { isGitClone, ...cleanParent } = parentItem;
-                const fullChildItem = { ...cleanParent, ...child };
-                
+                // Ensure we don't accidentally pass down the clone flag to the new child object
+                const fullChildItem = { ...parentItem, ...child };
+                delete fullChildItem.isGitClone; 
                 if (fullChildItem.handle) delete fullChildItem.handle;
                 
                 const uniquePath = getItemUniquePath(fullChildItem);
                 const isDir = child.kind === 'directory' || child.kind === 'folder';
                 
-                // Only folders we have EXPLICITLY detected as clones get the icon
-                const isClone = child.isGitClone === true;
-                let icon = isDir ? (isClone ? 'git-folder' : 'folder') : 'file';
+                // Subfolders start with standard icons. They only become git-folders when expanded or peeked.
+                const icon = isDir ? 'folder' : 'file';
                 
                 const li = document.createElement('li');
                 li.className = 'tree-item';
@@ -84,15 +99,13 @@ export const WorkspaceTreeRenderer = {
                 const nameWrap = li.querySelector('.tree-item-name-wrap');
                 if (isDir) {
                     Workspaces.setupDragDrop(nameWrap, fullChildItem);
-                    // Proactively check if this subfolder is ITSELF a Git root (nested repos)
-                    this._peekForGit(fullChildItem, nameWrap);
                 }
                 
                 nameWrap.onclick = (e) => {
                     e.stopPropagation();
                     if (State.isSelectionModeActive) { SelectionManager.toggle(fullChildItem); return; }
                     if (isDir) this.toggleDirectory(uniquePath, li, fullChildItem, depth, registerDom, options);
-                    else options.onFileClick ? options.onFileClick(fullChildItem) : Tabs.create(fullChildItem);
+                    else (options.onFileClick ? options.onFileClick(fullChildItem) : Tabs.create(fullChildItem));
                 };
 
                 nameWrap.oncontextmenu = (e) => { State.contextEvent = e; Menus.show(e, fullChildItem); };
@@ -108,6 +121,7 @@ export const WorkspaceTreeRenderer = {
             }
             parentElement.appendChild(fragment);
         } catch (e) {
+            console.error("Tree Render Error:", e);
             parentElement.innerHTML = `<li class="tree-item error">Error: ${e.message}</li>`;
         }
     },

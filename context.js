@@ -25,7 +25,7 @@ export const findGitRoot = (item) => {
         currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
     }
 
-    let limit = 20; 
+    let limit = 20;  
     while (limit-- > 0) {
         const uniquePath = `${wsId}::${currPath}`;
         const entry = State.domItemMap.get(uniquePath);
