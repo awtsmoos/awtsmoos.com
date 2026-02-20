@@ -246,9 +246,9 @@ export const GitHubProvider = {
 	        const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
 	        return ref.object.sha;
 	    } catch (e) {
-	        // 404 or 409 Conflict both indicate the repository has no commits yet.
-	        if (e.message.includes('404') || e.message.includes('409') || e.message.includes('Not Found')) {
-	            console.log(`[GitHub] ${repoInfo.repo} is empty (Genesis state).`);
+	        // B"H - The Rectification: Handle all known "empty" or "not found" states gracefully.
+	        if (e.message.includes('404') || e.message.includes('409') || e.message.includes('Not Found') || e.message.includes('empty')) {
+	            console.log(`[GitHub] ${repoInfo.repo} is empty or branch not found (Genesis state).`);
 	            return null;
 	        }
 	        throw e;

@@ -191,7 +191,7 @@ export const UI = {
             }
 
             const title = errorMap.has(i) ? `title="${errorMap.get(i).message}"` : '';
-            html += `<div class="${markerClass}" ${title} style="display:flex; align-items:center; justify-content:flex-end; padding-right:8px; height:24px;">${foldIcon}${i}</div>`;
+            html += `<div class="${markerClass}" ${title}="" style="display:flex; align-items:center; justify-content:flex-end; padding-right:8px; height:24px;">${foldIcon}${i}</div>`;
         }
         DOM.lineNumbers.innerHTML = html;
 
