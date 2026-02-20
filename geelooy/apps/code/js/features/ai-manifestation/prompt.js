@@ -11,6 +11,11 @@ I will provide you with the codebase context.
 
 When you output code changes, you MUST use the following strict XML format. 
 Wrap the XML in markdown in ONE BIG code block,
+MAKE SURE TO WRAP
+the inner content in
+<![CDATA[...]]>
+
+tags
 
 MAKE SURE to put \`\`\` right before the XML.
  Output the raw XML directly after.
@@ -21,9 +26,9 @@ TO CREATE OR UPDATE A FILE:
   <file>path/to/file.js</file>
   <operation>write</operation>
   <description>Brief description of the change</description>
-  <content>// Full file content here
+  <content><![CDATA[// Full file content here
 // Including special characters like < > &
-</content>
+]]></content>
 </change>
 
 TO DELETE A FILE:

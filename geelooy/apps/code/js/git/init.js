@@ -25,11 +25,11 @@ export const GitInit = {
 	        title: 'Initialize GitHub Repository',
 	        hasTextarea: true,
 	        textareaContent: "",
-	        contentHTML: `<p>Create a new repository from <strong>'${folderItem.name}'</strong>.</p>
+	        contentHTML: `<p-->Create a new repository from <strong>'${folderItem.name}'</strong>.<p></p>
 	                      <label>New Repository Name</label>
 	                      <input type="text" id="repo-name" value="${folderItem.name.replace(/[^a-zA-Z0-9-.]/g, '-').toLowerCase()}">
 	                      <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
-	                          <input type="checkbox" id="repo-private" style="width: auto;" checked>
+	                          <input type="checkbox" id="repo-private" style="width: auto;" checked="">
 	                          <label for="repo-private">Private repository</label>
 	                      </div>
 	                      <label style="margin-top:10px; display:block;">Description (Ctrl+Enter to Finish)</label>`,

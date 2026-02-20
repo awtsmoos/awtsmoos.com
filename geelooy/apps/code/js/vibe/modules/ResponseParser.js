@@ -57,16 +57,27 @@ export const ResponseParser = {
                 // If the AI (or a strict parser) wrapped the code in CDATA markers,
                 // we strip them manually to ensure only the pure source code remains.
                 let trimmedContent = content.trim();
-                if (trimmedContent.startsWith('<![CDATA[')) {
-                    console.log(`[ResponseParser] Block ${index}: CDATA wrapper detected. Stripping prefix/suffix.`);
-                    // Remove <![CDATA[ from the start
-                    content = content.replace('<![CDATA[', '');
-                    // Remove ]]> from the end (using lastIndexOf to be precise)
-                    const endMarkerIdx = content.lastIndexOf(']]>');
-                    if (endMarkerIdx !== -1) {
-                        content = content.substring(0, endMarkerIdx);
-                    }
-                }
+                var possibles = [
+	                "<!--[CDATA[",
+	                "<![CDATA["    
+                ]
+                possibles.forEach(q => {
+	                if (trimmedContent.startsWith(q)) {
+	                    console.log(`[ResponseParser] Block ${index}: CDATA wrapper detected. Stripping prefix/suffix.`);
+	                    // Remove <![CDATA[ from the start
+	                    content = content.replace(q, '');
+	                    // Remove ]]> from the end (using lastIndexOf to be precise)
+	                    var endMarkerIdx = content.lastIndexOf(']]>');
+	                    if (endMarkerIdx !== -1) {
+	                        content = content.substring(0, endMarkerIdx);
+	                    }
+	                    endMarkerIdx = content.lastIndexOf(']]-->');
+	                    if (endMarkerIdx !== -1) {
+	                        content = content.substring(0, endMarkerIdx);
+	                    }
+	                }
+	                trimmedContent = content.trim();
+                })
             }
 
             // --- 3. INTELLIGENT PATH RESOLUTION ---
@@ -102,7 +113,7 @@ export const ResponseParser = {
             });
         });
         
-        console.log(`[ResponseParser] >>> PARSE COMPLETE <<<. Manifesting ${changes.length} valid changes.`);
+        console.log(`[ResponseParser] >>> PARSE COMPLETE <<<. Manifesting ${changes.length} valid changes.`, changes);
         return changes;
     }
 };
