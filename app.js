@@ -83,7 +83,7 @@ export const App = {
             useTabs: State.useTabs
         }));
     },
-
+ 
     loadSettings: () => {
         const settings = JSON.parse(localStorage.getItem('vividX_settings_profound') || '{}');
         State.githubToken = settings.githubToken || null;
