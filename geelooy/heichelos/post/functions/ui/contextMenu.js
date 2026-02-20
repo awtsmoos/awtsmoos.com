@@ -2,6 +2,31 @@
 import { copyToClipboard, updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 import { makeToast } from "/heichelos/post/functions/ui.js";
 
+function compilePostText() {
+    if (!window.sectionDayuh || !Array.isArray(window.sectionDayuh)) {
+        console.warn("B\"H - sectionDayuh data not found for copying.");
+        const postElement = document.getElementById("realPost");
+        return postElement ? postElement.innerText : "";
+    }
+
+    const postTitle = window.post?.title || "";
+    const seriesName = window.series?.prateem?.name || "";
+    
+    let header = "";
+    if (seriesName) header += `${seriesName}\n`;
+    if (postTitle) header += `${postTitle}\n`;
+    if (header) header += "\n---\n\n";
+
+    const compiledText = window.sectionDayuh.map(section => {
+        if (Array.isArray(section)) {
+            return section.flat(Infinity).join("\n");
+        }
+        return section;
+    }).join("\n\n");
+
+    return header + compiledText;
+}
+
 export async function showCustomContextMenu(x, y, e) {
     const getSelectedText = () => window.getSelection().toString();
     
@@ -13,7 +38,15 @@ export async function showCustomContextMenu(x, y, e) {
 
     const menuActions = {
         "Fullscreen": () => toggleFullscreen(),
-        "Copy Selected": (txt) => copyToClipboard({ text: txt || window.activePar?.textContent }, makeToast),
+        "Copy Selected": (txt) => copyToClipboard({ text: txt || getSelectedText() }, makeToast),
+        "Copy Entire Post": () => {
+            const fullPostText = compilePostText();
+            if (fullPostText) {
+                copyToClipboard({ text: fullPostText, successMsg: "Entire Revelation Copied!" }, makeToast);
+            } else {
+                makeToast("Could not retrieve post data to copy.");
+            }
+        },
     };
 
     if (idx !== null) {
