@@ -15,7 +15,7 @@ export const State = {
     hexEditorInstance: null,
     zipExplorerInstance: null, 
     gitDb: null,
-    
+    knownGitRoots: new Map(),
     postMessageRequestId: 0,
     postMessagePendingRequests: new Map(),
     

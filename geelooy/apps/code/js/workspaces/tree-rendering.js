@@ -42,10 +42,15 @@ export const WorkspaceTreeRenderer = {
             parentElement.innerHTML = '';
             if (!Array.isArray(children)) children = [];
 
-            // 2. B"H - Update Parent Icon (Reach-back)
-            // If the filesystem just told us this folder IS a Git Root, update its icon.
+            // 2. B"H - Update Parent Icon & Global Registry
             if (isParentGitRoot) {
-                parentItem.isGitClone = true; // Mark UI object
+                parentItem.isGitClone = true; 
+                
+                // Register in Global State
+                const wsId = parentItem.workspaceId;
+                if (!State.knownGitRoots.has(wsId)) State.knownGitRoots.set(wsId, new Set());
+                State.knownGitRoots.get(wsId).add(parentItem.path || '/');
+
                 const parentUnique = getItemUniquePath(parentItem);
                 const parentEntry = State.domItemMap.get(parentUnique);
                 if (parentEntry) {

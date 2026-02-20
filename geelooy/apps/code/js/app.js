@@ -18,59 +18,60 @@ import { setupEventListeners } from './app/event-listeners.js';
 import { TabManagerOverlay } from './tab-manager-overlay.js';
 import { ModelManager } from './vibe/model-manager.js'; // B"H - Import Model Manager
 // B"H - Internal helper for Git discovery within the App module
+// B"H - Profound Async Git Root Discovery
 const findGitRoot = async (item) => {
     if (!item) return null;
-    
-    // 1. Direct GitHub connections are always their own Git root
-    if (item.type === 'github') {
-        const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
-        return ws ? { ...ws, path: '/', kind: 'directory' } : null;
-    }
-
     const wsId = item.workspaceId || item.id;
     const workspace = State.workspaces.find(w => w.id === wsId);
     if (!workspace) return null;
 
-    let currPath = item.path || '/';
+    // 1. Direct GitHub type is always its own root
+    if (item.type === 'github') return { ...workspace, path: '/', kind: 'directory', workspaceId: wsId };
 
-    // Start climb from parent if the item is a file
+    // 2. Check Global Registry (The Fast Path)
+    const roots = State.knownGitRoots.get(wsId);
+    let currPath = item.path || '/';
     if (item.kind === 'file') {
         currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
     }
 
-    let limit = 15; // Safety depth
+    let searchPath = currPath;
+    while (true) {
+        if (roots && roots.has(searchPath)) {
+            return { ...workspace, path: searchPath, kind: 'directory', workspaceId: wsId, isGitClone: true };
+        }
+        if (searchPath === '/' || searchPath === '') break;
+        const lastSlash = searchPath.lastIndexOf('/');
+        searchPath = lastSlash <= 0 ? '/' : searchPath.substring(0, lastSlash);
+    }
+
+    // 3. The Physical "Climb" (The Proactive Search)
+    // We check parents physically until we find .awtsmoos-repo or hit root
+    searchPath = currPath;
+    let limit = 20;
+    const { FileSystemProvider } = await import('./fs-provider.js');
+
     while (limit-- > 0) {
-        // First, check the fast way (UI cache)
-        const uniquePath = `${wsId}::${currPath}`;
-        const entry = State.domItemMap.get(uniquePath);
-        if (entry?.item?.isGitClone) return entry.item;
-
-        // Second, perform the physical "Peek" ritual
         try {
-            const checkItem = { ...workspace, path: currPath, kind: 'directory', workspaceId: wsId };
-            const { FileSystemProvider } = await import('./fs-provider.js');
-            const result = await FileSystemProvider.list(checkItem);
+            const result = await FileSystemProvider.list({ ...workspace, path: searchPath, kind: 'directory', workspaceId: wsId });
+            const isGit = Array.isArray(result) ? result.some(c => c.name === '.awtsmoos-repo') : result.isGitRoot;
             
-            // Check if result is the new {entries, isGitRoot} format or standard array
-            const entries = Array.isArray(result) ? result : result.entries;
-            const isRoot = Array.isArray(result) ? result.some(c => c.name === '.awtsmoos-repo') : result.isGitRoot;
-
-            if (isRoot) {
-                // Found it physically! Mark it and return.
-                checkItem.isGitClone = true;
-                if (entry) entry.item.isGitClone = true;
-                return checkItem;
+            if (isGit) {
+                // Found it! Register for next time
+                if (!State.knownGitRoots.has(wsId)) State.knownGitRoots.set(wsId, new Set());
+                State.knownGitRoots.get(wsId).add(searchPath);
+                return { ...workspace, path: searchPath, kind: 'directory', workspaceId: wsId, isGitClone: true };
             }
         } catch(e) {
-            console.warn("[Git Discovery] Peek failed at " + currPath, e);
+            // Ignore listing errors for parents
         }
-        
-        if (currPath === '/' || currPath === '') break;
-        const lastSlash = currPath.lastIndexOf('/');
-        currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
+
+        if (searchPath === '/' || searchPath === '') break;
+        const lastSlash = searchPath.lastIndexOf('/');
+        searchPath = lastSlash <= 0 ? '/' : searchPath.substring(0, lastSlash);
     }
-    
-    // Final check for workspace root
+
+    // 4. Final check for workspace root metadata
     if (workspace?.isGitClone) return { ...workspace, path: '/', kind: 'directory', workspaceId: wsId };
 
     return null;
@@ -158,7 +159,7 @@ export const App = {
         UI.showLoading("Searching for Git anchor...");
 
         try {
-            // B"H - Now awaiting the deep discovery
+            // Use the new Profound discovery helper
             const targetRepo = await findGitRoot(activeTab.item);
 
             UI.hideLoading();
@@ -167,11 +168,12 @@ export const App = {
                 const { GitManager } = await import("./git/index.js"); 
                 GitManager.showGitUI(targetRepo);
             } else {
-                UI.showToast("This file is not inside a recognized Git repository.", "warning");
+                UI.showToast("This file is not part of a recognized Git repository.", "warning");
             }
         } catch (err) {
             UI.hideLoading();
-            UI.showToast("Discovery error: " + err.message, "error");
+            UI.showToast("Git discovery failed: " + err.message, "error");
+            console.error(err);
         }
     },
 
