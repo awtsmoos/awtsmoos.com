@@ -10,10 +10,12 @@ export const makeNavBars = _makeNavBars;
 
 // Toast logic remains here as it's a simple utility
 export function makeToast(message) {
+    const context = document.querySelector('.post-reader-localized-context') || document.body;
+    
     const toast = document.createElement('div');
     toast.classList.add('ohr-ein-sof-toast');
     toast.textContent = message;
-    document.body.appendChild(toast);
+    context.appendChild(toast);
     
     // Force reflow
     void toast.offsetWidth;

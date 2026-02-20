@@ -103,3 +103,32 @@
     border-color: var(--color-primary);
     box-shadow: 0 0 10px var(--color-primary);
 }
+
+/* 4. TOAST OF REVELATION (Notifications) */
+.post-reader-localized-context .ohr-ein-sof-toast {
+    position: absolute; /* Relative to the context wrapper */
+    bottom: -100px; /* Start off-screen */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    background: var(--color-ink);
+    color: var(--bg-surface);
+    border: var(--border-ui);
+    padding: 1rem 2rem;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: var(--shadow-high);
+    
+    z-index: 100000;
+    transition: bottom 0.5s var(--ease-elastic), opacity 0.5s ease;
+    opacity: 0;
+    pointer-events: none;
+    min-width: 300px;
+    text-align: center;
+}
+
+.post-reader-localized-context .ohr-ein-sof-toast-revealed {
+    bottom: 30px; /* Animate into view */
+    opacity: 1;
+}

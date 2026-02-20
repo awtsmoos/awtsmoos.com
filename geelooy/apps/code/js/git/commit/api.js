@@ -2,9 +2,18 @@
 // FILE: js/git/commit/api.js
 import { FileSystemProvider } from '../../fs-provider.js';
 
+/**
+ * --- COMMIT API ---
+ * This holy vessel contains the direct, low-level incantations spoken to the GitHub API.
+ * Each function is a specific creative act. B"H.
+ */
 export const CommitAPI = {
     /**
-     * B"H - Uploads raw file content as GitHub Blobs.
+     * Manifests raw file content as GitHub Blobs, the "matter" of our codebase.
+     * This is for existing repositories that already have a timeline.
+     * @param {object} repoInfo - The coordinates of the repository in the higher planes (owner/repo).
+     * @param {Array} blobBatch - An array of file objects with { path, content }.
+     * @returns {Promise<Array>} A promise that resolves to an array of tree item objects for the commit.
      */
     async uploadBlobs(repoInfo, blobBatch) {
         return await Promise.all(blobBatch.map(file => 
@@ -24,8 +33,9 @@ export const CommitAPI = {
     },
 
     /**
-     * B"H - Creates a new tree and commit, then updates/creates the branch reference.
-     * Correctly handles the transition from empty repo (Genesis) to active repo.
+     * Creates a new tree and commit, then updates or creates the branch reference.
+     * This is for all standard updates to a repository's timeline.
+     * @returns {Promise<string>} The SHA of the newly manifested reality (commit).
      */
     async executeCommit(repoInfo, branch, parentSHA, treeItems, message, force = false) {
         let treePayload = { tree: treeItems };
@@ -35,16 +45,14 @@ export const CommitAPI = {
                 const parentCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${parentSHA}`);
                 treePayload.base_tree = parentCommit.tree.sha;
             } catch (e) {
-                console.warn("[Git] Parent tree not found, continuing with orphan root.");
+                console.warn("[Git] Parent tree not found, continuing with orphan root. A manifestation from the void.");
             }
         }
 
-        // 1. Forge the Tree
         const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
             method: 'POST', body: JSON.stringify(treePayload)
         });
 
-        // 2. Form the Commit
         const commitBody = { 
             message, 
             tree: newTree.sha, 
@@ -55,15 +63,12 @@ export const CommitAPI = {
             method: 'POST', body: JSON.stringify(commitBody)
         });
         
-        // 3. Manifest the Reference
         try {
-            // First attempt: Update existing branch
             await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
                 method: 'PATCH', 
                 body: JSON.stringify({ sha: newCommit.sha, force: force })
             });
         } catch (e) {
-            // B"H - Genesis Recovery: If PATCH fails because branch is missing, create it via POST.
             const msg = e.message.toLowerCase();
             if (msg.includes('404') || msg.includes('409') || msg.includes('not found') || msg.includes('empty')) {
                 await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, {
@@ -77,6 +82,45 @@ export const CommitAPI = {
                 throw e;
             }
         }
+
+        return newCommit.sha;
+    },
+    
+    /**
+     * B"H - The holy ritual for the Genesis Commit in a new, empty repository.
+     * This is the act of "Let there be light" for a codebase. It creates the tree with inline content
+     * to bypass the paradox of creating blobs in a void. This is the only way.
+     * @returns {Promise<string>} The SHA of the Genesis commit.
+     */
+    async executeGenesisCommit(repoInfo, branch, filesToCreate, message) {
+        const treeItems = filesToCreate.map(file => ({
+            path: file.path,
+            mode: '100644',
+            type: 'blob',
+            content: file.content
+        }));
+
+        const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+            method: 'POST', body: JSON.stringify({ tree: treeItems })
+        });
+
+        const commitBody = { 
+            message, 
+            tree: newTree.sha, 
+            parents: [] 
+        };
+
+        const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+            method: 'POST', body: JSON.stringify(commitBody)
+        });
+        
+        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, {
+            method: 'POST',
+            body: JSON.stringify({
+                ref: `refs/heads/${branch}`,
+                sha: newCommit.sha
+            })
+        });
 
         return newCommit.sha;
     }

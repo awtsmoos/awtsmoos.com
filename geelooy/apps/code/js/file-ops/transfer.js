@@ -9,14 +9,14 @@ import { Workspaces, getItemUniquePath } from '../workspaces.js';
 import { Tabs } from '../tabs/index.js';
 import { Exporter } from './exporter.js';
 
+/**
+ * --- TRANSFER ---
+ * The vessel for moving and transforming the essence of files, whether it be
+ * content, structure, or their very existence. B"H.
+ */
 export const Transfer = {
     /**
-     * B"H - Generates a comprehensive Markdown string.
-     * relativize: Ensures paths shown to AI are relative to the 'basePath'.
-     */
-    /**
-     * B"H - Generates a comprehensive Markdown string.
-     * This version is corrected to handle the new object format from FileSystemProvider.list
+     * B"H - Generates a comprehensive Markdown string, a textual snapshot of a reality.
      */
     async generateMarkdownContext(items, basePath = "") {
         let combinedContent = 'B"H\n\n'; 
@@ -62,10 +62,6 @@ export const Transfer = {
                 
                 try {
                     const result = await FileSystemProvider.list(item);
-                    
-                    // B"H - THE CRITICAL FIX IS HERE:
-                    // We check if the result is our new object or an old array format.
-                    // This ensures `children` is always an array that can be looped over.
                     const children = Array.isArray(result) ? result : (result.entries || []);
                     
                     for (const child of children) {
@@ -216,7 +212,8 @@ export const Transfer = {
             await FileSystemProvider.write(newItem, content);
         } else {
             try { await FileSystemProvider.create(dest, source.name, 'directory'); } catch(e) {}
-            const children = await FileSystemProvider.list(source);
+            const childrenResult = await FileSystemProvider.list(source);
+            const children = Array.isArray(childrenResult) ? childrenResult : childrenResult.entries;
             for (const child of children) {
                 const workspace = State.workspaces.find(ws => ws.id === (source.workspaceId ?? source.id));
                 await this._copyRecursive({ ...workspace, ...child }, { ...newItem, kind: 'directory' });
@@ -229,30 +226,23 @@ export const Transfer = {
 	    UI.startTask(taskId, `Cloning ${githubSource.name}...`);
 	
 	    try {
-	        // 1. Fetch Remote State
 	        const treeData = await FileSystemProvider.GitHub.getFullTree(githubSource);
 	        const files = treeData.tree.filter(n => n.type === 'blob');
 	        const total = files.length;
-	
-	        // 2. Create the wrapper folder locally
-	        // Use the repo name (last part of user/repo)
 	        const repoFolderName = githubSource.name.split('/').pop();
 	        await FileSystemProvider.create(localTargetDir, repoFolderName, 'directory');
 	        
 	        const localRootPath = localTargetDir.path === '/' ? `/${repoFolderName}` : `${localTargetDir.path}/${repoFolderName}`;
 	        const localRoot = { ...localTargetDir, path: localRootPath, kind: 'directory' };
 	
-	        // 3. Recursive Manifestation
 	        for (let i = 0; i < files.length; i++) {
 	            const file = files[i];
 	            UI.updateTask(taskId, (i / total) * 100, `Cloning: ${file.path}`);
 	            
-	            // Read remote
-	            const content = await FileSystemProvider.read({ ...githubSource, path: file.path, sha: file.sha });
+	            const content = await FileSystemProvider.GitHub.read({ ...githubSource, path: file.path, sha: file.sha });
 	            
-	            // Ensure local directory exists
 	            const parts = file.path.split('/');
-	            parts.pop(); // Remove filename
+	            parts.pop();
 	            let currentPath = localRootPath;
 	            
 	            for(const part of parts) {
@@ -261,12 +251,10 @@ export const Transfer = {
 	                currentPath += `/${part}`;
 	            }
 	
-	            // Write local file
 	            const localFileItem = { ...localTargetDir, path: `${localRootPath}/${file.path}`, kind: 'file' };
 	            await FileSystemProvider.write(localFileItem, content);
 	        }
 	
-			// 4. Link with Ikar metadata
 	        const gitInfo = {
 	            isClone: true,
 	            repoInfo: githubSource.repoInfo,
@@ -280,17 +268,15 @@ export const Transfer = {
 	        const ikarContent = `// B"H\n\nconst ikar = ${JSON.stringify(gitInfo, null, 4)};`;
 	        await FileSystemProvider.write({ ...localTargetDir, path: ikarPath, kind: 'file' }, ikarContent);
 	
-	        localRoot.isGitClone = true; // Mark the object as a clone
+	        localRoot.isGitClone = true;
 	        const uniquePath = getItemUniquePath(localRoot);
 	        
-	        // If it's already in the DOM map, update its icon immediately
 	        const entry = State.domItemMap.get(uniquePath);
 	        if (entry) {
 	            entry.item.isGitClone = true;
 	            const iconUse = entry.el.querySelector('.svg-icon use');
 	            if (iconUse) iconUse.setAttribute('href', '#icon-git-folder');
 	        }
-	        // ---------------------------
 	
 	        UI.endTask(taskId, 'success', `Clone of ${githubSource.name} complete.`);
 	        Workspaces.refreshNode(localTargetDir);
@@ -302,13 +288,17 @@ export const Transfer = {
 	
 	
 	
-	// B"H
+	/**
+     * B"H - A holy ritual to align the local reality with the remote source of truth.
+     * This will overwrite local files with what is on the server.
+     * @param {object} gitContextItem - The local folder representing the Git repository.
+     * @param {object} gitInfo - The metadata describing the remote connection.
+     */
 	async pullAndOverwrite(gitContextItem, gitInfo) {
 	    const taskId = `pull-${Date.now()}`;
 	    UI.startTask(taskId, `Syncing with GitHub...`);
 	
 	    try {
-	        // 1. Fetch remote reality
 	        const treeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
 	        const remoteFiles = treeData.tree.filter(n => n.type === 'blob');
 	        const total = remoteFiles.length;
@@ -317,31 +307,23 @@ export const Transfer = {
 	        let localRootPath = gitContextItem.path.replace(/\/+$/, "") || "/";
 	        if (!localRootPath.startsWith('/')) localRootPath = '/' + localRootPath;
 	
-	        // 2. Clear Local Staging first to prevent conflicts after pull
+	        // Clear local staging for this repo to prevent conflicts
 	        const uncommitted = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
 	        for (const entry of uncommitted) {
-	            const relToWs = entry.item.path; // Already has workspace absolute path
-	            if (relToWs.startsWith(localRootPath)) {
+	            if (entry.item.path.startsWith(localRootPath)) {
 	                await FileSystemProvider.IndexedDB.deleteUncommitted(entry.uniquePath);
 	            }
 	        }
 	
-	        // 3. Manifest remote files locally
 	        for (let i = 0; i < remoteFiles.length; i++) {
 	            const file = remoteFiles[i];
 	            UI.updateTask(taskId, (i / total) * 100, `Downloading: ${file.path}`);
 	            
-	            // Read from GitHub explicitly
 	            const content = await FileSystemProvider.GitHub.read({
-	                workspaceId: workspaceId,
-	                repoInfo: gitInfo.repoInfo,
-	                branch: gitInfo.branch,
-	                path: file.path,
-	                sha: file.sha,
-	                name: file.path.split('/').pop()
+	                workspaceId, repoInfo: gitInfo.repoInfo, branch: gitInfo.branch,
+	                path: file.path, sha: file.sha, name: file.path.split('/').pop()
 	            });
 	
-	            // Ensure directory structure
 	            const pathParts = file.path.split('/');
 	            pathParts.pop(); 
 	            let currentPathAccum = localRootPath;
@@ -351,18 +333,14 @@ export const Transfer = {
 	                currentPathAccum += (currentPathAccum === '/' ? '' : '/') + part;
 	            }
 	
-	            // Write to Local Store (IDB/Local)
 	            const fullLocalPath = (localRootPath === '/' ? '/' : localRootPath + '/') + file.path.replace(/^\/+/, '');
 	            await FileSystemProvider.write({ ...gitContextItem, path: fullLocalPath, kind: 'file' }, content);
 	            
-	            // Refresh open tabs
 	            const uniquePath = `${workspaceId}::${fullLocalPath}`;
 	            const tab = State.tabs.find(t => t.uniquePath === uniquePath);
 	            if (tab) {
 	                tab.content = (typeof content === 'string') ? content : (content instanceof Blob ? await content.text() : content);
-	                tab.isDirty = false;
-	                tab.isUncommitted = false;
-	                tab.item.sha = file.sha;
+	                tab.isDirty = false; tab.isUncommitted = false; tab.item.sha = file.sha;
 	                if (State.activeTabId === tab.id) {
 	                    const { Editor } = await import('../editor.js');
 	                    Editor.setCurrentContent(tab.content);
@@ -370,26 +348,18 @@ export const Transfer = {
 	            }
 	        }
 	
-	        // 4. Cleanup deletions (Files on local that are not on remote)
-	        // Only if not a fresh clone.
 	        const remotePaths = new Set(remoteFiles.map(f => f.path));
 	        if (gitInfo.remoteTree) {
 	            for (const oldFile of gitInfo.remoteTree) {
 	                if (oldFile.type === 'blob' && !remotePaths.has(oldFile.path)) {
 	                    const fullDelPath = (localRootPath === '/' ? '/' : localRootPath + '/') + oldFile.path;
-	                    try {
-	                        await FileSystemProvider.delete({ ...gitContextItem, path: fullDelPath, kind: 'file' });
-	                    } catch(e) {}
+	                    try { await FileSystemProvider.delete({ ...gitContextItem, path: fullDelPath, kind: 'file' }); } catch(e) {}
 	                }
 	            }
 	        }
 	
-	        // 5. Save the new State to ikar.js
 	        const updatedMetadata = {
-	            ...gitInfo,
-	            isClone: true,
-	            baseCommitSHA: treeData.sha,
-	            remoteTree: treeData.tree
+	            ...gitInfo, isClone: true, baseCommitSHA: treeData.sha, remoteTree: treeData.tree
 	        };
 	
 	        const ikarPath = (localRootPath === '/' ? '' : localRootPath) + '/.awtsmoos-repo/ikar.js';
