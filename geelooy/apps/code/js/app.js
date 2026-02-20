@@ -17,7 +17,46 @@ import { Session } from './session.js';
 import { setupEventListeners } from './app/event-listeners.js';
 import { TabManagerOverlay } from './tab-manager-overlay.js';
 import { ModelManager } from './vibe/model-manager.js'; // B"H - Import Model Manager
+// B"H - Internal helper for Git discovery within the App module
+const findGitRoot = (item) => {
+    if (!item) return null;
+    
+    // 1. Direct GitHub connections are always their own Git root
+    if (item.type === 'github') {
+        const { State } = import('./state.js'); // Dynamic check if needed, but State is usually global
+        const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
+        return ws ? { ...ws, path: '/', kind: 'directory' } : null;
+    }
 
+    const wsId = item.workspaceId || item.id;
+    let currPath = item.path;
+
+    // Start climb from parent if the item is a file
+    if (item.kind === 'file') {
+        currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
+    }
+
+    let limit = 20; 
+    while (limit-- > 0) {
+        const uniquePath = `${wsId}::${currPath}`;
+        const entry = State.domItemMap.get(uniquePath);
+        
+        // Return the first (closest) ancestor that is a clone
+        if (entry?.item?.isGitClone === true) {
+            return entry.item;
+        }
+        
+        if (currPath === '/' || currPath === '') break;
+        const lastSlash = currPath.lastIndexOf('/');
+        currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
+    }
+    
+    // Final check for workspace root
+    const ws = State.workspaces.find(w => w.id === wsId);
+    if (ws?.isGitClone === true) return { ...ws, path: '/', kind: 'directory', workspaceId: ws.id };
+
+    return null;
+};
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
     activeConsole: null, 
@@ -91,29 +130,28 @@ export const App = {
     },
 
     // B"H
-	async commitAllChanges() {
-	    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-	    if (!activeTab) {
-	        UI.showToast("No active file.", "warning");
-	        return;
-	    }
-	
-	    UI.showLoading("Finding Git Context...");
-	
-	    // B"H - THE FIX: Directly find the NEAREST git root.
-	    // This uses the improved logic that stops at the first clone found.
-	    // Since we fixed the icon "virus", only the actual root will have the flag.
-	    const targetRepo = findGitRoot(activeTab.item);
-	
-	    UI.hideLoading();
-	
-	    if (targetRepo) {
-	        // Open the UI for the nearest repo
-	        GitManager.showGitUI(targetRepo);
-	    } else {
-	        UI.showToast("This file is not inside a Git repository.", "warning");
-	    }
-	},
+    async commitAllChanges() {
+        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        if (!activeTab) {
+            UI.showToast("No active file to commit.", "warning");
+            return;
+        }
+
+        UI.showLoading("Locating Git anchor...");
+
+        // B"H - Now 'findGitRoot' is defined in this file's scope
+        const targetRepo = findGitRoot(activeTab.item);
+
+        UI.hideLoading();
+
+        if (targetRepo) {
+            // Only manage the nearest one found
+            const { GitManager } = await import("./git/index.js"); 
+            GitManager.showGitUI(targetRepo);
+        } else {
+            UI.showToast("This file is not inside a recognized Git repository.", "warning");
+        }
+    },
 
     async openLocalFile() {
         try {
