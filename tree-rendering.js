@@ -26,9 +26,7 @@ export const WorkspaceTreeRenderer = {
             const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
 
             if (parentItem.type === 'github' && workspace) {
-                if (!workspace._treeCache) {
-                     await FileSystemProvider.GitHub.getFullTree(parentItem); 
-                }
+                if (!workspace._treeCache) await FileSystemProvider.GitHub.getFullTree(parentItem);
                 const lookupPath = parentItem.path === '/' ? '' : (parentItem.path.startsWith('/') ? parentItem.path.slice(1) : parentItem.path);
                 children = workspace._treeCache?.get(lookupPath) || [];
             } else {
@@ -38,7 +36,7 @@ export const WorkspaceTreeRenderer = {
             parentElement.innerHTML = '';
             if (!Array.isArray(children)) children = [];
 
-            // B"H - Detect if CURRENT parent is a clone based on children
+            // B"H - Detect if THIS specific parent is a Git root
             const hasGitMeta = children.some(c => c.name === '.awtsmoos-repo');
             if (hasGitMeta) {
                 parentItem.isGitClone = true;
@@ -50,7 +48,6 @@ export const WorkspaceTreeRenderer = {
                 }
             }
 
-            // Clean up children for display
             const displayChildren = children.filter(c => c && c.name !== '.gitkeep' && c.name !== '.awtsmoos-repo');
             displayChildren.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' || a.kind === 'folder' ? -1 : 1));
 
@@ -61,17 +58,18 @@ export const WorkspaceTreeRenderer = {
 
             const fragment = document.createDocumentFragment();
             for (const child of displayChildren) {
-                const fullChildItem = { ...parentItem, ...child };
+                // B"H - THE FIX: Remove isGitClone from the parentItem before spreading to child
+                const { isGitClone, ...cleanParent } = parentItem;
+                const fullChildItem = { ...cleanParent, ...child };
+                
                 if (fullChildItem.handle) delete fullChildItem.handle;
                 
                 const uniquePath = getItemUniquePath(fullChildItem);
-                
-                // B"H - ICON RESOLUTION FIX
                 const isDir = child.kind === 'directory' || child.kind === 'folder';
-                const isClone = child.isGitClone || State.domItemMap.get(uniquePath)?.item?.isGitClone;
                 
+                // Only folders we have EXPLICITLY detected as clones get the icon
+                const isClone = child.isGitClone === true;
                 let icon = isDir ? (isClone ? 'git-folder' : 'folder') : 'file';
-                if (isClone) fullChildItem.isGitClone = true;
                 
                 const li = document.createElement('li');
                 li.className = 'tree-item';
@@ -86,32 +84,19 @@ export const WorkspaceTreeRenderer = {
                 const nameWrap = li.querySelector('.tree-item-name-wrap');
                 if (isDir) {
                     Workspaces.setupDragDrop(nameWrap, fullChildItem);
-                    // Peek inside to see if this child folder is a clone
+                    // Proactively check if this subfolder is ITSELF a Git root (nested repos)
                     this._peekForGit(fullChildItem, nameWrap);
                 }
                 
                 nameWrap.onclick = (e) => {
                     e.stopPropagation();
-                    if (State.isSelectionModeActive) {
-                        SelectionManager.toggle(fullChildItem);
-                        return;
-                    }
-                    if (isDir) {
-                        this.toggleDirectory(uniquePath, li, fullChildItem, depth, registerDom, options);
-                    } else {
-                        if (options.onFileClick) options.onFileClick(fullChildItem);
-                        else Tabs.create(fullChildItem);
-                    }
+                    if (State.isSelectionModeActive) { SelectionManager.toggle(fullChildItem); return; }
+                    if (isDir) this.toggleDirectory(uniquePath, li, fullChildItem, depth, registerDom, options);
+                    else options.onFileClick ? options.onFileClick(fullChildItem) : Tabs.create(fullChildItem);
                 };
 
-                nameWrap.oncontextmenu = (e) => {
-                    State.contextEvent = e;
-                    Menus.show(e, fullChildItem);
-                };
-                
-                if (registerDom) {
-                    State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
-                }
+                nameWrap.oncontextmenu = (e) => { State.contextEvent = e; Menus.show(e, fullChildItem); };
+                if (registerDom) State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
                 
                 if (State.expandedFolders.has(uniquePath)) {
                     li.classList.add('expanded');
@@ -123,7 +108,6 @@ export const WorkspaceTreeRenderer = {
             }
             parentElement.appendChild(fragment);
         } catch (e) {
-            console.error("Tree Render Error:", e);
             parentElement.innerHTML = `<li class="tree-item error">Error: ${e.message}</li>`;
         }
     },
@@ -132,33 +116,20 @@ export const WorkspaceTreeRenderer = {
 	// Helper to scan for Git metadata without full expansion
 
 	async _peekForGit(item, nameWrapEl) {
-	    try {
-	        // We only want to peek at folders.
-	        if (item.kind !== 'directory' && item.kind !== 'folder') return;
-	        
-	        const children = await FileSystemProvider.list(item);
-	        const hasRepo = children.some(c => c.name === '.awtsmoos-repo');
-	        
-	        if (hasRepo) {
-	            // Update the item instance
-	            item.isGitClone = true;
-	            
-	            // Find the SPECIFIC entry in the DOM map and mark it
-	            const up = getItemUniquePath(item);
-	            const entry = State.domItemMap.get(up);
-	            if (entry) {
-	                entry.item.isGitClone = true;
-	                const iconUse = nameWrapEl.querySelector('.svg-icon use');
-	                if (iconUse) iconUse.setAttribute('href', '#icon-git-folder');
-	            }
-	        } else {
-	            // Explicitly ensure it's not marked as a clone if peek fails
-	            item.isGitClone = false;
-	        }
-	    } catch(e) {
-	        // If listing fails (permissions), don't assume it's a repo
-	    }
-	},
+        try {
+            if (item.kind !== 'directory' && item.kind !== 'folder') return;
+            const children = await FileSystemProvider.list(item);
+            if (children.some(c => c.name === '.awtsmoos-repo')) {
+                item.isGitClone = true;
+                const iconUse = nameWrapEl.querySelector('.svg-icon use');
+                if (iconUse) iconUse.setAttribute('href', '#icon-git-folder');
+            } else {
+                item.isGitClone = false;
+            }
+        } catch(e) {
+            item.isGitClone = false;
+        }
+    },
 
     toggleDirectory(uniquePath, li, item, depth, registerDom, options) {
         if (State.expandedFolders.has(uniquePath)) {

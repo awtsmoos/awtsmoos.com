@@ -11,7 +11,7 @@ import { Tabs } from '../tabs.js'; // B"H - Ensure Tabs is available
 export const findGitRoot = (item) => {
     if (!item) return null;
     
-    // 1. Direct GitHub type is always its own root
+    // 1. Direct GitHub connections are always Git Roots
     if (item.type === 'github') {
         const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
         return ws ? { ...ws, path: '/', kind: 'directory' } : null;
@@ -20,7 +20,7 @@ export const findGitRoot = (item) => {
     const wsId = item.workspaceId || item.id;
     let currPath = item.path;
 
-    // Start looking at the item itself if it's a directory
+    // Start climb from the parent if current item is a file
     if (item.kind === 'file') {
         currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
     }
@@ -30,8 +30,8 @@ export const findGitRoot = (item) => {
         const uniquePath = `${wsId}::${currPath}`;
         const entry = State.domItemMap.get(uniquePath);
         
-        // Return the first (closest) ancestor that is a clone
-        if (entry?.item?.isGitClone) {
+        // B"H - Look for the folder that was flagged as containing .awtsmoos-repo
+        if (entry?.item?.isGitClone === true) {
             return entry.item;
         }
         
@@ -40,9 +40,11 @@ export const findGitRoot = (item) => {
         currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
     }
     
-    // Final check for workspace root
+    // Final check: Is the workspace root itself initialized?
     const ws = State.workspaces.find(w => w.id === wsId);
-    if (ws?.isGitClone) return { ...ws, path: '/', kind: 'directory', workspaceId: ws.id };
+    if (ws?.isGitClone === true) {
+        return { ...ws, path: '/', kind: 'directory', workspaceId: ws.id };
+    }
 
     return null;
 };
