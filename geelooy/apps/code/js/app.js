@@ -175,7 +175,7 @@ export const App = {
             UI.showToast("Git discovery failed: " + err.message, "error");
             console.error(err);
         }
-    },
+    }, 
 
     async openLocalFile() {
         try {

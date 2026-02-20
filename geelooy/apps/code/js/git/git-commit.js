@@ -157,33 +157,59 @@ export const GitCommit = {
         }
     },
 
-    async _executeGitCommit(repoInfo, branch, parentSHA, treeItems, message, force = false) {
-        let treePayload = { tree: treeItems };
-        if (parentSHA) {
-            try {
-                const parentCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${parentSHA}`);
-                treePayload.base_tree = parentCommit.tree.sha;
-            } catch (e) {
-                console.warn("[Git] Parent commit not found (orphan?)", parentSHA);
-                // If force is true, we proceed without base_tree
-            }
-        }
-        const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
-            method: 'POST', body: JSON.stringify(treePayload)
-        });
-        const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
-            method: 'POST', body: JSON.stringify({ message, tree: newTree.sha, parents: parentSHA ? [parentSHA] : [] })
-        });
-        
-        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
-            method: 'PATCH', 
-            body: JSON.stringify({ 
-                sha: newCommit.sha,
-                force: force 
-            })
-        });
-        return newCommit.sha;
-    },
+    // B"H
+	async _executeGitCommit(repoInfo, branch, parentSHA, treeItems, message, force = false) {
+	    let treePayload = { tree: treeItems };
+	    
+	    // Only include base_tree if we are extending an existing history
+	    if (parentSHA) {
+	        try {
+	            const parentCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${parentSHA}`);
+	            treePayload.base_tree = parentCommit.tree.sha;
+	        } catch (e) {
+	            console.warn("[Git] Parent commit not found, creating orphan/genesis tree.", parentSHA);
+	        }
+	    }
+	
+	    // 1. Create Tree
+	    const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+	        method: 'POST', body: JSON.stringify(treePayload)
+	    });
+	
+	    // 2. Create Commit
+	    const commitBody = { 
+	        message, 
+	        tree: newTree.sha, 
+	        parents: parentSHA ? [parentSHA] : [] 
+	    };
+	
+	    const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+	        method: 'POST', body: JSON.stringify(commitBody)
+	    });
+	    
+	    // 3. Update Reference (Create or Update Branch)
+	    // If it's a new repo, we use POST to refs. If existing, we use PATCH.
+	    try {
+	        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
+	            method: 'PATCH', 
+	            body: JSON.stringify({ 
+	                sha: newCommit.sha,
+	                force: force 
+	            })
+	        });
+	    } catch (e) {
+	        // Fallback: If PATCH fails, the ref might not exist yet. Try creating it.
+	        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, {
+	            method: 'POST',
+	            body: JSON.stringify({
+	                ref: `refs/heads/${branch}`,
+	                sha: newCommit.sha
+	            })
+	        });
+	    }
+	
+	    return newCommit.sha;
+	},
 
     async _clearUncommittedState(gitContextItem, workspaceId, changeSet, committedTreeMap) {
         const allChanges = [

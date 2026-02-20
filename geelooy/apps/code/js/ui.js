@@ -85,79 +85,81 @@ export const UI = {
         }, 3000);
     },
 
-    showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', inputValue = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
-        return new Promise(resolve => {
-            const dialog = DOM.genericDialog;
-            let tertiaryButtonHTML = '';
-            if (tertiary) tertiaryButtonHTML = `<button class="secondary-btn ${tertiary.class || ''}" id="dialog-tertiary-btn" style="margin-right: auto;">${tertiary.text}</button>`;
-            let secondaryOkButtonHTML = '';
-            if (secondaryOk) secondaryOkButtonHTML = `<button class="secondary-btn" id="dialog-secondary-ok-btn">${secondaryOk.text}</button>`;
-
-            dialog.innerHTML = `
-                <div class="dialog-content" id="dialog-content">
-                    <h3>${title}</h3>
-                    ${message ? `<p>${message}</p>` : ''}
-                    ${contentHTML}
-                    ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}" value="${inputValue}">` : ''}
-                    ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
-                    <div class="dialog-button-bar">
-                        ${tertiaryButtonHTML}
-                        ${cancelText ? `<button class="secondary-btn" id="dialog-cancel-btn">${cancelText}</button>` : ''}
-                        ${secondaryOkButtonHTML}
-                        ${okText ? `<button class="primary-btn" id="dialog-ok-btn">${okText}</button>` : ''}
-                    </div>
-                </div>`;
-            
-            const okBtn = dialog.querySelector('#dialog-ok-btn');
-            const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
-            const tertiaryBtn = dialog.querySelector('#dialog-tertiary-btn');
-            const secondaryOkBtn = dialog.querySelector('#dialog-secondary-ok-btn');
-            const inputEl = dialog.querySelector('#dialog-input');
-            const textareaEl = dialog.querySelector('#dialog-textarea');
-
-            const cleanupAndResolve = (value) => {
-                dialog.classList.remove('visible');
-                document.removeEventListener('keydown', keydownHandler);
-                resolve(value);
-            };
-
-            const keydownHandler = (e) => {
-                if (e.key === 'Escape') { e.preventDefault(); cancelBtn?.click(); }
-                
-                // B"H - UPDATED ENTER LOGIC
-                if (e.key === 'Enter') {
-                    const active = document.activeElement;
-                    
-                    // If focusing on a textarea, Enter adds a newline. Ctrl+Enter submits.
-                    if (active === textareaEl) {
-                        if (e.ctrlKey) {
-                            e.preventDefault(); 
-                            okBtn?.click();
-                        }
-                        // else do nothing, allow default newline
-                        return;
-                    }
-                    
-                    // Default behavior for other inputs
-                    e.preventDefault(); 
-                    okBtn?.click();
-                }
-            };
-            
-            if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? inputEl.value : (hasTextarea ? textareaEl.value : true));
-            if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
-            if (tertiaryBtn) tertiaryBtn.onclick = () => cleanupAndResolve('tertiary');
-            if (secondaryOkBtn) secondaryOkBtn.onclick = () => cleanupAndResolve(secondaryOk.actionKey);
-            
-            dialog.classList.add('visible');
-            
-            if (inputEl) { inputEl.focus(); if (inputValue) inputEl.select(); } 
-            else if (textareaEl) textareaEl.focus();
-            else if (okBtn) okBtn.focus();
-            
-            document.addEventListener('keydown', keydownHandler);
-        });
-    },
+    // B"H
+	showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', inputValue = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
+	    return new Promise(resolve => {
+	        const dialog = DOM.genericDialog;
+	        let tertiaryButtonHTML = '';
+	        if (tertiary) tertiaryButtonHTML = `<button class="secondary-btn ${tertiary.class || ''}" id="dialog-tertiary-btn" style="margin-right: auto;">${tertiary.text}</button>`;
+	        let secondaryOkButtonHTML = '';
+	        if (secondaryOk) secondaryOkButtonHTML = `<button class="secondary-btn" id="dialog-secondary-ok-btn">${secondaryOk.text}</button>`;
+	
+	        dialog.innerHTML = `
+	            <div class="dialog-content" id="dialog-content">
+	                <h3>${title}</h3>
+	                ${message ? `<p>${message}</p>` : ''}
+	                ${contentHTML}
+	                ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}" value="${inputValue}">` : ''}
+	                ${hasTextarea ? `<textarea id="dialog-textarea" rows="5" style="width:100%; margin-top:10px; background:var(--color-bg-deep); color:white; border:1px solid var(--color-border); padding:10px; border-radius:4px; font-family:var(--font-ui);">${textareaContent}</textarea>` : ''}
+	                <div class="dialog-button-bar" style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+	                    ${tertiaryButtonHTML}
+	                    ${cancelText ? `<button class="secondary-btn" id="dialog-cancel-btn">${cancelText}</button>` : ''}
+	                    ${secondaryOkButtonHTML}
+	                    ${okText ? `<button class="primary-btn" id="dialog-ok-btn">${okText}</button>` : ''}
+	                </div>
+	            </div>`;
+	        
+	        const okBtn = dialog.querySelector('#dialog-ok-btn');
+	        const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
+	        const tertiaryBtn = dialog.querySelector('#dialog-tertiary-btn');
+	        const secondaryOkBtn = dialog.querySelector('#dialog-secondary-ok-btn');
+	        const inputEl = dialog.querySelector('#dialog-input');
+	        const textareaEl = dialog.querySelector('#dialog-textarea');
+	
+	        const cleanupAndResolve = (value) => {
+	            dialog.classList.remove('visible');
+	            document.removeEventListener('keydown', keydownHandler);
+	            resolve(value);
+	        };
+	
+	        const keydownHandler = (e) => {
+	            if (e.key === 'Escape') { 
+	                e.preventDefault(); 
+	                cancelBtn?.click(); 
+	                return;
+	            }
+	            
+	            if (e.key === 'Enter') {
+	                const active = document.activeElement;
+	                // If in textarea: Enter = newline, Ctrl+Enter = Submit
+	                if (active === textareaEl) {
+	                    if (e.ctrlKey || e.metaKey) {
+	                        e.preventDefault();
+	                        okBtn?.click();
+	                    }
+	                    return; // Allow default newline for plain Enter
+	                }
+	                
+	                // For standard inputs or buttons: Enter = Submit
+	                e.preventDefault();
+	                okBtn?.click();
+	            }
+	        };
+	        
+	        if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? inputEl.value : (hasTextarea ? textareaEl.value : true));
+	        if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
+	        if (tertiaryBtn) tertiaryBtn.onclick = () => cleanupAndResolve('tertiary');
+	        if (secondaryOkBtn) secondaryOkBtn.onclick = () => cleanupAndResolve(secondaryOk.actionKey);
+	        
+	        dialog.classList.add('visible');
+	        
+	        if (inputEl) { inputEl.focus(); if (inputValue) inputEl.select(); } 
+	        else if (textareaEl) textareaEl.focus();
+	        else if (okBtn) okBtn.focus();
+	        
+	        document.addEventListener('keydown', keydownHandler);
+	    });
+	},
 
     updateLineNumbers: (errors = []) => {
         if (DOM.editorWrapper.classList.contains('hidden')) return;

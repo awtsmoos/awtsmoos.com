@@ -216,17 +216,20 @@ export const GitHubProvider = {
         UI.showToast(`Item '${item.name}' staged for deletion.`, "info");
     },
 
-    async getLatestCommitSHA({ repoInfo, branch }) {
-        try {
-            const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
-            return ref.object.sha;
-        } catch (e) {
-            if (e.message.toLowerCase().includes('not found') || e.message.toLowerCase().includes('empty')) {
-                return null;
-            }
-            throw e;
-        }
-    },
+    // B"H
+	async getLatestCommitSHA({ repoInfo, branch }) {
+	    try {
+	        const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
+	        return ref.object.sha;
+	    } catch (e) {
+	        // B"H - 409 Conflict or 404 Not Found usually means the repo is empty (Genesis state)
+	        if (e.message.includes('409') || e.message.includes('404') || e.message.toLowerCase().includes('empty')) {
+	            console.log(`[GitHub] Repo ${repoInfo.repo} appears to be empty. Proceeding with Genesis commit.`);
+	            return null;
+	        }
+	        throw e;
+	    }
+	},
 
     // B"H
     //to build a proper directory map
