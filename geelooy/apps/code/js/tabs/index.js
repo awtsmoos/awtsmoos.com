@@ -112,57 +112,96 @@ export const Tabs = {
         this.activate(newTab.id);
     },
     
-    async activate(tabId, forceViewChange = false) {
-        State.activeTabId = tabId;
-        const tab = State.tabs.find(t => t.id === tabId);
-
-        if (!tab) {
-            UI.switchView('empty');
-            this.render();
-            App.saveSession();
-            return;
-        }
-
-        const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
-        if (workspace && workspace.isLocked && !workspace.isLost) {
-            UI.switchView('empty');
-            DOM.emptyEditorMessage.classList.remove('hidden');
-            DOM.emptyEditorMessage.innerHTML = `
-                <div style="text-align:center; padding: 40px;">
-                    <h2 style="color: var(--color-accent-warning);">🔒 Workspace Locked</h2>
-                    <p>Please click <strong>"Resume"</strong> on the folder <em>"${workspace.name}"</em> in the sidebar.</p>
-                </div>`;
-            this.render();
-            return;
-        }
-
-        if (tab.fileType === 'vibe') {
-            await VibeController.render(tab);
-            this.render();
-            return;
-        }
-
-        const hasPreloadedContent = tab.content !== null && tab.content !== undefined;
-        const needsProcessing = !tab.rawContent && !tab.arrayBuffer;
-
-        if (hasPreloadedContent && needsProcessing) {
-            if (tab.fileType === 'zip') {
-                 this._handleZipContent(tab, tab.content);
-            } else {
-                 await this._handleStandardContent(tab, tab.content);
-            }
-        } else if (!hasPreloadedContent || tab.forceReload) {
-            const loaded = await this._loadTabContent(tab);
-            if (!loaded) return;
-        }
-
-        this._renderTabView(tab);
-        
-        DOM.editor.readOnly = workspace?.readOnly || false;
-        this.render();
-        
-        if (!State.isRestoring) App.saveSessionDebounced();
-    },
+    // B"H
+	// FILE: js/tabs/index.js
+	
+	async activate(tabId, forceViewChange) {
+	    // 1. Set the new active ID and find the tab object
+	    State.activeTabId = tabId;
+	    var tab = State.tabs.find(function(t) { return t.id === tabId; });
+	
+	    // 2. Handle Empty State
+	    if (!tab) {
+	        UI.switchView('empty');
+	        this.render();
+	        // Save session if we just cleared the active tab
+	        if (!State.isRestoring) App.saveSessionDebounced();
+	        return;
+	    }
+	
+	    // 3. SECURE WORKSPACE CONTEXT (Fixes the ReferenceError)
+	    var workspace = State.workspaces.find(function(ws) { 
+	        return ws.id === tab.item.workspaceId; 
+	    });
+	
+	    // 4. Handle Locked Local Workspaces (Permission check)
+	    if (workspace && workspace.isLocked && !workspace.isLost) {
+	        UI.switchView('empty');
+	        DOM.emptyEditorMessage.classList.remove('hidden');
+	        DOM.emptyEditorMessage.innerHTML = 
+	            '<div style="text-align:center; padding: 40px;">' +
+	                '<h2 style="color: var(--color-accent-warning);">🔒 Workspace Locked</h2>' +
+	                '<p>Please click <strong>"Resume"</strong> on the folder <em>"' + workspace.name + '"</em> in the sidebar to grant permission.</p>' +
+	            '</div>';
+	        this.render();
+	        return;
+	    }
+	
+	    // 5. VIRTUAL TAB BYPASS (Vibe Sessions & Manager Dashboard)
+	    // These tabs do not exist as physical files and should skip the loading ritual
+	    var isVibe = (tab.fileType === 'vibe' || tab.item.type === 'vibe-session');
+	    var isManager = (tab.item.type === 'vibe-manager');
+	
+	    if (isVibe || isManager) {
+	        // Switch the UI panel first
+	        if (isManager) {
+	            UI.switchView('vibe-manager-wrapper');
+	        } else {
+	            UI.switchView('vibe');
+	        }
+	        
+	        // Let the controller handle the high-level rendering
+	        import('../vibe/vibe-controller.js').then(function(m) {
+	            m.VibeController.render(tab);
+	        });
+	        
+	        this.render();
+	        if (!State.isRestoring) App.saveSessionDebounced();
+	        return;
+	    }
+	
+	    // 6. PHYSICAL FILE LOADING RITUAL
+	    // Check if we already have the content or if we need to fetch it from the vessels (disk/cloud)
+	    var hasPreloadedContent = tab.content !== null && tab.content !== undefined;
+	    var needsProcessing = !tab.rawContent && !tab.arrayBuffer;
+	
+	    if (hasPreloadedContent && needsProcessing) {
+	        // Initializing pre-loaded content (like from a session restore)
+	        if (tab.fileType === 'zip') {
+	            this._handleZipContent(tab, tab.content);
+	        } else {
+	            await this._handleStandardContent(tab, tab.content);
+	        }
+	    } else if (!hasPreloadedContent || tab.forceReload) {
+	        // Fetch fresh data from the provider
+	        var loaded = await this._loadTabContent(tab);
+	        if (!loaded) return; // Load failed, Toast already shown
+	    }
+	
+	    // 7. MANIFEST THE VIEW
+	    // Physically display the file content in the Editor, Hex, or Altar view
+	    await this._renderTabView(tab);
+	    
+	    // 8. FINAL SYNC
+	    // Set read-only state based on workspace
+	    DOM.editor.readOnly = (workspace && workspace.readOnly) || false;
+	    
+	    // Update the Tab Bar visual state
+	    this.render();
+	    
+	    // Archive the current state into local storage
+	    if (!State.isRestoring) App.saveSessionDebounced();
+	},
 
     async _loadTabContent(tab) {
         try {

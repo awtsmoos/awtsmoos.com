@@ -1,176 +1,154 @@
 // B"H
 // FILE: js/vibe/vibe-controller.js
-
 import { VibeView } from './vibe-view.js';
 import { LogicController } from './controllers/logic.js';
-import { IOController } from './controllers/io.js';
-import { ExecutionController } from './controllers/execution.js';
-import { StreamParser } from './modules/stream-parser.js';
-import { State } from '../state.js';
-import { ModelManager } from './model-manager.js';
-import { SidebarUI } from './view/sidebar-ui.js';
-import { ChatUI } from './view/chat-ui.js';
 import { UI } from '../ui.js';
-import { Tabs } from '../tabs.js';
-import { FileSystemProvider } from '../fs-provider.js';
-import { HistoryScribe } from './modules/HistoryScribe.js';
+import { Tabs } from '../tabs/index.js';
+import { VibeDB } from './db.js';
 
 export const VibeController = {
-    init() {
-        ModelManager.init();
-        VibeView.init();
-        
-        // Runtime Error Listener -> Delegates to ExecutionController
-        window.addEventListener('message', (e) => {
-            if (e.data.source === 'html-preview-console' && e.data.type === 'log') {
-                if (e.data.payload.level === 'error') {
-                    const errArgs = e.data.payload.args[0];
-                    ExecutionController.handleRuntimeError(errArgs);
-                }
-            }
-        });
-    },
+    init() { VibeView.init(); },
 
     async open(folderItem) {
-        if (!folderItem || folderItem.kind !== 'directory') {
-            UI.showToast("Vibe Code must be opened on a folder.", "warning");
-            return;
-        }
+	    UI.showLoading("Reconstituting state...");
+	    try {
+	        var id = folderItem.workspaceId + "::" + folderItem.path;
+	        
+	        // Ensure VibeDB is initialized and getSession exists
+	        var sess = await VibeDB.getSession(id);
+	        
+	        if (!sess) {
+	            sess = { 
+	                id: id, 
+	                name: "Vibe: " + folderItem.name, 
+	                path: folderItem.path, 
+	                workspaceId: folderItem.workspaceId, 
+	                originalType: folderItem.type, 
+	                history: [], 
+	                viewState: { activeSidebarTab: 'tree', isSidebarCollapsed: false } 
+	            };
+	            await VibeDB.saveSession(id, sess);
+	        }
+	
+	        var vibeItem = { 
+	            ...folderItem, 
+	            name: sess.name, 
+	            type: 'vibe-session', 
+	            originalType: folderItem.type 
+	        };
+	
+	        import('../tabs/index.js').then(function(m) {
+	            m.Tabs.create({ ...vibeItem, content: sess }, false, true, true);
+	        });
+	    } catch(e) { 
+	        UI.showToast("B\"H Activation failed: " + e.message, "error"); 
+	        console.error(e);
+	    } finally { 
+	        UI.hideLoading(); 
+	    }
+	},
 
-        UI.showLoading("Stabilizing Vibe Context...");
 
-        try {
-            const vibeItem = {
-                ...folderItem,
-                name: `Vibe: ${folderItem.name}`,
-                type: 'vibe-session',
-                originalType: folderItem.type,
-                kind: 'file'
-            };
 
-            const history = await HistoryScribe.load(folderItem);
-
-            const initialSession = {
-                history: history, 
-                rootPath: folderItem.path,
-                isProcessing: false,
-                iterationCount: 0,
-                activeFiles: [],
-                viewState: {
-                    activeSidebarTab: 'tree',
-                    isSidebarCollapsed: false,
-                    currentStreamContent: ''
-                }
-            };
-
-            await Tabs.create({ ...vibeItem, content: initialSession }, false, true, true);
-
-        } catch(e) {
-            console.error(e);
-            UI.showToast("Failed to open Vibe: " + e.message, "error");
-        } finally {
-            UI.hideLoading();
-        }
-    },
-
-    async render(tab) {
-        UI.switchView('vibe');
-        if (!tab.vibeSession) tab.vibeSession = tab.content;
-        VibeView.render(tab, this);
-    },
-
-    sendMessage(tab) {
+    async sendMessage(tab) {
         const input = document.getElementById('vibe-input');
         const text = input.value.trim();
-        if (!text) return;
-        
-        if (!ModelManager.getKey()) {
-            ModelManager.promptForKey();
-            return;
-        }
-
+        if (!text || tab.vibeSession.isProcessing) return;
         input.value = '';
-        tab.vibeSession.iterationCount = 0;
-        State.isVibeStopRequested = false;
-        tab.vibeSession.pendingErrors = []; 
-        
-        // 1. Update State
         tab.vibeSession.history.push({ role: 'user', content: text });
-        
-        // 2. Instant Feedback (Render immediately without waiting for logic)
-        const hist = document.getElementById('vibe-chat-history');
-        if(hist) ChatUI.appendMessage({ role: 'user', content: text }, hist, tab, this);
-
-        // 3. Trigger Logic
+        await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
+        VibeView.render(tab, this);
         LogicController.runIteration(tab, this);
     },
 
-    handleStreamChunk(fullText, tab) {
-        const parsedFiles = StreamParser.parse(fullText);
-        tab.vibeSession.activeFiles = parsedFiles.map(f => ({
-            path: f.path,
-            description: f.description,
-            operation: f.operation,
-            isComplete: f.isComplete,
-            content: f.content 
-        }));
+    async previewFile(tab, path) {
+        const wsId = tab.item.workspaceId;
+        const workspace = { id: wsId, type: tab.item.originalType || 'local' };
+        const p = path || "";
+        const name = p.split("/").pop() || "vessel";
+        Tabs.create({ ...workspace, name, path, kind: 'file', workspaceId: wsId });
+    },
 
-        VibeView.updateStreamingMessage(tab, this);
+    getRootItem(tab) { 
+        const session = tab.vibeSession || tab.content;
+        const rootPath = session.path || session.rootPath || "/";
+        
+        return { 
+            ...tab.item, 
+            name: tab.item.name.split("Vibe: ").join(""), 
+            path: rootPath, 
+            kind: 'directory', 
+            type: tab.item.originalType || 'local', 
+            workspaceId: tab.item.workspaceId 
+        }; 
+    },
 
-        // Feed Sidebar Active Vessel
-        const activeFile = parsedFiles.find(f => f.operation === 'write' && f.content && f.content.length > 0);
-        if (activeFile) {
-            const header = `// B"H - Manifesting: ${activeFile.path}\n// ----------------------------------------\n`;
-            VibeView.updateStream(tab, header + activeFile.content);
+    async resetChat(tab) {
+        const confirmed = await UI.showDialog({ title: "Reset", message: "Clear history?", okText: "Yes" });
+        if (confirmed) {
+            tab.vibeSession.history = [];
+            await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
+            this.render(tab);
         }
     },
 
-    async previewFile(tab, filePath) {
-        if (!tab) tab = State.tabs.find(t => t.id === State.activeTabId);
-        if (!tab || tab.fileType !== 'vibe') return;
-
-        // Force Sidebar Tab Switch to 'Stream'
-        tab.vibeSession.viewState.activeSidebarTab = 'stream';
-        
-        // Load content
-        const content = await IOController.loadFileContent(tab, filePath);
-        
-        // Render
-        VibeView.updateStream(tab, content);
-        VibeView.render(tab, this);
-    },
-
-    stopLoop() { State.isVibeStopRequested = true; },
-    
-    refreshView(tab) { this.render(tab); },
-    
-    refreshTree(tab) {
-        const root = this.getRootItem(tab);
-        const container = document.getElementById('vibe-editor-wrapper');
-        if(container) SidebarUI.refreshTree(container, root, this);
-    },
-    
-    resetChat(tab) { 
-        tab.vibeSession.history = []; 
-        this.refreshView(tab); 
-    },
-
-    openSettings() { 
-        import('../app.js').then(m => m.App.showSettings()); 
-    },
-
-    getRootItem(tab) {
-        return {
-            ...tab.item,
-            name: tab.item.name.replace('Vibe: ', ''),
-            path: tab.vibeSession.rootPath,
-            kind: 'directory',
-            type: tab.item.originalType || 'local',
-            workspaceId: tab.item.workspaceId
-        };
-    },
-
     async saveSessionToFile(tab) {
-        await HistoryScribe.save(tab);
-    }
+        // Safe string assembly for CDATA logic
+        const closeTag = "]]" + "-->"; 
+        await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
+        UI.showToast("State anchored.", "success");
+    },
+    
+    // B"H - Add these to VibeController in js/vibe/vibe-controller.js
+
+	// Trigger this before every manifest
+	async createCheckpoint(tab) {
+	    await VibeDB.saveCheckpoint(tab.vibeSession.id, tab.vibeSession.history);
+	    UI.showToast("B\"H: State of Being archived.", "info");
+	},
+	
+	// B"H - Add these to VibeController in js/vibe/vibe-controller.js
+
+	async openManager() {
+	    var managerItem = { 
+	        name: "Vibe: Manager", 
+	        type: 'vibe-manager', 
+	        kind: 'file',
+	        path: 'vibe-manager-dashboard' // Unique path for tab identification
+	    };
+	    
+	    // B"H - Tell the tab system to create/activate this virtual dashboard
+	    import('../tabs/index.js').then(function(m) {
+	        m.Tabs.create(managerItem, false, true, true);
+	    });
+	},
+	
+	// B"H - Update only the render function in js/vibe/vibe-controller.js
+	async render(tab) {
+	    if (tab.item.type === 'vibe-manager') {
+	        // 1. Ensure the element exists first
+	        var wrap = document.getElementById('vibe-manager-wrapper');
+	        if (!wrap) {
+	            wrap = document.createElement('div');
+	            wrap.id = 'vibe-manager-wrapper';
+	            wrap.className = 'hidden'; // Start hidden so switchView works correctly
+	            wrap.style.height = '100%';
+	            wrap.style.overflowY = 'auto';
+	            document.querySelector('.editor-area').appendChild(wrap);
+	        }
+	        
+	        // 2. Switch view (this will hide the Vibe chat panel)
+	        UI.switchView('vibe-manager-wrapper');
+	        
+	        // 3. Populate content
+	        const { VibeManagerUI } = await import('./view/manager-ui.js');
+	        await VibeManagerUI.render(wrap);
+	        return;
+	    }
+	    
+	    UI.switchView('vibe');
+	    if (!tab.vibeSession) tab.vibeSession = tab.content;
+	    await VibeView.render(tab, this);
+	},
+	
 };

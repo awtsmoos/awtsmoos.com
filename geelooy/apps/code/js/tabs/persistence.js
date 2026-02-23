@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: code/js/tabs/persistence.js
 
@@ -8,15 +7,25 @@ import { Editor } from '../editor.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { DataAltar } from '../DataAltar.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
-import { ASTEngine } from '../tools/ast-engine.js'; // B"H
+import { ASTEngine } from '../tools/ast-engine.js';
+import { GitMetaProvider } from '../git/meta.js';
 
+/**
+ * --- TABS PERSISTENCE ---
+ * The sacred scribe that manifests the ephemeral state of a tab into a
+ * permanent vessel, whether it be local disk, a Zip archive, or the
+ * uncommitted state of a Git repository. B"H.
+ * @module js/tabs/persistence
+ */
 export const TabsPersistence = {
+    /**
+     * The core ritual of saving a tab's content.
+     */
     async save(tab, TabsController, options = {}) {
         const taskId = `save-${Date.now()}`;
         UI.startTask(taskId, `Saving ${tab.item.name}...`);
 
         try {
-            // Zip Entry Saving
             if (tab.item.type === 'zip-entry') {
                 const content = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
                 ZipExplorer.updateEntry(tab, content);
@@ -27,34 +36,29 @@ export const TabsPersistence = {
                 return;
             }
             
-            // Main Zip Saving (Prevent Recursion)
             if (tab.fileType === 'zip' && !options.skipZipRecompression) {
                 await ZipExplorer.saveZipToDisk();
                 UI.endTask(taskId, 'success');
                 return;
             }
 
-            // B"H - CRITICAL SAFETY RITUAL: Unfold all blocks before persistence
             if (tab.id === State.activeTabId && tab.fileType === 'text') {
                 ASTEngine.unfoldAll();
             }
 
-            // 1. USE THE CONTROLLER TO FIND THE GIT ROOT (FIXED LINE)
-	        const gitRootItem = await TabsController._getGitInfoForTab(tab); 
-	
-	        // 2. Get the content
-	        const contentToSave = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
+            const contentToSave = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
 	        
-	        // 3. Always write to local disk first
+	        // 1. Always write to the primary filesystem provider first.
 	        await FileSystemProvider.write(tab.item, contentToSave);
 	        
-	        // 4. Handle Staging
-	        if (gitRootItem) {
-	            let relativePath = "";
-	            const filePath = tab.item.path;
-	            const rootPath = gitRootItem.path.replace(/\/+$/, "") || "/";
-	
-	            // Calculate path relative to the REPO root
+	        // 2. If part of a Git repository, also stage the change.
+	        const gitInfo = await GitMetaProvider.getGitInfoForFolder(tab.item);
+	        if (gitInfo) {
+	            const gitRoot = { ...tab.item, path: (await GitMetaProvider.getGitInfoForFolder(tab.item))?.path || '/' };
+                const rootPath = gitRoot.path.replace(/\/+$/, "") || "/";
+                const filePath = tab.item.path;
+                let relativePath = "";
+
 	            if (rootPath === "/" || rootPath === "") {
 	                relativePath = filePath.startsWith("/") ? filePath.substring(1) : filePath;
 	            } else if (filePath.startsWith(rootPath + "/")) {
@@ -63,7 +67,7 @@ export const TabsPersistence = {
 	
 	            if (relativePath && relativePath !== rootPath) {
 	                const itemForStaging = { ...tab.item, path: relativePath };
-	                const uniquePathForStaging = `${gitRootItem.workspaceId || gitRootItem.id}::${relativePath}`;
+	                const uniquePathForStaging = `${tab.item.workspaceId}::${relativePath}`;
 	                await FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging);
 	                tab.isUncommitted = true;
 	            }

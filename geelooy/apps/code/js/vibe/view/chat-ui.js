@@ -5,225 +5,158 @@ import { MarkdownParser } from '../modules/markdown-parser.js';
 import pnimi from '/scripts/awtsmoos/coding/pnimi.js';
 
 export const ChatUI = {
-    renderHistory(container, history, tab, controller) {
-        const hist = container.querySelector('#vibe-chat-history');
+    renderHistory: function(container, history, tab, controller) {
+        // B"H - Improved selector: search locally, then globally
+        var hist = container.querySelector('#vibe-chat-history') || document.getElementById('vibe-chat-history');
         if (!hist) return;
         
-        const msgs = history.filter(m => m.role !== 'system');
+        var msgs = history.filter(function(m) { return m.role !== 'system'; });
         
         hist.innerHTML = '';
-        msgs.forEach(m => this.appendMessage(m, hist, tab, controller));
+        for (var i = 0; i < msgs.length; i++) {
+            this.appendMessage(msgs[i], hist, tab, controller);
+        }
         
+        // Ensure the scrolls to the bottom of the revelation
         hist.scrollTop = hist.scrollHeight;
     },
 
-    appendMessage(msg, container, tab, controller) {
-        const div = document.createElement('div');
-        div.className = `vibe-message ${msg.role}`;
+    appendMessage: function(msg, container, tab, controller) {
+        var div = document.createElement('div');
+        div.className = "vibe-message " + msg.role;
         
         if (msg.role === 'user') {
             div.innerHTML = MarkdownParser.parse(msg.content);
         } else {
-            // For model messages, we wrap content in a container to allow partial updates
-            // B"H - Add a unique ID based on timestamp or index if available to track it?
-            // For now, we trust the DOM order for the streaming message.
             this._renderModelMessage(div, msg.content, tab, controller);
         }
         
         container.appendChild(div);
-        
-        if (msg.role !== 'user') {
-            this._hydrateCodeBlocks(div);
-        }
+        this._hydrateCodeBlocks(div);
     },
 
-    // B"H - Enhanced Real-time Update to prevent flicker
-    updateLastMessage(container, content, tab, controller) {
-        const lastMsg = container.lastElementChild;
-        if (!lastMsg || !lastMsg.classList.contains('model')) return;
-        
-        // 1. Parse the new content
-        // We split by <change> blocks to isolate text vs cards
-        const parts = content.split(/(<change>[\s\S]*?(?:<\/change>|$))/g);
-        
-        // 2. Diffing Strategy
-        // We iterate through parts and the existing children of the message bubble.
-        // If a child matches the type (text vs card) and key (path), we update it.
-        // Otherwise we replace/append.
-        
-        let childIndex = 0;
-        
-        parts.forEach(part => {
-            if (!part.trim()) return;
-            
-            const existingChild = lastMsg.children[childIndex];
-            
-            if (part.startsWith('<change>')) {
-                const fileObj = this._parseSingleChangeBlock(part);
-                
-                if (fileObj) {
-                    // Check if existing child is a card for the same file
-                    if (existingChild && existingChild.classList.contains('vibe-manifest-card') && 
-                        existingChild.dataset.path === fileObj.path) {
-                        
-                        // UPDATE EXISTING CARD (No flicker!)
-                        const statusEl = existingChild.querySelector('.vibe-card-status');
-                        const descEl = existingChild.querySelector('.vibe-card-desc');
-                        
-                        const newStatusHTML = fileObj.isComplete ? '✓' : '<span class="vibe-typing-indicator">...</span>';
-                        if (statusEl.innerHTML !== newStatusHTML) statusEl.innerHTML = newStatusHTML;
-                        
-                        const newDesc = fileObj.description || fileObj.operation;
-                        if (descEl.textContent !== newDesc) descEl.textContent = newDesc;
-                        
-                        if (fileObj.isComplete) existingChild.classList.remove('writing');
-                        else existingChild.classList.add('writing');
-                        
-                    } else {
-                        // Create New Card
-                        const newCard = this._createCard(fileObj, tab, controller);
-                        if (existingChild) {
-                            lastMsg.replaceChild(newCard, existingChild);
-                        } else {
-                            lastMsg.appendChild(newCard);
-                        }
-                    }
-                } else {
-                    // Fallback for malformed
-                    if (existingChild && existingChild.tagName === 'PRE') {
-                        existingChild.textContent = part;
-                    } else {
-                        const pre = document.createElement('pre');
-                        pre.textContent = part;
-                        if(existingChild) lastMsg.replaceChild(pre, existingChild);
-                        else lastMsg.appendChild(pre);
-                    }
-                }
-            } else {
-                // Text Content
-                const newHTML = MarkdownParser.parse(part);
-                if (existingChild && existingChild.tagName === 'DIV' && !existingChild.classList.contains('vibe-manifest-card')) {
-                    if (existingChild.innerHTML !== newHTML) {
-                        existingChild.innerHTML = newHTML;
-                        this._hydrateCodeBlocks(existingChild);
-                    }
-                } else {
-                    const textDiv = document.createElement('div');
-                    textDiv.innerHTML = newHTML;
-                    this._hydrateCodeBlocks(textDiv);
-                    if(existingChild) lastMsg.replaceChild(textDiv, existingChild);
-                    else lastMsg.appendChild(textDiv);
-                }
-            }
-            childIndex++;
-        });
-        
-        // Remove excess children if content shrank (rare in stream, but possible)
-        while (lastMsg.children.length > childIndex) {
-            lastMsg.removeChild(lastMsg.lastChild);
-        }
+    // B"H - Updated _renderModelMessage in chat-ui.js
 
-        // Auto-scroll logic
-        const isAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
-        if (isAtBottom) {
-            container.scrollTop = container.scrollHeight;
-        }
-    },
+	_renderModelMessage: function(div, content, tab, controller) {
+	    div.innerHTML = '';
+	    
+	    var oC = "<!" + "[C" + "DATA[";
+	    var cC = "]" + "]" + ">";
+	    var tagS = "<cha" + "nge>";
+	    var tagE = "</cha" + "nge>";
+	
+	    // B"H - First, identify and convert markers to CDATA in a clone of the text
+	    var protectedContent = content.split("₪₪₪_בס\"ד_תחילת_הקוד_₪₪₪").join(oC).split("₪₪₪_בס\"ד_סוף_הקוד_₪₪₪").join(cC);
+	
+	    var lastIdx = 0;
+	    while (true) {
+	        var sIdx = protectedContent.indexOf(tagS, lastIdx);
+	        
+	        if (sIdx === -1) {
+	            var remaining = protectedContent.substring(lastIdx).trim();
+	            if (remaining) {
+	                var textDiv = document.createElement('div');
+	                textDiv.innerHTML = MarkdownParser.parse(remaining);
+	                div.appendChild(textDiv);
+	            }
+	            break;
+	        }
+	
+	        var beforeText = protectedContent.substring(lastIdx, sIdx).trim();
+	        if (beforeText) {
+	            var textDiv = document.createElement('div');
+	            textDiv.innerHTML = MarkdownParser.parse(beforeText);
+	            div.appendChild(textDiv);
+	        }
+	
+	        var eIdx = protectedContent.indexOf(tagE, sIdx);
+	        if (eIdx === -1) {
+	            // Block is streaming/incomplete
+	            var incomplete = protectedContent.substring(sIdx);
+	            var obj = this._parseManual(incomplete, false);
+	            if (obj) div.appendChild(this._createCard(obj, tab, controller));
+	            break;
+	        }
+	
+	        var fullBlock = protectedContent.substring(sIdx, eIdx + tagE.length);
+	        var obj = this._parseManual(fullBlock, true);
+	        if (obj) div.appendChild(this._createCard(obj, tab, controller));
+	        
+	        lastIdx = eIdx + tagE.length;
+	    }
+	},
 
-    _renderModelMessage(div, content, tab, controller) {
-        div.innerHTML = ''; // Initial render wipes (safe)
-        const parts = content.split(/(<change>[\s\S]*?(?:<\/change>|$))/g);
-
-        parts.forEach(part => {
-            if (!part.trim()) return;
-
-            if (part.startsWith('<change>')) {
-                const fileObj = this._parseSingleChangeBlock(part);
-                if (fileObj) {
-                    div.appendChild(this._createCard(fileObj, tab, controller));
-                } else {
-                    const pre = document.createElement('pre');
-                    pre.textContent = part;
-                    div.appendChild(pre);
-                }
-            } else {
-                const textDiv = document.createElement('div');
-                textDiv.innerHTML = MarkdownParser.parse(part);
-                div.appendChild(textDiv);
-            }
-        });
-    },
-
-    _parseSingleChangeBlock(block) {
-        const fileObj = {
-            path: null,
-            operation: 'write',
-            description: 'Generating...',
-            isComplete: false
+    _parseManual: function(block, isComplete) {
+        var extract = function(src, tag) {
+            var s = "<" + tag + ">";
+            var e = "</" + tag + ">";
+            var si = src.indexOf(s);
+            if (si === -1) return "";
+            var ei = src.indexOf(e, si);
+            if (ei === -1) return src.substring(si + s.length).trim();
+            return src.substring(si + s.length, ei).trim();
         };
 
-        const fileMatch = block.match(/<file>([\s\S]*?)(?:<\/file>|<|$)/);
-        if (fileMatch) fileObj.path = fileMatch[1].trim();
+        var file = extract(block, "fi" + "le");
+        if (!file) return null;
 
-        const opMatch = block.match(/<operation>([\s\S]*?)(?:<\/operation>|<|$)/);
-        if (opMatch) fileObj.operation = opMatch[1].trim().toLowerCase();
-
-        const descMatch = block.match(/<description>([\s\S]*?)(?:<\/description>|<|$)/);
-        if (descMatch) fileObj.description = descMatch[1].trim();
-
-        if (block.includes('</change>')) fileObj.isComplete = true;
-
-        if (!fileObj.path) return null;
-        return fileObj;
+        return {
+            path: file,
+            operation: extract(block, "operat" + "ion") || "write",
+            description: extract(block, "descrip" + "tion") || "Rectification applied.",
+            isComplete: isComplete
+        };
     },
 
-    _createCard(file, tab, controller) {
-        const card = document.createElement('div');
-        card.className = `vibe-manifest-card ${file.operation === 'delete' ? 'delete' : ''} ${file.isComplete ? '' : 'writing'}`;
-        
-        // B"H - Identification for diffing
-        card.dataset.path = file.path; 
-        
-        const statusIcon = file.isComplete ? '✓' : '<span class="vibe-typing-indicator">...</span>';
-        
-        card.innerHTML = `
-            <div class="vibe-card-header">
-                <span class="vibe-card-path" title="${file.path}">${file.path}</span>
-                <span class="vibe-card-status">${statusIcon}</span>
-            </div>
-            <div class="vibe-card-desc">${file.description || file.operation}</div>
-        `;
-        
-        if (file.operation !== 'delete') {
-            card.onclick = (e) => { 
-                e.stopPropagation(); 
-                controller.previewFile(tab, file.path); 
-            };
-        }
-        
-        return card;
-    },
+    _createCard: function(file, tab, controller) {
+	    var card = document.createElement('div');
+	    card.className = "vibe-manifest-card";
+	    
+	    // Aesthetic setup
+	    card.style.background = "rgba(13, 17, 23, 0.95)";
+	    card.style.border = "1px solid #383e5e";
+	    card.style.borderLeft = "4px solid #00f6ff";
+	    card.style.padding = "12px";
+	    card.style.margin = "10px 0";
+	    card.style.borderRadius = "6px";
+	    card.style.cursor = "pointer";
+	
+	    // Extract names manually
+	    var fileName = file.path.split("/").pop() || "vessel";
+	    var dirParts = file.path.split("/");
+	    dirParts.pop();
+	    var dirPath = dirParts.join("/") || "/";
+	    var status = file.isComplete ? '✓' : '...';
+	
+	    // B"H - Pure string concatenation for the HTML content
+	    card.innerHTML = 
+	        '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+	            '<div style="overflow:hidden;">' +
+	                '<div style="font-family:monospace; color:#00f6ff; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + fileName + '</div>' +
+	                '<div style="font-size:0.7em; color:rgba(200,200,255,0.5);">' + dirPath + '</div>' +
+	            '</div>' +
+	            '<div style="color:#a8ff00; font-weight:bold; font-size:1.2em;">' + status + '</div>' +
+	        '</div>' +
+	        '<div style="margin-top:6px; font-size:0.8em; color:rgba(255,255,255,0.7);">' + file.operation.toUpperCase() + ": " + file.description + '</div>';
+	
+	    if (file.operation !== 'delete') {
+	        card.onclick = function(e) {
+	            e.stopPropagation();
+	            if (controller) controller.previewFile(tab, file.path);
+	        };
+	    }
+	    return card;
+	},
 
-    _hydrateCodeBlocks(container) {
+    _hydrateCodeBlocks: function(container) {
         if (typeof pnimi === 'undefined') return;
-        const blocks = container.querySelectorAll('.vibe-code-container');
-        blocks.forEach(block => {
-            if (block.dataset.hydrated) return; // Prevent double hydration
-            const lang = block.dataset.lang || 'js';
-            const pre = block.querySelector('pre');
+        var blocks = container.querySelectorAll('.vibe-code-container');
+        for (var i = 0; i < blocks.length; i++) {
+            if (blocks[i].dataset.hydrated) continue;
             try { 
-                new pnimi(pre, lang); 
-                block.dataset.hydrated = 'true';
+                new pnimi(blocks[i].querySelector('pre'), 'js'); 
+                blocks[i].dataset.hydrated = 'true';
             } catch(e) {}
-        });
-    },
-
-    showStreamingMessage(container) {
-        const div = document.createElement('div');
-        div.className = 'vibe-message model';
-        div.innerHTML = '<span style="color:var(--color-text-tertiary); font-style:italic;">Divine Intellect is manifesting...</span>';
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-        return div;
+        }
     }
 };

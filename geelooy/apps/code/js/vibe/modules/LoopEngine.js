@@ -1,59 +1,66 @@
 // B"H
 // FILE: js/vibe/modules/LoopEngine.js
-
 import { State } from '../../state.js';
-import { UI } from '../../ui.js';
 import { FileSystemProvider } from '../../fs-provider.js';
 import { Workspaces } from '../../workspaces.js';
-import { Tabs } from '../../tabs/index.js';
 
 export const LoopEngine = {
-    /**
-     * B"H - Materializes the changes into the vessels (files).
-     */
     async apply(changeList, workspaceId) {
-        const workspace = State.workspaces.find(ws => ws.id === workspaceId);
-        if (!workspace) throw new Error("Workspace not found.");
+        var workspace = State.workspaces.find(function(ws) { return ws.id === workspaceId; });
+        if (!workspace) return;
 
-        const affectedParents = new Set();
+        // Track folders that need a refresh
+        var foldersToRefresh = {}; 
 
-        for (const change of changeList) {
+        for (var i = 0; i < changeList.length; i++) {
+            var change = changeList[i];
             try {
-                const item = { ...workspace, path: change.path, kind: 'file', workspaceId };
-                
+                var item = { 
+                    workspaceId: workspaceId, 
+                    path: change.path, 
+                    kind: 'file', 
+                    type: workspace.type 
+                };
+
                 if (change.operation === 'delete') {
                     await FileSystemProvider.delete(item);
-                    // Close tab if open
-                    const tab = State.tabs.find(t => t.uniquePath === `${workspaceId}::${change.path}`);
-                    if (tab) await Tabs.close(tab.id, true);
                 } else {
                     await FileSystemProvider.write(item, change.content);
-                    
-                    // Update open tab content
-                    const tab = State.tabs.find(t => t.uniquePath === `${workspaceId}::${change.path}`);
-                    if (tab) {
-                        tab.content = change.content;
-                        tab.isDirty = false; // Saved by AI
-                        if (State.activeTabId === tab.id) {
-                            import('../../editor.js').then(m => m.Editor.setCurrentContent(change.content));
-                        }
-                    }
                 }
 
-                // Calculate parent path for refresh
-                const lastSlash = change.path.lastIndexOf('/');
-                const parentPath = lastSlash === -1 ? '/' : (change.path.substring(0, lastSlash) || '/');
-                affectedParents.add(parentPath);
+                // Determine the best folder to refresh
+                var parts = change.path.split("/").filter(Boolean);
+                if (parts.length > 0) {
+                    // We refresh the first folder in the path to ensure the whole branch updates
+                    var topFolder = "/" + parts[0];
+                    foldersToRefresh[topFolder] = true;
+                    
+                    // Also refresh the immediate parent for safety
+                    parts.pop();
+                    var immediateParent = "/" + parts.join("/");
+                    foldersToRefresh[immediateParent] = true;
+                } else {
+                    foldersToRefresh["/"] = true;
+                }
 
             } catch (e) {
-                console.error(`B"H - Failed to apply change to ${change.path}`, e);
-                UI.showToast(`Failed to update ${change.path}`, "error");
+                console.error("B\"H - Manifest Error:", e);
             }
         }
 
-        // Refresh File Explorer Trees
-        for (const parentPath of affectedParents) {
-            await Workspaces.refreshNode({ ...workspace, path: parentPath, kind: 'directory', workspaceId });
+        // B"H - Trigger the Refresh Ritual
+        var refreshPaths = Object.keys(foldersToRefresh);
+        for (var i = 0; i < refreshPaths.length; i++) {
+            var p = refreshPaths[i];
+            await Workspaces.refreshNode({
+                workspaceId: workspaceId,
+                path: p,
+                kind: 'directory',
+                type: workspace.type
+            });
         }
+        
+        // Final refresh of the workspace root to be certain
+        await Workspaces.refreshNode({ workspaceId: workspaceId, path: "/", kind: "directory", type: workspace.type });
     }
 };

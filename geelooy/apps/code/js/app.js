@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/app.js
 
@@ -16,81 +15,16 @@ import { HexEditor } from './hex-editor.js';
 import { Session } from './session.js';
 import { setupEventListeners } from './app/event-listeners.js';
 import { TabManagerOverlay } from './tab-manager-overlay.js';
-import { ModelManager } from './vibe/model-manager.js'; // B"H - Import Model Manager
-// B"H - Internal helper for Git discovery within the App module
-// B"H - Profound Async Git Root Discovery
-const findGitRoot = async (item) => {
-    if (!item) return null;
-    const wsId = item.workspaceId || item.id;
-    const workspace = State.workspaces.find(w => w.id === wsId);
-    if (!workspace) return null;
+import { ModelManager } from './vibe/model-manager.js';
+import { GitMetaProvider } from './git/meta.js';
 
-    // 1. Direct GitHub type is always its own root
-    if (item.type === 'github') return { ...workspace, path: '/', kind: 'directory', workspaceId: wsId };
-
-    // 2. Check Global Registry (The Fast Path)
-    const roots = State.knownGitRoots.get(wsId);
-    let currPath = item.path || '/';
-    if (item.kind === 'file') {
-        currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
-    }
-
-    let searchPath = currPath;
-    while (true) {
-        if (roots && roots.has(searchPath)) {
-            return { ...workspace, path: searchPath, kind: 'directory', workspaceId: wsId, isGitClone: true };
-        }
-        if (searchPath === '/' || searchPath === '') break;
-        const lastSlash = searchPath.lastIndexOf('/');
-        searchPath = lastSlash <= 0 ? '/' : searchPath.substring(0, lastSlash);
-    }
-
-    // 3. The Physical "Climb" (The Proactive Search)
-    // We check parents physically until we find .awtsmoos-repo or hit root
-    searchPath = currPath;
-    let limit = 20;
-    const { FileSystemProvider } = await import('./fs-provider.js');
-
-    while (limit-- > 0) {
-        try {
-            const result = await FileSystemProvider.list({ ...workspace, path: searchPath, kind: 'directory', workspaceId: wsId });
-            const isGit = Array.isArray(result) ? result.some(c => c.name === '.awtsmoos-repo') : result.isGitRoot;
-            
-            if (isGit) {
-                // Found it! Register for next time
-                if (!State.knownGitRoots.has(wsId)) State.knownGitRoots.set(wsId, new Set());
-                State.knownGitRoots.get(wsId).add(searchPath);
-                return { ...workspace, path: searchPath, kind: 'directory', workspaceId: wsId, isGitClone: true };
-            }
-        } catch(e) {
-            // Ignore listing errors for parents
-        }
-
-        if (searchPath === '/' || searchPath === '') break;
-        const lastSlash = searchPath.lastIndexOf('/');
-        searchPath = lastSlash <= 0 ? '/' : searchPath.substring(0, lastSlash);
-    }
-
-    // 4. Final check for workspace root metadata
-    if (workspace?.isGitClone) return { ...workspace, path: '/', kind: 'directory', workspaceId: wsId };
-
-    return null;
-};
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
     activeConsole: null, 
 
-    saveSessionDebounced() {
-        Session.saveDebounced();
-    },
-
-    saveSession() {
-        Session.save();
-    },
-
-    loadSession() {
-        return Session.load();
-    },
+    saveSessionDebounced() { Session.saveDebounced(); },
+    saveSession() { Session.save(); },
+    loadSession() { return Session.load(); },
 
     async initialize() {
         console.log('[INIT] Awtsmoos Editor Initializing...');
@@ -103,7 +37,7 @@ export const App = {
             ]);
 
             this.loadSettings();
-            ModelManager.init(); // B"H - Init Vibe Model Manager
+            ModelManager.init();
 
             const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
             if (!isEmbedded) {
@@ -148,7 +82,10 @@ export const App = {
         State.useTabs = settings.useTabs ?? true;
     },
 
-    // B"H
+    /**
+     * B"H - The ritual for committing all changes. It now uses the profound discovery
+     * method to find the true root of the repository.
+     */
     async commitAllChanges() {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (!activeTab || !activeTab.item) {
@@ -159,14 +96,13 @@ export const App = {
         UI.showLoading("Searching for Git anchor...");
 
         try {
-            // Use the new Profound discovery helper
-            const targetRepo = await findGitRoot(activeTab.item);
+            const targetRepoItem = await GitMetaProvider.getGitInfoForFolder(activeTab.item);
+            const gitInfo = await GitMetaProvider.getGitInfoForFolder(targetRepoItem);
 
             UI.hideLoading();
 
-            if (targetRepo) {
-                const { GitManager } = await import("./git/index.js"); 
-                GitManager.showGitUI(targetRepo);
+            if (targetRepoItem && gitInfo) {
+                GitManager.showGitUI(targetRepoItem, gitInfo);
             } else {
                 UI.showToast("This file is not part of a recognized Git repository.", "warning");
             }
@@ -187,12 +123,8 @@ export const App = {
             Workspaces.add({ id: wsId, name: 'Temp Workspace', type: 'local', handle: null }, false); 
             
             const item = {
-                name: file.name,
-                path: '/' + file.name,
-                kind: 'file',
-                type: 'local',
-                workspaceId: wsId,
-                content: file 
+                name: file.name, path: '/' + file.name, kind: 'file',
+                type: 'local', workspaceId: wsId, content: file 
             };
             Tabs.create(item);
         } catch(e) {
@@ -202,17 +134,14 @@ export const App = {
 
     toggleFullscreen() {
         const element = document.documentElement; 
-        if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
-            if (document.exitFullscreen) { document.exitFullscreen(); } 
-            else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
         } else {
-            if (element.requestFullscreen) { element.requestFullscreen(); } 
-            else if (element.webkitRequestFullscreen) { element.webkitRequestFullscreen(); }
+            element.requestFullscreen();
         }
     },
 
     async showSettings() {
-        // B"H - Combined Settings HTML
         const contentHTML = `
             <div style="margin-bottom: 20px;">
                 <h4 style="margin-top:0; color:var(--neon-cyan);">General</h4>
@@ -227,31 +156,20 @@ export const App = {
             </div>
             
             <hr style="border:0; border-top:1px solid var(--color-border); margin:20px 0;">
-            
-            <!-- B"H - Injected Vibe Settings -->
             ${ModelManager.getSettingsPanelHTML()}
         `;
 
-        // We use the Promise wrapper but also attach listeners immediately after display
         const dialogPromise = UI.showDialog({
-            title: 'Settings',
-            contentHTML,
-            okText: 'Save',
-            cancelText: 'Cancel'
+            title: 'Settings', contentHTML, okText: 'Save', cancelText: 'Cancel'
         });
 
-        // B"H - Attach Model Manager Listeners to the open dialog
-        // We need a slight delay or synchronous access to the DOM which is now active
         const dialogEl = document.getElementById('generic-dialog');
         const contentContainer = dialogEl.querySelector('.dialog-content');
         
-        // Helper to refresh the dialog content without closing it
         const refreshSettingsUI = () => {
-            // Find the Vibe panel and replace it
             const vibePanel = contentContainer.querySelector('.vibe-settings-panel');
             if(vibePanel) {
                 vibePanel.outerHTML = ModelManager.getSettingsPanelHTML();
-                // Re-bind
                 ModelManager.bindSettingsEvents(contentContainer, refreshSettingsUI);
             }
         };
@@ -265,8 +183,6 @@ export const App = {
             State.githubToken = token || null;
             State.useTabs = document.getElementById('use-tabs-checkbox').checked;
             this.saveSettings();
-            
-            // ModelManager saves itself during interaction, so no explicit save needed here
             UI.showToast('Settings saved.', 'success');
         }
     },
