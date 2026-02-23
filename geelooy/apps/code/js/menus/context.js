@@ -5,53 +5,11 @@ import { State, DOM } from '../state.js';
 import { getItemUniquePath } from '../workspaces.js';
 import { MenuUI } from './ui.js';
 import { Menus } from './index.js';
-import { Tabs } from '../tabs.js'; // B"H - Ensure Tabs is available
-
-// B"H - Helper to find the nearest Git Root ancestor
-export const findGitRoot = (item) => {
-    if (!item) return null;
-    
-    // 1. Direct GitHub connections are always their own Git root
-    if (item.type === 'github') {
-        const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
-        return ws ? { ...ws, path: '/', kind: 'directory' } : null;
-    }
-
-    const wsId = item.workspaceId || item.id;
-    let currPath = item.path;
-
-    // Start climb from parent if the item is a file
-    if (item.kind === 'file') {
-        currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
-    }
-
-    let limit = 20; 
-    while (limit-- > 0) {
-        const uniquePath = `${wsId}::${currPath}`;
-        const entry = State.domItemMap.get(uniquePath);
-        
-        // We only return if the UI object has been explicitly flagged 
-        // by the tree renderer as containing .awtsmoos-repo
-        if (entry?.item?.isGitClone === true) {
-            return entry.item;
-        }
-        
-        if (currPath === '/' || currPath === '') break;
-        const lastSlash = currPath.lastIndexOf('/');
-        currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
-    }
-    
-    // Final check: Is the workspace root itself initialized?
-    const ws = State.workspaces.find(w => w.id === wsId);
-    if (ws?.isGitClone === true) {
-        return { ...ws, path: '/', kind: 'directory', workspaceId: ws.id };
-    }
-
-    return null;
-};
+import { Tabs } from '../tabs.js';
+import { GitMetaProvider } from '../git/meta.js';
 
 export const ContextMenu = {
-    show(e, item) {
+    async show(e, item) {
         e.preventDefault();
         e.stopPropagation();
         if (State.isSelectionModeActive) return;
@@ -77,13 +35,14 @@ export const ContextMenu = {
         const isReadOnly = workspace?.readOnly || false;
         
         const isLocal = item.type === 'local' || item.type === 'opfs';
-        const gitRoot = findGitRoot(item);
-        const isGitAware = !!gitRoot;
-        const isCandidateForInit = isDir && !isReadOnly && !isGitAware && item.type !== "github";
+        
+        // B"H - The new, more profound way of seeking the Git Root.
+        const gitInfo = await GitMetaProvider.getGitInfoForFolder(item);
+        const isGitAware = !!gitInfo;
+        const isCandidateForInit = isDir && !isReadOnly && !isGitAware && (item.type === 'local' || item.type === 'opfs' || item.type === 'indexeddb');
 
         const menuItems = [];
         
-        // B"H - Add Explicit Open Option for Files
         if (isFile) {
             menuItems.push({ label: "Open in Editor", action: "open-file-tab", icon: "file" });
             menuItems.push({ isSeparator: true });
@@ -94,7 +53,6 @@ export const ContextMenu = {
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander", icon: "folder" });
             menuItems.push({ label: "Search in this Folder...", action: "search-in-folder", icon: "search" });
             menuItems.push({ label: "✨ Vibe Code", action: "open-vibe", icon: "brain-circuit" });
-            menuItems.push({ label: "Apply External AI Changes...", action: "apply-external-ai", icon: "upload" });
             menuItems.push({ isSeparator: true });
         }
         
@@ -110,7 +68,6 @@ export const ContextMenu = {
 		}
 
         menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
-        
         menuItems.push({ label: "Copy Relative Path", action: "copy-relative-path", icon: "link" }); 
         
         if (isDir) {
@@ -134,11 +91,9 @@ export const ContextMenu = {
         menuItems.push({ isSeparator: true });
 
         if (!isReadOnly) {
-            if (isGitAware || item.isGitClone) { // Add item.isGitClone check
+            if (isGitAware) {
 		        menuItems.push({ label: "Git Actions...", action: "git-actions", icon: "git-branch" });
-		        if (isWorkspaceRoot || item.isGitClone) {
-		            menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
-		        }
+		        menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
 		    } else if (isCandidateForInit) {
                 menuItems.push({ label: "Initialize as GitHub Repo...", action: "git-init", icon: "github" });
             }

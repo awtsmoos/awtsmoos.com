@@ -1,62 +1,43 @@
-
 // B"H
 // FILE: js/fs/local.js
 import { State } from '../state.js';
-import { IndexedDBProvider } from './indexeddb.js';
 
 export const LocalProvider = {
-    _handleCache: new WeakMap(), // rootHandle -> Map(path -> handle)
+    _handleCache: new WeakMap(),
 
     _getRootHandle(item) {
-        // B"H - Priority: Global State > Item Handle
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+        const workspaceId = item.workspaceId || item.id;
+        const workspace = State.workspaces.find(ws => ws.id === workspaceId);
         if (workspace && workspace.handle) return workspace.handle;
-        
         if (item.handle) return item.handle; 
-        
-        if (!workspace) throw new Error(`Workspace not found for item: ${item.name}`);
-        if (item.type === 'local' && !workspace.handle) throw new Error(`Workspace '${workspace.name}' is not connected.`);
-        return workspace.handle;
+        throw new Error("Local handle lost for workspace ID " + workspaceId);
     },
 
     async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
+        if (!rootHandle) throw new Error("No root handle provided to FS.");
+        
+        // B"H - Manual protection against undefined path
+        const p = path || "";
+        const safePath = p.split("\\").join("/");
+
         if (!this._handleCache.has(rootHandle)) {
             this._handleCache.set(rootHandle, new Map());
         }
         const cache = this._handleCache.get(rootHandle);
-        const cacheKey = `${kind}:${path}`;
+        const cacheKey = kind + ":" + safePath;
 
-        if (cache.has(cacheKey)) {
-            return cache.get(cacheKey);
-        }
+        if (cache.has(cacheKey)) return cache.get(cacheKey);
 
         let currentHandle = rootHandle;
-        const decodedPath = path.replace(/^\//, '');
-
-        if (!decodedPath) return rootHandle;
-
-        const parts = decodedPath.split('/');
+        const parts = safePath.split("/").filter(Boolean);
         
-        // B"H - Traverse from root to ensure validity
         for (let i = 0; i < parts.length; i++) {
             const part = parts[i];
-            if (!part) continue;
-            const isLastPart = i === parts.length - 1;
-            
+            const isLast = (i === parts.length - 1);
             try {
-                if (!isLastPart) {
-                    // Check cache for intermediate folders
-                    const subPath = parts.slice(0, i+1).join('/');
-                    const subKey = `directory:${subPath}`;
-                    
-                    if (cache.has(subKey)) {
-                        currentHandle = cache.get(subKey);
-                    } else {
-                        currentHandle = await currentHandle.getDirectoryHandle(part, { create });
-                        cache.set(subKey, currentHandle);
-                    }
+                if (!isLast) {
+                    currentHandle = await currentHandle.getDirectoryHandle(part, { create });
                 } else {
-                    // Final element
                     if (kind === 'file') {
                         currentHandle = await currentHandle.getFileHandle(part, { create });
                     } else {
@@ -64,11 +45,6 @@ export const LocalProvider = {
                     }
                 }
             } catch (e) {
-                // If we hit a snag, clear intermediate cache for this path and re-throw
-                // B"H - Silence is golden for "not found" checks during scans
-                if (e.name !== 'NotFoundError' && e.name !== 'TypeMismatchError') {
-                     console.warn(`[LocalProvider] Handle retrieval issue for part "${part}" in "${path}":`, e);
-                }
                 cache.delete(cacheKey);
                 throw e;
             }
@@ -78,185 +54,101 @@ export const LocalProvider = {
         return currentHandle;
     },
 
-    // B"H - Brutal Cache Clear: Wipes memory AND reloads root handle from IDB
-    async clearCache(item, brutal = false) {
-        try {
-            // Resolve the workspace
-            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-            
-            // Get current root handle (might be stale)
-            const root = workspace ? workspace.handle : (item.handle || null);
-            
-            // 1. Wipe Memory Cache
-            if (root && this._handleCache.has(root)) {
-                if (brutal || item.path === '/') {
-                    this._handleCache.delete(root);
-                    console.log("[LocalProvider] Cache TOTALLY Annihilated (Brutal Refresh)");
-                } else {
-                    // Selective clear for sub-paths
-                    const cache = this._handleCache.get(root);
-                    const path = item.path.replace(/^\//, '');
-                    const keysToDelete = [];
-                    for (const key of cache.keys()) {
-                        if (key.includes(path)) keysToDelete.push(key);
-                    }
-                    keysToDelete.forEach(k => cache.delete(k));
-                }
-            }
-
-            // 2. Refresh Root Handle from Disk (IndexedDB)
-            // This mimics the "Close and Reopen" behavior the user requested.
-            if (brutal && item.type === 'local' && workspace) {
-                try {
-                    // Force fresh fetch from DB
-                    const freshHandle = await IndexedDBProvider.getHandle(workspace.id);
-                    if (freshHandle) {
-                        workspace.handle = freshHandle;
-                        // Pre-warm the new cache entry to ensure zero leakage
-                        this._handleCache.set(freshHandle, new Map());
-                        console.log("[LocalProvider] Root Handle Refreshed from Disk.");
-                    } else {
-                        console.warn("[LocalProvider] No handle found in IDB for refresh.");
-                    }
-                } catch(e) {
-                    console.error("[LocalProvider] Failed to refresh handle from IDB:", e);
-                }
-            }
-
-        } catch(e) {
-            console.warn("Failed to clear local cache:", e);
-        }
-    },
-
     async list({ handle, path, workspaceId }) {
-        // B"H - Ensure we use the latest handle from workspace if valid
-        const ws = State.workspaces.find(w => w.id === workspaceId);
-        const root = handle || (ws ? ws.handle : null);
+        const root = handle || this._getRootHandle({ workspaceId });
+        if (!root) throw new Error("Listing requires a handle.");
         
-        if (!root) throw new Error("No handle available for listing");
-        
-        // B"H - Force fresh traversal logic on list if path is complex
-        const dirHandle = await this.getHandle(root, path);
+        const safePath = path || "/";
+        const dirHandle = await this.getHandle(root, safePath);
         const entries = [];
         
-        // B"H - HIGH STABILITY LISTING
-        // Iterate with extra safety against "cut out" issues.
         try {
-            // Using a simple array push via for-await prevents some generator weirdness
             for await (const [name, entry] of dirHandle.entries()) {
-                // B"H - Individual entry protection to prevent full list failure
-                try {
-                    entries.push({ 
-                        name: name, 
-                        kind: entry.kind, 
-                        path: `${path === '/' ? '' : path}/${name}`,
-                        workspaceId: workspaceId,
-                        size: 0, 
-                        lastModified: 0 
-                    });
-                } catch(entryErr) {
-                    console.warn("Skipping problematic entry:", name, entryErr);
-                }
+                const prefix = (safePath === "/" || !safePath) ? "" : safePath;
+                entries.push({ 
+                    name, 
+                    kind: entry.kind, 
+                    path: prefix + "/" + name,
+                    workspaceId
+                });
             }
-        } catch (iteratorError) {
-            console.error(`Failed to fully iterate directory ${path}:`, iteratorError);
-            // If the iterator fails but gave us partials, we return them.
+        } catch (err) {
+            console.error("B\"H - List failed:", err);
         }
         return entries;
     },
-
-    async listAllFiles(item) {
-        const root = this._getRootHandle(item);
-        const allFiles = [];
-        const traverse = async (dirHandle, currentPath) => {
-            for await (const entry of dirHandle.values()) {
-                const newPath = `${currentPath}/${entry.name}`;
-                if (entry.kind === 'file') {
-                    allFiles.push({ name: entry.name, kind: 'file', path: newPath, workspaceId: item.workspaceId });
-                } else if (entry.kind === 'directory') {
-                    const subHandle = await dirHandle.getDirectoryHandle(entry.name);
-                    await traverse(subHandle, newPath);
-                }
-            }
-        };
-        const targetHandle = await this.getHandle(root, item.path);
-        await traverse(targetHandle, item.path === '/' ? '' : item.path);
-        return allFiles;
-    },
+    
+    listAllFiles: async function(item) {
+	    var self = this;
+	    var root = this._getRootHandle(item);
+	    var allFiles = [];
+	
+	    // B"H - Recursive traversal ritual
+	    var traverse = async function(dirHandle, currentPath) {
+	        for await (var entry of dirHandle.values()) {
+	            // Manual path join: No regex
+	            var newPath = (currentPath === "/" ? "" : currentPath) + "/" + entry.name;
+	            
+	            if (entry.kind === 'file') {
+	                allFiles.push({
+	                    name: entry.name,
+	                    kind: 'file',
+	                    path: newPath,
+	                    workspaceId: item.workspaceId
+	                });
+	            } else if (entry.kind === 'directory') {
+	                try {
+	                    var subHandle = await dirHandle.getDirectoryHandle(entry.name);
+	                    await traverse(subHandle, newPath);
+	                } catch(e) {
+	                    console.warn("B\"H - Could not traverse: " + entry.name);
+	                }
+	            }
+	        }
+	    };
+	
+	    // Determine starting handle
+	    var relPath = item.path || "";
+	    if (relPath.indexOf("/") === 0) relPath = relPath.substring(1);
+	    
+	    var targetHandle = await this.getHandle(root, relPath, { kind: 'directory' });
+	    await traverse(targetHandle, item.path || "/");
+	    
+	    return allFiles;
+	},
 
     async read(item) {
         const root = this._getRootHandle(item);
-        const relativePath = item.path.startsWith('/') ? item.path.substring(1) : item.path;
-        const fileHandle = await this.getHandle(root, relativePath, { kind: 'file' });
-        return await fileHandle.getFile(); 
+        const path = item.path || "";
+        const rel = path.startsWith("/") ? path.substring(1) : path;
+        const h = await this.getHandle(root, rel, { kind: 'file' });
+        return await h.getFile(); 
     },
 
     async write(item, content) {
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        if (!workspace) throw new Error(`Workspace not found.`);
-        
-        const performSave = async (rootHandle) => {
-            const relativePath = item.path.startsWith('/') ? item.path.substring(1) : item.path;
-            
-            // Retry logic for stale handles
-            let fileHandle;
-            try {
-                fileHandle = await this.getHandle(rootHandle, relativePath, { kind: 'file', create: true });
-            } catch(e) {
-                if (this._handleCache.has(rootHandle)) {
-                    this._handleCache.get(rootHandle).delete(`file:${relativePath}`);
-                }
-                fileHandle = await this.getHandle(rootHandle, relativePath, { kind: 'file', create: true });
-            }
-
-            const writable = await fileHandle.createWritable();
-            await writable.write(content);
-            await writable.close();
-        };
-
-        try { await performSave(workspace.handle); } catch (e) {
-            if (e.name === 'NotAllowedError') {
-                if ((await workspace.handle.requestPermission({mode:'readwrite'})) === 'granted') {
-                    await performSave(workspace.handle);
-                    return;
-                }
-            }
-            throw e;
-        }
+        const root = this._getRootHandle(item);
+        const path = item.path || "";
+        const rel = path.startsWith("/") ? path.substring(1) : path;
+        const h = await this.getHandle(root, rel, { kind: 'file', create: true });
+        const w = await h.createWritable();
+        await w.write(content);
+        await w.close();
     },
 
     async create(parentDir, name, kind) {
         const root = this._getRootHandle(parentDir);
-        const parentHandle = await this.getHandle(root, parentDir.path, { kind: 'directory' });
-        if (kind === 'file') await parentHandle.getFileHandle(name, { create: true });
-        else await parentHandle.getDirectoryHandle(name, { create: true });
+        const h = await this.getHandle(root, parentDir.path || "");
+        if (kind === 'file') await h.getFileHandle(name, { create: true });
+        else await h.getDirectoryHandle(name, { create: true });
     },
 
     async delete(item) {
         const root = this._getRootHandle(item);
-        const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
-        const name = item.path.substring(item.path.lastIndexOf('/') + 1);
-        const parentHandle = await this.getHandle(root, parentPath);
-        
-        // Invalidate cache
-        if (this._handleCache.has(root)) {
-            const cache = this._handleCache.get(root);
-            cache.delete(`${item.kind}:${item.path.replace(/^\//, '')}`);
-        }
-        
-        await parentHandle.removeEntry(name, { recursive: true });
-    },
-
-    async rename(item, newName) {
-        const root = this._getRootHandle(item);
-        const path = item.path.replace(/^\//, '');
-        let handle = await this.getHandle(root, path, { kind: item.kind });
-        if (handle.move) {
-            await handle.move(newName);
-            if (this._handleCache.has(root)) {
-                const cache = this._handleCache.get(root);
-                cache.delete(`${item.kind}:${path}`);
-            }
-        } else throw new Error("Rename not supported by your browser.");
+        const p = item.path || "";
+        const parts = p.split("/");
+        const name = parts.pop();
+        const parentPath = parts.join("/") || "/";
+        const h = await this.getHandle(root, parentPath);
+        await h.removeEntry(name, { recursive: true });
     }
 };
