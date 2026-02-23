@@ -70,7 +70,11 @@ export const WorkspaceTreeRenderer = {
 	        const fragment = document.createDocumentFragment();
 	        for (const child of displayChildren) {
 	            const { isGitClone, ...cleanParent } = parentItem;
-	            const fullChildItem = { ...cleanParent, ...child };
+	            var fullChildItem = { 
+				    ...cleanParent, 
+				    ...child, 
+				    workspaceId: parentItem.workspaceId // B"H - Forced inheritance
+				}; 
 	            delete fullChildItem.isGitClone; 
 	            if (fullChildItem.handle) delete fullChildItem.handle;
 	            

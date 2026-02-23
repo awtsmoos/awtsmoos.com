@@ -5,13 +5,35 @@ import { State } from '../state.js';
 export const LocalProvider = {
     _handleCache: new WeakMap(),
 
-    _getRootHandle(item) {
-        const workspaceId = item.workspaceId || item.id;
-        const workspace = State.workspaces.find(ws => ws.id === workspaceId);
-        if (workspace && workspace.handle) return workspace.handle;
-        if (item.handle) return item.handle; 
-        throw new Error("Local handle lost for workspace ID " + workspaceId);
-    },
+    _getRootHandle: function(item) {
+	    // 1. Direct ID lookup (Fastest)
+	    var wsId = item.workspaceId || item.id;
+	    var ws = null;
+	    
+	    if (wsId !== undefined && wsId !== null) {
+	        ws = State.workspaces.find(function(w) { return w.id === wsId; });
+	    }
+	
+	    // 2. BULLETPROOF FALLBACK: Path Inference
+	    // If ID is missing, find the workspace whose root path matches this item
+	    if (!ws && item.path) {
+	        for (var i = 0; i < State.workspaces.length; i++) {
+	            var candidate = State.workspaces[i];
+	            // If the item path starts with the workspace path, it belongs here
+	            if (item.path.indexOf(candidate.path) === 0) {
+	                ws = candidate;
+	                // Repair the item for future calls
+	                item.workspaceId = ws.id; 
+	                break;
+	            }
+	        }
+	    }
+	
+	    if (ws && ws.handle) return ws.handle;
+	    if (item.handle) return item.handle; 
+	    
+	    throw new Error("Local handle lost for workspace ID " + wsId + " (Path: " + (item.path || "root") + ")");
+	},
 
     async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
         if (!rootHandle) throw new Error("No root handle provided to FS.");

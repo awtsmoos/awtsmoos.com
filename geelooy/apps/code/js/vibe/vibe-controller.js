@@ -69,19 +69,26 @@ export const VibeController = {
         Tabs.create({ ...workspace, name, path, kind: 'file', workspaceId: wsId });
     },
 
-    getRootItem(tab) { 
-        const session = tab.vibeSession || tab.content;
-        const rootPath = session.path || session.rootPath || "/";
-        
-        return { 
-            ...tab.item, 
-            name: tab.item.name.split("Vibe: ").join(""), 
-            path: rootPath, 
-            kind: 'directory', 
-            type: tab.item.originalType || 'local', 
-            workspaceId: tab.item.workspaceId 
-        }; 
-    },
+    getRootItem: function(tab) { 
+	    var session = tab.vibeSession || tab.content || {};
+	    
+	    // B"H - Extraction Ritual: Prioritize session-stored ID
+	    var wsId = session.workspaceId || (tab.item ? tab.item.workspaceId : null);
+	    var rootPath = session.path || session.rootPath || (tab.item ? tab.item.path : "/");
+	    var type = session.originalType || (tab.item ? (tab.item.originalType || tab.item.type) : "local");
+	    
+	    var nameStr = (tab.item && tab.item.name) ? tab.item.name : "Vibe Session";
+	    var displayName = nameStr.split("Vibe: ").join("");
+	
+	    // Return a fortified object
+	    return { 
+	        name: displayName,
+	        path: rootPath, 
+	        workspaceId: wsId,
+	        type: type, 
+	        kind: 'directory'
+	    }; 
+	},
 
     async resetChat(tab) {
         const confirmed = await UI.showDialog({ title: "Reset", message: "Clear history?", okText: "Yes" });
