@@ -27,11 +27,19 @@ export const UIDialogs = {
 
             const handler = (e) => {
                 if (e.key === 'Escape') cleanup(null);
-                if (e.key === 'Enter' && !hasTextarea) cleanup(hasInput ? document.getElementById('dialog-input').value : true);
+                if (e.key === 'Enter' && !hasTextarea && okText) cleanup(hasInput ? document.getElementById('dialog-input').value : true);
             };
 
-            dialog.querySelector('#dialog-ok-btn').onclick = () => cleanup(hasInput ? document.getElementById('dialog-input').value : (hasTextarea ? document.getElementById('dialog-textarea').value : true));
-            if (cancelText) dialog.querySelector('#dialog-cancel-btn').onclick = () => cleanup(null);
+            // B"H - Defensive checks for buttons to prevent "onclick of null"
+            const okBtn = dialog.querySelector('#dialog-ok-btn');
+            if (okBtn) {
+                okBtn.onclick = () => cleanup(hasInput ? document.getElementById('dialog-input').value : (hasTextarea ? document.getElementById('dialog-textarea').value : true));
+            }
+
+            const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
+            if (cancelBtn) {
+                cancelBtn.onclick = () => cleanup(null);
+            }
             
             dialog.classList.add('visible');
             document.addEventListener('keydown', handler);
