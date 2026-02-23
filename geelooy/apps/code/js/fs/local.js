@@ -142,7 +142,9 @@ export const LocalProvider = {
 	        return entries;
 	    },
 	
-	    async read(item) {
+	    
+
+	async read(item) {
 	        var root = this._getRootHandle(item);
 	        var h = await this.getHandle(root, item.path, { kind: 'file' });
 	        return await h.getFile(); 
@@ -154,9 +156,7 @@ export const LocalProvider = {
 	        var w = await h.createWritable();
 	        await w.write(content);
 	        await w.close();
-	    }
-	},
-
+	    },
     async create(parentDir, name, kind) {
         const root = this._getRootHandle(parentDir);
         const h = await this.getHandle(root, parentDir.path, { kind: 'directory' });
