@@ -70,30 +70,30 @@ export const ResponseParser = {
 	// B"H - Segment-aware _normalizePath inside js/vibe/modules/ResponseParser.js
 
 	_normalizePath: function(root, file) {
-	    // 1. Convert to forward slashes and split into clean segments
-	    var rSegs = root.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
-	    var fSegs = file.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
+	    // 1. Standardize slashes and remove empties
+	    var r = root.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
+	    var f = file.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
 	    
-	    // 2. SEGMENT OVERLAP CHECK
-	    // If the file path segments start with the root segments, it is already absolute.
-	    var isAlreadyAbsolute = true;
-	    if (fSegs.length < rSegs.length) {
-	        isAlreadyAbsolute = false;
+	    // 2. SEGMENT OVERLAP CHECK (The "Double Folder" Shield)
+	    // Check if the file starts with the same segments as the root
+	    var isAbsolute = true;
+	    if (f.length < r.length) {
+	        isAbsolute = false;
 	    } else {
-	        for (var i = 0; i < rSegs.length; i++) {
-	            if (fSegs[i] !== rSegs[i]) {
-	                isAlreadyAbsolute = false;
+	        for (var i = 0; i < r.length; i++) {
+	            if (f[i] !== r[i]) {
+	                isAbsolute = false;
 	                break;
 	            }
 	        }
 	    }
 	
-	    var finalSegments = isAlreadyAbsolute ? fSegs : rSegs.concat(fSegs);
+	    var finalSegs = isAbsolute ? f : r.concat(f);
 	    
-	    // 3. RECONSTRUCT THE PATH
+	    // 3. RECONSTRUCT
 	    var path = "/";
-	    for (var j = 0; j < finalSegments.length; j++) {
-	        path += finalSegments[j] + (j === finalSegments.length - 1 ? "" : "/");
+	    for (var j = 0; j < finalSegs.length; j++) {
+	        path += finalSegs[j] + (j === finalSegs.length - 1 ? "" : "/");
 	    }
 	    return path;
 	}

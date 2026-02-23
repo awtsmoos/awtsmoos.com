@@ -158,5 +158,27 @@ export const ChatUI = {
                 blocks[i].dataset.hydrated = 'true';
             } catch(e) {}
         }
-    }
+    },
+    
+    // B"H - Ensure updateLastMessage is in ChatUI in js/vibe/view/chat-ui.js
+
+	updateLastMessage: function(container, content, tab, controller) {
+	    // Find the very last message bubble
+	    var lastMsg = container.lastElementChild;
+	    
+	    // If it's not a model bubble, or doesn't exist, create one
+	    if (!lastMsg || !lastMsg.classList.contains('model')) {
+	        this.appendMessage({ role: 'model', content: content }, container, tab, controller);
+	        return;
+	    }
+	    
+	    // Efficiently re-render only the inner content of the last bubble
+	    this._renderModelMessage(lastMsg, content, tab, controller);
+	    this._hydrateCodeBlocks(lastMsg);
+	    
+	    // Auto-scroll to keep the new words in view
+	    if (container.scrollHeight - container.scrollTop <= container.clientHeight + 100) {
+	        container.scrollTop = container.scrollHeight;
+	    }
+	},
 };

@@ -151,4 +151,30 @@ export const VibeController = {
 	    await VibeView.render(tab, this);
 	},
 	
+	// B"H - Add these methods to VibeController in js/vibe/vibe-controller.js
+
+	// 1. Logic uses this to trigger a full UI sync
+	refreshView: function(tab) {
+	    this.render(tab);
+	},
+	
+	// 2. Logic uses this to update the chat bubble while the AI is typing
+	handleStreamChunk: function(content, tab) {
+	    var hist = document.getElementById('vibe-chat-history');
+	    if (!hist) return;
+	    var self = this;
+	    import('./view/chat-ui.js').then(function(m) {
+	        m.ChatUI.updateLastMessage(hist, content, tab, self);
+	    });
+	},
+	
+	// 3. Logic uses this to refresh the sidebar tree after files are written
+	refreshTree: async function(tab) {
+	    var container = document.getElementById('vibe-editor-wrapper');
+	    var root = this.getRootItem(tab);
+	    var self = this;
+	    var side = await import('./view/sidebar-ui.js');
+	    await side.SidebarUI.refreshTree(container, root, self);
+	},
+	
 };
