@@ -5,33 +5,33 @@ import { UI } from '../../ui.js';
 
 export const GitStatusUI = {
     async showGitUI(item, scan) {
-        var self = this;
-        var { GitMetaProvider } = await import('../meta.js');
-        var gitInfo = item.type === 'github' ? item : await GitMetaProvider.getGitInfoForFolder(item);
-        
-        if (!gitInfo) {
-            UI.showToast("Not a Git repository.", "error");
-            return;
-        }
-
-        // 1. Show the skeleton frame instantly
-        this.renderSkeleton(item);
-
-        try {
-            // 2. Perform the heavy calculation in the background
-            var { GitDiff } = await import('../git-diff.js');
-            var changeSet = await GitDiff.calculateDiff(item, gitInfo, { checkUntracked: !!scan });
-            
-            var { GitStageManager } = await import('./stage-manager.js');
-            GitStageManager.init(item, gitInfo, changeSet);
-            
-            // 3. Manifest the full UI content
-            this.populateFullUI(item, gitInfo);
-        } catch(e) {
-            console.error(e);
-            UI.showToast("B\"H - Git analysis failed: " + e.message, "error");
-        }
-    },
+	    var self = this;
+	    var { GitMetaProvider } = await import('../meta.js');
+	    var gitInfo = item.type === 'github' ? item : await GitMetaProvider.getGitInfoForFolder(item);
+	    
+	    if (!gitInfo) {
+	        UI.showToast("Not a Git repository.", "error");
+	        return;
+	    }
+	
+	    this.renderSkeleton(item);
+	
+	    try {
+	        var { GitDiff } = await import('../git-diff.js');
+	        // B"H - FAST MODE: checkUntracked is FALSE by default.
+	        // It will only look at the IndexedDB "Queue", which is instant.
+	        var changeSet = await GitDiff.calculateDiff(item, gitInfo, { 
+	            checkUntracked: (scan === true) 
+	        });
+	        
+	        var { GitStageManager } = await import('./stage-manager.js');
+	        GitStageManager.init(item, gitInfo, changeSet);
+	        
+	        this.populateFullUI(item, gitInfo);
+	    } catch(e) {
+	        UI.showToast("B\"H Error: " + e.message, "error");
+	    }
+	},
 
     renderSkeleton: function(item) {
         var dialog = document.getElementById('generic-dialog');

@@ -32,8 +32,13 @@ export const ContextMenu = {
 	    if (entry && entry.el) entry.el.classList.add("context-active");
 	
 	    // 2. DETECTION
-	    var isFile = (item.kind === "file");
-	    var isWorkspaceRoot = (item.path === "/" || !item.path || item.isWorkspaceRoot);
+		var isFile = (item.kind === "file");
+		// B"H - Improved Root detection
+		var isWorkspaceRoot = (item.path === "/" || !item.path || item.isWorkspaceRoot === true);
+		var isDir = !isFile; 
+		
+		var workspaceId = item.workspaceId || item.id;
+	    
 	    var isDir = !isFile || isWorkspaceRoot;
 	    
 	    var workspaceId = item.workspaceId || item.id;
@@ -42,8 +47,11 @@ export const ContextMenu = {
 	
 	    // 3. GIT DETECTION (The Anchor)
 	    // We check the item itself first. If it's a file, the provider handles looking up.
-	    var gitInfo = await GitMetaProvider.getGitInfoForFolder(item);
-	
+	    // 3. GIT DETECTION (Normalized for Root)
+		// If it's a root, ensure we pass a valid path string to the provider
+		var gitSearchItem = isWorkspaceRoot ? { ...item, path: "/", workspaceId: workspaceId } : item;
+		var gitInfo = await GitMetaProvider.getGitInfoForFolder(gitSearchItem);
+		
 	    var menuItems = [];
 	
 	    // --- SECTION 1: VIEW/OPEN ---
