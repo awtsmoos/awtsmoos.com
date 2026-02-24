@@ -21,18 +21,17 @@
 
 /* LEFT PANEL (Chat) */
 .vibe-chat-panel {
-    flex: 1;
+    flex: 1; /* This makes it take up the remaining space */
     display: flex;
     flex-direction: column;
-    min-width: 320px; /* Minimum width to prevent UI breakage */
+    min-width: 300px; /* Minimum width to prevent UI breakage */
     position: relative;
     z-index: 1;
-    border-right: 1px solid var(--color-border);
 }
 
-/* RESIZER */
+/* B"H - VERTICAL RESIZER (DESKTOP) */
 .vibe-resizer {
-    width: 6px;
+    width: 8px;
     cursor: col-resize;
     background: var(--color-bg-deep);
     position: relative;
@@ -44,19 +43,31 @@
 }
 .vibe-resizer:hover { background: var(--neon-cyan); }
 
+/* B"H - NEW HORIZONTAL RESIZER (MOBILE) */
+.vibe-resizer-horizontal {
+    height: 8px;
+    cursor: row-resize;
+    background: var(--color-bg-deep);
+    z-index: 100;
+    flex-shrink: 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.2s;
+}
+.vibe-resizer-horizontal:hover { background: var(--neon-cyan); }
+
+
 /* RIGHT PANEL (Sidebar) */
 .vibe-side-panel {
-    width: 350px;
+    width: 350px; /* Default width */
     background-color: var(--color-bg-secondary);
     display: flex;
     flex-direction: column;
     position: relative;
-    flex-shrink: 0;
-    /* B"H - The Fix: overflow-x hidden preventing internal blowout */
-    min-width: 0; 
+    flex-shrink: 0; /* Prevent this panel from shrinking on its own */
+    min-width: 250px; /* Minimum drag width */
     max-width: 60vw; 
     overflow: hidden;
-    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* Collapsed State - Total Disappearance */
@@ -66,3 +77,38 @@
     padding: 0 !important;
     border: none !important;
 }
+
+/* B"H --- MOBILE RESPONSIVE FIX (WITH RESIZER LOGIC) --- */
+@media (max-width: 768px) {
+    .vibe-container {
+        flex-direction: column; /* Stack panels vertically */
+    }
+
+    .vibe-chat-panel {
+        flex-basis: 60%; /* Let JS control height */
+        min-height: 150px;
+        min-width: 0; 
+        border-right: none;
+        flex-grow: 0; /* Important for resizing */
+        flex-shrink: 0; /* Important for resizing */
+    }
+    
+    .vibe-side-panel {
+        flex: 1; /* Take up remaining space */
+        min-height: 100px;
+        width: 100% !important; 
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .vibe-resizer { display: none; }
+    .vibe-resizer-horizontal { display: block; }
+}
+
+@media (min-width: 769px) {
+    .vibe-resizer-horizontal { display: none; }
+}
+
+body.is-resizing { user-select: none; }
+body.is-resizing-vertical { cursor: row-resize; }
+body.is-resizing-horizontal { cursor: col-resize; }
