@@ -11,7 +11,7 @@ export const VibeView = {
     async render(tab, controller) {
         if (!this.container) this.init();
         const sess = tab.vibeSession;
-        if (!sess.viewState) sess.viewState = { activeSidebarTab: 'tree', isSidebarCollapsed: false };
+        if (!sess.viewState) sess.viewState = { activeSidebarTab: 'chat', isSidebarCollapsed: false };
 
         if (this.container.dataset.tabId !== String(tab.id)) {
             this.container.dataset.tabId = tab.id;
@@ -27,139 +27,95 @@ export const VibeView = {
         this._sync(tab, controller);
     },
 
-    _inject: function() {
+    
+
+    _bind(tab, controller) {
+        document.getElementById('vibe-send-btn').onclick = async () => {
+            if (tab.vibeSession.viewState.activeSidebarTab === 'manifest' && tab.vibeSession.pendingChanges) {
+                if (await ExternalManifest.execute(tab, controller.getRootItem(tab))) {
+                    const xmlInp = this.container.querySelector('#em-xml');
+                    if(xmlInp) xmlInp.value = '';
+                    this.render(tab, controller);
+                }
+            } else controller.sendMessage(tab);
+        };
+        document.getElementById('vibe-reset-btn').onclick = () => controller.resetChat(tab);
+        
+        const sideToggle = document.getElementById('vibe-sidebar-toggle-btn');
+        if(sideToggle) sideToggle.onclick = () => {
+            tab.vibeSession.viewState.isSidebarCollapsed = !tab.vibeSession.viewState.isSidebarCollapsed;
+            this.render(tab, controller);
+        };
+
+        this.container.querySelectorAll('.vibe-sb-tab').forEach(t => t.onclick = () => {
+            tab.vibeSession.viewState.activeSidebarTab = t.dataset.tab;
+            this.render(tab, controller);
+        });
+    },
+
+    // B"H - Updated _inject in vibe-view.js
+	_inject: function() {
+	    // Breaking up tags manually
+	    var chatHtml = '<div id="vibe-chat-history" class="vibe-chat-history"></div>';
+	    var inputHtml = '<div id="vibe-input-area" class="vibe-input-area">' +
+	                        '<div class="vibe-input-wrapper">' +
+	                            '<textarea id="vibe-input" class="vibe-textarea" placeholder="Speak your will..."></textarea>' +
+	                            '<button id="vibe-send-btn" class="primary-btn">➤</button>' +
+	                        '</div>' +
+	                        '<div class="vibe-actions">' +
+	                            '<button id="vibe-reset-btn" class="secondary-btn">Reset Chat</button>' +
+	                            '<button id="vibe-sidebar-toggle-btn" class="icon-button"><svg class="svg-icon"><use href="#icon-sidebar"></use></svg></button>' +
+	                        '</div>' +
+	                    '</div>';
+	
 	    this.container.innerHTML = 
 	        '<div class="vibe-container">' +
+	            // LEFT PANEL: ALWAYS VISIBLE
 	            '<div class="vibe-chat-panel">' +
-	                '<div id="vibe-chat-history" class="vibe-chat-history"></div>' +
-	                '<div id="vibe-input-area" class="vibe-input-area">' +
-	                    '<div class="vibe-input-wrapper">' +
-	                        '<textarea id="vibe-input" class="vibe-textarea" placeholder="Speak your will..."></textarea>' +
-	                        '<button id="vibe-send-btn" class="primary-btn">➤</button>' +
-	                    '</div>' +
-	                    '<div class="vibe-actions">' +
-                            '<button id="vibe-reset-btn" class="secondary-btn">Reset</button>' +
-	                        '<button id="vibe-mgr-btn" class="secondary-btn" title="Vibe Manager">Manager</button>' +
-	                        '<button id="vibe-sidebar-toggle-btn" class="icon-button"><svg class="svg-icon"><use href="#icon-sidebar"></use></svg></button>' +
-	                    '</div>' +
-	                '</div>' +
+	                chatHtml +
+	                inputHtml +
 	            '</div>' +
-                /* B"H - BOTH RESIZERS FOR DESKTOP AND MOBILE */
-	            '<div class="vibe-resizer" id="vibe-resizer-vertical"></div>' +
-                '<div class="vibe-resizer-horizontal" id="vibe-resizer-horizontal"></div>' +
+	            '<div class="vibe-resizer"></div>' +
+	            // RIGHT PANEL: TOGGLES TREE / EXTERNAL
 	            '<div class="vibe-side-panel" id="vibe-side-panel">' +
-                    /* B"H --- THIS IS THE CORRECTED, COMPLETE HTML FOR THE SIDEBAR --- */
 	                '<div class="vibe-sidebar-tabs">' +
 	                    '<div class="vibe-sb-tab" data-tab="tree">Tree</div>' +
 	                    '<div class="vibe-sb-tab" data-tab="manifest">External</div>' +
-	                    '<div class="vibe-sb-tab" data-tab="checkpoints">Checkpoints</div>' +
 	                '</div>' +
-	                '<div id="vibe-tree-container" class="vibe-context-list" style="flex-grow:1; overflow-y:auto;"></div>' +
-	                '<div id="vibe-manifest-container" class="vibe-manifest-view" style="display:none; flex-grow:1; overflow:hidden;"></div>' +
-	                '<div id="vibe-checkpoints-container" style="display:none; flex-grow:1; overflow-y:auto; padding:15px;"></div>' +
-	                '<div class="vibe-settings-area"><div id="vibe-model-badge" style="font-size:0.8em; opacity:0.6; cursor:pointer;">...</div></div>' +
+	                '<div id="vibe-tree-container" class="vibe-context-list" style="flex-grow:1;"></div>' +
+	                '<div id="vibe-manifest-container" class="vibe-manifest-view" style="flex-grow:1;"></div>' +
+	                '<div class="vibe-settings-area"><div id="vibe-model-badge" style="font-size:0.8em; opacity:0.6;">...</div></div>' +
 	            '</div>' +
 	        '</div>';
 	},
-
-	_bind: function(tab, controller) {
-        var self = this;
-        // B"H --- DOM element references ---
-        var sendBtn = this.container.querySelector('#vibe-send-btn');
-        var input = this.container.querySelector('#vibe-input');
-        var resetBtn = this.container.querySelector('#vibe-reset-btn');
-        var mgrBtn = this.container.querySelector('#vibe-mgr-btn');
-        var sideToggle = this.container.querySelector('#vibe-sidebar-toggle-btn');
-        var tabs = this.container.querySelectorAll('.vibe-sb-tab');
-
-	    // --- Event Listeners ---
-        if (sendBtn) sendBtn.onclick = () => controller.sendMessage(tab);
-        if (input) input.onkeydown = (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); controller.sendMessage(tab); }};
-	    if (resetBtn) resetBtn.onclick = () => controller.resetChat(tab);
-	    if (mgrBtn) mgrBtn.onclick = () => controller.openManager(); 
-	    if(sideToggle) sideToggle.onclick = () => {
-	        tab.vibeSession.viewState.isSidebarCollapsed = !tab.vibeSession.viewState.isSidebarCollapsed;
-	        self.render(tab, controller);
-	    };
-        tabs.forEach(t => {
-            t.onclick = () => {
-                tab.vibeSession.viewState.activeSidebarTab = t.dataset.tab;
-                self.render(tab, controller);
-            };
-        });
-
-        // B"H --- FULL DRAGGABLE RESIZER LOGIC ---
-
-        const verticalResizer = this.container.querySelector('#vibe-resizer-vertical');
-        const horizontalResizer = this.container.querySelector('#vibe-resizer-horizontal');
-        const chatPanel = this.container.querySelector('.vibe-chat-panel');
-        const sidePanel = this.container.querySelector('.vibe-side-panel');
-        const vibeContainer = this.container.querySelector('.vibe-container');
-        
-        // --- DESKTOP (DRAG LEFT/RIGHT) ---
-        const handleVerticalMove = (e) => {
-            const clientX = e.clientX ?? e.touches?.[0]?.clientX;
-            if (clientX === undefined) return;
-            const containerRight = vibeContainer.getBoundingClientRect().right;
-            const newSideWidth = containerRight - clientX;
-            sidePanel.style.width = `${newSideWidth}px`; // Directly set the width
-        };
-
-        const stopVerticalResize = () => {
-            document.body.classList.remove('is-resizing', 'is-resizing-horizontal');
-            document.removeEventListener('mousemove', handleVerticalMove);
-            document.removeEventListener('mouseup', stopVerticalResize);
-        };
-
-        verticalResizer.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            document.body.classList.add('is-resizing', 'is-resizing-horizontal');
-            document.addEventListener('mousemove', handleVerticalMove);
-            document.addEventListener('mouseup', stopVerticalResize);
-        });
-
-        // --- MOBILE (DRAG UP/DOWN) ---
-        const handleHorizontalMove = (e) => {
-            const clientY = e.clientY ?? e.touches?.[0]?.clientY;
-            if (clientY === undefined) return;
-            const newChatHeight = clientY - vibeContainer.getBoundingClientRect().top;
-            chatPanel.style.flexBasis = `${newChatHeight}px`; // Use flex-basis for height
-        };
-        
-        const stopHorizontalResize = () => {
-            document.body.classList.remove('is-resizing', 'is-resizing-vertical');
-            document.removeEventListener('mousemove', handleHorizontalMove);
-            document.removeEventListener('mouseup', stopHorizontalResize);
-        };
-
-        horizontalResizer.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            document.body.classList.add('is-resizing', 'is-resizing-vertical');
-            document.addEventListener('mousemove', handleHorizontalMove);
-            document.addEventListener('mouseup', stopHorizontalResize);
-        });
-	},
 	
+	// B"H - Updated _sync in js/vibe/vibe-view.js
 	_sync: function(tab, controller) {
-	    var session = tab.vibeSession;
-	    var active = session.viewState.activeSidebarTab || 'tree';
+	    var active = tab.vibeSession.viewState.activeSidebarTab || 'tree';
 	    var panel = this.container.querySelector('#vibe-side-panel');
-	    
-	    var treeC = document.getElementById('vibe-tree-container');
-	    var manifestC = document.getElementById('vibe-manifest-container');
-	    var checkpointsC = document.getElementById('vibe-checkpoints-container');
 	    var inputArea = document.getElementById('vibe-input-area');
+	    var treeCont = document.getElementById('vibe-tree-container');
+	    var manifestCont = document.getElementById('vibe-manifest-container');
 	
-	    var tabs = panel.querySelectorAll('.vibe-sb-tab');
-	    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === active));
-	    
-	    if(treeC) treeC.style.display = (active === 'tree' ? 'block' : 'none');
-	    if(manifestC) manifestC.style.display = (active === 'manifest' ? 'flex' : 'none');
-	    if(checkpointsC) checkpointsC.style.display = (active === 'checkpoints' ? 'block' : 'none');
-	    if(inputArea) inputArea.style.display = (active === 'tree' ? 'flex' : 'none');
-	
-	    if (active === 'checkpoints') {
-	        import('./view/checkpoint-ui.js').then(m => m.CheckpointUI.render(checkpointsC, tab, controller));
+	    var tabEls = panel.querySelectorAll('.vibe-sb-tab');
+	    for(var i = 0; i < tabEls.length; i++) {
+	        tabEls[i].classList.toggle('active', tabEls[i].dataset.tab === active);
 	    }
+	    
+	    // B"H - Layout Fix: Ensure containers use flex and scroll correctly
+	    if (treeCont) {
+	        treeCont.style.display = (active === 'tree') ? 'block' : 'none';
+	    }
+	    if (manifestCont) {
+	        manifestCont.style.display = (active === 'manifest') ? 'flex' : 'none';
+	        manifestCont.style.flexDirection = 'column';
+	        manifestCont.style.height = '100%';
+	        manifestCont.style.overflow = 'hidden'; // Inner div will handle scrolling
+	    }
+	    
+	    if (inputArea) inputArea.style.display = (active === 'manifest') ? 'none' : 'flex';
+	    
+	    if (tab.vibeSession.viewState.isSidebarCollapsed) panel.classList.add('collapsed');
+	    else panel.classList.remove('collapsed');
 	}
 };

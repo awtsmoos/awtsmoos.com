@@ -67,34 +67,12 @@ export const ResponseParser = {
         return (els && els.length > 0) ? els[0].textContent : "";
     },
 
-	// B"H - Segment-aware _normalizePath inside js/vibe/modules/ResponseParser.js
-
-	_normalizePath: function(root, file) {
-	    // 1. Standardize slashes and remove empties
-	    var r = root.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
-	    var f = file.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
-	    
-	    // 2. SEGMENT OVERLAP CHECK (The "Double Folder" Shield)
-	    // Check if the file starts with the same segments as the root
-	    var isAbsolute = true;
-	    if (f.length < r.length) {
-	        isAbsolute = false;
-	    } else {
-	        for (var i = 0; i < r.length; i++) {
-	            if (f[i] !== r[i]) {
-	                isAbsolute = false;
-	                break;
-	            }
-	        }
-	    }
-	
-	    var finalSegs = isAbsolute ? f : r.concat(f);
-	    
-	    // 3. RECONSTRUCT
-	    var path = "/";
-	    for (var j = 0; j < finalSegs.length; j++) {
-	        path += finalSegs[j] + (j === finalSegs.length - 1 ? "" : "/");
-	    }
-	    return path;
-	}
+    _normalizePath: function(root, file) {
+        var r = root.split("/").filter(function(p) { return p !== ""; });
+        var f = file.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
+        var path = "/";
+        for (var i = 0; i < r.length; i++) { path += r[i] + "/"; }
+        for (var j = 0; j < f.length; j++) { path += f[j] + (j === f.length - 1 ? "" : "/"); }
+        return path;
+    }
 };
