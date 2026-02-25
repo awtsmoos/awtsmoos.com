@@ -53,15 +53,14 @@ export const WorkspaceManager = {
 	    if (isExpanded) wsRoot.classList.add('expanded');
 	
 	    const icon = rootItem.isGitClone ? 'git-folder' : (ws.type === 'local' ? 'laptop' : 'brain');
-        // Only local folders show as "locked" if handle is missing.
-        const isLocked = ws.type === 'local' && ws.isLocked;
+        const isLocked = ws.type === 'local' && (ws.isLocked || !ws.handle);
 
 	    wsRoot.innerHTML = `
             <div class="workspace-header ${isLocked ? 'locked' : ''}">
                 <div class="workspace-header-title">
                     <svg class="svg-icon"><use href="#icon-${isLocked ? 'settings' : icon}"></use></svg>
                     <span>${ws.name}</span>
-                    ${isLocked ? '<span style="font-size:0.7em; color:var(--color-accent-warning); margin-left:8px;">[Resume]</span>' : ''}
+                    ${isLocked ? '<span class="resume-badge" style="background:var(--neon-magenta); color:#000; font-size:0.65em; padding:2px 4px; border-radius:4px; margin-left:8px; font-weight:bold;">RESUME</span>' : ''}
                 </div>
                 <div class="workspace-header-actions">
                     ${rootItem.isGitClone && !isLocked ? `<button class="icon-button git-actions-btn" title="Git"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
@@ -95,41 +94,26 @@ export const WorkspaceManager = {
 
     async resumeWorkspace(ws) {
         if (ws.type !== 'local') return;
-        const recovered = await RecoveryRitual.reAnchor(ws);
-        if (recovered) this.render();
+        // B"H - Smarter activation: tries existing handle first
+        const handle = await RecoveryRitual.attemptActivation(ws);
+        if (handle) this.render();
     },
 
-    /**
-     * @async
-     * @function remove
-     * @description The Tikkun of Removal. Purges all ghost states from the machine.
-     */
     async remove(workspaceId) {
         const id = Number(workspaceId);
-        
-        // 1. Close associated tabs
         const tabsToClose = State.tabs.filter(t => Number(t.item.workspaceId) === id);
         for (const tab of tabsToClose) await Tabs.close(tab.id, true);
         
-        // 2. Clear from expanded folders set
-        for (const pathKey of State.expandedFolders) {
-            if (pathKey.startsWith(`${id}::`)) State.expandedFolders.delete(pathKey);
-        }
-
-        // 3. Clear from DOM Item Map
-        for (const [pathKey, entry] of State.domItemMap) {
-            if (pathKey.startsWith(`${id}::`)) State.domItemMap.delete(pathKey);
-        }
-
-        // 4. Clear physical handle cache
+        // Comprehensive purge
+        for (const key of State.expandedFolders) if (key.startsWith(`${id}::`)) State.expandedFolders.delete(key);
+        for (const [key, entry] of State.domItemMap) if (key.startsWith(`${id}::`)) State.domItemMap.delete(key);
+        
         HandleCache.clear(); 
-
-        // 5. Remove from primary state
         State.workspaces = State.workspaces.filter(ws => Number(ws.id) !== id);
         
         App.saveSession(); 
         await this.render();
-        UI.showToast("Workspace retracted.", "info");
+        UI.showToast("Workspace removed from focus.", "info");
     },
     
     async refreshNode(item) {
