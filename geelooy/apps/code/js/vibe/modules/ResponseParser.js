@@ -1,50 +1,58 @@
+
 // B"H
 // FILE: js/vibe/modules/ResponseParser.js
 
+/**
+ * @class ResponseParser
+ * @description The organ of discernment. It takes the sprawling 
+ * speech of the AI and extracts the specific acts of creation (changes).
+ * It uses CDATA shielding to protect the code essence from the XML parser.
+ */
 export const ResponseParser = {
     START_MARKER: "₪₪₪_בס\"ד_תחילת_הקוד_₪₪₪",
     END_MARKER: "₪₪₪_בס\"ד_סוף_הקוד_₪₪₪",
 
     /**
-     * B"H - Pure manual string manipulation ritual.
-     * 1. Replaces Hebrew markers with CDATA globally.
-     * 2. Extracts the relevant XML range manually.
-     * 3. Uses text/xml DOMParser to safely extract nodes.
+     * @function parseChanges
+     * @description B"H. Parses the AI response into a list of change objects.
+     * @param {string} text The raw speech of the AI.
+     * @param {string} rootPath The base path of the Vibe session.
      */
-    parseChanges: function(text, rootPath) {
+    parseChanges(text, rootPath) {
         if (!text) return [];
         
-        var oC = "<!" + "[C" + "DATA[";
-        var cC = "]" + "]" + ">";
-        
-        // B"H - PRE-CONVERSION: Protect the code essence before parsing
-        var xmlReady = text.split(this.START_MARKER).join(oC).split(this.END_MARKER).join(cC);
+        // B"H - Convert Hebrew markers to XML CDATA to prevent parsing errors
+        const oC = "<!" + "[C" + "DATA[";
+        const cC = "]" + "]" + ">";
+        const xmlReady = text.split(this.START_MARKER).join(oC).split(this.END_MARKER).join(cC);
 
-        var changes = [];
-        var tagS = "<cha" + "nge>";
-        var tagE = "</cha" + "nge>";
+        const changes = [];
+        const tagS = "<change>";
+        const tagE = "</change>";
         
-        // Find the absolute boundaries of the XML content in the response
-        var firstIdx = xmlReady.indexOf(tagS);
-        var lastIdx = xmlReady.lastIndexOf(tagE);
-        
-        if (firstIdx === -1 || lastIdx === -1) return [];
+        let lastIdx = 0;
+        const parser = new DOMParser();
 
-        // Isolate the XML block and wrap in a single root
-        var xmlContent = "<roo" + "t>" + xmlReady.substring(firstIdx, lastIdx + tagE.length) + "</roo" + "t>";
+        while (true) {
+            const startIdx = xmlReady.indexOf(tagS, lastIdx);
+            if (startIdx === -1) break;
 
-        try {
-            var parser = new DOMParser();
-            // STRICT XML PARSER
-            var xmlDoc = parser.parseFromString(xmlContent, "text/xml");
-            var nodes = xmlDoc.getElementsByTagName("cha" + "nge");
-            
-            for (var i = 0; i < nodes.length; i++) {
-                var node = nodes[i];
-                var file = this._getVal(node, "fi" + "le");
-                var op = this._getVal(node, "operat" + "ion") || "write";
-                var desc = this._getVal(node, "descrip" + "tion") || "";
-                var content = this._getVal(node, "cont" + "ent");
+            const endIdx = xmlReady.indexOf(tagE, startIdx);
+            if (endIdx === -1) break;
+
+            const block = xmlReady.substring(startIdx, endIdx + tagE.length);
+            lastIdx = endIdx + tagE.length;
+
+            try {
+                // Parse the individual block as valid XML
+                const xmlDoc = parser.parseFromString(block, "text/xml");
+                const node = xmlDoc.querySelector("change");
+                if (!node) continue;
+
+                const file = node.querySelector("file")?.textContent;
+                const op = node.querySelector("operation")?.textContent || "write";
+                const desc = node.querySelector("description")?.textContent || "";
+                const content = node.querySelector("content")?.textContent || "";
 
                 if (file) {
                     changes.push({
@@ -54,47 +62,31 @@ export const ResponseParser = {
                         description: desc.trim()
                     });
                 }
+            } catch(e) {
+                console.warn("B\"H - Block parsing failed:", e);
             }
-        } catch(e) {
-            console.warn("B\"H - XML Manifestation failed:", e.message);
         }
         
         return changes;
     },
 
-    _getVal: function(node, tag) {
-        var els = node.getElementsByTagName(tag);
-        return (els && els.length > 0) ? els[0].textContent : "";
-    },
+    /**
+     * @function _normalizePath
+     * @description Ensures the path is absolute and correctly rooted in the workspace.
+     */
+    _normalizePath(root, file) {
+        const r = root.replace(/\\/g, '/').split('/').filter(p => p);
+        const f = file.replace(/\\/g, '/').split('/').filter(p => p);
+        
+        // Detect if the AI already provided an absolute path or just a relative one
+        let isAbsolute = f.length >= r.length;
+        if (isAbsolute) {
+            for (let i = 0; i < r.length; i++) {
+                if (f[i] !== r[i]) { isAbsolute = false; break; }
+            }
+        }
 
-	// B"H - Segment-aware _normalizePath inside js/vibe/modules/ResponseParser.js
-
-	_normalizePath: function(root, file) {
-	    // 1. Standardize slashes and remove empties
-	    var r = root.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
-	    var f = file.split("\\").join("/").split("/").filter(function(p) { return p !== ""; });
-	    
-	    // 2. SEGMENT OVERLAP CHECK (The "Double Folder" Shield)
-	    // Check if the file starts with the same segments as the root
-	    var isAbsolute = true;
-	    if (f.length < r.length) {
-	        isAbsolute = false;
-	    } else {
-	        for (var i = 0; i < r.length; i++) {
-	            if (f[i] !== r[i]) {
-	                isAbsolute = false;
-	                break;
-	            }
-	        }
-	    }
-	
-	    var finalSegs = isAbsolute ? f : r.concat(f);
-	    
-	    // 3. RECONSTRUCT
-	    var path = "/";
-	    for (var j = 0; j < finalSegs.length; j++) {
-	        path += finalSegs[j] + (j === finalSegs.length - 1 ? "" : "/");
-	    }
-	    return path;
-	}
+        const finalSegs = isAbsolute ? f : r.concat(f);
+        return '/' + finalSegs.join('/');
+    }
 };

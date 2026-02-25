@@ -8,7 +8,8 @@ import { UI } from './ui.js';
 
 /**
  * --- TAB MANAGER OVERLAY ---
- * Rectified Hierarchical View with Persistence and Virtual Grouping.
+ * Rectified Hierarchical View with Workspace-to-Category-to-Path nesting.
+ * B"H. This ensures all session types are partitioned by their physical world.
  */
 export const TabManagerOverlay = {
     overlay: null,
@@ -34,7 +35,6 @@ export const TabManagerOverlay = {
         document.getElementById('tab-manager-btn').onclick = () => this.show();
         document.getElementById('tm-close-overlay').onclick = () => this.hide();
         
-        // Load persistence
         const storedExpanded = localStorage.getItem('awtsmoos_tm_expanded');
         if (storedExpanded) { try { this.expandedFolders = new Set(JSON.parse(storedExpanded)); } catch(e){} }
         
@@ -89,27 +89,55 @@ export const TabManagerOverlay = {
         });
     },
 
+    /**
+     * B"H - The Grand Hierarchy Ritual.
+     * Partitioning: Workspace -> [Files | Vibe | Terminals | Commanders | Previews] -> Path.
+     */
     _renderFolderLayout(filter) {
         const tree = new Map();
+
         State.tabs.forEach((tab, index) => {
             if (filter && !tab.item.name.toLowerCase().includes(filter)) return;
             
-            let wsName = '';
-            let groupType = 'standard'; 
-
-            if (tab.fileType === 'vibe' || tab.item.type === 'vibe-session') { wsName = '🧠 Vibe Sessions'; groupType = 'vibe'; }
-            else if (tab.fileType === 'html-preview' || tab.isPreview) { wsName = '👁️ Previews'; groupType = 'preview'; }
-            else if (tab.item.type === 'commander') { wsName = '📂 Commanders'; groupType = 'commander'; }
-            else if (tab.fileType === 'terminal') { wsName = '💻 Terminals'; groupType = 'terminal'; }
-            else { const ws = State.workspaces.find(w => w.id === tab.item.workspaceId); wsName = ws ? ws.name : 'Unknown Realm'; }
+            const ws = State.workspaces.find(w => w.id === tab.item.workspaceId);
+            const wsName = ws ? ws.name : 'System / Global';
             
-            if (!tree.has(wsName)) tree.set(wsName, { name: wsName, pathKey: wsName, groupType, children: new Map(), tabs: [], totalTabs: 0 });
+            // 1. Determine Category
+            let catName = '📄 Files';
+            let catIcon = 'folder';
+            let catType = 'standard';
+
+            if (tab.fileType === 'vibe' || tab.item.type === 'vibe-session') { catName = '🧠 Vibe Sessions'; catIcon = 'brain'; catType = 'vibe'; }
+            else if (tab.fileType === 'html-preview' || tab.isPreview) { catName = '👁️ Previews'; catIcon = 'eye'; catType = 'preview'; }
+            else if (tab.item.type === 'commander') { catName = '📂 Commanders'; catIcon = 'folder'; catType = 'commander'; }
+            else if (tab.fileType === 'terminal' || tab.item.type === 'terminal') { catName = '💻 Terminals'; catIcon = 'laptop'; catType = 'terminal'; }
+
+            // 2. Ensure Workspace Node
+            if (!tree.has(wsName)) {
+                tree.set(wsName, { name: wsName, pathKey: wsName, type: 'workspace', children: new Map(), tabs: [], totalTabs: 0 });
+            }
             const wsNode = tree.get(wsName);
             wsNode.totalTabs++;
+
+            // 3. Ensure Category Node inside Workspace
+            if (!wsNode.children.has(catName)) {
+                wsNode.children.set(catName, { 
+                    name: catName, 
+                    pathKey: wsName + '::' + catName, 
+                    type: 'category', 
+                    catIcon, 
+                    children: new Map(), 
+                    tabs: [], 
+                    totalTabs: 0 
+                });
+            }
+            const catNode = wsNode.children.get(catName);
+            catNode.totalTabs++;
+
+            // 4. Traverse/Build Path Hierarchy inside Category
+            let current = catNode;
+            let currentPathKey = catNode.pathKey;
             
-            let current = wsNode, currentPathKey = wsName;
-            
-            // Build Deep Path Logic for ALL types
             let dirPath = tab.item.path || '/';
             const lastSlash = dirPath.lastIndexOf('/');
             dirPath = lastSlash > 0 ? dirPath.substring(0, lastSlash) : '/';
@@ -129,12 +157,10 @@ export const TabManagerOverlay = {
 
         const container = document.createElement('div');
         container.className = 'tm-tree-container';
-        const sorted = Array.from(tree.keys()).sort((a,b) => {
-            const p = { 'terminal': 0, 'vibe': 1, 'commander': 2, 'preview': 3, 'standard': 4 };
-            const pA = p[tree.get(a).groupType] || 4, pB = p[tree.get(b).groupType] || 4;
-            return pA !== pB ? pA - pB : a.localeCompare(b);
-        });
-        sorted.forEach(ws => this._appendTreeNode(tree.get(ws), container, filter, true));
+        
+        // Sorting: Alphabetical Workspaces
+        const sortedWs = Array.from(tree.keys()).sort();
+        sortedWs.forEach(ws => this._appendTreeNode(tree.get(ws), container, filter, true));
         this.gridContainer.appendChild(container);
     },
 
@@ -146,13 +172,11 @@ export const TabManagerOverlay = {
 
         const header = document.createElement('div');
         header.className = 'tm-tree-header';
+        
+        // Icon logic
         let icon = 'folder';
-        if (isRoot) {
-            if (node.groupType === 'terminal') icon = 'laptop';
-            else if (node.groupType === 'vibe') icon = 'brain';
-            else if (node.groupType === 'commander') icon = 'folder';
-            else if (node.groupType === 'preview') icon = 'eye';
-        }
+        if (node.type === 'workspace') icon = 'brain';
+        else if (node.type === 'category') icon = node.catIcon;
         
         header.innerHTML = `
             <span class="tm-folder-caret">▶</span> 
@@ -183,7 +207,11 @@ export const TabManagerOverlay = {
 
         const body = document.createElement('div');
         body.className = 'tm-tree-body';
+        
+        // Sorting folders alphabetically
         Array.from(node.children.keys()).sort().forEach(ck => this._appendTreeNode(node.children.get(ck), body, filter, false));
+        
+        // Render tabs in a grid
         if (node.tabs.length > 0) {
             const grid = document.createElement('div');
             grid.className = 'tm-tree-tabs-grid';

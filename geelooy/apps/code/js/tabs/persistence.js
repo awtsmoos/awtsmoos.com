@@ -1,25 +1,27 @@
+
 // B"H
-// FILE: code/js/tabs/persistence.js
+// FILE: js/tabs/persistence.js
 
 import { State } from '../state.js';
 import { UI } from '../ui.js';
 import { Editor } from '../editor.js';
 import { FileSystemProvider } from '../fs-provider.js';
-import { DataAltar } from '../DataAltar.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
 import { ASTEngine } from '../tools/ast-engine.js';
 import { GitMetaProvider } from '../git/meta.js';
 
 /**
- * --- TABS PERSISTENCE ---
- * The sacred scribe that manifests the ephemeral state of a tab into a
- * permanent vessel, whether it be local disk, a Zip archive, or the
- * uncommitted state of a Git repository. B"H.
- * @module js/tabs/persistence
+ * @class TabsPersistence
+ * @description The holy scribe. It takes the ephemeral state of a tab 
+ * and manifests it into permanent memory. It is rectified to ensure 
+ * that every save also updates the Git uncommitted store, ensuring 
+ * the timeline always reflects the latest creation.
  */
 export const TabsPersistence = {
     /**
-     * The core ritual of saving a tab's content.
+     * @async
+     * @function save
+     * @description B"H. The act of anchoring content to reality.
      */
     async save(tab, TabsController, options = {}) {
         const taskId = `save-${Date.now()}`;
@@ -48,27 +50,26 @@ export const TabsPersistence = {
 
             const contentToSave = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
 	        
-	        // 1. Always write to the primary filesystem provider first.
+	        // 1. Write to primary vessel
 	        await FileSystemProvider.write(tab.item, contentToSave);
 	        
-	        // 2. If part of a Git repository, also stage the change.
+	        // 2. Stage for Git (Tikkun: Ensure immediate visibility in Git UI)
 	        const gitInfo = await GitMetaProvider.getGitInfoForFolder(tab.item);
 	        if (gitInfo) {
-	            const gitRoot = { ...tab.item, path: (await GitMetaProvider.getGitInfoForFolder(tab.item))?.path || '/' };
-                const rootPath = gitRoot.path.replace(/\/+$/, "") || "/";
+                // Resolve relative path for staging
+                const rootPath = gitInfo.path.replace(/\/+$/, "") || "/";
                 const filePath = tab.item.path;
-                let relativePath = "";
+                let relPath = "";
 
 	            if (rootPath === "/" || rootPath === "") {
-	                relativePath = filePath.startsWith("/") ? filePath.substring(1) : filePath;
+	                relPath = filePath.startsWith("/") ? filePath.substring(1) : filePath;
 	            } else if (filePath.startsWith(rootPath + "/")) {
-	                relativePath = filePath.substring(rootPath.length + 1);
+	                relPath = filePath.substring(rootPath.length + 1);
 	            }
 	
-	            if (relativePath && relativePath !== rootPath) {
-	                const itemForStaging = { ...tab.item, path: relativePath };
-	                const uniquePathForStaging = `${tab.item.workspaceId}::${relativePath}`;
-	                await FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging);
+	            if (relPath) {
+	                const uniqueStagingPath = `${tab.item.workspaceId}::${relPath}`;
+	                await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingPath, contentToSave, { ...tab.item, path: relPath });
 	                tab.isUncommitted = true;
 	            }
 	        }
@@ -80,7 +81,6 @@ export const TabsPersistence = {
 	
 	    } catch (e) {
 	        UI.endTask(taskId, 'error', `Save failed: ${e.message}`);
-	        console.error("SAVE FAILED:", e);
 	    }
 	},
 
@@ -89,57 +89,29 @@ export const TabsPersistence = {
             if ('showSaveFilePicker' in window) {
                 const handle = await window.showSaveFilePicker({
                     suggestedName: tab.item.name,
-                    types: [{
-                        description: 'Files',
-                        accept: { 'text/plain': ['.txt', '.js', '.css', '.html', '.md', '.json', '.xml', '.svg'] },
-                    }],
+                    types: [{ description: 'Files', accept: { 'text/plain': ['.txt', '.js', '.css', '.html', '.md', '.json'] } }],
                 });
                 const writable = await handle.createWritable();
                 await writable.write(Editor.getContent());
                 await writable.close();
-                tab.isDirty = false;
-                tab.item.name = handle.name;
-                tab.item.type = 'local-saved';
-                tab.item.path = handle.name;
-                tab.uniquePath = TabsController.getUniquePath(tab.item);
                 UI.showToast(`Saved "${handle.name}"`, 'success');
-                TabsController.render();
             } else {
                 this.downloadActive(TabsController);
             }
         } catch (err) {
-            if (err.name !== 'AbortError') {
-                UI.showToast(`Could not save file: ${err.message}`, 'error');
-            }
+            if (err.name !== 'AbortError') UI.showToast(err.message, 'error');
         }
     },
 
     downloadActive(TabsController) {
         const tab = State.tabs.find(t => t.id === State.activeTabId);
-        if (!tab) return UI.showToast('No active file to download.', 'info');
-        
+        if (!tab) return;
         const content = (tab.fileType === 'text') ? Editor.getContent() : tab.content;
-        
-        if (content instanceof Blob) {
-             const url = URL.createObjectURL(content);
-             this._triggerDownload(url, tab.item.name);
-             URL.revokeObjectURL(url);
-        } else {
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            this._triggerDownload(url, tab.item.name);
-            window.URL.revokeObjectURL(url);
-        }
-        UI.showToast(`Downloaded "${tab.item.name}"`, 'success');
-    },
-
-    _triggerDownload(url, filename) {
+        const blob = (content instanceof Blob) ? content : new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        a.href = url; a.download = tab.item.name;
+        document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
     }
 };

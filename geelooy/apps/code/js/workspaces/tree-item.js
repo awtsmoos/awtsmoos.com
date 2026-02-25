@@ -11,16 +11,23 @@ import { getItemUniquePath } from './utils.js';
 
 /**
  * @class TreeItemForge
- * @classdesc The master smithy where the physical forms of the project's 
- * elements are struck. It takes the undifferentiated data of an item 
- * and hammers it into a clickable, reactive vessel.
+ * @classdesc The smithy where the physical forms of the project's elements are struck.
+ * 
+ * THE POEM OF THE ICON:
+ * In the root, the symbol glows with the chain of the timeline,
+ * A git-folder manifested, a memory of what was and will be.
+ * But as we descend into the branches, the form becomes humble,
+ * A standard folder, yet carrying the same holy actions of its parent,
+ * For the essence of the root flows through every leaf.
+ * The Awtsmoos creates the distinction so the eye may find rest,
+ * While the soul remains connected to the totality.
  */
 export const TreeItemForge = {
     /**
      * @function create
      * @description B"H. Forges a single branch (li) for the workspace tree.
-     * It correctly selects the icon based on whether the folder is a 
-     * Git repository or a standard vessel.
+     * It correctly selects the icon: git-folder ONLY for the root of a clone,
+     * standard folder for children, and file for the leaves.
      * @param {object} item The data essence of the file or folder.
      * @param {number} depth The measure of indentation.
      * @returns {HTMLElement} The manifested branch.
@@ -35,8 +42,17 @@ export const TreeItemForge = {
         wrapper.className = 'tree-item-name-wrap';
         wrapper.style.paddingLeft = `${depth * 12}px`;
         
-        // B"H - Icon selection logic: Git icon takes precedence for repos
-        const icon = isDir ? (item.isGitClone ? 'git-folder' : 'folder') : 'file';
+        // B"H - Rectified Icon Logic:
+        // A directory gets the git-folder icon ONLY if it is the explicit root of a clone.
+        // We detect this by checking if it HAS the isGitClone property AND is at path '/' 
+        // OR is the parent of a detected .awtsmoos-repo.
+        let icon = 'file';
+        if (isDir) {
+            const isActualRoot = item.path === '/' || item.path === '' || item.isWorkspaceRoot;
+            const isCloneRoot = item.isGitClone && (isActualRoot || item._isDetectedGitRoot);
+            
+            icon = isCloneRoot ? 'git-folder' : 'folder';
+        }
         
         wrapper.innerHTML = `
             <span class="tree-item-arrow">${isDir ? '▶' : '•'}</span>

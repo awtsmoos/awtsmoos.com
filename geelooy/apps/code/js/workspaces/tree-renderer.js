@@ -8,11 +8,9 @@ import { TreeItemForge } from './tree-item.js';
 
 /**
  * @class WorkspaceTreeRenderer
- * @classdesc This module is the architect of the project's physical form. 
- * It recursively manifests the directory hierarchy, peering into each 
- * vessel to reveal its contents. It also performs the sacred duty of 
- * Git detection, identifying if a folder is a 'clone' from the heavens of 
- * GitHub by looking for the .awtsmoos-repo marker.
+ * @classdesc The architect of the project tree. 
+ * Re-forged to ensure sub-folders don't steal the Git Root icon, 
+ * while maintaining the correct behavioral context.
  */
 export const WorkspaceTreeRenderer = {
     /**
@@ -32,12 +30,12 @@ export const WorkspaceTreeRenderer = {
             const res = await FileSystemProvider.list(parentItem);
             const children = Array.isArray(res) ? res : (res.entries || []);
             
-            // Check if this current parent directory is a Git Root
-            const isGitRoot = children.some(c => c.name === '.awtsmoos-repo');
-            if (isGitRoot) {
+            // B"H - Detect if THIS folder is the start of a Git clone
+            const containsGitMarker = children.some(c => c.name === '.awtsmoos-repo');
+            if (containsGitMarker) {
                 parentItem.isGitClone = true;
-                // If this is a nested folder, we must update the parent's icon in the DOM
-                this._markAsGitFolder(parentItem);
+                parentItem._isDetectedGitRoot = true; // Sacred marker for icon logic
+                this._markAsGitRoot(parentItem);
             }
 
             parentEl.innerHTML = ''; 
@@ -58,7 +56,10 @@ export const WorkspaceTreeRenderer = {
                     ...parentItem, 
                     ...child, 
                     workspaceId: parentItem.workspaceId || parentItem.id,
-                    isGitClone: (child.name === '.awtsmoos-repo' || parentItem.isGitClone)
+                    // Sub-folders/files inherit the 'isGitClone' status for actions, 
+                    // but NOT the root marker.
+                    isGitClone: parentItem.isGitClone,
+                    _isDetectedGitRoot: false 
                 };
                 const li = TreeItemForge.create(fullItem, depth);
                 fragment.appendChild(li);
@@ -70,11 +71,10 @@ export const WorkspaceTreeRenderer = {
     },
 
     /**
-     * @function _markAsGitFolder
-     * @description Identifies the DOM vessel of a folder and changes its 
-     * icon to the Git variant, revealing its connection to the timeline.
+     * @function _markAsGitRoot
+     * @description Ensures the UI reflects the Git status of the actual repo root.
      */
-    _markAsGitFolder(item) {
+    _markAsGitRoot(item) {
         import('./utils.js').then(m => {
             const pathKey = m.getItemUniquePath(item);
             const entry = State.domItemMap.get(pathKey);
