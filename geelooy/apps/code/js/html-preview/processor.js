@@ -7,85 +7,102 @@ import { getNetworkInterceptorScript } from './html-preview-templates.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { PathResolver } from './resolver.js';
 
-/**
- * @class HTMLPreviewProcessor
- * @description The Orchestrator of the Vision. 
- * 
- * THE POEM OF THE VISION:
- * An HTML file is a skeleton of reality.
- * To see it live, we must breathe the light of the workspace into it.
- * This vessel finds every image, every script, every style,
- * and converts their relative names into actual Blob URLs,
- * then injects a network interceptor so that the internal 
- * 'fetch' calls within the preview also perceive the local truth.
- */
 export const HTMLPreviewProcessor = {
-    /**
-     * @async
-     * @function orchestrate
-     * @description B"H. Transmutes an HTML file into a live preview.
-     */
     async orchestrate(baseItem, iframe, contentOverride = null) {
+        if (!iframe || !iframe.parentNode) return;
+
+        const identity = {
+            workspaceId: baseItem.workspaceId || baseItem.id,
+            type: baseItem.originalType || baseItem.type,
+            path: baseItem.path
+        };
+
+        console.log(`%c[PreviewProcessor] B"H - Commencing Vision Orchestration: ${identity.path}`, "color: #a8ff00; font-weight: bold;");
         VirtualBundler.reset();
-        
-        let html = contentOverride;
-        if (html === null) {
-            const raw = await FileSystemProvider.read(baseItem);
-            html = (raw instanceof Blob) ? await raw.text() : String(raw);
+
+        let rawHtml = contentOverride;
+        if (rawHtml === null) {
+            try {
+                const raw = await FileSystemProvider.read(identity);
+                rawHtml = (raw instanceof Blob) ? await raw.text() : String(raw);
+            } catch (e) { return this._err(iframe, `Vessel Retrieval Failed: ${e.message}`); }
         }
+        if (!rawHtml) return this._err(iframe, "The HTML vessel is void.");
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const doc = new DOMParser().parseFromString(rawHtml, 'text/html');
 
-        // 1. Process Static Assets (Images/Video/CSS)
-        await this._processStaticAssets(doc, baseItem);
+        await this._processPhysicalAssets(doc, identity);
 
-        // 2. Process Scripts via AST Bundler
-        const scripts = Array.from(doc.querySelectorAll('script'));
-        for (const s of scripts) {
-            if (s.hasAttribute('data-merkava-internal')) continue;
+        const allScripts = Array.from(doc.querySelectorAll('script'));
+        const siblingPath = identity.path.substring(0, identity.path.lastIndexOf('/') + 1);
+
+        for (let i = 0; i < allScripts.length; i++) {
+            const script = allScripts[i];
+            if (script.hasAttribute('data-merkava-internal')) continue;
             
-            s.setAttribute('type', 'module'); // All scripts become modules in this world
-            const src = s.getAttribute('src');
+            script.setAttribute('type', 'module');
             
-            if (src) {
-                const abs = PathResolver.resolve(baseItem.path, src);
-                s.setAttribute('src', await VirtualBundler.build(abs, baseItem, null));
-            } else if (s.textContent.trim()) {
-                const virtualPath = `${baseItem.path}/__inline_${Math.random().toString(36).substr(2, 5)}.js`;
-                s.setAttribute('src', await VirtualBundler.build(virtualPath, baseItem, s.textContent));
-                s.textContent = "";
-            }
+            try {
+                const srcLabel = script.getAttribute('src');
+                if (srcLabel) {
+                    console.log(`\n%c[PreviewProcessor] B"H - Found HTML <script src="${srcLabel}">`, "color: #ff00ff; font-weight:bold;");
+                    const absCoord = PathResolver.resolve(identity.path, srcLabel);
+                    const blobUrl = await VirtualBundler.build(absCoord, identity, null);
+                    console.log(`[PreviewProcessor] B"H - HTML <script> Replaced: ${srcLabel} -> ${blobUrl}`);
+                    script.setAttribute('src', blobUrl);
+                } else if (script.textContent.trim()) {
+                    const virtual = `${siblingPath}__manifested_script_${i}_${Math.random().toString(36).substr(2, 5)}.js`;
+                    console.log(`\n%c[PreviewProcessor] B"H - Manifesting Inline HTML Script at virtual sibling: ${virtual}`, "color: #ff00ff; font-weight:bold;");
+                    script.setAttribute('src', await VirtualBundler.build(virtual, identity, script.textContent));
+                    script.textContent = ""; 
+                }
+            } catch (e) { console.error(`[Preview] Script ${i} Transmutation Shevirah`, e); }
         }
 
-        // 3. Construct Final Vessel
-        let finalHtml = doc.documentElement.outerHTML;
-        const interceptor = `<script data-merkava-internal="true">${getNetworkInterceptorScript(baseItem.workspaceId, baseItem.path)}</script>`;
-        
-        if (finalHtml.includes('<head>')) {
-            finalHtml = finalHtml.replace('<head>', `<head>${interceptor}`);
-        } else {
-            finalHtml = interceptor + finalHtml;
-        }
-
-        const ifDoc = iframe.contentDocument || iframe.contentWindow.document;
-        ifDoc.open(); ifDoc.write(finalHtml); ifDoc.close();
+        this._finalizeVision(doc, iframe, identity);
     },
 
-    async _processStaticAssets(doc, item) {
-        const assets = Array.from(doc.querySelectorAll('img[src], video[src], audio[src], link[rel="stylesheet"]'));
+    async _processPhysicalAssets(doc, identity) {
+        const list = Array.from(doc.querySelectorAll('img[src], video[src], audio[src], link[rel="stylesheet"]'));
         
-        await Promise.all(assets.map(async (el) => {
+        await Promise.all(list.map(async (el) => {
             const attr = el.tagName === 'LINK' ? 'href' : 'src';
-            const rawPath = el.getAttribute(attr);
-            if (!rawPath || rawPath.startsWith('http') || rawPath.startsWith('data:')) return;
+            const rawLabel = el.getAttribute(attr);
+            if (!rawLabel || rawLabel.startsWith('http') || rawLabel.startsWith('data:') || rawLabel.startsWith('blob:')) return;
 
             try {
-                const abs = PathResolver.resolve(item.path, rawPath);
-                const content = await FileSystemProvider.read({ ...item, path: abs, kind: 'file' });
-                const blob = (content instanceof Blob) ? content : new Blob([content]);
+                const abs = PathResolver.resolve(identity.path, rawLabel);
+                const rawEssence = await FileSystemProvider.read({ ...identity, path: abs, kind: 'file' });
+                const blob = (rawEssence instanceof Blob) ? rawEssence : new Blob([rawEssence]);
                 el.setAttribute(attr, URL.createObjectURL(blob));
-            } catch (e) {}
+            } catch (e) {
+                console.warn(`[Preview-Assets] Failed to gather spark: ${rawLabel}`, e);
+            }
         }));
+    },
+
+    _finalizeVision(doc, iframe, identity) {
+        try {
+            const shield = `<script data-merkava-internal="true">${getNetworkInterceptorScript(identity.workspaceId, identity.path)}</script>`;
+            let htmlText = doc.documentElement.outerHTML;
+            
+            htmlText = htmlText.includes('<head>') ? htmlText.replace('<head>', `<head>${shield}`) : shield + htmlText;
+            
+            const frameDoc = iframe.contentDocument || iframe.contentWindow.document;
+            frameDoc.open(); 
+            frameDoc.write("<!DOCTYPE html>\n" + htmlText); 
+            frameDoc.close();
+            console.log(`%c[PreviewProcessor] B"H - VISION ESTABLISHED.`, "color: #a8ff00; font-weight: bold;");
+        } catch (e) { this._err(iframe, `Final Manifestation failed: ${e.message}`); }
+    },
+
+    _err(iframe, msg) {
+        const d = iframe.contentDocument || iframe.contentWindow.document;
+        d.open(); 
+        d.write(`<body style="background:#050505;color:#f75d65;padding:40px;font-family:monospace;line-height:1.8;">
+            <h3 style="border-bottom:1px solid #f75d65;padding-bottom:12px;">B"H - Preview Failed</h3>
+            <p>${msg}</p>
+        </body>`); 
+        d.close();
     }
 };

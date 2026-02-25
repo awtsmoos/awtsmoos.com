@@ -3,21 +3,29 @@
 // FILE: js/menus/context.js
 
 import { State, DOM } from '../state.js';
-import { getItemUniquePath } from '../workspaces.js';
+import { getItemUniquePath } from '../workspaces/index.js';
 import { MenuUI } from './ui.js';
 import { Menus } from './index.js';
-import { GitMetaProvider } from '../git/meta.js';
 
 /**
- * --- CONTEXT MENU PROVIDER ---
- * Decoupled from execution logic. This module's holy task is to perceive
- * the context and declare the appropriate actions, which are then handled by the dispatcher.
+ * @class ContextMenu
+ * @description The vessel that defines the possible actions in specific situations.
+ * 
+ * THE POEM OF CHOICE:
+ * One light, many shadows.
+ * Depending on where the soul touches the world (a file or a folder),
+ * different acts of creation are available.
+ * We manifest the options for copying, moving, downloading, and archival.
+ * Every option is a spark of intent.
  */
 export const ContextMenu = {
-	
+	/**
+     * @async
+     * @function show
+     * @description B"H. Reveals the menu for standard filesystem items.
+     */
 	async show(e, item) {
-	    e.preventDefault();
-	    e.stopPropagation();
+	    e.preventDefault(); e.stopPropagation();
 	    if (State.isSelectionModeActive) return;
 	    
 	    State.contextTarget = item;
@@ -29,16 +37,13 @@ export const ContextMenu = {
 	
 		const isFile = (item.kind === "file");
 		const isWorkspaceRoot = (item.path === "/" || !item.path || item.isWorkspaceRoot === true);
-		
-		const workspaceId = item.workspaceId || item.id;
-	    const workspace = State.workspaces.find(ws => ws.id === workspaceId);
-	    const isReadOnly = workspace?.readOnly || false;
+        const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId || item.id));
+        const isReadOnly = workspace?.readOnly || false;
+	    const isDir = !isFile;
 	
-		const gitSearchItem = isWorkspaceRoot ? { ...item, path: "/", workspaceId: workspaceId } : item;
-		const gitInfo = await GitMetaProvider.getGitInfoForFolder(gitSearchItem);
-		
 	    const menuItems = [];
 
+	    // --- View Actions ---
 	    if (isFile) {
 	        menuItems.push({ label: "Open in Editor", action: "open-file-tab", icon: "file" });
 	    } else {
@@ -48,16 +53,10 @@ export const ContextMenu = {
 	    
 	    menuItems.push({ label: "Refresh", action: "refresh", icon: "refresh" });
 	    menuItems.push({ label: "✨ Vibe Code", action: "open-vibe", icon: "brain-circuit" });
-	    menuItems.push({ label: "Search Here...", action: "search-in-folder", icon: "search" });
-	
-	    if (gitInfo && !isReadOnly) {
-	        menuItems.push({ isSeparator: true });
-	        menuItems.push({ label: "Git Actions...", action: "git-actions", icon: "git-branch" });
-	        menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
-	    }
-	
+
 	    menuItems.push({ isSeparator: true });
 	
+	    // --- Creation/Destruction (if not read-only) ---
 	    if (!isReadOnly) {
 	        menuItems.push({ label: "New File", action: "new-file", icon: "file" });
 	        menuItems.push({ label: "New Folder", action: "new-folder", icon: "folder" });
@@ -72,18 +71,24 @@ export const ContextMenu = {
 	        menuItems.push({ isSeparator: true });
 	    }
 	
-	    menuItems.push({ label: 'Copy "' + item.name + '"', action: "copy-single", icon: "copy" });
+	    // --- Data Transfer Rituals ---
+	    menuItems.push({ label: 'Copy Name', action: "copy-single", icon: "copy" });
 	    menuItems.push({ label: "Copy Relative Path", action: "copy-relative-path", icon: "link" });
-	    menuItems.push({ label: "Copy All Contents (MD)", action: "copy-all-contents", icon: "clipboard" });
-	
+	    
+        // B"H - Restored MD Context Download
+	    menuItems.push({ label: "Copy All as Markdown", action: "copy-all-contents", icon: "clipboard" });
+        menuItems.push({ label: "Download MD Context", action: "download-all-contents", icon: "download" });
+
 	    if (isFile) {
 	        menuItems.push({ label: "Download File", action: "download-file", icon: "download" });
 	    } else {
+            // B"H - Added Copy as ZIP (Lazy)
+	        menuItems.push({ label: "Copy as ZIP", action: "copy-zip-single", icon: "save" });
 	        menuItems.push({ label: "Download ZIP", action: "download-zip-single", icon: "download" });
 	    }
 	
 	    menuItems.push({ isSeparator: true });
-	    menuItems.push({ label: "Select", action: "start-selection", icon: "select-all" });
+	    menuItems.push({ label: "Select Multiple", action: "start-selection", icon: "select-all" });
 	    menuItems.push({ isSeparator: true });
 	
 	    if (!isReadOnly) {
@@ -95,6 +100,5 @@ export const ContextMenu = {
 	    }
 	
 	    MenuUI.renderMenu(DOM.contextMenu, menuItems, e);
-	},
-    showZipMenu: (e, item) => { /* ... placeholder ... */ }
+	}
 };

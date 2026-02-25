@@ -1,33 +1,60 @@
+
 // B"H
 // FILE: js/file-ops/exporter.js
+
 import { State } from '../state.js';
 import { UI } from '../ui.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { SelectionManager } from '../selection-manager.js';
 import { ZipFile } from '/scripts/awtsmoos/zip/encoder.js';
 
+/**
+ * @class Exporter
+ * @description This module handles the manifestation of the project's essence 
+ * into downloadable or clipboard-ready archival forms.
+ * 
+ * THE POEM OF THE ARCHIVE:
+ * To zip is to bind many into one. 
+ * We gather the scattered sparks of files and folders
+ * and enclose them in a single protective vessel.
+ * The Awtsmoos allows for this concentration of essence,
+ * making it easy to carry the light from one world to another.
+ */
 export const Exporter = {
+    /**
+     * @async
+     * @function copyAsZip
+     * @description B"H. Performs a 'Lazy Copy'. It does not compress now,
+     * but remembers the items. Upon 'Paste', they will be woven together.
+     * @param {Array} items The items to be marked for zipping.
+     */
     async copyAsZip(items) {
         if (!items || items.length === 0) return;
         
-        // B"H - Lazy Copy Strategy
-        // We do not compress yet. We store the intent and references.
+        // Record the intent in the State vessel
         State.clipboardZip = { 
-            items: items, 
+            items: [...items], 
             type: 'lazy-zip', 
             name: items.length === 1 ? `${items[0].name}.zip` : 'selection.zip' 
         };
-        State.fileClipboard = []; // Clear standard clipboard
         
-        UI.showToast("Copied to clipboard (Zip on Paste)", "success");
-        SelectionManager.end();
+        // Clear standard file clipboard to prevent confusion
+        State.fileClipboard = []; 
+        
+        UI.showToast("Copied as ZIP (Compression on Paste)", "success");
+        if (typeof SelectionManager?.end === 'function') SelectionManager.end();
     },
 
+    /**
+     * @async
+     * @function downloadAsZip
+     * @description B"H. Gathers content immediately and triggers a browser download.
+     */
     async downloadAsZip(items) {
         if (!items || items.length === 0) return;
         
         const taskId = `zip-dl-${Date.now()}`;
-        UI.startTask(taskId, "Compressing for download...");
+        UI.startTask(taskId, "Weaving Archive...");
         
         try {
             const blob = await this.createZipBlob(items);
@@ -37,90 +64,79 @@ export const Exporter = {
             a.download = items.length === 1 ? `${items[0].name}.zip` : 'archive.zip';
             a.click();
             URL.revokeObjectURL(url);
-            UI.endTask(taskId, 'success', "Download started.");
+            UI.endTask(taskId, 'success', "Download Manifested.");
         } catch (e) {
-            UI.endTask(taskId, 'error', "Download failed: " + e.message);
-            console.error(e);
-        } finally {
-            SelectionManager.end();
+            UI.endTask(taskId, 'error', "Zip Ritual Failed: " + e.message);
         }
     },
 
+    /**
+     * @async
+     * @function createZipBlob
+     * @description Recursive process of gathering contents and building the ZIP.
+     */
     async createZipBlob(items) {
         const zip = new ZipFile();
         
+        /**
+         * @async
+         * @function processItem
+         * @description B"H. Navigates the internal structure of each chosen vessel.
+         */
         const processItem = async (item, basePath) => {
-            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-            const fullItem = { ...workspace, ...item };
+            const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
+            const fullItem = { ...ws, ...item, workspaceId: ws.id };
 
             if (item.kind === 'file') {
                 let content = await FileSystemProvider.read(fullItem);
-                if (content instanceof Blob) content = new Uint8Array(await content.arrayBuffer());
-                else if (typeof content === 'string') content = new TextEncoder().encode(content);
-                else if (content.base64Content) {
-                    const binStr = atob(content.base64Content);
-                    content = new Uint8Array(binStr.length);
-                    for(let i=0; i<binStr.length; i++) content[i] = binStr.charCodeAt(i);
-                }
                 
-                zip.addFile(basePath ? `${basePath}/${item.name}` : item.name, content);
+                // Transmute content to bytes
+                let bytes;
+                if (content instanceof Blob) bytes = new Uint8Array(await content.arrayBuffer());
+                else if (typeof content === 'string') bytes = new TextEncoder().encode(content);
+                else if (content?.base64Content) {
+                    const bin = atob(content.base64Content);
+                    bytes = new Uint8Array(bin.length);
+                    for(let i=0; i<bin.length; i++) bytes[i] = bin.charCodeAt(i);
+                } else bytes = new Uint8Array(0);
+                
+                zip.addFile(basePath ? `${basePath}/${item.name}` : item.name, bytes);
             } else if (item.kind === 'directory') {
-                const children = await FileSystemProvider.list(fullItem);
+                const res = await FileSystemProvider.list(fullItem);
+                const children = res.entries || [];
                 const newBase = basePath ? `${basePath}/${item.name}` : item.name;
+                
                 zip.addFolder(newBase);
                 for (const child of children) {
-                    await processItem({ ...child, workspaceId: item.workspaceId }, newBase);
+                    await processItem(child, newBase);
                 }
             }
         };
 
-        for (const item of items) {
-            await processItem(item, '');
-        }
-
+        for (const item of items) await processItem(item, '');
         return zip.build();
     },
 
+    /**
+     * @async
+     * @function downloadFile
+     * @description Triggers download for a single file vessel.
+     */
     async downloadFile(item) {
         if (!item || item.kind !== 'file') return;
-        
         const taskId = `dl-${Date.now()}`;
-        UI.startTask(taskId, `Downloading ${item.name}...`);
+        UI.startTask(taskId, `Gathering ${item.name}...`);
         
         try {
             const content = await FileSystemProvider.read(item);
-            let blob;
-            
-            if (content instanceof Blob) {
-                blob = content;
-            } else if (typeof content === 'string') {
-                blob = new Blob([content], { type: 'text/plain' });
-            } else if (content && content.base64Content) {
-                 const binStr = atob(content.base64Content);
-                 const len = binStr.length;
-                 const bytes = new Uint8Array(len);
-                 for (let i = 0; i < len; i++) bytes[i] = binStr.charCodeAt(i);
-                 blob = new Blob([bytes], { type: content.mime || 'application/octet-stream' });
-            } else if (content instanceof ArrayBuffer) {
-                blob = new Blob([content], { type: 'application/octet-stream' });
-            }
-            
-            if (blob) {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = item.name;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                UI.endTask(taskId, 'success', `Download started.`);
-            } else {
-                throw new Error("Could not prepare file for download.");
-            }
+            let blob = (content instanceof Blob) ? content : new Blob([content]);
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = item.name; a.click();
+            URL.revokeObjectURL(url);
+            UI.endTask(taskId, 'success');
         } catch (e) {
-            UI.endTask(taskId, 'error', "Download failed: " + e.message);
-            console.error("Download Error:", e);
+            UI.endTask(taskId, 'error', e.message);
         }
     }
 };
