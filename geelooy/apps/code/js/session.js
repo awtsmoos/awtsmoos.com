@@ -43,14 +43,21 @@ export const Session = {
                         branch: tab.item.branch,           
                         sha: tab.item.sha,
                         originalType: tab.item.originalType,
-                        // B"H - Capture specific CWD for Terminal and Commander
                         commanderState: tab.item.commanderState,
                         terminalState: tab.item.terminalState
                     };
 
-                    // For Vibe tabs, 'content' is the session object.
-                    // For Terminal/Commander, it's their specific state.
-                    const contentToSave = (tab.isDirty || tab.item.type === 'temp' || tab.fileType === 'vibe' || tab.item.type === 'terminal' || tab.item.type === 'commander') ? tab.content : null;
+                    // B"H - Rectified: Persist content for previews so they survive reload
+                    const shouldSaveContent = 
+                        tab.isDirty || 
+                        tab.item.type === 'temp' || 
+                        tab.fileType === 'vibe' || 
+                        tab.item.type === 'terminal' || 
+                        tab.item.type === 'commander' ||
+                        tab.fileType === 'html-preview' ||
+                        tab.isPreview;
+
+                    const contentToSave = shouldSaveContent ? tab.content : null;
 
                     return { 
                         id: tab.id,
@@ -60,6 +67,7 @@ export const Session = {
                         pinned: tab.pinned || false, 
                         scrollPos: tab.scrollPos || 0,
                         fileType: tab.fileType,
+                        isPreview: tab.isPreview, // Save this flag
                         item: safeItem,
                         content: contentToSave
                     };
@@ -116,7 +124,6 @@ export const Session = {
                 State.tabs = session.openTabs.map(t => {
                     if (t.id >= maxTabId) maxTabId = t.id + 1;
                     
-                    // B"H - Virtual State Hydration
                     if (t.fileType === 'vibe' && t.content) {
                         t.vibeSession = t.content; 
                     } else if (t.item.type === 'terminal' && t.content) {

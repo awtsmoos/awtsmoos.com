@@ -10,7 +10,7 @@ import { FindReplace } from '../find-replace.js';
 import { CommandPalette } from '../command-palette.js';
 import { VisualSettings } from '../visuals/settings.js';
 import { Help } from '../help.js';
-import { ParticleSystem } from '../visuals/particle-system.js'; // B"H
+import { ParticleSystem } from '../visuals/particle-system.js'; 
 
 export const ViewActions = {
     toggleLineComment() { Editor.toggleComment(); },
@@ -41,22 +41,18 @@ export const ViewActions = {
         UI.showToast(`Word Wrap: ${DOM.editor.style.whiteSpace === 'pre-wrap' ? 'ON' : 'OFF'}`, 'info');
     },
 
-    // B"H - FONT SIZE CONTROLS
     _changeFontSize(delta) {
         const editor = DOM.editor;
         if (!editor) return;
         
         const style = window.getComputedStyle(editor);
         const currentSize = parseFloat(style.fontSize);
-        const newSize = Math.max(10, Math.min(60, currentSize + delta)); // Clamp between 10px and 60px
+        const newSize = Math.max(10, Math.min(60, currentSize + delta)); 
         
-        // Apply to Editor
         editor.style.fontSize = `${newSize}px`;
-        // We also need to update the line numbers container to match!
         const lineNums = document.getElementById('line-numbers');
         if (lineNums) lineNums.style.fontSize = `${newSize}px`;
         
-        // REFRESH HIGHLIGHTER & METRICS
         if (Editor.currentHighlighter) {
             Editor.currentHighlighter.refresh();
         }
@@ -110,7 +106,12 @@ export const ViewActions = {
     },
 
     toggleKeyboardHelper() { DOM.keyboardHelper.classList.toggle("is-visible"); },
-    toggleFullscreen() { App.toggleFullscreen(); },
+    
+    // B"H - Delegated to FullscreenManager
+    toggleFullscreen() { 
+        import('../app/fullscreen-manager.js').then(m => m.FullscreenManager.toggleApp());
+    },
+    
     showSettings() { App.showSettings(); },
     findReplace() { FindReplace.show(); },
     commandPalette() { CommandPalette.toggle(); },

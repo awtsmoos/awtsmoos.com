@@ -5,22 +5,10 @@
 import { State } from '../state.js';
 import { UI } from '../ui.js';
 
-/**
- * @class Dispatcher
- * @description The Supreme Orchestrator of Action. 
- * Re-forged to ensure absolute architectural clarity.
- * 
- * THE POEM OF THE DISPATCHER:
- * Intent arrives from the Menu's touch,
- * The Dispatcher knows what to do, and how much.
- * It maps the label to the module of power,
- * Manifesting the will in this very hour.
- */
 export const Dispatcher = {
     async handle(action, item = State.contextTarget) {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         
-        // B"H - Pure Mapping of Sacred Intent
         const ritualHandlers = {
             // --- Content Branch ---
             "select-all": async () => (await import('./text-actions.js')).TextActions.selectAll(),
@@ -54,11 +42,11 @@ export const Dispatcher = {
             "download-all-contents": async () => (await import('../file-operations.js')).FileOperations.downloadAllContents([item]),
             "copy-single": async () => {
                 const { getItemUniquePath } = await import('../workspaces/index.js');
-                State.fileClipboard = [getItemUniquePath(item)];
+                State.fileClipboard =[getItemUniquePath(item)];
                 UI.showToast(`Copied ${item.name}`, "success");
             },
 
-            // --- System Branch ---
+            // --- System & Expansion Branch ---
             "open-vibe": async () => {
                 const vc = await import('../vibe/vibe-controller.js');
                 vc.VibeController.init(); vc.VibeController.open(item);
@@ -66,7 +54,16 @@ export const Dispatcher = {
             "git-init": async () => (await import('../git/index.js')).GitManager.initializeRepository(item),
             "commit-changes": async () => (await import('../app/index.js')).App.commitAllChanges(),
             "settings": async () => (await import('../app/index.js')).App.showSettings(),
-            "toggle-fullscreen": async () => (await import('../app/index.js')).App.toggleFullscreen()
+            
+            // B"H - Fullscreen Rectifications
+            "toggle-fullscreen": async () => (await import('../app/fullscreen-manager.js')).FullscreenManager.toggleApp(),
+            "fullscreen-tab": async () => {
+                // If triggered via Context Menu, activate the tab first
+                if (State.contextTabTarget && State.contextTabTarget.id !== State.activeTabId) {
+                    await (await import('../tabs/index.js')).Tabs.activate(State.contextTabTarget.id);
+                }
+                (await import('../app/fullscreen-manager.js')).FullscreenManager.toggleActiveTab();
+            }
         };
 
         try {
@@ -74,7 +71,7 @@ export const Dispatcher = {
             if (handleRitual) {
                 await handleRitual();
             } else {
-                // If it's a selected-set action
+                // Fallback for actions defined elsewhere (like old ViewActions)
                 const { SelectionManager } = await import('../selection-manager.js');
                 if (action === "start-selection") SelectionManager.start(item);
             }

@@ -13,7 +13,7 @@ import { getItemUniquePath } from '../workspaces.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
 import { VibeController } from '../vibe/vibe-controller.js'; 
 import { FileCommander } from '../file-commander.js'; 
-import { Terminal } from '../terminal/index.js'; // B"H
+import { Terminal } from '../terminal/index.js';
 
 import { TabsRenderer } from './rendering.js';
 import { TabsPersistence } from './persistence.js';
@@ -41,7 +41,6 @@ export const Tabs = {
     },
     
     async create(item, isNewFile = false, shouldSave = true, activate = true) {
-        // B"H - Commander tab handling
         if (item.type === 'commander') {
             const newTab = {
                 id: State.nextTabId++,
@@ -58,12 +57,11 @@ export const Tabs = {
             return;
         }
 
-        // B"H - Terminal tab handling
         if (item.type === 'terminal') {
             const newTab = {
                 id: State.nextTabId++,
                 item,
-                content: item.terminalState, // State storage
+                content: item.terminalState, 
                 isDirty: false,
                 uniquePath: `terminal::${Date.now()}`,
                 fileType: 'terminal',
@@ -197,7 +195,6 @@ export const Tabs = {
             return;
         }
 
-        // B"H - Terminal Activation
         if (tab.fileType === 'terminal' || tab.item.type === 'terminal') {
             UI.switchView('terminal-wrapper');
             const container = document.getElementById('terminal-wrapper');
@@ -217,7 +214,12 @@ export const Tabs = {
 	        }
 	    } else if (!hasPreloadedContent || tab.forceReload) {
 	        var loaded = await this._loadTabContent(tab);
-	        if (!loaded) return; 
+	        if (!loaded) {
+                // B"H - CRITICAL FIX: Even if loading fails, we MUST render the UI.
+                // Otherwise, a closed tab might remain visually present ("Ghost Tab").
+                this.render();
+                return;
+            }
 	    }
 	
 	    await this._renderTabView(tab);
@@ -484,7 +486,7 @@ export const Tabs = {
         return TabsPersistence.save(tab, this);
     },
 
-    async saveAs(tab) {
+    async saveAs(tab, TabsController) {
         return TabsPersistence.saveAs(tab, this);
     },
     
