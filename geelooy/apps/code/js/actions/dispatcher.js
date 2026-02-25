@@ -10,6 +10,15 @@ export const Dispatcher = {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         
         const ritualHandlers = {
+            // --- Git Branch ---
+            "git-actions": async () => {
+                const { GitManager } = await import('../git/index.js');
+                const { GitMetaProvider } = await import('../git/meta.js');
+                const gitInfo = await GitMetaProvider.getGitInfoForFolder(item);
+                GitManager.showGitUI(item, gitInfo);
+            },
+            "switch-branch": async () => (await import('../git/index.js')).GitManager.switchBranch(item),
+            
             // --- Content Branch ---
             "select-all": async () => (await import('./text-actions.js')).TextActions.selectAll(),
             "copy-all": async () => (await import('./text-actions.js')).TextActions.copyAll(),
@@ -55,10 +64,8 @@ export const Dispatcher = {
             "commit-changes": async () => (await import('../app/index.js')).App.commitAllChanges(),
             "settings": async () => (await import('../app/index.js')).App.showSettings(),
             
-            // B"H - Fullscreen Rectifications
             "toggle-fullscreen": async () => (await import('../app/fullscreen-manager.js')).FullscreenManager.toggleApp(),
             "fullscreen-tab": async () => {
-                // If triggered via Context Menu, activate the tab first
                 if (State.contextTabTarget && State.contextTabTarget.id !== State.activeTabId) {
                     await (await import('../tabs/index.js')).Tabs.activate(State.contextTabTarget.id);
                 }
@@ -71,7 +78,6 @@ export const Dispatcher = {
             if (handleRitual) {
                 await handleRitual();
             } else {
-                // Fallback for actions defined elsewhere (like old ViewActions)
                 const { SelectionManager } = await import('../selection-manager.js');
                 if (action === "start-selection") SelectionManager.start(item);
             }
