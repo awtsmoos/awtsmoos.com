@@ -1,4 +1,5 @@
-// B"H
+
+//B"H
 // FILE: js/ui.js
 import { DOM } from './state.js';
 import { UINotifications } from './ui/notifications.js';
@@ -56,29 +57,40 @@ export const UI = {
     },
 
     switchView: function(view) {
-	    // B"H - FIXED: Added 'vibe-manager-wrapper' to the panels list
-	    var panels = [
-	        'editor-wrapper', 'previewer', 'console-host', 
-	        'empty-editor-message', 'hex-editor-wrapper', 
-	        'data-altar-container', 'zip-editor-wrapper', 
-	        'vibe-editor-wrapper', 'vibe-manager-wrapper'
-	    ];
-	    
-	    for (var i = 0; i < panels.length; i++) {
-	        var el = document.getElementById(panels[i]);
-	        if (el) el.classList.add('hidden');
-	    }
-	    
-	    var target = view;
-	    if (view === 'editor') target = 'editor-wrapper';
-	    if (view === 'vibe') target = 'vibe-editor-wrapper';
-	    
-	    var targetEl = document.getElementById(target);
-	    if (targetEl) targetEl.classList.remove('hidden');
-	    
-	    var minimap = document.getElementById('minimap-canvas');
-	    if (minimap) minimap.classList.toggle('hidden', view !== 'editor');
-	},
+        // List of all possible panel IDs to hide
+        var panels = [
+            'editor-wrapper', 'previewer', 'console-host', 
+            'empty-editor-message', 'hex-editor-wrapper', 
+            'data-altar-container', 'zip-editor-wrapper', 
+            'vibe-editor-wrapper', 'vibe-manager-wrapper'
+        ];
+        
+        for (var i = 0; i < panels.length; i++) {
+            var el = document.getElementById(panels[i]);
+            if (el) el.classList.add('hidden');
+        }
+        
+        // B"H - Mapping logic to ensure the correct ID is targeted.
+        // The screenshot showed #previewer was still hidden because 'preview' wasn't mapped to 'previewer'.
+        var idMap = {
+            'editor': 'editor-wrapper',
+            'preview': 'previewer',
+            'vibe': 'vibe-editor-wrapper',
+            'hex': 'hex-editor-wrapper',
+            'zip': 'zip-editor-wrapper',
+            'altar': 'data-altar-container',
+            'empty': 'empty-editor-message'
+        };
+
+        var targetId = idMap[view] || view;
+        
+        var targetEl = document.getElementById(targetId);
+        if (targetEl) targetEl.classList.remove('hidden');
+        else console.warn(`[UI] switchView target element not found: #${targetId} (requested view: ${view})`);
+        
+        var minimap = document.getElementById('minimap-canvas');
+        if (minimap) minimap.classList.toggle('hidden', view !== 'editor');
+    },
 
     syncScroll: () => DOM.lineNumbers.scrollTop = DOM.editor.scrollTop
 };

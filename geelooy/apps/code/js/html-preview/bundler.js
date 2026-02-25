@@ -1,91 +1,71 @@
-// B"H
-// FILE: js/html-preview/bundler.js
 
+// B"H
 import { FileSystemProvider } from '../fs-provider.js';
 import { PreviewTransformer } from './transformer.js';
+import { PathResolver } from './resolver.js';
+import { CycleShield } from './cycle-shield.js';
 
+/**
+ * @class VirtualBundler
+ * @description The master weaver that manifests the dependency web.
+ */
 export const VirtualBundler = {
-    moduleCache: new Map(), // absPath -> blobUrl
+    cache: new Map(),
 
     reset() {
-        this.moduleCache.forEach(url => URL.revokeObjectURL(url));
-        this.moduleCache.clear();
-    },
-
-    resolvePath(base, rel) {
-        if (!rel || rel.startsWith('http') || rel.startsWith('data:') || rel.startsWith('blob:')) return rel;
-        if (rel.startsWith('/')) return rel;
-        
-        let basePath = base.substring(0, base.lastIndexOf('/'));
-        const stack = basePath ? basePath.split('/').filter(Boolean) : [];
-        const parts = rel.split('/');
-        
-        for (const p of parts) {
-            if (p === '..') stack.pop();
-            else if (p !== '.') stack.push(p);
-        }
-        return '/' + stack.join('/');
-    },
-
-    _generateErrorModule(msg, absPath) {
-        const safeMsg = JSON.stringify(`Awtsmoos Error: ${msg}`);
-        const errCode = `
-            console.error(${safeMsg});
-            const proxyMock = new Proxy({}, {
-                get: function(target, prop) {
-                    return function() { console.warn('Called missing module property:', prop); };
-                }
-            });
-            export default proxyMock;
-        `;
-        const errBlob = new Blob([errCode], { type: 'application/javascript' });
-        const errUrl = URL.createObjectURL(errBlob);
-        this.moduleCache.set(absPath, errUrl);
-        return errUrl;
+        console.log(`[VirtualBundler] Resetting cache vessels.`);
+        this.cache.forEach(url => URL.revokeObjectURL(url));
+        this.cache.clear();
+        CycleShield.reset();
     },
 
     async build(absPath, baseItem, sourceOverride = null) {
-        if (this.moduleCache.has(absPath)) return this.moduleCache.get(absPath);
+        if (this.cache.has(absPath)) return this.cache.get(absPath);
+        if (!CycleShield.enter(absPath)) return this._circular(absPath);
 
+        console.group(`[VirtualBundler] Building: ${absPath}`);
         let code = sourceOverride;
-        if (code === null) {
-            try {
-                // console.log(`[Bundler] Fetching module vessel: ${absPath}`);
-                const item = { ...baseItem, path: absPath, kind: 'file' };
-                const raw = await FileSystemProvider.read(item);
-                code = (raw instanceof Blob) ? await raw.text() : (raw.base64Content ? atob(raw.base64Content) : String(raw));
-            } catch(e) {
-                console.error(`[Bundler] Failed to load vessel '${absPath}':`, e);
-                return this._generateErrorModule(`Module missing at path: ${absPath}`, absPath);
-            }
-        }
-
-        // B"H - Transmutations
-        if (absPath.endsWith('.css')) {
-            code = `const style = document.createElement('style'); style.textContent = ${JSON.stringify(code)}; document.head.appendChild(style); export default style;`;
-        } else if (absPath.endsWith('.json') || absPath.endsWith('.awtsmoosJSON')) {
-            code = `export default ${code};`;
-        } else if (absPath.endsWith('.html')) {
-            code = `export default ${JSON.stringify(code)};`;
-        }
-
-        const resolver = async (relPath) => {
-            if (relPath.startsWith('.') || relPath.startsWith('/')) {
-                const nextAbs = this.resolvePath(absPath, relPath);
-                return await this.build(nextAbs, baseItem, null);
-            }
-            return `https://esm.sh/${relPath}`;
-        };
-
         try {
-            const transformedCode = await PreviewTransformer.transform(code, resolver);
-            const blob = new Blob([transformedCode], { type: 'application/javascript' });
-            const url = URL.createObjectURL(blob);
-            this.moduleCache.set(absPath, url);
+            if (code === null) {
+                // System Realm Check
+                if (absPath.startsWith('/scripts/') || absPath === '/register.js' || absPath.includes('merkava')) {
+                    const res = await fetch(absPath);
+                    if (!res.ok) throw new Error("System Asset Missing");
+                    code = await res.text();
+                } else {
+                    const raw = await FileSystemProvider.read({ ...baseItem, path: absPath, kind: 'file' });
+                    code = (raw instanceof Blob) ? await raw.text() : (raw.base64Content ? atob(raw.base64Content) : String(raw));
+                }
+            }
+
+            // Transmutations
+            if (absPath.endsWith('.css')) code = `const s = document.createElement('style'); s.textContent = ${JSON.stringify(code)}; document.head.appendChild(s); export default s;`;
+            else if (absPath.endsWith('.json')) code = `export default ${code};`;
+
+            const resolver = async (rel) => {
+                const resolved = PathResolver.resolve(absPath, rel);
+                if (resolved.startsWith('/') || rel.startsWith('.')) return await this.build(resolved, baseItem, null);
+                return `https://esm.sh/${rel}`;
+            };
+
+            const transformed = await PreviewTransformer.transform(code, resolver);
+            const url = URL.createObjectURL(new Blob([transformed], { type: 'application/javascript' }));
+            this.cache.set(absPath, url);
+            CycleShield.exit(absPath);
+            console.groupEnd();
             return url;
-        } catch (transformError) {
-            console.error(`[Bundler] Syntax Error in '${absPath}':`, transformError);
-            return this._generateErrorModule(`Syntax Error in ${absPath}: ${transformError.message}`, absPath);
+        } catch (e) {
+            console.error(`[VirtualBundler] Shevirah: ${absPath}`, e);
+            CycleShield.exit(absPath);
+            console.groupEnd();
+            return this._error(e.message, absPath);
         }
-    }
+    },
+
+    _circular(path) { return URL.createObjectURL(new Blob([`// B"H Circular Loop Broken: ${path}\nexport default {};`], { type: 'application/javascript' })); },
+    _error(msg, path) {
+        const code = `console.error(${JSON.stringify('B"H - Module Error: ' + path + ' -> ' + msg)}); export default {};`;
+        return URL.createObjectURL(new Blob([code], { type: 'application/javascript' }));
+    },
+    resolvePath: PathResolver.resolve
 };

@@ -109,44 +109,44 @@ export const ChatUI = {
     },
 
     _createCard: function(file, tab, controller) {
-        var card = document.createElement('div');
-        card.className = "vibe-manifest-card";
-        
-        // B"H - Stable High-Tech Styling
-        card.style.background = "rgba(13, 17, 23, 0.95)";
-        card.style.border = "1px solid #383e5e";
-        card.style.borderLeft = "4px solid #00f6ff";
-        card.style.padding = "12px";
-        card.style.margin = "10px 0";
-        card.style.borderRadius = "6px";
-        card.style.cursor = "pointer";
-        card.style.transition = "all 0.2s";
-
-        var fileName = file.path.split("/").pop() || "file";
-        var dirPath = file.path.substring(0, file.path.lastIndexOf('/')) || '/';
-        var status = file.isComplete ? '✓' : '...';
-
-        card.innerHTML = 
-            '<div style="display:flex; justify-content:space-between; align-items:center;">' +
-                '<div style="overflow:hidden;">' +
-                    '<div style="font-family:monospace; color:#00f6ff; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + fileName + '</div>' +
-                    '<div style="font-size:0.7em; color:rgba(200,200,255,0.5);">' + dirPath + '</div>' +
-                '</div>' +
-                '<div style="color:#a8ff00; font-weight:bold;">' + status + '</div>' +
-            '</div>' +
-            '<div style="margin-top:6px; font-size:0.8em; color:rgba(255,255,255,0.7);">' + file.operation.toUpperCase() + ": " + file.description + '</div>';
-
-        card.onmouseenter = function() { card.style.borderColor = "#00f6ff"; card.style.transform = "translateX(5px)"; };
-        card.onmouseleave = function() { card.style.borderColor = "#383e5e"; card.style.transform = "translateX(0)"; };
-
-        if (file.operation !== 'delete') {
-            card.onclick = function(e) {
-                e.stopPropagation();
-                if (controller) controller.previewFile(tab, file.path);
-            };
-        }
-        return card;
-    },
+	    var card = document.createElement('div');
+	    card.className = "vibe-manifest-card";
+	    
+	    // Aesthetic setup
+	    card.style.background = "rgba(13, 17, 23, 0.95)";
+	    card.style.border = "1px solid #383e5e";
+	    card.style.borderLeft = "4px solid #00f6ff";
+	    card.style.padding = "12px";
+	    card.style.margin = "10px 0";
+	    card.style.borderRadius = "6px";
+	    card.style.cursor = "pointer";
+	
+	    // Extract names manually
+	    var fileName = file.path.split("/").pop() || "vessel";
+	    var dirParts = file.path.split("/");
+	    dirParts.pop();
+	    var dirPath = dirParts.join("/") || "/";
+	    var status = file.isComplete ? '✓' : '...';
+	
+	    // B"H - Pure string concatenation for the HTML content
+	    card.innerHTML = 
+	        '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+	            '<div style="overflow:hidden;">' +
+	                '<div style="font-family:monospace; color:#00f6ff; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + fileName + '</div>' +
+	                '<div style="font-size:0.7em; color:rgba(200,200,255,0.5);">' + dirPath + '</div>' +
+	            '</div>' +
+	            '<div style="color:#a8ff00; font-weight:bold; font-size:1.2em;">' + status + '</div>' +
+	        '</div>' +
+	        '<div style="margin-top:6px; font-size:0.8em; color:rgba(255,255,255,0.7);">' + file.operation.toUpperCase() + ": " + file.description + '</div>';
+	
+	    if (file.operation !== 'delete') {
+	        card.onclick = function(e) {
+	            e.stopPropagation();
+	            if (controller) controller.previewFile(tab, file.path);
+	        };
+	    }
+	    return card;
+	},
 
     _hydrateCodeBlocks: function(container) {
         if (typeof pnimi === 'undefined') return;
@@ -158,5 +158,27 @@ export const ChatUI = {
                 blocks[i].dataset.hydrated = 'true';
             } catch(e) {}
         }
-    }
+    },
+    
+    // B"H - Ensure updateLastMessage is in ChatUI in js/vibe/view/chat-ui.js
+
+	updateLastMessage: function(container, content, tab, controller) {
+	    // Find the very last message bubble
+	    var lastMsg = container.lastElementChild;
+	    
+	    // If it's not a model bubble, or doesn't exist, create one
+	    if (!lastMsg || !lastMsg.classList.contains('model')) {
+	        this.appendMessage({ role: 'model', content: content }, container, tab, controller);
+	        return;
+	    }
+	    
+	    // Efficiently re-render only the inner content of the last bubble
+	    this._renderModelMessage(lastMsg, content, tab, controller);
+	    this._hydrateCodeBlocks(lastMsg);
+	    
+	    // Auto-scroll to keep the new words in view
+	    if (container.scrollHeight - container.scrollTop <= container.clientHeight + 100) {
+	        container.scrollTop = container.scrollHeight;
+	    }
+	},
 };

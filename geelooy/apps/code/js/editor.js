@@ -152,10 +152,12 @@ export const Editor = {
             } else {
                 DOM.previewer.appendChild(iframe);
             }
-            import('./html-preview-processor.js').then(({ orchestratePreview }) => {
+            
+            // B"H - Import the new modular processor
+            import('./html-preview/processor.js').then(({ HTMLPreviewProcessor }) => {
                 const tab = State.tabs.find(t => t.id === tabId);
                 if (tab && tab.item) {
-                    orchestratePreview(tab.item, iframe, tab.content);
+                    HTMLPreviewProcessor.orchestrate(tab.item, iframe, tab.content);
                 }
             });
             return;
