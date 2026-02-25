@@ -11,20 +11,21 @@ import { GitMetaProvider } from '../../git/meta.js';
 
 /**
  * @class LoopEngine
- * @classdesc The engine of transformation. It takes the abstract plans 
- * provided by the AI and manifests them into the physical reality of 
- * the disk. It is rectified to integrate perfectly with the Git system, 
- * staging every change so the user's timeline remains accurate.
+ * @description The engine of physical transformation. 
+ * Re-forged to ensure absolute Git synchronization.
+ * 
+ * THE RECTIFICATION:
+ * When the AI speaks a new file, the engine now finds the 
+ * Absolute Git Root of the workspace. It calculates the 
+ * relative path from THAT root, ensuring the uncommitted_files 
+ * vessel (IndexedDB) is updated at the correct coordinate.
+ * Now, the Git Status UI shall never be blind to the AI's work.
  */
 export const LoopEngine = {
     /**
      * @async
      * @function apply
-     * @description B"H. The act of manifestation. It iterates through a list 
-     * of required changes and shapes the vessels accordingly. 
-     * It also stages changes in Git to prevent desynchronization.
-     * @param {Array} changeList The list of required rectifications.
-     * @param {number} workspaceId The world in which these changes occur.
+     * @description B"H. Manifests plans into vessels.
      */
     async apply(changeList, workspaceId) {
         const workspace = State.workspaces.find(ws => ws.id === workspaceId);
@@ -34,11 +35,11 @@ export const LoopEngine = {
         const parentsToRefresh = new Set();
         
         const taskId = `vibe-apply-${Date.now()}`;
-        UI.startTask(taskId, "Manifesting AI rectifications...");
+        UI.startTask(taskId, "Staging AI Rectifications...");
 
         for (let i = 0; i < changeList.length; i++) {
             const change = changeList[i];
-            UI.updateTask(taskId, (i / changeList.length) * 100, `Writing: ${change.path.split('/').pop()}`);
+            UI.updateTask(taskId, (i / changeList.length) * 100, `Vessel: ${change.path.split('/').pop()}`);
             
             const item = { 
                 ...workspace, 
@@ -49,18 +50,32 @@ export const LoopEngine = {
                 originalType: physicalType
             };
 
-            // Stage change in Git uncommitted store BEFORE writing to disk
-            // This ensures the diff is immediate.
+            // B"H - THE CORE RECTIFICATION: Find Git Ancestry for the file
             const gitInfo = await GitMetaProvider.getGitInfoForFolder(item);
             if (gitInfo) {
-                const uniqueStagingPath = `${workspaceId}::${change.path}`;
+                // Determine the correct relative path for the Staging Vessel
+                const gitRootPath = gitInfo.path.replace(/\/+$/, "") || "/";
+                const absoluteFilePath = change.path;
+                let relToGit = absoluteFilePath;
+
+                if (gitRootPath !== "/" && gitRootPath !== "" && absoluteFilePath.startsWith(gitRootPath + "/")) {
+                    relToGit = absoluteFilePath.substring(gitRootPath.length + 1);
+                } else if (gitRootPath === "/" || gitRootPath === "") {
+                    relToGit = absoluteFilePath.startsWith("/") ? absoluteFilePath.substring(1) : absoluteFilePath;
+                }
+
+                // Stage the change in IndexedDB so Git Status can see it instantly
+                const uniqueStagingKey = `${workspaceId}::${relToGit}`;
+                const stagedItem = { ...item, path: relToGit };
+
                 if (change.operation === 'delete') {
-                    await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingPath, null, item);
+                    await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingKey, null, stagedItem);
                 } else {
-                    await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingPath, change.content, item);
+                    await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingKey, change.content, stagedItem);
                 }
             }
 
+            // Perform physical write
             if (change.operation === 'delete') {
                 try { await FileSystemProvider.delete(item); } catch (e) {}
             } else {
@@ -68,7 +83,6 @@ export const LoopEngine = {
                     await this._ensureDirectoryExists(workspace, change.path, physicalType);
                     await FileSystemProvider.write(item, change.content);
                 } catch (writeErr) {
-                    // Fallback to explicit creation if path is deep
                     const parts = change.path.split('/');
                     const name = parts.pop();
                     const parent = parts.join('/') || '/';
@@ -77,32 +91,24 @@ export const LoopEngine = {
                 }
             }
             
-            const lastSlash = change.path.lastIndexOf('/');
-            parentsToRefresh.add(lastSlash <= 0 ? '/' : change.path.substring(0, lastSlash));
+            parentsToRefresh.add(change.path.substring(0, change.path.lastIndexOf('/')) || '/');
             
-            // Sync open tabs
+            // Update open tabs
             const openTab = State.tabs.find(t => t.item.path === change.path && t.item.workspaceId === workspaceId);
             if (openTab) {
                 openTab.content = change.content;
                 openTab.isDirty = false;
-                if (State.activeTabId === openTab.id) {
-                    await Tabs.activate(openTab.id);
-                }
+                openTab.isUncommitted = true;
+                if (State.activeTabId === openTab.id) await Tabs.activate(openTab.id);
             }
         }
 
         UI.endTask(taskId, 'success', `Manifested ${changeList.length} files.`);
-
         for (const p of parentsToRefresh) {
-            await Workspaces.refreshNode({ ...workspace, path: p, kind: 'directory', workspaceId: workspaceId, type: physicalType });
+            await Workspaces.refreshNode({ ...workspace, path: p, kind: 'directory', workspaceId, type: physicalType });
         }
     },
     
-    /**
-     * @async
-     * @function _ensureDirectoryExists
-     * @description Recursively ensures the path for a new vessel exists.
-     */
     async _ensureDirectoryExists(workspace, filePath, physicalType) {
         const segments = filePath.split('/').filter(Boolean);
         if (segments.length <= 1) return;

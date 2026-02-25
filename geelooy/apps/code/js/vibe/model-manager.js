@@ -1,206 +1,171 @@
+
 // B"H
 // FILE: js/vibe/model-manager.js
 
 import { UI } from '../ui.js';
 import { State } from '../state.js';
-import { VibeAPI } from './api-client.js';
 
+/**
+ * @class ModelManager
+ * @description This vessel orchestrates the selection and configuration of the AI models.
+ * It manages the API keys—the passwords to the heavenly libraries—and fetches the
+ * specific manifestations (models) available for the given key.
+ * By the speech of the Awtsmoos, we choose the instrument for our rectification.
+ */
 export const ModelManager = {
     keys: [],
     currentKeyIndex: 0,
-    currentModel: 'gemini-3-flash-preview', 
-    fallbackOrder: [
-        'gemini-3-flash-preview',
-        'gemini-3-pro-preview',
-        "gemini-2.5-pro",
-        "gemini-2.5-flash",
-        "gemini-2.5-flash-lite",
-        'gemini-2.0-flash', 
-        'gemini-2.0-flash-lite'
-    ],
+    currentModel: 'gemini-1.5-flash', // Default soul
+    availableModels: [],
 
+    /**
+     * @method init
+     * @description Awakens the manager from its slumber, recalling the saved 
+     * configurations from the archives of previous interactions.
+     */
     init() {
-        const stored = localStorage.getItem('vivid_vibe_config');
+        const stored = localStorage.getItem('awtsmoos_vibe_config');
         if (stored) {
-            const config = JSON.parse(stored);
-            this.keys = config.keys || [];
-            this.currentModel = config.currentModel || 'gemini-3-flash-preview';
+            try {
+                const config = JSON.parse(stored);
+                this.keys = config.keys || [];
+                this.currentModel = config.currentModel || 'gemini-1.5-flash';
+                this.availableModels = config.availableModels || [];
+            } catch(e) { console.error("Config corruption:", e); }
         }
     },
 
     save() {
-        localStorage.setItem('vivid_vibe_config', JSON.stringify({
+        localStorage.setItem('awtsmoos_vibe_config', JSON.stringify({
             keys: this.keys,
-            currentModel: this.currentModel
+            currentModel: this.currentModel,
+            availableModels: this.availableModels
         }));
     },
 
-    addKey(key) {
+    /**
+     * @async
+     * @method fetchModels
+     * @description Peering into the Gemini API to see which models are ready to serve.
+     * It uses the current active key to unlock this information.
+     */
+    async fetchModels() {
+        const key = this.getKey();
         if (!key) return;
-        if (!this.keys.includes(key)) {
-            this.keys.push(key);
+
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+            if (!response.ok) throw new Error(`API Refusal: ${response.status}`);
+            
+            const data = await response.json();
+            // Filter only for models that support content generation
+            this.availableModels = data.models
+                .filter(m => m.supportedGenerationMethods.includes('generateContent'))
+                .map(m => m.name.split('/').pop()); // Extract short name
+            
             this.save();
-            UI.showToast("API Key added to Vibe keyring.", "success");
+            UI.showToast("B\"H: Heavenly models listed.", "success");
+        } catch (e) {
+            UI.showToast("Failed to list models: " + e.message, "error");
         }
     },
 
     getKey() {
-        if (this.keys.length === 0) return null;
-        return this.keys[this.currentKeyIndex];
+        return this.keys[this.currentKeyIndex] || null;
     },
 
+    /**
+     * @function getSettingsPanelHTML
+     * @description Speaks the HTML of the settings panel into existence.
+     * It dynamically generates the list of models if they have been fetched.
+     */
     getSettingsPanelHTML() {
+        const modelOptions = this.availableModels.length > 0 
+            ? this.availableModels.map(m => `<option value="${m}" ${m === this.currentModel ? 'selected' : ''}>${m}</option>`).join('')
+            : `<option value="${this.currentModel}">${this.currentModel} (Default)</option>`;
+
         const keyListHtml = this.keys.map((k, i) => 
-            `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--color-border); align-items:center;">
-                <span style="font-family:monospace; color:var(--neon-lime);">Key #${i+1}: •••••${k.substr(-4)}</span>
+            `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid rgba(255,255,255,0.1); align-items:center;">
+                <span style="font-family:monospace; color:var(--neon-lime);">Key #${i+1}: ••••${k.slice(-4)}</span>
                 <button class="remove-key-btn icon-button" data-index="${i}" style="color:var(--color-accent-danger); height:30px; width:30px;">
-                    <svg class="svg-icon"><use href="#icon-trash"></use></svg>
+                    <svg class="svg-icon" style="width:14px; height:14px;"><use href="#icon-trash"></use></svg>
                 </button>
              </div>`
         ).join('');
 
-        const modelOptions = this.fallbackOrder.map(m => {
-            const info = VibeAPI.MODELS[m] || { name: m };
-            const isSelected = m === this.currentModel ? 'selected' : '';
-            return `<option value="${m}" ${isSelected}>${info.name} (${m})</option>`;
-        }).join('');
-
         return `
-            <div class="vibe-settings-panel" style="border: 1px solid var(--color-border); padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.2);">
-                <h4 style="margin-top:0; color:var(--neon-cyan);">Awtsmoos Vibe Configuration</h4>
+            <div class="vibe-settings-panel">
+                <h4 style="color:var(--neon-cyan); margin-top:0;">Vibe Coding Config</h4>
                 
                 <div style="margin-bottom:15px;">
-                    <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">Active Model</label>
-                    <select id="vibe-model-select" style="width:100%; padding:8px; background:var(--color-bg-primary); color:white; border:1px solid var(--color-border); border-radius:4px;">
-                        ${modelOptions}
-                    </select>
-                </div>
-
-                <!-- B"H - Iteration Loop Settings -->
-                <div style="margin-bottom:15px;">
-                    <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">Auto-Refine Loops (Iterations)</label>
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <input type="number" id="vibe-iter-input" value="${State.vibeIterations}" min="1" max="20" style="width: 80px; padding:8px; background:var(--color-bg-primary); color:white; border:1px solid var(--color-border);">
-                        <span style="font-size:0.8em; color:gray;">(1 = Single pass, >1 = Recursive improvement)</span>
+                    <label style="display:block; margin-bottom:5px; font-size:0.85em; opacity:0.7;">Active Model:</label>
+                    <div style="display:flex; gap:10px;">
+                        <select id="vibe-model-select" style="flex-grow:1; background:#000; color:#fff; border:1px solid #333; padding:8px; border-radius:4px;">
+                            ${modelOptions}
+                        </select>
+                        <button id="vibe-refresh-models" class="secondary-btn" title="Refresh Models List" style="min-height:0; padding:0 10px;">↻</button>
                     </div>
                 </div>
 
                 <div style="margin-bottom:15px;">
-                    <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">Custom System Prompt Extension</label>
-                    <textarea id="vibe-custom-prompt" style="width:100%; height:120px; font-size:0.85em; background:var(--color-bg-primary); color:white; border:1px solid var(--color-border); padding:8px;" placeholder="Append your holy instructions here... (Press Enter for new lines)">${State.customVibePrompt}</textarea>
-                </div>
-
-                <div style="margin-bottom:10px;">
-                    <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">API Keys</label>
-                    <div id="vibe-key-list" style="margin-bottom:10px; max-height:120px; overflow-y:auto; border:1px solid var(--color-border); border-radius:4px; background:var(--color-bg-primary);">
-                        ${keyListHtml || '<div style="padding:10px; color:gray; text-align:center;">No keys added.</div>'}
+                    <label style="display:block; margin-bottom:5px; font-size:0.85em; opacity:0.7;">API Keys:</label>
+                    <div id="vibe-key-list" style="max-height:100px; overflow-y:auto; background:rgba(0,0,0,0.3); border-radius:4px; margin-bottom:10px;">
+                        ${keyListHtml || '<div style="padding:10px; color:gray; text-align:center;">No keys found.</div>'}
                     </div>
-                    
                     <div style="display:flex; gap:5px;">
-                        <input type="password" id="vibe-new-key" placeholder="Paste Gemini API Key" style="flex-grow:1; background:var(--color-bg-primary); color:white; border:1px solid var(--color-border); padding:8px;">
-                        <button id="vibe-add-key-btn" class="primary-btn" style="padding: 0 15px;">Add</button>
+                        <input type="password" id="vibe-new-key" placeholder="Paste Gemini Key" style="flex-grow:1; padding:8px;">
+                        <button id="vibe-add-key" class="primary-btn" style="min-height:0; padding:0 15px;">Add</button>
                     </div>
                 </div>
             </div>
         `;
     },
 
-    bindSettingsEvents(container, refreshCallback) {
-        const addBtn = container.querySelector('#vibe-add-key-btn');
-        const input = container.querySelector('#vibe-new-key');
-        
-        if (addBtn && input) {
-            addBtn.onclick = (e) => {
-                if(e) e.stopPropagation();
-                const val = input.value.trim();
+    /**
+     * @function bindSettingsEvents
+     * @description Binds the spiritual logic of this manager to the physical DOM elements
+     * in the settings dialog.
+     */
+    bindSettingsEvents(container, onRefreshUI) {
+        const addBtn = container.querySelector('#vibe-add-key');
+        const keyInput = container.querySelector('#vibe-new-key');
+        const refreshBtn = container.querySelector('#vibe-refresh-models');
+        const modelSelect = container.querySelector('#vibe-model-select');
+        const keyList = container.querySelector('#vibe-key-list');
+
+        if (addBtn && keyInput) {
+            addBtn.onclick = () => {
+                const val = keyInput.value.trim();
                 if (val) {
-                    this.addKey(val);
-                    if(refreshCallback) refreshCallback();
-                }
-            };
-            input.onkeydown = (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    addBtn.click();
+                    this.keys.push(val);
+                    keyInput.value = '';
+                    this.save();
+                    this.fetchModels().then(onRefreshUI);
                 }
             };
         }
 
-        const list = container.querySelector('#vibe-key-list');
-        if (list) {
-            list.onclick = (e) => {
+        if (refreshBtn) {
+            refreshBtn.onclick = () => this.fetchModels().then(onRefreshUI);
+        }
+
+        if (modelSelect) {
+            modelSelect.onchange = (e) => {
+                this.currentModel = e.target.value;
+                this.save();
+            };
+        }
+
+        if (keyList) {
+            keyList.onclick = (e) => {
                 const btn = e.target.closest('.remove-key-btn');
                 if (btn) {
                     const idx = parseInt(btn.dataset.index);
                     this.keys.splice(idx, 1);
                     this.save();
-                    if(refreshCallback) refreshCallback();
+                    onRefreshUI();
                 }
             };
         }
-
-        const select = container.querySelector('#vibe-model-select');
-        if (select) {
-            select.onchange = () => {
-                this.currentModel = select.value;
-                this.save();
-            };
-        }
-
-        const iterInput = container.querySelector('#vibe-iter-input');
-        if (iterInput) {
-            iterInput.onchange = () => {
-                let val = parseInt(iterInput.value);
-                if (isNaN(val) || val < 1) val = 1;
-                State.vibeIterations = val;
-                localStorage.setItem('awtsmoos_vibe_iterations', val);
-            };
-            // Prevent Enter from closing dialog on number input
-            iterInput.onkeydown = (e) => {
-                if (e.key === 'Enter') e.stopPropagation();
-            }
-        }
-
-        const customPrompt = container.querySelector('#vibe-custom-prompt');
-        if (customPrompt) {
-            customPrompt.oninput = () => {
-                State.customVibePrompt = customPrompt.value;
-                localStorage.setItem('awtsmoos_vibe_custom_prompt', State.customVibePrompt);
-            };
-            // B"H - CRITICAL FIX: Stop propagation on Enter to allow newlines
-            customPrompt.onkeydown = (e) => {
-                if (e.key === 'Enter') {
-                    e.stopPropagation(); 
-                }
-            };
-        }
-    },
-
-    async promptForKey() {
-        const html = `
-            <div style="display: flex; flex-direction: column; gap: 15px; padding: 10px 0;">
-                <p>To use Vibe Coding, you need a Google Gemini API Key.</p>
-                <div style="display:flex; gap:10px; align-items: center; margin-top: 10px;">
-                    <input type="password" id="vibe-quick-key" placeholder="Paste your API Key here" style="flex-grow:1;">
-                </div>
-            </div>
-        `;
-
-        const result = await UI.showDialog({
-            title: "API Key Required",
-            contentHTML: html,
-            okText: "Save Key",
-            cancelText: "Cancel"
-        });
-
-        if (result) {
-            const input = document.getElementById('vibe-quick-key');
-            if (input && input.value.trim()) {
-                this.addKey(input.value.trim());
-                return true;
-            }
-        }
-        return false;
     }
 };

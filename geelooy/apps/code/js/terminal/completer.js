@@ -8,16 +8,16 @@ import { State } from '../state.js';
 
 /**
  * @class TerminalCompleter
- * @description Argument Completion Logic.
- * Re-forged with Absolute Path Support.
- * B"H. It understands that a path can start from the global root (/Workspace/...)
- * or from the current soul coordinate.
+ * @description The gift of Binah (Understanding). This vessel provides 
+ * foresight into the user's intent, identifying potential completions 
+ * for commands and paths. It is now rectified to understand the boundaries 
+ * of multiple workspaces.
  */
 export class TerminalCompleter {
     /**
      * @async
      * @method getMatches
-     * @description B"H. Scans for all potential matches.
+     * @description B"H. Scans for potential completions in commands and files.
      */
     static async getMatches(shell, currentInput) {
         const tokens = shell.parseArgs(currentInput);
@@ -40,11 +40,12 @@ export class TerminalCompleter {
     /**
      * @async
      * @method _matchFilesystem
-     * @description Peering into the physical vessels.
+     * @description Peering into the physical vessels of the project.
+     * Rectified to support absolute paths crossing between workspaces.
      */
     static async _matchFilesystem(shell, partial) {
         try {
-            // Absolute Path Check: /WorkspaceName/folder...
+            // Check for cross-workspace absolute paths: /WorkspaceName/path...
             if (partial.startsWith('/')) {
                 return await this._matchAbsolutePath(partial);
             }
@@ -88,7 +89,6 @@ export class TerminalCompleter {
             return matches.map(m => '/' + m + '/');
         }
 
-        // Case: Deep path -> /WorkspaceName/path...
         const wsName = segs.shift();
         const ws = State.workspaces.find(w => w.name === wsName);
         if (!ws) return [];
