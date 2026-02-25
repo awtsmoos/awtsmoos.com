@@ -1,0 +1,69 @@
+
+/* B"H - MENUS STYLES (Extreme Z-Index & Scrolling) */
+
+#context-menu, #main-menu { 
+    position: fixed; 
+    z-index: 300000;
+    background-color: rgba(13, 17, 23, 0.96); 
+    border: 1px solid var(--neon-cyan); 
+    backdrop-filter: blur(25px) saturate(180%); 
+    border-radius: 8px; 
+    padding: 6px; 
+    min-width: 240px; 
+    display: none; 
+    box-shadow: 0 15px 50px rgba(0,0,0,0.9), 0 0 15px var(--glow-cyan);
+    transform-origin: top left;
+    animation: menuFadeIn 0.15s ease-out;
+    
+    /* B"H - SCROLLING RECTIFICATION */
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+@keyframes menuFadeIn {
+    from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.menu-button { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    width: 100%; 
+    background: none; 
+    color: var(--color-text-primary); 
+    padding: 10px 14px; 
+    text-align: left; 
+    font-size: 0.95em; 
+    border-radius: 4px; 
+    min-height: 38px;
+    border: 1px solid transparent;
+    transition: all 0.1s;
+}
+
+.menu-button:hover:not(:disabled) { 
+    background-color: var(--neon-cyan) !important; 
+    color: #000 !important; 
+    font-weight: 700;
+}
+
+.menu-button:hover .svg-icon {
+    fill: #000 !important;
+}
+
+.menu-button.danger:hover:not(:disabled) {
+    background-color: var(--color-accent-danger) !important;
+    color: white !important;
+}
+
+
+.menu-separator { 
+    border: none; 
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    margin: 6px 0; 
+}
+
+.context-active {
+    background-color: rgba(0, 246, 255, 0.15) !important;
+    box-shadow: inset 0 0 10px var(--glow-cyan);
+}

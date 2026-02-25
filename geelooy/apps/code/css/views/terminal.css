@@ -1,0 +1,121 @@
+
+/* B"H - TERMINAL STYLES (Extreme Refinement) */
+
+#terminal-wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: #050505;
+    color: #00ff41; /* Matrix/Classic Terminal Green */
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.terminal-output {
+    flex-grow: 1;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: #333 transparent;
+}
+
+.terminal-line {
+    line-height: 1.6;
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* 2-Line Prompt Layout at Bottom */
+.terminal-input-area {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    border-top: 1px solid #222;
+    padding-top: 10px;
+    background: #050505;
+}
+
+.terminal-directory-line {
+    color: #00f6ff; /* Neon Cyan */
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 2px;
+}
+
+.terminal-input-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.terminal-prompt-char {
+    color: #a8ff00; /* Neon Lime */
+    margin-right: 10px;
+    font-weight: bold;
+    user-select: none;
+}
+
+.terminal-input {
+    background: transparent;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: inherit;
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+    caret-color: #00f6ff;
+}
+
+/* Output Colors */
+.cmd-error { color: #f75d65; font-weight: bold; }
+.cmd-success { color: #a8ff00; }
+.cmd-info { color: #00f6ff; }
+.cmd-warn { color: #ffae57; }
+
+/* History Entry Styling - Unified Single Line */
+.terminal-history-block {
+    margin-bottom: 10px;
+    border-left: 2px solid #222;
+    padding-left: 8px;
+}
+.terminal-history-header {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    margin-bottom: 2px;
+}
+.terminal-history-path {
+    color: #00f6ff;
+    font-weight: bold;
+    font-size: 0.85em;
+}
+.terminal-history-cmd {
+    color: #fff;
+    font-weight: bold;
+}
+
+/* LS Styles */
+.ls-entry {
+    display: block; 
+    width: 100%;
+    padding: 1px 0;
+}
+.ls-entry.is-dir { font-weight: bold; color: #00f6ff; }
+.ls-entry.is-file { color: #ffffff; }
+
+/* Meta Info */
+.terminal-welcome {
+    color: #00f6ff;
+    border-bottom: 1px dashed #333;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
