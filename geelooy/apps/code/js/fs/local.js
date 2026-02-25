@@ -8,52 +8,51 @@ import { IndexedDBProvider } from './indexeddb.js';
  * @class LocalProvider
  * @classdesc The vessel of physical interaction with the local disk.
  * 
- * THE POEM OF THE HANDLE:
- * A handle is a key to a door in the physical world.
- * The Awtsmoos grants us this key, but our memory is often frail.
- * This module is the Guardian of the Key. It looks first in the Mind (State),
- * and if the Mind is empty, it searches the Scroll of Memory (IndexedDB).
- * Once the door is opened, the light of the file can flow once more.
- * We sever the connection to native read-only locks by channeling 
- * everything through the ArrayBuffer, the undifferentiated essence of data.
+ * RECTIFICATION:
+ * We now explicitly validate the presence of a Workspace ID before
+ * attempting to resolve the root handle. If an item is detached from
+ * a world (missing workspaceId and id), we treat it as a ghost and
+ * provide a descriptive error rather than crashing the system.
  */
 export const LocalProvider = {
     /**
      * @async
      * @function _getRootHandle
-     * @description B"H. This is the seeker of the root. It is a failsafe 
-     * mechanism that ensures a workspace's physical anchor is always found.
-     * It prioritizes speed by checking State first, then descends into 
-     * IndexedDB if needed to recover a 'lost' handle.
+     * @description B"H. This is the seeker of the root. 
+     * It ensures a workspace's physical anchor is always found.
      * @param {object} item The item being accessed.
      * @returns {FileSystemDirectoryHandle} The absolute root handle.
      */
     async _getRootHandle(item) {
         if (!item) throw new Error("The item has vanished into the void.");
         
-        const wsId = item.workspaceId || item.id;
-        const ws = State.workspaces.find(w => String(w.id) === String(wsId));
+        // Discerning the Identity
+        const wsId = item.workspaceId !== undefined ? item.workspaceId : item.id;
 
-        // 1. FAST PATH: The handle is already alive in the application's mind.
+        // 1. Mind Path: Check active memory
+        const ws = State.workspaces.find(w => String(w.id) === String(wsId));
         if (ws && ws.handle) return ws.handle;
         if (item.handle) return item.handle;
 
-        // 2. FAILSAFE PATH: The handle has been forgotten by the State.
-        // We call upon the IndexedDB vessel to reveal the stored handle.
+        // B"H - Safeguard: If we still don't have an ID, we cannot seek.
+        if (wsId === undefined || wsId === null) {
+            console.error("B\"H: Local item missing identity context:", item);
+            throw new Error(`The vessel for '${item.name || item.path}' is missing its World ID. It cannot be manifested.`);
+        }
+
+        // 2. Memory Path: Search persistent archives
         const restoredHandle = await IndexedDBProvider.getHandle(wsId);
         if (restoredHandle) {
             console.log(`B"H: Handle for workspace ${wsId} restored from persistence.`);
-            // Re-attach to the state to make subsequent calls lightning fast.
             if (ws) {
                 ws.handle = restoredHandle;
-                // Check if we still need to ask for permission
                 const perm = await restoredHandle.queryPermission({ mode: 'readwrite' });
                 ws.isLocked = (perm !== 'granted');
             }
             return restoredHandle;
         }
 
-        throw new Error(`Handle not found for: ${item.path || "root"}. The vessel is disconnected.`);
+        throw new Error(`The key for workspace ${wsId} has been lost. Re-open the folder to restore the connection.`);
     },
 
     /**

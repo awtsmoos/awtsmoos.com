@@ -12,9 +12,11 @@ import { State } from '../state.js';
  * But what is written in the stone of IndexedDB remains.
  * This module manages the 'workspace_handles' store, where
  * the absolute keys to the user's local projects are kept.
- * Even when the page is refreshed and the 'State' dissolves,
- * the Awtsmoos allows these keys to be retrieved,
- * maintaining the Order of the project across time.
+ * 
+ * RECTIFICATION:
+ * We now guard the threshold. No invalid key shall pass.
+ * By ensuring the Workspace ID is present before we seek its form,
+ * we prevent the chaos of the 'DataError' from manifestion.
  */
 export const IndexedDBProvider = {
     DB_NAME: "VIVID_X_FS_PROFOUND",
@@ -59,8 +61,13 @@ export const IndexedDBProvider = {
      * @async
      * @function saveHandle
      * @description Inscribes a FileSystemHandle into the database.
+     * B"H - Added guard against null/undefined workspaceId.
      */
     saveHandle: async function(workspaceId, handle) {
+        if (workspaceId === undefined || workspaceId === null) {
+            console.warn("B\"H: Attempted to save handle with no ID. Operation aborted.");
+            return;
+        }
         const db = await this.init();
         return new Promise((resolve, reject) => {
             const tx = db.transaction(this.HANDLE_STORE, "readwrite");
@@ -75,15 +82,28 @@ export const IndexedDBProvider = {
      * @async
      * @function getHandle
      * @description Retrieves a FileSystemHandle by its Workspace ID.
+     * B"H - THE CRITICAL RECTIFICATION: 
+     * We check if the key exists before calling the database. 
+     * This prevents the DataError: No key specified.
      */
     getHandle: async function(workspaceId) {
+        if (workspaceId === undefined || workspaceId === null) {
+            return null; // Return peace instead of error.
+        }
+        
         const db = await this.init();
         return new Promise((resolve, reject) => {
             const tx = db.transaction(this.HANDLE_STORE, "readonly");
             const store = tx.objectStore(this.HANDLE_STORE);
-            const request = store.get(workspaceId);
-            request.onsuccess = () => resolve(request.result);
-            request.onerror = () => reject(request.error);
+            
+            try {
+                const request = store.get(workspaceId);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            } catch (e) {
+                // Final shield against non-serializable or invalid keys.
+                resolve(null);
+            }
         });
     },
 
