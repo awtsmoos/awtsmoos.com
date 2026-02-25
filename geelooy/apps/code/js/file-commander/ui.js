@@ -1,41 +1,37 @@
+
 // B"H
 // FILE: js/file-commander/ui.js
 
-import { State } from '../state.js';
+import { State, DOM } from '../state.js';
 import { Menus } from '../menus.js';
 import { Tabs } from '../tabs/index.js';
 import { SelectionManager } from '../selection-manager.js';
 import { getItemUniquePath } from '../workspaces.js';
 
 export const FileCommanderUI = {
-    overlay: null,
+    container: null,
     grid: null,
     breadcrumbs: null,
     sortBar: null,
-    viewMode: 'details', // B"H - Set default to details
-    sortMode: 'name',    // B"H - Set default to name
+    viewMode: 'details',
+    sortMode: 'name',
     sortAsc: true,
     controller: null, 
 
-    init(controller) {
+    init(controller, container) {
         this.controller = controller;
-        if (document.getElementById('file-commander-overlay')) return;
+        this.container = container;
+        this.renderStructure();
+    },
 
-        const overlay = document.createElement('div');
-        overlay.id = 'file-commander-overlay';
-        overlay.className = 'file-commander-overlay hidden';
-        overlay.innerHTML = `
-            <div class="fc-window">
-                <div class="fc-header">
-                    <div class="fc-title">File Commander</div>
-                    <div class="fc-controls">
-                        <button id="fc-close-btn" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
-                    </div>
-                </div>
+    renderStructure() {
+        this.container.innerHTML = `
+            <div class="fc-window" style="border:none; box-shadow:none;">
                 <div class="fc-toolbar">
                     <button id="fc-up-btn" class="icon-button" title="Go Up"><svg class="svg-icon"><use href="#icon-arrow-left"></use></svg></button>
                     <div id="fc-breadcrumbs" class="fc-breadcrumbs"></div>
                     <div class="fc-view-options">
+                        <button id="fc-refresh-btn" class="icon-button" title="Refresh"><svg class="svg-icon"><use href="#icon-refresh"></use></svg></button>
                         <button id="fc-view-grid" class="icon-button" title="Grid View"><svg class="svg-icon"><use href="#icon-brain"></use></svg></button>
                         <button id="fc-view-details" class="icon-button active" title="Details View"><svg class="svg-icon"><use href="#icon-list"></use></svg></button>
                     </div>
@@ -51,22 +47,20 @@ export const FileCommanderUI = {
                 </div>
             </div>
         `;
-        document.body.appendChild(overlay);
 
-        this.overlay = overlay;
-        this.grid = overlay.querySelector('#fc-content');
-        this.breadcrumbs = overlay.querySelector('#fc-breadcrumbs');
-        this.sortBar = overlay.querySelector('#fc-sort-bar');
+        this.grid = this.container.querySelector('#fc-content');
+        this.breadcrumbs = this.container.querySelector('#fc-breadcrumbs');
+        this.sortBar = this.container.querySelector('#fc-sort-bar');
 
         this._bindEvents();
     },
 
     _bindEvents() {
-        this.overlay.querySelector('#fc-close-btn').onclick = () => this.controller.hide();
-        this.overlay.querySelector('#fc-up-btn').onclick = () => this.controller.goUp();
+        this.container.querySelector('#fc-up-btn').onclick = () => this.controller.goUp();
+        this.container.querySelector('#fc-refresh-btn').onclick = () => this.controller.refresh();
         
-        this.overlay.querySelector('#fc-view-grid').onclick = () => this.setView('grid');
-        this.overlay.querySelector('#fc-view-details').onclick = () => this.setView('details');
+        this.container.querySelector('#fc-view-grid').onclick = () => this.setView('grid');
+        this.container.querySelector('#fc-view-details').onclick = () => this.setView('details');
 
         this.sortBar.querySelectorAll('div[data-sort]').forEach(el => {
             el.onclick = () => {
@@ -79,31 +73,14 @@ export const FileCommanderUI = {
                 this.render(this.controller.getData());
             };
         });
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.overlay.classList.contains('visible')) {
-                this.controller.hide();
-            }
-        });
-    },
-
-    show() {
-        this.overlay.classList.remove('hidden');
-        void this.overlay.offsetWidth;
-        this.overlay.classList.add('visible');
-    },
-
-    hide() {
-        this.overlay.classList.remove('visible');
-        setTimeout(() => this.overlay.classList.add('hidden'), 200);
     },
 
     setView(mode) {
         this.viewMode = mode;
         this.grid.className = `fc-content ${mode}-view`;
         
-        const gridBtn = this.overlay.querySelector('#fc-view-grid');
-        const detailsBtn = this.overlay.querySelector('#fc-view-details');
+        const gridBtn = this.container.querySelector('#fc-view-grid');
+        const detailsBtn = this.container.querySelector('#fc-view-details');
         
         if (mode === 'grid') {
             gridBtn.classList.add('active');
@@ -122,12 +99,19 @@ export const FileCommanderUI = {
         this.grid.innerHTML = '';
         this._updateBreadcrumbs(currentPathItem);
         
+        if (!currentFiles || currentFiles.length === 0) {
+             this.grid.innerHTML = `<div class="fc-empty-msg" style="padding:20px; text-align:center; color:var(--color-text-tertiary);">No items found.</div>`;
+             this.container.querySelector('#fc-status-count').textContent = `0 items`;
+             return;
+        }
+
         // Sort
         currentFiles.sort((a, b) => {
             let valA, valB;
             if (this.sortMode === 'name') {
+                // Directories always first
                 if (a.kind !== b.kind) return a.kind === 'directory' ? -1 : 1;
-                valA = a.name.toLowerCase(); valB = b.name.toLowerCase();
+                valA = (a.name || '').toLowerCase(); valB = (b.name || '').toLowerCase();
             } else if (this.sortMode === 'size') {
                 valA = a.size || 0; valB = b.size || 0;
             } else if (this.sortMode === 'date') {
@@ -146,6 +130,7 @@ export const FileCommanderUI = {
             const isDir = file.kind === 'directory';
             let icon = isDir ? 'folder' : 'file';
             
+            // Icon logic for Workspaces root
             if (currentPathItem.kind === 'root') {
                  if (file.type === 'github') icon = 'github';
                  else if (file.type === 'local') icon = 'laptop';
@@ -176,7 +161,6 @@ export const FileCommanderUI = {
             const fullItem = { ...currentPathItem, ...file };
             const uniquePath = getItemUniquePath(fullItem);
             
-            // Register item in map for selection system
             State.domItemMap.set(uniquePath, { el: itemEl, item: fullItem });
             if (State.selectedItems.has(uniquePath)) itemEl.classList.add('selected');
 
@@ -191,7 +175,6 @@ export const FileCommanderUI = {
                     this.controller.navigate(fullItem);
                 } else {
                     Tabs.create(fullItem);
-                    this.hide();
                 }
             };
             
@@ -203,13 +186,14 @@ export const FileCommanderUI = {
             this.grid.appendChild(itemEl);
         });
         
-        this.overlay.querySelector('#fc-status-count').textContent = `${currentFiles.length} items`;
+        this.container.querySelector('#fc-status-count').textContent = `${currentFiles.length} items`;
     },
 
     _updateBreadcrumbs(currentPathItem) {
         this.breadcrumbs.innerHTML = '';
         if (!currentPathItem) return;
 
+        // Root Link
         const rootSpan = document.createElement('span');
         rootSpan.className = 'fc-crumb root';
         rootSpan.textContent = 'Workspaces';
@@ -218,22 +202,29 @@ export const FileCommanderUI = {
 
         if (currentPathItem.kind === 'root') return;
 
+        // Separator
         const sep1 = document.createElement('span');
         sep1.className = 'fc-sep';
         sep1.textContent = '>';
         this.breadcrumbs.appendChild(sep1);
 
+        // Workspace Link
         const ws = State.workspaces.find(ws => ws.id === currentPathItem.workspaceId);
-        const wsName = ws ? ws.name : 'Unknown';
+        // Fallback if workspace object isn't found (e.g. lost context), rely on item name for safety
+        const wsName = ws ? ws.name : (currentPathItem.isWorkspaceRoot ? currentPathItem.name : 'Unknown');
         
         const wsSpan = document.createElement('span');
         wsSpan.className = 'fc-crumb';
         wsSpan.textContent = wsName;
-        wsSpan.onclick = () => this.controller.navigate({ ...currentPathItem, path: '/', kind: 'directory' });
+        // Navigate to Workspace Root
+        wsSpan.onclick = () => {
+            if (ws) this.controller.navigate({ ...ws, path: '/', kind: 'directory' });
+        };
         this.breadcrumbs.appendChild(wsSpan);
 
-        if (currentPathItem.path === '/') return;
+        if (currentPathItem.path === '/' || currentPathItem.path === '') return;
 
+        // Path Segments
         const parts = currentPathItem.path.split('/').filter(Boolean);
         let currentAccum = '';
         
@@ -249,7 +240,12 @@ export const FileCommanderUI = {
             const crumb = document.createElement('span');
             crumb.className = 'fc-crumb';
             crumb.textContent = part;
-            crumb.onclick = () => this.controller.navigate({ ...currentPathItem, path: crumbPath, kind: 'directory' });
+            crumb.onclick = () => this.controller.navigate({ 
+                ...currentPathItem, 
+                path: crumbPath, 
+                name: part, 
+                kind: 'directory' 
+            });
             this.breadcrumbs.appendChild(crumb);
         });
     },

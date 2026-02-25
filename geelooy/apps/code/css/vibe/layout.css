@@ -1,5 +1,5 @@
 
-/* B"H - VIBE LAYOUT (Mobile Optimization) */
+/* B"H - VIBE LAYOUT (Absolute Fluidity & Resize Fixes) */
 
 #vibe-editor-wrapper {
     flex-grow: 1;
@@ -13,19 +13,28 @@
 
 .vibe-container {
     display: flex;
-    flex-grow: 1;
     height: 100%;
     width: 100%;
     position: relative;
     overflow: hidden;
+    /* Default CSS Variables for layout control via JS */
+    --side-panel-width: 400px;
+    --chat-panel-basis: 50%;
 }
 
 .vibe-chat-panel {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 300px;
     position: relative;
+    overflow: hidden; /* Prevents contents from blocking the resize shrink */
+}
+
+.vibe-side-panel {
+    background-color: var(--color-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden; /* Critical for smooth resizing */
 }
 
 .vibe-resizer {
@@ -48,35 +57,94 @@
     border-bottom: 1px solid var(--color-border);
 }
 
-.vibe-side-panel {
-    width: 400px;
-    background-color: var(--color-bg-secondary);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    flex-shrink: 0;
-    overflow: hidden;
-}
-
-/* B"H --- MOBILE RESPONSIVE --- */
+/* B"H --- MOBILE RESPONSIVE (Stacked Top/Bottom) --- */
 @media (max-width: 768px) {
     .vibe-container {
         flex-direction: column;
     }
     .vibe-chat-panel {
-        flex-basis: 40%;
-        min-height: 150px;
-        flex-grow: 0;
-        flex-shrink: 0;
+        /* B"H - Detach from flex sizing to allow pure height control from JS */
+        flex: none !important; 
+        height: var(--chat-panel-basis, 50%) !important;
+        min-height: 0 !important;
+        max-height: 100% !important;
     }
     .vibe-side-panel {
-        flex: 1;
+        /* B"H - Side panel takes whatever space is left */
+        flex: 1 !important;
         width: 100% !important;
-        min-width: 100%;
+        height: auto !important;
+        min-height: 0 !important;
     }
     .vibe-resizer { display: none; }
     .vibe-resizer-horizontal { display: block; }
 }
+
+/* B"H --- DESKTOP RESPONSIVE (Side-by-side Left/Right) --- */
 @media (min-width: 769px) {
+    .vibe-container {
+        flex-direction: row;
+    }
+    .vibe-chat-panel {
+        /* B"H - Chat takes whatever space is left */
+        flex: 1 !important;
+        width: auto !important;
+        height: 100% !important;
+        min-width: 0 !important;
+    }
+    .vibe-side-panel {
+        /* B"H - Detach from flex sizing to allow pure width control from JS */
+        flex: none !important;
+        width: var(--side-panel-width, 400px) !important;
+        height: 100% !important;
+        min-width: 0 !important;
+    }
     .vibe-resizer-horizontal { display: none; }
+    .vibe-resizer { display: block; }
+}
+
+/* B"H --- STATE OVERRIDES --- */
+/* These MUST be at the bottom so their !important flags win the CSS cascade war. */
+
+/* B"H --- MAXIMIZED PANEL STATE --- */
+.vibe-container.panel-maximized .vibe-chat-panel,
+.vibe-container.panel-maximized .vibe-resizer,
+.vibe-container.panel-maximized .vibe-resizer-horizontal {
+    display: none !important;
+}
+
+.vibe-container.panel-maximized .vibe-side-panel {
+    width: 100% !important;
+    height: 100% !important;
+    flex: 1 !important;
+}
+
+/* B"H --- MINIMIZED PANEL STATE --- */
+@media (min-width: 769px) {
+    .vibe-container.panel-minimized .vibe-chat-panel {
+        /* Chat takes over completely */
+        flex: 1 !important;
+        width: auto !important;
+    }
+    .vibe-container.panel-minimized .vibe-side-panel {
+        width: 40px !important;
+        flex: 0 0 40px !important;
+    }
+    .vibe-container.panel-minimized .vibe-resizer {
+        display: none !important;
+    }
+}
+@media (max-width: 768px) {
+    .vibe-container.panel-minimized .vibe-chat-panel {
+        /* Chat takes over completely, pushing side panel to bottom */
+        flex: 1 !important;
+        height: auto !important;
+    }
+    .vibe-container.panel-minimized .vibe-side-panel {
+        height: 40px !important;
+        flex: 0 0 40px !important;
+    }
+    .vibe-container.panel-minimized .vibe-resizer-horizontal {
+        display: none !important;
+    }
 }

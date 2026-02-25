@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/git/commit/api.js
 import { FileSystemProvider } from '../../fs-provider.js';
@@ -43,7 +44,8 @@ export const CommitAPI = {
         return newCommit.sha;
     },
     
-    async executeGenesis(repoInfo, branch, files, message) {
+    // B"H - Rectified Function Name to match GitInit caller
+    async executeGenesisCommit(repoInfo, branch, files, message) {
         const treeItems = files.map(f => ({ path: f.path, mode: '100644', type: 'blob', content: f.content }));
         const tree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
             method: 'POST', body: JSON.stringify({ tree: treeItems })

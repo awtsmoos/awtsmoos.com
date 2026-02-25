@@ -1,58 +1,75 @@
+
 // B"H
 // FILE: js/file-commander/core.js
 
 import { State } from '../state.js';
 import { FileSystemProvider } from '../fs-provider.js';
-import { UI } from '../ui.js';
 
 export const FileCommanderCore = {
-    currentPathItem: null,
-    currentFiles: [],
-
-    async navigate(item, callback) {
-        // B"H - Virtual Root Navigation
+    // B"H - Stateless Navigation
+    async navigate(item) {
+        // 1. Virtual Root Logic
         if (item.kind === 'root') {
-            this.currentPathItem = item;
-            this.currentFiles = State.workspaces.map(ws => ({
+            const files = State.workspaces.map(ws => ({
                 name: ws.name,
                 kind: 'directory',
-                path: '/', // Root of the workspace
+                path: '/', 
                 workspaceId: ws.id,
                 type: ws.type,
                 repoInfo: ws.repoInfo,
                 isWorkspaceRoot: true
             }));
-            if (callback) callback();
-            return;
+            return { currentPathItem: item, currentFiles: files };
         }
 
-        if (!item || item.kind !== 'directory') return;
-        
-        this.currentPathItem = item;
-        
-        // Use a lightweight task instead of blocking modal
-        const taskId = `fc-nav-${Date.now()}`;
-        UI.startTask(taskId, "Listing files...");
+        // 2. Directory Listing
+        if (!item || item.kind !== 'directory') {
+            throw new Error("Item is not a directory");
+        }
         
         try {
             const files = await FileSystemProvider.list(item);
-            this.currentFiles = Array.isArray(files) ? files : [];
-            if (callback) callback();
-            UI.endTask(taskId, 'success', `Loaded ${this.currentFiles.length} items`);
+            const fileList = Array.isArray(files) ? files : (files.entries || []);
+            
+            // B"H - Ensure every file knows its workspace context
+            const enrichedFiles = fileList.map(f => ({
+                ...f,
+                workspaceId: item.workspaceId,
+                // Inherit type if not present (crucial for git/ssh/etc)
+                type: f.type || item.type, 
+                originalType: f.originalType || item.originalType
+            }));
+
+            return { currentPathItem: item, currentFiles: enrichedFiles };
         } catch(e) {
             console.error(e);
-            UI.endTask(taskId, 'error', "Failed: " + e.message);
+            throw e;
         }
     },
 
-    getParent() {
-        if (!this.currentPathItem) return null;
-        if (this.currentPathItem.kind === 'root') return null;
-        if (this.currentPathItem.path === '/' && !this.currentPathItem.isWorkspaceRoot) {
+    getParent(currentItem) {
+        if (!currentItem) return null;
+        if (currentItem.kind === 'root') return null;
+        
+        // If we are at the root of a workspace, go back to Global Root
+        if ((currentItem.path === '/' || currentItem.path === '') && !currentItem.isWorkspaceRoot) {
+             return { kind: 'root', name: 'Workspaces', path: '/' };
+        }
+        // If we are explicitly at a workspace root
+        if (currentItem.isWorkspaceRoot) {
              return { kind: 'root', name: 'Workspaces', path: '/' };
         }
         
-        const parentPath = this.currentPathItem.path.substring(0, this.currentPathItem.path.lastIndexOf('/')) || '/';
-        return { ...this.currentPathItem, path: parentPath, kind: 'directory' };
+        // Calculate parent path
+        let parentPath = currentItem.path.substring(0, currentItem.path.lastIndexOf('/'));
+        if (!parentPath) parentPath = '/';
+        
+        // B"H - CRITICAL FIX: Preserve Workspace Context
+        return { 
+            ...currentItem, // Copies workspaceId, type, originalType, etc.
+            path: parentPath, 
+            name: parentPath === '/' ? 'Root' : parentPath.split('/').pop(),
+            kind: 'directory' 
+        };
     }
 };

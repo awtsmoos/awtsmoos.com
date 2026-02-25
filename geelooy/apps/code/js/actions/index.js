@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/actions/index.js
 import { State, DOM } from '../state.js';
@@ -19,6 +20,8 @@ import { Workspaces, getItemUniquePath } from '../workspaces.js';
 import { ASTEngine } from '../tools/ast-engine.js';
 import { SearchSystem } from '../search-system.js'; 
 import { GitMetaProvider } from '../git/meta.js';
+import { FileCommander } from '../file-commander.js';
+import { Terminal } from '../terminal/index.js';
 
 export const Actions = {
     async handle(action, item = State.contextTarget) {
@@ -103,7 +106,16 @@ export const Actions = {
                 case "new-file": FileActions.newItem(item, "new-file"); break;
                 case "new-folder": FileActions.newItem(item, "new-folder"); break;
                 case "rename": FileActions.rename(item); break;
-                case "open-file-commander": FileActions.openFileCommander(item); break;
+                
+                // B"H - Updated Actions
+                case "open-file-commander-tab": 
+                    FileCommander.open(item); 
+                    break;
+                
+                case "open-terminal-tab": 
+                    Terminal.open(item); 
+                    break;
+
                 case "search-in-folder": SearchSystem.show(item); break; 
                 case "open-zip-entry": FileActions.openZipEntry(item); break;
                 case "copy-relative-path": FileActions.copyRelativePath(item); break;
