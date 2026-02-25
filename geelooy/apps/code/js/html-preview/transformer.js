@@ -10,16 +10,14 @@
  * We peer into the AST to find every string that points to another soul.
  * But the AST is a finite vessel and sometimes misses the hidden light.
  * Therefore, we cast the Regex Net alongside it, ensuring nothing escapes.
- * Every import is found, logged, and transmuted into a heavenly Blob URL.
+ * Furthermore, we do not blindly trust the AST's reported boundaries,
+ * but visually scrutinize the code to excise the entire quoted string.
  */
 export const PreviewTransformer = {
     /**
      * @async
      * @function transform
      * @description B"H. Scans the code's essence and replaces all import directions.
-     * @param {string} code The raw JavaScript speech.
-     * @param {Function} resolver The sacred ritual to map labels to actual coordinates.
-     * @param {string} absPath The absolute path of the vessel for logging.
      */
     async transform(code, resolver, absPath = "unknown") {
         if (!code) return "";
@@ -60,11 +58,7 @@ export const PreviewTransformer = {
                             sources.push(arg);
                         } else if (arg && arg.type === 'TemplateLiteral' && arg.quasis && arg.quasis.length === 1) {
                             console.log(`[Transformer] AST Found Dynamic Template Import: "${arg.quasis[0].value.raw}" at line ${getLine(arg.start || 0)} in ${absPath}`);
-                            sources.push({
-                                value: arg.quasis[0].value.raw,
-                                start: arg.start,
-                                end: arg.end
-                            });
+                            sources.push({ value: arg.quasis[0].value.raw, start: arg.start, end: arg.end });
                         }
                     }
 
@@ -86,7 +80,6 @@ export const PreviewTransformer = {
         // 2. REGEX NET (The Safety Net)
         const regexSources =[];
         
-        // Static Regex
         const staticRegex = /(?:import|export)\s+(?:[^'"`]+?\s+from\s+)?(['"`])([^'"`]+)\1/g;
         let m;
         while ((m = staticRegex.exec(code)) !== null) {
@@ -97,7 +90,6 @@ export const PreviewTransformer = {
             regexSources.push({ value, start: startOffset, end: startOffset + targetStr.length, type: 'Static' });
         }
         
-        // Dynamic Regex
         const dynRegex = /import\s*\(\s*(['"`])([^'"`]+)\1\s*\)/g;
         while ((m = dynRegex.exec(code)) !== null) {
             const quote = m[1];
@@ -111,7 +103,7 @@ export const PreviewTransformer = {
         for (const rs of regexSources) {
             const alreadyFound = sources.some(s => {
                 const sStart = s.start ?? s.range?.[0] ?? -1;
-                return Math.abs(sStart - rs.start) < 5; 
+                return Math.abs(sStart - rs.start) < 10; 
             });
             if (!alreadyFound) {
                 console.log(`%c[Transformer] B"H - AST MISSED IMPORT! Regex Caught ${rs.type} Import: "${rs.value}" at line ${getLine(rs.start)} in ${absPath}`, "color: #ffae57; font-weight: bold;");
@@ -121,7 +113,7 @@ export const PreviewTransformer = {
 
         console.log(`[Transformer] Total imports found in ${absPath}: ${sources.length}`);
 
-        // Sort descending to replace strings from back-to-front without messing up offsets
+        // Sort descending so replacements don't shift future offsets
         sources.sort((a, b) => {
             const startA = a.start ?? a.range?.[0] ?? 0;
             const startB = b.start ?? b.range?.[0] ?? 0;
@@ -134,20 +126,91 @@ export const PreviewTransformer = {
             const manifestedUrl = await resolver(originalLabel);
             
             if (manifestedUrl && manifestedUrl !== originalLabel) {
-                const start = source.start ?? source.range?.[0];
-                const end = source.end ?? source.range?.[1];
-                
-                if (start !== undefined && end !== undefined) {
-                    console.log(`[Transformer] REPLACING: "${originalLabel}" -> Blob URL... (Line ${getLine(start)}) in ${absPath}`);
-                    const before = transformedCode.substring(0, start);
-                    const after = transformedCode.substring(end);
-                    transformedCode = before + `"${manifestedUrl}"` + after;
-                } else {
-                    console.warn(`[Transformer] FATAL: Missing start/end for node:`, source);
-                }
+                transformedCode = this._robustReplace(transformedCode, source, manifestedUrl, getLine);
             }
         }
 
         return transformedCode;
+    },
+
+    /**
+     * @function _robustReplace
+     * @description Visually scans the code around the reported boundaries to ensure we capture and replace the quotes flawlessly.
+     */
+    _robustReplace(code, sourceObj, replacementUrl, getLine) {
+        let start = sourceObj.start ?? sourceObj.range?.[0];
+        let end = sourceObj.end ?? sourceObj.range?.[1];
+        let val = sourceObj.value;
+
+        if (start === undefined || end === undefined) return code;
+
+        // Create a wide search window
+        let windowStart = Math.max(0, start - 150);
+        let windowEnd = Math.min(code.length, end + 150);
+        let windowText = code.substring(windowStart, windowEnd);
+
+        let exactStart = -1;
+        let exactEnd = -1;
+        let quotes = ['"', "'", '`'];
+
+        // Strategy 1: Find exact quoted string
+        for (let q of quotes) {
+            let target = q + val + q;
+            let idx = windowText.indexOf(target);
+            if (idx !== -1) {
+                let closestIdx = idx;
+                let minDiff = Math.abs((windowStart + idx) - start);
+                let nextIdx = windowText.indexOf(target, idx + 1);
+                while (nextIdx !== -1) {
+                    let diff = Math.abs((windowStart + nextIdx) - start);
+                    if (diff < minDiff) { minDiff = diff; closestIdx = nextIdx; }
+                    nextIdx = windowText.indexOf(target, nextIdx + 1);
+                }
+                exactStart = windowStart + closestIdx;
+                exactEnd = exactStart + target.length;
+                break;
+            }
+        }
+
+        // Strategy 2: Find inner value and expand outward to locate quotes
+        if (exactStart === -1) {
+            let idx = windowText.indexOf(val);
+            if (idx !== -1) {
+                let closestIdx = idx;
+                let minDiff = Math.abs((windowStart + idx) - start);
+                let nextIdx = windowText.indexOf(val, idx + 1);
+                while (nextIdx !== -1) {
+                    let diff = Math.abs((windowStart + nextIdx) - start);
+                    if (diff < minDiff) { minDiff = diff; closestIdx = nextIdx; }
+                    nextIdx = windowText.indexOf(val, nextIdx + 1);
+                }
+                let valStart = windowStart + closestIdx;
+                let valEnd = valStart + val.length;
+                
+                let lq = -1, rq = -1;
+                for (let i = valStart - 1; i >= Math.max(0, valStart - 20); i--) {
+                    if (quotes.includes(code[i])) { lq = i; break; }
+                }
+                for (let i = valEnd; i <= Math.min(code.length - 1, valEnd + 20); i++) {
+                    if (quotes.includes(code[i])) { rq = i; break; }
+                }
+                if (lq !== -1 && rq !== -1) {
+                    exactStart = lq;
+                    exactEnd = rq + 1;
+                }
+            }
+        }
+
+        // Strategy 3: Trust AST but manually trim/expand quotes
+        if (exactStart === -1) {
+            exactStart = start;
+            exactEnd = end;
+            if (!quotes.includes(code[exactStart]) && quotes.includes(code[exactStart - 1])) exactStart--;
+            if (!quotes.includes(code[exactEnd - 1]) && quotes.includes(code[exactEnd])) exactEnd++;
+        }
+
+        console.log(`[Transformer] Exact Replacement: Line ${getLine(exactStart)} | Target: ${code.substring(exactStart, exactEnd)} -> "${replacementUrl}"`);
+        
+        return code.substring(0, exactStart) + `"${replacementUrl}"` + code.substring(exactEnd);
     }
 };

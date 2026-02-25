@@ -6,6 +6,78 @@ import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { getNetworkInterceptorScript } from './html-preview-templates.js';
 
+const _robustReplace = (code, sourceObj, replacementUrl, getLine) => {
+    let start = sourceObj.start ?? sourceObj.range?.[0];
+    let end = sourceObj.end ?? sourceObj.range?.[1];
+    let val = sourceObj.value;
+
+    if (start === undefined || end === undefined) return code;
+
+    let windowStart = Math.max(0, start - 150);
+    let windowEnd = Math.min(code.length, end + 150);
+    let windowText = code.substring(windowStart, windowEnd);
+
+    let exactStart = -1;
+    let exactEnd = -1;
+    let quotes = ['"', "'", '`'];
+
+    for (let q of quotes) {
+        let target = q + val + q;
+        let idx = windowText.indexOf(target);
+        if (idx !== -1) {
+            let closestIdx = idx;
+            let minDiff = Math.abs((windowStart + idx) - start);
+            let nextIdx = windowText.indexOf(target, idx + 1);
+            while (nextIdx !== -1) {
+                let diff = Math.abs((windowStart + nextIdx) - start);
+                if (diff < minDiff) { minDiff = diff; closestIdx = nextIdx; }
+                nextIdx = windowText.indexOf(target, nextIdx + 1);
+            }
+            exactStart = windowStart + closestIdx;
+            exactEnd = exactStart + target.length;
+            break;
+        }
+    }
+
+    if (exactStart === -1) {
+        let idx = windowText.indexOf(val);
+        if (idx !== -1) {
+            let closestIdx = idx;
+            let minDiff = Math.abs((windowStart + idx) - start);
+            let nextIdx = windowText.indexOf(val, idx + 1);
+            while (nextIdx !== -1) {
+                let diff = Math.abs((windowStart + nextIdx) - start);
+                if (diff < minDiff) { minDiff = diff; closestIdx = nextIdx; }
+                nextIdx = windowText.indexOf(val, nextIdx + 1);
+            }
+            let valStart = windowStart + closestIdx;
+            let valEnd = valStart + val.length;
+            
+            let lq = -1, rq = -1;
+            for (let i = valStart - 1; i >= Math.max(0, valStart - 20); i--) {
+                if (quotes.includes(code[i])) { lq = i; break; }
+            }
+            for (let i = valEnd; i <= Math.min(code.length - 1, valEnd + 20); i++) {
+                if (quotes.includes(code[i])) { rq = i; break; }
+            }
+            if (lq !== -1 && rq !== -1) {
+                exactStart = lq;
+                exactEnd = rq + 1;
+            }
+        }
+    }
+
+    if (exactStart === -1) {
+        exactStart = start;
+        exactEnd = end;
+        if (!quotes.includes(code[exactStart]) && quotes.includes(code[exactStart - 1])) exactStart--;
+        if (!quotes.includes(code[exactEnd - 1]) && quotes.includes(code[exactEnd])) exactEnd++;
+    }
+
+    console.log(`[PreviewProcessor] Exact Replacement: Line ${getLine(exactStart)} | Target: ${code.substring(exactStart, exactEnd)} -> "${replacementUrl}"`);
+    return code.substring(0, exactStart) + `"${replacementUrl}"` + code.substring(exactEnd);
+};
+
 export const orchestratePreview = async (baseItem, iframe, contentOverride = null) => {
     if (!iframe.parentNode) {
         console.warn("[Preview] Iframe detached. Aborting orchestration.");
@@ -104,11 +176,7 @@ export const orchestratePreview = async (baseItem, iframe, contentOverride = nul
                         sources.push(arg);
                     } else if (arg && arg.type === 'TemplateLiteral' && arg.quasis && arg.quasis.length === 1) {
                         console.log(`[PreviewProcessor] AST Found Dynamic Template Import: "${arg.quasis[0].value.raw}" at line ${getLine(arg.start || 0)}`);
-                        sources.push({
-                            value: arg.quasis[0].value.raw,
-                            start: arg.start,
-                            end: arg.end
-                        });
+                        sources.push({ value: arg.quasis[0].value.raw, start: arg.start, end: arg.end });
                     }
                 }
 
@@ -127,7 +195,7 @@ export const orchestratePreview = async (baseItem, iframe, contentOverride = nul
         }
 
         // 2. REGEX NET (The Safety Net)
-        const regexSources =[];
+        const regexSources = [];
         
         const staticRegex = /(?:import|export)\s+(?:[^'"`]+?\s+from\s+)?(['"`])([^'"`]+)\1/g;
         let m;
@@ -148,11 +216,11 @@ export const orchestratePreview = async (baseItem, iframe, contentOverride = nul
             regexSources.push({ value, start: startOffset, end: startOffset + targetStr.length, type: 'Dynamic' });
         }
 
-        // Merge Regex findings if AST missed them
+        // Merge Regex findings
         for (const rs of regexSources) {
             const alreadyFound = sources.some(s => {
                 const sStart = s.start ?? s.range?.[0] ?? -1;
-                return Math.abs(sStart - rs.start) < 5; 
+                return Math.abs(sStart - rs.start) < 10; 
             });
             if (!alreadyFound) {
                 console.log(`%c[PreviewProcessor] B"H - AST MISSED IMPORT! Regex Caught ${rs.type} Import: "${rs.value}" at line ${getLine(rs.start)}`, "color: #ffae57; font-weight: bold;");
@@ -162,7 +230,6 @@ export const orchestratePreview = async (baseItem, iframe, contentOverride = nul
 
         console.log(`[PreviewProcessor] Total imports found in ${absPath}: ${sources.length}`);
 
-        // Sort descending to replace strings from back-to-front without messing up offsets
         sources.sort((a, b) => {
             const startA = a.start ?? a.range?.[0] ?? 0;
             const startB = b.start ?? b.range?.[0] ?? 0;
@@ -183,17 +250,7 @@ export const orchestratePreview = async (baseItem, iframe, contentOverride = nul
                 replacementUrl = `https://esm.sh/${relPath}`;
             }
 
-            const start = source.start ?? source.range?.[0];
-            const end = source.end ?? source.range?.[1];
-            
-            if (start !== undefined && end !== undefined) {
-                console.log(`[PreviewProcessor] REPLACING: "${relPath}" -> Blob URL... (Line ${getLine(start)})`);
-                const before = transformedCode.substring(0, start);
-                const after = transformedCode.substring(end);
-                transformedCode = before + `"${replacementUrl}"` + after;
-            } else {
-                console.warn(`[PreviewProcessor] FATAL: Missing start/end for node:`, source);
-            }
+            transformedCode = _robustReplace(transformedCode, source, replacementUrl, getLine);
         }
 
         const blob = new Blob([transformedCode], { type: 'application/javascript' });
