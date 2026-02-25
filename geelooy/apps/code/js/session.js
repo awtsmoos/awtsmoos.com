@@ -19,7 +19,7 @@ export const Session = {
     save() {
         try {
             const persistableWorkspaces = State.workspaces
-                .filter(ws => ['github', 'indexeddb', 'ssh', 'local'].includes(ws.type))
+                .filter(ws => ['github', 'indexeddb', 'ssh', 'local', 'opfs'].includes(ws.type))
                 .map(ws => {
                     const { handle, _treeCache, isLocked, ...safeWs } = ws;
                     return safeWs;
@@ -29,8 +29,8 @@ export const Session = {
 
             const persistableTabs = State.tabs
                 .filter(tab => {
-                    // B"H - Explicitly allow 'vibe-session' item types
-                    return (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || tab.item.type === 'temp' || tab.item.type === 'vibe-session';
+                    return (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || 
+                           ['temp', 'vibe-session', 'terminal', 'commander'].includes(tab.item.type);
                 })
                 .map(tab => {
                     const safeItem = {
@@ -42,18 +42,22 @@ export const Session = {
                         repoInfo: tab.item.repoInfo,       
                         branch: tab.item.branch,           
                         sha: tab.item.sha,
-                        originalType: tab.item.originalType // Persist original type for Vibe
+                        originalType: tab.item.originalType,
+                        // B"H - Capture specific CWD for Terminal and Commander
+                        commanderState: tab.item.commanderState,
+                        terminalState: tab.item.terminalState
                     };
 
-                    // B"H - For Vibe tabs, 'content' is the session object.
-                    const contentToSave = (tab.isDirty || tab.item.type === 'temp' || tab.fileType === 'vibe') ? tab.content : null;
+                    // For Vibe tabs, 'content' is the session object.
+                    // For Terminal/Commander, it's their specific state.
+                    const contentToSave = (tab.isDirty || tab.item.type === 'temp' || tab.fileType === 'vibe' || tab.item.type === 'terminal' || tab.item.type === 'commander') ? tab.content : null;
 
                     return { 
                         id: tab.id,
                         uniquePath: tab.uniquePath,
                         isDirty: tab.isDirty,
                         isUncommitted: tab.isUncommitted,
-                        pinned: tab.pinned || false, // B"H - Save Pinned State
+                        pinned: tab.pinned || false, 
                         scrollPos: tab.scrollPos || 0,
                         fileType: tab.fileType,
                         item: safeItem,
@@ -112,15 +116,19 @@ export const Session = {
                 State.tabs = session.openTabs.map(t => {
                     if (t.id >= maxTabId) maxTabId = t.id + 1;
                     
-                    // B"H - Vibe Hydration Logic
+                    // B"H - Virtual State Hydration
                     if (t.fileType === 'vibe' && t.content) {
-                        t.vibeSession = t.content; // Restore session object
+                        t.vibeSession = t.content; 
+                    } else if (t.item.type === 'terminal' && t.content) {
+                        t.terminalState = t.content;
+                    } else if (t.item.type === 'commander' && t.content) {
+                        t.commanderState = t.content;
                     }
 
                     return {
                         ...t,
                         forceReload: true, 
-                        pinned: !!t.pinned, // B"H - Restore Pinned State
+                        pinned: !!t.pinned, 
                         scrollPos: typeof t.scrollPos === 'number' ? t.scrollPos : 0
                     };
                 });

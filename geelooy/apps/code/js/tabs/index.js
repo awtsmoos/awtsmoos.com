@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/tabs/index.js
 
@@ -11,6 +12,8 @@ import { DataAltar } from '../DataAltar.js';
 import { getItemUniquePath } from '../workspaces.js'; 
 import { ZipExplorer } from '../zip/zip-explorer.js';
 import { VibeController } from '../vibe/vibe-controller.js'; 
+import { FileCommander } from '../file-commander.js'; 
+import { Terminal } from '../terminal/index.js'; // B"H
 
 import { TabsRenderer } from './rendering.js';
 import { TabsPersistence } from './persistence.js';
@@ -38,6 +41,38 @@ export const Tabs = {
     },
     
     async create(item, isNewFile = false, shouldSave = true, activate = true) {
+        // B"H - Commander tab handling
+        if (item.type === 'commander') {
+            const newTab = {
+                id: State.nextTabId++,
+                item,
+                content: item.commanderState,
+                isDirty: false,
+                isUncommitted: false,
+                uniquePath: `commander::${Date.now()}`, 
+                scrollPos: 0,
+                fileType: 'commander',
+            };
+            State.tabs.push(newTab);
+            if (activate) await this.activate(newTab.id);
+            return;
+        }
+
+        // B"H - Terminal tab handling
+        if (item.type === 'terminal') {
+            const newTab = {
+                id: State.nextTabId++,
+                item,
+                content: item.terminalState, // State storage
+                isDirty: false,
+                uniquePath: `terminal::${Date.now()}`,
+                fileType: 'terminal',
+            };
+            State.tabs.push(newTab);
+            if (activate) await this.activate(newTab.id);
+            return;
+        }
+
         const uniquePath = this.getUniquePath(item);
         const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
         if (existingTab) {
@@ -112,29 +147,21 @@ export const Tabs = {
         this.activate(newTab.id);
     },
     
-    // B"H
-	// FILE: js/tabs/index.js
-	
 	async activate(tabId, forceViewChange) {
-	    // 1. Set the new active ID and find the tab object
 	    State.activeTabId = tabId;
 	    var tab = State.tabs.find(function(t) { return t.id === tabId; });
 	
-	    // 2. Handle Empty State
 	    if (!tab) {
 	        UI.switchView('empty');
 	        this.render();
-	        // Save session if we just cleared the active tab
 	        if (!State.isRestoring) App.saveSessionDebounced();
 	        return;
 	    }
 	
-	    // 3. SECURE WORKSPACE CONTEXT (Fixes the ReferenceError)
 	    var workspace = State.workspaces.find(function(ws) { 
 	        return ws.id === tab.item.workspaceId; 
 	    });
 	
-	    // 4. Handle Locked Local Workspaces (Permission check)
 	    if (workspace && workspace.isLocked && !workspace.isLost) {
 	        UI.switchView('empty');
 	        DOM.emptyEditorMessage.classList.remove('hidden');
@@ -147,59 +174,57 @@ export const Tabs = {
 	        return;
 	    }
 	
-	    // 5. VIRTUAL TAB BYPASS (Vibe Sessions & Manager Dashboard)
-	    // These tabs do not exist as physical files and should skip the loading ritual
 	    var isVibe = (tab.fileType === 'vibe' || tab.item.type === 'vibe-session');
 	    var isManager = (tab.item.type === 'vibe-manager');
 	
 	    if (isVibe || isManager) {
-	        // Switch the UI panel first
-	        if (isManager) {
-	            UI.switchView('vibe-manager-wrapper');
-	        } else {
-	            UI.switchView('vibe');
-	        }
+	        if (isManager) UI.switchView('vibe-manager-wrapper');
+	        else UI.switchView('vibe');
 	        
-	        // Let the controller handle the high-level rendering
 	        import('../vibe/vibe-controller.js').then(function(m) {
 	            m.VibeController.render(tab);
 	        });
-	        
 	        this.render();
 	        if (!State.isRestoring) App.saveSessionDebounced();
 	        return;
 	    }
+
+        if (tab.fileType === 'commander' || tab.item.type === 'commander') {
+            UI.switchView('file-commander-wrapper');
+            const container = document.getElementById('file-commander-wrapper');
+            FileCommander.render(tab, container);
+            this.render();
+            return;
+        }
+
+        // B"H - Terminal Activation
+        if (tab.fileType === 'terminal' || tab.item.type === 'terminal') {
+            UI.switchView('terminal-wrapper');
+            const container = document.getElementById('terminal-wrapper');
+            Terminal.render(tab, container);
+            this.render();
+            return;
+        }
 	
-	    // 6. PHYSICAL FILE LOADING RITUAL
-	    // Check if we already have the content or if we need to fetch it from the vessels (disk/cloud)
 	    var hasPreloadedContent = tab.content !== null && tab.content !== undefined;
 	    var needsProcessing = !tab.rawContent && !tab.arrayBuffer;
 	
 	    if (hasPreloadedContent && needsProcessing) {
-	        // Initializing pre-loaded content (like from a session restore)
 	        if (tab.fileType === 'zip') {
 	            this._handleZipContent(tab, tab.content);
 	        } else {
 	            await this._handleStandardContent(tab, tab.content);
 	        }
 	    } else if (!hasPreloadedContent || tab.forceReload) {
-	        // Fetch fresh data from the provider
 	        var loaded = await this._loadTabContent(tab);
-	        if (!loaded) return; // Load failed, Toast already shown
+	        if (!loaded) return; 
 	    }
 	
-	    // 7. MANIFEST THE VIEW
-	    // Physically display the file content in the Editor, Hex, or Altar view
 	    await this._renderTabView(tab);
 	    
-	    // 8. FINAL SYNC
-	    // Set read-only state based on workspace
 	    DOM.editor.readOnly = (workspace && workspace.readOnly) || false;
 	    
-	    // Update the Tab Bar visual state
 	    this.render();
-	    
-	    // Archive the current state into local storage
 	    if (!State.isRestoring) App.saveSessionDebounced();
 	},
 
@@ -325,16 +350,13 @@ export const Tabs = {
     async _getGitInfoForTab(tab) {
 	    if (!tab.item || tab.item.type === 'zip-entry') return null; 
 	    
-	    // 1. Direct GitHub Workspace
 	    if (tab.item.type === 'github') {
 	        return State.workspaces.find(ws => ws.id === tab.item.workspaceId);
 	    }
 	
-	    // 2. Cloned Folders (Recursive search)
 	    const wsId = tab.item.workspaceId;
 	    let currPath = tab.item.path;
 	    
-	    // If it's a file, we look starting from its parent folder
 	    if (tab.item.kind === 'file') {
 	        currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
 	    }
@@ -346,7 +368,6 @@ export const Tabs = {
 	        const uniquePath = `${wsId}::${currPath}`;
 	        const entry = State.domItemMap.get(uniquePath);
 	        
-	        // If this folder was detected as a git clone by the sidebar
 	        if (entry?.item?.isGitClone) return entry.item;
 	        
 	        if (currPath === '/' || currPath === '') break;
@@ -368,7 +389,6 @@ export const Tabs = {
 	    }
         
         if (tabToClose.isDirty && !force) {
-            // B"H - Updated Dialog Logic with 'Don't Save' as a distinct action
             const choice = await UI.showDialog({
                  title: 'Unsaved Changes',
                  message: `You have unsaved changes in "${tabToClose.item.name}".`,
@@ -377,17 +397,15 @@ export const Tabs = {
                  tertiary: { text: "Don't Save", class: 'danger' }
             });
 
-            if (choice === true) { // "Save"
+            if (choice === true) { 
                 await this.save(tabToClose);
-            } else if (choice === 'tertiary') { // "Don't Save"
-                // B"H - Must clear dirty flag to allow close
+            } else if (choice === 'tertiary') { 
                 tabToClose.isDirty = false;
-            } else { // "Cancel" (null)
-                return; // Abort closing
+            } else { 
+                return; 
             }
         }
 
-        // Save to history before removal
         if (tabToClose.item.type !== 'temp') {
             State.closedTabHistory.push(tabToClose.item);
             if (State.closedTabHistory.length > 20) State.closedTabHistory.shift(); 
@@ -460,7 +478,6 @@ export const Tabs = {
             App.saveSession();
             tab.isDirty = false;
             this.render();
-            // B"H - Trigger Vibe History Save Logic
             import('../vibe/vibe-controller.js').then(m => m.VibeController.saveSessionToFile(tab));
             return;
         }

@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/vibe/modules/LoopEngine.js
 
@@ -11,6 +12,7 @@ import { PromptShaper } from './PromptShaper.js';
 export const LoopEngine = {
     /**
      * B"H - Physically manifests changes into the disk vessels.
+     * Integrates with UI Task notifications for bottom-right progress bar.
      */
     async apply(changeList, workspaceId) {
         const workspace = State.workspaces.find(ws => ws.id === workspaceId);
@@ -22,9 +24,16 @@ export const LoopEngine = {
         // Extract the true physical type (crucial for virtual vibe sessions)
         const physicalType = workspace.originalType || workspace.type;
         const parentsToRefresh = new Set();
+        
+        // B"H - Start the visual task tracker
+        const taskId = `manifest-${Date.now()}`;
+        UI.startTask(taskId, "Manifesting changes...");
 
         for (let i = 0; i < changeList.length; i++) {
             const change = changeList[i];
+            
+            // B"H - Update the progress bar for every file
+            UI.updateTask(taskId, (i / changeList.length) * 100, `Writing: ${change.path.split('/').pop()}`);
             
             // Construct the absolute path object required by the FS Provider
             const item = { 
@@ -95,6 +104,9 @@ export const LoopEngine = {
                 }
             }
         }
+
+        // B"H - End the visual task tracker
+        UI.endTask(taskId, 'success', `Manifested ${changeList.length} files.`);
 
         // Refresh the UI tree for all affected folders
         for (const p of parentsToRefresh) {

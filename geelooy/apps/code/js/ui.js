@@ -62,7 +62,8 @@ export const UI = {
             'editor-wrapper', 'previewer', 'console-host', 
             'empty-editor-message', 'hex-editor-wrapper', 
             'data-altar-container', 'zip-editor-wrapper', 
-            'vibe-editor-wrapper', 'vibe-manager-wrapper'
+            'vibe-editor-wrapper', 'vibe-manager-wrapper',
+            'file-commander-wrapper', 'terminal-wrapper' // B"H - Added terminal
         ];
         
         for (var i = 0; i < panels.length; i++) {
@@ -70,8 +71,6 @@ export const UI = {
             if (el) el.classList.add('hidden');
         }
         
-        // B"H - Mapping logic to ensure the correct ID is targeted.
-        // The screenshot showed #previewer was still hidden because 'preview' wasn't mapped to 'previewer'.
         var idMap = {
             'editor': 'editor-wrapper',
             'preview': 'previewer',
@@ -79,7 +78,9 @@ export const UI = {
             'hex': 'hex-editor-wrapper',
             'zip': 'zip-editor-wrapper',
             'altar': 'data-altar-container',
-            'empty': 'empty-editor-message'
+            'empty': 'empty-editor-message',
+            'commander': 'file-commander-wrapper',
+            'terminal': 'terminal-wrapper' // Map shortcut
         };
 
         var targetId = idMap[view] || view;

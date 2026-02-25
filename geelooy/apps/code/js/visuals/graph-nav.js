@@ -1,9 +1,15 @@
+
 // B"H
 // FILE: js/visuals/graph-nav.js
 
 import { State } from '../state.js';
 import { Tabs } from '../tabs/index.js';
 
+/**
+ * --- GRAPH NAVIGATOR ---
+ * B"H - Visualizes the project hierarchy as a living graph.
+ * Refined with defensive initialization to prevent startup shevirah.
+ */
 export const GraphNav = {
     overlay: null,
     canvas: null,
@@ -15,17 +21,23 @@ export const GraphNav = {
     init() {
         this.overlay = document.getElementById('graph-nav-overlay');
         this.canvas = document.getElementById('graph-canvas');
+        
+        // Defensive check: If vessels haven't manifested in HTML, abort quietly
+        if (!this.overlay || !this.canvas) {
+            console.warn('[GraphNav] Vessels not found in DOM. Navigator disabled.');
+            return;
+        }
+
         this.ctx = this.canvas.getContext('2d');
         
-        document.getElementById('graph-nav-close').onclick = () => this.hide();
+        const closeBtn = document.getElementById('graph-nav-close');
+        if (closeBtn) closeBtn.onclick = () => this.hide();
         
         // Unified Click/Tap Handler
         const handleInteract = (clientX, clientY) => {
-            // Find clicked node
             const clicked = this.nodes.find(n => {
                 const dx = n.x - clientX;
                 const dy = n.y - clientY;
-                // Larger hit target on mobile (30px vs 20px)
                 const hitRadius = window.innerWidth < 768 ? 40 : 20; 
                 return Math.sqrt(dx*dx + dy*dy) < hitRadius;
             });
@@ -38,17 +50,15 @@ export const GraphNav = {
 
         this.canvas.addEventListener('click', (e) => handleInteract(e.clientX, e.clientY));
         
-        // Basic Touch support
         this.canvas.addEventListener('touchstart', (e) => {
             if(e.touches.length === 1) {
-                e.preventDefault(); // Prevent double-fire via click
+                e.preventDefault(); 
                 handleInteract(e.touches[0].clientX, e.touches[0].clientY);
             }
         }, { passive: false });
         
-        // Resize listener
         window.addEventListener('resize', () => {
-            if (this.isRunning) {
+            if (this.isRunning && this.canvas) {
                 this.canvas.width = window.innerWidth;
                 this.canvas.height = window.innerHeight;
             }
@@ -56,8 +66,12 @@ export const GraphNav = {
     },
     
     show() {
+        if (!this.overlay || !this.canvas) return;
+        
         this.overlay.classList.remove('hidden');
+        void this.overlay.offsetWidth;
         this.overlay.classList.add('visible');
+        
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.isRunning = true;
@@ -66,9 +80,10 @@ export const GraphNav = {
     },
     
     hide() {
+        if (!this.overlay) return;
         this.overlay.classList.remove('visible');
         setTimeout(() => {
-            this.overlay.classList.add('hidden');
+            if (this.overlay) this.overlay.classList.add('hidden');
             this.isRunning = false;
         }, 300);
     },
@@ -121,13 +136,12 @@ export const GraphNav = {
     },
     
     _loop() {
-        if (!this.isRunning) return;
+        if (!this.isRunning || !this.ctx) return;
         
         const center = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
-        const repulsion = window.innerWidth < 768 ? 2000 : 5000; // Less repulsion on mobile to keep grouping tight
+        const repulsion = window.innerWidth < 768 ? 2000 : 5000; 
         
         this.nodes.forEach(node => {
-            // Repulsion
             this.nodes.forEach(other => {
                 if (node === other) return;
                 const dx = node.x - other.x;
@@ -138,35 +152,27 @@ export const GraphNav = {
                 node.vy += (dy / dist) * force;
             });
             
-            // Gravity to center
             node.vx += (center.x - node.x) * 0.005;
             node.vy += (center.y - node.y) * 0.005;
-            
-            // Friction
             node.vx *= 0.9;
             node.vy *= 0.9;
-            
             node.x += node.vx;
             node.y += node.vy;
             
-            // Wall Bounds
             if (node.x < 0) node.x = 0;
             if (node.x > this.canvas.width) node.x = this.canvas.width;
             if (node.y < 0) node.y = 0;
             if (node.y > this.canvas.height) node.y = this.canvas.height;
         });
         
-        // Spring Links
         this.links.forEach(link => {
             const dx = link.target.x - link.source.x;
             const dy = link.target.y - link.source.y;
             const dist = Math.sqrt(dx*dx + dy*dy);
             const springLen = window.innerWidth < 768 ? 50 : 100;
             const force = (dist - springLen) * 0.05; 
-            
             const fx = (dx / dist) * force;
             const fy = (dy / dist) * force;
-            
             link.source.x += fx;
             link.source.y += fy;
             link.target.x -= fx;
@@ -181,7 +187,6 @@ export const GraphNav = {
         const ctx = this.ctx;
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Draw Links
         ctx.strokeStyle = 'rgba(100, 100, 255, 0.2)';
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -191,17 +196,13 @@ export const GraphNav = {
         });
         ctx.stroke();
         
-        // Draw Nodes
         const isMobile = window.innerWidth < 768;
         this.nodes.forEach(node => {
             const radius = node.type === 'root' ? (isMobile ? 15 : 10) : (isMobile ? 8 : 5);
-            
             ctx.beginPath();
             ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
             ctx.fillStyle = node.type === 'root' ? '#00f6ff' : (node.type === 'directory' ? '#ffe000' : '#ffffff');
             ctx.fill();
-            
-            // Draw Label
             ctx.fillStyle = 'rgba(255,255,255,0.8)';
             ctx.font = isMobile ? '12px monospace' : '10px monospace';
             ctx.fillText(node.label, node.x + radius + 4, node.y + 4);

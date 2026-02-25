@@ -1,17 +1,13 @@
+
 // B"H
 // FILE: js/ui/notifications.js
+
 import { State, DOM } from '../state.js';
 
 let _taskStack = null;
 
-/**
- * --- UI NOTIFICATIONS ---
- * A robust vessel for non-blocking feedback. 
- * Uses module-level scope to avoid 'this' binding paradoxes. B"H.
- */
-
 function _ensureTaskStack() {
-    if (_taskStack) return;
+    if (_taskStack && document.body.contains(_taskStack)) return;
     _taskStack = document.createElement('div');
     _taskStack.className = 'task-notification-stack';
     document.body.appendChild(_taskStack);
@@ -23,19 +19,21 @@ export const UINotifications = {
         toast.className = `toast ${type}`;
         toast.textContent = message;
         DOM.toastContainer.appendChild(toast);
-        setTimeout(() => {
+        
+        requestAnimationFrame(() => {
             toast.classList.add('show');
             setTimeout(() => {
                 toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(() => toast.remove(), 400);
             }, duration);
-        }, 10);
+        });
     },
 
     startTask(taskId, label) {
         _ensureTaskStack();
         const card = document.createElement('div');
         card.className = 'task-card';
+        card.id = `task-${taskId}`;
         card.innerHTML = `
             <div class="task-info">
                 <span class="task-label">${label}</span>
@@ -53,33 +51,37 @@ export const UINotifications = {
     updateTask(taskId, progress, message = '') {
         const task = State.activeTasks.get(taskId);
         if (!task) return;
+        
         const fill = task.card.querySelector('.task-progress-fill');
         const percent = task.card.querySelector('.task-percent');
+        const label = task.card.querySelector('.task-label');
+
         if (fill) fill.style.width = `${progress}%`;
         if (percent) percent.textContent = `${Math.round(progress)}%`;
-        if (message) {
-            const labelEl = task.card.querySelector('.task-label');
-            if (labelEl) labelEl.textContent = message;
-        }
+        if (message && label) label.textContent = message;
     },
 
     endTask(taskId, status = 'success', message = '') {
         const task = State.activeTasks.get(taskId);
         if (!task) return;
-        task.card.classList.add(status);
-        if (message) task.card.querySelector('.task-label').textContent = message;
         
-        const fill = task.card.querySelector('.task-progress-fill');
+        task.card.classList.add(status);
+        const label = task.card.querySelector('.task-label');
+        if (label) label.textContent = message || (status === 'success' ? 'Completed' : 'Failed');
+        
         const percent = task.card.querySelector('.task-percent');
-        if (fill) fill.style.width = '100%';
         if (percent) percent.textContent = status === 'success' ? 'DONE' : 'ERR';
         
+        const fill = task.card.querySelector('.task-progress-fill');
+        if (fill) fill.style.width = '100%';
+
         setTimeout(() => {
-            task.card.classList.add('fading');
+            task.card.style.opacity = '0';
+            task.card.style.transform = 'translateX(20px)';
             setTimeout(() => {
                 task.card.remove();
                 State.activeTasks.delete(taskId);
-            }, 500);
+            }, 400);
         }, 3000);
     }
 };

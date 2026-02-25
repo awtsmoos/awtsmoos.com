@@ -3,66 +3,29 @@
 // FILE: js/menus/index.js
 
 import { State } from '../state.js';
-// B"H - Rectified Import Path: Explicitly pointing to index.js
-import { Actions } from '../actions/index.js'; 
-import { Tabs } from '../tabs/index.js';
-import { VibeController } from '../vibe/vibe-controller.js';
-
 import { MenuUI } from './ui.js';
 import { ContextMenu } from './context.js';
 import { MainMenu } from './main.js';
 import { TabMenus } from './tabs.js';
 
+/**
+ * --- MENUS FACADE ---
+ * The central point for revealing menus. It delegates the handling of
+ * commands to the Dispatcher to prevent circular dependencies.
+ */
 export const Menus = {
-    registerCustomMenus(menuConfigs) {
-        if (!Array.isArray(menuConfigs)) return;
-        State.customMenus = menuConfigs;
-    },
-
-    // Delegations
-    handleDocumentClick: MenuUI.handleDocumentClick,
     hideAll: MenuUI.hideAll,
-    
-    show: ContextMenu.show.bind(ContextMenu),
-    showZipMenu: ContextMenu.showZipMenu.bind(ContextMenu),
-    
-    showMainMenu: MainMenu.show.bind(MainMenu),
-    
-    showTabMenu: TabMenus.showTabMenu.bind(TabMenus),
-    revealInWorkspace: TabMenus.revealInWorkspace.bind(TabMenus),
+    show: (e, item) => ContextMenu.show(e, item),
+    showMainMenu: (e) => MainMenu.show(e),
+    showTabMenu: (e, tab) => TabMenus.showTabMenu(e, tab),
 
+    // This is the nexus point. All menu clicks lead here.
     handleAction(action) {
         this.hideAll();
-        if (action === 'open-vibe') {
-            VibeController.init();
-            VibeController.open(State.contextTarget);
-        } else if (action === 'reveal-in-workspace') {
-            this.revealInWorkspace(State.contextTabTarget);
-        } else if (action === 'close-tab-direct') {
-            if (State.contextTabTarget) Tabs.close(State.contextTabTarget.id);
-        } else if (action === 'close-right') {
-            if (State.contextTabTarget) {
-                const idx = State.tabs.findIndex(t => t.id === State.contextTabTarget.id);
-                if (idx !== -1) {
-                    const toClose = State.tabs.slice(idx + 1).map(t => t.id);
-                    toClose.forEach(id => Tabs.close(id, true));
-                }
-            }
-        } else if (action === 'close-left') {
-            if (State.contextTabTarget) {
-                const idx = State.tabs.findIndex(t => t.id === State.contextTabTarget.id);
-                if (idx !== -1) {
-                    const toClose = State.tabs.slice(0, idx).map(t => t.id);
-                    toClose.forEach(id => Tabs.close(id, true));
-                }
-            }
-        } else if (action === 'toggle-pin') {
-            if (State.contextTabTarget) {
-                State.contextTabTarget.pinned = !State.contextTabTarget.pinned;
-                Tabs.render();
-            }
-        } else {
-            Actions.handle(action);
-        }
+        // Dynamically import the dispatcher to execute the action.
+        // This late binding is the key to architectural purity.
+        import('../actions/dispatcher.js').then(m => {
+            m.Dispatcher.handle(action, State.contextTarget);
+        });
     }
 };

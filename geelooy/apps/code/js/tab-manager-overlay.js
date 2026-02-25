@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/tab-manager-overlay.js
 
@@ -5,9 +6,13 @@ import { State, DOM } from './state.js';
 import { Tabs } from './tabs/index.js';
 import { UI } from './ui.js';
 
+/**
+ * --- TAB MANAGER OVERLAY ---
+ * Rectified Hierarchical View with Persistence and Virtual Grouping.
+ */
 export const TabManagerOverlay = {
     overlay: null,
-    grid: null,
+    gridContainer: null,
     searchInput: null,
     selectionBar: null,
     contextMenu: null,
@@ -15,11 +20,13 @@ export const TabManagerOverlay = {
     isSelectionMode: false,
     selectedTabIds: new Set(),
     contextTargetTabId: null,
-    draggedTabId: null,
+    
+    isFolderView: false,
+    expandedFolders: new Set(), 
 
     init() {
         this.overlay = document.getElementById('tab-manager-overlay');
-        this.grid = document.getElementById('tm-grid');
+        this.gridContainer = document.getElementById('tm-grid');
         this.searchInput = document.getElementById('tm-search');
         this.selectionBar = document.getElementById('tm-selection-bar');
         this.contextMenu = document.getElementById('tm-context-menu');
@@ -27,31 +34,37 @@ export const TabManagerOverlay = {
         document.getElementById('tab-manager-btn').onclick = () => this.show();
         document.getElementById('tm-close-overlay').onclick = () => this.hide();
         
-        // Selection Mode Controls
-        document.getElementById('tm-select-mode-btn').onclick = () => this.enterSelectionMode();
+        // Load persistence
+        const storedExpanded = localStorage.getItem('awtsmoos_tm_expanded');
+        if (storedExpanded) { try { this.expandedFolders = new Set(JSON.parse(storedExpanded)); } catch(e){} }
+        
+        const controlsDiv = this.overlay.querySelector('.tm-controls');
+        const selectModeBtn = document.getElementById('tm-select-mode-btn');
+        const toggleBtn = document.createElement('button');
+        toggleBtn.id = 'tm-view-toggle-btn';
+        toggleBtn.className = 'icon-button';
+        toggleBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-folder"></use></svg>';
+        controlsDiv.insertBefore(toggleBtn, selectModeBtn);
+
+        toggleBtn.onclick = () => {
+            this.isFolderView = !this.isFolderView;
+            toggleBtn.innerHTML = `<svg class="svg-icon"><use href="#icon-${this.isFolderView ? 'list' : 'folder'}"></use></svg>`;
+            this.renderGrid();
+        };
+
+        selectModeBtn.onclick = () => this.enterSelectionMode();
         document.getElementById('tm-cancel-selection').onclick = () => this.exitSelectionMode();
         document.getElementById('tm-select-all').onclick = () => this.selectAll();
         document.getElementById('tm-close-selected').onclick = () => this.closeSelected();
         
-        // Context Menu Controls
-        this.contextMenu.addEventListener('click', (e) => this.handleContextAction(e));
-        document.addEventListener('click', (e) => {
-            if (!this.contextMenu.contains(e.target)) this.hideContextMenu();
-        });
-
+        this.contextMenu.onclick = (e) => this.handleContextAction(e);
+        document.addEventListener('click', (e) => { if (!this.contextMenu.contains(e.target)) this.hideContextMenu(); });
         this.searchInput.oninput = () => this.renderGrid();
-        
-        // Close on escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.overlay.classList.contains('visible')) {
-                if (this.isSelectionMode) this.exitSelectionMode();
-                else this.hide();
-            }
-        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.overlay.classList.contains('visible')) { if (this.isSelectionMode) this.exitSelectionMode(); else this.hide(); } });
     },
 
     show() {
-        this.exitSelectionMode(); // Start fresh
+        this.exitSelectionMode(); 
         this.searchInput.value = '';
         this.renderGrid();
         this.overlay.classList.remove('hidden');
@@ -60,248 +73,162 @@ export const TabManagerOverlay = {
         this.searchInput.focus();
     },
 
-    hide() {
-        this.overlay.classList.remove('visible');
-        setTimeout(() => {
-            this.overlay.classList.add('hidden');
-        }, 200);
-    },
-
-    // --- RENDER LOGIC ---
+    hide() { this.overlay.classList.remove('visible'); setTimeout(() => this.overlay.classList.add('hidden'), 200); },
 
     renderGrid() {
-        this.grid.innerHTML = '';
+        this.gridContainer.innerHTML = '';
         const filter = this.searchInput.value.toLowerCase();
-        
+        if (this.isFolderView) { this.gridContainer.className = 'tm-folder-layout'; this._renderFolderLayout(filter); }
+        else { this.gridContainer.className = 'tm-grid'; this._renderFlatLayout(filter); }
+    },
+
+    _renderFlatLayout(filter) {
         State.tabs.forEach((tab, index) => {
             if (filter && !tab.item.name.toLowerCase().includes(filter)) return;
-
-            const card = document.createElement('div');
-            card.className = `tm-card ${tab.id === State.activeTabId ? 'active-tab' : ''}`;
-            if (this.selectedTabIds.has(tab.id)) card.classList.add('selected');
-            if (tab.pinned) card.classList.add('pinned');
-            
-            // Drag Attributes
-            card.draggable = true; 
-            
-            card.dataset.tabId = tab.id;
-            card.dataset.index = index;
-
-            // Icon Determination
-            const iconMap = { 'text': 'file', 'image': 'eye', 'zip': 'save', 'html-preview': 'eye', 'console': 'laptop' };
-            const icon = iconMap[tab.fileType] || 'file';
-            
-            // Status Dot
-            let statusDot = '';
-            if (tab.isDirty) statusDot = '<span class="tm-status-dot dirty"></span>';
-            else if (tab.isUncommitted) statusDot = '<span class="tm-status-dot uncommitted"></span>';
-
-            card.innerHTML = `
-                <div class="tm-card-header">
-                    <div class="tm-icon"><svg class="svg-icon"><use href="#icon-${icon}"></use></svg></div>
-                    <div class="tm-info">
-                        <span class="tm-name">${statusDot}${tab.item.name}</span>
-                        <span class="tm-path" title="${tab.item.path}">${tab.item.path || '/'}</span>
-                    </div>
-                </div>
-            `;
-            
-            this.attachCardEvents(card, tab.id);
-            this.grid.appendChild(card);
+            this.gridContainer.appendChild(this._createCard(tab, index));
         });
+    },
+
+    _renderFolderLayout(filter) {
+        const tree = new Map();
+        State.tabs.forEach((tab, index) => {
+            if (filter && !tab.item.name.toLowerCase().includes(filter)) return;
+            
+            let wsName = '';
+            let groupType = 'standard'; 
+
+            if (tab.fileType === 'vibe' || tab.item.type === 'vibe-session') { wsName = '🧠 Vibe Sessions'; groupType = 'vibe'; }
+            else if (tab.fileType === 'html-preview' || tab.isPreview) { wsName = '👁️ Previews'; groupType = 'preview'; }
+            else if (tab.item.type === 'commander') { wsName = '📂 Commanders'; groupType = 'commander'; }
+            else if (tab.fileType === 'terminal') { wsName = '💻 Terminals'; groupType = 'terminal'; }
+            else { const ws = State.workspaces.find(w => w.id === tab.item.workspaceId); wsName = ws ? ws.name : 'Unknown Realm'; }
+            
+            if (!tree.has(wsName)) tree.set(wsName, { name: wsName, pathKey: wsName, groupType, children: new Map(), tabs: [], totalTabs: 0 });
+            const wsNode = tree.get(wsName);
+            wsNode.totalTabs++;
+            
+            let current = wsNode, currentPathKey = wsName;
+            
+            // Build Deep Path Logic for ALL types
+            let dirPath = tab.item.path || '/';
+            const lastSlash = dirPath.lastIndexOf('/');
+            dirPath = lastSlash > 0 ? dirPath.substring(0, lastSlash) : '/';
+            
+            if (dirPath !== '/') {
+                dirPath.split('/').filter(Boolean).forEach(part => {
+                    currentPathKey += '::' + part;
+                    if (!current.children.has(part)) {
+                        current.children.set(part, { name: part, pathKey: currentPathKey, type: 'folder', children: new Map(), tabs: [], totalTabs: 0 });
+                    }
+                    current = current.children.get(part);
+                    current.totalTabs++;
+                });
+            }
+            current.tabs.push({ tab, index });
+        });
+
+        const container = document.createElement('div');
+        container.className = 'tm-tree-container';
+        const sorted = Array.from(tree.keys()).sort((a,b) => {
+            const p = { 'terminal': 0, 'vibe': 1, 'commander': 2, 'preview': 3, 'standard': 4 };
+            const pA = p[tree.get(a).groupType] || 4, pB = p[tree.get(b).groupType] || 4;
+            return pA !== pB ? pA - pB : a.localeCompare(b);
+        });
+        sorted.forEach(ws => this._appendTreeNode(tree.get(ws), container, filter, true));
+        this.gridContainer.appendChild(container);
+    },
+
+    _appendTreeNode(node, parentEl, filter, isRoot = false) {
+        const wrapper = document.createElement('div');
+        wrapper.className = `tm-tree-node ${isRoot ? 'root' : 'nested'}`;
+        const isExpanded = filter || this.expandedFolders.has(node.pathKey);
+        if (isExpanded) wrapper.classList.add('expanded');
+
+        const header = document.createElement('div');
+        header.className = 'tm-tree-header';
+        let icon = 'folder';
+        if (isRoot) {
+            if (node.groupType === 'terminal') icon = 'laptop';
+            else if (node.groupType === 'vibe') icon = 'brain';
+            else if (node.groupType === 'commander') icon = 'folder';
+            else if (node.groupType === 'preview') icon = 'eye';
+        }
+        
+        header.innerHTML = `
+            <span class="tm-folder-caret">▶</span> 
+            <svg class="svg-icon tm-folder-icon"><use href="#icon-${icon}"></use></svg> 
+            <span class="tm-folder-title">${node.name}</span> 
+            <span class="tm-folder-count">${node.totalTabs}</span>
+            <div class="tm-tree-tools" style="margin-left:auto; display:none; gap:5px;">
+                 <button data-action="expand-all" style="padding:2px 6px; background:none; border:1px solid var(--color-border); border-radius:4px; color:var(--neon-lime); cursor:pointer;">+</button>
+                 <button data-action="collapse-all" style="padding:2px 6px; background:none; border:1px solid var(--color-border); border-radius:4px; color:var(--color-accent-danger); cursor:pointer;">-</button>
+            </div>`;
+
+        header.onmouseenter = () => { const t = header.querySelector('.tm-tree-tools'); if(t) t.style.display = 'flex'; };
+        header.onmouseleave = () => { const t = header.querySelector('.tm-tree-tools'); if(t) t.style.display = 'none'; };
+
+        header.onclick = (e) => {
+            const btn = e.target.closest('button[data-action]');
+            if (btn) {
+                e.stopPropagation();
+                this._toggleRecursive(node, btn.dataset.action === 'expand-all');
+                this.renderGrid();
+                return;
+            }
+            const currentlyExpanded = wrapper.classList.contains('expanded');
+            if (currentlyExpanded) { wrapper.classList.remove('expanded'); this.expandedFolders.delete(node.pathKey); }
+            else { wrapper.classList.add('expanded'); this.expandedFolders.add(node.pathKey); }
+            localStorage.setItem('awtsmoos_tm_expanded', JSON.stringify(Array.from(this.expandedFolders)));
+        };
+
+        const body = document.createElement('div');
+        body.className = 'tm-tree-body';
+        Array.from(node.children.keys()).sort().forEach(ck => this._appendTreeNode(node.children.get(ck), body, filter, false));
+        if (node.tabs.length > 0) {
+            const grid = document.createElement('div');
+            grid.className = 'tm-tree-tabs-grid';
+            node.tabs.forEach(({tab, index}) => grid.appendChild(this._createCard(tab, index, false)));
+            body.appendChild(grid);
+        }
+        wrapper.append(header, body);
+        parentEl.appendChild(wrapper);
+    },
+
+    _toggleRecursive(node, expand) {
+        if (expand) this.expandedFolders.add(node.pathKey); else this.expandedFolders.delete(node.pathKey);
+        node.children.forEach(c => this._toggleRecursive(c, expand));
+        localStorage.setItem('awtsmoos_tm_expanded', JSON.stringify(Array.from(this.expandedFolders)));
+    },
+
+    _createCard(tab, index, drag = true) {
+        const card = document.createElement('div');
+        card.className = `tm-card ${tab.id === State.activeTabId ? 'active-tab' : ''} ${this.selectedTabIds.has(tab.id) ? 'selected' : ''} ${tab.pinned ? 'pinned' : ''}`;
+        card.draggable = drag; card.dataset.tabId = tab.id;
+        const iconMap = { 'text': 'file', 'image': 'eye', 'zip': 'save', 'html-preview': 'eye', 'console': 'laptop', 'commander': 'folder', 'vibe': 'brain', 'terminal': 'laptop' };
+        let dot = tab.isDirty ? '<span class="tm-status-dot dirty"></span>' : tab.isUncommitted ? '<span class="tm-status-dot uncommitted"></span>' : '';
+        card.innerHTML = `<div class="tm-card-header"><div class="tm-icon"><svg class="svg-icon"><use href="#icon-${iconMap[tab.fileType]||'file'}"></use></svg></div><div class="tm-info"><span class="tm-name">${dot}${tab.item.name}</span><span class="tm-path" title="${tab.item.path}">${tab.item.path || '/'}</span></div></div>`;
+        this.attachCardEvents(card, tab.id);
+        return card;
     },
 
     attachCardEvents(card, tabId) {
-        let longPressTimer;
-        const LONG_PRESS_DURATION = 500;
-
-        // 1. CLICK / TAP
-        card.addEventListener('click', (e) => {
-            if (this.isSelectionMode) {
-                this.toggleSelection(tabId);
-            } else {
-                this.hide();
-                Tabs.activate(tabId);
-            }
-        });
-
-        // 2. CONTEXT MENU (Right Click)
-        card.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            this.showContextMenu(e.clientX, e.clientY, tabId);
-        });
-
-        // 3. LONG PRESS (Touch)
-        const startPress = (e) => {
-            longPressTimer = setTimeout(() => {
-                // Trigger context menu
-                const touch = e.touches ? e.touches[0] : e;
-                this.showContextMenu(touch.clientX, touch.clientY, tabId);
-            }, LONG_PRESS_DURATION);
-        };
-
-        const cancelPress = () => {
-            clearTimeout(longPressTimer);
-        };
-
-        card.addEventListener('touchstart', startPress, { passive: true });
-        card.addEventListener('touchend', cancelPress);
-        card.addEventListener('touchmove', cancelPress);
-
-        // 4. DRAG & DROP
-        card.addEventListener('dragstart', (e) => {
-            this.draggedTabId = tabId;
-            e.dataTransfer.effectAllowed = 'move';
-            // Slight delay to allow the ghost image to form before adding class
-            setTimeout(() => card.classList.add('dragging'), 0);
-        });
-
-        card.addEventListener('dragend', () => {
-            this.draggedTabId = null;
-            card.classList.remove('dragging');
-            // Re-render to ensure clean state
-            this.renderGrid();
-        });
-
-        card.addEventListener('dragover', (e) => {
-            e.preventDefault(); // Necessary to allow dropping
-            const draggedId = this.draggedTabId;
-            if (!draggedId || draggedId === tabId) return;
-
-            // Perform visual swap (logic)
-            this.handleReorder(draggedId, tabId);
-        });
-    },//comma!!
-
-    // --- REORDER LOGIC ---
-
-    handleReorder(sourceId, targetId) {
-        const sourceIndex = State.tabs.findIndex(t => t.id === sourceId);
-        const targetIndex = State.tabs.findIndex(t => t.id === targetId);
-
-        if (sourceIndex === -1 || targetIndex === -1 || sourceIndex === targetIndex) return;
-
-        // 1. Modify State
-        const [movedTab] = State.tabs.splice(sourceIndex, 1);
-        State.tabs.splice(targetIndex, 0, movedTab);
-
-        // 2. Re-render Grid (Efficiently ideally, but full re-render is safe)
-        // We only re-render the grid DOM, we don't save session every ms of drag.
-        this.renderGrid();
-        
-        // 3. Sync main tab bar immediately so user sees effect
-        Tabs.render(); 
+        card.onclick = () => { if (this.isSelectionMode) this.toggleSelection(tabId); else { this.hide(); Tabs.activate(tabId); } };
+        card.oncontextmenu = (e) => { e.preventDefault(); this.showContextMenu(e.clientX, e.clientY, tabId); };
     },
 
-    // --- SELECTION MODE ---
-
-    enterSelectionMode() {
-        this.isSelectionMode = true;
-        this.overlay.classList.add('selection-mode');
-        this.selectionBar.classList.remove('hidden');
-        this.updateSelectionUI(); // B"H - Ensure count is synced immediately
-        this.renderGrid(); // Update card visuals (dashed borders)
-    },
-
-    exitSelectionMode() {
-        this.isSelectionMode = false;
-        this.selectedTabIds.clear();
-        this.overlay.classList.remove('selection-mode');
-        this.selectionBar.classList.add('hidden');
-        this.renderGrid();
-    },
-
-    toggleSelection(tabId) {
-        if (this.selectedTabIds.has(tabId)) {
-            this.selectedTabIds.delete(tabId);
-        } else {
-            this.selectedTabIds.add(tabId);
-        }
-        this.updateSelectionUI();
-    },
-
-    selectAll() {
-        State.tabs.forEach(t => this.selectedTabIds.add(t.id));
-        this.updateSelectionUI();
-    },
-
-    updateSelectionUI() {
-        document.getElementById('tm-selection-count').textContent = `${this.selectedTabIds.size} Selected`;
-        
-        // Update Grid visual state
-        const cards = this.grid.querySelectorAll('.tm-card');
-        cards.forEach(card => {
-            const id = Number(card.dataset.tabId);
-            if (this.selectedTabIds.has(id)) card.classList.add('selected');
-            else card.classList.remove('selected');
-        });
-    },
-
-    async closeSelected() {
-        if (this.selectedTabIds.size === 0) return;
-        
-        // Convert Set to Array to iterate safely while mutating State.tabs
-        const ids = Array.from(this.selectedTabIds);
-        for (const id of ids) {
-            await Tabs.close(id, true); // Force close for bulk action? Or prompt? 
-            // For smoother UX in bulk, we usually force or check dirty once. 
-            // Tabs.close logic handles dirty checks individually. 
-        }
-        
-        this.exitSelectionMode(); // Exit mode after action
-    },
-
-    // --- CONTEXT MENU ---
-
-    showContextMenu(x, y, tabId) {
-        this.contextTargetTabId = tabId;
-        const menu = this.contextMenu;
-        
-        menu.style.left = `${x}px`;
-        menu.style.top = `${y}px`;
-        menu.classList.remove('hidden');
-        
-        // Adjust position if off-screen
-        const rect = menu.getBoundingClientRect();
-        if (x + rect.width > window.innerWidth) menu.style.left = `${window.innerWidth - rect.width - 10}px`;
-        if (y + rect.height > window.innerHeight) menu.style.top = `${window.innerHeight - rect.height - 10}px`;
-    },
-
-    hideContextMenu() {
-        this.contextMenu.classList.add('hidden');
-        this.contextTargetTabId = null;
-    },//commas
-
+    toggleSelection(tabId) { if (this.selectedTabIds.has(tabId)) this.selectedTabIds.delete(tabId); else this.selectedTabIds.add(tabId); this.updateSelectionUI(); },
+    updateSelectionUI() { document.getElementById('tm-selection-count').textContent = `${this.selectedTabIds.size} Selected`; this.gridContainer.querySelectorAll('.tm-card').forEach(c => c.classList.toggle('selected', this.selectedTabIds.has(Number(c.dataset.tabId)))); },
+    enterSelectionMode() { this.isSelectionMode = true; this.overlay.classList.add('selection-mode'); this.selectionBar.classList.remove('hidden'); this.updateSelectionUI(); this.renderGrid(); },
+    exitSelectionMode() { this.isSelectionMode = false; this.selectedTabIds.clear(); this.overlay.classList.remove('selection-mode'); this.selectionBar.classList.add('hidden'); this.renderGrid(); },
+    selectAll() { State.tabs.forEach(t => this.selectedTabIds.add(t.id)); this.updateSelectionUI(); },
+    async closeSelected() { for (const id of Array.from(this.selectedTabIds)) await Tabs.close(id, true); this.exitSelectionMode(); },
+    showContextMenu(x, y, tabId) { this.contextTargetTabId = tabId; this.contextMenu.style.left = `${x}px`; this.contextMenu.style.top = `${y}px`; this.contextMenu.classList.remove('hidden'); },
+    hideContextMenu() { this.contextMenu.classList.add('hidden'); },
     handleContextAction(e) {
-        const btn = e.target.closest('button');
-        if (!btn) return;
-        const action = btn.dataset.action;
-        const tabId = this.contextTargetTabId;
-        
-        this.hideContextMenu();
-
-        if (action === 'open') {
-            this.hide();
-            Tabs.activate(tabId);
-        } else if (action === 'select') {
-            this.enterSelectionMode();
-            this.toggleSelection(tabId);
-        } else if (action === 'close') {
-            Tabs.close(tabId);
-            this.renderGrid();
-        } else if (action === 'pin') {
-            const tab = State.tabs.find(t => t.id === tabId);
-            if (tab) {
-                tab.pinned = !tab.pinned;
-                // Move pinned tabs to start
-                if (tab.pinned) {
-                    const idx = State.tabs.indexOf(tab);
-                    State.tabs.splice(idx, 1);
-                    State.tabs.unshift(tab);
-                }
-                this.renderGrid();
-                Tabs.render();
-            }
-        }
+        const btn = e.target.closest('button'); if (!btn) return;
+        const tabId = this.contextTargetTabId; this.hideContextMenu();
+        if (btn.dataset.action === 'open') { this.hide(); Tabs.activate(tabId); }
+        else if (btn.dataset.action === 'close') { import('../tabs/index.js').then(m => m.Tabs.close(tabId)); this.renderGrid(); }
+        else if (btn.dataset.action === 'pin') { const t = State.tabs.find(x => x.id === tabId); if(t) { t.pinned = !t.pinned; this.renderGrid(); import('../tabs/index.js').then(m => m.Tabs.render()); } }
     }
 };

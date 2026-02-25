@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/vibe/controllers/logic.js
 import { State } from '../../state.js';
@@ -50,6 +51,10 @@ export const LogicController = {
                 }
                 
                 tab.vibeSession.isProcessing = false;
+                
+                // B"H - Save Checkpoint automatically after every successful AI interaction
+                await controller.createCheckpoint(tab);
+                
                 controller.refreshView(tab);
                 UI.showToast("B\"H: Manifestation Complete.", "success");
             },

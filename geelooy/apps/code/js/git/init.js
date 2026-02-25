@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/git/init.js
 import { State } from '../state.js';
@@ -14,18 +15,43 @@ export const GitInit = {
 	        const token = await UI.showDialog({ title: "GitHub Token Required", hasInput: true, inputType: 'password', okText: "Save" });
 	        if (token) { State.githubToken = token; App.saveSettings(); } else return;
 	    }
+        
+        const defaultRepoName = folderItem.name.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+
 	    const result = await UI.showDialog({
-	        title: 'Initialize GitHub Repository', hasTextarea: true,
-	        contentHTML: `<p>Creating repository from <strong>'${folderItem.name}'</strong>.</p><input type="text" id="repo-name" value="${folderItem.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}">`,
-	        okText: 'Create & Push'
+	        title: 'Initialize GitHub Repository', 
+	        contentHTML: `
+                <p style="margin-bottom:10px;">Creating repository from <strong>'${folderItem.name}'</strong>.</p>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div>
+                        <label style="font-size:0.8em; opacity:0.7;">Repository Name:</label>
+                        <input type="text" id="repo-name" value="${defaultRepoName}" style="margin-top:5px;">
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                        <input type="checkbox" id="repo-private" checked style="width:auto;">
+                        <label for="repo-private" style="user-select:none;">Private Repository</label>
+                    </div>
+                </div>`,
+	        okText: 'Create & Push',
+            cancelText: 'Cancel'
 	    });
 	    if (!result) return;
+
 	    const repoName = document.getElementById('repo-name').value.trim();
+        const isPrivate = document.getElementById('repo-private').checked;
+
 	    const taskId = `git-init-${Date.now()}`;
 	    UI.startTask(taskId, `Creating '${repoName}'...`);
 
 	    try {
-	        const repoData = await FileSystemProvider.GitHub.api('/user/repos', { method: 'POST', body: JSON.stringify({ name: repoName, private: true }) });
+	        const repoData = await FileSystemProvider.GitHub.api('/user/repos', { 
+                method: 'POST', 
+                body: JSON.stringify({ 
+                    name: repoName, 
+                    private: isPrivate 
+                }) 
+            });
+            
 	        const repoInfo = { owner: repoData.owner.login, repo: repoData.name };
 	        const branch = repoData.default_branch || 'main';
 
@@ -41,9 +67,12 @@ export const GitInit = {
 
 	        UI.updateTask(taskId, 50, "Genesis sequence...");
 	        const genesisFile = creations.shift() || { path: 'README.md', content: 'B"H\nInitialized.' };
-	        const genesisSHA = await CommitAPI.executeGenesisCommit(repoInfo, branch, [genesisFile], 'B"H: Genesis');
             
-            await new Promise(r => setTimeout(r, 3000)); // Let GitHub stabilize
+            // Correctly calling executeGenesisCommit
+	        await CommitAPI.executeGenesisCommit(repoInfo, branch, [genesisFile], 'B"H: Genesis');
+            
+            UI.updateTask(taskId, 75, "Pushing files...");
+            await new Promise(r => setTimeout(r, 2000)); 
 
 	        await GitCommit.performCommit({ ...folderItem, type: 'github' }, { repoInfo, branch, remoteTree: [] }, { creations }, 'B"H: Full Manifestation');
 
