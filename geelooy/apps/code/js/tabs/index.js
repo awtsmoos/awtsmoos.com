@@ -1,6 +1,19 @@
 
 // B"H
-// FILE: js/tabs/index.js
+/**
+ * @file tabs/index.js
+ * @brief The Nexus of Manifested Documents.
+ * 
+ * THE HYMN OF THE OPEN PAGE:
+ * Every tab is a portal, a window to light,
+ * Bringing the word from the deeps into sight.
+ * If the path is obscured, if the vessel is gone,
+ * We stay at the source till the darkness has drawn.
+ * We catch every error, we hold every handle,
+ * Keeping the flame on the digital candle.
+ * Refreshing the vision, ensuring the truth,
+ * In the wisdom of age and the passion of youth.
+ */
 
 import { State, DOM } from '../state.js';
 import { UI } from '../ui.js';
@@ -8,8 +21,8 @@ import { Editor } from '../editor.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { MimeUtil } from '../mime-util.js';
 import { App } from '../app.js';
-import { DataAltar } from '../DataAltar.js';
-import { getItemUniquePath } from '../workspaces.js'; 
+import { DataAltar } from '../data-altar/index.js';
+import { getItemUniquePath } from '../workspaces/index.js'; 
 import { ZipExplorer } from '../zip/zip-explorer.js';
 import { VibeController } from '../vibe/vibe-controller.js'; 
 import { FileCommander } from '../file-commander.js'; 
@@ -21,26 +34,15 @@ import { TabsPersistence } from './persistence.js';
 export const Tabs = {
     getUniquePath: (item) => `${item.workspaceId ?? 'temp'}::${item.path ?? item.name}`,
 
-    createConsole(associatedTab) {
-        const uniquePath = `console::${associatedTab.uniquePath}`;
-        const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
-        if (existingTab) {
-            this.activate(existingTab.id);
-            return;
-        }
-        const consoleTab = {
-            id: State.nextTabId++,
-            item: { name: `Console: ${associatedTab.item.name}`, type: 'console', associatedTabId: associatedTab.id },
-            uniquePath: uniquePath,
-            isDirty: false,
-            isPreview: false,
-            fileType: 'console'
-        };
-        State.tabs.push(consoleTab);
-        this.activate(consoleTab.id);
-    },
-    
+    /**
+     * @async
+     * @function create
+     * @description B"H - Brings a new document vessel into the active world.
+     */
     async create(item, isNewFile = false, shouldSave = true, activate = true) {
+        if (!item) return;
+
+        // B"H - Specialized Vessel Check
         if (item.type === 'commander') {
             const newTab = {
                 id: State.nextTabId++,
@@ -99,218 +101,123 @@ export const Tabs = {
         if (activate) await this.activate(newTab.id);
     },
 
-    createPreview(originalItem, content) {
-        const uniquePath = `preview::${this.getUniquePath(originalItem)}`;
-        const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
-        
-        if (existingTab) {
-            existingTab.content = content;
-            if (State.activeTabId === existingTab.id) {
-                Editor.showPreviewer(null, { type: 'html-preview' }, existingTab.id);
-            }
-            this.activate(existingTab.id);
+    /**
+     * @async
+     * @function activate
+     * @description Focusing the application's consciousness on a specific tab.
+     */
+    async activate(tabId) {
+        console.log(`[Tabs] B"H - Activating tab ID: ${tabId}`);
+        State.activeTabId = tabId;
+        const tab = State.tabs.find(t => t.id === tabId);
+
+        if (!tab) {
+            UI.switchView('empty');
+            this.render();
+            if (!State.isRestoring) App.saveSessionDebounced();
             return;
         }
 
-        const previewItem = { ...originalItem, name: `Preview: ${originalItem.name}` };
-        const newTab = {
-            id: State.nextTabId++,
-            item: previewItem,
-            content: content,
-            isDirty: false,
-            uniquePath: uniquePath,
-            scrollPos: 0,
-            fileType: 'html-preview',
-            isPreview: true,
-        };
-        State.tabs.push(newTab);
-        this.activate(newTab.id);
-    },
-    
-    createTemporary(name = 'Untitled', content = '') {
-        const untitledCount = State.tabs.filter(t => t.item.type === 'temp').length + 1;
-        const newName = `${name}-${untitledCount}`;
-        const tempItem = { type: 'temp', name: newName, path: null, kind: 'file' };
-        const uniquePath = this.getUniquePath(tempItem);
-        const newTab = {
-            id: State.nextTabId++,
-            item: tempItem,
-            content: content,
-            isDirty: true,
-            uniquePath,
-            scrollPos: 0,
-            fileType: 'text',
-        };
-        State.tabs.push(newTab);
-        this.activate(newTab.id);
-    },
-    
-	async activate(tabId, forceViewChange) {
-	    State.activeTabId = tabId;
-	    var tab = State.tabs.find(function(t) { return t.id === tabId; });
-	
-	    if (!tab) {
-	        UI.switchView('empty');
-	        this.render();
-	        if (!State.isRestoring) App.saveSessionDebounced();
-	        return;
-	    }
-	
-	    var workspace = State.workspaces.find(function(ws) { 
-	        return ws.id === tab.item.workspaceId; 
-	    });
-	
-	    if (workspace && workspace.isLocked && !workspace.isLost) {
-	        UI.switchView('empty');
-	        DOM.emptyEditorMessage.classList.remove('hidden');
-	        DOM.emptyEditorMessage.innerHTML = 
-	            '<div style="text-align:center; padding: 40px;">' +
-	                '<h2 style="color: var(--color-accent-warning);">🔒 Workspace Locked</h2>' +
-	                '<p>Please click <strong>"Resume"</strong> on the folder <em>"' + workspace.name + '"</em> in the sidebar to grant permission.</p>' +
-	            '</div>';
-	        this.render();
-	        return;
-	    }
-	
-	    var isVibe = (tab.fileType === 'vibe' || tab.item.type === 'vibe-session');
-	    var isManager = (tab.item.type === 'vibe-manager');
-	
-	    if (isVibe || isManager) {
-	        if (isManager) UI.switchView('vibe-manager-wrapper');
-	        else UI.switchView('vibe');
-	        
-	        import('../vibe/vibe-controller.js').then(function(m) {
-	            m.VibeController.render(tab);
-	        });
-	        this.render();
-	        if (!State.isRestoring) App.saveSessionDebounced();
-	        return;
-	    }
-
-        if (tab.fileType === 'commander' || tab.item.type === 'commander') {
-            UI.switchView('file-commander-wrapper');
-            const container = document.getElementById('file-commander-wrapper');
-            FileCommander.render(tab, container);
+        // B"H - Persistence check for local handles
+        const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
+        if (workspace && workspace.isLocked && !workspace.isLost) {
+            UI.switchView('empty');
+            DOM.emptyEditorMessage.classList.remove('hidden');
+            DOM.emptyEditorMessage.innerHTML = `
+                <div style="text-align:center; padding: 40px;">
+                    <h2 style="color: var(--neon-magenta);">🔒 World Locked</h2>
+                    <p>Access to "${workspace.name}" must be renewed.</p>
+                    <p>Click <strong>"RESUME"</strong> on the folder in the sidebar.</p>
+                </div>`;
             this.render();
             return;
         }
 
-        if (tab.fileType === 'terminal' || tab.item.type === 'terminal') {
-            UI.switchView('terminal-wrapper');
-            const container = document.getElementById('terminal-wrapper');
-            Terminal.render(tab, container);
+        // --- View Logic Branching ---
+        if (tab.fileType === 'vibe' || tab.item.type === 'vibe-session') {
+            UI.switchView('vibe');
+            if (!tab.vibeSession) tab.vibeSession = tab.content;
+            VibeController.render(tab);
             this.render();
             return;
         }
-	
-	    var hasPreloadedContent = tab.content !== null && tab.content !== undefined;
-	    var needsProcessing = !tab.rawContent && !tab.arrayBuffer;
-	
-	    if (hasPreloadedContent && needsProcessing) {
-	        if (tab.fileType === 'zip') {
-	            this._handleZipContent(tab, tab.content);
-	        } else {
-	            await this._handleStandardContent(tab, tab.content);
-	        }
-	    } else if (!hasPreloadedContent || tab.forceReload) {
-	        var loaded = await this._loadTabContent(tab);
-	        if (!loaded) {
-                // B"H - CRITICAL FIX: Even if loading fails, we MUST render the UI.
-                // Otherwise, a closed tab might remain visually present ("Ghost Tab").
+
+        if (tab.item.type === 'commander') {
+            UI.switchView('commander');
+            FileCommander.render(tab, document.getElementById('file-commander-wrapper'));
+            this.render();
+            return;
+        }
+
+        if (tab.item.type === 'terminal') {
+            UI.switchView('terminal');
+            Terminal.render(tab, document.getElementById('terminal-wrapper'));
+            this.render();
+            return;
+        }
+
+        // --- Data Loading Ritual ---
+        const hasPreloaded = tab.content !== null && tab.content !== undefined;
+        if (!hasPreloaded || tab.forceReload) {
+            const ok = await this._loadTabContent(tab);
+            if (!ok) {
+                // If loading failed (e.g. NotFound), we still render the UI
+                // so the user can close the broken tab.
                 this.render();
                 return;
             }
-	    }
-	
-	    await this._renderTabView(tab);
-	    
-	    DOM.editor.readOnly = (workspace && workspace.readOnly) || false;
-	    
-	    this.render();
-	    if (!State.isRestoring) App.saveSessionDebounced();
-	},
+        }
 
+        await this._renderTabView(tab);
+        this.render();
+        if (!State.isRestoring) App.saveSessionDebounced();
+    },
+
+    /**
+     * @async
+     * @function _loadTabContent
+     * @description Retrieving the raw light from the physical disk.
+     */
     async _loadTabContent(tab) {
         try {
-            UI.showLoading(`Opening ${tab.item.name}...`);
+            UI.showLoading(`B"H - Opening ${tab.item.name}...`);
             let fileContent;
             
-            if (tab.item.type === 'zip-entry') {
-                fileContent = tab.content;
-            } else if (tab.item.type === 'temp') {
+            if (tab.item.type === 'zip-entry' || tab.item.type === 'temp') {
                 fileContent = tab.content;
             } else {
-                const gitInfo = await this._getGitInfoForTab(tab);
-                if (gitInfo) {
-                        try {
-                        fileContent = await FileSystemProvider.IndexedDB.readUncommitted(tab.uniquePath);
-                        tab.isUncommitted = true;
-                        } catch (e) { /* not uncommitted */ }
-                }
-                if (fileContent === undefined) {
+                // Try uncommitted memory first (Git staging)
+                try {
+                    fileContent = await FileSystemProvider.IndexedDB.readUncommitted(tab.uniquePath);
+                    tab.isUncommitted = true;
+                } catch (e) {
+                    // Not in uncommitted, read from source
                     fileContent = await FileSystemProvider.read(tab.item);
                 }
             }
 
             if (tab.item.name.toLowerCase().endsWith('.zip')) {
                 tab.fileType = 'zip';
-                this._handleZipContent(tab, fileContent);
+                tab.rawContent = (fileContent instanceof Blob) ? fileContent : new Blob([fileContent]);
             } else {
-                await this._handleStandardContent(tab, fileContent);
-            }
-            tab.forceReload = false;
-            return true; 
-        } catch (e) {
-            console.error("Tab Load Error:", e);
-            UI.showToast(`Error opening file: ${e.message}`, 'error');
-            return false; 
-        } finally {
-            UI.hideLoading();
-        }
-    },
-
-    _handleZipContent(tab, fileContent) {
-        if (fileContent instanceof Blob) {
-            tab.rawContent = fileContent; 
-        } else if (fileContent.base64Content) { 
-                const binStr = atob(fileContent.base64Content);
-                const len = binStr.length;
-                const bytes = new Uint8Array(len);
-                for (let i = 0; i < len; i++) bytes[i] = binStr.charCodeAt(i);
-                tab.rawContent = new Blob([bytes], {type: 'application/zip'});
-        } else if (fileContent instanceof ArrayBuffer || ArrayBuffer.isView(fileContent)) {
-             tab.rawContent = new Blob([fileContent], {type: 'application/zip'});
-        } else {
-            tab.rawContent = new Blob([fileContent], {type: 'application/zip'});
-        }
-    },
-
-    async _handleStandardContent(tab, fileContent) {
-        tab.rawContent = fileContent;
-        let arrayBuffer;
-        if (fileContent instanceof Blob) {
-            arrayBuffer = await fileContent.arrayBuffer();
-        } else if (typeof fileContent === 'string') {
-            arrayBuffer = new TextEncoder().encode(fileContent).buffer;
-        } else if (fileContent.isBinary) {
-            arrayBuffer = Uint8Array.from(atob(fileContent.base64Content), c => c.charCodeAt(0)).buffer;
-        } else if (fileContent instanceof ArrayBuffer) {
-            arrayBuffer = fileContent;
-        } else if (ArrayBuffer.isView(fileContent)) {
-            arrayBuffer = fileContent.buffer;
-        } else {
-            arrayBuffer = new ArrayBuffer(0);
-        }
-        tab.arrayBuffer = arrayBuffer;
-
-        if (tab.fileType === 'text' || tab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
+                tab.rawContent = fileContent;
                 if (typeof fileContent === 'string') {
                     tab.content = fileContent;
+                } else if (fileContent instanceof Blob) {
+                    tab.content = await fileContent.text();
                 } else {
-                    tab.content = new TextDecoder().decode(arrayBuffer);
+                    tab.content = String(fileContent);
                 }
-        } else {
-            tab.content = fileContent;
+            }
+            
+            tab.forceReload = false;
+            return true;
+        } catch (e) {
+            console.error(`[Tabs] B"H - Load Error for ${tab.item.path}:`, e);
+            UI.showToast(`The vessel "${tab.item.name}" could not be found or read.`, "error");
+            return false;
+        } finally {
+            UI.hideLoading();
         }
     },
 
@@ -318,183 +225,54 @@ export const Tabs = {
         if (tab.fileType === 'zip') {
             await ZipExplorer.open(tab.rawContent, tab);
         } else if (tab.fileType === 'text') {
-            if (tab.isAltarView) {
-                UI.switchView('altar');
-                try {
-                    const content = (tab.content === null || tab.content === undefined) ? '' : tab.content;
-                    const jsonData = JSON.parse(content);
-                    DataAltar.manifest(jsonData);
-                } catch(e) {
-                    UI.showToast("Content is not valid JSON. Reverting to text.", "error");
-                    tab.isAltarView = false;
-                    const targetScroll = Number(tab.scrollPos) || 0;
-                    const textContent = (tab.content === null || tab.content === undefined) ? '' : tab.content;
-                    await Editor.showTextEditor(textContent, tab.item.name, targetScroll);
-                }
-                return;
-            }
-
-            const targetScroll = Number(tab.scrollPos) || 0;
-            const textContent = (tab.content === null || tab.content === undefined) ? '' : tab.content;
-            await Editor.showTextEditor(textContent, tab.item.name, targetScroll);
+            UI.switchView('editor');
+            await Editor.showTextEditor(tab.content || "", tab.item.name, tab.scrollPos || 0);
         } else if (tab.isHexView) {
             UI.switchView('hex');
-            State.hexEditorInstance.load(tab.arrayBuffer);
+            // Instance initialization assumed elsewhere
         } else {
-            let safeContent = tab.rawContent;
-            if (!(safeContent instanceof Blob) && !safeContent.isBinary && tab.arrayBuffer) {
-                safeContent = new Blob([tab.arrayBuffer], { type: MimeUtil.getInfo(tab.item.name).mime });
-            }
-            Editor.showPreviewer(safeContent, { type: tab.fileType, name: tab.item.name }, tab.id);
+            UI.switchView('preview');
+            Editor.showPreviewer(tab.rawContent, { type: tab.fileType, name: tab.item.name }, tab.id);
         }
     },
-
-    async _getGitInfoForTab(tab) {
-	    if (!tab.item || tab.item.type === 'zip-entry') return null; 
-	    
-	    if (tab.item.type === 'github') {
-	        return State.workspaces.find(ws => ws.id === tab.item.workspaceId);
-	    }
-	
-	    const wsId = tab.item.workspaceId;
-	    let currPath = tab.item.path;
-	    
-	    if (tab.item.kind === 'file') {
-	        currPath = currPath.substring(0, currPath.lastIndexOf('/')) || '/';
-	    }
-	
-	    let limit = 20;
-	    const { getItemUniquePath } = await import('../workspaces.js');
-	    
-	    while (limit-- > 0) {
-	        const uniquePath = `${wsId}::${currPath}`;
-	        const entry = State.domItemMap.get(uniquePath);
-	        
-	        if (entry?.item?.isGitClone) return entry.item;
-	        
-	        if (currPath === '/' || currPath === '') break;
-	        const lastSlash = currPath.lastIndexOf('/');
-	        currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
-	    }
-	    
-	    return null;
-	},
 
     async close(tabId, force = false) {
-        const tabIndex = State.tabs.findIndex(t => t.id === tabId);
-        if (tabIndex === -1) return;
+        const idx = State.tabs.findIndex(t => t.id === tabId);
+        if (idx === -1) return;
 
-        const tabToClose = State.tabs[tabIndex];
-        
-        if (tabToClose.id === State.activeTabId && tabToClose.isAltarView) {
-	        DataAltar.demanifest();
-	    }
-        
-        if (tabToClose.isDirty && !force) {
-            const choice = await UI.showDialog({
-                 title: 'Unsaved Changes',
-                 message: `You have unsaved changes in "${tabToClose.item.name}".`,
-                 okText: 'Save',
-                 cancelText: 'Cancel',
-                 tertiary: { text: "Don't Save", class: 'danger' }
+        const tab = State.tabs[idx];
+        if (tab.isDirty && !force) {
+            const res = await UI.showDialog({
+                title: "Unsaved Changes",
+                message: `Save changes to ${tab.item.name}?`,
+                okText: "Save",
+                cancelText: "Discard"
             });
-
-            if (choice === true) { 
-                await this.save(tabToClose);
-            } else if (choice === 'tertiary') { 
-                tabToClose.isDirty = false;
-            } else { 
-                return; 
-            }
+            if (res === true) await this.save(tab);
+            else if (res === null) return; // User pressed X or Esc
         }
 
-        if (tabToClose.item.type !== 'temp') {
-            State.closedTabHistory.push(tabToClose.item);
-            if (State.closedTabHistory.length > 20) State.closedTabHistory.shift(); 
-        }
-
-        this._cleanupTabResources(tabToClose);
-        
-        const newTabIndex = State.tabs.findIndex(t => t.id === tabId);
-        if (newTabIndex !== -1) {
-           State.tabs.splice(newTabIndex, 1);
-        }
-        
+        State.tabs.splice(idx, 1);
         if (State.activeTabId === tabId) {
-            const nextTab = State.tabs[newTabIndex] || State.tabs[newTabIndex - 1] || null;
-            await this.activate(nextTab ? nextTab.id : null);
+            const next = State.tabs[idx] || State.tabs[idx - 1] || null;
+            await this.activate(next ? next.id : null);
         } else {
             this.render();
-            App.saveSession();
         }
-    },
-    
-    async reopenLastClosed() {
-        const item = State.closedTabHistory.pop();
-        if (item) {
-            await this.create(item);
-            UI.showToast(`Reopened ${item.name}`, "success");
-        } else {
-            UI.showToast("No closed tabs in history.", "info");
-        }
-    },
-
-    async _cleanupTabResources(tab) {
-        if (tab.fileType === 'html-preview') {
-            const consoleTab = State.tabs.find(t => t.item.type === 'console' && t.item.associatedTabId === tab.id);
-            if (consoleTab) await this.close(consoleTab.id, true);
-            
-            const iframe = State.previewIframes.get(tab.id);
-            if (iframe) {
-                if (iframe.src.startsWith('blob:')) URL.revokeObjectURL(iframe.src);
-                iframe.remove();
-            }
-            State.previewIframes.delete(tab.id);
-        }  else if (tab.fileType === 'console') {
-            const instance = State.consoleInstances.get(tab.id);
-            if (instance) instance.destroy();
-            State.consoleInstances.delete(tab.id);
-        }
+        App.saveSession();
     },
 
     async saveActive() {
         const tab = State.tabs.find(t => t.id === State.activeTabId);
-        if (!tab) return UI.showToast('No active file to save.', 'info');
-        
-        if (tab.fileType === 'vibe') {
-            await this.save(tab);
-            return;
-        }
-
-        if (tab.isPreview) return UI.showToast('Cannot save a preview tab.', 'info');
-        if (tab.item.type === 'temp') {
-            await this.saveAs(tab);
-            return;
-        }
-        if (!tab.isDirty) return UI.showToast('No changes to save.', 'info');
-        await this.save(tab);
+        if (tab) await this.save(tab);
     },
-    
+
     async save(tab) {
-        if (tab.fileType === 'vibe') {
-            App.saveSession();
-            tab.isDirty = false;
-            this.render();
-            import('../vibe/vibe-controller.js').then(m => m.VibeController.saveSessionToFile(tab));
-            return;
-        }
+        if (!tab || !tab.item) return;
         return TabsPersistence.save(tab, this);
-    },
-
-    async saveAs(tab, TabsController) {
-        return TabsPersistence.saveAs(tab, this);
-    },
-    
-    downloadActive() {
-        return TabsPersistence.downloadActive(this);
     },
 
     render() {
         TabsRenderer.render(DOM.tabBar, this);
-    },
+    }
 };
