@@ -1,4 +1,4 @@
-/*B"H*/
+/* B"H */
 // FILE: js/fs-provider.js
 
 import { State } from './state.js';
@@ -8,65 +8,87 @@ import { GitHubProvider } from './fs/github.js';
 import { SSHProvider } from './fs/ssh.js';
 import { OSFolderProvider } from './fs/os-folder.js';
 import { PostMessageProvider } from './fs/post-message.js';
-import { OPFSProvider } from './fs/opfs.js'; // B"H
+import { OPFSProvider } from './fs/opfs.js';
 import { ZipExplorer } from './zip/zip-explorer.js';
 
 export const FileSystemProvider = {
-    // Sub-modules
     Local: LocalProvider,
     IndexedDB: IndexedDBProvider,
     GitHub: GitHubProvider,
     SSH: SSHProvider,
     OSFolder: OSFolderProvider,
     PostMessage: PostMessageProvider,
-    OPFS: OPFSProvider, // B"H
+    OPFS: OPFSProvider,
 
-    // B"H
-	async list(item) {
-	    try {
-	        let children;
-	        switch (item.type) {
-	            case 'local': children = await this.Local.list(item); break;
-	            case 'ssh': children = await this.SSH.list(item); break;
-	            case 'indexeddb': children = await this.IndexedDB.list(item); break;
-	            case 'github': children = await this.GitHub.list(item); break;
-	            case 'osfolder': children = await this.OSFolder.list(item); break;
-	            case 'zip-entry': children = await ZipExplorer.fs.list(item); break;
-	            case 'opfs': children = await this.OPFS.list(item); break;
-	            default: throw new Error('Unsupported workspace type');
-	        }
-	
-	        // B"H - THE CORE DETECTION LOGIC
-	        // We look for the presence of our metadata folder.
-	        const containsGitMeta = children.some(c => c && c.name === '.awtsmoos-repo');
-	        
-	        // We return the children, but we attach the 'isGitRoot' property to the data itself.
-	        // This ensures the information is fresh and not "inherited" from parent objects.
-	        return {
-	            entries: children,
-	            isGitRoot: containsGitMeta
-	        };
-	    } catch (e) { 
-	        console.error(`[FS LIST FAILED]`, e); 
-	        throw e; 
-	    }
-	},
+    async list(item) {
+        try {
+            // B"H - Determine the true underlying physical type of the item.
+            const type = item.originalType || item.type;
+            let result;
+
+            switch (type) {
+                case 'local': result = await this.Local.list(item); break;
+                case 'ssh': result = await this.SSH.list(item); break;
+                case 'indexeddb': result = await this.IndexedDB.list(item); break;
+                case 'github': result = await this.GitHub.list(item); break;
+                case 'osfolder': result = await this.OSFolder.list(item); break;
+                case 'zip-entry': result = await ZipExplorer.fs.list(item); break;
+                case 'opfs': result = await this.OPFS.list(item); break;
+                case 'postmessage': result = { entries: [], isGitRoot: false }; break;
+                default: throw new Error(`Unsupported workspace type: '${type}'`);
+            }
+            
+            let children = [];
+            let isGitRoot = false;
+
+            // B"H - ABSOLUTE RECTIFICATION: Safe extraction to avoid Array.prototype.entries traps.
+            if (Array.isArray(result)) {
+                children = result; // Direct array returned by Local/GitHub providers
+            } else if (result && Array.isArray(result.entries)) {
+                children = result.entries; // Object format returned by some custom providers
+                isGitRoot = !!result.isGitRoot;
+            } else {
+                children = []; // Safe fallback
+            }
+
+            // Ensure isGitRoot is true if the specific folder contains the metadata directory
+            isGitRoot = isGitRoot || children.some(c => c && c.name === '.awtsmoos-repo');
+
+            return { entries: children, isGitRoot };
+            
+        } catch (e) { 
+            // B"H - Silent rejection for "Not Found" during internal checks
+            // This prevents noisy logs when LoopEngine checks if a directory exists yet.
+            if (e.name === 'NotFoundError' || (e.message && e.message.toLowerCase().includes('not found'))) {
+                throw e; 
+            }
+            
+            // For all other errors, log loudly for debugging.
+            console.error(`[FS LIST FAILED] Fatal error listing item '${item.path}' in workspace type '${item.originalType || item.type}'. Full Error:`, e); 
+            throw e; 
+        }
+    },
     
     async listAllFiles(item) {
         try {
-            switch (item.type) {
+            const type = item.originalType || item.type;
+            switch (type) {
                 case 'local': return this.Local.listAllFiles(item);
                 case 'indexeddb': return this.IndexedDB.listAllFiles(item);
-                case 'github': return this.GitHub.listAllFiles(item); 
-                case 'opfs': return this.OPFS.listAllFiles(item); // B"H
-                default: throw new Error(`listAllFiles is not supported for type '${item.type}'`);
+                case 'github': return this.GitHub.getFullTree(item).then(res => res.tree.filter(n => n.type === 'blob')); 
+                case 'opfs': return this.OPFS.listAllFiles(item);
+                default: throw new Error(`listAllFiles is not supported for type '${type}'`);
             }
-        } catch (e) { console.error(`[FS LIST ALL FAILED]`, e); throw e; }
+        } catch (e) { 
+            console.error(`[FS LIST ALL FAILED] Fatal error.`, e); 
+            throw e; 
+        }
     },
     
     async read(item) {
         try {
-            switch (item.type) {
+            const type = item.originalType || item.type;
+            switch (type) {
                 case 'local': return this.Local.read(item);
                 case 'ssh': return this.SSH.read(item);
                 case 'indexeddb': return this.IndexedDB.read(item);
@@ -74,13 +96,19 @@ export const FileSystemProvider = {
                 case 'postmessage': return this.PostMessage.read(item);
                 case 'osfolder': return this.OSFolder.read(item);
                 case 'zip-entry': return ZipExplorer.fs.read(item);
-                case 'opfs': return this.OPFS.read(item); // B"H
+                case 'opfs': return this.OPFS.read(item);
+                default: throw new Error(`Read not supported for type '${type}'`);
             }
-        } catch (e) { console.error(`[FS READ FAILED]`, e); throw e; }
+        } catch (e) { 
+            console.error(`[FS READ FAILED] Cannot read '${item.path}'.`, e); 
+            throw e; 
+        }
     },
+    
     async write(item, content, commitMessage) {
         try {
-            switch (item.type) {
+            const type = item.originalType || item.type;
+            switch (type) {
                 case 'local': return this.Local.write(item, content);
                 case 'ssh': return this.SSH.write(item, content);
                 case 'indexeddb': return this.IndexedDB.write(item, content);
@@ -88,48 +116,65 @@ export const FileSystemProvider = {
                 case 'postmessage': return this.PostMessage.write(item, content);
                 case 'osfolder': return this.OSFolder.write(item, content);
                 case 'zip-entry': return ZipExplorer.fs.write(item, content);
-                case 'opfs': return this.OPFS.write(item, content); // B"H
+                case 'opfs': return this.OPFS.write(item, content);
+                default: throw new Error(`Write not supported for type '${type}'`);
             }
-        } catch (e) { console.error(`[FS WRITE FAILED]`, e); throw e; }
+        } catch (e) { 
+            // We do not catch and swallow here so LoopEngine can intercept NotFoundError and retry.
+            throw e; 
+        }
     },
+    
     async create(parentDir, name, kind) {
         try {
-            switch (parentDir.type) {
+            const type = parentDir.originalType || parentDir.type;
+            switch (type) {
                 case 'local': return this.Local.create(parentDir, name, kind);
                 case 'ssh': return this.SSH.create(parentDir, name, kind);
                 case 'indexeddb': return this.IndexedDB.create(parentDir, name, kind);
                 case 'github': return this.GitHub.create(parentDir, name, kind);
                 case 'osfolder': return this.OSFolder.create(parentDir, name, kind);
                 case 'zip-entry': return ZipExplorer.fs.create(parentDir, name, kind);
-                case 'opfs': return this.OPFS.create(parentDir, name, kind); // B"H
+                case 'opfs': return this.OPFS.create(parentDir, name, kind);
+                default: throw new Error(`Create not supported for type '${type}'`);
             }
-        } catch (e) { console.error(`[FS CREATE FAILED]`, e); throw e; }
+        } catch (e) { 
+            console.error(`[FS CREATE FAILED] Cannot create '${name}' in '${parentDir.path}'.`, e); 
+            throw e; 
+        }
     },
+    
     async delete(item) {
         try {
-            switch (item.type) {
+            const type = item.originalType || item.type;
+            switch (type) {
                 case 'local': return this.Local.delete(item);
                 case 'ssh': return this.SSH.delete(item);
                 case 'indexeddb': return this.IndexedDB.delete(item);
                 case 'github': return this.GitHub.delete(item);
                 case 'osfolder': return this.OSFolder.delete(item);
                 case 'zip-entry': return ZipExplorer.fs.delete(item);
-                case 'opfs': return this.OPFS.delete(item); // B"H
+                case 'opfs': return this.OPFS.delete(item);
+                default: throw new Error(`Delete not supported for type '${type}'`);
             }
-        } catch (e) { console.error(`[FS DELETE FAILED]`, e); throw e; }
+        } catch (e) { 
+            // Do not swallow, let LoopEngine handle expected NotFound errors
+            throw e; 
+        }
     },
     
     async rename(item, newName) {
         try {
-            if (item.type === 'local') {
+            const type = item.originalType || item.type;
+            if (type === 'local') {
                 return this.Local.rename(item, newName);
             }
-            if (item.type === 'opfs') {
+            if (type === 'opfs') {
                 return this.OPFS.rename(item, newName);
             }
-            throw new Error(`Rename not supported for ${item.type} workspaces yet.`);
+            throw new Error(`Rename not supported for ${type} workspaces yet.`);
         } catch (e) {
-            console.error("[FS RENAME FAILED]", e);
+            console.error(`[FS RENAME FAILED] Cannot rename '${item.path}' to '${newName}'.`, e);
             throw e;
         }
     }

@@ -41,6 +41,10 @@ export const TabMenus = {
         const { workspaceId, path } = tab.item;
         const workspace = State.workspaces.find(ws => ws.id === workspaceId);
         if (!workspace) return;
+        
+        // B"H - RECTIFICATION: We must use the original physical file system type (e.g., 'local'),
+        // not the virtual 'vibe-session' type, when expanding the physical sidebar tree.
+        const trueType = tab.item.originalType || tab.item.type;
 
         const appContainer = document.querySelector('.app-container');
         if (appContainer.classList.contains('sidebar-collapsed')) {
@@ -52,11 +56,12 @@ export const TabMenus = {
             return new Promise((resolve) => {
                 const check = () => {
                     const entry = State.domItemMap.get(uniquePath);
+                    // Check if element exists, is attached to DOM, and is visible
                     if (entry && entry.el && document.body.contains(entry.el) && entry.el.offsetParent !== null) {
                         resolve(entry.el);
                     } else {
                         attempts++;
-                        if (attempts > 300) { 
+                        if (attempts > 300) { // Timeout after ~5 seconds of checking
                             resolve(null);
                         } else {
                             requestAnimationFrame(check);
@@ -67,7 +72,15 @@ export const TabMenus = {
             });
         };
 
-        const rootItem = { ...workspace, path: '/', kind: 'directory', workspaceId: workspace.id };
+        // Construct the root item using the true physical type
+        const rootItem = { 
+            ...workspace, 
+            path: '/', 
+            kind: 'directory', 
+            workspaceId: workspace.id, 
+            type: trueType,
+            originalType: trueType 
+        };
         const rootUniquePath = getItemUniquePath(rootItem);
         
         if (!State.expandedFolders.has(rootUniquePath)) {
@@ -91,7 +104,8 @@ export const TabMenus = {
                 path: currentAccum, 
                 kind: 'directory', 
                 workspaceId: workspace.id,
-                type: tab.item.type 
+                type: trueType, // B"H - Pass the true type
+                originalType: trueType
             };
             
             const uniquePath = getItemUniquePath(segmentItem);
@@ -108,18 +122,33 @@ export const TabMenus = {
             if (el) {
                 el.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
             } else {
-                console.warn("Reveal halted: Segment not found", uniquePath);
+                console.warn(`[Reveal] Halted: Segment not found in DOM -> ${uniquePath}`);
                 const parentOfSegment = currentAccum.substring(0, currentAccum.lastIndexOf('/')) || '/';
-                const parentItem = { ...segmentItem, path: parentOfSegment, name: 'Parent', kind: 'directory' };
+                const parentItem = { 
+                    ...segmentItem, 
+                    path: parentOfSegment, 
+                    name: 'Parent', 
+                    kind: 'directory', 
+                    type: trueType,
+                    originalType: trueType
+                };
                 await Workspaces.refreshNode(parentItem);
                 const retryEl = await waitForElement(uniquePath);
                 if (!retryEl) return; 
             }
         }
 
-        const finalUniquePath = getItemUniquePath(tab.item);
+        // Construct final file item with true type
+        const finalUniquePath = getItemUniquePath({ ...tab.item, type: trueType, originalType: trueType });
         const parentPath = path.substring(0, path.lastIndexOf('/')) || '/';
-        const parentItem = { ...tab.item, path: parentPath, kind: 'directory', workspaceId };
+        const parentItem = { 
+            ...tab.item, 
+            path: parentPath, 
+            kind: 'directory', 
+            workspaceId, 
+            type: trueType, 
+            originalType: trueType 
+        };
         
         if (!State.domItemMap.has(finalUniquePath)) {
              await Workspaces.refreshNode(parentItem);
@@ -132,17 +161,21 @@ export const TabMenus = {
             setTimeout(() => {
                 finalEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
                 finalEl.classList.remove('reveal-flash');
+                // Trigger reflow
                 void finalEl.offsetWidth; 
                 finalEl.classList.add('reveal-flash');
                 setTimeout(() => finalEl.classList.remove('reveal-flash'), 2500);
             }, 50);
         } else {
+            // Final retry
             await Workspaces.refreshNode(parentItem);
             const retryEl = await waitForElement(finalUniquePath);
             if (retryEl) {
                 retryEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
                 retryEl.classList.add('reveal-flash');
                 setTimeout(() => retryEl.classList.remove('reveal-flash'), 2500);
+            } else {
+                console.warn(`[Reveal] Final element could not be manifested in the DOM.`);
             }
         }
     }
