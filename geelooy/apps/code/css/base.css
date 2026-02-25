@@ -49,7 +49,7 @@ body.theme-midnight {
     --neon-lime: #bae67e;
     background-image: none; /* Cleaner look */
 }
-
+ 
 /* Matrix */
 body.theme-matrix {
     --color-bg-deep: #000000;
