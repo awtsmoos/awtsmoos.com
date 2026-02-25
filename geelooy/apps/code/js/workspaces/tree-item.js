@@ -11,19 +11,19 @@ import { getItemUniquePath } from './utils.js';
 
 /**
  * @class TreeItemForge
- * @classdesc The master smithy where individual tree elements are struck.
- * It takes the raw data of a file or folder and hammers it into a usable,
- * beautiful interactive element.
+ * @classdesc The master smithy where the physical forms of the project's 
+ * elements are struck. It takes the undifferentiated data of an item 
+ * and hammers it into a clickable, reactive vessel.
  */
 export const TreeItemForge = {
     /**
      * @function create
-     * @description B"H. Forges a single 'li' vessel for the workspace tree.
-     * It binds the holy senses of touch (click) and perspective (contextmenu),
-     * ensuring that every particle of the UI is connected to the Higher Will.
+     * @description B"H. Forges a single branch (li) for the workspace tree.
+     * It correctly selects the icon based on whether the folder is a 
+     * Git repository or a standard vessel.
      * @param {object} item The data essence of the file or folder.
-     * @param {number} depth The measure of indentation required.
-     * @returns {HTMLElement} The manifested DOM element.
+     * @param {number} depth The measure of indentation.
+     * @returns {HTMLElement} The manifested branch.
      */
     create(item, depth) {
         const uniquePath = getItemUniquePath(item);
@@ -35,7 +35,9 @@ export const TreeItemForge = {
         wrapper.className = 'tree-item-name-wrap';
         wrapper.style.paddingLeft = `${depth * 12}px`;
         
+        // B"H - Icon selection logic: Git icon takes precedence for repos
         const icon = isDir ? (item.isGitClone ? 'git-folder' : 'folder') : 'file';
+        
         wrapper.innerHTML = `
             <span class="tree-item-arrow">${isDir ? '▶' : '•'}</span>
             <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
@@ -61,12 +63,10 @@ export const TreeItemForge = {
         li.appendChild(wrapper);
         State.domItemMap.set(uniquePath, { el: li, item });
 
-        // If the soul remembers this folder was open, re-manifest the sub-branch immediately
         if (isDir && State.expandedFolders.has(uniquePath)) {
             li.classList.add('expanded');
             const ul = document.createElement('ul');
             li.appendChild(ul);
-            // Dynamic recursion handled by the orchestrator
             setTimeout(() => WorkspaceTreeRenderer.renderTree(ul, item, depth + 1), 0);
         }
 

@@ -5,26 +5,23 @@
 import { State } from '../state.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { TreeItemForge } from './tree-item.js';
-import { getItemUniquePath } from './utils.js';
 
 /**
  * @class WorkspaceTreeRenderer
- * @classdesc In the high realms of Atziluth, all is one, but as light descends 
- * through the Seder Hishtalshelus, it must take on form and boundary. This 
- * class is the architect of those boundaries, building the nested tree of 
- * files that represents the fractured unity of your project. It turns the 
- * infinite speech of the Awtsmoos into visible, clickable branches.
+ * @classdesc This module is the architect of the project's physical form. 
+ * It recursively manifests the directory hierarchy, peering into each 
+ * vessel to reveal its contents. It also performs the sacred duty of 
+ * Git detection, identifying if a folder is a 'clone' from the heavens of 
+ * GitHub by looking for the .awtsmoos-repo marker.
  */
 export const WorkspaceTreeRenderer = {
     /**
      * @async
      * @function renderTree
-     * @description A recursive ritual of revelation. It peers into the 
-     * specified parent directory and emanates its children into the DOM.
-     * Each child is a unique spark, manifested with its own interactive soul.
-     * @param {HTMLElement} parentEl The physical container for the new branch.
-     * @param {object} parentItem The directory whose inner life is being revealed.
-     * @param {number} depth The level of descent into the hierarchy.
+     * @description B"H. Emanates a new branch of the project tree.
+     * @param {HTMLElement} parentEl The physical container.
+     * @param {object} parentItem The directory being revealed.
+     * @param {number} depth The level of descent.
      */
     async renderTree(parentEl, parentItem, depth) {
         if (!parentEl || !parentItem) return;
@@ -35,14 +32,21 @@ export const WorkspaceTreeRenderer = {
             const res = await FileSystemProvider.list(parentItem);
             const children = Array.isArray(res) ? res : (res.entries || []);
             
-            parentEl.innerHTML = ''; // Dissolve the loading state
+            // Check if this current parent directory is a Git Root
+            const isGitRoot = children.some(c => c.name === '.awtsmoos-repo');
+            if (isGitRoot) {
+                parentItem.isGitClone = true;
+                // If this is a nested folder, we must update the parent's icon in the DOM
+                this._markAsGitFolder(parentItem);
+            }
+
+            parentEl.innerHTML = ''; 
 
             if (children.length === 0) {
                 parentEl.innerHTML = '<li class="tree-item-empty">Empty Vessel</li>';
                 return;
             }
 
-            // Sort: Folders precede Files, then alphabetical by the Word
             children.sort((a, b) => {
                 if (a.kind === b.kind) return a.name.localeCompare(b.name);
                 return a.kind === 'directory' ? -1 : 1;
@@ -50,7 +54,12 @@ export const WorkspaceTreeRenderer = {
 
             const fragment = document.createDocumentFragment();
             for (const child of children) {
-                const fullItem = { ...parentItem, ...child, workspaceId: parentItem.workspaceId || parentItem.id };
+                const fullItem = { 
+                    ...parentItem, 
+                    ...child, 
+                    workspaceId: parentItem.workspaceId || parentItem.id,
+                    isGitClone: (child.name === '.awtsmoos-repo' || parentItem.isGitClone)
+                };
                 const li = TreeItemForge.create(fullItem, depth);
                 fragment.appendChild(li);
             }
@@ -61,14 +70,24 @@ export const WorkspaceTreeRenderer = {
     },
 
     /**
+     * @function _markAsGitFolder
+     * @description Identifies the DOM vessel of a folder and changes its 
+     * icon to the Git variant, revealing its connection to the timeline.
+     */
+    _markAsGitFolder(item) {
+        import('./utils.js').then(m => {
+            const pathKey = m.getItemUniquePath(item);
+            const entry = State.domItemMap.get(pathKey);
+            if (entry && entry.el) {
+                const iconUse = entry.el.querySelector('.tree-item-name-wrap use');
+                if (iconUse) iconUse.setAttribute('href', '#icon-git-folder');
+            }
+        });
+    },
+
+    /**
      * @function toggleDirectory
-     * @description The heartbeat of the Explorer. Expansion (Chesed) and 
-     * Contraction (Gevurah). This function opens the gates of a folder 
-     * or seals them tight, managing the lifecycle of the branch's presence.
-     * @param {string} uniquePath The absolute identity of the folder.
-     * @param {HTMLElement} liElement The DOM form that will expand.
-     * @param {object} item The data essence of the folder.
-     * @param {number} depth The level of this folder in the world.
+     * @description Managing the expansion and contraction of the vessels.
      */
     toggleDirectory(uniquePath, liElement, item, depth) {
         if (!liElement) return;
@@ -86,7 +105,6 @@ export const WorkspaceTreeRenderer = {
             this.renderTree(ul, item, depth + 1);
         }
         
-        // Record the state in the eternal book of session
         import('../app/index.js').then(m => m.App.saveSessionDebounced());
     }
 };

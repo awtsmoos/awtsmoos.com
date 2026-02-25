@@ -4,38 +4,42 @@
 
 import { State } from '../../state.js';
 import { FileSystemProvider } from '../../fs-provider.js';
-import { Workspaces } from '../../workspaces.js';
+import { Workspaces } from '../../workspaces/index.js';
 import { UI } from '../../ui.js';
 import { Tabs } from '../../tabs/index.js';
-import { PromptShaper } from './PromptShaper.js';
+import { GitMetaProvider } from '../../git/meta.js';
 
+/**
+ * @class LoopEngine
+ * @classdesc The engine of transformation. It takes the abstract plans 
+ * provided by the AI and manifests them into the physical reality of 
+ * the disk. It is rectified to integrate perfectly with the Git system, 
+ * staging every change so the user's timeline remains accurate.
+ */
 export const LoopEngine = {
     /**
-     * B"H - Physically manifests changes into the disk vessels.
-     * Integrates with UI Task notifications for bottom-right progress bar.
+     * @async
+     * @function apply
+     * @description B"H. The act of manifestation. It iterates through a list 
+     * of required changes and shapes the vessels accordingly. 
+     * It also stages changes in Git to prevent desynchronization.
+     * @param {Array} changeList The list of required rectifications.
+     * @param {number} workspaceId The world in which these changes occur.
      */
     async apply(changeList, workspaceId) {
         const workspace = State.workspaces.find(ws => ws.id === workspaceId);
-        if (!workspace) {
-            console.error(`[LoopEngine] Workspace ID ${workspaceId} not found in state.`);
-            return;
-        }
+        if (!workspace) return;
         
-        // Extract the true physical type (crucial for virtual vibe sessions)
         const physicalType = workspace.originalType || workspace.type;
         const parentsToRefresh = new Set();
         
-        // B"H - Start the visual task tracker
-        const taskId = `manifest-${Date.now()}`;
-        UI.startTask(taskId, "Manifesting changes...");
+        const taskId = `vibe-apply-${Date.now()}`;
+        UI.startTask(taskId, "Manifesting AI rectifications...");
 
         for (let i = 0; i < changeList.length; i++) {
             const change = changeList[i];
-            
-            // B"H - Update the progress bar for every file
             UI.updateTask(taskId, (i / changeList.length) * 100, `Writing: ${change.path.split('/').pop()}`);
             
-            // Construct the absolute path object required by the FS Provider
             const item = { 
                 ...workspace, 
                 path: change.path, 
@@ -45,156 +49,73 @@ export const LoopEngine = {
                 originalType: physicalType
             };
 
-            if (change.operation === 'delete') {
-                try {
-                    console.log(`[LoopEngine] Deleting vessel: ${change.path}`);
-                    await FileSystemProvider.delete(item);
-                } catch (delErr) {
-                    // B"H - If the file is already gone, our goal is achieved. Ignore the error.
-                    if (delErr.name === 'NotFoundError' || (delErr.message && delErr.message.toLowerCase().includes('not found'))) {
-                        console.log(`[LoopEngine] Vessel already deleted or not found: ${change.path}`);
-                    } else {
-                        console.error(`[LoopEngine Error] Failed to delete ${change.path}`, delErr);
-                        UI.showToast(`Failed to delete ${change.path.split('/').pop()}`, "error");
-                    }
+            // Stage change in Git uncommitted store BEFORE writing to disk
+            // This ensures the diff is immediate.
+            const gitInfo = await GitMetaProvider.getGitInfoForFolder(item);
+            if (gitInfo) {
+                const uniqueStagingPath = `${workspaceId}::${change.path}`;
+                if (change.operation === 'delete') {
+                    await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingPath, null, item);
+                } else {
+                    await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingPath, change.content, item);
                 }
+            }
+
+            if (change.operation === 'delete') {
+                try { await FileSystemProvider.delete(item); } catch (e) {}
             } else {
                 try {
-                    // Before writing, we must ensure the path's directory exists
                     await this._ensureDirectoryExists(workspace, change.path, physicalType);
-                    
-                    console.log(`[LoopEngine] Writing essence to: ${change.path}`);
                     await FileSystemProvider.write(item, change.content);
                 } catch (writeErr) {
-                    // B"H - If standard write throws NotFound (common in some browser edge cases),
-                    // we perform an absolute fallback: explicitly create the file first, then write.
-                    if (writeErr.name === 'NotFoundError' || (writeErr.message && writeErr.message.toLowerCase().includes('not found'))) {
-                        console.log(`[LoopEngine] Write threw NotFound, attempting explicit file creation: ${change.path}`);
-                        try {
-                            const parts = change.path.split('/');
-                            const fileName = parts.pop();
-                            const parentP = parts.join('/') || '/';
-                            
-                            const parentDirItem = { ...workspace, path: parentP, kind: 'directory', type: physicalType, originalType: physicalType };
-                            await FileSystemProvider.create(parentDirItem, fileName, 'file');
-                            await FileSystemProvider.write(item, change.content);
-                            console.log(`[LoopEngine] Fallback write successful for: ${change.path}`);
-                        } catch (fallbackErr) {
-                            this._logCriticalError(change, fallbackErr);
-                        }
-                    } else {
-                        this._logCriticalError(change, writeErr);
-                    }
+                    // Fallback to explicit creation if path is deep
+                    const parts = change.path.split('/');
+                    const name = parts.pop();
+                    const parent = parts.join('/') || '/';
+                    await FileSystemProvider.create({ ...workspace, path: parent, kind: 'directory', type: physicalType }, name, 'file');
+                    await FileSystemProvider.write(item, change.content);
                 }
             }
             
-            // Keep track of the parent folder to refresh the UI tree later
             const lastSlash = change.path.lastIndexOf('/');
-            const parentPath = lastSlash <= 0 ? '/' : change.path.substring(0, lastSlash);
-            parentsToRefresh.add(parentPath);
+            parentsToRefresh.add(lastSlash <= 0 ? '/' : change.path.substring(0, lastSlash));
             
-            // If the user currently has this file open in a tab, update it live
+            // Sync open tabs
             const openTab = State.tabs.find(t => t.item.path === change.path && t.item.workspaceId === workspaceId);
             if (openTab) {
                 openTab.content = change.content;
-                openTab.forceReload = true;
-                // Only re-activate if it is the currently visible tab
+                openTab.isDirty = false;
                 if (State.activeTabId === openTab.id) {
                     await Tabs.activate(openTab.id);
                 }
             }
         }
 
-        // B"H - End the visual task tracker
         UI.endTask(taskId, 'success', `Manifested ${changeList.length} files.`);
 
-        // Refresh the UI tree for all affected folders
         for (const p of parentsToRefresh) {
-            await Workspaces.refreshNode({ 
-                ...workspace, 
-                path: p, 
-                kind: 'directory', 
-                workspaceId: workspaceId, 
-                type: physicalType 
-            });
+            await Workspaces.refreshNode({ ...workspace, path: p, kind: 'directory', workspaceId: workspaceId, type: physicalType });
         }
     },
     
-    _logCriticalError(change, error) {
-        const shortPath = change.path.split('/').pop();
-        const errorMessage = `B"H - Manifestation of '${shortPath}' failed. The vessel could not be shaped.`;
-        console.error(`[LoopEngine Error] ${errorMessage}`, "\nPath:", change.path, "\nException:", error);
-        UI.showToast(errorMessage, "error", 5000); 
-    },
-
     /**
-     * B"H - Recursive Directory Stabilizer.
-     * Walks the path and creates missing vessels.
+     * @async
+     * @function _ensureDirectoryExists
+     * @description Recursively ensures the path for a new vessel exists.
      */
     async _ensureDirectoryExists(workspace, filePath, physicalType) {
         const segments = filePath.split('/').filter(Boolean);
-        if (segments.length <= 1) return; // File is in root, no folders to create.
-
-        segments.pop(); // Remove the filename, leaving only directories
-
+        if (segments.length <= 1) return;
+        segments.pop(); 
         let currentPath = "";
-        
         for (const segment of segments) {
             const parentPath = currentPath || "/";
             currentPath += "/" + segment;
-
             try {
-                // Try to list the directory. Throws NotFoundError if it doesn't exist.
-                await FileSystemProvider.list({ 
-                    ...workspace, 
-                    path: currentPath, 
-                    kind: 'directory', 
-                    type: physicalType,
-                    originalType: physicalType
-                });
+                await FileSystemProvider.list({ ...workspace, path: currentPath, kind: 'directory', type: physicalType });
             } catch (e) {
-                if (e.name === 'NotFoundError' || (e.message && e.message.toLowerCase().includes('not found'))) {
-                    console.log(`[LoopEngine] Creating missing directory vessel: ${currentPath}`);
-                    // We intentionally DO NOT catch inside this block. 
-                    // If creation fails, the loop throws, which is caught by apply().
-                    await FileSystemProvider.create(
-                        { 
-                            ...workspace, 
-                            path: parentPath, 
-                            kind: 'directory', 
-                            type: physicalType,
-                            originalType: physicalType
-                        },
-                        segment,
-                        'directory'
-                    );
-                } else {
-                    // It failed to list for a DIFFERENT reason (permissions, etc.)
-                    throw e; 
-                }
+                await FileSystemProvider.create({ ...workspace, path: parentPath, kind: 'directory', type: physicalType }, segment, 'directory');
             }
-        }
-    },
-
-    /**
-     * B"H - Decides whether to continue the refinement loop.
-     */
-    async handleIteration(tab, controller) {
-        if (State.isVibeStopRequested) {
-            UI.showToast("B\"H: Loop stopped by command.", "info");
-            tab.vibeSession.isProcessing = false;
-            controller.syncUI(tab);
-            return;
-        }
-
-        if (tab.vibeSession.iterationCount < State.vibeIterations) {
-            tab.vibeSession.iterationCount++;
-            UI.showToast(`B"H: Refining (Loop ${tab.vibeSession.iterationCount}/${State.vibeIterations})...`, "success");
-            await controller.triggerGeneration(tab, PromptShaper.getOptimization(), true);
-        } else {
-            UI.showToast("B\"H: The Tikkun is complete.", "success");
-            tab.vibeSession.isProcessing = false;
-            controller.syncUI(tab);
         }
     }
 };

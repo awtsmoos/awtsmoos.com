@@ -4,6 +4,12 @@
 import { FileSystemProvider } from '../../fs-provider.js';
 import { State } from '../../state.js';
 
+/**
+ * @class FilesystemCommands
+ * @description Argument Validation Rectification.
+ * Every command now checks if the user has provided the necessary vessels
+ * for the action to manifest, providing descriptive errors if they fail.
+ */
 export const FilesystemCommands = {
     async ls(shell, args) {
         const flags = args.filter(a => a.startsWith('-'));
@@ -27,8 +33,14 @@ export const FilesystemCommands = {
     },
 
     async cd(shell, args) {
+        if (args.length > 1) throw new Error("cd: too many arguments");
         const path = args[0];
-        if (!path || path === '/') { shell.cwd = { kind: 'root', name: 'Workspaces', path: '/' }; return; }
+        
+        if (!path || path === '/') { 
+            shell.cwd = { kind: 'root', name: 'Workspaces', path: '/' }; 
+            return; 
+        }
+
         if (path === '..') {
             if (shell.cwd.kind === 'root' || shell.cwd.path === '/' || shell.cwd.path === '') {
                 shell.cwd = { kind: 'root', name: 'Workspaces', path: '/' };
@@ -38,33 +50,53 @@ export const FilesystemCommands = {
             }
             return;
         }
+
         const target = await shell.resolveItem(path);
         if (shell.cwd.kind === 'root' && target.workspaceId) {
              shell.cwd = { ...target, path: '/', kind: 'directory' };
         } else {
-            await FileSystemProvider.list(target); // Validate
-            shell.cwd = target;
+            // B"H Validation: Peering into the directory to ensure it is valid
+            try {
+                await FileSystemProvider.list(target);
+                shell.cwd = target;
+            } catch (e) {
+                throw new Error(`cd: ${path}: No such directory or permission denied`);
+            }
         }
     },
 
     async mkdir(shell, args) {
-        if (shell.cwd.kind === 'root') throw new Error("mkdir: root is read-only");
-        for (const name of args) await FileSystemProvider.create(shell.cwd, name, 'directory');
+        if (args.length === 0) throw new Error("mkdir: missing operand");
+        if (shell.cwd.kind === 'root') throw new Error("mkdir: cannot create directory in root");
+        
+        for (const name of args) {
+            await FileSystemProvider.create(shell.cwd, name, 'directory');
+        }
         return '';
     },
 
     async touch(shell, args) {
-        if (shell.cwd.kind === 'root') throw new Error("touch: root is read-only");
-        for (const name of args) await FileSystemProvider.create(shell.cwd, name, 'file');
+        if (args.length === 0) throw new Error("touch: missing operand");
+        if (shell.cwd.kind === 'root') throw new Error("touch: cannot create file in root");
+        
+        for (const name of args) {
+            await FileSystemProvider.create(shell.cwd, name, 'file');
+        }
         return '';
     },
 
     async rm(shell, args) {
-        const recursive = args.includes('-rf');
         const paths = args.filter(a => !a.startsWith('-'));
+        if (paths.length === 0) throw new Error("rm: missing operand");
+        if (shell.cwd.kind === 'root') throw new Error("rm: cannot delete workspaces from shell");
+
         for (const p of paths) {
-            const item = await shell.resolveItem(p);
-            await FileSystemProvider.delete(item);
+            try {
+                const item = await shell.resolveItem(p);
+                await FileSystemProvider.delete(item);
+            } catch (e) {
+                throw new Error(`rm: failed to remove '${p}': ${e.message}`);
+            }
         }
         return '';
     }

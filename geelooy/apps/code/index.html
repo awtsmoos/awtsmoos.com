@@ -1,3 +1,4 @@
+
 <!-- B"H -->
 <!DOCTYPE html>
 <html lang="en" class="theme-vivid-dark">
@@ -12,49 +13,55 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- B"H - MODULAR CSS -->
+    <!-- CORE -->
     <link href="css/variables.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet">
     <link href="css/layout.css" rel="stylesheet">
     <link href="css/components.css" rel="stylesheet">
     
-    <!-- Views -->
+    <!-- UI SUBMODULES -->
+    <link href="css/ui/menus.css" rel="stylesheet">
+    <link href="css/ui/notifications.css" rel="stylesheet">
+    <link href="css/ui/dialogs.css" rel="stylesheet">
+
+    <!-- VIEWS -->
     <link href="css/views/workspace.css" rel="stylesheet">
     <link href="css/views/tabs.css" rel="stylesheet">
     <link href="css/views/editor.css" rel="stylesheet">
     <link href="css/views/tools.css" rel="stylesheet">
     <link href="css/views/git.css" rel="stylesheet">
+    <link href="css/views/terminal.css" rel="stylesheet"> 
 
+    <!-- FEATURES -->
     <link href="css/zip-explorer.css" rel="stylesheet">
     <link href="css/tab-manager.css" rel="stylesheet">
     <link href="css/file-commander.css" rel="stylesheet"> 
     <link href="css/search.css" rel="stylesheet"> 
     
-    <!-- B"H - VIBE MODULAR CSS -->
+    <!-- VIBE -->
     <link href="css/vibe/layout.css" rel="stylesheet">
     <link href="css/vibe/sidebar.css" rel="stylesheet">
     <link href="css/vibe/chat.css" rel="stylesheet">
 
+    <!-- EFFECTS -->
     <link href="css/effects.css" rel="stylesheet"> 
     <link href="css/visuals.css" rel="stylesheet"> 
-    <link href="style.css" rel="stylesheet"> 
 </head>  
 <body>
     
-    <!-- B"H - Visual Engine Layer (Canvas Stack) -->
     <div id="visual-layer" class="visual-layer">
-        <canvas id="canvas-bg"></canvas> <!-- Rain/Shockwaves -->
-        <canvas id="canvas-ui"></canvas> <!-- Graph Nav/HUD -->
+        <canvas id="canvas-bg"></canvas>
+        <canvas id="canvas-ui"></canvas>
     </div>
 
     <div class="app-container">
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-            <span>Explorer</span>
-            <div style="display:flex; gap: 4px;">
-                <button id="sidebar-search-btn" title="Search Files" class="icon-button"><svg class="svg-icon"><use href="#icon-search"></use></svg></button>
-                <button id="sidebar-collapse-btn" title="Collapse Sidebar" class="icon-button"><svg class="svg-icon"><use href="#icon-arrow-left"></use></svg></button>
-            </div>
+                <span>Explorer</span>
+                <div style="display:flex; gap: 4px;">
+                    <button id="sidebar-search-btn" title="Search" class="icon-button"><svg class="svg-icon"><use href="#icon-search"></use></svg></button>
+                    <button id="sidebar-collapse-btn" title="Collapse" class="icon-button"><svg class="svg-icon"><use href="#icon-arrow-left"></use></svg></button>
+                </div>
             </div>
             <div class="sidebar-sub-header" style="padding: 0 10px 5px 10px; display:flex; justify-content:space-between; border-bottom: 1px solid var(--color-border);">
                  <button id="sidebar-file-commander-btn" title="File Commander" class="icon-button"><svg class="svg-icon"><use href="#icon-folder"></use></svg></button>
@@ -62,87 +69,52 @@
             </div>
             <div id="workspaces-container" class="workspaces-container"></div>
         </div>
-        
         <div id="sidebar-resizer" class="sidebar-resizer"></div>
-        
         <div class="top-panel">
             <div class="menu-bar">
-                 <button class="icon-button" id="sidebar-toggle-btn" title="Toggle Explorer">
-        <svg class="svg-icon"><use href="#icon-sidebar"></use></svg>
-    </button>
-    <button class="icon-button" id="main-menu-btn" title="Main Menu">
-        <svg class="svg-icon"><use href="#icon-menu"></use></svg>
-    </button>
-    
-    <div id="custom-menu-container"></div>
-    <button class="icon-button hidden" id="view-console-btn" title="View Console">
-        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM8 16.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm4 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm4 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM8.41 11.59L10.83 9l-2.42-2.59L7 7l3.41 3.41L12.83 12l-2.42 2.42z"/></svg>
-    </button>
-    
-    <button class="icon-button" id="file-commander-btn" title="File Commander">
-        <svg class="svg-icon"><use href="#icon-folder"></use></svg>
-    </button>
-            
+                <button class="icon-button" id="sidebar-toggle-btn" title="Toggle Explorer"><svg class="svg-icon"><use href="#icon-sidebar"></use></svg></button>
+                <button class="icon-button" id="main-menu-btn" title="Main Menu"><svg class="svg-icon"><use href="#icon-menu"></use></svg></button>
+                <div id="custom-menu-container"></div>
             </div>
             <div class="tab-bar-wrapper">
                 <div id="tab-bar" class="tab-bar"></div>
-                <button id="tab-manager-btn" class="icon-button" title="Tab Manager">
-                    <svg class="svg-icon"><use href="#icon-list"></use></svg>
-                </button>
+                <button id="tab-manager-btn" class="icon-button" title="Tab Manager"><svg class="svg-icon"><use href="#icon-list"></use></svg></button>
             </div>
         </div>
-        
         <div class="main-content">
-	        <div id="hex-nav-pad" class="hex-nav-pad"></div>
-            <div id="keyboard-helper" class="keyboard-helper">
-                <button class="kh-btn" data-key="tab" title="Insert Tab (4 spaces)">Tab</button>
-                <button class="kh-btn" data-key="left" title="Move cursor left">◀</button>
-                <button class="kh-btn" data-key="up" title="Move cursor up">▲</button>
-                <button class="kh-btn" data-key="down" title="Move cursor down">▼</button>
-                <button class="kh-btn" data-key="right" title="Move cursor right">▶</button>
-                <span class="kh-separator"></span>
-                <button class="kh-btn" data-pair="{}" title="Insert curly braces">{ }</button>
-                <button class="kh-btn" data-pair="[]" title="Insert square brackets">[ ]</button>
-                <button class="kh-btn" data-pair="<>" title="Insert angle brackets">< ></button>
-                <button class="kh-btn" data-pair='""' title="Insert double quotes">" "</button>
-            </div>
             <div class="editor-area">
-                
-                <!-- B"H - Editor Visual Overlays -->
                 <canvas id="canvas-overlay" class="editor-canvas"></canvas>
                 <canvas id="minimap-canvas" class="minimap-canvas"></canvas>
                 <div id="hud-stats" class="hud-stats"></div>
 
-            <div id="previewer" class="hidden"></div>
-            
-            	<div id="console-host" class="hidden"></div>
-    		<div id="iframe-cache" class="hidden" style="display:none;"></div>
-		<div id="hex-editor-wrapper" class="hidden"></div>
-        <div id="zip-editor-wrapper" class="hidden"></div>
-        <div id="vibe-editor-wrapper" class="hidden"></div>
+                <div id="previewer" class="hidden"></div>
+                <div id="console-host" class="hidden"></div>
+                <div id="hex-editor-wrapper" class="hidden"></div>
+                <div id="zip-editor-wrapper" class="hidden"></div>
+                <div id="vibe-editor-wrapper" class="hidden"></div>
+                <div id="file-commander-wrapper" class="hidden"></div>
+                <div id="terminal-wrapper" class="hidden"></div>
 
                 <div id="editor-wrapper" class="hidden">
                     <div id="line-numbers">1</div>
                     <textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" rows="1"></textarea>
                 </div>
                 
-		<div id="data-altar-container" class="hidden"></div>
+                <div id="data-altar-container" class="hidden"></div>
+
+                <!-- B"H - RESTORED FIND/REPLACE PANEL VESSEL -->
                 <div id="find-replace-panel">
                     <div class="fr-row">
-		    <div class="find-input-container">
-		        <input type="text" id="find-input" placeholder="Find">
-		        <div class="fr-option" title="Case Sensitive">
-		            <input type="checkbox" id="fr-case-sensitive">
-		            <label for="fr-case-sensitive">Aa</label>
-		        </div>
-		    </div>
-		    <div class="button-group">
-		        <button id="find-prev-btn" class="secondary-btn" title="Previous">&lt;</button>
-		        <button id="find-next-btn" class="secondary-btn" title="Next">&gt;</button>
-		        <button id="find-close-btn" class="icon-button" title="Close"><svg class="svg-icon"><use href="#icon-x"/></svg></button>
-		    </div>
-		</div>
-                     <div class="fr-row">
+                        <div class="find-input-container">
+                            <input type="text" id="find-input" placeholder="Find">
+                        </div>
+                        <div class="button-group">
+                            <button id="find-prev-btn" class="secondary-btn">&lt;</button>
+                            <button id="find-next-btn" class="secondary-btn">&gt;</button>
+                            <button id="find-close-btn" class="icon-button"><svg class="svg-icon"><use href="#icon-x"/></svg></button>
+                        </div>
+                    </div>
+                    <div class="fr-row">
                         <input type="text" id="replace-input" placeholder="Replace">
                         <div class="button-group">
                             <button id="replace-btn" class="secondary-btn">Replace</button>
@@ -150,28 +122,26 @@
                         </div>
                     </div>
                 </div>
-                <div id="empty-editor-message" class="empty-editor-message">
-                    <h2>Awtsmoos Code Editor</h2>
-                    <p>Add a workspace to begin</p>
-                </div>
+
+                <div id="empty-editor-message" class="empty-editor-message"><h2>Awtsmoos Editor</h2><p>Add a workspace</p></div>
             </div>
         </div>
-        
         <div class="status-bar">
             <div id="status-left"></div>
             <div id="status-right"></div>
         </div>
     </div>
 
-    <!-- Overlays -->
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    <!-- Divine Overlays & Menus -->
     <div id="loading-overlay" class="loading-overlay"><span>Processing...</span></div>
-    <div id="toast-container" class="toast-container"></div>
+    <div id="toast-container"></div>
     <div id="main-menu"></div>
     <div id="context-menu"></div>
     <div id="selection-menu" class="selection-menu-bar"></div>
-    
-    <!-- Tab Manager -->
+    <div id="graph-nav-overlay" class="graph-nav-overlay hidden">
+        <button id="graph-nav-close" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
+        <canvas id="graph-canvas"></canvas>
+    </div>
     <div id="tab-manager-overlay" class="tab-manager-overlay hidden">
         <div class="tm-header">
             <h2>Open Tabs</h2>
@@ -187,48 +157,20 @@
             <div class="tm-selection-actions">
                 <button id="tm-select-all" class="secondary-btn">Select All</button>
                 <button id="tm-close-selected" class="secondary-btn danger">Close Selected</button>
-                <button id="tm-cancel-selection" class="icon-button" title="Cancel"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
+                <button id="tm-cancel-selection" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
             </div>
         </div>
         <div id="tm-context-menu" class="tm-context-menu hidden">
             <button data-action="open">Open</button>
             <button data-action="select">Select</button>
-            <button data-action="pin">Pin to Top</button>
-            <div class="menu-separator"></div>
+            <button data-action="pin">Pin</button>
+            <hr class="menu-separator">
             <button data-action="close" class="danger">Close</button>
         </div>
     </div>
-    
-    <!-- Global Search -->
-    <div id="search-overlay" class="search-overlay hidden">
-        <div class="search-window">
-            <div class="search-header">
-                <h2>Global Search</h2>
-                <button id="search-close-btn" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
-            </div>
-            <div class="search-controls">
-                <div class="search-input-group">
-                    <input type="text" id="global-search-input" placeholder="Search for files or content...">
-                    <button id="global-search-btn" class="primary-btn">Search</button>
-                </div>
-                <div class="search-options">
-                    <label><input type="checkbox" id="search-content-toggle"> Search Content (Slower)</label>
-                    <div id="search-scope-display" class="search-scope">Scope: All Workspaces</div>
-                </div>
-            </div>
-            <div id="search-results" class="search-results"><div class="search-empty">Enter a query to begin.</div></div>
-        </div>
-    </div>
-
-    <!-- B"H - Graph Nav Overlay -->
-    <div id="graph-nav-overlay" class="graph-nav-overlay hidden">
-        <button id="graph-nav-close" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
-        <canvas id="graph-canvas"></canvas>
-    </div>
-
     <div id="generic-dialog" class="dialog-overlay"></div>
 
-<script type="module" src="js/main.js"></script>
-<script src="/register.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script src="/register.js"></script>
 </body>
 </html>

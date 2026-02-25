@@ -3,26 +3,45 @@
 // FILE: js/terminal/shell.js
 
 import { TerminalCommands } from './commands.js';
+import { TerminalCompleter } from './completer.js';
 import { State } from '../state.js';
 
+/**
+ * @class TerminalShell
+ * @description The Merkava (Chariot) for user intent. 
+ * Re-forged to handle the holy cycling of Tab completion.
+ * As the Awtsmoos presents multiple paths to rectification, 
+ * this shell allows the user to cycle through those matches.
+ */
 export class TerminalShell {
     constructor(tab, container) {
         this.tab = tab;
         this.container = container;
         this.state = tab.terminalState || {};
-        if (!this.state.cwd) this.state.cwd = { kind: 'root', name: 'Workspaces', path: '/' };
+        
+        if (!this.state.cwd) {
+            this.state.cwd = { kind: 'root', name: 'Workspaces', path: '/' };
+        }
+        
         if (!this.state.output) this.state.output = [];
         if (!this.state.history) this.state.history = [];
         
         this.cmdHistory = this.state.history;
         this.historyIndex = this.cmdHistory.length;
+
+        // B"H - Completion State Vessels
+        this.lastMatches = [];
+        this.matchIndex = -1;
+        this.originalInputBeforeTab = "";
     }
 
     get cwd() { return this.state.cwd; }
     set cwd(val) { 
         this.state.cwd = val; 
         this.renderPrompt(); 
-        this.tab.item.name = val.kind === 'root' ? 'Terminal' : `Term: ${val.name}`;
+        const name = val.kind === 'root' ? 'Terminal' : `Term: ${val.name}`;
+        this.tab.item.name = name;
+        this.tab.item.path = val.path;
     }
 
     init() {
@@ -31,6 +50,11 @@ export class TerminalShell {
         this.renderPrompt();
         this.bindEvents();
         this.focus();
+        
+        if (this.state.output.length === 0) {
+            this.print(`B"H`, "cmd-info");
+            this.print(`Awtsmoos Deep-Shell v4.5\nReality is speech. Press [Tab] to cycle completions.`, "cmd-info");
+        }
     }
 
     renderStructure() {
@@ -69,17 +93,67 @@ export class TerminalShell {
             if (e.key === 'Enter') {
                 const cmd = this.inputEl.value.trim();
                 this.inputEl.value = '';
+                this.matchIndex = -1; // Reset completion cycle
                 if (cmd) {
                     this.cmdHistory.push(cmd);
                     this.historyIndex = this.cmdHistory.length;
                     await this.execute(cmd);
                 } else this.printPromptLine("");
+            } else if (e.key === 'Tab') {
+                e.preventDefault();
+                await this._handleTab();
             } else if (e.key === 'ArrowUp' && this.historyIndex > 0) {
                 this.inputEl.value = this.cmdHistory[--this.historyIndex];
             } else if (e.key === 'ArrowDown') {
                 this.inputEl.value = this.historyIndex < this.cmdHistory.length - 1 ? this.cmdHistory[++this.historyIndex] : "";
+            } else {
+                // Any other key clears the completion cycle
+                this.matchIndex = -1;
             }
         };
+    }
+
+    /**
+     * @async
+     * @method _handleTab
+     * @description B"H. The ritual of Cycling Tab Completion.
+     * If multiple potential completions exist, pressing Tab repeatedly
+     * cycles through them, replacing the current partial word with each match.
+     */
+    async _handleTab() {
+        const currentVal = this.inputEl.value;
+        if (!currentVal && this.matchIndex === -1) return;
+
+        // If we are already in a completion cycle, just move to the next match
+        if (this.matchIndex !== -1 && this.lastMatches.length > 0) {
+            this.matchIndex = (this.matchIndex + 1) % this.lastMatches.length;
+            this._applyCompletion(this.lastMatches[this.matchIndex]);
+            return;
+        }
+
+        // B"H - Start a new completion search
+        this.originalInputBeforeTab = currentVal;
+        const matches = await TerminalCompleter.getMatches(this, currentVal);
+
+        if (matches && matches.length > 0) {
+            this.lastMatches = matches;
+            this.matchIndex = 0;
+            this._applyCompletion(matches[0]);
+            
+            // If there's only one, we don't need a cycle, but it doesn't hurt.
+            // If there are many, we might want to log them to the user (Linux style)?
+            // For now, silent cycling is smoother for browser UI.
+        }
+    }
+
+    /**
+     * @method _applyCompletion
+     * @description B"H. Physically updates the input field with the chosen completion.
+     */
+    _applyCompletion(match) {
+        const parts = this.originalInputBeforeTab.split(' ');
+        parts[parts.length - 1] = match;
+        this.inputEl.value = parts.join(' ');
     }
 
     focus() { setTimeout(() => this.inputEl.focus(), 10); }
@@ -115,11 +189,14 @@ export class TerminalShell {
 
     async execute(input) {
         this.printPromptLine(input);
+        if (input.startsWith('#')) return;
+
         let cmdStr = input, redirect = null;
         if (input.includes(' > ')) {
             const p = input.split(' > ');
             cmdStr = p[0].trim(); redirect = p[1].trim().replace(/^"|"$/g, '');
         }
+        
         const args = this.parseArgs(cmdStr);
         const cmd = args.shift();
 
@@ -130,7 +207,9 @@ export class TerminalShell {
                     if (redirect) await this.writeToFile(redirect, res);
                     else this.print(res);
                 }
-            } catch (e) { this.print(e.message, 'cmd-error'); }
+            } catch (e) { 
+                this.print(`Error: ${e.message}`, 'cmd-error'); 
+            }
         } else this.print(`Command not found: ${cmd}`, 'cmd-error');
     }
 
