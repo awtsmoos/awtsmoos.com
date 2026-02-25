@@ -1,36 +1,64 @@
+
 // B"H
 // FILE: js/git/meta.js
-import { FileSystemProvider } from '../fs-provider.js';
 
+import { FileSystemProvider } from '../fs-provider.js';
+import { State } from '../state.js';
+
+/**
+ * @class GitMetaProvider
+ * @description In the infinite expanses of the file system, certain directories 
+ * are chosen as anchors for the timeline (Git repositories). This class 
+ * performs the deep search required to find these anchors, even if the user 
+ * is currently focused on a tiny leaf at the end of a long branch.
+ */
 export const GitMetaProvider = {
     _cache: new Map(),
 
+    /**
+     * @async
+     * @function getGitInfoForFolder
+     * @description Recursively ascends the directory tree, seeking the 
+     * .awtsmoos-repo ritual marker which identifies a repository root.
+     * @param {object} item The starting vessel for the search.
+     */
     async getGitInfoForFolder(item) {
-        if (!item || item.type === 'github') return null;
-        const wsId = item.workspaceId || item.id;
-        let path = item.path;
+        if (!item) return null;
+        if (item.type === 'github') return item; // Root identified
 
-        let limit = 20;
+        const wsId = item.workspaceId || item.id;
+        let currentPath = item.path;
+
+        // B"H - Limit ascent to prevent infinite loops in broken trees
+        let limit = 25; 
         while (limit-- > 0) {
-            const cacheKey = `${wsId}::${path}`;
+            const cacheKey = `${wsId}::${currentPath}`;
             if (this._cache.has(cacheKey)) return this._cache.get(cacheKey);
 
             try {
-                const ikarItem = { ...item, workspaceId: wsId, path: `${path}/.awtsmoos-repo/ikar.js`, kind: 'file' };
+                // Peek inside for the sacred metadata
+                const ikarPath = `${currentPath === '/' ? '' : currentPath}/.awtsmoos-repo/ikar.js`;
+                const ikarItem = { ...item, path: ikarPath, kind: 'file', workspaceId: wsId };
+                
                 const raw = await FileSystemProvider.read(ikarItem);
-                const text = (raw instanceof Blob ? await raw.text() : String(raw));
-                const json = text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
-                const info = JSON.parse(json);
+                const text = (raw instanceof Blob) ? await raw.text() : String(raw);
+                
+                // Extract the holy JSON data from the ikar.js vessel
+                const start = text.indexOf('{');
+                const end = text.lastIndexOf('}') + 1;
+                const info = JSON.parse(text.substring(start, end));
                 
                 if (info && info.isClone) {
-                    this._cache.set(cacheKey, { ...info, path });
-                    return { ...info, path };
+                    const result = { ...info, path: currentPath, workspaceId: wsId };
+                    this._cache.set(cacheKey, result);
+                    return result;
                 }
-            } catch(e) {}
+            } catch(e) {
+                // marker not found at this level, continue ascending
+            }
 
-            if (path === '/' || path === '') break;
-            const last = path.lastIndexOf('/');
-            path = last <= 0 ? '/' : path.substring(0, last);
+            if (currentPath === '/' || currentPath === '') break;
+            currentPath = currentPath.substring(0, currentPath.lastIndexOf('/')) || '/';
         }
         return null;
     }

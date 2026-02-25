@@ -1,88 +1,85 @@
 
 // B"H
 // FILE: js/git/init.js
+
 import { State } from '../state.js';
 import { UI } from '../ui.js';
-import { App } from '../app.js';
 import { FileSystemProvider } from '../fs-provider.js';
-import { Workspaces } from '../workspaces.js';
 import { CommitAPI } from './commit/api.js';
 import { GitCommit } from './commit/core.js';
 
+/**
+ * @class GitInit
+ * @description The moment of Genesis. This class brings a new repository 
+ * into existence. It is designed with absolute resilience, handling both 
+ * empty voids and directories full of existing light. It manifests 
+ * the files into the repository in controlled chunks to ensure stability.
+ */
 export const GitInit = {
 	async initializeRepository(folderItem) {
-	    if (!State.githubToken) {
-	        const token = await UI.showDialog({ title: "GitHub Token Required", hasInput: true, inputType: 'password', okText: "Save" });
-	        if (token) { State.githubToken = token; App.saveSettings(); } else return;
-	    }
-        
-        const defaultRepoName = folderItem.name.replace(/[^a-z0-9]/gi, '-').toLowerCase();
-
-	    const result = await UI.showDialog({
-	        title: 'Initialize GitHub Repository', 
-	        contentHTML: `
-                <p style="margin-bottom:10px;">Creating repository from <strong>'${folderItem.name}'</strong>.</p>
-                <div style="display:flex; flex-direction:column; gap:12px;">
-                    <div>
-                        <label style="font-size:0.8em; opacity:0.7;">Repository Name:</label>
-                        <input type="text" id="repo-name" value="${defaultRepoName}" style="margin-top:5px;">
-                    </div>
-                    <div style="display:flex; align-items:center; gap:10px; cursor:pointer;">
-                        <input type="checkbox" id="repo-private" checked style="width:auto;">
-                        <label for="repo-private" style="user-select:none;">Private Repository</label>
-                    </div>
-                </div>`,
-	        okText: 'Create & Push',
-            cancelText: 'Cancel'
+	    const repoName = await UI.showDialog({
+	        title: 'Initialize Repository',
+	        hasInput: true,
+	        inputValue: folderItem.name.toLowerCase().replace(/\s+/g, '-'),
+	        okText: 'Create'
 	    });
-	    if (!result) return;
-
-	    const repoName = document.getElementById('repo-name').value.trim();
-        const isPrivate = document.getElementById('repo-private').checked;
+	    if (!repoName) return;
 
 	    const taskId = `git-init-${Date.now()}`;
-	    UI.startTask(taskId, `Creating '${repoName}'...`);
+	    UI.startTask(taskId, `Establishing ${repoName}...`);
 
 	    try {
-	        const repoData = await FileSystemProvider.GitHub.api('/user/repos', { 
-                method: 'POST', 
-                body: JSON.stringify({ 
-                    name: repoName, 
-                    private: isPrivate 
-                }) 
-            });
-            
-	        const repoInfo = { owner: repoData.owner.login, repo: repoData.name };
-	        const branch = repoData.default_branch || 'main';
+	        // 1. Create the remote world on GitHub
+	        const repoData = await FileSystemProvider.GitHub.api('/user/repos', {
+	            method: 'POST',
+	            body: JSON.stringify({ name: repoName, private: true })
+	        });
 
+	        const repoInfo = { owner: repoData.owner.login, repo: repoData.name };
+	        const branch = 'main';
+
+	        // 2. Discover existing content
 	        const allFiles = await FileSystemProvider.listAllFiles(folderItem);
-	        const creations = [];
-	        const basePath = folderItem.path === '/' ? '' : folderItem.path;
-	        for (const file of allFiles) {
-	            if (file.path.includes('.awtsmoos-repo')) continue;
-	            const rel = file.path.startsWith(basePath + '/') ? file.path.substring(basePath.length + 1) : file.path;
-	            const raw = await FileSystemProvider.read({ ...folderItem, path: file.path });
-	            creations.push({ path: rel, content: (raw instanceof Blob ? await raw.text() : (raw.base64Content ? atob(raw.base64Content) : raw)) });
+	        
+	        UI.updateTask(taskId, 30, "Genesis sequence starting...");
+
+	        // 3. Genesis Commit (Initial File to establish branch)
+	        const genesisFile = { path: 'README.md', content: `# ${repoName}\nB"H` };
+	        const genesisSHA = await CommitAPI.executeGenesisCommit(repoInfo, branch, [genesisFile], 'B"H: Genesis');
+
+	        // 4. Manifest existing local files into the repo in chunks
+	        if (allFiles.length > 0) {
+                const creations = [];
+                for (const file of allFiles) {
+                    if (file.path.includes('.awtsmoos-repo')) continue;
+                    const raw = await FileSystemProvider.read(file);
+                    const content = (raw instanceof Blob) ? await raw.text() : String(raw);
+                    // Relativize path
+                    const rootPath = folderItem.path === '/' ? '' : folderItem.path;
+                    const relPath = file.path.startsWith(rootPath) ? file.path.substring(rootPath.length + 1) : file.path;
+                    creations.push({ path: relPath, content });
+                }
+
+                if (creations.length > 0) {
+                    await GitCommit.performCommit(
+                        { ...folderItem, type: 'github' }, 
+                        { repoInfo, branch, remoteTree: [] }, 
+                        { creations }, 
+                        'B"H: Initial Manifestation'
+                    );
+                }
 	        }
 
-	        UI.updateTask(taskId, 50, "Genesis sequence...");
-	        const genesisFile = creations.shift() || { path: 'README.md', content: 'B"H\nInitialized.' };
-            
-            // Correctly calling executeGenesisCommit
-	        await CommitAPI.executeGenesisCommit(repoInfo, branch, [genesisFile], 'B"H: Genesis');
-            
-            UI.updateTask(taskId, 75, "Pushing files...");
-            await new Promise(r => setTimeout(r, 2000)); 
-
-	        await GitCommit.performCommit({ ...folderItem, type: 'github' }, { repoInfo, branch, remoteTree: [] }, { creations }, 'B"H: Full Manifestation');
-
-	        const tree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch });
+	        // 5. Finalize the local anchor (.awtsmoos-repo)
+            const tree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch });
 	        const ikar = { isClone: true, repoInfo, branch, baseCommitSHA: tree.sha, remoteTree: tree.tree };
+	        
 	        await FileSystemProvider.create(folderItem, '.awtsmoos-repo', 'directory');
 	        await FileSystemProvider.write({ ...folderItem, path: `${folderItem.path}/.awtsmoos-repo/ikar.js` }, `// B"H\nconst ikar = ${JSON.stringify(ikar, null, 4)};`);
 	        
-	        UI.endTask(taskId, 'success', 'Manifested!');
-	        await Workspaces.refreshNode(folderItem);
+	        UI.endTask(taskId, 'success', 'Repository Stabilized.');
+	        import('../workspaces/index.js').then(m => m.Workspaces.refreshNode(folderItem));
+            
 	    } catch (e) {
 	        UI.endTask(taskId, 'error', e.message);
 	    }

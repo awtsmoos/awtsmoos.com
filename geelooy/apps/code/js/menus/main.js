@@ -9,27 +9,26 @@ import { GitMetaProvider } from '../git/meta.js';
 
 /**
  * @class MainMenu
- * @description The Keter (Crown) of the application's global actions.
+ * @description The Keter of global operations. 
  * 
  * THE POEM OF THE MENU:
- * A single click reveals the gate,
- * A second click shall seal the fate.
- * It peers through folders, deep and vast,
- * To find the repo's anchor cast.
- * If Git is found in branch or root,
- * The Manifest shall bear its fruit.
+ * The Word of the Awtsmoos is infinite, yet He gives us a menu of choice.
+ * Every option is a path to rectification. 
+ * We look at the current focus (the Active Tab) and reveal the 
+ * specific powers available to that vessel.
+ * If it is a vessel of structure (HTML), we reveal the vision (Preview).
+ * If it is a vessel of content, we reveal the gathering (Select/Copy).
  */
 export const MainMenu = {
     /**
      * @async
      * @function show
-     * @description B"H. The ritual of toggling the global menu. 
-     * It checks ancestry to reveal the Git Commit option for any nested file.
+     * @description B"H. Manifests the global menu. It calculates the 
+     * current state of the active tab and provides the relevant rituals.
      */
     async show(e) {
-        e.stopPropagation();
+        if (e) e.stopPropagation();
 
-        // 1. TOGGLE LOGIC: If already visible, dissolve it.
         if (DOM.mainMenu.style.display === "block") {
             Menus.hideAll();
             return;
@@ -38,32 +37,41 @@ export const MainMenu = {
         Menus.hideAll();
         
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-        let gitInfo = null;
+        const gitInfo = activeTab?.item ? await GitMetaProvider.getGitInfoForFolder(activeTab.item) : null;
+        const isHtml = activeTab?.item?.name?.toLowerCase()?.endsWith('.html');
 
-        // 2. DEEP GIT VISION: Find if the current file has a Git ancestor.
-        if (activeTab && activeTab.item) {
-            gitInfo = await GitMetaProvider.getGitInfoForFolder(activeTab.item);
-        }
-
+        // B"H - Mapping the menu structure
         const menuItems = [
             { label: "New File", action: "new-temp-file", icon: "file" },
             { label: "Open File...", action: "open-file", icon: "folder" },
-            { isSeparator: true },
-            { label: "Beautify Code", action: "beautify", icon: "brain" },
-            { label: "Save File", action: "save", icon: "save", disabled: !activeTab || !activeTab.isDirty }
+            { isSeparator: true }
         ];
 
-        // 3. REVEAL THE COMMIT RITUAL: Only if a repo ancestor is found.
+        // Context-aware Branching
+        if (isHtml) {
+            menuItems.push({ label: "Preview HTML", action: "view-html", icon: "eye" });
+        }
+
         if (gitInfo) {
             menuItems.push({ label: "Commit Changes", action: "commit-changes", icon: "git-branch" });
         }
 
-        menuItems.push({ isSeparator: true });
-        menuItems.push({ label: "Find / Replace", action: "find-replace", icon: "search" });
-        menuItems.push({ label: "Visual Settings", action: "visual-settings", icon: "eye" });
-        menuItems.push({ label: "App Settings", action: "settings", icon: "settings" });
-        menuItems.push({ isSeparator: true });
-        menuItems.push({ label: "Help & Docs", action: "show-docs", icon: "brain" });
+        menuItems.push(
+            { isSeparator: true },
+            { label: "Beautify Code", action: "beautify", icon: "brain" },
+            { label: "Save File", action: "save", icon: "save", disabled: !activeTab || !activeTab.isDirty },
+            { isSeparator: true },
+            { label: "Select All", action: "select-all", icon: "select-all", disabled: !activeTab },
+            { label: "Copy All", action: "copy-all", icon: "copy", disabled: !activeTab },
+            { label: "Copy as Markdown", action: "copy-all-contents", icon: "clipboard", disabled: !activeTab },
+            { label: "Download Context", action: "download-all-contents", icon: "download", disabled: !activeTab },
+            { isSeparator: true },
+            { label: "Find / Replace", action: "find-replace", icon: "search" },
+            { label: "Visual Settings", action: "visual-settings", icon: "eye" },
+            { label: "App Settings", action: "settings", icon: "settings" },
+            { isSeparator: true },
+            { label: "Help & Docs", action: "show-docs", icon: "brain" }
+        );
 
         const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
         MenuUI.renderMenu(DOM.mainMenu, menuItems, { 
@@ -71,7 +79,6 @@ export const MainMenu = {
             clientY: btnRect.bottom + 8 
         });
 
-        // Ensure outside click closes the menu
         setTimeout(() => {
             document.addEventListener("click", MenuUI.handleDocumentClick, { once: true });
         }, 10);

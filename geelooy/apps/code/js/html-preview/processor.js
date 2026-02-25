@@ -1,86 +1,91 @@
 
 // B"H
-import { FileSystemProvider } from '../fs-provider.js';
-import { getNetworkInterceptorScript } from './html-preview-templates.js';
+// FILE: js/html-preview/processor.js
+
 import { VirtualBundler } from './bundler.js';
+import { getNetworkInterceptorScript } from './html-preview-templates.js';
+import { FileSystemProvider } from '../fs-provider.js';
+import { PathResolver } from './resolver.js';
 
+/**
+ * @class HTMLPreviewProcessor
+ * @description The Orchestrator of the Vision. 
+ * 
+ * THE POEM OF THE VISION:
+ * An HTML file is a skeleton of reality.
+ * To see it live, we must breathe the light of the workspace into it.
+ * This vessel finds every image, every script, every style,
+ * and converts their relative names into actual Blob URLs,
+ * then injects a network interceptor so that the internal 
+ * 'fetch' calls within the preview also perceive the local truth.
+ */
 export const HTMLPreviewProcessor = {
+    /**
+     * @async
+     * @function orchestrate
+     * @description B"H. Transmutes an HTML file into a live preview.
+     */
     async orchestrate(baseItem, iframe, contentOverride = null) {
-        if (!iframe || !iframe.parentNode) return;
-        console.log(`%c[PreviewProcessor] B"H - COMMENCING: ${baseItem.path}`, "color:#00f6ff; font-weight:bold;");
         VirtualBundler.reset();
-
+        
         let html = contentOverride;
         if (html === null) {
-            try {
-                const raw = await FileSystemProvider.read(baseItem);
-                html = (raw instanceof Blob) ? await raw.text() : (raw.base64Content ? atob(raw.base64Content) : String(raw));
-            } catch (e) { return this._err(iframe, e.message); }
+            const raw = await FileSystemProvider.read(baseItem);
+            html = (raw instanceof Blob) ? await raw.text() : String(raw);
         }
-        if (!html) return this._err(iframe, "Vessel is empty.");
 
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        await this._processAssets(doc, baseItem);
-        await this._processStyles(doc, baseItem);
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
 
+        // 1. Process Static Assets (Images/Video/CSS)
+        await this._processStaticAssets(doc, baseItem);
+
+        // 2. Process Scripts via AST Bundler
         const scripts = Array.from(doc.querySelectorAll('script'));
-        for (let i = 0; i < scripts.length; i++) {
-            const script = scripts[i];
-            if (script.hasAttribute('data-merkava-internal')) continue;
-            script.setAttribute('type', 'module');
-            try {
-                const src = script.getAttribute('src');
-                if (src) {
-                    const abs = VirtualBundler.resolvePath(baseItem.path, src);
-                    script.setAttribute('src', await VirtualBundler.build(abs, baseItem, null));
-                } else if (script.textContent.trim()) {
-                    const virtual = `${baseItem.path}/__inline_${Math.random().toString(36).substr(2, 5)}.js`;
-                    script.setAttribute('src', await VirtualBundler.build(virtual, baseItem, script.textContent));
-                    script.textContent = "";
-                }
-            } catch (e) { console.error(`Script ${i} Shevirah`, e); }
+        for (const s of scripts) {
+            if (s.hasAttribute('data-merkava-internal')) continue;
+            
+            s.setAttribute('type', 'module'); // All scripts become modules in this world
+            const src = s.getAttribute('src');
+            
+            if (src) {
+                const abs = PathResolver.resolve(baseItem.path, src);
+                s.setAttribute('src', await VirtualBundler.build(abs, baseItem, null));
+            } else if (s.textContent.trim()) {
+                const virtualPath = `${baseItem.path}/__inline_${Math.random().toString(36).substr(2, 5)}.js`;
+                s.setAttribute('src', await VirtualBundler.build(virtualPath, baseItem, s.textContent));
+                s.textContent = "";
+            }
         }
 
-        try {
-            let final = doc.documentElement.outerHTML;
-            const interceptor = `<script data-merkava-internal="true">${getNetworkInterceptorScript(baseItem.workspaceId, baseItem.path)}</script>`;
-            final = final.includes('<head>') ? final.replace('<head>', `<head>${interceptor}`) : interceptor + final;
-            const ifDoc = iframe.contentDocument || iframe.contentWindow.document;
-            ifDoc.open(); ifDoc.write("<!DOCTYPE html>\n" + final); ifDoc.close();
-            console.log(`%c[PreviewProcessor] B"H - REALITY STABILIZED.`, "color:#a8ff00; font-weight:bold;");
-        } catch (e) { this._err(iframe, e.message); }
+        // 3. Construct Final Vessel
+        let finalHtml = doc.documentElement.outerHTML;
+        const interceptor = `<script data-merkava-internal="true">${getNetworkInterceptorScript(baseItem.workspaceId, baseItem.path)}</script>`;
+        
+        if (finalHtml.includes('<head>')) {
+            finalHtml = finalHtml.replace('<head>', `<head>${interceptor}`);
+        } else {
+            finalHtml = interceptor + finalHtml;
+        }
+
+        const ifDoc = iframe.contentDocument || iframe.contentWindow.document;
+        ifDoc.open(); ifDoc.write(finalHtml); ifDoc.close();
     },
 
-    async _processAssets(doc, item) {
-        const assets = Array.from(doc.querySelectorAll('img[src], video[src], audio[src]'));
+    async _processStaticAssets(doc, item) {
+        const assets = Array.from(doc.querySelectorAll('img[src], video[src], audio[src], link[rel="stylesheet"]'));
+        
         await Promise.all(assets.map(async (el) => {
-            const raw = el.getAttribute('src');
-            if (!raw || raw.startsWith('http') || raw.startsWith('blob:') || raw.startsWith('data:')) return;
+            const attr = el.tagName === 'LINK' ? 'href' : 'src';
+            const rawPath = el.getAttribute(attr);
+            if (!rawPath || rawPath.startsWith('http') || rawPath.startsWith('data:')) return;
+
             try {
-                const abs = VirtualBundler.resolvePath(item.path, raw);
+                const abs = PathResolver.resolve(item.path, rawPath);
                 const content = await FileSystemProvider.read({ ...item, path: abs, kind: 'file' });
                 const blob = (content instanceof Blob) ? content : new Blob([content]);
-                el.setAttribute('src', URL.createObjectURL(blob));
+                el.setAttribute(attr, URL.createObjectURL(blob));
             } catch (e) {}
         }));
-    },
-
-    async _processStyles(doc, item) {
-        const links = Array.from(doc.querySelectorAll('link[rel="stylesheet"]'));
-        for (const link of links) {
-            const href = link.getAttribute('href');
-            if (!href || href.startsWith('http')) continue;
-            try {
-                const abs = VirtualBundler.resolvePath(item.path, href);
-                const raw = await FileSystemProvider.read({ ...item, path: abs, kind: 'file' });
-                const text = (raw instanceof Blob) ? await raw.text() : (raw.base64Content ? atob(raw.base64Content) : String(raw));
-                link.setAttribute('href', URL.createObjectURL(new Blob([text], { type: 'text/css' })));
-            } catch (e) {}
-        }
-    },
-
-    _err(iframe, msg) {
-        const d = iframe.contentDocument || iframe.contentWindow.document;
-        d.open(); d.write(`<body style="background:#000;color:#f75d65;padding:20px;font-family:monospace;"><h3>B"H - Manifestation Error</h3><p>${msg}</p></body>`); d.close();
     }
 };

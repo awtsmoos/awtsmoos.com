@@ -1,71 +1,78 @@
 
 // B"H
+// FILE: js/html-preview/bundler.js
+
 import { FileSystemProvider } from '../fs-provider.js';
-import { PreviewTransformer } from './transformer.js';
 import { PathResolver } from './resolver.js';
-import { CycleShield } from './cycle-shield.js';
+import { PreviewTransformer } from './transformer.js';
 
 /**
  * @class VirtualBundler
- * @description The master weaver that manifests the dependency web.
+ * @description The Weaver of the Web. 
+ * It gathers all modules, following the threads of 'import' 
+ * and 'export', until every dependency is a live Blob.
  */
 export const VirtualBundler = {
-    cache: new Map(),
+    moduleCache: new Map(), 
+    activeWalk: new Set(), 
 
     reset() {
-        console.log(`[VirtualBundler] Resetting cache vessels.`);
-        this.cache.forEach(url => URL.revokeObjectURL(url));
-        this.cache.clear();
-        CycleShield.reset();
+        this.moduleCache.forEach(url => URL.revokeObjectURL(url));
+        this.moduleCache.clear();
+        this.activeWalk.clear();
     },
 
+    /**
+     * @async
+     * @function build
+     * @description Recursively builds the module tree.
+     */
     async build(absPath, baseItem, sourceOverride = null) {
-        if (this.cache.has(absPath)) return this.cache.get(absPath);
-        if (!CycleShield.enter(absPath)) return this._circular(absPath);
+        if (this.moduleCache.has(absPath)) return this.moduleCache.get(absPath);
+        
+        // Break infinite loops in the abyss
+        if (this.activeWalk.has(absPath)) {
+            return this._circularFallback(absPath);
+        }
 
-        console.group(`[VirtualBundler] Building: ${absPath}`);
-        let code = sourceOverride;
+        this.activeWalk.add(absPath);
+
         try {
+            let code = sourceOverride;
             if (code === null) {
-                // System Realm Check
-                if (absPath.startsWith('/scripts/') || absPath === '/register.js' || absPath.includes('merkava')) {
-                    const res = await fetch(absPath);
-                    if (!res.ok) throw new Error("System Asset Missing");
-                    code = await res.text();
-                } else {
-                    const raw = await FileSystemProvider.read({ ...baseItem, path: absPath, kind: 'file' });
-                    code = (raw instanceof Blob) ? await raw.text() : (raw.base64Content ? atob(raw.base64Content) : String(raw));
-                }
+                const item = { ...baseItem, path: absPath, kind: 'file' };
+                const raw = await FileSystemProvider.read(item);
+                code = (raw instanceof Blob) ? await raw.text() : String(raw);
             }
 
-            // Transmutations
-            if (absPath.endsWith('.css')) code = `const s = document.createElement('style'); s.textContent = ${JSON.stringify(code)}; document.head.appendChild(s); export default s;`;
-            else if (absPath.endsWith('.json')) code = `export default ${code};`;
+            // Handle non-JS types by wrapping them in JS Module light
+            if (absPath.endsWith('.css')) {
+                code = `const s = document.createElement('style'); s.textContent = ${JSON.stringify(code)}; document.head.appendChild(s); export default s;`;
+            } else if (absPath.endsWith('.json')) {
+                code = `export default ${code};`;
+            }
 
+            // Recursive Resolver
             const resolver = async (rel) => {
-                const resolved = PathResolver.resolve(absPath, rel);
-                if (resolved.startsWith('/') || rel.startsWith('.')) return await this.build(resolved, baseItem, null);
-                return `https://esm.sh/${rel}`;
+                const resolvedAbs = PathResolver.resolve(absPath, rel);
+                if (resolvedAbs.startsWith('/') || rel.startsWith('.')) {
+                    return await this.build(resolvedAbs, baseItem, null);
+                }
+                return `https://esm.sh/${rel}`; // External library gate
             };
 
             const transformed = await PreviewTransformer.transform(code, resolver);
-            const url = URL.createObjectURL(new Blob([transformed], { type: 'application/javascript' }));
-            this.cache.set(absPath, url);
-            CycleShield.exit(absPath);
-            console.groupEnd();
-            return url;
-        } catch (e) {
-            console.error(`[VirtualBundler] Shevirah: ${absPath}`, e);
-            CycleShield.exit(absPath);
-            console.groupEnd();
-            return this._error(e.message, absPath);
+            const blobUrl = URL.createObjectURL(new Blob([transformed], { type: 'application/javascript' }));
+            
+            this.moduleCache.set(absPath, blobUrl);
+            return blobUrl;
+        } finally {
+            this.activeWalk.delete(absPath);
         }
     },
 
-    _circular(path) { return URL.createObjectURL(new Blob([`// B"H Circular Loop Broken: ${path}\nexport default {};`], { type: 'application/javascript' })); },
-    _error(msg, path) {
-        const code = `console.error(${JSON.stringify('B"H - Module Error: ' + path + ' -> ' + msg)}); export default {};`;
+    _circularFallback(path) {
+        const code = `console.warn('B"H: Circularity detected at ${path}'); export default {};`;
         return URL.createObjectURL(new Blob([code], { type: 'application/javascript' }));
-    },
-    resolvePath: PathResolver.resolve
+    }
 };
