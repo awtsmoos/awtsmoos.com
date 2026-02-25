@@ -10,7 +10,15 @@ export const Dispatcher = {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         
         const ritualHandlers = {
-            // --- Git Branch ---
+            // --- Filesystem Branch ---
+            "delete-workspace": async () => {
+                const wsId = item.workspaceId || item.id;
+                if (wsId !== undefined) {
+                    const { WorkspaceManager } = await import('../workspaces/manager.js');
+                    await WorkspaceManager.remove(wsId);
+                }
+            },
+            // ... [Rest of the handlers remain identical] ...
             "git-actions": async () => {
                 const { GitManager } = await import('../git/index.js');
                 const { GitMetaProvider } = await import('../git/meta.js');
@@ -18,8 +26,6 @@ export const Dispatcher = {
                 GitManager.showGitUI(item, gitInfo);
             },
             "switch-branch": async () => (await import('../git/index.js')).GitManager.switchBranch(item),
-            
-            // --- Content Branch ---
             "select-all": async () => (await import('./text-actions.js')).TextActions.selectAll(),
             "copy-all": async () => (await import('./text-actions.js')).TextActions.copyAll(),
             "view-html": async () => (await import('../tabs/index.js')).Tabs.createPreview(activeTab.item, activeTab.content),
@@ -28,22 +34,16 @@ export const Dispatcher = {
                 const { beautify } = await import("/scripts/awtsmoos/MerkavaBeautifier/beautifier.js");
                 Editor.setCurrentContent(await beautify(Editor.getContent()));
             },
-
-            // --- Filesystem Branch ---
             "new-file": async () => (await import('./file-actions.js')).FileActions.handle(action, item),
             "new-folder": async () => (await import('./file-actions.js')).FileActions.handle(action, item),
             "rename": async () => (await import('./file-actions.js')).FileActions.handle(action, item),
             "delete": async () => (await import('./file-actions.js')).FileActions.handle(action, item),
             "paste": async () => (await import('../file-operations.js')).FileOperations.paste(item),
-            
-            // --- Navigation Branch ---
             "open-file-commander-tab": async () => (await import('../file-commander.js')).FileCommander.open(item),
             "open-terminal-tab": async () => (await import('../terminal/index.js')).Terminal.open(item),
             "open-file-tab": async () => (await import('../tabs/index.js')).Tabs.Tabs.create(item),
             "refresh": async () => (await import('../workspaces/index.js')).Workspaces.refreshNode(item),
             "reveal-in-workspace": async () => (await import('../menus/tabs.js')).TabMenus.revealInWorkspace(State.contextTabTarget),
-
-            // --- Archival & Context Branch ---
             "copy-zip-single": async () => (await import('../file-ops/exporter.js')).Exporter.copyAsZip([item]),
             "download-zip-single": async () => (await import('../file-ops/exporter.js')).Exporter.downloadAsZip([item]),
             "download-file": async () => (await import('../file-ops/exporter.js')).Exporter.downloadFile(item),
@@ -54,8 +54,6 @@ export const Dispatcher = {
                 State.fileClipboard =[getItemUniquePath(item)];
                 UI.showToast(`Copied ${item.name}`, "success");
             },
-
-            // --- System & Expansion Branch ---
             "open-vibe": async () => {
                 const vc = await import('../vibe/vibe-controller.js');
                 vc.VibeController.init(); vc.VibeController.open(item);
@@ -63,7 +61,6 @@ export const Dispatcher = {
             "git-init": async () => (await import('../git/index.js')).GitManager.initializeRepository(item),
             "commit-changes": async () => (await import('../app/index.js')).App.commitAllChanges(),
             "settings": async () => (await import('../app/index.js')).App.showSettings(),
-            
             "toggle-fullscreen": async () => (await import('../app/fullscreen-manager.js')).FullscreenManager.toggleApp(),
             "fullscreen-tab": async () => {
                 if (State.contextTabTarget && State.contextTabTarget.id !== State.activeTabId) {
