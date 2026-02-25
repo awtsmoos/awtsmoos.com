@@ -2,7 +2,7 @@
 // B"H
 // FILE: js/fs-provider/strategies.js
 
-import { LocalProvider } from '../fs/local.js';
+import { LocalProvider } from '../fs/local/index.js';
 import { IndexedDBProvider } from '../fs/indexeddb.js';
 import { GitHubProvider } from '../fs/github.js';
 import { SSHProvider } from '../fs/ssh.js';
@@ -13,23 +13,35 @@ import { ZipExplorer } from '../zip/zip-explorer.js';
 
 /**
  * @class ProviderStrategies
- * @description The Awtsmoos manifests through infinite paths. 
+ * @description The map of emanations.
+ * It binds the physical 'Type' to its corresponding worker vessel.
  * 
- * THE POEM OF THE MAPPING:
- * One light, yet refracted through seven colors,
- * One source, yet channeled through distinct rivers.
- * Here, the abstract 'Type' of the world 
- * is bound to its physical executioner.
- * We seek not through nested questions,
- * but call the worker by its true name.
+ * B"H RECTIFICATION:
+ * Added PascalCase aliases to ensure calls to FileSystemProvider.IndexedDB
+ * or .Local do not fail when coming from legacy code or specific namespaces.
  */
 export const ProviderStrategies = {
     local: LocalProvider,
+    Local: LocalProvider,
+    
     ssh: SSHProvider,
+    SSH: SSHProvider,
+    
     indexeddb: IndexedDBProvider,
+    IndexedDB: IndexedDBProvider,
+    
     github: GitHubProvider,
+    GitHub: GitHubProvider,
+    
     osfolder: OSFolderProvider,
+    OSFolder: OSFolderProvider,
+    
     'zip-entry': ZipExplorer.fs,
+    ZipEntry: ZipExplorer.fs,
+    
     opfs: OPFSProvider,
-    postmessage: PostMessageProvider
+    OPFS: OPFSProvider,
+    
+    postmessage: PostMessageProvider,
+    PostMessage: PostMessageProvider
 };
