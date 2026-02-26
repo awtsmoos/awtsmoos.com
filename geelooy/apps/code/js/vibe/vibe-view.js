@@ -33,6 +33,7 @@ export const VibeView = {
 	        '<div class="vibe-container">' +
 	            '<div class="vibe-chat-panel">' +
 	                '<div id="vibe-chat-history" class="vibe-chat-history"></div>' +
+                    '<div id="vibe-token-counter" style="position:absolute; top:5px; right:10px; font-size:0.75em; color:var(--neon-cyan); opacity:0.6; pointer-events:none;">Tokens: --</div>' +
 	                '<div id="vibe-input-area" class="vibe-input-area">' +
 	                    '<div class="vibe-input-wrapper">' +
 	                        '<textarea id="vibe-input" class="vibe-textarea" placeholder="Speak your will..."></textarea>' +
@@ -40,22 +41,18 @@ export const VibeView = {
 	                    '</div>' +
 	                    '<div class="vibe-actions">' +
                             '<button id="vibe-reset-btn" class="secondary-btn">Reset</button>' +
-	                        '<button id="vibe-mgr-btn" class="secondary-btn" title="Vibe Manager">Manager</button>' +
+	                        '<button id="vibe-mgr-btn" class="secondary-btn" title="Vibe Manager">Settings</button>' +
 	                        '<button id="vibe-sidebar-toggle-btn" class="icon-button"><svg class="svg-icon"><use href="#icon-sidebar"></use></svg></button>' +
 	                    '</div>' +
 	                '</div>' +
 	            '</div>' +
-                /* B"H - BOTH RESIZERS FOR DESKTOP AND MOBILE */
 	            '<div class="vibe-resizer" id="vibe-resizer-vertical"></div>' +
-                '<div class="vibe-resizer-horizontal" id="vibe-resizer-horizontal"></div>' +
+                '<div class="vibe-resizer-horizontal" id="vibe-resizer-horizontal" style="height: 12px; cursor: row-resize; background: var(--color-bg-deep); display: none;"></div>' +
 	            '<div class="vibe-side-panel" id="vibe-side-panel">' +
-                    /* B"H - Restore Button for Minimized State */
                     '<div id="vibe-panel-restore-btn" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; cursor:pointer; color:var(--neon-cyan); background:var(--color-bg-secondary);">' +
                         '<svg class="svg-icon" style="width: 24px; height: 24px;"><use href="#icon-plus"></use></svg>' +
                     '</div>' +
-                    /* B"H - Inner Wrapper to Hide Content when Minimized */
                     '<div class="vibe-panel-inner" style="display:flex; flex-direction:column; width:100%; height:100%;">' +
-                        /* B"H - Panel Controls Included */
                         '<div class="vibe-sidebar-tabs" style="align-items: center; padding-right: 5px;">' +
                             '<div class="vibe-sb-tab" data-tab="tree">Tree</div>' +
                             '<div class="vibe-sb-tab" data-tab="manifest">External</div>' +
@@ -75,7 +72,6 @@ export const VibeView = {
 
 	_bind: function(tab, controller) {
         var self = this;
-        // B"H --- DOM element references ---
         var sendBtn = this.container.querySelector('#vibe-send-btn');
         var input = this.container.querySelector('#vibe-input');
         var resetBtn = this.container.querySelector('#vibe-reset-btn');
@@ -87,9 +83,18 @@ export const VibeView = {
         var minBtn = this.container.querySelector('#vibe-panel-min-btn');
         var restoreBtn = this.container.querySelector('#vibe-panel-restore-btn');
 
-	    // --- Event Listeners ---
         if (sendBtn) sendBtn.onclick = () => controller.sendMessage(tab);
-        if (input) input.onkeydown = (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); controller.sendMessage(tab); }};
+        if (input) {
+            input.onkeydown = (e) => { 
+                if (e.key === 'Enter' && !e.shiftKey) { 
+                    e.preventDefault(); 
+                    controller.sendMessage(tab); 
+                }
+            };
+            // B"H - Real-time token count update
+            input.oninput = () => controller.updateTokenCount(tab);
+        }
+
 	    if (resetBtn) resetBtn.onclick = () => controller.resetChat(tab);
 	    if (mgrBtn) mgrBtn.onclick = () => controller.openManager(); 
 	    if(sideToggle) sideToggle.onclick = () => {
@@ -108,7 +113,7 @@ export const VibeView = {
         if (minBtn) {
             minBtn.onclick = () => {
                 tab.vibeSession.viewState.isPanelMinimized = true;
-                tab.vibeSession.viewState.isPanelMaximized = false; // ensure not maximized
+                tab.vibeSession.viewState.isPanelMaximized = false;
                 self.render(tab, controller);
             };
         }
@@ -127,80 +132,58 @@ export const VibeView = {
             };
         });
 
-        // B"H --- FULL DRAGGABLE RESIZER LOGIC ---
-
+        // B"H --- RESIZING RITUALS ---
         const verticalResizer = this.container.querySelector('#vibe-resizer-vertical');
         const horizontalResizer = this.container.querySelector('#vibe-resizer-horizontal');
         const vibeContainer = this.container.querySelector('.vibe-container');
 
-        // --- DESKTOP (DRAG LEFT/RIGHT) ---
-        const handleVerticalMove = (e) => {
+        const handleMove = (e) => {
             const clientX = e.clientX ?? e.touches?.[0]?.clientX;
-            if (clientX === undefined) return;
+            const clientY = e.clientY ?? e.touches?.[0]?.clientY;
+            if (clientX === undefined || clientY === undefined) return;
             
-            const containerRect = vibeContainer.getBoundingClientRect();
-            let newSideWidth = containerRect.right - clientX;
-            
-            // Constrain
-            if (newSideWidth < 0) newSideWidth = 0;
-            if (newSideWidth > containerRect.width) newSideWidth = containerRect.width;
-            
-            vibeContainer.style.setProperty('--side-panel-width', `${newSideWidth}px`);
+            const rect = vibeContainer.getBoundingClientRect();
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                // Adjust height of top chat panel relative to the container
+                let newChatHeight = clientY - rect.top;
+                if (newChatHeight < 50) newChatHeight = 50;
+                if (newChatHeight > rect.height - 50) newChatHeight = rect.height - 50;
+                vibeContainer.style.setProperty('--chat-panel-basis', `${newChatHeight}px`);
+            } else {
+                // Adjust width of right sidebar relative to the container
+                let newSideWidth = rect.right - clientX;
+                if (newSideWidth < 40) newSideWidth = 40;
+                if (newSideWidth > rect.width - 50) newSideWidth = rect.width - 50;
+                vibeContainer.style.setProperty('--side-panel-width', `${newSideWidth}px`);
+            }
         };
 
-        const stopVerticalResize = () => {
-            document.body.classList.remove('is-resizing', 'is-resizing-horizontal');
-            document.removeEventListener('mousemove', handleVerticalMove);
-            document.removeEventListener('mouseup', stopVerticalResize);
-            document.removeEventListener('touchmove', handleVerticalMove);
-            document.removeEventListener('touchend', stopVerticalResize);
+        const stopResize = () => {
+            document.body.classList.remove('is-resizing');
+            document.removeEventListener('mousemove', handleMove);
+            document.removeEventListener('mouseup', stopResize);
+            document.removeEventListener('touchmove', handleMove);
+            document.removeEventListener('touchend', stopResize);
+        };
+
+        const startResize = (e) => {
+            e.preventDefault();
+            document.body.classList.add('is-resizing');
+            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('mouseup', stopResize);
+            document.addEventListener('touchmove', handleMove, { passive: false });
+            document.addEventListener('touchend', stopResize);
         };
 
         if (verticalResizer) {
-            verticalResizer.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                document.body.classList.add('is-resizing', 'is-resizing-horizontal');
-                document.addEventListener('mousemove', handleVerticalMove);
-                document.addEventListener('mouseup', stopVerticalResize);
-                document.addEventListener('touchmove', handleVerticalMove, { passive: false });
-                document.addEventListener('touchend', stopVerticalResize);
-            });
+            verticalResizer.addEventListener('mousedown', startResize);
+            verticalResizer.addEventListener('touchstart', startResize);
         }
-
-        // --- MOBILE (DRAG UP/DOWN) ---
-        const handleHorizontalMove = (e) => {
-            const finalClientY = e.clientY ?? e.touches?.[0]?.clientY;
-            if (finalClientY === undefined) return;
-            
-            const containerRect = vibeContainer.getBoundingClientRect();
-            
-            // Absolute height mapped directly from the top of the container
-            let newChatHeight = finalClientY - containerRect.top;
-            
-            // Constrain
-            if (newChatHeight < 0) newChatHeight = 0;
-            if (newChatHeight > containerRect.height) newChatHeight = containerRect.height;
-            
-            vibeContainer.style.setProperty('--chat-panel-basis', `${newChatHeight}px`);
-        };
-        
-        const stopHorizontalResize = () => {
-            document.body.classList.remove('is-resizing', 'is-resizing-vertical');
-            document.removeEventListener('mousemove', handleHorizontalMove);
-            document.removeEventListener('mouseup', stopHorizontalResize);
-            document.removeEventListener('touchmove', handleHorizontalMove);
-            document.removeEventListener('touchend', stopHorizontalResize);
-        };
-
         if (horizontalResizer) {
-            horizontalResizer.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                document.body.classList.add('is-resizing', 'is-resizing-vertical');
-                document.addEventListener('mousemove', handleHorizontalMove);
-                document.addEventListener('mouseup', stopHorizontalResize);
-                document.addEventListener('touchmove', handleHorizontalMove, { passive: false });
-                document.addEventListener('touchend', stopHorizontalResize);
-            });
+            horizontalResizer.addEventListener('mousedown', startResize);
+            horizontalResizer.addEventListener('touchstart', startResize);
         }
 	},
 	
@@ -208,11 +191,14 @@ export const VibeView = {
 	    var session = tab.vibeSession;
 	    var active = session.viewState.activeSidebarTab || 'tree';
 	    var panel = this.container.querySelector('#vibe-side-panel');
+        const isMobile = window.innerWidth <= 768;
 	    
 	    var treeC = document.getElementById('vibe-tree-container');
 	    var manifestC = document.getElementById('vibe-manifest-container');
 	    var checkpointsC = document.getElementById('vibe-checkpoints-container');
 	    var inputArea = document.getElementById('vibe-input-area');
+        var hResizer = document.getElementById('vibe-resizer-horizontal');
+        var vResizer = document.getElementById('vibe-resizer-vertical');
 	
 	    var tabs = panel.querySelectorAll('.vibe-sb-tab');
 	    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === active));
@@ -221,27 +207,25 @@ export const VibeView = {
 	    if(manifestC) manifestC.style.display = (active === 'manifest' ? 'flex' : 'none');
 	    if(checkpointsC) checkpointsC.style.display = (active === 'checkpoints' ? 'block' : 'none');
 	    
-        // B"H - CRITICAL FIX: The Input Area and Chat History must ALWAYS remain visible
-        // even when External is active, to avoid the "Black Void" issue!
 	    if(inputArea) inputArea.style.display = 'flex';
+        if(hResizer) hResizer.style.display = isMobile ? 'block' : 'none';
+        if(vResizer) vResizer.style.display = isMobile ? 'none' : 'block';
 	
 	    if (active === 'checkpoints') {
 	        import('./view/checkpoint-ui.js').then(m => m.CheckpointUI.render(checkpointsC, tab, controller));
 	    }
 
-        // B"H - Sync Maximized State and SVG Icons
         var containerEl = this.container.querySelector('.vibe-container');
         var maxBtn = this.container.querySelector('#vibe-panel-max-btn');
 
         if (session.viewState.isPanelMaximized) {
             containerEl.classList.add('panel-maximized');
-            if (maxBtn) maxBtn.innerHTML = '<svg viewBox="0 0 24 24" class="svg-icon" fill="currentColor"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>'; // Exit fullscreen icon
+            if (maxBtn) maxBtn.innerHTML = '<svg viewBox="0 0 24 24" class="svg-icon" fill="currentColor"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>';
         } else {
             containerEl.classList.remove('panel-maximized');
-            if (maxBtn) maxBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-fullscreen"></use></svg>'; // Standard fullscreen icon
+            if (maxBtn) maxBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-fullscreen"></use></svg>';
         }
 
-        // B"H - Sync Minimized State
         var restoreBtn = this.container.querySelector('#vibe-panel-restore-btn');
         var innerPanel = this.container.querySelector('.vibe-panel-inner');
 
