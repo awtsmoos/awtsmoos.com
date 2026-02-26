@@ -1,0 +1,43 @@
+
+/* B"H - FILE COMMANDER GRID VIEW */
+
+.fc-content.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    align-content: start;
+}
+
+.fc-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 1px solid transparent;
+}
+
+.fc-item:hover {
+    background-color: var(--color-bg-tertiary);
+    border-color: var(--color-border);
+    box-shadow: 0 0 10px var(--glow-cyan);
+}
+
+.fc-item .fc-icon {
+    font-size: 3em;
+    color: var(--color-text-tertiary);
+    margin-bottom: 8px;
+    transition: color 0.15s;
+}
+.fc-item:hover .fc-icon {
+    color: var(--neon-cyan);
+}
+
+.fc-item .fc-name {
+    font-size: 0.9em;
+    word-break: break-word;
+    color: var(--color-text-primary);
+}
