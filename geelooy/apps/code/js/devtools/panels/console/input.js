@@ -2,117 +2,73 @@
 // B"H
 /**
  * @file input.js
- * @brief The receptor for the Developer's Commands.
+ * @brief Orchestrates the receiving of the Divine Command (User Input).
  */
 
-import { HTML } from '../../../html-generator.js';
+import { HTML } from '../../../../html-generator.js';
+import { EternalConsoleState } from './state/eternalState.js';
+import { ConsoleDOMCache } from './dom/domCache.js';
+import { CONSOLE_INPUT_SCHEMA } from './input/inputSchema.js';
 import { DevToolsBridge } from '../../bridge.js';
 import VirtualizedEditor from '/scripts/awtsmoos/coding/pnimi.js';
 
 export const ConsoleInput = {
     attach(parentContainer, state, logFn) {
-        let inputEl;
-        let editorInstance = null;
+        EternalConsoleState.sync(state);
 
-        const area = HTML({
-            className: 'dt-console-input-area',
-            style: { 
-                display: 'flex', 
-                padding: '10px', 
-                borderTop: '1px solid var(--color-border)', 
-                background: 'var(--color-bg-secondary)', 
-                alignItems: 'flex-start', 
-                flexShrink: '0', 
-                width: '100%' 
-            },
-            children:[
-                { tag: 'span', style: { color: 'var(--neon-cyan)', fontWeight: 'bold', marginRight: '12px', marginTop: '4px', fontFamily: 'var(--font-code)' }, text: '>' },
-                { 
-                    className: 'dt-console-editor-wrap',
-                    style: { position: 'relative', flexGrow: '1', minHeight: '24px', display: 'flex', flexDirection: 'column' },
-                    children:[
-                        {
-                            tag: 'textarea',
-                            id: 'dt-console-text-entry',
-                            rows: 1,
-                            placeholder: 'Execute JavaScript... (Shift+Enter for multi-line)',
-                            spellcheck: false,
-                            style: { 
-                                width: '100%', 
-                                minHeight: '24px', 
-                                height: 'auto',
-                                background: 'transparent', 
-                                border: 'none', 
-                                outline: 'none', 
-                                fontFamily: 'var(--font-code)', 
-                                fontSize: '14px', 
-                                resize: 'none', 
-                                overflow: 'hidden', 
-                                lineHeight: '1.5', 
-                                padding: '0', 
-                                margin: '0', 
-                                position: 'relative', 
-                                zIndex: '50', 
-                                display: 'block', 
-                                whiteSpace: 'pre',
-                                color: 'transparent', 
-                                caretColor: 'white'
-                            },
-                            onInput: (e) => {
-                                // Auto-resize logic
-                                e.target.style.height = 'auto';
-                                e.target.style.height = e.target.scrollHeight + 'px';
-                                if (editorInstance) {
-                                    editorInstance.wrapper.style.height = e.target.style.height;
-                                    editorInstance.refresh();
-                                }
-                            },
-                            onKeyDown: (e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
-                                    e.preventDefault();
-                                    const code = e.target.value.trim();
-                                    if (code) {
-                                        // 1. Log Input
-                                        logFn({ level: 'input', args:[{ type: 'string', value: code, forceCode: true }] });
-                                        // 2. Send Eval
-                                        DevToolsBridge.sendEval(state.previewTabId, code);
-                                        // 3. Reset
-                                        e.target.value = '';
-                                        e.target.style.height = 'auto';
-                                        if (editorInstance) {
-                                            editorInstance.update("");
-                                            editorInstance.wrapper.style.height = '24px';
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    ]
-                }
-            ]
-        });
-
-        parentContainer.appendChild(area);
-        inputEl = area.querySelector('#dt-console-text-entry');
-
-        // B"H - Initialize Pnimi
-        try {
-            editorInstance = new VirtualizedEditor(inputEl, 'js');
-            // Ensure wrapper matches input height
-            editorInstance.wrapper.style.minHeight = '24px';
-            editorInstance.wrapper.style.height = 'auto';
-            // Force Pnimi overlay to background
-            setTimeout(() => {
-                if (editorInstance.overlay) {
-                    editorInstance.overlay.style.zIndex = '1';
-                    editorInstance.overlay.style.pointerEvents = 'none';
-                }
-            }, 50);
-        } catch(e) {
-            console.warn("[ConsoleInput] Highlighter failed, falling back to plain text", e);
-            inputEl.style.color = 'var(--color-text-primary)';
+        if (ConsoleDOMCache.inputArea) {
+            parentContainer.appendChild(ConsoleDOMCache.inputArea);
+            if (ConsoleDOMCache.editorInstance) {
+                setTimeout(() => ConsoleDOMCache.editorInstance.refresh(), 50);
+            }
+            return;
         }
 
+        const area = HTML(CONSOLE_INPUT_SCHEMA);
+        parentContainer.appendChild(area);
+        const inputEl = area.querySelector('#dt-console-text-entry');
+
+        // B"H - Binding Logic
+        inputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const code = e.target.value.trim();
+                if (code) {
+                    const logObj = { level: 'input', args:[{ type: 'string', value: code, forceCode: true }] };
+                    EternalConsoleState.addLog(logObj);
+                    logFn(logObj);
+                    DevToolsBridge.sendEval(EternalConsoleState.getPreviewTabId(), code);
+                    if (ConsoleDOMCache.editorInstance) {
+                        ConsoleDOMCache.editorInstance.update("");
+                    }
+                    e.target.value = "";
+                    inputEl.style.height = '24px';
+                }
+            }
+        });
+
+        inputEl.addEventListener('input', () => {
+            inputEl.style.height = 'auto'; 
+            const newHeight = inputEl.scrollHeight;
+            inputEl.style.height = `${newHeight}px`;
+            if (ConsoleDOMCache.editorInstance && ConsoleDOMCache.editorInstance.wrapper) {
+                ConsoleDOMCache.editorInstance.wrapper.style.height = `${newHeight}px`;
+                ConsoleDOMCache.editorInstance.refresh();
+            }
+        });
+
+        try {
+            const ve = new VirtualizedEditor(inputEl, 'js');
+            ConsoleDOMCache.editorInstance = ve;
+            if (ve.wrapper) {
+                ve.wrapper.style.position = 'relative';
+                ve.wrapper.style.height = '24px';
+            }
+        } catch(e) {
+            inputEl.style.color = '#fff';
+        }
+
+        ConsoleDOMCache.inputArea = area;
         setTimeout(() => inputEl.focus(), 150);
     }
 };
