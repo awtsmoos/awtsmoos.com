@@ -14,7 +14,7 @@ import { Tabs } from '../tabs/index.js';
 import { FileCommander } from '../file-commander.js';
 import { Terminal } from '../terminal/index.js';
 import { DevToolsOpener } from '../devtools/open.js';
-import { State } from '../state.js'; // B"H - Required for context payloads
+import { State } from '../state.js'; 
 import { PathResolver } from '../html-preview/resolver.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { MessageBridge } from '../html-preview/message-bridge.js';
@@ -155,7 +155,6 @@ const FALLBACK_ACTIONS = {
     'preview-copy': async () => {
         const p = State.contextPayload;
         if (p && p.selectionText) {
-            // Because the parent is the trusted context, we can write directly to clipboard from here
             await navigator.clipboard.writeText(p.selectionText);
             import('../ui.js').then(m => m.UI.showToast("Copied from Preview", "success"));
         }
@@ -173,9 +172,13 @@ const FALLBACK_ACTIONS = {
                 name: tab.item.name.replace('Preview: ', ''), 
                 type: tab.item.originalType 
             };
-            // Focus or open source file
             Tabs.create(originalItem);
         }
+    },
+    'preview-back': async () => {
+        const p = State.contextPayload;
+        if(!p) return;
+        Tabs.goBackPreview(p.previewTabId);
     },
 
     // TEXT ACTIONS
@@ -201,6 +204,14 @@ export const ActionRegistry = {
             return COMMAND_CACHE.get(actionId);
         }
         
+        // B"H - Priority Check: If it's a known synchronous UI action or fallback, 
+        // return it IMMEDIATELY to prevent 404 MIME type errors in the browser console.
+        if (FALLBACK_ACTIONS[actionId]) {
+            const handler = FALLBACK_ACTIONS[actionId];
+            COMMAND_CACHE.set(actionId, handler);
+            return handler;
+        }
+
         try {
             const module = await import(`./commands/${actionId}.js`);
             let executor = module.default;
@@ -220,11 +231,6 @@ export const ActionRegistry = {
                 return executor;
             }
         } catch(e) {
-            if (FALLBACK_ACTIONS[actionId]) {
-                const handler = FALLBACK_ACTIONS[actionId];
-                COMMAND_CACHE.set(actionId, handler);
-                return handler;
-            }
             console.error(`B"H - Registry Error: Could not locate the file or load the script for[${actionId}]. Check spelling!`, e);
             return null;
         }

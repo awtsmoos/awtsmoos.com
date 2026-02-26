@@ -5,60 +5,68 @@
  * @brief TRACING THE SEFIROT THROUGH FOLDER NODES.
  */
 
+import { State } from '../../state.js';
+import { Workspaces, getItemUniquePath } from '../../workspaces/index.js';
 import { ItemResolver } from '../utils/itemResolver.js';
-import { Dialog } from '../utils/dialog.js';
 
 export default async function run(context) {
     const item = ItemResolver.resolve(context);
+    if (!item || !item.path) return;
+
+    const { workspaceId, path } = item;
+    const workspace = State.workspaces.find(ws => ws.id === workspaceId);
+    if (!workspace) return;
+
+    // Reveal the sidebar if it is hidden
+    document.querySelector('.app-container').classList.remove('sidebar-collapsed');
+
+    const parts = path.split('/').filter(Boolean);
+    let currentAccum = '';
     
-    if (!item || !item.path) {
-        console.warn("B\"H - Reveal Sequence Failed: Found absolute obscurity.", context);
-        await Dialog.alert("B\"H\nWe must see an item to find an item! Could not locate origin node.");
+    // Base case: if it's the root itself
+    if (parts.length === 0) {
+        const rootPath = getItemUniquePath({ ...item, path: '/', kind: 'directory' });
+        const entry = State.domItemMap.get(rootPath);
+        if (entry && entry.el) {
+            entry.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            entry.el.classList.add('context-active');
+            setTimeout(() => entry.el.classList.remove('context-active'), 3000);
+        }
         return;
     }
 
-    console.log(`B"H - Executing command -> Descend through visual UI logic paths for: ${item.path}`);
+    // Traverse the path, expanding as we go
+    for (let i = 0; i < parts.length; i++) {
+        const isLast = (i === parts.length - 1);
+        currentAccum += '/' + parts[i];
+        
+        const pathItem = { ...item, path: currentAccum, kind: isLast ? (item.kind || 'file') : 'directory' };
+        const uniquePath = getItemUniquePath(pathItem);
+        
+        // Open parent folders
+        if (!isLast && !State.expandedFolders.has(uniquePath)) {
+            await Workspaces.refreshNode(pathItem);
+        }
 
-    // B"H - Step 1: Tell everything external a selection shift must occur visually.
-    window.dispatchEvent(new CustomEvent('awtsmoos-reveal-item', { detail: { item } }));
-    
-    // B"H - Step 2: Open up each level to unhide deeply bound HTML wrappers inside closed DOM.
-    const pathSegments = item.path.split('/').filter(Boolean);
-    let recursiveCurrentPath = '';
-    
-    for (const linkPart of pathSegments) {
-        recursiveCurrentPath += '/' + linkPart;
-        
-        // Aggressively attempt variable node formats.
-        const levelNodes = document.querySelectorAll(`[data-path="${recursiveCurrentPath}"],[data-id="${recursiveCurrentPath}"]`);
-        
-        levelNodes.forEach(nodeContainer => {
-            const hasAwokenAlready = nodeContainer.classList.contains('expanded') || nodeContainer.getAttribute('aria-expanded') === 'true';
-            
-            // Send synthetic toggle signals safely against child DOM blocks holding standard tree functionality classes.
-            if (!hasAwokenAlready) {
-                const togglerClick = nodeContainer.querySelector('.chevron, .toggle, .folder-icon, .icon') || nodeContainer;
-                if (togglerClick) togglerClick.click(); 
+        // Find and highlight target
+        let element = null;
+        for (let attempt = 0; attempt < 25; attempt++) {
+            const entry = State.domItemMap.get(uniquePath);
+            if (entry && entry.el) {
+                // Ensure it is rendered in the DOM
+                if (entry.el.offsetParent !== null) {
+                    element = entry.el;
+                    break;
+                }
             }
-        });
+            await new Promise(r => setTimeout(r, 40));
+        }
+
+        if (isLast && element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const wrap = element.querySelector('.tree-item-name-wrap') || element;
+            wrap.classList.add('context-active');
+            setTimeout(() => wrap.classList.remove('context-active'), 3000);
+        }
     }
-    
-    // B"H - Step 3: Draw attention visually to the leaf in space and time constraints matching the fetch responses
-    setTimeout(() => {
-        const resultTargets = document.querySelectorAll(`[data-path="${item.path}"],[data-id="${item.path}"]`);
-        
-        resultTargets.forEach(tgtNode => {
-            targetNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            // Brief visual baptism marking discovery location with divine mint coloring
-            const orgBkg = tgtNode.style.backgroundColor;
-            tgtNode.style.backgroundColor = 'rgba(0, 255, 204, 0.6)';
-            tgtNode.style.transition = 'background-color 0.4s';
-            
-            setTimeout(() => {
-                tgtNode.style.backgroundColor = orgBkg;
-                setTimeout(() => tgtNode.style.transition = '', 500); 
-            }, 1000);
-        });
-    }, 450); 
 }

@@ -19,6 +19,7 @@ export const Session = {
 
     save() {
         try {
+            // 1. Save Workspaces (Metadata only)
             const persistableWorkspaces = State.workspaces
                 .filter(ws =>['github', 'indexeddb', 'ssh', 'local', 'opfs'].includes(ws.type))
                 .map(ws => {
@@ -28,13 +29,14 @@ export const Session = {
 
             const allowedWsIds = new Set(persistableWorkspaces.map(ws => ws.id));
 
+            // 2. Save Tabs
             const persistableTabs = State.tabs
                 .filter(tab => {
                     return (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || 
                            ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'].includes(tab.item.type);
                 })
                 .map(tab => {
-                    // B"H - Capture essential item metadata, specifically including previewTabId for DevTools linking.
+                    // B"H - Capture essential item metadata
                     const safeItem = {
                         name: tab.item.name,
                         path: tab.item.path,
@@ -45,22 +47,28 @@ export const Session = {
                         branch: tab.item.branch,           
                         sha: tab.item.sha,
                         originalType: tab.item.originalType,
+                        // Persist state objects for tools
                         commanderState: tab.item.commanderState,
                         terminalState: tab.item.terminalState,
                         previewTabId: tab.item.previewTabId
                     };
 
-                    const shouldSaveContent = 
-                        tab.isDirty || 
-                        tab.item.type === 'temp' || 
-                        tab.fileType === 'vibe' || 
-                        tab.item.type === 'terminal' || 
-                        tab.item.type === 'commander' ||
-                        tab.fileType === 'html-preview' ||
-                        tab.fileType === 'devtools' ||
-                        tab.isPreview;
-
-                    const contentToSave = shouldSaveContent ? tab.content : null;
+                    // B"H - CRITICAL FIX: Quota Protection
+                    // Only save content for virtual types that have no disk backing.
+                    // Even then, check size.
+                    let contentToSave = null;
+                    const isVirtual = ['temp', 'vibe-session', 'html-preview'].includes(tab.fileType) || tab.item.type === 'temp';
+                    
+                    if (isVirtual && typeof tab.content === 'string') {
+                        if (tab.content.length < 50000) { // Limit to ~50KB per tab in local storage
+                            contentToSave = tab.content;
+                        } else {
+                            contentToSave = "// Content too large for session storage. Please save to file.";
+                        }
+                    } else if (typeof tab.content === 'object') {
+                        // For state objects (like Vibe history), allow them if reasonable
+                        contentToSave = tab.content;
+                    }
 
                     return { 
                         id: tab.id,
@@ -73,7 +81,7 @@ export const Session = {
                         isPreview: tab.isPreview,
                         item: safeItem,
                         content: contentToSave,
-                        devtoolsState: tab.devtoolsState // Save the state of the inspector
+                        devtoolsState: tab.devtoolsState 
                     };
                 });
 
@@ -89,7 +97,11 @@ export const Session = {
 
             localStorage.setItem('vividX_session_profound', JSON.stringify(session));
         } catch (e) {
-            console.error("Save Session Failed:", e);
+            if (e.name === 'QuotaExceededError') {
+                console.warn("B\"H - Session Storage Full. Skipping save to prevent crash.");
+            } else {
+                console.error("Save Session Failed:", e);
+            }
         }
     },
 

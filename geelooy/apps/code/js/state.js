@@ -5,7 +5,7 @@
 export const State = {
     tabs:[], activeTabId: null, nextTabId: 0,
     workspaces:[], nextWorkspaceId: 0,
-    contextTarget: null, contextTabTarget: null,
+    contextTarget: null, contextTabTarget: null, contextPayload: null, // B"H - Added contextPayload
     hexEditorInstance: null, domItemMap: new Map(), useTabs: true,
     expandedFolders: new Set(), fileClipboard:[], clipboardZip: null, 
     isSelectionModeActive: false, selectedItems: new Set(),
@@ -34,8 +34,6 @@ export function initializeDOM() {
     DOM.emptyEditorMessage = document.getElementById('empty-editor-message');
     DOM.previewer = document.getElementById('previewer');
     
-    // B"H - Absolute Expansion Rectification
-    // Forces the wrapper to violently claim all horizontal and vertical territory.
     let dtWrap = document.getElementById('devtools-wrapper');
     if (!dtWrap) {
         dtWrap = document.createElement('div');

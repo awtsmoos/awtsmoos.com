@@ -23,6 +23,7 @@
     <link href="css/ui/menus.css" rel="stylesheet">
     <link href="css/ui/notifications.css" rel="stylesheet">
     <link href="css/ui/dialogs.css" rel="stylesheet">
+    <link href="css/ui/selection-menu.css" rel="stylesheet"> <!-- B"H - Added Selection Menu CSS -->
 
     <!-- VIEWS -->
     <link href="css/views/workspace.css" rel="stylesheet">
@@ -35,8 +36,12 @@
     <!-- FEATURES -->
     <link href="css/zip-explorer.css" rel="stylesheet">
     <link href="css/tab-manager.css" rel="stylesheet">
-    <link href="css/file-commander.css" rel="stylesheet"> 
     <link href="css/search.css" rel="stylesheet"> 
+    
+    <!-- FILE COMMANDER (MODULARIZED) -->
+    <link href="css/file-commander/layout.css" rel="stylesheet">
+    <link href="css/file-commander/grid.css" rel="stylesheet">
+    <link href="css/file-commander/details.css" rel="stylesheet">
     
     <!-- VIBE -->
     <link href="css/vibe/layout.css" rel="stylesheet">
@@ -102,7 +107,6 @@
                 
                 <div id="data-altar-container" class="hidden"></div>
 
-                <!-- B"H - RESTORED FIND/REPLACE PANEL VESSEL -->
                 <div id="find-replace-panel">
                     <div class="fr-row">
                         <div class="find-input-container">
@@ -137,7 +141,10 @@
     <div id="toast-container"></div>
     <div id="main-menu"></div>
     <div id="context-menu"></div>
+    
+    <!-- B"H - The Selection Menu is physically present in the DOM -->
     <div id="selection-menu" class="selection-menu-bar"></div>
+    
     <div id="graph-nav-overlay" class="graph-nav-overlay hidden">
         <button id="graph-nav-close" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
         <canvas id="graph-canvas"></canvas>
