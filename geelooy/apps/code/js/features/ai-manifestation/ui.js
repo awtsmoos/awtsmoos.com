@@ -51,23 +51,11 @@ export const ManifestationUI = {
     getChangeItemHTML(change, rootPath) {
         const color = change.operation === 'delete' ? 'var(--color-accent-danger)' : 'var(--neon-lime)';
         
-        // B"H - AGGRESSIVE PATH TRUNCATION
-        // We do not care what the root path is. We simply extract the last two meaningful segments.
+        // B"H - RELATIVE PATH CALCULATION
         let displayPath = change.path;
-        
-        if (displayPath) {
-            // Standardize slashes
-            const normalized = displayPath.replace(/\\/g, '/');
-            const parts = normalized.split('/').filter(Boolean);
-            
-            if (parts.length > 2) {
-                // Keep only the parent folder and the filename
-                displayPath = parts.slice(-2).join('/');
-            } else {
-                displayPath = parts.join('/');
-            }
-        } else {
-            displayPath = "unknown_vessel";
+        if (rootPath && displayPath.startsWith(rootPath)) {
+            displayPath = displayPath.substring(rootPath.length);
+            if (displayPath.startsWith('/')) displayPath = displayPath.substring(1);
         }
 
         return `

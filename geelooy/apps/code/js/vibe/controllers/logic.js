@@ -2,13 +2,7 @@
 // B"H
 /**
  * @file logic.js
- * @brief The intellect of the Vibe Coding system.
- * 
- * THE HYMN OF THE TRUE ANCHOR:
- * A file without a root is a star without a sky,
- * Falling to the bottom where the deepest shadows lie.
- * We must grasp the True Path, the session's holy name,
- * To manifest the vessel in its proper, local frame.
+ * @brief The Intellect of Vibe. Handles the streaming realization of code.
  */
 
 import { ModelManager } from '../model-manager.js';
@@ -19,17 +13,16 @@ import { ResponseParser } from '../modules/ResponseParser.js';
 import { LoopEngine } from '../modules/LoopEngine.js';
 
 export const LogicController = {
+    /**
+     * @async
+     * @function runIteration
+     * @description Initiates a cycle of creation with the AI model.
+     */
     async runIteration(tab, controller, promptOverride = null) {
         if (!tab.vibeSession) return;
 
-        // B"H - KEY RITUAL INTERCEPT
         let apiKey = ModelManager.getKey();
-        if (!apiKey) {
-            const { KeyRitual } = await import('../key-ritual.js');
-            const unlocked = await KeyRitual.prompt();
-            if (!unlocked) return; 
-            apiKey = ModelManager.getKey();
-        }
+        if (!apiKey) return;
 
         tab.vibeSession.isProcessing = true;
         controller.refreshView(tab);
@@ -37,18 +30,57 @@ export const LogicController = {
         try {
             const markdown = await ContextBuilder.build(tab);
             const systemPrompt = PromptBuilder.getSystem(markdown);
-            const history =[...tab.vibeSession.history];
-            if (promptOverride) history.push({ role: 'user', content: promptOverride });
+            const history = [...tab.vibeSession.history];
+            
+            if (promptOverride) {
+                history.push({ role: 'user', content: promptOverride });
+            }
 
             const apiHistory = [{ role: 'system', content: systemPrompt }, ...history];
             let fullResponse = "";
+            let processedCursor = 0;
             
             tab.vibeSession.history.push({ role: 'model', content: '', isStreaming: true });
             controller.refreshView(tab); 
 
+            // B"H - Define boundary markers as concatenated strings to prevent XML breakages
+            const markerE = "₪₪₪_בס\"ד_ס" + "וף_הק" + "וד_₪₪₪";
+            const tagE = "</" + "chan" + "ge>";
+
             await VibeAPI.streamChat(apiHistory, apiKey, ModelManager.currentModel,
-                (chunk) => {
+                async (chunk) => {
                     fullResponse += chunk;
+                    
+                    // B"H - Search for the Hebrew Completion signal first
+                    let hebrewEndIdx = fullResponse.indexOf(markerE, processedCursor);
+                    
+                    while (hebrewEndIdx !== -1) {
+                        // B"H - Now verify that the XML block has actually closed
+                        let xmlEndIdx = fullResponse.indexOf(tagE, hebrewEndIdx);
+                        
+                        if (xmlEndIdx !== -1) {
+                            const blockTotalEnd = xmlEndIdx + tagE.length;
+                            const completeBlockStr = fullResponse.substring(processedCursor, blockTotalEnd);
+                            
+                            const sessionRoot = tab.vibeSession.path || tab.vibeSession.rootPath || "/";
+                            const manifestedChanges = ResponseParser.parseChanges(completeBlockStr, sessionRoot);
+                            
+                            if (manifestedChanges.length > 0) {
+                                console.log(`[VibeLogic] B"H - Manifesting confirmed vessel:`, manifestedChanges[0].path);
+                                await LoopEngine.apply(manifestedChanges, tab.item.workspaceId);
+                            }
+                            
+                            // Move the pointer past the fully realized block
+                            processedCursor = blockTotalEnd;
+                            
+                            // Check for another potential completed block in the same chunk
+                            hebrewEndIdx = fullResponse.indexOf(markerE, processedCursor);
+                        } else {
+                            // Boundary found, but closing tag is still in the void. Wait.
+                            break;
+                        }
+                    }
+
                     controller.handleStreamChunk(fullResponse, tab);
                 },
                 async (finalText) => {
@@ -56,29 +88,20 @@ export const LogicController = {
                     lastMsg.isStreaming = false;
                     lastMsg.content = finalText;
                     
-                    // B"H - THE GRAND RECTIFICATION OF THE PATH
-                    // We ensure we grab the actual anchor coordinate of this specific session.
-                    const sessionRoot = tab.vibeSession.path || tab.vibeSession.rootPath || (tab.item ? tab.item.path : "/");
-                    
-                    const changes = ResponseParser.parseChanges(finalText, sessionRoot);
-                    if (changes.length > 0) {
-                        await LoopEngine.apply(changes, tab.item.workspaceId);
-                        await controller.refreshTree(tab); 
-                    }
-                    
                     tab.vibeSession.isProcessing = false;
                     controller.refreshView(tab);
+                    await controller.refreshTree(tab);
                 },
                 (err) => {
+                    console.error("B\"H AI Error:", err);
                     tab.vibeSession.isProcessing = false;
                     controller.refreshView(tab);
-                    console.error("B\"H AI Error:", err);
                 }
             );
         } catch (e) {
+            console.error("B\"H Logic Exception:", e);
             tab.vibeSession.isProcessing = false;
             controller.refreshView(tab);
-            throw e;
         }
     }
 };

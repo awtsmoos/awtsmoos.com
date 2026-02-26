@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/file-ops/transfer.js
 import { State } from '../state.js';
@@ -10,19 +11,43 @@ import { Tabs } from '../tabs/index.js';
 import { Exporter } from './exporter.js';
 
 export const Transfer = {
+    /**
+     * @async
+     * @function generateMarkdownContext
+     * @description Gathers text essence for AI context.
+     */
     async generateMarkdownContext(items, basePath = "") {
         return await ContextGenerator.generate(items, basePath);
     },
 
+    /**
+     * @async
+     * @function copySelected
+     * @description Captures the complete essence of selected items into the clipboard.
+     */
     async copySelected() {
         const selectedPaths = Array.from(State.selectedItems);
         if (selectedPaths.length === 0) return UI.showToast("No items selected.", "info");
-        State.fileClipboard = selectedPaths;
+
+        // Convert path keys to full data objects
+        const itemsToCopy = selectedPaths
+            .map(p => State.domItemMap.get(p)?.item)
+            .filter(Boolean);
+
+        if (itemsToCopy.length === 0) return UI.showToast("Lost connection to selected vessels.", "error");
+
+        State.fileClipboard = itemsToCopy;
         State.clipboardZip = null;
-        UI.showToast(`${selectedPaths.length} item(s) copied.`, 'success');
+        
+        UI.showToast(`${itemsToCopy.length} item(s) copied.`, 'success');
         SelectionManager.end();
     },
 
+    /**
+     * @async
+     * @function copyAllContents
+     * @description Copies combined text content to system clipboard.
+     */
     async copyAllContents(items) {
         if (!items || items.length === 0) return;
         const taskId = `copy-ctx-${Date.now()}`;
@@ -35,6 +60,11 @@ export const Transfer = {
         } catch (e) { UI.endTask(taskId, 'error', e.message); }
     },
     
+    /**
+     * @async
+     * @function downloadAllContents
+     * @description Downloads combined text content as a Markdown file.
+     */
     async downloadAllContents(items) {
         if (!items || items.length === 0) return;
         const taskId = `dl-ctx-${Date.now()}`;
@@ -53,6 +83,11 @@ export const Transfer = {
         } catch (e) { UI.endTask(taskId, 'error', e.message); }
     },
 
+    /**
+     * @async
+     * @function deleteSelected
+     * @description Batch deletion of selected items.
+     */
     async deleteSelected() {
         const selected = Array.from(State.selectedItems).map(p => State.domItemMap.get(p)?.item).filter(Boolean);
         if (selected.length === 0) return;
@@ -80,6 +115,11 @@ export const Transfer = {
         finally { SelectionManager.end(); }
     },
 
+    /**
+     * @async
+     * @function paste
+     * @description Manifests copied essence into a new location.
+     */
     async paste(destinationDir) {
         if (!State.fileClipboard?.length && !State.clipboardZip) return UI.showToast("Clipboard empty.", "warning");
         const taskId = `paste-${Date.now()}`;
@@ -90,14 +130,27 @@ export const Transfer = {
                 const path = `${destinationDir.path === '/' ? '' : destinationDir.path}/${State.clipboardZip.name}`;
                 await FileSystemProvider.write({ ...destinationDir, path, kind: 'file' }, await blob.arrayBuffer());
             } else {
-                const sourceItems = State.fileClipboard.map(p => State.domItemMap.get(p)?.item).filter(Boolean);
-                for (const src of sourceItems) await this._copyRecursive(src, destinationDir);
+                // B"H - Paste Logic: Supports both path strings (legacy) and item objects
+                const sourceItems = State.fileClipboard.map(p => {
+                    if (typeof p === 'string') return State.domItemMap.get(p)?.item;
+                    return p;
+                }).filter(Boolean);
+                
+                for (const src of sourceItems) {
+                    await this._copyRecursive(src, destinationDir);
+                }
             }
             UI.endTask(taskId, 'success', `Paste complete.`);
         } catch(e) { UI.endTask(taskId, 'error', e.message); }
         finally { await Workspaces.refreshNode(destinationDir); }
     },
 
+    /**
+     * @private
+     * @async
+     * @function _copyRecursive
+     * @description Recursively copies items across physical boundaries.
+     */
     async _copyRecursive(src, dest) {
         const path = `${dest.path === '/' ? '' : dest.path}/${src.name}`;
         const item = { ...dest, name: src.name, path };
@@ -110,11 +163,17 @@ export const Transfer = {
             const children = Array.isArray(res) ? res : res.entries;
             for (const child of children) {
                 const ws = State.workspaces.find(w => w.id === (src.workspaceId ?? src.id));
+                // Recurse into children
                 await this._copyRecursive({ ...ws, ...child }, { ...item, kind: 'directory' });
             }
         }
     },
 
+    /**
+     * @async
+     * @function pullAndOverwrite
+     * @description Syncs workspace with remote GitHub state.
+     */
     async pullAndOverwrite(gitContextItem, gitInfo) {
 	    const taskId = `pull-${Date.now()}`;
 	    UI.startTask(taskId, `Syncing with GitHub...`);
@@ -136,7 +195,10 @@ export const Transfer = {
 	            if (tab) {
 	                tab.content = (typeof content === 'string') ? content : (content instanceof Blob ? await content.text() : content);
 	                tab.isDirty = false; tab.item.sha = file.sha;
-	                if (State.activeTabId === tab.id) import('../editor.js').then(m => m.Editor.setCurrentContent(tab.content));
+	                if (State.activeTabId === tab.id) {
+                        const { Editor } = await import('../editor.js');
+                        Editor.setCurrentContent(tab.content);
+                    }
 	            }
 	        }
 	        const updated = { ...gitInfo, baseCommitSHA: treeData.sha, remoteTree: treeData.tree };

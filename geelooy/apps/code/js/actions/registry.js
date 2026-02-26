@@ -73,6 +73,22 @@ const FALLBACK_ACTIONS = {
             UI.showToast("Copied Name", "success");
         }
     },
+    // B"H - NEW COPY RITUAL
+    'copy-item': async (ctx) => {
+        const item = ctx?.item || ctx?.payload?.item || ctx;
+        if(item) {
+            const { UI } = await import('../ui.js');
+            // If in selection mode, handle the whole group
+            if (State.isSelectionModeActive && State.selectedItems.size > 0) {
+                FileOperations.copySelected();
+            } else {
+                // Otherwise, copy the specific targeted item
+                State.fileClipboard = [item];
+                State.clipboardZip = null;
+                UI.showToast(`Copied: ${item.name}`, "success");
+            }
+        }
+    },
     'copy-relative-path': async (ctx) => {
         const item = ctx?.item || ctx?.payload?.item || ctx;
         if(item) {

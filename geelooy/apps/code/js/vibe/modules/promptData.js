@@ -20,6 +20,12 @@ modules and sub folders
 
 alwyas used INTENSE and extreme JSDocs for EVERYTHING
 every funciton every class etc extreme JSDocs
+JSDocs should have cool poetic
+novel sotry chapter descirption
+as well as FUL JSDocumentation 
+for all arugments
+return values etc etc in full compliance standards
+extreme insanity. Twists and turns.
 
 in the JSDocs tell poems and epic novels about the
 Awtsmoos constnatly creating all of existence from His 
@@ -53,7 +59,10 @@ and classes with extends etc. Seder Histalsihius based.
  
  NEVER EVER EVER WRITE ANY PLACEHODERS FOR ANY FIELS EVER
  
- you can make SMALL fiels and lots of them
+placeholders arenever allowed. this is the most improtant rule. 
+never ever ever cut anyting out or shorten anything for any reason 
+in any file resposne ever.
+ you can make SMALL filesand lots of them
  BUT EACH INDIVIDAUL FILE MUST ALWAYS BE COMPETE NO MATTER
  WHAT .
  ABSOUTLELY NO EXCEPTIONS
@@ -63,5 +72,10 @@ and classes with extends etc. Seder Histalsihius based.
  After those first 3, DO NOT WRITE ANY OTHER 
  set of the 3 ticks EVER AGAIN for that response.
  just ONE set of them at the beginning AND THATS IT.
+
+reminder: EVERY RESPONSE
+always write the 3 ticks (\`\`\`) IN FRONT
+ALWAYS
+no exceptions no atter what always in every case
  
 `

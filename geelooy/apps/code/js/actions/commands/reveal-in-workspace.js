@@ -2,7 +2,6 @@
 // B"H
 /**
  * @file reveal-in-workspace.js
- * @brief TRACING THE SEFIROT THROUGH FOLDER NODES.
  */
 
 import { State } from '../../state.js';
@@ -17,16 +16,15 @@ export default async function run(context) {
     const workspace = State.workspaces.find(ws => ws.id === workspaceId);
     if (!workspace) return;
 
-    // Reveal the sidebar if it is hidden
     document.querySelector('.app-container').classList.remove('sidebar-collapsed');
 
-    const parts = path.split('/').filter(Boolean);
+    const normalizedPath = path.replace(/\\/g, '/').replace(/\/+$/, '');
+    const parts = normalizedPath.split('/').filter(Boolean);
     let currentAccum = '';
     
-    // Base case: if it's the root itself
     if (parts.length === 0) {
-        const rootPath = getItemUniquePath({ ...item, path: '/', kind: 'directory' });
-        const entry = State.domItemMap.get(rootPath);
+        const rootPathKey = getItemUniquePath({ ...item, path: '/', kind: 'directory' });
+        const entry = State.domItemMap.get(rootPathKey);
         if (entry && entry.el) {
             entry.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
             entry.el.classList.add('context-active');
@@ -35,29 +33,22 @@ export default async function run(context) {
         return;
     }
 
-    // Traverse the path, expanding as we go
     for (let i = 0; i < parts.length; i++) {
         const isLast = (i === parts.length - 1);
         currentAccum += '/' + parts[i];
         
-        const pathItem = { ...item, path: currentAccum, kind: isLast ? (item.kind || 'file') : 'directory' };
-        const uniquePath = getItemUniquePath(pathItem);
+        const segmentItem = { ...item, path: currentAccum, kind: isLast ? (item.kind || 'file') : 'directory' };
+        const uniqueKey = getItemUniquePath(segmentItem);
         
-        // Open parent folders
-        if (!isLast && !State.expandedFolders.has(uniquePath)) {
-            await Workspaces.refreshNode(pathItem);
+        if (!isLast && !State.expandedFolders.has(uniqueKey)) {
+            await Workspaces.refreshNode(segmentItem);
         }
 
-        // Find and highlight target
         let element = null;
-        for (let attempt = 0; attempt < 25; attempt++) {
-            const entry = State.domItemMap.get(uniquePath);
-            if (entry && entry.el) {
-                // Ensure it is rendered in the DOM
-                if (entry.el.offsetParent !== null) {
-                    element = entry.el;
-                    break;
-                }
+        for (let attempt = 0; attempt < 40; attempt++) {
+            const entry = State.domItemMap.get(uniqueKey);
+            if (entry && entry.el && document.contains(entry.el)) {
+                if (entry.el.offsetParent !== null) { element = entry.el; break; }
             }
             await new Promise(r => setTimeout(r, 40));
         }

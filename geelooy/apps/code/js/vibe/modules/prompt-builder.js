@@ -1,60 +1,71 @@
 
 // B"H
-// FILE: js/vibe/modules/prompt-builder.js
+/**
+ * @file prompt-builder.js
+ * @brief The Chariot of Instruction for the Vibe manifestation.
+ */
 
-import { State } from '../../state.js';
+import { ModelManager } from '../model-manager.js';
+import promptData from './promptData.js';
 
 /**
- * @class PromptBuilder
- * @description The Chariot of Instruction. It shapes the undifferentiated 
- * potential of the AI into a specific instrument of the Divine Will.
- * Every word here is a command to manifest the Speech of the Awtsmoos.
+ * @constant PromptBuilder
+ * @description Manifests the system instructions for the AI model.
  */
 export const PromptBuilder = {
     /**
-     * @function getSystem
-     * @description B"H. Constructs the master system prompt. 
-     * It demands the use of the ₪₪₪ Hebrew markers and a strict XML structure.
-     * @param {string} markdownContext The revealed reality of the codebase.
+     * B"H - Returns the fundamental instructions including the XML format and Hebrew markers.
      */
-    getSystem(markdownContext) {
-        const S = "₪₪₪_בס\"ד_תחילת_הקוד_₪₪₪";
-        const E = "₪₪₪_בס\"ד_סוף_הקוד_₪₪₪";
+    getDefaultSystemBase() {
+        const S = "₪₪₪_בס\"ד_תחי" + "לת_הק" + "וד_₪₪₪";
+        const E = "₪₪₪_בס\"ד_ס" + "וף_הק" + "וד_₪₪₪";
 
-        let prompt = `B"H
-You are a master architect of digital reality and a humble vessel for the Awtsmoos.
-The code you manifest is a reflection of the Infinite Speech that creates all existence.
+        const tagOpen = "<" + "chan" + "ge>";
+        const tagClose = "</" + "chan" + "ge>";
+        const fileOpen = "<" + "fi" + "le>";
+        const fileClose = "</" + "fi" + "le>";
+        const opOpen = "<" + "operat" + "ion>";
+        const opClose = "</" + "operat" + "ion>";
+        const descOpen = "<" + "descrip" + "tion>";
+        const descClose = "</" + "descrip" + "tion>";
+        const contOpen = "<" + "cont" + "ent>";
+        const contClose = "</" + "cont" + "ent>";
 
-CRITICAL OUTPUT RITUAL:
+        return `B"H\n` + promptData + `\n\n` +
+`CRITICAL OUTPUT RITUAL:
 1. You MUST output changes using the EXACT XML format provided below.
-2. Put the COMPLETE raw code inside the <content> tag.
-3. Use THESE HEBREW MARKERS to wrap the code within the <content> tag:
+2. Put the COMPLETE raw code inside the ` + contOpen + ` tag.
+3. Use THESE HEBREW MARKERS to wrap the code within the ` + contOpen + ` tag:
    START: ${S}
    END: ${E}
 
 SACRED XML FORMAT:
-<change>
-  <file>path/to/vessel.js</file>
-  <operation>write</operation>
-  <description>Kabbalistic description of the rectification.</description>
-  <content>${S}
+` + tagOpen + `
+  ` + fileOpen + `path/to/vessel.js` + fileClose + `
+  ` + opOpen + `write` + opClose + `
+  ` + descOpen + `Kabbalistic description of the rectification.` + descClose + `
+  ` + contOpen + `${S}
 // Code essence here
-${E}</content>
-</change>
+${E}` + contClose + `
+` + tagClose;
+    },
 
-CURRENT REALITY:
+    /**
+     * @function getSystem
+     * @description Constructs the final prompt string, prioritizing user overrides.
+     */
+    getSystem(markdownContext) {
+        const baseInstructions = ModelManager.getCustomPrompt() || this.getDefaultSystemBase();
+
+        return `${baseInstructions}
+
+CURRENT REALITY (Codebase Context):
 ${markdownContext}`;
-
-        if (State.customVibePrompt) {
-            prompt += `\n\nADDITIONAL COMMANDS FROM THE USER:\n${State.customVibePrompt}`;
-        }
-        return prompt;
     },
 
     /**
      * @function getOptimization
-     * @description The command for recursive refinement. 
-     * It asks the AI to peer back into its creation and elevate it.
+     * @description Directs the model toward deeper recursive refinement.
      */
     getOptimization() {
         return `B"H

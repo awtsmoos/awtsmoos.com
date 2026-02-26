@@ -57,9 +57,12 @@ export const TabsNavigation = {
             Tabs.render(); return;
         }
 
-        if (tab.fileType === 'vibe' || tab.item.type === 'vibe-session') {
-            UI.switchView('vibe'); if (!tab.vibeSession) tab.vibeSession = tab.content;
-            VibeController.render(tab); Tabs.render(); return;
+        // B"H - VIBE ROUTING (Manager + Session)
+        if (tab.item.type === 'vibe-manager' || tab.fileType === 'vibe' || tab.item.type === 'vibe-session') {
+            // VibeController.render handles UI switching internally
+            await VibeController.render(tab); 
+            Tabs.render(); 
+            return;
         }
 
         if (tab.item.type === 'commander') {

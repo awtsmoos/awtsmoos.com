@@ -16,10 +16,12 @@ export class DevTools {
     constructor(container, tab) {
         this.container = container;
         this.tab = tab;
-        this.state = tab.devtoolsState;
         
-        // This is the sacred bond. The Bridge now knows which state belongs to which preview.
-        DevToolsBridge.attach(this.state);
+        // B"H - RECTIFIED STATE SOURCE
+        // Instead of a fresh state object, we ask the Bridge for the persistent memory of this tab.
+        this.state = DevToolsBridge.getTabPersistentState(tab.item.previewTabId);
+        
+        DevToolsBridge.init();
         
         this.init();
     }
@@ -29,5 +31,3 @@ export class DevTools {
         DevToolsUI.render(this.container, this.state);
     }
 }
-
-// B"H - This file no longer needs the static initializer as it's handled externally.

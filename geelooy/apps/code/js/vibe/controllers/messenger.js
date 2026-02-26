@@ -1,0 +1,43 @@
+
+// B"H
+/**
+ * @file messenger.js
+ */
+
+import { VibeView } from '../vibe-view.js';
+import { LogicController } from './logic.js';
+import { VibeDB } from '../db.js';
+import { Workspaces } from '../../workspaces/index.js';
+import { ChatUI } from '../view/chat-ui.js';
+import { UI } from '../../ui.js';
+
+export const VibeMessenger = {
+    async sendMessage(tab, controller) {
+        const input = document.getElementById('vibe-input');
+        if (!input) return;
+        const text = input.value.trim();
+        if (!text || tab.vibeSession.isProcessing) return;
+        
+        input.value = '';
+        tab.vibeSession.history.push({ role: 'user', content: text });
+        await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
+        
+        VibeView.render(tab, controller);
+        controller.updateTokenCount(tab);
+
+        try {
+            await LogicController.runIteration(tab, controller);
+            const root = controller.getRootItem(tab);
+            await Workspaces.refreshNode(root);
+            controller.updateTokenCount(tab);
+        } catch (e) {
+            UI.showToast(`AI Ritual Error: ${e.message}`, "error");
+        }
+    },
+
+    handleStreamChunk(content, tab, controller) {
+        const hist = document.getElementById('vibe-chat-history');
+        if (!hist) return;
+        ChatUI.updateLastMessage(hist, content, tab, controller);
+    }
+};

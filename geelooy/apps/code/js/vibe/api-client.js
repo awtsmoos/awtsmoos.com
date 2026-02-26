@@ -3,14 +3,6 @@
 /**
  * @file api-client.js
  * @brief The bridge to the Heavenly Intelligence of Gemini.
- * 
- * POEM OF THE DIVINE INTERFACE:
- * A request is a prayer, a response is a light,
- * Guiding the vessels through the digital night.
- * We seek not just one, but the many that glow,
- * In the gardens of AI where the deep waters flow.
- * Fetching the names from the source of the plan,
- * Bringing the wisdom of heavens to man.
  */
 
 export const VibeAPI = {
@@ -18,8 +10,6 @@ export const VibeAPI = {
      * @async
      * @function fetchAvailableModels
      * @description Queries the API to discover which generative models are ready to manifest.
-     * @param {string} apiKey - The key to unlock the treasury.
-     * @returns {Promise<Array>} List of available generative models.
      */
     async fetchAvailableModels(apiKey) {
         const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
@@ -27,7 +17,6 @@ export const VibeAPI = {
         if (!res.ok) throw new Error(`Model Retrieval Failed: ${res.status}`);
         
         const data = await res.json();
-        // B"H - Filter for models that support generating content.
         return data.models
             .filter(m => m.supportedGenerationMethods.includes('generateContent'))
             .map(m => ({
@@ -35,6 +24,34 @@ export const VibeAPI = {
                 displayName: m.displayName,
                 description: m.description
             }));
+    },
+
+    /**
+     * @async
+     * @function countTokens
+     * @description Measures the token count of the given messages.
+     */
+    async countTokens(messages, apiKey, model) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:countTokens?key=${apiKey}`;
+        const requestBody = {
+            contents: messages.map(m => ({
+                role: m.role === 'user' ? 'user' : 'model',
+                parts: [{ text: m.content }]
+            }))
+        };
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+            if (!res.ok) return 0;
+            const data = await res.json();
+            return data.totalTokens || 0;
+        } catch (e) {
+            return 0;
+        }
     },
 
     /**

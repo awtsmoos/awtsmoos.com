@@ -19,14 +19,14 @@
     overflow: hidden;
     /* Default CSS Variables for layout control via JS */
     --side-panel-width: 400px;
-    --chat-panel-basis: 50%;
+    --chat-panel-basis: 60%; /* Adjusted default for mobile */
 }
 
 .vibe-chat-panel {
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden; /* Prevents contents from blocking the resize shrink */
+    overflow: hidden; 
 }
 
 .vibe-side-panel {
@@ -34,7 +34,7 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden; /* Critical for smooth resizing */
+    overflow: hidden; 
 }
 
 .vibe-resizer {
@@ -45,17 +45,21 @@
     flex-shrink: 0;
     border-left: 1px solid var(--color-border);
     border-right: 1px solid var(--color-border);
+    transition: background 0.2s;
 }
+.vibe-resizer:hover { background: var(--neon-cyan); }
 
 .vibe-resizer-horizontal {
-    height: 10px;
+    height: 12px;
     cursor: row-resize;
     background: var(--color-bg-deep);
     z-index: 100;
     flex-shrink: 0;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
+    transition: background 0.2s;
 }
+.vibe-resizer-horizontal:hover { background: var(--neon-cyan); }
 
 /* B"H --- MOBILE RESPONSIVE (Stacked Top/Bottom) --- */
 @media (max-width: 768px) {
@@ -63,21 +67,17 @@
         flex-direction: column;
     }
     .vibe-chat-panel {
-        /* B"H - Detach from flex sizing to allow pure height control from JS */
         flex: none !important; 
-        height: var(--chat-panel-basis, 50%) !important;
-        min-height: 0 !important;
-        max-height: 100% !important;
+        height: var(--chat-panel-basis, 60%) !important;
+        width: 100% !important;
     }
     .vibe-side-panel {
-        /* B"H - Side panel takes whatever space is left */
         flex: 1 !important;
         width: 100% !important;
         height: auto !important;
-        min-height: 0 !important;
     }
-    .vibe-resizer { display: none; }
-    .vibe-resizer-horizontal { display: block; }
+    .vibe-resizer { display: none !important; }
+    .vibe-resizer-horizontal { display: block !important; }
 }
 
 /* B"H --- DESKTOP RESPONSIVE (Side-by-side Left/Right) --- */
@@ -86,27 +86,19 @@
         flex-direction: row;
     }
     .vibe-chat-panel {
-        /* B"H - Chat takes whatever space is left */
         flex: 1 !important;
-        width: auto !important;
         height: 100% !important;
-        min-width: 0 !important;
     }
     .vibe-side-panel {
-        /* B"H - Detach from flex sizing to allow pure width control from JS */
         flex: none !important;
         width: var(--side-panel-width, 400px) !important;
         height: 100% !important;
-        min-width: 0 !important;
     }
-    .vibe-resizer-horizontal { display: none; }
-    .vibe-resizer { display: block; }
+    .vibe-resizer-horizontal { display: none !important; }
+    .vibe-resizer { display: block !important; }
 }
 
 /* B"H --- STATE OVERRIDES --- */
-/* These MUST be at the bottom so their !important flags win the CSS cascade war. */
-
-/* B"H --- MAXIMIZED PANEL STATE --- */
 .vibe-container.panel-maximized .vibe-chat-panel,
 .vibe-container.panel-maximized .vibe-resizer,
 .vibe-container.panel-maximized .vibe-resizer-horizontal {
@@ -119,13 +111,7 @@
     flex: 1 !important;
 }
 
-/* B"H --- MINIMIZED PANEL STATE --- */
 @media (min-width: 769px) {
-    .vibe-container.panel-minimized .vibe-chat-panel {
-        /* Chat takes over completely */
-        flex: 1 !important;
-        width: auto !important;
-    }
     .vibe-container.panel-minimized .vibe-side-panel {
         width: 40px !important;
         flex: 0 0 40px !important;
@@ -136,9 +122,7 @@
 }
 @media (max-width: 768px) {
     .vibe-container.panel-minimized .vibe-chat-panel {
-        /* Chat takes over completely, pushing side panel to bottom */
-        flex: 1 !important;
-        height: auto !important;
+        height: calc(100% - 40px) !important;
     }
     .vibe-container.panel-minimized .vibe-side-panel {
         height: 40px !important;
