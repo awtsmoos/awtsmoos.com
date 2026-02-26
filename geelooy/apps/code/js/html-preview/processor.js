@@ -9,7 +9,7 @@ import { ScriptExtractor } from './script-extractor.js';
 import { IframeInjector } from './iframe-injector.js';
 
 export const HTMLPreviewProcessor = {
-    async orchestrate(baseItem, iframe, contentOverride = null) {
+    async orchestrate(baseItem, iframe, contentOverride = null, tabId = null) {
         if (!iframe || !iframe.parentNode) return;
 
         const identity = {
@@ -18,29 +18,35 @@ export const HTMLPreviewProcessor = {
             path: baseItem.path
         };
 
-        console.log(`%c[PreviewProcessor] B"H - Commencing Vision Orchestration: ${identity.path}`, "color: #a8ff00; font-weight: bold;");
+        console.log(`%c[PreviewProcessor] B"H - Commencing Vision: ${identity.path}`, "color: #a8ff00; font-weight: bold;");
         VirtualBundler.reset();
 
         let rawHtml = contentOverride;
         if (rawHtml === null) {
             try {
                 const raw = await FileSystemProvider.read(identity);
-                rawHtml = (raw instanceof Blob) ? await raw.text() : String(raw);
+                rawHtml = raw;
             } catch (e) { 
                 return IframeInjector.writeError(iframe, `Vessel Retrieval Failed: ${e.message}`); 
             }
         }
+        
+        // B"H - THE GRAND FIX: Unwrap the Blob before parsing
+        if (rawHtml instanceof Blob) {
+            rawHtml = await rawHtml.text();
+        } else if (rawHtml && rawHtml.base64Content) {
+            rawHtml = atob(rawHtml.base64Content);
+        } else if (typeof rawHtml !== 'string') {
+            rawHtml = String(rawHtml);
+        }
+
         if (!rawHtml) return IframeInjector.writeError(iframe, "The HTML vessel is void.");
 
         const doc = new DOMParser().parseFromString(rawHtml, 'text/html');
 
-        // 1. Resolve all static physical assets (img, link, audio, video, etc)
         await AssetProcessor.process(doc, identity);
-
-        // 2. Resolve Scripts & ES Imports (Virtual Bundler handles deep nesting)
         await ScriptExtractor.process(doc, identity);
 
-        // 3. Inject Final Transfigured HTML into the Iframe with the Shields
-        IframeInjector.inject(doc, iframe, identity);
+        IframeInjector.inject(doc, iframe, identity, tabId);
     }
 };

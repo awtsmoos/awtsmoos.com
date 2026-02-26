@@ -11,13 +11,10 @@ import { StatusBar } from '../statusbar.js';
 import { Linter } from '../tools/linter.js';
 import { ASTEngine } from '../tools/ast-engine.js';
 import { LineLogic } from './line-logic.js';
-import { MessageBridge } from '../html-preview/message-bridge.js'; // B"H - Gateway
+import { MessageBridge } from '../html-preview/message-bridge.js'; 
+import { PreviewManager } from './preview-manager.js'; // B"H - Persistence Guardian
 import pnimi from '/scripts/awtsmoos/coding/pnimi.js';
 
-/**
- * @class Editor
- * @description The chariot for the revealed word.
- */
 export const Editor = {
     currentHighlighter: null,
     lintDebounce: null,
@@ -25,7 +22,7 @@ export const Editor = {
     init() {
         Linter.init().catch(e => console.warn("Linter deferred."));
         ASTEngine.setEditor(this);
-        MessageBridge.init(); // B"H - Ignite the Preview Gateway
+        MessageBridge.init(); 
         DOM.editor.addEventListener('input', () => this.handleInput());
     },
 
@@ -75,23 +72,16 @@ export const Editor = {
         });
     },
 
-    showPreviewer(content, metadata, tabId) {
-        const iframe = document.createElement('iframe');
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = 'none';
-        iframe.style.backgroundColor = '#fff';
-        
-        DOM.previewer.innerHTML = '';
-        DOM.previewer.appendChild(iframe);
-        
-        import('../html-preview/processor.js').then(m => {
-            // Reconstruct a basic item object for the preview processor
-            const activeTab = State.tabs.find(t => t.id === tabId);
-            if (activeTab && activeTab.item) {
-                m.HTMLPreviewProcessor.orchestrate(activeTab.item, iframe, content);
-            }
-        });
+    showPreviewer(content, metadata, tabId, forceReload = false) {
+        UI.switchView('preview');
+        const activeTab = State.tabs.find(t => t.id === tabId);
+        if (activeTab && activeTab.item) {
+            PreviewManager.show(tabId, activeTab.item, content, forceReload);
+        }
+    },
+    
+    closePreviewer(tabId) {
+        PreviewManager.remove(tabId);
     },
 
     getContent: () => DOM.editor.value,

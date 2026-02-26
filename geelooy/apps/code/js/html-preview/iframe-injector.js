@@ -2,15 +2,16 @@
 // B"H
 // FILE: js/html-preview/iframe-injector.js
 
-import { getNetworkInterceptorScript } from './html-preview-templates.js';
+import { InjectionAssembler } from './injections/index.js';
 
 export const IframeInjector = {
-    inject(doc, iframe, identity) {
+    inject(doc, iframe, identity, tabId) {
         try {
-            const shield = `<script data-merkava-internal="true">${getNetworkInterceptorScript(identity.workspaceId, identity.path)}</script>`;
+            const scriptStr = InjectionAssembler.getNetworkInterceptorScript(identity.workspaceId, identity.path, tabId);
+            const shield = `<script data-merkava-internal="true">${scriptStr}</script>`;
             let htmlText = doc.documentElement.outerHTML;
             
-            htmlText = htmlText.includes('<head>') ? htmlText.replace('<head>', `<head>${shield}`) : shield + htmlText;
+            htmlText = htmlText.includes('<head>') ? htmlText.replace('<head>', `<head>\n${shield}\n`) : shield + htmlText;
             
             const frameDoc = iframe.contentDocument || iframe.contentWindow.document;
             frameDoc.open(); 

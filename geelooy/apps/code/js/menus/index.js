@@ -11,7 +11,7 @@ import { TabMenus } from './tabs.js';
 /**
  * --- MENUS FACADE ---
  * The central point for revealing menus. It delegates the handling of
- * commands to the Dispatcher to prevent circular dependencies.
+ * commands directly to the Master Actions Nexus.
  */
 export const Menus = {
     hideAll: MenuUI.hideAll,
@@ -19,13 +19,11 @@ export const Menus = {
     showMainMenu: (e) => MainMenu.show(e),
     showTabMenu: (e, tab) => TabMenus.showTabMenu(e, tab),
 
-    // This is the nexus point. All menu clicks lead here.
+    // B"H - THE GRAND RECTIFICATION: Point directly to the true Actions Nexus.
     handleAction(action) {
         this.hideAll();
-        // Dynamically import the dispatcher to execute the action.
-        // This late binding is the key to architectural purity.
-        import('../actions/dispatcher.js').then(m => {
-            m.Dispatcher.handle(action, State.contextTarget);
+        import('../actions/index.js').then(m => {
+            m.Actions.handle(action, State.contextTarget);
         });
     }
 };

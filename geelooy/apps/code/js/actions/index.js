@@ -22,22 +22,16 @@ import { SearchSystem } from '../search-system.js';
 import { GitMetaProvider } from '../git/meta.js';
 import { FileCommander } from '../file-commander.js';
 import { Terminal } from '../terminal/index.js';
+import { DevTools } from '../devtools/index.js'; // B"H
 
 export const Actions = {
     async handle(action, item = State.contextTarget) {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         try {
             switch (action) {
-                case "copy-for-clone":
-				    State.clipboardCloneSource = item;
-				    UI.showToast(`Source marked: ${item.name}.`, "success");
-				    break;
-				case "clone-repo-here":
-				    if (State.clipboardCloneSource && item.kind === 'directory') {
-				        FileOperations.cloneRepo(State.clipboardCloneSource, item);
-				        State.clipboardCloneSource = null;
-				    }
-			        break;
+                // ... (Existing actions unchanged for brevity)
+                case "copy-for-clone": State.clipboardCloneSource = item; UI.showToast(`Source marked: ${item.name}.`, "success"); break;
+				case "clone-repo-here": if (State.clipboardCloneSource && item.kind === 'directory') { FileOperations.cloneRepo(State.clipboardCloneSource, item); State.clipboardCloneSource = null; } break;
                 case "toggle-line-comment": ViewActions.toggleLineComment(); break;
                 case "insert-line-before": ViewActions.insertLineBefore(); break;
                 case "insert-line-after": ViewActions.insertLineAfter(); break;
@@ -106,16 +100,8 @@ export const Actions = {
                 case "new-file": FileActions.newItem(item, "new-file"); break;
                 case "new-folder": FileActions.newItem(item, "new-folder"); break;
                 case "rename": FileActions.rename(item); break;
-                
-                // B"H - Updated Actions
-                case "open-file-commander-tab": 
-                    FileCommander.open(item); 
-                    break;
-                
-                case "open-terminal-tab": 
-                    Terminal.open(item); 
-                    break;
-
+                case "open-file-commander-tab": FileCommander.open(item); break;
+                case "open-terminal-tab": Terminal.open(item); break;
                 case "search-in-folder": SearchSystem.show(item); break; 
                 case "open-zip-entry": FileActions.openZipEntry(item); break;
                 case "copy-relative-path": FileActions.copyRelativePath(item); break;
@@ -135,6 +121,9 @@ export const Actions = {
                     break;
                 case "view-html":
                     if (activeTab) Tabs.createPreview(activeTab.item, Editor.getContent());
+                    break;
+                case "open-devtools": // B"H
+                    DevTools.openForActivePreview();
                     break;
                 case "toggle-altar-view":
                     if (activeTab) { activeTab.isAltarView = !activeTab.isAltarView; Tabs.activate(activeTab.id, true); }
@@ -165,7 +154,7 @@ export const Actions = {
                 case "download-all-contents": if (item) FileOperations.downloadAllContents([item]); break;
                 case "start-selection": SelectionManager.start(item); break;
                 case "copy-single":
-                    if (item) { State.fileClipboard = [getItemUniquePath(item)]; UI.showToast(`Copied ${item.name}`); }
+                    if (item) { State.fileClipboard =[getItemUniquePath(item)]; UI.showToast(`Copied ${item.name}`); }
                     break;
                 case "copy-zip-single": if (item) FileOperations.copyAsZip([item]); break;
                 case "download-zip-single": if (item) FileOperations.downloadAsZip([item]); break;
