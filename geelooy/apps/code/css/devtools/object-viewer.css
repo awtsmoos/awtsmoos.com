@@ -1,0 +1,89 @@
+
+/* B"H - DEVTOOLS OBJECT VIEWER MODULE */
+
+.dt-obj-node {
+    display: inline-block;
+    font-family: var(--font-code);
+    vertical-align: top;
+}
+
+.dt-obj-details {
+    display: inline-block;
+}
+
+.dt-obj-summary {
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: baseline;
+    list-style: none;
+}
+
+.dt-obj-summary::-webkit-details-marker {
+    display: none;
+}
+
+.dt-obj-summary::before {
+    content: '▶';
+    font-size: 0.7em;
+    color: var(--color-text-tertiary);
+    transition: transform 0.15s ease;
+    display: inline-block;
+    width: 14px;
+    text-align: center;
+}
+
+.dt-obj-details[open] > .dt-obj-summary::before {
+    transform: rotate(90deg);
+}
+
+.dt-obj-body {
+    padding-left: 18px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    margin-left: 6px;
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Syntax Colors */
+.dt-obj-key {
+    color: var(--neon-magenta);
+}
+
+.dt-obj-string {
+    color: var(--neon-lime);
+}
+
+.dt-obj-number, .dt-obj-boolean, .dt-obj-bigint {
+    color: #ffae57; /* Neon Orange */
+}
+
+.dt-obj-null {
+    color: var(--color-text-tertiary);
+    font-style: italic;
+}
+
+.dt-obj-function {
+    color: var(--neon-cyan);
+    font-style: italic;
+}
+
+.dt-obj-error {
+    color: var(--color-accent-danger);
+    font-weight: bold;
+}
+
+.dt-obj-dom {
+    color: #cf8eff; /* Distinct DOM color */
+    background: rgba(207, 142, 255, 0.1);
+    padding: 0 4px;
+    border-radius: 3px;
+}
+
+.dt-obj-preview {
+    color: var(--color-text-secondary);
+    font-style: italic;
+    opacity: 0.8;
+}
