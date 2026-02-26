@@ -11,6 +11,7 @@ import { WorkerInterceptor } from './worker.js';
 import { ConsoleInterceptor } from './console.js';
 import { DOMInterceptor } from './dom.js';
 import { WebSocketInterceptor } from './websocket.js';
+import { ContextMenuInterceptor } from './contextmenu.js'; // B"H - Included
 
 export const InjectionAssembler = {
     getNetworkInterceptorScript(workspaceId, referrerPath, tabId) {
@@ -21,6 +22,7 @@ export const InjectionAssembler = {
                 window._AWTSMOOS_TAB_ID = ${JSON.stringify(tabId)};
                 
                 ${ClickInterceptor}
+                ${ContextMenuInterceptor}
                 ${FetchInterceptor}
                 ${WorkerInterceptor}
                 ${ConsoleInterceptor}

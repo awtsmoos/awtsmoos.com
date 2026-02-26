@@ -31,7 +31,7 @@ export const ConsoleInterceptor = `
         if (data instanceof Error) return { type: 'error', name: data.name, message: data.message, stack: data.stack };
         if (data instanceof Element) return { type: 'dom', value: data.tagName.toLowerCase() + (data.id ? '#'+data.id : '') };
 
-        const props =[];
+        const props = [];
         for (let k in data) {
             try { props.push({ key: k, value: safeSerialize(data[k], depth+1, visited) }); } catch(e){}
         }
@@ -58,16 +58,21 @@ export const ConsoleInterceptor = `
         if (d && d.source === 'devtools-bridge' && d.type === 'eval-request') {
             window.$_ = lastEvalResult;
             try {
+                // B"H - Execute the will of the user
                 const res = window.eval(d.code);
                 lastEvalResult = res;
+                
+                // B"H - Transmit the result back across the bridge
                 window.parent.postMessage({
-                    source: 'html-preview-bridge', type: 'eval-response',
-                    previewTabId: window._AWTSMOOS_TAB_ID,
+                    source: 'html-preview-bridge', 
+                    type: 'eval-response',
+                    previewTabId: window._AWTSMOOS_TAB_ID, // CRITICAL: Identify the source tab
                     payload: { id: d.id, result: safeSerialize(res), isError: false }
                 }, '*');
             } catch(err) {
                 window.parent.postMessage({
-                    source: 'html-preview-bridge', type: 'eval-response',
+                    source: 'html-preview-bridge', 
+                    type: 'eval-response',
                     previewTabId: window._AWTSMOOS_TAB_ID,
                     payload: { id: d.id, result: safeSerialize(err), isError: true }
                 }, '*');

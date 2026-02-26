@@ -7,6 +7,7 @@ import { FileSystemProvider } from '../fs-provider.js';
 import { AssetProcessor } from './asset-processor.js';
 import { ScriptExtractor } from './script-extractor.js';
 import { IframeInjector } from './iframe-injector.js';
+import { State } from '../state.js'; // B"H - Added State for fallback lookup
 
 export const HTMLPreviewProcessor = {
     async orchestrate(baseItem, iframe, contentOverride = null, tabId = null) {
@@ -18,7 +19,17 @@ export const HTMLPreviewProcessor = {
             path: baseItem.path
         };
 
-        console.log(`%c[PreviewProcessor] B"H - Commencing Vision: ${identity.path}`, "color: #a8ff00; font-weight: bold;");
+        // B"H - The Ultimate Safeguard: Ensure we never query the file system for a virtual tab type.
+        if (identity.type === 'html-preview-file' || identity.type === 'html-preview') {
+            const ws = State.workspaces.find(w => String(w.id) === String(identity.workspaceId));
+            if (ws) {
+                identity.type = ws.originalType || ws.type;
+            } else {
+                identity.type = 'local'; // Final fallback to prevent Sentinel blockage
+            }
+        }
+
+        console.log(`%c[PreviewProcessor] B"H - Commencing Vision: ${identity.path}[Physical Type: ${identity.type}]`, "color: #a8ff00; font-weight: bold;");
         VirtualBundler.reset();
 
         let rawHtml = contentOverride;
@@ -31,7 +42,7 @@ export const HTMLPreviewProcessor = {
             }
         }
         
-        // B"H - THE GRAND FIX: Unwrap the Blob before parsing
+        // Unwrap the Blob before parsing
         if (rawHtml instanceof Blob) {
             rawHtml = await rawHtml.text();
         } else if (rawHtml && rawHtml.base64Content) {

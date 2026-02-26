@@ -27,7 +27,6 @@ export const MessageBridge = {
             if (type === 'import-request') {
                 const isLocalhost = specifier.startsWith('http://localhost') || specifier.startsWith('http://127.0.0.1');
                 if (isLocalhost) {
-                    // Route entirely through the Virtual Network
                     const res = await VirtualNetwork.request(specifier, { 
                         method: d.method || 'GET', headers: d.headers || {}, body: d.body
                     });
@@ -38,9 +37,46 @@ export const MessageBridge = {
                 }
             } 
             else if (type === 'open-link') {
+                // B"H - Navigates INSIDE the current preview tab!
                 const absPath = PathResolver.resolve(referrer, href);
                 const ws = State.workspaces.find(w => String(w.id) === String(workspaceId));
-                if (ws) Tabs.create({ ...ws, path: absPath, kind: 'file', workspaceId, name: absPath.split('/').pop() });
+                if (ws && d.previewTabId) {
+                    const newItem = { ...ws, path: absPath, kind: 'file', workspaceId: ws.id, type: ws.originalType || ws.type, name: absPath.split('/').pop() };
+                    Tabs.updatePreviewContext(d.previewTabId, newItem);
+                }
+            }
+            else if (type === 'context-menu') {
+                // B"H - Catch right-click from iframe and manifest parent menu
+                const iframe = document.querySelector(`iframe[data-tab-id="${d.previewTabId}"]`);
+                if (!iframe) return;
+                
+                // Adjust coordinates relative to the iframe's position on screen
+                const rect = iframe.getBoundingClientRect();
+                const clientX = rect.left + d.x;
+                const clientY = rect.top + d.y;
+                
+                const menuItems =[];
+                
+                // If hovered over a local link, offer navigation choices
+                if (d.href) {
+                    menuItems.push({ label: "Open Link", action: "preview-nav-link", icon: "play" });
+                    menuItems.push({ label: "Open in New Tab", action: "preview-new-tab", icon: "external-link" });
+                    menuItems.push({ isSeparator: true });
+                }
+                
+                // Standard Actions
+                menuItems.push({ label: "View Source Code", action: "preview-view-source", icon: "code" });
+                menuItems.push({ isSeparator: true });
+                menuItems.push({ label: "Copy Text", action: "preview-copy", icon: "copy", disabled: !d.hasSelection });
+                menuItems.push({ label: "Select All", action: "preview-select-all", icon: "select-all" });
+                
+                // Store the payload in global state so the action handler can access it
+                State.contextPayload = d;
+                
+                // Invoke UI Menu rendering
+                import('../menus/ui.js').then(ui => {
+                    ui.MenuUI.renderMenu(document.getElementById('context-menu'), menuItems, { clientX, clientY });
+                });
             }
             else if (type === 'fetch-worker-script') {
                 const res = await VirtualServer.fetch(workspaceId, referrer, path);
@@ -63,6 +99,14 @@ export const MessageBridge = {
         } catch (err) {
             const errType = type.replace('request', 'response').replace('fetch', 'response');
             e.source.postMessage({ source: 'parent', type: errType, id, error: err.message }, '*');
+        }
+    },
+
+    // B"H - Helper to beam commands directly into the isolated iframe
+    sendCommandToIframe(tabId, cmd) {
+        const iframe = document.querySelector(`iframe[data-tab-id="${tabId}"]`);
+        if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage({ type: 'iframe-exec-cmd', cmd }, '*');
         }
     }
 };

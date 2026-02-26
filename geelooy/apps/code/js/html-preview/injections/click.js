@@ -3,12 +3,6 @@
 /**
  * @file click.js
  * @brief The Interceptor of the Hyperlink.
- * 
- * THE POEM OF THE PATH:
- * A click is a desire to travel the void,
- * To leave the current vessel and be redeployed.
- * We catch this desire before it takes flight,
- * And route it to the Editor to manifest the light.
  */
 
 export const ClickInterceptor = `
@@ -23,7 +17,8 @@ export const ClickInterceptor = `
                     type: 'open-link', 
                     href, 
                     referrer: window._AWTSMOOS_REF, 
-                    workspaceId: window._AWTSMOOS_WID 
+                    workspaceId: window._AWTSMOOS_WID,
+                    previewTabId: window._AWTSMOOS_TAB_ID // B"H - Added Identity
                 }, '*');
             }
         }

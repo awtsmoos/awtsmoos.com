@@ -4,27 +4,9 @@
 
 import { ProviderStrategies } from './fs-provider/strategies.js';
 
-/**
- * @class FileSystemProvider
- * @description The Supreme Facade. 
- * 
- * THE POEM OF THE GATEKEEPER:
- * Who shall enter the chambers of the Disk?
- * Only he who carries the seal of the Workspace.
- * This gatekeeper verifies the identity (type) 
- * and selects the strategy from the holy Map.
- * It prevents the 'Undefined' shadow from entering,
- * ensuring every operation is anchored in a known world.
- */
 export const FileSystemProvider = {
-    // Expose strategies for deep access
     ...ProviderStrategies,
 
-    /**
-     * @function _execute
-     * @description B"H. The core engine of delegation. 
-     * It extracts the strategy and executes the willed ritual.
-     */
     async _execute(method, item, ...args) {
         const type = item.originalType || item.type;
         const worker = ProviderStrategies[type];
@@ -38,18 +20,12 @@ export const FileSystemProvider = {
             throw new Error(`The world of ${type} does not support the '${method}' ritual.`);
         }
 
-        console.log(`[FS_EXEC] B"H - ${method} on ${item.path} [${type}]`);
         return await worker[method](item, ...args);
     },
 
-    /**
-     * @async
-     * @function list
-     * @description Reveals the hidden sparks within a directory vessel.
-     */
     async list(item) {
         const result = await this._execute('list', item);
-        const children = Array.isArray(result) ? result : (result.entries || []);
+        const children = Array.isArray(result) ? result : (result.entries ||[]);
         let isGitRoot = result && typeof result === 'object' ? !!result.isGitRoot : false;
         isGitRoot = isGitRoot || children.some(c => c && c.name === '.awtsmoos-repo');
         return { entries: children, isGitRoot };
@@ -71,14 +47,37 @@ export const FileSystemProvider = {
 
     async listAllFiles(item) {
         const type = item.originalType || item.type;
-        const handlers = {
-            local: () => this.Local.listAllFiles(item),
-            indexeddb: () => this.IndexedDB.listAllFiles(item),
-            github: () => this.GitHub.getFullTree(item).then(res => res.tree.filter(n => n.type === 'blob')),
-            opfs: () => this.OPFS.listAllFiles(item)
+        const worker = ProviderStrategies[type];
+        
+        // Use optimized native method if it exists
+        if (worker && typeof worker.listAllFiles === 'function') {
+            return await worker.listAllFiles(item);
+        }
+        
+        // B"H - Universal Recursive Fallback for ALL other workspace types
+        const allFiles =[];
+        const traverse = async (currentItem) => {
+            try {
+                const res = await this.list(currentItem);
+                const children = res.entries ||[];
+                for (const child of children) {
+                    if (child.name === '.awtsmoos-repo' || child.name === '.git' || child.name === 'node_modules') continue;
+                    
+                    const childPath = (currentItem.path === '/' ? '' : currentItem.path) + '/' + child.name;
+                    const fullChild = { ...currentItem, ...child, path: childPath };
+                    
+                    if (child.kind === 'directory') {
+                        await traverse(fullChild);
+                    } else {
+                        allFiles.push(fullChild);
+                    }
+                }
+            } catch (e) {
+                console.warn(`[FS] Failed to scan directory ${currentItem.path}`, e);
+            }
         };
-        const fn = handlers[type];
-        if (!fn) throw new Error(`Deep scan not supported for ${type}`);
-        return await fn();
+        
+        await traverse(item);
+        return allFiles;
     }
 };

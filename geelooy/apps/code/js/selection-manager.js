@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/selection-manager.js
 
@@ -8,213 +9,183 @@ import { FileOperations } from './file-operations.js';
 
 export const SelectionManager = {
     initialize() {
-        DOM.selectionMenu = document.getElementById('selection-menu');
-
-        DOM.selectionMenu.addEventListener('click', e => {
-            e.stopPropagation()
-            
-            const button = e.target.closest('button');
-            if (!button) return;
-            const action = button.dataset.action;
-
-            if (action === 'copy-selection') {
-                FileOperations.copySelected();
-            } else if (action === 'copy-contents-selection') {
-                const itemsToCopy = Array.from(State.selectedItems)
-                    .map(path => State.domItemMap.get(path)?.item)
-                    .filter(Boolean);
-
-                if (itemsToCopy.length > 0) {
-                    FileOperations.copyAllContents(itemsToCopy);
-                }
-                this.end(); 
-            } else if (action === 'download-contents-selection') {
-                // B"H - Added handler for Download Contents
-                const itemsToCopy = Array.from(State.selectedItems)
-                    .map(path => State.domItemMap.get(path)?.item)
-                    .filter(Boolean);
-
-                if (itemsToCopy.length > 0) {
-                    FileOperations.downloadAllContents(itemsToCopy);
-                }
-                this.end(); 
-            } else if (action === 'copy-zip-selection') {
-                const items = Array.from(State.selectedItems)
-                    .map(path => State.domItemMap.get(path)?.item)
-                    .filter(Boolean);
-                FileOperations.copyAsZip(items);
-                this.end();
-            } else if (action === 'download-zip-selection') {
-                const items = Array.from(State.selectedItems)
-                    .map(path => State.domItemMap.get(path)?.item)
-                    .filter(Boolean);
-                FileOperations.downloadAsZip(items);
-                this.end();
-            } else if (action === 'delete-selection') {
-                FileOperations.deleteSelected();
-            } else if (action === 'cancel-selection') {
-                this.end();
+        // 1. Locate the physical vessel
+        if (!DOM.selectionMenu) {
+            DOM.selectionMenu = document.getElementById('selection-menu');
+            if (!DOM.selectionMenu) {
+                // Defensive: Create it if the HTML structure is broken
+                DOM.selectionMenu = document.createElement('div');
+                DOM.selectionMenu.id = 'selection-menu';
+                DOM.selectionMenu.className = 'selection-menu-bar'; 
+                document.body.appendChild(DOM.selectionMenu);
             }
-        });
+        }
+
+        // 2. Bind Events (The Senses)
+        if (DOM.selectionMenu && !DOM.selectionMenu.dataset.bound) {
+            DOM.selectionMenu.addEventListener('click', e => {
+                e.stopPropagation();
+                const button = e.target.closest('button');
+                if (!button) return;
+                const action = button.dataset.action;
+
+                const items = Array.from(State.selectedItems)
+                    .map(path => State.domItemMap.get(path)?.item)
+                    .filter(Boolean);
+
+                if (items.length === 0 && action !== 'cancel') return;
+
+                // Execute Rituals
+                switch (action) {
+                    case 'copy': FileOperations.copySelected(); break;
+                    case 'cut': FileOperations.copySelected(); UI.showToast("Items cut (ready to paste)", "info"); break;
+                    case 'download-zip': FileOperations.downloadAsZip(items); this.end(); break;
+                    case 'copy-zip': FileOperations.copyAsZip(items); break;
+                    case 'download-md': FileOperations.downloadAllContents(items); this.end(); break;
+                    case 'copy-md': FileOperations.copyAllContents(items); break;
+                    case 'delete': FileOperations.deleteSelected(); break;
+                    case 'cancel': this.end(); break;
+                }
+            });
+            DOM.selectionMenu.dataset.bound = "true";
+        }
     },
 
     start(initialItem) {
-        if (State.isSelectionModeActive) return;
+        // B"H - Tikkun: Ensure the senses are awake before we do anything!
+        this.initialize();
 
-        const event = State.contextEvent;
-        if (!event) {
-            UI.showToast("Cannot start selection: context is missing.", "error");
+        if (State.isSelectionModeActive) {
+            if (initialItem) this.toggle(initialItem);
             return;
         }
-
+        
         State.isSelectionModeActive = true;
-        this.toggle(initialItem); 
-        this.showMenu(event);
-        UI.showToast("Selection mode started.", "info");
+        
+        if (initialItem) {
+            this.toggle(initialItem);
+        }
+        
+        // Determine position: Mouse event, or Center Screen fallback
+        const evt = State.contextEvent;
+        let x, y;
+        
+        if (evt && evt.clientX !== undefined) {
+            x = evt.clientX;
+            y = evt.clientY;
+        } else {
+            x = window.innerWidth / 2;
+            y = window.innerHeight / 2;
+        }
+        
+        this.showMenuAt(x, y);
+        UI.showToast("Selection Mode Active", "info");
     },
 
     end() {
-        if (!State.isSelectionModeActive) return;
-
         State.isSelectionModeActive = false;
         this.hideMenu();
-
+        
+        // Clear visual selection state
         State.selectedItems.forEach(uniquePath => {
             const entry = State.domItemMap.get(uniquePath);
-            if (entry?.el) {
-                entry.el.classList.remove('selected');
-            }
+            if (entry?.el) entry.el.classList.remove('selected');
         });
         State.selectedItems.clear();
-        UI.showToast("Selection canceled.", "info");
+        State.contextEvent = null; // Clean up the event reference
     },
 
     toggle(item) {
-        if (!item) return;
+        // B"H - Ensure senses are awake if toggle is called directly
+        this.initialize();
 
+        if (!item) return;
         const uniquePath = getItemUniquePath(item); 
         const entry = State.domItemMap.get(uniquePath);
-        if (!entry?.el) return;
-
+        
         if (State.selectedItems.has(uniquePath)) {
             State.selectedItems.delete(uniquePath);
-            entry.el.classList.remove('selected');
+            if (entry?.el) entry.el.classList.remove('selected');
         } else {
             State.selectedItems.add(uniquePath);
-            entry.el.classList.add('selected');
+            if (entry?.el) entry.el.classList.add('selected');
+            // B"H - Update position to follow the most recent selection
+            this.updatePositionForItem(item);
         }
-
-        this.updateMenu();
+        
+        this.updateMenuContent();
+        
+        // Ensure it's visible if we have items
+        if (State.selectedItems.size > 0 && DOM.selectionMenu) {
+            DOM.selectionMenu.classList.add('visible');
+        }
+    },
+    
+    updatePositionForItem(item) {
+        const uniquePath = getItemUniquePath(item); 
+        const entry = State.domItemMap.get(uniquePath);
+        if (entry && entry.el) {
+            const rect = entry.el.getBoundingClientRect();
+            // Position to the right of the item
+            this.showMenuAt(rect.right + 5, rect.top);
+        }
     },
 
-    showMenu(event) {
+    showMenuAt(x, y) {
+        if (!DOM.selectionMenu) return;
         DOM.selectionMenu.classList.add('visible');
-        this.updateMenu();
-        requestAnimationFrame(() => this.positionMenu(event));
+        this.updateMenuContent();
+        this.positionMenu(x, y);
     },
 
     hideMenu() {
-        DOM.selectionMenu.classList.remove('visible');
-    },
-
-    updateMenu() {
-        const count = State.selectedItems.size;
-        const selectedPaths = Array.from(State.selectedItems);
-        
-        let namesHtml = '';
-        if (count > 0) {
-            const maxNames = 5;
-            const names = selectedPaths.map(path => {
-                const item = State.domItemMap.get(path)?.item;
-                return item ? item.name : 'Unknown';
-            });
-            
-            const displayNames = names.slice(0, maxNames);
-            namesHtml = `<div class="selection-names">`;
-            displayNames.forEach(name => {
-                namesHtml += `<div class="selection-name-item">${name}</div>`;
-            });
-            if (count > maxNames) {
-                namesHtml += `<div class="selection-more-count">+ ${count - maxNames} others</div>`;
-            }
-            namesHtml += `</div>`;
+        if (DOM.selectionMenu) {
+            DOM.selectionMenu.classList.remove('visible');
         }
-
-        DOM.selectionMenu.innerHTML = /*html*/ `
-            <div class="selection-header">
-                <span class="selection-count">${count} Item${count === 1 ? '' : 's'}</span>
-                ${namesHtml}
-            </div>
-            
-            <div class="selection-actions">
-                <button class="menu-button" data-action="copy-selection" title="Copy Selected Items" ${count === 0 ? 'disabled' : ''}>
-                    <svg class="svg-icon"><use href="#icon-copy"></use></svg>
-                    <span class="menu-button-label">Copy Paths</span>
-                </button>
-                
-                <button class="menu-button" data-action="copy-contents-selection" title="Copy Contents as Markdown" ${count === 0 ? 'disabled' : ''}>
-                    <svg class="svg-icon"><use href="#icon-clipboard"></use></svg>
-                    <span class="menu-button-label">Copy Contents (MD)</span>
-                </button>
-                
-                <button class="menu-button" data-action="download-contents-selection" title="Download Contents as Markdown" ${count === 0 ? 'disabled' : ''}>
-                    <svg class="svg-icon"><use href="#icon-download"></use></svg>
-                    <span class="menu-button-label">Download Contents (MD)</span>
-                </button>
-                
-                <button class="menu-button" data-action="copy-zip-selection" title="Copy as ZIP" ${count === 0 ? 'disabled' : ''}>
-                    <svg class="svg-icon"><use href="#icon-save"></use></svg> 
-                    <span class="menu-button-label">Copy as ZIP</span>
-                </button>
-                
-                <button class="menu-button" data-action="download-zip-selection" title="Download ZIP" ${count === 0 ? 'disabled' : ''}>
-                    <svg class="svg-icon"><use href="#icon-download"></use></svg> 
-                    <span class="menu-button-label">Download ZIP</span>
-                </button>
-
-                <button class="menu-button danger" data-action="delete-selection" title="Delete Selected Items" ${count === 0 ? 'disabled' : ''}>
-                    <svg class="svg-icon"><use href="#icon-trash"></use></svg>
-                     <span class="menu-button-label">Delete Selected</span>
-                </button>
-                
-                 <hr class="menu-separator">
-
-                <button class="menu-button" data-action="cancel-selection" title="Cancel Selection">
-                    <svg class="svg-icon"><use href="#icon-x"></use></svg>
-                    <span class="menu-button-label">Cancel</span>
-                </button>
-            </div>
-        `;
     },
     
-    positionMenu(event) {
-        if (!event) event = { clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 };
-
+    positionMenu(x, y) {
         const menu = DOM.selectionMenu;
+        if (!menu) return;
         const rect = menu.getBoundingClientRect();
-        const winW = window.innerWidth;
-        const winH = window.innerHeight;
-
-        let x = event.clientX + 10;
-        let y = event.clientY + 10;
-
-        if (x + rect.width > winW - 10) {
-            x = event.clientX - rect.width - 10;
-        }
         
-        if (x < 10) x = 10;
+        let posX = x + 20;
+        let posY = y;
+        
+        // Keep inside bounds
+        if (posX + rect.width > window.innerWidth) posX = window.innerWidth - rect.width - 10;
+        if (posY + rect.height > window.innerHeight) posY = window.innerHeight - rect.height - 10;
+        
+        // Ensure it doesn't go off-screen top/left
+        if (posX < 10) posX = 10;
+        if (posY < 10) posY = 10;
+        
+        menu.style.left = `${posX}px`;
+        menu.style.top = `${posY}px`;
+    },
 
-        if (y + rect.height > winH - 10) {
-            const spaceAbove = event.clientY - 10;
-            if (spaceAbove > rect.height) {
-                y = event.clientY - rect.height - 10;
-            } else {
-                y = winH - rect.height - 10;
-                if (y < 10) y = 10; 
-            }
-        }
-
-        menu.style.left = `${x}px`;
-        menu.style.top = `${y}px`;
+    updateMenuContent() {
+        const count = State.selectedItems.size;
+        if (!DOM.selectionMenu) return;
+        
+        // Pure HTML structure. Styles are in css/ui/selection-menu.css
+        DOM.selectionMenu.innerHTML = `
+            <div class="selection-header-vertical">
+                <span class="selection-count">${count} Selected</span>
+                <button data-action="cancel" class="cancel-icon-btn">×</button>
+            </div>
+            <div class="selection-list-vertical">
+                <button data-action="copy"><svg class="svg-icon"><use href="#icon-copy"></use></svg> Copy</button>
+                <button data-action="cut"><svg class="svg-icon"><use href="#icon-scissors"></use></svg> Cut</button>
+                <hr class="selection-menu-sep">
+                <button data-action="download-zip"><svg class="svg-icon"><use href="#icon-download"></use></svg> Download .zip</button>
+                <button data-action="copy-zip"><svg class="svg-icon"><use href="#icon-save"></use></svg> Copy as .zip</button>
+                <hr class="selection-menu-sep">
+                <button data-action="download-md"><svg class="svg-icon"><use href="#icon-download"></use></svg> Download .md</button>
+                <button data-action="copy-md"><svg class="svg-icon"><use href="#icon-clipboard"></use></svg> Copy as .md</button>
+                <hr class="selection-menu-sep">
+                <button data-action="delete" class="danger"><svg class="svg-icon"><use href="#icon-trash"></use></svg> Delete</button>
+            </div>
+        `;
     }
 };
