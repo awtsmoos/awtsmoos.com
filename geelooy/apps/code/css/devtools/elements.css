@@ -13,6 +13,29 @@
     list-style: none;
     display: flex;
     align-items: flex-start;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.1s;
+}
+
+.dt-el-summary:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* B"H - SELECTION STYLES */
+.dt-el-node.selected > .dt-el-summary {
+    background: rgba(0, 246, 255, 0.2) !important;
+    outline: 1px solid var(--neon-cyan);
+}
+
+.dt-el-node.inspect-highlight > .dt-el-summary {
+    animation: dt-node-pulse 2s infinite;
+}
+
+@keyframes dt-node-pulse {
+    0% { background: rgba(0, 246, 255, 0.1); }
+    50% { background: rgba(0, 246, 255, 0.4); }
+    100% { background: rgba(0, 246, 255, 0.1); }
 }
 
 .dt-el-summary::-webkit-details-marker {
@@ -43,9 +66,9 @@
 
 .dt-el-line {
     display: flex;
-    padding-left: 16px; /* Offset to align with summary text */
+    padding-left: 16px;
     margin-bottom: 2px;
-    white-space: pre-wrap; /* allow wrapping for text nodes */
+    white-space: pre-wrap;
 }
 
 .dt-el-close {
@@ -53,9 +76,9 @@
 }
 
 /* --- THE HOLY COLORS OF HTML SYNTAX --- */
-.dt-el-tag { color: #569cd6; font-weight: bold; } /* Cyan-Blue */
-.dt-el-attr-name { color: #9cdcfe; margin-left: 6px; } /* Light Blue */
-.dt-el-attr-val { color: #ce9178; } /* Orange String */
-.dt-el-text { color: #d4d4d4; padding-left: 16px; white-space: pre-wrap; word-break: break-all; } /* White/Gray Text */
+.dt-el-tag { color: #569cd6; font-weight: bold; }
+.dt-el-attr-name { color: #9cdcfe; margin-left: 6px; }
+.dt-el-attr-val { color: #ce9178; }
+.dt-el-text { color: #d4d4d4; padding-left: 16px; white-space: pre-wrap; word-break: break-all; }
 .dt-el-text-inline { color: #d4d4d4; margin: 0 5px; }
-.dt-el-comment { color: #6A9955; font-style: italic; padding-left: 16px; white-space: pre-wrap; } /* Green */
+.dt-el-comment { color: #6A9955; font-style: italic; padding-left: 16px; white-space: pre-wrap; }

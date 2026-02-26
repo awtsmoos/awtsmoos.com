@@ -2,7 +2,7 @@
 // B"H
 /**
  * @file bridge.js
- * @brief The Eternal Connection between Preview and DevTools.
+ * @brief The Eternal Connection between Editor and Preview.
  */
 
 import { State } from '../state.js';
@@ -10,63 +10,56 @@ import { State } from '../state.js';
 export const DevToolsBridge = {
     /**
      * @constant _persistentStateMap
-     * @description Holds logs, network, and DOM state for all tabs.
-     * key: previewTabId -> value: { logs:[], network:[], domString:'' }
+     * @description holds data for preview Tab IDs.
      */
     _persistentStateMap: new Map(),
     initialized: false,
 
     /**
      * @function init
-     * @description Binds global message listeners once.
+     * @description Starts listening for iframe communications immediately.
      */
     init() {
         if (this.initialized) return;
-        window.addEventListener('message', this.handle.bind(this));
+        window.addEventListener('message', (e) => this.handle(e));
         this.initialized = true;
+        console.log("B\"H - DevToolsBridge: Listening for the hidden pulses of the network.");
     },
 
-    /**
-     * @function getTabPersistentState
-     * @description Retrieves or creates a lasting memory vessel for a specific tab.
-     */
-    getTabPersistentState(tabId) {
+    getTabPersistentState(tabId, metadata = null) {
         if (!this._persistentStateMap.has(tabId)) {
-            this._persistentStateMap.set(tabId, {
+            const newState = {
                 previewTabId: tabId,
-                logs: [],
-                networkReqs: [],
+                logs: metadata?.logs || [],
+                networkReqs: metadata?.networkReqs || [],
                 domString: '',
-                activePanel: 'console'
-            });
+                activePanel: metadata?.activePanel || 'console',
+                selectedPath: metadata?.selectedPath || null,
+                inspectPath: null,
+                expandedPaths: new Set(metadata?.expandedPaths || ['']),
+                mainWrapper: null
+            };
+            this._persistentStateMap.set(tabId, newState);
         }
         return this._persistentStateMap.get(tabId);
     },
 
-    /**
-     * @function handle
-     * @description Catches prayers (messages) from preview iframes and manifests them in memory.
-     */
     handle(e) {
         const d = e.data;
         if (!d || d.source !== 'html-preview-bridge') return;
 
-        // B"H - Capture everything into the eternal registry
         const pState = this.getTabPersistentState(d.previewTabId);
         
         if (d.type === 'console-log') {
             pState.logs.push(d.payload);
-            // If the physical UI is currently manifested, notify it instantly
             if (pState.onLog) pState.onLog(d.payload);
+            this.requestSave();
         } 
         else if (d.type === 'eval-response') {
-            const resultLog = { 
-                level: d.payload.isError ? 'error' : 'log', 
-                args: [d.payload.result],
-                timestamp: Date.now()
-            };
+            const resultLog = { level: d.payload.isError ? 'error' : 'log', args: [d.payload.result], timestamp: Date.now() };
             pState.logs.push(resultLog);
             if (pState.onLog) pState.onLog(resultLog);
+            this.requestSave();
         }
         else if (d.type === 'dom-update') {
             pState.domString = d.payload.html;
@@ -75,39 +68,35 @@ export const DevToolsBridge = {
         else if (d.type === 'network-log') {
             pState.networkReqs.push(d.payload);
             if (pState.onNetworkLog) pState.onNetworkLog();
+            this.requestSave();
         }
     },
 
-    /**
-     * @function sendEval
-     * @description Beams code directly into the target iframe's consciousness.
-     */
+    requestSave() {
+        // Debounced save through the app orchestrator
+        import('../app.js').then(m => m.App.saveSessionDebounced());
+    },
+
     sendEval(previewTabId, code) {
         import('../editor/preview-manager.js').then(m => {
             const iframe = m.PreviewManager.getIframe(previewTabId);
             if (iframe && iframe.contentWindow) {
-                iframe.contentWindow.postMessage({
-                    source: 'devtools-bridge',
-                    type: 'eval-request',
-                    id: Date.now(),
-                    code
-                }, '*');
-            } else {
-                console.error(`[DevToolsBridge] B"H - Target vessel not found: ${previewTabId}`);
+                iframe.contentWindow.postMessage({ source: 'devtools-bridge', type: 'eval-request', id: Date.now(), code }, '*');
             }
         });
     },
 
-    /**
-     * @function requestDOM
-     * @description Commands the iframe to reveal its current structural reality.
-     */
     requestDOM(previewTabId) {
         import('../editor/preview-manager.js').then(m => {
             const iframe = m.PreviewManager.getIframe(previewTabId);
-            if (iframe && iframe.contentWindow) {
-                iframe.contentWindow.postMessage({ type: 'request-dom' }, '*');
-            }
+            if (iframe && iframe.contentWindow) iframe.contentWindow.postMessage({ type: 'request-dom' }, '*');
+        });
+    },
+
+    setSelectedPath(previewTabId, path) {
+        import('../editor/preview-manager.js').then(m => {
+            const iframe = m.PreviewManager.getIframe(previewTabId);
+            if (iframe && iframe.contentWindow) iframe.contentWindow.postMessage({ type: 'set-selected-path', path }, '*');
         });
     }
 };

@@ -2,7 +2,7 @@
 // B"H
 /**
  * @file input.js
- * @brief Orchestrates the receiving of the Divine Command (User Input).
+ * @brief Console input with smart keyboard and mobile-friendly controls.
  */
 
 import { HTML } from '../../../../html-generator.js';
@@ -16,135 +16,111 @@ export const ConsoleInput = {
     attach(parentContainer, state, logFn) {
         EternalConsoleState.sync(state);
 
-        if (ConsoleDOMCache.inputArea) {
-            parentContainer.appendChild(ConsoleDOMCache.inputArea);
-            if (ConsoleDOMCache.editorInstance) {
-                setTimeout(() => ConsoleDOMCache.editorInstance.refresh(), 50);
-            }
-            this._bindButtons(ConsoleDOMCache.inputArea, state);
+        if (ConsoleDOMCache.inputArea && ConsoleDOMCache.inputArea.parentNode === parentContainer) {
+            this._bind(ConsoleDOMCache.inputArea, state, logFn);
             return;
         }
 
         const area = HTML(CONSOLE_INPUT_SCHEMA);
         parentContainer.appendChild(area);
-        const inputEl = area.querySelector('#dt-console-text-entry');
+        ConsoleDOMCache.inputArea = area;
         
-        let historyIndex = -1;
-
-        // B"H - Binding Logic
-        inputEl.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                const code = e.target.value.trim();
-                
-                if (code) {
-                    const logObj = { 
-                        level: 'input', 
-                        args: [{ type: 'string', value: code, forceCode: true }],
-                        timestamp: Date.now()
-                    };
-                    
-                    EternalConsoleState.addLog(logObj);
-                    EternalConsoleState.addToHistory(code);
-                    historyIndex = -1;
-                    
-                    // Render immediately
-                    logFn(logObj);
-                    
-                    DevToolsBridge.sendEval(EternalConsoleState.getPreviewTabId(), code);
-                    
-                    if (ConsoleDOMCache.editorInstance) {
-                        ConsoleDOMCache.editorInstance.update("");
-                    }
-                    e.target.value = "";
-                    inputEl.style.height = '24px';
-                }
-            }
-            else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                const hist = EternalConsoleState.getHistory();
-                if (hist.length === 0) return;
-                
-                if (historyIndex === -1) historyIndex = hist.length - 1;
-                else historyIndex = Math.max(0, historyIndex - 1);
-                
-                const prevCmd = hist[historyIndex];
-                e.target.value = prevCmd;
-                
-                // B"H - Tikkun: Force refresh of highlighter
-                if (ConsoleDOMCache.editorInstance) {
-                    ConsoleDOMCache.editorInstance.update(prevCmd);
-                    ConsoleDOMCache.editorInstance.refresh();
-                }
-            }
-            else if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                const hist = EternalConsoleState.getHistory();
-                
-                if (historyIndex === -1 || historyIndex === hist.length - 1) {
-                    historyIndex = -1;
-                    e.target.value = "";
-                    if (ConsoleDOMCache.editorInstance) {
-                        ConsoleDOMCache.editorInstance.update("");
-                        ConsoleDOMCache.editorInstance.refresh();
-                    }
-                } else {
-                    historyIndex = Math.min(hist.length - 1, historyIndex + 1);
-                    const nextCmd = hist[historyIndex];
-                    e.target.value = nextCmd;
-                    if (ConsoleDOMCache.editorInstance) {
-                        ConsoleDOMCache.editorInstance.update(nextCmd);
-                        ConsoleDOMCache.editorInstance.refresh();
-                    }
-                }
-            }
-        });
-
-        inputEl.addEventListener('input', () => {
-            inputEl.style.height = 'auto'; 
-            const newHeight = inputEl.scrollHeight;
-            inputEl.style.height = `${newHeight}px`;
-            if (ConsoleDOMCache.editorInstance && ConsoleDOMCache.editorInstance.wrapper) {
-                ConsoleDOMCache.editorInstance.wrapper.style.height = `${newHeight}px`;
-                ConsoleDOMCache.editorInstance.refresh();
-            }
-        });
-
+        this._bind(area, state, logFn);
+        
+        const inputEl = area.querySelector('#dt-console-text-entry');
         try {
-            const ve = new VirtualizedEditor(inputEl, 'js');
-            ConsoleDOMCache.editorInstance = ve;
-            if (ve.wrapper) {
-                ve.wrapper.style.position = 'relative';
-                ve.wrapper.style.height = '24px';
-            }
-        } catch(e) {
-            inputEl.style.color = '#fff';
+            ConsoleDOMCache.editorInstance = new VirtualizedEditor(inputEl, 'js');
+        } catch(e) { 
+            inputEl.style.color = '#fff'; 
         }
 
-        ConsoleDOMCache.inputArea = area;
-        this._bindButtons(area, state);
         setTimeout(() => inputEl.focus(), 150);
     },
-    
-    _bindButtons(area, state) {
-        const upBtn = area.querySelector('#dt-console-history-up');
-        const clearBtn = area.querySelector('#dt-console-clear');
+
+    _bind(area, state, logFn) {
         const inputEl = area.querySelector('#dt-console-text-entry');
-        
-        if (upBtn) {
-            upBtn.onclick = () => {
-                inputEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
-                inputEl.focus();
+        let historyIndex = -1;
+
+        const sendCommand = () => {
+            const code = inputEl.value.trim();
+            if (!code) return;
+
+            const logObj = { 
+                level: 'input', 
+                args: [{ type: 'string', value: code, forceCode: true }], 
+                timestamp: Date.now() 
             };
-        }
-        
-        if (clearBtn) {
-            clearBtn.onclick = () => {
-                state.logs.length = 0;
-                if (ConsoleDOMCache.logContainer) {
-                    ConsoleDOMCache.logContainer.innerHTML = '';
+
+            EternalConsoleState.addLog(logObj);
+            EternalConsoleState.addToHistory(code);
+            historyIndex = -1;
+            logFn(logObj);
+            
+            DevToolsBridge.sendEval(state.previewTabId, code);
+
+            // B"H - THE FLAWLESS CLEARING RITUAL
+            inputEl.value = "";
+            if (ConsoleDOMCache.editorInstance) {
+                ConsoleDOMCache.editorInstance.update(""); // Tell the highglighter to clear
+                ConsoleDOMCache.editorInstance.refresh();
+            }
+            
+            // Dispatch event to satisfy any other listeners
+            inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+            inputEl.style.height = '24px';
+        };
+
+        const insertTab = () => {
+            const start = inputEl.selectionStart;
+            const end = inputEl.selectionEnd;
+            inputEl.value = inputEl.value.substring(0, start) + "\t" + inputEl.value.substring(end);
+            inputEl.selectionStart = inputEl.selectionEnd = start + 1;
+            if (ConsoleDOMCache.editorInstance) {
+                ConsoleDOMCache.editorInstance.update(inputEl.value);
+                ConsoleDOMCache.editorInstance.refresh();
+            }
+            inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+        };
+
+        const attemptAutocomplete = () => {
+            console.log("B\"H - Autocomplete requested for:", inputEl.value);
+        };
+
+        const prevCmd = () => {
+            const hist = EternalConsoleState.getHistory();
+            if (hist.length === 0) return;
+            historyIndex = historyIndex === -1 ? hist.length - 1 : Math.max(0, historyIndex - 1);
+            const val = hist[historyIndex];
+            inputEl.value = val;
+            if (ConsoleDOMCache.editorInstance) {
+                ConsoleDOMCache.editorInstance.update(val);
+                ConsoleDOMCache.editorInstance.refresh();
+            }
+            inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+        };
+
+        inputEl.onkeydown = (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendCommand();
+            } else if (e.key === 'Tab') {
+                e.preventDefault();
+                if (e.shiftKey) insertTab(); 
+                else attemptAutocomplete();   
+            } else if (e.key === 'ArrowUp') {
+                if (inputEl.selectionStart === 0) {
+                    e.preventDefault();
+                    prevCmd();
                 }
-            };
-        }
+            }
+        };
+
+        const btnSend = area.querySelector('#dt-btn-send');
+        const btnUp = area.querySelector('#dt-btn-up');
+        const btnTab = area.querySelector('#dt-btn-tab');
+        
+        if (btnSend) btnSend.onclick = sendCommand;
+        if (btnUp) btnUp.onclick = prevCmd;
+        if (btnTab) btnTab.onclick = attemptAutocomplete;
     }
 };

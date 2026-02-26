@@ -2,20 +2,48 @@
 // B"H
 /**
  * @file object-viewer.js
- * @brief The recursive microscope to reveal complex data structures.
+ * @brief The recursive microscope with interactive DOM links.
  */
 
 import { HTML } from '../../../html-generator.js';
+import { Actions } from '../../../actions/index.js';
 
 export const ObjectViewer = {
-    build(obj, keyName = null) {
+    /**
+     * @function build
+     * @description Generates an interactive visual form for any JS object.
+     */
+    build(obj, keyName = null, state = null) {
         const keyHtml = keyName !== null ? [{ tag: 'span', style: { color: 'var(--neon-magenta)', marginRight: '6px' }, text: `${keyName}:` }] : [];
 
         if (!obj || obj.type === 'null' || obj.type === 'undefined') {
             return HTML({ 
                 className: 'dt-obj-node', 
-                style: { display: 'inline-block', verticalAlign: 'top', fontFamily: 'var(--font-code)' },
                 children: [...keyHtml, { tag: 'span', style: { color: 'gray', fontStyle: 'italic' }, text: obj ? obj.value || 'null' : 'undefined' }]
+            });
+        }
+
+        if (obj.type === 'dom') {
+            return HTML({
+                tag: 'span',
+                className: 'dt-obj-node dt-obj-dom',
+                style: { cursor: 'pointer', textDecoration: 'underline', color: '#cf8eff' },
+                children: [
+                    ...keyHtml, 
+                    { tag: 'span', text: obj.value }
+                ],
+                onClick: (e) => {
+                    e.stopPropagation();
+                    // B"H - The Sacred Inspection Ritual
+                    // Uses the captured path to tell the DevTools where to look.
+                    if (obj.path && state?.previewTabId) {
+                        console.log("B\"H - ObjectViewer: Inspecting path from console log ->", obj.path);
+                        Actions.handle('preview-inspect-path', { 
+                            previewTabId: state.previewTabId,
+                            path: obj.path 
+                        });
+                    }
+                }
             });
         }
 
@@ -24,7 +52,6 @@ export const ObjectViewer = {
             const textVal = shouldQuote ? `"${obj.value}"` : obj.value;
             return HTML({
                 className: 'dt-obj-node',
-                style: { display: 'inline-block', verticalAlign: 'top', fontFamily: 'var(--font-code)' },
                 children: [...keyHtml, { tag: 'span', style: { color: 'var(--neon-lime)', whiteSpace: 'pre-wrap' }, text: textVal }]
             });
         }
@@ -32,7 +59,6 @@ export const ObjectViewer = {
         if (['number', 'boolean', 'bigint'].includes(obj.type)) {
             return HTML({
                 className: 'dt-obj-node',
-                style: { display: 'inline-block', verticalAlign: 'top', fontFamily: 'var(--font-code)' },
                 children: [...keyHtml, { tag: 'span', style: { color: '#ffae57' }, text: obj.value }]
             });
         }
@@ -40,7 +66,6 @@ export const ObjectViewer = {
         if (obj.type === 'function') {
             return HTML({
                 className: 'dt-obj-node',
-                style: { display: 'inline-block', verticalAlign: 'top', fontFamily: 'var(--font-code)' },
                 children: [...keyHtml, { tag: 'span', style: { color: 'var(--neon-cyan)', fontStyle: 'italic' }, text: `ƒ ${obj.name || 'anonymous'}()` }]
             });
         }
@@ -48,30 +73,18 @@ export const ObjectViewer = {
         if (obj.type === 'error') {
             return HTML({
                 className: 'dt-obj-node',
-                style: { display: 'inline-block', verticalAlign: 'top', fontFamily: 'var(--font-code)' },
                 children: [
                     ...keyHtml, 
                     { tag: 'span', style: { color: 'var(--color-accent-danger)', fontWeight: 'bold' }, text: obj.message },
-                    ...(obj.stack ? [{ tag: 'div', style: { color: 'gray', paddingLeft: '10px', fontSize: '0.9em', marginTop: '4px' }, text: obj.stack }] : [])
-                ]
-            });
-        }
-        
-        if (obj.type === 'dom') {
-             return HTML({
-                className: 'dt-obj-node',
-                style: { display: 'inline-block', verticalAlign: 'top', fontFamily: 'var(--font-code)' },
-                children: [
-                    ...keyHtml, 
-                    { tag: 'span', style: { color: '#cf8eff', background: 'rgba(207, 142, 255, 0.1)', padding: '0 4px', borderRadius: '3px' }, text: obj.value }
+                    ...(obj.stack ? [{ tag: 'div', style: { color: 'gray', paddingLeft: '10px', fontSize: '0.9em', marginTop: '4px', whiteSpace: 'pre-wrap' }, text: obj.stack }] : [])
                 ]
             });
         }
 
-        return this._buildCollapsible(obj, keyHtml);
+        return this._buildCollapsible(obj, keyHtml, state);
     },
 
-    _buildCollapsible(obj, keyHtml) {
+    _buildCollapsible(obj, keyHtml, state) {
         const isArray = obj.type === 'array';
         const previewText = isArray ? `Array(${obj.length})` : `${obj.constructorName || 'Object'} {…}`;
 
@@ -88,7 +101,7 @@ export const ObjectViewer = {
             
             if (isHidden && !isLoaded) {
                 isLoaded = true;
-                this._populateBody(obj, bodyWrap, isArray);
+                this._populateBody(obj, bodyWrap, state);
             }
         };
 
@@ -110,51 +123,21 @@ export const ObjectViewer = {
 
         return HTML({
             className: 'dt-obj-node dt-complex',
-            style: { display: 'inline-block', verticalAlign: 'top', fontFamily: 'var(--font-code)' },
             children: [summary, bodyWrap]
         });
     },
 
-    _populateBody(obj, container, isArray) {
-        if (isArray && Array.isArray(obj.value)) {
+    _populateBody(obj, container, state) {
+        if (Array.isArray(obj.value)) {
             obj.value.forEach((val, idx) => {
                 if (val && val.type === 'string') val.forceQuote = true;
-                container.appendChild(this.build(val, String(idx)));
+                container.appendChild(this.build(val, String(idx), state));
             });
-            // Arrays have prototypes
-            if (obj.prototype && obj.prototype.type !== 'null') {
-                container.appendChild(this.build(obj.prototype, '[[Prototype]]'));
-            }
         } else if (obj.properties) {
             obj.properties.forEach(p => {
                 if (p.value && p.value.type === 'string') p.value.forceQuote = true;
-                container.appendChild(this.build(p.value, p.key));
+                container.appendChild(this.build(p.value, p.key, state));
             });
-            // Objects have prototypes
-            if (obj.prototype && obj.prototype.type !== 'null') {
-                container.appendChild(this.build(obj.prototype, '[[Prototype]]'));
-            }
-        } else if (obj.entries) {
-            obj.entries.forEach((entry, idx) => {
-                const row = HTML({
-                    style: { display: 'flex', flexDirection: 'column', marginBottom: '4px' },
-                    children: [
-                        { tag: 'span', style: { color: 'gray' }, text: `${idx}:` },
-                        { 
-                            style: { paddingLeft: '10px', display: 'flex', gap: '10px' }, 
-                            children: Array.isArray(entry) && entry.length === 2 
-                                ? [ this.build(entry[0], 'key'), this.build(entry[1], 'value') ] 
-                                : [ this.build(entry, 'value') ]
-                        }
-                    ]
-                });
-                container.appendChild(row);
-            });
-            if (obj.prototype && obj.prototype.type !== 'null') {
-                container.appendChild(this.build(obj.prototype, '[[Prototype]]'));
-            }
-        } else {
-            container.appendChild(HTML({ tag: 'span', style: { color: 'gray', fontStyle: 'italic' }, text: 'No properties to manifest' }));
         }
     }
 };

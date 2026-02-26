@@ -23,7 +23,7 @@
     <link href="css/ui/menus.css" rel="stylesheet">
     <link href="css/ui/notifications.css" rel="stylesheet">
     <link href="css/ui/dialogs.css" rel="stylesheet">
-    <link href="css/ui/selection-menu.css" rel="stylesheet"> <!-- B"H - Added Selection Menu CSS -->
+    <link href="css/ui/selection-menu.css" rel="stylesheet">
 
     <!-- VIEWS -->
     <link href="css/views/workspace.css" rel="stylesheet">
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="sidebar-sub-header" style="padding: 0 10px 5px 10px; display:flex; justify-content:space-between; border-bottom: 1px solid var(--color-border);">
-                 <button id="sidebar-file-commander-btn" title="File Commander" class="icon-button"><svg class="svg-icon"><use href="#icon-folder"></use></svg></button>
+                 <button id="file-commander-btn" title="File Commander" class="icon-button"><svg class="svg-icon"><use href="#icon-folder"></use></svg></button>
                  <button id="add-workspace-btn" title="Add Workspace" class="icon-button"><svg class="svg-icon"><use href="#icon-plus"></use></svg></button>
             </div>
             <div id="workspaces-container" class="workspaces-container"></div>
@@ -125,6 +125,13 @@
                             <button id="replace-all-btn" class="secondary-btn">All</button>
                         </div>
                     </div>
+                    <!-- B"H - Added Missing Options Row -->
+                    <div class="fr-row" style="padding-top: 5px;">
+                        <label style="display: flex; align-items: center; gap: 5px; font-size: 0.8em; color: var(--color-text-secondary); cursor: pointer;">
+                            <input type="checkbox" id="fr-case-sensitive" style="width: auto;">
+                            Case Sensitive
+                        </label>
+                    </div>
                 </div>
 
                 <div id="empty-editor-message" class="empty-editor-message"><h2>Awtsmoos Editor</h2><p>Add a workspace</p></div>
@@ -142,7 +149,6 @@
     <div id="main-menu"></div>
     <div id="context-menu"></div>
     
-    <!-- B"H - The Selection Menu is physically present in the DOM -->
     <div id="selection-menu" class="selection-menu-bar"></div>
     
     <div id="graph-nav-overlay" class="graph-nav-overlay hidden">
@@ -164,7 +170,7 @@
             <div class="tm-selection-actions">
                 <button id="tm-select-all" class="secondary-btn">Select All</button>
                 <button id="tm-close-selected" class="secondary-btn danger">Close Selected</button>
-                <button id="tm-cancel-selection" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
+                <button id="tm-cancel-selection" class="icon-button"><svg class="svg-icon"><use href="#icon-x"/></svg></button>
             </div>
         </div>
         <div id="tm-context-menu" class="tm-context-menu hidden">

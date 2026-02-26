@@ -1,39 +1,98 @@
 
 // B"H
-// FILE: js/devtools/panels/network.js
+/**
+ * @file network.js
+ * @brief The Network Traffic Observer.
+ */
+
+import { HTML } from '../../html-generator.js';
 
 export const NetworkPanel = {
+    /**
+     * @function init
+     * @description Manifests the network table and populates it with persistent history.
+     */
     init(container, state) {
-        container.innerHTML = `
-            <div style="display:flex; background:#111; border-bottom:1px solid #333; padding:5px 10px; font-weight:bold; font-size:0.85em; width:100%;">
-                <div style="width:50px;">Status</div>
-                <div style="width:60px;">Method</div>
-                <div style="flex-grow:1;">File / URL</div>
-                <div style="width:80px;">Type</div>
-                <div style="width:80px; text-align:right;">Time</div>
-            </div>
-            <div id="dt-network-list" style="flex-grow:1; overflow-y:auto; background:#000; width:100%;"></div>
-        `;
-        
-        const list = container.querySelector('#dt-network-list');
-        
-        const renderList = () => {
-            list.innerHTML = state.networkReqs.map(req => {
-                const color = req.status === 200 ? 'var(--neon-lime)' : (req.status === 404 ? 'var(--color-accent-danger)' : 'white');
-                return `
-                    <div style="display:flex; padding:5px 10px; border-bottom:1px solid #222; font-family:var(--font-code); font-size:0.8em;">
-                        <div style="width:50px; color:${color};">${req.status}</div>
-                        <div style="width:60px; color:var(--neon-cyan);">${req.method}</div>
-                        <div style="flex-grow:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${req.url}">${req.url}</div>
-                        <div style="width:80px; color:gray;">${req.type}</div>
-                        <div style="width:80px; text-align:right;">${Math.round(req.duration)}ms</div>
-                    </div>
-                `;
-            }).join('');
-            list.scrollTop = list.scrollHeight;
+        container.innerHTML = '';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.height = '100%';
+
+        const header = HTML({
+            className: 'dt-network-header',
+            style: { 
+                display: 'flex', 
+                background: 'var(--color-bg-secondary)', 
+                borderBottom: '1px solid var(--color-border)', 
+                padding: '8px 10px', 
+                fontWeight: 'bold', 
+                fontSize: '0.85em', 
+                width: '100%',
+                color: 'var(--color-text-tertiary)'
+            },
+            children: [
+                { style: { width: '60px' }, text: 'Status' },
+                { style: { width: '70px' }, text: 'Method' },
+                { style: { flexGrow: '1' }, text: 'File / URL' },
+                { style: { width: '80px' }, text: 'Type' },
+                { style: { width: '80px', textAlign: 'right' }, text: 'Time' }
+            ]
+        });
+
+        const listContainer = HTML({
+            id: 'dt-network-list',
+            style: { flexGrow: '1', overflowY: 'auto', background: 'var(--color-bg-deep)', width: '100%' }
+        });
+
+        container.appendChild(header);
+        container.appendChild(listContainer);
+
+        /**
+         * @function renderRequests
+         * @description Draws all requests currently held in the state.
+         */
+        const renderRequests = () => {
+            listContainer.innerHTML = '';
+            if (!state.networkReqs || state.networkReqs.length === 0) {
+                listContainer.innerHTML = '<div style="padding:20px; color:gray; text-align:center; font-style:italic;">No network activity recorded.</div>';
+                return;
+            }
+
+            state.networkReqs.forEach(req => {
+                const statusColor = req.status >= 200 && req.status < 300 ? 'var(--neon-lime)' : (req.status >= 400 ? 'var(--color-accent-danger)' : 'white');
+                
+                const row = HTML({
+                    style: { 
+                        display: 'flex', 
+                        padding: '6px 10px', 
+                        borderBottom: '1px solid rgba(255,255,255,0.05)', 
+                        fontFamily: 'var(--font-code)', 
+                        fontSize: '0.8em',
+                        alignItems: 'center'
+                    },
+                    children: [
+                        { style: { width: '60px', color: statusColor, fontWeight: 'bold' }, text: req.status || '???' },
+                        { style: { width: '70px', color: 'var(--neon-cyan)' }, text: req.method },
+                        { 
+                            style: { flexGrow: '1', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', paddingRight: '10px' }, 
+                            attributes: { title: req.url },
+                            text: req.url 
+                        },
+                        { style: { width: '80px', color: 'var(--color-text-tertiary)' }, text: req.type },
+                        { style: { width: '80px', textAlign: 'right', opacity: '0.7' }, text: `${Math.round(req.duration || 0)}ms` }
+                    ]
+                });
+                listContainer.appendChild(row);
+            });
+
+            // Keep scrolled to bottom
+            listContainer.scrollTop = listContainer.scrollHeight;
         };
 
-        renderList();
-        state.onNetworkLog = () => renderList();
+        // B"H - Bind the update ritual
+        state.onNetworkLog = renderRequests;
+
+        // Populate history immediately
+        renderRequests();
     }
 };
