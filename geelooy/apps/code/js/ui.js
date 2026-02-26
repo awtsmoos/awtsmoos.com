@@ -8,11 +8,6 @@ import { ASTEngine } from './tools/ast-engine.js';
 import { ColorOrbs } from './visuals/color-orbs.js';
 import { VisualSettings } from './visuals/settings.js';
 
-/**
- * --- MAIN UI CONTROLLER ---
- * The central hub for all user interface rituals.
- * B"H - Delegating to modular sub-vessels.
- */
 export const UI = {
     showLoading: (msg = 'Processing...') => {
         DOM.loadingOverlay.querySelector('span').textContent = msg;
@@ -20,7 +15,6 @@ export const UI = {
     },
     hideLoading: () => DOM.loadingOverlay.style.display = 'none',
     
-    // Explicit delegation to avoid 'this' context issues
     showToast: (msg, type, dur) => UINotifications.showToast(msg, type, dur),
     startTask: (id, lbl) => UINotifications.startTask(id, lbl),
     updateTask: (id, prog, msg) => UINotifications.updateTask(id, prog, msg),
@@ -28,12 +22,12 @@ export const UI = {
     
     showDialog: (cfg) => UIDialogs.showDialog(cfg),
 
-    updateLineNumbers(errors = []) {
+    updateLineNumbers(errors =[]) {
         if (DOM.editorWrapper.classList.contains('hidden')) return;
         const text = DOM.editor.value;
         const lines = text.split('\n');
         let foldable = VisualSettings.get('folding') ? ASTEngine.getFoldableLines(text) : [];
-        const errorMap = new Map(errors.map(e => [e.line, e]));
+        const errorMap = new Map(errors.map(e =>[e.line, e]));
 
         let html = '';
         for (let i = 1; i <= lines.length; i++) {
@@ -57,13 +51,13 @@ export const UI = {
     },
 
     switchView: function(view) {
-        // List of all possible panel IDs to hide
-        var panels = [
+        var panels =[
             'editor-wrapper', 'previewer', 'console-host', 
             'empty-editor-message', 'hex-editor-wrapper', 
             'data-altar-container', 'zip-editor-wrapper', 
             'vibe-editor-wrapper', 'vibe-manager-wrapper',
-            'file-commander-wrapper', 'terminal-wrapper' // B"H - Added terminal
+            'file-commander-wrapper', 'terminal-wrapper',
+            'devtools-wrapper' // B"H - Added DevTools to the hidden list
         ];
         
         for (var i = 0; i < panels.length; i++) {
@@ -80,14 +74,13 @@ export const UI = {
             'altar': 'data-altar-container',
             'empty': 'empty-editor-message',
             'commander': 'file-commander-wrapper',
-            'terminal': 'terminal-wrapper' // Map shortcut
+            'terminal': 'terminal-wrapper',
+            'devtools': 'devtools-wrapper' // B"H - Map shortcut
         };
 
         var targetId = idMap[view] || view;
-        
         var targetEl = document.getElementById(targetId);
         if (targetEl) targetEl.classList.remove('hidden');
-        else console.warn(`[UI] switchView target element not found: #${targetId} (requested view: ${view})`);
         
         var minimap = document.getElementById('minimap-canvas');
         if (minimap) minimap.classList.toggle('hidden', view !== 'editor');
