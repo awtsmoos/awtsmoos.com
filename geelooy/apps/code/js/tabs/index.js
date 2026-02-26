@@ -3,16 +3,6 @@
 /**
  * @file tabs/index.js
  * @brief The Nexus of Manifested Documents.
- * 
- * THE HYMN OF THE OPEN PAGE:
- * Every tab is a portal, a window to light,
- * Bringing the word from the deeps into sight.
- * If the path is obscured, if the vessel is gone,
- * We stay at the source till the darkness has drawn.
- * We catch every error, we hold every handle,
- * Keeping the flame on the digital candle.
- * Refreshing the vision, ensuring the truth,
- * In the wisdom of age and the passion of youth.
  */
 
 import { State, DOM } from '../state.js';
@@ -27,6 +17,7 @@ import { ZipExplorer } from '../zip/zip-explorer.js';
 import { VibeController } from '../vibe/vibe-controller.js'; 
 import { FileCommander } from '../file-commander.js'; 
 import { Terminal } from '../terminal/index.js';
+import { DevTools } from '../devtools/index.js';
 
 import { TabsRenderer } from './rendering.js';
 import { TabsPersistence } from './persistence.js';
@@ -34,39 +25,32 @@ import { TabsPersistence } from './persistence.js';
 export const Tabs = {
     getUniquePath: (item) => `${item.workspaceId ?? 'temp'}::${item.path ?? item.name}`,
 
-    /**
-     * @async
-     * @function create
-     * @description B"H - Brings a new document vessel into the active world.
-     */
     async create(item, isNewFile = false, shouldSave = true, activate = true) {
         if (!item) return;
 
-        // B"H - Specialized Vessel Check
         if (item.type === 'commander') {
-            const newTab = {
-                id: State.nextTabId++,
-                item,
-                content: item.commanderState,
-                isDirty: false,
-                isUncommitted: false,
-                uniquePath: `commander::${Date.now()}`, 
-                scrollPos: 0,
-                fileType: 'commander',
-            };
+            const newTab = { id: State.nextTabId++, item, content: item.commanderState, isDirty: false, uniquePath: `commander::${Date.now()}`, fileType: 'commander' };
             State.tabs.push(newTab);
             if (activate) await this.activate(newTab.id);
             return;
         }
 
         if (item.type === 'terminal') {
-            const newTab = {
-                id: State.nextTabId++,
-                item,
-                content: item.terminalState, 
-                isDirty: false,
-                uniquePath: `terminal::${Date.now()}`,
-                fileType: 'terminal',
+            const newTab = { id: State.nextTabId++, item, content: item.terminalState, isDirty: false, uniquePath: `terminal::${Date.now()}`, fileType: 'terminal' };
+            State.tabs.push(newTab);
+            if (activate) await this.activate(newTab.id);
+            return;
+        }
+        
+        // B"H - DevTools Tab Creation
+        if (item.type === 'devtools') {
+            const newTab = { 
+                id: State.nextTabId++, 
+                item, 
+                isDirty: false, 
+                uniquePath: `devtools::${item.previewTabId}`, 
+                fileType: 'devtools', 
+                devtoolsState: { previewTabId: item.previewTabId, logs:[], networkReqs:[], domString:'' } 
             };
             State.tabs.push(newTab);
             if (activate) await this.activate(newTab.id);
@@ -81,9 +65,7 @@ export const Tabs = {
         }
         
         let fileType = MimeUtil.getInfo(item.name).type;
-        if (item.type === 'vibe-session') {
-            fileType = 'vibe';
-        }
+        if (item.type === 'vibe-session') fileType = 'vibe';
 
         const newTab = {
             id: State.nextTabId++,
@@ -102,12 +84,42 @@ export const Tabs = {
     },
 
     /**
-     * @async
-     * @function activate
-     * @description Focusing the application's consciousness on a specific tab.
+     * B"H - Creates a distinct, parallel tab for the HTML Preview.
+     * It does not destroy the code editing tab.
      */
-    async activate(tabId) {
-        console.log(`[Tabs] B"H - Activating tab ID: ${tabId}`);
+    async createPreview(item, content) {
+        const uniquePreviewPath = `preview::${item.workspaceId}::${item.path}`;
+        const existingTab = State.tabs.find(t => t.uniquePath === uniquePreviewPath);
+        
+        if (existingTab) {
+            existingTab.content = content;
+            existingTab.rawContent = content;
+            existingTab.forceReload = true;
+            await this.activate(existingTab.id, true);
+            return;
+        }
+
+        const previewItem = { ...item, name: `Preview: ${item.name}`, type: 'html-preview-file' };
+        
+        const newTab = {
+            id: State.nextTabId++,
+            item: previewItem,
+            content: content,
+            rawContent: content,
+            isDirty: false,
+            isUncommitted: false,
+            uniquePath: uniquePreviewPath,
+            scrollPos: 0,
+            fileType: 'html-preview',
+            isPreview: true
+        };
+        
+        State.tabs.push(newTab);
+        App.saveSession();
+        await this.activate(newTab.id);
+    },
+
+    async activate(tabId, forceReload = false) {
         State.activeTabId = tabId;
         const tab = State.tabs.find(t => t.id === tabId);
 
@@ -118,22 +130,15 @@ export const Tabs = {
             return;
         }
 
-        // B"H - Persistence check for local handles
         const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
         if (workspace && workspace.isLocked && !workspace.isLost) {
             UI.switchView('empty');
             DOM.emptyEditorMessage.classList.remove('hidden');
-            DOM.emptyEditorMessage.innerHTML = `
-                <div style="text-align:center; padding: 40px;">
-                    <h2 style="color: var(--neon-magenta);">🔒 World Locked</h2>
-                    <p>Access to "${workspace.name}" must be renewed.</p>
-                    <p>Click <strong>"RESUME"</strong> on the folder in the sidebar.</p>
-                </div>`;
+            DOM.emptyEditorMessage.innerHTML = `<div style="text-align:center; padding: 40px;"><h2 style="color: var(--neon-magenta);">🔒 World Locked</h2><p>Click <strong>"RESUME"</strong> on the folder in the sidebar.</p></div>`;
             this.render();
             return;
         }
 
-        // --- View Logic Branching ---
         if (tab.fileType === 'vibe' || tab.item.type === 'vibe-session') {
             UI.switchView('vibe');
             if (!tab.vibeSession) tab.vibeSession = tab.content;
@@ -155,43 +160,50 @@ export const Tabs = {
             this.render();
             return;
         }
-
-        // --- Data Loading Ritual ---
-        const hasPreloaded = tab.content !== null && tab.content !== undefined;
-        if (!hasPreloaded || tab.forceReload) {
-            const ok = await this._loadTabContent(tab);
-            if (!ok) {
-                // If loading failed (e.g. NotFound), we still render the UI
-                // so the user can close the broken tab.
-                this.render();
-                return;
-            }
+        
+        // B"H - DevTools Routing
+        if (tab.fileType === 'devtools') {
+            UI.switchView('devtools');
+            DevTools.render(tab, DOM.devtoolsWrapper);
+            this.render();
+            return;
         }
 
-        await this._renderTabView(tab);
+        // B"H - HTML Preview Routing
+        if (tab.fileType === 'html-preview' || tab.isPreview) {
+            UI.switchView('preview');
+            Editor.showPreviewer(tab.rawContent || tab.content, { type: tab.fileType, name: tab.item.name }, tab.id, tab.forceReload || forceReload);
+            tab.forceReload = false;
+            this.render();
+            if (!State.isRestoring) App.saveSessionDebounced();
+            return;
+        }
+
+        const hasPreloaded = tab.content !== null && tab.content !== undefined;
+        if (!hasPreloaded || tab.forceReload || forceReload) {
+            const ok = await this._loadTabContent(tab);
+            if (!ok) { this.render(); return; }
+        }
+
+        await this._renderTabView(tab, tab.forceReload || forceReload);
+        tab.forceReload = false;
+        
         this.render();
         if (!State.isRestoring) App.saveSessionDebounced();
     },
 
-    /**
-     * @async
-     * @function _loadTabContent
-     * @description Retrieving the raw light from the physical disk.
-     */
     async _loadTabContent(tab) {
         try {
-            UI.showLoading(`B"H - Opening ${tab.item.name}...`);
+            UI.showLoading(`Opening ${tab.item.name}...`);
             let fileContent;
             
             if (tab.item.type === 'zip-entry' || tab.item.type === 'temp') {
                 fileContent = tab.content;
             } else {
-                // Try uncommitted memory first (Git staging)
                 try {
                     fileContent = await FileSystemProvider.IndexedDB.readUncommitted(tab.uniquePath);
                     tab.isUncommitted = true;
                 } catch (e) {
-                    // Not in uncommitted, read from source
                     fileContent = await FileSystemProvider.read(tab.item);
                 }
             }
@@ -209,30 +221,25 @@ export const Tabs = {
                     tab.content = String(fileContent);
                 }
             }
-            
-            tab.forceReload = false;
             return true;
         } catch (e) {
-            console.error(`[Tabs] B"H - Load Error for ${tab.item.path}:`, e);
-            UI.showToast(`The vessel "${tab.item.name}" could not be found or read.`, "error");
+            UI.showToast(`Error reading file: ${e.message}`, "error");
             return false;
         } finally {
             UI.hideLoading();
         }
     },
 
-    async _renderTabView(tab) {
+    async _renderTabView(tab, forceReload) {
         if (tab.fileType === 'zip') {
             await ZipExplorer.open(tab.rawContent, tab);
         } else if (tab.fileType === 'text') {
-            UI.switchView('editor');
             await Editor.showTextEditor(tab.content || "", tab.item.name, tab.scrollPos || 0);
         } else if (tab.isHexView) {
             UI.switchView('hex');
-            // Instance initialization assumed elsewhere
         } else {
-            UI.switchView('preview');
-            Editor.showPreviewer(tab.rawContent, { type: tab.fileType, name: tab.item.name }, tab.id);
+            // Fallback for raw files, should be handled above for html-preview
+            Editor.showPreviewer(tab.rawContent, { type: tab.fileType, name: tab.item.name }, tab.id, forceReload);
         }
     },
 
@@ -242,14 +249,17 @@ export const Tabs = {
 
         const tab = State.tabs[idx];
         if (tab.isDirty && !force) {
-            const res = await UI.showDialog({
-                title: "Unsaved Changes",
-                message: `Save changes to ${tab.item.name}?`,
-                okText: "Save",
-                cancelText: "Discard"
-            });
+            const res = await UI.showDialog({ title: "Unsaved Changes", message: `Save changes to ${tab.item.name}?`, okText: "Save", cancelText: "Discard" });
             if (res === true) await this.save(tab);
-            else if (res === null) return; // User pressed X or Esc
+            else if (res === null) return; 
+        }
+
+        // B"H - Memory Management: Clear persistent resources
+        if (tab.fileType === 'html-preview' || tab.isPreview) {
+            Editor.closePreviewer(tab.id);
+            // Also close attached DevTools if any
+            const dtTab = State.tabs.find(t => t.fileType === 'devtools' && t.devtoolsState?.previewTabId === tab.id);
+            if (dtTab) this.close(dtTab.id, true);
         }
 
         State.tabs.splice(idx, 1);
@@ -268,7 +278,6 @@ export const Tabs = {
     },
 
     async save(tab) {
-        if (!tab || !tab.item) return;
         return TabsPersistence.save(tab, this);
     },
 

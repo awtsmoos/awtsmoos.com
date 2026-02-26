@@ -1,6 +1,7 @@
 
 // B"H
 // FILE: js/session.js
+
 import { State } from './state.js';
 import { Workspaces } from './workspaces.js';
 import { FileSystemProvider } from './fs-provider.js';
@@ -19,7 +20,7 @@ export const Session = {
     save() {
         try {
             const persistableWorkspaces = State.workspaces
-                .filter(ws => ['github', 'indexeddb', 'ssh', 'local', 'opfs'].includes(ws.type))
+                .filter(ws =>['github', 'indexeddb', 'ssh', 'local', 'opfs'].includes(ws.type))
                 .map(ws => {
                     const { handle, _treeCache, isLocked, ...safeWs } = ws;
                     return safeWs;
@@ -30,9 +31,10 @@ export const Session = {
             const persistableTabs = State.tabs
                 .filter(tab => {
                     return (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || 
-                           ['temp', 'vibe-session', 'terminal', 'commander'].includes(tab.item.type);
+                           ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'].includes(tab.item.type);
                 })
                 .map(tab => {
+                    // B"H - Capture essential item metadata, specifically including previewTabId for DevTools linking.
                     const safeItem = {
                         name: tab.item.name,
                         path: tab.item.path,
@@ -44,10 +46,10 @@ export const Session = {
                         sha: tab.item.sha,
                         originalType: tab.item.originalType,
                         commanderState: tab.item.commanderState,
-                        terminalState: tab.item.terminalState
+                        terminalState: tab.item.terminalState,
+                        previewTabId: tab.item.previewTabId
                     };
 
-                    // B"H - Rectified: Persist content for previews so they survive reload
                     const shouldSaveContent = 
                         tab.isDirty || 
                         tab.item.type === 'temp' || 
@@ -55,6 +57,7 @@ export const Session = {
                         tab.item.type === 'terminal' || 
                         tab.item.type === 'commander' ||
                         tab.fileType === 'html-preview' ||
+                        tab.fileType === 'devtools' ||
                         tab.isPreview;
 
                     const contentToSave = shouldSaveContent ? tab.content : null;
@@ -67,9 +70,10 @@ export const Session = {
                         pinned: tab.pinned || false, 
                         scrollPos: tab.scrollPos || 0,
                         fileType: tab.fileType,
-                        isPreview: tab.isPreview, // Save this flag
+                        isPreview: tab.isPreview,
                         item: safeItem,
-                        content: contentToSave
+                        content: contentToSave,
+                        devtoolsState: tab.devtoolsState // Save the state of the inspector
                     };
                 });
 

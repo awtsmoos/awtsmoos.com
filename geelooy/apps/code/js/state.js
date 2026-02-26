@@ -1,15 +1,15 @@
 
-//B"H
+// B"H
 // FILE: js/state.js
 
 export const State = {
-    tabs: [], activeTabId: null, nextTabId: 0,
-    workspaces: [], nextWorkspaceId: 0,
+    tabs:[], activeTabId: null, nextTabId: 0,
+    workspaces:[], nextWorkspaceId: 0,
     contextTarget: null, contextTabTarget: null,
     hexEditorInstance: null, domItemMap: new Map(), useTabs: true,
-    expandedFolders: new Set(), fileClipboard: [], clipboardZip: null, 
+    expandedFolders: new Set(), fileClipboard:[], clipboardZip: null, 
     isSelectionModeActive: false, selectedItems: new Set(),
-    activeTasks: new Map(), closedTabHistory: [], 
+    activeTasks: new Map(), closedTabHistory:[], 
     foldedRegistry: new Map(), nextFoldId: 1,
     vibeIterations: 1, customVibePrompt: "", isVibeStopRequested: false,
     postMessagePendingRequests: new Map(), postMessageRequestId: 0,
@@ -23,7 +23,6 @@ export const DOM = {};
  * Every vessel is found and bound.
  */
 export function initializeDOM() {
-    // Structural Vessels
     DOM.sidebar = document.getElementById('sidebar');
     DOM.workspacesContainer = document.getElementById('workspaces-container');
     DOM.tabBar = document.getElementById('tab-bar');
@@ -35,7 +34,18 @@ export function initializeDOM() {
     DOM.emptyEditorMessage = document.getElementById('empty-editor-message');
     DOM.previewer = document.getElementById('previewer');
     
-    // Buttons & Controls
+    // B"H - Absolute Expansion Rectification
+    // Forces the wrapper to violently claim all horizontal and vertical territory.
+    let dtWrap = document.getElementById('devtools-wrapper');
+    if (!dtWrap) {
+        dtWrap = document.createElement('div');
+        dtWrap.id = 'devtools-wrapper';
+        dtWrap.className = 'hidden';
+        dtWrap.style.cssText = 'height: 100%; width: 100%; flex-grow: 1; display: flex; flex-direction: column; overflow: hidden;';
+        document.querySelector('.editor-area').appendChild(dtWrap);
+    }
+    DOM.devtoolsWrapper = dtWrap;
+    
     DOM.hamburgerMenuBtn = document.getElementById('main-menu-btn');
     DOM.addWorkspaceBtn = document.getElementById('add-workspace-btn');
     DOM.sidebarSearchBtn = document.getElementById('sidebar-search-btn');
@@ -43,7 +53,6 @@ export function initializeDOM() {
     DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn');
     DOM.fileCommanderBtn = document.getElementById('file-commander-btn');
 
-    // Overlays & Floating Panels
     DOM.loadingOverlay = document.getElementById('loading-overlay');
     DOM.toastContainer = document.getElementById('toast-container');
     DOM.mainMenu = document.getElementById('main-menu');
@@ -51,17 +60,14 @@ export function initializeDOM() {
     DOM.genericDialog = document.getElementById('generic-dialog');
     DOM.selectionMenu = document.getElementById('selection-menu');
 
-    // Feature-specific Panels
     DOM.findReplacePanel = document.getElementById('find-replace-panel');
     DOM.findInput = document.getElementById('find-input');
     DOM.replaceInput = document.getElementById('replace-input');
     DOM.keyboardHelper = document.getElementById('keyboard-helper');
 
-    // Tool Windows
     DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
     DOM.dataAltarContainer = document.getElementById('data-altar-container');
 
-    // Intelligence Tooltip
     let tt = document.getElementById('intelligence-tooltip');
     if (!tt) {
         tt = document.createElement('div');

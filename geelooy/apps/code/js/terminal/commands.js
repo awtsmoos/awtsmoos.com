@@ -5,22 +5,20 @@
 import { FilesystemCommands } from './commands/filesystem.js';
 import { ArchiveCommands } from './commands/archive.js';
 import { GitCommands } from './commands/git.js';
-import { NodeCommands } from './commands/node-cmd.js'; // B"H
-import { NPMCommands } from './commands/npm-cmd.js'; // B"H
+import { NodeCommands } from './commands/node-cmd.js'; 
+import { NPMCommands } from './commands/npm-cmd.js'; 
+import { NetworkCommands } from './commands/network-cmd.js'; // B"H
 import { DetailedHelp } from './help-text.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { Tabs } from '../tabs/index.js';
 
-/**
- * --- TERMINAL COMMANDS NEXUS ---
- * The unified vessel for all command archetypes.
- */
 export const TerminalCommands = {
     ...FilesystemCommands,
     ...ArchiveCommands,
     ...GitCommands,
     ...NodeCommands,
     ...NPMCommands,
+    ...NetworkCommands,
 
     async cat(shell, args) {
         if (!args[0]) throw new Error("cat: missing operand");
