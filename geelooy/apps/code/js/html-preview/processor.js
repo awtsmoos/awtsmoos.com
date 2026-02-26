@@ -34,13 +34,13 @@ export const HTMLPreviewProcessor = {
 
         const doc = new DOMParser().parseFromString(rawHtml, 'text/html');
 
-        // 1. Resolve physical assets (img, link css)
+        // 1. Resolve all static physical assets (img, link, audio, video, etc)
         await AssetProcessor.process(doc, identity);
 
-        // 2. Resolve Scripts (Virtual Bundler handles deep nesting)
+        // 2. Resolve Scripts & ES Imports (Virtual Bundler handles deep nesting)
         await ScriptExtractor.process(doc, identity);
 
-        // 3. Inject Final Transfigured HTML into the Iframe
+        // 3. Inject Final Transfigured HTML into the Iframe with the Shields
         IframeInjector.inject(doc, iframe, identity);
     }
 };

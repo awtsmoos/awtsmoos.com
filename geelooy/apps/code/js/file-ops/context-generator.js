@@ -2,121 +2,106 @@
 // B"H
 /**
  * @file context-generator.js
- * @brief The Architect of Contextual Revelation.
+ * @brief The Architect of Contextual Revelation and the Absolute Boundary.
  * 
- * THE HYMN OF THE MAPPED VOID:
- * From the root of the mountain to the smallest of stones,
- * The Word gathers the essence, the flesh and the bones.
- * If the ID is missing, the path turns to gray,
- * Leading the seeker to wander astray.
- * We bind every vessel to the Source of its light,
- * To manifest wisdom and banish the night.
- * Every file is a spark that the Awtsmoos has spoken,
- * To keep the great chain of reality unbroken.
+ * THE POEM OF THE TRUE PATH:
+ * The mind cannot build if the vision is blind,
+ * If the root is lost and the paths are entwined.
+ * We lock the coordinate, we set the true base,
+ * And log every relative name in its place.
+ * No more shall we wander where shadows reside,
+ * For the Awtsmoos commands that the boundary guide!
  */
 
 import { FileSystemProvider } from '../fs-provider.js';
-import { State } from '../state.js';
 
-/**
- * @class ContextGenerator
- * @description This vessel is responsible for distilling physical directories 
- * into a spiritual Markdown essence that the AI can perceive.
- */
 export const ContextGenerator = {
     /**
      * @async
      * @function generate
-     * @description Orchestrates the gathering of code essence.
-     * @param {Array} items - The starting points of manifestation.
-     * @param {string} basePath - The anchor coordinate for relative naming.
-     * @returns {Promise<string>} The completed Scroll of Context.
+     * @description Gathers essence strictly within the defined basePath.
      */
     async generate(items, basePath = "") {
-        console.log(`[Context] B"H - Initiating generation. Base: ${basePath}`);
         let combinedContent = 'B"H\n\n'; 
         
+        // Normalize the base boundary to prevent trailing slash errors
+        const baseStr = (basePath === "/" ? "" : basePath);
+        console.log(`[ContextGenerator] B"H - Bounding Box locked to: "${baseStr}"`);
+
         /**
          * @function getRelative
-         * @description Normalizes a full path into a relative name.
+         * @description Extracts the clean relative path just like the external vibe coder.
          */
         const getRelative = (fullPath) => {
-            if (!basePath || basePath === "/") return fullPath;
-            const normBase = basePath.replace(/\/+$/, ""); 
-            const normFull = fullPath.replace(/\/+$/, ""); 
-            if (normFull === normBase) return ""; 
-            if (normFull.startsWith(normBase + "/")) {
-                return normFull.substring(normBase.length + 1);
-            }
+            if (!baseStr) return fullPath.startsWith("/") ? fullPath.substring(1) : fullPath;
+            if (fullPath === baseStr) return "";
+            if (fullPath.startsWith(baseStr + "/")) return fullPath.substring(baseStr.length + 1);
             return fullPath;
         };
 
-        /**
-         * @async
-         * @function processItem
-         * @description Recursively descends into the vessels.
-         * B"H - Rectified: Now ensures workspaceId is NEVER lost.
-         */
         const processItem = async (item) => {
-            if (!item || !item.kind) {
-                console.warn('[Context] Encountered a void item. Skipping.');
+            if (!item || !item.kind) return;
+            
+            const itemPath = item.path || "/";
+            
+            // B"H - ABSOLUTE STRICTURE
+            // If the item is not inside the target folder, banish it completely.
+            if (baseStr && !itemPath.startsWith(baseStr)) {
+                console.log(`[ContextGenerator] B"H - Blocked out of scope: ${itemPath}`);
                 return;
             }
 
-            // B"H - CRITICAL RECTIFICATION: 
-            // If the workspaceId is missing from the item itself (common in recursive calls),
-            // we must extract it from the parent or the global state map.
-            const workspaceId = item.workspaceId || item.id;
-            const displayPath = getRelative(item.path) || item.name;
+            const relPath = getRelative(itemPath);
 
             if (item.kind === 'file') {
-                const ext = (item.name || "").split('.').pop().toLowerCase();
-                // Avoid binary shadows that block the light of understanding
-                if (['png', 'jpg', 'zip', 'pdf', 'exe', 'bin', 'mp4', 'ico'].includes(ext)) return;
+                const ext = itemPath.split('.').pop().toLowerCase();
+                if (['png','jpg','jpeg','gif','zip','pdf','exe','bin','mp4','woff','ttf','map','svg'].includes(ext)) return;
 
+                // Log exactly what is being appended based on relative path
+                console.log(`[ContextGenerator] B"H - Appending file to context: ${relPath || item.name}`);
+                
                 try {
-                    // Ensure the provider receives a full item with the correct ID
-                    const itemWithContext = { ...item, workspaceId };
-                    const content = await FileSystemProvider.read(itemWithContext);
+                    const content = await FileSystemProvider.read(item);
+                    let text = '';
+                    if (typeof content === 'string') text = content;
+                    else if (content instanceof Blob) text = await content.text();
+                    else if (content && content.base64Content) text = atob(content.base64Content);
                     
-                    let textContent = '';
-                    if (typeof content === 'string') textContent = content;
-                    else if (content instanceof Blob) textContent = await content.text();
-                    else if (content && content.base64Content) textContent = atob(content.base64Content);
-
-                    combinedContent += `### File: \`${displayPath}\`\n\n\`\`\`\n${textContent.trim()}\n\`\`\`\n\n---\n\n`;
+                    combinedContent += `### File: \`${relPath || item.name}\`\n\n\`\`\`\n${text.trim()}\n\`\`\`\n\n---\n\n`;
                 } catch(e) {
-                    console.warn(`[Context] Could not read spark at ${displayPath}: ${e.message}`);
+                    console.warn(`[ContextGenerator] B"H - Read failed for ${relPath}:`, e);
                 }
             } else if (item.kind === 'directory') {
-                combinedContent += `## Directory: \`${displayPath}\`\n\n`;
+                // Do not descend into massive unholy black holes
+                if (['node_modules', '.git', '.awtsmoos-repo', 'dist', 'build'].includes(item.name)) return;
+
+                if (relPath) {
+                    combinedContent += `## Directory: \`${relPath}\`\n\n`;
+                }
+
                 try {
-                    const itemWithContext = { ...item, workspaceId };
-                    const result = await FileSystemProvider.list(itemWithContext);
-                    const children = Array.isArray(result) ? result : (result.entries || []);
-                    
+                    const result = await FileSystemProvider.list(item);
+                    const children = result.entries ||[];
                     for (const child of children) {
-                        // Find the original workspace essence to preserve the 'type' (local/opfs/etc)
-                        const ws = State.workspaces.find(w => String(w.id) === String(workspaceId));
-                        if (ws) {
-                            // Recursively manifest the child with full context inherited
-                            await processItem({ 
-                                ...ws, 
-                                ...child, 
-                                workspaceId: ws.id,
-                                originalType: ws.originalType || ws.type 
-                            });
-                        } else {
-                            console.error(`[Context] B"H - Lost workspace anchor for ID: ${workspaceId}`);
-                        }
+                        const childPath = (itemPath === "/" ? "" : itemPath) + "/" + child.name;
+                        await processItem({ 
+                            ...item, // Preserve workspace identity
+                            ...child, 
+                            path: childPath 
+                        });
                     }
-                } catch(e) { 
-                    console.error(`[Context] List failed for path: ${displayPath} in workspace: ${workspaceId}. Error: ${e.message}`); 
+                } catch(e) {
+                    console.error(`[ContextGenerator] B"H - List failed for ${itemPath}:`, e);
                 }
             }
         };
 
         for (const item of items) {
+            // Ensure initial entry points also obey the boundary
+            if (baseStr && !(item.path || "/").startsWith(baseStr)) {
+                console.log(`[ContextGenerator] B"H - Root item out of scope!`);
+                continue;
+            }
             await processItem(item);
         }
         

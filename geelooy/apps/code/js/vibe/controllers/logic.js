@@ -3,6 +3,12 @@
 /**
  * @file logic.js
  * @brief The intellect of the Vibe Coding system.
+ * 
+ * THE HYMN OF THE TRUE ANCHOR:
+ * A file without a root is a star without a sky,
+ * Falling to the bottom where the deepest shadows lie.
+ * We must grasp the True Path, the session's holy name,
+ * To manifest the vessel in its proper, local frame.
  */
 
 import { ModelManager } from '../model-manager.js';
@@ -21,7 +27,7 @@ export const LogicController = {
         if (!apiKey) {
             const { KeyRitual } = await import('../key-ritual.js');
             const unlocked = await KeyRitual.prompt();
-            if (!unlocked) return; // User cancelled
+            if (!unlocked) return; 
             apiKey = ModelManager.getKey();
         }
 
@@ -31,7 +37,7 @@ export const LogicController = {
         try {
             const markdown = await ContextBuilder.build(tab);
             const systemPrompt = PromptBuilder.getSystem(markdown);
-            const history = [...tab.vibeSession.history];
+            const history =[...tab.vibeSession.history];
             if (promptOverride) history.push({ role: 'user', content: promptOverride });
 
             const apiHistory = [{ role: 'system', content: systemPrompt }, ...history];
@@ -50,7 +56,11 @@ export const LogicController = {
                     lastMsg.isStreaming = false;
                     lastMsg.content = finalText;
                     
-                    const changes = ResponseParser.parseChanges(finalText, tab.vibeSession.rootPath);
+                    // B"H - THE GRAND RECTIFICATION OF THE PATH
+                    // We ensure we grab the actual anchor coordinate of this specific session.
+                    const sessionRoot = tab.vibeSession.path || tab.vibeSession.rootPath || (tab.item ? tab.item.path : "/");
+                    
+                    const changes = ResponseParser.parseChanges(finalText, sessionRoot);
                     if (changes.length > 0) {
                         await LoopEngine.apply(changes, tab.item.workspaceId);
                         await controller.refreshTree(tab); 

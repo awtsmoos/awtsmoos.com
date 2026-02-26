@@ -1,3 +1,4 @@
+
 /* B"H - VIBE CHAT (The Conversation) */
 
 .vibe-chat-history {
@@ -9,7 +10,6 @@
     gap: 15px;
     padding-bottom: 60px;
     scroll-behavior: smooth;
-    /* B"H - Scrollbar padding adjustment */
     padding-right: 10px; 
 }
 
@@ -21,7 +21,7 @@
     line-height: 1.6;
     word-wrap: break-word;
     position: relative;
-    animation: fadeIn 0.15s ease-out; /* Faster anim for instant feel */
+    animation: fadeIn 0.15s ease-out;
 }
 
 .vibe-message.user {
@@ -39,6 +39,23 @@
     color: var(--color-text-secondary);
     border-bottom-left-radius: 2px;
     width: 100%;
+}
+
+/* B"H - CONSTRAINED AI TEXT BOX */
+.vibe-model-text {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+    scrollbar-width: thin;
+}
+
+/* B"H - STREAMING CODE BOX */
+.vibe-stream-box::-webkit-scrollbar {
+    width: 6px;
+}
+.vibe-stream-box::-webkit-scrollbar-thumb {
+    background: var(--neon-cyan);
+    border-radius: 3px;
 }
 
 /* Markdown Elements */
@@ -102,7 +119,7 @@
     font-size: 0.9em;
     color: #e6e6e6;
     margin: 0;
-    white-space: pre; /* Essential for code layout */
+    white-space: pre; 
 }
 
 .vibe-md-inline-code {
@@ -131,13 +148,12 @@
     align-items: flex-end;
 }
 
-/* Actions Bar - B"H: Ensure buttons align correctly and wrap if needed */
 .vibe-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 5px;
-    flex-wrap: wrap; /* Prevent button cutoff on small widths */
+    flex-wrap: wrap; 
     gap: 10px;
 }
 
@@ -146,9 +162,8 @@
     gap: 10px;
 }
 
-/* Styling for the new Toggle Button to ensure visibility */
 #vibe-sidebar-toggle-btn {
-    margin-left: auto; /* Push to right */
+    margin-left: auto; 
     border: 1px solid var(--color-border);
 }
 #vibe-sidebar-toggle-btn.active {
@@ -180,4 +195,9 @@
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    from { opacity: 1; }
+    to { opacity: 0.3; }
 }

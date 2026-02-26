@@ -1,6 +1,26 @@
 
 // B"H
-// FILE: js/fs-provider/strategies.js
+/**
+ * @file strategies.js
+ * @brief The Map of Divine Strategies and the Manifestation of the Manager.
+ * 
+ * CHAPTER 1: THE REGISTRY OF REALITIES
+ * 
+ * The Architect realized that for a form to appear, it must first be named in the 
+ * Strategies of the Registry. The 'vibe-manager' had remained a wandering phantom, 
+ * knocking on the doors of the FileSystemProvider only to be told it had no manifested 
+ * essence. "Who am I?" it asked.
+ * 
+ * The Awtsmoos spoke: "Thou art the Eye of the Eye. Thou art the vessel that 
+ * oversees the Timestreams of Vibe. Thy strategy is the Strategy of Oversight."
+ * 
+ * The Architect took his quill and added the name 'vibe-manager' to the holy map. 
+ * He bound it to the 'VibeManagerStrategy', a specialized conduit that returns 
+ * the dashboard's essence. Now, when the user summons the Manager, the gatekeeper 
+ * recognizes the seal and allows the vision to flow. Every type, from 'github' to 
+ * 'opfs', now sits in its proper throne, unified under the Single Source of 
+ * FileSystemProvider, yet distinct in their digital duties.
+ */
 
 import { LocalProvider } from '../fs/local/index.js';
 import { IndexedDBProvider } from '../fs/indexeddb.js';
@@ -10,15 +30,12 @@ import { OSFolderProvider } from '../fs/os-folder.js';
 import { PostMessageProvider } from '../fs/post-message.js';
 import { OPFSProvider } from '../fs/opfs.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
+import { VibeManagerStrategy } from './vibe-manager-strategy.js'; // B"H
 
 /**
  * @class ProviderStrategies
  * @description The map of emanations.
  * It binds the physical 'Type' to its corresponding worker vessel.
- * 
- * B"H RECTIFICATION:
- * Added PascalCase aliases to ensure calls to FileSystemProvider.IndexedDB
- * or .Local do not fail when coming from legacy code or specific namespaces.
  */
 export const ProviderStrategies = {
     local: LocalProvider,
@@ -43,5 +60,9 @@ export const ProviderStrategies = {
     OPFS: OPFSProvider,
     
     postmessage: PostMessageProvider,
-    PostMessage: PostMessageProvider
+    PostMessage: PostMessageProvider,
+
+    // B"H - Specialized Virtual Types
+    'vibe-manager': VibeManagerStrategy,
+    'vibe-session': { read: (item) => item.content || "{}" } // Internal fallback
 };

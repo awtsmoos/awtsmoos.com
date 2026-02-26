@@ -5,6 +5,8 @@
 import { FilesystemCommands } from './commands/filesystem.js';
 import { ArchiveCommands } from './commands/archive.js';
 import { GitCommands } from './commands/git.js';
+import { NodeCommands } from './commands/node-cmd.js'; // B"H
+import { NPMCommands } from './commands/npm-cmd.js'; // B"H
 import { DetailedHelp } from './help-text.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { Tabs } from '../tabs/index.js';
@@ -12,20 +14,14 @@ import { Tabs } from '../tabs/index.js';
 /**
  * --- TERMINAL COMMANDS NEXUS ---
  * The unified vessel for all command archetypes.
- * B"H. Every command is a rectification of the digital void,
- * a localized instance of the Speech of the Awtsmoos.
  */
 export const TerminalCommands = {
     ...FilesystemCommands,
     ...ArchiveCommands,
     ...GitCommands,
+    ...NodeCommands,
+    ...NPMCommands,
 
-    /**
-     * @async
-     * @function cat
-     * @description Revelation of the hidden content. It pulls the text
-     * from the dark potential of the disk into the visible light of the screen.
-     */
     async cat(shell, args) {
         if (!args[0]) throw new Error("cat: missing operand");
         const item = await shell.resolveItem(args[0]);
@@ -34,11 +30,8 @@ export const TerminalCommands = {
     },
 
     async echo(shell, args) { return args.join(' '); },
-    
     async pwd(shell) { return shell.cwd.path || '/'; },
-
     async date() { return new Date().toString(); },
-
     async whoami() { return "awtsmoos-root"; },
 
     async uptime() {
@@ -61,12 +54,6 @@ export const TerminalCommands = {
 
     async clear(shell) { shell.clearScreen(); return null; },
 
-    /**
-     * @async
-     * @function help
-     * @description The Light that explains the Light. It reveals the
-     * purpose and usage of every command vessel.
-     */
     async help(shell, args) {
         const cmd = args[0];
         if (cmd && DetailedHelp.commands[cmd]) return DetailedHelp.commands[cmd];

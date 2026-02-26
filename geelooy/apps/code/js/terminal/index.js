@@ -7,7 +7,6 @@ import { Tabs } from '../tabs/index.js';
 import { TerminalShell } from './shell.js';
 
 export const Terminal = {
-    // Open a new Terminal Tab
     open(startItem) {
         let initialCwd;
 
@@ -46,16 +45,14 @@ export const Terminal = {
             terminalState: {
                 cwd: initialCwd,
                 history: [],
-                output: []
+                output:[]
             }
         };
         
         Tabs.create(item, false, false, true);
     },
 
-    // B"H - Updated render to handle persisted shell state
     render(tab, container) {
-        // Hydrate state from tab.content if it was restored from session
         if (!tab.terminalState && tab.content) {
             tab.terminalState = tab.content;
         }
@@ -63,12 +60,35 @@ export const Terminal = {
         if (!tab.terminalState) {
             tab.terminalState = {
                 cwd: { kind: 'root', name: 'Workspaces', path: '/' },
-                history: [],
-                output: []
+                history:[],
+                output:[]
             };
         }
 
         const shell = new TerminalShell(tab, container);
         shell.init();
+    },
+
+    /**
+     * B"H - The Bridge of the Background
+     * Allows Node Golems to push text to their specific terminal 
+     * regardless of what tab the user is currently viewing.
+     */
+    printToTab(tabId, text, className = '') {
+        const tab = State.tabs.find(t => t.id === tabId);
+        if (!tab || !tab.terminalState) return;
+        
+        tab.terminalState.output.push({ type: 'line', text, className });
+        
+        if (State.activeTabId === tabId) {
+            const outputEl = document.querySelector('#terminal-wrapper .terminal-output');
+            if (outputEl) {
+                const div = document.createElement('div');
+                div.className = `terminal-line ${className}`;
+                div.textContent = text;
+                outputEl.appendChild(div);
+                outputEl.scrollTop = outputEl.scrollHeight;
+            }
+        }
     }
 };

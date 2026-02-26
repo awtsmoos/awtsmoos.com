@@ -11,6 +11,7 @@ import { StatusBar } from '../statusbar.js';
 import { Linter } from '../tools/linter.js';
 import { ASTEngine } from '../tools/ast-engine.js';
 import { LineLogic } from './line-logic.js';
+import { MessageBridge } from '../html-preview/message-bridge.js'; // B"H - Gateway
 import pnimi from '/scripts/awtsmoos/coding/pnimi.js';
 
 /**
@@ -24,6 +25,7 @@ export const Editor = {
     init() {
         Linter.init().catch(e => console.warn("Linter deferred."));
         ASTEngine.setEditor(this);
+        MessageBridge.init(); // B"H - Ignite the Preview Gateway
         DOM.editor.addEventListener('input', () => this.handleInput());
     },
 
@@ -70,6 +72,25 @@ export const Editor = {
             DOM.editor.scrollTop = scrollPos;
             UI.syncScroll();
             State.isRestoring = false;
+        });
+    },
+
+    showPreviewer(content, metadata, tabId) {
+        const iframe = document.createElement('iframe');
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        iframe.style.backgroundColor = '#fff';
+        
+        DOM.previewer.innerHTML = '';
+        DOM.previewer.appendChild(iframe);
+        
+        import('../html-preview/processor.js').then(m => {
+            // Reconstruct a basic item object for the preview processor
+            const activeTab = State.tabs.find(t => t.id === tabId);
+            if (activeTab && activeTab.item) {
+                m.HTMLPreviewProcessor.orchestrate(activeTab.item, iframe, content);
+            }
         });
     },
 
