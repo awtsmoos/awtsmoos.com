@@ -2,7 +2,7 @@
 // B"H
 /**
  * @file LoopEngine.js
- * @brief The Physical Hand of the Vibe System.
+ * @brief The Physical Hand of the Vibe System. Writes confirmed vessels to disk.
  */
 
 import { State } from '../../state.js';
@@ -12,24 +12,30 @@ import { UI } from '../../ui.js';
 import { GitMetaProvider } from '../../git/meta.js';
 
 export const LoopEngine = {
+    /**
+     * @async
+     * @function apply
+     * @description Writes a list of changes to the physical disk and stages them for Git.
+     */
     async apply(changeList, workspaceId) {
+        if (!changeList || changeList.length === 0) return;
+
         const workspace = State.workspaces.find(ws => String(ws.id) === String(workspaceId));
         if (!workspace) {
-            console.error(`[LoopEngine] B"H - Fatal: Workspace ${workspaceId} not found.`);
+            console.error(`[LoopEngine] B"H - Workspace ${workspaceId} not found.`);
             return;
         }
         
         const physicalType = workspace.originalType || workspace.type;
         const parentsToRefresh = new Set();
         
-        const taskId = `vibe-apply-${Date.now()}`;
-        UI.startTask(taskId, "B\"H - Manifesting Rectifications...");
-
         for (let i = 0; i < changeList.length; i++) {
             const change = changeList[i];
-            const fileName = change.path.split('/').pop();
+            const fileName = change.path.split('/').pop() || "vessel";
+            const taskId = `vibe-apply-${Date.now()}-${i}`;
             
-            UI.updateTask(taskId, (i / changeList.length) * 100, `Writing: ${fileName}`);
+            UI.startTask(taskId, `Writing: ${fileName}`);
+            UI.updateTask(taskId, 50, `Manifesting ${fileName}...`);
             
             const item = { 
                 ...workspace, 
@@ -41,30 +47,28 @@ export const LoopEngine = {
             };
 
             // --- Git Staging Ritual ---
-            const gitInfo = await GitMetaProvider.getGitInfoForFolder(item);
-            if (gitInfo) {
-                const gitRootPath = gitInfo.path.replace(/\/+$/, "") || "/";
-                let relToGit = change.path;
-
-                // B"H - Precise normalization for Staging
-                if (gitRootPath !== "/" && gitRootPath !== "") {
-                    if (change.path.startsWith(gitRootPath + "/")) {
-                        relToGit = change.path.substring(gitRootPath.length + 1);
-                    } else if (change.path === gitRootPath) {
-                        relToGit = "";
+            try {
+                const gitInfo = await GitMetaProvider.getGitInfoForFolder(item);
+                if (gitInfo) {
+                    const gitRoot = gitInfo.path.replace(/\/+$/, "") || "/";
+                    let relToGit = change.path;
+                    if (gitRoot !== "/" && relToGit.startsWith(gitRoot + "/")) {
+                        relToGit = relToGit.substring(gitRoot.length + 1);
+                    } else if (gitRoot === "/") {
+                        relToGit = relToGit.startsWith("/") ? relToGit.substring(1) : relToGit;
                     }
-                } else {
-                    relToGit = change.path.startsWith("/") ? change.path.substring(1) : change.path;
-                }
 
-                if (relToGit) {
-                    const uniqueStagingKey = `${workspaceId}::${relToGit}`;
-                    if (change.operation === 'delete') {
-                        await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingKey, null, { ...item, path: relToGit });
-                    } else {
-                        await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingKey, change.content, { ...item, path: relToGit });
+                    if (relToGit) {
+                        const stagingKey = `${workspaceId}::${relToGit}`;
+                        if (change.operation === 'delete') {
+                            await FileSystemProvider.IndexedDB.writeUncommitted(stagingKey, null, { ...item, path: relToGit });
+                        } else {
+                            await FileSystemProvider.IndexedDB.writeUncommitted(stagingKey, change.content, { ...item, path: relToGit });
+                        }
                     }
                 }
+            } catch (gitErr) {
+                console.warn("[LoopEngine] Git Staging skipped:", gitErr.message);
             }
 
             // --- Physical Manifestation Ritual ---
@@ -80,9 +84,11 @@ export const LoopEngine = {
                 const parentPath = lastSlash <= 0 ? "/" : change.path.substring(0, lastSlash);
                 parentsToRefresh.add(parentPath);
 
+                UI.endTask(taskId, 'success', `B"H - ${fileName} Manifested.`);
+
             } catch (err) {
-                console.error(`[LoopEngine] B"H - Manifestation Shevirah for ${change.path}:`, err);
-                UI.showToast(`Failed to write ${fileName}: ${err.message}`, "error");
+                console.error(`[LoopEngine] B"H - Manifestation failed for ${change.path}:`, err);
+                UI.endTask(taskId, 'error', `Failed: ${fileName}`);
             }
             
             // --- Live Tab Synchronization ---
@@ -92,21 +98,30 @@ export const LoopEngine = {
                 openTab.isDirty = false;
                 openTab.isUncommitted = true;
                 if (State.activeTabId === openTab.id) {
-                    import('../../editor.js').then(m => m.Editor.setCurrentContent(change.content));
+                    const { Editor } = await import('../../editor.js');
+                    if (Editor && Editor.setCurrentContent) {
+                        Editor.setCurrentContent(change.content);
+                    }
                 }
             }
         }
 
-        UI.endTask(taskId, 'success', `B"H - Manifested ${changeList.length} vessels.`);
-
+        // Refresh folders to show new files
         for (const p of parentsToRefresh) {
             await Workspaces.refreshNode({ ...workspace, path: p, kind: 'directory', workspaceId, type: physicalType });
         }
         
-        // Re-render tabs to show uncommitted dots
-        import('../../tabs/index.js').then(m => m.Tabs.render());
+        // Re-render tab bar for status indicators
+        const { Tabs } = await import('../../tabs/index.js');
+        if (Tabs && Tabs.render) Tabs.render();
     },
     
+    /**
+     * @private
+     * @async
+     * @function _ensureDirectoryExists
+     * @description Ensures the physical path exists before writing a file.
+     */
     async _ensureDirectoryExists(workspace, filePath, physicalType) {
         const segments = filePath.split('/').filter(Boolean);
         if (segments.length <= 1) return;

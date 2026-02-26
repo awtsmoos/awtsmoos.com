@@ -8,15 +8,37 @@ import { State } from '../state.js';
 import { PathResolver } from './resolver.js';
 import { VirtualNetwork } from '../network/index.js'; 
 import { NodeSystem } from '../node/index.js';
+import { DevToolsBridge } from '../devtools/bridge.js';
+import { MenuUI } from '../menus/ui.js';
 
 export const MessageBridge = {
     initialized: false,
+
+    /**
+     * @function init
+     * @description Initializes the bridge between the editor heavens and the preview earth.
+     */
     init() {
         if (this.initialized) return;
-        window.addEventListener('message', this.handle.bind(this));
+        
+        console.log("B\"H - MessageBridge: Initializing Communication.");
+        window.addEventListener('message', (e) => this.handle(e));
+        
+        // Ensure the DevTools registry is also listening
+        if (DevToolsBridge && typeof DevToolsBridge.init === 'function') {
+            DevToolsBridge.init();
+        } else {
+            console.error("B\"H - MessageBridge: DevToolsBridge is unformed or missing init.");
+        }
+
         this.initialized = true;
     },
 
+    /**
+     * @async
+     * @function handle
+     * @description Processes incoming messages from the iframes.
+     */
     async handle(e) {
         const d = e.data;
         if (!d || d.source !== 'html-preview-bridge') return;
@@ -37,7 +59,6 @@ export const MessageBridge = {
                 }
             } 
             else if (type === 'open-link') {
-                // B"H - Navigates INSIDE the current preview tab!
                 const absPath = PathResolver.resolve(referrer, href);
                 const ws = State.workspaces.find(w => String(w.id) === String(workspaceId));
                 if (ws && d.previewTabId) {
@@ -46,37 +67,34 @@ export const MessageBridge = {
                 }
             }
             else if (type === 'context-menu') {
-                // B"H - Catch right-click from iframe and manifest parent menu
                 const iframe = document.querySelector(`iframe[data-tab-id="${d.previewTabId}"]`);
                 if (!iframe) return;
                 
-                // Adjust coordinates relative to the iframe's position on screen
                 const rect = iframe.getBoundingClientRect();
                 const clientX = rect.left + d.x;
                 const clientY = rect.top + d.y;
                 
                 const menuItems =[];
                 
-                // If hovered over a local link, offer navigation choices
                 if (d.href) {
                     menuItems.push({ label: "Open Link", action: "preview-nav-link", icon: "play" });
                     menuItems.push({ label: "Open in New Tab", action: "preview-new-tab", icon: "external-link" });
                     menuItems.push({ isSeparator: true });
                 }
                 
-                // Standard Actions
-                menuItems.push({ label: "View Source Code", action: "preview-view-source", icon: "code" });
+                menuItems.push({ label: "Inspect", action: "preview-inspect", icon: "search" });
+                menuItems.push({ label: "Open Console", action: "preview-open-console", icon: "laptop" });
+                menuItems.push({ isSeparator: true });
+                menuItems.push({ label: "View Source", action: "preview-view-source", icon: "code" });
                 menuItems.push({ isSeparator: true });
                 menuItems.push({ label: "Copy Text", action: "preview-copy", icon: "copy", disabled: !d.hasSelection });
                 menuItems.push({ label: "Select All", action: "preview-select-all", icon: "select-all" });
+                menuItems.push({ isSeparator: true });
+                menuItems.push({ label: "Cancel", action: "cancel-menu", icon: "x" });
                 
-                // Store the payload in global state so the action handler can access it
                 State.contextPayload = d;
                 
-                // Invoke UI Menu rendering
-                import('../menus/ui.js').then(ui => {
-                    ui.MenuUI.renderMenu(document.getElementById('context-menu'), menuItems, { clientX, clientY });
-                });
+                MenuUI.renderMenu(document.getElementById('context-menu'), menuItems, { clientX, clientY });
             }
             else if (type === 'fetch-worker-script') {
                 const res = await VirtualServer.fetch(workspaceId, referrer, path);
@@ -102,7 +120,10 @@ export const MessageBridge = {
         }
     },
 
-    // B"H - Helper to beam commands directly into the isolated iframe
+    /**
+     * @function sendCommandToIframe
+     * @description Beams a physical execution command into the iframe.
+     */
     sendCommandToIframe(tabId, cmd) {
         const iframe = document.querySelector(`iframe[data-tab-id="${tabId}"]`);
         if (iframe && iframe.contentWindow) {

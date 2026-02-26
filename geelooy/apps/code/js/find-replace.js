@@ -1,6 +1,6 @@
+
 // B"H
 // FILE: js/find-replace.js
-// REPLACE your entire FindReplace object with this one.
 
 import { DOM } from './state.js';
 import { UI } from './ui.js';
@@ -12,38 +12,31 @@ export const FindReplace = {
     replaceInput: null,
     caseSensitiveCheckbox: null,
 	isFindSelectionActive: false, 
-    // B"H - IN: js/find-replace.js
 
 	show(prefillText = '') {
-	    if (!this.panel) return; // Safety check
+	    if (!this.panel) return; 
 	
-	    // B"H - If text was passed in, populate the input field with it.
 	    if (prefillText) {
 	        this.findInput.value = prefillText;
 	    }
 	
 	    this.panel.style.display = 'grid';
 	    this.findInput.focus();
-	    this.findInput.select(); // This will now select the pre-filled text for easy editing.
+	    this.findInput.select(); 
 	},
 
     hide() {
 	    if (!this.panel) return;
 	    this.panel.style.display = 'none';
-	    this.isFindSelectionActive = false; // B"H - Reset state on hide
+	    this.isFindSelectionActive = false; 
 	    Editor.focus();
 	},
 
-    /**
-     * B"H - NEW, ROBUST FIND FUNCTION
-     * This version performs the search directly and includes wrap-around logic.
-     * It does NOT depend on a highlight layer or a pre-populated 'matches' array.
-     */
     find(reverse = false) {
 	    const originalQuery = this.findInput.value;
 	    if (!originalQuery) return;
 	
-	    const caseSensitive = this.caseSensitiveCheckbox.checked;
+	    const caseSensitive = this.caseSensitiveCheckbox ? this.caseSensitiveCheckbox.checked : false;
 	    const editor = DOM.editor;
 	    const body = caseSensitive ? editor.value : editor.value.toLowerCase();
 	    const query = caseSensitive ? originalQuery : originalQuery.toLowerCase();
@@ -67,15 +60,10 @@ export const FindReplace = {
 	    }
 	
 	    if (index !== -1) {
-	        // --- B"H - THE KEY CHANGE IS HERE ---
-	        // 1. Select the text AND focus the editor to make the highlight active (e.g., blue)
 	        editor.setSelectionRange(index, index + originalQuery.length);
 	        editor.focus();
-	
-	        // 2. Activate our special "find mode"
 	        this.isFindSelectionActive = true;
-	
-	        // --- Scroll logic remains the same ---
+
 	        const textBefore = editor.value.substring(0, index);
 	        const lineNumber = (textBefore.match(/\n/g) || []).length;
 	        const style = window.getComputedStyle(editor);
@@ -86,7 +74,6 @@ export const FindReplace = {
 	        editor.scrollTo({ top: scrollY, left: editor.scrollLeft, behavior: 'smooth' });
 	
 	    } else {
-	        // If no matches are found, make sure to reset the state and focus the input
 	        this.isFindSelectionActive = false;
 	        this.findInput.focus();
 	        this.findInput.select();
@@ -99,8 +86,7 @@ export const FindReplace = {
         const replacement = this.replaceInput.value;
         if (!query) return;
 
-        // B"H - Improved logic to respect case-sensitivity on replace
-        const caseSensitive = this.caseSensitiveCheckbox.checked;
+        const caseSensitive = this.caseSensitiveCheckbox ? this.caseSensitiveCheckbox.checked : false;
         const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
         
         const selectionMatchesQuery = caseSensitive
@@ -109,9 +95,9 @@ export const FindReplace = {
 
         if (selectionMatchesQuery) {
             DOM.editor.setRangeText(replacement, DOM.editor.selectionStart, DOM.editor.selectionEnd, 'end');
-            this.find(); // Find the next occurrence after replacing
+            this.find(); 
         } else {
-            this.find(); // If no text is selected, just find the first occurrence
+            this.find(); 
         }
     },
     
@@ -121,7 +107,7 @@ export const FindReplace = {
         if (!query) return;
 
         const originalValue = DOM.editor.value;
-        const caseSensitive = this.caseSensitiveCheckbox.checked;
+        const caseSensitive = this.caseSensitiveCheckbox ? this.caseSensitiveCheckbox.checked : false;
 
         const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const escapedQuery = escapeRegExp(query);
@@ -142,11 +128,11 @@ export const FindReplace = {
     },
     init() {
 	    this.panel = DOM.findReplacePanel;
+	    if (!this.panel) return;
+
 	    this.findInput = this.panel.querySelector('#find-input');
 	    this.replaceInput = this.panel.querySelector('#replace-input');
 	    this.caseSensitiveCheckbox = this.panel.querySelector('#fr-case-sensitive');
-	    
-	    if (!this.panel) return;
 	
 	    this.panel.querySelector('#find-next-btn').onclick = () => this.find();
 	    this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
@@ -154,28 +140,22 @@ export const FindReplace = {
 	    this.panel.querySelector('#replace-btn').onclick = () => this.replace();
 	    this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
 	    
-	    // This listener now checks for the Shift key
 	    this.findInput.addEventListener('keydown', (e) => {
 	        if (e.key === 'Enter') {
 	            e.preventDefault();
-	            // B"H - THE FIX: Pass e.shiftKey (true/false) to the find function
 	            this.find(e.shiftKey); 
 	        }
 	    });
 	
-	    // This listener on the editor also now checks for the Shift key
 	    DOM.editor.addEventListener('keydown', (e) => {
 	        if (e.key === 'Enter' && this.isFindSelectionActive) {
 	            e.preventDefault();
-	            // B"H - THE FIX: Pass e.shiftKey here as well
 	            this.find(e.shiftKey);
 	        } else {
-	            // If any OTHER key is pressed, deactivate the special mode
 	            this.isFindSelectionActive = false;
 	        }
 	    });
 	
-	    // If the user clicks in the editor, deactivate the special mode
 	    DOM.editor.addEventListener('mousedown', () => {
 	        this.isFindSelectionActive = false;
 	    });

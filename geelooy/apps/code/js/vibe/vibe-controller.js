@@ -21,15 +21,14 @@ import { SidebarUI } from './view/sidebar-ui.js';
  */
 export const VibeController = {
     /**
-     * B"H - Initialization of the visual layer.
+     * B"H - Initialization.
      */
     init() { 
-        console.log("B\"H - VibeController: Awakening Visual Chariot.");
         VibeView.init(); 
     },
 
     /**
-     * B"H - Navigation Logic: Opening sessions, managers, and files.
+     * B"H - Navigation.
      */
     open(folderItem) { 
         return VibeNavigator.openSession(folderItem); 
@@ -48,7 +47,7 @@ export const VibeController = {
     },
 
     /**
-     * B"H - Messaging Logic: Sending instructions and handling the stream.
+     * B"H - Communication.
      */
     sendMessage(tab) { 
         return VibeMessenger.sendMessage(tab, this); 
@@ -59,7 +58,7 @@ export const VibeController = {
     },
 
     /**
-     * B"H - State Management: Resilience, resets, and history checkpoints.
+     * B"H - State.
      */
     resetChat(tab) { 
         return VibeStateManager.resetChat(tab, this); 
@@ -74,23 +73,20 @@ export const VibeController = {
     },
 
     /**
-     * B"H - Resource Logic: Token auditing and real-time counting.
+     * B"H - Resources.
      */
     updateTokenCount(tab) { 
         return VibeResourceTracker.updateTokenCount(tab); 
     },
 
     /**
-     * B"H - Rendering Ritual: Master routing between Editor and Dashboard.
+     * B"H - Rendering Ritual.
      */
     async render(tab) {
         if (!tab || !tab.item) return;
 
-        console.log("B\"H - VibeController: Rendering ritual for type:", tab.item.type);
-
-        // B"H - ROUTE: Manager/Dashboard Dashboard Settings
+        // B"H - ROUTE: Manager/Settings Dashboard
         if (tab.item.type === 'vibe-manager') {
-            console.log("B\"H - VibeController: Routing to Manager Dashboard UI.");
             let wrap = document.getElementById('vibe-manager-wrapper');
             if (!wrap) {
                 wrap = document.createElement('div');
@@ -101,36 +97,22 @@ export const VibeController = {
                 if (editorArea) editorArea.appendChild(wrap);
             }
             
-            // Switch view ensuring all others (editor, vibe, etc) are hidden
             UI.switchView('vibe-manager-wrapper');
-            
             await VibeManagerUI.render(wrap, this);
             return;
         }
         
-        // B"H - ROUTE: Standard Vibe Coding Session
+        // B"H - ROUTE: Vibe Coding Session
         UI.switchView('vibe');
-        if (!tab.vibeSession) {
-            tab.vibeSession = tab.content;
-        }
-        
+        if (!tab.vibeSession) tab.vibeSession = tab.content;
         await VibeView.render(tab, this);
         this.updateTokenCount(tab);
     },
 	
-    /**
-     * @function refreshView
-     * @description Forces a full UI refresh for the active tab.
-     */
     refreshView(tab) { 
         this.render(tab); 
     },
 	
-    /**
-     * @async
-     * @function refreshTree
-     * @description Synchronizes the sidebar file tree with physical reality.
-     */
     async refreshTree(tab) {
         const container = document.getElementById('vibe-editor-wrapper');
         const root = this.getRootItem(tab);

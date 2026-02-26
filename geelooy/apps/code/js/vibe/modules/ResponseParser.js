@@ -2,31 +2,26 @@
 // B"H
 /**
  * @file ResponseParser.js
- * @brief The Sieve of Divine Understanding with Hebrew CDATA transformation.
+ * @brief The Sieve of Divine Understanding. Extracts XML blocks from AI speech.
  */
 
 export const ResponseParser = {
+    /** @constant {string} START_MARKER Hebrew start signal */
     START_MARKER: "₪₪₪_בס\"ד_תחי" + "לת_הק" + "וד_₪₪₪",
+    /** @constant {string} END_MARKER Hebrew end signal */
     END_MARKER: "₪₪₪_בס\"ד_ס" + "וף_הק" + "וד_₪₪₪",
 
+    /**
+     * @function parseChanges
+     * @description Extracts normalized changes from a block of text.
+     */
     parseChanges(text, sessionRootPath) {
         if (!text) return [];
         
-        // B"H - Transfigure the Hebrew markers into XML-safe CDATA blocks
+        // Transfigure markers to standard CDATA for internal DOM parsing
         const oC = "<!" + "[C" + "DATA[";
         const cC = "]" + "]" + ">";
-        
-        // We must be careful to only replace markers that have a corresponding pair
-        let processedText = text;
-        if (text.includes(this.START_MARKER)) {
-            processedText = text.split(this.START_MARKER).join(oC);
-            if (processedText.includes(this.END_MARKER)) {
-                processedText = processedText.split(this.END_MARKER).join(cC);
-            } else {
-                // If it's still streaming and hasn't reached the end, append a temporary closer
-                processedText += cC;
-            }
-        }
+        const xmlReady = text.split(this.START_MARKER).join(oC).split(this.END_MARKER).join(cC);
 
         const changes = [];
         const tagS = "<chan" + "ge>";
@@ -36,13 +31,13 @@ export const ResponseParser = {
         const domParser = new DOMParser();
 
         while (true) {
-            const startIdx = processedText.indexOf(tagS, lastIdx);
+            const startIdx = xmlReady.indexOf(tagS, lastIdx);
             if (startIdx === -1) break;
 
-            const endIdx = processedText.indexOf(tagE, startIdx);
+            const endIdx = xmlReady.indexOf(tagE, startIdx);
             if (endIdx === -1) break;
 
-            const block = processedText.substring(startIdx, endIdx + tagE.length);
+            const block = xmlReady.substring(startIdx, endIdx + tagE.length);
             lastIdx = endIdx + tagE.length;
 
             try {
@@ -57,6 +52,7 @@ export const ResponseParser = {
 
                 if (fileLabel) {
                     const absolutePath = this._normalizePath(sessionRootPath, fileLabel);
+                    
                     changes.push({
                         path: absolutePath,
                         operation: operation.toLowerCase(),
@@ -65,16 +61,22 @@ export const ResponseParser = {
                     });
                 }
             } catch(e) {
-                console.warn("[ResponseParser] B\"H - Incremental block parse failed:", e);
+                console.warn("[ResponseParser] B\"H - Block parsing encountered chaos:", e);
             }
         }
         
         return changes;
     },
 
+    /**
+     * @private
+     * @function _normalizePath
+     * @description Ensures root and relative paths are woven into a single Absolute Path.
+     */
     _normalizePath(root, file) {
         const r = (root || "/").replace(/\\/g, '/');
         const f = (file || "").replace(/\\/g, '/');
+
         const rootSegs = r.split('/').filter(p => p && p !== 'undefined');
         const fileSegs = f.split('/').filter(p => p && p !== 'undefined');
         
@@ -90,6 +92,8 @@ export const ResponseParser = {
         }
 
         const finalSegs = isAlreadyAnchored ? fileSegs : rootSegs.concat(fileSegs);
-        return ('/' + finalSegs.join('/')).replace(/\/+/g, '/');
+        const result = '/' + finalSegs.join('/');
+        
+        return result.replace(/\/+/g, '/');
     }
 };

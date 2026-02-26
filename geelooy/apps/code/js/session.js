@@ -3,175 +3,90 @@
 // FILE: js/session.js
 
 import { State } from './state.js';
-import { Workspaces } from './workspaces.js';
+import { Workspaces } from './workspaces/index.js';
 import { FileSystemProvider } from './fs-provider.js';
-import { Tabs } from './tabs.js';
+import { Tabs } from './tabs/index.js';
+import { DevToolsBridge } from './devtools/bridge.js';
 
 export const Session = {
     saveDebounceTimer: null,
 
     saveDebounced() {
         if (this.saveDebounceTimer) clearTimeout(this.saveDebounceTimer);
-        this.saveDebounceTimer = setTimeout(() => {
-            this.save();
-        }, 1000); 
+        this.saveDebounceTimer = setTimeout(() => this.save(), 1000); 
     },
 
     save() {
         try {
-            // 1. Save Workspaces (Metadata only)
             const persistableWorkspaces = State.workspaces
                 .filter(ws =>['github', 'indexeddb', 'ssh', 'local', 'opfs'].includes(ws.type))
-                .map(ws => {
-                    const { handle, _treeCache, isLocked, ...safeWs } = ws;
-                    return safeWs;
-                });
+                .map(ws => { const { handle, _treeCache, isLocked, ...safeWs } = ws; return safeWs; });
 
             const allowedWsIds = new Set(persistableWorkspaces.map(ws => ws.id));
 
-            // 2. Save Tabs
             const persistableTabs = State.tabs
-                .filter(tab => {
-                    return (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || 
-                           ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'].includes(tab.item.type);
-                })
+                .filter(tab => (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'].includes(tab.item.type))
                 .map(tab => {
-                    // B"H - Capture essential item metadata
-                    const safeItem = {
-                        name: tab.item.name,
-                        path: tab.item.path,
-                        kind: tab.item.kind,
-                        type: tab.item.type,
-                        workspaceId: tab.item.workspaceId, 
-                        repoInfo: tab.item.repoInfo,       
-                        branch: tab.item.branch,           
-                        sha: tab.item.sha,
-                        originalType: tab.item.originalType,
-                        // Persist state objects for tools
-                        commanderState: tab.item.commanderState,
-                        terminalState: tab.item.terminalState,
-                        previewTabId: tab.item.previewTabId
-                    };
-
-                    // B"H - CRITICAL FIX: Quota Protection
-                    // Only save content for virtual types that have no disk backing.
-                    // Even then, check size.
+                    const safeItem = { ...tab.item };
                     let contentToSave = null;
-                    const isVirtual = ['temp', 'vibe-session', 'html-preview'].includes(tab.fileType) || tab.item.type === 'temp';
-                    
-                    if (isVirtual && typeof tab.content === 'string') {
-                        if (tab.content.length < 50000) { // Limit to ~50KB per tab in local storage
-                            contentToSave = tab.content;
-                        } else {
-                            contentToSave = "// Content too large for session storage. Please save to file.";
-                        }
-                    } else if (typeof tab.content === 'object') {
-                        // For state objects (like Vibe history), allow them if reasonable
-                        contentToSave = tab.content;
+                    if (['temp', 'vibe-session', 'html-preview'].includes(tab.fileType)) contentToSave = tab.content;
+                    else if (typeof tab.content === 'object') contentToSave = tab.content;
+
+                    let devtoolsMetadata = null;
+                    // B"H - GATHER DEVTOOLS HISTORY
+                    const bridgeState = DevToolsBridge.getTabPersistentState(tab.fileType === 'devtools' ? tab.item.previewTabId : tab.id);
+                    if (bridgeState && (bridgeState.logs.length > 0 || bridgeState.networkReqs.length > 0)) {
+                        devtoolsMetadata = {
+                            activePanel: bridgeState.activePanel,
+                            selectedPath: bridgeState.selectedPath,
+                            expandedPaths: Array.from(bridgeState.expandedPaths || []),
+                            logs: bridgeState.logs.slice(-100), // Keep last 100 for storage limits
+                            networkReqs: bridgeState.networkReqs.slice(-100)
+                        };
                     }
 
                     return { 
-                        id: tab.id,
-                        uniquePath: tab.uniquePath,
-                        isDirty: tab.isDirty,
-                        isUncommitted: tab.isUncommitted,
-                        pinned: tab.pinned || false, 
-                        scrollPos: tab.scrollPos || 0,
-                        fileType: tab.fileType,
-                        isPreview: tab.isPreview,
-                        item: safeItem,
-                        content: contentToSave,
-                        devtoolsState: tab.devtoolsState 
+                        id: tab.id, uniquePath: tab.uniquePath, isDirty: tab.isDirty, isUncommitted: tab.isUncommitted,
+                        pinned: tab.pinned || false, scrollPos: tab.scrollPos || 0, fileType: tab.fileType,
+                        isPreview: tab.isPreview, item: safeItem, content: contentToSave, devtoolsMetadata 
                     };
                 });
 
             const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            const activeTabUniquePath = activeTab ? activeTab.uniquePath : null;
-
             const session = {
                 workspaces: persistableWorkspaces,
                 openTabs: persistableTabs,
-                activeTabUniquePath: activeTabUniquePath,
+                activeTabUniquePath: activeTab ? activeTab.uniquePath : null,
                 expandedFolders: Array.from(State.expandedFolders)
             };
-
             localStorage.setItem('vividX_session_profound', JSON.stringify(session));
-        } catch (e) {
-            if (e.name === 'QuotaExceededError') {
-                console.warn("B\"H - Session Storage Full. Skipping save to prevent crash.");
-            } else {
-                console.error("Save Session Failed:", e);
-            }
-        }
+        } catch (e) { console.warn("B\"H - Session Save Failed:", e); }
     },
 
     async load() {
         const savedSession = localStorage.getItem('vividX_session_profound');
         if (!savedSession) return;
-
         try {
             const session = JSON.parse(savedSession);
-
-            if (session.workspaces && Array.isArray(session.workspaces)) {
-                let maxId = 0;
-                for (const wsData of session.workspaces) {
-                    if (wsData.id >= maxId) maxId = wsData.id + 1;
-
-                    if (wsData.type === 'local') {
-                        try {
-                            const handle = await FileSystemProvider.IndexedDB.getHandle(wsData.id);
-                            if (handle) {
-                                wsData.handle = handle;
-                                const perm = await handle.queryPermission({ mode: 'readwrite' });
-                                wsData.isLocked = (perm !== 'granted');
-                            } else {
-                                wsData.isLocked = true;
-                                wsData.isLost = true;
-                            }
-                        } catch (e) { wsData.isLocked = true; }
-                    }
-                    Workspaces.add(wsData, false);
-                }
-                State.nextWorkspaceId = maxId;
+            if (session.workspaces) {
+                session.workspaces.forEach(wsData => Workspaces.add(wsData, false));
             }
-
-            if (session.openTabs && Array.isArray(session.openTabs)) {
-                let maxTabId = 0;
+            if (session.openTabs) {
                 State.tabs = session.openTabs.map(t => {
-                    if (t.id >= maxTabId) maxTabId = t.id + 1;
-                    
-                    if (t.fileType === 'vibe' && t.content) {
-                        t.vibeSession = t.content; 
-                    } else if (t.item.type === 'terminal' && t.content) {
-                        t.terminalState = t.content;
-                    } else if (t.item.type === 'commander' && t.content) {
-                        t.commanderState = t.content;
+                    if (t.devtoolsMetadata) {
+                        // REHYDRATE THE BRIDGE MEMORY
+                        DevToolsBridge.getTabPersistentState(t.item.previewTabId || t.id, t.devtoolsMetadata);
                     }
-
-                    return {
-                        ...t,
-                        forceReload: true, 
-                        pinned: !!t.pinned, 
-                        scrollPos: typeof t.scrollPos === 'number' ? t.scrollPos : 0
-                    };
+                    return { ...t, forceReload: true };
                 });
-                State.nextTabId = maxTabId;
                 Tabs.render();
             }
-
-            if (session.expandedFolders) {
-                State.expandedFolders = new Set(session.expandedFolders);
-                Workspaces.render();
-            }
-
+            if (session.expandedFolders) State.expandedFolders = new Set(session.expandedFolders);
             if (session.activeTabUniquePath) {
-                const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
-                if (activeTab) {
-                    State.activeTabId = activeTab.id;
-                }
+                const active = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
+                if (active) State.activeTabId = active.id;
             }
-        } catch (e) {
-            console.error("Session Load Failed:", e);
-        }
+            Workspaces.render();
+        } catch (e) { console.error("Session Load Failed:", e); }
     }
 };

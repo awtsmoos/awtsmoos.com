@@ -11,25 +11,14 @@ import { Tabs } from '../tabs/index.js';
 import { Exporter } from './exporter.js';
 
 export const Transfer = {
-    /**
-     * @async
-     * @function generateMarkdownContext
-     * @description Gathers text essence for AI context.
-     */
     async generateMarkdownContext(items, basePath = "") {
         return await ContextGenerator.generate(items, basePath);
     },
 
-    /**
-     * @async
-     * @function copySelected
-     * @description Captures the complete essence of selected items into the clipboard.
-     */
     async copySelected() {
         const selectedPaths = Array.from(State.selectedItems);
         if (selectedPaths.length === 0) return UI.showToast("No items selected.", "info");
 
-        // Convert path keys to full data objects
         const itemsToCopy = selectedPaths
             .map(p => State.domItemMap.get(p)?.item)
             .filter(Boolean);
@@ -43,11 +32,6 @@ export const Transfer = {
         SelectionManager.end();
     },
 
-    /**
-     * @async
-     * @function copyAllContents
-     * @description Copies combined text content to system clipboard.
-     */
     async copyAllContents(items) {
         if (!items || items.length === 0) return;
         const taskId = `copy-ctx-${Date.now()}`;
@@ -60,11 +44,6 @@ export const Transfer = {
         } catch (e) { UI.endTask(taskId, 'error', e.message); }
     },
     
-    /**
-     * @async
-     * @function downloadAllContents
-     * @description Downloads combined text content as a Markdown file.
-     */
     async downloadAllContents(items) {
         if (!items || items.length === 0) return;
         const taskId = `dl-ctx-${Date.now()}`;
@@ -83,11 +62,6 @@ export const Transfer = {
         } catch (e) { UI.endTask(taskId, 'error', e.message); }
     },
 
-    /**
-     * @async
-     * @function deleteSelected
-     * @description Batch deletion of selected items.
-     */
     async deleteSelected() {
         const selected = Array.from(State.selectedItems).map(p => State.domItemMap.get(p)?.item).filter(Boolean);
         if (selected.length === 0) return;
@@ -118,62 +92,91 @@ export const Transfer = {
     /**
      * @async
      * @function paste
-     * @description Manifests copied essence into a new location.
+     * @description The great manifestation. Now with lighting speed for local FS.
      */
     async paste(destinationDir) {
         if (!State.fileClipboard?.length && !State.clipboardZip) return UI.showToast("Clipboard empty.", "warning");
+        
         const taskId = `paste-${Date.now()}`;
-        UI.startTask(taskId, "Pasting...");
+        UI.startTask(taskId, "Analyzing clipboard...");
+
         try {
             if (State.clipboardZip) {
                 const blob = State.clipboardZip.type === 'lazy-zip' ? await Exporter.createZipBlob(State.clipboardZip.items) : State.clipboardZip.blob;
                 const path = `${destinationDir.path === '/' ? '' : destinationDir.path}/${State.clipboardZip.name}`;
                 await FileSystemProvider.write({ ...destinationDir, path, kind: 'file' }, await blob.arrayBuffer());
+                UI.endTask(taskId, 'success', 'ZIP Pasted.');
             } else {
-                // B"H - Paste Logic: Supports both path strings (legacy) and item objects
                 const sourceItems = State.fileClipboard.map(p => {
                     if (typeof p === 'string') return State.domItemMap.get(p)?.item;
                     return p;
                 }).filter(Boolean);
                 
-                for (const src of sourceItems) {
-                    await this._copyRecursive(src, destinationDir);
+                // 1. Calculate Total Work for progress bar
+                let totalFiles = 0;
+                for(const src of sourceItems) {
+                    if(src.kind === 'file') totalFiles++;
+                    else {
+                        const all = await FileSystemProvider.listAllFiles(src);
+                        totalFiles += all.length;
+                    }
                 }
+                
+                let processedFiles = 0;
+                const onProgress = (path) => {
+                    processedFiles++;
+                    const percent = (processedFiles / totalFiles) * 100;
+                    UI.updateTask(taskId, percent, `Pasting: ${path.split('/').pop()}`);
+                };
+
+                // 2. High-speed local transfer ritual
+                if (destinationDir.type === 'local') {
+                    const { LocalProvider } = await import('../fs/local/index.js');
+                    const destHandle = await LocalProvider.getHandle(
+                        await LocalProvider._getRootHandle(destinationDir),
+                        destinationDir.path,
+                        { kind: 'directory' },
+                        destinationDir.workspaceId
+                    );
+
+                    for (const src of sourceItems) {
+                        await LocalProvider.fastCopy(src, destHandle, onProgress);
+                    }
+                } else {
+                    // Fallback for non-local types
+                    for (const src of sourceItems) {
+                        await this._copyRecursive(src, destinationDir, onProgress);
+                    }
+                }
+
+                UI.endTask(taskId, 'success', `B"H - ${totalFiles} items pasted.`);
             }
-            UI.endTask(taskId, 'success', `Paste complete.`);
-        } catch(e) { UI.endTask(taskId, 'error', e.message); }
-        finally { await Workspaces.refreshNode(destinationDir); }
+        } catch(e) { 
+            console.error(e);
+            UI.endTask(taskId, 'error', e.message); 
+        } finally { 
+            await Workspaces.refreshNode(destinationDir); 
+        }
     },
 
-    /**
-     * @private
-     * @async
-     * @function _copyRecursive
-     * @description Recursively copies items across physical boundaries.
-     */
-    async _copyRecursive(src, dest) {
+    async _copyRecursive(src, dest, onProgress) {
         const path = `${dest.path === '/' ? '' : dest.path}/${src.name}`;
         const item = { ...dest, name: src.name, path };
         if (src.kind === 'file') {
             const content = await FileSystemProvider.read(src);
             await FileSystemProvider.write(item, content);
+            if (onProgress) onProgress(src.path);
         } else {
             try { await FileSystemProvider.create(dest, src.name, 'directory'); } catch(e) {}
             const res = await FileSystemProvider.list(src);
             const children = Array.isArray(res) ? res : res.entries;
             for (const child of children) {
                 const ws = State.workspaces.find(w => w.id === (src.workspaceId ?? src.id));
-                // Recurse into children
-                await this._copyRecursive({ ...ws, ...child }, { ...item, kind: 'directory' });
+                await this._copyRecursive({ ...ws, ...child }, { ...item, kind: 'directory' }, onProgress);
             }
         }
     },
 
-    /**
-     * @async
-     * @function pullAndOverwrite
-     * @description Syncs workspace with remote GitHub state.
-     */
     async pullAndOverwrite(gitContextItem, gitInfo) {
 	    const taskId = `pull-${Date.now()}`;
 	    UI.startTask(taskId, `Syncing with GitHub...`);
