@@ -1,5 +1,16 @@
+
 /* B"H
  - FILE COMMANDER STYLES */
+
+/* B"H - The sacred vessel for the Commander's view */
+#file-commander-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-bg-deep);
+}
 
 .file-commander-overlay {
     position: fixed;

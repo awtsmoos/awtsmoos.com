@@ -18,6 +18,8 @@ export const DOMTreeBuilder = {
         if (node.nodeType === Node.TEXT_NODE) {
             const txt = node.textContent.trim();
             if (!txt) return null;
+            // B"H - If it's a child of a script/style, it will be handled by the parent's recursive call.
+            // This standalone render is for root-level text nodes or mixed content.
             return HTML({ 
                 className: 'dt-el-text', 
                 style: { color: '#d4d4d4', paddingLeft: '16px', whiteSpace: 'pre-wrap' }, 
@@ -41,26 +43,10 @@ export const DOMTreeBuilder = {
         const openTagElements = TagLogic.renderOpen(tagName, attributesHtml);
         const closeTagConfig = TagLogic.renderClose(tagName);
 
-        // Special handling for Script/Style content
-        if ((tagName === 'script' || tagName === 'style') && node.textContent.trim()) {
-            const lang = tagName === 'script' ? 'js' : 'css';
-            const codeBlock = CodeBlockRenderer.render(node.textContent.trim(), lang);
-            
-            return HTML({
-                style: { display: 'block', marginBottom: '2px' },
-                children: [
-                    { tag: 'div', style: { display: 'flex' }, children: openTagElements },
-                    codeBlock,
-                    { tag: 'div', style: { display: 'flex' }, children: [closeTagConfig] }
-                ]
-            });
-        }
-
         // Void Elements (Self-closing)
         if (TagLogic.isVoid(tagName)) {
             return HTML({ 
                 className: 'dt-el-line', 
-                style: { display: 'flex', paddingLeft: '16px', marginBottom: '2px' }, 
                 children: openTagElements 
             });
         }
@@ -69,7 +55,6 @@ export const DOMTreeBuilder = {
         if (node.childNodes.length === 0) {
             return HTML({ 
                 className: 'dt-el-line', 
-                style: { display: 'flex', paddingLeft: '16px', marginBottom: '2px' }, 
                 children: [...openTagElements, closeTagConfig] 
             });
         }
@@ -77,76 +62,74 @@ export const DOMTreeBuilder = {
         // Simple Text Children (Inline)
         if (node.childNodes.length === 1 && node.childNodes[0].nodeType === Node.TEXT_NODE) {
             const rawText = node.childNodes[0].textContent.trim();
-            if (rawText.length < 60 && !rawText.includes('\n')) {
-                return HTML({
+            if (rawText && rawText.length < 80 && !rawText.includes('\n')) {
+                 return HTML({
                     className: 'dt-el-line',
-                    style: { display: 'flex', paddingLeft: '16px', marginBottom: '2px' },
                     children:[
                         ...openTagElements,
-                        { tag: 'span', style: { color: '#d4d4d4', margin: '0 5px' }, text: rawText },
+                        { tag: 'span', className: 'dt-el-text-inline', text: rawText },
                         closeTagConfig
                     ]
                 });
             }
         }
 
-        // Deep Nesting (Recursive Details/Summary)
+        // --- B"H - THE UNIFIED DEEP NESTING RITUAL ---
+        // All non-void, non-empty elements now pass through here.
         const isOpen = TagLogic.isAutoOpen(tagName);
-        let isLoaded = false;
-        let arrowEl;
-        let bodyContainer;
+        const hasChildren = node.childNodes.length > 0;
+        
+        const details = document.createElement('details');
+        details.className = 'dt-el-node';
+        details.open = isOpen;
 
-        const toggleDetails = (e) => {
-            e.stopPropagation();
-            const isHidden = bodyContainer.style.display === 'none';
-            bodyContainer.style.display = isHidden ? 'block' : 'none';
-            arrowEl.textContent = isHidden ? '▼' : '▶';
-            
-            if (isHidden && !isLoaded) {
-                isLoaded = true;
-                Array.from(node.childNodes).forEach(c => { 
-                    const cN = this.buildNode(c); 
-                    if(cN) bodyContainer.appendChild(cN); 
-                });
-            }
+        const summary = document.createElement('summary');
+        summary.className = 'dt-el-summary';
+        
+        const summaryContent = HTML({
+            tag: 'span',
+            className: 'dt-el-tag-line',
+            style: { display: 'inline-flex', alignItems: 'baseline' },
+            children: openTagElements
+        });
+        summary.appendChild(summaryContent);
+        details.appendChild(summary);
+
+        const childrenContainer = document.createElement('div');
+        childrenContainer.className = 'dt-el-children';
+
+        const renderChildren = () => {
+            Array.from(node.childNodes).forEach(childNode => {
+                let renderedChild;
+                if ((tagName === 'script' || tagName === 'style') && childNode.nodeType === Node.TEXT_NODE && childNode.textContent.trim()) {
+                    const lang = tagName === 'script' ? 'js' : 'css';
+                    renderedChild = CodeBlockRenderer.render(childNode.textContent.trim(), lang);
+                } else {
+                    renderedChild = this.buildNode(childNode);
+                }
+                if (renderedChild) childrenContainer.appendChild(renderedChild);
+            });
         };
 
-        const wrapper = HTML({
-            style: { display: 'block', marginBottom: '2px', whiteSpace: 'nowrap' },
-            children:[
-                {
-                    tag: 'div',
-                    style: { cursor: 'pointer', display: 'flex', alignItems: 'flex-start', userSelect: 'none' },
-                    onClick: toggleDetails,
-                    children: [ 
-                        { 
-                            tag: 'span', 
-                            text: isOpen ? '▼' : '▶', 
-                            style: { fontSize: '0.6em', color: 'gray', marginRight: '6px', width: '10px' }, 
-                            ref: el => arrowEl = el 
-                        }, 
-                        ...openTagElements 
-                    ]
-                },
-                {
-                    ref: el => bodyContainer = el,
-                    className: 'dt-el-children',
-                    style: { 
-                        paddingLeft: '12px', 
-                        borderLeft: '1px dotted rgba(255, 255, 255, 0.2)', 
-                        marginLeft: '5px', 
-                        display: isOpen ? 'block' : 'none' 
-                    }
-                },
-                { tag: 'div', style: { paddingLeft: '16px', display: 'flex' }, children: [closeTagConfig] }
-            ]
-        });
-
         if (isOpen) {
-            isLoaded = true;
-            Array.from(node.childNodes).forEach(c => { const cN = this.buildNode(c); if(cN) bodyContainer.appendChild(cN); });
+            renderChildren();
+        } else {
+            // Lazy load children on open
+            details.addEventListener('toggle', () => {
+                if (details.open && childrenContainer.children.length === 0) {
+                    renderChildren();
+                }
+            }, { once: true });
         }
+        
+        details.appendChild(childrenContainer);
 
-        return wrapper;
+        const closeTagEl = HTML({
+            className: 'dt-el-close',
+            children: [closeTagConfig]
+        });
+        details.appendChild(closeTagEl);
+
+        return details;
     }
 };

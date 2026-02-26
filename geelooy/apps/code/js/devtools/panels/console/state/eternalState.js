@@ -3,37 +3,42 @@
 /**
  * @file eternalState.js
  * @brief The immutable memory of the console's history.
- * 
- * POEM OF THE SINGULARITY:
- * Though the views may shatter and the tabs may flee,
- * The word remains locked in the memory.
- * No void can swallow what has once been said,
- * In this sacred vessel, the light is fed.
- * The logs are the footsteps of the Spirit's flight,
- * Guarded forever in the eternal light.
  */
 
 const globalConsoleData = {
     logs: [],
+    commandHistory: [], // B"H - Added history tracking
     previewTabId: null
 };
 
 export const EternalConsoleState = {
     /**
      * B"H - Syncs the provided state with the eternal spring.
-     * @param {Object} tempState - The state from a transient panel.
      */
     sync(tempState) {
         if (!tempState) return;
         if (tempState.previewTabId) {
             globalConsoleData.previewTabId = tempState.previewTabId;
         }
-        // Force reference to the eternal array
+        // Force reference to the eternal arrays
         tempState.logs = globalConsoleData.logs;
+        tempState.commandHistory = globalConsoleData.commandHistory;
     },
 
     addLog(logObj) {
         globalConsoleData.logs.push(logObj);
+    },
+    
+    addToHistory(cmd) {
+        // Prevent duplicates at the end
+        const last = globalConsoleData.commandHistory[globalConsoleData.commandHistory.length - 1];
+        if (last !== cmd) {
+            globalConsoleData.commandHistory.push(cmd);
+        }
+    },
+    
+    getHistory() {
+        return globalConsoleData.commandHistory;
     },
 
     setPreviewTabId(id) {

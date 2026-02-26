@@ -21,28 +21,81 @@ export const ConsoleInput = {
             if (ConsoleDOMCache.editorInstance) {
                 setTimeout(() => ConsoleDOMCache.editorInstance.refresh(), 50);
             }
+            this._bindButtons(ConsoleDOMCache.inputArea, state);
             return;
         }
 
         const area = HTML(CONSOLE_INPUT_SCHEMA);
         parentContainer.appendChild(area);
         const inputEl = area.querySelector('#dt-console-text-entry');
+        
+        let historyIndex = -1;
 
         // B"H - Binding Logic
         inputEl.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 const code = e.target.value.trim();
+                
                 if (code) {
-                    const logObj = { level: 'input', args:[{ type: 'string', value: code, forceCode: true }] };
+                    const logObj = { 
+                        level: 'input', 
+                        args: [{ type: 'string', value: code, forceCode: true }],
+                        timestamp: Date.now()
+                    };
+                    
                     EternalConsoleState.addLog(logObj);
+                    EternalConsoleState.addToHistory(code);
+                    historyIndex = -1;
+                    
+                    // Render immediately
                     logFn(logObj);
+                    
                     DevToolsBridge.sendEval(EternalConsoleState.getPreviewTabId(), code);
+                    
                     if (ConsoleDOMCache.editorInstance) {
                         ConsoleDOMCache.editorInstance.update("");
                     }
                     e.target.value = "";
                     inputEl.style.height = '24px';
+                }
+            }
+            else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const hist = EternalConsoleState.getHistory();
+                if (hist.length === 0) return;
+                
+                if (historyIndex === -1) historyIndex = hist.length - 1;
+                else historyIndex = Math.max(0, historyIndex - 1);
+                
+                const prevCmd = hist[historyIndex];
+                e.target.value = prevCmd;
+                
+                // B"H - Tikkun: Force refresh of highlighter
+                if (ConsoleDOMCache.editorInstance) {
+                    ConsoleDOMCache.editorInstance.update(prevCmd);
+                    ConsoleDOMCache.editorInstance.refresh();
+                }
+            }
+            else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const hist = EternalConsoleState.getHistory();
+                
+                if (historyIndex === -1 || historyIndex === hist.length - 1) {
+                    historyIndex = -1;
+                    e.target.value = "";
+                    if (ConsoleDOMCache.editorInstance) {
+                        ConsoleDOMCache.editorInstance.update("");
+                        ConsoleDOMCache.editorInstance.refresh();
+                    }
+                } else {
+                    historyIndex = Math.min(hist.length - 1, historyIndex + 1);
+                    const nextCmd = hist[historyIndex];
+                    e.target.value = nextCmd;
+                    if (ConsoleDOMCache.editorInstance) {
+                        ConsoleDOMCache.editorInstance.update(nextCmd);
+                        ConsoleDOMCache.editorInstance.refresh();
+                    }
                 }
             }
         });
@@ -69,6 +122,29 @@ export const ConsoleInput = {
         }
 
         ConsoleDOMCache.inputArea = area;
+        this._bindButtons(area, state);
         setTimeout(() => inputEl.focus(), 150);
+    },
+    
+    _bindButtons(area, state) {
+        const upBtn = area.querySelector('#dt-console-history-up');
+        const clearBtn = area.querySelector('#dt-console-clear');
+        const inputEl = area.querySelector('#dt-console-text-entry');
+        
+        if (upBtn) {
+            upBtn.onclick = () => {
+                inputEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+                inputEl.focus();
+            };
+        }
+        
+        if (clearBtn) {
+            clearBtn.onclick = () => {
+                state.logs.length = 0;
+                if (ConsoleDOMCache.logContainer) {
+                    ConsoleDOMCache.logContainer.innerHTML = '';
+                }
+            };
+        }
     }
 };

@@ -15,7 +15,8 @@ export const CONSOLE_INPUT_SCHEMA = {
         alignItems: 'flex-start', 
         flexShrink: '0', 
         width: '100%',
-        minHeight: '40px' 
+        minHeight: '40px',
+        gap: '8px'
     },
     children:[
         { 
@@ -23,7 +24,6 @@ export const CONSOLE_INPUT_SCHEMA = {
             style: { 
                 color: 'var(--neon-cyan, #0ff)', 
                 fontWeight: 'bold', 
-                marginRight: '12px', 
                 marginTop: '4px', 
                 fontFamily: 'monospace' 
             }, 
@@ -55,6 +55,27 @@ export const CONSOLE_INPUT_SCHEMA = {
                         color: 'transparent', 
                         caretColor: 'white'
                     }
+                }
+            ]
+        },
+        // B"H - Action Buttons
+        {
+            tag: 'div',
+            style: { display: 'flex', gap: '5px' },
+            children: [
+                {
+                    tag: 'button',
+                    id: 'dt-console-history-up',
+                    title: 'Previous Command',
+                    style: { background: 'transparent', border: '1px solid #444', color: '#888', borderRadius: '4px', cursor: 'pointer', padding: '2px 6px' },
+                    html: '▲' 
+                },
+                {
+                    tag: 'button',
+                    id: 'dt-console-clear',
+                    title: 'Clear Console',
+                    style: { background: 'transparent', border: '1px solid #444', color: '#f75d65', borderRadius: '4px', cursor: 'pointer', padding: '2px 6px' },
+                    html: '🗑' 
                 }
             ]
         }

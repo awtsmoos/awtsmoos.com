@@ -11,6 +11,7 @@ import { ContextParser } from '../utils/context-parser.js';
 export const RevealInWorkspaceAction = {
     async run(context) {
         const item = ContextParser.getItem(context);
+console.log("Getting",item, context)
         if (!item) {
             console.warn("B\"H - Reveal: No item found in the void.");
             return;
