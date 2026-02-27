@@ -55,7 +55,7 @@ export const Transfer = {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `context_export_${Date.now()}.md`;
+            a.download = `context_export_${Date.now()}.md.txt`;
             a.click();
             URL.revokeObjectURL(url);
             UI.endTask(taskId, 'success', 'Downloaded!');

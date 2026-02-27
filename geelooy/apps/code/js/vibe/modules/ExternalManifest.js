@@ -84,7 +84,7 @@ ${e}</content>
                     pre.classList.remove('hidden');
                     // B"H - Display parsed filenames
                     var fileListHtml = changes.map(function(c) {
-                        return '<div style="font-size:0.85em; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><span style="color:var(--neon-cyan); text-transform:uppercase; margin-right:6px;">' + c.operation + '</span>' + c.path + '</div>';
+                        return '<div style="font-size:0.85em; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><span style="color:var(--neon-cyan); text-transform:uppercase; margin-right:6px;">' + c.operation + '</span>' + c.fileLabel+ '</div>';
                     }).join('');
                     
                     pre.innerHTML = '<div style="color:var(--neon-lime); font-weight:bold; margin-bottom:8px;">' + changes.length + ' Changes Parsed. Ready.</div>' + fileListHtml;

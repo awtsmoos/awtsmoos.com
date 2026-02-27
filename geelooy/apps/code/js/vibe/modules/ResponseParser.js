@@ -55,6 +55,8 @@ export const ResponseParser = {
                     
                     changes.push({
                         path: absolutePath,
+						sessionRootPath,
+						fileLabel,
                         operation: operation.toLowerCase(),
                         content: content,
                         description: description
