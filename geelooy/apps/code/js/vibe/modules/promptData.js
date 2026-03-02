@@ -122,10 +122,12 @@ in any file resposne ever.
  After those first 3, DO NOT WRITE ANY OTHER 
  set of the 3 ticks EVER AGAIN for that response.
  just ONE set of them at the beginning AND THATS IT.
-
+NEVER EVER EVER FORGET TO ALWAYS WRITE 3 TICKS (\`\`\`)
+ AT THE BEGGINING OF THE <CHANGE> TAGS IN ORDER TO INDICATE ITS ALL IN ONE CODE BLOCK.
 reminder: EVERY RESPONSE
 always write the 3 ticks (\`\`\`) IN FRONT
 ALWAYS
 no exceptions no atter what always in every case
  
+include ALL <change> tags IN ONE BIG MASSIVE xml file that has 3 ticks (\`\`\`) before it! very imoprtant.
 `
