@@ -11,9 +11,14 @@ export const LocalProvider = {
         const type = item.originalType || item.type;
         const wsId = item.workspaceId || item.id;
         const ws = State.workspaces.find(w => String(w.id) === String(wsId));
-        if (type === 'opfs') return await navigator.storage.getDirectory();
+        
+        if (type === 'opfs') {
+            return await navigator.storage.getDirectory();
+        }
+        
         if (type === 'local') {
             if (ws && ws.handle && ws.isLocked === false) return ws.handle;
+            
             let handle = ws?.handle || await IndexedDBProvider.getHandle(wsId);
             if (handle) {
                 const ok = await RecoveryRitual.verifyPermission(handle);
@@ -22,12 +27,22 @@ export const LocalProvider = {
                     return handle;
                 }
             }
-            return await RecoveryRitual.attemptActivation(ws || { id: wsId, type: 'local', name: item.name });
+            
+            const recoveredHandle = await RecoveryRitual.attemptActivation(ws || { id: wsId, type: 'local', name: item.name || 'Unknown' });
+            
+            if (!recoveredHandle) {
+                if (ws) ws.isLocked = true;
+                throw new Error(`The physical connection to the local workspace is locked or lost. Please re-anchor it.`);
+            }
+            
+            return recoveredHandle;
         }
-        throw new Error(`Workspace anchor not found.`);
+        
+        throw new Error(`Workspace anchor not found for type: ${type}`);
     },
     async getHandle(root, path, options = {}, wsId) {
-        const cacheKey = wsId || root.name; 
+        if (!root) throw new Error("The root vessel is void. Cannot traverse the path.");
+        const cacheKey = wsId || root.name || 'unknown_root'; 
         const cached = HandleCache.get(cacheKey, path);
         if (cached) return cached;
         const handle = await TraversalEngine.walk(root, path, options);
@@ -36,11 +51,13 @@ export const LocalProvider = {
     },
     async read(item) {
         const root = await this._getRootHandle(item);
+        if (!root) throw new Error("Could not attain root handle to read.");
         const handle = await this.getHandle(root, item.path, { kind: 'file' }, item.workspaceId);
         return await handle.getFile();
     },
     async write(item, content) {
         const root = await this._getRootHandle(item);
+        if (!root) throw new Error("Could not attain root handle to write.");
         const handle = await this.getHandle(root, item.path, { kind: 'file', create: true }, item.workspaceId);
         const buffer = (content instanceof Blob) ? await content.arrayBuffer() : content;
         const writable = await handle.createWritable();
@@ -49,6 +66,7 @@ export const LocalProvider = {
     },
     async fastCopy(srcItem, destHandle, onProgress) {
         const root = await this._getRootHandle(srcItem);
+        if (!root) throw new Error("Could not attain root handle for fast copy.");
         const traverse = async (curPath, targetDir) => {
             const curH = await this.getHandle(root, curPath, {}, srcItem.workspaceId);
             if (curH.kind === 'file') {
@@ -68,8 +86,9 @@ export const LocalProvider = {
     },
     async list(params) {
         const root = await this._getRootHandle(params);
+        if (!root) throw new Error("Could not attain root handle to list.");
         const dir = await this.getHandle(root, params.path, { kind: 'directory' }, params.workspaceId);
-        const entries = [];
+        const entries =[];
         for await (const [name, entry] of dir.entries()) {
             entries.push({ name, kind: entry.kind, path: (params.path === '/' ? '' : params.path) + '/' + name, workspaceId: params.workspaceId });
         }
@@ -77,12 +96,14 @@ export const LocalProvider = {
     },
     async create(parent, name, kind) {
         const root = await this._getRootHandle(parent);
+        if (!root) throw new Error("Could not attain root handle to create.");
         const dir = await this.getHandle(root, parent.path, { kind: 'directory' }, parent.workspaceId);
         if (kind === 'file') await dir.getFileHandle(name, { create: true });
         else await dir.getDirectoryHandle(name, { create: true });
     },
     async delete(item) {
         const root = await this._getRootHandle(item);
+        if (!root) throw new Error("Could not attain root handle to delete.");
         const parts = item.path.split('/').filter(Boolean);
         const name = parts.pop();
         const parentP = '/' + parts.join('/');
