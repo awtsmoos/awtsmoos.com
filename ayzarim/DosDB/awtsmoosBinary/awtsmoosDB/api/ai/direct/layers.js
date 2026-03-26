@@ -4,7 +4,7 @@ const Stats = require('../math/stats.js');
 const Matrix = require('../math/matrix.js');
 const Rope = require('../math/rope.js');
 const Act = require('../math/act.js');
-const Wasm = require('../math/wasm_jit.js');
+const Wasm = require('../math/wasm/jit.js');
 
 class Layers {
     constructor(engine) {

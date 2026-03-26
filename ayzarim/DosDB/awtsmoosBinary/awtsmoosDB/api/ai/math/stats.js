@@ -1,14 +1,12 @@
 
 // B"H
-const Wasm = require('./wasm_jit.js');
+const Wasm = require('./wasm/jit.js');
 
 /**
  * @module Stats
  * @description Statistical vessels for signal normalization and distribution.
- * Cites: awtsmoos-gguf/worker_src/math_stats.js exactly.
  */
 function rmsNorm(x, weight, epsilon = 1e-5, offset = 0.0) {
-    // B"H: WASM Fast Path
     if (Wasm.exports) {
         const n = (x._wasmPtr !== undefined) ? x._wasmLon : x.length;
         const outPtr = Wasm.allocScratch(n * 4);
@@ -48,7 +46,6 @@ function rmsNormJS(x, weight, epsilon, offset = 0.0) {
     const size = input.length;
     if (!size) return input;
     
-    // B"H: CITE SOURCE (math_stats.js, Line 6) -> Standard RMS calculation
     let ss = 0;
     for(let i=0; i<size; i++) ss += input[i] * input[i];
     
@@ -62,7 +59,6 @@ function rmsNormJS(x, weight, epsilon, offset = 0.0) {
     const useWeight = wLen > 0;
 
     for(let i=0; i<size; i++) {
-        // B"H: CITE SOURCE (math_stats.js, Line 18) -> w + offset logic
         let val = 1.0;
         if (useWeight) val = w[i % wLen];
         val += offset;
@@ -80,7 +76,6 @@ function softmax(x) {
     let max = -Infinity;
     for(let i=0; i<size; i++) if(input[i] > max) max = input[i];
     
-    // B"H: Guard against all -Inf collapse
     if (!Number.isFinite(max)) max = 0;
 
     let sum = 0;

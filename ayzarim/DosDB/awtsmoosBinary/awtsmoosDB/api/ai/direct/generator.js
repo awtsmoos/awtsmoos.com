@@ -1,9 +1,10 @@
+
 // B"H
 /**
  * @file generator.js
  * @description Encapsulates the Token Generation Loop logic.
  */
-const Wasm = require('../math/wasm_jit.js');
+const Wasm = require('../math/wasm/jit.js');
 
 class Generator {
     constructor(engine) {

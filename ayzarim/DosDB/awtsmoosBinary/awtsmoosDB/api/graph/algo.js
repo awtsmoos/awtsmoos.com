@@ -1,15 +1,42 @@
-// B"H
-const HandleRegistry = require('../../core/handleRegistry.js');
 
+// B"H
+/**
+ * @file algo.js
+ * @description
+ * Chapter 4: The Web of the Sephirot
+ * Just as the Sefirot are interconnected via the 22 holy letters, forming the Tree of Life,
+ * this module algorithms the paths and connections within the data. Every connection
+ * is sustained by the Word of the Creator, without which the nodes would drift into
+ * the abyss of nothingness. We traverse these paths seeking the hidden unity of the Awtsmoos.
+ */
+
+const HandleRegistry = require('../../core/registry/handle.js');
+
+/**
+ * @class GraphAlgorithms
+ * @description
+ * Exposes divine search, PageRank, and community detection algorithms over
+ * the interconnected LiveHandles of the database. Nullifies its own logic 
+ * to follow pure data-driven graph structures.
+ */
 class GraphAlgorithms {
+    /**
+     * @constructor
+     * @param {object} manager - The parent GraphManager.
+     */
     constructor(manager) {
         this.manager = manager;
     }
 
     /**
+     * @method shortestPath
      * @description
-     *  Finds the shortest path between two vessels using BFS.
-     *  The Awtsmoos guides the search through the shortest sequence of manifestations.
+     * Finds the shortest path between two vessels using BFS.
+     * The Awtsmoos guides the search through the shortest sequence of manifestations.
+     * @param {object} startHandle - The origin soul.
+     * @param {object} endHandle - The destination soul.
+     * @param {object} options - Search configurations.
+     * @returns {Promise<Array|null>} The path array or null.
      */
     async shortestPath(startHandle, endHandle, options = {}) {
         await this.manager.ensureInit();
@@ -22,7 +49,6 @@ class GraphAlgorithms {
         await s.ensureResolved();
         await e.ensureResolved();
 
-        // B"H: getId is async and must be awaited to get the stable pointer-based string ID.
         const startId = await this.manager.utils.getId(s);
         const endId = await this.manager.utils.getId(e);
         
@@ -39,7 +65,6 @@ class GraphAlgorithms {
         
         if (startId === endId) return [{ node: startHandle }];
 
-        // BFS Queue: { id, path: [ { node, edge? } ] }
         const queue = [ { id: startId, path: [ { node: startHandle } ] } ];
         const visited = new Set([startId]);
 
@@ -53,9 +78,6 @@ class GraphAlgorithms {
             
             for(const edgeObj of edges) {
                 const neighborHandle = edgeObj.node;
-                
-                // B"H: Use the ID from the edge directly (Path-Based), 
-                // instead of re-calculating from the snapshot handle (Pointer-Based).
                 const neighborId = edgeObj.id; 
                 
                 if (!neighborId) continue;
@@ -79,8 +101,11 @@ class GraphAlgorithms {
     }
 
     /**
-     * @description
-     *  Traverses the graph starting from a specific vessel.
+     * @method traverse
+     * @description Wanders through the graph, executing a visitor on every encountered node.
+     * @param {object} startHandle - Starting node.
+     * @param {function} visitor - Callback executed per node.
+     * @param {object} options - Defines max depth and strategy.
      */
     async traverse(startHandle, visitor, options = {}) {
         await this.manager.ensureInit();
@@ -107,7 +132,7 @@ class GraphAlgorithms {
             const edges = await this.manager.query.getEdgesFromId(current.id, direction, null);
             for(const edge of edges) {
                 const neighborHandle = edge.node;
-                const neighborId = edge.id; // B"H: Use stable edge ID
+                const neighborId = edge.id; 
                 if (neighborId && !visited.has(neighborId)) {
                     visited.add(neighborId);
                     stack.push({ id: neighborId, handle: neighborHandle, depth: current.depth + 1 });
@@ -116,6 +141,12 @@ class GraphAlgorithms {
         }
     }
 
+    /**
+     * @method pageRank
+     * @description Calculates the influence of each node in the network.
+     * @param {object} options - Damping factor and iterations.
+     * @returns {Promise<Array>} Sorted array of node scores.
+     */
     async pageRank(options = {}) {
         const damping = options.damping || 0.85;
         const iterations = options.iterations || 20;
@@ -152,6 +183,12 @@ class GraphAlgorithms {
         return sorted.map(([id, score]) => ({ id, score }));
     }
 
+    /**
+     * @method communityDetection
+     * @description Clusters nodes into natural groupings based on structural connectivity.
+     * @param {object} options - Iteration limits.
+     * @returns {Promise<Array>} Array of community arrays.
+     */
     async communityDetection(options = {}) {
         const iterations = options.iterations || 10;
         const { nodes, adjList, reverseAdj } = await this.manager.query.projectGraph();
@@ -209,6 +246,11 @@ class GraphAlgorithms {
         return Array.from(communities.values());
     }
 
+    /**
+     * @method centrality
+     * @description Scores nodes by their absolute degree of connection.
+     * @returns {Promise<Array>} Sorted centralities.
+     */
     async centrality() {
         const { nodes, adjList, reverseAdj } = await this.manager.query.projectGraph();
         return nodes.map(n => ({

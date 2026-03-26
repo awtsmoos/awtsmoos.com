@@ -1,28 +1,36 @@
+
 // B"H
-// File: /BH/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/ai/direct/index.js
+/**
+ * @file index.js
+ * @description
+ * Chapter 13: Direct Engine Orchestrator
+ */
 
 const Loader = require('./loader.js');
 const Model = require('./model.js');
 const Tokenizer = require('../tokenizer.js');
 const Logger = require('../utils/logger.js');
-const Wasm = require('../math/wasm_jit.js');
-const { FileSource, DbSource } = require('./tensor_source.js');
+const Wasm = require('../math/wasm/jit.js');
+const { FileSource, DbSource } = require('./tensor/source.js');
 const Generator = require('./generator.js');
 
 class DirectEngine {
     constructor(modelSource, options = {}) {
         this.options = { verbose: false, ...options };
         
-        const soul = (typeof modelSource !== 'string') ? require('../../../core/handleRegistry.js').getSoul(modelSource) : null;
+        const HandleRegistry = require('../../../core/registry/handle.js');
+        const soul = (typeof modelSource !== 'string') ? HandleRegistry.getSoul(modelSource) : null;
         
-        if (typeof modelSource === 'string') {
-            this.source = new FileSource(modelSource);
-        } else if (soul) {
-             this.db = soul.db;
-             this.source = new DbSource(modelSource);
-        } else {
-             throw new Error("Invalid model source. Provide GGUF file path or DB LiveHandle.");
-        }
+        const SourceStrategies = {
+            'string': () => new FileSource(modelSource),
+            'object': () => {
+                if (!soul) throw new Error("B\"H Invalid model source. Provide GGUF file path or DB LiveHandle.");
+                this.db = soul.db;
+                return new DbSource(modelSource);
+            }
+        };
+
+        this.source = SourceStrategies[typeof modelSource]();
 
         this.loader = new Loader(this);
         this.model = new Model(this);

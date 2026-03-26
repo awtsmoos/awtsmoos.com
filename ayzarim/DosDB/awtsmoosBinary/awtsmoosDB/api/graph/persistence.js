@@ -1,12 +1,12 @@
+
 // B"H
 /**
  * @file persistence.js
  * @description
  *  Delegator for persistence operations.
- *  Uses `persistence_node.js` and `persistence_edge.js`.
  */
-const NodeOps = require('./persistence_node.js');
-const EdgeOps = require('./persistence_edge.js');
+const NodeOps = require('./persistence/node.js');
+const EdgeOps = require('./persistence/edge.js');
 
 class GraphPersistence {
     constructor(manager) {

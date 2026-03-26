@@ -1,23 +1,20 @@
+
 // B"H
 /**
  * @file importer.js
  * @description
  *  Manifests GGUF models into the database vessels.
- *  Refactored to use idiomaticassignments.
  */
 
 const fs = require('fs');
-const GGUFParser = require('./utils/gguf_parser.js');
-const Tensors = require('./direct/loader_tensors.js');
+const GGUFParser = require('./utils/gguf/parser.js');
+const Tensors = require('./direct/loader/tensors.js');
 
 class ModelImporter {
     constructor(db) {
         this.db = db;
     }
 
-    /**
-     * @description Manifests a GGUF file as a binary sequence within the database.
-     */
     async importGGUF(filePath, modelName) {
         console.log(`\x1b[36mB"H Importer: Reading ${filePath}...\x1b[0m`);
         const buffer = fs.readFileSync(filePath);
@@ -27,11 +24,9 @@ class ModelImporter {
         
         const root = this.db.root;
         
-        // B"H: Marker assignments for AI registry.
         if (!await this.db.has(root, 'ai')) root.ai = new this.db.Map();
         if (!await this.db.has(root.ai, 'models')) root.ai.models = new this.db.Map();
         
-        // Create Model Container
         if (await this.db.has(root.ai.models, modelName)) {
             console.log(`\x1b[33mB"H Importer: Model ${modelName} exists. Overwriting...\x1b[0m`);
         } else {

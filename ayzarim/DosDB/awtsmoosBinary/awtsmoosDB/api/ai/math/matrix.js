@@ -1,7 +1,7 @@
 
 // B"H
-const { F16_TABLE } = require('../math/quant.js');
-const Wasm = require('./wasm_jit.js');
+const { F16_TABLE } = require('./quant.js');
+const Wasm = require('./wasm/jit.js');
 
 function dotProduct(vecA, vecB) {
     let sum = 0.0;
@@ -38,19 +38,11 @@ function matVecMul(x, w, n_out) {
     const n_in = x.length;
     const y = new Float32Array(n_out);
     
-    if (w.length < n_out * n_in) {
-        // Relaxed check for quantization alignment issues, but warn in debug if possible
-        // Just return empty y to avoid crash
-        return y;
-    }
+    if (w.length < n_out * n_in) return y;
     
-    // Fallback for non-aligned dimensions
-    if (n_in % 32 !== 0) {
-        return matVecMulStandard(x, w, n_out, n_in, y);
-    }
+    if (n_in % 32 !== 0) return matVecMulStandard(x, w, n_out, n_in, y);
 
     let wPtr = 0;
-    
     for (let i = 0; i < n_out; i++) {
         let sum = 0.0;
         for (let j = 0; j < n_in; j += 32) {
@@ -92,11 +84,8 @@ function matVecMulStandard(x, w, n_out, n_in, y) {
 }
 
 function addInPlace(a, b) {
-    // B"H: WASM Fast Path
     if (Wasm.exports && a._wasmPtr !== undefined && b._wasmPtr !== undefined) {
-        if (!Wasm.isValid(b)) {
-             // Skip bad add
-        } else {
+        if (Wasm.isValid(b)) {
              Wasm.exports.add_inplace(a._wasmPtr, b._wasmPtr, a._wasmLon);
              return;
         }
@@ -104,8 +93,6 @@ function addInPlace(a, b) {
 
     const len = a.length;
     const b_data = (b._wasmPtr !== undefined) ? Wasm.copyOut(b) : b;
-    
-    // Check B before adding
     let bValid = true;
     for(let i=0; i<len; i++) if(!Number.isFinite(b_data[i])) { bValid = false; break; }
     

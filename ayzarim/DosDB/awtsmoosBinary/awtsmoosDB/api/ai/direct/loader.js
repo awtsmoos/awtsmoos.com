@@ -1,15 +1,15 @@
+
 // B"H
 /**
  * @file loader.js
  * @description 
  *  Synchronous GGUF Loader.
- *  Now fully supports loading from DB Sources synchronously.
  */
-const GGUFParser = require('../utils/gguf_parser.js');
-const Config = require('./loader_config.js');
-const Tensors = require('./loader_tensors.js');
+const GGUFParser = require('../utils/gguf/parser.js');
+const Config = require('./loader/config.js');
+const Tensors = require('./loader/tensors.js');
 const Logger = require('../utils/logger.js');
-const { DbSource, FileSource } = require('./tensor_source.js');
+const { DbSource, FileSource } = require('./tensor/source.js');
 
 class Loader {
     constructor(engine) {
@@ -18,18 +18,12 @@ class Loader {
         this.dataOffset = 0;
         this.layerTensorMap = [];
         this.globalTensorMap = {};
-        
-        // Cache for DB-loaded tensors to prevent thrashing
         this.dbTensorCache = new Map();
     }
 
     load(source) {
-        // Synchronous dispatch
-        if (source instanceof DbSource) {
-            return this.loadFromDB(source);
-        } else if (source instanceof FileSource) {
-            return this.loadFromFile(source.buffer);
-        }
+        if (source instanceof DbSource) return this.loadFromDB(source);
+        else if (source instanceof FileSource) return this.loadFromFile(source.buffer);
         throw new Error("Unknown Source Type");
     }
 
@@ -41,23 +35,18 @@ class Loader {
 
     loadFromDB(dbSource) {
         Logger.log(`[Direct] Loading Header from Neural Database...`);
-        
         const meta = dbSource.meta;
         if (!meta) throw new Error("Model metadata missing");
 
         this.engine.metadata = meta.kv;
         this.engine.vocab = meta.vocab;
-        this.engine.loader = this; // Ensure self-ref
-        // scores might be in meta or computed? GGUF parser yields them.
+        this.engine.loader = this; 
         this.engine.scores = meta.scores || new Float32Array(meta.vocab.length).fill(0);
 
-        // Reconstruct Tensor Map
         this.tensorMap = new Map();
-        for(const t of meta.tensorInfos) {
-            this.tensorMap.set(t.name, t);
-        }
+        for(const t of meta.tensorInfos) this.tensorMap.set(t.name, t);
         
-        this.dataOffset = 0; // Not used in DB mode
+        this.dataOffset = 0; 
         this._finalizeLoad();
     }
 
@@ -78,30 +67,14 @@ class Loader {
     }
 
     getTensor(name) {
-        // Hybrid handling
         if (this.engine.source.type === 'db') {
             if (this.dbTensorCache.has(name)) return this.dbTensorCache.get(name);
-            
             const info = this.tensorMap.get(name);
             if (!info) return null;
-            
-            // Sync Fetch from DB Source
             const rawData = this.engine.source.getTensorData(name);
-            
-            if (!rawData) {
-                // If not found, log warn?
-                return null;
-            }
-            
-            // Dequantize logic. 
-            // Tensors.readTensor expects (buffer, offset, info).
-            // But we have the isolated tensor buffer. 
-            // We need a helper: dequantizeSingle(buffer, type)
-            
-            const res = Tensors.dequantizeSingle(rawData, info.type);
-            return res;
+            if (!rawData) return null;
+            return Tensors.dequantizeSingle(rawData, info.type);
         } else {
-            // File Mode
             const info = this.tensorMap.get(name);
             if (!info) return null;
             return Tensors.readTensor(this.engine.buffer, this.dataOffset, info);
@@ -124,7 +97,6 @@ class Loader {
         if (!this.layerTensorMap[layerIdx]) return null;
         const realName = this.layerTensorMap[layerIdx][alias];
         if (!realName) return null;
-        
         return this.getTensor(realName);
     }
 }
