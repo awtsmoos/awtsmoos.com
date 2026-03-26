@@ -12,7 +12,7 @@ import { Linter } from '../tools/linter.js';
 import { ASTEngine } from '../tools/ast-engine.js';
 import { LineLogic } from './line-logic.js';
 import { MessageBridge } from '../html-preview/message-bridge.js'; 
-import { PreviewManager } from './preview-manager.js'; // B"H - Persistence Guardian
+import { PreviewManager } from './preview-manager.js'; 
 import pnimi from '/scripts/awtsmoos/coding/pnimi.js';
 
 export const Editor = {
@@ -54,7 +54,6 @@ export const Editor = {
     },
 
     async showTextEditor(content = "", filename = "", scrollPos = 0) {
-        UI.switchView("editor");
         State.isRestoring = true;
         DOM.editor.value = content;
         UI.updateLineNumbers();
@@ -73,7 +72,6 @@ export const Editor = {
     },
 
     showPreviewer(content, metadata, tabId, forceReload = false) {
-        UI.switchView('preview');
         const activeTab = State.tabs.find(t => t.id === tabId);
         if (activeTab && activeTab.item) {
             PreviewManager.show(tabId, activeTab.item, content, forceReload);

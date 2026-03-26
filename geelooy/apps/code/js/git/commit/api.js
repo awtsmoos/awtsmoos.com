@@ -1,19 +1,34 @@
 
 // B"H
-// FILE: js/git/commit/api.js
 import { FileSystemProvider } from '../../fs-provider.js';
 
 export const CommitAPI = {
-    async uploadBlobs(repoInfo, blobBatch) {
-        return await Promise.all(blobBatch.map(file => 
-            FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
+    /**
+     * @async
+     * @function uploadBlobs
+     * @description Sequentially uploads file contents as blobs to GitHub. 
+     * Uses a small delay between each to respect secondary rate limits.
+     */
+    async uploadBlobs(repoInfo, blobBatch, onFileProgress) {
+        const results = [];
+        for (const file of blobBatch) {
+            if (onFileProgress) onFileProgress(file.path);
+            
+            const blob = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
                 method: 'POST',
                 body: JSON.stringify({
                     content: FileSystemProvider.GitHub.utf8_to_b64(file.content),
                     encoding: 'base64'
                 })
-            }).then(blob => ({ path: file.path, mode: '100644', type: 'blob', sha: blob.sha }))
-        ));
+            });
+            
+            results.push({ path: file.path, mode: '100644', type: 'blob', sha: blob.sha });
+            
+            // B"H - The "Small Rest": Mandatory 150ms delay between individual blob creations
+            // to stay under the GitHub secondary rate limit radar.
+            await new Promise(r => setTimeout(r, 150));
+        }
+        return results;
     },
 
     async executeCommit(repoInfo, branch, parentSHA, treeItems, message, force = false) {
@@ -42,20 +57,5 @@ export const CommitAPI = {
             });
         }
         return newCommit.sha;
-    },
-    
-    // B"H - Rectified Function Name to match GitInit caller
-    async executeGenesisCommit(repoInfo, branch, files, message) {
-        const treeItems = files.map(f => ({ path: f.path, mode: '100644', type: 'blob', content: f.content }));
-        const tree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
-            method: 'POST', body: JSON.stringify({ tree: treeItems })
-        });
-        const commit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
-            method: 'POST', body: JSON.stringify({ message, tree: tree.sha, parents: [] })
-        });
-        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, {
-            method: 'POST', body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: commit.sha })
-        });
-        return commit.sha;
     }
 };
