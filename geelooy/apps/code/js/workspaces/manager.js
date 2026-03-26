@@ -13,6 +13,8 @@
  * We reveal the truth so the work can go on.
  * Refreshing the tree, manifesting the form,
  * Sheltering the logic from every storm.
+ * But if the world is shattered, beyond all holy repair,
+ * We purge the corrupted vessel, leaving empty air.
  */
 
 import { State, DOM } from '../state.js';
@@ -110,6 +112,7 @@ export const WorkspaceManager = {
      * @async
      * @function resumeWorkspace
      * @description B"H - Re-awakening a local folder connection.
+     * Rectified to handle pure corruption without infinite loops.
      */
     async resumeWorkspace(ws) {
         if (ws.type !== 'local') return;
@@ -126,34 +129,54 @@ export const WorkspaceManager = {
                 UI.showToast(`B"H - Connection restored!`, "success");
                 await this.render(); // Re-render to clear "locked" UI
             } else {
-                throw new Error("Handle retrieval cancelled or failed.");
+                throw new Error("Handle is null. The vessel is shattered.");
             }
         } catch (e) {
-            console.error(`[Workspace] B"H - Resume Failed:`, e);
-            UI.showDialog({
-                title: "Resume Failed",
-                message: `Could not connect to "${ws.name}". Error: ${e.message}\n\nYou may need to remove and re-add the folder if the physical directory was moved.`,
-                okText: "I Understand"
+            console.error(`[Workspace] B"H - Resume Failed for ${ws.name}:`, e);
+            
+            // B"H - The ultimate purification of the shattered vessel.
+            const confirmed = await UI.showDialog({
+                title: "Workspace Corrupted",
+                message: `The physical anchor for "${ws.name}" is lost forever. The OS has revoked permission or the folder was moved.\n\nThe Awtsmoos requires truth. This corrupted vessel must be purged from memory.`,
+                okText: "Purge Workspace",
+                cancelText: "Leave Locked"
             });
+            
+            if (confirmed) {
+                await this.remove(ws.id);
+            }
         }
     },
 
     /**
      * @async
      * @function remove
-     * @description Retracting a workspace from reality.
+     * @description Retracting a workspace from reality and purging its remnants.
      */
     async remove(workspaceId) {
         const id = Number(workspaceId);
+        
+        // 1. Remove the Workspace from State
         State.workspaces = State.workspaces.filter(ws => Number(ws.id) !== id);
         
-        // Clean up memory
+        // 2. Clean up HandleCache memory
         HandleCache.clear(); 
-        for (const key of State.expandedFolders) if (key.startsWith(`${id}::`)) State.expandedFolders.delete(key);
         
+        // 3. Purge Expanded Folders tracking
+        for (const key of State.expandedFolders) {
+            if (key.startsWith(`${id}::`)) State.expandedFolders.delete(key);
+        }
+        
+        // 4. Purge all open Tabs belonging to this workspace
+        const tabsToClose = State.tabs.filter(t => t.item.workspaceId === id || t.item.id === id);
+        for (const tab of tabsToClose) {
+            await Tabs.close(tab.id, true);
+        }
+        
+        // 5. Finalize the retraction
         App.saveSession(); 
         await this.render();
-        UI.showToast("B\"H - World retracted.", "info");
+        UI.showToast("B\"H - World retracted and purified.", "info");
     },
     
     /**

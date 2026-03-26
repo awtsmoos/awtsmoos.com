@@ -23,8 +23,10 @@ export const ChatUI = {
 
     _renderModelMessage(div, content, tab, controller) {
         div.innerHTML = '';
+        // B"H - Shatter the tags to prevent XML loops
         const tagS = "<" + "chan" + "ge>";
         const tagE = "</" + "chan" + "ge>";
+        
         let lastIdx = 0;
         while (true) {
             const sIdx = content.indexOf(tagS, lastIdx);
@@ -38,6 +40,7 @@ export const ChatUI = {
                 }
                 break;
             }
+            
             const beforeText = content.substring(lastIdx, sIdx).trim();
             if (beforeText) {
                 const textDiv = document.createElement('div');
@@ -45,12 +48,14 @@ export const ChatUI = {
                 textDiv.innerHTML = MarkdownParser.parse(beforeText);
                 div.appendChild(textDiv);
             }
+            
             const eIdx = content.indexOf(tagE, sIdx);
             if (eIdx === -1) {
                 const obj = this._parseCardData(content.substring(sIdx), false);
                 if (obj) div.appendChild(this._createCard(obj, tab, controller));
                 break;
             }
+            
             const obj = this._parseCardData(content.substring(sIdx, eIdx + tagE.length), true);
             if (obj) div.appendChild(this._createCard(obj, tab, controller));
             lastIdx = eIdx + tagE.length;
@@ -64,10 +69,22 @@ export const ChatUI = {
             const ei = block.indexOf(e, si);
             return (ei === -1 ? block.substring(si + s.length) : block.substring(si + s.length, ei)).trim();
         };
-        const file = extract("file"); if (!file) return null;
-        let rawContent = extract("content");
-        if (!rawContent && block.includes("<content>")) rawContent = block.substring(block.indexOf("<content>") + 9);
-        return { path: file, operation: extract("operation") || "write", description: extract("description") || "", content: rawContent || "", isComplete };
+        const file = extract("fi" + "le"); 
+        if (!file) return null;
+        
+        let rawContent = extract("cont" + "ent");
+        const cS = "<cont" + "ent>";
+        if (!rawContent && block.includes(cS)) {
+            rawContent = block.substring(block.indexOf(cS) + 9);
+        }
+        
+        return { 
+            path: file, 
+            operation: extract("operat" + "ion") || "write", 
+            description: extract("descrip" + "tion") || "", 
+            content: rawContent || "", 
+            isComplete 
+        };
     },
 
     _createCard(file, tab, controller) {
@@ -90,13 +107,5 @@ export const ChatUI = {
             card.onclick = (e) => { e.stopPropagation(); controller.previewFile(tab, absolutePath); };
         }
         return card;
-    },
-
-    updateLastMessage(container, content, tab, controller) {
-        const lastMsg = container.lastElementChild;
-        const isAtBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 150;
-        if (!lastMsg || !lastMsg.classList.contains('model')) this.appendMessage({ role: 'model', content }, container, tab, controller);
-        else this._renderModelMessage(lastMsg, content, tab, controller);
-        if (isAtBottom) container.scrollTop = container.scrollHeight;
     }
 };

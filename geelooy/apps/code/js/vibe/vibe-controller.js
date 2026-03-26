@@ -15,21 +15,11 @@ import { VibeResourceTracker } from './controllers/resource-tracker.js';
 import { VibeManagerUI } from './view/manager-ui.js';
 import { SidebarUI } from './view/sidebar-ui.js';
 
-/**
- * @constant VibeController
- * @description The unified interface for the Vibe coding world.
- */
 export const VibeController = {
-    /**
-     * B"H - Initialization.
-     */
     init() { 
         VibeView.init(); 
     },
 
-    /**
-     * B"H - Navigation.
-     */
     open(folderItem) { 
         return VibeNavigator.openSession(folderItem); 
     },
@@ -46,9 +36,6 @@ export const VibeController = {
         return VibeNavigator.getRootItem(tab); 
     },
 
-    /**
-     * B"H - Communication.
-     */
     sendMessage(tab) { 
         return VibeMessenger.sendMessage(tab, this); 
     },
@@ -57,9 +44,6 @@ export const VibeController = {
         return VibeMessenger.handleStreamChunk(content, tab, this); 
     },
 
-    /**
-     * B"H - State.
-     */
     resetChat(tab) { 
         return VibeStateManager.resetChat(tab, this); 
     },
@@ -72,15 +56,13 @@ export const VibeController = {
         return VibeStateManager.createCheckpoint(tab); 
     },
 
-    /**
-     * B"H - Resources.
-     */
     updateTokenCount(tab) { 
         return VibeResourceTracker.updateTokenCount(tab); 
     },
 
     /**
      * B"H - Rendering Ritual.
+     * Rectified to only switch physical DOM views if the tab is truly active.
      */
     async render(tab) {
         if (!tab || !tab.item) return;
@@ -97,13 +79,20 @@ export const VibeController = {
                 if (editorArea) editorArea.appendChild(wrap);
             }
             
-            UI.switchView('vibe-manager-wrapper');
+            // ONLY force UI switch if this tab is the active one!
+            if (State.activeTabId === tab.id) {
+                UI.switchView('vibe-manager-wrapper');
+            }
+            
             await VibeManagerUI.render(wrap, this);
             return;
         }
         
         // B"H - ROUTE: Vibe Coding Session
-        UI.switchView('vibe');
+        if (State.activeTabId === tab.id) {
+            UI.switchView('vibe');
+        }
+        
         if (!tab.vibeSession) tab.vibeSession = tab.content;
         await VibeView.render(tab, this);
         this.updateTokenCount(tab);

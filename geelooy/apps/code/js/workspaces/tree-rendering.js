@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/workspaces/tree-rendering.js
 
@@ -8,46 +9,26 @@ import { Tabs } from '../tabs/index.js';
 import { SelectionManager } from '../selection-manager.js';
 import { getItemUniquePath, Workspaces } from '../workspaces.js';
 
-/**
- * --- WORKSPACE TREE RENDERER (ULTIMATE EDITION) ---
- * The sacred engine responsible for manifesting the physical hierarchy 
- * of the project vessels. B"H.
- */
 export const WorkspaceTreeRenderer = {
     
-    /**
-     * B"H - The Primary Rendering Ritual.
-     * Rewritten to be completely defensive against path/type mismatches.
-     */
     async renderTree(parentElement, parentItem, depth, registerDom = true, options = {}) {
-        // 1. FUNDAMENTAL VALIDATION
-        if (!parentElement) {
-            console.error("[Tree] Manifestation failed: parentElement is null.");
-            return;
-        }
+        if (!parentElement) return;
         if (!parentItem) {
-            console.error("[Tree] Manifestation failed: parentItem is null.");
             parentElement.innerHTML = '<li class="tree-item error">Corruption: Item Lost</li>';
             return;
         }
 
-        // 2. PATH STABILIZATION
-        // We ensure path is never undefined before any logic occurs.
         const parentPath = (typeof parentItem.path === 'string') ? parentItem.path : "/";
         const wsId = parentItem.workspaceId || parentItem.id;
         
-        // Visual feedback during the stabilization phase
         parentElement.innerHTML = '<li class="tree-item loading-state" style="opacity: 0.5; padding-left: 15px;">...</li>';
 
         try {
-            // 3. PEERING INTO THE VESSELS (Data Retrieval)
             const result = await FileSystemProvider.list(parentItem);
             const children = (result && result.entries) ? result.entries : [];
             
-            // Clear the loading indicator
             parentElement.innerHTML = '';
 
-            // 4. HANDLING VACUITY
             if (children.length === 0) {
                 const emptyLi = document.createElement('li');
                 emptyLi.className = 'tree-item empty-state';
@@ -59,7 +40,6 @@ export const WorkspaceTreeRenderer = {
                 return;
             }
 
-            // 5. METADATA SYNCHRONIZATION (Git Detection)
             if (result.isGitRoot) {
                 const parentUniquePath = getItemUniquePath(parentItem);
                 const parentEntry = State.domItemMap.get(parentUniquePath);
@@ -69,8 +49,6 @@ export const WorkspaceTreeRenderer = {
                 }
             }
 
-            // 6. ORDERING THE ESSENCE (Sorting)
-            // Directories always precede files, then alphabetical.
             children.sort((a, b) => {
                 const aIsDir = (a.kind === 'directory' || a.kind === 'folder');
                 const bIsDir = (b.kind === 'directory' || b.kind === 'folder');
@@ -79,19 +57,16 @@ export const WorkspaceTreeRenderer = {
                 return a.name.localeCompare(b.name);
             });
 
-            // 7. PHYSICAL MANIFESTATION (DOM Construction)
             const fragment = document.createDocumentFragment();
             
             for (let i = 0; i < children.length; i++) {
                 const child = children[i];
                 if (!child || !child.name) continue;
 
-                // Forge the child's identity
-                // B"H - Ensuring absolute inheritance of Workspace ID
                 const fullChildItem = {
-                    ...parentItem, // Inherit workspace properties
-                    ...child,      // Apply specific file properties
-                    workspaceId: wsId // Force the ID for absolute clarity
+                    ...parentItem, 
+                    ...child,      
+                    workspaceId: wsId 
                 };
 
                 const uniquePath = getItemUniquePath(fullChildItem);
@@ -100,13 +75,16 @@ export const WorkspaceTreeRenderer = {
 
                 const li = document.createElement('li');
                 li.className = 'tree-item';
+                
+                // B"H - Immediate Visual Manifestation of Pre-Selected Items
+                if (State.selectedItems.has(uniquePath)) {
+                    li.classList.add('selected');
+                }
+
                 li.dataset.path = child.path;
                 
-                // Create the visible wrapper
                 const nameWrap = document.createElement('div');
                 nameWrap.className = 'tree-item-name-wrap';
-                
-                // Indentation logic based on depth
                 nameWrap.style.paddingLeft = (depth * 12) + 'px';
 
                 nameWrap.innerHTML = `
@@ -115,9 +93,7 @@ export const WorkspaceTreeRenderer = {
                     <span class="tree-item-name">${child.name}</span>
                 `;
 
-                // Bind interactivity
                 if (isDir) {
-                    // Set up drag/drop for folders
                     Workspaces.setupDragDrop(nameWrap, fullChildItem);
                 }
 
@@ -140,19 +116,15 @@ export const WorkspaceTreeRenderer = {
 
                 li.appendChild(nameWrap);
 
-                // Register in the Divine Mapping for external access (like "Show in Explorer")
                 if (registerDom) {
                     State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
                 }
 
-                // 8. PERSISTENCE CHECK (Auto-Expansion)
-                // If this folder was already open in the user's mind (State), re-manifest its children.
                 if (isDir && State.expandedFolders.has(uniquePath)) {
                     li.classList.add('expanded');
                     const childUl = document.createElement('ul');
                     childUl.className = 'tree-branch';
                     li.appendChild(childUl);
-                    // Divine Recursion
                     this.renderTree(childUl, fullChildItem, depth + 1, registerDom, options);
                 }
 
@@ -169,36 +141,23 @@ export const WorkspaceTreeRenderer = {
         }
     },
 
-    /**
-     * B"H - The ritual of opening and closing directories.
-     * Fully rewritten to ensure state consistency.
-     */
     toggleDirectory(uniquePath, liElement, item, depth, registerDom, options) {
         if (!liElement) return;
 
         if (State.expandedFolders.has(uniquePath)) {
-            // Collapse sequence
             State.expandedFolders.delete(uniquePath);
             liElement.classList.remove('expanded');
-            
-            // Purge the physical children from the DOM
             const existingUl = liElement.querySelector('ul');
             if (existingUl) existingUl.remove();
         } else {
-            // Expansion sequence
             State.expandedFolders.add(uniquePath);
             liElement.classList.add('expanded');
-            
-            // Create the container for children
             const newUl = document.createElement('ul');
             newUl.className = 'tree-branch';
             liElement.appendChild(newUl);
-            
-            // Trigger the Manifestation Ritual for the next layer
             this.renderTree(newUl, item, depth + 1, registerDom, options);
         }
         
-        // Archive this change in the session memory
         import('../app.js').then(m => m.App.saveSession());
     }
 };

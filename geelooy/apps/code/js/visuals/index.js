@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/visuals/index.js
 
@@ -14,7 +15,6 @@ import { VisualSettings } from './settings.js';
 import { ASTEngine } from '../tools/ast-engine.js';
 import { DOM, State } from '../state.js';
 import { Editor } from '../editor.js';
-import { Linter } from '../tools/linter.js';
 
 export const VisualEngine = {
     canvasOverlay: null,
@@ -38,9 +38,10 @@ export const VisualEngine = {
         DOM.editor.addEventListener('mousemove', (e) => this._handleHover(e));
         DOM.editor.addEventListener('mouseleave', () => this._hideTooltip());
         
-        // Tooltip Interaction
         const tooltip = DOM.intelligenceTooltip;
         if (tooltip) {
+            // Apply defensive high Z-Index
+            tooltip.style.zIndex = '300000';
             tooltip.addEventListener('mouseenter', () => {
                 if (this.hideTimer) clearTimeout(this.hideTimer);
             });
@@ -86,7 +87,11 @@ export const VisualEngine = {
         span.style.whiteSpace = 'pre';
         span.textContent = 'M'.repeat(100); 
         DOM.editorWrapper.appendChild(span);
-        const width = span.getBoundingClientRect().width;
+        
+        // Defensive zero width protection
+        let width = span.getBoundingClientRect().width;
+        if (width <= 0) width = parseFloat(style.fontSize) * 60; // Approximate fallback
+
         DOM.editorWrapper.removeChild(span);
         this._cachedCharWidth = width / 100;
         return this._cachedCharWidth;
@@ -110,7 +115,7 @@ export const VisualEngine = {
             const lh = parseFloat(style.lineHeight) || 24;
             const paddingTop = parseFloat(style.paddingTop) || 10;
             const paddingLeft = parseFloat(style.paddingLeft) || 10;
-            const charWidth = this._getCharWidth();
+            const charWidth = this._getCharWidth() || 8; 
             
             const line = Math.floor((y - paddingTop) / lh);
             const x = e.clientX - rect.left - paddingLeft + DOM.editor.scrollLeft;
@@ -129,7 +134,6 @@ export const VisualEngine = {
                 if (data) {
                     this._showTooltip(e.clientX, e.clientY, data);
                 } else {
-                    // Try adjacent char for precision tolerance
                     const secondaryData = await ASTEngine.getSummaryAtOffset(DOM.editor.value, Math.max(0, offset - 1));
                     if (secondaryData) this._showTooltip(e.clientX, e.clientY, secondaryData);
                     else this._hideTooltip();
@@ -137,7 +141,7 @@ export const VisualEngine = {
             } else {
                 this._hideTooltip();
             }
-        }, 50); // Fast response
+        }, 50); 
     },
 
     _showTooltip(x, y, data) {

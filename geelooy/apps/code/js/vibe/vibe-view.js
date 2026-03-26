@@ -33,7 +33,7 @@ export const VibeView = {
 	        '<div class="vibe-container">' +
 	            '<div class="vibe-chat-panel">' +
 	                '<div id="vibe-chat-history" class="vibe-chat-history"></div>' +
-                    '<div id="vibe-token-counter" style="position:absolute; top:5px; right:10px; font-size:0.75em; color:var(--neon-cyan); opacity:0.6; pointer-events:none;">Tokens: --</div>' +
+                    '<button id="vibe-token-btn" class="secondary-btn" style="position:absolute; top:5px; right:10px; font-size:0.7em; padding:4px 8px; min-height:0; z-index:10; border-color:var(--neon-cyan); color:var(--neon-cyan);">Measure Tokens</button>' +
 	                '<div id="vibe-input-area" class="vibe-input-area">' +
 	                    '<div class="vibe-input-wrapper">' +
 	                        '<textarea id="vibe-input" class="vibe-textarea" placeholder="Speak your will..."></textarea>' +
@@ -56,14 +56,14 @@ export const VibeView = {
                         '<div class="vibe-sidebar-tabs" style="align-items: center; padding-right: 5px;">' +
                             '<div class="vibe-sb-tab" data-tab="tree">Tree</div>' +
                             '<div class="vibe-sb-tab" data-tab="manifest">External</div>' +
-                            '<div class="vibe-sb-tab" data-tab="checkpoints">Checkpoints</div>' +
+                            '<div class="vibe-sb-tab" data-tab="timeline">Timeline</div>' +
                             '<div style="flex-grow:1;"></div>' +
                             '<button id="vibe-panel-max-btn" class="icon-button" style="width: 28px; height: 28px; padding: 4px;" title="Toggle Fullscreen"><svg class="svg-icon"><use href="#icon-fullscreen"></use></svg></button>' +
                             '<button id="vibe-panel-min-btn" class="icon-button" style="width: 28px; height: 28px; padding: 4px;" title="Minimize"><svg viewBox="0 0 24 24" class="svg-icon" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg></button>' +
                         '</div>' +
                         '<div id="vibe-tree-container" class="vibe-context-list" style="flex-grow:1; overflow-y:auto;"></div>' +
                         '<div id="vibe-manifest-container" class="vibe-manifest-view" style="display:none; flex-grow:1; overflow:hidden;"></div>' +
-                        '<div id="vibe-checkpoints-container" style="display:none; flex-grow:1; overflow-y:auto; padding:15px;"></div>' +
+                        '<div id="vibe-timeline-container" style="display:none; flex-grow:1; overflow-y:auto; padding:15px;"></div>' +
                         '<div class="vibe-settings-area"><div id="vibe-model-badge" style="font-size:0.8em; opacity:0.6; cursor:pointer;">...</div></div>' +
                     '</div>' +
 	            '</div>' +
@@ -77,6 +77,7 @@ export const VibeView = {
         var resetBtn = this.container.querySelector('#vibe-reset-btn');
         var mgrBtn = this.container.querySelector('#vibe-mgr-btn');
         var sideToggle = this.container.querySelector('#vibe-sidebar-toggle-btn');
+        var tokenBtn = this.container.querySelector('#vibe-token-btn');
         var tabs = this.container.querySelectorAll('.vibe-sb-tab');
         
         var maxBtn = this.container.querySelector('#vibe-panel-max-btn');
@@ -91,9 +92,9 @@ export const VibeView = {
                     controller.sendMessage(tab); 
                 }
             };
-            // B"H - Real-time token count update
-            input.oninput = () => controller.updateTokenCount(tab);
         }
+
+        if (tokenBtn) tokenBtn.onclick = () => controller.updateTokenCount(tab);
 
 	    if (resetBtn) resetBtn.onclick = () => controller.resetChat(tab);
 	    if (mgrBtn) mgrBtn.onclick = () => controller.openManager(); 
@@ -132,7 +133,6 @@ export const VibeView = {
             };
         });
 
-        // B"H --- RESIZING RITUALS ---
         const verticalResizer = this.container.querySelector('#vibe-resizer-vertical');
         const horizontalResizer = this.container.querySelector('#vibe-resizer-horizontal');
         const vibeContainer = this.container.querySelector('.vibe-container');
@@ -146,13 +146,11 @@ export const VibeView = {
             const isMobile = window.innerWidth <= 768;
 
             if (isMobile) {
-                // Adjust height of top chat panel relative to the container
                 let newChatHeight = clientY - rect.top;
                 if (newChatHeight < 50) newChatHeight = 50;
                 if (newChatHeight > rect.height - 50) newChatHeight = rect.height - 50;
                 vibeContainer.style.setProperty('--chat-panel-basis', `${newChatHeight}px`);
             } else {
-                // Adjust width of right sidebar relative to the container
                 let newSideWidth = rect.right - clientX;
                 if (newSideWidth < 40) newSideWidth = 40;
                 if (newSideWidth > rect.width - 50) newSideWidth = rect.width - 50;
@@ -195,7 +193,7 @@ export const VibeView = {
 	    
 	    var treeC = document.getElementById('vibe-tree-container');
 	    var manifestC = document.getElementById('vibe-manifest-container');
-	    var checkpointsC = document.getElementById('vibe-checkpoints-container');
+	    var timelineC = document.getElementById('vibe-timeline-container');
 	    var inputArea = document.getElementById('vibe-input-area');
         var hResizer = document.getElementById('vibe-resizer-horizontal');
         var vResizer = document.getElementById('vibe-resizer-vertical');
@@ -205,14 +203,14 @@ export const VibeView = {
 	    
 	    if(treeC) treeC.style.display = (active === 'tree' ? 'block' : 'none');
 	    if(manifestC) manifestC.style.display = (active === 'manifest' ? 'flex' : 'none');
-	    if(checkpointsC) checkpointsC.style.display = (active === 'checkpoints' ? 'block' : 'none');
+	    if(timelineC) timelineC.style.display = (active === 'timeline' ? 'block' : 'none');
 	    
 	    if(inputArea) inputArea.style.display = 'flex';
         if(hResizer) hResizer.style.display = isMobile ? 'block' : 'none';
         if(vResizer) vResizer.style.display = isMobile ? 'none' : 'block';
 	
-	    if (active === 'checkpoints') {
-	        import('./view/checkpoint-ui.js').then(m => m.CheckpointUI.render(checkpointsC, tab, controller));
+	    if (active === 'timeline') {
+	        import('./view/timeline-ui.js').then(m => m.TimelineUI.render(timelineC, tab, controller));
 	    }
 
         var containerEl = this.container.querySelector('.vibe-container');
