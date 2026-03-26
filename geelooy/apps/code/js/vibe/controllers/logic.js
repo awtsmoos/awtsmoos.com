@@ -2,7 +2,7 @@
 // B"H
 /**
  * @file logic.js
- * @brief The Intellect of Vibe. Advanced streaming with final sweep safeguard.
+ * @brief The Intellect of Vibe. Advanced streaming with final sweep safeguard and context minimization.
  */
 
 import { ModelManager } from '../model-manager.js';
@@ -11,12 +11,13 @@ import { PromptBuilder } from '../modules/prompt-builder.js';
 import { ContextBuilder } from '../modules/context-builder.js';
 import { ResponseParser } from '../modules/ResponseParser.js';
 import { LoopEngine } from '../modules/LoopEngine.js';
+import { HistoryCompressor } from '../modules/history/index.js'; // B"H
 
 export const LogicController = {
     /**
      * @async
      * @function runIteration
-     * @description Initiates AI dialogue and ensures every file is manifested exactly once.
+     * @description Initiates AI dialogue, compresses history context, and ensures manifestation.
      */
     async runIteration(tab, controller, promptOverride = null) {
         if (!tab.vibeSession) return;
@@ -31,12 +32,16 @@ export const LogicController = {
         const processedPaths = new Set();
         
         try {
+            // 1. Gather the Current Physical Reality
             const markdown = await ContextBuilder.build(tab);
             const systemPrompt = PromptBuilder.getSystem(markdown);
-            const history = [...tab.vibeSession.history];
-            if (promptOverride) history.push({ role: 'user', content: promptOverride });
+            
+            // 2. Compress the History to remove redundant code blocks
+            const compressedHistory = HistoryCompressor.compress([...tab.vibeSession.history]);
+            if (promptOverride) compressedHistory.push({ role: 'user', content: promptOverride });
 
-            const apiHistory = [{ role: 'system', content: systemPrompt }, ...history];
+            const apiHistory = [{ role: 'system', content: systemPrompt }, ...compressedHistory];
+            
             let fullResponse = "";
             let streamBuffer = ""; 
             
@@ -44,15 +49,16 @@ export const LogicController = {
             controller.refreshView(tab); 
 
             // Break up markers to prevent breaking this XML response
-            const markerE = "₪₪₪_בס\"ד_ס" + "וף_הק" + "וד_₪₪₪";
+            const markerE = ResponseParser.END_MARKER;
             const tagE = "</" + "chan" + "ge>";
 
+            // 3. Initiate the Stream
             await VibeAPI.streamChat(apiHistory, apiKey, ModelManager.currentModel,
                 async (chunk) => {
                     fullResponse += chunk;
                     streamBuffer += chunk;
                     
-                    // 1. Real-time Manifestation Check
+                    // Real-time Manifestation Check
                     let hebrewIdx = streamBuffer.indexOf(markerE);
                     
                     while (hebrewIdx !== -1) {
@@ -73,11 +79,9 @@ export const LogicController = {
                                 }
                             }
                             
-                            // Slice the buffer to prevent re-parsing the same content
                             streamBuffer = streamBuffer.substring(blockTotalEnd);
                             hebrewIdx = streamBuffer.indexOf(markerE);
                         } else {
-                            // Marker found but closing tag is still streaming
                             break;
                         }
                     }
@@ -87,9 +91,7 @@ export const LogicController = {
                 async (finalText) => {
                     console.log("B\"H - Stream finished. Initiating Final Sweep Safeguard.");
                     
-                    // 2. THE FINAL SWEEP
-                    // We parse the ENTIRE finalText one last time to catch anything 
-                    // the stream might have missed due to speed or chunking.
+                    // THE FINAL SWEEP
                     const sessionRoot = tab.vibeSession.path || tab.vibeSession.rootPath || "/";
                     const allFinalChanges = ResponseParser.parseChanges(finalText, sessionRoot);
                     

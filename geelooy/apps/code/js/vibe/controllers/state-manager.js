@@ -18,8 +18,7 @@ export const VibeStateManager = {
         UI.showToast("State anchored.", "success");
     },
     async createCheckpoint(tab) {
-        if (!tab || !tab.vibeSession) return;
-        await VibeDB.saveCheckpoint(tab.vibeSession.id, tab.vibeSession.history);
-        UI.showToast("B\"H: State of Being archived.", "info");
+        // B"H - Deprecated. Snapshots are now handled automatically by the LoopEngine's Timeline mechanism.
+        console.log("Legacy checkpoint creation bypassed. Relies on LoopEngine Timeline.");
     }
 };

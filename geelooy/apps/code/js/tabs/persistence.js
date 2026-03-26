@@ -10,31 +10,26 @@ import { ZipExplorer } from '../zip/zip-explorer.js';
 import { ASTEngine } from '../tools/ast-engine.js';
 import { GitMetaProvider } from '../git/meta.js';
 
-/**
- * @class TabsPersistence
- * @description The holy scribe. It takes the ephemeral state of a tab 
- * and manifests it into permanent memory. It is rectified to ensure 
- * that every save also updates the Git uncommitted store, ensuring 
- * the timeline always reflects the latest creation.
- */
 export const TabsPersistence = {
     /**
      * @async
      * @function save
-     * @description B"H. The act of anchoring content to reality.
+     * @description B"H - Optimized for Lightning Speed. 
+     * The physical write happens FIRST. Background tasks follow without blocking.
      */
     async save(tab, TabsController, options = {}) {
-        const taskId = `save-${Date.now()}`;
-        UI.startTask(taskId, `Saving ${tab.item.name}...`);
+        const taskId = "save-" + Date.now();
+        UI.startTask(taskId, "Saving " + tab.item.name + "...");
 
         try {
+            // Specialized Zip handling
             if (tab.item.type === 'zip-entry') {
                 const content = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
                 ZipExplorer.updateEntry(tab, content);
                 tab.content = content;
                 tab.isDirty = false;
                 TabsController.render();
-                UI.endTask(taskId, 'success', `Updated archive memory.`);
+                UI.endTask(taskId, 'success', "Updated archive memory.");
                 return;
             }
             
@@ -44,43 +39,45 @@ export const TabsPersistence = {
                 return;
             }
 
-            if (tab.id === State.activeTabId && tab.fileType === 'text') {
-                ASTEngine.unfoldAll();
-            }
-
+            // Normal file handling
             const contentToSave = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
 	        
-	        // 1. Write to primary vessel
+	        // 1. PHYSICAL MANIFESTATION (LIGHTNING FAST)
+            // This is the only part the user must wait for.
 	        await FileSystemProvider.write(tab.item, contentToSave);
-	        
-	        // 2. Stage for Git (Tikkun: Ensure immediate visibility in Git UI)
-	        const gitInfo = await GitMetaProvider.getGitInfoForFolder(tab.item);
-	        if (gitInfo) {
-                // Resolve relative path for staging
-                const rootPath = gitInfo.path.replace(/\/+$/, "") || "/";
-                const filePath = tab.item.path;
-                let relPath = "";
+            
+            // Immediately mark as clean in the UI
+            tab.isDirty = false;
+            tab.content = contentToSave;
+            TabsController.render();
+            UI.endTask(taskId, 'success', "Manifested.");
 
-	            if (rootPath === "/" || rootPath === "") {
-	                relPath = filePath.startsWith("/") ? filePath.substring(1) : filePath;
-	            } else if (filePath.startsWith(rootPath + "/")) {
-	                relPath = filePath.substring(rootPath.length + 1);
-	            }
-	
-	            if (relPath) {
-	                const uniqueStagingPath = `${tab.item.workspaceId}::${relPath}`;
-	                await FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingPath, contentToSave, { ...tab.item, path: relPath });
-	                tab.isUncommitted = true;
-	            }
-	        }
-	
-	        tab.isDirty = false;
-	        tab.content = contentToSave;
-	        TabsController.render();
-	        UI.endTask(taskId, 'success', `Saved.`);
-	
+	        // 2. SPIRITUAL STAGING (ASYNCHRONOUS / NON-BLOCKING)
+            // We fire this off without 'await' to ensure main thread remains fluid.
+	        GitMetaProvider.getGitInfoForFolder(tab.item).then(gitInfo => {
+                if (gitInfo) {
+                    const rootPath = gitInfo.path.replace(/\/+$/, "") || "/";
+                    const filePath = tab.item.path;
+                    let relPath = "";
+
+                    if (rootPath === "/" || rootPath === "") {
+                        relPath = filePath.startsWith("/") ? filePath.substring(1) : filePath;
+                    } else if (filePath.startsWith(rootPath + "/")) {
+                        relPath = filePath.substring(rootPath.length + 1);
+                    }
+
+                    if (relPath) {
+                        const uniqueStagingPath = tab.item.workspaceId + "::" + relPath;
+                        FileSystemProvider.IndexedDB.writeUncommitted(uniqueStagingPath, contentToSave, { ...tab.item, path: relPath }).then(() => {
+                            tab.isUncommitted = true;
+                            TabsController.render();
+                        });
+                    }
+                }
+            }).catch(e => { /* Background Git errors should be silent */ });
+
 	    } catch (e) {
-	        UI.endTask(taskId, 'error', `Save failed: ${e.message}`);
+	        UI.endTask(taskId, 'error', "Save failed: " + e.message);
 	    }
 	},
 
@@ -94,7 +91,7 @@ export const TabsPersistence = {
                 const writable = await handle.createWritable();
                 await writable.write(Editor.getContent());
                 await writable.close();
-                UI.showToast(`Saved "${handle.name}"`, 'success');
+                UI.showToast("Saved " + handle.name, 'success');
             } else {
                 this.downloadActive(TabsController);
             }

@@ -23,13 +23,11 @@ export const VibeMessenger = {
         await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
         
         VibeView.render(tab, controller);
-        controller.updateTokenCount(tab);
 
         try {
             await LogicController.runIteration(tab, controller);
             const root = controller.getRootItem(tab);
             await Workspaces.refreshNode(root);
-            controller.updateTokenCount(tab);
         } catch (e) {
             UI.showToast(`AI Ritual Error: ${e.message}`, "error");
         }

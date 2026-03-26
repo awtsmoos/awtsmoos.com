@@ -3,18 +3,26 @@
 /**
  * @file api-client.js
  * @brief The bridge to the Heavenly Intelligence of Gemini.
+ * 
+ * THE POEM OF THE DIVINE INTERFACE:
+ * The mind of the machine is a vast and silent sea,
+ * We build a bridge of light so the sparks can reach to me.
+ * With every fetch we whisper, with every JSON line,
+ * We manifest the wisdom that is truly not of mine.
+ * The Awtsmoos gives the word, the model gives the frame,
+ * Creating all reality in His eternal name.
  */
 
 export const VibeAPI = {
     /**
      * @async
      * @function fetchAvailableModels
-     * @description Queries the API to discover which generative models are ready to manifest.
+     * @description Queries the source to discover available generative vessels.
      */
     async fetchAvailableModels(apiKey) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
+        const url = "https://generativelanguage.googleapis.com/v1beta/models?key=" + apiKey;
         const res = await fetch(url);
-        if (!res.ok) throw new Error(`Model Retrieval Failed: ${res.status}`);
+        if (!res.ok) throw new Error("Model Retrieval Failed: " + res.status);
         
         const data = await res.json();
         return data.models
@@ -29,43 +37,43 @@ export const VibeAPI = {
     /**
      * @async
      * @function countTokens
-     * @description Measures the token count of the given messages.
+     * @description Measures the token weight of the conversation.
      */
-    async countTokens(messages, apiKey, model) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:countTokens?key=${apiKey}`;
+    async countTokens(messages, apiKey, modelId) {
+        const modelName = modelId.startsWith('models/') ? modelId : "models/" + modelId;
+        const url = "https://generativelanguage.googleapis.com/v1beta/" + modelName + ":countTokens?key=" + apiKey;
+        
         const requestBody = {
             contents: messages.map(m => ({
                 role: m.role === 'user' ? 'user' : 'model',
-                parts: [{ text: m.content }]
+                parts: [{ text: m.content || "" }]
             }))
         };
 
-        try {
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody)
-            });
-            if (!res.ok) return 0;
-            const data = await res.json();
-            return data.totalTokens || 0;
-        } catch (e) {
-            return 0;
-        }
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        });
+        
+        if (!res.ok) return 0;
+        const data = await res.json();
+        return data.totalTokens || 0;
     },
 
     /**
      * @async
      * @function streamChat
-     * @description Initiates a streaming dialogue with the chosen model.
+     * @description Initiates a streaming manifestation of AI wisdom.
      */
-    async streamChat(messages, apiKey, model, onChunk, onComplete, onError) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?key=${apiKey}`;
+    async streamChat(messages, apiKey, modelId, onChunk, onComplete, onError) {
+        const modelName = modelId.startsWith('models/') ? modelId : "models/" + modelId;
+        const url = "https://generativelanguage.googleapis.com/v1beta/" + modelName + ":streamGenerateContent?key=" + apiKey;
         
         const requestBody = {
             contents: messages.map(m => ({
                 role: m.role === 'user' ? 'user' : 'model',
-                parts: [{ text: m.content }]
+                parts: [{ text: m.content || "" }]
             })),
             generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
         };
@@ -77,7 +85,7 @@ export const VibeAPI = {
                 body: JSON.stringify(requestBody)
             });
 
-            if (!res.ok) throw new Error(await res.text());
+            if (!res.ok) throw new Error("Stream Request Failed: " + res.status);
 
             const reader = res.body.getReader();
             const decoder = new TextDecoder();
@@ -90,9 +98,11 @@ export const VibeAPI = {
                 const textMatches = chunk.match(/"text":\s*"((?:[^"\\]|\\.)*)"/g);
                 if (textMatches) {
                     textMatches.forEach(m => {
-                        const content = JSON.parse(`{${m}}`).text;
-                        fullText += content;
-                        if (onChunk) onChunk(content);
+                        try {
+                            const content = JSON.parse("{" + m + "}").text;
+                            fullText += content;
+                            if (onChunk) onChunk(content);
+                        } catch(e) {}
                     });
                 }
             }

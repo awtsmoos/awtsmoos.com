@@ -1,10 +1,15 @@
+
 // B"H
 // FILE: js/vibe/db.js
 
 export const VibeDB = {
     DB_NAME: 'AwtsmoosVibeMemory',
-    VERSION: 1,
-    STORES: { SESSIONS: 'sessions', CHECKPOINTS: 'checkpoints' },
+    VERSION: 2, // B"H - Upgraded to introduce the Timeline
+    STORES: { 
+        SESSIONS: 'sessions', 
+        CHECKPOINTS: 'checkpoints',
+        TIMELINE: 'timeline' 
+    },
 
     async init() {
         var self = this;
@@ -18,27 +23,26 @@ export const VibeDB = {
                 if (!db.objectStoreNames.contains(self.STORES.CHECKPOINTS)) {
                     db.createObjectStore(self.STORES.CHECKPOINTS, { keyPath: 'id' });
                 }
+                if (!db.objectStoreNames.contains(self.STORES.TIMELINE)) {
+                    db.createObjectStore(self.STORES.TIMELINE, { keyPath: 'id' });
+                }
             };
             req.onsuccess = function() { resolve(req.result); };
             req.onerror = function() { reject(req.error); };
         });
     },
 
+    // --- SESSIONS ---
     async saveSession(id, data) {
         var db = await this.init();
         var self = this;
         return new Promise(function(res) {
             var tx = db.transaction(self.STORES.SESSIONS, 'readwrite');
-            tx.objectStore(self.STORES.SESSIONS).put({ 
-                id: id, 
-                ...data, 
-                lastUpdated: Date.now() 
-            });
+            tx.objectStore(self.STORES.SESSIONS).put({ id: id, ...data, lastUpdated: Date.now() });
             tx.oncomplete = res;
         });
     },
 
-    // B"H - RESTORED: This was missing in the previous turn
     async getSession(id) {
         var db = await this.init();
         var self = this;
@@ -68,27 +72,22 @@ export const VibeDB = {
         });
     },
 
-    async saveCheckpoint(sessionId, history) {
+    // --- TIMELINE (The New Snapshot System) ---
+    async saveTimelineRecord(record) {
         var db = await this.init();
         var self = this;
-        var cpId = sessionId + "::" + Date.now();
         return new Promise(function(res) {
-            var tx = db.transaction(self.STORES.CHECKPOINTS, 'readwrite');
-            tx.objectStore(self.STORES.CHECKPOINTS).put({ 
-                id: cpId, 
-                sessionId: sessionId, 
-                timestamp: Date.now(), 
-                history: JSON.parse(JSON.stringify(history)) 
-            });
+            var tx = db.transaction(self.STORES.TIMELINE, 'readwrite');
+            tx.objectStore(self.STORES.TIMELINE).put(record);
             tx.oncomplete = res;
         });
     },
 
-    async getCheckpoints(sessionId) {
+    async getTimelineRecords(sessionId) {
         var db = await this.init();
         var self = this;
         return new Promise(function(res) {
-            var req = db.transaction(self.STORES.CHECKPOINTS).objectStore(self.STORES.CHECKPOINTS).getAll();
+            var req = db.transaction(self.STORES.TIMELINE).objectStore(self.STORES.TIMELINE).getAll();
             req.onsuccess = function() {
                 var all = req.result || [];
                 res(all.filter(function(cp) { return cp.sessionId === sessionId; }));
@@ -96,12 +95,12 @@ export const VibeDB = {
         });
     },
 
-    async deleteCheckpoint(cpId) {
+    async deleteTimelineRecord(id) {
         var db = await this.init();
         var self = this;
         return new Promise(function(res) {
-            var tx = db.transaction(self.STORES.CHECKPOINTS, 'readwrite');
-            tx.objectStore(self.STORES.CHECKPOINTS).delete(cpId);
+            var tx = db.transaction(self.STORES.TIMELINE, 'readwrite');
+            tx.objectStore(self.STORES.TIMELINE).delete(id);
             tx.oncomplete = res;
         });
     }
