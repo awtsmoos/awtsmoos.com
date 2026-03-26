@@ -1,10 +1,12 @@
+
+// B"H
 /**
- * B"H
- * 
+ * @file resolver.js
+ * @description
  * In the realm of Netzach (Victory), the Resolver ensures the 
  * persistence of the Pointer. He knows when the parent has shifted its weight, 
  * and he recalculates the child's coordinate in an instant. No delay is allowed. 
- * The spirit of the pointer is unchanging, even as its block-location changes.
+ * The spirit of the pointer is unchanging, even as its physical block-location shifts.
  */
 
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -12,7 +14,8 @@ const constants = require('../../constants.js');
 
 module.exports = {
     /**
-     * @description Ensures the soul of the handle is aligned with its physical anchor.
+     * @method ensureResolved
+     * @description Ensures the soul of the handle is aligned with its physical anchor on disk.
      */
     ensureResolved(state, force = false) {
         if (state.isUpdatingPointer) return;
@@ -20,12 +23,11 @@ module.exports = {
         const db = state.db;
         const mutationAtEntry = db.mutationCount || 0;
 
-        // B"H: Direct avoidance of expensive re-resolution if nothing changed.
-        if (!force && state.ptr && state.lastMutationCount === mutationAtEntry && state.type !== null) return;
+        if (!force && state.ptr && Buffer.isBuffer(state.ptr) && state.lastMutationCount === mutationAtEntry && state.type !== null) return;
 
         return db.lock.runRead(() => {
             const gcLock = db.mutationCount || 0;
-            const getRegistry = () => require('../../core/handleRegistry.js');
+            const getRegistry = () => require('../../core/registry/handle.js');
             let parentChanged = false;
             let parentSoul = null;
 
@@ -41,11 +43,11 @@ module.exports = {
                 }
             }
 
-            const isRoot = (!state.context || (db.root && state === getRegistry().getSoul(db.root)));
+            const isRoot = db.root ? (state === getRegistry().getSoul(db.root)) : (!state.context && !state.ptr);
             
             if (isRoot) {
                 if (db.rootPtrRaw) {
-                    if (!state.ptr || Buffer.compare(state.ptr, db.rootPtrRaw) !== 0) {
+                    if (!state.ptr || !Buffer.isBuffer(state.ptr) || Buffer.compare(state.ptr, db.rootPtrRaw) !== 0) {
                         state.ptr = db.rootPtrRaw;
                         const decoded = SmartPointer.decode(state.ptr);
                         if (decoded) state.type = decoded.type;
@@ -74,12 +76,13 @@ module.exports = {
     },
 
     /**
-     * @description Recursively climbs the hierarchy of parentage to manifest the full name.
+     * @method getPath
+     * @description Traces the lineage of the soul back to the Root.
      */
     getPath(state) {
         const parts = [];
         let curr = state.context;
-        const getRegistry = () => require('../../core/handleRegistry.js');
+        const getRegistry = () => require('../../core/registry/handle.js');
         while (curr) {
             parts.unshift(String(curr.key));
             const pSoul = getRegistry().getSoul(curr.parent);

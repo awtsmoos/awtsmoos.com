@@ -1,16 +1,38 @@
+
 // B"H
 /**
  * @file query.js
- * @description Added projectGraphSync to support Analysis Algos.
+ * @description
+ * Chapter 8: The Revealer of Secrets
+ * This module extracts the hidden connections etched onto the Disk.
+ * It queries the graph synchronously, unfolding the paths between
+ * objects as smoothly as interpreting a sequence of holy letters.
  */
-const HandleRegistry = require('../../core/handleRegistry.js');
 
+const HandleRegistry = require('../../core/registry/handle.js');
+
+/**
+ * @class GraphQuery
+ * @description Retrieves graph relationships using pure functional maps rather than convoluted branching.
+ */
 class GraphQuery {
+    /**
+     * @constructor
+     * @param {object} manager - The parent graph manager.
+     */
     constructor(manager) {
         this.manager = manager;
         this.db = manager.db;
     }
 
+    /**
+     * @method getRelationships
+     * @description Looks up edges connected to a specific handle.
+     * @param {object} handle - Target node handle.
+     * @param {string} direction - Direction of flow.
+     * @param {string} label - Edge constraint.
+     * @returns {Array} Collection of hydrated edge records.
+     */
     getRelationships(handle, direction = 'BOTH', label = null) {
         this.manager.ensureInit();
         const h = HandleRegistry.getSoul(handle);
@@ -22,6 +44,10 @@ class GraphQuery {
         return this.getEdgesFromId(nodeId, direction, label);
     }
 
+    /**
+     * @method getEdgesFromId
+     * @description Scans internal directional buckets for matching edges.
+     */
     getEdgesFromId(nodeId, direction, label) {
         if (!this.manager.graphRoot) return [];
         const nodeEntry = this.manager.graphRoot[nodeId];
@@ -53,7 +79,11 @@ class GraphQuery {
         return results;
     }
 
-    // New Synchronous Projection for Algorithms
+    /**
+     * @method projectGraphSync
+     * @description Synchronously dumps the topological shape of the graph for algorithm analysis.
+     * Returns an unhinged, flat representation of universal connectivity.
+     */
     projectGraphSync() {
         this.manager.ensureInit();
         const adjList = new Map(); 

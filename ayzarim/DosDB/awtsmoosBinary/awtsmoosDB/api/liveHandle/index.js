@@ -1,19 +1,22 @@
-//B"H
 
+//B"H
 /**
  * @file index.js
  * @description
  *  The Sefirah of Malchut (Kingdom) - The Interface of the Awtsmoos Database.
  *  Manifests the Proxy that bridges code intentions to binary existence.
+ *  By intercepting JavaScript's fundamental object behaviors, this gateway allows
+ *  direct manipulation of physical disk space as if it were RAM, realizing the
+ *  Creator's unity between spirit and matter.
  */
 
 const Navigator = require('./navigator.js');
-const Writer = require('./writer.js');
-const Reader = require('./reader.js');
+const Writer = require('./writer/index.js');
+const Reader = require('./reader/index.js');
 const Resolver = require('./resolver.js');
 const PointerLogic = require('./pointer.js');
 const Traps = require('./traps.js');
-const HandleRegistry = require('../../core/handleRegistry.js');
+const HandleRegistry = require('../../core/registry/handle.js');
 
 /**
  * @class LiveHandle

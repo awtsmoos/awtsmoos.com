@@ -1,37 +1,37 @@
+
 // B"H
 /**
  * @file traps.js
  * @description 
  *  The Sefirah of Hod (Splendor) - The Interface Layer.
- *  Provides clean visibility into resolution and navigation.
+ * 
+ *  THE TIKKUN OF THE CONSTANT LAW (O(1) LOOKUPS):
+ *  By precomputing the typological boundaries into Uint8Arrays, the Gateway 
+ *  no longer pauses to deliberate over logic trees. It instantly knows the 
+ *  nature of the vessel passing through it, accelerating deep nesting traversal.
  */
 const constants = require('../../constants.js');
-const fs = require('fs');
 
-function log(msg) {
-    try { fs.writeSync(2, `\x1b[35mB"H [TRAPS_LOG] ${msg}\x1b[0m\n`); } catch(e) {}
-}
+// B"H: The Precomputed Tables of the Law
+const T = constants.VAL_TYPE;
+
+const structureLookup = new Uint8Array(256);
+[T.MAP, T.SEQUENCE, T.DICTIONARY, T.SET, T.OBJECT, T.ARRAY, T.JS_MAP, T.JS_SET].forEach(t => structureLookup[t] = 1);
+
+const mapLookup = new Uint8Array(256);
+[T.MAP, T.DICTIONARY, T.OBJECT, T.JS_MAP].forEach(t => mapLookup[t] = 1);
+
+const seqLookup = new Uint8Array(256);
+[T.SEQUENCE, T.SET, T.ARRAY, T.JS_SET].forEach(t => seqLookup[t] = 1);
+
+const isStructureType = (t) => structureLookup[t] === 1;
+const isMapType = (t) => mapLookup[t] === 1;
+const isSequenceType = (t) => seqLookup[t] === 1;
 
 module.exports = {
     createTraps: (state, target) => {
-        const createSequenceMethods = require('./traps_seq.js');
-        const getRegistry = () => require('../../core/handleRegistry.js');
-
-        const isStructureType = (t) => {
-            const T = constants.VAL_TYPE;
-            return t === T.MAP || t === T.SEQUENCE || t === T.DICTIONARY || 
-                   t === T.SET || t === T.OBJECT || t === T.ARRAY;
-        };
-
-        const isMapType = (t) => {
-            const T = constants.VAL_TYPE;
-            return t === T.MAP || t === T.DICTIONARY || t === T.OBJECT;
-        };
-
-        const isSequenceType = (t) => {
-            const T = constants.VAL_TYPE;
-            return t === T.SEQUENCE || t === T.SET || t === T.ARRAY;
-        };
+        const createSequenceMethods = require('./traps/sequence.js');
+        const getRegistry = () => require('../../core/registry/handle.js');
 
         return {
             get: (tgt, prop, receiver) => {
@@ -53,6 +53,7 @@ module.exports = {
                     return () => state.reader.resolveSelf();
                 }
 
+                // --- LIVE SEQUENCE LOGIC ---
                 if (isSequenceType(state.type)) {
                     if (prop === 'length') return state.reader.length();
                     if (typeof prop === 'string') {
@@ -62,6 +63,7 @@ module.exports = {
                     if (prop === Symbol.iterator) return state.reader.iterator.bind(state.reader);
                 }
 
+                // --- LIVE MAP LOGIC ---
                 if (isMapType(state.type)) {
                     if (prop === Symbol.iterator) return state.reader.iterator.bind(state.reader);
                     if (prop === 'set') return (k, v) => { state.writer.set(k, v); return receiver; };
@@ -81,6 +83,7 @@ module.exports = {
                     if (prop === 'size') return state.reader.length();
                 }
 
+                // --- GENERAL PROPERTY NAVIGATION ---
                 if (typeof prop === 'string' || typeof prop === 'number') {
                     const res = state.nav.resolveKey(prop);
                     if (res && res.ptr) {

@@ -1,19 +1,39 @@
+
 // B"H
 /**
  * @file utils.js
- * @description Synchronous ID Generation and Hydration.
+ * @description 
+ * Chapter 9: The Identification of Souls
+ * The GraphUtils decipher the True Names (IDs) of entities. Every SmartPointer 
+ * is a unique coordinate in existence. By parsing these pointers, we assign 
+ * identities to the graph nodes, allowing them to anchor to physical reality.
  */
+
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
 const { readPointer48 } = require('../../utils/binaryHelpers.js');
-const HandleRegistry = require('../../core/handleRegistry.js');
+const HandleRegistry = require('../../core/registry/handle.js');
 
+/**
+ * @class GraphUtils
+ * @description Provides synchronous ID generation and hydration for the graph network.
+ */
 class GraphUtils {
+    /**
+     * @constructor
+     * @param {object} manager - The parent manager.
+     */
     constructor(manager) {
         this.manager = manager;
         this.db = manager.db;
     }
 
+    /**
+     * @method getId
+     * @description Extracts the string ID from a LiveHandle.
+     * @param {object|string} handle - The vessel to identify.
+     * @returns {string|null} The absolute coordinate string.
+     */
     getId(handle) {
         if (!handle) return null;
         if (typeof handle === 'string') return handle;
@@ -24,7 +44,6 @@ class GraphUtils {
         }
         
         if (h) {
-            // SYNC call
             h.ensureResolved(); 
             if (h.ptr) {
                 return this.getIdFromPtr(h.ptr);
@@ -37,18 +56,19 @@ class GraphUtils {
         return null;
     }
 
+    /**
+     * @method getIdFromPtr
+     * @description Cracks open a 16-byte seal to read its inner block ID and offset.
+     * @param {Buffer|object} ptrBuf - The SmartPointer.
+     * @returns {string|null} The formatted ID.
+     */
     getIdFromPtr(ptrBuf) {
         if (!ptrBuf) return null;
         if (ptrBuf.isStructure && ptrBuf.blockId !== undefined) {
              return `${ptrBuf.blockId}_${ptrBuf.offset || 0}`;
         }
         
-        // Fast buffer read without full SmartPointer.decode overhead if standard format
-        // Mode is top 2 bits of byte 0.
-        // BlockId at offset 1 (6 bytes).
-        // Offset at offset 11 (4 bytes).
         if (Buffer.isBuffer(ptrBuf)) {
-             // Just use decode for safety and unification
              const decoded = SmartPointer.decode(ptrBuf);
              if (decoded) {
                 if (decoded.mode === constants.MODE_BLOCK) {
@@ -69,6 +89,10 @@ class GraphUtils {
         return null;
     }
 
+    /**
+     * @method hydrateEdge
+     * @description Reconstitutes an edge relationship into a fully interactive object.
+     */
     hydrateEdge(edge, dir) {
         const ptrBuf = (dir === 'out') ? edge.targetPtr : edge.sourcePtr;
         const type = (dir === 'out') ? edge.targetType : edge.sourceType;
@@ -86,27 +110,39 @@ class GraphUtils {
         };
     }
 
+    /**
+     * @method hydrateNodeHandle
+     * @description Constructs a LiveHandle from raw pointer parameters.
+     */
     hydrateNodeHandle(ptrMaybe, typeMaybe, idMaybe) {
         if (HandleRegistry.isHandle(ptrMaybe)) return ptrMaybe;
         
-        const type = typeMaybe || constants.TYPE_DICTIONARY;
-        let buf = null;
+        let finalPtrBuffer = null;
+        let finalType = typeMaybe || constants.TYPE_DICTIONARY;
 
         if (Buffer.isBuffer(ptrMaybe) && ptrMaybe.length === 16) {
-             buf = ptrMaybe;
-        } else if (ptrMaybe && ptrMaybe.isStructure === true) {
-             buf = SmartPointer.block(ptrMaybe.type || type, ptrMaybe.blockId, ptrMaybe.length, ptrMaybe.isChain, ptrMaybe.offset);
+            finalPtrBuffer = ptrMaybe;
+        } else if (ptrMaybe && ptrMaybe.isStructure) {
+            finalPtrBuffer = ptrMaybe.ptr || SmartPointer.toBuffer(ptrMaybe);
         } else if (idMaybe && !idMaybe.startsWith('INLINE')) {
-             const parts = idMaybe.split('_');
+            const parts = idMaybe.split('_');
              if(parts.length === 2) {
                  const bid = parseInt(parts[0]);
                  const off = parseInt(parts[1]);
-                 if(!isNaN(bid)) buf = SmartPointer.block(type, bid, 0, false, off);
+                 if(!isNaN(bid)) finalPtrBuffer = SmartPointer.block(finalType, bid, 0, false, off);
              }
         }
 
-        if (!buf) return ptrMaybe; 
-        return HandleRegistry.createHandle(this.db, buf, type, null);
+        if (!finalPtrBuffer || !Buffer.isBuffer(finalPtrBuffer) || finalPtrBuffer.length !== 16) {
+            return ptrMaybe; 
+        }
+
+        const decoded = SmartPointer.decode(finalPtrBuffer);
+        if (decoded) {
+            finalType = decoded.type;
+        }
+        
+        return HandleRegistry.createHandle(this.db, finalPtrBuffer, finalType, null);
     }
 }
 
