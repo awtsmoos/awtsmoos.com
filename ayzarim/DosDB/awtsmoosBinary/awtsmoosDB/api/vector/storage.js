@@ -1,49 +1,87 @@
+
 // B"H
 /**
  * @file storage.js
- * @description Synchronous Serialization of Vector Nodes.
+ * @class VectorStorage
+ * @description 
+ *  =============================================================================
+ *  CHAPTER 21: THE SCRIBE OF SPATIAL MEMORY
+ *  =============================================================================
+ *  "He stretches out the north over the void, and hangs the earth upon nothing." (Job 26:7)
+ * 
+ *  In the realm of Vector Geometry, thoughts are plotted as coordinates in high-dimensional 
+ *  space. To make these coordinates eternal, they must be crystallized into physical 
+ *  blocks on the disk. 
+ * 
+ *  This `VectorStorage` module performs the holy act of Serialization. It takes the 
+ *  living HNSW (Hierarchical Navigable Small World) nodes, calculates the exact 
+ *  breath (bytes) required to contain their floats and connections, and seals them 
+ *  into binary. 
+ * 
+ *  THE TIKKUN: Previously, the scribe sought empty space by addressing the abstract 
+ *  V2 Allocator, which possesses no direct `allocate` command. It now correctly 
+ *  beseeches the `v1` foundation, ensuring the space is granted and the vectors 
+ *  are etched into the physical world.
  */
+
 const constants = require('../../constants.js');
 const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
 const SmartPointer = require('../../utils/smartPointer.js');
 
 const MAGIC_VEC = "VN01";
-const M_MAX0 = 24;
-const M = 12;
 
 class VectorStorage {
+    /**
+     * @constructor
+     * @param {Object} allocator - The Master Builder of Reality (AllocatorV2).
+     */
     constructor(allocator) {
         this.allocator = allocator;
+        // B"H: The Tikkun. We must access the v1 physical kernel for raw allocations.
+        this.v1 = allocator.v1 || allocator;
+        this.db = allocator.db || this.v1.db;
     }
 
+    /**
+     * @method saveNode
+     * @description 
+     *  Contracts a multi-dimensional spatial node into a flat binary sequence.
+     *  It seals the magic, the flags, the mathematical vectors, and the neighborhood 
+     *  links into a single buffer, then requests space from the V1 Allocator.
+     * 
+     * @param {Object} node The HNSW living node.
+     * @returns {Buffer} The 16-byte SmartPointer anchor.
+     */
     saveNode(node) {
-        // Calculate size
+        // Calculate exact physical capacity required
         // Magic(4) + Flags(1) + Level(1) + VecLen(4) + Vector(N*4) + Payload(16) + ID(4) + Neighbors...
         const vecSize = node.vector.length * 4;
         let size = 30 + vecSize; 
         
-        for(let i=0; i<=node.level; i++) {
-            size += 2; // Count
-            size += (node.neighbors[i] || []).length * 4; // IDs
+        for(let i = 0; i <= node.level; i++) {
+            size += 2; // Count of neighbors at this level
+            size += (node.neighbors[i] || []).length * 4; // IDs (4 bytes each)
         }
-        
-        // Pad for max growth or reallocate?
-        // Simple: Just allocate exact needed now. If it grows, pointer updates.
         
         const buf = Buffer.allocUnsafe(size);
         let off = 0;
+        
+        // 1. The Seal of the Geometry
         buf.write(MAGIC_VEC, off); off += 4;
         buf.writeUInt8(node.deleted ? 1 : 0, off++);
         buf.writeUInt8(node.level, off++);
         buf.writeUInt32BE(vecSize, off); off += 4;
         
+        // 2. The Coordinates
         const floatView = new Uint8Array(node.vector.buffer);
         buf.set(floatView, off); off += vecSize;
         
+        // 3. The Anchor to Meaning (Payload)
         node.payloadPtr.copy(buf, off); off += 16;
         buf.writeUInt32BE(node.id, off); off += 4;
         
-        for(let i=0; i<=node.level; i++) {
+        // 4. The Constellation (Neighbors)
+        for(let i = 0; i <= node.level; i++) {
             const nb = node.neighbors[i] || [];
             buf.writeUInt16BE(nb.length, off); off += 2;
             for(const nId of nb) {
@@ -51,18 +89,30 @@ class VectorStorage {
             }
         }
         
-        // Save using allocator synchronously
-        const ptr = this.allocator.allocate(size); // allocate returns {blockId...}
-        // Write data
-        this.allocator.db._writeChainSafe(ptr, buf);
+        // B"H: Seeking space from the V1 physical kernel
+        const ptr = this.v1.allocate(size); 
         
-        return SmartPointer.block(constants.TYPE_CUSTOM_INSTANCE, ptr.blockId, ptr.length, ptr.isChain, ptr.offset);
+        // Etching the truth into the disk
+        this.db._writeChainSafe(ptr, buf);
+        
+        return SmartPointer.block(constants.TYPE_CUSTOM_INSTANCE, ptr.blockId, ptr.length, !!ptr.isChain, ptr.offset);
     }
 
+    /**
+     * @method loadNode
+     * @description 
+     *  Resurrects a spatial node from its dormant binary state.
+     *  Reads the magic seal, rehydrates the Float32Array, and restores its connections.
+     * 
+     * @param {Buffer} ptrBuf The 16-byte SmartPointer anchor.
+     * @returns {Object|null} The living HNSW node, or null if the void is empty.
+     */
     loadNode(ptrBuf) {
         const decoded = SmartPointer.decode(ptrBuf);
-        // Sync Read
-        const buf = this.allocator.db._readChainSafe({
+        if (!decoded) return null;
+
+        // B"H: Synchronous extraction from the disk/cache
+        const buf = this.db._readChainSafe({
             blockId: readPointer48(decoded.payload, 0),
             length: decoded.payload.readUInt32BE(6),
             offset: decoded.payload.readUInt32BE(10),
@@ -78,7 +128,8 @@ class VectorStorage {
         const vecLen = buf.readUInt32BE(off); off += 4;
         
         const vecBuf = buf.subarray(off, off + vecLen);
-        // Create TypedArray copy
+        
+        // Resurrection of the Math: Create a fresh TypedArray copy
         const vector = new Float32Array(vecBuf.length / 4);
         Buffer.from(vector.buffer).set(vecBuf);
         off += vecLen;
@@ -89,11 +140,11 @@ class VectorStorage {
         const id = buf.readUInt32BE(off); off += 4;
         
         const neighbors = [];
-        for(let i=0; i<=level; i++) {
+        for(let i = 0; i <= level; i++) {
             if (off >= buf.length) break;
             const count = buf.readUInt16BE(off); off += 2;
             const nb = [];
-            for(let j=0; j<count; j++) {
+            for(let j = 0; j < count; j++) {
                 nb.push(buf.readUInt32BE(off)); off += 4;
             }
             neighbors.push(nb);

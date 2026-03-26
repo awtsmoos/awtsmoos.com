@@ -1,6 +1,6 @@
 
 // B"H
-const { Encoder, WASM } = require('./wasm_defs.js');
+const { Encoder, WASM } = require('./wasm/defs.js');
 const { generateStmt } = require('./statements.js');
 
 class Emitter {
@@ -39,7 +39,6 @@ class Emitter {
         this.code = []; this.locals.clear(); this.params.clear(); this.localCount = 0;
         f.params.forEach(p => {
             const t = (p.type.base === 'float' && p.type.pointers === 0) ? WASM.F32 : WASM.I32;
-            // B"H: Track C-Type for pointer arithmetic logic
             this.params.set(p.name, { index: this.localCount++, type: t, cType: p.type });
         });
         f.body.body.forEach(s => generateStmt(this, s));

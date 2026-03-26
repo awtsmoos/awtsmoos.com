@@ -1,9 +1,18 @@
+
 // B"H
 /**
  * @file index.js
+ * @class VectorManager
  * @description 
- *  Vector Manager - Synchronous Edition.
- *  Uses `reindexer.js` to ensure data consistency on enable.
+ *  =============================================================================
+ *  CHAPTER 14: THE SEFIRAH OF CHOKHMAH (WISDOM AND SPATIAL GEOMETRY)
+ *  =============================================================================
+ *  "The Lord by wisdom (Chokhmah) founded the earth..." (Proverbs 3:19)
+ *  
+ *  Wisdom is the point of nothingness expanding into concept; it is pure geometry.
+ *  The VectorManager governs the HNSW (Hierarchical Navigable Small World) structures 
+ *  that map the infinite distances between ideas. It allows the database to find 
+ *  the closest matching thoughts to a given concept in mere milliseconds.
  */
 
 const HNSW = require('./hnsw.js');
@@ -11,6 +20,10 @@ const constants = require('../../constants.js');
 const VectorReindexer = require('./reindexer.js');
 
 class VectorManager {
+    /**
+     * @constructor
+     * @param {Object} db - The AwtsmoosDB instance.
+     */
     constructor(db) {
         this.db = db;
         this.indexes = new Map();
@@ -26,6 +39,10 @@ class VectorManager {
         }
     }
 
+    /**
+     * @method enable
+     * @description Awakens the spatial awareness on a specific path.
+     */
     enable(handle, options = {}) {
         this._ensureSysVector();
         const sysVector = this.db.root.__sys_vector__;
@@ -53,9 +70,14 @@ class VectorManager {
             this.db.waitForIdle();
         }
         
+        if (this.db.sysCache) this.db.sysCache.vector.add(path);
         this.reindex(path);
     }
 
+    /**
+     * @method getIndex
+     * @description Retrieves the active HNSW engine for the path.
+     */
     getIndex(path) {
         if (this.indexes.has(path)) return this.indexes.get(path);
         
@@ -86,19 +108,33 @@ class VectorManager {
         return hnsw;
     }
 
+    /**
+     * @method insert
+     * @description Etches a spatial coordinate into the geometric web.
+     */
     insert(path, key, vector, payload) {
         const index = this.getIndex(path);
         if (index) {
+            // B"H: We MUST ensure the vector is an immutable Float32Array before feeding it 
+            // to the math engine, otherwise the arithmetic collapses into NaN.
             const vec = Array.isArray(vector) ? new Float32Array(vector) : vector;
             index.insert(key, vec, payload);
         }
     }
 
+    /**
+     * @method delete
+     * @description Exiles a coordinate from the geometric web.
+     */
     delete(path, key) {
         const index = this.getIndex(path);
         if (index) index.delete(key);
     }
 
+    /**
+     * @method nearest
+     * @description Finds the closest semantic neighbors to a point in abstract space.
+     */
     nearest(handle, queryVector, k = 5) {
         const h = handle[constants.SYMBOLS.INTERNALS] || handle;
         const path = h.getPath ? h.getPath() : handle;
@@ -111,26 +147,21 @@ class VectorManager {
     }
 
     /**
-     * @description
-     *  Full Synchronous Reindex.
-     *  Scans the source handle and feeds data into HNSW.
+     * @method reindex
+     * @description Full Synchronous Reindex. Scans the source handle and feeds data into HNSW.
      */
     reindex(path) {
         const index = this.getIndex(path);
-        if (!index) return; // Index not enabled/found
+        if (!index) return;
 
-        // Navigate to the handle from root to get the LiveHandle
-        // (path is like "root.users.profiles")
         const parts = path.split('.').filter(p => p !== 'root');
         let current = this.db.root;
         
         for (const part of parts) {
-            // Sync access
             current = current[part];
-            if (!current) return; // Path broken
+            if (!current) return; 
         }
         
-        // Current is now the LiveHandle for the collection
         this.reindexer.run(path, index, current);
     }
 }

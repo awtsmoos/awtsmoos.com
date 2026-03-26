@@ -1,8 +1,8 @@
+
 // B"H
 /**
  * @file constants.js
  * @description The physical laws governing the AwtsmoosDB vessels.
- * Defines the atomic structure of data types and their unique identifiers.
  */
 
 const BLOCK_SIZE = 4096;
@@ -54,12 +54,7 @@ const VAL_TYPE = {
     INT16_NEG: 25,
     INT32_NEG: 26,
     INT64_NEG: 27,
-    FLOAT_1: 28,
-    FLOAT_2: 29,
-    FLOAT_4: 30,
-    FLOAT_NEG_1: 31,
-    FLOAT_NEG_2: 32,
-    FLOAT_NEG_4: 33,
+    FLOAT_DYNAMIC: 30, 
     DOUBLE_POS: 34,
     DOUBLE_NEG: 35,
     NAN: 36,
@@ -72,7 +67,10 @@ const VAL_TYPE = {
     BOOLEAN_FALSE: 43,
     BIGINT_POS: 44,
     BIGINT_NEG: 45,
-    ERROR: 46
+    ERROR: 46,
+    ARRAY_BUFFER: 47,
+    JS_MAP: 48, 
+    JS_SET: 49  
 };
 
 const MODE_BLOCK = 0;
@@ -105,7 +103,6 @@ module.exports = {
     MODE_INLINE,
     SYMBOLS,
 
-    // B"H: Direct Aliases for Writers
     TYPE_MAP: VAL_TYPE.MAP,
     TYPE_SEQUENCE: VAL_TYPE.SEQUENCE,
     TYPE_DICTIONARY: VAL_TYPE.DICTIONARY,
@@ -118,8 +115,5 @@ module.exports = {
     TYPE_BOOLEAN: VAL_TYPE.BOOLEAN,
     TYPE_NULL: VAL_TYPE.NULL,
     TYPE_UNDEFINED: VAL_TYPE.UNDEFINED,
-    TYPE_CUSTOM_INSTANCE: VAL_TYPE.CUSTOM_INSTANCE,
-    
-    TYPE_SMART_OBJECT: VAL_TYPE.SMART_OBJECT,
-    TYPE_SMART_ARRAY: VAL_TYPE.SMART_ARRAY
+    TYPE_CUSTOM_INSTANCE: VAL_TYPE.CUSTOM_INSTANCE
 };

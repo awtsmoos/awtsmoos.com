@@ -1,6 +1,6 @@
 
 // B"H
-const { WASM, Encoder } = require('./wasm_defs.js');
+const { WASM, Encoder } = require('./wasm/defs.js');
 const { generateExpr } = require('./expressions.js');
 
 function generateStmt(ctx, stmt) {
@@ -8,7 +8,6 @@ function generateStmt(ctx, stmt) {
     
     if (stmt.type === 'VarDecl') {
         const type = (stmt.varType.base === 'float' && stmt.varType.pointers === 0) ? WASM.F32 : WASM.I32;
-        // B"H: Pass cType to context
         const v = ctx.getOrDeclareLocal(stmt.name, type, stmt.varType);
         
         if (stmt.init) {
@@ -38,7 +37,7 @@ function generateStmt(ctx, stmt) {
         ctx.code.push(WASM.BLOCK, WASM.VOID);
         ctx.code.push(WASM.LOOP, WASM.VOID);
         generateExpr(ctx, stmt.cond);
-        ctx.code.push(0x45); // EQZ
+        ctx.code.push(0x45); 
         ctx.code.push(WASM.BR_IF, ...Encoder.toLEB128(1));
         const body = (stmt.body.type === 'Block') ? stmt.body : { type: 'Block', body: [stmt.body] };
         for (const s of body.body) generateStmt(ctx, s);

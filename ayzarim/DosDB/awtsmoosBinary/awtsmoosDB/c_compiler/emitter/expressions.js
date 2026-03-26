@@ -1,6 +1,6 @@
 
 // B"H
-const { WASM, Encoder } = require('./wasm_defs.js');
+const { WASM, Encoder } = require('./wasm/defs.js');
 
 function generateExpr(ctx, node) {
     if (!node) return WASM.VOID;
@@ -41,27 +41,26 @@ function generateExpr(ctx, node) {
     }
 
     if (node.type === 'ArrayAccess') {
-        // B"H: Determine pointer stride and alignment based on C-Type
-        let stride = 2; // Default float/int (shift 2 = 4 bytes)
+        let stride = 2; 
         let loadOp = WASM.F32_LOAD;
         let retType = WASM.F32;
-        let alignment = 2; // Default 4-byte alignment
+        let alignment = 2; 
 
         if (node.target.type === 'Identifier') {
             const v = ctx.resolveVar(node.target.name);
             if (v && v.cType) {
                 if (v.cType.base === 'char') {
-                    stride = 0; // 1 byte (shift 0)
+                    stride = 0; 
                     loadOp = WASM.I32_LOAD8_U;
                     retType = WASM.I32;
                     alignment = 0; 
                 } else if (v.cType.base === 'int') {
-                    stride = 2; // 4 bytes
+                    stride = 2; 
                     loadOp = WASM.I32_LOAD;
                     retType = WASM.I32;
                     alignment = 2; 
                 } else if (v.cType.base === 'float') {
-                    stride = 2; // 4 bytes
+                    stride = 2; 
                     loadOp = WASM.F32_LOAD;
                     retType = WASM.F32;
                     alignment = 2;
@@ -69,21 +68,16 @@ function generateExpr(ctx, node) {
             }
         }
 
-        // B"H: OPTIMIZATION - Immediate Offset
-        // If index is a literal, bake it into the LOAD offset to save instructions
         if (node.index.type === 'Literal') {
             const idxVal = parseInt(node.index.value);
             const byteOffset = idxVal << stride;
             
-            // Emit target pointer only
             generateExpr(ctx, node.target);
             
-            // LOAD with offset
             ctx.code.push(loadOp, ...Encoder.toLEB128(alignment), ...Encoder.toLEB128(byteOffset));
             return retType;
         }
 
-        // Standard Dynamic Access
         const targetType = generateExpr(ctx, node.target);
         generateExpr(ctx, node.index);
         
@@ -99,7 +93,6 @@ function generateExpr(ctx, node) {
 
     if (node.type === 'Assignment') {
         if (node.left.type === 'ArrayAccess') {
-            // Determine Stride/Op
             let stride = 2; 
             let storeOp = WASM.F32_STORE;
             let alignment = 2;
@@ -120,13 +113,12 @@ function generateExpr(ctx, node) {
                 }
             }
 
-            // B"H: Store Optimization - Immediate Offset
             if (node.left.index.type === 'Literal') {
                 const idxVal = parseInt(node.left.index.value);
                 const byteOffset = idxVal << stride;
                 
-                generateExpr(ctx, node.left.target); // Pointer
-                generateExpr(ctx, node.right);       // Value
+                generateExpr(ctx, node.left.target); 
+                generateExpr(ctx, node.right);       
                 
                 ctx.code.push(storeOp, ...Encoder.toLEB128(alignment), ...Encoder.toLEB128(byteOffset));
                 return WASM.VOID;
@@ -187,7 +179,6 @@ function generateExpr(ctx, node) {
                 case '>=': ctx.code.push(WASM.I32_GE_S); break;
                 case '==': ctx.code.push(WASM.I32_EQ); break;
                 case '!=': ctx.code.push(WASM.I32_NE); break;
-                // Bitwise
                 case '&': ctx.code.push(WASM.I32_AND); break;
                 case '|': ctx.code.push(WASM.I32_OR); break;
                 case '^': ctx.code.push(WASM.I32_XOR); break;
