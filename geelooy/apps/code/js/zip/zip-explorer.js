@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/zip/zip-explorer.js
 
@@ -19,9 +20,7 @@ export const ZipExplorer = {
         try {
             // B"H - Initialize or Retrieve State attached to Tab
             await ZipState.getOrInit(tab);
-            
             this.render(tab);
-            UI.switchView('zip');
         } catch(e) {
             console.error(e);
             UI.showToast("Failed to open ZIP: " + e.message, 'error');
@@ -98,15 +97,8 @@ export const ZipExplorer = {
             const entries = ZipState.getDisplayEntries(tab.zipState);
             const dirPath = item.path.endsWith('/') ? item.path.slice(0, -1) : item.path;
             
-            // Filter entries strictly within this directory
-            // Note: Flat zip structure vs tree structure. We need to simulate folder content.
-            // If item.path is root (e.g. just the filename), list all top level?
-            // Actually, Transfer.js recursive copy expects children.
-            // Zip filenames are full paths (e.g. "folder/sub/file.txt").
-            
-            // Simple logic: return entries that start with dirPath + '/' and have no more slashes
             const results = [];
-            const prefix = dirPath ? dirPath + '/' : ''; // For root, prefix is empty?
+            const prefix = dirPath ? dirPath + '/' : ''; 
             
             entries.forEach(e => {
                 if (e.filename.startsWith(prefix) && e.filename !== prefix.slice(0, -1)) {
