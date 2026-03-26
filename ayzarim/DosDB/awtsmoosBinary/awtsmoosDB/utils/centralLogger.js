@@ -1,9 +1,11 @@
+
 // B"H
 /**
  * @file centralLogger.js
  * @description
  *  Authoritative Scribe of the Essence.
- *  Suppresses high-frequency console noise while ensuring absolute file integrity.
+ *  Aggressively flushes log entries to prevent memory hoarding during 
+ *  massive synchronous simulations.
  */
 
 const fs = require('fs');
@@ -11,16 +13,25 @@ const path = require('path');
 
 const LOG_FILE_PATH = path.join(process.cwd(), 'awtsmoos.log.txt');
 
-// Deduplication state
 let lastLogSignature = null;
 let repeatCount = 0;
+let logBuffer = [];
+
+function flushLogs() {
+    if (logBuffer.length === 0) return;
+    try {
+        fs.appendFileSync(LOG_FILE_PATH, logBuffer.join(""));
+    } catch(e) {}
+    logBuffer = [];
+}
+
+process.on('exit', flushLogs);
 
 module.exports = {
     resetLog() {
         try {
-            fs.writeFileSync(LOG_FILE_PATH, `B"H - Universal Essence Stream Reset: ${new Date().toISOString()}\n\n`);
-            lastLogSignature = null;
-            repeatCount = 0;
+            fs.writeFileSync(LOG_FILE_PATH, `B"H - Essence Stream Reset: ${new Date().toISOString()}\n\n`);
+            lastLogSignature = null; repeatCount = 0; logBuffer = [];
         } catch (e) {}
     },
 
@@ -30,52 +41,38 @@ module.exports = {
 
         if (data !== undefined) {
             try {
-                if (Buffer.isBuffer(data)) {
-                    rawDataStr = ` <Buffer len=${data.length} val=${data.subarray(0, 16).toString('hex')}...>`;
-                } else if (typeof data === 'object') {
-                    rawDataStr = ` ${JSON.stringify(data, (k, v) => (k === 'db' || k === 'allocator' || k === 'parent' || k === 'context') ? '[Ref]' : v)}`;
-                } else {
-                    rawDataStr = ` ${String(data)}`;
-                }
-            } catch (e) { rawDataStr = ` [ComplexData]`; }
+                if (Buffer.isBuffer(data)) rawDataStr = ` <Buffer len=${data.length}>`;
+                else if (typeof data === 'object') rawDataStr = ` [Object]`;
+                else rawDataStr = ` ${String(data)}`;
+            } catch (e) { rawDataStr = ` [Complex]`; }
         }
 
         const fullLine = content + rawDataStr;
-
-        if (fullLine === lastLogSignature) {
-            repeatCount++;
-            return;
-        }
+        if (fullLine === lastLogSignature) { repeatCount++; return; }
 
         if (repeatCount > 0) {
-            const repeatMsg = `... (Preceding logic repeated ${repeatCount} times) ...`;
-            try { fs.appendFileSync(LOG_FILE_PATH, `B"H ${repeatMsg}\n`); } catch(e) {}
+            logBuffer.push(`B"H ... (Repeated ${repeatCount} times) ...\n`);
             repeatCount = 0;
         }
 
         lastLogSignature = fullLine;
         const now = new Date().toISOString();
-        const fileEntry = `[${now}] B"H ${fullLine}\n`;
+        logBuffer.push(`[${now}] B"H ${fullLine}\n`);
+        
+        // B"H: THE TIKKUN OF SILENCE
+        // Contracted from 10,000 down to 50 lines. The memory remains pure.
+        if (logBuffer.length > 50) flushLogs();
 
-        // Always log to physical file synchronously
-        try {
-            fs.appendFileSync(LOG_FILE_PATH, fileEntry);
-        } catch(e) {}
-
-        // Console Filtering: Silence the Malchut noise, keep the Sefirotic criticals.
-        const isMalchutNoise = scope.includes("NAV") || scope.includes("READER") || msg.includes("resolve") || msg.includes("Found ptr");
-        const isGevurahCritical = scope.includes("FATAL") || scope.includes("ALLOC") || scope.includes("BUILDER") || scope.includes("DICT") || scope.includes("MAP");
-
-        if (!isMalchutNoise || isGevurahCritical) {
-            const color = isGevurahCritical ? "\x1b[33m" : "\x1b[36m";
-            process.stdout.write(`${color}B"H ${content}\x1b[0m\n`);
+        // Console Filtering: Maintain Sefirotic criticals only
+        const isCritical = scope.includes("FATAL") || scope.includes("ERROR") || scope.includes("TEST") || scope.includes("SIMULATION");
+        if (isCritical) {
+            process.stdout.write(`\x1b[33mB"H ${content}\x1b[0m\n`);
         }
     },
 
     section(title) {
         this.log("=== SESSION ===", title);
-        try {
-            fs.appendFileSync(LOG_FILE_PATH, `\n========================================\nB"H ${title}\n========================================\n\n`);
-        } catch(e) {}
+        logBuffer.push(`\n========================================\nB"H ${title}\n========================================\n\n`);
+        flushLogs();
     }
 };
