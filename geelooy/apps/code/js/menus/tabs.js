@@ -5,7 +5,7 @@
 import { State, DOM } from '../state.js';
 import { Menus } from './index.js';
 import { MenuUI } from './ui.js';
-import { getItemUniquePath, Workspaces } from '../workspaces/index.js';
+import { getItemUniquePath, Workspaces } from '../workspaces.js';
 
 export const TabMenus = {
     showTabMenu(e, tab) {
@@ -23,7 +23,10 @@ export const TabMenus = {
             { label: "Cancel", action: "cancel-menu", icon: "x" }
         ];
 
+        // B"H - Set the specific tab target AND purify the general target to prevent confusion.
         State.contextTabTarget = tab;
+        State.contextTarget = null;
+        
         MenuUI.renderMenu(DOM.contextMenu, menuItems, e);
     },
 

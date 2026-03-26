@@ -19,11 +19,20 @@ export const Menus = {
     showMainMenu: (e) => MainMenu.show(e),
     showTabMenu: (e, tab) => TabMenus.showTabMenu(e, tab),
 
-    // B"H - THE GRAND RECTIFICATION: Point directly to the true Actions Nexus.
+    // B"H - THE GRAND RECTIFICATION: 
+    // We now harvest the target from either the global context or the tab context,
+    // ensuring no spark of intent is lost to the void.
     handleAction(action) {
         this.hideAll();
+        
+        // Determine the true target. Tab context takes precedence if it exists, otherwise general context.
+        let trueTarget = State.contextTarget;
+        if (!trueTarget && State.contextTabTarget && State.contextTabTarget.item) {
+            trueTarget = State.contextTabTarget.item;
+        }
+
         import('../actions/index.js').then(m => {
-            m.Actions.handle(action, State.contextTarget);
+            m.Actions.handle(action, trueTarget);
         });
     }
 };

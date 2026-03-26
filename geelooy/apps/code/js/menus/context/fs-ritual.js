@@ -2,6 +2,7 @@
 // B"H
 /**
  * @file fs-ritual.js
+ * @brief The manifestation of filesystem rituals.
  */
 
 import { State } from '../../state.js';

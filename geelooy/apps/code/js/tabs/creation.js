@@ -9,34 +9,39 @@ export const TabsCreation = {
     async create(item, isNewFile = false, shouldSave = true, activate = true) {
         if (!item) return;
 
+        // B"H - Immediate duplication check before any async yields
+        const uniquePath = item.type === 'commander' ? `commander::${item.workspaceId||'global'}::${item.path}` : 
+                           item.type === 'terminal' ? `terminal::${item.workspaceId||'global'}::${item.path}` :
+                           item.type === 'devtools' ? `devtools::${item.previewTabId}` :
+                           Tabs.getUniquePath(item);
+
+        const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
+        if (existingTab) {
+            if (activate) Tabs.activate(existingTab.id); // Non-blocking trigger
+            return;
+        }
+
         if (item.type === 'commander') {
-            const newTab = { id: State.nextTabId++, item, content: item.commanderState, isDirty: false, uniquePath: `commander::${Date.now()}`, fileType: 'commander' };
+            const newTab = { id: State.nextTabId++, item, content: item.commanderState, isDirty: false, uniquePath, fileType: 'commander' };
             State.tabs.push(newTab);
-            if (activate) await Tabs.activate(newTab.id);
+            if (activate) Tabs.activate(newTab.id);
             return;
         }
 
         if (item.type === 'terminal') {
-            const newTab = { id: State.nextTabId++, item, content: null, isDirty: false, uniquePath: `terminal::${Date.now()}`, fileType: 'terminal' };
+            const newTab = { id: State.nextTabId++, item, content: null, isDirty: false, uniquePath, fileType: 'terminal' };
             State.tabs.push(newTab);
-            if (activate) await Tabs.activate(newTab.id);
+            if (activate) Tabs.activate(newTab.id);
             return;
         }
         
         if (item.type === 'devtools') {
             const newTab = { 
-                id: State.nextTabId++, item, isDirty: false, uniquePath: `devtools::${item.previewTabId}`, 
+                id: State.nextTabId++, item, isDirty: false, uniquePath, 
                 fileType: 'devtools', devtoolsState: { previewTabId: item.previewTabId, logs:[], networkReqs:[], domString:'', activePanel: 'console' } 
             };
             State.tabs.push(newTab);
-            if (activate) await Tabs.activate(newTab.id);
-            return;
-        }
-
-        const uniquePath = Tabs.getUniquePath(item);
-        const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
-        if (existingTab) {
-            if (activate) await Tabs.activate(existingTab.id);
+            if (activate) Tabs.activate(newTab.id);
             return;
         }
         
@@ -50,7 +55,7 @@ export const TabsCreation = {
         };
         State.tabs.push(newTab);
         if (shouldSave) App.saveSession();
-        if (activate) await Tabs.activate(newTab.id);
+        if (activate) Tabs.activate(newTab.id);
     },
 
     async createPreview(item, content) {
@@ -60,7 +65,7 @@ export const TabsCreation = {
         if (existingTab) {
             existingTab.content = content; existingTab.rawContent = content; existingTab.forceReload = true;
             existingTab.previewHistory =[]; 
-            await Tabs.activate(existingTab.id, true);
+            Tabs.activate(existingTab.id, true);
             return;
         }
 
@@ -71,6 +76,6 @@ export const TabsCreation = {
         };
         State.tabs.push(newTab);
         App.saveSession();
-        await Tabs.activate(newTab.id);
+        Tabs.activate(newTab.id);
     }
 };

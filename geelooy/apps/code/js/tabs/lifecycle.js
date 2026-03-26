@@ -13,7 +13,18 @@ export const TabsLifecycle = {
         if (idx === -1) return;
 
         const tab = State.tabs[idx];
-        if (tab.isDirty && !force) {
+        
+        // B"H - Exclude autonomous tabs from the mortal 'save' prompt
+        const autoManagedTypes = ['vibe', 'commander', 'terminal', 'devtools', 'html-preview', 'vibe-session', 'vibe-manager'];
+        
+        // Ensure both fileType and the underlying item.type are checked
+        const isAutonomous = autoManagedTypes.includes(tab.fileType) || 
+                             (tab.item && autoManagedTypes.includes(tab.item.type)) ||
+                             tab.isPreview;
+
+        const needsSavePrompt = tab.isDirty && !force && !isAutonomous;
+
+        if (needsSavePrompt) {
             const res = await UI.showDialog({ title: "Unsaved Changes", message: `Save changes to ${tab.item.name}?`, okText: "Save", cancelText: "Discard" });
             if (res === true) await TabsPersistence.save(tab, Tabs);
             else if (res === null) return; 

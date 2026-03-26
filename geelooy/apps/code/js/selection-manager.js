@@ -4,16 +4,14 @@
 
 import { State, DOM } from './state.js';
 import { UI } from './ui.js';
-import { getItemUniquePath } from './workspaces.js'; 
+import { getItemUniquePath } from './workspaces/index.js'; 
 import { FileOperations } from './file-operations.js';
 
 export const SelectionManager = {
     initialize() {
-        // 1. Locate the physical vessel
         if (!DOM.selectionMenu) {
             DOM.selectionMenu = document.getElementById('selection-menu');
             if (!DOM.selectionMenu) {
-                // Defensive: Create it if the HTML structure is broken
                 DOM.selectionMenu = document.createElement('div');
                 DOM.selectionMenu.id = 'selection-menu';
                 DOM.selectionMenu.className = 'selection-menu-bar'; 
@@ -21,7 +19,6 @@ export const SelectionManager = {
             }
         }
 
-        // 2. Bind Events (The Senses)
         if (DOM.selectionMenu && !DOM.selectionMenu.dataset.bound) {
             DOM.selectionMenu.addEventListener('click', e => {
                 e.stopPropagation();
@@ -29,13 +26,10 @@ export const SelectionManager = {
                 if (!button) return;
                 const action = button.dataset.action;
 
-                const items = Array.from(State.selectedItems)
-                    .map(path => State.domItemMap.get(path)?.item)
-                    .filter(Boolean);
+                const items = Array.from(State.selectedItems.values());
 
                 if (items.length === 0 && action !== 'cancel') return;
 
-                // Execute Rituals
                 switch (action) {
                     case 'copy': FileOperations.copySelected(); break;
                     case 'cut': FileOperations.copySelected(); UI.showToast("Items cut (ready to paste)", "info"); break;
@@ -52,31 +46,18 @@ export const SelectionManager = {
     },
 
     start(initialItem) {
-        // B"H - Tikkun: Ensure the senses are awake before we do anything!
         this.initialize();
-
         if (State.isSelectionModeActive) {
             if (initialItem) this.toggle(initialItem);
             return;
         }
         
         State.isSelectionModeActive = true;
+        if (initialItem) this.toggle(initialItem);
         
-        if (initialItem) {
-            this.toggle(initialItem);
-        }
-        
-        // Determine position: Mouse event, or Center Screen fallback
         const evt = State.contextEvent;
-        let x, y;
-        
-        if (evt && evt.clientX !== undefined) {
-            x = evt.clientX;
-            y = evt.clientY;
-        } else {
-            x = window.innerWidth / 2;
-            y = window.innerHeight / 2;
-        }
+        let x = evt?.clientX !== undefined ? evt.clientX : window.innerWidth / 2;
+        let y = evt?.clientY !== undefined ? evt.clientY : window.innerHeight / 2;
         
         this.showMenuAt(x, y);
         UI.showToast("Selection Mode Active", "info");
@@ -86,20 +67,18 @@ export const SelectionManager = {
         State.isSelectionModeActive = false;
         this.hideMenu();
         
-        // Clear visual selection state
-        State.selectedItems.forEach(uniquePath => {
+        for (const uniquePath of State.selectedItems.keys()) {
             const entry = State.domItemMap.get(uniquePath);
             if (entry?.el) entry.el.classList.remove('selected');
-        });
+        }
         State.selectedItems.clear();
-        State.contextEvent = null; // Clean up the event reference
+        State.contextEvent = null; 
     },
 
     toggle(item) {
-        // B"H - Ensure senses are awake if toggle is called directly
         this.initialize();
-
         if (!item) return;
+
         const uniquePath = getItemUniquePath(item); 
         const entry = State.domItemMap.get(uniquePath);
         
@@ -107,26 +86,54 @@ export const SelectionManager = {
             State.selectedItems.delete(uniquePath);
             if (entry?.el) entry.el.classList.remove('selected');
         } else {
-            State.selectedItems.add(uniquePath);
+            State.selectedItems.set(uniquePath, item);
             if (entry?.el) entry.el.classList.add('selected');
-            // B"H - Update position to follow the most recent selection
             this.updatePositionForItem(item);
         }
         
         this.updateMenuContent();
         
-        // Ensure it's visible if we have items
         if (State.selectedItems.size > 0 && DOM.selectionMenu) {
             DOM.selectionMenu.classList.add('visible');
         }
     },
+
+    add(item) {
+        this.initialize();
+        if (!item) return;
+
+        const uniquePath = getItemUniquePath(item);
+        if (State.selectedItems.has(uniquePath)) return;
+
+        State.selectedItems.set(uniquePath, item);
+        
+        const entry = State.domItemMap.get(uniquePath);
+        if (entry?.el) {
+            entry.el.classList.add('selected');
+        }
+        
+        this.updateMenuContent();
+        if (DOM.selectionMenu) {
+            DOM.selectionMenu.classList.add('visible');
+        }
+    },
     
+    // B"H - Force DOM nodes to mirror internal state arrays accurately
+    refreshVisuals() {
+        document.querySelectorAll('.tree-item.selected').forEach(el => el.classList.remove('selected'));
+        for (const uniquePath of State.selectedItems.keys()) {
+            const entry = State.domItemMap.get(uniquePath);
+            if (entry && entry.el) {
+                entry.el.classList.add('selected');
+            }
+        }
+    },
+
     updatePositionForItem(item) {
         const uniquePath = getItemUniquePath(item); 
         const entry = State.domItemMap.get(uniquePath);
         if (entry && entry.el) {
             const rect = entry.el.getBoundingClientRect();
-            // Position to the right of the item
             this.showMenuAt(rect.right + 5, rect.top);
         }
     },
@@ -147,16 +154,23 @@ export const SelectionManager = {
     positionMenu(x, y) {
         const menu = DOM.selectionMenu;
         if (!menu) return;
+
+        if (!State.contextEvent) {
+            menu.style.right = '20px';
+            menu.style.top = '60px';
+            menu.style.left = 'auto'; 
+            return;
+        }
+
+        menu.style.right = 'auto'; 
         const rect = menu.getBoundingClientRect();
         
         let posX = x + 20;
         let posY = y;
         
-        // Keep inside bounds
         if (posX + rect.width > window.innerWidth) posX = window.innerWidth - rect.width - 10;
         if (posY + rect.height > window.innerHeight) posY = window.innerHeight - rect.height - 10;
         
-        // Ensure it doesn't go off-screen top/left
         if (posX < 10) posX = 10;
         if (posY < 10) posY = 10;
         
@@ -168,7 +182,6 @@ export const SelectionManager = {
         const count = State.selectedItems.size;
         if (!DOM.selectionMenu) return;
         
-        // Pure HTML structure. Styles are in css/ui/selection-menu.css
         DOM.selectionMenu.innerHTML = `
             <div class="selection-header-vertical">
                 <span class="selection-count">${count} Selected</span>

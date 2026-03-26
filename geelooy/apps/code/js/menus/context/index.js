@@ -15,23 +15,15 @@ import { FilesystemRitual } from './fs-ritual.js';
 import { GitRitual } from './git-ritual.js';
 import { TransferRitual } from './transfer-ritual.js';
 
-/**
- * @class ContextMenu
- * @description The gateway for all item-specific actions. It gathers 
- * the fragments of potential from various sub-modules and manifests 
- * a unified menu for the user.
- */
 export const ContextMenu = {
-    /**
-     * @async
-     * @function show
-     * @description Coordinates the creation of the menu items.
-     */
     async show(e, item) {
         e.preventDefault(); e.stopPropagation();
         if (State.isSelectionModeActive) return;
         
+        // B"H - Set the general target AND purify the tab target.
         State.contextTarget = item;
+        State.contextTabTarget = null;
+
         Menus.hideAll();
         
         const mapKey = getItemUniquePath(item);
@@ -41,25 +33,27 @@ export const ContextMenu = {
         const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId || item.id));
         const isReadOnly = workspace?.readOnly || false;
 
-        // 1. Gather Standard FS Items
         let menuItems = FilesystemRitual.getItems(item);
         
-        // 2. Insert Git Items (Asynchronous Discovery)
         const gitItems = await GitRitual.getItems(item);
         if (gitItems.length > 0) {
             menuItems.push({ isSeparator: true });
             menuItems = menuItems.concat(gitItems);
         }
 
-        // 3. Append Data Transfer Items
         menuItems.push({ isSeparator: true });
         menuItems = menuItems.concat(TransferRitual.getItems(item));
 
-        // 4. Final Selection Rituals
         menuItems.push({ isSeparator: true });
         menuItems.push({ label: "Select Multiple", action: "start-selection", icon: "select-all" });
         
-        // 5. Destruction Rituals
+        if (item.kind === 'file') {
+            const ext = item.name.split('.').pop().toLowerCase();
+            if (ext === 'html' || ext === 'htm' || ext === 'js' || ext === 'mjs') {
+                menuItems.push({ label: "Select Connected", action: "select-connected", icon: "link" });
+            }
+        }
+        
         menuItems.push({ isSeparator: true });
         if (!isReadOnly) {
             const isRoot = (item.path === "/" || !item.path || item.isWorkspaceRoot);

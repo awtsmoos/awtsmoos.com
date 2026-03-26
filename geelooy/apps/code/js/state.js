@@ -5,10 +5,13 @@
 export const State = {
     tabs:[], activeTabId: null, nextTabId: 0,
     workspaces:[], nextWorkspaceId: 0,
-    contextTarget: null, contextTabTarget: null, contextPayload: null, // B"H - Added contextPayload
+    contextTarget: null, contextTabTarget: null, contextPayload: null,
     hexEditorInstance: null, domItemMap: new Map(), useTabs: true,
     expandedFolders: new Set(), fileClipboard:[], clipboardZip: null, 
-    isSelectionModeActive: false, selectedItems: new Set(),
+    
+    // B"H - Rectified: selectedItems is now a Map of UniquePath -> Item Object
+    isSelectionModeActive: false, selectedItems: new Map(),
+    
     activeTasks: new Map(), closedTabHistory:[], 
     foldedRegistry: new Map(), nextFoldId: 1,
     vibeIterations: 1, customVibePrompt: "", isVibeStopRequested: false,
