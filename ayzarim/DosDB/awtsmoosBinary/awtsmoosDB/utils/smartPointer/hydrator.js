@@ -1,14 +1,14 @@
+
 // B"H
 /**
  * @file hydrator.js
  * @description Bridges the physical world of blocks back into the ethereal world of JS.
- * STRICT: Ensures structure descriptors are identified authoritatively.
  */
 const constants = require('../../constants.js');
 const { readPointer48 } = require('../binaryHelpers.js');
 const codec = require('./codec.js');
-const decodeInline = require('./hydrator_inline_sync.js');
-const decodeValue = require('./hydrator_value_sync.js');
+const decodeInline = require('./hydrator/inline.js');
+const decodeValue = require('./hydrator/value.js');
 
 module.exports = {
     resolve(ptrBuf, allocator) {
@@ -24,8 +24,6 @@ module.exports = {
         const length = (ptr.mode === constants.MODE_BLOCK) ? ptr.payload.readUInt32BE(6) : ptr.payload.readUInt32BE(10);
         const offset = (ptr.mode === constants.MODE_BLOCK) ? ptr.payload.readUInt32BE(10) : ptr.payload.readUInt32BE(6);
 
-        // AUTHORITATIVE STRUCTURE DETECTION
-        // B"H: These are the Four Worlds of Container Vessels.
         if (ptr.mode === constants.MODE_BLOCK && (
             ptr.type === constants.VAL_TYPE.SEQUENCE || 
             ptr.type === constants.VAL_TYPE.MAP || 

@@ -23,7 +23,7 @@ export class StorageOrchestrator {
      * @async
      * @method recallPreviousReality
      * @description Re-emanates the saved state. It specifically focuses 
-     * on recovering FileSystemHandles for local workspaces.
+     * on recovering FileSystemHandles for local workspaces and silently verifying them.
      */
     static async recallPreviousReality() {
         // First, load the basic structure of the session.
@@ -31,16 +31,22 @@ export class StorageOrchestrator {
 
         // Proactively try to re-link all 'local' handles to prevent 'Handle not found' errors.
         for (const ws of State.workspaces) {
-            if (ws.type === 'local' && !ws.handle) {
+            if (ws.type === 'local') {
                 try {
                     const handle = await IndexedDBProvider.getHandle(ws.id);
                     if (handle) {
                         ws.handle = handle;
+                        // B"H - Silently query. If Chrome grants it (e.g. persistent storage active),
+                        // we immediately unlock it so no "RESUME" badge appears.
                         const perm = await handle.queryPermission({ mode: 'readwrite' });
                         ws.isLocked = (perm !== 'granted');
+                    } else {
+                        // Handle truly missing from DB
+                        ws.isLocked = true;
                     }
                 } catch (e) {
                     console.warn(`B"H: Could not auto-restore handle for workspace ${ws.id}.`);
+                    ws.isLocked = true;
                 }
             }
         }
