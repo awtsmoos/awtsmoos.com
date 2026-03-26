@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file obj.js
@@ -22,6 +23,11 @@ function log(msg) {
  * @description 
  *  The contraction of a number into its smallest representation.
  *  Embedded LEB128 writer to ensure zero dependency during the chaos of circular loads.
+ *  
+ *  THE TIKKUN OF NATIVE V8 SYNERGY:
+ *  By utilizing a basic Javascript Array `[]` and `Buffer.from()`, we tap into 
+ *  the core optimizations of the V8 engine, avoiding the microscopic allocation 
+ *  overhead of Node's internal Buffer pool for 1-byte structures.
  */
 function localWriteVarInt(value) {
     const bytes = [];
@@ -48,8 +54,6 @@ function serializeJSON(json) {
     const magicBuf = Buffer.from(constants.MAGIC_JSON);
     const keys = Object.keys(json);
     
-    // log(`Serializing object with ${keys.length} keys: ${keys.join(',')}`);
-
     const simpleBuffers = [magicBuf];
     
     // Key Count Manifestation
@@ -66,11 +70,6 @@ function serializeJSON(json) {
         simpleBuffers.push(keyBuf);
         
         const val = json[key];
-        
-        if (key === 'errors' && Array.isArray(val)) {
-            log(`!!! Found 'errors' key. It is an array of length ${val.length}. Items:`);
-            val.forEach((e, idx) => log(`  errors[${idx}] = ${e}`));
-        }
 
         // B"H: THE RECURSIVE ACT - Manifesting the property's light
         const valBuf = serializeValue_fn(val, true);

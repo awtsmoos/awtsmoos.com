@@ -1,6 +1,12 @@
+
 // B"H
-// Updated to use binaryHelpers
-const { writeConditional, packedLength } = require("../utils/binaryHelpers.js");
+/**
+ * @file getSerializedMetadata.js
+ * @description
+ * Serializes the hidden dimensions of the blocks so that the spiritual size
+ * of the object may be read without traversing its entire infinity.
+ */
+const { writeConditional, packedLength } = require("../../../utils/binaryHelpers.js");
 
 function getSerializedMetadata({ serializedMetadataLength, offsetSizeMetadataArray, dataLength, totalKeys, hashTableSize }) {
     const sizeMetaArr = writeConditional(serializedMetadataLength);

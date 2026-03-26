@@ -1,10 +1,10 @@
+
 // B"H
 const constants = require('../../constants.js');
 const BitmapManager = require('./bitmap.js');
-const fs = require('fs');
 
 function log(msg) {
-    try { fs.writeSync(2, `\x1b[33mB"H [ALLOC] ${msg}\x1b[0m\n`); } catch(e) {}
+    // require('../../utils/centralLogger.js').log("[ALLOC]", msg);
 }
 
 class AllocationModes {
@@ -13,7 +13,6 @@ class AllocationModes {
     }
 
     async allocateSmall(unitsNeeded, sizeBytes) {
-        // 1. Check Active Page
         if (this.allocator.activePage.id !== -1) {
             const block = this.allocator.activePage.buffer;
             
@@ -22,19 +21,16 @@ class AllocationModes {
                 if (startUnit !== -1) {
                     BitmapManager.mark(block, startUnit, unitsNeeded, true);
                     this.allocator.activePage.dirty = true;
-                    // log(`Gap Found in Block ${this.allocator.activePage.id}, Unit ${startUnit}`);
                     return { blockId: this.allocator.activePage.id, offset: startUnit * this.allocator.UNIT_SIZE, length: sizeBytes };
                 }
             } else {
                  this.allocator.activePage.id = -1; 
             }
             
-            // log(`ActivePage ${this.allocator.activePage.id} Full. Flushing.`);
             await this.allocator.flush();
             this.allocator.activePage.id = -1;
         }
 
-        // 2. Need new page.
         let newPageId = -1;
         if (this.allocator.freeBlocks.length > 0) {
             newPageId = this.allocator.freeBlocks.pop();
@@ -43,9 +39,6 @@ class AllocationModes {
             this.allocator.cursor++;
         }
         
-        // log(`Allocating NEW Page: ${newPageId}`);
-
-        // 3. Setup New Active Page in RAM
         const newBlock = Buffer.allocUnsafe(this.allocator.BLOCK_SIZE);
         newBlock.fill(0);
         

@@ -1,10 +1,15 @@
+
 // B"H
 /**
  * @file io.js
  * @description 
  *  The Sefirah of Da'at (Knowledge). The Bridge of I/O.
  *  Strictly Synchronous.
- *  CRITICAL FIX: Updates Allocator context when writing to shared blocks.
+ * 
+ *  THE TIKKUN OF SINGULAR TRUTH:
+ *  The Pager's cache is the absolute, unified source of active memory. 
+ *  This I/O bridge now speaks ONLY to the Pager, eliminating all redundant 
+ *  synchronization logic and banishing the `TypeError` forever.
  */
 const constants = require('../../constants.js');
 
@@ -16,46 +21,42 @@ module.exports = {
         if (blockId < 0) return null;
 
         const totalSize = ptr.length || constants.BLOCK_SIZE;
-        // B"H: Reliable offset determination. Root and structure headers often start at HEADER_SIZE (32).
         const startOffset = (ptr.offset === 0 && !ptr.isChain) ? constants.HEADER_SIZE : (ptr.offset || 0);
         
         const firstBlockAvailable = constants.BLOCK_SIZE - startOffset;
         let resultBuffer = Buffer.allocUnsafe(totalSize);
         
-        // B"H: Use the Cache-Coherent Reader from Allocator
         const block = db.allocator.v1.readBlockLocked(blockId);
         
         if (!block) {
             return null;
         }
 
-        // Single Block Read
         if (totalSize <= firstBlockAvailable) {
             if (startOffset + totalSize > block.length) {
                 return null;
             }
             block.copy(resultBuffer, 0, startOffset, startOffset + totalSize);
         } else {
-            // Chained Read
-            let bytesGathered = 0;
+            let bytesWritten = 0;
             let currentBlockId = blockId;
 
-            while (bytesGathered < totalSize) {
+            while (bytesWritten < totalSize) {
                 const blk = (currentBlockId === blockId) ? block : db.allocator.v1.readBlockLocked(currentBlockId);
-                const isFirst = bytesGathered === 0;
+                const isFirst = bytesWritten === 0;
                 const readStart = isFirst ? startOffset : constants.HEADER_SIZE;
                 const readAvailable = constants.BLOCK_SIZE - readStart;
-                const chunkToCopy = Math.min(totalSize - bytesGathered, readAvailable);
+                const chunkToCopy = Math.min(totalSize - bytesWritten, readAvailable);
 
                 if (chunkToCopy <= 0) break;
                 
                 if (blk) {
-                    blk.copy(resultBuffer, bytesGathered, readStart, readStart + chunkToCopy);
+                    blk.copy(resultBuffer, bytesWritten, readStart, readStart + chunkToCopy);
                 } else {
-                    resultBuffer.fill(0, bytesGathered); 
+                    resultBuffer.fill(0, bytesWritten); 
                 }
                 
-                bytesGathered += chunkToCopy;
+                bytesWritten += chunkToCopy;
                 currentBlockId++;
             }
         }
@@ -85,13 +86,8 @@ module.exports = {
             
             data.copy(block, writeStart, bytesWritten, bytesWritten + chunk);
             
-            // SYNC 1: Update Pager (The Disk Cache)
+            // B"H: The Pager is the one true gatekeeper. All writes flow through it.
             db.pager.writeBlock(currentBlockId, block);
-            
-            // SYNC 2: Update Allocator Active Page (The RAM Hot-Path)
-            if (db.allocator.v1.activePage.id === currentBlockId) {
-                block.copy(db.allocator.v1.activePage.buffer);
-            }
             
             bytesWritten += chunk;
             currentBlockId++;

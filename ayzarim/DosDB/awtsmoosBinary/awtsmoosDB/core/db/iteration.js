@@ -1,15 +1,20 @@
-//B"H
 
+// B"H
 /**
  * @file iteration.js
  * @description
  *  Manages the collection of keys, values, and entries from database handles synchronously.
- *  Every trace of async and await has been purged.
+ *  Every trace of async and await has been purged, leaving only pure unadulterated speed.
+ *  It channels the infinite flow of data out of the sealed vessels into observable arrays.
  */
 
-const HandleRegistry = require('../handleRegistry.js');
+const HandleRegistry = require('../registry/handle.js');
 
 module.exports = {
+    /**
+     * @method keys
+     * @description Pulls all string keys from a dictionary or map.
+     */
     keys(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (!soul || !soul.reader) return [];
@@ -18,6 +23,10 @@ module.exports = {
         return arr;
     },
 
+    /**
+     * @method values
+     * @description Plucks every active value out of the sequence or map.
+     */
     values(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (!soul || !soul.reader) return [];
@@ -26,6 +35,10 @@ module.exports = {
         return arr;
     },
 
+    /**
+     * @method entries
+     * @description Resolves both name and essence (key/value) together.
+     */
     entries(db, handle) {
         const soul = HandleRegistry.getSoul(handle);
         if (!soul || !soul.reader) return [];
