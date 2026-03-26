@@ -1,13 +1,13 @@
+
 // B"H
 /**
  * @file index.js (SequenceEngine)
  * @description The Scribe of the count-indexed B-Tree List.
- * REWRITTEN: Fixes structural anchor resolution to prevent index amnesia.
  */
 
 const constants = require('../../constants.js');
 const SequenceNode = require('./node.js');
-const SequenceOps = require('./ops.js');
+const SequenceOps = require('./ops/index.js');
 const SmartPointer = require('../../utils/smartPointer.js');
 
 class SequenceEngine {
@@ -16,7 +16,6 @@ class SequenceEngine {
         this.v1 = allocator?.v1 || allocator;
         this.db = this.v1?.db || (allocator?.db ? allocator.db : null);
 
-        // B"H: Unpacking the binary seal into its physical coordinate.
         if (Buffer.isBuffer(ptr) && ptr.length === 16) {
             this.ptr = SmartPointer.resolve(ptr, this.allocator);
         } else {

@@ -1,9 +1,14 @@
+
 // B"H
 /**
  * @file node.js
  * @description
  *  The Scribe of the Sequence Nodes.
- *  Silent.
+ *  
+ *  THE TIKKUN OF BALANCE (CHESED & GEVURAH):
+ *  Absolute contraction was too harsh. We restore the flow of Chesed.
+ *  Sequences (Arrays) once again are created with a foundational padding and 
+ *  grow in exponential tiers, preventing Allocator thrashing.
  */
 const constants = require('../../constants.js');
 const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
@@ -16,7 +21,7 @@ class SequenceNode {
     }
 
     create(isLeaf, isWeak = false) {
-        const initialSize = 23; 
+        const initialSize = 128; 
         const ptr = this.allocator.allocate(initialSize);
         const buf = Buffer.allocUnsafe(initialSize).fill(0);
         
@@ -73,15 +78,25 @@ class SequenceNode {
         const itemSize = node.isLeaf ? 16 : 20;
         const requiredSize = headerSize + (node.itemCount * itemSize);
         const physicalCapacity = node.ptr ? (node.ptr.length || 0) : 0;
+        
+        let allocSize = requiredSize;
 
         if (physicalCapacity < requiredSize) {
              const oldBuf = node.buffer;
-             node.ptr = this.allocator.allocate(requiredSize);
              
-             if (!node.buffer || node.buffer.length < requiredSize) {
-                 node.buffer = Buffer.allocUnsafe(requiredSize).fill(0);
+             if (allocSize < 128) allocSize = 128;
+             else if (allocSize < 512) allocSize = 512;
+             else if (allocSize < 1024) allocSize = 1024;
+             else allocSize = Math.ceil(allocSize / 1024) * 1024;
+
+             node.ptr = this.allocator.allocate(allocSize);
+             
+             if (!node.buffer || node.buffer.length < allocSize) {
+                 node.buffer = Buffer.allocUnsafe(allocSize).fill(0);
                  if (oldBuf) oldBuf.copy(node.buffer, 0, 0, Math.min(oldBuf.length, requiredSize));
              }
+        } else {
+             allocSize = physicalCapacity;
         }
 
         const buf = node.buffer;
@@ -94,7 +109,7 @@ class SequenceNode {
         buf.writeUInt32BE(node.totalCount, 7);
         writePointer48(buf, node.totalBytes, 11);
         
-        const dataToWrite = buf.subarray(0, requiredSize);
+        const dataToWrite = buf.subarray(0, allocSize);
         this.db._writeChainSafe(node.ptr, dataToWrite);
         
         this.db.cacheStructure(node.ptr, node);

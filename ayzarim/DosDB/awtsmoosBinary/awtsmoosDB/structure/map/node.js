@@ -1,9 +1,15 @@
+
 // B"H
 /**
  * @file node.js (MapNode)
  * @description 
  *  The Scribe of the B-Tree Node serialization.
- *  FIXED: Precise buffer allocation to prevent ERR_OUT_OF_RANGE.
+ *  
+ *  THE TIKKUN OF BALANCE (CHESED & GEVURAH):
+ *  Absolute contraction shattered the vessels. We now restore the flow of Chesed.
+ *  Nodes once again request space in exponentially padded tiers. This eliminates 
+ *  the chaotic abandonment of micro-blocks during sequential insertions, 
+ *  allowing the Tree to grow rapidly and in-place without thrashing the Allocator.
  */
 
 const constants = require('../../constants.js');
@@ -18,33 +24,34 @@ class MapNode {
         this.db = allocator.db; 
     }
 
-    /**
-     * @method save
-     * @description Persists a B-Tree node, correctly encoding child and value pointers.
-     */
     save(node) {
         if (!node) return null;
 
-        // B"H: Base Size Calculation
-        // Magic(4) + isLeaf(1) + KeyCountVarInt(1-5) + totalCount(4) + totalBytes(6)
-        // For 0 keys: 4 + 1 + 1 + 4 + 6 = 16 bytes.
         const keyCountVarIntSize = this._getVarIntSize(node.keys.length);
         let size = 4 + 1 + keyCountVarIntSize + 4 + 6; 
 
-        // Add size for keys and pointers
         for (let i = 0; i < node.keys.length; i++) {
             const k = node.keys[i];
-            size += this._getVarIntSize(k.length) + k.length + 16; // VarInt + Key + Pointer
+            size += this._getVarIntSize(k.length) + k.length + 16; 
         }
-        if (!node.isLeaf) size += 16; // The final child pointer
+        if (!node.isLeaf) size += 16; 
 
         let ptr = node.selfPtr;
-        // Reallocate if the vessel is too small
-        if (!ptr || (ptr.length || 0) < size) {
-            ptr = this.allocator.allocate(size);
+        let allocSize = size;
+        const physicalCapacity = ptr ? (ptr.length || 0) : 0;
+
+        if (physicalCapacity < size) {
+            if (allocSize < 128) allocSize = 128;
+            else if (allocSize < 512) allocSize = 512;
+            else if (allocSize < 1024) allocSize = 1024;
+            else allocSize = Math.ceil(allocSize / 1024) * 1024;
+
+            ptr = this.allocator.allocate(allocSize);
+        } else {
+            allocSize = physicalCapacity;
         }
 
-        const buf = Buffer.alloc(size).fill(0);
+        const buf = Buffer.allocUnsafe(allocSize).fill(0);
         let offset = 0;
         
         buf.write(constants.MAGIC_MAP_NODE, offset); offset += 4;
@@ -78,17 +85,13 @@ class MapNode {
             lastSeal.copy(buf, offset); offset += 16;
         }
 
-        this.db._writeChainSafe(ptr, buf.subarray(0, offset));
+        this.db._writeChainSafe(ptr, buf);
         node.selfPtr = ptr;
         
         this.db.cacheStructure(ptr, node);
         return ptr;
     }
 
-    /**
-     * @method load
-     * @description Awakens a node from its physical coordinate.
-     */
     load(ptr) {
         if (!ptr || ptr.blockId === 0) return null;
         const cached = this.db.getCachedStructure(ptr);

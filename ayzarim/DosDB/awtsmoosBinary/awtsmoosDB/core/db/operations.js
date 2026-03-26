@@ -1,12 +1,14 @@
-//B"H
 
+// B"H
 /**
  * @file operations.js
  * @description
  *  Defines the primary interactions with the database handles.
+ *  Just as the Creator directs His energies to specific realms,
+ *  these operations target specific vessels of truth.
  */
 
-const HandleRegistry = require('../handleRegistry.js');
+const HandleRegistry = require('../registry/handle.js');
 
 module.exports = {
     set(db, key, value) {

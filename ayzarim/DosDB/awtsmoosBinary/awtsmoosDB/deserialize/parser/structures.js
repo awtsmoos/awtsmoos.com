@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file structures.js
@@ -70,8 +71,10 @@ function parseObject(buffer, depth, valueParser) {
 module.exports = {
     isStructure(type) {
         const T = constants.VAL_TYPE;
+        // B"H: Admitting JS_MAP and JS_SET alongside ERROR into the realm of structure.
         return type === T.ARRAY || type === T.OBJECT || type === T.JSON || 
-               type === T.MAP || type === T.SET || type === T.TYPED_ARRAY;
+               type === T.MAP || type === T.SET || type === T.TYPED_ARRAY || 
+               type === T.ERROR || type === T.JS_MAP || type === T.JS_SET;
     },
 
     parseStructure(type, rawData, depth, valueParser) {
@@ -82,8 +85,37 @@ module.exports = {
             case T.OBJECT: 
             case T.JSON: return parseObject(rawData, depth, valueParser);
             
+            // B"H: Breathing life into the shattered vessels
+            case T.ERROR: {
+                const parsed = parseObject(rawData, depth, valueParser);
+                let ErrClass = globalThis[parsed.name] || Error;
+                let err;
+                
+                try {
+                    // AggregateError requires its internal array first
+                    if (parsed.name === 'AggregateError') {
+                        err = new ErrClass(parsed.errors || [], parsed.message);
+                    } else {
+                        err = new ErrClass(parsed.message);
+                    }
+                } catch(e) {
+                    err = new Error(parsed.message);
+                }
+                
+                err.name = parsed.name;
+                if (parsed.stack) err.stack = parsed.stack;
+                if (parsed.cause) err.cause = parsed.cause;
+                if (parsed.errors) err.errors = parsed.errors;
+                
+                return err;
+            }
+            
             case T.MAP: return new Map(parseArray(rawData, depth, valueParser));
             case T.SET: return new Set(parseArray(rawData, depth, valueParser));
+            
+            // B"H: Native JS formats encoded as Arrays
+            case T.JS_MAP: return new Map(parseArray(rawData, depth, valueParser));
+            case T.JS_SET: return new Set(parseArray(rawData, depth, valueParser));
             
             case T.TYPED_ARRAY:
                 if (rawData.length === 0) return new Uint8Array(0);

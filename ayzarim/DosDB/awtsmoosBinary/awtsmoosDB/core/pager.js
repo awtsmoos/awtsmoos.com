@@ -1,31 +1,34 @@
+
 // B"H
 /**
  * @file pager.js
  * @description
  *  The Sefirah of Yesod - The Physical Foundation.
  *  STRICTLY SYNCHRONOUS.
- *  Uses an LRU-like Dirty Cache to minimize fs.writeSync calls.
+ * 
+ *  THE TIKKUN OF THE SCRIBE'S JOURNAL:
+ *  During a batch, the Scribe no longer carves the stone with every command.
+ *  He records the decrees in a temporary `writeJournal`. When the batch ends,
+ *  he sorts the decrees, merges adjacent commands into a single scroll,
+ *  and performs the Great Inscription in one linear, lightning-fast motion.
  */
 
 const fs = require('fs');
 const constants = require('../constants.js');
-const Logger = require('../utils/centralLogger.js');
 
 class SynchronousPager {
     constructor(filePath, options = {}) {
         this.filePath = filePath;
         this.fd = null;
         
-        // RAM Limit ~20MB goal.
-        // Block Size = 4KB.
-        // Cache 1024 blocks = 4MB raw. Overhead ~5-6MB. Safe.
         this.CACHE_LIMIT = 1024; 
+        this.BATCH_LIMIT = 4096; 
+        this.isBatching = false; 
         
-        // Map<blockId, Buffer>
         this.cache = new Map();
         
-        // Set<blockId>
-        this.dirtySet = new Set();
+        // B"H: The Scribe's Journal. Key: blockId, Value: Buffer
+        this.writeJournal = new Map();
         
         this.knownFileSize = 0;
         this.ioWrites = 0;
@@ -35,7 +38,6 @@ class SynchronousPager {
     init() {
         if (this.fd !== null) return;
         
-        // Logger.log("[PAGER]", "Opening file synchronously...");
         if (!fs.existsSync(this.filePath)) {
             fs.writeFileSync(this.filePath, Buffer.alloc(0));
         }
@@ -46,12 +48,17 @@ class SynchronousPager {
     readBlock(blockId) {
         if (this.fd === null) this.init();
 
-        // 1. Memory Hit
+        // 1. Journal Hit (Highest Priority)
+        if (this.writeJournal.has(blockId)) {
+            return this.writeJournal.get(blockId);
+        }
+        
+        // 2. Memory Cache Hit
         if (this.cache.has(blockId)) {
             return this.cache.get(blockId);
         }
 
-        // 2. Disk Read
+        // 3. Disk Read
         this.ioReads++;
         const buffer = Buffer.allocUnsafe(constants.BLOCK_SIZE);
         const position = blockId * constants.BLOCK_SIZE;
@@ -61,78 +68,130 @@ class SynchronousPager {
         } else {
             const bytesRead = fs.readSync(this.fd, buffer, 0, constants.BLOCK_SIZE, position);
             if (bytesRead < constants.BLOCK_SIZE) {
-                buffer.fill(0, bytesRead); // Zero remaining
+                buffer.fill(0, bytesRead); 
             }
         }
 
-        this._manageCache(blockId, buffer, false);
+        this._manageCache(blockId, buffer);
         return buffer;
     }
 
     writeBlock(blockId, buffer) {
-        // Just cache it and mark dirty. Don't write to disk yet unless evicted.
-        // This is the key to performance doubling.
         if (this.fd === null) this.init();
         
-        const cachedBuf = Buffer.allocUnsafe(constants.BLOCK_SIZE);
-        buffer.copy(cachedBuf); // Copy to own persistent buffer
+        // B"H: During a batch, all decrees are written to the ephemeral journal.
+        if (this.isBatching) {
+            const journalBuf = Buffer.allocUnsafe(constants.BLOCK_SIZE);
+            buffer.copy(journalBuf);
+            this.writeJournal.set(blockId, journalBuf);
+            return;
+        }
         
-        this._manageCache(blockId, cachedBuf, true);
+        // --- Standard (Non-Batch) Write Path ---
+        let cachedBuf = this.cache.get(blockId);
+        
+        if (cachedBuf) {
+            buffer.copy(cachedBuf);
+            this.cache.delete(blockId);
+            this.cache.set(blockId, cachedBuf);
+        } else {
+            cachedBuf = Buffer.allocUnsafe(constants.BLOCK_SIZE);
+            buffer.copy(cachedBuf); 
+            this._manageCache(blockId, cachedBuf);
+        }
+        
+        // Direct synchronous flush for non-batched operations
+        this._flushRun(blockId, [cachedBuf]);
     }
 
-    _manageCache(blockId, buffer, isDirty) {
-        // Simple eviction: If full, dump the first key (pseudo-LRU due to Map ordering in JS)
-        if (this.cache.size >= this.CACHE_LIMIT) {
-            // Find a block to evict
-            const iterator = this.cache.keys();
-            const firstId = iterator.next().value;
-            
-            // If the victim is dirty, we MUST write it now
-            if (this.dirtySet.has(firstId)) {
-                this._flushBlock(firstId, this.cache.get(firstId));
-            }
-            
-            this.cache.delete(firstId);
-            this.dirtySet.delete(firstId);
+    _manageCache(blockId, buffer) {
+        const limit = this.CACHE_LIMIT;
+        
+        if (this.cache.size >= limit && !this.cache.has(blockId)) {
+            const keyToEvict = this.cache.keys().next().value;
+            this.cache.delete(keyToEvict);
         }
 
         this.cache.set(blockId, buffer);
-        if (isDirty) this.dirtySet.add(blockId);
     }
 
-    _flushBlock(blockId, buffer) {
+    _flushRun(startBlockId, blocks) {
+        if (blocks.length === 0) return;
         this.ioWrites++;
-        const position = blockId * constants.BLOCK_SIZE;
-        fs.writeSync(this.fd, buffer, 0, constants.BLOCK_SIZE, position);
         
-        const endPos = position + constants.BLOCK_SIZE;
-        if (endPos > this.knownFileSize) this.knownFileSize = endPos;
-    }
+        const position = startBlockId * constants.BLOCK_SIZE;
+        const runSize = blocks.length * constants.BLOCK_SIZE;
 
-    // Force all dirty blocks to disk (Called on batch end or close)
-    fsync() {
-        if (this.fd === null) return;
+        if (blocks.length === 1) {
+            fs.writeSync(this.fd, blocks[0], 0, constants.BLOCK_SIZE, position);
+        } else {
+            const megaBuffer = Buffer.concat(blocks);
+            fs.writeSync(this.fd, megaBuffer, 0, runSize, position);
+        }
         
-        if (this.dirtySet.size > 0) {
-            // Logger.log("[PAGER]", `Flushing ${this.dirtySet.size} dirty blocks...`);
-            for (const blockId of this.dirtySet) {
-                const buf = this.cache.get(blockId);
-                this._flushBlock(blockId, buf);
-            }
-            this.dirtySet.clear();
-            fs.fsyncSync(this.fd);
+        if (position + runSize > this.knownFileSize) {
+            this.knownFileSize = position + runSize;
         }
     }
     
+    _applyJournal() {
+        if (this.writeJournal.size === 0) return;
+        
+        const sortedIds = Array.from(this.writeJournal.keys()).sort((a, b) => a - b);
+        
+        let currentRun = [];
+        let startBlockId = -1;
+
+        for (let i = 0; i < sortedIds.length; i++) {
+            const blockId = sortedIds[i];
+            const buf = this.writeJournal.get(blockId);
+
+            // Update the permanent cache
+            this._manageCache(blockId, buf);
+
+            if (currentRun.length === 0) {
+                startBlockId = blockId;
+                currentRun.push(buf);
+            } else if (blockId === startBlockId + currentRun.length) {
+                currentRun.push(buf);
+            } else {
+                this._flushRun(startBlockId, currentRun);
+                startBlockId = blockId;
+                currentRun = [buf];
+            }
+        }
+        
+        if (currentRun.length > 0) {
+            this._flushRun(startBlockId, currentRun);
+        }
+        
+        this.writeJournal.clear();
+    }
+
+    fsync(hard = false) {
+        if (this.fd === null) return;
+        
+        this._applyJournal();
+        
+        if (!this.isBatching && this.cache.size > this.CACHE_LIMIT) {
+            this._shrinkCache();
+        }
+        
+        if (hard) fs.fsyncSync(this.fd);
+    }
+    
+    _shrinkCache() {
+        // No-op in this model as non-dirty pages aren't tracked separately
+    }
+
     close() {
         if (this.fd !== null) {
-            this.fsync();
+            this.fsync(true); 
             fs.closeSync(this.fd);
             this.fd = null;
         }
         this.cache.clear();
-        this.dirtySet.clear();
-        // Logger.log("[PAGER]", `Closed. Stats: ${this.ioReads} reads, ${this.ioWrites} writes.`);
+        this.writeJournal.clear();
     }
 }
 
