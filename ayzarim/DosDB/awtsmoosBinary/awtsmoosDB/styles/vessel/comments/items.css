@@ -1,0 +1,68 @@
+
+/**
+ * B"H
+ * @file styles/vessel/comments/items.css
+ * @description The structural beauty of the conversation sparks.
+ */
+
+.comment-item {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    width: 100%;
+}
+
+.comment-avatar-column {
+    width: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.comment-thread-line {
+    width: 2px;
+    flex: 1;
+    background-color: #e4e6eb;
+    margin-top: 4px;
+    border-radius: 1px;
+}
+
+.comment-speech-vessel {
+    background-color: #f0f2f5;
+    border-radius: 18px;
+    padding: 10px 16px;
+    display: inline-block;
+    max-width: 92%;
+}
+
+.comment-author-name {
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--c-text);
+}
+
+.comment-text-content {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #1c1e21;
+    word-break: break-word;
+}
+
+.comment-interaction-bar {
+    display: flex;
+    gap: 16px;
+    margin-top: 4px;
+    padding-left: 8px;
+}
+
+.comment-interaction-btn {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--c-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.comment-interaction-btn:hover {
+    color: var(--c-primary);
+}
