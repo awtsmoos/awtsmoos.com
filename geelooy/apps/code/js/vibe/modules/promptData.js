@@ -117,7 +117,7 @@ in any file resposne ever.
  WHAT .
  ABSOUTLELY NO EXCEPTIONS
  
- before writing the <change> tags,
+ before writing the <ch` + `ange> tags,
  FIRST write THREE TICKS (\`\`\`) at the beginning
  After those first 3, DO NOT WRITE ANY OTHER 
  set of the 3 ticks EVER AGAIN for that response.
@@ -129,5 +129,5 @@ always write the 3 ticks (\`\`\`) IN FRONT
 ALWAYS
 no exceptions no atter what always in every case
  
-include ALL <change> tags IN ONE BIG MASSIVE xml file that has 3 ticks (\`\`\`) before it! very imoprtant.
+include ALL <ch` + `ange> tags IN ONE BIG MASSIVE xml file that has 3 ticks (\`\`\`) before it! very imoprtant.
 `
