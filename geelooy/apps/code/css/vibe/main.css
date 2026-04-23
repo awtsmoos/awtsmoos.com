@@ -1,0 +1,12 @@
+
+/* B"H - VIBE MASTER CSS */
+@import url('layout.css');
+@import url('resizer.css');
+@import url('tabs.css');
+@import url('chat.css');
+@import url('sidebar.css');
+
+.is-resizing {
+    user-select: none !important;
+    cursor: col-resize !important;
+}
