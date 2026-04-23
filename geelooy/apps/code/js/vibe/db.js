@@ -1,10 +1,12 @@
-
 // B"H
-// FILE: js/vibe/db.js
+/**
+ * @file db.js
+ * @brief The Deep Memory of the Vibe.
+ */
 
 export const VibeDB = {
     DB_NAME: 'AwtsmoosVibeMemory',
-    VERSION: 2, // B"H - Upgraded to introduce the Timeline
+    VERSION: 2,
     STORES: { 
         SESSIONS: 'sessions', 
         CHECKPOINTS: 'checkpoints',
@@ -12,96 +14,99 @@ export const VibeDB = {
     },
 
     async init() {
-        var self = this;
-        return new Promise(function(resolve, reject) {
-            var req = indexedDB.open(self.DB_NAME, self.VERSION);
-            req.onupgradeneeded = function(e) {
-                var db = e.target.result;
-                if (!db.objectStoreNames.contains(self.STORES.SESSIONS)) {
-                    db.createObjectStore(self.STORES.SESSIONS, { keyPath: 'id' });
+        return new Promise((resolve, reject) => {
+            const req = indexedDB.open(this.DB_NAME, this.VERSION);
+            req.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains(this.STORES.SESSIONS)) {
+                    db.createObjectStore(this.STORES.SESSIONS, { keyPath: 'id' });
                 }
-                if (!db.objectStoreNames.contains(self.STORES.CHECKPOINTS)) {
-                    db.createObjectStore(self.STORES.CHECKPOINTS, { keyPath: 'id' });
+                if (!db.objectStoreNames.contains(this.STORES.CHECKPOINTS)) {
+                    db.createObjectStore(this.STORES.CHECKPOINTS, { keyPath: 'id' });
                 }
-                if (!db.objectStoreNames.contains(self.STORES.TIMELINE)) {
-                    db.createObjectStore(self.STORES.TIMELINE, { keyPath: 'id' });
+                if (!db.objectStoreNames.contains(this.STORES.TIMELINE)) {
+                    db.createObjectStore(this.STORES.TIMELINE, { keyPath: 'id' });
                 }
             };
-            req.onsuccess = function() { resolve(req.result); };
-            req.onerror = function() { reject(req.error); };
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
         });
     },
 
-    // --- SESSIONS ---
+    /**
+     * @async
+     * @function saveSession
+     * @description B"H - Safeguarded save ritual.
+     */
     async saveSession(id, data) {
-        var db = await this.init();
-        var self = this;
-        return new Promise(function(res) {
-            var tx = db.transaction(self.STORES.SESSIONS, 'readwrite');
-            tx.objectStore(self.STORES.SESSIONS).put({ id: id, ...data, lastUpdated: Date.now() });
-            tx.oncomplete = res;
+        if (!id || typeof id !== 'string') {
+            console.warn('[VibeDB] B"H - Cannot save session: Invalid or missing ID.');
+            return;
+        }
+        const db = await this.init();
+        return new Promise((res, rej) => {
+            try {
+                const tx = db.transaction(this.STORES.SESSIONS, 'readwrite');
+                tx.objectStore(this.STORES.SESSIONS).put({ ...data, id, lastUpdated: Date.now() });
+                tx.oncomplete = () => res();
+                tx.onerror = () => rej(tx.error);
+            } catch (e) { rej(e); }
         });
     },
 
     async getSession(id) {
-        var db = await this.init();
-        var self = this;
-        return new Promise(function(res) {
-            var req = db.transaction(self.STORES.SESSIONS).objectStore(self.STORES.SESSIONS).get(id);
-            req.onsuccess = function() { res(req.result); };
-            req.onerror = function() { res(null); };
+        if (!id) return null;
+        const db = await this.init();
+        return new Promise((res) => {
+            const req = db.transaction(this.STORES.SESSIONS).objectStore(this.STORES.SESSIONS).get(id);
+            req.onsuccess = () => res(req.result);
+            req.onerror = () => res(null);
         });
     },
 
     async getAllSessions() {
-        var db = await this.init();
-        var self = this;
-        return new Promise(function(res) {
-            var req = db.transaction(self.STORES.SESSIONS).objectStore(self.STORES.SESSIONS).getAll();
-            req.onsuccess = function() { res(req.result || []); };
+        const db = await this.init();
+        return new Promise((res) => {
+            const req = db.transaction(this.STORES.SESSIONS).objectStore(this.STORES.SESSIONS).getAll();
+            req.onsuccess = () => res(req.result || []);
         });
     },
 
     async deleteSession(id) {
-        var db = await this.init();
-        var self = this;
-        return new Promise(function(res) {
-            var tx = db.transaction(self.STORES.SESSIONS, 'readwrite');
-            tx.objectStore(self.STORES.SESSIONS).delete(id);
-            tx.oncomplete = res;
+        const db = await this.init();
+        return new Promise((res) => {
+            const tx = db.transaction(this.STORES.SESSIONS, 'readwrite');
+            tx.objectStore(this.STORES.SESSIONS).delete(id);
+            tx.oncomplete = () => res();
         });
     },
 
-    // --- TIMELINE (The New Snapshot System) ---
     async saveTimelineRecord(record) {
-        var db = await this.init();
-        var self = this;
-        return new Promise(function(res) {
-            var tx = db.transaction(self.STORES.TIMELINE, 'readwrite');
-            tx.objectStore(self.STORES.TIMELINE).put(record);
-            tx.oncomplete = res;
+        const db = await this.init();
+        return new Promise((res) => {
+            const tx = db.transaction(this.STORES.TIMELINE, 'readwrite');
+            tx.objectStore(this.STORES.TIMELINE).put(record);
+            tx.oncomplete = () => res();
         });
     },
 
     async getTimelineRecords(sessionId) {
-        var db = await this.init();
-        var self = this;
-        return new Promise(function(res) {
-            var req = db.transaction(self.STORES.TIMELINE).objectStore(self.STORES.TIMELINE).getAll();
-            req.onsuccess = function() {
-                var all = req.result || [];
-                res(all.filter(function(cp) { return cp.sessionId === sessionId; }));
+        const db = await this.init();
+        return new Promise((res) => {
+            const req = db.transaction(this.STORES.TIMELINE).objectStore(this.STORES.TIMELINE).getAll();
+            req.onsuccess = () => {
+                const all = req.result || [];
+                res(all.filter(cp => cp.sessionId === sessionId));
             };
         });
     },
 
     async deleteTimelineRecord(id) {
-        var db = await this.init();
-        var self = this;
-        return new Promise(function(res) {
-            var tx = db.transaction(self.STORES.TIMELINE, 'readwrite');
-            tx.objectStore(self.STORES.TIMELINE).delete(id);
-            tx.oncomplete = res;
+        const db = await this.init();
+        return new Promise((res) => {
+            const tx = db.transaction(this.STORES.TIMELINE, 'readwrite');
+            tx.objectStore(this.STORES.TIMELINE).delete(id);
+            tx.oncomplete = () => res();
         });
     }
 };
