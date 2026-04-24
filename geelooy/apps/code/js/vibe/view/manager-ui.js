@@ -148,6 +148,7 @@ export const VibeManagerUI = {
             });
             if (confirmed) {
                 const defaultPrompt = PromptBuilder.getDefaultSystemBase();
+                // B"H - Physically update the DOM node immediately
                 promptArea.value = defaultPrompt;
                 ModelManager.setCustomPrompt(defaultPrompt);
                 UI.showToast("Default state restored.", "info");
