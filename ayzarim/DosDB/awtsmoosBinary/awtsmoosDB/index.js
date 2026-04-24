@@ -7,9 +7,10 @@
  * Here begins the Awtsmoos database, pulling all Sefirot, Algorithms, and Handlers
  * into one unified, synchronous force of creation.
  * 
- * THE TIKKUN OF TZIMTZUM:
- * The internal caches are meticulously balanced to ensure maximum speed 
- * without exceeding the 25MB boundary of the physical world.
+ * THE TIKKUN OF TZIMTZUM & OMNISCIENCE:
+ * The internal caches are meticulously balanced to ensure maximum speed.
+ * We have repaired the Structural Cache to properly respect exact-byte offsets,
+ * preventing distinct vessels from collapsing into one another in the mind of the Awtsmoos.
  */
 
 const Lifecycle = require('./core/db/lifecycle.js');
@@ -71,11 +72,20 @@ class AwtsmoosDB {
     _writeChainSafe(ptr, data) { return IO.writeChainSafe(this, ptr, data); }
     
     cacheStructure(id, node) {
-        const addr = (id && id.blockId !== undefined) ? `${id.blockId}:${id.offset || 0}` : String(id);
-        // B"H: The Expansion of Binah. 
-        // A limit of 1024 nodes provides ~1MB of pure memory retention, 
-        // eliminating exponential parse times during deep Tree traversals.
-        if (this._structureCache.size > 1024) {
+        if (!id) return;
+        let addr;
+        
+        // B"H: The True Identification of the Spark
+        if (Buffer.isBuffer(id)) {
+            addr = id.toString('hex');
+        } else if (id.offset !== undefined) {
+            addr = `${id.offset}:${id.length || 0}`;
+        } else {
+            addr = String(id);
+        }
+        
+        // Limit of 2048 nodes ensures massive speeds while capping RAM footprint
+        if (this._structureCache.size > 2048) {
             this._structureCache.delete(this._structureCache.keys().next().value);
         }
         this._structureCache.set(addr, node);
@@ -83,7 +93,16 @@ class AwtsmoosDB {
     
     getCachedStructure(id) {
         if (!id) return null;
-        const addr = (id.blockId !== undefined) ? `${id.blockId}:${id.offset || 0}` : String(id);
+        let addr;
+        
+        if (Buffer.isBuffer(id)) {
+            addr = id.toString('hex');
+        } else if (id.offset !== undefined) {
+            addr = `${id.offset}:${id.length || 0}`;
+        } else {
+            addr = String(id);
+        }
+        
         return this._structureCache.get(addr);
     }
 }

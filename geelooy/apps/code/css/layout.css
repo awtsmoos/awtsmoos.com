@@ -1,14 +1,15 @@
+
 /* B"H - LAYOUT */
 .app-container { 
     display: grid; grid-template-rows: auto 1fr auto; 
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 300px minmax(0, 1fr); /* B"H - CRITICAL: Prevent grid blowout */
     height: 100vh; height: 100dvh; 
     background-color: var(--color-bg-primary); 
     opacity: 0; animation: appFadeIn 0.5s ease forwards;
 }
 
 .app-container.sidebar-collapsed {
-    grid-template-columns: 0 1fr !important;
+    grid-template-columns: 0 minmax(0, 1fr) !important;
 }
 .app-container.sidebar-collapsed .sidebar-resizer {
     display: none;
@@ -93,13 +94,17 @@ body.zen-mode .main-content {
     grid-row: 2 / 3; grid-column: 2 / 3; position: relative; 
     display: flex; flex-direction: column; 
     overflow: hidden; 
+    min-width: 0; /* B"H - CRITICAL: Prevent Grid Blowout */
+    min-height: 0; /* B"H - CRITICAL: Prevent Grid Blowout */
 }
 .editor-area { 
     flex-grow: 1; 
     display: flex; 
     position: relative; 
-    overflow-y: auto; 
+    overflow: hidden; /* B"H - Removed overflow-y: auto to fix double scrollbars */
     background-color: transparent; 
+    min-width: 0; /* B"H - CRITICAL: Prevent Flex Blowout */
+    min-height: 0; /* B"H - CRITICAL: Prevent Flex Blowout */
 }
 
 /* STATUS BAR */

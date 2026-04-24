@@ -1,3 +1,4 @@
+
 /* B"H */
 /* B"H - TEXT EDITOR STYLES */
 #editor-wrapper { 
@@ -9,13 +10,15 @@
     font-family: var(--font-code); 
     z-index: 10;
     background-color: var(--color-bg-primary);
+    min-width: 0; /* B"H - Prevent flex blowout */
+    width: 100%;
 }
 
 #line-numbers { 
     font-family: var(--font-code);
     font-size: 14px !important; 
     line-height: 24px !important; 
-    padding: 10px 8px; 
+    padding: 10px 8px 24px 8px !important; 
     margin: 0;
     color: var(--color-text-tertiary); 
     text-align: right; 
@@ -23,7 +26,8 @@
     background-color: transparent; 
     border-right: 1px solid var(--color-border);
     overflow-y: hidden; 
-    white-space: pre; 
+    white-space: nowrap; 
+    flex: 0 0 auto; 
     box-sizing: border-box;
     min-width: 55px; 
 }
@@ -38,7 +42,7 @@
     font-family: var(--font-code);
     font-size: 14px !important; 
     line-height: 24px !important; 
-    padding: 10px; 
+    padding: 10px 110px 24px 10px !important; 
     resize: none; 
     outline: none; 
     white-space: pre; 
@@ -48,6 +52,8 @@
     font-variant-ligatures: none; 
     letter-spacing: 0px;
     -webkit-font-smoothing: antialiased;
+    min-width: 0; /* B"H - Prevent flex blowout */
+    width: 100%;
 }
 
 /* B"H - INTELLIGENCE TOOLTIP (VS CODE STYLE) */
@@ -62,7 +68,7 @@
     padding: 0;
     font-family: var(--font-code);
     font-size: 0.9em;
-    pointer-events: auto; /* B"H - Enable pointer events for button */
+    pointer-events: auto; 
     backdrop-filter: blur(12px);
     transition: opacity 0.15s ease-out, transform 0.1s ease-out;
     overflow: hidden;

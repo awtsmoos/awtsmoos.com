@@ -1,3 +1,4 @@
+
 /* B"H - VISUAL ENGINE CSS */
 
 .visual-layer {
@@ -24,7 +25,8 @@
 
 .minimap-canvas {
     position: absolute;
-    top: 0; right: 0;
+    top: 0; 
+    right: 14px; /* B"H - Moved 14px to the left to perfectly clear the 12px webkit scrollbar */
     width: 100px; height: 100%;
     z-index: 150;
     opacity: 0.8;

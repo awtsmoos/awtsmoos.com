@@ -38,6 +38,10 @@ export const CORE_FILE_ACTIONS = {
         const item = ctx?.item || ctx?.payload?.item || ctx;
         if(item) FileOperations.paste(item);
     },
+    'duplicate-item': async (ctx) => {
+        const item = ctx?.item || ctx?.payload?.item || ctx;
+        if(item) FileOperations.duplicateItem(item);
+    },
     'download-file': (ctx) => {
         const item = ctx?.item || ctx?.payload?.item || ctx;
         if(item) FileOperations.downloadFile(item);

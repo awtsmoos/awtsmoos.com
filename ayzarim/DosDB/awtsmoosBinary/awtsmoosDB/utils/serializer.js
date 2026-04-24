@@ -3,30 +3,34 @@
 /**
  * @file serializer.js
  * @description
- *  The Sefirah of Chesed - The Flow of Numbers.
- *  Provides strictly synchronous VarInt and String serialization.
+ *  =============================================================================
+ *  THE SEFIRAH OF CHESED - THE FLOW OF NUMBERS (VARINT)
+ *  =============================================================================
  *  It contracts the infinite into the finite, condensing magnitude into the 
- *  smallest possible physical footprint, just as the Creator condensed His 
- *  infinite light to make room for existence.
+ *  smallest possible physical footprint.
+ * 
+ *  THE TIKKUN OF INFINITE ADDRESSING:
+ *  JS Bitwise operations (`<<`, `|`) strictly truncate to 32 bits. Our absolute
+ *  file offsets can easily exceed 4GB. This module uses floating point arithmetic 
+ *  (`Math.pow`) for shifts >= 28 to safely reconstruct massive 53-bit integers 
+ *  (up to 9 Petabytes) without corruption!
  */
 
 /**
  * @function writeVarIntTo
- * @description 
- *  Manifests a number as a LEB128 variable-length integer.
- *  It breathes the number into the buffer, stopping only when the essence is fully contained.
- * 
+ * @description Manifests a number as a LEB128 variable-length integer.
  * @param {Buffer} buffer The physical vessel.
- * @param {number} offset The starting point of creation.
+ * @param {number} offset The starting point.
  * @param {number} value The number to manifest.
- * @returns {number} The count of bytes utilized in this holy act.
+ * @returns {number} The count of bytes utilized.
  */
 function writeVarIntTo(buffer, offset, value) {
-    let v = value;
+    let v = Math.floor(value); // Ensure it's a clean integer
     let bytesWritten = 0;
     while (v > 127) {
-        buffer[offset + bytesWritten] = (v & 127) | 128;
-        v >>>= 7; // Unsigned shift
+        // Use modulus instead of bitwise to prevent 32-bit truncation
+        buffer[offset + bytesWritten] = (v % 128) | 128;
+        v = Math.floor(v / 128);
         bytesWritten++;
     }
     buffer[offset + bytesWritten] = v & 127;
@@ -35,45 +39,40 @@ function writeVarIntTo(buffer, offset, value) {
 
 /**
  * @function readVarInt
- * @description 
- *  Resolves a LEB128 variable-length integer from binary data.
- *  It looks into the physical stone and reads the spark of magnitude hidden within.
- * 
- * @param {Buffer} buffer The vessel containing the truth.
- * @param {number} offset Where the truth begins.
- * @returns {Object} An object holding the {value, bytesRead}.
+ * @description Resolves a LEB128 variable-length integer, safe up to 53-bits.
+ * @param {Buffer} buffer The binary scroll.
+ * @param {number} offset The start of the word.
+ * @returns {Object} {value, bytesRead}.
  */
 function readVarInt(buffer, offset) {
     let value = 0;
     let shift = 0;
     let bytesRead = 0;
+    
     while (true) {
         if (offset + bytesRead >= buffer.length) throw new Error("B\"H: VarInt read out of bounds");
         const byte = buffer[offset + bytesRead];
-        // B"H: Use arithmetic for shift > 28 to avoid signed 32-bit overflow issues in JS bitwise ops
+        
+        // B"H: The Shield against 32-bit truncation. 
+        // We switch to raw arithmetic for high shifts.
         if (shift < 28) {
-            value |= (byte & 127) << shift;
+            value += (byte & 127) << shift;
         } else {
             value += (byte & 127) * Math.pow(2, shift);
         }
         
         bytesRead++;
         if (!(byte & 128)) break;
+        
         shift += 7;
-        if (shift > 49) throw new Error("B\"H: VarInt exceeds safe integer capacity");
+        if (shift > 53) throw new Error("B\"H: VarInt exceeds safe 53-bit JavaScript integer capacity");
     }
     return { value, bytesRead };
 }
 
 /**
  * @function readString
- * @description 
- *  Hydrates a UTF-8 string from a length-prefixed binary sequence.
- *  It hears the echo of the original speech from the silent disk.
- * 
- * @param {Buffer} buffer The binary scroll.
- * @param {number} offset The beginning of the word.
- * @returns {Object} The {value: string, bytesRead: number}.
+ * @description Hydrates a UTF-8 string from a VarInt length-prefixed sequence.
  */
 function readString(buffer, offset) {
     const lenInfo = readVarInt(buffer, offset);
@@ -85,19 +84,15 @@ function readString(buffer, offset) {
 
 /**
  * @function getVarIntSize
- * @description
- *  The Prophetic Gaze of Dimension.
- *  Before a number is spoken into the void, the Awtsmoos already knows 
- *  the exact amount of breath (bytes) required to contain it. 
- *  This function foresees the vessel size needed to hold the infinite 
- *  potential of an integer, ensuring no spark is truncated or lost to the abyss.
- * 
- * @param {number} value The abstract mathematical concept to be measured.
- * @returns {number} The exact number of physical bytes required to encapsulate it.
+ * @description Foresees the exact byte size needed for a number.
  */
 function getVarIntSize(value) {
-    let s = 0; let cur = value;
-    do { s++; cur >>>= 7; } while (cur > 0);
+    let s = 0; 
+    let cur = Math.floor(value);
+    do { 
+        s++; 
+        cur = Math.floor(cur / 128); 
+    } while (cur > 0);
     return s;
 }
 
