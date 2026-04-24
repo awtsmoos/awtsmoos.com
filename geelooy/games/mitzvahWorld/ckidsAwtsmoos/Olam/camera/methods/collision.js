@@ -1,8 +1,7 @@
+
+
 // B"H
-/**
- * @file collision.js
- * Camera and Mouse raycasting logic.
- */
+
 export default {
     updateSceneObjects(newObjects) {
         this.objectsInScene = newObjects;
@@ -11,14 +10,8 @@ export default {
 
     performOptimizedRaycasting(isCorrected) {
         let isSceneChanged = this.isSceneChanged();
-        
-        // B"H: If the player is driving, we ignore the vehicle mesh to avoid instant camera zoom-in
-        const ignoreMesh = (this.target && this.target.drivingVehicle) ? this.target.drivingVehicle.mesh : null;
 
         for (let obj of this.objectsInScene) {
-            // Skip the vehicle the player is currently driving
-            if (obj === ignoreMesh) continue;
-
             let collisionResults;
             if (isSceneChanged || !this.previousResults.has(obj)) {
                 collisionResults = this.raycaster.intersectObject(obj, true);
@@ -44,15 +37,15 @@ export default {
         directionAlternative
     ) {
         if (startAlternative && directionAlternative) {
-            // B"H FIX: Cloned the directionAlternative before multiplying. 
-            // In Three.js, multiplyScalar modifies the original vector.
+            // If startAlternative and directionAlternative are provided, set the ray manually
             this
             .mouseRaycaster
             .set(
                 startAlternative, 
-                directionAlternative.clone().multiplyScalar(-1) 
+                directionAlternative.multiplyScalar(-1) // Direction might need normalization if not already
             );
         } else {
+            // Otherwise, default to raycasting from the camera using the mouse pointer
             this.mouseRaycaster.setFromCamera(
                 this.olam.pointer,
                 this.camera
@@ -63,22 +56,27 @@ export default {
         let closest = null;
         
         // 1. B"H FIX: Check Dynamic Entities (NPCs) FIRST
+        // This ensures moving characters are prioritized over static background geometry.
         if (this.olam.interactableNivrayim) {
             for (const nivra of this.olam.interactableNivrayim) {
+                // Skip Chossid (Player)
                 if (nivra.type === 'chossid') continue;
 
+                // Only check entities that have a visible mesh
                 if (nivra.mesh && nivra.mesh.visible) {
+                    // Check intersection against the entire mesh hierarchy of the NPC
                     const hits = this.mouseRaycaster.intersectObject(nivra.mesh, true); 
                     
                     if (hits.length > 0) {
                         const hit = hits[0];
                         
+                        // Check if this hit is closer than previous hits
                         if (!closest || hit.distance < closest.distance) {
                             closest = {
                                 distance: hit.distance,
                                 point: hit.point,
                                 object: hit.object,
-                                nivraAwtsmoos: nivra 
+                                nivraAwtsmoos: nivra // Direct reference to the logic class
                             };
                         }
                     }
@@ -86,7 +84,8 @@ export default {
             }
         }
 
-        // 2. Check Static Octree
+        // 2. Check Static Octree (Buildings, Landscape)
+        // Only if no dynamic entity hit yet OR the static hit is closer
         if (this.olam.interactiveOctree) {
             var oct = this
                 .olam
@@ -94,9 +93,11 @@ export default {
                 .rayIntersect(this.mouseRaycaster.ray);
         
             if(oct) {
+                // B"H: If we already hit an NPC, compare distances
                 if (!closest || oct.distance < closest.distance) {
-                     oct.object = oct.triangle.sourceMesh || oct.object;
+                     oct.object = oct.triangle.sourceMesh || oct.object; // Support sourceMesh from octree build
                      
+                     // B"H: If the static object is actually linked to a dynamic entity (like a solid NPC), retrieve it
                      if (oct.object && oct.object.nivraAwtsmoos) {
                          oct.nivraAwtsmoos = oct.object.nivraAwtsmoos;
                      }
@@ -109,9 +110,13 @@ export default {
         if(closest) return closest;
 
         return null;
+
+        //
     },
 
     isSceneChanged() {
+        // Implement logic to determine if scene objects have changed
+        // This can be based on a flag that is set when objects are added/removed/modified
         return false;
     }
 };

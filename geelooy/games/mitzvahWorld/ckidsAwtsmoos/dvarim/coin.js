@@ -8,6 +8,7 @@
 import Tzomayach from "../chayim/tzomayach.js";
 import { CurrencySystem } from "./currencySystem.js";
 
+// Exporting it here ensures backward compatibility if other files import from coin.js
 export { CurrencySystem };
 
 export default class Coin extends Tzomayach {
@@ -18,13 +19,11 @@ export default class Coin extends Tzomayach {
     static icon = CurrencySystem.getBase64Icon(1);
     static stackSize = 1024;
     
-    // B"H: Value in Perutahs
     value = 1; 
 
     constructor(op) {
         var isBeingCollected = false;
         
-        // Determine coin appearance based on value if provided in options
         const coinValue = op.value || 1;
         let color = "brown";
         if (coinValue >= CurrencySystem.VALUES.DINAR) color = "silver";
@@ -68,7 +67,6 @@ export default class Coin extends Tzomayach {
             if(!isBeingCollected && nivra.type === 'chossid') {
                 isBeingCollected = true;
                 this.ayshPeula("collected", this, nivra);
-                // B"H: Automatically add to inventory with correct value
                 if(nivra.inventory) {
                     nivra.inventory.addItem({
                         id: "coin_" + this.value,
@@ -82,7 +80,7 @@ export default class Coin extends Tzomayach {
             }
         });
 
-        this.placeholderName="coin",
+        this.placeholderName="coin";
         
         this.on("collected", (n) =>{
             n.playSound("awtsmoos://dingSound", {

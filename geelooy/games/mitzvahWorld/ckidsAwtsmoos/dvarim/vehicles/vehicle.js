@@ -1,3 +1,4 @@
+
 // B"H
 import Chai from "../../chayim/chai/index.js";
 import * as THREE from '/games/scripts/build/three.module.js';
@@ -77,11 +78,6 @@ export default class Vehicle extends Chai {
         // 1. Handle Input if Driver exists
         if (this.driver) {
             this.handleInput(dt);
-            
-            // Check for dismount key (e.g., Shift or specialized key)
-            // Assuming 'JUMP' or 'Shift' might be brake, let's use 'B' or 'Interaction' to exit?
-            // For now, let's say "Space" + "S" while stopped dismounts, or specific key.
-            // Let's use a specific key check if available, or just rely on UI/Interaction logic.
         } else {
             // Friction/Deceleration when empty
             this.speed *= 0.95;
@@ -141,8 +137,5 @@ export default class Vehicle extends Chai {
         const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(this.mesh.quaternion);
         this.velocity.x = forward.x * this.speed;
         this.velocity.z = forward.z * this.speed;
-        
-        // Gravity (handled by super if onFloor logic matches, but vehicles might need custom suspension)
-        // For simple cars, we can rely on standard movement if we update velocity
     }
 }

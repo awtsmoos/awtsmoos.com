@@ -1,9 +1,8 @@
 
-// B"H
 /**
- * CollectableItem - Objects that can be gathered into the inventory.
- * Now triggers visual "Sparks of Holiness" (Hebrew particles) on pickup.
+ * B"H
  */
+
 import Tzomayach from "../chayim/tzomayach.js";
 
 export default class CollectableItem extends Tzomayach {
@@ -17,12 +16,8 @@ export default class CollectableItem extends Tzomayach {
             // Only the player (Chossid) can pick things up
             if (nivra.type === 'chossid') {
                 
-                // B"H Visual Feedback: Release the Sparks!
-                if (nivra.spawnHebrewParticles) {
-                    nivra.spawnHebrewParticles(this.mesh.position, 12);
-                }
-
                 // Fire the 'collected' event
+                // Pass 'this' (the item) and 'nivra' (the collector)
                 this.ayshPeula("collected", this, nivra);
                 
                 // Remove from world

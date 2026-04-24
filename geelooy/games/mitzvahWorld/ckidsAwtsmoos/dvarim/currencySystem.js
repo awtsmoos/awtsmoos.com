@@ -121,8 +121,6 @@ export class CurrencySystem {
     
     static getBase64Icon(value) {
         const svg = this.getIcon(value);
-        // B"H: Safely encode Unicode strings (Hebrew) for Base64.
-        // We escape the string to UTF-8 bytes first.
         const utf8Bytes = encodeURIComponent(svg).replace(/%([0-9A-F]{2})/g,
             function(match, p1) {
                 return String.fromCharCode('0x' + p1);
@@ -130,10 +128,6 @@ export class CurrencySystem {
         return "data:image/svg+xml;base64," + btoa(utf8Bytes);
     }
 
-    /**
-     * Converts a total perutah amount into the optimal stack of coins.
-     * @param {number} totalPerutahs 
-     */
     static convert(totalPerutahs) {
         const coins = {};
         const values = Object.entries(this.VALUES).sort((a, b) => b[1] - a[1]); // Descending
