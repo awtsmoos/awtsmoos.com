@@ -1,18 +1,15 @@
+
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 import { ITEM_REGISTRY } from '../../../systems/inventory/data/registry.js';
+import TextureForge from '../../../../utils/TextureForge/index.js';
 
 /**
  * Loaders - Modular handlers for importing assets into the Olam.
- * Refined for absolute Worker compatibility.
+ * Refined for absolute Worker compatibility and Procedural Texture Generation.
  */
 export default {
-    /**
-     * B"H
-     * loadGLTF - Manifests a form from its digital blueprint.
-     * @param {string} url 
-     */
     async loadGLTF(url) {
         try {
             const gltf = await (new GLTFLoader().loadAsync(url));
@@ -26,13 +23,21 @@ export default {
     /**
      * B"H
      * loadTexture - Draws a texture from the infinite potential into the physical world.
-     * Re-engineered to avoid all document dependencies in Worker context.
-     * @param {Object} options
+     * Intercepts "awtsmoosTex://" to forge textures from the void!
      */
     async loadTexture({ url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
         if (!url) return null;
         try {
-            const response = await fetch(url);
+            let finalUrl = url;
+
+            // B"H: The Divine Interception. Forging reality from data.
+            if (url.startsWith("awtsmoosTex://")) {
+                const type = url.split("awtsmoosTex://")[1];
+                finalUrl = await TextureForge.generate(type);
+                console.log(`B"H - Procedurally forged texture: ${type}`);
+            }
+
+            const response = await fetch(finalUrl);
             if (!response.ok) throw new Error("B\"H: Fetch fail in loaders.");
             const blob = await response.blob();
             const imageBitmap = await createImageBitmap(blob, { imageOrientation: 'flipY' });
@@ -41,7 +46,7 @@ export default {
                 texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
                 texture.repeat.set(repeatX, repeatY);
             }
-            texture.needsUpdate = true; // B"H: CRITICAL for manifesting on GPU
+            texture.needsUpdate = true; 
             return texture;
         } catch(err) {
             console.warn('B"H: Loaders texture error:', url, err);
@@ -49,10 +54,6 @@ export default {
         }
     },
     
-    /**
-     * B"H
-     * getIconFromType - Retrieves the sacred icon for an item type.
-     */
     async getIconFromType(type) {
 		if(type && typeof(type) == "string") {
 			const itemData = ITEM_REGISTRY[type];

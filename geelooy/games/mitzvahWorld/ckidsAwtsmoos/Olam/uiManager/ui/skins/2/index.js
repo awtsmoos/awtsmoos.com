@@ -17,34 +17,22 @@ import characterDesignerStyle from "./characterDesignerStyle.js";
 import store from "./store.js";
 import effects from "./effects.js";
 import saveGameStyle from "./saveGameStyle.js";
-import constructionStyle from "./constructionStyle.js";
+import levelSelectStyle from "./levelSelectStyle.js"; // B"H
 
 export default /*css*/`
     /*B"H*/
     ${inventory}
     ${login}
-
     ${mainMenu}
-
     ${dialogue}
-
     ${loading}
-    
     ${inGameMenu}
-    
     ${instructions}
-
     ${shlichus}
-
     ${actionBars}
-    
     ${characterDesignerStyle}
-
     ${store}
-
     ${effects}
-
     ${saveGameStyle}
-    
-    ${constructionStyle}
+    ${levelSelectStyle}
 `;

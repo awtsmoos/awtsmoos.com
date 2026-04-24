@@ -1,8 +1,10 @@
-// B"H
+
 /**
- * @file canvasSetup.js
- * Methods related to initally setting up the main (and/or minimap) canvas(es).
+ * B"H
+ * 
+ * methods related to initally setting up the main (and/or minimap) canvas(es)
  */
+
 import * as THREE from '/games/scripts/build/three.module.js';
 
 export default class {
@@ -11,7 +13,8 @@ export default class {
      * In the tale of Ayin's quest to illuminate the world,
      * The canvas is our stage, where the story is unfurled.
      * @param {HTMLCanvasElement} canvas - The stage where the graphics will dance.
-     * @param {number} devicePixelRatio - The clarity of the divine image.
+     * @example
+     * takeInCanvas(document.querySelector('#myCanvas'));
      */
     takeInCanvas(canvas, devicePixelRatio = 1) {
        
@@ -23,47 +26,33 @@ export default class {
             return; 
         }
 
-        try {
-            // B"H: Proper initialization of the WebGL rendering context.
-            this.renderer = new THREE.WebGLRenderer({ 
-                antialias: true, 
-                canvas: canvas,
-                logarithmicDepthBuffer: true, 
-                alpha: false,
-                stencil: false,
-                depth: true
-            });
-            
-            if(!this.renderer.compute) this.renderer.compute = function() {}
-            if(!this.renderer.renderAsync) {
-                this.renderer.clearAsync = this.renderer.clear;
-                this.renderer.renderAsync = this.renderer.render;
-            }
-            
-            this.renderer.setPixelRatio(devicePixelRatio);
-            
-            if (canvas.width && canvas.height) {
-                this.renderer.setSize(canvas.width, canvas.height, false);
-                this.width = canvas.width;
-                this.height = canvas.height;
-            }
+        this.renderer = new THREE.WebGLRenderer({ 
+			antialias: true, canvas,
+			logarithmicDepthBuffer: true
+		});
+		
+        // B"H: Enabling intense shadow map logic for basic HD finish
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        
+        // B"H: Enable nice tone mapping
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.0;
 
-            console.log("B\"H - WebGL Renderer Initialized Successfully");
-            this.ayshPeula("canvased");
-
-        } catch(e) {
-            console.error("B\"H - FATAL: Could not create WebGL Renderer.", e);
-             this.ayshPeula("error", {
-                message: "Failed to initialize WebGL Graphics. The hardware may be reaching its limits.",
-                details: e.toString()
-            });
+        if(!this.renderer.compute) this.renderer.compute = () => {}
+        if(!this.renderer.renderAsync) {
+		    this.renderer.clearAsync=this.renderer.clear;
+            this.renderer.renderAsync = this.renderer.render;
         }
+        
+        this.renderer.setPixelRatio(devicePixelRatio);
+
+        this.ayshPeula("canvased");
     }
 
     postprocessingSetup() {
-        if(this.postprocessing && this.postprocessing.postprocessingSetup) {
-             this.postprocessing.postprocessingSetup();
-        }
+        if(!this.postprocessing) return;
+        this.postprocessing.postprocessingSetup();
     }
 
     postprocessingRender() {
@@ -73,13 +62,13 @@ export default class {
 
     adjustPostProcessing() {
         if(!this.postprocessing) return;
-
-        this.postprocessing.setSize({
-            width: this.width,
-            height: this.height
-        })
+        this.postprocessing.setSize({ width: this.width, height: this.height });
     }
-    
+
+    /** 
+     * As the eyes grow wider, or squint in the light,
+     * Our view changes size, adjusting to the sight.
+     */
     async setSize(vOrWidth={}, height, sameAspect = false) {
         let width;
 
@@ -93,30 +82,20 @@ export default class {
        
         let newWidth = width;
         let newHeight = height;
-        
+
         if (width / height > desiredAspectRatio) {
             if(sameAspect) newWidth = height * desiredAspectRatio;
             if(this.rendered) {
                 await this.ayshPeula("htmlAction", {
                     shaym: "main av",
-                    methods: {
-                        classList: {
-                            remove: "sideInGame",
-                            add: "horizontalInGame"
-                        }
-                    }
+                    methods: { classList: { remove: "sideInGame", add: "horizontalInGame" } }
                 });
             }
         } else {
             if(this.rendered) {
                 await this.ayshPeula("htmlAction", {
                     shaym: "main av",
-                    methods: {
-                        classList: {
-                            add: "sideInGame",
-                            remove: "horizontalInGame"
-                        }
-                    }
+                    methods: { classList: { add: "sideInGame", remove: "horizontalInGame" } }
                 });
             }
             if(sameAspect) newHeight = width / desiredAspectRatio;
@@ -125,13 +104,17 @@ export default class {
         this.width = newWidth;
         this.height = newHeight;
 		
-        if(typeof this.width === "number" && typeof this.height === "number" ) {
+        width = newWidth;
+        height = newHeight;
+        
+        if(typeof width === "number" && typeof height === "number" ) {
             if(this.renderer) {
-                this.renderer.setSize(this.width, this.height, false);
-            }
+                this.renderer.setSize(width, height, false);
+            } 
             
-            await this.updateHtmlOverlaySize(this.width, this.height, desiredAspectRatio);
+            await this.updateHtmlOverlaySize(width, height, desiredAspectRatio);
             await this.getBoundingRect();
+
             this.adjustPostProcessing();
         }
 
@@ -141,40 +124,25 @@ export default class {
     async getBoundingRect() {
         var info = await this.ayshPeula("htmlAction", {
             shaym: "ikarGameMenu",
-            methods: {
-                getBoundingClientRect: true
-            }
+            methods: { getBoundingClientRect: true }
         });
 
-        if(info && info[0]) {
+        if(info[0]) {
             var rect = info[0]?.methodsCalled?.getBoundingClientRect;
-            if(rect) {
-                this.boundingRect = rect;
-            }
+            if(rect) this.boundingRect = rect;
         }
     }
     
     async updateHtmlOverlaySize(width, height) {
         await this.ayshPeula("htmlAction", {
-                shaym: `main av`,
-                properties: {
-                    style: {
-                        width:width+"px",
-                        height:height+"px"
-                    }
-                }
+            shaym: `main av`,
+            properties: { style: { width:width+"px", height:height+"px" } }
         });
-        
-        if(this.rendered) {
+
+        if(this.rendered) 
             await this.ayshPeula("htmlAction", {
                 shaym: `av`,
-                properties: {
-                    style: {
-                        width:width+'px',
-                        height:height+'px'
-                    }
-                }
+                properties: { style: { width:width+'px', height:height+'px' } }
             });
-        }
     }
 }

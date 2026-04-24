@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file customNpc.js
@@ -7,6 +8,7 @@ import Medabeir from "../chayim/medabeir/index.js";
 import Utils from "../utils.js";
 import NpcBrain from "./npc/Brain.js";
 import NpcVisuals from "./npc/Visuals.js";
+import IntenseNpcMesh from "./npc/IntenseNpcMesh.js";
 
 export default class CustomNpc extends Medabeir {
     type = "customNpc";
@@ -22,7 +24,8 @@ export default class CustomNpc extends Medabeir {
         op.isSolid = false; 
         op.interactable = true; 
         
-        op.path = customData.modelPath || "awtsmoos://awduhm";
+        // B"H: Support for procedural manifestation!
+        op.path = customData.modelPath || "procedural";
         op.heesHawveh = true;
         
         if(op.proximity === undefined) op.proximity = 3.5;
@@ -47,16 +50,41 @@ export default class CustomNpc extends Medabeir {
         
         this.iconState = null;
         
-        // Hook into lifecycle
         this.on("ready", () => {
             this.registerMyQuests();
             this.updateOverheadIcon();
         });
 
-        // Dynamic Message Tree via Brain module
         this.messageTree = (myself) => {
              return NpcBrain.getMessageTree(this, this.customData, this.shopInventory);
         };
+    }
+
+    async heescheel(olam) {
+        // B"H: Intercept procedural manifestation BEFORE trying to load a GLB
+        if (this.path === "procedural") {
+            this.olam = olam;
+            const color = this.customData.color || "#ff00ea";
+            
+            this.mesh = IntenseNpcMesh.build(color);
+            this.mesh.name = this.name;
+            this.mesh.nivraAwtsmoos = this;
+            
+            if (this.position) this.mesh.position.copy(this.position.vector3());
+            if (this.rotation) this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
+            
+            this.mesh.traverse(c => {
+                 if(c.isMesh) {
+                     c.userData.visualReference = this.mesh;
+                     c.nivraAwtsmoos = this;
+                 }
+            });
+
+            await olam.hoyseef(this);
+            this.isReady = true;
+        } else {
+            await super.heescheel(olam);
+        }
     }
 
     registerMyQuests() {
