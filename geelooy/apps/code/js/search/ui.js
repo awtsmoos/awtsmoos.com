@@ -9,10 +9,17 @@ export const SearchUI = {
         
         const icon = item.kind === 'directory' ? 'folder' : 'file';
         let snippetHtml = '';
+        const regex = new RegExp(`(${this._escapeRegExp(originalQuery)})`, 'gi');
+        
+        // B"H - Path Highlighting Ritual
+        const highlightedPath = item.path.replace(regex, '<span class="result-match-highlight">$1</span>');
         
         if (matchType === 'content' && snippet) {
-            const escaped = snippet.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            const regex = new RegExp(`(${originalQuery})`, 'gi');
+            // XSS Prevention Ritual
+            const sanitizer = document.createElement('div');
+            sanitizer.textContent = snippet;
+            const escaped = sanitizer.innerHTML;
+            
             const highlighted = escaped.replace(regex, '<span class="result-match-highlight">$1</span>');
             snippetHtml = `<div class="result-snippet">...${highlighted}...</div>`;
         }
@@ -22,7 +29,7 @@ export const SearchUI = {
                 <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
                 <span class="result-name">${item.name}</span>
             </div>
-            <div class="result-path">${item.path}</div>
+            <div class="result-path">${highlightedPath}</div>
             ${snippetHtml}
         `;
         
@@ -32,6 +39,10 @@ export const SearchUI = {
         };
         
         container.appendChild(el);
+    },
+
+    _escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
     },
 
     updateScopeDisplay(scopeDisplay, currentScopeItem, onClear) {

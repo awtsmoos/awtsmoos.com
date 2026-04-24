@@ -6,6 +6,7 @@ import { Editor } from '../editor.js';
 import { App } from '../app.js';
 import { Tabs } from './index.js';
 import { TabsPersistence } from './persistence.js';
+import { Terminal } from '../terminal/index.js';
 
 export const TabsLifecycle = {
     async close(tabId, force = false) {
@@ -13,21 +14,18 @@ export const TabsLifecycle = {
         if (idx === -1) return;
 
         const tab = State.tabs[idx];
-        
-        // B"H - Exclude autonomous tabs from the mortal 'save' prompt
-        const autoManagedTypes = ['vibe', 'commander', 'terminal', 'devtools', 'html-preview', 'vibe-session', 'vibe-manager'];
-        
-        // Ensure both fileType and the underlying item.type are checked
-        const isAutonomous = autoManagedTypes.includes(tab.fileType) || 
-                             (tab.item && autoManagedTypes.includes(tab.item.type)) ||
-                             tab.isPreview;
+        const isAutonomous = ['vibe', 'commander', 'terminal', 'devtools', 'html-preview'].includes(tab.fileType) || tab.isPreview;
 
-        const needsSavePrompt = tab.isDirty && !force && !isAutonomous;
+        // B"H - Auto-Save Implementation
+        // Rather than halting the user with a dialog, we optimistically save the file.
+        if (tab.isDirty && !force && !isAutonomous) {
+            UI.showToast(`Auto-saving ${tab.item.name}...`, "info");
+            await TabsPersistence.save(tab, Tabs);
+        }
 
-        if (needsSavePrompt) {
-            const res = await UI.showDialog({ title: "Unsaved Changes", message: `Save changes to ${tab.item.name}?`, okText: "Save", cancelText: "Discard" });
-            if (res === true) await TabsPersistence.save(tab, Tabs);
-            else if (res === null) return; 
+        // B"H - THE PURIFICATION RITUAL
+        if (tab.fileType === 'terminal' || tab.item.type === 'terminal') {
+            Terminal.close(tab.id);
         }
 
         if (tab.fileType === 'html-preview' || tab.isPreview) {

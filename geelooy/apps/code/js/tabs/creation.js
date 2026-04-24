@@ -4,77 +4,64 @@ import { State } from '../state.js';
 import { MimeUtil } from '../mime-util.js';
 import { App } from '../app.js';
 import { Tabs } from './index.js';
+import { TabRegistrySentinel } from './logic/TabRegistrySentinel.js';
 
 export const TabsCreation = {
     async create(item, isNewFile = false, shouldSave = true, activate = true) {
         if (!item) return;
 
-        // B"H - Immediate duplication check before any async yields
-        const uniquePath = item.type === 'commander' ? `commander::${item.workspaceId||'global'}::${item.path}` : 
-                           item.type === 'terminal' ? `terminal::${item.workspaceId||'global'}::${item.path}` :
-                           item.type === 'devtools' ? `devtools::${item.previewTabId}` :
-                           Tabs.getUniquePath(item);
-
-        const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
-        if (existingTab) {
-            if (activate) Tabs.activate(existingTab.id); // Non-blocking trigger
-            return;
+        // B"H - ABSOLUTE DUPLICATE PREVENTION via Registry Sentinel
+        const existing = TabRegistrySentinel.findExisting(item);
+        if (existing) {
+            console.log(`[TabsCreation] B"H - Redirecting vision to existing manifestation: ${existing.id}`);
+            if (activate) Tabs.activate(existing.id, false); 
+            return existing;
         }
 
-        if (item.type === 'commander') {
-            const newTab = { id: State.nextTabId++, item, content: item.commanderState, isDirty: false, uniquePath, fileType: 'commander' };
-            State.tabs.push(newTab);
-            if (activate) Tabs.activate(newTab.id);
-            return;
-        }
-
-        if (item.type === 'terminal') {
-            const newTab = { id: State.nextTabId++, item, content: null, isDirty: false, uniquePath, fileType: 'terminal' };
-            State.tabs.push(newTab);
-            if (activate) Tabs.activate(newTab.id);
-            return;
-        }
-        
-        if (item.type === 'devtools') {
-            const newTab = { 
-                id: State.nextTabId++, item, isDirty: false, uniquePath, 
-                fileType: 'devtools', devtoolsState: { previewTabId: item.previewTabId, logs:[], networkReqs:[], domString:'', activePanel: 'console' } 
-            };
-            State.tabs.push(newTab);
-            if (activate) Tabs.activate(newTab.id);
-            return;
-        }
-        
-        let fileType = MimeUtil.getInfo(item.name).type;
-        if (item.type === 'vibe-session') fileType = 'vibe';
+        const uniquePath = TabRegistrySentinel.generateKey(item);
+        let fileType = MimeUtil.getInfo(item.name || item.path).type;
+        if (item.type === 'vibe-session' || item.type === 'vibe') fileType = 'vibe';
 
         const newTab = {
-            id: State.nextTabId++, item, content: item.content !== undefined ? item.content : (isNewFile ? '' : null),
-            isDirty: isNewFile || (item.content !== undefined && item.type !== 'zip-entry'),
-            isUncommitted: false, uniquePath, scrollPos: 0, fileType: fileType,
+            id: State.nextTabId++, 
+            item: { ...item }, 
+            content: item.vibeSession || item.content || (isNewFile ? '' : null),
+            isDirty: isNewFile,
+            uniquePath, 
+            fileType,
+            vibeSession: item.vibeSession || null
         };
+
         State.tabs.push(newTab);
+        Tabs.render();
+        
         if (shouldSave) App.saveSession();
-        if (activate) Tabs.activate(newTab.id);
+        if (activate) Tabs.activate(newTab.id, false);
+        return newTab;
     },
 
     async createPreview(item, content) {
-        const uniquePreviewPath = `preview::${item.workspaceId}::${item.path}`;
-        const existingTab = State.tabs.find(t => t.uniquePath === uniquePreviewPath);
+        const previewItem = { ...item, type: 'html-preview-file', isPreview: true };
+        const existing = TabRegistrySentinel.findExisting(previewItem);
         
-        if (existingTab) {
-            existingTab.content = content; existingTab.rawContent = content; existingTab.forceReload = true;
-            existingTab.previewHistory =[]; 
-            Tabs.activate(existingTab.id, true);
+        if (existing) {
+            existing.content = content; 
+            existing.forceReload = true;
+            Tabs.activate(existing.id, true);
             return;
         }
 
-        const previewItem = { ...item, name: `Preview: ${item.name}`, originalType: item.originalType || item.type, type: 'html-preview-file' };
         const newTab = {
-            id: State.nextTabId++, item: previewItem, content, rawContent: content,
-            isDirty: false, isUncommitted: false, uniquePath: uniquePreviewPath, scrollPos: 0, fileType: 'html-preview', isPreview: true, previewHistory:[]
+            id: State.nextTabId++, 
+            item: { ...previewItem, name: `Preview: ${item.name}` },
+            content, 
+            uniquePath: TabRegistrySentinel.generateKey(previewItem),
+            fileType: 'html-preview', 
+            isPreview: true
         };
+        
         State.tabs.push(newTab);
+        Tabs.render();
         App.saveSession();
         Tabs.activate(newTab.id);
     }

@@ -1,40 +1,56 @@
 
 // B"H
+/**
+ * @file loader.js
+ * @brief The Alchemist of File Essence.
+ */
 import { UI } from '../ui.js';
 import { FileSystemProvider } from '../fs-provider.js';
+import { EditorCore } from '../editor/core.js';
+import { PreviewManager } from '../editor/preview-manager.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
-import { Editor } from '../editor.js';
 
 export const TabsLoader = {
+    /**
+     * @async
+     * @function loadTabContent
+     * @description Penetrates the FileSystem to pull the raw soul of a file.
+     */
     async loadTabContent(tab) {
+        console.log(`B"H - [Loader] Requesting essence for: ${tab.item.path}`);
         try {
-            UI.showLoading(`Opening ${tab.item.name}...`);
-            let fileContent;
+            UI.showLoading(`Reading ${tab.item.name}...`);
             
-            if (tab.item.type === 'zip-entry' || tab.item.type === 'temp') {
-                fileContent = tab.content;
-            } else {
-                try {
-                    fileContent = await FileSystemProvider.IndexedDB.readUncommitted(tab.uniquePath);
-                    tab.isUncommitted = true;
-                } catch (e) {
-                    const lookupItem = { ...tab.item, type: tab.item.originalType || tab.item.type };
-                    fileContent = await FileSystemProvider.read(lookupItem);
-                }
+            // 1. Raw Retrieval
+            const lookupItem = { ...tab.item, type: tab.item.originalType || tab.item.type };
+            let raw = await FileSystemProvider.read(lookupItem);
+            
+            if (raw === undefined || raw === null) {
+                throw new Error("FileSystem returned void essence.");
             }
 
-            if (tab.item.name.toLowerCase().endsWith('.zip')) {
-                tab.fileType = 'zip';
-                tab.rawContent = (fileContent instanceof Blob) ? fileContent : new Blob([fileContent]);
+            console.log(`B"H - [Loader] Raw data type detected: ${typeof raw} / IsBlob: ${raw instanceof Blob}`);
+
+            // 2. Transmutation to Text
+            let text = "";
+            if (typeof raw === 'string') {
+                text = raw;
+            } else if (raw instanceof Blob) {
+                text = await raw.text();
+            } else if (raw.base64Content) {
+                text = atob(raw.base64Content);
             } else {
-                tab.rawContent = fileContent;
-                if (typeof fileContent === 'string') tab.content = fileContent;
-                else if (fileContent instanceof Blob) tab.content = await fileContent.text();
-                else tab.content = String(fileContent);
+                text = String(raw);
             }
+
+            // 3. State Inscription
+            tab.content = text;
+            tab.rawContent = raw;
+            console.log(`B"H - [Loader] Successfully parsed ${text.length} characters.`);
             return true;
         } catch (e) {
-            UI.showToast(`Error reading file: ${e.message}`, "error");
+            console.error(`B"H - [Loader] Retrieval Shevirah:`, e);
+            UI.showToast(`Error reading ${tab.item.name}: ${e.message}`, "error");
             return false;
         } finally {
             UI.hideLoading();
@@ -42,9 +58,13 @@ export const TabsLoader = {
     },
 
     async renderTabView(tab, forceReload) {
-        if (tab.fileType === 'zip') await ZipExplorer.open(tab.rawContent, tab);
-        else if (tab.fileType === 'text') await Editor.showTextEditor(tab.content || "", tab.item.name, tab.scrollPos || 0);
-        else if (tab.isHexView) UI.switchView('hex');
-        else Editor.showPreviewer(tab.rawContent, { type: tab.fileType, name: tab.item.name }, tab.id, forceReload);
+        console.log(`B"H - [Loader] Routing render view for: ${tab.fileType}`);
+        if (tab.fileType === 'zip') {
+            await ZipExplorer.open(tab.rawContent, tab);
+        } else if (tab.isPreview || tab.fileType === 'html-preview') {
+            PreviewManager.show(tab.id, tab.item, tab.rawContent, forceReload);
+        } else {
+            await EditorCore.showTextEditor(tab.content || "", tab.item.name, tab.scrollPos || 0);
+        }
     }
 };

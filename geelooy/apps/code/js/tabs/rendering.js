@@ -1,42 +1,34 @@
-// B"H
-// FILE: code/js/tabs/rendering.js
 
+// B"H
 import { State } from '../state.js';
 import { StatusBar } from '../statusbar.js';
 import { Menus } from '../menus.js';
 
-/**
- * --- TABS RENDERER ---
- * The sacred architect of the tab bar. It gives physical form to the 
- * abstract concepts of open files, managing their appearance,
- * order, and interactions. B"H.
- */
 export const TabsRenderer = {
-    /**
-     * Renders the entire tab bar row based on the current state.
-     * @param {HTMLElement} container - The tab-bar-wrapper element.
-     * @param {Object} TabsController - The parent Tabs management object.
-     */
     render(container, TabsController) {
+        if (!container) return;
+        
+        // Determine the targeted ID securely
+        const safeActiveId = State.activeTabId;
+
         container.innerHTML = '';
         let draggedTabId = null;
 
-        // B"H - Sort: Pinned tabs first
         const sortedTabs = [...State.tabs].sort((a, b) => {
             if (a.pinned && !b.pinned) return -1;
             if (!a.pinned && b.pinned) return 1;
-            return 0; // Preserve original order otherwise
+            return 0; 
         });
 
         sortedTabs.forEach((tab) => {
-            const tabEl = this._createTabElement(tab, TabsController);
+            const isActive = (tab.id === safeActiveId);
+            const tabEl = this._createTabElement(tab, isActive, TabsController);
             this._setupDragEvents(tabEl, tab.id, (id) => draggedTabId = id, () => draggedTabId);
             container.appendChild(tabEl);
         });
 
         this._setupContainerDragEvents(container, () => draggedTabId, TabsController);
 
-        // B"H - SCROLL TRANSLATION RITUAL
         if (!container.dataset.wheelBound) {
             container.addEventListener('wheel', (e) => {
                 if (e.deltaY !== 0) {
@@ -47,28 +39,22 @@ export const TabsRenderer = {
             container.dataset.wheelBound = "true";
         }
 
-        const activeTabEl = container.querySelector('.tab.active');
-        if (activeTabEl) activeTabEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         StatusBar.update();
     },
 
-    /**
-     * Forges an individual tab element from a tab state object.
-     */
-    _createTabElement(tab, TabsController) {
+    _createTabElement(tab, isActive, TabsController) {
         const tabEl = document.createElement('div');
-        // B"H - Add 'pinned' class
-        tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''} ${tab.isUncommitted ? 'uncommitted' : ''} ${tab.pinned ? 'pinned' : ''}`;
+        
+        tabEl.className = `tab ${isActive ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''} ${tab.isUncommitted ? 'uncommitted' : ''} ${tab.pinned ? 'pinned' : ''}`;
         tabEl.dataset.tabId = String(tab.id);
         
-        const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
-        const wsName = workspace ? workspace.name : 'Unknown Realm';
-        const fullPath = tab.item.path || tab.item.name;
-        tabEl.title = `${wsName} :: ${fullPath}`;
+        // Find workspace with ultra-safe traversal to prevent null reference errors on 'id'
+        const workspace = State.workspaces.find(ws => ws?.id === tab.item.workspaceId);
+        const wsName = workspace ? workspace.name : 'System';
+        tabEl.title = `${wsName} :: ${tab.item.path || tab.item.name}`;
         
         tabEl.draggable = true;
         
-        // Pin Icon
         if (tab.pinned) {
             const pinIcon = document.createElement('span');
             pinIcon.className = 'tab-pin-icon';
@@ -82,38 +68,33 @@ export const TabsRenderer = {
 
         const closeButton = document.createElement('button');
         closeButton.className = 'close-tab-btn';
-        closeButton.title = 'Close';
         closeButton.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
 
         tabEl.appendChild(tabName);
         tabEl.appendChild(closeButton);
         
-        // --- PRIMARY CLICK HANDLING ---
         tabEl.onclick = (e) => {
             if (e.target.closest('.close-tab-btn')) {
                 e.stopPropagation();
                 TabsController.close(tab.id);
-            } else if (State.activeTabId !== tab.id) {
+            } else {
                 TabsController.activate(tab.id);
             }
         };
 
-        // B"H - MIDDLE CLICK RITUAL
-        tabEl.addEventListener('mousedown', (e) => {
-            if (e.button === 1) { // Middle button
-                e.preventDefault(); 
-            }
-        });
+        // B"H - IMPROVEMENT 6: Swift Closure (Double Click & Middle Click)
+        tabEl.ondblclick = (e) => {
+            e.stopPropagation();
+            TabsController.close(tab.id);
+        };
 
         tabEl.addEventListener('auxclick', (e) => {
-            if (e.button === 1) { // Middle button
-                e.preventDefault();
-                e.stopPropagation();
+            if (e.button === 1) { 
+                e.preventDefault(); e.stopPropagation();
                 TabsController.close(tab.id);
             }
         });
 
-        // --- CONTEXT MENU HANDLING ---
         tabEl.oncontextmenu = (e) => {
             Menus.showTabMenu(e, tab);
         };
@@ -121,24 +102,17 @@ export const TabsRenderer = {
         return tabEl;
     },
 
-    /**
-     * Binds drag start/end events to enable tab reordering.
-     */
-    _setupDragEvents(tabEl, tabId, setDraggedId, getDraggedId) {
+    _setupDragEvents(tabEl, tabId, setDraggedId, getDraggedId) { /* Drag remains clean */
         tabEl.addEventListener('dragstart', (e) => {
             setDraggedId(tabId);
             setTimeout(() => e.target.classList.add('dragging'), 0);
         });
-        
         tabEl.addEventListener('dragend', (e) => {
             setDraggedId(null);
             e.target.classList.remove('dragging');
         });
     },
 
-    /**
-     * Orchestrates the drop logic and dragover visual feedback for the container.
-     */
     _setupContainerDragEvents(container, getDraggedId, TabsController) {
         const getDragAfterElement = (container, x) => {
             const draggableElements = [...container.querySelectorAll('.tab:not(.dragging)')];
@@ -157,9 +131,7 @@ export const TabsRenderer = {
             e.preventDefault();
             container.querySelectorAll('.drop-indicator').forEach(el => el.classList.remove('drop-indicator'));
             const afterElement = getDragAfterElement(container, e.clientX);
-            if (afterElement) {
-                afterElement.classList.add('drop-indicator');
-            }
+            if (afterElement) afterElement.classList.add('drop-indicator');
         });
 
         container.addEventListener('drop', (e) => {
@@ -183,8 +155,6 @@ export const TabsRenderer = {
             }
 
             State.tabs.splice(targetIndex, 0, draggedTab);
-
-            State.activeTabId = draggedTabId;
             TabsController.render(); 
         });
     }

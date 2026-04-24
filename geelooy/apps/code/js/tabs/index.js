@@ -1,30 +1,29 @@
 
 // B"H
-/**
- * @file tabs/index.js
- * @brief The Master Facade of Manifested Documents.
- */
-
-import { TabsCreation } from './creation.js';
-import { TabsNavigation } from './navigation.js';
-import { TabsLifecycle } from './lifecycle.js';
+import { TabFactory } from './factory.js';
+import { TabOrchestrator } from './orchestrator.js';
 import { TabsRenderer } from './rendering.js';
-import { TabsPersistence } from './persistence.js';
-import { DOM } from '../state.js';
+import { TabsLifecycle } from './lifecycle.js';
+import { TabPathRitual } from './path-ritual.js';
 
 export const Tabs = {
-    getUniquePath: (item) => `${item.workspaceId ?? 'temp'}::${item.path ?? item.name}`,
+    getUniquePath: TabPathRitual.getUniquePath,
     
-    create: (...args) => TabsCreation.create(...args),
-    createPreview: (...args) => TabsCreation.createPreview(...args),
+    async create(item, isNewFile = false, shouldSave = true, activate = true) {
+        const { tab, isNew } = TabFactory.create(item, isNewFile);
+        if (activate) await TabOrchestrator.activate(tab.id);
+        else this.render();
+        
+        if (shouldSave && isNew) {
+            import('../app.js').then(m => m.App.saveSession());
+        }
+        return tab;
+    },
+
+    activate: (id, force) => TabOrchestrator.activate(id, force),
+    close: (id, force) => TabsLifecycle.close(id, force),
+    render: () => TabsRenderer.render(document.getElementById('tab-bar'), Tabs),
     
-    updatePreviewContext: (...args) => TabsNavigation.updatePreviewContext(...args),
-    goBackPreview: (...args) => TabsNavigation.goBackPreview(...args),
-    activate: (...args) => TabsNavigation.activate(...args),
-    
-    close: (...args) => TabsLifecycle.close(...args),
-    saveActive: (...args) => TabsLifecycle.saveActive(...args),
-    save: (tab) => TabsPersistence.save(tab, Tabs),
-    
-    render: () => TabsRenderer.render(DOM.tabBar, Tabs)
+    // Legacy support
+    saveActive: () => TabsLifecycle.saveActive()
 };

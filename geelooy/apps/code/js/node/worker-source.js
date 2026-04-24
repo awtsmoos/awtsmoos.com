@@ -1,5 +1,17 @@
 
 // B"H
+/**
+ * @file worker-source.js
+ * @brief Injects the synchronous block/wait APIs into the Web Worker for full Node emulation.
+ * 
+ * CHAPTER XLII: THE SUSPENSION OF TIME
+ * 
+ * The Awtsmoos transcends time, holding past, present, and future in a single point.
+ * By using Atomics.wait(), the Web Worker literally halts its own timeline, waiting 
+ * for the Main Thread (the Higher World) to inject the required file data into the 
+ * SharedArrayBuffer. This is how we emulate 'fs.readFileSync' perfectly in an environment
+ * that was never meant to be synchronous! Every byte is recreated continuously.
+ */
 export const NodeWorkerSource = (coreModulesMap) => `
 (function() {
     let controlSAB, dataSAB;
@@ -13,10 +25,52 @@ export const NodeWorkerSource = (coreModulesMap) => `
     const coreModules = ${JSON.stringify(coreModulesMap)};
     const moduleCache = {};
 
+    /**
+     * B"H
+     * The master synchronous operation conduit. Blocks execution until main thread responds.
+     * @param {string} type - Action type.
+     * @param {object} payload - Arguments.
+     * @returns {string|null} The resolved essence.
+     */
+    self._syncOp = function(type, payload) {
+        self.postMessage({ type: type, ...payload });
+        let content = "";
+        const controlView = new Int32Array(controlSAB);
+        
+        while(true) {
+            Atomics.wait(controlView, 0, 0);
+            const err = Atomics.load(controlView, 4);
+            if (err === 1) {
+                Atomics.store(controlView, 0, 0);
+                self.postMessage({ type: 'ack' });
+                return null;
+            }
+            
+            const len = Atomics.load(controlView, 1);
+            const isLast = Atomics.load(controlView, 2);
+            
+            if (len > 0) {
+                const chunk = new Uint8Array(dataSAB, 0, len);
+                content += new TextDecoder().decode(chunk);
+            }
+            
+            Atomics.store(controlView, 0, 0);
+            self.postMessage({ type: 'ack' });
+            
+            if (isLast === 1) break;
+        }
+        return content;
+    };
+
+    self._syncRead = function(path) { return self._syncOp('sync-read', { path }); };
+    self._syncWrite = function(path, content) { return self._syncOp('sync-write', { path, content }) === null; };
+    self._syncStat = function(path) { return self._syncOp('sync-stat', { path }); };
+    self._syncList = function(path) { return self._syncOp('sync-list', { path }); };
+
     function _tryExtensions(base) {
-        if (self._syncRead(base) !== null && !base.endsWith('/')) return base;
-        if (self._syncRead(base + '.js') !== null) return base + '.js';
-        if (self._syncRead(base + '.json') !== null) return base + '.json';
+        if (self._syncStat(base) !== null && !base.endsWith('/')) return base;
+        if (self._syncStat(base + '.js') !== null) return base + '.js';
+        if (self._syncStat(base + '.json') !== null) return base + '.json';
         
         const pkgRaw = self._syncRead(base + '/package.json');
         if (pkgRaw) {
@@ -30,21 +84,17 @@ export const NodeWorkerSource = (coreModulesMap) => `
             } catch(e){}
         }
         
-        if (self._syncRead(base + '/index.js') !== null) return base + '/index.js';
+        if (self._syncStat(base + '/index.js') !== null) return base + '/index.js';
         return null;
     }
 
     function _resolveModule(id, currentDir) {
         if (coreModules[id]) return id;
-
         const pathMod = self.require('path');
-
         if (id.startsWith('./') || id.startsWith('../') || id.startsWith('/')) {
             const absPath = pathMod.resolve(currentDir, id);
             return _tryExtensions(absPath);
         }
-
-        // B"H - Node_modules recursive climb
         let dir = currentDir;
         while (dir && dir !== '/') {
             const checkPath = pathMod.join(dir, 'node_modules', id);
@@ -52,10 +102,7 @@ export const NodeWorkerSource = (coreModulesMap) => `
             if (found) return found;
             dir = pathMod.resolve(dir, '..');
         }
-        
-        // Root check
-        const rootCheck = pathMod.join('/', 'node_modules', id);
-        return _tryExtensions(rootCheck);
+        return _tryExtensions(pathMod.join('/', 'node_modules', id));
     }
 
     self._requireInternal = function(id, currentDir) {
@@ -73,7 +120,6 @@ export const NodeWorkerSource = (coreModulesMap) => `
         }
 
         const content = self._syncRead(resolvedPath);
-        
         if (resolvedPath.endsWith('.json')) {
             const data = JSON.parse(content);
             moduleCache[resolvedPath] = { exports: data };
@@ -82,19 +128,31 @@ export const NodeWorkerSource = (coreModulesMap) => `
 
         const module = { exports: {} };
         moduleCache[resolvedPath] = module; 
-        
         const dirName = self.require('path').resolve(resolvedPath, '..');
         const localRequire = (reqId) => self._requireInternal(reqId, dirName);
-        Object.assign(localRequire, self.require); // attach cache etc if needed
+        Object.assign(localRequire, self.require); 
 
         const wrapper = "(function(exports, require, module, __filename, __dirname) { " + content + "\\n})";
         eval(wrapper)(module.exports, localRequire, module, resolvedPath, dirName);
         return module.exports;
     };
 
-    self.require = function(id) {
-        return self._requireInternal(id, '/');
-    };
+    self.require = function(id) { return self._requireInternal(id, '/'); };
+
+    // B"H - Safe Circular Stringifier for Console
+    function safeStringify(obj, depth = 0, visited = new WeakSet()) {
+        if (obj === null) return 'null';
+        if (typeof obj === 'function') return '[Function: ' + (obj.name || 'anonymous') + ']';
+        if (typeof obj !== 'object') return String(obj);
+        if (depth > 5) return '[Object]';
+        if (visited.has(obj)) return '[Circular]';
+        visited.add(obj);
+        if (Array.isArray(obj)) return '[' + obj.map(o => safeStringify(o, depth+1, visited)).join(', ') + ']';
+        if (obj instanceof Error) return obj.stack || obj.message;
+        const parts = [];
+        for (let k in obj) { try { parts.push(k + ': ' + safeStringify(obj[k], depth+1, visited)); } catch(e){} }
+        return '{ ' + parts.join(', ') + ' }';
+    }
 
     self.addEventListener('message', (e) => {
         const d = e.data;
@@ -104,12 +162,18 @@ export const NodeWorkerSource = (coreModulesMap) => `
             
             const origLog = console.log;
             console.log = (...args) => {
-                const text = args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
+                const text = args.map(a => safeStringify(a)).join(' ');
                 self.postMessage({ type: 'stdout', text });
             };
             console.error = console.log; console.warn = console.log;
             
-            self.process = { env: {}, cwd: () => '/' };
+            // B"H - Rectified Process Object
+            self.process = { 
+                env: { NODE_ENV: 'development' }, 
+                cwd: () => '/',
+                nextTick: (cb, ...args) => Promise.resolve().then(() => cb(...args)),
+                exit: (code = 0) => { self.postMessage({ type: 'stdout', text: \`[Process exited with code \${code}]\` }); self.close(); }
+            };
 
             try {
                 const module = { exports: {} };
@@ -131,67 +195,9 @@ export const NodeWorkerSource = (coreModulesMap) => `
                 srv.emit('request', req, res);
             }
         }
-        else if (d.type === 'http-client-response') {
-            const req = activeHttpReqs[d.reqId];
-            if (req) {
-                const { IncomingClientMessage } = self.require('http');
-                const res = new IncomingClientMessage(d.status, d.headers, d.data);
-                req.emit('response', res);
-                delete activeHttpReqs[d.reqId];
-            }
-        }
-        else if (d.type === 'http-client-error') {
-            const req = activeHttpReqs[d.reqId];
-            if (req) { req.emit('error', new Error(d.error)); delete activeHttpReqs[d.reqId]; }
-        }
-        else if (d.type === 'ws-inbound-connect') {
-            const srv = netServers[d.serverId];
-            if (srv) {
-                const { IncomingMessage } = self.require('http');
-                const { Socket } = self.require('net');
-                const req = new IncomingMessage('GET', d.url, d.headers);
-                const socket = new Socket(d.id);
-                activeSockets[d.id] = socket;
-                
-                self.postMessage({ type: 'ws-server-open', id: d.id });
-                srv.emit('upgrade', req, socket, self.require('buffer').Buffer.from(''));
-            }
-        }
-        else if (d.type === 'ws-inbound-data') {
-            const socket = activeSockets[d.id];
-            if (socket) socket.emit('data', self.require('buffer').Buffer.from(d.data));
-        }
-        else if (d.type === 'ws-inbound-close') {
-            const socket = activeSockets[d.id];
-            if (socket) { socket.emit('close'); delete activeSockets[d.id]; }
-        }
         else if (d.type === 'ack') {
             if (self._ackResolver) self._ackResolver();
         }
     });
-
-    self._syncRead = function(path) {
-        self.postMessage({ type: 'sync-read', path });
-        let content = "";
-        const controlView = new Int32Array(controlSAB);
-        
-        while(true) {
-            Atomics.wait(controlView, 0, 0);
-            const err = Atomics.load(controlView, 4);
-            if (err === 1) return null;
-            
-            const len = Atomics.load(controlView, 1);
-            const isLast = Atomics.load(controlView, 2);
-            
-            const chunk = new Uint8Array(dataSAB, 0, len);
-            content += new TextDecoder().decode(chunk);
-            
-            Atomics.store(controlView, 0, 0);
-            self.postMessage({ type: 'ack' });
-            
-            if (isLast === 1) break;
-        }
-        return content;
-    };
 })();
 `;
