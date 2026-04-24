@@ -68,7 +68,9 @@ module.exports = {
         let offset = 0;
         const nameInfo = serializer.readString(buf, offset); offset += nameInfo.bytesRead;
         const sourceInfo = serializer.readString(buf, offset); offset += sourceInfo.bytesRead;
-        const dictPtrBuf = buf.subarray(offset, offset + 16);
+        
+        const dictSealLenInfo = serializer.readVarInt(buf, offset); offset += dictSealLenInfo.bytesRead;
+        const dictPtrBuf = buf.subarray(offset, offset + dictSealLenInfo.value);
         
         let Cls = classRegistry.get(nameInfo.value);
         if (!Cls) { 

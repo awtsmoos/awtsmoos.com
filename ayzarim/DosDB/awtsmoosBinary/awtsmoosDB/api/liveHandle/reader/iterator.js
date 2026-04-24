@@ -5,6 +5,7 @@
  * @description
  *  The Scribe of the Eternal Flow. 
  *  Traverses the database vessels and yields their contents as a sequence of lights.
+ *  Now endowed with the wisdom to read Flat-Packed (Smart) vessels natively.
  */
 
 const constants = require('../../../constants.js');
@@ -13,6 +14,8 @@ const Sequence = require('../../../structure/sequence/index.js');
 const MapEngine = require('../../../structure/map/index.js');
 const keys = require('../../../utils/binary/keys.js');
 const SmartPointer = require('../../../utils/smartPointer.js');
+const FlatObject = require('../../../structure/flat/object.js');
+const FlatArray = require('../../../structure/flat/array.js');
 
 module.exports = class ReaderIterator {
     constructor(reader) { 
@@ -24,7 +27,7 @@ module.exports = class ReaderIterator {
     *iterator() { 
         const T = constants.VAL_TYPE; 
         const t = this.handle.type;
-        const isSequenceLike = t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET;
+        const isSequenceLike = t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET || t === T.SMART_ARRAY;
         
         if (isSequenceLike) yield* this.values(); 
         else yield* this.entries(); 
@@ -38,7 +41,6 @@ module.exports = class ReaderIterator {
         const T = constants.VAL_TYPE;
         const t = this.handle.type;
 
-        // B"H: The Scribe recognizes the two primary architectures
         if (t === T.DICTIONARY || t === T.OBJECT) { 
             for (const k of (new Dictionary(this.db.allocator, structPtr)).keys()) yield String(k); 
         }
@@ -48,6 +50,13 @@ module.exports = class ReaderIterator {
         else if (t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET) { 
             const len = (new Sequence(this.db.allocator, structPtr)).length(); 
             for(let i=0; i<len; i++) yield i; 
+        }
+        else if (t === T.SMART_OBJECT) {
+            for (const k of (new FlatObject(this.db.allocator, structPtr)).keys()) yield String(k);
+        }
+        else if (t === T.SMART_ARRAY) {
+            const len = (new FlatArray(this.db.allocator, structPtr)).length();
+            for(let i=0; i<len; i++) yield i;
         }
     }
 
@@ -63,6 +72,14 @@ module.exports = class ReaderIterator {
             const seq = new Sequence(this.db.allocator, structPtr);
             for(let i=0; i<seq.length(); i++) {
                 yield this.reader._wrapIfNeeded(seq.get(i), i, seq.getPtr(i));
+            }
+        } else if (t === T.SMART_ARRAY) {
+            const arr = new FlatArray(this.db.allocator, structPtr);
+            const len = arr.length();
+            for(let i=0; i<len; i++) {
+                const ptr = arr.get(i);
+                const val = SmartPointer.resolve(ptr, this.db.allocator);
+                yield this.reader._wrapIfNeeded(val, i, ptr);
             }
         } else { 
             for (const entry of this.entries()) yield entry[1]; 
@@ -94,13 +111,22 @@ module.exports = class ReaderIterator {
                 const ptr = seq.getPtr(i); 
                 yield [i, this.reader._wrapIfNeeded(SmartPointer.resolve(ptr, this.db.allocator), i, ptr)]; 
             }
+        } else if (t === T.SMART_OBJECT) {
+            const obj = new FlatObject(this.db.allocator, structPtr);
+            for (const [k, v] of obj.entries()) {
+                yield [k, this.reader._wrapIfNeeded(v, k)];
+            }
+        } else if (t === T.SMART_ARRAY) {
+            const arr = new FlatArray(this.db.allocator, structPtr);
+            const len = arr.length();
+            for(let i=0; i<len; i++) {
+                const ptr = arr.get(i);
+                const val = SmartPointer.resolve(ptr, this.db.allocator);
+                yield [i, this.reader._wrapIfNeeded(val, i, ptr)];
+            }
         }
     }
     
-    /**
-     * @method range
-     * @description Navigates a range of the Map's sorted light.
-     */
     *range(start, end) {
         this.handle.ensureResolved();
         const structPtr = this.handle.nav.resolveStructPtr();

@@ -8,16 +8,7 @@
  *  =============================================================================
  *  "The dead shall live, their bodies shall rise." (Isaiah 26:19)
  *  
- *  This module performs the delicate task of translating the deep B-Tree networks 
- *  (Maps) and Chronological links (Sequences) back into full, living JavaScript 
- *  objects and Maps, while tracking circular paradoxes so reality does not 
- *  collapse into an infinite loop.
- * 
- *  THE TIKKUN OF MERCY (CHESED):
- *  The Resolver is sometimes summoned by the Angels of Search and Vector Indexing 
- *  using "Mock Handles"—temporary vessels lacking the full capabilities of a 
- *  LiveHandle. We must check for the presence of `ensureResolved` before 
- *  invoking it, lest we shatter the temporary vessel.
+ *  Purged of all inline and chunked ghost logic. Pure VarInt exact-byte awakening.
  */
 
 const constants = require('../../../constants.js');
@@ -25,6 +16,8 @@ const SmartPointer = require('../../../utils/smartPointer.js');
 const Dictionary = require('../../../structure/dictionary/index.js');
 const Sequence = require('../../../structure/sequence/index.js');
 const MapEngine = require('../../../structure/map/index.js');
+const FlatObject = require('../../../structure/flat/object.js');
+const FlatArray = require('../../../structure/flat/array.js');
 const keyEncoding = require('../../../utils/keyEncoding.js');
 const HandleRegistry = require('../../../core/registry/handle.js');
 
@@ -37,7 +30,7 @@ module.exports = class ReaderResolver {
     
     _getAddrKey(ptr) { 
         if (!ptr) return "void"; 
-        return `${ptr.blockId}:${ptr.offset || 0}`; 
+        return `${ptr.offset || 0}:${ptr.length || 0}`; 
     }
     
     resolveStructPtr() { 
@@ -47,38 +40,35 @@ module.exports = class ReaderResolver {
     
     resolveSelf() {
         return this.db.lock.runRead(() => {
-            // B"H: The Tikkun of Mercy. 
-            // We only demand resolution if the vessel is fully formed.
             if (this.handle && typeof this.handle.ensureResolved === 'function') {
                 this.handle.ensureResolved();
             }
             
             const isRoot = this.db.root ? (this.handle === HandleRegistry.getSoul(this.db.root)) : false;
-            
             if (!this.handle.ptr && !isRoot) return undefined;
-            
-            if (this.handle.ptr) {
-                const decoded = SmartPointer.decode(this.handle.ptr);
-                if (decoded && decoded.mode === constants.MODE_INLINE) {
-                    return SmartPointer.decodeInline(decoded.type, decoded.payload, this.db.allocator);
-                }
-            }
             
             const context = new Map(); 
             const T = constants.VAL_TYPE; 
             const type = this.handle.type;
             
-            if (isRoot || type === T.DICTIONARY || type === T.OBJECT) {
+            if (isRoot || type === T.DICTIONARY || type === T.OBJECT || type === T.SMART_OBJECT) {
                 let structPtr = null;
                 if (isRoot && this.db.rootPtrRaw) structPtr = SmartPointer.resolve(this.db.rootPtrRaw, this.db.allocator);
                 else if (this.handle.ptr) structPtr = SmartPointer.resolve(this.handle.ptr, this.db.allocator);
                 
                 if (!structPtr) return {}; 
-                const dict = new Dictionary(this.db.allocator, structPtr); 
                 const obj = {};
-                
                 if (structPtr) context.set(this._getAddrKey(structPtr), obj); 
-                this._hydrateDictionary(dict, obj, context); 
+                
+                if (type === T.SMART_OBJECT) {
+                    const flat = new FlatObject(this.db.allocator, structPtr);
+                    for (const [k, val] of flat.entries(context)) {
+                        obj[k] = (val && val.isStructure) ? this._hydrateStructure(val, context) : val;
+                    }
+                } else {
+                    const dict = new Dictionary(this.db.allocator, structPtr); 
+                    this._hydrateDictionary(dict, obj, context); 
+                }
                 return obj;
             }
             
@@ -106,11 +96,18 @@ module.exports = class ReaderResolver {
         
         const T = constants.VAL_TYPE;
         
-        if (val.type === T.DICTIONARY || val.type === T.OBJECT) {
-            const dict = new Dictionary(this.db.allocator, val); 
+        if (val.type === T.DICTIONARY || val.type === T.OBJECT || val.type === T.SMART_OBJECT) {
             const obj = {}; 
             ctx.set(addrKey, obj);
-            this._hydrateDictionary(dict, obj, ctx); 
+            if (val.type === T.SMART_OBJECT) {
+                const flat = new FlatObject(this.db.allocator, val);
+                for (const [k, v] of flat.entries(ctx)) {
+                    obj[k] = (v && v.isStructure) ? this._hydrateStructure(v, ctx) : v;
+                }
+            } else {
+                const dict = new Dictionary(this.db.allocator, val); 
+                this._hydrateDictionary(dict, obj, ctx); 
+            }
             return obj;
         }
         
@@ -130,35 +127,31 @@ module.exports = class ReaderResolver {
             return map;
         }
         
-        if (val.type === T.SET || val.type === T.JS_SET) {
-            const seq = new Sequence(this.db.allocator, val); 
-            const set = new Set(); 
-            ctx.set(addrKey, set);
+        if (val.type === T.SEQUENCE || val.type === T.ARRAY || val.type === T.SET || val.type === T.JS_SET || val.type === T.SMART_ARRAY) {
+            const isSet = val.type === T.SET || val.type === T.JS_SET;
+            const collection = isSet ? new Set() : []; 
+            ctx.set(addrKey, collection);
             
-            for(let i = 0; i < seq.length(); i++) {
-                let item = seq.get(i, ctx); 
-                if (item && item.isStructure) item = this._hydrateStructure(item, ctx);
-                set.add(item);
+            if (val.type === T.SMART_ARRAY) {
+                const arr = new FlatArray(this.db.allocator, val);
+                const len = arr.length();
+                for(let i = 0; i < len; i++) {
+                    let item = SmartPointer.resolve(arr.get(i), this.db.allocator, ctx);
+                    if (item && item.isStructure) item = this._hydrateStructure(item, ctx);
+                    if (isSet) collection.add(item); else collection.push(item);
+                }
+            } else {
+                const seq = new Sequence(this.db.allocator, val); 
+                const len = seq.length(); 
+                const limit = Math.min(len, 20000); 
+                for(let i = 0; i < limit; i++) {
+                    let item = seq.get(i, ctx); 
+                    if (item && item.isStructure) item = this._hydrateStructure(item, ctx);
+                    if (isSet) collection.add(item); else collection.push(item);
+                }
             }
-            return set;
+            return collection;
         }
-        
-        if (val.type === T.SEQUENCE || val.type === T.ARRAY) {
-            const seq = new Sequence(this.db.allocator, val); 
-            const arr = []; 
-            ctx.set(addrKey, arr);
-            
-            const len = seq.length(); 
-            const limit = Math.min(len, 20000); 
-            
-            for(let i = 0; i < limit; i++) {
-                let item = seq.get(i, ctx); 
-                if (item && item.isStructure) item = this._hydrateStructure(item, ctx);
-                arr.push(item);
-            }
-            return arr;
-        }
-        
         return val;
     }
     

@@ -13,16 +13,10 @@ const Slicer = require('./slicer.js');
 const SequenceEngine = require('../../../structure/sequence/index.js');
 const DictionaryEngine = require('../../../structure/dictionary/index.js');
 const MapEngine = require('../../../structure/map/index.js');
+const FlatObject = require('../../../structure/flat/object.js');
+const FlatArray = require('../../../structure/flat/array.js');
 
-/**
- * @class Reader
- * @description Orchestrates the resurrection of raw bytes into Live JS objects.
- */
 class Reader {
-    /**
-     * @constructor
-     * @param {object} handle - The overarching LiveHandle state.
-     */
     constructor(handle) {
         this.handle = handle;
         this.db = handle.db;
@@ -31,10 +25,6 @@ class Reader {
         this.slicer = new Slicer(this);
     }
 
-    /**
-     * @method length
-     * @description Unveils the total size of a collection vessel.
-     */
     length() {
         const structPtr = this.handle.nav.resolveStructPtr();
         if (!structPtr) return 0;
@@ -56,7 +46,9 @@ class Reader {
             [T.MAP]: () => {
                  const engine = new MapEngine(this.db.allocator, structPtr);
                  const root = engine.nodeIO.load(engine.ptr); return root ? (root.totalCount || 0) : 0;
-            }
+            },
+            [T.SMART_OBJECT]: () => (new FlatObject(this.db.allocator, structPtr)).length(),
+            [T.SMART_ARRAY]: () => (new FlatArray(this.db.allocator, structPtr)).length()
         };
 
         return LengthStrategies[type] ? LengthStrategies[type]() : 0;
@@ -69,10 +61,6 @@ class Reader {
     entries() { return this.iter.entries(); }
     iterator() { return this.iter.iterator(); }
 
-    /**
-     * @method _wrapIfNeeded
-     * @description Envelops deeply nested objects in their own LiveHandle armor.
-     */
     _wrapIfNeeded(val, key, ptr) {
         if (val === null || val === undefined) return val;
         
@@ -84,7 +72,8 @@ class Reader {
         const T = constants.VAL_TYPE;
         const isContainer = (
             type === T.MAP || type === T.SEQUENCE || type === T.DICTIONARY || 
-            type === T.SET || type === T.OBJECT || type === T.ARRAY || type === T.JSON
+            type === T.SET || type === T.OBJECT || type === T.ARRAY || type === T.JSON ||
+            type === T.SMART_OBJECT || type === T.SMART_ARRAY
         );
 
         if (isContainer) {
