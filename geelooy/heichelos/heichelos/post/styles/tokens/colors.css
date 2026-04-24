@@ -1,0 +1,32 @@
+
+/* B"H
+   THE COLORS OF CREATION
+   Letters of light, vessels of hue.
+*/
+
+:root {
+    /* --- The Rubrication (Sacred Red) --- */
+    --color-primary: #aa2222;
+    --color-primary-glow: rgba(170, 34, 34, 0.4);
+    
+    /* --- The Molten Gold (Divine Ohr) --- */
+    --color-accent: #ffae00;
+    --color-accent-soft: rgba(255, 174, 0, 0.15);
+    
+    /* --- The Vellum (Earthly Foundation) --- */
+    --bg-vellum: #fdfbf7;
+    --bg-surface: #ffffff;
+    
+    /* --- The Ink (Manifest Thought) --- */
+    --color-ink: #050505;
+    --color-ink-secondary: #555555;
+    
+    /* --- The Void (The Boundary) --- */
+    --color-danger: #ff0000;
+    --color-success: #008833;
+    
+    /* --- Shadows (Tzimtzum) --- */
+    --shadow-hard: 8px 8px 0px 0px var(--color-ink);
+    --shadow-hover: 12px 12px 0px 0px var(--color-accent);
+    --shadow-ui: 4px 4px 0px 0px var(--color-ink);
+}

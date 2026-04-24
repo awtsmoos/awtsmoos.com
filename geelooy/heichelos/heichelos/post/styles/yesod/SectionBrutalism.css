@@ -1,0 +1,96 @@
+
+/* B"H
+   SECTION BRUTALISM (YESOD)
+   The foundation of the textual vessel.
+*/
+
+.section-vessel {
+    width: 100%;
+    margin-bottom: var(--pad-xl);
+    padding: var(--pad-md);
+    background: var(--color-paper);
+    border: 4px solid var(--color-ink);
+    box-shadow: var(--brutalist-shadow);
+    box-sizing: border-box;
+    
+    position: relative;
+    transition: 
+        opacity var(--time-std) var(--ease-snap),
+        transform var(--time-std) var(--ease-snap),
+        filter var(--time-std) var(--ease-snap),
+        box-shadow var(--time-std) var(--ease-snap);
+}
+
+/* THE SACRED SPOTLIGHT */
+.section-vessel:not(.active-reading-section) {
+    opacity: 0.15;
+    filter: grayscale(1) blur(1px);
+    transform: scale(0.95);
+    box-shadow: none;
+    pointer-events: none;
+}
+
+.section-vessel.active-reading-section {
+    opacity: 1;
+    filter: none;
+    transform: scale(1);
+    z-index: 100;
+}
+
+/* THE VERSE SIGIL */
+.awtsmoos-sigil-verse {
+    position: absolute;
+    top: -20px;
+    left: var(--pad-md);
+    
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-ui);
+    font-weight: 900;
+    padding: 4px 12px;
+    font-size: 14px;
+    border: 2px solid var(--color-ink);
+}
+
+/* THE BOOKMARK */
+.sigil-bookmark {
+    all: unset;
+    position: absolute;
+    top: -20px;
+    right: var(--pad-md);
+    cursor: pointer;
+    background: var(--color-paper);
+    border: 2px solid var(--color-ink);
+    padding: 2px 8px;
+    font-size: 16px;
+    transition: transform 0.1s;
+}
+
+.sigil-bookmark:hover {
+    transform: scale(1.2) rotate(10deg);
+    background: var(--color-gold);
+}
+
+/* THE PARAGRAPH SPARK */
+.paragraph-unit {
+    font-family: var(--font-script);
+    font-size: var(--post-text-size);
+    line-height: 1.65;
+    margin-bottom: var(--pad-md);
+    color: var(--color-ink);
+}
+
+.paragraph-unit:last-child {
+    margin-bottom: 0;
+}
+
+.heb-text {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: calc(var(--post-text-size) * 1.1);
+    text-align: right;
+}
+
+.rubrication-bold {
+    color: var(--color-rubric);
+    font-weight: 800;
+}

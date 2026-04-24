@@ -1,0 +1,30 @@
+
+/* B"H
+   THE VIBRATION OF LETTERS
+   "Forever, Lord, Your Word stands in the heavens."
+*/
+
+:root {
+    /* --- Fonts --- */
+    --font-heading: 'Syne', sans-serif;
+    --font-manuscript: 'Cardo', 'Crimson Pro', serif;
+    --font-ui: 'Space Grotesk', monospace;
+    --font-sacred: 'Frank Ruhl Libre', serif;
+
+    /* --- Fluid Scales --- */
+    --size-h1: clamp(2.5rem, 10vw, 6rem);
+    --size-h2: clamp(1.8rem, 6vw, 4rem);
+    --size-h3: clamp(1.2rem, 4vw, 2.5rem);
+    --size-body: clamp(1rem, 2.5vw, 1.75rem);
+    --size-ui: 0.85rem;
+
+    /* --- Spacing --- */
+    --line-height-sacred: 1.7;
+    --letter-spacing-brutalist: -0.02em;
+}
+
+[data-lang="heb"] {
+    font-family: var(--font-sacred) !important;
+    line-height: var(--line-height-sacred);
+    direction: rtl;
+}

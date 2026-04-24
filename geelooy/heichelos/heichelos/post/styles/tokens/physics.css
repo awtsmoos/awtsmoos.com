@@ -1,0 +1,30 @@
+
+/* B"H
+   THE PHYSICS OF THE CHAYOT
+   "And the living creatures ran and returned."
+*/
+
+:root {
+    /* Transitions */
+    --ease-snap: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    
+    --time-fast: 0.15s;
+    --time-std: 0.3s;
+    --time-slow: 0.6s;
+
+    /* Mobile First Breakpoints */
+    --mobile-width: 480px;
+    --tablet-width: 900px;
+    --desktop-width: 1400px;
+}
+
+.animate-ink {
+    animation: fadeInBlur var(--time-slow) var(--ease-smooth) forwards;
+}
+
+@keyframes fadeInBlur {
+    from { opacity: 0; filter: blur(10px); transform: translateY(20px); }
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}

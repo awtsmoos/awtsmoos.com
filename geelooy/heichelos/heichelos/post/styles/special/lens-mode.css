@@ -1,0 +1,36 @@
+
+/* B"H
+   THE SCRIBE'S LENS (FOCUS MODE)
+   "Concentrate the mind upon the one thing."
+*/
+
+#scribeLensOverlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    background: radial-gradient(
+        circle 40vh at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        transparent 0%,
+        rgba(0,0,0,0.4) 40%,
+        rgba(0,0,0,0.92) 100%
+    );
+}
+
+.focus-mode-active #scribeLensOverlay {
+    opacity: 1;
+}
+
+/* Brighten active content in Lens Mode */
+.focus-mode-active .section-vessel.active-reading-section {
+    z-index: 9999;
+    position: relative;
+    filter: drop-shadow(0 0 30px white);
+}
+
+.focus-mode-active .scroll-view-wrapper {
+    overflow: hidden; /* Lock scroll during deep focus? Optional. */
+}
