@@ -3,15 +3,18 @@
 /**
  * @file splice.js
  * @description
- *  The Archangel of the Splice, now imbued with the Wisdom of the Fast-Append.
- *  It recognizes when a "splice" is merely a simple `push` and uses a 
- *  lightning-fast in-place memory copy instead of a full array deconstruction.
+ *  =============================================================================
+ *  CHAPTER 8: THE ARCHANGEL OF THE SPLICE (NO BYTE-MATH REQUIRED)
+ *  =============================================================================
+ *  By elevating `SequenceNode` to parse directly into a JavaScript array of 
+ *  `node.items`, the Splice Archangel no longer performs dangerous byte 
+ *  arithmetic. It simply uses standard array manipulation, leaving the 
+ *  serialization complexity purely to the Scribe (`SequenceNode.save`).
  */
 
 const utils = require('./utils.js');
 const SpliceInternalOps = require('./spliceInternal.js');
 const constants = require('../../../constants.js');
-const Logger = require('../../../utils/centralLogger.js');
 
 class SpliceOps {
     constructor(sequence) {
@@ -33,8 +36,8 @@ class SpliceOps {
         
         if (!root) {
             if (s === 0 && d === 0 && insertItems.length === 0) return { newPtr: this.seq.ptr };
-            this.seq.create();
-            root = this.nodeIO.load(this.seq.ptr);
+            root = this.nodeIO.create(true);
+            this.seq.ptr = this.nodeIO.save(root);
         }
 
         const res = this._spliceRecursive(root, s, d, insertItems);
@@ -58,86 +61,42 @@ class SpliceOps {
     _spliceLeaf(node, start, deleteCount, newItems) {
         const MAX_LEAF = 200;
 
-        // B"H: THE WISDOM OF THE FAST-APPEND
-        // If this is a pure append operation, and there is space, bypass all array logic.
-        if (start === node.itemCount && deleteCount === 0) {
-            const spaceLeft = MAX_LEAF - node.itemCount;
-            if (newItems.length <= spaceLeft) {
-                // Append in-place! No JS array reconstruction.
-                this._pourIntoLeaf(node, newItems, node.itemCount);
-                const newPtr = this.nodeIO.save(node);
-                return { newPtr, splitNodes: null };
-            }
-        }
-        
-        // Fallback to robust-but-slower method for complex splices and overflows
-        const ptrs = [];
-        
-        for(let i=0; i<node.itemCount; i++) {
-            const off = 23 + (i * 16);
-            if (off + 16 > node.buffer.length) break;
-            const p = Buffer.allocUnsafe(16);
-            node.buffer.copy(p, 0, off, off + 16);
-            ptrs.push(p);
-        }
-
-        ptrs.splice(start, deleteCount, ...newItems);
+        // Directly manipulate the items array! No byte arithmetic!
+        const itemsToInsert = newItems.map(p => ({ ptr: p, count: 1 }));
+        node.items.splice(start, deleteCount, ...itemsToInsert);
         
         const splitNodes = [];
         let currentNode = node;
         
-        if (ptrs.length > MAX_LEAF) {
-             const all = [...ptrs];
-             const keep = all.splice(0, MAX_LEAF);
-             this._pourIntoLeaf(currentNode, keep);
+        if (currentNode.items.length > MAX_LEAF) {
+             const all = [...currentNode.items];
+             currentNode.items = all.splice(0, MAX_LEAF);
+             this._recalcNodeStats(currentNode);
              const newPtr = this.nodeIO.save(currentNode);
              
              while(all.length > 0) {
                  const chunk = all.splice(0, MAX_LEAF);
                  const nextNode = this.nodeIO.create(true, currentNode.isWeak);
-                 this._pourIntoLeaf(nextNode, chunk);
+                 nextNode.items = chunk;
+                 this._recalcNodeStats(nextNode);
                  this.nodeIO.save(nextNode);
                  splitNodes.push(nextNode);
              }
              return { newPtr, splitNodes };
              
         } else {
-             this._pourIntoLeaf(currentNode, ptrs);
+             this._recalcNodeStats(currentNode);
              const newPtr = this.nodeIO.save(currentNode);
              return { newPtr, splitNodes: null };
         }
     }
 
-    /**
-     * @method _pourIntoLeaf
-     * @description
-     *  Breathes an array of pointers into the physical buffer of a leaf node.
-     *  Now accepts a startIndex for O(1) appends.
-     * 
-     * @param {object} leafNode The target vessel.
-     * @param {Array<Buffer>} ptrArray The sparks to be inscribed.
-     * @param {number} startIndex The unit index to begin writing from.
-     */
-    _pourIntoLeaf(leafNode, ptrArray, startIndex = 0) {
-        const finalItemCount = startIndex + ptrArray.length;
-        leafNode.itemCount = finalItemCount;
-        leafNode.totalCount = finalItemCount;
-        
-        if (startIndex === 0) {
-            leafNode.totalBytes = 0;
-        }
-
-        const req = 23 + (finalItemCount * 16);
-        if (!leafNode.buffer || leafNode.buffer.length < req) {
-            // This case should be handled by the allocator logic in save(), but as a fallback:
-            const oldBuf = leafNode.buffer;
-            leafNode.buffer = Buffer.allocUnsafe(req).fill(0);
-            if (oldBuf) oldBuf.copy(leafNode.buffer);
-        }
-
-        for(let i=0; i<ptrArray.length; i++) {
-             ptrArray[i].copy(leafNode.buffer, 23 + ((startIndex + i) * 16));
-             leafNode.totalBytes += utils.getPtrSize(ptrArray[i]);
+    _recalcNodeStats(node) {
+        node.totalCount = 0;
+        node.totalBytes = 0;
+        for (const item of node.items) {
+            node.totalCount += item.count;
+            node.totalBytes += utils.getPtrSize(item.ptr);
         }
     }
 }

@@ -16,8 +16,13 @@ class SequenceEngine {
         this.v1 = allocator?.v1 || allocator;
         this.db = this.v1?.db || (allocator?.db ? allocator.db : null);
 
-        if (Buffer.isBuffer(ptr) && ptr.length === 16) {
-            this.ptr = SmartPointer.resolve(ptr, this.allocator);
+        if (Buffer.isBuffer(ptr)) {
+            const dec = SmartPointer.decode(ptr);
+            if (dec) {
+                this.ptr = { isStructure: true, type: dec.type, offset: dec.offset, length: dec.length, ptr };
+            } else {
+                this.ptr = ptr || null;
+            }
         } else {
             this.ptr = ptr || null;
         }
@@ -28,13 +33,12 @@ class SequenceEngine {
 
     create() {
         const root = this.nodeIO.create(true);
-        this.ptr = root.ptr; 
-        this.nodeIO.save(root);
-        return SmartPointer.block(constants.VAL_TYPE.SEQUENCE, this.ptr.blockId, this.ptr.length, !!this.ptr.isChain, this.ptr.offset);
+        this.ptr = this.nodeIO.save(root);
+        return SmartPointer.toBuffer(this.ptr);
     }
 
     length() {
-        if (!this.ptr || this.ptr.blockId === 0) return 0;
+        if (!this.ptr || this.ptr.offset === undefined) return 0;
         const n = this.nodeIO.load(this.ptr);
         return n ? n.totalCount : 0;
     }
@@ -54,27 +58,24 @@ class SequenceEngine {
         let curAddr = this.ptr;
         let localIdx = index;
         
-        while (curAddr && curAddr.blockId !== 0) {
+        while (curAddr && curAddr.offset !== undefined) {
             const n = this.nodeIO.load(curAddr);
             if (!n || localIdx >= n.totalCount) return undefined;
 
             if (n.isLeaf) {
-                if (localIdx >= n.itemCount) return undefined;
-                const p = Buffer.allocUnsafe(16);
-                n.buffer.copy(p, 0, 23 + (localIdx * 16), 39 + (localIdx * 16));
-                return p;
+                if (localIdx >= n.items.length) return undefined;
+                return n.items[localIdx].ptr;
             }
             
-            let off = 23; 
             let found = false;
-            for(let i=0; i<n.itemCount; i++) {
-                const count = n.buffer.readUInt32BE(off + 16);
+            for(let i=0; i<n.items.length; i++) {
+                const count = n.items[i].count;
                 if (localIdx < count) { 
-                    const childSeal = n.buffer.subarray(off, off + 16);
+                    const childSeal = n.items[i].ptr;
                     curAddr = SmartPointer.resolve(childSeal, this.allocator);
                     found = true; break; 
                 }
-                localIdx -= count; off += 20;
+                localIdx -= count;
             }
             if (!found) return undefined;
         }

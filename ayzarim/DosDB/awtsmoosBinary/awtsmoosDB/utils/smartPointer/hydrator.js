@@ -2,56 +2,57 @@
 // B"H
 /**
  * @file hydrator.js
- * @description Bridges the physical world of blocks back into the ethereal world of JS.
+ * @description 
+ *  Bridges the physical world of exact-byte VarInts back into the ethereal world of JS.
+ * 
+ *  THE TIKKUN OF THE PURE CODEC:
+ *  We have utterly purged the dark legacy of `ptr.payload` and `ptr.mode`. 
+ *  The True Light has no modes. It simply has an offset and a length!
+ *  This resolves the catastrophic 'Cannot read properties of undefined' crashes
+ *  and establishes absolute harmony with the Pager.
  */
+
 const constants = require('../../constants.js');
-const { readPointer48 } = require('../binaryHelpers.js');
 const codec = require('./codec.js');
-const decodeInline = require('./hydrator/inline.js');
 const decodeValue = require('./hydrator/value.js');
 
 module.exports = {
-    resolve(ptrBuf, allocator) {
-        const ptr = codec.decode(ptrBuf);
+    resolve(ptrBuf, allocator, context) {
+        if (!ptrBuf || ptrBuf.length === 0) return undefined;
+        
+        const ptr = codec.decode(ptrBuf, 0);
         if (!ptr) return undefined;
 
-        if (ptr.mode === constants.MODE_INLINE) {
-            return decodeInline(ptr.type, ptr.payload, allocator);
+        const type = ptr.type;
+        const T = constants.VAL_TYPE;
+
+        // B"H: Structure Tagging. Recognize native JS containers as distinct entities 
+        // to be handled by the Structural Hydrator, preserving their exact physical coordinates.
+        const isContainer = (
+            type === T.SEQUENCE || type === T.MAP || type === T.DICTIONARY ||
+            type === T.SET || type === T.OBJECT || type === T.ARRAY || type === T.JSON ||
+            type === T.JS_MAP || type === T.JS_SET || 
+            type === T.SMART_OBJECT || type === T.SMART_ARRAY
+        );
+
+        if (isContainer) {
+            return { 
+                isStructure: true, 
+                type: ptr.type, 
+                offset: ptr.offset, 
+                length: ptr.length, 
+                ptr: ptrBuf 
+            };
         }
 
-        const blockId = readPointer48(ptr.payload, 0);
-        const isChain = (ptr.mode === constants.MODE_BLOCK) && ptr.payload.readUInt8(14) === 1;
-        const length = (ptr.mode === constants.MODE_BLOCK) ? ptr.payload.readUInt32BE(6) : ptr.payload.readUInt32BE(10);
-        const offset = (ptr.mode === constants.MODE_BLOCK) ? ptr.payload.readUInt32BE(10) : ptr.payload.readUInt32BE(6);
-
-        if (ptr.mode === constants.MODE_BLOCK && (
-            ptr.type === constants.VAL_TYPE.SEQUENCE || 
-            ptr.type === constants.VAL_TYPE.MAP || 
-            ptr.type === constants.VAL_TYPE.DICTIONARY ||
-            ptr.type === constants.VAL_TYPE.SET ||
-            ptr.type === constants.VAL_TYPE.ARRAY ||
-            ptr.type === constants.VAL_TYPE.OBJECT
-        )) {
-            return { isStructure: true, type: ptr.type, blockId, length, offset, isChain };
-        }
-
+        // B"H: Direct Exact-Byte Reading
+        // The Light has no fragmentation. We look directly into the Pager's Universe.
         const db = allocator.v1 ? allocator.v1.db : allocator.db;
-        let raw = null;
-        
-        if (ptr.mode === constants.MODE_HEAP) {
-             let block = allocator.heap ? allocator.heap.readBlock(blockId) : null;
-             if (!block) {
-                 const v1 = allocator.v1 || allocator;
-                 block = v1.readBlockLocked(blockId, true);
-             }
-             if (block && offset + length <= block.length) {
-                 raw = block.subarray(offset, offset + length);
-             }
-        } else {
-             raw = require('../../core/db/io.js').readChainSafe(db, { blockId, length, isChain, offset });
-        }
+        const raw = db.pager.readExact(ptr.offset, ptr.length);
 
         if (!raw) return undefined;
-        return decodeValue(ptr.type, raw, allocator);
+        
+        // Pass the raw essence to the Master Hydrator
+        return decodeValue(ptr.type, raw, allocator, context);
     }
 };

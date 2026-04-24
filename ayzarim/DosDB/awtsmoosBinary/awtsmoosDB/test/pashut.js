@@ -1,5 +1,9 @@
+
 // B"H
-// Simple Test with Logging Enabled
+/**
+ * @file pashut.js
+ * @description The simplest proof of existence, now operating at the speed of Light (Sync).
+ */
 const AwtsmoosDB = require('../index.js');
 const Pager = require('../core/pager.js');
 const path = require('path');
@@ -7,73 +11,66 @@ const fs = require('fs');
 
 const DB_PATH = path.join(__dirname, 'simple_test.db');
 
-async function runTest() {
+function runTest() {
     console.log("B\"H - Starting Simple Test...\n");
 
-    // Clean up previous run
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
 
-    // --- SANITY CHECK ---
     console.log("[Test] Running Disk I/O Sanity Check...");
     const pager = new Pager(DB_PATH);
-    await pager.init();
+    pager.init();
     
     const testBuf = Buffer.alloc(4096);
     testBuf.write("SANITY_CHECK_DATA", 0);
     
-    // Write Block 5
-    await pager.writeBlock(5, testBuf); 
+    // B"H: The Exact-Byte Pager knows no blocks, only coordinates.
+    pager.writeExact(5 * 4096, testBuf); 
+    pager.fsync(true); 
     
-    // Check Physical File Size
     const stats = fs.statSync(DB_PATH);
-    console.log(`[Test] File Size after Write: ${stats.size} bytes (Expected >= 24576)`);
+    console.log(`[Test] File Size after Write: ${stats.size} bytes`);
     
-    // Read Block 5
-    const readBuf = await pager.readBlock(5);
+    const readBuf = pager.readExact(5 * 4096, 4096);
     
     if (!readBuf) {
-        console.error("❌ SANITY CHECK FAILED: readBlock(5) returned null.");
-        await pager.close();
-        return;
+        console.error("❌ SANITY CHECK FAILED: readExact returned null.");
+        pager.close();
+        process.exit(1);
     }
 
     const readStr = readBuf.subarray(0, 17).toString();
     if (readStr !== "SANITY_CHECK_DATA") {
         console.error(`❌ SANITY CHECK FAILED: Data mismatch. Got '${readStr}'`);
-        await pager.close();
-        return;
+        pager.close();
+        process.exit(1);
     }
     console.log("✅ Sanity Check Passed. Disk I/O working.\n");
-    await pager.close();
-    // ---------------------
+    pager.close();
 
-    // Initialize with VERBOSE logging
     const db = new AwtsmoosDB(DB_PATH, { verbose: true });
     
     try {
-        await db.open();
-
+        db.open();
         console.log("\n--- STEP 1: SET ---");
-        await db.set("test_key", "Hello Awtsmoos");
+        db.root.test_key = "Hello Awtsmoos";
 
         console.log("\n--- STEP 2: GET ---");
-        const val = await db.get("test_key");
+        const val = db.root.test_key;
 
         console.log("\n--- RESULT ---");
         if (val === "Hello Awtsmoos") {
             console.log("✅ SUCCESS: Retrieved correct value.");
         } else {
             console.error(`❌ FAILURE: Expected 'Hello Awtsmoos', got '${val}'`);
+            process.exit(1);
         }
 
     } catch (err) {
         console.error("❌ CRITICAL ERROR:", err);
+        process.exit(1);
     } finally {
-        await db.close();
-        // Cleanup
-       // if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
-       // if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
+        db.close();
     }
 }
 

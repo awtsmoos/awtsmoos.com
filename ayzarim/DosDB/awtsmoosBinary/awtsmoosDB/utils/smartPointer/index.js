@@ -6,118 +6,121 @@
  *  =============================================================================
  *  CHAPTER 0: THE SEFIRAH OF KETER (THE CROWN AND ABSOLUTE IDENTITY)
  *  =============================================================================
- *  The SmartPointer is the 16-byte seal of existence. It contains the type, 
- *  the mode of storage, and the absolute physical coordinate of every spark 
- *  in the Awtsmoos database.
+ *  The SmartPointer is the seal of existence. It contains the type and 
+ *  absolute physical coordinate of every spark in the Awtsmoos database.
+ * 
+ *  "And He called them by their names..."
+ *  The Navigator demands to know the Name (Type) of the vessel before entering it.
+ *  We hereby restore the `getType` revelation.
  */
 
 const codec = require('./codec.js');
-const constants = require('../../constants.js');
-const { readPointer48, writePointer48 } = require('../binaryHelpers.js');
-const hydrateInlineSync = require('./hydrator/inline.js');
-const PayloadBuilder = require('./payload.js');
-const IO = require('../../core/db/io.js');
 const hydrateValueSync = require('./hydrator/value.js');
+const constants = require('../../constants.js');
 
 const SmartPointer = {
-    encode(type, mode, payload) { 
-        return codec.encode(type, mode, payload); 
+    /**
+     * @method encode
+     * @description Delegates to the VarInt Codec.
+     */
+    encode(type, offset, length) { 
+        return codec.encode(type, offset, length); 
     },
 
-    decode(buf) { 
-        if (!buf || buf.length !== 16) return null; 
-        return codec.decode(buf); 
+    /**
+     * @method decode
+     * @description Expands the VarInt pointer.
+     */
+    decode(buf, start = 0) { 
+        return codec.decode(buf, start); 
     },
 
-    getType(buf) { 
-        return (buf && buf.length > 0) ? buf[0] & 0x3F : 0; 
+    /**
+     * @method readSize
+     * @description Returns the microscopic footprint of the pointer.
+     */
+    readSize(buf, start = 0) {
+        return codec.readSize(buf, start);
     },
 
+    /**
+     * @method getType
+     * @description 
+     *  Instantly reveals the Divine Type of the pointer by peeking at the seal.
+     *  Restores harmony to the Navigator.
+     */
+    getType(buf, start = 0) {
+        if (!buf || buf.length <= start) return 0;
+        const dec = codec.decode(buf, start);
+        return dec ? dec.type : 0;
+    },
+
+    /**
+     * @method block
+     * @description Legacy bridge for backwards compatibility. Offset IS the absolute location.
+     */
     block(type, blockId, length = 0, isChain = false, offset = 0) {
-        const payload = Buffer.allocUnsafe(15);
-        writePointer48(payload, blockId, 0);
-        payload.writeUInt32BE(length, 6);
-        payload.writeUInt32BE(offset, 10);
-        payload.writeUInt8(isChain ? 1 : 0, 14);
-        return this.encode(type, constants.MODE_BLOCK, payload);
+        const absoluteOffset = offset || blockId || 0; 
+        return this.encode(type, absoluteOffset, length);
     },
 
+    /**
+     * @method heap
+     * @description Legacy bridge for the Nullified Heap. Maps to standard encode.
+     */
     heap(type, blockId, offset, length) {
-        const payload = Buffer.allocUnsafe(15);
-        writePointer48(payload, blockId, 0);
-        payload.writeUInt32BE(offset, 6);
-        payload.writeUInt32BE(length, 10);
-        return this.encode(type, constants.MODE_HEAP, payload);
+        const absoluteOffset = offset || blockId || 0;
+        return this.encode(type, absoluteOffset, length);
     },
 
+    /**
+     * @method toBuffer
+     * @description Ensures a pointer is always a raw binary buffer.
+     */
     toBuffer(ptr) {
-        if (!ptr) return Buffer.alloc(16).fill(0);
-        if (Buffer.isBuffer(ptr)) return (ptr.length === 16) ? ptr : Buffer.alloc(16).fill(0);
-
-        if (typeof ptr === 'object') {
-            const mode = ptr.mode !== undefined ? ptr.mode : (ptr.blockId !== undefined ? constants.MODE_BLOCK : constants.MODE_INLINE);
-            const type = ptr.type !== undefined ? ptr.type : 0;
-            const payload = PayloadBuilder.createPayload(ptr, mode);
-            return this.encode(type, mode, payload);
-        }
-        return Buffer.alloc(16).fill(0);
-    },
-
-    decodeInline(type, payload, allocator) {
-        return hydrateInlineSync(type, payload, allocator);
+        if (!ptr) return Buffer.alloc(0);
+        if (Buffer.isBuffer(ptr)) return ptr;
+        return this.encode(ptr.type || 0, ptr.offset || 0, ptr.length || 0);
     },
 
     /**
      * @method resolve
-     * @description Bridges the physical blocks back into JS.
+     * @description 
+     *  Bridges the physical bytes back into JS logic. 
+     *  Uses the Pager's exact-byte reading to instantly manifest the vessel.
      */
     resolve(ptrBuf, allocator, context) {
-        if (!ptrBuf || ptrBuf.length !== 16) return undefined;
+        if (!ptrBuf || ptrBuf.length === 0) return undefined;
         
-        const ptr = codec.decode(ptrBuf);
+        const ptr = codec.decode(ptrBuf, 0);
         if (!ptr) return undefined;
 
         const type = ptr.type;
-        const mode = ptr.mode;
-
-        if (mode === constants.MODE_INLINE) {
-            return hydrateInlineSync(type, ptr.payload, allocator);
-        }
-
-        const blockId = readPointer48(ptr.payload, 0);
-        const length = (mode === constants.MODE_BLOCK) ? ptr.payload.readUInt32BE(6) : ptr.payload.readUInt32BE(10);
-        const offset = (mode === constants.MODE_BLOCK) ? ptr.payload.readUInt32BE(10) : ptr.payload.readUInt32BE(6);
-        const isChain = (mode === constants.MODE_BLOCK) && ptr.payload.readUInt8(14) === 1;
-
         const T = constants.VAL_TYPE;
-        
-        // B"H: The Tikkun of Containers. We must recognize native JS Sets and Maps 
-        // as true physical vessels so they are passed to the Structural Hydrator 
-        // rather than the primitive binary reader.
+
         const isContainer = (
             type === T.SEQUENCE || type === T.MAP || type === T.DICTIONARY ||
             type === T.SET || type === T.OBJECT || type === T.ARRAY || type === T.JSON ||
-            type === T.JS_MAP || type === T.JS_SET
+            type === T.JS_MAP || type === T.JS_SET || 
+            type === T.SMART_OBJECT || type === T.SMART_ARRAY
         );
 
-        if (mode === constants.MODE_BLOCK && isContainer) {
-            return { isStructure: true, type: type, blockId, length, offset, isChain, ptr: ptrBuf };
+        if (isContainer) {
+            return { 
+                isStructure: true, 
+                type: ptr.type, 
+                offset: ptr.offset, 
+                length: ptr.length, 
+                ptr: ptrBuf 
+            };
         }
 
-        const db = (allocator.v1 ? allocator.v1.db : allocator.db);
-        let raw = null;
-
-        if (mode === constants.MODE_HEAP) {
-             let block = allocator.heap ? allocator.heap.readBlock(blockId) : null;
-             if (!block) block = (allocator.v1 || allocator).readBlockLocked(blockId, true);
-             if (block && offset + length <= block.length) raw = block.subarray(offset, offset + length);
-        } else {
-             raw = IO.readChainSafe(db, { blockId, length, isChain, offset });
-        }
+        const db = allocator.v1 ? allocator.v1.db : allocator.db;
+        const raw = db.pager.readExact(ptr.offset, ptr.length);
 
         if (!raw) return undefined;
-        // B"H: Propagation of context to the hydrator
-        return hydrateValueSync(type, raw, allocator, context);
+        
+        return hydrateValueSync(ptr.type, raw, allocator, context);
     }
 };
 
