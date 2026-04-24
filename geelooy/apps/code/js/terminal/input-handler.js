@@ -20,7 +20,6 @@ export class TerminalInputHandler {
     }
 
     bindEvents() {
-        // B"H - Rectified: Use a direct and robust reference to the container.
         if (this.shell.container) {
             this.shell.container.onclick = () => {
                 if (this.inputEl) {
@@ -35,6 +34,13 @@ export class TerminalInputHandler {
         }
 
         this.inputEl.onkeydown = async (e) => {
+            // B"H - IMPROVEMENT 1: The Cleansed Mind Ritual (Ctrl+L)
+            if (e.key === 'l' && e.ctrlKey) {
+                e.preventDefault();
+                this.shell.clearScreen();
+                return;
+            }
+
             if (e.key === 'Enter') {
                 e.preventDefault();
                 const cmd = this.inputEl.value.trim();

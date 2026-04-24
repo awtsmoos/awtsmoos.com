@@ -56,16 +56,22 @@ export class TerminalUI {
             <div class="terminal-history-header">
                 <span class="terminal-history-path">${path}</span>
                 <span class="terminal-prompt-char">$</span>
-                <span class="terminal-history-cmd">${cmd}</span>
+                <span class="terminal-history-cmd">${this.escapeHTML(cmd)}</span>
             </div>`;
         this.outputEl.appendChild(div);
         this.scrollToBottom();
     }
     
+    escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag] || tag));
+    }
+
     appendLine(text, className) {
         const div = document.createElement('div');
         div.className = `terminal-line ${className || ''}`;
-        div.innerHTML = text;
+        div.innerHTML = this.escapeHTML(text);
         this.outputEl.appendChild(div);
         this.scrollToBottom();
     }

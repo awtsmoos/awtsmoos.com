@@ -2,15 +2,17 @@
 // B"H
 /**
  * @file block-extractor.js
- * @brief The Sieve of Truth.
+ * @brief The Sieve of Truth and Healer of Fractured Utterances.
  * 
- * THE POEM OF THE EXTRACTOR:
- * Out of the noise, the raw block appears,
- * Wrapped in the markers, devoid of all fears.
- * We substitute CDATA to shield the raw byte,
- * Then parse it as XML, pulling the light.
- * If the operation is vague, if the intent is lost,
- * We assume it's a write, ignoring the cost.
+ * THE POEM OF THE BROKEN VESSEL:
+ * Sometimes the light is too bright for the frame,
+ * And the AI forgets to finish its name!
+ * The closing tag drops in the void of the night,
+ * Leaving the XML broken, denying the light.
+ * But we are the healers, the masters of glue,
+ * If the tag is missing, we forge it anew!
+ * We append the closing brackets, we seal the tear,
+ * And harvest the code that was lingering there.
  */
 
 import { MARKERS } from './constants.js';
@@ -19,7 +21,7 @@ import { PathNormalizer } from './path-normalizer.js';
 export const BlockExtractor = {
     /**
      * @function extract
-     * @description Parses text blocks into structured change objects.
+     * @description Parses text blocks into structured change objects, auto-healing broken tags.
      * @param {string} text - The raw AI response.
      * @param {string} sessionRootPath - The anchor path.
      * @returns {Array<Object>} The structured changes.
@@ -27,10 +29,22 @@ export const BlockExtractor = {
     extract(text, sessionRootPath) {
         if (!text) return [];
         
-        // Transfigure Hebrew markers to standard CDATA to shield internal code containing < and >
+        // Transfigure Hebrew markers to standard CDATA
         const oC = "<!" + "[C" + "DATA[";
         const cC = "]" + "]" + ">";
-        const xmlReady = text.split(MARKERS.START).join(oC).split(MARKERS.END).join(cC);
+        
+        // B"H - Auto-Healer Phase 1: Close unclosed content tags
+        let healedText = text;
+        const openMatches = [...healedText.matchAll(new RegExp(MARKERS.TAG_START, 'g'))];
+        const closeMatches = [...healedText.matchAll(new RegExp(MARKERS.TAG_END, 'g'))];
+        
+        if (openMatches.length > closeMatches.length) {
+            console.log(`[BlockExtractor] B"H - Fractured vessel detected. Healing ${openMatches.length - closeMatches.length} missing closures.`);
+            // If there's an open change without a close, append the closing tags.
+            healedText += `\n${MARKERS.END}${MARKERS.CONTENT_END}\n${MARKERS.TAG_END}`;
+        }
+
+        const xmlReady = healedText.split(MARKERS.START).join(oC).split(MARKERS.END).join(cC);
 
         const changes = [];
         let lastIdx = 0;
@@ -56,8 +70,6 @@ export const BlockExtractor = {
                 const description = node.querySelector(MARKERS.DESC_NAME)?.textContent?.trim() || "";
                 const content = node.querySelector(MARKERS.CONTENT_NAME)?.textContent || "";
 
-                // B"H - The Grace of Interpretation
-                // If the operation hallucinates (e.g. "update", "modify"), force it to 'write' if content exists.
                 if (operation !== 'write' && operation !== 'delete') {
                     operation = content.trim().length > 0 ? 'write' : 'write';
                 }

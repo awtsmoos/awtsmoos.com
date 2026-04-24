@@ -1,4 +1,3 @@
-
 // B"H
 import { PR } from './parser/constants.js';
 import { ResponseParser } from './ResponseParser.js';
@@ -7,6 +6,7 @@ import { ExternalActions } from './external/actions.js';
 import { ExternalLogic } from './external/logic.js';
 import { ExternalPreview } from './external/preview.js';
 import promptData from "./promptData.js";
+
 export const ExternalManifest = {
     getPrompt() {
         const { S, E, tO, tC, fO, fC, oO, oC, cO, cC } = PR;
@@ -15,14 +15,9 @@ Wrap changes in this format:\n${tO}\n  ${fO}file.js${fC}\n  ${oO}write${oC}\n  $
     },
 
     injectUI(container, tab, rootItem) {
-        if (!container) {
-            console.error(`[ExternalManifest] B"H - Target container is null!`);
-            return;
-        }
+        if (!container) return;
         
-        console.log(`[ExternalManifest] B"H - Injecting into:`, container);
         container.innerHTML = ExternalLayout.getHTML(this.getPrompt());
-        
         const input = container.querySelector('#em-xml-input');
         const goBtn = container.querySelector('#em-manifest-btn');
 
@@ -37,8 +32,6 @@ Wrap changes in this format:\n${tO}\n  ${fO}file.js${fC}\n  ${oO}write${oC}\n  $
             };
 
             goBtn.onclick = () => ExternalLogic.manifest(tab, rootItem, input);
-        } else {
-            console.error(`[ExternalManifest] B"H - Failed to find required internal elements after injection.`);
         }
     }
 };

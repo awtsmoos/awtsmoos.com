@@ -16,12 +16,14 @@ export const ASTSummary = {
             const traverse = (node) => {
                 if (!node || typeof node !== 'object') return;
                 
-                if (node.end < offset - 100 && node.type !== 'Program') return; 
-                if (node.start > offset + 100 && node.type !== 'Program') return;
+                // PERFORMANCE GUARD: Skip nodes far away from current offset
+                if (node.end < offset - 500 && node.type !== 'Program') return; 
+                if (node.start > offset + 500 && node.type !== 'Program') return;
 
                 let targetRange = null;
                 let targetNode = node;
 
+                // Handle Declarations and Methods
                 if (node.type === 'FunctionDeclaration' || node.type === 'ClassDeclaration') {
                     if (node.id) targetRange = node.id;
                 } 
@@ -29,7 +31,7 @@ export const ASTSummary = {
                     if (node.key) targetRange = node.key;
                 } 
                 else if (node.type === 'VariableDeclarator') {
-                    if (node.init && (node.init.type === 'FunctionExpression' || node.init.type === 'ArrowFunctionExpression')) {
+                    if (node.init && (node.init.type.includes('Function'))) {
                         if (node.id) targetRange = node.id;
                     }
                 }
@@ -52,9 +54,10 @@ export const ASTSummary = {
             traverse(ast);
             
             if (bestMatch) {
+                const line = (code.substring(0, bestMatch.start).match(/\n/g) || []).length + 1;
                 return {
                     type: 'function',
-                    summary: this._formatNodeSummary(bestMatch),
+                    summary: `${this._formatNodeSummary(bestMatch)} (Line ${line})`,
                     signature: this._extractSignature(bestMatch),
                     docs: ASTDocs.extractDocs(code, bestMatch)
                 };
@@ -75,7 +78,7 @@ export const ASTSummary = {
             else if (node.kind === 'set') type = 'Setter';
             else type = 'Method';
         }
-        const funcNode = (node.value && (node.value.type === 'FunctionExpression' || node.value.type === 'ArrowFunctionExpression')) 
+        const funcNode = (node.value && (node.value.type.includes('Function'))) 
             ? node.value 
             : (node.init ? node.init : node);
         if (funcNode?.async) type = 'Async ' + type;

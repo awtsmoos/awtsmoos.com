@@ -8,7 +8,7 @@ import { VibeView } from '../vibe-view.js';
 import { LogicController } from './logic.js';
 import { VibeDB } from '../db.js';
 import { Workspaces } from '../../workspaces/index.js';
-import { ChatUI } from '../view/chat-ui.js';
+import { ChatHistory } from '../view/chat/history.js';
 import { UI } from '../../ui.js';
 
 export const VibeMessenger = {
@@ -23,6 +23,9 @@ export const VibeMessenger = {
         await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
         
         VibeView.render(tab, controller);
+        
+        // B"H - Auto-calculate token cost of the new reality
+        controller.updateTokenCount(tab);
 
         try {
             await LogicController.runIteration(tab, controller);
@@ -36,6 +39,6 @@ export const VibeMessenger = {
     handleStreamChunk(content, tab, controller) {
         const hist = document.getElementById('vibe-chat-history');
         if (!hist) return;
-        ChatUI.updateLastMessage(hist, content, tab, controller);
+        ChatHistory.updateLastMessage(hist, content, tab, controller);
     }
 };
