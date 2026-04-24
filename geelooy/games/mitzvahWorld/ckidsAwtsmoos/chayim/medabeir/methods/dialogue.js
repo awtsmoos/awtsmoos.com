@@ -1,23 +1,24 @@
-//B"H
 /**
- * Dialogue Methods - The art of speech and interaction for sentient beings.
- * Purified of experimental AI-Connect hooks to ensure stability.
+ * B"H
+ * @file dialogue.js
+ * Handles the logic for conversation trees, response selection, and dynamic tree generation.
+ * This is a MIXIN for the Medabeir entity, NOT the Dialogue UI handler.
  */
 import Utils from "../../../utils.js";
 
 export default {
-    /**
-     * B"H: Resolves the current message tree.
-     */
     handleDialogue() {
         if (!this.dialogue) return;
+        
         var sh = this.dialogue.shlichuseem;
         var def = this.dialogue.default;
         
         this.messageTree = () => {
             if(!sh) return def;
+            
             var startShlichusID = sh[0];
             if(!startShlichusID) return def;
+            
             var shl = this.olam.ayshPeula("get next shlichus data", startShlichusID)
             if(!shl) return def;
 
@@ -27,6 +28,7 @@ export default {
             if(!d.intro) return def;
             var mid = d.middle;
             if(!mid) return def;
+
             var fin = d.finished;
             if(!fin) return def;
 
@@ -38,8 +40,12 @@ export default {
                 if(!isDone) return d.intro;
                 else return def;
             }
-            if(activeShlichus.completed) return fin;
-            else return mid;
+
+            if(activeShlichus.completed) {
+                return fin;
+            } else {
+                return mid;
+            }
         }
     },
 
@@ -52,6 +58,7 @@ export default {
 
     async toggleToOption(ind) {
         if(isNaN(ind) || ind < 0) return;
+
         var curM = this.currentMessage;
         if(!curM) return null;
         var resp = curM.responses;
@@ -62,6 +69,10 @@ export default {
             if(this.currentSelectedMsgIndex > resp.length - 1) {
                 this.currentSelectedMsgIndex = resp.length - 1;
             }
+            
+            var selected = resp[this.currentSelectedMsgIndex];
+            if(!selected) return null;
+            
             return (this.selectResponse(this.currentSelectedMsgIndex));
         } else {
             await this.selectOption();
@@ -73,8 +84,13 @@ export default {
         if(!curM) return null;
         var resp = curM.responses;
         if(!resp) return null;
+
         this.currentSelectedMsgIndex++;
         this.currentSelectedMsgIndex %= resp.length;
+        
+        var selected = resp[this.currentSelectedMsgIndex];
+        if(!selected) return null;
+
         return (this.selectResponse(this.currentSelectedMsgIndex));
     },
 
@@ -82,32 +98,85 @@ export default {
         await this.chooseResponse(this.currentSelectedMsgIndex);
     },
 
-    /**
-     * B"H: Handles the logical outcome of a dialogue choice.
-     */
-    async chooseResponse(responseIndex) {
-        if(!this.currentMessage || !this.currentMessage.responses) return;
-        var chosenResponse = this.currentMessage.responses[responseIndex];
-        if (!chosenResponse) return;
+    // Navigate to a specific response based on player choice
+    async changeResponseAndGoToIt({msgIndex=0, message, responses} = {}) {
+        // B"H: CRITICAL FIX for Dynamic Trees
+        // We utilize _tempTree to hold dynamic UI states (like shops) that are not saved to DB
         
+        if (!this._tempTree) {
+            const currentTree = typeof(this._messageTreeFunction) == "function" ? 
+                this._messageTreeFunction(this) : this._messageTree;
+            
+            // B"H: Use CopyObj to preserve functions!
+            this._tempTree = Utils.copyObj(currentTree);
+        }
+
+        var msg = this._tempTree[msgIndex];
+        
+        if(msg) {
+            try {
+                msg.message = message;
+                msg.responses = responses;
+                this.currentSelectedMsgIndex = 0;
+                this.currentMessageIndex = msgIndex;
+                this.ayshPeula("chose");
+                this.selectResponse();
+            } catch(e) {
+                console.log(e);
+            }
+        } else {
+            console.log("Didn't do it")
+        }
+    },
+
+    async chooseResponse(responseIndex) {
+        var me = this;
+        // Defensive check
+        if(!this.currentMessage || !this.currentMessage.responses) return;
+
+        var chosenResponse = this.currentMessage.responses[responseIndex];
+       
+        if (!chosenResponse) return;
+       
         if (chosenResponse.nextMessageIndex !== undefined) {
             this.currentMessageIndex = chosenResponse.nextMessageIndex;
             this.currentSelectedMsgIndex = 0; 
         }
         
         if (chosenResponse.action && typeof chosenResponse.action === 'function') {
-            await chosenResponse.action(this, this.nivraTalkingTo);
+            var keepGoing = await chosenResponse.action(this, this.nivraTalkingTo);
+        }
+
+        if(chosenResponse.changeResponseAndGoToIt) {
+            await this.changeResponseAndGoToIt(chosenResponse.changeResponseAndGoToIt);
         }
 
         if(chosenResponse.close) {
-            this.ayshPeula("close dialogue");
+            var str = chosenResponse.close;
+            if(typeof(str) == "string") {
+                this.ayshPeula("close dialogue", str);
+            }
+            // B"H: Important cleanup for dynamic trees - ensure we revert to main tree next time
+            this._tempTree = null; 
             this.currentMessageIndex = 0;
             this.state = "idle";
         }
 
-        if(chosenResponse.completeShlichus) this.olam.ayshPeula("complete shlichus", chosenResponse.completeShlichus);
-        if(chosenResponse.acceptShlichus) this.olam.ayshPeula("accept shlichus", chosenResponse.acceptShlichus, this);
+        if(chosenResponse.completeShlichus) {
+            this.olam.ayshPeula("complete shlichus", chosenResponse.completeShlichus)
+        }
+        
+        if(chosenResponse.remove) {
+            me.olam.sealayk(me);
+			me.olam.sealayk(me.av);
+        }
 
+        if(chosenResponse.acceptShlichus) {
+            var id = chosenResponse.acceptShlichus;
+            this.olam.ayshPeula("accept shlichus", id, me)
+        }
+
+        // Refresh UI if still talking
         if (this.state === "talking" && !chosenResponse.close) {
             this.currentSelectedMsgIndex = 0; 
             this.ayshPeula("chose");

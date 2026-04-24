@@ -19,22 +19,6 @@ export default {
         if(this.currentAnimationPlaying != null) {
             if(this.animationMixer) {
                 this.animationMixer.update(deltaTime);
-                
-                // B"H: Post-Mixer Procedural Adjustments
-                // Apply head tracking and posture AFTER animation mixer resets bones
-                
-                // 1. Posture (Breathing/Emotion)
-                if (this.applyProceduralPosture) this.applyProceduralPosture();
-                
-                // 2. Head Tracking (Hashgacha)
-                // Note: Mixer overrides rotation every frame, so we add our offset here
-                if (this.proceduralHeadRot && this.boneChildren && this.boneChildren['Head']) {
-                    const head = this.boneChildren['Head'];
-                    // We apply relative rotation accumulation
-                    // Caution: Axes might differ per rig. Assuming Y is Up/Turn.
-                    head.rotation.y += this.proceduralHeadRot.y;
-                    head.rotation.x += this.proceduralHeadRot.x;
-                }
             }
         }
     },
