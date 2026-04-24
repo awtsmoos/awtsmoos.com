@@ -6,9 +6,11 @@
  * A fundamental grid of green and dark green lines, providing immediate spatial awareness
  * for the soul descending into the void, generated at near-zero computation cost.
  */
+import CanvasHelper from "../CanvasHelper.js";
+
 export default class BasicPlane {
     static generate(width = 256, height = 256) {
-        const canvas = new OffscreenCanvas(width, height);
+        const canvas = CanvasHelper.create(width, height);
         const ctx = canvas.getContext('2d');
         
         // Base Emerald

@@ -2,15 +2,13 @@
 /**
  * B"H
  * @module GrassGenerator
- * @description
- * The verdant carpet of the earth, stretching out to receive the dew of the heavens.
- * A speckled, wavy noise pattern that gives depth to flat terrain.
  */
 import Noise from "../Noise.js";
+import CanvasHelper from "../CanvasHelper.js";
 
 export default class GrassGenerator {
     static generate(width = 256, height = 256) {
-        const canvas = new OffscreenCanvas(width, height);
+        const canvas = CanvasHelper.create(width, height);
         const ctx = canvas.getContext('2d');
         const imgData = ctx.createImageData(width, height);
         const data = imgData.data;
@@ -20,11 +18,9 @@ export default class GrassGenerator {
             for (let x = 0; x < width; x++) {
                 const nx = x * 0.1;
                 const ny = y * 0.1;
-                
                 const val = noise.fractal(nx, ny, 4);
                 const normalized = (val + 1) / 2;
                 
-                // Earthy green colors
                 const r = 30 + normalized * 50;
                 const g = 100 + normalized * 80;
                 const b = 30 + normalized * 40;

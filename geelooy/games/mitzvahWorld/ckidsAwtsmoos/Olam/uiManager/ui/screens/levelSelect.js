@@ -4,7 +4,7 @@
  * @module levelSelect
  * @description
  * The grand portal interface where souls choose which dimension to manifest into.
- * A striking UI offering the paths to various pre-defined worlds, including the Garden.
+ * A striking UI offering the paths to various pre-defined worlds, including the new procedural tests.
  */
 export default {
     shaym: "levelSelectScreen",
@@ -32,7 +32,7 @@ export default {
         launch(e, $, ui) {
             const worldPath = e.detail;
             
-            // Generate full path
+            // Generate full path for API lookup (used for legacy worlds)
             const internalPath = encodeURIComponent(`desktop.folder/game data.folder/worlds/${worldPath}`);
             const fullPath = `/api/social/aliases/awtsmoos/fileSystem/readFile?path=${internalPath}`;
             
@@ -55,9 +55,16 @@ export default {
                 if(ld) ld.classList.remove("hidden");
             };
 
-            // B"H: If it's a built-in module (like 'garden.js' locally mapped), we can fetch it directly
-            // from the local server to bypass potential API missing files during dev.
-            if (worldPath === 'garden.js') {
+            // B"H: If it's one of our new pure built-in procedural worlds, fetch it directly locally!
+            const localWorlds = [
+                'garden.js', 
+                'forestOfGeometry.js', 
+                'mountainOfTorah.js', 
+                'floatingIslands.js', 
+                'labyrinth.js'
+            ];
+            
+            if (localWorlds.includes(worldPath)) {
                 const localUrl = `/games/mitzvahWorld/tochen/worlds/${worldPath}`;
                 fetch(localUrl)
                     .then(r => r.text())
@@ -66,11 +73,11 @@ export default {
                         loadWorld(blobUrl, true);
                     })
                     .catch(err => {
-                        console.error("Local fetch failed, trying API...", err);
-                        loadWorld(fullPath, false); // Fallback
+                        console.error("Local fetch failed, trying API fallback...", err);
+                        loadWorld(fullPath, false); 
                     });
             } else {
-                loadWorld(fullPath, false);
+                loadWorld(fullPath, false); // For city1.js, desert1.js, etc.
             }
         }
     },
@@ -91,11 +98,47 @@ export default {
                     children: [
                         {
                             className: "ls-card garden",
+                            onclick(e, $, ui) { ui.peula($("levelSelectScreen"), { launch: "floatingIslands.js" }); },
+                            children: [
+                                { className: "ls-icon", textContent: "☁️" },
+                                { className: "ls-card-title", textContent: "Floating Islands" },
+                                { className: "ls-card-desc", textContent: "Massive chunks of earth suspended in the void. Test the new Grass Shader and Island generator!" }
+                            ]
+                        },
+                        {
+                            className: "ls-card desert",
+                            onclick(e, $, ui) { ui.peula($("levelSelectScreen"), { launch: "labyrinth.js" }); },
+                            children: [
+                                { className: "ls-icon", textContent: "🧱" },
+                                { className: "ls-card-title", textContent: "The Infinite Labyrinth" },
+                                { className: "ls-card-desc", textContent: "A sprawling procedural maze generated in a single draw call. Find the wandering spark." }
+                            ]
+                        },
+                        {
+                            className: "ls-card garden",
+                            onclick(e, $, ui) { ui.peula($("levelSelectScreen"), { launch: "forestOfGeometry.js" }); },
+                            children: [
+                                { className: "ls-icon", textContent: "📐" },
+                                { className: "ls-card-title", textContent: "Forest of Geometry" },
+                                { className: "ls-card-desc", textContent: "A procedural world testing Domes, Pyramids, and GPU Grass Shaders." }
+                            ]
+                        },
+                        {
+                            className: "ls-card desert",
+                            onclick(e, $, ui) { ui.peula($("levelSelectScreen"), { launch: "mountainOfTorah.js" }); },
+                            children: [
+                                { className: "ls-icon", textContent: "⛰️" },
+                                { className: "ls-card-title", textContent: "Mountain of Torah" },
+                                { className: "ls-card-desc", textContent: "A massive procedural mountain sculpted using proportional editing math. Climb to the top!" }
+                            ]
+                        },
+                        {
+                            className: "ls-card city",
                             onclick(e, $, ui) { ui.peula($("levelSelectScreen"), { launch: "garden.js" }); },
                             children: [
                                 { className: "ls-icon", textContent: "🌿" },
-                                { className: "ls-card-title", textContent: "First: The Garden" },
-                                { className: "ls-card-desc", textContent: "A lush, procedurally generated paradise. Custom bark, sand, and intense spiritual entities await." }
+                                { className: "ls-card-title", textContent: "Gan Eden (Garden)" },
+                                { className: "ls-card-desc", textContent: "A rolling procedural landscape with extruded procedural Houses and intense NPCs." }
                             ]
                         },
                         {
@@ -103,17 +146,8 @@ export default {
                             onclick(e, $, ui) { ui.peula($("levelSelectScreen"), { launch: "city1.js" }); },
                             children: [
                                 { className: "ls-icon", textContent: "🏙️" },
-                                { className: "ls-card-title", textContent: "The Yeeshoov" },
-                                { className: "ls-card-desc", textContent: "A sprawling city filled with mitzvahs and encounters." }
-                            ]
-                        },
-                        {
-                            className: "ls-card desert",
-                            onclick(e, $, ui) { ui.peula($("levelSelectScreen"), { launch: "desert1.js" }); },
-                            children: [
-                                { className: "ls-icon", textContent: "🏜️" },
-                                { className: "ls-card-title", textContent: "Midbar Hawawmeem" },
-                                { className: "ls-card-desc", textContent: "The vast desert of potential. Hot air balloons and ancient gates." }
+                                { className: "ls-card-title", textContent: "The Yeeshoov (Legacy)" },
+                                { className: "ls-card-desc", textContent: "The original city filled with mitzvahs and encounters." }
                             ]
                         }
                     ]
