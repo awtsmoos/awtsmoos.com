@@ -1,11 +1,13 @@
-// B"H
+
 /**
- * UI and Container logic for Inventory.
- * Ensures items are properly hydrated for the Main Thread UI.
+ * B"H
+ * UI and Container logic
  */
 
 export default {
     openContainer(item, index, sourceType) {
+        console.log("B\"H Inventory System: openContainer called", { item, index, sourceType });
+        
         let realItem = null;
         if (sourceType === 'inventory' && this.slots[index]) {
             realItem = this.slots[index];
@@ -15,16 +17,22 @@ export default {
              realItem = this.activeContainer.customData.slots[index];
         }
         
-        if (!realItem) realItem = item;
+        if (!realItem) {
+            console.warn("B\"H Inventory: Could not find real item at index, using passed item copy.", index, sourceType);
+            realItem = item;
+        }
 
         if (!realItem) return;
         
         if (!realItem.customData) realItem.customData = {};
+        
         if (!realItem.customData.slots) {
+             console.log("B\"H Inventory: Initializing slots for container.");
              const defaultSize = 8;
              realItem.customData.slots = new Array(defaultSize).fill(null);
         }
 
+        // B"H: Hydrate container contents immediately
         realItem.customData.slots = realItem.customData.slots.map(s => s ? this.enrichItemData(s) : null);
         
         this.activeContainer = realItem;
@@ -41,7 +49,7 @@ export default {
             this.owner.updateAppearance();
         } else if (this.owner.garments) {
             for (const [meshName, meshObj] of Object.entries(this.owner.garments)) {
-                 if (item && item.id && item.id.toLowerCase().includes(meshName.toLowerCase())) {
+                 if (item.id.toLowerCase().includes(meshName.toLowerCase())) {
                      meshObj.visible = isEquipping;
                  }
             }
@@ -53,22 +61,34 @@ export default {
 
         const formatSlot = async (slot) => {
             if (!slot) return null;
+            // B"H: Always enrich before sending to UI to ensure ICON IS PRESENT
             const itemData = this.enrichItemData(slot);
-            const isContainer = itemData.isContainer || (itemData.customData && !!itemData.customData.slots);
+            const isContainer = itemData.className === 'Container' || itemData.isContainer || (itemData.customData && !!itemData.customData.slots);
             
+            // B"H: Add visual cue for Quest Items description
+            let description = itemData.description || '';
+            if (itemData.isQuestItem) {
+                description = "[QUEST ITEM] " + description;
+            }
+
             return {
                 ...itemData,
+                description: description,
+                sellValue: itemData.sellValue || 0,
                 isContainer: isContainer,
-                equipSlot: itemData.equipSlot || (itemData.className === 'Tool' || itemData.className === 'Brick' ? 'rightHand' : null)
+                equipSlot: itemData.equipSlot || (itemData.className === 'Tool' || itemData.className === 'Brick' || itemData.className === 'CustomNpc' ? 'rightHand' : (itemData.className === 'Apparel' ? 'jacket' : null))
             };
         };
 
         const equippedMap = new Map();
         for (const [slotName, ref] of Object.entries(this.equipment)) {
             if (ref) {
-                let key = (ref.sourceType === 'container') ? 
-                    `container-${ref.containerId}-${ref.index}` : 
-                    `${ref.sourceType}-${ref.index}`;
+                let key;
+                if (ref.sourceType === 'container') {
+                    key = `container-${ref.containerId}-${ref.index}`;
+                } else {
+                    key = `${ref.sourceType}-${ref.index}`;
+                }
                 equippedMap.set(key, slotName);
             }
         }
@@ -76,7 +96,13 @@ export default {
         const formatWithEquippedStatus = async (slot, index, sourceType, containerId = null) => {
             if (!slot) return null;
             const formatted = await formatSlot(slot);
-            let key = (sourceType === 'container') ? `container-${containerId}-${index}` : `${sourceType}-${index}`;
+            
+            let key;
+            if (sourceType === 'container') {
+                 key = `container-${containerId}-${index}`;
+            } else {
+                 key = `${sourceType}-${index}`;
+            }
 
             if (equippedMap.has(key)) {
                 formatted.isEquipped = true;
@@ -85,10 +111,20 @@ export default {
             return formatted;
         };
 
-        let visibleSlots = this.activeContainer ? this.activeContainer.customData.slots : this.slots;
-        let sourceType = this.activeContainer ? 'container' : 'inventory';
-        let containerName = this.activeContainer ? this.activeContainer.name : null;
-        let activeContainerId = this.activeContainer ? this.activeContainer.id : null;
+        let visibleSlots;
+        let sourceType;
+        let containerName = null;
+        let activeContainerId = null;
+        
+        if (this.activeContainer) {
+            visibleSlots = this.activeContainer.customData.slots;
+            sourceType = 'container';
+            containerName = this.activeContainer.name || "Container";
+            activeContainerId = this.activeContainer.id;
+        } else {
+            visibleSlots = this.slots;
+            sourceType = 'inventory';
+        }
 
         const uiSlots = await Promise.all(visibleSlots.map((s, i) => formatWithEquippedStatus(s, i, sourceType, activeContainerId)));
         const uiActionSlots = await Promise.all(this.actionSlots.map((s, i) => formatWithEquippedStatus(s, i, 'action')));
@@ -103,20 +139,35 @@ export default {
                     if (this.activeContainer && this.activeContainer.id === ref.containerId) {
                         item = this.activeContainer.customData.slots[ref.index];
                     } else {
+                        // Find the bag in main inventory
                         const bag = this.slots.find(s => s && s.id === ref.containerId);
-                        if (bag) item = bag.customData.slots[ref.index];
+                        if (bag && bag.customData && bag.customData.slots) {
+                             item = bag.customData.slots[ref.index];
+                        }
                     }
                 }
-                uiEquipment[key] = item ? await formatSlot(item) : null;
+                
+                if (item) {
+                     uiEquipment[key] = await formatSlot(item);
+                } else {
+                     uiEquipment[key] = null;
+                }
             } else { uiEquipment[key] = null; }
         }
 
+        // B"H: Bundle everything into the updateSlots payload so the UI handler receives all context
         this.owner.olam.ayshPeula("ui event", "inventoryScreen", {
-            updateSlots: { slots: uiSlots, containerMode: !!this.activeContainer, containerName },
+            updateSlots: {
+                slots: uiSlots,
+                containerMode: !!this.activeContainer,
+                containerName: containerName
+            },
             updateEquipment: uiEquipment,
             updateWallet: this.getWalletValue()
         });
         
-        this.owner.olam.ayshPeula("ui event", "action bar", { updateActionSlots: uiActionSlots });
+        this.owner.olam.ayshPeula("ui event", "action bar", {
+            updateActionSlots: uiActionSlots
+        });
     }
 };

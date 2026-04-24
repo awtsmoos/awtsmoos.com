@@ -72,23 +72,10 @@ export default function coreHandlers(manager) {
         alert(ms) { window.alert(ms + ""); },
         
         error(er) {
-            // B"H: Format error nicely for display
-            let msg = er;
-            if (typeof er === 'object') {
-                msg = `Error: ${er.message || 'Unknown Error'}\n\n`;
-                if (er.filename) msg += `File: ${er.filename}:${er.lineno || '?'}\n`;
-                if (er.stack) msg += `\nStack:\n${er.stack}`;
-            } else {
-                msg = String(er);
-            }
-            
             myUi.htmlAction({
                 shaym: "awtsmoos error",
                 methods: { classList: { remove: "hidden" } },
-                properties: { 
-                    textContent: msg,
-                    style: { whiteSpace: "pre-wrap", userSelect: "text" } 
-                }
+                properties: { textContent: JSON.stringify(er) }
             });
         },
         

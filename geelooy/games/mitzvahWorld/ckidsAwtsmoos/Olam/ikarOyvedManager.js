@@ -1,5 +1,6 @@
-// B"H
+
 /**
+ * B"H
  * The OlamWorkerManager class (Refactored & Robust)
  */
 
@@ -16,46 +17,7 @@ export default class OlamWorkerManager {
     
     constructor(workerPath, options={}, canvasElement, ui) {
         this.eved = new Worker(workerPath, { type: "module" });
-        
-        // B"H: EXTREME VERBOSE LOGGING FOR WORKER ERRORS
-        this.eved.addEventListener("error", (e) => {
-            console.group("%c B\"H - CRITICAL WORKER ERROR ", "background: red; color: white; font-size: 14px; padding: 4px;");
-            
-            console.log("%c Error Message: ", "font-weight: bold; color: #ff5555;", e.message);
-            console.log("%c Filename: ", "font-weight: bold;", e.filename);
-            console.log("%c Location: ", "font-weight: bold;", `Line ${e.lineno}, Column ${e.colno}`);
-            
-            if (e.error) {
-                console.log("%c Error Object: ", "font-weight: bold;", e.error);
-                if (e.error.stack) {
-                    console.log("%c Stack Trace: ", "font-weight: bold;", e.error.stack);
-                }
-            } else {
-                console.log("No inner error object available (likely a script loading or syntax error).");
-            }
-
-            console.trace("Full Event:", e);
-            console.groupEnd();
-            
-            // Attempt to alert visually in the UI if possible
-            try {
-                if(this.myUi) {
-                    this.myUi.htmlAction({
-                        shaym: "awtsmoos error",
-                        methods: { classList: { remove: "hidden" } },
-                        properties: { 
-                            textContent: `Worker Error:\n${e.message}\n\nFile: ${e.filename}\nLine: ${e.lineno}` 
-                        }
-                    });
-                }
-            } catch(uiErr) {
-                console.error("Failed to show error in UI:", uiErr);
-            }
-        });
-
-        this.eved.addEventListener("messageerror", (e) => {
-            console.error("B\"H - Worker Message Deserialization Error:", e);
-        });
+        this.eved.addEventListener("error", m => console.log("Worker Error:", m));
         
         this.myUi = ui || new UI();
         window.ui = this.myUi;
@@ -68,27 +30,10 @@ export default class OlamWorkerManager {
 
         this.eved.onmessage = e => this.handleMessageEvent(e);
 
-        console.log("B\"H - Olam Worker Manager Started - Verbose Logging Active");
+        console.log("B\"H - Olam Worker Manager Started");
         this.postMessage({ pawsawch: true });
         this.opened = true;
         this.processQueue();
-    }
-
-    /**
-     * _safeCallUiMethod - A sacred vessel for invoking UI actions from the main thread.
-     * It guards against incomplete or missing methods in the external UI framework,
-     * preventing runtime errors and ensuring the flow of creation remains unbroken.
-     * @param {string} methodName The name of the UI method to invoke.
-     * @param {...any} args Arguments to pass to the UI method.
-     * @returns {any} The result of the UI method call, or `undefined` if the method doesn't exist.
-     */
-    _safeCallUiMethod(methodName, ...args) {
-        if (this.myUi && typeof this.myUi[methodName] === 'function') {
-            return this.myUi[methodName](...args);
-        } else {
-            console.warn(`B"H - UI method "${methodName}" not found on external UI instance. Skipping invocation.`);
-            return undefined; // Indicate that the method was not called
-        }
     }
 
     postMessage(data) {

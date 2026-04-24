@@ -2,13 +2,13 @@
 /**
  * B"H
  * DOM Event Listeners for Olam Worker Manager
+ * Listens to the physical world and transmits to the spiritual worker realm.
  */
 import Utils from "../../utils.js";
 
 export default function setupDomEvents(manager) {
     const { eved } = manager;
 
-    // Helper to check if event should be processed
     function ch(event) {
         let el = event.target;
         while (el && el !== document.body && el !== document.documentElement) {
@@ -36,9 +36,12 @@ export default function setupDomEvents(manager) {
         return false;
     }
 
-    function send(type, event) {
+    function send(type, event, addIsOverUI = false) {
         const cloned = Utils.clone(event);
         if (cloned) {
+            if (addIsOverUI) {
+                cloned.isOverUI = event.target && event.target.tagName !== "CANVAS";
+            }
             eved.postMessage({[type]: cloned});
         }
     }
@@ -68,7 +71,13 @@ export default function setupDomEvents(manager) {
         if (classNameStr.includes("menuTop") || classNameStr.includes("mitzvahBtn")) return;
 
         if (el.tagName !== "svg" && el.tagName !== "path" && el.tagName !== "rect") {
-            if (ch(event)) send("mousedown", event);
+            if (ch(event)) {
+                // B"H: Solves NotAllowedError. Request pointer lock DIRECTLY on user gesture in main thread
+                if (event.target.tagName === "CANVAS" && !navigator.userAgent.includes("Mobile")) {
+                    document.body.requestPointerLock().catch(e => { /* Ignore rejection if already locked */ });
+                }
+                send("mousedown", event);
+            }
         }
     });
 
@@ -77,14 +86,13 @@ export default function setupDomEvents(manager) {
     });
 
     window.addEventListener('mousemove', (event) => {
-        send("mousemove", event);
+        send("mousemove", event, true);
     });
 
     window.addEventListener('wheel', (event) => {
         if (ch(event)) send("wheel", event);
     });
 
-    // Mobile Controls Logic
     setupMobileControls(manager);
 }
 
@@ -97,13 +105,15 @@ function setupMobileControls(manager) {
     let initialTouchX, initialTouchY;
     let lastTouchStart = null;
 
-    // Constants from original file
     const ZOOM_INTENSITY = 26; 
     const TURN_INTENSITY = 1.3;
 
-    function send(type, event) {
+    function send(type, event, addIsOverUI = false) {
         const cloned = Utils.clone(event);
         if (cloned) {
+            if (addIsOverUI) {
+                cloned.isOverUI = event.target && event.target.tagName !== "CANVAS";
+            }
             eved.postMessage({[type]: cloned});
         }
     }
@@ -127,10 +137,9 @@ function setupMobileControls(manager) {
             return;
         } 
         
-        // Camera movement touch
         const activeTouch = event.touches[0]; 
         const clonedTouch = Utils.clone(activeTouch);
-        clonedTouch.button = 2; // Right click emulation
+        clonedTouch.button = 2; 
         clonedTouch.isAwtsmoosMobile = true;
         
         if (!lastTouchStart) {
@@ -161,7 +170,6 @@ function setupMobileControls(manager) {
             joystickActive = false;
             lastJoystickTouchId = null;
             
-            // Reset keys
             ['KeyW', 'KeyS', 'KeyA', 'KeyD', 'KeyQ', 'KeyE'].forEach(code => {
                 eved.postMessage({"keyup": { code }});
             });
@@ -170,7 +178,6 @@ function setupMobileControls(manager) {
             t.button = 2;
             eved.postMessage({"mouseup": t});
         } else {
-             // Main touch end
              const t = Utils.clone(event.changedTouches[0]);
              t.button = 2;
              eved.postMessage({"mouseup": t});
@@ -194,14 +201,11 @@ function setupMobileControls(manager) {
                     "down-left":["KeyQ","KeyS"], "down-right":["KeyE", "KeyS"]
                 };
 
-                // Reset all
                 Object.values(map).flat().forEach(k => eved.postMessage({"keyup": { code: k }}));
                 
-                // Set new
                 const keys = Array.isArray(map[direction]) ? map[direction] : [map[direction]];
                 keys.forEach(k => eved.postMessage({"keydown": { code: k }}));
                 
-                // Visual update
                 updateJoystickThumb(deltaX, deltaY);
             }
         } else if (event.touches.length === 1) {
@@ -209,12 +213,13 @@ function setupMobileControls(manager) {
             t.button = 2;
             t.isAwtsmoosMobile = true;
             
-            // Calculate movement
             if (lastTouchStart) {
                  t.movementX = (t.screenX - lastTouchStart.screenX) * TURN_INTENSITY;
                  t.movementY = (t.screenY - lastTouchStart.screenY) * TURN_INTENSITY;
                  lastTouchStart = t;
             }
+            
+            t.isOverUI = event.target && event.target.tagName !== "CANVAS";
             eved.postMessage({"mousemove": t});
         }
     });

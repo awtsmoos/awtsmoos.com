@@ -23,6 +23,7 @@ export default function setupMessageHandler(manager) {
     manager.registerPromise = registerPromise;
 
     // Combine all handlers
+    // B"H: We assign them to manager.tawfeekim so they can reference 'this' if needed
     manager.tawfeekim = {
         ...coreHandlers(manager),
         ...htmlHandlers(manager),
@@ -43,7 +44,8 @@ export default function setupMessageHandler(manager) {
                 // Execute task
                 if (typeof task === 'function') {
                      try {
-                        task(k);
+                        // B"H FIX: Call with context of tawfeekim to ensure sibling methods (like increasedOlamLoading) work
+                        task.call(manager.tawfeekim, k);
                      } catch(e) {
                          console.error("B\"H - Error executing task:", key, e);
                      }
