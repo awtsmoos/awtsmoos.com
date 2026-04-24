@@ -20,19 +20,26 @@ class CustomInstanceSaver {
         const sourceBuf = Buffer.from(source, 'utf8');
         const nameVarIntSize = serializer.getVarIntSize(nameBuf.length);
         const sourceVarIntSize = serializer.getVarIntSize(sourceBuf.length);
-        const totalLenHeader = nameVarIntSize + nameBuf.length + sourceVarIntSize + sourceBuf.length + 16; 
-        const p = this.v1.allocate(totalLenHeader);
-        const seal = SmartPointer.block(T.CUSTOM_INSTANCE, p.blockId, totalLenHeader, !!p.isChain, p.offset);
-        visited.set(obj, seal);
+        
         const props = {};
         for (const k of Object.keys(obj)) props[k] = obj[k];
         const dictSeal = this.builder.build(props, visited);
+        
+        const dictSealVarIntSize = serializer.getVarIntSize(dictSeal.length);
+        const totalLenHeader = nameVarIntSize + nameBuf.length + sourceVarIntSize + sourceBuf.length + dictSealVarIntSize + dictSeal.length; 
+        
+        const p = this.v1.allocate(totalLenHeader);
+        const seal = SmartPointer.block(T.CUSTOM_INSTANCE, p.blockId, totalLenHeader, !!p.isChain, p.offset);
+        visited.set(obj, seal);
+        
         const buf = Buffer.allocUnsafe(totalLenHeader);
         let off = 0;
         off += serializer.writeVarIntTo(buf, off, nameBuf.length);
         nameBuf.copy(buf, off); off += nameBuf.length;
         off += serializer.writeVarIntTo(buf, off, sourceBuf.length);
         sourceBuf.copy(buf, off); off += sourceBuf.length;
+        
+        off += serializer.writeVarIntTo(buf, off, dictSeal.length);
         dictSeal.copy(buf, off); 
         this.db._writeChainSafe(p, buf);
         return seal;

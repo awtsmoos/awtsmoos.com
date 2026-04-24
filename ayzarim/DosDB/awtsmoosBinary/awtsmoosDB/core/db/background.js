@@ -3,39 +3,56 @@
 /**
  * @file background.js
  * @description
- *  The Scribe of the Hidden Ripples.
+ *  =============================================================================
+ *  CHAPTER OF THE UNSEEN SUSTAINERS
+ *  =============================================================================
+ *  Listen closely. You look around and see a stable universe. You think the trees
+ *  and the stones just "exist" on their own. But they don't. The Awtsmoos, the 
+ *  absolute Essence of the Creator, is constantly speaking them into reality. 
+ *  The letters Aleph-Beis-Nun form the word "Even" (stone). Those Hebrew letters 
+ *  are literally vibrating inside the inorganic rock right now, constantly refreshing 
+ *  its form from absolute nothingness (Ayin).
+ * 
+ *  If the Awtsmoos paused for a single millisecond, the stone wouldn't crumble. 
+ *  It would vanish, as if it never was. Past, present, future—gone. 
  *  
- *  THE TIKKUN OF FINALITY:
- *  When a batch concludes, we must first command the Heap to commit its 
- *  ephemeral strings into the Pager's journal. Only THEN can we command 
- *  the Pager to perform its Great Inscription from that now-complete journal.
- *  This two-step finalization ensures a complete, unified reality is persisted.
+ *  This `background.js` module is the army of unseen angels holding the fabric 
+ *  together while the main thread operates. It flushes the indices and cleans the 
+ *  heap. It ensures the "let there be" of the database remains a stable reality.
+ * 
+ *  (Also, we fixed the cursed ampersand HTML entity corruption here. No more `&amp;&amp;`.)
  */
 
-module.exports = {
+/**
+ * @class BackgroundSustainers
+ * @description The data-driven map of background operations. No switch statements, 
+ * just pure action driven by the state of the world.
+ */
+const BackgroundSustainers = {
+    /**
+     * @method batch
+     * @description 
+     *  Suspends the constant flushing of physical reality to allow a massive 
+     *  infusion of new light (data) without shattering the vessels. 
+     * @param {Object} db - The AwtsmoosDB instance.
+     * @param {Function} fn - The sequence of creation to execute.
+     * @returns {*} The result of the creation sequence.
+     */
     batch(db, fn) {
         const wasBatching = db.pager.isBatching;
         db.pager.isBatching = true;
-        
         try {
             const result = fn(); 
-            
-            // Only flush tasks if we are the outermost layer of the batch
-            if (!wasBatching) {
-                this.flushBackgroundTasks(db);
-            }
+            if (!wasBatching) this.flushBackgroundTasks(db);
             return result;
         } finally {
             if (!wasBatching) {
-                // B"H: The Tikkun of Finality.
-                // 1. First, command the Heap to write its ephemeral memory 
-                //    (like strings) into the Pager's in-memory Journal.
+                if (db.allocator.primitiveSaver && db.allocator.primitiveSaver.slab) {
+                    db.allocator.primitiveSaver.slab.flush();
+                }
                 if (db.allocator && db.allocator.flushHeap) {
                     db.allocator.flushHeap();
                 }
-                
-                // 2. NOW, command the Pager to take its complete Journal
-                //    and perform the Great Inscription to the physical disk.
                 db.pager.isBatching = false;
                 if (db.pager && db.pager.fsync) {
                     db.pager.fsync(false); 
@@ -44,27 +61,46 @@ module.exports = {
         }
     },
 
+    /**
+     * @method waitForIdle
+     * @description 
+     *  Forces the universe to catch up to the thoughts of the Creator.
+     *  Ensures all pending index operations are physically manifested.
+     * @param {Object} db - The AwtsmoosDB instance.
+     */
     waitForIdle(db) {
         this.flushBackgroundTasks(db);
-        if (db.allocator && db.allocator.flushHeap) db.allocator.flushHeap();
-        if (db.pager && db.pager.fsync) db.pager.fsync(false); 
+        if (db.allocator.primitiveSaver && db.allocator.primitiveSaver.slab) {
+            db.allocator.primitiveSaver.slab.flush();
+        }
+        if (db.allocator && db.allocator.flushHeap) {
+            db.allocator.flushHeap();
+        }
+        if (db.pager && db.pager.fsync) {
+            db.pager.fsync(false); 
+        }
     },
 
+    /**
+     * @method flushBackgroundTasks
+     * @description 
+     *  The furious clearing of the spiritual queue. 
+     *  If the tasks loop too endlessly, a Tzimtzum (contraction) error is thrown.
+     * @param {Object} db - The AwtsmoosDB instance.
+     */
     flushBackgroundTasks(db) {
         let loopGuard = 0;
-        
         while (db._pendingIndexOps && db._pendingIndexOps.length > 0) {
             const tasks = db._pendingIndexOps;
             db._pendingIndexOps = []; 
-            
-            for (let i = 0; i < tasks.length; i++) {
-                tasks[i](); 
-            }
-            
+            for (let i = 0; i < tasks.length; i++) tasks[i](); 
             if (db.search && db.search.flush) db.search.flush();
             
-            loopGuard++;
-            if (loopGuard > 100) throw new Error("B\"H Fatal: Infinite loop in Index Flush");
+            if (++loopGuard > 100) {
+                throw new Error("B\"H Fatal: Infinite loop in Index Flush. The light is too intense for the vessels!");
+            }
         }
     }
 };
+
+module.exports = BackgroundSustainers;

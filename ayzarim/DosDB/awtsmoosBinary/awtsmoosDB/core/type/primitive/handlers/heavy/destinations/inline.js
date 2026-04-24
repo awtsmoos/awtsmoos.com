@@ -4,31 +4,29 @@
  * @file inline.js
  * @description
  *  =============================================================================
- *  CHAPTER 1: THE INLINE VOID (AYIN)
+ *  CHAPTER 1: THE NULLIFICATION OF INLINE ILLUSIONS
  *  =============================================================================
  *  "He suspends the earth upon nothingness." (Job 26:7)
  *  
- *  When the abstract thought (data) is 14 bytes or less, it does not need a 
- *  physical block on the disk. It is woven directly into the 16-byte SmartPointer.
- *  The Awtsmoos sustains this spark entirely within the metadata of the universe.
+ *  In the epoch of 16-byte pointers, we packed data into the pointer itself 
+ *  to save space. Now, with VarInt pointers compressing to 3 bytes, forcing 
+ *  inline data creates BLOAT! 
+ *  
+ *  The Inline Destination fully nullifies itself and delegates directly to 
+ *  the Exact-Byte Virtual RAM Pager for ultimate speed and density.
  */
 
-const constants = require('../../../../../../constants.js');
 const SmartPointer = require('../../../../../../utils/smartPointer.js');
 
 class InlineDestination {
     /**
      * @method manifest
-     * @description Breathes the data directly into the pointer seal.
-     * @param {Buffer} dataBuf The raw binary light.
-     * @param {number} infoType The dimensional type identifier.
-     * @returns {Buffer} The 16-byte seal.
+     * @description Breathes the light directly into the Exact-Byte Void.
      */
-    static manifest(dataBuf, infoType) {
-        const p = Buffer.alloc(15).fill(0); 
-        p[0] = dataBuf.length; 
-        dataBuf.copy(p, 1);
-        return SmartPointer.encode(infoType, constants.MODE_INLINE, p);
+    static manifest(dataBuf, infoType, context) {
+        const loc = (context.v1 || context.allocator.v1 || context.allocator).allocate(dataBuf.length);
+        context.db.pager.writeExact(loc.offset, dataBuf);
+        return SmartPointer.encode(infoType, loc.offset, dataBuf.length);
     }
 }
 
