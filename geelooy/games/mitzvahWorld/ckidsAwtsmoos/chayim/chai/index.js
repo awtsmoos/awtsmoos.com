@@ -1,3 +1,5 @@
+
+
 /**
  * B"H
  * @file index.js
@@ -16,7 +18,6 @@ import physicsMethods from "./methods/physics.js";
 import raycastingMethods from "./methods/raycasting.js";
 import buildingMethods from "./methods/building.js";
 import projectileMethods from "./methods/projectiles.js";
-import combatMethods from "./methods/combat.js"; // B"H: New Combat Module
 
 export default class Chai extends Tzomayach {
     type = "chai";
@@ -33,7 +34,7 @@ export default class Chai extends Tzomayach {
     _movementSpeed = this._speed;
     jumpHeight = 12;
 
-    _velocity = new THREE.Vector3();
+    velocity = new THREE.Vector3();
     collider;
     cameraRotation = null;
     
@@ -71,20 +72,6 @@ export default class Chai extends Tzomayach {
     spheres = [];
     particles = [];
 
-    // B"H: Stats & Vitality
-    hp = 100;
-    maxHp = 100;
-    koach = 50; // Mana/Energy
-    maxKoach = 50;
-    xp = 0;
-    level = 1;
-    baseDefense = 0;
-    basePower = 10;
-    
-    // Regeneration timers
-    lastRegenTime = 0;
-    regenRate = 1.0; // Seconds
-
     moving = {
         stridingLeft: false,
         stridingRight: false,
@@ -112,14 +99,7 @@ export default class Chai extends Tzomayach {
 
     get speed() { return this._speed; }
     set speed(v) { this._speed = v; }
-	get velocity() {
-		return this._velocity;    
-	}
-	set velocity(v) {
-	    console.log("SET velcoity?!?!")
-		this._velocity = new THREE.Vector3.clone(v);
-		    
-	}
+
     constructor(options, olam) {
         super(options, olam);
         this.rotationSpeed = options.rotationSpeed || 2;
@@ -128,11 +108,6 @@ export default class Chai extends Tzomayach {
         
         this.height = options.height || this.height;
         this.radius = options.radius || this.radius;
-        
-        // B"H: Stats overrides
-        if(options.maxHp) { this.maxHp = options.maxHp; this.hp = this.maxHp; }
-        if(options.maxKoach) { this.maxKoach = options.maxKoach; this.koach = this.maxKoach; }
-        if(options.level) this.level = options.level;
         
         this.collider = new Capsule(
             new THREE.Vector3(0, this.height, 0), 
@@ -168,6 +143,7 @@ export default class Chai extends Tzomayach {
         this.animationSpeed = this.speed;
         
         // Setup separate mesh containers for physics vs visuals
+        // This decouples rotation logic from collider logic
         this.empty = new THREE.Group();
         if(this.olam) this.olam.scene.add(this.empty);
         
@@ -185,25 +161,6 @@ export default class Chai extends Tzomayach {
         
         this.setPosition(this.mesh.position);
     }
-
-    // B"H: Update logic includes Regen
-    heesHawvoos(dt) {
-        if(isNaN(dt)) {
-	        throw "nan delta time heeshawvoos!"    
-        }
-        super.heesHawvoos(dt); // Calls physics.js logic
-        
-        // Regeneration
-        const now = Date.now();
-        if (now - this.lastRegenTime > this.regenRate * 1000) {
-            if (this.hp < this.maxHp) this.hp = Math.min(this.maxHp, this.hp + 1);
-            if (this.koach < this.maxKoach) this.koach = Math.min(this.maxKoach, this.koach + 2);
-            this.lastRegenTime = now;
-            
-            // Update UI if player
-            if (this.type === 'chossid') this.updateStatsUI();
-        }
-    }
 }
 
 // B"H - Assigning the Divine Faculties to the Vessel
@@ -213,4 +170,3 @@ Object.assign(Chai.prototype, physicsMethods);
 Object.assign(Chai.prototype, raycastingMethods);
 Object.assign(Chai.prototype, buildingMethods);
 Object.assign(Chai.prototype, projectileMethods);
-Object.assign(Chai.prototype, combatMethods); // B"H: Combat Logic

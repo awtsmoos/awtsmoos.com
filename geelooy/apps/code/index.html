@@ -43,10 +43,8 @@
     <link href="css/file-commander/grid.css" rel="stylesheet">
     <link href="css/file-commander/details.css" rel="stylesheet">
     
-    <!-- VIBE -->
-    <link href="css/vibe/layout.css" rel="stylesheet">
-    <link href="css/vibe/sidebar.css" rel="stylesheet">
-    <link href="css/vibe/chat.css" rel="stylesheet">
+    <!-- VIBE (MODULAR) -->
+    <link href="css/vibe/main.css" rel="stylesheet">
 
     <!-- EFFECTS -->
     <link href="css/effects.css" rel="stylesheet"> 
@@ -93,10 +91,11 @@
                 <div id="hud-stats" class="hud-stats"></div>
 
                 <div id="previewer" class="hidden"></div>
-                <div id="console-host" class="hidden"></div>
+                <div id="devtools-wrapper" class="hidden"></div>
                 <div id="hex-editor-wrapper" class="hidden"></div>
                 <div id="zip-editor-wrapper" class="hidden"></div>
                 <div id="vibe-editor-wrapper" class="hidden"></div>
+                <div id="vibe-manager-wrapper" class="hidden"></div>
                 <div id="file-commander-wrapper" class="hidden"></div>
                 <div id="terminal-wrapper" class="hidden"></div>
 
@@ -112,29 +111,13 @@
                         <div class="find-input-container">
                             <input type="text" id="find-input" placeholder="Find">
                         </div>
-                        <div class="button-group">
-                            <button id="find-prev-btn" class="secondary-btn">&lt;</button>
-                            <button id="find-next-btn" class="secondary-btn">&gt;</button>
-                            <button id="find-close-btn" class="icon-button"><svg class="svg-icon"><use href="#icon-x"/></svg></button>
-                        </div>
                     </div>
                     <div class="fr-row">
                         <input type="text" id="replace-input" placeholder="Replace">
-                        <div class="button-group">
-                            <button id="replace-btn" class="secondary-btn">Replace</button>
-                            <button id="replace-all-btn" class="secondary-btn">All</button>
-                        </div>
-                    </div>
-                    <!-- B"H - Added Missing Options Row -->
-                    <div class="fr-row" style="padding-top: 5px;">
-                        <label style="display: flex; align-items: center; gap: 5px; font-size: 0.8em; color: var(--color-text-secondary); cursor: pointer;">
-                            <input type="checkbox" id="fr-case-sensitive" style="width: auto;">
-                            Case Sensitive
-                        </label>
                     </div>
                 </div>
 
-                <div id="empty-editor-message" class="empty-editor-message"><h2>Awtsmoos Editor</h2><p>Add a workspace</p></div>
+                <div id="empty-editor-message" class="empty-editor-message"><h2>Awtsmoos Editor</h2></div>
             </div>
         </div>
         <div class="status-bar">
@@ -156,30 +139,6 @@
         <canvas id="graph-canvas"></canvas>
     </div>
     <div id="tab-manager-overlay" class="tab-manager-overlay hidden">
-        <div class="tm-header">
-            <h2>Open Tabs</h2>
-            <div class="tm-controls">
-                <input type="text" id="tm-search" placeholder="Filter tabs...">
-                <button id="tm-select-mode-btn" class="secondary-btn">Select...</button>
-                <button id="tm-close-overlay" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
-            </div>
-        </div>
-        <div id="tm-grid" class="tm-grid"></div>
-        <div id="tm-selection-bar" class="tm-selection-bar hidden">
-            <div class="tm-selection-info"><span id="tm-selection-count">0 Selected</span></div>
-            <div class="tm-selection-actions">
-                <button id="tm-select-all" class="secondary-btn">Select All</button>
-                <button id="tm-close-selected" class="secondary-btn danger">Close Selected</button>
-                <button id="tm-cancel-selection" class="icon-button"><svg class="svg-icon"><use href="#icon-x"/></svg></button>
-            </div>
-        </div>
-        <div id="tm-context-menu" class="tm-context-menu hidden">
-            <button data-action="open">Open</button>
-            <button data-action="select">Select</button>
-            <button data-action="pin">Pin</button>
-            <hr class="menu-separator">
-            <button data-action="close" class="danger">Close</button>
-        </div>
     </div>
     <div id="generic-dialog" class="dialog-overlay"></div>
 

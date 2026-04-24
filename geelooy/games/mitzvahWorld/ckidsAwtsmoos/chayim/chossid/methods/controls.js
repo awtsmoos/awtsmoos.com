@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file controls.js
@@ -10,20 +11,17 @@ const ATTACK_KEY = "KeyF";
 const CAMERA_PAN_UP = "KeyR";
 const CAMERA_PAN_DOWN = "KeyZ"; 
 const CAMERA_FPS_TOGGLE = "KeyT";
-const DISMOUNT_KEY = "KeyX"; // B"H: New key for dismount
-
-var isInEditorMode = false;
+const DISMOUNT_KEY = "KeyX";
+const EDITOR_TOGGLE = "KeyG";
 
 export default {
     controls(deltaTime) {
-        // B"H: If driving, disable player movement logic, but check for dismount
         if (this.isDriving && this.drivingVehicle) {
-            // Check for dismount
             if (this.olam.keyStates[DISMOUNT_KEY]) {
                  this.drivingVehicle.dismount();
                  return;
             }
-            return; // Skip normal controls
+            return; 
         }
 
         this.resetMoving();
@@ -52,7 +50,6 @@ export default {
     },
 
     movingSounds() {
-        // Placeholder for future sound logic
     },
 
     cameraControls() {
@@ -67,7 +64,6 @@ export default {
         var k = e.key;
         if(!this.interactingWith) return;
 
-        // Check if the key pressed is a number between 1 and 9
         if (k >= 1 && k <= 9) {
             var num = parseInt(k, 10);
             this.interactingWith?.toggleToOption?.(num - 1);
@@ -75,17 +71,27 @@ export default {
     },
 
     setupInputListeners(olam) {
-        var isOtherview = false;
-        
-        // B"H: Mouse Click Listener for NPC Interaction
         olam.on("mousedown", (e) => {
+            // B"H: Editor Selection
+            if (this.isInEditorMode) {
+                 this.handleEditorClick(e);
+                 return;
+            }
+
             if (e.button === 0) { // Left Click
                 if (this.handleClick) {
                     this.handleClick(e);
                 } else {
-                    // Fallback if handleClick is missing
                     this.shoot();
                 }
+            } else if (e.button === 2) { // Right Click (Alt Action)
+                 const item = this.getActiveItem();
+                 if (item && item.altAction) {
+                     item.altAction(); // Trigger alt action on item wrapper if available
+                 }
+                 // If item is just data, checking logic:
+                 const realItem = this.getRealActiveItemInstance(); // Need helper to get instance
+                 if (realItem && realItem.altAction) realItem.altAction();
             }
         });
 
@@ -93,17 +99,11 @@ export default {
             this.ayshPeula("keypressed", k);
             this.dialogueControls(k);
             switch(k.code) {
-                case "KeyR":
-                    // Pan up handled in loop
-                    break;
+                case "KeyR": break;
                 
-                case "KeyQ":
-                    this.resetPreviewRotation();
-                    break;
+                case "KeyQ": this.resetPreviewRotation(); break;
                 
-                case "NumLock":
-                    this.movingAutomatically = !this.movingAutomatically;
-                    break;
+                case "NumLock": this.movingAutomatically = !this.movingAutomatically; break;
 
                 case "KeyY":
                     await this.makeRay(this.rayLength);
@@ -112,16 +112,24 @@ export default {
                     }
                     break;
 
-                case "KeyG":
-                    isInEditorMode = !isInEditorMode;
+                case EDITOR_TOGGLE:
+                    this.isInEditorMode = !this.isInEditorMode;
+                    this.olam.ayshPeula("ui event", "effectsOverlay", { 
+                        text: this.isInEditorMode ? "EDITOR MODE: ON" : "EDITOR MODE: OFF",
+                        color: "#00ffed"
+                    });
+                    // Close editor UI if turning off
+                    if (!this.isInEditorMode) {
+                        this.olam.ayshPeula("ui event", "VisualEditor", { close: true });
+                    }
                     break;
                 
-                case "KeyV": // Dance
+                case "KeyV": 
                     if (this.animations) {
                         const dance = this.animations.find(a => a.name.toLowerCase().includes("dance"));
                         if (dance) {
                             this.isDancing = !this.isDancing;
-                            if(this.isDancing) this.playChaweeyoos("dance silly"); // Or specific name
+                            if(this.isDancing) this.playChaweeyoos("dance silly"); 
                             else this.playChaweeyoos(this.getChaweeyoos("idle"));
                         }
                     }
@@ -140,7 +148,6 @@ export default {
                     break;
 
                 case ACTION_TOGGLE:
-                    // B"H: New Painting Logic
                     const activeItem = this.getActiveItem();
                     if (activeItem && activeItem.isPainter) {
                         this.isPaintingMode = !this.isPaintingMode;
@@ -148,7 +155,7 @@ export default {
                             text: this.isPaintingMode ? "Painting Mode: ON" : "Painting Mode: OFF",
                             color: this.isPaintingMode ? "#00ff00" : "#ff0000"
                         });
-                        return; // Stop here, don't interact with NPCs
+                        return; 
                     }
 
                     if(!this.interactingWith) {
@@ -172,7 +179,6 @@ export default {
                         this.selectMenuOption();
                         return;
                     }
-                    // B"H: Prioritize active dialogue interactions over world block selection.
                     if(this.interactingWith) {
                         await this.interactingWith.selectOption();
                         return;
@@ -198,5 +204,45 @@ export default {
                 default:;
             }
         });
+    },
+
+    // B"H: Helper to find real instance for Alt Action
+    getRealActiveItemInstance() {
+        // This requires tracking instances or recreating. 
+        // For Elemental Staff, we can assume if item className matches, we create temp or find cached.
+        // Simplification: In worker, we just create a temp instance to call logic if needed, 
+        // OR better, implement logic in 'shoot' variants.
+        // But for switching modes, we need persistent state.
+        // Let's attach state to the inventory item data in `inventory.js`.
+        
+        const item = this.getActiveItem();
+        if(!item) return null;
+        
+        // If we have a cached class instance in a map?
+        // For now, let's just use `item.customData` for state.
+        if (item.className === 'ElementalStaff') {
+             // Import dynamically or assume global access?
+             // Best to move logic here or separate file.
+             // We'll dispatch a custom event to world to handle tool logic centrally.
+             this.olam.ayshPeula("toolAltAction", item);
+        }
+    },
+    
+    handleEditorClick(e) {
+        this.checkHover(this.olam, true); // Update intersected
+        if (this.intersected && this.intersected.niv) {
+            const niv = this.intersected.niv;
+            this.olam.ayshPeula("ui event", "VisualEditor", {
+                objectSelected: {
+                    id: niv.id,
+                    name: niv.name,
+                    type: niv.type,
+                    position: niv.mesh.position,
+                    rotation: niv.mesh.rotation,
+                    scale: niv.mesh.scale
+                }
+            });
+            this.setEntityHighlight(niv.mesh, true, 0x00ffed);
+        }
     }
 };

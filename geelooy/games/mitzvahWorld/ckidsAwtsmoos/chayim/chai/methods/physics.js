@@ -9,22 +9,13 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import Utils from "../../../utils.js";
 import Tzomayach from "../../tzomayach.js";
 
- function checkNan(x,y,z, msg="NAN VALUE FOUND!") {
-	if(isNaN(x) || isNaN(y) || isNaN(z)) {
-		console.trace(msg)
-		
-		return true;
-	}
-	return false;
- }
 const _ground_check_ray = new THREE.Ray();
 
 export default {
     
     setPosition(vec3) {
         if (!vec3 || isNaN(vec3.x) || isNaN(vec3.y) || isNaN(vec3.z)) {
-            console.trace("B\"H: Attempted to set invalid position. Ignoring.");
-            this.olam.destroyed = true;
+            console.warn("B\"H: Attempted to set invalid position. Ignoring.");
             return;
         }
         this.collider.start.set(vec3.x, vec3.y + this.height / 2, vec3.z);
@@ -82,8 +73,7 @@ export default {
 
     _checkNaNAndReset() {
         if (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z)) {
-            console.trace("B\"H: Player position NaN! Resetting.", { was: this.mesh.position.clone() });
-	         this.olam.destroyed = true;
+            console.warn("B\"H: Player position NaN! Resetting.", { was: this.mesh.position.clone() });
             this.velocity.set(0, 0, 0);
             this.setPosition(new THREE.Vector3(0, 15, 0));
             if(this.olam && this.olam.ayin) this.olam.ayin.currentDistance = 5;
@@ -114,17 +104,9 @@ export default {
         this.groundHitResult = groundHit; // Cache for later use
     },
 
-    _applyPhysicsForces(deltaTime=0.016, isWorldBusy) {
+    _applyPhysicsForces(deltaTime, isWorldBusy) {
         let damping = Math.exp(-20 * deltaTime) - 1;
-        if(isNaN(damping)) damping = 0;
-        var n = checkNan(this.velocity.x, this.velocity.y, this.velocity.z);
-        if(n) {
-			this.velocity.set(0,0,0)
-			console.log("SET VVELOCITY", this.velocity, this)
-		}
-		checkNan(this.velocity.x, this.velocity.y, this.velocity.z)
         if (!this.onFloor) {
-            if(!this.olam.GRAVITY) this.olam.GRAVITY = 1;
             if (!isWorldBusy) this.velocity.y -= this.olam.GRAVITY * deltaTime;
             else this.velocity.y = 0; 
             
@@ -132,11 +114,6 @@ export default {
             this.velocity.x += this.velocity.x * airDamping;
             this.velocity.z += this.velocity.z * airDamping;
         } else {
-            var n = checkNan(this.velocity.x, this.velocity.y, this.velocity.z)
-            if(n) {
-	            console.trace("Nan found", this.velocity, damping, deltaTime);
-	            return;    
-            }
             this.velocity.addScaledVector(this.velocity, damping);
         }
         this.velocity.y = Math.max(this.velocity.y, -50); 
@@ -196,11 +173,7 @@ export default {
         }
     },
 
-    _executeMovement(deltaTime = 1) {
-        var nan = checkNan(this.velocity.x,this.velocity.y,this.velocity.z);
-        if(nan) {
-	            
-        }
+    _executeMovement(deltaTime) {
         const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime);
         const capsule = this.collider;
         let numSteps = Math.ceil(deltaPosition.length() / (capsule.radius * 0.5));
