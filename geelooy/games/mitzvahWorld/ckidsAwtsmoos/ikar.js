@@ -1,5 +1,4 @@
 
-
 /**
  * B"H
  * Ikar (Main Entry Point)
@@ -7,7 +6,7 @@
 
 console.log("B\"H", "\n", "Starting the Ikar JS!");
 
-import ManagerOfAllWorlds from "./Olam/worldManager.js";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js";
 import config from "../tochen/config/config.awtsmoos.js";
 
 try {

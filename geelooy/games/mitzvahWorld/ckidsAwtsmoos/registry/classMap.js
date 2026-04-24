@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file classMap.js
@@ -27,6 +28,7 @@ export default {
     "ProceduralRiver": "../../dvarim/nature/proceduralRiver.js",
     "Forest": "../../dvarim/nature/forest.js",
     "ProceduralPool": "../../dvarim/nature/proceduralPool.js",
+    "ProceduralTerrain": "../../dvarim/terrain/ProceduralTerrain.js", // B"H: New Terrain
     "Shovel": "../../dvarim/tools/shovel.js",
     "Pickaxe": "../../dvarim/tools/pickaxe.js",
     "RoadTool": "../../dvarim/tools/roadTool.js",
@@ -51,6 +53,7 @@ export default {
     "Apparel": "../../dvarim/apparel.js",
     "Mazik": "../../chayim/mazik.js",
     
-    // B"H: Water
+    "ElementalStaff": "../../dvarim/tools/elementalStaff.js", 
+    
     "FluidSystem": "../../dvarim/nature/fluidSystem.js"
 };
