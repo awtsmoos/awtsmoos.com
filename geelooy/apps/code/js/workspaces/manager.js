@@ -1,47 +1,19 @@
 
 // B"H
-/**
- * @file workspaces/manager.js
- * @brief The Guardian of the Project Worlds.
- * 
- * THE NOVEL OF THE RECOVERED KEY:
- * The lock was heavy, a slab of digital iron,
- * But the Seeker held the memory of the light.
- * "Resume," he commanded, and the code did stir,
- * Re-connecting the mind to the physical byte.
- * If the handle is lost, if the permission is gone,
- * We reveal the truth so the work can go on.
- * Refreshing the tree, manifesting the form,
- * Sheltering the logic from every storm.
- * But if the world is shattered, beyond all holy repair,
- * We purge the corrupted vessel, leaving empty air.
- */
-
 import { State, DOM } from '../state.js';
 import { App } from '../app.js';
 import { Tabs } from '../tabs/index.js';
 import { UI } from '../ui.js';
 import { WorkspaceTreeRenderer } from './tree-renderer.js';
-import { GitMetaProvider } from '../git/meta.js';
 import { Menus } from '../menus/index.js';
-import { GitManager } from '../git/index.js';
 import { getItemUniquePath } from './utils.js';
-import { RecoveryRitual } from '../fs/local/recovery-ritual.js';
 import { HandleCache } from '../fs/local/handle-cache.js';
 
 export const WorkspaceManager = {
-    /**
-     * @async
-     * @function render
-     * @description B"H - Re-manifests the entire sidebar tree.
-     */
     async render() {
         DOM.workspacesContainer.innerHTML = '';
         if (State.workspaces.length === 0) {
-            DOM.workspacesContainer.innerHTML = `
-                <div style="padding: 20px; text-align: center; color: var(--color-text-tertiary);">
-                    Seek and ye shall find.<br>Add a workspace to begin.
-                </div>`;
+            DOM.workspacesContainer.innerHTML = `<div style="padding: 20px; text-align: center; color: gray;">The void is endless...<br>Call forth a world.</div>`;
             return;
         }
         for (const ws of State.workspaces) {
@@ -49,25 +21,16 @@ export const WorkspaceManager = {
         }
     },
 
-    /**
-     * @function add
-     * @description Spawning a new world into the sidebar.
-     */
     add(ws, shouldSave = true) {
         const isNew = ws.id === undefined;
         const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
         State.workspaces.push(newWs);
         if (shouldSave) {
-            this.render(); // Full re-render for consistency
+            this.render(); 
             App.saveSession();
         }
     },
 
-    /**
-     * @async
-     * @function renderWorkspace
-     * @description Forging the physical form of a single workspace anchor.
-     */
 	async renderWorkspace(ws, container) {
 	    const wsRoot = document.createElement('div');
 	    wsRoot.className = 'workspace-root';
@@ -75,14 +38,14 @@ export const WorkspaceManager = {
 	    const rootItem = { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' };
 	    const uniquePath = getItemUniquePath(rootItem);
 	    
-        const isLocked = ws.type === 'local' && (ws.isLocked || !ws.handle);
+        // A workspace is truly considered locked ONLY if explicitly told so after a failure.
+        const isLocked = !!ws.isLocked;
 
 	    wsRoot.innerHTML = `
             <div class="workspace-header ${isLocked ? 'locked' : ''}" data-ws-id="${ws.id}">
                 <div class="workspace-header-title">
                     <svg class="svg-icon"><use href="#icon-${isLocked ? 'settings' : 'folder'}"></use></svg>
                     <span>${ws.name}</span>
-                    ${isLocked ? '<span class="resume-badge">RESUME</span>' : ''}
                 </div>
             </div>`;
 	    container.appendChild(wsRoot);
@@ -91,7 +54,25 @@ export const WorkspaceManager = {
 	    
 	    header.onclick = async () => {
             if (isLocked) {
-                await this.resumeWorkspace(ws);
+                // To restore connection, we prompt permission aggressively upon user interaction!
+                if (ws.handle) {
+                    try {
+                        const check = await ws.handle.requestPermission({mode: 'readwrite'});
+                        if(check === 'granted') {
+                            ws.isLocked = false;
+                            this.render();
+                            UI.showToast("B\"H - Bond forged anew.", "success");
+                            return;
+                        }
+                    } catch(e) { /* ignore */ }
+                }
+                
+                const deletePurge = await UI.showDialog({
+                    title: "Fractured Bridge",
+                    message: `The connection to '${ws.name}' was destroyed by the environment. Remove it from your workspace list?`,
+                    okText: "Remove Lost World"
+                });
+                if(deletePurge) this.remove(ws.id);
                 return;
             }
             WorkspaceTreeRenderer.toggleDirectory(uniquePath, wsRoot, rootItem, 0, true);
@@ -108,89 +89,27 @@ export const WorkspaceManager = {
 	    }
 	},
 
-    /**
-     * @async
-     * @function resumeWorkspace
-     * @description B"H - Re-awakening a local folder connection.
-     * Rectified to handle pure corruption without infinite loops.
-     */
-    async resumeWorkspace(ws) {
-        if (ws.type !== 'local') return;
-        
-        UI.showToast(`B"H - Re-anchoring "${ws.name}"...`, "info");
-        
-        try {
-            const handle = await RecoveryRitual.attemptActivation(ws);
-            if (handle) {
-                ws.isLocked = false;
-                ws.isLost = false;
-                ws.handle = handle;
-                
-                UI.showToast(`B"H - Connection restored!`, "success");
-                await this.render(); // Re-render to clear "locked" UI
-            } else {
-                throw new Error("Handle is null. The vessel is shattered.");
-            }
-        } catch (e) {
-            console.error(`[Workspace] B"H - Resume Failed for ${ws.name}:`, e);
-            
-            // B"H - The ultimate purification of the shattered vessel.
-            const confirmed = await UI.showDialog({
-                title: "Workspace Corrupted",
-                message: `The physical anchor for "${ws.name}" is lost forever. The OS has revoked permission or the folder was moved.\n\nThe Awtsmoos requires truth. This corrupted vessel must be purged from memory.`,
-                okText: "Purge Workspace",
-                cancelText: "Leave Locked"
-            });
-            
-            if (confirmed) {
-                await this.remove(ws.id);
-            }
-        }
-    },
-
-    /**
-     * @async
-     * @function remove
-     * @description Retracting a workspace from reality and purging its remnants.
-     */
     async remove(workspaceId) {
         const id = Number(workspaceId);
-        
-        // 1. Remove the Workspace from State
         State.workspaces = State.workspaces.filter(ws => Number(ws.id) !== id);
-        
-        // 2. Clean up HandleCache memory
         HandleCache.clear(); 
         
-        // 3. Purge Expanded Folders tracking
         for (const key of State.expandedFolders) {
-            if (key.startsWith(`${id}::`)) State.expandedFolders.delete(key);
+            if (key.includes(`::${id}::`)) State.expandedFolders.delete(key);
         }
         
-        // 4. Purge all open Tabs belonging to this workspace
-        const tabsToClose = State.tabs.filter(t => t.item.workspaceId === id || t.item.id === id);
-        for (const tab of tabsToClose) {
-            await Tabs.close(tab.id, true);
-        }
+        const tabsToClose = State.tabs.filter(t => Number(t.item.workspaceId) === id || Number(t.item.id) === id);
+        for (const tab of tabsToClose) await Tabs.close(tab.id, true);
         
-        // 5. Finalize the retraction
         App.saveSession(); 
         await this.render();
-        UI.showToast("B\"H - World retracted and purified.", "info");
     },
     
-    /**
-     * @async
-     * @function refreshNode
-     * @description B"H - Re-perceiving a specific folder's contents.
-     */
     async refreshNode(item) {
         if (!item) return;
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
         if (!entry) return;
-
-        console.log(`[Workspace] B"H - Refreshing node: ${item.path}`);
 
         let childrenContainer = entry.el.querySelector('ul');
         if (childrenContainer) {

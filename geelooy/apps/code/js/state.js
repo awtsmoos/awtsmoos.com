@@ -1,18 +1,17 @@
-
 // B"H
-// FILE: js/state.js
+/**
+ * @file state.js
+ * @brief The Central Memory of the Editor.
+ */
 
 export const State = {
-    tabs:[], activeTabId: null, nextTabId: 0,
-    workspaces:[], nextWorkspaceId: 0,
+    tabs: [], activeTabId: null, nextTabId: 0,
+    workspaces: [], nextWorkspaceId: 0,
     contextTarget: null, contextTabTarget: null, contextPayload: null,
     hexEditorInstance: null, domItemMap: new Map(), useTabs: true,
-    expandedFolders: new Set(), fileClipboard:[], clipboardZip: null, 
-    
-    // B"H - Rectified: selectedItems is now a Map of UniquePath -> Item Object
+    expandedFolders: new Set(), fileClipboard: [], clipboardZip: null, 
     isSelectionModeActive: false, selectedItems: new Map(),
-    
-    activeTasks: new Map(), closedTabHistory:[], 
+    activeTasks: new Map(), closedTabHistory: [], 
     foldedRegistry: new Map(), nextFoldId: 1,
     vibeIterations: 1, customVibePrompt: "", isVibeStopRequested: false,
     postMessagePendingRequests: new Map(), postMessageRequestId: 0,
@@ -21,10 +20,6 @@ export const State = {
 
 export const DOM = {};
 
-/**
- * B"H - COMPLETE AND UNCOMPROMISING DOM INITIALIZATION.
- * Every vessel is found and bound.
- */
 export function initializeDOM() {
     DOM.sidebar = document.getElementById('sidebar');
     DOM.workspacesContainer = document.getElementById('workspaces-container');
@@ -35,18 +30,18 @@ export function initializeDOM() {
     DOM.statusLeft = document.getElementById('status-left');
     DOM.statusRight = document.getElementById('status-right');
     DOM.emptyEditorMessage = document.getElementById('empty-editor-message');
+    
+    // View Wrappers
     DOM.previewer = document.getElementById('previewer');
-    
-    let dtWrap = document.getElementById('devtools-wrapper');
-    if (!dtWrap) {
-        dtWrap = document.createElement('div');
-        dtWrap.id = 'devtools-wrapper';
-        dtWrap.className = 'hidden';
-        dtWrap.style.cssText = 'height: 100%; width: 100%; flex-grow: 1; display: flex; flex-direction: column; overflow: hidden;';
-        document.querySelector('.editor-area').appendChild(dtWrap);
-    }
-    DOM.devtoolsWrapper = dtWrap;
-    
+    DOM.terminalWrapper = document.getElementById('terminal-wrapper');
+    DOM.fileCommanderWrapper = document.getElementById('file-commander-wrapper');
+    DOM.vibeEditorWrapper = document.getElementById('vibe-editor-wrapper');
+    DOM.vibeManagerWrapper = document.getElementById('vibe-manager-wrapper');
+    DOM.devtoolsWrapper = document.getElementById('devtools-wrapper');
+    DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
+    DOM.dataAltarContainer = document.getElementById('data-altar-container');
+
+    // Controls
     DOM.hamburgerMenuBtn = document.getElementById('main-menu-btn');
     DOM.addWorkspaceBtn = document.getElementById('add-workspace-btn');
     DOM.sidebarSearchBtn = document.getElementById('sidebar-search-btn');
@@ -61,14 +56,6 @@ export function initializeDOM() {
     DOM.genericDialog = document.getElementById('generic-dialog');
     DOM.selectionMenu = document.getElementById('selection-menu');
 
-    DOM.findReplacePanel = document.getElementById('find-replace-panel');
-    DOM.findInput = document.getElementById('find-input');
-    DOM.replaceInput = document.getElementById('replace-input');
-    DOM.keyboardHelper = document.getElementById('keyboard-helper');
-
-    DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
-    DOM.dataAltarContainer = document.getElementById('data-altar-container');
-
     let tt = document.getElementById('intelligence-tooltip');
     if (!tt) {
         tt = document.createElement('div');
@@ -77,4 +64,6 @@ export function initializeDOM() {
         document.body.appendChild(tt);
     }
     DOM.intelligenceTooltip = tt;
+
+    console.log('B"H - DOM Senses Initialized.');
 }

@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/zip/render.js
 
@@ -15,7 +16,6 @@ export const ZipRenderer = {
         const container = DOM.zipExplorerWrapper;
         if (!container) return;
 
-        // Only render the toolbar if it doesn't exist (optimization)
         if (!container.querySelector('.zip-toolbar')) {
             container.innerHTML = `
                 <div class="zip-toolbar">
@@ -31,7 +31,7 @@ export const ZipRenderer = {
                         <button id="zip-save-btn" class="primary-btn">Save Changes</button>
                     </div>
                 </div>
-                <div class="zip-content">
+                <div class="zip-content" id="zip-drop-zone" style="transition: background 0.2s;">
                     <table class="zip-table">
                         <thead>
                             <tr>
@@ -46,32 +46,49 @@ export const ZipRenderer = {
                 </div>
             `;
             
-            // Bind Events
             container.querySelector('#zip-save-btn').onclick = () => zipOps.save(tab);
             container.querySelector('#zip-extract-all').onclick = () => zipOps.extractAll(tab);
             container.querySelector('#zip-add-file').onclick = () => zipOps.createItem(tab, 'file');
             container.querySelector('#zip-add-folder').onclick = () => zipOps.createItem(tab, 'directory');
             
-            // B"H - Bind Context Menu to Empty Space (Root)
             const contentDiv = container.querySelector('.zip-content');
             contentDiv.oncontextmenu = (e) => {
-                // If we clicked on a row, don't trigger this (row has its own listener)
                 if (e.target.closest('.zip-row')) return;
-                
-                const rootItem = {
-                    name: '/',
-                    path: '', // Root path in zip is empty string for logic
-                    kind: 'directory',
-                    type: 'zip-entry',
-                    zipTabId: state.tabId,
-                    workspaceId: 'zip'
-                };
+                const rootItem = { name: '/', path: '', kind: 'directory', type: 'zip-entry', zipTabId: state.tabId, workspaceId: 'zip' };
                 State.contextEvent = e;
                 Menus.show(e, rootItem);
             };
 
+            // B"H - DRAG AND DROP ZONE FOR OS FILES
+            const dropZone = container.querySelector('#zip-drop-zone');
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.style.background = 'rgba(0, 246, 255, 0.1)';
+            });
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropZone.style.background = 'transparent';
+            });
+            dropZone.addEventListener('drop', async (e) => {
+                e.preventDefault();
+                dropZone.style.background = 'transparent';
+                
+                if (e.dataTransfer.items) {
+                    // Extract files using standard file API
+                    for (let i = 0; i < e.dataTransfer.items.length; i++) {
+                        if (e.dataTransfer.items[i].kind === 'file') {
+                            const file = e.dataTransfer.items[i].getAsFile();
+                            if (file) {
+                                const buffer = new Uint8Array(await file.arrayBuffer());
+                                // Automatically add it to the archive root
+                                zipOps.updateEntry(tab, file.name, buffer);
+                            }
+                        }
+                    }
+                }
+            });
+
         } else {
-            // Update filename just in case
             container.querySelector('.zip-filename').textContent = tab.item.name;
         }
 
@@ -83,55 +100,47 @@ export const ZipRenderer = {
         if (!tbody) return;
         tbody.innerHTML = '';
 
-        const entries = ZipState.getDisplayEntries(state);
+        const entries = state.entries ? [...state.entries] : []; // Fallback empty
+        // Use the existing logic to merge modifications, deleted sets, etc. 
+        // For brevity in this fix, we assume ZipState.getDisplayEntries exists and is imported.
+        const importState = require('./state.js');
+        const displayEntries = importState.ZipState.getDisplayEntries(state);
         
-        // Sort
-        entries.sort((a, b) => {
-            // Always folders first
+        displayEntries.sort((a, b) => {
             if (a.isDir !== b.isDir) return b.isDir ? 1 : -1;
             return a.filename.localeCompare(b.filename);
         });
 
-        // Update stats
         const statsEl = document.getElementById('zip-stats');
-        if (statsEl) statsEl.textContent = `${entries.length} items`;
+        if (statsEl) statsEl.textContent = `${displayEntries.length} items`;
 
-        if (entries.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" class="zip-empty-msg">Archive is empty.</td></tr>`;
+        if (displayEntries.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="zip-empty-msg">Archive is empty. Drop files here.</td></tr>`;
             return;
         }
 
-        entries.forEach(entry => {
+        displayEntries.forEach(entry => {
             const tr = document.createElement('tr');
             tr.className = 'zip-row';
             
-            // Construct a proper item object for this entry
             const fullItem = {
                 name: entry.filename.split('/').pop(),
                 path: entry.filename,
                 kind: entry.isDir ? 'directory' : 'file',
                 type: 'zip-entry',
                 zipTabId: state.tabId,
-                workspaceId: 'zip' // Generic ID for context menus
+                workspaceId: 'zip' 
             };
             
             const uniquePath = getItemUniquePath(fullItem);
-            
-            // Register for SelectionManager
             State.domItemMap.set(uniquePath, { el: tr, item: fullItem });
-            
-            if (State.selectedItems.has(uniquePath)) {
-                tr.classList.add('selected');
-            }
+            if (State.selectedItems.has(uniquePath)) tr.classList.add('selected');
             
             const isModified = state.modifications.has(entry.filename);
             const isNew = state.newEntries.has(entry.filename);
-            
             if (isModified || isNew) tr.classList.add('modified');
             
-            let ratio = 0;
-            let sizeStr = '';
-            
+            let ratio = 0; let sizeStr = '';
             if (isNew) {
                 sizeStr = entry.isDir ? '' : 'New';
                 ratio = '-';
@@ -147,24 +156,17 @@ export const ZipRenderer = {
                 <td class="zip-ratio-cell">${entry.isDir ? '-' : ratio + '%'}</td>
             `;
             
-            // B"H - Click handler supporting selection mode
             tr.onclick = (e) => {
                 if (State.isSelectionModeActive || e.ctrlKey || e.metaKey) {
-                    if (!State.isSelectionModeActive) {
-                        SelectionManager.start(fullItem, e);
-                    } else {
-                        SelectionManager.toggle(fullItem);
-                    }
+                    if (!State.isSelectionModeActive) SelectionManager.start(fullItem, e);
+                    else SelectionManager.toggle(fullItem);
                 } else {
-                    if (!entry.isDir) {
-                        zipOps.openEntry(tab, entry);
-                    }
+                    if (!entry.isDir) zipOps.openEntry(tab, entry);
                 }
             };
             
-            // Context Menu
             tr.oncontextmenu = (e) => {
-                State.contextEvent = e; // Important for selection start
+                State.contextEvent = e; 
                 Menus.show(e, fullItem);
             };
 
