@@ -2,7 +2,7 @@
 // B"H
 /**
  * @file virtual-server.js
- * @brief The Divine Gateway for the Simulation.
+ * @brief The Divine Gateway and the Mashpia (Giver) for the Simulation.
  * 
  * THE POEM OF THE VIRTUAL DISK:
  * The simulation dreams of servers, of networks far and wide,
@@ -11,6 +11,9 @@
  * And answers them with local sparks of manifested light.
  * It reads the text, it reads the byte, it knows the mime and name,
  * Ensuring that the virtual world and real world are the same.
+ * 
+ * If a path is sought and nowhere found, and extensions are not seen,
+ * We serve the index to the screen, to keep the React dream!
  */
 
 import { FileSystemProvider } from '../fs-provider.js';
@@ -22,30 +25,50 @@ export const VirtualServer = {
     /**
      * @async
      * @function fetch
-     * @description Resolves a simulated request into actual workspace data.
-     * @param {string} workspaceId - The world ID.
-     * @param {string} referrer - The path of the requesting vessel.
-     * @param {string} reqPath - The requested relative or absolute path.
-     * @returns {Promise<Object>} The resolved content and metadata.
+     * @description Resolves a simulated request into actual workspace data, with SPA fallback.
      */
     async fetch(workspaceId, referrer, reqPath) {
         const absPath = PathResolver.resolve(referrer, reqPath);
         const ws = State.workspaces.find(w => String(w.id) === String(workspaceId));
         
-        if (!ws) throw new Error(`Workspace ${workspaceId} has vanished from reality.`);
+        if (!ws) throw new Error(`B"H - Workspace ${workspaceId} has vanished from reality.`);
         
-        const item = { ...ws, path: absPath, kind: 'file', workspaceId };
+        let item = { ...ws, path: absPath, kind: 'file', workspaceId };
         console.log(`[VirtualServer] B"H - Retrieving Essence: ${absPath}`);
         
-        const content = await FileSystemProvider.read(item);
-        const mime = MimeUtil.getInfo(absPath).mime;
+        let content;
+        let finalPath = absPath;
+
+        try {
+            content = await FileSystemProvider.read(item);
+        } catch (e) {
+            // B"H - SPA ROUTING FALLBACK
+            // If the requested path has no file extension, we assume it is a client-side route
+            // and serve the index.html from the root of the workspace.
+            const fileName = absPath.split('/').pop();
+            
+            if (!fileName.includes('.')) {
+                console.log(`[VirtualServer] B"H - Path [${absPath}] unmanifested. Falling back to Root index.html for SPA routing.`);
+                finalPath = '/index.html';
+                item = { ...ws, path: finalPath, kind: 'file', workspaceId };
+                try {
+                    content = await FileSystemProvider.read(item);
+                } catch (fallbackErr) {
+                    throw new Error(`[VirtualServer] B"H - SPA Fallback failed. No index.html found at root.`);
+                }
+            } else {
+                throw e; // The void remains void.
+            }
+        }
+        
+        const mimeInfo = MimeUtil.getInfo(finalPath);
+        const mime = mimeInfo.mime;
         
         let text = '';
         let buffer = null;
 
         if (content instanceof Blob) {
             buffer = await content.arrayBuffer();
-            // We only decode text for scripts/html/json to prevent binary corruption in text fields
             if (mime.includes('text') || mime.includes('json') || mime.includes('javascript')) {
                 text = new TextDecoder().decode(buffer);
             }
@@ -58,6 +81,6 @@ export const VirtualServer = {
             buffer = bytes.buffer;
         }
 
-        return { text, buffer, mime, absPath };
+        return { text, buffer, mime, absPath: finalPath };
     }
 };

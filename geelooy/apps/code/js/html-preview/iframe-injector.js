@@ -7,6 +7,9 @@ import { InjectionAssembler } from './injections/index.js';
 export const IframeInjector = {
     inject(doc, iframe, identity, tabId) {
         try {
+            // B"H - Apply the Sacred Bounds (Sandbox)
+            iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-modals allow-popups');
+
             const scriptStr = InjectionAssembler.getNetworkInterceptorScript(identity.workspaceId, identity.path, tabId);
             const shield = `<script data-merkava-internal="true">${scriptStr}</script>`;
             let htmlText = doc.documentElement.outerHTML;

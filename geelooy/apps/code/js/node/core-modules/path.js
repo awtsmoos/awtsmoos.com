@@ -4,20 +4,17 @@
  * @file path.js
  * @brief The Navigator of Dimensions, Stringified for the Golem's Consumption.
  * 
- * THE POEM OF THE STRINGIFIED WINDING ROAD:
- * The code must be text before it is mind,
- * A string in the browser, leaving execution behind.
- * Only when injected into the Worker's deep soul,
- * Does it awaken as logic and take full control.
+ * THE POEM OF THE TIRELESS CARTOGRAPHER:
+ * The string is the path, the path is the law,
+ * Resolving the angles, ignoring the flaw.
+ * It chops off the head, it extracts the root,
+ * It names every leaf on the digital shoot!
+ * The Golem (Worker) relies on this map to be true,
+ * To find all the files that are hidden from you.
  */
 
 export const pathModule = `
 module.exports = {
-    /**
-     * B"H
-     * @function join
-     * @description Merges multiple fragments of space into a unified coordinate.
-     */
     join(...paths) {
         const parts = [];
         for (let i = 0; i < paths.length; i++) {
@@ -39,11 +36,6 @@ module.exports = {
         return (paths[0].startsWith('/') ? '/' : '') + stack.join('/') || '.';
     },
 
-    /**
-     * B"H
-     * @function resolve
-     * @description Ascends to the absolute truth of a path.
-     */
     resolve(...paths) {
         let resolvedPath = '';
         let resolvedAbsolute = false;
@@ -67,11 +59,6 @@ module.exports = {
         return (resolvedAbsolute ? '/' : '') + stack.join('/') || '.';
     },
 
-    /**
-     * B"H
-     * @function dirname
-     * @description Extracts the parent vessel.
-     */
     dirname(path) {
         if (typeof path !== 'string') throw new TypeError('Path must be a string.');
         if (path === '/' || path === '') return path;
@@ -83,7 +70,11 @@ module.exports = {
 
     basename(path, ext) {
         if (typeof path !== 'string') throw new TypeError('Path must be a string.');
-        let base = path.substring(path.lastIndexOf('/') + 1);
+        let base = path.substring(path.lastIndexOf('/') + 1) || path;
+        if (base === '' && path.endsWith('/')) {
+            const stripped = path.slice(0, -1);
+            base = stripped.substring(stripped.lastIndexOf('/') + 1);
+        }
         if (ext && base.endsWith(ext) && base.length > ext.length) {
             base = base.substring(0, base.length - ext.length);
         }
@@ -92,10 +83,31 @@ module.exports = {
 
     extname(path) {
         if (typeof path !== 'string') throw new TypeError('Path must be a string.');
-        const base = path.substring(path.lastIndexOf('/') + 1);
+        const base = module.exports.basename(path);
         const dotIndex = base.lastIndexOf('.');
         if (dotIndex <= 0) return '';
         return base.substring(dotIndex);
+    },
+    
+    parse(path) {
+        if (typeof path !== 'string') throw new TypeError('Path must be a string.');
+        const ret = { root: '', dir: '', base: '', ext: '', name: '' };
+        if (path.length === 0) return ret;
+        ret.root = path.startsWith('/') ? '/' : '';
+        ret.base = module.exports.basename(path);
+        ret.ext = module.exports.extname(path);
+        ret.name = ret.base.substring(0, ret.base.length - ret.ext.length);
+        ret.dir = module.exports.dirname(path);
+        return ret;
+    },
+    
+    format(pathObj) {
+        if (!pathObj || typeof pathObj !== 'object') throw new TypeError('Parameter must be an object.');
+        const dir = pathObj.dir || pathObj.root || '';
+        const base = pathObj.base || ((pathObj.name || '') + (pathObj.ext || ''));
+        if (!dir) return base;
+        if (dir === pathObj.root) return dir + base;
+        return dir + '/' + base;
     }
 };
 `;

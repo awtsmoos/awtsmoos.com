@@ -33,6 +33,11 @@ export const FilesystemRitual = {
             menuItems.push({ isSeparator: true });
             menuItems.push({ label: "Copy", action: "copy-item", icon: "copy" });
             
+            // B"H - Register Duplicate for files
+            if (isFile) {
+                menuItems.push({ label: "Duplicate", action: "duplicate-item", icon: "copy" });
+            }
+            
             if (State.fileClipboard.length > 0 || State.clipboardZip) {
                 menuItems.push({ label: "Paste Into", action: "paste", icon: "clipboard" });
             }

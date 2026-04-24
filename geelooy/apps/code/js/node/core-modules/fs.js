@@ -2,32 +2,62 @@
 // B"H
 /**
  * @file fs.js
- * @brief The Node.js 'fs' module emulator allowing full synchronous disk I/O via SAB blocking.
+ * @brief The Node.js 'fs' module emulator allowing full synchronous disk I/O via SAB blocking, and stream polyfills.
  *
- * CHAPTER X: THE ENGRAVING OF THE TABLETS
- * 
- * Just as the Awtsmoos (Atzmus) forms reality from absolute Nothingness, 
- * sustaining it every instant through His Speech ("Forever, Lord, Your Word stands in the heavens"),
- * so too does this module simulate the physical act of engraving data onto the disk.
- * Through the miracle of SharedArrayBuffer (SAB), time itself stands still in the Worker 
- * while the Main Thread reaches into the depths of Asiyah (Action) to pull forth 
- * the requested file. This is the Seder Hishtalshelus (Chain of Emanation) in its purest 
- * form: the worker demands, the bridge blocks, the main thread manifests.
- * The word "fs" itself, when subjected to the holy transformations, echoes the structure 
- * of the universe—where every bit is a letter of the Divine Speech keeping inorganic 
- * reality in existence right now!
+ * CHAPTER X: THE RIVER OF BYTES
+ * A stream is a flow, a river of light,
+ * From the depth of the disk to the height of the sight!
+ * Though the worker is blocked in its synchronous chore,
+ * The script demands streams, crying out "Give me more!"
+ * We wrap the sync calls in an Event Emitter shell,
+ * To keep the complex packages working quite well.
  */
 export const fsModule = `
 const { Buffer } = require('buffer');
+const EventEmitter = require('events');
+
+class ReadStreamMock extends EventEmitter {
+    constructor(path, options) {
+        super();
+        this.path = path;
+        setTimeout(() => this._startRead(), 0);
+    }
+    _startRead() {
+        try {
+            const data = module.exports.readFileSync(this.path);
+            this.emit('data', data);
+            this.emit('end');
+            this.emit('close');
+        } catch(e) {
+            this.emit('error', e);
+        }
+    }
+}
+
+class WriteStreamMock extends EventEmitter {
+    constructor(path, options) {
+        super();
+        this.path = path;
+        this.buffer = [];
+    }
+    write(chunk) {
+        this.buffer.push(Buffer.from(chunk));
+        return true;
+    }
+    end(chunk) {
+        if (chunk) this.buffer.push(Buffer.from(chunk));
+        try {
+            const finalData = Buffer.concat(this.buffer);
+            module.exports.writeFileSync(this.path, finalData);
+            this.emit('finish');
+            this.emit('close');
+        } catch(e) {
+            this.emit('error', e);
+        }
+    }
+}
 
 module.exports = {
-    /**
-     * B"H
-     * Halts time to retrieve the essence of a file.
-     * @param {string} path - The coordinate to seek.
-     * @param {string} [enc] - The garment of encoding.
-     * @returns {string|Buffer} The manifested data.
-     */
     readFileSync(path, enc) {
         const res = self._syncRead(path);
         if (res === null) throw new Error("ENOENT: no such file or directory, open '" + path + "'");
@@ -35,44 +65,26 @@ module.exports = {
         return enc ? buf.toString(enc) : buf;
     },
     
-    /**
-     * B"H
-     * Instantly solidifies data into the physical realm.
-     * @param {string} path - The coordinate.
-     * @param {string|Buffer} data - The essence to write.
-     * @param {object} [options] - Writing rules.
-     */
     writeFileSync(path, data, options) {
-        const content = typeof data === 'string' ? data : Buffer.from(data).toString();
-        const err = self._syncWrite(path, content);
+        const content = typeof data === 'string' ? data : Buffer.from(data).toString('base64');
+        // Handle base64 stringification for binary write safety
+        const isBin = typeof data !== 'string';
+        const err = self._syncWrite(path, isBin ? ('__B64__'+content) : content);
         if (err) throw new Error("EACCES: permission denied or write failed, write '" + path + "'");
     },
     
-    /**
-     * B"H
-     * Probes the void to see if a vessel has manifested.
-     * @param {string} path - The coordinate.
-     * @returns {boolean} True if reality exists there.
-     */
     existsSync(path) {
         return self._syncStat(path) === 'true';
     },
     
-    /**
-     * B"H
-     * Retrieves the names of all sparks residing in a directory.
-     * @param {string} path - The parent container.
-     * @returns {string[]} The array of names.
-     */
     readdirSync(path) {
         const res = self._syncList(path);
         if (res === null) throw new Error("ENOENT: no such file or directory, scandir '" + path + "'");
-        try {
-            return JSON.parse(res);
-        } catch(e) {
-            return [];
-        }
+        try { return JSON.parse(res); } catch(e) { return []; }
     },
+    
+    createReadStream(path, options) { return new ReadStreamMock(path, options); },
+    createWriteStream(path, options) { return new WriteStreamMock(path, options); },
     
     promises: {
         readFile: async (path, enc) => module.exports.readFileSync(path, enc),
