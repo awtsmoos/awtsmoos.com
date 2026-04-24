@@ -1,59 +1,74 @@
-//B"H
+
+
 /**
- * @file index.js
- * Medabeir (Speaker) - That which possesses the power of holy speech.
- * Purified of experimental extensions to ensure stable legacy support.
+ * B"H
+ * 
+ * Medabeir, that which speaks, is
+ * a class representing NPCs in the game
+ * that the player can have a dialogue with.
+ * 
+ * It aggregates functionality from modular methods.
  */
 
-import Chai from "../chai/index.js";
-import Dialogue from "../../tochen/helpers/dialogue.js";
+import Chai from "../chai.js";
+import * as AWTSMOOS from "../../awtsmoosCkidsGames.js";
 import Utils from "../../utils.js";
-import Lev from "../lev.js"; 
 
 // Import Faculties
 import dialogueMethods from "./methods/dialogue.js";
 import stateMethods from "./methods/state.js";
 import visualMethods from "./methods/visuals.js";
 import lifecycleMethods from "./methods/lifecycle.js";
-import brainMethods from "./methods/brain.js"; // B"H: New Brain Logic
 
 export default class Medabeir extends Chai {
     type = "medabeir";
     
+    // Properties
     state = "idle";
-    mood = "neutral";
+    mood = "neural";
     
     goof = null;
     goofOptions = null;
+
+    startTime = 0;
+    currentTime = 0;
+
+    nivraTalkingTo = null;
+    currentMessageIndex = 0;
+    currentSelectedMsgIndex = 0;
+    dialogueHandler = null;
     
     // Dialogue State
     _messageTree = [];
     _messageTreeFunction = null;
     _tempTree = null;
-    
-    // AI Memory
-    historyLog = [];
 
     constructor(options, olam) {
+        // B"H: Default Proximity for all Medabeir (Speakers)
         if(options.proximity === undefined) options.proximity = 3.0;
 
         super(options, olam);
         
-        this.lev = new Lev(this);
-        if(options.lev) Object.assign(this.lev.baseline, options.lev);
-        
-        if(options.dialogue) this.dialogue = options.dialogue;
+        // B"H: 1. Initialize Options FIRST
+        if(options.dialogue) {
+            this.dialogue = options.dialogue;
+        }
         
         if (options.messageTree) {
             this.messageTree = options.messageTree;
         } else {
+            // Default empty tree to prevent crashes
             this._messageTree = [];
         }
 
         this.goofOptions = options.goof;
-        if(options.state) this.state = options.state;
 
-        this.dialogueHandler = new Dialogue(
+        if(options.state) {
+            this.state = options.state;
+        }
+
+        // B"H: 2. Initialize Dialogue Handler SECOND (now that data is ready)
+        this.dialogueHandler = new AWTSMOOS.Dialogue(
             this, {
                 approachShaym: "approach npc msg",
                 npcMessageShaym: "msg npc",
@@ -62,32 +77,25 @@ export default class Medabeir extends Chai {
         );
         
         this.on("sealayk", () => {
-            if(this.dialogueHandler) this.dialogueHandler.sealayk(this);
+            if(this.dialogueHandler)
+                this.dialogueHandler.sealayk(this);
         });
 
+        // Event Listeners for interaction
         this.on("nivraNeechnas", nivra => {
             this.dialogueHandler.nivraNeechnas(nivra);
-            if(this.lev) this.lev.react("GREET", 0.1);
-            if(this.addToHistory) this.addToHistory(`Saw ${nivra.name}`);
-        });
-        
+        })
         this.on("nivraYotsee", nivra => {
             this.dialogueHandler.nivraYotsee(nivra);
             this.resetDialogueState();
         });
 		
+		this.on("change transformation", ({ position, rotation }) => {
+            // Hook for future logic
+		});
+
+        // Initialize state checkers (e.g. Shlichus availability)
         this.initShlichusChecker();
-        
-        this.on("heesHawvoos", (self) => {
-            var dt = self.olam.deltaTime;
-            //console.log("What",dt)
-            if(isNaN(dt)) {
-	            console.trace("deltastic", self, dt);
-	            throw "NAN DELT"    
-            }
-            if(this.lev) this.lev.update(dt);
-            if(this.updateBrain) this.updateBrain(dt); // B"H: Brain Update
-        });
     }
 
     get messageTree() {
@@ -96,11 +104,16 @@ export default class Medabeir extends Chai {
         return typeof(this._messageTreeFunction) == "function" ? 
             this._messageTreeFunction(this) : this._messageTree;
     }
-    
+
     set messageTree(v) {
         if(typeof(v) == "function") {
             this._messageTreeFunction = v;
-            try { this._messageTree = this._messageTreeFunction(this); } catch(e) { this._messageTree = []; }
+            try {
+                // Initialize initial state if possible
+                this._messageTree = this._messageTreeFunction(this);
+            } catch(e) {
+                this._messageTree = [];
+            }
         } else {
             this._messageTreeFunction = null;
             this._messageTree = v;
@@ -109,17 +122,18 @@ export default class Medabeir extends Chai {
 
     get currentMessage() {
         const tree = this.messageTree;
+        // Defensive check
         if(!Array.isArray(tree) || tree.length === 0) return { message: "...", responses: [] };
-        let idx = this.currentMessageIndex;
-        if (this._tempTree && this._tempTree[idx]) return this._tempTree[idx];
-        if (tree[idx]) return tree[idx];
-        return tree[0]; 
+        
+        // Ensure index is valid
+        if (this.currentMessageIndex >= tree.length) this.currentMessageIndex = 0;
+        
+        return tree[this.currentMessageIndex||0]; 
     }
 }
 
-// B"H: Binding Faculties
+// B"H - Aggregating the Faculties
 Object.assign(Medabeir.prototype, dialogueMethods);
 Object.assign(Medabeir.prototype, stateMethods);
 Object.assign(Medabeir.prototype, visualMethods);
 Object.assign(Medabeir.prototype, lifecycleMethods);
-Object.assign(Medabeir.prototype, brainMethods); // B"H

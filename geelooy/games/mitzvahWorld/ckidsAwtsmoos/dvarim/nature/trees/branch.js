@@ -1,6 +1,8 @@
+
 /**
  * B"H
  * @file branch.js
+ * Structure definition for a tree branch.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 

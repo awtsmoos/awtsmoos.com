@@ -1,8 +1,8 @@
+
 /**
  * B"H
  * @file materialGenerator.js
- * Generates materials for nature items.
- * B"H SAFE MODE: All custom shaders disabled.
+ * Generates materials for nature items, including wind shaders and procedural textures.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -12,11 +12,11 @@ export default {
         
         if (type.includes('grass')) {
             mat = new THREE.MeshLambertMaterial({ 
-                color: 0x44aa44, 
+                color: 0xffffff, // White so we can tint it per instance
                 side: THREE.DoubleSide,
                 wireframe: false
             });
-            // this.injectWind(mat); // B"H: DISABLED
+            this.injectWind(mat);
         } else if (type.includes('rock')) {
             // B"H: Smooth Shaded Rock with Procedural Texture
             const rockTexture = this.generateRockTexture();
@@ -80,6 +80,20 @@ export default {
         
         ctx.putImageData(idata, 0, 0);
         
+        // 3. Add some "cracks" or veins
+        ctx.strokeStyle = "rgba(40, 40, 40, 0.1)";
+        ctx.lineWidth = 2;
+        for(let k=0; k<5; k++) {
+            ctx.beginPath();
+            ctx.moveTo(Math.random()*size, Math.random()*size);
+            ctx.bezierCurveTo(
+                Math.random()*size, Math.random()*size,
+                Math.random()*size, Math.random()*size,
+                Math.random()*size, Math.random()*size
+            );
+            ctx.stroke();
+        }
+
         const texture = new THREE.CanvasTexture(canvas);
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
@@ -89,7 +103,41 @@ export default {
     },
 
     injectWind(material) {
-        // B"H SAFE MODE: Function neutralized.
-        console.log("B\"H [MaterialGenerator] Wind shader injection disabled.");
+        // Only enable alphaTest if a map is present later
+        if(material.map) material.alphaTest = 0.5;
+        
+        material.onBeforeCompile = (shader) => {
+            shader.uniforms.uTime = { value: 0 };
+            
+            shader.vertexShader = `
+                uniform float uTime;
+            ` + shader.vertexShader;
+
+            shader.vertexShader = shader.vertexShader.replace(
+                '#include <project_vertex>', 
+                `
+                vec4 mvPosition = instanceMatrix * vec4(transformed, 1.0);
+                
+                // Simple sway based on Y height (uv.y or position.y)
+                float h = position.y; 
+                // Since our grass geometry is normalized around Y=0 to H, just use position.y
+                if (h < 0.1) h = 0.0; // Anchor bottom
+                
+                float swayStrength = 0.15;
+                float swaySpeed = 1.5;
+                float swayPhase = mvPosition.x * 0.5 + mvPosition.z * 0.3;
+                
+                float sway = sin(uTime * swaySpeed + swayPhase) * swayStrength * h;
+                
+                mvPosition.x += sway;
+                mvPosition.z += cos(uTime * swaySpeed * 0.8 + swayPhase) * swayStrength * 0.5 * h;
+                
+                mvPosition = modelViewMatrix * mvPosition;
+                gl_Position = projectionMatrix * mvPosition;
+                `
+            );
+            
+            material.userData.shader = shader;
+        };
     }
 };
