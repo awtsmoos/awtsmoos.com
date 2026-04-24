@@ -4,12 +4,12 @@
  * @module GeometryManager
  * @description
  * The grand registry of Divine Forms. 
- * Now fortified with immense try...catch protection.
  */
 
 import HouseAssembler from "../../utils/3d/procedural/house/HouseAssembler.js";
 import GrassPatchAssembler from "../../utils/3d/procedural/nature/GrassPatchAssembler.js";
-// Keeping simple ones inline or importing as needed, but focusing on the requested intense generators here.
+import RockAssembler from "../../utils/3d/procedural/nature/RockAssembler.js";
+import CloudAssembler from "../../utils/3d/procedural/nature/CloudAssembler.js";
 
 const registry = new Map();
 
@@ -20,7 +20,9 @@ export default class GeometryManager {
         try {
             this.register("HouseGeometry", HouseAssembler.generate);
             this.register("GrassPatchGeometry", GrassPatchAssembler.generate);
-            console.log("B\"H - ⚡ GeometryManager Registry Initialized with House and Grass.");
+            this.register("RockGeometry", RockAssembler.generate);
+            this.register("CloudGeometry", CloudAssembler.generate);
+            console.log("B\"H - ⚡ GeometryManager Registry Initialized with expanded nature forms.");
         } catch(e) {
             console.error("B\"H - ⚡ GeometryManager Init Failed:", e);
         }
@@ -50,7 +52,7 @@ export default class GeometryManager {
             }
             return generator(...args);
         } catch (e) {
-            console.error(`B"H - ⚡ Critical failure creating geometry ${typeName}:`, e);
+            console.error(`B"H - ⚡ Critical failure creating geometry \${typeName}:`, e);
             return null;
         }
     }

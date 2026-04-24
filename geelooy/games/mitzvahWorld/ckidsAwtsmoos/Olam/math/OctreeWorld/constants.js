@@ -26,4 +26,3 @@ export const CONFIG = {
     FRAME_BUDGET: 5,
     MAX_TRIANGLES_PER_NODE: 15000
 };
-export const MAX_DEPTH = 64;

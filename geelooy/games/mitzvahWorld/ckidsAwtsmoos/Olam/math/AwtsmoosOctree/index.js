@@ -19,7 +19,7 @@ const _line1 = new Line3();
 const _line2 = new Line3();
 const _temp_triangle = new Triangle();
 
-const MAX_DEPTH = 12; // B"H: Reduced for safety
+const MAX_DEPTH = 55;
 
 export class Octree {
 	// Holds Triangle objects until the build is triggered.

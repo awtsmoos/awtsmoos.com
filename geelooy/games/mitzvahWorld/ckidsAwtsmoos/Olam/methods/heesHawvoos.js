@@ -1,91 +1,133 @@
-// B"H
+
 /**
- * heesHawvoos.js - The constant game update and rendering loop.
- * A reflection of the constant recreation of the world by the Speech of the Awtsmoos.
+ * B"H
+ * 
+ * methods related to the constant
+ * game update and rendering
  */
+
 import * as THREE from '/games/scripts/build/three.module.js';
 
 export default class {
+
     velz = 0;
     deltaTime = 1;
-    destroyed = false;
-    
     async heesHawvoos() {
         var self = this;
         var firstTime = false;
         
-        async function go(time) {
-            if (self.destroyed) return;
+        console.log("B\"H - Starting Game Loop (HeesHawvoos)");
 
-            // 1. CONTEXT GUARD: If the renderer has lost its spirit, halt manifestation.
-            if (self.renderer && self.renderer.getContext().isContextLost()) {
-                console.error("B\"H - FATAL: WebGL Context Lost! The vessel has shattered.");
-                self.destroyed = true;
-                self.ayshPeula("error", { message: "Graphics context lost. Please reload." });
-                return;
+        // This will be the loop we call every frame.
+        async function go(time) {
+             // Delta time (in seconds) is the amount of time that has passed since the last frame.
+            // We limit it to a max of 0.1 seconds to avoid large jumps if the frame rate drops.
+            self.deltaTime = Math.min(0.1, self.clock.getDelta())
+            
+            // 1. Shlichus Update
+            if(self.shlichusHandler) {
+                self.shlichusHandler.update(self.deltaTime)
             }
 
-            let dt = self.clock.getDelta();
-            if (isNaN(dt) || dt <= 0) dt = 0.016; 
-            self.deltaTime = Math.min(0.1, dt);
-
-            try {
-                // 2. MANIFESTATION THROTTLE
-                // If the physics engine is heavily crunching geometry, we skip logical updates 
-                // for some entities to prioritize GPU stability and prevent driver timeout.
-                const isPhysicsBusy = self.worldOctree && self.worldOctree.isProcessing;
-
-                if (self.shlichusHandler) self.shlichusHandler.update(self.deltaTime);
-
-                if (self.environment) {
-                    const playerPos = self.player ? self.player.mesh.position : new THREE.Vector3();
-                    self.environment.update(self.deltaTime, playerPos);
+            // 2. Water Animation
+            if(self.mayim) {
+                self.mayim.forEach(w => {
+                    w.material.uniforms[ 'time' ].value += 1.0 / 60.0;
+                })
+            }
+            
+            // 3. Octree Physics World Update
+            // B"H: We must gather ALL "Chai" (living) entities to tell the world where to generate physics.
+            // The world exists for the sake of those who inhabit it.
+            if (self.worldOctree) {
+                const foci = [];
+                
+                // Add Player
+                if (self.chossid) {
+                    foci.push({ 
+                        position: self.chossid.mesh.position, 
+                        velocity: self.chossid.velocity 
+                    });
                 }
-
-                if (self.worldOctree) {
-                    const foci = [];
-                    if (self.chossid && self.chossid.velocity && !isNaN(self.chossid.mesh.position.x)) {
-                        foci.push({ position: self.chossid.mesh.position, velocity: self.chossid.velocity });
-                    }
-                    self.worldOctree.update(foci, null); 
-                }
-                    
+                
+                // Add Active NPCs (Medabeir/CustomNpc)
                 if (self.nivrayim) {
-                    for (let i = 0; i < self.nivrayim.length; i++) {
-                        const n = self.nivrayim[i];
-                        if (n.isReady && !n.wasSealayked && n.heesHawveh) {
-                            // If busy, skip updates for non-essential static objects
-                            if (isPhysicsBusy && n.static) continue;
-                            n.heesHawvoos(self.deltaTime);
+                    for(const n of self.nivrayim) {
+                        // Check if it's an active character with velocity (not the player, who is already added)
+                        // B"H FIX: Ensure we ONLY track entities that are fully ready. 
+                        // Accessing properties or positions of unready entities can cause race conditions or freezes.
+                        if (n !== self.chossid && n.velocity && n.onFloor !== undefined && n.isReady) {
+                            foci.push({
+                                position: n.mesh.position,
+                                velocity: n.velocity
+                            });
                         }
                     }
                 }
-                    
-                if (self.ayin && self.ayin.target) {
-                    self.ayin.update(self.deltaTime);
-                }
 
-                // 3. RENDER PHASE
-                if (self.renderer) {
-                    if (!firstTime) {
-                        firstTime = true;
-                        self.ayshPeula("rendered first time");
-                    }
-                    
-                    self.renderer.render(self.scene, self.activeCamera || self.ayin.camera);
+                // Update the World Bubble around these points
+                self.worldOctree.update(foci, null); 
+                
+                // Periodic Cleanup Log
+                if (self.frameCount === undefined) self.frameCount = 0;
+                self.frameCount++;
+                if (self.frameCount % 100 === 0) {
+                   // self.worldOctree.scheduleStaticCleanup(); 
                 }
+            }
+                
+            // 4. Update All Creations (Nivrayim)
+            if(self.nivrayim) {
+                self.nivrayim.forEach(n => 
+                    n.isReady && 
+                    (n.heesHawveh ? n.heesHawvoos(self.deltaTime) : 0)
+                );
+            }
+                
+            // 5. Update Camera (Ayin)
+            self.ayin.update(self.deltaTime);
 
-            } catch (renderEx) {
-                console.error("B\"H - Render Cycle Interrupted:", renderEx);
-                // We do not set destroyed=true here to allow for temporary glitch recovery
-                // unless it happens repeatedly.
-                self._errorCount = (self._errorCount || 0) + 1;
-                if (self._errorCount > 10) self.destroyed = true;
+            // 6. Rendering
+            if(self.coby && self.postprocessing) {
+                var rend = false//self.postprocessingRender();
+                if(!rend) realRender(time);
+            } else {
+                realRender(time)
+            }
+
+            async function realRender() {
+                // The rendering. This is done once per frame.
+                if(!firstTime) {
+                    firstTime = true;
+                    console.log("B\"H - First Frame Rendered!");
+                    self.ayshPeula("rendered first time")
+                    self.ayshPeula("alert", "First time rendering " + self.renderer)
+                }
+                
+               // self.octreeDebugHelper.box.copy(self.worldOctree.getDebugBoundingBox());
+                if(self.renderer) {
+                    // if(!envRendered) {
+                        self.renderer.renderAsync(
+                            self.scene,
+                            self.activeCamera || self.ayin.camera
+                        );
+                    // }
+                }
             }
             
-            if (!self.destroyed) requestAnimationFrame(go);
+            if(!self.destroyed)
+                requestAnimationFrame(go);
         }
         
         requestAnimationFrame(go);
+    }
+
+    async renderMinimap() {
+        async function minimapRender() {
+            if(self.minimap) {
+            //    await self.minimap.render()
+            }
+        }
+       // requestAnimationFrame(minimapRender);
     }
 }
