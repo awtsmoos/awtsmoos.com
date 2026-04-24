@@ -1,0 +1,45 @@
+
+/* B"H
+   THE MAIN STAGE (MALKHUT)
+   The final manifestation of the reading space.
+*/
+
+#realPost {
+    /* MOBILE FIRST: Maximum focus, minimum distraction */
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    /* Extreme vertical padding for the "infinite scroll" feel */
+    padding-top: 40vh;
+    padding-bottom: 30vh;
+    
+    /* Horizontal gutter for small screens */
+    padding-left: var(--pad-sm);
+    padding-right: var(--pad-sm);
+    
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10;
+}
+
+/* DESKTOP ELEVATION */
+@media (min-width: 900px) {
+    #realPost {
+        max-width: 800px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.revelation-manifest {
+    animation: fadeInReveal var(--time-std) var(--ease-snap) forwards;
+}
+
+@keyframes fadeInReveal {
+    from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}

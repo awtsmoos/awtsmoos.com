@@ -1,0 +1,54 @@
+
+/* B"H
+   THE CROWN (HEADER)
+   "Know before whom you stand."
+*/
+
+.awtsmoos-integrated-header {
+    height: 60px;
+    background: var(--bg-surface);
+    border-bottom: 3px solid var(--color-ink);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    gap: 2rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.heichel-brand {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: var(--color-ink);
+    letter-spacing: 1px;
+}
+
+.heichel-search-wrapper {
+    flex: 1;
+    max-width: 500px;
+}
+
+.heichel-search-wrapper input {
+    width: 100%;
+    padding: 8px 16px;
+    border: 2px solid var(--color-ink);
+    font-family: var(--font-ui);
+    background: var(--bg-vellum);
+}
+
+.header-user-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.alias-badge {
+    background: var(--color-ink);
+    color: white;
+    padding: 4px 12px;
+    font-family: var(--font-ui);
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+}

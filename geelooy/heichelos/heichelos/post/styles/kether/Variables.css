@@ -1,0 +1,45 @@
+
+/* B"H
+   THE VARIABLES OF KETHER
+   The highest point of the stylistic Histalshelus.
+*/
+
+:root {
+    /* --- The Tzimtzum (Color Foundations) --- */
+    --color-ink: #0a0a0a;
+    --color-paper: #ffffff;
+    --color-vellum: #fefcf8;
+    --color-rubric: #aa2222; /* High-Intensity Red */
+    --color-gold: #ffae00;
+    --color-void: rgba(0,0,0,0.85);
+
+    /* --- The Dimensions of Form (Spacing) --- */
+    --pad-xs: 5px;
+    --pad-sm: 12px;
+    --pad-md: 24px;
+    --pad-lg: 48px;
+    --pad-xl: 96px;
+
+    /* --- The Weights of Being (Shadows) --- */
+    --brutalist-shadow: 8px 8px 0px 0px var(--color-ink);
+    --brutalist-shadow-sm: 4px 4px 0px 0px var(--color-ink);
+    --brutalist-shadow-hover: 12px 12px 0px 0px var(--color-gold);
+    
+    /* --- The Otiyot (Typography) --- */
+    --font-monolith: 'Syne', sans-serif;
+    --font-script: 'Cardo', 'Crimson Pro', serif;
+    --font-ui: 'Space Grotesk', monospace;
+    
+    /* --- The Breath of Interaction (Physics) --- */
+    --ease-snap: cubic-bezier(0.19, 1, 0.22, 1);
+    --time-std: 0.35s;
+}
+
+/* Dark Mode Transmutation */
+.post-reader-localized-context[data-theme="dark"] {
+    --color-ink: #f0f0f0;
+    --color-paper: #050505;
+    --color-vellum: #0a0a0a;
+    --color-rubric: #ff4444;
+    --brutalist-shadow: 8px 8px 0px 0px rgba(255,255,255,0.1);
+}

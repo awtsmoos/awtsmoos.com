@@ -1,0 +1,61 @@
+
+/* B"H
+   THE SPATIAL CONTRACT (LAYOUT)
+   "The world is His place, but He is not the place of the world."
+*/
+
+.post-reader-localized-context {
+    display: grid;
+    grid-template-areas: 
+        "header header"
+        "main sidebar";
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+    top: 0; left: 0;
+}
+
+.awtsmoos-integrated-header {
+    grid-area: header;
+    z-index: 1000;
+}
+
+.scroll-view-wrapper {
+    grid-area: main;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    background: var(--bg-vellum);
+    position: relative;
+    padding: 0 10vw;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    height: 100%;
+    background: var(--bg-surface);
+    transition: width 0.4s var(--ease-snap);
+    will-change: width;
+    border-left: var(--border-ui);
+}
+
+@media (max-width: 900px) {
+    .post-reader-localized-context {
+        grid-template-areas: 
+            "header"
+            "main"
+            "sidebar";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
+    
+    .sidebar {
+        width: 100vw !important;
+        height: 40vh;
+        border-left: none;
+        border-top: var(--border-ui);
+    }
+}

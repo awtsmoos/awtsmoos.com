@@ -1,0 +1,47 @@
+
+/* B"H
+   MARGINAL SIGILS
+   Floating waymarks in the expanse.
+*/
+
+.awtsmoos-verse-number {
+    /* MOBILE: Floating above the text block */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    margin-bottom: 10px;
+    
+    border: 3px solid var(--color-ink);
+    font-family: var(--font-ui);
+    font-weight: 900;
+    font-size: 14px;
+    background: var(--bg-surface);
+    color: var(--color-ink);
+    z-index: 5;
+    box-shadow: 4px 4px 0px var(--color-ink);
+}
+
+/* DESKTOP: Floating in the true margin */
+@media (min-width: 1200px) {
+    .awtsmoos-verse-number {
+        position: absolute;
+        left: -80px;
+        top: 0;
+        margin-bottom: 0;
+    }
+    
+    .heb .awtsmoos-verse-number {
+        left: auto;
+        right: -80px;
+    }
+}
+
+.active-reading-section .awtsmoos-verse-number {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 6px 6px 0px var(--color-ink);
+}

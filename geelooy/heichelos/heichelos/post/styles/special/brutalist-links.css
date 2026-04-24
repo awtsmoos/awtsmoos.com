@@ -1,0 +1,29 @@
+
+/* B"H
+   THE BRUTALIST NAVIGATOR
+   Links that feel like physical thresholds.
+*/
+
+a.brutalist-link {
+    display: inline-block;
+    color: var(--color-primary);
+    font-family: var(--font-ui);
+    font-weight: 900;
+    text-transform: uppercase;
+    border-bottom: 3px solid var(--color-primary);
+    transition: all 0.15s ease;
+    text-decoration: none;
+    padding: 0 4px;
+}
+
+a.brutalist-link:hover {
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+}
+
+a.brutalist-link:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}

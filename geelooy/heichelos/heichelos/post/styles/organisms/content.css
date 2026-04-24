@@ -1,0 +1,82 @@
+
+/* B"H
+   THE CONTENT MATRIX
+   A sanctuary for the Holy Word.
+*/
+
+#realPost {
+    /* MOBILE FIRST: edge to edge with breathing room */
+    width: 100%;
+    margin: 0 auto;
+    padding: 30vh 15px 20vh 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* DESKTOP UPGRADE */
+@media (min-width: 901px) {
+    #realPost {
+        max-width: 850px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.section-vessel {
+    width: 100%;
+    margin-bottom: 5rem;
+    position: relative;
+    transition: 
+        opacity var(--time-std) var(--ease-smooth),
+        transform var(--time-std) var(--ease-snap),
+        filter var(--time-std) var(--ease-smooth);
+}
+
+/* THE SPOTLIGHT EFFECT */
+.section-vessel:not(.active-reading-section) {
+    opacity: 0.2;
+    filter: grayscale(1) blur(1px);
+    transform: scale(0.96);
+    pointer-events: none; /* Focus the reading */
+}
+
+.section-vessel.active-reading-section {
+    opacity: 1;
+    filter: none;
+    transform: scale(1);
+    z-index: 10;
+}
+
+/* THE TEXT (TOICHEN) */
+.toichen {
+    font-family: var(--font-manuscript);
+    font-size: var(--post-text-size);
+    line-height: 1.6;
+    color: var(--color-ink);
+}
+
+.awtsmoos-subsection-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.paragraph-spark {
+    padding: 0.5rem 0;
+    transition: background var(--time-fast);
+}
+
+/* ACTIVE PARAGRAPH GLOW */
+.active-reading-sub {
+    background: var(--color-accent-soft);
+    box-shadow: -10px 0 0 var(--color-accent);
+    padding-left: 1rem;
+}
+
+.heb .active-reading-sub {
+    padding-left: 0;
+    padding-right: 1rem;
+    box-shadow: 10px 0 0 var(--color-accent);
+}
