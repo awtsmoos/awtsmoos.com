@@ -14,11 +14,7 @@ export default [
         show: "instructions"
     },
     {
-        text: "Construction (Bezalel)",
-        show: "constructionScreen" // B"H: Added
-    },
-    {
         text: "Save World",
-        show: "saveGameScreen" 
+        show: "saveGameScreen" // Points to the new UI component ID
     }
 ]

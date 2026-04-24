@@ -12,7 +12,7 @@ export default /*css*/`
     display: flex; flex-direction: column;
     font-family: 'Fredoka One', sans-serif;
     color: white;
-    z-index: 1000;
+    z-index: 4500;
     overflow: hidden;
 }
 
@@ -52,7 +52,6 @@ export default /*css*/`
     flex: 2; display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
     gap: 15px; padding: 20px; overflow-y: auto;
     align-content: start;
-    /* Fancy scrollbar */
     scrollbar-width: thin;
     scrollbar-color: #00d4ff rgba(0,0,0,0.3);
 }

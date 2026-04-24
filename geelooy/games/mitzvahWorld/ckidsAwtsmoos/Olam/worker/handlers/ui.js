@@ -1,98 +1,82 @@
-//B"H
+
 /**
- * UI Worker Handlers - Relaying spiritual commands to the physical UI.
- * Refined for smoother radial loading updates and robust error modal management.
+ * B"H
+ * UI Worker Handlers
+ * Handles minimap, loading screens, and specific UI events.
  */
 export default function uiHandlers(manager) {
     const { eved, myUi } = manager;
 
     return {
-        /**
-         * hideLoadingScreen - Dissolves the veil of the loading screen.
-         */
         hideLoadingScreen() {
+            console.log("B\"H - Main Thread: Received hideLoadingScreen command.");
             try {
+                const el = myUi.getHtml("loading");
+                const hideElement = (element) => {
+                    if (element) {
+                        element.classList.add("hidden");
+                        element.style.display = "none"; // B"H: Force inline hide
+                        element.style.opacity = "0";
+                        element.style.zIndex = "-1000";
+                        console.log("B\"H - Hid element:", element);
+                    }
+                };
+
+                if (el) {
+                    hideElement(el);
+                } else {
+                    console.warn("B\"H - Loading element 'loading' not found in UI registry. Trying querySelector.");
+                    const domEl = document.querySelector(".loading");
+                    if (domEl) {
+                        hideElement(domEl);
+                    } else {
+                        console.error("B\"H - Loading element NOT FOUND anywhere.");
+                        // B"H: Last ditch attempt - hide by ID if it exists or generic class
+                        const genericLoaders = document.querySelectorAll('[class*="loading"]');
+                        genericLoaders.forEach(l => hideElement(l));
+                    }
+                }
+                
+                // Redundant check via htmlAction to ensure state sync if needed
                 myUi.htmlAction({
                     shaym: "loading",
                     methods: { classList: { add: "hidden" } },
-                    properties: { style: { display: "none", opacity: "0" } }
+                    properties: { style: { display: "none" } }
                 });
             } catch(e) {
-                console.error("B\"H - Error in hideLoadingScreen:", e);
+                console.error("B\"H - Error in hideLoadingScreen handler:", e);
             }
         },
 
         resetPercentage() {
-            this.increasedOlamLoading({ amount: 0, reset: true });
+            myUi.htmlAction({ shaym: "loading bar", properties: { style: { width: "0%" } } });
         },
 
-        /**
-         * increasedOlamLoading - Manifests the descent of light into the radial vessel.
-         */
         increasedOlamLoading(data) {
-            const { amount, total, action, reset, subAction, error } = data || {};
-            
-            // 1. ERROR MANIFESTATION
-            if (error) {
-                myUi.htmlAction({
-                    shaym: "loading-error-modal",
-                    methods: { classList: { remove: "hidden" } }
-                });
-                myUi.htmlAction({ shaym: "error-title", properties: { textContent: error.title || "Forge Shattered" } });
-                myUi.htmlAction({ shaym: "error-message", properties: { textContent: error.message || "An imperfection was found." } });
-                myUi.htmlAction({ shaym: "error-details", properties: { textContent: error.details || "" } });
-                return;
-            }
-
+            const { amount, total, action, reset, subAction } = data || {};
             let t = total;
             if(reset) t = amount;
-            
-            // 2. RADIAL GRADIENT UPDATE
-            const percent = Math.min(100, Math.max(0, t));
-            
-            myUi.htmlAction({ 
-                shaym: "radial-progress", 
-                properties: { 
-                    style: { 
-                        // Conic gradient reflects the unified descent of assets
-                        background: `conic-gradient(#00f3ff ${percent}%, #bc13fe ${percent}%, rgba(255,255,255,0.1) ${percent}%)` 
-                    } 
-                } 
-            });
-            
-            myUi.htmlAction({ 
-                shaym: "loading-percent-text", 
-                properties: { textContent: Math.round(percent) + "%" } 
-            });
-
-            // 3. TEXTUAL ALIGNMENT
-            if (subAction) {
-                myUi.htmlAction({ shaym: "sub action loading", properties: { textContent: subAction } });
-            }
-            
-            if (action) {
-                myUi.htmlAction({ shaym: "action loading", properties: { textContent: action } });
-            }
+            myUi.htmlAction({ shaym: "loading bar", properties: { style: { width: t+"%" } } });
+            myUi.htmlAction({ shaym: "sub action loading", properties: { innerHTML: subAction || "" } });
+            myUi.htmlAction({ shaym: "action loading", properties: { innerHTML: action } });
         },
+
+        updateProgress(data) {},
 
         sendUiEvent(data) {
             const { shaym, ob, id } = data || {};
             try {
-                if (shaym && myUi) {
-                    if (ob && ob.requestInput) {
-                        ob.requestInput.id = id; 
-                        myUi.peula(shaym, { requestInput: ob.requestInput });
-                    } else {
-                        myUi.peula(shaym, ob, id);
-                    }
+                if(shaym) {
+                    myUi.peula(shaym, ob, id);
                 }
             } catch(e) {
                 console.error("Error in sendUiEvent:", e);
-                if(id) eved.postMessage({ uiEvented: { id, error: e.toString() } });
             }
+            if(id) eved.postMessage({ uiEvented: { id } });
         },
         
         uiEvented(ob) {
+            // Ensure ob is not null to avoid reading property of undefined
             if(ob && ob.id) eved.postMessage({ uiEvented: ob });
         },
 
@@ -125,11 +109,46 @@ export default function uiHandlers(manager) {
                 ]
             });
 
-            const mapCanvas = myUi.getHtml("canvasMap");
+            const mapCanvas = myUi.html({ parent: "raw map", tag: "canvas", shaym: "canvasMap", className: "filled" });
             if(mapCanvas) {
                 const off = mapCanvas.transferControlToOffscreen();
                 eved.postMessage({ gotMapCanvas: { canvas: off, size } }, [off]);
             }
-        }
+        },
+
+        updateMinimapScroll(data) {
+             const { center, minimapCamera, id } = data || {};
+             if (!center || !minimapCamera) return;
+
+             const minimapCanvas = myUi.getHtml("canvasMap");
+             if (!minimapCanvas) return;
+             
+             const parentElement = minimapCanvas.parentElement.parentElement;
+             const minimapWidth = minimapCanvas.width;
+             const minimapHeight = minimapCanvas.height;
+             
+             const relativePlayerX = (center.x - minimapCamera.position.x + minimapCamera.right) / (minimapCamera.right - minimapCamera.left);
+             const relativePlayerZ = (center.z - minimapCamera.position.z + minimapCamera.top) / (minimapCamera.top - minimapCamera.bottom);
+
+             const parentScrollLeft = relativePlayerX * minimapWidth - parentElement.clientWidth / 2;
+             const parentScrollTop = relativePlayerZ * minimapHeight - parentElement.clientHeight / 2;
+             
+             const maxScrollLeft = minimapWidth - parentElement.clientWidth;
+             const maxScrollTop = minimapHeight - parentElement.clientHeight;
+
+             if (parentScrollLeft < 0 || parentScrollTop < 0 || parentScrollLeft > maxScrollLeft || parentScrollTop > maxScrollTop) {
+                 eved.postMessage({ captureMinimapScene: true });
+                 return;
+             }
+
+             parentElement.scrollLeft = parentScrollLeft;
+             parentElement.scrollTop = parentScrollTop;
+             
+             eved.postMessage({ scrolledMap: { id } });
+        },
+
+        scrolledMap(info) {},
+        gotMapCanvas(info) {},
+        captureMinimapScene(info) {}
     };
 }

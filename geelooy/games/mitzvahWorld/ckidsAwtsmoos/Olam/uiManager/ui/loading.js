@@ -1,8 +1,7 @@
 
 /**
  * B"H
- * The loading screen to display while the game components are loading.
- * Radial Design with Detailed Text and Error Handling.
+ * The intense Kabbalistic loading screen for Mitzvah World.
  */
 
 export default {
@@ -10,81 +9,65 @@ export default {
     className: "loading hidden",
     children: [
         {
+            className: "kabbalah-vortex",
+            children: [
+                { className: "sefirot-ring ring-1" },
+                { className: "sefirot-ring ring-2" },
+                { className: "sefirot-ring ring-3" }
+            ]
+        },
+        {
             shaym: "loadingContent",
             className: "loadingContent",
             children: [
                 {
-                    className: "radial-loader-container",
+                    shaym: "main loading area",
+                    className: "mainLoadingArea",
                     children: [
                         {
-                            shaym: "radial-progress",
-                            className: "radial-progress",
+                            tag: "h1",
+                            className: "awtsmoos-title-glow",
+                            textContent: "MITZVAH WORLD"
+                        },
+                        {
+                            className: "barLoading",
                             children: [
-                                { className: "radial-inner" },
-                                { 
-                                    className: "radial-text-container",
-                                    children: [
-                                        { tag: "span", className: "loading-aleph", textContent: "א" },
-                                        { shaym: "loading-percent-text", className: "loading-percent", textContent: "0%" }
-                                    ]
+                                {
+                                    shaym: "bar background",
+                                    className: "bck",
+                                    child: {
+                                        shaym: "loading bar",
+                                        className: "barMitzvah",
+                                        child: { className: "light-spark" }
+                                    }
                                 }
                             ]
+                        },
+                        {
+                            tag: "h2",
+                            className: "txtLoad pulse-text",
+                            innerHTML: "Drawing Down the Infinite Light..."
                         }
                     ]
                 },
                 {
-                    className: "loading-info-container",
+                    className: "secondaryLoadingArea",
                     children: [
                         {
-                            tag: "h2",
-                            shaym: "action loading",
-                            className: "loading-title",
-                            textContent: "Initializing Olam..."
+                            tag: "h3",
+                            className: "txtLoad info",
+                            innerHTML: "Preparing Vessels...",
+                            shaym: "action loading"
                         },
                         {
                             tag: "h4",
-                            shaym: "sub action loading",
-                            className: "loading-subtitle",
-                            textContent: "Preparing Vessels"
-                        }
-                    ]
-                }
-            ]
-        },
-        // B"H: Error Modal
-        {
-            shaym: "loading-error-modal",
-            className: "loading-error-modal hidden",
-            children: [
-                {
-                    className: "error-content",
-                    children: [
-                        { tag: "h2", shaym: "error-title", textContent: "Critical Error" },
-                        { tag: "p", shaym: "error-message", textContent: "Something went wrong." },
-                        { tag: "pre", shaym: "error-details", textContent: "Details..." },
-                        {
-                            tag: "div",
-                            className: "error-actions",
-                            children: [
-                                {
-                                    tag: "button",
-                                    textContent: "Dismiss & Continue",
-                                    onclick(e, $, ui) {
-                                        $("loading-error-modal").classList.add("hidden");
-                                    }
-                                },
-                                {
-                                    tag: "button",
-                                    textContent: "Reload Page",
-                                    onclick(e, $, ui) {
-                                        location.reload();
-                                    }
-                                }
-                            ]
+                            className: "txtLoad info secondary",
+                            innerHTML: "",
+                            shaym: "sub action loading"
                         }
                     ]
                 }
             ]
         }
     ]
-}
+};
