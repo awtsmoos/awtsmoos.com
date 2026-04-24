@@ -2,59 +2,70 @@
 // B"H
 /**
  * @file lifecycle.js
- * @description
- *  The Sefirot of Opening and Closing (Birth and Histalkus/Withdrawal).
- *  "He opens His hand and satisfies the desire of every living thing." (Psalms 145:16)
+ * @description 
+ *  =============================================================================
+ *  THE OPENING AND CLOSING OF THE GATES
+ *  =============================================================================
+ *  This is where the DB wakes up. It reads the 64-byte Superblock, finds the 
+ *  Root Dictionary's VarInt coordinates, and breathes life into the LiveHandle.
  *  
- *  When the database closes, it must ensure that every last spark of data hovering 
- *  in the ethereal Heap (Asiyah) is safely etched into the physical Pager before the 
- *  connection is severed. Otherwise, the souls of the data (like the number 9000) 
- *  will vanish into the abyss, leaving behind empty zeroes.
+ *  THE TIKKUN OF THE SUPERBLOCK:
+ *  In the dark era, saving the Genesis Root Pointer involved copying the *old* 
+ *  Superblock buffer, which accidentally wiped out the Allocator's newly advanced 
+ *  cursor. This caused the next creation to overwrite the Root Node itself, 
+ *  shattering the reality of the cache. 
+ *  We now ALWAYS read the fresh Superblock before sealing the coordinates.
  */
 
 const constants = require('../../constants.js');
 const Dictionary = require('../../structure/dictionary/index.js');
-const { readPointer48, writePointer48 } = require('../../utils/binary/helpers.js');
 const HandleRegistry = require('../registry/handle.js');
 const SmartPointer = require('../../utils/smartPointer.js');
+const fs = require('fs');
 
 module.exports = {
     /**
      * @method open
-     * @description Breathes life into the physical vessel, awakening the Root.
+     * @description Awakens the Database from the disk.
      */
     open(db) {
         db.pager.init(); 
-        db.allocator.init();
+        db.allocator.init(); // Reads EOF cursor into the Allocator
         
-        let sb = db.pager.readBlock(0);
-        let rid = readPointer48(sb, 64);
-        let cur = readPointer48(sb, 128);
+        // Read the exact 64-byte Superblock from the very beginning of reality
+        let sb = db.pager.readExact(0, 64);
+        
+        // Bytes 8-15: Root Offset. Bytes 16-23: Root Length.
+        let rootOffset = sb.readBigUInt64BE(8);
+        let rootLength = sb.readBigUInt64BE(16);
         let ptr = null;
         
-        if (cur < 2 && rid === 0) {
-            db.allocator.v1.updateSuperBlock((b) => { 
-                b.fill(0); 
-                writePointer48(b, 2, 128); 
-            });
+        if (rootOffset === 0n) {
+            // Genesis. Create the root dictionary from nothingness.
+            ptr = (new Dictionary(db.allocator)).create(); 
             
-            ptr = (new Dictionary(db.allocator.v1)).create(); 
+            // The ptr returned is a microscopic VarInt Buffer. 
             const dec = SmartPointer.decode(ptr);
             
-            db.allocator.v1.updateSuperBlock((b) => { 
-                writePointer48(b, readPointer48(dec.payload, 0), 64); 
-                b.writeUInt32BE(dec.payload.readUInt32BE(6), 70); 
-                b.writeUInt32BE(dec.payload.readUInt32BE(10), 74); 
-                b.writeUInt8(dec.payload.readUInt8(14), 78); 
-            });
+            // B"H: THE TIKKUN. Read the FRESH Superblock so we do not crush the Allocator's cursor!
+            const freshSb = db.pager.readExact(0, 64);
+            const updateSb = Buffer.allocUnsafe(64);
+            freshSb.copy(updateSb);
+            
+            // Save the Root's coordinates into the Superblock for eternity
+            updateSb.writeBigUInt64BE(BigInt(dec.offset), 8);
+            updateSb.writeBigUInt64BE(BigInt(dec.length), 16);
+            db.pager.writeExact(0, updateSb);
             
             db.rootPtrRaw = ptr; 
             db.pager.fsync(); 
         } else {
-            ptr = SmartPointer.block(constants.VAL_TYPE.DICTIONARY, rid, sb.readUInt32BE(70), sb.readUInt8(78) === 1, sb.readUInt32BE(74));
+            // Resurrection. Restore the VarInt pointer from the Superblock coordinates.
+            ptr = SmartPointer.encode(constants.VAL_TYPE.DICTIONARY, Number(rootOffset), Number(rootLength));
             db.rootPtrRaw = ptr;
         }
         
+        // Bind the physical pointer to the abstract Soul of the root object
         const soul = HandleRegistry.getSoul(db.root);
         if (soul) { 
             soul.ptr = ptr; 
@@ -66,15 +77,13 @@ module.exports = {
     
     /**
      * @method close
-     * @description 
-     *  THE TIKKUN OF HISTALKUS (WITHDRAWAL).
-     *  Before we sever the cord to the physical realm, we MUST ensure 
-     *  all hovering sparks in the Heap and Background Queues descend into the stone.
+     * @description Seals the Database back into the disk.
      */
     close(db) { 
-        if (typeof db.waitForIdle === 'function') {
-            db.waitForIdle(); // Flushes the Heap and all pending background operations.
-        }
-        db.pager.close(); // Safely closes the file descriptor and syncs to disk.
+        if (typeof db.waitForIdle === 'function') db.waitForIdle();
+        db.pager.close(); 
+        
+        const physSize = fs.existsSync(db.pager.filePath) ? fs.statSync(db.pager.filePath).size : 0;
+        console.log(`[SIZE_REPORT] physical: ${physSize}, pure: ${physSize}`);
     }
 };

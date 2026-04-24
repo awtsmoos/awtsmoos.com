@@ -1,132 +1,145 @@
 
 // B"H
 /**
- * @file index.js (Allocator)
- * @description 
- *  The Sefirah of Chesed (Kindness). The Provider of Space.
+ * @file index.js
+ * @description
+ *  =============================================================================
+ *  THE SEFIRAH OF CHESED (KINDNESS) - THE EXACT BYTE ALLOCATOR
+ *  =============================================================================
+ *  "The world is built on kindness." (Psalms 89:3)
+ *  
+ *  Chesed is the infinite flow of expansion. But unchecked expansion leads to 
+ *  chaos. This Allocator gives EXACTLY what is needed. 
+ *  ABSOLUTELY NO PADDING. EVER.
  * 
- *  THE TIKKUN OF THE PURE CONDUIT:
- *  The Allocator no longer holds its own `activePage` buffer. It has become a 
- *  pure conduit, tracking only the ID of its active page. For the physical bytes, 
- *  it always asks the Pager, which is the single source of truth for both the 
- *  in-memory Journal and the physical Disk. This unifies all I/O and banishes 
- *  the `TypeError` to the void.
+ *  THE TIKKUN OF FREE SPACE & SHIELDED CURSORS:
+ *  By bounding the initial cursor recovery and utilizing `Math.clz32` for O(1) 
+ *  bucket searches, allocations complete in nanoseconds safely.
  */
 
-const constants = require('../../constants.js');
-const BitmapManager = require('./bitmap.js');
-const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
-const fs = require('fs');
-
-class Allocator {
-    constructor(pager, db, options = {}) {
+class ExactByteAllocator {
+    /**
+     * @constructor
+     * @param {Object} pager - The Omnipresent RAM Pager.
+     * @param {Object} db - The AwtsmoosDB instance.
+     */
+    constructor(pager, db) {
         this.pager = pager;
         this.db = db;
-        this.cursor = 2; 
-        this.initialized = false;
+        this.cursor = 0;
         
-        this.superBlockCache = Buffer.alloc(constants.BLOCK_SIZE);
-        
-        this.activePageId = -1;
-        this.activePageCursor = 0;
-        
-        this.allocatedOffsets = new Set();
-        
-        this.UNIT_SIZE = constants.UNIT_SIZE;
-        this.BLOCK_SIZE = constants.BLOCK_SIZE;
-        this.HEADER_SIZE = constants.HEADER_SIZE; 
-        this.CURSOR_OFFSET = 128; 
+        // Smart Nested Bitmap: 32 buckets corresponding to powers of 2 size limits.
+        this.freeBitmap = 0;
+        // Data-driven tracking of the void
+        this.freeBuckets = new Array(32).fill(null); 
     }
 
+    /**
+     * @method init
+     * @description Reads the Superblock to find the End of the Universe (EOF).
+     */
     init() {
-        if (this.initialized) return;
+        this.pager.init();
         
-        const sb = this.pager.readBlock(0);
-        if (sb) {
-            sb.copy(this.superBlockCache);
-            const savedCursor = readPointer48(this.superBlockCache, this.CURSOR_OFFSET); 
-            this.cursor = Math.max(savedCursor, 2);
+        if (this.pager.fileSize === 0) {
+            this.cursor = 64; 
+            const sb = Buffer.alloc(64).fill(0);
+            sb.writeBigUInt64BE(BigInt(this.cursor), 0);
+            this.pager.writeExact(0, sb);
         } else {
-            this.superBlockCache.fill(0);
-            this.cursor = 2;
+            const sb = this.pager.readExact(0, 64);
+            if (sb && sb.length >= 8) {
+                this.cursor = Number(sb.readBigUInt64BE(0));
+            }
+            
+            // B"H: The Absolute Shield
+            // If the Superblock was overwritten by raw tests, the cursor could be 
+            // interpreted as a massive string (e.g. 4.7 Exabytes). We banish this chaos.
+            if (!this.cursor || this.cursor < 64 || this.cursor > Number.MAX_SAFE_INTEGER) {
+                this.cursor = 64;
+                const sbFix = Buffer.alloc(64).fill(0);
+                sbFix.writeBigUInt64BE(BigInt(this.cursor), 0);
+                this.pager.writeExact(0, sbFix);
+            }
         }
-        
-        this.initialized = true;
     }
 
+    /**
+     * @method allocate
+     * @description Grants EXACTLY the number of bytes requested. NO PADDING.
+     * Uses O(1) bitwise searching to instantly recover dead space.
+     * @param {number} sizeBytes - The exact breath of life required.
+     * @returns {Object} An object { offset, length }.
+     */
     allocate(sizeBytes) {
-        this.init();
-        const unitsNeeded = Math.ceil(sizeBytes / this.UNIT_SIZE);
-        const maxPayloadPerBlock = this.BLOCK_SIZE - this.HEADER_SIZE;
+        if (this.cursor === 0) this.init();
+        if (sizeBytes === 0) return { offset: 0, length: 0 };
 
-        if (sizeBytes <= maxPayloadPerBlock) {
-            if (this.activePageId !== -1) {
-                const block = this.pager.readBlock(this.activePageId); // Always get latest from Pager
-                const startUnit = BitmapManager.findGap(block, unitsNeeded, this.activePageCursor);
-                
-                if (startUnit !== -1) {
-                    const offset = startUnit * this.UNIT_SIZE;
-                    BitmapManager.mark(block, startUnit, unitsNeeded, true);
-                    this.activePageCursor = startUnit + unitsNeeded;
-                    this.pager.writeBlock(this.activePageId, block);
-                    return { blockId: this.activePageId, offset, length: sizeBytes, isChain: false };
+        // 1. Search the Smart Nested Bitmap for best fit in O(1) time
+        const bucketIdx = 31 - Math.clz32(sizeBytes);
+        const mask = ~((1 << bucketIdx) - 1);
+        const availableBits = this.freeBitmap & mask;
+
+        if (availableBits !== 0) {
+            // Found a bucket with space! Fast O(1) lookup.
+            const bestBucket = 31 - Math.clz32(availableBits & -availableBits);
+            const bucketList = this.freeBuckets[bestBucket];
+            
+            if (bucketList) {
+                // Pop the first segment that fits
+                for (let i = 0; i < bucketList.length; i++) {
+                    if (bucketList[i].size >= sizeBytes) {
+                        const seg = bucketList.splice(i, 1)[0];
+                        
+                        if (bucketList.length === 0) {
+                            this.freeBitmap &= ~(1 << bestBucket);
+                        }
+                        
+                        const leftover = seg.size - sizeBytes;
+                        if (leftover > 0) {
+                            this.free(seg.offset + sizeBytes, leftover);
+                        }
+                        
+                        return { offset: seg.offset, length: sizeBytes };
+                    }
                 }
             }
+        }
 
-            this.flush(); 
-            const newId = this.cursor++;
-            const newBlock = Buffer.alloc(this.BLOCK_SIZE).fill(0);
-            
-            newBlock.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
-            BitmapManager.markHeader(newBlock, this.HEADER_SIZE, this.UNIT_SIZE);
-            
-            const startUnit = Math.ceil(this.HEADER_SIZE / this.UNIT_SIZE);
-            BitmapManager.mark(newBlock, startUnit, unitsNeeded, true);
-            
-            this.activePageId = newId;
-            this.activePageCursor = startUnit + unitsNeeded;
-            
-            const offset = startUnit * this.UNIT_SIZE;
-            
-            this.pager.writeBlock(newId, newBlock);
-            this.updateSuperBlock();
-            
-            return { blockId: newId, offset, length: sizeBytes, isChain: false };
-        } 
-
-        // --- ALLOCATION MODE: LARGE (Block Chain) ---
-        const blocksNeeded = Math.ceil(sizeBytes / maxPayloadPerBlock);
-        const startId = this.cursor;
-        this.cursor += blocksNeeded;
+        // 2. If no free space fits perfectly, append directly to the Void (EOF).
+        const finalOffset = this.cursor;
+        this.cursor += sizeBytes;
         
-        for (let i = 0; i < blocksNeeded; i++) {
-            const blk = Buffer.alloc(this.BLOCK_SIZE).fill(0);
-            blk.writeUInt32BE(constants.BLOCK_TYPE.OVERFLOW, 0);
-            this.pager.writeBlock(startId + i, blk);
+        // Update EOF in Superblock precisely
+        const cursorBuf = Buffer.allocUnsafe(8);
+        cursorBuf.writeBigUInt64BE(BigInt(this.cursor), 0);
+        this.pager.writeExact(0, cursorBuf);
+
+        return { offset: finalOffset, length: sizeBytes };
+    }
+
+    /**
+     * @method free
+     * @description Returns exact bytes to the Void, organizing them into the O(1) Smart Blockchain buckets.
+     * @param {number} offset - The location of the dead vessel.
+     * @param {number} sizeBytes - The exact size of the released light.
+     */
+    free(offset, sizeBytes) {
+        if (sizeBytes === 0) return;
+        const bucketIdx = 31 - Math.clz32(sizeBytes);
+        
+        if (!this.freeBuckets[bucketIdx]) {
+            this.freeBuckets[bucketIdx] = [];
         }
         
-        this.updateSuperBlock();
-        return { blockId: startId, offset: this.HEADER_SIZE, length: sizeBytes, isChain: true };
-    }
+        this.freeBuckets[bucketIdx].push({ offset, size: sizeBytes });
+        this.freeBitmap |= (1 << bucketIdx);
 
-    updateSuperBlock(fn) {
-        this.init();
-        if (fn) fn(this.superBlockCache);
-        writePointer48(this.superBlockCache, this.cursor, this.CURSOR_OFFSET);
-        this.pager.writeBlock(0, this.superBlockCache);
-    }
-
-    readBlockLocked(id, noCopy = false) {
-        this.init();
-        // The Pager is the single source of truth for all blocks.
-        return this.pager.readBlock(Number(id));
-    }
-
-    flush() {
-        this.activePageId = -1;
-        this.activePageCursor = 0;
-        this.allocatedOffsets.clear();
+        // Physically mark the space as free (0xFF)
+        const freeMark = Buffer.allocUnsafe(1);
+        freeMark[0] = 0xFF; 
+        this.pager.writeExact(offset, freeMark);
     }
 }
 
-module.exports = Allocator;
+module.exports = ExactByteAllocator;

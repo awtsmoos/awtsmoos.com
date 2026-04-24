@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file array.js
@@ -9,17 +10,9 @@
 const constants = require("../../../constants.js");
 const { writeConditional } = require("../../../utils/binaryHelpers.js");
 
-let serializeValue_fn = null;
-
-/**
- * @function serializeArray
- * @description Manifests a JS Array as a binary sequence with seeking capabilities.
- */
 function serializeArray(arr) {
-    // B"H: Lazy Load dependency to kill circular dragons
-    if (!serializeValue_fn) serializeValue_fn = require("./serializeValue.js");
-
-    // console.log(`B"H [Serializer.Array] Sequencing ${arr.length} items.`);
+    // Requires directly inline to dodge the circular dragons of Chaos
+    const serializeValue = require("./serializeValue.js");
 
     const parts = [Buffer.from(constants.MAGIC_ARRAY)];
     const configByteBuf = Buffer.alloc(1);
@@ -27,7 +20,7 @@ function serializeArray(arr) {
 
     const dataBuffers = [];
     for (let item of arr) {
-        dataBuffers.push(serializeValue_fn(item, true));
+        dataBuffers.push(serializeValue(item, true));
     }
 
     let currentOffset = constants.MAGIC_ARRAY.length + 1;

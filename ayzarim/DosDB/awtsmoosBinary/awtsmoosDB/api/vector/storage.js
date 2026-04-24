@@ -27,6 +27,7 @@
 const constants = require('../../constants.js');
 const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
 const SmartPointer = require('../../utils/smartPointer.js');
+const serializer = require('../../utils/serializer.js');
 
 const MAGIC_VEC = "VN01";
 
@@ -50,37 +51,38 @@ class VectorStorage {
      *  links into a single buffer, then requests space from the V1 Allocator.
      * 
      * @param {Object} node The HNSW living node.
-     * @returns {Buffer} The 16-byte SmartPointer anchor.
+     * @returns {Buffer} The VarInt SmartPointer anchor.
      */
     saveNode(node) {
-        // Calculate exact physical capacity required
-        // Magic(4) + Flags(1) + Level(1) + VecLen(4) + Vector(N*4) + Payload(16) + ID(4) + Neighbors...
         const vecSize = node.vector.length * 4;
-        let size = 30 + vecSize; 
+        const payloadLen = node.payloadPtr ? node.payloadPtr.length : 0;
+        const pLenSize = serializer.getVarIntSize(payloadLen);
+        
+        let size = 14 + pLenSize + payloadLen + vecSize; 
         
         for(let i = 0; i <= node.level; i++) {
-            size += 2; // Count of neighbors at this level
-            size += (node.neighbors[i] || []).length * 4; // IDs (4 bytes each)
+            size += 2; 
+            size += (node.neighbors[i] || []).length * 4; 
         }
         
         const buf = Buffer.allocUnsafe(size);
         let off = 0;
         
-        // 1. The Seal of the Geometry
         buf.write(MAGIC_VEC, off); off += 4;
         buf.writeUInt8(node.deleted ? 1 : 0, off++);
         buf.writeUInt8(node.level, off++);
         buf.writeUInt32BE(vecSize, off); off += 4;
         
-        // 2. The Coordinates
         const floatView = new Uint8Array(node.vector.buffer);
         buf.set(floatView, off); off += vecSize;
         
-        // 3. The Anchor to Meaning (Payload)
-        node.payloadPtr.copy(buf, off); off += 16;
+        off += serializer.writeVarIntTo(buf, off, payloadLen);
+        if (payloadLen > 0) {
+            node.payloadPtr.copy(buf, off); off += payloadLen;
+        }
+        
         buf.writeUInt32BE(node.id, off); off += 4;
         
-        // 4. The Constellation (Neighbors)
         for(let i = 0; i <= node.level; i++) {
             const nb = node.neighbors[i] || [];
             buf.writeUInt16BE(nb.length, off); off += 2;
@@ -89,10 +91,7 @@ class VectorStorage {
             }
         }
         
-        // B"H: Seeking space from the V1 physical kernel
         const ptr = this.v1.allocate(size); 
-        
-        // Etching the truth into the disk
         this.db._writeChainSafe(ptr, buf);
         
         return SmartPointer.block(constants.TYPE_CUSTOM_INSTANCE, ptr.blockId, ptr.length, !!ptr.isChain, ptr.offset);
@@ -104,22 +103,16 @@ class VectorStorage {
      *  Resurrects a spatial node from its dormant binary state.
      *  Reads the magic seal, rehydrates the Float32Array, and restores its connections.
      * 
-     * @param {Buffer} ptrBuf The 16-byte SmartPointer anchor.
+     * @param {Buffer} ptrBuf The VarInt SmartPointer anchor.
      * @returns {Object|null} The living HNSW node, or null if the void is empty.
      */
     loadNode(ptrBuf) {
         const decoded = SmartPointer.decode(ptrBuf);
         if (!decoded) return null;
 
-        // B"H: Synchronous extraction from the disk/cache
-        const buf = this.db._readChainSafe({
-            blockId: readPointer48(decoded.payload, 0),
-            length: decoded.payload.readUInt32BE(6),
-            offset: decoded.payload.readUInt32BE(10),
-            isChain: decoded.payload.readUInt8(14) === 1
-        });
+        const buf = this.db._readChainSafe(decoded);
         
-        if (!buf || buf.length < 30) return null;
+        if (!buf || buf.length < 14) return null;
         if (buf.subarray(0, 4).toString() !== MAGIC_VEC) return null;
         
         let off = 4;
@@ -128,14 +121,21 @@ class VectorStorage {
         const vecLen = buf.readUInt32BE(off); off += 4;
         
         const vecBuf = buf.subarray(off, off + vecLen);
-        
-        // Resurrection of the Math: Create a fresh TypedArray copy
         const vector = new Float32Array(vecBuf.length / 4);
         Buffer.from(vector.buffer).set(vecBuf);
         off += vecLen;
         
-        const payloadPtr = Buffer.allocUnsafe(16);
-        buf.copy(payloadPtr, 0, off, off + 16); off += 16;
+        const pLenInfo = serializer.readVarInt(buf, off);
+        off += pLenInfo.bytesRead;
+        
+        let payloadPtr = null;
+        if (pLenInfo.value > 0) {
+            payloadPtr = Buffer.allocUnsafe(pLenInfo.value);
+            buf.copy(payloadPtr, 0, off, off + pLenInfo.value);
+            off += pLenInfo.value;
+        } else {
+            payloadPtr = Buffer.alloc(0);
+        }
         
         const id = buf.readUInt32BE(off); off += 4;
         

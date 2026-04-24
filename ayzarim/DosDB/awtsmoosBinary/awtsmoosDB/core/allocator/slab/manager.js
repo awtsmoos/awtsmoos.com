@@ -4,63 +4,53 @@
  * @file manager.js
  * @description
  *  =============================================================================
- *  CHAPTER 3: THE ARCHANGEL OF THE SLAB (TZIMTZUM)
+ *  CHAPTER 3: THE NULLIFICATION OF THE SLAB ARENA
  *  =============================================================================
- *  "He appointed a weight for the wind, and apportioned the waters by measure." (Job 28:25)
- * 
- *  This Manager intercepts allocations smaller than 128 bytes. Instead of 
- *  wasting a 4096-byte block, it contracts the data (Tzimtzum) into tightly 
- *  packed Arenas. It utilizes pure Data-Based routing to determine the tier.
+ *  "He is the Place of the world, but the world is not His place."
+ *  
+ *  In the epoch of fragmented blocks, the Slab Arena was required to slice 4KB 
+ *  pages into micro-slots. Now, the Exact-Byte Allocator handles micro-allocations 
+ *  directly with absolutely zero padding and zero latency. 
+ *  
+ *  The Slab Manager completely nullifies itself to the True Source (ExactByteAllocator).
+ *  It exists only as an empty conduit, a testament to the evolution of the Awtsmoos.
  */
 
-const SlabArena = require('./arena.js');
-const constants = require('../../../constants.js');
-
 class SlabManager {
+    /**
+     * @constructor
+     * @param {Object} v1Allocator - The Ultimate Exact-Byte Foundation
+     */
     constructor(v1Allocator) {
         this.v1 = v1Allocator;
         this.db = v1Allocator.db;
-        
-        // Data-Based routing map for O(1) slot discovery
-        this.arenas = {
-            16: [],
-            32: [],
-            64: [],
-            128: []
-        };
     }
 
     /**
-     * @description Determines the perfect vessel size for the requested data.
+     * @method allocate
+     * @description Passes the burden directly to the ExactByteAllocator.
+     * @param {number} size - The spark size.
+     * @returns {Object} The exact physical coordinate.
      */
-    _getTier(size) {
-        if (size <= 16) return 16;
-        if (size <= 32) return 32;
-        if (size <= 64) return 64;
-        if (size <= 128) return 128;
+    allocate(size) {
+        return this.v1.allocate(size);
+    }
+
+    /**
+     * @method getArena
+     * @description The arena is an illusion. The void is empty.
+     * @param {number} blockId - The ghost of a block.
+     * @returns {null} Absolute nothingness.
+     */
+    getArena(blockId) {
         return null;
     }
 
     /**
-     * @description Secures a micro-slot, birthing a new Arena if all are full.
+     * @method flush
+     * @description Silence. The Pager handles all physical manifestation instantly.
      */
-    allocate(size) {
-        const tier = this._getTier(size);
-        if (tier === null) return null; // Too large, fallback to heavy allocation
-
-        const list = this.arenas[tier];
-        let arena = list.find(a => !a.bitmap.isFull());
-        
-        if (!arena) {
-            // Manifest a new 4KB physical block
-            const ptr = this.v1.allocate(constants.BLOCK_SIZE);
-            // Transform the block into a Slab Arena
-            arena = new SlabArena(this.db, ptr, tier);
-            list.push(arena);
-        }
-
-        return arena.claim();
-    }
+    flush() {}
 }
 
 module.exports = SlabManager;

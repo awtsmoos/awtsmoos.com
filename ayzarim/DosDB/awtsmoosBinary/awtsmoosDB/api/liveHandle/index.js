@@ -1,5 +1,5 @@
 
-//B"H
+// B"H
 /**
  * @file index.js
  * @description
@@ -81,12 +81,12 @@ class LiveHandle {
 
     /**
      * @description Authoritatively resolves a static pointer into its hydrated JS equivalent.
-     * @param {Buffer} ptrBuf The 16-byte binary address.
+     * @param {Buffer} ptrBuf The dynamic binary address.
      * @param {AwtsmoosDB} db The database context.
      * @returns {*} The manifested data.
      */
     static resolvePointer(ptrBuf, db) {
-        if (!ptrBuf || ptrBuf.length !== 16) return null;
+        if (!ptrBuf || ptrBuf.length < 2) return null;
         const SmartPointer = require('../../utils/smartPointer.js');
         const decoded = SmartPointer.decode(ptrBuf);
         if (!decoded) return null;
