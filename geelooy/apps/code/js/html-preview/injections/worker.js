@@ -3,12 +3,20 @@
 /**
  * @file worker.js
  * @brief The Interceptor of Background Souls (Web Workers).
+ * 
+ * THE PSALM OF THE SECONDARY CONSCIOUSNESS:
+ * A Worker is a soul split off from the main,
+ * Operating freely, without any chain.
+ * But it needs to know where it stands in the space,
+ * To pull its dependencies into their place.
+ * We resolve the relative paths that it seeks,
+ * Translating the native tongue that it speaks.
  */
 
 import { importScriptsHack } from '../worker-hacks.js';
 
 export const WorkerInterceptor = `
-    const hackStr = \`${importScriptsHack.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`;
+    const hackStr = \`\${importScriptsHack.replace(/\\/g, '\\\\').replace(/\`/g, '\\\`').replace(/\\$/g, '\\\\$')}\`;
     const OrigWorker = window.Worker;
     const activeWorkers = new Map();
     let reqId = 0;
@@ -99,6 +107,9 @@ export const WorkerInterceptor = `
     window.Worker = function(path, options) {
         if (path.startsWith('blob:') || path.startsWith('http')) return new OrigWorker(path, options);
 
+        // B"H - Relative path resolution for worker instantiation
+        const absPath = window._resolvePath ? window._resolvePath(path) : path;
+
         const id = 'w_' + reqId++;
         const controlSAB = new SharedArrayBuffer(5 * 4);
         const dataSAB = new SharedArrayBuffer(CHUNK_SIZE);
@@ -111,7 +122,7 @@ export const WorkerInterceptor = `
         };
 
         activeWorkers.set(id, { proxy, options, controlSAB, dataSAB });
-        window.parent.postMessage({ source: 'html-preview-bridge', type: 'fetch-worker-script', path, id, referrer: window._AWTSMOOS_REF, workspaceId: window._AWTSMOOS_WID }, '*');
+        window.parent.postMessage({ source: 'html-preview-bridge', type: 'fetch-worker-script', path: absPath, id, referrer: window._AWTSMOOS_REF, workspaceId: window._AWTSMOOS_WID }, '*');
         
         return proxy;
     };

@@ -3,6 +3,14 @@
 /**
  * @file fetch.js
  * @brief The Interceptor of the Network Prayer (Fetch & XHR).
+ * 
+ * THE HYMN OF THE INTERCEPTED PRAYER:
+ * When the script calls out "fetch!" to the open air,
+ * We catch the request, we hear the prayer.
+ * If it seeks localhost, we send it to Node,
+ * If it seeks a local file, we lighten the load.
+ * We resolve the path using the Master's True Name,
+ * So the relative and absolute become the same.
  */
 
 export const FetchInterceptor = `
@@ -57,8 +65,11 @@ export const FetchInterceptor = `
 
             if (isLocalhost || isLocalAsset) {
                 try {
+                    // B"H - Crucial Path Resolution for local assets
+                    const targetUrl = isLocalAsset ? (window._resolvePath ? window._resolvePath(url) : url) : url;
+
                     const reqData = init ? { method: init.method || 'GET', headers: init.headers, body: init.body } : { method: 'GET' };
-                    const data = await fetchFromParent(url, reqData);
+                    const data = await fetchFromParent(targetUrl, reqData);
                     
                     const responseBody = data.buffer || data.content;
                     const responseOpts = { 

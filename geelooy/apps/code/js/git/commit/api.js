@@ -6,11 +6,13 @@ export const CommitAPI = {
     /**
      * @async
      * @function uploadBlobs
-     * @description Sequentially uploads file contents as blobs to GitHub. 
-     * Uses a small delay between each to respect secondary rate limits.
+     * @description Sequentially manifests file contents as blobs on GitHub.
+     * Implementing the 'Patience Ritual' to avoid 403 secondary rate limits.
      */
     async uploadBlobs(repoInfo, blobBatch, onFileProgress) {
         const results = [];
+        
+        // B"H - Sequential Processing (The Way of Peace)
         for (const file of blobBatch) {
             if (onFileProgress) onFileProgress(file.path);
             
@@ -24,9 +26,9 @@ export const CommitAPI = {
             
             results.push({ path: file.path, mode: '100644', type: 'blob', sha: blob.sha });
             
-            // B"H - The "Small Rest": Mandatory 150ms delay between individual blob creations
-            // to stay under the GitHub secondary rate limit radar.
-            await new Promise(r => setTimeout(r, 150));
+            // B"H - The Mandatory Sabbath: 200ms delay between individual blobs
+            // prevents GitHub from flagging the session as an automated script.
+            await new Promise(r => setTimeout(r, 200));
         }
         return results;
     },
