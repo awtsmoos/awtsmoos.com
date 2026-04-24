@@ -1,62 +1,19 @@
 
 // B"H
-// FILE: js/app/storage-orchestrator.js
-
 import { Session } from '../session.js';
 import { SettingsManager } from './settings.js';
-import { IndexedDBProvider } from '../fs/indexeddb.js';
-import { State } from '../state.js';
+import { WorkspaceOptimisticActivator } from '../workspaces/manager/WorkspaceOptimisticActivator.js';
 
-/**
- * @class StorageOrchestrator
- * @classdesc The vessel of Memory.
- * 
- * THE POEM OF CONTINUITY:
- * The user departs, but the work remains.
- * This module is the bridge between the 'Yesterday' and the 'Now'.
- * It ensures that the physical handles, the keys to the local folders,
- * are gathered from the IndexedDB store and reunited with the
- * workspaces in the application's State.
- */
-export class StorageOrchestrator {
-    /**
-     * @async
-     * @method recallPreviousReality
-     * @description Re-emanates the saved state. It specifically focuses 
-     * on recovering FileSystemHandles for local workspaces and silently verifying them.
-     */
-    static async recallPreviousReality() {
-        // First, load the basic structure of the session.
+export const StorageOrchestrator = {
+    async recallPreviousReality() {
+        // Load session structure (workspaces/tabs)
         await Session.load();
 
-        // Proactively try to re-link all 'local' handles to prevent 'Handle not found' errors.
-        for (const ws of State.workspaces) {
-            if (ws.type === 'local') {
-                try {
-                    const handle = await IndexedDBProvider.getHandle(ws.id);
-                    if (handle) {
-                        ws.handle = handle;
-                        // B"H - Silently query. If Chrome grants it (e.g. persistent storage active),
-                        // we immediately unlock it so no "RESUME" badge appears.
-                        const perm = await handle.queryPermission({ mode: 'readwrite' });
-                        ws.isLocked = (perm !== 'granted');
-                    } else {
-                        // Handle truly missing from DB
-                        ws.isLocked = true;
-                    }
-                } catch (e) {
-                    console.warn(`B"H: Could not auto-restore handle for workspace ${ws.id}.`);
-                    ws.isLocked = true;
-                }
-            }
-        }
-    }
+        // Perform the optimistic binding of physical handles
+        await WorkspaceOptimisticActivator.ignite();
+    },
 
-    /**
-     * @method preserveMoment
-     * @description Saves the current settings and state.
-     */
-    static preserveMoment() {
+    preserveMoment() {
         SettingsManager.save(document);
     }
-}
+};

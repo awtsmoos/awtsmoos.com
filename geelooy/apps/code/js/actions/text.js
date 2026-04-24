@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/actions/text.js
 import { DOM } from '../state.js';
@@ -39,6 +40,24 @@ export const TextActions = {
 
     sortLines() { this._processLines(lines => lines.sort()); },
     
+    trimTrailingWhitespace() {
+        if (DOM.editorWrapper.classList.contains('hidden')) return;
+        const editor = DOM.editor;
+        const val = editor.value;
+        const newVal = val.replace(/[ \t]+$/gm, '');
+        
+        if (val !== newVal) {
+            const selStart = editor.selectionStart;
+            const selEnd = editor.selectionEnd;
+            editor.value = newVal;
+            editor.setSelectionRange(selStart, selEnd);
+            editor.dispatchEvent(new Event('input'));
+            UI.showToast("Trailing void purged.", "success");
+        } else {
+            UI.showToast("The document is already pure.", "info");
+        }
+    },
+
     insertDate() {
         const dateStr = new Date().toLocaleString();
         this._insertText(dateStr);

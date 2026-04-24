@@ -25,6 +25,7 @@ export const PALETTE_COMMANDS = [
     { id: 'find', label: 'Edit: Find/Replace', action: 'find-replace', icon: 'search' },
     { id: 'comment', label: 'Edit: Toggle Line Comment', action: 'toggle-line-comment', icon: 'list' },
     { id: 'fold-all', label: 'Edit: Fold All Functions', action: 'fold-functions', icon: 'list' },
+    { id: 'trim-space', label: 'Edit: Trim Trailing Whitespace', action: 'trim-trailing-whitespace', icon: 'list' }, // B"H - Added
     { id: 'ipsum', label: 'Edit: Insert Cyber Ipsum', action: 'insert-cyber-ipsum', icon: 'list' },
     { id: 'zalgo', label: 'Edit: Zalgoify Selection', action: 'zalgo-text', icon: 'brain' },
     { id: 'date', label: 'Edit: Insert Date/Time', action: 'insert-date', icon: 'list' },

@@ -18,6 +18,7 @@ export const TEXT_TRANS_ACTIONS = {
     'transform-url-encode': () => TextActions.urlEncode(),
     'transform-url-decode': () => TextActions.urlDecode(),
     'sort-lines': () => TextActions.sortLines(),
+    'trim-trailing-whitespace': () => TextActions.trimTrailingWhitespace(), // B"H - Added Action
     'insert-date': () => TextActions.insertDate(),
     'insert-uuid': () => TextActions.insertUUID(),
     'fold-functions': () => {

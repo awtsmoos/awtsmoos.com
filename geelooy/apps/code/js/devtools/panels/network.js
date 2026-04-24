@@ -28,14 +28,26 @@ export const NetworkPanel = {
                 fontWeight: 'bold', 
                 fontSize: '0.85em', 
                 width: '100%',
-                color: 'var(--color-text-tertiary)'
+                color: 'var(--color-text-tertiary)',
+                alignItems: 'center'
             },
             children: [
                 { style: { width: '60px' }, text: 'Status' },
                 { style: { width: '70px' }, text: 'Method' },
                 { style: { flexGrow: '1' }, text: 'File / URL' },
                 { style: { width: '80px' }, text: 'Type' },
-                { style: { width: '80px', textAlign: 'right' }, text: 'Time' }
+                { style: { width: '80px', textAlign: 'right', marginRight: '10px' }, text: 'Time' },
+                // B"H - The Erasure Button
+                { 
+                    tag: 'button', 
+                    text: '⊘', 
+                    title: 'Clear Network Log',
+                    style: { background: 'none', border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', cursor: 'pointer', borderRadius: '4px', padding: '2px 6px' },
+                    onClick: () => {
+                        state.networkReqs = [];
+                        renderRequests();
+                    }
+                }
             ]
         });
 
@@ -89,10 +101,7 @@ export const NetworkPanel = {
             listContainer.scrollTop = listContainer.scrollHeight;
         };
 
-        // B"H - Bind the update ritual
         state.onNetworkLog = renderRequests;
-
-        // Populate history immediately
         renderRequests();
     }
 };

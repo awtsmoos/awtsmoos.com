@@ -10,22 +10,39 @@ import { Workspaces, getItemUniquePath } from '../../workspaces/index.js';
 import { ItemResolver } from '../utils/itemResolver.js';
 
 export default async function run(context) { 
-    const item = ItemResolver.resolve(context);
-    if (!item || !item.path) return;
+    const initialItem = ItemResolver.resolve(context);
+    if (!initialItem) return;
 
-    const { workspaceId, path } = item; 
+    let targetItem = { ...initialItem };
+
+    // B"H - VIRTUAL-TO-PHYSICAL MAPPING
+    // Use the active tab's session data if it's a virtual vessel
+    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+    if (activeTab) {
+        if (activeTab.fileType === 'vibe' || activeTab.item.type === 'vibe-session') {
+            const rootPath = activeTab.vibeSession?.path || activeTab.vibeSession?.rootPath || "/";
+            targetItem.path = rootPath;
+            targetItem.kind = 'directory';
+        } else if (activeTab.item.type === 'terminal') {
+            targetItem.path = activeTab.terminalState?.cwd?.path || "/";
+            targetItem.kind = 'directory';
+        }
+    }
+
+    const { workspaceId, path } = targetItem; 
     const workspace = State.workspaces.find(ws => ws.id === workspaceId);
     if (!workspace) return;
 
     document.querySelector('.app-container').classList.remove('sidebar-collapsed');
 
-    const parts = path.split('/').filter(Boolean);
+    const normalizedPath = path.replace(/\\/g, '/').replace(/\/+$/, '');
+    const parts = normalizedPath.split('/').filter(Boolean);
     let currentAccum = '';
     
     if (parts.length === 0) {
-        const rootPath = getItemUniquePath({ ...item, path: '/', kind: 'directory' });
-        const entry = State.domItemMap.get(rootPath);
-        if (entry && entry.el) {
+        const rootPathKey = getItemUniquePath({ ...targetItem, path: '/', kind: 'directory' });
+        const entry = State.domItemMap.get(rootPathKey);
+        if (entry?.el) {
             entry.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
             entry.el.classList.add('context-active');
             setTimeout(() => entry.el.classList.remove('context-active'), 3000);
@@ -37,7 +54,7 @@ export default async function run(context) {
         const isLast = (i === parts.length - 1);
         currentAccum += '/' + parts[i];
         
-        const pathItem = { ...item, path: currentAccum, kind: isLast ? (item.kind || 'file') : 'directory' };
+        const pathItem = { ...targetItem, path: currentAccum, kind: isLast ? (targetItem.kind || 'file') : 'directory' };
         const uniquePath = getItemUniquePath(pathItem);
         
         if (!isLast && !State.expandedFolders.has(uniquePath)) {
@@ -45,13 +62,13 @@ export default async function run(context) {
         }
 
         let element = null;
-        for (let attempt = 0; attempt < 25; attempt++) {
+        for (let attempt = 0; attempt < 10; attempt++) {
             const entry = State.domItemMap.get(uniquePath);
-            if (entry && entry.el && entry.el.offsetParent !== null) {
+            if (entry?.el && entry.el.offsetParent !== null) {
                 element = entry.el;
                 break;
             }
-            await new Promise(r => setTimeout(r, 40));
+            await new Promise(r => setTimeout(r, 100));
         }
 
         if (isLast && element) {

@@ -3,23 +3,17 @@
 /**
  * @file itemResolver.js
  * @brief THE PURE ESSENCE DECODER.
- * Unravels contexts without inheriting visually corrupted CSS parameters or chaotic title strings.
  */
 
 import { State } from '../../state.js';
 
 export const ItemResolver = {
-    /**
-     * Determines truth of destination reliably through ascending strict heuristics.
-     * @param {object} context 
-     * @returns {object|null}
-     */
     resolve(context) {
         let item = null;
         
-        // 1. Precise extraction from payloads
+        // 1. Payload Check
         if (context && typeof context === 'object') {
-            if (context.path !== undefined && context.name !== undefined) {
+            if (context.path !== undefined && (context.kind !== undefined || context.type !== undefined)) {
                 item = context; 
             } else if (context.item) {
                 item = context.item;
@@ -28,58 +22,40 @@ export const ItemResolver = {
             }
         }
 
-        // 2. Safest Global Source of Truth (Memory state tracking)
-        if (!item && typeof State !== 'undefined' && State.tabs) {
-            let activeTab = null;
-            if (State.activeTabId) activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            if (!activeTab) activeTab = State.tabs.find(t => t.isActive);
-            
+        // 2. Global Context Target (Right-click)
+        if (!item && State.contextTarget) {
+            item = State.contextTarget;
+        }
+
+        // 3. Active Tab SITUATIONAL AWARENESS
+        // If the user clicks a global button, infer context from the current tab.
+        if (!item && State.tabs) {
+            let activeTab = State.tabs.find(t => t.id === State.activeTabId);
             if (activeTab && activeTab.item) {
                 item = activeTab.item;
-                console.log(`B"H - Pulled item successfully from internal logic states.`);
+                console.log(`B"H - Context inferred from active tab: ${item.path}`);
             }
         }
 
-        // 3. Flawless DOM Extraction (Immune to corrupted titles!)
-        if (!item) {
-            console.log("B\"H - Navigating final logic depth - Document queries applied.");
-            try {
-                // Read from true data properties on UI bounds, totally ignoring arbitrary Title visual structures!
-                const domActiveEl = document.querySelector('.tab-header.active, .tab.active');
-                if (domActiveEl) {
-                    const explicitDataId = domActiveEl.getAttribute('data-id');
-                    if (explicitDataId && State && State.tabs) {
-                        const preciseTab = State.tabs.find(t => t.id === explicitDataId || (t.item && t.item.id === explicitDataId));
-                        if (preciseTab) item = preciseTab.item;
-                    }
-
-                    if (!item) {
-                        const truePathData = domActiveEl.getAttribute('data-path');
-                        // Ensures the path does NOT possess formatting artifacts like '::' or space dividers
-                        if (truePathData && !truePathData.includes(' :: ')) {
-                            item = {
-                                path: truePathData,
-                                name: truePathData.split('/').pop(),
-                                kind: truePathData.includes('.') ? 'file' : 'directory'
-                            };
-                            console.log(`B"H - Formulated precise shell directly from [data-path]: ${truePathData}`);
-                        }
-                    }
-                }
-            } catch(e) { } // Silent absorb to ensure return of undefined allows dialog processing downstream
+        // 4. Workspace Root Fallback
+        if (!item && State.workspaces) {
+             const activeWs = State.workspaces.find(w => w.isActive) || State.workspaces[0];
+             if (activeWs) item = { ...activeWs, path: '/', kind: 'directory', workspaceId: activeWs.id };
         }
 
-        // Apply mandatory mapping characteristics 
-        if (item && item.path && !item.type && State && State.workspaces) {
-            const bindWs = State.workspaces.find(w => w.id === item.workspaceId) || State.workspaces.find(w => w.isActive);
-            if (bindWs) item.type = bindWs.type;
+        // Mandatory Rectification
+        if (item && item.path) {
+            const wsId = item.workspaceId || item.id;
+            const bindWs = State.workspaces.find(w => String(w.id) === String(wsId));
+            if (bindWs) {
+                item.workspaceId = bindWs.id;
+                if (!item.type) item.type = bindWs.originalType || bindWs.type;
+            }
+            if (!item.kind) {
+                item.kind = (item.path.endsWith('/') || item.type === 'directory') ? 'directory' : 'file';
+            }
         }
 
-        if(item) {
-            console.log(`B"H - Pure Essence Resolution Complete. Ready.`, item);
-        } else {
-            console.warn(`B"H - Resolution reached void limits - No entity parsed anywhere in DOM or Cache.`);
-        }
         return item;
     }
 };
