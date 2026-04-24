@@ -1,3 +1,4 @@
+
 //B"H
 
 export default /*css*/`
@@ -19,6 +20,7 @@ export default /*css*/`
         max-height: 700px;
         font-family: 'Fredoka', sans-serif;
         color: white;
+        z-index: 5000;
 	}
 
     .awtsmoosInventoryViewer .header {
@@ -137,7 +139,6 @@ export default /*css*/`
         transition: all 0.2s ease;
 	}
     
-    /* B"H: VIVID ANIMATION FOR DROP TARGET */
     .actionSlot.drag-hover-active {
         border-color: #00ffed;
         box-shadow: 0 0 20px #00ffed, inset 0 0 25px #00ffed;
@@ -260,7 +261,7 @@ export default /*css*/`
 		background: rgba(20, 20, 40, 0.95);
         border: 2px solid #FFD700;
         border-radius: 8px;
-        z-index: 2000;
+        z-index: 6000;
         display: flex;
         flex-direction: column;
         padding: 5px;
@@ -292,7 +293,7 @@ export default /*css*/`
         border-radius: 5px;
         font-size: 14px;
         pointer-events: none;
-        z-index: 3000;
+        z-index: 9999;
     }
     
     .locked::after {

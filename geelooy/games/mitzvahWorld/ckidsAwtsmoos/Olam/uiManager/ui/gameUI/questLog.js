@@ -1,18 +1,18 @@
+
 // B"H
-/**
- * questLog.js - The mirror of the soul's current duties.
- * Refined with advanced sorting and interaction confirmation.
- */
 export default {
     shaym: "questLog",
     className: "quest-log hidden",
     awtsmoosClick: true,
-    
-    state: {
-        sortBy: 'PRIORITY',
-        filter: 'ACTIVE'
+    style: {
+        position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+        width: "90%", maxWidth: "800px", height: "80%", maxHeight: "600px",
+        background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+        border: "4px solid #FFD700", borderRadius: "20px", zIndex: 3000,
+        display: "flex", flexDirection: "column", color: "white", 
+        fontFamily: "Fredoka, sans-serif", boxShadow: "0 0 50px rgba(0,0,0,0.8)"
     },
-
+    
     on: {
         open(e, $, ui) {
              $("questLog").classList.remove("hidden");
@@ -22,96 +22,62 @@ export default {
              const list = $("questListContent");
              list.innerHTML = "";
              
-             // Request latest sorted data from worker
-             ui.peula("ikar", { 
-                olamPeula: { 
-                    getQuests: { sortBy: this.state.sortBy } 
-                } 
-             }).then(data => {
-                const quests = data.quests || [];
-                if (quests.length === 0) {
-                    list.innerHTML = "<div style='text-align:center; padding:50px; opacity:0.5'>No active missions.</div>";
-                    return;
-                }
-                
-                quests.forEach(q => {
-                    const isOverdue = q.expiresAt > 0 && Date.now() > q.expiresAt;
-                    const priorityText = q.priority >= 3 ? "Vital" : (q.priority >= 2 ? "Important" : "Standard");
-                    const pColor = q.priority >= 3 ? "#bc13fe" : (q.priority >= 2 ? "#FFD700" : "#4cc9f0");
-
-                    ui.html({
-                        parent: list,
-                        className: "quest-card",
-                        style: {
-                            background: "rgba(255,255,255,0.05)", borderLeft: `6px solid ${pColor}`,
-                            borderRadius: "10px", padding: "15px", marginBottom: "12px",
-                            opacity: isOverdue ? 0.6 : 1
-                        },
-                        children: [
-                            {
-                                style: { display: "flex", justifyContent: "space-between", alignItems: "center" },
-                                children: [
-                                    { tag: "h3", textContent: q.title, style: { margin: 0, color: pColor } },
-                                    { 
-                                        tag: "span", textContent: priorityText, 
-                                        style: { background: pColor, color: "black", padding: "2px 8px", borderRadius: "10px", fontSize: "10px", fontWeight: "bold" } 
-                                    }
-                                ]
-                            },
-                            { tag: "p", textContent: q.description, style: { fontSize: "14px", margin: "10px 0" } },
-                            {
-                                style: { fontSize: "12px", color: isOverdue ? "#ff4757" : "#aaa", marginBottom: "10px" },
-                                textContent: q.expiresAt > 0 ? "Expires: " + new Date(q.expiresAt).toLocaleTimeString() : "Ongoing Mitzvah"
-                            },
-                            {
-                                style: { display: "flex", gap: "10px" },
-                                children: [
-                                    q.state === 'ACTIVE' ? {
-                                        tag: "button", className: "awtsmoosBtn small", textContent: "MARK DONE",
-                                        onclick: () => {
-                                            ui.peula("ikar", { olamPeula: { markQuestComplete: q.id } });
-                                        }
-                                    } : null,
-                                    {
-                                        tag: "button", className: "awtsmoosBtn small", style: { borderColor: "#ff4757", color: "#ff4757" },
-                                        textContent: "ABANDON",
-                                        onclick: async () => {
-                                            // Sacred Confirmation via inputModal
-                                            const result = await ui.peula("ikar", { 
-                                                olamPeula: { 
-                                                    sendUiEvent: { 
-                                                        shaym: "inputModal", 
-                                                        ob: { requestInput: { title: "Abandon Shlichus?", placeholder: "Type 'ABANDON' to confirm." } } 
-                                                    } 
-                                                } 
-                                            });
-                                            if (result && result.value === "ABANDON") {
-                                                ui.peula("ikar", { olamPeula: { dropQuest: q.id } });
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        ]
-                    });
-                });
+             // Get active quests from handler via Olam
+             // Note: In worker structure, we might need to request this data. 
+             // But assuming we have access to the handler instance in the main thread mirror or via events:
+             // For now, assume this event is triggered with data.
+             
+             const quests = e.detail.quests || [];
+             
+             if (quests.length === 0) {
+                 list.innerHTML = "<div style='text-align:center; padding:50px; opacity:0.5'>No active missions. Go find some!</div>";
+                 return;
+             }
+             
+             quests.forEach(q => {
+                 const percent = q.progress || 0;
+                 ui.html({
+                     parent: list,
+                     className: "quest-card",
+                     style: {
+                         background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,215,0,0.3)",
+                         borderRadius: "10px", padding: "15px", marginBottom: "10px"
+                     },
+                     children: [
+                         {
+                             style: { display: "flex", justifyContent: "space-between", alignItems: "center" },
+                             children: [
+                                 { tag: "h3", textContent: q.title, style: { margin: 0, color: "#FFD700" } },
+                                 { 
+                                     tag: "span", 
+                                     textContent: q.state === 'READY_TO_TURN_IN' ? "RETURN!" : (q.state === 'COMPLETED' ? "DONE" : "ACTIVE"),
+                                     style: { 
+                                         background: q.state === 'READY_TO_TURN_IN' ? "#00ff00" : "#444", 
+                                         color: "black", padding: "2px 8px", borderRadius: "4px", fontSize: "12px", fontWeight: "bold"
+                                     } 
+                                 }
+                             ]
+                         },
+                         { tag: "p", textContent: q.description, style: { fontSize: "14px", opacity: 0.8 } },
+                         { 
+                             className: "quest-progress-bar", 
+                             style: { width: "100%", height: "10px", background: "#333", borderRadius: "5px", marginTop: "10px", overflow: "hidden" },
+                             children: [
+                                 { style: { width: percent + "%", height: "100%", background: "linear-gradient(90deg, #FFD700, #FFA500)" } }
+                             ]
+                         }
+                     ]
+                 });
              });
         }
     },
 
     children: [
         {
-            // Sorting Controls
-            style: { padding: "20px", borderBottom: "1px solid rgba(255,215,0,0.3)", display: "flex", gap: "15px", background: "rgba(0,0,0,0.2)" },
+            style: { padding: "20px", borderBottom: "2px solid rgba(255,215,0,0.3)", display: "flex", justifyContent: "space-between", alignItems: "center" },
             children: [
-                { tag: "span", textContent: "Sort By:", style: { color: "#FFD700", fontWeight: "bold", alignSelf: "center" } },
-                { tag: "button", className: "awtsmoosBtn small", textContent: "Priority", onclick(e,$,ui){ $("questLog").state.sortBy='PRIORITY'; ui.peula($("questLog"), {refresh:true}); } },
-                { tag: "button", className: "awtsmoosBtn small", textContent: "Due Date", onclick(e,$,ui){ $("questLog").state.sortBy='DATE'; ui.peula($("questLog"), {refresh:true}); } },
-                { tag: "button", className: "awtsmoosBtn small", textContent: "Title", onclick(e,$,ui){ $("questLog").state.sortBy='TITLE'; ui.peula($("questLog"), {refresh:true}); } },
-                { 
-                    tag: "button", className: "awtsmoosBtn small", style: { marginLeft: "auto", borderColor: "#ff4757" }, textContent: "CLOSE",
-                    onclick(e, $) { $("questLog").classList.add("hidden"); } 
-                }
+                { tag: "h2", textContent: "Mitzvah Journal", style: { margin: 0, color: "#FFD700", textShadow: "0 0 10px #FFD700" } },
+                { tag: "button", className: "awtsmoosBtn", textContent: "X", onclick(e, $) { $("questLog").classList.add("hidden"); } }
             ]
         },
         {

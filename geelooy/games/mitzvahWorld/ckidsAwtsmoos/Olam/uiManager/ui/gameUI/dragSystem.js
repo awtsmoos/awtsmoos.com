@@ -18,7 +18,7 @@ export default function initDragSystem() {
             pendingSplitCallback: null,
             mousePos: { x: 0, y: 0 }, 
             hoveredSlot: null,
-            pendingClickCallback: null // B"H: Store click handler here
+            pendingClickCallback: null 
         };
     }
 
@@ -32,7 +32,6 @@ export default function initDragSystem() {
         return window.AwtsmoosDragSystem.ghost;
     };
 
-    // B"H: Updated to accept onClick callback
     window.attachSlotDragListeners = function(el, slotData, source, index, ui, onClick) {
         if(!el) return;
         
@@ -57,9 +56,7 @@ export default function initDragSystem() {
                 index: index
             };
             
-            // B"H: Store the specific click handler for this slot
             window.AwtsmoosDragSystem.pendingClickCallback = (evt) => {
-                 // console.log("B\"H DragSystem: Executing pending click callback for slot", index, source);
                  if (typeof onClick === 'function') onClick(evt);
             };
         };
@@ -84,6 +81,9 @@ export default function initDragSystem() {
             ghost.style.top = sys.mousePos.y + 'px';
         }
         document.body.style.cursor = 'grabbing';
+        
+        const tooltip = document.querySelector('[shaym="icon tooltip"]');
+        if(tooltip) tooltip.classList.add('hidden');
     };
 
     function clearHoverEffects() {
@@ -127,6 +127,10 @@ export default function initDragSystem() {
                     ghost.style.top = y + 'px';
                 }
                 document.body.style.cursor = 'grabbing';
+                
+                // Hide tooltip
+                const tooltip = document.querySelector('[shaym="icon tooltip"]');
+                if(tooltip) tooltip.classList.add('hidden');
             }
         }
 
@@ -179,19 +183,12 @@ export default function initDragSystem() {
                  }
              }
         } else if (wasPotential) {
-            // B"H: If we were potentially dragging but didn't move far enough, it's a CLICK.
-            // Execute the stored callback.
-            // console.log("B\"H DragSystem: Potential drag ended without movement - firing CLICK callback");
             if (sys.pendingClickCallback) {
-                // Ensure target is valid (might need to find the specific slot again if mouse moved slightly)
-                // For simplicity, pass the event we have.
                 try {
                     sys.pendingClickCallback(e);
                 } catch(err) {
                     console.error("B\"H Error in click callback:", err);
                 }
-            } else {
-                // console.warn("B\"H DragSystem: No pending click callback found despite potential state");
             }
             sys.isPotentialDrag = false;
             sys.pendingClickCallback = null;

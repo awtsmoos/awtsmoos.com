@@ -4,204 +4,77 @@
  */
 export default /*css*/`
     .loading {
-        z-index: 99999;
-        color: white;
-        margin: 0;
-        position: fixed;
-        left: 0; top: 0;
-        width: 100%; height: 100%;
-        background: radial-gradient(circle at center, #241550 0%, #000000 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Fredoka One', sans-serif;
-    }
-
-    .loadingContent {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-    }
-
-    /* RADIAL LOADER */
-    .radial-loader-container {
-        position: relative;
-        width: 200px;
-        height: 200px;
-    }
-
-    .radial-progress {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background: conic-gradient(
-            #00f3ff 0%,
-            #bc13fe 0%,
-            rgba(255, 255, 255, 0.1) 0%
-        );
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 50px rgba(188, 19, 254, 0.5), inset 0 0 20px rgba(0, 243, 255, 0.3);
-        position: relative;
-        animation: pulseGlow 2s infinite alternate;
-    }
-
-    /* Inner circle to make it a ring */
-    .radial-inner {
-        position: absolute;
-        width: 180px;
-        height: 180px;
-        background: #0f0518;
-        border-radius: 50%;
-        z-index: 1;
-    }
-
-    .radial-text-container {
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .loading-aleph {
-        font-size: 60px;
-        background: linear-gradient(180deg, #ffd700, #ffaa00);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
-        animation: floatAleph 3s ease-in-out infinite;
-    }
-
-    .loading-percent {
-        font-size: 24px;
-        color: #00f3ff;
-        text-shadow: 0 0 5px #00f3ff;
-        margin-top: 5px;
-    }
-
-    .loading-info-container {
-        text-align: center;
-        z-index: 2;
-    }
-
-    .loading-title {
-        color: #ffffff;
-        font-size: 28px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin: 0;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    }
-
-    .loading-subtitle {
-        color: #bc13fe;
-        font-size: 14px;
-        margin-top: 10px;
-        font-weight: normal;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        max-width: 300px;
-        white-space: nowrap;
+        z-index: 9999;
+        position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at center, #1a0033 0%, #000000 100%);
+        display: flex; align-items: center; justify-content: center;
         overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    /* B"H: ERROR MODAL STYLES */
-    .loading-error-modal {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 100000;
-        backdrop-filter: blur(5px);
-    }
-    
-    .loading-error-modal.hidden {
-        display: none;
     }
 
-    .error-content {
-        background: linear-gradient(135deg, #3a0000 0%, #1a0000 100%);
-        border: 4px solid #ff4757;
-        box-shadow: 0 0 50px #ff4757;
-        padding: 40px;
-        border-radius: 20px;
-        max-width: 600px;
-        width: 90%;
-        text-align: center;
-        color: white;
-        user-select: text; /* B"H: Allow copying error text */
-        -webkit-user-select: text;
+    @keyframes ainSofSpin {
+        0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+        50% { transform: rotate(180deg) scale(1.1); filter: hue-rotate(180deg); }
+        100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
     }
-    
-    .error-content h2 {
-        color: #ff4757;
-        font-size: 32px;
-        margin-bottom: 20px;
-        text-transform: uppercase;
+
+    @keyframes ainSofSpinReverse {
+        0% { transform: rotate(360deg) scale(1); filter: hue-rotate(0deg); }
+        50% { transform: rotate(180deg) scale(0.9); filter: hue-rotate(-180deg); }
+        100% { transform: rotate(0deg) scale(1); filter: hue-rotate(-360deg); }
     }
-    
-    .error-content p {
-        font-size: 18px;
-        margin-bottom: 20px;
+
+    .kabbalah-vortex {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 100vh; height: 100vh; pointer-events: none; opacity: 0.4;
     }
-    
-    .error-content pre {
-        background: rgba(0,0,0,0.5);
-        padding: 15px;
-        border-radius: 10px;
-        text-align: left;
-        overflow-x: auto;
-        color: #ffcccc;
-        margin-bottom: 25px;
-        font-family: monospace;
-        font-size: 14px;
-        user-select: text; /* B"H: Allow copying error details */
+
+    .sefirot-ring {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        border: 4px dashed transparent; border-radius: 50%;
+        box-shadow: 0 0 50px #ff00ff, inset 0 0 50px #00ffff;
     }
-    
-    .error-actions {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-    }
-    
-    .error-actions button {
-        padding: 12px 25px;
-        border: none;
-        border-radius: 50px;
-        font-family: 'Fredoka One', sans-serif;
-        font-size: 16px;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
-    
-    .error-actions button:hover {
-        transform: scale(1.05);
-    }
-    
-    .error-actions button:first-child {
-        background: #555;
-        color: white;
-    }
-    
-    .error-actions button:last-child {
-        background: #ff4757;
-        color: white;
-        box-shadow: 0 0 15px #ff4757;
+
+    .ring-1 { animation: ainSofSpin 10s linear infinite; border-color: #ffd700; }
+    .ring-2 { animation: ainSofSpinReverse 15s linear infinite; width: 80%; height: 80%; top: 10%; left: 10%; border-color: #ff00ff; }
+    .ring-3 { animation: ainSofSpin 20s linear infinite; width: 60%; height: 60%; top: 20%; left: 20%; border-color: #00ffff; }
+
+    .loadingContent { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
+
+    .awtsmoos-title-glow {
+        font-family: 'Fredoka One', cursive; font-size: 64px; color: #fff;
+        text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 80px #ff00ff;
+        margin-bottom: 40px; animation: pulseGlow 2s infinite alternate;
+        text-transform: uppercase; letter-spacing: 5px;
     }
 
     @keyframes pulseGlow {
-        0% { box-shadow: 0 0 30px rgba(188, 19, 254, 0.3); }
-        100% { box-shadow: 0 0 60px rgba(188, 19, 254, 0.7); }
+        0% { text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff; transform: scale(1); }
+        100% { text-shadow: 0 0 30px #00ffff, 0 0 60px #ff00ff, 0 0 100px #fff; transform: scale(1.05); }
     }
 
-    @keyframes floatAleph {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
+    .barLoading .bck {
+        width: 400px; height: 30px; background: rgba(255,255,255,0.1);
+        border: 2px solid #00ffff; border-radius: 15px; overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
     }
+
+    .barMitzvah {
+        height: 100%; width: 0%; background: linear-gradient(90deg, #ff00ff, #00ffff, #fff);
+        transition: width 0.3s ease; position: relative;
+        box-shadow: 0 0 20px #fff;
+    }
+
+    .light-spark {
+        position: absolute; right: 0; top: 0; width: 20px; height: 100%;
+        background: #fff; filter: blur(5px); box-shadow: 0 0 20px #fff;
+        animation: sparkPulse 0.5s infinite alternate;
+    }
+
+    @keyframes sparkPulse {
+        0% { opacity: 0.5; width: 10px; }
+        100% { opacity: 1; width: 30px; }
+    }
+
+    .txtLoad { font-family: 'Fredoka', sans-serif; color: #fff; text-shadow: 0 0 10px #00ffff; margin-top: 20px; text-align: center; }
+    .txtLoad.secondary { font-size: 18px; color: #ffd700; opacity: 0.8; }
 `;
