@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file Shlichus.js
@@ -16,11 +17,6 @@ export const QUEST_STATE = {
 };
 
 export default class Shlichus {
-    /**
-     * constructor - Manifests the mission's essence.
-     * @param {Object} data Genetic information of the mission.
-     * @param {Object} handler The manager overseeing the shlichus.
-     */
     constructor(data, handler) {
         this.handler = handler;
         this.olam = handler.olam;
@@ -30,10 +26,8 @@ export default class Shlichus {
         this.title = data.title || data.shaym || "Mitzvah Opportunity";
         this.description = data.description || "A task to bring light.";
         
-        // B"H: Priority Levels: 1 (Standard), 2 (Important), 3 (Vital/Sacred)
         this.priority = data.priority || 1; 
         
-        // B"H: Due Date logic (Time limits in minutes)
         this.timeLimitRaw = data.timeLimit || 0; 
         this.expiresAt = 0; 
 
@@ -52,9 +46,6 @@ export default class Shlichus {
         this.manualCompletionRequested = false;
     }
 
-    /**
-     * activate - The soul accepts the mission.
-     */
     activate() {
         this.state = QUEST_STATE.ACTIVE;
         this.startTime = Date.now();
@@ -77,22 +68,15 @@ export default class Shlichus {
         });
     }
 
-    /**
-     * markAsComplete - Explicitly signals the fulfillment of the task.
-     */
     markAsComplete() {
         if (this.state !== QUEST_STATE.ACTIVE) return;
         this.manualCompletionRequested = true;
         this.checkProgress();
     }
 
-    /**
-     * checkProgress - Evaluates the manifestation of the mission's requirements.
-     */
     checkProgress() {
         if (this.state !== QUEST_STATE.ACTIVE) return;
 
-        // B"H: Check Expiration
         if (this.expiresAt > 0 && Date.now() > this.expiresAt) {
             this.fail("Time for this Mitzvah has passed.");
             return;
@@ -100,7 +84,6 @@ export default class Shlichus {
 
         let isComplete = false;
 
-        // B"H: Automatic Requirement Check (Inventory items)
         if (Object.keys(this.requirements).length > 0) {
             const inventory = this.olam.player.inventory;
             let hasAll = true;
@@ -111,12 +94,10 @@ export default class Shlichus {
             isComplete = hasAll;
         } 
         
-        // B"H: Progress Item Check (World objects collected)
         if (this.totalCollectedObjects > 0 && this.collected >= this.totalCollectedObjects) {
             isComplete = true;
         }
 
-        // B"H: Manual Flag Check (Intent-based completion)
         if (this.manualCompletionRequested) {
             isComplete = true;
         }
@@ -136,7 +117,6 @@ export default class Shlichus {
         this.state = QUEST_STATE.COMPLETED;
         this.despawnWorldItems();
         
-        // Distribute rewards
         if (this.rewards) {
             this.rewards.forEach(r => this.olam.player.inventory.addItem(r));
         }

@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * Serialization Utilities
@@ -39,36 +40,47 @@ export default class SerializationUtils {
         return (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint' || value === null || value === undefined);
     }
 
-    /**
-     * B"H: Corrected stringify logic to avoid SyntaxError with nested backticks.
-     */
     static stringifyFunctions(obj) {
         let objCopy = Array.isArray(obj) ? [] : {};
         for (let key in obj) {
             if (typeof obj[key] === 'function') {
                 let str = obj[key].toString().trim();
                 
+                // B"H: Robust Function Detection
+                // We need to distinguish between:
+                // 1. Arrow functions: (a) => {} or async (a) => {} -> LEAVE ALONE
+                // 2. Method shorthands: foo() {} or async foo() {} -> PREPEND function/async function
+                // 3. Standard functions: function foo() {} -> LEAVE ALONE
+                // 4. Getters/Setters: get foo() {} -> LEAVE ALONE
+                
                 const isAsync = str.startsWith("async");
+                // Create a version without the initial 'async' to check for 'function' keyword
                 const strWithoutAsync = isAsync ? str.substring(5).trim() : str;
+                
+                // Check for Arrow Function signature
+                // Matches: (args) =>, arg =>, async (args) =>
                 const isArrow = /^(async\s+)?(\([^\)]*\)|[a-zA-Z0-9_$]+)\s*=>/.test(str);
                 
                 if (!isArrow) {
+                    // If it's NOT an arrow function, we check if it needs the 'function' keyword
                     if (
                         !strWithoutAsync.startsWith("function") && 
                         !strWithoutAsync.startsWith("class") && 
                         !str.startsWith("get ") && 
                         !str.startsWith("set ")
                     ) {
+                         // It's a method shorthand (e.g. "foo() {}" or "async foo() {}")
                          if (isAsync) {
+                             // Convert "async foo() {}" -> "async function foo() {}"
                              str = "async function " + strWithoutAsync;
                          } else {
+                             // Convert "foo() {}" -> "function foo() {}"
                              str = "function " + str;
                          }
                     }
                 }
 
-                // B"H: Using single quotes to prevent backtick collisions
-                objCopy[key] = '/*B"H\nThis has been stringified with Awtsmoos!\n*/\n' + str;
+                objCopy[key] = `/*B"H\nThis has been stringified with Awtsmoos!\n*/\n${str}`;
             } else if (typeof obj[key] === 'object' && obj[key] !== null) {
                 objCopy[key] = this.stringifyFunctions(obj[key]);
             } else {
@@ -86,16 +98,21 @@ export default class SerializationUtils {
             try {
                 if (typeof obj[key] === 'string' && obj[key].startsWith(comment)) {
                     var code = obj[key].substring(comment.length);
+                    
+                    // B"H: Wrap in parens to support anonymous function expressions and arrows.
+                    // If it's a declaration like "function foo(){}", parens might make it an expression which is fine.
                     var evaledCode = '(' + code + ')';
                     
                     try {
                         objCopy[key] = eval(evaledCode);
                     } catch(e) {
+                        // Fallback: Try evaluating without parens (rare edge cases or named declarations)
                         try { 
                             objCopy[key] = eval(code); 
                         } catch(e2) {
                             console.error("B\"H - Failed to evaluate function:", key, e2, "\nCode:", code);
-                            objCopy[key] = () => {}; 
+                            // Keep the string as fallback so it doesn't crash later
+                            objCopy[key] = () => console.error("Function failed to compile:", key); 
                         }
                     }
                 } else if (typeof obj[key] === 'object' && obj[key] !== null) {

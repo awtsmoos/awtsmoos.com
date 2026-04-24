@@ -1,3 +1,4 @@
+
 /**B"H */
 
 export default class Interaction {
@@ -9,12 +10,18 @@ export default class Interaction {
         this.approachTxt = typeof(opts.approachTxt) 
         == "function" ? opts.approachTxt :
             (() => this.me.name);
+        
 	}
 
     sealayk(nivra ) {
+        console.log("removing")
         this.me.olam.htmlAction({
             shaym: this.opts.npcMessageShaym,
-            methods: { classList: { remove: "active" } }
+            methods: {
+                classList: {
+                    remove: "active"
+                }
+            }
         });
         this.nivraYotsee(nivra)
     }
@@ -28,6 +35,12 @@ export default class Interaction {
         if(this.me.wasApproached) {
             this.me.ayshPeula("was moved away from")
         }
+        
+        // B"H: Also close the store if it's open
+        if(this.me.olam) {
+            this.me.olam.htmlAction({ shaym: "storeScreen", methods: { classList: { add: "hidden" } } });
+        }
+        
         this.me.clear("initial approach");
     }
 
@@ -75,6 +88,7 @@ export default class Interaction {
 
 
 			this.me.on("accepted interaction", () => {
+
                 if(this.opts.approachShaym)
                     this.me.olam.htmlAction({
                         shaym: this.opts.approachShaym,
