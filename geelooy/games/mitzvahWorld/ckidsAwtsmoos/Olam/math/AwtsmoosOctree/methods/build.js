@@ -1,10 +1,11 @@
+
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 
 const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
 const _temp_triangle = new THREE.Triangle();
-const MAX_DEPTH = 12; // B"H: Reduced from 55 to prevent stack overflow/freezes
+const MAX_DEPTH = 55;
 
 export default {
     addDynamicTriangle(triangle) {
@@ -23,10 +24,37 @@ export default {
 	    }
 	},
 	
-	addTriangle(triangle) {
-        // B"H: This method is deprecated in the dynamic system in favor of addDynamicTriangle
-        // kept for interface compatibility if needed, but redirects to dynamic logic
-        this.addDynamicTriangle(triangle);
+	
+	
+	
+	
+	
+	
+	/**
+     * B"H - NEW METHOD 1 of 2
+     * Surgically inserts a single triangle into the already-built octree.
+     * This is the key to our performance boost.
+     */
+    addTriangle(triangle) {
+        // First, add the triangle to the master data array. This is a very fast operation.
+        // We temporarily "un-build" the flat array to do this.
+        const newTriangles = [...this.allTriangles, triangle];
+        this.allTriangles = newTriangles;
+        
+        // Re-create the flat data array. This is much faster than re-traversing meshes.
+        this.worldTrianglesData = new Float32Array(newTriangles.length * 9);
+        for (let i = 0; i < newTriangles.length; i++) {
+            const tri = newTriangles[i];
+            const baseIndex = i * 9;
+            this.worldTrianglesData[baseIndex] = tri.a.x; this.worldTrianglesData[baseIndex+1] = tri.a.y; this.worldTrianglesData[baseIndex+2] = tri.a.z;
+            this.worldTrianglesData[baseIndex+3] = tri.b.x; this.worldTrianglesData[baseIndex+4] = tri.b.y; this.worldTrianglesData[baseIndex+5] = tri.b.z;
+            this.worldTrianglesData[baseIndex+6] = tri.c.x; this.worldTrianglesData[baseIndex+7] = tri.c.y; this.worldTrianglesData[baseIndex+8] = tri.c.z;
+        }
+
+        const newTriangleIndex = newTriangles.length - 1;
+
+        // Now, find the correct leaf node(s) and insert the index.
+        this._insertTriangleRecursive(this, newTriangleIndex, triangle);
     },
     
     fromGraphNode(group) {
@@ -146,13 +174,6 @@ export default {
 		if(this.allTriangles.length > 0){
 			this.box.min.x -= 0.01; this.box.min.y -= 0.01; this.box.min.z -= 0.01;
 		}
-        
-        // B"H: Safety - Ensure box has volume to avoid infinite recursion on flat planes
-        const size = new THREE.Vector3();
-        this.box.getSize(size);
-        if(size.x < 0.001) this.box.max.x += 0.1;
-        if(size.y < 0.001) this.box.max.y += 0.1;
-        if(size.z < 0.001) this.box.max.z += 0.1;
 
 		this.triangles = Array.from(Array(this.allTriangles.length).keys());
 		

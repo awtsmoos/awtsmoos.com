@@ -1,10 +1,11 @@
+
 /**
  * B"H
+ * Listens for the impulses of the player, translated from the physical keypress to the spiritual event.
  */
 
 export default function() {
     var c;
-    /*setup event listeners*/
     this.on("keydown", peula => {
         c = peula.code;
         if(!this.keyStates[peula.code]) {
@@ -43,33 +44,17 @@ export default function() {
     this.on("presskey", peula => {
         console.log("Pressed a key~!" , peula)
         this.ayshPeula("keypressed", peula);
-        var c= peula.code;
-
     })
 
-    
-    
-
     this.on("mousedown", peula => {
-        if(!peula.isAwtsmoosMobile)
-            this.ayshPeula("mouseLock", true);
-
+        // B"H: mouseLock is now handled strictly in the main thread (domEvents.js) to avoid NotAllowedError
         this.ayin.onMouseDown(peula);
         this.mouseDown = true;
-        /*
-        if(this.hoveredNivra) {
-            console.log(this.hoveredNivra);
-            this.ayshPeula("keypressed", {
-                code: "KeyB"
-            })
-        }*/
-        
     });
 
     this.on("mouseup", peula => {
         this.ayshPeula("mouseRelease", true);
         this.ayin.onMouseUp(peula);
         this.mouseDown = false;
-        
     });
 }

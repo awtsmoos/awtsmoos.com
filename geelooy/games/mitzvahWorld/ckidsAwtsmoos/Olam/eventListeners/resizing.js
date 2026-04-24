@@ -61,17 +61,9 @@
         console.log("B\"H - Olam Event: rendered first time triggered.");
         this.rendered = true
         this.renderer.renderedOnce = true;
-        
-        var windowSize = await this.ayshPeula("get window size");
-        
-        // B"H: Robust Check - if array, take first; if undefined, default safely.
+        var windowSize = await this.ayshPeula("get window size")
         if(Array.isArray(windowSize)) {
-            windowSize = windowSize[0];
-        }
-        
-        if (!windowSize) {
-             console.warn("B\"H - Warning: Could not get window size from main thread. Defaulting to 1920x1080.");
-             windowSize = { width: 1920, height: 1080 };
+            windowSize = windowSize[0]
         }
         
         console.log("B\"H - Requesting hide loading screen...");
@@ -79,7 +71,6 @@
         
         this.windowSize.x = windowSize.width;
         this.windowSize.y = windowSize.height;
-        
         await this.ayshPeula("resize", {
             width: this.windowSize.x,
             height: this.windowSize.y  

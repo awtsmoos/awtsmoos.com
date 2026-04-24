@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -17,13 +18,9 @@ export default function() {
             properties: {
                 innerHTML: "",
                 style: {
-                    
-                    transform:`translate(${-1e4}px, ${
-                        -1e4
-                    }px)`
+                    transform:`translate(${-1e4}px, ${-1e4}px)`
                 }
             },
-            
             methods: {
                 classList: {
                     add: "invisible"
@@ -39,6 +36,7 @@ export default function() {
         if(peula) {
             this.achbar.x = peula.clientX;
             this.achbar.y = peula.clientY;
+            this.isOverUI = peula.isOverUI; // B"H: Stored from worker message
         }
         var {
             left,
@@ -55,14 +53,7 @@ export default function() {
         if(this.mouseDown) {
             this.ayin.onMouseMove(peula);
         }
-        /**
-         * as mouse moves check if any objects 
-         * are being hovered over
-         */
-        
-
     };
-    this.on("mousemove", mouseMove);
-
     
+    this.on("mousemove", mouseMove);
 }
