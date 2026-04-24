@@ -1,3 +1,4 @@
+
 //B"H
 /**
  * Bezalel Workshop - The Holy Construction Interface.
@@ -22,34 +23,40 @@ export default {
         render(e, $, ui) {
             const list = $("bz-modifiers-list");
             list.innerHTML = "";
-            this.state.modifiers.forEach((m, i) => {
+            const st = $("constructionScreen").state || { modifiers: [] };
+            
+            st.modifiers.forEach((m, i) => {
                 ui.html({
                     parent: list,
                     className: "bz-modifier-card",
                     children: [
                         { textContent: `${m.type.toUpperCase()}: ${m.text || m.count || ''}` },
-                        { tag: "button", textContent: "X", onclick: () => { this.state.modifiers.splice(i,1); ui.peula($("constructionScreen"), {render: true}); } }
+                        { tag: "button", textContent: "X", onclick: () => { st.modifiers.splice(i,1); ui.peula($("constructionScreen"), {render: true}); } }
                     ]
                 });
             });
         },
         addModifier(e, $, ui) {
             const type = e.detail.type;
+            const st = $("constructionScreen").state || { modifiers: [] };
+            $("constructionScreen").state = st;
+
             if (type === 'gematria') {
                 const text = prompt("Enter Hebrew Word for Gematria:");
-                if (text) this.state.modifiers.push({ type: 'gematria', text });
+                if (text) st.modifiers.push({ type: 'gematria', text });
             } else {
-                this.state.modifiers.push({ type, count: 5 });
+                st.modifiers.push({ type, count: 5 });
             }
             ui.peula($("constructionScreen"), { render: true });
         },
         spawn(e, $, ui) {
+             const st = $("constructionScreen").state || { modifiers: [], baseType: "BoxGeometry" };
              const golem = {
-                 guf: { [this.state.baseType]: [1,1,1] },
-                 modifiers: this.state.modifiers,
+                 guf: { [st.baseType]: [1,1,1] },
+                 modifiers: st.modifiers,
                  isProceduralBuilding: true
              };
-             ui.peula("ikar", { olamPeula: { addItem: { name: "Sacred Blueprint", className: "Domem", isBuildable: true, golem } } });
+             ui.peula("ikar", { olamPeula: { addItem: { name: "Sacred Blueprint", className: "Blueprint", isBuildable: true, golem } } });
              $("constructionScreen").classList.add("hidden");
         }
     },

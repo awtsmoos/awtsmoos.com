@@ -10,10 +10,13 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from "/games/scripts/jsm/loaders/DRACOLoader.js"
 
-// B"H: Update to point to the index file of the directory
-import { OctreeWorld as Octree } from '../math/OctreeWorld/index.js';
+// B"H: Reverted to monolithic file import as requested
+import { OctreeWorld as Octree } from '../math/OctreeWorld.js';
+
+//import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
 
 // B"H: Polyfill Image for Web Worker environment so GLTFLoader checks pass
+// Enhanced Polyfill to satisfy GLTFLoader requirements
 if (typeof self !== 'undefined' && typeof Image === 'undefined') {
     self.Image = class { 
         constructor() {
@@ -32,57 +35,84 @@ if (typeof self !== 'undefined' && typeof Image === 'undefined') {
 }
 
 export default class {
-    loader = new GLTFLoader(); 
+    loader = new GLTFLoader(); // A GLTFLoader for loading 3D models
     
     cameraObjectDirection = new THREE.Vector3();
 
     nivrayimGroup = new THREE.Group();
     
+    //DOF effect
     coby = 0;
+    // constants
     STEPS_PER_FRAME = 5;
     GRAVITY = 30;
     currentLoadingPercentage = 0;
     destroyed = false;
     
-    aynaweem = []; 
+    // Camera-related properties
+    aynaweem = []; // "Eyes" or cameras for the scene
    
+    
     ayinRotation = 0;
     ayinPosition = new THREE.Vector3();
     cameraObjectDirection = new THREE.Vector3();
     usingGPU = false;
-    
-    // B"H: FIX - Removed manual context check. 
-    // THREE.WebGLRenderer correctly handles both standard Canvas and OffscreenCanvas automatically.
-    // Explicitly checking getContext("webgl2") on an OffscreenCanvas locks it, 
-    // causing the subsequent Renderer creation to fail if it tries to set attributes (like antialias).
-    rendererTemplate = () => THREE.WebGLRenderer;
+    rendererTemplate = canvas => /*navigator.gpu  && this.usingGPU
+        ? WebGPURenderer : */
+            canvas.getContext("webgl2") ? THREE.WebGLRenderer :
+            THREE.WebGL1Renderer;
   
+    // Scene-related properties
     scene = new THREE.Scene();
     
-    isGPU = () => this.usingGPU;
+    isGPU = () => 
+        this.usingGPU
+        
        
-    worldOctree = new Octree(); 
+    // Physics-related properties
+    worldOctree = new Octree(); // An octree for efficient collision detection
     interactiveOctree = new Octree();
     
     octreeDebugHelper = new THREE.Box3Helper(new THREE.Box3(), 0xff0000);
   
-    achbar = new THREE.Vector2();
     
-    clock = new THREE.Clock(); 
+    achbar = new THREE.Vector2() // mouse position
+    // Misc properties
+    
+    clock = new THREE.Clock(); // A clock for tracking time
     
     nivrayimBeforeLoad = [];
-    renderer; 
+    renderer; // A renderer for the scene
     
-    deltaTime = 1; 
+    deltaTime = 1; // The amount of time that has passed since the last frame
 
+    /**
+     * @property components
+     * components are raw bytes
+     * of data loaded from fines
+     */
     components = {};
-    componentSourceUrls = {};
 
     vars = {};
 
+    /**
+     * @property assets
+     * assets are instantiated JavaScript
+     * Objects (such as a GLTF instance)
+     * loaded from raw byte data (component).
+     * 
+     * Useful for reusing same resources 
+     * (that can be cloned etc.)
+     * 
+     * 
+     * Can also be used for 
+     * global (within world)
+     * variables.
+     */
     assets = {};
     shlichusHandler = null;
 
+    
     inputs = {
         FORWARD: false,
         BACKWARD: false,
@@ -114,26 +144,39 @@ export default class {
         "Space": "JUMP",
         "KeyX": "DOWN",
         "keyC": "UP"
-    };
 
-    completedShlichuseem = [];
-    startedShlichuseem = [];
+        //"ShiftLeft": "RUNNING",
+        //"ShiftRight": "RUNNING"
 
-    keyStates = {}; 
-    mouseDown = false; 
-    ohros = []; 
+    }
+    completedShlichuseem = []
+    startedShlichuseem = []
+
+    // Input-related properties
+    keyStates = {}; // State of key inputs
+    mouseDown = false; // State of mouse input
+    ohros = []; // Lights for the scene
     enlightened = false;
     minimapCanvas = null;
     minimapRenderer = null;
  
-    objectsInScene = []; 
+    objectsInScene = []; // Objects in the scene
 
-    isHeesHawvoos = false; 
-    nivrayim = []; 
+    // Animation-related properties
+    isHeesHawvoos = false; // Flag to indicate if the scene is currently animating
+    nivrayim = []; // Objects to be animated
     nivrayimWithShlichuseem = [];
 
-    nivrayimWithDialogue = [];
-    
+    nivrayimWithDialogue = []
+    /**
+     * @property {Array} nivrayim 
+     * creations that can be interacted with.
+     * 
+     * Used in Tzomaaych class to check,
+     * if proximity is set, which pool
+     * of objects to search for for collision
+     * detection.
+     */
     interactableNivrayim = [];
 
     nivrayimWithPlaceholders = [];
@@ -141,11 +184,16 @@ export default class {
     meshesToInteractWith = [];
     html = null;
 
+
     waterMesh = null;
     
     actions = {
-        reset(player, nivra, olam) {
+        reset(player, nivra/*that collided with*/, olam) {
+           // console.log("Reset!",player, nivra)
+           
            if(!player.teleporting) {
+            
+            
             player.teleporting = true;
             setTimeout(() => {
                 olam.ayshPeula('reset player position')

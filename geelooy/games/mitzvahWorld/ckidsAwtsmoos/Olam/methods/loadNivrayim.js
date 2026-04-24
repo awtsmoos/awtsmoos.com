@@ -1,166 +1,219 @@
-// B"H
+
 /**
- * loadNivrayim.js - The Forge of Manifestation.
- * Refined for ATOMIC CREATION to ensure world stability and prevent partial states.
- * Now with EXTREME LOGGING to track the descent of every spark.
+ * B"H
+ * the method to load Nivrayim
  */
+
 import Utils from '../../utils.js'
-import ClassMap from '../../registry/classMap.js';
+import * as AWTSMOOS from '../../awtsmoosCkidsGames.js';
 
 export default class {
-    /**
-     * addObject - Atomic creation of a single Nivra.
-     */
-    async addObject(type, options) {
-        console.log(`B"H - Summoning a single '${type}' from the infinite...`);
-        const path = ClassMap[type];
-        if (!path) throw new Error(`B"H: Entity type '${type}' is not registered.`);
 
-        let Module;
-        try {
-            Module = await import(path);
-        } catch(e) {
-            throw new Error(`B"H: Could not draw down logic for ${type} at ${path}.`);
+	async addObject(type, options) {
+        if (!AWTSMOOS[type]) {
+            console.error(`B"H - Olam.addObject: Type "${type}" does not exist.`);
+            return;
         }
 
-        const EntityClass = Module.default;
-        const nivra = new EntityClass(options, this);
-        
-        // Initiate the vessel's existence
-        if (nivra.heescheel) {
-            console.log(`B"H - Igniting heescheel for ${nivra.name}...`);
-            await nivra.heescheel(this, {});
+        const nivra = new AWTSMOOS[type](options, this);
+        let mesh;
+
+        if (options.golem) {
+            mesh = await this.generateThreeJsMesh(options.golem);
+            mesh.name = nivra.name;
+            nivra.mesh = mesh;
+            mesh.nivraAwtsmoos = nivra;
+		    if(!mesh.userData) mesh.userData = {};
+            
+            if (options.position) mesh.position.copy(options.position);
+            if (options.rotation) mesh.rotation.copy(options.rotation); 
+            if (options.scale) mesh.scale.copy(options.scale);
+            
+            if (options.itemData) {
+                mesh.userData.itemData = options.itemData;
+            }
+
+            mesh.updateMatrixWorld(true);
+            if (mesh.geometry) mesh.geometry.sourceMesh = mesh; 
+
+            let physicsSuccess = true;
+            if (options.isSolid) {
+                const playerPos = this.chossid ? this.chossid.mesh.position : null;
+                physicsSuccess = this.worldOctree.addObject(mesh, playerPos);
+                if (!physicsSuccess) {
+                    console.error(`B"H Error: Failed to add ${mesh.name} to Physics. Aborting.`);
+                    return null; 
+                }
+            }
+            
+            if (physicsSuccess) {
+                mesh.traverse(child => {
+                    if(child.isMesh) {
+                        if(!child.userData) child.userData = {};
+                        if(options.itemData) child.userData.itemData = options.itemData;
+                        if(options.isSolid) child.userData.isSolid = true;
+                    }
+                });
+                
+                if (options.interactable && type !== 'CustomNpc' && type !== 'Chossid' && type !== 'Medabeir') {
+                    this.interactiveOctree.fromGraphNode(mesh);
+                }
+                this.nivrayimGroup.add(mesh);
+            }
+            
+        } else if (options.path) {
+            console.error(`B"H - addObject requires 'golem' for dynamic objects currently.`);
+            return;
         }
         
-        if (nivra.ready) {
-            console.log(`B"H - Entity ${nivra.name} is ready for manifestation.`);
-            await nivra.ready();
-        }
-        if (nivra.afterBriyah) await nivra.afterBriyah();
-        
+        this.nivrayim.push(nivra);
+        await nivra.ready();
+        await nivra.afterBriyah();
         return nivra;
     }
 
-    /**
-     * loadNivrayim - Atomic World Forge.
-     * Staging entities in a private Ayin (Nothingness) and only breathing life
-     * once the entire collective is proven stable.
-     */
-    async loadNivrayim(blueprint) {
-        console.group("B\"H - Atomic World Forge Initiated");
-        const stagedVessels = [];
-        const entries = Object.entries(blueprint);
-
+    async loadNivrayim(nivrayim) {
         try {
-            // PHASE 1: ATOMIC INSTANTIATION - Summoning the souls
-            for (const [type, instances] of entries) {
-                const path = ClassMap[type];
-                if (!path) {
-                    console.warn(`B"H - Skipping unknown type: ${type}`);
-                    continue;
+            console.log("B\"H - loadNivrayim started");
+            var nivrayimMade = [];
+            var ent = Object.entries(nivrayim);
+            
+            for (var [type, nivraOptions] of ent) {
+                var ar;
+                var isAr = false;
+                if (Array.isArray(nivraOptions)) {
+                    ar = nivraOptions;
+                    isAr = true;
+                } else {
+                    ar = Object.entries(nivraOptions);
                 }
 
-                console.log(`B"H - Accessing logic for type: ${type} at ${path}`);
-                const Module = await import(path);
-                const EntityClass = Module.default;
+                for (var entry of ar) {
+                    var name = null;
+                    var options = null;
+                    if (isAr) {
+                        options = entry;
+                        name = options.name;
+                    } else {
+                        name = entry[0];
+                        options = entry[1];
+                    }
 
-                const instanceArray = Array.isArray(instances) ? instances : Object.entries(instances);
-                
-                for (const entry of instanceArray) {
-                    let name, options;
-                    if (Array.isArray(instances)) { options = entry; name = options.name; } 
-                    else { name = entry[0]; options = entry[1]; }
-
-                    if (type === "Chossid" && this.playerSettings) {
+                    if (type === "Chossid" && this.playerSettings && this.playerSettings.inventory) {
                         options.inventory = this.playerSettings.inventory;
                     }
 
+                    let nivra;
+                    var evaledObject = null;
+
                     try {
-                        const evaledOptions = Utils.evalStringifiedFunctions(options);
-                        console.log(`B"H - Forging Soul: ${name || type}`);
-                        const nivra = new EntityClass({ name, ...evaledOptions }, this);
-                        if (nivra) stagedVessels.push(nivra);
+                        evaledObject = Utils.evalStringifiedFunctions(options);
+                        var c = AWTSMOOS[type];
+                        if (c && typeof(c) == "function") {
+                            // console.log(`B"H - Instantiating ${type}: ${name}`);
+                            nivra = new c({
+                                name,
+                                ...evaledObject
+                            }, this);
+                        } else {
+                            console.warn(`B"H - Class ${type} not found!`);
+                        }
                     } catch (e) {
-                        console.error(`B"H: Failed to forge soul for '${name}'.`, e);
-                        if (options.vital) throw e; 
+                        console.error("B\"H - Error instantiating nivra", options, e);
                     }
+
+                    if (!nivra) continue;
+
+                    nivrayimMade.push(nivra);
+                    
+                    this.ayshPeula(
+                        "increase loading percentage", {
+                            amount: (100) / (nivrayimMade.length),
+                            nivra,
+                            action: "initting " + name
+                        }
+                    );
                 }
             }
 
-            const total = stagedVessels.length;
-            if (total === 0) {
-                console.warn("B\"H - The Blueprint is empty. No souls to manifest.");
-                console.groupEnd();
-                return [];
+            var sizes = [];
+            var totalSize = 0;
+            for(var nivra of nivrayimMade) {
+                nivra.olam = this;
+                var s = await nivra.getSize();
+                sizes.push({
+                    nivra,
+                    size:s
+                })
+                totalSize += s;
+                nivra.size = s;
             }
+            this.totalSize = totalSize;
 
-            console.log(`B"H - Successfully summoned ${total} souls. Beginning physical manifestation (Heescheel)...`);
-
-            // PHASE 2: ATOMIC PREPARATION (Heescheel) - Drawing down assets
-            for (let i = 0; i < total; i++) {
-                const nivra = stagedVessels[i];
-                const pct = Math.floor(((i + 1) / total) * 100);
-                
-                console.log(`B"H - Manifesting Matter [${pct}%]: ${nivra.name || nivra.type}`);
-                this.ayshPeula("increase loading percentage", {
-                    amount: pct, reset: true,
-                    action: "Forging Matter...",
-                    subAction: `Refining Essence: ${nivra.name || nivra.type}`
-                });
-
-                // B"H: Recursive Yielding - prevents thread lock
-                await new Promise(r => setTimeout(r, 0));
-
-                if (nivra.heescheel) {
-                    await nivra.heescheel(this, { nivrayimMade: stagedVessels });
+            console.log("B\"H - Initialization Phase (heescheel) starting for " + nivrayimMade.length + " entities.");
+            
+            for (var nivra of nivrayimMade) {
+                if (nivra.heescheel && typeof(nivra.heescheel) === "function") {
+                    try {
+                        console.log(`B"H - heescheel: ${nivra.name} (${nivra.type})`);
+                        await nivra.heescheel(this, {
+                            nivrayimMade
+                        });
+                        console.log(`B"H - heescheel done: ${nivra.name}`);
+                    } catch(e) {
+                        console.error(`B"H - problem loading nivra ${nivra.name}`, e);
+                    }
+                    this.ayshPeula("increase loading percentage", {
+                        amount:(100) / (nivrayimMade.length),
+                        nivra,
+                        action: "Setting up " + nivra.name,
+                        info: { nivra }
+                    });
                 }
             }
-
-            // PHASE 3: LOGICAL SYNC (MadeAll / Placeholders)
-            console.log("B\"H - Synchronizing Hierarchies and Placeholders...");
-            for (const nivra of stagedVessels) {
-                if (nivra.madeAll) await nivra.madeAll(this);
+            
+            console.log("B\"H - madeAll Phase");
+            
+            for (var nivra of nivrayimMade) {
+                if (nivra.madeAll) {
+                    await nivra.madeAll(this);
+                }
+            }
+            
+            console.log("B\"H - Placeholder/Entity Logic Phase");
+            
+            for (var nivra of nivrayimMade) {
                 await this.doPlaceholderAndEntityLogic(nivra);
             }
 
-            // PHASE 4: ENLIGHTENMENT (Ready / Scene Projection)
-            this.ayshPeula("increase loading percentage", {
-                amount: 100, reset: true,
-                action: "Breathing Life...",
-                subAction: "Igniting the Souls"
-            });
+            console.log("B\"H - Ready Phase");
 
-            console.log("B\"H - Breathing life into all created things (Ready phase)...");
-            for (const nivra of stagedVessels) {
-                if (nivra.ready) await nivra.ready();
-                if (nivra.afterBriyah) await nivra.afterBriyah();
-            }
-
-            // Final scene revealing
-            if(!this.enlightened) {
-                console.log("B\"H - Illuminating the Olam with Divine Light...");
-                this.ohr();
-            }
-            
-            console.log("B\"H - World Forge Successful. The universe is manifest.");
-            console.groupEnd();
-            return stagedVessels;
-
-        } catch (error) {
-            console.error("B\"H - ATOMIC FORGE FAILURE - THE TZIMTZUM SHATTERED:", error);
-            
-            // Cleanup staged orphans
-            stagedVessels.forEach(v => { if(v.sealayk) v.sealayk(); });
-            
-            this.ayshPeula("increase loading percentage", {
-                error: {
-                    title: "Forge Shattered",
-                    message: "An imperfection in the blueprint prevented manifestation.",
-                    details: error.message
+            for (var nivra of nivrayimMade) {
+                if (nivra.ready) {
+                    await nivra.ready();
                 }
-            });
-            console.groupEnd();
-            throw error; 
+            }
+
+            console.log("B\"H - AfterBriyah Phase");
+            
+			for(var nivra of nivrayimMade) {
+				if(nivra.afterBriyah) {
+					await nivra.afterBriyah();
+				}
+			}
+
+            this.ayshPeula("updateProgress",{
+                loadedNivrayim: Date.now()
+            })
+
+            console.log("B\"H - Adding Lights (Ohr)");
+            
+            if(!this.enlightened)
+                this.ohr();
+                
+            return nivrayimMade;
+        } catch (error) {
+            console.error("B\"H - CRITICAL ERROR in loadNivrayim: ", error);
         }
     }
 }

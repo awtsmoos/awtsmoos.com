@@ -1,14 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
 // B"H
 import startSlotsConfig from "../startSlotsConfig.js";
 
@@ -28,7 +18,6 @@ export default {
         }
     }, { className: "slots", shaym: "action slots" }],
     ready(el, $f, ui) {
-        // Initial setup handled by updateActionSlots mostly now to prevent race conditions
     },
     on: {
         updateActionSlots(e, $, ui) {
@@ -36,23 +25,19 @@ export default {
             const slotsContainer = $("action slots");
             if (!slotsContainer) return;
             
-            // B"H FIX: Ensure Bag Slot (Index 0/First Child) exists
-            // If the container is empty (first load or wiped), recreate the bag slot.
-            const actionBarEl = $("action bar");
-            const slotConfig = (actionBarEl && actionBarEl.startSlotsConfig) ? actionBarEl.startSlotsConfig : startSlotsConfig;
-            
+            const slotConfig = $("action bar").startSlotsConfig;
             const bagSlotInfo = slotConfig && slotConfig.slots ? slotConfig.slots[0] : null;
 
             if (slotsContainer.children.length === 0 && bagSlotInfo) {
-                 const tooltip = $("icon tooltip");
+                 const tooltip = document.querySelector('[shaym="icon tooltip"]');
                  const showTooltip = (e) => {
                     if (!tooltip) return;
-                    tooltip.innerHTML = `<div class="header">${bagSlotInfo.name}</div><div class="description">${bagSlotInfo.description}</div>`;
+                    tooltip.innerHTML = `<div class="header" style="color:#00ffed; font-size:18px; font-weight:bold;">${bagSlotInfo.name}</div><div class="description" style="color:#eee; font-size:14px; margin-top:5px;">${bagSlotInfo.description}</div>`;
                     tooltip.classList.remove("hidden");
                     const x = e.clientX || (e.touches && e.touches[0].clientX);
                     const y = e.clientY || (e.touches && e.touches[0].clientY);
                     if(x && y) {
-                        tooltip.style.left = (x - tooltip.clientWidth) + "px";
+                        tooltip.style.left = (x - tooltip.clientWidth - 15) + "px";
                         tooltip.style.top = y + "px";
                     }
                 };
@@ -73,7 +58,6 @@ export default {
                 });
             }
 
-            // Remove all children *after* the bag slot (index 0) to refresh dynamic slots
             while (slotsContainer.children.length > 1) {
                 slotsContainer.removeChild(slotsContainer.lastChild);
             }
@@ -81,16 +65,19 @@ export default {
             actionSlotsData.forEach((slotData, index) => {
                 const showTooltip = (event) => {
                     if (!slotData) return;
-                    const tooltip = $("icon tooltip");
+                    const tooltip = document.querySelector('[shaym="icon tooltip"]');
                     if (tooltip) {
-                        tooltip.innerHTML = `<div class="header">${slotData.name}</div><div class="description">${slotData.description}</div>`;
+                        tooltip.innerHTML = `<div class="header" style="color:#00ffed; font-size:18px; font-weight:bold;">${slotData.name}</div><div class="description" style="color:#eee; font-size:14px; margin-top:5px;">${slotData.description}</div>`;
                         tooltip.classList.remove("hidden");
                         const x = event.clientX || (event.touches && event.touches[0].clientX);
                         const y = event.clientY || (event.touches && event.touches[0].clientY);
-                        if (x && y) { tooltip.style.left = (x + 15) + 'px'; tooltip.style.top = (y + 15) + 'px'; }
+                        if (x && y) { tooltip.style.left = (x - tooltip.clientWidth - 15) + 'px'; tooltip.style.top = (y + 15) + 'px'; }
                     }
                 };
-                const hideTooltip = () => $("icon tooltip")?.classList.add('hidden');
+                const hideTooltip = () => {
+                    const t = document.querySelector('[shaym="icon tooltip"]');
+                    if(t) t.classList.add('hidden');
+                };
                 
                 let iconStyle = {};
                 let textIcon = null;
@@ -99,12 +86,13 @@ export default {
                 if (slotData) {
                     const isUrl = slotData.icon && (slotData.icon.includes('/') || slotData.icon.includes('data:'));
                     if (isUrl) {
+                        const safeUrl = slotData.icon.replace(/[\r\n]+/g, "");
                         if (slotData.isTintable && slotData.customData && slotData.customData.color) {
                             const color = slotData.customData.color;
                             iconStyle = {
                                 backgroundColor: color,
-                                maskImage: `url(${slotData.icon})`,
-                                WebkitMaskImage: `url(${slotData.icon})`,
+                                maskImage: `url("${safeUrl}")`,
+                                WebkitMaskImage: `url("${safeUrl}")`,
                                 maskSize: "contain",
                                 WebkitMaskSize: "contain",
                                 maskRepeat: "no-repeat",
@@ -113,8 +101,9 @@ export default {
                                 WebkitMaskPosition: "center",
                                 width: "100%", height: "100%"
                             };
+                            className = 'slotBtn tinted-icon';
                         } else {
-                            iconStyle = { backgroundImage: `url(${slotData.icon})` };
+                            iconStyle = { backgroundImage: `url("${safeUrl}")` };
                         }
                     } else if (slotData.icon) {
                         textIcon = slotData.icon;
@@ -129,14 +118,12 @@ export default {
                     }
                 }
 
-                // B"H: Define Click Logic to be passed to Drag Listener
                 const handleClick = (event) => {
                     if (!slotData) return;
                     
                     const isContainer = slotData.isContainer || slotData.className === 'Container' || (slotData.customData && slotData.customData.slots);
 
                     if (isContainer) {
-                        // Open Inventory Screen in container mode
                         ui.peula("ikar", { 
                             olamPeula: { 
                                 openContainer: { 
@@ -147,7 +134,6 @@ export default {
                             } 
                         });
                         
-                        // Also show inventory if hidden
                         const inv = $("inventoryScreen");
                         if(inv) inv.classList.remove("hidden");
                         return;
@@ -169,14 +155,13 @@ export default {
                     parent: slotsContainer,
                     className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
                     ready(el) { 
-                         // B"H FIX: Strict check for window and function existence to prevent ReferenceError
                          if(typeof window !== 'undefined' && typeof window.attachSlotDragListeners === 'function') {
                             window.attachSlotDragListeners(el, { item: slotData }, 'action', index, ui, handleClick);
                          }
                     },
                     children: [{
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
-                        on: { mouseenter: showTooltip, mouseleave: hideTooltip },
+                        on: { mouseenter: showTooltip, mouseleave: hideTooltip, touchstart: showTooltip },
                         children: slotData ? [
                              { className: className, style: iconStyle, textContent: textIcon },
                              { className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }
