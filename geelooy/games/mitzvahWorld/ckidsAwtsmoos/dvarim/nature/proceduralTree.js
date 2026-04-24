@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file proceduralTree.js
@@ -27,7 +28,9 @@ export default class ProceduralTree extends Tzomayach {
         else this.options.seed = Math.random() * 65536;
         
         this.on("heesHawvoos", (dt) => {
-            // Disabled shader update
+            if(this.leavesMaterial && this.leavesMaterial.userData.shader) {
+                 this.leavesMaterial.userData.shader.uniforms.uTime.value += dt;
+            }
         });
     }
 
@@ -36,6 +39,7 @@ export default class ProceduralTree extends Tzomayach {
      * Generates the tree data structures.
      */
     generateGeometry() {
+        // console.log("B\"H: Generating Tree Geometry for", this.name);
         this.generator = new TreeGenerator(this.options, this.olam);
         const generated = this.generator.generate();
         
@@ -124,12 +128,18 @@ export default class ProceduralTree extends Tzomayach {
         leafGeo.setIndex(this.leaves.indices);
         leafGeo.computeVertexNormals();
         
-        // B"H: SAFE MODE - Standard Material Only
+        // B"H: CRITICAL FIX - Initialize with Dummy Texture
+        // This ensures the material has a valid map reference immediately, preventing shader issues.
+        const dummyData = new Uint8Array([255, 255, 255, 255]); // White pixel
+        const dummyTex = new THREE.DataTexture(dummyData, 1, 1, THREE.RGBAFormat);
+        dummyTex.needsUpdate = true;
+
         this.leavesMaterial = new THREE.MeshStandardMaterial({
             color: this.options.leaves.tint || 0x228B22, 
+            map: dummyTex, // Start with dummy
             side: THREE.DoubleSide,
             alphaTest: 0.5, 
-            transparent: true, 
+            transparent: true, // Always true to handle cutout
             depthWrite: true,
             roughness: 0.8,
             metalness: 0.1
@@ -174,12 +184,33 @@ export default class ProceduralTree extends Tzomayach {
             }
         }
         
-        // B"H: Disabled wind shader injection
-        /*
+        // B"H: Wind Shader Injection
         this.leavesMaterial.onBeforeCompile = (shader) => {
-            // ... (Removed)
+            shader.uniforms.uTime = { value: 0 };
+            shader.vertexShader = `uniform float uTime;\n` + shader.vertexShader;
+            shader.vertexShader = shader.vertexShader.replace(
+                '#include <project_vertex>',
+                `
+                vec4 mvPosition = vec4( transformed, 1.0 );
+                
+                #ifdef USE_UV
+                    float windStrength = 0.1;
+                    float windSpeed = 1.5;
+                    float windOffset = position.x + position.z;
+                    // Use uv.y for vertical gradient if available, else 1.0
+                    float h = uv.y; 
+                    
+                    float wind = sin(uTime * windSpeed + windOffset * 0.5) * windStrength * h;
+                    mvPosition.x += wind;
+                    mvPosition.z += wind * 0.5;
+                #endif
+                
+                mvPosition = modelViewMatrix * mvPosition;
+                gl_Position = projectionMatrix * mvPosition;
+                `
+            );
+            this.leavesMaterial.userData.shader = shader;
         };
-        */
         
         const branches = new THREE.Mesh(branchGeo, branchMat);
         branches.castShadow = true;
@@ -188,7 +219,7 @@ export default class ProceduralTree extends Tzomayach {
         const leaves = new THREE.Mesh(leafGeo, this.leavesMaterial);
         leaves.castShadow = true;
         leaves.receiveShadow = true;
-        leaves.frustumCulled = false; 
+        leaves.frustumCulled = false; // Prevent culling errors
         
         this.treeGroup.add(branches);
         this.treeGroup.add(leaves);

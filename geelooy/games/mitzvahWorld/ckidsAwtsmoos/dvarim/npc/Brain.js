@@ -1,11 +1,11 @@
+
 // B"H
-import { QUEST_STATE } from "../../shleechoosHandler.js";
+import { QUEST_STATE } from "../../systems/quests/Shlichus.js";
 
 export default class NpcBrain {
     static getMessageTree(npc, customData, shopInventory) {
         const handler = npc.olam ? npc.olam.shlichusHandler : null;
 
-        // --- 1. Check for Turn-Ins ---
         if (handler) {
             const turnIns = Array.from(handler.activeQuests.values()).filter(q => 
                 q.returnToId === npc.id && q.state === QUEST_STATE.READY_TO_TURN_IN
@@ -23,7 +23,6 @@ export default class NpcBrain {
             }
         }
         
-        // --- 2. Check for Available Quests ---
         if (handler) {
             const available = Array.from(handler.activeQuests.values()).filter(q => 
                 q.giverId === npc.id && q.state === QUEST_STATE.AVAILABLE
@@ -44,14 +43,12 @@ export default class NpcBrain {
             }
         }
         
-        // --- 3. Check Active (Waiting) ---
         if (handler) {
             const waiting = Array.from(handler.activeQuests.values()).filter(q => 
                 q.returnToId === npc.id && q.state === QUEST_STATE.ACTIVE
             );
             
             if (waiting.length > 0) {
-                // Check if shop is available while waiting
                 const baseResponses = [{ text: "I'm on it.", type: "close" }];
                 if (shopInventory && shopInventory.length > 0) {
                     baseResponses.push({
@@ -67,18 +64,13 @@ export default class NpcBrain {
             }
         }
 
-        // --- 4. Default Dialogue + Shop Injection ---
         let tree = customData.dialogueTree;
-        
-        // Fallback if empty or malformed
         if (!tree || !Array.isArray(tree) || tree.length === 0) {
             tree = [{ message: "Shalom! How can I help you?", responses: [] }];
         }
 
-        // B"H: Deep copy tree to avoid modifying the template permanently in memory
         const activeTree = JSON.parse(JSON.stringify(tree));
         
-        // Inject Store Option into the root message (index 0) if shop exists
         if (shopInventory && shopInventory.length > 0) {
             const rootMsg = activeTree[0];
             if (rootMsg) {
@@ -102,7 +94,8 @@ export default class NpcBrain {
     }
 
     static openShop(me, shopInventory) {
-        console.log("B\"H Opening Store for", me.name);
+        if (!me.olam.player || !me.olam.player.inventory) return;
+        
         const rawPlayerItems = me.olam.player.inventory.slots;
         const enrichedPlayerItems = rawPlayerItems.map(s => s ? me.olam.player.inventory.enrichItemData(s) : null);
         const enrichedShopItems = shopInventory.map(s => me.olam.player.inventory.enrichItemData(s));
