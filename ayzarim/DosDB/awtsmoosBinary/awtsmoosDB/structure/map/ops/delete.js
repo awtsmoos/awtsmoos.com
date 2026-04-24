@@ -1,7 +1,7 @@
 
 // B"H
 /**
- * @file structure/map/ops/delete.js
+ * @file delete.js
  * @description Map Deletion Logic separated for modularity.
  */
 
@@ -38,13 +38,11 @@ class MapDeleteOps {
             
             if (res.success) {
                 if (res.newPtr) {
-                    // B"H: Forging the true seal during deletion updates.
-                    node.children[childIdx] = SmartPointer.block(
+                    // B"H: Forging the true seal using Exact-Byte Encoding
+                    node.children[childIdx] = SmartPointer.encode(
                         constants.VAL_TYPE.MAP,
-                        res.newPtr.blockId,
-                        res.newPtr.length,
-                        !!res.newPtr.isChain,
-                        res.newPtr.offset
+                        res.newPtr.offset,
+                        res.newPtr.length
                     );
                 }
                 node.totalCount -= 1;

@@ -1,15 +1,15 @@
 
 // B"H
 /**
- * @file structure/map/ops/index.js
+ * @file index.js
  * @description
  *  The Scribe of the B-Tree Transformations. 
  *  Coordinates the shifting of keys and the balance of children during insertions.
+ *  Purged of the illusory chunking modes. Embraces Exact-Byte VarInt offsets.
  */
 
 const constants = require('../../../constants.js');
 const SmartPointer = require('../../../utils/smartPointer.js');
-const { readPointer48 } = require('../../../utils/binaryHelpers.js');
 const Search = require('./search.js');
 const SplitOps = require('./split.js');
 const DeleteOps = require('./delete.js');
@@ -24,11 +24,7 @@ class MapOps {
     }
 
     _getPtrSize(ptrBuf) {
-        const decoded = SmartPointer.decode(ptrBuf);
-        if (!decoded) return 0;
-        if (decoded.mode === constants.MODE_HEAP) return decoded.payload.readUInt32BE(10);
-        if (decoded.mode === constants.MODE_BLOCK) return decoded.payload.readUInt32BE(6);
-        return 16;
+        return SmartPointer.readSize(ptrBuf, 0);
     }
     
     _search(node, keyBuf) {
@@ -38,7 +34,6 @@ class MapOps {
     /**
      * @method insert
      * @description Synchronously descends the tree and weaves a new value into its structure.
-     * THE TIKKUN: Correct target child selection and GUARANTEED type sealing for internal pointers.
      */
     insert(node, keyBuf, valPtr, options = {}) {
         const search = this._search(node, keyBuf);
@@ -73,13 +68,11 @@ class MapOps {
             const res = this.insert(childNode, keyBuf, valPtr, options);
             
             if (res.newPtr) {
-                // B"H: The Tikkun. We must explicitly forge the seal with the MAP type.
-                node.children[targetChildIdx] = SmartPointer.block(
+                // B"H: We must explicitly forge the seal with the MAP type.
+                node.children[targetChildIdx] = SmartPointer.encode(
                     constants.VAL_TYPE.MAP,
-                    res.newPtr.blockId,
-                    res.newPtr.length,
-                    !!res.newPtr.isChain,
-                    res.newPtr.offset
+                    res.newPtr.offset,
+                    res.newPtr.length
                 );
             }
             
@@ -100,26 +93,8 @@ class MapOps {
 
     _decodePtrBuf(buf) {
         if (!buf) return null;
-        if (typeof buf === 'object' && buf.blockId !== undefined) return buf;
-        const decoded = SmartPointer.decode(buf);
-        if (!decoded) return null;
-        if (decoded.mode === constants.MODE_BLOCK) {
-            return {
-                blockId: readPointer48(decoded.payload, 0),
-                length: decoded.payload.readUInt32BE(6),
-                offset: decoded.payload.readUInt32BE(10),
-                isChain: decoded.payload.readUInt8(14) === 1
-            };
-        }
-        if (decoded.mode === constants.MODE_HEAP) {
-            return {
-                blockId: readPointer48(decoded.payload, 0),
-                offset: decoded.payload.readUInt32BE(6),
-                length: decoded.payload.readUInt32BE(10),
-                isHeap: true
-            };
-        }
-        return null;
+        if (typeof buf === 'object' && buf.offset !== undefined) return buf;
+        return SmartPointer.decode(buf);
     }
 }
 module.exports = MapOps;

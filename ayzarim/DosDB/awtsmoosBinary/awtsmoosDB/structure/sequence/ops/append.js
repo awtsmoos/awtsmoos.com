@@ -1,7 +1,6 @@
 
 // B"H
 const SmartPointer = require('../../../utils/smartPointer.js');
-const constants = require('../../../constants.js');
 const utils = require('./utils.js');
 
 class AppendOps {
@@ -12,7 +11,12 @@ class AppendOps {
     }
 
     append(itemPtr) {
-        const root = this.nodeIO.load(this.seq.ptr);
+        let root = this.nodeIO.load(this.seq.ptr);
+        if (!root) {
+            root = this.nodeIO.create(true);
+            this.seq.ptr = this.nodeIO.save(root);
+        }
+        
         const res = this._appendRecursive(root, itemPtr);
         
         if (res.splitNode) {
@@ -24,49 +28,49 @@ class AppendOps {
 
     _appendRecursive(node, itemPtr) {
         const itemSize = utils.getPtrSize(itemPtr);
+        const MAX_ITEMS = 200;
         
         if (node.isLeaf) {
-            if (node.itemCount < 200) {
-                itemPtr.copy(node.buffer, 23 + (node.itemCount * 16));
-                node.itemCount++;
-                node.totalCount = node.itemCount;
+            if (node.items.length < MAX_ITEMS) {
+                node.items.push({ ptr: itemPtr, count: 1 });
+                node.totalCount++;
                 node.totalBytes = (node.totalBytes || 0) + itemSize;
                 const newPtr = this.nodeIO.save(node);
                 return { deltaCount: 1, deltaBytes: itemSize, splitNode: null, newPtr };
             } else {
                 const newNode = this.nodeIO.create(true, node.isWeak);
-                itemPtr.copy(newNode.buffer, 23);
-                newNode.itemCount = 1; newNode.totalCount = 1; newNode.totalBytes = itemSize;
+                newNode.items.push({ ptr: itemPtr, count: 1 });
+                newNode.totalCount = 1; 
+                newNode.totalBytes = itemSize;
                 this.nodeIO.save(newNode);
                 return { deltaCount: 1, deltaBytes: itemSize, splitNode: newNode };
             }
         } else {
-            const lastIdx = node.itemCount - 1;
-            const entryOff = 23 + (lastIdx * 20);
-            const childPtr = utils.decodePtr(node.buffer.subarray(entryOff, entryOff + 16));
+            const lastIdx = node.items.length - 1;
+            const childRef = node.items[lastIdx];
+            
+            const childPtr = utils.decodePtr(childRef.ptr);
             const childNode = this.nodeIO.load(childPtr);
             const res = this._appendRecursive(childNode, itemPtr);
             
             if (res.newPtr) {
-                const enc = utils.encodePtr(res.newPtr);
-                enc.copy(node.buffer, entryOff);
+                childRef.ptr = utils.encodePtr(res.newPtr);
             }
-            node.buffer.writeUInt32BE(childNode.totalCount, entryOff + 16);
+            childRef.count = childNode.totalCount;
             
             if (res.splitNode) {
-                if (node.itemCount < 200) {
-                    const newOff = 23 + (node.itemCount * 20);
-                    utils.encodePtr(res.splitNode.ptr).copy(node.buffer, newOff);
-                    node.buffer.writeUInt32BE(res.splitNode.totalCount, newOff + 16);
-                    node.itemCount++;
+                if (node.items.length < MAX_ITEMS) {
+                    node.items.push({ ptr: utils.encodePtr(res.splitNode.ptr), count: res.splitNode.totalCount });
                 }
             }
             
             node.totalCount += 1;
             node.totalBytes = (node.totalBytes || 0) + itemSize;
             const myNewPtr = this.nodeIO.save(node);
-            return { deltaCount: 1, deltaBytes: itemSize, splitNode: res.splitNode, newPtr: myNewPtr };
+            
+            return { deltaCount: 1, deltaBytes: itemSize, splitNode: (node.items.length > MAX_ITEMS ? res.splitNode : null), newPtr: myNewPtr };
         }
     }
 }
+
 module.exports = AppendOps;

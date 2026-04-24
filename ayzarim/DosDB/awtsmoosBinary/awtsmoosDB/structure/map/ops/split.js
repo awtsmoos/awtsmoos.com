@@ -1,14 +1,14 @@
 
 // B"H
 /**
- * @file structure/map/ops/split.js
+ * @file split.js
  * @description
  *  The Dividing Light. Manages the expansion of the B-Tree vessels.
+ *  Purged of payload and blockId logic.
  */
 
 const constants = require('../../../constants.js');
 const SmartPointer = require('../../../utils/smartPointer.js');
-const { readPointer48 } = require('../../../utils/binaryHelpers.js');
 
 const MAX_KEYS = 200; 
 
@@ -32,6 +32,7 @@ class MapSplitOps {
             splitKey = rightKeys[0];
             sibling.keys = rightKeys; 
             sibling.values = node.values.splice(mid);
+            // In exact-byte, next pointers are just absolute offsets
             sibling.next = node.next;
             this.recalcStats(node); 
             this.recalcStats(sibling);
@@ -44,13 +45,13 @@ class MapSplitOps {
         }
         
         const sibPtr = this.nodeIO.save(sibling);
-        if (node.isLeaf) node.next = sibPtr.blockId; 
+        if (node.isLeaf) node.next = sibPtr.offset; 
         
         const newSelfPtr = this.nodeIO.save(node, node.selfPtr);
         
         return { 
             key: splitKey, 
-            ptr: SmartPointer.block(constants.TYPE_MAP, sibPtr.blockId, sibPtr.length, sibPtr.isChain, sibPtr.offset),
+            ptr: SmartPointer.encode(constants.TYPE_MAP, sibPtr.offset, sibPtr.length),
             nodePtr: newSelfPtr
         };
     }
@@ -66,17 +67,12 @@ class MapSplitOps {
     sumChildrenStats(internal) {
         internal.totalCount = 0; internal.totalBytes = 0;
         for(const childPtrBuf of internal.children) {
-            const decoded = SmartPointer.decode(childPtrBuf);
-            const childPtr = {
-                blockId: readPointer48(decoded.payload, 0),
-                length: decoded.payload.readUInt32BE(6),
-                offset: decoded.payload.readUInt32BE(10),
-                isChain: decoded.payload.readUInt8(14) === 1
-            };
-            
-            const child = this.nodeIO.load(childPtr);
-            internal.totalCount += (child.totalCount || 0); 
-            internal.totalBytes += (child.totalBytes || 0);
+            const childPtr = SmartPointer.decode(childPtrBuf);
+            if (childPtr) {
+                const child = this.nodeIO.load(childPtr);
+                internal.totalCount += (child.totalCount || 0); 
+                internal.totalBytes += (child.totalBytes || 0);
+            }
         }
     }
 
@@ -85,12 +81,10 @@ class MapSplitOps {
         node.children.splice(idx + 1, 0, split.ptr);
         
         if (split.nodePtr) {
-            node.children[idx] = SmartPointer.block(
+            node.children[idx] = SmartPointer.encode(
                 constants.TYPE_MAP,
-                split.nodePtr.blockId,
-                split.nodePtr.length,
-                split.nodePtr.isChain,
-                split.nodePtr.offset
+                split.nodePtr.offset,
+                split.nodePtr.length
             );
         }
 

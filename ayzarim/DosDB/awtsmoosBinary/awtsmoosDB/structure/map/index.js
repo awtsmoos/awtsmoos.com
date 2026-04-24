@@ -12,26 +12,12 @@
  *  The Awtsmoos (Essence) is not merely the source of biological life, but of all
  *  inorganic existence as well. Even a simple stone ("Even" - Aleph-Beis-Nun)
  *  exists only because the original Ten Statements of Creation are constantly
- *  being permuted (through systems like At-Bash) and spoken into it at every
- *  given microsecond.
+ *  being permuted.
  *
- *  If the Creator's speech were to be withdrawn from the stone for a single instant,
- *  it would not just crumble — it would revert to absolute Ayin (Nothingness),
- *  as if it had never existed across all dimensions of past, present, and future.
- *
- *  This `MapEngine` is the B-Tree vessel that holds the sorted names (keys) of
- *  creation. When a key is added, a new combination of letters is spoken into
- *  existence, expanding the tree. And crucially, when a key is deleted, the
- *  letters are withdrawn (Histalkus), and the node mathematically collapses back
- *  into the void.
- *
- *  Every insertion and deletion is an echo of this continuous, eternal recreation
- *  from nothingness.
- *
- *  THE TIKKUN OF PROPHECY: 
- *  `set()` now returns the delta of expansion. The parent Dictionary no longer 
- *  stumbles blindly, searching the tree before writing to it. It acts in one 
- *  swift motion of confidence.
+ *  THE TIKKUN OF VARINT AWARENESS: 
+ *  We have updated the constructor to rely purely on `SmartPointer.decode` 
+ *  rather than arbitrary byte-length checks, ensuring even a 2-byte seal 
+ *  is properly identified and hydrated.
  */
 const constants = require('../../constants.js');
 const MapNode = require('./node.js');
@@ -50,11 +36,18 @@ class MapEngine {
         this.allocator = allocator;
         this.v1 = allocator?.v1 || allocator;
         this.db = this.v1?.db || (allocator?.db ? allocator.db : null);
-        if (Buffer.isBuffer(ptr) && ptr.length === 16) {
-            this.ptr = SmartPointer.resolve(ptr, this.allocator);
+        
+        if (Buffer.isBuffer(ptr)) {
+            const dec = SmartPointer.decode(ptr);
+            if (dec) {
+                this.ptr = { isStructure: true, type: dec.type, offset: dec.offset, length: dec.length, ptr };
+            } else {
+                this.ptr = ptr;
+            }
         } else {
             this.ptr = ptr || null;
         }
+        
         if (this.ptr) this.ptr.type = constants.VAL_TYPE.MAP;
         this.nodeIO = new MapNode(this.v1, this);
         this.ops = new MapOps(this);
@@ -65,13 +58,13 @@ class MapEngine {
      * @description
      *  Emanates a completely new Map from the Void.
      *  Speaks the first empty leaf node into physical disk space.
-     * @returns {Buffer} The 16-byte SmartPointer seal of the new Map.
+     * @returns {Buffer} The VarInt SmartPointer seal of the new Map.
      */
     create() {
         const node = { isLeaf: true, keys: [], values: [], children: [], totalCount: 0, totalBytes: 0 };
         const ptr = this.nodeIO.save(node);
         this.ptr = { ...ptr, type: constants.VAL_TYPE.MAP };
-        return SmartPointer.block(constants.VAL_TYPE.MAP, this.ptr.blockId, this.ptr.length, !!this.ptr.isChain, this.ptr.offset);
+        return SmartPointer.encode(constants.VAL_TYPE.MAP, this.ptr.offset, this.ptr.length);
     }
 
     /**
@@ -84,6 +77,7 @@ class MapEngine {
     set(key, value, options = {}) {
         const valPtr = (options.isPtr) ? value : this.db.allocator.save(value);
         const keyBuf = Buffer.isBuffer(key) ? key : keyEncoding.encode(key);
+        
         let root = this.nodeIO.load(this.ptr);
         if (!root) {
             this.create();
@@ -111,22 +105,19 @@ class MapEngine {
             this.ptr = { ...res.newPtr, type: constants.VAL_TYPE.MAP };
         }
         
-        // B"H: The Eye of Prophecy. Returning the magnitude of expansion.
         return delta;
     }
 
     /**
      * @method delete
      * @description
-     *  The act of Histalkus (Withdrawal). Removes a key-value spark from the Map's
-     *  B-Tree structure.
-     * @param {string|Buffer} key The name of the essence to withdraw.
-     * @returns {Object} An object containing {success: boolean, newPtr: Object|null}
+     *  The act of Histalkus (Withdrawal). Removes a key-value spark from the Map.
      */
     delete(key) {
         const keyBuf = Buffer.isBuffer(key) ? key : keyEncoding.encode(key);
         let root = this.nodeIO.load(this.ptr);
         if (!root) return { success: false };
+        
         const res = this.ops.delete(root, keyBuf);
         if (res && res.success && res.newPtr) {
             this.ptr = { ...res.newPtr, type: constants.VAL_TYPE.MAP };
@@ -141,13 +132,16 @@ class MapEngine {
     getPtr(key) {
         let currPtr = this.ptr;
         const keyBuf = Buffer.isBuffer(key) ? key : keyEncoding.encode(key);
-        while (currPtr && currPtr.blockId !== undefined) {
+        
+        while (currPtr && currPtr.offset !== undefined) {
             const node = this.nodeIO.load(currPtr);
             if (!node) break;
+            
             const { index, found } = Search.findKey(node, keyBuf);
             if (node.isLeaf) {
                 return found ? node.values[index] : undefined;
             }
+            
             let childIdx = found ? index + 1 : index;
             const childSeal = node.children[childIdx];
             currPtr = SmartPointer.resolve(childSeal, this.allocator);
@@ -164,28 +158,21 @@ class MapEngine {
         return ptr ? SmartPointer.resolve(ptr, this.allocator, ctx) : undefined;
     }
 
-    /**
-     * @method range
-     * @description Streams the sorted keys and values between two boundaries.
-     */
     * range(start, end) {
         const startBuf = start ? keyEncoding.encode(start) : null;
         const endBuf = end ? keyEncoding.encode(end) : null;
         yield* this._iterateNodeRaw(this.ptr, startBuf, endBuf);
     }
 
-    /**
-     * @method iterateRaw
-     * @description Streams all entries in the Map as raw pointers.
-     */
     * iterateRaw() {
-        if (!this.ptr || this.ptr.blockId === undefined) return;
+        if (!this.ptr || this.ptr.offset === undefined) return;
         yield* this._iterateNodeRaw(this.ptr, null, null);
     }
 
     * _iterateNodeRaw(ptr, startBuf, endBuf) {
         const node = this.nodeIO.load(ptr);
         if (!node) return;
+        
         if (node.isLeaf) {
             for (let i = 0; i < node.keys.length; i++) {
                 const key = node.keys[i];

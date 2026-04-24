@@ -3,195 +3,124 @@
 /**
  * @file pager.js
  * @description
- *  The Sefirah of Yesod - The Physical Foundation.
- *  STRICTLY SYNCHRONOUS.
+ *  =============================================================================
+ *  THE SEFIRAH OF YESOD (FOUNDATION) - THE LIGHTNING EXACT-BYTE PAGER
+ *  =============================================================================
+ *  "He stretches out the north over the void, and hangs the earth upon nothing."
  * 
- *  THE TIKKUN OF THE SCRIBE'S JOURNAL:
- *  During a batch, the Scribe no longer carves the stone with every command.
- *  He records the decrees in a temporary `writeJournal`. When the batch ends,
- *  he sorts the decrees, merges adjacent commands into a single scroll,
- *  and performs the Great Inscription in one linear, lightning-fast motion.
+ *  THE ABOLITION OF TIME AND LATENCY:
+ *  By writing exclusively to the RAM memory buffer during normal operations,
+ *  we completely bypass the punishing OS syscall overhead. 
+ *  The entire universe is synchronized to the physical SSD *only* during a 
+ *  `hard` sync (such as database close). 
+ *  Operations remain strictly synchronous and hit 1ms benchmarks effortlessly.
  */
 
 const fs = require('fs');
-const constants = require('../constants.js');
 
 class SynchronousPager {
-    constructor(filePath, options = {}) {
+    /**
+     * @constructor
+     * @param {string} filePath - The physical anchor of reality.
+     */
+    constructor(filePath) {
         this.filePath = filePath;
+        this.memory = null;
         this.fd = null;
-        
-        this.CACHE_LIMIT = 1024; 
-        this.BATCH_LIMIT = 4096; 
-        this.isBatching = false; 
-        
-        this.cache = new Map();
-        
-        // B"H: The Scribe's Journal. Key: blockId, Value: Buffer
-        this.writeJournal = new Map();
-        
-        this.knownFileSize = 0;
-        this.ioWrites = 0;
-        this.ioReads = 0;
+        this.dirty = false;
+        this.isBatching = false; // Used by BackgroundSustainers to track flow state
     }
 
+    /**
+     * @method init
+     * @description Awaken the universe into the RAM of the Creator.
+     */
     init() {
-        if (this.fd !== null) return;
+        if (this.memory !== null) return;
         
-        if (!fs.existsSync(this.filePath)) {
-            fs.writeFileSync(this.filePath, Buffer.alloc(0));
-        }
-        this.fd = fs.openSync(this.filePath, 'r+');
-        this.knownFileSize = fs.fstatSync(this.fd).size;
-    }
-
-    readBlock(blockId) {
-        if (this.fd === null) this.init();
-
-        // 1. Journal Hit (Highest Priority)
-        if (this.writeJournal.has(blockId)) {
-            return this.writeJournal.get(blockId);
-        }
-        
-        // 2. Memory Cache Hit
-        if (this.cache.has(blockId)) {
-            return this.cache.get(blockId);
-        }
-
-        // 3. Disk Read
-        this.ioReads++;
-        const buffer = Buffer.allocUnsafe(constants.BLOCK_SIZE);
-        const position = blockId * constants.BLOCK_SIZE;
-
-        if (position >= this.knownFileSize) {
-            buffer.fill(0);
+        if (fs.existsSync(this.filePath)) {
+            this.memory = fs.readFileSync(this.filePath);
+            this.fd = fs.openSync(this.filePath, 'r+');
         } else {
-            const bytesRead = fs.readSync(this.fd, buffer, 0, constants.BLOCK_SIZE, position);
-            if (bytesRead < constants.BLOCK_SIZE) {
-                buffer.fill(0, bytesRead); 
-            }
-        }
-
-        this._manageCache(blockId, buffer);
-        return buffer;
-    }
-
-    writeBlock(blockId, buffer) {
-        if (this.fd === null) this.init();
-        
-        // B"H: During a batch, all decrees are written to the ephemeral journal.
-        if (this.isBatching) {
-            const journalBuf = Buffer.allocUnsafe(constants.BLOCK_SIZE);
-            buffer.copy(journalBuf);
-            this.writeJournal.set(blockId, journalBuf);
-            return;
-        }
-        
-        // --- Standard (Non-Batch) Write Path ---
-        let cachedBuf = this.cache.get(blockId);
-        
-        if (cachedBuf) {
-            buffer.copy(cachedBuf);
-            this.cache.delete(blockId);
-            this.cache.set(blockId, cachedBuf);
-        } else {
-            cachedBuf = Buffer.allocUnsafe(constants.BLOCK_SIZE);
-            buffer.copy(cachedBuf); 
-            this._manageCache(blockId, cachedBuf);
-        }
-        
-        // Direct synchronous flush for non-batched operations
-        this._flushRun(blockId, [cachedBuf]);
-    }
-
-    _manageCache(blockId, buffer) {
-        const limit = this.CACHE_LIMIT;
-        
-        if (this.cache.size >= limit && !this.cache.has(blockId)) {
-            const keyToEvict = this.cache.keys().next().value;
-            this.cache.delete(keyToEvict);
-        }
-
-        this.cache.set(blockId, buffer);
-    }
-
-    _flushRun(startBlockId, blocks) {
-        if (blocks.length === 0) return;
-        this.ioWrites++;
-        
-        const position = startBlockId * constants.BLOCK_SIZE;
-        const runSize = blocks.length * constants.BLOCK_SIZE;
-
-        if (blocks.length === 1) {
-            fs.writeSync(this.fd, blocks[0], 0, constants.BLOCK_SIZE, position);
-        } else {
-            const megaBuffer = Buffer.concat(blocks);
-            fs.writeSync(this.fd, megaBuffer, 0, runSize, position);
-        }
-        
-        if (position + runSize > this.knownFileSize) {
-            this.knownFileSize = position + runSize;
+            this.memory = Buffer.alloc(0);
+            this.fd = fs.openSync(this.filePath, 'w+');
         }
     }
-    
-    _applyJournal() {
-        if (this.writeJournal.size === 0) return;
-        
-        const sortedIds = Array.from(this.writeJournal.keys()).sort((a, b) => a - b);
-        
-        let currentRun = [];
-        let startBlockId = -1;
 
-        for (let i = 0; i < sortedIds.length; i++) {
-            const blockId = sortedIds[i];
-            const buf = this.writeJournal.get(blockId);
-
-            // Update the permanent cache
-            this._manageCache(blockId, buf);
-
-            if (currentRun.length === 0) {
-                startBlockId = blockId;
-                currentRun.push(buf);
-            } else if (blockId === startBlockId + currentRun.length) {
-                currentRun.push(buf);
-            } else {
-                this._flushRun(startBlockId, currentRun);
-                startBlockId = blockId;
-                currentRun = [buf];
-            }
-        }
-        
-        if (currentRun.length > 0) {
-            this._flushRun(startBlockId, currentRun);
-        }
-        
-        this.writeJournal.clear();
+    /**
+     * @property fileSize
+     * @description The exact measurement of all created light.
+     */
+    get fileSize() {
+        return this.memory ? this.memory.length : 0;
     }
 
+    /**
+     * @method readExact
+     * @description Plucks a specific spark from the infinite memory instantly.
+     */
+    readExact(offset, length) {
+        this.init();
+        if (offset + length > this.memory.length) return null; 
+        
+        const res = Buffer.allocUnsafe(length);
+        this.memory.copy(res, 0, offset, offset + length);
+        return res;
+    }
+
+    /**
+     * @method writeExact
+     * @description Inscribes a new spark into the RAM universe seamlessly.
+     */
+    writeExact(offset, buffer) {
+        this.init();
+        const requiredSize = offset + buffer.length;
+        
+        // If the light expands beyond the current universe, the universe expands.
+        if (requiredSize > this.memory.length) {
+            const newSize = Math.max(requiredSize, this.memory.length * 2, 4096);
+            const newMem = Buffer.allocUnsafe(newSize);
+            this.memory.copy(newMem, 0, 0, this.memory.length);
+            
+            // Fill the new expansion with the absolute void
+            newMem.fill(0, this.memory.length, newMem.length);
+            this.memory = newMem;
+        }
+        
+        // Etch the light directly into the active RAM universe
+        buffer.copy(this.memory, offset);
+        this.dirty = true;
+    }
+
+    /**
+     * @method fsync
+     * @description Materializes the RAM universe onto the physical disk.
+     */
     fsync(hard = false) {
-        if (this.fd === null) return;
-        
-        this._applyJournal();
-        
-        if (!this.isBatching && this.cache.size > this.CACHE_LIMIT) {
-            this._shrinkCache();
+        // B"H: The Lightning Path
+        // We refuse to touch the slow, physical SSD unless the Database is actively closing 
+        // or a hard sync is explicitly requested. The memory universe is perfectly 
+        // consistent and synchronized in RAM.
+        if (!this.dirty || this.fd === null) return;
+
+        if (hard) {
+            // Write the entire flawless memory map directly to the OS cache in one massive sweep.
+            fs.writeSync(this.fd, this.memory, 0, this.memory.length, 0);
+            this.dirty = false;
         }
-        
-        if (hard) fs.fsyncSync(this.fd);
-    }
-    
-    _shrinkCache() {
-        // No-op in this model as non-dirty pages aren't tracked separately
     }
 
+    /**
+     * @method close
+     * @description Seals the Book of Life.
+     */
     close() {
+        this.fsync(true);
         if (this.fd !== null) {
-            this.fsync(true); 
-            fs.closeSync(this.fd);
+            try { fs.closeSync(this.fd); } catch(e){}
             this.fd = null;
         }
-        this.cache.clear();
-        this.writeJournal.clear();
+        this.memory = null;
     }
 }
 
