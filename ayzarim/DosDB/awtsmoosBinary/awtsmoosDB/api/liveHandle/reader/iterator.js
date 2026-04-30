@@ -1,21 +1,18 @@
 
 // B"H
 /**
- * @file reader/iterator.js
+ * @file iterator.js
  * @description
  *  The Scribe of the Eternal Flow. 
- *  Traverses the database vessels and yields their contents as a sequence of lights.
- *  Now endowed with the wisdom to read Flat-Packed (Smart) vessels natively.
+ *  Delegates the looping rituals to the highly fragmented micro-angels.
  */
-
 const constants = require('../../../constants.js');
-const Dictionary = require('../../../structure/dictionary/index.js');
-const Sequence = require('../../../structure/sequence/index.js');
+const yieldKeys = require('./iterator_core/keys.js');
+const yieldValues = require('./iterator_core/values.js');
+const yieldEntries = require('./iterator_core/entries.js');
 const MapEngine = require('../../../structure/map/index.js');
-const keys = require('../../../utils/binary/keys.js');
-const SmartPointer = require('../../../utils/smartPointer.js');
-const FlatObject = require('../../../structure/flat/object.js');
-const FlatArray = require('../../../structure/flat/array.js');
+const keysCodec = require('../../../utils/binary/keys.js');
+const SmartPointer = require('../../../utils/smartPointer/index.js');
 
 module.exports = class ReaderIterator {
     constructor(reader) { 
@@ -27,9 +24,9 @@ module.exports = class ReaderIterator {
     *iterator() { 
         const T = constants.VAL_TYPE; 
         const t = this.handle.type;
-        const isSequenceLike = t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET || t === T.SMART_ARRAY;
+        const isSeq = t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET || t === T.SMART_ARRAY;
         
-        if (isSequenceLike) yield* this.values(); 
+        if (isSeq) yield* this.values(); 
         else yield* this.entries(); 
     }
 
@@ -37,94 +34,21 @@ module.exports = class ReaderIterator {
         this.handle.ensureResolved(); 
         const structPtr = this.handle.nav.resolveStructPtr(); 
         if (!structPtr) return;
-        
-        const T = constants.VAL_TYPE;
-        const t = this.handle.type;
-
-        if (t === T.DICTIONARY || t === T.OBJECT) { 
-            for (const k of (new Dictionary(this.db.allocator, structPtr)).keys()) yield String(k); 
-        }
-        else if (t === T.MAP || t === T.JS_MAP) { 
-            for (const item of (new MapEngine(this.db.allocator, structPtr)).range()) yield keys.decode(item.key); 
-        }
-        else if (t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET) { 
-            const len = (new Sequence(this.db.allocator, structPtr)).length(); 
-            for(let i=0; i<len; i++) yield i; 
-        }
-        else if (t === T.SMART_OBJECT) {
-            for (const k of (new FlatObject(this.db.allocator, structPtr)).keys()) yield String(k);
-        }
-        else if (t === T.SMART_ARRAY) {
-            const len = (new FlatArray(this.db.allocator, structPtr)).length();
-            for(let i=0; i<len; i++) yield i;
-        }
+        yield* yieldKeys(this.db, this.handle.type, structPtr);
     }
 
     *values() {
         this.handle.ensureResolved(); 
         const structPtr = this.handle.nav.resolveStructPtr(); 
         if (!structPtr) return;
-        
-        const T = constants.VAL_TYPE;
-        const t = this.handle.type;
-
-        if (t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET) {
-            const seq = new Sequence(this.db.allocator, structPtr);
-            for(let i=0; i<seq.length(); i++) {
-                yield this.reader._wrapIfNeeded(seq.get(i), i, seq.getPtr(i));
-            }
-        } else if (t === T.SMART_ARRAY) {
-            const arr = new FlatArray(this.db.allocator, structPtr);
-            const len = arr.length();
-            for(let i=0; i<len; i++) {
-                const ptr = arr.get(i);
-                const val = SmartPointer.resolve(ptr, this.db.allocator);
-                yield this.reader._wrapIfNeeded(val, i, ptr);
-            }
-        } else { 
-            for (const entry of this.entries()) yield entry[1]; 
-        }
+        yield* yieldValues(this.reader, this.db, this.handle.type, structPtr, yieldEntries);
     }
 
     *entries() {
         this.handle.ensureResolved(); 
         const structPtr = this.handle.nav.resolveStructPtr(); 
         if (!structPtr) return;
-        
-        const T = constants.VAL_TYPE;
-        const t = this.handle.type;
-
-        if (t === T.DICTIONARY || t === T.OBJECT) {
-            for (const [k, v] of (new Dictionary(this.db.allocator, structPtr)).entries()) {
-                yield [String(k), this.reader._wrapIfNeeded(v, String(k))];
-            }
-        } else if (t === T.MAP || t === T.JS_MAP) {
-            const map = new MapEngine(this.db.allocator, structPtr);
-            for (const item of map.range()) {
-                const k = keys.decode(item.key);
-                const val = this.reader._wrapIfNeeded(SmartPointer.resolve(item.ptr, this.db.allocator), k, item.ptr);
-                const entry = [k, val]; entry.key = k; entry.value = val; yield entry;
-            }
-        } else if (t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET) {
-            const seq = new Sequence(this.db.allocator, structPtr);
-            for(let i=0; i<seq.length(); i++) { 
-                const ptr = seq.getPtr(i); 
-                yield [i, this.reader._wrapIfNeeded(SmartPointer.resolve(ptr, this.db.allocator), i, ptr)]; 
-            }
-        } else if (t === T.SMART_OBJECT) {
-            const obj = new FlatObject(this.db.allocator, structPtr);
-            for (const [k, v] of obj.entries()) {
-                yield [k, this.reader._wrapIfNeeded(v, k)];
-            }
-        } else if (t === T.SMART_ARRAY) {
-            const arr = new FlatArray(this.db.allocator, structPtr);
-            const len = arr.length();
-            for(let i=0; i<len; i++) {
-                const ptr = arr.get(i);
-                const val = SmartPointer.resolve(ptr, this.db.allocator);
-                yield [i, this.reader._wrapIfNeeded(val, i, ptr)];
-            }
-        }
+        yield* yieldEntries(this.reader, this.db, this.handle.type, structPtr);
     }
     
     *range(start, end) {
@@ -135,7 +59,7 @@ module.exports = class ReaderIterator {
         
         const map = new MapEngine(this.db.allocator, structPtr);
         for (const item of map.range(start, end)) {
-            const k = keys.decode(item.key);
+            const k = keysCodec.decode(item.key);
             const val = this.reader._wrapIfNeeded(SmartPointer.resolve(item.ptr, this.db.allocator), k, item.ptr);
             const res = { key: k, value: val };
             res[Symbol.iterator] = function* () { yield k; yield val; };

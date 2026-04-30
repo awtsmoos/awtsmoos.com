@@ -1,15 +1,14 @@
 
 // B"H
 /**
- * @file reader/slicer.js
- * @description
- *  The Sefirah of Gevurah (Strength/Boundary).
+ * @file slicer.js
+ * @description The Angel of the Slice, extracting boundaries from sequences.
  */
 
 const constants = require('../../../constants.js');
 const Sequence = require('../../../structure/sequence/index.js');
-const FlatArray = require('../../../structure/flat/array.js');
-const SmartPointer = require('../../../utils/smartPointer.js');
+const FlatArray = require('../../../structure/flat/array/index.js');
+const SmartPointer = require('../../../utils/smartPointer/index.js');
 
 module.exports = class ReaderSlicer {
     constructor(reader) {
@@ -41,7 +40,7 @@ module.exports = class ReaderSlicer {
             return res;
         }
 
-        if (type !== T.SEQUENCE && type !== T.ARRAY && type !== T.SET) return [];
+        if (type !== T.SEQUENCE && type !== T.ARRAY && type !== T.SET && type !== T.JS_SET) return [];
         
         const seq = new Sequence(this.db.allocator, structPtr);
         const len = seq.length();
@@ -56,4 +55,4 @@ module.exports = class ReaderSlicer {
         }
         return res;
     }
-}
+};
