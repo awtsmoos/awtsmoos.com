@@ -1,36 +1,53 @@
 
+// B"H
 /**
- * B"H
  * @module SafeMaterialApplier
  * @description
- * An elite guard for Three.js Materials. 
- * Prevents the world from collapsing if a complex shader fails.
+ * 🛠️ CHAPTER 19.5: THE HARDENING OF MATERIALS 🛠️
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import GrassShader from '../procedural/Shaders/Grass/index.js';
 
 export default class SafeMaterialApplier {
-    /**
-     * @function apply
-     * @description Attempts to apply intense effects, defaulting to pure green on failure.
-     */
     static apply(materialName, options = {}) {
         try {
-            if (materialName === "AwtsmoosGrassMaterial") {
-                const mat = new THREE.MeshLambertMaterial({ color: 0xffffff });
-                GrassShader.apply(mat);
-                return mat;
-            }
-            
-            // Standard Three.js material
-            if (THREE[materialName]) {
-                return new THREE[materialName](options);
-            }
-        } catch (e) {
-            console.error("B\"H - ⚡ SafeMaterialApplier: Crisis detected! Collapsing to emergency green.", e);
-        }
+            const slots =['map', 'normalMap', 'emissiveMap', 'lightMap'];
+            slots.forEach(s => {
+                if (options[s] && typeof options[s] === 'object' && !options[s].isTexture) {
+                    options[s] = null;
+                }
+            });
 
-        // The ultimate, unbreakable safety vessel
-        return new THREE.MeshLambertMaterial({ color: 0x228B22 });
+            let material;
+            if (THREE[materialName]) {
+                material = new THREE[materialName](options);
+            } else {
+                material = new THREE.MeshLambertMaterial(options);
+            }
+
+            return this._strengthen(material);
+        } catch (e) {
+            console.error(`B"H - 🆘 FAILED MATERIAL: Returning blinding void proxy.`);
+            return new THREE.MeshBasicMaterial({ color: 0x00FFED, wireframe: true });
+        }
+    }
+
+    static _strengthen(mat) {
+        if (!mat) return mat;
+
+        ['map', 'normalMap', 'lightMap'].forEach(m => {
+            if (mat[m]) {
+                if (!mat[m].matrix) mat[m].matrix = new THREE.Matrix3();
+                if (mat[m].channel === undefined) mat[m].channel = 0;
+            }
+        });
+
+        const originalOnBefore = mat.onBeforeCompile;
+        mat.onBeforeCompile = (shader) => {
+            shader.vertexShader = shader.vertexShader.replace(/uvundefined/g, "uv");
+            shader.fragmentShader = shader.fragmentShader.replace(/uvundefined/g, "vUv");
+            if (originalOnBefore) originalOnBefore(shader);
+        };
+
+        return mat;
     }
 }

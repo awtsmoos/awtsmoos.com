@@ -1,228 +1,134 @@
-
-/**
- * B"H
- * Olam method for "creating" a nivra
- */
-
-import Utils from '../../utils.js'
 import * as THREE from '/games/scripts/build/three.module.js';
-import { Octree } from '../math/AwtsmoosOctree/index.js';
+import * as SkeletonUtils from '/games/scripts/jsm/utils/SkeletonUtils.js';
+import Utils from '../../utils.js';
+import BoneSanctifier from './boyrayNivra/BoneSanctifier.js';
+import AttributeHealer from './boyrayNivra/AttributeHealer.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
 
+/**
+ * @file boyrayNivra.js
+ * @description
+ * ╔══════════════════════════════════════════════════════════════════════════╗
+ * ║   CHAPTER 10: THE TEN UTTERANCES — THE ACT OF CREATION (BRIYAH)        ║
+ * ║   (Equipped with ultra-verbose timing analytics)                         ║
+ * ╚══════════════════════════════════════════════════════════════════════════╝
+ */
+
+function sanitizeHierarchy(node) {
+    if (!node) return;
+    if (node.children && Array.isArray(node.children)) {
+        node.children = node.children.filter(c => c != null);
+        for (const child of node.children) sanitizeHierarchy(child);
+    }
+}
+
+function safeTraverse(node, callback) {
+    if (!node || typeof callback !== 'function') return;
+    try { callback(node); } catch(e) { console.warn("B\"H - Traversal skip:", e); }
+    
+    if (!node.children || !Array.isArray(node.children)) return;
+    for (const child of node.children) {
+        if (child != null) safeTraverse(child, callback);
+    }
+}
+
 export default class {
-   
-    isInWater(position) {
-        if (!this.water) return null;
-        var waterWorldPosition = null
-        if(!this.globalWaterPosition) {
-            waterWorldPosition = new THREE.Vector3();
-            this.water.getWorldPosition(waterWorldPosition);
-            this.globalWaterPosition = waterWorldPosition
-        }
-        waterWorldPosition = this.globalWaterPosition
-        const globalPosition = position.clone();
-        if(!this.temp) {
-            this.temp = new THREE.Object3D();
-        }
-        var tempObject = this.temp
-        tempObject.position.copy(position);
-        tempObject.updateMatrixWorld(true);
-        globalPosition.copy(tempObject.getWorldPosition(new THREE.Vector3()));
-    
-        return globalPosition.y <= waterWorldPosition.y;
-    }
-    
-    // Delegate to helper
-    async generateThreeJsMesh(golem) {
-        return generateThreeJsMesh(golem, this);
-    }
-    
     async boyrayNivra(nivra, info) {
         try {
-            if(nivra.path && typeof(nivra.path) == "string") {
-                var derech = nivra.path;
+            if (nivra.path && typeof nivra.path === "string") {
+                let derech = nivra.path;
+                if (derech.startsWith('awtsmoos://')) derech = this.getComponent(derech);
+
+                if (!derech) return await generateThreeJsMesh({ guf: { BoxGeometry:[1, 1, 1] } }, this);
+
+                const _tLoad = performance.now();
+                console.log(`B"H - 🧪 [boyrayNivra]: Requesting GLTF Payload for [${nivra.name}] from cache/net...`);
+                const baseGltf = await this.loadGLTF(derech);
+                console.log(`B"H - 🧪 [boyrayNivra]: GLTF Payload Resolved.[${(performance.now()-_tLoad).toFixed(1)}ms]`);
                 
-                if (nivra.path.startsWith('awtsmoos://')) {
-                    var component = this.getComponent(nivra.path);
-                    if (!component) {
-                        console.warn(`B"H: Component "${nivra.path}" not found. Fallback to primitive.`);
-                        var fallbackGolem = {
-                            guf: { BoxGeometry: [1, 2, 1] },
-                            toyr: { MeshLambertMaterial: { color: 0xff0000, wireframe: true } }
-                        };
-                        var mesh = await this.generateThreeJsMesh(fallbackGolem);
-                        mesh.userData.error = true;
-                        return mesh;
+                if (!baseGltf || !baseGltf.scene) throw new Error(`Divine source missing for "${nivra.name}".`);
+
+                const _tClone = performance.now();
+                console.log(`B"H - 🧪 [boyrayNivra]: Executing SkeletonUtils.clone() for [${nivra.name}]...`);
+                let clonedScene;
+                try {
+                    clonedScene = SkeletonUtils.clone(baseGltf.scene);
+                    if (!clonedScene) throw new Error("Null return from SkeletonUtils");
+                } catch(err) {
+                    console.error(`B"H - 🚨 Clone failed for "${nivra.name}". Using void fallback.`, err);
+                    clonedScene = new THREE.Group(); 
+                }
+                console.log(`B"H - 🧪[boyrayNivra]: Clone Execution Complete. [${(performance.now()-_tClone).toFixed(1)}ms]`);
+
+                const _tTrav = performance.now();
+                console.log(`B"H - 🧪 [boyrayNivra]: Traversing and healing bones & materials...`);
+                
+                sanitizeHierarchy(clonedScene);
+
+                const gltf = { scene: clonedScene, animations: baseGltf.animations, cameras: baseGltf.cameras };
+                const boneChildren = {};
+                const garments = {};
+                const materials =[];
+
+                safeTraverse(clonedScene, child => {
+                    if (child.isPoints || child.isLine) {
+                        child.removeFromParent();
+                        return;
                     }
-                    derech = component;
-                }
-    
-                var gltf = null;
-                var gltfAsset = this.$ga("GLTF/" + derech);
-                
-                if(0&&gltfAsset) { } else { 
-                    try {
-                        console.log(`B"H - Loading Model: ${derech}`);
-                        gltf = await new Promise((r,j) => {
-                            if (!derech || typeof derech !== 'string') {
-                                j("Invalid model path (derech)");
-                                return;
-                            }
 
-                            this.loader.load(derech, onloadParsed => { r(onloadParsed) },
-                            async progress => {
-                                var { loaded, total } = progress;
-                                // Optional verbose progress logging
-                            }, error => { 
-                                console.error(`B"H - Error loading ${derech}:`, error); 
-                                r(null); // Resolve null to prevent hang
-                            });
-                        })
-                        console.log(`B"H - Model Loaded: ${derech}`);
-                    } catch(e) { throw e; }
-                }
-                
-                if(!gltf) {
-                     console.warn("B\"H - Failed to load model for", nivra.name);
-                     // Return empty object or fallback mesh?
-                     // For now, throw to trigger fallback logic if wrapped, or return null
-                     throw "Couldn't load model!";
-                }
-                
-                if(!gltfAsset) this.setAsset("GLTF/"+derech, gltf);
-                
-                nivra.asset = gltf;
-                var placeholders = {};
-                var thingsToRemove = [];
-                var materials = [];
-                var totalChildren = 0;
-    
-                gltf.scene.traverse(child => { totalChildren++ });
-                var boneChildren = {}, garments= {}, bodyParts = {};
-                nivra.boneChildren = boneChildren;
-                var currentChild = 0;
+                    if (child.isMesh) {
+                        child.castShadow = false;
+                        child.receiveShadow = false;
+                    }
 
-                gltf.scene.traverse(child => {
-                    if(child.type == "Bone") boneChildren[child.name] = child;
-                    if(child?.userData?.garment) garments[child.userData.garment] = child;
-                    if(child?.userData?.["body-part"]) bodyParts[child.userData["body-part"]] = child;
-                    
-                    currentChild++;
+                    BoneSanctifier.sanctify(child, boneChildren);
+                    AttributeHealer.heal(child);
 
                     child.nivraAwtsmoos = nivra;
-                    
-                    if(child.userData && child.userData.water) {
-                        child.isWater = true;
-                        this.ayshPeula("start water", child);
-                    }
-    
-                    if(child.userData.meen == "land") {
-                        if(!nivra.lands) nivra.lands = [];
-                        nivra.lands.push(child)
-                    }
-    
-                    if(child.userData && child.userData.action) {
-                        var ac = this.actions[child.userData.action];
-                        if(ac) {
-                            if(!nivra.childrenWithActions) nivra.childrenWithActions = [];
-                            nivra.childrenWithActions.push(ac);
-                            child.awtsmoosAction = (player, nivra) => ac(player, nivra, this);
-                        }
-                    }
 
-                    if(typeof(child.userData.placeholder) == "string") {
-                        var { position, rotation, scale } = this.getTransformation(child);
-                        if(!placeholders[child.userData.placeholder]) placeholders[child.userData.placeholder] = [];
-                        var shlichus = child.userData.shlichus;
-                        placeholders[child.userData.placeholder].push({
-                            position, rotation, scale, mesh: child, addedTo: false,
-                            ...(shlichus ? { shlichus } : {})
-                        });
-                        thingsToRemove.push(child);
-                    }
-    
-                    if(typeof(child.userData.entity) == "string") {
-                        this.saveEntityInNivra(child.userData.entity, nivra, child)
-                        if(nivra.isSolid) child.isSolid = true;
-                        child.isMesh = true;
-                    }
-    
-                    if (child.isMesh && !child.isAwduhm && !child.isWater) {
-                        this.objectsInScene.push(child);
-                    } else if(child.isWater) {
-                        this.water = child;
-                        if(!this.waters) this.waters = [];
-                        this.waters.push(child);
-                    }
-    
-                    if(child.material) {
+                    if (child.material) {
                         Utils.replaceMaterialWithLambert(child);
                         materials.push(child.material);
-                        if(child.userData.invisible) child.material.visible = false;
                     }
+                    
+                    if (child.userData && child.userData.garment) garments[child.userData.garment] = child;
+                    if (child.userData && child.userData.placeholder) this.registerPlaceholder(child, nivra);
                 });
-                
-                if(Object.keys(bodyParts).length) nivra.bodyParts = bodyParts;
-                if(Object.keys(garments).length) nivra.garments = garments;
-                if(nivra.entities) this.nivrayimWithEntities.push(nivra);
-                
-                if(thingsToRemove.length) {
-                    thingsToRemove.forEach(q => q.removeFromParent());
-                    nivra.placeholders = placeholders;
-                    this.nivrayimWithPlaceholders.push(nivra);
-                }
-    
-                if(nivra.isSolid) {
-                    nivra.needsOctreeChange = true;
-                    nivra.on("changeOctreePosition", () => {
-                        gltf.scene.traverse(child => {
-                            if(!child.isMesh || child.isWater) return;
-                            if(child.geometry) child.geometry.sourceMesh = child;
-                            if(!child.userData) child.userData = {};
-                            child.userData.isSolid = true;
-                            if(!child.userData.itemData) {
-                                child.userData.itemData = nivra.itemData || { id: "world_brick", className: "Brick", name: "Ancient Brick" };
-                            }
-                            if(!child.userData.notSolid) this.worldOctree.fromGraphNode(child);
-                        })
-                    });
-    
-                    if(nivra.lands) {
-                        nivra.landOctree = new Octree();
-                        nivra.lands.forEach(w => nivra.landOctree.fromGraphNode(w));
-                    }
-                }
 
-                if(nivra.interactable) {
-                    this.interactableNivrayim.push(nivra);
-                    if(nivra.type != "chossid" && nivra.type != "customNpc" && nivra.type != "medabeir" && nivra.type != "chai") { 
-                        nivra.needsOctreeChange = true;
-                        nivra.on("changeOctreePosition", () => {
-                            this.interactiveOctree.fromGraphNode(gltf.scene);
-                        });
-                    }
-                }
-    
+                console.log(`B"H - 🧪 [boyrayNivra]: Traversal Complete.[${(performance.now()-_tTrav).toFixed(1)}ms]`);
+
+                nivra.boneChildren = boneChildren;
                 nivra.materials = materials;
+                nivra.garments = garments; 
+
                 return gltf;
             } else {
-                var golem = nivra.golem || {};
-                var mesh = await this.generateThreeJsMesh(golem);
+                const golem = nivra.golem || { guf: { BoxGeometry: [1, 1, 1] } };
+                golem.name = nivra.name;
+                
+                console.log(`B"H - 🧪 [boyrayNivra]: Generating procedural Mesh for[${nivra.name}]...`);
+                const mesh = await generateThreeJsMesh(golem, this);
                 mesh.name = nivra.name;
-                
-                if (nivra.position) mesh.position.copy(nivra.position.vector3());
-                if (nivra.rotation) mesh.rotation.set(nivra.rotation.x || 0, nivra.rotation.y || 0, nivra.rotation.z || 0);
-                if (nivra.scale) mesh.scale.copy(nivra.scale.vector3());
-                
-                mesh.updateMatrixWorld(true);
-                if (nivra.isSolid) this.worldOctree.addObject(mesh);
-                if (nivra.interactable && nivra.type !== "chossid") this.interactiveOctree.fromGraphNode(mesh);
-                
+                mesh.nivraAwtsmoos = nivra;
+
+                mesh.castShadow = false;
+                mesh.receiveShadow = false;
+
                 return mesh;
             }
-        } catch(e) {
-            console.log(e);
-            throw e;
+
+        } catch (e) {
+            console.error(`B"H - ⚡ ACT OF CREATION FAILED for [${nivra.name}]:`, e);
+            return await generateThreeJsMesh({ guf: { BoxGeometry:[0.5, 0.5, 0.5] } }, this);
         }
+    }
+
+    registerPlaceholder(child, nivra) {
+        const name = child.userData.placeholder;
+        if (!nivra.placeholders) nivra.placeholders = {};
+        if (!nivra.placeholders[name]) nivra.placeholders[name] =[];
+        const trans = this.getTransformation(child);
+        nivra.placeholders[name].push({ ...trans, mesh: child, addedTo: false });
+        child.visible = false;
     }
 }

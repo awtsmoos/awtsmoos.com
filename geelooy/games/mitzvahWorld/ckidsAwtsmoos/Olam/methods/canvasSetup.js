@@ -1,148 +1,70 @@
 
 /**
  * B"H
- * 
- * methods related to initally setting up the main (and/or minimap) canvas(es)
+ * @module MasterCanvasSetup
+ * @description
+ * 📐 CHAPTER 26: THE PROPORTIONS OF REALITY 📐
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import WebGLGuard from "./canvas/WebGLGuard.js";
+import RendererFactory from "./canvas/RendererFactory.js";
+import ViewportSizer from "./canvas/ViewportSizer.js";
+import ContextMonitor from "./canvas/ContextMonitor.js";
+import UIRectifier from "./ui/UIRectifier.js";
 
-export default class {
-
+export default class MasterCanvasSetup {
     /** 
-     * In the tale of Ayin's quest to illuminate the world,
-     * The canvas is our stage, where the story is unfurled.
-     * @param {HTMLCanvasElement} canvas - The stage where the graphics will dance.
-     * @example
-     * takeInCanvas(document.querySelector('#myCanvas'));
+     * @function takeInCanvas
      */
     takeInCanvas(canvas, devicePixelRatio = 1) {
-       
-        if (!THREE.WebGLRenderer) {
-            console.error("B\"H: Critical Error - THREE.WebGLRenderer is not available. Check Three.js import.");
-            this.ayshPeula("error", {
-                message: "THREE.WebGLRenderer could not be found in the worker. The game cannot start."
-            });
-            return; 
+        console.log(`B"H - 🔨 MASTER_SETUP: Taking control of the dimensional vessel.`);
+        
+        const guard = WebGLGuard.verify(canvas);
+        if (!guard.success) {
+            this.ayshPeula("error", { code: "WEBGL_FAIL", message: guard.reason });
+            return;
         }
 
-        this.renderer = new THREE.WebGLRenderer({ 
-			antialias: true, canvas,
-			logarithmicDepthBuffer: true
-		});
-		
-        // B"H: Enabling intense shadow map logic for basic HD finish
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        
-        // B"H: Enable nice tone mapping
-        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.0;
+        ContextMonitor.bind(canvas, this);
 
-        if(!this.renderer.compute) this.renderer.compute = () => {}
-        if(!this.renderer.renderAsync) {
-		    this.renderer.clearAsync=this.renderer.clear;
-            this.renderer.renderAsync = this.renderer.render;
+        try {
+            this.renderer = RendererFactory.manifest(canvas);
+            
+            /**
+             * B"H: THE PERFORMANCE CAPPING
+             * Most eyes cannot distinguish beyond 2x pixel density. 
+             * Capping at 2.0 significantly increases FPS on high-res mobiles.
+             */
+            const optimizedRatio = Math.min(devicePixelRatio || 1, 2.0);
+            this.renderer.setPixelRatio(optimizedRatio);
+            
+            console.log(`B"H - ✅ Renderer birthed with optimized pixel ratio: ${optimizedRatio}`);
+            this.ayshPeula("canvased");
+        } catch (err) {
+            console.error("B\"H - 🚨 RENDERER BIRTH FAILURE:", err.message);
+            this.ayshPeula("error", { code: "RENDERER_FAIL", message: err.message });
         }
-        
-        this.renderer.setPixelRatio(devicePixelRatio);
-
-        this.ayshPeula("canvased");
-    }
-
-    postprocessingSetup() {
-        if(!this.postprocessing) return;
-        this.postprocessing.postprocessingSetup();
-    }
-
-    postprocessingRender() {
-        if(!this.postprocessing) return;
-        return this.postprocessing.postprocessingRender();
-    }
-
-    adjustPostProcessing() {
-        if(!this.postprocessing) return;
-        this.postprocessing.setSize({ width: this.width, height: this.height });
     }
 
     /** 
-     * As the eyes grow wider, or squint in the light,
-     * Our view changes size, adjusting to the sight.
+     * @function setSize
      */
-    async setSize(vOrWidth={}, height, sameAspect = false) {
-        let width;
-
-        if(typeof vOrWidth === "number") {
-            width = vOrWidth;
-        } else if (typeof vOrWidth === "object") {
-            ({width, height} = vOrWidth);
-        }
-
-        var desiredAspectRatio = this.ASPECT_X / this.ASPECT_Y;
-       
-        let newWidth = width;
-        let newHeight = height;
-
-        if (width / height > desiredAspectRatio) {
-            if(sameAspect) newWidth = height * desiredAspectRatio;
-            if(this.rendered) {
-                await this.ayshPeula("htmlAction", {
-                    shaym: "main av",
-                    methods: { classList: { remove: "sideInGame", add: "horizontalInGame" } }
-                });
-            }
+    async setSize(vOrWidth = {}, height) {
+        let w, h;
+        if (typeof vOrWidth === "number") {
+            w = vOrWidth; h = height;
         } else {
-            if(this.rendered) {
-                await this.ayshPeula("htmlAction", {
-                    shaym: "main av",
-                    methods: { classList: { add: "sideInGame", remove: "horizontalInGame" } }
-                });
-            }
-            if(sameAspect) newHeight = width / desiredAspectRatio;
+            w = vOrWidth.width; h = vOrWidth.height;
         }
 
-        this.width = newWidth;
-        this.height = newHeight;
-		
-        width = newWidth;
-        height = newHeight;
-        
-        if(typeof width === "number" && typeof height === "number" ) {
-            if(this.renderer) {
-                this.renderer.setSize(width, height, false);
-            } 
-            
-            await this.updateHtmlOverlaySize(width, height, desiredAspectRatio);
-            await this.getBoundingRect();
+        const sizing = ViewportSizer.calculate({ width: w, height: h });
+        this.width = sizing.newWidth;
+        this.height = sizing.newHeight;
 
-            this.adjustPostProcessing();
+        if (this.renderer) {
+            this.renderer.setSize(this.width, this.height, false);
+            if (this.refreshCameraAspect) this.refreshCameraAspect();
+            await UIRectifier.rectify(this, this.width, this.height);
         }
-
-        this.refreshCameraAspect();
-    }
-
-    async getBoundingRect() {
-        var info = await this.ayshPeula("htmlAction", {
-            shaym: "ikarGameMenu",
-            methods: { getBoundingClientRect: true }
-        });
-
-        if(info[0]) {
-            var rect = info[0]?.methodsCalled?.getBoundingClientRect;
-            if(rect) this.boundingRect = rect;
-        }
-    }
-    
-    async updateHtmlOverlaySize(width, height) {
-        await this.ayshPeula("htmlAction", {
-            shaym: `main av`,
-            properties: { style: { width:width+"px", height:height+"px" } }
-        });
-
-        if(this.rendered) 
-            await this.ayshPeula("htmlAction", {
-                shaym: `av`,
-                properties: { style: { width:width+'px', height:height+'px' } }
-            });
     }
 }

@@ -1,20 +1,41 @@
+
 // B"H
+/**
+ * @file ObjectManager.js
+ * @description
+ * ⚖️ CHAPTER 13: THE JUSTICE OF MASS (GEVURAH) ⚖️
+ * 
+ * Chapter 131: Validating the Form.
+ * When a mesh enters the Octree, it must present its credentials (coordinates and scale).
+ * We add extreme logging to expose the magnitude of new world objects, proving 
+ * that the floor is indeed as massive as the speech intended.
+ */
 import * as THREE from '/games/scripts/build/three.module.js';
 import LODNode from "../LODNode.js";
 import { Octree as AwtsmoosOctree } from "../../AwtsmoosOctree/index.js";
 
-const _v1 = new THREE.Vector3();
-
 export default {
+    /**
+     * @method addObject
+     * @description Injects a physical mesh into the static Octree universe.
+     */
     addObject(mesh) {
         if (!mesh) return false;
 
         mesh.updateMatrixWorld(true);
         
-        // B"H: NaN Guard
+        // 1. ANALYZING THE SPATIAL DNA
         const p = mesh.position;
+        const s = mesh.scale;
+        
         if (isNaN(p.x) || isNaN(p.y) || isNaN(p.z)) {
-            console.warn(`B"H: Rejected mesh ${mesh.name} from Octree due to NaN position.`);
+            console.warn(`B"H - 🆘 REJECTED: Mesh [${mesh.name}] has NaN position! Reality is broken.`);
+            return false;
+        }
+
+        // B"H: Confirm geometry exists before calculation
+        if (!mesh.geometry) {
+            console.error(`B"H - 🆘 ERROR: Mesh [${mesh.name}] is a formless void (no geometry).`);
             return false;
         }
 
@@ -22,54 +43,60 @@ export default {
         const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
 
         if (isNaN(worldBox.min.x) || isNaN(worldBox.max.x)) {
-             console.warn(`B"H: Rejected mesh ${mesh.name} from Octree due to NaN bounding box.`);
+             console.warn(`B"H - 🆘 REJECTED: Bounding calculation yielded NaN for [${mesh.name}].`);
              return false;
         }
 
+        const size = new THREE.Vector3();
+        worldBox.getSize(size);
+        
+        // EXTREME DATA REVELATION:
+        console.log(`B"H - ⚓ SOLIDIFIER: Processing [${mesh.name}]. Position: [${p.x.toFixed(2)}, ${p.y.toFixed(2)}, ${p.z.toFixed(2)}]. Mass Dimensions: ${size.x.toFixed(2)}W x ${size.y.toFixed(2)}H x ${size.z.toFixed(2)}D.`);
+
+        // 2. ROOT ALIGNMENT
         if (!this.world.root) {
             this.world.root = new LODNode(worldBox.clone());
         } else {
             this.world.root.box.union(worldBox);
         }
 
-        // Clone for physics (detached from scene graph parent)
+        // 3. PHYSICAL CLONING
         const physicsClone = new THREE.Mesh(mesh.geometry.clone());
         mesh.getWorldPosition(physicsClone.position);
         mesh.getWorldQuaternion(physicsClone.quaternion);
         mesh.getWorldScale(physicsClone.scale);
         physicsClone.updateMatrix();
         physicsClone.updateMatrixWorld(true);
-        
         physicsClone.userData = { ...mesh.userData, visualReference: mesh };
 
-        // Create Satellite Octree (Immediate Raycasting)
-        const satGeo = mesh.geometry.clone();
-        const satClone = new THREE.Mesh(satGeo);
-        satClone.copy(physicsClone); 
-        satClone.updateMatrix();
-        satClone.updateMatrixWorld(true);
-        satClone.userData = { ...mesh.userData, visualReference: mesh };
-
+        // 4. INSTANT SATELLITE (RAYCASTING SPEED)
+        // Creating an immediate sub-octree for fast local response while the world builds.
         const tempGroup = new THREE.Group();
-        tempGroup.add(satClone);
+        tempGroup.add(physicsClone.clone());
 
-        const satelliteOctree = new AwtsmoosOctree(worldBox.clone().expandByScalar(0.05));
+        const satelliteOctree = new AwtsmoosOctree(worldBox.clone().expandByScalar(0.1));
         satelliteOctree._isManaged = true; 
         satelliteOctree.fromGraphNode(tempGroup);
         satelliteOctree.build(); 
         
         satelliteOctree.creationTime = performance.now();
         satelliteOctree.sourceMesh = mesh;
-
         this.world.pendingOctrees.push(satelliteOctree);
 
-        // Insert into Main World
+        // 5. INSERTION INTO WORLD HIERARCHY
         physicsClone.userData.inMainWorld = true; 
-        this.insertMeshOnly(this.world.root, physicsClone, worldBox);
-
-        return true;
+        const placed = this.insertMeshOnly(this.world.root, physicsClone, worldBox);
+        
+        if (placed) {
+            console.log(`B"H - 🛡️ Anchored: [${mesh.name}] solidified in physical grid.`);
+        }
+        return placed;
     },
 
+    /**
+     * @method fromGraphNode
+     * @description Ingests an entire hierarchy (usually world maps).
+     */
     fromGraphNode(group) {
         if (!group) return;
         
@@ -83,48 +110,20 @@ export default {
             this.world.root.box.union(groupBox);
         }
 
-        // Add to processing queue
-        this.intakeQueue.push({ 
-            group: group, 
-            isStaticWorld: true 
-        });
+        // 1. QUEUE FOR DETAILED BACKGROUND BUILDING
+        this.intakeQueue.push({ group: group, isStaticWorld: true });
 
-        // Create temporary satellites for instant collision
+        // 2. IMMEDIATE INDIVIDUAL SATELLITE MANIFESTATION
+        // Recursively finding solid meshes for instant collision support.
         const meshes = [];
         group.traverse(obj => {
             if (obj.isMesh && obj.geometry && !obj.userData.notSolid) {
-                if (!isNaN(obj.position.x)) {
-                     meshes.push(obj);
-                }
+                if (!isNaN(obj.position.x)) meshes.push(obj);
             }
         });
 
         for (const mesh of meshes) {
-            if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
-            const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
-            
-            if (isNaN(worldBox.min.x)) continue;
-
-            const clone = new THREE.Mesh(mesh.geometry.clone());
-            mesh.getWorldPosition(clone.position);
-            mesh.getWorldQuaternion(clone.quaternion);
-            mesh.getWorldScale(clone.scale);
-            clone.updateMatrix();
-            clone.updateMatrixWorld(true);
-
-            clone.userData = { ...mesh.userData, visualReference: mesh };
-
-            const tempGroup = new THREE.Group();
-            tempGroup.add(clone);
-
-            const sat = new AwtsmoosOctree(worldBox);
-            sat.fromGraphNode(tempGroup);
-            sat.build();
-            
-            sat.creationTime = performance.now();
-            sat.sourceMesh = mesh;
-            
-            this.world.pendingOctrees.push(sat);
+            this.addObject(mesh);
         }
     },
 
@@ -132,27 +131,17 @@ export default {
         if (!this.world.root || !mesh) return;
 
         const visualRef = mesh.userData?.visualReference || mesh;
-
         const meshBox = new THREE.Box3().setFromObject(mesh);
         if(isNaN(meshBox.min.x)) return;
 
         const nodes = this.findLeafNodesInBox(this.world.root, meshBox);
-
         nodes.forEach(node => {
             if (node.physicsMeshGroup && node.physicsMeshGroup.children.includes(mesh)) {
                 node.physicsMeshGroup.remove(mesh);
-                if (node.physics) {
-                    node.physics.removeMesh(mesh); 
-                }
+                if (node.physics) node.physics.removeMesh(mesh); 
             }
         });
 
-        // Remove from satellites
-        this.world.pendingOctrees = this.world.pendingOctrees.filter(sat => {
-            if (sat.sourceMesh === visualRef) {
-                return false; 
-            }
-            return true; 
-        });
+        this.world.pendingOctrees = this.world.pendingOctrees.filter(sat => (sat.sourceMesh !== visualRef));
     }
 };

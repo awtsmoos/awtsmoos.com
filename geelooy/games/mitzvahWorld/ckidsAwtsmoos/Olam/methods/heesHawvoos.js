@@ -1,133 +1,74 @@
 
+// B"H
 /**
- * B"H
+ * @file heesHawvoos.js
+ * @description
+ * 🌀 THE CYCLE OF CONSTANT RECREATION 🌀
  * 
- * methods related to the constant
- * game update and rendering
+ * Chapter 108: The Dance of Creation.
+ * 
+ * This module provides the 'Act' called by the Pulsator. It must be FAST.
+ * Every nanosecond saved here is a spark of Light added to the FPS.
+ * It is structured into 4 specific pillars of reality:
+ * 1. Spiritual Logic (Souls)
+ * 2. Physical Truth (Foundations/Physics)
+ * 3. Perceiving Eye (Camera)
+ * 4. Dimensional Manifestation (Render)
  */
-
+import UniversePulsator from '../oyved/UniversePulsator.js';
 import * as THREE from '/games/scripts/build/three.module.js';
 
-export default class {
-
-    velz = 0;
-    deltaTime = 1;
+export default class HeesHawvoosManager {
     async heesHawvoos() {
-        var self = this;
-        var firstTime = false;
-        
-        console.log("B\"H - Starting Game Loop (HeesHawvoos)");
+        const self = this;
+        let confirmedGaze = false;
+        let stabilityCounter = 0;
 
-        // This will be the loop we call every frame.
-        async function go(time) {
-             // Delta time (in seconds) is the amount of time that has passed since the last frame.
-            // We limit it to a max of 0.1 seconds to avoid large jumps if the frame rate drops.
-            self.deltaTime = Math.min(0.1, self.clock.getDelta())
-            
-            // 1. Shlichus Update
-            if(self.shlichusHandler) {
-                self.shlichusHandler.update(self.deltaTime)
+        // B"H: The Rhythmic Step function
+        this.updateStep = (dt) => {
+            // Pillar 1: World Equilibrium
+            if (self.shlichusHandler) self.shlichusHandler.update(dt);
+            if (self.environment) self.environment.update(dt);
+
+            // Pillar 2: Stability of Ground (Physics)
+            if (self.worldOctree && self.player?.mesh) {
+                // Background Creation happens only where the soul is focused
+                self.worldOctree.update(self.player.mesh.position, self.player.velocity);
             }
 
-            // 2. Water Animation
-            if(self.mayim) {
-                self.mayim.forEach(w => {
-                    w.material.uniforms[ 'time' ].value += 1.0 / 60.0;
-                })
-            }
-            
-            // 3. Octree Physics World Update
-            // B"H: We must gather ALL "Chai" (living) entities to tell the world where to generate physics.
-            // The world exists for the sake of those who inhabit it.
-            if (self.worldOctree) {
-                const foci = [];
-                
-                // Add Player
-                if (self.chossid) {
-                    foci.push({ 
-                        position: self.chossid.mesh.position, 
-                        velocity: self.chossid.velocity 
-                    });
+            // Pillar 3: Individuality of Choice (Souls)
+            for (let i = 0; i < self.nivrayim.length; i++) {
+                const nivra = self.nivrayim[i];
+                if (nivra.isReady && nivra.heesHawveh) {
+                    try {
+                        nivra.heesHawvoos(dt);
+                    } catch(err) { /* Silence fragmented errors to keep loop steady */ }
                 }
+            }
+
+            // Pillar 4: Adjusting Perspective
+            if (self.ayin?.update) self.ayin.update(dt);
+
+            // THE MANIFESTATION: PROJECTION OF LIGHT
+            if (self.renderer && self.scene) {
+                const activeEye = self.activeCamera || (self.ayin ? self.ayin.camera : null);
                 
-                // Add Active NPCs (Medabeir/CustomNpc)
-                if (self.nivrayim) {
-                    for(const n of self.nivrayim) {
-                        // Check if it's an active character with velocity (not the player, who is already added)
-                        // B"H FIX: Ensure we ONLY track entities that are fully ready. 
-                        // Accessing properties or positions of unready entities can cause race conditions or freezes.
-                        if (n !== self.chossid && n.velocity && n.onFloor !== undefined && n.isReady) {
-                            foci.push({
-                                position: n.mesh.position,
-                                velocity: n.velocity
-                            });
-                        }
+                if (activeEye) {
+                    self.renderer.render(self.scene, activeEye);
+                    
+                    // The Final Signaling Handshake
+                    if (!confirmedGaze && stabilityCounter > 5) {
+                        console.log("B\"H - ✨ REVELATION SUCCESS: Matrix visible. Opening gates.");
+                        confirmedGaze = true;
+                        self.ayshPeula("rendered first time");
                     }
-                }
-
-                // Update the World Bubble around these points
-                self.worldOctree.update(foci, null); 
-                
-                // Periodic Cleanup Log
-                if (self.frameCount === undefined) self.frameCount = 0;
-                self.frameCount++;
-                if (self.frameCount % 100 === 0) {
-                   // self.worldOctree.scheduleStaticCleanup(); 
+                    stabilityCounter++;
                 }
             }
-                
-            // 4. Update All Creations (Nivrayim)
-            if(self.nivrayim) {
-                self.nivrayim.forEach(n => 
-                    n.isReady && 
-                    (n.heesHawveh ? n.heesHawvoos(self.deltaTime) : 0)
-                );
-            }
-                
-            // 5. Update Camera (Ayin)
-            self.ayin.update(self.deltaTime);
+        };
 
-            // 6. Rendering
-            if(self.coby && self.postprocessing) {
-                var rend = false//self.postprocessingRender();
-                if(!rend) realRender(time);
-            } else {
-                realRender(time)
-            }
-
-            async function realRender() {
-                // The rendering. This is done once per frame.
-                if(!firstTime) {
-                    firstTime = true;
-                    console.log("B\"H - First Frame Rendered!");
-                    self.ayshPeula("rendered first time")
-                    self.ayshPeula("alert", "First time rendering " + self.renderer)
-                }
-                
-               // self.octreeDebugHelper.box.copy(self.worldOctree.getDebugBoundingBox());
-                if(self.renderer) {
-                    // if(!envRendered) {
-                        self.renderer.renderAsync(
-                            self.scene,
-                            self.activeCamera || self.ayin.camera
-                        );
-                    // }
-                }
-            }
-            
-            if(!self.destroyed)
-                requestAnimationFrame(go);
-        }
-        
-        requestAnimationFrame(go);
-    }
-
-    async renderMinimap() {
-        async function minimapRender() {
-            if(self.minimap) {
-            //    await self.minimap.render()
-            }
-        }
-       // requestAnimationFrame(minimapRender);
+        // Ignite the Engine
+        this.pulsator = new UniversePulsator(this);
+        this.pulsator.ignite();
     }
 }

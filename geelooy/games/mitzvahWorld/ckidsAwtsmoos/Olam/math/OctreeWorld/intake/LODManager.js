@@ -1,18 +1,27 @@
+
 // B"H
+/**
+ * @file LODManager.js
+ * @description
+ * ╔══════════════════════════════════════════════════════════════════════════╗
+ * ║   CHAPTER 14: The Preservation of the Coordinates (Netzach)            ║
+ * ║                                                                          ║
+ * ║  When the world is subdivided, a single physical vessel (mesh)         ║
+ * ║  might exist across multiple spatial boundaries. To divide it, we      ║
+ * ║  clone the vessel. However, a clone forgets its place in the world     ║
+ * ║  (`matrixWorld` resets to Identity). We now forcefully copy the        ║
+ * ║  absolute coordinates so the terrain does not collapse into the void.  ║
+ * ╚══════════════════════════════════════════════════════════════════════════╝
+ */
 import * as THREE from '/games/scripts/build/three.module.js';
-import  LODNode  from "../LODNode.js";
+import LODNode from "../LODNode.js";
 import { NODE_STATE, MAX_DEPTH } from "../constants.js";
 
 const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
 
 export default {
-    /**
-     * assessAndQueueWork - Evaluates the spiritual proximity of vessels to focal points.
-     * Refined to handle initial calls from OctreeWorld.update which may only pass foci.
-     */
     assessAndQueueWork(node, foci) {
-        // B"H: Entry Point Guard. If node is an array, it's actually the foci from the root call.
         if (Array.isArray(node)) {
             foci = node;
             node = this.world.root;
@@ -79,12 +88,12 @@ export default {
              this.distributeMeshes(node, meshToMove);
         }
 
-        const foci = [{ position: this.lastUpdateCenter, velocity: new THREE.Vector3() }];
+        const foci =[{ position: this.lastUpdateCenter, velocity: new THREE.Vector3() }];
         node.children.forEach(child => this.assessAndQueueWork(child, foci));
     },
 
     merge(node) {
-        const meshesToCollect = [];
+        const meshesToCollect =[];
 
         const gather = (currentNode) => {
             if (currentNode.type === 'BRANCH') {
@@ -128,7 +137,10 @@ export default {
                 this.distributeMeshes(intersectingChildren[0], mesh);
             } else if (intersectingChildren.length > 1) {
                 intersectingChildren.forEach(child => {
-                    this.distributeMeshes(child, mesh.clone());
+                    // B"H: CRITICAL FIX. The clone loses its world matrix. We must manually copy it!
+                    const cMesh = mesh.clone();
+                    cMesh.matrixWorld.copy(mesh.matrixWorld); 
+                    this.distributeMeshes(child, cMesh);
                 });
             }
         }
