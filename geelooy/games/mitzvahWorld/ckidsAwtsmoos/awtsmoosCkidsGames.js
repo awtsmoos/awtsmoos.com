@@ -30,9 +30,11 @@ export {default as Heeooleey} from "./chayim/heeooleey.js";
 export {default as InventoryManager} from "./systems/InventoryManager.js";
 
 export {default as Brick} from "./dvarim/brick.js";
-export {default as Interaction} from "../tochen/helpers/tzomayachInteraction.js";
-export {default as Dialogue} from "../tochen/helpers/dialogue.js";
-export {default as ShlichusActions} from "../tochen/helpers/shlichusActions.js";
+
+// B"H: ABSOLUTE TIKKUN - The path starts in the local dimension (.), not outside of it (..)
+export {default as Interaction} from "./tochen/helpers/tzomayachInteraction.js";
+export {default as Dialogue} from "./tochen/helpers/dialogue.js";
+export {default as ShlichusActions} from "./tochen/helpers/shlichusActions.js";
 
 export {default as CharacterMaker} from "./dvarim/characterMaker.js";
 export {default as CustomNpc} from "./dvarim/customNpc.js";

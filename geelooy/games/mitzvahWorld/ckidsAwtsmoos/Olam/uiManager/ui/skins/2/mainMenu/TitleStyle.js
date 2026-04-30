@@ -2,102 +2,114 @@
 /**
  * @file TitleStyle.js
  * @description
- * * Chapter 11: The Carving of the Name
+ * 👑 THE CARVING OF THE NAME 👑
+ * 
  * "And He called the name of the place Mitzvah World."
- * In the beginning, the name was formless, floating in the CSS void.
- * But we have spoken the words of alignment! 
- * We use the 'clamp' decree to ensure the letters are never too small
- * to be seen, nor too large to fit within the boundaries of the firmament.
- * * The 'borderTxt' acts as the Gevurah (Judgment/Constraint),
- * providing a thick, dark boundary that allows the white light 
- * of the 'txt' to shine with unmistakable clarity.
+ * The text itself is a living golden gradient. We use the 'clamp' decree 
+ * to ensure the letters perfectly scale within the boundaries of the firmament.
+ * The 'borderTxt' acts as the Gevurah (Judgment/Constraint),
+ * providing a thick, dark boundary that allows the light of the 'txt' to shine.
  */
 
 export default /*css*/`
     .mainTitle {
         text-align: center;
-        margin-top: 5vh;
-        margin-bottom: 8vh;
-        user-select: none;
+        margin-bottom: 25px;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        position: relative;
         z-index: 10;
+        user-select: none;
     }
 
     .lns {
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
-        /* Prevents the 'clashing of worlds' (overlapping lines) */
-        gap: 2vh; 
+        gap: 0px; 
+        line-height: 0.9;
     }
 
     .line {
         position: relative;
         display: block;
-        width: auto;
     }
 
     .borderWrap {
         position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: inline-block;
     }
 
     .txt {
-        font-family: 'Fredoka One', cursive;
-        /* B"H: The Breath of Scaling. Min: 50px, Ideal: 15vw, Max: 180px */
-        font-size: clamp(50px, 15vw, 180px);
-        color: #fff;
-        line-height: 1;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin: 0;
-        padding: 0;
-        /* Divine Radiance pulsates from the center */
-        text-shadow: 
-            0 5px 15px rgba(0,0,0,0.8),
-            0 0 20px rgba(255,255,255,0.3);
-        position: relative;
+        font-family: 'Fredoka One', cursive, sans-serif;
+        font-size: clamp(3.5rem, 12vw, 7.5rem);
+        font-weight: 900;
+        letter-spacing: 0.05em;
+        display: block;
+
+        /* THE HOLY GOLD GRADIENT */
+        background: linear-gradient(
+            175deg,
+            #fff7cc 0%,
+            #ffe566 20%,
+            #ffd700 40%,
+            #d4a017 60%,
+            #ffd700 80%,
+            #fffde0 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+
+        animation: goldPulseTitle 5s ease-in-out infinite;
         z-index: 2;
-    }
-
-    .line:first-child .txt {
-        color: #ffde40; /* The Mitzvah Gold, the light of the Sun */
-        text-shadow: 
-            0 5px 15px rgba(0,0,0,0.8),
-            0 0 30px rgba(254, 203, 57, 0.5);
-    }
-
-    /* B"H: Eliminating the Duality (Hidden text below lines) */
-    /* This targets the extra div artifacts seen in the screenshot */
-    .line > div:not(.borderWrap), 
-    .mainTitle > div:not(.lns) {
-        display: none !important;
-        visibility: hidden !important;
+        position: relative;
     }
 
     .borderTxt {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0;
+        font-family: 'Fredoka One', cursive, sans-serif;
+        font-size: clamp(3.5rem, 12vw, 7.5rem);
+        font-weight: 900;
+        letter-spacing: 0.05em;
         color: transparent;
-        /* The Gevurah (Boundary) of the letter, thick and solid */
-        -webkit-text-stroke: 2.5vmin #000;
+        /* The dark Gevurah boundary */
+        -webkit-text-stroke: clamp(4px, 1.5vw, 10px) rgba(0, 0, 0, 0.85);
         z-index: 1;
-        opacity: 0.9;
         pointer-events: none;
-        width: 100%;
+        filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.9));
+    }
+
+    @keyframes goldPulseTitle {
+        0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)); }
+        50% { filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 70px rgba(255, 140, 0, 0.4)); }
+    }
+
+    /* Subtitle Tagline */
+    .menuSubtitle {
+        font-family: 'Fredoka', sans-serif;
+        font-size: clamp(0.9rem, 2vw, 1.2rem);
+        color: rgba(200, 220, 255, 0.8);
         text-align: center;
-        font-family: 'Fredoka One', cursive;
-        font-size: clamp(50px, 15vw, 180px);
+        letter-spacing: 0.2em;
         text-transform: uppercase;
-        line-height: 1;
+        font-weight: bold;
+        margin-top: -10px;
+        margin-bottom: 15px;
+        animation: subtitleReveal 1.2s ease 0.5s both;
+    }
+
+    @keyframes subtitleReveal {
+        from { opacity: 0; transform: translateY(15px); letter-spacing: 0.4em; }
+        to   { opacity: 1; transform: translateY(0); letter-spacing: 0.2em; }
+    }
+
+    /* Clean up any weird duplicated div artifacts */
+    .line > div:not(.borderWrap), 
+    .mainTitle > div:not(.lns) {
+        display: none !important;
     }
 `;
