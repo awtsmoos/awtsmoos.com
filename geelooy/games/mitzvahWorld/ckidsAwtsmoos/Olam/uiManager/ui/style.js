@@ -1,71 +1,90 @@
 
-/**
- * B"H
- * style js object for UI
- */
 import skin from "./skins/2/index.js";
+
+/**
+ * @file style.js
+ * @description
+ * THE COHESION OF DIMENSIONS (MALCHUS)
+ */
+
 export default {
     tag: "style",
-    innerHTML:/*css*/`
-        
-        .inGame {
-            position: absolute;
-            left: 50%;
-            top:50%;
-            transform: translate(-50%, -50%);
+    innerHTML: /*css*/`
+        :root {
+            --neon-cyan: #00f3ff;
+            --mitzvah-gold: #ffde40;
+            --void-bg: #0a0a1e;
         }
 
-        .horizontalInGame {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .sideInGame {
-            width: 100%;
-            position: absolute;
-            top: 50%;
-            transform: translate(0, -50%);
-        }
-        
-        ${
-            skin
-        }
-        
-        .BH {
-            z-index:100;
-            pointer-events:none;
-            position:absolute;
-            left:4;
-            top:4;
-            font-size:5;
-            font-family: Fredoka One; /* Timeless, much like the Awtsmoos */
-                     /* Substantial, yet not overwhelming */
-            color: #4CAF50;             /* The color of life and vitality */
-            font-weight: bold;          /* A testament to its gravitas */
-            
-        }
-        
-        body {
-            user-select:none
+        .mainAv {
+            position: fixed !important;
+            inset: 0 !important;
+            overflow: hidden !important;
+            background-color: #000;
+            z-index: 1;
         }
 
-        .hidden {
-            visibility: hidden !important;
-            display: none !important;
-            opacity: 0 !important;
-            z-index: -1000 !important;
-            pointer-events: none !important;
-        }
-        
-        .active {
-            opacity: 1;
-            visibility: visible;
-            transition: all 0.4s ease-in-out;
+        canvas {
+            position: absolute; top: 0; left: 0;
+            width: 100% !important; height: 100% !important;
+            display: block;
+            z-index: 1;
+            /* 
+               B"H: REPEL DEFAULT BROWSING 
+               Disables standard browser swiping/pinch behaviors 
+               so the MobileTouchLogic can purely calculate camera rotation.
+            */
+            touch-action: none !important; 
         }
 
-        
-        
-        /* The plot twist: In its interaction, the button reveals more of its nature, not unlike how the Awtsmoos is revealed in every facet of reality. */
-    
+        /* The Spiritual Interface Overlay */
+        .gameUi {
+            position: fixed; inset: 0;
+            z-index: 10000;
+            /* 
+               B"H: THE DECREE OF PASS-THROUGH
+               The overlay itself MUST be porous.
+            */
+            pointer-events: none !important; 
+            overflow: visible;
+        }
+
+        /* 
+           B"H: SELECTIVE SOLIDIFICATION
+           Only these holy vessels catch the user's touch.
+           Everything else allows the touch to fall onto the world.
+        */
+        button, a, input, select, textarea, 
+        .awtsmoosBtn, .mitzvahBtn, .controller-button, 
+        #joystick-container, #joystick-base, 
+        .awtsmoosContextMenu, .inventory-body {
+            pointer-events: auto !important;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        /* 
+           Protect the empty zones inside UI containers so they don't block 
+           camera swiping if someone swipes NEAR a button but not on it.
+        */
+        .gameUi > div:not([id="joystick-container"]):not([id="game-controller"]),
+        .awtsmoosAction, .action-slots, .menuTop {
+            pointer-events: none !important; 
+        }
+
+        .hidden { display: none !important; visibility: hidden !important; }
+
+        ${skin}
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background: #000;
+            overflow: hidden;
+            -webkit-user-select: none;
+            user-select: none;
+            overscroll-behavior: none;
+            touch-action: none !important;
+        }
     `
-}
+};

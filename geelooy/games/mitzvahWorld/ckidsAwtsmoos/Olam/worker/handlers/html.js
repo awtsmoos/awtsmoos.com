@@ -3,6 +3,9 @@
  * B"H
  * HTML Worker Handlers
  * Handles creation, modification, and deletion of DOM elements via worker commands.
+ * 
+ * TIKKUN: Fixed the DataCloneError in htmlActions by unwrapping the Promises 
+ * before returning them across the thread boundary!
  */
 import Utils from "../../../utils.js";
 
@@ -32,28 +35,27 @@ export default function htmlHandlers(manager) {
             return res;
         },
 
-        htmlActions(dayuh) {
+        async htmlActions(dayuh) {
             const { ar, id } = dayuh || {};
-            const done = [];
+            const done =[];
             if (Array.isArray(ar)) {
-                ar.filter(Boolean).forEach(m => {
-                    // Use the main manager dispatcher to find the htmlAction handler
-                    done.push(manager.tawfeekim.htmlAction(m, true));
-                });
+                // B"H: We MUST await the promises individually to prevent sending 
+                // raw Promises to postMessage, which causes a fatal DataCloneError!
+                for (const m of ar.filter(Boolean)) {
+                    const result = await manager.tawfeekim.htmlAction(m, true);
+                    done.push(result);
+                }
             }
             eved.postMessage({ htmlActioned: { ar, done, id } });
         },
 
         htmlCreate(info) {
              try {
-                 // B"H: Wrap in try-catch to prevent worker hang if eval or html() fails
                  const parsed = Utils.evalStringifiedFunctions(info || {});
                  myUi.html(parsed);
-                 // Always reply success to unblock worker, even if partial failure
                  eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id } });
              } catch (e) {
                  console.error("B\"H Error in htmlCreate handler:", e);
-                 // Send response anyway to unblock, but maybe with error flag if needed
                  eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id, error: e.toString() } });
              }
         },
@@ -110,21 +112,14 @@ export default function htmlHandlers(manager) {
              eved.postMessage({ htmlSet: { shaym } });
         },
         
-        // Alias for setHtml
         htmlSet(data) {
              this.setHtml(data);
         },
         
-        htmlActioned(info) {
-            // Callback handler
-        },
+        htmlActioned(info) {},
 
         htmlPeula(obj) {
             if(!obj) return;
-            
-            // B"H: Forward generic HTML peulas directly to the Olam event system
-            // instead of trying to run them as HTML actions.
-            // This allows Dialogue.js to listen for "htmlPeula toggleToOption".
             for(var k in obj) {
                  manager.olam.ayshPeula("htmlPeula " + k, obj[k]);
             }
@@ -132,7 +127,7 @@ export default function htmlHandlers(manager) {
 
         htmlAppend(data) {
             const {shaym, child} = data || {};
-            if(child && typeof(child) == "object") {
+            if(child && typeof(child) === "object") {
                 var parsed = Utils.evalStringifiedFunctions(child);
                 parsed.parent = shaym;
                 myUi.html(parsed);

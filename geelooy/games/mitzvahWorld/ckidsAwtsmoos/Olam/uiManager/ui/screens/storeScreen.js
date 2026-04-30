@@ -63,7 +63,13 @@ export default {
             let itemsToRender = [];
             
             if (store.activeTab === 'buy') {
-                itemsToRender = (items || []).map((itm, idx) => ({...itm, originalIndex: idx, type: 'buy'}));
+                // B"H: Safely pull price from either sellValue or price property, defaulting to 10
+                itemsToRender = (items || []).map((itm, idx) => ({
+                    ...itm, 
+                    price: itm.sellValue || itm.price || 10, 
+                    originalIndex: idx, 
+                    type: 'buy'
+                }));
             } else if (store.activeTab === 'sell') {
                 if (playerItems) {
                     playerItems.forEach((itm, idx) => {
