@@ -1,9 +1,16 @@
 
-// B"H 
 /**
+ * B"H
  * @file slots.js
- * @description Renders the inventory grid. Enhanced for Worker compatibility and closure stability.
+ * @description
+ * * Chapter 16: The Treasury Grid
+ * Each slot is a dwelling place for a spark. We weave the HTML vessels 
+ * to be porous to the touch—allowing clicks and drags to transcend the 
+ * purely visual layer and affect the deep inventory state.
+ * * This handler assembles the main inventory grid and internal bag views, 
+ * identifying each cell by its holy index and source.
  */
+
 export default function updateSlots(e, $, ui) {
     const data = e.detail || e;
     const slotsData = data.slots || (Array.isArray(data) ? data : []); 
@@ -14,39 +21,27 @@ export default function updateSlots(e, $, ui) {
     if (!inventoryElement) return;
     
     const titleEl = inventoryElement.querySelector(".header .text");
-    const header = inventoryElement.querySelector(".header");
-    const body = inventoryElement.querySelector(".main-slots-holder");
     const backBtn = inventoryElement.querySelector(".back-inv-btn");
 
+    // Harmonizing the identity of the window
     if(titleEl) {
-        if(containerMode) {
-            titleEl.textContent = containerName || "Container";
-            if(header) header.style.backgroundColor = "rgba(50, 20, 0, 0.8)"; 
-            if(body) body.style.backgroundColor = "rgba(30, 15, 5, 0.6)";
-        } else {
-            titleEl.textContent = "Inventory";
-            if(header) header.style.backgroundColor = ""; 
-            if(body) body.style.backgroundColor = "";
-        }
+        titleEl.textContent = containerMode ? (containerName || "Container") : "Inventory";
     }
     
+    // The path back to the parent vessel (for bags)
     if(backBtn) {
-        if(containerMode) {
-                backBtn.classList.remove("hidden");
-                backBtn.style.display = "block";
-        } else {
-                backBtn.classList.add("hidden");
-                backBtn.style.display = "none";
-        }
+        backBtn.style.display = containerMode ? "block" : "none";
+        if(containerMode) backBtn.classList.remove("hidden");
+        else backBtn.classList.add("hidden");
     }
 
     const slotsContainer = inventoryElement.querySelector(".slots");
     if (!slotsContainer) return;
     slotsContainer.innerHTML = '';
 
+    // Birth each slot one by one into the grid
     if(Array.isArray(slotsData)) {
         slotsData.forEach((slotData, index) => {
-            
             let iconStyle = {};
             let className = 'slotBtn';
             let textIcon = null;
@@ -55,13 +50,12 @@ export default function updateSlots(e, $, ui) {
                 const isUrl = slotData.icon && (slotData.icon.includes('/') || slotData.icon.includes('data:'));
                 
                 if (isUrl) {
-                    const safeUrl = slotData.icon.replace(/[\r\n]+/g, "");
                     if (slotData.isTintable && slotData.customData && slotData.customData.color) {
                         const color = slotData.customData.color;
                         iconStyle = {
                             backgroundColor: color,
-                            maskImage: `url("${safeUrl}")`,
-                            WebkitMaskImage: `url("${safeUrl}")`,
+                            maskImage: `url("${slotData.icon}")`,
+                            WebkitMaskImage: `url("${slotData.icon}")`,
                             maskSize: "contain",
                             WebkitMaskSize: "contain",
                             maskRepeat: "no-repeat",
@@ -73,18 +67,16 @@ export default function updateSlots(e, $, ui) {
                         className = 'slotBtn tinted-icon';
                     } else {
                         iconStyle = { 
-                            backgroundImage: `url("${safeUrl}")`
+                            backgroundImage: `url("${slotData.icon}")`,
+                            width: "100%", height: "100%",
+                            backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center"
                         };
                     }
                 } else if (slotData.icon) {
                     textIcon = slotData.icon;
-                    iconStyle = {
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        fontSize: '40px',
-                        width: '100%',
-                        height: '100%'
+                    iconStyle = { 
+                        display: 'flex', justifyContent: 'center', alignItems: 'center', 
+                        fontSize: '40px', width: '100%', height: '100%' 
                     };
                 }
             }
@@ -92,17 +84,22 @@ export default function updateSlots(e, $, ui) {
             ui.html({
                 parent: slotsContainer,
                 className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
+                style: { pointerEvents: "auto" }, // B"H: ABSOLUTE POINTER AUTHORITY!
                 "awtsmoosSlotData": slotData, 
                 "awtsmoosIndex": index,
                 "awtsmoosSourceType": containerMode ? 'container' : 'inventory',
-                ready(el) {
+                ready(el, $local, uiInstance) {
                     if(typeof window !== 'undefined' && typeof window['attachSlotDragListeners'] === 'function') {
-                        const sData = el['awtsmoosSlotData'];
-                        const sType = el['awtsmoosSourceType'];
-                        const sIdx = el['awtsmoosIndex'];
                         
+                        /**
+                         * @function handleClick
+                         * @description 
+                         * The spark of realization! When the player clicks an item, 
+                         * we decide if it's a journey into a sub-vessel (bag) 
+                         * or an opportunity for action (context menu).
+                         */
                         const handleClick = (event) => {
-                             const targetEl = event.currentTarget;
+                             const targetEl = event.currentTarget || el;
                              const slotObj = targetEl['awtsmoosSlotData']; 
                              const slotIdx = targetEl['awtsmoosIndex'];
                              const source = targetEl['awtsmoosSourceType'];
@@ -111,53 +108,40 @@ export default function updateSlots(e, $, ui) {
 
                              const isContainer = slotObj.isContainer || slotObj.className === 'Container' || (slotObj.customData && slotObj.customData.slots);
                              
-                             if (isContainer) {
-                                if (source !== 'container') {
-                                    var ikar = document.getElementById("ikar");
-                                    if(ikar) {
-                                        ikar.dispatchEvent(new CustomEvent("olamPeula", {
-                                            detail: {
-                                                openContainer: { 
-                                                    item: slotObj, 
-                                                    index: slotIdx, 
-                                                    sourceType: source 
-                                                } 
-                                            }
-                                        }));
+                             // If it's a bag and we are in the main inventory, delve inside!
+                             if (isContainer && source !== 'container') {
+                                uiInstance.peula("ikar", {
+                                    olamPeula: { 
+                                        openContainer: { item: slotObj, index: slotIdx, sourceType: source } 
                                     }
-                                    return;
-                                }
+                                });
+                                return;
                              }
                              
+                             // Summon the Context Menu to ask the soul its choice!
                              const rect = targetEl.getBoundingClientRect();
-                             var ikarElement = document.getElementById("ikar");
-                             if(ikarElement) {
-                                 ikarElement.dispatchEvent(new CustomEvent("olamPeula", {
-                                    detail: {
-                                        sendUiEvent: {
-                                            shaym: "inventoryScreen",
-                                            ob: {
-                                                showContextMenu: { 
-                                                    item: slotObj, 
-                                                    index: slotIdx, 
-                                                    x: rect.right || event.clientX, 
-                                                    y: rect.top || event.clientY, 
-                                                    sourceType: source 
-                                                }
-                                            }
-                                        }
+                             const invScreen = uiInstance.getHtml("inventoryScreen");
+                             if(invScreen) {
+                                 uiInstance.peula(invScreen, {
+                                    showContextMenu: { 
+                                        item: slotObj, 
+                                        index: slotIdx, 
+                                        x: event.clientX || rect.right, 
+                                        y: event.clientY || rect.top, 
+                                        sourceType: source 
                                     }
-                                 }));
+                                 });
                              }
                         };
                         
-                        window['attachSlotDragListeners'](el, { item: sData }, sType, sIdx, ui, handleClick);
+                        // B"H: Binding the movement and interaction laws to this physical slot
+                        window['attachSlotDragListeners'](el, { item: slotData }, containerMode ? 'container' : 'inventory', index, uiInstance, handleClick);
                     }
                 },
                 children: [{
                     className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                     on: { 
-                        mouseenter: function(e, $, ui, me) {
+                        mouseenter: function(e, $local, uiInst, me) {
                             const parent = me.parentElement;
                             const sData = parent ? parent['awtsmoosSlotData'] : null;
                             if (!sData) return;

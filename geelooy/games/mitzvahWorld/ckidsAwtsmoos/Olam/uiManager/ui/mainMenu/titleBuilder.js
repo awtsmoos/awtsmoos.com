@@ -1,38 +1,37 @@
 
 /**
- * B"H
- * @module titleBuilder
+ * @file titleBuilder.js
  * @description
- * "Let there be light," and the words "Mitzvah World" manifested.
- * Each letter is a conduit for the Divine Will, structured with layers of shadows 
- * and borders to remind us that the physical world conceals the true reality.
- * Yet, through the Mitzvahs performed within, the concealment becomes a revelation.
+ * THE EMBLEM OF REVELATION
+ * 
+ * Chapter 11: The Carving of the Name.
+ * "And he called the name of the place Mitzvah World."
+ * This module generates the nested structure required for the 
+ * intense layered text effect. It creates two instances of every 
+ * word: one for the white light, one for the black boundary.
  */
 
-/**
- * @function titleBuilder
- * @description Constructs the majestic title structure of the main menu.
- * @returns {Object} The JSON representation of the HTML hierarchy for the title.
- */
 export default function titleBuilder() {
+    const words = ["Mitzvah", "World"];
+
     return {
         className: "mainTitle",
         child: {
             className: "lns",
-            children: "Mitzvah World".split(" ").map(w => ({
+            children: words.map(word => ({
                 className: "line",
                 child: {
                     className: "borderWrap",
                     children: [
                         {
                             className: "txt",
-                            textContent: w
+                            textContent: word
                         },
                         {
                             className: "borderTxt",
-                            textContent: w,
+                            textContent: word,
                             attributes: {
-                                "data-text": w
+                                "data-text": word
                             }
                         }
                     ]

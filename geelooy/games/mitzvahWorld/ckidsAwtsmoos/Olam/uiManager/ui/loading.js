@@ -1,44 +1,50 @@
 
 /**
  * B"H
- * The intense Kabbalistic loading screen for Mitzvah World.
+ * @file loading.js
+ * @description
+ * 🌀 THE VORTEX OF EMANATION (LOADING SCREEN) 🌀
  */
 
 export default {
     shaym: "loading",
-    className: "loading hidden",
+    className: "loading hidden", // B"H: Ensured 'hidden' is applied!
     children: [
         {
             className: "kabbalah-vortex",
-            children: [
+            children:[
                 { className: "sefirot-ring ring-1" },
                 { className: "sefirot-ring ring-2" },
-                { className: "sefirot-ring ring-3" }
+                { className: "sefirot-ring ring-3" },
+                { className: "sefirot-ring ring-4" },
+                { className: "sefirot-ring ring-5" }
             ]
         },
         {
             shaym: "loadingContent",
             className: "loadingContent",
-            children: [
+            children:[
                 {
                     shaym: "main loading area",
                     className: "mainLoadingArea",
-                    children: [
+                    children:[
                         {
                             tag: "h1",
-                            className: "awtsmoos-title-glow",
-                            textContent: "MITZVAH WORLD"
+                            className: "awtsmoos-title-glow glitch-effect",
+                            textContent: "MITZVAH WORLD",
+                            attributes: { "data-text": "MITZVAH WORLD" }
                         },
                         {
                             className: "barLoading",
-                            children: [
+                            children:[
                                 {
                                     shaym: "bar background",
                                     className: "bck",
                                     child: {
                                         shaym: "loading bar",
+                                        id: "genesisProgressBar", // Sacred ID for updating progress natively
                                         className: "barMitzvah",
-                                        child: { className: "light-spark" }
+                                        child: { className: "light-spark-comet" }
                                     }
                                 }
                             ]
@@ -52,18 +58,13 @@ export default {
                 },
                 {
                     className: "secondaryLoadingArea",
-                    children: [
+                    children:[
                         {
                             tag: "h3",
                             className: "txtLoad info",
-                            innerHTML: "Preparing Vessels...",
-                            shaym: "action loading"
-                        },
-                        {
-                            tag: "h4",
-                            className: "txtLoad info secondary",
-                            innerHTML: "",
-                            shaym: "sub action loading"
+                            innerHTML: "Forging Vessels...",
+                            shaym: "action loading",
+                            id: "genesisActionText"
                         }
                     ]
                 }

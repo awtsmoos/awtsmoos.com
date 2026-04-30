@@ -7,7 +7,9 @@ export default function updateEquipment(e, $, ui) {
     const equipContainer = inventoryElement.querySelector(".equipment-slots");
     if (!equipContainer) return;
     equipContainer.innerHTML = "";
-    const slotOrder = ["head", "shirt", "jacket", "legs", "feet", "rightHand", "leftHand"];
+    
+    // B"H: Added 'eyes' to the divine structure of wearable vessels
+    const slotOrder = ["head", "eyes", "shirt", "jacket", "legs", "feet", "rightHand", "leftHand"];
 
     slotOrder.forEach(slotName => {
         const item = equipData[slotName];

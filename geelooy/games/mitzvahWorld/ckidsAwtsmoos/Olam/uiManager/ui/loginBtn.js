@@ -4,8 +4,11 @@ import awtsOpen from "/scripts/awtsmoos/ui/open.js"
 import createProfile from "/scripts/awtsmoos/social/profileDropdown.js";
 
 // B"H: Expose functions to global scope so they persist through serialization/eval
-window.createProfile = createProfile;
-window.awtsOpen = awtsOpen;
+// Shielded by typeof window check to prevent shattering in ethereal environments.
+if (typeof window !== 'undefined') {
+    window.createProfile = createProfile;
+    window.awtsOpen = awtsOpen;
+}
 
 export default {
     className: "loginStatus awtsmoosBtn",
