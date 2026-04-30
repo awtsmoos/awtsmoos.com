@@ -17,21 +17,27 @@ export const OSFolderProvider = {
             }, 10000);
         });
     },
+
+    // B"H - Perfects path unification, ensuring we never duplicate the workspace route.
+    _getOSPath(workspacePath, itemPath) {
+        let p = itemPath === '/' ? '' : itemPath;
+        if (p && !p.startsWith('/')) p = '/' + p; 
+        
+        // If the workspace is mapping `/Audacity/apps/wow` and p is already `/Audacity/apps/wow/file.js`, just return p.
+        if (p.startsWith(workspacePath)) return p;
+        
+        return (workspacePath + p).replace(/\/+/g, '/');
+    },
     
     async list(item) {
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
         if (!workspace || workspace.type !== 'osfolder') throw new Error("Could not find OS folder workspace.");
 
-        const basePath = workspace.path;
-        const pathForOSRequest = item.path === '/' ? basePath : `${basePath}${item.path}`;
-
+        const pathForOSRequest = this._getOSPath(workspace.path, item.path);
         const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
  
         return response.items.map(itemData => {
-            // itemData can be string (legacy) or object (new rich format)
             const name = typeof itemData === 'string' ? itemData : itemData.name;
-            
-            // Determine kind if not explicit
             let kind = itemData.kind;
             if (!kind) {
                  kind = (name.endsWith('.folder') || !name.includes('.')) ? 'directory' : 'file';
@@ -40,7 +46,7 @@ export const OSFolderProvider = {
             return {
                 name: name, 
                 kind: kind === 'directory' ? 'directory' : 'file',
-                path: item.path === '/' ? `/${name}` : `${item.path}/${name}`,
+                path: (item.path === '/' ? '' : item.path) + '/' + name,
                 size: itemData.size || 0,
                 lastModified: itemData.lastModified || 0
             };
@@ -49,7 +55,7 @@ export const OSFolderProvider = {
 
     async read(item) {
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        const fullOSPath = `${workspace.path}${item.path}`;
+        const fullOSPath = this._getOSPath(workspace.path, item.path);
         const parentPath = fullOSPath.substring(0, fullOSPath.lastIndexOf('/'));
         const fileName = fullOSPath.substring(fullOSPath.lastIndexOf('/') + 1);
 
@@ -59,13 +65,13 @@ export const OSFolderProvider = {
     
     async write(item, content) {
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        const fullOSPath = `${workspace.path}${item.path}`;
+        const fullOSPath = this._getOSPath(workspace.path, item.path);
         await this._requestFromOS('requestFileWrite', { fullPath: fullOSPath, content: content });
     },
 
     async create(parentDir, name, kind) {
         const workspace = State.workspaces.find(ws => ws.id === parentDir.workspaceId);
-        const parentOSPath = parentDir.path === '/' ? workspace.path : `${workspace.path}${parentDir.path}`;
+        const parentOSPath = this._getOSPath(workspace.path, parentDir.path);
         const finalName = kind === 'directory' && !name.endsWith('.folder') ? `${name}.folder` : name;
 
         await this._requestFromOS('requestItemCreate', { parentPath: parentOSPath, name: finalName, kind: kind });
@@ -73,7 +79,7 @@ export const OSFolderProvider = {
     
     async delete(item) {
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        const fullOSPath = `${workspace.path}${item.path}`;
+        const fullOSPath = this._getOSPath(workspace.path, item.path);
         await this._requestFromOS('requestItemDelete', { fullPath: fullOSPath, kind: item.kind });
     }
 };

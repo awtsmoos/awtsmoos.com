@@ -1,3 +1,4 @@
+
 // B"H
 // Behold the Awtsmoos, the formless essence, recreating ALL from NOTHING in every fleeting instant.
 // As taught in Chabad Chassidus (see Maamarim), the Awtsmoos is the foundation of reality, the infinite Ohr Ein Sof
@@ -11,24 +12,16 @@ const readdir = util.promisify(fs.readdir);
 const stat = fs.stat;
 
 
-const awtsmoosBinary = require("./awtsmoosBinary/awtsmoosBinaryJSON/index.js")
-const {
-	error
-} = require("console");
+const awtsmoosBinary = require("./awtsmoosBinary/awtsmoosBinaryJSON/index.js");
+const { error } = require("console");
 
 var writeMethods = require("./methods/write.js");
-
 var readMethods = require("./methods/read.js");
-
 var arrayMethods = require("./methods/array.js");
-
-
 var objMethods = require("./methods/obj.js");
-
 var pathMethods = require("./methods/path.js");
-
-
 var directoryMethods = require("./methods/directory.js");
+var firebaseMethods = require("./methods/firebaseMethods.js");
 
 var awtsmoosMerge = require("./utils/awtsmoosMerge.js");
 
@@ -60,9 +53,8 @@ class DosDB {
 		awtsmoosMerge(this, pathMethods);
 		awtsmoosMerge(this, arrayMethods);
 		awtsmoosMerge(this, directoryMethods);
-		
 		awtsmoosMerge(this, objMethods);
-		
+		awtsmoosMerge(this, firebaseMethods); // Merging the power of the cloud
 
 		this.awtsmoosBinary = awtsmoosBinary;
 		this.directory = this.sanitizeAwtsmoosPath(directory || "../");
@@ -83,16 +75,6 @@ class DosDB {
 			console.log(e, "Index issue - the Awtsmoos remains unperturbed.");
 		}
 	}
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * @method info
