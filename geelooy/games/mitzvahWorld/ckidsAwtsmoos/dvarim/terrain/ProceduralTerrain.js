@@ -3,8 +3,7 @@
  * B"H
  * @module ProceduralTerrain
  * @description
- * An infinite expanse generated purely from code. It utilizes the TerrainSculptor 
- * to raise mountains and valleys. It is the "Aretz" (Earth), longing to be elevated.
+ * 🌿 THE GROUND OF REVELATION 🌿
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from '/games/scripts/build/three.module.js';
@@ -12,68 +11,76 @@ import TerrainSculptor from "../../utils/3d/TerrainSculptor.js";
 
 export default class ProceduralTerrain extends Domem {
     type = "proceduralTerrain";
-    static itemName = "World Seed";
-    static description = "Generates a vast tract of sculpted land.";
-    static isBuildable = true;
 
     constructor(op, olam) {
         super(op, olam);
-        this.width = op.width || 500;
-        this.depth = op.depth || 500;
-        this.segments = op.segments || 100;
+        this.width = op.width || 1000;
+        this.depth = op.depth || 1000;
+        this.segments = op.segments || 20;
         this.hills = op.hills || [];
-        this.textureType = op.textureType || "sand"; // 'sand', 'grass', etc.
+        this.textureType = op.textureType || "safegrass";
     }
 
     async heescheel(olam) {
         this.olam = olam;
+        console.log(`B"H - 🌿 [Terrain]: Commencing manifestation of [${this.name}]`);
 
-        // 1. Generate the raw, flat plane (subdivided for sculpting)
+        // 1. FORGE GEOMETRY
         const geometry = new THREE.PlaneGeometry(this.width, this.depth, this.segments, this.segments);
-        
-        // B"H: Rotate to lay flat on the XZ plane
-        geometry.rotateX(-Math.PI / 2);
+        geometry.rotateX(-Math.PI / 2); // Lay flat
 
-        // 2. Sculpt the mountains and valleys
         if (this.hills.length > 0) {
             TerrainSculptor.sculpt(geometry, this.hills);
         }
 
-        // 3. Draw down the texture from the TextureForge
-        const texUrl = `awtsmoosTex://${this.textureType}`;
-        const map = await this.olam.loadTexture({ 
-            url: texUrl, 
-            shouldRepeat: true, 
-            repeatX: this.width / 10, 
-            repeatY: this.depth / 10 
-        });
+        // 2. WEAVE MATERIAL
+        let material;
+        try {
+            const texUrl = `awtsmoosTex://${this.textureType}`;
+            const map = await this.olam.loadTexture({ 
+                url: texUrl, 
+                shouldRepeat: true, 
+                repeatX: this.width / 10, 
+                repeatY: this.depth / 10 
+            });
 
-        const material = new THREE.MeshStandardMaterial({
-            map: map,
-            roughness: 0.9,
-            metalness: 0.1,
-            color: this.textureType === 'sand' ? 0xffddaa : 0xffffff
-        });
+            material = new THREE.MeshStandardMaterial({
+                map: map,
+                roughness: 1.0,
+                metalness: 0.0,
+                color: 0xffffff,
+                side: THREE.DoubleSide // Visible from both worlds
+            });
+        } catch(e) {
+            console.warn("B\"H - [Terrain]: Texture Forge failed. Using fallback emerald pigment.");
+            material = new THREE.MeshLambertMaterial({ color: 0x228B22, side: THREE.DoubleSide });
+        }
 
+        // 3. ASSEMBLE MESH
         this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh.name = this.name;
         this.mesh.nivraAwtsmoos = this;
-        this.mesh.receiveShadow = true;
-        this.mesh.castShadow = true;
+        this.mesh.visible = true;
+        this.mesh.frustumCulled = false; // B"H: ABSOLUTELY ESSENTIAL! Never hide the ground.
 
-        if (this.position) this.mesh.position.copy(this.position.vector3());
+        if (this.position) {
+            this.mesh.position.copy(this.position.vector3());
+        }
 
-        // Setup Physics
+        // 4. SOLIDIFY
+        this.mesh.updateMatrix();
+        this.mesh.updateMatrixWorld(true);
         this.mesh.userData.isSolid = true;
         this.mesh.userData.isTerrain = true;
-        this.mesh.updateMatrixWorld(true);
 
         await olam.hoyseef(this);
         
-        // Add to the physical octree boundary
         if(this.olam.worldOctree) {
+            console.log(`B"H - ⚓ [Terrain]: Sending [${this.name}] to the Octree.`);
             this.olam.worldOctree.addObject(this.mesh);
         }
 
+        console.log(`B"H - ✅ [Terrain]: [${this.name}] stands in existence at Y: ${this.mesh.position.y}`);
         this.isReady = true;
     }
 }
