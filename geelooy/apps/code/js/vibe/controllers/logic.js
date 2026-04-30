@@ -27,18 +27,20 @@ export const LogicController = {
         
         try {
             const markdown = await ContextBuilder.build(tab);
-            const apiHistory = [{ role: 'system', content: PromptBuilder.getSystem(markdown) }, ...HistoryCompressor.compress([...tab.vibeSession.history])];
+            const apiHistory =[{ role: 'system', content: PromptBuilder.getSystem(markdown) }, ...HistoryCompressor.compress([...tab.vibeSession.history])];
             if (promptOverride) apiHistory.push({ role: 'user', content: promptOverride });
 
             tab.vibeSession.history.push({ role: 'model', content: '', isStreaming: true });
             controller.refreshView(tab); 
 
             let streamBuffer = ""; 
+            let fullTextBuffer = ""; 
             const markerE = ResponseParser.END_MARKER;
             const tagE = "</" + "chan" + "ge>";
 
             await VibeAPI.streamChat(apiHistory, apiKey, ModelManager.currentModel,
                 async (chunk) => {
+                    fullTextBuffer += chunk;
                     streamBuffer += chunk;
                     let hebrewIdx = streamBuffer.indexOf(markerE);
                     
@@ -51,7 +53,6 @@ export const LogicController = {
                             const detectedChanges = ResponseParser.parseChanges(completeBlock, sessionRoot);
                             
                             for (const change of detectedChanges) {
-                                // B"H - AI COMMAND: BRANCH
                                 if (change.operation === 'branch') {
                                     const bName = change.content.trim();
                                     UI.showToast(`B"H - AI initiated Branch: ${bName}`, "info");
@@ -69,7 +70,8 @@ export const LogicController = {
                             hebrewIdx = streamBuffer.indexOf(markerE);
                         } else break;
                     }
-                    controller.handleStreamChunk(streamBuffer, tab);
+                    
+                    controller.handleStreamChunk(fullTextBuffer, tab);
                 },
                 async (finalText) => {
                     const sessionRoot = tab.vibeSession.path || tab.vibeSession.rootPath || "/";

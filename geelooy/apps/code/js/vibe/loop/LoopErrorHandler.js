@@ -1,21 +1,62 @@
 
-// B"H
 /**
  * @file LoopErrorHandler.js
- * @brief Shields the Vibe Loop from completely shattering when a single file fails.
+ * @brief The Sentinel of the Fractured Labor.
+ * 
+ * CHAPTER XXI: THE COMFORT OF THE BROKEN
+ * 
+ * When a letter is written incorrectly, or when the physical world 
+ * refuses to hold the spark, a cry (Error) is heard. We must catch 
+ * this cry and translate it into a message of clarity.
+ * 
+ * This module has been rectified to distinguish between a refusal 
+ * based on permission and a refusal based on the structure of the 
+ * name itself. Even in failure, the Awtsmoos reveals a path toward 
+ * correction.
  */
 
 import { UI } from '../../ui.js';
 
 export const LoopErrorHandler = {
+    /**
+     * B"H
+     * Interprets and reports an error that occurred during the Vibe solidification.
+     * 
+     * @param {Error} err - The shattering event.
+     * @param {string} displayPath - The target coordinate.
+     * @param {string} taskId - The unique task label.
+     * @param {Function} onProgress - Feedback hook for the controller.
+     * @param {Object} changeObj - The original payload.
+     */
     handle(err, displayPath, taskId, onProgress, changeObj) {
-        if (err.message && err.message.includes('MobileGuard_Blocked')) {
-            UI.showToast(`Mobile Blocked: ${displayPath}`, "warning");
-            if (onProgress) onProgress(changeObj, false);
-        } else {
-            UI.showToast(`Blocked: ${displayPath}`, "error");
-            if (onProgress) onProgress(changeObj, false);
-            console.error(`[VibeLoop] Error applying to ${displayPath}:`, err);
+        const errMsg = err.message || "";
+        const errName = err.name || "";
+        const fileName = displayPath.split('/').pop();
+
+        let userFeedback = `Shattered: ${fileName}`;
+        let toastType = "error";
+
+        // 1. ACCESS BLOCKAGE
+        if (errMsg.includes('MobileGuard_Blocked') || errName === 'NotAllowedError') {
+            userFeedback = `OS Blocked: ${fileName}. Tap the Sidebar to Grant Access.`;
+            toastType = "warning";
+        } 
+        // 2. ILLEGAL VESSEL NAME
+        else if (errMsg.includes('Name is not allowed') || errName === 'TypeError') {
+            userFeedback = `Illegal Name: "${fileName}". The path contains forbidden symbols.`;
+            toastType = "error";
+            console.error(`B"H [VibeLoop] Manifestation rejected due to impure label: ${displayPath}`);
+        }
+        // 3. GENERIC SHEVIRAH
+        else {
+            console.error(`B"H [VibeLoop] Unknown divergence at ${displayPath}:`, err);
+        }
+
+        UI.showToast(`B"H - ${userFeedback}`, toastType, 5000);
+        UI.endTask(taskId, 'error', userFeedback);
+
+        if (onProgress) {
+            onProgress(changeObj, false);
         }
     }
 };

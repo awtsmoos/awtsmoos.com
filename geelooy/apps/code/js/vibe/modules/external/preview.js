@@ -1,3 +1,4 @@
+
 // B"H
 import { ManifestTree } from '../ManifestTree.js';
 
@@ -7,9 +8,14 @@ export const ExternalPreview = {
      * @description Injects the visual tree of pending changes and the progress bar.
      */
     render(container, changes) {
+        console.log(`B"H [ExternalPreview] Rendering ${changes.length} vessel cards.`);
+        
         const preArea = container.querySelector('#em-preview-area');
         const goBtn = container.querySelector('#em-manifest-btn');
-        if (!preArea || !goBtn) return;
+        if (!preArea || !goBtn) {
+            console.error('B"H [ExternalPreview] UI Vessels not found in DOM!');
+            return;
+        }
 
         if (changes.length > 0) {
             const count = changes.filter(c => c.isEnabled !== false).length;
@@ -36,6 +42,7 @@ export const ExternalPreview = {
             preArea.classList.remove('hidden');
             goBtn.classList.remove('hidden');
         } else {
+            console.log(`B"H [ExternalPreview] Empty change set. Hiding preview.`);
             preArea.classList.add('hidden');
             goBtn.classList.add('hidden');
         }
