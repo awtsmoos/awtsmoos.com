@@ -1,124 +1,134 @@
-
 // B"H
-import { MarkdownParser } from '../../modules/markdown-parser.js';
+/**
+ * @file cards.js
+ * @brief The Manifestor of Vision: Rendering AI actions into vivid UI vessels.
+ * 
+ * CHAPTER X: THE REVELATION OF THE STREAM
+ * As the Word descends, it passes through the air (thoughts) before hitting 
+ * the ground (the disk). This module renders the "streaming" state of the code,
+ * allowing the user to witness the inscription of every character.
+ */
+
 import { ResponseParser } from '../../modules/ResponseParser.js';
+import { StreamHealer } from '../../modules/parser/StreamHealer.js';
 import { ManifestationPainter } from './components/ManifestationPainter.js';
+import { StreamDataExtractor } from './components/cards/StreamDataExtractor.js';
+import { CardDomBuilder } from './components/cards/CardDomBuilder.js';
+import { PreviewActionBinder } from './components/cards/PreviewActionBinder.js';
+import { ThoughtRevealer } from './components/cards/ThoughtRevealer.js';
+import { MARKERS } from '../../modules/parser/constants.js';
 
 export const ChatCards = {
+    /**
+     * B"H - Renders a model's message, distinguishing between thought and action.
+     */
     renderModelMessage(div, content, tab, controller) {
-        div.innerHTML = '';
-        const tagS = "<" + "chan" + "ge>", tagE = "</" + "chan" + "ge>";
+        const tagS = "<" + "change>";
+        const tagE = "</" + "change>";
         
-        if (!content.includes(tagS)) {
-            this._appendText(div, content);
-            return;
-        }
+        // Clean away the code-block wrappers if the AI used them
+        let clean = content.replace(/```xml\s*/gi, '').replace(/```\s*/gi, '').trim();
+        const fragments = this._parseFragments(clean, tagS, tagE);
+        
+        const children = Array.from(div.children);
+        fragments.forEach((f, i) => {
+            let vessel = children[i];
+            if (!vessel) {
+                vessel = document.createElement('div');
+                vessel.className = f.type === 'thought' ? 'vibe-thought-vessel' : 'vibe-action-vessel';
+                div.appendChild(vessel);
+            }
 
-        let lastIdx = 0;
-        while (true) {
-            const sIdx = content.indexOf(tagS, lastIdx);
-            if (sIdx === -1) {
-                this._appendText(div, content.substring(lastIdx));
+            // Only re-render if the content for this fragment has shifted
+            if (vessel.dataset.raw !== f.content) {
+                vessel.innerHTML = '';
+                if (f.type === 'thought') {
+                    ThoughtRevealer.reveal(vessel, f.content.trim());
+                } else {
+                    vessel.appendChild(this._orchestrateCard(f.content, f.complete, tab, controller));
+                }
+                vessel.dataset.raw = f.content;
+            }
+        });
+
+        // Purge any dead echoes (lingering old fragments)
+        if (children.length > fragments.length) {
+            for (let i = fragments.length; i < children.length; i++) children[i].remove();
+        }
+    },
+
+    /**
+     * @function _parseFragments
+     * @description Breaks the text stream into alternate periods of thought and XML action.
+     */
+    _parseFragments(text, tagS, tagE) {
+        const frags = [];
+        let pos = 0;
+        while (pos < text.length) {
+            const start = text.indexOf(tagS, pos);
+            if (start === -1) {
+                frags.push({ type: 'thought', content: text.substring(pos) });
                 break;
             }
-            
-            this._appendText(div, content.substring(lastIdx, sIdx));
-            const eIdx = content.indexOf(tagE, sIdx);
-            
-            if (eIdx === -1) {
-                div.appendChild(this._createCard(content.substring(sIdx), false, tab, controller));
+            if (start > pos) {
+                frags.push({ type: 'thought', content: text.substring(pos, start) });
+            }
+            const end = text.indexOf(tagE, start);
+            if (end === -1) {
+                frags.push({ type: 'action', content: text.substring(start), complete: false });
                 break;
-            }
-            
-            div.appendChild(this._createCard(content.substring(sIdx, eIdx + tagE.length), true, tab, controller));
-            lastIdx = eIdx + tagE.length;
-        }
-    },
-
-    _appendText(div, text) {
-        const trim = text.trim();
-        if (!trim) return;
-        const textDiv = document.createElement('div');
-        textDiv.className = 'vibe-model-text'; 
-        textDiv.innerHTML = MarkdownParser.parse(trim);
-        div.appendChild(textDiv);
-    },
-
-    _parseStreamingData(block) {
-        const extract = (tag) => {
-            const s = "<" + tag + ">", e = "</" + tag + ">";
-            const si = block.indexOf(s); if (si === -1) return "";
-            const ei = block.indexOf(e, si);
-            return (ei === -1 ? block.substring(si + s.length) : block.substring(si + s.length, ei)).trim();
-        };
-        const file = extract("fi" + "le"); 
-        if (!file) return null;
-        
-        let rawContent = extract("cont" + "ent");
-        const cS = "<cont" + "ent>";
-        if (!rawContent && block.includes(cS)) {
-            rawContent = block.substring(block.indexOf(cS) + 9);
-        }
-        
-        return { 
-            path: file, 
-            operation: extract("operat" + "ion") || "write", 
-            description: extract("descrip" + "tion") || "", 
-            content: rawContent || ""
-        };
-    },
-
-    _createCard(block, isComplete, tab, controller) {
-        const card = document.createElement('div');
-        card.className = "vibe-manifest-card";
-        
-        const sessionRoot = tab.vibeSession.path || tab.vibeSession.rootPath || "/";
-        let change;
-        
-        if (isComplete) {
-            const parsed = ResponseParser.parseChanges(block, sessionRoot);
-            change = parsed.length > 0 ? parsed[0] : null;
-        } else {
-            change = this._parseStreamingData(block);
-            if (change) {
-                // Ensure absolute path resolution just like ResponseParser
-                change.path = ResponseParser._normalizePath(sessionRoot, change.path);
+            } else {
+                const total = end + tagE.length;
+                frags.push({ type: 'action', content: text.substring(start, total), complete: true });
+                pos = total;
             }
         }
+        return frags;
+    },
+
+    /**
+     * B"H - Forges an individual manifestation card.
+     */
+    _orchestrateCard(block, isCompleteInUI, tab, controller) {
+        const dom = document.createElement('div');
+        dom.className = "vibe-manifest-card";
         
-        ManifestationPainter.paint(card, isComplete);
+        const root = tab.vibeSession.path || tab.vibeSession.rootPath || "/";
+        
+        // Heal the unclosed XML so the data extractor can peek inside the open vessel
+        const healed = isCompleteInUI ? block : StreamHealer.heal(block);
+        
+        // Extract the physical attributes
+        const partial = StreamDataExtractor.extract(healed);
+        const changeObj = { 
+            ...partial, 
+            path: ResponseParser._normalizePath(root, partial.path),
+            // Clean content from Hebrew essence markers for visual streaming
+            content: partial.content.split(MARKERS.START).join("").split(MARKERS.END).join("").trim()
+        };
 
-        if (!change) {
-            card.innerHTML = `<span style="font-size:0.8em; opacity:0.5;">Crystallizing...</span>`;
-            return card;
-        }
+        const isActuallyComplete = isCompleteInUI && changeObj.content.length > 0;
+        const label = partial.path || "vessel_unnamed";
 
-        const fileName = change.path.split("/").pop() || "vessel";
+        ManifestationPainter.paint(dom, isActuallyComplete);
 
-        if (!isComplete) {
-            card.innerHTML = `
-                <div class="vibe-card-header">
-                    <span class="vibe-card-path" style="color:var(--neon-cyan); font-weight:bold;">Manifesting: ${fileName}</span>
-                    <span class="vibe-card-status" style="font-size:0.7em; opacity:0.6;">...</span>
-                </div>
-                <div class="vibe-stream-box" style="max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.4); padding: 8px; border-radius: 4px; border: 1px dashed var(--color-border); margin-top: 8px;">
-                    <pre style="margin: 0; font-family: var(--font-code); font-size: 0.85em; color: var(--neon-cyan); white-space: pre-wrap; word-wrap: break-word;"><code>${change.content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
-                </div>`;
-            const box = card.querySelector('.vibe-stream-box');
-            if (box) requestAnimationFrame(() => box.scrollTop = box.scrollHeight);
-        } else {
-            card.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-                    <span class="vibe-card-path" style="font-family:var(--font-code); font-weight:bold; color:white;">${fileName}</span>
-                    <span style="color:var(--neon-lime); font-weight:bold;">✓</span>
-                </div>
-                <div class="vibe-card-desc" style="font-size:0.85em; color:var(--color-text-tertiary);">${change.operation.toUpperCase()}: ${change.description}</div>
-            `;
-            card.onclick = () => controller.previewFile(tab, change.path);
-            card.style.cursor = 'pointer';
+        if (!isActuallyComplete) {
+            const phase = block.includes("<content>") ? "Manifesting Essence" : "Inscribing Intent";
             
-            ManifestationPainter.paint(card, true);
+            // Build the pulsing "Awaiting" header
+            dom.appendChild(CardDomBuilder.buildPendingVoid(`Manifesting: ${label}...`));
+            
+            // If we have content streaming, show it in a dedicated code box
+            if (changeObj.content) {
+                dom.appendChild(CardDomBuilder.buildStreaming(label, changeObj, phase));
+            }
+        } else {
+            // The vessel is whole! Show the final card with preview buttons.
+            const isHtml = changeObj.path && (changeObj.path.endsWith('.html') || changeObj.path.endsWith('.htm'));
+            dom.appendChild(CardDomBuilder.buildComplete(label, changeObj, isHtml));
+            PreviewActionBinder.bind(dom, changeObj, tab, controller, isHtml);
         }
-        return card;
+
+        return dom;
     }
 };

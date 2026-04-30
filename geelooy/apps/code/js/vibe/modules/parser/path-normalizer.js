@@ -1,40 +1,50 @@
 
-// B"H
 /**
- * @file path-normalizer.js
- * @brief The Aligner of Coordinates.
- * Ensures the abstract paths from the AI map perfectly to the physical workspace root.
+ * B"H
+ * 
+ * CHAPTER VII: THE ANCHOR OF ABSOLUTE TRUTH (REFINED)
+ * 
+ * Path normalization ensures the conceptual intent meets the physical
+ * reality of the workspace.
  */
+
+import { VesselSanitizer } from './VesselSanitizer.js';
 
 export const PathNormalizer = {
     /**
-     * @function normalize
-     * @description Weaves the root path and the relative file path into a unified absolute path.
-     * @param {string} root - The base coordinate.
-     * @param {string} file - The relative file coordinate.
-     * @returns {string} The pure absolute path.
+     * B"H
+     * Resolves the AI's path into a perfect physical coordinate.
      */
-    normalize(root, file) {
-        const r = (root || "/").replace(/\\/g, '/');
-        const f = (file || "").replace(/\\/g, '/');
+    normalize(rootPath, AI_Path) {
+        const cleanRoot = (rootPath || "/").replace(/\\/g, '/').replace(/\/+$/, "");
+        const rawAISegs = (AI_Path || "").replace(/\\/g, '/').split('/').filter(p => p && p !== 'undefined');
 
-        const rootSegs = r.split('/').filter(p => p && p !== 'undefined');
-        const fileSegs = f.split('/').filter(p => p && p !== 'undefined');
-        
-        let isAlreadyAnchored = false;
-        if (fileSegs.length >= rootSegs.length) {
-            isAlreadyAnchored = true;
-            for (let i = 0; i < rootSegs.length; i++) {
-                if (fileSegs[i] !== rootSegs[i]) {
-                    isAlreadyAnchored = false;
-                    break;
-                }
+        const aiSegs = rawAISegs.map(seg => VesselSanitizer.purify(seg)).filter(Boolean);
+        const rootSegs = cleanRoot.split('/').filter(p => p && p !== 'undefined');
+
+        if (rootSegs.length === 0) {
+            return '/' + aiSegs.join('/');
+        }
+
+        let aiStartIndex = 0;
+        let foundOverlap = false;
+
+        for (let i = 0; i < aiSegs.length; i++) {
+            if (aiSegs[i] === rootSegs[rootSegs.length - 1]) {
+                foundOverlap = true;
+                aiStartIndex = i + 1;
+                break;
             }
         }
 
-        const finalSegs = isAlreadyAnchored ? fileSegs : rootSegs.concat(fileSegs);
+        let finalSegs;
+        if (foundOverlap) {
+            finalSegs = [...rootSegs, ...aiSegs.slice(aiStartIndex)];
+        } else {
+            finalSegs = [...rootSegs, ...aiSegs];
+        }
+
         const result = '/' + finalSegs.join('/');
-        
         return result.replace(/\/+/g, '/');
     }
 };

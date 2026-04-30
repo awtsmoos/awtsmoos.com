@@ -3,14 +3,6 @@
 /**
  * @file BatchExecutor.js
  * @brief Applies physical file writes to the disk with honest, parallel, real-time progress reporting.
- * 
- * THE HYMN OF THE UNIFIED INTENT AND ETERNAL RECORD:
- * We gather the duplicates, compress them to one,
- * So the OS locks fade like the mist in the sun.
- * And when the disk is engraved with the Creator's word,
- * We whisper the change to the Git Staging bird!
- * No manual save is required to track the new light,
- * The AI's autonomous changes are held in plain sight.
  */
 
 import { State } from '../../../../state.js';
@@ -20,6 +12,7 @@ import { LoopErrorHandler } from '../LoopErrorHandler.js';
 import { UIBroadcaster } from './UIBroadcaster.js';
 import { ArchitectOfDomains } from './ArchitectOfDomains.js';
 import { GitStagingBroadcaster } from './GitStagingBroadcaster.js';
+import { Workspaces } from '../../../../workspaces/index.js';
 
 export const BatchExecutor = {
     async execute(compiledChangeArray, parentWorldId, ledgerCallback, iterationProgressSignal) {
@@ -62,7 +55,6 @@ export const BatchExecutor = {
                             throw delErr;
                         }
                     }
-                    // B"H - Record the Ayin (Nothingness) in Git
                     await GitStagingBroadcaster.stage(physicalItem, 'delete', null);
                     
                 } else {
@@ -72,7 +64,6 @@ export const BatchExecutor = {
                         UI.updateTask(fileTaskId, perc, `[${fileName}] - ${msg}`);
                     });
                     
-                    // B"H - Record the Yesh (Existence) in Git
                     await GitStagingBroadcaster.stage(physicalItem, 'write', shiftObject.content);
                 }
 
@@ -95,6 +86,13 @@ export const BatchExecutor = {
         }));
 
         UI.endTask(masterTaskId, 'success', `B"H - Solidified ${total} vessels.`);
+        
+        // B"H - Universal absolute refresh forced here to ensure no visually dropped vessels exist
+        setTimeout(() => {
+            console.log(`[BatchExecutor] B"H - Triggering universal visual tree alignment...`);
+            Workspaces.render();
+        }, 100);
+
         return triggerDirectoryUpdates;
     }
 };

@@ -1,16 +1,22 @@
-
 // B"H
 /**
  * @file constants.js
- * @brief The Shattered Letters of Manifestation.
+ * @brief The Alphabet of Manifestation.
+ * 
+ * CHAPTER III: THE FRAGMENTED NAME
+ * To name a thing is to limit it, but to split the name is to preserve its potential.
+ * We define the markers of the beginning and the end as concatenated fragments,
+ * ensuring the digital eye does not close prematurely.
  */
 
-const S = "₪₪₪_בס\"ד_תחי" + "לת_הק" + "וד_₪₪₪";
-const E = "₪₪₪_בס\"ד_ס" + "וף_הק" + "וד_₪₪₪";
+// B"H - Fragmenting the markers to prevent accidental self-parsing
+const S_PART_1 = "₪₪₪_בס\"ד_תח" + "ילת_הק" + "וד_₪₪₪";
+const E_PART_1 = "₪₪₪_בס\"ד_ס" + "וף_הק" + "וד_₪₪₪";
 
 export const PR = {
-    S: S,
-    E: E,
+    S: S_PART_1,
+    E: E_PART_1,
+    // Tag fragments for building dynamic XML detectors
     tO: "<" + "chan" + "ge>",
     tC: "</" + "chan" + "ge>",
     fO: "<" + "fi" + "le>",
@@ -24,8 +30,8 @@ export const PR = {
 };
 
 export const MARKERS = {
-    START: S,
-    END: E,
+    START: S_PART_1,
+    END: E_PART_1,
     TAG_START: PR.tO,
     TAG_END: PR.tC,
     CONTENT_START: PR.cO,

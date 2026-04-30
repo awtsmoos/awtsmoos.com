@@ -4,11 +4,12 @@
  * @file LoopEngineController.js
  * @brief Autonomous structural processor bridging textual definitions and physical bytes.
  * 
- * THE HYMN OF THE SYNCHRONIZED SCRIBE:
- * Every branch must bear the same fruit.
- * The legacy controller, too, must speak to the Git Staging Scribe!
+ * CHAPTER XVIII: THE LAW OF THE SEQUENCE
+ * In the realm of Asiyah, parallel expansion can lead to confusion. 
+ * If two hands build the same room at once, the stones may clash.
+ * This controller now operates in a strict 'Seder' (Sequence),
+ * manifesting one vessel at a time to ensure physical stability.
  */
-
 import { State } from '../../../state.js';
 import { FileSystemProvider } from '../../../fs-provider.js';
 import { Workspaces } from '../../../workspaces/index.js';
@@ -17,15 +18,17 @@ import { VibeDB } from '../../db.js';
 import { LoopGitPusher } from './LoopGitPusher.js';
 import { LoopErrorHandler } from './LoopErrorHandler.js';
 import { GitStagingBroadcaster } from './engine/GitStagingBroadcaster.js';
+import { ArchitectOfDomains } from './engine/ArchitectOfDomains.js';
 
 export const LoopEngineController = {
-    _establishedStructures: new Set(),
-    _buildingLocks: new Map(),
-
+    /**
+     * B"H
+     * Executes a batch of changes sequentially.
+     */
     async executeBatch(compiledChangeArray, parentWorldId, timestreamTokenId = null, blockTimelinePush = false, iterationProgressSignal = null) {
         if (!compiledChangeArray || compiledChangeArray.length === 0) return;
 
-        const foundationRef = State.workspaces.find(vessel => String(vessel?.id) === String(parentWorldId));
+        const foundationRef = State.workspaces.find(ws => String(ws?.id) === String(parentWorldId));
         if (!foundationRef) return;
         
         const coreType = foundationRef.originalType || foundationRef.type;
@@ -33,44 +36,51 @@ export const LoopEngineController = {
         const activeTimelineLedger = [];
         let volumetricBytesPushed = 0;
         
+        // Remove duplicates within the batch, keeping only the latest version of each path
         const uniqueChangesMap = new Map();
-        for (const change of compiledChangeArray) uniqueChangesMap.set(change.path, change);
+        for (const change of compiledChangeArray) {
+            uniqueChangesMap.set(change.path, change);
+        }
         const consolidatedChanges = Array.from(uniqueChangesMap.values());
         
         const total = consolidatedChanges.length;
-        const masterTaskId = `batch-master-legacy-${Date.now()}`;
+        const masterTaskId = `batch-master-${Date.now()}`;
+        UI.startTask(masterTaskId, `B"H - Manifesting ${total} changes...`);
         
-        UI.startTask(masterTaskId, `0% - Initiating Manifestation [0/${total}]`);
         let completedCount = 0;
 
-        await Promise.all(consolidatedChanges.map(async (shiftObject) => {
+        // B"H - SEQUENTIAL LOOP: This is the critical stabilization fix.
+        for (const shiftObject of consolidatedChanges) {
             const fileName = shiftObject.path.split('/').pop();
-            const fileTaskId = `file-task-legacy-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
-            UI.startTask(fileTaskId, `[${fileName}] - Preparing...`);
+            const fileTaskId = `file-task-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+            UI.startTask(fileTaskId, `Preparing ${fileName}...`);
 
             const physicalItem = { 
-                ...foundationRef, path: shiftObject.path, kind: 'file', 
-                workspaceId: parentWorldId, type: coreType, originalType: coreType
+                ...foundationRef, 
+                path: shiftObject.path, 
+                kind: 'file', 
+                workspaceId: parentWorldId, 
+                type: coreType, 
+                originalType: coreType
             };
 
+            // 1. TIMELINE: Record the pre-manifestation state
             if (!blockTimelinePush && timestreamTokenId) {
                 let oldContent = null;
-                const openTab = State.tabs.find(t => t.item.path === shiftObject.path && String(t.item.workspaceId) === String(parentWorldId));
-                if (openTab?.content) oldContent = openTab.content;
-                else {
-                    try {
-                        const raw = await FileSystemProvider.read(physicalItem);
-                        oldContent = (raw instanceof Blob) ? await raw.text() : String(raw);
-                    } catch(e) {}
-                }
+                try {
+                    const raw = await FileSystemProvider.read(physicalItem);
+                    oldContent = (raw instanceof Blob) ? await raw.text() : String(raw);
+                } catch(e) { /* File is new */ }
+                
                 const newContent = shiftObject.operation === 'delete' ? null : shiftObject.content;
                 volumetricBytesPushed += newContent ? newContent.length : 0;
                 activeTimelineLedger.push({ path: shiftObject.path, operation: shiftObject.operation, oldContent, newContent });
             }
 
+            // 2. ACTION: Engage the OS and engrave the bytes
             try {
                 if (shiftObject.operation === 'delete') {
-                    UI.updateTask(fileTaskId, 50, `[${fileName}] - OS Deletion...`);
+                    UI.updateTask(fileTaskId, 50, `Requesting OS Deletion...`);
                     try {
                         await FileSystemProvider.delete(physicalItem);
                     } catch (delErr) {
@@ -78,93 +88,72 @@ export const LoopEngineController = {
                     }
                     await GitStagingBroadcaster.stage(physicalItem, 'delete', null);
                 } else {
-                    await this._verifyFoundationsPresent(foundationRef, shiftObject.path, coreType);
-                    UI.updateTask(fileTaskId, 20, `[${fileName}] - Requesting OS Write...`);
+                    // Ensure the folder hierarchy exists before writing the leaf
+                    await ArchitectOfDomains.ensureExists(foundationRef, shiftObject.path, coreType);
+                    
+                    UI.updateTask(fileTaskId, 20, `Engraving bytes upon the disk...`);
                     await FileSystemProvider.write(physicalItem, shiftObject.content, "B\"H", (perc, msg) => {
-                        UI.updateTask(fileTaskId, perc, `[${fileName}] - ${msg}`);
+                        UI.updateTask(fileTaskId, perc, `${fileName}: ${msg}`);
                     });
+                    
                     await GitStagingBroadcaster.stage(physicalItem, 'write', shiftObject.content);
                 }
 
-                const extBar = shiftObject.path.lastIndexOf('/');
-                const supPath = extBar <= 0 ? "/" : shiftObject.path.substring(0, extBar);
-                triggerDirectoryUpdates.add(supPath);
+                // Track which directories need a UI refresh
+                const lastSlash = shiftObject.path.lastIndexOf('/');
+                const parentPath = lastSlash <= 0 ? "/" : shiftObject.path.substring(0, lastSlash);
+                triggerDirectoryUpdates.add(parentPath);
 
                 if (iterationProgressSignal) iterationProgressSignal(shiftObject, true);
-                this._broadcastUIAdjustments(shiftObject, parentWorldId);
-                UI.endTask(fileTaskId, 'success', `[${fileName}] - Solidified.`);
-            } catch (errDataBlock) {
-                LoopErrorHandler.handle(errDataBlock, shiftObject.path, fileTaskId, iterationProgressSignal, shiftObject);
+                
+                // 3. BROADCAST: Update any open editor tabs immediately
+                this._broadcastToOpenTabs(shiftObject, parentWorldId);
+                
+                UI.endTask(fileTaskId, 'success', `Solidified: ${fileName}`);
+                
+            } catch (err) {
+                console.error(`B"H [LoopEngine] Physical failure for ${shiftObject.path}:`, err);
+                LoopErrorHandler.handle(err, shiftObject.path, fileTaskId, iterationProgressSignal, shiftObject);
             }
             
             completedCount++;
             const totalPerc = Math.round((completedCount / total) * 100);
-            UI.updateTask(masterTaskId, totalPerc, `${totalPerc}% - Solidified [${completedCount}/${total}]`);
-        }));
+            UI.updateTask(masterTaskId, totalPerc, `Solidified [${completedCount}/${total}]`);
+        }
 
-        UI.endTask(masterTaskId, 'success', `B"H - Manifestation Concluded.`);
+        UI.endTask(masterTaskId, 'success', `B"H - Manifestation Process Concluded.`);
 
+        // 4. PERSISTENCE: Save the record of this transformation
         if (!blockTimelinePush && timestreamTokenId && activeTimelineLedger.length > 0) {
             VibeDB.saveTimelineRecord({
-                id: String(Date.now()), sessionId: timestreamTokenId,
-                workspaceId: parentWorldId, timestamp: Date.now(),
-                sizeBytes: volumetricBytesPushed, changes: activeTimelineLedger
+                id: String(Date.now()), 
+                sessionId: timestreamTokenId,
+                workspaceId: parentWorldId, 
+                timestamp: Date.now(),
+                sizeBytes: volumetricBytesPushed, 
+                changes: activeTimelineLedger
             }).catch(()=>{});
         }
         
+        // 5. CLOUD: Auto-Commit if the workspace is a GitHub repo
         LoopGitPusher.autoCommit(foundationRef, consolidatedChanges).catch(()=>{});
 
-        for (const coordPoint of triggerDirectoryUpdates) {
-            await Workspaces.refreshNode({ ...foundationRef, path: coordPoint, kind: 'directory', workspaceId: parentWorldId, type: coreType }).catch(()=>{});
+        // 6. VISION: Refresh the specific folder nodes in the sidebar tree
+        for (const coord of triggerDirectoryUpdates) {
+            await Workspaces.refreshNode({ ...foundationRef, path: coord, kind: 'directory', workspaceId: parentWorldId, type: coreType }).catch(()=>{});
         }
     },
     
-    _broadcastUIAdjustments(shiftObjRef, systemWSIDKey) {
-        const visualOpenedDocumentRef = State.tabs.find(t => t.item.path === shiftObjRef.path && String(t.item.workspaceId) === String(systemWSIDKey));
-        if (visualOpenedDocumentRef && shiftObjRef.operation !== 'delete') {
-            visualOpenedDocumentRef.content = shiftObjRef.content;
-            visualOpenedDocumentRef.isDirty = false;
-            visualOpenedDocumentRef.isUncommitted = true;
-            if (State.activeTabId === visualOpenedDocumentRef.id) {
+    _broadcastToOpenTabs(change, workspaceId) {
+        const tab = State.tabs.find(t => t.item.path === change.path && String(t.item.workspaceId) === String(workspaceId));
+        if (tab && change.operation !== 'delete') {
+            tab.content = change.content;
+            tab.isDirty = false;
+            tab.isUncommitted = true;
+            if (State.activeTabId === tab.id) {
                 import('../../../editor.js').then(({ Editor }) => {
-                    if (Editor && Editor.setCurrentContent) Editor.setCurrentContent(shiftObjRef.content);
+                    if (Editor?.setCurrentContent) Editor.setCurrentContent(change.content);
                 });
-            }
-        }
-    },
-    
-    async _verifyFoundationsPresent(boundOriginDef, fullTargetFilePathString, originSystemConstraint) {
-        const segments = fullTargetFilePathString.split('/').filter(Boolean);
-        if (segments.length <= 1) return;
-        segments.pop(); 
-        let pathAccumulatorTarget = "";
-        const numericWSLookupIndicatorString = String(boundOriginDef.id);
-        
-        for (const levelBlockTitle of segments) {
-            pathAccumulatorTarget += "/" + levelBlockTitle;
-            const matrixKeyStringIDCacheTargetVal = `${numericWSLookupIndicatorString}::${pathAccumulatorTarget}`;
-            
-            if (this._establishedStructures.has(matrixKeyStringIDCacheTargetVal) || State.domItemMap.has(matrixKeyStringIDCacheTargetVal)) {
-                this._establishedStructures.add(matrixKeyStringIDCacheTargetVal);
-                continue;
-            }
-            if (this._buildingLocks.has(matrixKeyStringIDCacheTargetVal)) {
-                await this._buildingLocks.get(matrixKeyStringIDCacheTargetVal);
-                continue;
-            }
-            let unlock;
-            const lockPromise = new Promise(r => unlock = r);
-            this._buildingLocks.set(matrixKeyStringIDCacheTargetVal, lockPromise);
-            
-            try {
-                const parent = { ...boundOriginDef, path: pathAccumulatorTarget.substring(0, pathAccumulatorTarget.lastIndexOf('/')) || "/", kind: 'directory', type: originSystemConstraint };
-                await FileSystemProvider.create(parent, levelBlockTitle, 'directory');
-                this._establishedStructures.add(matrixKeyStringIDCacheTargetVal);
-            } catch (e) {
-                this._establishedStructures.add(matrixKeyStringIDCacheTargetVal);
-            } finally {
-                unlock();
-                this._buildingLocks.delete(matrixKeyStringIDCacheTargetVal);
             }
         }
     }
