@@ -1,31 +1,48 @@
 
+// B"H
 /**
- * B"H
- * Canvas Methods for Worker
+ * @module WorkerCanvasHub
+ * @description
+ * 📐 CHAPTER 36: THE TRANSMISSION OF MEASURE 📐
+ * 
+ * Chapter 360: Expanding to Fill the Bounds.
+ * 
+ * When the human eye (the browser window) changes its shape, the main thread 
+ * sends a new measurement into the Worker. This module intercepts that message 
+ * and forcefully expands the OffscreenCanvas, ensuring the Light (Renderer) 
+ * continues to occupy every single available pixel.
  */
 export default function(me) {
     return {
-        async takeInCanvas({ canvas, devicePixelRatio }) {
+        /**
+         * @function takeInCanvas
+         * @description The actual moment the physical vessel crosses the abyss 
+         * and enters the Laborer's thread.
+         */
+        async takeInCanvas({ canvas, devicePixelRatio, width, height }) {
+            console.group('B"H - 🏗️ WORKER: [CANVAS ACQUIRED]');
+            console.log(`B"H - 📏 Measuring the Physical Realm: ${width} x ${height} at ratio: ${devicePixelRatio}`);
+            
+            // 1. Establish the internal vessel parameters
             me.olam.takeInCanvas(canvas, devicePixelRatio);
+            
+            // 2. EXPLICIT ENFORCEMENT OF DIMENSIONS
+            // Ensuring the world matches the screen exactly before genesis.
+            await me.olam.setSize(width, height);
+            
+            console.log('B"H - ⚡ Rendering engines ignited. Commencement imminent.');
+            console.groupEnd();
+
+            // Ignite the eternal cycle of recreation (Heartbeat)
             await me.olam.heesHawvoos();
         },
-        async getBitmap(toRender=false) {
-            if(me.olam && me.olam.renderer && me.olam.renderer.domElement) {
-                var can = me.olam.renderer.domElement;
-                if(toRender) {
-                    me.olam.heesHawvoos();
-                }
-                var bit = can.transferToImageBitmap();
-                return { tawchlees: bit, transfer: true };
-            }
-        },
-        async getCanvas() {
-            if(me.olam && me.olam.renderer && me.olam.renderer.domElement) {
-                return me.olam.renderer.domElement;
-            }
-        },
+
+        /**
+         * @function getOlam
+         * @description Returns the pure spiritual data representation of the world state.
+         */
         async getOlam() {
-            if(me.olam !== null && me.olam.serialize) {
+            if (me.olam !== null && typeof me.olam.serialize === 'function') {
                 return { tawchlees: me.olam.serialize() };
             }
         }

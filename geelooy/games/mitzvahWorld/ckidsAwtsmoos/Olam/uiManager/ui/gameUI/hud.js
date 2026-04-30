@@ -2,10 +2,10 @@
 // B"H
 export default {
     shaym: "gameHUD",
-    className: "game-hud",
+    className: "game-hud hidden", // Start in concealment
     style: {
         position: "absolute",
-        top: "70px", left: "20px", // Moved down
+        top: "70px", left: "20px",
         display: "flex", flexDirection: "column", gap: "8px",
         zIndex: 1000, pointerEvents: "none",
         fontFamily: "'Fredoka One', sans-serif"
@@ -15,16 +15,22 @@ export default {
             const stats = e.detail;
             
             const hpPercent = (stats.hp / stats.maxHp) * 100;
-            $("hud-hp-bar").style.width = hpPercent + "%";
-            $("hud-hp-text").textContent = `${Math.ceil(stats.hp)} / ${stats.maxHp}`;
+            const hpBar = $("hud-hp-bar");
+            if (hpBar) hpBar.style.width = hpPercent + "%";
+            
+            const hpText = $("hud-hp-text");
+            if (hpText) hpText.textContent = `${Math.ceil(stats.hp)} / ${stats.maxHp}`;
             
             const koachPercent = (stats.koach / stats.maxKoach) * 100;
-            $("hud-koach-bar").style.width = koachPercent + "%";
-            $("hud-koach-text").textContent = `${Math.ceil(stats.koach)} / ${stats.maxKoach}`;
+            const kBar = $("hud-koach-bar");
+            if (kBar) kBar.style.width = koachPercent + "%";
             
             const xpPercent = stats.xp % 100; 
-            $("hud-xp-bar").style.width = xpPercent + "%";
-            $("hud-level-text").textContent = `Lvl ${stats.level}`;
+            const xBar = $("hud-xp-bar");
+            if (xBar) xBar.style.width = xpPercent + "%";
+            
+            const lvlText = $("hud-level-text");
+            if (lvlText) lvlText.textContent = `Lvl ${stats.level}`;
         }
     },
     children: [

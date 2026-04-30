@@ -1,7 +1,13 @@
 
-// B"H
 /**
- * Master UI Index - Aggregating the spiritual vessels of interaction.
+ * @file index.js (Game UI)
+ * @description
+ * THE ASSEMBLY OF THE SENSES
+ * 
+ * Chapter 50: The Integration of Kelim.
+ * This is the grand unification of all UI components. Each module 
+ * represents a specific "sense" or "limb" of the interaction layer.
+ * From the HUD (Eyes) to the Inventory (Hands).
  */
 import shlichusUI from "../shlichusUI.js";
 import joystick from "../joystick.js";
@@ -21,7 +27,7 @@ import initDragSystem from "./dragSystem.js";
 import topMenu from "./topMenu.js";
 import dialogues from "./dialogues.js";
 
-// B"H: The newly liberated, modular components!
+// B"H: Modular components of the Matrix
 import { Saving } from "./components/Saving.js";
 import { DragGhost } from "./components/DragGhost.js";
 import { QuantityModal } from "./components/QuantityModal.js";
@@ -33,9 +39,16 @@ import apiKeyModal from "./apiKeyModal.js";
 import hud from "./hud.js";
 import VisualEditor from "./VisualEditor.js"; 
 
-initDragSystem();
+// B"H: The pulse of the drag system awakened in the Main Thread
+if (typeof window !== 'undefined') {
+    initDragSystem();
+}
 
-var ui = [
+/**
+ * @type {Array} 
+ * The Array of potential vessels. Order matters for z-index layering.
+ */
+const uiVessels = [
     hud, 
     instructions, 
     topMenu,
@@ -60,8 +73,9 @@ var ui = [
     levelSelectScreen
 ].concat(shlichusUI);
 
-if (navigator.userAgent.includes("Mobile")) {
-    ui = ui.concat(joystick);
+// B"H: Mobile specific appendages
+if (typeof navigator !== 'undefined' && navigator.userAgent.includes("Mobile")) {
+    uiVessels.push(...joystick);
 }
 
-export default ui;
+export default uiVessels;
