@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file smartPointer.js

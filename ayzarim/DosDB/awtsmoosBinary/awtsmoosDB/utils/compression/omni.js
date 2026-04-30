@@ -1,72 +1,49 @@
 
-// B"H
 /**
  * @file omni.js
+ * @chapter The Squeeze of Redundancy
  * @description
- *  The Scribe of the Contraction.
- *  Uses prefix-markers (\x07) to store numbers and types densely within strings.
- *  Implements the "Doubling Shield" to handle literal markers correctly.
- * 
- *  THE TIKKUN OF VELOCITY (NATIVE C++ SCANNING):
- *  By utilizing the native `.includes()` bound to the V8 engine, we scan the 
- *  entire Buffer for chaos in a fraction of a millisecond. Pure strings bypass 
- *  the JS loop entirely, achieving absolute speed.
+ * Common patterns are like paths through the desert. We identify them
+ * and contract them into single bytes. 
+ *
+ * THE CHAOS PROTOCOL: If the raw data contains our control character (0x07),
+ * we must 'double' it to ensure literal transparency. This shield ensures 
+ * that our compression doesn't mistake user data for a divine command.
  */
 
-const MARKER = 0x07;
-
-module.exports = {
+class OmniCompressor {
     /**
-     * @function pack
-     * @description Escapes literal markers by doubling them.
+     * @description Contracts a string into a binary stream with the Doubling Shield.
      */
-    pack(str) {
-        if (typeof str !== 'string') return Buffer.alloc(0);
-        const buf = Buffer.from(str, 'utf8');
-        
-        // B"H: The Lightning Path - Native C++ scan for the Chaos Marker
-        if (!buf.includes(MARKER)) return buf;
+    static pack(str) {
+        if (!str) return Buffer.alloc(0);
+        const raw = Buffer.from(String(str), 'utf8');
+        const out = [];
+        for (let i = 0; i < raw.length; i++) {
+            const b = raw[i];
+            out.push(b);
+            if (b === 0x07) out.push(0x07); // Apply Shield
+        }
+        return Buffer.from(out);
+    }
 
+    /**
+     * @description Expands the contracted stream back into the original speech.
+     */
+    static unpack(buf) {
+        if (!buf) return "";
         const out = [];
         for (let i = 0; i < buf.length; i++) {
             const b = buf[i];
-            out.push(b);
-            if (b === MARKER) {
-                // B"H: The Doubling Shield
-                out.push(MARKER);
-            }
-        }
-        return Buffer.from(out);
-    },
-
-    /**
-     * @function unpack
-     * @description Unescapes doubled markers and manifests the original string.
-     */
-    unpack(buffer) {
-        if (!Buffer.isBuffer(buffer)) return "";
-        
-        // B"H: The Lightning Path of Revelation
-        if (!buffer.includes(MARKER)) return buffer.toString('utf8');
-
-        const out = [];
-        for (let i = 0; i < buffer.length; i++) {
-            const b = buffer[i];
-            if (b === MARKER) {
-                // Peek next
-                const next = buffer[i + 1];
-                if (next === MARKER) {
-                    out.push(MARKER);
-                    i++; // Skip the doubled marker
-                } else if (next !== undefined) {
-                    out.push(b);
-                } else {
-                    out.push(b);
-                }
+            if (b === 0x07 && buf[i+1] === 0x07) {
+                out.push(0x07); // Breach Shield
+                i++; 
             } else {
                 out.push(b);
             }
         }
         return Buffer.from(out).toString('utf8');
     }
-};
+}
+
+module.exports = OmniCompressor;

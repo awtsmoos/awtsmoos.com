@@ -6,17 +6,6 @@
  *  =============================================================================
  *  CHAPTER 1: THE REVELATION OF THE ETERNAL
  *  =============================================================================
- *  "I am the Lord, I have not changed." (Malachi 3:6)
- *  
- *  This scroll of validation ensures that what is written into the void of the 
- *  Disk is resurrected with absolute fidelity. BigInts, TypedArrays, Circular 
- *  Paradoxes, and active Functions must all survive the great restart.
- * 
- *  THE TIKKUN OF HYDRATION & REVELATION:
- *  As the Awtsmoos database evolved to breathe true life back into Functions,
- *  this test was still looking for the shadow (a string). We have now elevated 
- *  the test to acknowledge the resurrected active speech. It tests if the 
- *  Function lives, and if it can successfully execute its logic!
  */
 const fs = require('fs');
 const path = require('path');
@@ -47,7 +36,7 @@ async function runSimulation() {
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
     
     let db = new AwtsmoosDB(DB_PATH);
-    await db.open();
+    db.open();
     
     try {
         log("[1] The Mathematician: BigInts & Maps");
@@ -58,10 +47,9 @@ async function runSimulation() {
         mathMap.set(bigKey, "Limit");
         mathMap.set(biggerKey, "Beyond");
         db.root.math = mathMap;
-        await db.waitForIdle();
         
         // B"H: Hydrate the native Map object from the LiveHandle
-        const loadedMathHandle = await db.root.math;
+        const loadedMathHandle = db.root.math;
         const loadedMath = loadedMathHandle.__resolve__ ? loadedMathHandle.__resolve__() : loadedMathHandle;
         
         const val1 = loadedMath.get("prime");
@@ -81,10 +69,9 @@ async function runSimulation() {
         engineeringSet.add(rawBytes);
         engineeringSet.add("Calibration");
         db.root.engineering = engineeringSet;
-        await db.waitForIdle();
         
         // B"H: Hydrate the native Set object from the LiveHandle
-        const loadedSetHandle = await db.root.engineering;
+        const loadedSetHandle = db.root.engineering;
         const loadedSet = loadedSetHandle.__resolve__ ? loadedSetHandle.__resolve__() : loadedSetHandle;
         
         assert(loadedSet instanceof Set, "Set type preserved", "Set", loadedSet ? loadedSet.constructor.name : loadedSet);
@@ -104,27 +91,23 @@ async function runSimulation() {
         chicken.source = egg;
         egg.source = chicken;
         db.root.paradox = chicken;
-        await db.waitForIdle();
         
-        const tEgg = await db.root.paradox.source;
-        const tChicken = await db.root.paradox.source.source;
+        const tEgg = db.root.paradox.source;
+        const tChicken = db.root.paradox.source.source;
         assert(tEgg.name === "Egg", "Chicken -> Egg", "Egg", tEgg ? tEgg.name : "null");
         assert(tChicken.name === "Chicken", "Chicken -> Egg -> Chicken", "Chicken", tChicken ? tChicken.name : "null");
         
         db.root.paradox.source.source.isTasty = true;
-        await db.waitForIdle();
-        assert(await db.root.paradox.isTasty === true, "Circular Graph Updates Propagate", true, "verified");
+        assert(db.root.paradox.isTasty === true, "Circular Graph Updates Propagate", true, "verified");
 
         log("[4] The Mystic: Functions & Symbols");
         const spell = function(a, b) { return a + b; };
         const sigil = Symbol.for("Awtsmoos");
         db.root.grimoire = { cast: spell, mark: sigil };
-        await db.waitForIdle();
         
-        const grimoireHandle = await db.root.grimoire;
+        const grimoireHandle = db.root.grimoire;
         const grimoire = grimoireHandle.__resolve__ ? grimoireHandle.__resolve__() : grimoireHandle;
         
-        // B"H: The test now recognizes the living breath of the Function!
         assert(typeof grimoire.cast === 'function', "Function stored and resurrected as active speech", "function", typeof grimoire.cast);
         assert(grimoire.cast(10, 5) === 15, "Function executes correctly upon resurrection", 15, grimoire.cast(10, 5));
         
@@ -132,18 +115,18 @@ async function runSimulation() {
         assert(Symbol.keyFor(grimoire.mark) === "Awtsmoos", "Symbol key preserved", "Awtsmoos", Symbol.keyFor(grimoire.mark));
 
         log("[5] The End of Days: Restart");
-        await db.pager.close();
+        db.close();
         
         const db2 = new AwtsmoosDB(DB_PATH);
-        await db2.open();
+        db2.open();
         
-        const rebornSetHandle = await db2.root.engineering;
+        const rebornSetHandle = db2.root.engineering;
         const rebornSet = rebornSetHandle.__resolve__ ? rebornSetHandle.__resolve__() : rebornSetHandle;
         
         const rebornArr = [...rebornSet].find(x => x instanceof BigInt64Array);
         assert(rebornArr && rebornArr[2] === 300n, "Complex Binary Data Survived Restart", "300n", rebornArr ? rebornArr[2] : "Not Found");
         
-        const rebornMathHandle = await db2.root.math;
+        const rebornMathHandle = db2.root.math;
         const rebornMath = rebornMathHandle.__resolve__ ? rebornMathHandle.__resolve__() : rebornMathHandle;
         
         assert(rebornMath.get("prime") === 13n, "BigInt Map Value Survived Restart", "13n", "verified");

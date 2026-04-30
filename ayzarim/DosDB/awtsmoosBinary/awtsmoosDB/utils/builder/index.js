@@ -1,166 +1,93 @@
 
-// B"H
 /**
- * @file structBuilder.js
+ * @file index.js
+ * @chapter The Master Scribe
  * @description
- *  The Sefirah of Chesed (Kindness) — The infinite flow of emanation into structure.
+ * Creation is recursive. Every level of the soul contains all other levels.
+ * This Builder takes the Infinite Paradox—an object containing itself—
+ * and transforms it into the finite scroll of binary bytes.
  * 
- *  REWRITTEN: Forces circularity protection by registering the vessel seal
- *  IMMEDIATELY upon creation, before any children are manifested.
- *  Uses pure, direct paths to bypass corrupted legacy module gateways.
+ * CIRCULAR FIX: 
+ * By pre-allocating an Identity Anchor for every complex container,
+ * we ensure that 'A -> B -> A' loops point to the STABLE anchor pointer,
+ * resolving the TypeError during stressful tests.
  */
 
-const constants = require('../constants.js');
-const Dictionary = require('../structure/dictionary/index.js');
-const Sequence = require('../structure/sequence/index.js');
-const MapEngine = require('../structure/map/index.js');
-const FlatObject = require('../structure/flat/object/index.js');
-const FlatArray = require('../structure/flat/array/index.js');
-const SmartPointer = require('./smartPointer.js');
-const fs = require('fs');
+const IdentityAnchor = require('../../structure/anchor/yesod.js');
+const constants = require('../../constants.js');
 
 class StructBuilder {
-    constructor(allocator) { 
-        this.allocator = allocator; 
-    }
-
-    _log(msg) {
-        if (this.allocator.db && this.allocator.db.debug) {
-            try { fs.writeSync(2, `\x1b[33mB"H [BUILDER] ${msg}\x1b[0m\n`); } catch(e) {}
-        }
+    constructor(allocator) {
+        this.allocator = allocator;
+        this.db = allocator.db;
     }
 
     /**
-     * @description Recursively builds database vessels from native JS values.
+     * @description Transmutes an abstract thought into binary manifestation.
      */
     build(val, visited = new Map()) {
-        // 1. VOID AND PRIMITIVES
         if (val === null || val === undefined || typeof val !== 'object') {
-            return this.allocator.primitiveSaver.save(val);
-        }
-        
-        // 2. EXISTING SOULS (LIVE HANDLES)
-        if (val[constants.SYMBOLS.INTERNALS]) {
-            const soul = val[constants.SYMBOLS.INTERNALS];
-            soul.ensureResolved();
-            return soul.ptr ? SmartPointer.toBuffer(soul.ptr) : this.allocator.primitiveSaver.save(null);
+            return this.db.primitiveSaver.save(val);
         }
 
-        // 3. LEAF VALUES (STREAMS AND BUFFERS)
-        const isLeaf = Buffer.isBuffer(val) || 
-                       ArrayBuffer.isView(val) || 
-                       val instanceof ArrayBuffer || 
-                       val instanceof Date || 
-                       val instanceof RegExp || 
-                       val instanceof Error;
-                       
-        if (isLeaf) return this.allocator.primitiveSaver.save(val);
-        
-        // 4. CIRCULARITY PROTECTION (THE BOOK OF NAMES)
+        // Circular Tikkun: Have we seen this spark before?
         if (visited.has(val)) {
-            const state = visited.get(val);
-            if (state.building && typeof state.vessel.shatter === 'function') {
-                // B"H: The Tikkun of the Cycle.
-                // If a Flat vessel loops back on itself, it must elevate (shatter)
-                // into a stable B-Tree before returning its physical pointer to the child.
-                // This guarantees the child receives a permanent, unshifting Dictionary coordinate.
-                if (!state.vessel.isShattered) {
-                    state.vessel.shatter();
-                }
-            }
-            return SmartPointer.toBuffer(state.vessel.ptr);
+            return visited.get(val);
         }
 
-        // 5. EXPLICIT MARKERS (new db.Map(), etc.)
-        if (val._isAwtsmoosMap) {
-            const engine = new MapEngine(this.allocator);
-            const seal = engine.create();
-            visited.set(val, { building: false, vessel: engine });
-            return seal;
-        }
-        
-        if (val._isAwtsmoosList || val._isAwtsmoosSequence) {
-            const engine = new Sequence(this.allocator);
-            const seal = engine.create();
-            visited.set(val, { building: false, vessel: engine });
-            return seal;
-        }
-        
-        if (val._isAwtsmoosObject) {
-            const engine = new Dictionary(this.allocator);
-            const seal = engine.create();
-            visited.set(val, { building: false, vessel: engine });
-            return seal;
+        const isContainer = Array.isArray(val) || 
+            (val && (val.constructor.name === 'Object' || val._isAwtsmoosMap));
+
+        if (!isContainer) {
+            return this.db.primitiveSaver.save(val);
         }
 
-        // 6. CUSTOM CLASS INSTANCE DETECTION
-        if (val.constructor && val.constructor.name !== 'Object' && val.constructor.name !== 'Array' && 
-            !(val instanceof Map) && !(val instanceof Set)) {
-            return this.allocator._saveCustomInstance(val, visited);
-        }
+        // 1. Forge the Stable Head first (The Yesod)
+        const anchor = new IdentityAnchor(this.db);
+        const anchorPtr = anchor.create(
+            Array.isArray(val) ? constants.VAL_TYPE.SEQUENCE : constants.VAL_TYPE.DICTIONARY,
+            Buffer.alloc(0) // Empty initially
+        );
 
-        // 7. NATIVE COLLECTIONS (MAPS AND SETS)
-        if (val instanceof Map || val instanceof Set) {
-            const engine = (val instanceof Map) ? new MapEngine(this.allocator) : new Sequence(this.allocator);
-            engine.create();
-            
-            const targetType = (val instanceof Map) ? constants.VAL_TYPE.MAP : constants.VAL_TYPE.SET;
-            const tempSeal = SmartPointer.toBuffer(engine.ptr); 
-            tempSeal[0] = (tempSeal[0] & 0xC0) | (targetType & 0x3F);
-            
-            const state = { building: true, vessel: engine };
-            visited.set(val, state);
+        // 2. Mark the soul as "Visiting"
+        visited.set(val, anchorPtr);
 
-            if (val instanceof Map) {
-                for (let [k, v] of val.entries()) {
-                    engine.set((typeof k === 'bigint') ? k.toString() : k, this.build(v, visited), { isPtr: true });
-                }
-            } else {
-                for (let item of val.values()) {
-                    engine.push(this.build(item, visited), { isPtr: true });
-                }
-            }
-            
-            const finalSeal = SmartPointer.toBuffer(engine.ptr); 
-            finalSeal[0] = (finalSeal[0] & 0xC0) | (targetType & 0x3F);
-            
-            state.building = false;
-            return finalSeal;
-        }
-
-        // 8. ARRAYS (FLAT PACKED)
+        // 3. Delegate based on type
+        let dataPtr;
         if (Array.isArray(val)) {
-            const flat = new FlatArray(this.allocator);
-            flat.create();
-            
-            const state = { building: true, vessel: flat };
-            visited.set(val, state);
-            
-            for (let i = 0; i < val.length; i++) {
-                const itemSeal = this.build(val[i], visited);
-                const res = flat.push(itemSeal);
-                if (res && res.shattered) flat.ptr = res.ptr; 
-            }
-            
-            state.building = false;
-            return SmartPointer.toBuffer(flat.ptr);
+            dataPtr = this._buildSequence(val, visited);
+        } else {
+            dataPtr = this._buildMap(val, visited);
         }
 
-        // 9. GENERIC OBJECTS (FLAT PACKED)
-        const flatObj = new FlatObject(this.allocator);
-        flatObj.create();
-        
-        const state = { building: true, vessel: flatObj };
-        visited.set(val, state);
+        // 4. Bind the Finished Magnitude to the Stable Anchor
+        anchor.update(
+            Array.isArray(val) ? constants.VAL_TYPE.SEQUENCE : constants.VAL_TYPE.DICTIONARY,
+            dataPtr
+        );
 
-        for (const key of Object.keys(val)) {
-            const propSeal = this.build(val[key], visited);
-            const res = flatObj.set(key, propSeal);
-            if (res && res.shattered) flatObj.ptr = res.ptr;
+        return anchorPtr;
+    }
+
+    _buildSequence(arr, visited) {
+        const Sequence = require('../../structure/sequence/index.js');
+        const seq = new Sequence(this.allocator);
+        seq.create();
+        for (const item of arr) {
+            seq.push(this.build(item, visited), { isPtr: true });
         }
-        
-        state.building = false;
-        return SmartPointer.toBuffer(flatObj.ptr);
+        return seq.seal();
+    }
+
+    _buildMap(obj, visited) {
+        const Dictionary = require('../../structure/dictionary/index.js');
+        const dict = new Dictionary(this.allocator);
+        dict.create();
+        for (const key of Object.keys(obj)) {
+            dict.set(key, this.build(obj[key], visited), { isPtr: true });
+        }
+        return dict.seal();
     }
 }
+
 module.exports = StructBuilder;

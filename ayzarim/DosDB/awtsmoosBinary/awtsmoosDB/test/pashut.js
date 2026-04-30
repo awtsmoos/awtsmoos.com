@@ -5,7 +5,7 @@
  * @description The simplest proof of existence, now operating at the speed of Light (Sync).
  */
 const AwtsmoosDB = require('../index.js');
-const Pager = require('../core/pager.js');
+const Pager = require('../core/pager/firmament.js');
 const path = require('path');
 const fs = require('fs');
 
@@ -15,7 +15,6 @@ function runTest() {
     console.log("B\"H - Starting Simple Test...\n");
 
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
-    if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
 
     console.log("[Test] Running Disk I/O Sanity Check...");
     const pager = new Pager(DB_PATH);
@@ -24,7 +23,6 @@ function runTest() {
     const testBuf = Buffer.alloc(4096);
     testBuf.write("SANITY_CHECK_DATA", 0);
     
-    // B"H: The Exact-Byte Pager knows no blocks, only coordinates.
     pager.writeExact(5 * 4096, testBuf); 
     pager.fsync(true); 
     
@@ -56,7 +54,11 @@ function runTest() {
         db.root.test_key = "Hello Awtsmoos";
 
         console.log("\n--- STEP 2: GET ---");
-        const val = db.root.test_key;
+        // Direct assignment reading calls the Navigator traps
+        const valHandle = db.root.test_key;
+
+        // Tikkun: We execute the resolve sequence explicitly to fetch value
+        const val = valHandle && valHandle.__resolve__ ? valHandle.__resolve__() : valHandle;
 
         console.log("\n--- RESULT ---");
         if (val === "Hello Awtsmoos") {
