@@ -7,15 +7,13 @@
  *  =============================================================================
  *  CHAPTER 10: THE MASTER BUILDER OF REALITY
  *  =============================================================================
- *  "With wisdom the house is built, and with understanding it is established." 
  */
 
 const constants = require('../../constants.js');
-const SmartPointer = require('../../utils/smartPointer.js');
-// B"H: The path to the new, highly shattered and organized PrimitiveSaver hub.
+const SmartPointer = require('../../utils/smartPointer/index.js');
 const PrimitiveSaver = require('./primitive/index.js');
 const CustomInstanceSaver = require('./instance.js');
-const StructBuilder = require('../../utils/structBuilder.js');
+const StructBuilder = require('../../utils/builder/index.js');
 const HeapManager = require('../heap.js');
 const V1Allocator = require('../allocator/index.js');
 
@@ -47,14 +45,15 @@ class AllocatorV2 {
         if (typeof val === 'object' && val[constants.SYMBOLS.INTERNALS]) {
             const soul = val[constants.SYMBOLS.INTERNALS];
             soul.ensureResolved();
-            return soul.ptr || SmartPointer.encode(constants.VAL_TYPE.NULL, constants.MODE_INLINE, Buffer.alloc(15));
+            return soul.ptr ? SmartPointer.toBuffer(soul.ptr) : this.primitiveSaver.save(null);
         }
 
         const isLeafObject = Buffer.isBuffer(val) || 
                              ArrayBuffer.isView(val) || 
                              val instanceof ArrayBuffer || 
                              val instanceof Date || 
-                             val instanceof RegExp;
+                             val instanceof RegExp || 
+                             val instanceof Error;
 
         if (typeof val !== 'object' || isLeafObject) {
             return this.primitiveSaver.save(val);

@@ -1,31 +1,41 @@
+
 // B"H
 /**
- * @module ReadWriteLock
+ * @file core/concurrency.js
+ * @chapter The Singularity of Will
  * @description
- *  In a synchronous universe, the Lock is merely a state flag to prevent recursion loops
- *  or specific unsafe operations during critical sections.
+ * In a synchronous universe, there is no waiting. But there is still order.
+ * This lock provides the barrier necessary to prevent recursion loops
+ * or fragmented writes without using a single Promise.
+ * 
+ * It is a pure, atomic mechanism that ensures the database acts with 
+ * a single, unified Will.
  */
+
 class ReadWriteLock {
     constructor() {
-        this.depth = 0;
         this.activeWriter = false;
     }
 
     /**
-     * @description Executes a function synchronously. 
-     * Since JS is single-threaded, 'reading' is always safe unless we are inside a specific write hook.
+     * @method runRead
+     * @description Immediate invocation. Sight is always granted.
      */
     runRead(fn) {
+        // Sight needs no barrier in the presence of the RAM mirror.
         return fn();
     }
 
     /**
-     * @description Executes a write. Sets a flag for re-entrancy checks if needed.
+     * @method runWrite
+     * @description Immediate, order-guaranteed execution.
      */
     runWrite(fn) {
         if (this.activeWriter) {
-            return fn(); // Recursive write allowed
+            // Sub-rituals are permitted within a primary sequence.
+            return fn(); 
         }
+        
         this.activeWriter = true;
         try {
             return fn();

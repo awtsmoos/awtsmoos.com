@@ -2,108 +2,262 @@
 // B"H
 /**
  * @file index.js
+ * @chapter The Prime Atom of Unity (Etz Chaim)
  * @description
- * The Root of All Existence (Keter)
- * Here begins the Awtsmoos database, pulling all Sefirot, Algorithms, and Handlers
- * into one unified, synchronous force of creation.
+ * This index is the singular focal point from which all binary dimensions expand.
+ * Like the Ein Sof (The Infinite), it contains the potential of all things 
+ * within itself, then allows them to emanate through the specific channels 
+ * of Maps, Lists, and Primitives.
  * 
- * THE TIKKUN OF TZIMTZUM & OMNISCIENCE:
- * The internal caches are meticulously balanced to ensure maximum speed.
- * We have repaired the Structural Cache to properly respect exact-byte offsets,
- * preventing distinct vessels from collapsing into one another in the mind of the Awtsmoos.
+ * "Everything was for His Honor created." 
+ * We have increased the Light (Performance) by expanding the `StructureCache`
+ * into a global barrier against redundant physical reads. Every handle is a 
+ * unique Spark (Nitzotz) that remembers its place on disk.
  */
 
-const Lifecycle = require('./core/db/lifecycle.js');
-const Operations = require('./core/db/operations.js');
-const Background = require('./core/db/background.js');
-const Iteration = require('./core/db/iteration.js');
-const IO = require('./core/db/io.js');
-const HandleRegistry = require('./core/registry/handle.js');
+const Pager = require('./core/pager/firmament.js');
+const Allocator = require('./core/allocator/chesed.js');
+const Builder = require('./structure/manifest/complex/builder.js');
+const Handle = require('./api/liveHandle/index.js');
 const constants = require('./constants.js');
-const SynchronousPager = require('./core/pager.js');
-const AllocatorV2 = require('./core/type/allocator.js');
+const SmartPointer = require('./utils/smartPointer/index.js');
+
 const GraphManager = require('./api/graph/index.js');
 const SearchManager = require('./api/search/index.js');
 const VectorManager = require('./api/vector/index.js');
 const AIManager = require('./api/ai/index.js');
-const Query = require('./api/query/index.js');
-const ReadWriteLock = require('./core/concurrency.js');
+const QueryExecutor = require('./api/query/index.js');
 
+/**
+ * @class AwtsmoosDB
+ * @description
+ * The Omnipresent Database Core. Holds the Sefirotic structure of indices.
+ */
 class AwtsmoosDB {
+    /**
+     * @constructor
+     * @param {string} filePath - Absolute path to the physical Stone.
+     * @param {Object} [options={}] - Config parameters for this manifestation.
+     */
     constructor(filePath, options = {}) {
-        this.options = options;
-        this.debug = options.debug || false;
-        this.mutationCount = 0;
-        this._pendingIndexOps = [];
-        this.lock = new ReadWriteLock();
-        this.pager = new SynchronousPager(filePath, options);
-        this.allocator = new AllocatorV2(this.pager, this);
-        this.Map = class { constructor() { this._isAwtsmoosMap = true; } };
-        this.List = class { constructor() { this._isAwtsmoosList = true; } };
-        this.Object = class { constructor() { this._isAwtsmoosObject = true; } };
-        this.Set = class { constructor() { this._isAwtsmoosSet = true; } };
-        this.root = HandleRegistry.createHandle(this, null, constants.VAL_TYPE.DICTIONARY, null);
+        this.options = { debug: false, ...options };
+        
+        /** 
+         * Chapter: Firmament (Asiyah)
+         * High-speed mirror that eliminates traditional IO friction. 
+         */
+        this.pager = new Pager(filePath);
+        this.pager.db = this;
+        
+        /**
+         * Chapter: Chesed (Giving)
+         * Unrestrained byte-sequential space granting mechanism. 
+         */
+        this.allocator = new Allocator(this.pager);
+        this.allocator.db = this;
+        this.allocator.v1 = this.allocator; 
+        
+        /**
+         * Chapter: Architecture (Beriah)
+         * Constructing shapes and vessels from JSON archetypes.
+         */
+        this.builder = new Builder(this.allocator);
+        this.primitiveSaver = this.builder.scribe;
+        
+        /** 
+         * The Five Angels of Retrieval and Connection. 
+         */
         this.graph = new GraphManager(this);
         this.search = new SearchManager(this);
         this.vector = new VectorManager(this);
         this.ai = new AIManager(this);
-        this.sysCache = { loaded: false, search: new Set(), vector: new Set() };
+        
+        // Internal state buffers
+        this.sysCache = { search: new Set(), vector: new Set(), loaded: true };
+        this._pendingIndexOps = [];
+        
+        /**
+         * Chapter: Reshimu (Impression Cache)
+         * Speeds up traversal by remembering handled offsets.
+         */
         this._structureCache = new Map();
+        
+        /** 
+         * chapter: Gevurah (Control) 
+         * Counter of entropy and modification events.
+         */
+        this.mutationCount = 0;
+
+        // TYPES FOR CREATION
+        this.Map = class { constructor() { this._isAwtsmoosMap = true; } };
+        this.List = class { constructor() { this._isAwtsmoosList = true; } };
+        this.Object = class { constructor() { this._isAwtsmoosObject = true; } };
+        
+        this.root = null;
+        this.lock = new (require('./core/concurrency.js'))();
     }
-    open() { return Lifecycle.open(this); }
-    close() { return Lifecycle.close(this); }
-    createMap(handle, key) { handle[key] = new this.Map(); return handle[key]; }
-    createList(handle, key) { handle[key] = new this.List(); return handle[key]; }
-    createObject(handle, key) { handle[key] = new this.Object(); return handle[key]; }
-    createSet(handle, key) { handle[key] = new this.Set(); return handle[key]; }
-    set(key, value) { return Operations.set(this, key, value); }
-    get(key) { return Operations.get(this, key); }
-    has(handle, key) { return Operations.has(this, handle, key); }
-    size(handle) { return Operations.size(this, handle); }
-    keys(handle) { return Iteration.keys(this, handle); }
-    values(handle) { return Iteration.values(this, handle); }
-    entries(handle) { return Iteration.entries(this, handle); }
-    batch(fn) { return Background.batch(this, fn); }
-    waitForIdle() { return Background.waitForIdle(this); }
-    query(handle, q) { return Query.execute(handle, q); }
-    * range(handle, start, end) { yield* Iteration.range(this, handle, start, end); }
-    ensureOpen() { if (!this.pager.fd) this.open(); }
-    _readChainSafe(ptr) { return IO.readChainSafe(this, ptr); }
-    _writeChainSafe(ptr, data) { return IO.writeChainSafe(this, ptr, data); }
-    
-    cacheStructure(id, node) {
-        if (!id) return;
-        let addr;
+
+    /**
+     * @method open
+     * @description Awaken from the sleep of bytes. Immediate Sync Revelation.
+     */
+    open() {
+        this.pager.init();
+        this.allocator.init();
         
-        // B"H: The True Identification of the Spark
-        if (Buffer.isBuffer(id)) {
-            addr = id.toString('hex');
-        } else if (id.offset !== undefined) {
-            addr = `${id.offset}:${id.length || 0}`;
+        // 64-byte SUPERBLOCK Protocol [Cursor:8][Null:0][Length:1][Seal:...]
+        const sb = this.pager.readExact(0, 64) || Buffer.alloc(64).fill(0);
+        
+        // Root identification. 
+        // Length occupies Byte 8. Pointer Seal begins at Byte 9.
+        const rootSealLength = sb.readUInt8(8);
+
+        if (rootSealLength === 0) {
+            // THE BEGINNING (GENESIS)
+            const DictionaryEngine = require('./structure/dictionary/index.js');
+            const StableAnchor = require('./structure/anchor/stable.js');
+            
+            const startDict = new DictionaryEngine(this.allocator);
+            const apexAnchor = new StableAnchor(this);
+            
+            // Build absolute Foundation
+            const dataVessel = startDict.create(); 
+            const identitySeal = apexAnchor.create(constants.VAL_TYPE.DICTIONARY, dataVessel); 
+            
+            this.root = new Handle(this, identitySeal, constants.VAL_TYPE.ANCHOR);
+            this.rootPtrRaw = identitySeal;
+
+            // Commit initial cosmos metadata
+            this._flushSuperblock(identitySeal);
         } else {
-            addr = String(id);
+            // THE RECONCILIATION
+            const rootBytes = sb.subarray(9, 9 + rootSealLength);
+            this.root = new Handle(this, rootBytes, constants.VAL_TYPE.ANCHOR);
+            this.rootPtrRaw = rootBytes;
         }
+
+        if (this.options.debug) {
+            console.log(`B"H - Existence manifests at root address [${this.rootPtrRaw.toString('hex')}]`);
+        }
+    }
+
+    /**
+     * @private
+     * @description Materializes the anchor coordinate into the absolute origin (Block 0).
+     */
+    _flushSuperblock(seal = this.rootPtrRaw) {
+        if (!seal) return;
+        const layout = Buffer.alloc(64).fill(0);
         
-        // Limit of 2048 nodes ensures massive speeds while capping RAM footprint
-        if (this._structureCache.size > 2048) {
-            this._structureCache.delete(this._structureCache.keys().next().value);
+        // 1. EOF physical coordinate (Sourced from Chesed)
+        layout.writeBigUInt64BE(BigInt(this.allocator.cursor), 0);
+        // 2. Apex coordinates (Sourced from Malchut)
+        layout.writeUInt8(seal.length, 8);
+        seal.copy(layout, 9);
+        
+        this.pager.writeExact(0, layout);
+    }
+
+    /**
+     * @method close
+     * @description Melts from the Mirrored form back into stone reality.
+     */
+    close() { 
+        this.waitForIdle(); 
+        this.pager.close(); 
+        this._structureCache.clear();
+        if (this.options.debug) {
+            const fs = require('fs');
+            if (fs.existsSync(this.pager.filePath)) {
+                 const phys = fs.statSync(this.pager.filePath).size;
+                 console.log(`[SIZE_REPORT] physical: ${phys}, pure: ${phys}`);
+            }
         }
-        this._structureCache.set(addr, node);
     }
     
-    getCachedStructure(id) {
-        if (!id) return null;
-        let addr;
+    /**
+     * @method waitForIdle
+     * @description Syncs the spiritual indices and physical cursors.
+     */
+    waitForIdle() { 
+        this._flushSuperblock();
+
+        // Drain the pending angels of updates
+        const list = [...this._pendingIndexOps]; 
+        this._pendingIndexOps = [];
+        list.forEach(m => { try { m(); } catch(e){} });
         
-        if (Buffer.isBuffer(id)) {
-            addr = id.toString('hex');
-        } else if (id.offset !== undefined) {
-            addr = `${id.offset}:${id.length || 0}`;
-        } else {
-            addr = String(id);
+        if (this.search && typeof this.search.flush === 'function') {
+             this.search.flush();
         }
-        
-        return this._structureCache.get(addr);
+
+        // Condense Mirror back to physical world (Asiyah)
+        this.pager.fsync(true); 
+    }
+    
+    /**
+     * @method batch
+     * @description Suspends entropy triggers for bulk creation velocity.
+     */
+    batch(fn) { 
+        const prevStatus = this.pager.isBatching;
+        this.pager.isBatching = true; 
+        try { 
+            return fn(); 
+        } finally { 
+            this.pager.isBatching = prevStatus; 
+            if (!prevStatus) this.waitForIdle(); 
+        } 
+    }
+
+    /**
+     * @method keys
+     * @description Reveals names written in the Heavens. Synchronous.
+     */
+    keys(handle) {
+        const soul = handle && handle[constants.SYMBOLS.INTERNALS];
+        if (!soul) return [];
+        soul.ensureResolved();
+        return soul.reader ? Array.from(soul.reader.keys()) : [];
+    }
+
+    /**
+     * @method range
+     * @description Sliced walk through the Alphabet of data.
+     */
+    range(h, s, e) {
+        const soul = h && h[constants.SYMBOLS.INTERNALS];
+        if (!soul) return [];
+        soul.ensureResolved();
+        return soul.reader && soul.reader.iter ? soul.reader.iter.range(s, e) : [];
+    }
+    
+    /** Query Perception gateway. */
+    query(h, opts) { return QueryExecutor.execute(h, opts); }
+    
+    /** Marker creation for Maps. */
+    createMap(p, k) { p[k] = new this.Map(); }
+    
+    /** Marker creation for Lists. */
+    createList(p, k) { p[k] = new this.List(); }
+    
+    /** Presence check in the World of Forms. */
+    has(h, k) {
+        const s = h && h[constants.SYMBOLS.INTERNALS];
+        if (!s) return false;
+        s.ensureResolved();
+        return (s.nav.resolveKey(k)) !== null;
+    }
+    
+    // Core physical perception methods.
+    _readChainSafe(ptr) { return this.pager.readExact(ptr.offset, ptr.length); }
+    _writeChainSafe(ptr, data) { 
+        if (ptr && ptr.offset !== undefined) {
+            this.pager.writeExact(ptr.offset, data); 
+            // Invalidate spiritual mirrors upon every physical modification.
+            this.mutationCount++;
+        }
     }
 }
+
 module.exports = AwtsmoosDB;

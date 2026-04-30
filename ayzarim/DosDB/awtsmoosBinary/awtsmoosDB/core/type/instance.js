@@ -1,8 +1,12 @@
 
 // B"H
+/**
+ * @file core/type/instance.js
+ * @description Instance Saver.
+ */
 const constants = require('../../constants.js');
 const serializer = require('../../utils/serializer.js');
-const SmartPointer = require('../../utils/smartPointer.js');
+const SmartPointer = require('../../utils/smartPointer/index.js');
 
 class CustomInstanceSaver {
     constructor(allocator) {
@@ -18,19 +22,21 @@ class CustomInstanceSaver {
         const source = obj.constructor.toString();
         const nameBuf = Buffer.from(name, 'utf8');
         const sourceBuf = Buffer.from(source, 'utf8');
-        const nameVarIntSize = serializer.getVarIntSize(nameBuf.length);
-        const sourceVarIntSize = serializer.getVarIntSize(sourceBuf.length);
         
         const props = {};
         for (const k of Object.keys(obj)) props[k] = obj[k];
         const dictSeal = this.builder.build(props, visited);
         
         const dictSealVarIntSize = serializer.getVarIntSize(dictSeal.length);
-        const totalLenHeader = nameVarIntSize + nameBuf.length + sourceVarIntSize + sourceBuf.length + dictSealVarIntSize + dictSeal.length; 
+        const totalLenHeader = serializer.getVarIntSize(nameBuf.length) + nameBuf.length + 
+                               serializer.getVarIntSize(sourceBuf.length) + sourceBuf.length + 
+                               dictSealVarIntSize + dictSeal.length; 
         
         const p = this.v1.allocate(totalLenHeader);
-        const seal = SmartPointer.block(T.CUSTOM_INSTANCE, p.blockId, totalLenHeader, !!p.isChain, p.offset);
-        visited.set(obj, seal);
+        const seal = SmartPointer.encode(T.CUSTOM_INSTANCE, p.offset, totalLenHeader);
+        
+        // B"H: The Tikkun of Circular Instances. Store the pointer properly.
+        visited.set(obj, { building: false, vessel: { ptr: SmartPointer.decode(seal) } });
         
         const buf = Buffer.allocUnsafe(totalLenHeader);
         let off = 0;
@@ -42,6 +48,7 @@ class CustomInstanceSaver {
         off += serializer.writeVarIntTo(buf, off, dictSeal.length);
         dictSeal.copy(buf, off); 
         this.db._writeChainSafe(p, buf);
+        
         return seal;
     }
 }

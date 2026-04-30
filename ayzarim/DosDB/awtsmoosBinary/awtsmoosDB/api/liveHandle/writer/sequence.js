@@ -1,8 +1,23 @@
 
 // B"H
+/**
+ * @file sequence.js
+ * @class SequenceWriter
+ * @description
+ *  =============================================================================
+ *  CHAPTER 18: THE HARMONY OF THE SEQUENCE (TIFERET)
+ *  =============================================================================
+ *  Manages the writing and splicing of sequential B-Trees.
+ */
+
 const constants = require('../../../constants.js');
 
 class SequenceWriter {
+    /**
+     * @constructor
+     * @param {Object} common - Shared writer tools.
+     * @param {Object} builder - The architectural builder.
+     */
     constructor(common, builder) {
         this.common = common;
         this.builder = builder;
@@ -10,6 +25,10 @@ class SequenceWriter {
         this.handle = common.handle;
     }
 
+    /**
+     * @method set
+     * @description Replaces an existing element at a specific index.
+     */
     set(key, value, options) {
         const structPtr = this.common.resolveStructPtr();
         const seq = this.common.getEngine(structPtr, constants.VAL_TYPE.SEQUENCE);
@@ -19,9 +38,11 @@ class SequenceWriter {
         const isPtr = (options === true) || (options && options.isPtr);
         const skipFree = (options && typeof options === 'object' && options.skipFree) || false;
         
+        // B"H: The Tikkun. Verify the builder is present.
+        if (!this.builder) throw new Error("B\"H Fatal: Sequence Builder is missing.");
         const valToSet = isPtr ? value : this.builder.build(value);
-        const path = this.handle.getPath();
         
+        const path = this.handle.getPath();
         const searchIndexed = this.common.getSearchIndex(path);
         const vectorIndex = this.common.getVectorIndex(path);
 
@@ -62,6 +83,10 @@ class SequenceWriter {
         }
     }
 
+    /**
+     * @method push
+     * @description Appends a value to the end of the sequence.
+     */
     push(value, options = {}) {
         const structPtr = this.common.resolveStructPtr();
         const seq = this.common.getEngine(structPtr, constants.VAL_TYPE.SEQUENCE);
@@ -88,6 +113,10 @@ class SequenceWriter {
         return currentLen + 1;
     }
 
+    /**
+     * @method splice
+     * @description Modifies segments of the sequence tree.
+     */
     splice(start, deleteCount, ...args) {
         this.common.invalidateEngine(); 
         
@@ -128,7 +157,7 @@ class SequenceWriter {
         }
         
         // B"H: MUST delete from indices BEFORE sequence mutation.
-        for(const r of toRemove.reverse()) { // Reverse to handle shifting indices correctly
+        for(const r of toRemove.reverse()) { 
             if (isIndexed) this.db.search.updateIndex(path, null, r.ptr, r.val, null); 
             if (!options.skipFree) {
                 this.common.checkGraphCleanup(r.ptr);
@@ -154,6 +183,10 @@ class SequenceWriter {
         return toRemove.map(r => r.val);
     }
 
+    /**
+     * @method delete
+     * @description Exiles an element by its index.
+     */
     delete(indexKey) {
         const index = parseInt(indexKey);
         if(isNaN(index)) return false;
