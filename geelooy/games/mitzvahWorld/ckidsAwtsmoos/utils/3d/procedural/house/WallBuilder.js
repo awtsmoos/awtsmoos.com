@@ -1,67 +1,52 @@
 
-/**
- * B"H
- * @module WallBuilder
- * @description
- * Builds the structural perimeter of a house using overlapping primitive BoxGeometries.
- * By avoiding complex extrusion algorithms, we guarantee that the Octree physics engine 
- * can perfectly calculate collisions for the interior space, allowing the soul to walk inside.
- */
+// B"H
 import * as THREE from '/games/scripts/build/three.module.js';
+import WallCarver from "./WallCarver.js";
 
 export default class WallBuilder {
-    /**
-     * @function build
-     * @param {number} w - Width
-     * @param {number} h - Height
-     * @param {number} d - Depth
-     * @param {number} t - Thickness
-     * @param {number} doorW - Door Width
-     * @param {number} doorH - Door Height
-     * @returns {Array<THREE.BoxGeometry>} Array of wall geometries ready to be merged.
-     */
-    static build(w, h, d, t, doorW, doorH) {
+    static build(blueprint) {
+        const w = blueprint.width;
+        const h = blueprint.height;
+        const d = blueprint.depth;
+        const t = blueprint.wallThickness;
+        const entrances = blueprint.entrances || [];
+
+        const getHolesForWall = (wallName) => {
+            return entrances.filter(e => e.wall === wallName);
+        };
+
         const walls = [];
 
-        try {
-            // 1. Back Wall (Solid)
-            const backWall = new THREE.BoxGeometry(w, h, t);
-            backWall.translate(0, h / 2, -d / 2);
-            walls.push(backWall);
+        // 1. FRONT WALL (+Z, faces outward)
+        const frontPieces = WallCarver.carve(w, h, t, getHolesForWall('front'));
+        frontPieces.forEach(p => { 
+            p.translate(0, 0, d/2 - t/2); 
+            walls.push(p); 
+        });
 
-            // 2. Left Wall (Solid)
-            const leftWall = new THREE.BoxGeometry(t, h, d);
-            leftWall.translate(-w / 2, h / 2, 0);
-            walls.push(leftWall);
+        // 2. BACK WALL (-Z, oriented 180deg to maintain left-right offset symmetry)
+        const backPieces = WallCarver.carve(w, h, t, getHolesForWall('back'));
+        backPieces.forEach(p => { 
+            p.rotateY(Math.PI);
+            p.translate(0, 0, -d/2 + t/2); 
+            walls.push(p); 
+        });
 
-            // 3. Right Wall (Solid)
-            const rightWall = new THREE.BoxGeometry(t, h, d);
-            rightWall.translate(w / 2, h / 2, 0);
-            walls.push(rightWall);
+        // 3. LEFT WALL (-X, carved to fit inside the front/back pillars)
+        const leftPieces = WallCarver.carve(d - t*2, h, t, getHolesForWall('left')); 
+        leftPieces.forEach(p => { 
+            p.rotateY(-Math.PI/2); 
+            p.translate(-w/2 + t/2, 0, 0); 
+            walls.push(p); 
+        });
 
-            // 4. Front Wall (Divided for the Door)
-            const sideWidth = (w - doorW) / 2;
-            
-            // Front Left
-            const frontLeft = new THREE.BoxGeometry(sideWidth, h, t);
-            frontLeft.translate(-w / 2 + sideWidth / 2, h / 2, d / 2);
-            walls.push(frontLeft);
-            
-            // Front Right
-            const frontRight = new THREE.BoxGeometry(sideWidth, h, t);
-            frontRight.translate(w / 2 - sideWidth / 2, h / 2, d / 2);
-            walls.push(frontRight);
-
-            // 5. The Lintel (Above the door)
-            const lintelHeight = h - doorH;
-            if (lintelHeight > 0) {
-                const lintel = new THREE.BoxGeometry(doorW, lintelHeight, t);
-                lintel.translate(0, h - lintelHeight / 2, d / 2);
-                walls.push(lintel);
-            }
-        } catch (e) {
-            console.error("B\"H - ⚡ WallBuilder encountered a structural anomaly.", e);
-        }
+        // 4. RIGHT WALL (+X)
+        const rightPieces = WallCarver.carve(d - t*2, h, t, getHolesForWall('right'));
+        rightPieces.forEach(p => { 
+            p.rotateY(Math.PI/2); 
+            p.translate(w/2 - t/2, 0, 0); 
+            walls.push(p); 
+        });
 
         return walls;
     }

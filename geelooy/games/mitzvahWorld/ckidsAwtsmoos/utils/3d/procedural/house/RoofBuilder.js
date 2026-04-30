@@ -1,31 +1,35 @@
 
-/**
- * B"H
- * @module RoofBuilder
- * @description
- * Forges the pitched roof covering the structure. Uses a 4-sided pyramid (ConeGeometry)
- * rotated perfectly to align with the square base of the walls below.
- */
+// B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 
 export default class RoofBuilder {
-    static build(w, h, d) {
+    static build(blueprint) {
         try {
-            // A 4-sided cone acts as a perfect pitched roof
+            const w = blueprint.width;
+            const h = blueprint.height;
+            const d = blueprint.depth;
+            
+            // Ascension geometry calculated by building scale
             const roofHeight = Math.max(w, d) * 0.4;
-            const radius = Math.max(w, d) * 0.8; // Give it a slight overhang
             
-            const roof = new THREE.ConeGeometry(radius, roofHeight, 4);
+            // Divine overhang to shield the walls
+            const overhang = 1.0; 
             
-            // Rotate 45 degrees so the square base aligns with the X/Z axes
+            // The diagonal of a square base requires scaling by Sqrt(2)
+            const circumRadius = (Math.max(w, d) / 2 + overhang) * Math.sqrt(2);
+            
+            // A 4-sided cone manifests as a classic pitched pyramid roof
+            const roof = new THREE.ConeGeometry(circumRadius, roofHeight, 4);
+            
+            // Shift geometry so the flat edges align perpendicularly with X/Z coordinates
             roof.rotateY(Math.PI / 4);
             
-            // Lift it to sit exactly on top of the walls
+            // Translate the mass so its base kisses the pinnacle of the walls
             roof.translate(0, h + (roofHeight / 2), 0);
             
             return [roof];
         } catch (e) {
-            console.error("B\"H - ⚡ RoofBuilder failed to cap the vessel.", e);
+            console.error("B\"H - ⚡ RoofBuilder's capstone shattered.", e);
             return [];
         }
     }
