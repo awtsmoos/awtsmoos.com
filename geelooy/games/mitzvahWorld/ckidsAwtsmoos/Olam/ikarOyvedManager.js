@@ -3,7 +3,7 @@
  * @file ikarOyvedManager.js
  * @description
  * 🕯️ CHAPTER 7: THE GUARDIAN OF THE THREAD 🕯️
- * Updated with resilient error reporting.
+ * Updated with completely absolute unyielding error tracking and popups.
  */
 
 import Utils from "../utils.js";
@@ -15,7 +15,7 @@ export default class OlamWorkerManager {
     eved;
     customTawfeekeem = {};
     opened = false;
-    functionsToDo = [];
+    functionsToDo =[];
     _vesselIsReady = false;
     _pawsawchDispatched = false;
     _creationStartTime = Date.now();
@@ -29,13 +29,17 @@ export default class OlamWorkerManager {
             this.eved = new Worker(workerPath, { type: "module" });
 
             this.eved.addEventListener("error", m => {
-                // Resilient Error Logging
+                // B"H: ABSOLUTE VISIBILITY FOR DEV SHATTERING
                 console.error("B\"H - 🚨 [WORKER_FATAL]: Thread has stuttered or failed to load!");
-                console.error("Technical Detail:", m);
+                console.error(`Technical Detail: File: ${m.filename}, Line: ${m.lineno}, Col: ${m.colno}`);
+                console.error(`Error String: ${m.message}`);
                 
-                // Alerting of the potential path/MIME issue mentioned by the user
+                // Blast an alert so developers never sit blind staring at an endless spinning screen
+                alert(`B"H - THE CREATION WORKER HAS FAILED:\n${m.message}\n${m.filename}:${m.lineno}`);
+                
+                // Alerting of the potential path/MIME issue
                 if (m.message && m.message.includes("MIME")) {
-                    console.error("B\"H - ⚠️ PATHING ALERT: The server is likely sending a 404 JSON for a JS import.");
+                    console.error("B\"H - ⚠️ PATHING ALERT: The server is likely sending a 404 HTML response for a JS import.");
                 }
             });
 
@@ -82,6 +86,15 @@ export default class OlamWorkerManager {
         if (!data || typeof data !== 'object') return;
         const msgType = data.type;
 
+        // Display worker error signals natively
+        if (msgType === 'ERROR') {
+             console.error(`B"H - 🚨[WORKER POSTMESSAGE EXCEPTION]: ${data.details || data.message}`);
+             if(data.isImportError) {
+                  alert(`B"H - Worker Boot Fatality: A file module returned 404!\nCheck Console network tab.`);
+             }
+             return;
+        }
+
         if (msgType && msgType !== 'increasedOlamLoading') {
             console.log(`B"H - 📨 [WORKER→MAIN]: type="${msgType}"`, data);
         }
@@ -94,7 +107,7 @@ export default class OlamWorkerManager {
                 break;
             case 'loadedWorld':
                 this._worldLoaded = true;
-                console.log("B\"H - 🌍 [WORLD_LOADED]: The vessels are ready for emanation.");
+                console.log("B\"H - 🌍[WORLD_LOADED]: The vessels are ready for emanation.");
                 break;
         }
     }
@@ -109,7 +122,7 @@ export default class OlamWorkerManager {
         }
     }
 
-    postMessage(data, transfer = []) {
+    postMessage(data, transfer =[]) {
         if (!this.eved) return;
         let dayuh = data;
         if (dayuh && typeof dayuh === "object") {
@@ -129,7 +142,7 @@ export default class OlamWorkerManager {
         if (this.functionsToDo.length > 0) {
             console.log(`B"H - 📤 [QUEUE]: Executing ${this.functionsToDo.length} stored decrees.`);
             this.functionsToDo.forEach(fn => fn());
-            this.functionsToDo = [];
+            this.functionsToDo =[];
         }
     }
 }

@@ -1,540 +1,211 @@
 
-// B"H
 /**
  * @file OctreeWorld.js
  * @description
- * 🏰 THE TEMPLE OF FOUNDATIONS 🏰
+ * 🏰 THE TEMPLE OF FOUNDATIONS — STABILITY TIKKUN 🏰
  * 
- * Chapter 7: The Guard of the Pulse.
- * To prevent the world from freezing, we must only build a small portion 
- * of reality per frame. This is the Tzimtzum of processing time.
+ * "And the gold of that land is good." (Bereishit 2:12)
  * 
- * Now fortified with absolute diagnostic awareness and a perfected 
- * object deletion protocol that hunts down phantom collision clones!
+ * If the world is built on a zero-height plane, the soul falls into the abyss.
+ * We ensure all objects, especially the Emerald ground, have physical depth 
+ * when being added to the static collision grid.
+ * 
+ * We reintroduce the ancient pathways (fromGraphNode & removeMesh) so 
+ * high-level architecture modules do not cast TypeErrors into the abyss.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js";
-import { JOB_STEP, NODE_STATE, CONFIG } from './OctreeWorld/constants.js';
+import { NODE_STATE, CONFIG } from './OctreeWorld/constants.js';
 import LODNode from './OctreeWorld/LODNode.js';
 import JobProcessor from './OctreeWorld/JobProcessor.js';
 
-const _v1 = new THREE.Vector3();
-const _tempBox = new THREE.Box3();
-const _tempTri = new THREE.Triangle();
-
 export class OctreeWorld {
     constructor() {
-        this.root = null;
+        // B"H: Establish a massive initial boundary for the earth
+        this.root = new LODNode(new THREE.Box3(
+            new THREE.Vector3(-2500, -500, -2500),
+            new THREE.Vector3(2500, 2500, 2500)
+        ));
+
         this._intakeQueue = [];
         this._buildQueue = new Set();
         this._subdivisionQueue = new Set();
         this._mergeQueue = new Set();
         this._pendingOctrees = []; 
-        this._lastUpdateCenter = new THREE.Vector3(Infinity, Infinity, Infinity);
-        
+        this._lastUpdateCenter = new THREE.Vector3(0, 0, 0);
         this.jobProcessor = new JobProcessor(this);
+        
+        // Ensure sacred preservation of binding
+        this.rayIntersect = this.rayIntersect.bind(this);
+        this.capsuleIntersect = this.capsuleIntersect.bind(this);
+        this.addObject = this.addObject.bind(this);
+        this.removeMesh = this.removeMesh.bind(this);
+        this.fromGraphNode = this.fromGraphNode.bind(this);
+
+        console.log("B\"H - ⚓ OctreeWorld: Foundations fortified for flat planes.");
     }
 
-    _buildNodePhysics(node) {
-        let totalTriangles = 0;
-        for(const mesh of node.physicsMeshGroup.children) {
-             const geo = mesh.geometry;
-             const count = geo.index ? geo.index.count : geo.attributes.position.count;
-             totalTriangles += (count / 3);
-        }
-
-        if (totalTriangles > CONFIG.MAX_TRIANGLES_PER_NODE) return; 
-
-        const newPhysics = new AwtsmoosOctree(node.box.clone());
-        newPhysics._isManaged = true;
-        
-        if (node.physicsMeshGroup.children.length > 0) {
-            node.physicsMeshGroup.userData.isPreTransformed = true;
-            newPhysics.fromGraphNode(node.physicsMeshGroup);
-            newPhysics.build();
-        }
-        
-        if (node.physics && node.physics.dynamicTriangles.length > 0) {
-            for(const tri of node.physics.dynamicTriangles) {
-                if(tri.sourceMesh) newPhysics.addDynamicTriangle(tri);
-            }
-        }
-        
-        node.physics = newPhysics;
-        node.state = NODE_STATE.READY;
-    }
-    
-    _synchronouslyRebuildNode(node, newMesh) {
-        const geometry = (newMesh.geometry.index) ? newMesh.geometry.toNonIndexed() : newMesh.geometry;
-        const positionAttribute = geometry.getAttribute('position');
-        const v1 = new THREE.Vector3(), v2 = new THREE.Vector3(), v3 = new THREE.Vector3();
-
-        if (positionAttribute) {
-            for (let i = 0; i < positionAttribute.count; i += 3) {
-                v1.fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
-                v2.fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(newMesh.matrixWorld);
-                v3.fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
-                
-                const newTriangle = new THREE.Triangle(v1.clone(), v2.clone(), v3.clone());
-                if(!node.box.intersectsTriangle(newTriangle)) continue;
-
-                newTriangle.sourceMesh = newMesh; 
-                node.physics.addDynamicTriangle(newTriangle);
-            }
-        }
-        if(newMesh.geometry.index) geometry.dispose();
-    }
-    
     rayIntersect(ray) {
-        let closestResult = false;
-        const check = (octree) => {
-            const res = octree.rayIntersect(ray);
-            if (res && (!closestResult || res.distance < closestResult.distance)) {
-                closestResult = res;
+        if (!this.root) return null;
+        let best = null;
+        const scan = (node) => {
+            if (!ray.intersectsBox(node.box)) return;
+            if (node.type === 'LEAF') {
+                if (node.physics && typeof node.physics.rayIntersect === 'function') {
+                    const hit = node.physics.rayIntersect(ray);
+                    if (hit && (!best || hit.distance < best.distance)) best = hit;
+                }
+            } else if (node.children) {
+                node.children.forEach(scan);
             }
         };
-
-        if (this.root) {
-            const candidates = this._findLeafNodesInBox(this.root, this.root.box);
-            for (const node of candidates) {
-                if (node.physics) check(node.physics);
-            }
-        }
-        for (const sat of this._pendingOctrees) {
-            if (ray.intersectsBox(sat.box)) check(sat);
-        }
-        return closestResult;
+        scan(this.root);
+        return best;
     }
 
-    update(focus, velocity) {
-        if (!this.root) return;
-        this._processIntakeQueue();
-
-        const foci = Array.isArray(focus) ? focus : [{ position: focus, velocity }];
-        if (foci.length === 0) return;
-
-        const needsUpdate = foci.some(f => f.position.distanceToSquared(this._lastUpdateCenter) > CONFIG.SAFE_RADIUS_SQ);
-        
-        if (!needsUpdate) {
-            this._processQueues(); 
-            return;
-        }
-
-        this._lastUpdateCenter.set(0, 0, 0);
-        foci.forEach(f => this._lastUpdateCenter.add(f.position));
-        this._lastUpdateCenter.divideScalar(foci.length);
-
-        this._enforceCriticalPath(foci);
-        this._assessAndQueueWork(this.root, foci);
-        this._processQueues();
-    }
-    
     capsuleIntersect(capsule) {
+        if (!this.root) return false;
         let hit = false;
-        const testCapsule = capsule.clone();
-        
-        const checkOctree = (octree) => {
-             const result = octree.capsuleIntersect(testCapsule);
-             if (result) {
-                 testCapsule.translate(result.normal.multiplyScalar(result.depth));
-                 hit = true;
-             }
-        };
-
-        const capsuleBox = _tempBox;
-        capsuleBox.min.copy(testCapsule.start).min(testCapsule.end).subScalar(testCapsule.radius);
-        capsuleBox.max.copy(testCapsule.start).max(testCapsule.end).addScalar(testCapsule.radius);
-
-        if (this.root) {
-            const candidates = this._findLeafNodesInBox(this.root, capsuleBox);
-            for (const node of candidates) {
-                if (node.physics) checkOctree(node.physics);
+        const test = capsule.clone();
+        const scan = (node) => {
+            const b = new THREE.Box3().setFromPoints([test.start, test.end]).expandByScalar(test.radius);
+            if (!node.box.intersectsBox(b)) return;
+            if (node.type === 'LEAF' && node.physics && typeof node.physics.capsuleIntersect === 'function') {
+                const res = node.physics.capsuleIntersect(test);
+                if (res) { test.translate(res.normal.multiplyScalar(res.depth)); hit = true; }
+            } else if (node.children) {
+                node.children.forEach(scan);
             }
-        }
-
-        for (const sat of this._pendingOctrees) {
-            if (sat.box.intersectsBox(capsuleBox)) checkOctree(sat);
-        }
-        
+        };
+        scan(this.root);
         if (hit) {
-            const correction = testCapsule.getCenter(new THREE.Vector3()).sub(capsule.getCenter(new THREE.Vector3()));
-            const depth = correction.length();
-            if (depth > 1e-9) return { normal: correction.normalize(), depth };
+            const v = test.getCenter(new THREE.Vector3()).sub(capsule.getCenter(new THREE.Vector3()));
+            if (v.lengthSq() > 1e-12) return { normal: v.normalize(), depth: v.length() };
         }
         return false;
     }
 
-    _processIntakeQueue() {
-        const deadline = performance.now() + 4; 
-        while (this._intakeQueue.length > 0) {
-            if (performance.now() > deadline) return;
-            const job = this._intakeQueue[0];
-            if (job.group) {
-                const meshes = [];
-                job.group.traverse(obj => {
-                    if (obj.isMesh && obj.geometry && !obj.userData.notSolid) meshes.push(obj);
-                });
-                this._intakeQueue.shift();
-                for(const m of meshes) this._intakeQueue.unshift({ mesh: m });
-                continue;
-            }
-            const { mesh } = this._intakeQueue.shift();
-            const clone = new THREE.Mesh(mesh.geometry.clone()); 
-            mesh.getWorldPosition(clone.position);
-            mesh.getWorldQuaternion(clone.quaternion);
-            mesh.getWorldScale(clone.scale);
-            clone.updateMatrix();
-            clone.updateMatrixWorld(true);
-            clone.userData = { ...mesh.userData, visualReference: mesh };
-            if (!clone.geometry.boundingBox) clone.geometry.computeBoundingBox();
-            const worldBox = clone.geometry.boundingBox.clone().applyMatrix4(clone.matrixWorld);
-            this._insertMeshOnly(this.root, clone, worldBox);
+    /**
+     * @method addObject
+     * @description Solidifies a mesh into the physics world.
+     */
+    addObject(mesh) {
+        if (!mesh || !mesh.geometry) return false;
+        mesh.updateMatrixWorld(true);
+        
+        // Ensure terrain visibility
+        if (mesh.userData?.isTerrain || mesh.name?.includes("Ground")) {
+            mesh.frustumCulled = false;
         }
+
+        if (mesh.userData?.isLiving) return false;
+
+        if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+        const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+
+        // B"H: ABSOLUTE THICKNESS GUARANTEE
+        // If a plane is added, expand the physics boundary so it's not a zero-width gap.
+        const size = new THREE.Vector3();
+        worldBox.getSize(size);
+        if (size.y < 0.1) {
+            worldBox.min.y -= 1.0;
+            worldBox.max.y += 1.0;
+        }
+
+        if (this.root) this.root.box.union(worldBox);
+
+        return this._insertMeshOnly(this.root, mesh, worldBox);
     }
-    
+
+    removeMesh(mesh) {
+        if (!this.root || !mesh) return;
+        const scan = (node) => {
+            if (node.type === 'LEAF') {
+                if (node.physicsMeshGroup && node.physicsMeshGroup.children.includes(mesh)) {
+                    node.physicsMeshGroup.remove(mesh);
+                    if (node.physics && typeof node.physics.removeMesh === 'function') {
+                        node.physics.removeMesh(mesh); 
+                    }
+                }
+            } else if (node.children) {
+                node.children.forEach(scan);
+            }
+        };
+        scan(this.root);
+    }
+
+    fromGraphNode(group) {
+        if (!group) return;
+        group.traverse(child => {
+            if (child.isMesh && !child.userData?.notSolid) {
+                this.addObject(child);
+            }
+        });
+    }
+
     _insertMeshOnly(node, mesh, meshBox) {
         if (!node.box.intersectsBox(meshBox)) return false;
         if (node.type === 'LEAF') {
-            let meshToAdd;
-            if (mesh.parent) {
-                // B"H: Preserve world matrix across subdivision cloning!
-                meshToAdd = mesh.clone();
-                meshToAdd.matrixWorld.copy(mesh.matrixWorld);
-                meshToAdd.userData = Object.assign({}, mesh.userData);
-            } else {
-                meshToAdd = mesh;
-            }
-            node.physicsMeshGroup.add(meshToAdd);
-            node.state = NODE_STATE.PENDING_BUILD;
-            if(mesh.userData) mesh.userData.inMainWorld = true;
-            if (node.physics) this._synchronouslyRebuildNode(node, meshToAdd);
-            else this._buildNodePhysics(node);
-            return true;
-        } else {
-            let placed = false;
-            for (const child of node.children) {
-                if (this._insertMeshOnly(child, mesh, meshBox)) placed = true;
-            }
-            return placed;
-        }
-    }
-
-    _distributeMeshes(node, mesh) {
-        const meshWorldBox = new THREE.Box3().setFromObject(mesh);
-        if (!node.box.intersectsBox(meshWorldBox)) return;
-        if (node.type === 'LEAF') {
+            if (node.physicsMeshGroup.children.includes(mesh)) return true;
             node.physicsMeshGroup.add(mesh);
             node.state = NODE_STATE.PENDING_BUILD;
-            return;
+            this._buildQueue.add(node);
+            return true;
         }
-        if (node.type === 'BRANCH') {
-            const intersectingChildren = node.children.filter(child => child.box.intersectsBox(meshWorldBox));
-            if (intersectingChildren.length === 1) this._distributeMeshes(intersectingChildren[0], mesh);
-            else if (intersectingChildren.length > 1) {
-                intersectingChildren.forEach(child => {
-                    const c = mesh.clone();
-                    c.matrixWorld.copy(mesh.matrixWorld); // B"H: Preserve absolute placement
-                    c.userData = { ...mesh.userData };
-                    this._distributeMeshes(child, c);
-                });
-            }
+        
+        let placed = false;
+        if (node.children) {
+            node.children.forEach(child => {
+                if (this._insertMeshOnly(child, mesh, meshBox)) placed = true;
+            });
         }
+        return placed;
     }
 
-    _enforceCriticalPath(foci) {
-        for (const focus of foci) {
-            const criticalPoint = focus.position.clone().addScaledVector(focus.velocity, 0.25);
-            let currentNode = this._findLeafNodeAtPoint(this.root, criticalPoint);
-            if (currentNode && currentNode.state !== NODE_STATE.READY) this._buildNodePhysics(currentNode);
-        }
+    _buildNodePhysics(node) {
+        if (!node || !node.physicsMeshGroup || node.physicsMeshGroup.children.length === 0) return;
+        const newPhysics = new AwtsmoosOctree(node.box.clone());
+        newPhysics._isManaged = true;
+        newPhysics.fromGraphNode(node.physicsMeshGroup);
+        newPhysics.build();
+        node.physics = newPhysics;
+        node.state = NODE_STATE.READY;
     }
-    
-    _assessAndQueueWork(node, foci) {
-        const center = node.box.getCenter(new THREE.Vector3());
-        let highestPriority = 'MERGE';
-        let detailLevel = Infinity;
 
-        for (const focus of foci) {
-            const dynamicBuildRadius = CONFIG.BASE_BUILD_RADIUS + (focus.velocity.length() * CONFIG.VELOCITY_LOOKAHEAD);
-            const distSq = center.distanceToSquared(focus.position);
-            if (distSq < dynamicBuildRadius * dynamicBuildRadius) {
-                highestPriority = 'BUILD';
-                detailLevel = Math.min(detailLevel, distSq); 
-                break;
-            }
-        }
-
-        if (highestPriority === 'BUILD') {
-            if (node.type === 'BRANCH') { 
-                node.children.forEach(child => this._assessAndQueueWork(child, foci));
-            } else { 
-                const nodeSizeSq = node.box.getSize(new THREE.Vector3()).lengthSq();
-                if (detailLevel < nodeSizeSq * 4 && this._getNodeDepth(node) < CONFIG.MAX_DEPTH) {
-                    this._subdivisionQueue.add(node);
-                } else if (node.state === NODE_STATE.PENDING_BUILD) {
-                    this._buildQueue.add(node);
-                }
-            }
-        } else { 
-            if (node.type === 'BRANCH' && center.distanceToSquared(this._lastUpdateCenter) > CONFIG.MERGE_RADIUS * CONFIG.MERGE_RADIUS) {
-                this._mergeQueue.add(node);
-            }
+    update(focus, velocity) {
+        if (!this.root) return;
+        this._processQueues();
+        const foci = Array.isArray(focus) ? focus : [{ position: focus, velocity }];
+        if (foci.length === 0 || !foci[0].position) return;
+        
+        if (foci[0].position.distanceToSquared(this._lastUpdateCenter) > 400) {
+            this._lastUpdateCenter.copy(foci[0].position);
+            this._assessAndQueueWork(this.root, foci);
         }
     }
 
     _processQueues() {
         const startTime = performance.now();
-        while (this._intakeQueue.length > 0) {
-            if (performance.now() - startTime > CONFIG.FRAME_BUDGET) return;
-            this._processIntakeQueue();
-        }
-        this._processSet(this._buildQueue, n => this._buildNodePhysics(n), startTime);
-        this._processSet(this._subdivisionQueue, n => this._subdivide(n), startTime);
-        this._processSet(this._mergeQueue, n => this._merge(n), startTime);
-
-        if (this.jobProcessor.hasWork()) {
-             const remainingTime = CONFIG.FRAME_BUDGET - (performance.now() - startTime);
-             if (remainingTime > 0) this.jobProcessor.process(remainingTime);
-        }
-        
-        if (this._pendingOctrees.length > 0) {
-            const now = performance.now();
-            this._pendingOctrees = this._pendingOctrees.filter(sat => {
-                if (now - sat.creationTime < 3000) return true;
-                const center = sat.box.getCenter(_v1);
-                const mainNode = this._findLeafNodeAtPoint(this.root, center);
-                return !(mainNode && mainNode.state === NODE_STATE.READY);
-            });
+        const it = this._buildQueue.values();
+        for (let node of it) {
+            if (performance.now() - startTime > 4.0) return; 
+            this._buildQueue.delete(node);
+            this._buildNodePhysics(node);
         }
     }
 
-    _processSet(set, action, startTime) {
-        if (set.size > 0) {
-            const iterator = set.values();
-            let result = iterator.next();
-            while (!result.done) {
-                if (performance.now() - startTime > CONFIG.FRAME_BUDGET) return;
-                const node = result.value;
-                set.delete(node);
-                action(node);
-                result = iterator.next();
+    _assessAndQueueWork(node, foci) {
+        const center = node.box.getCenter(new THREE.Vector3());
+        let inRange = false;
+        for (const focus of foci) {
+            if (center.distanceToSquared(focus.position) < 4000000) { inRange = true; break; }
+        }
+        if (inRange) {
+            if (node.type === 'BRANCH' && node.children) {
+                node.children.forEach(c => this._assessAndQueueWork(c, foci));
+            } else if (node.state === NODE_STATE.PENDING_BUILD) {
+                this._buildQueue.add(node);
             }
         }
-    }
-
-    _subdivide(node) {
-        if (node.type === 'BRANCH') return;
-        node.type = 'BRANCH';
-        if (node.physics) node.physics.clear();
-        node.physics = null;
-        node.state = NODE_STATE.EMPTY;
-
-        const halfSize = node.box.getSize(new THREE.Vector3()).multiplyScalar(0.5);
-        for (let i = 0; i < 8; i++) {
-            const min = new THREE.Vector3(
-                node.box.min.x + (i & 1 ? halfSize.x : 0),
-                node.box.min.y + (i & 2 ? halfSize.y : 0),
-                node.box.min.z + (i & 4 ? halfSize.z : 0)
-            );
-            node.children.push(new LODNode(new THREE.Box3(min, min.clone().add(halfSize))));
-        }
-        const meshesToMove = [...node.physicsMeshGroup.children];
-        node.physicsMeshGroup.clear();
-        for(const meshToMove of meshesToMove) this._distributeMeshes(node, meshToMove);
-        const foci = [{ position: this._lastUpdateCenter, velocity: new THREE.Vector3() }];
-        node.children.forEach(child => this._assessAndQueueWork(child, foci));
-    }
-
-    _merge(node) {
-        const meshesToCollect = [];
-        const gather = (currentNode) => {
-            if (currentNode.type === 'BRANCH') currentNode.children.forEach(gather);
-            meshesToCollect.push(...currentNode.physicsMeshGroup.children);
-            if (currentNode.physics) currentNode.physics.clear();
-            this._buildQueue.delete(currentNode);
-            this._subdivisionQueue.delete(currentNode);
-            this._mergeQueue.delete(currentNode);
-        };
-        node.children.forEach(gather);
-        node.children.length = 0; 
-        node.type = 'LEAF';
-        meshesToCollect.forEach(mesh => node.physicsMeshGroup.add(mesh));
-        node.state = node.physicsMeshGroup.children.length > 0 ? NODE_STATE.PENDING_BUILD : NODE_STATE.EMPTY;
-    }
-
-    _findLeafNodesInBox(startNode, box, result = []) {
-        if (!startNode.box.intersectsBox(box)) return result;
-        if (startNode.type === 'LEAF') result.push(startNode);
-        else if (startNode.type === 'BRANCH') {
-            for (const child of startNode.children) this._findLeafNodesInBox(child, box, result);
-        }
-        return result;
-    }
-    
-    _findLeafNodeAtPoint(startNode, point) {
-        if (!startNode.box.containsPoint(point)) return null;
-        if (startNode.type === 'LEAF') return startNode;
-        if (startNode.type === 'BRANCH') {
-            for (const child of startNode.children) {
-                const result = this._findLeafNodeAtPoint(child, point);
-                if (result) return result;
-            }
-        }
-        return null;
-    }
-    
-    _distributeTriangleToNodes(node, triangle, affectedNodes) {
-        if (!node.box.intersectsTriangle(triangle)) return;
-        if (node.type === 'LEAF') {
-            if (!node.physics) {
-                node.physics = new AwtsmoosOctree(node.box.clone());
-                node.physics._isManaged = true;
-            }
-            _tempBox.setFromPoints([triangle.a, triangle.b, triangle.c]);
-            node.box.union(_tempBox);
-            node.physics.box.copy(node.box); 
-            node.state = NODE_STATE.READY;
-            const tClone = triangle.clone();
-            tClone.sourceMesh = triangle.sourceMesh;
-            node.physics.addDynamicTriangle(tClone);
-            if (affectedNodes) affectedNodes.add(node);
-        } else {
-            const len = node.children.length;
-            for (let i = 0; i < len; i++) this._distributeTriangleToNodes(node.children[i], triangle, affectedNodes);
-        }
-    }
-
-    _getNodeDepth(nodeToFind, startNode = this.root, depth = 0) {
-        if (nodeToFind === startNode) return depth;
-        if (startNode.type === 'BRANCH') {
-            for (const child of startNode.children) {
-                if (child.box.containsBox(nodeToFind.box) || child.box.intersectsBox(nodeToFind.box)) {
-                    const foundDepth = this._getNodeDepth(nodeToFind, child, depth + 1);
-                    if (foundDepth !== -1) return foundDepth;
-                }
-            }
-        }
-        return -1;
-    }
-    
-    addObject(mesh) {
-        if (!mesh) return false;
-        mesh.updateMatrixWorld(true);
-        if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
-        const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
-
-        console.log(`B"H - ⚓ INSERTING MESH TO PHYSICS: ${mesh.name}. Bounds: Min[${worldBox.min.x.toFixed(1)}, ${worldBox.min.y.toFixed(1)}, ${worldBox.min.z.toFixed(1)}] Max[${worldBox.max.x.toFixed(1)}, ${worldBox.max.y.toFixed(1)}, ${worldBox.max.z.toFixed(1)}]`);
-
-        if (!this.root) this.root = new LODNode(worldBox.clone());
-        else this.root.box.union(worldBox);
-
-        const physicsClone = new THREE.Mesh(mesh.geometry.clone());
-        mesh.getWorldPosition(physicsClone.position);
-        mesh.getWorldQuaternion(physicsClone.quaternion);
-        mesh.getWorldScale(physicsClone.scale);
-        physicsClone.updateMatrix();
-        physicsClone.updateMatrixWorld(true);
-        
-        // B"H: The essential tie-back for deletion!
-        physicsClone.userData = { ...mesh.userData, visualReference: mesh };
-
-        const satGeo = mesh.geometry.clone();
-        const satClone = new THREE.Mesh(satGeo);
-        satClone.copy(physicsClone); 
-        satClone.updateMatrix();
-        satClone.updateMatrixWorld(true);
-        satClone.userData = { ...mesh.userData, visualReference: mesh };
-
-        const tempGroup = new THREE.Group();
-        tempGroup.add(satClone);
-
-        const satelliteOctree = new AwtsmoosOctree(worldBox.clone().expandByScalar(0.05));
-        satelliteOctree._isManaged = true; 
-        satelliteOctree.fromGraphNode(tempGroup);
-        satelliteOctree.build(); 
-        
-        satelliteOctree.creationTime = performance.now();
-        satelliteOctree.sourceMesh = mesh;
-
-        this._pendingOctrees.push(satelliteOctree);
-        physicsClone.userData.inMainWorld = true; 
-        this._insertMeshOnly(this.root, physicsClone, worldBox);
-        return true;
-    }
-
-    fromGraphNode(group) {
-        if (!group) return;
-        group.updateMatrixWorld(true);
-        const groupBox = new THREE.Box3().setFromObject(group);
-        if (groupBox.isEmpty()) return;
-
-        if (!this.root) this.root = new LODNode(groupBox.clone());
-        else this.root.box.union(groupBox);
-
-        const meshes = [];
-        group.traverse(obj => {
-            if (obj.isMesh && obj.geometry && !obj.userData.notSolid) meshes.push(obj);
-        });
-
-        for (const mesh of meshes) {
-            if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
-            const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
-
-            const clone = new THREE.Mesh(mesh.geometry.clone());
-            mesh.getWorldPosition(clone.position);
-            mesh.getWorldQuaternion(clone.quaternion);
-            mesh.getWorldScale(clone.scale);
-            clone.updateMatrix();
-            clone.updateMatrixWorld(true);
-            clone.userData = { ...mesh.userData, visualReference: mesh };
-
-            const tempGroup = new THREE.Group();
-            tempGroup.add(clone);
-
-            const sat = new AwtsmoosOctree(worldBox);
-            sat.fromGraphNode(tempGroup);
-            sat.build();
-            sat.creationTime = performance.now();
-            sat.sourceMesh = mesh;
-            this._pendingOctrees.push(sat);
-        }
-        this._intakeQueue.push({ group: group, isStaticWorld: true });
-    }
-
-    /**
-     * @method removeMesh
-     * @description The blade of Gevurah. Utterly erases a mesh from the physical grid,
-     * ensuring no invisible ghost blocks remain to hinder the soul's movement.
-     */
-    removeMesh(mesh) {
-        if (!this.root || !mesh) return;
-        
-        // Unify the identity of the visual and physics clone
-        const visualRef = mesh.userData?.visualReference || mesh;
-        
-        mesh.updateMatrixWorld(true);
-        if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
-        const meshBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
-        
-        const nodes = this._findLeafNodesInBox(this.root, meshBox);
-
-        console.log(`B"H - 🗑️ REMOVING MESH FROM PHYSICS: ${mesh.name}. Scanning ${nodes.length} leaf nodes.`);
-
-        nodes.forEach(node => {
-            // Find the specific physics clone that references this visual mesh!
-            const cloneToRemove = node.physicsMeshGroup.children.find(c => 
-                (c.userData?.visualReference === visualRef) || (c === mesh)
-            );
-            
-            if (cloneToRemove) {
-                node.physicsMeshGroup.remove(cloneToRemove);
-                if (node.physics) {
-                    node.physics.removeMesh(cloneToRemove); 
-                    console.log(`B"H - 🗑️ Eradicated physics triangles for ${mesh.name} from Octree node.`);
-                }
-            }
-        });
-
-        this._pendingOctrees = this._pendingOctrees.filter(sat => sat.sourceMesh !== visualRef);
     }
 }

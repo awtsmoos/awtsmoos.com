@@ -3,18 +3,13 @@
  * B"H
  * @module Ayin
  * @description
- * 
- * THE PERCEIVING EYE
+ * 👁️ THE PERCEIVING EYE 👁️
  * 
  * Chapter 3: The Witness of Form
- * The Ayin is the camera through which the soul gazes upon the Mitzvah World.
- * Updated to support 1:1 screen resolution, removing 'inverted' controls 
- * and ensuring high-stability FOV during rapid window resizing.
  * 
- * TIKKUN OF THE WHEEL:
- * The zoomRate has been drastically reduced from 0.012 to 0.002.
- * The gaze of the eye will now slide smoothly toward and away from the vessel,
- * rather than snapping violently.
+ * TIKKUN OF THE HORIZON:
+ * The village grounds are 1000+ units wide. If the 'far' plane is too close, 
+ * the earth vanishes. We have expanded the gaze to 10,000 units.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import update from "./methods/update/index.js";
@@ -23,7 +18,6 @@ import collision from "./methods/collision.js";
 
  export default class Ayin {
     constructor(olam) {
-        // Initial defaults, to be overwritten by the first resize decree
         var width = 1920, height = 1080; 
         this.olam = olam;
         this.width = width;
@@ -38,20 +32,18 @@ import collision from "./methods/collision.js";
         this.targetHeight = 1.5;
         this.anchorOffset = new THREE.Vector3(0, 0, 0);
 
-        this.distance = 5.0;
+        this.distance = 15.0; // B"H: Start further back to see the world
         this.offsetFromWall = 0.5;
 
-        this.maxDistance = 60;
+        this.maxDistance = 500; // Expanded for village scale
         this.minDistance = 0.1;
         this.speedDistance = 5;
 
-        // Control Intensity
         this.xSpeed = 120.0;
         this.ySpeed = 120.0;
         this.sensitivity = 0.0012;
 
-        // B"H: The Rectification of the Zoom! A gentle approach.
-        this.zoomRate = 0.002;
+        this.zoomRate = 0.02;
         this.zoomDampening = 5.0;
 
         this.yMinLimit = -40;
@@ -62,11 +54,12 @@ import collision from "./methods/collision.js";
         this.correctedDistance = this.distance;
         this.previousResults = new Map(); 
 
+        // B"H: FAR PLANE EXPANSION
+        // We set the far plane to 10,000 to ensure the ground is never culled.
         this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 10000);
         this.cameraFollower = this.camera.clone();
         olam.scene.add(this.camera);
         
-        // Standard orientation for FPS/ThirdPerson hybrid control
         this.camera.rotation.order = 'YXZ';
         this.group = new THREE.Group();
         this.camera.add(this.group);
@@ -77,30 +70,18 @@ import collision from "./methods/collision.js";
         this.objectsInScene =[];
 
         this.userInputTheta = 0;
-        this.userInputPhi = 0;
+        this.userInputPhi = 20; // Look down slightly at start
         this.mouseIsDown = false;
-        this.lastDistance = null;
-        this.panAmount = 0.5;
         
-        // B"H: Dynamic Binding
         this.update = update.bind(this);
         Object.keys(controls).forEach(q => { this[q] = controls[q].bind(this); });
         Object.keys(collision).forEach(q => { this[q] = collision[q].bind(this); });
+
+        console.log(`B"H - 👁️ Ayin Gaze Initialized. Far Plane: ${this.camera.far}`);
     }
 
-    get target() { return this._target; }
-    set target(v) {
-        this._target = v;
-        if(v && typeof v.height === "number") {
-             this.targetHeight = v.height;
-        }
-    }
-
-    /**
-     * @function setSize
-     * @description Recalculates the lens based on new physical boundaries.
-     */
     setSize(width, height) {
+        console.log(`B"H - 📐 Ayin resizing: ${width}x${height}`);
         this.width = width;
         this.height = height;
         this.camera.aspect = width / height;
