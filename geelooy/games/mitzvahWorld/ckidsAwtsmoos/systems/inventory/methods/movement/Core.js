@@ -1,5 +1,8 @@
 
-// B"H
+/**
+ * B"H
+ * @module MovementCore
+ */
 export default {
     getSourceArray(sourceType) {
         if (sourceType === 'action') return this.actionSlots;
@@ -8,26 +11,21 @@ export default {
         return null;
     },
 
-    updateEquipmentRefAfterMove(oldSource, oldIndex, newSource, newIndex, oldContainerId = null, newContainerId = null) {
+    /**
+     * @function updateEquipmentRefAfterMove
+     * @description Recalibrates the soul's garments when the physical vessels shift positions.
+     */
+    updateEquipmentRefAfterMove(oldSource, oldIdx, newSource, newIdx, oldContId = null, newContId = null) {
         for (const [key, ref] of Object.entries(this.equipment)) {
-            if (ref && ref.sourceType === oldSource && ref.index === oldIndex) {
-                // If it was in a container, verify the container ID matches
-                if (oldSource === 'container' && ref.containerId !== oldContainerId) {
-                    continue; 
-                }
+            if (ref && ref.sourceType === oldSource && ref.index === oldIdx) {
+                if (oldSource === 'container' && ref.containerId !== oldContId) continue; 
 
                 if (newSource === null) {
-                    // Item deleted/fully moved to nowhere? Unequip.
                     this.equipment[key] = null;
-                    if (key === 'rightHand') this.owner.updateHandState();
                     this.updateVisuals(key, null, false);
+                    if (key === 'rightHand') this.owner.updateHandState();
                 } else {
-                    // Update reference
-                    const newRef = { sourceType: newSource, index: newIndex };
-                    if (newSource === 'container' && newContainerId) {
-                        newRef.containerId = newContainerId;
-                    }
-                    this.equipment[key] = newRef;
+                    this.equipment[key] = { sourceType: newSource, index: newIdx, containerId: newContId };
                 }
             }
         }
@@ -35,75 +33,64 @@ export default {
 
     moveItem({ fromSource, fromIndex, toSource, toIndex, amount }) {
         try {
-            const fromArray = this.getSourceArray(fromSource);
-            const toArray = this.getSourceArray(toSource);
-            
+            const fromArr = this.getSourceArray(fromSource);
+            const toArr = this.getSourceArray(toSource);
+            if (!fromArr || !toArr) return;
+
             const fIdx = parseInt(fromIndex);
             const tIdx = parseInt(toIndex);
-            
-            if (!fromArray || !toArray) return;
-            if (isNaN(fIdx) || fIdx < 0 || fIdx >= fromArray.length) return;
-            if (isNaN(tIdx) || tIdx < 0 || tIdx >= toArray.length) return;
+            if (isNaN(fIdx) || isNaN(tIdx)) return;
 
-            const item = fromArray[fIdx];
+            const item = fromArr[fIdx];
             if (!item) return;
 
-            const fromContainerId = fromSource === 'container' && this.activeContainer ? this.activeContainer.id : null;
-            const toContainerId = toSource === 'container' && this.activeContainer ? this.activeContainer.id : null;
+            const fContId = fromSource === 'container' && this.activeContainer ? this.activeContainer.id : null;
+            const tContId = toSource === 'container' && this.activeContainer ? this.activeContainer.id : null;
 
-            const maxQty = parseInt(item.quantity || 1);
-            let qtyToMove = (amount === null || amount === undefined) ? maxQty : parseInt(amount);
-            if (isNaN(qtyToMove) || qtyToMove <= 0) qtyToMove = maxQty;
-            if (qtyToMove > maxQty) qtyToMove = maxQty;
+            const maxQty = item.quantity || 1;
+            let qtyMove = (amount === null || amount === undefined) ? maxQty : parseInt(amount);
+            qtyMove = Math.min(qtyMove, maxQty);
 
             if (fromSource === toSource && fIdx === tIdx) return;
 
-            const targetItem = toArray[tIdx];
+            const target = toArr[tIdx];
 
-            if (!targetItem) {
-                if (qtyToMove >= maxQty) {
-                    toArray[tIdx] = item; 
-                    fromArray[fIdx] = null;
-                    this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx, fromContainerId, toContainerId);
+            if (!target) {
+                // 1. Move into empty space
+                if (qtyMove >= maxQty) {
+                    toArr[tIdx] = item; 
+                    fromArr[fIdx] = null;
+                    this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx, fContId, tContId);
                 } else {
-                    const newItem = { ...item, quantity: qtyToMove, id: item.id + "_split_" + Date.now() };
-                    newItem.isEquipped = false;
-                    delete newItem.equippedIn;
-                    
-                    toArray[tIdx] = newItem;
-                    item.quantity -= qtyToMove;
-                    if (item.quantity <= 0) {
-                        fromArray[fIdx] = null;
-                        this.updateEquipmentRefAfterMove(fromSource, fIdx, null, null, fromContainerId, null);
-                    }
+                    // Split stack
+                    toArr[tIdx] = { ...item, quantity: qtyMove, id: item.id + "_split_" + Date.now(), isEquipped: false };
+                    item.quantity -= qtyMove;
                 }
             } else {
-                if (targetItem.className === item.className && targetItem.name === item.name) {
-                    const maxStack = 512; 
-                    const space = maxStack - targetItem.quantity;
-                    const actualMove = Math.min(qtyToMove, space);
-                    
-                    if (actualMove > 0) {
-                        targetItem.quantity += actualMove;
-                        item.quantity -= actualMove;
+                // 2. Swapping or Stacking
+                if (target.className === item.className && target.name === item.name) {
+                    const stack = 1024;
+                    const canAdd = Math.min(qtyMove, stack - target.quantity);
+                    if (canAdd > 0) {
+                        target.quantity += canAdd;
+                        item.quantity -= canAdd;
                         if (item.quantity <= 0) {
-                            fromArray[fIdx] = null;
-                            this.updateEquipmentRefAfterMove(fromSource, fIdx, null, null, fromContainerId, null);
+                            fromArr[fIdx] = null;
+                            this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx, fContId, tContId);
                         }
                     }
-                } else {
-                    if (qtyToMove >= maxQty) {
-                        toArray[tIdx] = item;
-                        fromArray[fIdx] = targetItem;
-                        this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx, fromContainerId, toContainerId); 
-                        this.updateEquipmentRefAfterMove(toSource, tIdx, fromSource, fIdx, toContainerId, fromContainerId); 
-                    }
+                } else if (qtyMove >= maxQty) {
+                    // Direct Swap
+                    toArr[tIdx] = item;
+                    fromArr[fIdx] = target;
+                    this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx, fContId, tContId);
+                    this.updateEquipmentRefAfterMove(toSource, tIdx, fromSource, fIdx, tContId, fContId);
                 }
             }
             this.updateUI();
             this.save();
         } catch(e) {
-            console.error("B\"H Inventory Error in moveItem:", e);
+            console.error("B\"H - Move failed:", e);
             this.updateUI();
         }
     }

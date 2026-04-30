@@ -1,57 +1,41 @@
 
-
 /**
  * B"H
- * Inventory System Main Entry
+ * @module InventoryManager
+ * @description
+ * The central coordination point for the player's possessions.
+ * Now fortified with absolute prototype bonding to ensure every method
+ * is reachable by the soul in the heat of commerce or battle.
  */
-import itemsMethods from "./methods/items.js";
+import DataStore from "./storage/DataStore.js";
+import ItemEnricher from "./logic/ItemEnricher.js";
+import Equipper from "./logic/Equipper.js";
+import itemsMethods from "./methods/items.js"; // B"H: Explicitly importing all methods
 import uiMethods from "./methods/ui.js";
 import movementMethods from "./methods/movement.js";
 
 export default class InventoryManager {
     constructor(owner) {
         this.owner = owner;
-        this.slots = [];
         this.maxSlots = 36;
-        this.actionSlots = [];
-        this.maxActionSlots = 4;
+        this.maxActionSlots = 6;
         this.equipment = { head: null, jacket: null, legs: null, feet: null, rightHand: null, leftHand: null };
         this.activeContainer = null;
-        this.init();
-    }
-
-    init() {
-        // Load from UserProgressManager if available
-        if (this.owner.olam && this.owner.olam.userProgressManager) {
-            const saved = this.owner.olam.userProgressManager.data.inventory;
-            if (saved && saved.slots && Array.isArray(saved.slots)) {
-                this.slots = saved.slots;
-                this.actionSlots = saved.actionSlots || [];
-                this.equipment = saved.equipment || this.equipment;
-            } 
-        }
-        
-        // B"H: CRITICAL FIX - Ensure slots array is fully populated
-        this.ensureCapacity();
-    }
-    
-    ensureCapacity() {
-        // Fill main slots
-        while (this.slots.length < this.maxSlots) {
-            this.slots.push(null);
-        }
-        // Fill action slots
-        while (this.actionSlots.length < this.maxActionSlots) {
-            this.actionSlots.push(null);
-        }
-    }
-    
-    createEmpty() {
         this.slots = [];
         this.actionSlots = [];
-        this.ensureCapacity();
+        
+        DataStore.initialize(this);
     }
-    
+
+    enrichItemData(data) { return ItemEnricher.run(data); }
+    equipItem(p) { Equipper.equip(this, p); }
+    unequipItem(s) { Equipper.unequip(this, s); }
+
+    hydrateItems() {
+        this.slots = this.slots.map(s => this.enrichItemData(s));
+        this.actionSlots = this.actionSlots.map(s => this.enrichItemData(s));
+    }
+
     save() {
         if (this.owner.olam && this.owner.olam.userProgressManager) {
             this.owner.olam.userProgressManager.save();
@@ -59,6 +43,11 @@ export default class InventoryManager {
     }
 }
 
+/**
+ * B"H: THE BINDING
+ * We manually stitch every faculty into the prototype to ensure they are available
+ * even when the class is being hydrated across the worker threshold.
+ */
 Object.assign(InventoryManager.prototype, itemsMethods);
 Object.assign(InventoryManager.prototype, uiMethods);
 Object.assign(InventoryManager.prototype, movementMethods);

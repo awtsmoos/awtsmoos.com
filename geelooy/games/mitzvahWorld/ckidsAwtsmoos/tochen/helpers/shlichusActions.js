@@ -1,11 +1,52 @@
 
 /**
  * B"H
+ * @file shlichusActions.js
+ * @description
+ * "And He sent them on a mission, a Shlichus of light."
+ * This sacred class manages the physical UI reflections of spiritual missions.
  */
+
+// B"H: A pure, safe helper to navigate the DOM tree looking for divine properties
+function safeSearchProperty(event, propertyName, returnIt = false) {
+    let el = event.target;
+    var pr = null;
+    var element = null;
+    
+    // Protected against worker contexts where document does not exist
+    const isDomPresent = typeof document !== 'undefined';
+    
+    while (!pr && el && isDomPresent && el !== document.body && el !== document.documentElement) {
+        if(pr) break;
+        var prop = el[propertyName];
+        if(prop !== undefined) {
+            pr = prop;
+            element = el;
+            break;
+        }
+        el = el.parentElement; 
+    }
+
+    if(returnIt) return element;
+    return pr; 
+}
+
+function formatTime(seconds) {
+    var minutes = Math.floor(seconds / 60);
+    var remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+}
+
+function showFail({ sh, msg }) {
+    sh.olam.htmlAction({ shaym: "failed alert shlichus", methods: { classList: { remove: "hidden" } } });
+    if(typeof sh.dropShlichus === 'function') sh.dropShlichus();
+    sh.olam.htmlAction({ shaym: "failed message", properties: { textContent: msg } });
+}
+
 export default class ShlichusActions {
     constructor() {
         this.isDone = false;
-        this.eventsSet = [];
+        this.eventsSet =[];
     }
 
     update(sh) {
@@ -54,23 +95,25 @@ export default class ShlichusActions {
             shaym: "shlichus progress info "+id,
             properties: {
                 onclick: function(e,$,ui) {
-                    var shl = searchForProperty(e, "shlichusID", true);
-                    var id = shl.shlichusID;
-                    var isInfo = searchForProperty(e, "isInfo");
+                    var shl = safeSearchProperty(e, "shlichusID", true);
+                    if (!shl) return;
+                    
+                    var clickedId = shl.shlichusID;
+                    var isInfo = safeSearchProperty(e, "isInfo");
                     var selected = shl.classList.contains("selected");
 
                     if(isInfo) {
-                        if(id) ui.peula($("shlichus information"), { shlichusInfo: id });
+                        if(clickedId) ui.peula($("shlichus information"), { shlichusInfo: clickedId });
                     } else if(!selected) {
                          Array.from(document.querySelectorAll(".shlichusProgress")).forEach(f=> {
                             f.classList.remove("selected");
                             ui.peula(f, { setSelected: { id: f.shlichusID, selected: false } });
                         });
                         shl.classList.add("selected");
-                        ui.peula(shl, { setSelected: { id, selected: true } });
+                        ui.peula(shl, { setSelected: { id: clickedId, selected: true } });
                     } else {
                          Array.from(document.querySelectorAll(".shlichusProgress")).forEach(f=> f.classList.remove("selected"));
-                         ui.peula(shl, { setSelected: { id, selected: false } });
+                         ui.peula(shl, { setSelected: { id: clickedId, selected: false } });
                     }
                 }
             }
@@ -82,23 +125,22 @@ export default class ShlichusActions {
          this.eventsSet.push(sh);
 
          sh.olam.on("htmlPeula shlichusInfo", (id) => this._onShlichusInfo(sh, id));
-         sh.olam.on("htmlPeula setSelected", ({id, selected}) => { if(id === sh.id) sh.on?.setActive(sh, selected); });
+         sh.olam.on("htmlPeula setSelected", ({id, selected}) => { if(id === sh.id && sh.on && sh.on.setActive) sh.on.setActive(sh, selected); });
          sh.olam.on("htmlPeula dropShlichus", ({id}) => { 
              if(id === sh.id) {
                  showFail({ sh, msg: `You have officially dropped the Shlichus ${sh.shaym}` });
                  sh.olam.showingImportantMessage = false;
              }
          });
-         sh.olam.on("htmlPeula returnStage", (id) => { if(id == sh.id) sh.on?.returnStage(sh); });
+         sh.olam.on("htmlPeula returnStage", (id) => { if(id == sh.id && sh.on && sh.on.returnStage) sh.on.returnStage(sh); });
          
          sh.olam.on("htmlPeula resetShlichus", (name) => this._onResetShlichus(sh, name), true);
          sh.olam.on("htmlPeula startShlichus", (name) => this._onStartShlichus(sh, name), true);
     }
     
     _clearOldEvents(sh) {
-        // Logic to clear specific bound functions would require storing references.
-        // For simplicity in this refactor, we assume simple replacement or ignore.
-        this.eventsSet.splice(this.eventsSet.indexOf(sh), 1);
+        const idx = this.eventsSet.indexOf(sh);
+        if (idx > -1) this.eventsSet.splice(idx, 1);
     }
     
     _onShlichusInfo(sh, id) {
@@ -112,12 +154,12 @@ export default class ShlichusActions {
         sh.olam.showingImportantMessage = false;
         if(name != sh.shaym) return;
         sh.olam.htmlAction({ shaym: "failed alert shlichus", methods: { classList: { add: "hidden" } } });
-        await sh.reset(sh);
+        if(typeof sh.reset === 'function') await sh.reset(sh);
     }
     
     async _onStartShlichus(sh, name) {
         sh.olam.showingImportantMessage = false;
-        if(name != sh.shaym) return alert("That's not a real shlichus to start!");
+        if(name != sh.shaym) return;
         sh.startTime = Date.now();
         var id = sh.id;
 
@@ -130,7 +172,7 @@ export default class ShlichusActions {
         sh.olam.htmlAction({ shaym: "si frnt "+id, properties: { style: { width: "0%" } } });
         sh.olam.htmlAction({ shaym: "shlichus progress info "+id, methods: { click: true } });
         
-        sh.start();
+        if (typeof sh.start === 'function') sh.start();
     }
 
     creation(sh) {
@@ -166,7 +208,7 @@ export default class ShlichusActions {
             sh.olam.htmlAction({ shaym: "si frnt "+id, properties: { style: { width: (percent*100) + "%" } } });
         } else {
             sh.completed = true;
-            sh.complete();
+            if(typeof sh.complete === 'function') sh.complete();
             sh.olam.showingImportantMessage = true;
             sh.olam.htmlAction({ shaym: "si num "+id, properties: { textContent: sh.collected + "/" + sh.totalCollectedObjects } });
             sh.olam.htmlAction({ shaym: "si frnt "+id, properties: { style: { width: "100%" } } });
@@ -179,10 +221,10 @@ export default class ShlichusActions {
 
     returnStage(sh) {
         try {
-            sh.completedProgress(sh);
+            if(typeof sh.completedProgress === 'function') sh.completedProgress(sh);
             sh.olam.showingImportantMessage = false;
-            if(sh.returnTimeLimit) sh.setTime(sh.returnTimeLimit);
-        } catch(e) { console.log("Couldnt do event: ",e,sh); }
+            if(sh.returnTimeLimit) this.setTime(sh, sh.returnTimeLimit);
+        } catch(e) { console.log("B\"H - Could not trigger returnStage: ", e, sh); }
     }
 
     setTime(sh, info={minutes:0,seconds:0}) {
@@ -191,22 +233,10 @@ export default class ShlichusActions {
         sh.startTime = Date.now();
         sh.timeLimitRaw = minutes*60  + seconds;
         clearInterval(sh.timeout);
-        sh.timeout = setTimeout(() => { sh.on?.timeUp?.(sh); }, sh.timeLimitRaw * 1000);
+        sh.timeout = setTimeout(() => { if(sh.on && sh.on.timeUp) sh.on.timeUp(sh); else this.timeUp(sh); }, sh.timeLimitRaw * 1000);
     }
 
     timeUp(sh) {
         showFail({ sh, msg: "The time ran OUT! It's okay, failure is a step to success. Find the giver to reset." });
     }
-}
-
-function showFail({ sh, msg }) {
-    sh.olam.htmlAction({ shaym: "failed alert shlichus", methods: { classList: { remove: "hidden" } } });
-    sh.dropShlichus();
-    sh.olam.htmlAction({ shaym: "failed message", properties: { textContent: msg } });
-}
-
-function formatTime(seconds) {
-    var minutes = Math.floor(seconds / 60);
-    var remainingSeconds = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }

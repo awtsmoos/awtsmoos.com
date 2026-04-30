@@ -1,241 +1,159 @@
 
 /**
  * B"H
- * Starting world for the player, containers
- * components to load and nivrayim.
+ * @file 1.js
+ * @description
+ * Chapter 9: The Hub of Many Paths
+ * "All roads lead to the Sanctuary."
+ * A completely procedural world generated from pure JSON data. 
  */
 
-var localPath = "http://localhost:8081/";
-var isLocal = !location.href.includes("awtsmoos.com")
 export default {
+    shaym: "The Central Hub of Light",
     components: {
-        world2File: "https://firebasestorage.googleapis.com/v0/b/ckids-assets-2.appspot.com/o/worldData%2F2%2F2.js?alt=media",
-        soundTrack1: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Fmusic%2Ftrack%201.ogg?alt=media",
-		cast: "https://firebasestorage.googleapis.com/v0/b/ckids-assets-2.appspot.com/o/models%2Fworlds%2Fcastle2.glb?alt=media",
-        portalGLB: "https://firebasestorage.googleapis.com/v0/b/ckids-assets-2.appspot.com/o/models%2Fassets%2Fportal.glb?alt=media",
-		cutscene1Audio: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fenvironemnts%2Fzone1%2Faudio%2Fbeginning.ogg?alt=media",
-        awduhm: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fawdum_2.6.glb?alt=media",
-        dingSound: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fding.ogg?alt=media",
-        new_awduhm: "https://firebasestorage.googleapis.com/v0/b/ckids-assets-2.appspot.com/o/models%2Fnew_awduhm_new_blender_camera.glb?alt=media",
-        grass: "../models/gltf/grass.glb",
-        grassTexture: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/textures%2Fgrass%2Fgrass1.jpg?alt=media",
-        dirtTexture: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/textures%2Fdirt%2Fdirt%20smaller.png?alt=media",
-        terrainMaskTexture: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fenvironemnts%2Fzone1%2Fmasks%2Fmask%20grass.png?alt=media",
-		cameraT: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fenvironemnts%2Fzone1%2FcameraTest.glb?alt=media",
-        world: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fenvironemnts%2Fzone1%2Fzone.1.4.glb?alt=media"
+        awduhm: "https://models-3122d.web.app/chossid.glb",
     },
   
     nivrayim: {
+        ProceduralTerrain: {
+            ground: {
+                name: "Emerald Expanse",
+                width: 400, depth: 400, segments: 60,
+                textureType: "grass", 
+                hills:[], 
+                position: { x: 0, y: -1, z: 0 },
+                isSolid: true
+            }
+        },
         Domem: {
-            world: {
-                name: "me",
-                path: "awtsmoos://cast",
-                isSolid:true,
-                heesHawveh: true,
-                on: {
-                        afterBriyah(d) {
-                        }
-                }
+            // THE GREAT SANCTUARY
+            theGreatHouse: {
+                name: "The First Vessel",
+                golem: { 
+                    guf: { HouseGeometry:[15, 8, 15, 1.2, 4.5, 5.5] }, 
+                    toyr: { 
+                        MaterialArray:[
+                            { AwtsmoosBrickMaterial: { map: "awtsmoosTex://brick" } }, // Procedural Exterior Walls
+                            { MeshStandardMaterial: { map: "awtsmoosTex://wood", roughness: 0.9 } } // Procedural Roof
+                        ] 
+                    } 
+                },
+                position: { x: -15, y: 0, z: -30 },
+                isSolid: true
             },
-            portal: {
-                placeholderName: "portal",
-                path: "awtsmoos://portalGLB",
-                proximity:3,
-                on: {
-                    ready(d) {
-                        console.log("Portal loaded")
-                        d.on("nivraNeechnas", () => {
-                            console.log(" we did it")
-                        })
-                    }
-                }
-            }
-        },
-        Tzomayach: {
-            portal: {
-                placeholderName: "portal",
-                path: "awtsmoos://portalGLB",
-                proximity:3,
-                on: {
-                    ready(d) {
-                        console.log("Portal loaded",d)
-                        d.on("nivraNeechnas", () => {
-                            console.log(" we did it")
-                        })
-                    }
-                }
-            }
-        },
-        Chai: {},
-        Chossid: {
-            me: {
-                height:1.5,
-                name:"player",
-                placeholderName: "player",
-                speed:126,
-                interactable: true,
-                path: "awtsmoos://awduhm",
-                position: { x:25 },
-                on: {
-                    ready(m) {
-                        var isOtherview = false;
-                        m.on("keypressed", k => {
-                            if(k.code == "KeyY") {
-                                if(!isOtherview) {
-                                    if(m.asset.cameras[0]) { m.olam.activeCamera = m.asset.cameras[0] }
-                                    isOtherview = true;
-                                } else {
-                                    isOtherview  = false;
-                                    m.olam.activeCamera = null;
-                                }
-                            }
-                        })
-                    }
-                }
-            }
-        },
-        Medabeir: {
-            him: {
-                name: "npc_1",
-                placeholderName: "npc_1",
-                path: "awtsmoos://new_awduhm",
-                proximity:3,
-                messageTree(myself) {
-                    return !myself.activeShlichus ? [
-                        {
-                            message: "B\"H\nHi! How are you today?",
-                            responses: [
-                                { text: "Tell me more about this place.", nextMessageIndex: 1 },
-                                {
-                                    text: "Take me to the desert place",
-                                    action(me) {
-                                        import(me.olam.getComponent("world2File")).then(m => {
-                                            me.olam.ayshPeula("switch worlds", m.default)
-                                        })
-                                        me.ayshPeula("close dialogue", "Ok cool story!!");
-                                    }
-                                },
-                                { text: "I'm just browsing.", action(me) { me.ayshPeula("close dialogue", "Browse away!"); } }
-                            ]
-                        },
-                        {
-                            message: "This place is a castle for adventurers like you!",
-                            responses: [
-                                { text: "That's interesting. What else?", nextMessageIndex: 2 },
-                                { text: "Thanks for the info.", action(me)  { me.ayshPeula("close dialogue", "You're welcome!"); } }
-                            ]
-                        },
-                        {
-                            message: "I have a special shlichus for you. \nWill you accept it?",
-                            responses: [
-                                { text: "What's in it for me?", nextMessageIndex:3 },
-                                { text: "No", action(me)  { me.ayshPeula("close dialogue", "One day we'll see"); } }
-                            ]
-                        },
-                        {
-                            message: "The poor of this city need help for Shabbos. Go out and collect 5 perutahs so we can give them to Tzedaka, then bring them back here.",
-                            responses: [
-                                {
-                                    text: "Ok, sounds good.",
-                                    action(me, nivra) {
-                                        if(me.olam.shlichusHandler) {
-                                            var shl = me.olam.shlichusHandler.createShlichus({
-                                                shaym: "Redemption of the Destitute",
-                                                objective: "Go out onto the obstacle course (of life) and collect 5 perutahs (coins), then bring them back.",
-                                                completeText:"Mazel Tov! You have collected all of the coins. Now go back to the person.",
-                                                totalCollectedObjects: 5, collected:0, giver: me,
-                                                on: {
-                                                    creation(sh) {
-                                                        sh.giver.activeShlichus = sh;
-                                                        me.olam.htmlAction("shlichus progress info", {}, { classList: { add:  "active" } });
-                                                        me.olam.htmlAction("sa mainTxt", { innerText: "Shlichus Accepted: " }, { classList: { add:  "active" } });
-                                                        me.olam.htmlAction({ shaym: "sa shlichus name", properties: { textContent: sh.shaym } });
-                                                        me.olam.htmlAction({ shaym: "shlichus accept", methods: { classList: { remove: "hidden" } } });
-                                                        me.olam.htmlAction({ shaym: "sa details", properties: { textContent: sh.objective } });
-                                                        me.olam.htmlAction({ shaym: "shlichus title", properties: { textContent: sh.shaym } });
-														me.olam.on("htmlPeula startShlichus", shlichusName => {
-															me.olam.htmlAction({ shaym: "shlichus progress info", methods: { classList: { remove: "hidden" } } });
-															me.olam.htmlAction({ shaym: "shlichus description", properties: { textContent: "Coins collected" } });
-															me.olam.htmlAction({ shaym: "si num", properties: { textContent: sh.collected + "/" + sh.totalCollectedObjects } })
-															me.olam.htmlAction({ shaym: "si frnt", properties: { style: { width: (0) + "%" } } });
-														}, true)
-                                                    },
-                                                    progress(p, sh) {
-                                                        var percent = sh.collected / sh.totalCollectedObjects;
-                                                        if(sh.collected < sh.totalCollectedObjects) {
-                                                            me.olam.htmlAction({ shaym: "si num", properties: { textContent: sh.collected + "/" + sh.totalCollectedObjects } });
-                                                            me.olam.htmlAction({ shaym: "si frnt", properties: { style: { width: (percent*100) + "%" } } });
-                                                        } else {
-															me.olam.htmlAction({ shaym: "si num", properties: { textContent: sh.collected + "/" + sh.totalCollectedObjects } })
-															me.olam.htmlAction({ shaym: "si frnt", properties: { style: { width: (100) + "%" } } });
-                                                            sh.completed = true;
-                                                            me.olam.htmlAction({ shaym: "shlichus description", properties: { textContent: sh.completeText } });
-                                                            me.olam.htmlAction({ shaym: "congrats message", properties: { textContent: sh.completeText } });
-                                                            me.olam.htmlAction({ shaym: "ribbon text", properties: { textContent: "Congrats!" } })
-                                                            me.olam.htmlAction({ shaym: "congrats shlichus", methods: { classList: { remove: "hidden" } } })
-                                                            me.playChayoos("dance silly");
-                                                            nivra.playChayoos("dance hip hop");
-                                                        }
-                                                    },
-                                                    collected(c, t) {}
-                                                }
-                                            });
-                                        }
-                                        me.addCoins(5)
-                                    }
-                                },
-                                {
-                                    text: "No thanks, I've got things to do.",
-                                    action(me, nivraTalkingTo) {
-                                        me.ayshPeula("close dialogue", "You'll come around sooner or later, there's nothing else to do here.");
-                                    }
-                                }
-                            ]
+            
+            // THE SACRED PATHWAY (SIDEWALK)
+            sidewalk: {
+                name: "Stone Pathway",
+                golem: {
+                    guf: { BoxGeometry: [5, 0.2, 4] },
+                    toyr: { MeshLambertMaterial: { map: "awtsmoosTex://stone" } },
+                    modifiers: [
+                        { 
+                            type: 'path', 
+                            points: [
+                                { x: 0, y: -0.1, z: 20 },
+                                { x: 0, y: -0.1, z: 15 },
+                                { x: -5, y: -0.1, z: 10 },
+                                { x: -10, y: -0.1, z: 5 },
+                                { x: -15, y: -0.1, z: 0 },
+                                { x: -15, y: -0.1, z: -5 },
+                                { x: -15, y: -0.1, z: -10 },
+                                { x: -15, y: -0.1, z: -15 }
+                            ],
+                            autoAlign: true
                         }
-                    ] : !myself.activeShlichus.completed ? [
-                        {
-                            message: "B\"H\nWhat are you still doing here? You've got a SHLICHUS to do!",
-                            responses: [
-                                { text: "Oh yeah, I forgot. See ya soon IYH!", action(me) { me.ayshPeula("close dialogue", "Ad Mihayra Yaroots!"); } },
-                                { text: "Actually, can u tell me about Merkos 302?", nextMessageIndex: 1 }
-                            ]
-                        },
-                        {
-                            message: "Merkos 302, a beacon bright," + "In endless quest for Torah's light." + "It's not just brick and mortar laid," + "But sacred space where souls are made." + "A shlichus of immortal theme," + "Awake in it the lifelong dream." + "Here chassidus, the core unfurls," + "And spirals out to reach all worlds." + "Not bound by time, nor space it hides," + "It’s the Awtsmoos in earthly guides.",
-                            responses: [
-                                { text: "Cool. See ya", action(me) { me.ayshPeula("close dialogue", "Hurry up, the poor need u!"); } }
-                            ]
-                        }
-                    ] : [
-                        {
-                            message: "B\"H\nYou have done it! You have collected all of the coins needed to bring Moshiach NOW! Tzion will be redeemed with Tzedakah, and u have just tipped the scales.  Prepare for the ulitmate redemption for all.",
-                            responses: [
-                                { text: "Great!", action(me) { me.ayshPeula("close dialogue", "Here he comes"); me.olam.htmlAction({ shaym: "shlichus progress info", methods: { classList: { add: "hidden" } } }) } }
-                            ]
-                        },
                     ]
                 },
-                on: {
-                    ready(me) {
-                        me. addCoins = function(num) {
-                            var coins = Array.from({length:num}).map(q=>({
-                                placeholderName: "coin",
-                                on: {
-                                    collected(n) {
-                                        n.playSound("awtsmoos://dingSound", { layerName: "audio effects layer 1", loop: false });
-                                        var sh = n.olam.shlichusHandler.getShlichusByShaym("Redemption of the Destitute")
-                                        if(sh) { sh.collectItem(); }
+                position: { x: 0, y: -0.8, z: 0 },
+                isSolid: true
+            }
+        },
+        
+        InteractiveDoor: {
+            mainDoor: {
+                name: "Threshold of Faith",
+                golem: {
+                    guf: { DoorGeometry:[4.5, 5.5, 0.6] },
+                    toyr: { 
+                        MaterialArray: [
+                            { MeshLambertMaterial: { map: "awtsmoosTex://wood" } }, // Wood Slab
+                            { MeshStandardMaterial: { color: "#FFD700", metalness: 0.8, roughness: 0.3 } } // Gold Knob
+                        ]
+                    } 
+                },
+                position: { x: -15 - 2.25, y: 0, z: -30 + 7.5 }, 
+                isSolid: true,
+                interactable: true,
+                proximity: 6
+            }
+        },
+        
+        CustomNpc: {
+            guide: {
+                name: "Bezalel",
+                path: "awtsmoos://awduhm",
+                proximity: 5,
+                position: { x: 0, y: 0, z: 10 },
+                customData: {
+                    color: "#ffffff",
+                    clothes: { "top-hat": true, jacket: true, glasses: true },
+                    dialogueTree:[
+                        {
+                            message: "B\"H\nWelcome to the Hub. Behold the sidewalk! It traces the curvature of the world to lead you to the Sanctuary. Approach the wooden door, gaze upon its golden knob, and try to open it.",
+                            responses:[
+                                { text: "I am ready for the mission.", nextMessageIndex: 1 },
+                                { text: "Tell me about the construction.", nextMessageIndex: 2 },
+                                { text: "Goodbye.", type: "close" }
+                            ]
+                        },
+                        {
+                            message: "Excellent. I need you to gather the fallen sparks (Coins). Bring me 3, and I will reward your soul.",
+                            responses:[
+                                {
+                                    text: "I accept this Shlichus.",
+                                    action(me) {
+                                        if(me.olam.shlichusHandler) {
+                                            me.olam.shlichusHandler.registerQuest(me, {
+                                                title: "Gathering the Sparks",
+                                                description: "Collect 3 Perutahs scattered in the emerald void.",
+                                                totalCollectedObjects: 3,
+                                                requirements: { "Perutah": 3 },
+                                                onStart: (sh) => {
+                                                     for(let i=0; i<3; i++) {
+                                                         sh.olam.addObject("Coin", { position: { x: Math.random()*20 - 10, y: 1, z: Math.random()*20 } });
+                                                     }
+                                                }
+                                            });
+                                            me.olam.shlichusHandler.acceptQuest(me.olam.shlichusHandler.activeQuests.keys().next().value);
+                                        }
                                     }
-                                }
-                            }));
-                            me.olam.loadNivrayim({ Coin: coins }).then(() => {
-                                me.ayshPeula("close dialogue", "See you soon!?");
-                            });
-                        };
-                        me.playChayoos("stand");
-                    },
-                    nivraNeechnas(nivra, me) { AWTSMOOS.Dialogue.nivraNeechnas(nivra, me); },
-                    nivraYotsee(nivra, me) { AWTSMOOS.Dialogue.nivraYotsee(nivra, me); }
+                                },
+                                { text: "Later.", type: "close" }
+                            ]
+                        },
+                        {
+                            message: "The sidewalk is an Array of boxes mapped along a list of Vector3 points. The house walls are extruded and then compiled into a static octree for perfect collision.",
+                            responses: [
+                                { text: "The mathematics is divine.", type: "close" }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        Chossid: {
+            me: {
+                height: 1.5,
+                name: "player",
+                speed: 150,
+                interactable: true,
+                path: "awtsmoos://awduhm",
+                position: { x: 0, y: 10, z: 30 }, 
+                on: {
+                    ready(m) {
+                         m.olam.ayshPeula("ui event", "effectsOverlay", { text: "B\"H - Entering the Hub", color: "#00ffed" });
+                    }
                 }
             }
         }

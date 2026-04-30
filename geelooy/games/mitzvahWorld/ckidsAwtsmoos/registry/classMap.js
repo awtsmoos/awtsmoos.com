@@ -1,9 +1,5 @@
 
 // B"H
-/**
- * @file classMap.js
- * @description The map of divine archetypes.
- */
 export default {
     "Domem": "../../chayim/domem/index.js",
     "Tzomayach": "../../chayim/tzomayach.js",
@@ -28,12 +24,13 @@ export default {
     "ProceduralRiver": "../../dvarim/nature/proceduralRiver.js",
     "Forest": "../../dvarim/nature/forest.js",
     "ProceduralPool": "../../dvarim/nature/proceduralPool.js",
-    "ProceduralTerrain": "../../dvarim/terrain/ProceduralTerrain.js", // B"H: New Terrain
+    "ProceduralTerrain": "../../dvarim/terrain/ProceduralTerrain.js",
     "Shovel": "../../dvarim/tools/shovel.js",
     "Pickaxe": "../../dvarim/tools/pickaxe.js",
     "RoadTool": "../../dvarim/tools/roadTool.js",
+    "LivingField": "../../utils/3d/procedural/nature/LivingField.js",
     
-    // B"H: Vehicles
+    // Vehicles
     "Vehicle": "../../dvarim/vehicles/vehicle.js",
     "ProceduralCar": "../../dvarim/vehicles/proceduralCar.js",
     "HotAirBalloon": "../../dvarim/vehicles/hotAirBalloon.js",
@@ -54,6 +51,8 @@ export default {
     "Mazik": "../../chayim/mazik.js",
     
     "ElementalStaff": "../../dvarim/tools/elementalStaff.js", 
+    "FluidSystem": "../../dvarim/nature/fluidSystem.js",
+    "InteractiveDoor": "../../dvarim/interactiveDoor.js",
     
-    "FluidSystem": "../../dvarim/nature/fluidSystem.js"
+    "ProceduralBuilding": "../../dvarim/architecture/ProceduralBuilding.js" // B"H! New Architectural wonder
 };
