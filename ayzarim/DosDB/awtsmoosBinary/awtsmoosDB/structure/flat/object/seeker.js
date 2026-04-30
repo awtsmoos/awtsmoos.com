@@ -1,57 +1,73 @@
 
-// B"H
 /**
  * @file seeker.js
+ * @chapter The Searcher of the Flat Earth
  * @description
- *  =============================================================================
- *  CHAPTER 4: THE REVELATION OF HIDDEN LIGHT (QUERY & SEARCH)
- *  =============================================================================
- *  "The hidden things belong to the Lord our G-d..."
- *  Extracts lengths and precise pointer offsets from the densely packed array.
+ * Not every creation needs a mountain (B-Tree). Many simple objects are perfectly 
+ * content living on a flat, tightly packed plain of existence. 
+ * 
+ * The Flat Object Seeker scans these plains linearly. Because the data is 
+ * extremely dense, this linear scan is actually faster than tree traversal 
+ * for objects with fewer than 200 keys, hitting the CPU cache perfectly.
+ * 
+ * "The words of Our G-d are eternal." We read the exact bytes, measuring the 
+ * length of the name, and comparing it to the target. If it matches, we 
+ * extract the VarInt pointer seal and return it to the Navigator.
  */
 
-class Seeker {
-    constructor(flatObject) {
-        this.flat = flatObject;
-    }
+const PointerCrown = require('../../../utils/pointer/crown.js');
 
-    length() {
-        if (this.flat.isShattered) return this.flat.engine.seq.length();
-        
-        // Fast path: if pointer invalid, return 0
-        if (!this.flat.ptr || !this.flat.ptr.blockId) return 0;
-        
-        // Safe read
-        const buf = this.flat.allocator.db._readChainSafe(this.flat.ptr);
-        if (!buf) return 0;
-        return buf.readUInt16BE(4);
-    }
+class FlatObjectSeeker {
+    /**
+     * @method get
+     * @description 
+     * Sweeps across the flat binary sequence, comparing names until the truth is found.
+     * 
+     * @param {Object} db - The cosmic database universe.
+     * @param {Object} ptr - The decoded coordinate of the Flat Object.
+     * @param {string} key - The name of the spark we seek.
+     * @returns {Buffer|null} The raw binary seal of the found item.
+     */
+    static get(db, ptr, key) {
+        if (!ptr || ptr.offset === undefined) return null;
 
-    get(key) {
-        if (this.flat.isShattered) return this.flat.engine.getPtr(key);
-        
-        if (!this.flat.ptr || !this.flat.ptr.blockId) return undefined;
-        const buf = this.flat.allocator.db._readChainSafe(this.flat.ptr);
-        if (!buf) return undefined;
-        
+        // Pull the entire flat earth into memory
+        const buf = db.pager.readExact(ptr.offset, ptr.length);
+        if (!buf || buf.length < 6) return null;
+
+        // The Layout: [Magic:4] [Count:2] [kLen:1][kBytes][vPtr:VarInt]...
         const count = buf.readUInt16BE(4);
-        const keyBuf = Buffer.from(key, 'utf8');
-        
-        let cursor = 6;
-        for(let i = 0; i < count; i++) {
-            if (cursor >= buf.length) break;
-            const kLen = buf.readUInt8(cursor);
+        const target = Buffer.from(String(key), 'utf8');
+        let pos = 6;
+
+        for (let i = 0; i < count; i++) {
+            if (pos >= buf.length) break;
+
+            // 1. Extract Key Length
+            const kLen = buf[pos++];
             
-            if (kLen === keyBuf.length) {
-                const kBytes = buf.subarray(cursor + 1, cursor + 1 + kLen);
-                if (kBytes.compare(keyBuf) === 0) {
-                    return buf.subarray(cursor + 1 + kLen, cursor + 1 + kLen + 16);
-                }
+            // 2. Extract Key Bytes
+            const kBuf = buf.subarray(pos, pos + kLen); 
+            pos += kLen;
+
+            // 3. Decode the Value Pointer to find its exact byte footprint
+            const dec = PointerCrown.decode(buf, pos);
+            if (!dec) break;
+
+            // 4. Compare the Essence
+            if (kLen === target.length && kBuf.compare(target) === 0) {
+                // Return the raw Buffer of the seal, not the decoded object!
+                // This preserves the purity required by the Navigator.wrap() function.
+                return buf.subarray(pos, pos + dec.byteSize);
             }
-            cursor += 1 + kLen + 16;
+
+            // 5. If it wasn't a match, leap over the pointer's footprint and continue
+            pos += dec.byteSize;
         }
-        return undefined;
+
+        // The spark does not exist in this realm
+        return null;
     }
 }
 
-module.exports = Seeker;
+module.exports = FlatObjectSeeker;

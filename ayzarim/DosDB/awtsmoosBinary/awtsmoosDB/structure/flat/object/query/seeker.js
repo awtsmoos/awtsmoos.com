@@ -2,9 +2,9 @@
 // B"H
 /**
  * @file seeker.js
- * @description Extracts values from the flat binary object.
+ * @description Extracts values from the flat binary object with absolute safety.
  */
-const SmartPointer = require('../../../../utils/smartPointer.js');
+const SmartPointer = require('../../../../utils/smartPointer/index.js');
 
 class ObjectSeeker {
     constructor(flatObject) { this.flat = flatObject; }
@@ -14,7 +14,7 @@ class ObjectSeeker {
         if (!this.flat.ptr || this.flat.ptr.offset === undefined) return 0;
         
         const buf = this.flat.allocator.db._readChainSafe(this.flat.ptr);
-        if (!buf) return 0;
+        if (!buf || buf.length < 6) return 0;
         return buf.readUInt16BE(4);
     }
 
@@ -23,7 +23,7 @@ class ObjectSeeker {
         if (!this.flat.ptr || this.flat.ptr.offset === undefined) return undefined;
         
         const buf = this.flat.allocator.db._readChainSafe(this.flat.ptr);
-        if (!buf) return undefined;
+        if (!buf || buf.length < 6) return undefined;
         
         const count = buf.readUInt16BE(4);
         const keyBuf = Buffer.from(key, 'utf8');

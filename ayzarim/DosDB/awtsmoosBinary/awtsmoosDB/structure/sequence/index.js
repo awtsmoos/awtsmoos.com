@@ -1,97 +1,112 @@
 
 // B"H
 /**
- * @file index.js (SequenceEngine)
- * @description The Scribe of the count-indexed B-Tree List.
+ * @file sequence/index.js
+ * @chapter The House of Sequences (List)
  */
 
 const constants = require('../../constants.js');
 const SequenceNode = require('./node.js');
-const SequenceOps = require('./ops/index.js');
-const SmartPointer = require('../../utils/smartPointer.js');
+const SmartPointer = require('../../utils/smartPointer/index.js');
 
 class SequenceEngine {
     constructor(allocator, ptr = null) {
         this.allocator = allocator;
-        this.v1 = allocator?.v1 || allocator;
-        this.db = this.v1?.db || (allocator?.db ? allocator.db : null);
-
+        this.db = allocator.db;
+        
         if (Buffer.isBuffer(ptr)) {
-            const dec = SmartPointer.decode(ptr);
-            if (dec) {
-                this.ptr = { isStructure: true, type: dec.type, offset: dec.offset, length: dec.length, ptr };
-            } else {
-                this.ptr = ptr || null;
-            }
+            this.ptr = SmartPointer.decode(ptr);
         } else {
-            this.ptr = ptr || null;
+            this.ptr = ptr;
         }
         
-        this.nodeIO = new SequenceNode(this.v1, this);
-        this.ops = new SequenceOps(this);
+        this.nodeIO = new SequenceNode(this.allocator, this);
     }
 
     create() {
         const root = this.nodeIO.create(true);
-        this.ptr = this.nodeIO.save(root);
+        const pLoc = this.nodeIO.save(root);
+        this.ptr = { ...pLoc, type: constants.VAL_TYPE.SEQUENCE };
         return SmartPointer.toBuffer(this.ptr);
     }
 
     length() {
-        if (!this.ptr || this.ptr.offset === undefined) return 0;
+        if (!this.ptr) return 0;
         const n = this.nodeIO.load(this.ptr);
         return n ? n.totalCount : 0;
     }
 
-    push(val) {
-        const ptr = Buffer.isBuffer(val) ? val : this.allocator.save(val);
-        const res = this.ops.splice(this.length(), 0, [ptr]);
-        if (res && res.newPtr) this.ptr = res.newPtr;
+    seal() {
+        return SmartPointer.toBuffer(this.ptr);
+    }
+
+    push(val, options = {}) {
+        if (!this.ptr) this.create();
+        const p = (options.isPtr || Buffer.isBuffer(val)) ? val : this.allocator.save(val);
+        
+        let root = this.nodeIO.load(this.ptr);
+        root.items.push({ ptr: p, count: 1 });
+        root.totalCount++;
+        
+        const pLoc = this.nodeIO.save(root);
+        this.ptr = { ...pLoc, type: constants.VAL_TYPE.SEQUENCE };
+        return SmartPointer.toBuffer(this.ptr);
     }
 
     splice(start, del, ...items) {
-        const res = this.ops.splice(start, del, items);
-        if (res && res.newPtr) this.ptr = res.newPtr;
+        if (!this.ptr) this.create();
+        let root = this.nodeIO.load(this.ptr);
+        
+        const entryItems = items.map(i => ({ ptr: i, count: 1 }));
+        root.items.splice(start, del, ...entryItems);
+        
+        let tc = 0;
+        for (const item of root.items) tc += item.count;
+        root.totalCount = tc;
+
+        const pLoc = this.nodeIO.save(root);
+        this.ptr = { ...pLoc, type: constants.VAL_TYPE.SEQUENCE };
+        return SmartPointer.toBuffer(this.ptr);
     }
 
-    getPtr(index) {
-        let curAddr = this.ptr;
-        let localIdx = index;
-        
-        while (curAddr && curAddr.offset !== undefined) {
-            const n = this.nodeIO.load(curAddr);
-            if (!n || localIdx >= n.totalCount) return undefined;
+    getPtr(idx) {
+        if (!this.ptr) return null;
+        let root = this.nodeIO.load(this.ptr);
+        if (!root || idx >= root.totalCount || idx < 0) return null;
 
-            if (n.isLeaf) {
-                if (localIdx >= n.items.length) return undefined;
-                return n.items[localIdx].ptr;
-            }
-            
-            let found = false;
-            for(let i=0; i<n.items.length; i++) {
-                const count = n.items[i].count;
-                if (localIdx < count) { 
-                    const childSeal = n.items[i].ptr;
-                    curAddr = SmartPointer.resolve(childSeal, this.allocator);
-                    found = true; break; 
-                }
-                localIdx -= count;
-            }
-            if (!found) return undefined;
+        if (root.isLeaf) {
+            return root.items[idx].ptr;
         }
-        return undefined;
+        
+        let currentIdx = idx;
+        for (const item of root.items) {
+            if (currentIdx < item.count) {
+                const childPtr = SmartPointer.decode(item.ptr);
+                const subEngine = new SequenceEngine(this.allocator, childPtr);
+                return subEngine.getPtr(currentIdx);
+            }
+            currentIdx -= item.count;
+        }
+        return null;
     }
 
     get(idx, ctx) {
         const p = this.getPtr(idx);
-        return p ? SmartPointer.resolve(p, this.allocator, ctx) : undefined;
+        if (!p) return undefined;
+        return SmartPointer.resolve(p, this.allocator, ctx);
     }
 
-    * iterateRaw() {
+    *keys() {
         const len = this.length();
-        for(let i=0; i<len; i++) {
-            yield { ptr: this.getPtr(i) };
+        for (let i = 0; i < len; i++) yield i;
+    }
+
+    *entries(ctx) {
+        const len = this.length();
+        for (let i = 0; i < len; i++) {
+            yield [i, this.get(i, ctx)];
         }
     }
 }
+
 module.exports = SequenceEngine;

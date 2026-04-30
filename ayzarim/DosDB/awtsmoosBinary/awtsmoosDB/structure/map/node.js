@@ -1,172 +1,82 @@
 
 // B"H
 /**
- * @file node.js (MapNode)
- * @description 
- *  =============================================================================
- *  CHAPTER 5: THE TREE OF KNOWLEDGE (EXACT-BYTE MAP NODES)
- *  =============================================================================
- *  "The words of Our G-d are eternal." 
- *  
- *  In the dark ages, the Map Node blindly assumed every pointer was exactly 16 bytes.
- *  This was a transgression against the VarInt, causing corrupted offsets and 
- *  wasted void. We have now brought total exact-byte awareness to the B-Tree. 
- *  Every key and every pointer declares its size, and the Node fits them together 
- *  like perfect, gapless stones in the wall of the Temple.
+ * @file structure/map/node.js
+ * @description
+ * The Mirror of the Node.
+ * Translates between living node objects and binary blocks.
  */
 
 const constants = require('../../constants.js');
-const serializer = require('../../utils/serializer.js');
-const SmartPointer = require('../../utils/smartPointer.js');
+const SmartPointer = require('../../utils/smartPointer/index.js');
+const Scribe = require('../../utils/leb128/scribe.js');
 
 class MapNode {
-    constructor(allocator, engine) { 
-        this.allocator = allocator; 
-        this.engine = engine;
-        this.db = allocator.db || (allocator.v1 ? allocator.v1.db : null); 
+    constructor(allocator) {
+        this.allocator = allocator;
+        this.db = allocator.db;
     }
 
-    /**
-     * @method save
-     * @description Calculates the absolute exact byte size of the node and serializes it.
-     */
-    save(node) {
-        if (!node) return null;
-
-        const keyCountVarIntSize = this._getVarIntSize(node.keys.length);
-        // Magic(4) + isLeaf(1) + KeyCountVarInt + TotalCount(4) + TotalBytes(6)
-        let size = 4 + 1 + keyCountVarIntSize + 4 + 6; 
-
-        const ptrs = node.isLeaf ? node.values : node.children;
-
-        // Calculate Exact Byte Need
-        for (let i = 0; i < node.keys.length; i++) {
-            const k = node.keys[i];
-            size += this._getVarIntSize(k.length) + k.length;
-            
-            const p = SmartPointer.toBuffer(ptrs[i]);
-            size += this._getVarIntSize(p.length) + p.length; 
-        }
-        
-        // Internal nodes have one extra child pointer
-        if (!node.isLeaf && ptrs.length > node.keys.length) {
-            const p = SmartPointer.toBuffer(ptrs[ptrs.length - 1]);
-            size += this._getVarIntSize(p.length) + p.length;
-        }
-
-        // B"H: The Exact Byte Allocator does not need padding.
-        // We directly ask the unified allocator for space.
-        const ptr = (this.allocator.v1 || this.allocator).allocate(size);
-
-        const buf = Buffer.allocUnsafe(size).fill(0);
-        let offset = 0;
-        
-        buf.write(constants.MAGIC_MAP_NODE, offset); offset += 4;
-        buf.writeUInt8(node.isLeaf ? 1 : 0, offset++);
-        
-        offset += serializer.writeVarIntTo(buf, offset, node.keys.length);
-        buf.writeUInt32BE(node.totalCount || 0, offset); offset += 4;
-        
-        // Write TotalBytes (48-bit)
-        const high = Math.floor((node.totalBytes || 0) / 0x100000000);
-        const low = (node.totalBytes || 0) % 0x100000000;
-        buf.writeUInt16BE(high, offset);
-        buf.writeUInt32BE(low, offset + 2);
-        offset += 6;
-
-        for (let i = 0; i < node.keys.length; i++) {
-            const k = node.keys[i];
-            offset += serializer.writeVarIntTo(buf, offset, k.length);
-            k.copy(buf, offset); offset += k.length;
-            
-            const pSeal = SmartPointer.toBuffer(ptrs[i]);
-            offset += serializer.writeVarIntTo(buf, offset, pSeal.length);
-            pSeal.copy(buf, offset); offset += pSeal.length;
-        }
-        
-        if (!node.isLeaf && ptrs.length > node.keys.length) {
-            const pSeal = SmartPointer.toBuffer(ptrs[ptrs.length - 1]);
-            offset += serializer.writeVarIntTo(buf, offset, pSeal.length);
-            pSeal.copy(buf, offset); offset += pSeal.length;
-        }
-
-        this.db._writeChainSafe(ptr, buf);
-        node.selfPtr = ptr;
-        
-        this.db.cacheStructure(ptr, node);
-        return ptr;
-    }
-
-    /**
-     * @method load
-     * @description Rehydrates the tree node using dynamic VarInt decoding.
-     */
     load(ptr) {
         if (!ptr || ptr.offset === undefined) return null;
-        const cached = this.db.getCachedStructure(ptr);
-        if (cached) return cached;
-        
-        const raw = this.db._readChainSafe(ptr);
-        if (!raw || raw.length < 4) return null;
+        const buf = this.db._readChainSafe(ptr);
+        if (!buf || buf.subarray(0, 4).toString() !== constants.MAGIC_MAP) return null;
 
-        const node = this._parse(raw, ptr);
-        if (node) this.db.cacheStructure(ptr, node);
+        const isLeaf = buf[4] === 1;
+        const countRes = Scribe.read(buf, 5);
+        let pos = 5 + countRes.bytesRead;
+        
+        const node = { isLeaf, keys: [], values: isLeaf ? [] : null, children: isLeaf ? null : [] };
+        
+        for (let i = 0; i < countRes.value; i++) {
+            const kLen = Scribe.read(buf, pos); pos += kLen.bytesRead;
+            node.keys.push(buf.subarray(pos, pos + kLen.value)); pos += kLen.value;
+            const pStart = pos;
+            const pSize = SmartPointer.readSize(buf, pStart);
+            const seal = buf.subarray(pStart, pStart + pSize);
+            if (isLeaf) node.values.push(seal); else node.children.push(seal);
+            pos += pSize;
+        }
+
+        if (!isLeaf && pos < buf.length) {
+            const lastSize = SmartPointer.readSize(buf, pos);
+            if (lastSize > 0) node.children.push(buf.subarray(pos, pos + lastSize));
+        }
+
         return node;
     }
 
-    _parse(raw, ptr) {
-        const magic = raw.subarray(0, 4).toString();
-        if (magic !== constants.MAGIC_MAP_NODE) return null; 
-
-        const isLeaf = raw[4] === 1;
-        const infoCount = serializer.readVarInt(raw, 5);
-        let offset = 5 + infoCount.bytesRead;
+    save(node) {
+        const ptrs = node.isLeaf ? node.values : node.children;
+        const count = node.keys.length;
         
-        const totalCount = raw.readUInt32BE(offset); offset += 4;
-        
-        // Read TotalBytes (48-bit)
-        const high = raw.readUInt16BE(offset);
-        const low = raw.readUInt32BE(offset + 2);
-        const totalBytes = (high * 0x100000000) + low;
-        offset += 6;
-
-        const keys = []; 
-        const seals = [];
-        
-        for(let i=0; i<infoCount.value; i++) {
-            // Read Key
-            const infoLen = serializer.readVarInt(raw, offset); offset += infoLen.bytesRead;
-            const k = Buffer.allocUnsafe(infoLen.value);
-            raw.copy(k, 0, offset, offset + infoLen.value);
-            keys.push(k); offset += infoLen.value;
-            
-            // Read VarInt Pointer
-            const pLenInfo = serializer.readVarInt(raw, offset); offset += pLenInfo.bytesRead;
-            const s = Buffer.allocUnsafe(pLenInfo.value); 
-            raw.copy(s, 0, offset, offset + pLenInfo.value);
-            seals.push(s); offset += pLenInfo.value;
+        let total = 5 + Scribe.sizeOf(count);
+        for(let i=0; i<count; i++) {
+            total += Scribe.sizeOf(node.keys[i].length) + node.keys[i].length;
+            total += ptrs[i].length;
         }
-        
-        if (!isLeaf) {
-            const pLenInfo = serializer.readVarInt(raw, offset); offset += pLenInfo.bytesRead;
-            const lastS = Buffer.allocUnsafe(pLenInfo.value); 
-            raw.copy(lastS, 0, offset, offset + pLenInfo.value);
-            seals.push(lastS);
-        }
-        
-        return { 
-            selfPtr: ptr, 
-            isLeaf, keys, 
-            values: isLeaf ? seals : [], 
-            children: isLeaf ? [] : seals, 
-            totalCount, totalBytes 
-        };
-    }
+        if (!node.isLeaf && ptrs.length > count) total += ptrs[ptrs.length-1].length;
 
-    _getVarIntSize(v) {
-        let s = 0; let cur = v;
-        do { s++; cur >>>= 7; } while (cur > 0);
-        return s;
+        const loc = this.allocator.allocate(total);
+        const buf = Buffer.allocUnsafe(total);
+        
+        buf.write(constants.MAGIC_MAP, 0);
+        buf.writeUInt8(node.isLeaf ? 1 : 0, 4);
+        let p = 5 + Scribe.write(buf, 5, count);
+
+        for (let i = 0; i < count; i++) {
+            p += Scribe.write(buf, p, node.keys[i].length);
+            node.keys[i].copy(buf, p); p += node.keys[i].length;
+            ptrs[i].copy(buf, p); p += ptrs[i].length;
+        }
+
+        if (!node.isLeaf && ptrs.length > count) {
+            ptrs[ptrs.length - 1].copy(buf, p);
+        }
+
+        this.db._writeChainSafe(loc, buf);
+        return SmartPointer.encode(constants.VAL_TYPE.MAP, loc.offset, total);
     }
 }
+
 module.exports = MapNode;
