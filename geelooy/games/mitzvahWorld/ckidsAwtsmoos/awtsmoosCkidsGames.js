@@ -1,11 +1,13 @@
 
 /**
  * B"H
+ * @file awtsmoosCkidsGames.js
+ * @description 
+ * The central nervous system of the Mitzvah World engine.
+ * Every creation (Nivra) must be registered here to cross from 
+ * the abstract blueprint into the physical realm.
  * 
- * This is the base class for all nivrayim (creations). Each nivra (creation) has a name and a path to its
- * glTF model.
- * 
- * 
+ * "Who established the earth upon its foundations, that it should not totter forever and ever." (Tehillim 104:5)
  */
 
 export {default as Stairs} from "./dvarim/stairs.js";
@@ -28,23 +30,23 @@ export {default as Heeooleey} from "./chayim/heeooleey.js";
 export {default as InventoryManager} from "./systems/InventoryManager.js";
 
 export {default as Brick} from "./dvarim/brick.js";
-export {default as Interaction} from 
-    "../tochen/helpers/tzomayachInteraction.js";
-
-export {default as Dialogue} from 
-    "../tochen/helpers/dialogue.js";
-
-export {default as ShlichusActions} from 
-    "../tochen/helpers/shlichusActions.js";
+export {default as Interaction} from "../tochen/helpers/tzomayachInteraction.js";
+export {default as Dialogue} from "../tochen/helpers/dialogue.js";
+export {default as ShlichusActions} from "../tochen/helpers/shlichusActions.js";
 
 export {default as CharacterMaker} from "./dvarim/characterMaker.js";
 export {default as CustomNpc} from "./dvarim/customNpc.js";
 
-// B"H New Exports - Nature System
+// B"H: The Restoration of the Earth!
+export {default as ProceduralTerrain} from "./dvarim/terrain/ProceduralTerrain.js";
+export {default as VoxelTerrain} from "./dvarim/terrain/VoxelTerrain.js";
+
+// B"H: Nature and Architectural Emanations
 export {default as ProceduralTree} from "./dvarim/nature/proceduralTree.js";
 export {default as NatureTool} from "./dvarim/nature/natureTool.js";
 export {default as ProceduralCloud} from "./dvarim/nature/proceduralCloud.js";
+export {default as LivingField} from "./utils/3d/procedural/nature/LivingField.js"; 
+export {default as InteractiveDoor} from "./dvarim/interactiveDoor.js"; 
+export {default as ProceduralBuilding} from "./dvarim/architecture/ProceduralBuilding.js"; 
 
-export class ok{
-
-}
+export class ok{}

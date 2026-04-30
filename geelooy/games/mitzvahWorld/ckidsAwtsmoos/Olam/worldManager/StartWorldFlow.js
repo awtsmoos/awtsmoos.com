@@ -1,139 +1,119 @@
-
+// B"H
 /**
- * B"H
- * @module StartWorldFlow
+ * @file StartWorldFlow.js
  * @description
- * The flow of drawing the Infinite Light down into the vessels. 
- * Establishing the player's settings, finding their history (UserProgress), 
- * and telling the Angel (Worker) to begin spinning the fabric of space-time.
+ * THE UTTERANCE OF THE FIRST WORD.
+ *
+ * "By the word of the Lord the heavens were made..."
+ *
+ * This mixin assembles world payloads, creates OlamWorkerManager,
+ * and speaks the pawsawch (first word) once vessel_ready fires.
+ * Also resets uiManager.started so future worlds load cleanly.
+ *
+ * @mixin StartWorldFlow
  */
+
 import OlamWorkerManager from "../ikarOyvedManager.js";
 
-export default {
+const StartWorldFlow = {
     /**
      * @async
      * @function startWorld
-     * @param {Object} ob - The foundational sparks, containing URLs, Objects, and UI elements.
-     * @returns {Promise<boolean>} True if the world has commenced.
+     * @param {Object} ob
+     * @returns {boolean}
      */
     async startWorld(ob = {}) {
-        console.log("B\"H - ⚡ INTENSE LOG: Main Thread startWorld initiated. Payload:", ob);
-        
-        var {
-            worldDayuh,
-            worldDayuhURL,
-            gameUiHTML,
-            sourcePath
-        } = ob;
-        
-        if (sourcePath) {
-            window.currentWorldSourcePath = sourcePath;
-            const newUrl = new URL(window.location);
-            
-            const decodedPath = decodeURIComponent(sourcePath);
-            const levelMatch = decodedPath.match(/worlds\/([^/]+)\.js$/) || decodedPath.match(/\/([^/]+)\.js$/);
-            const alias = window.curAlias || newUrl.searchParams.get('alias');
+        const { worldDayuh, worldDayuhURL, gameUiHTML, sourcePath } = ob;
 
-            if (levelMatch && levelMatch[1] && alias) {
-                const levelName = levelMatch[1];
-                newUrl.searchParams.delete('path'); 
-                newUrl.searchParams.set('alias', alias);
-                newUrl.searchParams.set('level', levelName);
-            } else {
-                newUrl.searchParams.set('path', sourcePath);
-            }
-            
-            window.history.pushState({ path: sourcePath }, '', newUrl);
-        } else {
-            window.currentWorldSourcePath = null;
-        }
+        console.log('B"H - StartWorldFlow: Preparing the linguistic vessels.');
 
-        if (gameUiHTML) {
-            this.gameUiHTML = gameUiHTML;
-        }
+        if (sourcePath) this._rectifyHistory(sourcePath);
 
-        var self = this;
-        var ghtml = worldDayuh?.html || {};
-        Object.assign(ghtml, self.gameUiHTML);
-
-        var windowVars = {};
-        
-        let playerSettings = null;
-        
-        if (window.curAlias) {
-            try {
-                const settingsPath = "desktop.folder/game data.folder/playerData.json";
-                const response = await fetch(`/api/social/aliases/${window.curAlias}/fileSystem/readFile?path=${encodeURIComponent(settingsPath)}`);
-                
-                if (response.ok) {
-                    const text = await response.text();
-                    try {
-                        playerSettings = JSON.parse(text);
-                        if (playerSettings && (playerSettings.error || playerSettings.code === "NO_AWTS_RESP")) {
-                            playerSettings = null;
-                        } 
-                    } catch(parseError) {
-                         console.warn("B\"H - ⚡ INTENSE WARNING: Error parsing settings JSON", parseError);
-                    }
-                }
-            } catch (e) {
-                console.warn("B\"H - ⚡ INTENSE WARNING: Could not load player settings (Network error):", e);
-            }
-        }
-
-        var systemInfo = {
-            html: ghtml,
+        const systemInfo = {
+            html: { ...(worldDayuh?.html || {}), ...(gameUiHTML || {}) },
             gameState: this.gameState,
-            windowVars,
-            
             set: {
-                playerSettings: playerSettings,
-                curAlias: window.curAlias || null 
+                playerSettings: await this._getPersistentSettings(),
+                curAlias: window.curAlias || null
             },
-            
-            // Only pass URL if it's explicitly provided. 
-            // If worldDayuh is an object, the worker won't try to fetch anything.
-            ...(worldDayuhURL ? { worldDayuhURL } : {}),
+            ...(worldDayuhURL ? { worldDayuhURL } : {})
         };
 
-        // B"H: If the pure object is provided, ensure it's fully passed into userInfo!
-        var userInfo = {};
-        if (worldDayuh && typeof worldDayuh === 'object') {
-            userInfo = { ...worldDayuh };
-        }
+        const userInfo = (worldDayuh && typeof worldDayuh === "object")
+            ? { ...worldDayuh }
+            : {};
 
-        var heescheelObj = {
-            userInfo,
-            systemInfo
-        };
-
-        var canvas = this.ui.$g("canvasEssence");
-
+        const canvas = this.ui.$g("canvasEssence");
         if (!canvas) {
-            alert("Couldn't find canvas, not starting");
-            return;
+            console.error('B"H - Canvas "canvasEssence" NOT FOUND!');
+            return false;
         }
 
-        console.log("B\"H - ⚡ INTENSE LOG: Dispatching Creation Payload to Worker:", heescheelObj);
+        const managerOfAllWorlds = this;
 
-        var man = new OlamWorkerManager(
-            "./ckidsAwtsmoos/Olam/oyved.js", 
+        // B"H: Allow fresh world to call onstart via initializeForFirstTime
+        if (this.uiManager) {
+            this.uiManager.started = false;
+        }
+
+        const manager = new OlamWorkerManager(
+            "/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/index.js",
             {
                 async pawsawch() {
-                    man.postMessage({
-                        heescheel: heescheelObj
+                    console.log('B"H - StartWorldFlow.pawsawch callback invoked. Speaking the First Word.');
+                    manager.postMessage({
+                        type: "pawsawch",
+                        payload: { userInfo, systemInfo }
                     });
                 }
             },
             canvas,
             this.ui
         );
-        window.g = man;
 
-        window.socket = man;
-        this.socket = man;
+        manager._managerOfAllWorlds = managerOfAllWorlds;
+        this.socket = manager;
         this.setOnmessage();
-     
-        return true; 
+
+        // B"H: Soft diagnostic only - no timeouts that destroy the world
+        setTimeout(() => {
+            if (!manager._vesselIsReady) {
+                console.warn('B"H - Diagnostic: Worker has not sent vessel_ready after 45s.');
+            } else if (!manager._pawsawchDispatched) {
+                console.warn('B"H - Diagnostic: vessel_ready received but pawsawch not dispatched.');
+            } else if (!manager._canvasTransferred) {
+                console.warn('B"H - Diagnostic: Canvas not yet transferred. Meshes still forging!');
+            }
+        }, 45000);
+
+        return true;
+    },
+
+    /** @param {string} path */
+    _rectifyHistory(path) {
+        window.currentWorldSourcePath = path;
+        const url = new URL(window.location);
+        url.searchParams.set("path", path);
+        window.history.pushState({ path }, "", url);
+    },
+
+    /** @returns {Object|null} */
+    async _getPersistentSettings() {
+        if (!window.curAlias) return null;
+        try {
+            const p = encodeURIComponent("desktop.folder/game data.folder/playerData.json");
+            const res = await fetch(
+                `/api/social/aliases/${window.curAlias}/fileSystem/readFile?path=${p}`
+            );
+            if (res.ok) {
+                const json = await res.json();
+                return (json && !json.error) ? json : null;
+            }
+            return null;
+        } catch (e) {
+            return null;
+        }
     }
 };
+
+export default StartWorldFlow;

@@ -1,30 +1,42 @@
-
+// B"H
 /**
- * B"H
  * @module SwitchDestroyLogic
  * @description
- * When one world reaches its end, it returns to the void, making room for another.
- * "He builds worlds and destroys them."
+ * THE CYCLE OF WORLDS - DESTRUCTION AND REBIRTH.
+ *
+ * "He builds worlds and destroys them." Every end is a new beginning.
+ *
+ * TIKKUN #1: destroyWorld() was writing this.socket.onmessage = fn
+ * which is a dead write on OlamWorkerManager. Fixed to use this.socket.eved.onmessage.
+ *
+ * TIKKUN #2: switchWorlds() resets uiManager.started for a clean fresh world load.
  */
 export default {
     /**
      * @async
      * @function destroyWorld
-     * @description Shatters the current physical vessels to reset the stage.
+     * @returns {Promise}
      */
     async destroyWorld() {
-        return new Promise((r,j) => {
-            if(!this.socket) r(false);
-            this.socket.onmessage = e => {
-                var dst = e.data.destroyed;
-                if(dst) {
+        return new Promise((resolve) => {
+            if (!this.socket || !this.socket.eved) {
+                resolve(false);
+                return;
+            }
+
+            // B"H: Write to eved.onmessage - the ACTUAL worker handler
+            const previousHandler = this.socket.eved.onmessage;
+            this.socket.eved.onmessage = e => {
+                if (e.data && e.data.destroyed) {
+                    this.socket.eved.onmessage = previousHandler;
                     delete this.socket;
-                    r("Destroyed now creating new");
+                    resolve("Destroyed now creating new");
+                } else if (typeof previousHandler === "function") {
+                    previousHandler(e);
                 }
             };
-            this.socket.postMessage({
-                destroyWorld: true
-            });
+
+            this.socket.postMessage({ destroyWorld: true });
             this.started = false;
         });
     },
@@ -32,33 +44,32 @@ export default {
     /**
      * @async
      * @function switchWorlds
-     * @description Crosses the threshold between dimensions.
+     * @param {Object} opts
+     * @param {Object} [opts.worldDayuh]
+     * @param {Object} [opts.gameState]
      */
-    async switchWorlds({
-        worldDayuh,
-        gameState
-    }) {
-        if(gameState) {
-            if(gameState.shaym) {
-                this.gameState[
-                    gameState.shaym
-                ] = gameState;
-            }
+    async switchWorlds({ worldDayuh, gameState } = {}) {
+        if (gameState && gameState.shaym) {
+            this.gameState[gameState.shaym] = gameState;
         }
+
         await this.destroyWorld();
-        var ld = this.ui.getHtml("loading");
-        if(ld) {
-            this.ui.setHtml(ld, {
-                className: "loading"
-            });
+
+        // B"H: Reset started so initializeForFirstTime can fire for new world
+        if (this.uiManager) {
+            this.uiManager.started = false;
         }
-        console.log("this ui",this.ui);
+
+        var ld = this.ui.getHtml("loading");
+        if (ld) {
+            this.ui.setHtml(ld, { className: "loading" });
+        }
+
         this.ui.htmlAction({
             shaym: "action loading",
-            properties: {
-                innerHTML: "Getting ready to start loading..."
-            }
+            properties: { innerHTML: "Getting ready to start loading..." }
         });
-        this.startWorld({worldDayuh});
+
+        this.startWorld({ worldDayuh });
     }
 };

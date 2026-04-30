@@ -3,7 +3,7 @@
  * B"H
  * @file physics.js
  * The 'Kav' (Line) of physics that maintains order in the Olam.
- * Refactored into distinct functional steps.
+ * Refactored into distinct functional steps. Fully safe-guarded against the void.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Utils from "../../../utils.js";
@@ -18,6 +18,7 @@ export default {
             console.warn("B\"H: Attempted to set invalid position. Ignoring.");
             return;
         }
+        if (!this.collider) return;
         this.collider.start.set(vec3.x, vec3.y + this.height / 2, vec3.z);
         this.collider.end.set(vec3.x, vec3.y + this.height, vec3.z);
         this.collider.radius = this.radius;
@@ -25,16 +26,16 @@ export default {
     },
 
     collisions() {
-        if (!this.olam.worldOctree) return; 
+        if (!this.olam || !this.olam.worldOctree || !this.collider) return; 
         const result = this.olam.worldOctree.capsuleIntersect(this.collider);
         if (result) {
             this.collider.translate(result.normal.multiplyScalar(result.depth));
-            this.velocity.addScaledVector(result.normal, -result.normal.dot(this.velocity));
+            if(this.velocity) this.velocity.addScaledVector(result.normal, -result.normal.dot(this.velocity));
         }
     },
 
     async calculateOffset() {
-        if (!this.onFloor) return;
+        if (!this.onFloor || !this.collider) return;
         await new Promise(resolve => requestAnimationFrame(resolve));
         const raycaster = new THREE.Raycaster();
         raycaster.set(this.collider.start, new THREE.Vector3(0, -1, 0));
@@ -48,6 +49,7 @@ export default {
     },
 
     heesHawvoos(dt) {
+        if (!this.mesh || !this.collider) return; // B"H: Extreme Safety Guard
         const deltaTime = Math.min(dt, 0.1);
         if (this.isTeleporting) { this.isTeleporting = false; return; }
         
@@ -55,7 +57,7 @@ export default {
 
         this._updateSubSystems(deltaTime);
         
-        const isWorldBusy = this.olam.worldOctree ? this.olam.worldOctree.isProcessing : true;
+        const isWorldBusy = this.olam && this.olam.worldOctree ? this.olam.worldOctree.isProcessing : true;
 
         this._checkGround();
         this._applyPhysicsForces(deltaTime, isWorldBusy);
@@ -67,14 +69,15 @@ export default {
         this._updateAnimationState(deltaTime);
         this._syncMesh(deltaTime);
         
-        if (this.activeObject) this.alignObject();
+        if (this.activeObject && typeof this.alignObject === 'function') this.alignObject();
         Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
     },
 
     _checkNaNAndReset() {
+        if (!this.mesh) return false;
         if (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z)) {
             console.warn("B\"H: Player position NaN! Resetting.", { was: this.mesh.position.clone() });
-            this.velocity.set(0, 0, 0);
+            if(this.velocity) this.velocity.set(0, 0, 0);
             this.setPosition(new THREE.Vector3(0, 15, 0));
             if(this.olam && this.olam.ayin) this.olam.ayin.currentDistance = 5;
             return true;
@@ -83,31 +86,33 @@ export default {
     },
 
     _updateSubSystems(deltaTime) {
-        this.updateRayColor();      
-        this.updateHandState();     
-        this.updateBlockHighlight();
-        this.updateParticles(deltaTime);
-        if (this.activeObject && this.activeObject.mesh && this.activeObject.mesh.userData.onUpdate) {
+        if(typeof this.updateRayColor === 'function') this.updateRayColor();      
+        if(typeof this.updateHandState === 'function') this.updateHandState();     
+        if(typeof this.updateBlockHighlight === 'function') this.updateBlockHighlight();
+        if(typeof this.updateParticles === 'function') this.updateParticles(deltaTime);
+        if (this.activeObject && this.activeObject.mesh && this.activeObject.mesh.userData && this.activeObject.mesh.userData.onUpdate) {
             this.activeObject.mesh.userData.onUpdate(deltaTime);
         }
     },
 
     _checkGround() {
+        if(!this.collider) return;
         const steepSlopeAngle = Math.cos(THREE.MathUtils.degToRad(50));
         _ground_check_ray.origin.copy(this.collider.start);
         _ground_check_ray.direction.set(0, -1, 0);
         let groundHit = false;
-        if(this.olam.worldOctree) {
+        if(this.olam && this.olam.worldOctree) {
             groundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
         }
         this.onFloor = groundHit && groundHit.normal.y > steepSlopeAngle && groundHit.distance <= this.radius + 0.25;
-        this.groundHitResult = groundHit; // Cache for later use
+        this.groundHitResult = groundHit; 
     },
 
     _applyPhysicsForces(deltaTime, isWorldBusy) {
+        if(!this.velocity) return;
         let damping = Math.exp(-20 * deltaTime) - 1;
         if (!this.onFloor) {
-            if (!isWorldBusy) this.velocity.y -= this.olam.GRAVITY * deltaTime;
+            if (!isWorldBusy && this.olam) this.velocity.y -= this.olam.GRAVITY * deltaTime;
             else this.velocity.y = 0; 
             
             const airDamping = damping * 0.1;
@@ -120,7 +125,8 @@ export default {
     },
 
     _calculateMovementVelocity(deltaTime) {
-        var speedDelta = deltaTime * (this.onFloor ? (this.speed * this.speedScale) : 8);
+        if(!this.velocity || !this.moving) return;
+        var speedDelta = deltaTime * (this.onFloor ? ((this.speed || 10) * (this.speedScale || 1)) : 8);
         if (!this.moving.running) speedDelta *= 0.5;
 
         let combinedVector = new THREE.Vector3();
@@ -129,23 +135,23 @@ export default {
 
         if (this.moving.forward || this.movingAutomatically) {
             this.isWalking = true; isWalkingForward = true;
-            combinedVector.add(this.getForwardVector().multiplyScalar(speedDelta));
+            if(typeof this.getForwardVector === 'function') combinedVector.add(this.getForwardVector().multiplyScalar(speedDelta));
             this.targetRotateOffset = 0;
         } else if (this.moving.backward) {
             this.isWalking = true; isWalkingBack = true;
-            combinedVector.add(this.getForwardVector().multiplyScalar(-speedDelta));
+            if(typeof this.getForwardVector === 'function') combinedVector.add(this.getForwardVector().multiplyScalar(-speedDelta));
             this.targetRotateOffset = -Math.PI;
         }
 
         if (this.moving.stridingLeft) {
             this.isWalking = true;
-            combinedVector.add(Utils.getSideVector(this.nonRotatingEmptyForMovement, this.worldSideDirectionVector).multiplyScalar(-speedDelta));
+            if(this.nonRotatingEmptyForMovement) combinedVector.add(Utils.getSideVector(this.nonRotatingEmptyForMovement, this.worldSideDirectionVector).multiplyScalar(-speedDelta));
             this.targetRotateOffset = Math.PI / 2;
             if (isWalkingForward) this.targetRotateOffset -= Math.PI / 4;
             else if (isWalkingBack) this.targetRotateOffset += Math.PI / 4;
         } else if (this.moving.stridingRight) {
             this.isWalking = true;
-            combinedVector.add(Utils.getSideVector(this.nonRotatingEmptyForMovement, this.worldSideDirectionVector).multiplyScalar(speedDelta));
+            if(this.nonRotatingEmptyForMovement) combinedVector.add(Utils.getSideVector(this.nonRotatingEmptyForMovement, this.worldSideDirectionVector).multiplyScalar(speedDelta));
             this.targetRotateOffset = -Math.PI / 2;
             if (isWalkingForward) this.targetRotateOffset += Math.PI / 4;
             else if (isWalkingBack) this.targetRotateOffset -= Math.PI / 4;
@@ -161,12 +167,13 @@ export default {
     },
 
     _handleJump() {
+        if(!this.velocity || !this.moving) return;
         if (this.onFloor && this.moving.jump) {
             this.jumped = true;
-            this.velocity.y = this.jumpHeight;
+            this.velocity.y = this.jumpHeight || 10;
             if (!this.didJump) {
                 this.didJump = true;
-                this.ayshPeula("jumped", this);
+                if(typeof this.ayshPeula === 'function') this.ayshPeula("jumped", this);
             }
         } else {
             if (this.didJump) this.didJump = false;
@@ -174,12 +181,13 @@ export default {
     },
 
     _executeMovement(deltaTime) {
+        if(!this.velocity || !this.collider) return;
         const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime);
         const capsule = this.collider;
         let numSteps = Math.ceil(deltaPosition.length() / (capsule.radius * 0.5));
         if (numSteps > 10) numSteps = 10; 
 
-        if(this.olam.worldOctree) {
+        if(this.olam && this.olam.worldOctree) {
             if (numSteps > 1) {
                 const stepDelta = deltaPosition.clone().divideScalar(numSteps);
                 for (let i = 0; i < numSteps; i++) {
@@ -194,9 +202,10 @@ export default {
     },
 
     _resolveGroundCollision() {
+        if(!this.collider || !this.velocity) return;
         const steepSlopeAngle = Math.cos(THREE.MathUtils.degToRad(50));
         let finalGroundHit = false;
-        if(this.olam.worldOctree) finalGroundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
+        if(this.olam && this.olam.worldOctree) finalGroundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
         
         this.onFloor = finalGroundHit && finalGroundHit.normal.y > steepSlopeAngle && finalGroundHit.distance <= this.radius + 0.25;
 
@@ -206,7 +215,7 @@ export default {
                 this.collider.translate(finalGroundHit.normal.clone().multiplyScalar(penetrationDepth));
             }
             this.velocity.projectOnPlane(finalGroundHit.normal);
-            if (!this.isWalking && !this.moving.jump) {
+            if (!this.isWalking && (!this.moving || !this.moving.jump)) {
                 this.velocity.x = 0; this.velocity.z = 0;
             }
             this.velocity.y = 0;
@@ -214,31 +223,45 @@ export default {
     },
 
     _checkAbyss() {
+        if(!this.collider) return;
         if (this.collider.start.y < -100) {
-            console.log("B\"H: Player fell into abyss. Respawning.");
-            this.velocity.set(0, 0, 0);
-            this.setPosition(new THREE.Vector3(0, 10, 0));
+            if (!this._abyssLogTime || Date.now() - this._abyssLogTime > 5000) {
+                console.log("B\"H: Player fell into abyss. Suspending gravity until reality catches up.");
+                this._abyssLogTime = Date.now();
+            }
+            
+            if(this.velocity) this.velocity.set(0, 0, 0);
+            this.setPosition(new THREE.Vector3(0, 15, 0));
+            
+            if(this.olam && this.olam.worldOctree) {
+                this.olam.worldOctree.isProcessing = true; 
+            }
         }
     },
 
     _updateAnimationState(deltaTime) {
-        var rotationSpeed = this.rotationSpeed * deltaTime;
+        if(!this.moving || !this.rotation) return;
+        var rotationSpeed = (this.rotationSpeed || 2) * deltaTime;
         this.isTurning = false;
+
+        const p = typeof this.playChaweeyoos === 'function' ? this.playChaweeyoos.bind(this) : ()=>{};
+        const g = typeof this.getChaweeyoos === 'function' ? this.getChaweeyoos.bind(this) : ()=>null;
+        const a = typeof this.ayshPeula === 'function' ? this.ayshPeula.bind(this) : ()=>{};
 
         if (this.moving.turningLeft) {
             if (!this.isWalking && this.onFloor) {
-                this.playChaweeyoos(this.getChaweeyoos("left turn"));
+                p(g("left turn"));
                 this.isTurning = true;
             }
             this.rotation.y += rotationSpeed;
-            this.ayshPeula("rotate", this.rotation.y);
+            a("rotate", this.rotation.y);
         } else if (this.moving.turningRight) {
             if (!this.isWalking && this.onFloor) {
-                this.playChaweeyoos(this.getChaweeyoos("right turn"));
+                p(g("right turn"));
                 this.isTurning = true;
             }
             this.rotation.y -= rotationSpeed;
-            this.ayshPeula("rotate", this.rotation.y);
+            a("rotate", this.rotation.y);
         }
 
         if (this.onFloor) {
@@ -246,47 +269,57 @@ export default {
                 this.jumped = false;
                 if (!this.hitFloor) {
                     this.hitFloor = true;
-                    this.ayshPeula("hit floor", this);
+                    a("hit floor", this);
                 }
             }
             if (this.isWalking) {
-                this.playChaweeyoos(this.getChaweeyoos("run"));
+                p(g("run"));
                 if (!this.startedWalking) {
                     this.startedWalking = true;
-                    this.ayshPeula("started walking", this);
+                    a("started walking", this);
                 }
             } else if (!this.isTurning) {
-                this.playChaweeyoos(this.getChaweeyoos("idle"));
+                p(g("idle"));
             }
             if (!this.isWalking && this.startedWalking) {
                 this.startedWalking = false;
-                this.ayshPeula("stopped walking", this);
+                a("stopped walking", this);
             }
             this.fallingFrames = 0;
         } else {
             if (this.startedWalking) {
                 this.startedWalking = false;
-                this.ayshPeula("stopped walking", this);
+                a("stopped walking", this);
             }
-            if (this.velocity.y > 0 && this.jumped) {
+            if (this.velocity && this.velocity.y > 0 && this.jumped) {
                 this.fallingFrames = 0;
-                this.playChaweeyoos(this.getChaweeyoos("jump"), { loop: false });
-            } else if (this.jumped && this.velocity.y < -9) {
-                this.playChaweeyoos(this.getChaweeyoos("falling"));
+                p(g("jump"), { loop: false });
+            } else if (this.velocity && this.jumped && this.velocity.y < -9) {
+                p(g("falling"));
                 this.fallingFrames = 0;
-            } else if (!this.jumped && this.velocity.y < -3) {
-                if (++this.fallingFrames > 14) this.playChaweeyoos(this.getChaweeyoos("falling"));
+            } else if (this.velocity && !this.jumped && this.velocity.y < -3) {
+                if (++this.fallingFrames > 14) p(g("falling"));
             }
         }
     },
 
     _syncMesh(deltaTime) {
-        this.mesh.position.copy(this.collider.start);
-        this.mesh.position.y -= this.radius;
-        this.mesh.rotation.y = this.rotation.y;
+        if (!this.mesh || !this.collider || !this.collider.start) return;
         
-        if (this?.emptyCopy?.rotation) this.emptyCopy.rotation.copy(this.mesh.rotation);
-        if (this?.nonRotatingEmptyForMovement?.rotation) this.nonRotatingEmptyForMovement.rotation.copy(this.mesh.rotation);
+        // Center of physics
+        this.mesh.position.copy(this.collider.start);
+        
+        // B"H: ABSOLUTE BOTTOM OF THE PHYSICS BOUNDARY
+        const capsuleBottomY = this.collider.start.y - this.radius;
+
+        if(this.rotation) this.mesh.rotation.y = this.rotation.y;
+        
+        if (this.emptyCopy && this.emptyCopy.rotation) this.emptyCopy.rotation.copy(this.mesh.rotation);
+        if (this.nonRotatingEmptyForMovement && this.nonRotatingEmptyForMovement.rotation) this.nonRotatingEmptyForMovement.rotation.copy(this.mesh.rotation);
+
+        this.targetRotateOffset = this.targetRotateOffset || 0;
+        this.rotateOffset = this.rotateOffset || 0;
+        this.lerpTurnSpeed = this.lerpTurnSpeed || 0.145;
 
         let angularDistance = this.targetRotateOffset - this.rotateOffset;
         if (angularDistance > Math.PI) angularDistance -= 2 * Math.PI;
@@ -297,25 +330,39 @@ export default {
         if (this.rotateOffset > Math.PI) this.rotateOffset -= 2 * Math.PI;
         else if (this.rotateOffset < -Math.PI) this.rotateOffset += 2 * Math.PI;
 
-        if (this.modelMesh) {
+        if (this.modelMesh && this.rotation) {
             this.modelMesh.rotation.y = this.rotation.y + this.rotateOffset;
+            
+            // B"H: TIKKUN OF ALIGNMENT
+            // Ensure the visual mesh is aligned flawlessly with the physical reality.
+            this.modelMesh.position.x = this.mesh.position.x;
+            this.modelMesh.position.z = this.mesh.position.z;
+
+            // The pivot offset tells us how far the feet are from the origin of the mesh.
+            const pivotToFeet = this.visualYOffset || 0;
+            const userSink = this.groundingOffset || 0;
+
+            // Place the feet perfectly on the bottom of the capsule!
+            this.modelMesh.position.y = capsuleBottomY - pivotToFeet - userSink;
+
             if (this.lastRotateOffset !== this.rotateOffset) {
-                this.ayshPeula("rotate", this.modelMesh.rotation.y);
+                if(typeof this.ayshPeula === 'function') this.ayshPeula("rotate", this.modelMesh.rotation.y);
                 this.lastRotateOffset = this.rotateOffset;
             }
-            this.modelMesh.position.copy(this.mesh.position);
         }
         
-        this.emptyCopy.position.copy(this.mesh.position);
-        this.nonRotatingEmptyForMovement.position.copy(this.mesh.position);
-        this.emptyCopy.rotation.copy(this.modelMesh.rotation);
+        if (this.emptyCopy) this.emptyCopy.position.copy(this.mesh.position);
+        if (this.nonRotatingEmptyForMovement) this.nonRotatingEmptyForMovement.position.copy(this.mesh.position);
+        if (this.modelMesh && this.emptyCopy) this.emptyCopy.rotation.copy(this.modelMesh.rotation);
 
-        if (this.activeRay && this.olam.ayin.isFPS) {
+        if (this.activeRay && this.olam && this.olam.ayin && this.olam.ayin.isFPS && this.rayAnchor) {
             const camera = this.olam.ayin.camera;
-            this.rayAnchor.position.copy(camera.position);
-            const cameraEuler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
-            this.rayAnchor.rotation.y = cameraEuler.y;
+            if(camera) {
+                this.rayAnchor.position.copy(camera.position);
+                const cameraEuler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
+                this.rayAnchor.rotation.y = cameraEuler.y;
+            }
         }
-        this.updateSpheres(deltaTime);
+        if(typeof this.updateSpheres === 'function') this.updateSpheres(deltaTime);
     }
 };

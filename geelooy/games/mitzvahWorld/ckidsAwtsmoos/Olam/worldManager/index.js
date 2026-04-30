@@ -1,11 +1,14 @@
-
+// B"H
 /**
- * B"H
  * @module ManagerOfAllWorlds
  * @description
- * Like the infinite orchestrator of the multiverse, this class oversees the genesis, 
- * destruction, and transition of all Olamot (Worlds). It sets up the UI, handles the 
- * web workers (the "Angels" doing the heavy lifting), and processes global state.
+ * THE OVERSEER OF ALL DIMENSIONS.
+ *
+ * "He builds worlds and destroys them." This class does both.
+ *
+ * TIKKUN: The serviceWorkerPath param passed here (oyvedEdom.js) is now
+ * properly used to register the service worker - its actual purpose.
+ * StartWorldFlow handles the real game worker path independently.
  */
 import UIManager from "../uiManager/index.js";
 import StartWorldFlow from "./StartWorldFlow.js";
@@ -21,24 +24,31 @@ export default class ManagerOfAllWorlds {
 
     /**
      * @constructor
-     * @param {string} workerPath - The path to the angel (worker) that will weave the physical laws.
+     * @param {string} serviceWorkerPath - Path to the service worker (oyvedEdom.js).
      */
-    constructor(workerPath) {
+    constructor(serviceWorkerPath) {
         DomHelpers.setupGlobalFunctions();
-      
+
         var self = this;
         var uiManager = new UIManager();
         this.uiManager = uiManager;
+
         var ui = uiManager.UI({
             onstart(ob) {
                 console.log("STARTED");
                 self.startWorld(ob);
             }
         });
+
         this.ui = ui;
-        
+
+        // B"H: Register the service worker - actual purpose of this param
+        if (serviceWorkerPath && typeof serviceWorkerPath === "string") {
+            this.registerServiceWorker(serviceWorkerPath);
+        }
+
         var h = ui.$g("ikar");
-        if(!h) {
+        if (!h) {
             console.log("Main menu not found");
         }
     }

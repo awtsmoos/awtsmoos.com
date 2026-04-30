@@ -1,38 +1,25 @@
-
+// B"H
 /**
- * B"H
  * @module SocketHandler
  * @description
- * Handling the whispering echoes from the Worker (Angel) back to the Main Thread.
+ * THE TIKKUN OF THE CLOBBERED ROUTER.
+ *
+ * The old setOnmessage() wrote: this.socket.onmessage = fn
+ * But this.socket is OlamWorkerManager, not a raw Worker.
+ * Real routing is via eved.onmessage set once in OlamWorkerManager's constructor.
+ * Writing to this.socket.onmessage was a dead assignment doing nothing useful.
+ *
+ * THE FIX: setOnmessage is now a no-op.
+ * All routing is in OlamWorkerManager + worker/messageHandler.js + handlers/world.js.
  */
 export default {
     /**
      * @function setOnmessage
-     * @description Sets up the ears to listen to the worker's song.
+     * @description
+     * No-op. All message routing is handled by OlamWorkerManager via
+     * eved.onmessage -> _interceptWorkerMessage -> handleMessageEvent.
      */
     setOnmessage() {
-        try {
-            if(this.socket) {
-                this.socket.onmessage = e => {
-                    if(e.data.switchWorlds) {
-                        this.switchWorlds({
-                            ...e.data.switchWorlds
-                        });
-                    }
-
-                    if(e.data.loadedWorld) {
-                        console.log("LOADED");
-                        this.uiManager.makeGameMenu();
-                    }
-                };
-                
-                this.socket.onerror = this.onerror;
-            } else {
-                console.log("no socket!");
-            }
-        } catch(e) {
-            alert(" Not able to set up world");
-            console.log("Not set",e);
-        }
+        console.log('B"H - SocketHandler.setOnmessage: no-op. Real routing is in OlamWorkerManager.');
     }
 };

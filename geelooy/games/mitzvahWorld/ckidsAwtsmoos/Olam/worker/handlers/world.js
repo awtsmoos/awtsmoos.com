@@ -1,72 +1,137 @@
 
+// B"H
 /**
- * B"H
- * World Logic Handlers (Worker Side)
+ * @file handlers/world.js
+ * @description
+ * 🌍 CHAPTER 6: THE COMMANDS OF THE KINGSHIP (MALCHUS) 🌍
+ * 
+ * "A king's decree is a wall that cannot be breached." 
+ * 
+ * This module catches the signals arriving from the Worker (the laboring Angel)
+ * and manifests them as physical events in the Main Thread.
+ * 
+ * THE TIKKUN OF THE BLACK SCREEN:
+ * Previously, the handlers for "loadedWorld" and "game started" merely logged 
+ * their arrival, but took NO physical action to reveal the world. Now, they 
+ * invoke the supreme VeilController to tear the curtain and reveal the Light!
  */
+
 import LocalDatabase from "../../../utils/LocalDatabase.js";
 import * as THREE from '/games/scripts/build/three.module.js';
+import VeilController from "../../uiManager/logic/VeilController.js";
 
+/**
+ * @function worldHandlers
+ * @param {OlamWorkerManager} manager 
+ */
 export default function worldHandlers(manager) {
     const { eved, myUi } = manager;
 
     return {
-        destroyWorld() {
-             if(manager.olam) {
-                 manager.olam.ayshPeula("destroy");
-                 if(eved) eved.postMessage({ destroyed: true });
-             }
+        /**
+         * @function loadedWorld
+         * @description The World has reached 100% manifestation in the worker's thread.
+         */
+        async loadedWorld(payload) {
+            console.log("B\"H - 🌍 LOADED WORLD received! Initiating dimensional transfer.");
+            
+            try {
+                // 1. Give the canvas to the worker so it can start the render heartbeat
+                await manager.tawfeekim.heescheel();
+                
+                // 2. Tear the veil immediately! No waiting for another heartbeat.
+                console.log("B\"H - ⚡ RELENTLESS REVELATION: Forcing Veil Lift in loadedWorld handler.");
+                VeilController.lift();
+
+                // 3. Populate the menu systems
+                if (manager._managerOfAllWorlds && manager._managerOfAllWorlds.uiManager) {
+                    manager._managerOfAllWorlds.uiManager.makeGameMenu();
+                }
+            } catch(e) {
+                console.error("B\"H - 🚨 World instantiation crashed at the threshold:", e);
+            }
         },
-        
-        // ... downloadWorld ... (omitted for brevity, keep existing)
+
+        /**
+         * @function game started
+         * @description The final pulse before the engine takes control.
+         */
+        "game started": async function(payload) {
+            console.log("B\"H - 🎮 'game started' signal intercepted. Ensuring the veil is destroyed.");
+            
+            // B"H: Relentless pursuit of visibility! 
+            // In some dimensions, loadedWorld is the trigger, in others, game started. 
+            // We satisfy both to ensure NO soul is left in darkness.
+            VeilController.lift();
+        },
+
+        async switchWorlds(data) {
+            console.log("B\"H - 🌀 Dimensional bridge opening to new coordinates...", data);
+            if (manager._managerOfAllWorlds && typeof manager._managerOfAllWorlds.switchWorlds === 'function') {
+                await manager._managerOfAllWorlds.switchWorlds(data);
+            }
+        },
+
+        destroyWorld() {
+            console.log("B\"H - 💥 Returning the current creation to the absolute void.");
+            if (manager.olam) {
+                manager.olam.ayshPeula("destroy");
+                if (eved) eved.postMessage({ destroyed: true });
+            }
+        },
 
         async updateObjectTransform(data) {
-            const { id, type, axis, value } = data;
+            const { id, type, axis, value } = data || {};
+            if (!manager.olam || !id) return;
+
             const obj = manager.olam.nivrayim.find(n => n.id === id);
             if (obj && obj.mesh) {
                 if (type === 'position') obj.mesh.position[axis] = value;
                 if (type === 'rotation') obj.mesh.rotation[axis] = value;
                 if (type === 'scale') obj.mesh.scale[axis] = value;
-                
                 obj.mesh.updateMatrixWorld(true);
-                
-                // Update Physics if Solid
+
                 if (obj.isSolid) {
                     manager.olam.worldOctree.removeMesh(obj.mesh);
                     manager.olam.worldOctree.addObject(obj.mesh);
                 }
             }
         },
-        
+
         async deleteObject(id) {
-             const obj = manager.olam.nivrayim.find(n => n.id === id);
-             if (obj) manager.olam.sealayk(obj);
+            if (manager.olam) {
+                const obj = manager.olam.nivrayim.find(n => n.id === id);
+                if (obj) manager.olam.sealayk(obj);
+            }
         },
-        
+
         async duplicateObject(id) {
-             const obj = manager.olam.nivrayim.find(n => n.id === id);
-             if (obj) {
-                 const newPos = obj.mesh.position.clone().add(new THREE.Vector3(2,0,2));
-                 const options = { ...obj.originalOptions, position: newPos, name: obj.name + "_copy_" + Date.now() };
-                 manager.olam.addObject(obj.constructor.name, options);
-             }
+            if (!manager.olam) return;
+            const obj = manager.olam.nivrayim.find(n => n.id === id);
+            if (obj) {
+                const newPos = obj.mesh.position.clone().add(new THREE.Vector3(2, 0, 2));
+                const options = {
+                    ...obj.originalOptions,
+                    position: newPos,
+                    name: obj.name + "_copy_" + Date.now()
+                };
+                manager.olam.addObject(obj.constructor.name, options);
+            }
         },
-        
+
         toolAltAction(item) {
-             // Logic for tools
-             if (item.className === 'ElementalStaff') {
-                 // Toggle mode in customData
-                 if(!item.customData) item.customData = {};
-                 const modes = ['fire', 'water', 'air', 'earth'];
-                 let idx = item.customData.modeIndex || 0;
-                 idx = (idx + 1) % modes.length;
-                 item.customData.modeIndex = idx;
-                 const mode = modes[idx];
-                 
-                 manager.olam.ayshPeula("ui event", "effectsOverlay", { text: `Staff Mode: ${mode.toUpperCase()}`, color: "#ffffff" });
-                 
-                 // Persist to inventory
-                 if(manager.olam.player) manager.olam.player.inventory.updateUI();
-             }
+            if (!item || !manager.olam) return;
+            if (item.className === 'ElementalStaff') {
+                if (!item.customData) item.customData = {};
+                const modes = ['fire', 'water', 'air', 'earth'];
+                let idx = (item.customData.modeIndex || 0 + 1) % modes.length;
+                item.customData.modeIndex = idx;
+                
+                manager.olam.ayshPeula("ui event", "effectsOverlay", { 
+                    text: `Staff Mode: ${modes[idx].toUpperCase()}`, 
+                    color: "#ffffff" 
+                });
+            }
         }
     };
 }
