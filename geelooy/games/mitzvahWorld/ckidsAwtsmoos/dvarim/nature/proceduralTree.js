@@ -3,6 +3,7 @@
  * B"H
  * @file proceduralTree.js
  * Generates dynamic trees based on genetic parameters.
+ * "A tree of life to those who grasp it."
  */
 import Tzomayach from "../../chayim/tzomayach.js";
 import * as THREE from '/games/scripts/build/three.module.js';
@@ -39,7 +40,6 @@ export default class ProceduralTree extends Tzomayach {
      * Generates the tree data structures.
      */
     generateGeometry() {
-        // console.log("B\"H: Generating Tree Geometry for", this.name);
         this.generator = new TreeGenerator(this.options, this.olam);
         const generated = this.generator.generate();
         
@@ -128,18 +128,19 @@ export default class ProceduralTree extends Tzomayach {
         leafGeo.setIndex(this.leaves.indices);
         leafGeo.computeVertexNormals();
         
-        // B"H: CRITICAL FIX - Initialize with Dummy Texture
-        // This ensures the material has a valid map reference immediately, preventing shader issues.
+        // B"H: CRITICAL FIX - Initialize with fully defined Dummy Texture
         const dummyData = new Uint8Array([255, 255, 255, 255]); // White pixel
         const dummyTex = new THREE.DataTexture(dummyData, 1, 1, THREE.RGBAFormat);
+        dummyTex.channel = 0; // Prevent uvundefined
+        dummyTex.matrix = new THREE.Matrix3(); // Prevent 'elements' error
         dummyTex.needsUpdate = true;
 
         this.leavesMaterial = new THREE.MeshStandardMaterial({
             color: this.options.leaves.tint || 0x228B22, 
-            map: dummyTex, // Start with dummy
+            map: dummyTex, // Start with perfected dummy
             side: THREE.DoubleSide,
             alphaTest: 0.5, 
-            transparent: true, // Always true to handle cutout
+            transparent: true, 
             depthWrite: true,
             roughness: 0.8,
             metalness: 0.1
@@ -184,8 +185,9 @@ export default class ProceduralTree extends Tzomayach {
             }
         }
         
-        // B"H: Wind Shader Injection
+        // B"H: Wind Shader Injection (Cleansed of forceful attributes)
         this.leavesMaterial.onBeforeCompile = (shader) => {
+            shader.vertexShader = shader.vertexShader.replace(/uvundefined/g, "uv");
             shader.uniforms.uTime = { value: 0 };
             shader.vertexShader = `uniform float uTime;\n` + shader.vertexShader;
             shader.vertexShader = shader.vertexShader.replace(
@@ -197,7 +199,6 @@ export default class ProceduralTree extends Tzomayach {
                     float windStrength = 0.1;
                     float windSpeed = 1.5;
                     float windOffset = position.x + position.z;
-                    // Use uv.y for vertical gradient if available, else 1.0
                     float h = uv.y; 
                     
                     float wind = sin(uTime * windSpeed + windOffset * 0.5) * windStrength * h;
@@ -219,7 +220,7 @@ export default class ProceduralTree extends Tzomayach {
         const leaves = new THREE.Mesh(leafGeo, this.leavesMaterial);
         leaves.castShadow = true;
         leaves.receiveShadow = true;
-        leaves.frustumCulled = false; // Prevent culling errors
+        leaves.frustumCulled = false; 
         
         this.treeGroup.add(branches);
         this.treeGroup.add(leaves);

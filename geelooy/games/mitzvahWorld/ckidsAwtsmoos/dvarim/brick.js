@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file brick.js
@@ -41,7 +42,7 @@ export default class Brick extends Tzomayach {
 	        toyr: {
 	            MeshLambertMaterial: {
 	                color: "#a0522d",
-	                map: "awtsmoos://brickTexture"
+	                map: "awtsmoosTex://brick" // B"H: Draws directly from the void of math!
 	            }
 	        },
 	        textureRepeat: { x: dimensions.x, y: dimensions.y }

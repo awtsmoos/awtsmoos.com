@@ -157,7 +157,7 @@ export default class Stairs extends Tzomayach {
 	        toyr: {
 	            MeshLambertMaterial: {
 	                color: "#a0522d",
-	                map: "awtsmoos://brickTexture"
+	                map: "awtsmoosTex://brick" // B"H: Pure math texture!
 	            }
 	        },
 	        textureRepeat: { x: 1, y: 1 } 

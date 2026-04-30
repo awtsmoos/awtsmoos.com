@@ -2,6 +2,8 @@
 /**
  * B"H
  * @file customNpc.js
+ * "He breathed into his nostrils the breath of life, and man became a living soul."
+ * Represents a dynamically created entity that can wander, speak, and trade.
  */
 
 import Medabeir from "../chayim/medabeir/index.js";
@@ -24,8 +26,9 @@ export default class CustomNpc extends Medabeir {
         op.isSolid = false; 
         op.interactable = true; 
         
-        // B"H: Support for procedural manifestation!
-        op.path = customData.modelPath || "procedural";
+        // B"H: The Chossid model is the fundamental archetype of humanity in this realm.
+        // It provides the bones, the animations, and the stability.
+        op.path = customData.modelPath || "https://models-3122d.web.app/chossid.glb";
         op.heesHawveh = true;
         
         if(op.proximity === undefined) op.proximity = 3.5;
@@ -36,9 +39,9 @@ export default class CustomNpc extends Medabeir {
         if(!this.id) this.id = op.id || Utils.generateID();
         
         this.customData = customData;
-        this.quests = customData.quests || []; 
+        this.quests = customData.quests ||[]; 
 
-        this.shopInventory = customData.shopInventory || [];
+        this.shopInventory = customData.shopInventory ||[];
         this.balance = customData.balance || 0;
         
         if (this.shopInventory) {
@@ -53,6 +56,11 @@ export default class CustomNpc extends Medabeir {
         this.on("ready", () => {
             this.registerMyQuests();
             this.updateOverheadIcon();
+            
+            // Apply custom clothing from data
+            if(this.customData && this.customData.clothes && typeof this.updateAppearance === 'function') {
+                this.updateAppearance();
+            }
         });
 
         this.messageTree = (myself) => {
@@ -61,7 +69,7 @@ export default class CustomNpc extends Medabeir {
     }
 
     async heescheel(olam) {
-        // B"H: Intercept procedural manifestation BEFORE trying to load a GLB
+        // Procedural manifestation is now a pure fallback or explicit choice
         if (this.path === "procedural") {
             this.olam = olam;
             const color = this.customData.color || "#ff00ea";
@@ -83,6 +91,7 @@ export default class CustomNpc extends Medabeir {
             await olam.hoyseef(this);
             this.isReady = true;
         } else {
+            // Default path routes through the standard GLB loader
             await super.heescheel(olam);
         }
     }

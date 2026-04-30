@@ -3,6 +3,7 @@
  * B"H
  * @file materialGenerator.js
  * Generates materials for nature items, including wind shaders and procedural textures.
+ * Now rigorously safeguarded against WebGL constructor paradoxes without causing redefinitions.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -23,11 +24,11 @@ export default {
             
             mat = new THREE.MeshStandardMaterial({ 
                 map: rockTexture,
-                color: 0xffffff, // White base to allow tinting
+                color: 0xffffff, 
                 roughness: 0.9,
                 metalness: 0.1,
-                flatShading: false, // B"H: Smooth shading
-                side: THREE.FrontSide // Optimization: Solid objects don't need double side usually
+                flatShading: false, 
+                side: THREE.FrontSide 
             });
         } else {
             mat = new THREE.MeshLambertMaterial({ color: 0xffffff });
@@ -42,7 +43,6 @@ export default {
         const size = 256;
         let canvas;
 
-        // B"H: Handle Worker Environment (No DOM)
         if (typeof OffscreenCanvas !== 'undefined') {
             canvas = new OffscreenCanvas(size, size);
         } else if (typeof document !== 'undefined') {
@@ -50,7 +50,6 @@ export default {
             canvas.width = size;
             canvas.height = size;
         } else {
-            // Fallback if neither is available (unlikely)
             console.warn("B\"H: No canvas support for rock texture generation.");
             return new THREE.Texture();
         }
@@ -66,16 +65,11 @@ export default {
         const buffer = idata.data;
         
         for(let i=0; i<buffer.length; i+=4) {
-            // Random noise -50 to +50
             const noise = (Math.random() - 0.5) * 60; 
-            
-            // Add noise to base grey (approx 136)
             const val = 136 + noise;
-            
             buffer[i] = val;   // R
             buffer[i+1] = val; // G
             buffer[i+2] = val; // B
-            // Alpha stays 255
         }
         
         ctx.putImageData(idata, 0, 0);
@@ -95,8 +89,13 @@ export default {
         }
 
         const texture = new THREE.CanvasTexture(canvas);
+        
+        // B"H: The Consecration
+        texture.channel = 0;
+        texture.matrix = new THREE.Matrix3();
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
+        texture.needsUpdate = true;
         
         this._rockTexCache = texture;
         return texture;
@@ -107,6 +106,9 @@ export default {
         if(material.map) material.alphaTest = 0.5;
         
         material.onBeforeCompile = (shader) => {
+            // B"H Defend the wind from uvundefined corruption smoothly
+            shader.vertexShader = shader.vertexShader.replace(/uvundefined/g, "uv");
+
             shader.uniforms.uTime = { value: 0 };
             
             shader.vertexShader = `
@@ -118,9 +120,7 @@ export default {
                 `
                 vec4 mvPosition = instanceMatrix * vec4(transformed, 1.0);
                 
-                // Simple sway based on Y height (uv.y or position.y)
                 float h = position.y; 
-                // Since our grass geometry is normalized around Y=0 to H, just use position.y
                 if (h < 0.1) h = 0.0; // Anchor bottom
                 
                 float swayStrength = 0.15;
