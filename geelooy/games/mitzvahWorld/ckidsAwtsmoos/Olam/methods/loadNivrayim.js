@@ -1,7 +1,7 @@
 
 /**
  * B"H
- * the method to load Nivrayim
+ * the method to load Nivrayim (Legacy Entry Gateway)
  */
 
 import Utils from '../../utils.js'
@@ -19,14 +19,17 @@ export default class {
         let mesh;
 
         if (options.golem) {
-            mesh = await this.generateThreeJsMesh(options.golem);
+            mesh = await this.generateThreeJsMesh(options.golem, this);
             mesh.name = nivra.name;
             nivra.mesh = mesh;
             mesh.nivraAwtsmoos = nivra;
 		    if(!mesh.userData) mesh.userData = {};
             
             if (options.position) mesh.position.copy(options.position);
-            if (options.rotation) mesh.rotation.copy(options.rotation); 
+            if (options.rotation) {
+                 const r = options.rotation;
+                 if(typeof r.x === 'number') mesh.rotation.set(r.x, r.y, r.z);
+            }
             if (options.scale) mesh.scale.copy(options.scale);
             
             if (options.itemData) {
@@ -34,12 +37,10 @@ export default class {
             }
 
             mesh.updateMatrixWorld(true);
-            if (mesh.geometry) mesh.geometry.sourceMesh = mesh; 
 
             let physicsSuccess = true;
             if (options.isSolid) {
-                const playerPos = this.chossid ? this.chossid.mesh.position : null;
-                physicsSuccess = this.worldOctree.addObject(mesh, playerPos);
+                physicsSuccess = this.worldOctree.addObject(mesh);
                 if (!physicsSuccess) {
                     console.error(`B"H Error: Failed to add ${mesh.name} to Physics. Aborting.`);
                     return null; 
@@ -52,6 +53,7 @@ export default class {
                         if(!child.userData) child.userData = {};
                         if(options.itemData) child.userData.itemData = options.itemData;
                         if(options.isSolid) child.userData.isSolid = true;
+                        child.nivraAwtsmoos = nivra;
                     }
                 });
                 
@@ -61,9 +63,6 @@ export default class {
                 this.nivrayimGroup.add(mesh);
             }
             
-        } else if (options.path) {
-            console.error(`B"H - addObject requires 'golem' for dynamic objects currently.`);
-            return;
         }
         
         this.nivrayim.push(nivra);
@@ -74,9 +73,9 @@ export default class {
 
     async loadNivrayim(nivrayim) {
         try {
-            console.log("B\"H - loadNivrayim started");
+            console.log("B\"H - loadNivrayim started via legacy path.");
             var nivrayimMade = [];
-            var ent = Object.entries(nivrayim);
+            var ent = Object.entries(nivrayim || {});
             
             for (var [type, nivraOptions] of ent) {
                 var ar;
@@ -99,10 +98,6 @@ export default class {
                         options = entry[1];
                     }
 
-                    if (type === "Chossid" && this.playerSettings && this.playerSettings.inventory) {
-                        options.inventory = this.playerSettings.inventory;
-                    }
-
                     let nivra;
                     var evaledObject = null;
 
@@ -110,110 +105,66 @@ export default class {
                         evaledObject = Utils.evalStringifiedFunctions(options);
                         var c = AWTSMOOS[type];
                         if (c && typeof(c) == "function") {
-                            // console.log(`B"H - Instantiating ${type}: ${name}`);
                             nivra = new c({
                                 name,
                                 ...evaledObject
                             }, this);
-                        } else {
-                            console.warn(`B"H - Class ${type} not found!`);
                         }
                     } catch (e) {
-                        console.error("B\"H - Error instantiating nivra", options, e);
+                        console.error("B\"H - Error instantiating legacy nivra", options, e);
                     }
 
                     if (!nivra) continue;
-
                     nivrayimMade.push(nivra);
-                    
-                    this.ayshPeula(
-                        "increase loading percentage", {
-                            amount: (100) / (nivrayimMade.length),
-                            nivra,
-                            action: "initting " + name
-                        }
-                    );
                 }
             }
 
-            var sizes = [];
             var totalSize = 0;
             for(var nivra of nivrayimMade) {
                 nivra.olam = this;
-                var s = await nivra.getSize();
-                sizes.push({
-                    nivra,
-                    size:s
-                })
+                var s = 0;
+                if (typeof nivra.getSize === 'function') {
+                    s = await nivra.getSize();
+                }
                 totalSize += s;
                 nivra.size = s;
             }
             this.totalSize = totalSize;
 
-            console.log("B\"H - Initialization Phase (heescheel) starting for " + nivrayimMade.length + " entities.");
-            
             for (var nivra of nivrayimMade) {
-                if (nivra.heescheel && typeof(nivra.heescheel) === "function") {
+                if (typeof nivra.heescheel === "function") {
                     try {
-                        console.log(`B"H - heescheel: ${nivra.name} (${nivra.type})`);
-                        await nivra.heescheel(this, {
-                            nivrayimMade
-                        });
-                        console.log(`B"H - heescheel done: ${nivra.name}`);
+                        await nivra.heescheel(this, { nivrayimMade });
                     } catch(e) {
-                        console.error(`B"H - problem loading nivra ${nivra.name}`, e);
+                        console.error(`B"H - legacy heescheel failure: ${nivra.name}`, e);
                     }
-                    this.ayshPeula("increase loading percentage", {
-                        amount:(100) / (nivrayimMade.length),
-                        nivra,
-                        action: "Setting up " + nivra.name,
-                        info: { nivra }
-                    });
                 }
             }
-            
-            console.log("B\"H - madeAll Phase");
             
             for (var nivra of nivrayimMade) {
-                if (nivra.madeAll) {
-                    await nivra.madeAll(this);
-                }
+                if (nivra.madeAll) await nivra.madeAll(this);
             }
-            
-            console.log("B\"H - Placeholder/Entity Logic Phase");
             
             for (var nivra of nivrayimMade) {
                 await this.doPlaceholderAndEntityLogic(nivra);
             }
 
-            console.log("B\"H - Ready Phase");
-
             for (var nivra of nivrayimMade) {
-                if (nivra.ready) {
-                    await nivra.ready();
-                }
+                if (nivra.ready) await nivra.ready();
             }
 
-            console.log("B\"H - AfterBriyah Phase");
-            
 			for(var nivra of nivrayimMade) {
-				if(nivra.afterBriyah) {
-					await nivra.afterBriyah();
-				}
+				if(nivra.afterBriyah) await nivra.afterBriyah();
 			}
 
-            this.ayshPeula("updateProgress",{
-                loadedNivrayim: Date.now()
-            })
-
-            console.log("B\"H - Adding Lights (Ohr)");
-            
-            if(!this.enlightened)
+            if(!this.enlightened && typeof this.ohr === 'function') {
                 this.ohr();
+            }
                 
-            return nivrayimMade;
+            return nivrayimMade || [];
         } catch (error) {
-            console.error("B\"H - CRITICAL ERROR in loadNivrayim: ", error);
+            console.error("B\"H - LEGACY LOAD FAILED: ", error);
+            return [];
         }
     }
 }

@@ -1,10 +1,13 @@
 
 /**
  * B"H
- * loadNivrayim Main Entry
+ * @file index.js (loadNivrayim)
+ * @description
+ * 🌌 THE CYCLE OF SUMMONING (BRIYAH) 🌌
  */
 import instantiate from "./instantiate.js";
 import lifecycle from "./lifecycle.js";
+import TimeTracker from "../../../utils/TimeTracker.js";
 
 export default class LoadNivrayim {
     async addObject(type, options) {
@@ -13,39 +16,54 @@ export default class LoadNivrayim {
 
     async loadNivrayim(nivrayim) {
         try {
-            console.log("B\"H - loadNivrayim started");
+            TimeTracker.start("LOAD_NIVRAYIM");
+            console.log("B\"H - 📦 [GATHERING]: Combing through the book of blueprints.");
+            
             var nivrayimMade = instantiate.parseDefinitions.call(this, nivrayim);
+            TimeTracker.log("LOAD_NIVRAYIM", "Parsed definitions into objects.");
 
             var totalSize = 0;
             for(var nivra of nivrayimMade) {
                 nivra.olam = this;
-                var s = await nivra.getSize();
+                var s = 0;
+                if (typeof nivra.getSize === 'function') s = await nivra.getSize();
                 totalSize += s;
                 nivra.size = s;
             }
             this.totalSize = totalSize;
 
+            TimeTracker.log("LOAD_NIVRAYIM", "Beginning heescheel (Mesh Generation & GLB Loading)");
             await lifecycle.runHeescheel.call(this, nivrayimMade);
+            
+            TimeTracker.log("LOAD_NIVRAYIM", "Running madeAll & Placeholder Logic");
             await lifecycle.runMadeAll.call(this, nivrayimMade);
             
-            console.log("B\"H - Placeholder/Entity Logic Phase");
             for (var nivra of nivrayimMade) {
                 await this.doPlaceholderAndEntityLogic(nivra);
             }
 
+            TimeTracker.log("LOAD_NIVRAYIM", "Running ready & afterBriyah");
             await lifecycle.runReady.call(this, nivrayimMade);
             await lifecycle.runAfterBriyah.call(this, nivrayimMade);
 
             this.ayshPeula("updateProgress",{
                 loadedNivrayim: Date.now()
-            })
+            });
 
-            console.log("B\"H - Adding Lights (Ohr)");
-            if(!this.enlightened) this.ohr();
-                
-            return nivrayimMade;
+            if (!this.enlightened && typeof this.ohr === 'function') {
+                try {
+                    this.ohr();
+                    TimeTracker.log("LOAD_NIVRAYIM", "Light Poured (Ohr)");
+                } catch(e) {
+                    console.error("B\"H - ⚠️ Lighting resistance encountered:", e);
+                }
+            }
+
+            TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified and linked.");
+            return nivrayimMade || []; 
         } catch (error) {
-            console.error("B\"H - CRITICAL ERROR in loadNivrayim: ", error);
+            console.error("B\"H - 🚨 THE ENTIRE CREATION PROTOCOL FAILED:", error);
+            return []; 
         }
     }
 }

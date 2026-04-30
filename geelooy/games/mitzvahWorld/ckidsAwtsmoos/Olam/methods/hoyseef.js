@@ -1,38 +1,52 @@
+
 /**
  * B"H
- * The Hoyseef method
- * The method 'hoyseef' adds a given "nivra" (which is an object) to the scene, if the "nivra" object has a 
-    * 'mesh' property that is an instance of 'THREE.Object3D'. It also adds the "nivra" to the 'nivrayim' array.
-    *
-    * @param {object} nivra - The object to be added to the scene. It should have a 'mesh' property that is an 
-    * instance of 'THREE.Object3D'.
-    * @returns {object|null} The added object, or null if the object could not be added.
-    *
-    * @example
-    * var myNivra = { mesh: new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial()) };
-    * var addedNivra = await hoyseef(myNivra);
+ * @module TreeIntegrator
+ * @description
+ * 🏰 CHAPTER 16: ATTACHING TO THE VIRTUAL DOME 🏰
+ * 
+ * B"H FIX: We have expanded the search for the "Body". Whether a soul carries 
+ * a simple .mesh, a complex .scene, or a .modelMesh, this integrator will find 
+ * it and weld it to the World's physical group.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
-export default class {
-   
+export default class Integrator {
+    /**
+     * @method hoyseef
+     * @description Mounts a soul's physical body to the master scene hierarchy.
+     */
     async hoyseef(nivra) {
-        var three;
-        if(nivra && nivra.mesh  instanceof THREE.Object3D) {
-            three = nivra.mesh;
-        } else return null;
+        if (!nivra) return null;
 
-
-        this.nivrayimGroup.add(three);
+        // SEIZING THE VESSEL (MESH)
+        let mesh = nivra.mesh || nivra.scene || nivra.modelMesh;
         
-        this.nivrayim.push(nivra);
-        this.nivrayimBeforeLoad.push(nivra);
-        if(nivra.isSolid) {
-            this.ayin.objectsInScene.push(three);
+        if (!mesh && nivra.asset && nivra.asset.scene) {
+            mesh = nivra.asset.scene;
         }
-       
-
         
+        if (!mesh || !(mesh instanceof THREE.Object3D)) {
+            // We do not log error here because some souls are purely abstract (Logic-only)
+            return null;
+        }
+
+        // B"H: ABSOLUTE IDENTIFICATION
+        mesh.name = mesh.name || nivra.name;
+        
+        // THE MANIFESTATION HANDSHAKE
+        mesh.nivraAwtsmoos = nivra;
+        nivra.mesh = mesh;
+
+        // THE PHYSICAL BOND (SCENE ATTACHMENT)
+        if (mesh.parent !== this.nivrayimGroup) {
+            this.nivrayimGroup.add(mesh);
+        }
+        
+        // INSCRIPTION IN THE GLOBAL LEDGER
+        if (!this.nivrayim.includes(nivra)) {
+            this.nivrayim.push(nivra);
+        }
 
         return nivra;
     }
