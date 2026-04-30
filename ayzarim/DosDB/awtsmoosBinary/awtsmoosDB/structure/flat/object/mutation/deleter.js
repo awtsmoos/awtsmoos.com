@@ -5,7 +5,7 @@
  * @description Removes keys from the FlatObject space.
  */
 const constants = require('../../../../constants.js');
-const SmartPointer = require('../../../../utils/smartPointer.js');
+const SmartPointer = require('../../../../utils/smartPointer/index.js');
 
 class ObjectDeleter {
     constructor(flatObject) { this.flat = flatObject; }
@@ -17,12 +17,13 @@ class ObjectDeleter {
         }
         
         const buf = this.flat.reader.readSafely();
+        if (!buf || buf.length < 6) return { shattered: false, ptr: SmartPointer.toBuffer(this.flat.ptr) };
+
         const count = buf.readUInt16BE(4);
         const keyBuf = Buffer.from(key, 'utf8');
         
         let validLength = 6;
-        let foundIdx = -1;
-        let foundEntryStart = 0;
+        let foundEntryStart = -1;
         let foundEntrySize = 0;
         
         for(let i = 0; i < count; i++) {
@@ -36,7 +37,6 @@ class ObjectDeleter {
             if (kLen === keyBuf.length) {
                 const kBytes = buf.subarray(validLength + 1, pStart);
                 if (kBytes.compare(keyBuf) === 0) {
-                    foundIdx = i;
                     foundEntryStart = entryStart;
                     foundEntrySize = entrySize;
                 }
@@ -44,7 +44,7 @@ class ObjectDeleter {
             validLength += entrySize;
         }
 
-        if (foundIdx !== -1) {
+        if (foundEntryStart !== -1) {
             const newBuf = Buffer.allocUnsafe(validLength - foundEntrySize);
             buf.copy(newBuf, 0, 0, foundEntryStart);
             buf.copy(newBuf, foundEntryStart, foundEntryStart + foundEntrySize, validLength);
@@ -53,8 +53,6 @@ class ObjectDeleter {
             const loc = (this.flat.v1 || this.flat.allocator).allocate(newBuf.length);
             this.flat.ptr = { offset: loc.offset, length: newBuf.length, type: 18 };
             this.flat.writer.write(newBuf);
-            
-            return { shattered: false, ptr: SmartPointer.toBuffer(this.flat.ptr) };
         }
         
         return { shattered: false, ptr: SmartPointer.toBuffer(this.flat.ptr) };

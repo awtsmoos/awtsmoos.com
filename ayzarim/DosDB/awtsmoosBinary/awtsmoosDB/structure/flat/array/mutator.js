@@ -2,19 +2,9 @@
 // B"H
 /**
  * @file mutator.js
- * @description
- *  =============================================================================
- *  CHAPTER 3: THE SURGEON OF THE SEQUENCE
- *  =============================================================================
- *  "To everything there is a season, and a time to every purpose under heaven."
- * 
- *  When an array is altered, the precise physical dimensions of the universe 
- *  must be updated. This mutator reads the VarInt bounds, splices the new 
- *  spark precisely into the void, and allocates a brand new exact-byte vessel 
- *  to hold the modified reality. No padding. No waste.
+ * @description Array Mutator
  */
-
-const SmartPointer = require('../../../utils/smartPointer.js');
+const SmartPointer = require('../../../utils/smartPointer/index.js');
 
 class Mutator {
     constructor(flatArray) {
@@ -29,22 +19,29 @@ class Mutator {
         }
         
         const buf = this.flat.io.ensureBuffer();
+        if (!buf || buf.length < 10) {
+            this.flat.shatter();
+            return this.push(itemPtr);
+        }
+        
         const count = buf.readUInt16BE(4);
         const totalLen = buf.readUInt32BE(6);
         
-        // If appending crosses the boundary of the physical 16KB threshold, shatter.
-        if (totalLen + itemPtr.length > 16384) {
+        const newEntrySize = itemPtr.length;
+
+        if (totalLen + newEntrySize > 16384) {
             this.flat.shatter();
             return this.push(itemPtr); 
         }
         
-        // Exact byte reallocation
-        const newBuf = Buffer.allocUnsafe(totalLen + itemPtr.length);
+        const newBuf = Buffer.allocUnsafe(totalLen + newEntrySize);
         buf.copy(newBuf, 0, 0, totalLen);
-        itemPtr.copy(newBuf, totalLen);
+        
+        let off = totalLen;
+        itemPtr.copy(newBuf, off);
         
         newBuf.writeUInt16BE(count + 1, 4);
-        newBuf.writeUInt32BE(totalLen + itemPtr.length, 6);
+        newBuf.writeUInt32BE(totalLen + newEntrySize, 6);
         
         const loc = (this.flat.v1 || this.flat.allocator).allocate(newBuf.length);
         this.flat.ptr = { offset: loc.offset, length: newBuf.length, type: 19 }; // SMART_ARRAY
@@ -61,6 +58,11 @@ class Mutator {
         }
 
         const buf = this.flat.io.ensureBuffer();
+        if (!buf || buf.length < 10) {
+            this.flat.shatter();
+            return this.splice(start, delCount, itemPtrs);
+        }
+        
         const count = buf.readUInt16BE(4);
         const totalLen = buf.readUInt32BE(6);
         
@@ -68,16 +70,10 @@ class Mutator {
         let d = Math.max(0, Math.min(delCount, count - s));
         
         let cursor = 10;
-        // Trace the exact path to the splice start
-        for(let i = 0; i < s; i++) {
-            cursor += SmartPointer.readSize(buf, cursor);
-        }
+        for(let i = 0; i < s; i++) cursor += SmartPointer.readSize(buf, cursor);
         const spliceStartOff = cursor;
         
-        // Trace the exact path across the deleted elements
-        for(let i = 0; i < d; i++) {
-            cursor += SmartPointer.readSize(buf, cursor);
-        }
+        for(let i = 0; i < d; i++) cursor += SmartPointer.readSize(buf, cursor);
         const spliceEndOff = cursor;
         
         let insertLen = 0;
@@ -91,18 +87,14 @@ class Mutator {
         }
         
         const newBuf = Buffer.allocUnsafe(newTotalLen);
-        
-        // 1. Copy Head
         buf.copy(newBuf, 0, 0, spliceStartOff);
         
-        // 2. Insert new sparks
         let insertCur = spliceStartOff;
         for(const p of itemPtrs) {
             p.copy(newBuf, insertCur);
             insertCur += p.length;
         }
         
-        // 3. Copy Tail
         buf.copy(newBuf, insertCur, spliceEndOff, totalLen);
         
         const newCount = count - d + itemPtrs.length;

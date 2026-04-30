@@ -17,7 +17,7 @@
  */
 
 const constants = require('../../../constants.js');
-const SmartPointer = require('../../../utils/smartPointer.js');
+const SmartPointer = require('../../../utils/smartPointer/index.js');
 
 class IoVessel {
     constructor(flatArray) {

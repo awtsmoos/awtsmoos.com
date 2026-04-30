@@ -2,17 +2,11 @@
 // B"H
 /**
  * @file shatter.js
- * @description
- *  =============================================================================
- *  CHAPTER 4: THE ELEVATION TO BINAH (SHATTERING THE VESSEL)
- *  =============================================================================
- *  When the array overflows its physical bounds, it elevates into a fully 
- *  structured Sequence B-Tree. It reads exact VarInt sizes to transfer the souls 
- *  into the new hierarchy.
+ * @description Elevates the FlatArray safely to a Sequence B-Tree.
  */
 
 const constants = require('../../../constants.js');
-const SmartPointer = require('../../../utils/smartPointer.js');
+const SmartPointer = require('../../../utils/smartPointer/index.js');
 
 class Shatterer {
     constructor(flatArray) {
@@ -34,7 +28,6 @@ class Shatterer {
             const ptrSize = SmartPointer.readSize(buf, cursor);
             const p = buf.subarray(cursor, cursor + ptrSize);
             
-            // Re-inscribe into the new Sequence Tree
             this.flat.engine.push(p, { isPtr: true }); 
             cursor += ptrSize;
         }

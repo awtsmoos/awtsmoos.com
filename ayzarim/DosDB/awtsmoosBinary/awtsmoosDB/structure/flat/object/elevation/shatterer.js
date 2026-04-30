@@ -5,7 +5,7 @@
  * @description Transmutes a saturated FlatObject into an eternal B-Tree Dictionary.
  */
 const constants = require('../../../../constants.js');
-const SmartPointer = require('../../../../utils/smartPointer.js');
+const SmartPointer = require('../../../../utils/smartPointer/index.js');
 
 class ObjectShatterer {
     constructor(flatObject) { this.flat = flatObject; }
@@ -16,6 +16,8 @@ class ObjectShatterer {
         this.flat.engine.create();
         
         const buf = this.flat.reader.readSafely();
+        if (!buf || buf.length < 6) return;
+        
         const count = buf.readUInt16BE(4);
         let cursor = 6;
         

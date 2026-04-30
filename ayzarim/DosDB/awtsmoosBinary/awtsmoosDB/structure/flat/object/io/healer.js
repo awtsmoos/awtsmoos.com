@@ -25,6 +25,8 @@ class ObjectHealer {
      * @returns {Buffer} The living binary buffer.
      */
     static heal(flatObject) {
+        // B"H: The Tikkun of the Offset.
+        // In Exact-Byte allocation, pointers have 'offset' not 'blockId'.
         if (!flatObject.ptr || flatObject.ptr.offset === undefined) {
             this.createRoot(flatObject);
         }
