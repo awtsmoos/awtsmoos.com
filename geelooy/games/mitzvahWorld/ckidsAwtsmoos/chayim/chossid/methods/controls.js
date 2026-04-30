@@ -3,6 +3,8 @@
  * B"H
  * @file controls.js
  * Input handling for the Chossid (Player).
+ * Capturing the physical actions of the hands (keyboard/mouse) and reflecting them
+ * into the spiritual matrix (world actions).
  */
 
 const ACTION_TOGGLE = "KeyB";
@@ -66,43 +68,41 @@ export default {
 
         if (k >= 1 && k <= 9) {
             var num = parseInt(k, 10);
-            this.interactingWith?.toggleToOption?.(num - 1);
+            if (typeof this.interactingWith.toggleToOption === 'function') {
+                this.interactingWith.toggleToOption(num - 1);
+            }
         }
     },
 
     setupInputListeners(olam) {
         olam.on("mousedown", (e) => {
-            // B"H: Editor Selection
             if (this.isInEditorMode) {
                  this.handleEditorClick(e);
                  return;
             }
 
-            if (e.button === 0) { // Left Click
+            if (e.button === 0) { 
                 if (this.handleClick) {
                     this.handleClick(e);
                 } else {
                     this.shoot();
                 }
-            } else if (e.button === 2) { // Right Click (Alt Action)
+            } else if (e.button === 2) { 
                  const item = this.getActiveItem();
                  if (item && item.altAction) {
-                     item.altAction(); // Trigger alt action on item wrapper if available
+                     item.altAction(); 
                  }
-                 // If item is just data, checking logic:
-                 const realItem = this.getRealActiveItemInstance(); // Need helper to get instance
-                 if (realItem && realItem.altAction) realItem.altAction();
+                 this.getRealActiveItemInstance(); 
             }
         });
 
         olam.on("keypressed", async k => {
             this.ayshPeula("keypressed", k);
             this.dialogueControls(k);
+            
             switch(k.code) {
                 case "KeyR": break;
-                
                 case "KeyQ": this.resetPreviewRotation(); break;
-                
                 case "NumLock": this.movingAutomatically = !this.movingAutomatically; break;
 
                 case "KeyY":
@@ -118,7 +118,6 @@ export default {
                         text: this.isInEditorMode ? "EDITOR MODE: ON" : "EDITOR MODE: OFF",
                         color: "#00ffed"
                     });
-                    // Close editor UI if turning off
                     if (!this.isInEditorMode) {
                         this.olam.ayshPeula("ui event", "VisualEditor", { close: true });
                     }
@@ -136,15 +135,11 @@ export default {
                     break;
                 
                 case ATTACK_KEY:
-                    if (this.shootHebrewLetter) {
-                        this.shootHebrewLetter();
-                    }
+                    if (this.shootHebrewLetter) this.shootHebrewLetter();
                     break;
                 
                 case DISMOUNT_KEY:
-                    if (this.isDriving && this.drivingVehicle) {
-                        this.drivingVehicle.dismount();
-                    }
+                    if (this.isDriving && this.drivingVehicle) this.drivingVehicle.dismount();
                     break;
 
                 case ACTION_TOGGLE:
@@ -158,20 +153,32 @@ export default {
                         return; 
                     }
 
+                    // B"H: Universal interaction router!
+                    // 'this.approachedEntities' holds a stack of objects our proximity circle is touching.
+                    // This includes InteractiveDoors, Chests, and NPCs!
                     if(!this.interactingWith) {
-                        var npc = this.approachedEntities[0];
-                        if(!npc) {
+                        const targetVessel = this.approachedEntities[0];
+                        
+                        if(!targetVessel) {
                             if(!this.selected) {
+                                // Default back to building/tool logic if holding an item and not near an NPC
                                 this.shoot(); 
                             } else {
                                 this.toggleSelectedMenu();
                             }
                             return;
                         }
-                        npc.ayshPeula("accepted interaction");
+                        
+                        // Fire the universal accepted connection event onto the vessel
+                        console.log(`B"H - ⚡ Sending acceptance intention to ${targetVessel.name}`);
+                        targetVessel.ayshPeula("accepted interaction", this);
                         return;
                     }
-                    this.interactingWith.toggleOption();
+                    
+                    // If already deep in dialogue, toggle through options.
+                    if (typeof this.interactingWith.toggleOption === 'function') {
+                        this.interactingWith.toggleOption();
+                    }
                     break;
 
                 case ACTION_SELECT:
@@ -180,7 +187,9 @@ export default {
                         return;
                     }
                     if(this.interactingWith) {
-                        await this.interactingWith.selectOption();
+                        if (typeof this.interactingWith.selectOption === 'function') {
+                            await this.interactingWith.selectOption();
+                        }
                         return;
                     }
                     if(this.intersected) {
@@ -206,40 +215,22 @@ export default {
         });
     },
 
-    // B"H: Helper to find real instance for Alt Action
     getRealActiveItemInstance() {
-        // This requires tracking instances or recreating. 
-        // For Elemental Staff, we can assume if item className matches, we create temp or find cached.
-        // Simplification: In worker, we just create a temp instance to call logic if needed, 
-        // OR better, implement logic in 'shoot' variants.
-        // But for switching modes, we need persistent state.
-        // Let's attach state to the inventory item data in `inventory.js`.
-        
         const item = this.getActiveItem();
         if(!item) return null;
-        
-        // If we have a cached class instance in a map?
-        // For now, let's just use `item.customData` for state.
         if (item.className === 'ElementalStaff') {
-             // Import dynamically or assume global access?
-             // Best to move logic here or separate file.
-             // We'll dispatch a custom event to world to handle tool logic centrally.
              this.olam.ayshPeula("toolAltAction", item);
         }
     },
     
     handleEditorClick(e) {
-        this.checkHover(this.olam, true); // Update intersected
+        this.checkHover(this.olam, true); 
         if (this.intersected && this.intersected.niv) {
             const niv = this.intersected.niv;
             this.olam.ayshPeula("ui event", "VisualEditor", {
                 objectSelected: {
-                    id: niv.id,
-                    name: niv.name,
-                    type: niv.type,
-                    position: niv.mesh.position,
-                    rotation: niv.mesh.rotation,
-                    scale: niv.mesh.scale
+                    id: niv.id, name: niv.name, type: niv.type,
+                    position: niv.mesh.position, rotation: niv.mesh.rotation, scale: niv.mesh.scale
                 }
             });
             this.setEntityHighlight(niv.mesh, true, 0x00ffed);

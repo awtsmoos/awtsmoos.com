@@ -2,8 +2,9 @@
 /**
  * B"H
  * @file audio.js
- * Playback of holy sounds.
+ * Playback of holy sounds. Now utilizes the purely mathematical AudioEngine.
  */
+import AudioEngine from "../../../systems/audio/AudioEngine.js";
 
 export default {
     playSound(path, {
@@ -13,68 +14,50 @@ export default {
         onended=()=>{}
     } = {}) {
         
-        var music = this.olam.getComponent(path);
+        // Extract the key if it's an awtsmoos:// path
+        let soundKey = path;
+        if (path && path.startsWith("awtsmoos://")) {
+            soundKey = path.split("awtsmoos://")[1];
+        }
+
+        // Mapping old string names to new JSON keys
+        const map = {
+            "dingSound": "ding",
+            "jumpSound": "jump",
+            "groundHit": "hit_floor",
+            "walking": "step"
+        };
+
+        const finalKey = map[soundKey] || soundKey;
+
+        // Play procedurally!
+        // NOTE: In an actual Worker context, AudioContext isn't available. 
+        // This is a bridge. We either trigger it via the UI layer or assume Main Thread context.
+        // If we are in worker, we dispatch a UI event to the main thread to play it!
         
-        if(!music) return false;
-        this.olam.ayshPeula("setHtml",({
-            shaym: layerName,
-            info: {
-                options: {
-                    loop, 
-                    music,
-                    volume,
-                    shaym:this.shaym,
-                    layerName
-                },
-                ready: function(me, $f, ui) {
-                    var newShaym = me.options.shaym + " " + me.options.layerName;
-                    var nv = $f(newShaym);
-                    
-                    if(!nv) {
-                        ui.html({
-                            shaym: newShaym,
-                            parent: me,
-                            tag: "audio",
-                            src: me.options.music,
-                            volume:me.options.volume,
-                            autoplay: true,
-                            loop:me.options.loop
-                        });
-                    } else {
-                        ui.setHtml(nv, {
-                            tag: "audio",
-                            src: me.options.music,
-                            volume:me.options.volume,
-                            autoplay: true,
-                            loop:me.options.loop
-                        })
-                    }
-                }
-            }
-        }));
+        if (typeof window !== 'undefined' && window.AudioContext) {
+             AudioEngine.play(finalKey, { volume });
+        } else if (this.olam) {
+             // Send signal to Main Thread to play the procedural sound
+             this.olam.ayshPeula("ui event", "effectsOverlay", { 
+                 playProceduralSound: { key: finalKey, options: { volume } } 
+             });
+        }
         
         return {
             layerName,
-            nivra:this
+            nivra: this
         }
     },
     
     stopSound(layerName = "audio base layer") {
-        var newShaym = this.shaym + " " + layerName;
-        this.olam.ayshPeula("htmlAction", {
-            shaym: newShaym,
-            methods: {
-                pause: true
-            },
-            properties: {
-                currentTime: 0
-            }
-        })
+        // Procedural sounds are fire-and-forget for now, or handled by short duration.
+        // We can ignore stopSound for footsteps or implement an oscillator registry later.
     },
     
     stopCutscene() {
         this.stopSound();
-        this.olam.activeCamera = null;
+        if(this.olam) this.olam.activeCamera = null;
     },
     
     playCutscene({
@@ -82,23 +65,23 @@ export default {
         animationName,
         cameraName = "Camera",
     } = {}) {
-        
         this.playSound(audioName,{
             loop:false
         });
         
         this.playChaweeyoos(animationName, {
             loop:false,
-            done() {
+            done: () => {
                 try {
-                    this.olam.activeCamera=null;
+                    if(this.olam) this.olam.activeCamera=null;
                 } catch(e) {}
             }
         });
-        var cam = this.mesh.children.find(q=>q.name==cameraName);
-        if(cam) {
-            cam = cam.children[0];
-            this.olam.activeCamera=cam;
+        if(this.mesh && this.mesh.children) {
+            var cam = this.mesh.children.find(q=>q.name==cameraName);
+            if(cam && cam.children[0]) {
+                if(this.olam) this.olam.activeCamera = cam.children[0];
+            }
         }
     }
 };

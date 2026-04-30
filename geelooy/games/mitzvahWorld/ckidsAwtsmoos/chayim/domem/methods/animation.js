@@ -2,7 +2,9 @@
 /**
  * B"H
  * @file animation.js
- * Motion and Time.
+ * @description
+ * Motion and Time. 
+ * "And the spirit of G-d moved upon the face of the waters."
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Nivra from "../../nivra.js";
@@ -11,7 +13,6 @@ export default {
     heesHawvoos(deltaTime) {
         if(this.removed) return;
         
-        // B"H: Fix for super call in object literal mixin
         Nivra.prototype.heesHawvoos.call(this, deltaTime);
         
         this.ayshPeula("heesHawvoos", this);
@@ -52,12 +53,20 @@ export default {
             done
         } = options;
 
-        // B"H: Case-insensitive search to ensure "idle" finds "Idle"
         const clip = this.animations.find(anim => 
             anim.name.toLowerCase().includes(shaym.toLowerCase())
         );
         
-        if (!clip) return;
+        if (!clip) {
+            // B"H: The Tikkun of the T-Pose!
+            // If the requested spiritual state (animation) does not exist in the physical vessel,
+            // we default to the Idle state so the vessel does not freeze in the void.
+            if (shaym.toLowerCase() !== "idle") {
+                 console.log(`B"H - ⚠️ Animation [${shaym}] not found. Enforcing [idle] to maintain Ruach.`);
+                 this.playChaweeyoos("idle", options);
+            }
+            return;
+        }
 
         const newAction = this.animationMixer.clipAction(clip);
 

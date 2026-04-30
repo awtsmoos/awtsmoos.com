@@ -1,67 +1,76 @@
+
 // B"H
+/**
+ * @file sync.js
+ * @description
+ * ⚖️ CHAPTER 100: THE SCALES OF TRUTH ⚖️
+ * 
+ * This module bridges the gap between the Physical Reality (Capsule) 
+ * and the Visual Appearance (Mesh). 
+ * 
+ * THE TIKKUN:
+ * We now calculate the 'Contact Point' (Malchus) which is the absolute 
+ * bottom of the physics capsule. We then shift the visual mesh by its 
+ * pivot-to-feet distance, ensuring the heels kiss the floor exactly.
+ */
 import * as THREE from '/games/scripts/build/three.module.js';
 
-/**
- * syncMesh - The Pulse of Physical Realignment.
- * Reverted to the manual 'copy' logic from the perfect old.md state.
- */
 export default {
+    /**
+     * @method syncMesh
+     * @description Synchronizes visual garments with physical logic.
+     */
     syncMesh(deltaTime) {
-        // 1. Abyss Guard: Respawn if fallen into the infinite nothingness
+        if (!this.mesh || !this.collider || !this.collider.start) return;
+
+        // 1. ABYSS GUARD (Gevurah)
         if (this.collider.start.y < -100) {
-            console.log(`B"H - ${this.name} fell into the abyss. Respawning at high potential.`);
             this.velocity.set(0, 0, 0);
-            this.setPosition(new THREE.Vector3(0, 15, 0));
+            this.setPosition(new THREE.Vector3(0, 20, 0));
+            return;
         }
 
-        // 2. Sync Physics Root (The Invisible Vessel)
+        // 2. THE PHYSICAL CENTER
         this.mesh.position.copy(this.collider.start);
-        this.mesh.position.y -= this.radius;
-        this.mesh.rotation.y = this.rotation.y;
         
-        // Sync anchors
-        if (this?.emptyCopy?.rotation) this.emptyCopy.rotation.copy(this.mesh.rotation);
-        if (this?.nonRotatingEmptyForMovement?.rotation) this.nonRotatingEmptyForMovement.rotation.copy(this.mesh.rotation);
+        // 3. THE GROUNDING ALIGNMENT (Tiferet)
+        // This is the absolute Y coordinate of the bottom of the capsule.
+        const capsuleBottomY = this.collider.start.y - this.radius;
+        
+        if (this.modelMesh) {
+             // Sync horizontal position
+             this.modelMesh.position.x = this.mesh.position.x;
+             this.modelMesh.position.z = this.mesh.position.z;
+             
+             /**
+              * B"H: THE REFINED ALIGNMENT MATH
+              * 
+              * pivotToFeet = how far the model's feet are from its local origin.
+              * If we set mesh.y = capsuleBottomY, the Pivot sits on the floor.
+              * We must subtract pivotToFeet to pull the model up/down so feet sit on floor.
+              */
+             const pivotToFeet = this.visualYOffset || 0;
+             const additionalSinking = this.groundingOffset || 0; 
+             
+             // The result of this math places the FEET at capsuleBottomY!
+             this.modelMesh.position.y = capsuleBottomY - pivotToFeet - additionalSinking;
+             
+             if (this.rotation) {
+                 this.modelMesh.rotation.y = this.rotation.y + (this.rotateOffset || 0);
+             }
+        }
 
-        // 3. Smooth Visual Rotation calculation
+        if (this.rotation) {
+            this.mesh.rotation.y = this.rotation.y;
+        }
+        
+        // Smooth rotation (Lerp)
+        this.targetRotateOffset = this.targetRotateOffset || 0;
+        this.rotateOffset = this.rotateOffset || 0;
+        this.lerpTurnSpeed = this.lerpTurnSpeed || 0.145;
         let angularDistance = this.targetRotateOffset - this.rotateOffset;
         if (angularDistance > Math.PI) angularDistance -= 2 * Math.PI;
         else if (angularDistance < -Math.PI) angularDistance += 2 * Math.PI;
-        if (Math.abs(angularDistance - Math.PI) < 0.01) angularDistance = -Math.PI;
-        
         this.rotateOffset += angularDistance * this.lerpTurnSpeed;
-        if (this.rotateOffset > Math.PI) this.rotateOffset -= 2 * Math.PI;
-        else if (this.rotateOffset < -Math.PI) this.rotateOffset += 2 * Math.PI;
-
-        // 4. Manual Sync: Visual Model (The Body) following the Physics Root
-        if (this.modelMesh) {
-            /**
-             * B"H - PERFECT SYNC LOGIC (from old.md)
-             * We manually copy both rotation and position.
-             */
-            this.modelMesh.rotation.y = this.rotation.y + this.rotateOffset;
-            
-            if (this.lastRotateOffset !== this.rotateOffset) {
-                // Broadcast rotation change for networked souls or logic triggers
-                this.ayshPeula("rotate", this.modelMesh.rotation.y);
-                this.lastRotateOffset = this.rotateOffset;
-            }
-            this.modelMesh.position.copy(this.mesh.position);
-        }
-        
-        this.emptyCopy.position.copy(this.mesh.position);
-        this.nonRotatingEmptyForMovement.position.copy(this.mesh.position);
-        
-        if(this.modelMesh) {
-            this.emptyCopy.rotation.copy(this.modelMesh.rotation);
-        }
-
-        // 5. FPS Anchor Logic
-        if (this.activeRay && this.olam.ayin.isFPS) {
-            const camera = this.olam.ayin.camera;
-            this.rayAnchor.position.copy(camera.position);
-            const cameraEuler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
-            this.rayAnchor.rotation.y = cameraEuler.y;
-        }
     }
 };

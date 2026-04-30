@@ -2,7 +2,12 @@
 /**
  * B"H
  * @file inventory-setup.js
- * Injects the starting manifestations of form into the player's inventory.
+ * Chapter 5: The Clothe of the Soul
+ * "He wraps Himself in light as with a garment..."
+ * When the soul enters the Olam, it is naked, a pure essence without form. 
+ * But to interact with the world, it must don the Levushim (Garments) of thought, speech, and action.
+ * This module injects the physical garments into the inventory of the Chossid, ensuring they have 
+ * the tools necessary to navigate the physical plane.
  */
 
 export default {
@@ -10,50 +15,50 @@ export default {
         const svgToBase64 = (svg) => 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
         
         const icons = {
-            staff: svgToBase64(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="45" y="10" width="10" height="80" fill="#8B4513"/><circle cx="50" cy="10" r="10" fill="cyan"/><circle cx="50" cy="10" r="5" fill="white" opacity="0.5"/></svg>`)
+            staff: svgToBase64(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="45" y="10" width="10" height="80" fill="#8B4513"/><circle cx="50" cy="10" r="10" fill="cyan"/><circle cx="50" cy="10" r="5" fill="white" opacity="0.5"/></svg>`),
+            shirt: "👕",
+            kippah: "🧢",
+            glasses: "👓",
+            jacket: "🧥",
+            hat: "🎩"
         };
 
         this.inventory.addItem({
-            id: 'elemental_staff',
-            className: 'ElementalStaff',
-            name: 'Staff of Elements',
-            description: 'Control Fire, Water, Air, and Earth. (Right Click/Alt to switch)',
-            icon: icons.staff,
-            isTool: true
+            id: 'elemental_staff', className: 'ElementalStaff', name: 'Staff of Elements', description: 'Control the foundational elements of creation. Alt-click to switch modes.', icon: icons.staff, isTool: true
         }, 1);
         
-        // Default Hat
+        // The Garments of the Soul
         this.inventory.addItem({
-            id: 'default_hat',
-            className: 'Apparel',
-            name: 'Holy Fedora',
-            description: 'A crown of awe.',
-            icon: '🎩',
-            equipSlot: 'head',
-            customData: { color: '#111111' }
+            id: 'garment_shirt', className: 'Apparel', name: 'White Shirt', description: 'A pristine garment reflecting pure intent.', icon: icons.shirt, equipSlot: 'shirt', customData: { meshName: 'outer-shirt' }
+        }, 1);
+        
+        this.inventory.addItem({
+            id: 'garment_yamulka', className: 'Apparel', name: 'Yamulka', description: 'A constant reminder of the Infinite above.', icon: icons.kippah, equipSlot: 'head', customData: { meshName: 'yamulka' }
+        }, 1);
+        
+        this.inventory.addItem({
+            id: 'garment_glasses', className: 'Apparel', name: 'Spectacles of Insight', description: 'Lenses to see the inner truth of reality.', icon: icons.glasses, equipSlot: 'eyes', customData: { meshName: 'glasses' }
+        }, 1);
+        
+        this.inventory.addItem({
+            id: 'garment_jacket', className: 'Apparel', name: 'Sabbath Jacket', description: 'A coat of honor for the holy days.', icon: icons.jacket, equipSlot: 'jacket', customData: { meshName: 'jacket' }
+        }, 1);
+        
+        this.inventory.addItem({
+            id: 'garment_tophat', className: 'Apparel', name: 'Crown of Splendor', description: 'A majestic hat representing the intellect.', icon: icons.hat, equipSlot: 'head', customData: { meshName: 'top-hat' }
         }, 1);
 
-        // Default Jacket
-        this.inventory.addItem({
-            id: 'default_jacket',
-            className: 'Apparel',
-            name: 'Sabbath Jacket',
-            description: 'Garments of splendor.',
-            icon: '🧥',
-            equipSlot: 'jacket',
-            customData: { color: '#222222' }
-        }, 1);
-
-        // Equip them automatically if not already equipped by a save
+        // Equip the essential Levushim immediately to clothe the vessel
         setTimeout(() => {
-            if (!this.inventory.equipment.head) {
-                const hatIdx = this.inventory.slots.findIndex(s => s && s.id === 'default_hat');
-                if (hatIdx > -1) this.inventory.equipItem({ sourceType: 'inventory', index: hatIdx, target: 'head' });
-            }
-            if (!this.inventory.equipment.jacket) {
-                const jacketIdx = this.inventory.slots.findIndex(s => s && s.id === 'default_jacket');
-                if (jacketIdx > -1) this.inventory.equipItem({ sourceType: 'inventory', index: jacketIdx, target: 'jacket' });
-            }
+            const equip = (id, target) => {
+                const idx = this.inventory.slots.findIndex(s => s && s.id === id);
+                if (idx > -1 && !this.inventory.equipment[target]) {
+                    this.inventory.equipItem({ sourceType: 'inventory', index: idx, target });
+                }
+            };
+            equip('garment_yamulka', 'head');
+            equip('garment_shirt', 'shirt');
+            equip('garment_glasses', 'eyes');
         }, 500);
     }
 }
