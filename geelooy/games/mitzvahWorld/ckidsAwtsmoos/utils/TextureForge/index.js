@@ -13,7 +13,9 @@ import SandGenerator from "./Generators/Sand.js";
 import GrassGenerator from "./Generators/Grass.js";
 import StoneGenerator from "./Generators/Stone.js";
 import BasicPlane from "./Generators/BasicPlane.js"; 
-import SafeGrass from "./Generators/SafeGrass.js"; // B"H: The new unbreakable grass
+import SafeGrass from "./Generators/SafeGrass.js"; 
+import BrickGenerator from "./Generators/Brick.js"; 
+import WoodGenerator from "./Generators/Wood.js";
 import CanvasHelper from "./CanvasHelper.js";
 
 export default class TextureForge {
@@ -33,7 +35,9 @@ export default class TextureForge {
                 case 'grass': canvas = GrassGenerator.generate(); break;
                 case 'stone': canvas = StoneGenerator.generate(); break;
                 case 'basic': canvas = BasicPlane.generate(); break;
-                case 'safegrass': canvas = SafeGrass.generate(); break; // B"H!
+                case 'safegrass': canvas = SafeGrass.generate(); break; 
+                case 'brick': canvas = BrickGenerator.generate(); break; 
+                case 'wood': canvas = WoodGenerator.generate(); break;
                 default: canvas = SafeGrass.generate(); break; 
             }
 
@@ -44,7 +48,6 @@ export default class TextureForge {
             return url;
         } catch (e) {
             console.error("B\"H - ⚡ TextureForge failed to crystallize:", type, e);
-            // Absolute emergency fallback
             const emBlob = new Blob([''], {type: 'image/png'});
             return URL.createObjectURL(emBlob);
         }

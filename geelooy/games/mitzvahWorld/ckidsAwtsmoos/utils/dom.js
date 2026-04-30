@@ -1,34 +1,30 @@
+
 /**
  * B"H
  * DOM and Scene Utilities
+ * "And He rested on the seventh day from all His work which He had made."
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
 export default class DomUtils {
     static replaceMaterialsWithLambert(gltf) {
-        gltf.scene.traverse((child) => {
-            this.replaceMaterialWithLambert(child)
-        });
+        // B"H: The Great Tikkun. 
+        // We preserve the original divine intent of the materials.
+        // Converting to Lambert destroyed PBR properties and caused shader paradoxes.
+        // This function is now nullified. Let the Standard Materials shine!
+        console.log("B\"H - Preserving pure PBR materials. No Lambert conversion applied.");
     }
 
     static replaceMaterialWithLambert(mesh) {
-        if (mesh.isMesh && mesh.material instanceof THREE.MeshStandardMaterial) {
-            let oldMat = mesh.material;
-            let newMat = new THREE.MeshLambertMaterial();
-            Object.keys(oldMat).forEach(k => {
-                newMat[k] = oldMat[k]
-            });
-            mesh.material = newMat;
-            return newMat;
-        }
-        return null;
+        // Nullified.
+        return mesh ? mesh.material : null;
     }
 
     static getSolid(mesh) {
         return this.searchForMesh(mesh, "solid");
     }
 
-    static searchForMesh(mesh,name) {
+    static searchForMesh(mesh, name) {
         if(mesh && mesh instanceof THREE.Object3D) {
             var found = null;
             mesh.traverse(child => {
