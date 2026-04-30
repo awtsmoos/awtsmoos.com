@@ -1,4 +1,14 @@
+
 // B"H
+import ZoomOrchestrator from "./ZoomOrchestrator.js";
+import MouseDragOrchestrator from "./MouseDragOrchestrator.js";
+
+/**
+ * @module CameraControls
+ * @description
+ * The physical translation of intent into spatial rotation and depth.
+ * "And they turned whichever way the spirit moved them to go."
+ */
 export default {
     lerp(start, end, percent) {
         return (start + percent*(end - start));
@@ -7,31 +17,22 @@ export default {
     lerpAngle(start, end, percent) {
         let difference = Math.abs(end - start);
         if (difference > 180) {
-            // We need to add on to one of the values.
             if (end > start) {
-                // We'll add it on to start...
                 start += 360;
             } else {
-                // Add it on to end.
                 end += 360;
             }
         }
 
-        // Interpolate it.
         let value = (start + ((end - start) * percent));
-
-        // Wrap it..
         let rangeZero = 360;
 
-        if (value >= 0 && value <= 360)
-            return value;
-
+        if (value >= 0 && value <= 360) return value;
         return (value % rangeZero);
     },
 
     zoom(deltaY) {
-        this.newMovement=true;
-        this.deltaY = (typeof deltaY === 'number' && !isNaN(deltaY)) ? deltaY : 0;
+        ZoomOrchestrator.applyZoom(this, deltaY);
     },
 
     panDown(amount) {
@@ -43,24 +44,12 @@ export default {
     },
 
     rotateAroundTarget(dx, dy) {
-        this.newMovement=true
-        // Convert degrees to radians
-        var degreeToRadian = Math.PI / 180;
-        // Update the theta and phi values based on the mouse movement
-        this.userInputTheta += dx * this.xSpeed * degreeToRadian;
-        this.userInputPhi -= dy * this.ySpeed * degreeToRadian;
+        MouseDragOrchestrator.applyRotation(this, dx, dy);
     },
 
-    
     onMouseDown(event) {
-        if (event.button === 0) {
-            this.mouseIsDown  = true;
-        }
-
-        if(event.button == 2) {
-            this.rightMouseIsDown = true;
-        }
-
+        if (event.button === 0) this.mouseIsDown  = true;
+        if (event.button === 2) this.rightMouseIsDown = true;
     },
 
     onRightMouseDown() {
@@ -72,27 +61,24 @@ export default {
     },
 
     onMouseMove(event) {
+        if (!this.mouseIsDown && !this.rightMouseIsDown) return;
         
-        if(
-            (this.mouseIsDown || this.rightMouseIsDown)
-            && 
-            (event.movementX !== 0 || event.movementY !== 0)
-        ) {
-            let dx = event.movementX * (this.xSpeed / this.width);
-            let dy = event.movementY * (this.ySpeed / this.height);
-            
-            
-            this.rotateAroundTarget(dx, dy);
+        // B"H: Shift + Left Click allows continuous vertical pan calibration
+        if(this.mouseIsDown && event.shiftKey) {
+            let dy = event.movementY * 0.015;
+            this.anchorOffset.y += dy;
+            // Boundaries are widened safely so users aren't locked out of high or low perspectives
+            this.anchorOffset.y = Math.max(-10, Math.min(this.anchorOffset.y, 10));
+            return;
+        }
+
+        if(event.movementX !== 0 || event.movementY !== 0) {
+            this.rotateAroundTarget(event.movementX, event.movementY);
         }
     },
 
     onMouseUp(event) {
-        if (event.button === 0) {
-            this.mouseIsDown = false;
-        }
-
-        if(event.button == 2) {
-            this.rightMouseIsDown = false;
-        }
+        if (event.button === 0) this.mouseIsDown = false;
+        if (event.button === 2) this.rightMouseIsDown = false;
     }
 };

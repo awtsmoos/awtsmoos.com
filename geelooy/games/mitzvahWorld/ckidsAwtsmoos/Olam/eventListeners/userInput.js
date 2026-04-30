@@ -3,6 +3,7 @@
  * B"H
  * Listens for the impulses of the player, translated from the physical keypress to the spiritual event.
  */
+import PointerUpdater from "../methods/interaction/PointerUpdater.js";
 
 export default function() {
     var c;
@@ -42,12 +43,18 @@ export default function() {
     });
 
     this.on("presskey", peula => {
-        console.log("Pressed a key~!" , peula)
+        // console.log("Pressed a key~!" , peula)
         this.ayshPeula("keypressed", peula);
     })
 
     this.on("mousedown", peula => {
-        // B"H: mouseLock is now handled strictly in the main thread (domEvents.js) to avoid NotAllowedError
+        // B"H: The immediate alignment of the gaze!
+        // Before we process the click, we MUST update the pointer coordinates
+        // so that any subsequent interaction checks know exactly where to look.
+        if (peula.clientX !== undefined && peula.clientY !== undefined) {
+            PointerUpdater.update(this, peula.clientX, peula.clientY);
+        }
+
         this.ayin.onMouseDown(peula);
         this.mouseDown = true;
     });
@@ -56,5 +63,12 @@ export default function() {
         this.ayshPeula("mouseRelease", true);
         this.ayin.onMouseUp(peula);
         this.mouseDown = false;
+    });
+
+    // B"H: The Universal Zoom Hub!
+    this.on("wheel", peula => {
+        if (this.ayin && typeof this.ayin.zoom === 'function') {
+            this.ayin.zoom(peula.deltaY);
+        }
     });
 }
