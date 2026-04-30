@@ -1,4 +1,4 @@
-
+₪₪₪_בס\"ד_תחילת_הקוד_₪₪₪
 // B"H
 /**
  * @file console.js
@@ -12,6 +12,8 @@ export const ConsoleInterceptor = `
             warn: console.warn.bind(console), info: console.info.bind(console),
             clear: console.clear.bind(console)
         };
+
+        console.log("%cB\"H - Console Interceptor Active.", "color: #00f6ff; font-weight: bold;");
 
         let lastEvalResult = undefined;
         let selectedPath = null;
@@ -33,8 +35,12 @@ export const ConsoleInterceptor = `
             return path.reduce((curr, idx) => (curr && curr.childNodes) ? curr.childNodes[idx] : null, document.documentElement);
         }
 
+        /**
+         * B"H - Safe Serializer for the Void
+         * Converts complex, non-serializable objects into JSON blueprints for the UI.
+         */
         function safeSerialize(data, depth=0, visited=new WeakSet()) {
-            if (depth > 6) return { type: 'string', value: '[Max Depth]' };
+            if (depth > 8) return { type: 'string', value: '[Depth Limit]' };
             if (data === null) return { type: 'null', value: 'null' };
             const t = typeof data;
             
@@ -63,16 +69,6 @@ export const ConsoleInterceptor = `
                     path: getElementPath(data)
                 };
             }
-            
-            if (data instanceof Map) {
-                const entries = Array.from(data.entries()).map(([k, v]) => [safeSerialize(k, depth+1, visited), safeSerialize(v, depth+1, visited)]);
-                return { type: 'map', size: data.size, entries };
-            }
-            
-            if (data instanceof Set) {
-                const values = Array.from(data.values()).map(v => safeSerialize(v, depth+1, visited));
-                return { type: 'set', size: data.size, values };
-            }
 
             const props = [];
             for (let k in data) { 
@@ -81,23 +77,26 @@ export const ConsoleInterceptor = `
             return { type: 'object', constructorName: data.constructor?.name || 'Object', properties: props };
         }
 
+        // Bridge every console call back to the Editor's DevTools
         Object.keys(origConsole).forEach(method => {
             console[method] = (...args) => {
                 origConsole[method](...args);
                 window.parent.postMessage({
                     source: 'html-preview-bridge', type: 'console-log',
                     previewTabId: window._AWTSMOOS_TAB_ID,
-                    payload: { level: method, args: args.map(a => safeSerialize(a)) }
+                    payload: { level: method, args: args.map(a => safeSerialize(a)), timestamp: Date.now() }
                 }, '*');
             };
         });
         
+        // CATCH-ALL FOR ERRORS: Let the HTML render, but warn the heavens.
         window.addEventListener('error', e => {
-            console.error('Uncaught Error:', e.error || e.message);
+            const err = e.error || { message: e.message, stack: "" };
+            console.error(\`[B"H Runtime Error] \${err.message}\`, err);
         });
 
         window.addEventListener('unhandledrejection', e => {
-            console.error('Unhandled Promise Rejection:', e.reason);
+            console.error('[B"H Promise Rejection]', e.reason);
         });
 
         window.addEventListener('message', e => {
@@ -127,3 +126,4 @@ export const ConsoleInterceptor = `
         });
     })();
 `;
+₪₪₪_בס\"ד_סוף_הקוד_₪₪₪

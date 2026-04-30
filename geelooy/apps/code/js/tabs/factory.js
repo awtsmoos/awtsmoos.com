@@ -17,8 +17,14 @@ export const TabFactory = {
         if (item.type === 'terminal') fileType = 'terminal';
         if (item.type === 'commander') fileType = 'commander';
 
+        // B"H - Bulletproof ID Generation to prevent UI overlap / simultaneous closure bugs
+        let newId = State.nextTabId++;
+        while (State.tabs.some(t => t.id === newId)) {
+            newId = State.nextTabId++;
+        }
+
         const newTab = {
-            id: State.nextTabId++,
+            id: newId,
             uniquePath,
             item: { ...item },
             fileType,
@@ -26,7 +32,6 @@ export const TabFactory = {
             isUncommitted: false,
             scrollPos: 0,
             content: item.content !== undefined ? item.content : (isNewFile ? '' : null),
-            // Persistent states for specialized tabs
             terminalState: item.terminalState || null,
             commanderState: item.commanderState || null,
             vibeSession: item.vibeSession || null,

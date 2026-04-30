@@ -2,7 +2,6 @@
 // B"H
 import { State } from '../state.js';
 import { UI } from '../ui.js';
-import { Editor } from '../editor.js';
 import { App } from '../app.js';
 import { Tabs } from './index.js';
 import { TabsPersistence } from './persistence.js';
@@ -14,10 +13,8 @@ export const TabsLifecycle = {
         if (idx === -1) return;
 
         const tab = State.tabs[idx];
-        const isAutonomous = ['vibe', 'commander', 'terminal', 'devtools', 'html-preview'].includes(tab.fileType) || tab.isPreview;
+        const isAutonomous =['vibe', 'commander', 'terminal', 'devtools', 'html-preview'].includes(tab.fileType) || tab.isPreview;
 
-        // B"H - Auto-Save Implementation
-        // Rather than halting the user with a dialog, we optimistically save the file.
         if (tab.isDirty && !force && !isAutonomous) {
             UI.showToast(`Auto-saving ${tab.item.name}...`, "info");
             await TabsPersistence.save(tab, Tabs);
@@ -29,10 +26,13 @@ export const TabsLifecycle = {
         }
 
         if (tab.fileType === 'html-preview' || tab.isPreview) {
-            Editor.closePreviewer(tab.id);
+            import('../editor/preview-manager.js').then(m => m.PreviewManager.remove(tab.id));
             const dtTab = State.tabs.find(t => t.fileType === 'devtools' && t.devtoolsState?.previewTabId === tab.id);
             if (dtTab) this.close(dtTab.id, true);
         }
+
+        // B"H - Remember the fallen vessel
+        State.closedTabHistory.push({ ...tab, id: undefined });
 
         State.tabs.splice(idx, 1);
         if (State.activeTabId === tabId) {

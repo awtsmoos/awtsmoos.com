@@ -1,9 +1,9 @@
 
 // B"H
-import { TabIdentity } from '../core/identity/TabIdentity.js';
+import { TabIdentityManager } from './identity/TabIdentityManager.js';
 
 export const TabPathRitual = {
     getUniquePath(item) {
-        return TabIdentity.getUniquePath(item);
+        return TabIdentityManager.generateHash(item);
     }
 };

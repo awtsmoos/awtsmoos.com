@@ -25,7 +25,7 @@ export const Session = {
             const allowedWsIds = new Set(persistableWorkspaces.map(ws => ws.id));
 
             const persistableTabs = State.tabs
-                .filter(tab => (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'].includes(tab.item.type))
+                .filter(tab => (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) ||['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'].includes(tab.item.type))
                 .map(tab => {
                     const safeItem = { ...tab.item };
                     let contentToSave = null;
@@ -33,14 +33,13 @@ export const Session = {
                     else if (typeof tab.content === 'object') contentToSave = tab.content;
 
                     let devtoolsMetadata = null;
-                    // B"H - GATHER DEVTOOLS HISTORY
                     const bridgeState = DevToolsBridge.getTabPersistentState(tab.fileType === 'devtools' ? tab.item.previewTabId : tab.id);
                     if (bridgeState && (bridgeState.logs.length > 0 || bridgeState.networkReqs.length > 0)) {
                         devtoolsMetadata = {
                             activePanel: bridgeState.activePanel,
                             selectedPath: bridgeState.selectedPath,
-                            expandedPaths: Array.from(bridgeState.expandedPaths || []),
-                            logs: bridgeState.logs.slice(-100), // Keep last 100 for storage limits
+                            expandedPaths: Array.from(bridgeState.expandedPaths ||[]),
+                            logs: bridgeState.logs.slice(-100), 
                             networkReqs: bridgeState.networkReqs.slice(-100)
                         };
                     }
@@ -70,15 +69,27 @@ export const Session = {
             const session = JSON.parse(savedSession);
             if (session.workspaces) {
                 session.workspaces.forEach(wsData => Workspaces.add(wsData, false));
+                
+                // B"H - Rectify workspace ID counter to prevent collisions
+                const maxWsId = Math.max(-1, ...State.workspaces.map(ws => Number(ws.id) || 0));
+                if (maxWsId >= State.nextWorkspaceId) {
+                    State.nextWorkspaceId = maxWsId + 1;
+                }
             }
             if (session.openTabs) {
                 State.tabs = session.openTabs.map(t => {
                     if (t.devtoolsMetadata) {
-                        // REHYDRATE THE BRIDGE MEMORY
                         DevToolsBridge.getTabPersistentState(t.item.previewTabId || t.id, t.devtoolsMetadata);
                     }
                     return { ...t, forceReload: true };
                 });
+                
+                // B"H - Rectify tab ID counter to prevent massive UI multi-select/closure bugs
+                const maxTabId = Math.max(-1, ...State.tabs.map(t => Number(t.id) || 0));
+                if (maxTabId >= State.nextTabId) {
+                    State.nextTabId = maxTabId + 1;
+                }
+                
                 Tabs.render();
             }
             if (session.expandedFolders) State.expandedFolders = new Set(session.expandedFolders);

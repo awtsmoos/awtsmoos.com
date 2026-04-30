@@ -14,31 +14,19 @@ import { MenuUI } from '../menus/ui.js';
 export const MessageBridge = {
     initialized: false,
 
-    /**
-     * @function init
-     * @description Initializes the bridge between the editor heavens and the preview earth.
-     */
     init() {
         if (this.initialized) return;
         
         console.log("B\"H - MessageBridge: Initializing Communication.");
         window.addEventListener('message', (e) => this.handle(e));
         
-        // Ensure the DevTools registry is also listening
         if (DevToolsBridge && typeof DevToolsBridge.init === 'function') {
             DevToolsBridge.init();
-        } else {
-            console.error("B\"H - MessageBridge: DevToolsBridge is unformed or missing init.");
         }
 
         this.initialized = true;
     },
 
-    /**
-     * @async
-     * @function handle
-     * @description Processes incoming messages from the iframes.
-     */
     async handle(e) {
         const d = e.data;
         if (!d || d.source !== 'html-preview-bridge') return;
@@ -67,10 +55,13 @@ export const MessageBridge = {
                 }
             }
             else if (type === 'context-menu') {
-                const iframe = document.querySelector(`iframe[data-tab-id="${d.previewTabId}"]`);
-                if (!iframe) return;
+                // Safely search for the correct preview dimension container using standard query.
+                const queryStr = 'iframe[data-tab-id="' + d.previewTabId + '"]';
+                const iframeElement = document.querySelector(queryStr);
                 
-                const rect = iframe.getBoundingClientRect();
+                if (!iframeElement) return;
+                
+                const rect = iframeElement.getBoundingClientRect();
                 const clientX = rect.left + d.x;
                 const clientY = rect.top + d.y;
                 
@@ -115,19 +106,17 @@ export const MessageBridge = {
                 NodeSystem.routeWsClose(id);
             }
         } catch (err) {
+            // Guard: Dispatch error securely, notifying the intercepter that the asset threw a rejection.
             const errType = type.replace('request', 'response').replace('fetch', 'response');
             e.source.postMessage({ source: 'parent', type: errType, id, error: err.message }, '*');
         }
     },
 
-    /**
-     * @function sendCommandToIframe
-     * @description Beams a physical execution command into the iframe.
-     */
     sendCommandToIframe(tabId, cmd) {
-        const iframe = document.querySelector(`iframe[data-tab-id="${tabId}"]`);
-        if (iframe && iframe.contentWindow) {
-            iframe.contentWindow.postMessage({ type: 'iframe-exec-cmd', cmd }, '*');
+        const qStr = 'iframe[data-tab-id="' + tabId + '"]';
+        const iframeElement = document.querySelector(qStr);
+        if (iframeElement && iframeElement.contentWindow) {
+            iframeElement.contentWindow.postMessage({ type: 'iframe-exec-cmd', cmd }, '*');
         }
     }
 };
