@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<!--
+  B"H
+  THE ETERNAL VESSEL: SINGLE SHELL EDITION
+  "Hear, O Israel: The Lord our God, the Lord is one."
+  One Shell. One Screen. One Reality.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>B"H - Ohr HaGanuz (Supreme Unity)</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+    body { 
+        background: #000; display: flex; justify-content: center; align-items: center; 
+        height: 100vh; width: 100vw; overflow: hidden; 
+        font-family: 'Press Start 2P', monospace;
+    }
+    #atzmus-vessel-root {
+        width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;
+        perspective: 1200px;
+    }
+    /* The transform is applied via JS based on window size */
+    .master-console-shell {
+        transform-origin: center center;
+        transition: transform 0.1s ease-out;
+    }
+</style>
+</head>
+<body>
+    <div id="atzmus-vessel-root"></div>
+    <script type="module" src="src/index.js"></script>
+</body>
+</html>
