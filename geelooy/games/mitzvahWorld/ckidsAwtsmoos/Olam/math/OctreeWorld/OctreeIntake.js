@@ -1,12 +1,17 @@
 
-// B"H
+/**
+ * @file OctreeIntake.js
+ * @description
+ * 🌊 CHAPTER 12: THE GATHERING OF FORMS 🌊
+ * 
+ * Manages the background ingestion of new world geometry. 
+ * Corrected queue processing to prevent infinite building loops.
+ */
 import * as THREE from '/games/scripts/build/three.module.js';
-
 import QueueProcessor from "./intake/QueueProcessor.js";
 import LODManager from "./intake/LODManager.js";
 import ObjectManager from "./intake/ObjectManager.js";
 import Traversal from "./intake/Traversal.js";
-import Distribution from "./intake/Distribution.js";
 
 export default class OctreeIntake {
     constructor(world) {
@@ -15,78 +20,48 @@ export default class OctreeIntake {
         this.buildQueue = new Set();
         this.subdivisionQueue = new Set();
         this.mergeQueue = new Set();
-        
-        this.baseBuildRadius = 60;
-        this.mergeRadius = 120;
-        this.velocityLookaheadFactor = 2.0;
-        
-        this.lastUpdateCenter = new THREE.Vector3(Infinity, Infinity, Infinity);
+        this.baseBuildRadius = 75;
     }
     
     get isProcessing() {
         return this.intakeQueue.length > 0 || this.buildQueue.size > 0 || this.subdivisionQueue.size > 0;
     }
 
-    addToQueue(group) {
-        this.intakeQueue.push({ group, isStaticWorld: true });
-    }
-    
-    processQueues(frameBudget = 5) {
-        const startTime = performance.now();
+    processQueues(budgetMs = 8) {
+        const start = performance.now();
 
-        while (this.intakeQueue.length > 0) {
-            if (performance.now() - startTime > frameBudget) return;
+        // 1. First Priority: Break down large meshes into chunks
+        while (this.intakeQueue.length > 0 && (performance.now() - start < budgetMs)) {
             this.processIntakeQueue();
         }
 
+        // 2. Second Priority: Build physics for chunks near the player
         if (this.buildQueue.size > 0) {
-            const iterator = this.buildQueue.values();
-            let result = iterator.next();
-            while (!result.done) {
-                if (performance.now() - startTime > frameBudget) return;
-                const node = result.value;
+            const it = this.buildQueue.values();
+            for (let node of it) {
+                if (performance.now() - start > budgetMs) break;
                 this.buildQueue.delete(node);
                 this.world.builder.buildNodePhysics(node);
-                result = iterator.next();
             }
         }
 
+        // 3. Maintenance: Manage Detail density
         if (this.subdivisionQueue.size > 0) {
-            const iterator = this.subdivisionQueue.values();
-            let result = iterator.next();
-            while (!result.done) {
-                if (performance.now() - startTime > frameBudget) return;
-                const node = result.value;
+            const it = this.subdivisionQueue.values();
+            for (let node of it) {
+                if (performance.now() - start > budgetMs) break;
                 this.subdivisionQueue.delete(node);
                 this.subdivide(node);
-                result = iterator.next();
             }
         }
+    }
 
-        if (this.mergeQueue.size > 0) {
-             const iterator = this.mergeQueue.values();
-            let result = iterator.next();
-            while (!result.done) {
-                if (performance.now() - startTime > frameBudget) return;
-                const node = result.value;
-                this.mergeQueue.delete(node);
-                this.merge(node);
-                result = iterator.next();
-            }
-        }
-        
-        if (this.world.builder.activeJob || this.world.builder.conversionQueue.length > 0) {
-             const remainingTime = frameBudget - (performance.now() - startTime);
-             if (remainingTime > 0) {
-                 this.world.builder.processActiveJob(remainingTime, this.distributeTriangleToNodes.bind(this));
-             }
-        }
+    assessAndQueueWork(foci) {
+        LODManager.assessAndQueueWork.call(this, foci);
     }
 }
 
-// B"H - Mixin Logic
 Object.assign(OctreeIntake.prototype, QueueProcessor);
 Object.assign(OctreeIntake.prototype, LODManager);
 Object.assign(OctreeIntake.prototype, ObjectManager);
 Object.assign(OctreeIntake.prototype, Traversal);
-Object.assign(OctreeIntake.prototype, Distribution);

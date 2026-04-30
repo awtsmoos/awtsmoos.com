@@ -1,3 +1,4 @@
+
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree as AwtsmoosOctree } from "../AwtsmoosOctree/index.js";
@@ -9,18 +10,14 @@ const _v3 = new THREE.Vector3();
 const _tempBox = new THREE.Box3();
 const _tempTri = new THREE.Triangle();
 
-/**
- * OctreeBuilder - Constructing the physical geometry of the Olam.
- */
 export default class OctreeBuilder {
     constructor(world) {
         this.world = world;
         this.activeJob = null;
-        this.conversionQueue = [];
+        this.conversionQueue =[];
     }
 
     buildNodePhysics(node) {
-        // Lag Prevention Valve
         let totalTriangles = 0;
         for(const mesh of node.physicsMeshGroup.children) {
              const geo = mesh.geometry;
@@ -28,7 +25,10 @@ export default class OctreeBuilder {
              totalTriangles += (count / 3);
         }
 
-        if (totalTriangles > 15000) return; 
+        if (totalTriangles > 5000000) {
+            console.warn(`B"H - 🏔️ Node geometry exceeds 5,000,000 triangles. Aborting build.`);
+            return; 
+        }
 
         const newPhysics = new AwtsmoosOctree(node.box.clone());
         newPhysics._isManaged = true;
@@ -64,6 +64,10 @@ export default class OctreeBuilder {
                 
                 const newTriangle = new THREE.Triangle(v1.clone(), v2.clone(), v3.clone());
                 
+                // B"H: ABSOLUTE PURGE OF THE VOID
+                // Discard any triangle that has no mathematical area!
+                if (newTriangle.getArea() < 1e-8) continue;
+                
                 if(!node.box.intersectsTriangle(newTriangle)) continue;
 
                 newTriangle.sourceMesh = newMesh; 
@@ -98,7 +102,6 @@ export default class OctreeBuilder {
                 job.clone = job.proxy.mesh.clone();
                 if(job.clone.parent) job.clone.parent = null;
                 job.clone.updateMatrix();
-                // B"H: Transitioning to the BOUNDS step (1)
                 job.step = JOB_STEP.BOUNDS;
                 continue;
             }
@@ -145,6 +148,12 @@ export default class OctreeBuilder {
                     v2.fromBufferAttribute(pos, b).applyMatrix4(mw);
                     v3.fromBufferAttribute(pos, c).applyMatrix4(mw);
                     tri.set(v1, v2, v3);
+                    
+                    // B"H: ABSOLUTE PURGE OF THE VOID (ASYNC JOB BUILDER)
+                    // If a triangle has no mathematical dimension, we cast it out!
+                    // This is what caused the House freeze.
+                    if (tri.getArea() < 1e-8) continue;
+                    
                     tri.sourceMesh = job.clone;
                     distributeCallback(this.world.root, tri, job.affected);
                 }

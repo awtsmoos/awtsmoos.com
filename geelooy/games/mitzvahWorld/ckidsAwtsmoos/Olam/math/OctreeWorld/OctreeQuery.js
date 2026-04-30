@@ -1,103 +1,76 @@
-// B"H
-import * as THREE from '/games/scripts/build/three.module.js';
 
 /**
- * OctreeQuery - Probing the physical laws of the Olam.
- * Uses recursive traversal to ensure O(log N) query times.
+ * @file OctreeQuery.js
+ * @description
+ * 🔍 CHAPTER 20: THE SEARCH FOR CONTACT 🔍
+ * 
+ * Refined the ray and capsule probing to ensure it traverses all 
+ * branches of the LOD tree simultaneously, picking the highest-truth contact point.
  */
+import * as THREE from '/games/scripts/build/three.module.js';
+
 export default class OctreeQuery {
     constructor(world) {
         this.world = world;
-        this._tempBox = new THREE.Box3();
+        this._box = new THREE.Box3();
     }
 
-    /**
-     * rayIntersect - Finds the closest point of contact for a ray.
-     */
     rayIntersect(ray) {
-        let closestResult = false;
-        
-        const traverseNode = (node) => {
-            // 1. Boundary Guard: If the ray doesn't hit this branch, ignore its progeny.
+        let best = null;
+        const scan = (node) => {
             if (!ray.intersectsBox(node.box)) return;
 
             if (node.type === 'LEAF') {
                 if (node.physics) {
-                    const res = node.physics.rayIntersect(ray);
-                    if (res && (!closestResult || res.distance < closestResult.distance)) {
-                        closestResult = res;
+                    const hit = node.physics.rayIntersect(ray);
+                    if (hit && (!best || hit.distance < best.distance)) {
+                        best = hit;
                     }
                 }
             } else {
-                for (let i = 0; i < node.children.length; i++) {
-                    traverseNode(node.children[i]);
-                }
+                node.children.forEach(scan);
             }
         };
 
-        if (this.world.root) {
-            traverseNode(this.world.root);
-        }
+        if (this.world.root) scan(this.world.root);
+        
+        // Also check unbaked temporary octrees (Satellites)
+        this.world.pendingOctrees.forEach(sat => {
+             const hit = sat.rayIntersect(ray);
+             if (hit && (!best || hit.distance < best.distance)) best = hit;
+        });
 
-        // Check satellites (instant loading objects)
-        for (const sat of this.world.pendingOctrees) {
-            if (ray.intersectsBox(sat.box)) {
-                const res = sat.rayIntersect(ray);
-                if (res && (!closestResult || res.distance < closestResult.distance)) {
-                    closestResult = res;
-                }
-            }
-        }
-
-        return closestResult;
+        return best;
     }
 
-    /**
-     * capsuleIntersect - Resolves collision for a capsule vessel.
-     */
-    capsuleIntersect(capsule) {
-        let hit = false;
-        const testCapsule = capsule.clone();
+    capsuleIntersect(cap) {
+        let hasHit = false;
+        const test = cap.clone();
+        
+        // Establish the capsule's boundary box for culling
+        this._box.setFromPoints([test.start, test.end]).expandByScalar(test.radius);
 
-        this._tempBox.min.copy(testCapsule.start).min(testCapsule.end).subScalar(testCapsule.radius);
-        this._tempBox.max.copy(testCapsule.start).max(testCapsule.end).addScalar(testCapsule.radius);
-
-        const traverseNode = (node) => {
-            if (!this._tempBox.intersectsBox(node.box)) return;
+        const scan = (node) => {
+            if (!this._box.intersectsBox(node.box)) return;
 
             if (node.type === 'LEAF') {
                 if (node.physics) {
-                    const result = node.physics.capsuleIntersect(testCapsule);
-                    if (result) {
-                        testCapsule.translate(result.normal.multiplyScalar(result.depth));
-                        hit = true;
+                    const res = node.physics.capsuleIntersect(test);
+                    if (res) {
+                        test.translate(res.normal.multiplyScalar(res.depth));
+                        hasHit = true;
                     }
                 }
             } else {
-                for (let i = 0; i < node.children.length; i++) {
-                    traverseNode(node.children[i]);
-                }
+                node.children.forEach(scan);
             }
         };
 
-        if (this.world.root) {
-            traverseNode(this.world.root);
-        }
+        if (this.world.root) scan(this.world.root);
 
-        for (const sat of this.world.pendingOctrees) {
-            if (sat.box.intersectsBox(this._tempBox)) {
-                 const result = sat.capsuleIntersect(testCapsule);
-                 if (result) {
-                     testCapsule.translate(result.normal.multiplyScalar(result.depth));
-                     hit = true;
-                 }
-            }
-        }
-        
-        if (hit) {
-            const correction = testCapsule.getCenter(new THREE.Vector3()).sub(capsule.getCenter(new THREE.Vector3()));
-            const depth = correction.length();
-            if (depth > 1e-9) return { normal: correction.normalize(), depth };
+        if (hasHit) {
+            const v = test.getCenter(new THREE.Vector3()).sub(cap.getCenter(new THREE.Vector3()));
+            if (v.lengthSq() > 1e-12) return { normal: v.normalize(), depth: v.length() };
         }
         return false;
     }

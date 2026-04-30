@@ -73,7 +73,15 @@ export default class JobProcessor {
             if (job.step === JOB_STEP.FINALIZE) {
                 job.affected.forEach(n => {
                     n.state = NODE_STATE.READY;
-                    if (!n.physicsMeshGroup.children.includes(job.clone)) n.physicsMeshGroup.add(job.clone);
+                    // B"H: ABSOLUTE EXISTENTIAL CONTINUITY
+                    // Clone the mesh so `Object3D.add` doesn't steal it from previous nodes!
+                    const finalClone = job.clone.clone();
+                    finalClone.matrixWorld.copy(job.clone.matrixWorld);
+                    finalClone.userData = { ...job.clone.userData };
+                    
+                    if (!n.physicsMeshGroup.children.some(c => c.userData?.visualReference === finalClone.userData.visualReference)) {
+                        n.physicsMeshGroup.add(finalClone);
+                    }
                 });
                 this.activeJob = null;
                 break;

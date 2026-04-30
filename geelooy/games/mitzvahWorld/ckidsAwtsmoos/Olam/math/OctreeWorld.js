@@ -1,5 +1,17 @@
 
 // B"H
+/**
+ * @file OctreeWorld.js
+ * @description
+ * 🏰 THE TEMPLE OF FOUNDATIONS 🏰
+ * 
+ * Chapter 7: The Guard of the Pulse.
+ * To prevent the world from freezing, we must only build a small portion 
+ * of reality per frame. This is the Tzimtzum of processing time.
+ * 
+ * Now fortified with absolute diagnostic awareness and a perfected 
+ * object deletion protocol that hunts down phantom collision clones!
+ */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js";
 import { JOB_STEP, NODE_STATE, CONFIG } from './OctreeWorld/constants.js';
@@ -183,8 +195,15 @@ export class OctreeWorld {
     _insertMeshOnly(node, mesh, meshBox) {
         if (!node.box.intersectsBox(meshBox)) return false;
         if (node.type === 'LEAF') {
-            const meshToAdd = mesh.parent ? mesh.clone() : mesh;
-            if (mesh.parent) meshToAdd.userData = Object.assign({}, mesh.userData);
+            let meshToAdd;
+            if (mesh.parent) {
+                // B"H: Preserve world matrix across subdivision cloning!
+                meshToAdd = mesh.clone();
+                meshToAdd.matrixWorld.copy(mesh.matrixWorld);
+                meshToAdd.userData = Object.assign({}, mesh.userData);
+            } else {
+                meshToAdd = mesh;
+            }
             node.physicsMeshGroup.add(meshToAdd);
             node.state = NODE_STATE.PENDING_BUILD;
             if(mesh.userData) mesh.userData.inMainWorld = true;
@@ -211,7 +230,14 @@ export class OctreeWorld {
         if (node.type === 'BRANCH') {
             const intersectingChildren = node.children.filter(child => child.box.intersectsBox(meshWorldBox));
             if (intersectingChildren.length === 1) this._distributeMeshes(intersectingChildren[0], mesh);
-            else if (intersectingChildren.length > 1) intersectingChildren.forEach(child => this._distributeMeshes(child, mesh.clone()));
+            else if (intersectingChildren.length > 1) {
+                intersectingChildren.forEach(child => {
+                    const c = mesh.clone();
+                    c.matrixWorld.copy(mesh.matrixWorld); // B"H: Preserve absolute placement
+                    c.userData = { ...mesh.userData };
+                    this._distributeMeshes(child, c);
+                });
+            }
         }
     }
 
@@ -397,6 +423,8 @@ export class OctreeWorld {
         if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
         const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
 
+        console.log(`B"H - ⚓ INSERTING MESH TO PHYSICS: ${mesh.name}. Bounds: Min[${worldBox.min.x.toFixed(1)}, ${worldBox.min.y.toFixed(1)}, ${worldBox.min.z.toFixed(1)}] Max[${worldBox.max.x.toFixed(1)}, ${worldBox.max.y.toFixed(1)}, ${worldBox.max.z.toFixed(1)}]`);
+
         if (!this.root) this.root = new LODNode(worldBox.clone());
         else this.root.box.union(worldBox);
 
@@ -406,6 +434,8 @@ export class OctreeWorld {
         mesh.getWorldScale(physicsClone.scale);
         physicsClone.updateMatrix();
         physicsClone.updateMatrixWorld(true);
+        
+        // B"H: The essential tie-back for deletion!
         physicsClone.userData = { ...mesh.userData, visualReference: mesh };
 
         const satGeo = mesh.geometry.clone();
@@ -471,21 +501,40 @@ export class OctreeWorld {
         this._intakeQueue.push({ group: group, isStaticWorld: true });
     }
 
+    /**
+     * @method removeMesh
+     * @description The blade of Gevurah. Utterly erases a mesh from the physical grid,
+     * ensuring no invisible ghost blocks remain to hinder the soul's movement.
+     */
     removeMesh(mesh) {
         if (!this.root || !mesh) return;
+        
+        // Unify the identity of the visual and physics clone
         const visualRef = mesh.userData?.visualReference || mesh;
-        const meshBox = new THREE.Box3().setFromObject(mesh);
+        
+        mesh.updateMatrixWorld(true);
+        if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+        const meshBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+        
         const nodes = this._findLeafNodesInBox(this.root, meshBox);
 
+        console.log(`B"H - 🗑️ REMOVING MESH FROM PHYSICS: ${mesh.name}. Scanning ${nodes.length} leaf nodes.`);
+
         nodes.forEach(node => {
-            if (node.physicsMeshGroup && node.physicsMeshGroup.children.includes(mesh)) {
-                node.physicsMeshGroup.remove(mesh);
-                if (node.physics) node.physics.removeMesh(mesh); 
+            // Find the specific physics clone that references this visual mesh!
+            const cloneToRemove = node.physicsMeshGroup.children.find(c => 
+                (c.userData?.visualReference === visualRef) || (c === mesh)
+            );
+            
+            if (cloneToRemove) {
+                node.physicsMeshGroup.remove(cloneToRemove);
+                if (node.physics) {
+                    node.physics.removeMesh(cloneToRemove); 
+                    console.log(`B"H - 🗑️ Eradicated physics triangles for ${mesh.name} from Octree node.`);
+                }
             }
         });
 
-        this._pendingOctrees = this._pendingOctrees.filter(sat => {
-            return sat.sourceMesh !== visualRef;
-        });
+        this._pendingOctrees = this._pendingOctrees.filter(sat => sat.sourceMesh !== visualRef);
     }
 }
