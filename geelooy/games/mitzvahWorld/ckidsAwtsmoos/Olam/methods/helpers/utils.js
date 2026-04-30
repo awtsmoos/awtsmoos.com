@@ -1,6 +1,6 @@
 
 // B"H
-import ShlichusHandler from "../../shleechoosHandler.js";
+import ShlichusHandler from "../../../shleechoosHandler.js";
 
 /**
  * @file utils.js

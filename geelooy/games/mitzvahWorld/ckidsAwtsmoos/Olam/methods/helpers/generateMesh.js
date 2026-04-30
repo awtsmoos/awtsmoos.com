@@ -1,59 +1,71 @@
 
 /**
- * B"H
  * @file generateMesh.js
  * @description
+ * B"H
  * 🛠️ CHAPTER 15: THE FORGE OF TOTAL MANIFESTATION 🛠️
  * 
- * A mesh without grounding is a fleeting thought. 
- * This master entry point for 3D construction utilizes 
- * GeometryCarver and MaterialScribe for granular control.
- * It operates with extreme speed, stripped of console clutter.
+ * Chapter 15.1: The Emerald Decree
+ * This module detects if a creation requests the 'AwtsmoosGrassMaterial' 
+ * and applies the complex GLSL shader logic natively.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import GeometryCarver from './GeometryCarver.js';
 import MaterialScribe from './MaterialScribe.js';
 
 export default async function generateThreeJsMesh(golem, olamContext) {
-    const soulName = golem.name || 'Anonymous Golem';
+    const soulName = golem.name || golem.id || 'Procedural Spark';
     
     try {
-        // --- 1. BODY EXTRACTION ---
+        // --- 1. GEOMETRY ---
         const gufSchema = golem.guf || { "BoxGeometry": [1, 1, 1] };
         const [geoName, geoArgs] = Object.entries(gufSchema)[0];
         const geometry = GeometryCarver.carve(geoName, geoArgs);
 
-        if (geometry && !geometry.boundingBox) {
-            geometry.computeBoundingBox();
-        }
-
-        // --- 2. GARMENT WEAVING ---
+        // --- 2. MATERIAL ---
         const toyrSchema = golem.toyr || { "MeshBasicMaterial": { color: "white" } };
         const [matName, matArgs] = Object.entries(toyrSchema)[0];
         
         let material;
-        if (matName === "MaterialArray" && Array.isArray(matArgs)) {
-            material = await Promise.all(matArgs.map(m => {
+        
+        // B"H: THE EMERALD ACTIVATION
+        // Check for specific shader name or keywords in the golem blueprint
+        const isGrass = matName === 'AwtsmoosGrassMaterial' || 
+                       (soulName && soulName.toLowerCase().includes("emerald")) ||
+                       (matArgs && JSON.stringify(matArgs).includes("safegrass"));
+
+        if (isGrass) {
+             console.log(`B"H - 🌿 [Forge]: Igniting EMERALD shader for [${soulName}]`);
+             material = await MaterialScribe.scribe('AwtsmoosGrassMaterial', {}, olamContext);
+        } else if (matName === "MaterialArray" && Array.isArray(matArgs)) {
+            material = await Promise.all(matArgs.map(async (m) => {
                 const [n, a] = Object.entries(m)[0];
-                return MaterialScribe.scribe(n, a, olamContext);
+                const res = await MaterialScribe.scribe(n, a, olamContext);
+                if (res) { res.side = THREE.DoubleSide; res.visible = true; }
+                return res;
             }));
         } else {
             material = await MaterialScribe.scribe(matName, matArgs, olamContext);
+            if (material) { material.side = THREE.DoubleSide; material.visible = true; }
         }
 
-        // --- 3. THE ASSEMBLY ---
+        // --- 3. ASSEMBLY ---
         const mesh = new THREE.Mesh(geometry, material);
         mesh.name = soulName;
-
-        // B"H: THE FLOOR PRESERVATION ACT
-        if (geometry.boundingBox && (geometry.boundingBox.max.x - geometry.boundingBox.min.x) > 500) {
+        mesh.visible = true;
+        
+        // B"H: ABSOLUTE VISIBILITY FOR TERRAIN
+        if (isGrass || soulName.includes("Ground") || soulName.includes("Terrain")) {
              mesh.frustumCulled = false;
         }
+        
+        mesh.updateMatrix();
+        mesh.updateMatrixWorld(true);
 
         return mesh;
 
     } catch (e) {
-        console.error(`B"H - 🚨 THE FORGE SHATTERED while manifestating [${soulName}]!`, e);
-        return new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 'red' }));
+        console.error(`B"H - 🚨 THE FORGE SHATTERED while manifesting [${soulName}]:`, e);
+        return new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshBasicMaterial({ color: 'red', visible: true }));
     }
 }

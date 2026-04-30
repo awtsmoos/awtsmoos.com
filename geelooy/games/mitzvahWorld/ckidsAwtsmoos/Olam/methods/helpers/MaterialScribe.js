@@ -1,17 +1,28 @@
 
 /**
- * B"H
  * @module MaterialScribe
  * @description
+ * B"H
  * 🎨 CHAPTER 22: THE EMBROIDERING OF THE COAT 🎨
- * 
- * Geometry is but a dead bone until the Material (Toyr) is spoken upon it.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import SafeMaterialApplier from './SafeMaterialApplier.js';
 
 export default class MaterialScribe {
+    /**
+     * @method scribe
+     * @description Translates the abstract intention of color and pattern into a Three.js material.
+     */
     static async scribe(toyrName, rawParams, olam) {
+        // B"H: If the material name itself is a type of shader
+        if (toyrName === 'AwtsmoosGrassMaterial') {
+             const mat = new THREE.MeshStandardMaterial({ color: 0x228B22 });
+             // We use a dynamic import to avoid worker boot stalls
+             const { default: GrassShader } = await import('../procedural/Shaders/Grass/index.js');
+             GrassShader.apply(mat);
+             return mat;
+        }
+
         try {
             const processed = await this._processDivineOptions(rawParams, olam);
             return SafeMaterialApplier.apply(toyrName, processed);
@@ -28,11 +39,17 @@ export default class MaterialScribe {
                 clean[key] = new THREE.Color(val);
             } else if (key === 'map' && typeof val === 'string') {
                 if (olam && olam.loadTexture) {
-                    let urlToLoad = val.startsWith("awtsmoos://") ? olam.getComponent(val) : val;
+                    let urlToLoad = val;
+                    if (val.startsWith("awtsmoos://")) {
+                        urlToLoad = olam.getComponent(val);
+                    }
+                    
                     if (urlToLoad) {
-                        clean[key] = await olam.loadTexture({ url: urlToLoad });
-                    } else {
-                        clean[key] = null;
+                        const tex = await olam.loadTexture({ url: urlToLoad });
+                        if (tex) {
+                             console.log(`B"H - 🖼️ [MaterialScribe]: Map manifest for [${urlToLoad}]`);
+                             clean[key] = tex;
+                        }
                     }
                 }
             } else {

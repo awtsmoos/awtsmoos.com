@@ -1,6 +1,6 @@
 
 // B"H
-import { Octree } from '/games/scripts/build/Octree.js';
+import { Octree } from '/games/scripts/jsm/math/Octree.js';
 
 /**
  * @module OctreeWorld
@@ -11,7 +11,7 @@ import { Octree } from '/games/scripts/build/Octree.js';
 export default class OctreeWorld extends Octree {
     constructor(box) {
         super(box);
-        console.log("B\"H - ⚓ [OCTREE]: World Octree manifested.");
+        console.log("B\"H - ⚓[OCTREE]: World Octree manifested.");
     }
 
     /**
@@ -36,7 +36,7 @@ export default class OctreeWorld extends Octree {
                 
                 // B"H: If the name implies it is a character or dynamic object, warn!
                 if (child.name.toLowerCase().includes("chossid") || child.name.toLowerCase().includes("body")) {
-                    console.warn(`B"H - 🚨 [OCTREE_WARNING]: Inserting potential DYNAMIC mesh into STATIC octree! Name: [${child.name}]. This will cause intense LAG.`);
+                    console.warn(`B"H - 🚨[OCTREE_WARNING]: Inserting potential DYNAMIC mesh into STATIC octree! Name: [${child.name}]. This will cause intense LAG.`);
                 }
             }
         });

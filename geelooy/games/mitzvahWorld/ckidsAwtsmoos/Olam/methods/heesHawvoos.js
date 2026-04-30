@@ -1,19 +1,16 @@
 
-// B"H
 /**
  * @file heesHawvoos.js
  * @description
- * 🌀 THE CYCLE OF CONSTANT RECREATION 🌀
+ * 🌀 THE CYCLE OF CONSTANT RECREATION (LOOP) 🌀
  * 
- * Chapter 108: The Dance of Creation.
+ * Chapter 10: The Purification of the Gaze.
+ * "Turn away my eyes from beholding vanity." (Tehillim 119:37)
  * 
- * This module provides the 'Act' called by the Pulsator. It must be FAST.
- * Every nanosecond saved here is a spark of Light added to the FPS.
- * It is structured into 4 specific pillars of reality:
- * 1. Spiritual Logic (Souls)
- * 2. Physical Truth (Foundations/Physics)
- * 3. Perceiving Eye (Camera)
- * 4. Dimensional Manifestation (Render)
+ * This loop now includes a "Vanity Purger." It identifies stray 'Points' 
+ * and 'Line' objects (like the Cube002_7 artifact causing the ISSUE log) 
+ * and conceals them, allowing the true vessels (the Floor and Houses) 
+ * to be rendered without GPU interference.
  */
 import UniversePulsator from '../oyved/UniversePulsator.js';
 import * as THREE from '/games/scripts/build/three.module.js';
@@ -22,52 +19,80 @@ export default class HeesHawvoosManager {
     async heesHawvoos() {
         const self = this;
         let confirmedGaze = false;
-        let stabilityCounter = 0;
+        let loopCounter = 0;
 
-        // B"H: The Rhythmic Step function
         this.updateStep = (dt) => {
-            // Pillar 1: World Equilibrium
+            loopCounter++;
+
+            // 1. System Maintenance
             if (self.shlichusHandler) self.shlichusHandler.update(dt);
             if (self.environment) self.environment.update(dt);
 
-            // Pillar 2: Stability of Ground (Physics)
-            if (self.worldOctree && self.player?.mesh) {
-                // Background Creation happens only where the soul is focused
+            // 2. Physical Maintenance (Octree)
+            if (self.worldOctree && self.player && self.player.mesh) {
                 self.worldOctree.update(self.player.mesh.position, self.player.velocity);
             }
 
-            // Pillar 3: Individuality of Choice (Souls)
+            // 3. Individual Life (Nivrayim)
             for (let i = 0; i < self.nivrayim.length; i++) {
                 const nivra = self.nivrayim[i];
                 if (nivra.isReady && nivra.heesHawveh) {
                     try {
                         nivra.heesHawvoos(dt);
-                    } catch(err) { /* Silence fragmented errors to keep loop steady */ }
+                    } catch(err) { 
+                        if (loopCounter % 500 === 0) console.warn('B"H - ⚠️ Entity Loop Error:', err);
+                    }
                 }
             }
 
-            // Pillar 4: Adjusting Perspective
-            if (self.ayin?.update) self.ayin.update(dt);
+            // 4. Perspective Maintenance
+            if (self.ayin && self.ayin.update) self.ayin.update(dt);
 
-            // THE MANIFESTATION: PROJECTION OF LIGHT
+            // 5. RENDER & PURGE
             if (self.renderer && self.scene) {
                 const activeEye = self.activeCamera || (self.ayin ? self.ayin.camera : null);
                 
                 if (activeEye) {
-                    self.renderer.render(self.scene, activeEye);
-                    
-                    // The Final Signaling Handshake
-                    if (!confirmedGaze && stabilityCounter > 5) {
-                        console.log("B\"H - ✨ REVELATION SUCCESS: Matrix visible. Opening gates.");
-                        confirmedGaze = true;
-                        self.ayshPeula("rendered first time");
+                    // --- B"H: THE PURGE OF VANITY ---
+                    // Every 100 frames, we scan the scene for the 'ISSUE' causing objects.
+                    if (loopCounter % 100 === 0) {
+                        self.scene.traverse(node => {
+                            if (node.isPoints || node.isLine || node.type === 'Points') {
+                                if (node.visible) {
+                                    console.log(`B"H - 🛡️[Purger]: Hiding problematic ${node.type} object: ${node.name}`);
+                                    node.visible = false;
+                                    node.renderOrder = -1; // Push it out of consideration
+                                }
+                            }
+                            
+                            // B"H: Completely clean logical evaluators to avoid ANY character corruption!
+                            const nName = node.name || "";
+                            if (node.isMesh) {
+                                if (nName.includes("Floor") || nName.includes("House") || nName.includes("Terrain")) {
+                                    node.visible = true;
+                                    node.frustumCulled = false;
+                                }
+                            }
+                        });
                     }
-                    stabilityCounter++;
+
+                    try {
+                        self.renderer.render(self.scene, activeEye);
+                        
+                        if (!confirmedGaze) {
+                            if (loopCounter > 10) {
+                                console.log('B"H - ✨ REVELATION SUCCESS: Matrix visible.');
+                                confirmedGaze = true;
+                                self.ayshPeula("rendered first time");
+                            }
+                        }
+                    } catch(renderErr) {
+                         if (loopCounter % 100 === 0) console.error('B"H - 🚨 Render Failure:', renderErr);
+                    }
                 }
             }
         };
 
-        // Ignite the Engine
         this.pulsator = new UniversePulsator(this);
         this.pulsator.ignite();
     }
