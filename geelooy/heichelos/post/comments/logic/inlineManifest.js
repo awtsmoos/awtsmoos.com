@@ -13,7 +13,6 @@
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { unrollApiResponse } from "./unroller.js";
 
-// B"H - Pure modular inclusion for absolute flawless logic
 import { resolveCoordinateToDOM } from "./inlineManifest/CoordinateResolver.js";
 import { weaveInsightIntoMargin, dissolveMarginalWeave } from "./inlineManifest/MarginalDOMWeaver.js";
 import { getInlineAliases } from "../state.js";
@@ -29,13 +28,14 @@ export async function manifestAliasInline(alias) {
     try {
         console.log(`B"H - [InlineConductor] Fetching Marginal Revelations for @${alias}`);
         
+        // B"H - Safe payload. `map: true` retrieves all comments for the post reliably.
         const response = await getCommentsOfAlias({
             seriesId: window?.post?.parentSeriesId, 
             postId: window?.post?.id, 
             heichelId: window?.post?.heichel?.id,
             aliasId: alias, 
-            fromCache: false, // We need absolute truth
-            get: { all: true } // We gather all, and rely on the Coordinates to place them
+            fromCache: false, 
+            get: { map: true } // Removed `{all: true}` which caused backend rejection
         });
 
         const sparks = unrollApiResponse(response);
@@ -58,7 +58,6 @@ export async function manifestAliasInline(alias) {
 
 /**
  * @function manifestAllActiveInlines
- * @description Iterates through the Sacred Ledger of active marginalians and weaves them all.
  */
 export async function manifestAllActiveInlines() {
     const activeGuardians = getInlineAliases();
@@ -69,7 +68,6 @@ export async function manifestAllActiveInlines() {
 
 /**
  * @function dissolveAliasInline
- * @description Commands the Weaver to erase a Guardian's physical presence from the margins.
  */
 export function dissolveAliasInline(alias) {
     dissolveMarginalWeave(alias);

@@ -1,14 +1,27 @@
 
+/* B"H - THE COLORS OF CREATION */
+
 :root {
+    /* --- The Vellum (Earthly Foundation) - PURE SOLID FOR PERFORMANCE --- */
     --bg-surface: #ffffff;
-    --bg-vellum: #fdfaf6;
-    --color-ink: #050505;
+    --bg-vellum: #f4f0ea; /* Solid warm manuscript color, no SVG noise */
+    --bg-noise: none; /* Disabled complex rendering */
+    
+    /* --- The Ink (Manifest Thought) --- */
+    --color-ink: #000000;
     --color-ink-secondary: #555555;
-    --color-primary: #e63946;
-    --color-accent: #ffb703;
-    --color-electric: #4361ee;
-    --color-danger: #d90429;
+    
+    /* --- The Holy Tinctures --- */
+    --color-primary: #d90000; /* Intense Red */
+    --color-accent: #ffae00;  /* Bright Gold */
+    --color-electric: #0044ff; /* Electric Blue */
+    
+    /* --- Boundaries --- */
+    --color-danger: #e60000;
+    --color-success: #00aa00;
+
+    /* --- Shadows (Neo-Brutalist Weight) --- */
     --shadow-ui: 4px 4px 0px 0px var(--color-ink);
     --shadow-hover: 8px 8px 0px 0px var(--color-ink);
-    --bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    --shadow-high: 12px 12px 0px 0px var(--color-ink);
 }
