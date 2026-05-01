@@ -4,34 +4,43 @@
  * @module SidebarMenu
  * @description 
  * The default gateway of the Sidebar. 
- * "By default sidebar should just have two main entry points: breadcrumb details, and comments."
- * Manifested as massive, intense Neo-Brutalist portals.
+ * Re-forged to use the GenesisEngine, eliminating all raw HTML string parsing.
  */
+
+import { GenesisEngine } from "../../functions/dom/GenesisEngine.js";
 
 export function populateRootMenu(actualTab, post, tabRefs) {
     if (!actualTab) return;
     actualTab.innerHTML = "";
     
-    const menuGrid = document.createElement("div");
-    menuGrid.className = "post-root-menu-grid";
+    const blueprint = {
+        tag: 'div',
+        attr: { class: 'post-root-menu-grid' },
+        children:[]
+    };
 
     const createMenuPortal = (title, desc, icon, onClick) => {
-        const btn = document.createElement("button");
-        btn.className = "awtsmoos-massive-menu-btn";
-        btn.innerHTML = `
-            <div class="menu-icon-vessel">${icon}</div>
-            <div class="menu-text-vessel">
-                <span class="menu-portal-title">${title}</span>
-                <span class="menu-portal-desc">${desc}</span>
-            </div>
-            <div class="menu-arrow">→</div>
-        `;
-        btn.onclick = onClick;
-        return btn;
+        return {
+            tag: 'button',
+            attr: { class: 'awtsmoos-massive-menu-btn' },
+            events: { click: onClick },
+            children:[
+                { tag: 'div', attr: { class: 'menu-icon-vessel' }, text: icon },
+                {
+                    tag: 'div',
+                    attr: { class: 'menu-text-vessel' },
+                    children:[
+                        { tag: 'span', attr: { class: 'menu-portal-title' }, text: title },
+                        { tag: 'span', attr: { class: 'menu-portal-desc' }, text: desc }
+                    ]
+                },
+                { tag: 'div', attr: { class: 'menu-arrow' }, text: '→' }
+            ]
+        };
     };
 
     // 1. The Portal of Insights (Commentaries)
-    menuGrid.appendChild(createMenuPortal(
+    blueprint.children.push(createMenuPortal(
         "Insights", 
         "The Living Commentary", 
         "💬", 
@@ -39,7 +48,7 @@ export function populateRootMenu(actualTab, post, tabRefs) {
     ));
 
     // 2. The Portal of Origins (Scroll Details & Path)
-    menuGrid.appendChild(createMenuPortal(
+    blueprint.children.push(createMenuPortal(
         "Scroll Details", 
         "Heichel, Author, & Path", 
         "📜", 
@@ -47,7 +56,7 @@ export function populateRootMenu(actualTab, post, tabRefs) {
     ));
 
     // 3. The Oracle (AI)
-    menuGrid.appendChild(createMenuPortal(
+    blueprint.children.push(createMenuPortal(
         "AI Oracle", 
         "Consult the Awtsmoos AI", 
         "✨", 
@@ -58,12 +67,13 @@ export function populateRootMenu(actualTab, post, tabRefs) {
     ));
 
     // 4. Saved Sparks (Bookmarks)
-    menuGrid.appendChild(createMenuPortal(
+    blueprint.children.push(createMenuPortal(
         "Saved Sparks", 
         "Your bookmarked verses", 
         "🔖", 
         () => tabRefs.bookmarks.open()
     ));
 
-    actualTab.appendChild(menuGrid);
+    const manifestNode = GenesisEngine.manifest(blueprint);
+    actualTab.appendChild(manifestNode);
 }

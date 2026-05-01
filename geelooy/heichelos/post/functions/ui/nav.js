@@ -1,16 +1,57 @@
+
 //B"H
+/**
+ * @module NavigationFooter
+ * @chapter Forging the Footer Gates
+ * @description
+ * Creates the Next/Previous chapter buttons at the end of the scroll.
+ * Transmuted from raw HTML strings into pure JSON Blueprints via GenesisEngine.
+ */
+
+import { GenesisEngine } from "../dom/GenesisEngine.js";
+
+/**
+ * @function makeNavBars
+ * @description Forges the DOM elements for chapter navigation.
+ * @returns {HTMLElement} - The manifest navigation block.
+ */
 export function makeNavBars(post, seriesParent, indexInSeries) {
-    var cur = parseInt(indexInSeries) || 0;
-    var length = seriesParent.posts.length;
-    var hasPrevious = cur > 0;
-    var hasNext = cur < length - 1;
+    if (!seriesParent || !Array.isArray(seriesParent.posts)) {
+        return document.createTextNode("");
+    }
+
+    const cur = parseInt(indexInSeries) || 0;
+    const length = seriesParent.posts.length;
+    const hasPrevious = cur > 0;
+    const hasNext = cur < length - 1;
     
-    var html = `<div class="nav">
-        <div class="controls">CHAPTER ${cur + 1} / ${length}</div>`;
+    const plan = {
+        tag: 'div',
+        attr: { class: 'nav' },
+        children:[
+            { 
+                tag: 'div', 
+                attr: { class: 'controls' }, 
+                text: `CHAPTER ${cur + 1} / ${length}` 
+            }
+        ]
+    };
     
-    if (hasPrevious) html += `<a id="last" class="nav button primary" href="${encodeURIComponent(cur - 1)}">← PREVIOUS</a>`;
-    if (hasNext) html += `<a id="next" class="nav button primary" href="${encodeURIComponent(cur + 1)}">NEXT →</a>`;
+    if (hasPrevious) {
+        plan.children.push({
+            tag: 'a', 
+            attr: { id: 'last', class: 'nav button primary', href: encodeURIComponent(cur - 1) }, 
+            text: '← PREVIOUS'
+        });
+    }
     
-    html += `</div><script>if(window.next) next.href = next.href; if(window.last) last.href = last.href;</script>`;
-    return html;
+    if (hasNext) {
+        plan.children.push({
+            tag: 'a', 
+            attr: { id: 'next', class: 'nav button primary', href: encodeURIComponent(cur + 1) }, 
+            text: 'NEXT →'
+        });
+    }
+    
+    return GenesisEngine.manifest(plan);
 }

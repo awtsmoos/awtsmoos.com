@@ -18,7 +18,6 @@ import TabManager from "/heichelos/post/TabManager.js";
 import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js";
 import { populateRootMenu } from "/heichelos/post/logic/initialization/sidebarContent.js";
 import { manifestAliasInline, getInlineAliases } from "/heichelos/post/comments/inline.js";
-import { TopBreadcrumbsRenderer } from "/heichelos/post/functions/ui/BreadcrumbsRenderer.js";
 
 async function restoreMarginaliaState() {
     const inlineAliases = getInlineAliases();
@@ -45,9 +44,6 @@ export async function ignite() {
         window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || null;
         window.doesOwn = (window.curAlias === post.author);
 
-        // B"H - Ignite the Pinnacle Breadcrumbs
-        TopBreadcrumbsRenderer.manifest(window.breadcrumb, post);
-
         // 2. The Multi-Tabernacle Rewiring
         window.tabManager = new TabManager({ parent: sidebar, headerTxt: "Divine Context" });
         
@@ -60,9 +56,8 @@ export async function ignite() {
                 header: "Scroll Details", name: "details",
                 onopen: async ({ actualTab }) => {
                     actualTab.innerHTML = "";
-                    const infoHtml = makeInfoHTML();
-                    if (typeof infoHtml === "string") actualTab.innerHTML = infoHtml;
-                    else actualTab.appendChild(infoHtml);
+                    const infoNode = makeInfoHTML();
+                    actualTab.appendChild(infoNode);
                 }
             }),
             bookmarks: window.tabManager.addTab({
@@ -92,7 +87,9 @@ export async function ignite() {
             viewport.innerHTML = "";
             if (post.dayuh) await interpretPostDayuh(post);
             else if (post.content) appendHTML(post.content, viewport);
-            appendHTML(makeNavBars(post, series, pIdx), viewport);
+            
+            // B"H - The nav bars are now a pure DOM element forged by the Genesis Engine
+            viewport.appendChild(makeNavBars(post, series, pIdx));
         }
         
         // Open the Main Menu by default instead of the verbose Details
