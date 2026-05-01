@@ -1,0 +1,11 @@
+
+:root {
+    --z-base: 0;
+    --z-content: 10;
+    --z-header: 100;
+    --z-sidebar: 500;
+    --z-floating: 1000;
+    --z-overlay: 2000;
+    --z-popover: 3000;
+    --z-toast: 4000;
+}

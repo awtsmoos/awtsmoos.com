@@ -2,56 +2,75 @@
 /**
  * B"H
  * @module InlineManifestConductor
- * @chapter Orchestrating the Border Lights
+ * @chapter Commanding the Border Lights
+ * @description
+ * This conductor serves as the High Priest (Kohen Gadol) of the margins.
+ * When the seeker toggles an Alias to be visible inline, this module fetches 
+ * the pure data (unrolled sparks), calls the CoordinateResolver to find 
+ * their exact home, and orders the MarginalDOMWeaver to place them.
  */
 
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { unrollApiResponse } from "./unroller.js";
-import { findInsertionVessel } from "./inlineManifest/locator.js";
-import { paintInsightInMargin } from "./inlineManifest/painter.js";
 
-// B"H - FIXED: Pointing correctly to the Hub in parent directory
+// B"H - Pure modular inclusion for absolute flawless logic
+import { resolveCoordinateToDOM } from "./inlineManifest/CoordinateResolver.js";
+import { weaveInsightIntoMargin, dissolveMarginalWeave } from "./inlineManifest/MarginalDOMWeaver.js";
 import { getInlineAliases } from "../state.js";
 
 /**
  * @function manifestAliasInline
+ * @description Fetches all insights for a Guardian and weaves them into the scroll.
+ * 
+ * @param {string} alias - The identity to summon.
  */
 export async function manifestAliasInline(alias) {
     if (!alias) return;
     try {
+        console.log(`B"H - [InlineConductor] Fetching Marginal Revelations for @${alias}`);
+        
         const response = await getCommentsOfAlias({
             seriesId: window?.post?.parentSeriesId, 
             postId: window?.post?.id, 
             heichelId: window?.post?.heichel?.id,
             aliasId: alias, 
-            fromCache: false, 
-            get: { all: true }
+            fromCache: false, // We need absolute truth
+            get: { all: true } // We gather all, and rely on the Coordinates to place them
         });
 
         const sparks = unrollApiResponse(response);
+        
+        if (sparks.length === 0) {
+            console.log(`B"H - [InlineConductor] @${alias} has no insights for the margins.`);
+            return;
+        }
+
         sparks.forEach(spark => {
-            const vessel = findInsertionVessel(spark);
-            if (vessel) paintInsightInMargin(vessel, spark, alias);
+            const vessel = resolveCoordinateToDOM(spark.dayuh);
+            if (vessel) {
+                weaveInsightIntoMargin(vessel, spark, alias);
+            }
         });
-    } catch (e) { console.error("B\"H - Conductive rupture:", e); }
+    } catch (e) { 
+        console.error("B\"H - Conductive marginal rupture:", e); 
+    }
 }
 
 /**
  * @function manifestAllActiveInlines
+ * @description Iterates through the Sacred Ledger of active marginalians and weaves them all.
  */
 export async function manifestAllActiveInlines() {
-    getInlineAliases().forEach(async (author) => await manifestAliasInline(author));
+    const activeGuardians = getInlineAliases();
+    for (const author of activeGuardians) {
+        await manifestAliasInline(author);
+    }
 }
 
 /**
  * @function dissolveAliasInline
+ * @description Commands the Weaver to erase a Guardian's physical presence from the margins.
  */
 export function dissolveAliasInline(alias) {
-    document.querySelectorAll(`.inline-comment[data-from-alias="${alias}"]`).forEach(card => {
-        const room = card.parentNode;
-        card.remove();
-        if (room && room.classList.contains("marginal-gloss-container") && room.children.length === 0) {
-            room.remove();
-        }
-    });
+    dissolveMarginalWeave(alias);
 }

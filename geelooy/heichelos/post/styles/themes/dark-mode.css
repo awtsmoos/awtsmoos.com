@@ -1,0 +1,12 @@
+
+.post-reader-localized-context[data-theme="dark"] {
+    --bg-surface: #121212;
+    --bg-vellum: #0a0a0a;
+    --color-ink: #f0f0f0;
+    --color-ink-secondary: #a0a0a0;
+    --color-primary: #ef233c;
+    --color-accent: #ffb703;
+    --color-electric: #4cc9f0;
+    --shadow-ui: 4px 4px 0px 0px rgba(255,255,255,0.15);
+    --shadow-hover: 8px 8px 0px 0px rgba(255,255,255,0.3);
+}

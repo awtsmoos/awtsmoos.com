@@ -1,0 +1,10 @@
+
+:root {
+    --border-thin: 2px solid var(--color-ink);
+    --border-thick: 4px solid var(--color-ink);
+    --pad-xs: 4px;
+    --pad-sm: 8px;
+    --pad-md: 16px;
+    --pad-lg: 24px;
+    --pad-xl: 48px;
+}

@@ -1,0 +1,53 @@
+
+/* B"H - THE PURIFICATION OF THE CANVAS (SAFE RESET) */
+
+.post-reader-localized-context,
+.post-reader-localized-context div,
+.post-reader-localized-context button,
+.post-reader-localized-context input,
+.post-reader-localized-context textarea,
+.post-reader-localized-context select,
+.post-reader-localized-context span,
+.post-reader-localized-context h1,
+.post-reader-localized-context h2,
+.post-reader-localized-context h3,
+.post-reader-localized-context h4,
+.post-reader-localized-context p,
+.post-reader-localized-context ul,
+.post-reader-localized-context li,
+.post-reader-localized-context a,
+.post-reader-localized-context section,
+.post-reader-localized-context header,
+.post-reader-localized-context footer,
+.post-reader-localized-context aside,
+.post-reader-localized-context nav {
+    box-sizing: border-box !important;
+}
+
+.post-reader-localized-context {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: var(--font-ui) !important;
+    background-color: var(--bg-vellum) !important;
+    background-image: var(--bg-noise) !important;
+    color: var(--color-ink) !important;
+    direction: ltr !important; /* Force logical LTR baseline regardless of html direction */
+    text-align: left !important;
+}
+
+.post-reader-localized-context h1, 
+.post-reader-localized-context h2, 
+.post-reader-localized-context h3, 
+.post-reader-localized-context h4 {
+    margin: 0 !important;
+    font-family: var(--font-heading) !important;
+}
+
+.post-reader-localized-context p {
+    margin: 0 0 1rem 0 !important;
+}
+
+.post-reader-localized-context a {
+    color: var(--color-primary) !important;
+    text-decoration: none !important;
+}

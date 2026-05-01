@@ -1,0 +1,6 @@
+
+:root {
+    --ease-snap: cubic-bezier(0.19, 1, 0.22, 1);
+    --time-fast: 0.15s;
+    --time-std: 0.3s;
+}

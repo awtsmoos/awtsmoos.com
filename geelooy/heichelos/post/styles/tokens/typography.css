@@ -1,0 +1,14 @@
+
+:root {
+    --font-heading: 'Syne', sans-serif;
+    --font-ui: 'Space Grotesk', 'Inter', monospace;
+    --font-manuscript: 'Cardo', 'Crimson Pro', serif;
+    --font-sacred: 'Frank Ruhl Libre', serif;
+    --font-content: var(--font-manuscript);
+    --post-text-size: 24px;
+}
+.post-reader-localized-context .heb {
+    font-family: var(--font-sacred) !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
