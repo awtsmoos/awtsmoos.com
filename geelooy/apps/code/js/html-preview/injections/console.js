@@ -1,4 +1,3 @@
-₪₪₪_בס\"ד_תחילת_הקוד_₪₪₪
 // B"H
 /**
  * @file console.js
@@ -126,4 +125,3 @@ export const ConsoleInterceptor = `
         });
     })();
 `;
-₪₪₪_בס\"ד_סוף_הקוד_₪₪₪

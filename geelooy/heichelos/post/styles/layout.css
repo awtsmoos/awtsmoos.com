@@ -1,144 +1,110 @@
-/* B"H - THE UNBREAKABLE LAYOUT (REFORGED & SANCTIFIED) */
 
-/* 1. WORLD FRAME */
+/* B"H
+   THE SPATIAL CONTRACT (LAYOUT)
+   "The world is His place, but He is not the place of the world."
+*/
+
+/* 1. THE WORLD FRAME (MOBILE FIRST) */
 .post-reader-localized-context {
     all: unset;
-    position: fixed !important;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100vw; height: 100vh;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     background-color: var(--bg-vellum);
     background-image: var(--bg-noise);
     font-family: var(--font-ui);
-    color: var(--color-ink);
-    z-index: 0;
 }
 
-/* 2. HEADER (Fixed Height) */
-.post-reader-localized-context .awtsmoos-integrated-header {
-    width: 100%;
-    flex-shrink: 0;
-    z-index: 1000;
-    position: relative;
-    background: var(--bg-surface);
-    border-bottom: var(--border-thick);
-}
-
-/* 3. MAIN STAGE (Flex Row) */
+/* 2. THE MAIN STAGE */
 .post-reader-localized-context .main {
-    flex: 1; /* Fills remaining height */
-    display: flex !important;
-    flex-direction: row !important;
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stacked by default for Mobile */
     width: 100%;
-    height: 100%;
     overflow: hidden;
     position: relative;
 }
 
-/* 4. SCROLL VIEW (The Feed) */
+/* 3. THE SCROLL FEED */
 .post-reader-localized-context .scroll-view-wrapper {
-    flex: 1; /* Takes all available width */
-    height: 100%;
-    position: relative;
+    flex: 1;
+    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    position: relative;
     z-index: 10;
 }
 
-/* 5. SIDEBAR (The Drawer) - DESKTOP */
+/* 4. THE SIDEBAR (MOBILE DRAWER) */
 .post-reader-localized-context .sidebar {
-    width: 420px;
-    height: 100%;
-    flex-shrink: 0;
-    border-left: var(--border-thick);
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 60vh; /* Takes most of the screen on mobile */
+    max-height: 85vh;
     background: var(--bg-surface);
-    z-index: 500;
+    border-top: var(--border-thick);
+    z-index: 5000;
     display: flex;
     flex-direction: column;
-    transition: margin-right 0.3s var(--ease-snap), transform 0.3s var(--ease-snap);
-    margin-right: 0;
-    position: relative; /* In flow for desktop */
+    transition: transform 0.4s var(--ease-snap);
+    transform: translateY(0);
 }
 
-/* HIDDEN STATE (Desktop) */
 .post-reader-localized-context .sidebar.hidden-comments {
-    margin-right: calc(-1 * var(--sidebar-width, 420px));
-    box-shadow: none;
+    transform: translateY(100%);
     pointer-events: none;
 }
 
-/* 6. FLOATING CONTROLS (Absolute to World Frame) */
+/* 5. THE FLOATING ORBS */
 .post-reader-localized-context .awtsmoos-floating-controls {
-    position: absolute !important;
-    top: 80px;
-    left: 20px;
-    z-index: 20000; /* Above everything */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
     display: flex;
-    flex-direction: row;
     gap: 15px;
     pointer-events: none;
 }
+
 .post-reader-localized-context .awtsmoos-floating-controls button {
     pointer-events: auto;
 }
 
-/* 7. SETTINGS PANEL (Anchored relative to buttons) */
-.post-reader-localized-context .typography-details {
-    position: absolute !important;
-    top: 80px;
-    left: 90px;
-    z-index: 19999;
-    width: 320px;
-    background: var(--bg-surface);
-    border: var(--border-thick);
-    box-shadow: var(--shadow-high);
-}
-
-.post-reader-localized-context .typography-details.hidden-details {
-    display: none !important;
-}
-
-/* 8. MOBILE LAYOUT (Overlay Mode) */
-@media (max-width: 900px) {
+/* --- DESKTOP REFINEMENTS (The Expansion) --- */
+@media (min-width: 901px) {
     .post-reader-localized-context .main {
-        position: relative;
+        flex-direction: row; /* Side-by-side for Desktop */
     }
 
     .post-reader-localized-context .sidebar {
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 40vh; /* Start height for mobile */
-        max-height: 85vh;
-        border-left: none;
-        border-top: var(--border-thick);
-        box-shadow: 0 -10px 50px rgba(0,0,0,0.3);
-        transform: translateY(0);
+        position: relative;
+        inset: auto;
+        width: 420px;
+        height: 100%;
+        max-height: none;
+        border-top: none;
+        border-left: var(--border-thick);
+        transform: none;
         margin-right: 0;
-        transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+        transition: margin-right 0.3s var(--ease-snap);
     }
 
     .post-reader-localized-context .sidebar.hidden-comments {
-        transform: translateY(100%);
-        pointer-events: none;
+        margin-right: -420px;
+        transform: none;
     }
 
     .post-reader-localized-context .awtsmoos-floating-controls {
-        top: auto;
-        bottom: 20px;
-        flex-direction: row;
-    }
-    
-    .post-reader-localized-context .typography-details {
-        top: 50%; left: 50%;
+        top: 80px;
+        bottom: auto;
+        left: 20px;
         right: auto;
-        transform: translate(-50%, -50%);
-        width: 90vw;
-        position: fixed !important;
+        flex-direction: row;
     }
 }

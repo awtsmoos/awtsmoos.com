@@ -1,4 +1,4 @@
-₪₪₪_בס\"ד_תחילת_הקוד_₪₪₪
+
 // B"H
 /**
  * @file messenger.js
@@ -56,4 +56,3 @@ export const VibeMessenger = {
         }
     }
 };
-₪₪₪_בס\"ד_סוף_הקוד_₪₪₪

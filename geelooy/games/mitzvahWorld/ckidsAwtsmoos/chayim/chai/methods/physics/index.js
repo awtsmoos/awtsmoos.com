@@ -1,113 +1,92 @@
-
 // B"H
 /**
- * physics/index.js - The Kav (Line) of physical existence.
- * Chapter 11: The Protection from the Abyss.
+ * physics/index.js
  * 
- * If a value becomes NaN, it is like the world returning to Tohu.
- * We must detect this immediately and restore order (Tikun).
+ * Sub-stepped physics loop.
+ * Velocity intent is calculated ONCE per frame.
+ * Wall normals from the previous frame are used to pre-filter input velocity,
+ * preventing the capsule from ever pushing into a known wall (eliminates jitter).
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Tzomayach from "../../../tzomayach.js"; 
-import core from "./core.js";
-import movement from "./movement.js";
-import forces from "./forces.js";
-import ground from "./ground.js";
-import execution from "./execution.js";
-import sync from "./sync.js";
+import Tzomayach from "../../../tzomayach.js";
+import core      from "./core.js";
+import movement  from "./movement.js";
+import forces    from "./forces.js";
+import collisions from "./collisions.js";
+import ground    from "./ground.js";
+import sync      from "./sync.js";
+
+const STEPS_PER_FRAME = 5;
 
 export default {
-    ...core,
-    ...movement,
-    ...forces,
-    ...ground,
-    ...execution,
-    ...sync,
-
-    collisions() {
-        if (!this.olam.worldOctree) return; 
-        const result = this.olam.worldOctree.capsuleIntersect(this.collider);
-        if (result) {
-            if (isNaN(result.depth) || isNaN(result.normal.x)) return; 
-            this.collider.translate(result.normal.multiplyScalar(result.depth));
-            const velocityAlongNormal = result.normal.dot(this.velocity);
-            if (!isNaN(velocityAlongNormal) && velocityAlongNormal < 0) {
-                 this.velocity.addScaledVector(result.normal, -velocityAlongNormal);
-            }
-        }
-    },
-
-    _checkNaNAndReset() {
-        if (!this.mesh) return false;
-        const p = this.mesh.position;
-        const v = this.velocity;
-
-        if (
-            isNaN(p.x) || isNaN(p.y) || isNaN(p.z) ||
-            isNaN(v.x) || isNaN(v.y) || isNaN(v.z)
-        ) {
-            console.error("B\"H - 🚨 NAN DETECTED! Shattering prevented. Invoking the Holy Reset.");
-            this.velocity.set(0, 0, 0);
-            this.setPosition(new THREE.Vector3(0, 15, 0));
-            return true;
-        }
-        return false;
-    },
+    ...core, ...forces, ...movement, ...collisions, ...ground, ...sync,
 
     heesHawvoos(dt) {
-        // B"H: Delta Guard
-        const deltaTime = Math.min(dt, 0.1);
-        
-        if (this.isTeleporting) {
-            this.isTeleporting = false;
-            return;
-        }
-        
-        // 1. Order Check
+        if (!this.mesh || !this.collider) return;
+        if (this.isTeleporting) { this.isTeleporting = false; return; }
         if (this._checkNaNAndReset()) return;
 
-        this.updateRayColor();      
-        this.updateHandState();     
-        this.updateBlockHighlight();
-        this.updateParticles(deltaTime);
+        this._updateSubSystems(dt);
 
-        const isWorldBusy = this.olam.worldOctree ? this.olam.worldOctree.isProcessing : true;
-        const steepSlopeAngle = Math.cos(THREE.MathUtils.degToRad(50));
+        const deltaTime = Math.min(0.05, dt) / STEPS_PER_FRAME;
 
-        // 2. The Relationship with the Floor
-        this.checkGround(steepSlopeAngle);
+        // B"H: CALCULATE INTENT ONCE PER FRAME.
+        // If we do this inside the loop, we overwrite the wall-slide adjustment.
+        this._calculateMovementVelocity(deltaTime);
+        this._handleJump();
 
-        // 3. Apply Forces (Gravity/Hover Guard)
-        this.applyForces(deltaTime, isWorldBusy);
-
-        // 4. Movement Calculations
-        const moveData = this.calculateMovementVectors(deltaTime, this.onFloor);
-        const { combinedVector, isWalking } = moveData;
-
-        if (!isNaN(combinedVector.x)) {
-            this.velocity.x += combinedVector.x;
-            this.velocity.z += combinedVector.z;
+        // B"H: PRE-FILTER velocity against walls we were touching LAST frame.
+        // This is the critical fix for jitter: without this, every frame the input
+        // resets velocity to point directly into the wall, sub-step 1 pushes the capsule
+        // INTO the wall, collision pushes it OUT, creating an oscillation.
+        // By pre-filtering, the capsule never enters the wall in the first place.
+        if (this._lastWallNormals && this._lastWallNormals.length > 0) {
+            for (const wn of this._lastWallNormals) {
+                const dot = this.velocity.x * wn.x + this.velocity.z * wn.z;
+                if (dot < 0) {
+                    this.velocity.x -= wn.x * dot;
+                    this.velocity.z -= wn.z * dot;
+                }
+            }
         }
 
-        // 5. Jump
-        if (this.onFloor && this.moving.jump) {
-            this.jumped = true;
-            this.velocity.y = this.jumpHeight;
+        // Reset collector for this frame's wall contacts
+        this._frameWallNormals = [];
+
+        for (let i = 0; i < STEPS_PER_FRAME; i++) {
+            // 1. Apply gravity.
+            this._applyPhysicsForces(deltaTime);
+
+            // 2. Move collider.
+            if (this.onFloor) {
+                this.collider.translate({
+                    x: this.velocity.x * deltaTime,
+                    y: 0,
+                    z: this.velocity.z * deltaTime
+                });
+            } else {
+                const deltaPos = this.velocity.clone().multiplyScalar(deltaTime);
+                this.collider.translate(deltaPos);
+            }
+
+            // 3. Resolve walls and slide velocity.
+            this.collisions();
+
+            // 4. Authoritative ground snap.
+            this._snapToGround();
         }
 
-        // 6. Execution
-        this.executeMovement(deltaTime);
+        // Store this frame's wall normals for pre-filtering next frame.
+        // If no walls were hit, clear so player can freely move again.
+        this._lastWallNormals = (this._frameWallNormals && this._frameWallNormals.length > 0)
+            ? this._frameWallNormals
+            : null;
 
-        // 7. Ground Snap
-        const finalGroundHit = this.checkGround(steepSlopeAngle); 
-        this.snapToGround(finalGroundHit, steepSlopeAngle, isWalking);
+        this._checkAbyss();
+        this._updateAnimationState(dt);
+        this._syncMesh(dt);
 
-        // 8. Animation Sync
-        // ... (Animation logic follows)
-
-        this.syncMesh(deltaTime);
-        this.updateSpheres(deltaTime);
-        
-        Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
+        if (this.activeObject && typeof this.alignObject === 'function') this.alignObject();
+        Tzomayach.prototype.heesHawvoos.call(this, dt);
     }
 };

@@ -1,4 +1,4 @@
-₪₪₪_בס\"ד_תחילת_הקוד_₪₪₪
+
 // B"H
 /**
  * @file iframe-injector.js
@@ -59,15 +59,15 @@ export const IframeInjector = {
     writeError(iframe, msg) {
         const d = iframe.contentDocument || iframe.contentWindow.document;
         d.open(); 
-        d.write(\`
+        d.write(`
             <body style="background:#050505;color:#f75d65;padding:40px;font-family:monospace;line-height:1.8;border:2px solid #f75d65;">
                 <h3 style="border-bottom:1px solid #f75d65;padding-bottom:12px;margin-top:0;">B"H - Dimensional Shift Failure</h3>
                 <p><strong>The essence could not be solidified:</strong></p>
                 <div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:4px;color:#fff;">\${msg}</div>
                 <p style="font-size:0.8em;opacity:0.7;margin-top:20px;">Review the Console for deep diagnostics.</p>
             </body>
-        \`); 
+        `); 
         d.close();
     }
 };
-₪₪₪_בס\"ד_סוף_הקוד_₪₪₪
+
