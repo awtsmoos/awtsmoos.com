@@ -1,9 +1,15 @@
-// /BH/awtsmoos.com/geelooy/heichelos/post/comments/panel.js
-//B"H
+
+/**
+ * B"H
+ * @module SidebarCommentPanel
+ * @chapter Deep-Dive into Aliases
+ */
+
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { getCurrentVerse, getCurrentSub } from "./state.js";
 import { getAndSaveAliases as fetchAliases, fetchRelevantComments } from "./panel/fetching.js";
 import { makeCommentatorList as renderCommentatorList, renderControlsAndComments } from "./panel/rendering.js";
+import { unrollApiResponse } from "./logic/unroller.js";
 
 export { getAndSaveAliases } from "./panel/fetching.js";
 
@@ -29,7 +35,7 @@ export async function updateCommentHeader() {
 	var curVerseDisplay = cv === "root" ? "Post" : +cv + 1;
     
     let headerText = (aliases.length) + " Commentators (Verse " + (curVerseDisplay) + ")";
-    if (sub !== null) {
+    if (sub !== null && sub !== "null") {
         headerText = (aliases.length) + " Commentators (Verse " + (curVerseDisplay) + ", Para " + (+sub + 1) + ")";
     }
 
@@ -38,25 +44,29 @@ export async function updateCommentHeader() {
     }
 }
 
-export async function openCommentsOfAlias({ alias, actualTab, post, all = false }) {
-	await showAllComments({ tab: actualTab, post, alias, all });
-}
-
+/**
+ * @method showAllComments
+ * @description Fetches all insights for a user, perfectly unrolling any API wrappers.
+ */
 export async function showAllComments({ alias, post, tab, all = false }) {
 	var cv = getCurrentVerse();
     var cs = getCurrentSub();
 	
-    let coms;
+    let result;
     if (all) {
-        // B"H - TOTAL SEARCH: Fetch ALL comments for this user on this post.
-        coms = await getCommentsOfAlias({
+        // B"H - ABSOLUTE SEARCH: Tearing all veils.
+        result = await getCommentsOfAlias({
             seriesId: window?.post?.parentSeriesId, postId: post.id, heichelId: post.heichel.id, 
             aliasId: alias, fromCache: false, get: { all: true }
         });
     } else {
-        // Standard context-sensitive search.
-        coms = await fetchRelevantComments(alias, cv, cs);
+        // Targeted inclusive coordinate search
+        const relevant = await fetchRelevantComments(alias, cv, cs);
+        return renderControlsAndComments(relevant, alias, tab);
     }
+
+    // B"H - UNROLL VEIL
+    let coms = unrollApiResponse(result);
     
 	if (!Array.isArray(coms) || coms.length === 0) {
         let contextMsg = (cs !== null && cs !== undefined) ? "this paragraph" : "this verse";
@@ -80,16 +90,20 @@ export async function openCommentsPanelToAlias(alias, open = true, searchAll = f
         window.tabManager.addTab({
             header: "@" + alias,
             name: "user-" + alias,
-            content: "Loading...",
+            content: "<div class='loading'>B\"H Fetching insights...</div>",
             async onopen({ actualTab, tab }) {
                  tab.awtsmoosType = "specific alias comments";
                  window.currentAliasTabContainer = actualTab; 
                  window.currentAliasBeingViewed = alias;
-                 await openCommentsOfAlias({ alias, actualTab, post: window.post, all: searchAll });
+                 await openCommentsOfAlias({ alias, actualTab: actualTab, post: window.post, all: searchAll });
                  resolve(actualTab);
             }
         }).open();
     });
+}
+
+export async function openCommentsOfAlias({ alias, actualTab, post, all = false }) {
+	await showAllComments({ tab: actualTab, post, alias, all });
 }
 
 window.openCommentsPanelToAlias = openCommentsPanelToAlias;

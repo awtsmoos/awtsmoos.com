@@ -1,30 +1,18 @@
 
-//B"H
-import { isAliasInline, getInlineAliases, hideCommentsInline } from "./inline/state.js";
-import { manifestCommentIndicators } from "./inline/indicators.js";
-import { showSectionCommentaryInline, renderThreadContent } from "./inline/threading.js";
-import { addCommentsInline, createAndPlaceRootCommentHolder, toggleInlineForComments } from "./inline/placement.js";
+/**
+ * B"H
+ * @module InlineAggregatorHub
+ * @chapter Unity of the Margins
+ */
 
-// Global Access
-window.awtsmoosInline = {
-    refreshSectionCommentary: async (idx, sub) => {
-        const subKey = (sub !== null && sub !== undefined) ? sub : 'main';
-        const threadId = `${idx}-${subKey}`;
-        const container = document.querySelector(`.awtsmoos-inline-thread[data-unique-thread="${threadId}"]`);
-        if (container) {
-            await renderThreadContent(container, idx, sub);
-        }
-    }
-};
+// Providers from the 'providers/' chamber
+export { getInlineAliases, isAliasInline } from "./inline/providers/StateProvider.js";
+export { manifestAliasInline, manifestAllActiveInlines } from "./inline/providers/ManifestProvider.js";
+export { addCommentsInline } from "./inline/providers/PlacementProvider.js";
 
-export {
-    isAliasInline,
-    getInlineAliases,
-    hideCommentsInline,
-    toggleInlineForComments,
-    manifestCommentIndicators,
-    showSectionCommentaryInline,
-    addCommentsInline,
-    createAndPlaceRootCommentHolder,
-    renderThreadContent
-};
+// Integration from the 'Mutator' chamber
+import { toggleInlineForComments as _toggleSwitch } from "./inline/Mutator.js";
+/** @function toggleInlineForComments */
+export const toggleInlineForComments = _toggleSwitch;
+
+console.log(`%c B"H - [Inline Hub Aggregator] Vessels aligned and Conduits Open.`, "color: #00ffff; font-weight: 900;");

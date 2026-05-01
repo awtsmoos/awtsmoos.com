@@ -1,3 +1,4 @@
+
 <!--B"H-->
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +9,7 @@
 
     <link rel="stylesheet" href="/heichelos/new-style.css?v=localized" type="text/css">
     
-    <!-- B"H - Divine Separation of Styles -->
+    <!-- B"H - Divine Style Layers -->
     <link rel="stylesheet" href="/heichelos/post/styles/theme.css?v=localized">
     <link rel="stylesheet" href="/heichelos/post/styles/layout.css?v=localized">
     <link rel="stylesheet" href="/heichelos/post/styles/structure.css?v=localized">
@@ -20,158 +21,110 @@
     <link rel="stylesheet" href="/heichelos/post/styles/content.css?v=localized">
     <link rel="stylesheet" href="/heichelos/post/styles/footnotes.css?v=localized">
     <link rel="stylesheet" href="/heichelos/post/styles/aiChatStyles.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/imageUploaderStyles.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/inlineThreadStyles.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/commandPalette.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/settings.css?v=localized">
-
-    <!-- B"H - NEW MODULAR COMMENT STYLES -->
-    <link rel="stylesheet" href="/heichelos/post/styles/comments/card.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/comments/editor.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/comments/inputs.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/comments/reply.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/comments/structure.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/aiThread.css?v=localized">
-    <link rel="stylesheet" href="/heichelos/post/styles/inlineComments.css?v=localized">
-
+    
+    <!-- INSANE COMMENT STYLES -->
+    <link rel="stylesheet" href="/heichelos/post/styles/comments/card.css?v=insane">
+    <link rel="stylesheet" href="/heichelos/post/styles/comments/intensified.css?v=insane">
+    <link rel="stylesheet" href="/heichelos/post/styles/comments/editor.css?v=insane">
+    <link rel="stylesheet" href="/heichelos/post/styles/comments/reply.css?v=insane">
+    <link rel="stylesheet" href="/heichelos/post/styles/inlineThreadStyles.css?v=insane">
 
     <link rel="stylesheet" href="/style/home/main.css?v=localized">
     
-    <!-- B"H - The Scribe's Fonts -->
+    <!-- Sacred Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Frank+Ruhl+Libre:wght@400;700&family=Inter:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&family=Syne:wght@700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=Frank+Ruhl+Libre:wght@400;700&family=Syne:wght@700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 
+    <title>Awtsmoos | Torah Matrix </title>
 
-	 <title>Awtsmoos | Torah Revelation </title>
+    <style>
+        /* B"H - THE MARGINAL GLOSS LAYOUT */
+        .marginal-gloss-container {
+            border-left: 2px dashed var(--color-ink-secondary);
+            margin: 20px 0 20px 40px;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            animation: fadeInReveal 0.5s ease;
+        }
+
+        .heb .marginal-gloss-container {
+            border-left: none;
+            border-right: 2px dashed var(--color-ink-secondary);
+            margin: 20px 40px 20px 0;
+            padding-left: 0;
+            padding-right: 20px;
+        }
+
+        @keyframes fadeInReveal {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- This style tag is for user-defined custom CSS -->
-    <style id="awtsmoos-custom-styles"></style>
-
-    <!-- WRAPPER: NOW CONTAINS EVERYTHING -->
     <div class="all awtsmoospage post-reader-localized-context">
-        
-        <!-- HEADER: Inside the flex column to ensure visibility -->
         <div class="awtsmoos-integrated-header">
             <?<script> return $a("nav/header.html") </script>?>
         </div>
 
-        <!-- B"H - THE EXPANDED FLOATING ARK (HORIZONTAL) -->
 	    <div class="awtsmoos-floating-controls">
-            <button id="typographyBtn" title="Typography & Settings">A</button>
-            <button id="commentaryBtn" title="Insights & Bookmarks">i</button>
+            <button id="typographyBtn">A</button>
+            <button id="commentaryBtn">i</button>
         </div>
         
-        <!-- B"H - THE SCRIBE'S LENS -->
-        <div id="scribeLensOverlay" class="scribe-lens-overlay"></div>
+        <div id="scribeLensOverlay"></div>
 
-        <!-- THE VESSEL OF CUSTOMIZATION (Typography Dropdown) -->
         <div class="typography-details hidden-details" id="typographyDetails">
             <div class="typography-content">
-                <!-- Scribe's Lens -->
                 <div class="settings-group">
                     <div class="control-label">Scribe's Lens</div>
                     <div class="focus-mode-control">
                         <span class="setting-name">Focus Mode</span>
-                        <input type="checkbox" id="focusModeToggle" class="awtsmoos-toggle">
-                        <label for="focusModeToggle" class="awtsmoos-toggle-label"></label>
+                        <input type="checkbox" id="focusModeToggle">
                     </div>
                 </div>
 
-                <!-- Text Scale -->
                 <div class="settings-group">
                     <div class="control-label">Text Scale</div>
                     <div class="text-controls">
                         <button class="font-adjust-btn" id="fontDecreaseBtn">-</button>
-                        <div class="font-size-display">Aa</div>
                         <button class="font-adjust-btn" id="fontIncreaseBtn">+</button>
                     </div>
                 </div>
 
-                <!-- Font Alchemist -->
                 <div class="settings-group">
                     <div class="control-label">Font Alchemist</div>
                     <select id="fontSelector" class="font-selector">
                         <option value="'Cardo', serif">Cardo</option>
-                        <option value="'Crimson Pro', serif">Crimson Pro</option>
-                        <option value="'Source Serif 4', serif">Source Serif 4</option>
-                        <option value="'EB Garamond', serif">EB Garamond</option>
-                        <option value="'Lora', serif">Lora</option>
-                        <option value="'Inter', sans-serif">Inter</option>
+                        <option value="'Frank Ruhl Libre', serif">Frank Ruhl</option>
+                        <option value="'Crimson Pro', serif">Crimson</option>
+                        <option value="'Space Grotesk', monospace">Grotesk</option>
                     </select>
                 </div>
-
-                <!-- THEME ALCHEMIST'S WORKSHOP -->
-                <div class="settings-group">
-                    <div class="control-label">Theme Engine</div>
-                    <div class="theme-controls">
-                        <button id="themeToggleBtn" title="Toggle Light/Dark">L</button>
-                        <select id="themeSelector">
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Live Tincture -->
-                <div class="settings-group">
-                    <div class="control-label">Live Tincture</div>
-                    <div class="color-picker-grid">
-                        <div class="color-control"><label for="inkColorPicker">Ink</label><input type="color" id="inkColorPicker" data-css-var="--color-ink" class="ink-pot"></div>
-                        <div class="color-control"><label for="vellumColorPicker">Vellum</label><input type="color" id="vellumColorPicker" data-css-var="--bg-vellum" class="ink-pot"></div>
-                        <div class="color-control"><label for="primaryColorPicker">Primary</label><input type="color" id="primaryColorPicker" data-css-var="--color-primary" class="ink-pot"></div>
-                        <div class="color-control"><label for="accentColorPicker">Accent</label><input type="color" id="accentColorPicker" data-css-var="--color-accent" class="ink-pot"></div>
-                    </div>
-                </div>
-                
-                <!-- Custom CSS -->
-                <div class="settings-group custom-css-group">
-                     <div class="control-label">Custom Theme Editor</div>
-                     <textarea id="customCssInput" placeholder="Enter custom CSS..."></textarea>
-                     <div class="theme-saver">
-                        <input type="text" id="themeNameInput" placeholder="Theme Name">
-                        <button id="saveThemeBtn">Save</button>
-                     </div>
-                     <button id="applyCustomCssBtn" class="btn-small">Apply Unsaved</button>
-                </div>
             </div>
-            
-            <!-- Reset Footer -->
             <div class="reset-section">
                 <button id="resetDefaultsBtn" class="danger-outline">Reset to Defaults</button>
             </div>
         </div>
         
         <div class="main">
-            <!-- Scroll View Wrapper for Split Screen -->
             <div class="scroll-view-wrapper">
                 <div class="content" id="realPost">
-                    <?<script>
-                        return $a("loading.html")
-                    </script>?>
+                    <div class="loading-sacred">B"H Illuminating...</div>
                 </div>
                 
-                <!-- B"H - THE ATZEI CHAIM (TREES OF LIFE) -->
-                <div class="scroll-roll-top">
-                    <div class="scroll-wood left"></div>
-                    <div class="scroll-wood right"></div>
-                </div>
-                <div class="scroll-roll-bottom">
-                    <div class="scroll-wood left"></div>
-                    <div class="scroll-wood right"></div>
-                </div>
+                <div class="scroll-roll-top"><div class="scroll-wood left"></div><div class="scroll-wood right"></div></div>
+                <div class="scroll-roll-bottom"><div class="scroll-wood left"></div><div class="scroll-wood right"></div></div>
             </div>
 
-            <!-- SIDEBAR: Default state is hidden -->
             <div class="sidebar hidden-comments">
-                <!-- Managed by TabManager.js -->
+                <!-- Manifest via TabManager -->
             </div>
         </div>
-        
-        <!-- B"H - THE ARK OF COMMAND -->
-        <div id="command-palette-container"></div>
         
         <script type="module" src="/heichelos/post/postLogic.js?v=localized"></script>
     </div>

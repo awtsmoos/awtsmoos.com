@@ -1,38 +1,36 @@
-//B"H
-import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
-import { loadedInlineVerses } from "/heichelos/post/comments/state.js";
 
-var inlineComments = {};
+/**
+ * B"H
+ * @module InlineStateAmbassador
+ * @chapter Orchestrating Departure
+ */
 
-export function getInlineAliases() {
-  var url = new URL(window.location);
-  var inlineParam = url.searchParams.get("inline");
-  try {
-    var p = JSON.parse(inlineParam);
-    if(p && Array.isArray(p)) return p;
-    else return [];
-  } catch(e) { return []; }
-}
+import { updateQueryStringParameter } from "../../functions/utils.js";
+import { commentaryStore } from "../state/store.js";
+import { getInlineAliases as _fetchActive } from "./providers/StateProvider.js";
 
-export function isAliasInline(alias) {
-    return getInlineAliases().includes(alias);
-}
-
+/**
+ * @function hideCommentsInline
+ * @description 
+ * Orchestrates the cleanup when an Alias exits the Margin.
+ */
 export function hideCommentsInline(alias) {
-    if(inlineComments[alias]) inlineComments[alias] = null;
+    if (!alias) return;
     
-    // Remove DOM elements (Logic moved here for cohesion with state update)
-    document.querySelectorAll(".commentator.inline[data-alias='" + alias + "']").forEach(w=>w.parentNode.removeChild(w));
+    let list = _fetchActive();
+    const coordinateInRegistry = list.indexOf(alias);
     
-    var p = getInlineAliases();
-    if(!p.length) updateQueryStringParameter("inline", null);
-    else {
-        var idx = p.indexOf(alias);
-        if(idx > -1) {
-            p.splice(idx, 1);
-            updateQueryStringParameter("inline", JSON.stringify(p));
-        }
+    if (coordinateInRegistry > -1) {
+        list.splice(coordinateInRegistry, 1);
+        const updatedHeavensValue = list.length ? JSON.stringify(list) : null;
+        updateQueryStringParameter("inline", updatedHeavensValue);
     }
-    const verseKeyPrefix = `${alias}-`;
-    Object.keys(loadedInlineVerses).forEach(k => { if(k.startsWith(verseKeyPrefix)) delete loadedInlineVerses[k]; });
+    
+    // Purify the local Reshimu in the Store
+    const searchPrefix = `loaded-${alias}-`;
+    Object.keys(commentaryStore.loadedInlineVerses).forEach(vesselKey => {
+        if (vesselKey.startsWith(searchPrefix)) {
+            delete commentaryStore.loadedInlineVerses[vesselKey];
+        }
+    });
 }

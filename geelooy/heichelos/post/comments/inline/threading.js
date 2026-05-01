@@ -1,100 +1,66 @@
-//B"H
+
 /**
- * Inline Threading Logic - Sovereignty & Union Edition.
- * Handles the manifestation of both AI and Human insights within the reading flow.
- * RE-FORGED for CSS GRID architecture.
+ * B"H
+ * @module InlineThreadingLogic
+ * @chapter Marginal Manifestation
  */
+
 import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
 import { makeInlineComment } from "/heichelos/post/comments/render.js";
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { isAliasInline } from "/heichelos/post/comments/inline/state.js";
 import { registerFork } from "/heichelos/post/comments/render/ai/structure.js"; 
 
-/**
- * @method renderThreadContent
- * @description B"H - Populates the marginal gloss with high-intensity controls and commentaries.
- */
 export async function renderThreadContent(threadContainer, idx, sub) {
-    threadContainer.innerHTML = `
-        <div class="thread-loading" style="font-size:12px; color: var(--color-ink-secondary);">
-            Loading Revelations...
-        </div>
-    `;
+    threadContainer.innerHTML = '<div class="thread-loading">Gathering Revelations...</div>';
     
     const addControls = (isEmpty = false) => {
-        // --- Close Button ---
         const closeBtn = document.createElement('button');
         closeBtn.className = 'thread-close-btn';
         closeBtn.innerHTML = '×';
-        closeBtn.title = "Close Insight Panel";
-        closeBtn.onclick = (e) => {
-            e.preventDefault(); e.stopPropagation();
-            document.getElementById('realPost')?.classList.remove('has-gloss');
-            
-            // B"H - Only remove the commentary focus border, NOT the reading highlight
+        closeBtn.onclick = () => {
             document.querySelectorAll('.commentary-focus').forEach(el => el.classList.remove('commentary-focus'));
-            
             threadContainer.remove();
-            
             updateQueryStringParameter("idx", null);
             updateQueryStringParameter("sub", null);
-            updateQueryStringParameter("cid", null);
         };
         threadContainer.appendChild(closeBtn);
 
-        // --- The Collapsed Portal ---
         if(window.curAlias) {
-            const portalWrapper = document.createElement("div");
-            portalWrapper.className = "thread-portal";
-            
-            if (isEmpty) {
-                portalWrapper.innerHTML = `<div class="empty-msg-text">No commentaries found here.</div>`;
-            }
+            const portal = document.createElement("div");
+            portal.className = "thread-portal";
+            if (isEmpty) portal.innerHTML = '<div class="empty-msg">No insights manifest here.</div>';
 
             const btnRow = document.createElement("div");
-            btnRow.className = "portal-btn-row collapsed";
-
-            const expandBtn = document.createElement("button");
-            expandBtn.className = "btn expand-portal-btn";
-            expandBtn.innerHTML = "+ Add Insight";
+            btnRow.className = "portal-btn-row";
             
-            const humanBtn = document.createElement("button");
-            humanBtn.className = "btn portal-btn human-path";
-            humanBtn.innerHTML = "Human";
-            humanBtn.onclick = async (e) => {
-                e.stopPropagation();
-                const { CommentSection } = await import("/heichelos/post/CommentSection.js");
-                const entryPoint = document.createElement("div");
-                entryPoint.className = "inline-comment-entry-point";
-                portalWrapper.after(entryPoint);
-                
-                // B"H - Pass autoReveal: true to force the editor open immediately
-                new CommentSection(entryPoint, { autoReveal: true });
-                
-                humanBtn.disabled = true;
-                aiBtn.style.display = 'none';
-                expandBtn.style.display = 'none';
+            const createBtn = (txt, cls, ritual) => {
+                const b = document.createElement("button");
+                b.className = `btn portal-btn ${cls}`;
+                b.innerHTML = txt;
+                b.onclick = ritual;
+                return b;
             };
 
-            const aiBtn = document.createElement("button");
-            aiBtn.className = "btn portal-btn ai-path";
-            aiBtn.innerHTML = "AI";
-            aiBtn.onclick = async (e) => {
-                e.stopPropagation();
+            const humanRitual = async () => {
+                const { CommentSection } = await import("/heichelos/post/CommentSection.js");
+                const entry = document.createElement("div");
+                entry.className = "inline-comment-entry";
+                portal.after(entry);
+                new CommentSection(entry, { autoReveal: true });
+                btnRow.remove();
+            };
+
+            const aiRitual = async () => {
                 const { openAIChat } = await import("/heichelos/post/ai/chat.js");
                 updateQueryStringParameter("idx", idx);
                 if(sub !== null) updateQueryStringParameter("sub", sub);
                 openAIChat(); 
             };
-            
-            expandBtn.onclick = () => {
-                btnRow.classList.remove('collapsed');
-                expandBtn.style.display = 'none';
-            };
 
-            btnRow.append(expandBtn, humanBtn, aiBtn);
-            portalWrapper.appendChild(btnRow);
-            threadContainer.appendChild(portalWrapper);
+            btnRow.append(createBtn("Human Insight", "human-path", humanRitual), createBtn("AI Oracle", "ai-path", aiRitual));
+            portal.appendChild(btnRow);
+            threadContainer.appendChild(portal);
         }
     };
 
@@ -102,87 +68,71 @@ export async function renderThreadContent(threadContainer, idx, sub) {
     let aliases = await getAndSaveAliases(false, true, idx, sub, false); 
 
     threadContainer.innerHTML = ""; 
-    
     addControls(!aliases || aliases.length === 0); 
 
     if (!aliases || aliases.length === 0) return;
 
-    let foundAny = false;
-    const scrollContainer = document.createElement("div");
-    scrollContainer.className = "thread-scroll-area";
+    const scrollArea = document.createElement("div");
+    scrollArea.className = "thread-scroll-area";
 
     for (const alias of aliases) {
         if (isAliasInline(alias)) continue;
 
-        const allVerseComments = await getCommentsOfAlias({
-            seriesId: window?.post?.parentSeriesId, postId: window?.post?.id, heichelId: window?.post?.heichel.id,
-            aliasId: alias, fromCache: false, get: { verseSection: idx, map: true } 
+        let result = await getCommentsOfAlias({
+            seriesId: window?.post?.parentSeriesId, 
+            postId: window?.post?.id, 
+            heichelId: window?.post?.heichel.id,
+            aliasId: alias, 
+            fromCache: false, 
+            get: { verseSection: idx, map: true } 
         });
         
-        let relevant = (Array.isArray(allVerseComments) ? allVerseComments : []).filter(c => {
+        const rawComments = (result && result.success) ? result.success : result;
+        
+        let relevant = (Array.isArray(rawComments) ? rawComments : []).filter(c => {
             const cSub = c?.dayuh?.subSection;
-            if (sub === null || sub === undefined) {
+            
+            // Sync Inclusive Filtering Logic
+            if (sub === null || sub === undefined || sub === "null") {
                 return cSub === undefined || cSub === null || cSub === 'main' || cSub === 'root';
             } else {
-                return String(cSub) === String(sub);
+                const isMatch = String(cSub) === String(sub);
+                const isGeneral = (cSub === undefined || cSub === null || cSub === 'main');
+                return isMatch || isGeneral;
             }
         });
 
         if (relevant.length > 0) {
-            foundAny = true;
-            const aliasGroup = document.createElement("div");
-            aliasGroup.className = "thread-alias-group";
-            aliasGroup.innerHTML = `<div class="thread-alias-header">@${alias}</div>`;
-            
+            const group = document.createElement("div");
+            group.className = "thread-alias-group";
+            group.innerHTML = `<div class="thread-alias-header">@${alias}</div>`;
             relevant.forEach(c => {
                 c.id = String(c.id);
-                registerFork(c);
-                const incom = makeInlineComment(c);
-                aliasGroup.appendChild(incom);
+                registerFork(c); 
+                group.appendChild(makeInlineComment(c));
             });
-            scrollContainer.appendChild(aliasGroup);
+            scrollArea.appendChild(group);
         }
     }
     
-    if (foundAny) {
-        threadContainer.appendChild(scrollContainer);
-    }
+    threadContainer.appendChild(scrollArea);
 }
 
-/**
- * @method showSectionCommentaryInline
- * @description B"H - Triggers the manifesting of the marginal gloss.
- */
 export async function showSectionCommentaryInline(idx, sub, targetEl) {
-    // 1. Clean up existing threads but DO NOT remove reading highlights
     document.querySelectorAll('.awtsmoos-inline-thread').forEach(el => el.remove());
-    
-    // Remove only the locked focus border, preserve the underlying reading selection
     document.querySelectorAll('.commentary-focus').forEach(el => el.classList.remove('commentary-focus'));
     
-    // 2. Lock Focus on Target
     if (targetEl) {
         targetEl.classList.add('commentary-focus');
-        if (targetEl.classList.contains('sub-awtsmoos')) {
-            targetEl.closest('.section')?.classList.add('active-reading-section');
-        }
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    const realPost = document.getElementById('realPost');
-    if (!realPost) return;
-
-    // 3. Create Thread Container
     const threadContainer = document.createElement("div");
     threadContainer.className = "awtsmoos-inline-thread";
-    
-    // Append to context to allow fixed positioning
+    threadContainer.dataset.uniqueThread = `${idx}-${sub}`;
+
     const context = document.querySelector('.post-reader-localized-context') || document.body;
     context.appendChild(threadContainer);
-    
-    // 4. Scroll text into view
-    setTimeout(() => {
-        if(targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
     
     await renderThreadContent(threadContainer, idx, sub);
 }
