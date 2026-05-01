@@ -1,10 +1,14 @@
-//B"H
-// /BH/awtsmoos.com/geelooy/heichelos/post/logic/visuals/observer.js
-//B"H
+
 /**
- * @file observer.js
- * The Sentinel of Intersection.
+ * B"H
+ * @module SentinelObserver
+ * @description
+ * Just as the Creator watches over all paths, the Sentinel watches 
+ * the seeker's movement. When the seeker approaches the boundary 
+ * of a chunk, this Sentinel commands the Scribe to manifest the 
+ * next part of the scroll.
  */
+
 import { findCenterMostElement } from "./geometry.js";
 import { updateQueryStringParameter } from "../../functions/utils.js";
 
@@ -16,116 +20,89 @@ let scrollTimeout;
 
 export function setupActiveVerseObserver(scroller) {
     if (!scroller) return;
-    
     if (observer) observer.disconnect();
     visibleNodes.clear();
 
-    console.log("B\"H - [Observer] Sentinel Awakened.");
-
-    const options = {
-        root: scroller,
-        threshold: [0, 0.1, 0.5, 1.0] 
-    };
+    const options = { root: scroller, threshold: [0, 0.1, 0.5, 1.0] };
 
     const callback = (entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) visibleNodes.add(entry.target);
-            else visibleNodes.delete(entry.target);
+            if (entry.isIntersecting) {
+                visibleNodes.add(entry.target);
+                // B"H - TRIGGER NEIGHBOR RENDERING
+                triggerNeighborRendering(entry.target);
+            } else {
+                visibleNodes.delete(entry.target);
+            }
         });
-        // On any intersection shift, check who is center-most
         performGeometricCheck();
     };
 
     observer = new IntersectionObserver(callback, options);
     window.postObserver = observer; 
 
-    // Re-check geometry after scroll settles
     scroller.addEventListener('scroll', (e) => {
-        // B"H - THE SCROLL GUARD
-        // If the scroll event originated inside a comment thread, IGNORE IT.
-        if (e.target.closest('.inline-scroll-container')) {
-            return;
-        }
-        
+        if (e.target.closest('.inline-scroll-container')) return;
         clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            requestAnimationFrame(performGeometricCheck);
-        }, 150); // Debounce to prevent rapid firing
+        scrollTimeout = setTimeout(() => requestAnimationFrame(performGeometricCheck), 150);
     }, { passive: true });
+}
+
+/**
+ * @private
+ * @function triggerNeighborRendering
+ */
+async function triggerNeighborRendering(element) {
+    const section = element.closest('.section');
+    if (!section) return;
     
-    setTimeout(performGeometricCheck, 500);
+    const idx = parseInt(section.dataset.awtsmoosIdx);
+    if (isNaN(idx)) return;
+
+    // Use dynamic import to get chunk render logic to avoid circularity
+    const { renderChunk } = await import("../scribe.js");
+    const { ScribeScaffold } = await import("../scribe/Scaffold.js");
+    
+    const currentChunkId = ScribeScaffold.findChunkByItemIndex(idx);
+    
+    // Manifest next/prev chunks as we get close to edges
+    renderChunk(currentChunkId + 1);
+    renderChunk(currentChunkId - 1);
 }
 
 export function performGeometricCheck() {
     if (visibleNodes.size === 0) return;
-
     let winner = findCenterMostElement(visibleNodes);
     if (!winner) return;
 
-    // B"H - If a whole section won (likely due to comments taking up space),
-    // we must find the most relevant sub-section within it to be the true focus.
     if (winner.classList.contains('section') && !winner.classList.contains('sub-awtsmoos')) {
-        const innerSubNodes = Array.from(winner.querySelectorAll('.sub-awtsmoos'));
-        
-        // B"H - THE REFINEMENT OF VISION
-        // We only consider sub-sections that are ALSO currently visible to the Sentinel (Observer).
-        const visibleInnerSubNodes = innerSubNodes.filter(node => visibleNodes.has(node));
-
-        if (visibleInnerSubNodes.length > 0) {
-            // Re-run geometry check on just the *visible* children of the winning section
-            // to find which paragraph is spatially closest to the center.
-            const subWinner = findCenterMostElement(visibleInnerSubNodes);
-            if (subWinner) {
-                winner = subWinner; // Promote the sub-section to be the true winner.
-            }
-        }
-        // B"H - If no sub-sections of this section are visible, we stick with the main section as the winner.
-        // This is the correct behavior when the text is scrolled completely out of view due to comments.
+        const visibleSubs = Array.from(winner.querySelectorAll('.sub-awtsmoos')).filter(n => visibleNodes.has(n));
+        if (visibleSubs.length > 0) winner = findCenterMostElement(visibleSubs) || winner;
     }
 
     const idx = winner.dataset.awtsmoosIdx || winner.dataset.idx;
     const sub = winner.dataset.awtsmoosSub;
-    const isSub = winner.classList.contains('sub-awtsmoos');
-
     if (idx === lastActiveIdx && sub === lastActiveSub) return;
 
-    lastActiveIdx = idx;
-    lastActiveSub = sub;
+    lastActiveIdx = idx; lastActiveSub = sub;
 
     document.querySelectorAll('.active-reading-section, .active-reading-sub')
         .forEach(n => n.classList.remove('active-reading-section', 'active-reading-sub'));
 
-    if (isSub && idx && sub !== undefined) {
+    if (winner.classList.contains('sub-awtsmoos') && idx && sub !== undefined) {
         winner.classList.add('active-reading-sub');
-        const parent = winner.closest('.section');
-        if (parent) parent.classList.add('active-reading-section');
-        
-        updateQueryStringParameter("idx", idx);
-        updateQueryStringParameter("sub", sub);
-        
-        window.dispatchEvent(new CustomEvent("awtsmoos index", { 
-            detail: { idx: parseInt(idx), sub: parseInt(sub), hunter: true } 
-        }));
+        winner.closest('.section')?.classList.add('active-reading-section');
+        updateQueryStringParameter("idx", idx); updateQueryStringParameter("sub", sub);
+        window.dispatchEvent(new CustomEvent("awtsmoos index", { detail: { idx: parseInt(idx), sub: parseInt(sub), hunter: true } }));
     } else if (idx) {
         winner.classList.add('active-reading-section');
-        updateQueryStringParameter("idx", idx);
-        updateQueryStringParameter("sub", null); 
-        
-        window.dispatchEvent(new CustomEvent("awtsmoos index", { 
-            detail: { idx: parseInt(idx), sub: null, hunter: true } 
-        }));
+        updateQueryStringParameter("idx", idx); updateQueryStringParameter("sub", null); 
+        window.dispatchEvent(new CustomEvent("awtsmoos index", { detail: { idx: parseInt(idx), sub: null, hunter: true } }));
     }
 }
 
 window.registerObservable = (el) => {
-    if (!el) return;
-    const tryObserve = () => {
-        if (window.postObserver) {
-            window.postObserver.observe(el);
-            el.querySelectorAll('.sub-awtsmoos').forEach(s => window.postObserver.observe(s));
-        } else {
-            setTimeout(tryObserve, 100);
-        }
-    };
-    tryObserve();
+    if (!el || !window.postObserver) return;
+    window.postObserver.observe(el);
+    el.querySelectorAll('.sub-awtsmoos').forEach(s => window.postObserver.observe(s));
 };
