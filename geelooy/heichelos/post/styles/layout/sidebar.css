@@ -14,7 +14,6 @@
     flex-direction: column !important;
     transition: transform var(--time-std) var(--ease-snap) !important;
     transform: translateY(0) !important;
-    order: 2 !important; /* GUARANTEES placement on the right / bottom */
 }
 
 .post-reader-localized-context .sidebar.hidden-comments {
@@ -24,29 +23,27 @@
 
 @media (min-width: 900px) {
     .post-reader-localized-context .sidebar {
+        /* Sit naturally in the Flex Row established by .main */
         position: relative !important;
         bottom: auto !important; 
         left: auto !important; 
         right: auto !important; 
-        top: auto !important;
         width: 420px !important;
         flex-shrink: 0 !important;
         height: 100% !important;
         border-top: none !important;
         border-left: var(--border-thick) !important;
-        border-right: none !important;
         transform: none !important;
         transition: margin-right var(--time-std) var(--ease-snap) !important;
         margin-right: 0 !important;
     }
     
     .post-reader-localized-context .sidebar.hidden-comments {
-        margin-right: -420px !important;
+        margin-right: -420px !important; /* Slide perfectly out of view */
         transform: none !important;
     }
 }
 
-/* FULLSCREEN OVERRIDE */
 .post-reader-localized-context .sidebar.fullscreen-mode {
     position: fixed !important;
     inset: 0 !important;

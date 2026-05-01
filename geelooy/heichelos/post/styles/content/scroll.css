@@ -1,27 +1,57 @@
 
+/* B"H - FOCUS PHYSICS (SCROLL) - HIGH PERFORMANCE */
+
+/* 1. THE SPOTLIGHT (VERSES) */
 .post-reader-localized-context .section {
-    opacity: 0.3; filter: grayscale(1); transform: scale(0.98);
-    transition: all var(--time-std) var(--ease-snap);
+    opacity: 0.3;
+    filter: grayscale(1);
+    transform: scale(0.98); /* Minimal scale to avoid heavy reflow */
+    transition: opacity var(--time-std) var(--ease-snap), filter var(--time-std) var(--ease-snap), transform var(--time-std) var(--ease-snap);
+    margin-bottom: 5rem !important;
 }
+
 .post-reader-localized-context .section.active-reading-section {
-    opacity: 1; filter: none; transform: scale(1); z-index: var(--z-content);
+    opacity: 1;
+    filter: none;
+    transform: scale(1);
+    z-index: var(--z-content);
 }
-.post-reader-localized-context .section.active-reading-section .awtsmoos-verse-number {
-    background: var(--color-accent);
-    transform: scale(1.2) rotate(-5deg);
-}
+
+/* 2. THE GLOW (SUB-SECTIONS) */
 .post-reader-localized-context .sub-awtsmoos {
-    transition: all var(--time-std) var(--ease-snap);
-    padding: 4px 0;
+    /* B"H: Establish the physical space perpetually so it NEVER shifts on hover/active */
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    padding-left: 1.5rem;
+    padding-right: 0;
+    transition: background-color var(--time-std) var(--ease-snap), border-color var(--time-std) var(--ease-snap), box-shadow var(--time-std) var(--ease-snap);
 }
+
+/* Base RTL structure to avoid shifting */
+.post-reader-localized-context .heb .sub-awtsmoos {
+    padding-left: 0;
+    padding-right: 1.5rem;
+}
+
 .post-reader-localized-context .active-reading-sub {
-    background: rgba(255, 183, 3, 0.15);
-    border-left: 6px solid var(--color-primary);
-    padding-left: 1rem;
-    box-shadow: inset 10px 0 20px -10px var(--color-primary);
+    background-color: rgba(255, 174, 0, 0.1); /* Golden Glow */
+    border-left-color: var(--color-primary);
+    box-shadow: inset 10px 0 30px -15px var(--color-primary);
 }
+
+/* 3. RTL FOCUS */
 .post-reader-localized-context .heb .active-reading-sub {
-    border-left: none; border-right: 6px solid var(--color-primary);
-    padding-left: 0; padding-right: 1rem;
-    box-shadow: inset -10px 0 20px -10px var(--color-primary);
+    border-left-color: transparent;
+    border-right-color: var(--color-primary);
+    box-shadow: inset -10px 0 30px -15px var(--color-primary);
+}
+
+/* 4. LOCKED STATE (When you click 'Comment') */
+.commentary-focus {
+    background-color: var(--bg-surface) !important;
+    outline: 4px solid var(--color-accent);
+    /* Box shadow overlay is a paint operation, very cheap */
+    box-shadow: 0 0 0 100vmax rgba(0,0,0,0.85) !important; 
+    z-index: var(--z-overlay) !important;
+    position: relative;
 }

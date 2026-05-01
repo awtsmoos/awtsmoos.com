@@ -1,12 +1,18 @@
 
+/* B"H - DARK THEME */
 .post-reader-localized-context[data-theme="dark"] {
-    --bg-surface: #121212;
-    --bg-vellum: #0a0a0a;
-    --color-ink: #f0f0f0;
-    --color-ink-secondary: #a0a0a0;
-    --color-primary: #ef233c;
-    --color-accent: #ffb703;
-    --color-electric: #4cc9f0;
-    --shadow-ui: 4px 4px 0px 0px rgba(255,255,255,0.15);
-    --shadow-hover: 8px 8px 0px 0px rgba(255,255,255,0.3);
+    --bg-surface: #0a0a0a;
+    --bg-vellum: #000000;
+    --bg-noise: none;
+    
+    --color-ink: #ffffff;
+    --color-ink-secondary: #aaaaaa;
+    
+    --color-primary: #ff3333;
+    --color-accent: #ffcc00;
+    --color-electric: #3388ff;
+    
+    --shadow-ui: 4px 4px 0px 0px var(--color-ink-secondary);
+    --shadow-hover: 8px 8px 0px 0px var(--color-ink);
+    --shadow-high: 12px 12px 0px 0px var(--color-ink);
 }
