@@ -1,4 +1,5 @@
-/* B"H - SIDEBAR INTERNALS (REPAIRED & SANCTIFIED) */
+
+/* B"H - SIDEBAR INTERNALS & MOBILE-FIRST INTENSITY */
 
 /* 1. SHELL */
 .post-reader-localized-context .awtsmoos-sidebar-shell {
@@ -8,14 +9,13 @@
     width: 100%;
     overflow: hidden;
     background: var(--bg-surface);
-    
-    /* B"H - THE SANCTIFICATION: This law applies to all children of the shell */
+    /* B"H - Absolute Box Sizing for structural integrity */
     * { box-sizing: border-box; }
 }
 
-/* 2. CHROME HEADER */
+/* 2. CHROME HEADER (The Crown) */
 .post-reader-localized-context .awtsmoos-sidebar-header-chrome {
-    padding: 15px; /* Slightly reduced padding */
+    padding: 1.25rem;
     background: var(--bg-surface);
     border-bottom: var(--border-thick);
     flex-shrink: 0;
@@ -35,26 +35,36 @@
     margin: 0;
     font-family: var(--font-heading);
     font-weight: 900;
-    font-size: 16px; /* Slightly smaller */
+    font-size: clamp(1rem, 4vw, 1.2rem); 
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
-/* Close/Expand Buttons */
+/* Hard-Hitting Buttons */
 .post-reader-localized-context .awtsmoos-chrome-btn {
     background: transparent !important;
-    border: 1px solid var(--color-ink) !important;
+    border: var(--border-thin) !important;
     color: var(--color-ink) !important;
-    width: 28px; height: 28px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 4px;
+    width: 38px; /* Mobile Friendly Touch Target */
+    height: 38px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 0; /* Neo-Brutalist Sharpness */
     cursor: pointer;
-    font-size: 16px;
-    transition: all 0.2s;
+    font-size: 20px;
+    box-shadow: 2px 2px 0 var(--color-ink) !important;
+    transition: transform 0.1s, box-shadow 0.1s;
 }
 .post-reader-localized-context .awtsmoos-chrome-btn:hover {
     background: var(--color-ink) !important;
     color: var(--bg-surface) !important;
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--color-accent) !important;
+}
+.post-reader-localized-context .awtsmoos-chrome-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--color-ink) !important;
 }
 
 /* 3. BREADCRUMBS */
@@ -62,9 +72,9 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0px;
+    gap: 5px;
     padding-top: 10px;
-    border-top: 1px dashed var(--color-ink-secondary);
+    border-top: 2px dashed var(--color-ink-secondary);
 }
 
 /* 4. SLIDING VIEWPORTS */
@@ -79,11 +89,12 @@
     position: absolute;
     inset: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     background: var(--bg-vellum);
-    transition: transform 0.4s var(--ease-snap), opacity 0.4s ease;
+    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease;
     transform: translate3d(100%, 0, 0);
     opacity: 0;
-    padding: 20px; /* Padding applied here */
+    padding: 0; 
 }
 
 .post-reader-localized-context .awtsmoos-slide-view.active-view {
@@ -97,11 +108,15 @@
     opacity: 0;
 }
 
-/* 5. FULLSCREEN MODE */
+/* PADDING WITHIN VIEWS */
+.awtsmoos-view-content, .keepers-container, .keepers-assembly {
+    padding: 1.25rem;
+}
+
+/* 5. FULLSCREEN MODE OVERRIDE */
 .post-reader-localized-context .sidebar.fullscreen-mode {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     width: 100vw !important;
     height: 100vh !important;
     max-width: none !important;
@@ -111,9 +126,4 @@
     z-index: 50000;
     margin: 0 !important;
     transform: none !important;
-}
-
-.post-reader-localized-context .sidebar.fullscreen-mode .awtsmoos-sidebar-header-chrome {
-    border-radius: 0;
-    border-bottom: var(--border-thick);
 }

@@ -1,76 +1,113 @@
 
 /**
  * B"H
- * @module CommentatorListRenderer
- * @chapter The Gathering of the Keepers
+ * @module SidebarRenderingScribe
+ * @chapter The Assembly of the Insight-Keepers
+ * @description
+ * Every commentator is a portal to a deeper dimension of the text. 
+ * This module coordinates the manifestation of the Keepers list, 
+ * uniting the Altar, the AI Gateway, and the individual Keeper Rows.
  */
 
-import { makeCommentatorList as _internalList } from "./fetching.js"; // Standardizing
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
 import { openCommentsOfAlias } from "../panel.js";
 import { getAndSaveAliases } from "./fetching.js";
+import { buildCommentTree } from "../logic/treeBuilder.js";
+import { renderTreeItem } from "../render/tree.js";
+import { makeHTMLFromComment } from "../render/core.js";
+
+// B"H - Import the micro-vessels
+import { makeAddCommentSection } from "./rendering/AltarFactory.js";
+import { createKeeperRow } from "./rendering/KeeperRowFactory.js";
+
+// Re-export for any legacy conduits that expect it from here
+export { makeAddCommentSection };
 
 /**
  * @method makeCommentatorList
- * @description Manifests the Council of Keepers in the sidebar.
+ * @description The ritual to manifest the Council of Keepers.
  */
 export async function makeCommentatorList(actualTab, forceFresh = false) {
     actualTab.innerHTML = "";
     
-    // Add Transcription Altar (Previously separate, now unified)
-    const { makeAddCommentSection } = await import("../panel/rendering.js");
+    // 1. The Transcription Altar
     makeAddCommentSection(actualTab);
 
-    const aliases = await getAndSaveAliases(false, forceFresh);
+    // 2. The AI Oracle Gateway (A direct emanation from the Blueprint)
+    const aiRow = BlueprintManifestor.manifest({
+        tag: 'div',
+        attr: { class: 'awtsmoos-list-item ai-monolith' },
+        children:[
+            {
+                tag: 'div',
+                attr: { class: 'keeper-content' },
+                children:[
+                    { tag: 'span', attr: { class: 'keeper-icon' }, children: ['✨'] },
+                    { tag: 'span', attr: { class: 'keeper-name' }, children: ['ASK AWTSMOOS AI'] }
+                ]
+            },
+            { tag: 'span', attr: { class: 'keeper-arrow' }, children: ['→'] }
+        ],
+        events: {
+            click: async () => {
+                const { openAIChat } = await import("../../ai/chat.js");
+                openAIChat();
+            }
+        }
+    });
+    actualTab.appendChild(aiRow);
+
+    const keepersWrap = document.createElement("div");
+    keepersWrap.className = "keepers-assembly";
+    actualTab.appendChild(keepersWrap);
+    
+    // 3. Gathering the Guardians
+    const aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
     
     if (!aliases || aliases.length === 0) {
-        actualTab.appendChild(BlueprintManifestor.manifest({
-            tag: 'div',
-            attr: { class: 'empty-assembly-msg' },
-            children: ['No Guardians have spoken here yet.']
-        }));
+        keepersWrap.innerHTML = `<div class="assembly-void-msg">The chambers are currently silent.</div>`;
         return;
     }
 
-    const container = document.createElement("div");
-    container.className = "keepers-container";
-    actualTab.appendChild(container);
-
+    // 4. Manifesting the Council
     aliases.forEach(alias => {
-        const itemPlan = {
-            tag: 'div',
-            attr: { class: 'keeper-row awtsmoos-list-item', 'data-alias': alias },
-            children: [
-                {
-                    tag: 'div',
-                    attr: { class: 'keeper-info' },
-                    children: [
-                        { tag: 'div', attr: { class: 'keeper-avatar' }, children: [alias[0].toUpperCase()] },
-                        { tag: 'span', attr: { class: 'keeper-name' }, children: [`@${alias}`] }
-                    ]
-                },
-                { tag: 'span', attr: { class: 'keeper-arrow' }, children: ['→'] }
-            ],
-            events: {
-                click: (e) => {
-                    e.stopPropagation();
-                    triggerAliasTab(alias);
-                }
-            }
-        };
-        container.appendChild(BlueprintManifestor.manifest(itemPlan));
+        const row = createKeeperRow(alias, triggerAliasTab);
+        keepersWrap.appendChild(row);
     });
 }
 
+/**
+ * @private
+ * @function triggerAliasTab
+ */
 function triggerAliasTab(alias) {
     window.tabManager.addTab({
         header: "@" + alias,
         name: "user-" + alias,
-        onopen: async ({ actualTab, tab }) => {
+        content: `<div class="loading-ink">Seeking records of @${alias}...</div>`,
+        async onopen({ actualTab, tab }) { 
             tab.awtsmoosType = "specific alias comments";
+            window.currentAliasTabContainer = actualTab; 
             window.currentAliasBeingViewed = alias;
-            window.currentAliasTabContainer = actualTab;
-            await openCommentsOfAlias({ alias, actualTab, post: window.post });
+            await openCommentsOfAlias({ alias, actualTab: actualTab, post: window.post });
         }
     }).open();
+}
+
+/**
+ * @method renderControlsAndComments
+ * @description Pours a specific Guardian's comments into the timeline view.
+ */
+export function renderControlsAndComments(coms, alias, tab) {
+    tab.innerHTML = "";
+    const treeRoots = buildCommentTree(coms);
+    
+    const listContainer = document.createElement("div");
+    listContainer.className = "sidebar-comment-list";
+    
+    treeRoots.forEach(node => {
+        renderTreeItem(node, listContainer, (c) => makeHTMLFromComment(c), 'sidebar');
+    });
+    
+    tab.appendChild(listContainer);
 }
