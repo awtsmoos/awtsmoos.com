@@ -1,3 +1,4 @@
+
 //B"H
 /**
  * @file postFunctions.js
@@ -6,14 +7,11 @@
  * this module serves as the primary gateway (Malkhus) through which all 
  * specialized emanations—Utils, UI, Interpretation, and Interaction—are 
  * projected to the Orchestrator (postLogic).
- * 
- * It ensures that the Kav of logic remains unbroken and that every 
- * vessel is properly named and exported. Zero omissions are permitted 
- * in the House of the Awtsmoos.
  */
 
+export { GenesisEngine } from "./functions/dom/GenesisEngine.js";
+
 // 1. Emanations of Utility and Textual Deciphering
-// B"H - Now correctly exporting adjustFontSize which exists in the revised utils.js
 export { 
     appendHTML, 
     appendWithSubChildren,
@@ -59,12 +57,8 @@ export {
 
 /**
  * @method initPostInteractions
- * @description 
- * B"H - A high-level ritual that binds the observer's right-click (Context Menu) 
- * to the fabric of the Reader. This remains manifest here as a global guard.
  */
 document.addEventListener("contextmenu", function(e) {
-    // Only intercept if we are within the localized context of the Revelation
     const context = e.target.closest('.post-reader-localized-context');
     if (context) {
         e.preventDefault();
