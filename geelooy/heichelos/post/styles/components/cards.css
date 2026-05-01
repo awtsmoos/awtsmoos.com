@@ -1,0 +1,22 @@
+
+/* B"H - THE VESSELS OF CONTAINMENT (CARDS) */
+
+.post-reader-localized-context .awtsmoos-card {
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-ui);
+    padding: var(--pad-md);
+    transition: all var(--time-std) var(--ease-snap);
+    margin-bottom: var(--pad-md);
+    position: relative;
+    overflow: hidden;
+    width: 100%; /* Conforms to parent width */
+    display: flex;
+    flex-direction: column;
+}
+
+.post-reader-localized-context .awtsmoos-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--color-electric);
+}

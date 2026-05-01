@@ -1,0 +1,86 @@
+
+/* B"H - THE VESSELS OF RECEPTION (INPUTS & ALTARS) */
+
+.post-reader-localized-context input[type="text"],
+.post-reader-localized-context textarea,
+.post-reader-localized-context select {
+    background: var(--bg-surface);
+    border: var(--border-thin);
+    padding: var(--pad-sm);
+    font-family: var(--font-ui);
+    color: var(--color-ink);
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all var(--time-fast);
+    outline: none;
+    border-radius: var(--border-radius-none);
+}
+
+.post-reader-localized-context input[type="text"]:focus,
+.post-reader-localized-context textarea:focus,
+.post-reader-localized-context select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Custom Select Dropdown Arrow */
+.post-reader-localized-context select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.post-reader-localized-context[data-theme="dark"] select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');
+}
+
+/* THE ALTAR ACTIONS (Transcription Buttons from the screenshot) */
+.post-reader-localized-context .awtsmoos-comment-actions-bar {
+    display: none; 
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px dashed var(--color-ink-secondary);
+}
+
+.post-reader-localized-context .awtsmoos-comment-actions-bar.revealed {
+    display: flex;
+}
+
+.post-reader-localized-context .awtsmoos-action-cancel {
+    background: transparent !important;
+    border: 2px solid transparent !important;
+    box-shadow: none !important;
+    color: var(--color-ink-secondary) !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+}
+
+.post-reader-localized-context .awtsmoos-action-cancel:hover {
+    color: var(--color-danger) !important;
+    background: rgba(255,0,0,0.05) !important;
+}
+
+.post-reader-localized-context .awtsmoos-action-submit {
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
+    border: 2px solid var(--color-ink) !important;
+    box-shadow: 4px 4px 0px var(--color-accent) !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    padding: 10px 20px !important;
+}
+
+.post-reader-localized-context .awtsmoos-action-submit:hover {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    box-shadow: 4px 4px 0px var(--color-ink) !important;
+    transform: translate(-2px, -2px) !important;
+}
