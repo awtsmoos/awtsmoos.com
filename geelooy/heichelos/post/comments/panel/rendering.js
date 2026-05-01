@@ -1,166 +1,127 @@
-// /BH/awtsmoos.com/geelooy/heichelos/post/comments/panel/rendering.js
-//B"H
+
+/**
+ * B"H
+ * @module SidebarRenderingScribe
+ * @chapter The Assembly of the Insight-Keepers
+ * @description
+ * Every commentator is a portal to a deeper dimension of the text. 
+ * This module manifests the list of these Keepers. 
+ * REFORGED: The entire vessel is now a sensitive portal.
+ */
+
 import { CommentSection } from "/heichelos/post/CommentSection.js";
 import { makeHTMLFromComment, renderTreeItem } from "/heichelos/post/comments/render.js";
 import { isAliasInline, toggleInlineForComments } from "/heichelos/post/comments/inline.js";
 import { openAIChat } from "/heichelos/post/ai/chat.js";
 import { openCommentsOfAlias } from "/heichelos/post/comments/panel.js"; 
 import { getAndSaveAliases } from "/heichelos/post/comments/panel/fetching.js"; 
+import { buildCommentTree } from "../logic/treeBuilder.js";
 
-export { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.js"; 
-
-// Helper: Build Tree Structure (Duplicate for modular isolation)
-function buildCommentTree(comments) {
-    const map = {};
-    const roots = [];
-    comments.forEach(c => { map[c.id] = { comment: c, children: [] }; });
-    comments.forEach(c => {
-        const node = map[c.id];
-        const dayuh = c.dayuh || {};
-        const parentId = dayuh.replyToId || dayuh.forkedFrom?.commentId;
-        if (parentId && map[parentId]) map[parentId].children.push(node);
-        else roots.push(node);
-    });
-    roots.sort((a, b) => parseInt(a.comment.id.split('_')[1]) - parseInt(b.comment.id.split('_')[1]));
-    return roots;
-}
-
+/**
+ * @method makeAddCommentSection
+ * @description Manifests the transcription altar.
+ */
 export function makeAddCommentSection(par) {
 	var div = document.createElement("div");
-	div.classList.add("comment-section");
-    div.style.margin = "0";
-    div.style.borderBottom = "1px solid #eee";
+	div.classList.add("comment-section-container");
+    div.style.padding = "20px";
+    div.style.borderBottom = "4px solid var(--color-ink)";
 	par.appendChild(div);
 	new CommentSection(div);
 }
 
+/**
+ * @method makeCommentatorList
+ * @description The ritual to manifest the Council of Keepers.
+ */
 export async function makeCommentatorList(actualTab, forceFresh = false) {
     actualTab.innerHTML = "";
     makeAddCommentSection(actualTab);
 
-    // AI Card
+    // B"H - AI ORACLE GATEWAY
     const aiRow = document.createElement("div");
-    aiRow.className = "awtsmoos-list-item ai-card";
+    aiRow.className = "awtsmoos-list-item ai-monolith";
     aiRow.innerHTML = `
-        <span style="font-weight:900; display:flex; align-items:center; gap:8px;">
-            ✨ ASK AWTSMOOS AI
-        </span>
-        <span class="awtsmoos-list-item-arrow">→</span>
+        <div class="keeper-content">
+            <span class="keeper-icon">✨</span>
+            <span class="keeper-name">ASK AWTSMOOS AI</span>
+        </div>
+        <span class="keeper-arrow">→</span>
     `;
-    aiRow.onclick = () => {
-        openAIChat();
-    };
+    aiRow.onclick = () => openAIChat();
     actualTab.appendChild(aiRow);
 
-    var commentorList = document.createElement("div");
-    commentorList.className = "commentors-list";
-    commentorList.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">Loading Revelations...</div>`;
-    actualTab.appendChild(commentorList);
+    const keepersWrap = document.createElement("div");
+    keepersWrap.className = "keepers-assembly";
+    actualTab.appendChild(keepersWrap);
     
-    var aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
-    
-    commentorList.innerHTML = "";
-
-    if (!aliases || !Array.isArray(aliases) || aliases.length === 0) {
-        const s = new URLSearchParams(location.search);
-        const hasSub = s.get("sub") !== null;
-        
-        const empty = document.createElement("div");
-        empty.style.padding = "40px 20px";
-        empty.style.textAlign = "center";
-        empty.style.color = "var(--color-ink-secondary)";
-        empty.style.fontWeight = "700";
-        empty.innerHTML = `
-            ${hasSub ? "No commentaries on this paragraph." : "No commentaries found here."}
-        `;
-        
-        if (hasSub) {
-            const btn = document.createElement("button");
-            btn.className = "btn secondary";
-            btn.style.marginTop = "15px";
-            btn.innerText = "Show All Verse Comments";
-            btn.onclick = async () => {
-                const allVerse = await getAndSaveAliases(false, false, null, null, false);
-                if(allVerse && allVerse.length > 0) {
-                    renderAliasesList(allVerse, commentorList);
-                } else {
-                    btn.innerText = "No verse comments either";
-                    btn.disabled = true;
-                }
-            };
-            empty.appendChild(btn);
-        }
-        
-        commentorList.appendChild(empty);
+    const aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
+    if (!aliases || aliases.length === 0) {
+        keepersWrap.innerHTML = `<div class="assembly-void-msg">The chambers are currently silent.</div>`;
         return;
     }
 
-    renderAliasesList(aliases, commentorList);
-}
-
-function renderAliasesList(aliases, container) {
-    container.innerHTML = "";
     aliases.forEach(alias => {
         const row = document.createElement("div");
-        row.className = "awtsmoos-list-item";
+        row.className = "awtsmoos-list-item keeper-card";
         row.dataset.alias = alias;
         
         const isInline = isAliasInline(alias);
         const initial = alias.charAt(0).toUpperCase();
 
+        // B"H - STRUCTURE: We divide the card into the Touch-Zone and the Control-Zone
         row.innerHTML = `
-            <div class="commentator-info">
+            <div class="keeper-portal-trigger" title="Enter insights of @${alias}">
                 <div class="commentator-avatar">${initial}</div>
                 <span class="commentator-name">@${alias}</span>
             </div>
-            <div class="commentator-actions">
-                 <div class="inline-toggle-wrapper" title="Read Inline">
-                    <input type="checkbox" id="inline-toggle-${alias}" class="inline-toggle-input" data-alias="${alias}" ${isInline ? 'checked' : ''}>
+            <div class="keeper-controls">
+                 <div class="inline-toggle-altar" title="Manifest insights in the text">
+                    <input type="checkbox" id="inline-toggle-${alias}" class="inline-toggle-input" ${isInline ? 'checked' : ''}>
                     <label for="inline-toggle-${alias}" class="inline-toggle-label"></label>
                 </div>
-                <span class="awtsmoos-list-item-arrow">→</span>
+                <span class="keeper-arrow">→</span>
             </div>
         `;
 
-        row.querySelector('.commentator-info').onclick = () => {
+        // 1. Navigation Ritual (The Whole Trigger Zone)
+        const trigger = row.querySelector('.keeper-portal-trigger');
+        trigger.onclick = (e) => {
+            e.stopPropagation();
             window.tabManager.addTab({
                 header: "@" + alias,
                 name: "user-" + alias,
-                content: `<div class="center loading" style="padding:20px;">Loading comments...</div>`,
-                async onopen({ actualTab: aliasContentArea, tab }) { 
+                content: `<div class="loading-ink">Seeking records of @${alias}...</div>`,
+                async onopen({ actualTab: contentArea, tab }) { 
                     tab.awtsmoosType = "specific alias comments";
-                    window.currentAliasTabContainer = aliasContentArea; 
+                    window.currentAliasTabContainer = contentArea; 
                     window.currentAliasBeingViewed = alias;
-                    await openCommentsOfAlias({ 
-                        alias: alias, 
-                        actualTab: aliasContentArea, 
-                        post: window.post 
-                    });
+                    await openCommentsOfAlias({ alias, actualTab: contentArea, post: window.post });
                 }
             }).open();
         };
 
-        row.querySelector('.inline-toggle-input').addEventListener('change', (e) => {
-            // Pass a dummy comments object; the function will fetch the correct full list.
-            toggleInlineForComments([], e.target.dataset.alias);
-        });
+        // 2. Inline Manifestation Ritual (Specific to the switch)
+        const checkbox = row.querySelector('.inline-toggle-input');
+        checkbox.onclick = (e) => e.stopPropagation(); // Stop navigation trigger
+        checkbox.onchange = (e) => {
+            toggleInlineForComments([], alias);
+        };
 
-        container.appendChild(row);
+        keepersWrap.appendChild(row);
     });
 }
 
+/**
+ * @method renderControlsAndComments
+ */
 export function renderControlsAndComments(coms, alias, tab) {
     tab.innerHTML = "";
-    
-    // B"H - No more global "Read Inline" button. It's now a per-commentator toggle.
-    
     const treeRoots = buildCommentTree(coms);
     const listContainer = document.createElement("div");
     listContainer.className = "sidebar-comment-list";
-    
     treeRoots.forEach(node => {
         renderTreeItem(node, listContainer, (c) => makeHTMLFromComment(c), 'sidebar');
     });
-    
     tab.appendChild(listContainer);
 }

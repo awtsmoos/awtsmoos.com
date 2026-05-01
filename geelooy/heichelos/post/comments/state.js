@@ -1,54 +1,49 @@
-//B"H
-// State for comments
-export var loadedInlineVerses = {};
-export var currentVerse = null;
-export var currentSub = null;
 
-export var data = {
-	aliases: null
-};
+/**
+ * B"H
+ * @module StateAggregatorHub
+ * @chapter The One in the Many
+ * @description
+ * From the infinite potential of the Essence (Awtsmoos) comes all 
+ * particularized functions. This hub unites the shattering of the 
+ * micro-sefirot into a single, functional Merkavah.
+ */
 
-export function setCurrentVerse(v) {
-    currentVerse = v;
-}
+// 1. Memory Access
+export { commentaryStore as data, commentaryStore } from "./state/store.js";
 
-export function getCurrentVerse() {
-    return currentVerse;
-}
+// 2. Spatial Navigation
+export { 
+    setCurrentVerse, 
+    getCurrentVerse, 
+    setCurrentSub, 
+    getCurrentSub 
+} from "./state/coordinates.js";
 
-export function setCurrentSub(s) {
-    currentSub = s;
-}
+// 3. Spiritual Cleansing
+export { invalidateVerseCache } from "./state/purifier.js";
 
-export function getCurrentSub() {
-    return currentSub;
-}
+// 4. THE MARGINAL REGISTRY (Healed and re-fractured)
+import { MarginalGuardianRegistry } from "./state/inline/Registry.js";
+import { hideCommentsInline as _internalHideRitual } from "./inline/state.js";
 
-export function invalidateVerseCache(verseSection, post) {
-    if (verseSection === null || verseSection === undefined) {
-        verseSection = "root";
-    }
-    if(!post) post = window.post;
+/**
+ * @function getInlineAliases
+ * @description 
+ * HEALED: Now points to the corrected 'getActive' ritual.
+ */
+export const getInlineAliases = () => MarginalGuardianRegistry.getActive();
 
-    if (data.aliases) {
-        // Clear all entries related to this verse to be safe
-        Object.keys(data.aliases).forEach(key => {
-            if (key.startsWith(`${verseSection}-`)) delete data.aliases[key];
-        });
-        delete data.aliases[verseSection];
-    }
-    
-    const aliasCachePath = window.aliasCommentsCache?.heichelos?.[post?.heichel?.id]?.series?.[post?.parentSeriesId]?.posts?.[post?.id];
-    if (aliasCachePath?.verseSections?.[verseSection]) {
-        delete aliasCachePath.verseSections[verseSection];
-    }
-    
-    const commentsCachePath = window.commentsOfAliasCache?.heichelos?.[post?.heichel?.id]?.series?.[post?.parentSeriesId]?.posts?.[post?.id];
-    if (commentsCachePath?.aliases) {
-        for (const alias in commentsCachePath.aliases) {
-            if (commentsCachePath.aliases[alias].verseSections?.[verseSection]) {
-                delete commentsCachePath.aliases[alias].verseSections[verseSection];
-            }
-        }
-    }
-}
+/**
+ * @function isAliasInline
+ * @description Verifies a name in the Marginal records.
+ */
+export const isAliasInline = (alias) => MarginalGuardianRegistry.isPresent(alias);
+
+/**
+ * @function hideCommentsInline
+ * @description Dissolves an Alias's registry back into potentiality.
+ */
+export const hideCommentsInline = (alias) => _internalHideRitual(alias);
+
+console.log(`%c B"H - [Unified State Hub] The broken Link is healed. Registry is active.`, "color: #ccff00; font-weight: 900;");

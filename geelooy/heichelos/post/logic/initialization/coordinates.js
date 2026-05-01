@@ -1,101 +1,111 @@
-// /BH/awtsmoos.com/geelooy/heichelos/post/logic/initialization/coordinates.js
-//B"H
+
+/**
+ * B"H
+ * @module SovereignCoordinates
+ * @chapter Resolving the Chapter and the Verse
+ * @description
+ * Every spark of creation has a Root and a Branch. 
+ * The Root is the Internal ID; the Branch is the Chapter Index.
+ * 
+ * This module ensures the seeker's Path (URL) remains simple 
+ * and chapter-based, while the Chariot's Logic (fetch) reaches 
+ * deep into the API using the true ID.
+ */
+
 import { 
     constructSeriesDetailsUrl, 
     constructPostUrl, 
     constructBreadcrumbUrl 
 } from "./constants.js";
+import { unrollApiResponse } from "../../comments/logic/unroller.js";
 
 /**
- * @method loadInitial
- * @description Anchors the seeker by parsing the URL and trusting the single, sacred data stream.
+ * @function loadInitial
+ * @description 
+ * Anchors the initial spatial reality. 
+ * If it finds an "Ugly ID" in the path, it identifies the correct 
+ * index and cleans the address bar.
  */
 export async function loadInitial() {
-    console.log("B\"H - [Coordinates] Re-anchoring reality to the One True Stream.");
+    console.log("B\"H - [Coordinates] Initiating Divine Path Resolution.");
     const segments = location.pathname.split("/").filter(Boolean);
     
-    let hId = null, sId = "root", pId = null, pIdx = 0, rawPostSegment = null; 
+    let hId = null, sId = "root", pCoord = "0", pIdx = 0, pId = null; 
 
-    // 1. Decipher the coordinates from the URL path, as before.
-    for(let i=0; i<segments.length; i++) {
-        const seg = segments[i];
-        if (seg === "heichelos" && segments[i+1]) hId = decodeURIComponent(segments[i+1]);
-        if (seg === "series" && segments[i+1]) {
-            sId = decodeURIComponent(segments[i+1]);
-            if (segments[i+2]) {
-                rawPostSegment = decodeURIComponent(segments[i+2]);
-                if (!isNaN(parseInt(rawPostSegment))) pIdx = parseInt(rawPostSegment);
-            }
+    // 1. Deciphering the Holy Path
+    // Looking for: /heichelos/:heichel/series/:series/:index_or_id
+    const hMarker = segments.indexOf("heichelos");
+    if (hMarker !== -1 && segments[hMarker + 1]) {
+        hId = decodeURIComponent(segments[hMarker + 1]);
+        const sMarker = segments.indexOf("series");
+        if (sMarker !== -1 && segments[sMarker + 1]) {
+            sId = decodeURIComponent(segments[sMarker + 1]);
+            pCoord = segments[sMarker + 2] || "0";
         }
-        if (seg === "post" && segments[i+1]) pId = decodeURIComponent(segments[i+1]);
     }
 
-    if (!hId) throw new Error("Coordinate Rupture: Heichel ID missing.");
+    if (!hId) throw new Error("Manifestation Void: Heichel identity is hidden.");
 
-    // 2. Resolve Post ID using the ONE sacred data stream from constants.js
+    // 2. Reaching into the Archive of the Series
+    // We must find the Series Details to translate Chapter -> ID or ID -> Chapter
     let series = null;
-    if (sId !== "root" && pId === null) {
-        try {
-            // THE FIX: Use the single, correct, unchanged constant.
-            const sUrl = constructSeriesDetailsUrl(hId, sId);
-            console.log(`B"H - [Coordinates] Trusting the sacred path to fetch series context: ${sUrl}`);
-            const sRes = await fetch(sUrl);
+    try {
+        const sUrl = constructSeriesDetailsUrl(hId, sId);
+        const sRes = await fetch(sUrl);
+        if (sRes.ok) {
+            const rawJson = await sRes.json();
+            const unrolled = unrollApiResponse(rawJson);
+            series = Array.isArray(unrolled) ? unrolled[0] : (rawJson.success || rawJson);
             
-            if(sRes.ok) {
-                series = await sRes.json();
-                console.log("B\"H - [Coordinates] Sacred stream manifested (with posts array):", series);
-                
-                // If the stream provided the list of posts, resolve the ID from the index.
-                if (series && Array.isArray(series.posts)) {
-                    if (series.posts.length > pIdx) {
-                        pId = series.posts[pIdx];
-                        console.log(`B"H - [Coordinates] Index ${pIdx} resolved to TRUE Post ID: ${pId}`);
-                    } else {
-                        console.warn(`B"H - [Coordinates] Index ${pIdx} is out of bounds for the posts array (length ${series.posts.length}).`);
-                    }
+            if (series && Array.isArray(series.posts)) {
+                // Determine if the coordinate is an Index or an ID
+                if (!isNaN(parseInt(pCoord)) && pCoord.length < 5) {
+                    // It is a Chapter Index!
+                    pIdx = parseInt(pCoord);
+                    pId = series.posts[pIdx];
                 } else {
-                    // This is the warning you saw before.
-                    console.warn("B\"H - [Coordinates] Series data from sacred path contains no posts array.", series);
+                    // It is a specific Post ID! We find its Chapter Index.
+                    pId = pCoord;
+                    pIdx = series.posts.indexOf(pId);
+                    if (pIdx === -1) pIdx = 0; 
+
+                    // B"H - PURIFICATION RITUAL
+                    // The address bar had a messy ID. We switch it back to a holy Index.
+                    const cleanPath = `/heichelos/${hId}/series/${sId}/${pIdx}${location.search}`;
+                    window.history.replaceState({ path: cleanPath }, '', cleanPath);
                 }
-            } else {
-                console.error(`B"H - [Coordinates] Sacred path fetch failed: ${sRes.status}`);
             }
-        } catch(e) { 
-            console.warn("B\"H - [Coordinates] A rupture occurred while gathering the sacred series stream:", e); 
         }
+    } catch (e) {
+        console.error("B\"H - Spatial Discovery Failure:", e);
     }
 
-    // 3. FALLBACK: Trust the raw segment ONLY if the sacred stream failed to resolve an ID.
-    if (!pId && rawPostSegment) {
-        console.log(`B"H - [Coordinates] Fallback active: Using segment as literal ID: ${rawPostSegment}`);
-        pId = rawPostSegment;
-    }
+    if (!pId) throw new Error(`Void Rupture: Could not identify Chapter ${pCoord}.`);
 
-    if(!pId) throw new Error("Post Identifier Void. Cannot anchor Reality.");
-
-    // 4. Manifest the Final Revelation (the Post itself)
-    const postUrl = constructPostUrl(hId, sId, pId);
-    console.log(`B"H - [Coordinates] Fetching Final Revelation: ${postUrl}`);
-    const postRes = await fetch(postUrl);
-    if (!postRes.ok) throw new Error(`Gateway Error: ${postRes.statusText} at ${postUrl}`);
-    const post = await postRes.json();
+    // 3. Bringing the Revelation (The Post Content) into Physicality
+    const postRes = await fetch(constructPostUrl(hId, sId, pId));
+    if (!postRes.ok) throw new Error(`Gateway Error: ${postRes.status}`);
     
-    if(!post || post.error) throw new Error(post?.error?.message || "Content Void: No post manifest.");
+    let postData = await postRes.json();
+    const post = (postData && postData.success) ? postData.success : postData;
+    post.id = pId;
 
-    // 5. Weave the Path of Return (Breadcrumbs)
+    // 4. Weaving the Trail of Light (Breadcrumbs)
     let breadcrumb = [];
     try {
-        const bUrl = constructBreadcrumbUrl(hId, sId);
-        const breadRes = await fetch(bUrl);
-        if(breadRes.ok) breadcrumb = (await breadRes.json()).reverse();
-    } catch(e){}
+        const bRes = await fetch(constructBreadcrumbUrl(hId, sId));
+        if (bRes.ok) {
+            breadcrumb = unrollApiResponse(await bRes.json()).reverse();
+        }
+    } catch (e) {}
 
-    // 6. Register the Global Vessels
+    // Global Anchoring in the Application State
     window.post = post;
     window.series = series;
     window.heichelId = hId;
     window.breadcrumb = breadcrumb;
-    if(!post.parentSeriesId) post.parentSeriesId = sId;
+    window.currentIndexInSeries = pIdx;
 
-    return { post, series: window.series, hId, pIdx };
+    console.log(`B"H - spatial awareness established at Chapter ${pIdx}.`);
+    return { post, series, hId, pIdx };
 }
