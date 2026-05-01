@@ -12,6 +12,8 @@
  * returning them perfectly synchronized once the "Amen" comes back from the screen!
  */
 
+import { InventoryBridge } from './InventoryBridge.js';
+
 export class BridgeEstablishment {
     /**
      * @method bindBridges
@@ -67,6 +69,9 @@ export class BridgeEstablishment {
             self.postMessage({ type: "sendUiEvent", payload: { shaym, ob, id } });
             return await p;
         });
+
+        // B"H: Bind the Inventory event handlers
+        InventoryBridge.bind(olam);
 
         console.log('B"H - ✅ Bridges Secured.');
     }

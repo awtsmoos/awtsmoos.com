@@ -62,6 +62,13 @@ export default {
                     ]
                  }
             ]
+        },
+        // B"H: The Hidden Label of the Horizon
+        // This vessel prevents crashes when interaction logic seeks the minimap label.
+        { 
+            shaym: "minimap label", 
+            className: "invisible", 
+            style: { position: "absolute", pointerEvents: "none" } 
         }
     ]
 };

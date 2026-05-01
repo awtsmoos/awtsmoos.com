@@ -48,6 +48,8 @@ export class OyvedMessageInterpreter {
     static handleOngoing(ActiveOlamInstance, data, promiseMap) {
         if (!ActiveOlamInstance) return;
 
+        console.log(`B"H - 📨 [OYVED INTERPRETER]: Received ongoing data:`, Object.keys(data));
+
         const keys = Object.keys(data);
         for (let i = 0; i < keys.length; i++) {
             const eventKey = keys[i];
@@ -58,3 +60,4 @@ export class OyvedMessageInterpreter {
         }
     }
 }
+

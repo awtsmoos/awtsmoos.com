@@ -49,6 +49,7 @@ const ItemContextMenu = {
 
 export default {
     shaym: "inventoryScreen",
+    id: "inventoryScreen",
     awtsmoosClick: true,
     className: "awtsmoosInventoryViewer hidden",
     style: { pointerEvents: "auto" }, // PIERCING THE VOID

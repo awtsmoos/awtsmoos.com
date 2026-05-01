@@ -14,9 +14,10 @@
  */
 import startSlotsConfig from "../startSlotsConfig.js";
 
-export default {
+const ActionBar = {
     /** @property {string} shaym - Unique spiritual identifier. */
     shaym: "action bar",
+    id: "actionBar",
     className: "awtsmoosAction",
     awtsmoosClick: true,
     style: {
@@ -29,48 +30,64 @@ export default {
             pointerEvents: "auto" // Emphatic physical presence for the minimize button!
         },
         onclick(e, $, ui, el) {
-            var slots = $("action bar");
-            if (!slots) return;
-            slots.classList.toggle("minimized");
+            var bar = $("action bar") || document.getElementById("actionBar");
+            if (!bar) return;
+            bar.classList.toggle("minimized");
             el.classList.toggle("opened");
             el.classList.toggle("closed");
         }
     }, { 
         className: "slots", 
         shaym: "action slots", 
-        style: { pointerEvents: "none" } 
+        id: "actionSlots",
+        style: { pointerEvents: "none" },
+        children: [
+            // B"H: The Sacred Bag (Inventory Toggle) is now a permanent vessel!
+            {
+                className: "actionSlot occupied bag-slot",
+                style: { pointerEvents: "auto" },
+                onclick: async (e, $$, uui) => {
+                    const inventoryScreen = $$("inventoryScreen") || document.getElementById("inventoryScreen");
+                    if (inventoryScreen) {
+                        const isHidden = inventoryScreen.classList.contains("hidden");
+                        if (isHidden) {
+                            await uui.htmlAction({ shaym: "inventoryScreen", id: "inventoryScreen", methods: { classList: { remove: "hidden" } } });
+                        } else {
+                            await uui.htmlAction({ shaym: "inventoryScreen", id: "inventoryScreen", methods: { classList: { add: "hidden" } } });
+                        }
+                    }
+                },
+                children: [{
+                    className: "innerSlot",
+                    children: [{
+                        className: "slotBtn",
+                        style: {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            fontSize: "32px",
+                            pointerEvents: "none"
+                        },
+                        textContent: "🎒"
+                    }]
+                }]
+            }
+        ]
     }],
     on: {
         /**
          * @method updateActionSlots
-         * @description Refreshes the physical manifestation of the slots based on current inventory data.
+         * @description Refreshes the physical manifestation of the tools/blocks based on current inventory data.
          */
         async updateActionSlots(e, $, ui) {
-            const actionSlotsData = e.detail;
+            const actionSlotsData = e.detail || [];
             
-            // B"H: Dissolving the previous state to allow for fresh creation.
-            await ui.htmlAction({ shaym: "action slots", properties: { innerHTML: "" } });
-
-            const slotConfig = $("action bar").startSlotsConfig;
-            const bagSlotInfo = slotConfig && slotConfig.slots ? slotConfig.slots[0] : null;
-
-            // 1. Manifest the Sacred Bag (Inventory Toggle)
-            if (bagSlotInfo) {
-                await ui.html({
-                    parent: "action slots",
-                    className: "actionSlot occupied",
-                    style: { pointerEvents: "auto" }, // DIRECT COMMAND: Make this vessel touchable!
-                    children:[{
-                        className: "innerSlot",
-                        onclick: async (e, $$, uui) => {
-                            const inventoryScreen = $$("inventoryScreen");
-                            if (inventoryScreen) {
-                                await uui.htmlAction({ shaym: "inventoryScreen", methods: { classList: { remove: "hidden" } } });
-                            }
-                        },
-                        children:[{ className: "slotBtn", style: { backgroundImage: `url(${bagSlotInfo.icon})` } }]
-                    }]
-                });
+            // B"H: Remove previous dynamic slots, but KEEP the Bag!
+            const slotsContainer = $("actionSlots") || document.getElementById("actionSlots");
+            if (slotsContainer) {
+                // Remove all children EXCEPT the bag-slot
+                const dynamicSlots = slotsContainer.querySelectorAll(".actionSlot:not(.bag-slot)");
+                dynamicSlots.forEach(s => s.remove());
             }
 
             // 2. Manifest the Actionable Vessels (Tools/Blocks)
@@ -103,9 +120,9 @@ export default {
                 }
 
                 await ui.html({
-                    parent: "action slots",
+                    parent: "actionSlots",
                     className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
-                    style: { pointerEvents: "auto" }, // ABSOLUTE DOM CONTROL! Making each individual slot clickable.
+                    style: { pointerEvents: "auto" },
                     "awtsmoosSlotData": slotData,
                     "awtsmoosIndex": index,
                     "awtsmoosSourceType": "action",
@@ -143,3 +160,5 @@ export default {
         }
     }
 };
+
+export default ActionBar;

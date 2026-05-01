@@ -32,9 +32,11 @@ import { Saving } from "./components/Saving.js";
 import { DragGhost } from "./components/DragGhost.js";
 import { QuantityModal } from "./components/QuantityModal.js";
 import { Tooltips } from "./components/Tooltips.js";
+import { Toast } from "./components/Toast.js";
 
-import actionBar from "./actionBar.js";
-import inventoryScreen from "./inventory/index.js";
+import ZroaYamin from "./ZroaYamin/index.js";
+import Otzar from "./Otzar/index.js";
+import { ItemContextMenu } from "./Otzar/ContextMenu/index.js";
 import apiKeyModal from "./apiKeyModal.js";
 import hud from "./hud.js";
 import VisualEditor from "./VisualEditor.js"; 
@@ -56,8 +58,8 @@ const uiVessels = [
     Saving,
     DragGhost,
     QuantityModal,
-    actionBar,
-    inventoryScreen,
+    ZroaYamin,
+    Otzar,
     ...Tooltips,
     characterDesigner, 
     storeScreen, 
@@ -70,8 +72,11 @@ const uiVessels = [
     lavaMenu,
     apiKeyModal,
     VisualEditor,
-    levelSelectScreen
+    levelSelectScreen,
+    ItemContextMenu,
+    Toast
 ].concat(shlichusUI);
+
 
 // B"H: Mobile specific appendages
 if (typeof navigator !== 'undefined' && navigator.userAgent.includes("Mobile")) {

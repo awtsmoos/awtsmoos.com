@@ -58,7 +58,7 @@ export class ContinuousEventRouter {
         if (!olam && key !== 'vessel_ready') return;
 
         const action = this.actionMap[key];
-        
+
         // Exists in the active route ledger? Run it directly!
         if (typeof action === 'function') {
             action(olam, payload);
@@ -73,5 +73,21 @@ export class ContinuousEventRouter {
                 promiseMap.delete(payload.id);
             }
         }
+
+        /**
+         * B"H: Universal Fallback
+         * If no specific sefirotic route was found AND it wasn't a framework resolution event,
+         * emit it as a general event on the Olam. This enables bridges like the 
+         * InventoryBridge without breaking the core engine's promise-based flow.
+         */
+        if (olam && typeof olam.ayshPeula === 'function') {
+            console.log(`B"H - 🔄 [ROUTER FALLBACK]: Routing unrecognized key '${key}' via ayshPeula`, payload);
+            olam.ayshPeula(key, payload);
+        } else if (!olam) {
+            console.warn(`B"H - ⚠️ [ROUTER FALLBACK]: Cannot route '${key}' — Olam is not ready.`);
+        } else {
+            console.warn(`B"H - ⚠️ [ROUTER FALLBACK]: Cannot route '${key}' — Olam lacks ayshPeula method.`);
+        }
     }
 }
+

@@ -15,6 +15,25 @@ import { OctreeWorld as Octree } from '../math/OctreeWorld.js';
 
 //import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
 
+// B"H: MANDATORY ENGINE COMPATIBILITY PATCH
+// The current engine build requires morphTargetInfluences to be present on all objects.
+// Instead of modifying three.module.js, we satisfy the requirement globally here.
+if (THREE.Object3D) {
+    const EMPTY_INFLUENCES = new Float32Array(8).fill(0);
+    Object.defineProperty(THREE.Object3D.prototype, 'morphTargetInfluences', {
+        get: function() {
+            if (!this._morphTargetInfluences) {
+                return EMPTY_INFLUENCES;
+            }
+            return this._morphTargetInfluences;
+        },
+        set: function(v) {
+            this._morphTargetInfluences = v;
+        },
+        configurable: true
+    });
+}
+
 // B"H: Polyfill Image for Web Worker environment so GLTFLoader checks pass
 // Enhanced Polyfill to satisfy GLTFLoader requirements
 if (typeof self !== 'undefined' && typeof Image === 'undefined') {

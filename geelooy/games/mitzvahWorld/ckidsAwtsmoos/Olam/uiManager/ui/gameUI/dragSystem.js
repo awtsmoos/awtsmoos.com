@@ -75,7 +75,19 @@ export default function initDragSystem() {
                 
                 const ghost = document.getElementById('awtsmoos-drag-ghost');
                 if (ghost && sys.activeSlot.item) {
-                    ghost.style.backgroundImage = `url("${sys.activeSlot.item.icon}")`;
+                    const icon = sys.activeSlot.item.icon;
+                    const isUrl = icon && (icon.includes('/') || icon.includes('data:'));
+                    if (isUrl) {
+                        ghost.style.backgroundImage = `url("${icon}")`;
+                        ghost.textContent = "";
+                    } else {
+                        ghost.style.backgroundImage = "";
+                        ghost.textContent = icon || "";
+                        ghost.style.display = 'flex';
+                        ghost.style.justifyContent = 'center';
+                        ghost.style.alignItems = 'center';
+                        ghost.style.fontSize = '32px';
+                    }
                     ghost.classList.remove('hidden');
                 }
             }

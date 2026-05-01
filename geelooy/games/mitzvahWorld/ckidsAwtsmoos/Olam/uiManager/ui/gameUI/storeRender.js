@@ -10,7 +10,12 @@ export default function renderStore(store, items, playerItems, ui) {
     });
     
     grid.innerHTML = "";
-    details.innerHTML = "<div style='opacity:0.5; margin-top:50px;'>Select an item to see details</div>";
+    details.innerHTML = "";
+    ui.html({
+        parent: details,
+        style: { opacity: "0.5", marginTop: "50px", textAlign: "center" },
+        textContent: "Select an item to see details"
+    });
 
     let itemsToRender = [];
     
@@ -33,7 +38,11 @@ export default function renderStore(store, items, playerItems, ui) {
 
     if (itemsToRender.length === 0) {
             const msg = store.activeTab === 'sell' ? "No valuables found to sell!" : "Nothing here!";
-            grid.innerHTML = `<div style='grid-column: 1/-1; text-align:center; padding:20px; color:#aaa;'>${msg}</div>`;
+            ui.html({
+                parent: grid,
+                style: { gridColumn: "1/-1", textAlign: "center", padding: "20px", color: "#aaa" },
+                textContent: msg
+            });
     } else {
         itemsToRender.forEach(item => {
             let iconStyle = {};
