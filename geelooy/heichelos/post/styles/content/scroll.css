@@ -1,0 +1,27 @@
+
+.post-reader-localized-context .section {
+    opacity: 0.3; filter: grayscale(1); transform: scale(0.98);
+    transition: all var(--time-std) var(--ease-snap);
+}
+.post-reader-localized-context .section.active-reading-section {
+    opacity: 1; filter: none; transform: scale(1); z-index: var(--z-content);
+}
+.post-reader-localized-context .section.active-reading-section .awtsmoos-verse-number {
+    background: var(--color-accent);
+    transform: scale(1.2) rotate(-5deg);
+}
+.post-reader-localized-context .sub-awtsmoos {
+    transition: all var(--time-std) var(--ease-snap);
+    padding: 4px 0;
+}
+.post-reader-localized-context .active-reading-sub {
+    background: rgba(255, 183, 3, 0.15);
+    border-left: 6px solid var(--color-primary);
+    padding-left: 1rem;
+    box-shadow: inset 10px 0 20px -10px var(--color-primary);
+}
+.post-reader-localized-context .heb .active-reading-sub {
+    border-left: none; border-right: 6px solid var(--color-primary);
+    padding-left: 0; padding-right: 1rem;
+    box-shadow: inset -10px 0 20px -10px var(--color-primary);
+}

@@ -1,0 +1,40 @@
+
+.post-reader-localized-context #realPost {
+    width: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 30vh; padding-bottom: 30vh;
+}
+.post-reader-localized-context .post-title {
+    font-family: var(--font-heading); font-weight: 900;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    text-transform: uppercase; text-align: center;
+    color: var(--color-ink); margin-bottom: 4rem;
+    padding: 0 var(--pad-md); max-width: 900px;
+    line-height: 1.1;
+}
+.post-reader-localized-context .toichen {
+    font-family: var(--font-content);
+    font-size: var(--post-text-size, 24px);
+    line-height: 1.6;
+    color: var(--color-ink);
+    max-width: 800px; width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--pad-md);
+}
+.post-reader-localized-context .section {
+    position: relative; width: 100%; margin-bottom: 4rem;
+}
+.post-reader-localized-context .awtsmoos-verse-number {
+    position: absolute; top: 0; left: 0;
+    font-family: var(--font-ui); font-weight: 900; font-size: 14px;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-surface); border: var(--border-thin);
+    box-shadow: 2px 2px 0 var(--color-ink);
+    z-index: 5;
+    transition: all var(--time-fast);
+}
+@media (min-width: 900px) {
+    .post-reader-localized-context .awtsmoos-verse-number { left: -50px; }
+    .post-reader-localized-context .heb .awtsmoos-verse-number { left: auto; right: -50px; }
+}

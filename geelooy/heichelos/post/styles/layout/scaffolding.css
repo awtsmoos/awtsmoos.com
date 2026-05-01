@@ -1,0 +1,42 @@
+
+/* B"H - THE SCAFFOLDING OF THE REALM */
+
+.post-reader-localized-context {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    z-index: var(--z-base) !important;
+    direction: ltr !important; /* Prevent layout mirroring from RTL text */
+}
+
+.post-reader-localized-context .main {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    direction: ltr !important;
+}
+
+.post-reader-localized-context .scroll-view-wrapper {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+    z-index: var(--z-content) !important;
+    scroll-behavior: smooth !important;
+    background-color: var(--bg-vellum) !important;
+    order: 1 !important; /* GUARANTEES placement on the left */
+}
+
+@media (min-width: 900px) {
+    .post-reader-localized-context .main {
+        flex-direction: row !important; /* Absolute side-by-side alignment */
+        justify-content: flex-end !important;
+    }
+}

@@ -1,0 +1,36 @@
+
+.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding-top: var(--pad-sm);
+    border-top: 2px dashed var(--color-ink-secondary);
+}
+.post-reader-localized-context .awtsmoos-crumb-link,
+.post-reader-localized-context .awtsmoos-back-btn {
+    all: unset; box-sizing: border-box;
+    display: inline-flex; align-items: center;
+    font-family: var(--font-ui); font-size: 12px;
+    text-transform: uppercase; font-weight: 800;
+    padding: 6px 12px; cursor: pointer;
+    color: var(--color-ink); border: 2px solid transparent;
+    transition: all var(--time-fast);
+}
+.post-reader-localized-context .awtsmoos-crumb-link:hover,
+.post-reader-localized-context .awtsmoos-back-btn:hover {
+    background: var(--color-accent);
+    border-color: var(--color-ink);
+    box-shadow: 2px 2px 0 var(--color-ink);
+    transform: translate(-1px, -1px);
+}
+.post-reader-localized-context .awtsmoos-crumb-link.active-crumb {
+    background: var(--color-ink);
+    color: var(--bg-surface);
+    pointer-events: none;
+    border-color: var(--color-ink);
+}
+.post-reader-localized-context .awtsmoos-back-btn {
+    border-color: var(--color-ink);
+    box-shadow: 2px 2px 0 var(--color-ink);
+}

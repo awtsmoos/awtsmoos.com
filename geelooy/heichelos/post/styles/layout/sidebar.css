@@ -1,0 +1,59 @@
+
+/* B"H - THE DRAWER OF SECRETS (SIDEBAR LAYOUT) */
+
+.post-reader-localized-context .sidebar {
+    position: fixed !important;
+    bottom: 0 !important; 
+    left: 0 !important; 
+    right: 0 !important;
+    height: 60vh !important;
+    background: var(--bg-surface) !important;
+    border-top: var(--border-thick) !important;
+    z-index: var(--z-sidebar) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    transition: transform var(--time-std) var(--ease-snap) !important;
+    transform: translateY(0) !important;
+    order: 2 !important; /* GUARANTEES placement on the right / bottom */
+}
+
+.post-reader-localized-context .sidebar.hidden-comments {
+    transform: translateY(100%) !important;
+    pointer-events: none !important;
+}
+
+@media (min-width: 900px) {
+    .post-reader-localized-context .sidebar {
+        position: relative !important;
+        bottom: auto !important; 
+        left: auto !important; 
+        right: auto !important; 
+        top: auto !important;
+        width: 420px !important;
+        flex-shrink: 0 !important;
+        height: 100% !important;
+        border-top: none !important;
+        border-left: var(--border-thick) !important;
+        border-right: none !important;
+        transform: none !important;
+        transition: margin-right var(--time-std) var(--ease-snap) !important;
+        margin-right: 0 !important;
+    }
+    
+    .post-reader-localized-context .sidebar.hidden-comments {
+        margin-right: -420px !important;
+        transform: none !important;
+    }
+}
+
+/* FULLSCREEN OVERRIDE */
+.post-reader-localized-context .sidebar.fullscreen-mode {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+    z-index: var(--z-overlay) !important;
+    margin: 0 !important;
+    transform: none !important;
+}
