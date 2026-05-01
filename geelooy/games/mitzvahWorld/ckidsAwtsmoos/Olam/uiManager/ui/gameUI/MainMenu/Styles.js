@@ -43,25 +43,28 @@ export default /*css*/`
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 60px;
-        padding: 40px;
+        gap: clamp(20px, 5vh, 60px);
+        padding: clamp(15px, 5vw, 40px);
+        box-sizing: border-box;
     }
 
     .main-menu-header {
         text-align: center;
+        width: 100%;
     }
 
     .main-menu-header h1 {
         color: #fff;
         font-family: 'Outfit', sans-serif;
-        font-size: 64px;
+        font-size: clamp(36px, 12vw, 64px);
         font-weight: 900;
-        letter-spacing: 12px;
+        letter-spacing: clamp(4px, 2vw, 12px);
         margin: 0;
         background: linear-gradient(to bottom, #fff 0%, var(--otzar-gold, #ffde40) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         filter: drop-shadow(0 0 20px rgba(255, 222, 64, 0.2));
+        line-height: 1.1;
     }
 
     .menu-subtitle {
@@ -82,10 +85,10 @@ export default /*css*/`
 
     .main-menu-btn {
         width: 100%;
-        height: 70px;
+        height: clamp(50px, 10vh, 75px);
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
+        border-radius: clamp(10px, 2vw, 20px);
         position: relative;
         overflow: hidden;
         cursor: pointer;
@@ -93,14 +96,15 @@ export default /*css*/`
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0 20px;
     }
 
     .main-menu-btn .btn-text {
         color: rgba(255, 255, 255, 0.8);
         font-family: 'Outfit', sans-serif;
-        font-size: 20px;
+        font-size: clamp(16px, 4vw, 22px);
         font-weight: 700;
-        letter-spacing: 4px;
+        letter-spacing: clamp(2px, 1vw, 4px);
         z-index: 2;
         transition: all 0.3s;
     }

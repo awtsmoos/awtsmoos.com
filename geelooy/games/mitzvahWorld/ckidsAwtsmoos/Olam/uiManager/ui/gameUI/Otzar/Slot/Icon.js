@@ -33,7 +33,7 @@ export default (slot, slotId = null) => {
 
     return {
         className: className,
-        style: iconStyle,
+        style: { ...iconStyle, pointerEvents: "none" },
         textContent: textIcon
     };
 };

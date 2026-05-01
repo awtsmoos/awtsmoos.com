@@ -50,9 +50,10 @@ export default {
 
         h?.addEventListener("olamPeula", peula => {
             var det = peula.detail;
-            if(window.socket && window.socket.eved && det) {
+            const manager = window.mana;
+            if(manager && manager.socket && manager.socket.eved && det) {
                 Object.keys(det).forEach(w => {
-                    window.socket.eved.postMessage({ [w]: det[w] })
+                    manager.socket.eved.postMessage({ [w]: det[w] })
                 })
             }
         })

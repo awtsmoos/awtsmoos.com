@@ -33,6 +33,7 @@ import { DragGhost } from "./components/DragGhost.js";
 import { QuantityModal } from "./components/QuantityModal.js";
 import { Tooltips } from "./components/Tooltips.js";
 import { Toast } from "./components/Toast.js";
+import { InteractionPrompt } from "./components/InteractionPrompt.js";
 
 import ZroaYamin from "./ZroaYamin/index.js";
 import Otzar from "./Otzar/index.js";
@@ -74,7 +75,8 @@ const uiVessels = [
     VisualEditor,
     levelSelectScreen,
     ItemContextMenu,
-    Toast
+    Toast,
+    InteractionPrompt
 ].concat(shlichusUI);
 
 

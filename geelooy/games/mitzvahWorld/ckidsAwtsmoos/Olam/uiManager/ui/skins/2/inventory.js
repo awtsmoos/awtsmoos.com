@@ -11,9 +11,11 @@
 import layout from "./inventory/layout.js";
 import slots from "./inventory/slots.js";
 import contextMenu from "./inventory/contextMenu.js";
+import tooltips from "./inventory/tooltips.js";
 
 export default /*css*/`
     ${layout}
     ${slots}
     ${contextMenu}
+    ${tooltips}
 `;

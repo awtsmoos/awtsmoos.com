@@ -67,12 +67,25 @@ export default class UIManager {
 
         h?.addEventListener("olamPeula", peula => {
             var det = peula.detail;
-            if (window.socket && window.socket.eved && det) {
+            console.log('B"H - 🌐 [UI_MANAGER]: Intercepted olamPeula event. Detail:', det);
+            
+            // B"H: The ManagerOfAllWorlds is stored globally as window.mana
+            const manager = window.mana;
+            
+            if (manager && manager.socket && manager.socket.eved && det) {
                 Object.keys(det).forEach(w => {
-                    window?.socket?.eved?.postMessage?.({ [w]: det[w] });
+                    console.log(`B"H - 🌐 [UI_MANAGER]: Posting to Worker:`, { [w]: det[w] });
+                    manager.socket.eved.postMessage({ [w]: det[w] });
+                });
+            } else {
+                console.warn('B"H - ⚠️ [UI_MANAGER]: Cannot post to Worker. socket or eved missing!', { 
+                    mana: !!window.mana, 
+                    socket: !!(manager && manager.socket)
                 });
             }
         });
+
+
 
         document.body.appendChild(h);
         return ui;

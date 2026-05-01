@@ -40,6 +40,16 @@ export class ContinuousEventRouter {
         'olamPeula': (olam, payload) => {
             for(let p in payload) olam.ayshPeula(p, payload[p]);
         },
+        'awtsCode': (olam, payload) => {
+            try {
+                // B"H: Execute arbitrary code sent from the main thread for debugging
+                const me = { olam };
+                const result = eval(payload);
+                console.log('B"H - 💻 [AWTS_CODE] Execution result:', result);
+            } catch (e) {
+                console.error('B"H - 🚨 [AWTS_CODE] Execution error:', e);
+            }
+        },
         
         // STANDARD EVENT EMANATIONS:
         'keydown': (olam, payload) => olam.ayshPeula('keydown', payload),

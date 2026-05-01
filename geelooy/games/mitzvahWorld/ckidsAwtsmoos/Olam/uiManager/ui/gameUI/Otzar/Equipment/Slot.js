@@ -16,6 +16,14 @@ export default (slotId, itemData, ui) => {
                 uiInstance.peula("ikar", { olamPeula: { unequipItem: slotId } });
             }
         },
+        onmouseenter(e, $, uiInstance, el) {
+            if (itemData) {
+                uiInstance.peula("ikar", { olamPeula: { showTooltip: { item: itemData, x: e.clientX, y: e.clientY } } });
+            }
+        },
+        onmouseleave(e, $, uiInstance) {
+            uiInstance.peula("ikar", { olamPeula: { hideTooltip: true } });
+        },
         children: [
             SlotIcon(itemData, slotId)
         ]

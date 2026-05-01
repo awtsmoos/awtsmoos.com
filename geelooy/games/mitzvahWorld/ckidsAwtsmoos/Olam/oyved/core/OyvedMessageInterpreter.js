@@ -48,14 +48,15 @@ export class OyvedMessageInterpreter {
     static handleOngoing(ActiveOlamInstance, data, promiseMap) {
         if (!ActiveOlamInstance) return;
 
-        console.log(`B"H - 📨 [OYVED INTERPRETER]: Received ongoing data:`, Object.keys(data));
-
         const keys = Object.keys(data);
+        const isSpam = keys.some(k => ['mousemove', 'keydown', 'keyup', 'mousedown', 'mouseup'].includes(k));
+        if (!isSpam) {
+            console.log(`B"H - 📨 [OYVED INTERPRETER]: Received ongoing data:`, keys);
+        }
+
         for (let i = 0; i < keys.length; i++) {
             const eventKey = keys[i];
             const eventPayload = data[eventKey];
-            
-            // Route perfectly with O(1) performance mapped directly into Sefirotic arrays!
             ContinuousEventRouter.route(ActiveOlamInstance, eventKey, eventPayload, promiseMap);
         }
     }
