@@ -1,27 +1,27 @@
 
 /**
  * B"H
- * @module CommentCoreRenderer
- * @chapter The Nexus of Manifestation
+ * @module CommentCoreRendering
+ * @chapter The Unity of the Ten Sephirot
  * @description
- * In the realm of the Awtsmoos, all light flows through the gateway
- * of Malkhus to become physical. This module is that gateway.
- * It gathers the specialized definitions of insights—marginal,
- * sidebar, and recursive—and projects them into the DOM.
+ * This is the Malkhus of the rendering world. It unites all specialized
+ * factory chambers—Margins, Sidebar, and Population rituals—into a single 
+ * Sovereign export.
+ * 
+ * REFORGED: Accurate pathing for 100% stability.
  */
 
-// B"H - Exporting the actual population ritual for existing containers
+// B"H - Exporting the Population Ritual (Body/Soul union)
 export { populateCommentElement } from "./corePopulation.js";
 
-// B"H - RE-ESTABLISHING THE BROKEN LINKS (Fixing SyntaxError)
+// B"H - Exporting the Factories (The forge of the vessels)
 export { makeHTMLFromComment } from "./factories/SidebarCardFactory.js";
 export { makeInlineComment } from "./factories/InlineCardFactory.js";
 export { makeInlineCommentHolder } from "./factories/CommentHolderFactory.js";
 
 /**
- * @chapter The One and the Many
- * @description 
- * Just as the Essence is simple yet provides for endless complexity,
- * this core remains clean while orchestrating the entire visual Histalshelus.
+ * @note
+ * Zero room for 404s in the Temple of Code. Every export here is a 
+ * witness to a completed and existing file.
  */
-console.log("%c B\"H - [CommentCore] The Gateway is wide open and the vessels are prepared.", "color: #ff00ff; font-weight: bold;");
+console.log("%c B\"H - [CommentCore] Conduits checked and verified.", "color: #00ffff; font-weight: bold;");

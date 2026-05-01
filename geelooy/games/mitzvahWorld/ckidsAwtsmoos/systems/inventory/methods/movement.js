@@ -142,6 +142,7 @@ export default {
     },
 
     equipItem({ sourceType, index, target }) {
+        console.log(`B"H - 🎒 [MOVEMENT.JS]: Attempting to equip from ${sourceType}[${index}] to ${target}`);
         let containerId = null;
         
         if (sourceType === 'container') {
@@ -158,11 +159,17 @@ export default {
         else if (sourceType === 'container') sourceArray = this.activeContainer.customData.slots;
         
         const itemToEquip = sourceArray ? sourceArray[index] : null;
-        if (!itemToEquip || !target) return;
+        if (!itemToEquip || !target) {
+            console.warn(`B"H - ⚠️ [MOVEMENT.JS]: Equip failed. Missing item or target.`, { itemToEquip, target });
+            return;
+        }
+
+        console.log(`B"H - 🎒 [MOVEMENT.JS]: Found item to equip:`, itemToEquip.name);
 
         // Unequip current if exists
         const currentEquippedRef = this.equipment[target];
         if (currentEquippedRef) {
+            console.log(`B"H - 🎒 [MOVEMENT.JS]: Slot ${target} is currently occupied. Unequipping previous item.`);
             let oldSourceArray;
             if (currentEquippedRef.sourceType === 'action') oldSourceArray = this.actionSlots;
             else if (currentEquippedRef.sourceType === 'inventory') oldSourceArray = this.slots;
@@ -191,16 +198,25 @@ export default {
         if (containerId) newRef.containerId = containerId;
         
         this.equipment[target] = newRef;
+        if (this.owner && this.owner.updateAppearance) this.owner.updateAppearance();
         this.updateVisuals(target, itemToEquip, true);
         this.updateUI();
         this.save();
         if (target === 'rightHand') this.owner.updateHandState();
+        console.log(`B"H - ✅ [MOVEMENT.JS]: Successfully equipped: ${itemToEquip.name} to ${target}`);
     },
 
+
     unequipItem(equipSlotName) {
+        console.log(`B"H - 🎒 [MOVEMENT.JS]: Attempting to unequip: ${equipSlotName}`);
 	    const equippedRef = this.equipment[equipSlotName];
-        if (!equippedRef) return;
+        if (!equippedRef) {
+            console.warn(`B"H - ⚠️ [MOVEMENT.JS]: No equippedRef found for slot: ${equipSlotName}`);
+            return;
+        }
         
+        console.log(`B"H - 🎒 [MOVEMENT.JS]: Found equippedRef:`, equippedRef);
+
         let sourceArray;
         if (equippedRef.sourceType === 'action') sourceArray = this.actionSlots;
         else if (equippedRef.sourceType === 'inventory') sourceArray = this.slots;
@@ -216,20 +232,35 @@ export default {
 
         if (sourceArray) {
             const itemToUnequip = sourceArray[equippedRef.index];
-            if (itemToUnequip) this.updateVisuals(equipSlotName, itemToUnequip, false);
+            if (itemToUnequip) {
+                console.log(`B"H - 🎒 [MOVEMENT.JS]: Updating visuals for unequip:`, itemToUnequip.name);
+                this.updateVisuals(equipSlotName, itemToUnequip, false);
+            }
         }
 
         this.equipment[equipSlotName] = null;
+        if (this.owner && this.owner.updateAppearance) this.owner.updateAppearance();
         this.updateUI();
         this.save();
         if (equipSlotName === 'rightHand') this.owner.updateHandState();
+        console.log(`B"H - ✅ [MOVEMENT.JS]: Successfully unequipped: ${equipSlotName}`);
     },
+
     
     sortInventory() {
         if (this.activeContainer) return;
         
         // Simple sort destroys equipment references for now, so unequip everything
-        this.equipment = { head: null, jacket: null, legs: null, feet: null, rightHand: null, leftHand: null };
+        this.equipment = { 
+            head: null, 
+            shirt: null, 
+            jacket: null, 
+            legs: null, 
+            feet: null, 
+            rightHand: null, 
+            leftHand: null, 
+            eyes: null 
+        };
 
         this.slots.sort((a, b) => {
             if (!a && !b) return 0;
@@ -237,6 +268,7 @@ export default {
             if (!b) return -1;
             return (a.name || "").localeCompare(b.name || "");
         });
+
         
         this.updateUI(); 
         this.save();

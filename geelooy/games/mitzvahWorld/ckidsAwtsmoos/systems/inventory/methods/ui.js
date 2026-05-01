@@ -169,5 +169,32 @@ export default {
         this.owner.olam.ayshPeula("ui event", "action bar", {
             updateActionSlots: uiActionSlots
         });
+    },
+
+    showTooltip({ item, x, y }) {
+        if (!item || !this.owner.olam) return;
+        
+        // B"H: Constructing the Rich Decree of Information
+        this.owner.olam.ayshPeula("ui event", "icon tooltip", {
+            classList: { remove: "hidden" },
+            style: { left: (x + 15) + "px", top: (y + 15) + "px" },
+            innerHTML: `
+                <div class="tooltip-header">
+                    <span class="tooltip-icon">${item.icon || '📦'}</span>
+                    <span class="tooltip-name">${item.name || 'Unknown Sanctified Object'}</span>
+                </div>
+                <div class="tooltip-type">${item.className || 'Item'} ${item.equipSlot ? `(${item.equipSlot})` : ''}</div>
+                <div class="tooltip-description">${item.description || 'A vessel of potential, awaiting its purpose in the world.'}</div>
+                ${item.sellValue ? `<div class="tooltip-value">Redemption Value: ${item.sellValue} 🪙</div>` : ''}
+                ${item.isEquipped ? `<div class="tooltip-type" style="color: #ffde40; margin-top: 5px;">Currently Manifested</div>` : ''}
+            `
+        });
+    },
+
+    hideTooltip() {
+        if (!this.owner.olam) return;
+        this.owner.olam.ayshPeula("ui event", "icon tooltip", {
+            classList: { add: "hidden" }
+        });
     }
 };

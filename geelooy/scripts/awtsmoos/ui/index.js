@@ -131,9 +131,12 @@ export default class UI extends Heeoolee {
 	    
 	    for (var k in obj) {
 	        if (Object.prototype.hasOwnProperty.call(obj, k)) {
+                console.log(`B"H - 📢 [UI.PEULA]: Dispatching event '${k}' on element`, el, "with detail:", obj[k]);
 	            el.dispatchEvent(
 	                new CustomEvent(k, {
-	                    detail: obj[k]
+	                    detail: obj[k],
+                        bubbles: true,
+                        cancelable: true
 	                })
 	            );
 	            
