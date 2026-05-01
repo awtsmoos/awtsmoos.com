@@ -1,8 +1,10 @@
+
 //B"H
 /**
  * @file commentLogic.js
  * @description
- * Orchestrator of Insights. Fixed to ensure signatures match calls.
+ * Orchestrator of Insights. Fixed to ensure signatures match calls,
+ * and unified to use the supreme rendering pipeline.
  */
 import { CommentSection } from "./CommentSection.js";
 import { 
@@ -11,7 +13,8 @@ import {
 import { 
     addTab, updateQueryStringParameter, isFirstCharacterHebrew 
 } from "/heichelos/post/postFunctions.js";
-import { markdownToHtml } from "/heichelos/post/parsing.js";
+import { makeHTMLFromComment } from "/heichelos/post/comments/render/core.js";
+import { registerFork } from "/heichelos/post/comments/render/ai/structure.js";
 
 // STATE
 var activeVerse = null;
@@ -59,13 +62,10 @@ export async function indexSwitch(force = false) {
     if (window.insightManager) {
         const currentView = window.insightManager.getCurrent();
         
-        // If we are looking at the main list (no specific alias view pushed)
-        // or if we forced a refresh
         if (window.mainCommentArea) {
              await makeCommentatorList(window.mainCommentArea, window.rootCommentTabObj);
         }
         
-        // If we are deep inside a specific alias view, refresh it
         if (window.currentAliasBeingViewed && window.currentAliasTabContainer) {
              await renderAliasInsights({
                  alias: window.currentAliasBeingViewed,
@@ -80,7 +80,6 @@ export async function indexSwitch(force = false) {
 async function getCommentatorList() {
     const vs = activeVerse ?? "root";
     try {
-        // We do NOT use sub-section filtering for the main list, we show everyone in the Verse.
         const res = await getCommentsByAlias({
             seriesId: window.post.parentSeriesId,
             postId: window.post.id,
@@ -88,8 +87,8 @@ async function getCommentatorList() {
             fromCache: false,
             get: { verseSection: vs, map: true }
         });
-        return Array.isArray(res) ? res : [];
-    } catch(e) { return []; }
+        return Array.isArray(res) ? res :[];
+    } catch(e) { return[]; }
 }
 
 export async function makeCommentatorList(parentEl, rootTabObj) {
@@ -141,19 +140,23 @@ async function renderAliasInsights({ alias, actualTab, post }) {
 
     actualTab.innerHTML = "";
     
-    // Filter for sub-section if active
-    let displayComments = Array.isArray(comments) ? comments : [];
+    let displayComments = Array.isArray(comments) ? comments :[];
+    
+    // Unroll Map if present
+    if (comments && typeof comments === 'object' && !Array.isArray(comments)) {
+        displayComments =[];
+        Object.values(comments).forEach(arr => {
+            if (Array.isArray(arr)) displayComments.push(...arr);
+        });
+    }
+
     if (activeSub !== null) {
         displayComments = displayComments.filter(c => {
-            // Include root comments of the verse AND comments specific to the sub-paragraph
-            // Usually, standard is: show everything in verse, maybe highlight specific?
-            // User requested: "Commenting on SPECIFIC idx or sub section".
-            // So if sub is active, we prioritise showing that.
             const cSub = c.dayuh?.subSection;
-            return cSub == activeSub; // Loose equality for string/int mix
+            return cSub == activeSub; 
         });
         if(displayComments.length === 0) {
-             actualTab.innerHTML = `<div class="awtsmoos-empty-placeholder">@${alias} has no insights on Paragraph ${activeSub+1}.<br><button onclick="window.commentLogic.showAllVerse()" class="btn-text">Show Verse</button></div>`;
+             actualTab.innerHTML = `<div class="awtsmoos-empty-placeholder">@${alias} has no insights on Paragraph ${activeSub+1}.<br><button onclick="window.commentLogic.showAllVerse()" class="btn awtsmoos-hero-btn" style="margin-top:10px;">Show Entire Verse</button></div>`;
              return;
         }
     }
@@ -163,44 +166,28 @@ async function renderAliasInsights({ alias, actualTab, post }) {
         return;
     }
 
+    // B"H - THE SUPREME UNIFICATION
+    // All comments now flow through the exact same Scribe logic, ensuring
+    // deduplication, massive font sizing, and correct component structures.
     displayComments.forEach(c => {
-        const card = document.createElement("div");
-        card.className = "awtsmoos-comment-card " + (isFirstCharacterHebrew(c.content) ? "heb" : "en");
-        
-        // Render content
-        card.innerHTML = `<div class="content">${markdownToHtml(c.content)}</div>`;
-        
-        // Actions
-        const actions = document.createElement("div");
-        actions.className = "card-actions";
-        
-        const replyBtn = document.createElement("button");
-        replyBtn.innerHTML = "↩ Reply";
-        replyBtn.onclick = () => import("./comments/actions.js").then(m => m.handleReply(c, card));
-        
-        actions.appendChild(replyBtn);
-        card.appendChild(actions);
-        
+        c.id = String(c.id);
+        registerFork(c);
+        const card = makeHTMLFromComment(c);
         actualTab.appendChild(card);
     });
 }
 
-// Allow switching back to full verse view from sub view error
 window.commentLogic = window.commentLogic || {};
 window.commentLogic.showAllVerse = async () => {
-    activeSub = null; // Clear sub filter locally
+    activeSub = null; 
     if(window.currentAliasBeingViewed && window.currentAliasTabContainer) {
         await renderAliasInsights({ alias: window.currentAliasBeingViewed, actualTab: window.currentAliasTabContainer, post: window.post });
     }
 };
 
-/**
- * @method handleNewComment
- * @description Re-fetch and re-render everything after submission.
- */
 export async function handleNewComment(data) {
     console.log("B\"H - New Insight Anchored. Refreshing...");
-    await indexSwitch(true); // Force refresh
+    await indexSwitch(true);
 }
 
 addEventListener("awtsmoos index", indexSwitch);

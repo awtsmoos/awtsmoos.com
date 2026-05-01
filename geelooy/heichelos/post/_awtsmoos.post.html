@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- B"H - THE MASTER SCROLL OF STYLES -->
+    <!-- B"H - THE MASTER SCROLL OF STYLES (EXTREMELY MODULARIZED) -->
     <link rel="stylesheet" href="/heichelos/post/styles/main.css?v=awtsmoos-revelation" type="text/css">
     
     <!-- B"H - The Scribe's Fonts -->
@@ -22,7 +22,6 @@
     <!-- This style tag is for user-defined custom CSS -->
     <style id="awtsmoos-custom-styles"></style>
 
-    <!-- WRAPPER: NOW CONTAINS EVERYTHING -->
     <div class="all awtsmoospage post-reader-localized-context">
         
         <!-- HEADER: Inside the flex column to ensure visibility -->
@@ -30,11 +29,11 @@
             <?<script> return $a("nav/header.html") </script>?>
         </div>
 
-        <!-- B"H - THE EXPANDED FLOATING ARK (HORIZONTAL) -->
+        <!-- B"H - THE EXPANDED FLOATING ARK (REFINED & PURIFIED) -->
 	    <div class="awtsmoos-floating-controls">
-            <button id="typographyBtn" title="Typography & Settings">A</button>
-            <button id="bookmarksBtn" title="Bookmarks">B</button>
-            <button id="commentaryBtn" title="Insights Sidebar">i</button>
+            <!-- Letters removed from innerHTML to allow CSS content control without doubling -->
+            <button id="typographyBtn" title="Typography & Settings"></button>
+            <button id="commentaryBtn" title="Insights Sidebar"></button>
         </div>
         
         <!-- B"H - THE SCRIBE'S LENS -->
@@ -57,7 +56,6 @@
                 <div class="settings-group">
                     <div class="control-label">Text Scale</div>
                     <div class="text-controls">
-                        <!-- B"H - ADDED IDS FOR LISTENERS -->
                         <button class="font-adjust-btn" id="fontDecreaseBtn">-</button>
                         <div class="font-size-display">Aa</div>
                         <button class="font-adjust-btn" id="fontIncreaseBtn">+</button>
@@ -99,17 +97,6 @@
                         <div class="color-control"><label for="accentColorPicker">Accent</label><input type="color" id="accentColorPicker" data-css-var="--color-accent" class="ink-pot"></div>
                     </div>
                 </div>
-                
-                <!-- Custom CSS -->
-                <div class="settings-group custom-css-group">
-                     <div class="control-label">Custom Theme Editor</div>
-                     <textarea id="customCssInput" placeholder="Enter custom CSS..."></textarea>
-                     <div class="theme-saver">
-                        <input type="text" id="themeNameInput" placeholder="Theme Name">
-                        <button id="saveThemeBtn">Save</button>
-                     </div>
-                     <button id="applyCustomCssBtn" class="btn-small">Apply Unsaved</button>
-                </div>
             </div>
             
             <!-- Reset Footer -->
@@ -121,6 +108,8 @@
         <div class="main">
             <!-- Scroll View Wrapper for Split Screen -->
             <div class="scroll-view-wrapper">
+                <!-- B"H - BREADCRUMBS REMOVED FROM MAIN VIEWPORT. THEY NOW DWELL ONLY IN THE SIDEBAR. -->
+
                 <div class="content" id="realPost">
                     <?<script>
                         return $a("loading.html")
@@ -146,6 +135,7 @@
         
         <!-- B"H - THE ARK OF COMMAND -->
         <div id="command-palette-container"></div>
+        <div id="awtsmoos-verse-menu-container"></div>
         
         <script type="module" src="/heichelos/post/postLogic.js?v=localized"></script>
     </div>

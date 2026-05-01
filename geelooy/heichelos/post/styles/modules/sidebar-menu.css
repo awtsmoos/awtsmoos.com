@@ -1,0 +1,85 @@
+
+/* B"H - THE ROOTS OF NAVIGATION (SIDEBAR MAIN MENU) 
+   "more extmree"
+*/
+
+.post-reader-localized-context .post-root-menu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding-top: 10px;
+}
+
+.post-reader-localized-context .awtsmoos-massive-menu-btn {
+    all: unset;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 20px !important;
+    background: var(--bg-surface) !important;
+    border: 6px solid var(--color-ink) !important;
+    padding: 20px !important;
+    cursor: pointer !important;
+    box-shadow: 10px 10px 0 var(--color-ink) !important;
+    transition: all 0.15s cubic-bezier(0.19, 1, 0.22, 1) !important;
+}
+
+.post-reader-localized-context .awtsmoos-massive-menu-btn:hover {
+    transform: translate(-4px, -4px) !important;
+    box-shadow: 14px 14px 0 var(--color-primary) !important;
+    background: var(--color-accent) !important;
+    border-color: var(--color-ink) !important;
+}
+
+.post-reader-localized-context .menu-icon-vessel {
+    font-size: 45px !important;
+    filter: drop-shadow(3px 3px 0 var(--color-ink)) !important;
+    line-height: 1 !important;
+    transition: transform 0.2s !important;
+}
+
+.post-reader-localized-context .awtsmoos-massive-menu-btn:hover .menu-icon-vessel {
+    transform: scale(1.1) rotate(-10deg) !important;
+}
+
+.post-reader-localized-context .menu-text-vessel {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    flex: 1 !important;
+}
+
+.post-reader-localized-context .menu-portal-title {
+    font-family: var(--font-heading) !important;
+    font-size: 1.8rem !important;
+    font-weight: 900 !important;
+    text-transform: none !important; /* User explicitly forbade default caps */
+    color: var(--color-ink) !important;
+    line-height: 1.1 !important;
+}
+
+.post-reader-localized-context .menu-portal-desc {
+    font-family: var(--font-ui) !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: var(--color-ink-secondary) !important;
+    text-transform: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-massive-menu-btn:hover .menu-portal-desc {
+    color: var(--color-ink) !important;
+}
+
+.post-reader-localized-context .menu-arrow {
+    font-size: 30px !important;
+    font-weight: 900 !important;
+    color: var(--color-ink) !important;
+    transition: transform 0.2s !important;
+}
+
+.post-reader-localized-context .awtsmoos-massive-menu-btn:hover .menu-arrow {
+    transform: translateX(8px) !important;
+    color: var(--bg-surface) !important;
+    text-shadow: 2px 2px 0 var(--color-ink) !important;
+}

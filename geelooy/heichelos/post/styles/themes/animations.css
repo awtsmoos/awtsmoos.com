@@ -1,0 +1,34 @@
+
+/* B"H - THE BREATH OF MOTION (ANIMATIONS)
+   All dimensions of time, past present and future, need to be constantly recreated from nothing.
+*/
+
+@keyframes fadeInReveal {
+    from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes pulseOfLight {
+    0% { box-shadow: 0 0 0 0 var(--color-accent); transform: scale(1); }
+    50% { box-shadow: 0 0 40px 10px var(--color-primary); transform: scale(1.02); }
+    100% { box-shadow: 0 0 0 0 var(--color-accent); transform: scale(1); }
+}
+
+.pulse-of-light {
+    animation: pulseOfLight 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutLeft {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-100%); opacity: 0; }
+}
+
+@keyframes menuPop {
+    from { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+    to { opacity: 1; transform: scale(1) rotate(0); }
+}
