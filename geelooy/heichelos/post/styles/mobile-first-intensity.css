@@ -1,0 +1,126 @@
+
+/* B"H 
+   NEO-BRUTALIST MANIFESTO: MOBILE FIRST EDITION
+   "In every pixel, the light must be seen."
+*/
+
+/* 1. THE FOUNDATION (MALKHUS OF SCALE) */
+:root {
+    --brutalist-gap: 20px;
+    --border-width: 3px;
+    --sidebar-desktop-width: 420px;
+    --touch-target: 48px;
+}
+
+/* 2. THE WORD IN FOCUS (TYPOGRAPHY) */
+body {
+    font-size: 18px; /* High legibility by default */
+    background-color: var(--bg-vellum);
+    color: var(--color-ink);
+}
+
+#realPost .toichen {
+    font-size: clamp(1.2rem, 5vw, 1.8rem); /* Fluid scaling */
+    line-height: 1.65;
+}
+
+/* 3. MARGINAL GLOSSES (GLITCH-INSPIRED INTENSITY) */
+.marginal-gloss-shelter {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+    padding-left: 15px;
+    border-left: 2px solid var(--color-ink-secondary);
+}
+
+.heb .marginal-gloss-shelter {
+    border-left: none;
+    border-right: 2px solid var(--color-ink-secondary);
+    padding-left: 0;
+    padding-right: 15px;
+}
+
+.inline-comment {
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: 6px 6px 0 var(--color-ink);
+    padding: 12px;
+    font-size: 14px;
+    position: relative;
+    max-width: 90vw;
+}
+
+.inline-comment:hover {
+    box-shadow: 10px 10px 0 var(--color-electric);
+    transform: translate(-4px, -4px);
+}
+
+/* 4. SIDEBAR REVOLUTION (MOBILE FIRST) */
+.sidebar {
+    background: var(--bg-surface);
+    border-top: var(--border-thick);
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Chrome in Sidebar */
+.awtsmoos-sidebar-header-chrome {
+    padding: 20px;
+    background: var(--bg-surface);
+    border-bottom: var(--border-thick);
+}
+
+.awtsmoos-chrome-btn {
+    min-height: var(--touch-target);
+    min-width: var(--touch-target);
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
+    font-weight: 900;
+}
+
+/* 5. CARDS OF INSIGHT */
+.comment-content {
+    margin-bottom: 25px !important;
+    border: var(--border-thick) !important;
+    box-shadow: 8px 8px 0 var(--color-ink) !important;
+    overflow: hidden;
+}
+
+.comment-content:hover {
+    box-shadow: 12px 12px 0 var(--color-primary) !important;
+}
+
+/* 6. RESPONSIVE ORBS */
+.awtsmoos-floating-controls {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr; /* Easy thumb access on mobile */
+    width: auto;
+    bottom: 20px;
+    right: 20px;
+}
+
+@media (min-width: 901px) {
+    .awtsmoos-floating-controls {
+        grid-template-columns: 1fr;
+        top: 80px;
+        left: 20px;
+        bottom: auto;
+        right: auto;
+    }
+    
+    .inline-comment {
+        max-width: 380px;
+    }
+}
+
+/* 7. SCROLLBARS FROM THE INFINITE */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--bg-vellum); }
+::-webkit-scrollbar-thumb {
+    background: var(--color-ink);
+    border: 3px solid var(--bg-vellum);
+    border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
