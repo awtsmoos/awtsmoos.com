@@ -48,6 +48,14 @@ export default {
             id: 'garment_tophat', className: 'Apparel', name: 'Crown of Splendor', description: 'A majestic hat representing the intellect.', icon: icons.hat, equipSlot: 'head', customData: { meshName: 'top-hat' }
         }, 1);
 
+        this.inventory.addItem({
+            id: 'garment_arm_teffilin', className: 'Apparel', name: 'Teffilin Shel Yad', description: 'Binding the arm to the Creator.', icon: '🔲', equipSlot: 'jacket', customData: { meshName: ['teffilin-arm-straps', 'teffiln-arm-box'] }
+        }, 1);
+
+        this.inventory.addItem({
+            id: 'garment_head_teffilin', className: 'Apparel', name: 'Teffilin Shel Rosh', description: 'Binding the mind to the Creator.', icon: '🔳', equipSlot: 'head', customData: { meshName: ['head-teffilin-straps', 'teffilin-head-box'] }
+        }, 1);
+
         // B"H: The Foundational Bricks of the World
         this.inventory.addItem({
             id: 'building_brick', className: 'Brick', name: 'Building Brick', description: 'A sturdy block for construction.', icon: '🧱', isBuildable: true
