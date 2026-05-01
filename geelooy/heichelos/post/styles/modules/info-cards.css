@@ -1,0 +1,40 @@
+
+/* B"H - INFO CARDS (Scroll Details) */
+
+.post-reader-localized-context .tl {
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-ui);
+    padding: var(--pad-md);
+    margin-bottom: var(--pad-md);
+    transition: all var(--time-fast);
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensure it respects parent width */
+}
+
+.post-reader-localized-context .tl:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.post-reader-localized-context .tl .label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 900;
+    background: var(--color-ink);
+    color: var(--bg-surface);
+    padding: 4px 10px;
+    display: inline-block;
+    width: max-content; /* Hug contents */
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.post-reader-localized-context .tl .value {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    word-break: break-word; /* Prevent long links from breaking the box */
+}

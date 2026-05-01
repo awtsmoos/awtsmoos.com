@@ -1,0 +1,93 @@
+
+/* B"H - THE ALCHEMIST'S WORKSHOP (SETTINGS PANEL) */
+
+.post-reader-localized-context .typography-details {
+    position: fixed;
+    bottom: 95px; /* Above the pill controls */
+    left: 24px;
+    width: 340px;
+    max-height: calc(100vh - 120px);
+    z-index: var(--z-popover);
+    
+    background: var(--color-ink); 
+    color: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    
+    display: flex; 
+    flex-direction: column;
+    transition: opacity var(--time-std), transform var(--time-std) var(--ease-snap);
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.post-reader-localized-context .typography-details.hidden-details {
+    opacity: 0; 
+    pointer-events: none; 
+    transform: translateY(20px);
+}
+
+@media (max-width: 900px) {
+    .post-reader-localized-context .typography-details {
+        left: 50%;
+        bottom: 95px;
+        transform: translateX(-50%) translateY(0);
+        width: 90vw;
+    }
+    .post-reader-localized-context .typography-details.hidden-details {
+        transform: translateX(-50%) translateY(20px);
+    }
+}
+
+.post-reader-localized-context .typography-content {
+    padding: var(--pad-md); 
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--pad-md); 
+    overflow-y: auto;
+}
+
+.post-reader-localized-context .settings-group {
+    padding-bottom: var(--pad-md); 
+    border-bottom: 2px dashed rgba(255,255,255,0.2);
+}
+.post-reader-localized-context .settings-group:last-child { border-bottom: none; }
+
+.post-reader-localized-context .control-label {
+    font-size: 11px; 
+    font-weight: 900; 
+    text-transform: uppercase;
+    letter-spacing: 2px; 
+    color: var(--color-accent); 
+    margin-bottom: 12px;
+}
+
+.post-reader-localized-context .text-controls { 
+    display: flex; 
+    border: 2px solid rgba(255,255,255,0.2); 
+}
+.post-reader-localized-context .font-adjust-btn {
+    flex: 1; height: 44px; background: transparent; border: none;
+    color: var(--bg-surface); font-size: 24px; font-weight: 900; cursor: pointer;
+}
+.post-reader-localized-context .font-adjust-btn:hover { background: var(--color-accent); color: var(--color-ink); }
+.post-reader-localized-context .font-size-display { 
+    padding: 0 1rem; 
+    border-left: 2px solid rgba(255,255,255,0.2); 
+    border-right: 2px solid rgba(255,255,255,0.2); 
+    display:flex; align-items:center;
+}
+
+.post-reader-localized-context .font-selector, 
+.post-reader-localized-context #themeSelector {
+    background: rgba(255,255,255,0.1); 
+    color: var(--bg-surface); 
+    border: 2px solid rgba(255,255,255,0.2); 
+    padding: 10px; width: 100%;
+}
+
+.post-reader-localized-context .reset-section { 
+    padding: var(--pad-md); 
+    border-top: 2px solid rgba(255,255,255,0.2); 
+    background: rgba(0,0,0,0.5); 
+}

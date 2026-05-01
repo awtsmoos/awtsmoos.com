@@ -1,0 +1,9 @@
+
+.post-reader-localized-context .awtsmoos-integrated-header {
+    width: 100%;
+    flex-shrink: 0;
+    z-index: var(--z-header);
+    position: relative;
+    background: var(--bg-surface);
+    border-bottom: var(--border-thick);
+}

@@ -1,0 +1,64 @@
+
+/* B"H - SIDEBAR CHROME (HEADER) */
+
+.post-reader-localized-context .awtsmoos-sidebar-header-chrome {
+    padding: var(--pad-md) !important;
+    background: var(--bg-surface) !important;
+    border-bottom: var(--border-thick) !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--pad-md) !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.post-reader-localized-context .awtsmoos-current-view-title {
+    margin: 0 !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 900 !important;
+    font-size: 1.25rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    color: var(--color-ink) !important;
+    flex: 1 !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn {
+    all: unset;
+    box-sizing: border-box !important;
+    width: 40px !important; 
+    height: 40px !important;
+    background: var(--bg-surface) !important;
+    border: var(--border-thin) !important;
+    color: var(--color-ink) !important;
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important;
+    font-size: 20px !important; 
+    font-weight: 900 !important;
+    cursor: pointer !important;
+    box-shadow: 2px 2px 0px var(--color-ink) !important;
+    transition: all var(--time-fast) !important;
+    margin-left: 8px !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 4px 4px 0px var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary) !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn:active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: none !important;
+}
