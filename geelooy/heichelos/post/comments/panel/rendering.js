@@ -1,127 +1,76 @@
 
 /**
  * B"H
- * @module SidebarRenderingScribe
- * @chapter The Assembly of the Insight-Keepers
- * @description
- * Every commentator is a portal to a deeper dimension of the text. 
- * This module manifests the list of these Keepers. 
- * REFORGED: The entire vessel is now a sensitive portal.
+ * @module CommentatorListRenderer
+ * @chapter The Gathering of the Keepers
  */
 
-import { CommentSection } from "/heichelos/post/CommentSection.js";
-import { makeHTMLFromComment, renderTreeItem } from "/heichelos/post/comments/render.js";
-import { isAliasInline, toggleInlineForComments } from "/heichelos/post/comments/inline.js";
-import { openAIChat } from "/heichelos/post/ai/chat.js";
-import { openCommentsOfAlias } from "/heichelos/post/comments/panel.js"; 
-import { getAndSaveAliases } from "/heichelos/post/comments/panel/fetching.js"; 
-import { buildCommentTree } from "../logic/treeBuilder.js";
-
-/**
- * @method makeAddCommentSection
- * @description Manifests the transcription altar.
- */
-export function makeAddCommentSection(par) {
-	var div = document.createElement("div");
-	div.classList.add("comment-section-container");
-    div.style.padding = "20px";
-    div.style.borderBottom = "4px solid var(--color-ink)";
-	par.appendChild(div);
-	new CommentSection(div);
-}
+import { makeCommentatorList as _internalList } from "./fetching.js"; // Standardizing
+import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
+import { openCommentsOfAlias } from "../panel.js";
+import { getAndSaveAliases } from "./fetching.js";
 
 /**
  * @method makeCommentatorList
- * @description The ritual to manifest the Council of Keepers.
+ * @description Manifests the Council of Keepers in the sidebar.
  */
 export async function makeCommentatorList(actualTab, forceFresh = false) {
     actualTab.innerHTML = "";
+    
+    // Add Transcription Altar (Previously separate, now unified)
+    const { makeAddCommentSection } = await import("../panel/rendering.js");
     makeAddCommentSection(actualTab);
 
-    // B"H - AI ORACLE GATEWAY
-    const aiRow = document.createElement("div");
-    aiRow.className = "awtsmoos-list-item ai-monolith";
-    aiRow.innerHTML = `
-        <div class="keeper-content">
-            <span class="keeper-icon">✨</span>
-            <span class="keeper-name">ASK AWTSMOOS AI</span>
-        </div>
-        <span class="keeper-arrow">→</span>
-    `;
-    aiRow.onclick = () => openAIChat();
-    actualTab.appendChild(aiRow);
-
-    const keepersWrap = document.createElement("div");
-    keepersWrap.className = "keepers-assembly";
-    actualTab.appendChild(keepersWrap);
+    const aliases = await getAndSaveAliases(false, forceFresh);
     
-    const aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
     if (!aliases || aliases.length === 0) {
-        keepersWrap.innerHTML = `<div class="assembly-void-msg">The chambers are currently silent.</div>`;
+        actualTab.appendChild(BlueprintManifestor.manifest({
+            tag: 'div',
+            attr: { class: 'empty-assembly-msg' },
+            children: ['No Guardians have spoken here yet.']
+        }));
         return;
     }
 
+    const container = document.createElement("div");
+    container.className = "keepers-container";
+    actualTab.appendChild(container);
+
     aliases.forEach(alias => {
-        const row = document.createElement("div");
-        row.className = "awtsmoos-list-item keeper-card";
-        row.dataset.alias = alias;
-        
-        const isInline = isAliasInline(alias);
-        const initial = alias.charAt(0).toUpperCase();
-
-        // B"H - STRUCTURE: We divide the card into the Touch-Zone and the Control-Zone
-        row.innerHTML = `
-            <div class="keeper-portal-trigger" title="Enter insights of @${alias}">
-                <div class="commentator-avatar">${initial}</div>
-                <span class="commentator-name">@${alias}</span>
-            </div>
-            <div class="keeper-controls">
-                 <div class="inline-toggle-altar" title="Manifest insights in the text">
-                    <input type="checkbox" id="inline-toggle-${alias}" class="inline-toggle-input" ${isInline ? 'checked' : ''}>
-                    <label for="inline-toggle-${alias}" class="inline-toggle-label"></label>
-                </div>
-                <span class="keeper-arrow">→</span>
-            </div>
-        `;
-
-        // 1. Navigation Ritual (The Whole Trigger Zone)
-        const trigger = row.querySelector('.keeper-portal-trigger');
-        trigger.onclick = (e) => {
-            e.stopPropagation();
-            window.tabManager.addTab({
-                header: "@" + alias,
-                name: "user-" + alias,
-                content: `<div class="loading-ink">Seeking records of @${alias}...</div>`,
-                async onopen({ actualTab: contentArea, tab }) { 
-                    tab.awtsmoosType = "specific alias comments";
-                    window.currentAliasTabContainer = contentArea; 
-                    window.currentAliasBeingViewed = alias;
-                    await openCommentsOfAlias({ alias, actualTab: contentArea, post: window.post });
+        const itemPlan = {
+            tag: 'div',
+            attr: { class: 'keeper-row awtsmoos-list-item', 'data-alias': alias },
+            children: [
+                {
+                    tag: 'div',
+                    attr: { class: 'keeper-info' },
+                    children: [
+                        { tag: 'div', attr: { class: 'keeper-avatar' }, children: [alias[0].toUpperCase()] },
+                        { tag: 'span', attr: { class: 'keeper-name' }, children: [`@${alias}`] }
+                    ]
+                },
+                { tag: 'span', attr: { class: 'keeper-arrow' }, children: ['→'] }
+            ],
+            events: {
+                click: (e) => {
+                    e.stopPropagation();
+                    triggerAliasTab(alias);
                 }
-            }).open();
+            }
         };
-
-        // 2. Inline Manifestation Ritual (Specific to the switch)
-        const checkbox = row.querySelector('.inline-toggle-input');
-        checkbox.onclick = (e) => e.stopPropagation(); // Stop navigation trigger
-        checkbox.onchange = (e) => {
-            toggleInlineForComments([], alias);
-        };
-
-        keepersWrap.appendChild(row);
+        container.appendChild(BlueprintManifestor.manifest(itemPlan));
     });
 }
 
-/**
- * @method renderControlsAndComments
- */
-export function renderControlsAndComments(coms, alias, tab) {
-    tab.innerHTML = "";
-    const treeRoots = buildCommentTree(coms);
-    const listContainer = document.createElement("div");
-    listContainer.className = "sidebar-comment-list";
-    treeRoots.forEach(node => {
-        renderTreeItem(node, listContainer, (c) => makeHTMLFromComment(c), 'sidebar');
-    });
-    tab.appendChild(listContainer);
+function triggerAliasTab(alias) {
+    window.tabManager.addTab({
+        header: "@" + alias,
+        name: "user-" + alias,
+        onopen: async ({ actualTab, tab }) => {
+            tab.awtsmoosType = "specific alias comments";
+            window.currentAliasBeingViewed = alias;
+            window.currentAliasTabContainer = actualTab;
+            await openCommentsOfAlias({ alias, actualTab, post: window.post });
+        }
+    }).open();
 }

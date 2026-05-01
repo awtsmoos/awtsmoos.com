@@ -1,134 +1,78 @@
-/* B"H - INTERACTIVE COMPONENTS (REPAIRED & INTENSIFIED) */
 
-/* 1. FLOATING ACTION ORBS ("A" and "i")
-   The highest priority component.
+/* B"H 
+   VESSELS OF INTERACTION (COMPONENTS)
+   "Action is the main thing."
 */
+
+/* 1. FLOATING ORBS */
 .post-reader-localized-context .awtsmoos-floating-controls button {
     all: unset;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
-
-    /* ORB DIMENSIONS */
-    width: 54px !important;
-    height: 54px !important;
-    border-radius: 50% !important;
-
-    /* ORB AESTHETICS */
-    background: var(--bg-surface) !important;
-    border: 3px solid var(--color-ink) !important;
-    color: var(--color-ink) !important;
-    box-shadow: 6px 6px 0px var(--color-ink) !important;
-    
-    /* ORB TYPOGRAPHY */
-    font-family: 'Times New Roman', serif !important;
-    font-size: 24px !important;
-    font-weight: 700 !important;
-
-    /* ORB PHYSICS */
-    transition: all 0.1s ease-out !important;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-ui);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 900;
+    transition: all 0.1s var(--ease-snap);
 }
 
 .post-reader-localized-context .awtsmoos-floating-controls button:hover {
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 9px 9px 0px var(--color-accent) !important;
-    background: var(--color-accent) !important;
-    color: #000 !important;
-    border-color: #000 !important;
-}
-
-.post-reader-localized-context .awtsmoos-floating-controls button:active {
-    transform: translate(3px, 3px) !important;
-    box-shadow: 0px 0px 0px var(--color-ink) !important;
-}
-
-.post-reader-localized-context .awtsmoos-floating-controls button.pushed {
-    background: var(--color-ink) !important;
-    color: var(--bg-surface) !important;
-    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5) !important;
-    transform: translate(2px, 2px) !important;
-}
-
-/* 2. GENERAL PURPOSE BUTTONS (Inside menus, etc.) */
-.post-reader-localized-context button.btn,
-.post-reader-localized-context .awtsmoos-hero-btn,
-.post-reader-localized-context .settings-group button {
-    all: unset;
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    cursor: pointer;
-    background: var(--bg-surface);
-    border: var(--border-ui);
-    color: var(--color-ink);
-    padding: 10px 20px;
-    font-family: var(--font-ui);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 13px;
-    box-shadow: var(--shadow-ui);
-    transition: all 0.1s;
-}
-.post-reader-localized-context button.btn:hover,
-.post-reader-localized-context .awtsmoos-hero-btn:hover {
-    transform: translate(-2px, -2px);
+    transform: translate(-3px, -3px);
     box-shadow: var(--shadow-hover);
     background: var(--color-accent);
 }
-.post-reader-localized-context button.btn:active,
-.post-reader-localized-context .awtsmoos-hero-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: none;
-}
 
-/* 3. INPUTS & FORMS */
-.post-reader-localized-context input,
-.post-reader-localized-context textarea,
-.post-reader-localized-context select {
-    background: var(--bg-surface);
-    border: var(--border-ui);
-    padding: 10px;
-    font-family: var(--font-mono);
-    color: var(--color-ink);
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    transition: all 0.2s;
-    outline: none;
-}
-.post-reader-localized-context input:focus,
-.post-reader-localized-context textarea:focus,
-.post-reader-localized-context select:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 10px var(--color-primary);
-}
-
-/* 4. TOAST OF REVELATION (Notifications) */
-.post-reader-localized-context .ohr-ein-sof-toast {
-    position: absolute; /* Relative to the context wrapper */
-    bottom: -100px; /* Start off-screen */
-    left: 50%;
-    transform: translateX(-50%);
-    
+.post-reader-localized-context .awtsmoos-floating-controls button.pushed {
     background: var(--color-ink);
     color: var(--bg-surface);
-    border: var(--border-ui);
-    padding: 1rem 2rem;
+    box-shadow: none;
+    transform: translate(2px, 2px);
+}
+
+/* 2. NEO-BRUTALIST CARDS */
+.post-reader-localized-context .awtsmoos-card,
+.post-reader-localized-context .tl,
+.post-reader-localized-context .comment-content {
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-ui);
+    padding: 1.5rem;
+    transition: all 0.2s var(--ease-snap);
+    margin-bottom: 2rem;
+}
+
+.post-reader-localized-context .awtsmoos-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--color-electric);
+}
+
+/* 3. THE SACRED TOAST */
+.post-reader-localized-context .ohr-ein-sof-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--color-ink);
+    color: var(--bg-surface);
+    border: var(--border-thick);
+    padding: 1rem 2.5rem;
     font-family: var(--font-ui);
-    font-weight: 700;
-    font-size: 1rem;
-    box-shadow: var(--shadow-high);
-    
-    z-index: 100000;
-    transition: bottom 0.5s var(--ease-elastic), opacity 0.5s ease;
+    font-weight: 800;
+    text-transform: uppercase;
+    z-index: 50000;
     opacity: 0;
-    pointer-events: none;
-    min-width: 300px;
-    text-align: center;
+    transition: all 0.4s var(--ease-snap);
 }
 
 .post-reader-localized-context .ohr-ein-sof-toast-revealed {
-    bottom: 30px; /* Animate into view */
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
