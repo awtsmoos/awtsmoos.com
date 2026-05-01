@@ -1,52 +1,95 @@
-
 // B"H
+/**
+ * movement.js
+ * 
+ * Instant WoW-style movement.
+ * 
+ * CRITICAL FIX: Forward/side vectors are computed directly from this.rotation.y
+ * using simple trig, instead of calling getWorldDirection() on a detached Object3D
+ * (nonRotatingEmptyForMovement) which was never added to the scene graph,
+ * causing getWorldDirection() to always return a stale default direction.
+ * This was making the velocity always axis-aligned regardless of player facing.
+ */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Utils from "../../../../utils.js";
+import { PHYSICS_CONSTANTS } from './physicsConstants.js';
 
 export default {
-    calculateMovementVectors(deltaTime, onFloor) {
-        var speedDelta = deltaTime * (onFloor ? (this.speed * this.speedScale) : 8);
-        if (!this.moving.running) {
-            speedDelta *= 0.5;
-        }
+    _calculateMovementVelocity(deltaTime) {
+        if (!this.velocity || !this.moving) return;
 
-        let combinedVector = new THREE.Vector3();
-        var isWalking = false;
-        var isWalkingForward = false;
-        var isWalkingBack = false;
+        // Base speed: 6 is the final standard.
+        const baseSpeed = (this.speed || PHYSICS_CONSTANTS.DEFAULT_SPEED) * (this.speedScale || 1);
+        const speed = this.moving.running ? baseSpeed * PHYSICS_CONSTANTS.RUN_MULTIPLIER : baseSpeed;
+
+        let dir = new THREE.Vector3();
+        this.isWalking = false;
+        let isWalkingForward = false, isWalkingBack = false;
+
+        // B"H: Compute forward and side vectors directly from rotation.y
+        // This is mathematically correct and doesn't depend on scene graph state.
+        // Forward = (sin(rotY), 0, cos(rotY)) -> +Z is forward at rotY=0
+        // Side (right) = cross(forward, up) = (-cos(rotY), 0, sin(rotY))
+        const rotY = this.rotation ? this.rotation.y : 0;
+        const forwardX = Math.sin(rotY);
+        const forwardZ = Math.cos(rotY);
+        const sideX = -Math.cos(rotY);  // right vector X
+        const sideZ =  Math.sin(rotY);  // right vector Z
 
         if (this.moving.forward || this.movingAutomatically) {
-            isWalking = true;
-            isWalkingForward = true;
-            combinedVector.add(this.getForwardVector().multiplyScalar(speedDelta));
+            this.isWalking = true; isWalkingForward = true;
+            dir.x += forwardX;
+            dir.z += forwardZ;
             this.targetRotateOffset = 0;
         } else if (this.moving.backward) {
-            isWalking = true;
-            isWalkingBack = true;
-            combinedVector.add(this.getForwardVector().multiplyScalar(-speedDelta));
+            this.isWalking = true; isWalkingBack = true;
+            dir.x -= forwardX;
+            dir.z -= forwardZ;
             this.targetRotateOffset = -Math.PI;
         }
 
         if (this.moving.stridingLeft) {
-            isWalking = true;
-            combinedVector.add(Utils.getSideVector(this.nonRotatingEmptyForMovement, this.worldSideDirectionVector).multiplyScalar(-speedDelta));
+            this.isWalking = true;
+            // Striding left = subtract side vector (side is right)
+            dir.x -= sideX;
+            dir.z -= sideZ;
             this.targetRotateOffset = Math.PI / 2;
             if (isWalkingForward) this.targetRotateOffset -= Math.PI / 4;
             else if (isWalkingBack) this.targetRotateOffset += Math.PI / 4;
         } else if (this.moving.stridingRight) {
-            isWalking = true;
-            combinedVector.add(Utils.getSideVector(this.nonRotatingEmptyForMovement, this.worldSideDirectionVector).multiplyScalar(speedDelta));
+            this.isWalking = true;
+            // Striding right = add side vector
+            dir.x += sideX;
+            dir.z += sideZ;
             this.targetRotateOffset = -Math.PI / 2;
             if (isWalkingForward) this.targetRotateOffset += Math.PI / 4;
             else if (isWalkingBack) this.targetRotateOffset -= Math.PI / 4;
         }
 
-        // Normalize speed if moving diagonally
-        let totalMagnitude = combinedVector.length();
-        let maxMagnitude = Math.abs(speedDelta);
-        let scalingFactor = (totalMagnitude > maxMagnitude) ? (maxMagnitude / totalMagnitude) : 1;
-        combinedVector.multiplyScalar(scalingFactor);
+        if (this.isWalking && dir.length() > 0) {
+            dir.normalize().multiplyScalar(speed);
+            this.velocity.x = dir.x;
+            this.velocity.z = dir.z;
+        } else {
+            this.velocity.x = 0;
+            this.velocity.z = 0;
+        }
+    },
 
-        return { combinedVector, isWalking, isWalkingForward, isWalkingBack };
+    _handleJump() {
+        if (!this.velocity || !this.moving) return;
+        
+        // Jump trigger: requires being onFloor.
+        if (this.onFloor && this.moving.jump && !this.didJump) {
+            console.log("B\"H: JUMP TRIGGERED! Velocity Y set to 12.");
+            this.jumped = true;
+            this.velocity.y = this.jumpHeight || 12;
+            this.didJump = true;
+            this.onFloor = false; // Immediately airborne
+            if (typeof this.ayshPeula === 'function') this.ayshPeula("jumped", this);
+        }
+        
+        if (!this.moving.jump) {
+            this.didJump = false;
+        }
     }
 };

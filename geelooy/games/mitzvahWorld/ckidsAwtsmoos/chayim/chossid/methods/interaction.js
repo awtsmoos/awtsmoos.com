@@ -46,7 +46,7 @@ export default {
 
             this.selectIntersected();
         } else {
-            console.log("B\"H - Clicked but no intersection.");
+            // console.log("B\"H - Clicked but no intersection.");
         }
     },
 

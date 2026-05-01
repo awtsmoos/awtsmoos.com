@@ -48,6 +48,19 @@ export default {
             id: 'garment_tophat', className: 'Apparel', name: 'Crown of Splendor', description: 'A majestic hat representing the intellect.', icon: icons.hat, equipSlot: 'head', customData: { meshName: 'top-hat' }
         }, 1);
 
+        // B"H: The Foundational Bricks of the World
+        this.inventory.addItem({
+            id: 'building_brick', className: 'Brick', name: 'Building Brick', description: 'A sturdy block for construction.', icon: '🧱', isBuildable: true
+        }, 100);
+
+        this.inventory.addItem({
+            id: 'building_stairs', className: 'Stairs', name: 'Stairway to Heaven', description: 'Elevate the vessel to higher planes.', icon: '🪜', isBuildable: true
+        }, 64);
+
+        this.inventory.addItem({
+            id: 'building_mill', className: 'Mill', name: 'Grain Mill', description: 'Grind the sparks of sustenance.', icon: '🏘️', isBuildable: true
+        }, 5);
+
         // Equip the essential Levushim immediately to clothe the vessel
         setTimeout(() => {
             const equip = (id, target) => {

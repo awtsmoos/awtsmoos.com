@@ -19,6 +19,8 @@ import raycastingMethods from "./methods/raycasting.js";
 import buildingMethods from "./methods/building.js";
 import projectileMethods from "./methods/projectiles.js";
 
+import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
+
 export default class Chai extends Tzomayach {
     type = "chai";
     
@@ -27,12 +29,12 @@ export default class Chai extends Tzomayach {
     distanceFromRay = 5;
     placementRotation = 0;
     speedScale = 1.4;
-    defaultSpeed = 127;
+    defaultSpeed = PHYSICS_CONSTANTS.DEFAULT_SPEED;
     rayAnchor = null;
     _speed = this.defaultSpeed;
     _originalSpeed = this._speed;
     _movementSpeed = this._speed;
-    jumpHeight = 12;
+    jumpHeight = PHYSICS_CONSTANTS.DEFAULT_JUMP_HEIGHT;
 
     velocity = new THREE.Vector3();
     collider;
@@ -47,10 +49,10 @@ export default class Chai extends Tzomayach {
     worldDirectionVector = new THREE.Vector3();
     worldSideDirectionVector = new THREE.Vector3();
     
-    height = 0.75;
-    radius = 0.35;
+    height = PHYSICS_CONSTANTS.DEFAULT_HEIGHT;
+    radius = PHYSICS_CONSTANTS.DEFAULT_RADIUS;
 
-    lerpTurnSpeed = 0.145;
+    lerpTurnSpeed = PHYSICS_CONSTANTS.LERP_TURN_SPEED;
     targetRotateOffset = 0;
 
     empty;

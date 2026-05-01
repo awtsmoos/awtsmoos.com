@@ -1,16 +1,6 @@
-
 // B"H
-/**
- * @file visuals.js
- * @description
- * ⚖️ CHAPTER 33: THE WEIGHING OF THE VESSELS (GEVURAH) ⚖️
- * 
- * Before a soul can be anchored, its physical mass must be measured with 
- * absolute truth. If we measure a vessel while it is still "Contracted" (unscaled), 
- * the physics will fail. We force the world matrix to update, revealing the 
- * model's true stature in the physical plane.
- */
 import * as THREE from '/games/scripts/build/three.module.js';
+import { PHYSICS_CONSTANTS } from './physics/physicsConstants.js';
  
 export default {
  
@@ -54,8 +44,8 @@ export default {
         // B"H: THE RADIUS CAP TIKKUN
         // Prevents stray vertices in GLB models from creating giant invisible walls!
         // A human soul's physical width should never exceed 0.6 units in this realm.
-        if (this.radius > 0.6) {
-            this.radius = 0.6;
+        if (this.radius > PHYSICS_CONSTANTS.MAX_RADIUS_CAP) {
+            this.radius = PHYSICS_CONSTANTS.MAX_RADIUS_CAP;
         }
  
         /**
