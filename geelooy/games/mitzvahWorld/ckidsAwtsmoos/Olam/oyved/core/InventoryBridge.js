@@ -103,6 +103,16 @@ export class InventoryBridge {
             if (inv) inv.updateUI();
         });
 
+        olam.on("showTooltip", (data) => {
+            const inv = getInventory();
+            if (inv) inv.showTooltip(data);
+        });
+
+        olam.on("hideTooltip", () => {
+            const inv = getInventory();
+            if (inv) inv.hideTooltip();
+        });
+
         olam.on("sortInventory", () => {
             const inv = getInventory();
             if (inv) inv.sortInventory();

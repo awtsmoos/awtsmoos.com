@@ -211,6 +211,11 @@ export default class Tzomayach extends Domem {
                                         n,
                                         this
                                     );
+                                    
+                                    // B"H: Notify the entity itself that it approached something!
+                                    if (typeof n.ayshPeula === 'function') {
+                                        n.ayshPeula("approached tzomayach", this);
+                                    }
 									
                                 }
                             } else {
@@ -248,6 +253,11 @@ export default class Tzomayach extends Domem {
                                         n,
                                         this
                                     );
+
+                                    // B"H: Notify the entity itself that it left!
+                                    if (typeof n.ayshPeula === 'function') {
+                                        n.ayshPeula("left tzomayach", this);
+                                    }
                                 }
                             }
                         }

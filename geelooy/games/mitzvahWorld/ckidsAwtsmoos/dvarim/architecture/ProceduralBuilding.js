@@ -22,7 +22,15 @@ export default class ProceduralBuilding extends Domem {
         this.blueprint.height = this.blueprint.height || 6;
         this.blueprint.depth = this.blueprint.depth || 12;
         this.blueprint.wallThickness = this.blueprint.wallThickness || 1;
-        this.blueprint.entrances = this.blueprint.entrances || [];
+        // B"H: Give all houses a default entrance if none is provided
+        if (!this.blueprint.entrances || this.blueprint.entrances.length === 0) {
+            this.blueprint.entrances = [{
+                wall: 'front',
+                width: 4,      // A little bigger than the player
+                height: 6,     
+                offset: 0
+            }];
+        }
     }
 
     async heescheel(olam) {

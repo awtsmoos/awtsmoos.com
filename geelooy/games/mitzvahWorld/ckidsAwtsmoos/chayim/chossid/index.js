@@ -62,6 +62,20 @@ export default class Chossid extends Medabeir {
         this.on("started walking", () => { this._isWalking = true; });
         this.on("stopped walking", () => { this._isWalking = false; });
 
+        // B"H: Listen for approaches to interactables (doors, etc)
+        this.on("approached tzomayach", (entity) => {
+            if (!this.approachedEntities.includes(entity)) {
+                this.approachedEntities.unshift(entity); // Add to front of stack
+            }
+        });
+        
+        this.on("left tzomayach", (entity) => {
+            const idx = this.approachedEntities.indexOf(entity);
+            if (idx > -1) {
+                this.approachedEntities.splice(idx, 1);
+            }
+        });
+
         this.on("heesHawvoos", (dt) => {
             if (this._isWalking && this.onFloor) {
                 this._stepTimer += dt;

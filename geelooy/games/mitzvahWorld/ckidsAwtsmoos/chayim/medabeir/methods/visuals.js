@@ -42,7 +42,8 @@ export default {
 
         // The absolute list of potential garments that might overlap
         const knownClothingSlots =[
-            "jacket", "outer-shirt", "pants", "shoes", "yamulka", "top-hat", "glasses"
+            "jacket", "outer-shirt", "pants", "shoes", "yamulka", "top-hat", "glasses",
+            "teffilin-arm-straps", "teffiln-arm-box", "head-teffilin-straps", "teffilin-head-box", "jacket-teffilin"
         ];
 
         // 1. Return to state of absolute transparency (Ayin)
@@ -65,9 +66,9 @@ export default {
                 
                 // Awaken the specific mesh
                 if (item && item.customData && item.customData.meshName) {
-                    const targetName = item.customData.meshName;
+                    const targetNames = Array.isArray(item.customData.meshName) ? item.customData.meshName : [item.customData.meshName];
                     targetMesh.traverse(child => {
-                        if (child.name === targetName || (child.userData && child.userData.garment === targetName)) {
+                        if (targetNames.includes(child.name) || (child.userData && targetNames.includes(child.userData.garment))) {
                             child.visible = true;
                         }
                     });

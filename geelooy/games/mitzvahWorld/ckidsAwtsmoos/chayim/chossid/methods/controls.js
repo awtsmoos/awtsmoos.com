@@ -7,7 +7,7 @@
  * into the spiritual matrix (world actions).
  */
 
-const ACTION_TOGGLE = "KeyB";
+const ACTION_TOGGLE = "KeyC";
 const ACTION_SELECT = "Enter";
 const ATTACK_KEY = "KeyF"; 
 const CAMERA_PAN_UP = "KeyR";

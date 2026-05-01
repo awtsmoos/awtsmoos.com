@@ -35,6 +35,10 @@ export default class InteractiveDoor extends Tzomayach {
         
         super(op, olam);
         
+        // B"H: The user requested 'C' for interaction. 
+        // This could be moved to a global settings module in the future.
+        this.interactKey = op.interactKey || 'C';
+        
         this.isOpen = false;
         this.targetAngle = 0;
         this.currentAngle = 0;
@@ -50,16 +54,27 @@ export default class InteractiveDoor extends Tzomayach {
              console.log(`B"H - 🚪 THRESHOLD BORN: Gate '${this.name}' has descended into existence!`);
         });
 
-        this.on("initial approach", () => {
-            if (!this.olam || !this.olam.player) return;
-            this.olam.ayshPeula("ui event", "effectsOverlay", { 
-                text: "Press 'B' to Turn the Handle", 
-                color: "#ffffff" 
+        this.on("nivraNeechnas", (player) => {
+            if (!this.olam || player.type !== 'chossid') return;
+            this.olam.ayshPeula("ui event", "interaction-prompt", { 
+                showInteraction: {
+                    text: `to ${this.isOpen ? 'Close' : 'Open'} the Threshold`, 
+                    key: this.interactKey
+                }
+            });
+        });
+
+        this.on("nivraYotsee", (player) => {
+            if (!this.olam || player.type !== 'chossid') return;
+            this.olam.ayshPeula("ui event", "interaction-prompt", { 
+                hideInteraction: true 
             });
         });
 
         this.on("accepted interaction", (player) => {
             this.toggleDoor();
+            // B"H: Update prompt instantly after toggle
+            this.ayshPeula("nivraNeechnas", player);
         });
     }
 

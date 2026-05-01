@@ -118,8 +118,9 @@ export default class BuildingManifestor {
             guf: { BoxGeometry: [1, 1, 1] },
             toyr: {
                 MaterialArray: blueprint.materials || [
-                    { AwtsmoosBrickMaterial: { color: "#a0522d" } },
-                    { AwtsmoosWoodMaterial: { color: "#443322" } } 
+                    { AwtsmoosBrickMaterial: { color: "#a0522d" } },        // Group 0: Walls/Steps
+                    { AwtsmoosWoodMaterial: { color: "#443322" } },          // Group 1: Roof/Mezuzah
+                    { MeshLambertMaterial: { color: "#7b6b5a" } }            // Group 2: Interior Floor/Foundation
                 ]
             },
             textureRepeat: blueprint.textureRepeat || { x: 1, y: 1 }
@@ -137,22 +138,36 @@ export default class BuildingManifestor {
             if (building.rotation) mesh.rotation.set(building.rotation.x || 0, building.rotation.y || 0, building.rotation.z || 0);
             
             // B"H: Ground Alignment System
-            // Raycast down to find the terrain surface and place the building on it.
-            // Then flatten the terrain underneath so it looks naturally excavated.
-            const terrainY = this.findTerrainHeight(olam, mesh.position.x, mesh.position.z);
-            if (terrainY !== null) {
-                // Place the building so its bottom sits on the terrain
-                mesh.position.y = terrainY;
-                console.log(`B"H - ⚓ [${building.name}] grounded to terrain at Y: ${terrainY.toFixed(2)}`);
+            // Raycast down to find the highest terrain surface under the building footprint
+            const w = blueprint.width || 12;
+            const d = blueprint.depth || 12;
+            const margin = 0.5;
+            
+            const samples = [
+                { x: 0, z: 0 },
+                { x: w/2 - margin, z: d/2 - margin },
+                { x: -w/2 + margin, z: d/2 - margin },
+                { x: w/2 - margin, z: -d/2 + margin },
+                { x: -w/2 + margin, z: -d/2 + margin }
+            ];
+            
+            let maxHeight = -Infinity;
+            samples.forEach(s => {
+                const h = this.findTerrainHeight(olam, mesh.position.x + s.x, mesh.position.z + s.z);
+                if (h !== null && h > maxHeight) maxHeight = h;
+            });
+            
+            if (maxHeight !== -Infinity) {
+                mesh.position.y = maxHeight;
+                console.log(`B"H - ⚓ [${building.name}] grounded to terrain peak at Y: ${maxHeight.toFixed(2)}`);
             }
 
             mesh.updateMatrixWorld(true);
             mesh.userData.isSolid = true;
-            mesh.userData.isTerrain = true; 
             mesh.userData.isBuilding = true;
 
-            // Flatten terrain under the building BEFORE adding to octree
-            this.flattenTerrainUnder(olam, mesh, blueprint);
+            // B"H: We no longer flatten the terrain! The procedural floor descends deep into the earth to handle slopes.
+            // this.flattenTerrainUnder(olam, mesh, blueprint);
 
             // Manifest in physics realm!
             await olam.worldOctree.addObject(mesh);
