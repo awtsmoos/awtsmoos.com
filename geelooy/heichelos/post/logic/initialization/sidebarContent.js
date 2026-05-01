@@ -1,43 +1,69 @@
-//B"H
-import { makeInfoHTML } from "/heichelos/post/postFunctions.js";
 
+//B"H
 /**
- * @method populateRevelationTab
- * @description Manifests the "Lots of Options" inside the root sidebar tab.
+ * @module SidebarMenu
+ * @description 
+ * The default gateway of the Sidebar. 
+ * "By default sidebar should just have two main entry points: breadcrumb details, and comments."
+ * Manifested as massive, intense Neo-Brutalist portals.
  */
-export function populateRevelationTab(actualTab, post, tabRefs) {
+
+export function populateRootMenu(actualTab, post, tabRefs) {
     if (!actualTab) return;
     actualTab.innerHTML = "";
     
-    // 1. Info Cards
-    actualTab.appendChild(makeInfoHTML());
+    const menuGrid = document.createElement("div");
+    menuGrid.className = "post-root-menu-grid";
 
-    // 2. High-Intensity Action Portal
-    const actionsArea = document.createElement("div");
-    actionsArea.className = "post-root-actions";
-    actionsArea.style.cssText = `
-        margin-top: 40px; display: flex; flex-direction: column; gap: 15px; 
-        border-top: 4px solid var(--color-ink); padding: 30px 10px 60px 10px;
-    `;
-
-    const createBtn = (txt, icon, onClick) => {
+    const createMenuPortal = (title, desc, icon, onClick) => {
         const btn = document.createElement("button");
-        btn.className = "awtsmoos-hero-btn";
-        btn.style.width = "100%";
-        btn.innerHTML = `<span style="font-size:20px;">${icon}</span> <span>${txt}</span>`;
+        btn.className = "awtsmoos-massive-menu-btn";
+        btn.innerHTML = `
+            <div class="menu-icon-vessel">${icon}</div>
+            <div class="menu-text-vessel">
+                <span class="menu-portal-title">${title}</span>
+                <span class="menu-portal-desc">${desc}</span>
+            </div>
+            <div class="menu-arrow">→</div>
+        `;
         btn.onclick = onClick;
         return btn;
     };
 
-    // Link the buttons to the tabs forged during bootstrap
-    actionsArea.appendChild(createBtn("Insights & Comments", "💬", () => tabRefs.insights.open()));
-    
-    actionsArea.appendChild(createBtn("Consult AI Oracle", "✨", async () => {
-         const { openAIChat } = await import("/heichelos/post/ai/chat.js");
-         openAIChat();
-    }));
+    // 1. The Portal of Insights (Commentaries)
+    menuGrid.appendChild(createMenuPortal(
+        "Insights", 
+        "The Living Commentary", 
+        "💬", 
+        () => tabRefs.insights.open()
+    ));
 
-    actionsArea.appendChild(createBtn("Saved Sparks", "🔖", () => tabRefs.bookmarks.open()));
+    // 2. The Portal of Origins (Scroll Details & Path)
+    menuGrid.appendChild(createMenuPortal(
+        "Scroll Details", 
+        "Heichel, Author, & Path", 
+        "📜", 
+        () => tabRefs.details.open()
+    ));
 
-    actualTab.appendChild(actionsArea);
+    // 3. The Oracle (AI)
+    menuGrid.appendChild(createMenuPortal(
+        "AI Oracle", 
+        "Consult the Awtsmoos AI", 
+        "✨", 
+        async () => {
+             const { openAIChat } = await import("/heichelos/post/ai/chat.js");
+             openAIChat();
+        }
+    ));
+
+    // 4. Saved Sparks (Bookmarks)
+    menuGrid.appendChild(createMenuPortal(
+        "Saved Sparks", 
+        "Your bookmarked verses", 
+        "🔖", 
+        () => tabRefs.bookmarks.open()
+    ));
+
+    actualTab.appendChild(menuGrid);
 }

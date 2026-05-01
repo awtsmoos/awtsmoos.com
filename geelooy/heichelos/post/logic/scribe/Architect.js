@@ -8,10 +8,10 @@
 import { 
     sanitizeContent, 
     appendHTML, 
-    isFirstCharacterHebrew, 
-    weaveDropdownFromAwtsmoos 
+    isFirstCharacterHebrew 
 } from "../postFunctions.js";
 import { UniversalInterpreter } from "./UniversalInterpreter.js";
+import { AwtsmoosVerseMenu } from "../../functions/ui/VerseMenu.js";
 
 export class VesselArchitect {
     /**
@@ -64,10 +64,9 @@ export class VesselArchitect {
             ? data.verseSection : (index + 1);
         num.textContent = verseLabel;
         
-        num.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const { atzilusActions } = await import("../conductor.js"); 
-            weaveDropdownFromAwtsmoos(hdr, atzilusActions || {});
+        // B"H - Summoning the Insane Context Menu on Click
+        num.addEventListener('click', (e) => {
+            AwtsmoosVerseMenu.summon(e, index);
         });
 
         hdr.appendChild(num);

@@ -5,11 +5,10 @@
  * @chapter Orchestrating the descent of Wisdom
  * @description
  * Just as the conductor guides the players to bring the hidden music
- * of the composer into the manifest ears of the listeners, this module
- * guides the UI based on the seeker's spatial movement.
+ * into manifestation, this module guides the UI based on the seeker's 
+ * spatial movement through the scroll.
  */
 
-import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { updateQueryStringParameter } from "../functions/utils.js";
 import { 
     invalidateVerseCache, 
@@ -23,7 +22,7 @@ import {
     openCommentsOfAlias, 
     updateCommentHeader 
 } from "../comments/panel.js";
-import { addCommentsInline, getInlineAliases } from "../comments/inline.js";
+import { manifestAllActiveInlines } from "../comments/inline.js"; // B"H - Pure flow imported
 
 /**
  * @method getIdx
@@ -85,7 +84,7 @@ export async function indexSwitch(forceOrEvent = false) {
     setCurrentVerse(targetVerse);
     setCurrentSub(subNum);
     
-    // Synchronize UI Sefirot
+    // Synchronize UI Sefirot (Sidebar)
     if (window.tabManager) {
         const activeTab = window.tabManager.getCurrent();
         if (activeTab?.name === "insights") {
@@ -101,18 +100,9 @@ export async function indexSwitch(forceOrEvent = false) {
     
     await updateCommentHeader();
 
-    // Manifest the Marginal Lights
-    const inlineAliases = getInlineAliases();
-    for (const aliasId of inlineAliases) {
-        const comments = await getCommentsOfAlias({
-            seriesId: window.post?.parentSeriesId, 
-            postId: window.post?.id, 
-            heichelId: window.post?.heichel?.id,
-            aliasId: aliasId, 
-            get: { verseSection: targetVerse, map: true }
-        });
-        addCommentsInline(comments, aliasId);
-    }
+    // B"H - Trigger Singular Marginal Manifestation
+    // This delegates perfectly to the resolved Coordinate logic
+    await manifestAllActiveInlines();
 }
 
 /**

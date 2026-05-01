@@ -17,10 +17,6 @@ import { toggleInlineForComments } from "../../inline.js";
 /**
  * @function createKeeperRow
  * @description Manifests the Neo-Brutalist card for a specific commentator.
- * 
- * @param {string} alias - The divine name of the speaker.
- * @param {Function} triggerAliasTab - The ritual to perform when clicked.
- * @returns {HTMLElement} - The physicalized row.
  */
 export function createKeeperRow(alias, triggerAliasTab) {
     const isInline = isAliasInline(alias);
@@ -66,7 +62,7 @@ export function createKeeperRow(alias, triggerAliasTab) {
  * @function createInlineToggle
  */
 function createInlineToggle(alias, isInline) {
-    const safeAliasId = alias.replace(/\s+/g, '-'); // Sanitize for ID usage
+    const safeAliasId = alias.replace(/\s+/g, '-'); 
 
     return {
         tag: 'div',
@@ -84,6 +80,7 @@ function createInlineToggle(alias, isInline) {
                     click: (e) => e.stopPropagation(),
                     change: (e) => {
                         e.stopPropagation();
+                        console.log(`%c B"H - Toggling Inline Manifestation for @${alias}`, "color: #00ffff; font-weight: bold;");
                         // Call the higher mutator logic to switch the worlds
                         toggleInlineForComments([], alias);
                     }

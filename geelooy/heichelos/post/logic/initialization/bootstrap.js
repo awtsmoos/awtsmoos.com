@@ -6,7 +6,7 @@
  */
 
 import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
-import { makeNavBars, loadFontSize, scrollToActiveEl, appendHTML } from "/heichelos/post/postFunctions.js";
+import { makeNavBars, loadFontSize, scrollToActiveEl, appendHTML, makeInfoHTML } from "/heichelos/post/postFunctions.js";
 import { interpretPostDayuh } from "/heichelos/post/logic/scribe.js";
 import { loadRootComments, updateCommentHeader } from "/heichelos/post/comments/panel.js";
 import { indexSwitch } from "/heichelos/post/logic/conductor.js";
@@ -16,11 +16,11 @@ import { setupViewEffects } from "/heichelos/post/logic/viewEffects.js";
 import { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.js";
 import TabManager from "/heichelos/post/TabManager.js";
 import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js";
-import { populateRevelationTab } from "/heichelos/post/logic/initialization/sidebarContent.js";
+import { populateRootMenu } from "/heichelos/post/logic/initialization/sidebarContent.js";
 import { manifestAliasInline, getInlineAliases } from "/heichelos/post/comments/inline.js";
+import { TopBreadcrumbsRenderer } from "/heichelos/post/functions/ui/BreadcrumbsRenderer.js";
 
 async function restoreMarginaliaState() {
-    console.log("B\"H - [Bootstrap] Restoring Marginal Insights.");
     const inlineAliases = getInlineAliases();
     for (const alias of inlineAliases) {
         await manifestAliasInline(alias);
@@ -33,7 +33,6 @@ export async function ignite() {
     const sidebar = document.querySelector(".sidebar");
 
     try {
-        // 1. Geography Discovery
         const { post, series, hId, pIdx } = await loadInitial();
         
         const [meta, aDetails] = await Promise.all([
@@ -46,12 +45,25 @@ export async function ignite() {
         window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || null;
         window.doesOwn = (window.curAlias === post.author);
 
-        // 2. The Multi-Tabernacle
-        window.tabManager = new TabManager({ parent: sidebar });
+        // B"H - Ignite the Pinnacle Breadcrumbs
+        TopBreadcrumbsRenderer.manifest(window.breadcrumb, post);
+
+        // 2. The Multi-Tabernacle Rewiring
+        window.tabManager = new TabManager({ parent: sidebar, headerTxt: "Divine Context" });
+        
         const tabRefs = {
             insights: window.tabManager.addTab({
                 header: "Insights", name: "insights",
                 onopen: async ({ actualTab, tab }) => await loadRootComments({ parent: actualTab, tab })
+            }),
+            details: window.tabManager.addTab({
+                header: "Scroll Details", name: "details",
+                onopen: async ({ actualTab }) => {
+                    actualTab.innerHTML = "";
+                    const infoHtml = makeInfoHTML();
+                    if (typeof infoHtml === "string") actualTab.innerHTML = infoHtml;
+                    else actualTab.appendChild(infoHtml);
+                }
             }),
             bookmarks: window.tabManager.addTab({
                 header: "Bookmarks", name: "bookmarks",
@@ -63,9 +75,10 @@ export async function ignite() {
             })
         };
         
-        tabRefs.revelation = window.tabManager.addTab({
-            header: "Scroll Details", name: "revelation",
-            onopen: async ({ actualTab }) => populateRevelationTab(actualTab, post, tabRefs)
+        // B"H - The Root Menu
+        tabRefs.rootMenu = window.tabManager.addTab({
+            header: "Main Menu", name: "rootMenu",
+            onopen: async ({ actualTab }) => populateRootMenu(actualTab, post, tabRefs)
         });
 
         // 3. Form Rituals
@@ -82,7 +95,8 @@ export async function ignite() {
             appendHTML(makeNavBars(post, series, pIdx), viewport);
         }
         
-        tabRefs.revelation.open();
+        // Open the Main Menu by default instead of the verbose Details
+        tabRefs.rootMenu.open();
 
         // 5. Restore Marginal Insights
         await restoreMarginaliaState();

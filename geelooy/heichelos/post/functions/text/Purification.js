@@ -5,11 +5,31 @@
  * @chapter The Ritual of Refinement
  * @description
  * In the physical world, the pure Light is often obscured by shells (Kelipot).
- * In the world of data, these shells manifest as broken HTML or mundane
- * tag formats like '[cup]'. This module performs the purification (Birur), 
- * stripping away that which is unnecessary and transmuting tags 
- * into clear vessels of manifest boldness.
+ * In the world of data, these shells manifest as broken HTML, mundane
+ * tag formats like '[cup]', or careless backend ghosts like the string "undefined". 
+ * This module performs the purification (Birur), stripping away that which 
+ * is unnecessary and transmuting the data into clear vessels of manifestation.
  */
+
+/**
+ * @function purifyAwtsmoosString
+ * @description
+ * Cleanses titles and names from the filth of the digital void.
+ * Replaces underscores with the breadth of empty space, and completely
+ * annihilates the string "undefined" into true Nothingness, ready for
+ * new creation.
+ * 
+ * @param {string|null|undefined} str - The unrefined emanation.
+ * @returns {string} - The purified string.
+ */
+export function purifyAwtsmoosString(str) {
+    if (str === null || str === undefined) return "";
+    let s = String(str).trim();
+    if (s.toLowerCase() === "undefined") return "";
+    
+    // Transmute underscores into the infinite space of expansion
+    return s.replace(/_/g, ' ');
+}
 
 /**
  * @function stripTags
@@ -23,7 +43,6 @@
  */
 export function stripTags(html) {
     if (!html) return "";
-    // We create a temporary, non-manifested container to do the cleaning
     const div = document.createElement("div");
     div.innerHTML = html.split("</br>").join("\n").replace(/<br\s*\/?>/gi, '\n');
     return div.textContent || div.innerText || "";
