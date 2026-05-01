@@ -4,56 +4,70 @@
  * @module ProceduralTerrain
  * @description
  * 🌿 THE GROUND OF REVELATION 🌿
+ * 
+ * Chapter 3: The Solidification of Malchus.
+ * We transition from a formless plane to a solid foundation. 
+ * By using the FoundationVessel (a Box), we ensure that the world's 
+ * physical logic (Octree) can grasp the earth, and the user's 
+ * perception (Material) can see the emerald glow.
  */
 import Domem from "../../chayim/domem/index.js";
 import * as THREE from '/games/scripts/build/three.module.js';
-import TerrainSculptor from "../../utils/3d/TerrainSculptor.js";
+import FoundationVessel from "../../Olam/methods/terrain/FoundationVessel.js";
 
 export default class ProceduralTerrain extends Domem {
     type = "proceduralTerrain";
 
     constructor(op, olam) {
         super(op, olam);
-        this.width = op.width || 1000;
-        this.depth = op.depth || 1000;
-        this.segments = op.segments || 20;
+        this.width = op.width || 1500;
+        this.depth = op.depth || 1500;
+        this.thickness = op.thickness || 4.0; // B"H: Substantial grounding
+        this.segments = op.segments || 32;
         this.hills = op.hills || [];
         this.textureType = op.textureType || "safegrass";
     }
 
     async heescheel(olam) {
         this.olam = olam;
-        console.log(`B"H - 🌿 [Terrain]: Commencing manifestation of [${this.name}]`);
+        const label = `[Terrain: ${this.name}]`;
+        console.log(`B"H - 🌿 ${label}: Commencing manifestation of solid earth.`);
 
-        // 1. FORGE GEOMETRY
-        const geometry = new THREE.PlaneGeometry(this.width, this.depth, this.segments, this.segments);
-        geometry.rotateX(-Math.PI / 2); // Lay flat
+        // 1. FORGE GEOMETRY (The thick foundation)
+        const geometry = FoundationVessel.carve({
+            width: this.width,
+            depth: this.depth,
+            thickness: this.thickness,
+            segments: this.segments,
+            hills: this.hills
+        });
 
-        if (this.hills.length > 0) {
-            TerrainSculptor.sculpt(geometry, this.hills);
-        }
-
-        // 2. WEAVE MATERIAL
+        // 2. WEAVE MATERIAL (The emerald garment)
         let material;
         try {
-            const texUrl = `awtsmoosTex://${this.textureType}`;
+            const texUrl = `awtsmoostex://${this.textureType}`;
             const map = await this.olam.loadTexture({ 
                 url: texUrl, 
                 shouldRepeat: true, 
-                repeatX: this.width / 10, 
-                repeatY: this.depth / 10 
+                repeatX: this.width / 15, // Scale repeat for high-res look
+                repeatY: this.depth / 15 
             });
 
             material = new THREE.MeshStandardMaterial({
                 map: map,
-                roughness: 1.0,
-                metalness: 0.0,
+                roughness: 0.9,
+                metalness: 0.05,
                 color: 0xffffff,
-                side: THREE.DoubleSide // Visible from both worlds
+                side: THREE.FrontSide // Standard lighting for solid boxes
             });
+            
+            // B"H: If the texture is missing, we must NOT be transparent!
+            if (!map) {
+                material = new THREE.MeshLambertMaterial({ color: 0x228B22 });
+            }
         } catch(e) {
-            console.warn("B\"H - [Terrain]: Texture Forge failed. Using fallback emerald pigment.");
-            material = new THREE.MeshLambertMaterial({ color: 0x228B22, side: THREE.DoubleSide });
+            console.warn(`B"H - ${label}: Texture Forge failed. Using emerald pigment.`, e);
+            material = new THREE.MeshLambertMaterial({ color: 0x228B22 });
         }
 
         // 3. ASSEMBLE MESH
@@ -63,12 +77,17 @@ export default class ProceduralTerrain extends Domem {
         this.mesh.visible = true;
         this.mesh.frustumCulled = false; // B"H: ABSOLUTELY ESSENTIAL! Never hide the ground.
 
+        // 4. ALIGNMENT (Positioning top face at 0)
+        FoundationVessel.rectify(this.mesh, this.thickness);
+        
+        // Add additional user offset if provided
         if (this.position) {
-            this.mesh.position.copy(this.position.vector3());
+            this.mesh.position.x += this.position.x;
+            this.mesh.position.z += this.position.z;
+            this.mesh.position.y += this.position.y;
         }
 
-        // 4. SOLIDIFY
-        this.mesh.updateMatrix();
+        // 5. SOLIDIFY IN THE REVELATION
         this.mesh.updateMatrixWorld(true);
         this.mesh.userData.isSolid = true;
         this.mesh.userData.isTerrain = true;
@@ -76,11 +95,11 @@ export default class ProceduralTerrain extends Domem {
         await olam.hoyseef(this);
         
         if(this.olam.worldOctree) {
-            console.log(`B"H - ⚓ [Terrain]: Sending [${this.name}] to the Octree.`);
+            console.log(`B"H - ⚓ ${label}: Grounding [${this.name}] into the Octree.`);
             this.olam.worldOctree.addObject(this.mesh);
         }
 
-        console.log(`B"H - ✅ [Terrain]: [${this.name}] stands in existence at Y: ${this.mesh.position.y}`);
         this.isReady = true;
+        console.log(`B"H - ✅ ${label}: Earth is firm at Y:${this.mesh.position.y}`);
     }
 }

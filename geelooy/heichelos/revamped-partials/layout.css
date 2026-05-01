@@ -1,0 +1,114 @@
+
+/* B"H - DIVINE LAYOUT CONTRACT */
+
+.heichel-page-container {
+    --sidebar-w: 320px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg-page);
+    position: relative;
+    overflow-x: hidden;
+}
+
+.main-content-wrapper {
+    display: flex;
+    flex: 1;
+    position: relative;
+    width: 100%;
+}
+
+.heichel-header {
+    padding: 2rem;
+    border-bottom: var(--border-thick);
+    background: var(--bg-surface);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: 100;
+}
+
+#heichel-main-title {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 0.9;
+    letter-spacing: -2px;
+}
+
+.heichel-content-panel {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    transition: margin-right 0.4s var(--ease-snap);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.heichel-sidebar {
+    width: var(--sidebar-w);
+    background: var(--bg-surface);
+    border-left: var(--border-thick);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    transition: transform 0.4s var(--ease-snap);
+}
+
+/* SIDEBAR COLLAPSE LOGIC */
+.sidebar-collapsed .heichel-sidebar {
+    transform: translateX(100%);
+    position: absolute;
+    right: 0;
+}
+
+.sidebar-collapsed .heichel-content-panel {
+    margin-right: 0;
+}
+
+/* MOBILE CONSTRAINTS */
+@media (max-width: 1024px) {
+    .main-content-wrapper {
+        flex-direction: column;
+    }
+    .heichel-sidebar {
+        width: 100%;
+        height: auto;
+        border-left: none;
+        border-top: var(--border-thick);
+        position: static;
+    }
+    .heichel-header {
+        padding: 1.5rem;
+    }
+    .heichel-content-panel {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.empty-realm-msg {
+    padding: 4rem 2rem;
+    text-align: center;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    text-transform: uppercase;
+    border: var(--border-thin);
+    background: rgba(0,0,0,0.03);
+}

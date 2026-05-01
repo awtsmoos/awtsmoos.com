@@ -3,55 +3,63 @@
  * @file AttributeHealer.js
  * @description
  * ╔══════════════════════════════════════════════════════════════════════════╗
- * ║   CHAPTER 18b: THE HEALER OF BROKEN ATTRIBUTES                         ║
+ * ║   CHAPTER 18: THE HEALER OF BROKEN ATTRIBUTES                            ║
  * ║                                                                          ║
- * ║  "I am the Lord your healer." (Shemot 15:26)                           ║
+ * ║  "I am the Lord your healer." (Shemot 15:26)                             ║
  * ║                                                                          ║
- * ║  SkeletonUtils.clone() can produce mesh nodes with BufferGeometry       ║
- * ║  attributes that are not properly deep-cloned — references to the      ║
- * ║  original geometry that can cause visual corruption or WebGL errors.   ║
- * ║  This module identifies and heals those broken attributes.              ║
+ * ║  Many 3D vessels arrive from external realms (Blender, API) missing      ║
+ * ║  the 'uv' attribute. When our intense shaders attempt to texture them,   ║
+ * ║  the GPU encounters a void where it expected coordinates, causing a      ║
+ * ║  fatal crash (uvundefined).                                             ║
  * ║                                                                          ║
- * ║  Additionally: a null guard is placed at the top of `heal()` so that   ║
- * ║  even if the sanitizer misses an undefined node, this module will not  ║
- * ║  add to the crash.                                                      ║
+ * ║  This module inspects and heals every node, filling missing attributes   ║
+ * ║  with a seed of zeroed-out data, satisfying the strict judgment of       ║
+ * ║  the GPU compiler while allowing the soul to be seen.                    ║
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
+import * as THREE from '/games/scripts/build/three.module.js';
 
 export default class AttributeHealer {
 
     /**
      * @static
      * @function heal
-     * @description
-     * Inspects a single node's geometry attributes.
-     * If any attribute's `array` property is a shared reference that
-     * could cause corruption across multiple clones, it is replaced
-     * with a fresh typed-array copy.
-     *
-     * @param {THREE.Object3D} node - The node to inspect and heal
-     * @returns {void}
+     * @description Inspects a single node and repairs its geometry.
      */
     static heal(node) {
-        // B"H: The first guard — we never touch the void
-        if (!node) return;
-
-        if (!node.isMesh) return;
+        if (!node || !node.isMesh || !node.geometry) return;
 
         const geometry = node.geometry;
-        if (!geometry || !geometry.attributes) return;
-
-        const attributeNames = Object.keys(geometry.attributes);
-        for (const attrName of attributeNames) {
-            const attr = geometry.attributes[attrName];
-            if (!attr) continue;
-
-            // B"H: If the attribute is not already a standalone clone (version === 0 indicates it
-            // may be a shared reference from the source), we ensure it has its own array.
-            // This prevents "already deleted" WebGL buffer errors when one clone is destroyed.
-            if (attr.array && attr.needsUpdate === undefined) {
-                attr.needsUpdate = false;
+        
+        // 1. THE UV COVENANT
+        // Ensure UVs exist so textures can be wrapped around the form.
+        if (!geometry.attributes.uv) {
+            const count = geometry.attributes.position ? geometry.attributes.position.count : 0;
+            if (count > 0) {
+                console.log(`B"H - 🛠️ [Healer]: Restoring UV matrix to [${node.name || 'Anonymous'}]`);
+                const uvs = new Float32Array(count * 2); 
+                geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
             }
+        }
+
+        // 2. THE NORMAL RECLAMATION
+        // If lighting fails, we calculate the surface vectors.
+        if (!geometry.attributes.normal) {
+            geometry.computeVertexNormals();
+        }
+        
+        // 3. THE TEXTURE MATRIX PROTECTION
+        // Ensure any map applied to the material has an initialized matrix.
+        if (node.material) {
+            const mats = Array.isArray(node.material) ? node.material : [node.material];
+            mats.forEach(m => {
+                const mapSlots = ['map', 'normalMap', 'specularMap', 'emissiveMap', 'lightMap'];
+                mapSlots.forEach(slot => {
+                    if (m[slot] && m[slot].isTexture && !m[slot].matrix) {
+                        m[slot].matrix = new THREE.Matrix3();
+                    }
+                });
+            });
         }
     }
 }
