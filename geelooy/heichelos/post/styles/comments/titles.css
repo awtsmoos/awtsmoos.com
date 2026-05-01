@@ -1,0 +1,38 @@
+
+/* B"H - COMMENTARY TITLES & HEADERS */
+
+/* Header of the comment in the Sidebar */
+.post-reader-localized-context .comment-content .commentTitle {
+    background: var(--color-ink) !important;
+    color: var(--color-accent) !important;
+    font-family: var(--font-heading) !important;
+    font-size: 1.6rem !important; 
+    padding: 15px 25px !important;
+    border-bottom: 6px solid var(--color-primary) !important;
+    text-transform: none !important; /* NO DEFAULT CAPS */
+    letter-spacing: 1px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Header of the Inline comment */
+.post-reader-localized-context .inline-comment .commentTitle {
+    background: var(--color-ink) !important;
+    color: var(--color-accent) !important;
+    font-size: 1.8rem !important; 
+    font-family: var(--font-heading) !important;
+    padding: 15px 25px !important;
+    text-transform: none !important; /* NO DEFAULT CAPS */
+    border-bottom: 6px solid var(--color-primary) !important;
+    letter-spacing: 1px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+/* Guarding paragraphs against text transformations */
+.post-reader-localized-context .awtsmoos-comment-paragraph {
+    text-transform: none !important;
+}

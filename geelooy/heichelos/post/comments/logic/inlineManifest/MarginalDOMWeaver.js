@@ -4,70 +4,85 @@
  * @module MarginalDOMWeaver
  * @chapter Weaving the Garments of the Gloss
  * @description
- * Once the correct vessel (Coordinate) is found, this weaver physicalizes 
- * the 'Gilyon' (margin) and places the commentary card inside it. 
- * "It is a tree of life to those who grasp it" — the margin holds the 
- * branches of interpretation firmly to the trunk of the text.
+ * Once the exact physical vessel (Paragraph/Verse) is found, this weaver 
+ * builds the structured 'Gilyon' (margin).
+ * It enforces order: Shelter -> Guardian Gateway -> Insight Card.
  */
 
 import { makeInlineComment } from "../../render/core.js";
+import { makeInlineCommentHolder } from "../../render/factories/CommentHolderFactory.js";
 
 /**
  * @function weaveInsightIntoMargin
  * @description 
  * Takes an exact physical text element and a data comment, generating
- * the HTML card and appending it carefully to the element's side structure.
- * 
- * @param {HTMLElement} targetVessel - The text container located by CoordinateResolver.
- * @param {Object} comment - The raw JSON spark from the server.
- * @param {string} alias - The divine name of the speaker.
+ * the HTML card and appending it into the neatly structured holder.
  */
 export function weaveInsightIntoMargin(targetVessel, comment, alias) {
     if (!targetVessel || !comment || !comment.id) return;
 
-    // 1. Guard against double-manifestation (Do not duplicate sparks)
-    const existing = targetVessel.querySelector(`.inline-comment[data-cid="${comment.id}"]`);
-    if (existing) return;
+    // 1. Establish the Shelter 
+    // Safely find the direct child shelter without using :scope
+    let shelter = null;
+    for (const child of targetVessel.children) {
+        if (child.classList.contains("marginal-gloss-shelter")) {
+            shelter = child;
+            break;
+        }
+    }
 
-    // 2. Forge the physical card using the core factory
-    const inlineCard = makeInlineComment(comment);
-    inlineCard.dataset.fromAlias = alias; // Tag it so we can easily dissolve it if the toggle is disabled
-    
-    // 3. Locate or create the Shelter (The Marginal Container)
-    // We use :scope to ensure we only look at immediate children, preventing deep nesting issues.
-    let shelter = targetVessel.querySelector(":scope > .marginal-gloss-shelter");
-    
     if (!shelter) {
-        // Speak the shelter into existence
         shelter = document.createElement("div");
         shelter.className = "marginal-gloss-shelter";
         targetVessel.appendChild(shelter);
     }
     
-    // 4. Emplace the card
-    shelter.appendChild(inlineCard);
+    // 2. Establish the Guardian Gateway
+    let gateway = null;
+    for (const child of shelter.children) {
+        if (child.classList.contains("commentator") && child.dataset.alias === alias) {
+            gateway = child;
+            break;
+        }
+    }
+
+    if (!gateway) {
+        gateway = makeInlineCommentHolder(alias, targetVessel, comment.dayuh.verseSection);
+        shelter.appendChild(gateway);
+    }
+
+    const listContainer = gateway.querySelector(".comments-holder-inline");
+
+    // 3. Guard against double-manifestation
+    const existing = listContainer.querySelector(`.inline-comment[data-cid="${comment.id}"]`);
+    if (existing) return;
+
+    // 4. Forge the physical card and append it to the Gateway's list
+    const inlineCard = makeInlineComment(comment);
+    inlineCard.dataset.fromAlias = alias; 
+    
+    listContainer.appendChild(inlineCard);
 }
 
 /**
  * @function dissolveMarginalWeave
  * @description 
- * The ritual of erasure. Removes all inline comments authored by a specific alias.
- * If a shelter becomes empty, the shelter itself is returned to the void.
- * 
- * @param {string} alias - The identity whose insights should vanish.
+ * Erases a Guardian's physical presence from the margins when they are 
+ * deselected from the Sidebar.
  */
 export function dissolveMarginalWeave(alias) {
     if (!alias) return;
 
-    const activeCards = document.querySelectorAll(`.inline-comment[data-from-alias="${alias}"]`);
+    // Target the Guardian Gateways globally
+    const activeGateways = document.querySelectorAll(`.commentator.inline-holder[data-alias="${alias}"]`);
     
-    activeCards.forEach(card => {
-        const shelter = card.parentNode;
+    activeGateways.forEach(gateway => {
+        const shelter = gateway.parentNode;
         
-        // Remove the specific spark
-        card.remove();
+        // Return the gateway to the void
+        gateway.remove();
         
-        // Check if the shelter is now a void. If so, collapse it.
+        // If the shelter is now empty of all guardians, remove it too
         if (shelter && shelter.classList.contains("marginal-gloss-shelter") && shelter.children.length === 0) {
             shelter.remove();
         }

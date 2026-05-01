@@ -1,4 +1,6 @@
 
+/* B"H - GENERAL BUTTONS */
+
 .post-reader-localized-context button.btn,
 .post-reader-localized-context .awtsmoos-hero-btn {
     all: unset;
@@ -13,31 +15,37 @@
     padding: var(--pad-sm) var(--pad-md);
     font-family: var(--font-ui);
     font-weight: 800;
-    text-transform: uppercase;
-    font-size: 14px;
+    text-transform: none !important; /* NO DEFAULT CAPS */
+    font-size: 16px;
     box-shadow: var(--shadow-ui);
     transition: all var(--time-fast);
 }
+
 .post-reader-localized-context button.btn:hover,
 .post-reader-localized-context .awtsmoos-hero-btn:hover {
     transform: translate(-2px, -2px);
     box-shadow: var(--shadow-hover);
     background: var(--color-accent);
 }
+
 .post-reader-localized-context button.btn:active,
 .post-reader-localized-context .awtsmoos-hero-btn:active {
     transform: translate(2px, 2px);
     box-shadow: none;
 }
+
 .post-reader-localized-context .danger-outline {
     all: unset; box-sizing: border-box; width: 100%;
     border: var(--border-thin) !important;
     border-color: var(--color-danger) !important;
     color: var(--color-danger) !important;
     text-align: center; padding: var(--pad-sm);
-    font-weight: 800; text-transform: uppercase; cursor: pointer;
+    font-weight: 800; 
+    text-transform: none !important; /* NO DEFAULT CAPS */
+    cursor: pointer;
     transition: all var(--time-fast);
 }
+
 .post-reader-localized-context .danger-outline:hover {
     background: var(--color-danger) !important;
     color: var(--bg-surface) !important;

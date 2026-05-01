@@ -1,0 +1,63 @@
+
+/* B"H - COMMENTARY TOOLBARS & ACTIONS */
+
+/* Sidebar Card Toolbar */
+.post-reader-localized-context .comment-content .comment-toolbar {
+    background: rgba(0,0,0,0.04) !important;
+    border-top: 2px dashed var(--color-ink-secondary) !important;
+    padding: 12px 20px !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 15px !important;
+    align-items: center !important;
+    margin-top: auto !important; /* Pushes toolbar to bottom if card is tall */
+}
+
+/* Dark theme inversion for toolbar */
+.post-reader-localized-context[data-theme="dark"] .comment-content .comment-toolbar {
+    background: rgba(255,255,255,0.05) !important;
+}
+
+/* Action Buttons inside Toolbars */
+.post-reader-localized-context .comment-toolbar .btn,
+.post-reader-localized-context .comment-toolbar .menu-btn {
+    background: var(--bg-surface) !important;
+    color: var(--color-ink) !important;
+    border: 2px solid var(--color-ink) !important;
+    box-shadow: 2px 2px 0 var(--color-ink) !important;
+    font-size: 1rem !important; 
+    padding: 6px 14px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    transition: all 0.15s var(--ease-snap) !important;
+}
+
+.post-reader-localized-context .comment-toolbar .btn:hover,
+.post-reader-localized-context .comment-toolbar .menu-btn:hover {
+    background: var(--color-accent) !important;
+    box-shadow: 4px 4px 0 var(--color-primary) !important;
+    transform: translate(-2px, -2px) !important;
+    border-color: var(--color-ink) !important;
+}
+
+/* Intense Reply Toggle Button (Nested Comments) */
+.post-reader-localized-context .reply-toggle-btn {
+    background: var(--color-electric) !important;
+    color: white !important;
+    border: 3px solid var(--color-ink) !important;
+    font-size: 1.1rem !important;
+    box-shadow: 4px 4px 0 var(--color-ink) !important;
+    padding: 10px 20px !important;
+    text-transform: uppercase !important;
+    font-weight: 900 !important;
+    transition: all 0.2s !important;
+    display: inline-block !important;
+    width: max-content !important;
+    margin-top: 10px !important;
+}
+
+.post-reader-localized-context .reply-toggle-btn:hover {
+    background: var(--color-primary) !important;
+    box-shadow: 6px 6px 0 var(--color-ink) !important;
+    transform: translate(-2px, -2px) !important;
+}

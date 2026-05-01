@@ -9,12 +9,12 @@
     padding: var(--pad-sm);
     font-family: var(--font-ui);
     color: var(--color-ink);
-    font-size: 14px;
+    font-size: 16px;
     width: 100%;
     box-sizing: border-box;
     transition: all var(--time-fast);
     outline: none;
-    border-radius: var(--border-radius-none);
+    border-radius: 0;
 }
 
 .post-reader-localized-context input[type="text"]:focus,
@@ -24,7 +24,6 @@
     box-shadow: 0 0 0 2px var(--color-primary);
 }
 
-/* Custom Select Dropdown Arrow */
 .post-reader-localized-context select {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -40,7 +39,6 @@
     background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');
 }
 
-/* THE ALTAR ACTIONS (Transcription Buttons from the screenshot) */
 .post-reader-localized-context .awtsmoos-comment-actions-bar {
     display: none; 
     justify-content: flex-end;
@@ -60,7 +58,7 @@
     box-shadow: none !important;
     color: var(--color-ink-secondary) !important;
     font-weight: 900 !important;
-    text-transform: uppercase !important;
+    text-transform: none !important; /* NO DEFAULT CAPS */
 }
 
 .post-reader-localized-context .awtsmoos-action-cancel:hover {
@@ -74,7 +72,7 @@
     border: 2px solid var(--color-ink) !important;
     box-shadow: 4px 4px 0px var(--color-accent) !important;
     font-weight: 900 !important;
-    text-transform: uppercase !important;
+    text-transform: none !important; /* NO DEFAULT CAPS */
     padding: 10px 20px !important;
 }
 
