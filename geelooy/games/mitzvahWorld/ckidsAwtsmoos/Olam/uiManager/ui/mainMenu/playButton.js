@@ -4,40 +4,31 @@
  * @file playButton.js
  * @description
  * ⚡ THE IGNITION OF WORLDS — THE PLAY BUTTON ⚡
+ * 
+ * Chapter 44: The Moment of Choice
+ * Instead of plunging blindly into the abyss, the soul is now given the 
+ * divine gift of Bechirah (Free Will). When this button is pressed, 
+ * the veil lifts not to the world itself, but to the Realm of Choices 
+ * (the Level Select screen), where one can choose between the Emerald Void 
+ * or the populated Villages.
  */
 import mitzvahBtn from "../resources/mitzvahBtn.js";
-import { MINIMAL_GRASS_WORLD } from "../../../../../levelData.js";
 
 export default function playButton(gameUiHTML) {
     return mitzvahBtn({
-        text: "Play",
+        text: "Play / Enter Realms",
         onclick(e, $, ui, me) {
-            const ikar = $("ikar");
-            const loadingScreen = $("loading");
-            const menuScreen = $("main menu");
-
-            if (!ikar) {
-                console.error('B"H - ⚠️ [playButton] ikar element not found! Cannot dispatch start event.');
-                return;
+            console.log('B"H - ⚡ [playButton] Click! Opening the Realm Selector...');
+            
+            // The sacred vessel that holds the world options
+            const ls = $("levelSelectScreen");
+            
+            if (ls) {
+                // We dispatch a divine peula (action) to open the selection screen
+                ui.peula(ls, { open: true });
+            } else {
+                console.error('B"H - ⚠️ [playButton] levelSelectScreen not found! The realm is sealed.');
             }
-
-            console.log('B"H - ⚡ [playButton] Click! Dispatching world start for:', MINIMAL_GRASS_WORLD.shaym);
-
-            if (menuScreen) {
-                menuScreen.classList.add("hidden");
-                menuScreen.isGoing = false;
-            }
-
-            // B"H: Reveal the Loading Screen visibly!
-            if (loadingScreen) {
-                loadingScreen.classList.remove("hidden");
-                loadingScreen.style.display = "flex";
-                loadingScreen.style.opacity = "1";
-            }
-
-            ikar.dispatchEvent(new CustomEvent("start", {
-                detail: { worldDayuh: MINIMAL_GRASS_WORLD, gameUiHTML }
-            }));
         }
     });
 }

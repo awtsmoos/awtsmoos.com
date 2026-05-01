@@ -18,7 +18,8 @@ import UI from "/scripts/awtsmoos/ui/index.js";
 import style from "./ui/style.js";
 import btnBubble from "./ui/resources/btnBubble.js";
 import mainMenu from "./ui/mainMenu/index.js";
-import gameMenu from "./gameMenu.js";
+import gameMenuData from "./gameMenu.js";
+import { MainMenu } from "./ui/gameUI/MainMenu/index.js";
 
 export default class UIManager {
     /** @constructor — empty vessel, awaiting UI() to begin creation */
@@ -181,64 +182,20 @@ export default class UIManager {
             return;
         }
 
-        console.log('B"H: Found gameUI parent - creating in-game menu.');
-
+        console.log('B"H: Found gameUI parent - manifesting premium MainMenu.');
+        
+        // Manifesting the premium MainMenu component
         this.ui.html({
-            shaym: "menu",
-            parent: par,
-            className: "gameMenu offscreen"
+            ...MainMenu,
+            parent: par
         });
-
-        window.m = this.ui.$g("menu");
-
-        if (!Array.isArray(gameMenu)) {
-            return console.log("No menu array");
-        }
-
-        gameMenu.forEach(w => this.gameMenuItem(w));
     }
 
     /**
      * @function gameMenuItem
-     * @param {Object} opts
+     * @deprecated Use MainMenu component instead.
      */
     gameMenuItem(opts = {}) {
-        var gm = this.ui.$g("menu");
-        if (!gm) return console.log("No menu");
-
-        var txt = opts.text;
-        var show = opts.show;
-        var className = opts.showClass;
-
-        this.ui.html({
-            parent: "menu",
-            tag: "button",
-            className: "backBtn mitzvahBtn",
-            children: [
-                { className: "mitzvahBtnTxt", textContent: txt },
-                { className: "svgHolder", innerHTML: btnBubble }
-            ],
-            onclick(e, $, ui, me) {
-                me?.blur();
-                if (!show) return;
-
-                var m = $("menu");
-                if (!m) return;
-
-                if (show === "menu") {
-                    m.classList.toggle("offscreen");
-                    m.classList.toggle("onscreen");
-                    return;
-                }
-
-                var el = $(show);
-                if (!el) return;
-
-                $("menu").classList.add("offscreen");
-                $("menu").classList.remove("onscreen");
-                el.classList.toggle(className || "hidden");
-                el.dispatchEvent(new CustomEvent("awtsmoosRevealed"));
-            }
-        });
+        // No longer used
     }
 }

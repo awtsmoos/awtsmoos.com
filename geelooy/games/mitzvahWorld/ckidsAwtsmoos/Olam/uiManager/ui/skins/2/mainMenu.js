@@ -3,77 +3,114 @@
  * B"H
  */
 export default /*css*/`
-:root {
-    --base-font-size: 85px;
-    --stroke: 12px;
-}
+    .menu {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at 50% 50%, #1a1a3e 0%, #050515 100%);
+        overflow: hidden;
+        z-index: 1000;
+        font-family: 'Outfit', sans-serif;
+    }
 
-.gameMenu {
-    display: flex;
-    justify-content: start;
-    flex-direction: column;
-    top: 0;
-    padding: 20px;
-    height: 100%;
-    background: rgba(10, 10, 20, 0.9);
-    border-right: 2px solid #00ffed;
-    position: absolute;
-    z-index: 5000;
-    transition: all 0.4s ease;
-}
+    .info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+        z-index: 10;
+        animation: fadeInMenu 1s ease-out;
+    }
 
-.onscreen { left: 0px !important; opacity: 1; }
-.offscreen { left: -500px !important; opacity: 0; pointer-events: none; }
+    @keyframes fadeInMenu {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-.menu {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0; left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(circle at center, #23144F 0%, #0a0a1e 100%);
-    overflow: hidden;
-}
+    .mainTitle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: -10px;
+    }
 
-.mainTitle .lns {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
+    .title-word {
+        font-size: 120px;
+        font-weight: 900;
+        letter-spacing: 15px;
+        color: #fff;
+        position: relative;
+        text-transform: uppercase;
+        line-height: 0.9;
+        filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.3));
+    }
 
-.txt {
-    font-family: 'Fredoka One', cursive;
-    font-size: var(--base-font-size);
-    color: #fff;
-    text-shadow: 0 0 20px rgba(0, 255, 237, 0.5);
-    margin: 0; padding: 0;
-}
+    .title-word:first-child {
+        color: var(--otzar-gold, #ffde40);
+        filter: drop-shadow(0 0 25px rgba(255, 222, 64, 0.4));
+    }
 
-.line:first-child .txt { color: #FECB39; }
+    .title-word::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0; top: 0;
+        z-index: -1;
+        -webkit-text-stroke: 4px rgba(255, 255, 255, 0.1);
+        color: transparent;
+        transform: translate(4px, 4px);
+    }
 
-.mitzvahBtn {
-    margin-bottom: 25px;
-    border-radius: 50px;
-    border-bottom: 6px solid #3C9F00;
-    background: #44C300;
-    box-shadow: 0px 8px 0px 6px rgba(0, 0, 0, 0.10), 0px 0px 0px 8px #FECB39;
-    display: inline-flex;
-    padding: 12px 40px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
+    .mitzvahBtn {
+        position: relative;
+        padding: 20px 60px;
+        background: linear-gradient(135deg, #44C300 0%, #2e8b57 100%);
+        border: none;
+        border-radius: 20px;
+        color: white;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 0 #2d8000, 0 15px 30px rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
 
-.mitzvahBtn:hover { transform: scale(1.05); filter: brightness(1.1); }
-.mitzvahBtn:active { transform: scale(0.95); border-bottom-width: 2px; }
+    .mitzvahBtn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 0 #2d8000, 0 20px 40px rgba(0,0,0,0.5);
+        filter: brightness(1.1);
+    }
 
-.rectangle {
-    background: #FFF;
-    filter: blur(8px);
-    position: absolute;
-    bottom: 0;
-    pointer-events: none;
-}
+    .mitzvahBtn:active {
+        transform: translateY(5px);
+        box-shadow: 0 5px 0 #2d8000, 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .svgHolder {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.3;
+    }
+
+    .mitzvahBtnTxt {
+        z-index: 2;
+    }
+
+    /* B"H: The login header at the top */
+    .loginHeader {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        z-index: 100;
+    }
 `;
+

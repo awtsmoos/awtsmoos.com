@@ -19,7 +19,16 @@ export default class InventoryManager {
         this.owner = owner;
         this.maxSlots = 36;
         this.maxActionSlots = 6;
-        this.equipment = { head: null, jacket: null, legs: null, feet: null, rightHand: null, leftHand: null };
+        this.equipment = { 
+            head: null, 
+            shirt: null, 
+            jacket: null, 
+            legs: null, 
+            feet: null, 
+            rightHand: null, 
+            leftHand: null, 
+            eyes: null 
+        };
         this.activeContainer = null;
         this.slots = [];
         this.actionSlots = [];

@@ -19,15 +19,20 @@ export default class DataStore {
         while (instance.actionSlots.length < instance.maxActionSlots) instance.actionSlots.push(null);
         
         this.loadFromSave(instance);
+        instance.updateUI();
     }
 
     static loadFromSave(instance) {
         if (!instance.owner.olam || !instance.owner.olam.userProgressManager) return;
         const saved = instance.owner.olam.userProgressManager.data.inventory;
-        if (saved && saved.slots) {
-            instance.slots = saved.slots;
-            instance.actionSlots = saved.actionSlots || instance.actionSlots;
-            instance.equipment = saved.equipment || instance.equipment;
+        if (saved) {
+            if (saved.slots) instance.slots = saved.slots;
+            if (saved.actionSlots) instance.actionSlots = saved.actionSlots;
+            if (saved.equipment) instance.equipment = saved.equipment;
+            
+            // B"H: Enforce the boundaries of the vessels!
+            while (instance.slots.length < instance.maxSlots) instance.slots.push(null);
+            while (instance.actionSlots.length < instance.maxActionSlots) instance.actionSlots.push(null);
         }
     }
 }
