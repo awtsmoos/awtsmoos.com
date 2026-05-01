@@ -4341,7 +4341,7 @@ function WebGLInfo( gl ) {
 	};
 
 }
-
+var times = 0
 function WebGLMorphtargets( gl, capabilities, textures ) {
 
 	const morphTextures = new WeakMap();
@@ -4351,13 +4351,15 @@ function WebGLMorphtargets( gl, capabilities, textures ) {
 
 		const objectInfluences = object.morphTargetInfluences;
 		if(!objectInfluences) {
-			console.trace("ISSUE", object,geometry,program); return;
+			if(times++ < 1)
+				console.trace("ISSUE", object,geometry,program);
+			//return;
 				
 			}
 
-		// the following encodes morph targets into an array of data textures. Each layer represents a single morph target.
+			// the following encodes morph targets into an array of data textures. Each layer represents a single morph target.
 
-		const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
+			const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
 		const morphTargetsCount = ( morphAttribute !== undefined ) ? morphAttribute.length : 0;
 
 		let entry = morphTextures.get( geometry );

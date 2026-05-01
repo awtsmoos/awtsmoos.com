@@ -50,5 +50,6 @@ export {default as ProceduralCloud} from "./dvarim/nature/proceduralCloud.js";
 export {default as LivingField} from "./utils/3d/procedural/nature/LivingField.js"; 
 export {default as InteractiveDoor} from "./dvarim/interactiveDoor.js"; 
 export {default as ProceduralBuilding} from "./dvarim/architecture/ProceduralBuilding.js"; 
+export {default as SolidBlock} from "./dvarim/architecture/SolidBlock.js"; 
 
 export class ok{}

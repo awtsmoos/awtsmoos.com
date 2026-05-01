@@ -7,17 +7,32 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 
 export default class DomUtils {
-    static replaceMaterialsWithLambert(gltf) {
-        // B"H: The Great Tikkun. 
-        // We preserve the original divine intent of the materials.
-        // Converting to Lambert destroyed PBR properties and caused shader paradoxes.
-        // This function is now nullified. Let the Standard Materials shine!
-        console.log("B\"H - Preserving pure PBR materials. No Lambert conversion applied.");
+    static replaceMaterialsWithLambert(obj) {
+        if (!obj) return;
+        obj.traverse(child => {
+            if (child.isMesh) {
+                this.replaceMaterialWithLambert(child);
+            }
+        });
     }
 
     static replaceMaterialWithLambert(mesh) {
-        // Nullified.
-        return mesh ? mesh.material : null;
+        if (!mesh || !mesh.material) return;
+        
+        const oldMat = mesh.material;
+        const color = oldMat.color || new THREE.Color(0xffffff);
+        const map = oldMat.map || null;
+
+        mesh.material = new THREE.MeshLambertMaterial({
+            color: color,
+            map: map,
+            side: oldMat.side || THREE.FrontSide,
+            transparent: oldMat.transparent || false,
+            opacity: oldMat.opacity !== undefined ? oldMat.opacity : 1
+        });
+
+        console.log(`B"H - 🧪 Material Tikkun [Lambert]: Applied to ${mesh.name}`);
+        return mesh.material;
     }
 
     static getSolid(mesh) {

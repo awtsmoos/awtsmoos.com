@@ -14,6 +14,7 @@ import GrassGenerator from "./Generators/Grass.js";
 import StoneGenerator from "./Generators/Stone.js";
 import BasicPlane from "./Generators/BasicPlane.js"; 
 import SafeGrass from "./Generators/SafeGrass.js"; 
+import Emerald from "./Generators/Emerald.js"; 
 import BrickGenerator from "./Generators/Brick.js"; 
 import WoodGenerator from "./Generators/Wood.js";
 import CanvasHelper from "./CanvasHelper.js";
@@ -36,6 +37,7 @@ export default class TextureForge {
                 case 'stone': canvas = StoneGenerator.generate(); break;
                 case 'basic': canvas = BasicPlane.generate(); break;
                 case 'safegrass': canvas = SafeGrass.generate(); break; 
+                case 'emerald': canvas = Emerald.generate(); break; 
                 case 'brick': canvas = BrickGenerator.generate(); break; 
                 case 'wood': canvas = WoodGenerator.generate(); break;
                 default: canvas = SafeGrass.generate(); break; 
