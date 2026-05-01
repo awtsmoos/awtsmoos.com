@@ -1,34 +1,39 @@
-// B"H
-// /heichelos/heichel/app.js
-// The single point of ignition for the Great Library's consciousness.
+
+/**
+ * B"H
+ * @module HeichelApp
+ * @description
+ * The single spark that initiates the creation of the Great Library.
+ * It coordinates the manifestation of the UI from JSON and the 
+ * awakening of the Navigator.
+ */
 
 import { HeichelNavigator } from './modules/navigator.js';
 import { initializeEventListeners } from './modules/events.js';
-import { appState } from './state.js';
-import { initializeDOMElements } from './modules/dom.js';
+import { manifestWorld } from './modules/ui.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        console.log("B\"H - Awakening the Great Library...");
-        
-        initializeDOMElements();
-        console.log("B\"H - The physical form of the Library is recognized.");
+        console.log("B\"H - Commencing Creation Ritual...");
 
         const heichelId = window.location.pathname.split('/')[2];
         if (!heichelId) {
-            throw new Error('Heichel ID missing from the sacred path (URL).');
+            throw new Error('Heichel ID missing from the URL.');
         }
-        appState.heichelId = heichelId;
 
         const navigator = new HeichelNavigator(heichelId);
 
+        // 1. Manifest the entire UI from JSON blueprints
+        manifestWorld(navigator, document.body);
+
+        // 2. Awake the Navigator's logic
         navigator.initialize().then(() => {
             initializeEventListeners(navigator);
-            console.log("B\"H - The Library's consciousness is fully awake.");
+            console.log("B\"H - The Library consciousness is fully manifest.");
         });
 
     } catch (error) {
-        console.error("A fatal rupture occurred in the Library's creation:", error);
-        document.body.innerHTML = `<h1>Error: ${error.message}</h1>`;
+        console.error("B\"H - Fatal failure in the Great Manifestation:", error);
+        document.body.innerHTML = `<h1 style='color:red; text-align:center;'>VOID ERROR: ${error.message}</h1>`;
     }
 });

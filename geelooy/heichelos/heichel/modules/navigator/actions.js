@@ -1,73 +1,72 @@
-// /heichelos/heichel/modules/navigator/actions.js
-// B"H
-import { appState } from '../../state.js';
-import * as api from '../../api.js';
+
+/**
+ * B"H
+ * @module GuidanceActions
+ * @description
+ * This module defines the active forces (Gevurot) within the 
+ * Library. Actions such as Deleting or Creating are contractions 
+ * that shape the content of the Realm. Every action here 
+ * influences the manifest world through the API conduits.
+ */
+
+import { appState } from '../state.js';
+import * as api from '../api.js';
 import * as ui from '../ui.js';
-import { openModal } from '../modal.js';
 
-export function handleCreateSeries(navigator) {
-    openModal('series', navigator);
-}
-
-export function handleCreatePost(navigator) {
-    window.open(`/heichelos/${appState.heichelId}/submit?parentSeriesId=${appState.currentSeries}`, '_blank');
-}
-
+/**
+ * @function handleDelete
+ * @description Initiates the ritual of removal from the Realm.
+ */
 export async function handleDelete(navigator, itemsInput, clear = false) {
     const items = Array.isArray(itemsInput) ? itemsInput : [itemsInput];
-    if (!items || items.length === 0) return;
+    if (!items.length) return;
     
-    const count = items.length;
-    const desc = count === 1 ? `"${items[0].title || items[0].id}"` : `${count} items`;
-    const action = clear ? "CLEAR contents of" : "DELETE";
+    const label = clear ? "Purify (Clear)" : "Return to Void (Delete)";
+    if (!confirm(`Are you certain you wish to ${label} these ${items.length} sparks?`)) return;
     
-    if (!confirm(`Are you sure you want to ${action} ${desc}? This is irreversible.`)) return;
-    
-    ui.notify(`${action} in progress...`, 'info');
+    ui.notify(`Processing ${label}...`, 'info');
 
-    const func = clear ? api.clearSeries : api.deleteContent;
+    const ritual = clear ? api.clearSeries : api.deleteContent;
     
-    const results = await func({
+    const results = await ritual({
         heichelId: appState.heichelId,
         aliasId: window.curAlias,
         itemsToDelete: items,
     });
 
-    const failures = results.filter(r => !r.success);
-    if (failures.length > 0) {
-        ui.notify(`${failures.length} operations failed.`, 'error');
-        console.error("Deletion failures:", failures);
+    const brokenSparks = results.filter(r => !r.success);
+    if (brokenSparks.length > 0) {
+        ui.notify(`${brokenSparks.length} removals were resisted by the void.`, 'error');
     } else {
-        ui.notify('Operations successful.', 'success');
+        ui.notify('Manifestation successfully updated.', 'success');
     }
 
-    // Navigation logic
-    const didDeleteCurrent = items.some(item => item.type === 'series' && item.id === appState.currentSeries);
-    if (didDeleteCurrent) {
-        const parent = appState.breadcrumb.length > 0 ? appState.breadcrumb[appState.breadcrumb.length - 1] : null;
+    // Determine if we need to retreat from a deleted room
+    const currentDestroyed = items.some(i => i.type === 'series' && i.id === appState.currentSeries);
+    if (currentDestroyed) {
+        const parent = appState.breadcrumb.length > 0 
+            ? appState.breadcrumb[appState.breadcrumb.length - 1] 
+            : null;
         await navigator.navigateTo(parent ? parent.id : 'root');
     } else {
         await navigator.loadContent(appState.currentSeries);
     }
 }
 
-export function handleShare(navigator, item) {
+/**
+ * @function handleShare
+ * @description Generates a path of light for others to follow.
+ */
+export function handleShare(item) {
     const url = item.type === 'series' 
         ? `${window.location.origin}${window.location.pathname}?view=series&series=${item.id}` 
         : `${window.location.origin}/heichelos/${appState.heichelId}/series/${item.parentId}/${item.id}`;
     
     if (navigator.clipboard) {
         navigator.clipboard.writeText(url)
-            .then(() => ui.notify('Link copied!', 'success'))
-            .catch(() => ui.notify('Failed to copy link.', 'error'));
+            .then(() => ui.notify('The Path has been copied.', 'success'))
+            .catch(() => ui.notify('Path copying failed.', 'error'));
     } else {
-        // Fallback for old browsers
-        const ta = document.createElement('textarea');
-        ta.value = url;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        ui.notify('Link copied!', 'success');
+        window.prompt("Copy this path to share the Revelation:", url);
     }
 }
