@@ -1,18 +1,20 @@
+
 //B"H
 /**
- * @method renderBreadcrumbs
+ * @module SidebarBreadcrumbsManager
  * @description 
- * Weaving the trail of light through the spheres.
- * It reconstructs the seeker's journey from the current stack depth.
+ * Weaving the trail of light through the sidebar spheres.
+ * It reconstructs the seeker's journey from the current stack depth,
+ * attaching the insane CSS classes automatically.
  */
 export function renderBreadcrumbs(container, stack, onNavigate) {
     if (!container) return;
-    console.log("B\"H - [Breadcrumbs] Re-weaving the trail of light.");
+    console.log("B\"H - [Sidebar Breadcrumbs] Re-weaving the trail of light.");
     container.innerHTML = "";
     
     stack.forEach((tab, i) => {
         const crumb = document.createElement("button");
-        crumb.className = "awtsmoos-crumb-link";
+        crumb.className = "awtsmoos-crumb-link"; // Hook into the insane CSS
         
         const txt = document.createElement("span");
         txt.innerText = tab.header;
@@ -27,7 +29,7 @@ export function renderBreadcrumbs(container, stack, onNavigate) {
             };
             const arrow = document.createElement("span");
             arrow.className = "crumb-arrow";
-            arrow.innerText = "›";
+            arrow.innerText = "»"; // Use double arrow for impact
             crumb.appendChild(arrow);
         } else {
             // The active sphere is centered and unclickable

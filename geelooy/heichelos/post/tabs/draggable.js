@@ -1,9 +1,10 @@
+
 //B"H
 /**
  * @file draggable.js
  * @description 
  * The Physics Engine of the Sidebar.
- * FIXED: Re-enabled Desktop flex-basis manipulation for reliable resizing.
+ * FIXED: Global body modifications removed. Safely isolated to the local context.
  */
 import { performGeometricCheck } from '../logic/visuals/observer.js';
 
@@ -18,9 +19,8 @@ export function makeResizable({ sidebar, target }) {
     target.style.pointerEvents = "auto";
 
     let isResizing = false;
-    let startVal = 0;
-    let startDim = 0;
     let pointerId = null;
+    const rootContext = document.querySelector('.post-reader-localized-context');
 
     target.addEventListener('pointerdown', (e) => {
         if(e.cancelable) e.preventDefault(); 
@@ -31,20 +31,11 @@ export function makeResizable({ sidebar, target }) {
         target.setPointerCapture(pointerId);
         
         const isMobile = window.innerWidth <= 900;
-        document.body.classList.add('resizing-active');
+        if(rootContext) rootContext.classList.add('resizing-active');
         sidebar.classList.add('is-resizing');
-        // B"H - Store current width for the CSS var
+
         if(!isMobile) {
             document.documentElement.style.setProperty('--sidebar-width', `${sidebar.getBoundingClientRect().width}px`);
-        }
-
-
-        if (isMobile) {
-            startVal = e.clientY;
-            startDim = sidebar.getBoundingClientRect().height;
-        } else {
-            startVal = e.clientX;
-            startDim = sidebar.getBoundingClientRect().width;
         }
     });
 
@@ -54,26 +45,24 @@ export function makeResizable({ sidebar, target }) {
         
         requestAnimationFrame(() => {
             const isMobile = window.innerWidth <= 900;
-            const currentVal = isMobile ? e.clientY : e.clientX;
-            
-            const delta = startVal - currentVal;
             
             if (isMobile) {
-                let h = startDim + delta;
+                let h = window.innerHeight - e.clientY;
                 h = Math.max(100, Math.min(h, window.innerHeight - 80));
+                
                 lastMobileHeight = h;
                 sidebar.style.setProperty('height', `${h}px`, 'important');
                 sidebar.style.removeProperty('width');
                 sidebar.style.removeProperty('flex-basis');
             } else {
-                let w = startDim + delta;
+                let w = window.innerWidth - e.clientX;
                 w = Math.max(280, Math.min(w, window.innerWidth * 0.7));
+                
                 lastDesktopWidth = w;
                 sidebar.style.setProperty('width', `${w}px`, 'important');
                 sidebar.style.setProperty('flex-basis', `${w}px`, 'important');
                 sidebar.style.removeProperty('height');
                 document.documentElement.style.setProperty('--sidebar-width', `${w}px`);
-
             }
         });
     });
@@ -81,7 +70,7 @@ export function makeResizable({ sidebar, target }) {
     const stop = (e) => {
         if (!isResizing) return;
         isResizing = false;
-        document.body.classList.remove('resizing-active');
+        if(rootContext) rootContext.classList.remove('resizing-active');
         sidebar.classList.remove('is-resizing');
         if (target.hasPointerCapture(pointerId)) {
             target.releasePointerCapture(pointerId);
@@ -100,7 +89,6 @@ export function setupLayoutSyncer(sidebar) {
     const sync = () => {
         const isMobile = window.innerWidth <= 900;
         if (isMobile !== wasMobile) {
-            // More gentle reset
             sidebar.style.width = '';
             sidebar.style.height = '';
             sidebar.style.flexBasis = '';
@@ -117,5 +105,3 @@ export function setupLayoutSyncer(sidebar) {
     window.addEventListener('resize', sync);
     setTimeout(sync, 100);
 }
-
-export function makeDraggable() {}

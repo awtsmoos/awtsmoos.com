@@ -1,11 +1,12 @@
+
 //B"H
 /**
  * @file chamber.js
  * @description 
  * Forges the individual Chambers (Tabs). 
- * Each is a world with its own header and scroll area.
+ * B"H - Now correctly separating the pinned header from the scrolling content area.
  */
-import { appendHTML } from "../../postFunctions.js";
+import { appendHTML } from "../../functions/utils.js";
 
 /**
  * @method createChamberDOM
@@ -18,15 +19,13 @@ export function createChamberDOM(options, onPop) {
     const dom = document.createElement("div");
     dom.className = "awtsmoos-slide-view";
     
+    // 1. The Pinned Sub-Header
     const subHeader = document.createElement("div");
     subHeader.className = "awtsmoos-view-header";
     
     const backBtn = document.createElement("button");
     backBtn.className = "awtsmoos-back-btn";
     backBtn.innerHTML = "← Back";
-    
-    // B"H - ABSOLUTE HIDING ON CREATION
-    // This button is only manifest by the Core if the stack depth warrants it.
     backBtn.style.display = "none"; 
     
     backBtn.onclick = (e) => {
@@ -41,6 +40,7 @@ export function createChamberDOM(options, onPop) {
     subHeader.append(backBtn, subTitle);
     dom.appendChild(subHeader);
 
+    // 2. The Scrolling Content Area
     const scrollArea = document.createElement("div");
     scrollArea.className = "awtsmoos-view-content";
     dom.appendChild(scrollArea);

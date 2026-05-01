@@ -26,30 +26,31 @@
     margin: 0 !important;
     font-family: var(--font-heading) !important;
     font-weight: 900 !important;
-    font-size: 1.1rem !important;
-    text-transform: uppercase !important;
+    font-size: 1.2rem !important;
+    text-transform: none !important; /* NO DEFAULT CAPS */
     color: var(--color-ink) !important;
     flex: 1 !important;
     word-break: break-word !important;
 }
 
-/* Chrome Control Buttons (Expand, Close) */
+/* Chrome Control Buttons */
 .post-reader-localized-context .awtsmoos-chrome-btn {
     all: unset;
     box-sizing: border-box !important;
-    width: 36px !important; 
-    height: 36px !important;
+    width: 44px !important; 
+    height: 44px !important;
     background: var(--bg-surface) !important;
     border: var(--border-thin) !important;
     color: var(--color-ink) !important;
     display: flex !important; 
     align-items: center !important; 
     justify-content: center !important;
-    font-size: 18px !important; 
+    font-size: 22px !important; 
     font-weight: 900 !important;
     cursor: pointer !important;
     box-shadow: 2px 2px 0px var(--color-ink) !important;
     transition: all var(--time-fast) !important;
+    text-transform: none !important; /* NO DEFAULT CAPS */
 }
 
 .post-reader-localized-context .awtsmoos-chrome-btn:hover {

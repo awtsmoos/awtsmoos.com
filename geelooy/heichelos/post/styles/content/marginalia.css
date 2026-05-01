@@ -1,28 +1,86 @@
 
 /* B"H - THE GLITCH IN THE MATRIX (MARGINALIA) */
 
-/* The overarching shelter for marginal glosses */
+/* The overarching shelter for marginal glosses - Renders AFTER the paragraph text */
 .post-reader-localized-context .marginal-gloss-shelter {
     display: flex !important;
     flex-direction: column !important;
     gap: 15px !important;
-    margin: 20px 0 30px 40px !important;
+    margin: 15px 0 30px 20px !important;
     padding-left: 20px !important;
-    border-left: 4px dashed var(--color-ink) !important;
+    border-left: 4px solid var(--color-ink) !important;
     animation: fadeInReveal var(--time-std) var(--ease-snap) !important;
+    background: rgba(0,0,0,0.02) !important;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
 }
 
 .post-reader-localized-context .heb .marginal-gloss-shelter {
-    margin: 20px 40px 30px 0 !important;
+    margin: 15px 20px 30px 0 !important;
     border-left: none !important;
-    border-right: 4px dashed var(--color-ink) !important;
+    border-right: 4px solid var(--color-ink) !important;
     padding-left: 0 !important;
     padding-right: 20px !important;
 }
 
 @keyframes fadeInReveal {
-    from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* THE GUARDIAN GATEWAY (Button Holder) */
+.post-reader-localized-context .commentator.inline-holder {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+/* RTL Override for buttons */
+.post-reader-localized-context .heb .commentator.inline-holder {
+    align-items: flex-end;
+}
+
+/* The Intense Activation Button */
+.post-reader-localized-context .inline-summary-btn {
+    all: unset;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: var(--bg-surface) !important;
+    border: var(--border-thin) !important;
+    color: var(--color-ink) !important;
+    font-family: var(--font-ui) !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    padding: 8px 16px !important;
+    cursor: pointer !important;
+    box-shadow: 4px 4px 0 var(--color-ink) !important;
+    transition: all var(--time-fast) var(--ease-snap) !important;
+}
+
+.post-reader-localized-context .inline-summary-btn:hover {
+    background: var(--color-accent) !important;
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 6px 6px 0 var(--color-ink) !important;
+}
+
+.post-reader-localized-context .inline-summary-btn.active {
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
+    box-shadow: 2px 2px 0 var(--color-accent) !important;
+    transform: translate(2px, 2px) !important;
+}
+
+/* The List Container for the Cards */
+.post-reader-localized-context .comments-holder-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    margin-top: 10px;
 }
 
 /* Individual inline comment card */
@@ -32,19 +90,19 @@
     box-shadow: var(--shadow-ui) !important;
     font-size: 14px !important;
     position: relative !important;
-    max-width: 400px !important;
+    max-width: 450px !important;
     width: 100% !important;
     transition: all var(--time-fast) var(--ease-snap) !important;
     overflow: hidden !important;
 }
 
 .post-reader-localized-context .inline-comment:hover {
-    transform: translate(-2px, -2px) !important;
+    transform: translate(-4px, -4px) !important;
     box-shadow: var(--shadow-hover) !important;
     border-color: var(--color-electric) !important;
 }
 
-/* Focus button inside inline comment (top right) */
+/* Focus button inside inline comment */
 .post-reader-localized-context .inline-comment .focus-trigger {
     position: absolute !important;
     top: 0 !important;
@@ -53,8 +111,8 @@
     height: 32px !important;
     border-left: var(--border-thin) !important;
     border-bottom: var(--border-thin) !important;
-    color: var(--bg-surface) !important;
-    background: var(--color-ink) !important;
+    color: var(--color-ink) !important;
+    background: var(--color-accent) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -65,12 +123,18 @@
     z-index: 5 !important;
 }
 
-.post-reader-localized-context .inline-comment .focus-trigger:hover {
-    background: var(--color-primary) !important;
-    color: #fff !important;
+.post-reader-localized-context .heb .inline-comment .focus-trigger {
+    left: 0 !important;
+    right: auto !important;
+    border-left: none !important;
+    border-right: var(--border-thin) !important;
 }
 
-/* Fix text spacing within inline comment */
+.post-reader-localized-context .inline-comment .focus-trigger:hover {
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
+}
+
 .post-reader-localized-context .inline-comment .comment-text {
     padding: 15px !important;
     margin: 0 !important;
