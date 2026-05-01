@@ -80,7 +80,8 @@ export class OctreeWorld {
         scan(this.root);
         if (hit) {
             const v = test.getCenter(new THREE.Vector3()).sub(capsule.getCenter(new THREE.Vector3()));
-            if (v.lengthSq() > 1e-12) return { normal: v.normalize(), depth: v.length() };
+            const depth = v.length(); // B"H: MUST capture length BEFORE normalize (normalize sets length to 1!)
+            if (depth > 1e-6) return { normal: v.normalize(), depth: depth };
         }
         return false;
     }
@@ -146,8 +147,27 @@ export class OctreeWorld {
     _insertMeshOnly(node, mesh, meshBox) {
         if (!node.box.intersectsBox(meshBox)) return false;
         if (node.type === 'LEAF') {
-            if (node.physicsMeshGroup.children.includes(mesh)) return true;
-            node.physicsMeshGroup.add(mesh);
+            // B"H: THE REPARENTING TIKKUN
+            // Three.js Group.add() removes the mesh from its current parent!
+            // If we add the actual scene mesh to physicsMeshGroup, it vanishes from the scene.
+            // SOLUTION: Create a physics proxy with the same geometry but a dummy material.
+            // Only the proxy enters the physics group. The original stays in the scene.
+            const alreadyInserted = node.physicsMeshGroup.children.some(
+                c => c.userData._physicsSourceId === mesh.uuid
+            );
+            if (alreadyInserted) return true;
+
+            const physicsProxy = new THREE.Mesh(
+                mesh.geometry, 
+                new THREE.MeshBasicMaterial({ visible: false })
+            );
+            physicsProxy.matrixAutoUpdate = false;
+            mesh.updateMatrixWorld(true);
+            physicsProxy.matrix.copy(mesh.matrixWorld);
+            physicsProxy.matrixWorld.copy(mesh.matrixWorld);
+            physicsProxy.userData._physicsSourceId = mesh.uuid;
+            physicsProxy.name = mesh.name + '_physicsProxy';
+            node.physicsMeshGroup.add(physicsProxy);
             node.state = NODE_STATE.PENDING_BUILD;
             this._buildQueue.add(node);
             return true;

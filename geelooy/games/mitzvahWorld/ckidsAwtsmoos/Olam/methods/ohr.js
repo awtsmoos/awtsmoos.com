@@ -24,12 +24,15 @@ export default class LuminaryManifestor {
 
         // 1. THE EMBRACING WISDOM (Hemisphere - Chochmah)
         // Illuminates evenly avoiding harsh under-shadowing clipping
-        const skyGlow = new THREE.HemisphereLight(0xffffff, 0x555555, 3.5);
+        const skyGlow = new THREE.HemisphereLight(0x88ccee, 0x443322, 1.2);
         this.scene.add(skyGlow);
 
         // 2. THE DIRECTED WILL (Sun - Ratzon)
-        const theSun = new THREE.DirectionalLight(0xfffae6, 3.5);
+        const theSun = new THREE.DirectionalLight(0xfffae6, 1.8);
         theSun.position.set(200, 400, 150); 
+        theSun.castShadow = true;
+        theSun.shadow.mapSize.width = 2048;
+        theSun.shadow.mapSize.height = 2048;
         this.scene.add(theSun);
 
         // 3. THE LIGHT OF DA'AS (Diagnostic Origin Point)

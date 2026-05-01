@@ -31,63 +31,63 @@ export default class ProceduralTerrain extends Domem {
     async heescheel(olam) {
         this.olam = olam;
         const label = `[Terrain: ${this.name}]`;
-        console.log(`B"H - 🌿 ${label}: Commencing manifestation of solid earth.`);
+        console.log(`B"H - 🌿 ${label}: Manifesting green plane with geometric hills.`);
 
-        // 1. FORGE GEOMETRY (The thick foundation)
-        const geometry = FoundationVessel.carve({
-            width: this.width,
-            depth: this.depth,
-            thickness: this.thickness,
-            segments: this.segments,
-            hills: this.hills
-        });
+        // 1. FORGE GEOMETRY (Segmented Plane)
+        const segments = this.segments || 64;
+        const geometry = new THREE.PlaneGeometry(this.width, this.depth, segments, segments);
+        geometry.rotateX(-Math.PI / 2); 
 
-        // 2. WEAVE MATERIAL (The emerald garment)
-        let material;
-        try {
-            const texUrl = `awtsmoostex://${this.textureType}`;
-            const map = await this.olam.loadTexture({ 
-                url: texUrl, 
-                shouldRepeat: true, 
-                repeatX: this.width / 15, // Scale repeat for high-res look
-                repeatY: this.depth / 15 
-            });
-
-            material = new THREE.MeshStandardMaterial({
-                map: map,
-                roughness: 0.9,
-                metalness: 0.05,
-                color: 0xffffff,
-                side: THREE.FrontSide // Standard lighting for solid boxes
-            });
-            
-            // B"H: If the texture is missing, we must NOT be transparent!
-            if (!map) {
-                material = new THREE.MeshLambertMaterial({ color: 0x228B22 });
+        // 2. APPLY HILLS (Manual Vertex Modification)
+        if (this.hills && this.hills.length > 0) {
+            const pos = geometry.attributes.position;
+            for (let i = 0; i < pos.count; i++) {
+                const x = pos.getX(i);
+                const z = pos.getZ(i);
+                let h = 0;
+                for (const hill of this.hills) {
+                    const dx = x - (hill.x || 0);
+                    const dz = z - (hill.z || 0);
+                    const dist = Math.sqrt(dx * dx + dz * dz);
+                    if (dist < (hill.radius || 50)) {
+                        const influence = (1 + Math.cos((Math.PI * dist) / hill.radius)) / 2;
+                        h += influence * (hill.height || 10);
+                    }
+                }
+                pos.setY(i, h);
             }
-        } catch(e) {
-            console.warn(`B"H - ${label}: Texture Forge failed. Using emerald pigment.`, e);
-            material = new THREE.MeshLambertMaterial({ color: 0x228B22 });
+            geometry.computeVertexNormals();
         }
 
-        // 3. ASSEMBLE MESH
+        // 3. FORGE MATERIAL (Custom Emerald Shader)
+        // B"H: We request the procedural shader from the scribe
+        const material = await olam.generateThreeJsMesh({
+            name: this.name,
+            toyr: { "AwtsmoosEmeraldMaterial": {} }
+        }).then(m => m.material);
+
+        if (material) {
+            material.side = THREE.DoubleSide;
+            console.log(`B"H - 🧪 ${label} MATERIAL [Shader]: Activated.`);
+        }
+
+        // 4. ASSEMBLE MESH
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.name = this.name;
         this.mesh.nivraAwtsmoos = this;
         this.mesh.visible = true;
-        this.mesh.frustumCulled = false; // B"H: ABSOLUTELY ESSENTIAL! Never hide the ground.
+        this.mesh.frustumCulled = false; 
 
-        // 4. ALIGNMENT (Positioning top face at 0)
-        FoundationVessel.rectify(this.mesh, this.thickness);
-        
-        // Add additional user offset if provided
+        // 5. POSITIONING
         if (this.position) {
-            this.mesh.position.x += this.position.x;
-            this.mesh.position.z += this.position.z;
-            this.mesh.position.y += this.position.y;
+            this.mesh.position.set(
+                (this.position.x || 0),
+                (this.position.y || 0),
+                (this.position.z || 0)
+            );
         }
 
-        // 5. SOLIDIFY IN THE REVELATION
+        // 6. SOLIDIFY
         this.mesh.updateMatrixWorld(true);
         this.mesh.userData.isSolid = true;
         this.mesh.userData.isTerrain = true;
@@ -95,11 +95,11 @@ export default class ProceduralTerrain extends Domem {
         await olam.hoyseef(this);
         
         if(this.olam.worldOctree) {
-            console.log(`B"H - ⚓ ${label}: Grounding [${this.name}] into the Octree.`);
+            console.log(`B"H - ⚓ ${label}: Grounding into the Octree.`);
             this.olam.worldOctree.addObject(this.mesh);
         }
 
         this.isReady = true;
-        console.log(`B"H - ✅ ${label}: Earth is firm at Y:${this.mesh.position.y}`);
+        console.log(`B"H - ✅ ${label}: Plane with hills manifest at Y:${this.mesh.position.y}.`);
     }
 }

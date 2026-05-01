@@ -35,15 +35,15 @@ import collision from "./methods/collision.js";
         this.distance = 15.0; // B"H: Start further back to see the world
         this.offsetFromWall = 0.5;
 
-        this.maxDistance = 500; // Expanded for village scale
-        this.minDistance = 0.1;
+        this.maxDistance = 500;
+        this.minDistance = 0.5;
         this.speedDistance = 5;
 
         this.xSpeed = 120.0;
         this.ySpeed = 120.0;
         this.sensitivity = 0.0012;
 
-        this.zoomRate = 0.02;
+        this.zoomRate = 0.005;
         this.zoomDampening = 5.0;
 
         this.yMinLimit = -40;

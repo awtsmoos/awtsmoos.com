@@ -59,7 +59,6 @@ export default class HeesHawvoosManager {
                         self.scene.traverse(node => {
                             if (node.isPoints || node.isLine || node.type === 'Points') {
                                 if (node.visible) {
-                                    console.log(`B"H - 🛡️[Purger]: Hiding problematic ${node.type} object: ${node.name}`);
                                     node.visible = false;
                                     node.renderOrder = -1; // Push it out of consideration
                                 }
@@ -68,10 +67,20 @@ export default class HeesHawvoosManager {
                             // B"H: Completely clean logical evaluators to avoid ANY character corruption!
                             const nName = node.name || "";
                             if (node.isMesh) {
-                                if (nName.includes("Floor") || nName.includes("House") || nName.includes("Terrain")) {
-                                    node.visible = true;
+                                const isEssential = nName.includes("Floor") || 
+                                                   nName.includes("House") || 
+                                                   nName.includes("Terrain") || 
+                                                   nName.includes("Plateau") || 
+                                                   nName.includes("Plain") ||
+                                                   nName.includes("Block");
+
+                                if (isEssential) {
+                                    if (!node.visible) {
+                                        node.visible = true;
+                                    }
                                     node.frustumCulled = false;
                                 }
+
                             }
                         });
                     }
