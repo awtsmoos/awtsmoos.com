@@ -15,36 +15,51 @@
 
 /* 2. THE RESET (Returning to the Void) */
 @import url("./reset/base.css");
+@import url("./reset/isolation.css");
 
 /* 3. THE LAYOUT (The Dimensions of Space) */
 @import url("./layout/scaffolding.css");
 @import url("./layout/sidebar.css");
-@import url("./layout/floating-controls.css");
+@import url("./layout/sidebar-breadcrumbs.css"); 
+@import url("./layout/resizer.css"); 
 
 /* 4. THE COMPONENTS (Vessels of Interaction) */
 @import url("./components/buttons.css");
 @import url("./components/inputs.css");
 @import url("./components/cards.css");
+@import url("./components/verse-menu.css"); 
+@import url("./components/floating-orbs.css"); 
 
-/* 5. THE MODULES (Aggregated Orbs of Logic) */
+/* 5. THE MODULES (Aggregated Spheres of Logic) */
 @import url("./modules/settings.css");
 @import url("./modules/header.css");
 @import url("./modules/sidebar-chrome.css");
-@import url("./modules/breadcrumbs.css");
+@import url("./modules/sidebar-menu.css"); /* NEW: Root Menu Portals */
 @import url("./modules/tabs.css");
 @import url("./modules/info-cards.css");
 @import url("./modules/comments.css");
-@import url("./modules/keepers.css"); /* B"H - NEW: Resolves the shattered Council Row layout */
+@import url("./modules/keepers.css");
 @import url("./modules/ai-chat.css");
 @import url("./modules/command-palette.css");
 @import url("./modules/footnotes.css");
 @import url("./modules/inline-thread.css");
 @import url("./modules/image-upload.css");
 
-/* 6. THE CONTENT (The Word Made Physical) */
+/* 6. INSANE COMMENTARY STYLES */
+@import url("./comments/titles.css");       
+@import url("./comments/toolbars.css");     
+@import url("./comments/inline-intense.css");
+@import url("./comments/sidebar-intense.css");
+
+/* 7. THE CONTENT (The Word Made Physical) */
+@import url("./content/body-text.css");     
 @import url("./content/text.css");
 @import url("./content/scroll.css");
 @import url("./content/marginalia.css");
+@import url("./content/verse-numbers.css"); 
+@import url("./content/paragraphs.css");    
+@import url("./content/titles.css");        
 
-/* 7. THEMES (The Garments of the Light) */
+/* 8. THEMES & ANIMATIONS (The Garments of the Light) */
 @import url("./themes/dark-mode.css");
+@import url("./themes/animations.css");     

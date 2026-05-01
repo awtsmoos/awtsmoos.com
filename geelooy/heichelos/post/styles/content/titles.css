@@ -1,0 +1,35 @@
+
+/* B"H - THE MONOLITH TITLES
+   "Let there be a heaven"
+*/
+
+.post-reader-localized-context #realPost .post-title {
+    font-family: var(--font-heading) !important;
+    font-weight: 900 !important;
+    font-size: clamp(3rem, 8vw, 7rem); 
+    line-height: 0.9 !important;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--color-ink);
+    margin: 0 0 3rem 0 !important;
+    padding: 2rem;
+    max-width: 1000px;
+    text-shadow: 4px 4px 0 var(--color-accent);
+    border: 6px solid var(--color-ink);
+    background: var(--bg-surface);
+    box-shadow: 15px 15px 0 var(--color-ink);
+    word-wrap: break-word;
+}
+
+.post-reader-localized-context[data-theme="dark"] #realPost .post-title {
+    text-shadow: 4px 4px 0 var(--color-electric);
+}
+
+.post-reader-localized-context #realPost .series-name {
+    display: block;
+    font-size: 0.3em;
+    letter-spacing: 4px;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    text-shadow: none;
+}

@@ -1,0 +1,48 @@
+
+/* B"H - THE INNER MATRIX (PARAGRAPHS)
+   The differentiation of the light into specific vessels.
+*/
+
+.post-reader-localized-context #realPost .subsection-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 2rem;
+    width: 100%;
+}
+
+.post-reader-localized-context #realPost .sub-awtsmoos {
+    position: relative;
+    display: block; 
+    width: 100%;
+    transition: all var(--time-std) var(--ease-snap);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid transparent;
+}
+
+.post-reader-localized-context #realPost .sub-awtsmoos:hover {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.post-reader-localized-context[data-theme="dark"] #realPost .sub-awtsmoos:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.post-reader-localized-context #realPost .sub-toichen {
+    display: block;
+    width: 100%;
+}
+
+/* THE GLOW OF CONSCIOUSNESS */
+.post-reader-localized-context .active-reading-sub {
+    background: var(--bg-surface) !important;
+    border-color: var(--color-ink) !important;
+    box-shadow: 8px 8px 0 var(--color-accent) !important;
+    transform: translateX(10px);
+}
+
+.post-reader-localized-context .heb .active-reading-sub {
+    transform: translateX(-10px);
+}

@@ -1,0 +1,46 @@
+
+/* B"H - THE INK OF REVELATION (BASE TEXT STYLES) 
+   The core properties of the scroll. 
+*/
+
+.post-reader-localized-context #realPost {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Generous padding so the top and bottom of the scroll feel infinite */
+    padding-top: 10vh; 
+    padding-bottom: 40vh;
+    isolation: isolate;
+}
+
+/* Ensure the Section has enough margin so the floating Verse Sigil doesn't crash into elements above it! */
+.post-reader-localized-context #realPost .section {
+    position: relative !important;
+    width: 100% !important;
+    margin-top: 3rem !important; /* B"H - Crucial spacer for the Sigil */
+    margin-bottom: 4rem !important;
+    box-sizing: border-box;
+    transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+} 
+
+.post-reader-localized-context #realPost .toichen {
+    font-family: var(--font-content) !important;
+    color: var(--color-ink) !important;
+    /* Sets the root baseline for all em-based scaling in commentaries */
+    font-size: var(--post-text-size, 24px) !important; 
+    line-height: 1.6 !important;
+    font-weight: 500;
+    max-width: 900px; /* Wide, readable column */
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--pad-md);
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 900px) {
+    .post-reader-localized-context #realPost .toichen {
+        padding: 0 15px;
+    }
+}
