@@ -30,7 +30,8 @@ export default class MemoryPurge {
                 const destruction = vault.delete(locatorUrl);
                 
                 destruction.onsuccess = () => {
-                    console.log(`B"H - 🗑️ Matter at ${locatorUrl} was un-created. Returned to Nothingness.`);
+                    // B"H: silent
+
                     resolve();
                 };
                 destruction.onerror = (e) => {
