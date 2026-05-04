@@ -1,10 +1,10 @@
 
 // B"H
 import { State } from '../../state.js';
-import { Menus } from '../../menus.js';
+import { Menus } from '../../menus/index.js';
 import { Tabs } from '../../tabs/index.js';
 import { SelectionManager } from '../../selection-manager.js';
-import { getItemUniquePath } from '../../workspaces.js';
+import { getItemUniquePath } from '../../workspaces/utils.js';
 
 export const FCGridRender = {
     render(grid, currentFiles, currentPathItem, viewMode, navigateFn) {
@@ -21,6 +21,7 @@ export const FCGridRender = {
                  else if (file.type === 'ssh') icon = 'ssh';
                  else if (file.type === 'indexeddb') icon = 'brain';
                  else if (file.type === 'opfs') icon = 'save';
+                 else if (file.type === 'relay') icon = 'laptop'; // B"H - Added relay icon logic
             }
             
             let sizeStr = isDir ? '--' : this._formatSize(file.size);

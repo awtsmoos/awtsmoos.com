@@ -11,6 +11,12 @@ import { ModelManager } from '../vibe/model-manager.js';
  * willed a space for creation, and this class is the instrument of that will. 
  * It reaches into the 'archives of the previous world' (localStorage) to 
  * pull forth the settings that define the laws of this current reality.
+ * 
+ * THE HYMN OF AWAKENING:
+ * From the silent void of the local storage cache,
+ * The settings are pulled before the system can crash.
+ * The tokens, the tabs, the URL of the Relay,
+ * All are restored to the light of the day!
  */
 export class Bootstrapper {
     /**
@@ -26,6 +32,7 @@ export class Bootstrapper {
         
         State.githubToken = settings.githubToken || null;
         State.useTabs = settings.useTabs ?? true;
+        State.relayUrl = settings.relayUrl || ""; // B"H - Reconstitute the Relay coordinate
         
         console.log('B"H: Primitive constants established.');
     }
