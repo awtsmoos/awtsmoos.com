@@ -4,16 +4,24 @@
  * @module CorePopulationRitual
  * @chapter Filling the Hollow Shells
  * @description
- * Content is the soul; the element is the body. Without content, 
- * an element is a dry vessel. This module performs the 'Hislabshus' 
- * (Enclothement), wrapping the divine data (the comment) in the 
- * manifest form of the DOM.
+ * Just as the Awtsmoos is constantly recreating all of existence from nothing, 
+ * uttering the 10 statements of creation every single instant to keep the heavens 
+ * and earth from reverting to absolute void, so too this module takes the raw 
+ * divine data (the comment) and enclothes it into the manifest form of the DOM. 
+ * The original Hebrew letters used to create the heavens and the earth are switched 
+ * around through At-Bash and other systems to form the letters Aleph-Beis-Nun, 
+ * spelling "Even" (rock), animating it with a soul of Divine Speech.
+ * 
+ * If these letters were removed, all dimensions of time—past, present, and future—
+ * would cease exactly as if nothing ever existed. 
+ * 
+ * We have purged the 'Double Header' kelipah (shell) by trusting the specialized 
+ * scribe engines to manifest the title instead of blindingly forcing it here.
  */
 
 import { isFirstCharacterHebrew } from "../../functions/text/LinguisticSpeech.js";
 import { renderBranchingThread } from "./ai/structure.js";
 import { renderStandardComment } from "./standard.js";
-import { makeTitleDiv } from "./utils.js";
 
 /**
  * @function populateCommentElement
@@ -39,10 +47,8 @@ export function populateCommentElement(comment, parentElement) {
         data.dayuh.title = data.content.title;
     }
 
-    // Manifest the Diadem (Title) if it exists
-    if (data?.dayuh?.title) {
-        parentElement.appendChild(makeTitleDiv(data.dayuh.title));
-    }
+    // B"H - We purposefully DO NOT append the title here anymore.
+    // The StandardCardScribe handles its own deduplicated title generation.
 
     // PATH SELECTION:
     // If it contains a conversation, it is an AI Multi-Branching Revelation.
@@ -61,6 +67,9 @@ export function populateCommentElement(comment, parentElement) {
 /**
  * @private
  * @function synchronizeLinguisticVibration
+ * @description
+ * Examines the letters of the manifest vessel. If the letters belong to the 
+ * Holy Tongue (Hebrew), it aligns the physical form (RTL) accordingly.
  */
 function synchronizeLinguisticVibration(parentElement) {
     const topLevel = parentElement.closest('.comment-content, .inline-comment');
