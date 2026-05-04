@@ -17,7 +17,8 @@ export default function updateEquipment(e, $, ui) {
     const equipContainer = inventoryElement.querySelector(".equipment-slots");
     if (!equipContainer) return;
 
-    console.log('B"H - 👕 [LEVUSHIM]: Harmonizing the garments of the soul.');
+    // B"H: silent
+
     equipContainer.innerHTML = '';
 
     const slotIcons = {
@@ -58,7 +59,8 @@ export default function updateEquipment(e, $, ui) {
                 const sData = el['awtsmoosSlotData'];
                 if (sData) {
                     // Unequip logic
-                    console.log(`B"H - 🔓 [LEVUSHIM]: Removing the garment from ${slotId}`);
+                    // B"H: silent
+
                     uiInstance.peula("ikar", { olamPeula: { unequipItem: slotId } });
                 }
             },

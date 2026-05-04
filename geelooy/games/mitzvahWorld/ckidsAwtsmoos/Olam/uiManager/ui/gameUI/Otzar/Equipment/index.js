@@ -9,7 +9,8 @@ import Renderer from "./Renderer.js";
 
 export default async function updateEquipment(e, $, ui) {
     const equipment = e.detail || e;
-    console.log('B"H - 👕 [LEVUSHIM_UPDATE]: Received equipment data', equipment);
+    // B"H: silent
+
     
     const inventoryElement = $("inventoryScreen") || document.getElementById("inventoryScreen");
     if (!inventoryElement) return;

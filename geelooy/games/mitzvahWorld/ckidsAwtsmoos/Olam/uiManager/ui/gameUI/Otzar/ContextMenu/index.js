@@ -28,7 +28,8 @@ export const ItemContextMenu = {
                 if (payloadStr && payloadStr !== "null") {
                     try {
                         const payload = JSON.parse(decodeURIComponent(payloadStr));
-                        console.log("B\"H - ⚡ [OTZAR_DECREE]: Executing", payload);
+                        // B"H: silent
+
                         
                         // B"H: Providing feedback to the soul
                         const actionKey = Object.keys(payload)[0];
