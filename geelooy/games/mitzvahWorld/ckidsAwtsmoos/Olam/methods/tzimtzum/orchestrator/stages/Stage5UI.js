@@ -10,7 +10,8 @@
 export default class Stage5UI {
     static async build(olam, info) {
         if (info.html) {
-            console.log("B\"H - 🌌 STAGE 5: Constructing the observer's interface.");
+            // B"H: silent
+
             
             const style = {
                 tag: "style",
@@ -45,7 +46,8 @@ export default class Stage5UI {
             
             olam.htmlUI = par;
             olam.styled = true;
-            console.log("B\"H - ⚡ INTENSE LOG: UI Layer Forged Successfully.");
+            // B"H: silent
+
         }
     }
 }

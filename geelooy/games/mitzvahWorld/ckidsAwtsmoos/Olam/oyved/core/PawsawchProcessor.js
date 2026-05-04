@@ -26,7 +26,8 @@ export class PawsawchProcessor {
      * @returns {Object} { olamInstance }
      */
     static async beginGenesis(payload, OlamClass, promiseMap, UtilsClass) {
-        console.log('B"H - 👷‍♂️ [OYVED]: Pawsawch received. Initiating Reality.');
+        // B"H: silent
+
         self.postMessage({ type: 'pawsawch_digested', status: 'Forging' });
 
         try {
@@ -38,7 +39,8 @@ export class PawsawchProcessor {
                 Object.assign(olam, payload.systemInfo.set);
             }
 
-            console.log('B"H - 👷‍♂️ [OYVED]: Initializing Olam Core...');
+            // B"H: silent
+
             await olam.init();
 
             // Establish communication
@@ -48,7 +50,8 @@ export class PawsawchProcessor {
             const worldData = payload.userInfo || payload;
             const nivrayimData = worldData.nivrayim || {};
             
-            console.log('B"H - 👷‍♂️ [OYVED]: Commencing loadNivrayim pipeline...', Object.keys(nivrayimData));
+            // B"H: silent
+
             
             const loadStart = performance.now();
             
@@ -56,7 +59,8 @@ export class PawsawchProcessor {
             const result = await olam.loadNivrayim(nivrayimData);
             const loadTime = (performance.now() - loadStart).toFixed(2);
             
-            console.log(`B"H - 👷‍♂️ [OYVED]: loadNivrayim completed successfully. Manifested ${result.length} souls in ${loadTime}ms.`);
+            // B"H: silent
+
 
             // Seal the process and notify the UI
             self.postMessage({ type: 'loadedWorld', payload: { status: 'Complete' } });

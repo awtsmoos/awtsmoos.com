@@ -16,7 +16,8 @@
 import { OlamDynamicBoot } from './core/OlamDynamicBoot.js';
 import { OyvedMessageInterpreter } from './core/OyvedMessageInterpreter.js';
 
-console.log('B"H - 👷‍♂️ [OYVED CROWN]: The Chariot is prepared. Beginning ascension sequences.');
+// B"H: silent
+
 
 // The Ledger of Memories and Actions
 const promiseMap = new Map();

@@ -15,7 +15,8 @@ export default class UIRectifier {
     static async rectify(olam, width, height) {
         if (!olam || !width || !height) return;
  
-        console.log(`B"H ⚡ UIRectifier: Aligning UI dimensions to ${width}x${height}`);
+        // B"H: silent
+
  
         const actions = [
             {

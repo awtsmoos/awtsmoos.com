@@ -22,10 +22,12 @@ export class ContinuousEventRouter {
      */
     static actionMap = {
         'takeInCanvas': async (olam, payload) => {
-            console.log('B"H - 👷‍♂️ [OYVED]: Receiving Canvas Vessel.');
+            // B"H: silent
+
             olam.takeInCanvas(payload.canvas, payload.devicePixelRatio);
             if (typeof olam.setSize === 'function') await olam.setSize(payload.width, payload.height);
-            console.log('B"H - 👷‍♂️[OYVED]: Igniting Heartbeat (heesHawvoos).');
+            // B"H: silent
+
             if (typeof olam.heesHawvoos === 'function') olam.heesHawvoos(); 
         },
         'resize': async (olam, payload) => {
@@ -45,7 +47,8 @@ export class ContinuousEventRouter {
                 // B"H: Execute arbitrary code sent from the main thread for debugging
                 const me = { olam };
                 const result = eval(payload);
-                console.log('B"H - 💻 [AWTS_CODE] Execution result:', result);
+                // B"H: silent
+
             } catch (e) {
                 console.error('B"H - 🚨 [AWTS_CODE] Execution error:', e);
             }
@@ -54,9 +57,15 @@ export class ContinuousEventRouter {
         // STANDARD EVENT EMANATIONS:
         'keydown': (olam, payload) => olam.ayshPeula('keydown', payload),
         'keyup': (olam, payload) => olam.ayshPeula('keyup', payload),
-        'mousedown': (olam, payload) => olam.ayshPeula('mousedown', payload),
+        'mousedown': (olam, payload) => {
+            if (olam.yichud) olam.yichud.handleEvent(payload, true);
+            olam.ayshPeula('mousedown', payload);
+        },
         'mouseup': (olam, payload) => olam.ayshPeula('mouseup', payload),
-        'mousemove': (olam, payload) => olam.ayshPeula('mousemove', payload),
+        'mousemove': (olam, payload) => {
+            if (olam.yichud) olam.yichud.handleEvent(payload, false);
+            olam.ayshPeula('mousemove', payload);
+        },
         'wheel': (olam, payload) => olam.ayshPeula('wheel', payload)
     };
 
@@ -91,12 +100,11 @@ export class ContinuousEventRouter {
          * InventoryBridge without breaking the core engine's promise-based flow.
          */
         if (olam && typeof olam.ayshPeula === 'function') {
-            console.log(`B"H - 🔄 [ROUTER FALLBACK]: Routing unrecognized key '${key}' via ayshPeula`, payload);
             olam.ayshPeula(key, payload);
         } else if (!olam) {
-            console.warn(`B"H - ⚠️ [ROUTER FALLBACK]: Cannot route '${key}' — Olam is not ready.`);
+            // Olam is not ready
         } else {
-            console.warn(`B"H - ⚠️ [ROUTER FALLBACK]: Cannot route '${key}' — Olam lacks ayshPeula method.`);
+            // Olam lacks ayshPeula method
         }
     }
 }

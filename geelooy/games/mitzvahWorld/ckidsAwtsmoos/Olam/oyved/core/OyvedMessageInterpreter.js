@@ -49,9 +49,10 @@ export class OyvedMessageInterpreter {
         if (!ActiveOlamInstance) return;
 
         const keys = Object.keys(data);
-        const isSpam = keys.some(k => ['mousemove', 'keydown', 'keyup', 'mousedown', 'mouseup'].includes(k));
+        const isSpam = keys.some(k => ['mousemove', 'keydown', 'keyup', 'mousedown', 'mouseup', 'cameraDrag', 'wheel'].includes(k));
         if (!isSpam) {
-            console.log(`B"H - 📨 [OYVED INTERPRETER]: Received ongoing data:`, keys);
+            // B"H: silent
+
         }
 
         for (let i = 0; i < keys.length; i++) {

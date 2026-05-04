@@ -21,7 +21,8 @@ export default function(me) {
          */
         async takeInCanvas({ canvas, devicePixelRatio, width, height }) {
             console.group('B"H - 🏗️ WORKER: [CANVAS ACQUIRED]');
-            console.log(`B"H - 📏 Measuring the Physical Realm: ${width} x ${height} at ratio: ${devicePixelRatio}`);
+            // B"H: silent
+
             
             // 1. Establish the internal vessel parameters
             me.olam.takeInCanvas(canvas, devicePixelRatio);
@@ -30,7 +31,8 @@ export default function(me) {
             // Ensuring the world matches the screen exactly before genesis.
             await me.olam.setSize(width, height);
             
-            console.log('B"H - ⚡ Rendering engines ignited. Commencement imminent.');
+            // B"H: silent
+
             console.groupEnd();
 
             // Ignite the eternal cycle of recreation (Heartbeat)

@@ -26,7 +26,8 @@ export class OlamDynamicBoot {
      */
     static async invokeAngelicVessels() {
         try {
-            console.log('B"H - 👷‍♂️[OYVED]: Extracting pure light (dynamically loading fundamental Olam modules)...');
+            // B"H: silent
+
             
             // Wait for both foundational imports simultaneously
             // Relative from ckidsAwtsmoos/Olam/oyved/core/
@@ -35,7 +36,8 @@ export class OlamDynamicBoot {
                 import('../../../utils.js')
             ]);
 
-            console.log('B"H - 👷‍♂️ [OYVED]: Extraction complete. Seder Hishtalshelus has been successfully drawn down.');
+            // B"H: silent
+
             
             // Broadcast readiness instantly to start the chain
             self.postMessage({ type: 'vessel_ready' });

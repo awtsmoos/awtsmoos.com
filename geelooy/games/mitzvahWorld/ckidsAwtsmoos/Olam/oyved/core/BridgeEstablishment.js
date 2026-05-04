@@ -23,7 +23,8 @@ export class BridgeEstablishment {
      * @param {Object} UtilsClass - Tools for turning life into JSON logic.
      */
     static bindBridges(olam, promiseMap, UtilsClass) {
-        console.log('B"H - ⚡ Forging the Covenant of UI Communication across the Void.');
+        // B"H: silent
+
 
         olam.on("hide loading screen", () => {
             self.postMessage({ type: "hideLoadingScreen" });
@@ -73,6 +74,7 @@ export class BridgeEstablishment {
         // B"H: Bind the Inventory event handlers
         InventoryBridge.bind(olam);
 
-        console.log('B"H - ✅ Bridges Secured.');
+        // B"H: silent
+
     }
 }

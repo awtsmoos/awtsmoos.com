@@ -9,7 +9,8 @@ import GameStarterHub from "../../gameStarter/index.js";
 
 export default class Stage6Ignition {
     static async ignite(olam, info) {
-        console.log("B\"H - 🌌 STAGE 6: Igniting the engine.");
+        // B"H: silent
+
         return await GameStarterHub.start(olam, info);
     }
 }
