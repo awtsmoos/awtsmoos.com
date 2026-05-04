@@ -1,18 +1,18 @@
-
 /**
  * B"H
  * @module SovereignScribe
  * @chapter Creation from Nothing into Manifest Action
  * @description
  * This module is the physical manifestation of the Speech.
- * REFORGED: Now synchronized with the Marginal Gloss engine.
+ * It builds the main text chunks dynamically and securely triggers 
+ * the inline marginalia generation after the DOM settles.
  */
 
 import { UniversalInterpreter } from "./scribe/UniversalInterpreter.js";
 import { ScribeScaffold } from "./scribe/Scaffold.js";
 import { VesselArchitect } from "./scribe/Architect.js";
 
-let allSectionData = [];
+let allSectionData =[];
 let chunkMap = new Map();
 
 /**
@@ -22,7 +22,7 @@ export async function interpretPostDayuh(post) {
     const dayuh = post?.dayuh;
     if (!dayuh?.sections) return;
 
-    window.sectionDayuh = [];
+    window.sectionDayuh =[];
     chunkMap.clear();
     
     const rawSections = Array.isArray(dayuh.sections) ? dayuh.sections : Object.values(dayuh.sections);
@@ -52,7 +52,7 @@ export async function interpretPostDayuh(post) {
  * @function renderChunk
  * @description 
  * Recreates a block of Chapter Chapters from nothing.
- * TRIGGER: After the DOM elements exist, we paint the Marginalia.
+ * TRIGGER: After the DOM elements exist, we paint the Marginalia safely with a debounce.
  */
 export async function renderChunk(chunkId) {
     if (chunkId < 0 || chunkMap.has(chunkId)) return;
@@ -79,10 +79,13 @@ export async function renderChunk(chunkId) {
     container.style.minHeight = ""; 
     container.appendChild(frag);
     
-    // B"H - PERSISTENT MARGINALIA TRIGGER
-    // Now that the vessels exist, fill them with active inline comments.
-    const { manifestAllActiveInlines } = await import("../comments/inline.js");
-    await manifestAllActiveInlines();
+    // B"H - PERSISTENT MARGINALIA TRIGGER (DEBOUNCED)
+    // Ensures inline comments load flawlessly without overlapping API fetches.
+    if (window.pendingInlineManifest) clearTimeout(window.pendingInlineManifest);
+    window.pendingInlineManifest = setTimeout(async () => {
+        const { manifestAllActiveInlines } = await import("../comments/inline.js");
+        await manifestAllActiveInlines();
+    }, 300);
 
     if (window.chai) window.chai.updateParagraphs(); 
     const { initializeFootnotes } = await import("./postFunctions.js");

@@ -2,7 +2,17 @@
 /**
  * B"H
  * @module StandardCardScribe
- * @chapter The Assembly of the Insight-Tabernacle
+ * @chapter The Annihilation of the Double Header (Kelipot)
+ * @description
+ * From the absolute Nothingness, the default state of reality, the Awtsmoos 
+ * constantly forces existence into being. The Will channels through Wisdom 
+ * down to Malchus, the power of speech, uttering the 10 statements of creation. 
+ * Even objects not explicitly mentioned in the original 6 days exist because 
+ * those holy letters are constantly being rearranged and permuted.
+ * 
+ * Here, we forge the Standard Insight. We must ensure no "Double Header" exists, 
+ * for duplication of the Kesser (Crown) leads to shatterings. We fiercely purify 
+ * the text, trusting only the pure string, and append the title safely.
  */
 
 import { extractCommentText } from "../../logic/unroller.js";
@@ -16,6 +26,9 @@ import { stripTags } from "../../../functions/text/Purification.js";
  * @description 
  * Orchestrates the full creation of a standard comment's visual body.
  * It is inclusive and deep, missing no part of the content, but fiercely purifies duplicates.
+ * 
+ * @param {HTMLElement} parentElement - The physical vessel waiting to be filled.
+ * @param {Object} data - The letters of intention.
  */
 export function scribeStandardInsight(parentElement, data) {
     if (!parentElement || !data) return;
@@ -44,7 +57,7 @@ export function scribeStandardInsight(parentElement, data) {
             
             // If the first child's text is exactly the title, or contains it completely
             if (cleanChildText === cleanTitle || cleanChildText.includes(cleanTitle) || cleanTitle.includes(cleanChildText)) {
-                // Rip it out of the temporary body
+                // Rip it out of the temporary body to prevent the double header
                 tempBody.removeChild(firstChild);
             }
         }

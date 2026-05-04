@@ -8,6 +8,10 @@
  * Just as a vessel contains the light but can be closed to focus,
  * this holder organizes the Guardian's transmissions directly beneath 
  * the exact paragraph they are commenting on.
+ * 
+ * We have altered the default state to 'active' and 'flex', ensuring 
+ * that when the Awtsmoos commands these vessels to appear on page load, 
+ * they do not hide their light behind 'display: none'.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -27,7 +31,8 @@ export function makeInlineCommentHolder(alias, parent, idx) {
         children:[
             {
                 tag: 'button',
-                attr: { class: 'inline-summary-btn' },
+                // B"H - Default to active so the light is revealed instantly
+                attr: { class: 'inline-summary-btn active' },
                 children:[
                     { tag: 'span', children: ['💬'] },
                     { tag: 'span', children: [`Insights (@${alias})`] }
@@ -44,7 +49,8 @@ export function makeInlineCommentHolder(alias, parent, idx) {
             },
             {
                 tag: 'div',
-                attr: { class: 'comments-holder-inline', style: 'display: none;' }
+                // B"H - Default to flex so it is visible upon creation
+                attr: { class: 'comments-holder-inline', style: 'display: flex;' }
                 // The manifestation cards will be appended here by the Weaver
             }
         ]
