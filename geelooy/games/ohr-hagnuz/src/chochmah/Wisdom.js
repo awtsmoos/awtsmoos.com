@@ -1,92 +1,169 @@
 
 import { Understanding } from '../binah/Understanding.js';
+import { DialogueEngine } from '../graphics/DialogueEngine.js';
+import { MenuEngine } from '../graphics/MenuEngine.js';
 
 /**
  * B"H
- * Wisdom: The Logic of Interaction.
+ * Wisdom: The Universal Logic of Interaction.
  * 
- * "Who is wise? He who learns from every person."
- * And he who respects the boundaries of the physical world.
- * This module handles the movement and collisions.
+ * Chapter: The Harmony of Will and Word.
+ * "Wisdom is the beginning." This class listens to the user's intent 
+ * and translates it into state changes, whether navigating menus,
+ * walking through the orchard, or speeding up the revelation of light.
  */
 export class Wisdom {
     static keys = {};
+    static bufferedInput = null;
 
+    /**
+     * Initialize the listeners for the user's soul.
+     */
     static initialize() {
-        window.addEventListener('keydown', (e) => this.keys[e.key] = true);
-        window.addEventListener('keyup', (e) => this.keys[e.key] = false);
+        window.addEventListener('keydown', (e) => {
+            // 1. Menu Toggle (Sacred Portal to Inventory)
+            if (e.key === 'm' || e.key === 'Escape') {
+                MenuEngine.toggle();
+                return;
+            }
+
+            // 2. Menu Navigation (Selecting the right Sefarim)
+            if (Understanding.state.menu.open) {
+                if (e.key === 'ArrowDown' || e.key === 's') MenuEngine.moveSelection(1);
+                if (e.key === 'ArrowUp' || e.key === 'w') MenuEngine.moveSelection(-1);
+                if (['z', 'Enter', ' '].includes(e.key)) {
+                   if (Understanding.state.menu.selection === 3) MenuEngine.toggle();
+                }
+                return;
+            }
+
+            // 3. Dialogue Interaction (Speeding up or advancing)
+            if (DialogueEngine.isVisible) {
+                if (['z', 'Enter', ' '].includes(e.key)) {
+                    DialogueEngine.advance();
+                }
+                // We don't return here so we can still track 'held' state in keys map
+            }
+
+            // 4. Movement & Exploration
+            this.keys[e.key] = true;
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].includes(e.key)) {
+                this.bufferedInput = e.key;
+            }
+
+            // Interaction Trigger
+            if (!DialogueEngine.isVisible && ['z', 'Enter', ' '].includes(e.key)) {
+                this.interact();
+            }
+        });
+        
+        window.addEventListener('keyup', (e) => {
+            this.keys[e.key] = false;
+            if (this.bufferedInput === e.key) this.bufferedInput = null;
+        });
     }
 
     /**
-     * Process logic.
-     * @param {number} dt Delta time.
+     * Process the logic pulse based on current mode of existence.
+     * @param {number} dt Time elapsed since last pulse.
      */
     static process(dt) {
+        if (Understanding.state.menu.open) return;
+
+        if (DialogueEngine.isVisible) {
+            // If the user holds the key, it still acts as a 'fast-forward'
+            const fast = this.keys[' '] || this.keys['z'] || this.keys['Enter'];
+            DialogueEngine.update(performance.now(), fast);
+            return;
+        }
+
         const state = Understanding.getState();
         const p = state.player;
 
-        let dx = 0;
-        let dy = 0;
-
-        if (this.keys['ArrowUp'] || this.keys['w']) dy -= p.speed;
-        if (this.keys['ArrowDown'] || this.keys['s']) dy += p.speed;
-        if (this.keys['ArrowLeft'] || this.keys['a']) dx -= p.speed;
-        if (this.keys['ArrowRight'] || this.keys['d']) dx += p.speed;
-
-        // Collision logic (The limits of Gevurah)
-        if (dx !== 0 || dy !== 0) {
-            this.moveAndCollide(p, state, dx, dy);
-            
-            // Animation logic
-            p.animTimer += dt;
-            if (p.animTimer > 100) {
-                p.frame = (p.frame + 1) % 6;
-                p.animTimer = 0;
-            }
+        if (p.isMoving) {
+            this.continueMovement(p, state, dt);
         } else {
-            p.frame = 0; // Idle
+            this.checkNewMovement(p, state);
         }
 
-        // Camera follow
-        state.camera.x += (p.x - window.innerWidth / 2 - state.camera.x) * state.camera.lerp;
-        state.camera.y += (p.y - window.innerHeight / 2 - state.camera.y) * state.camera.lerp;
+        // Smoothly lerp the camera focus
+        state.camera.x += (p.x - window.innerWidth / 2 + p.width / 2 - state.camera.x) * state.camera.lerp;
+        state.camera.y += (p.y - window.innerHeight / 2 + p.height / 2 - state.camera.y) * state.camera.lerp;
     }
 
-    /**
-     * Move the player and check for collisions with solid tiles ('T').
-     */
-    static moveAndCollide(p, state, dx, dy) {
-        const ts = state.tileSize;
-        
-        // Horizontal check
-        const nextX = p.x + dx;
-        if (!this.isSolid(nextX, p.y, p.width, p.height, state)) {
-            p.x = nextX;
-        }
+    static checkNewMovement(p, state) {
+        let dx = 0, dy = 0, dir = p.dir;
+        const input = this.bufferedInput || Object.keys(this.keys).find(k => this.keys[k]);
 
-        // Vertical check
-        const nextY = p.y + dy;
-        if (!this.isSolid(p.x, nextY, p.width, p.height, state)) {
-            p.y = nextY;
-        }
-    }
+        if (input === 'ArrowUp' || input === 'w') { dy = -1; dir = 'u'; }
+        else if (input === 'ArrowDown' || input === 's') { dy = 1; dir = 'd'; }
+        else if (input === 'ArrowLeft' || input === 'a') { dx = -1; dir = 'l'; }
+        else if (input === 'ArrowRight' || input === 'd') { dx = 1; dir = 'r'; }
 
-    /**
-     * Checks if a rectangular area collides with a solid tile.
-     */
-    static isSolid(x, y, w, h, state) {
-        const ts = state.tileSize;
-        const left = Math.floor(x / ts);
-        const right = Math.floor((x + w) / ts);
-        const top = Math.floor(y / ts);
-        const bottom = Math.floor((y + h) / ts);
-
-        for (let r = top; r <= bottom; r++) {
-            for (let c = left; c <= right; c++) {
-                const tile = state.map[r]?.[c];
-                if (tile === 'T') return true;
+        if (dx !== 0 || dy !== 0) {
+            p.dir = dir;
+            const tx = p.tx + dx; const ty = p.ty + dy;
+            if (!this.isSolid(tx, ty, state)) {
+                p.tx = tx; p.ty = ty;
+                p.isMoving = true; p.moveProgress = 0;
             }
         }
-        return false;
+    }
+
+    static continueMovement(p, state, dt) {
+        p.moveProgress += 0.006 * dt * p.speed;
+        if (p.moveProgress >= 1) {
+            p.moveProgress = 0; p.isMoving = false;
+            p.x = p.tx * state.tileSize; p.y = p.ty * state.tileSize;
+            this.checkEncounters(p, state);
+            this.checkPortals(p, state);
+        } else {
+            const ox = (p.tx - (p.dir === 'r' ? 1 : p.dir === 'l' ? -1 : 0)) * state.tileSize;
+            const oy = (p.ty - (p.dir === 'd' ? 1 : p.dir === 'u' ? -1 : 0)) * state.tileSize;
+            p.x = ox + (p.tx * state.tileSize - ox) * p.moveProgress;
+            p.y = oy + (p.ty * state.tileSize - oy) * p.moveProgress;
+        }
+    }
+
+    static isSolid(tx, ty, state) {
+        const tile = state.map[ty]?.[tx];
+        if (!tile || tile === 'T' || tile === 'W') return true;
+        return state.entities.some(e => Math.floor(e.x / state.tileSize) === tx && Math.floor(e.y / state.tileSize) === ty);
+    }
+
+    static checkPortals(p, state) {
+        const tile = state.map[p.ty]?.[p.tx];
+        if (tile === 'H') Understanding.transition('HOUSE', 4, 5);
+        else if (tile === 'D') Understanding.transition('OVERWORLD', 2, 2);
+    }
+
+    static checkEncounters(p, state) {
+        const tile = state.map[p.ty]?.[p.tx];
+        if (tile === 'K') {
+            if (Math.random() < 0.15) {
+                console.log("B\"H - Encountering the Klippah of Forgetfulness!");
+                // Future: BattleEngine.initiate();
+            }
+        }
+    }
+
+    static interact() {
+        const state = Understanding.state;
+        const p = state.player;
+        let ix = p.tx, iy = p.ty;
+        if (p.dir === 'u') iy--; else if (p.dir === 'd') iy++; else if (p.dir === 'l') ix--; else if (p.dir === 'r') ix++;
+        const current = state.realm === 'OVERWORLD' ? state.overworld : state.house;
+        const npc = current.entities.find(e => Math.floor(e.x / state.tileSize) === ix && Math.floor(e.y / state.tileSize) === iy);
+        
+        if (npc) {
+            state.activeInteractingEntity = npc;
+            npc.originalDir = npc.dir;
+            if (p.dir === 'u') npc.dir = 'd'; else if (p.dir === 'd') npc.dir = 'u'; else if (p.dir === 'l') npc.dir = 'r'; else if (p.dir === 'r') npc.dir = 'l';
+            DialogueEngine.speak([
+                "B\"H - Blessed is the one who studies.",
+                "In your bag, you have Sefarim.",
+                "Use them to transform the darkness of the Klippot into Light."
+            ]);
+        }
     }
 }

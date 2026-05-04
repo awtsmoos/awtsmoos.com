@@ -1,72 +1,80 @@
 
 import { SectorAleph } from '../data/maps/SectorAleph.js';
+import { HouseInterior } from '../data/maps/HouseInterior.js';
+import { SEFARIM_LIBRARY } from '../data/TorahMusagim.js';
 
 /**
  * B"H
  * Understanding: The Structured Soul of the World.
  * 
- * Here we expand the state to hold the physical layout of the forest.
- * Every 'T' is a tree, every 'S' a sage.
+ * Chapter: The Inventory of Insights.
  */
 export class Understanding {
     static state = {
+        mode: 'EXPLORATION', // 'EXPLORATION', 'BATTLE', 'MENU'
+        realm: 'OVERWORLD',
         player: {
-            x: 0,
-            y: 0,
-            vx: 0,
-            vy: 0,
-            speed: 4,
-            width: 48,
-            height: 48,
-            frame: 0,
-            animTimer: 0
+            x: 0, y: 0, tx: 5, ty: 5,
+            isMoving: false, moveProgress: 0,
+            dir: 'd', speed: 1.5,
+            width: 64, height: 64,
+            frame: 0, animTimer: 0,
+            inventory: [SEFARIM_LIBRARY[0]], // Start with Sefer Bereishis
+            hp: 100, maxHp: 100, level: 1
         },
-        map: [],
-        entities: [],
+        overworld: { map: [], entities: [] },
+        house: { map: [], entities: [] },
+        battle: { enemy: null, log: [], turn: 'PLAYER' },
+        menu: { open: false, selection: 0, subMenu: 'MAIN' },
+        activeInteractingEntity: null,
         tileSize: 64,
-        camera: {
-            x: 0,
-            y: 0,
-            lerp: 0.15
-        }
+        camera: { x: 0, y: 0, lerp: 0.1 }
     };
 
-    /**
-     * Initialize the world from the SectorAleph blueprint.
-     */
     static initialize() {
-        const tileSize = this.state.tileSize;
-        
-        SectorAleph.forEach((row, y) => {
+        this.state.overworld = this.parseMap(SectorAleph);
+        this.state.house = this.parseMap(HouseInterior);
+        this.syncPlayerPosition();
+    }
+
+    static syncPlayerPosition() {
+        const ts = this.state.tileSize;
+        this.state.player.x = this.state.player.tx * ts;
+        this.state.player.y = this.state.player.ty * ts;
+    }
+
+    static parseMap(blueprint) {
+        const ts = this.state.tileSize;
+        const map = [];
+        const entities = [];
+        blueprint.forEach((row, y) => {
             const mapRow = [];
             [...row].forEach((char, x) => {
-                const worldX = x * tileSize;
-                const worldY = y * tileSize;
-
                 if (char === 'S') {
-                    this.state.entities.push({
-                        type: 'NPC_SAGE',
-                        x: worldX,
-                        y: worldY,
-                        width: 64,
-                        height: 64
-                    });
-                    mapRow.push('1'); // Base grass under NPC
+                    entities.push({ type: 'NPC_SAGE', x: x*ts, y: y*ts, width: ts, height: ts, dir: 'd', originalDir: 'd' });
+                    mapRow.push('1');
+                } else if (char === 'K') {
+                    mapRow.push('K'); // Klippah / Battle Trigger zone
                 } else {
                     mapRow.push(char);
                 }
             });
-            this.state.map.push(mapRow);
+            map.push(mapRow);
         });
-
-        // Position player in the center of the first clearing
-        this.state.player.x = 2 * tileSize;
-        this.state.player.y = 2 * tileSize;
-        
-        console.log("B\"H - The World of Aleph is understood.");
+        return { map, entities };
     }
 
     static getState() {
-        return this.state;
+        const s = this.state;
+        const current = s.realm === 'OVERWORLD' ? s.overworld : s.house;
+        return { ...s, map: current.map, entities: current.entities };
+    }
+
+    static transition(newRealm, tx, ty) {
+        this.state.realm = newRealm;
+        this.state.player.tx = tx;
+        this.state.player.ty = ty;
+        this.syncPlayerPosition();
+        this.state.player.isMoving = false;
     }
 }
