@@ -1,158 +1,111 @@
-
 /**
  * B"H
  * @file 1.js
  * @description
- * Chapter 9: The Hub of Many Paths
- * "All roads lead to the Sanctuary."
- * A completely procedural world generated from pure JSON data. 
+ * Chapter 9: The Metropolis of Sparks
+ * The First Hub World, completely upgraded to the extreme JSON procedural engine.
  */
 
+import { HousePresets } from '../../utils/3d/procedural/house/data/HousePresets.js';
+
 export default {
-    shaym: "The Central Hub of Light",
+    shaym: "The Metropolis of Sparks",
     components: {
-        awduhm: "https://models-3122d.web.app/chossid.glb",
-    },
-  
+        awduhm: "https://models-3122d.web.app/chossid.glb"
+    }, 
     nivrayim: {
-        ProceduralTerrain: {
+        ProceduralSky: {
+            dome: { name: "Metropolis_Sky", timeMultiplier: 2.0, timeOfDay: 12.0 }
+        },
+        Domem: {
             ground: {
-                name: "Emerald Expanse",
-                width: 400, depth: 400, segments: 60,
-                textureType: "grass", 
-                hills:[], 
+                name: "Emerald_Village_Ground",
+                golem: {
+                    guf: { BoxGeometry: [2000, 2, 2000] },
+                    toyr: { AwtsmoosGrassMaterial: {} }
+                },
                 position: { x: 0, y: -1, z: 0 },
                 isSolid: true
             }
         },
-        Domem: {
-            // THE GREAT SANCTUARY
-            theGreatHouse: {
-                name: "The First Vessel",
-                golem: { 
-                    guf: { HouseGeometry:[15, 8, 15, 1.2, 4.5, 5.5] }, 
-                    toyr: { 
-                        MaterialArray:[
-                            { AwtsmoosBrickMaterial: { map: "awtsmoosTex://brick" } }, // Procedural Exterior Walls
-                            { MeshStandardMaterial: { map: "awtsmoosTex://wood", roughness: 0.9 } } // Procedural Roof
-                        ] 
-                    } 
-                },
-                position: { x: -15, y: 0, z: -30 },
+
+        ProceduralRoad: {
+            mainAvenue: {
+                name: "Main_Avenue",
+                points: [[-100, -100], [0, 0], [100, 100]],
+                width: 12, sidewalkWidth: 3, sidewalkHeight: 0.4,
                 isSolid: true
             },
-            
-            // THE SACRED PATHWAY (SIDEWALK)
-            sidewalk: {
-                name: "Stone Pathway",
-                golem: {
-                    guf: { BoxGeometry: [5, 0.2, 4] },
-                    toyr: { MeshLambertMaterial: { map: "awtsmoosTex://stone" } },
-                    modifiers: [
-                        { 
-                            type: 'path', 
-                            points: [
-                                { x: 0, y: -0.1, z: 20 },
-                                { x: 0, y: -0.1, z: 15 },
-                                { x: -5, y: -0.1, z: 10 },
-                                { x: -10, y: -0.1, z: 5 },
-                                { x: -15, y: -0.1, z: 0 },
-                                { x: -15, y: -0.1, z: -5 },
-                                { x: -15, y: -0.1, z: -10 },
-                                { x: -15, y: -0.1, z: -15 }
-                            ],
-                            autoAlign: true
+            crossStreet: {
+                name: "Cross_Street",
+                points: [[-100, 100], [0, 0], [100, -100]],
+                width: 12, sidewalkWidth: 3, sidewalkHeight: 0.4,
+                isSolid: true
+            }
+        },
+
+        ProceduralFlowerPatch: {
+            roses: { name: "Rose_Garden", count: 300, radius: 20, flowerType: "rose", position: { x: 30, y: 0, z: 0 } },
+            daisies: { name: "Daisy_Field", count: 300, radius: 20, flowerType: "daisy", position: { x: -30, y: 0, z: 0 } }
+        },
+
+        ProceduralBuilding: {
+            towerOne: {
+                name: "The First Tower",
+                blueprint: HousePresets.generateSkyscraper(10), // 10 stories!
+                position: { x: 0, y: 0, z: 40 },
+                isSolid: true
+            },
+            towerTwo: {
+                name: "The Second Tower",
+                blueprint: HousePresets.generateSkyscraper(15), // 15 stories!
+                position: { x: 0, y: 0, z: -40 },
+                isSolid: true
+            },
+            mansion: {
+                name: "The Rebbe's House",
+                blueprint: {
+                    width: 20, height: 8, depth: 20, wallThickness: 1,
+                    rooms: [
+                        { width: 10, height: 8, depth: 10, offset: [-5, 0, -5], hasRoof: true },
+                        { width: 10, height: 8, depth: 10, offset: [5, 0, -5], hasRoof: true },
+                        { width: 20, height: 8, depth: 10, offset: [0, 0, 5], hasRoof: true }
+                    ],
+                    entrances: [{ wall: 'front', width: 4, height: 6, offset: 0 }],
+                    npcs: [
+                        {
+                            name: "Bezalel the Architect", x: 0, z: 5,
+                            hasMission: true,
+                            missionData: {
+                                requiredItem: "wood_planks", count: 5,
+                                successMsg: "Excellent! You have gathered the wood to build the Mishkan!"
+                            },
+                            dialogues: [
+                                "B\"H! I built this mansion using pure JSON data.",
+                                "Could you gather 5 Wood Planks for me? You will need an axe to chop trees."
+                            ]
                         }
                     ]
                 },
-                position: { x: 0, y: -0.8, z: 0 },
+                position: { x: 50, y: 0, z: 0 },
                 isSolid: true
             }
         },
         
-        InteractiveDoor: {
-            mainDoor: {
-                name: "Threshold of Faith",
-                golem: {
-                    guf: { DoorGeometry:[4.5, 5.5, 0.6] },
-                    toyr: { 
-                        MaterialArray: [
-                            { MeshLambertMaterial: { map: "awtsmoosTex://wood" } }, // Wood Slab
-                            { MeshStandardMaterial: { color: "#FFD700", metalness: 0.8, roughness: 0.3 } } // Gold Knob
-                        ]
-                    } 
-                },
-                position: { x: -15 - 2.25, y: 0, z: -30 + 7.5 }, 
-                isSolid: true,
-                interactable: true,
-                proximity: 6
-            }
+        ProceduralTree: {
+            tree1: { name: "Oak_Tree_1", position: { x: 20, y: 0, z: 20 } },
+            tree2: { name: "Oak_Tree_2", position: { x: -20, y: 0, z: 20 } },
+            tree3: { name: "Oak_Tree_3", position: { x: 20, y: 0, z: -20 } },
+            tree4: { name: "Oak_Tree_4", position: { x: -20, y: 0, z: -20 } }
         },
-        
-        CustomNpc: {
-            guide: {
-                name: "Bezalel",
-                path: "awtsmoos://awduhm",
-                proximity: 5,
-                position: { x: 0, y: 0, z: 10 },
-                customData: {
-                    color: "#ffffff",
-                    clothes: { "top-hat": true, jacket: true, glasses: true },
-                    dialogueTree:[
-                        {
-                            message: "B\"H\nWelcome to the Hub. Behold the sidewalk! It traces the curvature of the world to lead you to the Sanctuary. Approach the wooden door, gaze upon its golden knob, and try to open it.",
-                            responses:[
-                                { text: "I am ready for the mission.", nextMessageIndex: 1 },
-                                { text: "Tell me about the construction.", nextMessageIndex: 2 },
-                                { text: "Goodbye.", type: "close" }
-                            ]
-                        },
-                        {
-                            message: "Excellent. I need you to gather the fallen sparks (Coins). Bring me 3, and I will reward your soul.",
-                            responses:[
-                                {
-                                    text: "I accept this Shlichus.",
-                                    action(me) {
-                                        if(me.olam.shlichusHandler) {
-                                            me.olam.shlichusHandler.registerQuest(me, {
-                                                title: "Gathering the Sparks",
-                                                description: "Collect 3 Perutahs scattered in the emerald void.",
-                                                totalCollectedObjects: 3,
-                                                requirements: { "Perutah": 3 },
-                                                onStart: (sh) => {
-                                                     for(let i=0; i<3; i++) {
-                                                         sh.olam.addObject("Coin", { position: { x: Math.random()*20 - 10, y: 1, z: Math.random()*20 } });
-                                                     }
-                                                }
-                                            });
-                                            me.olam.shlichusHandler.acceptQuest(me.olam.shlichusHandler.activeQuests.keys().next().value);
-                                        }
-                                    }
-                                },
-                                { text: "Later.", type: "close" }
-                            ]
-                        },
-                        {
-                            message: "The sidewalk is an Array of boxes mapped along a list of Vector3 points. The house walls are extruded and then compiled into a static octree for perfect collision.",
-                            responses: [
-                                { text: "The mathematics is divine.", type: "close" }
-                            ]
-                        }
-                    ]
-                }
-            }
-        },
+
         Chossid: {
             me: {
-                height: 1.5,
-                name: "player",
-                speed: 150,
-                interactable: true,
-                path: "awtsmoos://awduhm",
-                position: { x: 0, y: 10, z: 30 }, 
+                name: "player", height: 1.5, speed: 10, interactable: true,
+                path: "awtsmoos://awduhm", position: { x: 0, y: 5, z: 10 },
                 on: {
-                    ready(m) {
-                         m.olam.ayshPeula("ui event", "effectsOverlay", { text: "B\"H - Entering the Hub", color: "#00ffed" });
+                    ready(n) {
+                        n.olam.ayshPeula("ui event", "effectsOverlay", { text: "Welcome to the Metropolis of Sparks!", color: "#ffd700" });
                     }
                 }
             }

@@ -45,22 +45,21 @@ export default class Dialogue extends Interaction {
                 this.me.olam.htmlAction({
                     shaym: this.opts.npcMessageShaym,
                     methods: { classList: { add: "active", remove: "hidden" } },
-                    properties: { style: { display: 'flex', opacity: '1', visibility: 'visible' } } 
+                    properties: { style: { display: 'flex', opacity: '1', visibility: 'visible', pointerEvents: 'auto', flexWrap: 'wrap', maxWidth: '80%' } } 
                 });
 
                 this.me.olam.htmlAction({
                     shaym: this.opts.chossidMessageShaym,
                     methods: { classList: { add: "active", remove: "hidden" } },
-                    properties: { style: { display: 'flex', opacity: '1', visibility: 'visible' } }
+                    properties: { style: { display: 'flex', opacity: '1', visibility: 'visible', pointerEvents: 'auto', flexWrap: 'wrap', maxWidth: '80%' } }
                 });
             }, 0);
 
             this.me.ayshPeula("chose");
-            this.me.selectResponse();
             this.me.ayshPeula("selectedMessage");
         };
 
-        // B"H: Render the speech of the NPC
+        // B"H: Render the speech of the NPC with a soulful typewriter effect
         this.me.on("chose", () => {
             var curMsg = this.me.currentMessage;
             if(!curMsg) return;
@@ -68,11 +67,26 @@ export default class Dialogue extends Interaction {
             var txt = processText(curMsg.message || "...");
             
             if(this.me.olam) {
-                console.log(`B"H - ⚡ NPC [${this.me.name}] speaks: ${txt.substring(0, 20)}...`);
-                this.me.olam.htmlAction(
-                    this.opts.npcMessageShaym,
-                    { innerText: txt }
-                );
+                // B"H: silent
+
+                
+                // Reset the vessel first
+                this.me.olam.htmlAction(this.opts.npcMessageShaym, { innerText: "" });
+                
+                // Manifest the letters one by one
+                let current = "";
+                let i = 0;
+                const speed = 25; // ms per character
+                
+                const type = () => {
+                    if (i < txt.length) {
+                        current += txt[i];
+                        this.me.olam.htmlAction(this.opts.npcMessageShaym, { innerText: current });
+                        i++;
+                        setTimeout(type, speed);
+                    }
+                };
+                type();
             }
         });
 
@@ -86,24 +100,23 @@ export default class Dialogue extends Interaction {
                 var ch = curMsg.responses.map((q,i)=>({
                     innerText: (i+1) + ". " + processText(q.text),
                     className: i == this.me.currentSelectedMsgIndex ? "selected" : "",
-                    attributes: { "data-index": i, "data-entity-id": this.me.id },
-                    onclick: function(e, $, ui) {
-                        e.stopPropagation();
-                        var target = e.target.closest("[data-index]");
+                    attributes: { "data-index": i, "data-entity-id": this.me.id, "onclick": `
+                        event.stopPropagation();
+                        var target = event.target.closest('[data-index]');
                         if (!target) return;
                         
-                        var ind = target.getAttribute("data-index");
-                        var entId = target.getAttribute("data-entity-id");
+                        var ind = target.getAttribute('data-index');
+                        var entId = target.getAttribute('data-entity-id');
                         
-                        var ikar = $("ikar");
+                        var ikar = document.getElementById('ikar');
                         if(ikar) {
-                            ikar.dispatchEvent(new CustomEvent("olamPeula", {
+                            ikar.dispatchEvent(new CustomEvent('olamPeula', {
                                 detail: {
                                     htmlPeula: { toggleToOption: { id: ind, entityId: entId } }
                                 }
                             }));
                         }
-                    },
+                    `},
                     awtsmoosClick: true
                 }));
                 
@@ -120,7 +133,8 @@ export default class Dialogue extends Interaction {
         this._toggleListener = async function(data) {
             if (data.entityId != self.me.id) return;
             var idx = data.id;
-            console.log(`B"H - ⚡ Player chose response ${idx} for entity ${self.me.id}`);
+            // B"H: silent
+
             await self.me.chooseResponse(idx);
         };
         
@@ -132,7 +146,8 @@ export default class Dialogue extends Interaction {
         this.me.on("close dialogue", (message) => {
             if(!this.me.olam) return;
 
-            console.log(`B"H - ⚡ Closing dialogue sequence for [${this.me.name}]`);
+            // B"H: silent
+
             this.me.olam.activeCamera = null;
             this.me.isShowing = false;
             this.me.currentMessageIndex = 0;
@@ -177,7 +192,8 @@ export default class Dialogue extends Interaction {
         if(nivra.type != "chossid") return;
 
         this.me.on("was moved away from", () => {
-            console.log("B\"H - ⚡ Breaking physical connection; forcing dialogue termination.");
+            // B"H: silent
+
             this.me.currentMessageIndex = 0;
             this.me.currentSelectedMsgIndex = 0;
             this.me.ayshPeula("close dialogue");

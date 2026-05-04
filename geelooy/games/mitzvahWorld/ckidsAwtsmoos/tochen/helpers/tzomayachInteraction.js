@@ -14,7 +14,8 @@ export default class Interaction {
 	}
 
     sealayk(nivra ) {
-        console.log("removing")
+        // B"H: silent
+
         this.me.olam.htmlAction({
             shaym: this.opts.npcMessageShaym,
             methods: {

@@ -30,7 +30,8 @@ export default class UserProgressManager {
             const cloud = this.olam.playerSettings;
             if (cloud.lastSave > (this.data.lastSave || 0)) {
                 Object.assign(this.data, cloud);
-                console.log("B\"H: Synced progress from World Manager.");
+                // B"H: silent
+
             }
         }
     }

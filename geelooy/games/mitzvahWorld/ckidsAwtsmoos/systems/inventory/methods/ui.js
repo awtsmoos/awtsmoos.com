@@ -6,7 +6,8 @@
 
 export default {
     openContainer(item, index, sourceType) {
-        console.log("B\"H Inventory System: openContainer called", { item, index, sourceType });
+        // B"H: silent
+
         
         let realItem = null;
         if (sourceType === 'inventory' && this.slots[index]) {
@@ -27,7 +28,8 @@ export default {
         if (!realItem.customData) realItem.customData = {};
         
         if (!realItem.customData.slots) {
-             console.log("B\"H Inventory: Initializing slots for container.");
+             // B"H: silent
+
              const defaultSize = 8;
              realItem.customData.slots = new Array(defaultSize).fill(null);
         }

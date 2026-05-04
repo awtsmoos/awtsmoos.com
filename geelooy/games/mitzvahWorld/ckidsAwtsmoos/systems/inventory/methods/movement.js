@@ -142,7 +142,8 @@ export default {
     },
 
     equipItem({ sourceType, index, target }) {
-        console.log(`B"H - 🎒 [MOVEMENT.JS]: Attempting to equip from ${sourceType}[${index}] to ${target}`);
+        // B"H: silent
+
         let containerId = null;
         
         if (sourceType === 'container') {
@@ -164,12 +165,14 @@ export default {
             return;
         }
 
-        console.log(`B"H - 🎒 [MOVEMENT.JS]: Found item to equip:`, itemToEquip.name);
+        // B"H: silent
+
 
         // Unequip current if exists
         const currentEquippedRef = this.equipment[target];
         if (currentEquippedRef) {
-            console.log(`B"H - 🎒 [MOVEMENT.JS]: Slot ${target} is currently occupied. Unequipping previous item.`);
+            // B"H: silent
+
             let oldSourceArray;
             if (currentEquippedRef.sourceType === 'action') oldSourceArray = this.actionSlots;
             else if (currentEquippedRef.sourceType === 'inventory') oldSourceArray = this.slots;
@@ -203,19 +206,22 @@ export default {
         this.updateUI();
         this.save();
         if (target === 'rightHand') this.owner.updateHandState();
-        console.log(`B"H - ✅ [MOVEMENT.JS]: Successfully equipped: ${itemToEquip.name} to ${target}`);
+        // B"H: silent
+
     },
 
 
     unequipItem(equipSlotName) {
-        console.log(`B"H - 🎒 [MOVEMENT.JS]: Attempting to unequip: ${equipSlotName}`);
+        // B"H: silent
+
 	    const equippedRef = this.equipment[equipSlotName];
         if (!equippedRef) {
             console.warn(`B"H - ⚠️ [MOVEMENT.JS]: No equippedRef found for slot: ${equipSlotName}`);
             return;
         }
         
-        console.log(`B"H - 🎒 [MOVEMENT.JS]: Found equippedRef:`, equippedRef);
+        // B"H: silent
+
 
         let sourceArray;
         if (equippedRef.sourceType === 'action') sourceArray = this.actionSlots;
@@ -233,7 +239,8 @@ export default {
         if (sourceArray) {
             const itemToUnequip = sourceArray[equippedRef.index];
             if (itemToUnequip) {
-                console.log(`B"H - 🎒 [MOVEMENT.JS]: Updating visuals for unequip:`, itemToUnequip.name);
+                // B"H: silent
+
                 this.updateVisuals(equipSlotName, itemToUnequip, false);
             }
         }
@@ -243,7 +250,8 @@ export default {
         this.updateUI();
         this.save();
         if (equipSlotName === 'rightHand') this.owner.updateHandState();
-        console.log(`B"H - ✅ [MOVEMENT.JS]: Successfully unequipped: ${equipSlotName}`);
+        // B"H: silent
+
     },
 
     

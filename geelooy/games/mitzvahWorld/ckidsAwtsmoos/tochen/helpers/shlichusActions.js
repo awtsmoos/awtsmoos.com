@@ -224,7 +224,7 @@ export default class ShlichusActions {
             if(typeof sh.completedProgress === 'function') sh.completedProgress(sh);
             sh.olam.showingImportantMessage = false;
             if(sh.returnTimeLimit) this.setTime(sh, sh.returnTimeLimit);
-        } catch(e) { console.log("B\"H - Could not trigger returnStage: ", e, sh); }
+        } catch(e) { console.error("B\"H - Error caught:", e); }
     }
 
     setTime(sh, info={minutes:0,seconds:0}) {
