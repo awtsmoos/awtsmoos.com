@@ -4,16 +4,8 @@
  * @module ProceduralTerrain
  * @description
  * 🌿 THE GROUND OF REVELATION 🌿
- * 
- * Chapter 3: The Solidification of Malchus.
- * We transition from a formless plane to a solid foundation. 
- * By using the FoundationVessel (a Box), we ensure that the world's 
- * physical logic (Octree) can grasp the earth, and the user's 
- * perception (Material) can see the emerald glow.
  */
 import Domem from "../../chayim/domem/index.js";
-import * as THREE from '/games/scripts/build/three.module.js';
-import FoundationVessel from "../../Olam/methods/terrain/FoundationVessel.js";
 
 export default class ProceduralTerrain extends Domem {
     type = "proceduralTerrain";
@@ -22,7 +14,7 @@ export default class ProceduralTerrain extends Domem {
         super(op, olam);
         this.width = op.width || 1500;
         this.depth = op.depth || 1500;
-        this.thickness = op.thickness || 4.0; // B"H: Substantial grounding
+        this.thickness = op.thickness || 4.0;
         this.segments = op.segments || 32;
         this.hills = op.hills || [];
         this.textureType = op.textureType || "safegrass";
@@ -31,14 +23,11 @@ export default class ProceduralTerrain extends Domem {
     async heescheel(olam) {
         this.olam = olam;
         const label = `[Terrain: ${this.name}]`;
-        console.log(`B"H - 🌿 ${label}: Manifesting green plane with geometric hills.`);
 
-        // 1. FORGE GEOMETRY (Segmented Plane)
         const segments = this.segments || 64;
-        const geometry = new THREE.PlaneGeometry(this.width, this.depth, segments, segments);
-        geometry.rotateX(-Math.PI / 2); 
+        const geometry = this.createPlaneGeometry(this.width, this.depth, segments, segments);
+        if (geometry.rotateX) geometry.rotateX(-Math.PI / 2); 
 
-        // 2. APPLY HILLS (Manual Vertex Modification)
         if (this.hills && this.hills.length > 0) {
             const pos = geometry.attributes.position;
             for (let i = 0; i < pos.count; i++) {
@@ -56,29 +45,43 @@ export default class ProceduralTerrain extends Domem {
                 }
                 pos.setY(i, h);
             }
-            geometry.computeVertexNormals();
+            if (geometry.computeVertexNormals) geometry.computeVertexNormals();
         }
 
-        // 3. FORGE MATERIAL (Custom Emerald Shader)
-        // B"H: We request the procedural shader from the scribe
-        const material = await olam.generateThreeJsMesh({
-            name: this.name,
-            toyr: { "AwtsmoosEmeraldMaterial": {} }
-        }).then(m => m.material);
+        // B"H: Grass green Lambert with height-based color snippet
+        const GRASS_TERRAIN_SNIPPETS = {
+            uniforms: {
+                uGrassLight: { value: { r: 0x4d/255, g: 0x8b/255, b: 0x31/255 } }, // More vibrant light green
+                uGrassDark:  { value: { r: 0x1a/255, g: 0x3d/255, b: 0x14/255 } }, // Deep forest dark green
+            },
+            fragment: {
+                head: `varying vec3 vPosition; uniform vec3 uGrassLight; uniform vec3 uGrassDark;`,
+                color: `
+                    // B"H: Smooth height-based transition for hills and valleys
+                    float h = vPosition.y;
+                    float hillFactor = smoothstep(-5.0, 40.0, h);
+                    vec3 grassColor = mix(uGrassDark, uGrassLight, hillFactor);
+                    
+                    // B"H: Subtle noise-like variation based on XZ position
+                    float noise = fract(sin(dot(vPosition.xz, vec2(12.9898, 78.233))) * 43758.5453);
+                    grassColor = mix(grassColor, grassColor * 1.1, noise * 0.2);
 
-        if (material) {
-            material.side = THREE.DoubleSide;
-            console.log(`B"H - 🧪 ${label} MATERIAL [Shader]: Activated.`);
-        }
+                    diffuseColor.rgb = grassColor;
+                `
+            },
+            vertex: {
+                head: `varying vec3 vPosition;`,
+                main: `vPosition = (modelMatrix * vec4(position, 1.0)).xyz;`
+            }
+        };
+        const mat = this.createMaterial('Lambert', { color: 0x4a7c59, side: 2 }, GRASS_TERRAIN_SNIPPETS);
 
-        // 4. ASSEMBLE MESH
-        this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh = this.createMesh(geometry, mat);
         this.mesh.name = this.name;
         this.mesh.nivraAwtsmoos = this;
         this.mesh.visible = true;
         this.mesh.frustumCulled = false; 
 
-        // 5. POSITIONING
         if (this.position) {
             this.mesh.position.set(
                 (this.position.x || 0),
@@ -87,19 +90,17 @@ export default class ProceduralTerrain extends Domem {
             );
         }
 
-        // 6. SOLIDIFY
-        this.mesh.updateMatrixWorld(true);
+        this.mesh.updateMatrix();
+        this.mesh.updateMatrixWorld();
         this.mesh.userData.isSolid = true;
         this.mesh.userData.isTerrain = true;
 
         await olam.hoyseef(this);
         
         if(this.olam.worldOctree) {
-            console.log(`B"H - ⚓ ${label}: Grounding into the Octree.`);
             this.olam.worldOctree.addObject(this.mesh);
         }
 
         this.isReady = true;
-        console.log(`B"H - ✅ ${label}: Plane with hills manifest at Y:${this.mesh.position.y}.`);
     }
 }

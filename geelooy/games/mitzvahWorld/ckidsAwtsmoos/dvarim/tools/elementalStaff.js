@@ -24,8 +24,12 @@ export default class ElementalStaff extends Tool {
     }
     
     shoot() {
+        if (this.op && this.op.customData && this.op.customData.modeIndex !== undefined) {
+             this.currentMode = this.op.customData.modeIndex;
+        }
+        
         const mode = this.modes[this.currentMode];
-        const player = this.olam.player;
+        const player = this.olam.player || this.olam.chossid;
         if (!player) return;
         
         // Visual Feedback

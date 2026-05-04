@@ -9,11 +9,26 @@ export default class HotAirBalloon extends Vehicle {
     static description = "Uses fire to rise. Watch your fuel!";
     
     constructor(op, olam) {
+        // B"H: The Golem of the Skies
+        op.golem = op.golem || {
+            guf: {
+                Compound: [
+                    { type: "Box", args: [1.5, 1.2, 1.5], pos: [0, 0, 0], mat: { color: 0x8B4513 } }, // Basket
+                    { type: "Sphere", args: [4, 32, 32], pos: [0, 5.5, 0], scale: [1, 1.2, 1], mat: { color: "#ff5722", roughness: 0.4 } }, // Balloon
+                    // Ropes
+                    { type: "Cylinder", args: [0.02, 0.02, 5], pos: [0.7, 2.5, 0.7], mat: { color: 0x000000 } },
+                    { type: "Cylinder", args: [0.02, 0.02, 5], pos: [-0.7, 2.5, 0.7], mat: { color: 0x000000 } },
+                    { type: "Cylinder", args: [0.02, 0.02, 5], pos: [0.7, 2.5, -0.7], mat: { color: 0x000000 } },
+                    { type: "Cylinder", args: [0.02, 0.02, 5], pos: [-0.7, 2.5, -0.7], mat: { color: 0x000000 } }
+                ]
+            }
+        };
+
         super(op, olam);
         this.maxSpeed = 15;
-        this.seatOffset.set(0, 0.5, 0);
+        this.seatOffset = new THREE.Vector3(0, 0.5, 0);
         this.burnerOn = false;
-        this.heat = 0; // Buoyancy factor
+        this.heat = 0; 
         this.fuel = 100;
         this.coolingRate = 0.5;
         this.heatingRate = 1.5;
@@ -21,45 +36,18 @@ export default class HotAirBalloon extends Vehicle {
     
     async heescheel(olam) {
         this.olam = olam;
-        
-        // Procedural Basket
-        const basketGeo = new THREE.BoxGeometry(1.5, 1.2, 1.5);
-        const basketMat = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
-        const basket = new THREE.Mesh(basketGeo, basketMat);
-        
-        // Envelope (Balloon)
-        const balloonGeo = new THREE.SphereGeometry(4, 32, 32);
-        const balloonMat = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff, roughness: 0.4 });
-        const balloon = new THREE.Mesh(balloonGeo, balloonMat);
-        balloon.position.y = 5.5;
-        balloon.scale.y = 1.2;
-        
-        // Ropes
-        const ropeGeo = new THREE.CylinderGeometry(0.02, 0.02, 5);
-        const ropeMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
-        for(let i=0; i<4; i++) {
-            const rope = new THREE.Mesh(ropeGeo, ropeMat);
-            const x = (i%2===0 ? 0.7 : -0.7);
-            const z = (i<2 ? 0.7 : -0.7);
-            rope.position.set(x, 2.5, z);
-            basket.add(rope);
+        await super.heescheel(olam); // This will generate the mesh from op.golem
+
+        // B"H: Add the Burner Light as a separate vessel property
+        if (this.mesh) {
+            this.burnerLight = new THREE.PointLight(0xffaa00, 0, 10);
+            this.burnerLight.position.set(0, 2, 0);
+            this.mesh.add(this.burnerLight);
         }
 
-        basket.add(balloon);
-        this.mesh = basket;
-        this.mesh.nivraAwtsmoos = this;
-        this.mesh.userData.isSolid = true;
-
-        if (this.position) this.mesh.position.copy(this.position.vector3());
-        
-        // Burner Light
-        this.burnerLight = new THREE.PointLight(0xffaa00, 0, 10);
-        this.burnerLight.position.y = 2;
-        this.mesh.add(this.burnerLight);
-
-        await olam.hoyseef(this);
         this.isReady = true;
     }
+
 
     applyPhysics(dt) {
         // Controls: Space to Burn

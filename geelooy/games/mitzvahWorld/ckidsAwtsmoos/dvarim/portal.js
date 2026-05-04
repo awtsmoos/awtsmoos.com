@@ -9,7 +9,8 @@ export default class Portal extends AWTSMOOS.Tzomayach {
     constructor(opts) {
         super(opts);
         this.worldPath = opts.worldPath;
-        console.log("Path?",this.worldPath)
+        // B"H: silent
+
         var self = this;
         this.interactionHandler = new AWTSMOOS.Interaction(
             this, {
@@ -20,7 +21,8 @@ export default class Portal extends AWTSMOOS.Tzomayach {
                     import(nivra.olam.getComponent
                         (self.worldPath||"world1File")
                     ).then(m => {
-                        console.log("Doing",self.olam.curPath = m)
+                        // B"H: silent
+
                         nivra.olam.ayshPeula(
                             "switch worlds",
                             m.default
