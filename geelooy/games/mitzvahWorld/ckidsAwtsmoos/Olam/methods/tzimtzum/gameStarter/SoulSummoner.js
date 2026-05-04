@@ -8,7 +8,8 @@ export default class SoulSummoner {
         let loaded = [];
         try {
             loaded = await olam.loadNivrayim(info.nivrayim);
-            console.log(`B"H - 👥 All [${loaded.length}] souls have been summoned.`);
+            // B"H: silent
+
             return loaded;
         } catch(e) {
             console.error("B\"H - 🚨 MASSIVE GENESIS FAILURE:", e);

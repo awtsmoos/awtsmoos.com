@@ -19,12 +19,14 @@ export default class Stage1Data {
      * @returns {Promise<Object>} The consolidated world data.
      */
     static async merge(systemInfo = {}, userInfo = {}) {
-        console.log("B\"H - ⚡ INTENSE LOG: Merging Primordial Data (Stage 1)...");
+        // B"H: silent
+
         let info = { ...systemInfo, ...userInfo };
 
         if (typeof info.worldDayuhURL === "string") {
             try {
-                console.log("B\"H - ⚡ INTENSE LOG: Importing URL:", info.worldDayuhURL);
+                // B"H: silent
+
                 const f = await import(info.worldDayuhURL);
                 if (f?.default) {
                     Object.assign(info, f.default);

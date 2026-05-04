@@ -24,16 +24,14 @@ export default class {
                 shaym: "approach npc msg",
                 methods: { classList: { add: "hidden" } }
             });
-        } catch(e) { console.log(e); }
+        } catch(e) { console.error("B\"H - Error caught:", e); }
 
         // B"H: Trigger sealayk event BEFORE destroying everything so listeners can clean up.
         try {
             if(nivra && nivra.ayshPeula) {
 		        nivra.ayshPeula("sealayk"); 
             }
-        } catch(e) {
-            console.log("Error firing sealayk event", e);
-        }
+        } catch(e) { console.error("B\"H - Error caught:", e); }
 
         if(nivra.isMesh) {
             try {
@@ -58,10 +56,10 @@ export default class {
                 nivra.modelMesh.removeFromParent();
             }
         } catch(e){
-            console.log("No",e)
+            // B"H: silent
         }
 
-        if(nivra.addedToPlaceholder) {
+        if (nivra.addedToPlaceholder) {
             nivra.addedToPlaceholder.addedTo = null;
         }
         
@@ -74,7 +72,7 @@ export default class {
                     }
                 }
             } catch(e){
-                console.log(e,"Oct")
+                // B"H: silent
             }
         }
 
@@ -93,7 +91,7 @@ export default class {
             this.nivrayim.splice(ind, 1);
             nivra.clearAll();
         } else {
-          //  console.log("Couldnt find",nivra,ind)
+          // B"H: silent
         }
     }
 }

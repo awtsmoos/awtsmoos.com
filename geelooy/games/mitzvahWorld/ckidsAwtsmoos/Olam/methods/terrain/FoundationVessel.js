@@ -33,7 +33,8 @@ export default class FoundationVessel {
      */
     static carve({ width, depth, thickness = 2.0, segments = 20, hills = [] }) {
         try {
-            console.log(`B"H - 📐 [FoundationVessel]: Carving a ground of ${width}x${depth} (Depth: ${thickness})`);
+            // B"H: silent
+
 
             // 1. Create a Box. The top face will be our walking surface.
             const geometry = new THREE.BoxGeometry(width, thickness, depth, segments, 1, segments);

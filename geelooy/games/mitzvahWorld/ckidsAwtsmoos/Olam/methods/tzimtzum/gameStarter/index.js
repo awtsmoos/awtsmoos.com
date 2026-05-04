@@ -13,10 +13,12 @@ import FinalEmanation from "./FinalEmanation.js";
 
 export default class GameStarterHub {
     static async start(olam, info) {
-        console.log("B\"H - 🚀 Entering the Physical Forge (GameStarterHub)");
+        // B"H: silent
+
 
         const updateLog = (pct, act) => {
-            console.log(`B"H - 📊 Genesis Progress: ${pct}% - ${act}`);
+            // B"H: silent
+
             olam.ayshPeula("increase loading percentage", { amount: pct, reset: true, action: act });
         };
 

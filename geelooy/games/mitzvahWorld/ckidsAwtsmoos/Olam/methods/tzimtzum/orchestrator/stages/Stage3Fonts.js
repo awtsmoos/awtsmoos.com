@@ -8,7 +8,8 @@
  */
 export default class Stage3Fonts {
     static async load(olam) {
-        console.log("B\"H - 🌌 STAGE 3: Drawing down the holy fonts.");
+        // B"H: silent
+
         if (typeof olam.loadHebrewFonts === 'function') {
             await olam.loadHebrewFonts();
         }

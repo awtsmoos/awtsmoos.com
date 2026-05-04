@@ -5,13 +5,15 @@
  */
 export default class FinalEmanation {
     static execute(olam, loaded) {
-        console.log("B\"H - ✨ Finalizing emanation protocols...");
+        // B"H: silent
+
         
         olam.ayshPeula("ready", olam, loaded);
         olam.ayshPeula("reset loading percentage");
         olam.ayshPeula("setup map");
         
-        console.log("B\"H - 📢 SIGNAL: ready to start game.");
+        // B"H: silent
+
         olam.ayshPeula("ready to start game");
     }
 }

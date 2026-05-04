@@ -8,7 +8,8 @@
 export default class Stage4Components {
     static async manifest(olam, info) {
         if (info.components) {
-            console.log("B\"H - 🌌 STAGE 4: Manifesting external vessels.");
+            // B"H: silent
+
             await olam.loadComponents(info.components);
         }
     }
