@@ -2,40 +2,39 @@
 /**
  * B"H
  * @module ShelterArchitect
- * @chapter Forging the Marginal Sanctuary
+ * @chapter Constructing the Marginal Tabernacle
  * @description
- * Every physical Verse in the scroll is a Vessel of light.
- * To contain the marginal insights (The Gloss), we must create a 
- * dedicated 'Shelter' within that vessel. This architect ensures 
- * the shelter is manifested and properly styled.
+ * Every physical Verse is a Vessel. To hold the 'Marginalia', we 
+ * must construct a Shelter. This architect ensures the shelter 
+ * is properly manifested and styled.
  * 
- * "And let them make for Me a sanctuary, that I may dwell among them."
+ * "And they shall make for Me a sanctuary, that I may dwell among them."
  */
 
 export class ShelterArchitect {
     /**
-     * @method establishShelter
-     * @description Finds or constructs the 'marginal-gloss-shelter' for a verse.
+     * @method secureShelter
+     * @description Finds or builds the 'marginal-gloss-shelter' for a verse.
      * 
-     * @param {HTMLElement} verseEl - The physical Verse DOM element.
+     * @param {HTMLElement} vessel - The Verse/Section DOM element.
      * @returns {HTMLElement} - The manifest shelter.
      */
-    static establishShelter(verseEl) {
-        if (!verseEl) return null;
+    static secureShelter(vessel) {
+        if (!vessel) return null;
 
-        // B"H - Search for an existing shelter among the children.
-        let shelter = Array.from(verseEl.children).find(child => 
-            child.classList.contains("marginal-gloss-shelter")
+        // B"H - Look for an existing sanctuary.
+        let shelter = Array.from(vessel.children).find(c => 
+            c.classList.contains("marginal-gloss-shelter")
         );
 
-        // B"H - If none exists, manifest one from the void.
+        // B"H - If none exists, forge one from the physical materials.
         if (!shelter) {
             shelter = document.createElement("div");
             shelter.className = "marginal-gloss-shelter";
             
-            // B"H - Ensure it is visible within the layout.
+            // B"H - Ensuring visibility in the realm of layout.
             shelter.style.setProperty("display", "flex", "important");
-            verseEl.appendChild(shelter);
+            vessel.appendChild(shelter);
         }
 
         return shelter;

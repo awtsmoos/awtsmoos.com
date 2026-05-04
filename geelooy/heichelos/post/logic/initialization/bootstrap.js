@@ -3,12 +3,6 @@
  * B"H
  * @module BootstrapRitual
  * @chapter Ignition of Consciousness
- * @description
- * This module brings the Reader from the void into reality.
- * 
- * HEALED: Redundant manifestation calls removed to prevent double loading.
- * The Seder is strictly enforced: 
- * Context -> Sidebar -> Content -> Marginalia.
  */
 
 import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
@@ -33,9 +27,8 @@ export async function ignite() {
     const sidebar = document.querySelector(".sidebar");
 
     try {
-        // 1. Initial State Retrieval
         const { post, series, hId, pIdx } = await loadInitial();
-        window.post = post; // B"H - Established as the Root.
+        window.post = post;
 
         const [meta, aDetails] = await Promise.all([
             getHeichelDetails(hId).catch(() => ({})),
@@ -47,7 +40,6 @@ export async function ignite() {
         window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || null;
         window.doesOwn = (window.curAlias === post.author);
 
-        // 2. The Sidebar Chambers (TabManager)
         window.tabManager = new TabManager({ parent: sidebar, headerTxt: "Divine Context" });
         
         window.tabRefs = {
@@ -78,27 +70,21 @@ export async function ignite() {
             onopen: async ({ actualTab }) => populateRootMenu(actualTab, post, window.tabRefs)
         });
 
-        // 3. UI and Preferences Rituals
         applyUserPreferences();
         setupUIListeners();
         setupViewEffects();
         loadFontSize();
 
-        // 4. Manifesting the Physical Body of the Post
         if(viewport) {
             viewport.innerHTML = "";
             if (post.dayuh) await interpretPostDayuh(post);
             else if (post.content) appendHTML(post.content, viewport);
-            
             viewport.appendChild(makeNavBars(post, series, pIdx));
         }
 
-        // 5. Revealing the Initial View
         window.tabRefs.rootMenu.open();
 
-        // 6. Restoring Marginal Insights
-        // B"H - Triggered once here. Internal locks will prevent double-manifestation 
-        // if called elsewhere (like by state change listeners).
+        // B"H - Restore Marginal Insights
         await manifestAllActiveInlines();
 
         await indexSwitch(true);

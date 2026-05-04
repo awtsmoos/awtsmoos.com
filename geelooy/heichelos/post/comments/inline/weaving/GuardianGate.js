@@ -2,25 +2,25 @@
 /**
  * B"H
  * @module GuardianGate
- * @chapter The Portal of the Spokesman
+ * @chapter The portal of the Spokesman
  * @description
- * Within each marginal shelter, every Guardian (Alias) has their own Gate.
- * This gate allows the Seeker to reveal their transmissions and also 
- * serves as a portal to the Great Sidebar for comprehensive study.
+ * Every Guardian (Alias) has their own gate within the margin.
+ * This gate allows the seeker to expand/collapse the transmission 
+ * and also serves as a portal to the Great Sidebar for deeper study.
  * 
- * "Everything is included in everything else."
+ * "Open the gates, that the righteous nation... may enter."
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
-import { SidebarConduit } from "../../../ui/sidebar/Conduit.js";
+import { SidebarConduit } from "/heichelos/post/ui/sidebar/Conduit.js";
 
 export class GuardianGate {
     /**
      * @method build
-     * @description Manifests the Guardian's Gateway DOM element.
+     * @description Manifests the Guardian's Gateway.
      * 
-     * @param {string} alias - The identity of the Guardian.
-     * @param {string|number} verseIdx - The coordinate in the scroll.
+     * @param {string} alias - The identity.
+     * @param {string|number} verseIdx - The coordinate.
      * @returns {HTMLElement} - The gateway DOM.
      */
     static build(alias, verseIdx) {
@@ -43,10 +43,11 @@ export class GuardianGate {
                         click: (e) => {
                             e.stopPropagation();
                             
-                            // B"H - Command the Sidebar to reveal its secrets.
-                            SidebarConduit.openInsights({ verseIdx });
+                            // B"H - Command the Sidebar to reveal the Secrets.
+                            console.log(`B"H - [GuardianGate] Insights button clicked for @${alias}.`);
+                            SidebarConduit.openChamber({ idx: verseIdx });
 
-                            // B"H - Locally toggle the marginal list for immediate feedback.
+                            // B"H - Locally toggle the marginal list.
                             const list = e.currentTarget.nextElementSibling;
                             if (list) {
                                 const isHidden = getComputedStyle(list).display === "none";
