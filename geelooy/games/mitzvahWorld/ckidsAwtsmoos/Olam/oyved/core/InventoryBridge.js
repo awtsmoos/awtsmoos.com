@@ -26,7 +26,8 @@ export class InventoryBridge {
      * @param {Object} olam - The active world instance (Heeoolee descendant)
      */
     static bind(olam) {
-        console.log('B"H - 🎒 [INVENTORY_BRIDGE]: Establishing the Covenant of Possessions.');
+        // B"H: silent
+
 
         /**
          * Helper to safely access the player's inventory
@@ -46,7 +47,8 @@ export class InventoryBridge {
         olam.on("equipItem", (payload) => {
             const inv = getInventory();
             if (inv) {
-                console.log('B"H - 🎒 [INVENTORY_BRIDGE]: equipItem', payload);
+                // B"H: silent
+
                 inv.equipItem(payload);
             }
         });
@@ -54,7 +56,8 @@ export class InventoryBridge {
         olam.on("unequipItem", (slotName) => {
             const inv = getInventory();
             if (inv) {
-                console.log('B"H - 🎒 [INVENTORY_BRIDGE]: unequipItem', slotName);
+                // B"H: silent
+
                 inv.unequipItem(slotName);
             }
         });
@@ -135,6 +138,7 @@ export class InventoryBridge {
             if (inv) inv.closeContainer();
         });
 
-        console.log('B"H - ✅ [INVENTORY_BRIDGE]: All 11 Inventory Decrees are now bound.');
+        // B"H: silent
+
     }
 }
