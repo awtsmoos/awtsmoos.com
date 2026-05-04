@@ -32,12 +32,8 @@ export default class SolidBlock extends Domem {
             color: this.color 
         });
         
-        console.log(`B"H - 🧪 ${label} MATERIAL:`, {
-            type: material.type,
-            color: material.color.getHex().toString(16),
-            visible: material.visible,
-            opacity: material.opacity
-        });
+        // B"H: silent
+
 
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.name = this.name;
@@ -64,6 +60,7 @@ export default class SolidBlock extends Domem {
         }
         
         this.isReady = true;
-        console.log(`B"H - ✅ ${label} manifest at`, this.mesh.position);
+        // B"H: silent
+
     }
 }
