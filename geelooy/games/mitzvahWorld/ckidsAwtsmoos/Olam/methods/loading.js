@@ -80,7 +80,8 @@ export default class {
         const totalFiles = entries.length;
         if (totalFiles === 0) return;
 
-        console.log(`B"H - Atomic Load Initiated: Preparing to draw down ${totalFiles} vessels.`);
+        // B"H: silent
+
 
         let loadedCount = 0;
         
@@ -106,7 +107,8 @@ export default class {
 
         // Atomic synchronization - no partial worlds allowed to proceed to the Forge.
         await Promise.all(loadPromises);
-        console.log("B\"H - Asset manifestation complete. Ready for the Forge.");
+        // B"H: silent
+
     }
 
     getComponent(shaym) {

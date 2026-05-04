@@ -43,6 +43,7 @@ export default class LuminaryManifestor {
         originMarker.position.set(0, 5, 0);
         this.scene.add(originMarker);
         
-        console.log('B"H - 🕯️ LUMINANCE CONFIRMED. Sky shifted. Dimensions clarified.');
+        // B"H: silent
+
     }
 }

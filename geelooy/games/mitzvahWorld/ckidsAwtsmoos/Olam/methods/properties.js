@@ -162,7 +162,7 @@ export default class {
 
         "Space": "JUMP",
         "KeyX": "DOWN",
-        "keyC": "UP"
+        "KeyC": "INTERACT"
 
         //"ShiftLeft": "RUNNING",
         //"ShiftRight": "RUNNING"
@@ -208,17 +208,13 @@ export default class {
     
     actions = {
         reset(player, nivra/*that collided with*/, olam) {
-           // console.log("Reset!",player, nivra)
-           
-           if(!player.teleporting) {
-            
-            
-            player.teleporting = true;
-            setTimeout(() => {
-                olam.ayshPeula('reset player position')
-                player.teleporting = false
-            }, 500)
-           }
+            if (player) {
+                player.teleporting = true;
+                setTimeout(() => {
+                    olam.ayshPeula('reset player position')
+                    player.teleporting = false
+                }, 500)
+            }
         }
     }
 }

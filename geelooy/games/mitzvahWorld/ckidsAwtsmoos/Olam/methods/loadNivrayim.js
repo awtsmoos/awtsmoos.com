@@ -10,6 +10,8 @@ import * as AWTSMOOS from '../../awtsmoosCkidsGames.js';
 export default class {
 
 	async addObject(type, options) {
+        // B"H: silent
+
         if (!AWTSMOOS[type]) {
             console.error(`B"H - Olam.addObject: Type "${type}" does not exist.`);
             return;
@@ -66,18 +68,28 @@ export default class {
         }
         
         this.nivrayim.push(nivra);
+        // B"H: silent
+
         await nivra.ready();
+        // B"H: silent
+
         await nivra.afterBriyah();
+        // B"H: silent
+
         return nivra;
     }
 
     async loadNivrayim(nivrayim) {
         try {
-            console.log("B\"H - loadNivrayim started via legacy path.");
+            const worldSize = Object.keys(nivrayim || {}).length;
+            // B"H: silent
+
             var nivrayimMade = [];
             var ent = Object.entries(nivrayim || {});
             
             for (var [type, nivraOptions] of ent) {
+                // B"H: silent
+
                 var ar;
                 var isAr = false;
                 if (Array.isArray(nivraOptions)) {

@@ -17,7 +17,8 @@ export default class LoadNivrayim {
     async loadNivrayim(nivrayim) {
         try {
             TimeTracker.start("LOAD_NIVRAYIM");
-            console.log("B\"H - 📦 [GATHERING]: Combing through the book of blueprints.");
+            // B"H: silent
+
             
             var nivrayimMade = instantiate.parseDefinitions.call(this, nivrayim);
             TimeTracker.log("LOAD_NIVRAYIM", "Parsed definitions into objects.");

@@ -28,7 +28,8 @@ const instantiate = {
         if (!SoulType) return null;
 
         const nivra = new SoulType(options, this);
-        console.log(`B"H - ⚡ DISPATCHING SPARK: [${type}] name: "${nivra.name}"`);
+        // B"H: silent
+
 
         // 1. REGISTRATION
         if (!this.nivrayim.includes(nivra)) this.nivrayim.push(nivra);

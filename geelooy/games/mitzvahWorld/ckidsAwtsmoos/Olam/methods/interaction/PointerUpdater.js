@@ -41,6 +41,7 @@ export default class PointerUpdater {
             olam.achbar.y = clientY;
         }
 
-        // console.log(`B"H - 🎯 Gaze locked on Normalized Coordinates:[${olam.pointer.x.toFixed(3)}, ${olam.pointer.y.toFixed(3)}]`);
+        // B"H: silent
+
     }
 }
