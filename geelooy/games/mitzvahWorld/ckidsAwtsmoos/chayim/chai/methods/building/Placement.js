@@ -18,7 +18,8 @@ export default {
         const activeItem = this.getActiveItem(); 
         if (!activeItem || !activeItem.isBuildable) return; 
 
-        console.log('B"H - 🏗️ [MISHKAN]: Anchoring the spark into the physical plane.');
+        // B"H: silent
+
         
         const itemData = activeItem; 
         const mesh = this.activeObject.mesh;

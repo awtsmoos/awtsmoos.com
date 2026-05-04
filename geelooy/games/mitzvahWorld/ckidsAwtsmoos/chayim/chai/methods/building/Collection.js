@@ -20,7 +20,8 @@ export default {
         const hit = this.olam.worldOctree.rayIntersect(ray);
         if (!hit || hit.distance > 15) return false;
 
-        console.log('B"H - ⛏️ [BIRUR]: Reclaiming the scattered sparks.');
+        // B"H: silent
+
 
         const physicsObject = hit.object;
         let visualObject = physicsObject;

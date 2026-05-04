@@ -67,13 +67,8 @@ export default {
                     
                     // Detailed debug logging - includes rotation and velocity before/after
                     const rotDeg = this.rotation ? (this.rotation.y * 180 / Math.PI).toFixed(1) : '?';
-                    // console.log(
-                    //     `B"H - 🧱 Wall[iter=${i}]: depth=${result.depth.toFixed(4)}, ` +
-                    //     `normal=[${nx.toFixed(3)}, ${result.normal.y.toFixed(3)}, ${nz.toFixed(3)}], ` +
-                    //     `rotY=${rotDeg}°, ` +
-                    //     `dot=${dot.toFixed(3)}, ` +
-                    //     `velAfter=[${this.velocity.x.toFixed(2)}, ${this.velocity.z.toFixed(2)}]`
-                    // );
+                    // B"H: silent
+
                 }
             }
         }

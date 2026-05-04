@@ -14,6 +14,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import Ghost from "./Ghost.js";
 import Placement from "./Placement.js";
 import Collection from "./Collection.js";
+import * as AWTSMOOS from '../../../../awtsmoosCkidsGames.js';
 
 export default {
     ...Ghost,
@@ -107,9 +108,33 @@ export default {
         if (item && item.isBuildable) {
             if (!this.activeObject) await this.placeBlockOnRay();
             else await this.placeObject();
-        } else if (item && item.className === 'Tool') {
+        } else if (item && (item.className === 'Tool' || item.type === 'tool' || item.isTool)) {
             if (this.activeObject) this.removeActiveObject();
-            await this.collectObject();
+            
+            // B"H: Dynamically instantiate the Tool class and call its unique action
+            const ToolClass = AWTSMOOS[item.className];
+            if (ToolClass && typeof ToolClass.prototype.shoot === 'function') {
+                const toolInst = new ToolClass(item, this.olam);
+                // Synchronize custom state if it was mutated
+                if (item.customData) toolInst.customData = item.customData;
+                
+                await toolInst.shoot();
+                
+                // Save back any mutated state
+                item.customData = toolInst.customData || item.customData;
+                return;
+            }
+
+            // Fallback if no specific shoot logic is implemented
+            if (item.className === 'Tool') {
+                await this.collectObject();
+            }
+        } else if (item && (item.className === 'Sefer' || item.type === 'Sefer')) {
+            if (this.activeObject) this.removeActiveObject();
+            // B"H: Fire the Hebrew Letters!
+            if (typeof this.shootHebrewLetter === 'function') {
+                this.shootHebrewLetter();
+            }
         }
     },
 

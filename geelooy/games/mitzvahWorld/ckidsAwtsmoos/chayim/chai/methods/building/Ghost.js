@@ -17,7 +17,8 @@ export default {
         if (this._isGeneratingGhost) return; 
         if (!this.activeRay || !this.activeRay.group) return;
 
-        console.log('B"H - 🌌 [TZELEM]: Generating potential form for placement.');
+        // B"H: silent
+
         this._isGeneratingGhost = true;
 
         try {
