@@ -14,7 +14,7 @@ export default {
     className: "loginStatus awtsmoosBtn",
     
     ready(me, $) {
-        console.log("HI",window.a=me)
+        window.a=me
         try {
             if(window.createProfile) {
                 window.createProfile(me);
@@ -22,11 +22,7 @@ export default {
                 createProfile(me);
             }
         } catch(e) {
-            console.log("no profile!",e)
+            console.error("B\"H - Login Profile Error:", e);
         }
-        
-    },
-    onclick(e) {
-        console.log("What",window.o=e.target.children)
     }
-}
+};

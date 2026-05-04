@@ -18,7 +18,8 @@ export default function playButton(gameUiHTML) {
     return mitzvahBtn({
         text: "Play / Enter Realms",
         onclick(e, $, ui, me) {
-            console.log('B"H - ⚡ [playButton] Click! Opening the Realm Selector...');
+            // B"H: silent
+
             
             // The sacred vessel that holds the world options
             const ls = $("levelSelectScreen");

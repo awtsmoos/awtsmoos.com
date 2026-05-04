@@ -39,7 +39,8 @@ export default {
         },
         async launch(e, $, ui) {
             const worldPath = e.detail;
-            console.log(`B"H - 🚀 Launching world path: ${worldPath}`);
+            // B"H: silent
+
 
             const ikar = $("ikar");
             const mm = $("main menu");
@@ -72,8 +73,10 @@ export default {
 
             // --- B"H: THE EMERALD TIKKUN ---
             if (worldPath === 'emerald.js') {
-                console.log("B\"H - 💎 Summoning the Original Emerald Void.");
-                return sparkWorld(null, MINIMAL_GRASS_WORLD);
+                // B"H: silent
+
+                const module = await import(`/games/mitzvahWorld/ckidsAwtsmoos/tochen/worlds/emerald.js`);
+                return sparkWorld(`/games/mitzvahWorld/ckidsAwtsmoos/tochen/worlds/emerald.js`, module.default);
             }
 
             // --- B"H: THE LOCAL WORLD ROUTE ---
@@ -87,7 +90,8 @@ export default {
                 const localUrl = `/games/mitzvahWorld/tochen/worlds/${worldPath}`;
                 
                 try {
-                    console.log(`B"H - 📥 Attempting to import local realm: ${localUrl}`);
+                    // B"H: silent
+
                     const module = await import(localUrl);
                     if (module && module.default) {
                         return sparkWorld(localUrl, module.default);

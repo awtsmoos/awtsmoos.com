@@ -146,18 +146,12 @@ export default function updateSlots(e, $, ui) {
                             const sData = parent ? parent['awtsmoosSlotData'] : null;
                             if (!sData) return;
                             
-                            const tooltip = document.querySelector('[shaym="icon tooltip"]');
-                            if (tooltip) {
-                                tooltip.innerHTML = `<div class="header" style="color:#00ffed; font-size:18px; font-weight:bold;">${sData.name || 'Item'}</div><div class="description" style="color:#eee; font-size:14px; margin-top:5px;">${sData.description || ''}</div>`;
-                                tooltip.classList.remove('hidden');
-                                const x = e.clientX || (e.touches && e.touches[0].clientX);
-                                const y = e.clientY || (e.touches && e.touches[0].clientY);
-                                if(x && y) { tooltip.style.left = (x + 15) + 'px'; tooltip.style.top = (y + 15) + 'px'; }
-                            }
+                            const x = e.clientX || (e.touches && e.touches[0].clientX);
+                            const y = e.clientY || (e.touches && e.touches[0].clientY);
+                            uiInst.peula("gameHUD", { tooltip: { show: true, text: sData.name || 'Item', x, y } });
                         }, 
-                        mouseleave: function() {
-                             const tooltip = document.querySelector('[shaym="icon tooltip"]');
-                             if(tooltip) tooltip.classList.add('hidden');
+                        mouseleave: function(e, $local, uiInst) {
+                             uiInst.peula("gameHUD", { tooltip: { show: false } });
                         }
                     },
                     children: slotData ? [

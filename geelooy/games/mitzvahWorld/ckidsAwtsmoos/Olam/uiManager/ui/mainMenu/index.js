@@ -59,12 +59,17 @@ export default[
                 ]
             },
             {
-                className: "info",
+                className: "menu-vessel",
                 children:[
                     titleBuilder(),
-                    playButton(gameUiHTML),
-                    aliasButton(),
-                    fileButton()
+                    {
+                        className: "menu-actions",
+                        children: [
+                            playButton(gameUiHTML),
+                            aliasButton(),
+                            fileButton()
+                        ]
+                    }
                 ]
             }
         ]

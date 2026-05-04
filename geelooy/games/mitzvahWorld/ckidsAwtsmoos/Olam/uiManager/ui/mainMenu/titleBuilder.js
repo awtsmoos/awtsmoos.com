@@ -10,8 +10,8 @@ export default function titleBuilder() {
 
     return {
         className: "mainTitle",
-        children: words.map(word => ({
-            className: "title-word",
+        children: words.map((word, i) => ({
+            className: "title-word" + (i === 0 ? " gold" : ""),
             textContent: word.toUpperCase(),
             attributes: { "data-text": word.toUpperCase() }
         }))
