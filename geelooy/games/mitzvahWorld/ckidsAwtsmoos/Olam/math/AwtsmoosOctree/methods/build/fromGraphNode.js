@@ -19,6 +19,21 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
+const MAX_TRIANGLES_PER_MESH = 10000; // B"H: Lowered for extreme safety. No single static object should exceed this.
+
+// B"H: MODULE-LEVEL SCRATCH VECTORS — THE ETERNAL VESSELS
+// These three vectors are created ONCE and reused for every triangle in every mesh.
+// Previously they were re-declared inside the traverse() callback — meaning
+// 3 new Vector3 objects per triangle. For an 80,000-triangle terrain:
+// 80,000 x 3 = 240,000 heap allocations in one build call.
+// The GC could not keep up — this was ROOT CAUSE #4 of the memory freeze.
+//
+// Like the Awtsmoos Who uses the same letters of the Aleph-Beis to create
+// all of existence — we reuse the same vessels to extract every triangle.
+const _meshScratch_v1 = new THREE.Vector3();
+const _meshScratch_v2 = new THREE.Vector3();
+const _meshScratch_v3 = new THREE.Vector3();
+
 export default {
     fromGraphNode(group) {
         if (!group) return;
@@ -26,6 +41,39 @@ export default {
 
         group.traverse((obj) => {
             if (obj.isMesh && obj.geometry) {
+                const meshName = obj.name || "Unnamed Mesh";
+                const geomType = obj.geometry.type || "Unknown Type";
+                // B"H: silent
+
+
+                // B"H: THE DOUBLE SEAL OF EXCLUSION
+                if (
+                    obj.userData?.isPlayer || 
+                    obj.userData?.isNpc || 
+                    obj.userData?.isLiving ||
+                    obj.userData?.isSphere ||
+                    obj.userData?.skipOctree ||
+                    obj.name?.toLowerCase().includes("chossid") ||
+                    obj.name?.toLowerCase().includes("player") ||
+                    obj.name?.toLowerCase().includes("sphere") ||
+                    obj.geometry.type?.includes("Sphere") ||
+                    obj.geometry.type?.includes("Capsule") ||
+                    obj.geometry.type?.includes("Torus")
+                ) {
+                    // B"H: silent
+
+                    return;
+                }
+
+                // 0. TRIANGLE COUNT CHECK
+                // "He counts the number of the stars." (Tehillim 147:4)
+                // If a mesh is too complex, it will shatter the memory of the vessel.
+                const count = obj.geometry.index ? obj.geometry.index.count : obj.geometry.attributes.position.count;
+                if (count > MAX_TRIANGLES_PER_MESH * 3) {
+                    console.warn(`B"H - 🚨 Skipping massive mesh [${obj.name}] with ${count/3} triangles!`);
+                    return;
+                }
+
                 // 1. REVEALING THE BOUNDS
                 // The physical boundary of the object must be measured with absolute truth.
                 if (!obj.geometry.boundingBox) obj.geometry.computeBoundingBox();
@@ -48,19 +96,26 @@ export default {
                 // 3. EXTRACTING THE LETTERS (TRIANGLES)
                 const geometry = obj.geometry.index ? obj.geometry.toNonIndexed() : obj.geometry;
                 const pos = geometry.attributes.position;
-
+                
                 if (pos) {
                     for (let i = 0; i < pos.count; i += 3) {
-                        const v1 = new THREE.Vector3().fromBufferAttribute(pos, i).applyMatrix4(obj.matrixWorld);
-                        const v2 = new THREE.Vector3().fromBufferAttribute(pos, i + 1).applyMatrix4(obj.matrixWorld);
-                        const v3 = new THREE.Vector3().fromBufferAttribute(pos, i + 2).applyMatrix4(obj.matrixWorld);
+                        _meshScratch_v1.fromBufferAttribute(pos, i).applyMatrix4(obj.matrixWorld);
+                        _meshScratch_v2.fromBufferAttribute(pos, i + 1).applyMatrix4(obj.matrixWorld);
+                        _meshScratch_v3.fromBufferAttribute(pos, i + 2).applyMatrix4(obj.matrixWorld);
                         
-                        const triangle = new THREE.Triangle(v1, v2, v3);
+                        // B"H: We clone only the final coordinates into the Triangle,
+                        // NOT the scratch vectors themselves. The scratch vectors are reused.
+                        const triangle = new THREE.Triangle(
+                            _meshScratch_v1.clone(),
+                            _meshScratch_v2.clone(),
+                            _meshScratch_v3.clone()
+                        );
                         triangle.sourceMesh = obj;
                         
-                        // Add to the eternal master list
                         this.allTriangles.push(triangle);
                     }
+                    // B"H: silent
+
                 }
 
                 // Free the temporary un-indexed geometry light
@@ -70,6 +125,8 @@ export default {
 
         // Trigger the subdivision of space now that the matter is gathered
         this.isBuilt = false;
-        this.build();
+        if (!this._isManaged) {
+            this.build();
+        }
     }
 };

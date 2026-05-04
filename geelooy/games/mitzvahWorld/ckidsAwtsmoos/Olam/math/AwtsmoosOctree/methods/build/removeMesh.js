@@ -91,7 +91,8 @@ export default {
             this.isBuilt = false;
             this.worldTrianglesData = null;
             this.build();
-            console.log(`B"H - ✨ Pruned ${pruned} dead triangles from physics. The Klipot are cleared!`);
+            // B"H: silent
+
         }
     }
 };

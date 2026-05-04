@@ -33,8 +33,8 @@
  * @memberof AwtsmoosOctree
  */
 import { Box3 } from '/games/scripts/build/three.module.js';
-import build from './methods/build/index.js';
-import intersection from './methods/intersection/index.js';
+import build from './methods/build/index.js?v=purged';
+import intersection from './methods/intersection/index.js?v=purged';
 
 /**
  * @class Octree
@@ -74,10 +74,10 @@ export class Octree {
 
     /**
      * @constructor
-     * @param {THREE.Box3} [box] - Optional initial bounding box. If omitted,
-     *   an empty Box3 is created and will be expanded during `build()`.
+     * @param {THREE.Box3} [box] - Optional initial bounding box.
+     * @param {Object} [config] - Optional configuration.
      */
-    constructor(box) {
+    constructor(box, config = {}) {
         /** @type {number[]} Triangle indices — only in leaf nodes post-split */
         this.triangles = [];
 
@@ -98,6 +98,28 @@ export class Octree {
 
         /** @type {boolean} When true, build() skips box recalculation */
         this._isManaged = false;
+
+        this.config = {
+            /**
+             * B"H: MAX_DEPTH was 8 — causing 8^8 = 16,777,216 potential nodes!
+             * Even a terrain with 20,000 triangles would generate millions of empty
+             * sub-nodes during split(), exhausting all available heap memory.
+             *
+             * TIKKUN: Depth 5 = 8^5 = 32,768 max nodes — sufficient for a 5000x5000
+             * world tile while remaining inside any reasonable memory budget.
+             * Like the Tzimtzum — the infinite contracts to exactly what is needed.
+             */
+            MAX_DEPTH: 5,
+            /**
+             * B"H: MAX_TRIANGLES_PER_NODE was 8 — causing the tree to split
+             * relentlessly until MAX_DEPTH, even for sparse regions.
+             * 32 triangles per leaf is the proven balance: queries check at most
+             * 32 triangles against the capsule per leaf, which is negligible.
+             * But it prevents the cascading subdivision that caused RAM death.
+             */
+            MAX_TRIANGLES_PER_NODE: 32,
+            ...config
+        };
 
         // B"H: The Grand Method Binding — Or Makif pattern
         // All build and intersection methods are woven into this instance

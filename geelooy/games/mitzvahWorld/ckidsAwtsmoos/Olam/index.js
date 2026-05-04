@@ -12,6 +12,8 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import * as AWTSMOOS from '../awtsmoosCkidsGames.js';
 import Ayin from "./camera/index.js";
 import UserProgressManager from "../systems/UserProgressManager.js"; 
+import Yichud from "./interaction/Yichud.js";
+import PlacementManager from "./interaction/PlacementManager.js";
 
 export default class Olam extends AWTSMOOS.Nivra {
     ASPECT_X = 1920;
@@ -42,10 +44,13 @@ export default class Olam extends AWTSMOOS.Nivra {
                 this.scene.fog = new THREE.Fog(0x88ccee, this.ayin.camera.near, this.ayin.camera.far);
                 
                 this.userProgressManager = new UserProgressManager(this);
+                this.yichud = new Yichud(this);
+                this.placementManager = new PlacementManager(this);
                 this.startShlichusHandler(this);
                 this.scene.add(this.octreeDebugHelper);
                 
-                console.log("B\"H - 🌍 Olam Constructor: Final Vessels Manifested.");
+                // B"H: silent
+
             } catch (e) {
                 console.error("B\"H - 🚨 Olam constructor internal setup shattered:", e);
             }
@@ -58,9 +63,11 @@ export default class Olam extends AWTSMOOS.Nivra {
     set pixelRatio(pr) { if(this.renderer) this.renderer.setPixelRatio(pr); }
 
     async init() { 
-        console.log("B\"H - 🧪 Olam.init() invoked. Ensuring foundation is grafted...");
+        // B"H: silent
+
         await this._facultiesGrafted; 
-        console.log("B\"H - 🧪 foundation grafted. Calling init module...");
+        // B"H: silent
+
         await init(this); 
     }
 }

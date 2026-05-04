@@ -114,7 +114,8 @@ export default {
             this.isBuilt = false;
             this.worldTrianglesData = null;
             this.build();
-            console.log(`B"H - Pruned ${startSize - this.allTriangles.length} dead triangles from physics.`);
+            // B"H: silent
+
         }
     }
 };

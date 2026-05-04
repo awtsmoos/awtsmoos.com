@@ -43,8 +43,8 @@ export default function() {
     });
 
     this.on("presskey", peula => {
-        // console.log("Pressed a key~!" , peula)
-        this.ayshPeula("keypressed", peula);
+        // B"H: silent
+
     })
 
     this.on("mousedown", peula => {

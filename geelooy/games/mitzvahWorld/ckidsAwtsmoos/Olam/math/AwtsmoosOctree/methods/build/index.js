@@ -26,11 +26,11 @@
  * @file index.js
  * @memberof AwtsmoosOctree/methods/build
  */
-import fromGraphNode from './fromGraphNode.js';
-import build from './build.js';
-import dynamicTriangles from './dynamicTriangles.js';
-import removeMesh from './removeMesh.js';
-import getTriangle from './getTriangle.js';
+import fromGraphNode from './fromGraphNode.js?v=purged2';
+import build from './build.js?v=purged2';
+import dynamicTriangles from './dynamicTriangles.js?v=purged2';
+import removeMesh from './removeMesh.js?v=purged2';
+import getTriangle from './getTriangle.js?v=purged2';
 
 /**
  * @constant {Object} buildMethods

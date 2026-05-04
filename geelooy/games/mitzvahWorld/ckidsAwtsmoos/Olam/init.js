@@ -17,7 +17,8 @@ import { DRACOLoader } from "/games/scripts/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "/games/scripts/jsm/loaders/GLTFLoader.js";
 
 export default async function(olam) {
-    console.log("B\"H - 🔋 Initializing Olam loader vessels...");
+    // B"H: silent
+
     
     if (!olam.loader) {
         console.warn("B\"H - ⚠️ 'olam.loader' was absent from the void. Creating a new GLTFLoader sentinel.");
@@ -36,7 +37,8 @@ export default async function(olam) {
         // B"H THE ULTIMATE SHIELD: Check if the method exists before calling!
         if (olam.loader && typeof olam.loader.setDRACOLoader === 'function') {
             olam.loader.setDRACOLoader(dracoLoader);
-            console.log("B\"H - 🛡️ Draco boundary established within the loader.");
+            // B"H: silent
+
         } else {
             console.warn("B\"H - ⚠️ Loader vessel rejected Draco attachment (method missing). Continuing with standard speech.");
         }
