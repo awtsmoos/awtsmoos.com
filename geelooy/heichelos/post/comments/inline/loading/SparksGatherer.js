@@ -2,17 +2,11 @@
 /**
  * B"H
  * @module SparksGatherer
- * @chapter Tearing the Husks
- * @description
- * Often, the Infinite Light is wrapped in husks (Success/Details wrappers).
- * The SparksGatherer reaches into these wrappers and extracts the 
- * pure sparks of data, flattening maps into arrays for the weaver to use.
- * 
- * "Gather the fragments that nothing be lost."
+ * @chapter Purifying the Emanation
  */
 
-import { ApiPortal } from "./ApiPortal.js";
-import { unrollApiResponse } from "../../logic/unroller.js";
+import { ApiPortal } from "/heichelos/post/comments/inline/loading/ApiPortal.js";
+import { DataPurifier } from "/heichelos/post/comments/inline/loading/DataPurifier.js";
 
 /**
  * @class SparksGatherer
@@ -20,22 +14,15 @@ import { unrollApiResponse } from "../../logic/unroller.js";
 export class SparksGatherer {
     /**
      * @method collect
-     * @description
-     * Orchestrates the fetching and purification of comment data.
-     * 
-     * @param {string} alias - The Guardian's name.
-     * @param {Object} post - The post context.
-     * @returns {Promise<Array>} - The purified array of insights.
+     * @description Gathers and purifies insights for an identity.
      */
     static async collect(alias, post) {
         try {
+            console.log(`B"H - [SparksGatherer] Collecting sparks for @${alias}.`);
             const raw = await ApiPortal.fetchPostMap(alias, post);
-            const purified = unrollApiResponse(raw);
-
-            console.log(`%c B"H - [SparksGatherer] Collected ${purified.length} purified sparks for @${alias}.`, "color: #ff99ff;");
-            return purified;
+            return DataPurifier.purify(raw);
         } catch (e) {
-            console.error("B\"H - [SparksGatherer] Failure during collection:", e);
+            console.error("B\"H - [SparksGatherer] Gathering rupture:", e);
             return [];
         }
     }
