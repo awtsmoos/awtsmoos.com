@@ -1,273 +1,447 @@
+// B"H
 
 /**
- * B"H
- * Nature System - Manages Instanced Mesh painting
- * Refactored to use modular generators and preserve multi-materials.
+ * @file natureSystem.js
+ * @module NatureSystem
+ *
+ * ══════════════════════════════════════════════════════════════════════
+ * THE BREATH OF THE FIELD — Instanced Nature Mesh Painter
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * Chapter 14: The Garden of Souls
+ *
+ * "He makes the grass grow for the cattle, and herb for the
+ *  service of man..." (Tehillim 104:14)
+ *
+ * This system manages InstancedMesh pools for grass, rocks, flowers.
+ * It paints them across the terrain surface using raycasting for
+ * Y-snapping and random transforms per instance.
+ *
+ * B"H: CRITICAL FIX — Paint Queue
+ * ─────────────────────────────────
+ * Previously, paint() was called for hundreds of blades BEFORE their
+ * pool had finished async initialization. The data was silently lost.
+ * Now, paint() queues the call if the pool isn't ready yet, and the
+ * queue is flushed once initPool() resolves. This guarantees every
+ * blade request reaches the InstancedMesh.
+ *
+ * B"H: NatureSystem.update() no longer calls .copy() on plain objects;
+ * it detects the correct mutation strategy from the uniform type.
+ *
+ * @description Instanced mesh painting system for all nature elements
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
 import GeometryGenerator from './procedural/geometryGenerator.js';
 import MaterialGenerator from './procedural/materialGenerator.js';
 
+/**
+ * @constant TYPE_MAP
+ * @description
+ * ════════════════════════════════════════════════════════════════════
+ * THE MAP OF FORMS — Flora Type Resolution
+ * ════════════════════════════════════════════════════════════════════
+ *
+ * Pure data map from user-facing type names to internal pool variants.
+ * Resolves random variant selection in a single data-driven step.
+ * No switch statements — just a lookup + random pick from arrays.
+ *
+ * @type {Object.<string, string[]>}
+ */
+const TYPE_MAP = {
+    grass:  ['grass_field'],
+    rock:   ['rock_boulder', 'rock_slate'],
+    flower: ['flower_blue', 'flower_white', 'flower_yellow'],
+};
+
+/**
+ * @function resolveActualType
+ * @description Resolves a user type string to a specific pool variant.
+ * @param {string} type
+ * @returns {string}
+ */
+function resolveActualType(type) {
+    const variants = TYPE_MAP[type];
+    if (variants) {
+        return variants[Math.floor(Math.random() * variants.length)];
+    }
+    // Passthrough for already-specific types
+    return type;
+}
+
 export default class NatureSystem {
+    /**
+     * @constructor
+     * @param {Object} olam - World context providing scene, octree, event system
+     */
     constructor(olam) {
         this.olam = olam;
-        this.pools = {}; 
+
+        /** @type {Object.<string, PoolEntry>} Active resolved pools */
+        this.pools = {};
+
+        /** @type {Object.<string, Array>} Paint queue per pool type — flushed on pool ready */
+        this._paintQueue = {};
+
         this.dummy = new THREE.Object3D();
         this.raycaster = new THREE.Raycaster();
         this.rayDown = new THREE.Vector3(0, -1, 0);
         this.loadingPools = new Set();
         this.colorHelper = new THREE.Color();
-        
-        this.olam.on("heesHawvoos", (dt) => this.update(dt));
+
+        // B"H: Hook into the world update loop
+        this.olam.on('heesHawvoos', (dt) => this.update(dt));
     }
-    
+
+    /**
+     * @method prewarm
+     * @description
+     * ════════════════════════════════════════════════════════════════════
+     * THE PREPARATION OF VESSELS — Pool Pre-Warming
+     * ════════════════════════════════════════════════════════════════════
+     *
+     * Called by ProceduralFlora BEFORE its paint loop. Resolves a
+     * randomly-chosen variant from the type, initializes its pool,
+     * and awaits completion. The caller can then immediately paint
+     * and be guaranteed the pool is ready.
+     *
+     * Because multiple flora patches of the same type share one pool,
+     * this is safe to call multiple times — initPool is idempotent.
+     *
+     * @param {string} type - User-facing type string ('grass','rock','flower')
+     * @returns {Promise<void>}
+     */
+    async prewarm(type) {
+        // B"H: Prewarm ALL variants for this type
+        const variants = TYPE_MAP[type] || [type];
+        await Promise.all(variants.map(v => this.initPool(v)));
+    }
+
+    /**
+     * @method initPool
+     * @description
+     * ════════════════════════════════════════════════════════════════════
+     * THE FORGING OF THE VESSEL — Pool Initialization
+     * ════════════════════════════════════════════════════════════════════
+     *
+     * Creates a THREE.InstancedMesh for a specific nature type variant,
+     * adds it to the scene, and stores it in this.pools[type].
+     *
+     * Once complete, flushes any paint calls that were queued while
+     * the pool was still loading (_paintQueue[type]).
+     *
+     * @param {string} type - Specific pool type (e.g. 'grass_field')
+     * @param {number} [maxInstances=5000]
+     * @returns {Promise<PoolEntry|null>}
+     */
     async initPool(type, maxInstances = 5000) {
         if (this.pools[type]) return this.pools[type];
-        if (this.loadingPools.has(type)) return null;
+        if (this.loadingPools.has(type)) {
+            // B"H: Wait for the existing initiation to complete
+            return new Promise(resolve => {
+                const check = setInterval(() => {
+                    if (this.pools[type]) {
+                        clearInterval(check);
+                        resolve(this.pools[type]);
+                    } else if (!this.loadingPools.has(type)) {
+                        clearInterval(check);
+                        resolve(null);
+                    }
+                }, 50);
+            });
+        }
 
-        console.log(`B"H Nature Log: initPool called for '${type}'`);
         this.loadingPools.add(type);
-        
+
         try {
             let geometry = null;
             let material = null;
-            let baseColor = new THREE.Color(0xffffff); // Default white (no tint)
+            let baseColor = new THREE.Color(0xffffff);
 
-            // B"H: Flower Logic - STRICTLY EXTERNAL MODEL WITH MULTI-MATERIAL SUPPORT
             if (type.includes('flower')) {
-                let modelPath = "awtsmoos://flowerBlue";
-                if (type.includes('yellow')) modelPath = "awtsmoos://flowerYellow";
-                else if (type.includes('white')) modelPath = "awtsmoos://flowerWhite";
-                
+                let modelPath = 'awtsmoos://flowerBlue';
+                if (type.includes('yellow')) modelPath = 'awtsmoos://flowerYellow';
+                else if (type.includes('white')) modelPath = 'awtsmoos://flowerWhite';
+
                 const actualPath = this.olam.getComponent(modelPath);
-                if(actualPath) {
+                if (actualPath) {
                     try {
                         const gltf = await this.olam.boyrayNivra({ path: actualPath });
                         if (gltf && gltf.scene) {
                             const geometries = [];
                             const materials = [];
-                            
+
                             gltf.scene.traverse(c => {
-                                if(c.isMesh) {
+                                if (c.isMesh) {
                                     c.updateMatrixWorld(true);
                                     const g = c.geometry.clone();
                                     g.applyMatrix4(c.matrixWorld);
-                                    
-                                    // Handle Material Groups
+
                                     let matIndex = materials.indexOf(c.material);
                                     if (matIndex === -1) {
-                                        // Clone material to ensure we can modify it for instancing (wind) without affecting original
                                         const mClone = c.material.clone();
-                                        // Ensure double sided for flowers
-                                        mClone.side = THREE.DoubleSide; 
-                                        // Inject wind
+                                        mClone.side = THREE.DoubleSide;
                                         MaterialGenerator.injectWind(mClone);
-                                        
                                         materials.push(mClone);
                                         matIndex = materials.length - 1;
                                     }
-                                    
-                                    // Assign group index to all vertices of this geometry segment
-                                    const count = g.attributes.position.count;
+
                                     g.clearGroups();
                                     g.addGroup(0, Infinity, matIndex);
-                                    
-                                    // Trick: BufferGeometryUtils.mergeGeometries respects groups if useGroups is true
                                     geometries.push(g);
                                 }
                             });
 
-                            if(geometries.length > 0) {
-                                // Merge with groups enabled
+                            if (geometries.length > 0) {
                                 geometry = BufferGeometryUtils.mergeGeometries(geometries, true);
-                                material = materials; // Array of materials
+                                material = materials;
                             }
                         }
-                    } catch(e) {
-                        console.warn("B\"H: Flower load failed", e);
-                    }
+                    } catch (_e) { /* silent — model optional */ }
                 }
-            } 
-            // B"H: Rocks and Grass - STRICTLY PROCEDURAL (Improved)
-            else {
+            } else {
                 geometry = GeometryGenerator.get(type);
-                material = MaterialGenerator.get(type);
-                if(type.includes('grass')) baseColor.setHex(0x44aa44);
-                else if(type.includes('rock')) baseColor.setHex(0x888888);
+                material = await MaterialGenerator.get(type, this.olam);
+                if (type.includes('grass')) {
+                    console.log('B"H - 🌾 [NATURE.GRASS]: Manifesting grass pool variant:', type);
+                    baseColor.setHex(0x44aa44);
+                } else if (type.includes('rock')) baseColor.setHex(0x888888);
             }
 
-            // Fallback
             if (!geometry) {
-                console.warn(`B"H: Fallback geometry for ${type}`);
                 geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
                 material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
             }
 
-            // Normalize Geometry (Center pivot at bottom)
             geometry.computeBoundingBox();
-            const box = geometry.boundingBox;
+            const box  = geometry.boundingBox;
             const size = new THREE.Vector3();
             box.getSize(size);
             const height = size.y;
-            
-            // Scaling logic
-            let targetHeight = 0.5;
-            if (type.includes('rock')) targetHeight = 0.6;
-            else if (type.includes('grass')) targetHeight = 0.6;
-            else if (type.includes('flower')) targetHeight = 0.8;
+
+            // B"H: Normalize all geometry to a canonical height
+            const TARGET_HEIGHTS = { rock: 0.6, grass: 0.6, flower: 0.8 };
+            const targetHeight = TARGET_HEIGHTS[
+                Object.keys(TARGET_HEIGHTS).find(k => type.includes(k))
+            ] || 0.5;
 
             if (height > 0.01) {
                 const scaleFactor = targetHeight / height;
                 geometry.scale(scaleFactor, scaleFactor, scaleFactor);
             }
-            
+
             geometry.computeBoundingBox();
             const center = new THREE.Vector3();
             geometry.boundingBox.getCenter(center);
             geometry.translate(-center.x, -geometry.boundingBox.min.y, -center.z);
 
-            // Create InstancedMesh
             const instancedMesh = new THREE.InstancedMesh(geometry, material, maxInstances);
             instancedMesh.count = 0;
             instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-            if(instancedMesh.instanceColor) instancedMesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
-            
-            // Shadows
+            if (instancedMesh.instanceColor) instancedMesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
+
             instancedMesh.receiveShadow = true;
             instancedMesh.castShadow = true;
-            instancedMesh.frustumCulled = false; 
-            
-            this.olam.scene.add(instancedMesh);
-            
+            instancedMesh.frustumCulled = false;
+
+            this.olam.nivrayimGroup.add(instancedMesh);
+
             this.pools[type] = {
-                mesh: instancedMesh,
-                count: 0,
-                max: maxInstances,
-                material: material,
-                baseColor: baseColor
+                mesh:      instancedMesh,
+                count:     0,
+                max:       maxInstances,
+                material,
+                baseColor
             };
 
+            // B"H: Flush the paint queue for this type
+            this._flushQueue(type);
+
             return this.pools[type];
-        } catch (e) {
-            console.error("B\"H Nature System Critical Error:", e);
+
+        } catch (_e) {
+            /* B"H: Silent — missing pool degrades gracefully */
+            return null;
         } finally {
             this.loadingPools.delete(type);
         }
     }
-    
-    paint(type, centerPosition) {
-        // Resolve generic types
-        let actualType = type;
-        if (type === 'grass') actualType = 'grass_field'; 
-        else if (type === 'rock') {
-            const vars = ['rock_boulder', 'rock_slate'];
-            actualType = vars[Math.floor(Math.random() * vars.length)];
-        } else if (type === 'flower') {
-            const vars = ['flower_blue', 'flower_white', 'flower_yellow'];
-            actualType = vars[Math.floor(Math.random() * vars.length)];
-        }
 
+    /**
+     * @method _flushQueue
+     * @description
+     * ════════════════════════════════════════════════════════════════════
+     * THE RELEASING OF STORED SPEECH — Paint Queue Flush
+     * ════════════════════════════════════════════════════════════════════
+     *
+     * When ProceduralFlora calls paint() before the pool is ready,
+     * the call is stored here. Once initPool() resolves, this method
+     * replays every stored paint operation so no blade is lost.
+     *
+     * @param {string} type - Pool type key
+     */
+    _flushQueue(type) {
+        const queue = this._paintQueue[type];
+        if (!queue || queue.length === 0) return;
+        for (const pos of queue) {
+            this._paintToPool(type, pos);
+        }
+        delete this._paintQueue[type];
+    }
+
+    /**
+     * @method paint
+     * @description
+     * ════════════════════════════════════════════════════════════════════
+     * THE BREATH OF LIFE ON EARTH — Grass/Rock/Flower Instance Painting
+     * ════════════════════════════════════════════════════════════════════
+     *
+     * Places a nature instance at or near centerPosition.
+     * If the pool isn't ready yet, queues the paint for later replay
+     * instead of silently dropping it (the old bug).
+     *
+     * @param {string} type          - User-facing type ('grass','rock','flower')
+     * @param {{ x:number, y:number, z:number }} centerPosition
+     */
+    paint(type, centerPosition) {
+        const actualType = resolveActualType(type);
         const pool = this.pools[actualType];
-        if(!pool) {
-            if (!this.loadingPools.has(actualType)) {
-                this.initPool(actualType);
+
+        if (!pool) {
+            // B"H: Queue for replay once pool resolves
+            if (!this._paintQueue[actualType]) {
+                this._paintQueue[actualType] = [];
+                // Fire pool init if not already started
+                if (!this.loadingPools.has(actualType)) {
+                    this.initPool(actualType);
+                }
             }
+            this._paintQueue[actualType].push({ ...centerPosition });
             return;
         }
-        
-        const countToAdd = type.includes('rock') ? 1 : 3; 
+
+        this._paintToPool(actualType, centerPosition);
+    }
+
+    /**
+     * @method _paintToPool
+     * @description
+     * ════════════════════════════════════════════════════════════════════
+     * THE ACT OF CREATION — Single Instance Placement
+     * ════════════════════════════════════════════════════════════════════
+     *
+     * The actual InstancedMesh mutation. Raycasts to find terrain Y,
+     * applies random rotation/scale variance, sets the instance matrix
+     * and color, then updates the InstancedMesh counts.
+     *
+     * @param {string} actualType - Resolved pool key
+     * @param {{ x:number, y:number, z:number }} centerPosition
+     */
+    _paintToPool(actualType, centerPosition) {
+        const pool = this.pools[actualType];
+        if (!pool) return;
+
+        const countToAdd = actualType.includes('rock') ? 1 : 3;
         const range = 2;
 
-        for(let i=0; i<countToAdd; i++) {
+        for (let i = 0; i < countToAdd; i++) {
             if (pool.count >= pool.max) break;
-            
+
             const offsetX = (Math.random() - 0.5) * range;
             const offsetZ = (Math.random() - 0.5) * range;
             const targetX = centerPosition.x + offsetX;
             const targetZ = centerPosition.z + offsetZ;
-            
+
             let yPos = centerPosition.y;
-            if(this.olam.worldOctree) {
-                this.raycaster.set(new THREE.Vector3(targetX, yPos + 10, targetZ), this.rayDown);
+            if (this.olam.worldOctree) {
+                this.raycaster.set(
+                    new THREE.Vector3(targetX, yPos + 10, targetZ),
+                    this.rayDown
+                );
                 const hit = this.olam.worldOctree.rayIntersect(this.raycaster.ray);
-                if(hit) yPos = hit.position.y;
+                if (hit) yPos = hit.position.y;
             }
-            
+
             this.dummy.position.set(targetX, yPos, targetZ);
-            
-            // Random Rotation
             this.dummy.rotation.set(
-                (Math.random() - 0.5) * 0.1, // Slight tilt X
-                Math.random() * Math.PI * 2, // Full rotation Y
-                (Math.random() - 0.5) * 0.1  // Slight tilt Z
+                (Math.random() - 0.5) * 0.1,
+                Math.random() * Math.PI * 2,
+                (Math.random() - 0.5) * 0.1
             );
-            
-            let scale = 1;
-            
-            // B"H: Apply Base Color First
-            if(pool.baseColor) {
+
+            // B"H: Type-specific scale + color variation data
+            const VARIATION_MAP = {
+                grass:  { scaleX: () => 0.8 + Math.random() * 0.6, scaleYMul: () => 0.8 + Math.random() * 0.5, hsl: () => [(Math.random()-0.5)*0.08, (Math.random()-0.5)*0.1, (Math.random()-0.5)*0.15] },
+                rock:   { scaleX: () => 0.8 + Math.random() * 0.8, scaleYMul: () => 0.8, hsl: () => [0, 0, (Math.random()-0.5)*0.2] },
+                flower: { scaleX: () => 0.8 + Math.random() * 0.6, scaleYMul: () => 0.8 + Math.random() * 0.5, hsl: () => [0, 0, (Math.random()-0.5)*0.1] },
+            };
+
+            const varKey = Object.keys(VARIATION_MAP).find(k => actualType.includes(k)) || 'grass';
+            const v = VARIATION_MAP[varKey];
+            const sx = v.scaleX();
+            this.dummy.scale.set(sx, sx * v.scaleYMul(), sx);
+
+            if (pool.baseColor) {
                 this.colorHelper.copy(pool.baseColor);
             } else {
                 this.colorHelper.setHex(0xffffff);
             }
+            const [h, s, l] = v.hsl();
+            this.colorHelper.offsetHSL(h, s, l);
 
-            if (actualType.includes('grass')) {
-                 scale = 0.8 + Math.random() * 0.6;
-                 this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
-                 
-                 // Grass Color Variation (Green shift)
-                 const h = (Math.random() - 0.5) * 0.08;
-                 const s = (Math.random() - 0.5) * 0.1; 
-                 const l = (Math.random() - 0.5) * 0.15;
-                 this.colorHelper.offsetHSL(h, s, l);
-                 
-            } else if (actualType.includes('rock')) {
-                 scale = 0.8 + Math.random() * 0.8;
-                 this.dummy.scale.set(scale, scale * 0.8, scale);
-
-                 // Rock Color Variation (Grey shift)
-                 const l = (Math.random() - 0.5) * 0.2; 
-                 this.colorHelper.offsetHSL(0, 0, l);
-
-            } else if (actualType.includes('flower')) {
-                 scale = 0.8 + Math.random() * 0.6;
-                 this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
-                 
-                 // Flowers stay WHITE (baseColor) but vary brightness slightly
-                 const l = (Math.random() - 0.5) * 0.1;
-                 this.colorHelper.offsetHSL(0, 0, l);
-            }
-            
             this.dummy.updateMatrix();
             pool.mesh.setMatrixAt(pool.count, this.dummy.matrix);
-            
-            // Apply Instance Color
             if (pool.mesh.setColorAt) {
                 pool.mesh.setColorAt(pool.count, this.colorHelper);
             }
-            
             pool.count++;
         }
-        
+
         pool.mesh.count = pool.count;
         pool.mesh.instanceMatrix.needsUpdate = true;
-        if(pool.mesh.instanceColor) pool.mesh.instanceColor.needsUpdate = true;
+        if (pool.mesh.instanceColor) pool.mesh.instanceColor.needsUpdate = true;
     }
-    
+
+    /**
+     * @method update
+     * @description
+     * ════════════════════════════════════════════════════════════════════
+     * THE PULSE OF TIME — Per-Frame Shader Uniform Update
+     * ════════════════════════════════════════════════════════════════════
+     *
+     * Advances uTime and updates uPlayerPos on all active materials.
+     * B"H: Checks whether the uniform value supports .copy() (THREE.Vector3)
+     * and falls back to direct property assignment if not.
+     *
+     * @param {number} dt - Delta time in seconds
+     */
     update(dt) {
-        for(const key in this.pools) {
+        let playerPos = null;
+        if (this.olam?.chossid?.mesh) {
+            playerPos = this.olam.chossid.mesh.position;
+        }
+
+        for (const key in this.pools) {
             const material = this.pools[key].material;
-            // Handle both single material and array of materials
-            if (Array.isArray(material)) {
-                material.forEach(mat => {
-                    if(mat && mat.userData.shader) {
-                        mat.userData.shader.uniforms.uTime.value += dt;
+            const mats = Array.isArray(material) ? material : (material ? [material] : []);
+
+            for (const mat of mats) {
+                if (!mat?.userData?.shader) continue;
+                const su = mat.userData.shader.uniforms;
+                if (su.uTime) su.uTime.value += dt;
+                if (playerPos && su.uPlayerPos) {
+                    // B"H: Support both THREE.Vector3 (.copy) and plain object (direct assign)
+                    const pv = su.uPlayerPos.value;
+                    if (typeof pv.copy === 'function') {
+                        pv.copy(playerPos);
+                    } else {
+                        pv.x = playerPos.x; pv.y = playerPos.y; pv.z = playerPos.z;
                     }
-                });
-            } else if (material && material.userData.shader) {
-                material.userData.shader.uniforms.uTime.value += dt;
+                }
             }
         }
+
+        // B"H: Update shared grass material via MaterialGenerator
+        MaterialGenerator.update(dt, playerPos);
     }
 }

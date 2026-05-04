@@ -23,7 +23,7 @@ export default class KeyBindingsManifest {
             "KeyE": "RIGHT_STRIDE",
             "Space": "JUMP",
             "KeyX": "DOWN",
-            "KeyC": "UP",
+            "KeyC": "INTERACT",
             "KeyR": "PAN_UP",
             "KeyF": "PAN_DOWN"
         };
