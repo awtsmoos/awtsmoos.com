@@ -11,7 +11,8 @@ import { Octree } from '/games/scripts/jsm/math/Octree.js';
 export default class OctreeWorld extends Octree {
     constructor(box) {
         super(box);
-        console.log("B\"H - ⚓[OCTREE]: World Octree manifested.");
+        // B"H: silent
+
     }
 
     /**
@@ -24,7 +25,8 @@ export default class OctreeWorld extends Octree {
         let meshCount = 0;
         let polyCount = 0;
 
-        console.log(`B"H - ⚓ [OCTREE_GEN]: Starting ingestion of node: [${group.name || group.type}]`);
+        // B"H: silent
+
 
         group.traverse(child => {
             if (child.isMesh) {
@@ -41,13 +43,15 @@ export default class OctreeWorld extends Octree {
             }
         });
 
-        console.log(`B"H - ⚓ [OCTREE_GEN]: Ingesting ${meshCount} mesh(es), approx ${Math.floor(polyCount)} polygons.`);
+        // B"H: silent
+
         
         const start = performance.now();
         const res = super.fromGraphNode(group);
         const end = performance.now();
 
-        console.log(`B"H - ✅ [OCTREE_GEN]: Ingestion complete for [${group.name}] in ${(end - start).toFixed(2)}ms.`);
+        // B"H: silent
+
         return res;
     }
 
@@ -56,7 +60,8 @@ export default class OctreeWorld extends Octree {
      * @description Direct insertion monitoring.
      */
     addMesh(mesh) {
-        console.log(`B"H - ⚓ [OCTREE]: Explicit mesh added: [${mesh.name}]`);
+        // B"H: silent
+
         return super.addMesh(mesh);
     }
 }

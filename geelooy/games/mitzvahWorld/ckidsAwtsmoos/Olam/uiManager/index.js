@@ -67,14 +67,16 @@ export default class UIManager {
 
         h?.addEventListener("olamPeula", peula => {
             var det = peula.detail;
-            console.log('B"H - 🌐 [UI_MANAGER]: Intercepted olamPeula event. Detail:', det);
+            // B"H: silent
+
             
             // B"H: The ManagerOfAllWorlds is stored globally as window.mana
             const manager = window.mana;
             
             if (manager && manager.socket && manager.socket.eved && det) {
                 Object.keys(det).forEach(w => {
-                    console.log(`B"H - 🌐 [UI_MANAGER]: Posting to Worker:`, { [w]: det[w] });
+                    // B"H: silent
+
                     manager.socket.eved.postMessage({ [w]: det[w] });
                 });
             } else {
@@ -145,7 +147,8 @@ export default class UIManager {
         // Previously this call DID NOT EXIST causing the infinite loop.
         // ================================================================
         if (gameUiHTML && typeof gameUiHTML === "object" && !ui.$g("gameID")) {
-            console.log('B"H - UIManager: Manifesting #gameID/.gameUi into the DOM!');
+            // B"H: silent
+
             ui.html(gameUiHTML);
         }
 
@@ -174,7 +177,8 @@ export default class UIManager {
         }
 
         if (this.ui.$g("menu")) {
-            console.log('B"H: Game menu already exists, skipping.');
+            // B"H: silent
+
             return;
         }
 
@@ -195,7 +199,8 @@ export default class UIManager {
             return;
         }
 
-        console.log('B"H: Found gameUI parent - manifesting premium MainMenu.');
+        // B"H: silent
+
         
         // Manifesting the premium MainMenu component
         this.ui.html({

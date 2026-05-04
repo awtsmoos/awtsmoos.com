@@ -7,7 +7,8 @@
  */
 export default class VeilController {
     static lift() {
-        console.log('B"H - 🛡️ [VEIL_CONTROLLER]: COMMENCING TOTAL VEIL DISSOLUTION.');
+        // B"H: silent
+
 
         const TARGETS =[
             'mitzvahWorldLanding',
@@ -28,7 +29,8 @@ export default class VeilController {
             elements.forEach(el => {
                 if (!el) return;
                 totalPurified++;
-                console.log(`B"H - 🌬️[VEIL_CONTROLLER]: Fading out vessel: [${target}]`);
+                // B"H: silent
+
 
                 el.classList.add("hidden");
                 el.style.transition = 'opacity 1s ease-out, filter 1s ease-out, transform 1s cubic-bezier(0.19, 1, 0.22, 1)';
@@ -48,7 +50,8 @@ export default class VeilController {
         // Awaken Interaction Menus (excluding the initial world browser/menus)
         const interactionVessels = document.querySelectorAll('.menuTop, .gameHUD, .awtsmoosAction');
         interactionVessels.forEach(vessel => {
-            console.log(`B"H - 🔓 [VEIL_CONTROLLER]: Awakening interaction vessel:[${vessel.className}]`);
+            // B"H: silent
+
             vessel.classList.remove('offscreen', 'hidden');
             vessel.classList.add('onscreen');
         });
@@ -65,6 +68,7 @@ export default class VeilController {
         document.body.style.overflow = 'hidden';
         document.documentElement.style.overflow = 'hidden';
         
-        console.log(`B"H - ⚡ [VEIL_CONTROLLER]: ${totalPurified} vessels dissolved. THE AWTSMOOS IS REVEALED!`);
+        // B"H: silent
+
     }
 }

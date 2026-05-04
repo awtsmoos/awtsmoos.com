@@ -17,13 +17,15 @@ export default {
     ingestPhysicsMesh(mesh, worldOctree) {
         if (!mesh || !worldOctree) return;
 
-        console.log(`B"H - ⚓ [OYVED_PHYSICS]: Ingesting mesh [${mesh.name}] for Octree.`);
+        // B"H: silent
+
         const start = performance.now();
         
         try {
             worldOctree.fromGraphNode(mesh);
             const duration = performance.now() - start;
-            console.log(`B"H - ✅ [OYVED_PHYSICS]: Ingested [${mesh.name}] in ${duration.toFixed(2)}ms.`);
+            // B"H: silent
+
         } catch (err) {
             console.error(`B"H - 🚨 [OYVED_PHYSICS_CRASH]: Failed mesh [${mesh.name}]`, err);
         }

@@ -11,13 +11,23 @@ export default class UniversePulsator {
         this.lastTime = 0;
         this.isRunning = false;
         this._reqId = null;
+        this._frameCount = 0;
     }
 
     ignite() {
         if (this.isRunning) return;
+        
+        // B"H: The requestAnimationFrame polyfill for the Worker abyss
+        if (typeof self !== 'undefined' && !self.requestAnimationFrame) {
+            // B"H: silent
+
+            self.requestAnimationFrame = (callback) => setTimeout(() => callback(performance.now()), 16);
+        }
+
         this.isRunning = true;
         this.lastTime = performance.now();
-        console.log('B"H - 🕒 Pulsator: Heartbeat initialized. The Olam is breathing.');
+        // B"H: silent
+
         this._tick(this.lastTime);
     }
 
@@ -42,14 +52,19 @@ export default class UniversePulsator {
 
         try {
             if (this.olam.updateStep) {
-                // Recreate the universe for this specific temporal slice
+                // B"H: silent
+
                 this.olam.updateStep(dt);
+            } else {
+                console.warn('B"H - ⚠️ Pulsator: updateStep is missing on Olam instance!');
             }
         } catch (error) {
-             // Logic shard errors logged minimally
-             if(Math.random() < 0.01) console.error("B\"H - Heartbeat shard issue:", error.message);
+             // B"H: REVEAL ALL ERRORS IN THE FIRST 100 FRAMES
+             console.error("B\"H - 🚨 Heartbeat shard issue:", error);
         }
 
-        this._reqId = self.requestAnimationFrame(time => this._tick(time));
+        if (this.isRunning) {
+            this._reqId = self.requestAnimationFrame(time => this._tick(time));
+        }
     }
 }

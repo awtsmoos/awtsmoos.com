@@ -14,7 +14,8 @@ export default {
         }
         
         if (this.ui.$g("menu")) {
-            console.log("B\"H: Game menu already exists, skipping creation.");
+            // B"H: silent
+
             return;
         }
 
@@ -26,7 +27,8 @@ export default {
             return;
         }
         
-        console.log("B\"H: Found Parent for Menu, creating now.");
+        // B"H: silent
+
      
         var menu = this.ui.html({
             shaym: "menu",
@@ -36,7 +38,8 @@ export default {
 
         window.m = menu;
         if(!Array.isArray(gameMenu)) {
-            return console.log("No menu array");
+            return // B"H: silent
+
         }
         gameMenu.forEach(w => {
             this.gameMenuItem(w);
@@ -45,7 +48,8 @@ export default {
 
     gameMenuItem(opts={}) {
         var gm = this.ui.$g("menu")
-        if(!gm) return console.log("No menu");
+        if(!gm) return // B"H: silent
+
 
         var txt = opts.text;
         var show = opts.show;

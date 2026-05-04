@@ -32,7 +32,8 @@ export default {
             const designer = e.target;
             const { mode, item, index, sourceType, liveEntityId } = e.detail;
             
-            console.log("B\"H Opening Designer. Context:", { mode, liveEntityId, sourceType });
+            // B"H: silent
+
 
             designer.classList.remove("hidden");
             designer.style.display = "flex"; 

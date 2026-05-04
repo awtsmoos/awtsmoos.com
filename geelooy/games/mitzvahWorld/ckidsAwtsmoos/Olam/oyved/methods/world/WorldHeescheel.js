@@ -50,7 +50,8 @@ export default class WorldHeescheel {
     static async execute(me, OlamClass, options) {
         TimeTracker.start("WORKER_GENESIS");
         const execStart = performance.now();
-        console.log(`B"H - 🌌 [WorldHeescheel] execute() START. Options keys: ${Object.keys(options || {}).join(', ')}`);
+        // B"H: silent
+
 
         if (!OlamClass) {
             console.error('B"H - 🚨 [WorldHeescheel] FATAL: OlamClass is null. Cannot create from nothing!');
@@ -58,51 +59,65 @@ export default class WorldHeescheel {
         }
 
         // ── VERSE 1: Birth of the Olam ──────────────────────────────────────
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 1: Birthing Olam instance...`);
+        // B"H: silent
+
         me.olam = new OlamClass();
         if (options.set) Object.assign(me.olam, options.set);
         if (options.systemInfo?.set) Object.assign(me.olam, options.systemInfo.set);
         TimeTracker.log("WORKER_GENESIS", "Olam Class Instantiated.");
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 1: ✅ Olam instance ready.`);
+        // B"H: silent
+
 
         // ── VERSE 2: Initialization ────────────────────────────────────────
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 2: Running olam.init()...`);
+        // B"H: silent
+
         await me.olam.init();
         TimeTracker.log("WORKER_GENESIS", "Olam Core Faculties Grafted.");
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 2: ✅ olam.init() complete.`);
+        // B"H: silent
+
 
         // ── VERSE 3: Handshake Protocols ─────────────────────────────────────
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 3: Binding postMessage event hooks...`);
+        // B"H: silent
+
 
         me.olam.on("hide loading screen", () => {
-            console.log(`B"H - [+${_ms(execStart)}ms] 📨 Worker→Main: hideLoadingScreen`);
+            // B"H: silent
+
             postMessage({ type: "hideLoadingScreen" });
         });
 
         me.olam.on("increased percentage", (info = {}) => {
-            console.log(`B"H - [+${_ms(execStart)}ms] 📨 Worker→Main: increasedOlamLoading ${info.action || ''} (${(info.amount||0).toFixed(1)}%)`);
+            // B"H: silent
+
             postMessage({ type: "increasedOlamLoading", payload: info });
         });
 
         me.olam.on("ready to start game", () => {
             TimeTracker.log("WORKER_GENESIS", "Sending Game Ignition Signal.");
-            console.log(`B"H - [+${_ms(execStart)}ms] 🎉 Worker→Main: game started + loadedWorld`);
+            // B"H: silent
+
             postMessage({ type: "game started", payload: true });
             postMessage({ type: "loadedWorld", payload: true });
         });
 
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 3: ✅ Handshakes bound.`);
+        // B"H: silent
+
 
         // ── VERSE 4: HTML Messenger ────────────────────────────────────────
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 4: Binding HTMLMessenger...`);
+        // B"H: silent
+
         HTMLMessenger.bind(me);
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 4: ✅ HTMLMessenger bound.`);
+        // B"H: silent
+
 
         // ── VERSE 5: Reading the Soul Manifest ────────────────────────────
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 5: Extracting soul manifest from options...`);
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 5: options keys = ${Object.keys(options).join(', ')}`);
+        // B"H: silent
+
+        // B"H: silent
+
         if (options.userInfo) {
-            console.log(`B"H - [+${_ms(execStart)}ms] VERSE 5: userInfo keys = ${Object.keys(options.userInfo).join(', ')}`);
+            // B"H: silent
+
         }
 
         me.olam.ayshPeula("increase loading percentage", {
@@ -118,10 +133,8 @@ export default class WorldHeescheel {
         const nivrayim  = worldData.nivrayim || {};
         const typeCount = Object.keys(nivrayim).length;
 
-        console.log(
-            `B"H - [+${_ms(execStart)}ms] VERSE 5: ✅ Soul manifest extracted.` +
-            ` Found ${typeCount} type(s): ${Object.keys(nivrayim).join(', ')}`
-        );
+        // B"H: silent
+
 
         if (typeCount === 0) {
             console.warn(
@@ -133,14 +146,16 @@ export default class WorldHeescheel {
         TimeTracker.log("WORKER_GENESIS", "Beginning loadNivrayim sequence.");
 
         // ── VERSE 6: The Six Days of Creation ─────────────────────────────
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 6: Calling loadNivrayim with ${typeCount} types...`);
+        // B"H: silent
+
         const loadStart = performance.now();
 
         const result = await me.olam.loadNivrayim(nivrayim);
 
         const loadMs = (performance.now() - loadStart).toFixed(1);
         TimeTracker.log("WORKER_GENESIS", `loadNivrayim complete. Manifested ${result?.length || 0} souls in ${loadMs}ms.`);
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 6: ✅ loadNivrayim DONE. ${result?.length || 0} souls. Took ${loadMs}ms.`);
+        // B"H: silent
+
 
         if (!result || result.length === 0) {
             console.warn(
@@ -150,12 +165,14 @@ export default class WorldHeescheel {
         }
 
         // ── VERSE 7: The Signal — Let there be light! ─────────────────────
-        console.log(`B"H - [+${_ms(execStart)}ms] VERSE 7: Firing 'ready to start game'...`);
+        // B"H: silent
+
         me.olam.ayshPeula("ready to start game");
 
         const totalMs = (performance.now() - execStart).toFixed(1);
         TimeTracker.finish("WORKER_GENESIS", `World fully manifested in ${totalMs}ms total.`);
-        console.log(`B"H - 🎊 [WorldHeescheel] COMPLETE: World '${worldData.shaym || 'Unknown'}' created in ${totalMs}ms.`);
+        // B"H: silent
+
 
         return {
             tawchlees: {

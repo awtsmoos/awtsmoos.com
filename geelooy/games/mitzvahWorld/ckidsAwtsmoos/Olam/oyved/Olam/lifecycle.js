@@ -16,7 +16,8 @@ export default {
         const total = nivrayimBlueprints.length;
         const results = [];
 
-        console.log(`B"H - 🏗️ [HEESCHEEL]: Forging ${total} souls into vessels.`);
+        // B"H: silent
+
 
         for (let i = 0; i < total; i++) {
             const blueprint = nivrayimBlueprints[i];
@@ -24,7 +25,8 @@ export default {
             const details = blueprint.details;
             const name = details.name || entityType;
 
-            console.log(`B"H - ⚙️ [HEESCHEEL]: [${i+1}/${total}] - Beginning manifestation of [${name}] (Type: ${entityType})`);
+            // B"H: silent
+
 
             try {
                 // 1. Instantiation
@@ -37,7 +39,8 @@ export default {
                     continue;
                 }
 
-                console.log(`B"H - ⚙️ [HEESCHEEL]: [${name}] Class Instantiated. Now calling entity.heescheel()...`);
+                // B"H: silent
+
 
                 // 2. Physical Loading / Generation
                 // Most hangs happen inside THIS await call.
@@ -52,7 +55,8 @@ export default {
                 clearTimeout(timeout);
 
                 const duration = performance.now() - startTime;
-                console.log(`B"H - ✅ [HEESCHEEL]: DONE: [${name}] in ${duration.toFixed(2)}ms.`);
+                // B"H: silent
+
 
                 results.push(entity);
                 

@@ -16,13 +16,15 @@ export default {
      * Establishing the gateways through which external assets enter the Olam.
      */
     setupLoaders() {
-        console.log("B\"H - 🔋 [LOADERS]: Calibrating GLTF Gateways.");
+        // B"H: silent
+
         
         const dracoLoader = new DRACOLoader();
         dracoLoader.setDecoderPath('/games/scripts/jsm/loaders/draco/');
         
         // Ensure the draco decoder thread is also being established
-        console.log("B\"H - 🔋 [LOADERS]: Draco path set to /games/scripts/jsm/loaders/draco/");
+        // B"H: silent
+
 
         const gltfLoader = new GLTFLoader();
         gltfLoader.setDRACOLoader(dracoLoader);
@@ -32,16 +34,19 @@ export default {
          */
         const originalLoad = gltfLoader.load.bind(gltfLoader);
         gltfLoader.load = (url, onLoad, onProgress, onError) => {
-            console.log(`B"H - 📥 [GLTF_LOAD]: Opening gateway for asset:[${url}]`);
+            // B"H: silent
+
             
             const internalOnProgress = (xhr) => {
                 const p = (xhr.loaded / xhr.total * 100).toFixed(1);
-                console.log(`B"H - 📥 [GLTF_LOAD_PROG]: [${url}] -> ${p}%`);
+                // B"H: silent
+
                 if (onProgress) onProgress(xhr);
             };
 
             const internalOnLoad = (gltf) => {
-                console.log(`B"H - ✅ [GLTF_LOAD_DONE]: Asset[${url}] successfully manifest in worker memory.`);
+                // B"H: silent
+
                 if (onLoad) onLoad(gltf);
             };
 
