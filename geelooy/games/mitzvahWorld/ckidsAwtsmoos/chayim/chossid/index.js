@@ -89,6 +89,19 @@ export default class Chossid extends Medabeir {
             }
         });
     }
+
+    async madeAll() {
+        if (this.mesh) {
+            this.mesh.userData.isPlayer = true;
+        }
+        if (this.modelMesh) {
+            this.modelMesh.userData.isPlayer = true;
+            this.modelMesh.traverse(c => {
+                if (c.isMesh) c.userData.isPlayer = true;
+            });
+        }
+    }
+
 }
 
 Object.assign(Chossid.prototype, controlMethods);

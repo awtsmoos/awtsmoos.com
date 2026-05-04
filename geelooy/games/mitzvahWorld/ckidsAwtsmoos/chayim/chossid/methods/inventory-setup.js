@@ -26,6 +26,10 @@ export default {
         this.inventory.addItem({
             id: 'elemental_staff', className: 'ElementalStaff', name: 'Staff of Elements', description: 'Control the foundational elements of creation. Alt-click to switch modes.', icon: icons.staff, isTool: true
         }, 1);
+
+        this.inventory.addItem({
+            id: 'book_tehillim', className: 'Sefer', name: 'Sefer Tehillim (Weapon)', description: 'A holy book. Fire Hebrew letters to battle the darkness.', icon: '📖', isTool: true
+        }, 1);
         
         // The Garments of the Soul
         this.inventory.addItem({

@@ -88,12 +88,14 @@ export default {
                     
                     // BRING THE MODEL DOWN SIGNIFICANTLY
                     this.updateDimensionsFromModel(driver || this.modelMesh);
-                    console.log(`B"H - ⚓ SIGNIFICANT GROUNDING APPLIED. The Chossid has touched the earth.`);
+                    // B"H: silent
+
                 }
             });
         });
  
-        console.log(`B"H ✨ Player [${this.name}] soul congealed. Awaiting first breath to anchor.`);
+        // B"H: silent
+
     },
  
     /**

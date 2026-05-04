@@ -68,10 +68,8 @@ export default {
                 this.collider.start.z
             );
  
-            console.log(
-                `B"H - 📏 [Measurement Finalized]: ${this.name}\n` +
-                `Height: ${this.height.toFixed(2)} | Radius: ${this.radius.toFixed(2)} | Pivot-to-Feet: ${this.visualYOffset.toFixed(3)}`
-            );
+            // B"H: silent
+
         }
  
         if (!this.boundingBoxHelper) {

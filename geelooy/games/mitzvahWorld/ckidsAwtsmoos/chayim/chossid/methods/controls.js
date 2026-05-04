@@ -170,7 +170,8 @@ export default {
                         }
                         
                         // Fire the universal accepted connection event onto the vessel
-                        console.log(`B"H - ⚡ Sending acceptance intention to ${targetVessel.name}`);
+                        // B"H: silent
+
                         targetVessel.ayshPeula("accepted interaction", this);
                         return;
                     }
@@ -208,6 +209,31 @@ export default {
                     setTimeout(() => {
                         this.olam.ayshPeula("setInputOut", { code: "Space" });
                     }, 50);
+                    break;
+                    
+                case "Tab":
+                    e.preventDefault();
+                    if (this.approachedEntities.length > 1) {
+                        // B"H: Cycle the stack!
+                        const last = this.approachedEntities.shift();
+                        this.approachedEntities.push(last);
+                        
+                        // Notify the new front entity it's now in focus
+                        const newFocus = this.approachedEntities[0];
+                        if (newFocus && typeof newFocus.ayshPeula === 'function') {
+                            newFocus.ayshPeula("gained interaction focus", this);
+                        }
+                        // Notify the old front it lost focus
+                        if (last && typeof last.ayshPeula === 'function') {
+                            last.ayshPeula("lost interaction focus", this);
+                        }
+                        
+                        // B"H: silent
+
+                        if (newFocus && typeof newFocus._showInteractionPrompt === 'function') {
+                            newFocus._showInteractionPrompt();
+                        }
+                    }
                     break;
                     
                 default:;

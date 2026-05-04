@@ -35,18 +35,22 @@ export default {
 
         if (this.intersected && this.intersected.niv) {
             const niv = this.intersected.niv;
-            console.log("B\"H - Clicked on:", niv.name, niv.type);
+            // B"H: silent
 
-            if (niv.type === 'customNpc' || niv.type === 'medabeir' || niv.dialogue) {
+
+            if (niv.type === 'customNpc' || niv.type === 'medabeir' || niv.dialogue || niv.type === 'interactiveDoor') {
                 if (typeof niv.ayshPeula === 'function') {
-                    niv.ayshPeula("accepted interaction");
+                    niv.ayshPeula("accepted interaction", this);
                 }
                 return;
             }
 
             this.selectIntersected();
         } else {
-            // console.log("B\"H - Clicked but no intersection.");
+            // B"H: No interactive entity found, default to tool usage (attacking/building)
+            if (typeof this.shoot === 'function') {
+                this.shoot();
+            }
         }
     },
 
@@ -70,7 +74,9 @@ export default {
     removeIntersected() {
         if (this.intersected && this.intersected.niv) {
             this.intersected.niv.isHoveredOver = false;
-            this.setEntityHighlight(this.intersected.niv.mesh, false);
+            if (typeof this.intersected.niv.ayshPeula === 'function') {
+                this.intersected.niv.ayshPeula("mouseLeave", this);
+            }
         }
         
         this.olam.hoveredNivra = null;
@@ -192,10 +198,9 @@ export default {
             niv.isHoveredOver = true;
             
             if(this.intersected?.niv !== niv) {
-                const isNPC = niv.type === 'customNpc' || niv.type === 'medabeir';
-                const highlightColor = isNPC ? 0x00ff00 : 0x0000ff;
-                
-                this.setEntityHighlight(niv.mesh, true, highlightColor);
+                if (typeof niv.ayshPeula === 'function') {
+                    niv.ayshPeula("mouseEnter", this);
+                }
                 
                 this.intersected = {niv, ob, hit};
                 olam.hoveredNivra = niv;
@@ -225,7 +230,7 @@ export default {
                         if(!inRange && isNPC) {
                              msg += "\n(Get closer to talk)";
                         } else if(isNPC) {
-                             msg += "\n(Click or Press B to Talk)";
+                             msg += "\n(Click or Press C to Talk)";
                         }
                         
                         var tx = olam.achbar.x;

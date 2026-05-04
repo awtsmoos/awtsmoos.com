@@ -62,7 +62,8 @@ export default {
             // If the requested spiritual state (animation) does not exist in the physical vessel,
             // we default to the Idle state so the vessel does not freeze in the void.
             if (shaym.toLowerCase() !== "idle") {
-                 // console.log(`B"H - ⚠️ Animation [${shaym}] not found. Enforcing [idle] to maintain Ruach.`);
+                 // B"H: silent
+
                  this.playChaweeyoos("idle", options);
             }
             return;

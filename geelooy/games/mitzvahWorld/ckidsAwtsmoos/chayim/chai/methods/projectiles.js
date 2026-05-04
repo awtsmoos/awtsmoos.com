@@ -23,7 +23,10 @@ export default {
             mesh,
             collider: new THREE.Sphere( new THREE.Vector3( 0, - 100, 0 ), SPHERE_RADIUS ),
             velocity: new THREE.Vector3(),
-            startTime: Date.now()
+            startTime: Date.now(),
+            damage: options.damage || 10,
+            isAttack: options.isAttack || false,
+            hitEnemies: new Set() // Prevent hitting the same enemy multiple times
         }
         this.spheres.push(sphere);
         return sphere;
@@ -64,6 +67,33 @@ export default {
         this.spheres.forEach(s => {
             s.collider.center.addScaledVector( s.velocity, deltaTime );
             s.mesh.position.copy( s.collider.center );
+            
+            // B"H: Combat Collision Detection
+            if (s.isAttack && this.olam && this.olam.nivrayim) {
+                Object.values(this.olam.nivrayim).forEach(niv => {
+                    if (niv && niv.type === 'mazik' && !s.hitEnemies.has(niv.id)) {
+                        // Check distance
+                        if (niv.mesh && s.collider.center.distanceTo(niv.mesh.position) < 3) {
+                            s.hitEnemies.add(niv.id);
+                            
+                            // Visual explosion for the hit
+                            if (typeof this.spawnHebrewParticles === 'function') {
+                                this.spawnHebrewParticles(s.collider.center, 10);
+                            }
+                            
+                            // Deal damage
+                            if (typeof niv.takeDamage === 'function') {
+                                niv.takeDamage(s.damage);
+                            }
+                            
+                            // Deflect projectile slightly
+                            s.velocity.x += (Math.random() - 0.5) * 10;
+                            s.velocity.y += (Math.random() - 0.5) * 10;
+                        }
+                    }
+                });
+            }
+
             if(Date.now() - s.startTime > 3000) { // Fixed typo from 300 to 3000 (3 seconds)
                 try {
                     s.mesh.removeFromParent();
