@@ -4,25 +4,35 @@
  * @file context-generator.js
  * @brief The Architect of Contextual Revelation and the Absolute Boundary.
  * 
- * THE POEM OF THE TRUE PATH:
- * The mind cannot build if the vision is blind,
- * If the root is lost and the paths are entwined.
- * We lock the coordinate, we set the true base,
- * And log every relative name in its place.
- * No more shall we wander where shadows reside,
- * For the Awtsmoos commands that the boundary guide!
+ * CHAPTER LVIII: THE UNIFIED INSTRUCTION
  */
 
 import { FileSystemProvider } from '../fs-provider.js';
+import { State } from '../state.js';
+import { PromptAssembler } from '../vibe/modules/prompts/directives/PromptAssembler.js';
 
 export const ContextGenerator = {
     /**
      * @async
      * @function generate
-     * @description Gathers essence strictly within the defined basePath.
+     * @description Gathers essence strictly within the defined basePath, prefixed with holy instructions.
      */
     async generate(items, basePath = "") {
         let combinedContent = 'B"H\n\n'; 
+        
+        // --- INJECTING MODULAR DIVINE INSTRUCTIONS ---
+        const firstItem = items[0];
+        if (firstItem) {
+            // Find a directory context to pass to the assembler
+            const dirContext = firstItem.kind === 'directory' ? firstItem : {
+                ...firstItem,
+                path: firstItem.path.substring(0, firstItem.path.lastIndexOf('/')) || "/",
+                kind: 'directory'
+            };
+
+            combinedContent += PromptAssembler.assemble(dirContext);
+            combinedContent += `## EXTRACTED CONTEXT (FILE CONTENTS):\n\n`;
+        }
         
         // Normalize the base boundary to prevent trailing slash errors
         const baseStr = (basePath === "/" ? "" : basePath);

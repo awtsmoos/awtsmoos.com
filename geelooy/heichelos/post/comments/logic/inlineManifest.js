@@ -2,75 +2,54 @@
 /**
  * B"H
  * @module InlineManifestConductor
- * @chapter Commanding the Border Lights
+ * @chapter Commanding the Border Lights (Modular)
  * @description
- * This conductor serves as the High Priest (Kohen Gadol) of the margins.
- * It iterates through every physical verse, draws down the entire map of 
- * insights for that verse, and unrolls them seamlessly into the DOM.
+ * This conductor coordinates the fetching and rendering of inline comments.
+ * It has been upgraded to perform bulk operations, reflecting the 
+ * unity of the Divine Will which encompasses all details in one thought.
+ * 
+ * "From the general to the specific" — we fetch all insights at once,
+ * then place them in their individual vessels.
  */
 
-import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
-import { unrollApiResponse } from "./unroller.js";
-import { resolveCoordinateToDOM } from "./inlineManifest/CoordinateResolver.js";
-import { weaveInsightIntoMargin, dissolveMarginalWeave } from "./inlineManifest/MarginalDOMWeaver.js";
+import { loadAllCommentsForAlias } from "./inlineManifest/BulkLoader.js";
+import { manifestSparksInDOM } from "./inlineManifest/SectionManifestor.js";
+import { dissolveMarginalWeave } from "./inlineManifest/MarginalDOMWeaver.js";
 import { getInlineAliases } from "../state.js";
 
 /**
  * @function manifestAliasInline
- * @description Fetches all insights for a Guardian, verse by verse, and weaves them.
+ * @description 
+ * Performs the complete ritual: Fetching all insights for an Alias 
+ * for the current post and manifesting them across the physical scroll.
  * 
- * @param {string} alias - The identity to summon.
+ * @param {string} alias - The identity of the commentator.
  */
 export async function manifestAliasInline(alias) {
     if (!alias) return;
+    
+    // B"H - The post context is essential for the summoning.
+    const context = window.post;
+    if (!context) {
+        console.error("B\"H - [InlineConductor] Post context not found. Cannot manifest.");
+        return;
+    }
+
     try {
-        console.log(`%c B"H - [InlineConductor] Summoning Marginal Revelations for @${alias}`, "color: #ff00ff; font-weight: bold;");
+        // 1. Gather all Light for this post/alias in a single transmission.
+        const sparks = await loadAllCommentsForAlias(alias, context);
         
-        // Find all physical verses currently manifested in the scroll
-        const sections = document.querySelectorAll('.section');
-        let placedCount = 0;
-
-        for (const sec of sections) {
-            const verseIdx = sec.dataset.awtsmoosIdx || sec.dataset.idx;
-            if (verseIdx === undefined || verseIdx === null) continue;
-
-            const response = await getCommentsOfAlias({
-                seriesId: window?.post?.parentSeriesId, 
-                postId: window?.post?.id, 
-                heichelId: window?.post?.heichel?.id,
-                aliasId: alias, 
-                fromCache: false, 
-                get: { verseSection: verseIdx, map: true } 
-            });
-
-            // Flatten the Map safely
-            const sparks = unrollApiResponse(response);
-            
-            if (!sparks || sparks.length === 0) continue;
-
-            sparks.forEach(spark => {
-                // Ensure coordinate identity is absolute
-                if (!spark.dayuh) spark.dayuh = {};
-                if (spark.dayuh.verseSection === undefined || spark.dayuh.verseSection === null) {
-                    spark.dayuh.verseSection = verseIdx;
-                }
-                
-                const vessel = resolveCoordinateToDOM(spark.dayuh);
-                if (vessel) {
-                    weaveInsightIntoMargin(vessel, spark, alias);
-                    placedCount++;
-                }
-            });
-        }
+        // 2. Weave the Light into the physical vessels in the DOM.
+        manifestSparksInDOM(sparks, alias);
         
-        console.log(`%c B"H -[InlineConductor] Successfully placed ${placedCount} insights for @${alias} in the margins!`, "color: #00ff00; font-weight: bold;");
-    } catch (e) { 
-        console.error("B\"H - Conductive marginal rupture:", e); 
+    } catch (e) {
+        console.error("B\"H - [InlineConductor] Conductive marginal rupture:", e);
     }
 }
 
 /**
  * @function manifestAllActiveInlines
+ * @description Iterates through all Guardians enabled in the current URL/State and manifests them.
  */
 export async function manifestAllActiveInlines() {
     const activeGuardians = getInlineAliases();
@@ -81,6 +60,7 @@ export async function manifestAllActiveInlines() {
 
 /**
  * @function dissolveAliasInline
+ * @description Removes a Guardian's presence from the margins.
  */
 export function dissolveAliasInline(alias) {
     dissolveMarginalWeave(alias);

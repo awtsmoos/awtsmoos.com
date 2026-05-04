@@ -3,6 +3,13 @@
 /**
  * @file layout.js
  * @brief The Visual Blueprint for the External Manifest.
+ * 
+ * CHAPTER LVI: THE GATES OF EXTERNAL KNOWLEDGE
+ * When the soul seeks outside counsel, we provide not just the full text,
+ * but also the skeletal tree of the project. A small icon of insight (ℹ)
+ * sits beside the gates, holding the secret of the Awtsmoos Editor Bridge—
+ * a pathway to automate this manual labor entirely through the power of
+ * Function Calling.
  */
 export const ExternalLayout = {
     getHTML(promptText) {
@@ -15,7 +22,13 @@ export const ExternalLayout = {
                 <!-- 1. THE DOWNLOAD VESSEL -->
                 <div class="em-section">
                     <label style="font-size:0.8em; opacity:0.7; display:block; margin-bottom:8px;">1. Extract Current Reality</label>
-                    <button id="em-dl-btn" class="secondary-btn" style="width:100%; min-height:44px;">Download Context (.md)</button>
+                    <div style="display:flex; gap: 8px; width: 100%;">
+                        <button id="em-dl-btn" class="secondary-btn" style="flex: 1; min-height:44px; font-size: 0.85em; padding: 0 5px;">Download Context (.md)</button>
+                        <button id="em-dl-tree-btn" class="secondary-btn" style="flex: 1; min-height:44px; font-size: 0.85em; padding: 0 5px;">Download .md Tree</button>
+                        <button id="em-info-btn" class="icon-button" style="width: 44px; height: 44px; border: 1px solid var(--color-border); background: var(--color-bg-tertiary);" title="Awtsmoos Extension Info">
+                            <span style="font-weight: bold; font-family: serif; font-size: 1.2em; color: var(--neon-cyan);">i</span>
+                        </button>
+                    </div>
                 </div>
                 
                 <!-- 2. THE PROMPT VESSEL -->

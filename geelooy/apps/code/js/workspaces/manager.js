@@ -41,11 +41,35 @@ export const WorkspaceManager = {
         // A workspace is truly considered locked ONLY if explicitly told so after a failure.
         const isLocked = !!ws.isLocked;
 
+        let displayName = ws.name;
+        let subText = '';
+
+        // B"H - Extracting the true name and the full path for Relay (and others)
+        if (ws.type === 'relay') {
+            const normalized = (ws.basePath || ws.name).replace(/\\/g, '/');
+            const shortName = normalized === '/' ? 'Relay Root' : normalized.split('/').filter(Boolean).pop();
+            displayName = shortName.replace(/^Relay:\s*/i, '');
+            subText = `Relay: ${ws.basePath || ws.relayUrl}`;
+        } else if (ws.type === 'local' && ws.handle) {
+            displayName = ws.handle.name;
+            subText = 'Local File System';
+        } else if (ws.type === 'github') {
+            displayName = ws.repoInfo ? ws.repoInfo.repo : ws.name;
+            subText = `GitHub: ${ws.repoInfo ? ws.repoInfo.owner : ''}`;
+        } else if (ws.type === 'indexeddb') {
+            displayName = 'Browser Storage';
+            subText = 'IndexedDB';
+        } else if (ws.type === 'opfs') {
+            displayName = 'Origin Private FS';
+            subText = 'High Performance Local';
+        }
+
 	    wsRoot.innerHTML = `
             <div class="workspace-header ${isLocked ? 'locked' : ''}" data-ws-id="${ws.id}">
-                <div class="workspace-header-title">
+                ${subText ? `<div class="workspace-header-sub">${subText}</div>` : ''}
+                <div class="workspace-header-main">
                     <svg class="svg-icon"><use href="#icon-${isLocked ? 'settings' : 'folder'}"></use></svg>
-                    <span>${ws.name}</span>
+                    <span>${displayName}</span>
                 </div>
             </div>`;
 	    container.appendChild(wsRoot);

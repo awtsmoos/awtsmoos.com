@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @module MarginalDOMWeaver
@@ -7,6 +6,9 @@
  * Once the exact physical vessel (Paragraph/Verse) is found, this weaver 
  * builds the structured 'Gilyon' (margin).
  * It enforces order: Shelter -> Guardian Gateway -> Insight Card.
+ * 
+ * We have reinforced the structural integrity by ensuring the elements 
+ * forcefully declare their visibility via inline styles during construction.
  */
 
 import { makeInlineComment } from "../../render/core.js";
@@ -34,6 +36,8 @@ export function weaveInsightIntoMargin(targetVessel, comment, alias) {
     if (!shelter) {
         shelter = document.createElement("div");
         shelter.className = "marginal-gloss-shelter";
+        // B"H - Force display
+        shelter.style.setProperty("display", "flex", "important");
         targetVessel.appendChild(shelter);
     }
     
@@ -52,6 +56,10 @@ export function weaveInsightIntoMargin(targetVessel, comment, alias) {
     }
 
     const listContainer = gateway.querySelector(".comments-holder-inline");
+    // B"H - Force the list container to remain open
+    if(listContainer) {
+        listContainer.style.setProperty("display", "flex", "important");
+    }
 
     // 3. Guard against double-manifestation
     const existing = listContainer.querySelector(`.inline-comment[data-cid="${comment.id}"]`);

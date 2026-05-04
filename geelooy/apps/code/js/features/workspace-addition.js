@@ -1,10 +1,11 @@
+
 // B"H
 // FILE: js/features/workspace-addition.js
 
 import { UI } from '../ui.js';
 import { State } from '../state.js';
 import { App } from '../app.js';
-import { Workspaces } from '../workspaces.js';
+import { Workspaces } from '../workspaces/index.js';
 import { FileSystemProvider } from '../fs-provider.js';
 
 export const WorkspaceAddition = {
@@ -26,6 +27,10 @@ export const WorkspaceAddition = {
                 <button class="menu-button" data-action="idb">
                     <svg class="svg-icon"><use href="#icon-brain"></use></svg>
                     <span>Browser Storage (IDB)</span>
+                </button>
+                <button class="menu-button" data-action="relay" style="grid-column: 1 / -1; background: rgba(0, 246, 255, 0.05); border-color: var(--neon-cyan);">
+                    <svg class="svg-icon" style="color: var(--neon-cyan);"><use href="#icon-laptop"></use></svg>
+                    <span style="color: var(--neon-cyan);">Relay Server Connection</span>
                 </button>
             </div>
             <style>
@@ -68,6 +73,108 @@ export const WorkspaceAddition = {
                     else if (action === 'github') this.addGithub();
                     else if (action === 'idb') this.addIdb();
                     else if (action === 'opfs') this.addOpfs();
+                    else if (action === 'relay') this.addRelay();
+                };
+            }
+        }, 50);
+    },
+
+    /**
+     * B"H
+     * Initiates the connection to a distant Relay server.
+     * It ensures the user understands the exact API specifications required
+     * to become a chariot for the Awtsmoos editor, including the absolute 
+     * necessity of CORS headers to bridge the cross-origin void.
+     */
+    async addRelay() {
+        if (!State.relayUrl) {
+            const configHtml = `
+                <div style="color: white; font-family: var(--font-ui); text-align: left;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 15px;">
+                        <p style="margin: 0; line-height: 1.5; font-size: 0.9em; max-width: 65%;">
+                            To connect to a physical machine across the Void, the Awtsmoos Editor requires a Relay Server running locally on that machine. 
+                        </p>
+                        <button id="dl-relay-server-btn" class="primary-btn" style="padding: 6px 12px; font-size: 0.85em; background: var(--neon-lime); box-shadow: 0 0 10px rgba(168, 255, 0, 0.4); border:none; border-radius:4px; color:black; font-weight:bold;">
+                            ⬇️ Download Server Script
+                        </button>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border: 1px solid var(--neon-cyan); margin-bottom: 20px; font-family: var(--font-code); font-size: 0.85em; overflow-y:auto; max-height: 250px;">
+                        <div style="margin-bottom:12px; color: var(--neon-lime); font-weight: bold; border-bottom: 1px dashed var(--neon-lime); padding-bottom: 8px;">
+                            Usage: <code style="color:white;">node relay-server.js</code>
+                        </div>
+                        <div style="margin-bottom:12px; color: var(--color-accent-danger); font-weight: bold; border-bottom: 1px dashed var(--color-accent-danger); padding-bottom: 8px;">
+                            ⚠️ CRITICAL: The server MUST return CORS headers:<br>
+                            <code>Access-Control-Allow-Origin: *</code><br>
+                            <code>Access-Control-Allow-Methods: POST, OPTIONS</code>
+                        </div>
+                        <div style="margin-bottom:8px;"><strong style="color:var(--neon-cyan);">action=list</strong> & filepath=/path<br><span style="opacity:0.6;">↳ Returns JSON array: ["file.txt", "folder"]</span></div>
+                        <div style="margin-bottom:8px;"><strong style="color:var(--neon-cyan);">action=read</strong> & filepath=/path<br><span style="opacity:0.6;">↳ Returns raw file content</span></div>
+                        <div style="margin-bottom:8px;"><strong style="color:var(--neon-cyan);">action=write</strong> & filepath=/path & content=...<br><span style="opacity:0.6;">↳ Writes the file</span></div>
+                        <div style="margin-bottom:8px;"><strong style="color:var(--neon-cyan);">action=mkdir</strong> & filepath=/path<br><span style="opacity:0.6;">↳ Creates a folder</span></div>
+                        <div style="margin-bottom:8px;"><strong style="color:var(--neon-cyan);">action=delete</strong> & filepath=/path<br><span style="opacity:0.6;">↳ Deletes the file or folder</span></div>
+                        <div><strong style="color:var(--neon-cyan);">action=download-md</strong> & filepath=/path & [files=["1.js"]]<br><span style="opacity:0.6;">↳ Returns concatenated markdown blocks for AI context</span></div>
+                    </div>
+                </div>
+            `;
+            
+            const enteredUrl = await UI.showDialog({
+                title: "Configure Relay Manifestation",
+                contentHTML: configHtml,
+                hasInput: true,
+                placeholder: "http://localhost:3000",
+                okText: "Establish Connection",
+                cancelText: "Cancel"
+            });
+            
+            if (enteredUrl) {
+                State.relayUrl = enteredUrl.trim();
+                import('../app.js').then(m => m.App.saveSettings());
+            } else {
+                return; // Action abandoned
+            }
+        }
+        
+        // Once the coordinates are secured, open the ethereal browser
+        const { RelayBrowser } = await import('./relay-browser/index.js');
+        const selectedPath = await RelayBrowser.selectRoot(State.relayUrl);
+        
+        if (selectedPath) {
+            const wsName = selectedPath === '/' ? 'Relay Root' : selectedPath.split('/').filter(Boolean).pop();
+            const wsId = State.nextWorkspaceId++;
+            
+            import('../workspaces/index.js').then(m => {
+                m.Workspaces.add({
+                    id: wsId,
+                    name: `Relay: ${wsName}`,
+                    type: 'relay',
+                    basePath: selectedPath,
+                    relayUrl: State.relayUrl
+                }, true);
+            });
+            UI.showToast("B\"H - Relay World Anchored.", "success");
+        }
+        
+        // B"H - Bind the download button immediately after Dialog manifestation
+        setTimeout(() => {
+            const dlBtn = document.getElementById('dl-relay-server-btn');
+            if (dlBtn) {
+                dlBtn.onclick = async () => {
+                    try {
+                        const { RelayServerCode } = await import('./relay-server-code.js');
+                        const blob = new Blob([RelayServerCode], { type: 'application/javascript' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'relay-server.js';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        UI.showToast('B"H - Downloaded relay-server.js! Run with: node relay-server.js', 'success', 5000);
+                    } catch (err) {
+                        UI.showToast('Failed to download the blueprint: ' + err.message, 'error');
+                    }
                 };
             }
         }, 50);
@@ -94,7 +201,6 @@ export const WorkspaceAddition = {
         }
     },
 
-    // B"H
 	async addGithub() {
 	    if (!State.githubToken) {
 	        const token = await UI.showDialog({
