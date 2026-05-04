@@ -158,7 +158,8 @@ export default {
                             ld.classList.remove("hidden");
                         } catch(e) {
                             alert("Couldn't load it")
-                            console.log(e);
+                            // B"H: silent
+
                         }
                         
 

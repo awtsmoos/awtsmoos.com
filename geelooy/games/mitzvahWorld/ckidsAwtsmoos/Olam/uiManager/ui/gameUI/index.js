@@ -15,8 +15,9 @@ import instructions from "../instructions.js";
 import characterDesigner from "../characterDesigner.js"; 
 import storeScreen from "../screens/storeScreen.js";
 import effectsOverlay from "../components/effectsOverlay.js";
-import questLog from "../screens/questLog.js";
+import ShlichusBook from "./ShlichusBook.js";
 import saveGameScreen from "../screens/saveGame.js";
+
 import constructionScreen from "./constructionScreen.js"; 
 import inputModal from "./inputModal.js";
 import CommandConsole from "./CommandConsole.js"; 
@@ -39,7 +40,10 @@ import ZroaYamin from "./ZroaYamin/index.js";
 import Otzar from "./Otzar/index.js";
 import { ItemContextMenu } from "./Otzar/ContextMenu/index.js";
 import apiKeyModal from "./apiKeyModal.js";
+import knowledgeMenu from "./knowledgeMenu.js";
 import hud from "./hud.js";
+
+import skillBar from "./skillBar.js";
 import VisualEditor from "./VisualEditor.js"; 
 
 // B"H: The pulse of the drag system awakened in the Main Thread
@@ -53,8 +57,11 @@ if (typeof window !== 'undefined') {
  */
 const uiVessels = [
     hud, 
+    skillBar, 
+    knowledgeMenu, // 📖 SEFER HAMITZVOS
     instructions, 
-    topMenu,
+
+
     ...dialogues,
     Saving,
     DragGhost,
@@ -65,7 +72,7 @@ const uiVessels = [
     characterDesigner, 
     storeScreen, 
     effectsOverlay, 
-    questLog,
+    ShlichusBook,
     saveGameScreen,
     constructionScreen,
     inputModal,

@@ -15,20 +15,16 @@
 import startSlotsConfig from "../startSlotsConfig.js";
 
 const ActionBar = {
-    /** @property {string} shaym - Unique spiritual identifier. */
     shaym: "action bar",
     id: "actionBar",
     className: "awtsmoosAction",
     awtsmoosClick: true,
     style: {
-        pointerEvents: "none", // Background of container lets void clicks through to the world!
+        pointerEvents: "none", 
     },
     startSlotsConfig,
     children:[{
         className: "minimize opened",
-        style: {
-            pointerEvents: "auto" // Emphatic physical presence for the minimize button!
-        },
         onclick(e, $, ui, el) {
             var bar = $("action bar") || document.getElementById("actionBar");
             if (!bar) return;
@@ -40,12 +36,10 @@ const ActionBar = {
         className: "slots", 
         shaym: "action slots", 
         id: "actionSlots",
-        style: { pointerEvents: "none" },
         children: [
             // B"H: The Sacred Bag (Inventory Toggle) is now a permanent vessel!
             {
                 className: "actionSlot occupied bag-slot",
-                style: { pointerEvents: "auto" },
                 onclick: async (e, $$, uui) => {
                     const inventoryScreen = $$("inventoryScreen") || document.getElementById("inventoryScreen");
                     if (inventoryScreen) {
@@ -65,8 +59,7 @@ const ActionBar = {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            fontSize: "32px",
-                            pointerEvents: "none"
+                            fontSize: "32px"
                         },
                         textContent: "🎒"
                     }]
@@ -75,22 +68,15 @@ const ActionBar = {
         ]
     }],
     on: {
-        /**
-         * @method updateActionSlots
-         * @description Refreshes the physical manifestation of the tools/blocks based on current inventory data.
-         */
         async updateActionSlots(e, $, ui) {
             const actionSlotsData = e.detail || [];
             
-            // B"H: Remove previous dynamic slots, but KEEP the Bag!
             const slotsContainer = $("actionSlots") || document.getElementById("actionSlots");
             if (slotsContainer) {
-                // Remove all children EXCEPT the bag-slot
                 const dynamicSlots = slotsContainer.querySelectorAll(".actionSlot:not(.bag-slot)");
                 dynamicSlots.forEach(s => s.remove());
             }
 
-            // 2. Manifest the Actionable Vessels (Tools/Blocks)
             for (let index = 0; index < actionSlotsData.length; index++) {
                 const slotData = actionSlotsData[index];
                 let iconStyle = {};
@@ -122,7 +108,6 @@ const ActionBar = {
                 await ui.html({
                     parent: "actionSlots",
                     className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
-                    style: { pointerEvents: "auto" },
                     "awtsmoosSlotData": slotData,
                     "awtsmoosIndex": index,
                     "awtsmoosSourceType": "action",
@@ -150,6 +135,18 @@ const ActionBar = {
                     },
                     children:[{
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
+                        on: {
+                            mouseenter: (e, $local, uiInst) => {
+                                if (slotData) {
+                                    const x = e.clientX || (e.touches && e.touches[0].clientX);
+                                    const y = e.clientY || (e.touches && e.touches[0].clientY);
+                                    uiInst.peula("gameHUD", { tooltip: { show: true, text: slotData.name || 'Action', x, y } });
+                                }
+                            },
+                            mouseleave: (e, $local, uiInst) => {
+                                uiInst.peula("gameHUD", { tooltip: { show: false } });
+                            }
+                        },
                         children: slotData ?[
                              { className: className, style: iconStyle, textContent: textIcon },
                              { className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }

@@ -63,9 +63,21 @@ export default function updateEquipment(e, $, ui) {
             className: "equip-slot " + slotName,
             style: { width: "50px", height: "50px", border: "1px solid #888", background: "rgba(0,0,0,0.3)", position: "relative", margin: "2px", borderRadius: "4px", display: "flex", justifyContent: "center", alignItems: "center" },
             innerHTML: item ? "" : `<span style='font-size:10px; color:#aaa; text-transform:uppercase'>${slotName.replace("Hand", "")}</span>`,
-            onclick: (ev) => {
-                if (item) {
-                    ui.peula("ikar", { olamPeula: { unequipItem: slotName } });
+            on: {
+                click: (ev) => {
+                    if (item) {
+                        ui.peula("ikar", { olamPeula: { unequipItem: slotName } });
+                    }
+                },
+                mouseenter: (e, $local, uiInst) => {
+                    if (item) {
+                        const x = e.clientX || (e.touches && e.touches[0].clientX);
+                        const y = e.clientY || (e.touches && e.touches[0].clientY);
+                        uiInst.peula("gameHUD", { tooltip: { show: true, text: item.name || 'Equipment', x, y } });
+                    }
+                },
+                mouseleave: (e, $local, uiInst) => {
+                    uiInst.peula("gameHUD", { tooltip: { show: false } });
                 }
             },
             children: children

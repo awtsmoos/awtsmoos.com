@@ -1,15 +1,13 @@
 
 // B"H
+/**
+ * @file hud.js
+ * @description
+ * THE MIRROR OF VITALITY — A UI vessel reflecting the player's essence.
+ */
 export default {
     shaym: "gameHUD",
-    className: "game-hud hidden", // Start in concealment
-    style: {
-        position: "absolute",
-        top: "70px", left: "20px",
-        display: "flex", flexDirection: "column", gap: "8px",
-        zIndex: 1000, pointerEvents: "none",
-        fontFamily: "'Fredoka One', sans-serif"
-    },
+    className: "game-hud hidden",
     on: {
         updateStats(e, $, ui) {
             const stats = e.detail;
@@ -31,43 +29,89 @@ export default {
             
             const lvlText = $("hud-level-text");
             if (lvlText) lvlText.textContent = `Lvl ${stats.level}`;
+        },
+        tooltip(e, $, ui) {
+            const data = e.detail;
+            const tt = $("icon tooltip");
+            if (!tt) return;
+            if (data.show) {
+                tt.classList.remove("hidden");
+                tt.textContent = data.text;
+                if (data.x !== undefined && data.y !== undefined) {
+                    tt.style.left = data.x + "px";
+                    tt.style.top = data.y + "px";
+                    tt.style.position = "fixed";
+                    tt.style.transform = "translate(15px, 15px)";
+                } else {
+                    tt.style.position = "absolute";
+                    tt.style.left = "50%";
+                    tt.style.top = "50%";
+                    tt.style.transform = "translate(-50%, -50%)";
+                }
+            } else {
+                tt.classList.add("hidden");
+            }
         }
     },
     children: [
         {
             className: "hud-bar-container",
-            style: { width: "250px", height: "25px", background: "rgba(0,0,0,0.6)", borderRadius: "12px", border: "2px solid #555", position: "relative", overflow: "hidden" },
+            style: { width: "250px" },
             children: [
-                { shaym: "hud-hp-bar", style: { width: "100%", height: "100%", background: "linear-gradient(90deg, #ff4757, #ff6b81)", transition: "width 0.2s" } },
-                { shaym: "hud-hp-text", style: { position: "absolute", top: "0", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "14px", textShadow: "1px 1px 2px black" }, textContent: "100 / 100" }
+                { 
+                    shaym: "hud-hp-bar", 
+                    className: "hud-bar", 
+                    style: { background: "linear-gradient(90deg, #ff4757, #ff6b81)" } 
+                },
+                { 
+                    shaym: "hud-hp-text", 
+                    className: "hud-text", 
+                    textContent: "100 / 100" 
+                }
             ]
         },
         {
             className: "hud-bar-container",
-            style: { width: "220px", height: "20px", background: "rgba(0,0,0,0.6)", borderRadius: "12px", border: "2px solid #555", position: "relative", overflow: "hidden" },
+            style: { width: "220px", height: "20px" },
             children: [
-                { shaym: "hud-koach-bar", style: { width: "100%", height: "100%", background: "linear-gradient(90deg, #2ed573, #7bed9f)", transition: "width 0.2s" } },
-                { shaym: "hud-koach-text", style: { position: "absolute", top: "0", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "12px", textShadow: "1px 1px 2px black" }, textContent: "50 / 50" }
+                { 
+                    shaym: "hud-koach-bar", 
+                    className: "hud-bar", 
+                    style: { background: "linear-gradient(90deg, #2ed573, #7bed9f)" } 
+                },
+                { 
+                    shaym: "hud-koach-text", 
+                    className: "hud-text", 
+                    style: { fontSize: "12px" }, 
+                    textContent: "50 / 50" 
+                }
             ]
         },
         {
             style: { display: "flex", alignItems: "center", gap: "10px" },
             children: [
-                 { shaym: "hud-level-text", style: { color: "#ffd700", fontSize: "20px", textShadow: "0 0 5px #ffaa00" }, textContent: "Lvl 1" },
+                 { 
+                    shaym: "hud-level-text", 
+                    style: { color: "#ffd700", fontSize: "20px", textShadow: "0 0 5px #ffaa00" }, 
+                    textContent: "Lvl 1" 
+                 },
                  {
                     className: "hud-bar-container",
-                    style: { width: "150px", height: "100%", background: "rgba(0,0,0,0.6)", borderRadius: "5px", border: "1px solid #777", position: "relative", overflow: "hidden" },
+                    style: { width: "150px", height: "15px", borderRadius: "5px" },
                     children: [
-                        { shaym: "hud-xp-bar", style: { width: "0%", height: "100%", background: "linear-gradient(90deg, #ffa502, #eccc68)", transition: "width 0.5s" } }
+                        { 
+                            shaym: "hud-xp-bar", 
+                            className: "hud-bar", 
+                            style: { background: "linear-gradient(90deg, #ffa502, #eccc68)", transition: "width 0.5s" } 
+                        }
                     ]
                  }
             ]
         },
         // B"H: The Hidden Label of the Horizon
-        // This vessel prevents crashes when interaction logic seeks the minimap label.
         { 
             shaym: "minimap label", 
-            className: "invisible", 
+            className: "hidden", 
             style: { position: "absolute", pointerEvents: "none" } 
         }
     ]

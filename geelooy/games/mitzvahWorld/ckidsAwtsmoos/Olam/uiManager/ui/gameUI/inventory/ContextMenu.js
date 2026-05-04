@@ -52,7 +52,8 @@ export const ItemContextMenu = {
                     style: { borderLeft: `4px solid ${color}` },
                     textContent: text,
                     onclick: async (ev, $local, uiLocal) => {
-                         console.log(`B"H - ⚡ Executing Context Decree: ${text}`);
+                         // B"H: silent
+
                          if (clickPayload) {
                              await uiLocal.peula("ikar", { olamPeula: clickPayload });
                          }
@@ -83,7 +84,8 @@ export const ItemContextMenu = {
                 parent: "itemContextMenu",
                 children: menuChildren,
                 ready(el) {
-                    console.log(`B"H - ⚡ Context Menu fully forged for [${titleName}]!`);
+                    // B"H: silent
+
                 }
             });
         }

@@ -30,7 +30,8 @@ export const ItemContextMenu = {
                 if (payloadStr && payloadStr !== "null") {
                     try {
                         const payload = JSON.parse(decodeURIComponent(payloadStr));
-                        console.log("B\"H - ⚡ Dispensing Context Decree:", payload);
+                        // B"H: silent
+
                         await ui.peula("ikar", { olamPeula: payload });
                     } catch (err) {
                         console.error("B\"H - Failed to unpack sacred payload:", err);

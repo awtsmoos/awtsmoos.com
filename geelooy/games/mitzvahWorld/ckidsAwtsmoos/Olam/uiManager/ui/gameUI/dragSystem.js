@@ -14,7 +14,6 @@
 export default function initDragSystem() {
     if (typeof window === 'undefined') return;
     
-    console.log("B\"H - ⚡ DragSystem: Balancing the Scales of Motion.");
 
     if (!window.AwtsmoosDragSystem) {
         window.AwtsmoosDragSystem = {
@@ -68,7 +67,8 @@ export default function initDragSystem() {
             const dx = x - sys.startPos.x;
             const dy = y - sys.startPos.y;
             if (Math.sqrt(dx*dx + dy*dy) > 10) {
-                console.log("B\"H - ⚡ Drag Initiated.");
+                // B"H: silent
+
                 sys.isPotentialDrag = false;
                 sys.isDragging = true;
                 sys.pendingClick = null;
