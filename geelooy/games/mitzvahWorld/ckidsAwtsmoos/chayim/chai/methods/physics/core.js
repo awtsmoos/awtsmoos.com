@@ -7,7 +7,10 @@ export default {
             console.warn("B\"H: Attempted to set invalid position. Ignoring.");
             return;
         }
-        if (!this.collider) return;
+        if (!this.collider || !this.collider.start || !this.collider.end) {
+            console.warn("B\"H: Collider not fully initialized for setPosition.");
+            return;
+        }
         
         const halfInnerHeight = (this.height - 2 * this.radius) / 2;
         const centerY = vec3.y + this.height / 2;
@@ -26,7 +29,7 @@ export default {
     _checkNaNAndReset() {
         if (!this.mesh) return false;
         if (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z)) {
-            console.warn("B\"H: Player position NaN! Resetting.", { was: this.mesh.position.clone() });
+            // B"H: NaN detected — silently reset to prevent spiral
             if(this.velocity) this.velocity.set(0, 0, 0);
             this.setPosition(new THREE.Vector3(0, 15, 0));
             if(this.olam && this.olam.ayin) this.olam.ayin.currentDistance = 5;
@@ -37,7 +40,7 @@ export default {
 
     _checkAbyss() {
         if (this.collider && this.collider.start.y < -100) {
-            console.log("B\"H: Player fell into abyss. Respawning.");
+            // B"H: Fell into the abyss — silently respawn
             this.velocity.set(0, 0, 0);
             this.setPosition(new THREE.Vector3(0, 10, 0));
         }

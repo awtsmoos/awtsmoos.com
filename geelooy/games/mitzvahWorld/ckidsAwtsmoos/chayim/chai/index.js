@@ -18,8 +18,12 @@ import physicsMethods from "./methods/physics.js";
 import raycastingMethods from "./methods/raycasting.js";
 import buildingMethods from "./methods/building.js";
 import projectileMethods from "./methods/projectiles.js";
+import combatMethods from "./methods/combat.js";
+import shlichusMethods from "./methods/shlichus.js";
 
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
+
+
 
 export default class Chai extends Tzomayach {
     type = "chai";
@@ -172,3 +176,7 @@ Object.assign(Chai.prototype, physicsMethods);
 Object.assign(Chai.prototype, raycastingMethods);
 Object.assign(Chai.prototype, buildingMethods);
 Object.assign(Chai.prototype, projectileMethods);
+Object.assign(Chai.prototype, combatMethods);
+Object.assign(Chai.prototype, shlichusMethods);
+
+

@@ -37,7 +37,7 @@ export default {
             // Authoritative snap if within 1 unit of the floor.
             if (Math.abs(diff) < 1.0) {
                 if (!this.onFloor) {
-                    console.log("B\"H: Player landed.");
+                    // B"H: Landing detected — silent to keep void peaceful
                 }
 
                 // Snap Y perfectly.

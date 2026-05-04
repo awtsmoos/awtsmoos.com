@@ -1,57 +1,113 @@
 // B"H
+/**
+ * @module combat
+ * @description THE TEFILLAH OF WAR
+ * "My sword and my bow" — Krias Shema and Shmoneh Esray.
+ */
 import * as THREE from '/games/scripts/build/three.module.js';
+import { TORAH_PASSAGES } from '../../../tochen/skills/TorahPassages.js';
+import SpiritualWeaponManifestor from '../../../tochen/combat/SpiritualWeaponManifestor.js';
 
 export default {
-    takeDamage(amount) {
-        if (!this.olam) return;
+    learnedSkills: ["shema_yisrael", "shmoneh_esray"], // Spiritual arsenal
 
-        // B"H: Calculate mitigation via clothes/defense
-        const defense = this.calculateDefense ? this.calculateDefense() : (this.baseDefense || 0);
-        const actualDamage = Math.max(1, amount - defense);
-
-        this.hp -= actualDamage;
-
-        // Visual Feedback (Floating Text)
-        this.olam.ayshPeula("ui event", "effectsOverlay", { 
-            text: `-${actualDamage}`, 
-            color: "#ff0000",
-            position: this.mesh.position // Pass position to worker/UI if possible in future
-        });
-
-        // Hurt Animation/Sound
-        this.playSound("awtsmoos://dingSound", { volume: 0.5, pitch: 0.5 }); // Placeholder hurt sound
+    learnSkill(skillId) {
+        const skill = TORAH_PASSAGES[skillId];
+        if (!skill) return;
         
-        if (this.hp <= 0) {
-            this.die();
+        if (this.level < skill.levelRequired) {
+            this.olam.ayshPeula("ui event", "effectsOverlay", { text: `Level ${skill.levelRequired} required!`, color: "red" });
+            return;
         }
 
-        if (this.type === 'chossid') this.updateStatsUI();
+        if (!this.learnedSkills.includes(skillId)) {
+            this.learnedSkills.push(skillId);
+            this.olam.ayshPeula("ui event", "effectsOverlay", { text: `Learned: ${skill.name}!`, color: "#00ff00" });
+            this.updateSkillsUI();
+        }
     },
 
-    die() {
-        console.log(`B"H - ${this.name} has returned to the dust.`);
-        if (this.type === 'chossid') {
-            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "OUCH! Respawning...", color: "red" });
-            this.hp = this.maxHp;
-            this.setPosition(new THREE.Vector3(0, 10, 0));
-        } else {
-            // Drop XP
-            if (this.xpValue) {
-                const player = this.olam.player;
-                if (player) player.gainXp(this.xpValue);
-            }
-            this.olam.sealayk(this);
+    castSkill(skillId) {
+        const skill = TORAH_PASSAGES[skillId];
+        if (!skill || !this.learnedSkills.includes(skillId)) return;
+
+        if (this.koach < skill.cost) {
+            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Low Koach!", color: "blue" });
+            return;
         }
+
+        // B"H: Knowledge of the passage in the inventory is enough!
+        if (skill.bookRequired && !this.hasItemInAnyPocket(skill.bookRequired)) {
+            this.olam.ayshPeula("ui event", "effectsOverlay", { text: `Requires ${skill.bookRequired} in pocket!`, color: "orange" });
+            return;
+        }
+
+        this.koach -= skill.cost;
+        this.updateStatsUI();
+
+        let visualData = null;
+        if (skill.weaponAffinity) {
+            visualData = SpiritualWeaponManifestor.compileVisuals(skill.weaponAffinity, skill.color);
+        }
+
+        const basePower = this.calculatePower();
+        let bonusDamage = skill.damage || 0;
+
+        // B"H: Payload of light for the projectile
+        const payload = {
+            damage: basePower + bonusDamage,
+            isAttack: true,
+            color: skill.color,
+            aoe: skill.aoe,
+            element: skill.element,
+            weaponType: skill.weaponAffinity,
+            rangeType: skill.rangeType,
+            visuals: visualData,
+            doubleEdged: skill.doubleEdged
+        };
+
+        this.throwBall(this.olam.randomLetter(), payload);
+        this.olam.ayshPeula("ui event", "effectsOverlay", { text: skill.name.toUpperCase(), color: skill.color });
+    },
+
+    hasItemInAnyPocket(itemId) {
+        if (!this.inventory) return false;
+        const allSlots = [...(this.inventory.slots || []), ...Object.values(this.inventory.equipment || {})];
+        return allSlots.some(item => {
+            if (!item) return false;
+            // Handle both raw item objects and references
+            const actualId = item.id || (item.index !== undefined ? (item.sourceType === 'inventory' ? (this.inventory.slots[item.index]?.id) : (this.inventory.actionSlots[item.index]?.id)) : null);
+            return actualId === itemId;
+        });
+    },
+
+    applyDamage(target, payload) {
+        let multiplier = 1;
+        const dist = this.mesh.position.distanceTo(target.position);
+
+        // B"H: Range-based spiritual mechanics
+        if (payload.weaponType === "sword") {
+            if (dist < 10) multiplier = 2.5; // Sword is for the close enemy
+            if (payload.doubleEdged) {
+                // Double-edged sword hits hard but drains a bit of hp from the user?
+                // Or maybe it just hits multiple targets. For now: bonus damage.
+                multiplier *= 1.2;
+            }
+        } else if (payload.weaponType === "bow") {
+            if (dist > 30) multiplier = 3.0; // Bow is for the far enemy
+        }
+
+        if (payload.element && target.elementalType === payload.element) {
+            multiplier *= 2;
+        }
+        
+        const finalDamage = payload.damage * multiplier;
+        if (target.takeDamage) target.takeDamage(finalDamage);
     },
 
     gainXp(amount) {
         this.xp += amount;
-        this.olam.ayshPeula("ui event", "effectsOverlay", { text: `+${amount} XP`, color: "#ffd700" });
-        
-        // Level Up Logic: 100 * level
-        const nextLevelXp = this.level * 100;
-        if (this.xp >= nextLevelXp) {
-            this.xp -= nextLevelXp;
+        if (this.xp >= this.maxXp) {
             this.levelUp();
         }
         this.updateStatsUI();
@@ -59,78 +115,59 @@ export default {
 
     levelUp() {
         this.level++;
-        this.maxHp += 10;
-        this.maxKoach += 5;
+        this.xp = 0;
+        this.maxXp = Math.floor(this.maxXp * 1.5);
+        this.maxHp += 20;
         this.hp = this.maxHp;
+        this.maxKoach += 15;
         this.koach = this.maxKoach;
+        this.olam.ayshPeula("ui event", "effectsOverlay", { text: "LEVEL UP!", color: "#ffd700" });
+    },
+
+    die() {
+        if (this.isDead) return;
+        this.isDead = true;
+        // B"H: silent
+
         
-        this.playSound("awtsmoos://dingSound"); // Level up sound
-        this.olam.ayshPeula("ui event", "effectsOverlay", { text: `LEVEL UP! (${this.level})`, color: "#00ff00" });
-        
-        if (this.spawnHebrewParticles) {
-            this.spawnHebrewParticles(this.mesh.position, 50);
+        if (this.type === "mazik") {
+            this.spawnHebrewParticles(this.mesh.position, 30, this.color || "#ff0000");
+            if (this.xpValue) {
+                const player = this.olam.player || this.olam.chossid;
+                if (player) {
+                    player.gainXp(this.xpValue);
+                    if (player.updateQuestProgress) {
+                        player.updateQuestProgress("kill", this.elementalType);
+                    }
+                }
+            }
+            if (this.olam) this.olam.sealayk(this);
+        } else if (this.type === "chai") {
+            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "R'L - YOUR SOUL IS IN FLUX", color: "red" });
+            setTimeout(() => location.reload(), 3000);
         }
     },
 
-    calculateStatsFromGear() {
-        let defense = 0;
-        let power = 0;
-        
-        if (this.inventory && this.inventory.equipment) {
-            Object.values(this.inventory.equipment).forEach(ref => {
-                if (!ref) return;
-                // Need to find actual item data. 
-                // We'll trust that enrichItemData attached 'stats' to the item if available.
-                // Since inventory is on main thread UI often, we need to access the slot data here in worker logic.
-                let item = null;
-                if (ref.sourceType === 'inventory') item = this.inventory.slots[ref.index];
-                else if (ref.sourceType === 'action') item = this.inventory.actionSlots[ref.index];
-                
-                if (item && item.stats) {
-                    if (item.stats.defense) defense += item.stats.defense;
-                    if (item.stats.power) power += item.stats.power;
-                }
-            });
-        }
-        return { defense, power };
-    },
-    
-    calculateDefense() {
-        const gearStats = this.calculateStatsFromGear();
-        return (this.baseDefense || 0) + gearStats.defense;
+    updateSkillsUI() {
+        const skillData = this.learnedSkills.map(id => ({ ...TORAH_PASSAGES[id], id }));
+        this.olam.ayshPeula("ui event", "skillBar", { updateSkills: skillData });
+        this.olam.ayshPeula("ui event", "knowledgeMenu", { updateKnowledge: skillData });
     },
 
     calculatePower() {
-        const gearStats = this.calculateStatsFromGear();
-        return (this.basePower || 10) + gearStats.power;
+        let p = 10 + (this.level * 2);
+        // Bonus from equipped books
+        if (this.checkEquipmentForItem("book_tehillim")) p += 15;
+        if (this.checkEquipmentForItem("book_tanya")) p += 25;
+        return p;
     },
 
-    updateStatsUI() {
-        if (this.olam) {
-            this.olam.ayshPeula("ui event", "gameHUD", {
-                updateStats: {
-                    hp: this.hp,
-                    maxHp: this.maxHp,
-                    koach: this.koach,
-                    maxKoach: this.maxKoach,
-                    xp: this.xp,
-                    level: this.level
-                }
-            });
-        }
-    },
-    
-    // Shoot functionality extended
-    shootHebrewLetter() {
-        if (this.koach < 5) {
-             this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Not enough Koach!", color: "blue" });
-             return;
-        }
-        this.koach -= 5;
-        this.updateStatsUI();
-        
-        // Reuse projectiles.js logic but add damage payload
-        const power = this.calculatePower();
-        this.throwBall(this.olam.randomLetter(), { damage: power, isAttack: true });
+    checkEquipmentForItem(itemId) {
+        if (!this.inventory || !this.inventory.equipment) return false;
+        return Object.values(this.inventory.equipment).some(ref => {
+            if (!ref) return false;
+            const item = ref.sourceType === 'inventory' ? this.inventory.slots[ref.index] : this.inventory.actionSlots[ref.index];
+            return item && item.id === itemId;
+        });
     }
 };

@@ -80,7 +80,8 @@ export default {
         
         // Jump trigger: requires being onFloor.
         if (this.onFloor && this.moving.jump && !this.didJump) {
-            console.log("B\"H: JUMP TRIGGERED! Velocity Y set to 12.");
+            // B"H: silent
+
             this.jumped = true;
             this.velocity.y = this.jumpHeight || 12;
             this.didJump = true;
