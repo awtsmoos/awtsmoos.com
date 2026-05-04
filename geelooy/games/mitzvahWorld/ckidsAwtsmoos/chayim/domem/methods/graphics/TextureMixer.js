@@ -22,7 +22,8 @@ export default class TextureMixer {
 
         if (!nivra.olam) return;
 
-        console.log(`B"H [TextureMixer] SAFE MODE: Applying simple texture to ${nivra.name}`);
+        // B"H: silent
+
 
         // 1. Resolve and Load Textures with FALLBACK
         const bTexUrl = nivra.olam.$gc(baseTexture) || baseTexture;
@@ -79,6 +80,7 @@ export default class TextureMixer {
         targetChild.material.needsUpdate = true;
         targetChild.userData.isTerrain = true;
         
-        console.log("B\"H [TextureMixer] Applied simple material. Safe mode active.");
+        // B"H: silent
+
     }
 }

@@ -19,6 +19,7 @@ export default class Tzomayach extends Domem {
     
     constructor(options, olam) {
         super(options, olam);
+        this.options = options || {}; // B"H: Secure options for downstream logic
         this.heesHawveh = true;
         
         // B"H: If it's interactable but has no proximity, give it a small default to enable the loop

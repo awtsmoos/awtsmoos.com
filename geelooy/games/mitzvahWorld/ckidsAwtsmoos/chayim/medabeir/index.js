@@ -12,7 +12,6 @@
 
 import Chai from "../chai.js";
 import * as AWTSMOOS from "../../awtsmoosCkidsGames.js";
-import Utils from "../../utils.js";
 
 // Import Faculties
 import dialogueMethods from "./methods/dialogue.js";
@@ -36,7 +35,7 @@ export default class Medabeir extends Chai {
     nivraTalkingTo = null;
     currentMessageIndex = 0;
     currentSelectedMsgIndex = 0;
-    dialogueHandler = null;
+    siach = null;
     
     // Dialogue State
     _messageTree = [];
@@ -67,26 +66,18 @@ export default class Medabeir extends Chai {
             this.state = options.state;
         }
 
-        // B"H: 2. Initialize Dialogue Handler SECOND (now that data is ready)
-        this.dialogueHandler = new AWTSMOOS.Dialogue(
-            this, {
-                approachShaym: "approach npc msg",
-                npcMessageShaym: "msg npc",
-                chossidMessageShaym: "msg chossid"
-            }
-        );
+        // B"H: 2. Initialize state checkers (e.g. Shlichus availability)
+        this.initShlichusChecker();
         
         this.on("sealayk", () => {
-            if(this.dialogueHandler)
-                this.dialogueHandler.sealayk(this);
+            this.resetDialogueState();
         });
 
         // Event Listeners for interaction
         this.on("nivraNeechnas", nivra => {
-            this.dialogueHandler.nivraNeechnas(nivra);
+            // Highlighting handled by Yichud
         })
         this.on("nivraYotsee", nivra => {
-            this.dialogueHandler.nivraYotsee(nivra);
             this.resetDialogueState();
         });
 		
@@ -94,8 +85,8 @@ export default class Medabeir extends Chai {
             // Hook for future logic
 		});
 
-        // Initialize state checkers (e.g. Shlichus availability)
-        this.initShlichusChecker();
+        // Initialize state (e.g. Shlichus availability)
+        // this.initShlichusChecker(); // Already called above
     }
 
     get messageTree() {

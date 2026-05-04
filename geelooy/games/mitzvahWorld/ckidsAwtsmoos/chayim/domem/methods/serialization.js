@@ -14,7 +14,8 @@ export default {
             if (this.path.startsWith('awtsmoos://')) {
                 var component = this.olam.getComponent(this.path);
                 if (!component) {
-                    console.log(`Component "${component}" not found, ${this.path}`);
+                    // B"H: silent
+
                     return "";
                 }
                 derech = component;
@@ -32,9 +33,7 @@ export default {
             var r = await fetch(path);
             var lng = r.headers.get("Content-Length")
             return parseInt(lng);
-        } catch(e){
-            console.log(e)
-        }
+        } catch(e) { console.error("B\"H - Error caught:", e); }
         return 0;
     },
 

@@ -5,6 +5,8 @@
  * Shaders, textures, icons, and grass generation.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
+import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
+import MaterialManager from '../../math/MaterialManager.js';
 
 export default {
     disperseInstance(w, h) {
@@ -28,9 +30,11 @@ export default {
         GRASS_COUNT = 101801,
     }) {
         if(this.olam.isGPU()) {
-            return console.log("No grass, GPU!");
+            return // B"H: silent
+
         }
-        return console.log("Grass in development");
+        return // B"H: silent
+
     },
 
     async mixTextures({
@@ -50,7 +54,7 @@ export default {
         try {
             baseTexture = self.olam.$gc(baseTexture);
             overlayTexture = self.olam.$gc(overlayTexture);
-        } catch(e){ console.log("Couldnt get it",e); }
+        } catch(e) { console.error("B\"H - Error caught:", e); }
        
         var base, overlay;
         try {
@@ -58,7 +62,8 @@ export default {
             overlay =  await self.olam.loadTexture({ url: overlayTexture, shouldRepeat: true, repeatX, repeatY, nivra: self });
             base.wrapS = base.wrapT = THREE.RepeatWrapping;
             overlay.wrapS = overlay.wrapT = THREE.RepeatWrapping;
-        } catch(e) { console.log("Issue loading!",e); return; }
+        } catch(e) { // B"H: silent
+ return; }
        
         var targetChild = null;
         if (childNameToSetItTo && this.mesh) {
@@ -167,6 +172,136 @@ export default {
 
         targetChild.material = customLambertMaterial;
         targetChild.material.needsUpdate = true;
+    },
+
+    /**
+     * @method createMaterial
+     * @description B"H: Creates a refined material through the MaterialManager.
+     */
+    createMaterial(type, options, snippets) {
+        return MaterialManager.create(type, options, snippets);
+    },
+
+    /**
+     * @method refineMaterial
+     * @description B"H: Refines an existing material with shader snippets.
+     */
+    refineMaterial(mat, snippets) {
+        MaterialManager.refine(mat, snippets);
+    },
+
+    /**
+     * @method createBufferGeometry
+     * @description B"H: Manifests a buffer geometry from raw attribute data.
+     */
+    createBufferGeometry({ verts, normals, uvs, indices }) {
+        const geo = new THREE.BufferGeometry();
+        if (verts) geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+        if (normals) geo.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+        if (uvs) geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+        if (indices) geo.setIndex(indices);
+        return geo;
+    },
+
+    /**
+     * @method createMesh
+     * @description B"H: Forges a mesh from geometry and material.
+     */
+    createMesh(geo, mat) {
+        return new THREE.Mesh(geo, mat);
+    },
+
+    /**
+     * @method createGroup
+     * @description B"H: Summon a group vessel.
+     */
+    createGroup() {
+        return new THREE.Group();
+    },
+
+    /**
+     * @method createCylinderGeometry
+     * @description B"H: Manifest a cylinder.
+     */
+    createCylinderGeometry(top, bottom, height, segments) {
+        return new THREE.CylinderGeometry(top, bottom, height, segments);
+    },
+
+    /**
+     * @method createBoxGeometry
+     * @description B"H: Manifest a box.
+     */
+    createBoxGeometry(w, h, d) {
+        return new THREE.BoxGeometry(w, h, d);
+    },
+
+    /**
+     * @method createPlaneGeometry
+     * @description B"H: Manifest a plane.
+     */
+    createPlaneGeometry(w, h, sw, sh) {
+        return new THREE.PlaneGeometry(w, h, sw, sh);
+    },
+
+    /**
+     * @method raycastTerrain
+     * @description B"H: Cast a ray into the Malchus (Ground).
+     */
+    raycastTerrain(origin, direction = { x: 0, y: -1, z: 0 }, maxDist = 1000) {
+        if (!this.olam) return null;
+        const terrain = [];
+        this.olam.scene.traverse(c => { if(c.isMesh && c.userData?.isTerrain) terrain.push(c); });
+        if (terrain.length === 0) return null;
+
+        const ray = new THREE.Raycaster(
+            new THREE.Vector3(origin.x, origin.y, origin.z),
+            new THREE.Vector3(direction.x, direction.y, direction.z),
+            0, maxDist
+        );
+        const hits = ray.intersectObjects(terrain, false);
+        return hits.length > 0 ? hits[0].point : null;
+    },
+
+    /**
+     * @method createRawShaderMaterial
+     * @description B"H: Creates a raw ShaderMaterial.
+     */
+    createRawShaderMaterial(options) {
+        return MaterialManager.createRawShader(options);
+    },
+
+    /**
+     * @method createExtrudeGeometry
+     * @description B"H: Manifests an extruded form from a shape and path.
+     */
+    createExtrudeGeometry(shape, settings) {
+        return new THREE.ExtrudeGeometry(shape, settings);
+    },
+
+    /**
+     * @method createShape
+     * @description B"H: Create a 2D shape for extrusion.
+     */
+    createShape() {
+        return new THREE.Shape();
+    },
+
+    /**
+     * @method createCatmullRomCurve3
+     * @description B"H: Manifest a smooth curve from points.
+     */
+    createCatmullRomCurve3(points, type = 'chordal') {
+        const curve = new THREE.CatmullRomCurve3(points.map(p => new THREE.Vector3(p[0], 0, p[1])));
+        curve.curveType = type;
+        return curve;
+    },
+
+    /**
+     * @method mergeGeometries
+     * @description B"H: Unify multiple geometries into one.
+     */
+    mergeGeometries(geos, useGroups = false) {
+        return BufferGeometryUtils.mergeGeometries(geos, useGroups);
     },
 
     async getIcon() {

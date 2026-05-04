@@ -13,11 +13,14 @@ export default class TextureMixer {
 
         if (!nivra.olam) return;
 
-        console.log(`B"H [TextureMixer] SAFE MODE: Applying simple texture to ${nivra.name}`);
-        console.log(`B"H [TextureMixer] BaseTexture Input:`, baseTexture);
+        // B"H: silent
+
+        // B"H: silent
+
 
         const bTexUrl = nivra.olam.$gc(baseTexture) || baseTexture;
-        console.log(`B"H [TextureMixer] Resolved URL:`, bTexUrl);
+        // B"H: silent
+
         
         let base = null;
         try {
@@ -26,7 +29,8 @@ export default class TextureMixer {
                 if (base) {
                     base.wrapS = base.wrapT = THREE.RepeatWrapping;
                     base.needsUpdate = true;
-                    console.log(`B"H [TextureMixer] Texture Loaded Successfully.`);
+                    // B"H: silent
+
                 } else {
                     console.warn(`B"H [TextureMixer] Texture Load Returned Null.`);
                 }
@@ -73,6 +77,7 @@ export default class TextureMixer {
         targetChild.material.needsUpdate = true;
         targetChild.userData.isTerrain = true;
         
-        console.log(`B"H [TextureMixer] Applied simple material to ${targetChild.name}. Map exists: ${!!base}`);
+        // B"H: silent
+
     }
 }

@@ -39,7 +39,8 @@ export default {
 	},
 
     async ready() {
-        console.log(`B"H - 🗣️ [${this.name}] Ready. Igniting speech and movement.`);
+        // B"H: silent
+
         
         if(this.dialogue) {
             this.handleDialogue();
@@ -54,7 +55,8 @@ export default {
         // B"H: THE ANIMATION SPARK
         // If the soul has a body and a mixer, we start the first breath.
         if (this.animationMixer && this.animations && this.animations.length > 0) {
-            console.log(`B"H - 🏃 [${this.name}] Breathing life into ${this.animations.length} clips.`);
+            // B"H: silent
+
             // Try to play 'idle' by default, or the first available clip
             const idle = this.animations.find(a => a.name.toLowerCase().includes('idle'));
             const first = idle ? idle.name : this.animations[0].name;
