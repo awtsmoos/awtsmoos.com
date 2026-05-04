@@ -117,25 +117,8 @@ export default function() {
         try {
            /* const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
             if(this.isGPU()) {
-                return console.log("No water, GPU!")
-            }
-            var bitmap = await this.loadTexture({
-                nivra: mesh.nivraAwtsmoos,
-                url: "https://firebasestorage.googleapis.com/v0/b/ckids-games.appspot.com/o/chawfawtseem%2Ftextures%2Fwaternormals.jpg?alt=media"
-            })
-            var mayim = new Water(
-                waterGeometry,
-                {
-                    textureWidth: 512,
-                    textureHeight: 512,
-                    waterNormals: bitmap,
-                    sunDirection: new THREE.Vector3(),
-                    sunColor: 0xffffff,
-                    waterColor: 0x001e0f,
-                    distortionScale: 3.7,
-                    fog: false
-                }
-            ); 
+                return // B"H: silent
+ 
             mayim.layers.enable(2);
             this.scene.add(mayim);
             mayim.rotation.x = - Math.PI / 2;
@@ -150,9 +133,8 @@ export default function() {
            })
            mesh.material = waterMaterial;
            mesh.material.needsUpdate =true;*/
-           console.log("water",mesh,waterMaterial)
-            
-            this.ayshPeula("start sky");
+           // B"H: silent
+
             this.ayshPeula("alert", "made mayim")
         } catch(e) {
             this.ayshPeula("alert", "issue with mayim",e)

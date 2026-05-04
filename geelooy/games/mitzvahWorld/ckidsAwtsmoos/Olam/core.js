@@ -29,7 +29,8 @@ export function heescheel(canvasElement) {
         }
     };
 
-    console.log('B"H - ✅ Offscreen Control Manifested.');
+    // B"H: silent
+
     console.groupEnd();
     return payload; 
 }

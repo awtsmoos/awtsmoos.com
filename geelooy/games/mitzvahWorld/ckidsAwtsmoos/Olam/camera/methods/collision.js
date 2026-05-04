@@ -62,10 +62,10 @@ export default {
                 // Skip Chossid (Player)
                 if (nivra.type === 'chossid') continue;
 
-                // Only check entities that have a visible mesh
-                if (nivra.mesh && nivra.mesh.visible) {
+                const targetMesh = nivra.modelMesh || nivra.mesh;
+                if (targetMesh) {
                     // Check intersection against the entire mesh hierarchy of the NPC
-                    const hits = this.mouseRaycaster.intersectObject(nivra.mesh, true); 
+                    const hits = this.mouseRaycaster.intersectObject(targetMesh, true); 
                     
                     if (hits.length > 0) {
                         const hit = hits[0];
@@ -93,9 +93,15 @@ export default {
                 .rayIntersect(this.mouseRaycaster.ray);
         
             if(oct) {
+                // B"H: Normalize properties from Octree to match THREE.Raycaster results
+                oct.point = oct.point || oct.position;
+                
                 // B"H: If we already hit an NPC, compare distances
                 if (!closest || oct.distance < closest.distance) {
-                     oct.object = oct.triangle.sourceMesh || oct.object; // Support sourceMesh from octree build
+                     // B"H FIX: Safely retrieve sourceMesh if triangle data exists
+                     if (oct.triangle) {
+                        oct.object = oct.triangle.sourceMesh || oct.object; 
+                     }
                      
                      // B"H: If the static object is actually linked to a dynamic entity (like a solid NPC), retrieve it
                      if (oct.object && oct.object.nivraAwtsmoos) {

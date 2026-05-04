@@ -1,10 +1,8 @@
-
 /**
  * B"H
  * Ikar (Main Entry Point)
  */
 
-console.log("B\"H", "\n", "Starting the Ikar JS!");
 
 import ManagerOfAllWorlds from "./Olam/worldManager/index.js";
 import config from "../tochen/config/config.awtsmoos.js";
@@ -30,7 +28,8 @@ try {
                 // Encode the internal path
                 const internalPath = encodeURIComponent(`desktop.folder/game data.folder/worlds/${filename}`);
                 path = `/api/social/aliases/${alias}/fileSystem/readFile?path=${internalPath}`;
-                console.log("B\"H: Constructed path from level param:", path);
+                // B"H: silent
+
             }
 
             // Helper to get UI elements safely
@@ -54,7 +53,8 @@ try {
             };
 
             if (path) {
-                console.log("B\"H: Auto-loading from path:", path);
+                // B"H: silent
+
                 
                 let attempts = 0;
                 const checkReady = setInterval(() => {
@@ -75,7 +75,8 @@ try {
                     // B"H: Wait for global Game UI config AND the ikar element to be ready
                     if (ikar && window.awtsmoosGameUI) {
                         clearInterval(checkReady);
-                        console.log("B\"H: UI Ready. Starting auto-load sequence.");
+                        // B"H: silent
+
 
                         // Hide Main Menu manually
                         const { menu } = getUI();
@@ -126,7 +127,8 @@ try {
                 }, 100);
 
             } else if (alias) {
-                console.log("B\"H: Auto-loading alias browser:", alias);
+                // B"H: silent
+
                 
                 let attempts = 0;
                 const checkReady = setInterval(() => {
@@ -168,8 +170,7 @@ try {
             window.addEventListener('load', handleAutoLoad);
         }
 
-        console.log("Loaded!", m);
+        // B"H: silent
+
     }
-} catch (e) {
-    console.log("Issue!", e);
-}
+} catch(e) { console.error("B\"H - Error caught:", e); }

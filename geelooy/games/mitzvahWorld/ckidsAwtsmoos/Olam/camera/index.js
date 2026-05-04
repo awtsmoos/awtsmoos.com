@@ -77,11 +77,13 @@ import collision from "./methods/collision.js";
         Object.keys(controls).forEach(q => { this[q] = controls[q].bind(this); });
         Object.keys(collision).forEach(q => { this[q] = collision[q].bind(this); });
 
-        console.log(`B"H - 👁️ Ayin Gaze Initialized. Far Plane: ${this.camera.far}`);
+        // B"H: silent
+
     }
 
     setSize(width, height) {
-        console.log(`B"H - 📐 Ayin resizing: ${width}x${height}`);
+        // B"H: silent
+
         this.width = width;
         this.height = height;
         this.camera.aspect = width / height;

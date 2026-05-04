@@ -26,7 +26,8 @@ export default function() {
     this.rendered = false;
 
     this.on("resize", async peula => {
-        console.log(`B"H - 📐 Window Resize Decree: ${peula.width}x${peula.height}`);
+        // B"H: silent
+
         if (this.rendered) {
             await this.setSize(peula.width, peula.height, false);
             if (peula.devicePixelRatio) {
@@ -35,7 +36,8 @@ export default function() {
         }
         
         if (!setSizeOnce && this.rendered) {
-            console.log("B\"H - 🌌 Olam stabilized. Emitting Genesis Finalized.");
+            // B"H: silent
+
             this.ayshPeula("ready to start game");
             setSizeOnce = true;
         }
@@ -48,7 +50,8 @@ export default function() {
      * @description THE MOMENT THE EYES OPEN!
      */
     this.on("rendered first time", async () => {
-        console.log("B\"H - ✨ ✨ ✨ THE EYE IS STEADY. FIRST FRAME RADIATING. ✨ ✨ ✨");
+        // B"H: silent
+
         this.rendered = true;
 
         if (this.renderer) this.renderer.renderedOnce = true;
@@ -58,17 +61,20 @@ export default function() {
         // Awaiting a cross-thread call that hasn't been promised correctly results in 
         // eternal suspension.
         
-        console.log("B\"H - 📢 📢 📢 SENDING CRITICAL 'hide loading screen' DECREE.");
+        // B"H: silent
+
         // Non-blocking trigger. Let the UI handle it!
         this.ayshPeula("hide loading screen");
         
         if (this.minimap) {
-            console.log("B\"H - 🗺️ Planting missions on the sacred scroll (Minimap).");
+            // B"H: silent
+
             await this.minimap.setMinimapItems(this.nivrayimWithShlichuseem, "Missions");
         }
 
         // Ignite the spiritual logic of every descended soul.
-        console.log("B\"H - ⚡ Awakening the intellect of all gathered souls.");
+        // B"H: silent
+
         for (var n of this.nivrayim) {
             // Give each entity their chance to speak at start.
             n.ayshPeula("started", n, this);

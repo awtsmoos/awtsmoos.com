@@ -18,12 +18,10 @@ export default function() {
         }
     })
     this.on("htmlPeula peula", ({peulaName, peulaVars}) => {
-       
-        
         try {
             this.ayshPeula(peulaName, peulaVars)
         } catch(e) {
-            console.log("Issue",e)
+            console.error("B\"H - htmlPeula peula Error:", e);
         }
     });
 
