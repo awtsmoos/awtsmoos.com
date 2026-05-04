@@ -10,7 +10,8 @@ export default {
     className: "close-btn",
     textContent: "X",
     onclick(e, $, ui) {
-        console.log('B"H - ❌ [OTZAR]: Closing the Treasury vessels.');
+        // B"H: silent
+
         ui.htmlAction({ shaym: "inventoryScreen", id: "inventoryScreen", methods: { classList: { add: "hidden" } } });
         ui.htmlAction({ shaym: "itemContextMenu", id: "itemContextMenu", methods: { classList: { add: "hidden" } } });
     }

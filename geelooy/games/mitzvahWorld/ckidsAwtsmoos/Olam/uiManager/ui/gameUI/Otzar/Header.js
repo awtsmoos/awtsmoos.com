@@ -15,7 +15,8 @@ export default {
         { 
             tag: "button", className: "back-inv-btn hidden", textContent: "⬅ RETURN", 
             onclick(e, $, ui) { 
-                console.log('B"H - 🔙 [OTZAR]: Returning to the main level of the Treasury.');
+                // B"H: silent
+
                 ui.peula("ikar", { olamPeula: { closeContainer: true } }); 
             }
         },
@@ -25,7 +26,8 @@ export default {
             textContent: "X", 
             style: { pointerEvents: "auto" },
             onclick(e, $, ui) { 
-                console.log('B"H - ❌ [OTZAR]: Closing the Treasury vessels.');
+                // B"H: silent
+
                 ui.htmlAction({ shaym: "inventoryScreen", id: "inventoryScreen", methods: { classList: { add: "hidden" } } }); 
                 ui.htmlAction({ shaym: "itemContextMenu", id: "itemContextMenu", methods: { classList: { add: "hidden" } } });
             } 
