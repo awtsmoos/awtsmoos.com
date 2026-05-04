@@ -15,7 +15,8 @@ import TouchOrchestrator from './input/TouchOrchestrator.js';
 export default function setupDomEvents(manager) {
     const { eved } = manager;
 
-    console.log('B"H - 🔭 Binding the Eyes and Ears of the Main Thread...');
+    // B"H: silent
+
 
     // 1. Initial Measurement
     const broadcastResize = () => {

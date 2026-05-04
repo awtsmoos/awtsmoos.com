@@ -1,116 +1,116 @@
-
+// B"H
 /**
- * B"H
+ * @file mainMenu.js
+ * @description
+ * THE GATEWAY — Aspect-Ratio Protected Main Menu
  */
 export default /*css*/`
     .menu {
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         position: fixed;
         inset: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: radial-gradient(circle at 50% 50%, #1a1a3e 0%, #050515 100%);
+        background: radial-gradient(circle at center, #1e1e4a 0%, #030311 100%);
         overflow: hidden;
         z-index: 1000;
         font-family: 'Outfit', sans-serif;
     }
 
-    .info {
+    /* 
+       B"H: THE VESSEL OF SYMMETRY
+       A container that keeps everything centered and scaled.
+    */
+    .menu-vessel {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 50px;
-        z-index: 10;
-        animation: fadeInMenu 1s ease-out;
-    }
-
-    @keyframes fadeInMenu {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+        justify-content: space-evenly;
+        width: 90%;
+        height: 85%;
+        max-width: 1200px;
+        max-height: 900px;
+        text-align: center;
+        position: relative;
     }
 
     .mainTitle {
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: -10px;
+        gap: 0;
     }
 
     .title-word {
-        font-size: 120px;
+        font-size: clamp(2.5rem, 12vw, 8rem);
         font-weight: 900;
-        letter-spacing: 15px;
-        color: #fff;
-        position: relative;
+        letter-spacing: clamp(4px, 2vw, 20px);
         text-transform: uppercase;
         line-height: 0.9;
-        filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.3));
+        color: #fff;
+        text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+        white-space: nowrap;
     }
 
-    .title-word:first-child {
-        color: var(--otzar-gold, #ffde40);
-        filter: drop-shadow(0 0 25px rgba(255, 222, 64, 0.4));
+    .title-word.gold {
+        color: var(--mitzvah-gold, #ffde40);
+        text-shadow: 0 0 30px rgba(255, 222, 64, 0.5);
     }
 
-    .title-word::after {
-        content: attr(data-text);
-        position: absolute;
-        left: 0; top: 0;
-        z-index: -1;
-        -webkit-text-stroke: 4px rgba(255, 255, 255, 0.1);
-        color: transparent;
-        transform: translate(4px, 4px);
+    .menu-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(15px, 3vh, 40px);
+        width: 100%;
+        max-width: 500px;
     }
 
     .mitzvahBtn {
-        position: relative;
-        padding: 20px 60px;
-        background: linear-gradient(135deg, #44C300 0%, #2e8b57 100%);
-        border: none;
+        width: 100%;
+        padding: clamp(12px, 2.5vh, 25px);
         border-radius: 20px;
+        border: none;
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
         color: white;
-        font-size: 24px;
+        font-size: clamp(1rem, 4vw, 1.6rem);
         font-weight: 800;
-        letter-spacing: 2px;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 10px 0 #2d8000, 0 15px 30px rgba(0,0,0,0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3), inset 0 2px 4px rgba(255,255,255,0.3);
+        position: relative;
+        overflow: hidden;
     }
 
     .mitzvahBtn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 0 #2d8000, 0 20px 40px rgba(0,0,0,0.5);
-        filter: brightness(1.1);
+        transform: scale(1.05) translateY(-5px);
+        filter: brightness(1.15);
+        box-shadow: 0 15px 40px rgba(46, 204, 113, 0.5);
     }
 
     .mitzvahBtn:active {
-        transform: translateY(5px);
-        box-shadow: 0 5px 0 #2d8000, 0 5px 15px rgba(0,0,0,0.3);
+        transform: scale(0.95);
     }
 
-    .svgHolder {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.3;
-    }
-
-    .mitzvahBtnTxt {
-        z-index: 2;
-    }
-
-    /* B"H: The login header at the top */
+    /* B"H: The Skyward Sentinel (Login) */
     .loginHeader {
-        position: fixed;
-        top: 30px;
-        right: 30px;
-        z-index: 100;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    @media (max-width: 600px) {
+        .title-word { font-size: 15vw; }
+        .menu-vessel { height: 95%; }
+    }
+
+    @media (max-height: 450px) {
+        .menu-vessel { flex-direction: row; gap: 30px; }
+        .mainTitle { width: 50%; }
+        .menu-actions { width: 40%; }
     }
 `;
 

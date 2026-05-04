@@ -1,30 +1,44 @@
 
 //B"H
-var rightAmount = 7;
+/**
+ * @file actionBars.js
+ * @description
+ * B"H - THE RIGHT HAND OF ACTION
+ * 
+ * The Action Bar lives on the RIGHT side of the screen,
+ * a vertical column of tools anchored to the edge of perception.
+ * Below the canvas sits a thin golden status strip — the
+ * "bottom bar" — which provides XP, health, and quick info.
+ * 
+ * Glassmorphism + Gold accents = premium aesthetic.
+ */
 export default /*css*/`
         
+        /* ═══════════════════════════════════════════ */
+        /* B"H: RIGHT-SIDE VERTICAL ACTION BAR        */
+        /* ═══════════════════════════════════════════ */
         .awtsmoosAction {
-            right: ${rightAmount}px !important;
-            right: 7px;
+            right: 10px !important;
             top: 50% !important;
-            transform: translate(0, -50%) !important;
-            transition: transform 0.4s ease-in-out;
+            transform: translateY(-50%) !important;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: absolute !important;
             display: flex !important;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: center;
             
-            /* B"H: Visual reinforcement! */
-            background: rgba(10, 10, 30, 0.7) !important;
+            background: rgba(10, 10, 30, 0.65) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 222, 64, 0.25) !important;
             border-left: 2px solid var(--mitzvah-gold, #ffd700) !important;
-            border-radius: 15px 0 0 15px;
-            padding: 10px;
+            border-radius: 16px 0 0 16px;
+            padding: 14px 10px;
             
-            /* Allow the overall container to let clicks through where it is empty */
             pointer-events: none !important; 
             z-index: 10000 !important;
-            min-width: 80px;
-            min-height: 100px;
+            min-width: 74px;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.4), 0 0 15px rgba(255, 222, 64, 0.08);
         }
 
         .awtsmoosAction .slots .slotBtn {
@@ -33,149 +47,153 @@ export default /*css*/`
             background-position: center;
         	background-size: contain;
         	background-repeat: no-repeat;
-            transition:transform 1s ease;
+            transition: transform 0.25s ease;
             transform: scale(1);
         }
         
         .awtsmoosAction .slots {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
+            pointer-events: none !important;
         }
 
         .awtsmoosAction.minimized {
-            transform: translate(calc(100% - 10px), -50%) !important;
+            transform: translate(calc(100% - 12px), -50%) !important;
         }
 
-        /* B"H: Correcting the Veil of Conflict! 
-           The global .onscreen class tries to force everything to the left. 
-           We decree that the Action Bar remains steadfast on the Right.
-        */
         .awtsmoosAction.onscreen {
             left: auto !important;
-            right: ${rightAmount}px !important;
+            right: 10px !important;
             opacity: 1 !important;
             pointer-events: none !important;
         }
 
         .awtsmoosAction.offscreen {
             left: auto !important;
-            right: -100px !important;
+            right: -120px !important;
             opacity: 0 !important;
             pointer-events: none !important;
         }
 
-        
-        .slots .actionSlot.occupied:hover {
-        	background: #00ffed;
-        	cursor: pointer;
-        }
-
-        
-        .slots .actionSlot.occupied:hover .innerSlot {
-        	background: #79fff6;
-        }
-
-        .slots .actionSlot.occupied:hover .innerSlot .slotBtn {
-            transform:scale(1.3) rotate(25deg);
-        }
-
-
+        /* ═══════════════════════════════════════════ */
+        /* B"H: INDIVIDUAL ACTION SLOTS               */
+        /* ═══════════════════════════════════════════ */
         .slots .actionSlot {
-            width: 64px; /* Slot width */
-            height: 64px; /* Slot height */
-            background: radial-gradient(circle, #2a2a4e 0%, #0a0a1e 100%); /* Depth! */
-            border: 2px solid #555; /* Slot border */
-            border-radius: 12px; /* Smoother rounded corners */
+            width: 56px;
+            height: 56px;
+            background: radial-gradient(circle at center, #2a2a4e 0%, #0a0a1e 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
             
-            /* B"H: ABSOLUTELY ESSENTIAL! Bring slots to life, piercing the UI transparency veil! */
             pointer-events: auto !important; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5), inset 0 0 8px rgba(0,0,0,0.3);
+            transition: all 0.25s ease;
             overflow: hidden;
             position: relative;
         }
 
         .slots .actionSlot:hover {
-            border-color: #00f3ff;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5), inset 0 0 10px rgba(0, 243, 255, 0.2);
-            transform: scale(1.05);
+            border-color: var(--mitzvah-gold, #ffde40);
+            box-shadow: 0 0 15px rgba(255, 222, 64, 0.35), inset 0 0 8px rgba(255, 222, 64, 0.1);
+            transform: scale(1.08);
+            background: radial-gradient(circle at center, #3d3d6d 0%, #0a0a1e 100%);
         }
 
+        .slots .actionSlot.occupied:hover .slotBtn {
+            transform: scale(1.2) rotate(15deg);
+        }
+        
         .slots .actionSlot.occupied .innerSlot {
-             background-color: rgba(255, 255, 255, 0.05);
+             background-color: transparent;
         }
-
 
         .slots .innerSlot {
-            width: 90%;
-        	height: 90%;
-            background-color: #777; /* Inner design background */
-            border-radius: 4px; /* Inner design rounded corners */
+            width: 85%;
+        	height: 85%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .slots .actionSlot.occupied .slotBtn {
+             filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.25));
         }
 
+        /* ═══════════════════════════════════════════ */
+        /* B"H: MINIMIZE TOGGLE                       */
+        /* ═══════════════════════════════════════════ */
         .awtsmoosAction .minimize {
-            width: 32px;
-            height: 32px;
-            background-color: #0d0434;
-            border: 2px solid #00f3ff;
-            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            background-color: rgba(13, 4, 52, 0.85);
+            border: 1px solid var(--mitzvah-gold, #ffd700);
+            border-right: none;
+            border-radius: 50% 0 0 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             position: absolute;
-            left: -45px;
+            left: -29px;
             top: 50%;
             transform: translateY(-50%);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.6);
+            box-shadow: -3px 0 12px rgba(255, 222, 64, 0.2);
             
-            /* B"H: THE TIKKUN! Allowing this specific div (which acts as a button) to accept touches and clicks natively */
             pointer-events: auto !important;
-            opacity: 1 !important; 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.25s ease;
             z-index: 10001;
         }
 
         .awtsmoosAction .minimize:hover {
-            transform: translateY(-50%) scale(1.2);
-            box-shadow: 0 0 25px rgba(0, 243, 255, 1);
+            transform: translateY(-50%) scale(1.15);
             background-color: #23144F;
         }
 
-
         .minimize.opened::after {
-            content: '\\25B6'; /* Right-pointing arrow */
-            font-size: 14px;
-            color: #00f3ff;
-            text-shadow: 0 0 5px #fff;
+            content: '\\25B6';
+            font-size: 11px;
+            color: var(--mitzvah-gold, #ffd700);
         }
 
         .minimize.closed::after {
-            content: '\\25C0'; /* Left-pointing arrow */
-            font-size: 14px;
-            color: #00f3ff;
-            text-shadow: 0 0 5px #fff;
+            content: '\\25C0';
+            font-size: 11px;
+            color: var(--mitzvah-gold, #ffd700);
         }
 
-    .awtsmoos.tooltip {
-        background: black;
-        color: #00ff00;
-        border: 1px solid white;
-        border-radius: 5px;
-        padding:10px;
-        pointer-events: none;
-        position: fixed; 
-        z-index: 9999; 
-        white-space: nowrap; 
-        transform-origin: top left;
-        box-shadow: 0 0 10px rgba(0,0,0,0.8);
-    }
+        /* ═══════════════════════════════════════════ */
+        /* B"H: TOOLTIP                               */
+        /* ═══════════════════════════════════════════ */
+        .awtsmoos.tooltip {
+            background: rgba(5, 5, 20, 0.92);
+            color: #eee;
+            border: 1px solid var(--mitzvah-gold, #ffd700);
+            border-radius: 8px;
+            padding: 10px 14px;
+            pointer-events: none;
+            position: fixed; 
+            z-index: 20000; 
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.7);
+            max-width: 250px;
+        }
 
-    .awtsmoos.tooltip .header {
-        font-weight: bold;
-    }
+        .awtsmoos.tooltip .header {
+            font-size: 1.05em;
+            font-weight: 700;
+            color: var(--mitzvah-gold, #ffd700);
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 222, 64, 0.25);
+            padding-bottom: 3px;
+        }
+        
+        .awtsmoos.tooltip .description {
+            font-size: 0.85em;
+            opacity: 0.8;
+            line-height: 1.35;
+        }
 `;

@@ -14,7 +14,8 @@ export default function coreHandlers(manager) {
 
     return {
         async awtsmoosEval(code) {
-             console.log("B\"H - ⚡ Executing spiritual eval decree...");
+             // B"H: silent
+
              try {
                 const func = new Function('manager', 'me', 'olam', `return eval(\`${code}\`);`);
                 const result = func(manager, manager, manager.olam);
@@ -25,13 +26,15 @@ export default function coreHandlers(manager) {
         },
 
         lockMouse(doIt) {
-            console.log(`B"H - 🖱️ Mouse Lock: ${doIt ? 'CAPTURING' : 'RELEASING'}`);
+            // B"H: silent
+
             if (doIt) document.body.requestPointerLock();
             else document.exitPointerLock();
         },
 
         async takeInCanvas(data) {
-            console.log("B\"H - ✅ Renderer Acknowledged Canvas Reception.");
+            // B"H: silent
+
         },
 
         async heescheel(options) {
@@ -58,7 +61,8 @@ export default function coreHandlers(manager) {
                 manager.canvasElement.width = w * dpr;
                 manager.canvasElement.height = h * dpr;
 
-                console.log(`B"H - 📏 Preparing Offscreen Matrix: ${w}x${h} at ${dpr} DPR.`);
+                // B"H: silent
+
                 const offscreen = manager.canvasElement.transferControlToOffscreen();
                 manager._canvasTransferred = true;
 
@@ -72,7 +76,8 @@ export default function coreHandlers(manager) {
                     }
                 }, [offscreen]);
 
-                console.log("B\"H - 📡 Vessel postMessage emitted into the abyss.");
+                // B"H: silent
+
 
             } catch(e) {
                 console.error("B\"H - 🆘 Physical Tzimtzum failed:", e);

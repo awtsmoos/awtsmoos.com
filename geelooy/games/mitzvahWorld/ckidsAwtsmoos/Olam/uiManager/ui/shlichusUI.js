@@ -108,14 +108,8 @@ export default [
 							onclick(e, $, ui) {
 								var sa = $("shlichus information");
 								var id = sa.currentShlichusID;
-								console.log("INFO!",id)
-								
-								ui.peula(sa, {
-									dropShlichus: {
-										id
-										
-									}
-								});
+								// B"H: silent
+
 								sa
 								.classList.add("hidden");
 
@@ -155,11 +149,7 @@ export default [
 									var sn//shlichus name
 										= $("sa shlichus name");
 									var nm = sn.textContent;
-								//	console.log("Trying to treset shlichus",sn,nm)
-									var sa = $("failed alert shlichus")
-									ui.peula(sa, {
-										resetShlichus: nm
-									});
+									// B"H: silent
                                 }
                             }),*/
 							mitzvahBtn({
@@ -207,6 +197,7 @@ export default [
                     
                     
                     
+                    
                         /*congrats screen = cs*/,
                        
                     {
@@ -242,7 +233,6 @@ export default [
                                         var txt = me.getElementsByClassName
                                         ("awtsmoosTxt")[0];
                                         
-										
                                         if(!txt) return true/*calls
                                         default as well
                                         */
@@ -295,10 +285,8 @@ export default [
                                     cs.classList.add("hidden");
 
 									var rb = $("ribbon text");
-									console.log("GETTING sh",rb.shlichusID)
-									ui.peula(cs, {
-										returnStage: rb.shlichusID
-									})
+									// B"H: silent
+
                                 }
                             })
                         ]

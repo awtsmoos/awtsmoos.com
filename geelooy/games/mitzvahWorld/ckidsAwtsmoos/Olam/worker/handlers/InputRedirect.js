@@ -14,7 +14,8 @@ export default function InputRedirect(me) {
 
             // B"H: Intense Impulse Logging
             if (type === 'mousedown' || type === 'keydown' || type === 'wheel') {
-                console.log(`B"H - 📡 IMPULSE RECEIVED in Worker: [${type}]`, payload.code || payload.button || "");
+                // B"H: silent
+
             }
 
             me.olam.ayshPeula(type, payload);

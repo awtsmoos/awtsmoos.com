@@ -14,7 +14,8 @@ export default function uiHandlers(manager) {
          * @description The final command to Reveal the World.
          */
         hideLoadingScreen() {
-            console.log('B"H - 📢 📢 📢 MAIN THREAD RECEPTION: "hideLoadingScreen" COMMAND ENGAGED.');
+            // B"H: silent
+
             VeilController.lift();
             document.body.style.overflow = 'hidden';
         },
