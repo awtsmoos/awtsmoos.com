@@ -19,7 +19,8 @@ export const Session = {
     save() {
         try {
             const persistableWorkspaces = State.workspaces
-                .filter(ws =>['github', 'indexeddb', 'ssh', 'local', 'opfs'].includes(ws.type))
+                // B"H - Added 'relay' to the array of worlds worthy of eternal preservation
+                .filter(ws =>['github', 'indexeddb', 'ssh', 'local', 'opfs', 'relay'].includes(ws.type))
                 .map(ws => { const { handle, _treeCache, isLocked, ...safeWs } = ws; return safeWs; });
 
             const allowedWsIds = new Set(persistableWorkspaces.map(ws => ws.id));

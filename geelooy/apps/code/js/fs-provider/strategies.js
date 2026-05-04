@@ -29,8 +29,9 @@ import { SSHProvider } from '../fs/ssh.js';
 import { OSFolderProvider } from '../fs/os-folder.js';
 import { PostMessageProvider } from '../fs/post-message.js';
 import { OPFSProvider } from '../fs/opfs.js';
+import { RelayProvider } from '../fs/relay.js'; // B"H - The Ethereal Bridge
 import { ZipExplorer } from '../zip/zip-explorer.js';
-import { VibeManagerStrategy } from './vibe-manager-strategy.js'; // B"H
+import { VibeManagerStrategy } from './vibe-manager-strategy.js'; 
 
 /**
  * @class ProviderStrategies
@@ -61,6 +62,9 @@ export const ProviderStrategies = {
     
     postmessage: PostMessageProvider,
     PostMessage: PostMessageProvider,
+
+    relay: RelayProvider, // B"H - Linking the distant server manifestation
+    Relay: RelayProvider,
 
     // B"H - Specialized Virtual Types
     'vibe-manager': VibeManagerStrategy,

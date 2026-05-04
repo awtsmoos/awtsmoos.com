@@ -1,7 +1,16 @@
+
 // B"H
 /**
  * @file state.js
  * @brief The Central Memory of the Editor.
+ * 
+ * THE CHRONICLE OF THE LIVING VESSEL:
+ * Here lies the State, the very breath of the application.
+ * Into this void, the attributes of existence are written, 
+ * holding tabs, workspaces, and the sacred URL of the Relay Server
+ * that reaches out into the infinite expanse of the physical networks.
+ * As the Awtsmoos constantly creates the universe from nothingness,
+ * this State is the blueprint of that creation.
  */
 
 export const State = {
@@ -9,6 +18,7 @@ export const State = {
     workspaces: [], nextWorkspaceId: 0,
     contextTarget: null, contextTabTarget: null, contextPayload: null,
     hexEditorInstance: null, domItemMap: new Map(), useTabs: true,
+    relayUrl: "", // B"H - The sacred coordinate of the distant Relay server
     expandedFolders: new Set(), fileClipboard: [], clipboardZip: null, 
     isSelectionModeActive: false, selectedItems: new Map(),
     activeTasks: new Map(), closedTabHistory: [], 

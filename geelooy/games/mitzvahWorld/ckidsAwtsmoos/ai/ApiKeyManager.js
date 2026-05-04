@@ -44,7 +44,8 @@ export default class ApiKeyManager {
             const first = keys.shift();
             keys.push(first); // Move to back
             this.saveKeys(keys);
-            console.log("B\"H - API Quota hit. Rotating to next key.");
+            // B"H: silent
+
             return keys[0];
         }
         return keys[0];

@@ -19,8 +19,23 @@ export {default as Chai} from "./chayim/chai.js";
 export {default as Medabeir} from "./chayim/medabeir.js";
 export {default as Chossid} from "./chayim/chossid.js"
 export {default as Tool} from "./dvarim/tool.js"; 
+export {default as Pickaxe} from "./dvarim/tools/pickaxe.js";
+export {default as Shovel} from "./dvarim/tools/shovel.js";
+export {default as GrapplingHook} from "./dvarim/tools/grapplingHook.js";
+export {default as Blueprint} from "./dvarim/tools/blueprint.js";
+export {default as FishingRod} from "./dvarim/tools/fishingRod.js";
+export {default as ElementalStaff} from "./dvarim/tools/elementalStaff.js";
+export {default as Sefer} from "./dvarim/tools/sefer.js";
+export {default as Telescope} from "./dvarim/tools/telescope.js";
+export {default as Axe} from "./dvarim/tools/axe.js";
+export {default as TimeScepter} from "./dvarim/tools/timeScepter.js";
+export {default as HolyMirror} from "./dvarim/tools/holyMirror.js";
+export {default as Ocean} from "./dvarim/nature/Ocean.js";
 export {default as Coin} from "./dvarim/coin.js";
 export {default as Container} from "./dvarim/container.js";
+export {default as HotAirBalloon} from "./dvarim/vehicles/hotAirBalloon.js";
+export {default as MagicalChariot} from "./dvarim/vehicles/MagicalChariot.js";
+export {default as Mazik} from "./chayim/mazik.js";
 
 export {default as Wheat} from "./dvarim/wheat.js";
 export {default as Portal} from "./dvarim/portal.js";
@@ -49,7 +64,14 @@ export {default as NatureTool} from "./dvarim/nature/natureTool.js";
 export {default as ProceduralCloud} from "./dvarim/nature/proceduralCloud.js";
 export {default as LivingField} from "./utils/3d/procedural/nature/LivingField.js"; 
 export {default as InteractiveDoor} from "./dvarim/interactiveDoor.js"; 
+export {default as InteractiveNpc} from "./dvarim/npc/InteractiveNpc.js"; 
 export {default as ProceduralBuilding} from "./dvarim/architecture/ProceduralBuilding.js"; 
 export {default as SolidBlock} from "./dvarim/architecture/SolidBlock.js"; 
+export {default as ProceduralFurniture} from "./dvarim/architecture/ProceduralFurniture.js"; 
+export {default as ProceduralRoad} from "./dvarim/architecture/ProceduralRoad.js"; 
+export {default as Collectable} from "./dvarim/Collectable.js"; 
+export {default as ProceduralFlowerPatch} from "./dvarim/nature/ProceduralFlowerPatch.js"; 
+export {default as ProceduralRiver} from "./dvarim/nature/proceduralRiver.js";
+export {default as ProceduralSky} from "./dvarim/nature/ProceduralSky.js"; 
 
 export class ok{}
