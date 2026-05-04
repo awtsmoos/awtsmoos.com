@@ -62,6 +62,7 @@ export default class TouchOrchestrator {
             }
         });
 
-        console.log('B"H - 👆 Touch Orchestrator bound to the mobile matrix.');
+        // B"H: silent
+
     }
 }

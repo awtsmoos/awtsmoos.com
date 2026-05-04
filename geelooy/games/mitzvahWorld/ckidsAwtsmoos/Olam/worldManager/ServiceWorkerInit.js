@@ -1,23 +1,25 @@
-
 /**
  * B"H
  * @module ServiceWorkerInit
  * @description
- * The grand protector of the cache. Ensures that once the speech of creation descends, 
- * it is stored locally, defying the lack of an internet connection.
+ * THE PURGE — Removing the intermediaries for direct emanation.
  */
 export default {
     /**
      * @async
      * @function registerServiceWorker
-     * @param {string} workerPath 
+     * @description
+     * B"H: Instead of registering, we now PURGE all existing workers.
+     * Direct connection to the Awtsmoos without the cache of Edom.
      */
-    async registerServiceWorker(workerPath) {
+    async registerServiceWorker() {
         try {
-            var registration = await navigator.serviceWorker.register(workerPath);
-            console.log('Service Worker Registered', registration);
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            for (let registration of registrations) {
+                await registration.unregister();
+            }
         } catch (e) {
-            console.log('Service Worker Registration Failed', e);
+            console.error('B"H - 🚨 [PURGE]: Failed to clear workers:', e);
         }
     }
 };

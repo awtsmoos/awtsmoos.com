@@ -96,6 +96,7 @@ export default class MouseEmissary {
             });
         }, { passive: false });
  
-        console.log('B"H 🖱️ MouseEmissary: All mouse channels bound. Invisible barrier ELIMINATED.');
+        // B"H: silent
+
     }
 }

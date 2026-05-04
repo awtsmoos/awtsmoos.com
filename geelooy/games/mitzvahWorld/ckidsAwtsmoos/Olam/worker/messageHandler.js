@@ -58,7 +58,8 @@ export default function setupMessageHandler(manager) {
     manager.promiseMap = promiseMap;
     manager.registerPromise = registerPromise;
 
-    console.log("B\"H - messageHandler: Aggregating all modular handlers...");
+    // B"H: silent
+
 
     // Aggregate all modular handlers
     const dispatcher = {
@@ -69,7 +70,8 @@ export default function setupMessageHandler(manager) {
         ...inputHandlers(manager)
     };
 
-    console.log("B\"H - messageHandler: Dispatcher assembled with keys:", Object.keys(dispatcher).join(', '));
+    // B"H: silent
+
 
     manager.tawfeekim = dispatcher;
 
@@ -93,8 +95,11 @@ export default function setupMessageHandler(manager) {
         // B"H: Handle type-keyed modern protocol first
         if (data.type && typeof data.type === 'string') {
             const task = dispatcher[data.type];
+            if (data.type && data.type !== 'increasedOlamLoading') {
+                // B"H: silent
+
+            }
             if (typeof task === 'function') {
-                console.log(`B"H - messageHandler: Routing type="${data.type}" to handler`);
                 try {
                     const result = await task.call(dispatcher, data.payload || data);
                     const finalResponse = (result !== undefined && result !== null) ? result : {};
@@ -151,5 +156,6 @@ export default function setupMessageHandler(manager) {
         }
     };
 
-    console.log("B\"H - messageHandler: handleMessageEvent attached to manager.");
+    // B"H: silent
+
 }

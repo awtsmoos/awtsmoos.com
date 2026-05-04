@@ -35,9 +35,12 @@ export default {
      *   - worker/handlers/world.js → loadedWorld, switchWorlds, destroyWorld
      */
     setOnmessage() {
-        console.log("B\"H - ℹ️ setOnmessage() called. Routing is now handled by the dispatcher.");
-        console.log("B\"H - ℹ️ loadedWorld → worldHandlers.loadedWorld → heescheel() → canvas transfer");
-        console.log("B\"H - ℹ️ switchWorlds → worldHandlers.switchWorlds → ManagerOfAllWorlds.switchWorlds()");
+        // B"H: silent
+
+        // B"H: silent
+
+        // B"H: silent
+
 
         if (!this.socket) {
             console.warn("B\"H - ⚠️ setOnmessage: this.socket is not set yet.");
@@ -53,7 +56,8 @@ export default {
                 this.switchWorlds({ ...data.switchWorlds });
             }
             if (data.loadedWorld) {
-                console.log("B\"H - ℹ️ setOnmessage legacy path: loadedWorld (should be handled by dispatcher).");
+                // B"H: silent
+
                 this.uiManager.makeGameMenu();
             }
         };

@@ -31,6 +31,7 @@ export default class KeyboardEmissary {
             }
         });
         
-        console.log('B"H - ⌨️ Keyboard Emissary bound to the Window.');
+        // B"H: silent
+
     }
 }

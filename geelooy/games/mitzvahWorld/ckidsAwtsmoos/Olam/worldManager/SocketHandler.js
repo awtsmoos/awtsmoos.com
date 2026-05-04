@@ -20,6 +20,7 @@ export default {
      * eved.onmessage -> _interceptWorkerMessage -> handleMessageEvent.
      */
     setOnmessage() {
-        console.log('B"H - SocketHandler.setOnmessage: no-op. Real routing is in OlamWorkerManager.');
+        // B"H: silent
+
     }
 };

@@ -25,7 +25,8 @@ const StartWorldFlow = {
     async startWorld(ob = {}) {
         const { worldDayuh, worldDayuhURL, gameUiHTML, sourcePath } = ob;
 
-        console.log('B"H - StartWorldFlow: Preparing the linguistic vessels.');
+        // B"H: silent
+
 
         if (sourcePath) this._rectifyHistory(sourcePath);
 
@@ -60,7 +61,8 @@ const StartWorldFlow = {
             "/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/index.js",
             {
                 async pawsawch() {
-                    console.log('B"H - StartWorldFlow.pawsawch callback invoked. Speaking the First Word.');
+                    // B"H: silent
+
                     manager.postMessage({
                         type: "pawsawch",
                         payload: { userInfo, systemInfo }

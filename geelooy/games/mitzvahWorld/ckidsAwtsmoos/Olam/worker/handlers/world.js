@@ -33,14 +33,16 @@ export default function worldHandlers(manager) {
          * @description The World has reached 100% manifestation in the worker's thread.
          */
         async loadedWorld(payload) {
-            console.log("B\"H - 🌍 LOADED WORLD received! Initiating dimensional transfer.");
+            // B"H: silent
+
             
             try {
                 // 1. Give the canvas to the worker so it can start the render heartbeat
                 await manager.tawfeekim.heescheel();
                 
                 // 2. Tear the veil immediately! No waiting for another heartbeat.
-                console.log("B\"H - ⚡ RELENTLESS REVELATION: Forcing Veil Lift in loadedWorld handler.");
+                // B"H: silent
+
                 VeilController.lift();
 
                 // 3. Populate the menu systems
@@ -57,7 +59,8 @@ export default function worldHandlers(manager) {
          * @description The final pulse before the engine takes control.
          */
         "game started": async function(payload) {
-            console.log("B\"H - 🎮 'game started' signal intercepted. Ensuring the veil is destroyed.");
+            // B"H: silent
+
             
             // B"H: Relentless pursuit of visibility! 
             // In some dimensions, loadedWorld is the trigger, in others, game started. 
@@ -66,14 +69,16 @@ export default function worldHandlers(manager) {
         },
 
         async switchWorlds(data) {
-            console.log("B\"H - 🌀 Dimensional bridge opening to new coordinates...", data);
+            // B"H: silent
+
             if (manager._managerOfAllWorlds && typeof manager._managerOfAllWorlds.switchWorlds === 'function') {
                 await manager._managerOfAllWorlds.switchWorlds(data);
             }
         },
 
         destroyWorld() {
-            console.log("B\"H - 💥 Returning the current creation to the absolute void.");
+            // B"H: silent
+
             if (manager.olam) {
                 manager.olam.ayshPeula("destroy");
                 if (eved) eved.postMessage({ destroyed: true });

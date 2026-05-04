@@ -35,7 +35,8 @@ export default class ManagerOfAllWorlds {
 
         var ui = uiManager.UI({
             onstart(ob) {
-                console.log("STARTED");
+                // B"H: silent
+
                 self.startWorld(ob);
             }
         });
@@ -49,7 +50,8 @@ export default class ManagerOfAllWorlds {
 
         var h = ui.$g("ikar");
         if (!h) {
-            console.log("Main menu not found");
+            // B"H: silent
+
         }
     }
 }
