@@ -1,20 +1,51 @@
-
+// B"H
+/**
+ * @module promisedLand
+ * @description THE PROMISED LAND
+ * A land flowing with milk and honey, a vessel for the highest light.
+ */
 export default {
-	shaym: "Promised Land",
-	components: {
-		awduhm: "https://models-3122d.web.app/chossid.glb",
-		new_awduhm: "https://models-3122d.web.app/chossid.glb"
-	},
-	nivrayim: {
+    shaym: "Promised Land",
+    nivrayim: {
         ProceduralTerrain: {
             ground: {
-                name: "Holy Land", width: 400, depth: 400, segments: 40, textureType: "grass", hills: [{ x: 0, z: 50, radius: 150, height: 30 }], position: { x: 0, y: -1, z: 0 }, isSolid: true
+                name: "Holy Soil", width: 2000, depth: 2000, segments: 60, 
+                textureType: "grass", 
+                hills:[
+                    { x: 0, z: 0, radius: 400, height: 60 },
+                    { x: 500, z: 500, radius: 300, height: 40 },
+                    { x: -500, z: -500, radius: 300, height: 40 }
+                ],
+                position: { x: 0, y: -1, z: 0 }, isSolid: true
             }
         },
-		Chossid: {
-			me: {
-				height: 1.5, name: "player", speed: 166, interactable: true, path: "awtsmoos://awduhm", position: { x: 0, y: 40, z: 0 }
-			}
-		}
-	}
+        ProceduralTree: {
+            ancient_oak: {
+                name: "Ancient Oak", preset: "Oak Large", 
+                position: { x: 50, z: 50 }, scale: 2.5
+            },
+            grove_tree_1: {
+                name: "Grove Tree", preset: "Willow", 
+                position: { x: -50, z: -50 }, scale: 1.5
+            }
+        },
+        ProceduralBuilding: {
+            temple_house: {
+                name: "Sanctuary_of_Light",
+                blueprint: {
+                    rooms: [{ width: 30, height: 25, depth: 30, wallThickness: 2, offset: [0, 0, 0], 
+                             entrances: [{ wall: 'front', width: 10, height: 18, offset: 0 }] }],
+                    npcs: [{ name: "Kohen", x: 0, z: 5, dialogues: ["B\"H! Peace be upon you in this holy land."] }]
+                },
+                position: { x: 0, y: 60, z: 0 }, isSolid: true
+            }
+        },
+        Chossid: {
+            me: {
+                height: 1.5, name: "player", speed: 190, interactable: true, 
+                path: "awtsmoos://awduhm", position: { x: 0, y: 100, z: 0 }
+            }
+        }
+    }
 };
+

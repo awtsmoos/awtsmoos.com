@@ -8,8 +8,7 @@
  * Crucially, it translates its geometry so the pivot point (origin) rests precisely 
  * on the hinge edge, allowing natural, swinging rotation in the physical engine.
  */
-import * as THREE from '/games/scripts/build/three.module.js';
-import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
+import BlueprintCompiler from "./house/BlueprintCompiler.js";
 
 export default class DoorGeometry {
     /**
@@ -20,47 +19,71 @@ export default class DoorGeometry {
      */
     static generate(width = 4, height = 5.5, thickness = 0.5) {
         try {
+            const instructions = [];
+
             // 1. The Main Slab (Wood)
-            const slab = new THREE.BoxGeometry(width, height, thickness);
-            const slabCount = slab.index ? slab.index.count : slab.attributes.position.count;
-            slab.clearGroups(); 
-            slab.addGroup(0, slabCount, 0); // Material Group 0
+            // We shift it so the HINGE is at X=0, and the door extends to X=-width
+            instructions.push({
+                type: 'box',
+                params: { width, height, depth: thickness },
+                modifiers: [
+                    { type: 'translate', x: -width / 2, y: height / 2, z: 0 }
+                ],
+                materialGroup: 0
+            });
 
-            // 2. The Doorknob (Gold/Metal)
-            const knobRadius = 0.25;
-            const knob = new THREE.SphereGeometry(knobRadius, 16, 16);
+            // 2. Decorative Panels (Recessed)
+            const panelMargin = 0.4;
+            const panelDepth = thickness * 0.4;
+            const pW = width - panelMargin * 2;
+            const pH = (height / 2) - panelMargin * 1.5;
             
-            // Position the knob near the right edge (since hinge will be on the left)
-            // Center is 0,0. Left edge is -width/2. Right edge is +width/2.
-            const knobX = (width / 2) - 0.6;
-            // Slightly below center height
-            const knobY = -height * 0.1;
-            // Stick out past the thickness
-            const knobZ = (thickness / 2) + (knobRadius / 2);
-            
-            knob.translate(knobX, knobY, knobZ);
-            
-            const knobCount = knob.index ? knob.index.count : knob.attributes.position.count;
-            knob.clearGroups(); 
-            knob.addGroup(0, knobCount, 1); // Material Group 1
+            // Top Panel
+            instructions.push({
+                type: 'box',
+                params: { width: pW, height: pH, depth: panelDepth },
+                modifiers: [
+                    { type: 'translate', x: -width / 2, y: height * 0.75, z: thickness / 2 - panelDepth / 4 }
+                ],
+                materialGroup: 0
+            });
+            // Bottom Panel
+            instructions.push({
+                type: 'box',
+                params: { width: pW, height: pH, depth: panelDepth },
+                modifiers: [
+                    { type: 'translate', x: -width / 2, y: height * 0.25, z: thickness / 2 - panelDepth / 4 }
+                ],
+                materialGroup: 0
+            });
 
-            // 3. Unification
-            const merged = BufferGeometryUtils.mergeGeometries([slab, knob], true);
-            
-            // 4. Hinge Alignment
-            // Translate the entire geometry so its local origin (0,0,0) is at the left edge (the hinge)
-            // and at the bottom.
-            merged.translate(width / 2, height / 2, 0);
-            
-            merged.computeBoundingBox();
-            merged.computeVertexNormals();
-            
-            return merged;
+            // 3. The Doorknob (Gold/Metal)
+            const knobRadius = 0.22;
+            // Knob is on the OPPOSITE side of the hinge (X is negative)
+            const knobX = -width + 0.6;
+            const knobY = height * 0.45;
+            const knobZ = (thickness / 2) + (knobRadius * 0.6);
+
+            instructions.push({
+                type: 'sphere',
+                params: { radius: knobRadius, wSegs: 16, hSegs: 16 },
+                modifiers: [
+                    { type: 'translate', x: knobX, y: knobY, z: knobZ }
+                ],
+                materialGroup: 1
+            });
+
+            return BlueprintCompiler.compile(instructions);
         } catch (e) {
             console.error("B\"H - ⚡ Door Forge failed. Returning basic slab.", e);
-            const fallback = new THREE.BoxGeometry(width, height, thickness);
-            fallback.translate(width / 2, height / 2, 0);
-            return fallback;
+            return BlueprintCompiler.compile([{
+                type: 'box',
+                params: { width, height, depth: thickness },
+                modifiers: [
+                    { type: 'translate', x: -width / 2, y: height / 2, z: 0 }
+                ],
+                materialGroup: 0
+            }]);
         }
     }
 }

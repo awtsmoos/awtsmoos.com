@@ -2,112 +2,54 @@
 /**
  * @module WallBuilder
  * @description
- * PURE DATA builder — emits JSON instructions, zero THREE.js references.
- * Generates wall segments with carved doorway openings (lintel above, solid on sides).
+ * ╔═══════════════════════════════════════════════════════════╗
+ * ║  THE WALLS OF THE SANCTUARY — Pure Data Emission          ║
+ * ║                                                             ║
+ * ║  Chapter 13: The Four Walls of Creation                     ║
+ * ║                                                             ║
+ * ║  "And Solomon overlaid the house within with pure gold"     ║
+ * ║  (Melachim I 6:21)                                          ║
+ * ║                                                             ║
+ * ║  Each wall is carved from a single rectangular slab.        ║
+ * ║  Where entrances are decreed, the slab is split into        ║
+ * ║  solid sections and lintels above doorways.                 ║
+ * ║                                                             ║
+ * ║  PURE DATA — zero THREE.js references. Only JSON emitted.  ║
+ * ║  Delegates wall positioning to WallPositionMap.             ║
+ * ╚═══════════════════════════════════════════════════════════╝
  */
+import WALL_FACES from './data/WallPositionMap.js';
+import WallSegmentCarver from './WallSegmentCarver.js';
+
 export default class WallBuilder {
     /**
+     * @method build
+     * @description
+     * Iterates over all four wall faces, carving holes for entrances.
+     * 
      * @param {Object} blueprint - { width, height, depth, wallThickness, entrances }
-     * @returns {Array} Array of data instructions for BlueprintCompiler
+     * @returns {Array<Object>} Array of data instructions for BlueprintCompiler
      */
     static build(blueprint) {
-        const w = blueprint.width;
-        const h = blueprint.height;
-        const d = blueprint.depth;
-        const t = blueprint.wallThickness;
         const entrances = blueprint.entrances || [];
-
-        const getHoles = (wallName) => entrances.filter(e => e.wall === wallName);
-
         const instructions = [];
+        const faceNames = Object.keys(WALL_FACES);
 
-        // FRONT WALL (+Z face)
-        this._carveWall(w, h, t, getHoles('front'), 0, { x: 0, y: 0, z: d/2 - t/2 }, instructions);
+        faceNames.forEach(faceName => {
+            const faceData = WALL_FACES[faceName](blueprint);
+            const holes = entrances.filter(e => e.wall === faceName);
 
-        // BACK WALL (-Z face, rotated 180°)
-        this._carveWall(w, h, t, getHoles('back'), Math.PI, { x: 0, y: 0, z: -d/2 + t/2 }, instructions);
-
-        // LEFT WALL (-X, carved to fit inside front/back pillars)
-        this._carveWall(d - t*2, h, t, getHoles('left'), -Math.PI/2, { x: -w/2 + t/2, y: 0, z: 0 }, instructions);
-
-        // RIGHT WALL (+X)
-        this._carveWall(d - t*2, h, t, getHoles('right'), Math.PI/2, { x: w/2 - t/2, y: 0, z: 0 }, instructions);
-
-        return instructions;
-    }
-
-    /**
-     * Carve a single wall face with holes, emitting data instructions.
-     * @param {number} wallWidth - total width of the wall segment
-     * @param {number} wallHeight - wall height
-     * @param {number} thickness - wall thickness
-     * @param {Array} holes - array of { offset, width, height }
-     * @param {number} rotY - Y rotation for positioning
-     * @param {Object} pos - { x, y, z } translation after rotation
-     * @param {Array} out - output instruction array
-     */
-    static _carveWall(wallWidth, wallHeight, thickness, holes, rotY, pos, out) {
-        let currentX = 0;
-        const sorted = [...holes].sort((a, b) => (a.offset || 0) - (b.offset || 0));
-
-        sorted.forEach(hole => {
-            const hW = hole.width || 4;
-            const hH = hole.height || 5;
-            const holeStartX = (wallWidth / 2) + (hole.offset || 0) - (hW / 2);
-            const holeEndX = holeStartX + hW;
-
-            // Solid section BEFORE the hole
-            if (holeStartX > currentX) {
-                const segW = holeStartX - currentX;
-                const mods = [
-                    { type: 'translate', x: currentX + segW/2 - wallWidth/2, y: wallHeight/2, z: 0 }
-                ];
-                if (rotY) mods.push({ type: 'rotateY', angle: rotY });
-                mods.push({ type: 'translate', ...pos });
-
-                out.push({
-                    type: 'box',
-                    params: { width: segW, height: wallHeight, depth: thickness },
-                    modifiers: mods,
-                    materialGroup: 0
-                });
-            }
-
-            // LINTEL above the hole
-            const lintelH = wallHeight - hH;
-            if (lintelH > 0) {
-                const mods = [
-                    { type: 'translate', x: holeStartX + hW/2 - wallWidth/2, y: wallHeight - lintelH/2, z: 0 }
-                ];
-                if (rotY) mods.push({ type: 'rotateY', angle: rotY });
-                mods.push({ type: 'translate', ...pos });
-
-                out.push({
-                    type: 'box',
-                    params: { width: hW, height: lintelH, depth: thickness },
-                    modifiers: mods,
-                    materialGroup: 0
-                });
-            }
-
-            currentX = holeEndX;
+            WallSegmentCarver.carve({
+                wallWidth: faceData.wallWidth,
+                wallHeight: blueprint.height,
+                thickness: blueprint.wallThickness,
+                holes,
+                rotY: faceData.rotY,
+                pos: faceData.pos,
+                out: instructions
+            });
         });
 
-        // Solid section AFTER the last hole
-        if (currentX < wallWidth) {
-            const segW = wallWidth - currentX;
-            const mods = [
-                { type: 'translate', x: currentX + segW/2 - wallWidth/2, y: wallHeight/2, z: 0 }
-            ];
-            if (rotY) mods.push({ type: 'rotateY', angle: rotY });
-            mods.push({ type: 'translate', ...pos });
-
-            out.push({
-                type: 'box',
-                params: { width: segW, height: wallHeight, depth: thickness },
-                modifiers: mods,
-                materialGroup: 0
-            });
-        }
+        return instructions;
     }
 }

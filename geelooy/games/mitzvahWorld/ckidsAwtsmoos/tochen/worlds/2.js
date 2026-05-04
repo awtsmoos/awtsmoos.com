@@ -1,258 +1,99 @@
-
 /**
-     * B"H
-     * Starting world for the player, containers
-     * components to load and nivrayim.
-     */
+ * B"H
+ * @file 2.js
+ * @description
+ * Chapter 10: The Garden of Many Paths
+ * The Second Hub World, completely upgraded to the extreme JSON procedural engine.
+ */
 
-    export default {
-        components: {
-            soundTrack1: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Fmusic%2Ftrack%201.ogg?alt=media",
-            portalGLB: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fcomponents%2Fportal.1.glb?alt=media",
-            cityFile: "https://firebasestorage.googleapis.com/v0/b/ckids-games.appspot.com/o/chawfawtseem%2Findexes%2Fworlds%2Fcity1%2Fcity1.js?alt=media",
-            cutscene1Audio: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fenvironemnts%2Fzone1%2Faudio%2Fbeginning.ogg?alt=media",
-            awduhm: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fawdum_2.6.glb?alt=media",
-            dingSound: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fding.ogg?alt=media",
-            new_awduhm: "https://firebasestorage.googleapis.com/v0/b/ckids-assets-2.appspot.com/o/models%2Fnew_awduhm_new_blender_camera.glb?alt=media",
-            grass: "../models/gltf/grass.glb",
-            grassTexture: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/textures%2Fgrass%2Fgrass1.jpg?alt=media",
-            dirtTexture: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/textures%2Fdirt%2Fdirt%20smaller.png?alt=media",
-            terrainMaskTexture: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fenvironemnts%2Fzone1%2Fmasks%2Fmask%20grass.png?alt=media",
-            cameraT: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fenvironemnts%2Fzone1%2FcameraTest.glb?alt=media",
-            world: "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/models%2Fenvironemnts%2Fzone1%2Fdesert.1.glb?alt=media"
+import { HousePresets } from '../../utils/3d/procedural/house/data/HousePresets.js';
+
+export default {
+    shaym: "The Garden of Many Paths",
+    components: {
+        awduhm: "https://models-3122d.web.app/chossid.glb"
+    }, 
+    nivrayim: {
+        ProceduralSky: {
+            dome: { name: "Garden_Sky", timeMultiplier: 0.5, timeOfDay: 6.0 } // Sunrise
         },
-        assets: {
-            goof: {
-                mouth: "mouth",
-                pupilLeft: "pupilLeft",
-                pupilRight: "pupilRight",
-                innerEyeLeft: "innereyeleft",
-                innerEyeRight: "innereyeright",
-                eyelidRight: "ilidright",
-                eyelidLeft: "ilidleft",
-                eyeWhiteLeft: "eyeleft",
-                eyeWhiteRight: "eyeright",
-                eyebrowLeft: "eyeBrowLeft",
-                eyebrowRight: "eyeBrowRight",
-                hair: "hairPlaceholder"
+        Domem: {
+            ground: {
+                name: "Emerald_Village_Ground",
+                golem: {
+                    guf: { BoxGeometry: [2000, 2, 2000] },
+                    toyr: { AwtsmoosGrassMaterial: {} }
+                },
+                position: { x: 0, y: -1, z: 0 },
+                isSolid: true
             }
         },
-        nivrayim: {
-            Domem: {
-                world: {
-                    name: "me",
-                    path: "awtsmoos://world",
-                    isSolid:true,
-                    heesHawveh: true,
-                    on: {
-                            afterBriyah(d) {
-                                d.mixTextures({
-                                    baseTexture:d.olam.$gc(
-                                        "dirtTexture"
-                                    ),
-                                    overlayTexture:d.olam.$gc(
-                                        "grassTexture"
-                                    ),
-                                    maskTexture:d.olam.$gc(
-                                        "terrainMaskTexture"
-                                    ),
-                                    repeatX:166,
-                                    repeatY:166,
-                                    childNameToSetItTo: "Landscape"
-                                });
-                            }
-                    }
-                },
-            },
-            Portal: {
-                city: {
-                    path: "awtsmoos://portalGLB",
-                    interactable: true,
-                    placeholderName: "portal",
-                    proximity:1,
-                    worldPath: "cityFile"
-                }
-            },
-            Chai: {},
-            Chossid: {
-                me: {
-                    height:1.5,
-                    name:"player",
-                    placeholderName: "player",
-                    speed:126,
-                    interactable: true,
-                    path: "awtsmoos://awduhm",
-                    position: {
-                        x:25
-                    },
-                    on: {
-                        ready(m) {
-                            var isOtherview = false;
-                            m.on("keypressed", k => {
-                                if(k.code == "KeyY") {
-                                    if(!isOtherview) {
-                                        if(m.asset.cameras[0]) {
-                                            m.olam.activeCamera = m.asset.cameras[0]
-                                        }
-                                        isOtherview = true;
-                                    } else {
-                                        isOtherview  = false;
-                                        m.olam.activeCamera = null;
-                                    }
-                                }
-                            })
-                        }
-                    }
-                }
-            },
-            Medabeir: {
-                him: {
-                    name: "npc_1",
-                    placeholderName: "npc_1",
-                    path: "awtsmoos://new_awduhm",
-                    proximity:3,
-                    messageTree(myself) {
-                        return !myself.activeShlichus ? [
-                            {
-                                message: "B\"H\nHi! How are you today?",
-                                responses: [
-                                    { text: "Tell me more about this place.", nextMessageIndex: 1 },
-                                    {
-                                        text: "Take me to the castle world!",
-                                        action(me) {
-                                            import(me.olam.getComponent("world1File")).then(m => {
-                                                me.olam.ayshPeula("switch worlds", m.default)
-                                            })
-                                            me.ayshPeula("close dialogue", "Ok cool story!!");
-                                        }
-                                    },
-                                    { text: "I'm just browsing.", action(me) { me.ayshPeula("close dialogue", "Browse away!"); } }
-                                ]
-                            },
-                            {
-                                message: "This place is a hub for adventurers like you!",
-                                responses: [
-                                    { text: "That's interesting. What else?", nextMessageIndex: 2 },
-                                    { text: "Thanks for the info.", action(me)  { me.ayshPeula("close dialogue", "You're welcome!"); } }
-                                ]
-                            },
-                            {
-                                message: "I have a special shlichus for you. \nWill you accept it?",
-                                responses: [
-                                    { text: "What's in it for me?", nextMessageIndex:3 },
-                                    { text: "No", action(me)  { me.ayshPeula("close dialogue", "One day we'll see"); } }
-                                ]
-                            },
-                            {
-                                message: "The poor of this city need help for Shabbos. Go out and collect 5 perutahs so we can give them to Tzedaka, then bring them back here.",
-                                responses: [
-                                    {
-                                        text: "Ok, sounds good.",
-                                        action(me, nivra) {
-                                            if(me.olam.shlichusHandler) {
-                                                var shl = me.olam.shlichusHandler.createShlichus({
-                                                        shaym: "Redemption of the Destitute",
-                                                        objective: "Go out onto the obstacle course (of life) and collect 5 perutahs (coins), then bring them back.",
-                                                        completeText:"Mazel Tov! You have collected all of the coins. Now go back to the person.",
-                                                        totalCollectedObjects: 5,
-                                                        collected:0,
-                                                        giver: me,
-                                                        on: {
-                                                            creation(sh) {
-                                                                sh.giver.activeShlichus = sh;
-                                                                me.olam.htmlAction("shlichus progress info", {}, { classList: { add:  "active" } });
-                                                                me.olam.htmlAction("sa mainTxt", { innerText: "Shlichus Accepted: " }, { classList: { add:  "active" } });
-                                                                me.olam.htmlAction({ shaym: "sa shlichus name", properties: { textContent: sh.shaym } });
-                                                                me.olam.htmlAction({ shaym: "shlichus accept", methods: { classList: { remove: "hidden" } } });
-                                                                me.olam.htmlAction({ shaym: "sa details", properties: { textContent: sh.objective } });
-                                                                me.olam.htmlAction({ shaym: "shlichus title", properties: { textContent: sh.shaym } });
-																me.olam.on("htmlPeula startShlichus", shlichusName => {
-																	me.olam.htmlAction({ shaym: "shlichus progress info", methods: { classList: { remove: "hidden" } } });
-																	me.olam.htmlAction({ shaym: "shlichus description", properties: { textContent: "Coins collected" } });
-																	me.olam.htmlAction({ shaym: "si num", properties: { textContent: sh.collected + "/" + sh.totalCollectedObjects } })
-																	me.olam.htmlAction({ shaym: "si frnt", properties: { style: { width: (0) + "%" } } });
-																}, true)
-                                                            },
-                                                            progress(p, sh) {
-                                                                var percent = sh.collected / sh.totalCollectedObjects;
-                                                                if(sh.collected < sh.totalCollectedObjects) {
-                                                                    me.olam.htmlAction({ shaym: "si num", properties: { textContent: sh.collected + "/" + sh.totalCollectedObjects } });
-                                                                    me.olam.htmlAction({ shaym: "si frnt", properties: { style: { width: (percent*100) + "%" } } });
-                                                                } else {
-																	me.olam.htmlAction({ shaym: "si num", properties: { textContent: sh.collected + "/" + sh.totalCollectedObjects } })
-																	me.olam.htmlAction({ shaym: "si frnt", properties: { style: { width: (100) + "%" } } });
-                                                                    sh.completed = true;
-                                                                    me.olam.htmlAction({ shaym: "shlichus description", properties: { textContent: sh.completeText } });
-                                                                    me.olam.htmlAction({ shaym: "congrats message", properties: { textContent: sh.completeText } });
-                                                                    me.olam.htmlAction({ shaym: "ribbon text", properties: { textContent: "Congrats!" } })
-                                                                    me.olam.htmlAction({ shaym: "congrats shlichus", methods: { classList: { remove: "hidden" } } })
-                                                                    me.playChayoos("dance silly");
-                                                                    nivra.playChayoos("dance hip hop");
-                                                                }
-                                                            },
-                                                            collected(c, t) {}
-                                                        }
-                                                    });
-                                            }
-                                            me.addCoins(5)
-                                        }
-                                    },
-                                    {
-                                        text: "No thanks, I've got things to do.",
-                                        action(me, nivraTalkingTo) {
-                                            me.ayshPeula("close dialogue", "You'll come around sooner or later, there's nothing else to do here.");
-                                        }
-                                    }
-                                ]
-                            }
-                        ] : !myself.activeShlichus.completed ? [
-                            {
-                                message: "B\"H\nWhat are you still doing here? You've got a SHLICHUS to do!",
-                                responses: [
-                                    { text: "Oh yeah, I forgot. See ya soon IYH!", action(me) { me.ayshPeula("close dialogue", "Ad Mihayra Yaroots!"); } },
-                                    { text: "Actually, can u tell me about Merkos 302?", nextMessageIndex: 1 }
-                                ]
-                            },
-                            {
-                                message: "Merkos 302, a beacon bright," + "In endless quest for Torah's light." + "It's not just brick and mortar laid," + "But sacred space where souls are made." + "A shlichus of immortal theme," + "Awake in it the lifelong dream." + "Here chassidus, the core unfurls," + "And spirals out to reach all worlds." + "Not bound by time, nor space it hides," + "It’s the Awtsmoos in earthly guides.",
-                                responses: [
-                                    { text: "Cool. See ya", action(me) { me.ayshPeula("close dialogue", "Hurry up, the poor need u!"); } }
-                                ]
-                            }
-                        ] : [
-                            {
-                                message: "B\"H\nYou have done it! You have collected all of the coins needed to bring Moshiach NOW! Tzion will be redeemed with Tzedakah, and u have just tipped the scales.  Prepare for the ulitmate redemption for all.",
-                                responses: [
-                                    { text: "Great!", action(me) { me.ayshPeula("close dialogue", "Here he comes"); me.olam.htmlAction({ shaym: "shlichus progress info", methods: { classList: { add: "hidden" } } }) } }
-                                ]
-                            },
-                        ]
-                    },
-                    on: {
-                        ready(me) {
-                            me. addCoins = function(num) {
-                                var coins = Array.from({length:num}).map(q=>({
-                                        placeholderName: "coin",
-                                        on: {
-                                            collected(n) {
-                                                n.playSound("awtsmoos://dingSound", { layerName: "audio effects layer 1", loop: false });
-                                                var sh = n.olam.shlichusHandler.getShlichusByShaym("Redemption of the Destitute")
-                                                if(sh) { sh.collectItem(); }
-                                            }
-                                        }
-                                    }));
-                                me.olam.loadNivrayim({ Coin: coins }).then(() => {
-                                    me.ayshPeula("close dialogue", "See you soon!?");
-                                });
-                            };
 
-                            me.playChayoos("stand");
-                        },
-                        nivraNeechnas(nivra, me) { AWTSMOOS.Dialogue.nivraNeechnas(nivra, me); },
-                        nivraYotsee(nivra, me) { AWTSMOOS.Dialogue.nivraYotsee(nivra, me); }
-                    }
+        ProceduralRoad: {
+            windingPath: {
+                name: "Winding_Path",
+                points: [[-50, -50], [-20, 0], [20, 0], [50, 50]],
+                width: 6, sidewalkWidth: 1, sidewalkHeight: 0.2,
+                isSolid: true
+            }
+        },
+
+        ProceduralFlowerPatch: {
+            roses: { name: "Rose_Garden", count: 500, radius: 30, flowerType: "rose", position: { x: -30, y: 0, z: -30 } }
+        },
+
+        ProceduralBuilding: {
+            gardenVilla: {
+                name: "The Garden Villa",
+                blueprint: {
+                    width: 15, height: 6, depth: 15, wallThickness: 1,
+                    rooms: [
+                        { width: 15, height: 6, depth: 15, offset: [0, 0, 0], hasRoof: true }
+                    ],
+                    entrances: [{ wall: 'front', width: 4, height: 5, offset: 0 }],
+                    npcs: [
+                        {
+                            name: "Ephraim the Gardener", x: 0, z: 0,
+                            hasMission: true,
+                            hasShop: true,
+                            missionData: {
+                                requiredItem: "Golden_Shekel", count: 3,
+                                successMsg: "You have gathered the lost coins! The garden is secure!"
+                            },
+                            dialogues: [
+                                "B\"H! I planted these procedural flowers using pure data.",
+                                "Find 3 Golden Shekels hidden in the grass, and I will trade with you."
+                            ]
+                        }
+                    ]
                 },
-                
+                position: { x: 30, y: 0, z: 30 },
+                isSolid: true
+            }
+        },
+        
+        ProceduralTree: {
+            t1: { position: { x: -20, y: 0, z: -20 } },
+            t2: { position: { x: -15, y: 0, z: -25 } },
+            t3: { position: { x: -25, y: 0, z: -15 } }
+        },
+
+        Collectable: {
+            c1: { type: "Golden_Shekel", position: { x: -10, y: 1, z: -10 } },
+            c2: { type: "Golden_Shekel", position: { x: -5, y: 1, z: -10 } },
+            c3: { type: "Golden_Shekel", position: { x: -10, y: 1, z: -5 } }
+        },
+
+        Chossid: {
+            me: {
+                name: "player", height: 1.5, speed: 10, interactable: true,
+                path: "awtsmoos://awduhm", position: { x: 0, y: 5, z: 10 },
+                on: {
+                    ready(n) {
+                        n.olam.ayshPeula("ui event", "effectsOverlay", { text: "Welcome to the Garden of Paths!", color: "#4ca64c" });
+                    }
+                }
             }
         }
-    };
+    }
+};
