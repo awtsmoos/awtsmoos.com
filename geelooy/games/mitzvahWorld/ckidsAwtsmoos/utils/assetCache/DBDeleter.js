@@ -31,7 +31,8 @@ export default class DBDeleter {
                 const req = store.delete(url);
                 
                 req.onsuccess = () => {
-                    console.log(`B"H - 🗑️ Spark extracted: ${url} returned to the void.`);
+                    // B"H: silent
+
                     resolve();
                 };
                 req.onerror = (e) => {

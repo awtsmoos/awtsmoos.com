@@ -89,7 +89,8 @@ export default class SerializationUtils {
                     var evaledCode = '(' + code + ')';
                     
                     try {
-                        console.log(`B"H - 🧪 [SERIALIZATION]: Awakening script for key: [${key}]`);
+                        // B"H: silent
+
                         objCopy[key] = eval(evaledCode);
                     } catch(e) {
                         try { 

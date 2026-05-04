@@ -92,6 +92,54 @@ export const MINIMAL_GRASS_WORLD = {
                     textureRepeat: { x: 5, y: 2 }
                 }
             }
+        ],
+        InteractiveNpc: [
+            {
+                name: "The Guardian of the Green",
+                position: { x: 10, y: 15, z: -10 },
+                messageTree: [
+                    {
+                        message: "B\"H! Every particle of this grass is a miracle, recreated from nothing by the Word of the Awtsmoos! Do you hear the song of the blades?",
+                        responses: [
+                            {
+                                text: "I hear it. It is a song of infinite light.",
+                                nextMessageIndex: 1
+                            },
+                            {
+                                text: "It's just grass. Why so intense?",
+                                nextMessageIndex: 2
+                            },
+                            {
+                                text: "I'm looking for the Elders.",
+                                nextMessageIndex: 3
+                            }
+                        ]
+                    },
+                    {
+                        message: "Precisely! Each green spark is a letter of the Hebrew Aleph-Beis, singing the praises of the Creator. You are a soul of high perception!",
+                        responses: [
+                            { text: "Thank you, Messenger.", close: true }
+                        ]
+                    },
+                    {
+                        message: "Intensity is the only true response to the Infinite! If you see 'just grass', you see only the outer shell. Look deeper, Chossid!",
+                        responses: [
+                            { text: "I will try to look with my soul.", nextMessageIndex: 0 }
+                        ]
+                    },
+                    {
+                        message: "The Elders reside in the houses upon the hills. Their wisdom is like the deep roots of the ancient oaks. Go now, with the blessing of the Green!",
+                        responses: [
+                            { text: "I go with joy.", close: true }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Elder of the Valley",
+                position: { x: -40, y: 12, z: 20 },
+                dialogues: ["B\"H! Peace be upon you.", "Every blade of grass is a miracle."]
+            }
         ]
     }
 };

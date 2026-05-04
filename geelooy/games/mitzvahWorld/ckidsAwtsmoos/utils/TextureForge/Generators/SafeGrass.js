@@ -77,7 +77,8 @@ export default class SafeGrass {
             ctx.putImageData(imgData, 0, 0);
 
             const t1 = performance.now();
-            console.log(`B"H - ✅ [SafeGrass]: The earth has bloomed in ${(t1 - t0).toFixed(1)}ms.`);
+            // B"H: silent
+
 
             return canvas;
 

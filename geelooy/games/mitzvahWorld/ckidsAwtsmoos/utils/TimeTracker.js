@@ -3,44 +3,40 @@
  * B"H
  * @module TimeTracker
  * @description
- * ⏱️ THE SCALES OF TIME (MISHKAL) ⏱️
+ * ⏱️ THE MEASURE OF TIME — Silent Observer.
  * 
- * "To everything there is a season, and a time to every purpose under the heaven." (Koheles 3:1)
- * This utility tracks the exact nanosecond duration of our creation stages, 
- * revealing bottlenecks and proving the blazing speed of the Awtsmoos Engine.
+ * Chapter 9: The Silence of the Infinite.
+ * Time is a creation, and like all creations, it must be humbled 
+ * before the Essence. This tracker remains in the potential, 
+ * recording the steps of manifestation without cluttering the 
+ * perception of the soul.
  */
 export default class TimeTracker {
-    static marks = new Map();
+    static processes = {};
 
-    /**
-     * @function start
-     * @description Marks the beginning of a temporal epoch.
-     */
     static start(processName) {
-        this.marks.set(processName, performance.now());
-        console.log(`%cB"H - ⏱️ [${processName}] Epoch Commenced.`, 'color: #ffd700; font-weight: bold;');
+        this.processes[processName] = {
+            start: Date.now(),
+            last: Date.now()
+        };
+        // B"H: silent
+
     }
 
-    /**
-     * @function log
-     * @description Logs a step within an epoch, showing elapsed time.
-     */
     static log(processName, stepName) {
-        const start = this.marks.get(processName);
-        if (!start) return;
-        const elapsed = (performance.now() - start).toFixed(2);
-        console.log(`B"H - ⏳ [${processName}] +${elapsed}ms : ${stepName}`);
+        if (!this.processes[processName]) return;
+        const now = Date.now();
+        const elapsed = now - this.processes[processName].last;
+        this.processes[processName].last = now;
+        // B"H: silent
+
     }
 
-    /**
-     * @function finish
-     * @description Closes the epoch and logs total duration.
-     */
-    static finish(processName, finalMessage = "Complete") {
-        const start = this.marks.get(processName);
-        if (!start) return;
-        const total = (performance.now() - start).toFixed(2);
-        console.log(`%cB"H - 🏁 [${processName}] EPOCH CONCLUDED in ${total}ms : ${finalMessage}`, 'color: #00ffed; font-weight: bold;');
-        this.marks.delete(processName);
+    static finish(processName, finalMessage = "Done.") {
+        if (!this.processes[processName]) return;
+        const total = Date.now() - this.processes[processName].start;
+        delete this.processes[processName];
+        // B"H: silent
+
     }
 }

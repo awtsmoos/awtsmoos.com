@@ -93,7 +93,8 @@ export default class GrassShader {
                     originalOnBeforeCompile(shader);
                 }
             };
-            console.log("B\"H - 🌿 Grass Shader securely bound to the vessel.");
+            // B"H: silent
+
         } catch (e) {
             console.error("B\"H - ⚡ Failed to enliven material with grass.", e);
         }

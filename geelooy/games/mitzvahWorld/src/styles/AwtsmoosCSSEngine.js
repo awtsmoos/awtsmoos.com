@@ -26,6 +26,9 @@ export class AwtsmoosCSSEngine {
      * It iterates through every selector and property, weaving them into a 
      * continuous string of CSS, which is then injected into the `<head>`.
      * 
+     * Now upgraded to recursively handle nested vessels, allowing for
+     * keyframes, media queries, and other complex spiritual forms.
+     * 
      * @returns {void}
      */
     static manifest() {
@@ -39,17 +42,37 @@ export class AwtsmoosCSSEngine {
         const styleElement = document.createElement("style");
         styleElement.id = styleId;
         
-        let cssString = "";
-
-        for (const [selector, properties] of Object.entries(StyleSefirot)) {
-            cssString += `${selector} {\n`;
-            for (const [property, value] of Object.entries(properties)) {
-                cssString += `  ${property}: ${value};\n`;
-            }
-            cssString += `}\n\n`;
-        }
+        let cssString = this.generateCSS(StyleSefirot);
 
         styleElement.textContent = cssString;
         document.head.appendChild(styleElement);
+    }
+
+    /**
+     * @function generateCSS
+     * @description
+     * B"H
+     * A recursive weaver of styles, converting JS objects into pure CSS.
+     * 
+     * @param {Object} obj - The style object to convert.
+     * @param {number} [indent=0] - The current indentation level.
+     * @returns {string} The generated CSS string.
+     */
+    static generateCSS(obj, indent = 0) {
+        let css = "";
+        const space = "  ".repeat(indent);
+
+        for (const [key, value] of Object.entries(obj)) {
+            if (typeof value === 'object' && value !== null) {
+                css += `${space}${key} {\n`;
+                css += this.generateCSS(value, indent + 1);
+                css += `${space}}\n\n`;
+            } else {
+                // Convert camelCase to kebab-case for CSS properties
+                const property = key.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+                css += `${space}${property}: ${value};\n`;
+            }
+        }
+        return css;
     }
 }

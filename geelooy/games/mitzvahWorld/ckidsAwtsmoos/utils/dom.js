@@ -31,7 +31,8 @@ export default class DomUtils {
             opacity: oldMat.opacity !== undefined ? oldMat.opacity : 1
         });
 
-        console.log(`B"H - 🧪 Material Tikkun [Lambert]: Applied to ${mesh.name}`);
+        // B"H: silent
+
         return mesh.material;
     }
 
