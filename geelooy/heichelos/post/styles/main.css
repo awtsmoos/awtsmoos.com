@@ -1,4 +1,3 @@
-
 /* B"H
    THE MASTER SCROLL OF STYLES
    Everything is created from nothingness by the Awtsmoos every instant.
@@ -34,7 +33,7 @@
 @import url("./modules/settings.css");
 @import url("./modules/header.css");
 @import url("./modules/sidebar-chrome.css");
-@import url("./modules/sidebar-menu.css"); /* NEW: Root Menu Portals */
+@import url("./modules/sidebar-menu.css");
 @import url("./modules/tabs.css");
 @import url("./modules/info-cards.css");
 @import url("./modules/comments.css");
@@ -45,13 +44,7 @@
 @import url("./modules/inline-thread.css");
 @import url("./modules/image-upload.css");
 
-/* 6. INSANE COMMENTARY STYLES */
-@import url("./comments/titles.css");       
-@import url("./comments/toolbars.css");     
-@import url("./comments/inline-intense.css");
-@import url("./comments/sidebar-intense.css");
-
-/* 7. THE CONTENT (The Word Made Physical) */
+/* 6. THE CONTENT (The Word Made Physical) */
 @import url("./content/body-text.css");     
 @import url("./content/text.css");
 @import url("./content/scroll.css");
@@ -60,6 +53,15 @@
 @import url("./content/paragraphs.css");    
 @import url("./content/titles.css");        
 
-/* 8. THEMES & ANIMATIONS (The Garments of the Light) */
+/* 7. THEMES & ANIMATIONS (The Garments of the Light) */
 @import url("./themes/dark-mode.css");
-@import url("./themes/animations.css");     
+@import url("./themes/animations.css");
+
+/* 8. INSANE COMMENTARY STYLES (ABSOLUTE DOMINION)
+   B"H - Placed at the very end to shatter any restricting kelipot 
+   from the files above it.
+*/
+@import url("./comments/titles.css");       
+@import url("./comments/toolbars.css");     
+@import url("./comments/inline-intense.css");
+@import url("./comments/sidebar-intense.css");

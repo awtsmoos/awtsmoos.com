@@ -1,4 +1,3 @@
-
 /* B"H - THE GLITCH IN THE MATRIX (MARGINALIA) */
 
 /* The overarching shelter for marginal glosses - Renders AFTER the paragraph text */
@@ -88,7 +87,7 @@
     background: var(--bg-surface) !important;
     border: var(--border-thick) !important;
     box-shadow: var(--shadow-ui) !important;
-    font-size: 14px !important;
+    /* B"H - Removed font-size: 14px constraint to allow infinite scaling */
     position: relative !important;
     max-width: 450px !important;
     width: 100% !important;
