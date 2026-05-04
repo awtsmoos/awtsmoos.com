@@ -35,7 +35,8 @@ export class OctreePreprocessor {
      * @returns {Promise<{manifest: object, blobMap: Map<string, Blob>}>} - A promise that resolves with the manifest and the blob map.
      */
     async process(scene) {
-        console.log('B"H:\n\n Starting Octree preprocessing...');
+        // B"H: silent
+
         if (!scene) {
             throw new Error("Input scene cannot be null.");
         }
@@ -60,7 +61,8 @@ export class OctreePreprocessor {
         
         await this.#recursiveSplit(manifest, triangles);
 
-        console.log('B"H\n\n: Preprocessing complete.');
+        // B"H: silent
+
         return { manifest, blobMap: this.#blobCache };
     }
 
@@ -217,6 +219,7 @@ export class OctreePreprocessor {
             URL.revokeObjectURL(url);
         }
         this.#blobCache.clear();
-        console.log("B\"H: Preprocessor blob cache cleaned up.");
+        // B"H: silent
+
     }
 }

@@ -21,7 +21,8 @@ export default {
         // Complete separation check
         if ((d1 > 0 && d2 > 0) || (d1 < -capsule.radius && d2 < -capsule.radius)) return false;
         
-        const delta = Math.abs(d1 / (Math.abs(d1) + Math.abs(d2)));
+        const sumDist = Math.abs(d1) + Math.abs(d2);
+        const delta = sumDist > 1e-6 ? Math.abs(d1 / sumDist) : 0;
         const intersectPoint = _v1.copy(capsule.start).lerp(capsule.end, delta);
         
         // Face check

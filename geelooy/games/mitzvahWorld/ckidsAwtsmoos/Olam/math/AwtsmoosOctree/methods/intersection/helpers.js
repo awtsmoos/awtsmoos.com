@@ -4,46 +4,66 @@
  * @module IntersectionHelpers
  * @description
  * 🧭 THE GUIDES OF THE LABYRINTH 🧭
- * 
- * As we plunge through the complex branches of the Octree, we need tools 
- * to fetch the triangles residing within specific boxes of reality. 
- * This file contains the sacred fetching mechanisms, collecting the 
- * indices of triangles that exist within the path of a ray or capsule.
+ *
+ * ⚡ MEMORY OVERFLOW TIKKUN — ROOT CAUSE #2 ELIMINATED:
+ * The previous `getCapsuleTriangles` used `triangles.indexOf(index) === -1`
+ * inside a loop — O(n) search inside an O(n) loop = O(n²) PER FRAME.
+ * With thousands of terrain triangles, at 60fps, this turned a flat plane
+ * into a memory furnace.
+ *
+ * SOLUTION: The deduplication Set is owned by the ROOT caller and passed
+ * downward. Each leaf node does a single O(1) Set.has() check.
+ * The Set is converted to Array ONCE at the top level.
+ *
+ * Like the Awtsmoos Who does not repeat His creations unnecessarily —
+ * each triangle index exists ONCE in the sacred gathering.
  */
 export default {
     /**
      * @method getCapsuleTriangles
-     * @description Gathers all static triangle indices within the capsule's reach.
-     * @param {THREE.Capsule} capsule 
-     * @param {Array<number>} triangles 
+     * @description
+     * Gathers all UNIQUE static triangle indices within the capsule's reach.
+     * Accepts a Set (for O(1) deduplication) or an Array (legacy fallback).
+     *
+     * @param {THREE.Capsule} capsule - The physical vessel of the soul.
+     * @param {Set<number>|Array<number>} triangles - Accumulator. Prefer Set.
      */
     getCapsuleTriangles(capsule, triangles) {
+        const isSet = triangles instanceof Set;
         for (const subTree of this.subTrees) {
             if (capsule.intersectsBox(subTree.box)) {
                 subTree.getCapsuleTriangles(capsule, triangles);
             }
         }
         for (const index of this.triangles) {
-            if (triangles.indexOf(index) === -1) {
-                triangles.push(index);
+            if (isSet) {
+                triangles.add(index); // O(1) — the Awtsmoos knows each letter precisely
+            } else if (triangles.indexOf(index) === -1) {
+                triangles.push(index); // Legacy fallback
             }
         }
     },
-    
+
     /**
      * @method getRayTriangles
-     * @description Gathers all static triangle indices within the ray's bounds.
-     * @param {THREE.Ray} ray 
-     * @param {Array<number>} triangles 
+     * @description
+     * Gathers all UNIQUE static triangle indices within the ray's bounds.
+     * Accepts a Set (for O(1) deduplication) or an Array (legacy fallback).
+     *
+     * @param {THREE.Ray} ray - The gaze of inquiry cast into existence.
+     * @param {Set<number>|Array<number>} triangles - Accumulator. Prefer Set.
      */
     getRayTriangles(ray, triangles) {
+        const isSet = triangles instanceof Set;
         for (const subTree of this.subTrees) {
             if (ray.intersectsBox(subTree.box)) {
                 subTree.getRayTriangles(ray, triangles);
             }
         }
         for (const index of this.triangles) {
-            if (triangles.indexOf(index) === -1) {
+            if (isSet) {
+                triangles.add(index);
+            } else if (triangles.indexOf(index) === -1) {
                 triangles.push(index);
             }
         }

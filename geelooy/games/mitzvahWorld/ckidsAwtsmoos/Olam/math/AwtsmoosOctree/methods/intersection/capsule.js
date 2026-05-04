@@ -32,13 +32,15 @@ export default {
         const resultCapsule = capsule.clone();
         let hit = false;
         
-        const trianglesToCheck = [];
-        this.getCapsuleTriangles(capsule, trianglesToCheck); 
+        // B"H: USE A Set FOR O(1) DEDUPLICATION
+        // The previous Array + indexOf was O(n^2) — the root of the memory freeze.
+        // A Set guarantees each triangle index is tested exactly once, O(1) per add.
+        const triangleIndexSet = new Set();
+        this.getCapsuleTriangles(capsule, triangleIndexSet);
         
         // 1. Static Entities
-        for (const index of trianglesToCheck) {
+        for (const index of triangleIndexSet) {
             // --- B"H FIX: IGNORE DELETED GHOSTS ---
-            // If the source of this math was destroyed, it does not exist!
             const source = this.allTriangles[index] ? this.allTriangles[index].sourceMesh : null;
             let isDead = false;
             if (source) {

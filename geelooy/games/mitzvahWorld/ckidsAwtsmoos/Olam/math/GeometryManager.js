@@ -52,7 +52,8 @@ export default class GeometryManager {
             this.register("PillarGeometry", (...args) => Pillar.generate(...args));
             this.register("WallGeometry", (...args) => Wall.generate(...args));
             
-            console.log("B\"H - ⚡ GeometryManager Registry Initialized. Sealed and Protected.");
+            // B"H: silent
+
         } catch(e) {
             console.error("B\"H - ⚡ GeometryManager Init Failed:", e);
         }

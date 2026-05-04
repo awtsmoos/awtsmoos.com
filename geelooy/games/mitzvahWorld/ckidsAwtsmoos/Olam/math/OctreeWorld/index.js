@@ -32,6 +32,7 @@ export class OctreeWorld {
             this[methodName] = methods[methodName].bind(this);
         });
         
-        console.log(`B"H - 🌌 OctreeWorld successfully manifested with ${Object.keys(methods).length} holy faculties.`);
+        // B"H: silent
+
     }
 }

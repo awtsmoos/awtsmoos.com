@@ -51,7 +51,8 @@ export default {
         worldBox.getSize(size);
         
         // EXTREME DATA REVELATION:
-        console.log(`B"H - ⚓ SOLIDIFIER: Processing [${mesh.name}]. Position: [${p.x.toFixed(2)}, ${p.y.toFixed(2)}, ${p.z.toFixed(2)}]. Mass Dimensions: ${size.x.toFixed(2)}W x ${size.y.toFixed(2)}H x ${size.z.toFixed(2)}D.`);
+        // B"H: silent
+
 
         // 2. ROOT ALIGNMENT
         if (!this.world.root) {
@@ -88,7 +89,8 @@ export default {
         const placed = this.insertMeshOnly(this.world.root, physicsClone, worldBox);
         
         if (placed) {
-            console.log(`B"H - 🛡️ Anchored: [${mesh.name}] solidified in physical grid.`);
+            // B"H: silent
+
         }
         return placed;
     },

@@ -75,7 +75,8 @@ export default class HoleManager {
             this._centers[idx * 3 + 1] = position.y;
             this._centers[idx * 3 + 2] = position.z;
             this._radii[idx] = radius;
-            console.log(`B"H - 🕳️ Center of Void #${idx} established.`);
+            // B"H: silent
+
         }
     }
 }
