@@ -27,7 +27,8 @@ export default class BoneSanctifier {
             boneMap[node.name] = node;
             
             // Poetic log of manifestation
-            // console.log(`B"H - 🦴 Bone '${node.name}' has been sanctified and brought to life.`);
+            // B"H: silent
+
         }
     }
 }

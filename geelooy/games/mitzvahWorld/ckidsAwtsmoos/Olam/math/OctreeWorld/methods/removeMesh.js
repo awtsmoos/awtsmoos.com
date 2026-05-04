@@ -35,7 +35,8 @@ export default {
         // Search all quadrants overlapping these bounds.
         const nodes = this._findLeafNodesInBox(this.root, meshBox);
 
-        console.log(`B"H - 🗑️ PURGING PHYSICS: ${mesh.name}. Sweeping ${nodes.length} spatial nodes.`);
+        // B"H: silent
+
 
         nodes.forEach(node => {
             // Find the physical clone in this specific quadrant.

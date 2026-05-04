@@ -26,7 +26,8 @@ export default {
             }
         });
         
-        console.log(`B"H - ⛰️ [fromGraphNode] Found ${meshes.length} valid meshes. Total vertices to index: ${totalVerts}`);
+        // B"H: silent
+
 
         for (const mesh of meshes) {
             if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();

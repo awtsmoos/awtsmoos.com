@@ -17,7 +17,8 @@ export default class MasterCanvasSetup {
      * @function takeInCanvas
      */
     takeInCanvas(canvas, devicePixelRatio = 1) {
-        console.log(`B"H - 🔨 MASTER_SETUP: Taking control of the dimensional vessel.`);
+        // B"H: silent
+
         
         const guard = WebGLGuard.verify(canvas);
         if (!guard.success) {
@@ -38,7 +39,8 @@ export default class MasterCanvasSetup {
             const optimizedRatio = Math.min(devicePixelRatio || 1, 2.0);
             this.renderer.setPixelRatio(optimizedRatio);
             
-            console.log(`B"H - ✅ Renderer birthed with optimized pixel ratio: ${optimizedRatio}`);
+            // B"H: silent
+
             this.ayshPeula("canvased");
         } catch (err) {
             console.error("B\"H - 🚨 RENDERER BIRTH FAILURE:", err.message);

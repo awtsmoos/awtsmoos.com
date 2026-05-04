@@ -36,7 +36,8 @@ export default class AttributeHealer {
         if (!geometry.attributes.uv) {
             const count = geometry.attributes.position ? geometry.attributes.position.count : 0;
             if (count > 0) {
-                console.log(`B"H - 🛠️ [Healer]: Restoring UV matrix to [${node.name || 'Anonymous'}]`);
+                // B"H: silent
+
                 const uvs = new Float32Array(count * 2); 
                 geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
             }

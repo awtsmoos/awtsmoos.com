@@ -14,10 +14,10 @@
  * high-level architecture modules do not cast TypeErrors into the abyss.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js";
-import { NODE_STATE, CONFIG } from './OctreeWorld/constants.js';
-import LODNode from './OctreeWorld/LODNode.js';
-import JobProcessor from './OctreeWorld/JobProcessor.js';
+import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js?v=purged2";
+import { NODE_STATE, CONFIG } from './OctreeWorld/constants.js?v=purged2';
+import LODNode from './OctreeWorld/LODNode.js?v=purged2';
+import JobProcessor from './OctreeWorld/JobProcessor.js?v=purged2';
 
 export class OctreeWorld {
     constructor() {
@@ -42,11 +42,21 @@ export class OctreeWorld {
         this.removeMesh = this.removeMesh.bind(this);
         this.fromGraphNode = this.fromGraphNode.bind(this);
 
-        console.log("B\"H - ⚓ OctreeWorld: Foundations fortified for flat planes.");
+        // B"H: OctreeWorld initialized
     }
 
     rayIntersect(ray) {
         if (!this.root) return null;
+        
+        // B"H: FORCE CRYSTALLIZATION — ensure any recently added terrain/objects 
+        // are physically real before we try to bounce light (rays) off them.
+        this._processQueues(true); 
+
+        // B"H: THE SHIELD OF THE DATA — safety against invalid ray objects
+        if (!ray || typeof ray.intersectsBox !== 'function') {
+            return null;
+        }
+
         let best = null;
         const scan = (node) => {
             if (!ray.intersectsBox(node.box)) return;
@@ -92,6 +102,13 @@ export class OctreeWorld {
      */
     addObject(mesh) {
         if (!mesh || !mesh.geometry) return false;
+        
+        // B"H: THE EYE OF FOUNDATION — Logging exactly what is being anchored.
+        const meshName = mesh.name || "Unnamed Vessel";
+        const meshType = mesh.geometry?.type || "Unknown Geometry";
+        // B"H: silent
+
+
         mesh.updateMatrixWorld(true);
         
         // Ensure terrain visibility
@@ -99,7 +116,20 @@ export class OctreeWorld {
             mesh.frustumCulled = false;
         }
 
-        if (mesh.userData?.isLiving) return false;
+        // B"H: THE SEPARATION OF LEVELS (Exclusion Logic)
+        if (
+            mesh.userData?.isLiving || 
+            mesh.userData?.isPlayer || 
+            mesh.userData?.isNpc ||
+            mesh.userData?.isSphere ||
+            mesh.userData?.isDynamic || // B"H: Reject all dynamic objects as requested
+            mesh.name?.toLowerCase().includes("chossid") ||
+            mesh.name?.toLowerCase().includes("player")
+        ) {
+            // B"H: silent
+
+            return false;
+        }
 
         if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
         const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
@@ -115,17 +145,25 @@ export class OctreeWorld {
 
         if (this.root) this.root.box.union(worldBox);
 
-        return this._insertMeshOnly(this.root, mesh, worldBox);
+        const result = this._insertMeshOnly(this.root, mesh, worldBox);
+        if (result) {
+            // B"H: silent
+
+        }
+        return result;
     }
 
     removeMesh(mesh) {
         if (!this.root || !mesh) return;
+        const meshId = mesh.uuid;
         const scan = (node) => {
             if (node.type === 'LEAF') {
-                if (node.physicsMeshGroup && node.physicsMeshGroup.children.includes(mesh)) {
-                    node.physicsMeshGroup.remove(mesh);
-                    if (node.physics && typeof node.physics.removeMesh === 'function') {
-                        node.physics.removeMesh(mesh); 
+                if (node.physicsMeshGroup) {
+                    const proxy = node.physicsMeshGroup.children.find(c => c.userData._physicsSourceId === meshId);
+                    if (proxy) {
+                        node.physicsMeshGroup.remove(proxy);
+                        node.state = NODE_STATE.PENDING_BUILD; // Mark for rebuild
+                        this._buildQueue.add(node);
                     }
                 }
             } else if (node.children) {
@@ -184,13 +222,24 @@ export class OctreeWorld {
 
     _buildNodePhysics(node) {
         if (!node || !node.physicsMeshGroup || node.physicsMeshGroup.children.length === 0) return;
-        const newPhysics = new AwtsmoosOctree(node.box.clone());
+        // B"H: Pass the same safe config (MAX_DEPTH: 5, MAX_TRIANGLES_PER_NODE: 32)
+        // to ALL sub-octrees built by OctreeWorld, not just the root.
+        // Previously, CONFIG from constants.js may have had different (dangerous) values.
+        const newPhysics = new AwtsmoosOctree(node.box.clone(), CONFIG);
         newPhysics._isManaged = true;
+        // B"H: silent
+
         newPhysics.fromGraphNode(node.physicsMeshGroup);
         newPhysics.build();
         node.physics = newPhysics;
         node.state = NODE_STATE.READY;
+        // B"H: silent
+
     }
+
+    // B"H: Reuse a single Vector3 for assessAndQueueWork center calculations
+    // to avoid allocating a new Vector3 every time the player moves 20 units.
+    _centerScratch = new THREE.Vector3();
 
     update(focus, velocity) {
         if (!this.root) return;
@@ -204,18 +253,26 @@ export class OctreeWorld {
         }
     }
 
-    _processQueues() {
+    _processQueues(forceAll = false) {
+        // B"H: 2ms budget per frame — down from 4ms.
+        // The Octree build is synchronous and WILL block the Worker thread.
+        // We bypass this budget if forceAll is true (e.g. during world load).
         const startTime = performance.now();
         const it = this._buildQueue.values();
         for (let node of it) {
-            if (performance.now() - startTime > 4.0) return; 
+            if (!forceAll && performance.now() - startTime > 2.0) return; 
             this._buildQueue.delete(node);
-            this._buildNodePhysics(node);
+            try {
+                this._buildNodePhysics(node);
+            } catch(e) {
+                console.error("B\"H - 🚨 OctreeWorld: Crystallization Shattered!", e);
+            }
         }
     }
 
     _assessAndQueueWork(node, foci) {
-        const center = node.box.getCenter(new THREE.Vector3());
+        // B"H: Reuse _centerScratch instead of `new THREE.Vector3()` per call
+        const center = node.box.getCenter(this._centerScratch);
         let inRange = false;
         for (const focus of foci) {
             if (center.distanceToSquared(focus.position) < 4000000) { inRange = true; break; }

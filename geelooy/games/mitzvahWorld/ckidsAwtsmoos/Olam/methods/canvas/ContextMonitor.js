@@ -30,7 +30,8 @@ export default class ContextMonitor {
         };
 
         const handleRestore = () => {
-            console.log("B\"H - ⚡ WebGL Context Restored! The vessel has awakened.");
+            // B"H: silent
+
             // Regeneration logic would typically be triggered by a re-init event
             olam.ayshPeula("contextRestored");
         };

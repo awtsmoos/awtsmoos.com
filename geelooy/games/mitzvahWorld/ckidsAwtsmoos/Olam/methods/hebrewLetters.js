@@ -64,8 +64,6 @@ export default class {
             } else {
                 mat = colors[strC];
             }
-         //   console.log("COLOR",color,strC,mat)
-            
             if(!this.letters) {
                 this.letters = {}
             }
@@ -91,13 +89,12 @@ export default class {
             if(options.position) {
                 try {
                     textMesh.position.copy(options.position);
-                } catch(e) {
-                    console.log(e)
-                }
+                } catch(e) { console.error("B\"H - Error caught:", e); }
             }
             return textMesh;
         } catch(e) {
-            console.log("ISsue",e)
+            // B"H: silent
+
             return null;
         }
     }

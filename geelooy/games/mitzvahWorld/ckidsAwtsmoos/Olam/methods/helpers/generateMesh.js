@@ -35,7 +35,8 @@ export default async function generateThreeJsMesh(golem, olamContext) {
                        (matArgs && JSON.stringify(matArgs).includes("safegrass"));
 
         if (isGrass) {
-             console.log(`B"H - 🌿 [Forge]: Igniting EMERALD shader for [${soulName}]`);
+             // B"H: silent
+
              material = await MaterialScribe.scribe('AwtsmoosGrassMaterial', {}, olamContext);
         } else if (matName === "MaterialArray" && Array.isArray(matArgs)) {
             material = await Promise.all(matArgs.map(async (m) => {
