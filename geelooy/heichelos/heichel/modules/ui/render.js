@@ -9,6 +9,7 @@
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { getFullLayoutBlueprint } from './blueprints/main-layout.js';
 import { DOMElements, clearRegistry } from '../dom.js';
+import { VoidPurifier } from '../utils/VoidPurifier.js';
 
 // B"H - Exporting child emanations for public interaction
 export { notify } from './render/toast.js';
@@ -40,7 +41,6 @@ export function manifestWorld(navigator, mountPoint = document.body) {
         switchView: (v) => navigator.switchView(v),
         closeModal: () => import('../modal.js').then(m => m.closeModal()),
         onModalSubmit: (e) => {
-            // Submission logic is handled by the modal module itself
             e.preventDefault();
         }
     };
@@ -65,10 +65,15 @@ export function manifestWorld(navigator, mountPoint = document.body) {
 export async function renderSeriesInfo(seriesData, heichelGlobal, currentSeriesId) {
     if (currentSeriesId !== 'root' && seriesData && DOMElements.seriesInfoArea) {
         const prateem = seriesData.prateem || seriesData;
-        DOMElements.seriesTitle.textContent = prateem.name || "A Bound Sequence";
-        DOMElements.seriesDesc.textContent = (prateem.description && prateem.description !== "undefined") 
-            ? prateem.description 
-            : "";
+        
+        // B"H - Apply the Void Purifier to crush undefined and execute-able scripts
+        const cleanName = VoidPurifier.purify(prateem.name) || "A Bound Sequence";
+        let rawDesc = prateem.description;
+        if (rawDesc === "undefined") rawDesc = "";
+        const cleanDesc = VoidPurifier.purify(rawDesc);
+        
+        DOMElements.seriesTitle.textContent = cleanName;
+        DOMElements.seriesDesc.textContent = cleanDesc;
         DOMElements.seriesInfoArea.classList.remove('hidden');
     } else if (DOMElements.seriesInfoArea) {
         DOMElements.seriesInfoArea.classList.add('hidden');

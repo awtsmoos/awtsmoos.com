@@ -16,56 +16,62 @@
  * 
  * @type {Object<string, Object<string, string>>}
  */
+import { AwtsmoosConstants } from '../ui/styles/themes/AwtsmoosConstants.js';
+
 export const StyleSefirot = {
     ".awtsmoos-overlay": {
         "position": "fixed",
-        "top": "0",
-        "left": "0",
-        "width": "100vw",
-        "height": "100vh",
-        "background": "radial-gradient(circle at center, #1b2735 0%, #090a0f 100%)",
+        "inset": "0",
+        "background": `radial-gradient(circle at center, ${AwtsmoosConstants.colors.voidMidtone} 0%, ${AwtsmoosConstants.colors.tzimtzumAbyss} 100%)`,
         "z-index": "9999",
         "display": "flex",
         "flex-direction": "column",
         "align-items": "center",
         "justify-content": "center",
-        "font-family": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        "overflow": "hidden",
-        "color": "#ffffff"
+        "font-family": AwtsmoosConstants.typology.ancientMono,
+        "overflow-y": "auto",
+        "overflow-x": "hidden",
+        "color": AwtsmoosConstants.colors.keterWhite,
+        "padding": "20px",
+        "box-sizing": "border-box"
     },
     ".awtsmoos-particles": {
         "position": "absolute",
-        "top": "0",
-        "left": "0",
-        "width": "100%",
-        "height": "100%",
+        "inset": "0",
         "pointer-events": "none",
-        "z-index": "1"
+        "z-index": "1",
+        "opacity": "0.4",
+        "background-image": "radial-gradient(#ffffff 1px, transparent 1px)",
+        "background-size": "50px 50px"
     },
     ".awtsmoos-title-container": {
         "z-index": "10",
         "text-align": "center",
-        "margin-bottom": "4rem"
+        "margin-bottom": "clamp(2rem, 8vh, 5rem)",
+        "display": "flex",
+        "flex-direction": "column",
+        "align-items": "center"
     },
     ".awtsmoos-main-title": {
-        "font-size": "5rem",
-        "font-weight": "800",
+        "font-size": "clamp(3rem, 15vw, 7rem)",
+        "font-family": AwtsmoosConstants.typology.epicTitles,
+        "font-weight": "900",
         "text-transform": "uppercase",
-        "letter-spacing": "8px",
+        "letter-spacing": "clamp(4px, 2vw, 15px)",
         "margin": "0",
-        "background": "linear-gradient(to right, #fff, #a3d9ff)",
-        "-webkit-background-clip": "text",
-        "-webkit-text-fill-color": "transparent",
-        "text-shadow": "0 0 20px rgba(163, 217, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2)",
-        "animation": "awtsmoosPulse 4s infinite alternate"
+        "color": AwtsmoosConstants.colors.sefirahGold,
+        "text-shadow": `0 0 20px ${AwtsmoosConstants.colors.sefirahGold}66, 0 0 40px ${AwtsmoosConstants.colors.sefirahGold}33`,
+        "animation": "awtsmoosPulse 4s infinite alternate",
+        "line-height": "1"
     },
     ".awtsmoos-sub-title": {
-        "font-size": "1.2rem",
-        "letter-spacing": "15px",
+        "font-size": "clamp(1.5rem, 6vw, 3.5rem)",
+        "letter-spacing": "clamp(5px, 1.5vw, 20px)",
         "text-transform": "uppercase",
-        "color": "#a3d9ff",
-        "opacity": "0.8",
-        "margin-top": "1rem"
+        "color": AwtsmoosConstants.colors.keterWhite,
+        "opacity": "0.9",
+        "margin-top": "0.5rem",
+        "font-weight": "300"
     },
     ".awtsmoos-button-grid": {
         "display": "flex",
@@ -73,36 +79,63 @@ export const StyleSefirot = {
         "gap": "1.5rem",
         "z-index": "10",
         "width": "100%",
-        "max-width": "400px"
+        "max-width": "500px",
+        "padding": "0 20px",
+        "box-sizing": "border-box"
     },
     ".awtsmoos-btn": {
-        "background": "rgba(255, 255, 255, 0.03)",
-        "border": "1px solid rgba(255, 255, 255, 0.1)",
-        "padding": "1.2rem 2rem",
-        "color": "#ffffff",
-        "font-size": "1.1rem",
-        "font-weight": "600",
+        "background": `linear-gradient(180deg, ${AwtsmoosConstants.colors.emeraldEinSof} 0%, ${AwtsmoosConstants.colors.emeraldShadow} 100%)`,
+        "border": `2px solid ${AwtsmoosConstants.colors.emeraldEinSof}`,
+        "padding": "clamp(1rem, 3vh, 1.5rem) 2rem",
+        "color": AwtsmoosConstants.colors.tzimtzumAbyss,
+        "font-size": "clamp(1rem, 4vw, 1.3rem)",
+        "font-weight": "800",
         "letter-spacing": "2px",
-        "border-radius": "16px",
+        "border-radius": AwtsmoosConstants.metrics.radiusVessel,
         "cursor": "pointer",
-        "backdrop-filter": "blur(12px)",
-        "-webkit-backdrop-filter": "blur(12px)",
         "transition": "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-        "box-shadow": "0 4px 15px rgba(0, 0, 0, 0.3)",
+        "box-shadow": "0 10px 20px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.5)",
         "position": "relative",
-        "overflow": "hidden"
+        "overflow": "hidden",
+        "text-transform": "uppercase",
+        "display": "flex",
+        "align-items": "center",
+        "justify-content": "center",
+        "min-height": "80px"
+    },
+    ".awtsmoos-btn::after": {
+        "content": "''",
+        "position": "absolute",
+        "bottom": "10%",
+        "left": "50%",
+        "transform": "translateX(-50%)",
+        "width": "60%",
+        "height": "30%",
+        "background": "rgba(255, 255, 255, 0.4)",
+        "filter": "blur(8px)",
+        "border-radius": "50%",
+        "pointer-events": "none"
     },
     ".awtsmoos-btn:hover": {
-        "background": "rgba(255, 255, 255, 0.1)",
-        "border-color": "rgba(163, 217, 255, 0.5)",
-        "transform": "translateY(-4px) scale(1.03)",
-        "box-shadow": "0 10px 30px rgba(163, 217, 255, 0.2)"
+        "transform": "translateY(-5px) scale(1.02)",
+        "box-shadow": `0 15px 30px ${AwtsmoosConstants.colors.emeraldShadow}aa, inset 0 2px 10px rgba(255, 255, 255, 0.7)`,
+        "filter": "brightness(1.1)"
     },
     ".awtsmoos-btn:active": {
-        "transform": "translateY(0) scale(0.98)"
+        "transform": "translateY(2px) scale(0.98)",
+        "box-shadow": "0 5px 10px rgba(0, 0, 0, 0.4)"
     },
     "@keyframes awtsmoosPulse": {
-        "0%": { "filter": "drop-shadow(0 0 15px rgba(163, 217, 255, 0.4))" },
-        "100%": { "filter": "drop-shadow(0 0 35px rgba(255, 255, 255, 0.8))" }
+        "0%": { "transform": "scale(1)", "filter": "brightness(1)" },
+        "100%": { "transform": "scale(1.05)", "filter": "brightness(1.2)" }
+    },
+    "@media (max-width: 600px)": {
+        ".awtsmoos-title-container": {
+            "margin-bottom": "2rem"
+        },
+        ".awtsmoos-btn": {
+            "padding": "1rem",
+            "min-height": "60px"
+        }
     }
 };

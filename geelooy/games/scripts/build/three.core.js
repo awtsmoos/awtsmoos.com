@@ -4586,9 +4586,12 @@ class Quaternion {
  * const d = a.distanceTo( b );
  * ```
  */
+ var did  = 0;
  function checkNan(x,y,z) {
 	if(isNaN(x) || isNaN(y) || isNaN(z)) {
-		console.trace("NAN VALUE FOUND!")
+		if(did++ < 4) {
+			console.trace("NAN VALUE FOUND!")
+		}
 	}
  }
 class Vector3 {

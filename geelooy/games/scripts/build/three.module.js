@@ -17315,9 +17315,12 @@ class WebGLRenderer {
 					try {
 					renderObject( object, scene, camera, geometry, material, group );
 						} catch(e) {
-							console.log(
-								"THREE! ", e, e.stack)
-							} 
+							if(!window.wowd) {
+								window.wowd=true
+								console.trace(
+									"THREE! ", e, e.stack, object, scene, camera, geometry, material, group)
+							}
+						} 
 				}
 
 			}

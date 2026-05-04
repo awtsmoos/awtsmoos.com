@@ -10,6 +10,7 @@
 
 import { DOMElements } from '../../dom.js';
 import { ScribeOfManifestation } from '../../engine/scribe-of-manifestation.js';
+import { VoidPurifier } from '../../utils/VoidPurifier.js';
 
 /**
  * @function updateHeichelHeader
@@ -19,11 +20,16 @@ import { ScribeOfManifestation } from '../../engine/scribe-of-manifestation.js';
  */
 export function updateHeichelHeader(heichelData) {
     if (!heichelData) return;
+    
+    // B"H - Purify the titles and descriptions from the void
+    const cleanName = VoidPurifier.purify(heichelData.name) || "Revelation";
+    const cleanDesc = VoidPurifier.purify(heichelData.description);
+
     if (DOMElements.mainTitle) {
-        DOMElements.mainTitle.textContent = heichelData.name || "Revelation";
+        DOMElements.mainTitle.textContent = cleanName;
     }
     if (DOMElements.heichelDescription) {
-        DOMElements.heichelDescription.textContent = heichelData.description || "";
+        DOMElements.heichelDescription.textContent = cleanDesc;
     }
 }
 
@@ -41,8 +47,14 @@ export function renderBreadcrumb(breadcrumbData, navigator) {
     DOMElements.breadcrumb.appendChild(ScribeOfManifestation.speakElement(rootCrumbPlan));
 
     breadcrumbData.forEach(item => {
-        DOMElements.breadcrumb.appendChild(document.createTextNode(" / "));
-        const crumbPlan = createCrumbBlueprint(item.name || "...", () => navigator.navigateTo(item.id));
+        // B"H - Intense breadcrumb separator
+        const separator = document.createElement("span");
+        separator.className = "breadcrumb-separator";
+        separator.textContent = "/";
+        DOMElements.breadcrumb.appendChild(separator);
+        
+        const cleanCrumbName = VoidPurifier.purify(item.name) || "...";
+        const crumbPlan = createCrumbBlueprint(cleanCrumbName, () => navigator.navigateTo(item.id));
         DOMElements.breadcrumb.appendChild(ScribeOfManifestation.speakElement(crumbPlan));
     });
 }
@@ -53,8 +65,8 @@ export function renderBreadcrumb(breadcrumbData, navigator) {
  */
 function createCrumbBlueprint(text, onClick) {
     return {
-        tag: 'a',
-        attr: { href: '#', class: 'breadcrumb-link' },
+        tag: 'button',
+        attr: { class: 'breadcrumb-link' },
         children: [text],
         events: {
             click: (e) => {
