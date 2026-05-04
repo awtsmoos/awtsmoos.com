@@ -29,9 +29,11 @@ export default class VesselMonitor {
         };
         
         if (styleMatrix[realityStatus]) {
-            console.log(`%c${notification}`, styleMatrix[realityStatus]);
+            // B"H: silent
+
         } else {
-            console.log(notification);
+            // B"H: silent
+
         }
     }
 }

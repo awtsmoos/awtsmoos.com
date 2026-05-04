@@ -7,6 +7,8 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
+import { ARCHITECTURAL_SHADERS } from '../../../utils/3d/procedural/Shaders/SederHishtalshelusShaders.js';
+
 export default class SafeMaterialApplier {
     static apply(materialName, options = {}) {
         try {
@@ -22,11 +24,20 @@ export default class SafeMaterialApplier {
             options.opacity = options.opacity !== undefined ? options.opacity : 1.0;
 
             let material;
-            if (THREE[materialName]) {
+            const shaderData = ARCHITECTURAL_SHADERS[materialName];
+            
+            if (shaderData) {
+                material = new THREE.MeshStandardMaterial({
+                    color: options.color || (materialName === "AwtsmoosFloorMaterial" ? 0xdddddd : 0x8b4513),
+                    roughness: 0.7,
+                    metalness: 0.1,
+                });
+                material.userData.awtsmoosType = materialName;
+            } else if (THREE[materialName]) {
                 material = new THREE[materialName](options);
             } else {
-                console.warn(`B"H - ⚠️ Material ${materialName} not in THREE. Using Lambert.`);
-                material = new THREE.MeshLambertMaterial(options);
+                console.warn(`B"H - ⚠️ Material ${materialName} not in THREE. Using Standard.`);
+                material = new THREE.MeshStandardMaterial(options);
             }
 
             return this._strengthen(material);
@@ -39,22 +50,61 @@ export default class SafeMaterialApplier {
     static _strengthen(mat) {
         if (!mat) return mat;
 
-        const maps = ['map', 'normalMap', 'lightMap', 'emissiveMap'];
-        maps.forEach(m => {
-            if (mat[m]) {
-                if (!mat[m].matrix) mat[m].matrix = new THREE.Matrix3();
-                if (mat[m].channel === undefined) mat[m].channel = 0;
-            }
-        });
+        mat.customProgramCacheKey = () => {
+            return mat.userData.awtsmoosType || 'standard';
+        };
 
-        const originalOnBefore = mat.onBeforeCompile;
         mat.onBeforeCompile = (shader) => {
-            // B"H: UV PROTECTION
-            // Ensure any reference to 'uv' in the shader is valid.
+            shader.uniforms.uHighlight = { value: 0.0 };
+            mat.userData.shader = shader; 
+
+            shader.vertexShader = `
+                varying vec3 vWorldPosition;
+                varying vec3 vNormalVec;
+            ` + shader.vertexShader;
+
+            shader.vertexShader = shader.vertexShader.replace(
+                '#include <begin_vertex>',
+                `
+                #include <begin_vertex>
+                vWorldPosition = (modelMatrix * vec4(transformed, 1.0)).xyz;
+                vNormalVec = normalize(normalMatrix * normal);
+                `
+            );
+
+            const type = mat.userData.awtsmoosType;
+            const shaderData = ARCHITECTURAL_SHADERS[type];
+            const patternLogic = shaderData ? (shaderData.fragment || '') : '';
+            const patternHeader = shaderData ? (shaderData.header || '') : '';
+
+            shader.fragmentShader = `
+                uniform float uHighlight;
+                varying vec3 vWorldPosition;
+                varying vec3 vNormalVec;
+                ${patternHeader}
+            ` + shader.fragmentShader;
+
+            if (patternLogic) {
+                shader.fragmentShader = shader.fragmentShader.replace(
+                    '#include <color_fragment>',
+                    `
+                    #include <color_fragment>
+                    ${patternLogic}
+                    `
+                );
+            }
+
+            shader.fragmentShader = shader.fragmentShader.replace(
+                '#include <dithering_fragment>',
+                `
+                #include <dithering_fragment>
+                gl_FragColor.rgb *= (1.0 + uHighlight * 0.4); 
+                gl_FragColor.rgb += vec3(0.1, 0.08, 0.05) * uHighlight;
+                `
+            );
+
             shader.vertexShader = shader.vertexShader.replace(/uvundefined/g, "uv");
             shader.fragmentShader = shader.fragmentShader.replace(/uvundefined/g, "vUv");
-            
-            if (originalOnBefore) originalOnBefore(shader);
         };
 
         return mat;

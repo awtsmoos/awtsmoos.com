@@ -31,7 +31,8 @@ export default class MaterialManifestor {
         if (entries.length === 0) return new THREE.MeshLambertMaterial({ color: 0xffffff });
 
         const [matName, rawOptions] = entries[0];
-        console.log(`B"H - 🎨 WEAVING MATERIAL: Archetype [${matName}]`);
+        // B"H: silent
+
 
         try {
             // Handle groups of materials (like for a door with separate wood and gold parts)

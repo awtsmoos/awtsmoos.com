@@ -39,7 +39,8 @@ export default async function assembleFaculties() {
         });
     };
 
-    console.log(`B"H - 🧠 assembleFaculties: Commencing the Sacred Union. Thread: ${isWorker ? 'Angel/Worker' : 'Human/Main'}`);
+    // B"H: silent
+
 
     const props = new properties();
     Object.keys(props).forEach(key => { self[key] = props[key]; });
@@ -69,7 +70,8 @@ export default async function assembleFaculties() {
         try {
             const tzimtzum = (await import("./tzimtzum/index.js")).default;
             graft(tzimtzum);
-            console.log(`B"H - 🛡️ Tzimtzum Orchestrator grafted successfully in the Main Thread.`);
+            // B"H: silent
+
         } catch (e) {
             console.error(`B"H - 🚨 Failed to graft Tzimtzum Orchestrator!`, e);
         }
@@ -77,5 +79,6 @@ export default async function assembleFaculties() {
 
     bindAllListeners.call(this);
 
-    console.log(`B"H - ✅ Olam [${this.constructor.name}] unified and ready for emanation.`);
+    // B"H: silent
+
 }

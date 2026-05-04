@@ -37,7 +37,8 @@ export default class GeometryManifestor {
 
         const [typeName, args] = entries[0];
         
-        console.log(`B"H - 📏 MANIFESTING GEOMETRY: [${typeName}] with potential measures: [${JSON.stringify(args)}]`);
+        // B"H: silent
+
 
         let geometry;
         try {
@@ -53,7 +54,8 @@ export default class GeometryManifestor {
                 
                 // EXTREME MEASUREMENT LOGGING
                 if (typeName.includes("Box") || typeName.includes("Plane")) {
-                    console.log(`B"H - 📐 [Absolute Logic]: Carving ${typeName}. X:${validArgs[0]}, Y:${validArgs[1]}, Z:${validArgs[2] || 'N/A'}`);
+                    // B"H: silent
+
                 }
                 
                 geometry = new THREE[typeName](...validArgs);
@@ -68,7 +70,8 @@ export default class GeometryManifestor {
             if (geometry) {
                 geometry.computeBoundingBox();
                 const box = geometry.boundingBox;
-                console.log(`B"H - ✅ [Verification]: Resulting Vessel Magnitude: min[${box.min.x},${box.min.y},${box.min.z}] max[${box.max.x},${box.max.y},${box.max.z}]`);
+                // B"H: silent
+
             }
 
             return geometry;

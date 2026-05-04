@@ -20,7 +20,8 @@ export default {
         
         while (el && isDomPresent && el !== document.body && el !== document.documentElement) {
             if (el[propertyName] !== undefined) {
-                console.log(`B"H - 🔍 Found Intent [${propertyName}] on <${el.tagName}>`);
+                // B"H: silent
+
                 return returnIt ? el : el[propertyName];
             }
             if (el.getAttribute && el.getAttribute(propertyName)) {

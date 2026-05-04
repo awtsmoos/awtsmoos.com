@@ -48,6 +48,19 @@ export default class Integrator {
             this.nivrayim.push(nivra);
         }
 
+        const isLiving = nivra.type === "chossid" || 
+                         nivra.type === "chai" || 
+                         nivra.type === "medabeir" ||
+                         nivra.type === "customNpc" ||
+                         nivra.type === "interactiveNpc" ||
+                         nivra.type === "interactiveDoor";
+
+        if (nivra.interactable || isLiving) {
+            if (!this.interactableNivrayim.includes(nivra)) {
+                this.interactableNivrayim.push(nivra);
+            }
+        }
+
         return nivra;
     }
 }

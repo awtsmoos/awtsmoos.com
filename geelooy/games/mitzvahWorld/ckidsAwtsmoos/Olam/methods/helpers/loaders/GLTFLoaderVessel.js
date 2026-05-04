@@ -39,14 +39,16 @@ export default class GLTFLoaderVessel {
                     loader.setDRACOLoader(context.loader.dracoLoader);
                 }
                 
-                console.log(`B"H - ⏳ [GLTFLoader]: Commencing loadAsync for ${url}`);
+                // B"H: silent
+
                 const _tLoad = performance.now();
                 
                 // This parses the GLB binary. 
                 // If it hangs here without errors, it implies WebGL/Draco stall.
                 const gltf = await loader.loadAsync(fetchUrl);
                 
-                console.log(`B"H - ⏳ [GLTFLoader]: loadAsync resolved in ${(performance.now() - _tLoad).toFixed(1)}ms`);
+                // B"H: silent
+
 
                 if (blob) URL.revokeObjectURL(fetchUrl);
 

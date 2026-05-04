@@ -25,7 +25,7 @@ export default class LoaderMonitor {
             console.error(`B"H - 🚨 [${timestamp}] VESSEL SHATTERED: (${type}) ${url}`);
         } else if (status === "DONE") {
             // Optional: minimal success log for huge files if needed.
-            // console.log(`%cB"H - 📦 VESSEL SECURED: (${type})`, "color: #00ffed;");
+            // B"H: silent
         }
         // Silence the rest (INIT_BREATH, PAINTED, etc.) to keep the console pure!
     }
@@ -35,6 +35,6 @@ export default class LoaderMonitor {
      * @description Marks a major conceptual milestone of emanation.
      */
     static logStage(stageName) {
-        console.log(`%cB"H - 🛡️ SYSTEM SEFIRAH ATTAINED: ${stageName}`, "background: #1b2064; color: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #00f3ff;");
+        // B"H: silent
     }
 }
