@@ -30,7 +30,8 @@ export default class PostProcessingManager {
         };
         this.width = width || 1920;
         this.height = height || 1080
-        console.log("B\"H")
+        // B"H: silent
+
 
     }
     

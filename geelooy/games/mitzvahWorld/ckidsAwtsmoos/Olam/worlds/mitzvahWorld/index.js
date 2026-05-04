@@ -51,7 +51,8 @@ import { WorldHeescheel } from './WorldHeescheel.js';
  * @returns {Promise<void>}
  */
 export async function heescheel(ctx) {
-  console.log(`B"H - 🌍 mitzvahWorld/heescheel: Receiving the command to create.`);
+  // B"H: silent
+
 
   const worldBuilder = new WorldHeescheel({
     scene:   ctx.scene,
@@ -76,7 +77,8 @@ export async function heescheel(ctx) {
  * @returns {void}
  */
 export function ready(ctx) {
-  console.log(`B"H - ✅ mitzvahWorld/ready: The Olam is populated. Opening the gates.`);
+  // B"H: silent
+
   ctx.postMsg({ type: 'game started', payload: true });
 }
 
@@ -91,5 +93,6 @@ export function ready(ctx) {
  * @returns {void}
  */
 export function afterBriyah(ctx) {
-  console.log(`B"H - 🌱 mitzvahWorld/afterBriyah: Secondary creation phase complete.`);
+  // B"H: silent
+
 }

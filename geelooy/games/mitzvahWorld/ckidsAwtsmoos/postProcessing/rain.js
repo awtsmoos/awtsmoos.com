@@ -310,10 +310,7 @@ export default class RainEffect {
         this.renderer.renderAsync( this.scene, this.camera );
         return true;
         //this.rain.material.uniforms.currentTime.value = this.timeElapsed;
-        //console.log("Time elapsed", this.timeElapsed, this.rain.material.uniforms.currentTime,
-        /*
-        this.boundingBox.min.y,
-        this.boundingBox.max.y
-        )*/
+        // B"H: silent
+*/
     }
 }

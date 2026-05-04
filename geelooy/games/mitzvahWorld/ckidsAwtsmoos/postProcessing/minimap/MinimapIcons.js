@@ -43,9 +43,7 @@ export default class MinimapIcons {
                 if (act) actions.push(act);
             }
             await this.minimap.olam.ayshPeula("htmlActions", actions);
-        } catch (e) {
-            console.log(e);
-        }
+        } catch(e) { console.error("B\"H - Error caught:", e); }
     }
 
     async setMinimapItem(item, category) {
@@ -178,7 +176,7 @@ export default class MinimapIcons {
             this.itemGroups[category].splice(indexOf, 1);
             try {
                 await this.minimap.olam.ayshPeula("htmlDelete", { shaym: "item " + item.shaym });
-            } catch (e) { console.log(e); }
+            } catch(e) { console.error("B\"H - Error caught:", e); }
         }
     }
     
@@ -212,7 +210,7 @@ export default class MinimapIcons {
             for (let i = 0; i < newItems.length; i++) {
                 await this.setMinimapItem(newItems[i], category);
             }
-        } catch (e) { console.log(e); }
+        } catch(e) { console.error("B\"H - Error caught:", e); }
         await this.updateItemPositions(category);
     }
     

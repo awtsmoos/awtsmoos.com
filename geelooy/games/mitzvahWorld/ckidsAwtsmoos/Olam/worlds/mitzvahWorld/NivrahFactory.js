@@ -96,7 +96,8 @@ export class NivrahFactory {
       return [];
     }
 
-    console.log(`B"H - NivrahFactory: ✨ Manifesting soul [${def.id}] of type [${def.type}]`);
+    // B"H: silent
+
 
     const objects = await builder(this.scene, this.physics, def);
 
@@ -131,7 +132,8 @@ export class NivrahFactory {
       results.set(def.id, objs);
     }
 
-    console.log(`B"H - NivrahFactory: 🌍 ALL ${defs.length} souls manifested. The Olam is populated.`);
+    // B"H: silent
+
     return results;
   }
 }

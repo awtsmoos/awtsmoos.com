@@ -162,7 +162,8 @@ export default class Environment {
             matrix.setPosition(position); // Update the matrix with the new position
             this.raindropInstance.setMatrixAt(i, matrix); // Set the updated matrix
         }
-      //  console.log("Set",this.raindropInstance.instanceMatrix)
+      // B"H: silent
+
         this.raindropInstance.instanceMatrix.needsUpdate = true; // Inform THREE.js that the matrices have been updated
     }
 

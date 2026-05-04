@@ -129,7 +129,8 @@ function _loadGlb(path) {
       },
       (xhr) => {
         const pct = Math.round((xhr.loaded / (xhr.total || 1)) * 100);
-        console.log(`B"H - buildGlbEntity: 📦 Loading "${path}" — ${pct}%`);
+        // B"H: silent
+
       },
       (err) => reject(err),
     );

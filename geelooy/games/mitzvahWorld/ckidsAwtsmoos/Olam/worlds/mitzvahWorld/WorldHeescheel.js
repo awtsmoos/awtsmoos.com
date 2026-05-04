@@ -54,7 +54,8 @@ export class WorldHeescheel {
     /** @type {Function} */
     this.postMsg = postMsg;
 
-    console.log(`B"H - 🌌 WorldHeescheel: Vessels prepared. Awaiting the divine command.`);
+    // B"H: silent
+
   }
 
   /**
@@ -70,7 +71,8 @@ export class WorldHeescheel {
    * @returns {Promise<void>}
    */
   async execute() {
-    console.log(`B"H - 🌌 WorldHeescheel: Initiating Pure Data Manifestation within the Worker...`);
+    // B"H: silent
+
 
     if (!NIVRAYIM_DEFS || NIVRAYIM_DEFS.length === 0) {
       console.error(`B"H - WorldHeescheel: ❌ NIVRAYIM_DEFS is empty! The world has no soul-manifest.`);
@@ -78,17 +80,16 @@ export class WorldHeescheel {
       return;
     }
 
-    console.log(`B"H - WorldHeescheel: 📖 Soul manifest loaded: ${NIVRAYIM_DEFS.length} definitions.`);
+    // B"H: silent
+
 
     const factory = new NivrahFactory(this.scene, this.physics);
 
     try {
       const results = await factory.buildAll(NIVRAYIM_DEFS);
 
-      console.log(
-        `B"H - 🌍 WorldHeescheel: ✅ Manifestation complete! ` +
-        `${results.size} soul-types manifested into the Olam.`
-      );
+      // B"H: silent
+
 
       this._signalLoaded();
 
@@ -111,7 +112,8 @@ export class WorldHeescheel {
    */
   _signalLoaded() {
     this.postMsg({ type: 'loadedWorld', payload: true });
-    console.log(`B"H - 🎺 WorldHeescheel: 'loadedWorld' signal dispatched. The Olam is ALIVE.`);
+    // B"H: silent
+
   }
 
   /**

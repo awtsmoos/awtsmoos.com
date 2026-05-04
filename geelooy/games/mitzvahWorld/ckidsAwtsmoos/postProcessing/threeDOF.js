@@ -43,7 +43,8 @@ postprocessingSetup() {
     var width = this.width;
     var height = this.height;
 
-    console.log("Trying wtih width height ",width,height)
+    // B"H: silent
+
     if(!this.postprocessing) {
         this.postprocessing = {}
     }

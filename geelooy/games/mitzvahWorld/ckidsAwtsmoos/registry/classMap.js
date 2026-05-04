@@ -33,16 +33,10 @@ export default {
     // Vehicles
     "Vehicle": "../../dvarim/vehicles/vehicle.js",
     "ProceduralCar": "../../dvarim/vehicles/proceduralCar.js",
-    "HotAirBalloon": "../../dvarim/vehicles/hotAirBalloon.js",
-    "Telescope": "../../dvarim/tools/telescope.js",
-    "MagicalChariot": "../../dvarim/vehicles/magicalChariot.js",
-    "Hoverboard": "../../dvarim/vehicles/hoverboard.js",
-    "CloudMount": "../../dvarim/vehicles/cloudMount.js",
-    "ProceduralBoat": "../../dvarim/vehicles/proceduralBoat.js",
-    
     "GrapplingHook": "../../dvarim/tools/grapplingHook.js",
     "Blueprint": "../../dvarim/tools/blueprint.js",
     "FishingRod": "../../dvarim/tools/fishingRod.js",
+    "Sefer": "../../dvarim/tools/sefer.js",
     "Teffilin": "../../dvarim/teffilin.js",
     "VoxelTerrain": "../../dvarim/terrain/VoxelTerrain.js",
     "Brick": "../../dvarim/brick.js",
@@ -53,6 +47,13 @@ export default {
     "ElementalStaff": "../../dvarim/tools/elementalStaff.js", 
     "FluidSystem": "../../dvarim/nature/fluidSystem.js",
     "InteractiveDoor": "../../dvarim/interactiveDoor.js",
+    "InteractiveNpc": "../../dvarim/npc/InteractiveNpc.js",
+    "ProceduralSky": "../../dvarim/nature/ProceduralSky.js",
+    "ProceduralFlowerPatch": "../../dvarim/nature/ProceduralFlowerPatch.js",
+    "ProceduralRoad": "../../dvarim/architecture/ProceduralRoad.js",
+    "Collectable": "../../dvarim/Collectable.js",
+    "SolidBlock": "../../dvarim/architecture/SolidBlock.js",
     
-    "ProceduralBuilding": "../../dvarim/architecture/ProceduralBuilding.js" // B"H! New Architectural wonder
+    "ProceduralBuilding": "../../dvarim/architecture/ProceduralBuilding.js", // B"H! The Architectural Throne
+    "ProceduralFlora": "../../dvarim/nature/ProceduralFlora.js"
 };
