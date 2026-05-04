@@ -105,14 +105,18 @@ export default class UI extends Heeoolee {
 		custom events
 		for interaction
 		
+		@argument elementOrShaym
+		The element or its unique name (shaym) to target.
+		
 		@argument obj
-		and object with each
-		key as the event name
-		and the value as the 
-		value to call on the
-		callback
+		An object where each key is an event name
+		and the value is the detail for that event.
+		
+		@argument id
+		An optional unique identifier for the interaction,
+		allowing for response tracking back to the worker.
 	**/
-	peula(elementOrShaym, obj = {}) {
+	peula(elementOrShaym, obj = {}, id = null) {
 	    if (!obj || typeof(obj) !== "object") {
 	        return;
 	    }
@@ -128,10 +132,22 @@ export default class UI extends Heeoolee {
 	        return;
 	    }
 	
-	    
+	    // B"H: Dispatch a unified event named after the shaym itself,
+	    // providing the entire object and id as the detail.
+	    // This allows components to listen for their own name and get all data at once.
+	    if (typeof elementOrShaym === 'string') {
+	        el.dispatchEvent(
+	            new CustomEvent(elementOrShaym, {
+	                detail: { ...obj, id },
+	                bubbles: true,
+	                cancelable: true
+	            })
+	        );
+	    }
+	
 	    for (var k in obj) {
 	        if (Object.prototype.hasOwnProperty.call(obj, k)) {
-                console.log(`B"H - 📢 [UI.PEULA]: Dispatching event '${k}' on element`, el, "with detail:", obj[k]);
+                // console.log(`B"H - 📢 [UI.PEULA]: Dispatching event '${k}' on element`, el, "with detail:", obj[k]);
 	            el.dispatchEvent(
 	                new CustomEvent(k, {
 	                    detail: obj[k],

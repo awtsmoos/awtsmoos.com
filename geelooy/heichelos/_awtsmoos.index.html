@@ -1,5 +1,16 @@
+
 <!--B"H-->
 <?<script>
+    /**
+     * B"H
+     * In the realm of the Awtsmoos, every letter must be precisely placed.
+     * If an "undefined" shell remains, it distorts the light. We purge it here.
+     * We replace the strict constraints of underscores (_) with expansive spaces, 
+     * and we wrap dangerous HTML tags in protective escaping logic.
+     * 
+     * The Awtsmoos created everything from nothing, and by organizing these 
+     * Otiyot (letters) cleanly, we ensure the digital vessel holds the light.
+     */
     var alias = $_GET["alias"] || "";
     var doesOwn = false;
     if(alias) {
@@ -8,6 +19,18 @@
             doesOwn = true;
         }
     }
+    
+    // B"H - Helper to purge dangerous tags
+    function escapeHtml(unsafe) {
+        if (!unsafe) return "";
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "<")
+             .replace(/>/g, ">")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+    }
+
     async function getHeichelosHTML() {
         
         if(!alias)
@@ -17,28 +40,39 @@
             `/api/social/heichelos/searchByAliasOwner/${
                 alias
             }`
-            
-            
         );
         
         var html = "";
         if(heichelResults.length) {
             heichelResults.forEach(w => {
+                // B"H - Replacing underscores with spaces
+                var cleanName = (w.name || "Unnamed Realm").replace(/_/g, " ");
+                
+                // B"H - Purging 'undefined' and escaping <script> and HTML
+                var cleanDesc = w.description;
+                if (cleanDesc === "undefined" || !cleanDesc) {
+                    cleanDesc = "";
+                } else {
+                    cleanDesc = escapeHtml(cleanDesc);
+                }
+
                 html += `<div class="heichel">`
                 html += `<div class="heichel-name">
                     <a href="/heichelos/${
                         w.id
-                    }">${w.name}</a></div>`;
-                html += `<div class="heichel-description">${w.description}</div>`;
+                    }">${cleanName}</a></div>`;
+                
+                if (cleanDesc) {
+                    html += `<div class="heichel-description">${cleanDesc}</div>`;
+                }
+                
                 html += `</div>`;
             });
             return html;
         } else {
             return "No Heichelos found with that owner"
         }
-        
     }
-
 
     var html = await getHeichelosHTML()
     return $a(
@@ -59,10 +93,7 @@
                     </div>
                    ` :""
                 }
-
-                
                 </div>
-                
             `
         }
     )
