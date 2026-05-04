@@ -15,7 +15,8 @@ export default {
         pointerEvents: "auto" // The switch must always be tangible.
     },
     onclick(e, $, ui, el) {
-        console.log('B"H - ⚡ [TZIMTZUM]: Toggling the Right Arm contraction.');
+        // B"H: silent
+
         var bar = $("action bar") || document.getElementById("actionBar");
         if (!bar) return;
         bar.classList.toggle("minimized");

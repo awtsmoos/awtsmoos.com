@@ -36,7 +36,8 @@ const ZroaYamin = {
     ],
     on: {
         async updateActionSlots(e, $, ui) {
-            console.log('B"H - 🌊 [ZROA_UPDATE]: Refreshing the Right Arm of Action.');
+            // B"H: silent
+
             const actionSlotsData = e.detail || [];
             
             const slotsContainer = $("actionSlots") || document.getElementById("actionSlots");

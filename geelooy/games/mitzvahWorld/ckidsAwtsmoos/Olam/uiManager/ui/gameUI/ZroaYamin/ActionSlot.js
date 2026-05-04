@@ -53,7 +53,8 @@ export default function createActionSlot(slotData, index, ui) {
             uiInstance.peula("ikar", { olamPeula: { hideTooltip: true } });
         },
         ready(el, $local, uiInstance) { 
-             console.log(`B"H - ✨ [NITZOTZ]: Manifesting slot ${index}`);
+             // B"H: silent
+
              if(typeof window !== 'undefined' && typeof window.attachSlotDragListeners === 'function') {
                 const handleClick = (event) => {
                     if (!slotData) return;

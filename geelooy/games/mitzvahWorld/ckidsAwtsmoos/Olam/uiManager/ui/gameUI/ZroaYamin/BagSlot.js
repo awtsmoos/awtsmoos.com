@@ -14,7 +14,8 @@ export default {
     className: "actionSlot occupied bag-slot",
     style: { pointerEvents: "auto" },
     onclick: async (e, $$, uui) => {
-        console.log('B"H - 🎒 [OTZAR_PORTAL]: Engaging the Treasury gate.');
+        // B"H: silent
+
         const inventoryScreen = $$("inventoryScreen") || document.getElementById("inventoryScreen");
         if (inventoryScreen) {
             const isHidden = inventoryScreen.classList.contains("hidden");
