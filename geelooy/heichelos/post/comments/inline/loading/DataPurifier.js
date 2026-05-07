@@ -2,14 +2,11 @@
 /**
  * B"H
  * @module DataPurifier
- * @chapter Tearing the Kelipot
+ * @chapter Final Birur (Refinement)
  * @description
- * Data often arrives wrapped in 'shells' (Kelipot) of status codes and 
- * meta-wrappers. The DataPurifier is the Kohen that reaches into the vessel, 
- * identifies the essence (the actual insights), and unrolls it into 
- * a pure, flattened array of sparks.
- * 
- * "Extracting the sparks from the husks."
+ * This module performs the final purification of the data before it is manifest 
+ * in the DOM. Since the ApiPortal now handles batching and deduplication, 
+ * this module ensures the results are truly a clean Array of Otiyot.
  */
 
 import { unrollApiResponse } from "../../logic/unroller.js";
@@ -20,15 +17,12 @@ import { unrollApiResponse } from "../../logic/unroller.js";
 export class DataPurifier {
     /**
      * @method purify
-     * @description
-     * Takes the raw API emanation and returns a purified array of insights.
-     * 
-     * @param {Object} rawResponse - The raw data from the ApiPortal.
-     * @returns {Array} - The purified sparks.
+     * @description Ensures the incoming transmission is a pure, flat Array.
      */
     static purify(rawResponse) {
-        const sparks = unrollApiResponse(rawResponse);
-        console.log(`%c B"H - [DataPurifier] Purified ${sparks.length} sparks of insight.`, "color: #ff99ff;");
-        return sparks;
+        if (Array.isArray(rawResponse)) return rawResponse;
+        
+        // Fallback for single-object emanations
+        return unrollApiResponse(rawResponse);
     }
 }

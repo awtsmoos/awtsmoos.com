@@ -8,7 +8,8 @@
  * This gate allows the seeker to expand/collapse the transmission 
  * and also serves as a portal to the Great Sidebar for deeper study.
  * 
- * "Open the gates, that the righteous nation... may enter."
+ * We use inline CSS injections to guarantee that the lists of comments 
+ * default to visible and cannot be hidden by rogue stylesheet interactions.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -29,12 +30,16 @@ export class GuardianGate {
             attr: { 
                 class: 'commentator inline-holder', 
                 'data-alias': alias, 
-                'data-idx': verseIdx 
+                'data-idx': verseIdx,
+                style: 'display: flex !important; flex-direction: column !important;'
             },
             children: [
                 {
                     tag: 'button',
-                    attr: { class: 'inline-summary-btn active' },
+                    attr: { 
+                        class: 'inline-summary-btn active',
+                        style: 'display: inline-flex !important;'
+                    },
                     children: [
                         { tag: 'span', children: ['💬'] },
                         { tag: 'span', children: [`Insights (@${alias})`] }
@@ -59,7 +64,10 @@ export class GuardianGate {
                 },
                 {
                     tag: 'div',
-                    attr: { class: 'comments-holder-inline', style: 'display: flex;' }
+                    attr: { 
+                        class: 'comments-holder-inline', 
+                        style: 'display: flex !important; flex-direction: column !important; visibility: visible !important;' 
+                    }
                 }
             ]
         };

@@ -55,7 +55,7 @@ function createLocateBtn(comment) {
     if (!isAliasInline(comment.author)) return null;
     return {
         tag: 'button',
-        attr: { class: 'btn small locate-trigger' },
+        attr: { class: 'btn small locate-trigger', style: 'text-transform: none !important;' },
         children: ['📍 Locate'],
         events: {
             click: (e) => {
@@ -82,7 +82,7 @@ function createActionMenu(comment) {
                 attr: { class: 'menu-dropdown hidden' },
                 children: ['Copy', 'Delete'].map(opt => ({
                     tag: 'div',
-                    attr: { class: 'menu-item' },
+                    attr: { class: 'menu-item', style: 'text-transform: none !important;' },
                     children: [opt],
                     events: { click: (e) => {
                         e.stopPropagation();

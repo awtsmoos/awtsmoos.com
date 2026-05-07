@@ -4,12 +4,14 @@
  * @module ApiPortal
  * @chapter The Unified Source
  * @description
- * All data flows from the Infinite into the Finite.
- * This portal ensures a unified transmission of all insights 
- * for a specific Guardian within the context of the current post.
+ * This portal draws directly from the 'masterCommentCache' stored in the 
+ * commentaryStore. Since all comments for the post are fetched during 
+ * bootstrap, this module filters that local reservoir for the requested alias.
+ * It has been healed to explicitly return whether the cache was valid, 
+ * preventing unnecessary network calls when a user simply has zero comments.
  */
 
-import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
+import { commentaryStore } from "/heichelos/post/comments/state/store.js";
 
 /**
  * @class ApiPortal
@@ -17,26 +19,23 @@ import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 export class ApiPortal {
     /**
      * @method fetchPostMap
-     * @description Summons all comments for an alias in the current post context.
-     * @param {string} alias - Identity to summon.
-     * @param {Object} post - Scroll context.
-     * @returns {Promise<Object>} - API response.
+     * @description Returns all unique comments for an alias from the local cache, alongside validation.
+     * @param {string} alias - Identity to filter for.
+     * @returns {Promise<Object>} - { fromCache: boolean, data: Array }
      */
-    static async fetchPostMap(alias, post) {
-        if (!alias || !post) {
-            console.warn("B\"H - [ApiPortal] Missing context for summon.");
-            return { success: false };
+    static async fetchPostMap(alias) {
+        if (!alias) return { fromCache: false, data: [] };
+
+        console.log(`B"H - [ApiPortal] Gazing into the RAM Cache for @${alias}. Is the vessel prepared?`, Array.isArray(commentaryStore.masterCommentCache));
+
+        if (Array.isArray(commentaryStore.masterCommentCache)) {
+            const filtered = commentaryStore.masterCommentCache.filter(c => c.author === alias);
+            console.log(`B"H - [ApiPortal] The RAM Cache is active! Served ${filtered.length} unique sparks for @${alias}.`);
+            return { fromCache: true, data: filtered };
         }
 
-        console.log(`%c B"H - [ApiPortal] Sending unified pulse for @${alias}...`, "color: #00ffcc;");
-
-        return await getCommentsOfAlias({
-            seriesId: post.parentSeriesId || post.seriesId,
-            postId: post.id,
-            heichelId: post.heichel?.id,
-            aliasId: alias,
-            fromCache: false,
-            get: { map: true }
-        });
+        console.warn(`B"H - [ApiPortal] The RAM Cache is an empty void. Returning to nothingness to trigger the Great Fallback.`);
+        // Fallback: If cache is uninitialized, return fromCache: false to trigger network fallback
+        return { fromCache: false, data: [] };
     }
 }

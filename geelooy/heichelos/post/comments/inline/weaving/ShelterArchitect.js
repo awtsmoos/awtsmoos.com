@@ -8,7 +8,8 @@
  * must construct a Shelter. This architect ensures the shelter 
  * is properly manifested and styled.
  * 
- * "And they shall make for Me a sanctuary, that I may dwell among them."
+ * We enforce absolute visibility using inline styles so no external 
+ * CSS can accidentally hide the Light.
  */
 
 export class ShelterArchitect {
@@ -32,8 +33,9 @@ export class ShelterArchitect {
             shelter = document.createElement("div");
             shelter.className = "marginal-gloss-shelter";
             
-            // B"H - Ensuring visibility in the realm of layout.
-            shelter.style.setProperty("display", "flex", "important");
+            // B"H - Brute Force Visibility
+            // We ensure it is a flex column and absolutely visible to the eye.
+            shelter.style.cssText = "display: flex !important; flex-direction: column !important; visibility: visible !important; opacity: 1 !important;";
             vessel.appendChild(shelter);
         }
 
