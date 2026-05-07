@@ -1,64 +1,47 @@
 
 /**
  * B"H
- * Speech: The Final Sefirah, where the Light becomes World.
- * 
- * "With ten utterances the world was created." 
- * Here, we utter the commands to the Document Object Model (DOM).
- * We define the physical boundaries and the resolution of our reality.
- * 
- * @module Speech
+ * @chapter The External Vessels (Canvases)
+ * @description
+ * These canvases are the vessels that receive the light of Tiferet.
+ * We manifest them once and cache their existence.
  */
 export class Speech {
-    static canvas = null;
-    static ctx = null;
-
     /**
-     * Manifest the physical canvas vessel.
-     * It transforms the abstract idea of "graphics" into a tangible array of pixels.
+     * @description Generates the three main layers of reality.
      */
     static manifest() {
-        this.canvas = document.getElementById('ohr-hagnuz-vessel');
-        this.ctx = this.canvas.getContext('2d', {
-            alpha: false,
-            desynchronized: true
+        const layers = [
+            { id: 'layer-bg', z: 0 },
+            { id: 'layer-obj', z: 10 },
+            { id: 'layer-over', z: 20 }
+        ];
+
+        const container = document.body;
+
+        layers.forEach(meta => {
+            if (!document.getElementById(meta.id)) {
+                const canvas = document.createElement('canvas');
+                canvas.id = meta.id;
+                canvas.width = 460;
+                canvas.height = 500;
+                Object.assign(canvas.style, {
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: meta.z,
+                    imageRendering: 'auto', // Vector-friendly
+                    backgroundColor: 'transparent'
+                });
+                container.appendChild(canvas);
+            }
         });
 
-        this.resize();
-        window.addEventListener('resize', () => this.resize());
-    }
+        // Hide the logic canvas
+        const original = document.getElementById('ohr-hagnuz-vessel');
+        if (original) original.style.display = 'none';
 
-    /**
-     * Adjust the dimensions of reality to match the container.
-     * Just as the Divine Light fills all vessels according to their capacity.
-     */
-    static resize() {
-        const dpr = window.devicePixelRatio || 1;
-        this.canvas.width = window.innerWidth * dpr;
-        this.canvas.height = window.innerHeight * dpr;
-        this.canvas.style.width = `${window.innerWidth}px`;
-        this.canvas.style.height = `${window.innerHeight}px`;
-        this.ctx.scale(dpr, dpr);
-        
-        // Ensure smooth rendering for the "realistic" feel
-        this.ctx.imageSmoothingEnabled = true;
-        this.ctx.imageSmoothingQuality = 'high';
-    }
-
-    /**
-     * Get the drawing context, the pen of the Creator.
-     * @returns {CanvasRenderingContext2D}
-     */
-    static getPen() {
-        return this.ctx;
-    }
-
-    /**
-     * Clear the screen, returning it to the state of 'Ayin' (Nothingness)
-     * before the next frame is spoken into being.
-     */
-    static clear() {
-        this.ctx.fillStyle = '#050505';
-        this.ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        console.log("B\"H - Visual vessels are established.");
     }
 }

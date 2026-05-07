@@ -1,36 +1,40 @@
 
 import { Speech } from '../malchus/Speech.js';
-import { Wisdom } from '../chochmah/Wisdom.js';
-import { Understanding } from '../binah/Understanding.js';
+import { GraphicsProjector } from '../tiferet/GraphicsProjector.js';
+import { UIManifestor } from '../render/UIManifestor.js';
+import { FoundationPhysics } from '../yesod/FoundationPhysics.js';
 import { HolyEngine } from '../atzmus/HolyEngine.js';
 
 /**
  * B"H
- * Reshis: The Crown of Initialization.
- * 
- * Keter is the interface between the Infinite and the Finite.
- * It contains the Will (Ratzon) and the Pleasure (Taanug) of the Creator.
- * Here, we Will the canvas to exist, and we Pleasure in its functioning.
- * 
- * @class Reshis
- * @description The orchestrator of the divine flow from Potential to Actual.
+ * @chapter The Genesis Point
+ * @description
+ * Keter is the Crown, the point between the Infinite and the Finite. 
+ * This class orchestrates the Seder Histalshelus—the sequential 
+ * descent of systems into action.
  */
 export class Reshis {
     /**
-     * Ignite the process of creation.
-     * Like the first "Let there be light," this method sets the parameters of existence.
+     * @description Awakens the simulation.
      */
     static ignite() {
-        // 1. Malchus (Speech) - Manifest the physical form (Canvas)
+        console.log("B\"H - Illuminating the Hidden Light...");
+
+        // 1. Create the canvases (Speech)
         Speech.manifest();
 
-        // 2. Binah (Understanding) - Initialize the State (The vessel for knowledge)
-        Understanding.initialize();
+        // 2. Locate canvases and prepare pens (GraphicsProjector)
+        GraphicsProjector.warmupCanvases();
 
-        // 3. Chochmah (Wisdom) - Initialize the Logic (The flash of insight)
-        Wisdom.initialize();
+        // 3. Connect user will to logic (FoundationPhysics)
+        FoundationPhysics.bindMortalInteraction();
 
-        // 4. Atzmus (The Essence) - Start the Holy Engine (The pulse of life)
+        // 4. Build the UI overlays (UIManifestor)
+        UIManifestor.initialize();
+
+        // 5. Start the perpetual pulse (HolyEngine)
         HolyEngine.breathe();
+
+        console.log("B\"H - The Orchard of Asiyah is in full bloom.");
     }
 }

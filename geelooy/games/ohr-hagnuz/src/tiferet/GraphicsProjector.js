@@ -1,32 +1,54 @@
-
 import { StateRegister } from '../binah/StateRegister.js';
-import { RendererMap } from './RendererMap.js';
+import { MapRenderEngine } from '../graphics/MapRenderEngine.js';
 
 /**
  * B"H
- * Tiferet forms the beauty and synthesis of truth.
- * Clears away the Tohu (chaos) and paints Tikun (Order).
- * Extremely minimal object mappings replace all conditional branching.
+ * @chapter The Throne of Beauty (Tiferet)
+ * @description
+ * Tiferet is the heart of the system, balancing the infinite expansion 
+ * of Chochmah and the structured contraction of Binah. 
+ * 
+ * We maintain the caches for our three canvases. 
+ * emanateLight() is the ritual that transforms our internal thoughts 
+ * (state) into the visible beauty of the orchard and the Tzaddik.
  */
 export class GraphicsProjector {
-    static Caches = {};
+    static Caches = {
+        BG: null,
+        OBJ: null,
+        OVER: null
+    };
 
+    /**
+     * @description Locates the canvas elements and caches their context.
+     */
     static warmupCanvases() {
-        const Cfg = { alpha: false, imageSmoothingEnabled: false };
-        this.Caches.BG = document.getElementById('layer-bg').getContext('2d', Cfg);
-        this.Caches.OBJ = document.getElementById('layer-obj').getContext('2d');
-        this.Caches.OVER = document.getElementById('layer-over').getContext('2d');
-        
-        // Anti-aliasing must be strictly defeated to protect pure pixel edges
-        Object.values(this.Caches).forEach(cx => cx.imageSmoothingEnabled = false);
+        const layers = {
+            BG: 'layer-bg',
+            OBJ: 'layer-obj',
+            OVER: 'layer-over'
+        };
+
+        for (const [key, id] of Object.entries(layers)) {
+            const canvas = document.getElementById(id);
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = false; // Preserve the sharp truth of paths
+                this.Caches[key] = ctx;
+            } else {
+                console.warn(`B"H - Warning: Vessel ${id} is not manifest.`);
+            }
+        }
     }
 
-    /** Projects reality dictated solely by the specific Dimension currently inhabited. */
+    /**
+     * @description Projects the light of the current world.
+     */
     static emanateLight() {
-        const mode = StateRegister.ActiveRealm; // 'OVERWORLD', 'DIALOGUE', 'BATTLE'
-        
-        // Execute dynamic mappings to specific render objects logically (Avoiding switch!)
-        const RenderingAxiom = RendererMap[mode] || RendererMap['VOID'];
-        RenderingAxiom.executePaintSequence(this.Caches);
+        if (!this.Caches.BG || !this.Caches.OBJ) return;
+
+        // Routing through our procedural rendering mode
+        // For now, all realms are treated as World Maps
+        MapRenderEngine.draw(this.Caches);
     }
 }

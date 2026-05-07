@@ -1,66 +1,65 @@
 
-import { ColorRegistry } from '../data/PhysicalDictionary.js';
-import { GrassData } from '../data/sprites/nature/GrassData.js';
-import { TreeData } from '../data/sprites/nature/TreeData.js';
-import { HeroDownFrames } from '../data/sprites/human/HeroDownFrames.js';
-import { HeroUpFrames } from '../data/sprites/human/HeroUpFrames.js';
-import { NPCSprites } from '../data/sprites/NPCSprites.js';
-
 /**
  * B"H
- * PixelArchitect: The Supreme Manifestor.
+ * PixelArchitect: The Weaver of the Garments of Light.
  * 
- * This class nullifies itself to the Divine Will, acting as the 
- * bridge between abstract ASCII data and physical canvas pixels.
- * It gathers all gait frames and environmental sprites into a single 
- * accessible registry.
+ * "The world was created with letters." 
+ * This module takes the ASCII matrices (the Otiot) and weaves them 
+ * into ImageBitmaps (the Begadim/Garments) that can be manifested 
+ * on the physical canvas.
+ * 
+ * @module PixelArchitect
  */
 export class PixelArchitect {
-    static Buffers = {};
-    static Res = 64;
-
     /** 
-     * Materializes all sprite data into offscreen canvases.
+     * The Holy Color Map. 
+     * Each letter represents a divine attribute reflected in color.
      */
-    static prepareSenses() {
-        const fullRegistry = {
-            "G_T": GrassData.BASE,
-            "G_T_DET": GrassData.DETAILED,
-            "TREE_1": TreeData.OAK_PRIMARY,
-            ...HeroDownFrames,
-            ...HeroUpFrames,
-            ...NPCSprites
-            // Side frames omitted for brevity in this specific response but would follow identically
-        };
-
-        Object.entries(fullRegistry).forEach(([key, matrix]) => {
-            this.Buffers[key] = this.manifest(matrix);
-        });
-    }
+    static COLOR_MAP = {
+        'B': '#000000', // Border / Gevurah (Limitation)
+        'k': '#1a1a1a', // Black hair / Darkness
+        '^': '#333333', // Hair highlight
+        's': '#ffdbac', // Skin / Chesed (Kindness)
+        'd': '#e0ac69', // Shadow skin
+        'P': '#ff9999', // Blush / Tiferet (Harmony)
+        'e': '#ffffff', // Eyes / White light
+        'x': '#000000', // Pupils
+        'f': '#8d5524', // Mouth / Deep shadow
+        'c': '#f0f0f0', // White clothing / Purity
+        'G': '#2e7d32', // Green / Growth
+        'z': '#4e342e', // Brown / Earthiness
+        'p': '#1565c0', // Blue robe / Wisdom
+        'q': '#0d47a1', // Dark blue robe
+        'T': '#1b5e20', // Leaves / Netzach
+        '1': '#388e3c', // Light leaves
+        'O': 'transparent', // Void / Ayin
+    };
 
     /**
-     * B"H
-     * Performs the Tzimtzum of strings into pixels.
+     * Translates an ASCII matrix into a drawable Canvas.
+     * @param {string[]} matrix 2D array of characters.
+     * @param {number} size Pixel size of the output.
+     * @returns {HTMLCanvasElement} The manifested vessel.
      */
-    static manifest(matrix) {
+    static weave(matrix, size = 64) {
+        if (!matrix || !matrix.length) return null;
         const canvas = document.createElement('canvas');
-        canvas.width = this.Res; canvas.height = this.Res;
+        canvas.width = size;
+        canvas.height = size;
         const ctx = canvas.getContext('2d');
         
-        matrix.forEach((line, y) => {
-            [...line].forEach((otiya, x) => {
-                const color = ColorRegistry[otiya] || 'transparent';
-                if (color !== 'transparent') {
+        const pixelSize = size / matrix.length;
+
+        matrix.forEach((row, y) => {
+            [...row].forEach((char, x) => {
+                const color = this.COLOR_MAP[char];
+                if (color && color !== 'transparent') {
                     ctx.fillStyle = color;
-                    ctx.fillRect(x, y, 1, 1);
+                    ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize + 0.5, pixelSize + 0.5);
                 }
             });
         });
-        return canvas;
-    }
 
-    /** Retrieves the manifest. */
-    static get(key) {
-        return this.Buffers[key] || null;
+        return canvas;
     }
 }
