@@ -20,7 +20,7 @@
     font-family: var(--font-heading);
     font-weight: 900;
     font-size: 1.8rem;
-    text-transform: uppercase;
+    text-transform: none !important;
     margin: 0;
     border-bottom: var(--border-thin);
     padding-bottom: 10px;
@@ -48,7 +48,7 @@
     color: var(--color-ink, #000);
     background: var(--color-accent, #ffae00);
     padding: 6px 12px;
-    text-transform: uppercase;
+    text-transform: none !important;
     border: 2px solid var(--color-ink, #000);
     box-shadow: 2px 2px 0 var(--bg-surface, #fff);
     cursor: pointer;
@@ -90,7 +90,7 @@
     font-family: var(--font-heading);
     font-weight: 900;
     font-size: 1rem;
-    text-transform: uppercase;
+    text-transform: none !important;
     margin-bottom: 10px;
 }
 

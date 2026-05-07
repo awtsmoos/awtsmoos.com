@@ -30,7 +30,7 @@
 
 #heichel-main-title {
     font-size: clamp(2rem, 6vw, 4.5rem);
-    text-transform: uppercase;
+    text-transform: none !important;
     margin: 0;
     line-height: 0.9;
     letter-spacing: -2px;
@@ -108,7 +108,7 @@
     text-align: center;
     font-family: var(--font-ui);
     font-weight: 700;
-    text-transform: uppercase;
+    text-transform: none !important;
     border: var(--border-thin);
     background: rgba(0,0,0,0.03);
 }

@@ -29,7 +29,7 @@
     font-family: var(--font-heading);
     font-weight: 800;
     font-size: 1.5rem;
-    text-transform: uppercase;
+    text-transform: none !important;
     margin: 0;
     line-height: 1.1;
 }

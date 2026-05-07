@@ -12,7 +12,7 @@
     align-items: center; 
     font-family: var(--font-mono); 
     font-size: 12px;
-    text-transform: uppercase; 
+    text-transform: none !important; /* B"H - Shattered the uppercase Kelipah */
     font-weight: 800; 
     padding: 8px 12px; /* Bigger touch target */
     cursor: pointer; 
@@ -120,6 +120,7 @@
     font-family: var(--font-ui);
     font-weight: 900; 
     font-size: 18px; 
+    text-transform: none !important; /* Allow the pure name to shine */
 }
 
 .post-reader-localized-context .awtsmoos-list-item.ai-monolith .keeper-name {
@@ -127,6 +128,7 @@
     font-family: var(--font-ui);
     font-weight: 900; 
     font-size: 18px;
+    text-transform: none !important;
 }
 
 .post-reader-localized-context .keeper-arrow { 
@@ -178,4 +180,29 @@
 .inline-toggle-input:checked + .inline-toggle-label::after {
     transform: translateX(22px); 
     background-color: var(--color-ink); 
+}
+
+/* B"H - THE CHAMBER HEADERS (Sub-Titles) */
+.post-reader-localized-context .awtsmoos-view-header {
+    flex-shrink: 0 !important;
+    padding: 6px 12px !important;
+    background: var(--color-ink) !important;
+    border-bottom: 4px solid var(--color-accent) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    z-index: 5 !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-title-text {
+    font-family: var(--font-heading) !important;
+    font-weight: 900 !important;
+    font-size: 1rem !important; 
+    text-transform: none !important; /* B"H - Pure Name Manifestation */
+    color: var(--color-accent) !important;
+    letter-spacing: 1px !important;
+    flex: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
