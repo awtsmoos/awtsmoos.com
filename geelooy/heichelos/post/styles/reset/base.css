@@ -27,3 +27,31 @@
     color: var(--color-primary) !important;
     text-decoration: none !important;
 }
+
+/* B"H - ABSOLUTE PURIFICATION OF FORCED CAPITALIZATION 
+   The true names of things must be displayed exactly as entered.
+   We strip the Uppercase shell from all UI elements globally within the context.
+*/
+.post-reader-localized-context .awtsmoos-view-title-text,
+.post-reader-localized-context .commentator-name,
+.post-reader-localized-context .keeper-name,
+.post-reader-localized-context .awtsmoos-crumb-link,
+.post-reader-localized-context .awtsmoos-back-btn,
+.post-reader-localized-context .awtsmoos-current-view-title,
+.post-reader-localized-context .ai-title,
+.post-reader-localized-context .card-title,
+.post-reader-localized-context .post-title,
+.post-reader-localized-context .series-name,
+.post-reader-localized-context .commentTitle,
+.post-reader-localized-context .inline-summary-btn,
+.post-reader-localized-context .awtsmoos-list-item,
+.post-reader-localized-context .btn,
+.post-reader-localized-context .awtsmoos-hero-btn,
+.post-reader-localized-context .label,
+.post-reader-localized-context .sidebar h2,
+.post-reader-localized-context .sidebar h3,
+.post-reader-localized-context .ai-role-tag,
+.post-reader-localized-context .awtsmoos-integrated-header *,
+.post-reader-localized-context .awtsmoos-massive-menu-btn * {
+    text-transform: none !important;
+}

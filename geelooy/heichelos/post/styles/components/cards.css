@@ -27,3 +27,12 @@
     border-top: var(--border-thin) !important;
     padding-top: 10px !important;
 }
+
+.card-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    text-transform: none !important;
+    margin: 0;
+    line-height: 1.1;
+}

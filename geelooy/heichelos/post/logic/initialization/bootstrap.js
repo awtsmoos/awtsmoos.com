@@ -3,6 +3,10 @@
  * B"H
  * @module BootstrapRitual
  * @chapter Ignition of Consciousness
+ * @description
+ * The Great Seder Histalshelus begins here. We gather the initial coordinates, 
+ * instantiate the boundaries of the text, and perform the Unified Gathering 
+ * to pull down all commentary light from the Awtsmoos at once.
  */
 
 import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
@@ -20,6 +24,9 @@ import TabManager from "/heichelos/post/TabManager.js";
 import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js";
 import { populateRootMenu } from "/heichelos/post/logic/initialization/sidebarContent.js";
 import { manifestAllActiveInlines } from "/heichelos/post/comments/inline.js";
+import { updateQueryStringParameter } from "/heichelos/post/functions/utils.js";
+import { commentaryStore } from "/heichelos/post/comments/state/store.js";
+import { unrollApiResponse } from "/heichelos/post/comments/logic/unroller.js";
 
 export async function ignite() {
     console.log("%c B\"H - Commencing Unified Seder Histalshelus", "color: #ccff00; font-weight: 900;");
@@ -84,7 +91,47 @@ export async function ignite() {
 
         window.tabRefs.rootMenu.open();
 
-        // B"H - Restore Marginal Insights
+        // B"H - UNIFIED COMMENT GATHERING
+        // We fetch every voice that spoke upon this scroll in a single surge of light.
+        // Healed to account for Series ID and Unrolling object maps.
+        try {
+            const seriesContextStr = post.parentSeriesId && post.parentSeriesId !== "root" ? `/series/${encodeURIComponent(post.parentSeriesId)}` : "";
+            const url = `/api/social/heichelos/${encodeURIComponent(hId)}${seriesContextStr}/post/${encodeURIComponent(post.id)}/comments`;
+            
+            console.log(`B"H - [Bootstrap] Summoning all unified light from the Awtsmoos: ${url}`);
+            
+            const res = await fetch(url);
+            if (res.ok) {
+                const data = await res.json();
+                
+                // Purifying the outer kelipot (object wrappers) into a pure array of light
+                const allComments = unrollApiResponse(data);
+                
+                if (Array.isArray(allComments) && allComments.length > 0) {
+                    console.log(`B"H - [Bootstrap] Unified gathering successful! Anchoring ${allComments.length} sparks into the Master Cache.`);
+                    // Anchor to Holy Store
+                    commentaryStore.masterCommentCache = allComments;
+                    
+                    // Auto-register every Guardian for Inline Manifestation
+                    const aliases = [...new Set(allComments.map(c => c.author).filter(Boolean))];
+                    const currentInline = new URLSearchParams(location.search).get("inline");
+                    if (!currentInline && aliases.length > 0) {
+                        updateQueryStringParameter("inline", JSON.stringify(aliases));
+                    }
+                } else {
+                    console.log(`B"H - [Bootstrap] Unified gathering found no sparks (Void state). Master Cache remains pure potential.`);
+                    commentaryStore.masterCommentCache = [];
+                }
+            } else {
+                 console.warn(`B"H - [Bootstrap] Unified gathering encountered a rupture in the API gateway. Status: ${res.status}`);
+                 commentaryStore.masterCommentCache = [];
+            }
+        } catch(e) {
+            console.warn("B\"H - Disruption in initial unified gathering. We will rely on the Fallback Transmitters.", e);
+            commentaryStore.masterCommentCache = [];
+        }
+
+        // B"H - Manifest Marginal Insights across the initial scroll view
         await manifestAllActiveInlines();
 
         await indexSwitch(true);

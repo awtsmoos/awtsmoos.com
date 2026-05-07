@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @module SovereignScribe
@@ -80,7 +81,9 @@ export async function renderChunk(chunkId) {
     container.appendChild(frag);
     
     // B"H - PERSISTENT MARGINALIA TRIGGER (DEBOUNCED)
-    // Ensures inline comments load flawlessly without overlapping API fetches.
+    // Ensures inline comments load flawlessly into the newly forged DOM verses.
+    // By re-running the manifestAllActiveInlines ritual, the SparkFixer will 
+    // find these newly rendered Verses and attach the appropriate Light to them.
     if (window.pendingInlineManifest) clearTimeout(window.pendingInlineManifest);
     window.pendingInlineManifest = setTimeout(async () => {
         const { manifestAllActiveInlines } = await import("../comments/inline.js");

@@ -29,7 +29,7 @@
     font-family: var(--font-heading) !important;
     font-weight: 900 !important;
     font-size: 14px !important; /* Scaled down for compact display */
-    text-transform: uppercase !important; 
+    text-transform: none !important; 
     color: var(--color-ink) !important;
     flex: 1 !important;
     white-space: nowrap !important;

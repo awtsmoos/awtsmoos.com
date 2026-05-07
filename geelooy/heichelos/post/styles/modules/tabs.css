@@ -52,7 +52,7 @@
     font-family: var(--font-heading) !important;
     font-weight: 900 !important;
     font-size: 1rem !important; /* Noticeable but not overpowering */
-    text-transform: uppercase !important;
+    text-transform: none !important; /* Removed forced uppercase */
     color: var(--color-accent) !important;
     letter-spacing: 1px !important;
     flex: 1 !important;
@@ -78,7 +78,7 @@
     align-items: center !important; 
     font-family: var(--font-ui) !important; 
     font-size: 10px !important; /* Smaller navigation UI */
-    text-transform: none !important; 
+    text-transform: none !important; /* Restored natural casing */
     font-weight: 900 !important; 
     padding: 4px 10px !important; 
     cursor: pointer !important; 

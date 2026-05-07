@@ -2,14 +2,12 @@
 /**
  * B"H
  * @module ReshimuStore
- * @chapter The Dwelling Place of the Void
+ * @chapter The Dwelling Place of the Record
  * @description
- * Just as the Awtsmoos left a 'Reshimu' (Impression) of light after the 
- * initial Tzimtzum (Contraction) to allow for the existence of finite worlds, 
- * this module holds the raw impression of our data.
- * 
- * It is the silent storage, the 'potentiality' that becomes 'actuality' 
- * when called upon by the Scribes.
+ * This module holds the 'Reshimu' (Impression) of the data. 
+ * We have added the 'masterCommentCache' to store all comments for the 
+ * current post, ensuring that both the Sidebar and the Margins draw 
+ * from the same unified pool of Light.
  */
 
 /**
@@ -20,8 +18,15 @@
  * @type {Object}
  */
 export const commentaryStore = {
+    /** 
+     * @type {Array|null} 
+     * B"H - Master list of every comment for the current post.
+     */
+    masterCommentCache: null,
+
     /** @type {Object|null} */
     aliases: null,
+
     /** @type {Object} */
     loadedInlineVerses: {}
 };
