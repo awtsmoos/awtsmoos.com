@@ -1,52 +1,55 @@
 
 import { StateRegister } from '../binah/StateRegister.js';
-import { Intents } from '../keter/ControllerOfWill.js';
 import { WorldMapAssembler } from '../data/WorldMapAssembler.js';
 import { InteractionValidator } from './InteractionValidator.js';
+import { MovementLogic } from './logic/MovementLogic.js';
+import { PathLogic } from './logic/PathLogic.js';
 
 /**
  * B"H
- * OverworldLogic: Governing the locomotion of the soul.
+ * @class OverworldLogic
+ * @chapter Governing the Locomotion of the Soul
  */
 export class OverworldLogic {
-    
     static digestTick() {
         const HR = StateRegister.HeroPos;
-        // Basic Velocity modified by the Wisdom of the Menu
-        const baseSpeed = 2; 
-        const speed = baseSpeed * StateRegister.GameSpeedMultiplier; 
-        
+        const intents = window.AwtsmoosIntents || { U:0, D:0, L:0, R:0, A:0 }; 
+
         if (HR.moving) {
-            // Movement aligned with direction and modified by divine speed
-            if (HR.dir === 'u') HR.dy -= speed; if (HR.dir === 'd') HR.dy += speed;
-            if (HR.dir === 'l') HR.dx -= speed; if (HR.dir === 'r') HR.dx += speed;
-            
-            HR.stepTick += speed;
-            
-            // Re-alignment perfection: 32px is the fundamental border
-            if (HR.dx % 32 === 0 && HR.dy % 32 === 0) {
-                HR.moving = false; 
-                HR.stepTick = 0; 
-                HR.cx = HR.dx / 32; 
-                HR.cy = HR.dy / 32;
-            }
+            MovementLogic.processKineticShift();
             return;
         }
 
-        // Logic branching: Arousing movement vs Speech
-        if (InteractionValidator.checkSpeechAction()) return;
+        if (intents.U || intents.D || intents.L || intents.R) {
+            StateRegister.HeroPath = [];
+            StateRegister.PathTarget = null;
+        }
+
+        if (intents.A) {
+            StateRegister.HeroPath = [];
+            StateRegister.PathTarget = null;
+            if (InteractionValidator.checkSpeechAction()) return;
+        }
+
+        if (StateRegister.HeroPath.length > 0) {
+            PathLogic.resolvePathStep();
+            return;
+        }
 
         let nDx = 0, nDy = 0, rD = HR.dir;
-        if (Intents.U) { nDy = -1; rD = 'u'; } else if (Intents.D) { nDy = 1; rD = 'd'; }
-        else if (Intents.L) { nDx = -1; rD = 'l'; } else if (Intents.R) { nDx = 1; rD = 'r'; }
+        if (intents.U) { nDy = -1; rD = 'u'; } 
+        else if (intents.D) { nDy = 1; rD = 'd'; }
+        else if (intents.L) { nDx = -1; rD = 'l'; } 
+        else if (intents.R) { nDx = 1; rD = 'r'; }
         
         if (nDx !== 0 || nDy !== 0) {
             HR.dir = rD;
-            const tx = HR.cx + nDx; 
-            const ty = HR.cy + nDy;
-            const target = WorldMapAssembler.WorldRegistry.find(g => g.x === tx && g.y === ty);
-            // Obstacles in Asiyah (Blocks)
-            if (target && !target.block) {
+            const target = WorldMapAssembler.WorldRegistry.find(g => g.x === HR.cx + nDx && g.y === HR.cy + nDy);
+            
+            // If the target exists and is not a solid object, move onto it.
+            // Edge portals are solid:false, so we simply walk onto them, 
+            // and the PortalValidator handles the dimensional fold at the end of the step.
+            if (target && !target.solid) {
                 HR.moving = true;
             }
         }

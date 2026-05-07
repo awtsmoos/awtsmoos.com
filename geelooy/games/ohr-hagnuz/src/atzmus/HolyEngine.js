@@ -1,26 +1,22 @@
 
-import { Speech } from '../malchus/Speech.js';
-import { Wisdom } from '../chochmah/Wisdom.js';
-import { Beauty } from '../tiferet/Beauty.js';
-import { MenuEngine } from '../graphics/MenuEngine.js';
+import { Projector } from '../tiferet/Projector.js';
+import { Logic } from '../yesod/Logic.js';
+import { Input } from '../yesod/Input.js';
 
+/**
+ * B"H
+ * @class HolyEngine
+ */
 export class HolyEngine {
-    static lastTime = 0;
-    static breathe() {
-        const loop = (timestamp) => {
-            const dt = Math.min(timestamp - this.lastTime, 32);
-            this.lastTime = timestamp;
-            this.pulse(dt);
-            requestAnimationFrame(loop);
+    static ignite() {
+        Projector.warmup();
+        Input.bind();
+
+        const pulse = () => {
+            Logic.process();
+            Projector.project();
+            requestAnimationFrame(pulse);
         };
-        requestAnimationFrame(loop);
-    }
-    static pulse(dt) {
-        Speech.clear();
-        Wisdom.process(dt);
-        const ctx = Speech.getPen();
-        Beauty.reveal(ctx);
-        MenuEngine.draw(ctx);
-        Speech.drawUI();
+        requestAnimationFrame(pulse);
     }
 }

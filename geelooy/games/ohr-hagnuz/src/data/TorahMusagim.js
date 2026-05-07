@@ -3,19 +3,16 @@
  * B"H
  * TorahMusagim: The Elements of Reality.
  * 
- * Chapter: The Four Who Entered the Orchard.
- * Pshat (Earth/Dust) - The physical surface.
- * Remez (Water) - The flowing hints.
- * Drush (Fire) - The burning inquiry.
- * Sod (Air/Spirit) - The hidden essence.
- * 
- * @module TorahMusagim
+ * PSHAT (Earth/Dust) - The physical surface. Solid, rigid, unyielding logic.
+ * REMEZ (Water) - The flowing hints. Connective, adaptable, elusive.
+ * DRUSH (Fire) - The burning inquiry. Expansive, destructive to falsehood.
+ * SOD (Air/Spirit) - The hidden essence. Invisible, all-encompassing.
  */
 export const MUSAGIM_TYPES = {
-    PSHAT: { name: 'Pshat', element: 'Earth', color: '#795548', beats: ['REMEZ'], weakTo: ['DRUSH'] },
-    REMEZ: { name: 'Remez', element: 'Water', color: '#0288d1', beats: ['DRUSH'], weakTo: ['PSHAT'] },
-    DRUSH: { name: 'Drush', element: 'Fire', color: '#d32f2f', beats: ['PSHAT'], weakTo: ['REMEZ'] },
-    SOD: { name: 'Sod',   element: 'Air',  color: '#9c27b0', beats: ['PSHAT', 'REMEZ', 'DRUSH'], weakTo: ['SOD'] }
+    PSHAT: { name: 'Pshat', element: 'EARTH', color: '#795548', beats: ['REMEZ'], weakTo: ['DRUSH'] },
+    REMEZ: { name: 'Remez', element: 'WATER', color: '#0288d1', beats: ['DRUSH'], weakTo: ['PSHAT'] },
+    DRUSH: { name: 'Drush', element: 'FIRE', color: '#d32f2f', beats: ['PSHAT'], weakTo: ['REMEZ'] },
+    SOD: { name: 'Sod',   element: 'AIR',  color: '#9c27b0', beats: ['PSHAT', 'REMEZ', 'DRUSH'], weakTo: ['SOD'] }
 };
 
 export const SEFARIM_LIBRARY = [

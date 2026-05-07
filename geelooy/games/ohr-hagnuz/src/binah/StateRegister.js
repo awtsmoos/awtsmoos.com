@@ -1,42 +1,62 @@
 
 /**
  * B"H
- * StateRegister: The Book of Finite Records.
- * 
- * Chapter: The Anchor of Malkhut.
- * Keeps track of exactly where the Light is focused in the world of Asiyah.
- * The variables herein are the limits that define our hero's existence.
- * Without this state, every calculation would drift into Tohu (Chaos).
- * 
- * @constant {Object}
+ * @class StateRegister
+ * @chapter The Scroll of Records (Binah)
+ * @description
+ * Understanding (Binah) provides the containers for the Wisdom (Chochmah). 
+ * This class holds the persistent memory of Asiyah, tracking the evolution
+ * of the soul through the grid.
  */
-export const StateRegister = {
-    ActiveRealm: 'OVERWORLD',
-    GameSpeedMultiplier: 1.0,
+export class StateRegister {
+    static ActiveRealm = 'OVERWORLD';
+    static CurrentMapId = 'Overworld_Main';
     
-    // Physical anchor: Grid size 64px for supreme realism identically perfectly
-    HeroPos: {
-        cx: 5,   // Grid X
-        cy: 5,   // Grid Y
-        dx: 320, // Pixel X (5 * 64)
-        dy: 320, // Pixel Y (5 * 64)
-        dir: 'd',
-        moving: false,
-        stepTick: 0 // Progress from 0 to 63
-    },
+    // Physical resolution of each tile in pixels
+    static Resolution = 64;
+    static GameSpeedMultiplier = 1;
     
-    Resolution: 64,
+    // The kinetic state of the Tzaddik
+    static HeroPos = { 
+        cx: 12, cy: 7,    // Grid coordinate (Central road)
+        dx: 12 * 64,      // Pixel X
+        dy: 7 * 64,       // Pixel Y
+        dir: 'd',         // Direction (u,d,l,r)
+        moving: false,    // Kinetic arousal
+        stepTick: 0       // Progress through the current step (0 to 64)
+    };
+
+    // Automated pathing derived from the Finger of God (Providence)
+    static HeroPath = [];
+    static PathTarget = null;
     
-    // UI Dimensional states
-    IsSettingsMenuOpen: false,
-    SettingsSelectionIdx: 0,
+    // Spiritual Statistics
+    static HeroStats = { 
+        light: 100, 
+        maxLight: 100, 
+        level: 1, 
+        xp: 0, 
+        xpNeeded: 100 
+    };
+
+    // Inventory of Insights
+    static Inventory = {
+        mishnah: ['M_AVOT_1'], 
+        kabbalah: [],
+        niggunim: [],
+        essences: [] 
+    };
+
+    static Gelt = 18; // The sparks of currency
     
-    // Speech States
-    DialogBankId: null,
-    DialogLineIdx: 0,
-    
-    // Battle States
-    BattleSubState: 'MAIN_MENU',
-    MenuCursorSelection: 0,
-    BattleLogQueue: []
+    // UI Interaction states
+    static IsDialogueOpen = false;
+    static DialogBankId = null;
+    static VisibleText = "";
+}
+
+// Mortal Intention Input Buffer
+window.AwtsmoosIntents = { 
+    U: 0, D: 0, L: 0, R: 0, 
+    A: 0, B: 0, START: 0, SEL: 0 
 };
