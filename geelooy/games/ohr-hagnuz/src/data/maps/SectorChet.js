@@ -1,0 +1,23 @@
+
+/**
+ * B"H
+ * @chapter Sector Chet - The South Gate
+ * @description
+ * Chet represents the protective wall (Gevurah). 
+ * 2 = Road.
+ */
+export const SectorChet = [
+    "TTTTTTTTTTTT22TTTTTTTTTTT",
+    "T11111111111221111111111T",
+    "T11111111111221111111111T",
+    "T11🌿🌿🌿11122111⚔111111T",
+    "T11🌿🌿🌿111221111111111T",
+    "T11🌿🐂🌿111221111🛡1111T", // Bull and Shield Bearer
+    "T11🌿🌿🌿111221111111111T",
+    "T11111111111221111111111T",
+    "T11111111111221111111111T",
+    "T11111111111221111111111T",
+    "T11111111111221111111111T",
+    "T11111111111221111111111T",
+    "TTTTTTTTTTTTTTTTTTTTTTTTT"
+];
