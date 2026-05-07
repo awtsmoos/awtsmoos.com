@@ -2,7 +2,7 @@
 /**
  * B"H
  * ControllerOfWill: The nexus of intention.
- * Channels keyboard (Space, Arrow Keys) and physical touch vectors into the Seder.
+ * Channels keyboard (Space, Arrow Keys, E, Q) and physical touch vectors into the Seder.
  */
 export const Intents = { U: 0, D: 0, L: 0, R: 0, A: 0, B: 0, START: 0, SEL: 0 };
 export const PreviousIntents = { U: 0, D: 0, L: 0, R: 0, A: 0, B: 0, START: 0, SEL: 0 };
@@ -12,8 +12,8 @@ const InputRegistry = {
     'ArrowDown': 'D', 's': 'D', 'S': 'D',
     'ArrowLeft': 'L', 'a': 'L', 'A': 'L',
     'ArrowRight': 'R', 'd': 'R', 'D': 'R',
-    'z': 'A', 'Enter': 'A', ' ': 'A',
-    'x': 'B', 'Shift': 'B'
+    'z': 'A', 'Enter': 'A', ' ': 'A', 'e': 'A', 'E': 'A',
+    'x': 'B', 'Shift': 'B', 'q': 'B', 'Q': 'B'
 };
 
 export class ControllerOfWill {
@@ -53,7 +53,6 @@ export class ControllerOfWill {
     }
 
     /** 
-     * The Missing Function: consumeIntent.
      * Performs a 'Tikun' (Fixing) by clearing the pulse after use, 
      * preventing multiple actions in one state dimension.
      */

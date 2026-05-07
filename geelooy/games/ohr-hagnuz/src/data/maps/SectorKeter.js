@@ -1,45 +1,27 @@
 
 /**
  * B"H
- * SectorKeter: The Crown of the World Map.
+ * @file SectorKeter.js
+ * @chapter The Crown of Emanation
+ * @description
+ * Keter (Crown) is the highest of the Sefirot, touching the infinite Awtsmoos directly. 
+ * This file is the raw matrix of the Overworld, sustained breath by breath by the Creator.
+ * Embedded within this tapestry are the thickets of Tohu (Chaos), represented by the '🌿' 
+ * (Tall Grass) where the shattered vessels (Klipot) hide the Holy Sparks.
  * 
- * Chapter: The Expanding Heavens.
- * "He stretches out the heavens like a curtain, and spreads them out like a tent to dwell in." (Isaiah 40:22).
- * Instead of disjointed shards, we pull the map into a unified string matrix.
- * Every letter is a soul. '1' is simple grass, '2' is complex grass, 'T' is the Tree of Life (or a physical tree),
- * and 'S' is the Sage offering Torah.
+ * Furthermore, two distinct gateways exist here: '🚪' leading to the realm of Aleph, 
+ * and '⛩️' leading to the realm of Beis. No longer shall dimensional travel be confused; 
+ * every portal knows its twin perfectly through the Divine decrees of the PortalDictionary.
  * 
- * @constant {Array<string>}
+ * @constant {Array<string>} SectorKeter
  */
 export const SectorKeter = [
-    "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
-    "T1111111111112211111111111111T",
-    "T111S111111112211111111111111T",
-    "T1111111111111111111T11111111T",
-    "T111111TT1111111111TTT1111111T",
-    "T11111TTTT111111111TTT1111111T",
-    "T111111TT11111111111T11111111T",
-    "T1122111111111111111111111111T",
-    "T1122111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111122111T",
-    "T1111111111111111111111122111T",
-    "T1111111111111111111111111111T",
-    "T11111111T1111111111111111111T",
-    "T1111111TTT111111111111111111T",
-    "T11111111T1111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T111111111111111S111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "T1111111111111111111111111111T",
-    "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
+    "TTTTTTTTTTTTTTTTT",
+    "T111111111111111T",
+    "T1🌿🌿🌿111S1111T",
+    "T1🌿🌿🌿11111111T",
+    "T111111111111111T",
+    "T111🚪111111⛩️11T",
+    "T111111111111111T",
+    "TTTTTTTTTTTTTTTTT"
 ];

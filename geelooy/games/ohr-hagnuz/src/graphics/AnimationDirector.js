@@ -3,35 +3,33 @@ import { StateRegister } from '../binah/StateRegister.js';
 
 /**
  * B"H
- * AnimationDirector: The weaver of the loom of time.
- * Calculates which aspect of the 6-frame cycle is visible.
- * This class coordinates the dance of pixels according to directional will.
+ * @chapter The Rhythm of the Soul (Kav HaMidah)
+ * @description
+ * This class translates the physical progress of a step into 
+ * the logical frame of an animation. Our High-Res Gaits 
+ * use 6 frames per 64-pixel stride.
+ * 
+ * We ensure that when the Hero is at rest, they face the 
+ * chosen direction in 'Frame 1' (The Idle Pillar).
  */
 export class AnimationDirector {
-    /** 
-     * Resolves the string identifier for a high-res gait frame.
-     * 
+    /**
      * @param {string} direction - 'u', 'd', 'l', 'r'
-     * @param {boolean} isMoving - Is the hero active in space?
-     * @param {number} progress - Current pixel offset within tile (0 to 63)
+     * @param {boolean} isMoving - Is the hero active?
+     * @param {number} progress - 0 to 63
      */
     static resolveHeroFrame(direction, isMoving, progress) {
         const dStr = direction.toUpperCase();
         
         if (!isMoving) {
-            // Idle state defaults to Frame 1 (Static standing)
             return `HERO_${dStr}_F1`;
         }
 
-        // Logic for 6 frames across a 64-pixel stride
         const framesInCycle = 6;
         const resolution = StateRegister.Resolution || 64;
         
-        // Approximate 10.6 ticks per frame of human motion
-        const ticksPerFrame = resolution / framesInCycle;
-        let frameIndex = Math.floor(progress / ticksPerFrame) + 1;
-
-        // Secure boundary against Tohu floating points
+        // Map 0-63 progress to 1-6 index
+        const frameIndex = Math.floor((progress / resolution) * framesInCycle) + 1;
         const finalIdx = Math.min(Math.max(frameIndex, 1), framesInCycle);
         
         return `HERO_${dStr}_F${finalIdx}`;

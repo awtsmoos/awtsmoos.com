@@ -1,127 +1,171 @@
 
 import { StateRegister } from '../binah/StateRegister.js';
-import { PixelArchitect } from '../render/PixelArchitect.js';
 import { WorldMapAssembler } from '../data/WorldMapAssembler.js';
-import { AnimationDirector } from './AnimationDirector.js';
-import { DialogueEngine } from './DialogueEngine.js';
+import { ProceduralEnvironment } from '../render/ProceduralEnvironment.js';
+import { ArchitecturalManifest } from '../render/ArchitecturalManifest.js';
+import { HumanGenerator } from '../render/HumanGenerator.js';
+import { PathRenderer } from '../render/PathRenderer.js';
+import { RoadPainter } from './render/RoadPainter.js';
+import { GroundPainter } from './render/GroundPainter.js';
 
 /**
  * B"H
- * MapRenderEngine: Re-manifesting Asiyah per pulse with True Depth.
- * 
- * Chapter: The Illusion of Dimension.
- * When the Infinite Light contracted (Tzimtzum), it left a void where dimensions
- * could appear to exist. Time (frames), Space (X/Y), and Depth (Z-sorting) are
- * illusions maintained by the constant flow of calculations. By sorting our render 
- * queue based on the Y-axis, we replicate the physical reality where a tree obscures
- * a man standing behind it, and a man obscures a tree he stands in front of.
- * This is the ultimate Tikun (fixing) for the spatial visuals.
- * 
  * @class MapRenderEngine
+ * @chapter The Master Weaver of Dimensions
  */
 export class MapRenderEngine {
-    
-    /**
-     * @param {Object} contexts - The Malchut canvases (BG, OBJ, OVER)
-     */
     static draw(contexts) {
-        const bg = contexts.BG; const obj = contexts.OBJ; const ov = contexts.OVER;
-        const SCREEN_W = 460; const SCREEN_H = 500;
-        const T = StateRegister.Resolution || 64; 
+        const bg = contexts.BG;
+        const obj = contexts.OBJ;
+        if (!bg || !obj) return;
 
-        bg.fillStyle = '#0a0a0d'; bg.fillRect(0,0,SCREEN_W,SCREEN_H);
-        obj.clearRect(0,0,SCREEN_W,SCREEN_H);
-        ov.clearRect(0,0,SCREEN_W,SCREEN_H); 
+        const W = bg.canvas.width, H = bg.canvas.height;
+        const RES = StateRegister.Resolution || 64;
+        const isHouse = StateRegister.CurrentMapId.includes('House') || StateRegister.CurrentMapId === 'HOUSE';
 
-        const midX = SCREEN_W / 2;
-        const midY = SCREEN_H / 2;
-
-        // Camera Offset aligned to center the 64x64 Hero dynamically
-        const offX = StateRegister.HeroPos.dx - midX + (T / 2);
-        const offY = StateRegister.HeroPos.dy - midY + (T / 2);
+        // Base Region Background Colors (The endless firmament beneath)
+        const regionColors = {
+            'Gimmel': '#e6c280',    // Desert
+            'YudDalet': '#f5f5f5',  // Snow
+            'YudHey': '#5d4037',    // Mountain
+            'YudVav': '#0288d1'     // Ocean
+        };
         
-        // 1. Gather all entities into a Render Queue for Y-Sorting
+        bg.fillStyle = isHouse ? '#2d1e16' : '#1b5e20'; 
+        Object.entries(regionColors).forEach(([key, color]) => {
+            if (StateRegister.CurrentMapId.includes(key)) bg.fillStyle = color;
+        });
+
+        bg.fillRect(0, 0, W, H);
+        obj.clearRect(0, 0, W, H);
+
+        const midX = W / 2, midY = H / 2;
+        
+        // CRITICAL: Floor the camera coordinates to prevent sub-pixel artifacting/seams!
+        const camX = Math.floor(StateRegister.HeroPos.dx - midX + (RES / 2));
+        const camY = Math.floor(StateRegister.HeroPos.dy - midY + (RES / 2));
+
+        const registry = WorldMapAssembler.WorldRegistry;
         const renderQueue = [];
 
-        // Iterate the fabric of reality
-        WorldMapAssembler.WorldRegistry.forEach(tile => {
-            const sx = (tile.x * T) - offX; 
-            const sy = (tile.y * T) - offY;
-            
-            // Frustum culling natively implemented
-            if (sx > -T && sx < SCREEN_W + T && sy > -T && sy < SCREEN_H + T) {
-                // Background is drawn immediately, no need to sort
-                const bgImg = PixelArchitect.get(tile.t);
-                if (bgImg) bg.drawImage(bgImg, sx, sy, T, T);
-                
-                // Objects are pushed to the queue
-                if (tile.obj) {
-                    renderQueue.push({
-                        imgId: tile.obj,
-                        x: sx,
-                        y: sy,
-                        sortY: sy // Base Y for sorting
-                    });
+        if (!isHouse) this._drawAbyss(bg, renderQueue, camX, camY, W, H, RES, registry);
+
+        registry.forEach(tile => {
+            const sx = (tile.x * RES) - camX;
+            const sy = (tile.y * RES) - camY;
+
+            // Frustum Culling
+            if (sx > -RES * 2 && sx < W + RES * 2 && sy > -RES * 2 && sy < H + RES * 2) {
+                if (isHouse) {
+                    ArchitecturalManifest.drawWoodFloor(bg, sx, sy, RES);
+                } else if (tile.t === 'G_DIRT_PATH') {
+                    RoadPainter.draw(bg, sx, sy, RES, tile);
+                } else {
+                    GroundPainter.draw(bg, sx, sy, RES, tile);
                 }
+                this._enqueue(renderQueue, tile, sx, sy, RES);
             }
         });
 
-        // 2. Add the Hero to the Render Queue
-        const fKey = AnimationDirector.resolveHeroFrame(
-            StateRegister.HeroPos.dir, 
-            StateRegister.HeroPos.moving, 
-            StateRegister.HeroPos.stepTick
-        );
+        PathRenderer.draw(obj, camX, camY, RES);
+        this._enqueueHero(renderQueue, midX, midY, RES);
         
-        // Hero sits strictly in the center
-        const heroScreenX = midX - (T / 2);
-        const heroScreenY = midY - (T / 2);
-        
-        renderQueue.push({
-            imgId: fKey,
-            x: heroScreenX,
-            y: heroScreenY,
-            sortY: heroScreenY // Sorting aligned identically with world objects
+        // Final depth sort (Y-Sort) to ensure entities overlap correctly
+        renderQueue.sort((a, b) => a.sortY - b.sortY).forEach(item => {
+            this._draw(obj, item, RES);
         });
-
-        // 3. Sort by Y coordinate (Depth Perception / True Realism)
-        renderQueue.sort((a, b) => a.sortY - b.sortY);
-
-        // 4. Draw the sorted Queue
-        renderQueue.forEach(entity => {
-            const img = PixelArchitect.get(entity.imgId);
-            if (img) {
-                obj.drawImage(img, entity.x, entity.y, T, T);
-            }
-        });
-
-        // 5. Branching UI Manifestations
-        if (StateRegister.ActiveRealm === 'DIALOGUE') {
-            DialogueEngine.drawTextFrame(contexts, SCREEN_W, SCREEN_H);
-        }
-        
-        // Render Settings Menu Overlay if invoked
-        if (StateRegister.IsSettingsMenuOpen) {
-            this.drawSettings(ov, SCREEN_W, SCREEN_H);
-        }
     }
 
     /**
-     * Overlays the spiritual limitations configuration directly onto the glass.
+     * @description Paints the infinite void. The terrain is painted immediately to BG, 
+     * but trees/flora are passed to the OBJ queue to ensure proper Y-Sorting!
      */
-    static drawSettings(ctx, W, H) {
-        ctx.fillStyle = 'rgba(0,0,0,0.85)';
-        ctx.fillRect(0,0,W,H);
-        ctx.fillStyle = '#fff';
-        ctx.font = '12px "Press Start 2P", monospace';
-        ctx.fillText("--- SPIRITUAL SETTINGS ---", 40, 100);
+    static _drawAbyss(bgCtx, queue, camX, camY, W, H, RES, registry) {
+        const startX = Math.floor(camX / RES);
+        const endX = Math.ceil((camX + W) / RES);
+        const startY = Math.floor(camY / RES);
+        const endY = Math.ceil((camY + H) / RES);
+
+        const mapW = 25; const mapH = 14;
+
+        let abyssTreeType = 'OAK';
+        let abyssTerrainChar = '1';
         
-        const opt1 = `GAME SPEED: ${StateRegister.GameSpeedMultiplier}x`;
-        const opt2 = `BACK TO WORLD`;
-        
-        ctx.fillStyle = StateRegister.SettingsSelectionIdx === 0 ? '#ff0' : '#fff';
-        ctx.fillText((StateRegister.SettingsSelectionIdx === 0 ? "> " : "  ") + opt1, 60, 160);
-        ctx.fillStyle = StateRegister.SettingsSelectionIdx === 1 ? '#ff0' : '#fff';
-        ctx.fillText((StateRegister.SettingsSelectionIdx === 1 ? "> " : "  ") + opt2, 60, 200);
+        if (StateRegister.CurrentMapId.includes('Gimmel')) { abyssTreeType = 'CACTUS'; abyssTerrainChar = '.'; }
+        else if (StateRegister.CurrentMapId.includes('YudDalet')) { abyssTreeType = 'SNOW'; abyssTerrainChar = '*'; }
+        else if (StateRegister.CurrentMapId.includes('YudHey')) { abyssTreeType = 'OAK'; abyssTerrainChar = '^'; }
+        else if (StateRegister.CurrentMapId.includes('YudVav')) { abyssTreeType = 'OAK'; abyssTerrainChar = '~'; }
+
+        for (let gy = startY; gy <= endY; gy++) {
+            for (let gx = startX; gx <= endX; gx++) {
+                if (gx < 0 || gx >= mapW || gy < 0 || gy >= mapH) {
+                    const edgeX = Math.max(0, Math.min(gx, mapW - 1));
+                    const edgeY = Math.max(0, Math.min(gy, mapH - 1));
+                    const edgeTile = registry.find(t => t.x === edgeX && t.y === edgeY);
+                    
+                    const screenX = (gx * RES) - camX;
+                    const screenY = (gy * RES) - camY;
+
+                    let isRoad = false;
+                    let mockNeighbors = { u: false, d: false, l: false, r: false };
+
+                    if (edgeTile && edgeTile.t === 'G_DIRT_PATH') {
+                        if (gx < 0) { isRoad = true; mockNeighbors.l = true; mockNeighbors.r = true; }
+                        else if (gx >= mapW) { isRoad = true; mockNeighbors.l = true; mockNeighbors.r = true; }
+                        else if (gy < 0) { isRoad = true; mockNeighbors.u = true; mockNeighbors.d = true; }
+                        else if (gy >= mapH) { isRoad = true; mockNeighbors.u = true; mockNeighbors.d = true; }
+                    }
+
+                    if (isRoad) {
+                        RoadPainter.draw(bgCtx, screenX, screenY, RES, { x: gx, y: gy, isPortal: true }, mockNeighbors);
+                    } else {
+                        // Paint the terrain directly to the background
+                        GroundPainter.draw(bgCtx, screenX, screenY, RES, { x: gx, y: gy, char: abyssTerrainChar });
+                        
+                        // Push the flora into the object queue so it sorts correctly over the sand!
+                        if (abyssTerrainChar !== '~') {
+                            queue.push({ type: 'TREE', treeType: abyssTreeType, x: screenX, y: screenY, sortY: screenY + RES });
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    static _enqueue(queue, tile, sx, sy, RES) {
+        if (tile.t.startsWith('G_TREE')) {
+            let treeType = 'OAK';
+            if (tile.char === '🌵') treeType = 'CACTUS';
+            else if (tile.char === '🌲') treeType = 'PINE';
+            else if (tile.char === '🌳') treeType = 'GOLD';
+            else if (tile.char === '🌴') treeType = 'PALM';
+            else if (tile.char === '🎄') treeType = 'SNOW';
+            
+            queue.push({ type: 'TREE', treeType: treeType, x: sx, y: sy, sortY: sy + RES });
+        }
+        else if (tile.t.startsWith('G_WALL')) queue.push({ type: 'WALL', x: sx, y: sy, sortY: sy + RES, tile: tile });
+        else if (tile.isPortal && tile.t === 'G_DOOR_WOOD') queue.push({ type: 'DOOR', x: sx, y: sy, sortY: sy + RES + 0.1 });
+        else if (tile.encounter) queue.push({ type: 'TALL_GRASS', x: sx, y: sy, sortY: sy + RES + 10 });
+        else if (tile.isSoul) {
+            queue.push({ type: (tile.isEnemy ? 'ANIMAL' : 'NPC'), x: sx, y: sy, sortY: sy + RES, dir: tile.dir, color: tile.color });
+        }
+    }
+
+    static _enqueueHero(queue, midX, midY, RES) {
+        queue.push({ type: 'HERO', x: midX - RES/2, y: midY - RES/2, sortY: midY + RES/2, progress: StateRegister.HeroPos.moving ? (StateRegister.HeroPos.stepTick / RES) : 0, dir: StateRegister.HeroPos.dir });
+    }
+
+    static _draw(ctx, item, RES) {
+        if (item.type === 'TREE') ProceduralEnvironment.drawTree(ctx, item.x, item.y, RES, item.treeType);
+        else if (item.type === 'WALL') ArchitecturalManifest.drawWall(ctx, item.x, item.y, RES, item.tile);
+        else if (item.type === 'NPC') HumanGenerator.draw(ctx, item.x, item.y, RES, 0, item.dir, item.color);
+        else if (item.type === 'HERO') HumanGenerator.draw(ctx, item.x, item.y, RES, item.progress, item.dir);
+        else if (item.type === 'DOOR') ArchitecturalManifest.drawDoor(ctx, item.x, item.y, RES, false);
+        else if (item.type === 'TALL_GRASS') ProceduralEnvironment.drawTallGrass(ctx, item.x, item.y, RES);
+        else if (item.type === 'ANIMAL') {
+            ctx.fillStyle = item.color;
+            ctx.beginPath(); ctx.roundRect(item.x + 10, item.y + RES/2.5, RES-20, RES/2.5, 8); ctx.fill();
+            ctx.fillStyle = '#ffdbac'; ctx.beginPath(); ctx.arc(item.dir === 'l' ? item.x + 10 : item.x + RES - 10, item.y + RES/2.5, 12, 0, Math.PI*2); ctx.fill();
+        }
     }
 }
