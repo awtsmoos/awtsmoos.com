@@ -1,6 +1,9 @@
 
 // B"H
-// FILE: js/devtools/ui.js
+/**
+ * @file ui.js
+ * @brief The Master Sculptor of the DevTools Vessel.
+ */
 
 import { ConsolePanel } from './panels/console.js';
 import { ElementsPanel } from './panels/elements.js';
@@ -9,13 +12,24 @@ import { HTML } from '../html-generator.js';
 
 export const DevToolsUI = {
     render(container, state) {
+        if (!state) {
+            console.error("%cB\"H [DevToolsUI] Render aborted: The State vessel is null.", "color: red; font-weight: bold;");
+            container.innerHTML = `<div style="padding:20px;color:red;">State is void.</div>`;
+            return;
+        }
+
+        // B"H - THE SHIELD OF DEFAULT VALUES
+        // Prevent broken DOM IDs by ensuring pure state
+        if (!state.activePanel) state.activePanel = 'console';
+        if (!state.previewTabId || state.previewTabId === "undefined" || state.previewTabId === "null") {
+            state.previewTabId = "default-vision-" + Date.now();
+        }
+
         this.loadStyles();
 
-        // B"H - PERSISTENCE RITUAL
-        // If we already have the physical form, just re-attach to the new container.
-        if (state.mainWrapper) {
-            container.innerHTML = '';
-            container.appendChild(state.mainWrapper);
+        // Use the state's mainWrapper for persistence across re-renders
+        if (state.mainWrapper && state.mainWrapper.parentElement === container) {
+            console.log(`[DevToolsUI] Re-using existing DOM for Vision ${state.previewTabId}. Re-activating panel.`);
             this._showActivePanel(state);
             return;
         }
@@ -34,9 +48,9 @@ export const DevToolsUI = {
                 {
                     className: 'dt-body',
                     children: [
-                        { id: 'dt-panel-console', className: 'dt-panel', style: { height: '100%', width: '100%', display: 'none' } },
-                        { id: 'dt-panel-elements', className: 'dt-panel', style: { height: '100%', width: '100%', display: 'none' } },
-                        { id: 'dt-panel-network', className: 'dt-panel', style: { height: '100%', width: '100%', display: 'none' } }
+                        { id: `dt-panel-console-${state.previewTabId}`, className: 'dt-panel dt-panel-console' },
+                        { id: `dt-panel-elements-${state.previewTabId}`, className: 'dt-panel dt-panel-elements' },
+                        { id: `dt-panel-network-${state.previewTabId}`, className: 'dt-panel dt-panel-network' }
                     ]
                 }
             ]
@@ -47,15 +61,6 @@ export const DevToolsUI = {
         state.mainWrapper = mainWrapper; 
 
         this._showActivePanel(state);
-
-        // B"H - Global tree toggle listener to remember expanded state across tab switches
-        mainWrapper.addEventListener('toggle', (e) => {
-            if (e.target.classList.contains('dt-el-node')) {
-                const path = e.target.dataset.path;
-                if (e.target.open) state.expandedPaths.add(path);
-                else state.expandedPaths.delete(path);
-            }
-        }, true);
     },
 
     _tabBtn(label, id, state) {
@@ -64,29 +69,28 @@ export const DevToolsUI = {
             className: `dt-tab-btn ${state.activePanel === id ? 'active' : ''}`,
             text: label,
             onClick: (e) => {
+                console.log(`[DevToolsUI] Switching to panel: ${id}`);
                 state.activePanel = id;
                 const btns = e.target.parentNode.querySelectorAll('.dt-tab-btn');
-                btns.forEach(b => b.classList.toggle('active', b.textContent === label));
+                btns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
                 this._showActivePanel(state);
             }
         };
     },
 
-    /**
-     * @function _showActivePanel
-     * @description Switches the visible sub-panel and triggers its specific initialization ritual.
-     */
     _showActivePanel(state) {
         const panels = state.mainWrapper.querySelectorAll('.dt-panel');
-        panels.forEach(p => p.style.display = 'none');
+        panels.forEach(p => { p.style.display = 'none'; });
 
-        const activeId = `dt-panel-${state.activePanel}`;
+        const activeId = `dt-panel-${state.activePanel}-${state.previewTabId}`;
         const activePanel = state.mainWrapper.querySelector(`#${activeId}`);
         
         if (activePanel) {
             activePanel.style.display = 'flex';
             
-            // Trigger specific sub-panel init logic
+            console.log(`[DevToolsUI] Passing state to ${state.activePanel} panel for Vision ${state.previewTabId}. Has onLog hook?`, typeof state.onLog === 'function');
+
             if (state.activePanel === 'console') {
                 ConsolePanel.init(activePanel, state);
             } else if (state.activePanel === 'elements') {
@@ -94,6 +98,8 @@ export const DevToolsUI = {
             } else if (state.activePanel === 'network') {
                 NetworkPanel.init(activePanel, state);
             }
+        } else {
+            console.error(`[DevToolsUI] Could not find active panel with ID: ${activeId}`);
         }
     },
 
