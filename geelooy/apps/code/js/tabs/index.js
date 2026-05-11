@@ -23,7 +23,16 @@ export const Tabs = {
     },
 
     async createPreview(item, content) {
-        const previewItem = { ...item, type: 'html-preview-file', isPreview: true };
+        // B"H - THE CORE RECTIFICATION: Preserve originalType
+        const physicalType = item.originalType || item.type;
+        
+        const previewItem = { 
+            ...item, 
+            type: 'html-preview-file', 
+            originalType: physicalType,
+            isPreview: true 
+        };
+        
         const uniquePath = TabPathRitual.getUniquePath(previewItem);
         const existing = State.tabs.find(t => t.uniquePath === uniquePath);
         
@@ -36,7 +45,7 @@ export const Tabs = {
 
         const { tab, isNew } = TabFactory.create(previewItem, false);
         tab.content = content;
-        tab.item.name = `Preview: ${item.name}`;
+        tab.item.name = "Preview: " + item.name;
         
         this.render();
         if (isNew) import('../app.js').then(m => m.App.saveSession());
@@ -46,7 +55,14 @@ export const Tabs = {
     updatePreviewContext(tabId, newItem) {
         const tab = State.tabs.find(t => t.id === tabId);
         if (tab) {
-            tab.item = { ...newItem, type: 'html-preview-file', isPreview: true, name: `Preview: ${newItem.name}` };
+            const physicalType = newItem.originalType || newItem.type;
+            tab.item = { 
+                ...newItem, 
+                type: 'html-preview-file', 
+                originalType: physicalType,
+                isPreview: true, 
+                name: "Preview: " + newItem.name 
+            };
             tab.uniquePath = TabPathRitual.getUniquePath(tab.item);
             this.render();
         }
@@ -54,8 +70,8 @@ export const Tabs = {
 
     async createTemporary() {
         const tempItem = {
-            name: `Untitled-${Math.floor(Math.random() * 1000)}.txt`,
-            path: `/temp/Untitled-${Math.floor(Math.random() * 1000)}.txt`,
+            name: "Untitled-" + Math.floor(Math.random() * 1000) + ".txt",
+            path: "/temp/Untitled-" + Math.floor(Math.random() * 1000) + ".txt",
             kind: 'file',
             type: 'temp',
             workspaceId: 'global'

@@ -26,6 +26,7 @@ export const MainMenu = {
         const menuItems =[
             { label: "New File", action: "new-temp-file", icon: "file" },
             { label: "Open File...", action: "open-file", icon: "folder" },
+            { label: "Open Local Browser", action: "open-browser-tab", icon: "globe" }, // B"H - Added Browser Gateway
             { isSeparator: true }
         ];
 
@@ -33,7 +34,6 @@ export const MainMenu = {
             menuItems.push({ label: "Preview HTML", action: "view-html", icon: "eye" });
         }
         
-        // B"H - DevTools integration
         if (isPreview) {
             menuItems.push({ label: "Open DevTools", action: "open-devtools", icon: "laptop" });
         }

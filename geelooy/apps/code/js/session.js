@@ -1,12 +1,23 @@
-
 // B"H
-// FILE: js/session.js
+/**
+ * @file session.js
+ * @brief The Master Orchestrator of the Archive.
+ * 
+ * THE EPIC OF THE RECONSTITUTED WORLD:
+ * From the silence of storage, the session returns,
+ * To quench the deep thirst that the Oracle learns.
+ * We build up the workspaces, we open the tabs,
+ * As every last spark from the archive we grab.
+ * And when it is finished, we summon the tree,
+ * So the sidebar is filled for the user to see.
+ */
 
 import { State } from './state.js';
 import { Workspaces } from './workspaces/index.js';
-import { FileSystemProvider } from './fs-provider.js';
 import { Tabs } from './tabs/index.js';
 import { DevToolsBridge } from './devtools/bridge.js';
+import { ArchiveGuard } from './session/ArchiveGuard.js';
+import { TabScribe } from './session/TabScribe.js';
 
 export const Session = {
     saveDebounceTimer: null,
@@ -16,89 +27,89 @@ export const Session = {
         this.saveDebounceTimer = setTimeout(() => this.save(), 1000); 
     },
 
+    /**
+     * B"H - Manifests the current State into the local storage stone.
+     */
     save() {
         try {
-            const persistableWorkspaces = State.workspaces
-                // B"H - Added 'relay' to the array of worlds worthy of eternal preservation
-                .filter(ws =>['github', 'indexeddb', 'ssh', 'local', 'opfs', 'relay'].includes(ws.type))
-                .map(ws => { const { handle, _treeCache, isLocked, ...safeWs } = ws; return safeWs; });
-
+            const persistableWorkspaces = ArchiveGuard.getPersistableWorkspaces(State.workspaces);
             const allowedWsIds = new Set(persistableWorkspaces.map(ws => ws.id));
-
-            const persistableTabs = State.tabs
-                .filter(tab => (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) ||['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'].includes(tab.item.type))
-                .map(tab => {
-                    const safeItem = { ...tab.item };
-                    let contentToSave = null;
-                    if (['temp', 'vibe-session', 'html-preview'].includes(tab.fileType)) contentToSave = tab.content;
-                    else if (typeof tab.content === 'object') contentToSave = tab.content;
-
-                    let devtoolsMetadata = null;
-                    const bridgeState = DevToolsBridge.getTabPersistentState(tab.fileType === 'devtools' ? tab.item.previewTabId : tab.id);
-                    if (bridgeState && (bridgeState.logs.length > 0 || bridgeState.networkReqs.length > 0)) {
-                        devtoolsMetadata = {
-                            activePanel: bridgeState.activePanel,
-                            selectedPath: bridgeState.selectedPath,
-                            expandedPaths: Array.from(bridgeState.expandedPaths ||[]),
-                            logs: bridgeState.logs.slice(-100), 
-                            networkReqs: bridgeState.networkReqs.slice(-100)
-                        };
-                    }
-
-                    return { 
-                        id: tab.id, uniquePath: tab.uniquePath, isDirty: tab.isDirty, isUncommitted: tab.isUncommitted,
-                        pinned: tab.pinned || false, scrollPos: tab.scrollPos || 0, fileType: tab.fileType,
-                        isPreview: tab.isPreview, item: safeItem, content: contentToSave, devtoolsMetadata 
-                    };
-                });
+            
+            const tabsToArchiving = ArchiveGuard.getPersistableTabs(State.tabs, allowedWsIds);
+            const persistedTabs = tabsToArchiving.map(t => TabScribe.deconstruct(t));
 
             const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            const session = {
+            
+            const sessionData = {
                 workspaces: persistableWorkspaces,
-                openTabs: persistableTabs,
+                openTabs: persistedTabs,
                 activeTabUniquePath: activeTab ? activeTab.uniquePath : null,
                 expandedFolders: Array.from(State.expandedFolders)
             };
-            localStorage.setItem('vividX_session_profound', JSON.stringify(session));
-        } catch (e) { console.warn("B\"H - Session Save Failed:", e); }
+            
+            localStorage.setItem('vividX_session_profound', JSON.stringify(sessionData));
+            console.log("B\"H - Session anchored.");
+        } catch (e) { 
+            console.warn("B\"H - Session Save Failed:", e); 
+        }
     },
 
+    /**
+     * B"H - Reconstitutes the previously archived reality.
+     */
     async load() {
-        const savedSession = localStorage.getItem('vividX_session_profound');
-        if (!savedSession) return;
+        const raw = localStorage.getItem('vividX_session_profound');
+        if (!raw) return;
+
         try {
-            const session = JSON.parse(savedSession);
-            if (session.workspaces) {
-                session.workspaces.forEach(wsData => Workspaces.add(wsData, false));
-                
-                // B"H - Rectify workspace ID counter to prevent collisions
-                const maxWsId = Math.max(-1, ...State.workspaces.map(ws => Number(ws.id) || 0));
-                if (maxWsId >= State.nextWorkspaceId) {
-                    State.nextWorkspaceId = maxWsId + 1;
-                }
+            const data = JSON.parse(raw);
+            
+            // 1. Rebuild Workspaces
+            if (data.workspaces) {
+                data.workspaces.forEach(ws => Workspaces.add(ws, false));
+                const maxWsId = Math.max(-1, ...State.workspaces.map(w => Number(w.id) || 0));
+                State.nextWorkspaceId = maxWsId + 1;
             }
-            if (session.openTabs) {
-                State.tabs = session.openTabs.map(t => {
+
+            // 2. Rebuild Tabs
+            if (data.openTabs) {
+                // B"H - THE RITUAL OF RE-AWAKENING (CONSOLE FIX)
+                // We must pre-hydrate the StateRegistry BEFORE restoring tabs.
+                console.log("%cB\"H [Session] Pre-hydrating DevTools states from archive...", "color: #ffae57; font-weight:bold;");
+                data.openTabs.forEach(t => {
+                    // If a tab has devtools metadata...
                     if (t.devtoolsMetadata) {
-                        DevToolsBridge.getTabPersistentState(t.item.previewTabId || t.id, t.devtoolsMetadata);
+                        const targetId = t.item.previewTabId || t.id;
+                        console.log(`[Session] Found DevTools metadata for Vision [${targetId}]. Re-hydrating state...`);
+                        // ...force the DevToolsBridge to recreate a living state object for it in the Registry.
+                        DevToolsBridge.getTabPersistentState(targetId, t.devtoolsMetadata);
                     }
-                    return { ...t, forceReload: true };
                 });
-                
-                // B"H - Rectify tab ID counter to prevent massive UI multi-select/closure bugs
+
+                State.tabs = data.openTabs.map(t => ({ ...t, forceReload: false }));
                 const maxTabId = Math.max(-1, ...State.tabs.map(t => Number(t.id) || 0));
-                if (maxTabId >= State.nextTabId) {
-                    State.nextTabId = maxTabId + 1;
-                }
+                State.nextTabId = maxTabId + 1;
                 
                 Tabs.render();
             }
-            if (session.expandedFolders) State.expandedFolders = new Set(session.expandedFolders);
-            if (session.activeTabUniquePath) {
-                const active = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
+
+            // 3. Re-Expand Gates
+            if (data.expandedFolders) {
+                State.expandedFolders = new Set(data.expandedFolders);
+            }
+
+            // 4. Focus Awakening
+            if (data.activeTabUniquePath) {
+                const active = State.tabs.find(t => t.uniquePath === data.activeTabUniquePath);
                 if (active) State.activeTabId = active.id;
             }
+
+            // 5. PHYSICAL VISION: Manifest the sidebar tree
+            console.log("B\"H - Session re-aligned. Manifesting physical sidebar.");
             Workspaces.render();
-        } catch (e) { console.error("Session Load Failed:", e); }
+
+        } catch (e) { 
+            console.error("B\"H - Session Reconstitution Failed:", e); 
+        }
     }
 };

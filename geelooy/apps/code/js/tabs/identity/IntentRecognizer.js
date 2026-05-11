@@ -14,6 +14,7 @@ export const IntentRecognizer = {
         if (type === 'terminal') return 'terminal';
         if (type === 'commander' || type === 'file-commander') return 'commander';
         if (type === 'devtools') return 'devtools';
+        if (type === 'browser') return 'browser';
         if (type === 'zip-entry') return 'zip-entry';
         
         return 'editor';

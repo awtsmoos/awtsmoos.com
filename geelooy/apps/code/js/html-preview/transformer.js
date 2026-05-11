@@ -1,31 +1,54 @@
 
 // B"H
-// FILE: js/html-preview/transformer.js
+/**
+ * @file transformer.js
+ * @brief The Master of ES Module Transmutation.
+ */
 
 import { ImportScanner } from '../tools/import-scanner.js';
 import { StringReplacer } from './string-replacer.js';
 
 export const PreviewTransformer = {
     async transform(code, resolver, absPath = "unknown") {
-        if (!code) return "";
-        console.log(`\n%c[Transformer] B"H - Initiating Transmutation: ${absPath}`, "color: #a8ff00; font-weight: bold;");
-        
-        // The Scanner performs both AST and Regex passes seamlessly
-        const { sources, getLine } = await ImportScanner.scanDetailed(code, absPath);
-
-        console.log(`[Transformer] Total imports found in ${absPath}: ${sources.length}`);
-
-        // Perform surgical replacements
-        let transformedCode = code;
-        for (const source of sources) {
-            const originalLabel = source.value;
-            const manifestedUrl = await resolver(originalLabel);
-            
-            if (manifestedUrl && manifestedUrl !== originalLabel) {
-                transformedCode = StringReplacer.robustReplace(transformedCode, source, manifestedUrl, getLine);
-            }
+        if (!code && code !== "") {
+            console.warn("[Transformer] B\"H - Null code provided for " + absPath + ". Returning void.");
+            return "";
         }
 
-        return transformedCode;
+        console.log("[Transformer] B\"H - Initiating Transmutation of " + absPath + ". Input: " + code.length + " chars.");
+        
+        try {
+            const { sources, getLine } = await ImportScanner.scanDetailed(code, absPath);
+
+            console.log("[Transformer] B\"H - " + sources.length + " import connections detected in " + absPath + ".");
+
+            let transformedCode = code;
+
+            for (const source of sources) {
+                const originalLabel = source.value;
+                console.log("[Transformer] B\"H - Resolving connection: \"" + originalLabel + "\" at Line " + getLine(source.start));
+                
+                const manifestedUrl = await resolver(originalLabel);
+                
+                if (manifestedUrl && manifestedUrl !== originalLabel) {
+                    console.log("[Transformer] B\"H - Replacing \"" + originalLabel + "\" -> \"" + manifestedUrl + "\"");
+                    transformedCode = StringReplacer.robustReplace(transformedCode, source, manifestedUrl, getLine);
+                } else {
+                    console.log("[Transformer] B\"H - No replacement needed for \"" + originalLabel + "\".");
+                }
+            }
+
+            console.log("[Transformer] B\"H - Transmutation Complete for " + absPath + ". Output: " + transformedCode.length + " chars.");
+            
+            if (transformedCode.length === 0 && code.length > 0) {
+                console.error("[Transformer] B\"H - CRITICAL: Transmutation resulted in an empty string for non-empty input! " + absPath);
+            }
+
+            return transformedCode;
+
+        } catch (e) {
+            console.error("[Transformer] B\"H - Transmutation failed for " + absPath + ":", e);
+            throw e;
+        }
     }
 };

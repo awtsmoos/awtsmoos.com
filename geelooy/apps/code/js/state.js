@@ -50,6 +50,7 @@ export function initializeDOM() {
     DOM.devtoolsWrapper = document.getElementById('devtools-wrapper');
     DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
     DOM.dataAltarContainer = document.getElementById('data-altar-container');
+    DOM.browserWrapper = document.getElementById('browser-wrapper'); // B"H - The Inner Gateway
 
     // Controls
     DOM.hamburgerMenuBtn = document.getElementById('main-menu-btn');
