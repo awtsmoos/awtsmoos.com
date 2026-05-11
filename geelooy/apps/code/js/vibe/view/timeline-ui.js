@@ -2,11 +2,12 @@
 // B"H
 /**
  * @file timeline-ui.js
- * @brief Modular Timeline View with Organic Tree and Full Portability.
+ * @brief Modular Timeline View (Refactored to JSON).
  */
 
 import { VibeDB } from '../db.js';
 import { UI } from '../../ui.js';
+import { HTML } from '../../html-generator.js';
 import { TimelineRenderer } from './timeline/renderer.js';
 import { TimelineActions } from './timeline/actions.js';
 import { TimelineVisualizer } from './timeline/visualizer.js';
@@ -16,25 +17,41 @@ export const TimelineUI = {
     async render(container, tab, controller) {
         const records = await VibeDB.getTimelineRecords(tab.vibeSession.id);
         
-        container.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
-                <h4 style="margin:0; color:var(--neon-cyan);">Manifestation Timeline</h4>
-                <div style="display:flex; gap:5px;">
-                    <button id="tl-export-bundle" class="secondary-btn" title="Export Everything" style="min-height:0; padding:4px 8px; font-size:0.7em;">Export Bundle</button>
-                    <button id="tl-import-btn" class="secondary-btn" title="Import Bundle" style="min-height:0; padding:4px 8px; font-size:0.7em;">Import</button>
-                    <button id="tl-branch-btn" class="primary-btn" style="min-height:0; padding:4px 8px; font-size:0.7em; border-color:var(--neon-lime); color:var(--neon-lime);">New Branch</button>
-                </div>
-            </div>
-            
-            <div id="tl-tree-vessel" style="height: 200px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--neon-cyan); position:relative;">
-                ${TimelineVisualizer.buildTreeSVG(records)}
-            </div>
-
-            <div id="tl-list" style="display:flex; flex-direction:column; gap:10px; padding-bottom: 50px;"></div>
-            <input type="file" id="tl-file-input" style="display:none;" accept=".json">`;
+        container.innerHTML = '';
+        container.appendChild(HTML({
+            style: { display: 'flex', flexDirection: 'column', height: '100%' },
+            children:[
+                {
+                    style: { display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'15px', flexWrap:'wrap', gap:'10px' },
+                    children:[
+                        { tag: 'h4', style: { margin:0, color:'var(--neon-cyan)' }, text: 'Manifestation Timeline' },
+                        {
+                            style: { display:'flex', gap:'5px' },
+                            children:[
+                                { tag: 'button', id: 'tl-export-bundle', className: 'secondary-btn', title: 'Export Everything', style: { minHeight:0, padding:'4px 8px', fontSize:'0.7em' }, text: 'Export Bundle' },
+                                { tag: 'button', id: 'tl-import-btn', className: 'secondary-btn', title: 'Import Bundle', style: { minHeight:0, padding:'4px 8px', fontSize:'0.7em' }, text: 'Import' },
+                                { tag: 'button', id: 'tl-branch-btn', className: 'primary-btn', style: { minHeight:0, padding:'4px 8px', fontSize:'0.7em', borderColor:'var(--neon-lime)', color:'var(--neon-lime)' }, text: 'New Branch' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 'tl-tree-vessel',
+                    style: { height: '200px', background: 'rgba(0,0,0,0.4)', borderRadius: '8px', marginBottom: '15px', border: '1px solid var(--neon-cyan)', position:'relative' },
+                    html: TimelineVisualizer.buildTreeSVG(records)
+                },
+                {
+                    id: 'tl-list',
+                    style: { display:'flex', flexDirection:'column', gap:'10px', paddingBottom: '50px' }
+                },
+                { tag: 'input', type: 'file', id: 'tl-file-input', style: { display:'none' }, accept: '.json' }
+            ]
+        }));
             
         const list = container.querySelector('#tl-list');
-        if (records.length === 0) list.innerHTML = '<p style="opacity:0.5; font-size:0.9em; text-align:center;">Empty Timestream.</p>';
+        if (records.length === 0) {
+            list.appendChild(HTML({ tag: 'p', style: { opacity:0.5, fontSize:'0.9em', textAlign:'center' }, text: 'Empty Timestream.' }));
+        }
 
         records.reverse().forEach(rec => {
             list.appendChild(TimelineRenderer.renderRecord(rec, tab, this));
@@ -81,11 +98,5 @@ export const TimelineUI = {
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
             };
         });
-    },
-
-    _formatBytes(bytes) {
-        if (!bytes) return '0 B';
-        const i = Math.floor(Math.log(bytes) / Math.log(1024));
-        return parseFloat((bytes / Math.pow(1024, i)).toFixed(1)) + ' ' + ['B', 'KB', 'MB', 'GB'][i];
     }
 };

@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file grass.js
@@ -6,29 +7,34 @@
  * ╔══════════════════════════════════════════════════════════════════════════════════╗
  * ║  THE MANIFESTATION OF THE HAIR OF THE EARTH — Grass Material Factory             ║
  * ║                                                                                  ║
- * ║  As the Awtsmoos commands the earth to bring forth grass,                        ║
- * ║  so too does this vessel arrange the letters of the Lambertian garment.          ║
- * ║  No direct reference to the "THREE" entity is found here;                        ║
- * ║  it is all pure data, destined to be compiled into a Divine Form.                ║
+ * ║  Now replete with diagnostic vision. If the Divine Light (texture)               ║
+ * ║  cannot be drawn down, we log it and proceed with pure color.                    ║
  * ╚══════════════════════════════════════════════════════════════════════════════════╝
  */
 
-import { GRASS_SNIPPETS } from '../../../../shaders/GrassShader.js';
+// B"H: The 5 levels of ascent to the root of the shaders!
+import { GRASS_SNIPPETS } from '../../../../../shaders/GrassShader.js';
 
 export default async function createGrass(olam) {
-    // B"H: silent
-    
-    // B"H: Use the world context to load the texture via protocol
-    const grassTex = await olam.loadTexture({ 
-        url: 'awtsmoostex://safegrass', 
-        shouldRepeat: true, 
-        repeatX: 2, 
-        repeatY: 2 
-    });
+    console.log("B\"H - 🌱 [Grass Factory] Initiated. Drawing down texture...");
+    let grassTex = null;
 
-    // B"H: silent
+    if (olam && typeof olam.loadTexture === 'function') {
+        try {
+            grassTex = await olam.loadTexture({ 
+                url: 'awtsmoostex://safegrass', 
+                shouldRepeat: true, 
+                repeatX: 2, 
+                repeatY: 2 
+            });
+            console.log("B\"H - 🌱 [Grass Factory] Texture mapped successfully.");
+        } catch (e) {
+            console.warn("B\"H - ⚠️ [Grass Factory] Failed to load texture awtsmoostex://safegrass:", e);
+        }
+    } else {
+        console.warn("B\"H - ⚠️ [Grass Factory] Missing Olam context! Proceeding without texture.");
+    }
 
-    // B"H: Return the pure data for material creation
     return {
         type: 'Lambert',
         properties: { 

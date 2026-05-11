@@ -1,159 +1,108 @@
 
 // B"H
+/**
+ * @file tree-rendering.js
+ * @brief The conductor of the Workspace Sidebar Tree.
+ */
+
+import { TraversalWisdom } from './tree-rendering/TraversalWisdom.js';
+import { NodeManifestor } from './tree-rendering/NodeManifestor.js';
+import { InteractionRituals } from './tree-rendering/InteractionRituals.js';
+import { FolderTogglery } from './tree-rendering/FolderTogglery.js';
+import { ErrorVessel } from './tree-rendering/ErrorVessel.js';
 import { State } from '../state.js';
-import { FileSystemProvider } from '../fs-provider.js';
-import { Menus } from '../menus.js';
-import { Tabs } from '../tabs/index.js';
-import { SelectionManager } from '../selection-manager.js';
-import { getItemUniquePath, Workspaces } from '../workspaces.js';
+import { getItemUniquePath } from './utils.js';
 
+/**
+ * @class WorkspaceTreeRenderer
+ * @description Orchestrates the manifestation of the sidebar directory tree.
+ */
 export const WorkspaceTreeRenderer = {
-    async renderTree(parentElement, parentItem, depth, registerDom = true, options = {}) {
-        if (!parentElement || !parentItem) return;
+    /**
+     * B"H - Manifests a specific branch of the project hierarchy.
+     * @param {HTMLElement} parentEl - Physical container for children.
+     * @param {Object} parentItem - The directory essence.
+     * @param {number} depth - Level of descent from root.
+     * @param {boolean} register - Whether to track these nodes.
+     * @param {Object} options - Custom interaction handlers.
+     */
+    async renderTree(parentEl, parentItem, depth, register = true, options = {}) {
+        if (!parentEl || !parentItem) return;
 
-        const parentPath = parentItem.path ?? "/";
-        const wsId = parentItem.workspaceId ?? parentItem.id;
-        const ws = State.workspaces.find(w => w?.id === wsId);
-        
-        parentElement.innerHTML = '<li class="tree-item loading-state" style="opacity: 0.5; padding-left: 15px;">...</li>';
+        // Visual Placeholder: The Pulse of Creation
+        parentEl.innerHTML = '<li style="opacity:0.5; padding-left:15px;">...</li>';
 
         try {
-            // Full integration check
-            const fullParent = { ...ws, ...parentItem };
-            const result = await FileSystemProvider.list(fullParent);
-            const children = result?.entries || [];
-            
-            parentElement.innerHTML = '';
+            // 1. ASCERTAIN THE POPULATION (Binah)
+            const children = await TraversalWisdom.getChildren(parentItem);
+            parentEl.innerHTML = '';
 
             if (children.length === 0) {
-                parentElement.innerHTML = `<li class="tree-item empty-state" style="padding-left:20px; color:gray; font-style:italic;">Vessel remains empty</li>`;
+                parentEl.innerHTML = '<li style="padding-left:20px; color:gray; font-style:italic;">Vessel remains empty</li>';
                 return;
             }
 
-            if (result.isGitRoot) {
-                const uniquePath = getItemUniquePath(parentItem);
-                const parentEntry = State.domItemMap.get(uniquePath);
-                if (parentEntry?.el) {
-                    const iconUse = parentEntry.el.querySelector('.svg-icon use');
-                    if (iconUse) iconUse.setAttribute('href', '#icon-git-folder');
-                }
-            }
-
-            children.sort((a, b) => {
-                const aIsDir = a.kind === 'directory';
-                const bIsDir = b.kind === 'directory';
-                if (aIsDir && !bIsDir) return -1;
-                if (!aIsDir && bIsDir) return 1;
-                return a.name.localeCompare(b.name);
-            });
-
+            // 2. MANIFEST EACH SPARK (Asiyah)
             const fragment = document.createDocumentFragment();
             for (let i = 0; i < children.length; i++) {
                 const child = children[i];
-                if (!child?.name) continue;
+                const fullChild = { 
+                    ...parentItem, 
+                    ...child, 
+                    workspaceId: parentItem.workspaceId || parentItem.id 
+                };
 
-                const fullChildItem = { ...fullParent, ...child, workspaceId: wsId };
-                const uniquePath = getItemUniquePath(fullChildItem);
-                const isDir = child.kind === 'directory';
-
-                const li = document.createElement('li');
-                li.className = 'tree-item';
-                if (State.selectedItems.has(uniquePath)) li.classList.add('selected');
+                const li = NodeManifestor.manifest(fullChild, depth, register);
                 
-                const nameWrap = document.createElement('div');
-                nameWrap.className = 'tree-item-name-wrap';
-                nameWrap.style.paddingLeft = (depth * 12) + 'px';
-                nameWrap.innerHTML = `
-                    <span class="tree-item-arrow">${isDir ? '▶' : '•'}</span>
-                    <svg class="svg-icon"><use href="#icon-${isDir ? 'folder' : 'file'}"></use></svg>
-                    <span class="tree-item-name">${child.name}</span>
-                `;
+                // 3. BIND THE RITUALS (Chochmah)
+                const wrapper = li.querySelector('.tree-item-name-wrap');
+                InteractionRituals.bind(wrapper, fullChild, {
+                    depth: depth,
+                    options: options,
+                    toggleFn: (item, d) => FolderTogglery.toggle(item, d, this.renderTree.bind(this))
+                });
 
-                if (isDir) Workspaces.setupDragDrop(nameWrap, fullChildItem);
+                // RECTIFIED: Use ES import "getItemUniquePath" instead of "require"
+                const childUniqueKey = getItemUniquePath(fullChild);
 
-                nameWrap.onclick = (e) => {
-                    e.stopPropagation();
-                    if (State.isSelectionModeActive) {
-                        SelectionManager.toggle(fullChildItem);
-                    } else if (isDir) {
-                        this.toggleDirectory(uniquePath, li, fullChildItem, depth, registerDom, options);
-                    } else {
-                        if (options.onFileClick) options.onFileClick(fullChildItem);
-                        else Tabs.create(fullChildItem);
-                    }
-                };
-
-                nameWrap.oncontextmenu = (e) => {
-                    State.contextEvent = e;
-                    Menus.show(e, fullChildItem);
-                };
-
-                li.appendChild(nameWrap);
-
-                if (registerDom) State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
-
-                if (isDir && State.expandedFolders.has(uniquePath)) {
+                // If already expanded in State, trigger sub-descent immediately
+                if (fullChild.kind === 'directory' && State.expandedFolders.has(childUniqueKey)) {
                     li.classList.add('expanded');
                     const childUl = document.createElement('ul');
                     childUl.className = 'tree-branch';
                     li.appendChild(childUl);
-                    this.renderTree(childUl, fullChildItem, depth + 1, registerDom, options);
+                    this.renderTree(childUl, fullChild, depth + 1, register, options);
                 }
 
                 fragment.appendChild(li);
             }
-            parentElement.appendChild(fragment);
+            parentEl.appendChild(fragment);
 
-        } catch (error) {
-            // B"H - Capture Locked Access Event explicitly to paint the UI button!
-            if (error.name === 'LockedAccessError' || error.message.includes('LockedAccessError')) {
-                parentElement.innerHTML = `
-                    <li class="tree-item error-node" style="padding-left:15px; display:flex; align-items:center; gap:8px;">
-                        <button class="primary-btn" style="min-height:20px; font-size:11px; padding:2px 8px; border-radius:4px;">🔑 Grant Access</button>
-                    </li>
-                `;
-                
-                // Allow user a single explicit click to demand permission invocation without browser penalty
-                const btn = parentElement.querySelector('button');
-                btn.onclick = async () => {
-                    btn.textContent = "Negotiating...";
-                    try {
-                        const h = ws.handle;
-                        if(h) {
-                            const res = await h.requestPermission({ mode: 'readwrite' });
-                            if (res === 'granted') {
-                                ws.isLocked = false;
-                                Workspaces.render(); // Perform universal re-flow!
-                                return;
-                            }
-                        }
-                    } catch(e){}
-                    btn.textContent = "Refused";
-                };
-            } else {
-                console.error("[Tree] Collapse during traversal:", error);
-                parentElement.innerHTML = `<li class="tree-item" style="color:var(--color-accent-danger); font-size:0.8em; padding-left:15px;">Fragmented: ${error.message}</li>`;
-            }
+        } catch (e) {
+            this._handleError(parentEl, parentItem, e);
         }
     },
 
-    toggleDirectory(uniquePath, liElement, item, depth, registerDom, options) {
-        if (!liElement) return;
+    /**
+     * @private
+     * Handles shattered vessels by providing access or error messages.
+     */
+    _handleError: function(parentEl, parentItem, e) {
+        parentEl.innerHTML = '';
+        const wsId = parentItem.workspaceId || parentItem.id;
+        const ws = State.workspaces.find(w => String(w?.id) === String(wsId));
 
-        if (State.expandedFolders.has(uniquePath)) {
-            State.expandedFolders.delete(uniquePath);
-            liElement.classList.remove('expanded');
-            const existingUl = liElement.querySelector('ul');
-            if (existingUl) existingUl.remove();
+        if (e.name === 'LockedAccessError' || e.message.indexOf('sealed') !== -1) {
+            ErrorVessel.manifestLockedUI(parentEl, ws);
         } else {
-            State.expandedFolders.add(uniquePath);
-            liElement.classList.add('expanded');
-            const newUl = document.createElement('ul');
-            newUl.className = 'tree-branch';
-            liElement.appendChild(newUl);
-            this.renderTree(newUl, item, depth + 1, registerDom, options);
+            ErrorVessel.manifestGeneric(parentEl, e.message);
         }
-        
-        import('../app.js').then(m => m.App.saveSessionDebounced());
+    },
+
+    /**
+     * B"H - External interface for toggling a directory.
+     */
+    toggleDirectory: function(uniquePath, liElement, item, depth, register = true, options = {}) {
+        return FolderTogglery.toggle(item, depth, (ul, it, d) => this.renderTree(ul, it, d, register, options));
     }
 };

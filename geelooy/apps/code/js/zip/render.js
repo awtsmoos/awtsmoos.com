@@ -4,7 +4,7 @@
 
 import { DOM, State } from '../state.js';
 import { Menus } from '../menus.js';
-import { ZipState } from './state.js';
+import { ZipState } from './state.js'; // The proper import
 import { SelectionManager } from '../selection-manager.js';
 import { getItemUniquePath } from '../workspaces.js';
 
@@ -59,7 +59,6 @@ export const ZipRenderer = {
                 Menus.show(e, rootItem);
             };
 
-            // B"H - DRAG AND DROP ZONE FOR OS FILES
             const dropZone = container.querySelector('#zip-drop-zone');
             dropZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
@@ -74,13 +73,11 @@ export const ZipRenderer = {
                 dropZone.style.background = 'transparent';
                 
                 if (e.dataTransfer.items) {
-                    // Extract files using standard file API
                     for (let i = 0; i < e.dataTransfer.items.length; i++) {
                         if (e.dataTransfer.items[i].kind === 'file') {
                             const file = e.dataTransfer.items[i].getAsFile();
                             if (file) {
                                 const buffer = new Uint8Array(await file.arrayBuffer());
-                                // Automatically add it to the archive root
                                 zipOps.updateEntry(tab, file.name, buffer);
                             }
                         }
@@ -100,11 +97,8 @@ export const ZipRenderer = {
         if (!tbody) return;
         tbody.innerHTML = '';
 
-        const entries = state.entries ? [...state.entries] : []; // Fallback empty
-        // Use the existing logic to merge modifications, deleted sets, etc. 
-        // For brevity in this fix, we assume ZipState.getDisplayEntries exists and is imported.
-        const importState = require('./state.js');
-        const displayEntries = importState.ZipState.getDisplayEntries(state);
+        // B"H - Directly calling the imported module function instead of 'require'
+        const displayEntries = ZipState.getDisplayEntries(state);
         
         displayEntries.sort((a, b) => {
             if (a.isDir !== b.isDir) return b.isDir ? 1 : -1;
@@ -177,7 +171,7 @@ export const ZipRenderer = {
     _formatSize(bytes) {
         if (bytes === 0) return '0 B';
         const k = 1024;
-        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const sizes =['B', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
     }
