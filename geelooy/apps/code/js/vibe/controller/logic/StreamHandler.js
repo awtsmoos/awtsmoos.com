@@ -8,13 +8,6 @@
  * In the realm of Asiyah, we watch the flow and prepare the vessels. 
  * But the act of Solidification (writing to disk) is a final decree.
  * We must not anchor a vessel that is only half-born!
- * 
- * This module has been rectified with absolute vigilance:
- * 1. Completion Guard: It only signals the Engine when "isComplete" is true.
- * 2. Diagnostic Scribe: It logs every deed—WRITE or DELETE—to the console, 
- *    providing the observer with the path, measure, and project context.
- * 3. Finalization Ritual: It performs a last scan after the stream ends 
- *    to catch any missed vessels, ensuring totality.
  */
 
 import { LoopEngine } from '../../modules/LoopEngine.js';
@@ -34,8 +27,8 @@ export const StreamHandler = {
      * @param {Object} controller - The Vibe controller for UI updates.
      */
     async processChunk(chunk, fullBuffer, tab, _, controller) {
-        const sess = tab.vibeSession || tab.content || {};
-        const root = sess.path || sess.rootPath || tab.item?.path || "/";
+        // B"H - Rely strictly on tab.item.path for grounding
+        const root = tab.item?.path || "/";
         
         // 1. VISION: Update the UI history with the latest buffer state.
         if (controller && controller.handleStreamChunk) {
@@ -88,8 +81,7 @@ export const StreamHandler = {
      * completed in the very last token of the stream.
      */
     async finalize(finalText, tab) {
-        const sess = tab.vibeSession || tab.content || {};
-        const root = sess.path || sess.rootPath || tab.item?.path || "/";
+        const root = tab.item?.path || "/";
         const allDirectives = BlockExtractor.extract(finalText, root);
         
         for (const directive of allDirectives) {

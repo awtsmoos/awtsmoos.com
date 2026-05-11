@@ -20,7 +20,8 @@ export const TabRouter = {
             'commander': 'file-commander-wrapper',
             'file-commander': 'file-commander-wrapper',
             'terminal': 'terminal-wrapper',
-            'devtools': 'devtools-wrapper'
+            'devtools': 'devtools-wrapper',
+            'browser': 'browser-wrapper'
         };
 
         if (map[type]) return map[type];

@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file SessionOpener.js
@@ -11,7 +12,12 @@ import { MultidimensionalSeal } from '../../core/identity/MultidimensionalSeal.j
 import { VesselValidator } from '../../core/validation/VesselValidator.js';
 
 export const SessionOpener = {
-    async open(folderItem) {
+    /**
+     * B"H
+     * Opens a vibe session. If `forceNew` is true, generates a completely unique ID
+     * so it doesn't collide with existing chats for the same folder.
+     */
+    async open(folderItem, forceNew = false) {
         UI.showLoading("Establishing resonance...");
         
         const isPhysical = await VesselValidator.exists(folderItem);
@@ -22,13 +28,16 @@ export const SessionOpener = {
         }
 
         try {
-            const idKey = MultidimensionalSeal.cast(folderItem);
-            let session = await VibeDB.getSession(idKey);
+            // If forcing a new chat, generate a brand new random hash to store separately in VibeDB
+            const idKey = forceNew ? `vibe-sess-${Date.now()}` : MultidimensionalSeal.cast(folderItem);
+            
+            let session = forceNew ? null : await VibeDB.getSession(idKey);
+            
             if (!session) {
                 session = { 
                     id: idKey, 
                     name: `Vibe: ${folderItem.name}`, 
-                    path: folderItem.path, 
+                    path: folderItem.path || "/", 
                     workspaceId: folderItem.workspaceId, 
                     originalType: folderItem.originalType || folderItem.type, 
                     history: [], 

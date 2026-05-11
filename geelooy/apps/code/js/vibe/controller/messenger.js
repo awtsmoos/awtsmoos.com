@@ -2,57 +2,63 @@
 // B"H
 /**
  * @file messenger.js
- * @description
- * * Chapter 4: The Messenger of the Timestream
- * This module bridges the user input to the AI logic.
- * * RECTIFICATION: Fixed an 'ID lost' error. We now strictly verify that 
- * the session ID exists before attempting to anchor the history in the DB.
+ * @brief THE MESSENGER OF THE TIMESTREAM.
  */
 
-import { LogicController } from './logic.js';
-import { VibeDB } from '../db.js';
-import { ChatHistory } from '../view/chat/history.js';
 import { UI } from '../../ui.js';
+import { MessageScribe } from './messenger/MessageScribe.js';
+import { VibeDB } from '../db.js';
 
 export const VibeMessenger = {
-    /**
-     * B"H
-     * Initiates the sending of a user request.
-     */
     async sendMessage(tab, controller) {
         const input = document.getElementById('vibe-input');
-        if (!input || tab.vibeSession.isProcessing) return;
+        if (!input || !tab || !tab.vibeSession) return;
+        
+        if (tab.vibeSession.isProcessing) {
+            UI.showToast("B\"H - The Oracle is currently in deep contemplation.", "warning");
+            return;
+        }
         
         const text = input.value.trim();
         if (!text) return;
 
-        // B"H - SESSION ID RECTIFICATION
-        const sessionId = tab.vibeSession.id || tab.item.path || "void_session";
-        if (!tab.vibeSession.id) tab.vibeSession.id = sessionId;
-        
         input.value = '';
-        input.style.height = 'auto'; // Reset expanded textarea
+        input.style.height = 'auto';
 
-        tab.vibeSession.history.push({ role: 'user', content: text });
-        
         try {
+            tab.vibeSession.history.push({ role: 'user', content: text });
+            
+            tab.vibeSession.history.push({ 
+                role: 'assistant', 
+                content: '', 
+                isConnecting: true, 
+                isStreaming: true, 
+                statusText: 'IGNITING ORACLE CONNECTION...' 
+            });
+            
             await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
-        } catch (e) {
-            console.warn(`[Messenger] B"H - Could not anchor session immediately: ${e.message}`);
+            controller.refreshView(tab);
+
+            const { LogicController } = await import('./LogicGateway.js');
+            await LogicController.runIteration(tab, controller);
+            
+        } catch (err) {
+            console.error('[VibeMessenger] B"H - Prayer Delivery Failed: ', err);
+            UI.showToast('Manifestation Failed: ' + err.message, 'error');
+            
+            if (tab.vibeSession) {
+                tab.vibeSession.history.pop();
+                tab.vibeSession.isProcessing = false;
+                controller.refreshView(tab);
+            }
         }
-        
-        controller.refreshView(tab);
-        await LogicController.runIteration(tab, controller);
     },
 
-    /**
-     * B"H
-     * Routes stream chunks into the physical history elements.
-     */
     handleStreamChunk(content, tab, controller) {
-        const histEl = document.getElementById('vibe-chat-history');
-        if (histEl) {
-            ChatHistory.updateLastMessage(histEl, content, tab, controller);
-        }
+        // B"H - Purged the unholy `require` statement! Replaced with dynamic ES module import.
+        import('../view/chat/history.js').then(m => {
+            const hist = document.getElementById('vibe-chat-history');
+            if (hist) m.ChatHistory.updateLastMessage(hist, content, tab, controller);
+        });
     }
 };

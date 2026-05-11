@@ -39,6 +39,8 @@ export const UICore = {
             'terminal-wrapper': 'terminal-wrapper',
             'devtools': 'devtools-wrapper',
             'devtools-wrapper': 'devtools-wrapper',
+            'browser': 'browser-wrapper',
+            'browser-wrapper': 'browser-wrapper',
             'empty': 'empty-editor-message',
             'empty-editor-message': 'empty-editor-message'
         };

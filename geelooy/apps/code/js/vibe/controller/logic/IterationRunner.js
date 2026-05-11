@@ -2,137 +2,106 @@
 // B"H
 /**
  * @file IterationRunner.js
- * @brief The Engine of AI Iteration and Manifestation.
+ * @brief THE ROOT ENGINE OF AI ITERATION.
  * 
- * CHAPTER XXX: THE DIALOGUE OF CREATION
- * This module is the heart of the Vibe's intelligence. It gathers the 
- * "Ohr" (Light/Context) from the codebase, prepares the "Kelim" (Vessels/Prompts), 
- * and initiates the stream of Divine Speech from the AI Oracle.
- * 
- * It manages:
- * 1. API Key verification.
- * 2. Codebase context construction.
- * 3. History compression (Tzimtzum) to save tokens.
- * 4. Real-time streaming and physical solidification via StreamHandler.
+ * CHAPTER LX: THE DELEGATION OF POWER
+ * The Runner had grown too vast, carrying the weight of Initialization, 
+ * Streaming, and Finalization all within its singular body. 
+ * We now perform an act of Tzimtzum (Contraction), splitting these 
+ * duties into specialized Sefirot (modules), leaving the Runner as 
+ * the pure Keter (Crown) that directs the flow.
  */
 
-import { ModelManager } from '../../model-manager.js';
-import { VibeAPI } from '../../api-client.js';
-import { PromptBuilder } from '../../modules/prompt-builder.js';
-import { ContextBuilder } from '../../modules/context-builder.js';
-import { StreamHandler } from './StreamHandler.js';
-import { HistoryCompressor } from '../../modules/history/index.js';
 import { UI } from '../../../ui.js';
-import { VibeDB } from '../../db.js';
+import { ModelManager } from '../../model-manager.js';
+import { AutoLoopState } from '../../agent/state/AutoLoopState.js';
+import { IterationInitializer } from './IterationInitializer.js';
+import { IterationStream } from './IterationStream.js';
+import { IterationFinalizer } from './IterationFinalizer.js';
+import { VibeAPI } from '../../api/client.js';
+import { ToolSchemas } from '../../agent/schemas/index.js';
 
 export const IterationRunner = {
     /**
-     * B"H
-     * Executes a single round of interaction with the AI model.
-     * 
-     * @param {Object} tab - The Vibe session tab.
-     * @param {Object} controller - The Vibe controller for UI updates.
-     * @param {string|null} promptOverride - Optional manual prompt.
+     * B"H - Conducts the ritual of thought-manifestation.
+     * @param {Object} tab - The Vibe Session tab.
+     * @param {Object} controller - The overarching VibeController.
+     * @param {string|null} promptOverride - Injection for user requests.
+     * @param {boolean} isAutonomousLoop - True if called recursively.
      */
-    async run(tab, controller, promptOverride = null) {
-        if (!tab.vibeSession) return;
+    async run(tab, controller, promptOverride = null, isAutonomousLoop = false) {
+        console.log('%cB"H [IterationRunner] --- STARTING CYCLE ---', "color: #00f6ff; font-weight: bold;");
 
-        const apiKey = ModelManager.getKey();
-        if (!apiKey) {
-            UI.showToast("B\"H - API Key missing. Please visit the Dashboard.", "error");
+        if (!tab || !tab.vibeSession) return;
+        
+        if (!isAutonomousLoop) AutoLoopState.reset();
+        
+        if (!AutoLoopState.advance()) {
+            tab.vibeSession.isProcessing = false;
+            controller.refreshView(tab);
             return;
         }
 
-        // 1. BEGINNING: Set processing state
+        const apiKey = ModelManager.getActiveKey();
+        if (!apiKey) { 
+            UI.showToast("B\"H - API Key Missing.", "error"); 
+            tab.vibeSession.isProcessing = false;
+            controller.refreshView(tab);
+            return; 
+        }
+
         tab.vibeSession.isProcessing = true;
-        controller.refreshView(tab);
 
         try {
-            // 2. CONTEXT: Build the Markdown representation of the current codebase
-            const markdownContext = await ContextBuilder.build(tab);
+            // 1. INITIALIZATION & CONTEXT GATHERING
+            const { apiHistory, lastMsg } = await IterationInitializer.prepare(tab, controller, promptOverride);
             
-            // 3. PREPARATION: Compress history to remove bloated old code blocks
-            const compressedHistory = HistoryCompressor.compress([...tab.vibeSession.history]);
-            
-            // 4. ASSEMBLY: Construct the full message array for the API
-            const apiHistory = [
-                { role: 'system', content: PromptBuilder.getSystem(markdownContext) },
-                ...compressedHistory
-            ];
-
-            if (promptOverride) {
-                apiHistory.push({ role: 'user', content: promptOverride });
+            if (AutoLoopState.isStopped) {
+                tab.vibeSession.isProcessing = false;
+                controller.refreshView(tab);
+                return;
             }
 
-            // 5. VISION: Add a streaming placeholder message to the UI history
-            tab.vibeSession.history.push({ 
-                role: 'model', 
-                content: '', 
-                isStreaming: true 
-            });
-            controller.refreshView(tab);
+            // 2. THE STREAMING RECEPTACLE
+            const stream = new IterationStream(tab, controller);
 
-            let fullBuffer = "";
-
-            // 6. EMANATION: Initiate the stream
+            // 3. THE DIVINE INVOCATION
             await VibeAPI.streamChat(
-                apiHistory, 
-                apiKey, 
-                ModelManager.currentModel,
-                // On Each Chunk
-                async (chunk) => {
-                    fullBuffer += chunk;
-                    // Pass the buffer to the StreamHandler to check for complete XML blocks to write to disk
-                    await StreamHandler.processChunk(chunk, fullBuffer, tab, null, controller);
-                },
-                // On Completion
-                async (finalText) => {
-                    console.log(`%cB"H [IterationRunner] Stream Ended. Finalizing vessels...`, "color: #a8ff00; font-weight: bold;");
-                    
-                    // Solidify any remaining blocks that were missed during streaming
-                    await StreamHandler.finalize(finalText, tab);
-
-                    const lastMsg = tab.vibeSession.history[tab.vibeSession.history.length - 1];
-                    lastMsg.isStreaming = false;
-                    lastMsg.content = finalText;
-                    tab.vibeSession.isProcessing = false;
-
-                    // Anchor the updated history in memory
-                    await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
-                    
-                    // Final UI Sync
-                    controller.refreshView(tab);
-                    await controller.refreshTree(tab);
-                    
-                    UI.showToast(`B"H - Iteration manifestation complete.`, "success");
-                },
-                // On Error
-                (err) => {
-                    console.error("[IterationRunner] B\"H - Oracle Error:", err);
-                    
-                    // Handle rate limits by suggesting model rotation
-                    if (err.status === 429) {
-                        UI.showToast("B\"H - Model is exhausted (429). Attempting rotation...", "warning");
-                        ModelManager.rotateModel();
-                    } else {
-                        UI.showToast(`B"H - Dimensional Divergence: ${err.message}`, "error");
+                apiHistory, apiKey, ModelManager.currentModel, ToolSchemas,
+                
+                // onActive Hook (Pierces the latency void)
+                () => { 
+                    if (lastMsg && lastMsg.isConnecting) {
+                        lastMsg.isConnecting = false;
+                        controller.refreshView(tab);
                     }
+                },
+                
+                (chunk) => { if (!AutoLoopState.isStopped) stream.handleText(chunk); },
+                (thought) => { if (!AutoLoopState.isStopped) stream.handleThought(thought); },
+                (tools) => { if (!AutoLoopState.isStopped) stream.handleToolTrigger(tools); },
 
+                // 4. FINALIZATION & RECURSION CHECK
+                async (finalText, finalReasoning, finalTools, signature) => {
+                    if (AutoLoopState.isStopped) return;
+                    await IterationFinalizer.complete(tab, controller, lastMsg, finalText, finalReasoning, finalTools, signature);
+                },
+
+                // 5. ERROR HANDLING
+                async (err) => {
+                    const { VibeErrorParser } = await import('../../api/error-parser.js');
+                    const errReport = await VibeErrorParser.parse(err);
+                    tab.vibeSession.history.pop();
+                    tab.vibeSession.history.push({ role: 'error', content: errReport });
                     tab.vibeSession.isProcessing = false;
-                    const lastMsg = tab.vibeSession.history[tab.vibeSession.history.length - 1];
-                    if (lastMsg && lastMsg.isStreaming) {
-                        lastMsg.content += `\n\n[B"H Error: ${err.message}]`;
-                        lastMsg.isStreaming = false;
-                    }
                     controller.refreshView(tab);
                 }
             );
-
         } catch (e) {
-            console.error("[IterationRunner] B\"H - Logic Shattered:", e);
+            console.error('[IterationRunner] B"H - Execution Shattered: ', e);
+            tab.vibeSession.history.pop();
             tab.vibeSession.isProcessing = false;
             controller.refreshView(tab);
-            UI.showToast(`B"H - The logic engine shattered: ${e.message}`, "error");
         }
     }
 };
