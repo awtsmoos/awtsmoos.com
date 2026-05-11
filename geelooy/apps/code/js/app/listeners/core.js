@@ -1,17 +1,16 @@
 
 // B"H
-// FILE: js/app/listeners/core.js
+/**
+ * @file core.js
+ * @brief The nervous system of the application.
+ */
 
 import { State, DOM } from '../../state.js';
 import { Menus } from '../../menus/index.js';
 import { WorkspaceAddition } from '../../features/workspace-addition.js';
 import { FileCommander } from '../../file-commander.js';
+import { Actions } from '../../actions/index.js';
 
-/**
- * @function setupCoreListeners
- * @description The nervous system of the application.
- * B"H - Updated with mobile-optimized resizing logic.
- */
 export function setupCoreListeners() {
     const appContainer = document.querySelector('.app-container');
 
@@ -35,19 +34,70 @@ export function setupCoreListeners() {
         DOM.fileCommanderBtn.onclick = () => FileCommander.open();
     }
 
-    // --- B"H - RE-FORGED RESIZER (Touch + Mouse) ---
+    // --- B"H - THE GLOBAL CONSOLE & REFRESH GATEWAYS ---
+    const menuBar = document.querySelector('.menu-bar');
+    if (menuBar) {
+        // Console Button
+        let consoleBtn = document.getElementById('global-console-btn');
+        if (!consoleBtn) {
+            consoleBtn = document.createElement('button');
+            consoleBtn.id = 'global-console-btn';
+            consoleBtn.className = 'icon-button hidden';
+            consoleBtn.title = 'Open JavaScript Console';
+            consoleBtn.style.color = 'var(--neon-cyan)';
+            consoleBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-laptop"></use></svg>';
+            menuBar.appendChild(consoleBtn);
+        }
+        
+        consoleBtn.onclick = (e) => {
+            e.stopPropagation();
+            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+            if (activeTab) {
+                Actions.handle('open-devtools', activeTab);
+            }
+        };
+
+        // B"H - Refresh Preview Button
+        let refreshBtn = document.getElementById('global-refresh-preview-btn');
+        if (!refreshBtn) {
+            refreshBtn = document.createElement('button');
+            refreshBtn.id = 'global-refresh-preview-btn';
+            refreshBtn.className = 'icon-button hidden';
+            refreshBtn.title = 'Refresh Preview';
+            refreshBtn.style.color = 'var(--neon-lime)';
+            refreshBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-refresh"></use></svg>';
+            menuBar.appendChild(refreshBtn);
+        }
+
+        refreshBtn.onclick = (e) => {
+            e.stopPropagation();
+            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+            if (activeTab && (activeTab.isPreview || activeTab.fileType === 'html-preview')) {
+                import('../../editor/preview-manager.js').then(m => {
+                    m.PreviewManager.show(activeTab.id, activeTab.item, activeTab.content, true);
+                });
+            }
+        };
+
+        const updateBtnVisibility = () => {
+            const tab = State.tabs.find(t => t.id === State.activeTabId);
+            const isInspectable = tab && (tab.isPreview || tab.fileType === 'html-preview' || tab.item.type === 'browser');
+            consoleBtn.classList.toggle('hidden', !isInspectable);
+            refreshBtn.classList.toggle('hidden', !isInspectable);
+        };
+
+        window.addEventListener('awtsmoos-tab-activated', updateBtnVisibility);
+        setTimeout(updateBtnVisibility, 500);
+    }
+
     const resizer = document.getElementById('sidebar-resizer');
     if (resizer) {
         const handleMove = (e) => {
-            // Unify mouse and touch coordinates
             const clientX = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
             if (clientX === undefined) return;
-
-            // B"H - Absolute coordinate mapping
             const newWidth = Math.max(50, Math.min(clientX, window.innerWidth * 0.8));
             appContainer.style.gridTemplateColumns = `${newWidth}px 1fr`;
         };
-
         const handleEnd = () => {
             document.body.classList.remove('is-resizing');
             document.removeEventListener('mousemove', handleMove);
@@ -55,25 +105,14 @@ export function setupCoreListeners() {
             document.removeEventListener('touchmove', handleMove);
             document.removeEventListener('touchend', handleEnd);
         };
-
         const handleStart = (e) => {
-            // Prevent scrolling when resizing on mobile
-            if (e.type === 'touchstart') {
-                // e.preventDefault(); // Might interfere with UI, use carefully
-            }
             document.body.classList.add('is-resizing');
             document.addEventListener('mousemove', handleMove);
             document.addEventListener('mouseup', handleEnd);
             document.addEventListener('touchmove', handleMove, { passive: false });
             document.addEventListener('touchend', handleEnd);
         };
-
         resizer.addEventListener('mousedown', handleStart);
         resizer.addEventListener('touchstart', handleStart, { passive: false });
     }
-
-    // Global interaction cleanup
-    document.addEventListener('click', (e) => {
-        // Intelligence to close floating menus
-    });
 }

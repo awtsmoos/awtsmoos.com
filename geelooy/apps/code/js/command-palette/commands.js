@@ -5,6 +5,7 @@ export const PALETTE_COMMANDS = [
     { id: 'save', label: 'File: Save', action: 'save', icon: 'save' },
     { id: 'new-file', label: 'File: New File', action: 'new-temp-file', icon: 'file' },
     { id: 'open-file', label: 'File: Open Local File', action: 'open-file', icon: 'folder' },
+    { id: 'open-browser', label: 'View: Open Local Browser', action: 'open-browser-tab', icon: 'globe' },
     { id: 'search-global', label: 'Search: Global Search', action: 'show-search', icon: 'search' },
     { id: 'search-scope-file', label: 'Search: Set Scope to Current Folder', action: 'scope-to-active', icon: 'search' },
     { id: 'search-scope-clear', label: 'Search: Clear Search Scope', action: 'scope-clear', icon: 'x' },
@@ -25,7 +26,7 @@ export const PALETTE_COMMANDS = [
     { id: 'find', label: 'Edit: Find/Replace', action: 'find-replace', icon: 'search' },
     { id: 'comment', label: 'Edit: Toggle Line Comment', action: 'toggle-line-comment', icon: 'list' },
     { id: 'fold-all', label: 'Edit: Fold All Functions', action: 'fold-functions', icon: 'list' },
-    { id: 'trim-space', label: 'Edit: Trim Trailing Whitespace', action: 'trim-trailing-whitespace', icon: 'list' }, // B"H - Added
+    { id: 'trim-space', label: 'Edit: Trim Trailing Whitespace', action: 'trim-trailing-whitespace', icon: 'list' }, 
     { id: 'ipsum', label: 'Edit: Insert Cyber Ipsum', action: 'insert-cyber-ipsum', icon: 'list' },
     { id: 'zalgo', label: 'Edit: Zalgoify Selection', action: 'zalgo-text', icon: 'brain' },
     { id: 'date', label: 'Edit: Insert Date/Time', action: 'insert-date', icon: 'list' },

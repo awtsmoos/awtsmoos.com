@@ -18,20 +18,21 @@ export const ViewHtmlAction = {
             return;
         }
 
-        // B"H - Do not allow directories to be previewed as HTML
         if (item.kind === 'directory' || item.kind === 'root' || item.path.endsWith('/')) {
             await ActionModal.alert("B\"H\nA domain (directory) cannot be previewed. Select a physical file.");
             return;
         }
 
-        console.log("B\"H - ViewHtml: Projecting light from", item.path);
+        console.log("B\"H - ViewHtml: Projecting light from " + item.path);
+
+        const physicalType = item.originalType || item.type;
 
         const previewItem = {
             ...item,
-            id: item.id ? `${item.id}-preview` : `${item.path}-preview`,
+            id: item.id ? item.id + "-preview" : item.path + "-preview",
             type: 'html-preview-file',
-            originalType: item.type,
-            name: `Preview: ${item.name}`
+            originalType: physicalType, // B"H - PRESERVE THE IDENTITY
+            name: "Preview: " + item.name
         };
 
         return Tabs.create(previewItem);

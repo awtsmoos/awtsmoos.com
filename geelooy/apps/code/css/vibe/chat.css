@@ -8,7 +8,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    padding-bottom: 60px;
+    padding-bottom: 20px; /* Reduced since controls moved to bottom */
     scroll-behavior: smooth;
     padding-right: 10px; 
 }
@@ -19,7 +19,7 @@
     border-radius: 8px;
     font-size: 0.95em;
     line-height: 1.6;
-white-space: pre-wrap;
+    white-space: pre-wrap;
     word-wrap: break-word;
     position: relative;
     animation: fadeIn 0.15s ease-out;
@@ -132,11 +132,10 @@ white-space: pre-wrap;
     font-size: 0.9em;
 }
 
-/* INPUT AREA LAYOUT FIX */
+/* INPUT AREA & TOKEN CONTROLS */
 .vibe-input-area {
     padding: 15px;
     background-color: var(--color-bg-secondary);
-    border-top: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -163,14 +162,53 @@ white-space: pre-wrap;
     gap: 10px;
 }
 
-#vibe-sidebar-toggle-btn {
-    margin-left: auto; 
-    border: 1px solid var(--color-border);
+/* The New Bottom Token Bar */
+.vibe-token-bar-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 15px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border);
+    z-index: 5;
+    flex-shrink: 0;
 }
-#vibe-sidebar-toggle-btn.active {
-    background-color: var(--color-bg-tertiary);
-    border-color: var(--neon-cyan);
+
+.vibe-token-counter-text {
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--color-text-secondary);
+}
+
+.vibe-token-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.vibe-halt-btn {
+    background: var(--color-accent-danger);
+    color: #000;
+    border: none;
+    padding: 4px 10px;
+    font-weight: bold;
+    font-size: 11px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(247, 93, 101, 0.4);
+}
+
+.vibe-restore-input-btn {
+    background: var(--color-bg-tertiary);
     color: var(--neon-cyan);
+    border: 1px solid var(--neon-cyan);
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,246,255,0.2);
 }
 
 .vibe-textarea {

@@ -27,6 +27,16 @@ const FALLBACK_ACTIONS = {
     'reveal-in-workspace': async (ctx) => {
         const module = await import('./commands/reveal-in-workspace.js');
         return module.default(ctx);
+    },
+    'open-browser-tab': async () => {
+        const m = await import('../browser/index.js');
+        return m.BrowserManager.open();
+    },
+    'open-devtools': async (ctx) => {
+        // B"H - The high-level command to open inspection vessels.
+        // It can now handle standard previews AND the new browser tabs.
+        const module = await import('../devtools/open.js');
+        return module.DevToolsOpener.open(ctx);
     }
 };
 
@@ -41,7 +51,6 @@ export const ActionRegistry = {
         }
 
         try {
-            // B"H - Fixed dynamic template string logic
             const path = './commands/' + actionId + '.js';
             const module = await import(path);
             const executor = module.default || Object.values(module).find(exp => typeof exp === 'function');

@@ -2,7 +2,7 @@
 // B"H
 /**
  * @file dispatcher.js
- * @brief THE CHANNEL ARCHITECT & GUARDIAN.
+ * @brief The Channel Architect & Guardian.
  */
 
 import { ActionRegistry } from './registry.js';
@@ -18,26 +18,17 @@ export const ActionDispatcher = {
         const ogRead = FileSystemProvider.read;
         if (ogRead) {
             FileSystemProvider.read = async function(item, ...args) {
-                // B"H - THE TIKKUN: Only return virtual content if the item is explicitly marked 
-                // OR if it's the dashboard itself. Real project files (.js, .html) MUST be read from disk.
-                const isVirtualType = (item.type === 'vibe-manager' || item.type === 'html-preview-file' || item.type === 'devtools');
+                const isVirtualType = ['vibe-manager', 'html-preview-file', 'devtools', 'browser'].includes(item.type);
                 const isVirtualMarker = (item.isVirtual === true);
 
                 if (isVirtualType || isVirtualMarker) {
-                    console.log(`B"H - [Sentinel] Virtual Read intercepted for: ${item.path}`);
-                    return item.content || `B"H - Virtual Essence: ${item.type}`;
+                    if (item.content !== undefined && item.content !== null && item.content !== "") {
+                        return item.content;
+                    }
+                    console.log("[Sentinel] B\"H - Virtual vessel " + item.path + " is empty. Diving to physical depth.");
                 }
-                return ogRead.apply(this, [item, ...args]);
-            };
-        }
-
-        const ogWrite = FileSystemProvider.write;
-        if (ogWrite) {
-            FileSystemProvider.write = async function(item, ...args) {
-                if (item && (item.isVirtual || item.type === 'vibe-manager' || item.type === 'html-preview-file')) {
-                    return true; 
-                }
-                return ogWrite.apply(this, [item, ...args]);
+                
+                return await ogRead.apply(this, [item, ...args]);
             };
         }
 
@@ -45,13 +36,13 @@ export const ActionDispatcher = {
     },
 
     async dispatch(actionId, context) {
-        console.log(`B"H - Dispatching action -> [${actionId}]`);
+        console.log("B\"H - Dispatching action -> [" + actionId + "]");
         try {
             const actionDef = await ActionRegistry.resolve(actionId);
             const enrichedContext = (typeof context === 'object' && context !== null) ? context : { payload: context };
             await ActionExecutor.execute(actionDef, enrichedContext, actionId);
         } catch (err) {
-            console.error(`B"H - Fatal Dispatch Barrier for [${actionId}]`, err);
+            console.error("B\"H - Fatal Dispatch Barrier for [" + actionId + "]", err);
         }
     }
 };
