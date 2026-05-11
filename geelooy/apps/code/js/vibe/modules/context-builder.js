@@ -7,13 +7,12 @@ import { State } from '../../state.js';
 export const ContextBuilder = {
     /**
      * B"H - Builds the context for the AI.
-     * It relativizes all file paths against the session's explicit path.
+     * Relies on the physical DOM item path to bypass any potential DB corruption.
      */
     async build(tab) {
-        // B"H - THE GRAND RECTIFICATION: 
-        // VibeController saves the path as session.path, not session.rootPath!
-        const rootPath = tab.vibeSession.path || tab.vibeSession.rootPath || (tab.item ? tab.item.path : "/");
-        const workspaceId = tab.item.workspaceId;
+        // B"H - Force the True Physical Path
+        const rootPath = tab.item ? tab.item.path : "/";
+        const workspaceId = tab.item ? tab.item.workspaceId : null;
         const workspace = State.workspaces.find(ws => ws.id === workspaceId);
         
         if (!workspace) return 'B"H - Workspace not found.';

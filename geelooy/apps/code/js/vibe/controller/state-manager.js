@@ -6,9 +6,9 @@ import { UI } from '../../ui.js';
 export const VibeStateManager = {
     async resetChat(tab, controller) {
         const confirmed = await UI.showDialog({ 
-            title: "Reset Timestream", 
-            message: "This will dissolve the current history. Proceed?", 
-            okText: "Reset" 
+            title: "Clear Timestream", 
+            message: "This will dissolve the current chat history for this specific session. (Files are not affected). Proceed?", 
+            okText: "Clear Chat" 
         });
         
         if (confirmed) {
@@ -21,12 +21,10 @@ export const VibeStateManager = {
     async saveSession(tab) {
         if (!tab.vibeSession) return;
         await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
-        UI.showToast("B\"H - Timestream Anchored.", "success");
+        UI.showToast("State anchored.", "success");
     },
 
     async createCheckpoint(tab) {
-        // Handle legacy calls gracefully
-        console.log("B\"H - Automatic checkpoint recorded in LoopEngine.");
-        return null;
+        console.log("Legacy checkpoint creation bypassed. Relies on LoopEngine Timeline.");
     }
 };

@@ -3,12 +3,6 @@
 /**
  * @file LoopEngineController.js
  * @brief Autonomous structural processor bridging textual definitions and physical bytes.
- * 
- * CHAPTER XVIII: THE LAW OF THE SEQUENCE
- * In the realm of Asiyah, parallel expansion can lead to confusion. 
- * If two hands build the same room at once, the stones may clash.
- * This controller now operates in a strict 'Seder' (Sequence),
- * manifesting one vessel at a time to ensure physical stability.
  */
 import { State } from '../../../state.js';
 import { FileSystemProvider } from '../../../fs-provider.js';
@@ -33,10 +27,9 @@ export const LoopEngineController = {
         
         const coreType = foundationRef.originalType || foundationRef.type;
         const triggerDirectoryUpdates = new Set();
-        const activeTimelineLedger = [];
+        const activeTimelineLedger =[];
         let volumetricBytesPushed = 0;
         
-        // Remove duplicates within the batch, keeping only the latest version of each path
         const uniqueChangesMap = new Map();
         for (const change of compiledChangeArray) {
             uniqueChangesMap.set(change.path, change);
@@ -49,7 +42,6 @@ export const LoopEngineController = {
         
         let completedCount = 0;
 
-        // B"H - SEQUENTIAL LOOP: This is the critical stabilization fix.
         for (const shiftObject of consolidatedChanges) {
             const fileName = shiftObject.path.split('/').pop();
             const fileTaskId = `file-task-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
@@ -64,20 +56,18 @@ export const LoopEngineController = {
                 originalType: coreType
             };
 
-            // 1. TIMELINE: Record the pre-manifestation state
             if (!blockTimelinePush && timestreamTokenId) {
                 let oldContent = null;
                 try {
                     const raw = await FileSystemProvider.read(physicalItem);
                     oldContent = (raw instanceof Blob) ? await raw.text() : String(raw);
-                } catch(e) { /* File is new */ }
+                } catch(e) { }
                 
                 const newContent = shiftObject.operation === 'delete' ? null : shiftObject.content;
                 volumetricBytesPushed += newContent ? newContent.length : 0;
                 activeTimelineLedger.push({ path: shiftObject.path, operation: shiftObject.operation, oldContent, newContent });
             }
 
-            // 2. ACTION: Engage the OS and engrave the bytes
             try {
                 if (shiftObject.operation === 'delete') {
                     UI.updateTask(fileTaskId, 50, `Requesting OS Deletion...`);
@@ -88,7 +78,6 @@ export const LoopEngineController = {
                     }
                     await GitStagingBroadcaster.stage(physicalItem, 'delete', null);
                 } else {
-                    // Ensure the folder hierarchy exists before writing the leaf
                     await ArchitectOfDomains.ensureExists(foundationRef, shiftObject.path, coreType);
                     
                     UI.updateTask(fileTaskId, 20, `Engraving bytes upon the disk...`);
@@ -99,20 +88,23 @@ export const LoopEngineController = {
                     await GitStagingBroadcaster.stage(physicalItem, 'write', shiftObject.content);
                 }
 
-                // Track which directories need a UI refresh
+                // B"H - REAL-TIME VISUAL SYNC:
+                // Instantly update the parent directory of this specific file in the sidebar tree!
                 const lastSlash = shiftObject.path.lastIndexOf('/');
                 const parentPath = lastSlash <= 0 ? "/" : shiftObject.path.substring(0, lastSlash);
                 triggerDirectoryUpdates.add(parentPath);
+                
+                Workspaces.refreshNode({ 
+                    ...foundationRef, path: parentPath, kind: 'directory', workspaceId: parentWorldId, type: coreType 
+                }).catch(()=>{});
 
                 if (iterationProgressSignal) iterationProgressSignal(shiftObject, true);
-                
-                // 3. BROADCAST: Update any open editor tabs immediately
                 this._broadcastToOpenTabs(shiftObject, parentWorldId);
                 
                 UI.endTask(fileTaskId, 'success', `Solidified: ${fileName}`);
                 
             } catch (err) {
-                console.error(`B"H [LoopEngine] Physical failure for ${shiftObject.path}:`, err);
+                console.error(`B"H[LoopEngine] Physical failure for ${shiftObject.path}:`, err);
                 LoopErrorHandler.handle(err, shiftObject.path, fileTaskId, iterationProgressSignal, shiftObject);
             }
             
@@ -123,7 +115,6 @@ export const LoopEngineController = {
 
         UI.endTask(masterTaskId, 'success', `B"H - Manifestation Process Concluded.`);
 
-        // 4. PERSISTENCE: Save the record of this transformation
         if (!blockTimelinePush && timestreamTokenId && activeTimelineLedger.length > 0) {
             VibeDB.saveTimelineRecord({
                 id: String(Date.now()), 
@@ -135,13 +126,7 @@ export const LoopEngineController = {
             }).catch(()=>{});
         }
         
-        // 5. CLOUD: Auto-Commit if the workspace is a GitHub repo
         LoopGitPusher.autoCommit(foundationRef, consolidatedChanges).catch(()=>{});
-
-        // 6. VISION: Refresh the specific folder nodes in the sidebar tree
-        for (const coord of triggerDirectoryUpdates) {
-            await Workspaces.refreshNode({ ...foundationRef, path: coord, kind: 'directory', workspaceId: parentWorldId, type: coreType }).catch(()=>{});
-        }
     },
     
     _broadcastToOpenTabs(change, workspaceId) {

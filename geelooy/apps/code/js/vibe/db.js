@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file db.js
@@ -36,18 +37,22 @@ export const VibeDB = {
     /**
      * @async
      * @function saveSession
-     * @description B"H - Safeguarded save ritual.
+     * @description B"H - Safeguarded save ritual. If ID is missing, we forge a new one.
      */
     async saveSession(id, data) {
-        if (!id || typeof id !== 'string') {
-            console.warn('[VibeDB] B"H - Cannot save session: Invalid or missing ID.');
-            return;
+        // Absolute failsafe ID generation
+        let safeId = id;
+        if (!safeId || typeof safeId !== 'string') {
+            safeId = data.id || ('vibe-sess-' + Date.now());
+            data.id = safeId;
+            console.warn(`[VibeDB] B"H - Null ID intercepted. Forged new Identity: ${safeId}`);
         }
+
         const db = await this.init();
         return new Promise((res, rej) => {
             try {
                 const tx = db.transaction(this.STORES.SESSIONS, 'readwrite');
-                tx.objectStore(this.STORES.SESSIONS).put({ ...data, id, lastUpdated: Date.now() });
+                tx.objectStore(this.STORES.SESSIONS).put({ ...data, id: safeId, lastUpdated: Date.now() });
                 tx.oncomplete = () => res();
                 tx.onerror = () => rej(tx.error);
             } catch (e) { rej(e); }
@@ -68,7 +73,7 @@ export const VibeDB = {
         const db = await this.init();
         return new Promise((res) => {
             const req = db.transaction(this.STORES.SESSIONS).objectStore(this.STORES.SESSIONS).getAll();
-            req.onsuccess = () => res(req.result || []);
+            req.onsuccess = () => res(req.result ||[]);
         });
     },
 
@@ -95,7 +100,7 @@ export const VibeDB = {
         return new Promise((res) => {
             const req = db.transaction(this.STORES.TIMELINE).objectStore(this.STORES.TIMELINE).getAll();
             req.onsuccess = () => {
-                const all = req.result || [];
+                const all = req.result ||[];
                 res(all.filter(cp => cp.sessionId === sessionId));
             };
         });

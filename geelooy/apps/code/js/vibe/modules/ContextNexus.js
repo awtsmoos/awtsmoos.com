@@ -14,8 +14,8 @@ export const ContextNexus = {
      * @param {object} tab - The Vibe tab.
      */
     async build(tab) {
-        const rootPath = tab.vibeSession.path || tab.vibeSession.rootPath || (tab.item ? tab.item.path : "/");
-        const workspaceId = tab.item.workspaceId;
+        const rootPath = tab.item ? tab.item.path : "/";
+        const workspaceId = tab.item ? tab.item.workspaceId : null;
         const workspace = State.workspaces.find(ws => ws.id === workspaceId);
         
         if (!workspace) return 'B"H - Workspace not found.';
