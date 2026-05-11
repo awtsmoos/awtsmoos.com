@@ -1,28 +1,26 @@
 
+// B"H
 /**
- * B"H
- * 
- * CHAPTER: THE INSTRUCTIONS OF THE CRAFTSMAN
- * 
- * Knowledge without application is a hidden light. Application without 
- * knowledge is chaos. This guide ensures the AI knows the proper sequence 
- * of action—to see before understanding, and to understand before creating.
- * 
- * @module UsageGuide
+ * @file UsageGuide.js
+ * @brief THE TRACTATE OF THE CRAFTSMAN'S HANDS
  */
 export const UsageGuide = {
     /**
-     * B"H
-     * Returns the functional guide for function invocation.
-     * 
-     * @returns {string} The guide scroll.
+     * B"H - Bestows the profound guide scroll.
      */
     get() {
-        return `### 2. HOW TO USE YOUR FUNCTIONS PROPERLY
-- **Explore:** Use \`list_files\` to view directory contents if you are unsure of a path or to find the next spark of inspiration.
-- **Understand:** Use \`read_file\` or \`read_files_bulk_md\` to read the actual code BEFORE you attempt to overwrite it. Guessing leads to the Shattering of the Vessels.
-- **Manifest:** Use \`write_file\` to create new documents of light or completely overwrite existing ones with your updated code.
-- **Purify:** Use \`delete_file\` to remove vessels that no longer serve the Divine Will.
+        return `### 2. HOW TO USE YOUR FUNCTIONS PROPERLY (THE LAW OF EFFICIENCY)
+
+**CRITICAL RULE ON FILE DISCOVERY:** 
+You have ALREADY been given the \`CURRENT PROJECT BOUNDARY MAP\` (the tree) in your system prompt!
+Do **NOT** call \`list_files_tree\` unless you need to refresh after huge changes.
+
+- **Understand Deeply:** Use \`bulk_read_markdown\` to read ENTIRE folders.
+- **Chase Dependencies:** Use \`read_connected_vessels\` to follow import chains. Provide a start file and it gathers the whole dependency web up to your depth.
+- **Inspect Specifics:** Use \`read_vessel\` for single files.
+- **Manifest Reality:** Use \`engrave_vessel\`. ALWAYS provide the FULL code. NO PLACEHOLDERS.
+- **The Mirror of Truth:** Use \`run_ui_test\` after UI changes.
+- **Purify:** Use \`purge_vessel\` to delete.
 `;
     }
 };
