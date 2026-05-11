@@ -2,101 +2,89 @@
 // B"H
 /**
  * @file bridge.js
- * @brief The Eternal Connection between Editor and Preview.
+ * @brief THE CROWN OF INTER-FRAME COMMUNICATION (KETER).
+ * 
+ * POEM OF THE BORDER-GATE:
+ * One side is the Maker, one side is the See,
+ * We bridge the two frames with a digital decree.
+ * If the naming is shattered, if the signal is cold,
+ * We rectify the Word to the standard of old.
+ * One tongue for the many, one path for the light,
+ * Connecting the frames to the observer's sight!
+ * 
+ * The Awtsmoos constantly creates this bridge from nothing.
+ * Without His sustaining speech, the pixels would dissolve.
  */
 
-import { State } from '../state.js';
+import { StateAccessor } from './bridge/StateAccessor.js';
+import { BridgeDispatcher } from './bridge/Dispatcher.js';
+import { BridgeCommunicator } from './bridge/Communicator.js';
+import { ReplEngine } from './bridge/ReplEngine.js';
 
+/**
+ * @class DevToolsBridge
+ * @description The master orchestrator connecting Editor logic with Sandbox iframes.
+ */
 export const DevToolsBridge = {
-    /**
-     * @constant _persistentStateMap
-     * @description holds data for preview Tab IDs.
-     */
-    _persistentStateMap: new Map(),
     initialized: false,
 
     /**
-     * @function init
-     * @description Starts listening for iframe communications immediately.
+     * B"H - Initializes the auditory organs of the bridge.
      */
     init() {
         if (this.initialized) return;
-        window.addEventListener('message', (e) => this.handle(e));
+        window.addEventListener('message', (e) => BridgeDispatcher.dispatch(e));
         this.initialized = true;
-        console.log("B\"H - DevToolsBridge: Listening for the hidden pulses of the network.");
+        console.log("%cB\"H - DevToolsBridge established. Dimensional gateway open.", "color: #a8ff00; font-weight: bold;");
     },
 
-    getTabPersistentState(tabId, metadata = null) {
-        if (!this._persistentStateMap.has(tabId)) {
-            const newState = {
-                previewTabId: tabId,
-                logs: metadata?.logs || [],
-                networkReqs: metadata?.networkReqs || [],
-                domString: '',
-                activePanel: metadata?.activePanel || 'console',
-                selectedPath: metadata?.selectedPath || null,
-                inspectPath: null,
-                expandedPaths: new Set(metadata?.expandedPaths || ['']),
-                mainWrapper: null
-            };
-            this._persistentStateMap.set(tabId, newState);
-        }
-        return this._persistentStateMap.get(tabId);
+    /**
+     * B"H - Resolves persistent memory for a specific Vision portal.
+     * @param {string|number} tabId 
+     * @param {Object} [existing=null] 
+     */
+    getTabPersistentState(tabId, existing = null) {
+        return StateAccessor.getTabPersistentState(tabId, existing);
     },
 
-    handle(e) {
-        const d = e.data;
-        if (!d || d.source !== 'html-preview-bridge') return;
-
-        const pState = this.getTabPersistentState(d.previewTabId);
-        
-        if (d.type === 'console-log') {
-            pState.logs.push(d.payload);
-            if (pState.onLog) pState.onLog(d.payload);
-            this.requestSave();
-        } 
-        else if (d.type === 'eval-response') {
-            const resultLog = { level: d.payload.isError ? 'error' : 'log', args: [d.payload.result], timestamp: Date.now() };
-            pState.logs.push(resultLog);
-            if (pState.onLog) pState.onLog(resultLog);
-            this.requestSave();
-        }
-        else if (d.type === 'dom-update') {
-            pState.domString = d.payload.html;
-            if (pState.onDomUpdate) pState.onDomUpdate();
-        }
-        else if (d.type === 'network-log') {
-            pState.networkReqs.push(d.payload);
-            if (pState.onNetworkLog) pState.onNetworkLog();
-            this.requestSave();
-        }
+    /**
+     * B"H - Alias to prevent system-wide TypeErrors.
+     */
+    getPersistentState(tabId, existing = null) {
+        return this.getTabPersistentState(tabId, existing);
     },
 
-    requestSave() {
-        // Debounced save through the app orchestrator
-        import('../app.js').then(m => m.App.saveSessionDebounced());
+    /**
+     * B"H - Commands the sandbox to evaluate logical essence.
+     * @param {string|number} tabId - Target window identity.
+     * @param {string} code - Code to manifest.
+     * @param {Function} [onResult] - Callback for the returned light.
+     */
+    sendEval(tabId, code, onResult = null) {
+        // Delegate to the ReplEngine to track the round-trip
+        ReplEngine.evaluate(tabId, code, onResult);
     },
 
-    sendEval(previewTabId, code) {
-        import('../editor/preview-manager.js').then(m => {
-            const iframe = m.PreviewManager.getIframe(previewTabId);
-            if (iframe && iframe.contentWindow) {
-                iframe.contentWindow.postMessage({ source: 'devtools-bridge', type: 'eval-request', id: Date.now(), code }, '*');
-            }
-        });
+    /**
+     * @internal
+     * B"H - Reaches down the portal to deliver a specific eval request.
+     * Use sendEval() normally. This is for engine internals.
+     */
+    transmitEvalRequest(tabId, code, reqId) {
+        BridgeCommunicator.sendEval(tabId, code, reqId);
     },
 
-    requestDOM(previewTabId) {
-        import('../editor/preview-manager.js').then(m => {
-            const iframe = m.PreviewManager.getIframe(previewTabId);
-            if (iframe && iframe.contentWindow) iframe.contentWindow.postMessage({ type: 'request-dom' }, '*');
-        });
+    /**
+     * Requests structural maps (DOM) from the sandbox.
+     */
+    requestDOM(tabId) {
+        BridgeCommunicator.requestDOM(tabId);
     },
 
-    setSelectedPath(previewTabId, path) {
-        import('../editor/preview-manager.js').then(m => {
-            const iframe = m.PreviewManager.getIframe(previewTabId);
-            if (iframe && iframe.contentWindow) iframe.contentWindow.postMessage({ type: 'set-selected-path', path }, '*');
-        });
+    /**
+     * Directs focus in the sandbox world.
+     */
+    setSelectedPath(tabId, path) {
+        BridgeCommunicator.setSelectedPath(tabId, path);
     }
 };

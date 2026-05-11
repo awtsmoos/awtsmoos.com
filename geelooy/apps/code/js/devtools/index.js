@@ -9,39 +9,56 @@ import { DevToolsUI } from './ui.js';
 import { DevToolsBridge } from './bridge.js';
 
 export class DevTools {
+    /**
+     * B"H
+     * @param {HTMLElement} container - The physical DOM vessel.
+     * @param {Object} tab - The Tab metadata from State.
+     */
     constructor(container, tab) {
         this.container = container;
         this.tab = tab;
         
-        // B"H - PERSISTENCE RITUAL
-        // Ensure the bridge uses the tab's specific state (which might have come from the session load)
+        // 1. THE AGGRESSIVE IDENTITY SEARCH (Rectified)
+        let targetId = tab.item.previewTabId;
+        
+        // If metadata is empty, we peer into the sacred URI
+        if (!targetId || targetId === "undefined" || targetId === "null") {
+            const pathId = tab.item.path?.split('://')[1];
+            if (pathId && pathId !== "undefined") {
+                targetId = pathId;
+                tab.item.previewTabId = targetId;
+                console.log(`[DevTools] B"H - Extracted Vision ID from Path: ${targetId}`);
+            }
+        }
+
+        // If still unknown, we gaze upon the Earthly iframes
+        if (!targetId || targetId === "undefined") {
+            const iframes = document.querySelectorAll('iframe.browser-iframe');
+            if (iframes.length > 0) {
+                targetId = iframes[iframes.length - 1].dataset.tabId;
+                tab.item.previewTabId = targetId;
+                console.log(`[DevTools] B"H - Seized Vision ID from DOM: ${targetId}`);
+            }
+        }
+
+        console.log(`%cB"H [DevTools] Initializing Dimension for Vision [${targetId}]`, "color: #a8ff00; font-weight: bold;");
+
+        // 2. RETRIEVAL OF THE SINGULAR SOUL
         this.state = DevToolsBridge.getTabPersistentState(
-            tab.item.previewTabId, 
-            tab.devtoolsState // This carries the activePanel, selectedPath, and expandedPaths
+            targetId, 
+            tab.devtoolsState 
         );
         
-        // Ensure tab object itself references the bridge-managed state
+        // Force the state back into the tab for session persistence
         this.tab.devtoolsState = this.state;
+        this.tab.item.previewTabId = targetId;
         
         DevToolsBridge.init();
         this.init();
     }
 
     init() {
-        // B"H - RE-ATTACHMENT: If we already have the DOM manifested, just append it.
-        if (this.state.mainWrapper && this.state.mainWrapper.parentNode !== this.container) {
-            console.log("B\"H - DevTools: Re-attaching existing manifestation.");
-            this.container.innerHTML = '';
-            this.container.appendChild(this.state.mainWrapper);
-            
-            // Check for new inspection requests
-            if (this.state.inspectPath && this.state.onInspectRequested) {
-                this.state.onInspectRequested();
-            }
-            return;
-        }
-
-        // INITIAL CREATION: Manifest the UI from data
+        console.log(`B"H [DevTools init] Requesting UI Manifestation for Vision: ${this.state.previewTabId}`);
         DevToolsUI.render(this.container, this.state);
     }
 }

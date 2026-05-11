@@ -50,6 +50,8 @@ export const PaletteExecutor = {
              }
         } else if (cmd.action === 'show-graph-nav') {
             VisualEngine.triggerGraphNav();
+        } else if (cmd.action === 'open-browser-tab') {
+            import('../browser/index.js').then(m => m.BrowserManager.open());
         } else {
             Actions.handle(cmd.action);
         }

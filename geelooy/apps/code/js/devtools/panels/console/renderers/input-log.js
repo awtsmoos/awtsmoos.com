@@ -2,35 +2,40 @@
 // B"H
 /**
  * @file input-log.js
- * @brief Renders the user's past commands visibly and immediately.
+ * @brief THE SCRIBE OF THE USER'S PRAYER.
  */
 
 import { HTML } from '../../../../html-generator.js';
-import { LogStyles } from './styles.js';
+import { LineStyler } from '../rendering/LineStyler.js';
 
 export const InputLogRenderer = {
-    render(log) {
-        const style = { ...LogStyles.base, ...LogStyles.input };
-        const codeContent = log.args[0]?.value || "";
+    render(log, state) {
+        const style = LineStyler.applyInputAura(LineStyler.getBaseStyle());
+        const codeText = log.args[0]?.value || "";
 
         return HTML({
+            className: 'dt-console-input-echo',
             style: style,
             children: [
                 { 
                     tag: 'span', 
-                    style: { color: 'var(--color-text-tertiary)', userSelect: 'none', marginRight: '8px', fontWeight: 'bold' }, 
-                    text: '> ' 
+                    style: { 
+                        color: 'var(--neon-cyan)', 
+                        fontWeight: 'bold', 
+                        marginRight: '12px',
+                        fontSize: '1.1em',
+                        userSelect: 'none'
+                    }, 
+                    text: '>' 
                 },
                 {
                     tag: 'span',
-                    className: 'dt-obj-string', // Re-use object viewer style for consistency
                     style: { 
-                        whiteSpace: 'pre-wrap', 
-                        wordBreak: 'break-all', 
-                        fontFamily: 'var(--font-code)',
-                        color: 'var(--color-text-primary)' 
+                        color: '#fff', 
+                        opacity: '0.9',
+                        fontFamily: 'var(--font-code)' 
                     },
-                    text: codeContent
+                    text: codeText
                 }
             ]
         });

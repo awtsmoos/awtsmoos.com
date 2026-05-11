@@ -10,81 +10,64 @@ import { Tabs } from '../tabs/index.js';
 
 export const DevToolsOpener = {
     /**
-     * B"H - Opens the DevTools vision for a specific tab or the current active preview.
+     * B"H - Opens the DevTools vision for a specific tab.
      */
-    async open(item) {
-        let previewTab = null;
+    async open(target) {
+        let inspectTab = null;
 
-        // 1. Try to determine the target preview tab from the input item
-        if (item) {
-            // Case A: The item is the Preview Tab itself
-            const tabByItem = State.tabs.find(t => t.item === item || (t.item.path === item.path && t.item.workspaceId === item.workspaceId));
-            
-            if (tabByItem && (tabByItem.isPreview || tabByItem.fileType === 'html-preview')) {
-                previewTab = tabByItem;
-            } 
-            // Case B: The item is a Source File, search for its preview
-            else {
-                previewTab = State.tabs.find(t => 
-                    (t.isPreview || t.fileType === 'html-preview') && 
-                    t.item.path === item.path && 
-                    t.item.workspaceId === item.workspaceId
-                );
-            }
+        // 1. Resolve Target Identity
+        if (target && target.id) {
+            // Find the physical tab object in state
+            inspectTab = State.tabs.find(t => t.id === Number(target.id) || t === target);
         }
 
-        // 2. Fallback: If no item, or item yielded nothing, check Active Tab
-        if (!previewTab) {
-            const active = State.tabs.find(t => t.id === State.activeTabId);
-            if (active) {
-                if (active.isPreview || active.fileType === 'html-preview') {
-                    previewTab = active;
-                } else {
-                    // Try to find a preview matching the active source file
-                    previewTab = State.tabs.find(t => 
-                        (t.isPreview || t.fileType === 'html-preview') && 
-                        t.item.path === active.item.path && 
-                        t.item.workspaceId === active.item.workspaceId
-                    );
-                }
-            }
+        // 2. Fallback to Active Tab if target is ambiguous
+        if (!inspectTab) {
+            inspectTab = State.tabs.find(t => t.id === State.activeTabId);
         }
 
-        if (!previewTab) {
-            console.warn("B\"H - DevTools Opener: No active or related preview vessel found.");
-            import('../ui.js').then(m => m.UI.showToast("No Preview found for this file. Open Preview first.", "warning"));
+        // 3. Verify Inspectability
+        const isInspectable = inspectTab && (
+            inspectTab.isPreview || 
+            inspectTab.fileType === 'html-preview' || 
+            inspectTab.item.type === 'browser' ||
+            inspectTab.item.type === 'html-preview-file'
+        );
+
+        if (!isInspectable) {
+            console.warn("B\"H - DevTools Opener: Target is not a visual vessel.", inspectTab);
+            import('../ui.js').then(m => m.UI.showToast("No inspectable window active.", "warning"));
             return;
         }
 
-        console.log(`B\"H - DevTools: Creating inspection vessel for [${previewTab.item.name}]`);
+        console.log(`B\"H - DevTools: Manifesting Console for [${inspectTab.item.name}]`);
 
-        // Check if a devtools tab for this preview already exists
-        const existingDevToolsTab = State.tabs.find(t => t.fileType === 'devtools' && t.devtoolsState?.previewTabId === previewTab.id);
+        // 4. Check for Existing Manifestation
+        const existingDevToolsTab = State.tabs.find(t => 
+            t.fileType === 'devtools' && 
+            t.devtoolsState?.previewTabId === inspectTab.id
+        );
+
         if (existingDevToolsTab) {
-            Tabs.activate(existingDevToolsTab.id);
-            return;
+            return await Tabs.activate(existingDevToolsTab.id);
         }
 
-        // B"H - Create a new, dedicated DevTools tab linked to the preview tab.
+        // 5. Manifest the new Console Tab
         const devToolsItem = {
-            name: `DevTools: ${previewTab.item.name}`,
+            name: `Console: ${inspectTab.item.name.replace('Web: ', '').replace('Preview: ', '')}`,
             type: 'devtools',
-            kind: 'file', // Virtual file
-            path: `devtools://${previewTab.item.path}`,
-            previewTabId: previewTab.id // The sacred link
+            kind: 'file',
+            path: `devtools://${inspectTab.id}`,
+            previewTabId: inspectTab.id,
+            workspaceId: inspectTab.item.workspaceId || 'global'
         };
         
-        await Tabs.create(devToolsItem);
+        // Directly create and activate the new tab
+        const newTab = await Tabs.create(devToolsItem, false, true, true);
+        
+        // Final visual enforcement
+        if (newTab) {
+            import('../tabs/orchestrator.js').then(m => m.TabOrchestrator.activate(newTab.id));
+        }
     }
 };
-
-/**
- * B"H - Initializes the static link between the system and the DevTools class.
- */
-export function initializeDevToolsStatics() {
-    import('./index.js').then(module => {
-        if (module.DevTools) {
-             module.DevTools.openForActivePreview = () => DevToolsOpener.open();
-        }
-    });
-}
