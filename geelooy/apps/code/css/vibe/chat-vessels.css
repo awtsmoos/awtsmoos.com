@@ -1,0 +1,91 @@
+
+/* B"H - VIBE CHAT VESSELS CSS */
+
+.vibe-inline-action {
+    background: rgba(0, 246, 255, 0.03);
+    border: 1px solid rgba(0, 246, 255, 0.15);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vibe-inline-action[open] {
+    background: rgba(0, 246, 255, 0.06);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4), inset 0 0 10px rgba(0, 246, 255, 0.05);
+}
+
+.vibe-inline-action summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 700;
+    color: var(--neon-cyan);
+    user-select: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+}
+
+.vibe-inline-action summary::-webkit-details-marker { display: none; }
+
+.vibe-inline-action .status-icon {
+    font-size: 1.2em;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* THE SACRED SPINNER */
+.vibe-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 246, 255, 0.2);
+    border-top: 2px solid var(--neon-cyan);
+    border-radius: 50%;
+    animation: vibe-spin 0.8s linear infinite;
+}
+
+@keyframes vibe-spin {
+    to { transform: rotate(360deg); }
+}
+
+.vibe-inline-action .action-content {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0 16px 16px 16px;
+    font-size: 0.85em;
+    color: var(--color-text-secondary);
+    font-family: var(--font-code);
+    white-space: pre-wrap;
+    word-break: break-all;
+    border-top: 1px dashed rgba(0, 246, 255, 0.1);
+    margin-top: 4px;
+    padding-top: 12px;
+}
+
+.vibe-action-label {
+    flex-grow: 1;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.vibe-action-meta {
+    font-size: 0.8em;
+    opacity: 0.5;
+    font-weight: normal;
+}
+
+.pulse-processing {
+    animation: vibe-pulse-glow 1.5s infinite alternate;
+}
+
+@keyframes vibe-pulse-glow {
+    from { color: var(--neon-cyan); text-shadow: 0 0 2px var(--neon-cyan); }
+    to { color: #fff; text-shadow: 0 0 12px var(--neon-cyan); }
+}
