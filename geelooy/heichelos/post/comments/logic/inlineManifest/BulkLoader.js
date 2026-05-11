@@ -1,24 +1,39 @@
-
 /**
  * B"H
  * @module BulkLoader
  * @chapter The Unified Surge of Light
  * @description
- * In the Seder Histalshelus of the API, we often find ourselves fetching 
- * sparks one by one. Because the API requires precise `verseSection` coordinates 
- * to return data, we fire a massive parallel burst across every known verse index 
- * to guarantee we retrieve every single insight.
+ * Because the Awtsmoos API requires precise `verseSection` coordinates 
+ * to return data perfectly (as proven by the working Sidebar), we must 
+ * fire a parallel burst across every known physical verse index in the DOM.
  * 
- * We use a Set to immediately destroy any overlapping duplicates returned by the API.
+ * HEALED: We no longer discard sparks that lack an `id`. If the API provides 
+ * a pure vessel without an ID, we dynamically assign a Hash ID based on its 
+ * essence (content). This ensures no Light is lost to the Void.
  */
 
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { unrollApiResponse } from "../unroller.js";
 
 /**
+ * @private
+ * @function generateSparkHash
+ * @description Creates a deterministic string hash from an object to serve as a unique DOM ID.
+ */
+function generateSparkHash(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return Math.abs(hash).toString(36);
+}
+
+/**
  * @function loadAllCommentsForAlias
  * @description
- * Connects to the Heavens (the database) by querying every verse index 
+ * Connects to the Heavens (the API) by querying every verse index 
  * to fetch every single comment belonging to an alias within a post.
  * 
  * @param {string} alias - The identity of the commentator.
@@ -32,56 +47,99 @@ export async function loadAllCommentsForAlias(alias, context) {
     }
 
     try {
-        console.log(`%c B"H - [BulkLoader] Fetching multi-verse burst transmission for @${alias}...`, "color: #ff9900; font-weight: bold;");
+        // Find exactly how many verses exist in the physical manifestation (the DOM)
+        const verseElements = document.querySelectorAll('.section[data-awtsmoos-idx], .section[data-idx]');
+        
+        // Extract their unique indices
+        const verseIndices = Array.from(verseElements)
+            .map(el => el.dataset.awtsmoosIdx || el.dataset.idx)
+            .filter((v, i, a) => a.indexOf(v) === i); // Ensure uniqueness
 
-        const numVerses = window.sectionDayuh ? window.sectionDayuh.length : 0;
+        console.log(`%c B"H - [BulkLoader] The Scroll contains ${verseIndices.length} physical verses. Preparing parallel fetch surge for @${alias}...`, "color: #ff9900; font-weight: bold; font-size: 14px;");
+
         const fetchPromises = [];
 
-        for (let i = 0; i < numVerses; i++) {
-            fetchPromises.push(getCommentsOfAlias({
+        // 1. Fetch for every physical verse
+        verseIndices.forEach(vIdx => {
+            console.log(`B"H - [BulkLoader] Firing API request for @${alias} at Verse Coordinate: ${vIdx}`);
+            fetchPromises.push(
+                getCommentsOfAlias({
+                    seriesId: context.parentSeriesId || context.seriesId,
+                    postId: context.id,
+                    heichelId: context.heichel?.id,
+                    aliasId: alias,
+                    fromCache: false, // We must force the network to speak
+                    get: { verseSection: vIdx, map: true }
+                }).then(res => {
+                    const unrolled = unrollApiResponse(res);
+                    console.log(`B"H - [BulkLoader:Verse ${vIdx}] API Replied with ${unrolled.length} sparks for @${alias}.`);
+                    return unrolled;
+                }).catch(e => {
+                    console.error(`B"H - [BulkLoader:Verse ${vIdx}] Rupture fetching for @${alias}:`, e);
+                    return [];
+                })
+            );
+        });
+
+        // 2. Fetch for the Root of the post
+        console.log(`B"H - [BulkLoader] Firing API request for @${alias} at the Root Coordinate.`);
+        fetchPromises.push(
+            getCommentsOfAlias({
                 seriesId: context.parentSeriesId || context.seriesId,
                 postId: context.id,
                 heichelId: context.heichel?.id,
                 aliasId: alias,
-                fromCache: true, // Use the API-level cache here since there's no RAM cache in this path
-                get: { verseSection: i, map: true }
-            }));
-        }
+                fromCache: false,
+                get: { verseSection: "root", map: true }
+            }).then(res => {
+                const unrolled = unrollApiResponse(res);
+                console.log(`B"H - [BulkLoader:Root] API Replied with ${unrolled.length} sparks for @${alias}.`);
+                return unrolled;
+            }).catch(e => {
+                console.error(`B"H - [BulkLoader:Root] Rupture fetching for @${alias}:`, e);
+                return [];
+            })
+        );
 
-        fetchPromises.push(getCommentsOfAlias({
-            seriesId: context.parentSeriesId || context.seriesId,
-            postId: context.id,
-            heichelId: context.heichel?.id,
-            aliasId: alias,
-            fromCache: true,
-            get: { verseSection: "root", map: true }
-        }));
-
+        // Await the great convergence
+        console.log(`B"H - [BulkLoader] Waiting for ${fetchPromises.length} parallel requests to resolve...`);
         const rawResults = await Promise.all(fetchPromises);
+        
         const allSparks = [];
         const seenIds = new Set();
         
-        rawResults.forEach(res => {
-            const unrolled = unrollApiResponse(res);
-            if (Array.isArray(unrolled)) {
-                unrolled.forEach(spark => {
-                    if (spark && spark.id && !seenIds.has(String(spark.id))) {
-                        seenIds.add(String(spark.id));
-                        allSparks.push(spark);
+        rawResults.forEach((unrolledArray, batchIdx) => {
+            if (Array.isArray(unrolledArray)) {
+                unrolledArray.forEach((spark, sparkIdx) => {
+                    if (spark && typeof spark === 'object') {
+                        // B"H - Assign a deterministic ID if the API did not provide one.
+                        // This guarantees the SparkFixer has a physical ID to anchor to in the DOM.
+                        const trueId = spark.id || spark.commentId || spark.postId;
+                        const generatedId = trueId || `awtsmoos-${generateSparkHash(JSON.stringify(spark.content || ""))}-${spark.dayuh?.verseSection || "root"}`;
+                        
+                        spark.id = generatedId; // Mutate the object to ensure the ID is manifest
+
+                        if (!seenIds.has(String(spark.id))) {
+                            seenIds.add(String(spark.id));
+                            // Ensure author is set so renderers don't fail
+                            if (!spark.author) spark.author = alias; 
+                            allSparks.push(spark);
+                        }
                     }
                 });
             }
         });
         
         if (allSparks.length > 0) {
-            console.log(`%c B"H - [BulkLoader] Received ${allSparks.length} unique sparks for @${alias}.`, "color: #00ff00;");
+            console.log(`%c B"H - [BulkLoader] Glorious Convergence! Gathered ${allSparks.length} unique sparks for @${alias} across all coordinates.`, "color: #00ff00; font-weight: bold; font-size: 14px;");
         } else {
-            console.log(`%c B"H - [BulkLoader] No sparks found for @${alias} across all verses.`, "color: #999;");
+            console.log(`%c B"H - [BulkLoader] The heavens are silent. Gathered 0 sparks for @${alias}.`, "color: #999; font-style: italic;");
         }
 
         return allSparks;
+
     } catch (error) {
-        console.error("B\"H - [BulkLoader] Failure in the unified transmission:", error);
+        console.error("B\"H - [BulkLoader] Catastrophic failure in the unified transmission:", error);
         return [];
     }
 }

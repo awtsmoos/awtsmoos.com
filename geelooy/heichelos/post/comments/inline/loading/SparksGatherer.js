@@ -4,15 +4,14 @@
  * @module SparksGatherer
  * @chapter Gathering the Pre-Purified Emanation
  * @description
- * This module gathers sparks for the Orchestrator. Since the data is normally 
- * pre-loaded into the master cache, this module attempts to draw from 
- * the ApiPortal. If the RAM cache was never initialized (due to a network 
- * fluctuation during bootstrap), it invokes the Great Fallback, utilizing 
- * the Transmitter to fetch directly from the network.
+ * Every spark must be summoned by Name and Coordinate.
+ * 
+ * HEALED: We have severed the connection to the flawed Master Cache (ApiPortal). 
+ * This Gatherer now directly invokes the `BulkLoader`, which performs the exact 
+ * same verse-by-verse API parallelization that makes the Sidebar function perfectly.
  */
 
-import { ApiPortal } from "/heichelos/post/comments/inline/loading/ApiPortal.js";
-import { Transmitter } from "/heichelos/post/comments/inline/loader/Transmitter.js";
+import { loadAllCommentsForAlias } from "/heichelos/post/comments/logic/inlineManifest/BulkLoader.js";
 
 /**
  * @class SparksGatherer
@@ -20,7 +19,10 @@ import { Transmitter } from "/heichelos/post/comments/inline/loader/Transmitter.
 export class SparksGatherer {
     /**
      * @method collect
-     * @description Gathers purified insights for an identity, falling back to the network if needed.
+     * @description 
+     * Summons all purified insights for an identity directly from the API 
+     * by blasting parallel requests across every manifest coordinate.
+     * 
      * @param {string} alias - The identity to summon.
      * @param {Object} postContext - The Divine Context (post, heichel, series).
      * @returns {Promise<Array>}
@@ -28,18 +30,11 @@ export class SparksGatherer {
     static async collect(alias, postContext) {
         if (!alias) return [];
         
-        // 1. Draw from the immediate Heavens (RAM Cache)
-        const result = await ApiPortal.fetchPostMap(alias);
-        if (result && result.fromCache) {
-            return result.data;
-        }
-
-        // 2. The Great Fallback: Drawing directly from the Source
-        console.log(`%c B"H - [SparksGatherer] The local vessel for @${alias} is uninitialized. Initiating Network Transmitter Fallback to the Awtsmoos...`, "color: #ff9900; font-weight: bold;");
+        console.log(`%c B"H - [SparksGatherer] The Oracle has commanded the manifestation of @${alias}. Initiating absolute Bulk Load sequence...`, "color: #00ccff; font-weight: bold;");
         
         if (postContext) {
-            const networkSparks = await Transmitter.summonAllForAlias(alias, postContext);
-            console.log(`B"H - [SparksGatherer] Network Fallback successfully drew down ${networkSparks?.length || 0} sparks for @${alias}.`);
+            const networkSparks = await loadAllCommentsForAlias(alias, postContext);
+            console.log(`B"H - [SparksGatherer] Collection complete. Delivering ${networkSparks?.length || 0} sparks to the Weaver.`);
             return networkSparks || [];
         }
         
@@ -47,6 +42,6 @@ export class SparksGatherer {
         return [];
     }
 
-    static clearCacheForAlias() { /* No-op: cache is master-level */ }
-    static clearAllCache() { /* No-op: cache is master-level */ }
+    static clearCacheForAlias() { /* Reverted to pure network architecture */ }
+    static clearAllCache() { /* Reverted to pure network architecture */ }
 }

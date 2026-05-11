@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @module CommentDataUnroller
@@ -8,43 +7,57 @@
  * behind shells of 'success' properties, nested objects, or Maps. 
  * This module is the Kohen (Priest) that reaches into the vessel, 
  * identifies the essence, flattens Maps, and unrolls it for the eyes of the seeker.
+ * 
+ * HEALED: The Awtsmoos API blesses its arrays with the literal string "B\"H".
+ * We gently remove this blessing so it doesn't cause Object manipulations to crash, 
+ * but we PRESERVE all other strings (like Alias names) so the Sidebar can manifest.
  */
 
 /**
  * @function unrollApiResponse
  * @description 
  * Reaches into a potential success wrapper and extracts the core array.
- * HEALED: Now successfully detects and flattens Object Maps!
  * 
  * @param {Object|Array} response - The raw emanation from the API.
  * @returns {Array} - The purified sparks.
  */
 export function unrollApiResponse(response) {
-    if (!response) return[];
+    if (!response) return [];
     
     // 1. Pierce the outer shell
     let target = response;
-    if (response.success) target = response.success;
-    else if (response.details) target = response.details;
+    if (response.success !== undefined) target = response.success;
+    else if (response.details !== undefined) target = response.details;
 
-    // 2. If it's already an array, it is pure.
-    if (Array.isArray(target)) return target;
+    // 2. The Gentle Purifier: Only removes literal "B\"H" blessings from the sequence.
+    const purifyArray = (arr) => {
+        return arr.filter(item => {
+            if (typeof item === 'string' && item.includes('B"H')) return false;
+            return item !== null && item !== undefined;
+        });
+    };
 
-    // 3. If it's an Object Map (e.g. { "0": [comment1], "1": [comment2] })
+    // 3. If it's already an array, it is pure enough.
+    if (Array.isArray(target)) {
+        return purifyArray(target);
+    }
+
+    // 4. If it's an Object Map (e.g. { "0": [comment1], "1": [comment2] })
     if (typeof target === 'object' && target !== null && !target.id) {
-        let unrolledSparks =[];
+        let unrolledSparks = [];
         Object.values(target).forEach(val => {
             if (Array.isArray(val)) {
-                unrolledSparks.push(...val);
-            } else {
+                unrolledSparks.push(...purifyArray(val));
+            } else if (val !== null && val !== undefined) {
+                if (typeof val === 'string' && val.includes('B"H')) return;
                 unrolledSparks.push(val);
             }
         });
-        return unrolledSparks;
+        return purifyArray(unrolledSparks);
     }
 
-    // 4. Single item fallback
-    return target.id ? [target] :[];
+    // 5. Single item fallback
+    return (target) ? [target] : [];
 }
 
 /**
@@ -57,7 +70,7 @@ export function unrollApiResponse(response) {
  * @returns {Object} - { title: string, paragraphs: Array<string> }
  */
 export function extractCommentText(content) {
-    const result = { title: "", paragraphs:[] };
+    const result = { title: "", paragraphs: [] };
     
     if (!content) return result;
 
@@ -71,8 +84,8 @@ export function extractCommentText(content) {
         
         if (content.text) {
             result.paragraphs = Array.isArray(content.text) ? content.text : [content.text];
-        } else if (content.paragraphs) {
-             result.paragraphs = Array.isArray(content.paragraphs) ? content.paragraphs : [content.paragraphs];
+        } else if (content.paragraphs) { 
+            result.paragraphs = Array.isArray(content.paragraphs) ? content.paragraphs : [content.paragraphs];
         } else if (content.content) {
             const inner = extractCommentText(content.content);
             result.paragraphs = inner.paragraphs;

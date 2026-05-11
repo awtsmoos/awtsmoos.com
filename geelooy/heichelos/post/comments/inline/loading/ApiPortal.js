@@ -7,8 +7,10 @@
  * This portal draws directly from the 'masterCommentCache' stored in the 
  * commentaryStore. Since all comments for the post are fetched during 
  * bootstrap, this module filters that local reservoir for the requested alias.
- * It has been healed to explicitly return whether the cache was valid, 
- * preventing unnecessary network calls when a user simply has zero comments.
+ * 
+ * HEALED: The Great Filter Kelipah has been shattered. The matching is now 
+ * case-insensitive and looks for both 'author' and 'aliasId' fields to 
+ * ensure no spark is left behind.
  */
 
 import { commentaryStore } from "/heichelos/post/comments/state/store.js";
@@ -29,7 +31,20 @@ export class ApiPortal {
         console.log(`B"H - [ApiPortal] Gazing into the RAM Cache for @${alias}. Is the vessel prepared?`, Array.isArray(commentaryStore.masterCommentCache));
 
         if (Array.isArray(commentaryStore.masterCommentCache)) {
-            const filtered = commentaryStore.masterCommentCache.filter(c => c.author === alias);
+            const targetAlias = String(alias).toLowerCase();
+            
+            // Deep diagnostic: what are we looking at?
+            if (commentaryStore.masterCommentCache.length > 0) {
+                console.log(`B"H - [ApiPortal] First spark in cache properties:`, Object.keys(commentaryStore.masterCommentCache[0]));
+                console.log(`B"H - [ApiPortal] First spark author value:`, commentaryStore.masterCommentCache[0].author || commentaryStore.masterCommentCache[0].aliasId);
+            }
+
+            // B"H - Purified filtering logic
+            const filtered = commentaryStore.masterCommentCache.filter(c => {
+                const cAuth = String(c.author || c.aliasId || "").toLowerCase();
+                return cAuth === targetAlias;
+            });
+            
             console.log(`B"H - [ApiPortal] The RAM Cache is active! Served ${filtered.length} unique sparks for @${alias}.`);
             return { fromCache: true, data: filtered };
         }
