@@ -1,63 +1,95 @@
 
 // B"H
-// FILE: js/html-preview/processor.js
+/**
+ * @file processor.js
+ * @brief The Master of HTML Transmutation.
+ * 
+ * POEM OF THE DIVINE IMAGE:
+ * A project is a thought in the mind of the soul,
+ * But here it manifests, making it whole.
+ * We resolve every script, we transmute every link,
+ * Creating the world in the blink of a blink.
+ * If a shattering happens, if a letter is missed,
+ * The injector reports it, and the error's dismissed.
+ */
 
 import { VirtualBundler } from './bundler.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { AssetProcessor } from './asset-processor.js';
 import { ScriptExtractor } from './script-extractor.js';
 import { IframeInjector } from './iframe-injector.js';
-import { State } from '../state.js'; // B"H - Added State for fallback lookup
+import { DevToolsBridge } from '../devtools/bridge.js';
 
 export const HTMLPreviewProcessor = {
+    /**
+     * B"H - Solidifies a file or string into a living iframe vision.
+     * @param {Object} baseItem - Metadata for the project world.
+     * @param {HTMLIFrameElement} iframe - The physical portal.
+     * @param {string|null} contentOverride - Custom HTML to manifest.
+     * @param {string|number|null} tabId - Unique session identity.
+     */
     async orchestrate(baseItem, iframe, contentOverride = null, tabId = null) {
-        if (!iframe || !iframe.parentNode) return;
+        // B"H - Check if the vessel is anchored
+        if (!iframe) {
+            console.error("[PreviewProcessor] B\"H - The portal is a nullity.");
+            return;
+        }
 
+        const id = String(tabId || baseItem.id);
         const identity = {
             workspaceId: baseItem.workspaceId || baseItem.id,
             type: baseItem.originalType || baseItem.type,
             path: baseItem.path
         };
 
-        // B"H - The Ultimate Safeguard: Ensure we never query the file system for a virtual tab type.
-        if (identity.type === 'html-preview-file' || identity.type === 'html-preview') {
-            const ws = State.workspaces.find(w => String(w.id) === String(identity.workspaceId));
-            if (ws) {
-                identity.type = ws.originalType || ws.type;
-            } else {
-                identity.type = 'local'; // Final fallback to prevent Sentinel blockage
-            }
-        }
+        // 1. SPIRITUAL ALIGNMENT
+        // Awaken the bridge and register our presence
+        DevToolsBridge.init();
+        DevToolsBridge.getPersistentState(id);
 
-        console.log(`%c[PreviewProcessor] B"H - Commencing Vision: ${identity.path}[Physical Type: ${identity.type}]`, "color: #a8ff00; font-weight: bold;");
+        console.log(`B"H [PreviewProcessor] Initiating Vision for: ${baseItem.name} [ID: ${id}]`);
+        
+        // Purify the bundler's memory to start fresh
         VirtualBundler.reset();
 
+        // 2. RETRIEVAL OF THE ESSENCE
         let rawHtml = contentOverride;
-        if (rawHtml === null) {
+        
+        if (!rawHtml || rawHtml === "") {
             try {
                 const raw = await FileSystemProvider.read(identity);
-                rawHtml = raw;
+                rawHtml = (raw instanceof Blob) ? await raw.text() : String(raw);
             } catch (e) { 
-                return IframeInjector.writeError(iframe, `Vessel Retrieval Failed: ${e.message}`); 
+                console.error("[PreviewProcessor] B\"H - Retrieval Failure:", e);
+                // Report to the iframe if it's currently attached
+                return IframeInjector.writeError(iframe, "The physical vessel was unyielding: " + e.message); 
             }
         }
         
-        // Unwrap the Blob before parsing
-        if (rawHtml instanceof Blob) {
-            rawHtml = await rawHtml.text();
-        } else if (rawHtml && rawHtml.base64Content) {
-            rawHtml = atob(rawHtml.base64Content);
-        } else if (typeof rawHtml !== 'string') {
-            rawHtml = String(rawHtml);
+        if (!rawHtml || rawHtml.trim() === "") {
+            return IframeInjector.writeError(iframe, "The vessel is void. No essence found at coordinates.");
         }
 
-        if (!rawHtml) return IframeInjector.writeError(iframe, "The HTML vessel is void.");
+        try {
+            // 3. STRUCTURAL ANALYSIS
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(rawHtml, 'text/html');
 
-        const doc = new DOMParser().parseFromString(rawHtml, 'text/html');
+            // 4. TRANSMUTATION
+            // Parallel ascent of assets and scripts
+            await Promise.all([
+                AssetProcessor.process(doc, identity),
+                ScriptExtractor.process(doc, identity)
+            ]);
 
-        await AssetProcessor.process(doc, identity);
-        await ScriptExtractor.process(doc, identity);
-
-        IframeInjector.inject(doc, iframe, identity, tabId);
+            // 5. THE FINAL BREATH
+            // Inject the transmuted truth into the sandbox
+            await IframeInjector.inject(doc, iframe, identity, id);
+            
+        } catch (err) {
+            console.error("B\"H [PreviewProcessor] Manifestation Shattered:", err);
+            // Robust error reporting with null-safe injector
+            IframeInjector.writeError(iframe, "A divine error occurred during manifestation: " + err.message);
+        }
     }
 };

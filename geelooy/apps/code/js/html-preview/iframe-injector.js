@@ -4,51 +4,63 @@
  * @file iframe-injector.js
  * @brief The Breath of Life into the Empty Sandbox.
  * 
- * CHAPTER XIX: THE FAIL-SOFT MANIFESTATION
- * Even if a spark is broken, the vessel should still hold form.
- * This injector wraps the preview creation in a protective layer.
- * It ensures the Network Interceptor is the first to arrive,
- * catching all future errors without blocking the visual paint.
+ * CHAPTER XVIII: THE GUARDED PORTAL
+ * In the realm of Asiyah, an iframe is a vessel. If that vessel is detached 
+ * from the body (the DOM), or if its internal light (contentWindow) is 
+ * extinguished, any attempt to write to it results in a shattering error.
+ * 
+ * This module has been rectified with absolute null-safety. We do not 
+ * presume the window exists; we seek it with caution and grace.
  */
 
 import { InjectionAssembler } from './injections/index.js';
+import { HTML } from '../html-generator.js';
 
 export const IframeInjector = {
     /**
-     * B"H
-     * Injects the shielded HTML into the sandbox iframe.
+     * @async
+     * @function inject
+     * @description Injects the shielded HTML into the sandbox iframe.
      */
-    inject(doc, iframe, identity, tabId) {
+    async inject(doc, iframe, identity, tabId) {
         try {
-            // Apply the Sacred Sandboxed Bounds
+            if (!iframe) throw new Error("The physical iframe vessel is null.");
+
             iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-modals allow-popups');
 
-            // 1. Prepare the Divine Interceptor
-            const scriptStr = InjectionAssembler.getNetworkInterceptorScript(identity.workspaceId, identity.path, tabId);
-            const shield = `<script data-merkava-internal="true">${scriptStr}</script>`;
+            const scriptStr = await InjectionAssembler.getNetworkInterceptorScript(identity.workspaceId, identity.path, tabId);
             
-            let htmlText = doc.documentElement.outerHTML;
-            
-            // 2. Inject the Shield at the Keter (Head)
-            if (htmlText.match(/<head>/i)) {
-                htmlText = htmlText.replace(/<head>/i, () => `<head>\n${shield}\n`);
+            const shieldEl = doc.createElement('script');
+            shieldEl.dataset.merkavaInternal = "true";
+            shieldEl.textContent = scriptStr;
+
+            if (doc.head) {
+                doc.head.insertBefore(shieldEl, doc.head.firstChild);
             } else {
-                htmlText = shield + htmlText;
+                const head = doc.createElement('head');
+                head.appendChild(shieldEl);
+                doc.documentElement.insertBefore(head, doc.body);
             }
-            
-            // 3. Manifest into the physical Iframe
-            const frameWindow = iframe.contentWindow;
-            const frameDoc = iframe.contentDocument || frameWindow.document;
-            
-            frameDoc.open(); 
-            // We prepend a script to catch immediate synchronous errors during write
-            frameDoc.write("<!DOCTYPE html>\n" + htmlText); 
+
+            // B"H - THE ANCHORED ACCESS CHECK
+            const win = iframe.contentWindow;
+            if (!win) {
+                throw new Error("Iframe contentWindow is unreachable. Ensure the vessel is attached to the DOM.");
+            }
+
+            const frameDoc = iframe.contentDocument || win.document;
+            if (!frameDoc) {
+                throw new Error("The Sandbox Document has vanished into the void.");
+            }
+
+            frameDoc.open();
+            frameDoc.write("<!DOCTYPE html>\n" + doc.documentElement.outerHTML);
             frameDoc.close();
             
-            console.log(`%cB"H [IframeInjector] Vision manifested for Tab ${tabId}.`, "color: #a8ff00; font-weight: bold;");
+            console.log("B\"H [IframeInjector] Vision manifested for: " + tabId);
         } catch (e) { 
-            console.error(`B"H [IframeInjector] Critical Failure:`, e);
-            this.writeError(iframe, `Manifestation failed: ${e.message}`); 
+            console.error("B\"H [IframeInjector] Critical Failure during injection:", e);
+            this.writeError(iframe, "Manifestation Shattered: " + e.message); 
         }
     },
 
@@ -57,17 +69,60 @@ export const IframeInjector = {
      * @description Renders a diagnostic fallback if the entire iframe crashes.
      */
     writeError(iframe, msg) {
-        const d = iframe.contentDocument || iframe.contentWindow.document;
-        d.open(); 
-        d.write(`
-            <body style="background:#050505;color:#f75d65;padding:40px;font-family:monospace;line-height:1.8;border:2px solid #f75d65;">
-                <h3 style="border-bottom:1px solid #f75d65;padding-bottom:12px;margin-top:0;">B"H - Dimensional Shift Failure</h3>
-                <p><strong>The essence could not be solidified:</strong></p>
-                <div style="background:rgba(0,0,0,0.5);padding:15px;border-radius:4px;color:#fff;">\${msg}</div>
-                <p style="font-size:0.8em;opacity:0.7;margin-top:20px;">Review the Console for deep diagnostics.</p>
-            </body>
-        `); 
-        d.close();
+        if (!iframe) return;
+
+        // B"H - MULTI-LAYER NULL PROTECTION
+        const win = iframe.contentWindow;
+        const d = iframe.contentDocument || (win ? win.document : null);
+        
+        if (!d) {
+            console.error("B\"H [IframeInjector] FATAL: Communication portal to the error reporter is void.", msg);
+            return;
+        }
+
+        const errorView = {
+            tag: 'body',
+            style: {
+                background: '#05070a', color: '#f75d65', padding: '40px',
+                fontFamily: "'Inter', sans-serif", lineHeight: '1.8',
+                border: '2px solid #f75d65', height: '100vh', margin: '0',
+                boxSizing: 'border-box', overflowY: 'auto'
+            },
+            children: [
+                {
+                    tag: 'h3',
+                    style: { borderBottom: '1px solid #f75d65', paddingBottom: '12px', marginTop: '0', color: '#fff' },
+                    text: 'B"H - Dimensional Shift Error'
+                },
+                {
+                    tag: 'p',
+                    style: { color: '#c5d1ff' },
+                    children: [{ tag: 'strong', text: 'The vision could not be solidified:' }]
+                },
+                {
+                    style: {
+                        background: 'rgba(0,0,0,0.5)', padding: '20px', borderRadius: '8px',
+                        color: '#ffae57', fontFamily: "'Fira Code', monospace",
+                        border: '1px solid rgba(255,255,255,0.1)', wordBreak: 'break-all'
+                    },
+                    text: msg
+                },
+                {
+                    tag: 'p',
+                    style: { fontSize: '0.85em', opacity: '0.7', marginTop: '30px', color: '#8a96c3' },
+                    text: 'Check the System Console for deeper spiritual diagnostics.'
+                }
+            ]
+        };
+
+        try {
+            d.open();
+            // Using outerHTML of the body blueprint
+            d.documentElement.innerHTML = '';
+            d.documentElement.appendChild(HTML(errorView));
+            d.close();
+        } catch(shevirah) {
+            console.error("B\"H [IframeInjector] Even the error reporter has shattered:", shevirah);
+        }
     }
 };
-

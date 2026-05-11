@@ -1,6 +1,17 @@
 
 // B"H
-// FILE: js/html-preview/message-bridge.js
+/**
+ * @file message-bridge.js
+ * @brief The Master Messenger.
+ * 
+ * NOVEL OF THE PURIFIED CONNECTION:
+ * A signal is sent from the depth of the frame,
+ * Carrying the path and the physical name.
+ * We catch it with single-quotes, steady and true,
+ * Passing the message from me and to you.
+ * No error shall rise from a rogue backtick's hand,
+ * For order now rules in this digital land.
+ */
 
 import { VirtualServer } from './virtual-server.js';
 import { Tabs } from '../tabs/index.js';
@@ -16,14 +27,11 @@ export const MessageBridge = {
 
     init() {
         if (this.initialized) return;
-        
         console.log("B\"H - MessageBridge: Initializing Communication.");
         window.addEventListener('message', (e) => this.handle(e));
-        
         if (DevToolsBridge && typeof DevToolsBridge.init === 'function') {
             DevToolsBridge.init();
         }
-
         this.initialized = true;
     },
 
@@ -55,10 +63,8 @@ export const MessageBridge = {
                 }
             }
             else if (type === 'context-menu') {
-                // Safely search for the correct preview dimension container using standard query.
-                const queryStr = 'iframe[data-tab-id="' + d.previewTabId + '"]';
-                const iframeElement = document.querySelector(queryStr);
-                
+                // B"H - RECTIFIED SELECTOR: Pure concatenation
+                const iframeElement = document.querySelector('iframe[data-tab-id="' + d.previewTabId + '"]');
                 if (!iframeElement) return;
                 
                 const rect = iframeElement.getBoundingClientRect();
@@ -66,14 +72,12 @@ export const MessageBridge = {
                 const clientY = rect.top + d.y;
                 
                 const menuItems =[];
-                
                 if (d.href) {
                     menuItems.push({ label: "Open Link", action: "preview-nav-link", icon: "play" });
                     menuItems.push({ label: "Open in New Tab", action: "preview-new-tab", icon: "external-link" });
                     menuItems.push({ isSeparator: true });
                 }
-                
-                menuItems.push({ label: "Inspect", action: "preview-inspect", icon: "search" });
+                menuItems.push({ label: "Inspect Element", action: "preview-inspect", icon: "search" });
                 menuItems.push({ label: "Open Console", action: "preview-open-console", icon: "laptop" });
                 menuItems.push({ isSeparator: true });
                 menuItems.push({ label: "View Source", action: "preview-view-source", icon: "code" });
@@ -84,7 +88,6 @@ export const MessageBridge = {
                 menuItems.push({ label: "Cancel", action: "cancel-menu", icon: "x" });
                 
                 State.contextPayload = d;
-                
                 MenuUI.renderMenu(document.getElementById('context-menu'), menuItems, { clientX, clientY });
             }
             else if (type === 'fetch-worker-script') {
@@ -106,15 +109,13 @@ export const MessageBridge = {
                 NodeSystem.routeWsClose(id);
             }
         } catch (err) {
-            // Guard: Dispatch error securely, notifying the intercepter that the asset threw a rejection.
             const errType = type.replace('request', 'response').replace('fetch', 'response');
             e.source.postMessage({ source: 'parent', type: errType, id, error: err.message }, '*');
         }
     },
 
     sendCommandToIframe(tabId, cmd) {
-        const qStr = 'iframe[data-tab-id="' + tabId + '"]';
-        const iframeElement = document.querySelector(qStr);
+        const iframeElement = document.querySelector('iframe[data-tab-id="' + tabId + '"]');
         if (iframeElement && iframeElement.contentWindow) {
             iframeElement.contentWindow.postMessage({ type: 'iframe-exec-cmd', cmd }, '*');
         }

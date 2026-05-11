@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file html-generator.js

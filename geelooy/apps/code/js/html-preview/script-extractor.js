@@ -1,15 +1,13 @@
 
 // B"H
-// FILE: js/html-preview/script-extractor.js
+/**
+ * @file script-extractor.js
+ * @brief The Manifestor of Module Logic.
+ */
 
 import { VirtualBundler } from './bundler.js';
 import { PathResolver } from './resolver.js';
 
-/**
- * @class ScriptExtractor
- * @description A dedicated vessel to iterate over HTML `<script>` tags, 
- * pass them to the bundler, and re-inject the Blob URLs.
- */
 export const ScriptExtractor = {
     async process(doc, identity) {
         const allScripts = Array.from(doc.querySelectorAll('script'));
@@ -19,25 +17,40 @@ export const ScriptExtractor = {
             const script = allScripts[i];
             if (script.hasAttribute('data-merkava-internal')) continue;
             
-            // Force all scripts to be modules to support internal ES imports
             script.setAttribute('type', 'module');
             
             try {
                 const srcLabel = script.getAttribute('src');
+                
                 if (srcLabel) {
-                    console.log(`\n%c[ScriptExtractor] B"H - Found HTML <script src="${srcLabel}">`, "color: #ff00ff; font-weight:bold;");
+                    console.log("%c[ScriptExtractor] B\"H - Found <script src=\"" + srcLabel + "\">", "color: #ff00ff; font-weight:bold;");
+                    
                     const absCoord = PathResolver.resolve(identity.path, srcLabel);
                     const blobUrl = await VirtualBundler.build(absCoord, identity, null);
-                    console.log(`[ScriptExtractor] B"H - HTML <script> Replaced: ${srcLabel} -> ${blobUrl}`);
-                    script.setAttribute('src', blobUrl);
-                } else if (script.textContent.trim()) {
-                    const virtual = `${siblingPath}__manifested_script_${i}_${Math.random().toString(36).substr(2, 5)}.js`;
-                    console.log(`\n%c[ScriptExtractor] B"H - Manifesting Inline HTML Script at virtual sibling: ${virtual}`, "color: #ff00ff; font-weight:bold;");
-                    script.setAttribute('src', await VirtualBundler.build(virtual, identity, script.textContent));
-                    script.textContent = ""; 
+                    
+                    if (blobUrl) {
+                        script.setAttribute('src', blobUrl);
+                        console.log("[ScriptExtractor] B\"H - Replaced script conduit with Blob: " + blobUrl);
+                    }
+                } 
+                else if (script.textContent.trim()) {
+                    const randomSpark = Math.random().toString(36).substr(2, 5);
+                    const virtualName = "__manifested_inline_" + i + "_" + randomSpark + ".js";
+                    const virtualPath = siblingPath + virtualName;
+                    
+                    console.log("%c[ScriptExtractor] B\"H - Manifesting Inline Script at: " + virtualPath, "color: #ff00ff; font-weight:bold;");
+                    
+                    const manifestedBlob = await VirtualBundler.build(virtualPath, identity, script.textContent);
+                    
+                    if (manifestedBlob) {
+                        script.setAttribute('src', manifestedBlob);
+                        script.textContent = ""; 
+                        console.log("[ScriptExtractor] B\"H - Inline script transfigured to Module Blob.");
+                    }
                 }
-            } catch (e) { 
-                console.error(`[ScriptExtractor] Script ${i} Transmutation Shevirah`, e); 
+            } catch (shevirah) { 
+                console.error("[ScriptExtractor] B\"H - Script " + i + " shattering event:", shevirah); 
+                script.insertAdjacentHTML('beforebegin', "<!-- B\"H - Script Manifestation Failure: " + shevirah.message + " -->");
             }
         }
     }
