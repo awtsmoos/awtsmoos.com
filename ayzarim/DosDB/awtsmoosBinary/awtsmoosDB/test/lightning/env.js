@@ -5,21 +5,35 @@
  * @file test/lightning/env.js
  * @chapter The Test Wind
  * @description
- * Builds child process environment for lightning tests.
+ * Applies fast test environment flags inside the current process.
  */
 
 /**
- * @function makeEnv
+ * @function applyFastEnv
  * @description
- * Adds fast-test flag without mutating parent process.env.
+ * Sets lightning flags for DB internals and tests.
  *
- * @returns {object} Child environment.
+ * @returns {Function} Restore function.
  */
-function makeEnv() {
-  return {
-    ...process.env,
-    AWTSMOOSDB_FAST_TEST: '1'
+function applyFastEnv() {
+  const previous = {
+    AWTSMOOSDB_FAST_TEST: process.env.AWTSMOOSDB_FAST_TEST,
+    AWTSMOOSDB_TEST_SCALE: process.env.AWTSMOOSDB_TEST_SCALE,
+    NODE_ENV: process.env.NODE_ENV
+  };
+
+  process.env.AWTSMOOSDB_FAST_TEST = '1';
+  process.env.AWTSMOOSDB_TEST_SCALE = '0.14';
+  process.env.NODE_ENV = process.env.NODE_ENV || 'test';
+
+  return () => {
+    for (const key of Object.keys(previous)) {
+      if (previous[key] === undefined) delete process.env[key];
+      else process.env[key] = previous[key];
+    }
   };
 }
 
-module.exports = makeEnv;
+module.exports = {
+  applyFastEnv
+};
