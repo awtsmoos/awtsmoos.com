@@ -1,18 +1,12 @@
+
 /**
  * B"H
  * 
  * THE YICHUD (UNIFICATION) INTERACTION SYSTEM
  * 
- * In the beginning, there was the Ein Sof, the Infinite Light, unified and singular.
- * To create a world of "Otherness," the Awtsmoos spoke a word of concealment,
- * but within every creation, a spark of that original Unification remains.
- * 
- * This module, Yichud, is the sacred bridge. It is the vessel that connects
- * the Will of the Observer (the player) with the Essence of the Observed (the objects).
- * When the eye of the soul (the camera) casts its ray (the Kav) into the void,
- * it seeks a point of contact, a moment of Yichud, where the many become One.
- * 
- * Every click is a prayer, every hover a revelation of the hidden Light.
+ * TIKKUN: Raycasting every single mouse movement pixel is a sin against performance.
+ * We now throttle the gaze of the soul. It updates 10 times a second, which is 
+ * plenty fast for human perception, but infinitely lighter on the processor.
  * 
  * @module Yichud
  */
@@ -31,35 +25,14 @@ export default class Yichud {
      * @param {Object} olam - The Olam (world) context.
      */
     constructor(olam) {
-        /**
-         * @property {Object} olam
-         * @description The container of all existence.
-         */
         this.olam = olam;
-
-        /**
-         * @property {Kav} kav
-         * @description The primordial ray of intention.
-         */
         this.kav = new Kav(olam);
-
-        /**
-         * @property {Ohr} ohr
-         * @description The light that highlights the hidden essence.
-         */
         this.ohr = new Ohr();
-
-        /**
-         * @property {Peula} peula
-         * @description The action dispatcher that translates intent into deed.
-         */
         this.peula = new Peula(olam);
-
-        /**
-         * @property {Object|null} currentIntersection
-         * @description The present point of contact between observer and observed.
-         */
         this.currentIntersection = null;
+        
+        // B"H: The Anchor of Time
+        this.lastHoverUpdate = 0;
 
         this.init();
     }
@@ -69,25 +42,16 @@ export default class Yichud {
      * @description Binds the sacred events of the physical realm (DOM).
      */
     init() {
-        // Unification of mouse and mind
         if (typeof window !== 'undefined') {
             window.addEventListener('mousemove', (e) => this.handleMouseMove(e));
             window.addEventListener('mousedown', (e) => this.handleMouseDown(e));
         }
     }
 
-    /**
-     * @method handleMouseMove
-     * @description Bridges the physical mouse movement to the spiritual Kav.
-     */
     handleMouseMove(e) {
         this.handleEvent(e, false);
     }
 
-    /**
-     * @method handleMouseDown
-     * @description Bridges the physical mouse click to the spiritual Peula.
-     */
     handleMouseDown(e) {
         this.handleEvent(e, true);
     }
@@ -95,13 +59,10 @@ export default class Yichud {
     /**
      * @method handleEvent
      * @description Receives event data from the worker router.
-     * @param {Object} payload - The event payload.
-     * @param {boolean} isClick - Whether this is a click event.
      */
     handleEvent(payload, isClick = false) {
         if (!this.olam.canvas && !this.olam.renderer) return;
         
-        // Use normalized coordinates if provided, or calculate them
         let x, y;
         if (payload.x !== undefined && payload.y !== undefined) {
              x = payload.x;
@@ -112,7 +73,12 @@ export default class Yichud {
              y = -(payload.clientY / rect.height) * 2 + 1;
         }
         
-        this.update(x, y);
+        // B"H: Throttle hovers, but ALWAYS process clicks immediately!
+        const now = Date.now();
+        if (isClick || (now - this.lastHoverUpdate > 100)) {
+            this.lastHoverUpdate = now;
+            this.update(x, y);
+        }
 
         if (isClick && this.currentIntersection) {
             this.peula.execute(this.currentIntersection);
@@ -121,9 +87,7 @@ export default class Yichud {
 
     /**
      * @method update
-     * @description Refreshes the state of unification every frame.
-     * @param {number} x - Normalized mouse X.
-     * @param {number} y - Normalized mouse Y.
+     * @description Refreshes the state of unification.
      */
     update(x, y) {
         const hit = this.kav.cast(x, y);
@@ -140,22 +104,17 @@ export default class Yichud {
         }
     }
 
-    /**
-     * @method onHoverEnter
-     * @description When the Kav strikes a Nivra, the Ohr reveals its name and nature.
-     */
     onHoverEnter() {
         if (!this.currentIntersection) return;
         const { nivra, mesh } = this.currentIntersection;
-        
         if (!nivra) return;
         
-        // B"H: Determine if this entity should respond to hover
         const hasInteractFlag = nivra.interactable || (nivra.options && nivra.options.interactable);
         const isKnownInteractiveType = (
             nivra.type === 'interactiveDoor' ||
             nivra.type === 'interactiveNpc' ||
-            nivra.type === 'proceduralTree'
+            nivra.type === 'proceduralTree' ||
+            nivra.type === 'customNpc'
         );
         const isNotNoise = nivra.type !== 'proceduralFlowerPatch' && nivra.type !== 'proceduralTerrain';
 
@@ -170,21 +129,17 @@ export default class Yichud {
         }
     }
 
-    /**
-     * @method onHoverExit
-     * @description When the Kav departs, the Ohr retreats, returning the object to its concealment.
-     */
     onHoverExit() {
         if (!this.currentIntersection) return;
         const { nivra, mesh } = this.currentIntersection;
-        
         if (!nivra) return;
         
         const hasInteractFlag = nivra.interactable || (nivra.options && nivra.options.interactable);
         const isKnownInteractiveType = (
             nivra.type === 'interactiveDoor' ||
             nivra.type === 'interactiveNpc' ||
-            nivra.type === 'proceduralTree'
+            nivra.type === 'proceduralTree' ||
+            nivra.type === 'customNpc'
         );
         const isNotNoise = nivra.type !== 'proceduralFlowerPatch' && nivra.type !== 'proceduralTerrain';
 
