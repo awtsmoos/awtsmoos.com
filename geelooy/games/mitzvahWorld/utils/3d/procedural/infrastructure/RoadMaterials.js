@@ -3,8 +3,13 @@
  * B"H
  * @file RoadMaterials.js
  * @description
- * Data-driven material helpers for roads.
+ * Data-driven road material helpers with constructor-safe fallback.
  */
+
+import {
+  getUsableMeshMaterial,
+  makeSafeMaterialOptions
+} from "./ThreeMaterialAdapter.js";
 
 /**
  * B"H
@@ -12,19 +17,19 @@
  */
 export const ROAD_MATERIAL_DATA = Object.freeze({
   asphalt: Object.freeze({
-    color: 0x2f3136,
+    color: 0x303136,
     roughness: 0.95,
     metalness: 0.02
   }),
 
   curb: Object.freeze({
-    color: 0xb7b7b7,
+    color: 0xb9b9b9,
     roughness: 0.82,
     metalness: 0.01
   }),
 
   lane: Object.freeze({
-    color: 0xf4f1d0,
+    color: 0xf8f2bd,
     roughness: 0.7,
     metalness: 0
   })
@@ -44,11 +49,8 @@ export const ROAD_MATERIAL_DATA = Object.freeze({
  * THREE material.
  */
 export function makeRoadMaterial(THREE, data) {
-  return new THREE.MeshStandardMaterial({
-    color: data.color,
-    roughness: data.roughness,
-    metalness: data.metalness
-  });
+  const MaterialCtor = getUsableMeshMaterial(THREE);
+  return new MaterialCtor(makeSafeMaterialOptions(MaterialCtor, data));
 }
 
 /**
@@ -59,7 +61,7 @@ export function makeRoadMaterial(THREE, data) {
  * THREE namespace.
  *
  * @returns {{asphalt:any,curb:any,lane:any}}
- * Materials.
+ * Road materials.
  */
 export function createRoadMaterials(THREE) {
   return {

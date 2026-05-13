@@ -3,20 +3,21 @@
  * B"H
  * @file RoadAssembler.js
  * @description
- * Static compatibility RoadAssembler.
+ * Procedural road assembler.
  *
- * This exact file path exists because the browser requested:
- * /games/mitzvahWorld/utils/3d/procedural/infrastructure/RoadAssembler.js
- *
- * On a static server, the fix is not server-side.
- * The fix is to create the exact static file the module graph is requesting.
+ * Fixed:
+ * - no direct MeshStandardMaterial assumption
+ * - validates only required THREE constructors
+ * - split into smaller builders
  */
 
 import { normalizeRoadOptions } from "./RoadDefaults.js";
 import { createRoadMaterials } from "./RoadMaterials.js";
-import { createRoadSegmentGeometry } from "./RoadSegmentGeometry.js";
 import { createCurbs } from "./RoadCurbs.js";
 import { createLaneMarks } from "./RoadLaneMarks.js";
+import { createRoadSurface } from "./RoadSurface.js";
+import { applyRoadGroupTransform } from "./RoadGroupTransform.js";
+import { assertRoadThree } from "./ThreeNamespaceGuard.js";
 
 /**
  * B"H
@@ -32,9 +33,7 @@ export default class RoadAssembler {
    * Road options.
    */
   constructor(THREE, options = {}) {
-    if (!THREE) {
-      throw new Error("RoadAssembler requires THREE namespace");
-    }
+    assertRoadThree(THREE);
 
     this.THREE = THREE;
     this.options = normalizeRoadOptions(options);
@@ -55,15 +54,7 @@ export default class RoadAssembler {
     const group = new THREE.Group();
     group.name = options.name;
 
-    const road = new THREE.Mesh(
-      createRoadSegmentGeometry(THREE, options),
-      this.materials.asphalt
-    );
-
-    road.name = `${options.name}-surface`;
-    road.position.set(0, options.depth / 2, 0);
-
-    group.add(road);
+    group.add(createRoadSurface(THREE, options, this.materials.asphalt));
 
     for (const curb of createCurbs(THREE, options, this.materials.curb)) {
       group.add(curb);
@@ -73,19 +64,7 @@ export default class RoadAssembler {
       group.add(mark);
     }
 
-    group.position.set(
-      options.position.x,
-      options.position.y,
-      options.position.z
-    );
-
-    group.rotation.set(
-      options.rotation.x,
-      options.rotation.y,
-      options.rotation.z
-    );
-
-    return group;
+    return applyRoadGroupTransform(group, options);
   }
 
   /**

@@ -1,141 +1,228 @@
 
 // B"H
-import Chai from "../../chayim/chai/index.js";
-import * as THREE from '/games/scripts/build/three.module.js';
 
 /**
- * Vehicle (Merkavah)
- * A vessel that carries a soul.
+ * @file vehicle.js
+ * @description
+ * Base vehicle class.
+ *
+ * Narrow fix:
+ * vehicle.js must not participate in a Chai circular initialization crash.
+ *
+ * The real issue came from the Olam boot path importing a broad barrel export,
+ * which pulled too many Chai descendants while Chai was still initializing.
+ * OlamVessel now imports Nivra directly, but this file is also made safer:
+ *
+ * - no top-level prototype grafting
+ * - no barrel imports
+ * - only direct Chai import
+ * - constructor protects options object
+ */
+
+import Chai from "../../chayim/chai/index.js";
+import * as THREE from "/games/scripts/build/three.module.js";
+
+/**
+ * B"H
+ * Vehicle, a living movable vessel.
  */
 export default class Vehicle extends Chai {
-    type = "vehicle";
-    driver = null;
-    isVehicle = true;
-    seatOffset = new THREE.Vector3(0, 0.5, 0); // Where the player sits relative to vehicle center
+  type = "vehicle";
+  driver = null;
+  isVehicle = true;
+  seatOffset = new THREE.Vector3(0, 0.5, 0);
 
-    constructor(op, olam) {
-        // Vehicles are solid by default and interactable
-        op.isSolid = true;
-        op.interactable = true;
-        super(op, olam);
+  /**
+   * B"H
+   * Creates a vehicle.
+   *
+   * @param {Object} op
+   * Vehicle options.
+   *
+   * @param {Object} olam
+   * World instance.
+   */
+  constructor(op = {}, olam) {
+    op.isSolid = true;
+    op.interactable = true;
+
+    super(op, olam);
+
+    this.speed = 0;
+    this.maxSpeed = 50;
+
+    this.on("accepted interaction", player => {
+      if (!this.driver) {
+        this.mount(player);
+      }
+    });
+  }
+
+  /**
+   * B"H
+   * Mounts a player into the vehicle.
+   *
+   * @param {Object} player
+   * Player.
+   *
+   * @returns {void}
+   */
+  mount(player) {
+    this.driver = player;
+
+    player.isDriving = true;
+    player.drivingVehicle = this;
+
+    if (player.mesh) {
+      player.mesh.visible = true;
+    }
+
+    if (player.velocity && typeof player.velocity.set === "function") {
+      player.velocity.set(0, 0, 0);
+    }
+
+    if (this.olam?.ayin) {
+      this.olam.ayin.target = this;
+      this.olam.ayin.desiredDistance = 10;
+    }
+
+    this.ayshPeula("ui event", "effectsOverlay", {
+      text: "Mounted " + this.name,
+      color: "#00ff00"
+    });
+  }
+
+  /**
+   * B"H
+   * Dismounts current driver.
+   *
+   * @returns {void}
+   */
+  dismount() {
+    if (!this.driver) return;
+
+    const player = this.driver;
+    player.isDriving = false;
+    player.drivingVehicle = null;
+
+    const exitPos = this.mesh.position
+      .clone()
+      .add(new THREE.Vector3(2, 2, 0).applyQuaternion(this.mesh.quaternion));
+
+    player.setPosition(exitPos);
+
+    if (player.velocity && typeof player.velocity.set === "function") {
+      player.velocity.set(0, 5, 0);
+    }
+
+    if (this.olam?.ayin) {
+      this.olam.ayin.target = player;
+    }
+
+    this.driver = null;
+    this.speed = 0;
+  }
+
+  /**
+   * B"H
+   * Per-frame update.
+   *
+   * @param {number} dt
+   * Delta time.
+   *
+   * @returns {void}
+   */
+  heesHawvoos(dt) {
+    if (this.driver) {
+      this.handleInput(dt);
+    } else {
+      this.speed *= 0.95;
+      if (Math.abs(this.speed) < 0.1) {
         this.speed = 0;
-        this.maxSpeed = 50;
-        
-        // Listen for interaction to Mount
-        this.on("accepted interaction", (player) => {
-            if (!this.driver) {
-                this.mount(player);
-            }
-        });
+      }
     }
 
-    mount(player) {
-        this.driver = player;
-        
-        // 1. Disable Player Physics/Control
-        player.isDriving = true;
-        player.drivingVehicle = this;
-        player.mesh.visible = true; // Keep visible, but attached
-        
-        // 2. Disable Player Gravity/Collision (Vehicle handles it)
-        player.velocity.set(0,0,0);
-        
-        // 3. Switch Camera Target
-        if (this.olam.ayin) {
-            this.olam.ayin.target = this;
-            this.olam.ayin.desiredDistance = 10;
-        }
+    this.applyPhysics(dt);
 
-        // 4. Parenting (Visual Attachment)
-        // We don't actually reparent the ThreeJS mesh to avoid world-matrix complications with the Octree,
-        // instead we sync the position in heesHawvoos.
-        
-        this.ayshPeula("ui event", "effectsOverlay", { text: "Mounted " + this.name, color: "#00ff00" });
+    if (this.driver) {
+      this.syncDriver();
     }
 
-    dismount() {
-        if (!this.driver) return;
+    super.heesHawvoos(dt);
+  }
 
-        const player = this.driver;
-        player.isDriving = false;
-        player.drivingVehicle = null;
-        
-        // Eject player slightly up and to side
-        const exitPos = this.mesh.position.clone().add(new THREE.Vector3(2, 2, 0).applyQuaternion(this.mesh.quaternion));
-        player.setPosition(exitPos);
-        player.velocity.set(0, 5, 0); // Small hop
+  /**
+   * B"H
+   * Syncs driver position to seat.
+   *
+   * @returns {void}
+   */
+  syncDriver() {
+    if (!this.driver || !this.mesh) return;
 
-        // Reset Camera
-        if (this.olam.ayin) {
-            this.olam.ayin.target = player;
-        }
+    const seatPos = this.seatOffset
+      .clone()
+      .applyQuaternion(this.mesh.quaternion)
+      .add(this.mesh.position);
 
-        this.driver = null;
-        this.speed = 0;
+    this.driver.setPosition(seatPos);
+    this.driver.rotation.y = this.mesh.rotation.y;
+
+    if (this.driver.mesh) {
+      this.driver.mesh.rotation.copy(this.mesh.rotation);
     }
 
-    heesHawvoos(dt) {
-        // 1. Handle Input if Driver exists
-        if (this.driver) {
-            this.handleInput(dt);
-        } else {
-            // Friction/Deceleration when empty
-            this.speed *= 0.95;
-            if(Math.abs(this.speed) < 0.1) this.speed = 0;
-        }
+    if (this.driver.playChaweeyoos) {
+      this.driver.playChaweeyoos("idle");
+    }
+  }
 
-        // 2. Physics Movement (Subclasses implement applyPhysics)
-        this.applyPhysics(dt);
+  /**
+   * B"H
+   * Handles default vehicle input.
+   *
+   * @param {number} dt
+   * Delta time.
+   *
+   * @returns {void}
+   */
+  handleInput(dt) {
+    const inputs = this.olam?.inputs || {};
 
-        // 3. Sync Driver Position
-        if (this.driver) {
-            this.syncDriver();
-        }
-
-        // 4. Base Updates
-        super.heesHawvoos(dt);
+    if (inputs.FORWARD) {
+      this.speed = Math.min(this.maxSpeed, this.speed + 30 * dt);
+    } else if (inputs.BACKWARD) {
+      this.speed = Math.max(-this.maxSpeed / 2, this.speed - 30 * dt);
+    } else {
+      this.speed *= 0.98;
     }
 
-    syncDriver() {
-        if(!this.driver || !this.mesh) return;
-        
-        // Calculate seat position in world space
-        const seatPos = this.seatOffset.clone().applyQuaternion(this.mesh.quaternion).add(this.mesh.position);
-        
-        this.driver.setPosition(seatPos);
-        this.driver.rotation.y = this.mesh.rotation.y;
-        this.driver.mesh.rotation.copy(this.mesh.rotation);
-        
-        // Animation: Sit
-        if(this.driver.playChaweeyoos) {
-             // If we had a sit animation, we'd play it. For now, idle.
-             this.driver.playChaweeyoos("idle");
-        }
-    }
+    if (Math.abs(this.speed) > 0.5) {
+      const turnSpeed = 2.0 * (this.speed / this.maxSpeed);
 
-    handleInput(dt) {
-        // Default implementation (can be overridden)
-        const inputs = this.olam.inputs;
-        
-        if (inputs.FORWARD) {
-            this.speed = Math.min(this.maxSpeed, this.speed + 30 * dt);
-        } else if (inputs.BACKWARD) {
-            this.speed = Math.max(-this.maxSpeed / 2, this.speed - 30 * dt);
-        } else {
-            this.speed *= 0.98; // Rolling friction
-        }
+      if (inputs.LEFT_ROTATE) {
+        this.rotation.y += turnSpeed * dt;
+      }
 
-        if (Math.abs(this.speed) > 0.5) {
-            const turnSpeed = 2.0 * (this.speed / this.maxSpeed);
-            if (inputs.LEFT_ROTATE) this.rotation.y += turnSpeed * dt;
-            if (inputs.RIGHT_ROTATE) this.rotation.y -= turnSpeed * dt;
-        }
+      if (inputs.RIGHT_ROTATE) {
+        this.rotation.y -= turnSpeed * dt;
+      }
     }
+  }
 
-    applyPhysics(dt) {
-        // Basic ground movement
-        const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(this.mesh.quaternion);
-        this.velocity.x = forward.x * this.speed;
-        this.velocity.z = forward.z * this.speed;
-    }
+  /**
+   * B"H
+   * Applies simple forward velocity.
+   *
+   * @param {number} dt
+   * Delta time.
+   *
+   * @returns {void}
+   */
+  applyPhysics(dt) {
+    const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(this.mesh.quaternion);
+
+    this.velocity.x = forward.x * this.speed;
+    this.velocity.z = forward.z * this.speed;
+  }
 }

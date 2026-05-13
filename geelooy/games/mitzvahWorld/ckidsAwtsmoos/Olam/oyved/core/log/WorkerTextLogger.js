@@ -3,11 +3,10 @@
  * B"H
  * @file WorkerTextLogger.js
  * @description
- * Worker-specific text logger.
+ * Worker error logger bridge.
  *
- * Every worker log stays readable.
- * Every message is plain text.
- * Every path is visible.
+ * Normal logs stay suppressed.
+ * Protocol messages must never be suppressed.
  */
 
 import { TextLogger } from "./TextLogger.js";
@@ -32,7 +31,28 @@ export const workerErrorLog = new TextLogger("OYVED_ERROR");
 
 /**
  * B"H
- * Posts a text-only log to the main thread.
+ * Types that are real engine protocol, not normal logs.
+ */
+const PROTOCOL_TYPES = new Set([
+  "vessel_ready",
+  "loadedWorld",
+  "canvas_transferred",
+  "worker_progress"
+]);
+
+/**
+ * B"H
+ * Types that are error logs.
+ */
+const ERROR_TYPES = new Set([
+  "ERROR",
+  "ERROR_TEXT",
+  "worker_import_error_text"
+]);
+
+/**
+ * B"H
+ * Posts only errors and protocol messages.
  *
  * @param {string} type
  * Message type.
@@ -43,14 +63,29 @@ export const workerErrorLog = new TextLogger("OYVED_ERROR");
  * @returns {void}
  */
 export function postTextToMain(type, text) {
+  if (!ERROR_TYPES.has(type) && !PROTOCOL_TYPES.has(type)) {
+    return;
+  }
+
   try {
-    self.postMessage({
+    const payload = {
       type,
-      text: String(text)
-    });
+      text: String(text),
+      message: String(text),
+      details: String(text),
+      errorText: String(text)
+    };
+
+    if (type === "worker_progress") {
+      payload.stage = String(text);
+      payload.at = Date.now();
+    }
+
+    self.postMessage(payload);
   } catch (error) {
-    workerErrorLog.error("Failed to post text message to main thread", {
-      reason: error?.message || String(error)
+    workerErrorLog.error("Failed to post Worker message to main thread", {
+      reason: error?.message || String(error),
+      attemptedType: type
     });
   }
 }
