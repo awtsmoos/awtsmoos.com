@@ -3,39 +3,94 @@
 /**
  * @file TerminalApp.js
  * @description
- * Tiny OS terminal app, now split into payload/render/runner vessels.
+ * Virtual OS terminal host that reuses the existing terminal renderer.
  */
 
-import { healTerminalPayload } from './terminal/payload.js';
-import { renderTerminalDom } from './terminal/render.js';
-import { runTerminalCommand } from './terminal/runner.js';
+import { H } from '../ui/h.js';
+import { makeTerminalLikeTab, patchSimulatedCommands } from './terminal/TerminalWindowHost.js';
+import { maybeHandleSimulatedCommand } from '../simulated/SimulatedNodeBridge.js';
 
-export function renderTerminalApp(windowState, container, desktopState, env) {
-    const payload = healTerminalPayload(windowState, desktopState);
-    renderTerminalDom(container, payload);
+/**
+ * @function renderFallbackTerminal
+ * @param {object} windowState Window state.
+ * @param {HTMLElement} container Mount node.
+ * @param {object} env Environment.
+ * @returns {void}
+ */
+function renderFallbackTerminal(windowState, container, env) {
+    const payload = windowState.payload || (windowState.payload = {});
+    payload.lines = Array.isArray(payload.lines) ? payload.lines : ['B"H fallback terminal ready. Commands: simserve 3000, simservers, simstop 3000'];
 
-    const input = container.querySelector('.terminal-input');
-    const runBtn = container.querySelector('.terminal-run');
+    const output = H({ tag: 'pre', className: 'vos-terminal-output', text: payload.lines.join('\n') });
+    const input = H({ tag: 'input', className: 'terminal-input', attrs: { autocomplete: 'off', spellcheck: 'false' } });
 
-    const run = async () => {
+    const run = () => {
         const command = input.value.trim();
         if (!command) return;
 
         input.value = '';
+        payload.lines.push('$ ' + command);
 
-        try {
-            await runTerminalCommand(command, payload, env);
-        } catch (error) {
-            payload.lines.push(`Error: ${error.message || error}`);
-        }
+        const simulated = maybeHandleSimulatedCommand(command);
+        payload.lines.push(simulated !== null ? simulated : 'Command passed to fallback shell. Existing terminal renderer was not available.');
 
         env.requestRender();
     };
 
-    runBtn.onclick = run;
     input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') run();
     });
 
-    queueMicrotask(() => input.focus());
+    container.replaceChildren(H({
+        tag: 'div',
+        className: 'vos-app vos-terminal-app',
+        children: [
+            {
+                tag: 'div',
+                className: 'vos-terminal-head',
+                children: [
+                    { tag: 'strong', text: 'B"H Awtsmoos Console' },
+                    { tag: 'span', text: 'Fallback mode with simulated localhost commands.' }
+                ]
+            },
+            output,
+            {
+                tag: 'div',
+                className: 'vos-terminal-row',
+                children: [
+                    { tag: 'span', className: 'vos-terminal-prompt', text: '$' },
+                    input,
+                    { tag: 'button', className: 'terminal-run', text: 'Run', events: { click: run } }
+                ]
+            }
+        ]
+    }));
+}
+
+/**
+ * @function renderTerminalApp
+ * @param {object} windowState Window state.
+ * @param {HTMLElement} container Mount node.
+ * @param {object} desktopState Desktop state.
+ * @param {object} env Environment.
+ * @returns {Promise<void>}
+ */
+export async function renderTerminalApp(windowState, container, desktopState, env) {
+    try {
+        const mod = await import('../../terminal/renderer.js');
+        const renderer = mod.TerminalRenderer || mod.default || mod;
+
+        if (!renderer?.render) {
+            renderFallbackTerminal(windowState, container, env);
+            return;
+        }
+
+        const tabLike = makeTerminalLikeTab(windowState, env);
+        const shell = await renderer.render(tabLike, container);
+
+        patchSimulatedCommands(shell);
+    } catch (error) {
+        console.warn('[VirtualOS] B"H - Existing terminal renderer unavailable, using fallback.', error);
+        renderFallbackTerminal(windowState, container, env);
+    }
 }

@@ -8,7 +8,7 @@
 
 import { App } from '../../app.js';
 import { DesktopState } from './DesktopState.js';
-import { log } from '../diagnostics/VirtualOSLog.js';
+import { always } from '../diagnostics/VirtualOSLog.js';
 
 /**
  * @function makeVirtualEnv
@@ -22,8 +22,11 @@ export function makeVirtualEnv(manager, tab, workspace, state) {
     return {
         workspace,
         workspaceType: workspace.originalType || workspace.type,
+        state,
+        tab,
+        manager,
         requestRender() {
-            log('requestRender', {
+            always('requestRender', {
                 tabId: tab.id,
                 windows: state.windows.length,
                 rootPath: state.rootPath

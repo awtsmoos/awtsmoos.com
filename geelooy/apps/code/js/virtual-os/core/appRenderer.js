@@ -8,7 +8,7 @@
 
 import { AppRegistry } from '../apps/AppRegistry.js';
 import { mountAppError } from '../ui/mount/errorMount.js';
-import { error, log, warn } from '../diagnostics/VirtualOSLog.js';
+import { error, always, warn } from '../diagnostics/VirtualOSLog.js';
 
 /**
  * @function renderAppSafely
@@ -27,11 +27,11 @@ export function renderAppSafely(win, mount, state, env) {
         return;
     }
 
-    log('App render begin', { appId: win.appId, windowId: win.id });
+    always('App render begin', { appId: win.appId, windowId: win.id });
 
     try {
         Promise.resolve(app.renderer(win, mount, state, env)).then(() => {
-            log('App render settled', {
+            always('App render settled', {
                 appId: win.appId,
                 windowId: win.id,
                 childCount: mount.childElementCount

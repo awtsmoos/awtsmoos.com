@@ -8,8 +8,15 @@
 
 import { AppRegistry } from '../apps/AppRegistry.js';
 import { DesktopState } from './DesktopState.js';
-import { log, warn } from '../diagnostics/VirtualOSLog.js';
+import { always, warn } from '../diagnostics/VirtualOSLog.js';
 
+/**
+ * @function launchVirtualWindow
+ * @param {object} state Desktop state.
+ * @param {string} appId Registered app id.
+ * @param {object} geometry Geometry hints.
+ * @returns {object|null} Created window.
+ */
 export function launchVirtualWindow(state, appId, geometry = {}) {
     const app = AppRegistry[appId];
 
@@ -29,15 +36,19 @@ export function launchVirtualWindow(state, appId, geometry = {}) {
         height: geometry.height || app.height || 420,
         x: geometry.x ?? 64,
         y: geometry.y ?? 42,
-        isMinimized: false
+        isMinimized: false,
+        payload: geometry.payload || {}
     });
 
-    state.focusedWindowId = win.id;
-
-    log('Window launched', { appId, windowId: win.id });
+    always('Window launched', { appId, windowId: win.id });
     return win;
 }
 
+/**
+ * @function ensureStarterWindows
+ * @param {object} state Desktop state.
+ * @returns {void}
+ */
 export function ensureStarterWindows(state) {
     state.windows = Array.isArray(state.windows) ? state.windows : [];
     state.processes = Array.isArray(state.processes) ? state.processes : [];
@@ -47,13 +58,13 @@ export function ensureStarterWindows(state) {
     const liveIds = new Set(state.windows.map((win) => win.id));
     state.processes = state.processes.filter((proc) => proc && liveIds.has(proc.windowId));
 
-    log('Starter window check', {
+    always('Starter window check', {
         total: state.windows.length,
-        visible: state.windows.filter((win) => !win.isMinimized).length
+        minimized: state.windows.filter((win) => win.isMinimized).length
     });
 
     if (state.windows.length > 0) return;
 
     launchVirtualWindow(state, 'explorer', { x: 34, y: 28, width: 540, height: 350 });
-    launchVirtualWindow(state, 'terminal', { x: 92, y: 78, width: 640, height: 320 });
+    launchVirtualWindow(state, 'terminal', { x: 92, y: 78, width: 680, height: 360 });
 }

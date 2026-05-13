@@ -11,6 +11,15 @@ import { bindWindowDrag } from './windowMotion/drag.js';
 import { bindWindowResize } from './windowMotion/resize.js';
 import { log } from '../diagnostics/VirtualOSLog.js';
 
+/**
+ * @function bindWindowControls
+ * @param {HTMLElement} el Window element.
+ * @param {object} win Window state.
+ * @param {object} state Desktop state.
+ * @param {object} env Render environment.
+ * @param {HTMLElement} root Root node.
+ * @returns {void}
+ */
 export function bindWindowControls(el, win, state, env, root) {
     el.addEventListener('pointerdown', () => {
         DesktopState.focusWindow(state, win.id);
@@ -30,16 +39,16 @@ export function bindWindowControls(el, win, state, env, root) {
 
         if (action === 'minimize') {
             win.isMinimized = true;
+            const top = [...state.windows].filter((entry) => !entry.isMinimized && entry.id !== win.id)
+                .sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0))[0];
+            state.focusedWindowId = top?.id || win.id;
         }
 
         if (action === 'maximize') {
             win.isMaximized = !win.isMaximized;
-            if (win.isMaximized) el.classList.add('maximized');
-            else el.classList.remove('maximized');
         }
 
-        if (action !== 'maximize') env.requestRender();
-        else DesktopState.save(state);
+        env.requestRender();
     });
 
     bindWindowDrag(el, win, state, root);

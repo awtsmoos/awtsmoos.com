@@ -19,11 +19,18 @@ import { renderTaskbar } from '../ui/taskbar.js';
 import { renderStartMenu } from '../ui/startMenu.js';
 import { probeVirtualOSDom } from '../diagnostics/domProbe.js';
 import { mountProbeOverlay } from '../diagnostics/probeOverlay.js';
-import { error, log } from '../diagnostics/VirtualOSLog.js';
+import { error, always } from '../diagnostics/VirtualOSLog.js';
 
+/**
+ * @function renderVirtualOS
+ * @param {object} manager VirtualOS manager.
+ * @param {HTMLElement} container Virtual OS wrapper.
+ * @param {object} tab Active tab.
+ * @returns {Promise<void>}
+ */
 export async function renderVirtualOS(manager, container, tab) {
     mountBootScreen(container, 'Renderer entered. The vessels are being measured.');
-    log('Render cycle entered', { tabId: tab?.id, item: tab?.item });
+    always('Render cycle entered', { tabId: tab?.id, item: tab?.item });
 
     try {
         const workspace = resolveVirtualWorkspace(tab);
@@ -68,7 +75,7 @@ export async function renderVirtualOS(manager, container, tab) {
             mountProbeOverlay(chrome.root, frameProbe);
         });
 
-        log('Render cycle complete', {
+        always('Render cycle complete', {
             rootPath,
             workspaceName: workspace.name,
             windows: state.windows.length,

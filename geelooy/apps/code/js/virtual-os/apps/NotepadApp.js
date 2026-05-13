@@ -3,11 +3,17 @@
 /**
  * @file NotepadApp.js
  * @description
- * Simple Virtual OS notepad.
+ * Simple Virtual OS notepad and file editor vessel.
  */
 
-import { HTML } from '../../html-generator.js';
+import { H } from '../ui/h.js';
+import { FileSystemProvider } from '../../fs-provider.js';
 
+/**
+ * @function healPayload
+ * @param {object} windowState Window state.
+ * @returns {object} Payload.
+ */
 function healPayload(windowState) {
     const payload = windowState.payload && typeof windowState.payload === 'object'
         ? windowState.payload
@@ -21,10 +27,34 @@ function healPayload(windowState) {
     return payload;
 }
 
+/**
+ * @function makeProviderItem
+ * @param {object} env Environment.
+ * @param {string} path Path.
+ * @returns {object} Provider item.
+ */
+function makeProviderItem(env, path) {
+    return {
+        ...env.workspace,
+        type: env.workspaceType,
+        path,
+        kind: 'file',
+        workspaceId: env.workspace.id
+    };
+}
+
+/**
+ * @function renderNotepadApp
+ * @param {object} windowState Window state.
+ * @param {HTMLElement} container Mount.
+ * @param {object} desktopState Desktop state.
+ * @param {object} env Environment.
+ * @returns {void}
+ */
 export function renderNotepadApp(windowState, container, desktopState, env) {
     const payload = healPayload(windowState);
 
-    const textarea = HTML({
+    const textarea = H({
         tag: 'textarea',
         className: 'vos-notepad-textarea',
         value: payload.text
@@ -34,20 +64,24 @@ export function renderNotepadApp(windowState, container, desktopState, env) {
         payload.text = textarea.value;
     });
 
-    const saveButton = HTML({
+    const saveButton = H({
         tag: 'button',
         className: 'vos-app-button',
-        text: 'Save Memory',
-        attrs: { type: 'button' },
-        events: {
-            click() {
-                payload.text = textarea.value;
-                env.requestRender();
-            }
-        }
+        text: payload.filePath ? 'Save File' : 'Save Memory',
+        attrs: { type: 'button' }
     });
 
-    container.replaceChildren(HTML({
+    saveButton.addEventListener('click', async () => {
+        payload.text = textarea.value;
+
+        if (payload.filePath) {
+            await FileSystemProvider.write(makeProviderItem(env, payload.filePath), payload.text);
+        }
+
+        env.requestRender();
+    });
+
+    container.replaceChildren(H({
         tag: 'div',
         className: 'vos-app vos-notepad-app',
         children: [
@@ -56,7 +90,7 @@ export function renderNotepadApp(windowState, container, desktopState, env) {
                 className: 'vos-app-toolbar vos-notepad-toolbar',
                 children: [
                     saveButton,
-                    { tag: 'span', className: 'vos-app-path', text: 'local window note' }
+                    { tag: 'span', className: 'vos-app-path', text: payload.filePath || 'local window note' }
                 ]
             },
             textarea

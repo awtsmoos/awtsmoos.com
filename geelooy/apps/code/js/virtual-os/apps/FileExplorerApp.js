@@ -1,16 +1,57 @@
 
 // B"H
-import { parentPath, normalizePath } from '../lib/path.js';
-import {
-    healExplorerPayload,
-    listExplorerEntries,
-    readExplorerFile,
-    writeExplorerFile
-} from './explorer/model.js';
-import { renderExplorerDom } from './explorer/view.js';
+/**
+ * @file FileExplorerApp.js
+ * @description
+ * File Explorer window, designed to later host the full File Commander runtime.
+ */
 
+import { H } from '../ui/h.js';
+import { launchVirtualWindow } from '../core/desktopBoot.js';
+import { healExplorerPayload, listExplorerEntries } from './explorer/model.js';
+import { normalizePath } from '../utils/path.js';
+
+/**
+ * @function renderEntries
+ * @param {object[]} entries Entries.
+ * @returns {object[]} Blueprints.
+ */
+function renderEntries(entries) {
+    return entries.map((entry) => ({
+        tag: 'button',
+        className: 'explorer-entry',
+        dataset: { path: entry.path, kind: entry.kind },
+        attrs: { type: 'button', title: entry.path },
+        children: [
+            { tag: 'span', className: 'explorer-entry-icon', text: entry.kind === 'directory' ? '📁' : '📄' },
+            { tag: 'span', className: 'explorer-entry-name', text: entry.name }
+        ]
+    }));
+}
+
+/**
+ * @function parentPath
+ * @param {string} path Path.
+ * @returns {string} Parent.
+ */
+function parentPath(path) {
+    const clean = normalizePath(path);
+    if (clean === '/') return '/';
+    return clean.slice(0, clean.lastIndexOf('/')) || '/';
+}
+
+/**
+ * @async
+ * @function renderFileExplorerApp
+ * @param {object} windowState Window state.
+ * @param {HTMLElement} container Mount.
+ * @param {object} desktopState Desktop state.
+ * @param {object} env Environment.
+ * @returns {Promise<void>}
+ */
 export async function renderFileExplorerApp(windowState, container, desktopState, env) {
-    const payload = healExplorerPayload(windowState, desktopState);
+    const payload = healExplorerPayload(windowState, env);
+
     let entries = [];
     let errorText = '';
 
@@ -20,30 +61,63 @@ export async function renderFileExplorerApp(windowState, container, desktopState
         errorText = error.message || String(error);
     }
 
-    renderExplorerDom(container, payload, entries, errorText);
+    const root = H({
+        tag: 'div',
+        className: 'vos-app vos-explorer-app',
+        children: [
+            {
+                tag: 'div',
+                className: 'vos-app-toolbar',
+                children: [
+                    { tag: 'button', className: 'vos-app-button', text: 'Up', dataset: { action: 'up' }, attrs: { type: 'button' } },
+                    { tag: 'button', className: 'vos-app-button', text: 'Terminal Here', dataset: { action: 'terminal' }, attrs: { type: 'button' } },
+                    { tag: 'button', className: 'vos-app-button', text: 'New Note', dataset: { action: 'note' }, attrs: { type: 'button' } },
+                    { tag: 'span', className: 'vos-app-path', text: errorText || payload.cwd }
+                ]
+            },
+            {
+                tag: 'div',
+                className: 'vos-app-body explorer-grid',
+                children: renderEntries(entries)
+            }
+        ]
+    });
 
-    const editorWrap = container.querySelector('.explorer-editor');
-    const textarea = container.querySelector('.explorer-textarea');
-    const editorHead = container.querySelector('.explorer-editor-head');
-    const preview = container.querySelector('.explorer-preview');
-
-    container.querySelector('[data-act="up"]').onclick = () => {
+    root.querySelector('[data-action="up"]').onclick = () => {
         payload.cwd = parentPath(payload.cwd);
         env.requestRender();
     };
 
-    container.querySelector('[data-act="toggle"]').onclick = () => {
-        payload.view = payload.view === 'list' ? 'grid' : 'list';
+    root.querySelector('[data-action="terminal"]').onclick = () => {
+        launchVirtualWindow(desktopState, 'terminal', {
+            x: 95 + desktopState.windows.length * 18,
+            y: 80 + desktopState.windows.length * 14,
+            payload: {
+                terminalState: {
+                    cwd: {
+                        kind: 'workspace',
+                        name: env.workspace.name,
+                        path: payload.cwd,
+                        workspaceId: env.workspace.id
+                    },
+                    output: [],
+                    history: [],
+                    env: {}
+                }
+            }
+        });
         env.requestRender();
     };
 
-    container.querySelector('[data-act="save"]').onclick = async () => {
-        if (!payload.editPath) return;
-        await writeExplorerFile(env, payload.editPath, textarea.value);
-        if (/\.html?$/i.test(payload.editPath)) preview.srcdoc = textarea.value;
+    root.querySelector('[data-action="note"]').onclick = () => {
+        launchVirtualWindow(desktopState, 'notepad', {
+            x: 120 + desktopState.windows.length * 16,
+            y: 80 + desktopState.windows.length * 12
+        });
+        env.requestRender();
     };
 
-    container.querySelector('.explorer-grid').onclick = async (event) => {
+    root.querySelector('.explorer-grid').onclick = (event) => {
         const button = event.target.closest('.explorer-entry');
         if (!button) return;
 
@@ -56,18 +130,17 @@ export async function renderFileExplorerApp(windowState, container, desktopState
             return;
         }
 
-        payload.editPath = path;
+        launchVirtualWindow(desktopState, 'notepad', {
+            x: 120 + desktopState.windows.length * 16,
+            y: 80 + desktopState.windows.length * 12,
+            payload: {
+                filePath: path,
+                text: ''
+            }
+        });
 
-        const text = await readExplorerFile(env, path);
-        textarea.value = text;
-        editorHead.textContent = path;
-        editorWrap.classList.remove('hidden');
-
-        if (/\.html?$/i.test(path)) {
-            preview.srcdoc = text;
-            preview.classList.remove('hidden');
-        } else {
-            preview.classList.add('hidden');
-        }
+        env.requestRender();
     };
+
+    container.replaceChildren(root);
 }
