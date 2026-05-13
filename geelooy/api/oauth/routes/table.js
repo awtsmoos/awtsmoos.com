@@ -7,6 +7,7 @@ const { token } = require("./token.js");
 const { me } = require("./me.js");
 const { clients } = require("./clients.js");
 const { logout } = require("./logout.js");
+
 /**
  * B"H
  * The table is the map of the palace.
@@ -20,8 +21,8 @@ const routeTable = {
   authorize,
   token,
   me,
-logout,
-  clients
+  clients,
+  logout
 };
 
 module.exports = { routeTable };
