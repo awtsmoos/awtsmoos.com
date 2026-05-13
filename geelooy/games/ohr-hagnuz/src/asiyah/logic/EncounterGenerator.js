@@ -8,22 +8,27 @@ import { DimensionalDirector } from '../../binah/DimensionalDirector.js';
  * @class EncounterGenerator
  * @chapter The Architect of Trials
  * @description
- * Instead of instantly tossing the Tzaddik into the severity of Gevurah (Battle),
- * this module first summons the adversary to speak, rendering their essence into dialogue!
+ * Rolls the dice of providence to pull a Klipah or a stray Holy Letter from the void.
  */
 export class EncounterGenerator {
-    /**
-     * @description Rolls the dice of providence to manifest a Klipah.
-     */
     static manifestWildKlipah() {
-        // Randomize the elemental Klipah
-        const klipot = ['🌑', '🧱', '🌀', '🔥'];
-        const selectedKlipah = klipot[Math.floor(Math.random() * klipot.length)];
+        // Base Klipot
+        const klipot = ['🌑', '🧱', '🌀', '🔥', '🐺', '🐍'];
         
-        StateRegister.DialogBankId = selectedKlipah;
-        const profile = resolveEnemy(selectedKlipah);
+        // Rare chance to encounter the floating Otiot (Letters of Truth)
+        const otiot = ['א', 'מ', 'ת'];
+        
+        let selectedId = '';
+        if (Math.random() < 0.05) {
+            selectedId = otiot[Math.floor(Math.random() * otiot.length)];
+            console.log(`B"H - A floating letter [${selectedId}] has descended!`);
+        } else {
+            selectedId = klipot[Math.floor(Math.random() * klipot.length)];
+        }
+        
+        StateRegister.DialogBankId = selectedId;
+        const profile = resolveEnemy(selectedId);
 
-        // Scale the enemy slightly based on hero level
         const pLevel = StateRegister.HeroStats.level;
         const eLevel = Math.max(1, pLevel + Math.floor(Math.random() * 2) - 1);
         
@@ -37,7 +42,6 @@ export class EncounterGenerator {
             level: eLevel
         };
         
-        // Open the Dialogue dimension to let the Klipah announce its presence!
         DimensionalDirector.elevateState('DIALOGUE');
         window.dispatchEvent(new Event('awtsmoos-dialogue-open'));
     }

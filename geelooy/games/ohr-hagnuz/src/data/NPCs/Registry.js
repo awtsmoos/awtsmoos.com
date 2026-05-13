@@ -20,5 +20,6 @@ export const NPCRegistry = {
     '👑': 'KING_MALCHUS',
     '💂': 'ROYAL_GUARD',
     '🤲': 'BEGGAR',
-    '🎻': 'MUSICIAN'
+    '🎻': 'MUSICIAN',
+    '🕍': 'REBBE_SHLICHUS' // The synagogue building acts as the Shlichus hub, or we place this NPC nearby
 };

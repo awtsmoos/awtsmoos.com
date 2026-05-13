@@ -1,18 +1,20 @@
 
 import { NPCRegistry } from './NPCs/Registry.js';
 import { DialogueIndex } from './NPCs/dialogue/DialogueIndex.js';
+import { WildOtiot } from './NPCs/dialogue/wild/WildOtiot.js';
+import { RebbeShlichus } from './NPCs/dialogue/RebbeShlichus.js';
+
+DialogueIndex['REBBE_SHLICHUS'] = RebbeShlichus;
+DialogueIndex['א'] = WildOtiot;
+DialogueIndex['מ'] = WildOtiot;
+DialogueIndex['ת'] = WildOtiot;
 
 /**
  * B"H
  * @chapter The Unified Word
- * @description
- * All branching trees are collected here.
- * We resolve the NPC by looking up its symbol in the Registry.
- * If the physical symbol loses its mapping, it reverts to DEFAULT.
  */
 export const DialogueTrees = new Proxy(DialogueIndex, {
     get: (target, prop) => {
-        // Resolve the Unicode symbol to the string ID
         const key = NPCRegistry[prop] || prop;
         return target[key] || target['DEFAULT'];
     }
