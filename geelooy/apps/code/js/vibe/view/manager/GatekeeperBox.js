@@ -12,7 +12,7 @@ export const GatekeeperBox = {
     /**
      * B"H - Constructs the API Credentials Sphere.
      */
-    build(gKey, orKey, models) {
+    build(gKey, orKey, groqKey, cerebrasKey, openaiKey, xaiKey, togetherKey, models) {
         return {
             className: 'vibe-manager-box gatekeepers',
             children: [
@@ -27,6 +27,16 @@ export const GatekeeperBox = {
                 this._credentialPalace('Google Gemini', 'AIzaSy...', gKey, 'mgr-api-key-google', 'mgr-save-key-g'),
                 // OpenRouter Section
                 this._credentialPalace('OpenRouter Multi-Vessel', 'sk-or-v1-...', orKey, 'mgr-api-key-or', 'mgr-save-key-o', 'https://openrouter.ai/keys'),
+                // Groq Section
+                this._credentialPalace('Groq', 'gsk_...', groqKey, 'mgr-api-key-groq', 'mgr-save-key-groq', 'https://console.groq.com/keys'),
+                // Cerebras Section
+                this._credentialPalace('Cerebras', 'csk-...', cerebrasKey, 'mgr-api-key-cerebras', 'mgr-save-key-cerebras', 'https://cloud.cerebras.ai/platform/api-keys'),
+                // OpenAI Section
+                this._credentialPalace('OpenAI', 'sk-...', openaiKey, 'mgr-api-key-openai', 'mgr-save-key-openai', 'https://platform.openai.com/api-keys'),
+                // xAI Section
+                this._credentialPalace('xAI (Grok)', 'xai-...', xaiKey, 'mgr-api-key-xai', 'mgr-save-key-xai', 'https://console.x.ai'),
+                // Together Section
+                this._credentialPalace('Together AI', 'together-...', togetherKey, 'mgr-api-key-together', 'mgr-save-key-together', 'https://api.together.xyz/settings/api-keys'),
                 
                 // Model Selection Sphere
                 {
@@ -83,7 +93,7 @@ export const GatekeeperBox = {
             const el = container.querySelector(id);
             if (el) {
                 const k = el.value.trim();
-                await ModelManager.addKey(provider, k);
+                await ModelManager.addKey(k);
                 refresh();
                 UI.showToast('Credential Bound: ' + provider, 'success');
             }
@@ -94,6 +104,21 @@ export const GatekeeperBox = {
         
         const oBtn = container.querySelector('#mgr-save-key-o');
         if (oBtn) oBtn.onclick = () => bindKey('#mgr-api-key-or', 'openrouter');
+
+        const groqBtn = container.querySelector('#mgr-save-key-groq');
+        if (groqBtn) groqBtn.onclick = () => bindKey('#mgr-api-key-groq', 'groq');
+
+        const cerebrasBtn = container.querySelector('#mgr-save-key-cerebras');
+        if (cerebrasBtn) cerebrasBtn.onclick = () => bindKey('#mgr-api-key-cerebras', 'cerebras');
+
+        const openaiBtn = container.querySelector('#mgr-save-key-openai');
+        if (openaiBtn) openaiBtn.onclick = () => bindKey('#mgr-api-key-openai', 'openai');
+
+        const xaiBtn = container.querySelector('#mgr-save-key-xai');
+        if (xaiBtn) xaiBtn.onclick = () => bindKey('#mgr-api-key-xai', 'xai');
+
+        const togetherBtn = container.querySelector('#mgr-save-key-together');
+        if (togetherBtn) togetherBtn.onclick = () => bindKey('#mgr-api-key-together', 'together');
 
         const sel = container.querySelector('#mgr-model-select');
         if (sel) {

@@ -60,10 +60,11 @@ export {default as VoxelTerrain} from "./dvarim/terrain/VoxelTerrain.js";
 
 // B"H: Nature and Architectural Emanations
 export {default as ProceduralTree} from "./dvarim/nature/proceduralTree.js";
+export {default as ProceduralFlora} from "./dvarim/nature/ProceduralFlora.js";
 export {default as NatureTool} from "./dvarim/nature/natureTool.js";
 export {default as ProceduralCloud} from "./dvarim/nature/proceduralCloud.js";
 export {default as LivingField} from "./utils/3d/procedural/nature/LivingField.js"; 
-export {default as InteractiveDoor} from "./dvarim/interactiveDoor.js"; 
+export {default as InteractiveDoor} from "./dvarim/interactiveDoor/index.js"; 
 export {default as InteractiveNpc} from "./dvarim/npc/InteractiveNpc.js"; 
 export {default as ProceduralBuilding} from "./dvarim/architecture/ProceduralBuilding.js"; 
 export {default as SolidBlock} from "./dvarim/architecture/SolidBlock.js"; 

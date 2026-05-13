@@ -21,12 +21,15 @@ export const VibeMessenger = {
         
         const text = input.value.trim();
         if (!text) return;
+        
+        const roleSel = document.getElementById('vibe-role-select');
+        const role = roleSel ? String(roleSel.value || '').trim() : (tab.vibeSession?.viewState?.activeRole || 'auto');
 
         input.value = '';
         input.style.height = 'auto';
 
         try {
-            tab.vibeSession.history.push({ role: 'user', content: text });
+            tab.vibeSession.history.push({ role: 'user', content: text, agent_role: role || 'auto' });
             
             tab.vibeSession.history.push({ 
                 role: 'assistant', 

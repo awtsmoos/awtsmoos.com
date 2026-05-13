@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file ChatPanelLayout.js
@@ -37,6 +36,18 @@ export const ChatPanelLayout = {
                         {
                             className: 'vibe-input-wrapper',
                             children: [
+                                { 
+                                    tag: 'select',
+                                    id: 'vibe-role-select',
+                                    className: 'vibe-role-select',
+                                    children: [
+                                        { tag: 'option', value: 'auto', text: 'AUTO' },
+                                        { tag: 'option', value: 'planner', text: 'PLANNER' },
+                                        { tag: 'option', value: 'builder', text: 'BUILDER' },
+                                        { tag: 'option', value: 'tester', text: 'TESTER' },
+                                        { tag: 'option', value: 'reviewer', text: 'REVIEWER' }
+                                    ]
+                                },
                                 { tag: 'textarea', id: 'vibe-input', className: 'vibe-textarea', placeholder: 'Command the Oracle...' },
                                 { tag: 'button', id: 'vibe-send-btn', className: 'primary-btn', text: '➤' }
                             ]
@@ -50,11 +61,12 @@ export const ChatPanelLayout = {
                                         { tag: 'button', id: 'vibe-new-chat-btn', className: 'secondary-btn', style: { borderColor: 'var(--neon-cyan)', color: 'var(--neon-cyan)' }, title: 'Start a fresh chat for this folder', text: 'New Chat' },
                                         { tag: 'button', id: 'vibe-reset-btn', className: 'secondary-btn', title: 'Clear current chat history', text: 'Clear' },
                                         { tag: 'button', id: 'vibe-auto-refine-btn', className: 'secondary-btn', title: 'Configure Recursive Refinement', text: 'Auto-Refine', style: { borderColor: 'var(--neon-magenta)', color: 'var(--neon-magenta)' } },
+                                        { tag: 'button', id: 'vibe-limits-btn', className: 'secondary-btn', title: 'View model usage limits and free-tier routes', text: 'Limits', style: { borderColor: 'var(--neon-lime)', color: 'var(--neon-lime)' } },
                                         { tag: 'button', id: 'vibe-mgr-btn', className: 'secondary-btn', text: 'Settings' },
                                         { tag: 'button', id: 'vibe-hide-input-btn', className: 'secondary-btn', title: 'Minimize Input', text: '_' }
                                     ]
                                 },
-                                { tag: 'button', id: 'vibe-sidebar-toggle-btn', className: 'icon-button', html: '<svg class="svg-icon"><use href="#icon-sidebar"></use></svg>' }
+                                { tag: 'button', id: 'vibe-sidebar-toggle-btn', className: 'icon-button', html: '<svg class="svg-icon"><use href=\"#icon-sidebar\"></use></svg>' }
                             ]
                         }
                     ]
@@ -63,3 +75,4 @@ export const ChatPanelLayout = {
         };
     }
 };
+

@@ -169,14 +169,18 @@ export default class Chai extends Tzomayach {
     }
 }
 
-// B"H - Assigning the Divine Faculties to the Vessel
-Object.assign(Chai.prototype, visualMethods);
-Object.assign(Chai.prototype, movementMethods);
-Object.assign(Chai.prototype, physicsMethods);
-Object.assign(Chai.prototype, raycastingMethods);
-Object.assign(Chai.prototype, buildingMethods);
-Object.assign(Chai.prototype, projectileMethods);
-Object.assign(Chai.prototype, combatMethods);
-Object.assign(Chai.prototype, shlichusMethods);
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
+
+// B"H - Grafting the modular limbs onto the Living Soul with Divine Emanation
+ChasveiAwtsmoos.emanate(Chai.prototype, [
+    visualMethods,
+    movementMethods,
+    physicsMethods,
+    raycastingMethods,
+    buildingMethods,
+    projectileMethods,
+    combatMethods,
+    shlichusMethods
+]);
 
 

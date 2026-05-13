@@ -29,9 +29,26 @@ export const ChatInput = {
             const { AutoRefineConfigUI } = await import('./components/AutoRefineConfigUI.js');
             AutoRefineConfigUI.show(tab, controller);
         });
+        
+        safeBind('#vibe-limits-btn', 'onclick', async () => {
+            const { ModelLimitsModal } = await import('./components/ModelLimitsModal.js');
+            ModelLimitsModal.show();
+        });
 
         if (!tab.vibeSession.viewState) {
             tab.vibeSession.viewState = { activeSidebarTab: 'tree' };
+        }
+        if (!tab.vibeSession.viewState.activeRole) {
+            tab.vibeSession.viewState.activeRole = 'auto';
+        }
+
+        const roleSel = c.querySelector('#vibe-role-select');
+        if (roleSel) {
+            roleSel.value = tab.vibeSession.viewState.activeRole || 'auto';
+            roleSel.onchange = (e) => {
+                tab.vibeSession.viewState.activeRole = e.target.value || 'auto';
+                import('../../db.js').then(m => m.VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession));
+            };
         }
 
         const stopBtn = c.querySelector('#vibe-stop-btn');

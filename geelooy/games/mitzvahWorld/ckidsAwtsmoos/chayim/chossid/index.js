@@ -7,7 +7,11 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import InventoryManager from '../../systems/InventoryManager.js';
+import StudyManager from '../../systems/StudyManager.js';
+import MadreigaSystem from '../../systems/MadreigaSystem.js';
 import Medabeir from '../medabeir/index.js';
+
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 
 // Import Modular Faculties
 import controlMethods from './methods/controls.js';
@@ -25,7 +29,25 @@ export default class Chossid extends Medabeir {
     
     constructor(options, olam) {
         super(options, olam);
+        
+        // B"H: Spiritual Attributes
+        this.baseStats = {
+            chochmah: 10,
+            binah: 10,
+            daas: 10,
+            health: 100,
+            defense: 5,
+            attack: 10,
+            speed: options.speed || 12
+        };
+
+        this.currentStats = { ...this.baseStats };
+
         this.inventory = new InventoryManager(this);
+        this.studyManager = new StudyManager(this);
+        this.madreigaSystem = new MadreigaSystem(this);
+        
+        this.slottedPassages = []; // Max 4 for the Action Bar
         this.selectedInventorySlot = 0;
         
         /**
@@ -100,13 +122,77 @@ export default class Chossid extends Medabeir {
                 if (c.isMesh) c.userData.isPlayer = true;
             });
         }
+        // Initial stat calculation
+        this.recalculateStats();
+    }
+
+    /**
+     * B"H: Recalculate all soul-stats.
+     */
+    recalculateStats() {
+        const torahBonuses = this.studyManager.getBonuses();
+        const apparelStats = { chochmah: 0, binah: 0, daas: 0, defense: 0, attack: 0 };
+
+        // Sum up equipped apparel
+        if (this.inventory && this.inventory.equipment) {
+            for (const item of Object.values(this.inventory.equipment)) {
+                if (item && item.type === "apparel") {
+                    apparelStats.chochmah += item.chochmah || 0;
+                    apparelStats.binah += item.binah || 0;
+                    apparelStats.daas += item.daas || 0;
+                    apparelStats.defense += item.defense || 0;
+                    apparelStats.attack += item.attack || 0;
+                }
+            }
+        }
+
+        this.currentStats.chochmah = this.baseStats.chochmah + torahBonuses.chochmah + apparelStats.chochmah;
+        this.currentStats.binah = this.baseStats.binah + torahBonuses.binah + apparelStats.binah;
+        this.currentStats.daas = this.baseStats.daas + torahBonuses.daas + apparelStats.daas;
+        
+        this.currentStats.defense = this.baseStats.defense + torahBonuses.defense + apparelStats.defense;
+        this.currentStats.attack = this.baseStats.attack + torahBonuses.attack + apparelStats.attack;
+        
+        this.currentStats.maxHealth = this.baseStats.health + torahBonuses.health;
+        this.currentStats.speed = this.baseStats.speed * torahBonuses.speed;
+
+        // B"H: Trigger UI updates if needed
+        if (this.olam) {
+            this.olam.ayshPeula("ui event", "gameHUD", { updateStats: {
+                hp: this.currentStats.health || this.currentStats.maxHealth || 100,
+                maxHp: this.currentStats.maxHealth || 100,
+                koach: this.currentStats.koach || 50,
+                maxKoach: this.currentStats.maxKoach || 50,
+                xp: this.currentStats.xp || 0,
+                level: this.currentStats.level || 1
+            }});
+        }
+    }
+
+    /**
+     * B"H: Get special bonuses against specific enemies.
+     * @param {Object} enemy 
+     */
+    getCombatBonus(enemy) {
+        const specials = this.studyManager.getBonuses().specials;
+        let multiplier = 1;
+
+        if (specials.includes("mazik_vision") && enemy.type === "mazik") {
+            multiplier *= 1.2; // 20% more damage against Mazikim
+        }
+        
+        // Dynamic bonuses based on PaRDeS levels can be expanded here
+        return multiplier;
     }
 
 }
 
-Object.assign(Chossid.prototype, controlMethods);
-Object.assign(Chossid.prototype, interactionMethods);
-Object.assign(Chossid.prototype, lifecycleMethods);
-Object.assign(Chossid.prototype, visualMethods);
-Object.assign(Chossid.prototype, updateMethods);
-Object.assign(Chossid.prototype, inventorySetupMethods);
+// B"H - Grafting the modular limbs onto the trunk with Divine Emanation
+ChasveiAwtsmoos.emanate(Chossid.prototype, [
+    controlMethods,
+    interactionMethods,
+    lifecycleMethods,
+    visualMethods,
+    updateMethods,
+    inventorySetupMethods
+]);

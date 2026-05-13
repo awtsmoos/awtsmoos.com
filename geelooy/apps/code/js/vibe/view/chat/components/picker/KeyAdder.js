@@ -7,16 +7,14 @@ import { KeyRegistry } from '../../../../agent/state/KeyRegistry.js';
 
 export const KeyAdder = {
     render(onAdded) {
+        const providerList = Object.values(Providers);
         return HTML({
             style: S.addBox,
             children: [
                 { tag: 'span', style: { ...S.sectionTitle, color: 'var(--neon-lime)', marginBottom: '15px' }, text: 'Register New Dimension' },
                 {
                     style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' },
-                    children: [
-                        this._inputGroup(Providers.google, onAdded),
-                        this._inputGroup(Providers.openrouter, onAdded)
-                    ]
+                    children: providerList.map(p => this._inputGroup(p, onAdded))
                 }
             ]
         });

@@ -23,6 +23,7 @@ import { HTML } from '../../../html-generator.js';
 import { GatekeeperBox } from './GatekeeperBox.js';
 import { DirectiveBox } from './DirectiveBox.js';
 import { TimestreamLedger } from './TimestreamLedger.js';
+import { ModelLimitsBox } from './ModelLimitsBox.js';
 
 export const VibeManagerUI = {
     /**
@@ -34,6 +35,11 @@ export const VibeManagerUI = {
         const sessions = await VibeDB.getAllSessions();
         const gKey = ModelManager.getKey('google') || "";
         const orKey = ModelManager.getKey('openrouter') || "";
+        const groqKey = ModelManager.getKey('groq') || "";
+        const cerebrasKey = ModelManager.getKey('cerebras') || "";
+        const openaiKey = ModelManager.getKey('openai') || "";
+        const xaiKey = ModelManager.getKey('xai') || "";
+        const togetherKey = ModelManager.getKey('together') || "";
         const customPrompt = ModelManager.getCustomPrompt() || PromptBuilder.getDefaultSystemBase();
         const models = ModelManager.availableModels;
         
@@ -71,7 +77,8 @@ export const VibeManagerUI = {
                                 {
                                     className: 'vibe-manager-column',
                                     children: [
-                                        GatekeeperBox.build(gKey, orKey, models),
+                                        GatekeeperBox.build(gKey, orKey, groqKey, cerebrasKey, openaiKey, xaiKey, togetherKey, models),
+                                        ModelLimitsBox.build(),
                                         DirectiveBox.build(customPrompt)
                                     ]
                                 },
@@ -96,6 +103,7 @@ export const VibeManagerUI = {
     _bind(container, controller, sessions) {
         TimestreamLedger.bind(container, controller, sessions, () => this.render(container, controller));
         GatekeeperBox.bind(container, () => this.render(container, controller));
+        ModelLimitsBox.bind(container, () => this.render(container, controller));
         DirectiveBox.bind(container);
     }
 };

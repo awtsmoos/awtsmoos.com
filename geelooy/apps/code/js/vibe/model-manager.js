@@ -57,9 +57,12 @@ export const ModelManager = {
         
         // B"H - Maintain model continuity or pick a smart default
         if (!this.currentModel || !ModelRegistry.find(this.currentModel)) {
-            const bestDefault = this.availableModels.find(m => 
-                AgentCapabilities.isFree(m) && AgentCapabilities.supportsTools(m)
-            ) || this.availableModels[0];
+            const bestDefault = this.getPreferredModel({
+                requireFree: true,
+                requireTools: true
+            }) || this.getPreferredModel({
+                requireFree: true
+            }) || this.availableModels[0];
             
             this.currentModel = bestDefault?.id || null;
         }
@@ -86,9 +89,7 @@ export const ModelManager = {
      * Retrieves the API Key associated with the current model.
      */
     getActiveKey() {
-        const keyId = ModelRegistry.getKeyIdForModel(this.currentModel);
-        const keyObj = KeyRegistry.getAll().find(k => k.id === keyId);
-        return keyObj ? keyObj.key : null;
+        return this.getKeyForModel(this.currentModel);
     },
 
     getActiveKeyObject() {
@@ -100,8 +101,81 @@ export const ModelManager = {
         return ModelRegistry.find(this.currentModel);
     },
 
+    getModel(modelId) {
+        return ModelRegistry.find(modelId);
+    },
+
+    getKeyForModel(modelId) {
+        const keyId = ModelRegistry.getKeyIdForModel(modelId);
+        const keyObj = KeyRegistry.getAll().find(k => k.id === keyId);
+        return keyObj ? keyObj.key : null;
+    },
+
+    async addKey(rawKey, label = null) {
+        const newKey = KeyRegistry.add(rawKey, label);
+        await this.refreshModels();
+
+        const providerDefaults = this.getPreferredModel({
+            provider: newKey.provider,
+            requireFree: true,
+            requireTools: true
+        }) || this.getPreferredModel({
+            provider: newKey.provider,
+            requireFree: true
+        }) || this.getPreferredModel({ provider: newKey.provider });
+
+        if (providerDefaults) {
+            this.currentModel = providerDefaults.id;
+            this.save();
+        }
+
+        return newKey;
+    },
+
+    getModelsForProvider(provider) {
+        return this.availableModels.filter(model => model.provider === provider);
+    },
+
+    getPreferredModel({
+        provider = null,
+        requireFree = false,
+        requireTools = false,
+        excludeIds = []
+    } = {}) {
+        return this.availableModels.find(model => {
+            if (provider && model.provider !== provider) return false;
+            if (excludeIds.includes(model.id)) return false;
+            if (requireFree && !AgentCapabilities.isFree(model)) return false;
+            if (requireTools && !AgentCapabilities.supportsTools(model)) return false;
+            return true;
+        }) || null;
+    },
+
+    getFallbackModel(currentModelId, options = {}) {
+        const currentModel = this.getModel(currentModelId) || this.getActiveModel();
+        const provider = options.provider || currentModel?.provider || null;
+        const triedIds = [currentModelId, ...(options.excludeIds || [])].filter(Boolean);
+
+        return this.getPreferredModel({
+            provider,
+            requireFree: options.requireFree !== false,
+            requireTools: !!options.requireTools,
+            excludeIds: triedIds
+        }) || this.getPreferredModel({
+            provider,
+            requireFree: options.requireFree !== false,
+            excludeIds: triedIds
+        }) || null;
+    },
+
     // Bridge for specific components
-    getKey(provider) { return this.getActiveKey(); },
+    getKey(provider = null) {
+        if (!provider) return this.getActiveKey();
+        const providerKeys = KeyRegistry.getAll()
+            .filter(k => k.provider === provider)
+            .sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
+        return providerKeys[0]?.key || null;
+    },
     getCustomPrompt() { return this.customPrompt; },
     setCustomPrompt(text) { this.customPrompt = text; this.save(); }
 };
