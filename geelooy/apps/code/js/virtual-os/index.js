@@ -14,12 +14,6 @@ import { renderVirtualOS } from './core/renderCycle.js';
 import { always, warn } from './diagnostics/VirtualOSLog.js';
 
 export const VirtualOSManager = {
-    /**
-     * @async
-     * @function open
-     * @param {object} startItem Folder or workspace item.
-     * @returns {Promise<object>} Created tab.
-     */
     async open(startItem) {
         const path = normalizePath(startItem?.path || '/');
 
@@ -41,12 +35,6 @@ export const VirtualOSManager = {
         });
     },
 
-    /**
-     * @async
-     * @function render
-     * @param {object} tab Active Virtual OS tab.
-     * @returns {Promise<void>}
-     */
     async render(tab) {
         const container = DOM.virtualOSWrapper || document.getElementById('virtual-os-wrapper');
 

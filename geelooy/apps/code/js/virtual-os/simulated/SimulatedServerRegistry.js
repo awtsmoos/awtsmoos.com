@@ -18,22 +18,40 @@ function normalizePort(port) {
 }
 
 /**
+ * @function page
+ * @param {string} title Title.
+ * @param {string} body Body.
+ * @returns {string} HTML document.
+ */
+function page(title, body) {
+    return [
+        '<!doctype html>',
+        '<html>',
+        '<head><meta charset="utf-8"><title>' + title + '</title></head>',
+        '<body>',
+        body,
+        '</body>',
+        '</html>'
+    ].join('');
+}
+
+/**
  * @function defaultHtml
  * @param {string} name Server name.
  * @param {string} port Port.
  * @returns {string} HTML text.
  */
 function defaultHtml(name, port) {
-    return [
-        '<!doctype html>',
-        '<html>',
-        '<head><meta charset="utf-8"><title>' + name + '</title></head>',
-        '<body style="font-family:system-ui;background:#070b12;color:#e8f7ff;padding:30px">',
-        '<h1>B&quot;H Simulated Localhost :' + port + '</h1>',
-        '<p>This page is served by the Virtual OS simulated server registry.</p>',
-        '</body>',
-        '</html>'
-    ].join('');
+    return page(
+        name,
+        [
+            '<main>',
+            '<h1>B&quot;H Simulated Localhost :' + port + '</h1>',
+            '<p>This page is served by the Virtual OS simulated server registry.</p>',
+            '<p>Use <code>simserve ' + port + '</code>, <code>simservers</code>, and <code>simstop ' + port + '</code>.</p>',
+            '</main>'
+        ].join('')
+    );
 }
 
 export const SimulatedServerRegistry = {
@@ -73,12 +91,16 @@ export const SimulatedServerRegistry = {
         const path = match[2] || '/';
         const server = this.get(port);
 
-        if (!server) return {
-            ok: false,
-            port,
-            path,
-            html: defaultHtml('Missing Simulated Server', port)
-        };
+        if (!server && /simulated/i.test(text)) {
+            return {
+                ok: false,
+                port,
+                path,
+                html: defaultHtml('Missing Simulated Server', port)
+            };
+        }
+
+        if (!server) return null;
 
         const html = server.routes[path] || server.html;
 
