@@ -4,15 +4,17 @@
  * @file VirtualOSLog.js
  * @description
  * Diagnostic shofar for the Virtual OS.
- * Every stage now announces itself so the black void can never hide.
  */
 
+/**
+ * @constant {string}
+ */
 const PREFIX = '[VirtualOS] B"H';
 
 /**
  * @function log
- * @param {string} stage The stage name.
- * @param {object} data Extra revealed state.
+ * @param {string} stage The stage being revealed.
+ * @param {object} data Data carried by the stage.
  * @returns {void}
  */
 export function log(stage, data = {}) {
@@ -21,8 +23,8 @@ export function log(stage, data = {}) {
 
 /**
  * @function warn
- * @param {string} stage The warning stage.
- * @param {object} data Extra revealed state.
+ * @param {string} stage Warning stage.
+ * @param {object} data Warning data.
  * @returns {void}
  */
 export function warn(stage, data = {}) {
@@ -31,9 +33,9 @@ export function warn(stage, data = {}) {
 
 /**
  * @function error
- * @param {string} stage The error stage.
- * @param {unknown} thrown The thrown rupture.
- * @param {object} data Extra revealed state.
+ * @param {string} stage Error stage.
+ * @param {unknown} thrown Error object.
+ * @param {object} data Extra data.
  * @returns {void}
  */
 export function error(stage, thrown, data = {}) {

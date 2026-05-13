@@ -23,6 +23,7 @@ export function renderStartMenu(menu, state, requestRender) {
     for (const app of Object.values(AppRegistry)) {
         menu.appendChild(HTML({
             tag: 'button',
+            className: 'virtual-os-start-menu-item',
             text: app.title,
             dataset: { appId: app.id },
             events: {
