@@ -51,7 +51,7 @@ module.exports = {
 	
 	    const result = await ws.sendTunnelRequest(vars.tunnelName, {
 	      method: request.method,
-	      url: paramKinds.GET.url || "/",
+	      url: new URL(request.url, "https://awtsmoos.com").searchParams.get("url") || "/",
 	      headers: request.headers,
 	      body: body?.__raw_body__
 	        ? body.__raw_body__.toString("base64")
