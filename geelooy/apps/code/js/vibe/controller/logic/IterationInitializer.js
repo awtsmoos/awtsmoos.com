@@ -14,6 +14,9 @@
 import { HistoryCompressor } from '../../modules/history/index.js';
 import { PromptBuilder } from '../../modules/prompt-builder.js';
 import { BackgroundIlluminator } from './BackgroundIlluminator.js';
+import { ModelManager } from '../../model-manager.js';
+import { AgentCapabilities } from '../../agent/logic/AgentCapabilities.js';
+import { AgentRolePrompter } from '../../agent/logic/AgentRolePrompter.js';
 
 export const IterationInitializer = {
     /**
@@ -33,7 +36,12 @@ export const IterationInitializer = {
 
         const historyForApi = tab.vibeSession.history.filter(m => !m.isConnecting);
         const compressedHistory = HistoryCompressor.compress(historyForApi);
-        let systemPromptText = PromptBuilder.getAutoSystemBase(true);
+        const activeModel = ModelManager.getActiveModel();
+        const supportsNativeTools = activeModel ? AgentCapabilities.supportsTools(activeModel) : true;
+        let systemPromptText = PromptBuilder.getAutoSystemBase(supportsNativeTools);
+        
+        const activeRole = this._detectActiveRole(tab);
+        systemPromptText += AgentRolePrompter.build(activeRole);
 
         // Gather deep context if this is a fresh start or manual override
         if (compressedHistory.length === 0 || promptOverride) {
@@ -57,5 +65,16 @@ export const IterationInitializer = {
         controller.refreshView(tab);
 
         return { apiHistory, lastMsg };
+    }
+    ,
+    _detectActiveRole(tab) {
+        const fromView = tab?.vibeSession?.viewState?.activeRole;
+        if (fromView) return fromView;
+        const hist = tab?.vibeSession?.history || [];
+        for (let i = hist.length - 1; i >= 0; i--) {
+            const msg = hist[i];
+            if (msg && msg.role === 'user' && msg.agent_role) return msg.agent_role;
+        }
+        return 'auto';
     }
 };

@@ -27,9 +27,12 @@ export const TokenCounter = {
         if (!apiKey || !modelId) return 0;
         
         try {
-            const isOpenRouter = modelId.startsWith('openrouter/') || modelId.includes('/');
+            const { ModelManager } = await import('../model-manager.js');
+            const modelMeta = ModelManager.getModel(modelId);
+            const provider = modelMeta?.provider || (modelId.includes('/') ? 'openrouter' : 'google');
+            const requiresHeuristicCount = provider !== 'google';
 
-            if (isOpenRouter) {
+            if (requiresHeuristicCount) {
                 // OpenRouter models don't have a reliable, exposed token-counting API without sending an actual request.
                 // We estimate locally based on raw string length (approx 4 chars = 1 token).
                 // This is the Tzimtzum (Contraction) of approximation.

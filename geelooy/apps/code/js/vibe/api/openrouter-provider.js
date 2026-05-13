@@ -14,36 +14,22 @@ export const OpenRouterProvider = {
         if (!res.ok) throw res; 
         const data = await res.json();
         
-        const models = data.data.map(m => ({
+        const models = data.data
+        .filter(m => (m?.architecture?.output_modalities || []).includes('text') || !m.architecture)
+        .map(m => ({
             id: m.id,
             displayName: m.name,
             description: m.description,
             provider: 'openrouter',
             context_length: m.context_length,
-            costPrompt: m.pricing.prompt,
-            costCompletion: m.pricing.completion
-        })).sort((a,b) => a.displayName.localeCompare(b.displayName));
-        
-        // B"H - The Guaranteed Zero-Cost Conduits
-        models.unshift({
-            id: 'openrouter/free',
-            displayName: 'OpenRouter FREE GUARANTEE',
-            description: 'Routes your request only to models that have a $0 cost. Perfect for zero-budget manifestation.',
-            provider: 'openrouter',
-            context_length: 128000,
-            costPrompt: 0,
-            costCompletion: 0
-        });
-
-        models.unshift({
-            id: 'openrouter/auto',
-            displayName: 'OpenRouter Auto (Best Free/Premium)',
-            description: 'Automatically routes to the best model based on the request.',
-            provider: 'openrouter',
-            context_length: 128000,
-            costPrompt: 0,
-            costCompletion: 0
-        });
+            max_completion_tokens: m.top_provider?.max_completion_tokens || null,
+            costPrompt: Number(m.pricing?.prompt ?? 0),
+            costCompletion: Number(m.pricing?.completion ?? 0),
+            supported_parameters: Array.isArray(m.supported_parameters) ? m.supported_parameters : [],
+            architecture: m.architecture || null,
+            top_provider: m.top_provider || null,
+            per_request_limits: m.per_request_limits || null
+        }));
 
         return models;
     },
@@ -58,7 +44,8 @@ export const OpenRouterProvider = {
             temperature: 0.2
         };
 
-        const modelMeta = { id: modelId };
+        const { ModelManager } = await import('../model-manager.js');
+        const modelMeta = ModelManager.getModel(modelId) || { id: modelId };
         const canUseTools = AgentCapabilities.supportsTools(modelMeta);
 
         if (canUseTools && tools && tools.length > 0) {
@@ -95,7 +82,7 @@ export const OpenRouterProvider = {
 
                 for (const line of lines) {
                     const trimmed = line.trim();
-                    if (trimmed === '' || trimmed === 'data:[DONE]') continue;
+                    if (trimmed === '' || trimmed === 'data:[DONE]' || trimmed === 'data: [DONE]') continue;
                     if (trimmed.startsWith('data: ')) {
                         try {
                             const data = JSON.parse(trimmed.substring(6));
@@ -109,10 +96,23 @@ export const OpenRouterProvider = {
                             }
                             if (delta.tool_calls) {
                                 delta.tool_calls.forEach(tc => {
-                                    if (tc.id) {
-                                        activeToolCalls[tc.index] = { id: tc.id, type: tc.type, function: { name: tc.function.name, arguments: tc.function.arguments || "" } };
-                                    } else if (tc.function && tc.function.arguments) {
-                                        activeToolCalls[tc.index].function.arguments += tc.function.arguments;
+                                    const toolIndex = Number.isInteger(tc.index) ? tc.index : activeToolCalls.length;
+                                    if (!activeToolCalls[toolIndex]) {
+                                        activeToolCalls[toolIndex] = {
+                                            id: tc.id || ('call_' + Math.random().toString(36).substr(2, 9)),
+                                            type: tc.type || 'function',
+                                            function: {
+                                                name: tc.function?.name || '',
+                                                arguments: tc.function?.arguments || ""
+                                            }
+                                        };
+                                    }
+
+                                    if (tc.id) activeToolCalls[toolIndex].id = tc.id;
+                                    if (tc.type) activeToolCalls[toolIndex].type = tc.type;
+                                    if (tc.function?.name) activeToolCalls[toolIndex].function.name = tc.function.name;
+                                    if (typeof tc.function?.arguments === 'string' && tc.function.arguments.length > 0) {
+                                        activeToolCalls[toolIndex].function.arguments += tc.function.arguments;
                                     }
                                     toolUpdatedInThisChunk = true;
                                 });

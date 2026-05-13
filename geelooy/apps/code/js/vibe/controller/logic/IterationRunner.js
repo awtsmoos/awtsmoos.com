@@ -20,6 +20,7 @@ import { IterationStream } from './IterationStream.js';
 import { IterationFinalizer } from './IterationFinalizer.js';
 import { VibeAPI } from '../../api/client.js';
 import { ToolSchemas } from '../../agent/schemas/index.js';
+import { AgentRoleRegistry } from '../../agent/state/AgentRoleRegistry.js';
 
 export const IterationRunner = {
     /**
@@ -40,6 +41,13 @@ export const IterationRunner = {
             tab.vibeSession.isProcessing = false;
             controller.refreshView(tab);
             return;
+        }
+
+        const role = tab?.vibeSession?.viewState?.activeRole || 'auto';
+        const roleReq = this._roleRequirements(role);
+        const roleModel = AgentRoleRegistry.chooseModelId(role, roleReq);
+        if (roleModel && roleModel !== ModelManager.currentModel) {
+            ModelManager.setModel(roleModel);
         }
 
         const apiKey = ModelManager.getActiveKey();
@@ -103,5 +111,14 @@ export const IterationRunner = {
             tab.vibeSession.isProcessing = false;
             controller.refreshView(tab);
         }
+    }
+    ,
+    _roleRequirements(role) {
+        const r = String(role || '').toLowerCase().trim();
+        if (r === 'planner') return { requireTools: false, requireFree: true };
+        if (r === 'reviewer') return { requireTools: false, requireFree: true };
+        if (r === 'tester') return { requireTools: true, requireFree: true };
+        if (r === 'builder') return { requireTools: true, requireFree: false };
+        return { requireTools: true, requireFree: true };
     }
 };

@@ -8,6 +8,8 @@
 import { VibeDB } from '../../db.js';
 import { ToolResultHandler } from './ToolResultHandler.js';
 import { RecursiveHarvester } from './RecursiveHarvester.js';
+import { UniversalActionParser } from '../../agent/logic/UniversalActionParser.js';
+import { EvaluatorGate } from './EvaluatorGate.js';
 
 export const IterationFinalizer = {
     /**
@@ -16,13 +18,17 @@ export const IterationFinalizer = {
      * @description Solemnly conclude a single cycle and check for the need for expansion.
      */
     async complete(tab, controller, lastMsg, finalText, finalReasoning, finalTools, signature) {
+        const pseudoToolCalls = UniversalActionParser.parse(finalText);
+        const allToolCalls = (finalTools && finalTools.length > 0) ? finalTools : pseudoToolCalls;
+        const visibleText = UniversalActionParser.strip(finalText);
+
         lastMsg.isStreaming = false;
         lastMsg.isConnecting = false; 
-        lastMsg.content = (finalReasoning ? '<think>\n' + finalReasoning + '\n</think>\n' : '') + finalText;
+        lastMsg.content = (finalReasoning ? '<think>\n' + finalReasoning + '\n</think>\n' : '') + visibleText;
         
-        if (finalTools && finalTools.length > 0) {
-            if (signature) finalTools.forEach(tc => { tc.thought_signature = signature; });
-            lastMsg.tool_calls = finalTools;
+        if (allToolCalls && allToolCalls.length > 0) {
+            if (signature) allToolCalls.forEach(tc => { tc.thought_signature = signature; });
+            lastMsg.tool_calls = allToolCalls;
         }
 
         await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
@@ -31,8 +37,8 @@ export const IterationFinalizer = {
         // B"H - THE CORE SERIALIZATION FIX:
         // We await ALL local tool results (including disk writes) before checking the harvester.
         let localToolResultDeterminedCycleNeeded = false;
-        if (finalTools && finalTools.length > 0) {
-            localToolResultDeterminedCycleNeeded = await ToolResultHandler.handle(finalTools, tab, controller);
+        if (allToolCalls && allToolCalls.length > 0) {
+            localToolResultDeterminedCycleNeeded = await ToolResultHandler.handle(allToolCalls, tab, controller);
         }
 
         // Only after all actions are finished do we consult the Harvest for automated continuation.
@@ -42,8 +48,14 @@ export const IterationFinalizer = {
         }
 
         const totalCyclicalTrigger = localToolResultDeterminedCycleNeeded || triggersRefinement;
+        const evalDecision = EvaluatorGate.evaluate({
+            visibleText,
+            toolCalls: allToolCalls,
+            tab
+        });
+        const gatedTrigger = totalCyclicalTrigger || evalDecision.shouldContinue;
 
-        if (totalCyclicalTrigger) {
+        if (gatedTrigger) {
             const { IterationRunner } = await import('./IterationRunner.js');
             return IterationRunner.run(tab, controller, null, true);
         }

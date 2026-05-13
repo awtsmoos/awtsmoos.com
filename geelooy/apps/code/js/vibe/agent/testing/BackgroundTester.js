@@ -55,7 +55,20 @@ export const BackgroundTester = {
             if (targetUrl) {
                 iframe.src = targetUrl;
                 iframe.onload = () => {
-                    iframe.contentWindow.postMessage({ type: 'START_TEST_PLAN', testId: uniqueTestId, plan: testPlan }, '*');
+                    try {
+                        const frameDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        const hom = frameDoc.createElement('script');
+                        hom.textContent = InjectedHomunculus.getScript(uniqueTestId);
+                        frameDoc.head.appendChild(hom);
+                    } catch (err) {
+                        logs.push('[SYSTEM ERROR] Could not inject test harness into ' + targetUrl + ': ' + err.message);
+                    }
+
+                    setTimeout(() => {
+                        if (iframe.contentWindow) {
+                            iframe.contentWindow.postMessage({ type: 'START_TEST_PLAN', testId: uniqueTestId, plan: testPlan }, '*');
+                        }
+                    }, 500);
                 };
             } else {
                 const doc = new DOMParser().parseFromString(resolvedHTML, 'text/html');
