@@ -31,7 +31,7 @@ export const NodeManager = {
      * @param {string|number} tabId - The terminal tab identity.
      * @returns {Promise<number>} The Process ID.
      */
-    async spawn(entryItem, tabId) {
+    async spawn(entryItem, tabId, options = {}) {
         const pid = this.nextPid++;
         const CHUNK_SIZE = 65536;
         const controlSAB = new SharedArrayBuffer(5 * 4);
@@ -44,7 +44,10 @@ export const NodeManager = {
         const processInfo = {
             pid, tabId, worker,
             rootItem: { ...entryItem, path: '/', name: 'Root', kind: 'directory' },
-            controlView: new Int32Array(controlSAB), dataSAB, serverMap: {}, ack: null
+            controlView: new Int32Array(controlSAB), dataSAB, serverMap: {}, ack: null,
+            logs: [],
+            capture: null,
+            silentTerminal: !!options.silentTerminal
         };
 
         this.processes.set(pid, processInfo);
@@ -55,9 +58,13 @@ export const NodeManager = {
             const code = (content instanceof Blob) ? await content.text() : String(content);
 
             worker.postMessage({ type: 'init-golem', controlSAB, dataSAB, code, path: entryItem.path });
-            Terminal.printToTab(tabId, `[Node] Golem ${pid} awakened.`, 'cmd-success');
+            if (!processInfo.silentTerminal) {
+                Terminal.printToTab(tabId, `[Node] Golem ${pid} awakened.`, 'cmd-success');
+            }
         } catch(e) {
-            Terminal.printToTab(tabId, `[Node] Failed to load: ${e.message}`, 'cmd-error');
+            if (!processInfo.silentTerminal) {
+                Terminal.printToTab(tabId, `[Node] Failed to load: ${e.message}`, 'cmd-error');
+            }
         }
         return pid;
     },
@@ -72,15 +79,72 @@ export const NodeManager = {
         const d = e.data;
 
         if (d.type === 'stdout') {
-            Terminal.printToTab(process.tabId, d.text);
+            process.logs.push(d.text);
+            if (!process.silentTerminal) {
+                Terminal.printToTab(process.tabId, d.text);
+            }
         } else if (d.type.startsWith('sync-')) {
             await SyncIpcHandler.handleOp(process, d);
         } else if (d.type === 'ack') {
             if (process.ack) process.ack();
         } else if (d.type === 'net-listen') {
             this.servers.set(d.port, { pid, serverId: d.serverId });
-            Terminal.printToTab(process.tabId, `[Node] Server listening on port ${d.port}`, 'cmd-info');
+            if (!process.silentTerminal) {
+                Terminal.printToTab(process.tabId, `[Node] Server listening on port ${d.port}`, 'cmd-info');
+            }
+        } else if (d.type === 'process-complete' || d.type === 'process-exit') {
+            this._finalizeCapture(process, {
+                status: d.type === 'process-exit' ? 'exit' : 'complete',
+                code: d.code ?? 0,
+                error: d.error || null
+            });
         }
+    },
+
+    _finalizeCapture(process, meta) {
+        if (!process?.capture) return;
+        clearTimeout(process.capture.timer);
+        const resolve = process.capture.resolve;
+        process.capture = null;
+        resolve({
+            pid: process.pid,
+            ...meta,
+            logs: [...process.logs]
+        });
+    },
+
+    async executeForReport(entryItem, tabId, timeoutMs = 10000) {
+        const pid = await this.spawn(entryItem, tabId, { silentTerminal: true });
+        const process = this.processes.get(pid);
+        if (!process) {
+            return `[Node Simulator] Failed to start ${entryItem.path}`;
+        }
+
+        const outcome = await new Promise((resolve) => {
+            process.capture = {
+                resolve,
+                timer: setTimeout(() => {
+                    process.capture = null;
+                    resolve({
+                        pid,
+                        status: 'timeout',
+                        code: null,
+                        error: `Timed out after ${timeoutMs}ms`,
+                        logs: [...process.logs]
+                    });
+                }, timeoutMs)
+            };
+        });
+
+        return [
+            `B"H - NODE SIMULATION REPORT FOR ${entryItem.path}`,
+            `Status: ${outcome.status}`,
+            outcome.code !== null ? `Exit Code: ${outcome.code}` : null,
+            outcome.error ? `Error: ${outcome.error}` : null,
+            '',
+            'Console Output:',
+            outcome.logs.length > 0 ? outcome.logs.join('\n') : 'No console output.'
+        ].filter(Boolean).join('\n');
     },
     
     /**

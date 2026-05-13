@@ -172,7 +172,11 @@ export const NodeWorkerSource = (coreModulesMap) => `
                 env: { NODE_ENV: 'development' }, 
                 cwd: () => '/',
                 nextTick: (cb, ...args) => Promise.resolve().then(() => cb(...args)),
-                exit: (code = 0) => { self.postMessage({ type: 'stdout', text: \`[Process exited with code \${code}]\` }); self.close(); }
+                exit: (code = 0) => {
+                    self.postMessage({ type: 'stdout', text: \`[Process exited with code \${code}]\` });
+                    self.postMessage({ type: 'process-exit', code });
+                    self.close();
+                }
             };
 
             try {
@@ -182,8 +186,10 @@ export const NodeWorkerSource = (coreModulesMap) => `
                 
                 const wrapper = "(function(exports, require, module, __filename, __dirname) { " + d.code + "\\n})";
                 eval(wrapper)(module.exports, localRequire, module, d.path, dirName);
+                self.postMessage({ type: 'process-complete' });
             } catch(err) {
                 console.log("Error in Golem:", err.stack || err.message);
+                self.postMessage({ type: 'process-exit', code: 1, error: err.stack || err.message });
             }
         } 
         else if (d.type === 'http-inbound') {

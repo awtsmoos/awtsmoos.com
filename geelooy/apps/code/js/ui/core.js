@@ -41,6 +41,8 @@ export const UICore = {
             'devtools-wrapper': 'devtools-wrapper',
             'browser': 'browser-wrapper',
             'browser-wrapper': 'browser-wrapper',
+            'virtual-os': 'virtual-os-wrapper',
+            'virtual-os-wrapper': 'virtual-os-wrapper',
             'empty': 'empty-editor-message',
             'empty-editor-message': 'empty-editor-message'
         };

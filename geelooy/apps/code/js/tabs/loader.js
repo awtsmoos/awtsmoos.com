@@ -32,7 +32,7 @@ export const TabsLoader = {
         }
 
         const species = tab.item.type || tab.fileType;
-        const virtualSpecies = ['devtools', 'browser', 'vibe-manager', 'vibe-session'];
+        const virtualSpecies = ['devtools', 'browser', 'vibe-manager', 'vibe-session', 'virtual-os'];
         if (virtualSpecies.includes(species)) {
             return true; 
         }
@@ -104,6 +104,9 @@ export const TabsLoader = {
         } else if (type === 'browser') {
             const { BrowserManager } = await import('../browser/index.js');
             BrowserManager.render(tab);
+        } else if (type === 'virtual-os') {
+            const { VirtualOSManager } = await import('../virtual-os/index.js');
+            await VirtualOSManager.render(tab);
         } else if (type === 'devtools') {
             // B"H - PREVIEW SYNC: Ensure its source preview is in the DOM
             this._awakenPreviewSource(tab.item.previewTabId);

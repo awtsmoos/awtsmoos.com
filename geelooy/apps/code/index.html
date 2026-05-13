@@ -13,44 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- CORE -->
-    <link href="css/variables.css" rel="stylesheet">
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/layout.css" rel="stylesheet">
-    <link href="css/components.css" rel="stylesheet">
-    
-    <!-- UI SUBMODULES -->
-    <link href="css/ui/menus.css" rel="stylesheet">
-    <link href="css/ui/notifications.css" rel="stylesheet">
-    <link href="css/ui/dialogs.css" rel="stylesheet">
-    <link href="css/ui/selection-menu.css" rel="stylesheet">
-
-    <!-- VIEWS -->
-    <link href="css/views/workspace.css" rel="stylesheet">
-    <link href="css/views/tabs.css" rel="stylesheet">
-    <link href="css/views/editor.css" rel="stylesheet">
-    <link href="css/views/tools.css" rel="stylesheet">
-    <link href="css/views/git.css" rel="stylesheet">
-    <link href="css/views/terminal.css" rel="stylesheet"> 
-    <link href="css/views/browser.css" rel="stylesheet"> 
-
-    <!-- FEATURES -->
-    <link href="css/zip-explorer.css" rel="stylesheet">
-    <link href="css/tab-manager.css" rel="stylesheet">
-    <link href="css/search.css" rel="stylesheet"> 
-    
-    <!-- FILE COMMANDER (MODULARIZED) -->
-    <link href="css/file-commander/layout.css" rel="stylesheet">
-    <link href="css/file-commander/grid.css" rel="stylesheet">
-    <link href="css/file-commander/details.css" rel="stylesheet">
-    
-    <!-- VIBE (MODULAR) -->
-    <link href="css/vibe/main.css" rel="stylesheet">
-    <link href="css/vibe/chat-vessels.css" rel="stylesheet">
-
-    <!-- EFFECTS -->
-    <link href="css/effects.css" rel="stylesheet"> 
-    <link href="css/visuals.css" rel="stylesheet"> 
+    <!-- CSS (single entrypoint; internally modular via @import) -->
+    <link href="css/app.css" rel="stylesheet">
 </head>  
 <body>
     
@@ -101,6 +65,7 @@
                 <div id="file-commander-wrapper" class="hidden"></div>
                 <div id="terminal-wrapper" class="hidden"></div>
                 <div id="browser-wrapper" class="hidden"></div>
+                <div id="virtual-os-wrapper" class="hidden"></div>
 
                 <div id="editor-wrapper" class="hidden">
                     <div id="line-numbers">1</div>

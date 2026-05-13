@@ -21,7 +21,8 @@ export const TabRouter = {
             'file-commander': 'file-commander-wrapper',
             'terminal': 'terminal-wrapper',
             'devtools': 'devtools-wrapper',
-            'browser': 'browser-wrapper'
+            'browser': 'browser-wrapper',
+            'virtual-os': 'virtual-os-wrapper'
         };
 
         if (map[type]) return map[type];

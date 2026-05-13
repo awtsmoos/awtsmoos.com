@@ -19,6 +19,7 @@ export const IntentIsolation = {
         if (type === 'commander') return 'commander';
         if (type === 'devtools') return 'devtools';
         if (type === 'browser') return 'browser';
+        if (type === 'virtual-os') return 'virtual-os';
         
         return 'editor';
     }

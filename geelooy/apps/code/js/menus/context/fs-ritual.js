@@ -20,6 +20,7 @@ export const FilesystemRitual = {
         } else {
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander-tab", icon: "folder" });
             menuItems.push({ label: "Open Terminal Here", action: "open-terminal-tab", icon: "laptop" });
+            menuItems.push({ label: "Open in Virtual OS", action: "open-virtual-os", icon: "monitor" });
         }
         
         menuItems.push({ label: "Refresh", action: "refresh", icon: "refresh" });
