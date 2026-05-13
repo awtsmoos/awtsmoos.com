@@ -39,3 +39,13 @@ export function joinPath(base = '/', next = '') {
     const b = normalizePath(base).replace(/\/+$/, '');
     return normalizePath(`${b}/${next}`);
 }
+
+/**
+ * @function baseName
+ * @param {string} path Path.
+ * @returns {string} Base name.
+ */
+export function baseName(path = '/') {
+    const parts = normalizePath(path).split('/').filter(Boolean);
+    return parts.at(-1) || 'Root';
+}
