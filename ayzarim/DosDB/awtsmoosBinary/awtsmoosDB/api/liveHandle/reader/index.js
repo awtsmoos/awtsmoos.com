@@ -5,8 +5,8 @@
  * @file api/liveHandle/reader/index.js
  * @chapter Binah Reads The Living Bytes
  * @description
- * Reader delegates magnitude, keys, iteration, slicing, and full resolution.
- * Container type routing is split into containerTypes.js.
+ * Reader delegates length, keys, resolution, iteration, slicing, LiveHandle
+ * wrapping, and native Set resurrection.
  */
 
 const LengthLogic = require('./logic/length.js');
@@ -14,11 +14,12 @@ const KeysLogic = require('./logic/keys.js');
 const ResolverLogic = require('./resolver.js');
 const IteratorLogic = require('./iterator.js');
 const ContainerTypes = require('./containerTypes.js');
+const Native = require('./native/index.js');
 
 /**
  * @class Reader
  * @description
- * The read-side organ of a LiveHandle.
+ * Read-side organ of a LiveHandle.
  */
 class Reader {
   /**
@@ -94,12 +95,12 @@ class Reader {
   /**
    * @method _wrapIfNeeded
    * @description
-   * Wraps structural values as LiveHandles.
+   * Returns native Set for JS_SET/SET and LiveHandle for live containers.
    *
    * @param {*} val - Raw resolved value.
    * @param {string|number} key - Child key.
    * @param {Buffer|null} ptr - Optional pointer seal.
-   * @returns {*} Scalar or LiveHandle.
+   * @returns {*} Scalar, native value, or LiveHandle.
    */
   _wrapIfNeeded(val, key, ptr) {
     if (val === null || val === undefined) return val;
@@ -109,12 +110,23 @@ class Reader {
 
     const isStructure = val && val.isStructure === true;
     const type = isStructure ? val.type : (ptr ? SmartPointer.getType(ptr) : 0);
-
-    if (!ContainerTypes.has(type)) return val;
-
     const finalPtr = ptr && Buffer.isBuffer(ptr)
       ? ptr
       : SmartPointer.toBuffer(val.ptr || val);
+
+    const native = Native.resolveNative(
+      this.db,
+      type,
+      finalPtr,
+      {
+        parent: this.handle.self,
+        key
+      }
+    );
+
+    if (native.hit) return native.value;
+
+    if (!ContainerTypes.has(type)) return val;
 
     return HandleRegistry.createHandle(
       this.db,

@@ -5,8 +5,7 @@
  * @file api/liveHandle/reader/resolver.js
  * @chapter The Reader Of Whole Forms
  * @description
- * Resolves a LiveHandle into plain JavaScript when explicitly requested.
- * Scalars are handled by the core Hydrator; containers are walked here.
+ * Resolves full containers into plain JavaScript forms when explicitly asked.
  */
 
 const constants = require('../../../constants.js');
@@ -33,7 +32,9 @@ class ResolverLogic {
 
   /**
    * @method resolveSelf
-   * @description Resolves the handle root into a JavaScript value.
+   * @description
+   * Resolves this handle into native JavaScript.
+   *
    * @returns {*} Resolved value.
    */
   resolveSelf() {
@@ -46,34 +47,44 @@ class ResolverLogic {
       return this.hydrator.hydrate(this.handle.ptr);
     }
 
-    if (type === T.SEQUENCE || type === T.ARRAY || type === T.SMART_ARRAY) {
-      const out = [];
-      for (let i = 0; i < engine.length(); i++) {
-        out.push(engine.get(i, this.handle.ctx));
+    if (type === T.SET || type === T.JS_SET) {
+      const out = new Set();
+      const length = engine.length();
+
+      for (let i = 0; i < length; i++) {
+        out.add(engine.get(i, this.handle.ctx));
       }
+
       return out;
     }
 
-    if (type === T.SET || type === T.JS_SET) {
-      const out = new Set();
-      for (let i = 0; i < engine.length(); i++) {
-        out.add(engine.get(i, this.handle.ctx));
+    if (type === T.SEQUENCE || type === T.ARRAY || type === T.SMART_ARRAY) {
+      const out = [];
+      const length = engine.length();
+
+      for (let i = 0; i < length; i++) {
+        out.push(engine.get(i, this.handle.ctx));
       }
+
       return out;
     }
 
     if (type === T.MAP || type === T.JS_MAP) {
       const out = new Map();
+
       for (const [k, v] of this.reader.entries()) {
         out.set(k, v);
       }
+
       return out;
     }
 
     const out = {};
+
     for (const [k, v] of this.reader.entries()) {
       out[k] = v;
     }
+
     return out;
   }
 }

@@ -3,10 +3,10 @@
 
 /**
  * @file api/liveHandle/reader/hydrator/containerTypes.js
- * @chapter The Vessels That Must Stay Live
+ * @chapter The Structures That Are Not Scalars
  * @description
- * Containers return LiveHandle structure descriptors. Scalars return real
- * JavaScript values.
+ * Hydrator marks structure pointers as structure descriptors. The Reader
+ * decides whether direct access should return LiveHandle or native Set.
  */
 
 const rootRequire = require('./root.js');

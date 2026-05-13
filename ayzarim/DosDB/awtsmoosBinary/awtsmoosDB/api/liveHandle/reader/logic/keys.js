@@ -1,29 +1,81 @@
 
 // B"H
+
 /**
  * @file api/liveHandle/reader/logic/keys.js
- *
+ * @chapter The Keys Speak Without Noise
  * @description
- * ╔══════════════════════════════════════════════════════════════════════════╗
- * ║   RE-EXPORT BRIDGE — Seder Hishtalshelus (Chain of Emanation)          ║
- * ╠══════════════════════════════════════════════════════════════════════════╣
- * ║                                                                          ║
- * ║  This file has been split into a proper sub-folder for clarity:         ║
- * ║                                                                          ║
- * ║    keys/                                                                 ║
- * ║     ├── index.js           orchestrator: ANCHOR resolution + dispatch   ║
- * ║     ├── anchorResolver.js  peels ANCHOR(50) to reveal inner type+ptr    ║
- * ║     └── strategyFactory.js maps VAL_TYPE to key-iteration generator     ║
- * ║                                                                          ║
- * ║  This shim ensures every existing require('./logic/keys.js') continues  ║
- * ║  to work without any other changes in the codebase.                     ║
- * ║                                                                          ║
- * ║  "The garments of Torah carry the Torah wherever it needs to go."       ║
- * ║  (Zohar III, 152a)                                                      ║
- * ║                                                                          ║
- * ╚══════════════════════════════════════════════════════════════════════════╝
+ * Key generation must be silent. Debug logs inside hot readers slow tests and
+ * pollute failures. This module yields keys only.
  */
 
-'use strict';
+const constants = require('../../../../constants.js');
 
-module.exports = require('./keys/index.js');
+const T = constants.VAL_TYPE;
+
+/**
+ * @function sequenceKeys
+ * @description
+ * Yields numeric sequence indexes.
+ *
+ * @param {object} engine - Sequence engine.
+ * @yields {number} Index.
+ */
+function* sequenceKeys(engine) {
+  const length = engine.length();
+
+  for (let i = 0; i < length; i++) {
+    yield i;
+  }
+}
+
+/**
+ * @function mapKeys
+ * @description
+ * Yields map/dictionary keys.
+ *
+ * @param {object} engine - Map-like engine.
+ * @yields {string} Key.
+ */
+function* mapKeys(engine) {
+  if (!engine || typeof engine.keys !== 'function') return;
+
+  for (const key of engine.keys()) {
+    yield key;
+  }
+}
+
+/**
+ * @function generate
+ * @description
+ * Yields keys for a handle.
+ *
+ * @param {object} handle - Internal handle state.
+ * @param {object} db - DB instance.
+ * @yields {string|number} Key.
+ */
+function* generate(handle, db) {
+  handle.ensureResolved();
+
+  const type = handle.type;
+  const engine = handle.engine;
+
+  if (!engine) return;
+
+  if (
+    type === T.SEQUENCE ||
+    type === T.ARRAY ||
+    type === T.SMART_ARRAY ||
+    type === T.SET ||
+    type === T.JS_SET
+  ) {
+    yield* sequenceKeys(engine);
+    return;
+  }
+
+  yield* mapKeys(engine, db);
+}
+
+module.exports = {
+  generate
+};

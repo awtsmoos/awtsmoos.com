@@ -3,10 +3,11 @@
 
 /**
  * @file api/liveHandle/reader/containerTypes.js
- * @chapter The Gate Of Living Vessels
+ * @chapter The Live Vessels
  * @description
- * Lists every structure type that should stay wrapped as a LiveHandle during
- * property navigation.
+ * Types that remain LiveHandle-backed during normal property navigation.
+ * Native JS_SET and SET are intentionally excluded because direct access should
+ * resurrect a real Set.
  */
 
 const constants = require('../../../constants.js');
@@ -17,8 +18,6 @@ module.exports = new Set([
   T.JS_MAP,
   T.SEQUENCE,
   T.DICTIONARY,
-  T.SET,
-  T.JS_SET,
   T.OBJECT,
   T.ARRAY,
   T.JSON,
