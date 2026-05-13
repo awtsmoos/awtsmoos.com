@@ -1,5 +1,8 @@
+
 /* B"H */
 @import url('./virtual-os/root.css');
 @import url('./virtual-os/window.css');
 @import url('./virtual-os/taskbar.css');
 @import url('./virtual-os/apps.css');
+@import url('./virtual-os/diagnostics.css');
+@import url('./virtual-os/visibility.css');

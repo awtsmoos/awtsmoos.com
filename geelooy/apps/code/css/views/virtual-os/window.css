@@ -1,6 +1,91 @@
+
 /* B"H */
-.virtual-window-titlebar { height: 34px; display: flex; justify-content: space-between; align-items: center; padding: 0 8px; background: linear-gradient(180deg,#204b7a,#17395f); color: #d6ecff; cursor: move; user-select: none; }
-.virtual-window-title { font-weight: 700; font-size: 12px; letter-spacing: 0.3px; }
-.virtual-window-controls { display: flex; gap: 4px; }
-.virtual-window-controls button { width: 28px; height: 22px; border: 1px solid #83b4e3; background: #255185; color: #f0f8ff; cursor: pointer; }
-.virtual-window-controls button:hover { filter: brightness(1.12); }
+
+.virtual-window {
+    position: absolute;
+    left: var(--vos-window-x, 40px);
+    top: var(--vos-window-y, 32px);
+    width: var(--vos-window-width, 640px);
+    height: var(--vos-window-height, 420px);
+    z-index: var(--vos-window-z, 20);
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    min-height: 180px;
+    background: #07101f;
+    border: 1px solid rgba(0, 246, 255, 0.72);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 18px 42px rgba(0, 0, 0, 0.55),
+        0 0 34px rgba(0, 246, 255, 0.18);
+    border-radius: 10px;
+    overflow: hidden;
+    color: #e8f7ff;
+}
+
+.virtual-window.hidden {
+    display: none;
+}
+
+.virtual-window-titlebar {
+    height: 34px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0 8px;
+    background: linear-gradient(180deg, #17284a, #0d1a32);
+    color: #00f6ff;
+    cursor: move;
+    user-select: none;
+    border-bottom: 1px solid rgba(0, 246, 255, 0.28);
+}
+
+.virtual-window-title {
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    font-family: var(--font-code, monospace);
+}
+
+.virtual-window-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.virtual-window-controls button {
+    width: 28px;
+    height: 22px;
+    border: 1px solid rgba(0, 246, 255, 0.48);
+    background: #101a30;
+    color: #e8f7ff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.virtual-window-controls button:hover {
+    background: #16345e;
+}
+
+.virtual-window-content {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    background: #000;
+}
+
+.virtual-window-resize-handle {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    right: 2px;
+    bottom: 2px;
+    cursor: nwse-resize;
+}
+
+.virtual-window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: calc(100% - 40px) !important;
+}

@@ -3,7 +3,7 @@
 /**
  * @file env.js
  * @description
- * Runtime environment passed into every desktop app.
+ * Runtime environment passed into Virtual OS apps.
  */
 
 import { App } from '../../app.js';
@@ -12,18 +12,23 @@ import { log } from '../diagnostics/VirtualOSLog.js';
 
 /**
  * @function makeVirtualEnv
- * @param {object} manager VirtualOSManager.
+ * @param {object} manager VirtualOS manager.
  * @param {object} tab Active tab.
  * @param {object} workspace Resolved workspace.
  * @param {object} state Desktop state.
- * @returns {object} Runtime env.
+ * @returns {object} Environment.
  */
 export function makeVirtualEnv(manager, tab, workspace, state) {
     return {
         workspace,
         workspaceType: workspace.originalType || workspace.type,
         requestRender() {
-            log('Request render invoked', { tabId: tab.id, windows: state.windows.length });
+            log('requestRender', {
+                tabId: tab.id,
+                windows: state.windows.length,
+                rootPath: state.rootPath
+            });
+
             DesktopState.save(state);
             App.saveSessionDebounced();
             manager.render(tab);

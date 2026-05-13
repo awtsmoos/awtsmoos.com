@@ -1,7 +1,78 @@
+
 /* B"H */
-.virtual-os-taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; display: flex; align-items: center; gap: 8px; padding: 4px; background: linear-gradient(180deg,#112746,#0a1730); border-top: 1px solid #29527c; }
-.virtual-os-start { min-width: 68px; height: 30px; border: 1px solid #89baec; background: #2a5c8f; color: #fff; font-weight: 700; }
-.virtual-os-tasks { display: flex; gap: 6px; overflow-x: auto; }
-.virtual-os-task { border: 1px solid #6b99c9; background: #17385b; color: #d7eeff; height: 28px; padding: 0 10px; white-space: nowrap; }
-.virtual-os-start-menu { position: absolute; left: 6px; bottom: 44px; width: 220px; display: flex; flex-direction: column; background: #0f2342; border: 1px solid #49719c; box-shadow: 0 14px 32px rgba(0,0,0,0.4); padding: 6px; gap: 6px; }
-.virtual-os-start-menu button { border: 1px solid #4e7aa6; background: #153355; color: #d8efff; text-align: left; padding: 8px; }
+
+.virtual-os-taskbar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 8px;
+    background: linear-gradient(90deg, #00c8ff, #8b5cff, #e000ff);
+    color: #05070c;
+    font-family: var(--font-code, monospace);
+    font-weight: 800;
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.4);
+}
+
+.virtual-os-start,
+.virtual-os-task,
+.virtual-os-start-menu button {
+    border: 0;
+    border-radius: 5px;
+    font-family: var(--font-code, monospace);
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.virtual-os-start {
+    height: 28px;
+    padding: 0 14px;
+    background: #05070c;
+    color: #00f6ff;
+}
+
+.virtual-os-tasks {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    overflow: auto;
+}
+
+.virtual-os-task {
+    height: 28px;
+    padding: 0 10px;
+    background: rgba(5, 7, 12, 0.78);
+    color: white;
+}
+
+.virtual-os-start-menu {
+    position: absolute;
+    left: 8px;
+    bottom: 46px;
+    min-width: 190px;
+    padding: 8px;
+    background: #090d18;
+    border: 1px solid #00f6ff;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0, 246, 255, 0.25);
+}
+
+.virtual-os-start-menu.hidden {
+    display: none;
+}
+
+.virtual-os-start-menu button {
+    display: block;
+    width: 100%;
+    margin: 4px 0;
+    padding: 8px;
+    text-align: left;
+    background: #10172a;
+    color: #e8f7ff;
+    border: 1px solid rgba(0, 246, 255, 0.28);
+}
