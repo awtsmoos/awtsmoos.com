@@ -14,9 +14,14 @@ export class ProjectIntelligence {
             'Avoid inline styles except geometry CSS variables',
             'Split files into small modules',
             'No placeholders',
-            'Preserve existing app engines'
+            'Preserve existing app engines',
+            'Use host adapters before creating clone runtimes'
         ]);
-        this.knownContracts = new Map();
+        this.knownContracts = new Map([
+            ['TerminalRenderer', 'Must expose render(tab, container) and close(tabId).'],
+            ['VirtualOSAppRenderer', 'Signature: (windowState, container, desktopState, env).'],
+            ['FileSystemProvider', 'Items must carry type/originalType/workspaceId/path/kind.']
+        ]);
     }
 
     rememberFile(path, meta = {}) {

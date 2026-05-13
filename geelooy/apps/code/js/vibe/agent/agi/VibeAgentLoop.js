@@ -3,7 +3,7 @@
 /**
  * @file VibeAgentLoop.js
  * @description
- * Agentic scaffold for planner-builder-tester-debugger-reviewer-committer loops.
+ * Agentic scaffold for planner-architect-builder-tester-debugger-reviewer-committer loops.
  */
 
 import { AgentLoopState } from './AgentLoopState.js';
@@ -23,6 +23,12 @@ export class VibeAgentLoop {
         this.state.goal = goal || this.state.goal;
         this.state.nextPhase('planner');
         this.state.findings.push('Plan: inspect relevant files, preserve existing systems, patch modularly, test visually.');
+        return this.state;
+    }
+
+    architect() {
+        this.state.nextPhase('architect');
+        this.state.findings.push('Architecture law: if browser, terminal, commander, editor, or git already exists, create host adapters instead of clones.');
         return this.state;
     }
 

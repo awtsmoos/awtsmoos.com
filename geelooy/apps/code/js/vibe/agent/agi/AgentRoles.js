@@ -13,6 +13,11 @@ export const AGENT_ROLES = [
         mission: 'Understand the request, map relevant files, and design the exact path of repair.'
     },
     {
+        id: 'architect',
+        title: 'Architect',
+        mission: 'Detect existing systems and choose host adapters instead of duplicate clones.'
+    },
+    {
         id: 'builder',
         title: 'Builder',
         mission: 'Write modular code with no placeholders and no giant files.'
