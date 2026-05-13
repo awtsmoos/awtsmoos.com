@@ -132,7 +132,23 @@ module.exports = {
             response: Buffer.from(result.raw64, "base64")
           };
         }
+		if (result.raw64) {
+  return {
+    response: Buffer.from(result.raw64, "base64")
+  };
+}
 
+		if (typeof result.raw === "string") {
+		  response.setHeader(
+		    "Content-Type",
+		    "text/plain; charset=utf-8"
+		  );
+		
+		  return {
+		    response: result.raw
+		  };
+		}
+		
         return sendJson(result);
       } catch (e) {
         return sendJson({
