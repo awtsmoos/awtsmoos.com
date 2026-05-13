@@ -3,7 +3,7 @@
 /**
  * @file apps.js
  * @description
- * Data table for desktop icons and start menu entries.
+ * Data table for desktop icons, start menu entries, and app defaults.
  */
 
 export const VIRTUAL_OS_APP_DATA = [
@@ -19,24 +19,48 @@ export const VIRTUAL_OS_APP_DATA = [
         id: 'terminal',
         title: 'Console',
         icon: '🖥️',
-        description: 'Awtsmoos shell and commands',
-        width: 650,
-        height: 330
+        description: 'Real editor terminal hosted in a window',
+        width: 680,
+        height: 360
     },
     {
         id: 'notepad',
         title: 'Notepad',
         icon: '📝',
-        description: 'Simple file/text editor',
-        width: 560,
-        height: 410
+        description: 'Scratch notes and file editing',
+        width: 570,
+        height: 430
     },
     {
         id: 'browser',
         title: 'Virtual Browser',
         icon: '🌐',
-        description: 'Preview and test pages',
-        width: 720,
-        height: 460
+        description: 'Real localhost and simulated localhost viewer',
+        width: 760,
+        height: 500
+    },
+    {
+        id: 'settings',
+        title: 'Settings',
+        icon: '⚙️',
+        description: 'Debug, layout, Git, and agent options',
+        width: 540,
+        height: 420
+    },
+    {
+        id: 'task-manager',
+        title: 'Task Manager',
+        icon: '📊',
+        description: 'Inspect windows and processes',
+        width: 620,
+        height: 420
+    },
+    {
+        id: 'git-control',
+        title: 'Git Control',
+        icon: '🌿',
+        description: 'Repo status and GitHub sync policy',
+        width: 620,
+        height: 420
     }
 ];

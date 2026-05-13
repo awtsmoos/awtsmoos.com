@@ -3,10 +3,11 @@
 /**
  * @file probeOverlay.js
  * @description
- * Small visible diagnostic badge so a blank screen reveals its measurements.
+ * Optional visible diagnostic badge.
  */
 
-import { HTML } from '../../html-generator.js';
+import { H } from '../ui/h.js';
+import { debugEnabled } from './VirtualOSLog.js';
 
 /**
  * @function mountProbeOverlay
@@ -20,7 +21,14 @@ export function mountProbeOverlay(root, probe) {
     const old = root.querySelector('.vos-visibility-probe');
     if (old) old.remove();
 
-    root.appendChild(HTML({
+    if (!debugEnabled()) {
+        root.classList.add('vos-debug-off');
+        return;
+    }
+
+    root.classList.remove('vos-debug-off');
+
+    root.appendChild(H({
         tag: 'div',
         className: 'vos-visibility-probe',
         children: [

@@ -11,7 +11,7 @@ import { Tabs } from '../tabs/index.js';
 import { DesktopState } from './core/DesktopState.js';
 import { normalizePath } from './utils/path.js';
 import { renderVirtualOS } from './core/renderCycle.js';
-import { log, warn } from './diagnostics/VirtualOSLog.js';
+import { always, warn } from './diagnostics/VirtualOSLog.js';
 
 export const VirtualOSManager = {
     /**
@@ -23,7 +23,7 @@ export const VirtualOSManager = {
     async open(startItem) {
         const path = normalizePath(startItem?.path || '/');
 
-        log('Open requested', {
+        always('Open requested', {
             name: startItem?.name,
             path,
             workspaceId: startItem?.workspaceId,

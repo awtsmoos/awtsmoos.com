@@ -3,12 +3,12 @@
 /**
  * @file workspaceResolver.js
  * @description
- * Finds a workspace without ever silently returning into nothingness.
+ * Finds a workspace without silently returning into nothingness.
  */
 
 import { State } from '../../state.js';
 import { containsPath, normalizePath } from '../utils/path.js';
-import { log, warn } from '../diagnostics/VirtualOSLog.js';
+import { always, warn } from '../diagnostics/VirtualOSLog.js';
 
 /**
  * @function resolveVirtualWorkspace
@@ -20,7 +20,7 @@ export function resolveVirtualWorkspace(tab) {
     const workspaces = Array.isArray(State.workspaces) ? State.workspaces : [];
     const itemPath = normalizePath(item.path || '/');
 
-    log('Resolving workspace', {
+    always('Resolving workspace', {
         tabId: tab?.id,
         itemId: item.id,
         workspaceId: item.workspaceId,

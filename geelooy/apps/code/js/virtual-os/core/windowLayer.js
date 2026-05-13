@@ -9,8 +9,16 @@
 import { mountWindow } from '../ui/mount/windowMount.js';
 import { renderAppSafely } from './appRenderer.js';
 import { bindWindowControls } from './windowBinder.js';
-import { log } from '../diagnostics/VirtualOSLog.js';
+import { always } from '../diagnostics/VirtualOSLog.js';
 
+/**
+ * @function renderWindowLayer
+ * @param {HTMLElement} layer Window layer.
+ * @param {object} state Desktop state.
+ * @param {object} env Environment.
+ * @param {HTMLElement} root Root node.
+ * @returns {void}
+ */
 export function renderWindowLayer(layer, state, env, root) {
     layer.replaceChildren();
 
@@ -18,7 +26,7 @@ export function renderWindowLayer(layer, state, env, root) {
         .filter((win) => !win.isMinimized)
         .sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
 
-    log('Window layer render', {
+    always('Window layer render', {
         totalWindows: state.windows.length,
         visibleWindows: visible.length,
         focusedWindowId: state.focusedWindowId

@@ -10,6 +10,14 @@ import { DesktopState } from '../DesktopState.js';
 import { clampWindow, setWindowVars } from './geometry.js';
 import { log } from '../../diagnostics/VirtualOSLog.js';
 
+/**
+ * @function bindWindowDrag
+ * @param {HTMLElement} el Window element.
+ * @param {object} win Window state.
+ * @param {object} state Desktop state.
+ * @param {HTMLElement} root Root node.
+ * @returns {void}
+ */
 export function bindWindowDrag(el, win, state, root) {
     const handle = el.querySelector('[data-drag-handle="true"]');
     if (!handle) return;
@@ -47,5 +55,11 @@ export function bindWindowDrag(el, win, state, root) {
 
         window.addEventListener('pointermove', move);
         window.addEventListener('pointerup', up);
+    });
+
+    handle.addEventListener('dblclick', () => {
+        win.isMaximized = !win.isMaximized;
+        DesktopState.save(state);
+        el.classList.toggle('maximized', win.isMaximized);
     });
 }

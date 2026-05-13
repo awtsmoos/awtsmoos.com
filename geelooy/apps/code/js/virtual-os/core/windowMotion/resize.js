@@ -10,6 +10,13 @@ import { DesktopState } from '../DesktopState.js';
 import { setWindowVars } from './geometry.js';
 import { log } from '../../diagnostics/VirtualOSLog.js';
 
+/**
+ * @function bindWindowResize
+ * @param {HTMLElement} el Window element.
+ * @param {object} win Window state.
+ * @param {object} state Desktop state.
+ * @returns {void}
+ */
 export function bindWindowResize(el, win, state) {
     const handle = el.querySelector('[data-resize-handle="true"]');
     if (!handle) return;

@@ -6,18 +6,33 @@
  * Diagnostic shofar for the Virtual OS.
  */
 
-/**
- * @constant {string}
- */
 const PREFIX = '[VirtualOS] B"H';
 
 /**
+ * @function debugEnabled
+ * @returns {boolean} True if verbose debug is enabled.
+ */
+export function debugEnabled() {
+    return localStorage.getItem('awtsmoos.virtualOS.debug') === 'true';
+}
+
+/**
  * @function log
- * @param {string} stage The stage being revealed.
+ * @param {string} stage Stage being revealed.
  * @param {object} data Data carried by the stage.
  * @returns {void}
  */
 export function log(stage, data = {}) {
+    if (debugEnabled()) console.log(`${PREFIX} - ${stage}`, data);
+}
+
+/**
+ * @function always
+ * @param {string} stage Stage always revealed.
+ * @param {object} data Data carried by the stage.
+ * @returns {void}
+ */
+export function always(stage, data = {}) {
     console.log(`${PREFIX} - ${stage}`, data);
 }
 

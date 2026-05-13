@@ -3,15 +3,15 @@
 /**
  * @file domProbe.js
  * @description
- * Reads the actual rendered sizes and visibility of the OS vessels.
+ * Reads physical DOM measurements when debug is enabled.
  */
 
-import { log, warn } from './VirtualOSLog.js';
+import { debugEnabled, log, warn } from './VirtualOSLog.js';
 
 /**
  * @function rectData
  * @param {Element} node DOM node.
- * @returns {object} Rectangle data.
+ * @returns {object} Rect data.
  */
 function rectData(node) {
     if (!node) return { exists: false };
@@ -56,19 +56,10 @@ export function probeVirtualOSDom(container, stage) {
         windowRects: windowNodes.map(rectData)
     };
 
-    log('DOM probe', result);
+    if (debugEnabled()) log('DOM probe', result);
 
-    if (!result.wrapper.width || !result.wrapper.height) {
-        warn('Wrapper has zero size', result.wrapper);
-    }
-
-    if (!result.root.width || !result.root.height) {
-        warn('Root has zero size', result.root);
-    }
-
-    if (result.windowCount === 0) {
-        warn('No window DOM nodes exist after render', result);
-    }
+    if (!result.wrapper.width || !result.wrapper.height) warn('Wrapper has zero size', result.wrapper);
+    if (!result.root.width || !result.root.height) warn('Root has zero size', result.root);
 
     return result;
 }
