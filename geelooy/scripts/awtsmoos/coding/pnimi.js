@@ -85,7 +85,9 @@ class VirtualizedEditor {
         this.textarea.removeEventListener('keydown', this._boundHandleKeyDown);
         this.textarea.removeEventListener('scroll', this._boundOnScroll);
 
-        if (this.highlighterWorker) this.highlighterWorker.terminate();
+        if (typeof this._disposeWorkerBinding === 'function') {
+            this._disposeWorkerBinding();
+        }
         if (this.wrapper && this.wrapper.parentNode) {
             this.wrapper.parentNode.insertBefore(this.textarea, this.wrapper);
             this.wrapper.remove();

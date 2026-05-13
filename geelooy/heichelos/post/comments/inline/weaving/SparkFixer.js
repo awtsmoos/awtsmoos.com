@@ -20,19 +20,34 @@ export class SparkFixer {
 
         console.log(`%c B"H - [SparkFixer] Re-evaluating ${sparks.length} sparks for @${alias}.`, "color: #ff00ff;");
 
+        const escapeForAttr = (value) => {
+            const str = String(value);
+            if (globalThis.CSS && typeof globalThis.CSS.escape === "function") return globalThis.CSS.escape(str);
+            // Minimal safe fallback for attribute selectors wrapped in double quotes.
+            return str.replace(/\\\\/g, "\\\\\\\\").replace(/\"/g, "\\\\\"");
+        };
+
         let fixCount = 0;
         sparks.forEach(spark => {
             if (!spark || !spark.id) return;
             const sparkIdStr = String(spark.id);
 
-            const coords = spark.dayuh || {};
+            const coords = (spark.dayuh && typeof spark.dayuh === "object") ? spark.dayuh : {};
+            // Some API responses place the coordinate outside of `dayuh`.
+            if (coords.verseSection === undefined || coords.verseSection === null) {
+                if (spark.verseSection !== undefined && spark.verseSection !== null) coords.verseSection = spark.verseSection;
+            }
+            if (coords.subSection === undefined || coords.subSection === null) {
+                if (spark.subSection !== undefined && spark.subSection !== null) coords.subSection = spark.subSection;
+                else if (spark.sub !== undefined && spark.sub !== null) coords.subSection = spark.sub;
+            }
             const vessel = resolveCoordinateToDOM(coords);
 
             if (vessel) {
                 const shelter = ShelterArchitect.secureShelter(vessel);
                 
                 // B"H - Verification of non-duplication
-                const alreadyExists = shelter.querySelector(`[data-cid="${CSS.escape(sparkIdStr)}"]`);
+                const alreadyExists = shelter.querySelector(`[data-cid="${escapeForAttr(sparkIdStr)}"]`);
                 if (alreadyExists) return;
 
                 // Forge the Gate and Card

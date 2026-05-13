@@ -80,5 +80,3 @@ export function performGeometricCheck() {
         window.dispatchEvent(new CustomEvent("awtsmoos index", { detail: { idx: parseInt(idx), sub: null, hunter: true } }));
     }
 }
-
-window.registerObservable = () => { /* No-op: Removed slow IntersectionObserver requirement */ };

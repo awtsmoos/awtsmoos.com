@@ -5,12 +5,26 @@
 export const WorkerMethods = {
     _initializeHighlightingWorker() {
         try {
-            this.highlighterWorker = new Worker(new URL('../highlighter.worker.js', import.meta.url), { type: 'module' });
-            this.highlighterWorker.onmessage = this._onWorkerMessage.bind(this);
-            this.highlighterWorker.onerror = (e) => console.error("Worker Error:", e);
+            if (!window.__awtsmoosSharedHighlighterWorker) {
+                const shared = new Worker(new URL('../highlighter.worker.js', import.meta.url), { type: 'module' });
+                const listeners = new Map();
+                shared.onmessage = (e) => {
+                    const clientId = e.data?.clientId;
+                    if (!clientId) return;
+                    const listener = listeners.get(clientId);
+                    if (listener) listener(e);
+                };
+                shared.onerror = (e) => console.error("Worker Error:", e);
+                window.__awtsmoosSharedHighlighterWorker = { worker: shared, listeners };
+            }
+
+            this.workerClientId = `bh_editor_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+            this.highlighterWorker = window.__awtsmoosSharedHighlighterWorker.worker;
+            window.__awtsmoosSharedHighlighterWorker.listeners.set(this.workerClientId, this._onWorkerMessage.bind(this));
 
             this.highlighterWorker.postMessage({
                 type: 'setText',
+                clientId: this.workerClientId,
                 text: this.textarea.value,
                 language: this.language
             });
@@ -26,6 +40,7 @@ export const WorkerMethods = {
         if (this.highlighterWorker) {
             this.highlighterWorker.postMessage({
                 type: 'setText',
+                clientId: this.workerClientId,
                 text: txt,
                 language: this.language
             });
@@ -67,6 +82,7 @@ export const WorkerMethods = {
 
         this.highlighterWorker.postMessage({
             type: 'highlight',
+            clientId: this.workerClientId,
             firstLineToRender: firstLineToRender,
             numLinesToRender: this.viewportDivs.length,
             requestId: requestId,
@@ -102,6 +118,11 @@ export const WorkerMethods = {
                 this.textarea.dispatchEvent(new CustomEvent('editor-rendered', { bubbles: true }));
             });
         }
+    },
+
+    _disposeWorkerBinding() {
+        if (!this.workerClientId || !window.__awtsmoosSharedHighlighterWorker) return;
+        window.__awtsmoosSharedHighlighterWorker.listeners.delete(this.workerClientId);
     },
     
     _onScroll() {

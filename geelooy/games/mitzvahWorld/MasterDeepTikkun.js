@@ -29,16 +29,13 @@ files.forEach(f => {
         let content = fs.readFileSync(f, 'utf8');
         let original = content;
 
-        // 1. Convert // // B"H: silent
- to just // B"H: silent
+        // 1. Convert nested silent markers back to a single line comment.
 
         // This prevents the leading // from swallowing the rest of the line (including brackets)
-        content = content.replace(/\/\/\s*\/\* B"H: silent \*\//g, '// B"H: silent
-');
+        content = content.replace(/\/\/\s*\/\* B"H: silent \*\//g, '// B"H: silent\n');
 
-        // 2. Also handle if it's just // B"H: silent
-        content = content.replace(/\/\/\s*B"H: silent/g, '// B"H: silent
-');
+        // 2. Also normalize ordinary silent markers.
+        content = content.replace(/\/\/\s*B"H: silent/g, '// B"H: silent\n');
 
         if (content !== original) {
             fs.writeFileSync(f, content);

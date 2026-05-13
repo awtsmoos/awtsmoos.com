@@ -17,6 +17,46 @@ import { unrollApiResponse } from "../unroller.js";
 
 /**
  * @private
+ * @function normalizeSparkDayuh
+ * @description
+ * The API is not always consistent about where it places coordinate metadata.
+ * Inline placement requires `spark.dayuh.verseSection` (and optionally `subSection`).
+ * This normalizer makes the coordinate explicit so the DOM weaver can always anchor.
+ *
+ * @param {any} spark - A single comment object from the API.
+ * @param {string|number|null} defaultVerseSection - The verseSection that was queried.
+ * @returns {object} - A normalized dayuh object.
+ */
+function normalizeSparkDayuh(spark, defaultVerseSection) {
+    if (!spark || typeof spark !== "object") return { verseSection: defaultVerseSection };
+
+    let dayuh = spark.dayuh;
+
+    // Some endpoints serialize `dayuh` as JSON text.
+    if (typeof dayuh === "string") {
+        try { dayuh = JSON.parse(dayuh); } catch { dayuh = {}; }
+    }
+
+    if (!dayuh || typeof dayuh !== "object") dayuh = {};
+
+    // Primary coordinate normalization
+    if (dayuh.verseSection === undefined || dayuh.verseSection === null) {
+        if (spark.verseSection !== undefined && spark.verseSection !== null) dayuh.verseSection = spark.verseSection;
+        else dayuh.verseSection = defaultVerseSection;
+    }
+
+    // Optional sub-coordinate normalization (seen with varied key spellings across data sources)
+    if (dayuh.subSection === undefined || dayuh.subSection === null) {
+        if (spark.subSection !== undefined && spark.subSection !== null) dayuh.subSection = spark.subSection;
+        else if (spark.sub !== undefined && spark.sub !== null) dayuh.subSection = spark.sub;
+        else if (spark.sectionSub !== undefined && spark.sectionSub !== null) dayuh.subSection = spark.sectionSub;
+    }
+
+    return dayuh;
+}
+
+/**
+ * @private
  * @function generateSparkHash
  * @description Creates a deterministic string hash from an object to serve as a unique DOM ID.
  */
@@ -71,7 +111,12 @@ export async function loadAllCommentsForAlias(alias, context) {
                     fromCache: false, // We must force the network to speak
                     get: { verseSection: vIdx, map: true }
                 }).then(res => {
-                    const unrolled = unrollApiResponse(res);
+                    const unrolled = unrollApiResponse(res).map(spark => {
+                        if (spark && typeof spark === "object") {
+                            spark.dayuh = normalizeSparkDayuh(spark, vIdx);
+                        }
+                        return spark;
+                    });
                     console.log(`B"H - [BulkLoader:Verse ${vIdx}] API Replied with ${unrolled.length} sparks for @${alias}.`);
                     return unrolled;
                 }).catch(e => {
@@ -92,7 +137,12 @@ export async function loadAllCommentsForAlias(alias, context) {
                 fromCache: false,
                 get: { verseSection: "root", map: true }
             }).then(res => {
-                const unrolled = unrollApiResponse(res);
+                const unrolled = unrollApiResponse(res).map(spark => {
+                    if (spark && typeof spark === "object") {
+                        spark.dayuh = normalizeSparkDayuh(spark, "root");
+                    }
+                    return spark;
+                });
                 console.log(`B"H - [BulkLoader:Root] API Replied with ${unrolled.length} sparks for @${alias}.`);
                 return unrolled;
             }).catch(e => {
@@ -112,6 +162,13 @@ export async function loadAllCommentsForAlias(alias, context) {
             if (Array.isArray(unrolledArray)) {
                 unrolledArray.forEach((spark, sparkIdx) => {
                     if (spark && typeof spark === 'object') {
+                        // B"H - Coordinate normalization is mandatory for inline placement.
+                        // If the API response omitted dayuh, we still know the verseSection from the request.
+                        // (Most responses include it; this guards the edge cases that cause "sidebar works, inline doesn't".)
+                        if (!spark.dayuh || typeof spark.dayuh !== "object") {
+                            spark.dayuh = normalizeSparkDayuh(spark, spark.dayuh?.verseSection);
+                        }
+
                         // B"H - Assign a deterministic ID if the API did not provide one.
                         // This guarantees the SparkFixer has a physical ID to anchor to in the DOM.
                         const trueId = spark.id || spark.commentId || spark.postId;
