@@ -41,7 +41,7 @@ export function bindWindowControls(el, win, state, env, root) {
             win.isMinimized = true;
             const top = [...state.windows].filter((entry) => !entry.isMinimized && entry.id !== win.id)
                 .sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0))[0];
-            state.focusedWindowId = top?.id || win.id;
+            state.focusedWindowId = top?.id || null;
         }
 
         if (action === 'maximize') {

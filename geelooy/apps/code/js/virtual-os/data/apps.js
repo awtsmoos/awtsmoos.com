@@ -9,19 +9,19 @@
 export const VIRTUAL_OS_APP_DATA = [
     {
         id: 'explorer',
-        title: 'File Explorer',
+        title: 'File Commander',
         icon: '📁',
-        description: 'Browse the rooted vessel tree',
-        width: 560,
-        height: 370
+        description: 'Real editor commander hosted inside a window',
+        width: 760,
+        height: 520
     },
     {
         id: 'terminal',
         title: 'Console',
         icon: '🖥️',
-        description: 'Real editor terminal hosted in a window',
-        width: 680,
-        height: 360
+        description: 'Real editor terminal hosted inside a window',
+        width: 720,
+        height: 390
     },
     {
         id: 'notepad',
@@ -35,9 +35,9 @@ export const VIRTUAL_OS_APP_DATA = [
         id: 'browser',
         title: 'Virtual Browser',
         icon: '🌐',
-        description: 'Real localhost and simulated localhost viewer',
-        width: 760,
-        height: 500
+        description: 'Real localhost, simulated localhost, and preview viewer',
+        width: 820,
+        height: 540
     },
     {
         id: 'settings',
