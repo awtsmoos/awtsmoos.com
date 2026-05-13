@@ -2,18 +2,31 @@
 /**
  * B"H
  * @file Terrain.js
- * @chapter The Dust of the Earth
- * @description
- * "Let the waters under the heaven be gathered to one place, and let the dry land appear."
- * From the primordial 'Tohu', various terrains emerged to challenge and elevate the Tzaddik.
- * Snow represents frozen water, strict Din (Judgment) that must be melted by the fire of Torah.
- * Mountains represent the arduous climb towards higher consciousness.
+ * @chapter The Dust of the Earth and the Crystals of Heaven
  */
 export const Terrain = {
-    '1': { t: 'G_GRASS_FLAT', solid: false, desc: 'Soft spiritual grass.' },
+    '1': { t: 'G_GRASS_FLAT', solid: false, desc: 'Soft spiritual grass of Asiyah.' },
     '2': { t: 'G_DIRT_PATH',  solid: false, desc: 'A path cleared for the righteous.' },
     '.': { t: 'G_SAND',       solid: false, desc: 'The shifting sands of time.' },
     '~': { t: 'G_WATER',      solid: true,  desc: 'The deep waters of Binah. Impassable.' },
     '*': { t: 'G_SNOW',       solid: false, desc: 'Frozen judgment. Cold and pure.' },
-    '^': { t: 'G_MOUNTAIN',   solid: true,  desc: 'Elevated earth. Hard to traverse.' }
+    '^': { t: 'G_MOUNTAIN',   solid: true,  desc: 'Elevated earth. Hard to traverse.' },
+    
+    // YETZIRAH ELEMENTS
+    '✧': { t: 'G_CRYSTAL',    solid: false, desc: 'The pure, transparent floor of Formation.' },
+    '☁': { t: 'G_CLOUD',      solid: false, desc: 'Vaporous paths holding secrets.' },
+    '✨': { t: 'G_LIGHT',      solid: false, encounter: true, desc: 'Floating sparks of raw potential.' },
+
+    // BERIAH ELEMENTS
+    '☰': { t: 'G_PARCHMENT',  solid: false, desc: 'The endless scroll of the intellect.' },
+    
+    // ATZILUT ELEMENTS
+    '☼': { t: 'G_OHR_PASHUT', solid: false, desc: 'Simple Light. The dissolution of boundaries.' },
+
+    // TEHOM ELEMENTS
+    '♨': { t: 'G_LAVA',       solid: false, encounter: true, desc: 'The consuming fires of Gehinom.' },
+    '⬣': { t: 'G_VOID',       solid: true,  desc: 'The absolute emptiness of the Tzimtzum.' },
+
+    // MIKVAH
+    '≈': { t: 'G_MIKVAH',     solid: false, isPortal: true, desc: 'Living waters that purify the soul.' }
 };

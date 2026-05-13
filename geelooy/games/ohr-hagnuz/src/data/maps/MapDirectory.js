@@ -18,7 +18,14 @@ import { SectorYudDalet } from './regions/north/SectorYudDalet.js';
 import { SectorYudHey } from './regions/east/SectorYudHey.js';
 import { SectorYudVav } from './regions/south/SectorYudVav.js';
 
+import { SectorYetzirah } from './sectors/SectorYetzirah.js';
+import { SectorBeriah } from './sectors/beriah/SectorBeriah.js';
+import { SectorAtzilut } from './sectors/atzilut/SectorAtzilut.js';
+import { SectorTehom } from './sectors/SectorTehom.js';
+import { SectorMikvah } from './sectors/SectorMikvah.js';
+
 import { HouseInteriorAleph } from './HouseInteriorAleph.js';
+import { HouseInteriorAleph_F2 } from './HouseInteriorAleph_F2.js';
 import { HouseInteriorBeis } from './HouseInteriorBeis.js';
 import { HouseInteriorAleph3 } from './HouseInteriorAleph3.js';
 import { HouseInteriorYod } from './HouseInteriorYod.js';
@@ -49,7 +56,15 @@ export const MapDirectory = {
     'Sector_YudHey': SectorYudHey,
     'Sector_YudVav': SectorYudVav,
     
+    'Sector_Yetzirah': SectorYetzirah,
+    'Sector_Beriah': SectorBeriah,
+    'Sector_Atzilut': SectorAtzilut,
+    
+    'Sector_Tehom': SectorTehom,
+    'Sector_Mikvah': SectorMikvah,
+    
     'HouseInteriorAleph': HouseInteriorAleph,
+    'HouseInteriorAleph_F2': HouseInteriorAleph_F2,
     'HouseInteriorBeis': HouseInteriorBeis,
     'HouseInteriorAleph3': HouseInteriorAleph3,
     'HouseInteriorYod': HouseInteriorYod,

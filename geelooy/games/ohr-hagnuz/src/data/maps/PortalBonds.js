@@ -16,9 +16,11 @@ export const PortalBonds = {
     '🕌': { partner: '🕍', ox: 0, oy: -1 }, '🕍': { partner: '🕌', ox: 0, oy: 1 },
     '🏕️': { partner: '🪔', ox: 0, oy: -1 }, '🪔': { partner: '🏕️', ox: 0, oy: 1 }, 
 
+    '⇪': { partner: '⇫', ox: 1, oy: 0 }, '⇫': { partner: '⇪', ox: 1, oy: 0 },
+    '🪜': { partner: '🪜', ox: 1, oy: 0 }, 
+
     // === UNIQUE SECTOR EDGE PORTALS ===
     '⇧': { partner: '⇩', ox: 0, oy: -1 }, '⇩': { partner: '⇧', ox: 0, oy: 1 },
-    '⇪': { partner: '⇫', ox: 0, oy: -1 }, '⇫': { partner: '⇪', ox: 0, oy: 1 },
     '⇡': { partner: '⇣', ox: 0, oy: 1 },  '⇣': { partner: '⇡', ox: 0, oy: -1 },
     '⇢': { partner: '⇣', ox: 0, oy: 1 },  '⇣': { partner: '⇢', ox: 0, oy: -1 },
     '⇦': { partner: '⇨', ox: -1, oy: 0 }, '⇨': { partner: '⇦', ox: 1, oy: 0 },
@@ -47,15 +49,17 @@ export const PortalBonds = {
     '⤶': { partner: '⤷', ox: -1, oy: 0 }, '⤷': { partner: '⤶', ox: 1, oy: 0 },
     '↤': { partner: '↦', ox: 1, oy: 0 },  '↦': { partner: '↤', ox: -1, oy: 0 },
     '⤹': { partner: '⤸', ox: 1, oy: 0 },  '⤸': { partner: '⤹', ox: -1, oy: 0 },
-    '⤣': { partner: '⤤', ox: 0, oy: 1 },  '⤤': { partner: '⤣', ox: 0, oy: -1 },
-    '⤡': { partner: '⤢', ox: 0, oy: 1 },  '⤢': { partner: '⤡', ox: 0, oy: -1 },
     
-    // Southward
+    // Asiyah to Tehom (Abyss)
     '⍐': { partner: '⍗', ox: 0, oy: 1 },   '⍗': { partner: '⍐', ox: 0, oy: -1 },
     '⍌': { partner: '⍍', ox: 0, oy: 1 },   '⍍': { partner: '⍌', ox: 0, oy: -1 },
 
-    // THE DEEP EXTREMES (New Expansions)
-    '⟰': { partner: '⟱', ox: 0, oy: -1 },  '⟱': { partner: '⟰', ox: 0, oy: 1 },   // Hey to YudDalet (Snow)
-    '⟸': { partner: '⟹', ox: 1, oy: 0 },   '⟹': { partner: '⟸', ox: -1, oy: 0 },  // Dalet to YudHey (Mountain)
-    '⤒': { partner: '⤓', ox: 0, oy: 1 },   '⤓': { partner: '⤒', ox: 0, oy: -1 }   // YudGimmel to YudVav (Ocean)
+    // The Far Edges of Asiyah
+    '⟰': { partner: '⟱', ox: 0, oy: -1 },  '⟱': { partner: '⟰', ox: 0, oy: 1 },   
+    '⟸': { partner: '⟹', ox: 1, oy: 0 },   '⟹': { partner: '⟸', ox: -1, oy: 0 },  
+    '⤒': { partner: '⤓', ox: 0, oy: 1 },   '⤓': { partner: '⤒', ox: 0, oy: -1 },
+
+    // ASCENSION PATH (Asiyah -> Yetzirah -> Beriah -> Atzilut)
+    '⇑': { partner: '⇓', ox: 0, oy: -1 },  '⇓': { partner: '⇑', ox: 0, oy: 1 }, // Asiyah <-> Yetzirah
+    '⤤': { partner: '⤣', ox: 0, oy: -1 },  '⤣': { partner: '⤤', ox: 0, oy: 1 }  // Beriah <-> Atzilut
 };

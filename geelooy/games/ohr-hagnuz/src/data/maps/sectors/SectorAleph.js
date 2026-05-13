@@ -3,16 +3,16 @@
  * B"H
  * @chapter Sector Aleph - The Crossroads
  * @description
- * 25 columns, 14 rows.
  * The center of Asiyah, where all paths originate.
+ * The Rebbe ('🕍') stands near the house, ready to give missions.
  */
-export const SectorAleph = [
+export const SectorAleph =[
     "TTTTTTTTTTTT⇧⇪TTTTTTTTTTT",
     "T11111111111221111111111T",
     "T1WWWWW11111221111WWWWW1T",
     "T1WWWWW11111221111WWWWW1T",
     "T1WWWWW11111221111WWWWW1T",
-    "T1WW☗WW11111221111WW★WW1T",
+    "T1WW☗WW11🕍1221111WW★WW1T",
     "T11111111111221111111111T",
     "⇦⇚222222222222222222222⬅⇽",
     "⇨⇛222222222222222222222➡⇾",
