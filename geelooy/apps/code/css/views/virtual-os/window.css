@@ -1,0 +1,6 @@
+/* B"H */
+.virtual-window-titlebar { height: 34px; display: flex; justify-content: space-between; align-items: center; padding: 0 8px; background: linear-gradient(180deg,#204b7a,#17395f); color: #d6ecff; cursor: move; user-select: none; }
+.virtual-window-title { font-weight: 700; font-size: 12px; letter-spacing: 0.3px; }
+.virtual-window-controls { display: flex; gap: 4px; }
+.virtual-window-controls button { width: 28px; height: 22px; border: 1px solid #83b4e3; background: #255185; color: #f0f8ff; cursor: pointer; }
+.virtual-window-controls button:hover { filter: brightness(1.12); }

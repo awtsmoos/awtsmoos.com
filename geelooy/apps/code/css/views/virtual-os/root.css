@@ -1,0 +1,8 @@
+/* B"H */
+.virtual-os-root { position: relative; height: 100%; background: linear-gradient(180deg,#0c1530,#0b0f1c); overflow: hidden; }
+.virtual-os-windows { position: absolute; inset: 0 0 40px 0; }
+.virtual-window { position: absolute; display: flex; flex-direction: column; border: 1px solid #2e5480; background: #0d1730; box-shadow: 0 16px 30px rgba(0,0,0,0.35); min-width: 320px; min-height: 200px; }
+.virtual-window.maximized { left: 0 !important; top: 0 !important; width: 100% !important; height: calc(100% - 40px) !important; }
+.virtual-window-content { flex: 1; min-height: 0; overflow: auto; }
+.virtual-window-resize-handle { position: absolute; width: 14px; height: 14px; right: 2px; bottom: 2px; cursor: nwse-resize; }
+.hidden { display: none !important; }
