@@ -28,3 +28,14 @@ export function containsPath(child, parent) {
     if (p === '/') return true;
     return c === p || c.startsWith(`${p.replace(/\/+$/, '')}/`);
 }
+
+/**
+ * @function joinPath
+ * @param {string} base Base path.
+ * @param {string} next Next path.
+ * @returns {string} Joined path.
+ */
+export function joinPath(base = '/', next = '') {
+    const b = normalizePath(base).replace(/\/+$/, '');
+    return normalizePath(`${b}/${next}`);
+}

@@ -3,17 +3,24 @@
 /**
  * @file taskbar.js
  * @description
- * JSON-generated taskbar with correct minimize/restore behavior.
+ * JSON-generated taskbar with correct minimize and restore behavior.
  */
 
-import { HTML } from '../../html-generator.js';
+import { H } from './h.js';
 import { DesktopState } from '../core/DesktopState.js';
-import { log } from '../diagnostics/VirtualOSLog.js';
+import { always } from '../diagnostics/VirtualOSLog.js';
 
+/**
+ * @function renderTaskbar
+ * @param {HTMLElement} host Task host.
+ * @param {object} state Desktop state.
+ * @param {Function} requestRender Render callback.
+ * @returns {void}
+ */
 export function renderTaskbar(host, state, requestRender) {
     host.replaceChildren();
 
-    log('Taskbar render', {
+    always('Taskbar render', {
         windows: state.windows.length,
         focusedWindowId: state.focusedWindowId
     });
@@ -21,7 +28,7 @@ export function renderTaskbar(host, state, requestRender) {
     for (const win of state.windows) {
         const active = String(win.id) === String(state.focusedWindowId);
 
-        const button = HTML({
+        const button = H({
             tag: 'button',
             className: `virtual-os-task${active ? ' is-active' : ''}`,
             text: win.title || win.appId,
