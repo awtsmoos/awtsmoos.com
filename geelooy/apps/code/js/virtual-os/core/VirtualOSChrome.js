@@ -3,9 +3,14 @@
 /**
  * @file VirtualOSChrome.js
  * @description
- * The chrome-forge: it paints the desktop shell itself before apps descend.
+ * Paints the desktop frame: windows layer, taskbar, and start menu.
  */
 
+/**
+ * @function renderVirtualOSChrome
+ * @param {HTMLElement} container Virtual OS wrapper.
+ * @returns {object} Important DOM anchors.
+ */
 export function renderVirtualOSChrome(container) {
     container.innerHTML = `
         <div class="virtual-os-root">
@@ -24,4 +29,21 @@ export function renderVirtualOSChrome(container) {
         taskList: container.querySelector('.virtual-os-tasks'),
         startButton: container.querySelector('.virtual-os-start')
     };
+}
+
+/**
+ * @function renderVirtualOSError
+ * @param {HTMLElement} container Virtual OS wrapper.
+ * @param {string} message Error message.
+ * @returns {void}
+ */
+export function renderVirtualOSError(container, message) {
+    container.innerHTML = `
+        <div class="virtual-os-root">
+            <div class="virtual-os-empty">
+                <strong>B"H</strong>
+                <div>${message}</div>
+            </div>
+        </div>
+    `;
 }
