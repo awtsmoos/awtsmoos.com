@@ -1,0 +1,30 @@
+
+/* B"H */
+
+.vos-settings-app {
+    background: #07101f;
+    overflow: auto;
+}
+
+.vos-settings-section {
+    margin: 12px;
+    padding: 12px;
+    border: 1px solid rgba(0,246,255,0.24);
+    border-radius: 10px;
+    background: rgba(0,0,0,0.28);
+}
+
+.vos-settings-title {
+    color: #00f6ff;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.vos-settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}

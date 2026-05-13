@@ -1,0 +1,43 @@
+
+/* B"H */
+
+.virtual-os-start-menu-item {
+    width: 100%;
+    min-height: 42px;
+    margin: 5px 0;
+    padding: 7px 8px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    text-align: left;
+    background: rgba(16, 23, 42, 0.92);
+    color: #e8f7ff;
+    border: 1px solid rgba(0, 246, 255, 0.28);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.virtual-os-start-menu-item:hover {
+    background: rgba(0, 246, 255, 0.16);
+    border-color: rgba(0,246,255,0.72);
+}
+
+.virtual-os-start-menu-icon {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(0,246,255,0.5), rgba(224,0,255,0.34));
+}
+
+.virtual-os-start-menu-label {
+    font-weight: 900;
+}
+
+.virtual-os-start-menu-desc {
+    display: block;
+    opacity: 0.68;
+    font-size: 10px;
+    margin-top: 2px;
+}

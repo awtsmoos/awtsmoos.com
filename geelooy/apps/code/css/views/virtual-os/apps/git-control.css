@@ -1,0 +1,20 @@
+
+/* B"H */
+
+.vos-git-control-app {
+    background: #050b16;
+    overflow: auto;
+}
+
+.vos-git-card {
+    margin: 12px;
+    padding: 12px;
+    border: 1px solid rgba(0,246,255,0.24);
+    border-radius: 10px;
+    background: rgba(0,0,0,0.28);
+}
+
+.vos-git-status-line {
+    margin: 6px 0;
+    color: #d8fff8;
+}
