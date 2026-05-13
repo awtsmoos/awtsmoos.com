@@ -1,0 +1,39 @@
+
+/* B"H */
+
+.virtual-window-controls {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.virtual-window-controls button {
+    width: 29px;
+    height: 22px;
+    border: 1px solid rgba(0, 246, 255, 0.48);
+    background: #101a30;
+    color: #e8f7ff;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.virtual-window-controls button:hover {
+    background: #16345e;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(0,246,255,0.35);
+}
+
+.virtual-window-control-close:hover {
+    background: #7a1232;
+    border-color: #ff4f88;
+    box-shadow: 0 0 14px rgba(255,79,136,0.45);
+}
+
+@media (max-width: 700px) {
+    .virtual-window-controls button {
+        width: 34px;
+        height: 28px;
+    }
+}
