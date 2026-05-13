@@ -6,10 +6,10 @@
  * JSON blueprint for desktop launch icons.
  */
 
-export function desktopIconBlueprint(app) {
+export function desktopIconBlueprint(app, selected) {
     return {
         tag: 'button',
-        className: 'virtual-desktop-icon',
+        className: `virtual-desktop-icon${selected ? ' is-selected' : ''}`,
         dataset: { appId: app.id },
         attrs: { type: 'button', title: app.description || app.title },
         children: [

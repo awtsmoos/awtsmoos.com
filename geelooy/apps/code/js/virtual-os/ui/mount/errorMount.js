@@ -6,7 +6,7 @@
  * Mounts app errors without string HTML.
  */
 
-import { HTML } from '../../../html-generator.js';
+import { H } from '../h.js';
 
 /**
  * @function mountAppError
@@ -16,7 +16,7 @@ import { HTML } from '../../../html-generator.js';
  * @returns {void}
  */
 export function mountAppError(mount, title, thrown) {
-    mount.replaceChildren(HTML({
+    mount.replaceChildren(H({
         tag: 'div',
         className: 'vos-app-error',
         children: [

@@ -6,19 +6,18 @@
  * Mounts the desktop chrome and returns anchors.
  */
 
-import { HTML } from '../../../html-generator.js';
+import { H } from '../h.js';
 import { chromeBlueprint } from '../blueprints/chromeBlueprint.js';
-import { log } from '../../diagnostics/VirtualOSLog.js';
+import { always } from '../../diagnostics/VirtualOSLog.js';
 
+/**
+ * @function mountChrome
+ * @param {HTMLElement} container Virtual OS wrapper.
+ * @returns {object} DOM anchors.
+ */
 export function mountChrome(container) {
-    const root = HTML(chromeBlueprint());
+    const root = H(chromeBlueprint());
     container.replaceChildren(root);
-
-    const title = root.querySelector('.virtual-os-wallpaper-title');
-    title.replaceChildren(
-        HTML({ tag: 'strong', text: 'AWTSMOOS OS' }),
-        HTML({ tag: 'span', text: 'desktop vessel emulator' })
-    );
 
     const anchors = {
         root,
@@ -29,7 +28,7 @@ export function mountChrome(container) {
         menu: root.querySelector('.virtual-os-start-menu')
     };
 
-    log('Chrome anchors', Object.fromEntries(
+    always('Chrome anchors', Object.fromEntries(
         Object.entries(anchors).map(([key, value]) => [key, Boolean(value)])
     ));
 

@@ -11,7 +11,7 @@ export function windowBlueprint(win, focusedId) {
 
     return {
         tag: 'section',
-        className: `virtual-window${win.isMinimized ? ' is-minimized' : ''}${focused ? ' is-focused' : ''}`,
+        className: `virtual-window${win.isMinimized ? ' is-minimized' : ''}${focused ? ' is-focused' : ''}${win.isMaximized ? ' maximized' : ''}`,
         dataset: { windowId: win.id },
         children: [
             {

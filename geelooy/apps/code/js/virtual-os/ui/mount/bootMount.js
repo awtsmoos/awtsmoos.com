@@ -6,7 +6,7 @@
  * Mounts boot diagnostics with the dynamic HTML generator.
  */
 
-import { HTML } from '../../../html-generator.js';
+import { H } from '../h.js';
 import { bootBlueprint } from '../blueprints/bootBlueprint.js';
 
 /**
@@ -16,5 +16,5 @@ import { bootBlueprint } from '../blueprints/bootBlueprint.js';
  * @returns {void}
  */
 export function mountBootScreen(container, message) {
-    container.replaceChildren(HTML(bootBlueprint(message)));
+    container.replaceChildren(H(bootBlueprint(message)));
 }

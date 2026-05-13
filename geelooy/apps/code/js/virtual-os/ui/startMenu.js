@@ -6,7 +6,7 @@
  * JSON-generated start menu with rich app entries.
  */
 
-import { HTML } from '../../html-generator.js';
+import { H } from './h.js';
 import { AppRegistry } from '../apps/AppRegistry.js';
 import { launchVirtualWindow } from '../core/desktopBoot.js';
 
@@ -29,15 +29,22 @@ function menuItemBlueprint(app) {
     };
 }
 
+/**
+ * @function renderStartMenu
+ * @param {HTMLElement} menu Start menu host.
+ * @param {object} state Desktop state.
+ * @param {Function} requestRender Render callback.
+ * @returns {void}
+ */
 export function renderStartMenu(menu, state, requestRender) {
-    menu.replaceChildren(HTML({
+    menu.replaceChildren(H({
         tag: 'div',
         className: 'virtual-os-start-menu-title',
         text: 'B"H Start'
     }));
 
     for (const app of Object.values(AppRegistry)) {
-        const item = HTML(menuItemBlueprint(app));
+        const item = H(menuItemBlueprint(app));
 
         item.addEventListener('click', () => {
             launchVirtualWindow(state, app.id, {

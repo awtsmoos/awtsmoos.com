@@ -15,7 +15,14 @@ export function chromeBlueprint() {
                 tag: 'div',
                 className: 'virtual-os-stage',
                 children: [
-                    { tag: 'div', className: 'virtual-os-wallpaper-title' },
+                    {
+                        tag: 'div',
+                        className: 'virtual-os-wallpaper-title',
+                        children: [
+                            { tag: 'strong', text: 'AWTSMOOS OS' },
+                            { tag: 'span', text: 'desktop vessel emulator' }
+                        ]
+                    },
                     { tag: 'div', className: 'virtual-os-desktop' },
                     { tag: 'div', className: 'virtual-os-windows' }
                 ]
@@ -24,7 +31,7 @@ export function chromeBlueprint() {
                 tag: 'div',
                 className: 'virtual-os-taskbar',
                 children: [
-                    { tag: 'button', className: 'virtual-os-start', text: 'Start' },
+                    { tag: 'button', className: 'virtual-os-start', text: 'Start', attrs: { type: 'button' } },
                     { tag: 'div', className: 'virtual-os-tasks' }
                 ]
             },
