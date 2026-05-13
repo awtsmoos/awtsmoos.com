@@ -1,34 +1,31 @@
 
 // B"H
-import { DOM } from '../state.js';
-import { TerminalShell } from './shell.js';
+/**
+ * @file renderer.js
+ * @description
+ * Renders terminal lines as text, never as raw HTML.
+ */
+
+import { escapeTerminalText, terminalOutputToText } from './utils/outputSanitizer.js';
 
 export const TerminalRenderer = {
-    _activeShells: new Map(),
-
-    async render(tab, container) {
-        const target = container || DOM.terminalWrapper;
-        if (!target) return;
-
-        // Persistence: Refocus if already rendered
-        if (target.dataset.activeTabId === String(tab.id) && this._activeShells.has(tab.id)) {
-            this._activeShells.get(tab.id).ui.focus();
-            return;
-        }
-
-        target.innerHTML = '';
-        target.dataset.activeTabId = tab.id;
-        
-        const shell = new TerminalShell(tab, target);
-        this._activeShells.set(tab.id, shell);
-        await shell.init();
+    renderLine(line) {
+        return escapeTerminalText(terminalOutputToText(line));
     },
 
-    close(tabId) {
-        this._activeShells.delete(tabId);
-        if (DOM.terminalWrapper && DOM.terminalWrapper.dataset.activeTabId === String(tabId)) {
-            DOM.terminalWrapper.innerHTML = '';
-            delete DOM.terminalWrapper.dataset.activeTabId;
-        }
+    renderLines(lines = []) {
+        return lines.map((line) => this.renderLine(line)).join('\n');
+    },
+
+    appendLine(outputEl, line) {
+        if (!outputEl) return;
+        outputEl.innerHTML += `${this.renderLine(line)}\n`;
+        outputEl.scrollTop = outputEl.scrollHeight;
+    },
+
+    setLines(outputEl, lines = []) {
+        if (!outputEl) return;
+        outputEl.innerHTML = this.renderLines(lines);
+        outputEl.scrollTop = outputEl.scrollHeight;
     }
 };

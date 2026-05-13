@@ -1,5 +1,11 @@
 
 // B"H
+/**
+ * @file TerminalApp.js
+ * @description
+ * Tiny OS terminal app, now split into payload/render/runner vessels.
+ */
+
 import { healTerminalPayload } from './terminal/payload.js';
 import { renderTerminalDom } from './terminal/render.js';
 import { runTerminalCommand } from './terminal/runner.js';
