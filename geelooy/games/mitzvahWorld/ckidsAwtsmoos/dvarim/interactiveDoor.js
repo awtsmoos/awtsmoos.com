@@ -113,11 +113,23 @@ export default class InteractiveDoor extends Tzomayach {
         });
 
         this.on("accepted interaction", (player) => {
-            // B"H: Distance check
+            // B"H: Distance check using absolute world coordinates!
             if (player && player.mesh && this.mesh) {
-                const dist = player.mesh.position.distanceTo(this.mesh.position);
-                if (dist > (this.proximity || 5.0)) {
-                    this.olam.ayshPeula("ui event", "toast", { message: "B\"H! Too far away to interact with door.", type: "error" });
+                // Force matrices to be absolutely true to the physical world
+                this.mesh.updateMatrixWorld(true);
+                player.mesh.updateMatrixWorld(true);
+
+                const doorWorldPos = new THREE.Vector3();
+                this.mesh.getWorldPosition(doorWorldPos);
+                
+                const playerWorldPos = new THREE.Vector3();
+                player.mesh.getWorldPosition(playerWorldPos);
+                
+                const dist = playerWorldPos.distanceTo(doorWorldPos);
+                
+                // B"H: Give a massive interaction allowance
+                if (dist > (this.proximity || 80.0)) { 
+                    this.olam.ayshPeula("ui event", "toast", { message: "B\"H! Too far away to interact with door. Distance: " + Math.round(dist), type: "error" });
                     return;
                 }
             }

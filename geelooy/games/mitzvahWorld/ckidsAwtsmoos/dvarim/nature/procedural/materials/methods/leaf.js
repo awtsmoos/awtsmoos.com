@@ -1,48 +1,55 @@
-
-// B"H
 /**
+ * B"H
  * @file leaf.js
  * @module LeafMaterialGenerator
- * @description
- * ╔══════════════════════════════════════════════════════════════════════════════════╗
- * ║  THE RADIANCE OF THE BRANCH — Leaf Material Factory                             ║
- * ║                                                                                  ║
- * ║  Safely loads the leaf essence with verbose tracking.                            ║
- * ╚══════════════════════════════════════════════════════════════════════════════════╝
+ * @description THE RADIANCE OF THE BRANCH — Super-Realistic Leaf Material
  */
 
-// B"H: The 5 levels of ascent
-import { LEAF_SNIPPETS } from '../../../../../shaders/LeafShader.js';
-
 export default async function createLeaf(olam) {
-    console.log("B\"H - 🍃 [Leaf Factory] Initiated. Drawing down chlorophyll nitzotzos...");
-    let leafTex = null;
-
-    if (olam && typeof olam.loadTexture === 'function') {
-        try {
-            leafTex = await olam.loadTexture({ 
-                url: 'awtsmoostex://leaf', 
-                shouldRepeat: true,
-                repeatX: 1,
-                repeatY: 1
-            });
-            console.log("B\"H - 🍃 [Leaf Factory] Texture mapped successfully.");
-        } catch(e) {
-            console.warn("B\"H - ⚠️ [Leaf Factory] Failed to load texture awtsmoostex://leaf:", e);
-        }
-    } else {
-         console.warn("B\"H - ⚠️ [Leaf Factory] Missing Olam context! Proceeding with pure color.");
-    }
-
     return {
-        type: 'Lambert',
+        type: 'Standard',
         properties: { 
-            color: 0xffffff, // B"H: Pure white base so the shader uniform colors don't multiply to black!
+            color: 0x2e7d32, // Deep Forest Green
+            roughness: 0.8,
+            metalness: 0.0,
             side: 2, // DoubleSide
-            map: leafTex,
-            alphaTest: 0.5,
-            transparent: true
+            transparent: true,
+            alphaTest: 0.5
         },
-        snippets: LEAF_SNIPPETS
+        snippets: {
+            onBeforeCompile: `
+                // B"H: Super-Realistic Leaf Shader
+                varying vec2 vUv;
+                varying vec3 vWorldPos;
+                
+                void main() {
+                    // 1. Organic Teardrop Shape via UV manipulation
+                    vec2 centeredUv = vUv - 0.5;
+                    float bend = sin(centeredUv.x * 3.14) * 0.2;
+                    vec2 shapedUv = vec2(centeredUv.x, centeredUv.y + bend);
+                    float r = length(shapedUv) * (1.2 + 0.5 * abs(sin(atan(shapedUv.y, shapedUv.x))));
+                    float leafShape = smoothstep(0.45, 0.4, r);
+                    if(leafShape < 0.1) discard;
+
+                    // 2. Intricate Vein Network
+                    float primaryVein = smoothstep(0.02, 0.0, abs(shapedUv.y)) * smoothstep(0.5, -0.2, shapedUv.x);
+                    float branchFreq = 25.0;
+                    float secondaryVeins = abs(sin(shapedUv.x * branchFreq + abs(shapedUv.y) * branchFreq * 1.5));
+                    secondaryVeins = smoothstep(0.88, 0.98, secondaryVeins) * 0.4;
+                    float totalVeins = max(primaryVein * 0.7, secondaryVeins);
+
+                    // 3. Synthesis
+                    vec3 baseColor = gl_FragColor.rgb;
+                    vec3 veinColor = baseColor * 0.4;
+                    gl_FragColor.rgb = mix(baseColor, veinColor, totalVeins);
+                    
+                    // 4. Rim Highlight
+                    float rim = smoothstep(0.38, 0.48, r);
+                    gl_FragColor.rgb += vec3(0.2, 0.4, 0.1) * rim;
+                    
+                    gl_FragColor.a = leafShape;
+                }
+            `
+        }
     };
 }

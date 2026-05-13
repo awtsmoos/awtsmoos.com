@@ -158,48 +158,7 @@ export default class NatureSystem {
             let material = null;
             let baseColor = new THREE.Color(0xffffff);
 
-            if (type.includes('flower')) {
-                let modelPath = 'awtsmoos://flowerBlue';
-                if (type.includes('yellow')) modelPath = 'awtsmoos://flowerYellow';
-                else if (type.includes('white')) modelPath = 'awtsmoos://flowerWhite';
-
-                const actualPath = this.olam.getComponent(modelPath);
-                if (actualPath) {
-                    try {
-                        const gltf = await this.olam.boyrayNivra({ path: actualPath });
-                        if (gltf && gltf.scene) {
-                            const geometries = [];
-                            const materials = [];
-
-                            gltf.scene.traverse(c => {
-                                if (c.isMesh) {
-                                    c.updateMatrixWorld(true);
-                                    const g = c.geometry.clone();
-                                    g.applyMatrix4(c.matrixWorld);
-
-                                    let matIndex = materials.indexOf(c.material);
-                                    if (matIndex === -1) {
-                                        const mClone = c.material.clone();
-                                        mClone.side = THREE.DoubleSide;
-                                        MaterialGenerator.injectWind(mClone);
-                                        materials.push(mClone);
-                                        matIndex = materials.length - 1;
-                                    }
-
-                                    g.clearGroups();
-                                    g.addGroup(0, Infinity, matIndex);
-                                    geometries.push(g);
-                                }
-                            });
-
-                            if (geometries.length > 0) {
-                                geometry = BufferGeometryUtils.mergeGeometries(geometries, true);
-                                material = materials;
-                            }
-                        }
-                    } catch (_e) { /* silent — model optional */ }
-                }
-            } else {
+            if (!type.includes('flower')) {
                 geometry = GeometryGenerator.get(type);
                 material = await MaterialGenerator.get(type, this.olam);
                 if (type.includes('grass')) {
@@ -209,8 +168,27 @@ export default class NatureSystem {
             }
 
             if (!geometry) {
-                geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-                material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
+                if (type.includes('flower')) {
+                    const stem = new THREE.CylinderGeometry(0.025, 0.035, 0.55, 5);
+                    stem.translate(0, 0.275, 0);
+                    const petal = new THREE.SphereGeometry(0.16, 8, 6);
+                    petal.scale(1.0, 0.35, 1.0);
+                    petal.translate(0, 0.62, 0);
+                    geometry = BufferGeometryUtils.mergeGeometries([stem.toNonIndexed(), petal.toNonIndexed()], false);
+                    const flowerColor = type.includes('yellow') ? 0xffd84a : type.includes('white') ? 0xf8fff2 : 0x6ca8ff;
+                    material = new THREE.MeshLambertMaterial({ color: flowerColor, side: THREE.DoubleSide });
+                    baseColor.setHex(flowerColor);
+                } else if (type.includes('rock')) {
+                    geometry = new THREE.DodecahedronGeometry(0.45, 0);
+                    material = new THREE.MeshLambertMaterial({ color: 0x777777 });
+                    baseColor.setHex(0x777777);
+                } else {
+                    geometry = new THREE.PlaneGeometry(0.12, 0.8);
+                    geometry.rotateX(-0.25);
+                    geometry.translate(0, 0.4, 0);
+                    material = new THREE.MeshLambertMaterial({ color: 0x3fa747, side: THREE.DoubleSide });
+                    baseColor.setHex(0x3fa747);
+                }
             }
 
             geometry.computeBoundingBox();

@@ -12,10 +12,11 @@ export default class TreeGeometry {
         const branchGeos = [];
         const leafGeos = [];
 
-        // 1. The Trunk
-        const trunk = new THREE.CylinderGeometry(trunkR * 0.4, trunkR, trunkH, 8);
+        // 1. The Trunk — 12 sides for smooth bark displacement
+        const trunk = new THREE.CylinderGeometry(trunkR * 0.4, trunkR, trunkH, 12, 8);
         trunk.translate(0, trunkH / 2, 0);
         branchGeos.push(trunk);
+
 
         // 2. The Crown
         this._addLeafCluster(leafGeos, 0, trunkH, 0, leafSz);
@@ -42,13 +43,44 @@ export default class TreeGeometry {
     }
 
     static _addLeafCluster(target, cx, cy, cz, s) {
-        const OFFSETS = [[0,0,0],[1.8,0.6,0],[-1.8,0.6,0],[0,0.6,1.8],[0,0.6,-1.8]];
-        OFFSETS.forEach(([ox, oy, oz]) => {
-            const p = new THREE.PlaneGeometry(s, s);
-            p.rotateX(Math.random() * Math.PI);
-            p.rotateY(Math.random() * Math.PI);
-            p.translate(cx + ox * (s * 0.4), cy + oy * (s * 0.4), cz + oz * (s * 0.4));
-            target.push(p);
-        });
+        // B"H: Proliferate the leaves into dense, interwoven twigs
+        const twigCount = 8;
+        for (let t = 0; t < twigCount; t++) {
+            const ax = (Math.random() - 0.5) * Math.PI;
+            const az = (Math.random() - 0.5) * Math.PI;
+            
+            const leafCount = 10; 
+            const leafScale = s * 0.25; 
+            
+            for (let i = 0; i < leafCount; i++) {
+                const p = new THREE.PlaneGeometry(leafScale, leafScale);
+                
+                // Position along the invisible twig
+                const h = (i / leafCount) * (s * 0.9) + (Math.random() * 0.1);
+                const ang = i * Math.PI * 0.7; // Spiral around twig
+                const dist = 0.05 * s;
+                
+                p.translate(Math.cos(ang)*dist, h, Math.sin(ang)*dist);
+                
+                // Natural leaf droop
+                p.rotateX(Math.random() * Math.PI);
+                p.rotateY(Math.random() * Math.PI);
+                p.rotateZ(Math.random() * Math.PI);
+                
+                // Orient cluster along twig direction
+                p.rotateX(ax);
+                p.rotateZ(az);
+                
+                // B"H: Random spherical distribution for overall cluster volume
+                const rRadius = s * (0.1 + Math.random() * 0.5);
+                const rTheta = Math.random() * Math.PI * 2;
+                const ox = rRadius * Math.sin(rTheta);
+                const oz = rRadius * Math.cos(rTheta);
+
+                p.translate(cx + ox, cy, cz + oz);
+                target.push(p);
+            }
+        }
     }
 }
+

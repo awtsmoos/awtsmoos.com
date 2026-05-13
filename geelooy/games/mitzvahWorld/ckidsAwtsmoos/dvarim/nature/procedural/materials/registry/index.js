@@ -15,6 +15,8 @@ import grass from '../methods/grass.js';
 import rock from '../methods/rock.js';
 import bark from '../methods/bark.js';
 import leaf from '../methods/leaf.js';
+import dirt from '../methods/dirt.js';
+import { leaf_palm, leaf_pine, leaf_willow } from '../methods/leaf_variants.js';
 
 /**
  * @constant REGISTRY
@@ -24,7 +26,11 @@ export const REGISTRY = {
     grass,
     rock,
     bark,
-    leaf
+    leaf,
+    dirt,
+    leaf_palm,
+    leaf_pine,
+    leaf_willow
 };
 
 /**

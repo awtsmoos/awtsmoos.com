@@ -6,6 +6,7 @@
  */
 
 import Tzomayach from "../../chayim/tzomayach.js";
+import * as THREE from '/games/scripts/build/three.module.js';
 
 export default class ProceduralRoad extends Tzomayach {
     type = "ProceduralRoad";
@@ -22,79 +23,39 @@ export default class ProceduralRoad extends Tzomayach {
 
     async heescheel(olam) {
         this.olam = olam;
-        
-        let curve;
-        if (this.curveType === 'linear') {
-            const vPoints = this.points.map(p => new THREE.Vector3(p[0], 0, p[1]));
-            curve = new THREE.CurvePath();
-            for(let i=0; i<vPoints.length - 1; i++) {
-                curve.add(new THREE.LineCurve3(vPoints[i], vPoints[i+1]));
-            }
-        } else {
-            curve = this.createCatmullRomCurve3(this.points);
+        this.mesh = new THREE.Group();
+        const roadMat = new THREE.MeshStandardMaterial({ color: 0x6b4d2e, roughness: 0.95 });
+        const edgeMat = new THREE.MeshStandardMaterial({ color: 0x3f7a34, roughness: 0.9 });
+
+        for (let i = 0; i < this.points.length - 1; i++) {
+            const a = this.points[i];
+            const b = this.points[i + 1];
+            const ax = a[0], az = a[1], bx = b[0], bz = b[1];
+            const dx = bx - ax;
+            const dz = bz - az;
+            const length = Math.max(1, Math.sqrt(dx * dx + dz * dz));
+            const angle = Math.atan2(dx, dz);
+
+            const segment = new THREE.Mesh(new THREE.PlaneGeometry(this.width, length), roadMat);
+            segment.rotation.x = -Math.PI / 2;
+            segment.rotation.z = angle;
+            segment.position.set((ax + bx) / 2, 0.08, (az + bz) / 2);
+            segment.receiveShadow = true;
+            segment.userData.isRoad = true;
+            this.mesh.add(segment);
+
+            const edgeWidth = Math.max(0.5, this.sidewalkWidth || 1);
+            [-1, 1].forEach(side => {
+                const edge = new THREE.Mesh(new THREE.PlaneGeometry(edgeWidth, length), edgeMat);
+                edge.rotation.x = -Math.PI / 2;
+                edge.rotation.z = angle;
+                const ox = Math.cos(angle) * (this.width / 2 + edgeWidth / 2) * side;
+                const oz = -Math.sin(angle) * (this.width / 2 + edgeWidth / 2) * side;
+                edge.position.set((ax + bx) / 2 + ox, 0.075, (az + bz) / 2 + oz);
+                edge.receiveShadow = true;
+                this.mesh.add(edge);
+            });
         }
-
-        const roadShape = this.createShape();
-        roadShape.moveTo(-this.width/2, 0);
-        roadShape.lineTo(this.width/2, 0);
-        
-        const extrudeSettings = {
-            steps: this.points.length * 5,
-            bevelEnabled: false,
-            extrudePath: curve
-        };
-
-        const roadGeo = this.createExtrudeGeometry(roadShape, extrudeSettings);
-        
-        const roadMat = this.createRawShaderMaterial({
-            vertexShader: `
-                varying vec2 vUv;
-                void main() {
-                    vUv = uv;
-                    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
-                }
-            `,
-            fragmentShader: `
-                varying vec2 vUv;
-                void main() {
-                    vec3 asphalt = vec3(0.15, 0.15, 0.15);
-                    vec3 yellow = vec3(0.9, 0.8, 0.1);
-                    float isLine1 = step(0.48, vUv.x) - step(0.49, vUv.x);
-                    float isLine2 = step(0.51, vUv.x) - step(0.52, vUv.x);
-                    float isLine = max(isLine1, isLine2);
-                    gl_FragColor = vec4(mix(asphalt, yellow, isLine), 1.0);
-                }
-            `,
-            side: 2 // DoubleSide
-        });
-
-        const roadMesh = this.createMesh(roadGeo, roadMat);
-        roadMesh.position.y = 0.05; 
-        roadMesh.userData.isSolid = true;
-
-        const sidewalkShapeL = this.createShape();
-        sidewalkShapeL.moveTo(-this.width/2 - this.sidewalkWidth, this.sidewalkHeight);
-        sidewalkShapeL.lineTo(-this.width/2, this.sidewalkHeight);
-        sidewalkShapeL.lineTo(-this.width/2, 0);
-        sidewalkShapeL.lineTo(-this.width/2 - this.sidewalkWidth, 0);
-        
-        const sidewalkShapeR = this.createShape();
-        sidewalkShapeR.moveTo(this.width/2, 0);
-        sidewalkShapeR.lineTo(this.width/2, this.sidewalkHeight);
-        sidewalkShapeR.lineTo(this.width/2 + this.sidewalkWidth, this.sidewalkHeight);
-        sidewalkShapeR.lineTo(this.width/2 + this.sidewalkWidth, 0);
-
-        const walkGeoL = this.createExtrudeGeometry(sidewalkShapeL, extrudeSettings);
-        const walkGeoR = this.createExtrudeGeometry(sidewalkShapeR, extrudeSettings);
-        const combinedWalks = this.mergeGeometries([walkGeoL, walkGeoR], false);
-
-        const walkMat = this.createMaterial('Standard', { color: 0x888888, roughness: 0.9 });
-        const sidewalkMesh = this.createMesh(combinedWalks, walkMat);
-        sidewalkMesh.userData.isSolid = true;
-        
-        this.mesh = this.createGroup();
-        this.mesh.add(roadMesh);
-        this.mesh.add(sidewalkMesh);
         this.mesh.name = `ProceduralRoad_${this.id}`;
 
         const p = this.position ? (typeof this.position.vector3 === 'function' ? this.position.vector3() : this.position) : {x:0, y:0, z:0};
@@ -104,8 +65,6 @@ export default class ProceduralRoad extends Tzomayach {
 
         await olam.hoyseef(this);
         
-        if (this.isSolid && olam.worldOctree) olam.worldOctree.fromGraphNode(this.mesh);
-
         this.isReady = true;
         this.ayshPeula("heescheel", this);
     }

@@ -23,9 +23,10 @@ export default async function createBark(olam) {
             barkTex = await olam.loadTexture({ 
                 url: 'awtsmoostex://bark', 
                 shouldRepeat: true, 
-                repeatX: 4, 
-                repeatY: 4 
+                repeatX: 6,   // B"H: Wraps 6x around the cylinder circumference
+                repeatY: 3    // B"H: 3 vertical repeats for reasonable grain density
             });
+
             console.log("B\"H - 🪵 [Bark Factory] Texture mapped successfully.");
         } catch(e) {
             console.warn("B\"H - ⚠️ [Bark Factory] Failed to load texture awtsmoostex://bark:", e);
