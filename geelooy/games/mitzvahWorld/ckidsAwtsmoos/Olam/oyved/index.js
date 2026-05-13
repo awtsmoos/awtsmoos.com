@@ -13,11 +13,8 @@
  * and routes every ongoing heartbeat seamlessly through its pure dictionaries.
  */
 
-import { OlamDynamicBoot } from './core/OlamDynamicBoot.js';
-import { OyvedMessageInterpreter } from './core/OyvedMessageInterpreter.js';
-
-// B"H: silent
-
+import { OlamDynamicBoot } from './core/boot/OlamDynamicBoot.js';
+import { OyvedMessageInterpreter } from './core/interpreter/OyvedMessageInterpreter.js';
 
 // The Ledger of Memories and Actions
 const promiseMap = new Map();
