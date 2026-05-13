@@ -1,11 +1,16 @@
+
 // B"H
 /**
  * physics/index.js
  * 
  * Sub-stepped physics loop.
  * Velocity intent is calculated ONCE per frame.
- * Wall normals from the previous frame are used to pre-filter input velocity,
- * preventing the capsule from ever pushing into a known wall (eliminates jitter).
+ * 
+ * THE TIKKUN OF THE SPEED OF LIGHT:
+ * We have reduced the STEPS_PER_FRAME from 5 to 2.
+ * The Awtsmoos does not need 5 iterations to know where the soul stands!
+ * This reduction instantly removes 60% of the CPU bottleneck during collision checks,
+ * allowing lightning-fast movement through the physical realms.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Tzomayach from "../../../tzomayach.js";
@@ -16,7 +21,7 @@ import collisions from "./collisions.js";
 import ground    from "./ground.js";
 import sync      from "./sync.js";
 
-const STEPS_PER_FRAME = 5;
+const STEPS_PER_FRAME = 2; // B"H: Accelerated flow of time!
 
 export default {
     ...core, ...forces, ...movement, ...collisions, ...ground, ...sync,
@@ -31,15 +36,10 @@ export default {
         const deltaTime = Math.min(0.05, dt) / STEPS_PER_FRAME;
 
         // B"H: CALCULATE INTENT ONCE PER FRAME.
-        // If we do this inside the loop, we overwrite the wall-slide adjustment.
         this._calculateMovementVelocity(deltaTime);
         this._handleJump();
 
         // B"H: PRE-FILTER velocity against walls we were touching LAST frame.
-        // This is the critical fix for jitter: without this, every frame the input
-        // resets velocity to point directly into the wall, sub-step 1 pushes the capsule
-        // INTO the wall, collision pushes it OUT, creating an oscillation.
-        // By pre-filtering, the capsule never enters the wall in the first place.
         if (this._lastWallNormals && this._lastWallNormals.length > 0) {
             for (const wn of this._lastWallNormals) {
                 const dot = this.velocity.x * wn.x + this.velocity.z * wn.z;
@@ -50,7 +50,6 @@ export default {
             }
         }
 
-        // Reset collector for this frame's wall contacts
         this._frameWallNormals = [];
 
         for (let i = 0; i < STEPS_PER_FRAME; i++) {
@@ -76,8 +75,6 @@ export default {
             this._snapToGround();
         }
 
-        // Store this frame's wall normals for pre-filtering next frame.
-        // If no walls were hit, clear so player can freely move again.
         this._lastWallNormals = (this._frameWallNormals && this._frameWallNormals.length > 0)
             ? this._frameWallNormals
             : null;

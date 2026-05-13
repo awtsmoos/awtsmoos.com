@@ -9,15 +9,12 @@
  * If the world is built on a zero-height plane, the soul falls into the abyss.
  * We ensure all objects, especially the Emerald ground, have physical depth 
  * when being added to the static collision grid.
- * 
- * We reintroduce the ancient pathways (fromGraphNode & removeMesh) so 
- * high-level architecture modules do not cast TypeErrors into the abyss.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js?v=purged2";
-import { NODE_STATE, CONFIG } from './OctreeWorld/constants.js?v=purged2';
-import LODNode from './OctreeWorld/LODNode.js?v=purged2';
-import JobProcessor from './OctreeWorld/JobProcessor.js?v=purged2';
+import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js";
+import { NODE_STATE, CONFIG } from './OctreeWorld/constants.js';
+import LODNode from './OctreeWorld/LODNode.js';
+import JobProcessor from './OctreeWorld/JobProcessor.js';
 
 export class OctreeWorld {
     constructor() {
@@ -41,8 +38,6 @@ export class OctreeWorld {
         this.addObject = this.addObject.bind(this);
         this.removeMesh = this.removeMesh.bind(this);
         this.fromGraphNode = this.fromGraphNode.bind(this);
-
-        // B"H: OctreeWorld initialized
     }
 
     rayIntersect(ray) {
@@ -52,7 +47,6 @@ export class OctreeWorld {
         // are physically real before we try to bounce light (rays) off them.
         this._processQueues(true); 
 
-        // B"H: THE SHIELD OF THE DATA — safety against invalid ray objects
         if (!ray || typeof ray.intersectsBox !== 'function') {
             return null;
         }
@@ -90,32 +84,20 @@ export class OctreeWorld {
         scan(this.root);
         if (hit) {
             const v = test.getCenter(new THREE.Vector3()).sub(capsule.getCenter(new THREE.Vector3()));
-            const depth = v.length(); // B"H: MUST capture length BEFORE normalize (normalize sets length to 1!)
+            const depth = v.length(); 
             if (depth > 1e-6) return { normal: v.normalize(), depth: depth };
         }
         return false;
     }
 
-    /**
-     * @method addObject
-     * @description Solidifies a mesh into the physics world.
-     */
     addObject(mesh) {
         if (!mesh || !mesh.geometry) return false;
         
-        // B"H: THE EYE OF FOUNDATION — Logging exactly what is being anchored.
         const meshName = mesh.name || "Unnamed Vessel";
         const meshType = mesh.geometry?.type || "Unknown Geometry";
-        // B"H: silent
 
-
-        // B"H: ABSOLUTE MATRIX TRUTH
-        // Ensure the mesh and ALL its parents have correct matrixWorld values
-        // before we use them to calculate the physics boundary.
         mesh.updateWorldMatrix(true, true);
         
-        // B"H: THE PURIFICATION OF THE MATRIX
-        // If the mesh's world matrix has NaN, it will pollute the entire Octree branch.
         const elements = mesh.matrixWorld.elements;
         for (let i = 0; i < 16; i++) {
             if (isNaN(elements[i])) {
@@ -124,24 +106,20 @@ export class OctreeWorld {
             }
         }
         
-        // Ensure terrain visibility
         if (mesh.userData?.isTerrain || mesh.name?.includes("Ground")) {
             mesh.frustumCulled = false;
         }
 
-        // B"H: THE SEPARATION OF LEVELS (Exclusion Logic)
         if (!mesh.userData?.isBuilding && !mesh.userData?.isSolid) {
             if (
                 mesh.userData?.isLiving || 
                 mesh.userData?.isPlayer || 
                 mesh.userData?.isNpc ||
                 mesh.userData?.isSphere ||
-                mesh.userData?.isDynamic || // B"H: Reject all dynamic objects as requested
+                mesh.userData?.isDynamic ||
                 mesh.name?.toLowerCase().includes("chossid") ||
                 mesh.name?.toLowerCase().includes("player")
             ) {
-                // B"H: silent
-
                 return false;
             }
         }
@@ -149,8 +127,6 @@ export class OctreeWorld {
         if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
         const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
 
-        // B"H: ABSOLUTE THICKNESS GUARANTEE
-        // If a plane is added, expand the physics boundary so it's not a zero-width gap.
         const size = new THREE.Vector3();
         worldBox.getSize(size);
         if (size.y < 0.1) {
@@ -160,12 +136,7 @@ export class OctreeWorld {
 
         if (this.root) this.root.box.union(worldBox);
 
-        const result = this._insertMeshOnly(this.root, mesh, worldBox);
-        if (result) {
-            // B"H: silent
-
-        }
-        return result;
+        return this._insertMeshOnly(this.root, mesh, worldBox);
     }
 
     removeMesh(mesh) {
@@ -177,7 +148,7 @@ export class OctreeWorld {
                     const proxy = node.physicsMeshGroup.children.find(c => c.userData._physicsSourceId === meshId);
                     if (proxy) {
                         node.physicsMeshGroup.remove(proxy);
-                        node.state = NODE_STATE.PENDING_BUILD; // Mark for rebuild
+                        node.state = NODE_STATE.PENDING_BUILD; 
                         this._buildQueue.add(node);
                     }
                 }
@@ -200,11 +171,6 @@ export class OctreeWorld {
     _insertMeshOnly(node, mesh, meshBox) {
         if (!node.box.intersectsBox(meshBox)) return false;
         if (node.type === 'LEAF') {
-            // B"H: THE REPARENTING TIKKUN
-            // Three.js Group.add() removes the mesh from its current parent!
-            // If we add the actual scene mesh to physicsMeshGroup, it vanishes from the scene.
-            // SOLUTION: Create a physics proxy with the same geometry but a dummy material.
-            // Only the proxy enters the physics group. The original stays in the scene.
             const alreadyInserted = node.physicsMeshGroup.children.some(
                 c => c.userData._physicsSourceId === mesh.uuid
             );
@@ -219,8 +185,6 @@ export class OctreeWorld {
             physicsProxy.matrix.copy(mesh.matrixWorld);
             physicsProxy.matrixWorld.copy(mesh.matrixWorld);
             
-            // B"H: The essential soul of the mesh must be transferred!
-            // If we don't copy userData, fromGraphNode will reject it as a basic mesh!
             physicsProxy.userData = { ...mesh.userData };
             physicsProxy.userData._physicsSourceId = mesh.uuid;
             physicsProxy.name = mesh.name + '_physicsProxy';
@@ -242,23 +206,14 @@ export class OctreeWorld {
 
     _buildNodePhysics(node) {
         if (!node || !node.physicsMeshGroup || node.physicsMeshGroup.children.length === 0) return;
-        // B"H: Pass the same safe config (MAX_DEPTH: 5, MAX_TRIANGLES_PER_NODE: 32)
-        // to ALL sub-octrees built by OctreeWorld, not just the root.
-        // Previously, CONFIG from constants.js may have had different (dangerous) values.
         const newPhysics = new AwtsmoosOctree(node.box.clone(), CONFIG);
         newPhysics._isManaged = true;
-        // B"H: silent
-
         newPhysics.fromGraphNode(node.physicsMeshGroup);
         newPhysics.build();
         node.physics = newPhysics;
         node.state = NODE_STATE.READY;
-        // B"H: silent
-
     }
 
-    // B"H: Reuse a single Vector3 for assessAndQueueWork center calculations
-    // to avoid allocating a new Vector3 every time the player moves 20 units.
     _centerScratch = new THREE.Vector3();
 
     update(focus, velocity) {
@@ -274,9 +229,6 @@ export class OctreeWorld {
     }
 
     _processQueues(forceAll = false) {
-        // B"H: 2ms budget per frame — down from 4ms.
-        // The Octree build is synchronous and WILL block the Worker thread.
-        // We bypass this budget if forceAll is true (e.g. during world load).
         const startTime = performance.now();
         const it = this._buildQueue.values();
         for (let node of it) {
@@ -291,7 +243,6 @@ export class OctreeWorld {
     }
 
     _assessAndQueueWork(node, foci) {
-        // B"H: Reuse _centerScratch instead of `new THREE.Vector3()` per call
         const center = node.box.getCenter(this._centerScratch);
         let inRange = false;
         for (const focus of foci) {

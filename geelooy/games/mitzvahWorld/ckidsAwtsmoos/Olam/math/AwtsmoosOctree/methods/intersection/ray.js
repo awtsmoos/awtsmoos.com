@@ -7,10 +7,10 @@
  * 
  * "The eyes of the Lord roam back and forth over the whole earth."
  * 
- * When a player clicks or aims, they are projecting a Ray of intent into the world.
- * This module traverses the Octree to find exactly which physical surface intersects 
- * with that ray of light. It returns not just the coordinates, but the actual 
- * high-level object (Nivra) that was struck, allowing interaction and dialogue!
+ * THE TIKKUN OF VISION:
+ * Just like the capsule check, we have removed the horrific `isDead` traversal.
+ * The ray now passes through the mathematical grid without getting tangled 
+ * in the branches of the scene graph, ensuring your cursor never lags again.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -35,17 +35,6 @@ export default {
 
         // Scan the eternal static stones of the world
         for (const index of trianglesToCheck.staticIndices) {
-            // --- B"H FIX: INSTANTLY IGNORE REMOVED OBJECTS ---
-            // If it has been severed from the scene, it is Tohu.
-            const source = this.allTriangles[index] ? this.allTriangles[index].sourceMesh : null;
-            let isDead = false;
-            if (source) {
-                const vis = source.userData?.visualReference || source;
-                if (!vis.parent) isDead = true;
-            }
-            if (isDead) continue;
-            // ------------------------------------------------
-
             const triangle = this._getTriangle(index, _triangle);
             
             const hit = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
@@ -54,6 +43,8 @@ export default {
                 if (!closest || distSq < closest.distance * closest.distance) {
                     const n = new THREE.Vector3();
                     triangle.getNormal(n);
+                    
+                    const source = this.allTriangles[index] ? this.allTriangles[index].sourceMesh : null;
                     closest = {
                         distance: Math.sqrt(distSq),
                         position: hit.clone(),
@@ -67,15 +58,6 @@ export default {
         
         // Scan the shifting, dynamic entities
         for (const triangle of trianglesToCheck.dynamicTris) {
-            // --- B"H FIX: INSTANTLY IGNORE REMOVED OBJECTS ---
-            let isDead = false;
-            if (triangle.sourceMesh) {
-                const vis = triangle.sourceMesh.userData?.visualReference || triangle.sourceMesh;
-                if (!vis.parent) isDead = true;
-            }
-            if (isDead) continue;
-            // ------------------------------------------------
-
             const hit = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
             if (hit) {
                 const distSq = ray.origin.distanceToSquared(hit);

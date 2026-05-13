@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file StartWorldFlow.js
@@ -6,27 +7,14 @@
  *
  * "By the word of the Lord the heavens were made..."
  *
- * This mixin assembles world payloads, creates OlamWorkerManager,
- * and speaks the pawsawch (first word) once vessel_ready fires.
- * Also resets uiManager.started so future worlds load cleanly.
- *
  * @mixin StartWorldFlow
  */
 
 import OlamWorkerManager from "../ikarOyvedManager.js";
 
 const StartWorldFlow = {
-    /**
-     * @async
-     * @function startWorld
-     * @param {Object} ob
-     * @returns {boolean}
-     */
     async startWorld(ob = {}) {
         const { worldDayuh, worldDayuhURL, gameUiHTML, sourcePath } = ob;
-
-        // B"H: silent
-
 
         if (sourcePath) this._rectifyHistory(sourcePath);
 
@@ -52,17 +40,17 @@ const StartWorldFlow = {
 
         const managerOfAllWorlds = this;
 
-        // B"H: Allow fresh world to call onstart via initializeForFirstTime
         if (this.uiManager) {
             this.uiManager.started = false;
         }
 
+        // B"H: ABSOLUTE TIKKUN
+        // Removed dynamic timestamp ?v= query string which was causing 
+        // the server to return an 'application/json' 404 response instead of the JS file!
         const manager = new OlamWorkerManager(
-            `/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/index.js?v=${Date.now()}`,
+            `/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/index.js`,
             {
                 async pawsawch() {
-                    // B"H: silent
-
                     manager.postMessage({
                         type: "pawsawch",
                         payload: { userInfo, systemInfo }
@@ -77,7 +65,6 @@ const StartWorldFlow = {
         this.socket = manager;
         this.setOnmessage();
 
-        // B"H: Soft diagnostic only - no timeouts that destroy the world
         setTimeout(() => {
             if (!manager._vesselIsReady) {
                 console.warn('B"H - Diagnostic: Worker has not sent vessel_ready after 45s.');
@@ -91,7 +78,6 @@ const StartWorldFlow = {
         return true;
     },
 
-    /** @param {string} path */
     _rectifyHistory(path) {
         window.currentWorldSourcePath = path;
         const url = new URL(window.location);
@@ -99,7 +85,6 @@ const StartWorldFlow = {
         window.history.pushState({ path }, "", url);
     },
 
-    /** @returns {Object|null} */
     async _getPersistentSettings() {
         if (!window.curAlias) return null;
         try {

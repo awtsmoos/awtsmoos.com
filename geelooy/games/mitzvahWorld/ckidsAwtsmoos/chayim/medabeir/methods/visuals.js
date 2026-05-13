@@ -5,48 +5,31 @@
  * @description
  * 🥋 THE SEFIRAH OF TIFERET (BEAUTY) 🥋
  * 
- * Chapter 12: The Outer Manifestation.
  * "A body for the soul."
- * 
  * This module handles the physical garments (clothes) and structural body (mesh) of 
- * speakers. It maps inventory items to internal skeletal names.
- * 
- * THE TIKKUN OF THE TWIN SOULS:
- * Previously, the traversal attempted to navigate the invisible physics shell 
- * (`this.mesh`), leaving the true visual vessel (`this.modelMesh`) fully clothed
- * in every possible overlapping garment! Now, we target the true visual vessel, 
- * banishing the illusion of double-loaded models.
+ * speakers. It delegates to the NpcRandomizer for generating unique visual identities.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
+import NpcRandomizer from './visuals/NpcRandomizer.js';
 
 export default {
-    /**
-     * @function setupGoof
-     * @description Anchors the physical vessel parameters.
-     */
     setupGoof() {
         if (!this.goofOptions || !this.mesh) return;
     },
 
-    /**
-     * @function updateAppearance
-     * @description Navigates the garments (visible sub-meshes) of the soul's vessel.
-     */
     updateAppearance() {
-        // B"H: The true visual vessel is modelMesh!
         const targetMesh = this.modelMesh || this.mesh;
         
         if (!targetMesh || typeof targetMesh.traverse !== 'function') {
              return; 
         }
 
-        // The absolute list of potential garments that might overlap
         const knownClothingSlots =[
             "jacket", "outer-shirt", "pants", "shoes", "yamulka", "top-hat", "glasses",
             "teffilin-arm-straps", "teffiln-arm-box", "head-teffilin-straps", "teffilin-head-box", "jacket-teffilin"
         ];
 
-        // 1. Return to state of absolute transparency (Ayin)
+        // 1. Transparency reset
         targetMesh.traverse(child => {
             const isGarment = knownClothingSlots.includes(child.name) || (child.userData && child.userData.garment);
             if (isGarment) {
@@ -68,7 +51,6 @@ export default {
                 }
             });
         } else if (this.options && this.options.clothes) {
-            // B"H: For NPCs who don't have a full inventory system but have clothes defined
             activeClothes.push(...this.options.clothes);
         }
 
@@ -78,8 +60,14 @@ export default {
                 targetMesh.traverse(child => {
                     if (targetNames.includes(child.name) || (child.userData && targetNames.includes(child.userData.garment))) {
                         child.visible = true;
-                        // B"H: Apply dynamic Sefirotic colors to the garment!
+                        
                         if (cloth.color && child.material) {
+                            // B"H: Clone material so we don't paint the whole world!
+                            if (!child.userData.materialCloned) {
+                                child.material = child.material.clone();
+                                child.userData.materialCloned = true;
+                            }
+                            
                             if (Array.isArray(child.material)) {
                                 child.material.forEach(m => {
                                     if(m.color) m.color.set(cloth.color);
@@ -94,7 +82,14 @@ export default {
         });
     },
 
+    /**
+     * @method randomizeAppearance
+     * @description Ensures every cloned NPC looks completely unique.
+     */
     randomizeAppearance() {
-        if (!this.mesh) return;
+        const targetMesh = this.modelMesh || this.mesh;
+        if (!targetMesh) return;
+        
+        NpcRandomizer.randomize(targetMesh);
     }
 };

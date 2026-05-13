@@ -26,8 +26,6 @@ export default class CustomNpc extends Medabeir {
         op.isSolid = false; 
         op.interactable = true; 
         
-        // B"H: The Chossid model is the fundamental archetype of humanity in this realm.
-        // It provides the bones, the animations, and the stability.
         op.path = customData.modelPath || "https://models-3122d.web.app/chossid.glb";
         op.heesHawveh = true;
         
@@ -57,9 +55,13 @@ export default class CustomNpc extends Medabeir {
             this.registerMyQuests();
             this.updateOverheadIcon();
             
-            // Apply custom clothing from data
+            // B"H: The Tikkun of Diversity
+            // If the creator specified exact garments, we honor them.
+            // Otherwise, we spin the kaleidoscope of the Sefirot so they look unique!
             if(this.customData && this.customData.clothes && typeof this.updateAppearance === 'function') {
                 this.updateAppearance();
+            } else if (typeof this.randomizeAppearance === 'function') {
+                this.randomizeAppearance();
             }
         });
 
@@ -69,7 +71,6 @@ export default class CustomNpc extends Medabeir {
     }
 
     async heescheel(olam) {
-        // Procedural manifestation is now a pure fallback or explicit choice
         if (this.path === "procedural") {
             this.olam = olam;
             const color = this.customData.color || "#ff00ea";
@@ -91,7 +92,6 @@ export default class CustomNpc extends Medabeir {
             await olam.hoyseef(this);
             this.isReady = true;
         } else {
-            // Default path routes through the standard GLB loader
             await super.heescheel(olam);
         }
     }

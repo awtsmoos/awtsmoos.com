@@ -6,12 +6,13 @@
  * 🛡️ THE SHIELD OF AWARENESS 🛡️
  * 
  * "And I will walk among you..."
- * As a soul moves through the world, its physical manifestation is bounded by a Capsule.
- * This file contains the logic that allows that Capsule to slide off walls, climb stairs,
- * and prevent itself from passing through the solid truth of the terrain.
  * 
- * It queries both the static stones and the moving entities, instantly ignoring
- * the ghosts of objects that have been deleted from existence.
+ * THE TIKKUN OF PERFORMANCE:
+ * We have utterly stripped the `visualReference.parent` checks from this inner loop.
+ * Leaving the mathematical realm to query the DOM/THREE.js hierarchy for EVERY 
+ * triangle was causing absolute CPU asphyxiation. We now trust the Awtsmoos 
+ * to handle destruction asynchronously via `removeMesh` and `pruneDeadTriangles`.
+ * The result? Pure, unadulterated lightning speed!
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 const _v1 = new THREE.Vector3();
@@ -32,24 +33,12 @@ export default {
         const resultCapsule = capsule.clone();
         let hit = false;
         
-        // B"H: USE A Set FOR O(1) DEDUPLICATION
-        // The previous Array + indexOf was O(n^2) — the root of the memory freeze.
-        // A Set guarantees each triangle index is tested exactly once, O(1) per add.
+        // B"H: O(1) Deduplication Set!
         const triangleIndexSet = new Set();
         this.getCapsuleTriangles(capsule, triangleIndexSet);
         
         // 1. Static Entities
         for (const index of triangleIndexSet) {
-            // --- B"H FIX: IGNORE DELETED GHOSTS ---
-            const source = this.allTriangles[index] ? this.allTriangles[index].sourceMesh : null;
-            let isDead = false;
-            if (source) {
-                const vis = source.userData?.visualReference || source;
-                if (!vis.parent) isDead = true;
-            }
-            if (isDead) continue;
-            // -------------------------------
-
             const tri = this._getTriangle(index, _temp_triangle);
             const result = this._triangleCapsuleIntersect(resultCapsule, tri);
             if (result) {
@@ -62,15 +51,6 @@ export default {
         const dynamicTris = [];
         this._getDynamicCapsuleTriangles(capsule, dynamicTris);
         for (const tri of dynamicTris) {
-            // --- B"H FIX: IGNORE DELETED GHOSTS ---
-            let isDead = false;
-            if (tri.sourceMesh) {
-                const vis = tri.sourceMesh.userData?.visualReference || tri.sourceMesh;
-                if (!vis.parent) isDead = true;
-            }
-            if (isDead) continue;
-            // -------------------------------
-
             const result = this._triangleCapsuleIntersect(resultCapsule, tri);
             if (result) {
                 hit = true;

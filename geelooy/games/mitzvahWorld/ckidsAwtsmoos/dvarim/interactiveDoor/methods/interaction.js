@@ -1,25 +1,16 @@
+
 // B"H
 /**
  * @file interaction.js
  * @description
  * ╔═══════════════════════════════════════════════════════════╗
  * ║  THE DIALOGUE OF MATTER — Interaction Logic                ║
- * ║                                                             ║
- * ║  "And he shall come and stand at the entrance of the gate"║
- * ║  (Yehoshua 20:4)                                           ║
- * ║                                                             ║
- * ║  This module handles the response of the Threshold to the   ║
- * ║  presence and actions of the souls in the world.           ║
  * ╚═══════════════════════════════════════════════════════════╝
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { DOOR_DEFAULTS } from '../constants.js';
 
 export default {
-    /**
-     * @method _setupEventHandlers
-     * @description Wires up all event listeners for the door.
-     */
     _setupEventHandlers() {
         this.on("ready", () => {
             if (this.mesh) this.baseRotY = this.mesh.rotation.y;
@@ -48,9 +39,10 @@ export default {
                 
                 const dist = playerWorldPos.distanceTo(doorWorldPos);
                 
-                if (dist > (this.proximity || 80.0)) { 
+                // B"H: The Tikkun of Proximity - give it a solid 10 units so it's not frustrating to open
+                if (dist > 15.0) { 
                     this.olam.ayshPeula("ui event", "toast", { 
-                        message: "B\"H! Too far away to interact with door. Distance: " + Math.round(dist), 
+                        message: "B\"H! Too far away to interact with door.", 
                         type: "error" 
                     });
                     return;

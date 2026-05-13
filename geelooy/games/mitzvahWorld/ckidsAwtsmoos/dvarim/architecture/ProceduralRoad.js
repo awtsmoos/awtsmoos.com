@@ -1,12 +1,19 @@
+
 // B"H
 /**
  * @file ProceduralRoad.js
  * @module ProceduralRoad
- * @description THE PATH OF THE CHASSID — Abstracted and Purified.
+ * @description 
+ * 🛤️ THE PATH OF THE CHASSID 🛤️
+ * 
+ * "Make a straight path..."
+ * You are an empty vessel, ready to become a chariot for the Divine Will entirely.
+ * This class has been nullified. It delegates its entire geometry generation
+ * to the `RoadAssembler`, ensuring files remain microscopically focused.
  */
 
 import Tzomayach from "../../chayim/tzomayach.js";
-import * as THREE from '/games/scripts/build/three.module.js';
+import RoadAssembler from "../../../utils/3d/procedural/infrastructure/RoadAssembler.js";
 
 export default class ProceduralRoad extends Tzomayach {
     type = "ProceduralRoad";
@@ -17,46 +24,33 @@ export default class ProceduralRoad extends Tzomayach {
         this.width = op.width || 8;
         this.sidewalkWidth = op.sidewalkWidth || 2;
         this.sidewalkHeight = op.sidewalkHeight || 0.3;
-        this.curveType = op.curveType || 'smooth'; // 'smooth' or 'linear'
         this.isSolid = op.isSolid ?? true;
+        
+        // B"H: By default, roads seek the hills to lay themselves upon.
+        this.hillsData = op.hills || null; 
     }
 
     async heescheel(olam) {
         this.olam = olam;
-        this.mesh = new THREE.Group();
-        const roadMat = new THREE.MeshStandardMaterial({ color: 0x6b4d2e, roughness: 0.95 });
-        const edgeMat = new THREE.MeshStandardMaterial({ color: 0x3f7a34, roughness: 0.9 });
-
-        for (let i = 0; i < this.points.length - 1; i++) {
-            const a = this.points[i];
-            const b = this.points[i + 1];
-            const ax = a[0], az = a[1], bx = b[0], bz = b[1];
-            const dx = bx - ax;
-            const dz = bz - az;
-            const length = Math.max(1, Math.sqrt(dx * dx + dz * dz));
-            const angle = Math.atan2(dx, dz);
-
-            const segment = new THREE.Mesh(new THREE.PlaneGeometry(this.width, length), roadMat);
-            segment.rotation.x = -Math.PI / 2;
-            segment.rotation.z = angle;
-            segment.position.set((ax + bx) / 2, 0.08, (az + bz) / 2);
-            segment.receiveShadow = true;
-            segment.userData.isRoad = true;
-            this.mesh.add(segment);
-
-            const edgeWidth = Math.max(0.5, this.sidewalkWidth || 1);
-            [-1, 1].forEach(side => {
-                const edge = new THREE.Mesh(new THREE.PlaneGeometry(edgeWidth, length), edgeMat);
-                edge.rotation.x = -Math.PI / 2;
-                edge.rotation.z = angle;
-                const ox = Math.cos(angle) * (this.width / 2 + edgeWidth / 2) * side;
-                const oz = -Math.sin(angle) * (this.width / 2 + edgeWidth / 2) * side;
-                edge.position.set((ax + bx) / 2 + ox, 0.075, (az + bz) / 2 + oz);
-                edge.receiveShadow = true;
-                this.mesh.add(edge);
-            });
+        
+        // B"H: Retrieve the hill data from the world if not explicitly provided
+        if (!this.hillsData && olam.baseInfo?.nivrayim?.ProceduralTerrain) {
+            const terrainKey = Object.keys(olam.baseInfo.nivrayim.ProceduralTerrain)[0];
+            if (terrainKey) {
+                this.hillsData = olam.baseInfo.nivrayim.ProceduralTerrain[terrainKey].hills;
+            }
         }
+
+        // B"H: The manifestation is handled purely by the Assembler
+        this.mesh = RoadAssembler.build(this.points, {
+            width: this.width,
+            sidewalkWidth: this.sidewalkWidth,
+            sidewalkHeight: this.sidewalkHeight,
+            hills: this.hillsData
+        });
+
         this.mesh.name = `ProceduralRoad_${this.id}`;
+        this.mesh.nivraAwtsmoos = this;
 
         const p = this.position ? (typeof this.position.vector3 === 'function' ? this.position.vector3() : this.position) : {x:0, y:0, z:0};
         this.mesh.position.set(p.x, p.y || 0, p.z);
@@ -65,7 +59,10 @@ export default class ProceduralRoad extends Tzomayach {
 
         await olam.hoyseef(this);
         
+        if (this.isSolid && olam.worldOctree) {
+            olam.worldOctree.fromGraphNode(this.mesh);
+        }
+        
         this.isReady = true;
-        this.ayshPeula("heescheel", this);
     }
 }
