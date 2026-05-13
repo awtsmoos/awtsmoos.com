@@ -9,16 +9,9 @@
 import { mountWindow } from '../ui/mount/windowMount.js';
 import { renderAppSafely } from './appRenderer.js';
 import { bindWindowControls } from './windowBinder.js';
-import { log, warn } from '../diagnostics/VirtualOSLog.js';
+import { log } from '../diagnostics/VirtualOSLog.js';
 
-/**
- * @function renderWindowLayer
- * @param {HTMLElement} layer Window layer.
- * @param {object} state Desktop state.
- * @param {object} env Environment.
- * @returns {void}
- */
-export function renderWindowLayer(layer, state, env) {
+export function renderWindowLayer(layer, state, env, root) {
     layer.replaceChildren();
 
     const visible = state.windows
@@ -27,18 +20,15 @@ export function renderWindowLayer(layer, state, env) {
 
     log('Window layer render', {
         totalWindows: state.windows.length,
-        visibleWindows: visible.length
+        visibleWindows: visible.length,
+        focusedWindowId: state.focusedWindowId
     });
 
-    if (!visible.length) {
-        warn('No visible windows during layer render', { state });
-    }
-
     for (const win of visible) {
-        const el = mountWindow(win);
+        const el = mountWindow(win, state.focusedWindowId);
         const mount = el.querySelector('.virtual-window-content');
 
-        bindWindowControls(el, win, state, env);
+        bindWindowControls(el, win, state, env, root);
         renderAppSafely(win, mount, state, env);
 
         layer.appendChild(el);

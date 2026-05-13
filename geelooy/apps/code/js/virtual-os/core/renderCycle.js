@@ -3,7 +3,7 @@
 /**
  * @file renderCycle.js
  * @description
- * Complete Virtual OS render cycle, split away from index.js.
+ * Complete Virtual OS render cycle.
  */
 
 import { DesktopState } from './DesktopState.js';
@@ -13,6 +13,7 @@ import { ensureStarterWindows } from './desktopBoot.js';
 import { makeVirtualEnv } from './env.js';
 import { mountBootScreen } from '../ui/mount/bootMount.js';
 import { mountChrome } from '../ui/mount/chromeMount.js';
+import { renderDesktopIcons } from '../ui/desktopIcons.js';
 import { renderWindowLayer } from './windowLayer.js';
 import { renderTaskbar } from '../ui/taskbar.js';
 import { renderStartMenu } from '../ui/startMenu.js';
@@ -20,13 +21,6 @@ import { probeVirtualOSDom } from '../diagnostics/domProbe.js';
 import { mountProbeOverlay } from '../diagnostics/probeOverlay.js';
 import { error, log } from '../diagnostics/VirtualOSLog.js';
 
-/**
- * @function renderVirtualOS
- * @param {object} manager VirtualOS manager.
- * @param {HTMLElement} container Virtual OS wrapper.
- * @param {object} tab Active tab.
- * @returns {Promise<void>}
- */
 export async function renderVirtualOS(manager, container, tab) {
     mountBootScreen(container, 'Renderer entered. The vessels are being measured.');
     log('Render cycle entered', { tabId: tab?.id, item: tab?.item });
@@ -53,7 +47,8 @@ export async function renderVirtualOS(manager, container, tab) {
         const chrome = mountChrome(container);
         const env = makeVirtualEnv(manager, tab, workspace, state);
 
-        renderWindowLayer(chrome.windows, state, env);
+        renderDesktopIcons(chrome.desktop, state, env.requestRender);
+        renderWindowLayer(chrome.windows, state, env, chrome.root);
         renderTaskbar(chrome.tasks, state, env.requestRender);
         renderStartMenu(chrome.menu, state, env.requestRender);
 

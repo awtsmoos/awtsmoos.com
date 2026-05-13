@@ -3,22 +3,18 @@
 /**
  * @file windowBinder.js
  * @description
- * Binds focus and controls to a manifested window.
+ * Binds controls, focus, dragging, and resizing.
  */
 
 import { DesktopState } from './DesktopState.js';
+import { bindWindowDrag } from './windowMotion/drag.js';
+import { bindWindowResize } from './windowMotion/resize.js';
+import { log } from '../diagnostics/VirtualOSLog.js';
 
-/**
- * @function bindWindowControls
- * @param {HTMLElement} el Window element.
- * @param {object} win Window state.
- * @param {object} state Desktop state.
- * @param {object} env Render environment.
- * @returns {void}
- */
-export function bindWindowControls(el, win, state, env) {
+export function bindWindowControls(el, win, state, env, root) {
     el.addEventListener('pointerdown', () => {
         DesktopState.focusWindow(state, win.id);
+        state.focusedWindowId = win.id;
         DesktopState.save(state);
     });
 
@@ -26,10 +22,26 @@ export function bindWindowControls(el, win, state, env) {
         const action = event.target?.dataset?.action;
         if (!action) return;
 
-        if (action === 'close') DesktopState.closeWindow(state, win.id);
-        if (action === 'minimize') win.isMinimized = true;
-        if (action === 'front') DesktopState.focusWindow(state, win.id);
+        event.stopPropagation();
 
-        env.requestRender();
+        log('Window control', { action, windowId: win.id });
+
+        if (action === 'close') DesktopState.closeWindow(state, win.id);
+
+        if (action === 'minimize') {
+            win.isMinimized = true;
+        }
+
+        if (action === 'maximize') {
+            win.isMaximized = !win.isMaximized;
+            if (win.isMaximized) el.classList.add('maximized');
+            else el.classList.remove('maximized');
+        }
+
+        if (action !== 'maximize') env.requestRender();
+        else DesktopState.save(state);
     });
+
+    bindWindowDrag(el, win, state, root);
+    bindWindowResize(el, win, state);
 }
