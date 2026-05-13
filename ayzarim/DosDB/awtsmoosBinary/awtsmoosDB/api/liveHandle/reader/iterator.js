@@ -21,9 +21,15 @@ module.exports = class ReaderIterator {
         this.handle = reader.handle; 
     }
 
+    _effectiveType() {
+        const T = constants.VAL_TYPE;
+        if (this.handle.type !== T.ANCHOR) return this.handle.type;
+        return this.handle.nav.resolveAnchorInnerType() || this.handle.type;
+    }
+
     *iterator() { 
         const T = constants.VAL_TYPE; 
-        const t = this.handle.type;
+        const t = this._effectiveType();
         const isSeq = t === T.SEQUENCE || t === T.ARRAY || t === T.SET || t === T.JS_SET || t === T.SMART_ARRAY;
         
         if (isSeq) yield* this.values(); 
@@ -34,28 +40,29 @@ module.exports = class ReaderIterator {
         this.handle.ensureResolved(); 
         const structPtr = this.handle.nav.resolveStructPtr(); 
         if (!structPtr) return;
-        yield* yieldKeys(this.db, this.handle.type, structPtr);
+        yield* yieldKeys(this.db, this._effectiveType(), structPtr);
     }
 
     *values() {
         this.handle.ensureResolved(); 
         const structPtr = this.handle.nav.resolveStructPtr(); 
         if (!structPtr) return;
-        yield* yieldValues(this.reader, this.db, this.handle.type, structPtr, yieldEntries);
+        yield* yieldValues(this.reader, this.db, this._effectiveType(), structPtr, yieldEntries);
     }
 
     *entries() {
         this.handle.ensureResolved(); 
         const structPtr = this.handle.nav.resolveStructPtr(); 
         if (!structPtr) return;
-        yield* yieldEntries(this.reader, this.db, this.handle.type, structPtr);
+        yield* yieldEntries(this.reader, this.db, this._effectiveType(), structPtr);
     }
     
     *range(start, end) {
         this.handle.ensureResolved();
         const structPtr = this.handle.nav.resolveStructPtr();
         const T = constants.VAL_TYPE;
-        if (!structPtr || (this.handle.type !== T.MAP && this.handle.type !== T.JS_MAP)) return;
+        const t = this._effectiveType();
+        if (!structPtr || (t !== T.MAP && t !== T.JS_MAP)) return;
         
         const map = new MapEngine(this.db.allocator, structPtr);
         for (const item of map.range(start, end)) {

@@ -17,7 +17,9 @@ module.exports = {
         if (!structPtr) return 0;
         
         const T = constants.VAL_TYPE;
-        const type = handle.type;
+        const type = (handle.type === T.ANCHOR)
+            ? (handle.nav.resolveAnchorInnerType() || handle.type)
+            : handle.type;
         
         // Data-driven magnitude strategy
         const Strategies = {

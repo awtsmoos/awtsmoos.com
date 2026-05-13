@@ -15,6 +15,33 @@ const constants = require('../../../constants.js');
 const SmartPointer = require('../../../utils/smartPointer/index.js');
 const HandleRegistry = require('../../../core/registry/handle.js');
 const { hydrateStructure } = require('./resolver_core/hydrateStructure.js');
+const classRegistry = require('../../../utils/smartPointer/registry.js');
+
+function reviveCustomInstance(val) {
+    if (!val || typeof val !== 'object' || !val.__className__ || !val.__source__) return val;
+
+    const className = val.__className__;
+    const classSource = val.__source__;
+    let Species = classRegistry.get(className);
+
+    if (!Species) {
+        try {
+            Species = (new Function(`return (${classSource});`))();
+            if (Species) classRegistry.set(className, Species);
+        } catch (_e) {
+            return val;
+        }
+    }
+
+    if (!Species || !Species.prototype) return val;
+
+    const entity = Object.create(Species.prototype);
+    for (const key of Object.keys(val)) {
+        if (key === '__className__' || key === '__source__') continue;
+        entity[key] = val[key];
+    }
+    return entity;
+}
 
 module.exports = class ReaderResolver {
     constructor(reader) { 
@@ -48,11 +75,11 @@ module.exports = class ReaderResolver {
                 
                 if (!structPtr) return {}; 
                 
-                return hydrateStructure(structPtr, context, this.db);
+                return reviveCustomInstance(hydrateStructure(structPtr, context, this.db));
             }
             
             const val = SmartPointer.resolve(this.handle.ptr, this.db.allocator, context);
-            if (val && val.isStructure) return hydrateStructure(val, context, this.db);
+            if (val && val.isStructure) return reviveCustomInstance(hydrateStructure(val, context, this.db));
             
             if (val && typeof val === 'object' && val.__className__) {
                 for (const key in val) { 
@@ -61,7 +88,7 @@ module.exports = class ReaderResolver {
                 }
             }
             
-            return val;
+            return reviveCustomInstance(val);
         });
     }
 };
