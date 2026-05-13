@@ -1,11 +1,8 @@
-
 // B"H
 
 /**
  * B"H
  * OAuth client registry.
- * Add more clients here later: desktop apps, mobile apps, other GPTs,
- * internal tools, and any gate that needs account-scoped tokens.
  *
  * @type {Object<string, object>}
  */
@@ -18,10 +15,16 @@ const oauthClients = {
     accessTokenSeconds: 3600,
     defaultScope: "profile tunnel.read",
     scopes: ["profile", "tunnel.read", "tunnel.write"],
-    exampleRedirectUri: "https://chat.openai.com/aip/gpts/oauth/callback",
+    exampleRedirectUri: "https://chatgpt.com/aip/gpts/oauth/callback",
     redirectUris: [
-      "https://chat.openai.com/*",
+      "https://chatgpt.com",
+      "https://chatgpt.com/",
       "https://chatgpt.com/*",
+      "https://chat.openai.com",
+      "https://chat.openai.com/",
+      "https://chat.openai.com/*",
+      "https://*.openai.com",
+      "https://*.openai.com/",
       "https://*.openai.com/*"
     ]
   }
