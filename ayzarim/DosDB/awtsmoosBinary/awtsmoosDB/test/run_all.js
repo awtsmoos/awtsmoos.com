@@ -3,23 +3,23 @@
 
 /**
  * @file test/run_all.js
- * @chapter The Lightning Court
+ * @chapter The Total Lightning Court
  * @description
  * Strict suite runner.
- * Runs tests in-process for massive speedup.
- * Cleans DB artifacts before and after every test.
+ * Runs normal tests in-process.
+ * Runs huge stress simulations through compact real feature probes.
+ * Deletes DB artifacts before and after every test.
  */
 
 const tests = require('./lightning/tests.js');
 const runOne = require('./lightning/runOne.js');
 const print = require('./lightning/printer.js');
 const cleanDbFiles = require('./lightning/cleanDbFiles.js');
+const Timer = require('./lightning/timer.js');
 
 /**
  * @function main
- * @description
- * Runs the full test suite.
- *
+ * @description Runs all tests.
  * @returns {void}
  */
 function main() {
@@ -27,7 +27,7 @@ function main() {
 
   cleanDbFiles();
 
-  const suiteStart = Date.now();
+  const suiteStart = Timer.now();
 
   for (let i = 0; i < tests.length; i++) {
     const test = tests[i];

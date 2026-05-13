@@ -1,73 +1,101 @@
 
 // B"H
+
 /**
  * @file utils/smartPointer/index.js
+ * @chapter The Crown Of Address And Type
  * @description
- * Chapter 0: The Infinite Unity of the Pointer.
- * 
- * "And G-d said: Let there be light."
- * Speech is the bridge between the Thought and the Action. The SmartPointer is the 
- * binary speech of the database. It is the single coordinate that defines a soul's 
- * dwelling place in the abyss of the SSD. 
- * 
- * If a single bit in this pointer is escaped or corrupted, the entire heaven 
- * of the database falls into non-existence. We have shattered the old, 
- * thick vessels and replaced them with micro-angels.
- * 
- * This index is the apex of Keter, routing every request to its specific 
- * servant module. No logic dwells here, only the Will of the Router.
+ * SmartPointer is the small crown carried by every stored thing. It remembers
+ * type, offset, length, and enough form to return the thing correctly.
  */
 
-const SmartPointerEncoder = require('./core/encode.js');
-const SmartPointerDecoder = require('./core/decode.js');
-const SmartPointerInspector = require('./core/inspector.js');
-const SmartPointerResolver = require('./core/resolver.js');
-const SmartPointerMapper = require('./core/mapper.js');
+const Pointer = require('../pointer/crown.js');
 
-const SmartPointer = {
-    /**
-     * @method encode
-     * @description Condensing dimensions into a VarInt seal.
-     */
-    encode: (type, offset, length) => SmartPointerEncoder.execute(type, offset, length),
+/**
+ * @class SmartPointer
+ * @description
+ * Pointer compatibility layer.
+ */
+class SmartPointer {
+  /**
+   * @static
+   * @method decode
+   * @description Decodes a pointer seal.
+   * @param {Buffer|object} seal - Pointer seal or decoded pointer.
+   * @returns {object|null} Decoded pointer.
+   */
+  static decode(seal) {
+    if (!seal) return null;
+    if (!Buffer.isBuffer(seal)) return seal;
 
-    /**
-     * @method decode
-     * @description Unveiling the coordinates from the binary scroll.
-     */
-    decode: (buf, start = 0) => SmartPointerDecoder.execute(buf, start),
+    if (Pointer && typeof Pointer.decode === 'function') {
+      return Pointer.decode(seal);
+    }
 
-    /**
-     * @method readSize
-     * @description Measuring the exact breath (byte-size) of a seal.
-     */
-    readSize: (buf, start = 0) => SmartPointerInspector.readSize(buf, start),
+    return {
+      type: seal.readUInt8(0),
+      offset: Number(seal.readBigUInt64BE(1)),
+      length: Number(seal.readUInt32BE(9))
+    };
+  }
 
-    /**
-     * @method getType
-     * @description Peeking at the archetype of the vessel instantly.
-     */
-    getType: (buf, start = 0) => SmartPointerInspector.getType(buf, start),
+  /**
+   * @static
+   * @method toBuffer
+   * @description Encodes a decoded pointer to a seal.
+   * @param {object|Buffer} ptr - Pointer.
+   * @returns {Buffer} Pointer seal.
+   */
+  static toBuffer(ptr) {
+    if (Buffer.isBuffer(ptr)) return ptr;
 
-    /**
-     * @method block
-     * @description Legacy bridge for physical block coordinates.
-     */
-    block: (type, blockId, length = 0, isChain = false, offset = 0) => {
-        return SmartPointerEncoder.execute(type, offset || blockId || 0, length);
-    },
+    if (Pointer && typeof Pointer.encode === 'function') {
+      return Pointer.encode(ptr.type, ptr.offset, ptr.length, ptr.flags || 0);
+    }
 
-    /**
-     * @method toBuffer
-     * @description Ensures the spark is clothed in the material garment of a Buffer.
-     */
-    toBuffer: (ptr) => SmartPointerMapper.toBuffer(ptr, SmartPointer),
+    const b = Buffer.alloc(16);
+    b.writeUInt8(ptr.type || 0, 0);
+    b.writeBigUInt64BE(BigInt(ptr.offset || 0), 1);
+    b.writeUInt32BE(ptr.length || 0, 9);
+    return b;
+  }
 
-    /**
-     * @method resolve
-     * @description Bringing the dry bytes back into living JS form.
-     */
-    resolve: (ptrBuf, allocator, context) => SmartPointerResolver.execute(ptrBuf, allocator, context)
-};
+  /**
+   * @static
+   * @method getType
+   * @description Gets pointer type without fully resolving.
+   * @param {Buffer|object} ptr - Pointer.
+   * @returns {number} Type.
+   */
+  static getType(ptr) {
+    const decoded = this.decode(ptr);
+    return decoded ? decoded.type : 0;
+  }
+
+  /**
+   * @static
+   * @method resolve
+   * @description Resolves a pointer through central scalar/container hydration.
+   * @param {Buffer|object} seal - Pointer seal.
+   * @param {object} allocator - Allocator.
+   * @param {object} ctx - Resolve context.
+   * @returns {*} Resolved value.
+   */
+  static resolve(seal, allocator, ctx) {
+    const ptr = this.decode(seal);
+    const resolveScalar = require('./resolveScalar.js');
+    const value = resolveScalar(ptr, allocator);
+
+    if (!value || value.isStructure !== true) return value;
+
+    const HandleRegistry = require('../../core/registry/handle.js');
+    return HandleRegistry.createHandle(
+      allocator.db,
+      this.toBuffer(ptr),
+      ptr.type,
+      ctx || {}
+    );
+  }
+}
 
 module.exports = SmartPointer;

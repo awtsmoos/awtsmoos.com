@@ -5,7 +5,8 @@
  * @file test/lightning/runOne.js
  * @chapter One Gate Without Forking The Sky
  * @description
- * Runs one test in-process with captured output, trapped exit, and DB cleanup.
+ * Runs one test in-process with source scaling, output capture, exit trapping,
+ * and DB cleanup before and after.
  */
 
 const path = require('path');
@@ -14,17 +15,16 @@ const OutputCapture = require('./outputCapture.js');
 const cleanDbFiles = require('./cleanDbFiles.js');
 const ExitTrap = require('./exitTrap.js');
 const Env = require('./env.js');
+const Timer = require('./timer.js');
 
 /**
  * @function runOne
- * @description
- * Executes one test file with lightning isolation.
- *
+ * @description Executes one test with lightning isolation.
  * @param {string} test - Test filename.
- * @returns {object} Result object.
+ * @returns {object} Result.
  */
 function runOne(test) {
-  const started = Date.now();
+  const started = Timer.now();
   const scriptPath = path.join(__dirname, '..', test);
   const capture = new OutputCapture();
 
@@ -47,26 +47,22 @@ function runOne(test) {
       status = 1;
       error = err;
     }
+  } finally {
+    capture.stop();
+    restoreExit();
+    restoreEnv();
+    cleanDbFiles();
   }
-
-  capture.stop();
-  restoreExit();
-  restoreEnv();
-
-  cleanDbFiles();
-
-  const out = capture.text();
-  const errText = error && error.stack ? error.stack : '';
 
   return {
     test,
-    elapsed: Date.now() - started,
+    elapsed: Timer.now() - started,
     status,
     res: {
       status
     },
-    out,
-    err: errText
+    out: capture.text(),
+    err: error && error.stack ? error.stack : ''
   };
 }
 

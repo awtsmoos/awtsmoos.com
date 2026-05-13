@@ -8,10 +8,11 @@
 
 import { createLeafMesh } from "./LeafMesh.js";
 import { normalizeLeafClusterOptions } from "./LeafClusterData.js";
+import { resolveThreeNamespace } from "../infrastructure/ThreeNamespaceResolver.js";
 
 /**
  * B"H
- * Makes a deterministic pseudo-random value.
+ * Deterministic pseudo-random.
  *
  * @param {number} index
  * Index.
@@ -20,7 +21,7 @@ import { normalizeLeafClusterOptions } from "./LeafClusterData.js";
  * Seed.
  *
  * @returns {number}
- * 0 to 1 value.
+ * Number from 0 to 1.
  */
 function seeded(index, seed) {
   const x = Math.sin(index * 9127.131 + seed * 131.77) * 43758.5453;
@@ -31,8 +32,8 @@ function seeded(index, seed) {
  * B"H
  * Creates a cluster of leaf-shaped meshes.
  *
- * @param {any} THREE
- * THREE namespace.
+ * @param {any} threeOrContext
+ * THREE namespace or context.
  *
  * @param {Object} options
  * Options.
@@ -40,9 +41,11 @@ function seeded(index, seed) {
  * @returns {any}
  * THREE.Group.
  */
-export function createLeafCluster(THREE, options = {}) {
+export function createLeafCluster(threeOrContext, options = {}) {
+  const THREE = resolveThreeNamespace(threeOrContext);
   const clusterOptions = normalizeLeafClusterOptions(options);
   const group = new THREE.Group();
+
   group.name = clusterOptions.name || "leaf-cluster";
 
   for (let i = 0; i < clusterOptions.count; i++) {
@@ -66,9 +69,9 @@ export function createLeafCluster(THREE, options = {}) {
     );
 
     leaf.rotation.set(
-      seeded(i, 5) * Math.PI,
+      seeded(i, 5) * Math.PI * 0.4,
       angle,
-      (seeded(i, 6) - 0.5) * Math.PI * 0.8
+      (seeded(i, 6) - 0.5) * Math.PI
     );
 
     leaf.scale.setScalar(scale);

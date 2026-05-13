@@ -5,10 +5,8 @@
  * @description
  * Procedural road assembler.
  *
- * Fixed:
- * - no direct MeshStandardMaterial assumption
- * - validates only required THREE constructors
- * - split into smaller builders
+ * Fix:
+ * accepts anything as first arg and resolves real THREE internally.
  */
 
 import { normalizeRoadOptions } from "./RoadDefaults.js";
@@ -17,7 +15,7 @@ import { createCurbs } from "./RoadCurbs.js";
 import { createLaneMarks } from "./RoadLaneMarks.js";
 import { createRoadSurface } from "./RoadSurface.js";
 import { applyRoadGroupTransform } from "./RoadGroupTransform.js";
-import { assertRoadThree } from "./ThreeNamespaceGuard.js";
+import { getRoadThree } from "./ThreeNamespaceGuard.js";
 
 /**
  * B"H
@@ -26,18 +24,16 @@ import { assertRoadThree } from "./ThreeNamespaceGuard.js";
 export default class RoadAssembler {
   /**
    * B"H
-   * @param {any} THREE
-   * THREE namespace.
+   * @param {any} threeOrContext
+   * THREE namespace or context object.
    *
    * @param {Object} options
    * Road options.
    */
-  constructor(THREE, options = {}) {
-    assertRoadThree(THREE);
-
-    this.THREE = THREE;
+  constructor(threeOrContext, options = {}) {
+    this.THREE = getRoadThree(threeOrContext);
     this.options = normalizeRoadOptions(options);
-    this.materials = createRoadMaterials(THREE);
+    this.materials = createRoadMaterials(this.THREE);
   }
 
   /**
@@ -71,8 +67,8 @@ export default class RoadAssembler {
    * B"H
    * Compatibility factory.
    *
-   * @param {any} THREE
-   * THREE namespace.
+   * @param {any} threeOrContext
+   * THREE namespace or context object.
    *
    * @param {Object} options
    * Road options.
@@ -80,8 +76,8 @@ export default class RoadAssembler {
    * @returns {any}
    * THREE.Group.
    */
-  static build(THREE, options = {}) {
-    return new RoadAssembler(THREE, options).build();
+  static build(threeOrContext, options = {}) {
+    return new RoadAssembler(threeOrContext, options).build();
   }
 }
 
@@ -89,8 +85,8 @@ export default class RoadAssembler {
  * B"H
  * Named compatibility export.
  *
- * @param {any} THREE
- * THREE namespace.
+ * @param {any} threeOrContext
+ * THREE namespace or context object.
  *
  * @param {Object} options
  * Road options.
@@ -98,6 +94,6 @@ export default class RoadAssembler {
  * @returns {any}
  * THREE.Group.
  */
-export function assembleRoad(THREE, options = {}) {
-  return RoadAssembler.build(THREE, options);
+export function assembleRoad(threeOrContext, options = {}) {
+  return RoadAssembler.build(threeOrContext, options);
 }
