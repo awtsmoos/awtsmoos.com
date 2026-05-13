@@ -6,33 +6,43 @@
     left: 0;
     right: 0;
     bottom: 0;
-    height: 40px;
+    height: 42px;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 0 8px;
-    background: linear-gradient(90deg, #00c8ff, #8b5cff, #e000ff);
+    padding: 0 9px;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.26), transparent 42%),
+        linear-gradient(90deg, #00c8ff, #765cff 45%, #e000ff);
     color: #05070c;
     font-family: var(--font-code, monospace);
-    font-weight: 800;
-    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.4);
+    font-weight: 900;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.46);
+    z-index: 9000;
 }
 
 .virtual-os-start,
-.virtual-os-task,
-.virtual-os-start-menu button {
+.virtual-os-task {
     border: 0;
-    border-radius: 5px;
+    border-radius: 7px;
     font-family: var(--font-code, monospace);
-    font-weight: 800;
+    font-weight: 900;
     cursor: pointer;
+    user-select: none;
 }
 
 .virtual-os-start {
-    height: 28px;
-    padding: 0 14px;
+    height: 30px;
+    padding: 0 15px;
     background: #05070c;
     color: #00f6ff;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 18px rgba(0,0,0,0.28);
+}
+
+.virtual-os-start:hover {
+    color: #ffffff;
+    box-shadow: 0 0 22px rgba(0,246,255,0.38);
 }
 
 .virtual-os-tasks {
@@ -41,38 +51,27 @@
     gap: 6px;
     min-width: 0;
     overflow: auto;
+    flex: 1;
 }
 
 .virtual-os-task {
-    height: 28px;
+    height: 30px;
+    max-width: 180px;
     padding: 0 10px;
     background: rgba(5, 7, 12, 0.78);
     color: white;
+    border: 1px solid rgba(255,255,255,0.18);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.virtual-os-start-menu {
-    position: absolute;
-    left: 8px;
-    bottom: 46px;
-    min-width: 190px;
-    padding: 8px;
-    background: #090d18;
-    border: 1px solid #00f6ff;
-    border-radius: 8px;
-    box-shadow: 0 0 30px rgba(0, 246, 255, 0.25);
+.virtual-os-task.is-active {
+    background: rgba(255,255,255,0.92);
+    color: #111629;
 }
 
-.virtual-os-start-menu.hidden {
-    display: none;
-}
-
-.virtual-os-start-menu button {
-    display: block;
-    width: 100%;
-    margin: 4px 0;
-    padding: 8px;
-    text-align: left;
-    background: #10172a;
-    color: #e8f7ff;
-    border: 1px solid rgba(0, 246, 255, 0.28);
+.virtual-os-task:hover {
+    background: rgba(0, 246, 255, 0.2);
+    color: #ffffff;
 }

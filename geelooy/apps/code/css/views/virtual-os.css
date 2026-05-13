@@ -1,8 +1,13 @@
 
 /* B"H */
 @import url('./virtual-os/root.css');
+@import url('./virtual-os/desktop.css');
+@import url('./virtual-os/icons.css');
 @import url('./virtual-os/window.css');
 @import url('./virtual-os/taskbar.css');
+@import url('./virtual-os/start-menu.css');
 @import url('./virtual-os/apps.css');
+@import url('./virtual-os/explorer.css');
+@import url('./virtual-os/notepad.css');
+@import url('./virtual-os/terminal.css');
 @import url('./virtual-os/diagnostics.css');
-@import url('./virtual-os/visibility.css');

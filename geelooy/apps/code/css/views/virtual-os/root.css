@@ -1,8 +1,74 @@
+
 /* B"H */
-.virtual-os-root { position: relative; height: 100%; background: linear-gradient(180deg,#0c1530,#0b0f1c); overflow: hidden; }
-.virtual-os-windows { position: absolute; inset: 0 0 40px 0; }
-.virtual-window { position: absolute; display: flex; flex-direction: column; border: 1px solid #2e5480; background: #0d1730; box-shadow: 0 16px 30px rgba(0,0,0,0.35); min-width: 320px; min-height: 200px; }
-.virtual-window.maximized { left: 0 !important; top: 0 !important; width: 100% !important; height: calc(100% - 40px) !important; }
-.virtual-window-content { flex: 1; min-height: 0; overflow: auto; }
-.virtual-window-resize-handle { position: absolute; width: 14px; height: 14px; right: 2px; bottom: 2px; cursor: nwse-resize; }
-.hidden { display: none !important; }
+
+#virtual-os-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: #030711;
+}
+
+#virtual-os-wrapper:not(.hidden) {
+    display: block;
+    visibility: visible;
+}
+
+.virtual-os-root {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    overflow: hidden;
+    color: #e8f7ff;
+    isolation: isolate;
+    background:
+        radial-gradient(circle at 18% 12%, rgba(0, 246, 255, 0.18), transparent 24%),
+        radial-gradient(circle at 78% 22%, rgba(255, 0, 212, 0.16), transparent 28%),
+        radial-gradient(circle at 50% 90%, rgba(122, 92, 255, 0.22), transparent 42%),
+        linear-gradient(135deg, #07101f, #050713 52%, #10051e);
+}
+
+.virtual-os-root::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, black, transparent 85%);
+}
+
+.virtual-os-root::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent 8%, transparent 90%, rgba(0,246,255,0.06));
+    mix-blend-mode: screen;
+}
+
+.virtual-os-stage {
+    position: absolute;
+    inset: 0 0 42px 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.virtual-os-windows {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.virtual-os-windows > * {
+    pointer-events: auto;
+}
