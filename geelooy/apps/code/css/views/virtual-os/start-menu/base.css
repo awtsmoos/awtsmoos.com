@@ -10,7 +10,7 @@
     background:
         linear-gradient(180deg, rgba(0,246,255,0.08), transparent 28%),
         rgba(7, 13, 28, 0.97);
-    border: 1px solid #00f6ff;
+    border: 1px solid var(--vos-cyan);
     border-radius: 12px;
     box-shadow:
         0 0 30px rgba(0, 246, 255, 0.25),
@@ -27,7 +27,7 @@
     padding: 8px;
     margin-bottom: 6px;
     border-radius: 8px;
-    color: #00f6ff;
+    color: var(--vos-cyan);
     background: rgba(0,0,0,0.38);
     font-weight: 900;
     letter-spacing: 0.04em;

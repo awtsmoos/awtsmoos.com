@@ -10,7 +10,7 @@
     background:
         radial-gradient(circle at center, rgba(0, 246, 255, 0.12), transparent 34%),
         #05070c;
-    color: #00f6ff;
+    color: var(--vos-cyan);
     font-family: var(--font-code, monospace);
     z-index: 100;
 }
@@ -47,7 +47,7 @@
     border: 1px solid rgba(0, 246, 255, 0.55);
     border-radius: 8px;
     background: rgba(0, 0, 0, 0.76);
-    color: #00f6ff;
+    color: var(--vos-cyan);
     font-family: var(--font-code, monospace);
     font-size: 11px;
     pointer-events: none;

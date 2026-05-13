@@ -20,6 +20,6 @@
 }
 
 .vos-task-table th {
-    color: #00f6ff;
+    color: var(--vos-cyan);
     background: rgba(0,246,255,0.08);
 }
