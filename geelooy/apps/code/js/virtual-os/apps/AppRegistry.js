@@ -11,12 +11,18 @@ import { renderFileExplorerApp } from './FileExplorerApp.js';
 import { renderTerminalApp } from './TerminalApp.js';
 import { renderBrowserApp } from './BrowserApp.js';
 import { renderNotepadApp } from './NotepadApp.js';
+import { renderSettingsApp } from './SettingsApp.js';
+import { renderTaskManagerApp } from './TaskManagerApp.js';
+import { renderGitControlApp } from './GitControlApp.js';
 
 const RENDERERS = {
     explorer: renderFileExplorerApp,
     terminal: renderTerminalApp,
     browser: renderBrowserApp,
-    notepad: renderNotepadApp
+    notepad: renderNotepadApp,
+    settings: renderSettingsApp,
+    'task-manager': renderTaskManagerApp,
+    'git-control': renderGitControlApp
 };
 
 export const AppRegistry = Object.fromEntries(

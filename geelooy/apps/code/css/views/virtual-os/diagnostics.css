@@ -37,26 +37,6 @@
     line-height: 1.45;
 }
 
-.vos-app-error {
-    height: 100%;
-    padding: 14px;
-    box-sizing: border-box;
-    overflow: auto;
-    color: #ffb0b0;
-    background: #18070a;
-    font-family: var(--font-code, monospace);
-}
-
-.vos-app-error-title {
-    font-weight: 900;
-    margin-bottom: 8px;
-}
-
-.vos-app-error-stack {
-    white-space: pre-wrap;
-    color: #ffd0d0;
-}
-
 .vos-visibility-probe {
     position: absolute;
     right: 8px;
@@ -71,4 +51,8 @@
     font-family: var(--font-code, monospace);
     font-size: 11px;
     pointer-events: none;
+}
+
+.vos-debug-off .vos-visibility-probe {
+    display: none;
 }
