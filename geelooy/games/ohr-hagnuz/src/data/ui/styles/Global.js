@@ -29,4 +29,21 @@ export const GlobalStyles = `
         background: #f44336 !important;
         transform: scale(1.05);
     }
+
+    /* Holy Scrollbars */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.5); 
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #00e5ff; 
+        border-radius: 4px;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #84ffff; 
+    }
 `;

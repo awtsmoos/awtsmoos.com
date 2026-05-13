@@ -1,5 +1,6 @@
 
 import { Director } from './architecture/Director.js';
+import { StairsWeaver } from './architecture/parts/StairsWeaver.js';
 
 /**
  * B"H
@@ -8,17 +9,10 @@ import { Director } from './architecture/Director.js';
  */
 export class ArchitecturalManifest {
     
-    /**
-     * @description Delegates wall rendering to the Architectural Director.
-     */
     static drawWall(ctx, x, y, size, tile) {
         Director.render(ctx, x, y, size, tile);
     }
 
-    /**
-     * @description Materializes the Gate. 
-     * Now renders a facade background behind the door for perfect integration.
-     */
     static drawDoor(ctx, x, y, size, isHouse) {
         ctx.save();
         const fx = Math.floor(x);
@@ -67,5 +61,9 @@ export class ArchitecturalManifest {
             ctx.lineTo(fx + (i * size / 4), fy + fSize);
             ctx.stroke();
         }
+    }
+
+    static drawStairs(ctx, x, y, size) {
+        StairsWeaver.draw(ctx, x, y, size);
     }
 }

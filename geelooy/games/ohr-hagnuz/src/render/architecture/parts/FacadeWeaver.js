@@ -1,17 +1,16 @@
 
+import { StateRegister } from '../../../binah/StateRegister.js';
+
 /**
  * B"H
  * @class FacadeWeaver
+ * @chapter The Windows of the Soul
+ * @description
+ * Draws a front-facing brick wall. If the tile is the central body of a house, 
+ * it weaves a beautiful window. At night, the window glows with inner light.
  */
 export class FacadeWeaver {
-    /**
-     * @description Draws a front-facing brick wall.
-     * @param {CanvasRenderingContext2D} ctx 
-     * @param {number} size - Tile dimension
-     * @param {Object} palette - Base and alt colors
-     * @param {number} seed - Unique tile signature
-     */
-    static draw(ctx, size, palette, seed) {
+    static draw(ctx, size, palette, seed, hasWindow = false) {
         // Base Foundation
         ctx.fillStyle = palette.base;
         ctx.fillRect(0, 0, size, size);
@@ -37,5 +36,39 @@ export class FacadeWeaver {
                 ctx.strokeRect(c * bW + offset, r * bH, bW, bH);
             }
         }
+
+        // Window Weaving
+        if (hasWindow) {
+            this._drawWindow(ctx, size);
+        }
+    }
+
+    static _drawWindow(ctx, size) {
+        const isNight = StateRegister.TimeState.timeOfDay === 'NIGHT';
+        const wW = size * 0.4;
+        const wH = size * 0.5;
+        const oX = (size - wW) / 2;
+        const oY = (size - wH) / 2;
+
+        // Wooden Window Frame
+        ctx.fillStyle = '#4e342e';
+        ctx.fillRect(oX - 2, oY - 2, wW + 4, wH + 4);
+
+        // The Glass / Light
+        if (isNight) {
+            ctx.fillStyle = '#ffb300'; // Golden glow of study
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#ffd54f';
+        } else {
+            ctx.fillStyle = '#81d4fa'; // Reflection of the daytime sky
+            ctx.shadowBlur = 0;
+        }
+        ctx.fillRect(oX, oY, wW, wH);
+
+        // Crossbars
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#4e342e';
+        ctx.fillRect(oX + wW/2 - 1, oY, 2, wH); // Vertical
+        ctx.fillRect(oX, oY + wH/2 - 1, wW, 2); // Horizontal
     }
 }

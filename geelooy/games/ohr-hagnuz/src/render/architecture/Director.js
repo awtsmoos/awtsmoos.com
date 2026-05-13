@@ -2,43 +2,49 @@
 import { WorldMapAssembler } from '../../data/WorldMapAssembler.js';
 import { FacadeWeaver } from './parts/FacadeWeaver.js';
 import { RoofWeaver } from './parts/RoofWeaver.js';
+import { ScrollWeaver } from './parts/ScrollWeaver.js';
 
 /**
  * B"H
  * @class Director
- * @chapter The Master Plan of Bezalel
- * @description
- * This module is the intelligence behind the building structures. 
- * It ensures that houses look like 3D entities by observing the 
- * physical context of each 'Wall' tile.
  */
 export class Director {
-    /**
-     * @description Materializes a block based on its environmental connections.
-     */
     static render(ctx, x, y, size, tile) {
         ctx.save();
         const fx = Math.floor(x);
         const fy = Math.floor(y);
-        const fSize = Math.ceil(size) + 1; // Gap crushing
+        const fSize = Math.ceil(size) + 1; 
         const s = Math.abs(tile.x * 31 + tile.y * 17);
 
         ctx.translate(fx, fy);
         
-        // Establish the Mechitzah (Clipping Boundary)
         ctx.beginPath();
         ctx.rect(0, 0, fSize, fSize);
         ctx.clip();
 
+        // Handle the pure intellectual walls of Beriah
+        if (tile.material === 'SCROLL') {
+            ScrollWeaver.draw(ctx, size, s);
+            ctx.restore();
+            return;
+        }
+
         const registry = WorldMapAssembler.WorldRegistry;
         
-        // CONNECTED TEXTURE LOGIC:
-        // If there's a wall or door below, this tile is a ROOF tile.
         const isBuildingBelow = registry.some(t => 
             t.x === tile.x && 
             t.y === tile.y + 1 && 
-            (t.t === 'G_WALL_STONE' || t.isPortal)
+            (t.t.startsWith('G_WALL') || t.isPortal)
         );
+
+        const isDoorBelow = registry.some(t => 
+            t.x === tile.x && 
+            t.y === tile.y + 1 && 
+            t.isPortal
+        );
+
+        const isMiddleHoriz = registry.some(t => t.x === tile.x - 1 && t.y === tile.y && t.t.startsWith('G_WALL')) &&
+                              registry.some(t => t.x === tile.x + 1 && t.y === tile.y && t.t.startsWith('G_WALL'));
 
         const Palettes = {
             'STONE':  { base: '#d7ccc8', alt: '#bcaaa4', roof: '#5d4037' },
@@ -49,7 +55,8 @@ export class Director {
         const mat = Palettes[tile.material || 'STONE'];
 
         if (!isBuildingBelow) {
-            FacadeWeaver.draw(ctx, size, mat, s);
+            const hasWindow = (isMiddleHoriz && !isDoorBelow) || isDoorBelow;
+            FacadeWeaver.draw(ctx, size, mat, s, hasWindow);
         } else {
             RoofWeaver.draw(ctx, size, mat);
         }

@@ -7,18 +7,22 @@ import { StateRegister } from '../binah/StateRegister.js';
  * @chapter The Ascension of the Soul (Ma'alah)
  * @description
  * "They go from strength to strength" (Psalms 84:8).
- * This logic manages the growth of the Tzaddik. As sparks are gathered, 
- * the capacity for Divine Light (HP) and logic increases.
+ * This logic manages the growth of the Tzaddik. We now factor in Tiferet for XP yields,
+ * and grant Spark Points to construct the internal Sefirot.
  */
 export class LevelingLogic {
     /**
      * @description Adds XP and handles vessel expansion.
-     * @param {number} amount - Sparks release.
-     * @returns {boolean} True if Level Up occurred.
      */
-    static gainSparks(amount) {
+    static gainSparks(baseAmount) {
         const S = StateRegister.HeroStats;
-        S.xp += amount;
+        const E = StateRegister.EtzChaim;
+
+        // Tiferet harmonizes the yield, giving +5% extra per level
+        const multiplier = 1.0 + (E.TIFERET * 0.05);
+        const finalAmount = Math.floor(baseAmount * multiplier);
+
+        S.xp += finalAmount;
         
         if (S.xp >= S.xpNeeded) {
             this.expandVessel();
@@ -35,10 +39,13 @@ export class LevelingLogic {
         // The path becomes steeper as one ascends
         S.xpNeeded = Math.floor(S.xpNeeded * 1.6);
         
-        // Increase capacity
-        S.maxLight += 25;
+        // Grant Spark Points for the Tree of Life
+        S.sparkPoints += 1;
+        
+        // Minor natural capacity increase
+        S.maxLight += 5;
         S.light = S.maxLight;
         
-        console.log(`B"H - Level Up! New Spiritual Stature: ${S.level}`);
+        console.log(`B"H - Level Up! Stature: ${S.level}. Earned 1 Spark Point.`);
     }
 }
