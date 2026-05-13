@@ -15,7 +15,9 @@ class AwtsmoosSocket {
     constructor(db) {
     this.db = db; // Store DB reference for permission checks
     this.clients = new Set();
-    this.aliasMap = new Map();
+	this.aliasMap = new Map();
+	this.tunnels = new Map();
+	this.pendingTunnelRequests = new Map();
     this.settingsCache = new Map(); // Simple cache to prevent DB hammering
     setInterval(() => this.heartbeat(), 30000);
     // Clear settings cache every minute
@@ -62,6 +64,13 @@ class AwtsmoosSocket {
                 if (set.size === 0) this.aliasMap.delete(client.aliasId);
             }
         }
+
+		if (client.isTunnel && client.tunnelName) {
+		  const current = this.tunnels.get(client.tunnelName);
+		  if (current === client) {
+		    this.tunnels.delete(client.tunnelName);
+		  }
+		}
     }
 
     heartbeat() {
@@ -171,8 +180,66 @@ async onMessage(client, msg) {
             }
         }
 
+		if (data.type === "TUNNEL_REGISTER" && data.name) {
+		  client.isTunnel = true;
+		  client.tunnelName = data.name;
+		
+		  this.tunnels.set(data.name, client);
+		
+		  client.send({
+		    type: "TUNNEL_ACK",
+		    name: data.name
+		  });
+		
+		  return;
+		}
+		
+		if (data.type === "TUNNEL_RESPONSE" && data.id) {
+		  const pending = this.pendingTunnelRequests.get(data.id);
+		  if (!pending) return;
+		
+		  this.pendingTunnelRequests.delete(data.id);
+		
+		  pending.resolve(data);
+		  return;
+		}
+
     } catch (e) { console.log(e); }
 }
+
+	sendTunnelRequest(name, payload, timeout = 30000) {
+	  const tunnel = this.tunnels.get(name);
+	
+	  if (!tunnel) {
+	    return Promise.reject(new Error("No tunnel connected: " + name));
+	  }
+	
+	  const id =
+	    Date.now() +
+	    "_" +
+	    Math.random().toString(36).slice(2);
+	
+	  return new Promise((resolve, reject) => {
+	    const timer = setTimeout(() => {
+	      this.pendingTunnelRequests.delete(id);
+	      reject(new Error("Tunnel timeout"));
+	    }, timeout);
+	
+	    this.pendingTunnelRequests.set(id, {
+	      resolve: data => {
+	        clearTimeout(timer);
+	        resolve(data);
+	      },
+	      reject
+	    });
+	
+	    tunnel.send({
+	      type: "TUNNEL_REQUEST",
+	      id,
+	      payload
+	    });
+	  });
+	}
 
     sendToAlias(targetAlias, data) {
         if (!targetAlias) {
