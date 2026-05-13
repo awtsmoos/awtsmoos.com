@@ -1,50 +1,121 @@
 
 /**
  * B"H
- * @file oyved/index.js
- * THE ANGELIC WORKER COMMANDER (KETER OF OYVED)
- * 
- * Chapter 1: The Sparks of Atzilut
- * By shattering this colossal file into deep sub-modules, we emulate the 
- * shattering of the vessels, resulting in a perfectly ordered Tikun (Rectification).
- * 
- * The worker sits inside total Ayin (Nothingness), calls down its existence 
- * dynamically, processes the massive "pawsawch" decree to build the world, 
- * and routes every ongoing heartbeat seamlessly through its pure dictionaries.
+ * @file index.js
+ * @description
+ * The thinnest possible static Worker shell.
+ *
+ * This file intentionally has ZERO static imports.
+ *
+ * Why?
+ * Because static Worker import failure gives the main thread only:
+ * "Worker script error | message=unknown | filename=unknown"
+ *
+ * By using one guarded dynamic import, the shell itself loads first,
+ * then reports the real failing child module as plain text.
  */
 
-import { OlamDynamicBoot } from './core/boot/OlamDynamicBoot.js';
-import { OyvedMessageInterpreter } from './core/interpreter/OyvedMessageInterpreter.js';
-
-// The Ledger of Memories and Actions
-const promiseMap = new Map();
-let SystemCore = { OlamClass: null, UtilsClass: null, isReady: false };
-let ActiveOlamInstance = null;
-
-// Ignite the boot sequence entirely shielded
-const VesseBootPromise = OlamDynamicBoot.invokeAngelicVessels().then(res => {
-    SystemCore = res;
-    return res.isReady;
-});
+const BH = `B"H`;
 
 /**
- * Universal reception listener. The ear turned to the heavens.
+ * B"H
+ * Sends plain text from the Worker shell to the main thread.
+ *
+ * @param {string} type
+ * Message type.
+ *
+ * @param {string} text
+ * Plain text.
+ *
+ * @returns {void}
  */
-self.onmessage = async (e) => {
-    const isVesselsSound = await VesseBootPromise;
-    const responseType = await OyvedMessageInterpreter.handleMessage(
-        e.data, 
-        isVesselsSound, 
-        SystemCore, 
-        promiseMap
-    );
+function shellPost(type, text) {
+  try {
+    self.postMessage({
+      type,
+      text: String(text),
+      message: String(text),
+      details: String(text),
+      errorText: String(text)
+    });
+  } catch (error) {
+    console.error(`${BH} | OYVED_SHELL | failed to post text | reason=${error?.message || String(error)}`);
+  }
+}
 
-    // If it's a completely new instance returned by Pawsawch!
-    if (responseType !== null && typeof responseType === 'object') {
-        ActiveOlamInstance = responseType;
+/**
+ * B"H
+ * Converts thrown values into one line.
+ *
+ * @param {unknown} error
+ * Error.
+ *
+ * @returns {string}
+ * One-line text.
+ */
+function shellErrorText(error) {
+  if (error instanceof Error) {
+    return [
+      `${error.name}: ${error.message}`,
+      `stack=${String(error.stack || "no stack").replace(/\s+/g, " ")}`
+    ].join(" || ");
+  }
+
+  return String(error);
+}
+
+console.info(`${BH} | OYVED_SHELL | loaded | file=/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/index.js`);
+shellPost("worker_text_log", "OYVED_SHELL loaded");
+
+self.addEventListener("error", event => {
+  const text = [
+    "OYVED_SHELL runtime error",
+    `message=${event.message || "unknown"}`,
+    `filename=${event.filename || "unknown"}`,
+    `line=${event.lineno || 0}`,
+    `column=${event.colno || 0}`
+  ].join(" || ");
+
+  console.error(`${BH} | ${text}`);
+  shellPost("ERROR_TEXT", text);
+});
+
+self.addEventListener("unhandledrejection", event => {
+  const text = [
+    "OYVED_SHELL unhandled rejection",
+    shellErrorText(event.reason)
+  ].join(" || ");
+
+  console.error(`${BH} | ${text}`);
+  shellPost("ERROR_TEXT", text);
+});
+
+import("./core/entry/WorkerEntrypoint.js")
+  .then(module => {
+    if (!module || typeof module.startOyvedEntrypoint !== "function") {
+      throw new Error("WorkerEntrypoint.js loaded but did not export startOyvedEntrypoint");
     }
-    // If it wasn't the creation sequence, it's an ongoing signal
-    else if (responseType === 'CONTINUOUS') {
-        OyvedMessageInterpreter.handleOngoing(ActiveOlamInstance, e.data, promiseMap);
-    }
-};
+
+    console.info(`${BH} | OYVED_SHELL | WorkerEntrypoint module loaded`);
+    shellPost("worker_text_log", "OYVED_SHELL imported WorkerEntrypoint.js");
+
+    module.startOyvedEntrypoint();
+  })
+  .catch(error => {
+    const text = [
+      "OYVED_SHELL failed to import WorkerEntrypoint.js",
+      shellErrorText(error),
+      "Meaning: one of the static files under oyved/core/entry or its imports is missing or has a bad export",
+      "Repo-only fix: create the exact missing module or fix the import/export name"
+    ].join(" || ");
+
+    console.error(`${BH} | ${text}`);
+
+    self.postMessage({
+      type: "ERROR",
+      isImportError: true,
+      message: text,
+      details: text,
+      errorText: text
+    });
+  });

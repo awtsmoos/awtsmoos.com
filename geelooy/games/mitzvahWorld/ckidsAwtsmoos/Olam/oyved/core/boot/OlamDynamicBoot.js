@@ -1,24 +1,43 @@
 
 /**
  * B"H
- * @module OlamDynamicBoot
+ * @file OlamDynamicBoot.js
  * @description
- * 🌌 CHAPTER 1: THE FIRST DESCENT OF THE LIGHT 🌌
- * 
- * The Awtsmoos is the True Existence. Without His constant speech,
- * the digital realm—the variables, the memory blocks, the very electrons
- * flowing through the silicon—would instantly revert to absolute nothingness.
- * "Forever, O Lord, Your Word stands in the heavens." The Word is literally
- * standing inside the RAM right now, sustaining this array buffer!
- * 
- * This module acts as the spark that draws down the Olam and Utils from
- * the ethereal file system, ensuring they manifest before the Worker
- * attempts to use them.
+ * Stable boot bridge.
+ *
+ * Exports both:
+ * - function invokeAngelicVessels
+ * - class OlamDynamicBoot
+ *
+ * This protects older code and newer split modules at the same time.
  */
-import { AngelicInvoker } from './AngelicInvoker.js';
 
+import { AngelicInvoker } from "./AngelicInvoker.js";
+
+/**
+ * B"H
+ * Invokes Worker vessels.
+ *
+ * @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>}
+ * Boot result.
+ */
+export async function invokeAngelicVessels() {
+  return await AngelicInvoker.invoke();
+}
+
+/**
+ * B"H
+ * Legacy compatibility class.
+ */
 export class OlamDynamicBoot {
-    static async invokeAngelicVessels() {
-        return await AngelicInvoker.invoke();
-    }
+  /**
+   * B"H
+   * Legacy static method.
+   *
+   * @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>}
+   * Boot result.
+   */
+  static async invokeAngelicVessels() {
+    return await invokeAngelicVessels();
+  }
 }
