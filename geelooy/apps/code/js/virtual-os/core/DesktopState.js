@@ -6,7 +6,7 @@
  * Per-root desktop memory for windows, icons, settings, and processes.
  */
 
-const PREFIX = 'awtsmoos_virtual_os_state_v4';
+const PREFIX = 'awtsmoos_virtual_os_state_v5';
 
 /**
  * @function nextId
@@ -132,7 +132,7 @@ export const DesktopState = {
         state.windows = state.windows.filter((entry) => entry.id !== windowId);
         if (closed?.processId) state.processes = state.processes.filter((proc) => proc.id !== closed.processId);
         if (state.focusedWindowId === windowId) {
-            const top = [...state.windows].sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0))[0];
+            const top = [...state.windows].filter((win) => !win.isMinimized).sort((a, b) => (b.zIndex || 0) - (a.zIndex || 0))[0];
             state.focusedWindowId = top?.id || null;
         }
     }

@@ -37,6 +37,7 @@ function makeProviderItem(env, path) {
     return {
         ...env.workspace,
         type: env.workspaceType,
+        originalType: env.workspace.originalType || env.workspace.type,
         path,
         kind: 'file',
         workspaceId: env.workspace.id

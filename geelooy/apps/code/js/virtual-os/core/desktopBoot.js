@@ -65,6 +65,6 @@ export function ensureStarterWindows(state) {
 
     if (state.windows.length > 0) return;
 
-    launchVirtualWindow(state, 'explorer', { x: 34, y: 28, width: 540, height: 350 });
-    launchVirtualWindow(state, 'terminal', { x: 92, y: 78, width: 680, height: 360 });
+    launchVirtualWindow(state, 'explorer', { x: 34, y: 28, width: 760, height: 520 });
+    launchVirtualWindow(state, 'terminal', { x: 92, y: 78, width: 720, height: 390 });
 }
