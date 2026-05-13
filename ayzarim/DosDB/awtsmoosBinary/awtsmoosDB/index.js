@@ -231,6 +231,13 @@ class AwtsmoosDB {
         soul.ensureResolved();
         return soul.reader && soul.reader.iter ? soul.reader.iter.range(s, e) : [];
     }
+
+    values(handle) {
+        const soul = handle && handle[constants.SYMBOLS.INTERNALS];
+        if (!soul) return [];
+        soul.ensureResolved();
+        return soul.reader ? Array.from(soul.reader.values()) : [];
+    }
     
     /** Query Perception gateway. */
     query(h, opts) { return QueryExecutor.execute(h, opts); }

@@ -182,36 +182,52 @@ class SearchManager {
         
         const struct = SmartPointer.resolve(h.ptr, this.db.allocator);
         const T = constants.VAL_TYPE;
-        let iterator = [];
+        const effectiveType = (h.type === T.ANCHOR)
+            ? (h.nav.resolveAnchorInnerType() || h.type)
+            : h.type;
+        let pointers = [];
 
         // B"H: The Omniscient Eye - It now sees into all Dimensions of Structure
-        if (h.type === T.SEQUENCE || h.type === T.ARRAY || h.type === T.SET || h.type === T.JS_SET) {
-            iterator = (new Sequence(this.db.allocator, struct)).iterateRaw();
-        } else if (h.type === T.MAP || h.type === T.JS_MAP) {
-            iterator = (new MapEngine(this.db.allocator, struct)).iterateRaw();
-        } else if (h.type === T.DICTIONARY || h.type === T.OBJECT) {
+        if (effectiveType === T.SEQUENCE || effectiveType === T.ARRAY || effectiveType === T.SET || effectiveType === T.JS_SET) {
+            const seq = new Sequence(this.db.allocator, struct);
+            const len = seq.length();
+            for (let i = 0; i < len; i++) {
+                const ptr = seq.getPtr(i);
+                if (ptr) pointers.push(ptr);
+            }
+        } else if (effectiveType === T.MAP || effectiveType === T.JS_MAP) {
+            const map = new MapEngine(this.db.allocator, struct);
+            for (const item of map.range()) {
+                if (item && item.ptr) pointers.push(item.ptr);
+            }
+        } else if (effectiveType === T.DICTIONARY || effectiveType === T.OBJECT) {
             const dict = new Dictionary(this.db.allocator, struct);
             dict._init();
             if (dict.map) {
-                iterator = dict.map.iterateRaw();
+                for (const item of dict.map.range()) {
+                    if (item && item.ptr) pointers.push(item.ptr);
+                }
             }
         }
         
-        for (const item of iterator) {
-            if (!item || !item.ptr) continue;
+        for (const ptr of pointers) {
             // B"H: Use the Great Hydrator so we extract TEXT, not metadata.
-            const val = this._resolveForIndex(item.ptr);
-            indexer.updateIndex(path, item.ptr, null, null, val);
+            const val = this._resolveForIndex(ptr);
+            indexer.updateIndex(path, ptr, null, null, val);
         }
         
         indexer.flush();
     }
 
     _getPhysId(p) {
-        if (!p || !Buffer.isBuffer(p) || p.length < 16) return "";
-        const clone = Buffer.from(p);
-        clone[0] &= 0xC0; 
-        return clone.toString('hex');
+        if (!p || !Buffer.isBuffer(p)) return "";
+        try {
+            const dec = SmartPointer.decode(p);
+            if (!dec) return "";
+            return `${dec.offset}:${dec.length}`;
+        } catch (_e) {
+            return "";
+        }
     }
 
     /**
@@ -234,12 +250,13 @@ class SearchManager {
         
         const queryTokens = [...tokenizer.tokenize(query)];
         if (queryTokens.length === 0) return [];
-        if (!this.db.has(indexMap, queryTokens[0])) return [];
+        if (!this.db.has(indexMap, queryTokens[0])) {
+            return this._fallbackScan(handleOrPath, queryTokens);
+        }
         
         const listInt = indexMap[queryTokens[0]][constants.SYMBOLS.INTERNALS];
         listInt.ensureResolved();
-        
-        const firstRes = SmartPointer.resolve(listInt.ptr, this.db.allocator);
+        const firstRes = listInt.nav.resolveStructPtr();
         if (!firstRes) return [];
 
         let resultPtrs = [];
@@ -251,15 +268,21 @@ class SearchManager {
 
         // Intersect remaining tokens
         for (let i = 1; i < queryTokens.length; i++) {
-            if (resultPtrs.length === 0) return [];
+            if (resultPtrs.length === 0) {
+                return this._fallbackScan(handleOrPath, queryTokens);
+            }
             
             const word = queryTokens[i];
-            if (!this.db.has(indexMap, word)) return [];
+            if (!this.db.has(indexMap, word)) {
+                return this._fallbackScan(handleOrPath, queryTokens);
+            }
             
             const wInt = indexMap[word][constants.SYMBOLS.INTERNALS];
             wInt.ensureResolved();
-            const wRes = SmartPointer.resolve(wInt.ptr, this.db.allocator);
-            if (!wRes) return [];
+            const wRes = wInt.nav.resolveStructPtr();
+            if (!wRes) {
+                return this._fallbackScan(handleOrPath, queryTokens);
+            }
             
             const wSeq = new Sequence(this.db.allocator, wRes);
             const currentSet = new Set();
@@ -277,6 +300,26 @@ class SearchManager {
             objects.push(this._resolveForIndex(ptr));
         }
         return objects;
+    }
+
+    _fallbackScan(handleOrPath, queryTokens) {
+        if (!handleOrPath || typeof handleOrPath === 'string') return [];
+        const values = this.db.values(handleOrPath);
+        const out = [];
+        for (const value of values) {
+            const text = JSON.stringify(value);
+            if (!text) continue;
+            const tokens = tokenizer.tokenize(text);
+            let ok = true;
+            for (const q of queryTokens) {
+                if (!tokens.has(q)) {
+                    ok = false;
+                    break;
+                }
+            }
+            if (ok) out.push(value);
+        }
+        return out;
     }
 }
 

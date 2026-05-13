@@ -42,6 +42,47 @@ class DictionaryEngine {
         return SmartPointer.toBuffer(pLoc);
     }
 
+    delete(key) {
+        this._init();
+        if (!this.initialized || !this.map || !this.seq) return false;
+
+        const encodedKey = Buffer.from(String(key), 'utf8');
+        const existed = this.map.getPtr(encodedKey);
+        if (!existed) return false;
+
+        const mapDeleted = this.map.delete(encodedKey);
+        if (!mapDeleted) return false;
+
+        const len = this.seq.length();
+        let foundIndex = -1;
+        for (let i = 0; i < len; i++) {
+            if (String(this.seq.get(i)) === String(key)) {
+                foundIndex = i;
+                break;
+            }
+        }
+        if (foundIndex >= 0) {
+            this.seq.splice(foundIndex, 1);
+        }
+
+        const newMS = SmartPointer.toBuffer(this.map.ptr);
+        const newSS = SmartPointer.toBuffer(this.seq.ptr);
+        const total = 4 + 1 + newMS.length + 1 + newSS.length;
+        const loc = this.allocator.allocate(total);
+        const buf = Buffer.allocUnsafe(total).fill(0);
+        buf.write(constants.MAGIC_DIC, 0);
+        let p = 4;
+        buf.writeUInt8(newMS.length, p++);
+        newMS.copy(buf, p);
+        p += newMS.length;
+        buf.writeUInt8(newSS.length, p++);
+        newSS.copy(buf, p);
+
+        this.db._writeChainSafe(loc, buf);
+        this.ptr = { ...loc, type: constants.VAL_TYPE.DICTIONARY };
+        return true;
+    }
+
     getPtr(key) {
         this._init();
         return this.map ? this.map.getPtr(key) : null;
@@ -54,7 +95,10 @@ class DictionaryEngine {
     *keys() {
         this._init();
         if (!this.seq) return;
-        yield* this.seq.keys();
+        const len = this.seq.length();
+        for (let i = 0; i < len; i++) {
+            yield this.seq.get(i);
+        }
     }
 }
 

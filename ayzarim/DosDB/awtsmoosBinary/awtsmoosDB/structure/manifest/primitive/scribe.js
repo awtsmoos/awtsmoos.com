@@ -50,6 +50,19 @@ class PrimitiveScribe {
         } else if (Buffer.isBuffer(val)) {
             buf = val;
             type = T.BUFFER;
+        } else if (typeof val === 'function') {
+            let fnSource = '';
+            try {
+                fnSource = Function.prototype.toString.call(val);
+            } catch (_err) {
+                try {
+                    fnSource = String(val);
+                } catch (_err2) {
+                    fnSource = 'function(){ return undefined; }';
+                }
+            }
+            buf = Buffer.from(fnSource, 'utf8');
+            type = T.FUNCTION;
         }
 
         const loc = this.allocator.allocate(buf.length);

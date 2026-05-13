@@ -29,20 +29,15 @@ class PhysicalIdentity {
      * @returns {string} A hex string representing the absolute location, devoid of type.
      */
     static get(p) {
-        if (!p || !Buffer.isBuffer(p) || p.length < 16) return "";
-        
-        // B"H: We copy the buffer so we do not mutate the holy original seal
-        const addr = Buffer.from(p);
-        
-        // The uppermost 6 bits of the first byte are the TYPE. 
-        // The lowest 2 bits are the MODE. 
-        // We mask out the type (0xC0 retains the top 2 bits, assuming mode is stored there).
-        // Actually, the original implementation masks with 0xC0.
-        // Wait, mode is top 2 bits (>> 6). Type is bottom 6 bits (& 0x3F).
-        // Therefore, masking with 0xC0 (11000000) keeps the MODE and zeroes out the TYPE.
-        addr[0] &= 0xC0; 
-        
-        return addr.toString('hex');
+        if (!p || !Buffer.isBuffer(p)) return "";
+        try {
+            const SmartPointer = require('../../../utils/smartPointer/index.js');
+            const dec = SmartPointer.decode(p);
+            if (!dec) return "";
+            return `${dec.offset}:${dec.length}`;
+        } catch (_e) {
+            return "";
+        }
     }
 }
 

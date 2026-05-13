@@ -31,17 +31,19 @@ class VectorReindexer {
 
         if (!soul.ptr) return;
 
-        const type = soul.type;
         const T = constants.VAL_TYPE;
+        const type = (soul.type === T.ANCHOR)
+            ? (soul.nav.resolveAnchorInnerType() || soul.type)
+            : soul.type;
 
         let iterator;
 
         if (type === T.SEQUENCE || type === T.ARRAY || type === T.SET) {
-            const resolved = SmartPointer.resolve(soul.ptr, this.db.allocator);
+            const resolved = soul.nav.resolveStructPtr();
             const engine = new Sequence(this.db.allocator, resolved);
             iterator = this._iterateSequence(engine);
         } else if (type === T.MAP || type === T.DICTIONARY || type === T.OBJECT) {
-            const resolved = SmartPointer.resolve(soul.ptr, this.db.allocator);
+            const resolved = soul.nav.resolveStructPtr();
             
             if (resolved.isStructure) {
                 const engine = new MapEngine(this.db.allocator, resolved);
@@ -96,14 +98,14 @@ class VectorReindexer {
     }
 
     *_iterateSequence(engine) {
-        let idx = 0;
-        for (const raw of engine.iterateRaw()) {
-            yield { key: idx++, ptr: raw.ptr, value: undefined };
+        const len = engine.length();
+        for (let i = 0; i < len; i++) {
+            yield { key: i, ptr: engine.getPtr(i), value: undefined };
         }
     }
 
     *_iterateMap(engine) {
-        for (const raw of engine.iterateRaw()) {
+        for (const raw of engine.range()) {
             const k = raw.key.toString('utf8');
             yield { key: k, ptr: raw.ptr, value: undefined };
         }

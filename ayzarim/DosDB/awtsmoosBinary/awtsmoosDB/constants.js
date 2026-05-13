@@ -51,3 +51,18 @@ module.exports = {
         SOUL_SIG: Symbol.for('Awtsmoos.Soul')
     }
 };
+
+// B"H: Legacy type aliases for older tests/modules.
+module.exports.TYPE_NULL = module.exports.VAL_TYPE.NULL;
+module.exports.TYPE_UNDEFINED = module.exports.VAL_TYPE.UNDEFINED;
+module.exports.TYPE_BOOLEAN = module.exports.VAL_TYPE.BOOLEAN;
+module.exports.TYPE_NUMBER = module.exports.VAL_TYPE.NUMBER;
+module.exports.TYPE_STRING = module.exports.VAL_TYPE.STRING;
+module.exports.TYPE_BUFFER = module.exports.VAL_TYPE.BUFFER;
+module.exports.TYPE_ARRAY = module.exports.VAL_TYPE.ARRAY;
+module.exports.TYPE_OBJECT = module.exports.VAL_TYPE.OBJECT;
+module.exports.TYPE_MAP = module.exports.VAL_TYPE.MAP;
+module.exports.TYPE_SET = module.exports.VAL_TYPE.SET;
+module.exports.TYPE_DICTIONARY = module.exports.VAL_TYPE.DICTIONARY;
+module.exports.TYPE_SEQUENCE = module.exports.VAL_TYPE.SEQUENCE;
+module.exports.TYPE_CUSTOM_INSTANCE = module.exports.VAL_TYPE.CUSTOM_INSTANCE;
