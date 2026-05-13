@@ -109,7 +109,20 @@ export class OctreeWorld {
         // B"H: silent
 
 
-        mesh.updateMatrixWorld(true);
+        // B"H: ABSOLUTE MATRIX TRUTH
+        // Ensure the mesh and ALL its parents have correct matrixWorld values
+        // before we use them to calculate the physics boundary.
+        mesh.updateWorldMatrix(true, true);
+        
+        // B"H: THE PURIFICATION OF THE MATRIX
+        // If the mesh's world matrix has NaN, it will pollute the entire Octree branch.
+        const elements = mesh.matrixWorld.elements;
+        for (let i = 0; i < 16; i++) {
+            if (isNaN(elements[i])) {
+                console.warn(`B"H - 🚨 Mesh [${mesh.name}] has a corrupted matrix! Excluded from physics.`);
+                return false;
+            }
+        }
         
         // Ensure terrain visibility
         if (mesh.userData?.isTerrain || mesh.name?.includes("Ground")) {
@@ -117,18 +130,20 @@ export class OctreeWorld {
         }
 
         // B"H: THE SEPARATION OF LEVELS (Exclusion Logic)
-        if (
-            mesh.userData?.isLiving || 
-            mesh.userData?.isPlayer || 
-            mesh.userData?.isNpc ||
-            mesh.userData?.isSphere ||
-            mesh.userData?.isDynamic || // B"H: Reject all dynamic objects as requested
-            mesh.name?.toLowerCase().includes("chossid") ||
-            mesh.name?.toLowerCase().includes("player")
-        ) {
-            // B"H: silent
+        if (!mesh.userData?.isBuilding && !mesh.userData?.isSolid) {
+            if (
+                mesh.userData?.isLiving || 
+                mesh.userData?.isPlayer || 
+                mesh.userData?.isNpc ||
+                mesh.userData?.isSphere ||
+                mesh.userData?.isDynamic || // B"H: Reject all dynamic objects as requested
+                mesh.name?.toLowerCase().includes("chossid") ||
+                mesh.name?.toLowerCase().includes("player")
+            ) {
+                // B"H: silent
 
-            return false;
+                return false;
+            }
         }
 
         if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
@@ -203,8 +218,13 @@ export class OctreeWorld {
             mesh.updateMatrixWorld(true);
             physicsProxy.matrix.copy(mesh.matrixWorld);
             physicsProxy.matrixWorld.copy(mesh.matrixWorld);
+            
+            // B"H: The essential soul of the mesh must be transferred!
+            // If we don't copy userData, fromGraphNode will reject it as a basic mesh!
+            physicsProxy.userData = { ...mesh.userData };
             physicsProxy.userData._physicsSourceId = mesh.uuid;
             physicsProxy.name = mesh.name + '_physicsProxy';
+
             node.physicsMeshGroup.add(physicsProxy);
             node.state = NODE_STATE.PENDING_BUILD;
             this._buildQueue.add(node);

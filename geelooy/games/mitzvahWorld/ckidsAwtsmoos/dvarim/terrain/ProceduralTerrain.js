@@ -48,25 +48,56 @@ export default class ProceduralTerrain extends Domem {
             if (geometry.computeVertexNormals) geometry.computeVertexNormals();
         }
 
-        // B"H: Grass green Lambert with height-based color snippet
+        let grassTex = null;
+        if (olam && typeof olam.loadTexture === 'function') {
+            try {
+                // B"H: Drawing down the holy texture of the earth
+                grassTex = await olam.loadTexture({ 
+                    url: 'awtsmoostex://' + (this.textureType || 'safegrass'), 
+                    shouldRepeat: true, 
+                    repeatX: this.width / 20, 
+                    repeatY: this.depth / 20 
+                });
+            } catch (e) {
+                console.warn("B\"H - ⚠️ [ProceduralTerrain] Texture loading failed:", e);
+            }
+        }
+
+        // B"H: Grass green Lambert with high-quality micro-noise and shimmer
         const GRASS_TERRAIN_SNIPPETS = {
             uniforms: {
-                uGrassLight: { value: { r: 0x4d/255, g: 0x8b/255, b: 0x31/255 } }, // More vibrant light green
-                uGrassDark:  { value: { r: 0x1a/255, g: 0x3d/255, b: 0x14/255 } }, // Deep forest dark green
+                uTime:       { value: 0 },
+                uGrassLight: { value: { r: 0x4d/255, g: 0x8b/255, b: 0x31/255 } }, 
+                uGrassDark:  { value: { r: 0x1a/255, g: 0x3d/255, b: 0x14/255 } }, 
             },
             fragment: {
-                head: `varying vec3 vPosition; uniform vec3 uGrassLight; uniform vec3 uGrassDark;`,
+                head: `
+                    varying vec3 vPosition; 
+                    uniform float uTime;
+                    uniform vec3 uGrassLight; 
+                    uniform vec3 uGrassDark;
+
+                    // B"H: High-frequency noise for micro-detail
+                    float hash(vec2 p) {
+                        return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+                    }
+                `,
                 color: `
-                    // B"H: Smooth height-based transition for hills and valleys
+                    // B"H: Smooth height-based transition
                     float h = vPosition.y;
                     float hillFactor = smoothstep(-5.0, 40.0, h);
-                    vec3 grassColor = mix(uGrassDark, uGrassLight, hillFactor);
+                    vec3 gradientColor = mix(uGrassDark, uGrassLight, hillFactor);
                     
-                    // B"H: Subtle noise-like variation based on XZ position
-                    float noise = fract(sin(dot(vPosition.xz, vec2(12.9898, 78.233))) * 43758.5453);
-                    grassColor = mix(grassColor, grassColor * 1.1, noise * 0.2);
+                    // B"H: Micro-noise for texture depth
+                    float micro = hash(vPosition.xz * 25.0);
+                    gradientColor = mix(gradientColor, gradientColor * 1.2, micro * 0.15);
 
-                    diffuseColor.rgb = grassColor;
+                    // B"H: The Shimmer of Divine Sparks
+                    float shimmer = pow(hash(vPosition.xz * 0.5 + floor(uTime * 1.5)), 20.0);
+                    gradientColor += vec3(0.1, 0.2, 0.1) * shimmer;
+
+                    // B"H: Blend with the texture and boost
+                    diffuseColor.rgb *= gradientColor * 2.0;
                 `
             },
             vertex: {
@@ -74,7 +105,13 @@ export default class ProceduralTerrain extends Domem {
                 main: `vPosition = (modelMatrix * vec4(position, 1.0)).xyz;`
             }
         };
-        const mat = this.createMaterial('Lambert', { color: 0x4a7c59, side: 2 }, GRASS_TERRAIN_SNIPPETS);
+        const mat = this.createMaterial('Lambert', { 
+            color: 0xffffff, 
+            map: grassTex,
+            side: 2 
+        }, GRASS_TERRAIN_SNIPPETS);
+
+
 
         this.mesh = this.createMesh(geometry, mat);
         this.mesh.name = this.name;
@@ -103,4 +140,15 @@ export default class ProceduralTerrain extends Domem {
 
         this.isReady = true;
     }
+
+    /**
+     * @method heesHawvoos
+     * @description B"H — Animates the grass shimmer each frame, ticking uTime forward.
+     */
+    heesHawvoos(dt) {
+        if (!this.isReady || !this.mesh?.material?.userData?.shader) return;
+        const su = this.mesh.material.userData.shader.uniforms;
+        if (su?.uTime) su.uTime.value += dt;
+    }
 }
+

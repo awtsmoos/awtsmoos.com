@@ -5,7 +5,6 @@ import * as THREE from '/games/scripts/build/three.module.js';
 const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
 const _temp_triangle = new THREE.Triangle();
-const MAX_DEPTH = 55;
 
 export default {
     split(level) {
@@ -39,7 +38,7 @@ export default {
 
         for (const subTree of newSubTrees) {
             const len = subTree.triangles.length;
-            if (len > 8 && level < MAX_DEPTH) {
+            if (len > (this.config.MAX_TRIANGLES_PER_NODE || 32) && level < (this.config.MAX_DEPTH || 8)) {
                 subTree.split(level + 1);
             }
             if (len !== 0) {

@@ -14,6 +14,7 @@ import Ayin from "./camera/index.js";
 import UserProgressManager from "../systems/UserProgressManager.js"; 
 import Yichud from "./interaction/Yichud.js";
 import PlacementManager from "./interaction/PlacementManager.js";
+import CombatManager from "../systems/combat/CombatManager.js";
 
 export default class Olam extends AWTSMOOS.Nivra {
     ASPECT_X = 1920;
@@ -46,8 +47,13 @@ export default class Olam extends AWTSMOOS.Nivra {
                 this.userProgressManager = new UserProgressManager(this);
                 this.yichud = new Yichud(this);
                 this.placementManager = new PlacementManager(this);
+
+                // B"H - Initialize the Combat System (Hebrew Weapons, Health Bars, Projectiles)
+                this.combatManager = new CombatManager(this);
+                this.combatManager.init();
+
                 this.startShlichusHandler(this);
-                this.scene.add(this.octreeDebugHelper);
+                this.octreeDebugHelper.visible = false;
                 
                 // B"H: silent
 

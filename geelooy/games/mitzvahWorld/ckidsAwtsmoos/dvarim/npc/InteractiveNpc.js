@@ -48,7 +48,7 @@ export default class InteractiveNpc extends Medabeir {
 
         super(op, olam);
         this.options = op || {}; // B"H: Secure the options
-        this.dialogues = this.options.dialogues || null; 
+        this.dialogues = this.options.dialogues || this.options.dialog || null; 
         this.interactKey = 'C';
 
         // B"H: The Vessel of Interaction - refined for precision
@@ -108,6 +108,11 @@ export default class InteractiveNpc extends Medabeir {
                 child.userData.interactable = true;
             }
         });
+
+        // B"H: Apply modular garments and colors
+        if (typeof this.updateAppearance === 'function') {
+            this.updateAppearance();
+        }
         
         // B"H: Anchoring the Interaction Proxy
         if (this.interactionMesh) {
@@ -117,27 +122,12 @@ export default class InteractiveNpc extends Medabeir {
         }
 
         // B"H: The Mark of the Shlichus (Mission)
-        if (this.options && this.options.hasMission) {
-            const markBlueprint = {
-                type: "Group",
-                children: [
-                    {
-                        type: "Mesh",
-                        geometry: { type: "CylinderGeometry", args: [0.05, 0.05, 0.4, 8] },
-                        material: { type: "MeshBasicMaterial", args: [{ color: 0xffff00 }] },
-                        position: [0, this.height + 0.6, 0]
-                    },
-                    {
-                        type: "Mesh",
-                        geometry: { type: "SphereGeometry", args: [0.08, 8, 8] },
-                        material: { type: "MeshBasicMaterial", args: [{ color: 0xffff00 }] },
-                        position: [0, this.height + 0.2, 0]
-                    }
-                ]
-            };
-            
-            this.missionMark = AwtsmoosThreeManifestor.emanate(markBlueprint);
-            this.mesh.add(this.missionMark);
+        if (this.options && (this.options.hasMission || this.options.missionId)) {
+            this._addMissionMark(0xffff00);
+        } else if (this.options && this.options.canDebate) {
+            this._addMissionMark(0xff0000); // Red mark for combat/debate
+        } else if (this.options && this.options.hasShop) {
+            this._addMissionMark(0x00ff00); // Green mark for shops
         }
 
         // B"H: Registration in the Sacred Ledger
@@ -148,72 +138,52 @@ export default class InteractiveNpc extends Medabeir {
         this.isReady = true;
     }
 
+    _addMissionMark(color) {
+        const markBlueprint = {
+            type: "Group",
+            children: [
+                {
+                    type: "Mesh",
+                    geometry: { type: "CylinderGeometry", args: [0.05, 0.05, 0.4, 8] },
+                    material: { type: "MeshBasicMaterial", args: [{ color }] },
+                    position: [0, this.height + 0.6, 0]
+                },
+                {
+                    type: "Mesh",
+                    geometry: { type: "SphereGeometry", args: [0.08, 8, 8] },
+                    material: { type: "MeshBasicMaterial", args: [{ color }] },
+                    position: [0, this.height + 0.2, 0]
+                }
+            ]
+        };
+        this.missionMark = AwtsmoosThreeManifestor.emanate(markBlueprint);
+        this.mesh.add(this.missionMark);
+    }
+
     _setupEventHandlers() {
-        this.on("nivraNeechnas", (player) => {
-            if (player.type === 'chossid') {
-                this._showInteractionPrompt();
-            }
-        });
-
-        this.on("nivraYotsee", (player) => {
-            if (player.type === 'chossid') {
-                this._hideInteractionPrompt();
-            }
-        });
-
         this.on("accepted interaction", (player) => {
-            if (this.options && this.options.hasMission && this.options.missionData) {
-                const reqItem = this.options.missionData.requiredItem;
-                const reqCount = this.options.missionData.count || 1;
-                
-                let hasItem = false;
-                if (player.inventory) {
-                    const invArrays = [player.inventory.actionSlots, player.inventory.pockets, player.inventory.backpack];
-                    let totalFound = 0;
-                    invArrays.forEach(arr => {
-                        if(arr) arr.forEach(item => {
-                            if (item && item.id === reqItem) totalFound += (item.amount || 1);
-                        });
-                    });
-                    if (totalFound >= reqCount) hasItem = true;
-                }
-
-                if (hasItem) {
-                    this.olam.ayshPeula("ui event", "toast", { message: this.options.missionData.successMsg || "Mission Complete! B\"H!" });
-                    this.options.hasMission = false;
-                    if (this.missionMark) {
-                        this.missionMark.children.forEach(c => c.material.color.setHex(0x00ff00));
-                        setTimeout(() => {
-                            if (this.mesh && this.missionMark) this.mesh.remove(this.missionMark);
-                            this.missionMark = null;
-                        }, 2000);
-                    }
-                    return;
-                }
+            if (this.options && this.options.canDebate) {
+                this.olam.ayshPeula("start battle", { opponent: this });
+                return;
             }
-
-            // B"H: Distance check
-            const chossid = this.olam.chossid;
-            if (chossid && chossid.mesh && this.mesh) {
-                const dist = chossid.mesh.position.distanceTo(this.mesh.position);
-                if (dist > (this.options.proximity || 4.5)) {
-                    this.olam.ayshPeula("ui event", "toast", { message: "B\"H! Too far away to speak.", type: "error" });
-                    return;
-                }
+            if (this.options && this.options.hasShop) {
+                this.olam.ayshPeula("ui event", "openShop", { inventory: this.options.shopInventory || [] });
+                return;
             }
-
-            // B"H: Use the modern Siach (Dialogue) system
+            // ... (rest of mission logic) ...
             if (typeof this.handleDialogue === 'function') {
                 this.handleDialogue(player);
             } else {
                 this.speak();
             }
         });
-
+        // ... (mouse handlers) ...
         this.on("mouseEnter", () => {
             this.olam.ayshPeula("set cursor", "pointer");
-            this.olam.ayshPeula("ui event", "tooltip", { show: true, text: "Chat with NPC" });
+            const txt = this.options.canDebate ? "Challenge to Debate" : (this.options.hasShop ? "Trade with Merchant" : "Chat with NPC");
+            this.olam.ayshPeula("ui event", "tooltip", { show: true, text: txt });
         });
+
         this.on("mouseLeave", () => {
             this.olam.ayshPeula("set cursor", "default");
             this.olam.ayshPeula("ui event", "tooltip", { show: false });

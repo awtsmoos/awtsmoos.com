@@ -61,7 +61,12 @@ export default class OctreeIntake {
     }
 }
 
-Object.assign(OctreeIntake.prototype, QueueProcessor);
-Object.assign(OctreeIntake.prototype, LODManager);
-Object.assign(OctreeIntake.prototype, ObjectManager);
-Object.assign(OctreeIntake.prototype, Traversal);
+import ChasveiAwtsmoos from "../../../utils/ChasveiAwtsmoos.js";
+
+// B"H - Grafting the modular limbs onto the trunk with Divine Emanation
+ChasveiAwtsmoos.emanate(OctreeIntake.prototype, [
+    QueueProcessor,
+    LODManager,
+    ObjectManager,
+    Traversal
+]);

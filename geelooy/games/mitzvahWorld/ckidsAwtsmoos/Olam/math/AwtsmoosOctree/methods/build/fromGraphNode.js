@@ -47,30 +47,32 @@ export default {
 
 
                 // B"H: THE DOUBLE SEAL OF EXCLUSION
-                if (
-                    obj.userData?.isPlayer || 
-                    obj.userData?.isNpc || 
-                    obj.userData?.isLiving ||
-                    obj.userData?.isSphere ||
-                    obj.userData?.skipOctree ||
-                    obj.name?.toLowerCase().includes("chossid") ||
-                    obj.name?.toLowerCase().includes("player") ||
-                    obj.name?.toLowerCase().includes("sphere") ||
-                    obj.geometry.type?.includes("Sphere") ||
-                    obj.geometry.type?.includes("Capsule") ||
-                    obj.geometry.type?.includes("Torus")
-                ) {
-                    // B"H: silent
-
-                    return;
+                const isSolidOverride = obj.userData?.isSolid || obj.userData?.isBuilding;
+                if (!isSolidOverride) {
+                    if (
+                        obj.userData?.isPlayer || 
+                        obj.userData?.isNpc || 
+                        obj.userData?.isLiving ||
+                        obj.userData?.isSphere ||
+                        obj.userData?.skipOctree ||
+                        obj.name?.toLowerCase().includes("chossid") ||
+                        obj.name?.toLowerCase().includes("player") ||
+                        obj.name?.toLowerCase().includes("sphere") ||
+                        obj.geometry.type?.includes("Sphere") ||
+                        obj.geometry.type?.includes("Capsule") ||
+                        obj.geometry.type?.includes("Torus")
+                    ) {
+                        return;
+                    }
                 }
 
                 // 0. TRIANGLE COUNT CHECK
                 // "He counts the number of the stars." (Tehillim 147:4)
                 // If a mesh is too complex, it will shatter the memory of the vessel.
                 const count = obj.geometry.index ? obj.geometry.index.count : obj.geometry.attributes.position.count;
-                if (count > MAX_TRIANGLES_PER_MESH * 3) {
-                    console.warn(`B"H - 🚨 Skipping massive mesh [${obj.name}] with ${count/3} triangles!`);
+                const limit = (obj.userData?.isTerrain || obj.userData?.isBuilding) ? 100000 : MAX_TRIANGLES_PER_MESH;
+                if (count > limit * 3) {
+                    console.warn(`B"H - 🚨 Skipping massive mesh [${obj.name}] with ${count/3} triangles! Limit is ${limit}.`);
                     return;
                 }
 
@@ -85,9 +87,9 @@ export default {
                 // This prevents the Octree from becoming a zero-thickness barrier that the player falls through.
                 const size = new THREE.Vector3();
                 box.getSize(size);
-                if (size.y < 0.01) {
-                    box.min.y -= 0.1;
-                    box.max.y += 0.1;
+                if (size.y < 0.1) {
+                    box.min.y -= 0.5;
+                    box.max.y += 0.5;
                 }
                 
                 // Union the node's local box into the master Octree box
@@ -103,8 +105,21 @@ export default {
                         _meshScratch_v2.fromBufferAttribute(pos, i + 1).applyMatrix4(obj.matrixWorld);
                         _meshScratch_v3.fromBufferAttribute(pos, i + 2).applyMatrix4(obj.matrixWorld);
                         
-                        // B"H: We clone only the final coordinates into the Triangle,
-                        // NOT the scratch vectors themselves. The scratch vectors are reused.
+                        // B"H: ABSOLUTE TRUTH CHECK
+                        // We must ensure the matter is not corrupted by the void (NaN).
+                        // Corrupted data causes raycasting to fall into the abyss of the infinite loop.
+                        const isCorrupt = 
+                            isNaN(_meshScratch_v1.x) || isNaN(_meshScratch_v1.y) || isNaN(_meshScratch_v1.z) ||
+                            isNaN(_meshScratch_v2.x) || isNaN(_meshScratch_v2.y) || isNaN(_meshScratch_v2.z) ||
+                            isNaN(_meshScratch_v3.x) || isNaN(_meshScratch_v3.y) || isNaN(_meshScratch_v3.z);
+
+                        if (isCorrupt) {
+                            if (Math.random() < 0.01) {
+                                console.warn(`B"H - 🚨 Corrupted vertex (NaN) detected in mesh [${obj.name}]! Purification in progress...`);
+                            }
+                            continue;
+                        }
+
                         const triangle = new THREE.Triangle(
                             _meshScratch_v1.clone(),
                             _meshScratch_v2.clone(),

@@ -33,6 +33,16 @@ export default {
         
         // 1. THE ABSOLUTE REVELATION OF COORDINATES
         mesh.updateMatrixWorld(true);
+        
+        // B"H: THE PURIFICATION OF THE MATRIX
+        const elements = mesh.matrixWorld.elements;
+        for (let i = 0; i < 16; i++) {
+            if (isNaN(elements[i])) {
+                console.warn(`B"H - 🚨 Mesh [${mesh.name}] has a corrupted matrix! Excluded from physics.`);
+                return false;
+            }
+        }
+
         if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
         
         const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
