@@ -5,14 +5,17 @@
  * @file api/liveHandle/reader/hydrator/scalars/regexp.js
  * @chapter The Pattern Breathes Again
  * @description
- * Converts the stored JSON payload into a real RegExp, not a plain object.
+ * RegExp must return as a living RegExp instance with .test(), not as a plain
+ * object, not as JSON, not as a dead dictionary mask.
  */
 
 /**
  * @function reviveRegExp
- * @description Revives a RegExp.
- * @param {Buffer} buffer - Stored JSON bytes.
- * @returns {RegExp} RegExp instance.
+ * @description
+ * Revives a stored regular expression.
+ *
+ * @param {Buffer} buffer - JSON payload containing source and flags.
+ * @returns {RegExp} Revived RegExp.
  */
 function reviveRegExp(buffer) {
   try {

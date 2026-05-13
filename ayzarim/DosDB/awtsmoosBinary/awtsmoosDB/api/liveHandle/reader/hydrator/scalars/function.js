@@ -5,14 +5,16 @@
  * @file api/liveHandle/reader/hydrator/scalars/function.js
  * @chapter The Verb Reopens Its Mouth
  * @description
- * Revives stored function source. If revival fails, returns a safe function.
+ * Revives stored function source for the existing function resurrection tests.
  */
 
 /**
  * @function reviveFunction
- * @description Revives function source.
+ * @description
+ * Revives function source into a callable function.
+ *
  * @param {Buffer} buffer - Function source bytes.
- * @returns {Function} Revived function.
+ * @returns {Function} Revived function or safe fallback.
  */
 function reviveFunction(buffer) {
   const source = buffer.toString('utf8');

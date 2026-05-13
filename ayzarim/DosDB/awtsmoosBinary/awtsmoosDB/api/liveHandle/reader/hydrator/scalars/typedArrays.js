@@ -5,14 +5,16 @@
  * @file api/liveHandle/reader/hydrator/scalars/typedArrays.js
  * @chapter The Metal Arrays Rise
  * @description
- * Restores typed arrays from one constructor code byte plus raw bytes.
+ * Restores typed arrays from one constructor-code byte and raw payload bytes.
  */
 
 /**
  * @function ownArrayBuffer
- * @description Copies Buffer bytes into a detached ArrayBuffer.
+ * @description
+ * Copies Buffer bytes into a standalone ArrayBuffer.
+ *
  * @param {Buffer} raw - Raw bytes.
- * @returns {ArrayBuffer} ArrayBuffer.
+ * @returns {ArrayBuffer} Standalone ArrayBuffer.
  */
 function ownArrayBuffer(raw) {
   return raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength);
@@ -34,9 +36,11 @@ const FACTORIES = {
 
 /**
  * @function reviveTypedArray
- * @description Revives a typed array from encoded bytes.
- * @param {Buffer} buffer - Encoded bytes.
- * @returns {*} Typed array.
+ * @description
+ * Revives a typed array from encoded bytes.
+ *
+ * @param {Buffer} buffer - Encoded typed-array bytes.
+ * @returns {*} Revived typed array.
  */
 function reviveTypedArray(buffer) {
   if (!buffer || buffer.length < 1) return new Uint8Array(0);

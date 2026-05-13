@@ -5,14 +5,16 @@
  * @file api/liveHandle/reader/hydrator/scalars/bigint.js
  * @chapter The Mountain Returns From Its Bytes
  * @description
- * Revives BigInt from big-endian magnitude bytes.
+ * BigInt revives from unsigned magnitude bytes plus the sign carried by type.
  */
 
 /**
  * @function fromBuffer
- * @description Converts magnitude bytes to BigInt.
+ * @description
+ * Converts big-endian magnitude bytes back into a BigInt.
+ *
  * @param {Buffer} buffer - Magnitude bytes.
- * @param {boolean} negative - Whether the result is negative.
+ * @param {boolean} negative - Whether to negate the magnitude.
  * @returns {bigint} Revived BigInt.
  */
 function fromBuffer(buffer, negative) {
@@ -20,6 +22,7 @@ function fromBuffer(buffer, negative) {
 
   const hex = buffer.toString('hex') || '00';
   const magnitude = BigInt(`0x${hex}`);
+
   return negative ? -magnitude : magnitude;
 }
 

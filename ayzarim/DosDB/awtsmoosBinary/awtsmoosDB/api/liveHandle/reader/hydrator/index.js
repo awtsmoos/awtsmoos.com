@@ -5,30 +5,14 @@
  * @file api/liveHandle/reader/hydrator/index.js
  * @chapter The Hydrator That Knows What Is Alive
  * @description
- * Central read gate for pointer bytes. Scalars return real JavaScript values.
- * Containers return structure descriptors for LiveHandle wrapping.
+ * Central read gate for pointer bytes.
+ * Uses rootRequire, so this file can never again break from bad ../../../ math.
  */
 
-const constants = require('../../../constants.js');
-const SmartPointer = require('../../../utils/smartPointer/index.js');
+const rootRequire = require('./root.js');
+const SmartPointer = rootRequire('utils', 'smartPointer', 'index.js');
 const Scalars = require('./scalars/index.js');
-
-const T = constants.VAL_TYPE;
-
-const CONTAINERS = new Set([
-  T.MAP,
-  T.JS_MAP,
-  T.SEQUENCE,
-  T.DICTIONARY,
-  T.SET,
-  T.JS_SET,
-  T.OBJECT,
-  T.ARRAY,
-  T.JSON,
-  T.SMART_OBJECT,
-  T.SMART_ARRAY,
-  T.ANCHOR
-]);
+const CONTAINERS = require('./containerTypes.js');
 
 /**
  * @class Hydrator
@@ -47,9 +31,11 @@ class Hydrator {
 
   /**
    * @method readBytes
-   * @description Reads bytes for a decoded pointer.
+   * @description
+   * Reads raw bytes for a decoded pointer.
+   *
    * @param {object} ptr - Decoded pointer.
-   * @returns {Buffer} Raw bytes.
+   * @returns {Buffer} Stored bytes.
    */
   readBytes(ptr) {
     if (!ptr || !ptr.length) return Buffer.alloc(0);
@@ -58,9 +44,11 @@ class Hydrator {
 
   /**
    * @method hydrateDecoded
-   * @description Hydrates a decoded pointer object.
+   * @description
+   * Hydrates a decoded pointer.
+   *
    * @param {object} ptr - Decoded pointer.
-   * @returns {*} Hydrated value or structure descriptor.
+   * @returns {*} Hydrated scalar or structure descriptor.
    */
   hydrateDecoded(ptr) {
     if (!ptr) return undefined;
@@ -73,17 +61,18 @@ class Hydrator {
       };
     }
 
-    const bytes = this.readBytes(ptr);
-    const scalar = Scalars.hydrateScalar(ptr.type, bytes);
+    const scalar = Scalars.hydrateScalar(ptr.type, this.readBytes(ptr));
 
     if (scalar.hit) return scalar.value;
 
-    return bytes;
+    return this.readBytes(ptr);
   }
 
   /**
    * @method hydrate
-   * @description Hydrates a pointer seal or decoded pointer.
+   * @description
+   * Hydrates a pointer seal or decoded pointer.
+   *
    * @param {Buffer|object} seal - Pointer seal or decoded pointer.
    * @returns {*} Hydrated value.
    */
