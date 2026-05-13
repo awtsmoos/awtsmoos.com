@@ -3,16 +3,14 @@
  * B"H
  * @file SafeModuleImport.js
  * @description
- * Dynamic import wrapper with exact text logs and export validation.
+ * Dynamic import wrapper.
+ *
+ * Logs only on error.
  */
 
 import { workerImportLog, postTextToMain } from "../log/WorkerTextLogger.js";
 import { resolveModuleRecord } from "./ModuleUrlResolver.js";
-import {
-  makeModuleStartText,
-  makeModuleSuccessText,
-  makeModuleFailureText
-} from "./ModuleLoadText.js";
+import { makeModuleFailureText } from "./ModuleLoadText.js";
 import { requireModuleExport } from "./ModuleExportValidator.js";
 
 /**
@@ -27,18 +25,10 @@ import { requireModuleExport } from "./ModuleExportValidator.js";
  */
 export async function importLedgerModule(record) {
   const resolved = resolveModuleRecord(record);
-  const startText = makeModuleStartText(resolved);
-
-  workerImportLog.info(startText);
-  postTextToMain("worker_text_log", startText);
 
   try {
     const module = await import(resolved.relativePath);
     const required = requireModuleExport(module, resolved);
-    const successText = makeModuleSuccessText(resolved);
-
-    workerImportLog.info(successText);
-    postTextToMain("worker_text_log", successText);
 
     return {
       record: resolved,

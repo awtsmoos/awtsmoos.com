@@ -3,25 +3,15 @@
  * B"H
  * @file TextLogger.js
  * @description
- * Text-only logger for worker boot.
+ * Text-only logger.
  *
- * This refuses object logs on purpose.
- * The console should read like a scroll:
- * one line, one meaning, one flame.
+ * Reduced:
+ * - errors always show
+ * - warnings show
+ * - normal info/debug stay silent
  */
 
 import { makeTextLogLine } from "./TextLogLine.js";
-
-/**
- * B"H
- * Console method map.
- */
-const CONSOLE_METHODS = Object.freeze({
-  debug: "debug",
-  info: "info",
-  warn: "warn",
-  error: "error"
-});
 
 /**
  * B"H
@@ -39,7 +29,7 @@ export class TextLogger {
 
   /**
    * B"H
-   * Writes a line.
+   * Writes warn/error only.
    *
    * @param {string} level
    * Log level.
@@ -48,32 +38,33 @@ export class TextLogger {
    * Main text.
    *
    * @param {Record<string, unknown>} fields
-   * Extra fields flattened into text.
+   * Extra fields.
    *
    * @returns {void}
    */
   line(level, message, fields = {}) {
-    const method = CONSOLE_METHODS[level] || "log";
-    const line = makeTextLogLine(level, this.channel, message, fields);
-    console[method](line);
+    if (level === "error") {
+      console.error(makeTextLogLine(level, this.channel, message, fields));
+      return;
+    }
+
+    if (level === "warn") {
+      console.warn(makeTextLogLine(level, this.channel, message, fields));
+    }
   }
 
   /**
    * B"H
-   * @param {string} message
-   * Message.
-   *
-   * @param {Record<string, unknown>} fields
-   * Fields.
+   * Silent info.
    *
    * @returns {void}
    */
-  info(message, fields = {}) {
-    this.line("info", message, fields);
-  }
+  info() {}
 
   /**
    * B"H
+   * Writes warning.
+   *
    * @param {string} message
    * Message.
    *
@@ -88,6 +79,8 @@ export class TextLogger {
 
   /**
    * B"H
+   * Writes error.
+   *
    * @param {string} message
    * Message.
    *
@@ -102,15 +95,9 @@ export class TextLogger {
 
   /**
    * B"H
-   * @param {string} message
-   * Message.
-   *
-   * @param {Record<string, unknown>} fields
-   * Fields.
+   * Silent debug.
    *
    * @returns {void}
    */
-  debug(message, fields = {}) {
-    this.line("debug", message, fields);
-  }
+  debug() {}
 }

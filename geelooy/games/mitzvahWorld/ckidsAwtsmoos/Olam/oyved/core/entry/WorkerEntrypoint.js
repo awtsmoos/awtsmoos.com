@@ -3,22 +3,18 @@
  * B"H
  * @file WorkerEntrypoint.js
  * @description
- * Real Worker entrypoint.
- *
- * Fixes:
- * - no duplicate boot imports
- * - boot modules load once
- * - listener installs once
- * - Olam boot receives the already-loaded OlamDynamicBoot class
+ * Real Worker entrypoint with progress checkpoints.
  */
 
-import { postPlainWorkerText, postPlainWorkerError } from "./PlainWorkerPost.js";
+import { postPlainWorkerError } from "./PlainWorkerPost.js";
 import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js";
 import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js";
 import { createWorkerBootState } from "./WorkerBootState.js";
 import { startWorkerBoot } from "./WorkerBootRunner.js";
 import { loadWorkerCoreModules } from "./WorkerCoreModules.js";
 import { installWorkerMessageListener } from "./WorkerListenerInstaller.js";
+import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
 
 /**
  * B"H
@@ -28,14 +24,29 @@ import { installWorkerMessageListener } from "./WorkerListenerInstaller.js";
  */
 export async function startOyvedEntrypoint() {
   try {
-    installWorkerGlobalErrors();
-    postPlainWorkerText("worker_text_log", "WorkerEntrypoint started");
+    postWorkerProgress("entrypoint:start");
 
-    const state = createWorkerBootState();
-    const modules = await loadWorkerCoreModules();
+    runWorkerStageSync("install-global-errors", () => {
+      installWorkerGlobalErrors();
+    });
 
-    installWorkerMessageListener(state, modules.OyvedMessageInterpreter);
-    startWorkerBoot(state, modules.OlamDynamicBoot);
+    const state = runWorkerStageSync("create-worker-state", () => {
+      return createWorkerBootState();
+    });
+
+    const modules = await runWorkerStage("load-core-modules", async () => {
+      return await loadWorkerCoreModules();
+    });
+
+    runWorkerStageSync("install-message-listener", () => {
+      installWorkerMessageListener(state, modules.OyvedMessageInterpreter);
+    });
+
+    runWorkerStageSync("start-worker-boot", () => {
+      startWorkerBoot(state, modules.OlamDynamicBoot);
+    });
+
+    postWorkerProgress("entrypoint:done");
   } catch (error) {
     const text = [
       "WorkerEntrypoint failed",

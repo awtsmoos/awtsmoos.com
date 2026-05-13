@@ -3,12 +3,14 @@
  * B"H
  * @file WorkerBootRunner.js
  * @description
- * Runs Worker vessel boot without re-importing modules twice.
+ * Runs Worker vessel boot with visible progress.
  */
 
-import { postPlainWorkerText, postPlainWorkerError } from "./PlainWorkerPost.js";
+import { postPlainWorkerError } from "./PlainWorkerPost.js";
 import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js";
 import { setWorkerSystemCore } from "./WorkerBootState.js";
+import { runWorkerStage } from "./WorkerProgressTry.js";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
 
 /**
  * B"H
@@ -42,17 +44,22 @@ export function startWorkerBoot(state, OlamDynamicBoot) {
  * Ready flag.
  */
 async function runWorkerBoot(state, OlamDynamicBoot) {
-  postPlainWorkerText("worker_text_log", "Worker boot runner started");
+  postWorkerProgress("boot-runner:start");
 
   try {
     if (!OlamDynamicBoot || typeof OlamDynamicBoot.invokeAngelicVessels !== "function") {
       throw new Error("OlamDynamicBoot missing static invokeAngelicVessels method");
     }
 
-    const systemCore = await OlamDynamicBoot.invokeAngelicVessels();
-    const ready = setWorkerSystemCore(state, systemCore);
+    const systemCore = await runWorkerStage("invoke-angelic-vessels", async () => {
+      return await OlamDynamicBoot.invokeAngelicVessels();
+    });
 
-    postPlainWorkerText("worker_text_log", `Worker boot runner finished || ready=${ready}`);
+    const ready = await runWorkerStage("set-worker-system-core", async () => {
+      return setWorkerSystemCore(state, systemCore);
+    });
+
+    postWorkerProgress(`boot-runner:done:ready=${ready}`);
     return ready;
   } catch (error) {
     const text = [

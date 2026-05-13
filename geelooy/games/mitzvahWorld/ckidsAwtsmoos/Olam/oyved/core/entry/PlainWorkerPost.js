@@ -3,12 +3,38 @@
  * B"H
  * @file PlainWorkerPost.js
  * @description
- * Plain text postMessage helpers for the Worker realm.
+ * Plain Worker post helpers.
+ *
+ * Normal logs are suppressed.
+ * Protocol messages are allowed.
  */
+
+import { postWorkerProtocol, postWorkerProgress, postWorkerError } from "../protocol/WorkerProtocol.js";
 
 /**
  * B"H
- * Posts text to the main thread.
+ * Allowed protocol message types.
+ */
+const PROTOCOL_TYPES = new Set([
+  "vessel_ready",
+  "loadedWorld",
+  "canvas_transferred",
+  "worker_progress"
+]);
+
+/**
+ * B"H
+ * Allowed error message types.
+ */
+const ERROR_TYPES = new Set([
+  "ERROR",
+  "ERROR_TEXT",
+  "worker_import_error_text"
+]);
+
+/**
+ * B"H
+ * Posts text only if it is an error or protocol checkpoint.
  *
  * @param {string} type
  * Message type.
@@ -19,8 +45,25 @@
  * @returns {void}
  */
 export function postPlainWorkerText(type, text) {
-  self.postMessage({
-    type,
+  if (type === "worker_progress") {
+    postWorkerProgress(text);
+    return;
+  }
+
+  if (PROTOCOL_TYPES.has(type)) {
+    postWorkerProtocol(type, {
+      text: String(text),
+      message: String(text),
+      details: String(text)
+    });
+    return;
+  }
+
+  if (!ERROR_TYPES.has(type)) {
+    return;
+  }
+
+  postWorkerProtocol(type, {
     text: String(text),
     message: String(text),
     details: String(text),
@@ -30,7 +73,7 @@ export function postPlainWorkerText(type, text) {
 
 /**
  * B"H
- * Posts normal worker error text.
+ * Posts Worker error text.
  *
  * @param {string} text
  * Error text.
@@ -41,11 +84,5 @@ export function postPlainWorkerText(type, text) {
  * @returns {void}
  */
 export function postPlainWorkerError(text, isImportError = false) {
-  self.postMessage({
-    type: "ERROR",
-    isImportError,
-    message: String(text),
-    details: String(text),
-    errorText: String(text)
-  });
+  postWorkerError(text, isImportError);
 }

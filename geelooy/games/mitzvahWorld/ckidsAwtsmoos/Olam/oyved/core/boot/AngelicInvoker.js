@@ -5,13 +5,15 @@
  * @description
  * Worker vessel invoker.
  *
- * This version permanently avoids the bad ./core.js default-export assumption.
+ * Important:
+ * vessel_ready is protocol, not a log.
+ * It must always be posted or the main thread never sends pawsawch.
  */
 
 import { ErrorHandler } from "./ErrorHandler.js";
 import { importAngelicVesselsInOrder } from "./AngelicVesselImports.js";
 import { makeSystemCore } from "./SystemCoreValidator.js";
-import { workerBootLog, postTextToMain } from "../log/WorkerTextLogger.js";
+import { postWorkerProtocol, postWorkerProgress } from "../protocol/WorkerProtocol.js";
 
 /**
  * B"H
@@ -27,15 +29,23 @@ export class AngelicInvoker {
    */
   static async invoke() {
     try {
-      workerBootLog.info("Worker vessel invocation started");
-      postTextToMain("worker_text_log", "Worker vessel invocation started");
+      postWorkerProgress("angelic-invoker:start");
 
+      postWorkerProgress("angelic-invoker:import-vessels:start");
       const imported = await importAngelicVesselsInOrder();
+      postWorkerProgress("angelic-invoker:import-vessels:done");
+
+      postWorkerProgress("angelic-invoker:make-system-core:start");
       const systemCore = makeSystemCore(imported.OlamClass, imported.UtilsClass);
+      postWorkerProgress("angelic-invoker:make-system-core:done");
 
-      workerBootLog.info("Worker vessels ready");
-      postTextToMain("vessel_ready", "Worker vessels ready");
+      postWorkerProtocol("vessel_ready", {
+        text: "Worker vessels ready",
+        message: "Worker vessels ready",
+        details: "Worker vessels ready"
+      });
 
+      postWorkerProgress("angelic-invoker:done");
       return systemCore;
     } catch (error) {
       return ErrorHandler.handle(error);
