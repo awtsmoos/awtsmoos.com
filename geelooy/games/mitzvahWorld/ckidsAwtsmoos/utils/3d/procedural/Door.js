@@ -5,8 +5,11 @@
  * @description
  * "Knock, and it shall be opened unto you."
  * Forges an elegant door, complete with a gleaming knob.
- * Crucially, it translates its geometry so the pivot point (origin) rests precisely 
- * on the hinge edge, allowing natural, swinging rotation in the physical engine.
+ * 
+ * THE TIKKUN OF THE HINGE:
+ * We translate the slab to -width/2. Since the hinge is placed at the right 
+ * edge of the doorway opening by the EntrancePositionMap, extending negatively 
+ * covers the gap perfectly and swings exactly as intended!
  */
 import BlueprintCompiler from "./house/BlueprintCompiler.js";
 
@@ -22,7 +25,6 @@ export default class DoorGeometry {
             const instructions = [];
 
             // 1. The Main Slab (Wood)
-            // We shift it so the HINGE is at X=0, and the door extends to X=-width
             instructions.push({
                 type: 'box',
                 params: { width, height, depth: thickness },
@@ -75,7 +77,7 @@ export default class DoorGeometry {
 
             return BlueprintCompiler.compile(instructions);
         } catch (e) {
-            console.error("B\"H - ⚡ Door Forge failed. Returning basic slab.", e);
+            console.error("B\"H - ⚡ Door Forge failed.", e);
             return BlueprintCompiler.compile([{
                 type: 'box',
                 params: { width, height, depth: thickness },

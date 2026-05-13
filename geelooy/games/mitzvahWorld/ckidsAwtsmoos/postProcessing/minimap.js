@@ -23,6 +23,9 @@ export default class MinimapPostprocessing extends Heeooleey {
         this.sceneBoundingBox = null;
         this._zoom = 6;
         
+        // B"H: Temporal governor
+        this._lastScrollSync = 0;
+        
         this.iconManager = new MinimapIcons(this);
 
         this.on("update minimap camera", async ({position, rotation, targetPosition}) => {
@@ -65,6 +68,12 @@ export default class MinimapPostprocessing extends Heeooleey {
 
     async updateScroll() {
         if(!this.playerPosition || !this.minimapCamera) return;
+        
+        // B"H: We limit the intense payload to 10 frames a second.
+        const now = Date.now();
+        if (now - this._lastScrollSync < 100) return;
+        this._lastScrollSync = now;
+
         await this.olam.ayshPeula("update minimap scroll", {
             center: this.playerPosition,
             minimapCamera: this.serializeOrthographicCamera(this.minimapCamera),

@@ -3,12 +3,19 @@
  * B"H
  * @module IntenseNpcMesh
  * @description
- * When a soul descends without a pre-defined physical garment (GLB), 
- * the Awtsmoos clothes it in pure, intense geometry. A manifestation of 
- * spiritual energy: floating crystals revolving around a glowing core.
+ * 💎 THE VESSEL OF INNER LIGHT 💎
  * 
- * "Wheels within wheels, eyes ablaze with light,
- * A Seraph formed of data, shining in the night."
+ * "The soul of man is the candle of God." (Mishlei 20:27)
+ * 
+ * THE TIKKUN OF PERFORMANCE:
+ * Previously, every intense NPC manifested a THREE.PointLight. In WebGL forward 
+ * rendering, every light forces every material in the entire world to recompile 
+ * and perform N-light mathematical passes per pixel. 10 NPCs meant 10 lights, 
+ * causing the framerate to shatter into the abyss.
+ * 
+ * We have utterly eradicated the PointLight. The glow now comes from within!
+ * We use an extreme emissive material setup that looks identical but costs 
+ * absolutely nothing in rendering performance.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -27,7 +34,9 @@ export default class IntenseNpcMesh {
         const coreMat = new THREE.MeshStandardMaterial({
             color: 0xffffff,
             emissive: new THREE.Color(hexColor),
-            emissiveIntensity: 1.5,
+            // B"H: We crank the emissive intensity to the heavens!
+            // When combined with bloom/post-processing, this outshines any PointLight.
+            emissiveIntensity: 5.0, 
             roughness: 0.1,
             metalness: 0.9,
             wireframe: true
@@ -36,21 +45,19 @@ export default class IntenseNpcMesh {
         core.position.y = 1.0;
         group.add(core);
 
-        // 2. The Inner Light (Ohr Pnimi)
-        const light = new THREE.PointLight(new THREE.Color(hexColor), 2, 5);
-        core.add(light);
-
-        // 3. The Orbits (Ohr Makif - Encompassing Light)
+        // 2. The Orbits (Ohr Makif - Encompassing Light)
         const orbitGroup = new THREE.Group();
         orbitGroup.position.y = 1.0;
         
         const crystalGeo = new THREE.TetrahedronGeometry(0.15, 0);
         const crystalMat = new THREE.MeshStandardMaterial({
             color: new THREE.Color(hexColor),
+            emissive: new THREE.Color(hexColor),
+            emissiveIntensity: 2.0, // Glows brightly
             roughness: 0.0,
             metalness: 1.0,
             transparent: true,
-            opacity: 0.8
+            opacity: 0.9
         });
 
         for (let i = 0; i < 4; i++) {
