@@ -23,39 +23,50 @@
  * @module buildTerrain
  */
 
-import * as THREE from 'three';
+import * as THREE from '/games/scripts/build/three.module.js';
+import { createGroundMixMaterial } from './shaders/GroundMixShader.js';
 
 /**
  * @function buildTerrain
  * @description
  *   Conjures the great flat earth from void and color.
- *   A PlaneGeometry rotated to lie flat, an infinite green mercy,
- *   a static physics box so nobody falls through to the Kelipot below.
+ *   Now uses a complex Mix Shader to blend Dirt and Grass,
+ *   manifesting the dual nature of Malchus (reception and growth).
  *
- *   "The earth is the Lord's and the fullness thereof" —
- *   even this polygon plane, tiled with green, belongs to Him.
+ *   Physics: a static BoxCollider flush with y=0.
+ *   Octree: The mesh is added to the worldOctree to provide the 
+ *   physical grounding for all character controllers.
  *
  * @param   {THREE.Scene}   scene   - The living scene
- * @param   {Object|null}   physics - Physics world (Rapier/Cannon/custom)
+ * @param   {Object|null}   physics - Physics world
  * @param   {import('../nivrayimDefs.js').NefeshDef} def - Soul blueprint
+ * @param   {Object|null}   olam    - Olam context for octree insertion
  * @returns {Promise<THREE.Mesh[]>}  Array containing the single terrain mesh
  */
-export async function buildTerrain(scene, physics, def) {
-  const { width = 200, depth = 200, color = 0x7ec850, receiveShadow = true } = def.props || {};
+export async function buildTerrain(scene, physics, def, olam = null) {
+  const { width = 200, depth = 200, receiveShadow = true } = def.props || {};
   const [px, py, pz] = def.position || [0, 0, 0];
 
-  // ── Geometry & Material ──────────────────────────────────────────────
-  const geo = new THREE.PlaneGeometry(width, depth, 1, 1);
+  // ── Geometry & Shader Material ─────────────────────────────────────────
+  const geo = new THREE.PlaneGeometry(width, depth, 32, 32); // Higher density for shader detail
   geo.rotateX(-Math.PI / 2);
 
-  const mat = new THREE.MeshLambertMaterial({ color });
+  const mat = createGroundMixMaterial({
+    dirtColor:  new THREE.Color(def.props?.dirtColor || 0x5d4037),
+    grassColor: new THREE.Color(def.props?.grassColor || 0x2e7d32),
+    scale:      def.props?.shaderScale || 0.05
+  });
 
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.set(px, py, pz);
   mesh.receiveShadow = receiveShadow;
   mesh.name = def.id;
 
-  // ── Physics (static ground box) ──────────────────────────────────────
+  // ── Octree (The True Grounding) ───────────────────────────────────────
+  // B"H: Mark as solid reality for the unified NivrahFactory registration
+  mesh.userData.isSolid = true;
+
+  // ── Physics (static ground box for external physics engines) ──────────
   if (physics && def.props?.physics) {
     const [hx, hy, hz] = def.props.physics.halfExtents || [width / 2, 0.5, depth / 2];
     _addStaticBox(physics, px, py - hy, pz, hx, hy, hz);

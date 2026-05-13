@@ -33,11 +33,11 @@ export default {
 
         ProceduralFlora: [
             // B"H: Carpeting the world in Grass
-            { floraType: "grass", count: 800, radius: 200, position: { x: 0, y: 0, z: 0 } },
-            { floraType: "grass", count: 500, radius: 150, position: { x: 100, y: 0, z: 100 } },
-            { floraType: "grass", count: 500, radius: 150, position: { x: -100, y: 0, z: -100 } },
-            { floraType: "grass", count: 300, radius: 100, position: { x: 300, y: 0, z: 0 } },
-            { floraType: "grass", count: 300, radius: 100, position: { x: 0, y: 0, z: 300 } },
+            { floraType: "grass", count: 260, radius: 180, position: { x: 0, y: 0, z: 0 } },
+            { floraType: "grass", count: 180, radius: 140, position: { x: 130, y: 0, z: 110 } },
+            { floraType: "grass", count: 180, radius: 140, position: { x: -130, y: 0, z: -110 } },
+            { floraType: "grass", count: 120, radius: 90, position: { x: 300, y: 0, z: 0 } },
+            { floraType: "grass", count: 120, radius: 90, position: { x: 0, y: 0, z: 300 } },
             
             // B"H: Scattered Flowers
             { floraType: "flower", count: 50, radius: 80, position: { x: 50, y: 0, z: 50 } },
@@ -51,66 +51,95 @@ export default {
         ProceduralRoad: {
             mainHighway: {
                 name: "The_Avenue_of_Light",
-                points: [[0,0], [0, -300], [200, -500], [500, -500]],
-                width: 15,
-                sidewalkWidth: 4,
+                points: [[10,10], [40, 35], [120, 80], [230, 220], [500, -500]],
+                width: 18,
+                sidewalkWidth: 2,
                 position: { x: 0, y: 0.1, z: 0 },
                 isSolid: true
             },
             villageLoop: {
                 name: "Sanctuary_Circle",
-                points: [[-100,0], [-200, 100], [-300, 0], [-200, -100], [-100,0]],
-                width: 10,
-                sidewalkWidth: 2,
+                points: [[30,30], [0, 40], [-200, 150], [-300, -50], [30,30]],
+                width: 12,
+                sidewalkWidth: 1,
                 position: { x: 0, y: 0.1, z: 0 },
                 isSolid: true
             }
         },
 
         ProceduralBuilding: {
+            simpleHouse1: {
+                name: "Simple_Dwelling_1",
+                housePreset: "generateSimple",
+                position: { x: 30, y: 0, z: 30 },
+                isSolid: true
+            },
+            simpleHouse2: {
+                name: "Simple_Dwelling_2",
+                housePreset: "generateSimple",
+                position: { x: 0, y: 0, z: 40 },
+                isSolid: true
+            },
             sanctuary1: {
                 name: "The_Great_Yeshiva",
-                housePreset: "generateSkyscraper",
-                housePresetArg: 4, 
-                position: { x: 550, y: 0, z: -500 },
+                housePreset: "BeisMedrash",
+                position: { x: 120, y: 0, z: 80 },
                 isSolid: true
             },
             livingQuarters: {
-                name: "Chossid_Mansion",
-                housePreset: "Mansion",
-                position: { x: -200, y: 0, z: 150 },
+                name: "Chossid_House",
+                housePreset: "TwoStoryWithStairs",
+                position: { x: -70, y: 0, z: 70 },
                 isSolid: true
             },
             guestHouse: {
                 name: "Hospitality_Chamber",
-                housePreset: "TwoStoryWithStairs",
-                position: { x: -300, y: 0, z: -50 },
+                housePreset: "generateSimple",
+                position: { x: -120, y: 0, z: -30 },
                 isSolid: true
             },
             learningHall: {
                 name: "The_Inner_Beis_Medrash",
-                housePreset: "BeisMedrash",
-                position: { x: 200, y: 0, z: 300 },
+                housePreset: "generateSimple",
+                position: { x: 200, y: 0, z: 160 },
+                isSolid: true
+            },
+            skyScraper1: {
+                name: "Village_Workshop",
+                housePreset: "generateSimple",
+                position: { x: 70, y: 0, z: -35 },
+                isSolid: true
+            },
+            skyScraper2: {
+                name: "Market_House",
+                housePreset: "generateSimple",
+                position: { x: -35, y: 0, z: 105 },
                 isSolid: true
             }
         },
 
         ProceduralTree: [
-            { name: "Giant_Oak_1", position: { x: 100, y: 0, z: -100 }, scale: 2.5 },
-            { name: "Giant_Oak_2", position: { x: -100, y: 0, z: 100 }, scale: 2.5 },
-            { name: "Grove_1", position: { x: 120, y: 0, z: -120 }, scale: 1.2 },
-            { name: "Grove_2", position: { x: 130, y: 0, z: -110 }, scale: 1.0 },
-            { name: "Grove_3", position: { x: 110, y: 0, z: -130 }, scale: 0.8 },
-            { name: "Guardian_Tree", position: { x: 0, y: 0, z: 0 }, scale: 3.0 }
+            { name: "Giant_Oak_1",   position: { x: 100,  y: 0, z: -100 }, scale: 2.5, isSolid: true },
+            { name: "Giant_Oak_2",   position: { x: -100, y: 0, z: 100  }, scale: 2.5, isSolid: true },
+            { name: "Grove_1",       position: { x: 120,  y: 0, z: -120 }, scale: 1.2, isSolid: true },
+            { name: "Grove_2",       position: { x: 130,  y: 0, z: -110 }, scale: 1.0, isSolid: true },
+            { name: "Grove_3",       position: { x: 110,  y: 0, z: -130 }, scale: 0.8, isSolid: true },
+            { name: "Guardian_Tree", position: { x: 0,    y: 0, z: 0    }, scale: 3.0, isSolid: true }
         ],
 
+
         Domem: {
-            worldCenter: {
-                name: "The_Cornerstone",
-                golem: { guf: { BoxGeometry: [2, 10, 2] }, toyr: { MeshStandardMaterial: { color: "#ffd700" } } },
-                position: { x: 0, y: 5, z: 0 }
+            villageMarker: {
+                name: "Village_Path_Marker",
+                golem: { guf: { BoxGeometry: [1.2, 1.8, 1.2] }, toyr: { MeshStandardMaterial: { color: "#d7ad35" } } },
+                position: { x: 12, y: 0.9, z: 12 }
             }
         },
+
+        InteractiveNpc: [
+            { name: "Chossid_Friend_1", position: { x: 35, y: 0, z: 35 }, dialog: ["B\"H! The Awtsmoos is everywhere!", "Look at these magnificent dwellings!"] },
+            { name: "Chossid_Friend_2", position: { x: -5, y: 0, z: 45 }, dialog: ["B\"H. We are learning how the letters of creation sustain all reality!"] }
+        ],
 
         Chossid:[
             {

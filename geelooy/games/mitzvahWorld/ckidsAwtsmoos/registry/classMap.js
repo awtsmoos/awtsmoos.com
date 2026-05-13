@@ -46,7 +46,7 @@ export default {
     
     "ElementalStaff": "../../dvarim/tools/elementalStaff.js", 
     "FluidSystem": "../../dvarim/nature/fluidSystem.js",
-    "InteractiveDoor": "../../dvarim/interactiveDoor.js",
+    "InteractiveDoor": "../../dvarim/interactiveDoor/index.js",
     "InteractiveNpc": "../../dvarim/npc/InteractiveNpc.js",
     "ProceduralSky": "../../dvarim/nature/ProceduralSky.js",
     "ProceduralFlowerPatch": "../../dvarim/nature/ProceduralFlowerPatch.js",

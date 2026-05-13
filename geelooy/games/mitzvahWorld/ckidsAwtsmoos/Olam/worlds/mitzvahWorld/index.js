@@ -58,6 +58,7 @@ export async function heescheel(ctx) {
     scene:   ctx.scene,
     physics: ctx.physics || null,
     postMsg: ctx.postMsg,
+    olam:    ctx.olam    || null,
   });
 
   await worldBuilder.execute();

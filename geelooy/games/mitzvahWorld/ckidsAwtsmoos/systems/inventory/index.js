@@ -52,11 +52,15 @@ export default class InventoryManager {
     }
 }
 
+import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
+
 /**
  * B"H: THE BINDING
- * We manually stitch every faculty into the prototype to ensure they are available
- * even when the class is being hydrated across the worker threshold.
+ * We manually stitch every faculty into the prototype with Divine Emanation
+ * to ensure they are available even when the class is being hydrated across the worker threshold.
  */
-Object.assign(InventoryManager.prototype, itemsMethods);
-Object.assign(InventoryManager.prototype, uiMethods);
-Object.assign(InventoryManager.prototype, movementMethods);
+ChasveiAwtsmoos.emanate(InventoryManager.prototype, [
+    itemsMethods,
+    uiMethods,
+    movementMethods
+]);

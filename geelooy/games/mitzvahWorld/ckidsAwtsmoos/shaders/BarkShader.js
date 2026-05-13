@@ -46,14 +46,15 @@ const noiseFunctions = `
                            dot(hash33(i + vec3(1,1,1)), f - vec3(1,1,1)), u.x), u.y), u.z);
     }
 
-    // Fractional Brownian Motion (Optimized for Bark Ridges)
+    // B"H: Deep Ridge Fractal Brownian Motion
     float fbmBark(vec3 p) {
         float f = 0.0;
         float w = 0.5;
-        for (int i = 0; i < 4; i++) {
-            f += w * noise(p);
-            p *= 2.5;
-            w *= 0.4;
+        for (int i = 0; i < 5; i++) { // Increased octaves for intensity
+            float n = noise(p);
+            f += w * abs(n); // Ridge noise for that deep bark look
+            p *= 2.2;
+            w *= 0.5;
         }
         return f;
     }
@@ -63,18 +64,12 @@ const noiseFunctions = `
  * @constant BARK_SNIPPETS
  * @description
  * B"H: onBeforeCompile snippet data for MaterialManager.refine().
- * All color uniform values are plain {r,g,b} objects — THREE.ShaderMaterial
- * reads them correctly without needing THREE.Color instances at init time.
- * THREE.Color instances are only needed for `.copy()` / `.lerp()` calls,
- * which happen AFTER scene rendering begins inside the shader.
- *
- * @type {Object}
  */
 export const BARK_SNIPPETS = {
     uniforms: {
         uTime:       { value: 0 },
-        uColorDark:  { value: { r: 0x3d / 255, g: 0x2b / 255, b: 0x1f / 255 } },
-        uColorLight: { value: { r: 0x8b / 255, g: 0x6b / 255, b: 0x4d / 255 } }
+        uColorDark:  { value: { r: 0x2d / 255, g: 0x1b / 255, b: 0x0f / 255 } },
+        uColorLight: { value: { r: 0x6b / 255, g: 0x4b / 255, b: 0x2d / 255 } }
     },
     vertex: {
         head: `
@@ -84,9 +79,12 @@ export const BARK_SNIPPETS = {
         `,
         main: `
             vec4 barkWorldPos = modelMatrix * vec4(transformed, 1.0);
-            vec3 noisePos = vec3(barkWorldPos.x * 6.0, barkWorldPos.y * 0.4, barkWorldPos.z * 6.0);
+            // Vertical stretching for bark grain
+            vec3 noisePos = vec3(barkWorldPos.x * 8.0, barkWorldPos.y * 0.2, barkWorldPos.z * 8.0);
             float bump = fbmBark(noisePos);
-            transformed += normal * bump * 0.02;
+            
+            // Intensify the displacement
+            transformed += normal * bump * 0.15; 
             vDisplacement = bump;
             vBarkWorldPos = barkWorldPos.xyz;
         `
@@ -98,12 +96,19 @@ export const BARK_SNIPPETS = {
             varying float vDisplacement;
         `,
         color: `
-            float ao = smoothstep(-0.5, 0.5, vDisplacement);
-            vec3 barkAlbedo = mix(uColorDark, uColorLight, ao);
-            diffuseColor.rgb *= barkAlbedo;
+            // B"H: Intense color mapping for deep ridges
+            float ridge = smoothstep(0.1, 0.6, vDisplacement);
+            vec3 barkAlbedo = mix(uColorDark, uColorLight, ridge);
+            
+            // Add some "moss" or "lichen" highlights based on height and noise
+            float lichen = smoothstep(0.7, 0.9, vDisplacement);
+            barkAlbedo = mix(barkAlbedo, barkAlbedo * 1.4 + vec3(0.05, 0.1, 0.02), lichen);
+
+            diffuseColor.rgb *= barkAlbedo * 2.2; // Significant intensity boost
         `
     }
 };
+
 
 /**
  * @function getBarkUniforms
