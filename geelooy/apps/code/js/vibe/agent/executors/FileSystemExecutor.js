@@ -9,12 +9,107 @@ import { FileSystemProvider } from '../../../fs-provider.js';
 import { ContextGenerator } from '../../../file-ops/context-generator.js';
 import { ArchitectOfDomains } from '../../modules/loop/engine/ArchitectOfDomains.js';
 import { TreeSurveyor } from './fs/TreeSurveyor.js';
+import { ConnectedVessels } from './fs/ConnectedVessels.js';
 
 export const FileSystemExecutor = {
-    async execute(name, args, ws, coreType, resolvePath, onProgress) {
+    async execute(name, args, ws, coreType, resolvePath, onProgress, tab = null) {
         const itemArgs = { ...ws, type: coreType };
+        const sess = tab?.vibeSession || null;
+        const getCwd = () => (sess?.agentCwd || '/');
+        const setCwd = (cwd) => { if (sess) sess.agentCwd = cwd; };
+
+        const toRel = (abs) => {
+            const root = ws.path === '/' ? '' : ws.path;
+            if (!root) return abs || '/';
+            if (!abs.startsWith(root)) return abs;
+            const rel = abs.slice(root.length) || '/';
+            return rel.startsWith('/') ? rel : '/' + rel;
+        };
+
+        const resolveFromCwd = (pathLike = '') => {
+            if (!pathLike || pathLike === '.') return resolvePath(getCwd());
+            if (pathLike.startsWith('/')) return resolvePath(pathLike);
+            const cwd = getCwd().replace(/\/+$/, '') || '/';
+            const combined = cwd === '/' ? `/${pathLike}` : `${cwd}/${pathLike}`;
+            return resolvePath(combined);
+        };
         
         switch (name) {
+            case "set_working_directory": {
+                const abs = resolvePath(args.directory_path || '/');
+                const dirItem = { ...itemArgs, path: abs, kind: 'directory' };
+                await FileSystemProvider.readDir(dirItem);
+                const rel = toRel(abs);
+                setCwd(rel);
+                return `[B"H Success] Working directory set to ${rel}`;
+            }
+
+            case "run_terminal_command": {
+                const raw = String(args.command || '').trim();
+                if (!raw) return '[B"H Error] Empty command.';
+
+                const cwdAbs = args.cwd ? resolvePath(args.cwd) : resolveFromCwd('.');
+                const cwdRel = toRel(cwdAbs);
+                if (args.cwd) setCwd(cwdRel);
+
+                const [cmd, ...rest] = raw.split(/\s+/);
+                const subPath = rest[0] || '.';
+
+                if (cmd === 'pwd') return cwdRel;
+
+                if (cmd === 'ls') {
+                    const abs = resolveFromCwd(subPath);
+                    const dir = await FileSystemProvider.readDir({ ...itemArgs, path: abs, kind: 'directory' });
+                    return dir.map(d => `${d.kind === 'directory' ? 'd' : 'f'} ${d.name}`).join('\n');
+                }
+
+                if (cmd === 'tree') {
+                    const abs = resolveFromCwd(subPath);
+                    return await TreeSurveyor.build({ ...itemArgs, path: abs, kind: 'directory' });
+                }
+
+                if (cmd === 'cat') {
+                    const abs = resolveFromCwd(subPath);
+                    const rawData = await FileSystemProvider.read({ ...itemArgs, path: abs, kind: 'file' });
+                    return (rawData instanceof Blob) ? await rawData.text() : String(rawData);
+                }
+
+                if (cmd === 'head' || cmd === 'tail') {
+                    const nRaw = Number(rest[1] || 20);
+                    const n = Number.isFinite(nRaw) && nRaw > 0 ? nRaw : 20;
+                    const abs = resolveFromCwd(subPath);
+                    const rawData = await FileSystemProvider.read({ ...itemArgs, path: abs, kind: 'file' });
+                    const lines = ((rawData instanceof Blob) ? await rawData.text() : String(rawData)).split('\n');
+                    const out = cmd === 'head' ? lines.slice(0, n) : lines.slice(-n);
+                    return out.join('\n');
+                }
+
+                if (cmd === 'grep') {
+                    const query = rest[0];
+                    const base = rest[1] || '.';
+                    if (!query) return '[B"H Error] grep requires a query.';
+                    const absDir = resolveFromCwd(base);
+                    const allFiles = await FileSystemProvider.listAllFiles({ ...itemArgs, path: absDir, kind: 'directory' });
+                    const hits = [];
+                    for (const f of allFiles) {
+                        try {
+                            const rawData = await FileSystemProvider.read({ ...itemArgs, path: f.path, kind: 'file' });
+                            const text = (rawData instanceof Blob) ? await rawData.text() : String(rawData);
+                            const lines = text.split('\n');
+                            for (let i = 0; i < lines.length; i++) {
+                                if (lines[i].includes(query)) {
+                                    hits.push(`${toRel(f.path)}:${i + 1}: ${lines[i].trim()}`);
+                                    if (hits.length >= 300) return hits.join('\n');
+                                }
+                            }
+                        } catch (e) {}
+                    }
+                    return hits.length ? hits.join('\n') : `No matches for "${query}".`;
+                }
+
+                return `[B"H Error] Unsupported terminal command: ${cmd}. Supported: pwd, ls, tree, cat, grep, head, tail`;
+            }
+
             case "read_file_chunk": {
                 if (onProgress) onProgress('Slicing: ' + args.path);
                 const abs = resolvePath(args.path);
@@ -55,6 +150,13 @@ export const FileSystemExecutor = {
                     } catch(e) {}
                 }
                 return matches.length > 0 ? matches.join('\n') : 'No results for "' + args.query + '" found.';
+            }
+
+            case "read_connected_vessels": {
+                if (onProgress) onProgress("Tracing connected vessels...");
+                const abs = resolvePath(args.path);
+                const maxDepth = Number.isFinite(Number(args.max_depth)) ? Math.max(0, Number(args.max_depth)) : 2;
+                return await ConnectedVessels.chase(ws, coreType, abs, maxDepth, onProgress);
             }
 
             case "list_files_tree": {

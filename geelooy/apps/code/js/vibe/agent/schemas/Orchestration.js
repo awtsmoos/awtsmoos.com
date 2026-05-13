@@ -51,5 +51,41 @@ export const OrchestrationSchemas = [
                 required: ["internal_monologue"]
             }
         }
+    },
+    {
+        function: {
+            name: "get_provider_status",
+            description: "Lists all configured providers and how many keys/models are currently available for each.",
+            parameters: { type: "object", properties: {} }
+        }
+    },
+    {
+        function: {
+            name: "get_provider_telemetry",
+            description: "Returns real-time runtime telemetry for each provider including success/failure counts, rate-limit hits, quota failures, and recent request events.",
+            parameters: { type: "object", properties: {} }
+        }
+    },
+    {
+        function: {
+            name: "get_registered_keys",
+            description: "Lists all registered API keys (masked) and identifies which one is currently active for the selected model.",
+            parameters: { type: "object", properties: {} }
+        }
+    },
+    {
+        function: {
+            name: "shift_consciousness_by_provider",
+            description: "Switches to the best model for a specific provider, optionally requiring free-only and tool-capable models.",
+            parameters: {
+                type: "object",
+                properties: {
+                    provider_id: { type: "string" },
+                    require_free: { type: "boolean" },
+                    require_tools: { type: "boolean" }
+                },
+                required: ["provider_id"]
+            }
+        }
     }
 ];

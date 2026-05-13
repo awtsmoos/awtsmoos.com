@@ -20,7 +20,7 @@ export const OracleHarvester = {
         
         console.log(`[Harvester] B"H - Initiating harvest across ${keys.length} keys.`);
 
-        const allModels = [];
+        const modelMap = new Map();
 
         // Parallel harvest across all dimensions
         const harvests = keys.map(async (keyObj) => {
@@ -28,8 +28,20 @@ export const OracleHarvester = {
                 let fetched = [];
                 if (keyObj.provider === 'google') {
                     fetched = await VibeAPI.fetchGoogleModels(keyObj.key);
-                } else {
+                } else if (keyObj.provider === 'openrouter') {
                     fetched = await VibeAPI.fetchOpenRouterModels(keyObj.key);
+                } else if (keyObj.provider === 'groq') {
+                    fetched = await VibeAPI.fetchGroqModels(keyObj.key);
+                } else if (keyObj.provider === 'cerebras') {
+                    fetched = await VibeAPI.fetchCerebrasModels(keyObj.key);
+                } else if (keyObj.provider === 'openai') {
+                    fetched = await VibeAPI.fetchOpenAIModels(keyObj.key);
+                } else if (keyObj.provider === 'xai') {
+                    fetched = await VibeAPI.fetchXAIModels(keyObj.key);
+                } else if (keyObj.provider === 'together') {
+                    fetched = await VibeAPI.fetchTogetherModels(keyObj.key);
+                } else {
+                    throw new Error(`Unsupported provider: ${keyObj.provider}`);
                 }
 
                 // Tag each model with the key that provided it
@@ -40,7 +52,12 @@ export const OracleHarvester = {
                     is_reasoning: AgentCapabilities.isReasoning(m)
                 }));
 
-                allModels.push(...tagged);
+                tagged.forEach(model => {
+                    const existing = modelMap.get(model.id);
+                    if (!existing || (keyObj.addedAt || 0) > (existing._addedAt || 0)) {
+                        modelMap.set(model.id, { ...model, _addedAt: keyObj.addedAt || 0 });
+                    }
+                });
             } catch (e) {
                 console.warn(`[Harvester] B"H - Dimension ${keyObj.label} is currently silent:`, e.message);
             }
@@ -48,8 +65,8 @@ export const OracleHarvester = {
 
         await Promise.all(harvests);
 
-        // Sort by name for aesthetic harmony
-        allModels.sort((a, b) => a.displayName.localeCompare(b.displayName));
+        const allModels = Array.from(modelMap.values()).map(({ _addedAt, ...model }) => model);
+        allModels.sort((a, b) => AgentCapabilities.compareModels(a, b));
         
         ModelRegistry.setAll(allModels);
         return allModels;

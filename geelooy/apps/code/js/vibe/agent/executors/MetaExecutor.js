@@ -44,19 +44,20 @@ export const MetaExecutor = {
 
     async _consultSubOracle(modelId, query) {
         return new Promise(async (resolve) => {
-            const provider = modelId.startsWith('openrouter/') ? 'openrouter' : 'google';
+            const provider = ModelManager.getModel(modelId)?.provider || (modelId.includes('/') ? 'openrouter' : 'google');
             const apiKey = ModelManager.getKey(provider);
             
             if (!apiKey) return resolve(`[B"H Error] No API key found for provider ${provider}.`);
 
             const messages = [{ role: 'user', content: query }];
-            let fullText = "";
 
             try {
                 await VibeAPI.streamChat(
                     messages, apiKey, modelId, null,
-                    (chunk) => { fullText += chunk; },
-                    null, null, 
+                    null,
+                    null,
+                    null,
+                    null,
                     (finalText) => { resolve(finalText); },
                     (err) => { resolve(`[B"H Error from Sub-Oracle ${modelId}]: ${err.message}`); }
                 );

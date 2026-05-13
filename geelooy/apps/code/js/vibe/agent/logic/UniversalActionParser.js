@@ -56,5 +56,10 @@ export const UniversalActionParser = {
         }
 
         return toolCalls;
+    },
+
+    strip(text) {
+        if (!text || typeof text !== 'string') return text;
+        return text.replace(/<call:([a-zA-Z0-9_:-]+)>[\s\S]*?<\/call:\1>/g, '').trim();
     }
 };

@@ -37,21 +37,24 @@ export const ToolRouter = {
 
             const fsTools = [
                 'list_files_tree', 'read_vessel', 'bulk_read_markdown', 
-                'read_connected_vessels', 'search_essence', 'engrave_vessel', 'purge_vessel'
+                'read_connected_vessels', 'search_essence', 'engrave_vessel', 'purge_vessel',
+                'read_file_chunk', 'search_in_files', 'set_working_directory', 'run_terminal_command'
             ];
             
             if (fsTools.includes(name)) {
                 // Pass onProgress directly to FS Executor
-                return await FileSystemExecutor.execute(name, args, ws, coreType, resolvePath, onProgress);
+                return await FileSystemExecutor.execute(name, args, ws, coreType, resolvePath, onProgress, tab);
             }
             
-            if (name === 'run_ui_test') {
+            if (['run_ui_test', 'run_node_script', 'run_command_batch'].includes(name)) {
                 return await TestingExecutor.execute(name, args, ws, coreType, resolvePath, tab.id, onProgress);
             }
             
             const metaTools = [
                 'get_model_usage_limits', 'shift_consciousness', 
-                'consult_oracle', 'continue_autonomous_loop'
+                'consult_oracle', 'continue_autonomous_loop',
+                'get_provider_status', 'get_provider_telemetry', 'get_registered_keys',
+                'shift_consciousness_by_provider'
             ];
             
             if (metaTools.includes(name)) {

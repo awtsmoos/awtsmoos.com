@@ -13,6 +13,10 @@
 
 import { ModelManager } from '../../model-manager.js';
 import { VibeAPI } from '../../api/client.js';
+import { KeyRegistry } from '../state/KeyRegistry.js';
+import { Providers } from '../state/ProviderRegistry.js';
+import { AgentCapabilities } from '../logic/AgentCapabilities.js';
+import { providerTelemetryLedger } from '../../telemetry/ProviderTelemetryLedger.js';
 
 export const OrchestrationExecutor = {
     /**
@@ -27,12 +31,13 @@ export const OrchestrationExecutor = {
                     let priceReport = 'Unknown';
                     let isFree = false;
 
-                    if (m.provider === 'google' && !m.costPrompt) {
+                    if (AgentCapabilities.isFree(m)) {
                         isFree = true;
-                        priceReport = '[FREE] Google Native Rate Limits Apply';
-                    } else if (m.costPrompt === 0 || m.costPrompt === "0") {
-                        isFree = true;
-                        priceReport = '[FREE] OpenRouter Zero-Cost Routing';
+                        if (m.provider === 'openrouter') {
+                            priceReport = '[FREE] OpenRouter Zero-Cost Routing';
+                        } else {
+                            priceReport = '[FREE/TIER] Provider Key Limits Apply';
+                        }
                     } else if (m.costPrompt) {
                         priceReport = `Prompt: $${m.costPrompt}/1M | Completion: $${m.costCompletion}/1M`;
                     }
@@ -42,7 +47,9 @@ export const OrchestrationExecutor = {
                         provider: m.provider,
                         is_free: isFree,
                         context_window: m.context_length || 'Unknown',
-                        pricing: priceReport
+                        pricing: priceReport,
+                        max_completion_tokens: m.max_completion_tokens || null,
+                        per_request_limits: m.per_request_limits || null
                     };
                 });
                 
@@ -70,6 +77,51 @@ export const OrchestrationExecutor = {
             case "continue_autonomous_loop": {
                 return `[B"H Loop Authorized] Proceeding to next iteration with intent: ${args.internal_monologue}`;
             }
+            case "get_provider_status": {
+                const keys = KeyRegistry.getAll();
+                const models = ModelManager.availableModels;
+                const status = Object.values(Providers).map(p => {
+                    const providerModels = models.filter(m => m.provider === p.id);
+                    const freeModels = providerModels.filter(m => AgentCapabilities.isFree(m));
+                    return {
+                        provider: p.id,
+                        name: p.name,
+                        keys: keys.filter(k => k.provider === p.id).length,
+                        models: providerModels.length,
+                        free_models: freeModels.length,
+                        tool_models: providerModels.filter(m => AgentCapabilities.supportsTools(m)).length
+                    };
+                });
+                return JSON.stringify(status, null, 2);
+            }
+            case "get_provider_telemetry": {
+                return JSON.stringify(providerTelemetryLedger.snapshot(), null, 2);
+            }
+            case "get_registered_keys": {
+                const active = ModelManager.getActiveKeyObject();
+                const out = KeyRegistry.getAll().map(k => ({
+                    id: k.id,
+                    provider: k.provider,
+                    label: k.label,
+                    suffix: k.key ? `..${k.key.slice(-4)}` : '',
+                    is_active: active ? active.id === k.id : false
+                }));
+                return JSON.stringify(out, null, 2);
+            }
+            case "shift_consciousness_by_provider": {
+                const providerId = args.provider_id;
+                const model = ModelManager.getPreferredModel({
+                    provider: providerId,
+                    requireFree: args.require_free !== false,
+                    requireTools: !!args.require_tools
+                }) || ModelManager.getPreferredModel({ provider: providerId });
+
+                if (!model) {
+                    return `[B"H Error] No model found for provider ${providerId}.`;
+                }
+                ModelManager.setModel(model.id);
+                return `[B"H Success] Shifted to ${model.id} on provider ${providerId}.`;
+            }
 
             default:
                 throw new Error("Unhandled Orchestration Schema");
@@ -82,7 +134,7 @@ export const OrchestrationExecutor = {
      */
     async _consultSubOracle(modelId, query) {
         return new Promise(async (resolve) => {
-            const provider = modelId.startsWith('openrouter/') ? 'openrouter' : 'google';
+            const provider = ModelManager.getModel(modelId)?.provider || (modelId.includes('/') ? 'openrouter' : 'google');
             const apiKey = ModelManager.getKey(provider);
             
             if (!apiKey) {
@@ -101,8 +153,10 @@ export const OrchestrationExecutor = {
                 console.log(`[SubOracle] B"H - Invoking Sub-Agent: ${modelId}`);
                 await VibeAPI.streamChat(
                     messages, apiKey, modelId, null,
-                    (chunk) => { fullText += chunk; }, // On Text
-                    null, null,                        // Ignore reasoning/tools for sub-agents
+                    null,
+                    (chunk) => { fullText += chunk; },
+                    null,
+                    null,
                     (finalText) => { resolve(`[Sub-Oracle ${modelId} Responds]:\n${finalText}`); },
                     (err) => { resolve(`[B"H Error from Sub-Oracle ${modelId}]: ${err.message}`); }
                 );
