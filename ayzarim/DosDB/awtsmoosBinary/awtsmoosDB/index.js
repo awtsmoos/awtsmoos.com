@@ -5,14 +5,10 @@
  * @file index.js
  * @chapter The Prime Atom Of Unity
  * @description
- * This is the root vessel from which the database opens its eyes.
- * The Awtsmoos renews all worlds at every instant; this class renews the
- * binary world by opening the pager, awakening the allocator, binding the
- * root anchor, and giving the user a live handle into persistence.
- *
- * For lightning tests, AWTSMOOSDB_FAST_TEST=1 skips repeated forced fsync
- * inside waitForIdle(). close() still flushes through pager.close(), so the
- * stone-world still receives its final inscription.
+ * The root database vessel.
+ * Heavy idle logic is split into core/idle.
+ * Sequence speed is preserved.
+ * Dictionary object-order is fixed at the dictionary layer.
  */
 
 const Pager = require('./core/pager/firmament.js');
@@ -25,24 +21,17 @@ const SearchManager = require('./api/search/index.js');
 const VectorManager = require('./api/vector/index.js');
 const AIManager = require('./api/ai/index.js');
 const QueryExecutor = require('./api/query/index.js');
-const ConcurrencyLock = require('./core/concurrency.js');
+const waitForIdleCore = require('./core/idle/index.js');
 
 /**
  * @class AwtsmoosDB
  * @description
- * The central database vessel.
- *
- * It binds:
- * - Pager: physical bytes.
- * - Allocator: space creation.
- * - Builder: structure inscription.
- * - LiveHandle: normal JS access over persistent data.
- * - Graph/Search/Vector/AI managers: higher perception layers.
+ * Main synchronous binary object database.
  */
 class AwtsmoosDB {
   /**
    * @constructor
-   * @param {string} filePath - Database file path.
+   * @param {string} filePath - Database path.
    * @param {object} [options={}] - Runtime options.
    */
   constructor(filePath, options = {}) {
@@ -95,12 +84,12 @@ class AwtsmoosDB {
     };
 
     this.root = null;
-    this.lock = new ConcurrencyLock();
+    this.lock = new (require('./core/concurrency.js'))();
   }
 
   /**
    * @method open
-   * @description Opens or creates the root database universe.
+   * @description Opens the binary world and resolves the root anchor.
    * @returns {void}
    */
   open() {
@@ -134,8 +123,7 @@ class AwtsmoosDB {
 
   /**
    * @method _flushSuperblock
-   * @description Writes allocator cursor and root pointer into block zero.
-   * @param {Buffer} [seal=this.rootPtrRaw] - Root pointer seal.
+   * @param {Buffer} [seal=this.rootPtrRaw] - Root seal.
    * @returns {void}
    */
   _flushSuperblock(seal = this.rootPtrRaw) {
@@ -145,20 +133,18 @@ class AwtsmoosDB {
     layout.writeBigUInt64BE(BigInt(this.allocator.cursor), 0);
     layout.writeUInt8(seal.length, 8);
     seal.copy(layout, 9);
-
     this.pager.writeExact(0, layout);
   }
 
   /**
    * @method close
-   * @description Flushes final state and closes the pager.
+   * @description Final flush and close.
    * @returns {void}
    */
   close() {
     this.waitForIdle({
       closing: true
     });
-
     this.pager.close();
     this._structureCache.clear();
 
@@ -172,56 +158,16 @@ class AwtsmoosDB {
   }
 
   /**
-   * @method shouldFastSkipFsync
-   * @description
-   * Decides whether a test run may skip repeated forced whole-file fsync.
-   *
-   * @param {object} [options={}] - Idle options.
-   * @param {boolean} [options.closing=false] - True during close.
-   * @returns {boolean} True when forced fsync may be skipped.
-   */
-  shouldFastSkipFsync(options = {}) {
-    return process.env.AWTSMOOSDB_FAST_TEST === '1' && !options.closing;
-  }
-
-  /**
    * @method waitForIdle
-   * @description
-   * Flushes metadata and drains pending index operations.
-   *
-   * During the fast test runner this avoids repeated pager.fsync(true), because
-   * the final close still seals the file. This turns the suite from dragging
-   * stone over stone every assertion into a sharper single final inscription.
-   *
    * @param {object} [options={}] - Idle options.
    * @returns {void}
    */
   waitForIdle(options = {}) {
-    this._flushSuperblock();
-
-    const list = [...this._pendingIndexOps];
-    this._pendingIndexOps = [];
-
-    list.forEach(m => {
-      try {
-        m();
-      } catch (e) {
-        if (this.options.debug) console.error(e);
-      }
-    });
-
-    if (this.search && typeof this.search.flush === 'function') {
-      this.search.flush();
-    }
-
-    if (!this.shouldFastSkipFsync(options)) {
-      this.pager.fsync(true);
-    }
+    waitForIdleCore(this, options);
   }
 
   /**
    * @method batch
-   * @description Runs many mutations under one final flush.
    * @param {Function} fn - Work callback.
    * @returns {*} Callback result.
    */
@@ -239,7 +185,6 @@ class AwtsmoosDB {
 
   /**
    * @method keys
-   * @description Returns keys from a live handle.
    * @param {object} handle - Live handle.
    * @returns {Array<string>} Keys.
    */
@@ -252,11 +197,10 @@ class AwtsmoosDB {
 
   /**
    * @method range
-   * @description Returns a sliced key/value walk.
-   * @param {object} h - Live handle.
-   * @param {*} s - Start key.
-   * @param {*} e - End key.
-   * @returns {Array<*>} Range result.
+   * @param {object} h - Handle.
+   * @param {*} s - Start.
+   * @param {*} e - End.
+   * @returns {Array<*>} Range results.
    */
   range(h, s, e) {
     const soul = h && h[constants.SYMBOLS.INTERNALS];
@@ -267,7 +211,6 @@ class AwtsmoosDB {
 
   /**
    * @method values
-   * @description Returns values from a live handle.
    * @param {object} handle - Live handle.
    * @returns {Array<*>} Values.
    */
@@ -280,8 +223,7 @@ class AwtsmoosDB {
 
   /**
    * @method query
-   * @description Runs query perception over a handle.
-   * @param {object} h - Live handle.
+   * @param {object} h - Handle.
    * @param {object} opts - Query options.
    * @returns {*} Query result.
    */
@@ -289,35 +231,14 @@ class AwtsmoosDB {
     return QueryExecutor.execute(h, opts);
   }
 
-  /**
-   * @method createMap
-   * @description Creates a persistent Map marker at parent key.
-   * @param {object} p - Parent handle.
-   * @param {string} k - Key name.
-   * @returns {void}
-   */
   createMap(p, k) {
     p[k] = new this.Map();
   }
 
-  /**
-   * @method createList
-   * @description Creates a persistent List marker at parent key.
-   * @param {object} p - Parent handle.
-   * @param {string} k - Key name.
-   * @returns {void}
-   */
   createList(p, k) {
     p[k] = new this.List();
   }
 
-  /**
-   * @method has
-   * @description Checks whether a handle has a key.
-   * @param {object} h - Live handle.
-   * @param {string} k - Key name.
-   * @returns {boolean} True when present.
-   */
   has(h, k) {
     const s = h && h[constants.SYMBOLS.INTERNALS];
     if (!s) return false;
@@ -325,23 +246,10 @@ class AwtsmoosDB {
     return s.nav.resolveKey(k) !== null;
   }
 
-  /**
-   * @method _readChainSafe
-   * @description Reads raw bytes from a pointer.
-   * @param {object} ptr - Pointer object.
-   * @returns {Buffer} Data bytes.
-   */
   _readChainSafe(ptr) {
     return this.pager.readExact(ptr.offset, ptr.length);
   }
 
-  /**
-   * @method _writeChainSafe
-   * @description Writes raw bytes to a pointer and bumps mutation count.
-   * @param {object} ptr - Pointer object.
-   * @param {Buffer} data - Data bytes.
-   * @returns {void}
-   */
   _writeChainSafe(ptr, data) {
     if (ptr && ptr.offset !== undefined) {
       this.pager.writeExact(ptr.offset, data);
