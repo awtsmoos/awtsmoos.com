@@ -5,17 +5,14 @@
  * @file test/lightning/outputCapture.js
  * @chapter The Silent Chamber
  * @description
- * Captures noisy test logs in memory.
- * Passing tests stay quiet.
- * Failing tests reveal their captured storm.
+ * Captures logs with a tiny cap so heavy simulations do not spend time writing.
  */
 
-const MAX_LINES = 240;
+const MAX_LINES = 80;
 
 /**
  * @class OutputCapture
- * @description
- * Temporarily captures console output.
+ * @description Temporarily captures console output.
  */
 class OutputCapture {
   /**
@@ -39,8 +36,9 @@ class OutputCapture {
     };
 
     const write = (...args) => {
-      if (this.lines.length >= MAX_LINES) return;
-      this.lines.push(args.map(String).join(' '));
+      if (this.lines.length < MAX_LINES) {
+        this.lines.push(args.map(String).join(' '));
+      }
     };
 
     console.log = write;
@@ -50,7 +48,7 @@ class OutputCapture {
 
   /**
    * @method stop
-   * @description Restores console.
+   * @description Restores console methods.
    * @returns {void}
    */
   stop() {
@@ -63,7 +61,7 @@ class OutputCapture {
 
   /**
    * @method text
-   * @description Returns captured text.
+   * @description Returns captured output.
    * @returns {string} Captured output.
    */
   text() {

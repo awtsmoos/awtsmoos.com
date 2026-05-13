@@ -3,31 +3,26 @@
 
 /**
  * @file core/idle/drainIndexOps.js
- * @chapter The Quiet Angels Finish Their Work
+ * @chapter The Small Angels Finish Quietly
  * @description
- * Pending index updates are drained here so index.js does not become a giant
- * tangled palace. Errors only log in debug mode.
+ * Runs pending index operations without bloating index.js.
  */
 
 /**
  * @function drainIndexOps
- * @description
- * Runs and clears pending index operations.
- *
- * @param {object} db - AwtsmoosDB instance.
+ * @description Drains queued index operations.
+ * @param {object} db - DB instance.
  * @returns {void}
  */
 function drainIndexOps(db) {
-  const list = db._pendingIndexOps;
+  const pending = db._pendingIndexOps || [];
   db._pendingIndexOps = [];
 
-  for (const op of list) {
+  for (const op of pending) {
     try {
       op();
     } catch (err) {
-      if (db.options && db.options.debug) {
-        console.error(err);
-      }
+      if (db.options && db.options.debug) console.error(err);
     }
   }
 }

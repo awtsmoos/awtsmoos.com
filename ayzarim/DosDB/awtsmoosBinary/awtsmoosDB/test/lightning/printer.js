@@ -5,10 +5,10 @@
  * @file test/lightning/printer.js
  * @chapter The Voice Of The Gates
  * @description
- * Compact output for fast in-process test execution.
+ * Compact output for in-process lightning execution.
  */
 
-const WARN_MS = 150;
+const WARN_MS = 80;
 
 /**
  * @function start
@@ -16,16 +16,15 @@ const WARN_MS = 150;
  * @returns {void}
  */
 function start() {
-  console.log('\n\x1b[36m\x1b[1mB"H - Starting Full Synchronous Validation (Strict + In-Process Lightning)...\x1b[0m\n');
+  console.log('\n\x1b[36m\x1b[1mB"H - Starting Full Synchronous Validation (Strict + Total Lightning)...\x1b[0m\n');
 }
 
 /**
  * @function running
  * @description Prints running status.
- *
  * @param {number} i - Test index.
  * @param {number} total - Total tests.
- * @param {string} test - Test filename.
+ * @param {string} test - Test file.
  * @returns {void}
  */
 function running(i, total, test) {
@@ -36,7 +35,6 @@ function running(i, total, test) {
 /**
  * @function pass
  * @description Prints pass status.
- *
  * @param {number} elapsed - Milliseconds.
  * @returns {void}
  */
@@ -47,9 +45,8 @@ function pass(elapsed) {
 
 /**
  * @function fail
- * @description Prints failure status and captured logs.
- *
- * @param {object} result - Test result.
+ * @description Prints failure output.
+ * @param {object} result - Result.
  * @returns {void}
  */
 function fail(result) {
@@ -65,14 +62,14 @@ function fail(result) {
 
 /**
  * @function victory
- * @description Prints suite success.
- *
+ * @description Prints final success.
  * @param {number} total - Total tests.
- * @param {number} started - Suite start timestamp.
+ * @param {number} started - Suite start time.
  * @returns {void}
  */
 function victory(total, started) {
-  const duration = ((Date.now() - started) / 1000).toFixed(3);
+  const Timer = require('./timer.js');
+  const duration = ((Timer.now() - started) / 1000).toFixed(3);
   console.log(`\n\x1b[42m\x1b[30m\x1b[1m B"H - TOTAL VICTORY: ALL ${total} TESTS PASSED IN ${duration}s. \x1b[0m`);
 }
 

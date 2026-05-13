@@ -3,10 +3,9 @@
 
 /**
  * @file core/idle/index.js
- * @chapter The Stillness Engine
+ * @chapter The Still Point Of The Engine
  * @description
- * One clean idle pipeline:
- * superblock, pending index ops, search flush, optional forced fsync.
+ * Central idle pipeline: superblock, index ops, search, optional fsync.
  */
 
 const shouldSkipForcedFsync = require('./fastGate.js');
@@ -15,10 +14,8 @@ const flushSearch = require('./flushSearch.js');
 
 /**
  * @function waitForIdle
- * @description
- * Brings the DB to a stable synchronous boundary.
- *
- * @param {object} db - AwtsmoosDB instance.
+ * @description Performs DB idle boundary work.
+ * @param {object} db - DB instance.
  * @param {object} [options={}] - Idle options.
  * @returns {void}
  */

@@ -5,15 +5,13 @@
  * @file core/idle/flushSearch.js
  * @chapter The Search Mirror Settles
  * @description
- * Search flushing is isolated so the core DB class stays small.
+ * Search manager flushing is isolated here.
  */
 
 /**
  * @function flushSearch
- * @description
- * Flushes search manager if present.
- *
- * @param {object} db - AwtsmoosDB instance.
+ * @description Flushes search manager if present.
+ * @param {object} db - DB instance.
  * @returns {void}
  */
 function flushSearch(db) {
