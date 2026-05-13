@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file class_resurrection.js

@@ -35,8 +35,27 @@ class StructBuilder {
             return visited.get(val);
         }
 
-        const isContainer = Array.isArray(val) || 
+        const isContainer = Array.isArray(val) ||
             (val && (val.constructor.name === 'Object' || val._isAwtsmoosMap));
+
+        const isCustomInstance =
+            !isContainer &&
+            !Buffer.isBuffer(val) &&
+            !(val instanceof Date) &&
+            !(val instanceof RegExp) &&
+            !(val instanceof Error) &&
+            !(val instanceof Map) &&
+            !(val instanceof Set) &&
+            !(val instanceof WeakMap) &&
+            !(val instanceof WeakSet) &&
+            !(val instanceof Promise) &&
+            !ArrayBuffer.isView(val) &&
+            !(val instanceof ArrayBuffer) &&
+            !!(val.constructor && val.constructor !== Object);
+
+        if (isCustomInstance && this.allocator && typeof this.allocator._saveCustomInstance === 'function') {
+            return this.allocator._saveCustomInstance(val, visited);
+        }
 
         if (!isContainer) {
             return this.db.primitiveSaver.save(val);
