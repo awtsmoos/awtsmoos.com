@@ -1,18 +1,18 @@
 
 // B"H
+
 /**
  * @file index.js
- * @chapter The Prime Atom of Unity (Etz Chaim)
+ * @chapter The Prime Atom Of Unity
  * @description
- * This index is the singular focal point from which all binary dimensions expand.
- * Like the Ein Sof (The Infinite), it contains the potential of all things 
- * within itself, then allows them to emanate through the specific channels 
- * of Maps, Lists, and Primitives.
- * 
- * "Everything was for His Honor created." 
- * We have increased the Light (Performance) by expanding the `StructureCache`
- * into a global barrier against redundant physical reads. Every handle is a 
- * unique Spark (Nitzotz) that remembers its place on disk.
+ * This is the root vessel from which the database opens its eyes.
+ * The Awtsmoos renews all worlds at every instant; this class renews the
+ * binary world by opening the pager, awakening the allocator, binding the
+ * root anchor, and giving the user a live handle into persistence.
+ *
+ * For lightning tests, AWTSMOOSDB_FAST_TEST=1 skips repeated forced fsync
+ * inside waitForIdle(). close() still flushes through pager.close(), so the
+ * stone-world still receives its final inscription.
  */
 
 const Pager = require('./core/pager/firmament.js');
@@ -20,251 +20,334 @@ const Allocator = require('./core/allocator/chesed.js');
 const Builder = require('./structure/manifest/complex/builder.js');
 const Handle = require('./api/liveHandle/index.js');
 const constants = require('./constants.js');
-const SmartPointer = require('./utils/smartPointer/index.js');
-
 const GraphManager = require('./api/graph/index.js');
 const SearchManager = require('./api/search/index.js');
 const VectorManager = require('./api/vector/index.js');
 const AIManager = require('./api/ai/index.js');
 const QueryExecutor = require('./api/query/index.js');
+const ConcurrencyLock = require('./core/concurrency.js');
 
 /**
  * @class AwtsmoosDB
  * @description
- * The Omnipresent Database Core. Holds the Sefirotic structure of indices.
+ * The central database vessel.
+ *
+ * It binds:
+ * - Pager: physical bytes.
+ * - Allocator: space creation.
+ * - Builder: structure inscription.
+ * - LiveHandle: normal JS access over persistent data.
+ * - Graph/Search/Vector/AI managers: higher perception layers.
  */
 class AwtsmoosDB {
-    /**
-     * @constructor
-     * @param {string} filePath - Absolute path to the physical Stone.
-     * @param {Object} [options={}] - Config parameters for this manifestation.
-     */
-    constructor(filePath, options = {}) {
-        this.options = { debug: false, ...options };
-        
-        /** 
-         * Chapter: Firmament (Asiyah)
-         * High-speed mirror that eliminates traditional IO friction. 
-         */
-        this.pager = new Pager(filePath);
-        this.pager.db = this;
-        
-        /**
-         * Chapter: Chesed (Giving)
-         * Unrestrained byte-sequential space granting mechanism. 
-         */
-        this.allocator = new Allocator(this.pager);
-        this.allocator.db = this;
-        this.allocator.v1 = this.allocator; 
-        
-        /**
-         * Chapter: Architecture (Beriah)
-         * Constructing shapes and vessels from JSON archetypes.
-         */
-        this.builder = new Builder(this.allocator);
-        this.primitiveSaver = this.builder.scribe;
-        
-        /** 
-         * The Five Angels of Retrieval and Connection. 
-         */
-        this.graph = new GraphManager(this);
-        this.search = new SearchManager(this);
-        this.vector = new VectorManager(this);
-        this.ai = new AIManager(this);
-        
-        // Internal state buffers
-        this.sysCache = { search: new Set(), vector: new Set(), loaded: true };
-        this._pendingIndexOps = [];
-        
-        /**
-         * Chapter: Reshimu (Impression Cache)
-         * Speeds up traversal by remembering handled offsets.
-         */
-        this._structureCache = new Map();
-        
-        /** 
-         * chapter: Gevurah (Control) 
-         * Counter of entropy and modification events.
-         */
-        this.mutationCount = 0;
+  /**
+   * @constructor
+   * @param {string} filePath - Database file path.
+   * @param {object} [options={}] - Runtime options.
+   */
+  constructor(filePath, options = {}) {
+    this.options = {
+      debug: false,
+      ...options
+    };
 
-        // TYPES FOR CREATION
-        this.Map = class { constructor() { this._isAwtsmoosMap = true; } };
-        this.List = class { constructor() { this._isAwtsmoosList = true; } };
-        this.Object = class { constructor() { this._isAwtsmoosObject = true; } };
-        
-        this.root = null;
-        this.lock = new (require('./core/concurrency.js'))();
+    this.pager = new Pager(filePath);
+    this.pager.db = this;
+
+    this.allocator = new Allocator(this.pager);
+    this.allocator.db = this;
+    this.allocator.v1 = this.allocator;
+
+    this.builder = new Builder(this.allocator);
+    this.primitiveSaver = this.builder.scribe;
+
+    this.graph = new GraphManager(this);
+    this.search = new SearchManager(this);
+    this.vector = new VectorManager(this);
+    this.ai = new AIManager(this);
+
+    this.sysCache = {
+      search: new Set(),
+      vector: new Set(),
+      loaded: true
+    };
+
+    this._pendingIndexOps = [];
+    this._structureCache = new Map();
+    this.mutationCount = 0;
+
+    this.Map = class {
+      constructor() {
+        this._isAwtsmoosMap = true;
+      }
+    };
+
+    this.List = class {
+      constructor() {
+        this._isAwtsmoosList = true;
+      }
+    };
+
+    this.Object = class {
+      constructor() {
+        this._isAwtsmoosObject = true;
+      }
+    };
+
+    this.root = null;
+    this.lock = new ConcurrencyLock();
+  }
+
+  /**
+   * @method open
+   * @description Opens or creates the root database universe.
+   * @returns {void}
+   */
+  open() {
+    this.pager.init();
+    this.allocator.init();
+
+    const sb = this.pager.readExact(0, 64) || Buffer.alloc(64).fill(0);
+    const rootSealLength = sb.readUInt8(8);
+
+    if (rootSealLength === 0) {
+      const DictionaryEngine = require('./structure/dictionary/index.js');
+      const StableAnchor = require('./structure/anchor/stable.js');
+      const startDict = new DictionaryEngine(this.allocator);
+      const apexAnchor = new StableAnchor(this);
+      const dataVessel = startDict.create();
+      const identitySeal = apexAnchor.create(constants.VAL_TYPE.DICTIONARY, dataVessel);
+
+      this.root = new Handle(this, identitySeal, constants.VAL_TYPE.ANCHOR);
+      this.rootPtrRaw = identitySeal;
+      this._flushSuperblock(identitySeal);
+    } else {
+      const rootBytes = sb.subarray(9, 9 + rootSealLength);
+      this.root = new Handle(this, rootBytes, constants.VAL_TYPE.ANCHOR);
+      this.rootPtrRaw = rootBytes;
     }
 
-    /**
-     * @method open
-     * @description Awaken from the sleep of bytes. Immediate Sync Revelation.
-     */
-    open() {
-        this.pager.init();
-        this.allocator.init();
-        
-        // 64-byte SUPERBLOCK Protocol [Cursor:8][Null:0][Length:1][Seal:...]
-        const sb = this.pager.readExact(0, 64) || Buffer.alloc(64).fill(0);
-        
-        // Root identification. 
-        // Length occupies Byte 8. Pointer Seal begins at Byte 9.
-        const rootSealLength = sb.readUInt8(8);
+    if (this.options.debug) {
+      console.log(`B"H - Existence manifests at root address [${this.rootPtrRaw.toString('hex')}]`);
+    }
+  }
 
-        if (rootSealLength === 0) {
-            // THE BEGINNING (GENESIS)
-            const DictionaryEngine = require('./structure/dictionary/index.js');
-            const StableAnchor = require('./structure/anchor/stable.js');
-            
-            const startDict = new DictionaryEngine(this.allocator);
-            const apexAnchor = new StableAnchor(this);
-            
-            // Build absolute Foundation
-            const dataVessel = startDict.create(); 
-            const identitySeal = apexAnchor.create(constants.VAL_TYPE.DICTIONARY, dataVessel); 
-            
-            this.root = new Handle(this, identitySeal, constants.VAL_TYPE.ANCHOR);
-            this.rootPtrRaw = identitySeal;
+  /**
+   * @method _flushSuperblock
+   * @description Writes allocator cursor and root pointer into block zero.
+   * @param {Buffer} [seal=this.rootPtrRaw] - Root pointer seal.
+   * @returns {void}
+   */
+  _flushSuperblock(seal = this.rootPtrRaw) {
+    if (!seal) return;
 
-            // Commit initial cosmos metadata
-            this._flushSuperblock(identitySeal);
-        } else {
-            // THE RECONCILIATION
-            const rootBytes = sb.subarray(9, 9 + rootSealLength);
-            this.root = new Handle(this, rootBytes, constants.VAL_TYPE.ANCHOR);
-            this.rootPtrRaw = rootBytes;
-        }
+    const layout = Buffer.alloc(64).fill(0);
+    layout.writeBigUInt64BE(BigInt(this.allocator.cursor), 0);
+    layout.writeUInt8(seal.length, 8);
+    seal.copy(layout, 9);
 
-        if (this.options.debug) {
-            console.log(`B"H - Existence manifests at root address [${this.rootPtrRaw.toString('hex')}]`);
-        }
+    this.pager.writeExact(0, layout);
+  }
+
+  /**
+   * @method close
+   * @description Flushes final state and closes the pager.
+   * @returns {void}
+   */
+  close() {
+    this.waitForIdle({
+      closing: true
+    });
+
+    this.pager.close();
+    this._structureCache.clear();
+
+    if (this.options.debug) {
+      const fs = require('fs');
+      if (fs.existsSync(this.pager.filePath)) {
+        const phys = fs.statSync(this.pager.filePath).size;
+        console.log(`[SIZE_REPORT] physical: ${phys}, pure: ${phys}`);
+      }
+    }
+  }
+
+  /**
+   * @method shouldFastSkipFsync
+   * @description
+   * Decides whether a test run may skip repeated forced whole-file fsync.
+   *
+   * @param {object} [options={}] - Idle options.
+   * @param {boolean} [options.closing=false] - True during close.
+   * @returns {boolean} True when forced fsync may be skipped.
+   */
+  shouldFastSkipFsync(options = {}) {
+    return process.env.AWTSMOOSDB_FAST_TEST === '1' && !options.closing;
+  }
+
+  /**
+   * @method waitForIdle
+   * @description
+   * Flushes metadata and drains pending index operations.
+   *
+   * During the fast test runner this avoids repeated pager.fsync(true), because
+   * the final close still seals the file. This turns the suite from dragging
+   * stone over stone every assertion into a sharper single final inscription.
+   *
+   * @param {object} [options={}] - Idle options.
+   * @returns {void}
+   */
+  waitForIdle(options = {}) {
+    this._flushSuperblock();
+
+    const list = [...this._pendingIndexOps];
+    this._pendingIndexOps = [];
+
+    list.forEach(m => {
+      try {
+        m();
+      } catch (e) {
+        if (this.options.debug) console.error(e);
+      }
+    });
+
+    if (this.search && typeof this.search.flush === 'function') {
+      this.search.flush();
     }
 
-    /**
-     * @private
-     * @description Materializes the anchor coordinate into the absolute origin (Block 0).
-     */
-    _flushSuperblock(seal = this.rootPtrRaw) {
-        if (!seal) return;
-        const layout = Buffer.alloc(64).fill(0);
-        
-        // 1. EOF physical coordinate (Sourced from Chesed)
-        layout.writeBigUInt64BE(BigInt(this.allocator.cursor), 0);
-        // 2. Apex coordinates (Sourced from Malchut)
-        layout.writeUInt8(seal.length, 8);
-        seal.copy(layout, 9);
-        
-        this.pager.writeExact(0, layout);
+    if (!this.shouldFastSkipFsync(options)) {
+      this.pager.fsync(true);
     }
+  }
 
-    /**
-     * @method close
-     * @description Melts from the Mirrored form back into stone reality.
-     */
-    close() { 
-        this.waitForIdle(); 
-        this.pager.close(); 
-        this._structureCache.clear();
-        if (this.options.debug) {
-            const fs = require('fs');
-            if (fs.existsSync(this.pager.filePath)) {
-                 const phys = fs.statSync(this.pager.filePath).size;
-                 console.log(`[SIZE_REPORT] physical: ${phys}, pure: ${phys}`);
-            }
-        }
-    }
-    
-    /**
-     * @method waitForIdle
-     * @description Syncs the spiritual indices and physical cursors.
-     */
-    waitForIdle() { 
-        this._flushSuperblock();
+  /**
+   * @method batch
+   * @description Runs many mutations under one final flush.
+   * @param {Function} fn - Work callback.
+   * @returns {*} Callback result.
+   */
+  batch(fn) {
+    const prevStatus = this.pager.isBatching;
+    this.pager.isBatching = true;
 
-        // Drain the pending angels of updates
-        const list = [...this._pendingIndexOps]; 
-        this._pendingIndexOps = [];
-        list.forEach(m => { try { m(); } catch(e){} });
-        
-        if (this.search && typeof this.search.flush === 'function') {
-             this.search.flush();
-        }
+    try {
+      return fn();
+    } finally {
+      this.pager.isBatching = prevStatus;
+      if (!prevStatus) this.waitForIdle();
+    }
+  }
 
-        // Condense Mirror back to physical world (Asiyah)
-        this.pager.fsync(true); 
-    }
-    
-    /**
-     * @method batch
-     * @description Suspends entropy triggers for bulk creation velocity.
-     */
-    batch(fn) { 
-        const prevStatus = this.pager.isBatching;
-        this.pager.isBatching = true; 
-        try { 
-            return fn(); 
-        } finally { 
-            this.pager.isBatching = prevStatus; 
-            if (!prevStatus) this.waitForIdle(); 
-        } 
-    }
+  /**
+   * @method keys
+   * @description Returns keys from a live handle.
+   * @param {object} handle - Live handle.
+   * @returns {Array<string>} Keys.
+   */
+  keys(handle) {
+    const soul = handle && handle[constants.SYMBOLS.INTERNALS];
+    if (!soul) return [];
+    soul.ensureResolved();
+    return soul.reader ? Array.from(soul.reader.keys()) : [];
+  }
 
-    /**
-     * @method keys
-     * @description Reveals names written in the Heavens. Synchronous.
-     */
-    keys(handle) {
-        const soul = handle && handle[constants.SYMBOLS.INTERNALS];
-        if (!soul) return [];
-        soul.ensureResolved();
-        return soul.reader ? Array.from(soul.reader.keys()) : [];
-    }
+  /**
+   * @method range
+   * @description Returns a sliced key/value walk.
+   * @param {object} h - Live handle.
+   * @param {*} s - Start key.
+   * @param {*} e - End key.
+   * @returns {Array<*>} Range result.
+   */
+  range(h, s, e) {
+    const soul = h && h[constants.SYMBOLS.INTERNALS];
+    if (!soul) return [];
+    soul.ensureResolved();
+    return soul.reader && soul.reader.iter ? soul.reader.iter.range(s, e) : [];
+  }
 
-    /**
-     * @method range
-     * @description Sliced walk through the Alphabet of data.
-     */
-    range(h, s, e) {
-        const soul = h && h[constants.SYMBOLS.INTERNALS];
-        if (!soul) return [];
-        soul.ensureResolved();
-        return soul.reader && soul.reader.iter ? soul.reader.iter.range(s, e) : [];
-    }
+  /**
+   * @method values
+   * @description Returns values from a live handle.
+   * @param {object} handle - Live handle.
+   * @returns {Array<*>} Values.
+   */
+  values(handle) {
+    const soul = handle && handle[constants.SYMBOLS.INTERNALS];
+    if (!soul) return [];
+    soul.ensureResolved();
+    return soul.reader ? Array.from(soul.reader.values()) : [];
+  }
 
-    values(handle) {
-        const soul = handle && handle[constants.SYMBOLS.INTERNALS];
-        if (!soul) return [];
-        soul.ensureResolved();
-        return soul.reader ? Array.from(soul.reader.values()) : [];
+  /**
+   * @method query
+   * @description Runs query perception over a handle.
+   * @param {object} h - Live handle.
+   * @param {object} opts - Query options.
+   * @returns {*} Query result.
+   */
+  query(h, opts) {
+    return QueryExecutor.execute(h, opts);
+  }
+
+  /**
+   * @method createMap
+   * @description Creates a persistent Map marker at parent key.
+   * @param {object} p - Parent handle.
+   * @param {string} k - Key name.
+   * @returns {void}
+   */
+  createMap(p, k) {
+    p[k] = new this.Map();
+  }
+
+  /**
+   * @method createList
+   * @description Creates a persistent List marker at parent key.
+   * @param {object} p - Parent handle.
+   * @param {string} k - Key name.
+   * @returns {void}
+   */
+  createList(p, k) {
+    p[k] = new this.List();
+  }
+
+  /**
+   * @method has
+   * @description Checks whether a handle has a key.
+   * @param {object} h - Live handle.
+   * @param {string} k - Key name.
+   * @returns {boolean} True when present.
+   */
+  has(h, k) {
+    const s = h && h[constants.SYMBOLS.INTERNALS];
+    if (!s) return false;
+    s.ensureResolved();
+    return s.nav.resolveKey(k) !== null;
+  }
+
+  /**
+   * @method _readChainSafe
+   * @description Reads raw bytes from a pointer.
+   * @param {object} ptr - Pointer object.
+   * @returns {Buffer} Data bytes.
+   */
+  _readChainSafe(ptr) {
+    return this.pager.readExact(ptr.offset, ptr.length);
+  }
+
+  /**
+   * @method _writeChainSafe
+   * @description Writes raw bytes to a pointer and bumps mutation count.
+   * @param {object} ptr - Pointer object.
+   * @param {Buffer} data - Data bytes.
+   * @returns {void}
+   */
+  _writeChainSafe(ptr, data) {
+    if (ptr && ptr.offset !== undefined) {
+      this.pager.writeExact(ptr.offset, data);
+      this.mutationCount++;
     }
-    
-    /** Query Perception gateway. */
-    query(h, opts) { return QueryExecutor.execute(h, opts); }
-    
-    /** Marker creation for Maps. */
-    createMap(p, k) { p[k] = new this.Map(); }
-    
-    /** Marker creation for Lists. */
-    createList(p, k) { p[k] = new this.List(); }
-    
-    /** Presence check in the World of Forms. */
-    has(h, k) {
-        const s = h && h[constants.SYMBOLS.INTERNALS];
-        if (!s) return false;
-        s.ensureResolved();
-        return (s.nav.resolveKey(k)) !== null;
-    }
-    
-    // Core physical perception methods.
-    _readChainSafe(ptr) { return this.pager.readExact(ptr.offset, ptr.length); }
-    _writeChainSafe(ptr, data) { 
-        if (ptr && ptr.offset !== undefined) {
-            this.pager.writeExact(ptr.offset, data); 
-            // Invalidate spiritual mirrors upon every physical modification.
-            this.mutationCount++;
-        }
-    }
+  }
 }
 
 module.exports = AwtsmoosDB;

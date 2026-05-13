@@ -1,0 +1,46 @@
+
+/**
+ * B"H
+ * @file WorkerProgressWatchdog.js
+ * @description
+ * Warns when Worker progress stalls.
+ */
+
+import {
+  ensureWorkerProgressStore,
+  getWorkerProgressAge
+} from "../progress/WorkerProgressStore.js";
+
+/**
+ * B"H
+ * Starts the progress watchdog.
+ *
+ * @param {Object} manager
+ * Worker manager.
+ *
+ * @returns {void}
+ */
+export function startWorkerProgressWatchdog(manager) {
+  const check = () => {
+    const store = ensureWorkerProgressStore();
+    const age = getWorkerProgressAge();
+
+    if (!manager._worldLoaded && age > 12000) {
+      console.error(
+        [
+          `B"H | WORKER_STALLED`,
+          `lastStage=${store.lastStage}`,
+          `ageMs=${age}`,
+          `workerPath=${manager.workerPath}`,
+          `hint=look at window.__AWTSMOOS_WORKER_PROGRESS__.history for exact last checkpoints`
+        ].join(" | ")
+      );
+
+      store.lastAt = Date.now();
+    }
+
+    setTimeout(check, 4000);
+  };
+
+  setTimeout(check, 12000);
+}

@@ -16,6 +16,7 @@ import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessag
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";
+import { startWorkerProgressWatchdog } from "./ikarOyvedManager/watch/WorkerProgressWatchdog.js";
 
 /**
  * B"H
@@ -64,6 +65,7 @@ export default class OlamWorkerManager {
     };
 
     this._initStagnationWatch();
+    startWorkerProgressWatchdog(this);
   }
 
   /**
@@ -105,10 +107,16 @@ export default class OlamWorkerManager {
     this.opened = true;
 
     this.processQueue();
-    oyvedManagerLog.info("Dispatching pawsawch to worker");
 
-    if (typeof this.customTawfeekeem.pawsawch === "function") {
-      await this.customTawfeekeem.pawsawch();
+    try {
+      if (typeof this.customTawfeekeem.pawsawch === "function") {
+        await this.customTawfeekeem.pawsawch();
+      }
+    } catch (error) {
+      oyvedManagerLog.error("pawsawch dispatch failed", {
+        message: error?.message || String(error),
+        stack: String(error?.stack || "no stack").replace(/\s+/g, " ")
+      });
     }
   }
 
@@ -127,23 +135,27 @@ export default class OlamWorkerManager {
   postMessage(data, transfer = []) {
     let dayuh = data;
 
-    if (dayuh && typeof dayuh === "object") {
-      dayuh = Utils.stringifyFunctions(data);
-    }
+    try {
+      if (dayuh && typeof dayuh === "object") {
+        dayuh = Utils.stringifyFunctions(data);
+      }
 
-    const action = () => {
-      this.eved.postMessage(dayuh, transfer.length > 0 ? transfer : undefined);
-    };
+      const action = () => {
+        this.eved.postMessage(dayuh, transfer.length > 0 ? transfer : undefined);
+      };
 
-    if (!this.runtime.opened) {
-      this.queue.add(action);
-      oyvedManagerLog.info("Worker message queued", {
-        queueLength: this.queue.length
+      if (!this.runtime.opened) {
+        this.queue.add(action);
+        return;
+      }
+
+      action();
+    } catch (error) {
+      oyvedManagerLog.error("Worker postMessage failed", {
+        message: error?.message || String(error),
+        stack: String(error?.stack || "no stack").replace(/\s+/g, " ")
       });
-      return;
     }
-
-    action();
   }
 
   /**
@@ -153,11 +165,14 @@ export default class OlamWorkerManager {
    * @returns {void}
    */
   processQueue() {
-    oyvedManagerLog.info("Flushing worker queue", {
-      queueLength: this.queue.length
-    });
-
-    this.queue.flush();
+    try {
+      this.queue.flush();
+    } catch (error) {
+      oyvedManagerLog.error("Worker queue flush failed", {
+        message: error?.message || String(error),
+        stack: String(error?.stack || "no stack").replace(/\s+/g, " ")
+      });
+    }
   }
 
   /**
@@ -171,8 +186,9 @@ export default class OlamWorkerManager {
       const silence = this.runtime.silenceMs();
 
       if ((this.runtime.vesselIsReady || this._vesselIsReady) && silence > 25000 && !this.runtime.worldLoaded && !this._worldLoaded) {
-        oyvedManagerLog.warn("Worker silent after vessel ready", {
-          seconds: Math.floor(silence / 1000)
+        oyvedManagerLog.error("Worker silent after vessel ready", {
+          seconds: Math.floor(silence / 1000),
+          workerPath: this.workerPath
         });
       }
 
