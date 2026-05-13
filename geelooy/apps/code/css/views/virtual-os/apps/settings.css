@@ -15,7 +15,7 @@
 }
 
 .vos-settings-title {
-    color: #00f6ff;
+    color: var(--vos-cyan);
     font-weight: 900;
     margin-bottom: 8px;
 }

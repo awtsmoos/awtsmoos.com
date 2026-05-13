@@ -1,0 +1,26 @@
+
+/* B"H */
+
+.vos-file-commander-host {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    background: #02050b;
+}
+
+.vos-file-commander-host .file-commander,
+.vos-file-commander-host .fc-root,
+.vos-file-commander-host .fc-container {
+    height: 100%;
+    min-height: 0;
+}
+
+.vos-file-commander-host button,
+.vos-file-commander-host input,
+.vos-file-commander-host select {
+    font-family: var(--font-code, monospace);
+}
+
+.vos-file-commander-host .fc-content {
+    min-height: 0;
+}

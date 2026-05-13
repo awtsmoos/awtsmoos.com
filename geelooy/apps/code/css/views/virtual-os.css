@@ -12,6 +12,7 @@
 @import url('./virtual-os/start-menu/base.css');
 @import url('./virtual-os/start-menu/items.css');
 @import url('./virtual-os/apps/common.css');
+@import url('./virtual-os/apps/file-commander-window.css');
 @import url('./virtual-os/apps/browser.css');
 @import url('./virtual-os/apps/terminal.css');
 @import url('./virtual-os/apps/notepad.css');

@@ -5,7 +5,7 @@
     height: 100%;
     min-height: 0;
     box-sizing: border-box;
-    color: #e8f7ff;
+    color: var(--vos-text);
     font-family: var(--font-code, monospace);
 }
 
@@ -25,7 +25,7 @@
     border: 1px solid rgba(0,246,255,0.4);
     border-radius: 6px;
     background: rgba(0, 246, 255, 0.08);
-    color: #e8f7ff;
+    color: var(--vos-text);
     cursor: pointer;
     font-family: var(--font-code, monospace);
     font-weight: 800;
@@ -40,7 +40,7 @@
     border: 1px solid rgba(0,246,255,0.35);
     border-radius: 6px;
     background: #020713;
-    color: #e8f7ff;
+    color: var(--vos-text);
     padding: 0 8px;
     font-family: var(--font-code, monospace);
 }
@@ -50,7 +50,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #00f6ff;
+    color: var(--vos-cyan);
     opacity: 0.92;
     font-size: 11px;
 }
@@ -63,7 +63,7 @@
 
 .vos-empty {
     padding: 16px;
-    color: #00f6ff;
+    color: var(--vos-cyan);
 }
 
 .vos-app-error {
