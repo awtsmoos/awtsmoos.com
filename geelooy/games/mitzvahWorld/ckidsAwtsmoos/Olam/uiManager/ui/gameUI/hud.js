@@ -32,7 +32,7 @@ export default {
         },
         tooltip(e, $, ui) {
             const data = e.detail;
-            const tt = $("icon tooltip");
+            const tt = $("tooltip");
             if (!tt) return;
             if (data.show) {
                 tt.classList.remove("hidden");

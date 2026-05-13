@@ -26,7 +26,7 @@
  * @module buildBrickWall
  */
 
-import * as THREE from 'three';
+import * as THREE from '/games/scripts/build/three.module.js';
 
 const _DUMMY = new THREE.Object3D();
 
@@ -43,9 +43,10 @@ const _DUMMY = new THREE.Object3D();
  * @param   {THREE.Scene}   scene   - The living scene
  * @param   {Object|null}   physics - Physics world
  * @param   {import('../nivrayimDefs.js').NefeshDef} def - Soul blueprint
+ * @param   {Object|null}   olam    - Olam context for octree insertion
  * @returns {Promise<THREE.Group[]>}  A single Group containing both InstancedMeshes
  */
-export async function buildBrickWall(scene, physics, def) {
+export async function buildBrickWall(scene, physics, def, olam = null) {
   const {
     bricksX  = 10,
     bricksY  = 3,
@@ -108,10 +109,26 @@ export async function buildBrickWall(scene, physics, def) {
   group.rotation.set(rx, ry, rz);
   group.name = def.id;
 
+  // ── Octree (Collision Boundary) ─────────────────────────────────────
+  if (olam?.worldOctree) {
+    const wallW = bricksX * brickW;
+    const wallH = bricksY * brickH;
+    const proxyGeo = new THREE.BoxGeometry(wallW, wallH, brickD);
+    const proxyMesh = new THREE.Mesh(proxyGeo);
+    // Center of the wall in local group space is roughly offset by the col/row logic
+    // But since the group handles the position/rotation, we just need the relative bounds.
+    // The current loop centers the bricks around local 0,0,0
+    proxyMesh.position.set(0, (wallH / 2) - (brickH / 2), 0); 
+    group.add(proxyMesh);
+    proxyMesh.visible = false; // Hide the proxy
+    
+    olam.worldOctree.fromGraphNode(proxyMesh);
+  }
+
   // ── Physics: one static box for the whole wall ───────────────────────
   if (physics && def.props?.physics) {
-    const wallW = bricksX * brickW / 2;
-    const wallH = bricksY * brickH / 2;
+    const wallW = (bricksX * brickW) / 2;
+    const wallH = (bricksY * brickH) / 2;
     _addStaticBoxToPhysics(physics, px, py + wallH, pz, wallW, wallH, brickD / 2);
   }
 

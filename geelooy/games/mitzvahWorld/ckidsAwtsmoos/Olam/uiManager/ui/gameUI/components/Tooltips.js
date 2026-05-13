@@ -7,7 +7,7 @@
  */
 export const Tooltips = [
     { 
-        shaym: "icon tooltip", 
+        shaym: "tooltip", 
         className: "awtsmoos-tooltip hidden"
     }, 
     {

@@ -1,80 +1,66 @@
-
 /**
- * @fileoverview
- * ════════════════════════════════════════════════════════════════════════
  * B"H
- *
- *   THE GARDEN OF PROLIFERATING LIGHT — buildGrassPatch.js
- *   ────────────────────────────────────────────────────────
- *   "Let the earth sprout vegetation, seed-bearing plants..." —
- *   Bereishis 1:11, the Third Day, the Day of Double Blessing.
- *
- *   Grass is the Netzach — victory, eternity, the endless
- *   proliferation of Divine kindness into every blade,
- *   every chlorophyll molecule, every sway in the breeze.
- *
- *   We use InstancedMesh for maximum holiness per draw call.
- *   One mesh. Many instances. Like the one G-d with infinite worlds.
- *
  * ════════════════════════════════════════════════════════════════════════
- *
- * @module buildGrassPatch
+ *   THE BLADE OF PRAISE — buildGrassPatch.js
+ *   ──────────────────────────────────────────
+ *   Enhanced with realistic 3D grass blade geometry.
+ *   Each blade is a tapered, V-shaped mesh that catches the light.
+ * ════════════════════════════════════════════════════════════════════════
  */
 
-import * as THREE from 'three';
+import * as THREE from '/games/scripts/build/three.module.js';
+import { createGrassMaterial } from './shaders/GrassShader.js';
+import { NATURE_RULES } from '../data/manifests/NatureRules.js';
 
-/** @constant {THREE.Object3D} _DUMMY - Reusable transform scratch object */
-const _DUMMY = new THREE.Object3D();
-
-/**
- * @function buildGrassPatch
- * @description
- *   Scatters `count` grass blades within `radius` of [px, py, pz]
- *   using InstancedMesh — a single GPU draw call for all blades.
- *
- *   Each blade: a thin BoxGeometry, randomly scaled in height (0.2–0.5),
- *   randomly rotated in Y, randomly offset in XZ within the radius.
- *
- *   "He makes grass grow for the cattle" — and for the GPU too,
- *   efficiently, gloriously, in a single instanced whisper.
- *
- * @param   {THREE.Scene}   scene   - The living scene (unused here; factory adds it)
- * @param   {Object|null}   physics - Physics world (grass needs no physics)
- * @param   {import('../nivrayimDefs.js').NefeshDef} def - Soul blueprint
- * @returns {Promise<THREE.InstancedMesh[]>} Single-element array with the instanced mesh
- */
-export async function buildGrassPatch(scene, physics, def) {
-  const {
-    radius = 80,
-    count  = 120,
-    color  = 0x5cb85c,
-  } = def.props || {};
-
+export async function buildGrassPatch(scene, physics, def, olam = null) {
+  const { count = 800, radius = 60 } = def.props || {};
   const [px, py, pz] = def.position || [0, 0, 0];
 
-  const geo = new THREE.BoxGeometry(0.08, 1, 0.08);
-  const mat = new THREE.MeshLambertMaterial({ color });
+  // ── 1. Create a Realistic Grass Blade Geometry ──
+  const shape = new THREE.Shape();
+  shape.moveTo(-0.05, 0);
+  shape.lineTo(0.05, 0);
+  shape.lineTo(0.02, 0.6);
+  shape.lineTo(-0.02, 0.6);
+  shape.closePath();
+
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth: 0.02,
+    bevelEnabled: false
+  });
+  geo.rotateX(Math.PI / 2); // Lay it flat so it stands up after instance rotation
+  geo.translate(0, 0, 0.3); // Pivot at the base
+
+  const mat = createGrassMaterial();
   const mesh = new THREE.InstancedMesh(geo, mat, count);
-  mesh.castShadow = false;
-  mesh.receiveShadow = true;
-  mesh.name = def.id;
+  mesh.position.set(px, py, pz);
 
+  const dummy = new THREE.Object3D();
   for (let i = 0; i < count; i++) {
-    const angle  = Math.random() * Math.PI * 2;
-    const dist   = Math.sqrt(Math.random()) * radius;
-    const bladeH = 0.2 + Math.random() * 0.3;
+    const angle = Math.random() * Math.PI * 2;
+    const r = Math.sqrt(Math.random()) * radius;
+    const x = Math.cos(angle) * r;
+    const z = Math.sin(angle) * r;
 
-    _DUMMY.position.set(
-      px + Math.cos(angle) * dist,
-      py + bladeH / 2,
-      pz + Math.sin(angle) * dist,
+    dummy.position.set(x, 0, z);
+    dummy.rotation.set(
+      (Math.random() - 0.5) * 0.2, // Slight tilt
+      Math.random() * Math.PI,
+      0
     );
-    _DUMMY.rotation.y = Math.random() * Math.PI * 2;
-    _DUMMY.scale.set(1, bladeH * 2, 1);
-    _DUMMY.updateMatrix();
-    mesh.setMatrixAt(i, _DUMMY.matrix);
+    dummy.scale.setScalar(0.4 + Math.random() * 1.2);
+    dummy.updateMatrix();
+    mesh.setMatrixAt(i, dummy.matrix);
   }
 
   mesh.instanceMatrix.needsUpdate = true;
+
+  if (olam?.tzimtzum) {
+    const { swaySpeed = 1.0 } = NATURE_RULES.grass.animation;
+    olam.tzimtzum.onUpdate((t, dt) => {
+      if (mat.uniforms?.time) mat.uniforms.time.value += dt * swaySpeed;
+    });
+  }
+
   return [mesh];
 }

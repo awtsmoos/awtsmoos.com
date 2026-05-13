@@ -98,6 +98,15 @@ export default class HeesHawvoosManager {
                 if (shouldLog) console.error("B\"H - 🚨 [HeesHawvoos] Entity Life Loop Shattered:", e);
             }
 
+            // ── STEP 3.5: Combat System (Hebrew Weapons & Health Bars) ──────────
+            try {
+                if (self.combatManager) {
+                    self.combatManager.update(dt);
+                }
+            } catch(e) {
+                if (shouldLog) console.error("B\"H - 🚨 [HeesHawvoos] Combat System Shattered:", e);
+            }
+
             // ── STEP 4: Perspective Maintenance ────────────────────────────────
             try {
                 if (self.ayin && self.ayin.update) self.ayin.update(dt);

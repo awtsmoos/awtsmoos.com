@@ -24,24 +24,22 @@ export default class LuminaryManifestor {
 
         // 1. THE EMBRACING WISDOM (Hemisphere - Chochmah)
         // Illuminates evenly avoiding harsh under-shadowing clipping
-        const skyGlow = new THREE.HemisphereLight(0x88ccee, 0x443322, 1.2);
+        const ambient = new THREE.AmbientLight(0xffffff, 0.75);
+        this.scene.add(ambient);
+
+        const skyGlow = new THREE.HemisphereLight(0xaaddff, 0x665544, 1.6);
         this.scene.add(skyGlow);
 
         // 2. THE DIRECTED WILL (Sun - Ratzon)
-        const theSun = new THREE.DirectionalLight(0xfffae6, 1.8);
+        const theSun = new THREE.DirectionalLight(0xfffae6, 2.2);
         theSun.position.set(200, 400, 150); 
         theSun.castShadow = true;
         theSun.shadow.mapSize.width = 2048;
         theSun.shadow.mapSize.height = 2048;
         this.scene.add(theSun);
 
-        // 3. THE LIGHT OF DA'AS (Diagnostic Origin Point)
-        // A glowing orb at 0,0,0 to prove exact coordinates of manifestation
-        const markerGeo = new THREE.SphereGeometry(2, 8, 8);
-        const markerMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
-        const originMarker = new THREE.Mesh(markerGeo, markerMat);
-        originMarker.position.set(0, 5, 0);
-        this.scene.add(originMarker);
+        // B"H: The Light of Da'as is now internal, no longer needing a physical marker.
+
         
         // B"H: silent
 

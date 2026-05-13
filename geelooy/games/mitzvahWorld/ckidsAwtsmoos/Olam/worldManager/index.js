@@ -8,8 +8,8 @@
  *
  * TIKKUN: The serviceWorkerPath param passed here (oyvedEdom.js) is now
  * properly used to register the service worker - its actual purpose.
- * StartWorldFlow handles the real game worker path independently.
  */
+import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
 import UIManager from "../uiManager/index.js";
 import StartWorldFlow from "./StartWorldFlow.js";
 import SocketHandler from "./SocketHandler.js";
@@ -56,7 +56,10 @@ export default class ManagerOfAllWorlds {
     }
 }
 
-Object.assign(ManagerOfAllWorlds.prototype, StartWorldFlow);
-Object.assign(ManagerOfAllWorlds.prototype, SocketHandler);
-Object.assign(ManagerOfAllWorlds.prototype, ServiceWorkerInit);
-Object.assign(ManagerOfAllWorlds.prototype, SwitchDestroyLogic);
+// B"H - Grafting the modular limbs onto the Overseer with Divine Emanation
+ChasveiAwtsmoos.emanate(ManagerOfAllWorlds.prototype, [
+    StartWorldFlow,
+    SocketHandler,
+    ServiceWorkerInit,
+    SwitchDestroyLogic
+]);

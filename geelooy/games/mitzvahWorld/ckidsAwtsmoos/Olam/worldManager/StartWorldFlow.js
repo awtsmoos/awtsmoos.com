@@ -58,7 +58,7 @@ const StartWorldFlow = {
         }
 
         const manager = new OlamWorkerManager(
-            "/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/index.js",
+            `/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/index.js?v=${Date.now()}`,
             {
                 async pawsawch() {
                     // B"H: silent
