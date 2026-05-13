@@ -164,7 +164,7 @@ export default function updateSlots(e, $, ui) {
                             const sData = parent ? parent['awtsmoosSlotData'] : null;
                             if (!sData) return;
                             
-                            const tooltip = $("icon tooltip");
+                            const tooltip = $("tooltip");
                             if (tooltip) {
                                 tooltip.innerHTML = '<div class="header">' + (sData.name || 'Item') + '</div><div class="description">' + (sData.description || '') + '</div>';
                                 tooltip.classList.remove('hidden');
@@ -174,7 +174,7 @@ export default function updateSlots(e, $, ui) {
                             }
                         }, 
                         mouseleave: function() {
-                             const tooltip = document.querySelector('[shaym="icon tooltip"]');
+                             const tooltip = document.querySelector('[shaym="tooltip"]');
                              if(tooltip) tooltip.classList.add('hidden');
                         }
                     },

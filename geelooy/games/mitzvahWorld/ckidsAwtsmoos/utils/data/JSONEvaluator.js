@@ -84,10 +84,22 @@ export default class JSONEvaluator {
                 return Math.pow(args[0], args[1]);
             case '$abs':
                 return Math.abs(args);
+            case '$sin':
+                return Math.sin(args);
+            case '$cos':
+                return Math.cos(args);
+            case '$tan':
+                return Math.tan(args);
+            case '$rad': // Degrees to Radians
+                return (args * Math.PI) / 180;
                 
             // Constants
             case '$pi':
                 return Math.PI;
+            
+            // Spatial Helpers
+            case '$vec3':
+                return { x: args[0] || 0, y: args[1] || 0, z: args[2] || 0 };
                 
             // Logic
             case '$eq':

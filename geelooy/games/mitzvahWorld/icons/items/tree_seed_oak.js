@@ -1,4 +1,5 @@
-<!--B"H-->
+// B"H
+const treeSeedOakSvg = `<!--B"H-->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <!-- B"H -->
   <circle cx="50" cy="50" r="45" fill="#8B4513" stroke="#4A2511" stroke-width="3"/>
@@ -6,4 +7,6 @@
   <circle cx="50" cy="50" r="10" fill="#228B22"/>
   <circle cx="80" cy="40" r="10" fill="#228B22"/>
   <circle cx="20" cy="40" r="10" fill="#228B22"/>
-</svg>
+</svg>`;
+
+export default treeSeedOakSvg;

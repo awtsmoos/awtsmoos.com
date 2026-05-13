@@ -12,7 +12,15 @@
 </head>
 <body>
     <div id="ikar"></div>
-    <!-- B"H: The only entrance allowed is the 3D gate. All service workers are banished. -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "/games/scripts/build/three.module.js",
+            "three/addons/": "/games/scripts/jsm/",
+            "three/examples/jsm/": "/games/scripts/jsm/"
+        }
+    }
+    </script>
     <script type="module" src="./index.js"></script>
 </body>
 </html>

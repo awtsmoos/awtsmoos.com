@@ -99,6 +99,11 @@ export default class StepsBuilder {
         const entrances = blueprint.entrances || [];
         const instructions = [];
 
+        // B"H: The stairs belong to the earth!
+        // Do not generate stairs or skirts for floating/upper floors.
+        const isGrounded = !blueprint.offset || blueprint.offset[1] === 0;
+        if (!isGrounded) return instructions;
+
         entrances.forEach(entrance => {
             StepsBuilder._buildStepsForEntrance(blueprint, entrance, instructions);
             StepsBuilder._buildSupportSkirt(blueprint, entrance, instructions);
