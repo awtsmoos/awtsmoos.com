@@ -73,6 +73,33 @@ export default {
             id: 'building_mill', className: 'Mill', name: 'Grain Mill', description: 'Grind the sparks of sustenance.', icon: '🏘️', isBuildable: true
         }, 5);
 
+        // B"H: The Blessings of Wealth
+        this.inventory.addItem({
+            id: 'perutah', className: 'Coin', name: 'Perutah', description: 'The fundamental currency of Mitzvah World.', icon: '🪙'
+        }, 1000);
+
+        // B"H: Additional Clothing Colors
+        const colors = [
+            { name: "Blue", hex: "#0000ff" },
+            { name: "Red", hex: "#ff0000" },
+            { name: "Green", hex: "#00ff00" },
+            { name: "Gold", hex: "#ffd700" },
+            { name: "Purple", hex: "#800080" },
+            { name: "Black", hex: "#000000" }
+        ];
+
+        colors.forEach(c => {
+            this.inventory.addItem({
+                id: `garment_shirt_${c.name.toLowerCase()}`, className: 'Apparel', name: `${c.name} Shirt`, description: `A ${c.name.toLowerCase()} garment reflecting specific traits.`, icon: icons.shirt, equipSlot: 'shirt', customData: { meshName: 'outer-shirt', color: c.hex }
+            }, 1);
+            this.inventory.addItem({
+                id: `garment_yamulka_${c.name.toLowerCase()}`, className: 'Apparel', name: `${c.name} Yamulka`, description: `A ${c.name.toLowerCase()} reminder of the Infinite.`, icon: icons.kippah, equipSlot: 'head', customData: { meshName: 'yamulka', color: c.hex }
+            }, 1);
+            this.inventory.addItem({
+                id: `garment_jacket_${c.name.toLowerCase()}`, className: 'Apparel', name: `${c.name} Jacket`, description: `A ${c.name.toLowerCase()} coat of honor.`, icon: icons.jacket, equipSlot: 'jacket', customData: { meshName: 'jacket', color: c.hex }
+            }, 1);
+        });
+
         // Equip the essential Levushim immediately to clothe the vessel
         setTimeout(() => {
             const equip = (id, target) => {
@@ -85,5 +112,6 @@ export default {
             equip('garment_shirt', 'shirt');
             equip('garment_glasses', 'eyes');
         }, 500);
+
     }
 }

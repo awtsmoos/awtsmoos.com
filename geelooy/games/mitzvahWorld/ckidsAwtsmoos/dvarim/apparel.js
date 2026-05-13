@@ -17,11 +17,18 @@ export default class Apparel extends Tzomayach {
     static stackSize = 1; // Apparel doesn't stack
 
     constructor(op) {
+        // B"H: The Levushim now carry spiritual attributes
+        this.chochmah = op.chochmah || 0;
+        this.binah = op.binah || 0;
+        this.daas = op.daas || 0;
+        this.defense = op.defense || 0;
+        this.attack = op.attack || 0;
+
         // If an apparel item is ever dropped in the world, it needs a default physical shape (golem).
         if (!op.golem) {
             op.golem = {
                 guf: { BoxGeometry: [0.5, 0.5, 0.1] }, // A flat shape
-                toyr: { MeshLambertMaterial: { color: "#333333" } } 
+                toyr: { MeshLambertMaterial: { color: op.color || "#333333" } } 
             };
         }
         

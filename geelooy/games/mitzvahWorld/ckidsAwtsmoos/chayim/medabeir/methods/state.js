@@ -15,28 +15,38 @@ export default {
     },
 
     initShlichusChecker() {
-        // Hook into start to check availability
         this.on("started", async () => {
-            await this.ayshPeula("check shlichus availablity");
+            this.updateMissionIcon();
         });
 
-        this.on("check shlichus availablity", async () => {
-            var d = this?.dialogue?.shlichuseem;
-            if(!d) return false;
-            var isAvailable = this.olam.ayshPeula("is shlichus available", d);
-       
-            if(isAvailable === false) {
-                await this.ayshPeula("change icon style", {
-                    selector: ".ikar",
-                    properties: { style: { fill: "silver" } }
-                })
-                return;
-            }
-
-            await this.ayshPeula("change icon style", {
-                selector: ".ikar",
-                properties: { style: { fill: "orange" } }
-            })
+        // B"H: Update icon whenever shlichus status might change
+        this.on("accepted interaction", () => {
+            this.updateMissionIcon();
         });
+    },
+
+    updateMissionIcon() {
+        if (!this.floatingIcon || !this.olam || !this.olam.chossid) return;
+
+        const manager = this.olam.chossid.shlichusManager;
+        if (!manager) return;
+
+        const missionId = this.options.missionId;
+        if (!missionId) {
+            this.floatingIcon.setState("none");
+            return;
+        }
+
+        const status = manager.getMissionStatus(missionId);
+
+        if (status === "not_started") {
+            this.floatingIcon.setState("available");
+        } else if (status === "in_progress") {
+            this.floatingIcon.setState("in_progress");
+        } else if (status === "ready_to_turn_in") {
+            this.floatingIcon.setState("complete");
+        } else {
+            this.floatingIcon.setState("none");
+        }
     }
 };

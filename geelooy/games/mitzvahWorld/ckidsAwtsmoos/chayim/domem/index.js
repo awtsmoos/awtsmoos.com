@@ -11,6 +11,8 @@ import {Kav} from "../roochney.js";
 import * as THREE from '/games/scripts/build/three.module.js';
 import Utils from '../../utils.js';
 
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
+
 // Import Faculties
 import lifecycleMethods from "./methods/lifecycle.js";
 import graphicsMethods from "./methods/graphics.js";
@@ -154,9 +156,11 @@ export default class Domem extends Nivra {
     }
 }
 
-// B"H - Aggregating the Faculties
-Object.assign(Domem.prototype, lifecycleMethods);
-Object.assign(Domem.prototype, graphicsMethods);
-Object.assign(Domem.prototype, audioMethods);
-Object.assign(Domem.prototype, animationMethods);
-Object.assign(Domem.prototype, serializationMethods);
+// B"H - Aggregating the Faculties with Divine Emanation
+ChasveiAwtsmoos.emanate(Domem.prototype, [
+    lifecycleMethods,
+    graphicsMethods,
+    audioMethods,
+    animationMethods,
+    serializationMethods
+]);

@@ -38,7 +38,14 @@ export default {
             // B"H: silent
 
 
-            if (niv.type === 'customNpc' || niv.type === 'medabeir' || niv.dialogue || niv.type === 'interactiveDoor') {
+            if (
+                niv.type === 'customNpc' ||
+                niv.type === 'medabeir' ||
+                niv.type === 'interactiveNpc' ||
+                niv.dialogue ||
+                niv.dialogues ||
+                niv.type === 'interactiveDoor'
+            ) {
                 if (typeof niv.ayshPeula === 'function') {
                     niv.ayshPeula("accepted interaction", this);
                 }
@@ -213,8 +220,8 @@ export default {
                 }
             }
 
-            const isNPC = niv.type === 'customNpc' || niv.type === 'medabeir';
-            if ((niv.dialogue || ob?.hasDialogue || isNPC) && !nohtml) {
+            const isNPC = niv.type === 'customNpc' || niv.type === 'medabeir' || niv.type === 'interactiveNpc';
+            if ((niv.dialogue || niv.dialogues || ob?.hasDialogue || isNPC) && !nohtml) {
                  let inRange = false;
                  if (isNPC && olam.chossid) {
                      const dist = olam.chossid.mesh.position.distanceTo(niv.mesh.position);

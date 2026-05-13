@@ -12,6 +12,7 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 import UniformScribe from './MaterialManager/UniformScribe.js';
 import ShaderInscriber from './MaterialManager/ShaderInscriber.js';
+import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 
 export default class MaterialManager {
     static create(baseType = 'Standard', options = {}, snippets = null) {
@@ -42,7 +43,7 @@ export default class MaterialManager {
             console.log(`B"H - 🛠️ [MaterialManager] Refining [${mat.type}]. Hash: ${hash}`);
             
             const safeUniforms = UniformScribe.sanctify(snippets.uniforms);
-            Object.assign(shader.uniforms, safeUniforms);
+            ChasveiAwtsmoos.emanate(shader.uniforms, safeUniforms);
             mat.userData.shaderUniforms = shader.uniforms;
 
             ShaderInscriber.engrave(shader, snippets);

@@ -55,26 +55,43 @@ export default {
         });
 
         // 2. Clothe the vessel strictly with active equipment
+        const activeClothes = [];
+
         if (this.inventory && this.inventory.equipment) {
             Object.values(this.inventory.equipment).forEach(ref => {
                 if (!ref) return;
-                
-                // Find actual item from the treasury
                 let item = null;
                 if (ref.sourceType === 'inventory') item = this.inventory.slots[ref.index];
                 else if (ref.sourceType === 'action') item = this.inventory.actionSlots[ref.index];
-                
-                // Awaken the specific mesh
-                if (item && item.customData && item.customData.meshName) {
-                    const targetNames = Array.isArray(item.customData.meshName) ? item.customData.meshName : [item.customData.meshName];
-                    targetMesh.traverse(child => {
-                        if (targetNames.includes(child.name) || (child.userData && targetNames.includes(child.userData.garment))) {
-                            child.visible = true;
-                        }
-                    });
+                if (item && item.customData) {
+                    activeClothes.push(item.customData);
                 }
             });
+        } else if (this.options && this.options.clothes) {
+            // B"H: For NPCs who don't have a full inventory system but have clothes defined
+            activeClothes.push(...this.options.clothes);
         }
+
+        activeClothes.forEach(cloth => {
+            if (cloth.meshName) {
+                const targetNames = Array.isArray(cloth.meshName) ? cloth.meshName : [cloth.meshName];
+                targetMesh.traverse(child => {
+                    if (targetNames.includes(child.name) || (child.userData && targetNames.includes(child.userData.garment))) {
+                        child.visible = true;
+                        // B"H: Apply dynamic Sefirotic colors to the garment!
+                        if (cloth.color && child.material) {
+                            if (Array.isArray(child.material)) {
+                                child.material.forEach(m => {
+                                    if(m.color) m.color.set(cloth.color);
+                                });
+                            } else if (child.material.color) {
+                                child.material.color.set(cloth.color);
+                            }
+                        }
+                    }
+                });
+            }
+        });
     },
 
     randomizeAppearance() {
