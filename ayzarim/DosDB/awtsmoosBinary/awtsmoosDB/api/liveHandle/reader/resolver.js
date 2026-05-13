@@ -1,94 +1,81 @@
 
 // B"H
+
 /**
- * @file resolver.js
+ * @file api/liveHandle/reader/resolver.js
+ * @chapter The Reader Of Whole Forms
  * @description
- *  =============================================================================
- *  CHAPTER 15: THE MASTER RESURRECTOR (TECHIYAS HAMEISIM)
- *  =============================================================================
- *  "The dead shall live, their bodies shall rise." (Isaiah 26:19)
- *  
- *  Re-architected into hyper-modular, extremely unhinged micro-files.
- *  There is no padding in the void. Only pure, fast VarInt pointers.
+ * Resolves a LiveHandle into plain JavaScript when explicitly requested.
+ * Scalars are handled by the core Hydrator; containers are walked here.
  */
+
 const constants = require('../../../constants.js');
-const SmartPointer = require('../../../utils/smartPointer/index.js');
-const HandleRegistry = require('../../../core/registry/handle.js');
-const { hydrateStructure } = require('./resolver_core/hydrateStructure.js');
-const classRegistry = require('../../../utils/smartPointer/registry.js');
+const Hydrator = require('./hydrator/index.js');
 
-function reviveCustomInstance(val) {
-    if (!val || typeof val !== 'object' || !val.__className__ || !val.__source__) return val;
+const T = constants.VAL_TYPE;
 
-    const className = val.__className__;
-    const classSource = val.__source__;
-    let Species = classRegistry.get(className);
+/**
+ * @class ResolverLogic
+ * @description
+ * Full value resolver for LiveHandle readers.
+ */
+class ResolverLogic {
+  /**
+   * @constructor
+   * @param {object} reader - Reader instance.
+   */
+  constructor(reader) {
+    this.reader = reader;
+    this.handle = reader.handle;
+    this.db = reader.db;
+    this.hydrator = new Hydrator(this.db.allocator);
+  }
 
-    if (!Species) {
-        try {
-            Species = (new Function(`return (${classSource});`))();
-            if (Species) classRegistry.set(className, Species);
-        } catch (_e) {
-            return val;
-        }
+  /**
+   * @method resolveSelf
+   * @description Resolves the handle root into a JavaScript value.
+   * @returns {*} Resolved value.
+   */
+  resolveSelf() {
+    this.handle.ensureResolved();
+
+    const type = this.handle.type;
+    const engine = this.handle.engine;
+
+    if (!engine) {
+      return this.hydrator.hydrate(this.handle.ptr);
     }
 
-    if (!Species || !Species.prototype) return val;
-
-    const entity = Object.create(Species.prototype);
-    for (const key of Object.keys(val)) {
-        if (key === '__className__' || key === '__source__') continue;
-        entity[key] = val[key];
+    if (type === T.SEQUENCE || type === T.ARRAY || type === T.SMART_ARRAY) {
+      const out = [];
+      for (let i = 0; i < engine.length(); i++) {
+        out.push(engine.get(i, this.handle.ctx));
+      }
+      return out;
     }
-    return entity;
+
+    if (type === T.SET || type === T.JS_SET) {
+      const out = new Set();
+      for (let i = 0; i < engine.length(); i++) {
+        out.add(engine.get(i, this.handle.ctx));
+      }
+      return out;
+    }
+
+    if (type === T.MAP || type === T.JS_MAP) {
+      const out = new Map();
+      for (const [k, v] of this.reader.entries()) {
+        out.set(k, v);
+      }
+      return out;
+    }
+
+    const out = {};
+    for (const [k, v] of this.reader.entries()) {
+      out[k] = v;
+    }
+    return out;
+  }
 }
 
-module.exports = class ReaderResolver {
-    constructor(reader) { 
-        this.reader = reader; 
-        this.db = reader.db; 
-        this.handle = reader.handle; 
-    }
-    
-    resolveStructPtr() { 
-        if (this.handle.ptr) return SmartPointer.resolve(this.handle.ptr, this.db.allocator); 
-        return null; 
-    }
-    
-    resolveSelf() {
-        return this.db.lock.runRead(() => {
-            if (this.handle && typeof this.handle.ensureResolved === 'function') {
-                this.handle.ensureResolved();
-            }
-            
-            const isRoot = this.db.root ? (this.handle === HandleRegistry.getSoul(this.db.root)) : false;
-            if (!this.handle.ptr && !isRoot) return undefined;
-            
-            const context = new Map(); 
-            const T = constants.VAL_TYPE; 
-            const type = this.handle.type;
-            
-            if (isRoot || type === T.DICTIONARY || type === T.OBJECT || type === T.SMART_OBJECT) {
-                let structPtr = null;
-                if (isRoot && this.db.rootPtrRaw) structPtr = SmartPointer.resolve(this.db.rootPtrRaw, this.db.allocator);
-                else if (this.handle.ptr) structPtr = SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-                
-                if (!structPtr) return {}; 
-                
-                return reviveCustomInstance(hydrateStructure(structPtr, context, this.db));
-            }
-            
-            const val = SmartPointer.resolve(this.handle.ptr, this.db.allocator, context);
-            if (val && val.isStructure) return reviveCustomInstance(hydrateStructure(val, context, this.db));
-            
-            if (val && typeof val === 'object' && val.__className__) {
-                for (const key in val) { 
-                    const subVal = val[key]; 
-                    if (subVal && subVal.isStructure) val[key] = hydrateStructure(subVal, context, this.db); 
-                }
-            }
-            
-            return reviveCustomInstance(val);
-        });
-    }
-};
+module.exports = ResolverLogic;

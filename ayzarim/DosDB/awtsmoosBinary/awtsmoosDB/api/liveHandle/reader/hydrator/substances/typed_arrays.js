@@ -1,53 +1,39 @@
 
 // B"H
+
 /**
- * @file typed_arrays.js
- * @description Specialized ritual for resurrecting numerical matrices.
+ * @file api/liveHandle/reader/hydrator/substances/typed_arrays.js
+ * @chapter The Metal Array Breathes Again
+ * @description
+ * Constructor-code based typed array resurrection.
  */
 
-const floatUtils = require('../../../../../utils/math/float.js');
-const bigintUtils = require('../../../../../utils/bigIntUtils.js');
-
-const BasicViews = {
-    1: Int8Array, 2: Uint8Array, 3: Uint8ClampedArray,
-    4: Int16Array, 5: Uint16Array, 6: Int32Array, 7: Uint32Array
+const FACTORIES = {
+  1: raw => new Int8Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  2: raw => new Uint8Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  3: raw => new Uint8ClampedArray(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  4: raw => new Int16Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  5: raw => new Uint16Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  6: raw => new Int32Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  7: raw => new Uint32Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  8: raw => new Float32Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  9: raw => new Float64Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  10: raw => new BigInt64Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength)),
+  11: raw => new BigUint64Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength))
 };
 
 /**
- * @function resurrectNumericalStream
- * @description Pulls dynamic packets from the void into a living array.
+ * @function resurrect
+ * @description Rebuilds a typed array by constructor code.
+ * @param {number} code - Constructor code.
+ * @param {Buffer} raw - Raw bytes.
+ * @returns {TypedArray} Revived typed array.
  */
-function resurrectNumericalStream(Constructor, raw, isFloat) {
-    const list = []; 
-    let cursor = 0;
-    while (cursor < raw.length) {
-        let isNeg = false;
-        if (!isFloat) isNeg = raw[cursor++] === 1;
-        const len = raw[cursor++];
-        const value = isFloat 
-            ? floatUtils.deserialize(raw, cursor).value 
-            : bigintUtils.fromBuffer(raw.subarray(cursor, cursor + len), isNeg);
-        list.push(value); 
-        cursor += len;
-    }
-    return new Constructor(list);
+function resurrect(code, raw) {
+  const fn = FACTORIES[code];
+  return fn ? fn(raw) : new Uint8Array(raw);
 }
 
-const ComplexViews = {
-    8: (raw) => resurrectNumericalStream(Float32Array, raw, true),
-    9: (raw) => resurrectNumericalStream(Float64Array, raw, true),
-    10: (raw) => resurrectNumericalStream(BigInt64Array, raw, false),
-    11: (raw) => resurrectNumericalStream(BigUint64Array, raw, false)
-};
-
 module.exports = {
-    resurrect(vt, raw) {
-        const complexRite = ComplexViews[vt];
-        if (complexRite) return complexRite(raw);
-
-        const Constructor = BasicViews[vt] || Uint8Array;
-        const ab = new ArrayBuffer(raw.length);
-        new Uint8Array(ab).set(raw);
-        return new Constructor(ab);
-    }
+  resurrect
 };
