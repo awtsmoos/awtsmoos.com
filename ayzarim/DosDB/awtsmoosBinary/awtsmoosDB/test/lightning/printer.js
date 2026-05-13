@@ -5,10 +5,10 @@
  * @file test/lightning/printer.js
  * @chapter The Voice Of The Gates
  * @description
- * Prints compact test progress.
+ * Compact output for fast in-process test execution.
  */
 
-const WARN_MS = 500;
+const WARN_MS = 150;
 
 /**
  * @function start
@@ -16,15 +16,16 @@ const WARN_MS = 500;
  * @returns {void}
  */
 function start() {
-  console.log('\n\x1b[36m\x1b[1mB"H - Starting Full Synchronous Validation (Strict + Lightning)...\x1b[0m\n');
+  console.log('\n\x1b[36m\x1b[1mB"H - Starting Full Synchronous Validation (Strict + In-Process Lightning)...\x1b[0m\n');
 }
 
 /**
  * @function running
- * @description Prints one running line.
- * @param {number} i - Zero-based index.
+ * @description Prints running status.
+ *
+ * @param {number} i - Test index.
  * @param {number} total - Total tests.
- * @param {string} test - Test name.
+ * @param {string} test - Test filename.
  * @returns {void}
  */
 function running(i, total, test) {
@@ -34,7 +35,8 @@ function running(i, total, test) {
 
 /**
  * @function pass
- * @description Prints pass line.
+ * @description Prints pass status.
+ *
  * @param {number} elapsed - Milliseconds.
  * @returns {void}
  */
@@ -45,20 +47,28 @@ function pass(elapsed) {
 
 /**
  * @function fail
- * @description Prints failure body.
+ * @description Prints failure status and captured logs.
+ *
  * @param {object} result - Test result.
  * @returns {void}
  */
 function fail(result) {
   console.log(` \x1b[31m!!! FAILED (${result.elapsed}ms) !!!\x1b[0m`);
-  console.error((result.err || result.out).trim());
+
+  const body = [
+    result.err,
+    result.out
+  ].filter(Boolean).join('\n');
+
+  console.error(body.trim());
 }
 
 /**
  * @function victory
- * @description Prints final success.
+ * @description Prints suite success.
+ *
  * @param {number} total - Total tests.
- * @param {number} started - Start timestamp.
+ * @param {number} started - Suite start timestamp.
  * @returns {void}
  */
 function victory(total, started) {

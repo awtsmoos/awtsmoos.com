@@ -3,7 +3,7 @@
  * B"H
  * @file WorkerMessageText.js
  * @description
- * Text-only rendering for worker messages.
+ * Text-only rendering for Worker messages.
  */
 
 /**
@@ -18,14 +18,20 @@
  */
 export function workerMessageToText(data) {
   if (!data) return "Worker message empty";
-
   if (typeof data === "string") return data;
+
+  if (data.type === "worker_progress") {
+    return [
+      "Worker progress",
+      `stage=${data.stage || data.text || "unknown"}`,
+      `at=${data.at || Date.now()}`
+    ].join(" || ");
+  }
 
   if (data.text) return String(data.text);
   if (data.errorText) return String(data.errorText);
   if (data.details) return String(data.details);
   if (data.message) return String(data.message);
-
   if (data.type) return `Worker message type=${data.type}`;
 
   return "Worker message with no readable text";
@@ -33,18 +39,19 @@ export function workerMessageToText(data) {
 
 /**
  * B"H
- * Returns true if message is worker text log.
+ * Returns true if message is worker text/progress.
  *
  * @param {any} data
  * Data.
  *
  * @returns {boolean}
- * True if text log.
+ * True if text/progress.
  */
 export function isWorkerTextLog(data) {
   return Boolean(data && (
     data.type === "worker_text_log" ||
     data.type === "worker_import_error_text" ||
-    data.type === "ERROR_TEXT"
+    data.type === "ERROR_TEXT" ||
+    data.type === "worker_progress"
   ));
 }

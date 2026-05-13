@@ -4,6 +4,8 @@
  * @file MainTextLogger.js
  * @description
  * Main thread text-only logger.
+ *
+ * Logs only errors.
  */
 
 import { makeMainTextLine } from "./MainTextLogLine.js";
@@ -24,7 +26,7 @@ export class MainTextLogger {
 
   /**
    * B"H
-   * Writes a line.
+   * Writes only errors.
    *
    * @param {string} level
    * Level.
@@ -38,40 +40,31 @@ export class MainTextLogger {
    * @returns {void}
    */
   line(level, message, fields = {}) {
-    const method = console[level] ? level : "log";
-    console[method](makeMainTextLine(level, this.channel, message, fields));
+    if (level !== "error") return;
+
+    console.error(makeMainTextLine(level, this.channel, message, fields));
   }
 
   /**
    * B"H
-   * @param {string} message
-   * Message.
-   *
-   * @param {Record<string, unknown>} fields
-   * Fields.
+   * Suppressed.
    *
    * @returns {void}
    */
-  info(message, fields = {}) {
-    this.line("info", message, fields);
-  }
+  info() {}
 
   /**
    * B"H
-   * @param {string} message
-   * Message.
-   *
-   * @param {Record<string, unknown>} fields
-   * Fields.
+   * Suppressed.
    *
    * @returns {void}
    */
-  warn(message, fields = {}) {
-    this.line("warn", message, fields);
-  }
+  warn() {}
 
   /**
    * B"H
+   * Writes error.
+   *
    * @param {string} message
    * Message.
    *

@@ -3,16 +3,33 @@
  * B"H
  * @file WorkerMessageInterceptor.js
  * @description
- * Main thread Worker message interceptor.
+ * Main thread Worker message interceptor with reduced progress logs.
  */
 
 import { oyvedManagerLog } from "../log/MainTextLogger.js";
 import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js";
 import { makeWorkerErrorAlertText } from "./WorkerErrorAlertText.js";
+import { recordWorkerProgress } from "../progress/WorkerProgressStore.js";
 
 /**
  * B"H
- * Marks vessel ready on both new runtime and old legacy fields.
+ * Important visible progress stages.
+ */
+const VISIBLE_PROGRESS = new Set([
+  "entrypoint:start",
+  "boot-runner:start",
+  "angelic-invoker:start",
+  "vessel_ready",
+  "message:pawsawch:received",
+  "message:pawsawch:handleMessage:start",
+  "message:pawsawch:handleMessage:done",
+  "loadedWorld",
+  "canvas_transferred"
+]);
+
+/**
+ * B"H
+ * Marks vessel ready.
  *
  * @param {Object} manager
  * Manager.
@@ -77,6 +94,24 @@ function shouldAlertImportFailure(data, text) {
 
 /**
  * B"H
+ * Handles progress.
+ *
+ * @param {any} data
+ * Worker data.
+ *
+ * @returns {void}
+ */
+function handleProgress(data) {
+  const stage = String(data.stage || data.text || "unknown");
+  recordWorkerProgress(stage);
+
+  if (VISIBLE_PROGRESS.has(stage)) {
+    console.info(`B"H | WORKER_PROGRESS | ${stage}`);
+  }
+}
+
+/**
+ * B"H
  * Intercepts Worker messages.
  *
  * @param {Object} manager
@@ -90,8 +125,18 @@ function shouldAlertImportFailure(data, text) {
 export function interceptWorkerMessage(manager, event) {
   const data = event.data;
 
+  if (data && data.type === "worker_progress") {
+    handleProgress(data);
+    return;
+  }
+
   if (isWorkerTextLog(data)) {
-    oyvedManagerLog.info(workerMessageToText(data));
+    const text = workerMessageToText(data);
+
+    if (data.type === "worker_import_error_text" || data.type === "ERROR_TEXT") {
+      oyvedManagerLog.error(text);
+    }
+
     return;
   }
 
@@ -110,19 +155,22 @@ export function interceptWorkerMessage(manager, event) {
 
   if (data.type === "vessel_ready") {
     markVesselReady(manager);
-    oyvedManagerLog.info("Worker vessel ready");
+    recordWorkerProgress("vessel_ready");
+    console.info(`B"H | WORKER_PROGRESS | vessel_ready`);
     manager._dispatchPawsawch();
     return;
   }
 
   if (data.type === "loadedWorld") {
     markWorldLoaded(manager);
-    oyvedManagerLog.info("Worker loaded world");
+    recordWorkerProgress("loadedWorld");
+    console.info(`B"H | WORKER_PROGRESS | loadedWorld`);
     return;
   }
 
   if (data.type === "canvas_transferred") {
     markCanvasTransferred(manager);
-    oyvedManagerLog.info("Canvas transferred to worker");
+    recordWorkerProgress("canvas_transferred");
+    console.info(`B"H | WORKER_PROGRESS | canvas_transferred`);
   }
 }
