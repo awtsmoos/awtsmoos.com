@@ -3,22 +3,29 @@
 /**
  * @file VirtualOSEnv.js
  * @description
- * Builds the environment object passed into every tiny desktop app.
+ * Creates the environment passed into Virtual OS apps.
  */
 
-import { DesktopState } from './DesktopState.js';
 import { App } from '../../app.js';
+import { DesktopState } from './DesktopState.js';
 
+/**
+ * @function buildVirtualOSEnv
+ * @param {object} manager VirtualOSManager.
+ * @param {object} tab Active tab.
+ * @param {object} workspace Root workspace.
+ * @param {string} workspaceType Provider type.
+ * @param {object} desktopState Desktop state.
+ * @returns {object} Environment.
+ */
 export function buildVirtualOSEnv(manager, tab, workspace, workspaceType, desktopState) {
-    const requestRender = () => {
-        DesktopState.save(desktopState);
-        App.saveSessionDebounced();
-        manager.render(tab);
-    };
-
     return {
         workspace,
         workspaceType,
-        requestRender
+        requestRender() {
+            DesktopState.save(desktopState);
+            App.saveSessionDebounced();
+            manager.render(tab);
+        }
     };
 }

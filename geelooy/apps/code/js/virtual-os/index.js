@@ -3,26 +3,27 @@
 /**
  * @file index.js
  * @description
- * Virtual OS shell. The world is no longer rendered before its windows exist.
+ * Virtual OS orchestrator.
+ *
+ * The crucial repair: starter windows are created before rendering,
+ * workspace lookup is healed, and no missing workspace can fail silently.
  */
 
-import { DOM, State } from '../state.js';
+import { DOM } from '../state.js';
 import { Tabs } from '../tabs/index.js';
 import { DesktopState } from './core/DesktopState.js';
 import { WindowManager } from './core/WindowManager.js';
 import { AppRegistry } from './apps/AppRegistry.js';
 import { ensureStarterWindows } from './core/VirtualOSBoot.js';
-import { renderVirtualOSChrome } from './core/VirtualOSChrome.js';
+import { renderVirtualOSChrome, renderVirtualOSError } from './core/VirtualOSChrome.js';
 import { buildVirtualOSEnv } from './core/VirtualOSEnv.js';
-
-function getWorkspace(tab) {
-    return State.workspaces.find((ws) => String(ws.id) === String(tab.item.workspaceId));
-}
+import { resolveVirtualWorkspace, resolveVirtualRootPath } from './core/rootResolver.js';
 
 export const VirtualOSManager = {
     async open(startItem) {
-        const rawPath = startItem?.path || '/';
-        const path = rawPath.startsWith('/') ? rawPath : `/${rawPath}`;
+        const path = String(startItem?.path || '/').startsWith('/')
+            ? String(startItem?.path || '/')
+            : `/${String(startItem?.path || '')}`;
 
         const item = {
             id: `virtual-os-${Date.now()}`,
@@ -41,21 +42,24 @@ export const VirtualOSManager = {
         const container = DOM.virtualOSWrapper;
         if (!container) return;
 
-        const workspace = getWorkspace(tab);
+        const workspace = resolveVirtualWorkspace(tab);
+
         if (!workspace) {
-            container.innerHTML = `<div class="virtual-os-root"><div class="virtual-os-empty">B"H - No workspace was found for this Virtual OS tab.</div></div>`;
+            renderVirtualOSError(container, 'No workspace exists for this Virtual OS tab.');
             return;
         }
 
         const workspaceType = workspace.originalType || workspace.type;
-        const desktopState = tab.content || (tab.content = DesktopState.restore(tab.item.path || '/'));
+        const rootPath = resolveVirtualRootPath(tab);
+        const desktopState = tab.content || (tab.content = DesktopState.restore(rootPath));
 
-        ensureStarterWindows(desktopState, this._launch.bind(this));
+        desktopState.rootPath = rootPath;
+        ensureStarterWindows(desktopState, this.launch.bind(this));
 
         const chrome = renderVirtualOSChrome(container);
         const env = buildVirtualOSEnv(this, tab, workspace, workspaceType, desktopState);
 
-        const manager = new WindowManager(chrome.host, desktopState, (windowState, mountNode, state) => {
+        const windowManager = new WindowManager(chrome.host, desktopState, (windowState, mountNode, state) => {
             const appMeta = AppRegistry[windowState.appId];
 
             if (!appMeta) {
@@ -63,21 +67,23 @@ export const VirtualOSManager = {
                 return;
             }
 
-            return appMeta.renderer(windowState, mountNode, state, env);
+            appMeta.renderer(windowState, mountNode, state, env);
         });
 
-        manager.render();
-        this._renderTaskbar(chrome.taskList, desktopState, env.requestRender);
-        this._renderStartMenu(chrome.menu, desktopState, env.requestRender);
+        windowManager.render();
+        this.renderTaskbar(chrome.taskList, desktopState, env.requestRender);
+        this.renderStartMenu(chrome.menu, desktopState, env.requestRender);
 
         chrome.startButton.onclick = () => {
             desktopState.startMenuOpen = !desktopState.startMenuOpen;
             chrome.menu.classList.toggle('hidden', !desktopState.startMenuOpen);
             DesktopState.save(desktopState);
         };
+
+        DesktopState.save(desktopState);
     },
 
-    _launch(desktopState, appId) {
+    launch(desktopState, appId) {
         const appMeta = AppRegistry[appId];
         if (!appMeta) return;
 
@@ -96,36 +102,37 @@ export const VirtualOSManager = {
         });
     },
 
-    _renderTaskbar(taskList, desktopState, requestRender) {
+    renderTaskbar(taskList, desktopState, requestRender) {
         taskList.innerHTML = '';
 
         for (const process of desktopState.processes) {
             const windowState = desktopState.windows.find((entry) => entry.id === process.windowId);
             if (!windowState) continue;
 
-            const btn = document.createElement('button');
-            btn.className = 'virtual-os-task';
-            btn.textContent = process.title;
+            const button = document.createElement('button');
+            button.className = 'virtual-os-task';
+            button.textContent = process.title;
 
-            btn.onclick = () => {
+            button.onclick = () => {
                 windowState.isMinimized = !windowState.isMinimized;
                 DesktopState.focusWindow(desktopState, windowState.id);
                 requestRender();
             };
 
-            taskList.appendChild(btn);
+            taskList.appendChild(button);
         }
     },
 
-    _renderStartMenu(menu, desktopState, requestRender) {
-        const appList = Object.values(AppRegistry);
-        menu.innerHTML = appList.map((app) => `<button data-app-id="${app.id}">${app.title}</button>`).join('');
+    renderStartMenu(menu, desktopState, requestRender) {
+        menu.innerHTML = Object.values(AppRegistry)
+            .map((app) => `<button data-app-id="${app.id}">${app.title}</button>`)
+            .join('');
 
         menu.onclick = (event) => {
             const id = event.target?.dataset?.appId;
             if (!id) return;
 
-            this._launch(desktopState, id);
+            this.launch(desktopState, id);
             desktopState.startMenuOpen = false;
             requestRender();
         };
