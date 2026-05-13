@@ -3,11 +3,7 @@
 /**
  * @file shell.js
  * @description
- * Living terminal shell.
- *
- * It owns cwd, prompt, command execution, and tab title synchronization.
- * The Awtsmoos creates a world from speech; this shell creates each
- * command-world from typed words and returns it as readable light.
+ * Living terminal shell with type-safe filesystem context.
  */
 
 import { State } from '../state.js';
@@ -16,51 +12,42 @@ import { TerminalInputHandler } from './input-handler.js';
 import { TerminalExecutor } from './executor.js';
 
 export class TerminalShell {
-    /**
-     * @constructor
-     * @param {object} tab Terminal tab.
-     * @param {HTMLElement} container Terminal mount node.
-     */
     constructor(tab, container) {
         this.tab = tab;
         this.container = container;
-        this.state = tab.item.terminalState || tab.terminalState || {};
+        this.state = tab.terminalState || tab.item?.terminalState || {};
 
         if (!this.state.cwd) this.state.cwd = { kind: 'root', name: 'Workspaces', path: '/' };
         if (!Array.isArray(this.state.output)) this.state.output = [];
         if (!Array.isArray(this.state.history)) this.state.history = [];
         if (!this.state.env || typeof this.state.env !== 'object') this.state.env = {};
 
-        tab.item.terminalState = this.state;
         tab.terminalState = this.state;
+        if (tab.item) tab.item.terminalState = this.state;
 
         this.ui = new TerminalUI(container, this.state);
         this.executor = new TerminalExecutor(this);
-        this.inputHandler = null;
     }
 
     get cwd() {
         return this.state.cwd;
     }
 
-    set cwd(value) {
-        this.state.cwd = value;
+    set cwd(val) {
+        this.state.cwd = val;
         this.ui.renderPrompt(this.cwd);
 
-        const name = value.kind === 'root' ? 'Terminal' : `Term: ${value.name || value.path || 'Shell'}`;
+        const name = val.kind === 'root' ? 'Terminal' : `Term: ${val.name || val.path || 'Shell'}`;
         this.tab.item.name = name;
-        this.tab.item.path = value.path || '/';
+        this.tab.item.path = val.path || '/';
+        this.tab.terminalState = this.state;
+        this.tab.item.terminalState = this.state;
     }
 
     get cmdHistory() {
         return this.state.history;
     }
 
-    /**
-     * @async
-     * @function init
-     * @returns {Promise<void>}
-     */
     async init() {
         this.ui.renderStructure();
         this.ui.renderPrompt(this.cwd);
@@ -77,69 +64,68 @@ export class TerminalShell {
         }
     }
 
-    /**
-     * @function print
-     * @param {unknown} text Text to print.
-     * @param {string} className Optional CSS class.
-     * @returns {void}
-     */
     print(text, className = '') {
         this.state.output.push({ type: 'line', text, className });
         this.ui.appendLine(text, className);
     }
 
-    /**
-     * @function printPromptLine
-     * @param {string} cmd Command text.
-     * @returns {void}
-     */
     printPromptLine(cmd) {
         const path = this.ui.dirEl?.textContent || this.cwd.path || '/';
         this.state.output.push({ type: 'block', path, cmd });
         this.ui.appendHistoryBlock(path, cmd);
+        this.state.history.push(cmd);
     }
 
-    /**
-     * @function clearScreen
-     * @returns {void}
-     */
     clearScreen() {
         this.state.output = [];
         this.ui.clearScreen();
     }
 
-    /**
-     * @async
-     * @function execute
-     * @param {string} input Raw input.
-     * @returns {Promise<void>}
-     */
     async execute(input) {
         this.printPromptLine(input);
         await this.executor.execute(input);
     }
 
-    /**
-     * @async
-     * @function resolveItem
-     * @param {string} path Path from shell.
-     * @returns {Promise<object>} File-system item.
-     */
     async resolveItem(path) {
         if (!path || path === '.') return this.cwd;
 
         if (path.startsWith('/')) {
+            const exactWs = State.workspaces.find((w) => path === '/' || path.startsWith(w.path || '/'));
+
+            if (exactWs && path !== '/') {
+                return {
+                    ...exactWs,
+                    path,
+                    name: path.split('/').filter(Boolean).pop() || exactWs.name,
+                    kind: 'directory',
+                    workspaceId: exactWs.id,
+                    type: exactWs.originalType || exactWs.type,
+                    originalType: exactWs.originalType || exactWs.type
+                };
+            }
+
             const parts = path.split('/').filter(Boolean);
             const wsName = parts.shift();
             const ws = State.workspaces.find((w) => w.name === wsName);
 
-            if (!ws) throw new Error(`Workspace not found: ${wsName}`);
+            if (!ws) {
+                return {
+                    ...this.cwd,
+                    path,
+                    name: path.split('/').filter(Boolean).pop() || 'Root',
+                    kind: 'directory'
+                };
+            }
 
+            const remaining = '/' + parts.join('/');
             return {
                 ...ws,
-                path: '/' + parts.join('/'),
+                path: remaining,
+                name: remaining.split('/').filter(Boolean).pop() || ws.name,
                 kind: 'directory',
-                workspaceId: ws.id
+                workspaceId: ws.id,
+                type: ws.originalType || ws.type,
+                originalType: ws.originalType || ws.type
             };
         }
 
@@ -149,15 +135,14 @@ export class TerminalShell {
         return {
             ...this.cwd,
             path: final,
-            kind: 'directory'
+            name: final.split('/').filter(Boolean).pop() || this.cwd.name || 'Root',
+            kind: path.includes('.') ? 'file' : 'directory',
+            type: this.cwd.type || this.cwd.originalType,
+            originalType: this.cwd.originalType || this.cwd.type
         };
     }
 
-    /**
-     * @function destroy
-     * @returns {void}
-     */
     destroy() {
-        if (this.container) this.container.innerHTML = '';
+        if (this.container) this.container.replaceChildren();
     }
 }

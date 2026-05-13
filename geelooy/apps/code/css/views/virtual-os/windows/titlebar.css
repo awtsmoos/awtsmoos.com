@@ -2,7 +2,7 @@
 /* B"H */
 
 .virtual-window-titlebar {
-    height: 34px;
+    height: var(--vos-titlebar-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -11,7 +11,7 @@
     background:
         linear-gradient(180deg, rgba(255,255,255,0.08), transparent),
         linear-gradient(90deg, #17284a, #111a39 55%, #301252);
-    color: #00f6ff;
+    color: var(--vos-cyan);
     cursor: grab;
     touch-action: none;
     user-select: none;

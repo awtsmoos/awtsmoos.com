@@ -4,21 +4,12 @@
  * @file ui.js
  * @description
  * Terminal DOM painter.
- *
- * It creates the shell body, restores output, paints prompts, and refuses
- * to let command HTML tear holes through the page. The Awtsmoos speaks
- * through every line, but every line must enter the terminal as text.
  */
 
 import { State } from '../state.js';
 import { escapeTerminalText, terminalOutputToText } from './utils/outputSanitizer.js';
 
 export class TerminalUI {
-    /**
-     * @constructor
-     * @param {HTMLElement} container Terminal wrapper.
-     * @param {object} state Persistent terminal state.
-     */
     constructor(container, state) {
         this.container = container;
         this.state = state;
@@ -27,33 +18,37 @@ export class TerminalUI {
         this.dirEl = null;
     }
 
-    /**
-     * @function renderStructure
-     * @returns {void}
-     */
     renderStructure() {
-        this.container.innerHTML = `
-            <div class="terminal-shell">
-                <div class="terminal-output"></div>
-                <div class="terminal-directory-line"></div>
-                <div class="terminal-input-row">
-                    <span class="terminal-prompt">$</span>
-                    <input class="terminal-input" autocomplete="off" spellcheck="false" />
-                </div>
-            </div>
-        `;
+        this.container.replaceChildren();
 
-        this.outputEl = this.container.querySelector('.terminal-output');
-        this.inputEl = this.container.querySelector('.terminal-input');
-        this.dirEl = this.container.querySelector('.terminal-directory-line');
+        const root = document.createElement('div');
+        root.className = 'terminal-shell';
+
+        this.outputEl = document.createElement('div');
+        this.outputEl.className = 'terminal-output';
+
+        this.dirEl = document.createElement('div');
+        this.dirEl.className = 'terminal-directory-line';
+
+        const row = document.createElement('div');
+        row.className = 'terminal-input-row';
+
+        const prompt = document.createElement('span');
+        prompt.className = 'terminal-prompt';
+        prompt.textContent = '$';
+
+        this.inputEl = document.createElement('input');
+        this.inputEl.className = 'terminal-input';
+        this.inputEl.setAttribute('autocomplete', 'off');
+        this.inputEl.setAttribute('spellcheck', 'false');
+
+        row.append(prompt, this.inputEl);
+        root.append(this.outputEl, this.dirEl, row);
+        this.container.appendChild(root);
     }
 
-    /**
-     * @function restoreOutput
-     * @returns {void}
-     */
     restoreOutput() {
-        this.outputEl.innerHTML = '';
+        this.outputEl.replaceChildren();
 
         for (const item of this.state.output) {
             if (item.type === 'block') this.appendHistoryBlock(item.path, item.cmd);
@@ -61,11 +56,6 @@ export class TerminalUI {
         }
     }
 
-    /**
-     * @function renderPrompt
-     * @param {object} cwd Current working directory object.
-     * @returns {void}
-     */
     renderPrompt(cwd) {
         if (!this.dirEl) return;
 
@@ -75,31 +65,27 @@ export class TerminalUI {
             : `${ws?.name || cwd.name || 'Workspace'}:${cwd.path || '/'}`;
     }
 
-    /**
-     * @function appendHistoryBlock
-     * @param {string} path Prompt path.
-     * @param {string} cmd Command text.
-     * @returns {void}
-     */
     appendHistoryBlock(path, cmd) {
         const div = document.createElement('div');
         div.className = 'terminal-history-block';
-        div.innerHTML = `
-            <span class="terminal-history-path">${escapeTerminalText(path)}</span>
-            <span class="terminal-history-dollar">$</span>
-            <span class="terminal-history-command">${escapeTerminalText(cmd)}</span>
-        `;
 
+        const pathEl = document.createElement('span');
+        pathEl.className = 'terminal-history-path';
+        pathEl.textContent = path;
+
+        const dollar = document.createElement('span');
+        dollar.className = 'terminal-history-dollar';
+        dollar.textContent = '$';
+
+        const command = document.createElement('span');
+        command.className = 'terminal-history-command';
+        command.textContent = cmd;
+
+        div.append(pathEl, dollar, command);
         this.outputEl.appendChild(div);
         this.scrollToBottom();
     }
 
-    /**
-     * @function appendLine
-     * @param {unknown} text Output text.
-     * @param {string} className Optional style class.
-     * @returns {void}
-     */
     appendLine(text, className = '') {
         const div = document.createElement('div');
         div.className = `terminal-line ${className || ''}`;
@@ -109,26 +95,14 @@ export class TerminalUI {
         this.scrollToBottom();
     }
 
-    /**
-     * @function clearScreen
-     * @returns {void}
-     */
     clearScreen() {
-        if (this.outputEl) this.outputEl.innerHTML = '';
+        if (this.outputEl) this.outputEl.replaceChildren();
     }
 
-    /**
-     * @function focus
-     * @returns {void}
-     */
     focus() {
         setTimeout(() => this.inputEl?.focus(), 10);
     }
 
-    /**
-     * @function scrollToBottom
-     * @returns {void}
-     */
     scrollToBottom() {
         if (this.outputEl) this.outputEl.scrollTop = this.outputEl.scrollHeight;
     }

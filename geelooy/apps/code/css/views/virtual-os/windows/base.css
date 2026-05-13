@@ -13,14 +13,14 @@
     min-width: 280px;
     min-height: 190px;
     background: #07101f;
-    border: 1px solid rgba(0, 246, 255, 0.72);
+    border: 1px solid var(--vos-border-strong);
     box-shadow:
         0 0 0 1px rgba(255, 255, 255, 0.04) inset,
         0 20px 48px rgba(0, 0, 0, 0.62),
         0 0 34px rgba(0, 246, 255, 0.2);
-    border-radius: 11px;
+    border-radius: var(--vos-radius);
     overflow: hidden;
-    color: #e8f7ff;
+    color: var(--vos-text);
     pointer-events: auto;
 }
 
@@ -40,7 +40,7 @@
     left: 0 !important;
     top: 0 !important;
     width: 100% !important;
-    height: calc(100% - 42px) !important;
+    height: calc(100% - var(--vos-taskbar-height)) !important;
     border-radius: 0;
 }
 
