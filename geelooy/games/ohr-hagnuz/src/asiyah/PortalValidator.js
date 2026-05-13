@@ -1,52 +1,54 @@
 
-import { StateRegistry } from '../binah/StateRegistry.js';
+import { StateRegister } from '../binah/StateRegister.js';
 import { PortalLedger } from '../chochmah/PortalLedger.js';
 import { DimensionalIndexer } from '../binah/DimensionalIndexer.js';
-import { WorldMapAssembler } from './WorldMapAssembler.js';
+import { WorldMapAssembler } from '../data/WorldMapAssembler.js';
 
 /**
  * B"H
  * @class PortalValidator
- * @chapter The Folding of Space (Kfitzat HaDerech)
+ * @chapter The Folding of Space and the Purity of Soul
  * @description
- * Portals are not mathematical offsets; they are unique letters. 
- * This class identifies the current letter the soul stands upon and 
- * looks up its unique partner in the entire universe.
+ * Validates portals. Now explicitly intercepts the Mikvah tiles to perform a
+ * purification ritual instead of teleporting.
  */
 export class PortalValidator {
-    /**
-     * @description Checks the current coordinate for a unique portal character.
-     * @returns {boolean} True if a jump occurred.
-     */
     static check() {
-        const HR = StateRegistry.HeroPos;
+        const HR = StateRegister.HeroPos;
         const currentTile = WorldMapAssembler.WorldRegistry.find(t => t.x === HR.cx && t.y === HR.cy);
         
         if (currentTile && currentTile.isPortal) {
+            
+            // MIKVAH PURIFICATION RITUAL
+            if (currentTile.char === '≈') {
+                if (StateRegister.Purity.level === 0 || StateRegister.HeroStats.light < StateRegister.HeroStats.maxLight) {
+                    console.log("B\"H - The soul immerses in the Mayim Chayim (Living Waters).");
+                    StateRegister.HeroStats.light = StateRegister.HeroStats.maxLight;
+                    StateRegister.Purity.level = 1;
+                    StateRegister.Purity.stepsRemaining = 100; // Purity lasts for 100 steps
+                    
+                    window.dispatchEvent(new CustomEvent('awtsmoos-battle-log', { detail: "Purified in the Mikvah! Light restored." }));
+                }
+                return false; // Don't interrupt movement
+            }
+
+            // STANDARD SPATIAL FOLDING
             const bond = PortalLedger[currentTile.char];
             if (bond) {
-                // Find the globally unique partner ID
                 const destination = DimensionalIndexer.locate(bond.partner);
                 if (destination) {
                     console.log(`B"H - Folding space: [${currentTile.char}] -> [${bond.partner}]`);
                     
-                    // 1. Enter the new sector
-                    StateRegistry.CurrentMapId = destination.mapId;
-
-                    // 2. Re-materialize the Tzaddik at the new location (plus offsets)
+                    StateRegister.CurrentMapId = destination.mapId;
                     HR.cx = destination.x + (bond.ox || 0);
                     HR.cy = destination.y + (bond.oy || 0);
 
-                    // 3. Sync physical pixels
-                    const RES = StateRegistry.Resolution;
+                    const RES = StateRegister.Resolution;
                     HR.dx = HR.cx * RES;
                     HR.dy = HR.cy * RES;
-                    
-                    // 4. Reset kinetic arousal
                     HR.moving = false;
                     HR.stepTick = 0;
 
-                    // 5. Rebuild the local world matrix
                     WorldMapAssembler.rebuild();
                     return true;
                 }
