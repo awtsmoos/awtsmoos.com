@@ -10,7 +10,6 @@ function from64(value) {
 
 function jsonFrom64(value, fallback) {
   if (!value) return fallback;
-
   try {
     return JSON.parse(from64(value));
   } catch (e) {
@@ -47,16 +46,13 @@ function queryValue($i, name, fallback = "") {
 function numberFrom($i, body, name, fallback, min, max) {
   const raw = Number(valueFrom($i, body, name, fallback));
   const n = Number.isFinite(raw) ? raw : fallback;
-
   return Math.max(min, Math.min(max, n));
 }
 
 function actionKind(action) {
   action = String(action || "");
-
   if (action.startsWith("chrome")) return "chrome";
   if (action.startsWith("command") || action === "nodeScriptRun") return "command";
-
   return "fs";
 }
 
@@ -81,6 +77,7 @@ function buildFsPayload($i) {
     paths: body.paths || jsonFrom64(queryValue($i, "paths64"), []),
     files: body.files || jsonFrom64(queryValue($i, "files64"), null),
     writes: body.writes || jsonFrom64(queryValue($i, "writes64"), null),
+    edits: body.edits || jsonFrom64(queryValue($i, "edits64"), []),
 
     depth: numberFrom($i, body, "depth", 2, 0, 4),
     limit: numberFrom($i, body, "limit", 150, 1, 600),
@@ -93,8 +90,14 @@ function buildFsPayload($i) {
     maxBytes: numberFrom($i, body, "maxBytes", 24000, 512, 120000),
     offsetBytes: numberFrom($i, body, "offsetBytes", 0, 0, 100000000),
 
+    startLine: numberFrom($i, body, "startLine", 1, 1, 10000000),
+    endLine: numberFrom($i, body, "endLine", 250, 1, 10000000),
+    maxResults: numberFrom($i, body, "maxResults", 80, 1, 300),
+    maxFileBytes: numberFrom($i, body, "maxFileBytes", 800000, 1000, 2000000),
+
     content: preferBodyOr64($i, body, "content", "content64"),
     find: preferBodyOr64($i, body, "find", "find64"),
+    query: preferBodyOr64($i, body, "query", "query64"),
     replace: preferBodyOr64($i, body, "replace", "replace64"),
     regex: boolValue(valueFrom($i, body, "regex", false)) || false,
     replaceAll: boolValue(valueFrom($i, body, "replaceAll", true)) !== false,
@@ -155,6 +158,8 @@ function actionRequiredScope(action) {
     action === "write" ||
     action === "bulkWrite" ||
     action === "findReplace" ||
+    action === "replaceRange" ||
+    action === "applyPatch" ||
     action === "configSet" ||
     action === "rootSelect"
   ) {

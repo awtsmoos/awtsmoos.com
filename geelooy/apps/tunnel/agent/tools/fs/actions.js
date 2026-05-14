@@ -21,8 +21,15 @@ const {
 } = require("./readWrite.js");
 const { readBulk } = require("./bulkRead.js");
 const { driveRoots, rootBrowse } = require("./rootBrowser.js");
+const {
+  statPath,
+  readLines,
+  grep,
+  replaceRange,
+  applyPatch
+} = require("./searchEdit.js");
 
-const AGENT_VERSION = "split-agent-0.8.0";
+const AGENT_VERSION = "split-agent-0.9.0";
 
 function publicConfig(config) {
   return {
@@ -103,11 +110,7 @@ async function handleFsAction(payload, ws) {
 
   const actions = {
     async configGet() {
-      return {
-        ok: true,
-        action,
-        config: publicConfig(loadConfig())
-      };
+      return { ok: true, action, config: publicConfig(loadConfig()) };
     },
 
     async configSet() {
@@ -115,13 +118,7 @@ async function handleFsAction(payload, ws) {
     },
 
     async roots() {
-      return {
-        ok: true,
-        action,
-        roots: driveRoots(),
-        home: HOME,
-        cwd: process.cwd()
-      };
+      return { ok: true, action, roots: driveRoots(), home: HOME, cwd: process.cwd() };
     },
 
     async rootBrowse() {
@@ -131,45 +128,25 @@ async function handleFsAction(payload, ws) {
     async rootSelect() {
       const chosen = payload.absolutePath || payload.root || payload.path;
 
-      if (!chosen) {
-        return {
-          ok: false,
-          action,
-          error: "missing_root_path"
-        };
-      }
+      if (!chosen) return { ok: false, action, error: "missing_root_path" };
 
       const stat = await fsp.stat(chosen);
-
-      if (!stat.isDirectory()) {
-        return {
-          ok: false,
-          action,
-          error: "not_a_directory",
-          chosen
-        };
-      }
+      if (!stat.isDirectory()) return { ok: false, action, error: "not_a_directory", chosen };
 
       const next = saveConfigPatch({ root: chosen });
       registerAgain(ws, next);
 
-      return {
-        ok: true,
-        action,
-        chosen,
-        config: publicConfig(next)
-      };
+      return { ok: true, action, chosen, config: publicConfig(next) };
     },
 
     async openRoot() {
       const target = payload.root || config.root;
       openSystemExplorer(target);
+      return { ok: true, action, opened: target };
+    },
 
-      return {
-        ok: true,
-        action,
-        opened: target
-      };
+    async stat() {
+      return await statPath(config, payload);
     },
 
     async list() {
@@ -211,6 +188,10 @@ async function handleFsAction(payload, ws) {
           ? "File was truncated. Call read again with offsetChars=" + got.nextOffsetChars + " to continue, or use read64 for byte-perfect base64."
           : null
       };
+    },
+
+    async readLines() {
+      return await readLines(config, payload);
     },
 
     async readBytes() {
@@ -271,24 +252,26 @@ async function handleFsAction(payload, ws) {
       return await readBulk(config, payload);
     },
 
+    async grep() {
+      return await grep(config, payload);
+    },
+
     async write() {
       const wrote = await writeText(config, p, payload.content || "");
-
-      return {
-        ok: true,
-        action,
-        root: config.root,
-        ...wrote
-      };
+      return { action, root: config.root, ...wrote };
     },
 
     async findReplace() {
       const got = await findReplaceText(config, payload);
+      return { root: config.root, ...got };
+    },
 
-      return {
-        root: config.root,
-        ...got
-      };
+    async replaceRange() {
+      return { root: config.root, ...(await replaceRange(config, payload)) };
+    },
+
+    async applyPatch() {
+      return { root: config.root, ...(await applyPatch(config, payload)) };
     },
 
     async bulkWrite() {
@@ -304,9 +287,7 @@ async function handleFsAction(payload, ws) {
         try {
           results[one.path] = await writeText(config, one.path, one.content);
         } catch (e) {
-          results[one.path] = {
-            error: e.message
-          };
+          results[one.path] = { error: e.message };
         }
       }
 
@@ -329,7 +310,8 @@ async function handleFsAction(payload, ws) {
     return {
       ok: false,
       status: 400,
-      error: "Unknown fs action: " + action
+      error: "Unknown fs action: " + action,
+      availableActions: Object.keys(actions)
     };
   }
 

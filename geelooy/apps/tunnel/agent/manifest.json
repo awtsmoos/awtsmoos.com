@@ -1,7 +1,7 @@
 
 {
   "BH": "B\"H",
-  "version": "0.6.0",
+  "version": "0.9.0",
   "entry": "main.js",
   "files": [
     { "path": "main.js" },
@@ -9,6 +9,7 @@
     { "path": "lib/log.js" },
     { "path": "lib/open.js" },
     { "path": "lib/ws.js" },
+
     { "path": "tools/fs/index.js" },
     { "path": "tools/fs/constants.js" },
     { "path": "tools/fs/pathGuard.js" },
@@ -16,11 +17,15 @@
     { "path": "tools/fs/readWrite.js" },
     { "path": "tools/fs/tree.js" },
     { "path": "tools/fs/rootBrowser.js" },
+    { "path": "tools/fs/bulkRead.js" },
+    { "path": "tools/fs/searchEdit.js" },
     { "path": "tools/fs/actions.js" },
+
     { "path": "tools/command/index.js" },
     { "path": "tools/command/shells.js" },
     { "path": "tools/command/run.js" },
     { "path": "tools/command/scriptSandbox.js" },
+
     { "path": "tools/chrome/index.js" },
     { "path": "tools/chrome/finder.js" },
     { "path": "tools/chrome/cdp.js" },
