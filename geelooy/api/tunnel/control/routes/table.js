@@ -3,6 +3,7 @@
 
 const { me } = require("./me.js");
 const { device } = require("./device.js");
+const { myDevice } = require("./myDevice.js");
 const { apiKeys } = require("./apiKeys.js");
 const { createApiKey } = require("./createApiKey.js");
 const { revokeApiKey } = require("./revokeApiKey.js");
@@ -20,6 +21,9 @@ const routeTable = {
 
   device,
   "device/": device,
+
+  "my-device": myDevice,
+  "my-device/": myDevice,
 
   "api-keys": apiKeys,
   "api-keys/": apiKeys,

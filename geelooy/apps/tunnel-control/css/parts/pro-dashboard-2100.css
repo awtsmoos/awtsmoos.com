@@ -1,0 +1,185 @@
+
+/* B"H */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at 8% 4%, rgba(137, 215, 255, .16), transparent 28%),
+    radial-gradient(circle at 92% 2%, rgba(211, 161, 255, .14), transparent 31%),
+    radial-gradient(circle at 50% 100%, rgba(75, 255, 202, .07), transparent 34%),
+    linear-gradient(135deg, #050814 0%, #0b1120 40%, #15142b 100%) !important;
+  color: #eef6ff;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, #000, transparent 72%);
+  z-index: -1;
+}
+
+main,
+.app,
+.container {
+  max-width: 1360px;
+}
+
+.hero,
+header.hero,
+[data-hero] {
+  border: 1px solid rgba(158, 219, 255, .26) !important;
+  background:
+    radial-gradient(circle at 0 0, rgba(137, 215, 255, .24), transparent 36%),
+    radial-gradient(circle at 100% 0, rgba(211, 161, 255, .20), transparent 42%),
+    linear-gradient(135deg, rgba(43, 57, 83, .88), rgba(38, 36, 67, .86)) !important;
+  box-shadow:
+    0 40px 130px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+button,
+.btn,
+a.button {
+  border-radius: 999px !important;
+  font-weight: 950 !important;
+  letter-spacing: -.02em;
+}
+
+input,
+textarea,
+select {
+  border-radius: 18px !important;
+  border: 1px solid rgba(180, 221, 255, .20) !important;
+  background: rgba(4, 8, 18, .72) !important;
+  color: #f7fbff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 12px 28px rgba(0,0,0,.16);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: rgba(137, 215, 255, .86) !important;
+  box-shadow:
+    0 0 0 4px rgba(137,215,255,.12),
+    inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+pre,
+code,
+.output,
+.json-box,
+.response-box {
+  border-radius: 22px !important;
+  border: 1px solid rgba(137,215,255,.18) !important;
+  background:
+    linear-gradient(180deg, rgba(3, 7, 17, .96), rgba(8, 12, 26, .96)) !important;
+  color: #e9f6ff !important;
+}
+
+[data-pane] {
+  animation: awtPaneIn .28s ease both;
+}
+
+@keyframes awtPaneIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+[data-tab].active,
+.tab.active {
+  background:
+    linear-gradient(135deg, rgba(137,215,255,.95), rgba(211,161,255,.95)) !important;
+  color: #07101d !important;
+  border-color: transparent !important;
+  box-shadow: 0 18px 50px rgba(137,215,255,.22);
+}
+
+.status-card,
+.card,
+.panel,
+section {
+  backdrop-filter: blur(14px);
+}
+
+#chromeOut,
+#terminalOut,
+#explorerOutput,
+#actionOut,
+#usageBox,
+#keyBox,
+#deviceBox,
+#identityBox,
+#configBox,
+#rootPickerBox {
+  max-height: 52vh;
+  overflow: auto;
+}
+
+#chromeOut:empty::before,
+#terminalOut:empty::before,
+#explorerOutput:empty::before {
+  content: "Ready.";
+  color: #91a0bd;
+}
+
+.awt-pro-callout {
+  border: 1px solid rgba(137,215,255,.24);
+  border-radius: 24px;
+  padding: 16px;
+  background:
+    radial-gradient(circle at 0 0, rgba(137,215,255,.15), transparent 40%),
+    rgba(255,255,255,.045);
+  color: #d9e8ff;
+}
+
+.awt-page-title {
+  font-size: clamp(28px, 5vw, 62px);
+  letter-spacing: -.06em;
+  line-height: .95;
+}
+
+@media (max-width: 880px) {
+  main,
+  .app,
+  .container {
+    width: min(100%, calc(100vw - 14px));
+  }
+
+  .hero,
+  header.hero {
+    border-radius: 24px !important;
+    padding: 24px !important;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100% !important;
+  }
+
+  #chromeOut,
+  #terminalOut,
+  #explorerOutput,
+  #actionOut {
+    max-height: 46vh;
+  }
+}

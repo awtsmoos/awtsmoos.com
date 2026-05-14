@@ -5,6 +5,7 @@ import { $ } from "./lib/dom.js";
 import { log, error } from "./logger.js";
 import { mountTabs } from "./ui/tabs.js";
 import { mountCopyButtons } from "./ui/copy.js";
+import { mountControlPanels } from "./ui/controlPanels.js";
 import { refreshStatus, refreshDevice, refreshLogin } from "./features/status.js";
 import { buildPrompt } from "./features/prompt.js";
 import { mountExplorer } from "./features/explorer.js";
@@ -13,6 +14,7 @@ import { mountApiKeys } from "./features/apiKeys.js";
 import { mountUsage } from "./features/usage.js";
 import { mountConfig, loadConfig } from "./features/config.js";
 import { mountRootPicker } from "./features/rootPicker.js";
+import { mountChrome } from "./features/chrome.js";
 import { state, rememberTunnelName, rememberProjectPath } from "./state/state.js";
 
 function getTunnelName() {
@@ -47,11 +49,13 @@ async function safeMount(name, fn) {
 
 function syncUrlAndStorage() {
   const tunnelName = getTunnelName();
+
   if (!tunnelName) return;
 
   rememberTunnelName(tunnelName);
 
   const url = new URL(location.href);
+
   if (url.searchParams.get("tunnelName") !== tunnelName) {
     url.searchParams.set("tunnelName", tunnelName);
     history.replaceState(null, "", url.toString());
@@ -59,7 +63,7 @@ function syncUrlAndStorage() {
 }
 
 async function main() {
-  log("boot app.js");
+  log("boot app.js v2100");
 
   if ($("tunnelName")) $("tunnelName").value = state.tunnelName || "";
   if ($("projectPath")) $("projectPath").value = state.projectPath || ".";
@@ -84,6 +88,7 @@ async function main() {
   });
 
   await safeMount("tabs", () => mountTabs());
+  await safeMount("controlPanels", () => mountControlPanels());
   await safeMount("copy", () => mountCopyButtons());
   await safeMount("config", () => mountConfig(getTunnelName));
   await safeMount("rootPicker", () => mountRootPicker(getTunnelName));
@@ -91,6 +96,7 @@ async function main() {
   await safeMount("actions", () => mountActions(getTunnelName));
   await safeMount("apiKeys", () => mountApiKeys());
   await safeMount("usage", () => mountUsage());
+  await safeMount("chrome", () => mountChrome(getTunnelName));
 
   renderPrompt();
 
@@ -110,6 +116,10 @@ async function main() {
 }
 
 main().catch(e => {
-  document.body.innerHTML = "<pre style='padding:20px;color:white;background:#070913;white-space:pre-wrap'>B\"H\nControl panel boot failed:\n" + e.stack + "</pre>";
+  document.body.innerHTML =
+    "<pre style='padding:20px;color:white;background:#070913;white-space:pre-wrap'>B\\\"H\\nControl panel boot failed:\\n" +
+    (e.stack || e.message || String(e)) +
+    "</pre>";
+
   error("fatal app boot error", e);
 });

@@ -1,16 +1,21 @@
 
 // B"H
+
 const os = require("os");
 const http = require("http");
 const https = require("https");
 
-const { ROOT, loadConfig } = require("./lib/config.js");
+const { loadConfig } = require("./lib/config.js");
 const { makeLogger } = require("./lib/log.js");
 const { openHostedControl } = require("./lib/open.js");
 const { TinyWebSocket } = require("./lib/ws.js");
+
 const { handleFs } = require("./tools/fs/index.js");
 const { handleCommand } = require("./tools/command/index.js");
 const { handleChrome } = require("./tools/chrome/index.js");
+const { AGENT_VERSION } = require("./tools/fs/actions.js");
+
+const { ROOT } = require("./lib/config.js");
 
 const log = makeLogger(ROOT);
 
@@ -31,29 +36,39 @@ function proxyLocalHttp(config, data, ws) {
   const lib = target.protocol === "https:" ? https : http;
   const body = p.body ? Buffer.from(p.body, "base64") : null;
 
-  const req = lib.request(target, {
-    method: p.method || "GET",
-    headers: { ...(p.headers || {}), host: target.host }
-  }, res => {
-    const chunks = [];
-    res.on("data", c => chunks.push(c));
-    res.on("end", () => {
-      ws.sendJson({
-        type: "TUNNEL_RESPONSE",
-        id: data.id,
-        status: res.statusCode,
-        headers: res.headers,
-        body: Buffer.concat(chunks).toString("base64")
+  const req = lib.request(
+    target,
+    {
+      method: p.method || "GET",
+      headers: {
+        ...(p.headers || {}),
+        host: target.host
+      }
+    },
+    res => {
+      const chunks = [];
+
+      res.on("data", c => chunks.push(c));
+      res.on("end", () => {
+        ws.sendJson({
+          type: "TUNNEL_RESPONSE",
+          id: data.id,
+          status: res.statusCode,
+          headers: res.headers,
+          body: Buffer.concat(chunks).toString("base64")
+        });
       });
-    });
-  });
+    }
+  );
 
   req.on("error", err => {
     ws.sendJson({
       type: "TUNNEL_RESPONSE",
       id: data.id,
       status: 502,
-      headers: { "content-type": "text/plain" },
+      headers: {
+        "content-type": "text/plain"
+      },
       body: Buffer.from(err.message).toString("base64")
     });
   });
@@ -73,7 +88,7 @@ function register(ws) {
     allowWrite: config.allowWrite,
     allowSecrets: config.allowSecrets,
     allowCommands: config.allowCommands,
-    agentVersion: "split-agent-0.5.0"
+    agentVersion: AGENT_VERSION
   });
 
   log("Tunnel connected:", config.tunnelName, "root:", config.root);
@@ -111,7 +126,11 @@ function connect() {
         return;
       }
 
-      ws.sendJson({ type: "TUNNEL_RESPONSE", id: data.id, ...result });
+      ws.sendJson({
+        type: "TUNNEL_RESPONSE",
+        id: data.id,
+        ...result
+      });
     } catch (e) {
       ws.sendJson({
         type: "TUNNEL_RESPONSE",

@@ -1,5 +1,6 @@
 
 // B"H
+
 const http = require("http");
 const { TinyWebSocket } = require("../../lib/ws.js");
 
@@ -11,6 +12,7 @@ function getJson(url) {
   return new Promise((resolve, reject) => {
     http.get(url, res => {
       const chunks = [];
+
       res.on("data", c => chunks.push(c));
       res.on("end", () => {
         const text = Buffer.concat(chunks).toString("utf8");
@@ -25,16 +27,6 @@ function getJson(url) {
   });
 }
 
-function getText(url) {
-  return new Promise((resolve, reject) => {
-    http.get(url, res => {
-      const chunks = [];
-      res.on("data", c => chunks.push(c));
-      res.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
-    }).on("error", reject);
-  });
-}
-
 async function version(port) {
   return await getJson("http://127.0.0.1:" + port + "/json/version");
 }
@@ -44,8 +36,7 @@ async function pages(port) {
 }
 
 async function newPage(port, url = "about:blank") {
-  const encoded = encodeURIComponent(url);
-  return await getJson("http://127.0.0.1:" + port + "/json/new?" + encoded);
+  return await getJson("http://127.0.0.1:" + port + "/json/new?" + encodeURIComponent(url));
 }
 
 function wireSocket(ws) {
@@ -111,13 +102,18 @@ async function ensurePage(port) {
   return await connectPageWs(page.webSocketDebuggerUrl);
 }
 
-async function cdpCall(method, params = {}) {
+async function cdpCall(method, params = {}, timeoutMs = 30000) {
   if (!pageWs || !pageWs.opened) {
     throw new Error("Page DevTools socket is not connected.");
   }
 
   const id = nextId++;
-  pageWs.sendJson({ id, method, params });
+
+  pageWs.sendJson({
+    id,
+    method,
+    params
+  });
 
   return new Promise((resolve, reject) => {
     callbacks.set(id, { resolve, reject });
@@ -127,12 +123,13 @@ async function cdpCall(method, params = {}) {
         callbacks.delete(id);
         reject(new Error("CDP timeout for " + method));
       }
-    }, 30000);
+    }, timeoutMs);
   });
 }
 
-async function navigateAndWait(url, timeoutMs = 15000) {
-  await cdpCall("Page.navigate", { url });
+async function navigateAndWait(url, timeoutMs = 15000, port = 9222) {
+  await ensurePage(port);
+  await cdpCall("Page.navigate", { url }, timeoutMs);
 
   const start = Date.now();
 
@@ -140,7 +137,7 @@ async function navigateAndWait(url, timeoutMs = 15000) {
     const state = await cdpCall("Runtime.evaluate", {
       expression: "document.readyState",
       returnByValue: true
-    });
+    }, timeoutMs);
 
     if (state.result?.value === "complete" || state.result?.value === "interactive") {
       return {
@@ -164,6 +161,5 @@ module.exports = {
   newPage,
   ensurePage,
   cdpCall,
-  navigateAndWait,
-  getText
+  navigateAndWait
 };

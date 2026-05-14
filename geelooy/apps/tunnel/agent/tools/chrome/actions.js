@@ -1,43 +1,52 @@
 
 // B"H
+
 const fs = require("fs");
 const path = require("path");
 const childProcess = require("child_process");
+
 const { ROOT, loadConfig, saveConfigPatch } = require("../../lib/config.js");
 const { findChrome, chromeCandidates } = require("./finder.js");
-const { version, pages, ensurePage, cdpCall, navigateAndWait } = require("./cdp.js");
+const {
+  version,
+  pages,
+  ensurePage,
+  cdpCall,
+  navigateAndWait
+} = require("./cdp.js");
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function requireChromeEnabled(config, action) {
-  if (!config.chrome.enabled || !config.tools.chrome) {
+function requireChromeControlEnabled(config, action) {
+  if (!config.tools.chrome) {
     return {
       ok: false,
       action,
       error: "chrome_disabled",
-      message: "Enable Chrome tool in dashboard and Save Config."
+      message: "Enable Chrome tool in dashboard and Save Config, or launch Chrome once from the control panel."
     };
   }
 
   return null;
 }
 
-async function chromeFind() {
+function chromeFind() {
+  const config = loadConfig();
+  const found = config.chrome?.path || findChrome();
+
   return {
     ok: true,
     action: "chromeFind",
-    chromePath: findChrome(),
-    candidates: chromeCandidates()
+    chromePath: found,
+    candidates: chromeCandidates(),
+    configChrome: config.chrome || {}
   };
 }
 
 async function chromeLaunch(payload = {}) {
   const config = loadConfig();
-  const blocked = requireChromeEnabled(config, "chromeLaunch");
-
-  if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
   const chromePath = payload.chromePath || config.chrome.path || findChrome();
@@ -53,6 +62,7 @@ async function chromeLaunch(payload = {}) {
   }
 
   const userDataDir = payload.userDataDir || config.chrome.userDataDir || path.join(ROOT, "chrome-profile");
+
   fs.mkdirSync(userDataDir, { recursive: true });
 
   childProcess.spawn(chromePath, [
@@ -78,7 +88,7 @@ async function chromeLaunch(payload = {}) {
     }
   });
 
-  await wait(1600);
+  await wait(1800);
   await ensurePage(port);
 
   return {
@@ -105,7 +115,12 @@ async function chromeStatus(payload = {}) {
       port,
       chromePath: config.chrome.path || findChrome(),
       info,
-      pages: list.map(p => ({ id: p.id, title: p.title, url: p.url, type: p.type }))
+      pages: list.map(p => ({
+        id: p.id,
+        title: p.title,
+        url: p.url,
+        type: p.type
+      }))
     };
   } catch (e) {
     return {
@@ -122,14 +137,15 @@ async function chromeStatus(payload = {}) {
 
 async function chromeNavigate(payload = {}) {
   const config = loadConfig();
-  const blocked = requireChromeEnabled(config, "chromeNavigate");
+  const blocked = requireChromeControlEnabled(config, "chromeNavigate");
   if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
+
   await ensurePage(port);
 
   const url = payload.url || "about:blank";
-  const nav = await navigateAndWait(url, payload.timeoutMs || 15000);
+  const nav = await navigateAndWait(url, payload.timeoutMs || 15000, port);
 
   return {
     ok: true,
@@ -141,14 +157,14 @@ async function chromeNavigate(payload = {}) {
 
 async function chromeEval(payload = {}) {
   const config = loadConfig();
-  const blocked = requireChromeEnabled(config, "chromeEval");
+  const blocked = requireChromeControlEnabled(config, "chromeEval");
   if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
+
   await ensurePage(port);
 
   const expression = payload.expression || "document.title";
-
   const result = await cdpCall("Runtime.evaluate", {
     expression,
     awaitPromise: true,
@@ -165,17 +181,22 @@ async function chromeEval(payload = {}) {
 
 async function chromeWaitForSelector(payload = {}) {
   const config = loadConfig();
-  const blocked = requireChromeEnabled(config, "chromeWaitForSelector");
+  const blocked = requireChromeControlEnabled(config, "chromeWaitForSelector");
   if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
+
   await ensurePage(port);
 
   const selector = payload.selector;
   const timeout = Number(payload.timeoutMs || 10000);
 
   if (!selector) {
-    return { ok: false, action: "chromeWaitForSelector", error: "missing_selector" };
+    return {
+      ok: false,
+      action: "chromeWaitForSelector",
+      error: "missing_selector"
+    };
   }
 
   const start = Date.now();
@@ -187,27 +208,44 @@ async function chromeWaitForSelector(payload = {}) {
     });
 
     if (result.result?.value) {
-      return { ok: true, action: "chromeWaitForSelector", selector, found: true, durationMs: Date.now() - start };
+      return {
+        ok: true,
+        action: "chromeWaitForSelector",
+        selector,
+        found: true,
+        durationMs: Date.now() - start
+      };
     }
 
     await wait(250);
   }
 
-  return { ok: false, action: "chromeWaitForSelector", selector, found: false, timeout };
+  return {
+    ok: false,
+    action: "chromeWaitForSelector",
+    selector,
+    found: false,
+    timeout
+  };
 }
 
 async function chromeClick(payload = {}) {
   const config = loadConfig();
-  const blocked = requireChromeEnabled(config, "chromeClick");
+  const blocked = requireChromeControlEnabled(config, "chromeClick");
   if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
+
   await ensurePage(port);
 
   const selector = payload.selector;
 
   if (!selector) {
-    return { ok: false, action: "chromeClick", error: "missing_selector" };
+    return {
+      ok: false,
+      action: "chromeClick",
+      error: "missing_selector"
+    };
   }
 
   const expression = `
@@ -216,7 +254,11 @@ async function chromeClick(payload = {}) {
       if (!el) return { ok: false, error: "not_found" };
       el.scrollIntoView({ block: "center", inline: "center" });
       el.click();
-      return { ok: true, text: el.innerText || el.value || el.getAttribute("aria-label") || "" };
+      return {
+        ok: true,
+        text: el.innerText || el.value || el.getAttribute("aria-label") || "",
+        tagName: el.tagName
+      };
     })()
   `;
 
@@ -236,17 +278,22 @@ async function chromeClick(payload = {}) {
 
 async function chromeType(payload = {}) {
   const config = loadConfig();
-  const blocked = requireChromeEnabled(config, "chromeType");
+  const blocked = requireChromeControlEnabled(config, "chromeType");
   if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
+
   await ensurePage(port);
 
   const selector = payload.selector;
   const text = payload.text || "";
 
   if (!selector) {
-    return { ok: false, action: "chromeType", error: "missing_selector" };
+    return {
+      ok: false,
+      action: "chromeType",
+      error: "missing_selector"
+    };
   }
 
   const expression = `
@@ -254,10 +301,11 @@ async function chromeType(payload = {}) {
       const el = document.querySelector(${JSON.stringify(selector)});
       if (!el) return { ok: false, error: "not_found" };
       el.focus();
-      el.value = ${JSON.stringify(text)};
+      if ("value" in el) el.value = ${JSON.stringify(text)};
+      else el.textContent = ${JSON.stringify(text)};
       el.dispatchEvent(new Event("input", { bubbles: true }));
       el.dispatchEvent(new Event("change", { bubbles: true }));
-      return { ok: true, value: el.value };
+      return { ok: true, value: el.value || el.textContent || "" };
     })()
   `;
 
@@ -284,17 +332,39 @@ async function chromeRunScript(payload = {}) {
     const type = step.type || step.action;
 
     if (type === "goto" || type === "navigate") {
-      results.push(await chromeNavigate({ ...payload, url: step.url, timeoutMs: step.timeoutMs || payload.timeoutMs }));
+      results.push(await chromeNavigate({
+        ...payload,
+        url: step.url,
+        timeoutMs: step.timeoutMs || payload.timeoutMs
+      }));
     } else if (type === "waitForSelector" || type === "wait") {
-      results.push(await chromeWaitForSelector({ ...payload, selector: step.selector, timeoutMs: step.timeoutMs || payload.timeoutMs }));
+      results.push(await chromeWaitForSelector({
+        ...payload,
+        selector: step.selector,
+        timeoutMs: step.timeoutMs || payload.timeoutMs
+      }));
     } else if (type === "click") {
-      results.push(await chromeClick({ ...payload, selector: step.selector }));
+      results.push(await chromeClick({
+        ...payload,
+        selector: step.selector
+      }));
     } else if (type === "type") {
-      results.push(await chromeType({ ...payload, selector: step.selector, text: step.text || "" }));
+      results.push(await chromeType({
+        ...payload,
+        selector: step.selector,
+        text: step.text || ""
+      }));
     } else if (type === "eval") {
-      results.push(await chromeEval({ ...payload, expression: step.expression || "document.title" }));
+      results.push(await chromeEval({
+        ...payload,
+        expression: step.expression || "document.title"
+      }));
     } else {
-      results.push({ ok: false, error: "unknown_step", step });
+      results.push({
+        ok: false,
+        error: "unknown_step",
+        step
+      });
     }
   }
 

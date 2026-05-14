@@ -9,7 +9,7 @@ const { recordUsage } = require("../core/usageStore.js");
 
 function responseBytes(obj) {
   try {
-    return Buffer.byteLength(JSON.stringify(obj));
+    return Buffer.byteLength(JSON.stringify(obj), "utf8");
   } catch (e) {
     return 0;
   }
@@ -21,7 +21,9 @@ const SESSION_SAFE_ACTIONS = new Set([
   "roots",
   "rootBrowse",
   "rootSelect",
-  "openRoot"
+  "openRoot",
+  "chromeFind",
+  "chromeStatus"
 ]);
 
 function mayUseSessionForDashboard(payload) {
@@ -47,7 +49,8 @@ async function protectedFs($i, vars) {
       BH: "B\"H",
       ok: false,
       error: "api_key_or_oauth_required",
-      details: "Setup and root picker may use browser login. File, terminal, and Chrome actions require x-awtsmoos-api-key or OAuth."
+      details: "Setup, root picker, Chrome find, and Chrome status may use browser login. File, terminal, write, and Chrome control actions require x-awtsmoos-api-key or OAuth.",
+      neededScope: actionRequiredScope(payload.action)
     }, 401);
   }
 

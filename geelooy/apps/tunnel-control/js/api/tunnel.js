@@ -12,27 +12,51 @@ const SESSION_OK_ACTIONS = new Set([
   "roots",
   "rootBrowse",
   "rootSelect",
-  "openRoot"
+  "openRoot",
+  "chromeFind",
+  "chromeStatus"
 ]);
+
+function setNum(u, name, value) {
+  if (value !== undefined && value !== null && value !== "") {
+    u.searchParams.set(name, String(value));
+  }
+}
 
 export function buildFsUrl(tunnelName, opts = {}) {
   const u = new URL("/api/tunnel/control/fs/" + encodeURIComponent(tunnelName), location.origin);
 
   u.searchParams.set("action", opts.action || "list");
-  u.searchParams.set("p", opts.path || ".");
+  u.searchParams.set("p", opts.path || opts.p || ".");
 
   if (opts.absolutePath) u.searchParams.set("absolutePath", opts.absolutePath);
-  if (opts.depth) u.searchParams.set("depth", String(opts.depth));
-  if (opts.limit) u.searchParams.set("limit", String(opts.limit));
-  if (opts.maxChars) u.searchParams.set("maxChars", String(opts.maxChars));
+
+  setNum(u, "depth", opts.depth);
+  setNum(u, "limit", opts.limit);
+
+  setNum(u, "maxChars", opts.maxChars);
+  setNum(u, "totalMaxChars", opts.totalMaxChars);
+  setNum(u, "maxFiles", opts.maxFiles);
+  setNum(u, "offsetChars", opts.offsetChars);
+
+  setNum(u, "maxBytes", opts.maxBytes);
+  setNum(u, "offsetBytes", opts.offsetBytes);
+
   if (opts.content !== undefined) u.searchParams.set("content64", b64Text(opts.content));
   if (opts.paths) u.searchParams.set("paths64", b64Json(opts.paths));
   if (opts.files) u.searchParams.set("files64", b64Json(opts.files));
+  if (opts.writes) u.searchParams.set("writes64", b64Json(opts.writes));
+
+  if (opts.find !== undefined) u.searchParams.set("find64", b64Text(opts.find));
+  if (opts.replace !== undefined) u.searchParams.set("replace64", b64Text(opts.replace));
+  if (typeof opts.regex === "boolean") u.searchParams.set("regex", String(opts.regex));
+  if (typeof opts.replaceAll === "boolean") u.searchParams.set("replaceAll", String(opts.replaceAll));
 
   if (opts.root) u.searchParams.set("root", opts.root);
   if (opts.local) u.searchParams.set("local", opts.local);
   if (opts.relay) u.searchParams.set("relay", opts.relay);
   if (opts.setTunnelName) u.searchParams.set("setTunnelName", opts.setTunnelName);
+
   if (typeof opts.allowWrite === "boolean") u.searchParams.set("allowWrite", String(opts.allowWrite));
   if (typeof opts.allowSecrets === "boolean") u.searchParams.set("allowSecrets", String(opts.allowSecrets));
   if (typeof opts.enableLocalHttpProxy === "boolean") u.searchParams.set("enableLocalHttpProxy", String(opts.enableLocalHttpProxy));
@@ -45,12 +69,22 @@ export function buildFsUrl(tunnelName, opts = {}) {
   if (opts.command) u.searchParams.set("command64", b64Text(opts.command));
   if (opts.shell) u.searchParams.set("shell", opts.shell);
   if (opts.cwd) u.searchParams.set("cwd", opts.cwd);
-  if (opts.timeoutMs) u.searchParams.set("timeoutMs", String(opts.timeoutMs));
+  setNum(u, "timeoutMs", opts.timeoutMs);
 
   if (opts.url) u.searchParams.set("url", opts.url);
   if (opts.selector) u.searchParams.set("selector", opts.selector);
+  if (opts.text !== undefined) u.searchParams.set("text64", b64Text(opts.text));
   if (opts.expression) u.searchParams.set("expression64", b64Text(opts.expression));
-  if (opts.port) u.searchParams.set("port", String(opts.port));
+
+  if (typeof opts.script === "string") {
+    u.searchParams.set("script64", b64Text(opts.script));
+  } else if (opts.script) {
+    u.searchParams.set("script64", b64Json(opts.script));
+  }
+
+  if (opts.input) u.searchParams.set("input64", b64Json(opts.input));
+
+  setNum(u, "port", opts.port);
   if (opts.chromePath) u.searchParams.set("chromePath", opts.chromePath);
   if (opts.userDataDir) u.searchParams.set("userDataDir", opts.userDataDir);
 
@@ -69,12 +103,13 @@ export async function callFs(tunnelName, opts) {
       BH: "B\"H",
       ok: false,
       error: "missing_active_api_key",
-      message: "Create, paste, or select an API key first. Setup/root picker works with login, but file/terminal/Chrome actions require API key or OAuth."
+      message: "Create, paste, or select an API key first. Setup/root picker and Chrome find/status work with login, but file/terminal/Chrome control actions require API key or OAuth.",
+      needed: action.startsWith("chrome") ? "tunnel.browser" : action.startsWith("command") ? "tunnel.command" : "tunnel.read/tunnel.write"
     };
   }
 
   const headers = apiKey ? await authHeaders() : {};
-  return await getJson(url, { headers });
+  return await getJson(url, { headers, credentials: "include" });
 }
 
 export async function buildCurl(tunnelName, opts) {
