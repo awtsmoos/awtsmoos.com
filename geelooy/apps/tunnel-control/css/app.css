@@ -2,8 +2,6 @@
 /* B"H */
 @import url("./parts/base.css");
 @import url("./parts/layout.css");
-@import url("./parts/hero.css");
-@import url("./parts/cards.css");
 @import url("./parts/forms.css");
 @import url("./parts/buttons.css");
 @import url("./parts/status.css");
@@ -17,9 +15,12 @@
 @import url("./parts/chrome.css");
 @import url("./parts/docs.css");
 @import url("./parts/landing.css");
-@import url("./parts/control-system.css");
-@import url("./parts/command-deck.css");
-@import url("./parts/pro-polish.css");
-@import url("./parts/retractable.css");
-@import url("./parts/pro-dashboard-2100.css");
-@import url("./parts/responsive.css");
+
+/* Final professional shell overrides. Keep these last. */
+@import url("./parts/pro-shell.css");
+@import url("./parts/pro-nav.css");
+@import url("./parts/pro-hero.css");
+@import url("./parts/pro-panels.css");
+@import url("./parts/pro-explorer.css");
+@import url("./parts/pro-outputs.css");
+@import url("./parts/pro-responsive.css");

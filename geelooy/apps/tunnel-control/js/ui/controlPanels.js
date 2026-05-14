@@ -2,7 +2,7 @@
 // B"H
 
 function textOf(el, fallback) {
-  const h = el.querySelector("h1,h2,h3,[data-title]");
+  const h = el.querySelector(":scope > h1,:scope > h2,:scope > h3,:scope > [data-title]");
   const txt = h ? h.textContent.trim() : "";
   return txt || fallback || "Panel";
 }
@@ -22,6 +22,30 @@ function iconFor(text) {
   return "✦";
 }
 
+function isHeroLike(el) {
+  return (
+    el.matches(".hero, header, [data-hero], .landing-hero, .hero-card") ||
+    el.closest(".hero, header, [data-hero], .landing-hero, .hero-card")
+  );
+}
+
+function isNavLike(el) {
+  return (
+    el.matches("nav, [data-tabs], .tabs, .tabbar, .awt-floating-map") ||
+    el.closest("nav, [data-tabs], .tabs, .tabbar, .awt-floating-map")
+  );
+}
+
+function shouldWrap(el) {
+  if (!el || el.dataset.awtPanelReady === "yes") return false;
+  if (isHeroLike(el) || isNavLike(el)) return false;
+  if (el.matches("[data-pane]")) return true;
+  if (el.matches(".control-section")) return true;
+  if (el.matches(".dashboard-section")) return true;
+  if (el.matches(".panel-section")) return true;
+  return false;
+}
+
 function rememberCollapsed(id, value) {
   try {
     localStorage.setItem("awtsmoos.panel.collapsed." + id, value ? "1" : "0");
@@ -37,7 +61,7 @@ function readCollapsed(id) {
 }
 
 function makePanelShell(el, index) {
-  if (el.dataset.awtPanelReady === "yes") return;
+  if (!shouldWrap(el)) return;
 
   const id = el.id || el.dataset.pane || "panel-" + index;
   const title = textOf(el, id);
@@ -64,11 +88,11 @@ function makePanelShell(el, index) {
   const actions = document.createElement("div");
   actions.className = "awt-section-actions";
 
-  const jump = document.createElement("button");
-  jump.className = "awt-jump-btn";
-  jump.type = "button";
-  jump.textContent = "Focus";
-  jump.addEventListener("click", () => {
+  const focus = document.createElement("button");
+  focus.className = "awt-jump-btn";
+  focus.type = "button";
+  focus.textContent = "Focus";
+  focus.addEventListener("click", () => {
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
@@ -83,13 +107,14 @@ function makePanelShell(el, index) {
     rememberCollapsed(id, next);
   });
 
-  actions.append(jump, collapse);
+  actions.append(focus, collapse);
   toolbar.append(left, actions);
   el.append(toolbar, body);
 }
 
 function makeFloatingMap() {
-  if (document.querySelector(".awt-floating-map")) return;
+  const existing = document.querySelector(".awt-floating-map");
+  if (existing) existing.remove();
 
   const tabs = [...document.querySelectorAll("[data-tab]")];
   if (!tabs.length) return;
@@ -106,13 +131,16 @@ function makeFloatingMap() {
     const a = document.createElement("a");
     a.href = "#";
     a.className = "awt-map-link";
-    a.textContent = tab.textContent.trim() || tab.dataset.tab;
+    a.textContent = tab.textContent.trim() || tab.dataset.tab || "Panel";
+
     a.addEventListener("click", event => {
       event.preventDefault();
       tab.click();
+
       const pane = document.querySelector('[data-pane="' + tab.dataset.tab + '"]');
       if (pane) pane.scrollIntoView({ behavior: "smooth", block: "start" });
     });
+
     nav.appendChild(a);
   }
 
@@ -121,6 +149,9 @@ function makeFloatingMap() {
 }
 
 function addKeyboardShortcuts() {
+  if (window.__awtsmoosTabKeysMounted) return;
+  window.__awtsmoosTabKeysMounted = true;
+
   window.addEventListener("keydown", event => {
     if (!event.altKey) return;
 
@@ -144,12 +175,12 @@ function addKeyboardShortcuts() {
 export function mountControlPanels() {
   const candidates = [
     ...document.querySelectorAll("[data-pane]"),
-    ...document.querySelectorAll("main > section"),
-    ...document.querySelectorAll(".card.panel")
+    ...document.querySelectorAll(".control-section"),
+    ...document.querySelectorAll(".dashboard-section"),
+    ...document.querySelectorAll(".panel-section")
   ];
 
   candidates.forEach(makePanelShell);
-
   makeFloatingMap();
   addKeyboardShortcuts();
 }
