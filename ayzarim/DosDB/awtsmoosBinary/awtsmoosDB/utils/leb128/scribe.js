@@ -1,67 +1,102 @@
 
+// B"H
+
 /**
- * @file scribe.js
- * @chapter The Tzimtzum of Magnitude
+ * @file utils/leb128/scribe.js
+ * @chapter The Tiny Numbers That Refuse Padding
  * @description
- * Magnitude is an illusion. A small spark and a vast sun are both emanations
- * of the same Source. Why should they consume the same amount of binary parchment?
- * 
- * The LEB128 Scribe performs the Tzimtzum (Contraction), ensuring that small 
- * numbers take only a single byte, while larger coordinates expand only as far 
- * as their truth requires.
+ * Unsigned LEB128 writer/reader.
+ * This is the only numeric pointer-length encoding used by SmartPointer.
+ * No fixed width.
+ * No padding.
+ * No extra bytes.
  */
 
-class LEB128Scribe {
-    /**
-     * @description Contracts a number into a variable-length binary sequence.
-     * @param {Buffer} buf - The target parchment.
-     * @param {number} offset - The starting coordinate.
-     * @param {number} val - The magnitude to condense.
-     * @returns {number} Bytes utilized.
-     */
-    static write(buf, offset, val) {
-        let v = Math.floor(Math.abs(val));
-        let count = 0;
-        while (v > 127) {
-            buf[offset + count] = (v & 127) | 128;
-            v = Math.floor(v / 128);
-            count++;
-        }
-        buf[offset + count] = v & 127;
-        return count + 1;
+/**
+ * @class Leb128Scribe
+ * @description
+ * Minimal unsigned varint codec.
+ */
+class Leb128Scribe {
+  /**
+   * @static
+   * @method write
+   * @description
+   * Writes an unsigned integer into a buffer at offset.
+   *
+   * @param {Buffer} buf - Destination buffer.
+   * @param {number} offset - Start offset.
+   * @param {number} value - Unsigned integer value.
+   * @returns {number} Number of bytes written.
+   */
+  static write(buf, offset, value) {
+    let n = BigInt(value || 0);
+    let pos = offset;
+
+    do {
+      let byte = Number(n & 0x7fn);
+      n >>= 7n;
+
+      if (n !== 0n) byte |= 0x80;
+
+      buf[pos++] = byte;
+    } while (n !== 0n);
+
+    return pos - offset;
+  }
+
+  /**
+   * @static
+   * @method read
+   * @description
+   * Reads an unsigned integer from a buffer at offset.
+   *
+   * @param {Buffer} buf - Source buffer.
+   * @param {number} offset - Start offset.
+   * @returns {{value:number,bytesRead:number}} Decoded value and byte count.
+   */
+  static read(buf, offset) {
+    let result = 0n;
+    let shift = 0n;
+    let pos = offset;
+
+    while (pos < buf.length) {
+      const byte = BigInt(buf[pos++]);
+      result |= (byte & 0x7fn) << shift;
+
+      if ((byte & 0x80n) === 0n) {
+        return {
+          value: Number(result),
+          bytesRead: pos - offset
+        };
+      }
+
+      shift += 7n;
     }
 
-    /**
-     * @description Unveils the hidden number from its contracted garment.
-     * @param {Buffer} buf - The binary scroll.
-     * @param {number} offset - Where to begin reading.
-     * @returns {Object} { value, bytesRead }
-     */
-    static read(buf, offset) {
-        let val = 0;
-        let shift = 0;
-        let count = 0;
-        while (true) {
-            const byte = buf[offset + count];
-            const part = byte & 127;
-            if (shift < 28) val += part << shift;
-            else val += part * Math.pow(2, shift);
-            count++;
-            if (!(byte & 128)) break;
-            shift += 7;
-            if (shift > 53) throw new Error("B\"H Magnitude exceeds human bit-depth.");
-        }
-        return { value: val, bytesRead: count };
-    }
+    throw new Error("B'H: LEB128 ended before the number was complete");
+  }
 
-    /**
-     * @description Predicts the size of the required binary garment.
-     */
-    static sizeOf(val) {
-        let s = 0; let v = Math.floor(Math.abs(val));
-        do { s++; v = Math.floor(v / 128); } while (v > 0);
-        return s;
-    }
+  /**
+   * @static
+   * @method size
+   * @description
+   * Calculates encoded byte length for an unsigned integer.
+   *
+   * @param {number} value - Unsigned integer value.
+   * @returns {number} Byte size.
+   */
+  static size(value) {
+    let n = BigInt(value || 0);
+    let count = 0;
+
+    do {
+      n >>= 7n;
+      count++;
+    } while (n !== 0n);
+
+    return count;
+  }
 }
 
-module.exports = LEB128Scribe;
+module.exports = Leb128Scribe;

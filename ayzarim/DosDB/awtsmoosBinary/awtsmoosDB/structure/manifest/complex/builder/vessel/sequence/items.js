@@ -5,17 +5,16 @@
  * @file structure/manifest/complex/builder/vessel/sequence/items.js
  * @chapter The River Learns Its Drops
  * @description
- * Arrays and Sets both become sequence-backed vessels.
- * This module extracts their items without making the manifestor heavy.
+ * Converts array-like and set-like values into an ordered item list.
  */
 
 /**
  * @function toItems
  * @description
- * Converts array-like collection values into iterable item arrays.
+ * Extracts values from Array or Set.
  *
  * @param {*} val - Source collection.
- * @returns {Array<*>} Items to save.
+ * @returns {Array<*>} Items.
  */
 function toItems(val) {
   if (Array.isArray(val)) return val;

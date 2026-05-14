@@ -3,52 +3,44 @@
 
 /**
  * @file utils/smartPointer/index.js
- * @chapter The Variable Crown Restored Entirely
+ * @chapter The Smart Crown With Every Public Name Present
  * @description
- * This file restores the original SmartPointer public API while keeping the
- * newer central hydration work.
+ * Strict SmartPointer facade over the one true varint pointer format.
  *
- * CRITICAL:
- * MapNode.load() packs multiple pointer seals into one binary map node.
- * Therefore SmartPointer.readSize(buf,start) is part of the core database
- * format. Removing it breaks the engine immediately.
+ * Public API is complete:
+ * encode, decode, readSize, getType, getOffset, getLength, block, toBuffer,
+ * fromBuffer, resolve.
  *
- * Public API preserved:
- * - encode(type, offset, length)
- * - decode(buf, start)
- * - readSize(buf, start)
- * - getType(buf, start)
- * - block(type, blockId, length, isChain, offset)
- * - toBuffer(ptr)
- * - fromBuffer(buf, start)
- * - getOffset(buf, start)
- * - getLength(buf, start)
- * - resolve(ptrBuf, allocator, context)
+ * Format is complete:
+ * [type:1 byte][offset:ULEB128][length:ULEB128]
+ *
+ * No missing methods.
+ * No padding.
+ * No fixed 16-byte ghosts.
  */
 
-const Crown = require('./core/crownFacade.js');
-const normalizePointerArgs = require('./core/normalize.js');
-const Guard = require('./core/publicApiGuard.js');
+const Crown = require('../pointer/crown.js');
+const normalize = require('./normalize.js');
 
 /**
  * @class SmartPointer
  * @description
- * Variable-length pointer API used by the whole engine.
+ * Complete varint pointer API.
  */
 class SmartPointer {
   /**
    * @static
    * @method encode
    * @description
-   * Encodes pointer coordinates into a variable-length seal.
+   * Encodes a pointer using the exact varint format.
    *
-   * @param {*} first - Pointer object, Buffer, or numeric type.
+   * @param {*} first - Buffer, pointer object, or numeric type.
    * @param {number} [second] - Offset.
    * @param {number} [third] - Length.
-   * @returns {Buffer} Pointer seal.
+   * @returns {Buffer} Minimal pointer seal.
    */
   static encode(first, second, third) {
-    const ptr = normalizePointerArgs(first, second, third);
+    const ptr = normalize(first, second, third);
     if (ptr.seal) return ptr.seal;
     return Crown.encode(ptr.type, ptr.offset, ptr.length);
   }
@@ -57,7 +49,7 @@ class SmartPointer {
    * @static
    * @method decode
    * @description
-   * Decodes a pointer seal from a buffer at optional start offset.
+   * Decodes a pointer seal at optional start offset.
    *
    * @param {Buffer|object} buf - Pointer seal or decoded pointer.
    * @param {number} [start=0] - Start offset.
@@ -73,12 +65,11 @@ class SmartPointer {
    * @static
    * @method readSize
    * @description
-   * Reads the exact byte length of a variable pointer seal inside a larger
-   * buffer.
+   * Reads exact varint pointer byte size.
    *
    * @param {Buffer} buf - Source buffer.
    * @param {number} [start=0] - Start offset.
-   * @returns {number} Pointer seal byte size.
+   * @returns {number} Pointer byte size.
    */
   static readSize(buf, start = 0) {
     return Crown.readSize(buf, start);
@@ -88,15 +79,13 @@ class SmartPointer {
    * @static
    * @method getType
    * @description
-   * Reads the pointer type byte.
+   * Reads pointer type.
    *
    * @param {Buffer|object} buf - Pointer seal or decoded pointer.
    * @param {number} [start=0] - Start offset.
-   * @returns {number} VAL_TYPE.
+   * @returns {number} Type.
    */
   static getType(buf, start = 0) {
-    if (!buf) return 0;
-    if (!Buffer.isBuffer(buf)) return Number(buf.type || 0);
     return Crown.getType(buf, start);
   }
 
@@ -134,13 +123,13 @@ class SmartPointer {
    * @static
    * @method block
    * @description
-   * Legacy bridge for older block-address style calls.
+   * Legacy block bridge. blockId is treated as offset when offset is absent.
    *
-   * @param {number} type - VAL_TYPE.
-   * @param {number} blockId - Old block id or offset.
+   * @param {number} type - Type byte.
+   * @param {number} blockId - Legacy block id.
    * @param {number} [length=0] - Byte length.
-   * @param {boolean} [_isChain=false] - Legacy ignored chain flag.
-   * @param {number} [offset=0] - Preferred offset.
+   * @param {boolean} [_isChain=false] - Ignored legacy flag.
+   * @param {number} [offset=0] - Explicit offset.
    * @returns {Buffer} Pointer seal.
    */
   static block(type, blockId, length = 0, _isChain = false, offset = 0) {
@@ -151,7 +140,7 @@ class SmartPointer {
    * @static
    * @method toBuffer
    * @description
-   * Converts decoded pointer object or seal into a Buffer seal.
+   * Converts pointer object into pointer seal.
    *
    * @param {object|Buffer} ptr - Pointer.
    * @returns {Buffer} Pointer seal.
@@ -164,7 +153,7 @@ class SmartPointer {
    * @static
    * @method fromBuffer
    * @description
-   * Alias for decode.
+   * Decodes pointer seal.
    *
    * @param {Buffer|object} buf - Pointer seal.
    * @param {number} [start=0] - Start offset.
@@ -178,7 +167,7 @@ class SmartPointer {
    * @static
    * @method resolve
    * @description
-   * Resolves a pointer to scalar value or LiveHandle.
+   * Resolves pointer into scalar, native collection, or LiveHandle.
    *
    * @param {Buffer|object} ptrBuf - Pointer seal or decoded pointer.
    * @param {object} allocator - Allocator.
@@ -203,4 +192,4 @@ class SmartPointer {
   }
 }
 
-module.exports = Guard.verify(SmartPointer);
+module.exports = SmartPointer;
