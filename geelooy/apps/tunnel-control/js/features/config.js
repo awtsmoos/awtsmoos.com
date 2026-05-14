@@ -23,9 +23,9 @@ function applyConfig(config) {
   if (!config) return;
 
   $("rootPath").value = config.root || "";
-  setChecked("allowWrite", !!config.allowWrite);
+  setChecked("allowWrite", config.allowWrite !== false);
   setChecked("allowSecrets", !!config.allowSecrets);
-  setChecked("enableLocalHttpProxy", !!config.enableLocalHttpProxy);
+  setChecked("enableLocalHttpProxy", config.enableLocalHttpProxy !== false);
 
   setChecked("toolFsList", config.tools?.fsList !== false);
   setChecked("toolFsTree", config.tools?.fsTree !== false);
@@ -91,10 +91,36 @@ export async function loadRoots(getTunnelName) {
   renderRoots(got.roots || [], got.home);
 }
 
+export async function openRoot(getTunnelName) {
+  const got = await callFs(getTunnelName(), {
+    action: "openRoot",
+    root: $("rootPath").value
+  });
+  jsonText("configOut", got);
+}
+
+export async function chooseRoot(getTunnelName) {
+  const got = await callFs(getTunnelName(), {
+    action: "chooseRoot"
+  });
+
+  applyConfig(got.config);
+  jsonText("configOut", got);
+
+  if (got.config?.root) {
+    $("rootPath").value = got.config.root;
+    $("explorerPath").value = ".";
+  }
+
+  return got;
+}
+
 export function mountConfig(getTunnelName) {
   $("loadConfigBtn").onclick = () => loadConfig(getTunnelName);
   $("saveConfigBtn").onclick = () => saveConfig(getTunnelName);
   $("rootsBtn").onclick = () => loadRoots(getTunnelName);
+  $("openRootBtn").onclick = () => openRoot(getTunnelName);
+  $("chooseRootBtn").onclick = () => chooseRoot(getTunnelName);
 
   $("useRepoRootBtn").onclick = () => {
     $("rootPath").value = "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com";

@@ -72,6 +72,7 @@
       <a href="#actions">Actions</a>
       <a href="#keys">API Keys</a>
       <a href="#usage">Usage</a>
+      <a href="#schema">GPT Schema</a>
       <a href="#install">Install</a>
     </nav>
 
@@ -88,9 +89,7 @@
           </div>
         </div>
 
-        <div id="identitySummary" class="summary-panel">
-          Checking login...
-        </div>
+        <div id="identitySummary" class="summary-panel">Checking login...</div>
 
         <details class="details-box">
           <summary>Raw identity response</summary>
@@ -107,9 +106,7 @@
           <button class="button small" id="refreshDeviceBtn">Check Agent</button>
         </div>
 
-        <div id="deviceSummary" class="summary-panel">
-          Checking tunnel...
-        </div>
+        <div id="deviceSummary" class="summary-panel">Checking tunnel...</div>
 
         <details class="details-box">
           <summary>Raw connection response</summary>
@@ -138,9 +135,11 @@
           </label>
 
           <div class="row">
+            <button class="button small" id="chooseRootBtn">Choose folder on this computer</button>
+            <button class="button small" id="openRootBtn">Open root in system explorer</button>
             <button class="button small" id="rootsBtn">Show system roots</button>
             <button class="button small" id="useRepoRootBtn">Use awtsmoos repo path</button>
-            <button class="button small" id="applyRootToExplorerBtn">Open root in explorer</button>
+            <button class="button small" id="applyRootToExplorerBtn">Open root in embedded explorer</button>
           </div>
 
           <div class="quick-roots" id="quickRoots"></div>
@@ -148,7 +147,7 @@
           <div class="root-help">
             <strong>Root rule:</strong>
             every file action is locked under this absolute folder.
-            The explorer path should usually be <code>.</code> after root is saved.
+            After saving root, the embedded explorer path should usually be <code>.</code>.
           </div>
         </div>
 
@@ -156,14 +155,14 @@
           <p class="mini-title">Live agent permissions</p>
 
           <div class="permission-grid">
-            <label class="switch-card"><input type="checkbox" id="allowWrite"><span>Allow writes</span></label>
+            <label class="switch-card"><input type="checkbox" id="allowWrite" checked><span>Allow writes</span></label>
             <label class="switch-card danger-card"><input type="checkbox" id="allowSecrets"><span>Allow secret-like files</span></label>
-            <label class="switch-card"><input type="checkbox" id="enableLocalHttpProxy"><span>Local HTTP proxy</span></label>
-            <label class="switch-card"><input type="checkbox" id="toolFsList"><span>Tool: list</span></label>
-            <label class="switch-card"><input type="checkbox" id="toolFsTree"><span>Tool: tree</span></label>
-            <label class="switch-card"><input type="checkbox" id="toolFsRead"><span>Tool: read</span></label>
-            <label class="switch-card"><input type="checkbox" id="toolFsWrite"><span>Tool: write</span></label>
-            <label class="switch-card"><input type="checkbox" id="toolFsBulk"><span>Tool: bulk</span></label>
+            <label class="switch-card"><input type="checkbox" id="enableLocalHttpProxy" checked><span>Local HTTP proxy</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsList" checked><span>Tool: list</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsTree" checked><span>Tool: tree</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsRead" checked><span>Tool: read</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsWrite" checked><span>Tool: write</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsBulk" checked><span>Tool: bulk</span></label>
           </div>
         </div>
       </div>
@@ -282,7 +281,10 @@
             <option>bulk</option>
             <option>bulkWrite</option>
             <option>configGet</option>
+            <option>configSet</option>
             <option>roots</option>
+            <option>openRoot</option>
+            <option>chooseRoot</option>
           </select>
         </label>
         <label>Path <input id="actionPath" value="."></label>
@@ -314,6 +316,16 @@ index.js</textarea></label>
       <h2>Usage and rate limits</h2>
       <button class="button" id="loadUsageBtn">Load Usage</button>
       <pre id="usageBox">Login first, then load usage.</pre>
+    </section>
+
+    <section class="card" id="schema">
+      <p class="eyebrow">Custom GPT Action</p>
+      <h2>Dynamic OpenAPI YAML</h2>
+      <p class="note">
+        Use this schema URL in the GPT Action builder. It is generic; the dashboard prompt gives the current tunnel name.
+      </p>
+      <pre id="schemaUrl">https://awtsmoos.com/api/tunnel/control/openapi</pre>
+      <button class="button small" data-copy="schemaUrl">Copy Schema URL</button>
     </section>
 
     <section class="card" id="install">

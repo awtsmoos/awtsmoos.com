@@ -34,7 +34,7 @@ function queryValue($i, name, fallback = "") {
  *
  * Supports:
  * list/tree/read/md/bulk/write/bulkWrite
- * configGet/configSet/roots
+ * configGet/configSet/roots/openRoot/chooseRoot
  */
 function buildFsPayload($i) {
   const action = queryValue($i, "action", "list");
@@ -80,7 +80,8 @@ function actionNeedsWrite(action) {
   return (
     action === "write" ||
     action === "bulkWrite" ||
-    action === "configSet"
+    action === "configSet" ||
+    action === "chooseRoot"
   );
 }
 
