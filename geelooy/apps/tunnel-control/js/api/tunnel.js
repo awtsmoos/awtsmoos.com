@@ -4,8 +4,12 @@
 import { getJson } from "./http.js";
 import { b64Json, b64Text } from "../lib/base64.js";
 
+/**
+ * B"H
+ * Builds the protected tunnel-control filesystem URL.
+ */
 export function buildFsUrl(tunnelName, opts = {}) {
-  const u = new URL("/api/tunnel/fs/" + encodeURIComponent(tunnelName), location.origin);
+  const u = new URL("/api/tunnel/control/fs/" + encodeURIComponent(tunnelName), location.origin);
 
   u.searchParams.set("action", opts.action || "list");
   u.searchParams.set("p", opts.path || ".");
@@ -17,18 +21,18 @@ export function buildFsUrl(tunnelName, opts = {}) {
   if (opts.paths) u.searchParams.set("paths64", b64Json(opts.paths));
   if (opts.files) u.searchParams.set("files64", b64Json(opts.files));
 
+  if (opts.root) u.searchParams.set("root", opts.root);
+  if (opts.local) u.searchParams.set("local", opts.local);
+  if (opts.relay) u.searchParams.set("relay", opts.relay);
+  if (opts.setTunnelName) u.searchParams.set("setTunnelName", opts.setTunnelName);
+  if (typeof opts.allowWrite === "boolean") u.searchParams.set("allowWrite", String(opts.allowWrite));
+  if (typeof opts.allowSecrets === "boolean") u.searchParams.set("allowSecrets", String(opts.allowSecrets));
+  if (typeof opts.enableLocalHttpProxy === "boolean") u.searchParams.set("enableLocalHttpProxy", String(opts.enableLocalHttpProxy));
+  if (opts.tools) u.searchParams.set("tools64", b64Json(opts.tools));
+
   return u.toString();
 }
 
 export async function callFs(tunnelName, opts) {
   return await getJson(buildFsUrl(tunnelName, opts));
-}
-
-export async function tunnelStatus() {
-  const [status, clients] = await Promise.all([
-    getJson("/api/tunnel/status"),
-    getJson("/api/tunnel/clients")
-  ]);
-
-  return { status, clients };
 }

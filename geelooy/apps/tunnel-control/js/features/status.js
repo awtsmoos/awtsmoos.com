@@ -2,28 +2,39 @@
 // B"H
 
 import { $, jsonText } from "../lib/dom.js";
-import { controlMe, device } from "../api/control.js";
+import { device } from "../api/control.js";
+import { detectLogin } from "../api/auth.js";
 
-function setConnection(connected) {
-  const pill = $("connectionPill");
-  pill.classList.toggle("connected", !!connected);
-  pill.classList.toggle("warning", !connected);
-  $("connectionText").textContent = connected ? "Connected" : "Not connected";
+function setPill(id, textId, good, text) {
+  const pill = $(id);
+  pill.classList.toggle("connected", !!good);
+  pill.classList.toggle("warning", !good);
+  $(textId).textContent = text;
 }
 
-/**
- * B"H
- * Refreshes only identity and the current tunnel's connection.
- */
 export async function refreshStatus(getTunnelName) {
   const tunnelName = getTunnelName();
 
-  const [identity, oneDevice] = await Promise.all([
-    controlMe(),
+  const [login, oneDevice] = await Promise.all([
+    detectLogin(),
     device(tunnelName)
   ]);
 
-  jsonText("identityBox", identity);
+  jsonText("identityBox", login);
   jsonText("deviceBox", oneDevice);
-  setConnection(!!oneDevice.connected);
+  jsonText("miniStatus", oneDevice);
+
+  setPill(
+    "authPill",
+    "authText",
+    login.ok,
+    login.ok ? "Logged in" : "Not logged in"
+  );
+
+  setPill(
+    "connectionPill",
+    "connectionText",
+    !!oneDevice.connected,
+    oneDevice.connected ? "Connected" : "Agent offline"
+  );
 }

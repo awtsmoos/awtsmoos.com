@@ -8,38 +8,228 @@
   <link rel="stylesheet" href="./css/app.css">
 </head>
 <body>
-  <main class="wrap">
+  <main class="shell">
     <section class="hero">
-      <p class="eyebrow">B"H • Hosted Awtsmoos Tunnel Control</p>
-      <h1>Control your local agent from awtsmoos.com.</h1>
-      <p class="lead">
-        Hosted dashboard for install, connection check, file explorer, action lab,
-        API keys, usage tracking, OAuth, and AI-agent instructions.
-      </p>
-      <div class="row">
-        <span id="connectionPill" class="status-pill warning">
-          <span class="status-dot"></span>
-          <span id="connectionText">Checking connection</span>
-        </span>
-        <a class="button primary" href="#install">Install / Restart Agent</a>
-        <button class="button" id="refreshBtn">Refresh</button>
-        <a class="button" href="/login">Login</a>
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">B"H • Hosted Awtsmoos Tunnel Control</p>
+          <h1>Command your local code agent.</h1>
+          <p class="lead">
+            Verify the agent, lock it to a root folder, browse files, run safe actions,
+            create scoped API keys, and generate instructions for any AI.
+          </p>
+          <div class="hero-actions">
+            <span id="connectionPill" class="status-pill warning">
+              <span class="status-dot"></span>
+              <span id="connectionText">Checking agent</span>
+            </span>
+            <span id="authPill" class="status-pill warning">
+              <span class="status-dot"></span>
+              <span id="authText">Checking login</span>
+            </span>
+            <a class="button primary" href="#install">Install / Restart</a>
+            <button class="button" id="refreshBtn">Refresh</button>
+            <a class="button" id="loginLink" href="/login">Login</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <p class="eyebrow">This tunnel</p>
+          <label>Tunnel name <input id="tunnelName"></label>
+          <pre id="miniStatus">Loading...</pre>
+        </div>
       </div>
     </section>
 
-    <section class="grid">
-      <div class="card">
-        <p class="eyebrow">Account</p>
-        <h2>Identity</h2>
-        <pre id="identityBox">Loading...</pre>
+    <nav class="dock">
+      <a href="#setup">Setup</a>
+      <a href="#explorer">Explorer</a>
+      <a href="#actions">Actions</a>
+      <a href="#keys">API Keys</a>
+      <a href="#usage">Usage</a>
+      <a href="#install">Install</a>
+    </nav>
+
+    <section class="grid two">
+      <div class="card" id="setup">
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Setup</p>
+            <h2>Root and permissions</h2>
+          </div>
+          <button class="button small" id="loadConfigBtn">Load Agent Config</button>
+        </div>
+
+        <label>
+          Current root folder
+          <input id="rootPath" placeholder="C:\Users\...\project">
+        </label>
+
+        <div class="quick-roots" id="quickRoots"></div>
+
+        <div class="permission-grid">
+          <label class="check"><input type="checkbox" id="allowWrite"> Allow writes</label>
+          <label class="check"><input type="checkbox" id="allowSecrets"> Allow secret-like files</label>
+          <label class="check"><input type="checkbox" id="enableLocalHttpProxy"> Local HTTP proxy</label>
+          <label class="check"><input type="checkbox" id="toolFsList"> Tool: list</label>
+          <label class="check"><input type="checkbox" id="toolFsTree"> Tool: tree</label>
+          <label class="check"><input type="checkbox" id="toolFsRead"> Tool: read</label>
+          <label class="check"><input type="checkbox" id="toolFsWrite"> Tool: write</label>
+          <label class="check"><input type="checkbox" id="toolFsBulk"> Tool: bulk</label>
+        </div>
+
+        <div class="row">
+          <button class="button primary" id="saveConfigBtn">Save to Agent</button>
+          <button class="button" id="useRepoRootBtn">Use awtsmoos repo path</button>
+          <button class="button" id="rootsBtn">Show system roots</button>
+        </div>
+
+        <pre id="configOut">Load config first.</pre>
       </div>
 
       <div class="card">
-        <p class="eyebrow">This tunnel only</p>
-        <h2>Connection</h2>
-        <label>Tunnel name <input id="tunnelName"></label>
-        <pre id="deviceBox">Loading...</pre>
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Account</p>
+            <h2>Login / OAuth status</h2>
+          </div>
+        </div>
+        <pre id="identityBox">Loading...</pre>
+        <p class="note">
+          The dashboard checks <code>/api/oauth/start?client_id=chatgpt</code>
+          and <code>/api/tunnel/control/me</code>. If either sees your session,
+          the app treats you as logged in.
+        </p>
       </div>
+    </section>
+
+    <section class="card explorer-card" id="explorer">
+      <div class="card-head">
+        <div>
+          <p class="eyebrow">File Explorer</p>
+          <h2>Embedded project browser</h2>
+        </div>
+        <div class="view-switch">
+          <button class="button small active" id="listViewBtn">List view</button>
+          <button class="button small" id="iconViewBtn">Icon view</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <label>Path inside root <input id="explorerPath" value="."></label>
+        <label>Depth <input id="treeDepth" type="number" min="1" max="4" value="2"></label>
+        <label>Limit <input id="treeLimit" type="number" min="20" max="600" value="150"></label>
+      </div>
+
+      <div class="row">
+        <button class="button" id="upBtn">Up</button>
+        <button class="button" id="listBtn">List</button>
+        <button class="button" id="treeBtn">Tree</button>
+        <button class="button" id="readBtn">Read</button>
+        <button class="button" id="mdBtn">Markdown</button>
+        <button class="button" id="bulkSelectedBtn">Bulk read selected</button>
+        <button class="button" id="copySelectedBtn">Copy selected paths</button>
+      </div>
+
+      <div class="explorer-layout">
+        <aside class="file-panel">
+          <div class="path-crumb" id="crumb">.</div>
+          <div class="file-list list-mode" id="fileList"></div>
+        </aside>
+        <section class="viewer-panel">
+          <div class="viewer-tabs">
+            <button class="tab active" data-viewer="response">Response</button>
+            <button class="tab" data-viewer="command">Current command</button>
+          </div>
+          <pre class="viewer" id="explorerOut">Ready.</pre>
+          <pre class="viewer hidden" id="currentCommandOut"></pre>
+        </section>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <p class="eyebrow">GPT / Any AI</p>
+        <h2>Agent instructions</h2>
+        <label>Project path <input id="projectPath" value="."></label>
+        <label>Mode
+          <select id="promptMode">
+            <option value="explorer">Codebase explorer</option>
+            <option value="fixer">Bug fixer</option>
+            <option value="vibe">Vibe coder</option>
+            <option value="review">Read-only reviewer</option>
+          </select>
+        </label>
+        <pre id="promptBox"></pre>
+        <button class="button small" id="copyPromptBtn">Copy Prompt</button>
+      </div>
+
+      <div class="card" id="keys">
+        <p class="eyebrow">API Keys</p>
+        <h2>Scoped access keys</h2>
+        <label>Name <input id="keyName" value="Tunnel API Key"></label>
+
+        <div class="scope-picker">
+          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.read" checked> tunnel.read</label>
+          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.write"> tunnel.write</label>
+          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.command"> tunnel.command</label>
+          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.browser"> tunnel.browser</label>
+          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.admin"> tunnel.admin</label>
+        </div>
+
+        <div class="toolbar">
+          <label>Req/min <input id="keyRate" type="number" value="60"></label>
+          <label>Bytes/day <input id="keyBytes" type="number" value="50000000"></label>
+        </div>
+
+        <div class="row">
+          <button class="button primary" id="createKeyBtn">Create API Key</button>
+          <button class="button" id="loadKeysBtn">Load Keys</button>
+        </div>
+        <pre id="keysBox">Login first, then load keys.</pre>
+      </div>
+    </section>
+
+    <section class="card" id="actions">
+      <p class="eyebrow">Action Lab</p>
+      <h2>Run exact tunnel calls</h2>
+      <div class="toolbar">
+        <label>Action
+          <select id="actionName">
+            <option>list</option>
+            <option>tree</option>
+            <option>read</option>
+            <option>md</option>
+            <option>write</option>
+            <option>bulk</option>
+            <option>bulkWrite</option>
+            <option>configGet</option>
+            <option>roots</option>
+          </select>
+        </label>
+        <label>Path <input id="actionPath" value="."></label>
+        <label>Max chars <input id="maxChars" type="number" value="12000"></label>
+      </div>
+      <label>Content for write <textarea id="writeContent">B"H
+Tunnel write test.</textarea></label>
+      <label>Bulk paths, one per line <textarea id="bulkPaths">package.json
+index.js</textarea></label>
+      <label>Bulk write JSON object <textarea id="bulkWriteJson">{
+  "debugging/tunnel-test-1.txt": "B\\\"H\\nhello 1\\n",
+  "debugging/tunnel-test-2.txt": "B\\\"H\\nhello 2\\n"
+}</textarea></label>
+      <div class="row">
+        <button class="button primary" id="runActionBtn">Run Action</button>
+        <button class="button" id="copyActionUrlBtn">Copy API URL</button>
+      </div>
+      <pre id="actionUrlOut"></pre>
+      <pre id="actionOut">Ready.</pre>
+    </section>
+
+    <section class="card" id="usage">
+      <p class="eyebrow">Usage</p>
+      <h2>Usage and rate limits</h2>
+      <button class="button" id="loadUsageBtn">Load Usage</button>
+      <pre id="usageBox">Login first, then load usage.</pre>
     </section>
 
     <section class="card" id="install">
@@ -63,104 +253,9 @@
         <button class="button small" data-copy="cmdUnix">Copy</button>
       </div>
       <p class="note">
-        Re-running this keeps your same config and tunnel name if
-        <code>~/.awtsmoos-tunnel/config.json</code> already exists.
+        Re-running this keeps the same tunnel name and settings when
+        <code>~/.awtsmoos-tunnel/config.json</code> exists.
       </p>
-    </section>
-
-    <section class="grid">
-      <div class="card">
-        <p class="eyebrow">GPT / Any AI</p>
-        <h2>Agent instructions</h2>
-        <label>Project path <input id="projectPath" value="."></label>
-        <label>Mode
-          <select id="promptMode">
-            <option value="explorer">Codebase explorer</option>
-            <option value="fixer">Bug fixer</option>
-            <option value="vibe">Vibe coder</option>
-            <option value="review">Read-only reviewer</option>
-          </select>
-        </label>
-        <pre id="promptBox"></pre>
-        <button class="button small" id="copyPromptBtn">Copy Prompt</button>
-      </div>
-
-      <div class="card">
-        <p class="eyebrow">API Keys</p>
-        <h2>Optional access keys</h2>
-        <label>Name <input id="keyName" value="Tunnel API Key"></label>
-        <label>Scopes <input id="keyScopes" value="tunnel.read tunnel.write"></label>
-        <div class="row">
-          <button class="button primary" id="createKeyBtn">Create API Key</button>
-          <button class="button" id="loadKeysBtn">Load Keys</button>
-        </div>
-        <pre id="keysBox">Login first, then load keys.</pre>
-      </div>
-    </section>
-
-    <section class="card">
-      <p class="eyebrow">File Explorer</p>
-      <h2>Browse through this tunnel</h2>
-      <div class="toolbar">
-        <label>Current path <input id="explorerPath" value="."></label>
-        <label>Depth <input id="treeDepth" type="number" min="1" max="4" value="2"></label>
-        <label>Limit <input id="treeLimit" type="number" min="20" max="600" value="150"></label>
-      </div>
-      <div class="row">
-        <button class="button" id="upBtn">Up</button>
-        <button class="button" id="listBtn">List</button>
-        <button class="button" id="treeBtn">Tree</button>
-        <button class="button" id="readBtn">Read selected/path</button>
-        <button class="button" id="mdBtn">Read Markdown</button>
-      </div>
-      <div class="explorer-layout">
-        <div>
-          <p class="path-crumb" id="crumb">.</p>
-          <div class="file-list" id="fileList"></div>
-        </div>
-        <pre class="viewer" id="explorerOut">Ready.</pre>
-      </div>
-    </section>
-
-    <section class="card">
-      <p class="eyebrow">Action Lab</p>
-      <h2>Try any tunnel action</h2>
-      <div class="toolbar">
-        <label>Action
-          <select id="actionName">
-            <option>list</option>
-            <option>tree</option>
-            <option>read</option>
-            <option>md</option>
-            <option>write</option>
-            <option>bulk</option>
-            <option>bulkWrite</option>
-          </select>
-        </label>
-        <label>Path <input id="actionPath" value="."></label>
-        <label>Max chars <input id="maxChars" type="number" value="12000"></label>
-      </div>
-      <label>Content for write <textarea id="writeContent">B"H
-Tunnel write test.</textarea></label>
-      <label>Bulk paths, one per line <textarea id="bulkPaths">package.json
-index.js</textarea></label>
-      <label>Bulk write JSON object <textarea id="bulkWriteJson">{
-  "debugging/tunnel-test-1.txt": "B\\\"H\\nhello 1\\n",
-  "debugging/tunnel-test-2.txt": "B\\\"H\\nhello 2\\n"
-}</textarea></label>
-      <div class="row">
-        <button class="button primary" id="runActionBtn">Run Action</button>
-        <button class="button" id="copyActionUrlBtn">Copy API URL</button>
-      </div>
-      <pre id="actionUrlOut"></pre>
-      <pre id="actionOut">Ready.</pre>
-    </section>
-
-    <section class="card">
-      <p class="eyebrow">Usage</p>
-      <h2>Usage and rate limits</h2>
-      <button class="button" id="loadUsageBtn">Load Usage</button>
-      <pre id="usageBox">Login first, then load usage.</pre>
     </section>
   </main>
 

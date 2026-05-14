@@ -10,6 +10,7 @@ import { mountExplorer } from "./features/explorer.js";
 import { mountActions } from "./features/actions.js";
 import { mountApiKeys } from "./features/apiKeys.js";
 import { mountUsage } from "./features/usage.js";
+import { mountConfig, loadConfig } from "./features/config.js";
 import { state } from "./state/state.js";
 
 function getTunnelName() {
@@ -30,7 +31,7 @@ async function refresh() {
   await refreshStatus(getTunnelName);
 }
 
-function main() {
+async function main() {
   $("tunnelName").value = state.tunnelName;
   $("projectPath").value = state.projectPath;
 
@@ -48,13 +49,19 @@ function main() {
 
   mountTabs();
   mountCopyButtons();
+  mountConfig(getTunnelName);
   mountExplorer();
   mountActions(getTunnelName);
   mountApiKeys();
   mountUsage();
 
   renderPrompt();
-  refresh();
+  await refresh();
+
+  try {
+    await loadConfig(getTunnelName);
+  } catch (e) {}
+
   setInterval(refresh, 5000);
 }
 

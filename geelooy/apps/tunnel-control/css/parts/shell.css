@@ -1,0 +1,47 @@
+
+/* B"H */
+.shell {
+  width: min(1360px, calc(100% - 28px));
+  margin: auto;
+  padding: 32px 0 90px;
+}
+.grid.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.row,
+.toolbar,
+.hero-actions,
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: end;
+}
+.dock {
+  position: sticky;
+  top: 8px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin: 0 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(7,9,19,.78);
+  backdrop-filter: blur(18px);
+}
+.dock a {
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 850;
+  background: rgba(255,255,255,.07);
+}
+.hidden {
+  display: none !important;
+}

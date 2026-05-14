@@ -1,0 +1,21 @@
+
+/* B"H */
+.hero {
+  padding: clamp(28px, 6vw, 62px);
+  margin-bottom: 18px;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 380px);
+  gap: 24px;
+  align-items: end;
+}
+.hero-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 18px;
+  background: rgba(0,0,0,.22);
+}
+.hero-card pre {
+  min-height: 90px;
+}
