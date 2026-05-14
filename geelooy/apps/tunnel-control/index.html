@@ -15,8 +15,8 @@
           <p class="eyebrow">B"H • Hosted Awtsmoos Tunnel Control</p>
           <h1>Command your local code agent.</h1>
           <p class="lead">
-            Verify your login, connect the agent, lock it to a root folder,
-            browse files, run safe actions, and create scoped API keys.
+            Verify login, connect the agent, choose the true local root, browse files,
+            run exact actions, create scoped API keys, and generate AI instructions.
           </p>
 
           <div class="hero-actions">
@@ -30,9 +30,15 @@
               <span id="authText">Checking login</span>
             </span>
 
+            <span id="userChip" class="user-chip hidden">
+              <span class="avatar-dot"></span>
+              <strong id="userName">user</strong>
+            </span>
+
             <a class="button primary" href="#install">Install / Restart</a>
             <button class="button" id="refreshBtn">Refresh</button>
             <a class="button" id="loginLink" href="/login">Login</a>
+            <a class="button danger ghost hidden" id="logoutLink" href="/logout">Logout</a>
           </div>
         </div>
 
@@ -76,7 +82,10 @@
             <p class="eyebrow">Account</p>
             <h2>Login status</h2>
           </div>
-          <a class="button small" href="/login">Open Login</a>
+          <div class="row">
+            <a class="button small" href="/login">Open Login</a>
+            <a class="button small danger ghost" href="/logout">Logout</a>
+          </div>
         </div>
 
         <div id="identitySummary" class="summary-panel">
@@ -113,7 +122,7 @@
       <div class="card-head">
         <div>
           <p class="eyebrow">Setup</p>
-          <h2>Root folder and permissions</h2>
+          <h2>Root folder and live permissions</h2>
         </div>
         <div class="row">
           <button class="button small" id="loadConfigBtn">Load Agent Config</button>
@@ -122,32 +131,39 @@
       </div>
 
       <div class="setup-layout">
-        <div>
+        <div class="root-column">
           <label>
-            Current root folder
-            <input id="rootPath" placeholder="C:\Users\...\project">
+            Absolute local root folder
+            <input id="rootPath" placeholder="C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com">
           </label>
 
           <div class="row">
             <button class="button small" id="rootsBtn">Show system roots</button>
             <button class="button small" id="useRepoRootBtn">Use awtsmoos repo path</button>
+            <button class="button small" id="applyRootToExplorerBtn">Open root in explorer</button>
           </div>
 
           <div class="quick-roots" id="quickRoots"></div>
+
+          <div class="root-help">
+            <strong>Root rule:</strong>
+            every file action is locked under this absolute folder.
+            The explorer path should usually be <code>.</code> after root is saved.
+          </div>
         </div>
 
-        <div>
-          <p class="mini-title">Permissions</p>
+        <div class="permissions-column">
+          <p class="mini-title">Live agent permissions</p>
 
           <div class="permission-grid">
-            <label class="check"><input type="checkbox" id="allowWrite"> Allow writes</label>
-            <label class="check danger-check"><input type="checkbox" id="allowSecrets"> Allow secret-like files</label>
-            <label class="check"><input type="checkbox" id="enableLocalHttpProxy"> Local HTTP proxy</label>
-            <label class="check"><input type="checkbox" id="toolFsList"> Tool: list</label>
-            <label class="check"><input type="checkbox" id="toolFsTree"> Tool: tree</label>
-            <label class="check"><input type="checkbox" id="toolFsRead"> Tool: read</label>
-            <label class="check"><input type="checkbox" id="toolFsWrite"> Tool: write</label>
-            <label class="check"><input type="checkbox" id="toolFsBulk"> Tool: bulk</label>
+            <label class="switch-card"><input type="checkbox" id="allowWrite"><span>Allow writes</span></label>
+            <label class="switch-card danger-card"><input type="checkbox" id="allowSecrets"><span>Allow secret-like files</span></label>
+            <label class="switch-card"><input type="checkbox" id="enableLocalHttpProxy"><span>Local HTTP proxy</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsList"><span>Tool: list</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsTree"><span>Tool: tree</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsRead"><span>Tool: read</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsWrite"><span>Tool: write</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolFsBulk"><span>Tool: bulk</span></label>
           </div>
         </div>
       </div>
@@ -188,7 +204,10 @@
 
       <div class="explorer-layout">
         <aside class="file-panel">
-          <div class="path-crumb" id="crumb">.</div>
+          <div class="explorer-top">
+            <div class="path-crumb" id="crumb">.</div>
+            <div class="selected-count" id="selectedCount">0 selected</div>
+          </div>
           <div class="file-list list-mode" id="fileList"></div>
         </aside>
 
@@ -196,9 +215,11 @@
           <div class="viewer-tabs">
             <button class="tab active" data-viewer="response">Response</button>
             <button class="tab" data-viewer="command">Current command</button>
+            <button class="tab" data-viewer="preview">Readable preview</button>
           </div>
           <pre class="viewer" id="explorerOut">Ready.</pre>
           <pre class="viewer hidden" id="currentCommandOut"></pre>
+          <div class="viewer readable hidden" id="readablePreview">Nothing loaded yet.</div>
         </section>
       </div>
     </section>
@@ -226,11 +247,11 @@
         <label>Name <input id="keyName" value="Tunnel API Key"></label>
 
         <div class="scope-picker">
-          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.read" checked> tunnel.read</label>
-          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.write"> tunnel.write</label>
-          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.command"> tunnel.command</label>
-          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.browser"> tunnel.browser</label>
-          <label class="check danger-check"><input type="checkbox" class="scopeBox" value="tunnel.admin"> tunnel.admin</label>
+          <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.read" checked><span>tunnel.read</span><small>read/list/tree/bulk read</small></label>
+          <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.write"><span>tunnel.write</span><small>write/bulk write/config set</small></label>
+          <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.command"><span>tunnel.command</span><small>future terminal commands</small></label>
+          <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.browser"><span>tunnel.browser</span><small>future browser tools</small></label>
+          <label class="scope-card danger-card"><input type="checkbox" class="scopeBox" value="tunnel.admin"><span>tunnel.admin</span><small>everything</small></label>
         </div>
 
         <div class="toolbar">

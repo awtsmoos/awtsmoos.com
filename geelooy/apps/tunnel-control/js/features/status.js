@@ -12,6 +12,27 @@ function setPill(id, textId, good, text) {
   $(textId).textContent = text;
 }
 
+function setLoginButtons(login) {
+  const loggedIn = !!login.ok;
+  $("loginLink").classList.toggle("hidden", loggedIn);
+  $("logoutLink").classList.toggle("hidden", !loggedIn);
+  $("userChip").classList.toggle("hidden", !loggedIn);
+
+  if (loggedIn) {
+    $("userName").textContent = getUserId(login);
+  }
+}
+
+function getUserId(login) {
+  return (
+    login.user?.userId ||
+    login.user?.identity?.userId ||
+    login.control?.identity?.userId ||
+    login.oauthStart?.user?.userId ||
+    "logged-in"
+  );
+}
+
 function identityHtml(login) {
   if (!login.ok) {
     return [
@@ -20,13 +41,7 @@ function identityHtml(login) {
     ].join("<br>");
   }
 
-  const user =
-    login.user?.userId ||
-    login.user?.identity?.userId ||
-    login.control?.identity?.userId ||
-    login.oauthStart?.user?.userId ||
-    "unknown";
-
+  const user = getUserId(login);
   const source = login.control?.ok ? "session/control API" : "oauth start check";
 
   return [
@@ -59,6 +74,7 @@ export async function refreshLogin() {
 
     jsonText("identityBox", login);
     $("identitySummary").innerHTML = identityHtml(login);
+    setLoginButtons(login);
 
     setPill(
       "authPill",
@@ -71,8 +87,10 @@ export async function refreshLogin() {
 
     return login;
   } catch (e) {
+    const failed = { ok: false, error: e.message, stack: e.stack };
     $("identitySummary").innerHTML = "<strong>Login check failed.</strong><br><span>" + e.message + "</span>";
-    jsonText("identityBox", { ok: false, error: e.message, stack: e.stack });
+    jsonText("identityBox", failed);
+    setLoginButtons(failed);
     setPill("authPill", "authText", false, "Login check failed");
     $("miniLogin").textContent = "Error";
   }

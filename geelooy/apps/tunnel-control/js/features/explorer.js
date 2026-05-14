@@ -3,6 +3,7 @@
 
 import { $, jsonText, text } from "../lib/dom.js";
 import { callFs, buildFsUrl } from "../api/tunnel.js";
+import { saveLocalSetting, readLocalSetting } from "../state/storage.js";
 
 let selectedPath = ".";
 let selectedPaths = new Set();
@@ -31,25 +32,48 @@ function setPath(path) {
   $("explorerPath").value = next;
   $("crumb").textContent = next;
   selectedPath = next;
+  saveLocalSetting("lastExplorerPath:" + window.awtsGetTunnelName(), next);
 }
 
 function iconFor(item) {
   if (item.isDirectory || item.type === "directory") return "📁";
   if (/\.(js|mjs|cjs|ts|jsx|tsx)$/i.test(item.name)) return "🟨";
-  if (/\.(html|css)$/i.test(item.name)) return "🎨";
+  if (/\.(html)$/i.test(item.name)) return "🌐";
+  if (/\.(css)$/i.test(item.name)) return "🎨";
   if (/\.(json)$/i.test(item.name)) return "🧾";
   if (/\.(md|txt)$/i.test(item.name)) return "📄";
   return "📦";
 }
 
-function renderItems(items, basePath) {
+function fromItemsFallback(got, basePath) {
+  if (got.detailedItems) return got.detailedItems;
+
+  return (got.items || []).map(name => {
+    const isDirectory = String(name).endsWith("/");
+    const clean = String(name).replace(/\/$/, "");
+
+    return {
+      name: clean,
+      isDirectory,
+      type: isDirectory ? "directory" : "file",
+      path: joinPath(basePath, clean)
+    };
+  });
+}
+
+function renderItems(got, basePath) {
+  const items = fromItemsFallback(got, basePath);
   const list = $("fileList");
+
   list.innerHTML = "";
   list.classList.toggle("icon-mode", viewMode === "icon");
   list.classList.toggle("list-mode", viewMode === "list");
 
+  selectedPaths.clear();
+  updateSelectedCount();
+
   if (!items || !items.length) {
-    text("fileList", "No files.");
+    list.textContent = "No files.";
     return;
   }
 
@@ -61,14 +85,14 @@ function renderItems(items, basePath) {
 
     row.innerHTML = [
       '<span class="file-icon">' + iconFor(item) + "</span>",
-      "<span>" + item.name + (item.isDirectory && !item.name.endsWith("/") ? "/" : "") + "</span>",
+      "<span title=\"" + fullPath.replace(/"/g, "&quot;") + "\">" + item.name + (item.isDirectory && !item.name.endsWith("/") ? "/" : "") + "</span>",
       "<span>" + (item.isDirectory ? "open" : "select") + "</span>"
     ].join("");
 
     row.onclick = async e => {
       selectedPath = fullPath;
 
-      if (e.ctrlKey || e.metaKey) {
+      if (e.ctrlKey || e.metaKey || e.shiftKey) {
         if (selectedPaths.has(fullPath)) selectedPaths.delete(fullPath);
         else selectedPaths.add(fullPath);
         row.classList.toggle("selected", selectedPaths.has(fullPath));
@@ -98,14 +122,21 @@ function renderItems(items, basePath) {
 }
 
 function updateSelectedCount() {
-  const count = selectedPaths.size;
-  $("crumb").textContent = normalizePath($("explorerPath").value) + " • selected " + count;
+  $("selectedCount").textContent = selectedPaths.size + " selected";
 }
 
-function showCommand(getTunnelName, opts) {
-  const url = buildFsUrl(getTunnelName(), opts);
+function showCommand(opts) {
+  const url = buildFsUrl(window.awtsGetTunnelName(), opts);
   $("currentCommandOut").textContent = url;
   $("actionUrlOut").textContent = url;
+}
+
+function showPreview(got) {
+  if (got && typeof got.content === "string") {
+    $("readablePreview").textContent = got.content;
+  } else {
+    $("readablePreview").textContent = JSON.stringify(got, null, 2);
+  }
 }
 
 async function loadList() {
@@ -113,11 +144,12 @@ async function loadList() {
   setPath(path);
 
   const opts = { action: "list", path };
-  showCommand(window.awtsGetTunnelName, opts);
+  showCommand(opts);
 
   const got = await callFs(window.awtsGetTunnelName(), opts);
   jsonText("explorerOut", got);
-  renderItems(got.detailedItems || null, path);
+  showPreview(got);
+  renderItems(got, path);
 }
 
 async function loadTree() {
@@ -128,24 +160,33 @@ async function loadTree() {
     limit: $("treeLimit").value
   };
 
-  showCommand(window.awtsGetTunnelName, opts);
-  jsonText("explorerOut", await callFs(window.awtsGetTunnelName(), opts));
+  showCommand(opts);
+
+  const got = await callFs(window.awtsGetTunnelName(), opts);
+  jsonText("explorerOut", got);
+  showPreview(got.treeText || got);
 }
 
 async function readSelected() {
   const path = selectedPath || $("explorerPath").value || ".";
   const opts = { action: "read", path };
 
-  showCommand(window.awtsGetTunnelName, opts);
-  jsonText("explorerOut", await callFs(window.awtsGetTunnelName(), opts));
+  showCommand(opts);
+
+  const got = await callFs(window.awtsGetTunnelName(), opts);
+  jsonText("explorerOut", got);
+  showPreview(got);
 }
 
 async function readSelectedMd() {
   const path = selectedPath || $("explorerPath").value || ".";
   const opts = { action: "md", path };
 
-  showCommand(window.awtsGetTunnelName, opts);
-  jsonText("explorerOut", await callFs(window.awtsGetTunnelName(), opts));
+  showCommand(opts);
+
+  const got = await callFs(window.awtsGetTunnelName(), opts);
+  jsonText("explorerOut", got);
+  showPreview(got);
 }
 
 async function bulkSelected() {
@@ -157,8 +198,11 @@ async function bulkSelected() {
     paths
   };
 
-  showCommand(window.awtsGetTunnelName, opts);
-  jsonText("explorerOut", await callFs(window.awtsGetTunnelName(), opts));
+  showCommand(opts);
+
+  const got = await callFs(window.awtsGetTunnelName(), opts);
+  jsonText("explorerOut", got);
+  showPreview(got);
 }
 
 export function mountExplorer() {
@@ -194,6 +238,7 @@ export function mountExplorer() {
       tab.classList.add("active");
       $("explorerOut").classList.toggle("hidden", tab.dataset.viewer !== "response");
       $("currentCommandOut").classList.toggle("hidden", tab.dataset.viewer !== "command");
+      $("readablePreview").classList.toggle("hidden", tab.dataset.viewer !== "preview");
     };
   }
 
@@ -201,6 +246,9 @@ export function mountExplorer() {
     if (e.key === "Enter") loadList();
   });
 
-  setPath($("explorerPath").value || ".");
-  text("fileList", "Click List to load files.");
+  readLocalSetting("lastExplorerPath:" + window.awtsGetTunnelName(), ".").then(path => {
+    setPath(path || ".");
+  });
+
+  $("fileList").textContent = "Click List to load files.";
 }

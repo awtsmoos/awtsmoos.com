@@ -3,6 +3,7 @@
 
 import { $, jsonText } from "../lib/dom.js";
 import { callFs } from "../api/tunnel.js";
+import { saveLocalSetting } from "../state/storage.js";
 
 function readTools() {
   return {
@@ -14,18 +15,23 @@ function readTools() {
   };
 }
 
+function setChecked(id, value) {
+  $(id).checked = !!value;
+}
+
 function applyConfig(config) {
   if (!config) return;
 
   $("rootPath").value = config.root || "";
-  $("allowWrite").checked = !!config.allowWrite;
-  $("allowSecrets").checked = !!config.allowSecrets;
-  $("enableLocalHttpProxy").checked = !!config.enableLocalHttpProxy;
-  $("toolFsList").checked = config.tools?.fsList !== false;
-  $("toolFsTree").checked = config.tools?.fsTree !== false;
-  $("toolFsRead").checked = config.tools?.fsRead !== false;
-  $("toolFsWrite").checked = config.tools?.fsWrite !== false;
-  $("toolFsBulk").checked = config.tools?.fsBulk !== false;
+  setChecked("allowWrite", !!config.allowWrite);
+  setChecked("allowSecrets", !!config.allowSecrets);
+  setChecked("enableLocalHttpProxy", !!config.enableLocalHttpProxy);
+
+  setChecked("toolFsList", config.tools?.fsList !== false);
+  setChecked("toolFsTree", config.tools?.fsTree !== false);
+  setChecked("toolFsRead", config.tools?.fsRead !== false);
+  setChecked("toolFsWrite", config.tools?.fsWrite !== false);
+  setChecked("toolFsBulk", config.tools?.fsBulk !== false);
 
   renderRoots(config.roots || [], config.home);
 }
@@ -51,6 +57,11 @@ export async function loadConfig(getTunnelName) {
   const got = await callFs(getTunnelName(), { action: "configGet" });
   applyConfig(got.config);
   jsonText("configOut", got);
+
+  if (got.config) {
+    await saveLocalSetting("lastConfig:" + getTunnelName(), got.config);
+  }
+
   return got;
 }
 
@@ -66,6 +77,11 @@ export async function saveConfig(getTunnelName) {
 
   applyConfig(got.config);
   jsonText("configOut", got);
+
+  if (got.config) {
+    await saveLocalSetting("lastConfig:" + getTunnelName(), got.config);
+  }
+
   return got;
 }
 
@@ -79,7 +95,12 @@ export function mountConfig(getTunnelName) {
   $("loadConfigBtn").onclick = () => loadConfig(getTunnelName);
   $("saveConfigBtn").onclick = () => saveConfig(getTunnelName);
   $("rootsBtn").onclick = () => loadRoots(getTunnelName);
+
   $("useRepoRootBtn").onclick = () => {
     $("rootPath").value = "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com";
+  };
+
+  $("applyRootToExplorerBtn").onclick = () => {
+    $("explorerPath").value = ".";
   };
 }

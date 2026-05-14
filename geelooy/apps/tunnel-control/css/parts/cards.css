@@ -26,9 +26,14 @@
 
 .setup-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
   gap: 18px;
   align-items: start;
+}
+
+.root-column,
+.permissions-column {
+  min-width: 0;
 }
 
 .card-head {
@@ -68,9 +73,18 @@ h2 {
   line-height: 1.55;
 }
 
-.note {
+.note,
+.root-help {
   color: var(--muted);
   line-height: 1.55;
+}
+
+.root-help {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(0,0,0,.18);
+  padding: 12px;
+  margin-top: 12px;
 }
 
 .mini-title {
@@ -88,6 +102,10 @@ h2 {
   font-weight: 800;
   line-height: 1.45;
   min-height: 80px;
+}
+
+.summary-panel span {
+  color: var(--muted);
 }
 
 .details-box {
@@ -110,13 +128,4 @@ h2 {
   border: 0;
   border-radius: 0;
   max-height: 280px;
-}
-
-.feature-grid div {
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 14px;
-  background: var(--panel3);
-  color: var(--muted);
-  font-weight: 800;
 }
