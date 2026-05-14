@@ -40,6 +40,7 @@ function normalizeConfig(old) {
     allowWrite: old?.allowWrite !== false,
     allowSecrets: !!old?.allowSecrets,
     enableLocalHttpProxy: old?.enableLocalHttpProxy !== false,
+    allowCommands: !!old?.allowCommands,
     tools: {
       fsList: old?.tools?.fsList !== false,
       fsTree: old?.tools?.fsTree !== false,
@@ -47,7 +48,14 @@ function normalizeConfig(old) {
       fsWrite: old?.tools?.fsWrite !== false,
       fsBulk: old?.tools?.fsBulk !== false,
       httpProxy: old?.tools?.httpProxy !== false,
+      command: !!old?.tools?.command,
       chrome: !!old?.tools?.chrome
+    },
+    command: {
+      enabled: !!old?.command?.enabled,
+      defaultShell: old?.command?.defaultShell || (process.platform === "win32" ? "powershell" : "bash"),
+      timeoutMs: Number(old?.command?.timeoutMs || 20000),
+      maxOutput: Number(old?.command?.maxOutput || 120000)
     },
     chrome: {
       enabled: !!old?.chrome?.enabled,
@@ -67,12 +75,17 @@ function loadConfig() {
 
 function saveConfigPatch(patch) {
   const current = loadConfig();
+
   const next = normalizeConfig({
     ...current,
     ...patch,
     tools: {
       ...current.tools,
       ...(patch.tools || {})
+    },
+    command: {
+      ...current.command,
+      ...(patch.command || {})
     },
     chrome: {
       ...current.chrome,

@@ -1,3 +1,4 @@
+
 // B"H
 
 function from64(value) {
@@ -27,21 +28,21 @@ function queryValue($i, name, fallback = "") {
   return q[name] ?? fallback;
 }
 
-/**
- * B"H
- * Builds the filesystem/control payload used by the tunnel agent.
- *
- * Supports:
- * list/tree/read/md/bulk/write/bulkWrite
- * configGet/configSet/roots/openRoot
- * rootBrowse/rootSelect
- */
+function actionKind(action) {
+  action = String(action || "");
+
+  if (action.startsWith("chrome")) return "chrome";
+  if (action.startsWith("command")) return "command";
+  return "fs";
+}
+
 function buildFsPayload($i) {
   const action = queryValue($i, "action", "list");
+  const kind = actionKind(action);
   const p = queryValue($i, "p", queryValue($i, "path", "."));
 
   const payload = {
-    kind: "fs",
+    kind,
     action,
     path: p,
     absolutePath: queryValue($i, "absolutePath", ""),
@@ -51,7 +52,19 @@ function buildFsPayload($i) {
     depth: Number(queryValue($i, "depth", 2)),
     limit: Number(queryValue($i, "limit", 150)),
     maxChars: Number(queryValue($i, "maxChars", 12000)),
-    content: from64(queryValue($i, "content64"))
+    content: from64(queryValue($i, "content64")),
+
+    command: from64(queryValue($i, "command64")),
+    shell: queryValue($i, "shell", ""),
+    cwd: queryValue($i, "cwd", ""),
+    timeoutMs: Number(queryValue($i, "timeoutMs", 20000)),
+
+    url: queryValue($i, "url", ""),
+    selector: queryValue($i, "selector", ""),
+    expression: from64(queryValue($i, "expression64")),
+    port: Number(queryValue($i, "port", 9222)),
+    chromePath: queryValue($i, "chromePath", ""),
+    userDataDir: queryValue($i, "userDataDir", "")
   };
 
   const root = queryValue($i, "root", "");
@@ -59,34 +72,54 @@ function buildFsPayload($i) {
   const relay = queryValue($i, "relay", "");
   const tunnelName = queryValue($i, "setTunnelName", "");
   const tools = jsonFrom64(queryValue($i, "tools64"), null);
+  const chrome = jsonFrom64(queryValue($i, "chrome64"), null);
+  const commandConfig = jsonFrom64(queryValue($i, "commandConfig64"), null);
 
   if (root) payload.root = root;
   if (local) payload.local = local;
   if (relay) payload.relay = relay;
   if (tunnelName) payload.tunnelName = tunnelName;
   if (tools) payload.tools = tools;
+  if (chrome) payload.chrome = chrome;
+  if (commandConfig) payload.commandConfig = commandConfig;
 
   const allowWrite = boolValue(queryValue($i, "allowWrite", undefined));
   const allowSecrets = boolValue(queryValue($i, "allowSecrets", undefined));
   const enableLocalHttpProxy = boolValue(queryValue($i, "enableLocalHttpProxy", undefined));
+  const allowCommands = boolValue(queryValue($i, "allowCommands", undefined));
 
   if (allowWrite !== undefined) payload.allowWrite = allowWrite;
   if (allowSecrets !== undefined) payload.allowSecrets = allowSecrets;
   if (enableLocalHttpProxy !== undefined) payload.enableLocalHttpProxy = enableLocalHttpProxy;
+  if (allowCommands !== undefined) payload.allowCommands = allowCommands;
 
   return payload;
 }
 
-function actionNeedsWrite(action) {
-  return (
+function actionRequiredScope(action) {
+  action = String(action || "");
+
+  if (action.startsWith("command")) return "tunnel.command";
+  if (action.startsWith("chrome")) return "tunnel.browser";
+
+  if (
     action === "write" ||
     action === "bulkWrite" ||
     action === "configSet" ||
     action === "rootSelect"
-  );
+  ) {
+    return "tunnel.write";
+  }
+
+  return "tunnel.read";
+}
+
+function actionNeedsWrite(action) {
+  return actionRequiredScope(action) === "tunnel.write";
 }
 
 module.exports = {
   buildFsPayload,
+  actionRequiredScope,
   actionNeedsWrite
 };

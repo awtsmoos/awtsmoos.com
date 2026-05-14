@@ -1,4 +1,4 @@
-<!--B"H-->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,7 +14,7 @@
         <p class="eyebrow">B"H • Awtsmoos Local Agent</p>
         <h1>Control your machine like a real file explorer.</h1>
         <p class="lead">
-          Choose a root, activate an API key, browse files, read and write safely,
+          Choose a root, activate an API key, browse files, run tests, open Chrome,
           and give any AI a controlled tunnel into your project.
         </p>
 
@@ -30,6 +30,7 @@
           <button class="button" id="refreshBtn">Refresh</button>
           <a class="button" id="loginLink" href="/login">Login</a>
           <a class="button danger hidden" id="logoutLink" href="/logout">Logout</a>
+          <a class="button" href="/api/tunnel/control/docs">API Docs</a>
         </div>
       </div>
 
@@ -52,9 +53,11 @@
       <a href="#setup">Setup</a>
       <a href="#keys">API Keys</a>
       <a href="#explorer">Explorer</a>
-      <a href="#account">Account</a>
       <a href="#usage">Usage</a>
-      <a href="#actions">Advanced</a>
+      <a href="#terminal">Terminal</a>
+      <a href="#chrome">Chrome</a>
+      <a href="#agentDocs">Agent Docs</a>
+      <a href="#account">Account</a>
       <a href="#install">Install</a>
     </nav>
 
@@ -117,7 +120,7 @@
           </div>
           <div class="quick-roots" id="quickRoots"></div>
           <div class="notice">
-            Setup actions use your logged-in session. File list/read/write uses the active API key.
+            Setup/root-picker uses browser login. File/terminal/Chrome actions use the active API key or OAuth.
           </div>
         </div>
 
@@ -132,6 +135,9 @@
             <label class="switch-card"><input type="checkbox" id="toolFsRead" checked><span>Read</span></label>
             <label class="switch-card"><input type="checkbox" id="toolFsWrite" checked><span>Write</span></label>
             <label class="switch-card"><input type="checkbox" id="toolFsBulk" checked><span>Bulk</span></label>
+            <label class="switch-card warning-switch"><input type="checkbox" id="allowCommands"><span>Allow terminal commands</span></label>
+            <label class="switch-card warning-switch"><input type="checkbox" id="toolCommand"><span>Terminal tool</span></label>
+            <label class="switch-card"><input type="checkbox" id="toolChrome"><span>Chrome tool</span></label>
           </div>
         </div>
       </div>
@@ -159,7 +165,8 @@
           <div class="scope-picker">
             <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.read" checked><span>tunnel.read</span><small>list, tree, read</small></label>
             <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.write"><span>tunnel.write</span><small>write, bulk write</small></label>
-            <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.browser"><span>tunnel.browser</span><small>future browser control</small></label>
+            <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.command"><span>tunnel.command</span><small>run terminal commands</small></label>
+            <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.browser"><span>tunnel.browser</span><small>Chrome DevTools control</small></label>
             <label class="scope-card"><input type="checkbox" class="scopeBox" value="tunnel.admin"><span>tunnel.admin</span><small>full tunnel control</small></label>
           </div>
 
@@ -244,7 +251,58 @@
     </section>
 
     <section class="grid two">
-      <div class="card">
+      <div class="card terminal-card" id="terminal">
+        <p class="eyebrow">Terminal</p>
+        <h2>Command runner</h2>
+        <div class="notice command-warning">
+          Terminal commands are powerful. Enable terminal permission, create an API key with tunnel.command, and keep cwd inside the root.
+        </div>
+        <div class="toolbar">
+          <label>Shell
+            <select id="commandShell">
+              <option value="powershell">PowerShell</option>
+              <option value="cmd">CMD</option>
+              <option value="bash">Bash</option>
+              <option value="sh">sh</option>
+            </select>
+          </label>
+          <label>CWD inside root <input id="commandCwd" value="."></label>
+          <label>Timeout ms <input id="commandTimeout" type="number" value="20000"></label>
+        </div>
+        <label>Command <textarea id="commandText">node -v</textarea></label>
+        <button class="button primary" id="runCommandBtn">Run command</button>
+        <pre class="terminal-output" id="commandOut">Ready.</pre>
+      </div>
+
+      <div class="card chrome-card" id="chrome">
+        <p class="eyebrow">Chrome</p>
+        <h2>Browser control lab</h2>
+        <div class="toolbar">
+          <label>Chrome path <input id="chromePath" placeholder="auto-detect or paste chrome.exe"></label>
+          <label>Port <input id="chromePort" type="number" value="9222"></label>
+          <label>URL <input id="chromeUrl" value="https://awtsmoos.com"></label>
+        </div>
+        <div class="row">
+          <button class="button" id="chromeFindBtn">Find Chrome</button>
+          <button class="button primary" id="chromeLaunchBtn">Launch / Connect</button>
+          <button class="button" id="chromeStatusBtn">Status</button>
+          <button class="button" id="chromeNavigateBtn">Navigate</button>
+        </div>
+        <div class="toolbar">
+          <label>Selector <input id="chromeSelector" value="body"></label>
+          <label>JS expression <input id="chromeExpression" value="document.title"></label>
+          <label>Wait timeout <input id="chromeTimeout" type="number" value="10000"></label>
+        </div>
+        <div class="row">
+          <button class="button" id="chromeWaitBtn">Wait for selector</button>
+          <button class="button" id="chromeEvalBtn">Evaluate JS</button>
+        </div>
+        <pre id="chromeOut">Ready.</pre>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="card" id="agentDocs">
         <p class="eyebrow">GPT / Any AI</p>
         <h2>Agent instructions</h2>
         <label>Project path <input id="projectPath" value="."></label>
@@ -284,6 +342,13 @@
             <option>write</option>
             <option>bulk</option>
             <option>bulkWrite</option>
+            <option>commandRun</option>
+            <option>chromeFind</option>
+            <option>chromeLaunch</option>
+            <option>chromeStatus</option>
+            <option>chromeNavigate</option>
+            <option>chromeWaitForSelector</option>
+            <option>chromeEval</option>
             <option>configGet</option>
             <option>configSet</option>
             <option>roots</option>
@@ -310,6 +375,16 @@ index.js</textarea></label>
       <pre id="actionUrlOut"></pre>
       <pre id="actionOut">Ready.</pre>
     </details>
+
+    <section class="card">
+      <p class="eyebrow">API Documentation</p>
+      <h2>Use this from any AI or program</h2>
+      <div class="doc-link-grid">
+        <a class="doc-link-card" href="/api/tunnel/control/docs">Human API Docs</a>
+        <a class="doc-link-card" href="/api/tunnel/control/docs.json">Machine JSON Docs</a>
+        <a class="doc-link-card" href="/api/tunnel/control/openapi">OpenAPI YAML</a>
+      </div>
+    </section>
 
     <section class="card" id="install">
       <p class="eyebrow">Install / Restart</p>

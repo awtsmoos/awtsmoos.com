@@ -1,0 +1,76 @@
+
+/* B"H */
+.usage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 14px 0;
+}
+
+.usage-tile {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(139,211,255,.11), transparent 45%),
+    rgba(0,0,0,.23);
+  overflow: hidden;
+}
+
+.usage-tile span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+}
+
+.usage-tile strong {
+  display: block;
+  margin: 6px 0 12px;
+  font-size: 28px;
+  letter-spacing: -.04em;
+}
+
+.meter {
+  height: 12px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.08);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.meter-bar {
+  height: 100%;
+  width: var(--p, 0%);
+  max-width: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--a), var(--b));
+  box-shadow: 0 0 22px rgba(139,211,255,.45);
+  animation: meterGlow 1.8s ease-in-out infinite alternate;
+  transition: width .7s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes meterGlow {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.35); }
+}
+
+.buy-tokens-card {
+  border: 1px solid rgba(215,167,255,.42);
+  border-radius: 24px;
+  padding: 18px;
+  background:
+    radial-gradient(circle at top left, rgba(215,167,255,.22), transparent 42%),
+    rgba(0,0,0,.22);
+}
+
+.buy-tokens-card h3 {
+  margin: 0 0 8px;
+}
+
+.buy-tokens-card p {
+  color: var(--muted);
+  line-height: 1.5;
+}

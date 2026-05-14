@@ -1,0 +1,23 @@
+
+/* B"H */
+.chrome-card {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(139,211,255,.13), transparent 38%),
+    var(--panel);
+}
+
+.chrome-card pre {
+  min-height: 220px;
+}
+
+.chrome-pages {
+  display: grid;
+  gap: 8px;
+}
+
+.chrome-page-row {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 10px;
+  background: rgba(0,0,0,.18);
+}

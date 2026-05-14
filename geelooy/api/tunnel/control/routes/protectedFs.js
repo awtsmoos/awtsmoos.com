@@ -3,11 +3,8 @@
 
 const { json } = require("../core/respond.js");
 const { currentIdentity } = require("../core/auth.js");
-const { buildFsPayload, actionNeedsWrite } = require("../core/tunnelPayload.js");
-const {
-  scopeAllowed,
-  enforceApiKeyRate
-} = require("../core/apiKeyStore.js");
+const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.js");
+const { scopeAllowed, enforceApiKeyRate } = require("../core/apiKeyStore.js");
 const { recordUsage } = require("../core/usageStore.js");
 
 function responseBytes(obj) {
@@ -18,12 +15,6 @@ function responseBytes(obj) {
   }
 }
 
-/**
- * B"H
- * These actions are allowed from a normal logged-in browser session because
- * they power the hosted control panel itself. They still require the user to be
- * logged in. They do NOT expose arbitrary file contents.
- */
 const SESSION_SAFE_ACTIONS = new Set([
   "configGet",
   "configSet",
@@ -37,16 +28,6 @@ function mayUseSessionForDashboard(payload) {
   return SESSION_SAFE_ACTIONS.has(payload.action);
 }
 
-/**
- * B"H
- * Protected tunnel filesystem endpoint.
- *
- * Browser session:
- * - allowed for dashboard setup/root picker/config actions only
- *
- * API key or OAuth:
- * - required for list/tree/read/write/bulk file actions
- */
 async function protectedFs($i, vars) {
   const ident = currentIdentity($i);
 
@@ -66,15 +47,13 @@ async function protectedFs($i, vars) {
       BH: "B\"H",
       ok: false,
       error: "api_key_or_oauth_required",
-      details: "For file listing/reading/writing, create or paste an API key in the dashboard first. Setup actions like root picker are allowed with browser login."
+      details: "Setup and root picker may use browser login. File, terminal, and Chrome actions require x-awtsmoos-api-key or OAuth."
     }, 401);
   }
 
-  const neededScope = actionNeedsWrite(payload.action)
-    ? "tunnel.write"
-    : "tunnel.read";
+  const neededScope = actionRequiredScope(payload.action);
 
-  if (ident.kind !== "session" && !scopeAllowed(ident, neededScope)) {
+  if (ident.kind !== "session" && !scopeAllowed(ident, neededScope) && !scopeAllowed(ident, "tunnel.admin")) {
     return json($i, {
       BH: "B\"H",
       ok: false,
@@ -102,7 +81,7 @@ async function protectedFs($i, vars) {
       userId: ident.userId,
       keyId: ident.keyId || null,
       action: payload.action,
-      path: payload.path || payload.absolutePath || null,
+      path: payload.path || payload.absolutePath || payload.cwd || payload.url || null,
       bytes,
       ok: result.ok !== false
     });
@@ -113,7 +92,7 @@ async function protectedFs($i, vars) {
       userId: ident.userId,
       keyId: ident.keyId || null,
       action: payload.action,
-      path: payload.path || payload.absolutePath || null,
+      path: payload.path || payload.absolutePath || payload.cwd || payload.url || null,
       ok: false
     });
 

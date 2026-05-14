@@ -1,3 +1,4 @@
+
 // B"H
 const fsp = require("fs/promises");
 const path = require("path");
@@ -19,8 +20,10 @@ function publicConfig(config) {
     root: config.root,
     allowWrite: config.allowWrite,
     allowSecrets: config.allowSecrets,
+    allowCommands: config.allowCommands,
     enableLocalHttpProxy: config.enableLocalHttpProxy,
     tools: config.tools,
+    command: config.command,
     chrome: config.chrome,
     platform: process.platform,
     hostname: os.hostname(),
@@ -38,8 +41,10 @@ async function handleConfigSet(payload, ws) {
   if (payload.tunnelName) patch.tunnelName = String(payload.tunnelName);
   if (typeof payload.allowWrite === "boolean") patch.allowWrite = payload.allowWrite;
   if (typeof payload.allowSecrets === "boolean") patch.allowSecrets = payload.allowSecrets;
+  if (typeof payload.allowCommands === "boolean") patch.allowCommands = payload.allowCommands;
   if (typeof payload.enableLocalHttpProxy === "boolean") patch.enableLocalHttpProxy = payload.enableLocalHttpProxy;
   if (payload.tools && typeof payload.tools === "object") patch.tools = payload.tools;
+  if (payload.commandConfig && typeof payload.commandConfig === "object") patch.command = payload.commandConfig;
   if (payload.chrome && typeof payload.chrome === "object") patch.chrome = payload.chrome;
 
   if (patch.root) {
@@ -57,7 +62,8 @@ async function handleConfigSet(payload, ws) {
       root: next.root,
       allowWrite: next.allowWrite,
       allowSecrets: next.allowSecrets,
-      agentVersion: "split-agent-0.3.0"
+      allowCommands: next.allowCommands,
+      agentVersion: "split-agent-0.5.0"
     });
   }
 
@@ -95,6 +101,7 @@ async function handleFsAction(payload, ws) {
       }
 
       const stat = await fsp.stat(chosen);
+
       if (!stat.isDirectory()) {
         return { ok: false, action, error: "not_a_directory", chosen };
       }
@@ -109,7 +116,8 @@ async function handleFsAction(payload, ws) {
           root: next.root,
           allowWrite: next.allowWrite,
           allowSecrets: next.allowSecrets,
-          agentVersion: "split-agent-0.3.0"
+          allowCommands: next.allowCommands,
+          agentVersion: "split-agent-0.5.0"
         });
       }
 
@@ -161,6 +169,7 @@ async function handleFsAction(payload, ws) {
     async bulk() {
       if (!config.tools.fsBulk) throw new Error("fsBulk disabled.");
       const files = {};
+
       for (const one of payload.paths || []) {
         try {
           files[one] = await readText(config, one, maxChars);
@@ -168,6 +177,7 @@ async function handleFsAction(payload, ws) {
           files[one] = { error: e.message };
         }
       }
+
       return { ok: true, action, root: config.root, files };
     },
 
@@ -180,6 +190,7 @@ async function handleFsAction(payload, ws) {
       if (!config.tools.fsBulk) throw new Error("fsBulk disabled.");
       const writes = normalizeWrites(payload);
       const results = {};
+
       for (const one of writes) {
         try {
           results[one.path] = await writeText(config, one.path, one.content);
@@ -187,6 +198,7 @@ async function handleFsAction(payload, ws) {
           results[one.path] = { error: e.message };
         }
       }
+
       return { ok: true, action, root: config.root, count: writes.length, results };
     }
   };

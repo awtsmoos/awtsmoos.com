@@ -9,15 +9,12 @@ const { revokeApiKey } = require("./revokeApiKey.js");
 const { usage } = require("./usage.js");
 const { protectedFs } = require("./protectedFs.js");
 const { openApi } = require("./openApi.js");
+const { docsHtml } = require("./docsHtml.js");
+const { docsJson } = require("./docsJson.js");
 
 /**
  * B"H
- * Tunnel control route table.
- *
- * Important:
- * - /api/tunnel/control/fs/:tunnelName is protected by session/OAuth/API-key.
- * - The old raw /api/tunnel/fs/:tunnelName route is only dev-mode.
- * - /api/tunnel/control/openapi returns YAML for a Custom GPT Action.
+ * Route table for /api/tunnel/control.
  */
 const routeTable = {
   me,
@@ -27,7 +24,9 @@ const routeTable = {
   "api-keys/revoke": revokeApiKey,
   usage,
   "fs/:tunnelName": protectedFs,
-  openapi: openApi
+  openapi: openApi,
+  docs: docsHtml,
+  "docs.json": docsJson
 };
 
 module.exports = { routeTable };

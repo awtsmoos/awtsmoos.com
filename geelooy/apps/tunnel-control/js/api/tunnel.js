@@ -36,7 +36,23 @@ export function buildFsUrl(tunnelName, opts = {}) {
   if (typeof opts.allowWrite === "boolean") u.searchParams.set("allowWrite", String(opts.allowWrite));
   if (typeof opts.allowSecrets === "boolean") u.searchParams.set("allowSecrets", String(opts.allowSecrets));
   if (typeof opts.enableLocalHttpProxy === "boolean") u.searchParams.set("enableLocalHttpProxy", String(opts.enableLocalHttpProxy));
+  if (typeof opts.allowCommands === "boolean") u.searchParams.set("allowCommands", String(opts.allowCommands));
+
   if (opts.tools) u.searchParams.set("tools64", b64Json(opts.tools));
+  if (opts.chrome) u.searchParams.set("chrome64", b64Json(opts.chrome));
+  if (opts.commandConfig) u.searchParams.set("commandConfig64", b64Json(opts.commandConfig));
+
+  if (opts.command) u.searchParams.set("command64", b64Text(opts.command));
+  if (opts.shell) u.searchParams.set("shell", opts.shell);
+  if (opts.cwd) u.searchParams.set("cwd", opts.cwd);
+  if (opts.timeoutMs) u.searchParams.set("timeoutMs", String(opts.timeoutMs));
+
+  if (opts.url) u.searchParams.set("url", opts.url);
+  if (opts.selector) u.searchParams.set("selector", opts.selector);
+  if (opts.expression) u.searchParams.set("expression64", b64Text(opts.expression));
+  if (opts.port) u.searchParams.set("port", String(opts.port));
+  if (opts.chromePath) u.searchParams.set("chromePath", opts.chromePath);
+  if (opts.userDataDir) u.searchParams.set("userDataDir", opts.userDataDir);
 
   return u.toString();
 }
@@ -53,12 +69,11 @@ export async function callFs(tunnelName, opts) {
       BH: "B\"H",
       ok: false,
       error: "missing_active_api_key",
-      message: "Create, paste, or select an API key first. Setup/root picker works with login, but file actions require API key or OAuth."
+      message: "Create, paste, or select an API key first. Setup/root picker works with login, but file/terminal/Chrome actions require API key or OAuth."
     };
   }
 
   const headers = apiKey ? await authHeaders() : {};
-
   return await getJson(url, { headers });
 }
 

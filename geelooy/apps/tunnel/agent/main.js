@@ -1,3 +1,4 @@
+
 // B"H
 const os = require("os");
 const http = require("http");
@@ -8,7 +9,8 @@ const { makeLogger } = require("./lib/log.js");
 const { openHostedControl } = require("./lib/open.js");
 const { TinyWebSocket } = require("./lib/ws.js");
 const { handleFs } = require("./tools/fs/index.js");
-const { handleChrome } = require("./tools/chrome.js");
+const { handleCommand } = require("./tools/command/index.js");
+const { handleChrome } = require("./tools/chrome/index.js");
 
 const log = makeLogger(ROOT);
 
@@ -70,7 +72,8 @@ function register(ws) {
     root: config.root,
     allowWrite: config.allowWrite,
     allowSecrets: config.allowSecrets,
-    agentVersion: "split-agent-0.3.0"
+    allowCommands: config.allowCommands,
+    agentVersion: "split-agent-0.5.0"
   });
 
   log("Tunnel connected:", config.tunnelName, "root:", config.root);
@@ -99,6 +102,8 @@ function connect() {
 
       if (payload.kind === "fs") {
         result = await handleFs(payload, ws);
+      } else if (payload.kind === "command") {
+        result = await handleCommand(payload);
       } else if (payload.kind === "chrome") {
         result = await handleChrome(payload);
       } else {

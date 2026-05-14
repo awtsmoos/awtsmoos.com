@@ -11,6 +11,8 @@ import { mountExplorer } from "./features/explorer.js";
 import { mountActions } from "./features/actions.js";
 import { mountApiKeys } from "./features/apiKeys.js";
 import { mountUsage } from "./features/usage.js";
+import { mountTerminal } from "./features/terminal.js";
+import { mountChrome } from "./features/chrome.js";
 import { mountConfig, loadConfig } from "./features/config.js";
 import { mountRootPicker } from "./features/rootPicker.js";
 import { state } from "./state/state.js";
@@ -74,6 +76,8 @@ async function main() {
   await safeMount("actions", () => mountActions(getTunnelName));
   await safeMount("apiKeys", () => mountApiKeys());
   await safeMount("usage", () => mountUsage());
+  await safeMount("terminal", () => mountTerminal(getTunnelName));
+  await safeMount("chrome", () => mountChrome(getTunnelName));
 
   renderPrompt();
 
