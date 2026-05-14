@@ -6,7 +6,7 @@ const { saveCode } = require("../core/codeStore.js");
 const { validateScope } = require("../core/scopes.js");
 const { getQuery, getBody } = require("../tools/requestData.js");
 const { json, html, browserRedirect } = require("../tools/respond.js");
-const { localUrlFor, urlWithParams } = require("../tools/urls.js");
+const { localUrlFor, urlWithParams, fullUrlFor } = require("../tools/urls.js");
 const { getUserId } = require("../core/currentUser.js");
 
 function esc(x) {
@@ -17,17 +17,25 @@ function esc(x) {
     .replace(/"/g, "&quot;");
 }
 
+function isApproved(value) {
+  const v = String(value ?? "").trim().toLowerCase();
+  return v === "1" || v === "true" || v === "yes" || v === "y" || v === "approve" || v === "approved";
+}
+
 function buildAuthorizeUrl(opts) {
   return localUrlFor("/api/oauth/authorize", {
     response_type: "code",
     client_id: opts.clientId,
     redirect_uri: opts.redirectUri,
     scope: opts.scope,
-    state: opts.state || ""
+    state: opts.state || "",
+    approve: opts.approve || ""
   });
 }
 
 function approvalHtml(opts) {
+  const approveUrlJson = JSON.stringify(opts.approveUrl);
+
   return "<!doctype html>" +
     "<html><head><meta charset='utf-8'><title>Approve OAuth</title>" +
     "<meta name='viewport' content='width=device-width, initial-scale=1'>" +
@@ -36,15 +44,19 @@ function approvalHtml(opts) {
     "main{width:min(760px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:34px;background:rgba(255,255,255,.08);box-shadow:0 32px 110px rgba(0,0,0,.45);backdrop-filter:blur(16px)}" +
     "h1{font-size:clamp(38px,7vw,68px);line-height:.92;letter-spacing:-.06em;margin:0 0 14px}" +
     "p{color:#c3cae0;line-height:1.55}code{color:#89d7ff;word-break:break-all}" +
-    "a.button{display:inline-block;margin-top:16px;padding:14px 20px;border-radius:999px;background:linear-gradient(135deg,#89d7ff,#d3a1ff);color:#07101d;text-decoration:none;font-weight:950}" +
+    "button,a.button{display:inline-block;margin-top:16px;padding:14px 20px;border:0;border-radius:999px;background:linear-gradient(135deg,#89d7ff,#d3a1ff);color:#07101d;text-decoration:none;font-weight:950;font-size:16px;cursor:pointer}" +
     ".box{margin-top:18px;padding:14px;border:1px solid rgba(255,255,255,.15);border-radius:18px;background:rgba(0,0,0,.22)}" +
     "</style></head><body><main>" +
     "<h1>B&quot;H Allow Access?</h1>" +
     "<p><strong>" + esc(opts.client.name) + "</strong> wants OAuth access to your Awtsmoos account.</p>" +
     "<p>User: <code>" + esc(opts.userId) + "</code></p>" +
     "<p>Scopes: <code>" + esc(opts.scope) + "</code></p>" +
-    "<a class='button' href='" + esc(opts.approveUrl) + "'>Allow</a>" +
+    "<button type='button' id='allowBtn'>Allow</button>" +
+    "<noscript><a class='button' href='" + esc(opts.approveUrl) + "'>Allow</a></noscript>" +
     "<div class='box'><p>If the button does nothing, copy this URL:</p><code>" + esc(opts.approveUrl) + "</code></div>" +
+    "<script>" +
+    "document.getElementById('allowBtn').addEventListener('click',function(){window.location.href=" + approveUrlJson + ";});" +
+    "</script>" +
     "</main></body></html>";
 }
 
@@ -57,7 +69,7 @@ async function authorize($i) {
   const redirectUri = q.redirect_uri || post.redirect_uri || "";
   const requestedScope = q.scope || post.scope || "";
   const state = q.state || post.state || "";
-  const approve = q.approve || post.approve || "";
+  const approveRaw = q.approve || post.approve || "";
 
   if (responseType !== "code") {
     return json($i, {
@@ -126,13 +138,16 @@ async function authorize($i) {
     );
   }
 
-  if (!client.autoApprove && approve !== "1") {
-    const approveUrl = buildAuthorizeUrl({
+  if (!client.autoApprove && !isApproved(approveRaw)) {
+    const approvePath = buildAuthorizeUrl({
       clientId: client.id,
       redirectUri,
       scope,
-      state
-    }) + "&approve=1";
+      state,
+      approve: "1"
+    });
+
+    const approveUrl = fullUrlFor($i, approvePath);
 
     return html($i, approvalHtml({
       client,
