@@ -1,0 +1,117 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Awtsmoos Tunnel Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/tunnel.css">
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <p class="eyebrow">B"H • Awtsmoos Tunnel</p>
+      <h1>Connect ChatGPT to your local codebase.</h1>
+      <p class="lead">
+        Install a tiny Node.js tunnel client, expose only the project folder you choose,
+        then let your Custom GPT explore, read, and vibe-code through Awtsmoos.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="#install">Install Tunnel</a>
+        <a class="button secondary" href="#status">Check Status</a>
+      </div>
+    </section>
+
+    <section class="panel" id="status">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Step 1</p>
+          <h2>Server Status</h2>
+        </div>
+        <button class="button small" id="refreshStatus">Refresh</button>
+      </div>
+      <pre class="status-box" id="statusBox">Checking tunnel server...</pre>
+    </section>
+
+    <section class="panel" id="install">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Step 2</p>
+          <h2>Install on this computer</h2>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="powershell">PowerShell</button>
+        <button class="tab" data-tab="cmd">CMD</button>
+        <button class="tab" data-tab="unix">Mac / Linux</button>
+      </div>
+
+      <div class="command-card active" data-pane="powershell">
+        <p>Recommended for Windows PowerShell:</p>
+        <div class="copy-row">
+          <code id="cmdPowerShell">irm https://awtsmoos.com/geelooy/apps/tunnel/downloads/windows.ps1 | iex</code>
+          <button class="button small copy" data-copy="cmdPowerShell">Copy</button>
+        </div>
+      </div>
+
+      <div class="command-card" data-pane="cmd">
+        <p>Use this from regular Windows CMD:</p>
+        <div class="copy-row">
+          <code id="cmdCmd">powershell -ExecutionPolicy Bypass -Command "irm https://awtsmoos.com/geelooy/apps/tunnel/downloads/windows.ps1 | iex"</code>
+          <button class="button small copy" data-copy="cmdCmd">Copy</button>
+        </div>
+      </div>
+
+      <div class="command-card" data-pane="unix">
+        <p>Use this on macOS or Linux:</p>
+        <div class="copy-row">
+          <code id="cmdUnix">curl -fsSL https://awtsmoos.com/geelooy/apps/tunnel/downloads/unix.sh | bash</code>
+          <button class="button small copy" data-copy="cmdUnix">Copy</button>
+        </div>
+      </div>
+
+      <div class="note">
+        The installer creates an <code>.awtsmoos-tunnel</code> folder in your home directory,
+        downloads the tunnel client, asks for a tunnel name and project folder, then starts Node.
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Step 3</p>
+          <h2>Custom GPT setup text</h2>
+        </div>
+      </div>
+
+      <label class="field">
+        Tunnel name
+        <input id="tunnelName" value="my-local">
+      </label>
+
+      <label class="field">
+        Project path
+        <input id="projectPath" value="C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com">
+      </label>
+
+      <div class="copy-row tall">
+        <pre id="gptText"></pre>
+        <button class="button small copy" data-copy="gptText">Copy</button>
+      </div>
+    </section>
+
+    <section class="panel danger">
+      <p class="eyebrow">Security</p>
+      <h2>Default rule: one project folder</h2>
+      <p>
+        Do not expose your whole computer by default. Start with one project folder.
+        Later the OAuth account layer can map devices to users and make this safer for public users.
+      </p>
+    </section>
+  </main>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
