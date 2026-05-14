@@ -10,20 +10,49 @@ const { logout } = require("./logout.js");
 
 /**
  * B"H
- * Route table for the OAuth system.
+ * OAuth route table.
  *
- * No switch statement. No tangled hallway.
- * A clear table of gates, each gate opening to one chamber.
+ * The Awtsmoos dynamic server may present the remaining route as:
+ * authorize
+ * /authorize
+ * authorize/
+ * /authorize/
  *
- * @type {Object<string, Function>}
+ * So every public route is registered in all common forms.
  */
 const routeTable = {
+  "": start,
+  "/": start,
+
   start,
+  "/start": start,
+  "start/": start,
+  "/start/": start,
+
   authorize,
+  "/authorize": authorize,
+  "authorize/": authorize,
+  "/authorize/": authorize,
+
   token,
+  "/token": token,
+  "token/": token,
+  "/token/": token,
+
   me,
+  "/me": me,
+  "me/": me,
+  "/me/": me,
+
   clients,
-  logout
+  "/clients": clients,
+  "clients/": clients,
+  "/clients/": clients,
+
+  logout,
+  "/logout": logout,
+  "logout/": logout,
+  "/logout/": logout
 };
 
 module.exports = { routeTable };
