@@ -1,4 +1,3 @@
-
 // B"H
 const os = require("os");
 const http = require("http");
@@ -8,7 +7,7 @@ const { ROOT, loadConfig } = require("./lib/config.js");
 const { makeLogger } = require("./lib/log.js");
 const { openHostedControl } = require("./lib/open.js");
 const { TinyWebSocket } = require("./lib/ws.js");
-const { handleFs } = require("./tools/fs.js");
+const { handleFs } = require("./tools/fs/index.js");
 const { handleChrome } = require("./tools/chrome.js");
 
 const log = makeLogger(ROOT);
@@ -71,7 +70,7 @@ function register(ws) {
     root: config.root,
     allowWrite: config.allowWrite,
     allowSecrets: config.allowSecrets,
-    agentVersion: "split-agent-0.2.0"
+    agentVersion: "split-agent-0.3.0"
   });
 
   log("Tunnel connected:", config.tunnelName, "root:", config.root);

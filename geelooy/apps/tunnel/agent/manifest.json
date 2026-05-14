@@ -1,7 +1,6 @@
-
 {
   "BH": "B\"H",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "entry": "main.js",
   "files": [
     { "path": "main.js" },
@@ -9,7 +8,14 @@
     { "path": "lib/log.js" },
     { "path": "lib/open.js" },
     { "path": "lib/ws.js" },
-    { "path": "tools/fs.js" },
+    { "path": "tools/fs/index.js" },
+    { "path": "tools/fs/constants.js" },
+    { "path": "tools/fs/pathGuard.js" },
+    { "path": "tools/fs/listing.js" },
+    { "path": "tools/fs/readWrite.js" },
+    { "path": "tools/fs/tree.js" },
+    { "path": "tools/fs/rootBrowser.js" },
+    { "path": "tools/fs/actions.js" },
     { "path": "tools/chrome.js" }
   ]
 }

@@ -1,4 +1,3 @@
-
 // B"H
 
 function from64(value) {
@@ -34,7 +33,8 @@ function queryValue($i, name, fallback = "") {
  *
  * Supports:
  * list/tree/read/md/bulk/write/bulkWrite
- * configGet/configSet/roots/openRoot/chooseRoot
+ * configGet/configSet/roots/openRoot
+ * rootBrowse/rootSelect
  */
 function buildFsPayload($i) {
   const action = queryValue($i, "action", "list");
@@ -44,6 +44,7 @@ function buildFsPayload($i) {
     kind: "fs",
     action,
     path: p,
+    absolutePath: queryValue($i, "absolutePath", ""),
     paths: jsonFrom64(queryValue($i, "paths64"), []),
     files: jsonFrom64(queryValue($i, "files64"), null),
     writes: jsonFrom64(queryValue($i, "writes64"), null),
@@ -81,7 +82,7 @@ function actionNeedsWrite(action) {
     action === "write" ||
     action === "bulkWrite" ||
     action === "configSet" ||
-    action === "chooseRoot"
+    action === "rootSelect"
   );
 }
 

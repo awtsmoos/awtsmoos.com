@@ -4,11 +4,13 @@
 import { $, jsonText } from "../lib/dom.js";
 import { apiKeys, createApiKey } from "../api/control.js";
 import {
+  clearActiveApiKey,
   getActiveApiKey,
   getSavedRawApiKeys,
   saveRawApiKey,
   setActiveApiKey
 } from "../api/keySession.js";
+import { log } from "../logger.js";
 
 function selectedScopes() {
   return [...document.querySelectorAll(".scopeBox")]
@@ -22,48 +24,76 @@ function maskKey(key) {
   return key.slice(0, 8) + "..." + key.slice(-8);
 }
 
-async function renderFriendlyKeys(serverResult) {
+function setKeyPill(active) {
+  const pill = $("apiKeyPill");
+  pill.classList.toggle("connected", !!active);
+  pill.classList.toggle("warning", !active);
+  $("apiKeyText").textContent = active ? "API key active" : "No API key selected";
+  $("miniKey").textContent = active ? "Active" : "None";
+  $("explorerNotice").textContent = active
+    ? "API key active. File actions are enabled."
+    : "Create, paste, or select an API key first. File actions are locked.";
+}
+
+async function renderSavedKeys(serverResult = null) {
   const saved = await getSavedRawApiKeys();
   const active = await getActiveApiKey();
-  const box = $("keysBox");
+  const list = $("savedKeysList");
 
-  const keys = serverResult?.keys || [];
-  const lines = [];
+  setKeyPill(active);
 
-  lines.push("API key status:");
-  lines.push(active ? "Active key selected: " + maskKey(active) : "No active API key selected.");
-  lines.push("");
+  $("activeKeyCard").textContent = active
+    ? "Active key: " + maskKey(active)
+    : "No active key selected.";
 
-  if (!keys.length && !saved.length) {
-    lines.push("No keys loaded yet. Create one, copy it, and it will be saved locally in this browser.");
+  list.innerHTML = "";
+
+  if (!saved.length) {
+    list.innerHTML = '<div class="notice">No saved local keys yet. Create one or paste one above.</div>';
   }
 
-  if (keys.length) {
-    lines.push("Server keys:");
-    for (const k of keys) {
-      const raw = saved.find(s => s.keyId === k.keyId);
-      lines.push("- " + k.name + " (" + k.keyId + ")");
-      lines.push("  scopes: " + (k.scopes || []).join(" "));
-      lines.push("  rate: " + k.rateLimitPerMinute + "/min, bytes/day: " + k.bytesPerDay);
-      lines.push("  local raw copy: " + (raw ? maskKey(raw.apiKey) : "not saved in this browser"));
-    }
+  for (const key of saved) {
+    const card = document.createElement("div");
+    card.className = "saved-key-card" + (key.apiKey === active ? " active" : "");
+
+    card.innerHTML = [
+      "<h4>" + key.name + "</h4>",
+      "<div class='muted-line'>User: " + key.userId + "</div>",
+      "<div class='muted-line'>Scopes: " + (key.scopes || []).join(" ") + "</div>",
+      "<code>" + key.apiKey + "</code>",
+      "<div class='saved-key-actions'>",
+      "<button class='button small use-key'>Use</button>",
+      "<button class='button small copy-key'>Copy</button>",
+      "</div>"
+    ].join("");
+
+    card.querySelector(".use-key").onclick = async () => {
+      await setActiveApiKey(key.apiKey);
+      await renderSavedKeys(serverResult);
+    };
+
+    card.querySelector(".copy-key").onclick = async () => {
+      await navigator.clipboard.writeText(key.apiKey);
+    };
+
+    list.appendChild(card);
   }
 
-  if (saved.length) {
-    lines.push("");
-    lines.push("Raw keys saved in this browser:");
-    for (const s of saved) {
-      lines.push("- " + s.name + " → " + s.apiKey);
-    }
+  if (serverResult) {
+    jsonText("keysBox", serverResult);
   }
+}
 
-  box.textContent = lines.join("\n");
+export async function refreshKeyUi() {
+  await renderSavedKeys();
 }
 
 export async function mountApiKeys() {
+  log("mountApiKeys");
+
   $("loadKeysBtn").onclick = async () => {
     const got = await apiKeys();
-    await renderFriendlyKeys(got);
+    await renderSavedKeys(got);
   };
 
   $("createKeyBtn").onclick = async () => {
@@ -76,34 +106,45 @@ export async function mountApiKeys() {
 
     if (got.ok && got.apiKey && got.key) {
       await saveRawApiKey(got.key, got.apiKey);
-
+      await renderSavedKeys(got);
       $("keysBox").textContent = [
         "COPY THIS API KEY NOW:",
         "",
         got.apiKey,
         "",
-        "It was also saved locally in this browser and set as the active key.",
+        "It was saved locally in this browser and set as active.",
         "Key name: " + got.key.name,
-        "Scopes: " + got.key.scopes.join(" "),
-        "Rate: " + got.key.rateLimitPerMinute + "/min",
-        "Bytes/day: " + got.key.bytesPerDay
+        "Scopes: " + got.key.scopes.join(" ")
       ].join("\n");
-
       return;
     }
 
     jsonText("keysBox", got);
   };
 
-  const saved = await getSavedRawApiKeys();
-  const active = await getActiveApiKey();
+  $("savePastedKeyBtn").onclick = async () => {
+    const raw = $("pasteApiKey").value.trim();
 
-  if (saved.length || active) {
-    await renderFriendlyKeys({ ok: true, keys: [] });
-  }
-}
+    if (!raw) {
+      $("activeKeyCard").textContent = "Paste an API key first.";
+      return;
+    }
 
-export async function ensureActiveKeyMessage() {
-  const key = await getActiveApiKey();
-  return key ? "" : "Create/select an API key before using the explorer or action lab.";
+    await saveRawApiKey({
+      keyId: "pasted_" + Date.now(),
+      name: "Pasted API Key",
+      userId: "local",
+      scopes: ["unknown"]
+    }, raw);
+
+    $("pasteApiKey").value = "";
+    await renderSavedKeys();
+  };
+
+  $("clearActiveKeyBtn").onclick = async () => {
+    await clearActiveApiKey();
+    await renderSavedKeys();
+  };
+
+  await renderSavedKeys();
 }

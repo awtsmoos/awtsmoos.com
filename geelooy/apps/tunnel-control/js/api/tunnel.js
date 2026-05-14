@@ -4,19 +4,24 @@
 import { getJson } from "./http.js";
 import { b64Json, b64Text } from "../lib/base64.js";
 import { authHeaders, getActiveApiKey } from "./keySession.js";
+import { log } from "../logger.js";
 
-/**
- * B"H
- * Builds the protected tunnel-control filesystem URL.
- * The URL alone is not enough anymore; calls also need x-awtsmoos-api-key
- * or OAuth bearer token. The hosted app sends x-awtsmoos-api-key.
- */
+const SESSION_OK_ACTIONS = new Set([
+  "configGet",
+  "configSet",
+  "roots",
+  "rootBrowse",
+  "rootSelect",
+  "openRoot"
+]);
+
 export function buildFsUrl(tunnelName, opts = {}) {
   const u = new URL("/api/tunnel/control/fs/" + encodeURIComponent(tunnelName), location.origin);
 
   u.searchParams.set("action", opts.action || "list");
   u.searchParams.set("p", opts.path || ".");
 
+  if (opts.absolutePath) u.searchParams.set("absolutePath", opts.absolutePath);
   if (opts.depth) u.searchParams.set("depth", String(opts.depth));
   if (opts.limit) u.searchParams.set("limit", String(opts.limit));
   if (opts.maxChars) u.searchParams.set("maxChars", String(opts.maxChars));
@@ -37,20 +42,24 @@ export function buildFsUrl(tunnelName, opts = {}) {
 }
 
 export async function callFs(tunnelName, opts) {
+  const action = opts.action || "list";
+  const url = buildFsUrl(tunnelName, opts);
   const apiKey = await getActiveApiKey();
 
-  if (!apiKey) {
+  log("callFs", { action, tunnelName, url, hasApiKey: !!apiKey });
+
+  if (!apiKey && !SESSION_OK_ACTIONS.has(action)) {
     return {
       BH: "B\"H",
       ok: false,
       error: "missing_active_api_key",
-      message: "Create or select an API key first. Debug/session-only tunnel calls are disabled."
+      message: "Create, paste, or select an API key first. Setup/root picker works with login, but file actions require API key or OAuth."
     };
   }
 
-  return await getJson(buildFsUrl(tunnelName, opts), {
-    headers: await authHeaders()
-  });
+  const headers = apiKey ? await authHeaders() : {};
+
+  return await getJson(url, { headers });
 }
 
 export async function buildCurl(tunnelName, opts) {

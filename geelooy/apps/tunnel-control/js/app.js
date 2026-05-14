@@ -1,4 +1,3 @@
-
 // B"H
 
 import { $ } from "./lib/dom.js";
@@ -11,6 +10,7 @@ import { mountActions } from "./features/actions.js";
 import { mountApiKeys } from "./features/apiKeys.js";
 import { mountUsage } from "./features/usage.js";
 import { mountConfig, loadConfig } from "./features/config.js";
+import { mountRootPicker } from "./features/rootPicker.js";
 import { state } from "./state/state.js";
 
 function getTunnelName() {
@@ -52,6 +52,7 @@ async function main() {
   mountTabs();
   mountCopyButtons();
   mountConfig(getTunnelName);
+  mountRootPicker(getTunnelName);
   mountExplorer();
   mountActions(getTunnelName);
   mountApiKeys();

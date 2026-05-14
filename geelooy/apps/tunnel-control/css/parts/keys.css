@@ -1,18 +1,26 @@
 
 /* B"H */
+.key-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr);
+  gap: 18px;
+}
+
 .scope-picker,
 .permission-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 10px;
   margin: 12px 0;
 }
+
 .quick-roots {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin: 8px 0 12px;
+  margin: 12px 0;
 }
+
 .quick-root {
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -22,13 +30,47 @@
   cursor: pointer;
   font-weight: 850;
 }
-.key-card {
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px;
-  background: rgba(0,0,0,.2);
-  margin: 8px 0;
+
+.active-key-card {
+  border: 1px solid var(--line2);
+  border-radius: 18px;
+  padding: 14px;
+  margin: 12px 0;
+  background: rgba(139,211,255,.10);
+  color: var(--text);
+  font-weight: 850;
+  overflow-wrap: anywhere;
 }
-.key-card strong {
-  color: var(--a);
+
+.saved-keys-list {
+  display: grid;
+  gap: 10px;
+}
+
+.saved-key-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 13px;
+  background: rgba(0,0,0,.22);
+}
+
+.saved-key-card.active {
+  border-color: var(--line2);
+  background: rgba(139,211,255,.11);
+}
+
+.saved-key-card h4 {
+  margin: 0 0 5px;
+}
+
+.saved-key-card code {
+  display: block;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.saved-key-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
