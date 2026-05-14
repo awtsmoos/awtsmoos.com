@@ -4,80 +4,17 @@
  */
 
 var getPathInfo = require("./pathResolver.js");
-var doFileResponse = require("./fileServer.js");
 var { errorMessage } = require("./utils.js");
 var { sendAwtsmoosResponse } = require("./response/sendAwtsmoosResponse.js");
 var {
   routeEngineCrash,
   routeComputationError,
-  invalidRoute
+  invalidRoute,
+  noActualResponse
 } = require("./response/sendErrors.js");
-
-async function readBodyIfNeeded({ request, getPostData, getPutData, getDeleteData }) {
-  const method = request.method.toUpperCase();
-
-  if (method == "POST") await getPostData();
-  if (method == "PUT") await getPutData();
-  if (method == "DELETE") await getDeleteData();
-}
-
-async function handleMissingPath(context) {
-  const { response } = context.dependencies;
-
-  if (context.fileName && context.fileName.startsWith("@")) {
-    var tr = "/@/" + context.fileName.substring(1);
-    var res = await context.fetchAwtsmoos(tr, { superSecret: true });
-
-    if (res) {
-      if (typeof res == "object") {
-        res = JSON.stringify(res);
-        response.setHeader("content-type", "application/json; charset=utf-8");
-      }
-
-      response.end(res);
-      return true;
-    }
-
-    return errorMessage(context, {
-      message: "Content empty",
-      code: "EMPTY"
-    });
-  }
-
-  return errorMessage(context, {
-    message: "Dynamic route not found",
-    code: "DYN_ROUTE_NOT_FOUND",
-    info: {
-      filePath: context.filePath
-    },
-    logs: context.logs
-  });
-}
-
-async function maybeFileFallback(context, didThisPathAlready) {
-  const { request } = context.dependencies;
-
-  if (context.isDirectoryWithIndex || context.isRealFile) {
-    var startsWithAw = context.fileName.startsWith("_awtsmoos");
-
-    if (!startsWithAw || request.superSecret) {
-      return await doFileResponse(context);
-    }
-
-    return errorMessage(context, "You're not allowed to see that!");
-  }
-
-  return errorMessage(context, {
-    message: "Invalid Dynamic Route",
-    code: "INVALID_DYNAMIC_ROUTE",
-    more: {
-      didThisPathAlready,
-      foundAwtsmooses: context.foundAwtsmooses,
-      idwi: context.isDirectoryWithIndex,
-      logs: context.logs
-    }
-  });
-}
+var { readBodyIfNeeded } = require("./request/bodyReaders.js");
+var { handleMissingPath } = require("./request/missingPath.js");
+var { maybeFileFallback } = require("./request/fileFallback.js");
 
 async function doEverything(context) {
   var {
@@ -101,7 +38,12 @@ async function doEverything(context) {
     context.contentType = "text/html";
   }
 
-  await readBodyIfNeeded({ request, getPostData, getPutData, getDeleteData });
+  await readBodyIfNeeded({
+    request,
+    getPostData,
+    getPutData,
+    getDeleteData
+  });
 
   var didThisPathAlready = false;
 
@@ -134,12 +76,10 @@ async function doEverything(context) {
     });
 
     if (!sent) {
-      return errorMessage(context, {
-        message: "No actual response",
-        code: "NO_AC_RES",
-        info: didThisPathAlready.responseInfo,
-        details: didThisPathAlready
-      });
+      return errorMessage(context, noActualResponse({
+        responseInfo: didThisPathAlready.responseInfo,
+        didThisPathAlready
+      }));
     }
 
     return;

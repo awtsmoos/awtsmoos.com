@@ -39,8 +39,17 @@ function invalidRoute(didThisPathAlready, context) {
   };
 }
 
+function noActualResponse(info) {
+  return {
+    message: "No actual response",
+    code: "NO_ACTUAL_RESPONSE",
+    info
+  };
+}
+
 module.exports = {
   routeEngineCrash,
   routeComputationError,
-  invalidRoute
+  invalidRoute,
+  noActualResponse
 };

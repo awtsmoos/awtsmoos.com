@@ -30,8 +30,13 @@ async function maybeFileStatusResponse({ request, fs, derechPath }) {
     : "awtsmoos-logged-out";
 
   return {
-    responseType: "application/json",
+    responseType: "application/json; charset=utf-8",
     statusResponse: true,
+    statusCode: 200,
+    headers: {
+      "Awtsmoos-File-Status": "true",
+      "Cache-Control": "no-store"
+    },
     actualResponse: {
       content: JSON.stringify(results)
     }

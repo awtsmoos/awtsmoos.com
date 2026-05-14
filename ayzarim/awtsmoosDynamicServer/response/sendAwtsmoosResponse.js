@@ -17,38 +17,33 @@ function stringifyBody(body) {
 }
 
 function applyHeaders(response, res, ar) {
-  response.setHeader("Vary", "Cookie");
-
-  if (res.headers && typeof res.headers === "object") {
-    for (const [k, v] of Object.entries(res.headers)) {
-      response.setHeader(k, v);
-    }
-  }
-
   if (res.statusCode) {
     response.statusCode = res.statusCode;
   }
 
+  response.setHeader("Vary", "Cookie");
+
+  if (res.headers && typeof res.headers === "object") {
+    for (const [k, v] of Object.entries(res.headers)) {
+      if (v !== undefined && v !== null) {
+        response.setHeader(k, String(v));
+      }
+    }
+  }
+
   if (res.responseType) {
-    response.setHeader("content-type", res.responseType);
+    response.setHeader("Content-Type", res.responseType);
   } else if (ar && ar.contentType) {
-    response.setHeader("content-type", ar.contentType + "; charset=utf-8");
+    response.setHeader("Content-Type", ar.contentType + "; charset=utf-8");
   }
 }
 
 function sendAwtsmoosResponse({ response, res }) {
-  if (res.statusResponse) {
-    response.setHeader("Awtsmoos-File-Status", "true");
-    response.setHeader("Content-Type", "application/json; charset=utf-8");
-    response.end(res.actualResponse.content);
-    return true;
-  }
+  if (!res) return false;
 
   const ar = res.actualResponse;
 
-  if (!ar) {
-    return false;
-  }
+  if (!ar) return false;
 
   applyHeaders(response, res, ar);
 

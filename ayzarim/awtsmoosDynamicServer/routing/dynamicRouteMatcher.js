@@ -61,6 +61,4 @@ function matchDynamicRoute(routePattern, childPathUrl) {
   };
 }
 
-module.exports = {
-  matchDynamicRoute
-};
+module.exports = { matchDynamicRoute };

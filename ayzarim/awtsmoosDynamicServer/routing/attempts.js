@@ -2,24 +2,28 @@
 // B"H
 
 function ensureAttempts(didThisPath) {
-  if (!didThisPath.routeAttempts) didThisPath.routeAttempts = [];
+  if (!didThisPath.routeAttempts) {
+    didThisPath.routeAttempts = [];
+  }
+
   return didThisPath.routeAttempts;
 }
 
 function recordAttempt(didThisPath, attempt) {
-  ensureAttempts(didThisPath).push(attempt);
+  ensureAttempts(didThisPath).push({
+    time: new Date().toISOString(),
+    ...attempt
+  });
+
   return attempt;
 }
 
-function routeError(message, data = {}) {
-  return {
-    message,
-    ...data
-  };
+function shortAttempts(didThisPath, max = 40) {
+  return ensureAttempts(didThisPath).slice(-max);
 }
 
 module.exports = {
   ensureAttempts,
   recordAttempt,
-  routeError
+  shortAttempts
 };

@@ -9,18 +9,22 @@ function safeDecode(value) {
   try {
     return decodeURIComponent(value);
   } catch (e) {
-    return value;
+    return String(value || "");
   }
+}
+
+function normalizeSlashes(value) {
+  return String(value || "")
+    .replace(/\\/g, "/")
+    .replace(/\/+/g, "/")
+    .trim();
 }
 
 function normalizeRoutePath(value) {
   let s = safeDecode(stripQueryAndHash(value));
+  s = normalizeSlashes(s);
 
-  s = s.replace(/\\/g, "/");
-  s = s.replace(/\/+/g, "/");
-  s = s.trim();
-
-  if (s === "." || s === "") return "";
+  if (!s || s === "." || s === "/") return "";
 
   s = s.replace(/^\/+/, "");
   s = s.replace(/\/+$/, "");
@@ -33,9 +37,16 @@ function splitPath(value) {
   return clean ? clean.split("/").filter(Boolean) : [];
 }
 
+function routeDisplay(value) {
+  const clean = normalizeRoutePath(value);
+  return clean ? "/" + clean : "/";
+}
+
 module.exports = {
   stripQueryAndHash,
   safeDecode,
+  normalizeSlashes,
   normalizeRoutePath,
-  splitPath
+  splitPath,
+  routeDisplay
 };

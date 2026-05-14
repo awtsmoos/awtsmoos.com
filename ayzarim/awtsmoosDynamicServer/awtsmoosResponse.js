@@ -36,6 +36,18 @@ class AwtsmoosResponse {
     didThisPath.isPrivate = true;
   }
 
+  makeDidThisPath() {
+    return {
+      c: false,
+      wow: {},
+      m: {},
+      time: new Date(),
+      awtsmooseem: [],
+      routeAttempts: [],
+      matchedRoutes: []
+    };
+  }
+
   async doAwtsmooses({
     foundAwtsmooses,
     filePath,
@@ -43,14 +55,7 @@ class AwtsmoosResponse {
   } = {}) {
     this.ended = false;
 
-    var didThisPath = {
-      c: false,
-      wow: {},
-      m: {},
-      time: new Date(),
-      awtsmooseem: [],
-      routeAttempts: []
-    };
+    var didThisPath = this.makeDidThisPath();
 
     if (filePath.includes("favicon")) {
       return didThisPath;
@@ -104,6 +109,11 @@ class AwtsmoosResponse {
         for (var od of otherDynamics) {
           if (od.doesMatch) {
             didThisPath.c = true;
+            didThisPath.matchedRoutes.push({
+              route: od.route,
+              vars: od.vars,
+              info: od.info
+            });
 
             try {
               var resp = await this.doAwtsmoosResponse(od.result, derech);

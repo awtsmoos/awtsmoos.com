@@ -5,7 +5,11 @@ function childPathFor({ path, derech, filePath }) {
   const modulePath = path.dirname(derech);
   const relativeChildPath = path.relative(modulePath, filePath);
 
-  return "/" + relativeChildPath.replace(/\\/g, "/");
+  const clean = relativeChildPath
+    .replace(/\\/g, "/")
+    .replace(/\/+/g, "/");
+
+  return clean.startsWith("/") ? clean : "/" + clean;
 }
 
 module.exports = { childPathFor };

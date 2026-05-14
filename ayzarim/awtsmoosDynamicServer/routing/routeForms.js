@@ -1,7 +1,7 @@
 
 // B"H
 
-const { normalizeRoutePath } = require("./dynamicRouteMatcher.js");
+const { normalizeRoutePath } = require("./pathTools.js");
 
 function routeForms(route) {
   const clean = normalizeRoutePath(route);
