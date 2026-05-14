@@ -6,7 +6,7 @@ const { saveCode } = require("../core/codeStore.js");
 const { validateScope } = require("../core/scopes.js");
 const { getQuery, getBody } = require("../tools/requestData.js");
 const { json, html, redirect } = require("../tools/respond.js");
-const { localUrlFor } = require("../tools/urls.js");
+const { localUrlFor, urlWithParams } = require("../tools/urls.js");
 const { getUserId } = require("../core/currentUser.js");
 
 function esc(x) {
@@ -150,7 +150,15 @@ async function authorize($i) {
     state
   });
 
-  return redirect($i, localUrlFor(redirectUri, { code, state }));
+  /*
+   * Critical:
+   * redirectUri is external, e.g. https://chat.openai.com/aip/g-.../oauth/callback
+   * Do NOT use localUrlFor here.
+   */
+  return redirect($i, urlWithParams(redirectUri, {
+    code,
+    state
+  }));
 }
 
 module.exports = { authorize };
