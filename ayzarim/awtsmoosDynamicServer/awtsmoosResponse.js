@@ -1,498 +1,403 @@
+
 /**
  * B"H
  */
- var crypto = require('crypto');
-var getProperContent = require("./getProperContent.js")
-var di = require("./DependencyInjector.js")
+var crypto = require("crypto");
+var getProperContent = require("./getProperContent.js");
+var di = require("./DependencyInjector.js");
+var { matchDynamicRoute } = require("./routing/dynamicRouteMatcher.js");
+
 let {
-
-
-	self,
-	errorMessage,
-
-	path,
-
-	fs,
-	awtsMoosification,
-	templateObjectGenerator
-
+  self,
+  errorMessage,
+  path,
+  fs,
+  awtsMoosification,
+  templateObjectGenerator
 } = di.safeInit();
-/**
- * @class AwtsmoosResponse
- * This class provides methods to handle awtsmooses and generate appropriate responses.
- */
+
 class AwtsmoosResponse {
-	ended = false;
-	/**
-	 * @constructor
-	 * @param {object} vars - An object containing various configurations and settings.
-	 */
-	constructor(vars) {
-
-		({
-
-
-			self,
-
-			errorMessage,
-
-			path,
-			fs,
-			self,
-			awtsMoosification,
-			templateObjectGenerator,
-
-
-		} = vars);
-	}
-
-	makePrivate(didThisPath) {
-		didThisPath.isPrivate = true
-	}
-
-	/**
-	 * Process and evaluate awtsmooses.
-	 * @async
-	 * @returns {object} Information about the processed path.
-	 */
-	async doAwtsmooses({
-		foundAwtsmooses,
-		filePath,
-		extraInfo = {
-			fetchAwtsmoos
-		},
-
-	} = {}) {
-	
-		
-
-		this.ended = false;
-
-		var didThisPath = {
-			c: false,
-			wow: {},
-			m: {},
-			time: new Date(),
-			awtsmooseem: []
-		};
-
-		if (filePath.includes("favicon")) {
-
-			return didThisPath;
-		}
-
-		var otherDynamics = [];
-
-		for (var awtsmoos of foundAwtsmooses) {
-			didThisPath.awtsmooseem.push(awtsmoos);
-
-			try {
-				var derech = path.join(awtsmoos, awtsMoosification);
-				didThisPath.derech = derech;
-
-				var awts = require(derech);
-
-				var baseDerech = "/" + awtsmoos;
-
-				// Calculate path information for the current module
-				var modulePath = path.dirname(derech);
-				var relativeChildPath = path.relative(modulePath, filePath);
-				var childPathUrl = "/" + relativeChildPath.replace(/\\/g, '/');
-
-				didThisPath.moose = childPathUrl;
-
-				var dynam = awts.dynamicRoutes || awts;
-
-				if (typeof dynam !== 'function') continue;
-
-				var isPrivate = false;
-
-				try {
-					var templateObject = await templateObjectGenerator
-						.getTemplateObject({
-							derech,
-							private: () => {
-								this.makePrivate(didThisPath)
-
-							},
-							...extraInfo,
-							use: async (route, func) => {
-								// Handle dynamic routes
-								var r = null;
-								try {
-									r = await
-									this.handleDynamicRoutes(route, func, childPathUrl, didThisPath, otherDynamics);
-								} catch(e) {
-									didThisPath.error = {useError: e.stack}
-								}
-								return  r
-							},
-						});
-
-					try {
-						await dynam(templateObject);
-					} catch(e) {
-						didThisPath.error = e.stack
-						return didThisPath
-					}
-				} catch (e) {
-					didThisPath.error = e.stack
-					return didThisPath;
-					
-				}
-				for (var od of otherDynamics) {
-					if (od.doesMatch) {
-						didThisPath.c = true;
-						try {
-							var resp = await
-							this.doAwtsmoosResponse(od.result, derech);
-	
-							didThisPath.responseInfo = resp;
-						} catch(e) {
-							didThisPath.error = {
-								awtsmoosError: e.stack
-							}
-						}
-
-						return didThisPath;
-					}
-				}
-
-				if (!didThisPath.c) {
-
-					didThisPath.invalidRoute = true;
-					//didThisPath.error = "Awtsmoos Error?"
-				} else if (didThisPath.isPrivate) {
-					didThisPath.isPrivate = true;
-				}
-
-				return didThisPath;
-			} catch (e) {
-				didThisPath.error = e.stack;
-				return didThisPath;
-				console.log(e);
-			}
-		}
-
-		return didThisPath;
-	}
-
-	/**
-	 * Handles dynamic routes.
-	 * @async
-	 * @param {string|object} route - The route or an object containing multiple routes.
-	 * @param {function} func - The function associated with the route.
-	 * @param {string} childPathUrl - The URL path of the child.
-	 * @param {object} didThisPath - An object to store information about the processed path.
-	 * @param {array} otherDynamics - An array to store information about other dynamic routes.
-	 * @returns {Promise<boolean>} A promise that resolves to true if a match is found.
-	 */
-	async handleDynamicRoutes(route, func, childPathUrl, didThisPath, otherDynamics) {
-		if (typeof route === "string") {
-			return await this.processDynamicRoute(route, func, childPathUrl, didThisPath, otherDynamics);
-		} else if (route && typeof route === "object") {
-			for (var [rt, fnc] of Object.entries(route)) {
-				var matches = await this.processDynamicRoute(rt, fnc, childPathUrl, didThisPath, otherDynamics);
-				if (matches) return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Process a single dynamic route.
-	 * @async
-	 * @param {string} route - The route string.
-	 * @param {function} func - The function associated with the route.
-	 * @param {string} childPathUrl - The URL path of the child.
-	 * @param {object} didThisPath - An object to store information about the processed path.
-	 * @param {array} otherDynamics - An array to store information about other dynamic routes.
-	 * @returns {Promise<boolean>} A promise that resolves to true if a match is found.
-	 */
-	async processDynamicRoute(route, func, childPathUrl, didThisPath, otherDynamics) {
-		var fullPath = path.join(childPathUrl, route)
-			.replace(/\\/g, '/');
-		var info = this.getAwtsmoosDerechVariables(route, childPathUrl);
-
-		if (info && info.doesRouteMatchURL) {
-			try {
-				var rez = await func(info.vars);
-				otherDynamics.push({
-					route: fullPath,
-					matches: true,
-					shortRoute: route,
-					result: rez,
-					vars: info.vars,
-					doesMatch: info.doesRouteMatchURL
-				});
-
-				return true;
-			} catch (e) {
-				otherDynamics.push({
-					error: e.stack,
-					route,
-					anIssueOccuredInFuncButMaybeMatches: true,
-					fullPath,
-					info
-				});
-				console.log(e);
-				return false;
-			}
-		} else {
-			otherDynamics.push({
-				route,
-				fullPath,
-				ProbablyDoesntMatch: true,
-				info
-			});
-			return false;
-		}
-	}
-
-	/**
-	 * @description Extracts parameters from a URL path based on a given template path.
-	 * @param {string} url - The URL to extract parameters from.
-	 * @param {string} basePath - The template path with placeholders.
-	 * @returns {Object|null} - Returns an object with extracted parameters and a flag indicating if the URL matches the basePath or null if inputs are invalid.
-	 */
-	getAwtsmoosDerechVariables(url, basePath) {
-		// Ensure that the inputs are valid
-		if (typeof url !== "string" || typeof basePath !== "string") return null;
-
-		let vars = {};
-		let doesRouteMatchURL = true;
-
-		// Convert paths to use consistent forward slashes for cross-platform compatibility
-		url = url.replace(/\\/g, '/');
-		basePath = basePath.replace(/\\/g, '/');
-
-		var urlSegments = url.split("/")
-			.filter(Boolean);
-		var basePathSegments = basePath.split("/")
-			.filter(Boolean);
-
-		// Check segment length for both paths
-		if (basePathSegments.length !== urlSegments.length) {
-			return {
-				vars,
-				doesRouteMatchURL: false
-			};
-		}
-
-		// Extract parameters from URL based on the given basePath
-		for (let i = 0; i < urlSegments.length; i++) {
-			if (urlSegments[i].startsWith(":")) {
-				vars[urlSegments[i].substring(1)] = basePathSegments[i];
-			} else if (urlSegments[i] !== basePathSegments[i]) {
-				doesRouteMatchURL = false;
-				break;
-			}
-		}
-
-		return {
-			vars,
-			doesRouteMatchURL
-		};
-	}
-
-	/**
-	 * @description Handles the response for a matched route.
-	 * @param {Object} dyn - The dynamic route information.
-	 * @param {string} path - The matched path.
-	 * @returns {boolean} - Indicates success or failure.
-	 */
-	async doAwtsmoosResponse(dyn, path) {
-		// The templateObjectGenerator holds our dependencies, including the original request
-		const { request } = templateObjectGenerator.dependencies;
-
-		// =====================================================================
-		// START: Enhanced logic for handling file status requests
-		// =====================================================================
-		if (
-			request.method == "GET" &&
-			//request.headers['awtsmoos-file-status'] &&
-			request.isAwtsmoosFileStatusRequest
-		) {
-		    const results = {
-		        logicModified: null,
-		        dataModified: null,
-				stateHash: null // Our new field for session state
-		    };
-		
-		    // 1. Get the status of the LOGIC file (_awtsmoos.derech.js)
-		    try {
-		        const logicStats = await fs.stat(path);
-		        results.logicModified = logicStats.mtime.getTime();
-		    } catch (e) {
-		        // Ignore error if logic file can't be stat'd
-		    }
-		
-		    // 2. Get the status of the DATA file (from our instrumented db.read)
-		    if (request.awtsmoosDataSourceStat) {
-		        results.dataModified = request.awtsmoosDataSourceStat.mtime.getTime();
-		    }
-	
-			// 3.  Generate a hash of the session cookie to track state changes
-			const sessionCookie = request.cookies && request.cookies.awtsmoosKey;
-			if (sessionCookie) {
-				// If the cookie exists, create a secure hash of its value.
-				results.stateHash = crypto.createHash('sha256').update(sessionCookie).digest('hex');
-			} else {
-				// Use a consistent, static string for the "logged-out" state.
-				results.stateHash = 'awtsmoos-logged-out';
-			}
-		
-		    // 4. Return the combined JSON result
-		    this.ended = true;
-		    
-		    // B"H
-		    // Allow Service Worker to validate metadata
-	            return {
-		        responseType: 'application/json',
-		        statusResponse: true,
-		        actualResponse: {
-		            content: JSON.stringify(results)
-		        }
-		    };
-		}
-		var responseType = "";
-		var actualResponse = null;
-
-		if(dyn === undefined) {
-			return {
-				responseType: "awtsmoos/undefined",
-				actualResponse: {
-					content: "undefined"
-				}
-			}
-		}
-		if(dyn === null) {
-			return {
-				responseType: "awtsmoos/null",
-				actualResponse: {
-					content: "null"
-				}
-			}
-		}
-
-		let r = dyn.response || dyn;
-
-		// Extract mime type from the dynamic route information
-		let m = dyn.mimeType;
-		if (m && typeof (m) === "string") {
-			try {
-				responseType = m;
-			} catch (e) {
-				console.log("Rpoblem with header", e)
-			}
-		}
-
-
-		// Process and send the response if it hasn't been ended yet
-		try {
-		
-			r = getProperContent(r, m);
-			this.ended = true;
-			actualResponse = r;
-
-			
-
-		} catch (e) {
-			console.log(e);
-		}
-
-		return {
-			responseType,
-			actualResponse
-		};
-	}
-
-	/**
-	 * @description Checks if the given path matches any Awtsmoos route definitions.
-	 * @returns {Array} - A list of matching Awtsmoos routes.
-	 */
-	async getAwtsmoosInfo(
-		sourcePath,
-		parentPath
-	) {
-
-		var checkedPath = sourcePath;
-		if (sourcePath.includes("favicon")) {
-
-			return []
-		}
-
-		let myFoundAwtsmooses = [];
-
-
-
-		parentPath = path.normalize(parentPath)
-			.replaceAll("\\", "/")
-			.trim();
-
-		let paths = path.normalize(checkedPath)
-			.replaceAll("\\", "/")
-			.trim()
-
-			.split("/")
-
-		/**
-		 * @description Recursive function to check all possible routes.
-		 */
-		async function checkAwtsmoosDracheem() {
-
-			try {
-				let derech = path
-					.join(
-
-						checkedPath +
-						"/" +
-						awtsMoosification
-					);
-				let moos = await
-				fs.stat(
-					derech
-				)
-
-
-				if (
-					moos &&
-					!moos.isDirectory()
-				) {
-
-					myFoundAwtsmooses
-						.push(checkedPath);
-				} else {
-
-				}
-			} catch (e) {
-				if (e.code != "ENOENT")
-					console.log("Eror", e, checkedPath)
-
-
-				paths.pop();
-				checkedPath = paths
-					.join("/");
-
-
-
-
-				if (
-					paths.length &&
-					parentPath != checkedPath
-				) {
-					await
-					checkAwtsmoosDracheem();
-
-				}
-			}
-		}
-
-		await checkAwtsmoosDracheem();
-
-		return myFoundAwtsmooses;
-	}
+  ended = false;
+
+  constructor(vars) {
+    ({
+      self,
+      errorMessage,
+      path,
+      fs,
+      awtsMoosification,
+      templateObjectGenerator
+    } = vars);
+  }
+
+  makePrivate(didThisPath) {
+    didThisPath.isPrivate = true;
+  }
+
+  async doAwtsmooses({
+    foundAwtsmooses,
+    filePath,
+    extraInfo = { fetchAwtsmoos: null }
+  } = {}) {
+    this.ended = false;
+
+    var didThisPath = {
+      c: false,
+      wow: {},
+      m: {},
+      time: new Date(),
+      awtsmooseem: [],
+      routeAttempts: []
+    };
+
+    if (filePath.includes("favicon")) {
+      return didThisPath;
+    }
+
+    var otherDynamics = [];
+
+    for (var awtsmoos of foundAwtsmooses) {
+      didThisPath.awtsmooseem.push(awtsmoos);
+
+      try {
+        var derech = path.join(awtsmoos, awtsMoosification);
+        didThisPath.derech = derech;
+
+        var awts = require(derech);
+        var modulePath = path.dirname(derech);
+        var relativeChildPath = path.relative(modulePath, filePath);
+        var childPathUrl = "/" + relativeChildPath.replace(/\\/g, "/");
+
+        didThisPath.moose = childPathUrl;
+
+        var dynam = awts.dynamicRoutes || awts;
+
+        if (typeof dynam !== "function") {
+          continue;
+        }
+
+        var templateObject = await templateObjectGenerator.getTemplateObject({
+          derech,
+          private: () => {
+            this.makePrivate(didThisPath);
+          },
+          ...extraInfo,
+          use: async (route, func) => {
+            try {
+              return await this.handleDynamicRoutes(
+                route,
+                func,
+                childPathUrl,
+                didThisPath,
+                otherDynamics
+              );
+            } catch (e) {
+              didThisPath.error = {
+                message: "dynamic_route_use_failed",
+                route,
+                childPathUrl,
+                stack: e.stack || String(e)
+              };
+
+              return false;
+            }
+          }
+        });
+
+        try {
+          await dynam(templateObject);
+        } catch (e) {
+          didThisPath.error = {
+            message: "dynamic_routes_function_failed",
+            childPathUrl,
+            stack: e.stack || String(e)
+          };
+
+          return didThisPath;
+        }
+
+        if (didThisPath.error) {
+          return didThisPath;
+        }
+
+        for (var od of otherDynamics) {
+          if (od.doesMatch) {
+            didThisPath.c = true;
+
+            try {
+              var resp = await this.doAwtsmoosResponse(od.result, derech);
+              didThisPath.responseInfo = resp;
+            } catch (e) {
+              didThisPath.error = {
+                message: "awtsmoos_response_failed",
+                stack: e.stack || String(e),
+                matchedRoute: od.route,
+                vars: od.vars
+              };
+            }
+
+            return didThisPath;
+          }
+        }
+
+        if (!didThisPath.c) {
+          didThisPath.invalidRoute = true;
+        } else if (didThisPath.isPrivate) {
+          didThisPath.isPrivate = true;
+        }
+
+        return didThisPath;
+      } catch (e) {
+        didThisPath.error = {
+          message: "awtsmoos_derech_failed",
+          stack: e.stack || String(e),
+          awtsmoos
+        };
+
+        return didThisPath;
+      }
+    }
+
+    return didThisPath;
+  }
+
+  async handleDynamicRoutes(route, func, childPathUrl, didThisPath, otherDynamics) {
+    if (typeof route === "string") {
+      return await this.processDynamicRoute(
+        route,
+        func,
+        childPathUrl,
+        didThisPath,
+        otherDynamics
+      );
+    }
+
+    if (route && typeof route === "object") {
+      for (var [rt, fnc] of Object.entries(route)) {
+        var matches = await this.processDynamicRoute(
+          rt,
+          fnc,
+          childPathUrl,
+          didThisPath,
+          otherDynamics
+        );
+
+        if (matches) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  async processDynamicRoute(route, func, childPathUrl, didThisPath, otherDynamics) {
+    var info = matchDynamicRoute(route, childPathUrl);
+
+    var attempt = {
+      route,
+      childPathUrl,
+      normalizedRoute: info.normalizedRoute,
+      normalizedPath: info.normalizedPath,
+      vars: info.vars,
+      doesMatch: info.doesRouteMatchURL,
+      reason: info.reason
+    };
+
+    didThisPath.routeAttempts.push(attempt);
+
+    if (!info.doesRouteMatchURL) {
+      otherDynamics.push({
+        route,
+        fullPath: "/" + info.normalizedPath,
+        ProbablyDoesntMatch: true,
+        info
+      });
+
+      return false;
+    }
+
+    if (typeof func !== "function") {
+      didThisPath.error = {
+        message: "matched_route_handler_not_function",
+        route,
+        childPathUrl,
+        type: typeof func
+      };
+
+      throw new Error("Matched route handler is not a function for route: " + route);
+    }
+
+    try {
+      var rez = await func(info.vars);
+
+      otherDynamics.push({
+        route,
+        matches: true,
+        shortRoute: route,
+        result: rez,
+        vars: info.vars,
+        doesMatch: true,
+        info
+      });
+
+      return true;
+    } catch (e) {
+      didThisPath.error = {
+        message: "matched_route_handler_threw",
+        route,
+        childPathUrl,
+        vars: info.vars,
+        stack: e.stack || String(e)
+      };
+
+      throw e;
+    }
+  }
+
+  getAwtsmoosDerechVariables(url, basePath) {
+    return matchDynamicRoute(url, basePath);
+  }
+
+  async doAwtsmoosResponse(dyn, derechPath) {
+    const { request } = templateObjectGenerator.dependencies;
+
+    if (
+      request.method == "GET" &&
+      request.isAwtsmoosFileStatusRequest
+    ) {
+      const results = {
+        logicModified: null,
+        dataModified: null,
+        stateHash: null
+      };
+
+      try {
+        const logicStats = await fs.stat(derechPath);
+        results.logicModified = logicStats.mtime.getTime();
+      } catch (e) {}
+
+      if (request.awtsmoosDataSourceStat) {
+        results.dataModified = request.awtsmoosDataSourceStat.mtime.getTime();
+      }
+
+      const sessionCookie = request.cookies && request.cookies.awtsmoosKey;
+
+      if (sessionCookie) {
+        results.stateHash = crypto
+          .createHash("sha256")
+          .update(sessionCookie)
+          .digest("hex");
+      } else {
+        results.stateHash = "awtsmoos-logged-out";
+      }
+
+      this.ended = true;
+
+      return {
+        responseType: "application/json",
+        statusResponse: true,
+        actualResponse: {
+          content: JSON.stringify(results)
+        }
+      };
+    }
+
+    var responseType = "";
+    var actualResponse = null;
+
+    if (dyn === undefined) {
+      return {
+        responseType: "awtsmoos/undefined",
+        actualResponse: {
+          content: "undefined"
+        }
+      };
+    }
+
+    if (dyn === null) {
+      return {
+        responseType: "awtsmoos/null",
+        actualResponse: {
+          content: "null"
+        }
+      };
+    }
+
+    let responseBody = dyn.response !== undefined ? dyn.response : dyn;
+    let mimeType = dyn.mimeType;
+
+    if (mimeType && typeof mimeType === "string") {
+      responseType = mimeType;
+    }
+
+    try {
+      responseBody = getProperContent(responseBody, mimeType);
+      this.ended = true;
+      actualResponse = responseBody;
+    } catch (e) {
+      actualResponse = {
+        content: JSON.stringify({
+          BH: "B\"H",
+          ok: false,
+          error: "get_proper_content_failed",
+          details: e.stack || String(e)
+        })
+      };
+
+      responseType = "application/json";
+    }
+
+    return {
+      responseType,
+      actualResponse
+    };
+  }
+
+  async getAwtsmoosInfo(sourcePath, parentPath) {
+    var checkedPath = sourcePath;
+
+    if (sourcePath.includes("favicon")) {
+      return [];
+    }
+
+    let myFoundAwtsmooses = [];
+
+    parentPath = path.normalize(parentPath)
+      .replaceAll("\\", "/")
+      .trim();
+
+    let paths = path.normalize(checkedPath)
+      .replaceAll("\\", "/")
+      .trim()
+      .split("/");
+
+    async function checkAwtsmoosDracheem() {
+      try {
+        let derech = path.join(checkedPath + "/" + awtsMoosification);
+        let moos = await fs.stat(derech);
+
+        if (moos && !moos.isDirectory()) {
+          myFoundAwtsmooses.push(checkedPath);
+        }
+      } catch (e) {
+        if (e.code != "ENOENT") {
+          console.log("Eror", e, checkedPath);
+        }
+
+        paths.pop();
+        checkedPath = paths.join("/");
+
+        if (paths.length && parentPath != checkedPath) {
+          await checkAwtsmoosDracheem();
+        }
+      }
+    }
+
+    await checkAwtsmoosDracheem();
+
+    return myFoundAwtsmooses;
+  }
 }
 
 module.exports = AwtsmoosResponse;

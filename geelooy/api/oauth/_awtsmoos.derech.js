@@ -4,19 +4,24 @@
 const { routeTable } = require("./routes/table.js");
 
 async function callRoute($i, name, vars) {
-  const clean = String(name || "").replace(/^\/+/, "").replace(/\/+$/, "");
+  const clean = String(name || "")
+    .split("?")[0]
+    .split("#")[0]
+    .replace(/^\/+/, "")
+    .replace(/\/+$/, "");
+
   const handler = routeTable[clean] || routeTable[""];
 
   if (!handler) {
     return {
-      mimeType: "application/json",
-      response: JSON.stringify({
+      mimeType: "application/json; charset=utf-8",
+      response: {
         BH: "B\"H",
         ok: false,
         error: "oauth_route_not_found",
         route: clean,
         available: Object.keys(routeTable)
-      }, null, 2)
+      }
     };
   }
 
@@ -33,12 +38,22 @@ module.exports = {
     await $i.use("", async vars => callRoute($i, "", vars));
     await $i.use("/", async vars => callRoute($i, "", vars));
 
-    await $i.use(":route", async vars => {
-      return await callRoute($i, vars.route, vars);
-    });
+    await $i.use(":route", async vars => callRoute($i, vars.route, vars));
+    await $i.use("/:route", async vars => callRoute($i, vars.route, vars));
 
-    await $i.use("/:route", async vars => {
-      return await callRoute($i, vars.route, vars);
-    });
+    await $i.use("authorize", async vars => callRoute($i, "authorize", vars));
+    await $i.use("/authorize", async vars => callRoute($i, "authorize", vars));
+
+    await $i.use("token", async vars => callRoute($i, "token", vars));
+    await $i.use("/token", async vars => callRoute($i, "token", vars));
+
+    await $i.use("me", async vars => callRoute($i, "me", vars));
+    await $i.use("/me", async vars => callRoute($i, "me", vars));
+
+    await $i.use("clients", async vars => callRoute($i, "clients", vars));
+    await $i.use("/clients", async vars => callRoute($i, "clients", vars));
+
+    await $i.use("logout", async vars => callRoute($i, "logout", vars));
+    await $i.use("/logout", async vars => callRoute($i, "logout", vars));
   }
 };
