@@ -1,6 +1,5 @@
 
 // B"H
-
 const { json } = require("../tools/respond.js");
 const { getQuery } = require("../tools/requestData.js");
 const { getClient } = require("../core/clients.js");
@@ -9,13 +8,10 @@ const { getUserId, publicUser } = require("../core/currentUser.js");
 
 /**
  * B"H
- * Gives a human-readable OAuth starting point.
- *
- * This is useful for manual testing and for APIs that want to discover
- * the login URL and authorize URL before beginning the OAuth flow.
+ * Shows a clean beginning for OAuth.
  *
  * @param {object} $i Awtsmoos route context.
- * @returns {object} JSON response with useful OAuth URLs.
+ * @returns {object}
  */
 async function start($i) {
   const q = getQuery($i);
@@ -32,13 +28,14 @@ async function start($i) {
   return json($i, {
     BH: "B\"H",
     ok: true,
-    message: "Open loginUrl if you are not logged in. Then open authorizeUrl.",
+    message: "Open loginUrl if not logged in. Then open authorizeUrl.",
     loggedIn: !!getUserId($i),
     user: publicUser($i),
     client: {
       id: client.id,
       name: client.name,
-      scopes: client.scopes
+      scopes: client.scopes,
+      defaultScope: client.defaultScope
     },
     loginUrl: fullUrlFor($i, "/login"),
     authorizeUrl

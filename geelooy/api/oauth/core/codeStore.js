@@ -6,9 +6,8 @@ const crypto = require("crypto");
  * B"H
  * Shared in-memory OAuth authorization-code store.
  *
- * authorize.js currently imports createCode.
- * token.js currently imports takeCode.
- * So this exports both createCode and saveCode as aliases.
+ * This exports createCode/saveCode/takeCode to match all route versions.
+ * It is in-memory, so /authorize and /token must run in the same Node process.
  */
 
 const CODE_TTL_MS = 5 * 60 * 1000;
@@ -35,6 +34,13 @@ function makeCode() {
   return "awt_code_" + crypto.randomBytes(32).toString("base64url");
 }
 
+/**
+ * B"H
+ * Creates and stores an authorization code.
+ *
+ * @param {object} record Authorization code record.
+ * @returns {Promise<string>} Code.
+ */
 async function createCode(record) {
   cleanExpiredCodes();
 
@@ -56,10 +62,24 @@ async function createCode(record) {
   return code;
 }
 
+/**
+ * B"H
+ * Alias for older route versions.
+ *
+ * @param {object} record Authorization code record.
+ * @returns {Promise<string>} Code.
+ */
 async function saveCode(record) {
   return await createCode(record);
 }
 
+/**
+ * B"H
+ * Reads and deletes a code.
+ *
+ * @param {string} code Code.
+ * @returns {object|null}
+ */
 function takeCode(code) {
   cleanExpiredCodes();
 
@@ -74,6 +94,13 @@ function takeCode(code) {
   return record;
 }
 
+/**
+ * B"H
+ * Reads without deleting. Debug helper.
+ *
+ * @param {string} code Code.
+ * @returns {object|null}
+ */
 function peekCode(code) {
   cleanExpiredCodes();
   return store.get(code) || null;

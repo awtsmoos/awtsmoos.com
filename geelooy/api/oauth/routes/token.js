@@ -2,25 +2,31 @@
 // B"H
 
 const crypto = require("crypto");
-const { normalizeTokenRequest } = require("../core/requestBody.js");
+const { getTokenRequest } = require("../tools/requestData.js");
 const { getClient } = require("../core/clients.js");
 const { resolveServerSecret } = require("../core/serverSecret.js");
 const { takeCode } = require("../core/codeStore.js");
+const { json } = require("../tools/respond.js");
 
-function json($i, data, status = 200) {
-  try {
-    $i.response.statusCode = status;
-    $i.response.setHeader("Content-Type", "application/json; charset=utf-8");
-    $i.response.setHeader("Cache-Control", "no-store");
-  } catch (e) {}
-
-  return JSON.stringify(data, null, 2);
-}
-
+/**
+ * B"H
+ * Base64-url encodes JSON.
+ *
+ * @param {object} obj Object.
+ * @returns {string}
+ */
 function b64url(obj) {
   return Buffer.from(JSON.stringify(obj)).toString("base64url");
 }
 
+/**
+ * B"H
+ * HMAC signature for Awtsmoos token.
+ *
+ * @param {string} payload Token payload.
+ * @param {string} secret Secret.
+ * @returns {string}
+ */
 function sign(payload, secret) {
   return crypto
     .createHmac("sha256", String(secret))
@@ -28,6 +34,15 @@ function sign(payload, secret) {
     .digest("hex");
 }
 
+/**
+ * B"H
+ * Creates access token.
+ *
+ * @param {object} entry Token entry.
+ * @param {string} secret Server secret.
+ * @param {number} expiresIn Expiry seconds.
+ * @returns {string}
+ */
 function makeAccessToken(entry, secret, expiresIn) {
   const payload = [
     "B\"H",
@@ -43,12 +58,15 @@ function makeAccessToken(entry, secret, expiresIn) {
   return payload + "." + sign(payload, secret);
 }
 
-function clientSecretOf(client) {
-  return client.clientSecret || client.secret || "";
-}
-
+/**
+ * B"H
+ * OAuth token endpoint for ChatGPT Actions.
+ *
+ * @param {object} $i Awtsmoos dynamic route context.
+ * @returns {Promise<object>}
+ */
 async function token($i) {
-  const req = normalizeTokenRequest($i);
+  const req = await getTokenRequest($i);
 
   if (req.grant_type !== "authorization_code") {
     return json($i, {
@@ -79,9 +97,7 @@ async function token($i) {
     }, 401);
   }
 
-  const expectedSecret = clientSecretOf(client);
-
-  if (expectedSecret && req.client_secret !== expectedSecret) {
+  if (!client.secretAllowed(req.client_secret)) {
     return json($i, {
       BH: "B\"H",
       error: "invalid_client_secret"
@@ -95,7 +111,7 @@ async function token($i) {
       BH: "B\"H",
       error: "invalid_or_expired_code",
       codePrefix: String(req.code).slice(0, 18),
-      hint: "The code was not found in the shared codeStore. Make sure authorize.js imports saveCode from ../core/codeStore.js and redirects with that exact code."
+      hint: "Code parsed, but not found. Retry immediately after authorize; code TTL is 5 minutes and one-time-use."
     }, 400);
   }
 
