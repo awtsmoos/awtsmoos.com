@@ -10,6 +10,8 @@
   --line: rgba(255,255,255,.16);
   --a: #8bd3ff;
   --b: #d7a7ff;
+  --good: #a6ffd3;
+  --bad: #ffb4b4;
 }
 
 * {
@@ -77,11 +79,12 @@ h2 {
 }
 
 .row,
-.tabs {
+.tabs,
+.toolbar {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: end;
 }
 
 .card {
@@ -132,6 +135,11 @@ h2 {
   display: block;
 }
 
+pre,
+code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
 pre {
   white-space: pre-wrap;
   overflow: auto;
@@ -149,9 +157,13 @@ label {
   margin: 12px 0;
   color: var(--muted);
   font-weight: 750;
+  flex: 1;
+  min-width: 180px;
 }
 
-input {
+input,
+textarea,
+select {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 15px;
@@ -159,6 +171,15 @@ input {
   background: rgba(0,0,0,.28);
   color: var(--text);
   font: inherit;
+}
+
+textarea {
+  min-height: 90px;
+}
+
+.note {
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .feature-grid {

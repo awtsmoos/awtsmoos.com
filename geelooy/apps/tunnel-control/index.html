@@ -13,36 +13,46 @@
       <p class="eyebrow">B"H • Hosted Awtsmoos Tunnel Control</p>
       <h1>Control your local agent from awtsmoos.com.</h1>
       <p class="lead">
-        Keep the terminal quiet. The local machine runs only a background agent.
-        This hosted page checks status, shows instructions, and will become the
-        account/device/API-key dashboard.
+        Hosted dashboard for install, device status, file actions, API keys, usage,
+        OAuth, and agent instructions.
       </p>
       <div class="row">
         <a class="button primary" href="#install">Install / Restart Agent</a>
-        <button class="button" id="refreshBtn">Refresh Status</button>
+        <button class="button" id="refreshBtn">Refresh</button>
+        <a class="button" href="/login">Login</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <p class="eyebrow">Account</p>
+        <h2>Identity</h2>
+        <pre id="identityBox">Loading...</pre>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">Status</p>
+        <h2>Connected devices</h2>
+        <pre id="statusBox">Loading...</pre>
       </div>
     </section>
 
     <section class="card" id="install">
-      <p class="eyebrow">Install</p>
+      <p class="eyebrow">Install / Restart</p>
       <h2>One command</h2>
-
       <div class="tabs">
         <button class="tab active" data-tab="ps">PowerShell</button>
         <button class="tab" data-tab="cmd">CMD</button>
         <button class="tab" data-tab="unix">Mac / Linux</button>
       </div>
-
       <div class="pane active" data-pane="ps">
         <pre id="cmdPs">irm https://awtsmoos.com/api/tunnel/install/windows | iex</pre>
         <button class="button small" data-copy="cmdPs">Copy</button>
       </div>
-
       <div class="pane" data-pane="cmd">
         <pre id="cmdCmd">powershell -ExecutionPolicy Bypass -Command "irm https://awtsmoos.com/api/tunnel/install/windows | iex"</pre>
         <button class="button small" data-copy="cmdCmd">Copy</button>
       </div>
-
       <div class="pane" data-pane="unix">
         <pre id="cmdUnix">curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash</pre>
         <button class="button small" data-copy="cmdUnix">Copy</button>
@@ -51,41 +61,94 @@
 
     <section class="grid">
       <div class="card">
-        <p class="eyebrow">Status</p>
-        <h2>Connected devices</h2>
-        <pre id="statusBox">Loading...</pre>
-      </div>
-
-      <div class="card">
-        <p class="eyebrow">GPT</p>
+        <p class="eyebrow">GPT / Any AI</p>
         <h2>Agent instructions</h2>
-        <label>
-          Tunnel name
-          <input id="tunnelName">
-        </label>
-        <label>
-          Project path
-          <input id="projectPath" value=".">
+        <label>Tunnel name <input id="tunnelName"></label>
+        <label>Project path <input id="projectPath" value="."></label>
+        <label>Mode
+          <select id="promptMode">
+            <option value="explorer">Codebase explorer</option>
+            <option value="fixer">Bug fixer</option>
+            <option value="vibe">Vibe coder</option>
+            <option value="review">Read-only reviewer</option>
+          </select>
         </label>
         <pre id="promptBox"></pre>
         <button class="button small" id="copyPromptBtn">Copy Prompt</button>
       </div>
+
+      <div class="card">
+        <p class="eyebrow">API Keys</p>
+        <h2>Optional access keys</h2>
+        <label>Name <input id="keyName" value="Tunnel API Key"></label>
+        <label>Scopes <input id="keyScopes" value="tunnel.read tunnel.write"></label>
+        <div class="row">
+          <button class="button primary" id="createKeyBtn">Create API Key</button>
+          <button class="button" id="loadKeysBtn">Load Keys</button>
+        </div>
+        <pre id="keysBox">Login first, then load keys.</pre>
+      </div>
     </section>
 
     <section class="card">
-      <p class="eyebrow">Next phase placeholders</p>
-      <h2>Coming next</h2>
-      <div class="feature-grid">
-        <div>Account pairing</div>
-        <div>Device manager</div>
-        <div>API key manager</div>
-        <div>Usage + rate limits</div>
-        <div>Directory explorer</div>
-        <div>Action playground</div>
+      <p class="eyebrow">File Explorer</p>
+      <h2>Browse through raw dev tunnel</h2>
+      <div class="toolbar">
+        <label>Path <input id="explorerPath" value="."></label>
+        <label>Depth <input id="treeDepth" type="number" min="1" max="4" value="2"></label>
+        <label>Limit <input id="treeLimit" type="number" min="20" max="600" value="150"></label>
       </div>
+      <div class="row">
+        <button class="button" id="listBtn">List</button>
+        <button class="button" id="treeBtn">Tree</button>
+        <button class="button" id="readBtn">Read</button>
+        <button class="button" id="mdBtn">Read as Markdown</button>
+      </div>
+      <pre id="explorerOut">Ready.</pre>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Action Lab</p>
+      <h2>Try any tunnel action</h2>
+      <div class="toolbar">
+        <label>Action
+          <select id="actionName">
+            <option>list</option>
+            <option>tree</option>
+            <option>read</option>
+            <option>md</option>
+            <option>write</option>
+            <option>bulk</option>
+            <option>bulkWrite</option>
+          </select>
+        </label>
+        <label>Path <input id="actionPath" value="."></label>
+        <label>Max chars <input id="maxChars" type="number" value="12000"></label>
+      </div>
+      <label>Content for write <textarea id="writeContent">B"H
+Tunnel write test.</textarea></label>
+      <label>Bulk paths, one per line <textarea id="bulkPaths">package.json
+index.js</textarea></label>
+      <label>Bulk write JSON object <textarea id="bulkWriteJson">{
+  "debugging/tunnel-test-1.txt": "B\\\"H\\nhello 1\\n",
+  "debugging/tunnel-test-2.txt": "B\\\"H\\nhello 2\\n"
+}</textarea></label>
+      <div class="row">
+        <button class="button primary" id="runActionBtn">Run Action</button>
+        <button class="button" id="copyActionUrlBtn">Copy API URL</button>
+      </div>
+      <pre id="actionUrlOut"></pre>
+      <pre id="actionOut">Ready.</pre>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Usage</p>
+      <h2>Usage and rate-limit foundation</h2>
+      <button class="button" id="loadUsageBtn">Load Usage</button>
+      <pre id="usageBox">Login first, then load usage.</pre>
     </section>
   </main>
 
-  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="./js/app.js"></script>
 </body>
 </html>
