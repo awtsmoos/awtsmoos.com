@@ -1,45 +1,48 @@
 
 /* B"H */
-.key-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr);
-  gap: 18px;
-}
-
 .scope-picker,
 .permission-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 10px;
   margin: 12px 0;
 }
 
-.quick-roots {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 12px 0;
-}
-
-.quick-root {
+.switch-card,
+.scope-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 8px 10px;
-  background: rgba(0,0,0,.22);
-  color: var(--a);
+  border-radius: 18px;
+  padding: 13px;
+  background: rgba(0,0,0,.20);
   cursor: pointer;
-  font-weight: 850;
 }
 
-.active-key-card {
-  border: 1px solid var(--line2);
-  border-radius: 18px;
-  padding: 14px;
-  margin: 12px 0;
-  background: rgba(139,211,255,.10);
-  color: var(--text);
-  font-weight: 850;
-  overflow-wrap: anywhere;
+.switch-card input,
+.scope-card input {
+  width: 22px;
+  height: 22px;
+  margin: 2px 0 0;
+  accent-color: var(--a);
+}
+
+.switch-card span,
+.scope-card span {
+  font-weight: 950;
+}
+
+.scope-card small {
+  grid-column: 2;
+  color: var(--muted);
+}
+
+.switch-card:has(input:checked),
+.scope-card:has(input:checked) {
+  border-color: var(--line2);
+  background: rgba(139,211,255,.13);
 }
 
 .saved-keys-list {
@@ -50,27 +53,17 @@
 .saved-key-card {
   border: 1px solid var(--line);
   border-radius: 18px;
-  padding: 13px;
+  padding: 14px;
   background: rgba(0,0,0,.22);
 }
 
 .saved-key-card.active {
   border-color: var(--line2);
-  background: rgba(139,211,255,.11);
-}
-
-.saved-key-card h4 {
-  margin: 0 0 5px;
+  background: rgba(139,211,255,.12);
 }
 
 .saved-key-card code {
   display: block;
   margin: 8px 0;
   overflow-wrap: anywhere;
-}
-
-.saved-key-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
 }

@@ -1,29 +1,56 @@
 
 /* B"H */
-.wrap {
-  width: min(1260px, calc(100% - 26px));
+.shell {
+  width: min(1440px, calc(100vw - 28px));
   margin: auto;
-  padding: 30px 0 80px;
+  padding: 22px 0 90px;
 }
-.hero {
-  padding: clamp(28px, 6vw, 62px);
-  margin-bottom: 18px;
-}
-.grid {
+
+.grid.two,
+.dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 18px;
 }
-.toolbar,
+
 .row,
-.tabs {
+.toolbar,
+.status-row,
+.hero-buttons,
+.button-grid {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  align-items: end;
+  align-items: center;
 }
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 10px;
+
+.dock {
+  position: sticky;
+  top: 10px;
+  z-index: 40;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin: 18px 0;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(6,8,18,.82);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.dock a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--line);
+  font-weight: 900;
+}
+
+.dock a:hover {
+  background: rgba(139,211,255,.16);
+  border-color: var(--line2);
 }

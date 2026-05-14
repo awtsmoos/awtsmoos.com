@@ -1,24 +1,34 @@
 
 /* B"H */
-@media(max-width: 980px) {
-  .hero-grid,
+@media (max-width: 1000px) {
+  .hero,
   .grid.two,
-  .grid.dashboard-grid,
+  .dashboard-grid,
   .setup-layout,
-  .explorer-layout {
+  .key-layout,
+  .explorer-layout,
+  .root-picker-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .toolbar {
     grid-template-columns: 1fr;
+  }
+
+  .hero-panel {
+    order: -1;
   }
 }
 
-@media(max-width: 560px) {
+@media (max-width: 620px) {
   .shell {
-    width: min(100% - 14px, 1360px);
-    padding-top: 12px;
+    width: calc(100vw - 12px);
+    padding-top: 8px;
   }
 
   .hero,
   .card {
-    border-radius: 18px;
+    border-radius: 20px;
     padding: 16px;
   }
 
@@ -26,7 +36,14 @@
     font-size: 42px;
   }
 
-  .mini-grid {
-    grid-template-columns: 1fr;
+  .button,
+  .tab {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dock {
+    overflow-x: auto;
+    flex-wrap: nowrap;
   }
 }

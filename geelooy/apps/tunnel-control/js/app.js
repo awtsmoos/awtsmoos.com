@@ -22,7 +22,10 @@ function getTunnelName() {
 window.awtsGetTunnelName = getTunnelName;
 
 function renderPrompt() {
-  $("promptBox").textContent = buildPrompt({
+  const box = $("promptBox");
+  if (!box) return;
+
+  box.textContent = buildPrompt({
     tunnelName: getTunnelName(),
     projectPath: $("projectPath").value.trim() || ".",
     mode: $("promptMode").value
@@ -46,8 +49,8 @@ async function safeMount(name, fn) {
 async function main() {
   log("boot app.js");
 
-  $("tunnelName").value = state.tunnelName;
-  $("projectPath").value = state.projectPath;
+  $("tunnelName").value = state.tunnelName || new URLSearchParams(location.search).get("tunnelName") || "";
+  $("projectPath").value = state.projectPath || ".";
 
   $("tunnelName").addEventListener("input", () => {
     renderPrompt();
@@ -90,5 +93,6 @@ async function main() {
 }
 
 main().catch(e => {
+  document.body.innerHTML = "<pre style='padding:20px;color:white;background:#070913;white-space:pre-wrap'>B\"H\nControl panel boot failed:\n" + e.stack + "</pre>";
   error("fatal app boot error", e);
 });
