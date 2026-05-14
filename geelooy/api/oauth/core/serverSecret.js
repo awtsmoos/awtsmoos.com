@@ -1,37 +1,22 @@
 
 // B"H
-
 const path = require("path");
 
 /**
  * B"H
- * The exact fallback secret used by the Awtsmoos dynamic server.
+ * Fallback secret used only when no configured server secret can be reached.
  *
- * If the configured secret file cannot be loaded, the server does not crash.
- * It falls back to this object and then JSON.stringify seals it into the
- * token-signing secret. OAuth verification must do the same thing or the
- * signature will never match.
- *
- * @returns {string} JSON string fallback secret.
+ * IMPORTANT:
+ * Token creation and token validation must use the exact same secret resolver,
+ * otherwise signatures will never validate.
  */
 function fallbackSecret() {
   return JSON.stringify({
-    BH: 'B"H',
+    BH: "B\"H",
     noKey: "No security"
   });
 }
 
-/**
- * B"H
- * Safely loads a JSON or JS secret module.
- *
- * The file may live outside the public repo. If it cannot be found, that is
- * not automatically fatal, because the main server also tolerates that and
- * falls back to a default secret vessel.
- *
- * @param {string} absolutePath Absolute path to the configured secret file.
- * @returns {object} Load result.
- */
 function tryLoadSecretFile(absolutePath) {
   try {
     const loaded = require(absolutePath);
@@ -39,7 +24,8 @@ function tryLoadSecretFile(absolutePath) {
     if (!loaded) {
       return {
         ok: false,
-        error: "secret_file_loaded_empty"
+        error: "secret_file_loaded_empty",
+        path: absolutePath
       };
     }
 
@@ -57,24 +43,29 @@ function tryLoadSecretFile(absolutePath) {
   }
 }
 
-/**
- * B"H
- * Resolves the configured secret path the same way the dynamic server does.
- *
- * The dynamic server uses:
- * this.directory + config.secret
- *
- * process.env.__awtsdir is set to the server directory, so this reproduces
- * that same path, then falls back exactly like the server if the require fails.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {object} Result with ok, secret, source, and optional detail.
- */
+function configFromContext($i) {
+  return (
+    $i?.config ||
+    $i?.server?.config ||
+    global.config ||
+    {}
+  );
+}
+
+function selfFromContext($i) {
+  return (
+    $i?.self ||
+    $i?.server ||
+    global.server ||
+    null
+  );
+}
+
 function resolveSecretFromConfig($i) {
-  const config = $i.config || {};
+  const config = configFromContext($i);
   const secretPath = config.secret;
 
-  if (typeof secretPath !== "string") {
+  if (typeof secretPath !== "string" || !secretPath) {
     return {
       ok: true,
       secret: fallbackSecret(),
@@ -82,9 +73,13 @@ function resolveSecretFromConfig($i) {
     };
   }
 
-  const baseDir = process.env.__awtsdir || process.cwd() + "/";
-  const directPath = baseDir + secretPath;
+  const baseDir =
+    process.env.__awtsdir ||
+    process.env.AWTSMOOS_DIR ||
+    process.cwd();
+
   const resolvedPath = path.resolve(baseDir, secretPath);
+  const directPath = String(baseDir).replace(/[\\\/]?$/, "/") + secretPath;
 
   const direct = tryLoadSecretFile(directPath);
 
@@ -121,32 +116,38 @@ function resolveSecretFromConfig($i) {
 
 /**
  * B"H
- * Resolves the Awtsmoos server secret used by token validation.
+ * Resolves the exact secret for OAuth token signing and validation.
  *
- * First it uses $i.self.secret if the dynamic server exposes it.
- * If not, it reproduces the server config-secret loading behavior.
- * If that fails, it uses the same fallback as the server.
+ * This function MUST NOT crash if $i is missing or partial.
+ * Earlier token.js called resolveServerSecret() without $i; this version
+ * tolerates that and falls back safely.
  *
- * @param {object} $i Awtsmoos route context.
- * @returns {object} Result object with ok, secret, source, and optional details.
+ * @param {object=} $i Awtsmoos route context.
+ * @returns {{ok:boolean, secret:string, source:string, details?:object}}
  */
 function resolveServerSecret($i) {
-  if ($i.self) {
-    if (typeof $i.self.secret === "string") {
-      return {
-        ok: true,
-        secret: $i.self.secret,
-        source: "$i.self.secret"
-      };
-    }
+  const self = selfFromContext($i);
+
+  if (self && typeof self.secret === "string" && self.secret) {
+    return {
+      ok: true,
+      secret: self.secret,
+      source: "$i.self.secret"
+    };
   }
 
   return resolveSecretFromConfig($i);
+}
+
+function secretString($i) {
+  const got = resolveServerSecret($i);
+  return got.secret;
 }
 
 module.exports = {
   resolveServerSecret,
   resolveSecretFromConfig,
   fallbackSecret,
-  tryLoadSecretFile
+  tryLoadSecretFile,
+  secretString
 };

@@ -1,90 +1,82 @@
 
 // B"H
 
-const { resolveServerSecret } = require("./serverSecret.js");
-const {
-  decodeTokenValidationResult,
-  getTokenEntry,
-  isTokenExpired
-} = require("./tokenDecoder.js");
+const crypto = require("crypto");
+const { secretString } = require("./serverSecret.js");
 
-/**
- * B"H
- * Extracts a bearer token from the Authorization header.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {string} Bearer token or empty string.
- */
-function getBearerToken($i) {
-  const auth = $i.request.headers.authorization || "";
-  return auth.replace(/^Bearer\s+/i, "").trim();
-}
+function verifyAwtsmoosOAuthToken(token, secret) {
+  const parts = String(token || "").split(".");
 
-/**
- * B"H
- * Validates a token using the best available route.
- *
- * First it tries a future injected helper named validateToken.
- * If that does not exist, it reconstructs the server secret and calls sodos directly.
- *
- * @param {object} $i Awtsmoos route context.
- * @param {string} token Bearer token.
- * @returns {object} Validation result.
- */
-function validateOAuthToken($i, token) {
-  if (typeof $i.validateToken === "function") {
-    const viaHelper = $i.validateToken(token);
-
-    if (viaHelper && viaHelper.success) {
-      return {
-        ok: true,
-        decoded: viaHelper.success,
-        source: "$i.validateToken"
-      };
-    }
-
+  if (parts.length !== 3 || parts[0] !== "B\"H") {
     return {
       ok: false,
-      error: viaHelper?.error || "validateToken_helper_rejected_token"
+      error: "bad_token_shape"
     };
   }
 
-  const secret = resolveServerSecret($i);
+  const payload = parts[0] + "." + parts[1];
+  const sig = parts[2];
 
-  if (!secret.ok) {
+  const expected = crypto
+    .createHmac("sha256", String(secret))
+    .update(payload)
+    .digest("hex");
+
+  if (sig !== expected) {
     return {
       ok: false,
-      error: "could_not_resolve_server_secret",
-      details: secret.error
+      error: "bad_signature"
     };
   }
 
-  const raw = $i.sodos.validateToken(token, secret.secret);
+  let decoded;
 
-  if (!raw) {
+  try {
+    decoded = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
+  } catch (e) {
     return {
       ok: false,
-      error: "sodos_rejected_token",
-      source: secret.source
+      error: "bad_payload",
+      details: e.message
+    };
+  }
+
+  const entry = decoded.entry || decoded;
+
+  if (!entry || entry.kind !== "oauth_access") {
+    return {
+      ok: false,
+      error: "wrong_token_kind"
+    };
+  }
+
+  const issuedAt = Number(decoded.zman || entry.createdAt || 0);
+  const expiresIn = Number(decoded.hoshufuh?.expiresIn || 3600);
+
+  if (issuedAt && Date.now() > issuedAt + expiresIn * 1000) {
+    return {
+      ok: false,
+      error: "token_expired"
     };
   }
 
   return {
     ok: true,
-    decoded: decodeTokenValidationResult(raw),
-    source: secret.source
+    raw: decoded,
+    entry
   };
 }
 
 /**
  * B"H
- * Reads and validates an OAuth access bearer token.
+ * Reads an OAuth bearer token.
  *
- * @param {object} $i Awtsmoos route context.
- * @returns {object} Auth result.
+ * This no longer depends on $i.sodos or $i.self.secret existing.
+ * It uses the same secret resolver as token.js.
  */
 function readBearer($i) {
-  const token = getBearerToken($i);
+  const auth = $i.request?.headers?.authorization || "";
+  const token = auth.replace(/^Bearer\s+/i, "").trim();
 
   if (!token) {
     return {
@@ -93,52 +85,26 @@ function readBearer($i) {
     };
   }
 
-  try {
-    const valid = validateOAuthToken($i, token);
+  const got = verifyAwtsmoosOAuthToken(token, secretString($i));
 
-    if (!valid.ok) {
-      return {
-        ok: false,
-        error: "invalid_token",
-        details: valid.details || valid.error
-      };
-    }
-
-    const decoded = valid.decoded;
-    const entry = getTokenEntry(decoded);
-
-    if (!entry || entry.kind !== "oauth_access") {
-      return {
-        ok: false,
-        error: "wrong_token_kind"
-      };
-    }
-
-    if (isTokenExpired(decoded)) {
-      return {
-        ok: false,
-        error: "token_expired"
-      };
-    }
-
-    return {
-      ok: true,
-      token,
-      raw: decoded,
-      entry,
-      source: valid.source
-    };
-  } catch (e) {
+  if (!got.ok) {
     return {
       ok: false,
       error: "invalid_token",
-      details: e.stack || e.message
+      details: got.error,
+      more: got.details || null
     };
   }
+
+  return {
+    ok: true,
+    token,
+    raw: got.raw,
+    entry: got.entry
+  };
 }
 
 module.exports = {
   readBearer,
-  getBearerToken,
-  validateOAuthToken
+  verifyAwtsmoosOAuthToken
 };

@@ -4,7 +4,7 @@
 const crypto = require("crypto");
 const { getTokenRequest } = require("../tools/requestData.js");
 const { getClient } = require("../core/clients.js");
-const { resolveServerSecret } = require("../core/serverSecret.js");
+const { secretString } = require("../core/serverSecret.js");
 const { takeCode } = require("../core/codeStore.js");
 const { json } = require("../tools/respond.js");
 
@@ -80,7 +80,7 @@ async function token($i) {
       BH: "B\"H",
       error: "invalid_or_expired_code",
       codePrefix: String(req.code).slice(0, 18),
-      hint: "Retry OAuth immediately. Codes are one-time-use and expire after 5 minutes."
+      hint: "Retry OAuth from ChatGPT immediately. Codes are one-time-use and expire after 5 minutes."
     }, 400);
   }
 
@@ -103,7 +103,7 @@ async function token($i) {
   }
 
   const expiresIn = client.accessTokenSeconds || 3600;
-  const secret = resolveServerSecret();
+  const secret = secretString($i);
 
   const entry = {
     kind: "oauth_access",
