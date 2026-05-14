@@ -1,19 +1,32 @@
 
 /* B"H */
-@media(max-width: 900px) {
-  .grid,
+@media(max-width: 980px) {
+  .hero-grid,
+  .grid.two,
+  .grid.dashboard-grid,
+  .setup-layout,
   .explorer-layout {
     grid-template-columns: 1fr;
   }
 }
+
 @media(max-width: 560px) {
-  .wrap {
-    width: min(100% - 14px, 1260px);
+  .shell {
+    width: min(100% - 14px, 1360px);
     padding-top: 12px;
   }
+
   .hero,
   .card {
     border-radius: 18px;
     padding: 16px;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .mini-grid {
+    grid-template-columns: 1fr;
   }
 }

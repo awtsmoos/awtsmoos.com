@@ -4,7 +4,7 @@
 import { $ } from "./lib/dom.js";
 import { mountTabs } from "./ui/tabs.js";
 import { mountCopyButtons } from "./ui/copy.js";
-import { refreshStatus } from "./features/status.js";
+import { refreshStatus, refreshDevice, refreshLogin } from "./features/status.js";
 import { buildPrompt } from "./features/prompt.js";
 import { mountExplorer } from "./features/explorer.js";
 import { mountActions } from "./features/actions.js";
@@ -37,12 +37,14 @@ async function main() {
 
   $("tunnelName").addEventListener("input", () => {
     renderPrompt();
-    refresh();
+    refreshDevice(getTunnelName);
   });
 
   $("projectPath").addEventListener("input", renderPrompt);
   $("promptMode").addEventListener("change", renderPrompt);
   $("refreshBtn").addEventListener("click", refresh);
+  $("refreshDeviceBtn").addEventListener("click", () => refreshDevice(getTunnelName));
+
   $("copyPromptBtn").addEventListener("click", async () => {
     await navigator.clipboard.writeText($("promptBox").textContent);
   });
@@ -56,13 +58,18 @@ async function main() {
   mountUsage();
 
   renderPrompt();
-  await refresh();
+
+  await Promise.allSettled([
+    refreshLogin(),
+    refreshDevice(getTunnelName)
+  ]);
 
   try {
     await loadConfig(getTunnelName);
   } catch (e) {}
 
-  setInterval(refresh, 5000);
+  setInterval(() => refreshDevice(getTunnelName), 5000);
+  setInterval(refreshLogin, 30000);
 }
 
 main();

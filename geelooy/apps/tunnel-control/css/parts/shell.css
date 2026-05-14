@@ -1,15 +1,20 @@
 
 /* B"H */
 .shell {
-  width: min(1360px, calc(100% - 28px));
+  width: min(1360px, calc(100vw - 28px));
+  max-width: 100%;
   margin: auto;
   padding: 32px 0 90px;
+  overflow-x: hidden;
 }
-.grid.two {
+
+.grid.two,
+.grid.dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 18px;
 }
+
 .row,
 .toolbar,
 .hero-actions,
@@ -19,6 +24,7 @@
   flex-wrap: wrap;
   align-items: end;
 }
+
 .dock {
   position: sticky;
   top: 8px;
@@ -30,9 +36,11 @@
   margin: 0 0 18px;
   border: 1px solid var(--line);
   border-radius: 20px;
-  background: rgba(7,9,19,.78);
+  background: rgba(7,9,19,.86);
   backdrop-filter: blur(18px);
+  overflow-x: auto;
 }
+
 .dock a {
   color: var(--text);
   text-decoration: none;
@@ -41,7 +49,9 @@
   padding: 8px 12px;
   font-weight: 850;
   background: rgba(255,255,255,.07);
+  white-space: nowrap;
 }
+
 .hidden {
   display: none !important;
 }

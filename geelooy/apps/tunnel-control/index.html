@@ -11,36 +11,56 @@
   <main class="shell">
     <section class="hero">
       <div class="hero-grid">
-        <div>
+        <div class="hero-copy">
           <p class="eyebrow">B"H • Hosted Awtsmoos Tunnel Control</p>
           <h1>Command your local code agent.</h1>
           <p class="lead">
-            Verify the agent, lock it to a root folder, browse files, run safe actions,
-            create scoped API keys, and generate instructions for any AI.
+            Verify your login, connect the agent, lock it to a root folder,
+            browse files, run safe actions, and create scoped API keys.
           </p>
+
           <div class="hero-actions">
             <span id="connectionPill" class="status-pill warning">
               <span class="status-dot"></span>
               <span id="connectionText">Checking agent</span>
             </span>
+
             <span id="authPill" class="status-pill warning">
               <span class="status-dot"></span>
               <span id="authText">Checking login</span>
             </span>
+
             <a class="button primary" href="#install">Install / Restart</a>
             <button class="button" id="refreshBtn">Refresh</button>
             <a class="button" id="loginLink" href="/login">Login</a>
           </div>
         </div>
+
         <div class="hero-card">
           <p class="eyebrow">This tunnel</p>
           <label>Tunnel name <input id="tunnelName"></label>
-          <pre id="miniStatus">Loading...</pre>
+
+          <div class="mini-grid">
+            <div class="mini-stat">
+              <span class="mini-label">Agent</span>
+              <strong id="miniAgent">Checking</strong>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-label">Login</span>
+              <strong id="miniLogin">Checking</strong>
+            </div>
+          </div>
+
+          <details class="details-box">
+            <summary>Raw tunnel details</summary>
+            <pre id="miniStatus">Loading...</pre>
+          </details>
         </div>
       </div>
     </section>
 
     <nav class="dock">
+      <a href="#account">Account</a>
       <a href="#setup">Setup</a>
       <a href="#explorer">Explorer</a>
       <a href="#actions">Actions</a>
@@ -49,57 +69,93 @@
       <a href="#install">Install</a>
     </nav>
 
-    <section class="grid two">
-      <div class="card" id="setup">
-        <div class="card-head">
-          <div>
-            <p class="eyebrow">Setup</p>
-            <h2>Root and permissions</h2>
-          </div>
-          <button class="button small" id="loadConfigBtn">Load Agent Config</button>
-        </div>
-
-        <label>
-          Current root folder
-          <input id="rootPath" placeholder="C:\Users\...\project">
-        </label>
-
-        <div class="quick-roots" id="quickRoots"></div>
-
-        <div class="permission-grid">
-          <label class="check"><input type="checkbox" id="allowWrite"> Allow writes</label>
-          <label class="check"><input type="checkbox" id="allowSecrets"> Allow secret-like files</label>
-          <label class="check"><input type="checkbox" id="enableLocalHttpProxy"> Local HTTP proxy</label>
-          <label class="check"><input type="checkbox" id="toolFsList"> Tool: list</label>
-          <label class="check"><input type="checkbox" id="toolFsTree"> Tool: tree</label>
-          <label class="check"><input type="checkbox" id="toolFsRead"> Tool: read</label>
-          <label class="check"><input type="checkbox" id="toolFsWrite"> Tool: write</label>
-          <label class="check"><input type="checkbox" id="toolFsBulk"> Tool: bulk</label>
-        </div>
-
-        <div class="row">
-          <button class="button primary" id="saveConfigBtn">Save to Agent</button>
-          <button class="button" id="useRepoRootBtn">Use awtsmoos repo path</button>
-          <button class="button" id="rootsBtn">Show system roots</button>
-        </div>
-
-        <pre id="configOut">Load config first.</pre>
-      </div>
-
-      <div class="card">
+    <section class="grid dashboard-grid" id="account">
+      <div class="card compact-card">
         <div class="card-head">
           <div>
             <p class="eyebrow">Account</p>
-            <h2>Login / OAuth status</h2>
+            <h2>Login status</h2>
+          </div>
+          <a class="button small" href="/login">Open Login</a>
+        </div>
+
+        <div id="identitySummary" class="summary-panel">
+          Checking login...
+        </div>
+
+        <details class="details-box">
+          <summary>Raw identity response</summary>
+          <pre id="identityBox">Loading...</pre>
+        </details>
+      </div>
+
+      <div class="card compact-card">
+        <div class="card-head">
+          <div>
+            <p class="eyebrow">Agent</p>
+            <h2>Connection</h2>
+          </div>
+          <button class="button small" id="refreshDeviceBtn">Check Agent</button>
+        </div>
+
+        <div id="deviceSummary" class="summary-panel">
+          Checking tunnel...
+        </div>
+
+        <details class="details-box">
+          <summary>Raw connection response</summary>
+          <pre id="deviceBox">Loading...</pre>
+        </details>
+      </div>
+    </section>
+
+    <section class="card setup-card" id="setup">
+      <div class="card-head">
+        <div>
+          <p class="eyebrow">Setup</p>
+          <h2>Root folder and permissions</h2>
+        </div>
+        <div class="row">
+          <button class="button small" id="loadConfigBtn">Load Agent Config</button>
+          <button class="button small primary" id="saveConfigBtn">Save to Agent</button>
+        </div>
+      </div>
+
+      <div class="setup-layout">
+        <div>
+          <label>
+            Current root folder
+            <input id="rootPath" placeholder="C:\Users\...\project">
+          </label>
+
+          <div class="row">
+            <button class="button small" id="rootsBtn">Show system roots</button>
+            <button class="button small" id="useRepoRootBtn">Use awtsmoos repo path</button>
+          </div>
+
+          <div class="quick-roots" id="quickRoots"></div>
+        </div>
+
+        <div>
+          <p class="mini-title">Permissions</p>
+
+          <div class="permission-grid">
+            <label class="check"><input type="checkbox" id="allowWrite"> Allow writes</label>
+            <label class="check danger-check"><input type="checkbox" id="allowSecrets"> Allow secret-like files</label>
+            <label class="check"><input type="checkbox" id="enableLocalHttpProxy"> Local HTTP proxy</label>
+            <label class="check"><input type="checkbox" id="toolFsList"> Tool: list</label>
+            <label class="check"><input type="checkbox" id="toolFsTree"> Tool: tree</label>
+            <label class="check"><input type="checkbox" id="toolFsRead"> Tool: read</label>
+            <label class="check"><input type="checkbox" id="toolFsWrite"> Tool: write</label>
+            <label class="check"><input type="checkbox" id="toolFsBulk"> Tool: bulk</label>
           </div>
         </div>
-        <pre id="identityBox">Loading...</pre>
-        <p class="note">
-          The dashboard checks <code>/api/oauth/start?client_id=chatgpt</code>
-          and <code>/api/tunnel/control/me</code>. If either sees your session,
-          the app treats you as logged in.
-        </p>
       </div>
+
+      <details class="details-box">
+        <summary>Config response</summary>
+        <pre id="configOut">Load config first.</pre>
+      </details>
     </section>
 
     <section class="card explorer-card" id="explorer">
@@ -122,7 +178,7 @@
 
       <div class="row">
         <button class="button" id="upBtn">Up</button>
-        <button class="button" id="listBtn">List</button>
+        <button class="button primary" id="listBtn">List</button>
         <button class="button" id="treeBtn">Tree</button>
         <button class="button" id="readBtn">Read</button>
         <button class="button" id="mdBtn">Markdown</button>
@@ -135,6 +191,7 @@
           <div class="path-crumb" id="crumb">.</div>
           <div class="file-list list-mode" id="fileList"></div>
         </aside>
+
         <section class="viewer-panel">
           <div class="viewer-tabs">
             <button class="tab active" data-viewer="response">Response</button>
@@ -173,7 +230,7 @@
           <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.write"> tunnel.write</label>
           <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.command"> tunnel.command</label>
           <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.browser"> tunnel.browser</label>
-          <label class="check"><input type="checkbox" class="scopeBox" value="tunnel.admin"> tunnel.admin</label>
+          <label class="check danger-check"><input type="checkbox" class="scopeBox" value="tunnel.admin"> tunnel.admin</label>
         </div>
 
         <div class="toolbar">
@@ -192,6 +249,7 @@
     <section class="card" id="actions">
       <p class="eyebrow">Action Lab</p>
       <h2>Run exact tunnel calls</h2>
+
       <div class="toolbar">
         <label>Action
           <select id="actionName">
@@ -209,18 +267,23 @@
         <label>Path <input id="actionPath" value="."></label>
         <label>Max chars <input id="maxChars" type="number" value="12000"></label>
       </div>
+
       <label>Content for write <textarea id="writeContent">B"H
 Tunnel write test.</textarea></label>
+
       <label>Bulk paths, one per line <textarea id="bulkPaths">package.json
 index.js</textarea></label>
+
       <label>Bulk write JSON object <textarea id="bulkWriteJson">{
   "debugging/tunnel-test-1.txt": "B\\\"H\\nhello 1\\n",
   "debugging/tunnel-test-2.txt": "B\\\"H\\nhello 2\\n"
 }</textarea></label>
+
       <div class="row">
         <button class="button primary" id="runActionBtn">Run Action</button>
         <button class="button" id="copyActionUrlBtn">Copy API URL</button>
       </div>
+
       <pre id="actionUrlOut"></pre>
       <pre id="actionOut">Ready.</pre>
     </section>
@@ -235,23 +298,28 @@ index.js</textarea></label>
     <section class="card" id="install">
       <p class="eyebrow">Install / Restart</p>
       <h2>One command</h2>
+
       <div class="tabs">
         <button class="tab active" data-tab="ps">PowerShell</button>
         <button class="tab" data-tab="cmd">CMD</button>
         <button class="tab" data-tab="unix">Mac / Linux</button>
       </div>
+
       <div class="pane active" data-pane="ps">
         <pre id="cmdPs">irm https://awtsmoos.com/api/tunnel/install/windows | iex</pre>
         <button class="button small" data-copy="cmdPs">Copy</button>
       </div>
+
       <div class="pane" data-pane="cmd">
         <pre id="cmdCmd">powershell -ExecutionPolicy Bypass -Command "irm https://awtsmoos.com/api/tunnel/install/windows | iex"</pre>
         <button class="button small" data-copy="cmdCmd">Copy</button>
       </div>
+
       <div class="pane" data-pane="unix">
         <pre id="cmdUnix">curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash</pre>
         <button class="button small" data-copy="cmdUnix">Copy</button>
       </div>
+
       <p class="note">
         Re-running this keeps the same tunnel name and settings when
         <code>~/.awtsmoos-tunnel/config.json</code> exists.

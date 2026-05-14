@@ -4,26 +4,37 @@
 import { getJson } from "./http.js";
 import { controlMe } from "./control.js";
 
-/**
- * B"H
- * Checks login using both the tunnel control identity route and the OAuth
- * start route that already knows how to detect the Awtsmoos session.
- */
 export async function detectLogin() {
+  const controlPromise = controlMe().catch(e => ({
+    ok: false,
+    error: e.message,
+    source: "control"
+  }));
+
+  const oauthPromise = getJson("/api/oauth/start?client_id=chatgpt").catch(e => ({
+    ok: false,
+    error: e.message,
+    source: "oauthStart"
+  }));
+
   const [control, oauthStart] = await Promise.all([
-    controlMe().catch(e => ({ ok: false, error: e.message })),
-    getJson("/api/oauth/start?client_id=chatgpt").catch(e => ({ ok: false, error: e.message }))
+    controlPromise,
+    oauthPromise
   ]);
 
-  const loggedIn = !!(control.ok || oauthStart.loggedIn);
+  const loggedIn = !!(
+    control?.ok ||
+    oauthStart?.loggedIn ||
+    oauthStart?.user
+  );
 
   return {
     ok: loggedIn,
     control,
     oauthStart,
     user:
-      control.identity ||
-      oauthStart.user ||
+      control?.identity ||
+      oauthStart?.user ||
       null
   };
 }
