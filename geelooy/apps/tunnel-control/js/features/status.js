@@ -4,6 +4,7 @@
 import { $, jsonText } from "../lib/dom.js";
 import { me, device } from "../api/control.js";
 import { callFs } from "../api/tunnel.js";
+import { rememberTunnelName } from "../state/state.js";
 
 function safe(value, fallback = "unknown") {
   if (value === undefined || value === null || value === "") return fallback;
@@ -13,6 +14,8 @@ function safe(value, fallback = "unknown") {
 function setPill(id, textId, status, text) {
   const pill = $(id);
   const label = $(textId);
+
+  if (!pill || !label) return;
 
   pill.classList.remove("connected", "warning", "danger", "warn");
 
@@ -27,7 +30,7 @@ function renderIdentityNice(got) {
   if (!got || got.ok === false) {
     setPill("authPill", "authText", "bad", "Not logged in");
     $("miniLogin").textContent = "Not logged in";
-    $("userChip").classList.add("hidden");
+    $("userChip")?.classList.add("hidden");
 
     return [
       '<div class="status-card bad">',
@@ -43,8 +46,9 @@ function renderIdentityNice(got) {
 
   setPill("authPill", "authText", "good", "Logged in");
   $("miniLogin").textContent = userId;
-  $("userName").textContent = userId;
-  $("userChip").classList.remove("hidden");
+
+  if ($("userName")) $("userName").textContent = userId;
+  $("userChip")?.classList.remove("hidden");
 
   return [
     '<div class="status-card good">',
@@ -58,6 +62,8 @@ function renderIdentityNice(got) {
 }
 
 async function loadLiveConfig(tunnelName) {
+  if (!tunnelName) return null;
+
   try {
     const got = await callFs(tunnelName, { action: "configGet" });
     if (got && got.ok && got.config) return got.config;
@@ -66,21 +72,55 @@ async function loadLiveConfig(tunnelName) {
   return null;
 }
 
-function renderDeviceNice(got, config) {
-  if (!got || got.ok === false) {
+function extractTunnelName(got) {
+  if (!got) return "";
+  return (
+    got.tunnelName ||
+    got.device?.tunnelName ||
+    got.tunnel?.tunnelName ||
+    got.device?.name ||
+    got.name ||
+    ""
+  );
+}
+
+function applyDiscoveredTunnelName(got, getTunnelName) {
+  const current = getTunnelName();
+  if (current) return current;
+
+  const discovered = extractTunnelName(got);
+  if (!discovered) return "";
+
+  if ($("tunnelName")) $("tunnelName").value = discovered;
+
+  rememberTunnelName(discovered);
+
+  const url = new URL(location.href);
+  url.searchParams.set("tunnelName", discovered);
+  history.replaceState(null, "", url.toString());
+
+  return discovered;
+}
+
+function renderDeviceNice(got, config, getTunnelName) {
+  const effectiveTunnelName = applyDiscoveredTunnelName(got, getTunnelName);
+
+  if (!got || got.ok === false || got.connected === false) {
     setPill("connectionPill", "connectionText", "bad", "Agent offline");
     $("miniAgent").textContent = "Offline";
+
     $("deviceSummary").innerHTML = [
       '<div class="status-card bad">',
       '<div class="status-card-icon">⚠️</div>',
       '<div><strong>Agent not connected</strong><span>Run the install/restart command and refresh.</span></div>',
       '</div>'
     ].join("");
+
     return;
   }
 
   const tunnel = got.device || got.tunnel || got;
-  const name = safe(tunnel.name || got.tunnelName || $("tunnelName").value, "unknown tunnel");
+  const name = safe(tunnel.tunnelName || tunnel.name || got.tunnelName || effectiveTunnelName, "unknown tunnel");
 
   const root = safe(
     config?.root || tunnel.root || got.root || got.projectRoot,
@@ -119,20 +159,18 @@ export async function refreshLogin() {
 }
 
 export async function refreshDevice(getTunnelName) {
-  const tunnelName = getTunnelName();
+  const requestedTunnelName = getTunnelName();
 
-  if (!tunnelName) {
-    setPill("connectionPill", "connectionText", "bad", "No tunnel name");
-    $("miniAgent").textContent = "No tunnel";
-    return null;
-  }
-
-  const got = await device(tunnelName);
-  const config = got && got.ok !== false ? await loadLiveConfig(tunnelName) : null;
+  const got = await device(requestedTunnelName);
+  const effectiveTunnelName = requestedTunnelName || extractTunnelName(got);
+  const config = got && got.ok !== false && effectiveTunnelName
+    ? await loadLiveConfig(effectiveTunnelName)
+    : null;
 
   jsonText("deviceBox", { device: got, liveConfig: config });
   jsonText("miniStatus", { device: got, liveConfig: config });
-  renderDeviceNice(got, config);
+
+  renderDeviceNice(got, config, getTunnelName);
 
   return got;
 }

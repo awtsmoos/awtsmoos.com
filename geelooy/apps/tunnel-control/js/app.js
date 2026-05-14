@@ -1,46 +1,19 @@
+
 // B"H
 
 import { $ } from "./lib/dom.js";
 import { log, error } from "./logger.js";
 import { mountTabs } from "./ui/tabs.js";
 import { mountCopyButtons } from "./ui/copy.js";
-import { mountSections } from "./ui/sections.js";
 import { refreshStatus, refreshDevice, refreshLogin } from "./features/status.js";
 import { buildPrompt } from "./features/prompt.js";
 import { mountExplorer } from "./features/explorer.js";
 import { mountActions } from "./features/actions.js";
 import { mountApiKeys } from "./features/apiKeys.js";
 import { mountUsage } from "./features/usage.js";
-import { mountTerminal } from "./features/terminal.js";
-import { mountChrome } from "./features/chrome.js";
 import { mountConfig, loadConfig } from "./features/config.js";
 import { mountRootPicker } from "./features/rootPicker.js";
-import { state } from "./state/state.js";
-
-function getQueryTunnelName() {
-  return new URLSearchParams(location.search).get("tunnelName") || "";
-}
-
-function hasTunnelName() {
-  return !!getQueryTunnelName();
-}
-
-function applyLandingMode() {
-  if (hasTunnelName()) {
-    document.body.classList.remove("no-tunnel");
-    document.body.classList.add("has-tunnel");
-    return false;
-  }
-
-  document.body.classList.add("no-tunnel");
-  document.body.classList.remove("has-tunnel");
-
-  document.querySelectorAll(".needs-tunnel, #agentDocs").forEach(el => {
-    el.classList.add("hidden");
-  });
-
-  return true;
-}
+import { state, rememberTunnelName, rememberProjectPath } from "./state/state.js";
 
 function getTunnelName() {
   return $("tunnelName") ? $("tunnelName").value.trim() : "";
@@ -49,13 +22,12 @@ function getTunnelName() {
 window.awtsGetTunnelName = getTunnelName;
 
 function renderPrompt() {
-  const box = $("promptBox");
-  if (!box) return;
+  if (!$("promptBox")) return;
 
-  box.textContent = buildPrompt({
+  $("promptBox").textContent = buildPrompt({
     tunnelName: getTunnelName(),
-    projectPath: $("projectPath").value.trim() || ".",
-    mode: $("promptMode").value
+    projectPath: $("projectPath")?.value.trim() || ".",
+    mode: $("promptMode")?.value || "general"
   });
 }
 
@@ -73,43 +45,52 @@ async function safeMount(name, fn) {
   }
 }
 
+function syncUrlAndStorage() {
+  const tunnelName = getTunnelName();
+  if (!tunnelName) return;
+
+  rememberTunnelName(tunnelName);
+
+  const url = new URL(location.href);
+  if (url.searchParams.get("tunnelName") !== tunnelName) {
+    url.searchParams.set("tunnelName", tunnelName);
+    history.replaceState(null, "", url.toString());
+  }
+}
+
 async function main() {
   log("boot app.js");
 
-  await safeMount("tabs", () => mountTabs());
-  await safeMount("copy", () => mountCopyButtons());
-  await safeMount("sections", () => mountSections());
+  if ($("tunnelName")) $("tunnelName").value = state.tunnelName || "";
+  if ($("projectPath")) $("projectPath").value = state.projectPath || ".";
 
-  if (applyLandingMode()) {
-    log("landing mode: no tunnelName query parameter");
-    return;
-  }
-
-  $("tunnelName").value = getQueryTunnelName() || state.tunnelName || "";
-  $("projectPath").value = state.projectPath || ".";
-
-  $("tunnelName").addEventListener("input", () => {
+  $("tunnelName")?.addEventListener("input", () => {
+    syncUrlAndStorage();
     renderPrompt();
     refreshDevice(getTunnelName);
   });
 
-  $("projectPath").addEventListener("input", renderPrompt);
-  $("promptMode").addEventListener("change", renderPrompt);
-  $("refreshBtn").addEventListener("click", refresh);
-  $("refreshDeviceBtn").addEventListener("click", () => refreshDevice(getTunnelName));
+  $("projectPath")?.addEventListener("input", () => {
+    rememberProjectPath($("projectPath").value);
+    renderPrompt();
+  });
 
-  $("copyPromptBtn").addEventListener("click", async () => {
+  $("promptMode")?.addEventListener("change", renderPrompt);
+  $("refreshBtn")?.addEventListener("click", refresh);
+  $("refreshDeviceBtn")?.addEventListener("click", () => refreshDevice(getTunnelName));
+
+  $("copyPromptBtn")?.addEventListener("click", async () => {
     await navigator.clipboard.writeText($("promptBox").textContent);
   });
 
+  await safeMount("tabs", () => mountTabs());
+  await safeMount("copy", () => mountCopyButtons());
   await safeMount("config", () => mountConfig(getTunnelName));
   await safeMount("rootPicker", () => mountRootPicker(getTunnelName));
   await safeMount("explorer", () => mountExplorer());
   await safeMount("actions", () => mountActions(getTunnelName));
   await safeMount("apiKeys", () => mountApiKeys());
   await safeMount("usage", () => mountUsage());
-  await safeMount("terminal", () => mountTerminal(getTunnelName));
-  await safeMount("chrome", () => mountChrome(getTunnelName));
 
   renderPrompt();
 
@@ -119,7 +100,7 @@ async function main() {
   ]);
 
   try {
-    await loadConfig(getTunnelName);
+    if (getTunnelName()) await loadConfig(getTunnelName);
   } catch (e) {
     error("initial loadConfig failed", e);
   }

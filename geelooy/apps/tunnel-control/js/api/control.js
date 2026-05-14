@@ -22,7 +22,7 @@ export async function me() {
   });
 }
 
-export async function device(tunnelName) {
+export async function device(tunnelName = "") {
   return await getJson("/api/tunnel/control/device" + q({ tunnelName }), {
     credentials: "include"
   });
