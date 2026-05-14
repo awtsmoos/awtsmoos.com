@@ -1,21 +1,23 @@
 
 /* B"H */
 :root {
-  --bg: #070913;
-  --panel: rgba(255,255,255,.08);
+  --bg: #050712;
+  --bg2: #0b1020;
+  --panel: rgba(255,255,255,.075);
   --panel2: rgba(255,255,255,.12);
-  --panel3: rgba(0,0,0,.24);
-  --text: #f7f8ff;
-  --muted: #b9c0d7;
-  --line: rgba(255,255,255,.16);
+  --panel3: rgba(0,0,0,.28);
+  --text: #f8f9ff;
+  --muted: #b9c1d9;
+  --line: rgba(255,255,255,.15);
   --line2: rgba(139,211,255,.48);
   --a: #8bd3ff;
   --b: #d7a7ff;
+  --c: #8fffc2;
   --good: #8fffc2;
   --bad: #ff9d9d;
   --warn: #ffe09a;
-  --radius: 26px;
-  --shadow: 0 28px 110px rgba(0,0,0,.38);
+  --radius: 28px;
+  --shadow: 0 30px 120px rgba(0,0,0,.42);
 }
 
 * {
@@ -32,10 +34,23 @@ body {
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
   background:
-    radial-gradient(circle at 7% -10%, rgba(139,211,255,.24), transparent 34%),
-    radial-gradient(circle at 93% 3%, rgba(215,167,255,.22), transparent 34%),
-    linear-gradient(135deg, #070913, #121a2e 52%, #181326);
+    radial-gradient(circle at 8% -10%, rgba(139,211,255,.25), transparent 34%),
+    radial-gradient(circle at 92% 0%, rgba(215,167,255,.22), transparent 34%),
+    radial-gradient(circle at 50% 100%, rgba(143,255,194,.08), transparent 38%),
+    linear-gradient(135deg, #050712, #10172d 52%, #181326);
   overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 20%, black, transparent 75%);
 }
 
 .hidden {

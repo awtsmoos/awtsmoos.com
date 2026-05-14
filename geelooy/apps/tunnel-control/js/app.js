@@ -17,6 +17,26 @@ import { mountConfig, loadConfig } from "./features/config.js";
 import { mountRootPicker } from "./features/rootPicker.js";
 import { state } from "./state/state.js";
 
+function getQueryTunnelName() {
+  return new URLSearchParams(location.search).get("tunnelName") || "";
+}
+
+function hasTunnelName() {
+  return !!getQueryTunnelName();
+}
+
+function applyLandingMode() {
+  if (hasTunnelName()) {
+    document.body.classList.remove("no-tunnel");
+    document.body.classList.add("has-tunnel");
+    return false;
+  }
+
+  document.body.classList.add("no-tunnel");
+  document.body.classList.remove("has-tunnel");
+  return true;
+}
+
 function getTunnelName() {
   return $("tunnelName").value.trim();
 }
@@ -51,7 +71,15 @@ async function safeMount(name, fn) {
 async function main() {
   log("boot app.js");
 
-  $("tunnelName").value = state.tunnelName || new URLSearchParams(location.search).get("tunnelName") || "";
+  await safeMount("tabs", () => mountTabs());
+  await safeMount("copy", () => mountCopyButtons());
+
+  if (applyLandingMode()) {
+    log("landing mode: no tunnelName query parameter");
+    return;
+  }
+
+  $("tunnelName").value = getQueryTunnelName() || state.tunnelName || "";
   $("projectPath").value = state.projectPath || ".";
 
   $("tunnelName").addEventListener("input", () => {
@@ -68,8 +96,6 @@ async function main() {
     await navigator.clipboard.writeText($("promptBox").textContent);
   });
 
-  await safeMount("tabs", () => mountTabs());
-  await safeMount("copy", () => mountCopyButtons());
   await safeMount("config", () => mountConfig(getTunnelName));
   await safeMount("rootPicker", () => mountRootPicker(getTunnelName));
   await safeMount("explorer", () => mountExplorer());

@@ -4,6 +4,14 @@
 import { $ } from "../lib/dom.js";
 import { callFs } from "../api/tunnel.js";
 
+function parseScript() {
+  try {
+    return JSON.parse($("chromeScript").value);
+  } catch (e) {
+    return [{ type: "eval", expression: "({ ok:false, error:" + JSON.stringify(e.message) + " })" }];
+  }
+}
+
 function chromePayload(action) {
   return {
     action,
@@ -11,7 +19,9 @@ function chromePayload(action) {
     port: $("chromePort").value,
     url: $("chromeUrl").value,
     selector: $("chromeSelector").value,
+    text: $("chromeText").value,
     expression: $("chromeExpression").value,
+    script: parseScript(),
     timeoutMs: $("chromeTimeout").value
   };
 }
@@ -33,6 +43,7 @@ function niceChrome(got) {
     return [
       "Connected: " + got.connected,
       "Port: " + got.port,
+      "Chrome path: " + (got.chromePath || ""),
       "",
       "Pages:",
       ...(got.pages || []).map(p => "- " + p.title + " → " + p.url),
@@ -72,8 +83,24 @@ export function mountChrome(getTunnelName) {
     $("chromeOut").textContent = niceChrome(got);
   };
 
+  $("chromeClickBtn").onclick = async () => {
+    const got = await callFs(getTunnelName(), chromePayload("chromeClick"));
+    $("chromeOut").textContent = niceChrome(got);
+  };
+
+  $("chromeTypeBtn").onclick = async () => {
+    const got = await callFs(getTunnelName(), chromePayload("chromeType"));
+    $("chromeOut").textContent = niceChrome(got);
+  };
+
   $("chromeEvalBtn").onclick = async () => {
     const got = await callFs(getTunnelName(), chromePayload("chromeEval"));
+    $("chromeOut").textContent = niceChrome(got);
+  };
+
+  $("chromeRunScriptBtn").onclick = async () => {
+    $("chromeOut").textContent = "Running browser script...";
+    const got = await callFs(getTunnelName(), chromePayload("chromeRunScript"));
     $("chromeOut").textContent = niceChrome(got);
   };
 }

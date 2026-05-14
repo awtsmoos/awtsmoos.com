@@ -8,7 +8,7 @@ async function openApi($i) {
   return `openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control
-  version: 1.0.0
+  version: 1.1.0
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -43,8 +43,28 @@ paths:
               - chromeStatus
               - chromeNavigate
               - chromeWaitForSelector
+              - chromeClick
+              - chromeType
               - chromeEval
+              - chromeRunScript
         - name: p
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: paths64
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Base64 JSON array of paths for bulk read.
+        - name: files64
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Base64 JSON object for bulkWrite.
+        - name: content64
           in: query
           required: false
           schema:
@@ -75,12 +95,22 @@ paths:
           required: false
           schema:
             type: string
+        - name: text64
+          in: query
+          required: false
+          schema:
+            type: string
         - name: expression64
           in: query
           required: false
           schema:
             type: string
-          description: Base64 UTF-8 JavaScript expression for chromeEval.
+        - name: script64
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Base64 JSON array of browser steps.
       responses:
         "200":
           description: Tunnel response.

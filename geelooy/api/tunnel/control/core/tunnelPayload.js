@@ -61,7 +61,9 @@ function buildFsPayload($i) {
 
     url: queryValue($i, "url", ""),
     selector: queryValue($i, "selector", ""),
+    text: from64(queryValue($i, "text64")),
     expression: from64(queryValue($i, "expression64")),
+    script: jsonFrom64(queryValue($i, "script64"), []),
     port: Number(queryValue($i, "port", 9222)),
     chromePath: queryValue($i, "chromePath", ""),
     userDataDir: queryValue($i, "userDataDir", "")

@@ -10,12 +10,24 @@
 .usage-tile {
   position: relative;
   border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 16px;
+  border-radius: 24px;
+  padding: 18px;
   background:
-    radial-gradient(circle at top right, rgba(139,211,255,.11), transparent 45%),
-    rgba(0,0,0,.23);
+    radial-gradient(circle at top right, rgba(139,211,255,.14), transparent 45%),
+    linear-gradient(180deg, rgba(255,255,255,.075), rgba(0,0,0,.16));
   overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.usage-tile::after {
+  content: "";
+  position: absolute;
+  inset: -80px auto auto -80px;
+  width: 160px;
+  height: 160px;
+  background: rgba(139,211,255,.09);
+  border-radius: 50%;
+  filter: blur(6px);
 }
 
 .usage-tile span {
@@ -28,13 +40,15 @@
 
 .usage-tile strong {
   display: block;
-  margin: 6px 0 12px;
+  margin: 7px 0 12px;
   font-size: 28px;
   letter-spacing: -.04em;
+  position: relative;
 }
 
 .meter {
-  height: 12px;
+  position: relative;
+  height: 14px;
   border-radius: 99px;
   background: rgba(255,255,255,.08);
   overflow: hidden;
@@ -46,24 +60,26 @@
   width: var(--p, 0%);
   max-width: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--a), var(--b));
-  box-shadow: 0 0 22px rgba(139,211,255,.45);
-  animation: meterGlow 1.8s ease-in-out infinite alternate;
-  transition: width .7s cubic-bezier(.2,.8,.2,1);
+  background:
+    linear-gradient(90deg, rgba(139,211,255,1), rgba(215,167,255,1), rgba(143,255,194,1));
+  box-shadow: 0 0 26px rgba(139,211,255,.55);
+  animation: meterGlow 1.7s ease-in-out infinite alternate;
+  transition: width .8s cubic-bezier(.2,.8,.2,1);
 }
 
 @keyframes meterGlow {
-  from { filter: brightness(1); }
-  to { filter: brightness(1.35); }
+  from { filter: brightness(1) saturate(1); }
+  to { filter: brightness(1.35) saturate(1.25); }
 }
 
 .buy-tokens-card {
   border: 1px solid rgba(215,167,255,.42);
   border-radius: 24px;
-  padding: 18px;
+  padding: 20px;
   background:
-    radial-gradient(circle at top left, rgba(215,167,255,.22), transparent 42%),
-    rgba(0,0,0,.22);
+    radial-gradient(circle at top left, rgba(215,167,255,.24), transparent 42%),
+    linear-gradient(135deg, rgba(139,211,255,.08), rgba(0,0,0,.22));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
 }
 
 .buy-tokens-card h3 {

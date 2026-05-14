@@ -2,12 +2,18 @@
 /* B"H */
 .chrome-card {
   background:
-    radial-gradient(circle at 90% 0%, rgba(139,211,255,.13), transparent 38%),
+    radial-gradient(circle at 90% 0%, rgba(139,211,255,.14), transparent 38%),
+    radial-gradient(circle at 10% 100%, rgba(215,167,255,.12), transparent 42%),
     var(--panel);
 }
 
 .chrome-card pre {
   min-height: 220px;
+}
+
+.chrome-card textarea {
+  min-height: 170px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
 .chrome-pages {

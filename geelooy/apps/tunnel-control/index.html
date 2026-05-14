@@ -18,7 +18,7 @@
           and give any AI a controlled tunnel into your project.
         </p>
 
-        <div class="status-row">
+        <div class="status-row needs-tunnel">
           <span id="connectionPill" class="pill warn"><span></span><b id="connectionText">Checking agent</b></span>
           <span id="authPill" class="pill warn"><span></span><b id="authText">Checking login</b></span>
           <span id="apiKeyPill" class="pill warn"><span></span><b id="apiKeyText">No API key</b></span>
@@ -27,14 +27,14 @@
 
         <div class="hero-buttons">
           <a class="button primary" href="#install">Install / Restart</a>
-          <button class="button" id="refreshBtn">Refresh</button>
-          <a class="button" id="loginLink" href="/login">Login</a>
-          <a class="button danger hidden" id="logoutLink" href="/logout">Logout</a>
+          <button class="button needs-tunnel" id="refreshBtn">Refresh</button>
+          <a class="button needs-tunnel" id="loginLink" href="/login">Login</a>
+          <a class="button danger hidden needs-tunnel" id="logoutLink" href="/logout">Logout</a>
           <a class="button" href="/api/tunnel/control/docs">API Docs</a>
         </div>
       </div>
 
-      <aside class="hero-panel">
+      <aside class="hero-panel needs-tunnel">
         <p class="eyebrow">This Tunnel</p>
         <label>Tunnel name <input id="tunnelName" placeholder="awt-name-1234"></label>
         <div class="mini-grid">
@@ -49,7 +49,20 @@
       </aside>
     </section>
 
-    <nav class="dock">
+    <section class="landing-only card landing-card">
+      <p class="eyebrow">No tunnel selected</p>
+      <h2>Install the local agent first.</h2>
+      <p class="lead-small">
+        This page needs a tunnel name in the URL. Run the installer below. It opens this page again with the correct tunnelName.
+      </p>
+      <div class="doc-link-grid">
+        <a class="doc-link-card" href="/api/tunnel/control/docs">Human API Docs</a>
+        <a class="doc-link-card" href="/api/tunnel/control/docs.json">Machine JSON Docs</a>
+        <a class="doc-link-card" href="/api/tunnel/control/openapi">OpenAPI YAML</a>
+      </div>
+    </section>
+
+    <nav class="dock needs-tunnel">
       <a href="#setup">Setup</a>
       <a href="#keys">API Keys</a>
       <a href="#explorer">Explorer</a>
@@ -61,7 +74,7 @@
       <a href="#install">Install</a>
     </nav>
 
-    <section class="grid two" id="account">
+    <section class="grid two needs-tunnel" id="account">
       <div class="card">
         <div class="card-head">
           <div>
@@ -96,7 +109,7 @@
       </div>
     </section>
 
-    <section class="card setup-card" id="setup">
+    <section class="card setup-card needs-tunnel" id="setup">
       <div class="card-head">
         <div>
           <p class="eyebrow">Setup</p>
@@ -148,7 +161,7 @@
       </details>
     </section>
 
-    <section class="card" id="keys">
+    <section class="card needs-tunnel" id="keys">
       <div class="card-head">
         <div>
           <p class="eyebrow">API Keys</p>
@@ -197,7 +210,7 @@
       </details>
     </section>
 
-    <section class="card explorer-card" id="explorer">
+    <section class="card explorer-card needs-tunnel" id="explorer">
       <div class="card-head">
         <div>
           <p class="eyebrow">File Explorer</p>
@@ -250,7 +263,7 @@
       </div>
     </section>
 
-    <section class="grid two">
+    <section class="grid two needs-tunnel">
       <div class="card terminal-card" id="terminal">
         <p class="eyebrow">Terminal</p>
         <h2>Command runner</h2>
@@ -290,18 +303,27 @@
         </div>
         <div class="toolbar">
           <label>Selector <input id="chromeSelector" value="body"></label>
-          <label>JS expression <input id="chromeExpression" value="document.title"></label>
+          <label>Text <input id="chromeText" value=""></label>
           <label>Wait timeout <input id="chromeTimeout" type="number" value="10000"></label>
         </div>
+        <label>JS expression <input id="chromeExpression" value="document.title"></label>
+        <label>Puppeteer-style script JSON <textarea id="chromeScript">[
+  { "type": "goto", "url": "https://awtsmoos.com" },
+  { "type": "waitForSelector", "selector": "body" },
+  { "type": "eval", "expression": "document.title" }
+]</textarea></label>
         <div class="row">
-          <button class="button" id="chromeWaitBtn">Wait for selector</button>
+          <button class="button" id="chromeWaitBtn">Wait</button>
+          <button class="button" id="chromeClickBtn">Click</button>
+          <button class="button" id="chromeTypeBtn">Type</button>
           <button class="button" id="chromeEvalBtn">Evaluate JS</button>
+          <button class="button primary" id="chromeRunScriptBtn">Run script</button>
         </div>
         <pre id="chromeOut">Ready.</pre>
       </div>
     </section>
 
-    <section class="grid two">
+    <section class="grid two needs-tunnel">
       <div class="card" id="agentDocs">
         <p class="eyebrow">GPT / Any AI</p>
         <h2>Agent instructions</h2>
@@ -330,7 +352,7 @@
       </div>
     </section>
 
-    <details class="card" id="actions">
+    <details class="card needs-tunnel" id="actions">
       <summary class="big-summary">Advanced raw tunnel calls</summary>
       <div class="toolbar">
         <label>Action
@@ -348,7 +370,10 @@
             <option>chromeStatus</option>
             <option>chromeNavigate</option>
             <option>chromeWaitForSelector</option>
+            <option>chromeClick</option>
+            <option>chromeType</option>
             <option>chromeEval</option>
+            <option>chromeRunScript</option>
             <option>configGet</option>
             <option>configSet</option>
             <option>roots</option>
@@ -409,7 +434,7 @@ index.js</textarea></label>
     </section>
   </main>
 
-  <div class="modal hidden" id="rootPickerModal">
+  <div class="modal hidden needs-tunnel" id="rootPickerModal">
     <div class="modal-backdrop" id="rootPickerBackdrop"></div>
     <section class="modal-card root-picker-card">
       <div class="modal-head">

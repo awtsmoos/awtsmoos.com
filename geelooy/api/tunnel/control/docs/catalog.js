@@ -4,10 +4,10 @@
 const apiCatalog = {
   BH: "B\"H",
   name: "Awtsmoos Tunnel Control API",
-  version: "1.0.0",
+  version: "1.1.0",
   baseUrl: "https://awtsmoos.com",
   auth: {
-    dashboardSession: "Browser login is allowed only for setup/root-picker actions.",
+    dashboardSession: "Browser login is allowed for setup/root-picker actions only.",
     apiKey: {
       header: "x-awtsmoos-api-key",
       format: "ak_..."
@@ -63,36 +63,11 @@ const apiCatalog = {
       description: "Returns usage rows, total requests, daily bytes, and rate-limit data."
     },
     {
-      id: "fs",
+      id: "tunnel",
       method: "GET",
-      path: "/api/tunnel/control/fs/{tunnelName}?action=list&p=.",
-      auth: "API key or OAuth",
-      scopes: ["tunnel.read"],
-      description: "List/read/tree/bulk read files through the local tunnel."
-    },
-    {
-      id: "write",
-      method: "GET",
-      path: "/api/tunnel/control/fs/{tunnelName}?action=write&p=file.txt&content64=...",
-      auth: "API key or OAuth",
-      scopes: ["tunnel.write"],
-      description: "Write file content under the selected root."
-    },
-    {
-      id: "command",
-      method: "GET",
-      path: "/api/tunnel/control/fs/{tunnelName}?action=commandRun&command64=...",
-      auth: "API key or OAuth",
-      scopes: ["tunnel.command"],
-      description: "Run a terminal command in a cwd under the selected root, if local agent enables commands."
-    },
-    {
-      id: "chrome",
-      method: "GET",
-      path: "/api/tunnel/control/fs/{tunnelName}?action=chromeLaunch",
-      auth: "API key or OAuth",
-      scopes: ["tunnel.browser"],
-      description: "Launch/connect Chrome DevTools, navigate, evaluate JS, and wait for selectors."
+      path: "/api/tunnel/control/fs/{tunnelName}",
+      auth: "API key or OAuth for file/terminal/browser actions",
+      description: "Main tunnel bridge endpoint. Select the action query param."
     },
     {
       id: "openapi",
@@ -123,9 +98,9 @@ const apiCatalog = {
     { action: "md", scope: "tunnel.read", params: ["p", "maxChars"] },
     { action: "bulk", scope: "tunnel.read", params: ["paths64", "maxChars"] },
     { action: "write", scope: "tunnel.write", params: ["p", "content64"] },
-    { action: "bulkWrite", scope: "tunnel.write", params: ["files64"] },
+    { action: "bulkWrite", scope: "tunnel.write", params: ["files64 or writes64"] },
     { action: "configGet", scope: "session safe", params: [] },
-    { action: "configSet", scope: "session safe", params: ["root", "allowWrite", "allowCommands", "tools64"] },
+    { action: "configSet", scope: "session safe", params: ["root", "allowWrite", "allowCommands", "tools64", "commandConfig64", "chrome64"] },
     { action: "rootBrowse", scope: "session safe", params: ["absolutePath"] },
     { action: "rootSelect", scope: "session safe", params: ["absolutePath"] },
     { action: "commandRun", scope: "tunnel.command", params: ["command64", "shell", "cwd", "timeoutMs"] },
@@ -134,7 +109,15 @@ const apiCatalog = {
     { action: "chromeStatus", scope: "tunnel.browser", params: ["port"] },
     { action: "chromeNavigate", scope: "tunnel.browser", params: ["url", "port"] },
     { action: "chromeWaitForSelector", scope: "tunnel.browser", params: ["selector", "timeoutMs"] },
-    { action: "chromeEval", scope: "tunnel.browser", params: ["expression64"] }
+    { action: "chromeClick", scope: "tunnel.browser", params: ["selector"] },
+    { action: "chromeType", scope: "tunnel.browser", params: ["selector", "text64"] },
+    { action: "chromeEval", scope: "tunnel.browser", params: ["expression64"] },
+    { action: "chromeRunScript", scope: "tunnel.browser", params: ["script64"] }
+  ],
+  scriptExample: [
+    { "type": "goto", "url": "https://awtsmoos.com" },
+    { "type": "waitForSelector", "selector": "body" },
+    { "type": "eval", "expression": "document.title" }
   ]
 };
 

@@ -5,7 +5,7 @@ const path = require("path");
 const childProcess = require("child_process");
 const { ROOT, loadConfig, saveConfigPatch } = require("../../lib/config.js");
 const { findChrome, chromeCandidates } = require("./finder.js");
-const { version, pages, connectCdp, ensureCdp, cdpCall } = require("./cdp.js");
+const { version, pages, ensurePage, cdpCall, navigateAndWait } = require("./cdp.js");
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -78,8 +78,8 @@ async function chromeLaunch(payload = {}) {
     }
   });
 
-  await wait(1500);
-  await connectCdp(port);
+  await wait(1600);
+  await ensurePage(port);
 
   return {
     ok: true,
@@ -103,8 +103,9 @@ async function chromeStatus(payload = {}) {
       action: "chromeStatus",
       connected: true,
       port,
+      chromePath: config.chrome.path || findChrome(),
       info,
-      pages: list.map(p => ({ id: p.id, title: p.title, url: p.url }))
+      pages: list.map(p => ({ id: p.id, title: p.title, url: p.url, type: p.type }))
     };
   } catch (e) {
     return {
@@ -125,16 +126,16 @@ async function chromeNavigate(payload = {}) {
   if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
-  await ensureCdp(port);
+  await ensurePage(port);
 
   const url = payload.url || "about:blank";
-  const target = await cdpCall("Target.createTarget", { url });
+  const nav = await navigateAndWait(url, payload.timeoutMs || 15000);
 
   return {
     ok: true,
     action: "chromeNavigate",
     url,
-    target
+    navigation: nav
   };
 }
 
@@ -144,7 +145,7 @@ async function chromeEval(payload = {}) {
   if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
-  await ensureCdp(port);
+  await ensurePage(port);
 
   const expression = payload.expression || "document.title";
 
@@ -168,7 +169,7 @@ async function chromeWaitForSelector(payload = {}) {
   if (blocked) return blocked;
 
   const port = Number(payload.port || config.chrome.port || 9222);
-  await ensureCdp(port);
+  await ensurePage(port);
 
   const selector = payload.selector;
   const timeout = Number(payload.timeoutMs || 10000);
@@ -186,7 +187,7 @@ async function chromeWaitForSelector(payload = {}) {
     });
 
     if (result.result?.value) {
-      return { ok: true, action: "chromeWaitForSelector", selector, found: true };
+      return { ok: true, action: "chromeWaitForSelector", selector, found: true, durationMs: Date.now() - start };
     }
 
     await wait(250);
@@ -195,11 +196,124 @@ async function chromeWaitForSelector(payload = {}) {
   return { ok: false, action: "chromeWaitForSelector", selector, found: false, timeout };
 }
 
+async function chromeClick(payload = {}) {
+  const config = loadConfig();
+  const blocked = requireChromeEnabled(config, "chromeClick");
+  if (blocked) return blocked;
+
+  const port = Number(payload.port || config.chrome.port || 9222);
+  await ensurePage(port);
+
+  const selector = payload.selector;
+
+  if (!selector) {
+    return { ok: false, action: "chromeClick", error: "missing_selector" };
+  }
+
+  const expression = `
+    (() => {
+      const el = document.querySelector(${JSON.stringify(selector)});
+      if (!el) return { ok: false, error: "not_found" };
+      el.scrollIntoView({ block: "center", inline: "center" });
+      el.click();
+      return { ok: true, text: el.innerText || el.value || el.getAttribute("aria-label") || "" };
+    })()
+  `;
+
+  const result = await cdpCall("Runtime.evaluate", {
+    expression,
+    awaitPromise: true,
+    returnByValue: true
+  });
+
+  return {
+    ok: true,
+    action: "chromeClick",
+    selector,
+    result
+  };
+}
+
+async function chromeType(payload = {}) {
+  const config = loadConfig();
+  const blocked = requireChromeEnabled(config, "chromeType");
+  if (blocked) return blocked;
+
+  const port = Number(payload.port || config.chrome.port || 9222);
+  await ensurePage(port);
+
+  const selector = payload.selector;
+  const text = payload.text || "";
+
+  if (!selector) {
+    return { ok: false, action: "chromeType", error: "missing_selector" };
+  }
+
+  const expression = `
+    (() => {
+      const el = document.querySelector(${JSON.stringify(selector)});
+      if (!el) return { ok: false, error: "not_found" };
+      el.focus();
+      el.value = ${JSON.stringify(text)};
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+      return { ok: true, value: el.value };
+    })()
+  `;
+
+  const result = await cdpCall("Runtime.evaluate", {
+    expression,
+    awaitPromise: true,
+    returnByValue: true
+  });
+
+  return {
+    ok: true,
+    action: "chromeType",
+    selector,
+    textLength: text.length,
+    result
+  };
+}
+
+async function chromeRunScript(payload = {}) {
+  const steps = Array.isArray(payload.script) ? payload.script : [];
+  const results = [];
+
+  for (const step of steps) {
+    const type = step.type || step.action;
+
+    if (type === "goto" || type === "navigate") {
+      results.push(await chromeNavigate({ ...payload, url: step.url, timeoutMs: step.timeoutMs || payload.timeoutMs }));
+    } else if (type === "waitForSelector" || type === "wait") {
+      results.push(await chromeWaitForSelector({ ...payload, selector: step.selector, timeoutMs: step.timeoutMs || payload.timeoutMs }));
+    } else if (type === "click") {
+      results.push(await chromeClick({ ...payload, selector: step.selector }));
+    } else if (type === "type") {
+      results.push(await chromeType({ ...payload, selector: step.selector, text: step.text || "" }));
+    } else if (type === "eval") {
+      results.push(await chromeEval({ ...payload, expression: step.expression || "document.title" }));
+    } else {
+      results.push({ ok: false, error: "unknown_step", step });
+    }
+  }
+
+  return {
+    ok: results.every(x => x.ok !== false),
+    action: "chromeRunScript",
+    count: steps.length,
+    results
+  };
+}
+
 module.exports = {
   chromeFind,
   chromeLaunch,
   chromeStatus,
   chromeNavigate,
   chromeEval,
-  chromeWaitForSelector
+  chromeWaitForSelector,
+  chromeClick,
+  chromeType,
+  chromeRunScript
 };

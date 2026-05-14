@@ -3,7 +3,7 @@
 const http = require("http");
 const { TinyWebSocket } = require("../../lib/ws.js");
 
-let cdp = null;
+let pageWs = null;
 let nextId = 1;
 const callbacks = new Map();
 
@@ -13,12 +13,24 @@ function getJson(url) {
       const chunks = [];
       res.on("data", c => chunks.push(c));
       res.on("end", () => {
+        const text = Buffer.concat(chunks).toString("utf8");
+
         try {
-          resolve(JSON.parse(Buffer.concat(chunks).toString("utf8")));
+          resolve(JSON.parse(text));
         } catch (e) {
-          reject(e);
+          reject(new Error("Bad JSON from " + url + ": " + text.slice(0, 200)));
         }
       });
+    }).on("error", reject);
+  });
+}
+
+function getText(url) {
+  return new Promise((resolve, reject) => {
+    http.get(url, res => {
+      const chunks = [];
+      res.on("data", c => chunks.push(c));
+      res.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
     }).on("error", reject);
   });
 }
@@ -31,13 +43,13 @@ async function pages(port) {
   return await getJson("http://127.0.0.1:" + port + "/json");
 }
 
-async function connectCdp(port) {
-  const info = await version(port);
-  const wsUrl = info.webSocketDebuggerUrl;
+async function newPage(port, url = "about:blank") {
+  const encoded = encodeURIComponent(url);
+  return await getJson("http://127.0.0.1:" + port + "/json/new?" + encoded);
+}
 
-  cdp = new TinyWebSocket(wsUrl);
-
-  cdp.on("message", msg => {
+function wireSocket(ws) {
+  ws.on("message", msg => {
     let data;
 
     try {
@@ -54,31 +66,58 @@ async function connectCdp(port) {
       else cb.resolve(data.result);
     }
   });
+}
+
+async function connectPageWs(webSocketDebuggerUrl) {
+  pageWs = new TinyWebSocket(webSocketDebuggerUrl);
+  wireSocket(pageWs);
 
   await new Promise((resolve, reject) => {
-    cdp.once("open", resolve);
-    cdp.once("error", reject);
-    cdp.connect();
+    pageWs.once("open", resolve);
+    pageWs.once("error", reject);
+    pageWs.connect();
   });
 
-  return true;
+  await cdpCall("Runtime.enable");
+  await cdpCall("Page.enable");
+  await cdpCall("DOM.enable");
+
+  return pageWs;
 }
 
-async function ensureCdp(port) {
-  if (!cdp || !cdp.opened) {
-    await connectCdp(port);
+async function ensurePage(port) {
+  if (pageWs && pageWs.opened) {
+    return pageWs;
   }
 
-  return cdp;
+  let list = [];
+
+  try {
+    list = await pages(port);
+  } catch (e) {
+    throw new Error("Chrome DevTools not reachable on port " + port + ": " + e.message);
+  }
+
+  let page = list.find(p => p.type === "page" && p.webSocketDebuggerUrl);
+
+  if (!page) {
+    page = await newPage(port, "about:blank");
+  }
+
+  if (!page.webSocketDebuggerUrl) {
+    throw new Error("No page websocket found.");
+  }
+
+  return await connectPageWs(page.webSocketDebuggerUrl);
 }
 
-function cdpCall(method, params = {}) {
-  if (!cdp || !cdp.opened) {
-    throw new Error("Chrome DevTools is not connected. Launch Chrome first.");
+async function cdpCall(method, params = {}) {
+  if (!pageWs || !pageWs.opened) {
+    throw new Error("Page DevTools socket is not connected.");
   }
 
   const id = nextId++;
-  cdp.sendJson({ id, method, params });
+  pageWs.sendJson({ id, method, params });
 
   return new Promise((resolve, reject) => {
     callbacks.set(id, { resolve, reject });
@@ -88,14 +127,43 @@ function cdpCall(method, params = {}) {
         callbacks.delete(id);
         reject(new Error("CDP timeout for " + method));
       }
-    }, 20000);
+    }, 30000);
   });
+}
+
+async function navigateAndWait(url, timeoutMs = 15000) {
+  await cdpCall("Page.navigate", { url });
+
+  const start = Date.now();
+
+  while (Date.now() - start < timeoutMs) {
+    const state = await cdpCall("Runtime.evaluate", {
+      expression: "document.readyState",
+      returnByValue: true
+    });
+
+    if (state.result?.value === "complete" || state.result?.value === "interactive") {
+      return {
+        ok: true,
+        readyState: state.result.value
+      };
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 250));
+  }
+
+  return {
+    ok: false,
+    readyState: "timeout"
+  };
 }
 
 module.exports = {
   version,
   pages,
-  connectCdp,
-  ensureCdp,
-  cdpCall
+  newPage,
+  ensurePage,
+  cdpCall,
+  navigateAndWait,
+  getText
 };
