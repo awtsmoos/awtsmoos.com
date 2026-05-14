@@ -1,13 +1,16 @@
 
 // B"H
-// Awtsmoos Tunnel Client
+// Awtsmoos Tunnel Client with custom WebSocket implementation.
 
 const fs = require("fs/promises");
 const path = require("path");
 const http = require("http");
 const https = require("https");
 const os = require("os");
-const WebSocket = require("ws");
+const net = require("net");
+const tls = require("tls");
+const crypto = require("crypto");
+const EventEmitter = require("events");
 
 const HOME = os.homedir();
 const CONFIG_PATH = path.join(HOME, ".awtsmoos-tunnel", "config.json");
@@ -17,12 +20,200 @@ const BIN = new Set([".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ".pdf", "
 
 /**
  * B"H
- * Reads tunnel configuration from the user's home folder.
+ * A tiny custom WebSocket client for Node.js.
  *
- * @returns {Promise<object>} Tunnel config.
+ * It supports the core pieces needed by the Awtsmoos tunnel:
+ * handshake, text frames, ping/pong, close, masking outbound frames,
+ * and parsing inbound frames.
+ */
+class TinyWebSocket extends EventEmitter {
+  constructor(urlText) {
+    super();
+    this.url = new URL(urlText);
+    this.socket = null;
+    this.buffer = Buffer.alloc(0);
+    this.opened = false;
+    this.handshakeDone = false;
+  }
+
+  connect() {
+    const isSecure = this.url.protocol === "wss:";
+    const port = Number(this.url.port || (isSecure ? 443 : 80));
+    const host = this.url.hostname;
+
+    const onConnect = () => this.sendHandshake();
+
+    this.socket = isSecure
+      ? tls.connect({ host, port, servername: host }, onConnect)
+      : net.connect({ host, port }, onConnect);
+
+    this.socket.on("data", chunk => this.onData(chunk));
+    this.socket.on("error", err => this.emit("error", err));
+    this.socket.on("close", () => this.emit("close"));
+  }
+
+  sendHandshake() {
+    const key = crypto.randomBytes(16).toString("base64");
+    const pathName = (this.url.pathname || "/") + (this.url.search || "");
+    const host = this.url.host;
+
+    const request = [
+      "GET " + pathName + " HTTP/1.1",
+      "Host: " + host,
+      "Upgrade: websocket",
+      "Connection: Upgrade",
+      "Sec-WebSocket-Key: " + key,
+      "Sec-WebSocket-Version: 13",
+      "",
+      ""
+    ].join("\r\n");
+
+    this.socket.write(request);
+  }
+
+  onData(chunk) {
+    this.buffer = Buffer.concat([this.buffer, chunk]);
+
+    if (!this.handshakeDone) {
+      const marker = this.buffer.indexOf("\r\n\r\n");
+
+      if (marker === -1) {
+        return;
+      }
+
+      const head = this.buffer.slice(0, marker).toString("utf8");
+      this.buffer = this.buffer.slice(marker + 4);
+
+      if (!/^HTTP\/1\.1 101/i.test(head)) {
+        this.emit("error", new Error("WebSocket handshake failed: " + head));
+        this.socket.destroy();
+        return;
+      }
+
+      this.handshakeDone = true;
+      this.opened = true;
+      this.emit("open");
+    }
+
+    this.readFrames();
+  }
+
+  readFrames() {
+    while (this.buffer.length >= 2) {
+      const first = this.buffer[0];
+      const second = this.buffer[1];
+      const opcode = first & 15;
+      const masked = !!(second & 128);
+      let offset = 2;
+      let length = second & 127;
+
+      if (length === 126) {
+        if (this.buffer.length < offset + 2) return;
+        length = this.buffer.readUInt16BE(offset);
+        offset += 2;
+      } else if (length === 127) {
+        if (this.buffer.length < offset + 8) return;
+        const high = this.buffer.readUInt32BE(offset);
+        const low = this.buffer.readUInt32BE(offset + 4);
+        length = high * 4294967296 + low;
+        offset += 8;
+      }
+
+      let mask = null;
+
+      if (masked) {
+        if (this.buffer.length < offset + 4) return;
+        mask = this.buffer.slice(offset, offset + 4);
+        offset += 4;
+      }
+
+      if (this.buffer.length < offset + length) {
+        return;
+      }
+
+      let payload = this.buffer.slice(offset, offset + length);
+      this.buffer = this.buffer.slice(offset + length);
+
+      if (masked) {
+        payload = this.unmask(payload, mask);
+      }
+
+      if (opcode === 1) {
+        this.emit("message", payload.toString("utf8"));
+      } else if (opcode === 8) {
+        this.close();
+        return;
+      } else if (opcode === 9) {
+        this.sendFrame(10, payload);
+      }
+    }
+  }
+
+  unmask(payload, mask) {
+    const out = Buffer.alloc(payload.length);
+
+    for (let i = 0; i < payload.length; i++) {
+      out[i] = payload[i] ^ mask[i % 4];
+    }
+
+    return out;
+  }
+
+  send(data) {
+    this.sendFrame(1, Buffer.from(String(data), "utf8"));
+  }
+
+  sendFrame(opcode, payload) {
+    if (!this.socket || !this.opened) return;
+
+    const length = payload.length;
+    let header;
+
+    if (length < 126) {
+      header = Buffer.alloc(2);
+      header[1] = 128 | length;
+    } else if (length < 65536) {
+      header = Buffer.alloc(4);
+      header[1] = 128 | 126;
+      header.writeUInt16BE(length, 2);
+    } else {
+      header = Buffer.alloc(10);
+      header[1] = 128 | 127;
+      header.writeUInt32BE(0, 2);
+      header.writeUInt32BE(length, 6);
+    }
+
+    header[0] = 128 | opcode;
+
+    const mask = crypto.randomBytes(4);
+    const masked = Buffer.alloc(payload.length);
+
+    for (let i = 0; i < payload.length; i++) {
+      masked[i] = payload[i] ^ mask[i % 4];
+    }
+
+    this.socket.write(Buffer.concat([header, mask, masked]));
+  }
+
+  close() {
+    this.opened = false;
+
+    try {
+      this.sendFrame(8, Buffer.alloc(0));
+    } catch (e) {}
+
+    try {
+      this.socket.end();
+    } catch (e) {}
+  }
+}
+
+/**
+ * B"H
+ * Reads config JSON and strips BOM if Windows PowerShell ever put one there.
  */
 async function readConfig() {
-  const text = await fs.readFile(CONFIG_PATH, "utf8");
+  const text = (await fs.readFile(CONFIG_PATH, "utf8")).replace(/^\uFEFF/, "");
   const config = JSON.parse(text);
 
   return {
@@ -34,14 +225,6 @@ async function readConfig() {
   };
 }
 
-/**
- * B"H
- * Resolves a user path inside the chosen project root.
- *
- * @param {object} config Tunnel config.
- * @param {string} given Path from remote request.
- * @returns {string} Safe absolute path.
- */
 function safePath(config, given) {
   const root = path.resolve(config.root);
   const input = given || ".";
@@ -54,26 +237,10 @@ function safePath(config, given) {
   return full;
 }
 
-/**
- * B"H
- * Converts absolute path to slash-style relative path.
- *
- * @param {object} config Tunnel config.
- * @param {string} full Absolute path.
- * @returns {string} Relative slash path.
- */
 function rel(config, full) {
   return path.relative(config.root, full).replace(/\\/g, "/") || ".";
 }
 
-/**
- * B"H
- * Lists a directory compactly.
- *
- * @param {object} config Tunnel config.
- * @param {string} p Directory path.
- * @returns {Promise<Array<string>>} Items.
- */
 async function listDir(config, p) {
   const full = safePath(config, p);
   const entries = await fs.readdir(full, { withFileTypes: true });
@@ -83,18 +250,6 @@ async function listDir(config, p) {
     .map(e => e.isDirectory() ? e.name + "/" : e.name);
 }
 
-/**
- * B"H
- * Builds a compact text tree.
- *
- * @param {object} config Tunnel config.
- * @param {string} p Root path.
- * @param {number} depth Max depth.
- * @param {number} limit Max nodes.
- * @param {object} state Counter state.
- * @param {string} prefix Tree prefix.
- * @returns {Promise<string>} Tree text.
- */
 async function treeText(config, p, depth, limit, state = { count: 0 }, prefix = "") {
   const full = safePath(config, p);
   const stat = await fs.stat(full);
@@ -118,15 +273,6 @@ async function treeText(config, p, depth, limit, state = { count: 0 }, prefix = 
   return out;
 }
 
-/**
- * B"H
- * Reads a text file with binary refusal.
- *
- * @param {object} config Tunnel config.
- * @param {string} p File path.
- * @param {number} maxChars Max chars.
- * @returns {Promise<object>} Content result.
- */
 async function readText(config, p, maxChars = 12000) {
   const full = safePath(config, p);
   const ext = path.extname(full).toLowerCase();
@@ -144,14 +290,6 @@ async function readText(config, p, maxChars = 12000) {
   };
 }
 
-/**
- * B"H
- * Handles filesystem tunnel actions.
- *
- * @param {object} config Tunnel config.
- * @param {object} payload Tunnel payload.
- * @returns {Promise<object>} Action result.
- */
 async function handleFs(config, payload) {
   const action = payload.action || "list";
   const p = payload.path || ".";
@@ -210,15 +348,6 @@ async function handleFs(config, payload) {
   return await actions[action]();
 }
 
-/**
- * B"H
- * Proxies an HTTP request to the local server configured by the user.
- *
- * @param {object} config Tunnel config.
- * @param {object} data Tunnel message.
- * @param {WebSocket} ws Relay socket.
- * @returns {void}
- */
 function proxyLocalHttp(config, data, ws) {
   const p = data.payload || {};
   const target = new URL(p.url || "/", config.local);
@@ -256,15 +385,9 @@ function proxyLocalHttp(config, data, ws) {
   req.end();
 }
 
-/**
- * B"H
- * Connects to the Awtsmoos relay and keeps reconnecting.
- *
- * @returns {Promise<void>} Resolves when initial config is loaded.
- */
 async function connect() {
   const config = await readConfig();
-  const ws = new WebSocket(config.relay);
+  const ws = new TinyWebSocket(config.relay);
 
   ws.on("open", () => {
     ws.send(JSON.stringify({
@@ -275,7 +398,7 @@ async function connect() {
       allowWrite: config.allowWrite
     }));
 
-    console.log("B\"H Awtsmoos tunnel connected.");
+    console.log('B"H Awtsmoos tunnel connected.');
     console.log("Tunnel name:", config.tunnelName);
     console.log("Project root:", config.root);
     console.log("Writes:", config.allowWrite ? "enabled" : "disabled");
@@ -313,6 +436,8 @@ async function connect() {
   ws.on("error", err => {
     console.log("Tunnel socket error:", err.message);
   });
+
+  ws.connect();
 }
 
 connect().catch(err => {

@@ -23,6 +23,30 @@ function Read-AwtsValue($label, $default) {
   return $v
 }
 
+function Get-CleanName($name) {
+  $clean = $name.ToLower() -replace "[^a-z0-9_-]+", "-"
+  $clean = $clean.Trim("-")
+  if ([string]::IsNullOrWhiteSpace($clean)) {
+    return "user"
+  }
+  return $clean
+}
+
+function Get-YesDefault($answer) {
+  if ([string]::IsNullOrWhiteSpace($answer)) {
+    return $true
+  }
+
+  $a = $answer.Trim().ToLower()
+
+  return (
+    $a -eq "y" -or
+    $a -eq "yes" -or
+    $a -eq "true" -or
+    $a -eq "1"
+  )
+}
+
 function Stop-OldAwtsTunnel($clientPath) {
   try {
     $escaped = [Regex]::Escape($clientPath)
@@ -43,6 +67,11 @@ function Stop-OldAwtsTunnel($clientPath) {
   }
 }
 
+function Write-Utf8NoBom($path, $text) {
+  $encoding = New-Object System.Text.UTF8Encoding($false)
+  [System.IO.File]::WriteAllText($path, $text, $encoding)
+}
+
 if (-not (Test-AwtsCommand "node")) {
   Write-Host ""
   Write-Host "Node.js was not found." -ForegroundColor Yellow
@@ -51,79 +80,74 @@ if (-not (Test-AwtsCommand "node")) {
   exit 1
 }
 
-if (-not (Test-AwtsCommand "npm")) {
-  Write-Host ""
-  Write-Host "npm was not found. Please reinstall Node.js LTS from https://nodejs.org/."
-  Start-Process "https://nodejs.org/"
-  exit 1
-}
-
 $root = Join-Path $env:USERPROFILE ".awtsmoos-tunnel"
 $client = Join-Path $root "awtsmoos-tunnel-client.js"
 $config = Join-Path $root "config.json"
-$package = Join-Path $root "package.json"
 
-New-Item -ItemType Directory -Force -Path $root | Out-Null
+$oldConfig = $null
+
+if (Test-Path $config) {
+  try {
+    $oldText = Get-Content $config -Raw
+    $oldText = $oldText.TrimStart([char]0xFEFF)
+    $oldConfig = $oldText | ConvertFrom-Json
+  } catch {
+    $oldConfig = $null
+  }
+}
 
 Stop-OldAwtsTunnel $client
+
+if (Test-Path $root) {
+  Write-Host "Cleaning old tunnel folder..."
+  Remove-Item $root -Recurse -Force
+}
+
+New-Item -ItemType Directory -Force -Path $root | Out-Null
 
 Write-Host "Downloading latest tunnel client..."
 Invoke-WebRequest -Uri "https://awtsmoos.com/api/tunnel/install/client" -OutFile $client
 
-if (-not (Test-Path $package)) {
-  '{"dependencies":{"ws":"latest"}}' | Set-Content -Encoding UTF8 $package
-}
-
-Push-Location $root
-Write-Host "Installing/updating ws dependency..."
-npm install --silent
-Pop-Location
-
-$existing = $null
-
-if (Test-Path $config) {
-  try {
-    $existing = Get-Content $config -Raw | ConvertFrom-Json
-  } catch {
-    $existing = $null
-  }
-}
-
-$defaultName = "awt-" + $env:USERNAME.ToLower() + "-" + (Get-Random -Minimum 1000 -Maximum 9999)
+$userClean = Get-CleanName $env:USERNAME
+$defaultName = "awt-" + $userClean + "-" + (Get-Random -Minimum 1000 -Maximum 9999)
 $defaultProject = (Get-Location).Path
+$defaultWrite = $true
 
-if ($existing) {
-  Write-Host ""
-  Write-Host "Existing Awtsmoos Tunnel config found:" -ForegroundColor Green
-  Write-Host "Tunnel name: $($existing.tunnelName)"
-  Write-Host "Project root: $($existing.root)"
-  Write-Host "Writes: $($existing.allowWrite)"
-  Write-Host ""
-
-  $again = Read-Host "Press ENTER to reuse and start, or type R to reconfigure"
-
-  if ($again -ne "R" -and $again -ne "r") {
-    Write-Host ""
-    Write-Host "Starting Awtsmoos tunnel with existing config..." -ForegroundColor Cyan
-    Write-Host ""
-    Write-Host "Paste into your GPT:"
-    Write-Host "tunnelName: $($existing.tunnelName)"
-    Write-Host "project path: ."
-    Write-Host ""
-
-    node $client
-    exit
+if ($oldConfig) {
+  if ($oldConfig.tunnelName) {
+    $defaultName = $oldConfig.tunnelName
   }
+
+  if ($oldConfig.root) {
+    $defaultProject = $oldConfig.root
+  }
+
+  if ($null -ne $oldConfig.allowWrite) {
+    $defaultWrite = [bool]$oldConfig.allowWrite
+  }
+
+  Write-Host ""
+  Write-Host "Previous config found and will be refreshed:" -ForegroundColor Green
+  Write-Host "Tunnel name: $defaultName"
+  Write-Host "Project root: $defaultProject"
+  Write-Host "Writes: $defaultWrite"
+  Write-Host ""
 }
 
 $tunnelName = Read-AwtsValue "Tunnel name" $defaultName
 $projectRoot = Read-AwtsValue "Project folder to expose" $defaultProject
-$writeAnswer = Read-Host "Allow writing files? Type YES to allow, anything else for read-only"
 
-$allowWrite = $false
+$defaultWriteText = "Y"
+if (-not $defaultWrite) {
+  $defaultWriteText = "N"
+}
 
-if ($writeAnswer -eq "YES") {
-  $allowWrite = $true
+$writeAnswer = Read-Host "Allow writing files? Y/n [$defaultWriteText]"
+
+if ([string]::IsNullOrWhiteSpace($writeAnswer)) {
+  $allowWrite = $defaultWrite
+} else {
+  $allowWrite = Get-YesDefault $writeAnswer
 }
 
 $configObject = @{
@@ -134,10 +158,11 @@ $configObject = @{
   allowWrite = $allowWrite
 }
 
-$configObject | ConvertTo-Json -Depth 5 | Set-Content -Encoding UTF8 $config
+$json = $configObject | ConvertTo-Json -Depth 5
+Write-Utf8NoBom $config $json
 
 Write-Host ""
-Write-Host 'B"H tunnel config saved.' -ForegroundColor Green
+Write-Host 'B"H tunnel config saved without BOM.' -ForegroundColor Green
 Write-Host $config
 Write-Host "Starting tunnel..."
 Write-Host ""
