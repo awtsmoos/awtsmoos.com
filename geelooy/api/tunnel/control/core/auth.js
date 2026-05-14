@@ -6,26 +6,76 @@ const { verifyApiKey } = require("./apiKeyStore.js");
 
 /**
  * B"H
- * Gets logged-in Awtsmoos user from request.user.
+ * Safely reads request headers from the Awtsmoos route context.
+ *
+ * Node lowercases headers, but some wrappers may preserve casing.
  *
  * @param {object} $i Route context.
- * @returns {object|null} Identity.
+ * @param {string} name Header name.
+ * @returns {string}
  */
-function sessionIdentity($i) {
-  const user = $i.request.user;
-  const userId =
-    user?.info?.userId ||
-    user?.userId ||
-    user?.id ||
-    null;
+function header($i, name) {
+  const headers = $i.request?.headers || {};
+  const lower = String(name).toLowerCase();
 
-  if (!userId) return null;
+  return (
+    headers[lower] ||
+    headers[name] ||
+    headers[name.toLowerCase()] ||
+    headers[name.toUpperCase()] ||
+    ""
+  );
+}
+
+/**
+ * B"H
+ * Gets API key identity.
+ *
+ * IMPORTANT:
+ * This must be checked BEFORE browser session identity. Otherwise a logged-in
+ * dashboard user with a valid x-awtsmoos-api-key gets seen as "session", and
+ * protected file actions reject them as session-only calls.
+ *
+ * Supported:
+ * - x-awtsmoos-api-key: ak_...
+ * - Authorization: AwtsmoosKey ak_...
+ * - Authorization: ApiKey ak_...
+ *
+ * @param {object} $i Route context.
+ * @returns {object|null}
+ */
+function apiKeyIdentity($i) {
+  const explicit = header($i, "x-awtsmoos-api-key");
+  const authHeader = header($i, "authorization");
+
+  let key = explicit;
+
+  if (!key && /^AwtsmoosKey\s+/i.test(authHeader)) {
+    key = authHeader.replace(/^AwtsmoosKey\s+/i, "").trim();
+  }
+
+  if (!key && /^ApiKey\s+/i.test(authHeader)) {
+    key = authHeader.replace(/^ApiKey\s+/i, "").trim();
+  }
+
+  if (!key) return null;
+
+  const got = verifyApiKey(key);
+
+  if (!got.ok) {
+    return {
+      ok: false,
+      kind: "apiKey",
+      error: got.error || "invalid_api_key"
+    };
+  }
 
   return {
     ok: true,
-    kind: "session",
-    userId,
-    scopes: ["tunnel.read", "tunnel.write", "tunnel.admin"]
+    kind: "apiKey",
+    keyId: got.key.keyId,
+    userId: got.key.userId,
+    scopes: got.key.scopes || []
   };
 }
 
@@ -34,10 +84,10 @@ function sessionIdentity($i) {
  * Gets OAuth identity.
  *
  * @param {object} $i Route context.
- * @returns {object|null} Identity.
+ * @returns {object|null}
  */
 function oauthIdentity($i) {
-  const authHeader = $i.request.headers.authorization || "";
+  const authHeader = header($i, "authorization");
 
   if (!/^Bearer\s+/i.test(authHeader)) {
     return null;
@@ -46,7 +96,11 @@ function oauthIdentity($i) {
   const got = readBearer($i);
 
   if (!got.ok) {
-    return null;
+    return {
+      ok: false,
+      kind: "oauth",
+      error: got.error || "invalid_oauth_token"
+    };
   }
 
   return {
@@ -60,55 +114,58 @@ function oauthIdentity($i) {
 
 /**
  * B"H
- * Gets API key identity.
+ * Gets logged-in Awtsmoos user from request.user.
  *
  * @param {object} $i Route context.
- * @returns {object|null} Identity.
+ * @returns {object|null}
  */
-function apiKeyIdentity($i) {
-  const key =
-    $i.request.headers["x-awtsmoos-api-key"] ||
-    String($i.request.headers.authorization || "").replace(/^AwtsmoosKey\s+/i, "");
+function sessionIdentity($i) {
+  const user = $i.request?.user;
+  const userId = user?.info?.userId || user?.userId || user?.id || null;
 
-  if (!key) return null;
-
-  const got = verifyApiKey(key);
-
-  if (!got.ok) return null;
+  if (!userId) return null;
 
   return {
     ok: true,
-    kind: "apiKey",
-    keyId: got.key.keyId,
-    userId: got.key.userId,
-    scopes: got.key.scopes || []
+    kind: "session",
+    userId,
+    scopes: ["tunnel.read", "tunnel.write", "tunnel.admin"]
   };
 }
 
 /**
  * B"H
- * Main current identity resolver.
+ * Main identity resolver.
+ *
+ * Priority:
+ * 1. API key
+ * 2. OAuth bearer
+ * 3. Browser session
+ *
+ * This lets the hosted dashboard be logged in while still using a scoped API key
+ * for protected filesystem calls.
  *
  * @param {object} $i Route context.
- * @returns {object} Identity result.
+ * @returns {object}
  */
 function currentIdentity($i) {
-  return (
-    sessionIdentity($i) ||
-    oauthIdentity($i) ||
-    apiKeyIdentity($i) ||
-    { ok: false, error: "not_authenticated" }
-  );
+  const apiKey = apiKeyIdentity($i);
+  if (apiKey?.ok) return apiKey;
+
+  const oauth = oauthIdentity($i);
+  if (oauth?.ok) return oauth;
+
+  const session = sessionIdentity($i);
+  if (session?.ok) return session;
+
+  return {
+    ok: false,
+    error: apiKey?.error || oauth?.error || "not_authenticated"
+  };
 }
 
 function requireIdentity($i) {
-  const ident = currentIdentity($i);
-
-  if (!ident.ok) {
-    return ident;
-  }
-
-  return ident;
+  return currentIdentity($i);
 }
 
 module.exports = {

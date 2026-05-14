@@ -5,11 +5,14 @@ import { $, jsonText } from "../lib/dom.js";
 import { callFs, buildFsUrl, buildCurl } from "../api/tunnel.js";
 import { saveLocalSetting, readLocalSetting } from "../state/storage.js";
 import { getActiveApiKey } from "../api/keySession.js";
+import { renderRelativeCrumbs } from "./pathCrumbs.js";
 import { log, error } from "../logger.js";
 
 let selectedPath = ".";
+let selectedItem = null;
 let selectedPaths = new Set();
 let viewMode = "list";
+let lastItems = [];
 
 function safeHtml(value) {
   return String(value ?? "")
@@ -40,9 +43,13 @@ function parentPath(path) {
 function setPath(path) {
   const next = normalizePath(path);
   $("explorerPath").value = next;
-  $("crumb").textContent = next;
   selectedPath = next;
   saveLocalSetting("lastExplorerPath:" + window.awtsGetTunnelName(), next);
+
+  renderRelativeCrumbs($("crumb"), next, picked => {
+    setPath(picked);
+    loadList();
+  });
 }
 
 function iconFor(item) {
@@ -79,15 +86,54 @@ function showExplorerNotice(message, kind = "info") {
   notice.textContent = message;
 }
 
+function setSelected(item, row, additive) {
+  const fullPath = item.path;
+
+  selectedItem = item;
+  selectedPath = fullPath;
+
+  if (!additive) {
+    selectedPaths.clear();
+    for (const el of document.querySelectorAll(".file-row")) el.classList.remove("selected");
+  }
+
+  if (selectedPaths.has(fullPath) && additive) {
+    selectedPaths.delete(fullPath);
+    row.classList.remove("selected");
+  } else {
+    selectedPaths.add(fullPath);
+    row.classList.add("selected");
+  }
+
+  $("actionPath").value = fullPath;
+  updateSelectedCount();
+  showPreviewForSelection(item);
+}
+
+function showPreviewForSelection(item) {
+  $("readablePreview").innerHTML = [
+    '<div class="selection-card">',
+    '<div class="selection-icon">' + iconFor(item) + "</div>",
+    '<div>',
+    '<strong>' + safeHtml(item.name) + "</strong>",
+    '<span>' + safeHtml(item.path) + "</span>",
+    '<em>' + (item.isDirectory ? "Folder selected. Double-click or press Open selected." : "File selected. Press Read or double-click.") + "</em>",
+    "</div>",
+    "</div>"
+  ].join("");
+}
+
 function renderItems(got, basePath) {
   const items = fromItemsFallback(got, basePath);
   const list = $("fileList");
 
+  lastItems = items;
   list.innerHTML = "";
   list.classList.toggle("icon-mode", viewMode === "icon");
   list.classList.toggle("list-mode", viewMode === "list");
 
   selectedPaths.clear();
+  selectedItem = null;
   updateSelectedCount();
 
   if (!items || !items.length) {
@@ -97,6 +143,8 @@ function renderItems(got, basePath) {
 
   for (const item of items) {
     const fullPath = item.path || joinPath(basePath, item.name);
+    item.path = fullPath;
+
     const row = document.createElement("button");
     row.type = "button";
     row.className = "file-row" + (item.isDirectory ? " dir" : "");
@@ -105,35 +153,23 @@ function renderItems(got, basePath) {
     row.innerHTML = [
       '<span class="file-icon">' + iconFor(item) + "</span>",
       '<span class="file-name" title="' + safeHtml(fullPath) + '">' + safeHtml(item.name) + (item.isDirectory && !String(item.name).endsWith("/") ? "/" : "") + "</span>",
-      '<span class="file-action">' + (item.isDirectory ? "open" : "select") + "</span>"
+      '<span class="file-action">' + (item.isDirectory ? "open" : "read") + "</span>"
     ].join("");
 
-    row.onclick = async e => {
+    row.onclick = e => {
+      setSelected(item, row, e.ctrlKey || e.metaKey || e.shiftKey);
+    };
+
+    row.ondblclick = async () => {
+      selectedItem = item;
       selectedPath = fullPath;
+      await openSelected();
+    };
 
-      if (e.ctrlKey || e.metaKey || e.shiftKey) {
-        if (selectedPaths.has(fullPath)) selectedPaths.delete(fullPath);
-        else selectedPaths.add(fullPath);
-        row.classList.toggle("selected", selectedPaths.has(fullPath));
-        updateSelectedCount();
-        return;
-      }
-
-      selectedPaths.clear();
-      selectedPaths.add(fullPath);
-
-      for (const el of document.querySelectorAll(".file-row")) el.classList.remove("selected");
-      row.classList.add("selected");
-      updateSelectedCount();
-
-      $("actionPath").value = fullPath;
-
-      if (item.isDirectory) {
-        setPath(fullPath);
-        await loadList();
-      } else {
-        await readSelected();
-      }
+    row.querySelector(".file-action").onclick = async e => {
+      e.stopPropagation();
+      setSelected(item, row, false);
+      await openSelected();
     };
 
     list.appendChild(row);
@@ -282,6 +318,21 @@ async function bulkSelected() {
   showPreview(got);
 }
 
+async function openSelected() {
+  if (!selectedItem) {
+    showExplorerNotice("Select a file or folder first.", "warn");
+    return;
+  }
+
+  if (selectedItem.isDirectory) {
+    setPath(selectedItem.path);
+    await loadList();
+    return;
+  }
+
+  await readSelected();
+}
+
 function activateViewer(name) {
   for (const one of document.querySelectorAll("[data-viewer]")) {
     one.classList.toggle("active", one.dataset.viewer === name);
@@ -297,6 +348,7 @@ export function mountExplorer() {
 
   $("listBtn").onclick = loadList;
   $("treeBtn").onclick = loadTree;
+  $("openSelectedBtn").onclick = openSelected;
   $("readBtn").onclick = readSelected;
   $("mdBtn").onclick = readSelectedMd;
   $("bulkSelectedBtn").onclick = bulkSelected;

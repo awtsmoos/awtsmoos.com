@@ -1,3 +1,4 @@
+
 /* B"H */
 .root-picker-card {
   display: flex;
@@ -19,7 +20,7 @@
 
 .root-picker-layout {
   display: grid;
-  grid-template-columns: minmax(320px, 1fr) minmax(300px, 440px);
+  grid-template-columns: minmax(360px, 1fr) minmax(300px, 440px);
   gap: 0;
   min-height: 640px;
   overflow: hidden;
@@ -32,6 +33,10 @@
 }
 
 .root-location {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
   padding: 13px 16px;
   color: var(--a);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
@@ -47,6 +52,7 @@
 }
 
 .root-row {
+  width: 100%;
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr) auto;
   gap: 10px;
@@ -57,6 +63,9 @@
   cursor: pointer;
   color: var(--muted);
   font-weight: 900;
+  background: transparent;
+  text-align: left;
+  font: inherit;
 }
 
 .root-row:hover {
@@ -81,6 +90,14 @@
   white-space: nowrap;
 }
 
+.root-row-action {
+  color: var(--a);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
 .root-preview-panel {
   padding: 18px;
   overflow: auto;
@@ -93,4 +110,29 @@
 
 .root-preview-panel pre {
   max-height: 250px;
+}
+
+.crumb-clicks,
+.root-location {
+  min-height: 46px;
+}
+
+.crumb-btn {
+  border: 1px solid rgba(139,211,255,.24);
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(139,211,255,.08);
+  color: var(--a);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.crumb-btn:hover {
+  background: rgba(139,211,255,.18);
+  color: var(--text);
+}
+
+.crumb-sep {
+  color: var(--muted);
+  opacity: .75;
 }
