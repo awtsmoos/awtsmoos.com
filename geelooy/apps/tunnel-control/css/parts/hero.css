@@ -2,51 +2,57 @@
 /* B"H */
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 390px;
-  gap: 28px;
-  padding: clamp(26px, 6vw, 64px);
-  border: 1px solid var(--line);
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 420px);
+  gap: 22px;
+  align-items: stretch;
+  padding: clamp(28px, 5.5vw, 64px);
+  border: 1px solid rgba(255,255,255,.16);
   border-radius: 34px;
   background:
-    radial-gradient(circle at 78% 10%, rgba(139,211,255,.12), transparent 34%),
-    linear-gradient(135deg, rgba(255,255,255,.115), rgba(255,255,255,.055));
-  box-shadow: var(--shadow);
+    radial-gradient(circle at 18% 5%, rgba(139,211,255,.18), transparent 34%),
+    radial-gradient(circle at 95% 10%, rgba(215,167,255,.18), transparent 38%),
+    linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.055)),
+    rgba(8,13,29,.74);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.09);
+  backdrop-filter: blur(18px) saturate(1.18);
+  overflow: hidden;
 }
 
-.eyebrow {
-  margin: 0 0 10px;
-  color: var(--a);
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  font-size: 12px;
-  font-weight: 950;
+.hero-left {
+  min-width: 0;
 }
 
-h1 {
+.hero h1 {
   margin: 0;
-  font-size: clamp(44px, 8vw, 86px);
-  line-height: .92;
+  max-width: 880px;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: .88;
   letter-spacing: -.075em;
 }
 
-h2 {
-  margin: 0 0 14px;
-  font-size: 30px;
-  letter-spacing: -.045em;
-}
-
-.lead {
-  max-width: 850px;
-  color: var(--muted);
-  font-size: 20px;
+.hero .lead {
+  margin: 20px 0 22px;
+  font-size: clamp(17px, 2.2vw, 21px);
   line-height: 1.55;
 }
 
+.hero-buttons {
+  margin-top: 12px;
+}
+
 .hero-panel {
-  border: 1px solid var(--line);
-  border-radius: 26px;
-  padding: 18px;
-  background: rgba(0,0,0,.22);
+  align-self: center;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 28px;
+  padding: 20px;
+  background:
+    radial-gradient(circle at top right, rgba(139,211,255,.11), transparent 42%),
+    rgba(0,0,0,.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.hero-panel label {
+  margin-bottom: 14px;
 }
 
 .mini-grid {
@@ -58,23 +64,28 @@ h2 {
 .mini-grid div {
   border: 1px solid var(--line);
   border-radius: 18px;
-  padding: 12px;
+  padding: 13px;
   background: rgba(0,0,0,.2);
 }
 
-.mini-grid div:last-child {
-  grid-column: 1 / -1;
-}
-
-.mini-grid small {
+.mini-grid small,
+.balance-card span {
   display: block;
   color: var(--muted);
   text-transform: uppercase;
-  font-weight: 950;
   letter-spacing: .08em;
+  font-weight: 1000;
+  font-size: 11px;
 }
 
 .mini-grid strong {
   display: block;
   margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
 }
