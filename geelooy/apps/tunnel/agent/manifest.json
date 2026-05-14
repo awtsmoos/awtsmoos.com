@@ -1,0 +1,15 @@
+
+{
+  "BH": "B\"H",
+  "version": "0.2.0",
+  "entry": "main.js",
+  "files": [
+    { "path": "main.js" },
+    { "path": "lib/config.js" },
+    { "path": "lib/log.js" },
+    { "path": "lib/open.js" },
+    { "path": "lib/ws.js" },
+    { "path": "tools/fs.js" },
+    { "path": "tools/chrome.js" }
+  ]
+}

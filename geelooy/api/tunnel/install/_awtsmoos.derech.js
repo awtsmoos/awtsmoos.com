@@ -6,19 +6,17 @@ const { readTunnelDownload } = require("./tools/sourceFile.js");
 
 /**
  * B"H
- * Awtsmoos Tunnel install endpoint.
+ * Installer endpoint.
  *
- * Step 1 architecture:
- * - shell scripts are tiny bootstraps
- * - local machine downloads one quiet agent
- * - hosted control panel lives on awtsmoos.com
- * - no setup questions in terminal
+ * IMPORTANT:
+ * The actual Node agent is no longer served through this dynamic API route.
+ * Dynamic routes may wrap responses depending on the server pipeline, which can
+ * corrupt JS downloads. The agent is now static public content under:
  *
- * Public URLs:
- * /api/tunnel/install/windows
- * /api/tunnel/install/unix
- * /api/tunnel/install/agent
- * /api/tunnel/install/status
+ *   /apps/tunnel/agent/manifest.json
+ *   /apps/tunnel/agent/main.js
+ *
+ * This route only serves tiny bootstrap scripts and status text.
  */
 module.exports = {
   dynamicRoutes: async $i => {
@@ -41,14 +39,6 @@ module.exports = {
       );
     });
 
-    await $i.use("agent", async () => {
-      return sendText(
-        $i,
-        readTunnelDownload("awtsmoos-agent.js"),
-        "application/javascript; charset=utf-8"
-      );
-    });
-
     await $i.use("status", async () => {
       return sendText($i, [
         "B\"H Awtsmoos Tunnel installer endpoint works.",
@@ -62,11 +52,20 @@ module.exports = {
         "Mac/Linux:",
         "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash",
         "",
-        "Hosted control panel:",
-        "https://awtsmoos.com/geelooy/apps/tunnel-control",
+        "Static agent manifest:",
+        "https://awtsmoos.com/apps/tunnel/agent/manifest.json",
         "",
-        "Agent:",
-        "https://awtsmoos.com/api/tunnel/install/agent"
+        "Hosted control panel:",
+        "https://awtsmoos.com/apps/tunnel-control/"
+      ].join("\n"), "text/plain; charset=utf-8");
+    });
+
+    await $i.use("agent", async () => {
+      return sendText($i, [
+        "B\"H",
+        "Do not download the agent from this API route anymore.",
+        "Use the static manifest instead:",
+        "https://awtsmoos.com/apps/tunnel/agent/manifest.json"
       ].join("\n"), "text/plain; charset=utf-8");
     });
   }

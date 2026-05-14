@@ -13,13 +13,10 @@ if ! command -v node >/dev/null 2>&1; then
 fi
 
 ROOT="$HOME/.awtsmoos-tunnel"
-AGENT="$ROOT/awtsmoos-agent.js"
 CONFIG="$ROOT/config.json"
+MANIFEST_URL="https://awtsmoos.com/apps/tunnel/agent/manifest.json"
 
 mkdir -p "$ROOT"
-
-echo "Downloading latest Awtsmoos agent..."
-curl -fsSL "https://awtsmoos.com/api/tunnel/install/agent" -o "$AGENT"
 
 if [ ! -f "$CONFIG" ]; then
   USER_CLEAN="$(whoami | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/^-*//;s/-*$//')"
@@ -36,14 +33,60 @@ fs.writeFileSync(configPath, JSON.stringify({
   root,
   allowWrite: true,
   allowSecrets: false,
-  enableLocalHttpProxy: true
+  enableLocalHttpProxy: true,
+  chrome: {
+    enabled: false,
+    port: 9222,
+    path: "",
+    userDataDir: ""
+  }
 }, null, 2), "utf8");
 NODE
+else
+  echo "Existing config found. Reusing same tunnel name and settings."
 fi
+
+echo "Downloading Awtsmoos agent manifest..."
+MANIFEST="$(curl -fsSL "$MANIFEST_URL")"
+
+node - "$ROOT" "$MANIFEST" <<'NODE'
+const fs = require("fs");
+const path = require("path");
+const https = require("https");
+
+const root = process.argv[2];
+const manifest = JSON.parse(process.argv[3]);
+
+function download(url, dest) {
+  return new Promise((resolve, reject) => {
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    const file = fs.createWriteStream(dest);
+
+    https.get(url, res => {
+      if (res.statusCode !== 200) {
+        reject(new Error("HTTP " + res.statusCode + " for " + url));
+        return;
+      }
+
+      res.pipe(file);
+      file.on("finish", () => file.close(resolve));
+    }).on("error", reject);
+  });
+}
+
+(async () => {
+  for (const file of manifest.files) {
+    const url = "https://awtsmoos.com/apps/tunnel/agent/" + file.path;
+    const dest = path.join(root, file.path);
+    console.log("Downloading " + file.path + "...");
+    await download(url, dest);
+  }
+})();
+NODE
 
 echo ""
 echo "Starting Awtsmoos background agent..."
 echo "The hosted control panel should open automatically."
 echo ""
 
-node "$AGENT" --open-control
+node "$ROOT/main.js" --open-control
