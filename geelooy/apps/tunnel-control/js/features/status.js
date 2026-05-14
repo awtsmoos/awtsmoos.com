@@ -3,6 +3,7 @@
 
 import { $, jsonText } from "../lib/dom.js";
 import { me, device } from "../api/control.js";
+import { callFs } from "../api/tunnel.js";
 
 function safe(value, fallback = "unknown") {
   if (value === undefined || value === null || value === "") return fallback;
@@ -31,7 +32,7 @@ function renderIdentityNice(got) {
     return [
       '<div class="status-card bad">',
       '<div class="status-card-icon">🔒</div>',
-      '<div><strong>Not logged in</strong><span>Login is required for key creation and setup actions.</span></div>',
+      '<div><strong>Not logged in</strong><span>Login is needed for setup, API keys, and wallet.</span></div>',
       '</div>'
     ].join("");
   }
@@ -56,7 +57,16 @@ function renderIdentityNice(got) {
   ].join("");
 }
 
-function renderDeviceNice(got) {
+async function loadLiveConfig(tunnelName) {
+  try {
+    const got = await callFs(tunnelName, { action: "configGet" });
+    if (got && got.ok && got.config) return got.config;
+  } catch (e) {}
+
+  return null;
+}
+
+function renderDeviceNice(got, config) {
   if (!got || got.ok === false) {
     setPill("connectionPill", "connectionText", "bad", "Agent offline");
     $("miniAgent").textContent = "Offline";
@@ -69,26 +79,31 @@ function renderDeviceNice(got) {
     return;
   }
 
-  const connected = !!(got.connected || got.device || got.tunnel || got.ok);
   const tunnel = got.device || got.tunnel || got;
-  const root = safe(tunnel.root || got.root || got.projectRoot, "not reported yet");
-  const writes = tunnel.allowWrite ?? got.allowWrite;
   const name = safe(tunnel.name || got.tunnelName || $("tunnelName").value, "unknown tunnel");
-  const version = safe(tunnel.agentVersion || got.agentVersion, "unknown version");
 
-  if (connected) {
-    setPill("connectionPill", "connectionText", "good", "Connected");
-    $("miniAgent").textContent = "Connected";
-  } else {
-    setPill("connectionPill", "connectionText", "bad", "Offline");
-    $("miniAgent").textContent = "Offline";
-  }
+  const root = safe(
+    config?.root || tunnel.root || got.root || got.projectRoot,
+    "connected, but config not loaded"
+  );
+
+  const writes = config
+    ? !!config.allowWrite
+    : !!(tunnel.allowWrite ?? got.allowWrite);
+
+  const version = safe(
+    tunnel.agentVersion || got.agentVersion || config?.agentVersion,
+    "connected"
+  );
+
+  setPill("connectionPill", "connectionText", "good", "Connected");
+  $("miniAgent").textContent = "Connected";
 
   $("deviceSummary").innerHTML = [
     '<div class="status-grid">',
     '<div class="status-card good"><div class="status-card-icon">🟢</div><div><strong>Agent connected</strong><span>' + name + '</span></div></div>',
     '<div class="status-card"><div class="status-card-icon">📁</div><div><strong>Root</strong><span>' + root + '</span></div></div>',
-    '<div class="status-card"><div class="status-card-icon">✍️</div><div><strong>Writes</strong><span>' + (writes ? "enabled" : "disabled") + '</span></div></div>',
+    '<div class="status-card ' + (writes ? "good" : "") + '"><div class="status-card-icon">✍️</div><div><strong>Writes</strong><span>' + (writes ? "enabled" : "disabled") + '</span></div></div>',
     '<div class="status-card"><div class="status-card-icon">🧩</div><div><strong>Agent version</strong><span>' + version + '</span></div></div>',
     '</div>'
   ].join("");
@@ -113,10 +128,11 @@ export async function refreshDevice(getTunnelName) {
   }
 
   const got = await device(tunnelName);
+  const config = got && got.ok !== false ? await loadLiveConfig(tunnelName) : null;
 
-  jsonText("deviceBox", got);
-  jsonText("miniStatus", got);
-  renderDeviceNice(got);
+  jsonText("deviceBox", { device: got, liveConfig: config });
+  jsonText("miniStatus", { device: got, liveConfig: config });
+  renderDeviceNice(got, config);
 
   return got;
 }

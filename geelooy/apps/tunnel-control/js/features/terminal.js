@@ -6,10 +6,22 @@ import { callFs } from "../api/tunnel.js";
 
 function render(got) {
   if (!got.ok) {
+    if (got.error === "missing_scope") {
+      return [
+        "Permission missing.",
+        "",
+        "This API key does not have tunnel.command.",
+        "Create or activate a key with tunnel.command, then try again.",
+        "",
+        JSON.stringify(got, null, 2)
+      ].join("\n");
+    }
+
     return [
       "FAILED",
       got.error || "",
       got.message || "",
+      got.details || "",
       got.stderr || ""
     ].filter(Boolean).join("\n");
   }

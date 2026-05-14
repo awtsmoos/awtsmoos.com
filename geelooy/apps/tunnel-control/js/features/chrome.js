@@ -27,7 +27,20 @@ function chromePayload(action) {
 }
 
 function niceChrome(got) {
-  if (!got.ok) return JSON.stringify(got, null, 2);
+  if (!got.ok) {
+    if (got.error === "missing_scope") {
+      return [
+        "Permission missing.",
+        "",
+        "This API key does not have tunnel.browser.",
+        "Create or activate a key with tunnel.browser, then try again.",
+        "",
+        JSON.stringify(got, null, 2)
+      ].join("\n");
+    }
+
+    return JSON.stringify(got, null, 2);
+  }
 
   if (got.action === "chromeFind") {
     return [

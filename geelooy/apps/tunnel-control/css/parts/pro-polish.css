@@ -66,19 +66,20 @@ h2 {
 }
 
 .quick-roots {
-  padding: 6px 0;
+  padding: 8px 0;
 }
 
 .quick-root {
   max-width: 100%;
   overflow-wrap: anywhere;
-  border: 1px solid rgba(137,215,255,.28);
+  border: 1px solid rgba(137,215,255,.30);
   border-radius: 999px;
-  padding: 8px 11px;
+  padding: 9px 12px;
   background:
-    linear-gradient(180deg, rgba(137,215,255,.13), rgba(137,215,255,.06));
+    linear-gradient(180deg, rgba(137,215,255,.15), rgba(137,215,255,.07));
   color: var(--a);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+  font-weight: 950;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
 }
 
 .permission-grid {
@@ -134,7 +135,8 @@ h2 {
 }
 
 .status-card {
-  min-height: 82px;
+  min-height: 88px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
 }
 
 .status-card strong {
@@ -284,4 +286,40 @@ input,
 textarea,
 select {
   max-width: 100%;
+}
+
+/* smoother navigation feel */
+[id] {
+  scroll-margin-top: 96px;
+}
+
+.button,
+.dock a,
+.scope-card,
+.switch-card,
+.file-row,
+.root-row,
+.quick-root {
+  will-change: transform;
+}
+
+/* make inactive browser/terminal panels feel safer */
+.command-warning,
+.notice {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* stop full page from feeling flat */
+.card:nth-of-type(2n) {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(137,215,255,.075), transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,.082), rgba(255,255,255,.045)),
+    rgba(7,10,23,.68);
+}
+
+.card:nth-of-type(2n + 1) {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(211,161,255,.065), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,.082), rgba(255,255,255,.045)),
+    rgba(7,10,23,.68);
 }
