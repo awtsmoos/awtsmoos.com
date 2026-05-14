@@ -3,13 +3,16 @@
 .hero {
   padding: clamp(28px, 6vw, 62px);
   margin-bottom: 18px;
+  background:
+    radial-gradient(circle at 82% 14%, rgba(139,211,255,.11), transparent 32%),
+    linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.055));
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
-  gap: 24px;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
+  gap: 32px;
+  align-items: center;
 }
 
 .hero-copy {
@@ -18,9 +21,11 @@
 
 .hero-card {
   border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 18px;
-  background: rgba(0,0,0,.22);
+  border-radius: 24px;
+  padding: 20px;
+  background:
+    radial-gradient(circle at top right, rgba(139,211,255,.10), transparent 40%),
+    rgba(0,0,0,.22);
   min-width: 0;
 }
 
@@ -39,6 +44,10 @@
   border-radius: 16px;
   padding: 12px;
   background: rgba(0,0,0,.18);
+}
+
+.mini-grid .mini-stat:last-child {
+  grid-column: 1 / -1;
 }
 
 .mini-label {

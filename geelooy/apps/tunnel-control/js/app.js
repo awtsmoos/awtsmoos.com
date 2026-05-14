@@ -1,6 +1,8 @@
+
 // B"H
 
 import { $ } from "./lib/dom.js";
+import { log, error } from "./logger.js";
 import { mountTabs } from "./ui/tabs.js";
 import { mountCopyButtons } from "./ui/copy.js";
 import { refreshStatus, refreshDevice, refreshLogin } from "./features/status.js";
@@ -31,7 +33,19 @@ async function refresh() {
   await refreshStatus(getTunnelName);
 }
 
+async function safeMount(name, fn) {
+  try {
+    log("mounting", name);
+    await fn();
+    log("mounted", name);
+  } catch (e) {
+    error("mount failed:", name, e);
+  }
+}
+
 async function main() {
+  log("boot app.js");
+
   $("tunnelName").value = state.tunnelName;
   $("projectPath").value = state.projectPath;
 
@@ -49,14 +63,14 @@ async function main() {
     await navigator.clipboard.writeText($("promptBox").textContent);
   });
 
-  mountTabs();
-  mountCopyButtons();
-  mountConfig(getTunnelName);
-  mountRootPicker(getTunnelName);
-  mountExplorer();
-  mountActions(getTunnelName);
-  mountApiKeys();
-  mountUsage();
+  await safeMount("tabs", () => mountTabs());
+  await safeMount("copy", () => mountCopyButtons());
+  await safeMount("config", () => mountConfig(getTunnelName));
+  await safeMount("rootPicker", () => mountRootPicker(getTunnelName));
+  await safeMount("explorer", () => mountExplorer());
+  await safeMount("actions", () => mountActions(getTunnelName));
+  await safeMount("apiKeys", () => mountApiKeys());
+  await safeMount("usage", () => mountUsage());
 
   renderPrompt();
 
@@ -67,10 +81,14 @@ async function main() {
 
   try {
     await loadConfig(getTunnelName);
-  } catch (e) {}
+  } catch (e) {
+    error("initial loadConfig failed", e);
+  }
 
   setInterval(() => refreshDevice(getTunnelName), 5000);
   setInterval(refreshLogin, 30000);
 }
 
-main();
+main().catch(e => {
+  error("fatal app boot error", e);
+});
