@@ -1,0 +1,226 @@
+/* B"H */
+
+:root {
+  --deck-bg: rgba(4, 8, 18, .72);
+  --deck-glow-a: rgba(100, 214, 255, .18);
+  --deck-glow-b: rgba(187, 126, 255, .18);
+  --deck-line: rgba(139, 211, 255, .22);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% -8%, rgba(87, 213, 255, .28), transparent 34%),
+    radial-gradient(circle at 88% 0%, rgba(190, 122, 255, .24), transparent 38%),
+    radial-gradient(circle at 52% 105%, rgba(118, 255, 197, .10), transparent 42%),
+    linear-gradient(140deg, #02040a, #091225 48%, #160d23);
+}
+
+.shell {
+  perspective: 1200px;
+}
+
+.hero {
+  border-color: rgba(139, 211, 255, .26);
+  background:
+    linear-gradient(135deg, rgba(139,211,255,.14), rgba(211,161,255,.08) 45%, rgba(0,0,0,.18)),
+    rgba(7, 12, 26, .78);
+  box-shadow:
+    0 40px 140px rgba(0,0,0,.55),
+    0 0 90px rgba(139,211,255,.08),
+    inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(139,211,255,.10), transparent),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 44px);
+  opacity: .55;
+  mask-image: linear-gradient(180deg, black, transparent 82%);
+}
+
+.card,
+.modal-card {
+  border-color: rgba(139, 211, 255, .18);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)),
+    rgba(5, 9, 20, .74);
+  box-shadow:
+    0 24px 90px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.075);
+}
+
+.card:hover {
+  box-shadow:
+    0 34px 120px rgba(0,0,0,.50),
+    0 0 70px rgba(139,211,255,.055),
+    inset 0 1px 0 rgba(255,255,255,.09);
+}
+
+.card-head,
+.section-control-bar {
+  background:
+    linear-gradient(90deg, rgba(139,211,255,.08), rgba(211,161,255,.055), transparent);
+}
+
+.dock {
+  border-radius: 999px;
+  padding: 9px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.28)),
+    rgba(3, 5, 12, .82);
+  border-color: rgba(139,211,255,.20);
+}
+
+.dock a {
+  border-color: rgba(255,255,255,.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+.dock a.active {
+  color: #06101d;
+  background: linear-gradient(135deg, var(--a), var(--b));
+  box-shadow:
+    0 10px 34px rgba(139,211,255,.18),
+    inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.button,
+button,
+a.button {
+  border-color: rgba(255,255,255,.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 12px 34px rgba(0,0,0,.18);
+}
+
+.button.primary,
+button.primary,
+a.button.primary {
+  background:
+    linear-gradient(135deg, #8bd3ff, #d7a7ff);
+  color: #06101d;
+  border-color: rgba(255,255,255,.18);
+}
+
+.button:hover,
+button:hover,
+a.button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+input,
+select,
+textarea {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), rgba(0,0,0,.10)),
+    rgba(2, 5, 13, .82);
+  border-color: rgba(139,211,255,.16);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(139,211,255,.68);
+  box-shadow:
+    0 0 0 4px rgba(139,211,255,.12),
+    0 0 34px rgba(139,211,255,.10),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.status-card,
+.scope-card,
+.switch-card,
+.usage-tile,
+.action-card,
+.doc-link-card,
+.file-panel,
+.viewer-panel,
+.root-row,
+.file-row {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(0,0,0,.12)),
+    rgba(3, 7, 17, .42);
+  border-color: rgba(139,211,255,.15);
+}
+
+.status-card.good,
+.switch-card:has(input:checked),
+.scope-card:has(input:checked) {
+  background:
+    radial-gradient(circle at top right, rgba(139,211,255,.18), transparent 45%),
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(0,0,0,.10)),
+    rgba(3, 9, 20, .55);
+}
+
+.file-row:hover,
+.root-row:hover,
+.scope-card:hover,
+.switch-card:hover {
+  border-color: rgba(139,211,255,.48);
+  background:
+    radial-gradient(circle at 0% 50%, rgba(139,211,255,.12), transparent 45%),
+    rgba(139,211,255,.08);
+}
+
+pre,
+.viewer,
+.terminal-output,
+#chromeOut,
+#commandOut {
+  background:
+    radial-gradient(circle at top right, rgba(139,211,255,.05), transparent 34%),
+    #030711;
+  border-color: rgba(139,211,255,.15);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.landing-only.card {
+  max-width: 1180px;
+  margin: 18px auto;
+}
+
+body.no-tunnel .card:not(.landing-only):not(#install) {
+  display: none !important;
+}
+
+body.no-tunnel #install {
+  display: block !important;
+}
+
+body.no-tunnel #install .section-control-bar {
+  display: none;
+}
+
+body.no-tunnel .doc-link-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+body.no-tunnel .landing-only + .card {
+  margin-top: 18px;
+}
+
+.section-control-bar {
+  backdrop-filter: blur(12px);
+}
+
+.retractable-card.is-collapsed {
+  max-height: 78px;
+  border-color: rgba(139,211,255,.26);
+}
+
+.retractable-card.is-collapsed::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 30px;
+  background: linear-gradient(180deg, transparent, rgba(5,9,20,.92));
+  pointer-events: none;
+}

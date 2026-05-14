@@ -1,4 +1,3 @@
-
 // B"H
 
 import { $ } from "./lib/dom.js";
@@ -35,11 +34,16 @@ function applyLandingMode() {
 
   document.body.classList.add("no-tunnel");
   document.body.classList.remove("has-tunnel");
+
+  document.querySelectorAll(".needs-tunnel, #agentDocs").forEach(el => {
+    el.classList.add("hidden");
+  });
+
   return true;
 }
 
 function getTunnelName() {
-  return $("tunnelName").value.trim();
+  return $("tunnelName") ? $("tunnelName").value.trim() : "";
 }
 
 window.awtsGetTunnelName = getTunnelName;

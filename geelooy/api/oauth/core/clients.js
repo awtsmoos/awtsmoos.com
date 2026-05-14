@@ -1,40 +1,15 @@
-
 // B"H
 const { oauthClients } = require("../data/clients.js");
 
-/**
- * B"H
- * Escapes regex characters inside a wildcard redirect rule.
- *
- * @param {string} text Raw text.
- * @returns {string} Regex-safe text.
- */
 function escapeRegex(text) {
   return String(text).replace(/[.+?^${}()|[\]\\]/g, "\\$&");
 }
 
-/**
- * B"H
- * Converts a simple wildcard rule into a RegExp.
- *
- * Example:
- * https://chat.openai.com/aip/g-*/oauth/callback
- *
- * @param {string} rule Redirect URI rule.
- * @returns {RegExp}
- */
 function wildcardToRegex(rule) {
   const escaped = escapeRegex(rule).replace(/\\\*/g, ".*").replace(/\*/g, ".*");
   return new RegExp("^" + escaped + "$");
 }
 
-/**
- * B"H
- * Creates equivalent URL forms for origin and slash-origin cases.
- *
- * @param {string} uri Redirect URI.
- * @returns {string[]}
- */
 function uriForms(uri) {
   const out = new Set();
 
@@ -53,17 +28,6 @@ function uriForms(uri) {
   return [...out];
 }
 
-/**
- * B"H
- * Checks whether one redirect rule allows one URI.
- *
- * Exact match is preferred.
- * Wildcard match is intentionally narrow and controlled by data/clients.js.
- *
- * @param {string} uri Redirect URI.
- * @param {string} rule Redirect rule.
- * @returns {boolean}
- */
 function ruleAllows(uri, rule) {
   if (!uri || !rule) return false;
 
@@ -80,23 +44,13 @@ function ruleAllows(uri, rule) {
   return false;
 }
 
-/**
- * B"H
- * Gets a normalized OAuth client.
- *
- * If client_id is blank during GPT setup mistakes, fall back to chatgpt.
- * Still set Client ID to "chatgpt" in GPT Builder.
- *
- * @param {string} id OAuth client id.
- * @returns {object|null} OAuth client object.
- */
 function getClient(id) {
   const key = id || "chatgpt";
   const client = oauthClients[key] || null;
 
   if (!client) return null;
 
-  const normalized = {
+  return {
     ...client,
 
     clientSecret: client.clientSecret || client.secret || "",
@@ -109,25 +63,12 @@ function getClient(id) {
 
     secretAllowed(secret) {
       const expected = client.clientSecret || client.secret || "";
-
-      /**
-       * Empty expected secret means testing mode.
-       */
       if (!expected) return true;
-
       return String(secret || "") === expected;
     }
   };
-
-  return normalized;
 }
 
-/**
- * B"H
- * Lists public OAuth client metadata.
- *
- * @returns {Array<object>}
- */
 function listClients() {
   return Object.values(oauthClients).map(c => ({
     id: c.id,
