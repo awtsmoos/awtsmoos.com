@@ -3,7 +3,7 @@
 
 /**
  * B"H
- * Sends JSON through the Awtsmoos response wrapper.
+ * Sends JSON through the Awtsmoos dynamic server response wrapper.
  *
  * @param {object} $i Awtsmoos route context.
  * @param {object} obj Response object.
@@ -14,12 +14,16 @@ function json($i, obj, status = 200) {
   $i.response.statusCode = status;
   $i.response.setHeader("Content-Type", "application/json; charset=utf-8");
   $i.response.setHeader("Cache-Control", "no-store");
-  return { mimeType: "application/json", response: JSON.stringify(obj, null, 2) };
+
+  return {
+    mimeType: "application/json",
+    response: JSON.stringify(obj, null, 2)
+  };
 }
 
 /**
  * B"H
- * Sends raw HTML.
+ * Sends HTML through the dynamic server.
  *
  * @param {object} $i Awtsmoos route context.
  * @param {string} body HTML body.
@@ -30,22 +34,30 @@ function html($i, body, status = 200) {
   $i.response.statusCode = status;
   $i.response.setHeader("Content-Type", "text/html; charset=utf-8");
   $i.response.setHeader("Cache-Control", "no-store");
-  return { mimeType: "text/html", response: body };
+
+  return {
+    mimeType: "text/html",
+    response: body
+  };
 }
 
 /**
  * B"H
- * Redirects to another URL.
+ * Sends an HTTP redirect.
  *
  * @param {object} $i Awtsmoos route context.
- * @param {string} to URL.
- * @returns {object} Redirect response packet.
+ * @param {string} to Redirect target URL.
+ * @returns {object} Dynamic response packet.
  */
 function redirect($i, to) {
   $i.response.statusCode = 302;
   $i.response.setHeader("Location", to);
   $i.response.setHeader("Cache-Control", "no-store");
-  return { mimeType: "text/plain", response: "Redirecting..." };
+
+  return {
+    mimeType: "text/plain",
+    response: "Redirecting..."
+  };
 }
 
 module.exports = { json, html, redirect };

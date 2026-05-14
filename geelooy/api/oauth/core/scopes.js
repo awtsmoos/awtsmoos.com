@@ -3,12 +3,11 @@
 
 /**
  * B"H
- * Cleans requested scopes against allowed scopes.
- * A scope is a vessel. A forbidden scope is not a vessel, only smoke.
+ * Cleans requested OAuth scopes against allowed scopes.
  *
- * @param {string} requested Space-separated requested scopes.
+ * @param {string} requested Requested scope string.
  * @param {Array<string>} allowed Allowed scope list.
- * @returns {string} Cleaned space-separated scopes.
+ * @returns {string} Cleaned scope string.
  */
 function cleanScope(requested, allowed) {
   const allowedSet = new Set(allowed || []);

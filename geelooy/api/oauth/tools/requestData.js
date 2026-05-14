@@ -3,7 +3,7 @@
 
 /**
  * B"H
- * Reads GET params from the Awtsmoos dynamic server context.
+ * Gets GET query params from the Awtsmoos route context.
  *
  * @param {object} $i Awtsmoos route context.
  * @returns {object} Query params.
@@ -14,10 +14,10 @@ function getQuery($i) {
 
 /**
  * B"H
- * Reads POST params from the Awtsmoos dynamic server context.
+ * Gets POST body params from the Awtsmoos route context.
  *
  * @param {object} $i Awtsmoos route context.
- * @returns {Promise<object>} POST params.
+ * @returns {Promise<object>} Body params.
  */
 async function getBody($i) {
   try {

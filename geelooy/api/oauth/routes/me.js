@@ -6,17 +6,23 @@ const { readBearer } = require("../core/tokenReader.js");
 
 /**
  * B"H
- * Reads the bearer token and reveals its account identity.
- * Not the user's hidden soul, not their secrets, only the scoped OAuth vessel.
+ * Reads the OAuth bearer token and returns the user identity.
+ *
+ * This is the first protected OAuth test route.
  *
  * @param {object} $i Awtsmoos route context.
- * @returns {object} JSON response with token identity.
+ * @returns {object} JSON identity response.
  */
 async function me($i) {
   const auth = readBearer($i);
 
   if (!auth.ok) {
-    return json($i, { BH: "B\"H", ok: false, error: auth.error }, 401);
+    return json($i, {
+      BH: "B\"H",
+      ok: false,
+      error: auth.error,
+      details: auth.details || null
+    }, 401);
   }
 
   return json($i, {

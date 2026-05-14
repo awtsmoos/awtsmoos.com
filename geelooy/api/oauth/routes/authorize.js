@@ -13,12 +13,14 @@ const { currentFullUrl, urlWithParams } = require("../tools/urls.js");
 
 /**
  * B"H
- * Starts the OAuth authorization-code flow.
- * If no user is logged in, it does not pretend. It opens the login gate.
- * If a user is logged in, it asks approval, then sends the code back.
+ * OAuth authorization endpoint.
+ *
+ * If the user is not logged in, it opens a manual login page.
+ * If the user is logged in, it shows an approval page.
+ * If approval is present, it creates a one-use code and redirects back.
  *
  * @param {object} $i Awtsmoos route context.
- * @returns {Promise<object>} Redirect, HTML page, or JSON error.
+ * @returns {Promise<object>} OAuth authorize response.
  */
 async function authorize($i) {
   const q = getQuery($i);
@@ -33,13 +35,18 @@ async function authorize($i) {
   }
 
   if (!client.redirectAllowed(redirectUri)) {
-    return json($i, { BH: "B\"H", ok: false, error: "redirect_uri_not_allowed", redirect_uri: redirectUri }, 400);
+    return json($i, {
+      BH: "B\"H",
+      ok: false,
+      error: "redirect_uri_not_allowed",
+      redirect_uri: redirectUri
+    }, 400);
   }
 
   if (responseType !== "code") {
     return redirect($i, urlWithParams(redirectUri, {
       error: "unsupported_response_type",
-      error_description: "Only code is supported.",
+      error_description: "Only response_type=code is supported.",
       state
     }));
   }

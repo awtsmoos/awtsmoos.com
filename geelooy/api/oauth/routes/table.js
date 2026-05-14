@@ -10,9 +10,10 @@ const { logout } = require("./logout.js");
 
 /**
  * B"H
- * The table is the map of the palace.
- * No switch statement wanders blindly through stone halls;
- * the keys glow, the handlers answer, the Awtsmoos gives each gate its name.
+ * Route table for the OAuth system.
+ *
+ * No switch statement. No tangled hallway.
+ * A clear table of gates, each gate opening to one chamber.
  *
  * @type {Object<string, Function>}
  */

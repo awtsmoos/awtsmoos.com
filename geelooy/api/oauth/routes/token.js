@@ -9,9 +9,10 @@ const { createAccessToken } = require("../core/tokenMaker.js");
 
 /**
  * B"H
+ * OAuth token endpoint.
+ *
  * Exchanges a temporary authorization code for a bearer token.
- * The code is a spark, brief and burning.
- * The token is a vessel, timed and scoped.
+ * The code is single-use and short-lived.
  *
  * @param {object} $i Awtsmoos route context.
  * @returns {Promise<object>} OAuth token JSON response.
@@ -28,7 +29,10 @@ async function token($i) {
   const client = getClient(clientId);
 
   if (grantType !== "authorization_code") {
-    return json($i, { error: "unsupported_grant_type" }, 400);
+    return json($i, {
+      error: "unsupported_grant_type",
+      error_description: "Only authorization_code is supported."
+    }, 400);
   }
 
   if (!client.secretAllowed(clientSecret)) {

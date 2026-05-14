@@ -1,40 +1,37 @@
+
 // B"H
 
 const { oauthClients } = require("../data/clients.js");
 
 /**
  * B"H
- * Turns a wildcard rule into a real RegExp.
+ * Escapes regex characters inside a wildcard redirect rule.
  *
- * A rule like:
- * https://chatgpt.com/*
+ * @param {string} text Raw rule text.
+ * @returns {string} Regex-safe text.
+ */
+function escapeRegex(text) {
+  return String(text).replace(/[.+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * B"H
+ * Converts a wildcard redirect rule into a regular expression.
  *
- * becomes a gate that allows:
- * https://chatgpt.com/
- * https://chatgpt.com/anything
- *
- * And a rule like:
- * https://*.openai.com/*
- *
- * allows subdomains of openai.com.
- *
- * @param {string} rule OAuth redirect rule.
- * @returns {RegExp} Regex for the rule.
+ * @param {string} rule Redirect URI rule.
+ * @returns {RegExp} Regex for matching the redirect URI.
  */
 function wildcardToRegex(rule) {
-  const escaped = String(rule)
-    .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
-    .replace(/\*/g, ".*");
-
+  const escaped = escapeRegex(rule).replace(/\*/g, ".*");
   return new RegExp("^" + escaped + "$");
 }
 
 /**
  * B"H
- * Normalizes redirect URIs so bare origins and slash origins can both pass.
+ * Creates equivalent forms for bare origins and slash origins.
  *
  * @param {string} uri Redirect URI.
- * @returns {string[]} Equivalent URI forms.
+ * @returns {Array<string>} Equivalent redirect URI forms.
  */
 function uriForms(uri) {
   const out = new Set();
@@ -42,7 +39,6 @@ function uriForms(uri) {
 
   try {
     const u = new URL(uri);
-
     out.add(u.toString());
 
     if (u.pathname === "/" && !u.search && !u.hash) {
@@ -56,10 +52,10 @@ function uriForms(uri) {
 
 /**
  * B"H
- * Checks whether a redirect URI is allowed by a client rule.
+ * Checks whether one redirect rule allows one URI.
  *
- * @param {string} uri Redirect URI from OAuth request.
- * @param {string} rule Redirect rule from client config.
+ * @param {string} uri Redirect URI.
+ * @param {string} rule Redirect rule.
  * @returns {boolean} True if allowed.
  */
 function ruleAllows(uri, rule) {
@@ -85,10 +81,10 @@ function ruleAllows(uri, rule) {
 
 /**
  * B"H
- * Finds an OAuth client by id.
+ * Gets a normalized OAuth client.
  *
  * @param {string} id OAuth client id.
- * @returns {object} Normalized OAuth client definition.
+ * @returns {object} OAuth client object.
  */
 function getClient(id) {
   const client = oauthClients[id] || oauthClients.chatgpt;
@@ -110,9 +106,9 @@ function getClient(id) {
 
 /**
  * B"H
- * Lists public client metadata.
+ * Lists public OAuth client metadata.
  *
- * @returns {Array<object>} Client list without private secrets.
+ * @returns {Array<object>} Client list.
  */
 function listClients() {
   return Object.values(oauthClients).map(c => ({

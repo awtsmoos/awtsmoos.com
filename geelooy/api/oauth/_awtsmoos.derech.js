@@ -5,12 +5,13 @@ const { routeTable } = require("./routes/table.js");
 
 /**
  * B"H
- * The OAuth chamber opens like a narrow gate of fire.
- * Every route is not hardcoded chaos but a vessel in a table,
- * each one receiving the request like sparks drawn into order.
+ * OAuth entrance for the Awtsmoos account system.
  *
- * @param {object} $i Awtsmoos dynamic server route context.
- * @returns {Promise<void>} Registers every OAuth route.
+ * This file is intentionally tiny. It is the front gate only.
+ * The inner chambers live in routes, core, tools, views, and data.
+ *
+ * @param {object} $i Awtsmoos dynamic route context.
+ * @returns {Promise<void>} Registers the OAuth route table.
  */
 module.exports = {
   dynamicRoutes: async $i => {

@@ -6,11 +6,10 @@ const { listClients } = require("../core/clients.js");
 
 /**
  * B"H
- * Lists OAuth clients known to this little world.
- * The clients are constellations; each has scopes, redirect gates, and names.
+ * Lists public OAuth client metadata.
  *
  * @param {object} $i Awtsmoos route context.
- * @returns {object} JSON response with public client data.
+ * @returns {object} JSON client list.
  */
 async function clients($i) {
   return json($i, {

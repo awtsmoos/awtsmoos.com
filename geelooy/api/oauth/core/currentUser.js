@@ -3,11 +3,13 @@
 
 /**
  * B"H
- * Extracts the logged-in Awtsmoos user id from the existing server session.
- * The cookie already did its hidden work; this only reads the revealed result.
+ * Extracts the current logged-in Awtsmoos user id.
+ *
+ * Your existing server auth middleware populates request.user
+ * from the Awtsmoos login cookie.
  *
  * @param {object} $i Awtsmoos route context.
- * @returns {string|null} User id or null.
+ * @returns {string|null} Current user id or null.
  */
 function getUserId($i) {
   return (
@@ -20,10 +22,10 @@ function getUserId($i) {
 
 /**
  * B"H
- * Returns a safe public view of the current user.
+ * Returns safe public user data.
  *
  * @param {object} $i Awtsmoos route context.
- * @returns {object|null} Public user info.
+ * @returns {object|null} Public user object.
  */
 function publicUser($i) {
   const user = $i.request.user;

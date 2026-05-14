@@ -3,10 +3,10 @@
 
 /**
  * B"H
- * Returns the current full URL.
+ * Returns current full request URL.
  *
  * @param {object} $i Awtsmoos route context.
- * @returns {string} Current URL.
+ * @returns {string} Current full URL.
  */
 function currentFullUrl($i) {
   const host = $i.request.headers.host || "awtsmoos.com";
@@ -15,7 +15,7 @@ function currentFullUrl($i) {
 
 /**
  * B"H
- * Builds a full URL for this host.
+ * Builds a full URL on the current host.
  *
  * @param {object} $i Awtsmoos route context.
  * @param {string} pathname URL pathname.
@@ -32,7 +32,7 @@ function fullUrlFor($i, pathname, params = {}) {
  * Adds query params to a URL.
  *
  * @param {string} base Base URL.
- * @param {object} params Query params.
+ * @param {object} params Params to set.
  * @returns {string} URL with params.
  */
 function urlWithParams(base, params = {}) {

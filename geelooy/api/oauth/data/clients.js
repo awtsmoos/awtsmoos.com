@@ -1,8 +1,12 @@
+
 // B"H
 
 /**
  * B"H
  * OAuth client registry.
+ *
+ * Add more OAuth consumers here later.
+ * For now, ChatGPT is the first client.
  *
  * @type {Object<string, object>}
  */

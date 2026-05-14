@@ -9,9 +9,11 @@ const CODE_TTL_MS = 10 * 60 * 1000;
 /**
  * B"H
  * Creates a short-lived authorization code.
- * It flashes like lightning over Sinai: seen once, used once, gone.
  *
- * @param {object} details Code details.
+ * This is memory-backed for the first working version.
+ * Later, replace with DB persistence if you run multiple Node processes.
+ *
+ * @param {object} details Authorization code details.
  * @returns {Promise<string>} Authorization code.
  */
 async function createCode(details) {
@@ -30,10 +32,10 @@ async function createCode(details) {
 
 /**
  * B"H
- * Reads an authorization code from memory.
+ * Reads an authorization code.
  *
  * @param {string} code Authorization code.
- * @returns {Promise<object|null>} Code record or null.
+ * @returns {Promise<object|null>} Code record.
  */
 async function readCode(code) {
   return codeStore.get(code) || null;
@@ -41,7 +43,7 @@ async function readCode(code) {
 
 /**
  * B"H
- * Marks an authorization code as used.
+ * Marks a code as consumed.
  *
  * @param {string} code Authorization code.
  * @returns {Promise<boolean>} True if consumed.
