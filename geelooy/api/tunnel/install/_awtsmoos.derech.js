@@ -6,20 +6,19 @@ const { readTunnelDownload } = require("./tools/sourceFile.js");
 
 /**
  * B"H
- * Awtsmoos Tunnel installer endpoint.
+ * Awtsmoos Tunnel install endpoint.
  *
- * The shell scripts are now tiny bootstraps.
- * They download one local Node control app, start it, and let the browser UI
- * guide the user through tunnel name, project root, write permissions, tests,
- * status, and GPT setup text.
+ * Step 1 architecture:
+ * - shell scripts are tiny bootstraps
+ * - local machine downloads one quiet agent
+ * - hosted control panel lives on awtsmoos.com
+ * - no setup questions in terminal
  *
  * Public URLs:
  * /api/tunnel/install/windows
  * /api/tunnel/install/unix
- * /api/tunnel/install/local-app
+ * /api/tunnel/install/agent
  * /api/tunnel/install/status
- *
- * @type {object}
  */
 module.exports = {
   dynamicRoutes: async $i => {
@@ -42,10 +41,10 @@ module.exports = {
       );
     });
 
-    await $i.use("local-app", async () => {
+    await $i.use("agent", async () => {
       return sendText(
         $i,
-        readTunnelDownload("awtsmoos-local-app.js"),
+        readTunnelDownload("awtsmoos-agent.js"),
         "application/javascript; charset=utf-8"
       );
     });
@@ -63,8 +62,11 @@ module.exports = {
         "Mac/Linux:",
         "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash",
         "",
-        "Local app:",
-        "https://awtsmoos.com/api/tunnel/install/local-app"
+        "Hosted control panel:",
+        "https://awtsmoos.com/geelooy/apps/tunnel-control",
+        "",
+        "Agent:",
+        "https://awtsmoos.com/api/tunnel/install/agent"
       ].join("\n"), "text/plain; charset=utf-8");
     });
   }

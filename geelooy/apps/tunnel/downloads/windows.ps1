@@ -23,19 +23,36 @@ if (-not (Test-AwtsCommand "node")) {
 }
 
 $root = Join-Path $env:USERPROFILE ".awtsmoos-tunnel"
-$app = Join-Path $root "awtsmoos-local-app.js"
-$stamp = Join-Path $root "last-bootstrap.txt"
+$agent = Join-Path $root "awtsmoos-agent.js"
+$config = Join-Path $root "config.json"
 
 New-Item -ItemType Directory -Force -Path $root | Out-Null
 
-Write-Host "Downloading latest Awtsmoos local control app..."
-Invoke-WebRequest -Uri "https://awtsmoos.com/api/tunnel/install/local-app" -OutFile $app
+Write-Host "Downloading latest Awtsmoos agent..."
+Invoke-WebRequest -Uri "https://awtsmoos.com/api/tunnel/install/agent" -OutFile $agent
 
-Write-Utf8NoBom $stamp ("Bootstrapped at " + (Get-Date).ToString("s"))
+if (-not (Test-Path $config)) {
+  $cleanUser = ($env:USERNAME.ToLower() -replace "[^a-z0-9_-]+", "-").Trim("-")
+  if ([string]::IsNullOrWhiteSpace($cleanUser)) { $cleanUser = "user" }
+
+  $defaultName = "awt-" + $cleanUser + "-" + (Get-Random -Minimum 1000 -Maximum 9999)
+
+  $cfg = @{
+    relay = "wss://awtsmoos.com"
+    tunnelName = $defaultName
+    local = "http://localhost:3000"
+    root = (Get-Location).Path
+    allowWrite = $true
+    allowSecrets = $false
+    enableLocalHttpProxy = $true
+  } | ConvertTo-Json -Depth 5
+
+  Write-Utf8NoBom $config $cfg
+}
 
 Write-Host ""
-Write-Host "Starting Awtsmoos local control panel..." -ForegroundColor Green
-Write-Host "The browser should open automatically."
+Write-Host "Starting Awtsmoos background agent..." -ForegroundColor Green
+Write-Host "The hosted control panel should open automatically."
 Write-Host ""
 
-node $app
+node $agent --open-control
