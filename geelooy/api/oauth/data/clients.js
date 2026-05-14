@@ -29,7 +29,8 @@ const oauthClients = {
       "https://chat.openai.com/*",
       "https://*.openai.com",
       "https://*.openai.com/",
-      "https://*.openai.com/*"
+      "https://*.openai.com/*",
+		"https://awtsmoos.com/api/oauth/callback-test",
     ]
   }
 };
