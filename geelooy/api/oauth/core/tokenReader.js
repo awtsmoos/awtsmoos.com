@@ -1,55 +1,144 @@
 
 // B"H
 
+const { resolveServerSecret } = require("./serverSecret.js");
+const {
+  decodeTokenValidationResult,
+  getTokenEntry,
+  isTokenExpired
+} = require("./tokenDecoder.js");
+
 /**
  * B"H
- * Tries to decode the server's token validator response.
+ * Extracts a bearer token from the Authorization header.
  *
- * Different sodos versions may return base64 JSON or plain object data.
- *
- * @param {*} raw Raw validator result.
- * @returns {object} Decoded token object.
+ * @param {object} $i Awtsmoos route context.
+ * @returns {string} Bearer token or empty string.
  */
-function decodeTokenResult(raw) {
-  if (!raw) throw new Error("empty_token_validation_result");
-
-  if (typeof raw === "object") return raw;
-
-  const txt = String(raw);
-
-  try {
-    return JSON.parse(txt);
-  } catch (e) {}
-
-  return JSON.parse(Buffer.from(txt, "base64").toString("utf8"));
+function getBearerToken($i) {
+  const auth = $i.request.headers.authorization || "";
+  return auth.replace(/^Bearer\s+/i, "").trim();
 }
 
 /**
  * B"H
- * Reads an OAuth bearer token from Authorization header.
+ * Validates a token using the best available route.
+ *
+ * First it tries a future injected helper named validateToken.
+ * If that does not exist, it reconstructs the server secret and calls sodos directly.
+ *
+ * @param {object} $i Awtsmoos route context.
+ * @param {string} token Bearer token.
+ * @returns {object} Validation result.
+ */
+function validateOAuthToken($i, token) {
+  if (typeof $i.validateToken === "function") {
+    const viaHelper = $i.validateToken(token);
+
+    if (viaHelper && viaHelper.success) {
+      return {
+        ok: true,
+        decoded: viaHelper.success,
+        source: "$i.validateToken"
+      };
+    }
+
+    return {
+      ok: false,
+      error: viaHelper?.error || "validateToken_helper_rejected_token"
+    };
+  }
+
+  const secret = resolveServerSecret($i);
+
+  if (!secret.ok) {
+    return {
+      ok: false,
+      error: "could_not_resolve_server_secret",
+      details: secret.error
+    };
+  }
+
+  const raw = $i.sodos.validateToken(token, secret.secret);
+
+  if (!raw) {
+    return {
+      ok: false,
+      error: "sodos_rejected_token",
+      source: secret.source
+    };
+  }
+
+  return {
+    ok: true,
+    decoded: decodeTokenValidationResult(raw),
+    source: secret.source
+  };
+}
+
+/**
+ * B"H
+ * Reads and validates an OAuth access bearer token.
  *
  * @param {object} $i Awtsmoos route context.
  * @returns {object} Auth result.
  */
 function readBearer($i) {
-  const auth = $i.request.headers.authorization || "";
-  const token = auth.replace(/^Bearer\s+/i, "").trim();
+  const token = getBearerToken($i);
 
-  if (!token) return { ok: false, error: "missing_bearer_token" };
+  if (!token) {
+    return {
+      ok: false,
+      error: "missing_bearer_token"
+    };
+  }
 
   try {
-    const raw = $i.sodos.validateToken(token, $i.self.secret);
-    const decoded = decodeTokenResult(raw);
-    const entry = decoded.entry || decoded;
+    const valid = validateOAuthToken($i, token);
 
-    if (!entry || entry.kind !== "oauth_access") {
-      return { ok: false, error: "wrong_token_kind" };
+    if (!valid.ok) {
+      return {
+        ok: false,
+        error: "invalid_token",
+        details: valid.details || valid.error
+      };
     }
 
-    return { ok: true, token, raw: decoded, entry };
+    const decoded = valid.decoded;
+    const entry = getTokenEntry(decoded);
+
+    if (!entry || entry.kind !== "oauth_access") {
+      return {
+        ok: false,
+        error: "wrong_token_kind"
+      };
+    }
+
+    if (isTokenExpired(decoded)) {
+      return {
+        ok: false,
+        error: "token_expired"
+      };
+    }
+
+    return {
+      ok: true,
+      token,
+      raw: decoded,
+      entry,
+      source: valid.source
+    };
   } catch (e) {
-    return { ok: false, error: "invalid_token", details: e.message };
+    return {
+      ok: false,
+      error: "invalid_token",
+      details: e.stack || e.message
+    };
   }
 }
 
-module.exports = { readBearer, decodeTokenResult };
+module.exports = {
+  readBearer,
+  getBearerToken,
+  validateOAuthToken
+};
