@@ -2,8 +2,9 @@
 // B"H
 
 import { $, jsonText, text } from "../lib/dom.js";
-import { callFs, buildFsUrl } from "../api/tunnel.js";
+import { callFs, buildFsUrl, buildCurl } from "../api/tunnel.js";
 import { saveLocalSetting, readLocalSetting } from "../state/storage.js";
+import { getActiveApiKey } from "../api/keySession.js";
 
 let selectedPath = ".";
 let selectedPaths = new Set();
@@ -125,26 +126,46 @@ function updateSelectedCount() {
   $("selectedCount").textContent = selectedPaths.size + " selected";
 }
 
-function showCommand(opts) {
+async function requireKey() {
+  const key = await getActiveApiKey();
+
+  if (!key) {
+    const msg = "Create an API key first, or select a saved key. Filesystem calls no longer work from session-only debug mode.";
+    $("explorerOut").textContent = msg;
+    $("readablePreview").textContent = msg;
+    return false;
+  }
+
+  return true;
+}
+
+async function showCommand(opts) {
   const url = buildFsUrl(window.awtsGetTunnelName(), opts);
-  $("currentCommandOut").textContent = url;
-  $("actionUrlOut").textContent = url;
+  const curl = await buildCurl(window.awtsGetTunnelName(), opts);
+  $("currentCommandOut").textContent = curl + "\n\nURL:\n" + url;
+  $("actionUrlOut").textContent = curl;
 }
 
 function showPreview(got) {
   if (got && typeof got.content === "string") {
     $("readablePreview").textContent = got.content;
+  } else if (got && got.treeText) {
+    $("readablePreview").textContent = got.treeText;
+  } else if (got && got.items) {
+    $("readablePreview").textContent = got.items.join("\n");
   } else {
     $("readablePreview").textContent = JSON.stringify(got, null, 2);
   }
 }
 
 async function loadList() {
+  if (!await requireKey()) return;
+
   const path = $("explorerPath").value || ".";
   setPath(path);
 
   const opts = { action: "list", path };
-  showCommand(opts);
+  await showCommand(opts);
 
   const got = await callFs(window.awtsGetTunnelName(), opts);
   jsonText("explorerOut", got);
@@ -153,6 +174,8 @@ async function loadList() {
 }
 
 async function loadTree() {
+  if (!await requireKey()) return;
+
   const opts = {
     action: "tree",
     path: $("explorerPath").value,
@@ -160,18 +183,20 @@ async function loadTree() {
     limit: $("treeLimit").value
   };
 
-  showCommand(opts);
+  await showCommand(opts);
 
   const got = await callFs(window.awtsGetTunnelName(), opts);
   jsonText("explorerOut", got);
-  showPreview(got.treeText || got);
+  showPreview(got);
 }
 
 async function readSelected() {
+  if (!await requireKey()) return;
+
   const path = selectedPath || $("explorerPath").value || ".";
   const opts = { action: "read", path };
 
-  showCommand(opts);
+  await showCommand(opts);
 
   const got = await callFs(window.awtsGetTunnelName(), opts);
   jsonText("explorerOut", got);
@@ -179,10 +204,12 @@ async function readSelected() {
 }
 
 async function readSelectedMd() {
+  if (!await requireKey()) return;
+
   const path = selectedPath || $("explorerPath").value || ".";
   const opts = { action: "md", path };
 
-  showCommand(opts);
+  await showCommand(opts);
 
   const got = await callFs(window.awtsGetTunnelName(), opts);
   jsonText("explorerOut", got);
@@ -190,6 +217,8 @@ async function readSelectedMd() {
 }
 
 async function bulkSelected() {
+  if (!await requireKey()) return;
+
   const paths = [...selectedPaths];
 
   const opts = {
@@ -198,7 +227,7 @@ async function bulkSelected() {
     paths
   };
 
-  showCommand(opts);
+  await showCommand(opts);
 
   const got = await callFs(window.awtsGetTunnelName(), opts);
   jsonText("explorerOut", got);
@@ -250,5 +279,5 @@ export function mountExplorer() {
     setPath(path || ".");
   });
 
-  $("fileList").textContent = "Click List to load files.";
+  $("fileList").textContent = "Create/select an API key, then click List.";
 }

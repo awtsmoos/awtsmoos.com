@@ -16,22 +16,22 @@ function readTools() {
 }
 
 function setChecked(id, value) {
-  $(id).checked = !!value;
+  $(id).checked = value !== false;
 }
 
 function applyConfig(config) {
   if (!config) return;
 
   $("rootPath").value = config.root || "";
-  setChecked("allowWrite", config.allowWrite !== false);
-  setChecked("allowSecrets", !!config.allowSecrets);
-  setChecked("enableLocalHttpProxy", config.enableLocalHttpProxy !== false);
+  setChecked("allowWrite", config.allowWrite);
+  $("allowSecrets").checked = !!config.allowSecrets;
+  setChecked("enableLocalHttpProxy", config.enableLocalHttpProxy);
 
-  setChecked("toolFsList", config.tools?.fsList !== false);
-  setChecked("toolFsTree", config.tools?.fsTree !== false);
-  setChecked("toolFsRead", config.tools?.fsRead !== false);
-  setChecked("toolFsWrite", config.tools?.fsWrite !== false);
-  setChecked("toolFsBulk", config.tools?.fsBulk !== false);
+  setChecked("toolFsList", config.tools?.fsList);
+  setChecked("toolFsTree", config.tools?.fsTree);
+  setChecked("toolFsRead", config.tools?.fsRead);
+  setChecked("toolFsWrite", config.tools?.fsWrite);
+  setChecked("toolFsBulk", config.tools?.fsBulk);
 
   renderRoots(config.roots || [], config.home);
 }

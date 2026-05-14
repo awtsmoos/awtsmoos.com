@@ -1,8 +1,11 @@
 
 // B"H
 
-export async function getJson(url) {
-  const res = await fetch(url);
+export async function getJson(url, opts = {}) {
+  const res = await fetch(url, {
+    headers: opts.headers || {}
+  });
+
   const text = await res.text();
 
   try {
@@ -12,7 +15,7 @@ export async function getJson(url) {
   }
 }
 
-export async function postForm(url, data) {
+export async function postForm(url, data, opts = {}) {
   const body = new URLSearchParams();
 
   for (const [k, v] of Object.entries(data || {})) {
@@ -21,6 +24,7 @@ export async function postForm(url, data) {
 
   const res = await fetch(url, {
     method: "POST",
+    headers: opts.headers || {},
     body
   });
 

@@ -18,24 +18,43 @@ function responseBytes(obj) {
   }
 }
 
+function query($i) {
+  return $i.paramKinds?.GET || $i.$_GET || {};
+}
+
 /**
  * B"H
  * Protected tunnel filesystem endpoint.
  *
- * /api/tunnel/control/fs/:tunnelName?action=list&p=.
+ * Security mode:
+ * - OAuth bearer token is allowed.
+ * - Awtsmoos API key is allowed.
+ * - Browser session alone is NOT allowed unless debug=1 is explicitly passed.
  *
- * Accepts session login, OAuth Bearer token, or Awtsmoos API key.
- * This does not yet enforce ownership of device by account. That comes with
- * pairing. But it already gives us scopes, rate-limit hooks, and usage logs.
+ * This prevents a raw URL from working merely because someone has a browser
+ * session. The hosted control panel should create/select an API key, then send
+ * it as x-awtsmoos-api-key.
  */
 async function protectedFs($i, vars) {
+  const q = query($i);
   const ident = currentIdentity($i);
+  const debugSessionAllowed = q.debug === "1" || q.debug === "true";
 
   if (!ident.ok) {
     return json($i, {
       BH: "B\"H",
       ok: false,
-      error: ident.error
+      error: ident.error || "not_authenticated",
+      help: "Use OAuth Bearer token or x-awtsmoos-api-key."
+    }, 401);
+  }
+
+  if (ident.kind === "session" && !debugSessionAllowed) {
+    return json($i, {
+      BH: "B\"H",
+      ok: false,
+      error: "api_key_or_oauth_required",
+      details: "Session login can create API keys, but tunnel filesystem calls require an API key or OAuth bearer token unless debug=1 is passed."
     }, 401);
   }
 

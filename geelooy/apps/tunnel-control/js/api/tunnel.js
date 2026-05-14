@@ -3,10 +3,13 @@
 
 import { getJson } from "./http.js";
 import { b64Json, b64Text } from "../lib/base64.js";
+import { authHeaders, getActiveApiKey } from "./keySession.js";
 
 /**
  * B"H
  * Builds the protected tunnel-control filesystem URL.
+ * The URL alone is not enough anymore; calls also need x-awtsmoos-api-key
+ * or OAuth bearer token. The hosted app sends x-awtsmoos-api-key.
  */
 export function buildFsUrl(tunnelName, opts = {}) {
   const u = new URL("/api/tunnel/control/fs/" + encodeURIComponent(tunnelName), location.origin);
@@ -34,5 +37,29 @@ export function buildFsUrl(tunnelName, opts = {}) {
 }
 
 export async function callFs(tunnelName, opts) {
-  return await getJson(buildFsUrl(tunnelName, opts));
+  const apiKey = await getActiveApiKey();
+
+  if (!apiKey) {
+    return {
+      BH: "B\"H",
+      ok: false,
+      error: "missing_active_api_key",
+      message: "Create or select an API key first. Debug/session-only tunnel calls are disabled."
+    };
+  }
+
+  return await getJson(buildFsUrl(tunnelName, opts), {
+    headers: await authHeaders()
+  });
+}
+
+export async function buildCurl(tunnelName, opts) {
+  const apiKey = await getActiveApiKey();
+  const url = buildFsUrl(tunnelName, opts);
+
+  return [
+    "curl \\",
+    "  -H \"x-awtsmoos-api-key: " + (apiKey || "PASTE_API_KEY_HERE") + "\" \\",
+    "  \"" + url + "\""
+  ].join("\n");
 }
