@@ -1,0 +1,90 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Awtsmoos Tunnel Privacy Policy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg:#050712;
+      --panel:rgba(255,255,255,.08);
+      --line:rgba(255,255,255,.15);
+      --text:#fbfcff;
+      --muted:#c3cae0;
+      --a:#89d7ff;
+      --b:#d3a1ff;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      color:var(--text);
+      font-family:Inter,system-ui,sans-serif;
+      background:
+        radial-gradient(circle at 10% 0, rgba(137,215,255,.25), transparent 34%),
+        radial-gradient(circle at 90% 0, rgba(211,161,255,.20), transparent 34%),
+        linear-gradient(135deg,#050712,#10172d,#171127);
+    }
+    main {
+      width:min(980px, calc(100vw - 28px));
+      margin:auto;
+      padding:36px 0 80px;
+    }
+    section {
+      border:1px solid var(--line);
+      border-radius:30px;
+      padding:clamp(22px,5vw,48px);
+      background:var(--panel);
+      box-shadow:0 32px 120px rgba(0,0,0,.45);
+      backdrop-filter:blur(16px);
+    }
+    h1 {
+      margin:0;
+      font-size:clamp(42px,7vw,76px);
+      line-height:.92;
+      letter-spacing:-.07em;
+    }
+    h2 { margin-top:30px; }
+    p, li { color:var(--muted); line-height:1.65; }
+    a { color:var(--a); font-weight:900; }
+    .eyebrow {
+      color:var(--a);
+      font-size:12px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-weight:950;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <p class="eyebrow">B"H • Awtsmoos Tunnel</p>
+      <h1>Privacy Policy</h1>
+      <p>This page describes the Awtsmoos Tunnel Control action used by GPT agents and the hosted control panel.</p>
+
+      <h2>What the tunnel does</h2>
+      <p>The Awtsmoos Tunnel lets a user run a local agent on their own computer and connect that agent to awtsmoos.com. The user chooses a local root folder. API actions can only reach paths that the local agent permits.</p>
+
+      <h2>Authentication</h2>
+      <p>GPT Actions use OAuth. The hosted dashboard may also use the user’s logged-in Awtsmoos session. API keys may be created by the user for direct access by non-ChatGPT tools.</p>
+
+      <h2>Data handled</h2>
+      <ul>
+        <li>Requested file paths and returned file contents may pass through awtsmoos.com between the GPT and the local agent.</li>
+        <li>Command output, browser-test output, and usage metadata may be logged for diagnostics and rate limiting.</li>
+        <li>Users should not expose secrets unless they intentionally permit it.</li>
+      </ul>
+
+      <h2>User control</h2>
+      <p>The user controls whether the local tunnel is running, which folder is exposed, whether writes are enabled, whether terminal commands are enabled, and whether Chrome control is enabled.</p>
+
+      <h2>Public GPT use</h2>
+      <p>A public GPT using this action should ask the user for their tunnelName and should never assume or hardcode a tunnelName.</p>
+
+      <h2>Contact</h2>
+      <p>For questions, return to <a href="/apps/tunnel-control/">Awtsmoos Tunnel Control</a>.</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -11,11 +11,8 @@ const { protectedFs } = require("./protectedFs.js");
 const { openApi } = require("./openApi.js");
 const { docsHtml } = require("./docsHtml.js");
 const { docsJson } = require("./docsJson.js");
+const { bootstrap } = require("./bootstrap.js");
 
-/**
- * B"H
- * Route table for /api/tunnel/control.
- */
 const routeTable = {
   me,
   device,
@@ -23,6 +20,7 @@ const routeTable = {
   "api-keys/create": createApiKey,
   "api-keys/revoke": revokeApiKey,
   usage,
+  bootstrap,
   "fs/:tunnelName": protectedFs,
   openapi: openApi,
   docs: docsHtml,

@@ -8,10 +8,25 @@ async function openApi($i) {
   return `openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control
-  version: 1.3.0
+  version: 1.4.0
+  description: Public GPT Action schema for connecting ChatGPT to a user's local Awtsmoos Tunnel agent.
 servers:
   - url: https://awtsmoos.com
 paths:
+  /api/tunnel/control/bootstrap:
+    get:
+      operationId: awtsmoosBootstrap
+      summary: Get setup instructions, documentation links, and first-use guidance.
+      description: Use this when the user does not yet know their tunnelName or needs setup instructions.
+      security: []
+      responses:
+        "200":
+          description: Setup/bootstrap information.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BootstrapResponse"
+
   /api/tunnel/control/fs/{tunnelName}:
     get:
       operationId: awtsmoosTunnelAction
@@ -25,7 +40,7 @@ paths:
         - name: tunnelName
           in: path
           required: true
-          description: The connected tunnel name shown in the Awtsmoos control panel.
+          description: The user's tunnel name from the Awtsmoos control panel, like awt-name-1234.
           schema:
             type: string
         - name: action
@@ -55,7 +70,7 @@ paths:
         - name: p
           in: query
           required: false
-          description: Relative path inside the approved root.
+          description: Relative path inside the approved local root.
           schema:
             type: string
             default: "."
@@ -118,7 +133,11 @@ paths:
           required: false
           schema:
             type: string
-            enum: [powershell, cmd, bash, sh]
+            enum:
+              - powershell
+              - cmd
+              - bash
+              - sh
         - name: cwd
           in: query
           required: false
@@ -157,6 +176,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TunnelResponse"
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "401":
           description: Missing or invalid authentication.
           content:
@@ -169,8 +194,46 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
+    BootstrapResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        BH:
+          type: string
+        ok:
+          type: boolean
+        setupUrl:
+          type: string
+        installCommandWindows:
+          type: string
+        installCommandMacLinux:
+          type: string
+        docsHuman:
+          type: string
+        docsJson:
+          type: string
+        openapi:
+          type: string
+        privacyPolicy:
+          type: string
+        howToGetTunnelName:
+          type: array
+          items:
+            type: string
+        firstUserPrompt:
+          type: string
+        gptBehavior:
+          type: array
+          items:
+            type: string
+      required:
+        - ok
+        - setupUrl
+        - firstUserPrompt
+
     TunnelResponse:
       type: object
       additionalProperties: true
@@ -187,6 +250,9 @@ components:
         path:
           type: string
           description: Relative path when relevant.
+        root:
+          type: string
+          description: Approved local root when reported.
         content:
           type: string
           description: File content or rendered content when relevant.
@@ -209,17 +275,29 @@ components:
           type: object
           additionalProperties: true
           description: Script or browser result.
+        results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+          description: Multi-step browser script results.
         stdout:
           type: string
           description: Command stdout.
         stderr:
           type: string
           description: Command stderr.
+        logs:
+          type: array
+          items:
+            type: string
+          description: nodeScriptRun console logs.
         error:
           type: string
           description: Error message if failed.
       required:
         - ok
+
     ErrorResponse:
       type: object
       additionalProperties: true
@@ -232,9 +310,12 @@ components:
           type: string
         details:
           type: string
+        message:
+          type: string
       required:
         - ok
         - error
+
   securitySchemes:
     OAuth2:
       type: oauth2
