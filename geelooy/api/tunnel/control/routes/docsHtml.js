@@ -1,43 +1,34 @@
 
 // B"H
-
-const { html } = require("../core/respond.js");
 const { apiCatalog } = require("../docs/catalog.js");
 
-function esc(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "<")
-    .replaceAll(">", ">")
-    .replaceAll('"', "&quot;");
+function esc(x) {
+  return String(x ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "<")
+    .replace(/>/g, ">");
 }
 
-function endpointCard(ep) {
+function actionCard(action) {
   return `
-    <article class="doc-card">
-      <div class="doc-card-head">
-        <span class="method">${esc(ep.method)}</span>
-        <strong>${esc(ep.id)}</strong>
+    <article class="action-card">
+      <div>
+        <strong>${esc(action.action)}</strong>
+        <span>${esc(action.scope)}</span>
       </div>
-      <code>${esc(ep.path)}</code>
-      <p>${esc(ep.description)}</p>
-      <small>Auth: ${esc(ep.auth)}</small>
+      <p>${esc(action.summary || "")}</p>
+      <code>${esc((action.params || []).join(", ") || "no params")}</code>
     </article>
   `;
 }
 
-function actionRow(action) {
-  return `
-    <tr>
-      <td><code>${esc(action.action)}</code></td>
-      <td>${esc(action.scope)}</td>
-      <td>${esc((action.params || []).join(", "))}</td>
-    </tr>
-  `;
-}
-
 async function docsHtml($i) {
-  const body = `<!doctype html>
+  try {
+    $i.response.setHeader("Content-Type", "text/html; charset=utf-8");
+    $i.response.setHeader("Cache-Control", "no-store");
+  } catch (e) {}
+
+  return `<!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -45,51 +36,190 @@ async function docsHtml($i) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     :root {
-      --bg:#070913;--panel:rgba(255,255,255,.08);--line:rgba(255,255,255,.16);
-      --text:#f7f8ff;--muted:#b9c0d7;--a:#8bd3ff;--b:#d7a7ff;
+      --bg:#050712;
+      --panel:rgba(255,255,255,.075);
+      --panel2:rgba(255,255,255,.12);
+      --line:rgba(255,255,255,.15);
+      --a:#89d7ff;
+      --b:#d3a1ff;
+      --c:#86ffc5;
+      --text:#fbfcff;
+      --muted:#c3cae0;
+      --bad:#ff9797;
+      --warn:#ffe08d;
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:radial-gradient(circle at 10% 0,rgba(139,211,255,.25),transparent 35%),linear-gradient(135deg,#070913,#121a2e,#181326);color:var(--text);font-family:Inter,system-ui,sans-serif}
-    main{width:min(1200px,calc(100vw - 26px));margin:auto;padding:32px 0 80px}
-    .hero{border:1px solid var(--line);border-radius:32px;padding:38px;background:var(--panel);box-shadow:0 30px 110px rgba(0,0,0,.4)}
-    h1{font-size:clamp(42px,8vw,86px);line-height:.92;letter-spacing:-.07em;margin:0}
-    p{color:var(--muted);line-height:1.6}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:22px}
-    .doc-card{border:1px solid var(--line);border-radius:22px;padding:18px;background:rgba(0,0,0,.22)}
-    .doc-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-    .method{background:linear-gradient(135deg,var(--a),var(--b));color:#07101e;font-weight:900;border-radius:999px;padding:6px 10px}
-    code,pre{font-family:ui-monospace,Consolas,monospace}
-    code{display:block;word-break:break-all;color:var(--a);margin:8px 0}
-    table{width:100%;border-collapse:collapse;margin-top:18px;overflow:hidden;border-radius:20px}
-    td,th{border:1px solid var(--line);padding:12px;text-align:left}
-    th{color:var(--a);background:rgba(255,255,255,.06)}
-    a{color:var(--a);font-weight:900}
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+      background:
+        radial-gradient(circle at 8% -10%, rgba(137,215,255,.26), transparent 34%),
+        radial-gradient(circle at 92% 0%, rgba(211,161,255,.22), transparent 34%),
+        linear-gradient(135deg,#050712,#10172d 52%,#171127);
+    }
+    main {
+      width:min(1220px, calc(100vw - 28px));
+      margin:auto;
+      padding:28px 0 80px;
+    }
+    .hero, .card {
+      border:1px solid var(--line);
+      border-radius:30px;
+      background:
+        radial-gradient(circle at top right, rgba(137,215,255,.12), transparent 42%),
+        rgba(255,255,255,.075);
+      box-shadow:0 30px 120px rgba(0,0,0,.44), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter:blur(16px);
+    }
+    .hero {
+      padding:clamp(26px,6vw,58px);
+      margin-bottom:18px;
+    }
+    h1 {
+      margin:0;
+      font-size:clamp(44px,8vw,88px);
+      line-height:.9;
+      letter-spacing:-.075em;
+    }
+    h2 { margin:0 0 14px; letter-spacing:-.04em; }
+    p, li { color:var(--muted); line-height:1.65; }
+    a { color:var(--a); font-weight:900; }
+    code, pre {
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#070b16;
+      color:#eef3ff;
+      padding:.2em .45em;
+    }
+    pre {
+      display:block;
+      padding:16px;
+      white-space:pre-wrap;
+      overflow:auto;
+    }
+    .eyebrow {
+      color:var(--a);
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-weight:1000;
+      font-size:12px;
+    }
+    .nav {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      position:sticky;
+      top:10px;
+      z-index:5;
+      padding:10px;
+      margin-bottom:18px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:rgba(5,8,19,.82);
+      backdrop-filter:blur(18px);
+    }
+    .nav a {
+      text-decoration:none;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:10px 14px;
+      background:rgba(255,255,255,.07);
+    }
+    .card { padding:22px; margin-bottom:18px; }
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:14px;
+    }
+    .action-card {
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:16px;
+      background:rgba(0,0,0,.2);
+    }
+    .action-card strong {
+      display:block;
+      font-size:20px;
+    }
+    .action-card span {
+      color:var(--c);
+      font-weight:900;
+      font-size:12px;
+    }
+    .callout {
+      border:1px solid rgba(137,215,255,.45);
+      border-radius:22px;
+      padding:16px;
+      background:rgba(137,215,255,.08);
+      margin:16px 0;
+    }
   </style>
 </head>
 <body>
   <main>
     <section class="hero">
-      <p style="color:var(--a);font-weight:900;letter-spacing:.14em;text-transform:uppercase">B"H • API Documentation</p>
-      <h1>Awtsmoos Tunnel Control API</h1>
-      <p>Human docs for dashboard, Custom GPT Actions, and any other AI or program using API keys or OAuth.</p>
-      <p><a href="/api/tunnel/control/docs.json">Machine-readable JSON docs</a> • <a href="/api/tunnel/control/openapi">OpenAPI YAML</a> • <a href="/apps/tunnel-control/">Hosted Control Panel</a></p>
+      <p class="eyebrow">B"H • Awtsmoos Tunnel Control</p>
+      <h1>Human API Docs</h1>
+      <p>Use this API to connect a GPT, AI agent, or tool to a user's local Awtsmoos Tunnel agent. The user controls the root folder, API key scopes, writes, terminal access, and Chrome access.</p>
+      <div class="callout">
+        <strong>Public GPT flow:</strong>
+        <p>Do not hardcode a tunnel name. Ask the user to open <a href="/apps/tunnel-control/">/apps/tunnel-control/</a>, run the installer, then paste their <code>tunnelName</code>.</p>
+      </div>
     </section>
 
-    <h2>Endpoints</h2>
-    <section class="grid">
-      ${apiCatalog.endpoints.map(endpointCard).join("")}
+    <nav class="nav">
+      <a href="#setup">Setup</a>
+      <a href="#auth">Auth</a>
+      <a href="#actions">Actions</a>
+      <a href="#examples">Examples</a>
+      <a href="/api/tunnel/control/docs.json">JSON Docs</a>
+      <a href="/api/tunnel/control/openapi">OpenAPI</a>
+      <a href="/apps/tunnel-control/privacy.html">Privacy</a>
+    </nav>
+
+    <section class="card" id="setup">
+      <p class="eyebrow">Setup</p>
+      <h2>First-use setup</h2>
+      <ol>
+        <li>Open <a href="/apps/tunnel-control/">https://awtsmoos.com/apps/tunnel-control/</a>.</li>
+        <li>Run the installer command.</li>
+        <li>The hosted panel opens with <code>?tunnelName=awt-...</code>.</li>
+        <li>Copy that tunnel name into the GPT chat.</li>
+      </ol>
+      <pre>irm https://awtsmoos.com/api/tunnel/install/windows | iex</pre>
+      <pre>curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash</pre>
     </section>
 
-    <h2>Tunnel actions</h2>
-    <table>
-      <thead><tr><th>Action</th><th>Scope</th><th>Params</th></tr></thead>
-      <tbody>${apiCatalog.actions.map(actionRow).join("")}</tbody>
-    </table>
+    <section class="card" id="auth">
+      <p class="eyebrow">Auth</p>
+      <h2>Authentication</h2>
+      <p>GPT Actions should use OAuth. Non-GPT tools may use <code>x-awtsmoos-api-key</code>.</p>
+      <pre>Authorization URL: https://awtsmoos.com/api/oauth/authorize
+Token URL: https://awtsmoos.com/api/oauth/token
+Scopes: profile tunnel.read tunnel.write tunnel.command tunnel.browser</pre>
+    </section>
+
+    <section class="card" id="actions">
+      <p class="eyebrow">Actions</p>
+      <h2>Available tunnel actions</h2>
+      <div class="grid">
+        ${apiCatalog.actions.map(actionCard).join("\\n")}
+      </div>
+    </section>
+
+    <section class="card" id="examples">
+      <p class="eyebrow">Examples</p>
+      <h2>Common calls</h2>
+      <pre>GET /api/tunnel/control/fs/{tunnelName}?action=list&amp;p=.</pre>
+      <pre>GET /api/tunnel/control/fs/{tunnelName}?action=tree&amp;p=.&amp;depth=2&amp;limit=150</pre>
+      <pre>GET /api/tunnel/control/fs/{tunnelName}?action=read&amp;p=package.json</pre>
+      <pre>GET /api/tunnel/control/bootstrap</pre>
+    </section>
   </main>
 </body>
 </html>`;
-
-  return html($i, body);
 }
 
 module.exports = { docsHtml };

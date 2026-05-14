@@ -5,6 +5,7 @@ import { $ } from "./lib/dom.js";
 import { log, error } from "./logger.js";
 import { mountTabs } from "./ui/tabs.js";
 import { mountCopyButtons } from "./ui/copy.js";
+import { mountSections } from "./ui/sections.js";
 import { refreshStatus, refreshDevice, refreshLogin } from "./features/status.js";
 import { buildPrompt } from "./features/prompt.js";
 import { mountExplorer } from "./features/explorer.js";
@@ -73,6 +74,7 @@ async function main() {
 
   await safeMount("tabs", () => mountTabs());
   await safeMount("copy", () => mountCopyButtons());
+  await safeMount("sections", () => mountSections());
 
   if (applyLandingMode()) {
     log("landing mode: no tunnelName query parameter");

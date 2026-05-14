@@ -1,66 +1,100 @@
 
 // B"H
 
-const { json, html, redirect } = require("../tools/respond.js");
-const { getQuery } = require("../tools/requestData.js");
 const { getClient } = require("../core/clients.js");
-const { getUserId, publicUser } = require("../core/currentUser.js");
-const { cleanScope } = require("../core/scopes.js");
-const { createCode } = require("../core/codeStore.js");
+const { saveCode } = require("../core/codeStore.js");
 const { approvalPage } = require("../views/approvalPage.js");
 const { loginPage } = require("../views/loginPage.js");
-const { currentFullUrl, urlWithParams } = require("../tools/urls.js");
 
-/**
- * B"H
- * Checks whether the user approved OAuth access.
- *
- * The Awtsmoos dynamic server tries to JSON.parse GET values.
- * Therefore approve=1 may arrive as number 1 instead of string "1".
- * This function accepts every sane approved form.
- *
- * @param {*} value Raw approve query value.
- * @returns {boolean} True if approved.
- */
-function isApproved(value) {
-  return (
-    value === true ||
-    value === 1 ||
-    value === "1" ||
-    value === "true" ||
-    value === "yes" ||
-    value === "on"
-  );
+function json($i, data, status = 200) {
+  try {
+    $i.response.statusCode = status;
+    $i.response.setHeader("Content-Type", "application/json; charset=utf-8");
+    $i.response.setHeader("Cache-Control", "no-store");
+  } catch (e) {}
+
+  return JSON.stringify(data, null, 2);
 }
 
-/**
- * B"H
- * OAuth authorization endpoint.
- *
- * If the user is not logged in, it opens the login gate.
- * If the user is logged in but has not approved, it shows approval.
- * If approved, it creates a one-use code and redirects to redirect_uri.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {Promise<object>} OAuth authorize response.
- */
+function getQuery($i) {
+  return $i.paramKinds?.GET || $i.$_GET || {};
+}
+
+function getPost($i) {
+  return $i.paramKinds?.POST || $i.$_POST || {};
+}
+
+function getUserId($i) {
+  const user = $i.request?.user;
+  return user?.info?.userId || user?.userId || user?.id || null;
+}
+
+function urlWithParams(base, params) {
+  const u = new URL(base);
+
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== undefined && v !== null && v !== "") {
+      u.searchParams.set(k, String(v));
+    }
+  }
+
+  return u.toString();
+}
+
+function isRedirectAllowed(client, redirectUri) {
+  if (!redirectUri) return false;
+
+  const list = client.redirectUris || client.redirectURIs || client.allowedRedirectUris || [];
+
+  return list.includes(redirectUri);
+}
+
+function scopeAllowed(client, requestedScope) {
+  const allowed = new Set(client.scopes || []);
+  const requested = String(requestedScope || client.defaultScope || "")
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (!requested.length) return client.defaultScope || "";
+
+  for (const scope of requested) {
+    if (!allowed.has(scope)) {
+      return null;
+    }
+  }
+
+  return requested.join(" ");
+}
+
 async function authorize($i) {
   const q = getQuery($i);
-  const client = getClient(q.client_id || "chatgpt");
-  const redirectUri = q.redirect_uri;
-  const responseType = q.response_type || "code";
-  const state = q.state || "";
-  const scope = cleanScope(q.scope || client.defaultScope, client.scopes);
+  const post = getPost($i);
 
-  if (!redirectUri) {
+  const clientId = q.client_id || post.client_id;
+  const responseType = q.response_type || post.response_type || "code";
+  const redirectUri = q.redirect_uri || post.redirect_uri;
+  const requestedScope = q.scope || post.scope;
+  const approve = q.approve || post.approve;
+
+  if (responseType !== "code") {
     return json($i, {
       BH: "B\"H",
       ok: false,
-      error: "missing_redirect_uri"
+      error: "unsupported_response_type"
     }, 400);
   }
 
-  if (!client.redirectAllowed(redirectUri)) {
+  const client = getClient(clientId);
+
+  if (!client) {
+    return json($i, {
+      BH: "B\"H",
+      ok: false,
+      error: "invalid_client"
+    }, 400);
+  }
+
+  if (!isRedirectAllowed(client, redirectUri)) {
     return json($i, {
       BH: "B\"H",
       ok: false,
@@ -69,43 +103,77 @@ async function authorize($i) {
     }, 400);
   }
 
-  if (responseType !== "code") {
-    return redirect($i, urlWithParams(redirectUri, {
-      error: "unsupported_response_type",
-      error_description: "Only response_type=code is supported.",
-      state
-    }));
+  const scope = scopeAllowed(client, requestedScope);
+
+  if (!scope) {
+    return json($i, {
+      BH: "B\"H",
+      ok: false,
+      error: "invalid_scope",
+      requestedScope
+    }, 400);
   }
 
   const userId = getUserId($i);
 
   if (!userId) {
-    return html($i, loginPage({
-      clientName: client.name,
+    if (typeof loginPage === "function") {
+      return loginPage({
+        client,
+        clientId,
+        redirectUri,
+        responseType,
+        scope
+      });
+    }
+
+    return json($i, {
+      BH: "B\"H",
+      ok: false,
+      error: "login_required",
       loginUrl: "/login",
-      continueUrl: currentFullUrl($i)
-    }), 401);
+      continueUrl: "/api/oauth/authorize?client_id=" + encodeURIComponent(clientId) +
+        "&response_type=code&redirect_uri=" + encodeURIComponent(redirectUri) +
+        "&scope=" + encodeURIComponent(scope)
+    }, 401);
   }
 
-  if (!client.autoApprove && !isApproved(q.approve)) {
-    return html($i, approvalPage({
-      client,
-      userId,
-      scope,
-      approveUrl: urlWithParams(currentFullUrl($i), { approve: "1" })
-    }));
+  if (!client.autoApprove && approve !== "1") {
+    if (typeof approvalPage === "function") {
+      return approvalPage({
+        client,
+        userId,
+        clientId,
+        redirectUri,
+        responseType,
+        scope
+      });
+    }
+
+    return [
+      "<!doctype html><html><body>",
+      "<h1>B\"H Allow Access?</h1>",
+      "<p>" + client.name + " wants access.</p>",
+      "<p>User: <code>" + userId + "</code></p>",
+      "<p>Scopes: <code>" + scope + "</code></p>",
+      "<a href=\"/api/oauth/authorize?client_id=" + encodeURIComponent(clientId) +
+        "&response_type=code&redirect_uri=" + encodeURIComponent(redirectUri) +
+        "&scope=" + encodeURIComponent(scope) +
+        "&approve=1\">Allow</a>",
+      "</body></html>"
+    ].join("");
   }
 
-  const code = await createCode({
+  const code = saveCode({
     userId,
-    user: publicUser($i),
     clientId: client.id,
     redirectUri,
-    scope,
-    state
+    scope
   });
 
-  return redirect($i, urlWithParams(redirectUri, { code, state }));
+  return {
+    redirect: urlWithParams(redirectUri, { code })
+  };
 }
 
-module.exports = { authorize, isApproved };
+module.exports = { authorize };

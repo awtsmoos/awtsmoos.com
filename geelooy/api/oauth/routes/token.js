@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const { normalizeTokenRequest } = require("../core/requestBody.js");
 const { getClient } = require("../core/clients.js");
 const { resolveServerSecret } = require("../core/serverSecret.js");
+const { takeCode } = require("../core/codeStore.js");
 
 function json($i, data, status = 200) {
   try {
@@ -42,35 +43,8 @@ function makeAccessToken(entry, secret, expiresIn) {
   return payload + "." + sign(payload, secret);
 }
 
-function findCodeRecord($i, code) {
-  /**
-   * This supports the common shapes used in the OAuth folder over the last few edits.
-   * If your storage helper exists, it can be added here later; this fallback keeps
-   * ChatGPT token parsing from failing with missing_code.
-   */
-  const server = $i.server || global.server || {};
-  const store =
-    server.oauthCodes ||
-    server.oauth?.codes ||
-    global.oauthCodes ||
-    {};
-
-  return store[code] || null;
-}
-
-function deleteCodeRecord($i, code) {
-  const server = $i.server || global.server || {};
-  const stores = [
-    server.oauthCodes,
-    server.oauth?.codes,
-    global.oauthCodes
-  ].filter(Boolean);
-
-  for (const store of stores) {
-    try {
-      delete store[code];
-    } catch (e) {}
-  }
+function clientSecretOf(client) {
+  return client.clientSecret || client.secret || "";
 }
 
 async function token($i) {
@@ -105,32 +79,32 @@ async function token($i) {
     }, 401);
   }
 
-  if (client.secret && req.client_secret && req.client_secret !== client.secret) {
+  const expectedSecret = clientSecretOf(client);
+
+  if (expectedSecret && req.client_secret !== expectedSecret) {
     return json($i, {
       BH: "B\"H",
       error: "invalid_client_secret"
     }, 401);
   }
 
-  const record = findCodeRecord($i, req.code);
+  const record = takeCode(req.code);
 
   if (!record) {
-    /**
-     * Safer error than pretending success.
-     * If this appears, authorize.js is saving code somewhere else.
-     */
     return json($i, {
       BH: "B\"H",
       error: "invalid_or_expired_code",
-      codePrefix: String(req.code).slice(0, 12),
-      hint: "Token request parsed correctly. Now wire token.js to the exact authorization-code store used by authorize.js."
+      codePrefix: String(req.code).slice(0, 18),
+      hint: "The code was not found in the shared codeStore. Make sure authorize.js imports saveCode from ../core/codeStore.js and redirects with that exact code."
     }, 400);
   }
 
   if (record.clientId && record.clientId !== client.id) {
     return json($i, {
       BH: "B\"H",
-      error: "code_client_mismatch"
+      error: "code_client_mismatch",
+      expected: record.clientId,
+      got: client.id
     }, 400);
   }
 
@@ -143,7 +117,7 @@ async function token($i) {
     }, 400);
   }
 
-  const expiresIn = 3600;
+  const expiresIn = client.accessTokenSeconds || 3600;
   const secret = resolveServerSecret();
 
   const entry = {
@@ -155,7 +129,6 @@ async function token($i) {
   };
 
   const access_token = makeAccessToken(entry, secret, expiresIn);
-  deleteCodeRecord($i, req.code);
 
   return json($i, {
     access_token,

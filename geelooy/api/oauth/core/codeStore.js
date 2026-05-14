@@ -1,58 +1,85 @@
 
 // B"H
-
 const crypto = require("crypto");
-
-const codeStore = new Map();
-const CODE_TTL_MS = 10 * 60 * 1000;
 
 /**
  * B"H
- * Creates a short-lived authorization code.
+ * Shared in-memory OAuth authorization-code store.
  *
- * This is memory-backed for the first working version.
- * Later, replace with DB persistence if you run multiple Node processes.
- *
- * @param {object} details Authorization code details.
- * @returns {Promise<string>} Authorization code.
+ * This fixes the bug where /authorize creates a code but /token cannot find it.
+ * In production this can later be moved to a persistent DB, but for now this
+ * works as long as authorize and token run in the same Node process.
  */
-async function createCode(details) {
-  const code = "awt_code_" + crypto.randomBytes(32).toString("base64url");
 
-  codeStore.set(code, {
-    ...details,
+const CODE_TTL_MS = 5 * 60 * 1000;
+
+const store =
+  global.__AWTSMOOS_OAUTH_CODE_STORE__ ||
+  (global.__AWTSMOOS_OAUTH_CODE_STORE__ = new Map());
+
+function now() {
+  return Date.now();
+}
+
+function cleanExpiredCodes() {
+  const t = now();
+
+  for (const [code, record] of store.entries()) {
+    if (!record || record.expiresAt <= t) {
+      store.delete(code);
+    }
+  }
+}
+
+function makeCode() {
+  return "awt_code_" + crypto.randomBytes(32).toString("base64url");
+}
+
+function saveCode(record) {
+  cleanExpiredCodes();
+
+  const code = makeCode();
+
+  store.set(code, {
     code,
-    used: false,
-    createdAt: Date.now(),
-    expiresAt: Date.now() + CODE_TTL_MS
+    kind: "oauth_authorization_code",
+    userId: record.userId,
+    clientId: record.clientId,
+    redirectUri: record.redirectUri,
+    scope: record.scope,
+    createdAt: now(),
+    expiresAt: now() + CODE_TTL_MS
   });
 
   return code;
 }
 
-/**
- * B"H
- * Reads an authorization code.
- *
- * @param {string} code Authorization code.
- * @returns {Promise<object|null>} Code record.
- */
-async function readCode(code) {
-  return codeStore.get(code) || null;
+function takeCode(code) {
+  cleanExpiredCodes();
+
+  const record = store.get(code);
+
+  if (!record) {
+    return null;
+  }
+
+  store.delete(code);
+
+  if (record.expiresAt <= now()) {
+    return null;
+  }
+
+  return record;
 }
 
-/**
- * B"H
- * Marks a code as consumed.
- *
- * @param {string} code Authorization code.
- * @returns {Promise<boolean>} True if consumed.
- */
-async function consumeCode(code) {
-  const rec = codeStore.get(code);
-  if (!rec) return false;
-  codeStore.set(code, { ...rec, used: true, usedAt: Date.now() });
-  return true;
+function peekCode(code) {
+  cleanExpiredCodes();
+  return store.get(code) || null;
 }
 
-module.exports = { createCode, readCode, consumeCode };
+module.exports = {
+  saveCode,
+  takeCode,
+  peekCode,
+  cleanExpiredCodes
+};
