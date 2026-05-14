@@ -7,8 +7,8 @@ export function controlMe() {
   return getJson("/api/tunnel/control/me");
 }
 
-export function devices() {
-  return getJson("/api/tunnel/control/devices");
+export function device(tunnelName) {
+  return getJson("/api/tunnel/control/device?tunnelName=" + encodeURIComponent(tunnelName || ""));
 }
 
 export function apiKeys() {

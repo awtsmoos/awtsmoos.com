@@ -1,0 +1,33 @@
+
+/* B"H */
+.button,
+.tab {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 11px 14px;
+  background: var(--panel2);
+  color: var(--text);
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+  text-decoration: none;
+}
+.primary {
+  background: linear-gradient(135deg, var(--a), var(--b));
+  color: #08111f;
+  border: 0;
+}
+.small {
+  font-size: 13px;
+  padding: 8px 10px;
+}
+.tab.active {
+  background: white;
+  color: #070913;
+}
+.pane { display: none; }
+.pane.active { display: block; }
+.button:hover,
+.tab:hover {
+  transform: translateY(-1px);
+}

@@ -14,6 +14,13 @@ function Write-Utf8NoBom($path, $text) {
   [System.IO.File]::WriteAllText($path, $text, $encoding)
 }
 
+function Clean-AwtsName($value) {
+  $clean = $value.ToLower() -replace "[^a-z0-9_-]+", "-"
+  $clean = $clean.Trim("-")
+  if ([string]::IsNullOrWhiteSpace($clean)) { return "user" }
+  return $clean
+}
+
 if (-not (Test-AwtsCommand "node")) {
   Write-Host ""
   Write-Host "Node.js was not found." -ForegroundColor Yellow
@@ -32,9 +39,7 @@ Write-Host "Downloading latest Awtsmoos agent..."
 Invoke-WebRequest -Uri "https://awtsmoos.com/api/tunnel/install/agent" -OutFile $agent
 
 if (-not (Test-Path $config)) {
-  $cleanUser = ($env:USERNAME.ToLower() -replace "[^a-z0-9_-]+", "-").Trim("-")
-  if ([string]::IsNullOrWhiteSpace($cleanUser)) { $cleanUser = "user" }
-
+  $cleanUser = Clean-AwtsName $env:USERNAME
   $defaultName = "awt-" + $cleanUser + "-" + (Get-Random -Minimum 1000 -Maximum 9999)
 
   $cfg = @{
@@ -48,6 +53,8 @@ if (-not (Test-Path $config)) {
   } | ConvertTo-Json -Depth 5
 
   Write-Utf8NoBom $config $cfg
+} else {
+  Write-Host "Existing config found. Reusing same tunnel name and settings."
 }
 
 Write-Host ""

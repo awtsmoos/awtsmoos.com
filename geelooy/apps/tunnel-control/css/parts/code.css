@@ -1,0 +1,22 @@
+
+/* B"H */
+pre,
+code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+pre {
+  white-space: pre-wrap;
+  overflow: auto;
+  background: rgba(0,0,0,.32);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  color: #eaf3ff;
+  min-height: 70px;
+}
+code {
+  background: rgba(0,0,0,.32);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 2px 6px;
+}

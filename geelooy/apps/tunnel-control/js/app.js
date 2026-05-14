@@ -16,6 +16,8 @@ function getTunnelName() {
   return $("tunnelName").value.trim();
 }
 
+window.awtsGetTunnelName = getTunnelName;
+
 function renderPrompt() {
   $("promptBox").textContent = buildPrompt({
     tunnelName: getTunnelName(),
@@ -24,28 +26,36 @@ function renderPrompt() {
   });
 }
 
+async function refresh() {
+  await refreshStatus(getTunnelName);
+}
+
 function main() {
   $("tunnelName").value = state.tunnelName;
   $("projectPath").value = state.projectPath;
 
-  $("tunnelName").addEventListener("input", renderPrompt);
+  $("tunnelName").addEventListener("input", () => {
+    renderPrompt();
+    refresh();
+  });
+
   $("projectPath").addEventListener("input", renderPrompt);
   $("promptMode").addEventListener("change", renderPrompt);
-  $("refreshBtn").addEventListener("click", refreshStatus);
+  $("refreshBtn").addEventListener("click", refresh);
   $("copyPromptBtn").addEventListener("click", async () => {
     await navigator.clipboard.writeText($("promptBox").textContent);
   });
 
   mountTabs();
   mountCopyButtons();
-  mountExplorer(getTunnelName);
+  mountExplorer();
   mountActions(getTunnelName);
   mountApiKeys();
   mountUsage();
 
   renderPrompt();
-  refreshStatus();
-  setInterval(refreshStatus, 5000);
+  refresh();
+  setInterval(refresh, 5000);
 }
 
 main();

@@ -1,0 +1,44 @@
+
+/* B"H */
+.explorer-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: 14px;
+}
+.file-list {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(0,0,0,.22);
+  max-height: 440px;
+  overflow: auto;
+  padding: 8px;
+}
+.file-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 11px;
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 750;
+}
+.file-row:hover {
+  background: rgba(255,255,255,.08);
+  color: var(--text);
+}
+.file-row.dir {
+  color: var(--a);
+}
+.file-row.selected {
+  background: rgba(139,211,255,.16);
+  color: var(--text);
+}
+.viewer {
+  min-height: 440px;
+}
+.path-crumb {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  word-break: break-all;
+}

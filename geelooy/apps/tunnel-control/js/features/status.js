@@ -1,20 +1,29 @@
 
 // B"H
 
-import { jsonText } from "../lib/dom.js";
-import { tunnelStatus } from "../api/tunnel.js";
-import { controlMe, devices } from "../api/control.js";
+import { $, jsonText } from "../lib/dom.js";
+import { controlMe, device } from "../api/control.js";
 
-export async function refreshStatus() {
-  const [raw, identity, deviceInfo] = await Promise.all([
-    tunnelStatus(),
+function setConnection(connected) {
+  const pill = $("connectionPill");
+  pill.classList.toggle("connected", !!connected);
+  pill.classList.toggle("warning", !connected);
+  $("connectionText").textContent = connected ? "Connected" : "Not connected";
+}
+
+/**
+ * B"H
+ * Refreshes only identity and the current tunnel's connection.
+ */
+export async function refreshStatus(getTunnelName) {
+  const tunnelName = getTunnelName();
+
+  const [identity, oneDevice] = await Promise.all([
     controlMe(),
-    devices()
+    device(tunnelName)
   ]);
 
   jsonText("identityBox", identity);
-  jsonText("statusBox", {
-    rawTunnel: raw,
-    accountDevices: deviceInfo
-  });
+  jsonText("deviceBox", oneDevice);
+  setConnection(!!oneDevice.connected);
 }

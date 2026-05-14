@@ -1,0 +1,33 @@
+
+/* B"H */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(0,0,0,.22);
+  font-weight: 900;
+}
+.status-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bad);
+  box-shadow: 0 0 20px var(--bad);
+}
+.status-pill.connected .status-dot {
+  background: var(--good);
+  box-shadow: 0 0 20px var(--good);
+}
+.status-pill.warning .status-dot {
+  background: var(--warn);
+  box-shadow: 0 0 20px var(--warn);
+}
+.mini-stat {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(0,0,0,.18);
+}
