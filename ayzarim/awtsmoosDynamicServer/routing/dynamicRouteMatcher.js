@@ -1,51 +1,7 @@
 
 // B"H
 
-/**
- * B"H
- * Robust dynamic route matching for Awtsmoos dynamic server.
- *
- * Goals:
- * - query strings never affect dynamic route matching
- * - /authorize, authorize, /authorize/ all normalize sanely
- * - :params work
- * - route handler errors do not get disguised as INVALID_ROUTE
- */
-
-function stripQueryAndHash(value) {
-  return String(value || "").split("?")[0].split("#")[0];
-}
-
-function safeDecode(value) {
-  try {
-    return decodeURIComponent(value);
-  } catch (e) {
-    return value;
-  }
-}
-
-function normalizeRoutePath(value) {
-  let s = safeDecode(stripQueryAndHash(value));
-
-  s = s.replace(/\\/g, "/");
-  s = s.replace(/\/+/g, "/");
-  s = s.trim();
-
-  if (s === "." || s === "") return "";
-
-  s = s.replace(/^\/+/, "");
-  s = s.replace(/\/+$/, "");
-
-  return s;
-}
-
-function splitPath(value) {
-  const normalized = normalizeRoutePath(value);
-
-  if (!normalized) return [];
-
-  return normalized.split("/").filter(Boolean);
-}
+const { normalizeRoutePath, splitPath } = require("./pathTools.js");
 
 function matchDynamicRoute(routePattern, childPathUrl) {
   const routeSegments = splitPath(routePattern);
@@ -106,8 +62,5 @@ function matchDynamicRoute(routePattern, childPathUrl) {
 }
 
 module.exports = {
-  stripQueryAndHash,
-  normalizeRoutePath,
-  splitPath,
   matchDynamicRoute
 };

@@ -6,18 +6,19 @@ const { saveCode } = require("../core/codeStore.js");
 const { validateScope } = require("../core/scopes.js");
 const { getQuery, getBody } = require("../tools/requestData.js");
 const { json, html, redirect } = require("../tools/respond.js");
-const { urlWithParams } = require("../tools/urls.js");
+const { localUrlFor } = require("../tools/urls.js");
 const { getUserId } = require("../core/currentUser.js");
 
 function esc(x) {
   return String(x ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "<")
-    .replace(/>/g, ">");
+    .replace(/>/g, ">")
+    .replace(/"/g, "&quot;");
 }
 
 function buildAuthorizeUrl(opts) {
-  return urlWithParams("/api/oauth/authorize", {
+  return localUrlFor("/api/oauth/authorize", {
     response_type: "code",
     client_id: opts.clientId,
     redirect_uri: opts.redirectUri,
@@ -31,8 +32,8 @@ function approvalHtml(opts) {
     "<html><head><meta charset='utf-8'><title>Approve OAuth</title>" +
     "<meta name='viewport' content='width=device-width, initial-scale=1'>" +
     "<style>" +
-    "body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050712;color:#fbfcff;font-family:system-ui}" +
-    "main{width:min(760px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:34px;background:rgba(255,255,255,.08);box-shadow:0 32px 110px rgba(0,0,0,.45)}" +
+    "body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 10% 0,rgba(137,215,255,.24),transparent 34%),linear-gradient(135deg,#050712,#10172d,#171127);color:#fbfcff;font-family:system-ui}" +
+    "main{width:min(760px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:34px;background:rgba(255,255,255,.08);box-shadow:0 32px 110px rgba(0,0,0,.45);backdrop-filter:blur(16px)}" +
     "h1{font-size:clamp(38px,7vw,68px);line-height:.92;letter-spacing:-.06em;margin:0 0 14px}" +
     "p{color:#c3cae0;line-height:1.55}code{color:#89d7ff;word-break:break-all}" +
     "a.button{display:inline-block;margin-top:16px;padding:14px 20px;border-radius:999px;background:linear-gradient(135deg,#89d7ff,#d3a1ff);color:#07101d;text-decoration:none;font-weight:950}" +
@@ -126,14 +127,12 @@ async function authorize($i) {
   }
 
   if (!client.autoApprove && approve !== "1") {
-    const approveUrl = urlWithParams("/api/oauth/authorize", {
-      response_type: "code",
-      client_id: client.id,
-      redirect_uri: redirectUri,
+    const approveUrl = buildAuthorizeUrl({
+      clientId: client.id,
+      redirectUri,
       scope,
-      state,
-      approve: "1"
-    });
+      state
+    }) + "&approve=1";
 
     return html($i, approvalHtml({
       client,
@@ -151,10 +150,7 @@ async function authorize($i) {
     state
   });
 
-  return redirect($i, urlWithParams(redirectUri, {
-    code,
-    state
-  }));
+  return redirect($i, localUrlFor(redirectUri, { code, state }));
 }
 
 module.exports = { authorize };

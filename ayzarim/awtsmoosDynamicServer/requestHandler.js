@@ -2,9 +2,82 @@
 /**
  * B"H
  */
+
 var getPathInfo = require("./pathResolver.js");
 var doFileResponse = require("./fileServer.js");
 var { errorMessage } = require("./utils.js");
+var { sendAwtsmoosResponse } = require("./response/sendAwtsmoosResponse.js");
+var {
+  routeEngineCrash,
+  routeComputationError,
+  invalidRoute
+} = require("./response/sendErrors.js");
+
+async function readBodyIfNeeded({ request, getPostData, getPutData, getDeleteData }) {
+  const method = request.method.toUpperCase();
+
+  if (method == "POST") await getPostData();
+  if (method == "PUT") await getPutData();
+  if (method == "DELETE") await getDeleteData();
+}
+
+async function handleMissingPath(context) {
+  const { response } = context.dependencies;
+
+  if (context.fileName && context.fileName.startsWith("@")) {
+    var tr = "/@/" + context.fileName.substring(1);
+    var res = await context.fetchAwtsmoos(tr, { superSecret: true });
+
+    if (res) {
+      if (typeof res == "object") {
+        res = JSON.stringify(res);
+        response.setHeader("content-type", "application/json; charset=utf-8");
+      }
+
+      response.end(res);
+      return true;
+    }
+
+    return errorMessage(context, {
+      message: "Content empty",
+      code: "EMPTY"
+    });
+  }
+
+  return errorMessage(context, {
+    message: "Dynamic route not found",
+    code: "DYN_ROUTE_NOT_FOUND",
+    info: {
+      filePath: context.filePath
+    },
+    logs: context.logs
+  });
+}
+
+async function maybeFileFallback(context, didThisPathAlready) {
+  const { request } = context.dependencies;
+
+  if (context.isDirectoryWithIndex || context.isRealFile) {
+    var startsWithAw = context.fileName.startsWith("_awtsmoos");
+
+    if (!startsWithAw || request.superSecret) {
+      return await doFileResponse(context);
+    }
+
+    return errorMessage(context, "You're not allowed to see that!");
+  }
+
+  return errorMessage(context, {
+    message: "Invalid Dynamic Route",
+    code: "INVALID_DYNAMIC_ROUTE",
+    more: {
+      didThisPathAlready,
+      foundAwtsmooses: context.foundAwtsmooses,
+      idwi: context.isDirectoryWithIndex,
+      logs: context.logs
+    }
+  });
+}
 
 async function doEverything(context) {
   var {
@@ -21,45 +94,16 @@ async function doEverything(context) {
   if (awtsRes.ended) return;
 
   if (!iExist) {
-    if (context.fileName && context.fileName.startsWith("@")) {
-      var tr = "/@/" + context.fileName.substring(1);
-      var res = await context.fetchAwtsmoos(tr, { superSecret: true });
-
-      if (res) {
-        if (typeof res == "object") {
-          res = JSON.stringify(res);
-          response.setHeader("content-type", "application/json; charset=utf-8");
-        }
-
-        response.end(res);
-        return;
-      }
-
-      return errorMessage(context, {
-        message: "Content empty",
-        code: "EMPTY"
-      });
-    }
-
-    return errorMessage(context, {
-      message: "Dynamic route not found",
-      code: "DYN_ROUTE_NOT_FOUND",
-      info: {
-        filePath: context.filePath
-      },
-      logs: context.logs
-    });
+    return await handleMissingPath(context);
   }
 
   if (context.isDirectoryWithIndex) {
     context.contentType = "text/html";
   }
 
-  var didThisPathAlready = false;
+  await readBodyIfNeeded({ request, getPostData, getPutData, getDeleteData });
 
-  if (request.method.toUpperCase() == "POST") await getPostData();
-  if (request.method.toUpperCase() == "PUT") await getPutData();
-  if (request.method.toUpperCase() == "DELETE") await getDeleteData();
+  var didThisPathAlready = false;
 
   if (context.foundAwtsmooses.length && !context.isDirectoryWithIndex) {
     try {
@@ -71,135 +115,38 @@ async function doEverything(context) {
         }
       });
     } catch (e) {
-      return errorMessage(context, {
-        message: "Awtsmoos route engine crashed",
-        code: "AWTSMOOS_ROUTE_ENGINE_CRASH",
-        error: {
-          message: e.message,
-          stack: e.stack
-        }
-      });
+      return errorMessage(context, routeEngineCrash(e));
     }
   }
 
   if (didThisPathAlready === false) {
-    if (context.isDirectoryWithIndex || context.isRealFile) {
-      var startsWithAw = context.fileName.startsWith("_awtsmoos");
-
-      if (!startsWithAw || request.superSecret) {
-        return await doFileResponse(context);
-      }
-
-      return errorMessage(context, "You're not allowed to see that!");
-    }
-
-    return errorMessage(context, {
-      message: "Invalid Dynamic Route",
-      code: "INVALID_DYNAMIC_ROUTE",
-      more: {
-        didThisPathAlready,
-        foundAwtsmooses: context.foundAwtsmooses,
-        idwi: context.isDirectoryWithIndex,
-        logs: context.logs
-      }
-    });
+    return await maybeFileFallback(context, didThisPathAlready);
   }
 
   if (didThisPathAlready.error) {
-    return errorMessage(context, {
-      message: "actual error in route computation!",
-      code: "ROUTE_ERROR",
-      error: didThisPathAlready.error,
-      more: {
-        didThisPathAlready,
-        logs: context.logs,
-        foundAwtsmooses: context.foundAwtsmooses
-      }
-    });
+    return errorMessage(context, routeComputationError(didThisPathAlready, context));
   }
 
   if (didThisPathAlready.c) {
-    var res = didThisPathAlready.responseInfo;
+    var sent = sendAwtsmoosResponse({
+      response,
+      res: didThisPathAlready.responseInfo
+    });
 
-    if (res.statusResponse) {
-      response.setHeader("Awtsmoos-File-Status", "true");
-      response.setHeader("Content-Type", "application/json; charset=utf-8");
-      response.end(res.actualResponse.content);
-      return;
-    }
-
-    try {
-      response.setHeader("Vary", "Cookie");
-
-      if (!res.actualResponse) {
-        return errorMessage(context, {
-          message: "No actual response",
-          code: "NO_AC_RES",
-          info: res,
-          details: didThisPathAlready
-        });
-      }
-
-      var ar = res.actualResponse;
-      var con = null;
-
-      if (Buffer.isBuffer(ar)) {
-        con = ar;
-      } else if (ar && Buffer.isBuffer(ar.content)) {
-        con = ar.content;
-      } else if (ar && ar.content !== undefined) {
-        con = ar.content;
-      } else {
-        con = ar;
-      }
-
-      if (res.responseType) {
-        response.setHeader("content-type", res.responseType);
-      } else if (ar && ar.contentType) {
-        response.setHeader("content-type", ar.contentType + "; charset=utf-8");
-      }
-
-      if (con || con === "" || con === "undefined" || con === "null") {
-        if (Buffer.isBuffer(con)) {
-          response.end(con);
-          return;
-        }
-
-        if (typeof con === "object") {
-          con = JSON.stringify(con);
-        } else if (typeof con !== "string") {
-          con += "";
-        }
-
-        response.end(con);
-        return;
-      }
-
+    if (!sent) {
       return errorMessage(context, {
-        message: "No Awtsmoos Response",
-        code: "NO_AWTS_RESP",
-        con: typeof con
-      });
-    } catch (e) {
-      return errorMessage(context, {
-        message: "Problem sending Awtsmoos response",
-        code: "SEND_AWTSMOOS_RESPONSE_FAILED",
-        error: e.stack || String(e)
+        message: "No actual response",
+        code: "NO_AC_RES",
+        info: didThisPathAlready.responseInfo,
+        details: didThisPathAlready
       });
     }
+
+    return;
   }
 
   if (didThisPathAlready.invalidRoute) {
-    return errorMessage(context, {
-      message: "Invalid Route",
-      code: "INVALID_ROUTE",
-      more: {
-        didThisPathAlready,
-        routeAttempts: didThisPathAlready.routeAttempts || [],
-        logs: context.logs,
-        foundAwtsmooses: context.foundAwtsmooses
-      }
-    });
+    return errorMessage(context, invalidRoute(didThisPathAlready, context));
   }
 
   if (didThisPathAlready.isPrivate) {

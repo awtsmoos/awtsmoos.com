@@ -1,44 +1,23 @@
 
 // B"H
 
-/**
- * B"H
- * Returns current full request URL.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {string} Current full URL.
- */
+function currentOrigin($i) {
+  const headers = $i?.request?.headers || {};
+  const host = headers["x-forwarded-host"] || headers.host || "awtsmoos.com";
+  const proto = headers["x-forwarded-proto"] || "https";
+
+  return String(proto).split(",")[0].trim() + "://" + String(host).split(",")[0].trim();
+}
+
 function currentFullUrl($i) {
-  const host = $i.request.headers.host || "awtsmoos.com";
-  return "https://" + host + $i.request.url;
+  const url = $i?.request?.url || "/";
+  return new URL(url, currentOrigin($i)).toString();
 }
 
-/**
- * B"H
- * Builds a full URL on the current host.
- *
- * @param {object} $i Awtsmoos route context.
- * @param {string} pathname URL pathname.
- * @param {object} params Query params.
- * @returns {string} Full URL.
- */
-function fullUrlFor($i, pathname, params = {}) {
-  const host = $i.request.headers.host || "awtsmoos.com";
-  return urlWithParams("https://" + host + pathname, params);
-}
+function urlWithParams(base, params = {}, origin = "https://awtsmoos.com") {
+  const u = new URL(String(base || "/"), origin);
 
-/**
- * B"H
- * Adds query params to a URL.
- *
- * @param {string} base Base URL.
- * @param {object} params Params to set.
- * @returns {string} URL with params.
- */
-function urlWithParams(base, params = {}) {
-  const u = new URL(base);
-
-  for (const [k, v] of Object.entries(params)) {
+  for (const [k, v] of Object.entries(params || {})) {
     if (v !== undefined && v !== null && String(v) !== "") {
       u.searchParams.set(k, String(v));
     }
@@ -47,4 +26,26 @@ function urlWithParams(base, params = {}) {
   return u.toString();
 }
 
-module.exports = { currentFullUrl, fullUrlFor, urlWithParams };
+function fullUrlFor($i, pathname, params = {}) {
+  return urlWithParams(pathname || "/", params, currentOrigin($i));
+}
+
+function localUrlFor(pathname, params = {}) {
+  const u = new URL(String(pathname || "/"), "https://awtsmoos.local");
+
+  for (const [k, v] of Object.entries(params || {})) {
+    if (v !== undefined && v !== null && String(v) !== "") {
+      u.searchParams.set(k, String(v));
+    }
+  }
+
+  return u.pathname + u.search + u.hash;
+}
+
+module.exports = {
+  currentOrigin,
+  currentFullUrl,
+  urlWithParams,
+  fullUrlFor,
+  localUrlFor
+};

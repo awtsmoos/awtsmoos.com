@@ -2,10 +2,12 @@
 /**
  * B"H
  */
-var crypto = require("crypto");
-var getProperContent = require("./getProperContent.js");
+
 var di = require("./DependencyInjector.js");
 var { matchDynamicRoute } = require("./routing/dynamicRouteMatcher.js");
+var { childPathFor } = require("./routing/childPath.js");
+var { recordAttempt } = require("./routing/attempts.js");
+var { buildAwtsmoosResponse } = require("./response/buildAwtsmoosResponse.js");
 
 let {
   self,
@@ -64,43 +66,26 @@ class AwtsmoosResponse {
         didThisPath.derech = derech;
 
         var awts = require(derech);
-        var modulePath = path.dirname(derech);
-        var relativeChildPath = path.relative(modulePath, filePath);
-        var childPathUrl = "/" + relativeChildPath.replace(/\\/g, "/");
+        var childPathUrl = childPathFor({ path, derech, filePath });
 
         didThisPath.moose = childPathUrl;
 
         var dynam = awts.dynamicRoutes || awts;
 
-        if (typeof dynam !== "function") {
-          continue;
-        }
+        if (typeof dynam !== "function") continue;
 
         var templateObject = await templateObjectGenerator.getTemplateObject({
           derech,
-          private: () => {
-            this.makePrivate(didThisPath);
-          },
+          private: () => this.makePrivate(didThisPath),
           ...extraInfo,
           use: async (route, func) => {
-            try {
-              return await this.handleDynamicRoutes(
-                route,
-                func,
-                childPathUrl,
-                didThisPath,
-                otherDynamics
-              );
-            } catch (e) {
-              didThisPath.error = {
-                message: "dynamic_route_use_failed",
-                route,
-                childPathUrl,
-                stack: e.stack || String(e)
-              };
-
-              return false;
-            }
+            return await this.handleDynamicRoutes(
+              route,
+              func,
+              childPathUrl,
+              didThisPath,
+              otherDynamics
+            );
           }
         });
 
@@ -113,10 +98,6 @@ class AwtsmoosResponse {
             stack: e.stack || String(e)
           };
 
-          return didThisPath;
-        }
-
-        if (didThisPath.error) {
           return didThisPath;
         }
 
@@ -142,8 +123,6 @@ class AwtsmoosResponse {
 
         if (!didThisPath.c) {
           didThisPath.invalidRoute = true;
-        } else if (didThisPath.isPrivate) {
-          didThisPath.isPrivate = true;
         }
 
         return didThisPath;
@@ -163,28 +142,14 @@ class AwtsmoosResponse {
 
   async handleDynamicRoutes(route, func, childPathUrl, didThisPath, otherDynamics) {
     if (typeof route === "string") {
-      return await this.processDynamicRoute(
-        route,
-        func,
-        childPathUrl,
-        didThisPath,
-        otherDynamics
-      );
+      return await this.processDynamicRoute(route, func, childPathUrl, didThisPath, otherDynamics);
     }
 
     if (route && typeof route === "object") {
       for (var [rt, fnc] of Object.entries(route)) {
-        var matches = await this.processDynamicRoute(
-          rt,
-          fnc,
-          childPathUrl,
-          didThisPath,
-          otherDynamics
-        );
+        var matches = await this.processDynamicRoute(rt, fnc, childPathUrl, didThisPath, otherDynamics);
 
-        if (matches) {
-          return true;
-        }
+        if (matches) return true;
       }
     }
 
@@ -194,7 +159,7 @@ class AwtsmoosResponse {
   async processDynamicRoute(route, func, childPathUrl, didThisPath, otherDynamics) {
     var info = matchDynamicRoute(route, childPathUrl);
 
-    var attempt = {
+    recordAttempt(didThisPath, {
       route,
       childPathUrl,
       normalizedRoute: info.normalizedRoute,
@@ -202,9 +167,7 @@ class AwtsmoosResponse {
       vars: info.vars,
       doesMatch: info.doesRouteMatchURL,
       reason: info.reason
-    };
-
-    didThisPath.routeAttempts.push(attempt);
+    });
 
     if (!info.doesRouteMatchURL) {
       otherDynamics.push({
@@ -225,7 +188,7 @@ class AwtsmoosResponse {
         type: typeof func
       };
 
-      throw new Error("Matched route handler is not a function for route: " + route);
+      return false;
     }
 
     try {
@@ -251,7 +214,7 @@ class AwtsmoosResponse {
         stack: e.stack || String(e)
       };
 
-      throw e;
+      return false;
     }
   }
 
@@ -262,96 +225,15 @@ class AwtsmoosResponse {
   async doAwtsmoosResponse(dyn, derechPath) {
     const { request } = templateObjectGenerator.dependencies;
 
-    if (
-      request.method == "GET" &&
-      request.isAwtsmoosFileStatusRequest
-    ) {
-      const results = {
-        logicModified: null,
-        dataModified: null,
-        stateHash: null
-      };
+    const built = await buildAwtsmoosResponse({
+      dyn,
+      derechPath,
+      request,
+      fs
+    });
 
-      try {
-        const logicStats = await fs.stat(derechPath);
-        results.logicModified = logicStats.mtime.getTime();
-      } catch (e) {}
-
-      if (request.awtsmoosDataSourceStat) {
-        results.dataModified = request.awtsmoosDataSourceStat.mtime.getTime();
-      }
-
-      const sessionCookie = request.cookies && request.cookies.awtsmoosKey;
-
-      if (sessionCookie) {
-        results.stateHash = crypto
-          .createHash("sha256")
-          .update(sessionCookie)
-          .digest("hex");
-      } else {
-        results.stateHash = "awtsmoos-logged-out";
-      }
-
-      this.ended = true;
-
-      return {
-        responseType: "application/json",
-        statusResponse: true,
-        actualResponse: {
-          content: JSON.stringify(results)
-        }
-      };
-    }
-
-    var responseType = "";
-    var actualResponse = null;
-
-    if (dyn === undefined) {
-      return {
-        responseType: "awtsmoos/undefined",
-        actualResponse: {
-          content: "undefined"
-        }
-      };
-    }
-
-    if (dyn === null) {
-      return {
-        responseType: "awtsmoos/null",
-        actualResponse: {
-          content: "null"
-        }
-      };
-    }
-
-    let responseBody = dyn.response !== undefined ? dyn.response : dyn;
-    let mimeType = dyn.mimeType;
-
-    if (mimeType && typeof mimeType === "string") {
-      responseType = mimeType;
-    }
-
-    try {
-      responseBody = getProperContent(responseBody, mimeType);
-      this.ended = true;
-      actualResponse = responseBody;
-    } catch (e) {
-      actualResponse = {
-        content: JSON.stringify({
-          BH: "B\"H",
-          ok: false,
-          error: "get_proper_content_failed",
-          details: e.stack || String(e)
-        })
-      };
-
-      responseType = "application/json";
-    }
-
-    return {
-      responseType,
-      actualResponse
-    };
+    this.ended = true;
+    return built;
   }
 
   async getAwtsmoosInfo(sourcePath, parentPath) {
