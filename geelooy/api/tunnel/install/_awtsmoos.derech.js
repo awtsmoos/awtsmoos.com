@@ -2,21 +2,22 @@
 // B"H
 
 const { sendText } = require("./tools/respond.js");
-const { windowsInstaller } = require("./scripts/windows.js");
-const { unixInstaller } = require("./scripts/unix.js");
-const { tunnelClient } = require("./scripts/client.js");
+const { readTunnelDownload } = require("./tools/sourceFile.js");
 
 /**
  * B"H
- * Awtsmoos Tunnel install endpoint.
+ * Awtsmoos Tunnel installer endpoint.
  *
- * This endpoint serves raw installer/client text through the dynamic API layer,
- * avoiding static-file MIME/routing issues with .ps1 and .sh downloads.
+ * The shell scripts are now tiny bootstraps.
+ * They download one local Node control app, start it, and let the browser UI
+ * guide the user through tunnel name, project root, write permissions, tests,
+ * status, and GPT setup text.
  *
  * Public URLs:
  * /api/tunnel/install/windows
  * /api/tunnel/install/unix
- * /api/tunnel/install/client
+ * /api/tunnel/install/local-app
+ * /api/tunnel/install/status
  *
  * @type {object}
  */
@@ -26,29 +27,44 @@ module.exports = {
     $i.response.setHeader("Cache-Control", "no-store");
 
     await $i.use("windows", async () => {
-      return sendText($i, windowsInstaller(), "text/plain; charset=utf-8");
+      return sendText(
+        $i,
+        readTunnelDownload("windows.ps1"),
+        "text/plain; charset=utf-8"
+      );
     });
 
     await $i.use("unix", async () => {
-      return sendText($i, unixInstaller(), "text/plain; charset=utf-8");
+      return sendText(
+        $i,
+        readTunnelDownload("unix.sh"),
+        "text/plain; charset=utf-8"
+      );
     });
 
-    await $i.use("client", async () => {
-      return sendText($i, tunnelClient(), "application/javascript; charset=utf-8");
+    await $i.use("local-app", async () => {
+      return sendText(
+        $i,
+        readTunnelDownload("awtsmoos-local-app.js"),
+        "application/javascript; charset=utf-8"
+      );
     });
 
     await $i.use("status", async () => {
       return sendText($i, [
         "B\"H Awtsmoos Tunnel installer endpoint works.",
         "",
-        "Windows:",
+        "Windows PowerShell:",
         "irm https://awtsmoos.com/api/tunnel/install/windows | iex",
         "",
-        "CMD:",
+        "Windows CMD:",
         "powershell -ExecutionPolicy Bypass -Command \"irm https://awtsmoos.com/api/tunnel/install/windows | iex\"",
         "",
         "Mac/Linux:",
-        "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash"
+        "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash",
+        "",
+        "Local app:",
+        "https://awtsmoos.com/api/tunnel/install/local-app"
       ].join("\n"), "text/plain; charset=utf-8");
     });
   }

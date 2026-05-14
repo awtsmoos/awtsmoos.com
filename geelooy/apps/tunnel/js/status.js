@@ -3,37 +3,27 @@
 
 /**
  * B"H
- * Fetches tunnel status from the existing Awtsmoos tunnel API.
+ * Fetches installer endpoint status.
  *
- * @returns {Promise<object>} Status JSON.
+ * @returns {Promise<string>} Status text.
  */
 export async function fetchTunnelStatus() {
-  const res = await fetch("/api/tunnel/status", {
+  const res = await fetch("/api/tunnel/install/status", {
     headers: {
-      Accept: "application/json"
+      Accept: "text/plain"
     }
   });
 
-  const text = await res.text();
-
-  try {
-    return JSON.parse(text);
-  } catch (e) {
-    return {
-      ok: false,
-      error: "Status did not return JSON.",
-      raw: text
-    };
-  }
+  return await res.text();
 }
 
 /**
  * B"H
- * Formats status JSON into readable console text.
+ * Formats status text.
  *
- * @param {object} status Status result.
+ * @param {string} status Status text.
  * @returns {string} Pretty status.
  */
 export function formatStatus(status) {
-  return JSON.stringify(status, null, 2);
+  return status;
 }

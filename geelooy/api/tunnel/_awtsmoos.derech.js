@@ -1,24 +1,103 @@
+
 // B"H
 // /api/tunnel
+
+/**
+ * B"H
+ * Decodes base64 UTF-8 text.
+ *
+ * @param {string} value Base64 text.
+ * @returns {string} Decoded string.
+ */
+function from64(value) {
+  if (!value) return "";
+  return Buffer.from(String(value), "base64").toString("utf8");
+}
+
+/**
+ * B"H
+ * Decodes base64 JSON safely.
+ *
+ * @param {string} value Base64 JSON.
+ * @param {*} fallback Fallback value.
+ * @returns {*} Parsed JSON or fallback.
+ */
+function jsonFrom64(value, fallback) {
+  if (!value) return fallback;
+
+  try {
+    return JSON.parse(from64(value));
+  } catch (e) {
+    return fallback;
+  }
+}
+
+/**
+ * B"H
+ * Parses the current request URL.
+ *
+ * @param {object} request Node request.
+ * @returns {URL} Parsed URL.
+ */
+function getUrl(request) {
+  return new URL(request.url, "https://awtsmoos.com");
+}
+
+/**
+ * B"H
+ * Builds a JSON dynamic response.
+ *
+ * @param {object} obj Response object.
+ * @returns {object} Dynamic response packet.
+ */
+function sendJson(obj) {
+  return {
+    mimeType: "application/json",
+    response: JSON.stringify(obj, null, 2)
+  };
+}
+
+/**
+ * B"H
+ * Reads compact filesystem payload from GET params.
+ *
+ * Supported:
+ * action=list|tree|read|md|bulk|write|bulkWrite
+ * p=path
+ * paths64=base64(JSON array)
+ * content64=base64(text)
+ * files64=base64(JSON object like {"file.js":"content"})
+ * writes64=base64(JSON array like [{"path":"file.js","content":"..."}])
+ *
+ * @param {URL} url Parsed URL.
+ * @returns {object} Tunnel filesystem payload.
+ */
+function buildFsPayload(url) {
+  const action = url.searchParams.get("action") || "list";
+  const p = url.searchParams.get("p") || url.searchParams.get("path") || ".";
+  const depth = Number(url.searchParams.get("depth") || 2);
+  const limit = Number(url.searchParams.get("limit") || 150);
+  const maxChars = Number(url.searchParams.get("maxChars") || 12000);
+
+  return {
+    kind: "fs",
+    action,
+    path: p,
+    paths: jsonFrom64(url.searchParams.get("paths64"), []),
+    files: jsonFrom64(url.searchParams.get("files64"), null),
+    writes: jsonFrom64(url.searchParams.get("writes64"), null),
+    depth,
+    limit,
+    maxChars,
+    content: from64(url.searchParams.get("content64"))
+  };
+}
 
 module.exports = {
   dynamicRoutes: async info => {
     const { request, response, ws } = info;
 
     info.setHeader("Access-Control-Allow-Origin", "*");
-
-    const getUrl = () => new URL(request.url, "https://awtsmoos.com");
-
-    const sendJson = obj => ({
-      mimeType: "application/json",
-      response: JSON.stringify(obj, null, 2)
-    });
-
-    const parseBodyFromQuery = url => {
-      const content64 = url.searchParams.get("content64");
-      if (!content64) return "";
-      return Buffer.from(content64, "base64").toString("utf8");
-    };
 
     await info.use("status", async () => {
       return sendJson({
@@ -40,7 +119,10 @@ module.exports = {
             aliasId: client.aliasId,
             tunnelName: client.tunnelName || null,
             isTunnel: !!client.isTunnel,
-            isAlive: client.isAlive
+            isAlive: client.isAlive,
+            root: client.root || null,
+            allowWrite: !!client.allowWrite,
+            deviceName: client.deviceName || null
           });
         }
       }
@@ -53,7 +135,7 @@ module.exports = {
 
     await info.use("request/:tunnelName", async vars => {
       try {
-        const url = getUrl();
+        const url = getUrl(request);
         const tunnelUrl = url.searchParams.get("url") || "/";
 
         const result = await ws.sendTunnelRequest(vars.tunnelName, {
@@ -89,35 +171,14 @@ module.exports = {
 
     await info.use("fs/:tunnelName", async vars => {
       try {
-        const url = getUrl();
+        const url = getUrl(request);
+        const payload = buildFsPayload(url);
 
-        const action = url.searchParams.get("action") || "list";
-        const p = url.searchParams.get("p") || url.searchParams.get("path") || ".";
-        const depth = Number(url.searchParams.get("depth") || 5);
-        const limit = Number(url.searchParams.get("limit") || 500);
-        const as = url.searchParams.get("as") || "";
-        const token = url.searchParams.get("token") || "";
+        const result = await ws.sendTunnelRequest(vars.tunnelName, payload);
 
-        let paths = [];
-
-        const paths64 = url.searchParams.get("paths64");
-        if (paths64) {
-          try {
-            paths = JSON.parse(Buffer.from(paths64, "base64").toString("utf8"));
-          } catch {}
+        if (result.status) {
+          response.statusCode = result.status;
         }
-
-        const result = await ws.sendTunnelRequest(vars.tunnelName, {
-          kind: "fs",
-          action,
-          path: p,
-          paths,
-          depth,
-          limit,
-          as,
-          token,
-          content: parseBodyFromQuery(url)
-        });
 
         if (result.mimeType) {
           try {
@@ -125,30 +186,12 @@ module.exports = {
           } catch {}
         }
 
-        if (result.status) response.statusCode = result.status;
-
         if (result.raw64) {
           return {
             response: Buffer.from(result.raw64, "base64")
           };
         }
-		if (result.raw64) {
-  return {
-    response: Buffer.from(result.raw64, "base64")
-  };
-}
 
-		if (typeof result.raw === "string") {
-		  response.setHeader(
-		    "Content-Type",
-		    "text/plain; charset=utf-8"
-		  );
-		
-		  return {
-		    response: result.raw
-		  };
-		}
-		
         return sendJson(result);
       } catch (e) {
         return sendJson({

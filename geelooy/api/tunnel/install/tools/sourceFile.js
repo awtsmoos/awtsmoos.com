@@ -24,10 +24,9 @@ function geelooyRoot() {
  * B"H
  * Reads a public tunnel download file from geelooy/apps/tunnel/downloads.
  *
- * The installer endpoint should not embed PowerShell, Bash, or client JS inside
- * JavaScript template literals. Those scripts are their own vessels. This
- * reader simply opens them and serves them raw, preserving every quote,
- * backslash, newline, and shell-specific spark exactly as written.
+ * This lets PowerShell, Bash, and the Node local control app live as their
+ * own real files. No giant shell script inside JavaScript strings. No quote
+ * wars. No backtick explosions.
  *
  * @param {string} fileName File name inside geelooy/apps/tunnel/downloads.
  * @returns {string} UTF-8 file text.
