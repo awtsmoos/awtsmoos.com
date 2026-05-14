@@ -22,10 +22,16 @@ function reviveFunction(buffer) {
   try {
     return eval(`(${source})`);
   } catch (_err) {
-    return function revivedAwtsmoosFunctionFallback() {
-      return undefined;
-    };
+    try {
+      const wrapped = eval(`({${source}})`);
+      const key = Object.keys(wrapped)[0];
+      if (key && typeof wrapped[key] === 'function') return wrapped[key];
+    } catch (_methodErr) {}
   }
+
+  return function revivedAwtsmoosFunctionFallback() {
+    return undefined;
+  };
 }
 
 module.exports = reviveFunction;

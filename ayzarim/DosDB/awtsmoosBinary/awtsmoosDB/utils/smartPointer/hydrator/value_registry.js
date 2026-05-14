@@ -83,9 +83,16 @@ return new RegExp(source, flags);
 } catch(e) { return /ErrorResurrectingRegExp/; }
 },
 [T.BUFFER]: (buf) => Buffer.from(buf),
+[T.BUFFER_OMNI]: (buf) => omni.unpackBuffer(buf),
 [T.ARRAY_BUFFER]: (buf) => {
 const ab = new ArrayBuffer(buf.length);
 new Uint8Array(ab).set(buf);
+return ab;
+},
+[T.ARRAY_BUFFER_OMNI]: (buf) => {
+const raw = omni.unpackBuffer(buf);
+const ab = new ArrayBuffer(raw.length);
+new Uint8Array(ab).set(raw);
 return ab;
 },
 [T.TYPED_ARRAY]: (buf) => {
@@ -116,6 +123,7 @@ const map = { 1: Int8Array, 2: Uint8Array, 3: Uint8ClampedArray, 4: Int16Array, 
 const Cls = map[vt] || Uint8Array;
 return new Cls(ab);
 },
+[T.TYPED_ARRAY_OMNI]: (buf) => ValueRegistry[T.TYPED_ARRAY](omni.unpackBuffer(buf)),
 [T.JS_MAP]: (buf, allocator, context) => {
 const ReaderResolver = require('../../../api/liveHandle/reader/resolver.js');
 const resolver = new ReaderResolver({ db: allocator.db, handle: { type: T.MAP, ptr: buf, ensureResolved: () => {} } });

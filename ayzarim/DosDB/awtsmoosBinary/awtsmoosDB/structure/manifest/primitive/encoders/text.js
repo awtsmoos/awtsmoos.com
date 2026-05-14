@@ -11,11 +11,12 @@
 
 const Packet = require('../packet.js');
 const TYPE = require('../typeNames.js');
+const Compression = require('../compression.js');
 
 let Omni = null;
 
 try {
-  Omni = require('../../../utils/compression/omni.js');
+  Omni = require('../../../../utils/compression/omni.js');
 } catch (_err) {
   Omni = null;
 }
@@ -26,14 +27,40 @@ try {
  * @param {*} value - Incoming value.
  * @returns {PrimitivePacket|null} Encoded packet or null.
  */
-function encodeText(value) {
+function encodeText(value, context) {
   if (typeof value !== 'string') return null;
 
-  if (Omni && value.indexOf('\x07') !== -1) {
-    return new Packet(TYPE.STRING_OMNI, Omni.pack(value));
+  const rawBytes = Buffer.byteLength(value, 'utf8');
+
+  if (Omni && Compression.isEnabled(context)) {
+    const packed = Omni.packText(value);
+
+    if (packed.compressed) {
+      return new Packet(TYPE.STRING_OMNI, packed.buffer, {
+        sourceBytes: rawBytes,
+        storedBytes: packed.buffer.length,
+        compressed: true
+      });
+    }
   }
 
-  return new Packet(TYPE.STRING, Buffer.from(value, 'utf8'));
+  if (Omni && value.indexOf('\x07') !== -1) {
+    const packed = Omni.pack(value, {
+      compress: false
+    });
+
+    return new Packet(TYPE.STRING_OMNI, packed, {
+      sourceBytes: rawBytes,
+      storedBytes: packed.length
+    });
+  }
+
+  const raw = Buffer.from(value, 'utf8');
+
+  return new Packet(TYPE.STRING, raw, {
+    sourceBytes: rawBytes,
+    storedBytes: raw.length
+  });
 }
 
 module.exports = encodeText;

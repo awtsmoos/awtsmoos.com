@@ -3,29 +3,48 @@
  * B"H
  * @file ChossidNpcBuilder.js
  * @description
- * Builds NPCs only from the one chossid.glb model.
+ * Builds NPCs from only https://models-3122d.web.app/chossid.glb.
  */
 
-import { loadChossidNpcGltf } from "./ChossidNpcLoader.js";
-import { cloneChossidNpcScene } from "./ChossidNpcClone.js";
+import { loadFreshChossidGltf } from "./ChossidNpcLoader.js";
 import { applyChossidNpcTransform } from "./ChossidNpcTransform.js";
 
 /**
  * B"H
- * Builds one NPC from chossid.glb.
+ * Extracts the scene from a GLTF.
  *
- * @param {Object} olam
- * World instance.
+ * @param {any} gltf
+ * GLTF.
+ *
+ * @returns {any}
+ * Object3D.
+ */
+function getGltfScene(gltf) {
+  const scene = gltf?.scene || gltf?.scenes?.[0];
+
+  if (!scene) {
+    throw new Error("chossid.glb loaded but had no scene");
+  }
+
+  return scene;
+}
+
+/**
+ * B"H
+ * Builds one real chossid NPC.
+ *
+ * @param {any} olam
+ * World.
  *
  * @param {Object} def
- * NPC definition.
+ * Definition.
  *
- * @returns {Promise<Object>}
- * NPC Object3D.
+ * @returns {Promise<any>}
+ * NPC root.
  */
 export async function buildChossidNpc(olam, def) {
-  const gltf = await loadChossidNpcGltf(olam);
-  const npc = cloneChossidNpcScene(gltf);
+  const gltf = await loadFreshChossidGltf(olam);
+  const npc = getGltfScene(gltf);
 
   return applyChossidNpcTransform(npc, def);
 }

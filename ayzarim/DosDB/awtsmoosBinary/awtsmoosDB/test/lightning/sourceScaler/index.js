@@ -43,7 +43,30 @@ class SourceScaler {
       out = out.replace(pattern, replacement);
     }
 
-    return out;
+    return this.syncify(out);
+  }
+
+  /**
+   * @method syncify
+   * @description
+   * Converts legacy async test syntax into synchronous lightning syntax. The
+   * database API used by these tests is synchronous; leaving `await` in place
+   * makes tests continue after the runner has already cleaned their files.
+   *
+   * @param {string} source - Test source.
+   * @returns {string} Synchronous source.
+   */
+  syncify(source) {
+    return source
+      .replace(/\bfor\s+await\s*\(/g, 'for (')
+      .replace(/\basync\s+function\b/g, 'function')
+      .replace(/\basync\s+(\([^)]*\)\s*=>)/g, '$1')
+      .replace(/\basync\s+([A-Za-z_$][\w$]*\s*=>)/g, '$1')
+      .replace(/\bawait\s+/g, '')
+      .replace(
+        /(run(?:Test|Suite|Simulation)\(\))\.catch\([^;]*\);/g,
+        '$1;'
+      );
   }
 }
 

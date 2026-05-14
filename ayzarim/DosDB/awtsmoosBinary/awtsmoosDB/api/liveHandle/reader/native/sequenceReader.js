@@ -8,8 +8,8 @@
  * Reads a sequence-backed pointer directly into native Array or Set.
  */
 
-const SequenceEngine = require('../../../structure/sequence/index.js');
-const SmartPointer = require('../../../utils/smartPointer/index.js');
+const SequenceEngine = require('../../../../structure/sequence/index.js');
+const SmartPointer = require('../../../../utils/smartPointer/index.js');
 
 /**
  * @function makeSequence

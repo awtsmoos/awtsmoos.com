@@ -10,6 +10,15 @@
 
 const Packet = require('../packet.js');
 const TYPE = require('../typeNames.js');
+const Compression = require('../compression.js');
+
+let Omni = null;
+
+try {
+  Omni = require('../../../../utils/compression/omni.js');
+} catch (_err) {
+  Omni = null;
+}
 
 /**
  * @function encodeBuffer
@@ -17,9 +26,27 @@ const TYPE = require('../typeNames.js');
  * @param {*} value - Incoming value.
  * @returns {PrimitivePacket|null} Encoded packet or null.
  */
-function encodeBuffer(value) {
+function encodeBuffer(value, context) {
   if (!Buffer.isBuffer(value)) return null;
-  return new Packet(TYPE.BUFFER, Buffer.from(value));
+
+  const raw = Buffer.from(value);
+
+  if (Omni && Compression.isEnabled(context)) {
+    const packed = Omni.packBinary(raw);
+
+    if (packed.compressed) {
+      return new Packet(TYPE.BUFFER_OMNI, packed.buffer, {
+        sourceBytes: raw.length,
+        storedBytes: packed.buffer.length,
+        compressed: true
+      });
+    }
+  }
+
+  return new Packet(TYPE.BUFFER, raw, {
+    sourceBytes: raw.length,
+    storedBytes: raw.length
+  });
 }
 
 module.exports = encodeBuffer;

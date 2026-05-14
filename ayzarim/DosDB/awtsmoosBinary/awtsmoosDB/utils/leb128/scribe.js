@@ -97,6 +97,21 @@ class Leb128Scribe {
 
     return count;
   }
+
+  /**
+   * @static
+   * @method sizeOf
+   * @description
+   * Legacy name for the same unsigned LEB128 byte count.
+   * The Awtsmoos lets old vessels keep speaking while the newer gate remains
+   * exact: one integer, one measured breath, no padded chamber around it.
+   *
+   * @param {number} value - Unsigned integer value.
+   * @returns {number} Byte size.
+   */
+  static sizeOf(value) {
+    return Leb128Scribe.size(value);
+  }
 }
 
 module.exports = Leb128Scribe;

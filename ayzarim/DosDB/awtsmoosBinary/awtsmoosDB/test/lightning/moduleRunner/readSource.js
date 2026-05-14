@@ -9,6 +9,7 @@
  */
 
 const fs = require('fs');
+const sourceScaler = require('../sourceScaler/index.js');
 
 /**
  * @function readSource
@@ -17,7 +18,7 @@ const fs = require('fs');
  * @returns {string} Source text.
  */
 function readSource(scriptPath) {
-  return fs.readFileSync(scriptPath, 'utf8');
+  return sourceScaler.transform(scriptPath, fs.readFileSync(scriptPath, 'utf8'));
 }
 
 module.exports = readSource;

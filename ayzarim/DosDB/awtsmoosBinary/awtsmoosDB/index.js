@@ -22,6 +22,8 @@ const VectorManager = require('./api/vector/index.js');
 const AIManager = require('./api/ai/index.js');
 const QueryExecutor = require('./api/query/index.js');
 const waitForIdleCore = require('./core/idle/index.js');
+const MetricsTracker = require('./core/metrics/tracker.js');
+const PasswordBox = require('./utils/crypto/passwordBox.js');
 
 /**
  * @class AwtsmoosDB
@@ -37,6 +39,8 @@ class AwtsmoosDB {
   constructor(filePath, options = {}) {
     this.options = {
       debug: false,
+      compression: true,
+      autoCompress: true,
       ...options
     };
 
@@ -63,6 +67,8 @@ class AwtsmoosDB {
 
     this._pendingIndexOps = [];
     this._structureCache = new Map();
+    this.metrics = new MetricsTracker();
+    this._versions = new Map();
     this.mutationCount = 0;
 
     this.Map = class {
@@ -231,12 +237,195 @@ class AwtsmoosDB {
     return QueryExecutor.execute(h, opts);
   }
 
+  /**
+   * @method storageStats
+   * @description
+   * Returns a byte ledger for density tests and diagnostics. Payload bytes are
+   * the content entered through primitive values; logical bytes are the exact
+   * database cursor; physical bytes are the current disk body when available.
+   *
+   * @returns {object} Storage byte statistics.
+   */
+  storageStats() {
+    const fs = require('fs');
+    const logicalBytes = this.allocator ? Number(this.allocator.cursor || 0) : 0;
+    let physicalBytes = fs.existsSync(this.pager.filePath)
+      ? fs.statSync(this.pager.filePath).size
+      : (this.pager.currentFileSize || logicalBytes);
+    const metrics = this.metrics ? this.metrics.snapshot() : {};
+
+    if (this.pager && this.pager.dirty && typeof this.pager.logicalSize === 'function') {
+      physicalBytes = this.pager.logicalSize();
+    }
+
+    return {
+      ...metrics,
+      logicalBytes,
+      physicalBytes,
+      overheadBytes: Math.max(0, physicalBytes - Number(metrics.payloadBytes || 0))
+    };
+  }
+
   createMap(p, k) {
     p[k] = new this.Map();
   }
 
   createList(p, k) {
     p[k] = new this.List();
+  }
+
+  /**
+   * @method set
+   * @description
+   * Legacy root-level assignment API. The AwtsmoosDB root remains the real
+   * vessel; this method is only the old doorway, writing one key into it with
+   * the same live-handle path used by direct property assignment.
+   *
+   * @param {string|number} key - Root key.
+   * @param {*} value - Value to store.
+   * @returns {*} Stored value.
+   */
+  set(key, value) {
+    this.root[key] = value;
+    return value;
+  }
+
+  /**
+   * @method get
+   * @description
+   * Legacy root-level read API.
+   *
+   * @param {string|number} key - Root key.
+   * @returns {*} Stored value.
+   */
+  get(key) {
+    return this.root[key];
+  }
+
+  /**
+   * @method delete
+   * @description
+   * Legacy root-level delete API.
+   *
+   * @param {string|number} key - Root key.
+   * @returns {boolean} True when deletion was accepted.
+   */
+  delete(key) {
+    this._rememberVersion(String(key), this.root[key], true);
+    return delete this.root[key];
+  }
+
+  /**
+   * @method encrypt
+   * @description Creates a password-encrypted field value.
+   * @param {*} value - JSON-safe value.
+   * @param {string} password - Password.
+   * @returns {object} Encrypted envelope.
+   */
+  encrypt(value, password) {
+    return PasswordBox.seal(value, password);
+  }
+
+  /**
+   * @method decrypt
+   * @description Opens a value created by encrypt().
+   * @param {object} envelope - Stored encrypted value.
+   * @param {string} password - Password.
+   * @returns {*} Decrypted value.
+   */
+  decrypt(envelope, password) {
+    const value = envelope && envelope.__resolve__ ? envelope.__resolve__() : envelope;
+    return PasswordBox.open(value, password);
+  }
+
+  /**
+   * @method _plain
+   * @description Resolves live handles for version snapshots.
+   * @param {*} value - Possible live handle.
+   * @returns {*} Plain value.
+   */
+  _plain(value) {
+    return value && value.__resolve__ ? value.__resolve__() : value;
+  }
+
+  /**
+   * @method _rememberVersion
+   * @description Keeps optional in-runtime history for undo/restore workflows.
+   * @param {string} key - Root key.
+   * @param {*} value - Previous value.
+   * @param {boolean} deleted - Whether this was deletion.
+   * @returns {void}
+   */
+  _rememberVersion(key, value, deleted) {
+    if (this.options.versions === false) return;
+
+    const plain = this._plain(value);
+    if (plain === undefined) return;
+
+    const list = this._versions.get(key) || [];
+    list.push({ at: Date.now(), deleted: !!deleted, value: plain });
+    this._versions.set(key, list);
+  }
+
+  /**
+   * @method history
+   * @description Returns root-key version snapshots.
+   * @param {string} key - Root key.
+   * @returns {Array<object>} Version list.
+   */
+  history(key) {
+    return (this._versions.get(String(key)) || []).slice();
+  }
+
+  /**
+   * @method restore
+   * @description Restores a previous root-key version.
+   * @param {string} key - Root key.
+   * @param {number} [index=-1] - Version index.
+   * @returns {*} Restored value.
+   */
+  restore(key, index = -1) {
+    const list = this.history(key);
+    const item = index < 0 ? list[list.length + index] : list[index];
+    if (!item) return undefined;
+    this.root[key] = item.value;
+    return item.value;
+  }
+
+  /**
+   * @method memoryStats
+   * @description Reports Node memory usage and DB mirror size.
+   * @returns {object} Memory stats.
+   */
+  memoryStats() {
+    const usage = process.memoryUsage();
+    return {
+      rss: usage.rss,
+      heapUsed: usage.heapUsed,
+      external: usage.external,
+      arrayBuffers: usage.arrayBuffers,
+      pagerBytes: this.pager && this.pager.memory ? this.pager.memory.length : 0
+    };
+  }
+
+  /**
+   * @method gc
+   * @description Lightweight exact-range GC: coalesces free gaps and retracts tail gaps.
+   * @returns {object} Reclaimed-space summary.
+   */
+  gc() {
+    if (this.allocator && typeof this.allocator._mergeFreeList === 'function') {
+      this.allocator._mergeFreeList();
+      this.allocator._absorbTrailingGaps();
+      this.allocator.flushCursor();
+    }
+
+    const freeBytes = (this.allocator.freeList || []).reduce((sum, gap) => sum + gap.length, 0);
+    return {
+      freeRanges: (this.allocator.freeList || []).length,
+      freeBytes,
+      logicalBytes: this.allocator.cursor
+    };
   }
 
   has(h, k) {

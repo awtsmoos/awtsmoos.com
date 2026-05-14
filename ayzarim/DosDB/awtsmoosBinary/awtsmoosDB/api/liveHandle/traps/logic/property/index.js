@@ -17,6 +17,7 @@
 const constants = require('../../../../../constants.js');
 const StructureResolver = require('./structure/index.js');
 const PrimitiveResolver = require('./primitive/index.js');
+const NativeResolver = require('../../../reader/native/index.js');
 
 /**
  * @class PropertyResolver
@@ -40,10 +41,22 @@ class PropertyResolver {
         const nextHandle = state.nav.navigate(prop, res.ptr, res.type);
         const T = constants.VAL_TYPE;
 
+        const native = NativeResolver.resolveNative(
+            state.db,
+            res.type,
+            res.ptr,
+            {
+                parent: state.self,
+                key: prop
+            }
+        );
+
+        if (native.hit) return native.value;
+
         /** @type {Set&lt;number>} Types that represent containing vessels */
         const containerTypes = new Set([
-            T.MAP, T.SEQUENCE, T.DICTIONARY, T.SET, T.OBJECT, T.ARRAY, 
-            T.JSON, T.SMART_OBJECT, T.SMART_ARRAY, T.ANCHOR, T.JS_MAP, T.JS_SET
+            T.MAP, T.SEQUENCE, T.DICTIONARY, T.OBJECT, T.ARRAY,
+            T.SMART_OBJECT, T.SMART_ARRAY, T.ANCHOR, T.JS_MAP
         ]);
 
         if (containerTypes.has(res.type)) {

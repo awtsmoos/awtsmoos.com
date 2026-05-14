@@ -15,6 +15,7 @@ const BigIntScalar = require('./bigint.js');
 const reviveRegExp = require('./regexp.js');
 const reviveFunction = require('./function.js');
 const reviveTypedArray = require('./typedArrays.js');
+const reviveError = require('./error.js');
 
 const T = constants.VAL_TYPE;
 
@@ -28,6 +29,17 @@ const T = constants.VAL_TYPE;
  */
 function arrayBufferFromBuffer(b) {
   return b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
+}
+
+/**
+ * @function unpackOmni
+ * @description Restores an Omni-compressed binary frame.
+ *
+ * @param {Buffer} b - Stored bytes.
+ * @returns {Buffer} Raw bytes.
+ */
+function unpackOmni(b) {
+  return rootRequire('utils', 'compression', 'omni.js').unpackBuffer(b);
 }
 
 const TABLE = {
@@ -59,6 +71,13 @@ const TABLE = {
       return b.toString('utf8');
     }
   },
+  [T.JSON]: b => {
+    try {
+      return JSON.parse(b.toString('utf8'));
+    } catch (_err) {
+      return {};
+    }
+  },
 
   [T.DATE]: b => new Date(b.readDoubleBE(0)),
   [T.BIGINT]: b => BigIntScalar.fromBuffer(b, false),
@@ -66,11 +85,16 @@ const TABLE = {
   [T.BIGINT_NEG]: b => BigIntScalar.fromBuffer(b, true),
 
   [T.BUFFER]: b => Buffer.from(b),
+  [T.BUFFER_OMNI]: b => unpackOmni(b),
+  [T.ERROR]: reviveError,
   [T.FUNCTION]: reviveFunction,
   [T.SYMBOL]: b => Symbol.for(b.toString('utf8')),
   [T.REGEXP]: reviveRegExp,
   [T.ARRAY_BUFFER]: arrayBufferFromBuffer,
-  [T.TYPED_ARRAY]: reviveTypedArray
+  [T.ARRAY_BUFFER_OMNI]: b => arrayBufferFromBuffer(unpackOmni(b)),
+  [T.TYPED_ARRAY]: reviveTypedArray,
+  [T.TYPED_ARRAY_OMNI]: b => reviveTypedArray(unpackOmni(b)),
+  [T.ENCRYPTED]: b => JSON.parse(b.toString('utf8'))
 };
 
 /**

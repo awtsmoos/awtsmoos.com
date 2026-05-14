@@ -173,6 +173,52 @@ class SequenceEngine {
   }
 
   /**
+   * @method set
+   * @description
+   * Replaces one existing item pointer while preserving sequence length.
+   *
+   * @param {number} idx - Item index.
+   * @param {Buffer} valPtr - Replacement pointer seal.
+   * @returns {Buffer} Updated sequence seal.
+   */
+  set(idx, valPtr) {
+    if (!this.ptr) this.create();
+
+    const root = this.nodeIO.load(this.ptr);
+    if (!root || idx < 0 || idx >= root.totalCount) {
+      throw new Error(`B"H: Sequence index ${idx} is out of bounds`);
+    }
+
+    if (root.isLeaf) {
+      root.items[idx] = {
+        ptr: valPtr,
+        count: 1
+      };
+    } else {
+      let currentIdx = idx;
+
+      for (const item of root.items) {
+        if (currentIdx < item.count) {
+          const childPtr = SmartPointer.decode(item.ptr);
+          const child = new SequenceEngine(this.allocator, childPtr);
+          item.ptr = child.set(currentIdx, valPtr);
+          break;
+        }
+
+        currentIdx -= item.count;
+      }
+    }
+
+    const pLoc = this.nodeIO.save(root);
+    this.ptr = {
+      ...pLoc,
+      type: constants.VAL_TYPE.SEQUENCE
+    };
+
+    return SmartPointer.toBuffer(this.ptr);
+  }
+
+  /**
    * @method keys
    * @yields {number} Index.
    */

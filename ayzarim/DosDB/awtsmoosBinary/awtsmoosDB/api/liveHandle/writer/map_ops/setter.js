@@ -166,6 +166,10 @@ class MapSetter {
         // 6. Perform the physical inscription
         engine.set(encodedKey, valToSet, { isPtr: true, skipFree });
 
+        if (oldPtr && !skipFree && !searchIndexed && !vectorIndex) {
+            this.db.allocator.releasePointer(oldPtr);
+        }
+
         // 7. Update anchor + handle pointer to reflect possible relocation
         this.common.checkAutoCompact(engine, effectiveType);
 

@@ -109,6 +109,8 @@ class Reader {
     const HandleRegistry = require('../../../core/registry/handle.js');
 
     const isStructure = val && val.isStructure === true;
+    if (!isStructure && !ptr) return val;
+
     const type = isStructure ? val.type : (ptr ? SmartPointer.getType(ptr) : 0);
     const finalPtr = ptr && Buffer.isBuffer(ptr)
       ? ptr

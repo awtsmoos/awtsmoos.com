@@ -26,18 +26,22 @@ class MapIndexer {
         let oldPtr = null;
         let oldVal = null;
         
-        if (searchIndexed || vectorIndex) {
-            oldPtr = engine.getPtr(encodedKey);
+        oldPtr = engine.getPtr(encodedKey);
+
+        if (oldPtr && (searchIndexed || vectorIndex)) {
             if (oldPtr && handle.reader) {
                 try {
-                     const SmartPointer = require('../../../../utils/smartPointer.js');
-                     oldVal = SmartPointer.resolve(oldPtr, common.db.allocator);
-                     // If the past was a complex structure, fully hydrate it to extract its text
-                     if (oldVal && oldVal.isStructure) {
-                         const ReaderResolver = require('../../reader/resolver.js');
-                         const resolver = new ReaderResolver({ db: common.db, handle: { ptr: SmartPointer.toBuffer(oldVal) } });
-                         oldVal = resolver.resolveSelf();
-                     }
+                    const SmartPointer = require('../../../../utils/smartPointer.js');
+                    oldVal = SmartPointer.resolve(oldPtr, common.db.allocator);
+
+                    if (oldVal && oldVal.isStructure) {
+                        const ReaderResolver = require('../../reader/resolver.js');
+                        const resolver = new ReaderResolver({
+                            db: common.db,
+                            handle: { ptr: SmartPointer.toBuffer(oldVal) }
+                        });
+                        oldVal = resolver.resolveSelf();
+                    }
                 } catch(e) {}
             }
         }

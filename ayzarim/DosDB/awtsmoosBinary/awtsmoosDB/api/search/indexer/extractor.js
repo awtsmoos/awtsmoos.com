@@ -46,6 +46,10 @@ const TypeHandlers = {
         }
 
         if (Array.isArray(val)) {
+            if (val.every(item => typeof item === 'number')) {
+                return;
+            }
+
             for (let i = 0; i < val.length; i++) {
                 stack.push(val[i]);
             }

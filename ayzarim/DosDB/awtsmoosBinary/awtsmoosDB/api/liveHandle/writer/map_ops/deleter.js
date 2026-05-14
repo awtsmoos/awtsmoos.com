@@ -60,13 +60,14 @@ class MapDeleter {
             this.common.checkAutoCompact(engine, T.DICTIONARY);
         } else {
             const res = engine.delete(encodedKey);
-            success = res && res.success;
+            success = typeof res === 'boolean' ? res : !!(res && res.success);
             this.common.checkAutoCompact(engine, T.MAP);
         }
         
         // Cleanse the cosmic ledgers
         if (success) {
             MapIndexer.processDelete(this.db, path, key, oldPtr, oldVal, searchIndexed, vectorIndex);
+            if (oldPtr && !searchIndexed && !vectorIndex) this.db.allocator.releasePointer(oldPtr);
         }
 
         return success;

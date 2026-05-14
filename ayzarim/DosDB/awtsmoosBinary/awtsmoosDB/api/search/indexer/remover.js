@@ -45,8 +45,10 @@ class TokenRemover {
         listInt.ensureResolved();
         if (!listInt.ptr) return;
         
-        // Resolve the physical Sequence engine directly
-        const struct = SmartPointer.resolve(listInt.ptr, db.allocator);
+        // Resolve the physical Sequence engine directly.
+        const struct = listInt.nav.resolveStructPtr();
+        if (!struct) return;
+
         const seq = new Sequence(db.allocator, struct);
         const len = seq.length();
         

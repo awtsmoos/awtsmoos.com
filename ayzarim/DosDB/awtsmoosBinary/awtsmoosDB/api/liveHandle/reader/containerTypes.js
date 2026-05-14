@@ -20,7 +20,6 @@ module.exports = new Set([
   T.DICTIONARY,
   T.OBJECT,
   T.ARRAY,
-  T.JSON,
   T.SMART_OBJECT,
   T.SMART_ARRAY,
   T.ANCHOR

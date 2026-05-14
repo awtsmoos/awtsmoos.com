@@ -33,7 +33,7 @@ class PagerFirmament {
         this.fd = null;
         this.dirty = false;
         this.isBatching = false;
-        /** @member {number} currentFileSize - The tracked boundary of reality */
+        /** @member {number} currentFileSize - The tracked boundary of written reality */
         this.currentFileSize = 0;
     }
 
@@ -64,12 +64,12 @@ class PagerFirmament {
      * @description Spawning a 64KB universe from absolute Ayin.
      */
     _manifestVoid() {
-        // Minimum expansion size 64KB for immediate small tasks.
+        // Minimum RAM mirror, not minimum disk manifestation.
         const startSize = 65536;
         this.memory = Buffer.allocUnsafe(startSize).fill(0);
-        this.currentFileSize = startSize;
+        this.currentFileSize = 0;
         this.fd = fs.openSync(this.filePath, 'w+');
-        this.dirty = true;
+        this.dirty = false;
     }
 
     /**
@@ -103,7 +103,25 @@ class PagerFirmament {
         
         // Inscription by copy
         buf.copy(this.memory, offset);
+        this.currentFileSize = Math.max(this.currentFileSize, requiredEnd);
         this.dirty = true;
+    }
+
+    /**
+     * @method logicalSize
+     * @description
+     * Finds the exact disk boundary. Database files use the allocator cursor;
+     * standalone pager tests use the highest byte directly written.
+     * @returns {number} Exact byte count to flush.
+     */
+    logicalSize() {
+        const cursor = this.db && this.db.allocator
+            ? Number(this.db.allocator.cursor || 0)
+            : 0;
+
+        if (Number.isFinite(cursor) && cursor >= 64) return cursor;
+
+        return this.currentFileSize;
     }
 
     /**
@@ -132,9 +150,14 @@ class PagerFirmament {
         if (!this.dirty || this.fd === null) return;
         
         if (force || !this.isBatching) {
-            // Bulk-writing the current RAM state. 
-            // Minimizing write system calls by doing it all in one breath.
-            fs.writeSync(this.fd, this.memory, 0, this.memory.length, 0);
+            const exactSize = Math.max(0, this.logicalSize());
+
+            if (exactSize > 0) {
+                fs.writeSync(this.fd, this.memory, 0, exactSize, 0);
+            }
+
+            fs.ftruncateSync(this.fd, exactSize);
+            this.currentFileSize = exactSize;
             this.dirty = false;
         }
     }

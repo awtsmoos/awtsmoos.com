@@ -16,11 +16,14 @@ module.exports = [
   require('./boolean.js'),
   require('./number.js'),
   require('./bigint.js'),
+  require('./encrypted.js'),
   require('./text.js'),
   require('./symbol.js'),
   require('./function.js'),
+  require('./opaqueObject.js'),
   require('./date.js'),
   require('./buffer.js'),
+  require('./error.js'),
   require('./regexp.js'),
   require('./typedArray.js')
 ];

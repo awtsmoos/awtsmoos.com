@@ -10,6 +10,11 @@
  */
 
 const constants = require('../../../../constants.js');
+const SequenceEngine = require('../../../../structure/sequence/index.js');
+const DictionaryEngine = require('../../../../structure/dictionary/index.js');
+const MapEngine = require('../../../../structure/map/index.js');
+const FlatObject = require('../../../../structure/flat/object/index.js');
+const keyEncoding = require('../../../../utils/keyEncoding.js');
 
 const T = constants.VAL_TYPE;
 
@@ -21,7 +26,8 @@ const T = constants.VAL_TYPE;
  * @param {object} engine - Sequence engine.
  * @yields {number} Index.
  */
-function* sequenceKeys(engine) {
+function* sequenceKeys(allocator, ptr) {
+  const engine = new SequenceEngine(allocator, ptr);
   const length = engine.length();
 
   for (let i = 0; i < length; i++) {
@@ -37,8 +43,42 @@ function* sequenceKeys(engine) {
  * @param {object} engine - Map-like engine.
  * @yields {string} Key.
  */
-function* mapKeys(engine) {
-  if (!engine || typeof engine.keys !== 'function') return;
+function* dictionaryKeys(allocator, ptr) {
+  const engine = new DictionaryEngine(allocator, ptr);
+
+  for (const key of engine.keys()) {
+    yield key;
+  }
+}
+
+/**
+ * @function sortedMapKeys
+ * @description
+ * Yields sorted B-tree keys from a map vessel.
+ *
+ * @param {object} allocator - Database allocator.
+ * @param {object} ptr - Structure pointer coordinates.
+ * @yields {string} Decoded key.
+ */
+function* sortedMapKeys(allocator, ptr) {
+  const engine = new MapEngine(allocator, ptr);
+
+  for (const item of engine.range()) {
+    yield keyEncoding.decode(item.key);
+  }
+}
+
+/**
+ * @function flatObjectKeys
+ * @description
+ * Yields keys from a compact flat object.
+ *
+ * @param {object} allocator - Database allocator.
+ * @param {object} ptr - Structure pointer coordinates.
+ * @yields {string} Key.
+ */
+function* flatObjectKeys(allocator, ptr) {
+  const engine = new FlatObject(allocator, ptr);
 
   for (const key of engine.keys()) {
     yield key;
@@ -57,23 +97,28 @@ function* mapKeys(engine) {
 function* generate(handle, db) {
   handle.ensureResolved();
 
-  const type = handle.type;
-  const engine = handle.engine;
+  const ptr = handle.nav.resolveStructPtr();
+  if (!ptr) return;
 
-  if (!engine) return;
+  const type = handle.type === T.ANCHOR
+    ? (handle.nav.resolveAnchorInnerType() || T.DICTIONARY)
+    : handle.type;
 
-  if (
-    type === T.SEQUENCE ||
-    type === T.ARRAY ||
-    type === T.SMART_ARRAY ||
-    type === T.SET ||
-    type === T.JS_SET
-  ) {
-    yield* sequenceKeys(engine);
-    return;
-  }
+  const strategies = {
+    [T.SEQUENCE]: sequenceKeys,
+    [T.ARRAY]: sequenceKeys,
+    [T.SMART_ARRAY]: sequenceKeys,
+    [T.SET]: sequenceKeys,
+    [T.JS_SET]: sequenceKeys,
+    [T.DICTIONARY]: dictionaryKeys,
+    [T.OBJECT]: dictionaryKeys,
+    [T.MAP]: sortedMapKeys,
+    [T.JS_MAP]: sortedMapKeys,
+    [T.SMART_OBJECT]: flatObjectKeys
+  };
 
-  yield* mapKeys(engine, db);
+  const strategy = strategies[type] || dictionaryKeys;
+  yield* strategy(db.allocator, ptr);
 }
 
 module.exports = {

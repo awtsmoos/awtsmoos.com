@@ -23,8 +23,12 @@ function isPrimitiveStorageValue(value) {
 
   if (type !== 'object') return true;
   if (Buffer.isBuffer(value)) return true;
+  if (value && value.__awtsmoosEncrypted === true) return true;
+  if (value instanceof Error) return true;
   if (value instanceof Date) return true;
   if (value instanceof RegExp) return true;
+  if (value instanceof WeakMap || value instanceof WeakSet || value instanceof Promise) return true;
+  if (globalThis.Intl && value instanceof Intl.DateTimeFormat) return true;
   if (value instanceof ArrayBuffer) return true;
   if (ArrayBuffer.isView(value) && !(value instanceof DataView)) return true;
 

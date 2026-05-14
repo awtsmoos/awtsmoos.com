@@ -18,8 +18,20 @@ function run() {
 
   const rawTextBytes = Buffer.byteLength(text, 'utf8');
   assert(
-    packed.length <= rawTextBytes + 32,
-    `Compression overhead too high: packed=${packed.length}, raw=${rawTextBytes}`
+    packed.length < rawTextBytes / 2,
+    `Text compression too weak: packed=${packed.length}, raw=${rawTextBytes}`
+  );
+
+  const repeatedBinary = Buffer.allocUnsafe(4096);
+  for (let i = 0; i < repeatedBinary.length; i++) repeatedBinary[i] = i % 32;
+  const packedBinary = Omni.packBinary(repeatedBinary);
+  const restoredBinary = Omni.unpackBuffer(packedBinary.buffer);
+
+  assert(packedBinary.compressed, 'Repeated binary should compress');
+  assert(Buffer.compare(restoredBinary, repeatedBinary) === 0, 'Compressed binary roundtrip failed');
+  assert(
+    packedBinary.buffer.length < repeatedBinary.length / 2,
+    `Binary compression too weak: packed=${packedBinary.buffer.length}, raw=${repeatedBinary.length}`
   );
   console.log('B"H compression_extreme_test PASS');
 }

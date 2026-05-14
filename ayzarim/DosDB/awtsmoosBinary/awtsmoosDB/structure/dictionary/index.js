@@ -100,6 +100,29 @@ class DictionaryEngine {
             yield this.seq.get(i);
         }
     }
+
+    /**
+     * @method entries
+     * @description
+     * Yields insertion-ordered key/value pairs by walking the order sequence and
+     * resolving each key through the internal map.
+     *
+     * @param {object} [context] - Optional hydration context.
+     * @yields {[string, *]} Dictionary entry.
+     */
+    *entries(context) {
+        this._init();
+        if (!this.map) return;
+
+        const SmartPointer = require('../../utils/smartPointer/index.js');
+
+        for (const key of this.keys()) {
+            const ptr = this.map.getPtr(key);
+            if (ptr) {
+                yield [String(key), SmartPointer.resolve(ptr, this.allocator, context)];
+            }
+        }
+    }
 }
 
 module.exports = DictionaryEngine;

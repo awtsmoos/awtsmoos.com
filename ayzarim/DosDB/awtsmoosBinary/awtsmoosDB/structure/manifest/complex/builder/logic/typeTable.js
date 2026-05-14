@@ -28,7 +28,7 @@ const T = constants.VAL_TYPE;
  */
 function detectType(val) {
   if (Array.isArray(val)) return T.SEQUENCE;
-  if (val instanceof Set) return T.JS_SET;
+  if (val instanceof Set) return T.SET;
   if (val instanceof Map) return T.JS_MAP;
 
   const marked = MarkerLogic.getTargetType(val);

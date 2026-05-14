@@ -3,28 +3,26 @@
  * B"H
  * @file ChossidNpcLoader.js
  * @description
- * Loads the one and only chossid.glb used by every NPC.
+ * Loads NPCs only from the one chossid.glb URL.
  */
 
 import { CHOSSID_GLB_PATH } from "./ChossidGlbPath.js";
 
-let cachedGltfPromise = null;
-
 /**
  * B"H
- * Gets the GLTFLoader from the world.
+ * Gets a GLTFLoader.
  *
- * @param {Object} olam
- * World instance.
+ * @param {any} olam
+ * World.
  *
- * @returns {Object}
- * GLTFLoader-like object.
+ * @returns {any}
+ * Loader.
  */
 function getLoader(olam) {
   const loader = olam?.loader;
 
   if (!loader || typeof loader.loadAsync !== "function") {
-    throw new Error("NPC chossid.glb cannot load because olam.loader.loadAsync is missing");
+    throw new Error("Missing olam.loader.loadAsync for chossid NPC loading");
   }
 
   return loader;
@@ -32,18 +30,16 @@ function getLoader(olam) {
 
 /**
  * B"H
- * Loads the one chossid.glb file.
+ * Loads a fresh chossid.glb instance.
  *
- * @param {Object} olam
- * World instance.
+ * This intentionally uses the one exact URL every time.
  *
- * @returns {Promise<Object>}
+ * @param {any} olam
+ * World.
+ *
+ * @returns {Promise<any>}
  * Loaded GLTF.
  */
-export function loadChossidNpcGltf(olam) {
-  if (!cachedGltfPromise) {
-    cachedGltfPromise = getLoader(olam).loadAsync(CHOSSID_GLB_PATH);
-  }
-
-  return cachedGltfPromise;
+export async function loadFreshChossidGltf(olam) {
+  return await getLoader(olam).loadAsync(CHOSSID_GLB_PATH);
 }

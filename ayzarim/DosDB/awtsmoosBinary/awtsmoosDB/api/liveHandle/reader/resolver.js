@@ -14,6 +14,23 @@ const Hydrator = require('./hydrator/index.js');
 const T = constants.VAL_TYPE;
 
 /**
+ * @function deepResolve
+ * @description
+ * Converts nested LiveHandle values into plain JavaScript when a caller
+ * explicitly asks to resolve an entire structure.
+ *
+ * @param {*} value - Possible LiveHandle or scalar.
+ * @returns {*} Plain resolved value.
+ */
+function deepResolve(value) {
+  if (value && typeof value.__resolve__ === 'function') {
+    return value.__resolve__();
+  }
+
+  return value;
+}
+
+/**
  * @class ResolverLogic
  * @description
  * Full value resolver for LiveHandle readers.
@@ -40,32 +57,36 @@ class ResolverLogic {
   resolveSelf() {
     this.handle.ensureResolved();
 
-    const type = this.handle.type;
-    const engine = this.handle.engine;
+    const type = this.handle.type === T.ANCHOR
+      ? (this.handle.nav.resolveAnchorInnerType() || T.DICTIONARY)
+      : this.handle.type;
 
-    if (!engine) {
+    const containers = new Set([
+      T.SET,
+      T.JS_SET,
+      T.SEQUENCE,
+      T.ARRAY,
+      T.SMART_ARRAY,
+      T.MAP,
+      T.JS_MAP,
+      T.DICTIONARY,
+      T.OBJECT,
+      T.SMART_OBJECT
+    ]);
+
+    if (!containers.has(type)) {
       return this.hydrator.hydrate(this.handle.ptr);
     }
 
     if (type === T.SET || type === T.JS_SET) {
       const out = new Set();
-      const length = engine.length();
-
-      for (let i = 0; i < length; i++) {
-        out.add(engine.get(i, this.handle.ctx));
-      }
-
+      for (const value of this.reader.values()) out.add(deepResolve(value));
       return out;
     }
 
     if (type === T.SEQUENCE || type === T.ARRAY || type === T.SMART_ARRAY) {
       const out = [];
-      const length = engine.length();
-
-      for (let i = 0; i < length; i++) {
-        out.push(engine.get(i, this.handle.ctx));
-      }
-
+      for (const value of this.reader.values()) out.push(deepResolve(value));
       return out;
     }
 
@@ -73,7 +94,7 @@ class ResolverLogic {
       const out = new Map();
 
       for (const [k, v] of this.reader.entries()) {
-        out.set(k, v);
+        out.set(k, deepResolve(v));
       }
 
       return out;
@@ -82,7 +103,7 @@ class ResolverLogic {
     const out = {};
 
     for (const [k, v] of this.reader.entries()) {
-      out[k] = v;
+      out[k] = deepResolve(v);
     }
 
     return out;

@@ -45,7 +45,12 @@ class StructBuilder {
     }
 
     if (visited.has(value)) {
-      return visited.get(value);
+      const prior = visited.get(value);
+      if (prior && prior.__awtsmoosCircularEntry) {
+        return prior.reference();
+      }
+
+      return prior;
     }
 
     const type = this.logic.determineRitual(value);

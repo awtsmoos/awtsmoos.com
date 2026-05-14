@@ -10,6 +10,15 @@
 
 const Packet = require('../packet.js');
 const TYPE = require('../typeNames.js');
+const Compression = require('../compression.js');
+
+let Omni = null;
+
+try {
+  Omni = require('../../../../utils/compression/omni.js');
+} catch (_err) {
+  Omni = null;
+}
 
 const CODES = new Map([
   [Int8Array, 1],
@@ -31,9 +40,43 @@ const CODES = new Map([
  * @param {*} value - Incoming value.
  * @returns {PrimitivePacket|null} Encoded packet or null.
  */
-function encodeTypedArray(value) {
+function compressedPacket(type, compressedType, raw, sourceBytes, context) {
+  if (Omni && Compression.isEnabled(context)) {
+    const packed = Omni.packBinary(raw);
+
+    if (packed.compressed) {
+      return new Packet(compressedType, packed.buffer, {
+        sourceBytes,
+        storedBytes: packed.buffer.length,
+        compressed: true
+      });
+    }
+  }
+
+  return new Packet(type, raw, {
+    sourceBytes,
+    storedBytes: raw.length
+  });
+}
+
+/**
+ * @function encodeTypedArray
+ * @description Encodes ArrayBuffer and typed arrays.
+ * @param {*} value - Incoming value.
+ * @param {object} context - Primitive scribe context.
+ * @returns {PrimitivePacket|null} Encoded packet or null.
+ */
+function encodeTypedArray(value, context) {
   if (value instanceof ArrayBuffer) {
-    return new Packet(TYPE.ARRAY_BUFFER, Buffer.from(value));
+    const raw = Buffer.from(value);
+
+    return compressedPacket(
+      TYPE.ARRAY_BUFFER,
+      TYPE.ARRAY_BUFFER_OMNI,
+      raw,
+      raw.length,
+      context
+    );
   }
 
   if (!ArrayBuffer.isView(value)) return null;
@@ -49,7 +92,13 @@ function encodeTypedArray(value) {
   out.writeUInt8(code, 0);
   raw.copy(out, 1);
 
-  return new Packet(TYPE.TYPED_ARRAY, out);
+  return compressedPacket(
+    TYPE.TYPED_ARRAY,
+    TYPE.TYPED_ARRAY_OMNI,
+    out,
+    raw.length,
+    context
+  );
 }
 
 module.exports = encodeTypedArray;

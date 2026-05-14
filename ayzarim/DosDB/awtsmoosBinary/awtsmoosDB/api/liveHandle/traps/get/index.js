@@ -22,6 +22,42 @@ const MethodDispatcher = require('./method/index.js');
 const PropertyResolver = require('../logic/property/index.js');
 const constants = require('../../../../constants.js');
 
+const MAPPING_TYPES = new Set([
+    constants.VAL_TYPE.MAP,
+    constants.VAL_TYPE.DICTIONARY,
+    constants.VAL_TYPE.OBJECT,
+    constants.VAL_TYPE.SMART_OBJECT,
+    constants.VAL_TYPE.JS_MAP
+]);
+
+/**
+ * @function effectiveType
+ * @description Peels anchors for collision-aware property routing.
+ * @param {object} state - Handle state.
+ * @returns {number} Effective VAL_TYPE.
+ */
+function effectiveType(state) {
+    if (state.type !== constants.VAL_TYPE.ANCHOR) return state.type;
+    return state.nav.resolveAnchorInnerType() || constants.VAL_TYPE.DICTIONARY;
+}
+
+/**
+ * @function hasStoredMappingKey
+ * @description Checks whether a mapping owns a key before method dispatch.
+ * @param {object} state - Handle state.
+ * @param {string|number} prop - Requested property.
+ * @returns {boolean} True when disk data should win over helper method names.
+ */
+function hasStoredMappingKey(state, prop) {
+    if (!MAPPING_TYPES.has(effectiveType(state))) return false;
+
+    try {
+        return state.nav.resolveKey(prop) !== null;
+    } catch (_err) {
+        return false;
+    }
+}
+
 module.exports = {
     /**
      * @method handle
@@ -40,6 +76,10 @@ module.exports = {
 
         // 2. Peer into the physical void (Ensure coordinates are loaded)
         state.ensureResolved();
+
+        if ((typeof prop === 'string' || typeof prop === 'number') && hasStoredMappingKey(state, prop)) {
+            return PropertyResolver.resolve(state, prop);
+        }
 
         // 3. Bestow the behavior (If it is a method like .get or .push)
         const method = MethodDispatcher.dispatch(state, prop, receiver);

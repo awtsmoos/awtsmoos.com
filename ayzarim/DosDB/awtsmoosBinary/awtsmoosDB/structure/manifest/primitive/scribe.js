@@ -37,7 +37,7 @@ class PrimitiveScribe {
    */
   encode(value) {
     for (const encode of encoders) {
-      const packet = encode(value);
+      const packet = encode(value, this);
       if (packet) return packet;
     }
 
@@ -58,6 +58,10 @@ class PrimitiveScribe {
 
     if (packet.buffer.length) {
       this.pager.writeExact(loc.offset, packet.buffer);
+    }
+
+    if (this.allocator.db && this.allocator.db.metrics) {
+      this.allocator.db.metrics.recordPrimitive(packet);
     }
 
     return Pointer.encode(packet.type, loc.offset, packet.buffer.length);

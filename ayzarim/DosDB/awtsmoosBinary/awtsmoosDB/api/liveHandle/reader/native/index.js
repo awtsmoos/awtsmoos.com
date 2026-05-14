@@ -9,7 +9,7 @@
  * access. Native Set is one of them.
  */
 
-const constants = require('../../../constants.js');
+const constants = require('../../../../constants.js');
 const SequenceReader = require('./sequenceReader.js');
 
 const T = constants.VAL_TYPE;
@@ -27,9 +27,23 @@ const T = constants.VAL_TYPE;
  */
 function resolveNative(db, type, ptr, ctx) {
   if (type === T.JS_SET || type === T.SET) {
+    const value = SequenceReader.toSet(db, ptr, ctx);
+
+    Object.defineProperty(value, constants.SYMBOLS.INTERNALS, {
+      value: {
+        db,
+        ptr,
+        type,
+        context: ctx,
+        ensureResolved() {}
+      },
+      enumerable: false,
+      configurable: true
+    });
+
     return {
       hit: true,
-      value: SequenceReader.toSet(db, ptr, ctx)
+      value
     };
   }
 

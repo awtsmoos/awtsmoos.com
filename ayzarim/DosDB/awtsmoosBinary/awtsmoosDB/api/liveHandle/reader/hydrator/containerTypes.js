@@ -22,7 +22,6 @@ module.exports = new Set([
   T.JS_SET,
   T.OBJECT,
   T.ARRAY,
-  T.JSON,
   T.SMART_OBJECT,
   T.SMART_ARRAY,
   T.ANCHOR

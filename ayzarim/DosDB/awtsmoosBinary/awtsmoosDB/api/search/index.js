@@ -145,15 +145,23 @@ class SearchManager {
     _resolveForIndex(ptr) {
         const val = SmartPointer.resolve(ptr, this.db.allocator);
         if (val && val.isStructure) {
-            return (new Reader({ 
+            const state = {
                 db: this.db, 
-                ptr, 
+                ptr: SmartPointer.toBuffer(val.ptr),
                 type: val.type, 
                 isLiveHandle: true, 
                 ensureResolved: () => {}, 
-                nav: { resolveStructPtr: () => val }, 
-                getPath: () => "hydrated" 
-            })).resolveSelf();
+                nav: {
+                    resolveStructPtr: () => val.ptr,
+                    resolveAnchorInnerType: () => val.type
+                },
+                getPath: () => "hydrated",
+                self: null,
+                context: null
+            };
+            const reader = new Reader(state);
+            state.reader = reader;
+            return reader.resolveSelf();
         }
         return val;
     }
@@ -180,7 +188,7 @@ class SearchManager {
         
         if (!h.ptr) return;
         
-        const struct = SmartPointer.resolve(h.ptr, this.db.allocator);
+        const struct = h.nav.resolveStructPtr();
         const T = constants.VAL_TYPE;
         const effectiveType = (h.type === T.ANCHOR)
             ? (h.nav.resolveAnchorInnerType() || h.type)
