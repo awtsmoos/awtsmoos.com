@@ -1,7 +1,7 @@
 
 {
   "BH": "B\"H",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "entry": "main.js",
   "files": [
     { "path": "main.js" },
@@ -20,6 +20,7 @@
     { "path": "tools/command/index.js" },
     { "path": "tools/command/shells.js" },
     { "path": "tools/command/run.js" },
+    { "path": "tools/command/scriptSandbox.js" },
     { "path": "tools/chrome/index.js" },
     { "path": "tools/chrome/finder.js" },
     { "path": "tools/chrome/cdp.js" },

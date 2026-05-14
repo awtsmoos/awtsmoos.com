@@ -4,10 +4,13 @@
 const apiCatalog = {
   BH: "B\"H",
   name: "Awtsmoos Tunnel Control API",
-  version: "1.1.0",
+  version: "1.3.0",
   baseUrl: "https://awtsmoos.com",
+  actionSchema: "https://awtsmoos.com/api/tunnel/control/openapi",
+  machineDocs: "https://awtsmoos.com/api/tunnel/control/docs.json",
+  wallet: "https://awtsmoos.com/apps/wallet/",
   auth: {
-    dashboardSession: "Browser login is allowed for setup/root-picker actions only.",
+    dashboardSession: "Browser login is allowed for setup/root-picker/wallet actions.",
     apiKey: {
       header: "x-awtsmoos-api-key",
       format: "ak_..."
@@ -26,95 +29,31 @@ const apiCatalog = {
       ]
     }
   },
-  endpoints: [
-    {
-      id: "me",
-      method: "GET",
-      path: "/api/tunnel/control/me",
-      auth: "session, api key, or OAuth",
-      description: "Returns current identity and dashboard auth status."
-    },
-    {
-      id: "device",
-      method: "GET",
-      path: "/api/tunnel/control/device?tunnelName=NAME",
-      auth: "session",
-      description: "Checks whether the named local tunnel is connected."
-    },
-    {
-      id: "apiKeys",
-      method: "GET",
-      path: "/api/tunnel/control/api-keys",
-      auth: "session",
-      description: "Lists server-side key records for the logged-in user. Raw key secret is not shown again."
-    },
-    {
-      id: "createApiKey",
-      method: "GET/POST",
-      path: "/api/tunnel/control/api-keys/create",
-      auth: "session",
-      description: "Creates a scoped API key. Copy the returned raw key immediately."
-    },
-    {
-      id: "usage",
-      method: "GET",
-      path: "/api/tunnel/control/usage",
-      auth: "session",
-      description: "Returns usage rows, total requests, daily bytes, and rate-limit data."
-    },
-    {
-      id: "tunnel",
-      method: "GET",
-      path: "/api/tunnel/control/fs/{tunnelName}",
-      auth: "API key or OAuth for file/terminal/browser actions",
-      description: "Main tunnel bridge endpoint. Select the action query param."
-    },
-    {
-      id: "openapi",
-      method: "GET",
-      path: "/api/tunnel/control/openapi",
-      auth: "public",
-      description: "OpenAPI YAML for Custom GPT Actions."
-    },
-    {
-      id: "docs",
-      method: "GET",
-      path: "/api/tunnel/control/docs",
-      auth: "public",
-      description: "Human-readable API docs."
-    },
-    {
-      id: "docsJson",
-      method: "GET",
-      path: "/api/tunnel/control/docs.json",
-      auth: "public",
-      description: "Machine-readable docs for other AIs and tools."
-    }
-  ],
   actions: [
-    { action: "list", scope: "tunnel.read", params: ["p"] },
-    { action: "tree", scope: "tunnel.read", params: ["p", "depth", "limit"] },
-    { action: "read", scope: "tunnel.read", params: ["p", "maxChars"] },
-    { action: "md", scope: "tunnel.read", params: ["p", "maxChars"] },
-    { action: "bulk", scope: "tunnel.read", params: ["paths64", "maxChars"] },
-    { action: "write", scope: "tunnel.write", params: ["p", "content64"] },
-    { action: "bulkWrite", scope: "tunnel.write", params: ["files64 or writes64"] },
-    { action: "configGet", scope: "session safe", params: [] },
-    { action: "configSet", scope: "session safe", params: ["root", "allowWrite", "allowCommands", "tools64", "commandConfig64", "chrome64"] },
-    { action: "rootBrowse", scope: "session safe", params: ["absolutePath"] },
-    { action: "rootSelect", scope: "session safe", params: ["absolutePath"] },
-    { action: "commandRun", scope: "tunnel.command", params: ["command64", "shell", "cwd", "timeoutMs"] },
-    { action: "chromeFind", scope: "tunnel.browser", params: [] },
-    { action: "chromeLaunch", scope: "tunnel.browser", params: ["chromePath", "port"] },
-    { action: "chromeStatus", scope: "tunnel.browser", params: ["port"] },
-    { action: "chromeNavigate", scope: "tunnel.browser", params: ["url", "port"] },
-    { action: "chromeWaitForSelector", scope: "tunnel.browser", params: ["selector", "timeoutMs"] },
-    { action: "chromeClick", scope: "tunnel.browser", params: ["selector"] },
-    { action: "chromeType", scope: "tunnel.browser", params: ["selector", "text64"] },
-    { action: "chromeEval", scope: "tunnel.browser", params: ["expression64"] },
-    { action: "chromeRunScript", scope: "tunnel.browser", params: ["script64"] }
+    { action: "list", scope: "tunnel.read", params: ["p"], summary: "List a folder under the approved root." },
+    { action: "tree", scope: "tunnel.read", params: ["p", "depth", "limit"], summary: "Capped tree view." },
+    { action: "read", scope: "tunnel.read", params: ["p", "maxChars"], summary: "Read one text file." },
+    { action: "md", scope: "tunnel.read", params: ["p", "maxChars"], summary: "Read one file wrapped as markdown code." },
+    { action: "bulk", scope: "tunnel.read", params: ["paths64", "maxChars"], summary: "Bulk read specific paths." },
+    { action: "write", scope: "tunnel.write", params: ["p", "content64"], summary: "Write one file." },
+    { action: "bulkWrite", scope: "tunnel.write", params: ["files64"], summary: "Write many files." },
+    { action: "commandRun", scope: "tunnel.command", params: ["command64", "shell", "cwd", "timeoutMs"], summary: "Run an approved terminal command." },
+    { action: "nodeScriptRun", scope: "tunnel.command", params: ["script64", "input64"], summary: "Run sandboxed JavaScript with readText/list helpers only." },
+    { action: "chromeFind", scope: "tunnel.browser", params: [], summary: "Find Chrome/Edge." },
+    { action: "chromeLaunch", scope: "tunnel.browser", params: ["chromePath", "port"], summary: "Launch/connect Chrome DevTools." },
+    { action: "chromeStatus", scope: "tunnel.browser", params: ["port"], summary: "Inspect Chrome pages." },
+    { action: "chromeNavigate", scope: "tunnel.browser", params: ["url"], summary: "Navigate a page." },
+    { action: "chromeWaitForSelector", scope: "tunnel.browser", params: ["selector"], summary: "Wait for selector." },
+    { action: "chromeClick", scope: "tunnel.browser", params: ["selector"], summary: "Click selector." },
+    { action: "chromeType", scope: "tunnel.browser", params: ["selector", "text64"], summary: "Type into selector." },
+    { action: "chromeEval", scope: "tunnel.browser", params: ["expression64"], summary: "Evaluate page JavaScript." },
+    { action: "chromeRunScript", scope: "tunnel.browser", params: ["script64"], summary: "Run a JSON browser automation script." }
   ],
-  scriptExample: [
+  nodeScriptExample: {
+    action: "nodeScriptRun",
+    script: "const pkg = await readText('package.json'); console.log(pkg.slice(0, 120)); return { length: pkg.length };"
+  },
+  chromeScriptExample: [
     { "type": "goto", "url": "https://awtsmoos.com" },
     { "type": "waitForSelector", "selector": "body" },
     { "type": "eval", "expression": "document.title" }

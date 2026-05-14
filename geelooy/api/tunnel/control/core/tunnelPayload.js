@@ -32,7 +32,7 @@ function actionKind(action) {
   action = String(action || "");
 
   if (action.startsWith("chrome")) return "chrome";
-  if (action.startsWith("command")) return "command";
+  if (action.startsWith("command") || action === "nodeScriptRun") return "command";
   return "fs";
 }
 
@@ -55,6 +55,8 @@ function buildFsPayload($i) {
     content: from64(queryValue($i, "content64")),
 
     command: from64(queryValue($i, "command64")),
+    scriptText: from64(queryValue($i, "script64")),
+    input: jsonFrom64(queryValue($i, "input64"), {}),
     shell: queryValue($i, "shell", ""),
     cwd: queryValue($i, "cwd", ""),
     timeoutMs: Number(queryValue($i, "timeoutMs", 20000)),
@@ -101,7 +103,7 @@ function buildFsPayload($i) {
 function actionRequiredScope(action) {
   action = String(action || "");
 
-  if (action.startsWith("command")) return "tunnel.command";
+  if (action.startsWith("command") || action === "nodeScriptRun") return "tunnel.command";
   if (action.startsWith("chrome")) return "tunnel.browser";
 
   if (

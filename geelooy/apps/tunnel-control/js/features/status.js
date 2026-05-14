@@ -2,132 +2,130 @@
 // B"H
 
 import { $, jsonText } from "../lib/dom.js";
-import { device } from "../api/control.js";
-import { detectLogin } from "../api/auth.js";
+import { me, device } from "../api/control.js";
 
-function setPill(id, textId, good, text) {
+function safe(value, fallback = "unknown") {
+  if (value === undefined || value === null || value === "") return fallback;
+  return String(value);
+}
+
+function setPill(id, textId, status, text) {
   const pill = $(id);
-  pill.classList.toggle("connected", !!good);
-  pill.classList.toggle("warning", !good);
-  $(textId).textContent = text;
+  const label = $(textId);
+
+  pill.classList.remove("connected", "warning", "danger", "warn");
+
+  if (status === "good") pill.classList.add("connected");
+  else if (status === "bad") pill.classList.add("danger");
+  else pill.classList.add("warning");
+
+  label.textContent = text;
 }
 
-function setLoginButtons(login) {
-  const loggedIn = !!login.ok;
-  $("loginLink").classList.toggle("hidden", loggedIn);
-  $("logoutLink").classList.toggle("hidden", !loggedIn);
-  $("userChip").classList.toggle("hidden", !loggedIn);
+function renderIdentityNice(got) {
+  if (!got || got.ok === false) {
+    setPill("authPill", "authText", "bad", "Not logged in");
+    $("miniLogin").textContent = "Not logged in";
+    $("userChip").classList.add("hidden");
 
-  if (loggedIn) {
-    $("userName").textContent = getUserId(login);
-  }
-}
-
-function getUserId(login) {
-  return (
-    login.user?.userId ||
-    login.user?.identity?.userId ||
-    login.control?.identity?.userId ||
-    login.oauthStart?.user?.userId ||
-    "logged-in"
-  );
-}
-
-function identityHtml(login) {
-  if (!login.ok) {
     return [
-      "<strong>Not logged in.</strong>",
-      "<span>Open the login page, then refresh this dashboard.</span>"
-    ].join("<br>");
+      '<div class="status-card bad">',
+      '<div class="status-card-icon">🔒</div>',
+      '<div><strong>Not logged in</strong><span>Login is required for key creation and setup actions.</span></div>',
+      '</div>'
+    ].join("");
   }
 
-  const user = getUserId(login);
-  const source = login.control?.ok ? "session/control API" : "oauth start check";
+  const identity = got.identity || got.user || got;
+  const userId = safe(identity.userId || got.userId, "unknown user");
+  const kind = safe(identity.kind || got.kind, "session");
+
+  setPill("authPill", "authText", "good", "Logged in");
+  $("miniLogin").textContent = userId;
+  $("userName").textContent = userId;
+  $("userChip").classList.remove("hidden");
 
   return [
-    "<strong>Logged in as: " + user + "</strong>",
-    "<span>Detected by: " + source + "</span>"
-  ].join("<br>");
+    '<div class="status-card good">',
+    '<div class="status-card-icon">👤</div>',
+    '<div>',
+    '<strong>Logged in as: ' + userId + '</strong>',
+    '<span>Detected by: ' + kind + ' / control API</span>',
+    '</div>',
+    '</div>'
+  ].join("");
 }
 
-function deviceHtml(oneDevice) {
-  if (!oneDevice.ok) {
-    return "<strong>Could not check tunnel.</strong><br><span>" + (oneDevice.error || "Unknown error") + "</span>";
+function renderDeviceNice(got) {
+  if (!got || got.ok === false) {
+    setPill("connectionPill", "connectionText", "bad", "Agent offline");
+    $("miniAgent").textContent = "Offline";
+    $("deviceSummary").innerHTML = [
+      '<div class="status-card bad">',
+      '<div class="status-card-icon">⚠️</div>',
+      '<div><strong>Agent not connected</strong><span>Run the install/restart command and refresh.</span></div>',
+      '</div>'
+    ].join("");
+    return;
   }
 
-  if (!oneDevice.connected) {
-    return "<strong>Agent offline for this tunnel.</strong><br><span>Run the install/restart command again.</span>";
+  const connected = !!(got.connected || got.device || got.tunnel || got.ok);
+  const tunnel = got.device || got.tunnel || got;
+  const root = safe(tunnel.root || got.root || got.projectRoot, "not reported yet");
+  const writes = tunnel.allowWrite ?? got.allowWrite;
+  const name = safe(tunnel.name || got.tunnelName || $("tunnelName").value, "unknown tunnel");
+  const version = safe(tunnel.agentVersion || got.agentVersion, "unknown version");
+
+  if (connected) {
+    setPill("connectionPill", "connectionText", "good", "Connected");
+    $("miniAgent").textContent = "Connected";
+  } else {
+    setPill("connectionPill", "connectionText", "bad", "Offline");
+    $("miniAgent").textContent = "Offline";
   }
 
-  const d = oneDevice.device || {};
-
-  return [
-    "<strong>Agent connected.</strong>",
-    "<span>Root: " + (d.root || "unknown") + "</span>",
-    "<span>Writes: " + (d.allowWrite ? "enabled" : "disabled") + "</span>"
-  ].join("<br>");
+  $("deviceSummary").innerHTML = [
+    '<div class="status-grid">',
+    '<div class="status-card good"><div class="status-card-icon">🟢</div><div><strong>Agent connected</strong><span>' + name + '</span></div></div>',
+    '<div class="status-card"><div class="status-card-icon">📁</div><div><strong>Root</strong><span>' + root + '</span></div></div>',
+    '<div class="status-card"><div class="status-card-icon">✍️</div><div><strong>Writes</strong><span>' + (writes ? "enabled" : "disabled") + '</span></div></div>',
+    '<div class="status-card"><div class="status-card-icon">🧩</div><div><strong>Agent version</strong><span>' + version + '</span></div></div>',
+    '</div>'
+  ].join("");
 }
 
 export async function refreshLogin() {
-  try {
-    const login = await detectLogin();
+  const got = await me();
 
-    jsonText("identityBox", login);
-    $("identitySummary").innerHTML = identityHtml(login);
-    setLoginButtons(login);
+  jsonText("identityBox", got);
+  $("identitySummary").innerHTML = renderIdentityNice(got);
 
-    setPill(
-      "authPill",
-      "authText",
-      login.ok,
-      login.ok ? "Logged in" : "Not logged in"
-    );
-
-    $("miniLogin").textContent = login.ok ? "Logged in" : "No session";
-
-    return login;
-  } catch (e) {
-    const failed = { ok: false, error: e.message, stack: e.stack };
-    $("identitySummary").innerHTML = "<strong>Login check failed.</strong><br><span>" + e.message + "</span>";
-    jsonText("identityBox", failed);
-    setLoginButtons(failed);
-    setPill("authPill", "authText", false, "Login check failed");
-    $("miniLogin").textContent = "Error";
-  }
+  return got;
 }
 
 export async function refreshDevice(getTunnelName) {
   const tunnelName = getTunnelName();
 
-  try {
-    const oneDevice = await device(tunnelName);
-
-    jsonText("deviceBox", oneDevice);
-    jsonText("miniStatus", oneDevice);
-    $("deviceSummary").innerHTML = deviceHtml(oneDevice);
-
-    setPill(
-      "connectionPill",
-      "connectionText",
-      !!oneDevice.connected,
-      oneDevice.connected ? "Connected" : "Agent offline"
-    );
-
-    $("miniAgent").textContent = oneDevice.connected ? "Connected" : "Offline";
-
-    return oneDevice;
-  } catch (e) {
-    $("deviceSummary").innerHTML = "<strong>Device check failed.</strong><br><span>" + e.message + "</span>";
-    jsonText("deviceBox", { ok: false, error: e.message, stack: e.stack });
-    jsonText("miniStatus", { ok: false, error: e.message });
-    setPill("connectionPill", "connectionText", false, "Agent check failed");
-    $("miniAgent").textContent = "Error";
+  if (!tunnelName) {
+    setPill("connectionPill", "connectionText", "bad", "No tunnel name");
+    $("miniAgent").textContent = "No tunnel";
+    return null;
   }
+
+  const got = await device(tunnelName);
+
+  jsonText("deviceBox", got);
+  jsonText("miniStatus", got);
+  renderDeviceNice(got);
+
+  return got;
 }
 
 export async function refreshStatus(getTunnelName) {
-  await Promise.allSettled([
+  const results = await Promise.allSettled([
     refreshLogin(),
     refreshDevice(getTunnelName)
   ]);
+
+  return results;
 }

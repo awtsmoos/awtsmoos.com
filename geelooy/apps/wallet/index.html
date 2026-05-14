@@ -1,0 +1,74 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Awtsmoos Wallet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="wallet-shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">B"H • Awtsmoos Wallet</p>
+        <h1>Your treasury of Perutahs.</h1>
+        <p class="lead">Ancient coinage as modern site credits. Daily refill, capped storage, top-ups, rate-limit boosts, and usage power for awtsmoos.com.</p>
+        <div class="row">
+          <button id="refreshBtn">Refresh wallet</button>
+          <a href="/apps/tunnel-control/">Tunnel Control</a>
+          <a href="/api/tunnel/control/docs">API Docs</a>
+          <a href="/login">Login</a>
+        </div>
+      </div>
+      <aside class="balance-card">
+        <span>Total Balance</span>
+        <strong id="balance">...</strong>
+        <em id="usdValue">...</em>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <p class="eyebrow">Coin chest</p>
+        <h2>Medieval token breakdown</h2>
+        <div id="coinGrid" class="coin-grid"></div>
+      </div>
+
+      <div class="panel">
+        <p class="eyebrow">Top up</p>
+        <h2>Buy Perutahs</h2>
+        <p class="muted">1 Perutah = $0.02. PayPal requires the server secret to be configured. Mock purchase is for local/dev testing.</p>
+        <label>USD amount <input id="dollars" type="number" min="1" max="250" value="5"></label>
+        <div class="row">
+          <button id="mockBuyBtn">Simulate purchase</button>
+          <button id="paypalBtn">Create PayPal order</button>
+        </div>
+        <pre id="buyOut">Ready.</pre>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <p class="eyebrow">Daily refill</p>
+        <h2>Recharge vessel</h2>
+        <div id="refillBox" class="meter-box"></div>
+      </div>
+
+      <div class="panel">
+        <p class="eyebrow">Ledger</p>
+        <h2>Recent movement</h2>
+        <div id="ledger"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">Currency map</p>
+      <h2>Coin ratios</h2>
+      <div id="coinSystem" class="ratio-grid"></div>
+    </section>
+  </main>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

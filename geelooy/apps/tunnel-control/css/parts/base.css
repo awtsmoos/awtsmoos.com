@@ -1,23 +1,24 @@
 
 /* B"H */
 :root {
-  --bg: #050712;
+  --bg: #040711;
   --bg2: #0b1020;
-  --panel: rgba(255,255,255,.075);
-  --panel2: rgba(255,255,255,.12);
-  --panel3: rgba(0,0,0,.28);
-  --text: #f8f9ff;
-  --muted: #b9c1d9;
+  --panel: rgba(255,255,255,.072);
+  --panel2: rgba(255,255,255,.118);
+  --panel3: rgba(0,0,0,.32);
+  --text: #fbfcff;
+  --muted: #c3cae0;
+  --muted2: #8d96b0;
   --line: rgba(255,255,255,.15);
-  --line2: rgba(139,211,255,.48);
-  --a: #8bd3ff;
-  --b: #d7a7ff;
-  --c: #8fffc2;
-  --good: #8fffc2;
-  --bad: #ff9d9d;
-  --warn: #ffe09a;
+  --line2: rgba(139,211,255,.52);
+  --a: #89d7ff;
+  --b: #d3a1ff;
+  --c: #86ffc5;
+  --good: #86ffc5;
+  --bad: #ff9797;
+  --warn: #ffe08d;
   --radius: 28px;
-  --shadow: 0 30px 120px rgba(0,0,0,.42);
+  --shadow: 0 32px 120px rgba(0,0,0,.45);
 }
 
 * {
@@ -34,10 +35,10 @@ body {
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
   background:
-    radial-gradient(circle at 8% -10%, rgba(139,211,255,.25), transparent 34%),
-    radial-gradient(circle at 92% 0%, rgba(215,167,255,.22), transparent 34%),
-    radial-gradient(circle at 50% 100%, rgba(143,255,194,.08), transparent 38%),
-    linear-gradient(135deg, #050712, #10172d 52%, #181326);
+    radial-gradient(circle at 8% -10%, rgba(137,215,255,.26), transparent 34%),
+    radial-gradient(circle at 92% 0%, rgba(211,161,255,.24), transparent 34%),
+    radial-gradient(circle at 50% 100%, rgba(134,255,197,.09), transparent 38%),
+    linear-gradient(135deg, #040711, #10172d 52%, #171127);
   overflow-x: hidden;
 }
 
@@ -53,10 +54,25 @@ body::before {
   mask-image: radial-gradient(circle at 50% 20%, black, transparent 75%);
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.04), transparent);
+  transform: translateX(-120%);
+  animation: sheen 9s ease-in-out infinite;
+}
+
+@keyframes sheen {
+  0%, 72% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
 .hidden {
   display: none !important;
 }
 
 ::selection {
-  background: rgba(139,211,255,.35);
+  background: rgba(137,215,255,.35);
 }
