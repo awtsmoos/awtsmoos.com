@@ -6,9 +6,9 @@ const crypto = require("crypto");
  * B"H
  * Shared in-memory OAuth authorization-code store.
  *
- * This fixes the bug where /authorize creates a code but /token cannot find it.
- * In production this can later be moved to a persistent DB, but for now this
- * works as long as authorize and token run in the same Node process.
+ * authorize.js currently imports createCode.
+ * token.js currently imports takeCode.
+ * So this exports both createCode and saveCode as aliases.
  */
 
 const CODE_TTL_MS = 5 * 60 * 1000;
@@ -35,7 +35,7 @@ function makeCode() {
   return "awt_code_" + crypto.randomBytes(32).toString("base64url");
 }
 
-function saveCode(record) {
+async function createCode(record) {
   cleanExpiredCodes();
 
   const code = makeCode();
@@ -44,9 +44,11 @@ function saveCode(record) {
     code,
     kind: "oauth_authorization_code",
     userId: record.userId,
+    user: record.user || null,
     clientId: record.clientId,
     redirectUri: record.redirectUri,
     scope: record.scope,
+    state: record.state || "",
     createdAt: now(),
     expiresAt: now() + CODE_TTL_MS
   });
@@ -54,20 +56,20 @@ function saveCode(record) {
   return code;
 }
 
+async function saveCode(record) {
+  return await createCode(record);
+}
+
 function takeCode(code) {
   cleanExpiredCodes();
 
   const record = store.get(code);
 
-  if (!record) {
-    return null;
-  }
+  if (!record) return null;
 
   store.delete(code);
 
-  if (record.expiresAt <= now()) {
-    return null;
-  }
+  if (record.expiresAt <= now()) return null;
 
   return record;
 }
@@ -78,6 +80,7 @@ function peekCode(code) {
 }
 
 module.exports = {
+  createCode,
   saveCode,
   takeCode,
   peekCode,
