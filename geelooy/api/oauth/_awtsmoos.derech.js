@@ -3,38 +3,24 @@
 
 const { routeTable } = require("./routes/table.js");
 
-/**
- * B"H
- * Registers one route in multiple safe path forms.
- *
- * This protects against the dynamic server presenting a route as:
- * route
- * /route
- * route/
- * /route/
- *
- * @param {object} $i Awtsmoos dynamic route context.
- * @param {string} path Route path.
- * @param {Function} handler Route handler.
- */
-async function registerRouteForms($i, path, handler) {
-  const clean = String(path || "").replace(/^\/+/, "").replace(/\/+$/, "");
+async function callRoute($i, name, vars) {
+  const clean = String(name || "").replace(/^\/+/, "").replace(/\/+$/, "");
+  const handler = routeTable[clean] || routeTable[""];
 
-  const forms = new Set();
-
-  if (!clean) {
-    forms.add("");
-    forms.add("/");
-  } else {
-    forms.add(clean);
-    forms.add("/" + clean);
-    forms.add(clean + "/");
-    forms.add("/" + clean + "/");
+  if (!handler) {
+    return {
+      mimeType: "application/json",
+      response: JSON.stringify({
+        BH: "B\"H",
+        ok: false,
+        error: "oauth_route_not_found",
+        route: clean,
+        available: Object.keys(routeTable)
+      }, null, 2)
+    };
   }
 
-  for (const form of forms) {
-    await $i.use(form, async vars => handler($i, vars || {}));
-  }
+  return await handler($i, vars || {});
 }
 
 module.exports = {
@@ -44,8 +30,15 @@ module.exports = {
     $i.response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
     $i.response.setHeader("Cache-Control", "no-store");
 
-    for (const [path, handler] of Object.entries(routeTable)) {
-      await registerRouteForms($i, path, handler);
-    }
+    await $i.use("", async vars => callRoute($i, "", vars));
+    await $i.use("/", async vars => callRoute($i, "", vars));
+
+    await $i.use(":route", async vars => {
+      return await callRoute($i, vars.route, vars);
+    });
+
+    await $i.use("/:route", async vars => {
+      return await callRoute($i, vars.route, vars);
+    });
   }
 };

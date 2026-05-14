@@ -1,5 +1,6 @@
 
 // B"H
+
 const { oauthClients } = require("../data/clients.js");
 
 function escapeRegex(text) {
@@ -32,9 +33,7 @@ function uriForms(uri) {
 function ruleAllows(uri, rule) {
   if (!uri || !rule) return false;
 
-  const forms = uriForms(uri);
-
-  for (const form of forms) {
+  for (const form of uriForms(uri)) {
     if (form === rule) return true;
 
     if (String(rule).includes("*") && wildcardToRegex(rule).test(form)) {

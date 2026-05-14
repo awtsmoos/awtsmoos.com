@@ -8,16 +8,15 @@ const { getQuery, getBody } = require("../tools/requestData.js");
 const { json, html, redirect } = require("../tools/respond.js");
 const { urlWithParams } = require("../tools/urls.js");
 const { getUserId } = require("../core/currentUser.js");
-const { approvalPage } = require("../views/approvalPage.js");
 
-/**
- * B"H
- * Builds the OAuth authorize URL to continue after login.
- *
- * @param {object} opts OAuth params.
- * @returns {string}
- */
-function authorizeUrl(opts) {
+function esc(x) {
+  return String(x ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "<")
+    .replace(/>/g, ">");
+}
+
+function buildAuthorizeUrl(opts) {
   return urlWithParams("/api/oauth/authorize", {
     response_type: "code",
     client_id: opts.clientId,
@@ -27,13 +26,27 @@ function authorizeUrl(opts) {
   });
 }
 
-/**
- * B"H
- * OAuth authorization endpoint.
- *
- * @param {object} $i Awtsmoos dynamic route context.
- * @returns {Promise<object|string>}
- */
+function approvalHtml(opts) {
+  return "<!doctype html>" +
+    "<html><head><meta charset='utf-8'><title>Approve OAuth</title>" +
+    "<meta name='viewport' content='width=device-width, initial-scale=1'>" +
+    "<style>" +
+    "body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050712;color:#fbfcff;font-family:system-ui}" +
+    "main{width:min(760px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:34px;background:rgba(255,255,255,.08);box-shadow:0 32px 110px rgba(0,0,0,.45)}" +
+    "h1{font-size:clamp(38px,7vw,68px);line-height:.92;letter-spacing:-.06em;margin:0 0 14px}" +
+    "p{color:#c3cae0;line-height:1.55}code{color:#89d7ff;word-break:break-all}" +
+    "a.button{display:inline-block;margin-top:16px;padding:14px 20px;border-radius:999px;background:linear-gradient(135deg,#89d7ff,#d3a1ff);color:#07101d;text-decoration:none;font-weight:950}" +
+    ".box{margin-top:18px;padding:14px;border:1px solid rgba(255,255,255,.15);border-radius:18px;background:rgba(0,0,0,.22)}" +
+    "</style></head><body><main>" +
+    "<h1>B&quot;H Allow Access?</h1>" +
+    "<p><strong>" + esc(opts.client.name) + "</strong> wants OAuth access to your Awtsmoos account.</p>" +
+    "<p>User: <code>" + esc(opts.userId) + "</code></p>" +
+    "<p>Scopes: <code>" + esc(opts.scope) + "</code></p>" +
+    "<a class='button' href='" + esc(opts.approveUrl) + "'>Allow</a>" +
+    "<div class='box'><p>If the button does nothing, copy this URL:</p><code>" + esc(opts.approveUrl) + "</code></div>" +
+    "</main></body></html>";
+}
+
 async function authorize($i) {
   const q = getQuery($i);
   const post = await getBody($i);
@@ -92,35 +105,24 @@ async function authorize($i) {
   const userId = getUserId($i);
 
   if (!userId) {
-    const next = authorizeUrl({
+    const next = buildAuthorizeUrl({
       clientId: client.id,
       redirectUri,
       scope,
       state
     });
 
-    return html($i, `<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Login required</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body{margin:0;font-family:system-ui;background:#050712;color:#fbfcff;display:grid;place-items:center;min-height:100vh}
-    main{width:min(720px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.15);border-radius:28px;padding:32px;background:rgba(255,255,255,.08);box-shadow:0 30px 100px rgba(0,0,0,.45)}
-    a{display:inline-block;margin-top:16px;padding:13px 18px;border-radius:999px;background:linear-gradient(135deg,#89d7ff,#d3a1ff);color:#06101d;text-decoration:none;font-weight:900}
-    code{word-break:break-all;color:#89d7ff}
-  </style>
-</head>
-<body>
-  <main>
-    <h1>B"H Login required</h1>
-    <p>Log in to Awtsmoos, then OAuth will continue.</p>
-    <p><code>${next}</code></p>
-    <a href="/login?next=${encodeURIComponent(next)}">Login to Awtsmoos</a>
-  </main>
-</body>
-</html>`, 401);
+    return html($i,
+      "<!doctype html><html><head><meta charset='utf-8'><title>Login required</title>" +
+      "<meta name='viewport' content='width=device-width, initial-scale=1'></head>" +
+      "<body style='margin:0;font-family:system-ui;background:#050712;color:white;display:grid;place-items:center;min-height:100vh'>" +
+      "<main style='width:min(720px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.15);border-radius:28px;padding:32px;background:rgba(255,255,255,.08)'>" +
+      "<h1>B&quot;H Login required</h1>" +
+      "<p>Log in to Awtsmoos, then OAuth will continue.</p>" +
+      "<a style='display:inline-block;margin-top:16px;padding:13px 18px;border-radius:999px;background:linear-gradient(135deg,#89d7ff,#d3a1ff);color:#06101d;text-decoration:none;font-weight:900' href='/login?next=" + encodeURIComponent(next) + "'>Login to Awtsmoos</a>" +
+      "</main></body></html>",
+      401
+    );
   }
 
   if (!client.autoApprove && approve !== "1") {
@@ -133,25 +135,12 @@ async function authorize($i) {
       approve: "1"
     });
 
-    if (typeof approvalPage === "function") {
-      return approvalPage({
-        client,
-        userId,
-        scope,
-        approveUrl
-      });
-    }
-
-    return html($i, `<!doctype html>
-<html>
-<body>
-  <h1>B"H Allow Access?</h1>
-  <p>${client.name} wants access.</p>
-  <p>User: <code>${userId}</code></p>
-  <p>Scopes: <code>${scope}</code></p>
-  <a href="${approveUrl}">Allow</a>
-</body>
-</html>`);
+    return html($i, approvalHtml({
+      client,
+      userId,
+      scope,
+      approveUrl
+    }));
   }
 
   const code = await saveCode({

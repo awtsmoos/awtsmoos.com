@@ -8,25 +8,10 @@ const { resolveServerSecret } = require("../core/serverSecret.js");
 const { takeCode } = require("../core/codeStore.js");
 const { json } = require("../tools/respond.js");
 
-/**
- * B"H
- * Base64-url encodes JSON.
- *
- * @param {object} obj Object.
- * @returns {string}
- */
 function b64url(obj) {
   return Buffer.from(JSON.stringify(obj)).toString("base64url");
 }
 
-/**
- * B"H
- * HMAC signature for Awtsmoos token.
- *
- * @param {string} payload Token payload.
- * @param {string} secret Secret.
- * @returns {string}
- */
 function sign(payload, secret) {
   return crypto
     .createHmac("sha256", String(secret))
@@ -34,15 +19,6 @@ function sign(payload, secret) {
     .digest("hex");
 }
 
-/**
- * B"H
- * Creates access token.
- *
- * @param {object} entry Token entry.
- * @param {string} secret Server secret.
- * @param {number} expiresIn Expiry seconds.
- * @returns {string}
- */
 function makeAccessToken(entry, secret, expiresIn) {
   const payload = [
     "B\"H",
@@ -58,13 +34,6 @@ function makeAccessToken(entry, secret, expiresIn) {
   return payload + "." + sign(payload, secret);
 }
 
-/**
- * B"H
- * OAuth token endpoint for ChatGPT Actions.
- *
- * @param {object} $i Awtsmoos dynamic route context.
- * @returns {Promise<object>}
- */
 async function token($i) {
   const req = await getTokenRequest($i);
 
@@ -111,7 +80,7 @@ async function token($i) {
       BH: "B\"H",
       error: "invalid_or_expired_code",
       codePrefix: String(req.code).slice(0, 18),
-      hint: "Code parsed, but not found. Retry immediately after authorize; code TTL is 5 minutes and one-time-use."
+      hint: "Retry OAuth immediately. Codes are one-time-use and expire after 5 minutes."
     }, 400);
   }
 

@@ -9,15 +9,11 @@ const { revokeApiKey } = require("./revokeApiKey.js");
 const { usage } = require("./usage.js");
 const { protectedFs } = require("./protectedFs.js");
 const { openApi } = require("./openApi.js");
+const { openApiKey } = require("./openApiKey.js");
 const { docsHtml } = require("./docsHtml.js");
 const { docsJson } = require("./docsJson.js");
 const { bootstrap } = require("./bootstrap.js");
 
-/**
- * B"H
- * Keep both slash and no-slash routes because the Awtsmoos dynamic server
- * treats /docs and /docs/ as different paths in some route flows.
- */
 const routeTable = {
   me,
   "me/": me,
@@ -45,6 +41,9 @@ const routeTable = {
 
   openapi: openApi,
   "openapi/": openApi,
+
+  "openapi-key": openApiKey,
+  "openapi-key/": openApiKey,
 
   docs: docsHtml,
   "docs/": docsHtml,

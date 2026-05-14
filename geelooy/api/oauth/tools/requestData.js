@@ -1,29 +1,10 @@
 
 // B"H
 
-/**
- * B"H
- * Gets GET query params from the Awtsmoos route context.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {object}
- */
 function getQuery($i) {
   return $i.paramKinds?.GET || $i.$_GET || $i.request?.query || {};
 }
 
-/**
- * B"H
- * Gets POST body params from the Awtsmoos route context.
- *
- * Supports:
- * - existing parsed POST params
- * - $i.getPostData()
- * - request.body fallback
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {Promise<object>}
- */
 async function getBody($i) {
   try {
     if ($i.request?.method !== "POST") return {};
@@ -38,13 +19,6 @@ async function getBody($i) {
   }
 }
 
-/**
- * B"H
- * Reads OAuth Basic auth client credentials.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {{client_id:string, client_secret:string}|{}}
- */
 function getBasicClientAuth($i) {
   const headers = $i.request?.headers || {};
   const auth = headers.authorization || headers.Authorization || "";
@@ -66,16 +40,6 @@ function getBasicClientAuth($i) {
   }
 }
 
-/**
- * B"H
- * Normalized token endpoint request.
- *
- * ChatGPT Actions usually POST:
- * grant_type, client_id, client_secret, code, redirect_uri.
- *
- * @param {object} $i Awtsmoos route context.
- * @returns {Promise<object>}
- */
 async function getTokenRequest($i) {
   const q = getQuery($i);
   const body = await getBody($i);
