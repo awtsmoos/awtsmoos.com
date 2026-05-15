@@ -63,6 +63,23 @@
   min-width: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-rows: minmax(120px, 1fr);
+  grid-auto-rows: minmax(118px, auto);
   gap: 12px;
+}
+
+@media (max-width: 760px) {
+  .awt-dashboard {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .awt-dashboard h2 {
+    font-size: clamp(2.25rem, 12vw, 3.5rem);
+  }
+
+  .awt-dashboard-grid,
+  .awt-dashboard-metrics {
+    grid-template-columns: 1fr;
+  }
 }

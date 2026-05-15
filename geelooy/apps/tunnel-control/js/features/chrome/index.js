@@ -25,6 +25,7 @@ async function handleChromeAction(getTunnelName, output, action, button) {
   if (!pane) return;
 
   const tunnelName = getTunnelName();
+
   if (!tunnelName) {
     renderChromeError(output, "No tunnel is active yet.");
     return;
@@ -39,7 +40,9 @@ async function handleChromeAction(getTunnelName, output, action, button) {
   }
 
   const before = button.textContent;
+
   button.disabled = true;
+  button.textContent = "Running...";
   renderChromeBusy(output, "Running " + action + "...");
 
   try {
@@ -66,11 +69,14 @@ async function handleChromeAction(getTunnelName, output, action, button) {
  */
 function wireButton(pane, getTunnelName, output, label, action) {
   const button = findButton(pane, label);
-  if (!button || button.dataset.awtBound === "1") return;
 
-  button.dataset.awtBound = "1";
+  if (!button || button.dataset.awtChromeBound === action) return;
+
+  button.dataset.awtChromeBound = action;
+
   button.addEventListener("click", event => {
     event.preventDefault();
+    event.stopPropagation();
     handleChromeAction(getTunnelName, output, action, button);
   });
 }
@@ -79,17 +85,13 @@ function wireButton(pane, getTunnelName, output, label, action) {
  * B"H
  * Mounts the Chrome feature controls.
  *
- * This replaces the fragile legacy button wiring with direct text-based
- * binding that still works even when the markup is reshuffled.
- *
  * @param {Function} getTunnelName Tunnel name reader.
  * @returns {void}
  */
 export function mountChrome(getTunnelName) {
   const pane = getChromePane();
-  if (!pane || pane.dataset.awtChromeMounted === "1") return;
+  if (!pane) return;
 
-  pane.dataset.awtChromeMounted = "1";
   const output = ensureOutput(pane);
 
   wireButton(pane, getTunnelName, output, /^Find Chrome$/i, "chromeFind");
@@ -101,4 +103,6 @@ export function mountChrome(getTunnelName) {
   wireButton(pane, getTunnelName, output, /^Type$/i, "chromeType");
   wireButton(pane, getTunnelName, output, /^Evaluate\s*JS$/i, "chromeEval");
   wireButton(pane, getTunnelName, output, /^Run\s*script$/i, "chromeRunScript");
+
+  pane.dataset.awtChromeMounted = "1";
 }

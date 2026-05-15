@@ -51,9 +51,38 @@
   display: flex !important;
   align-items: center;
   gap: 10px;
+  text-align: left;
+}
+
+.awt-nav-button strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .awt-side-tabs {
   display: grid;
   gap: 8px;
+}
+
+@media (max-width: 760px) {
+  .awt-control-side {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .awt-brand-block {
+    display: none;
+  }
+
+  .awt-side-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .awt-nav-button {
+    min-height: 46px;
+    margin-bottom: 0;
+  }
 }

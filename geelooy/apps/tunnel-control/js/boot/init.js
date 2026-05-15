@@ -16,6 +16,7 @@ import { mountLegacyFeatures } from "./mountLegacyFeatures.js";
 import { mountShell } from "../shell/mountShell.js";
 import { mountUiRepair } from "./repairUi.js";
 import { bindNavigationButtons } from "../router/bindNavigation.js";
+import { mountChrome } from "../features/chrome.js";
 
 /**
  * B"H
@@ -75,7 +76,7 @@ function hydratePermissionClasses(tunnel) {
  */
 export async function startTunnelControl() {
   try {
-    log("boot modular control center v3200");
+    log("boot modular control center v3300");
 
     const session = await resolveSession();
 
@@ -102,6 +103,14 @@ export async function startTunnelControl() {
     renderPrompt(getTunnelName);
 
     mountShell({ session, getTunnelName, getProjectPath });
+
+    /*
+     * B"H
+     * Chrome must be mounted again after mountShell(), because the shell
+     * creates the real data-pane="chrome" page by moving controls.
+     */
+    mountChrome(getTunnelName);
+
     bindNavigationButtons();
     mountUiRepair(getTunnelName);
 

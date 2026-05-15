@@ -57,6 +57,7 @@ export function buildFsUrl(tunnelName, opts = {}) {
   u.searchParams.set("p", opts.path || opts.p || ".");
 
   if (opts.absolutePath) u.searchParams.set("absolutePath", opts.absolutePath);
+
   setNum(u, "depth", opts.depth);
   setNum(u, "limit", opts.limit);
   setNum(u, "maxChars", opts.maxChars);
@@ -72,6 +73,7 @@ export function buildFsUrl(tunnelName, opts = {}) {
   if (opts.writes) u.searchParams.set("writes64", b64Json(opts.writes));
   if (opts.find !== undefined) u.searchParams.set("find64", b64Text(opts.find));
   if (opts.replace !== undefined) u.searchParams.set("replace64", b64Text(opts.replace));
+
   if (typeof opts.regex === "boolean") u.searchParams.set("regex", String(opts.regex));
   if (typeof opts.replaceAll === "boolean") u.searchParams.set("replaceAll", String(opts.replaceAll));
 
@@ -95,20 +97,24 @@ export function buildFsUrl(tunnelName, opts = {}) {
   if (opts.command) u.searchParams.set("command64", b64Text(opts.command));
   if (opts.shell) u.searchParams.set("shell", opts.shell);
   if (opts.cwd) u.searchParams.set("cwd", opts.cwd);
+
   setNum(u, "timeoutMs", opts.timeoutMs);
 
   if (opts.url) u.searchParams.set("url", opts.url);
   if (opts.selector) u.searchParams.set("selector", opts.selector);
   if (opts.text !== undefined) u.searchParams.set("text64", b64Text(opts.text));
   if (opts.expression) u.searchParams.set("expression64", b64Text(opts.expression));
+
   if (typeof opts.script === "string") {
     u.searchParams.set("script64", b64Text(opts.script));
   } else if (opts.script) {
     u.searchParams.set("script64", b64Json(opts.script));
   }
+
   if (opts.input) u.searchParams.set("input64", b64Json(opts.input));
 
   setNum(u, "port", opts.port);
+
   if (opts.chromePath) u.searchParams.set("chromePath", opts.chromePath);
   if (opts.userDataDir) u.searchParams.set("userDataDir", opts.userDataDir);
 
@@ -118,9 +124,6 @@ export function buildFsUrl(tunnelName, opts = {}) {
 /**
  * B"H
  * Calls the tunnel control endpoint.
- *
- * Chrome actions are intentionally allowed through logged-in browser
- * session because the control panel itself is the trusted surface.
  *
  * @param {string} tunnelName Active tunnel name.
  * @param {object} opts Action options.
@@ -139,13 +142,11 @@ export async function callFs(tunnelName, opts) {
       ok: false,
       error: "missing_active_api_key",
       message:
-        "Create, paste, or select an API key first. Setup, root picker, and Chrome control work with login. File and terminal actions need API key or equivalent OAuth scope.",
+        "Create, paste, or select an API key first. File and terminal actions need API key or equivalent OAuth scope.",
       needed:
-        action.startsWith("chrome")
-          ? "tunnel.browser"
-          : action.startsWith("command")
-            ? "tunnel.command"
-            : "tunnel.read/tunnel.write"
+        action.startsWith("command")
+          ? "tunnel.command"
+          : "tunnel.read/tunnel.write"
     };
   }
 
