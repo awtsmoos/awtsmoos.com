@@ -1,34 +1,115 @@
-
 {
   "BH": "B\"H",
-  "version": "0.9.0",
+  "version": "1.2.0",
   "entry": "main.js",
   "files": [
-    { "path": "main.js" },
-    { "path": "lib/config.js" },
-    { "path": "lib/log.js" },
-    { "path": "lib/open.js" },
-    { "path": "lib/ws.js" },
-
-    { "path": "tools/fs/index.js" },
-    { "path": "tools/fs/constants.js" },
-    { "path": "tools/fs/pathGuard.js" },
-    { "path": "tools/fs/listing.js" },
-    { "path": "tools/fs/readWrite.js" },
-    { "path": "tools/fs/tree.js" },
-    { "path": "tools/fs/rootBrowser.js" },
-    { "path": "tools/fs/bulkRead.js" },
-    { "path": "tools/fs/searchEdit.js" },
-    { "path": "tools/fs/actions.js" },
-
-    { "path": "tools/command/index.js" },
-    { "path": "tools/command/shells.js" },
-    { "path": "tools/command/run.js" },
-    { "path": "tools/command/scriptSandbox.js" },
-
-    { "path": "tools/chrome/index.js" },
-    { "path": "tools/chrome/finder.js" },
-    { "path": "tools/chrome/cdp.js" },
-    { "path": "tools/chrome/actions.js" }
+    {
+      "path": "main.js"
+    },
+    {
+      "path": "lib/config.js"
+    },
+    {
+      "path": "lib/log.js"
+    },
+    {
+      "path": "lib/open.js"
+    },
+    {
+      "path": "lib/ws.js"
+    },
+    {
+      "path": "tools/fs/index.js"
+    },
+    {
+      "path": "tools/fs/constants.js"
+    },
+    {
+      "path": "tools/fs/pathGuard.js"
+    },
+    {
+      "path": "tools/fs/listing.js"
+    },
+    {
+      "path": "tools/fs/readWrite.js"
+    },
+    {
+      "path": "tools/fs/tree.js"
+    },
+    {
+      "path": "tools/fs/rootBrowser.js"
+    },
+    {
+      "path": "tools/fs/bulkRead.js"
+    },
+    {
+      "path": "tools/fs/searchEdit.js"
+    },
+    {
+      "path": "tools/fs/lineBatch.js"
+    },
+    {
+      "path": "tools/fs/findFiles.js"
+    },
+    {
+      "path": "tools/fs/hashWrite.js"
+    },
+    {
+      "path": "tools/fs/jsonTools.js"
+    },
+    {
+      "path": "tools/fs/projectInfo.js"
+    },
+    {
+      "path": "tools/fs/dependencyGraph.js"
+    },
+    {
+      "path": "tools/fs/diagnostics.js"
+    },
+    {
+      "path": "tools/fs/selfAudit.js"
+    },
+    {
+      "path": "tools/fs/actions.js"
+    },
+    {
+      "path": "tools/command/index.js"
+    },
+    {
+      "path": "tools/command/shells.js"
+    },
+    {
+      "path": "tools/command/run.js"
+    },
+    {
+      "path": "tools/command/scriptSandbox.js"
+    },
+    {
+      "path": "tools/command/projectChecks.js"
+    },
+    {
+      "path": "tools/chrome/index.js"
+    },
+    {
+      "path": "tools/chrome/finder.js"
+    },
+    {
+      "path": "tools/chrome/logs.js"
+    },
+    {
+      "path": "tools/chrome/launchArgs.js"
+    },
+    {
+      "path": "tools/chrome/snapshot.js"
+    },
+    {
+      "path": "tools/chrome/cdp.js"
+    },
+    {
+      "path": "tools/chrome/actions.js"
+    },
+    {
+      "path": "tools/chrome/extras.js"
+    }
   ]
 }

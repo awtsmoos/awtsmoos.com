@@ -1,4 +1,3 @@
-
 // B"H
 const fs = require("fs");
 const os = require("os");
@@ -9,6 +8,7 @@ const ROOT = path.join(HOME, ".awtsmoos-tunnel");
 const DIR = ROOT;
 const CONFIG_PATH = path.join(ROOT, "config.json");
 const FILE = CONFIG_PATH;
+const FOUR_MINUTES_MS = 240000;
 
 function defaultTunnelName() {
   const user = String(os.userInfo().username || "user")
@@ -44,7 +44,7 @@ const DEFAULTS = {
     enabled: true,
     allowNodeScript: true,
     defaultShell: process.platform === "win32" ? "powershell" : "bash",
-    timeoutMs: 20000,
+    timeoutMs: FOUR_MINUTES_MS,
     maxOutput: 120000
   },
   chrome: {
@@ -52,14 +52,29 @@ const DEFAULTS = {
     port: 9222,
     path: "",
     chromePath: "",
-    userDataDir: path.join(ROOT, "chrome-profile")
+    userDataDir: path.join(ROOT, "chrome-profile"),
+    headless: false
   }
 };
 
+/**
+ * B"H
+ * Creates the local root where the tunnel remembers its garments.
+ *
+ * @returns {void}
+ */
 function ensureDir() {
   fs.mkdirSync(ROOT, { recursive: true });
 }
 
+/**
+ * B"H
+ * Reads JSON without letting a missing or wounded file break the agent.
+ *
+ * @param {string} file File path.
+ * @param {*} fallback Fallback value.
+ * @returns {*} Parsed JSON or fallback.
+ */
 function readJson(file, fallback) {
   try {
     const text = fs.readFileSync(file, "utf8").replace(/^\uFEFF/, "");
@@ -69,6 +84,14 @@ function readJson(file, fallback) {
   }
 }
 
+/**
+ * B"H
+ * Writes complete JSON, never fragments, so config remains a whole vessel.
+ *
+ * @param {string} file File path.
+ * @param {*} data JSON value.
+ * @returns {void}
+ */
 function writeJson(file, data) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, JSON.stringify(data, null, 2), "utf8");
@@ -78,11 +101,23 @@ function boolOrDefault(value, fallback) {
   return value === undefined ? fallback : value !== false;
 }
 
+function numberOrDefault(value, fallback, min, max) {
+  const n = Number(value || fallback);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(min, Math.min(max, Math.floor(n)));
+}
+
+/**
+ * B"H
+ * Normalizes old and new config shapes into one living form.
+ *
+ * @param {object} [old={}] Existing config.
+ * @returns {object} Complete normalized config.
+ */
 function normalizeConfig(old = {}) {
   const tools = old.tools || {};
   const command = old.command || {};
   const chrome = old.chrome || {};
-
   const chromePath = chrome.chromePath || chrome.path || "";
 
   return {
@@ -113,20 +148,27 @@ function normalizeConfig(old = {}) {
       enabled: boolOrDefault(command.enabled, true),
       allowNodeScript: boolOrDefault(command.allowNodeScript, true),
       defaultShell: command.defaultShell || DEFAULTS.command.defaultShell,
-      timeoutMs: Number(command.timeoutMs || DEFAULTS.command.timeoutMs),
-      maxOutput: Number(command.maxOutput || DEFAULTS.command.maxOutput)
+      timeoutMs: numberOrDefault(command.timeoutMs, DEFAULTS.command.timeoutMs, 1000, FOUR_MINUTES_MS),
+      maxOutput: numberOrDefault(command.maxOutput, DEFAULTS.command.maxOutput, 1000, 1000000)
     },
 
     chrome: {
       enabled: boolOrDefault(chrome.enabled, true),
-      port: Number(chrome.port || DEFAULTS.chrome.port),
+      port: numberOrDefault(chrome.port, DEFAULTS.chrome.port, 1, 65535),
       path: chromePath,
       chromePath,
-      userDataDir: chrome.userDataDir || DEFAULTS.chrome.userDataDir
+      userDataDir: chrome.userDataDir || DEFAULTS.chrome.userDataDir,
+      headless: boolOrDefault(chrome.headless, DEFAULTS.chrome.headless)
     }
   };
 }
 
+/**
+ * B"H
+ * Loads config and upgrades older vessels in place.
+ *
+ * @returns {object} Normalized config.
+ */
 function loadConfig() {
   ensureDir();
 
@@ -144,6 +186,13 @@ function loadConfig() {
   return cfg;
 }
 
+/**
+ * B"H
+ * Saves a complete normalized config after applying a patch.
+ *
+ * @param {object} [patch={}] Patch.
+ * @returns {object} Updated config.
+ */
 function saveConfigPatch(patch = {}) {
   ensureDir();
 
@@ -167,6 +216,7 @@ module.exports = {
   DIR,
   CONFIG_PATH,
   FILE,
+  FOUR_MINUTES_MS,
   DEFAULTS,
   loadConfig,
   saveConfigPatch

@@ -1,4 +1,3 @@
-
 // B"H
 const fsp = require("fs/promises");
 const path = require("path");
@@ -12,8 +11,16 @@ const { readText, readBytesBase64, readTextFromBytes, writeText, findReplaceText
 const { readBulk } = require("./bulkRead.js");
 const { driveRoots, rootBrowse } = require("./rootBrowser.js");
 const { statPath, readLines, grep, replaceRange, applyPatch } = require("./searchEdit.js");
+const { readManyLines } = require("./lineBatch.js");
+const { findFiles } = require("./findFiles.js");
+const { fileHashes, writeIfHash, bulkWriteIfHashes } = require("./hashWrite.js");
+const { jsonValidate, jsonFormat } = require("./jsonTools.js");
+const { packageInfo, projectOverview } = require("./projectInfo.js");
+const { dependencyGraph } = require("./dependencyGraph.js");
+const { recentFiles, largeFiles, duplicateBasenames, textStats } = require("./diagnostics.js");
+const { routeAudit, agentSelfTest } = require("./selfAudit.js");
 
-const AGENT_VERSION = "split-agent-1.0.0";
+const AGENT_VERSION = "split-agent-1.2.0";
 
 function publicConfig(config) {
   return {
@@ -92,18 +99,19 @@ async function handleBulkWrite(config, payload, action) {
     }
   }
 
-  return {
-    ok: true,
-    action,
-    root: config.root,
-    count: writes.length,
-    okCount,
-    results
-  };
+  return { ok: true, action, root: config.root, count: writes.length, okCount, results };
 }
 
-async function handleFsAction(payload, ws) {
-  const config = loadConfig();
+/**
+ * B"H
+ * Builds the filesystem/data action map each request so config is always fresh.
+ *
+ * @param {object} config Current config.
+ * @param {object} payload Incoming payload.
+ * @param {object} ws Tunnel websocket.
+ * @returns {object} Action map.
+ */
+function buildActions(config, payload, ws) {
   const action = payload.action || "list";
   const p = payload.path || payload.p || ".";
   const maxChars = Number(payload.maxChars || 12000);
@@ -111,7 +119,7 @@ async function handleFsAction(payload, ws) {
   const maxBytes = Number(payload.maxBytes || 24000);
   const offsetBytes = Number(payload.offsetBytes || 0);
 
-  const actions = {
+  return {
     async configGet() { return { ok: true, action, config: publicConfig(loadConfig()) }; },
     async configSet() { return await handleConfigSet(payload, ws); },
     async roots() { return { ok: true, action, roots: driveRoots(), home: HOME, cwd: process.cwd() }; },
@@ -145,20 +153,14 @@ async function handleFsAction(payload, ws) {
       };
     },
     async tree() {
-      return {
-        ok: true,
-        action,
-        root: config.root,
-        path: p,
-        absolutePath: safePath(config, p),
-        treeText: await treeText(config, p, payload.depth, payload.limit)
-      };
+      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), treeText: await treeText(config, p, payload.depth, payload.limit) };
     },
     async read() {
       const got = await readText(config, p, maxChars, offsetChars);
       return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got };
     },
     async readLines() { return await readLines(config, payload); },
+    async readManyLines() { return await readManyLines(config, payload); },
     async readBytes() {
       const got = await readTextFromBytes(config, p, maxBytes, offsetBytes);
       return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got };
@@ -174,24 +176,41 @@ async function handleFsAction(payload, ws) {
     },
     async bulk() { return await readBulk(config, payload); },
     async grep() { return await grep(config, payload); },
+    async findFiles() { return await findFiles(config, payload); },
+    async fileHashes() { return await fileHashes(config, payload); },
+
+    async jsonValidate() { return await jsonValidate(config, payload); },
+    async jsonFormat() { return await jsonFormat(config, payload); },
+    async packageInfo() { return await packageInfo(config, payload); },
+    async projectOverview() { return await projectOverview(config, payload); },
+    async dependencyGraph() { return await dependencyGraph(config, payload); },
+    async recentFiles() { return await recentFiles(config, payload); },
+    async largeFiles() { return await largeFiles(config, payload); },
+    async duplicateBasenames() { return await duplicateBasenames(config, payload); },
+    async textStats() { return await textStats(config, payload); },
+    async routeAudit() { return await routeAudit(config, payload); },
+    async agentSelfTest() { return await agentSelfTest(config, payload); },
 
     async write() {
       const wrote = await writeText(config, p, payload.content || "");
       return { ok: true, action, root: config.root, ...wrote };
     },
     async bulkWrite() { return await handleBulkWrite(config, payload, action); },
+    async writeIfHash() { return await writeIfHash(config, payload); },
+    async bulkWriteIfHashes() { return await bulkWriteIfHashes(config, payload); },
     async findReplace() { return { root: config.root, ...(await findReplaceText(config, payload)) }; },
     async replaceRange() { return { root: config.root, ...(await replaceRange(config, payload)) }; },
     async applyPatch() { return { root: config.root, ...(await applyPatch(config, payload)) }; }
   };
+}
+
+async function handleFsAction(payload, ws) {
+  const config = loadConfig();
+  const action = payload.action || "list";
+  const actions = buildActions(config, payload, ws);
 
   if (!actions[action]) {
-    return {
-      ok: false,
-      status: 400,
-      error: "Unknown fs action: " + action,
-      availableActions: Object.keys(actions)
-    };
+    return { ok: false, status: 400, error: "Unknown fs action: " + action, availableActions: Object.keys(actions) };
   }
 
   return await actions[action]();

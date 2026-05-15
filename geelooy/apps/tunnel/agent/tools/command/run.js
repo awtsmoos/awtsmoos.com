@@ -1,7 +1,7 @@
-
 // B"H
 const childProcess = require("child_process");
 const path = require("path");
+const { FOUR_MINUTES_MS } = require("../../lib/config.js");
 const { shellArgs, fallbackShellArgs } = require("./shells.js");
 
 function cleanRel(given, root) {
@@ -33,6 +33,20 @@ function trimOutput(text, max) {
   return text.length <= max ? { text, truncated: false } : { text: text.slice(0, max), truncated: true };
 }
 
+/**
+ * B"H
+ * Bounds local command time so real builds can breathe but frozen commands do not rule forever.
+ *
+ * @param {*} value Requested timeout.
+ * @param {number} fallback Fallback timeout.
+ * @returns {number} Timeout in milliseconds.
+ */
+function boundedTimeout(value, fallback = FOUR_MINUTES_MS) {
+  const n = Number(value || fallback || FOUR_MINUTES_MS);
+  if (!Number.isFinite(n)) return FOUR_MINUTES_MS;
+  return Math.max(1000, Math.min(Math.floor(n), FOUR_MINUTES_MS));
+}
+
 function execPicked(picked, command, cwd, timeoutMs, maxOutput) {
   return new Promise(resolve => {
     const startedAt = Date.now();
@@ -44,6 +58,11 @@ function execPicked(picked, command, cwd, timeoutMs, maxOutput) {
       (err, stdout, stderr) => {
         const out = trimOutput(stdout, maxOutput);
         const er = trimOutput(stderr, maxOutput);
+        const durationMs = Date.now() - startedAt;
+        const timedOut =
+          err?.killed === true ||
+          err?.signal === "SIGTERM" ||
+          /timed out|timeout/i.test(err?.message || "");
 
         resolve({
           err,
@@ -56,7 +75,9 @@ function execPicked(picked, command, cwd, timeoutMs, maxOutput) {
             cwd,
             exitCode: err?.code ?? 0,
             signal: err?.signal || null,
-            durationMs: Date.now() - startedAt,
+            durationMs,
+            timeoutMs,
+            timedOut,
             stdout: out.text,
             stderr: er.text,
             truncated: out.truncated || er.truncated,
@@ -78,7 +99,7 @@ async function runCommand(config, payload = {}) {
 
   const shell = payload.shell || config.command.defaultShell || (process.platform === "win32" ? "powershell" : "bash");
   const cwd = safeCwd(config, payload.cwd || ".");
-  const timeoutMs = Number(payload.timeoutMs || config.command.timeoutMs || 120000);
+  const timeoutMs = boundedTimeout(payload.timeoutMs, config.command.timeoutMs);
   const maxOutput = Number(payload.maxChars || config.command.maxOutput || 120000);
   const first = await execPicked(shellArgs(shell, command), command, cwd, timeoutMs, maxOutput);
 
@@ -91,4 +112,4 @@ async function runCommand(config, payload = {}) {
   return first.response;
 }
 
-module.exports = { runCommand, safeCwd };
+module.exports = { runCommand, safeCwd, boundedTimeout };

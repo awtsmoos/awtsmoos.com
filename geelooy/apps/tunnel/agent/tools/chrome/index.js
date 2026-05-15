@@ -1,32 +1,43 @@
-
 // B"H
-const {
-  chromeFind,
-  chromeLaunch,
-  chromeStatus,
-  chromeNavigate,
-  chromeEval,
-  chromeWaitForSelector,
-  chromeClick,
-  chromeType,
-  chromeRunScript
-} = require("./actions.js");
 
+const chromeActions = require("./actions.js");
+const chromeExtras = require("./extras.js");
+
+const ACTIONS = {
+  chromeFind: chromeActions.chromeFind,
+  chromeLaunch: chromeActions.chromeLaunch,
+  chromeStatus: chromeActions.chromeStatus,
+  chromeNavigate: chromeActions.chromeNavigate,
+  chromeEval: chromeActions.chromeEval,
+  chromeWaitForSelector: chromeActions.chromeWaitForSelector,
+  chromeClick: chromeActions.chromeClick,
+  chromeType: chromeActions.chromeType,
+  chromeLogs: chromeActions.chromeLogs,
+  chromeSnapshot: chromeActions.chromeSnapshot,
+  chromeRunScript: chromeActions.chromeRunScript,
+  chromeScreenshot: chromeExtras.chromeScreenshot,
+  chromeNetwork: chromeExtras.chromeNetwork,
+  chromeAccessibilitySnapshot: chromeExtras.chromeAccessibilitySnapshot,
+  chromeTestUrl: chromeExtras.chromeTestUrl
+};
+
+/**
+ * B"H
+ * Routes Chrome actions through a data map instead of a switch maze.
+ *
+ * @param {object} payload Browser payload.
+ * @returns {Promise<object>} Action result.
+ */
 async function handleChrome(payload = {}) {
-  if (payload.action === "chromeFind") return await chromeFind(payload);
-  if (payload.action === "chromeLaunch") return await chromeLaunch(payload);
-  if (payload.action === "chromeStatus") return await chromeStatus(payload);
-  if (payload.action === "chromeNavigate") return await chromeNavigate(payload);
-  if (payload.action === "chromeEval") return await chromeEval(payload);
-  if (payload.action === "chromeWaitForSelector") return await chromeWaitForSelector(payload);
-  if (payload.action === "chromeClick") return await chromeClick(payload);
-  if (payload.action === "chromeType") return await chromeType(payload);
-  if (payload.action === "chromeRunScript") return await chromeRunScript(payload);
+  const fn = ACTIONS[payload.action];
+
+  if (fn) return await fn(payload);
 
   return {
     ok: false,
     action: payload.action,
-    error: "unknown_chrome_action"
+    error: "unknown_chrome_action",
+    availableActions: Object.keys(ACTIONS)
   };
 }
 
