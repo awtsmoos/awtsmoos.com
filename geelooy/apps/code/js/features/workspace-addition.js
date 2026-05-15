@@ -29,19 +29,15 @@ export const WorkspaceAddition = {
                     <span>Browser Storage (IDB)</span>
                 </button>
                 <button class="menu-button" data-action="relay" style="grid-column: 1 / -1; background: rgba(0, 246, 255, 0.05); border-color: var(--neon-cyan);">
-                    <svg class="svg-icon" style="color: var(--neon-cyan);"><use href="#icon-laptop"></use></svg>
+                    <svg class="svg-icon" style="color: var(--neon-cyan);"><use href="#icon-link"></use></svg>
                     <span style="color: var(--neon-cyan);">Relay Server Connection</span>
                 </button>
                 <button class="menu-button" data-action="awtsmoos-os" style="grid-column: 1 / -1; background: rgba(255, 160, 0, 0.07); border-color: #ffa000;">
-                    <svg class="svg-icon" style="color: #ffa000;"><use href="#icon-brain"></use></svg>
-                    <span style="color: #ffa000;">Awtsmoos OS</span>
-                </button>
-                <button class="menu-button" data-action="awtsmoos-os" style="grid-column: 1 / -1; background: rgba(255, 160, 0, 0.07); border-color: #ffa000;">
-                    <svg class="svg-icon" style="color: #ffa000;"><use href="#icon-brain"></use></svg>
+                    <svg class="svg-icon" style="color: #ffa000;"><use href="#icon-brain-circuit"></use></svg>
                     <span style="color: #ffa000;">Awtsmoos OS</span>
                 </button>
                 <button class="menu-button" data-action="ssh" style="grid-column: 1 / -1; background: rgba(168, 255, 0, 0.05); border-color: var(--neon-lime);">
-                    <svg class="svg-icon" style="color: var(--neon-lime);"><use href="#icon-laptop"></use></svg>
+                    <svg class="svg-icon" style="color: var(--neon-lime);"><use href="#icon-ssh"></use></svg>
                     <span style="color: var(--neon-lime);">SSH Workspace</span>
                 </button>
             </div>
@@ -118,7 +114,7 @@ export const WorkspaceAddition = {
             realmid: login.identity?.id || login.identity?._id || null
         }, true);
 
-        UI.showToast('Awtsmoos OS workspace added.', 'success');
+        UI.showToast('Awtsmoos OS workspace added. Each alias now appears as an editable folder.', 'success');
     },
 
     /**

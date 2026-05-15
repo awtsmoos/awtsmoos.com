@@ -19,14 +19,17 @@ function isRelayError(e) {
 }
 
 function isSshCredentialError(e, ws) {
+    const code = String(e?.code || '');
     const msg = String(e?.message || e || '').toLowerCase();
     return ws?.type === 'ssh' && (
+        code.startsWith('SSH_') ||
         msg.includes('missing credentials') ||
         msg.includes('permission denied') ||
         msg.includes('authentication') ||
         msg.includes('auth') ||
         msg.includes('password') ||
-        msg.includes('private key')
+        msg.includes('private key') ||
+        msg.includes('host and username')
     );
 }
 
@@ -74,22 +77,20 @@ export const ErrorVessel = {
 
         const li = document.createElement('li');
         li.className = 'tree-item ssh-recovery-node';
-        li.style.padding = '10px 12px';
-        li.style.margin = '6px 8px';
-        li.style.border = '1px solid rgba(168,255,0,.45)';
-        li.style.borderRadius = '10px';
-        li.style.background = 'linear-gradient(135deg, rgba(168,255,0,.08), rgba(0,246,255,.06))';
-        li.style.color = 'var(--color-text-primary, white)';
-        li.style.fontSize = '12px';
-        li.style.lineHeight = '1.45';
+        const host = ws?.sshInfo?.host || error?.sshInfo?.host || 'unknown host';
+        const user = ws?.sshInfo?.user || error?.sshInfo?.user || 'unknown user';
 
         li.innerHTML = `
-            <div style="font-weight:800;color:var(--neon-lime,#a8ff00);margin-bottom:4px;">🔐 SSH login needs credentials</div>
-            <div style="opacity:.88;">The workspace is still here. Paste the password or private key again and it will be saved back into the SSH profile/session.</div>
-            <div style="margin-top:6px;opacity:.78;overflow-wrap:anywhere;">${escapeHtml(error?.message || error || 'Could not authenticate.')}</div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;">
-                <button class="ssh-fix primary-btn" style="font-size:11px;padding:4px 8px;">Fix SSH Login</button>
-                <button class="ssh-retry secondary-btn" style="font-size:11px;padding:4px 8px;">Retry</button>
+            <div class="ssh-recovery-card">
+                <strong>🔐 SSH credentials need renewal</strong>
+                <div>The workspace is preserved. Re-enter the password or private key, then the corrected credentials are saved into Settings and the session.</div>
+                <div style="margin-top:7px;opacity:.82;">Target: <code>${escapeHtml(user)}@${escapeHtml(host)}</code></div>
+                <div style="margin-top:7px;opacity:.72;overflow-wrap:anywhere;">${escapeHtml(error?.message || error || 'Could not authenticate.')}</div>
+                <div class="ssh-recovery-actions">
+                    <button class="ssh-fix primary-btn">Re-enter credentials</button>
+                    <button class="ssh-retry secondary-btn">Retry</button>
+                    <button class="ssh-settings secondary-btn">Open Settings</button>
+                </div>
             </div>
         `;
 
@@ -97,6 +98,10 @@ export const ErrorVessel = {
         li.querySelector('.ssh-fix')?.addEventListener('click', async () => {
             const { SSHWorkspace } = await import('../../features/ssh-workspace.js');
             await SSHWorkspace.recoverWorkspace(ws, error);
+        });
+        li.querySelector('.ssh-settings')?.addEventListener('click', async () => {
+            const { SettingsManager } = await import('../../app/settings.js');
+            await SettingsManager.show();
         });
 
         parentEl.appendChild(li);
@@ -158,7 +163,7 @@ export const ErrorVessel = {
         li.style.color = 'var(--color-accent-danger)';
         li.style.fontSize = '0.8em';
         li.style.paddingLeft = '15px';
-        li.textContent = 'Could not load: ' + (msgOrEror?.message || String(msgOrError));
+        li.textContent = 'Could not load: ' + (msgOrError?.message || String(msgOrError));
         parentEl.appendChild(li);
     }
 };

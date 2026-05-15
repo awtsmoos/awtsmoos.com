@@ -2,24 +2,51 @@
 // FILE: js/fs/ssh.js
 import { State } from '../state.js';
 
-export const SSHProvider = {
-    // A helper to make API calls to theNode.js server
-    async _api(endpoint, sshInfo, body) {
-        const { host, user } = sshInfo;
-        const url = `/api/ssh/${endpoint}/${encodeURIComponent(user)}/${encodeURIComponent(host)}`;
+/**
+ * B"H
+ * Shapes SSH credential failures into a recognizable vessel so the tree UI can
+ * open the recovery dialog instead of leaving the user with a red sentence.
+ */
+function createCredentialError(message, sshInfo = {}) {
+    const error = new Error(message);
+    error.code = 'SSH_CREDENTIALS_REQUIRED';
+    error.sshInfo = sshInfo;
+    return error;
+}
 
+function decodeSecret(encoded = '') {
+    try { return atob(encoded); }
+    catch (_) { return encoded || ''; }
+}
+
+export const SSHProvider = {
+    /**
+     * B"H
+     * Sends a request to the server-side SSH route.
+     *
+     * @param {string} endpoint API endpoint name.
+     * @param {object} sshInfo SSH profile information.
+     * @param {object} body Request body fields.
+     * @returns {Promise<object>} Parsed server response.
+     */
+    async _api(endpoint, sshInfo = {}, body = {}) {
+        const { host, user } = sshInfo;
+        if (!host || !user) {
+            throw createCredentialError('SSH host and username are required.', sshInfo);
+        }
+
+        const url = `/api/ssh/${endpoint}/${encodeURIComponent(user)}/${encodeURIComponent(host)}`;
         const formData = new URLSearchParams();
 
-        // This logic sends the correct credential to the API
         if (sshInfo.port) formData.append('port', String(sshInfo.port));
 
         if (sshInfo.authMethod === 'password' && sshInfo.password) {
-            formData.append('password', atob(sshInfo.password));
+            formData.append('password', decodeSecret(sshInfo.password));
         } else if ((sshInfo.authMethod === 'privateKey' || sshInfo.authMethod === 'pem') && (sshInfo.privateKey || sshInfo.pem)) {
             formData.append('privateKey', sshInfo.privateKey || sshInfo.pem);
             if (sshInfo.passphrase) formData.append('passphrase', sshInfo.passphrase);
         } else {
-            throw new Error("Missing credentials for SSH request.");
+            throw createCredentialError('Missing credentials for SSH request.', sshInfo);
         }
 
         for (const key in body) {
@@ -31,20 +58,30 @@ export const SSHProvider = {
             body: formData
         });
 
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.statusText}`);
+        let result = null;
+        try { result = await response.json(); }
+        catch (_) { result = { success: false, message: response.statusText }; }
+
+        if (!response.ok || !result.success) {
+            const message = result?.message || result?.error || `SSH API Error: ${response.statusText}`;
+            const error = new Error(message);
+            error.code = /auth|credential|password|permission|key/i.test(message) ? 'SSH_AUTH_FAILED' : 'SSH_API_FAILED';
+            error.sshInfo = sshInfo;
+            error.status = response.status;
+            throw error;
         }
 
-        const result = await response.json();
-        if (!result.success) {
-            throw new Error(result.message || 'An unknown error occurred on the server.');
-        }
         return result;
     },
 
-    _workspace(item) {
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId || ws.id === item.id);
-        if (!workspace || !workspace.sshInfo) throw new Error("SSH workspace context not found.");
+    _workspace(item = {}) {
+        const workspace = State.workspaces.find(ws =>
+            String(ws.id) === String(item.workspaceId) ||
+            String(ws.id) === String(item.id)
+        );
+        if (!workspace || !workspace.sshInfo) {
+            throw createCredentialError('SSH workspace context not found.', item.sshInfo || {});
+        }
         return workspace;
     },
 
