@@ -1,6 +1,5 @@
 
 // B"H
-
 function handleAliasLogin(ctx, client, aliasId) {
   if (client.aliasId) {
     const oldSet = ctx.aliasMap.get(client.aliasId);
@@ -19,14 +18,10 @@ function handleAliasLogin(ctx, client, aliasId) {
 
 function sendToAlias(ctx, targetAlias, data) {
   if (!targetAlias) return false;
-
   if (trySend(ctx, targetAlias, data)) return true;
 
   const shortName = targetAlias.split(/[@_]/)[0];
-
-  if (shortName && shortName !== targetAlias && trySend(ctx, shortName, data)) {
-    return true;
-  }
+  if (shortName && shortName !== targetAlias && trySend(ctx, shortName, data)) return true;
 
   if (!targetAlias.includes("_") && !targetAlias.includes("@")) {
     const longName = `${targetAlias}_at_awtsmoos.com`;
@@ -37,9 +32,7 @@ function sendToAlias(ctx, targetAlias, data) {
     ? targetAlias.replace("_at_", "@")
     : targetAlias.replace("@", "_at_");
 
-  if (swapped !== targetAlias && trySend(ctx, swapped, data)) {
-    return true;
-  }
+  if (swapped !== targetAlias && trySend(ctx, swapped, data)) return true;
 
   return false;
 }
@@ -47,8 +40,9 @@ function sendToAlias(ctx, targetAlias, data) {
 function trySend(ctx, key, data) {
   if (!ctx.aliasMap.has(key)) return false;
 
-  const clients = ctx.aliasMap.get(key);
-  for (const client of clients) client.send(data);
+  for (const client of ctx.aliasMap.get(key)) {
+    client.send(data);
+  }
 
   return true;
 }

@@ -1,10 +1,7 @@
 
 // B"H
-
 function makeHeader(length, opcode) {
-  if (length < 126) {
-    return Buffer.from([0x80 | opcode, length]);
-  }
+  if (length < 126) return Buffer.from([0x80 | opcode, length]);
 
   if (length <= 0xffff) {
     const header = Buffer.alloc(4);

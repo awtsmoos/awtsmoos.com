@@ -1,6 +1,5 @@
 
 // B"H
-
 function readFrame(buffer) {
   if (!buffer || buffer.length < 2) return null;
 

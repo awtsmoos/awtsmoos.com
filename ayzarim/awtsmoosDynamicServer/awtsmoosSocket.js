@@ -48,6 +48,7 @@ class AwtsmoosSocket {
 
     while (client.buffer.length) {
       let parsed;
+
       try {
         parsed = readFrame(client.buffer);
       } catch (e) {

@@ -64,8 +64,7 @@ function safe(name, fn) {
   try { return fn(); }
   catch (e) {
     console.error("B'H control mount failed:", name, e);
-    setText("miniAgent", "UI error");
-    setText("miniLogin", "UI error");
+    setStatusBadges("bad", "Login: UI error", "Agent: UI error");
     show("statusBox", { ok: false, where: name, error: e.message, stack: e.stack });
   }
 }
@@ -73,6 +72,7 @@ function safe(name, fn) {
 function safeMount(name, fn) {
   try {
     const got = fn();
+
     if (got && typeof got.catch === "function") {
       got.catch(e => {
         console.error("B'H async mount failed:", name, e);
@@ -88,6 +88,20 @@ function safeMount(name, fn) {
 function setText(id, text) {
   const el = $(id);
   if (el) el.textContent = text;
+}
+
+function setBadge(id, kind, text) {
+  const el = $(id);
+  if (!el) return;
+
+  el.classList.remove("good", "warn", "bad");
+  if (kind) el.classList.add(kind);
+  el.textContent = text;
+}
+
+function setStatusBadges(kind, loginText, agentText) {
+  setBadge("authPill", kind, loginText);
+  setBadge("agentPill", kind, agentText);
 }
 
 function checked(id, fallback = true) {
@@ -133,6 +147,7 @@ function payloadFromUi() {
 
 function queueConfigSave(reason) {
   if (loadingConfig) return;
+
   clearTimeout(configTimer);
   setText("configSaveStatus", "Saving " + reason + "...");
   configTimer = setTimeout(() => saveConfigNow(reason), 250);
@@ -141,6 +156,7 @@ function queueConfigSave(reason) {
 async function saveConfigNow(reason = "save") {
   clearTimeout(configTimer);
   setText("configSaveStatus", "Saving...");
+
   const got = await callFs(payloadFromUi());
   show("configOut", got);
 
@@ -158,14 +174,17 @@ async function autoLoadConfig() {
   for (let i = 0; i < 18; i++) {
     const got = await loadConfig({ silent: i > 0, auto: true });
     if (got && got.ok) return got;
+
     setText("configSaveStatus", "Waiting for tunnel config... retry " + (i + 1));
     await wait(Math.min(800 + i * 250, 4000));
   }
+
   return null;
 }
 
 async function loadConfig(options = {}) {
   loadingConfig = true;
+
   if (!options.silent) setText("configSaveStatus", "Loading config...");
 
   const got = await callFs({ action: "configGet" });
@@ -191,6 +210,7 @@ function applyConfig(config) {
   setChecked("enableLocalHttpProxy", config.enableLocalHttpProxy);
 
   const tools = config.tools || {};
+
   setChecked("toolFsRead", tools.fsRead);
   setChecked("toolFsWrite", tools.fsWrite);
   setChecked("toolFsBulk", tools.fsBulk);
@@ -205,6 +225,7 @@ async function refresh() {
   try {
     setText("miniAgent", "Checking...");
     setText("miniLogin", "Checking...");
+    setStatusBadges("warn", "Login: checking", "Agent: checking");
 
     const got = await fetch("/api/tunnel/control/my-device", {
       credentials: "include",
@@ -216,12 +237,19 @@ async function refresh() {
 
     if (got.tunnelName && !$("tunnelName").value) $("tunnelName").value = got.tunnelName;
 
+    const user = got.identity?.userId || got.identity?.email || "";
+    const agentGood = !!got.ok && !!got.device?.connected;
+
     setText("miniTunnel", tunnelName() || got.tunnelName || "No tunnel selected");
-    setText("miniAgent", got.ok ? "Connected" : (got.error || "Not connected"));
-    setText("miniLogin", got.identity?.userId || got.identity?.email || (got.ok ? "Logged in" : "Login needed"));
+    setText("miniAgent", agentGood ? "Connected" : (got.error || "Not connected"));
+    setText("miniLogin", user || (got.ok ? "Logged in" : "Login needed"));
+
+    setBadge("authPill", user || got.ok ? "good" : "bad", user ? "Login: " + user : "Login: needed");
+    setBadge("agentPill", agentGood ? "good" : "bad", agentGood ? "Agent: connected" : "Agent: " + (got.error || "offline"));
   } catch (e) {
     setText("miniAgent", "Refresh failed");
     setText("miniLogin", "Unknown");
+    setStatusBadges("bad", "Login: unknown", "Agent: refresh failed");
     show("statusBox", { ok: false, error: e.message, stack: e.stack });
   }
 }

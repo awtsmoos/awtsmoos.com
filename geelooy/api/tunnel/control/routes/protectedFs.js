@@ -52,7 +52,7 @@ async function protectedFs($i, vars) {
   }
 
   try {
-    const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload);
+    const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload, payload.timeoutMs || 30000);
     const bytes = responseBytes(result);
 
     recordUsage({
