@@ -1,21 +1,14 @@
 
 // B"H
-
 const net = require("net");
 const tls = require("tls");
 const crypto = require("crypto");
 const { URL } = require("url");
 const EventEmitter = require("events");
 
-/**
- * B"H
- * Tiny WebSocket client.
- *
- * Important fix:
- * WebSocket payload lengths must be calculated from UTF-8 bytes, NOT
- * JavaScript string length. Hebrew and other multibyte characters corrupt
- * frames if string.length is used.
- */
+const MAX_BUFFER_BYTES = Number(process.env.AWTSMOOS_WS_MAX_BUFFER || 128 * 1024 * 1024);
+const MAX_FRAME_BYTES = Number(process.env.AWTSMOOS_WS_MAX_FRAME || 96 * 1024 * 1024);
+
 class TinyWebSocket extends EventEmitter {
   constructor(address) {
     super();
@@ -23,6 +16,8 @@ class TinyWebSocket extends EventEmitter {
     this.socket = null;
     this.buffer = Buffer.alloc(0);
     this.opened = false;
+    this.closed = false;
+    this.handshaken = false;
   }
 
   connect() {
@@ -30,12 +25,11 @@ class TinyWebSocket extends EventEmitter {
     const isSecure = url.protocol === "wss:";
     const port = Number(url.port || (isSecure ? 443 : 80));
     const host = url.hostname;
-    const path = (url.pathname || "/") + (url.search || "");
-
+    const requestPath = (url.pathname || "/") + (url.search || "");
     const key = crypto.randomBytes(16).toString("base64");
 
     const req = [
-      "GET " + path + " HTTP/1.1",
+      "GET " + requestPath + " HTTP/1.1",
       "Host: " + host,
       "Upgrade: websocket",
       "Connection: Upgrade",
@@ -52,59 +46,99 @@ class TinyWebSocket extends EventEmitter {
     this.socket = socket;
 
     let handshake = Buffer.alloc(0);
-    let handshaken = false;
 
     socket.on("data", chunk => {
-      if (!handshaken) {
-        handshake = Buffer.concat([handshake, chunk]);
-        const end = handshake.indexOf("\r\n\r\n");
+      if (this.closed) return;
 
+      if (!this.handshaken) {
+        handshake = Buffer.concat([handshake, chunk]);
+
+        if (handshake.length > 1024 * 1024) {
+          this.fail(new Error("WebSocket handshake too large."));
+          return;
+        }
+
+        const end = handshake.indexOf("\r\n\r\n");
         if (end === -1) return;
 
         const head = handshake.slice(0, end).toString("utf8");
 
         if (!/^HTTP\/1\.1 101/i.test(head)) {
-          this.emit("error", new Error("WebSocket handshake failed: " + head.split("\r\n")[0]));
-          socket.end();
+          this.fail(new Error("WebSocket handshake failed: " + head.split("\r\n")[0]));
           return;
         }
 
-        handshaken = true;
+        this.handshaken = true;
         this.opened = true;
         this.emit("open");
 
         const rest = handshake.slice(end + 4);
-        if (rest.length) this._onFrameData(rest);
+        handshake = null;
 
+        if (rest.length) this._onFrameData(rest);
         return;
       }
 
       this._onFrameData(chunk);
     });
 
-    socket.on("close", () => {
-      this.opened = false;
-      this.emit("close");
-    });
-
-    socket.on("error", err => {
+    socket.once("close", () => this.finishClose());
+    socket.once("end", () => this.finishClose());
+    socket.once("error", err => {
       this.emit("error", err);
+      this.finishClose();
     });
   }
 
+  fail(err) {
+    this.emit("error", err);
+    this.close(true);
+  }
+
+  finishClose() {
+    if (this.closed) return;
+
+    this.closed = true;
+    this.opened = false;
+    this.buffer = Buffer.alloc(0);
+
+    if (this.socket) {
+      this.socket.removeAllListeners("data");
+      this.socket.removeAllListeners("close");
+      this.socket.removeAllListeners("end");
+      this.socket.removeAllListeners("error");
+      try { this.socket.destroy(); } catch (_e) {}
+    }
+
+    this.emit("close");
+  }
+
   _onFrameData(chunk) {
+    if (this.closed) return;
+
     this.buffer = Buffer.concat([this.buffer, chunk]);
 
+    if (this.buffer.length > MAX_BUFFER_BYTES) {
+      this.fail(new Error("WebSocket receive buffer exceeded " + MAX_BUFFER_BYTES + " bytes."));
+      return;
+    }
+
     while (true) {
-      const parsed = this._readFrame(this.buffer);
+      let parsed;
+
+      try {
+        parsed = this._readFrame(this.buffer);
+      } catch (e) {
+        this.fail(e);
+        return;
+      }
+
       if (!parsed) return;
 
       this.buffer = this.buffer.slice(parsed.consumed);
 
       if (parsed.opcode === 0x8) {
-        this.opened = false;
-        this.socket.end();
-        this.emit("close");
+        this.close(true);
         return;
       }
 
@@ -112,6 +146,8 @@ class TinyWebSocket extends EventEmitter {
         this._sendFrame(parsed.payload, 0xA);
         continue;
       }
+
+      if (parsed.opcode === 0xA) continue;
 
       if (parsed.opcode === 0x1) {
         this.emit("message", parsed.payload.toString("utf8"));
@@ -130,9 +166,9 @@ class TinyWebSocket extends EventEmitter {
 
     const b0 = buf[0];
     const b1 = buf[1];
-
     const opcode = b0 & 0x0f;
     const masked = !!(b1 & 0x80);
+
     let len = b1 & 0x7f;
     let offset = 2;
 
@@ -143,15 +179,18 @@ class TinyWebSocket extends EventEmitter {
     } else if (len === 127) {
       if (buf.length < offset + 8) return null;
 
-      const high = buf.readUInt32BE(offset);
-      const low = buf.readUInt32BE(offset + 4);
+      const big = buf.readBigUInt64BE(offset);
       offset += 8;
 
-      if (high !== 0) {
-        throw new Error("WebSocket frame too large.");
+      if (big > BigInt(Number.MAX_SAFE_INTEGER)) {
+        throw new Error("WebSocket frame too large for this Node process.");
       }
 
-      len = low;
+      len = Number(big);
+    }
+
+    if (len > MAX_FRAME_BYTES) {
+      throw new Error("WebSocket frame exceeded " + MAX_FRAME_BYTES + " bytes.");
     }
 
     let mask = null;
@@ -164,7 +203,7 @@ class TinyWebSocket extends EventEmitter {
 
     if (buf.length < offset + len) return null;
 
-    let payload = Buffer.from(buf.slice(offset, offset + len));
+    const payload = Buffer.from(buf.slice(offset, offset + len));
 
     if (masked && mask) {
       for (let i = 0; i < payload.length; i++) {
@@ -172,23 +211,15 @@ class TinyWebSocket extends EventEmitter {
       }
     }
 
-    return {
-      opcode,
-      payload,
-      consumed: offset + len
-    };
+    return { opcode, payload, consumed: offset + len };
   }
 
   _sendFrame(data, opcode = 0x1) {
-    if (!this.socket || !this.opened) return;
+    if (!this.socket || !this.opened || this.closed) return;
 
-    const payload = Buffer.isBuffer(data)
-      ? data
-      : Buffer.from(String(data), "utf8");
-
+    const payload = Buffer.isBuffer(data) ? data : Buffer.from(String(data), "utf8");
     const len = payload.length;
     const mask = crypto.randomBytes(4);
-
     let header;
 
     if (len < 126) {
@@ -204,11 +235,10 @@ class TinyWebSocket extends EventEmitter {
       header = Buffer.alloc(10);
       header[0] = 0x80 | opcode;
       header[1] = 0x80 | 127;
-      header.writeUInt32BE(0, 2);
-      header.writeUInt32BE(len, 6);
+      header.writeBigUInt64BE(BigInt(len), 2);
     }
 
-    const masked = Buffer.alloc(payload.length);
+    const masked = Buffer.allocUnsafe(payload.length);
 
     for (let i = 0; i < payload.length; i++) {
       masked[i] = payload[i] ^ mask[i % 4];
@@ -225,10 +255,19 @@ class TinyWebSocket extends EventEmitter {
     this.send(JSON.stringify(obj));
   }
 
-  close() {
-    if (!this.socket) return;
-    this._sendFrame(Buffer.alloc(0), 0x8);
-    this.socket.end();
+  close(force = false) {
+    if (this.closed) return;
+
+    try {
+      if (!force && this.opened) this._sendFrame(Buffer.alloc(0), 0x8);
+    } catch (_e) {}
+
+    try {
+      if (force && this.socket) this.socket.destroy();
+      else if (this.socket) this.socket.end();
+    } catch (_e) {}
+
+    if (force) this.finishClose();
   }
 }
 
