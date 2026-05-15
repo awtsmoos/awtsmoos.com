@@ -25,17 +25,12 @@ function metric(label, value) {
 
 /**
  * B"H
- * Creates dashboard cards from the pane keys collected before shell mount.
+ * Creates dashboard cards.
  *
- * @param {string[]} availablePaneKeys Available pane keys.
- * @returns {HTMLElement[]} Card nodes.
+ * @returns {HTMLElement[]} Cards.
  */
-function dashboardCards(availablePaneKeys) {
-  const available = new Set(availablePaneKeys);
-
-  return DASHBOARD_ORDER
-    .filter(key => available.has(key))
-    .map(key => createDashboardCard(key, PANE_META[key]));
+function dashboardCards() {
+  return DASHBOARD_ORDER.map(key => createDashboardCard(key, PANE_META[key]));
 }
 
 /**
@@ -43,11 +38,10 @@ function dashboardCards(availablePaneKeys) {
  * Creates the dashboard home screen.
  *
  * @param {object} ctx Runtime context.
- * @param {string[]} availablePaneKeys Available pane keys.
  * @returns {HTMLElement} Dashboard.
  */
-export function createDashboard(ctx, availablePaneKeys = []) {
-  const cards = dashboardCards(availablePaneKeys);
+export function createDashboard(ctx) {
+  const cards = dashboardCards();
 
   return h("section", {
     classes: ["awt-dashboard"],
@@ -59,7 +53,7 @@ export function createDashboard(ctx, availablePaneKeys = []) {
           h("div", { classes: ["awt-mini-kicker"], text: "B\"H CONTROL CENTER" }),
           h("h2", { text: "Awtsmoos Tunnel" }),
           h("p", {
-            text: "Choose one mission. The app opens that workspace as a separate page instead of dumping every control into one giant scroll."
+            text: "Choose one mission. Each button opens a focused page with the real controls moved into place."
           }),
           h("div", {
             classes: ["awt-dashboard-metrics"],
@@ -73,15 +67,7 @@ export function createDashboard(ctx, availablePaneKeys = []) {
       }),
       h("div", {
         classes: ["awt-dashboard-grid"],
-        children: cards.length ? cards : [
-          h("div", {
-            classes: ["awt-empty-dashboard"],
-            children: [
-              h("strong", { text: "No dashboard pages found" }),
-              h("span", { text: "No [data-pane] sections were detected before shell mount." })
-            ]
-          })
-        ]
+        children: cards
       })
     ]
   });

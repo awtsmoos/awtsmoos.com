@@ -45,3 +45,18 @@ body.awt-pro-ready .output {
   max-width: 100%;
   overflow: auto;
 }
+
+.awt-link-grid,
+.awt-command-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.awt-command-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid rgba(160, 207, 255, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+}

@@ -40,12 +40,9 @@ function navButton(key) {
  * Creates the side rail.
  *
  * @param {object} ctx Runtime context.
- * @param {string[]} availablePaneKeys Available pane keys.
  * @returns {HTMLElement} Side rail.
  */
-export function createSideRail(ctx, availablePaneKeys = []) {
-  const available = new Set(availablePaneKeys);
-
+export function createSideRail(ctx) {
   const home = h("button", {
     classes: ["awt-home-button"],
     attrs: { type: "button" },
@@ -71,9 +68,7 @@ export function createSideRail(ctx, availablePaneKeys = []) {
       home,
       h("nav", {
         classes: ["awt-side-tabs"],
-        children: DASHBOARD_ORDER
-          .filter(key => available.has(key))
-          .map(navButton)
+        children: DASHBOARD_ORDER.map(navButton)
       })
     ]
   });

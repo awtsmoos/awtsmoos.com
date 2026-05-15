@@ -7,20 +7,7 @@ import { createSideRail } from "./sideRail.js";
 import { createDashboard } from "../dashboard/dashboard.js";
 import { createWorkspaceStage } from "./workspaceStage.js";
 import { mountWorkspaceMode } from "./workspaceMode.js";
-import { collectPanes, createFallbackPane } from "./domCollect.js";
-
-/**
- * B"H
- * Returns clean pane keys.
- *
- * @param {HTMLElement[]} panes Pane elements.
- * @returns {string[]} Pane keys.
- */
-function paneKeys(panes) {
-  return panes
-    .map(pane => pane.dataset.pane || "")
-    .filter(Boolean);
-}
+import { collectPanes } from "./domCollect.js";
 
 /**
  * B"H
@@ -39,23 +26,7 @@ function movePanes(panes, stack) {
 
 /**
  * B"H
- * Removes old body content and mounts only the new app shell.
- *
- * @param {HTMLElement} shell Shell element.
- * @returns {void}
- */
-function replaceWholeApp(shell) {
-  const headSafe = document.createComment("B'H tunnel control shell mounted");
-  document.body.replaceChildren(headSafe, shell);
-}
-
-/**
- * B"H
- * Mounts the actual multi-page dashboard shell.
- *
- * This intentionally collects panes from the entire current document
- * before replacing the old vertical page. The previous version only
- * looked at direct children, which produced an empty dashboard grid.
+ * Mounts the multi-page shell from real controls.
  *
  * @param {object} ctx Runtime context.
  * @returns {void}
@@ -63,9 +34,7 @@ function replaceWholeApp(shell) {
 export function mountShell(ctx) {
   if (document.querySelector(".awt-control-shell")) return;
 
-  const found = collectPanes();
-  const panes = found.length ? found : [createFallbackPane()];
-  const keys = paneKeys(panes);
+  const panes = collectPanes();
   const { stage, stack } = createWorkspaceStage();
 
   movePanes(panes, stack);
@@ -74,11 +43,11 @@ export function mountShell(ctx) {
   const shell = h("div", {
     classes: ["awt-control-shell"],
     children: [
-      createSideRail(ctx, keys),
+      createSideRail(ctx),
       h("main", {
         classes: ["awt-control-main"],
         children: [
-          createDashboard(ctx, keys),
+          createDashboard(ctx),
           stage
         ]
       })
@@ -86,8 +55,8 @@ export function mountShell(ctx) {
   });
 
   document.body.classList.add("awt-pro-ready");
-  replaceWholeApp(shell);
-  mountWorkspaceMode();
+  document.body.replaceChildren(shell);
 
+  mountWorkspaceMode();
   document.dispatchEvent(new CustomEvent("awt:repair-ui"));
 }
