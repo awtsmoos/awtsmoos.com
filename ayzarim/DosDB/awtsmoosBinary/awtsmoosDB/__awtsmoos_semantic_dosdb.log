@@ -1,7 +1,0 @@
-B"H [WasmJIT] Hyper-Kernel Initialized. Regions: Permanent=1.5GB, Total=2.0GB
-B"H [0.158s] [JS: 7.1MB | Total: 38.6MB] [Direct] Parsing GGUF Header (File Mode)...
-B"H [0.160s] [JS: 7.1MB | Total: 38.3MB] [CONFIG] bge | L:0 | Emb:8 | Heads:0.0625/0.0625 | Dim:0 | Eps:0.00001 | Offset:0
-B"H [WasmJIT] Hyper-Kernel Initialized. Regions: Permanent=1.5GB, Total=2.0GB
-B"H [29.790s] [JS: 64.0MB | Total: 107.0MB] [Direct] Parsing GGUF Header (File Mode)...
-B"H [29.800s] [JS: 64.1MB | Total: 107.1MB] [CONFIG] bert | L:1 | Emb:8 | Heads:0/0 | Dim:128 | Eps:0.00001 | Offset:0
-B"H semantic_ai_dosdb_test PASS
