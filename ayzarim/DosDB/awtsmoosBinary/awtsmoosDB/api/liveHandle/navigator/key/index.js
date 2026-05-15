@@ -26,8 +26,12 @@ class KeyLogic {
 
         if (type === T.SMART_OBJECT || type === T.SMART_ARRAY) {
             valPtr = FlatSeeker.seek(db, type, structCoords, key);
+            if (!valPtr && type === T.SMART_ARRAY && db.sparseArrays) {
+                valPtr = db.sparseArrays.getPtr(state, key);
+            }
         } else if ([T.SEQUENCE, T.ARRAY, T.SET, T.JS_SET].includes(type)) {
             valPtr = SequenceSeeker.seek(db, structCoords, key);
+            if (!valPtr && db.sparseArrays) valPtr = db.sparseArrays.getPtr(state, key);
         } else {
             valPtr = MapSeeker.seek(db, type, structCoords, key);
         }

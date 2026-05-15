@@ -72,6 +72,14 @@ withDb('runtime_features', db => {
 
   const mem = db.memoryStats();
   assert(mem.rss > 0 && mem.heapUsed > 0 && mem.pagerBytes >= 0, 'memory stats shape');
+
+  const liveInfo = db.info();
+  assert(liveInfo.logicalBytes > 0 && liveInfo.memory.rss > 0, 'open db info shape');
+
+  db.close();
+  const fileInfo = AwtsmoosDB.inspectFile(db.pager.filePath);
+  assert(fileInfo.exists && fileInfo.physicalBytes > 0, 'static file inspect without opening mirror');
+  db.open();
 });
 
 console.log('B"H runtime_features_test PASS');

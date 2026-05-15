@@ -77,6 +77,13 @@ module.exports = {
         // 2. Peer into the physical void (Ensure coordinates are loaded)
         state.ensureResolved();
 
+        if (typeof prop === 'string' || typeof prop === 'number') {
+            const overlaid = state.db && state.db.turbo
+                ? state.db.turbo.get(state, prop)
+                : { hit: false };
+            if (overlaid.hit) return overlaid.value;
+        }
+
         if ((typeof prop === 'string' || typeof prop === 'number') && hasStoredMappingKey(state, prop)) {
             return PropertyResolver.resolve(state, prop);
         }

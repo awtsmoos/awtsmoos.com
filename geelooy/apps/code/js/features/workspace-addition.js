@@ -32,6 +32,10 @@ export const WorkspaceAddition = {
                     <svg class="svg-icon" style="color: var(--neon-cyan);"><use href="#icon-laptop"></use></svg>
                     <span style="color: var(--neon-cyan);">Relay Server Connection</span>
                 </button>
+                <button class="menu-button" data-action="ssh" style="grid-column: 1 / -1; background: rgba(168, 255, 0, 0.05); border-color: var(--neon-lime);">
+                    <svg class="svg-icon" style="color: var(--neon-lime);"><use href="#icon-laptop"></use></svg>
+                    <span style="color: var(--neon-lime);">SSH Workspace</span>
+                </button>
             </div>
             <style>
                 .workspace-options-grid { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
@@ -74,9 +78,15 @@ export const WorkspaceAddition = {
                     else if (action === 'idb') this.addIdb();
                     else if (action === 'opfs') this.addOpfs();
                     else if (action === 'relay') this.addRelay();
+                    else if (action === 'ssh') this.addSsh();
                 };
             }
         }, 50);
+    },
+
+    async addSsh() {
+        const { SSHWorkspace } = await import('./ssh-workspace.js');
+        return SSHWorkspace.add();
     },
 
     /**

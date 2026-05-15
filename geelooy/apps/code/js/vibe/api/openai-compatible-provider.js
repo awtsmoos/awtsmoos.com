@@ -35,14 +35,17 @@ export const OpenAICompatibleProvider = {
     },
 
     async streamChat(messages, apiKey, modelId, tools, opts, onActive, onChunk, onReasoning, onToolCall, onComplete, onError) {
+        const modelMeta = opts.modelMeta || { id: modelId };
+        const maxTokens = Math.min(Number(modelMeta.max_completion_tokens || 4096), 4096);
+
         const payload = {
             model: modelId,
             messages,
             stream: true,
-            temperature: 0.2
+            temperature: 0.2,
+            max_tokens: maxTokens
         };
 
-        const modelMeta = opts.modelMeta || { id: modelId };
         if (tools && tools.length > 0 && AgentCapabilities.supportsTools(modelMeta)) {
             payload.tools = tools.map(t => ({ type: 'function', function: t.function }));
             payload.tool_choice = 'auto';
@@ -61,6 +64,10 @@ export const OpenAICompatibleProvider = {
 
             if (!res.ok) {
                 if (onError) onError(res);
+                return;
+            }
+            if (!res.body) {
+                if (onError) onError(new Error(`${opts.providerId || 'Provider'} returned no response stream.`));
                 return;
             }
 
@@ -93,6 +100,10 @@ export const OpenAICompatibleProvider = {
 
                     try {
                         const data = JSON.parse(trimmed.substring(6));
+                        if (data.error) {
+                            if (onError) onError(data.error);
+                            return;
+                        }
                         const delta = data.choices?.[0]?.delta || {};
                         if (delta.content) {
                             fullText += delta.content;
@@ -128,7 +139,10 @@ export const OpenAICompatibleProvider = {
                                 toolUpdated = true;
                             });
                         }
-                    } catch (e) {}
+                    } catch (e) {
+                        if (onError) onError(new Error(`OpenAI-compatible stream parse failed: ${e.message}. Line: ${trimmed.slice(0, 220)}`));
+                        return;
+                    }
                 }
 
                 if (toolUpdated && onToolCall) {
@@ -136,7 +150,12 @@ export const OpenAICompatibleProvider = {
                 }
             }
 
-            if (onComplete) onComplete(fullText, fullReasoning, activeToolCalls.filter(Boolean));
+            const finalizedTools = activeToolCalls.filter(Boolean);
+            if (!fullText && !fullReasoning && finalizedTools.length === 0) {
+                if (onError) onError(new Error(`Provider stream completed without text, reasoning, or tool calls for ${modelId}.`));
+                return;
+            }
+            if (onComplete) onComplete(fullText, fullReasoning, finalizedTools);
         } catch (e) {
             if (onError) onError(e);
         }

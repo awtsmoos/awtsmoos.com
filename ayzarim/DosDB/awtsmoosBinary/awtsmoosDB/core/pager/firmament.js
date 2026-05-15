@@ -1,179 +1,395 @@
-
 // B"H
+
 /**
  * @file firmament.js
- * @chapter Chapter 770: The Rapid Pager (Maier HaGuf)
+ * @chapter The Page-Cache Firmament
  * @description
- * Just as the light of the Sun takes time to reach the Earth, so too does 
- * the movement of bytes between Disk and Memory normally carry delay.
- * But here, in the world of AwtsmoosDB, we nullify that delay.
- * 
- * "Quickly, for the sake of Your Name, do what You have spoken!"
- * This Pager achieves extreme velocity (sub-1ms writes) by mirroring 
- * the entire database universe in RAM. Every "write" is a mere buffer-copy 
- * at nanosecond speed. We only "condense" the light back to disk-matter (Asiyah)
- * during controlled fsync intervals or shutdown.
+ * The pager no longer needs to summon the whole database into RAM. It reads
+ * only touched pages, writes only dirty pages, and still presents the same
+ * lightning synchronous API to the rest of the system.
  */
 
 const fs = require('fs');
 
+const WAL_MAGIC = Buffer.from('AWAL1');
+
 /**
  * @class PagerFirmament
- * @description High-velocity synchronous memory-mirror for the database.
+ * @description Sparse page-cache pager with optional full-mirror mode.
  */
 class PagerFirmament {
-    /**
-     * @constructor
-     * @param {string} filePath - Path to the binary universe.
-     */
-    constructor(filePath) {
-        this.filePath = filePath;
-        /** @member {Buffer|null} memory - The active RAM Mirror (Olam HaKosei) */
-        this.memory = null;
-        this.fd = null;
-        this.dirty = false;
-        this.isBatching = false;
-        /** @member {number} currentFileSize - The tracked boundary of written reality */
-        this.currentFileSize = 0;
+  /**
+   * @constructor
+   * @param {string} filePath - Database file path.
+   */
+  constructor(filePath) {
+    this.filePath = filePath;
+    this.fd = null;
+    this.dirty = false;
+    this.isBatching = false;
+    this.currentFileSize = 0;
+    this.initialized = false;
+    this.memory = null;
+    this.pageSize = 65536;
+    this.pages = new Map();
+    this.walPath = `${filePath}.wal`;
+    this.walRecords = [];
+    this.recovering = false;
+  }
+
+  /**
+   * @method init
+   * @description Opens the file without reading all bytes into RAM.
+   * @returns {void}
+   */
+  init() {
+    if (this.initialized) return;
+
+    if (fs.existsSync(this.filePath)) {
+      const stat = fs.statSync(this.filePath);
+      this.currentFileSize = stat.size;
+      this.fd = fs.openSync(this.filePath, 'r+');
+    } else {
+      this.currentFileSize = 0;
+      this.fd = fs.openSync(this.filePath, 'w+');
     }
 
-    /**
-     * @method init
-     * @description Awaken the Mirror. Synchronously reads the disk into RAM.
-     */
-    init() {
-        if (this.memory !== null) return;
-        
-        if (fs.existsSync(this.filePath)) {
-            const stat = fs.statSync(this.filePath);
-            this.currentFileSize = stat.size;
-            if (this.currentFileSize > 0) {
-                // Summon the entire content from the depths into the Light of RAM.
-                this.memory = fs.readFileSync(this.filePath);
-                this.fd = fs.openSync(this.filePath, 'r+');
-            } else {
-                this._manifestVoid();
-            }
-        } else {
-            this._manifestVoid();
+    this.initialized = true;
+    this._recoverWal();
+
+    if (this._useFullMirror()) {
+      this.memory = this.currentFileSize > 0
+        ? fs.readFileSync(this.filePath)
+        : Buffer.allocUnsafe(this.pageSize).fill(0);
+    }
+  }
+
+  /**
+   * @method _useFullMirror
+   * @description Checks whether the legacy whole-file mirror is explicitly enabled.
+   * @returns {boolean} True for full mirror mode.
+   */
+  _useFullMirror() {
+    return !!(this.db && this.db.options && this.db.options.fullMemoryMirror === true);
+  }
+
+  /**
+   * @method _useWal
+   * @description Checks whether exact-byte WAL is enabled.
+   * @returns {boolean} True when WAL should protect fsync.
+   */
+  _useWal() {
+    return !(this.db && this.db.options && this.db.options.wal === false);
+  }
+
+  /**
+   * @method _recoverWal
+   * @description Replays committed WAL records from a prior interrupted fsync.
+   * @returns {void}
+   */
+  _recoverWal() {
+    if (!this._useWal() || !fs.existsSync(this.walPath)) return;
+
+    const stat = fs.statSync(this.walPath);
+    if (stat.size === 0) return;
+
+    const fd = fs.openSync(this.walPath, 'r+');
+    const header = Buffer.allocUnsafe(WAL_MAGIC.length);
+    let pos = 0;
+
+    try {
+      fs.readSync(fd, header, 0, header.length, pos);
+      pos += header.length;
+      if (!header.equals(WAL_MAGIC)) {
+        fs.ftruncateSync(fd, 0);
+        return;
+      }
+
+      this.recovering = true;
+
+      while (pos + 12 <= stat.size) {
+        const h = Buffer.allocUnsafe(12);
+        fs.readSync(fd, h, 0, 12, pos);
+        pos += 12;
+
+        const offset = Number(h.readBigUInt64BE(0));
+        const length = h.readUInt32BE(8);
+        if (length < 0 || pos + length > stat.size) break;
+
+        const data = Buffer.allocUnsafe(length);
+        if (length) fs.readSync(fd, data, 0, length, pos);
+        pos += length;
+        fs.writeSync(this.fd, data, 0, data.length, offset);
+        this.currentFileSize = Math.max(this.currentFileSize, offset + data.length);
+      }
+
+      fs.fsyncSync(this.fd);
+      fs.ftruncateSync(fd, 0);
+      fs.fsyncSync(fd);
+    } finally {
+      this.recovering = false;
+      fs.closeSync(fd);
+    }
+  }
+
+  /**
+   * @method _recordWal
+   * @description Queues one exact write for WAL protection at fsync.
+   * @param {number} offset - Write offset.
+   * @param {Buffer} buf - Write bytes.
+   * @returns {void}
+   */
+  _recordWal(offset, buf) {
+    if (this.recovering || !this._useWal() || !buf || buf.length === 0) return;
+    this.walRecords.push({ offset, data: Buffer.from(buf) });
+  }
+
+  /**
+   * @method _flushWal
+   * @description Writes queued WAL records to disk before data pages.
+   * @returns {void}
+   */
+  _flushWal() {
+    if (!this._useWal() || this.walRecords.length === 0) return;
+
+    const fd = fs.openSync(this.walPath, 'w+');
+    try {
+      fs.writeSync(fd, WAL_MAGIC, 0, WAL_MAGIC.length, 0);
+      let pos = WAL_MAGIC.length;
+
+      for (const rec of this.walRecords) {
+        const h = Buffer.allocUnsafe(12);
+        h.writeBigUInt64BE(BigInt(rec.offset), 0);
+        h.writeUInt32BE(rec.data.length, 8);
+        fs.writeSync(fd, h, 0, h.length, pos);
+        pos += h.length;
+        if (rec.data.length) {
+          fs.writeSync(fd, rec.data, 0, rec.data.length, pos);
+          pos += rec.data.length;
         }
+      }
+
+      fs.fsyncSync(fd);
+    } finally {
+      fs.closeSync(fd);
+    }
+  }
+
+  /**
+   * @method _clearWal
+   * @description Clears WAL after data is safely flushed.
+   * @returns {void}
+   */
+  _clearWal() {
+    this.walRecords = [];
+    if (!this._useWal()) return;
+
+    const fd = fs.openSync(this.walPath, 'w+');
+    try {
+      fs.ftruncateSync(fd, 0);
+      fs.fsyncSync(fd);
+    } finally {
+      fs.closeSync(fd);
+    }
+  }
+
+  /**
+   * @method _pageIndex
+   * @param {number} offset - Absolute byte offset.
+   * @returns {number} Page index.
+   */
+  _pageIndex(offset) {
+    return Math.floor(offset / this.pageSize);
+  }
+
+  /**
+   * @method _loadPage
+   * @description Loads one page on demand.
+   * @param {number} index - Page index.
+   * @returns {{buf:Buffer,dirty:boolean}} Page record.
+   */
+  _loadPage(index) {
+    let page = this.pages.get(index);
+    if (page) return page;
+
+    const buf = Buffer.allocUnsafe(this.pageSize).fill(0);
+    const start = index * this.pageSize;
+
+    if (start < this.currentFileSize) {
+      const max = Math.min(this.pageSize, this.currentFileSize - start);
+      fs.readSync(this.fd, buf, 0, max, start);
     }
 
-    /**
-     * @private
-     * @description Spawning a 64KB universe from absolute Ayin.
-     */
-    _manifestVoid() {
-        // Minimum RAM mirror, not minimum disk manifestation.
-        const startSize = 65536;
-        this.memory = Buffer.allocUnsafe(startSize).fill(0);
-        this.currentFileSize = 0;
-        this.fd = fs.openSync(this.filePath, 'w+');
-        this.dirty = false;
+    page = { buf, dirty: false };
+    this.pages.set(index, page);
+    return page;
+  }
+
+  /**
+   * @method readExact
+   * @description Reads exactly the requested bytes, touching only needed pages.
+   * @param {number} offset - Start byte.
+   * @param {number} length - Byte count.
+   * @returns {Buffer|null} Bytes or null when outside reality.
+   */
+  readExact(offset, length) {
+    if (!this.initialized) this.init();
+    if (length <= 0) return Buffer.alloc(0);
+    if (offset < 0 || offset + length > this.currentFileSize) return null;
+
+    if (this.memory) {
+      if (offset + length > this.memory.length) return null;
+      return this.memory.subarray(offset, offset + length);
     }
 
-    /**
-     * @method readExact
-     * @description Pulls bytes instantly from the mirrored firmament.
-     * @param {number} offset 
-     * @param {number} length 
-     * @returns {Buffer|null}
-     */
-    readExact(offset, length) {
-        if (this.memory === null) this.init();
-        if (offset + length > this.memory.length) return null;
-        
-        // Fast Slice (0ms) rather than copying - sharing the Essence buffer.
-        // For security or separate ownership, one would use subarray() then .copy()
-        // but for velocity within our trusted core, we use safe subarrays.
-        return this.memory.subarray(offset, offset + length);
+    const out = Buffer.allocUnsafe(length);
+    let copied = 0;
+
+    while (copied < length) {
+      const absolute = offset + copied;
+      const page = this._loadPage(this._pageIndex(absolute));
+      const pageOffset = absolute % this.pageSize;
+      const take = Math.min(length - copied, this.pageSize - pageOffset);
+
+      page.buf.copy(out, copied, pageOffset, pageOffset + take);
+      copied += take;
     }
 
-    /**
-     * @method writeExact
-     * @description Inscribes light into the RAM buffer. Extremely fast.
-     */
-    writeExact(offset, buf) {
-        if (this.memory === null) this.init();
-        
-        const requiredEnd = offset + buf.length;
-        if (requiredEnd > this.memory.length) {
-            this._expandUniverse(requiredEnd);
+    return out;
+  }
+
+  /**
+   * @method writeExact
+   * @description Writes bytes into touched pages only.
+   * @param {number} offset - Start byte.
+   * @param {Buffer} buf - Bytes to write.
+   * @returns {void}
+   */
+  writeExact(offset, buf) {
+    if (!this.initialized) this.init();
+    if (!buf || buf.length === 0) return;
+    this._recordWal(offset, buf);
+
+    if (this.memory) {
+      const requiredEnd = offset + buf.length;
+      if (requiredEnd > this.memory.length) this._expandUniverse(requiredEnd);
+      buf.copy(this.memory, offset);
+      this.currentFileSize = Math.max(this.currentFileSize, requiredEnd);
+      this.dirty = true;
+      return;
+    }
+
+    let copied = 0;
+
+    while (copied < buf.length) {
+      const absolute = offset + copied;
+      const page = this._loadPage(this._pageIndex(absolute));
+      const pageOffset = absolute % this.pageSize;
+      const take = Math.min(buf.length - copied, this.pageSize - pageOffset);
+
+      buf.copy(page.buf, pageOffset, copied, copied + take);
+      page.dirty = true;
+      copied += take;
+    }
+
+    this.currentFileSize = Math.max(this.currentFileSize, offset + buf.length);
+    this.dirty = true;
+  }
+
+  /**
+   * @method logicalSize
+   * @description Returns the exact byte boundary to flush.
+   * @returns {number} Logical byte size.
+   */
+  logicalSize() {
+    const cursor = this.db && this.db.allocator
+      ? Number(this.db.allocator.cursor || 0)
+      : 0;
+
+    if (Number.isFinite(cursor) && cursor >= 64) return cursor;
+    return this.currentFileSize;
+  }
+
+  /**
+   * @method memoryBytes
+   * @description Reports bytes currently held by the pager.
+   * @returns {number} Pager-owned RAM bytes.
+   */
+  memoryBytes() {
+    if (this.memory) return this.memory.length;
+    return this.pages.size * this.pageSize;
+  }
+
+  /**
+   * @method _expandUniverse
+   * @description Expands full-mirror mode.
+   * @param {number} minSize - Required byte length.
+   * @returns {void}
+   */
+  _expandUniverse(minSize) {
+    let newSize = Math.max(minSize, this.memory.length * 2, this.pageSize);
+    newSize = (newSize + 4095) & ~4095;
+
+    const biggerMirror = Buffer.allocUnsafe(newSize).fill(0);
+    this.memory.copy(biggerMirror, 0, 0, this.memory.length);
+    this.memory = biggerMirror;
+  }
+
+  /**
+   * @method fsync
+   * @description Writes dirty pages and truncates to logical size.
+   * @param {boolean} [force=false] - Ignore batching flag.
+   * @returns {void}
+   */
+  fsync(force = false) {
+    if (!this.dirty || this.fd === null) return;
+    if (!force && this.isBatching) return;
+
+    const exactSize = Math.max(0, this.logicalSize());
+    this._flushWal();
+
+    if (this.memory) {
+      if (exactSize > 0) fs.writeSync(this.fd, this.memory, 0, exactSize, 0);
+    } else {
+      for (const [index, page] of this.pages) {
+        if (!page.dirty) continue;
+
+        const start = index * this.pageSize;
+        if (start >= exactSize) {
+          page.dirty = false;
+          continue;
         }
-        
-        // Inscription by copy
-        buf.copy(this.memory, offset);
-        this.currentFileSize = Math.max(this.currentFileSize, requiredEnd);
-        this.dirty = true;
+
+        const len = Math.min(this.pageSize, exactSize - start);
+        fs.writeSync(this.fd, page.buf, 0, len, start);
+        page.dirty = false;
+      }
     }
 
-    /**
-     * @method logicalSize
-     * @description
-     * Finds the exact disk boundary. Database files use the allocator cursor;
-     * standalone pager tests use the highest byte directly written.
-     * @returns {number} Exact byte count to flush.
-     */
-    logicalSize() {
-        const cursor = this.db && this.db.allocator
-            ? Number(this.db.allocator.cursor || 0)
-            : 0;
+    fs.ftruncateSync(this.fd, exactSize);
+    fs.fsyncSync(this.fd);
+    this.currentFileSize = exactSize;
+    this.dirty = false;
+    this._clearWal();
+  }
 
-        if (Number.isFinite(cursor) && cursor >= 64) return cursor;
+  /**
+   * @method close
+   * @description Flushes and releases cached pages.
+   * @returns {void}
+   */
+  close() {
+    this.fsync(true);
 
-        return this.currentFileSize;
+    if (this.fd !== null) {
+      try { fs.closeSync(this.fd); } catch (_err) {}
+      this.fd = null;
     }
 
-    /**
-     * @private
-     * @description Exponentially increases the boundaries of space to avoid 
-     * frequent, expensive reallocations.
-     */
-    _expandUniverse(minSize) {
-        // Growth pattern: double the current heavens, or at least 64KB leaps.
-        let newSize = Math.max(minSize, this.memory.length * 2, 65536);
-        // Ensure newSize is correctly rounded for SSD performance.
-        newSize = (newSize + 4095) & ~4095;
-
-        const biggerMirror = Buffer.allocUnsafe(newSize).fill(0);
-        this.memory.copy(biggerMirror, 0, 0, this.memory.length);
-        this.memory = biggerMirror;
-    }
-
-    /**
-     * @method fsync
-     * @description Freezes the fluid Light into solid stone Disk.
-     * @param {boolean} [force=false] - Ignore batch flags.
-     */
-    fsync(force = false) {
-        // B"H: If the Light hasn't shifted, do not trouble the SSD stone.
-        if (!this.dirty || this.fd === null) return;
-        
-        if (force || !this.isBatching) {
-            const exactSize = Math.max(0, this.logicalSize());
-
-            if (exactSize > 0) {
-                fs.writeSync(this.fd, this.memory, 0, exactSize, 0);
-            }
-
-            fs.ftruncateSync(this.fd, exactSize);
-            this.currentFileSize = exactSize;
-            this.dirty = false;
-        }
-    }
-
-    /**
-     * @method close
-     * @description Withdrawing from the World, sealing the Stone forever.
-     */
-    close() {
-        this.fsync(true);
-        if (this.fd !== null) { 
-            try { fs.closeSync(this.fd); } catch(e){}
-            this.fd = null; 
-        }
-        this.memory = null;
-    }
+    this.memory = null;
+    this.pages.clear();
+    this.initialized = false;
+  }
 }
 
 module.exports = PagerFirmament;

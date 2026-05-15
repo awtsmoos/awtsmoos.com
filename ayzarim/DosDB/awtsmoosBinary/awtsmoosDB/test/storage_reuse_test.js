@@ -122,7 +122,7 @@ function testMethodNameCollisions() {
  * @returns {void}
  */
 function testMiddleGapReuse() {
-  withDb('middle_reuse', { compression: false }, db => {
+  withDb('middle_reuse', { compression: false, reuseFreedSpace: true }, db => {
     db.root.a = Buffer.alloc(8192, 1);
     db.root.b = Buffer.alloc(8192, 2);
     db.root.c = Buffer.alloc(8192, 3);

@@ -94,7 +94,9 @@ const TABLE = {
   [T.ARRAY_BUFFER_OMNI]: b => arrayBufferFromBuffer(unpackOmni(b)),
   [T.TYPED_ARRAY]: reviveTypedArray,
   [T.TYPED_ARRAY_OMNI]: b => reviveTypedArray(unpackOmni(b)),
-  [T.ENCRYPTED]: b => JSON.parse(b.toString('utf8'))
+  [T.ENCRYPTED]: b => JSON.parse(b.toString('utf8')),
+  [T.BLOB]: b => JSON.parse(b.toString('utf8')),
+  [T.TEXT]: b => JSON.parse(b.toString('utf8'))
 };
 
 /**

@@ -25,11 +25,7 @@ const handlers = {
   [MESSAGE.SERVICE_ACCEPT]: (protocol, payload) => {
     const reader = new BufferReader(payload.slice(1));
     const serviceName = reader.readString('ascii');
-    // LOG 1: Confirm the handler is being called.
-    console.log('[!!! HANDLER LOG !!!] SERVICE_ACCEPT handler invoked for service:', serviceName);
     protocol._debug && protocol._debug(`Inbound: Service accepted: ${serviceName}`);
-    // LOG 2: Confirm we are about to emit the event.
-    console.log('[!!! HANDLER LOG !!!] Emitting "service_accept" event on the protocol object...');
     protocol.emit('service_accept', serviceName);
   },
 
@@ -55,6 +51,14 @@ const handlers = {
     const banner = reader.readString();
     protocol._debug && protocol._debug('Inbound: Received auth banner.');
     protocol.emit('banner', banner);
+  },
+
+  [MESSAGE.REQUEST_SUCCESS]: (protocol, payload) => {
+    protocol.emit('request_success', payload.slice(1));
+  },
+
+  [MESSAGE.REQUEST_FAILURE]: (protocol, payload) => {
+    protocol.emit('request_failure', payload.slice(1));
   },
   
   [MESSAGE.USERAUTH_PK_OK]: (protocol, payload) => {
@@ -90,6 +94,28 @@ const handlers = {
       protocol._debug && protocol._debug(`[CHAN ${recipient}] Received CHANNEL_FAILURE.`);
       chan.emit('failure');
     }
+  },
+
+  [MESSAGE.CHANNEL_REQUEST]: (protocol, payload) => {
+    const reader = new BufferReader(payload.slice(1));
+    const recipient = reader.readUInt32BE();
+    const request = reader.readString('ascii');
+    const wantReply = reader.readBool();
+    const chan = protocol.channelManager.get(recipient);
+
+    if (!chan) return;
+
+    if (request === 'exit-status') {
+      chan.emit('exit_status', reader.readUInt32BE());
+      return;
+    }
+
+    if (request === 'exit-signal') {
+      chan.emit('exit_signal', reader.readString('ascii'));
+      return;
+    }
+
+    protocol._debug && protocol._debug(`[CHAN ${recipient}] Ignored channel request "${request}" (wantReply=${wantReply}).`);
   },
   
   // Note: Most channel messages (DATA, WINDOW_ADJUST, EOF, CLOSE, OPEN_CONFIRMATION)

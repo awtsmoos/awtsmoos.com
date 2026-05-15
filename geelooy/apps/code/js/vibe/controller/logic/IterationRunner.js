@@ -108,6 +108,15 @@ export const IterationRunner = {
         } catch (e) {
             console.error('[IterationRunner] B"H - Execution Shattered: ', e);
             tab.vibeSession.history.pop();
+            tab.vibeSession.history.push({
+                role: 'error',
+                content: {
+                    title: 'Vibe cycle failed before streaming',
+                    message: e.message || String(e),
+                    code: e.code || e.status || 'ITERATION_RUNNER_ERROR',
+                    action: 'Check the model key, selected model, and browser console details.'
+                }
+            });
             tab.vibeSession.isProcessing = false;
             controller.refreshView(tab);
         }

@@ -39,6 +39,8 @@ export const MenuUI = {
         container.onclick = (event) => {
             const btn = event.target.closest('button[data-action]');
             if (btn) {
+                event.preventDefault();
+                event.stopPropagation();
                 import('./index.js').then(m => m.Menus.handleAction(btn.dataset.action));
             }
         };

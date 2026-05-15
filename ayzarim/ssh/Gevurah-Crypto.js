@@ -4,13 +4,14 @@
 
 'use strict';
 
-const { timingSafeEqual, randomBytes } = require('crypto');
+const { createCipheriv, createDecipheriv, createHmac, timingSafeEqual, randomBytes } = require('crypto');
+const { CIPHER_INFO, MAC_INFO } = require('./Binah-Constants.js');
 const { Poly1305 } = require('./Yesod-Utilities.js');
-const { chacha20_xor } = require('./Tiferet-ChaCha20.js'); // Our from-scratch implementation
+const { chacha20_openssh_xor } = require('./Tiferet-ChaCha20.js'); // Our from-scratch implementation
 
 // --- CONSTANTS DEFINED BY THE chacha20-poly1305@openssh.com SPEC ---
 const KEY_LEN = 32;       // 256 bits for each key
-const NONCE_LEN = 12;     // 96 bits, per RFC 8439
+const NONCE_LEN = 8;      // 64-bit SSH packet sequence nonce for the OpenSSH variant
 const TAG_LEN = 16;       // 128 bits for the Poly1305 tag
 const BLOCK_LEN = 8;      // SSH packet padding alignment
 const MIN_PAD_LEN = 4;    // SSH minimum padding length
@@ -22,17 +23,13 @@ const SEP_IN =  " O=O=O=O=O=O=O=O=O (INBOUND) O=O=O=O=O=O=O=O=O ";
 const SEP_OUT = " >-}>-}>-}>-}>-}>-}> (OUTBOUND) >-}>-}>-}>-}>-}>-}> ";
 
 /**
- * Creates the correct 12-byte (96-bit) nonce for the RFC 8439 ChaCha20 implementation.
- * THE BUG FIX IS HERE: We now write the sequence number in LITTLE-ENDIAN format to
- * match the expectation of the Tiferet-ChaCha20.js module.
+ * Creates the 8-byte SSH wire nonce for chacha20-poly1305@openssh.com.
  * @param {bigint} seqno - The 64-bit packet sequence number.
  * @returns {Buffer} The 12-byte nonce.
  */
 function getNonce(seqno) {
-  const nonce = Buffer.alloc(12, 0);
-  nonce.writeBigUInt64BE(seqno, 4);
-  // THE FINAL PINPOINT LOG: Show the generated nonce bytes.
-  console.log(`[!!! NONCE LOG !!!] For seqno=${seqno}, generated BIG-ENDIAN nonce: ${nonce.toString('hex')}`);
+  const nonce = Buffer.alloc(NONCE_LEN, 0);
+  nonce.writeBigUInt64BE(seqno, 0);
   return nonce;
 }
 
@@ -42,18 +39,30 @@ function getNonce(seqno) {
 //
 //=================================================================================
 class GevurahCipher {
-  constructor(cipherName, macName, iv, key, macKey, onWrite, protocol) {
+  constructor(cipherName, macName, iv, key, macKey, onWrite, protocol, initialSeqno = 0n, derivedIv = null) {
     this._onWrite = onWrite;
-    this.outSeqno = 0n;
+    this.outSeqno = BigInt(initialSeqno);
+    this._cipherName = cipherName;
+    this._macName = macName;
+    this._key = key;
+    this._macKey = macKey;
+    this._iv = derivedIv || iv || Buffer.alloc(CIPHER_INFO[cipherName].ivLen, 0);
 
-    this._payloadKey = key.slice(0, KEY_LEN);
-    this._lengthKey = key.slice(KEY_LEN, KEY_LEN * 2);
+    this._lengthKey = key.slice(0, KEY_LEN);
+    this._payloadKey = key.slice(KEY_LEN, KEY_LEN * 2);
+    this._blockLen = CIPHER_INFO[cipherName].blockLen;
+    this._nodeCipher = cipherName === 'chacha20-poly1305@openssh.com'
+      ? null
+      : createCipheriv(CIPHER_INFO[cipherName].sslName, key, this._iv);
 
     this._debug = (protocol && protocol._debug) ? protocol._debug : () => {};
-    this._debug(`[GEVURAH-INIT-CIPHER] Cipher object created. Algorithm: chacha20-poly1305@openssh.com.`);
+    this._debug(`[GEVURAH-INIT-CIPHER] Cipher object created. Algorithm: ${cipherName}.`);
   }
 
   encrypt(payload) {
+    if (this._cipherName !== 'chacha20-poly1305@openssh.com') {
+      return this._encryptEtm(payload);
+    }
     const log = (msg) => this._debug(`[ENC SEQ=${this.outSeqno}] ${msg}`);
     log(`\n\n${SEP_OUT}`);
     log(">>>>>>>>> [STEP 0] STARTING ENCRYPTION PROCESS <<<<<<<<<");
@@ -83,7 +92,7 @@ class GevurahCipher {
     lenBuf.writeUInt32BE(packet.length, 0);
     log(`[LEN] Plaintext length bytes: ${toHex(lenBuf)}`);
     // CORRECTED CALL: Use chacha20_xor directly with the correct arguments.
-    const encryptedLen = chacha20_xor(this._lengthKey, nonce, 0, lenBuf);
+    const encryptedLen = chacha20_openssh_xor(this._lengthKey, this.outSeqno, 0, lenBuf);
     log(`[LEN] >>>>>>>> ENCRYPTED LENGTH: ${toHex(encryptedLen)}`);
 
     // ==========================================================
@@ -91,7 +100,7 @@ class GevurahCipher {
     // ==========================================================
     log("\n[STEP 4] --- ENCRYPTING PAYLOAD ---");
     // CORRECTED CALL: Use chacha20_xor with counter = 1 for the payload.
-    const encryptedPayload = chacha20_xor(this._payloadKey, nonce, 1, packet);
+    const encryptedPayload = chacha20_openssh_xor(this._payloadKey, this.outSeqno, 1, packet);
     log(`[PAYLOAD] >>>>>>>> ENCRYPTED PAYLOAD: ${toHex(encryptedPayload)}`);
 
     // ==========================================================
@@ -99,7 +108,7 @@ class GevurahCipher {
     // ==========================================================
     log("\n[STEP 5] --- CALCULATING AUTHENTICATION TAG ---");
     // CORRECTED CALL: Generate the key by XORing 32 zero-bytes.
-    const polyKey = chacha20_xor(this._payloadKey, nonce, 0, Buffer.alloc(32));
+    const polyKey = chacha20_openssh_xor(this._payloadKey, this.outSeqno, 0, Buffer.alloc(32));
     log(`[POLY] Derived Poly1305 Key: ${toHex(polyKey)}`);
 
     const dataToAuthenticate = Buffer.concat([encryptedLen, encryptedPayload]);
@@ -117,6 +126,52 @@ class GevurahCipher {
     log(`[FINISH] SEQUENCE NUMBER INCREMENTED TO ${this.outSeqno}.`);
     log(`[FINISH] ENCRYPTION PROCESS COMPLETE.\n${SEP_OUT}\n`);
   }
+
+  _encryptEtm(payload) {
+    const unpaddedLen = 1 + payload.length;
+    let padLen = this._blockLen - ((4 + unpaddedLen) % this._blockLen);
+    if (padLen < MIN_PAD_LEN) padLen += this._blockLen;
+
+    const packetLength = unpaddedLen + padLen;
+    const lenBuf = Buffer.alloc(4);
+    lenBuf.writeUInt32BE(packetLength, 0);
+
+    const body = Buffer.allocUnsafe(packetLength);
+    body[0] = padLen;
+    payload.copy(body, 1);
+    randomBytes(padLen).copy(body, unpaddedLen);
+
+    const macInfo = MAC_INFO[this._macName];
+    if (!macInfo.isETM) {
+      const packet = Buffer.concat([lenBuf, body]);
+      const mac = this._makeMac(Buffer.alloc(0), packet, this.outSeqno);
+      const encryptedPacket = this._nodeCipher.update(packet);
+      this._onWrite(encryptedPacket);
+      this._onWrite(mac);
+      this.outSeqno++;
+      return;
+    }
+
+    const encryptedBody = this._nodeCipher.update(body);
+    const mac = this._makeMac(lenBuf, encryptedBody, this.outSeqno);
+
+    this._onWrite(lenBuf);
+    this._onWrite(encryptedBody);
+    this._onWrite(mac);
+    this.outSeqno++;
+  }
+
+  _makeMac(lenBuf, encryptedBody, seqno) {
+    const macInfo = MAC_INFO[this._macName];
+    const seqBuf = Buffer.alloc(4);
+    seqBuf.writeUInt32BE(Number(seqno & 0xffffffffn), 0);
+    return createHmac(macInfo.sslName, this._macKey)
+      .update(seqBuf)
+      .update(lenBuf)
+      .update(encryptedBody)
+      .digest()
+      .slice(0, macInfo.actualLen);
+  }
 }
 
 //=================================================================================
@@ -125,12 +180,20 @@ class GevurahCipher {
 //
 //=================================================================================
 class GevurahDecipher {
-  constructor(cipherName, macName, iv, key, macKey, onPayload) {
+  constructor(cipherName, macName, iv, key, macKey, onPayload, initialSeqno = 0n, derivedIv = null) {
     this._onPayload = onPayload;
-    this.inSeqno = 0n;
+    this.inSeqno = BigInt(initialSeqno);
+    this._cipherName = cipherName;
+    this._macName = macName;
+    this._key = key;
+    this._macKey = macKey;
+    this._iv = derivedIv || iv || Buffer.alloc(CIPHER_INFO[cipherName].ivLen, 0);
 
-    this._payloadKey = key.slice(0, KEY_LEN);
-    this._lengthKey = key.slice(KEY_LEN, KEY_LEN * 2);
+    this._lengthKey = key.slice(0, KEY_LEN);
+    this._payloadKey = key.slice(KEY_LEN, KEY_LEN * 2);
+    this._nodeDecipher = cipherName === 'chacha20-poly1305@openssh.com'
+      ? null
+      : createDecipheriv(CIPHER_INFO[cipherName].sslName, key, this._iv);
     
     this._debug = () => {};
     this._state = 'LENGTH';
@@ -142,6 +205,9 @@ class GevurahDecipher {
   _setDebug(dbg) { if (dbg) this._debug = dbg; }
 
   decrypt(data) {
+    if (this._cipherName !== 'chacha20-poly1305@openssh.com') {
+      return this._decryptEtm(data);
+    }
     const log = (msg) => this._debug(`[DEC SEQ=${this.inSeqno}] ${msg}`);
     this._buffer = Buffer.concat([this._buffer, data]);
 
@@ -160,7 +226,7 @@ class GevurahDecipher {
         log(`[LEN] Using 12-byte nonce: ${toHex(nonce)}`);
 
         // === DECRYPTION LOGIC UPDATED HERE ===
-        const decryptedLenBuf = chacha20_xor(this._lengthKey, nonce, 0, this._encryptedLen);
+        const decryptedLenBuf = chacha20_openssh_xor(this._lengthKey, this.inSeqno, 0, this._encryptedLen);
         const pktLen = decryptedLenBuf.readUInt32BE(0);
         log(`[LEN] >>>>>>>> PLAINTEXT PAYLOAD LENGTH: ${pktLen} bytes.`);
 
@@ -185,7 +251,7 @@ class GevurahDecipher {
         const nonce = getNonce(this.inSeqno);
 
         // === DECRYPTION LOGIC UPDATED HERE ===
-        const polyKey = chacha20_xor(this._payloadKey, nonce, 0, Buffer.alloc(32));
+        const polyKey = chacha20_openssh_xor(this._payloadKey, this.inSeqno, 0, Buffer.alloc(32));
         log(`[AUTH] Re-generated Poly1305 Key: ${toHex(polyKey)}`);
 
         const dataToAuthenticate = Buffer.concat([this._encryptedLen, encryptedPayload]);
@@ -198,12 +264,9 @@ class GevurahDecipher {
         log("!!!!!!!!!!!!!! AUTHENTICATION SUCCESS: TAG IS VALID !!!!!!!!!!!!!!");
 
         // === DECRYPTION LOGIC UPDATED HERE ===
-        const decryptedPacket = chacha20_xor(this._payloadKey, nonce, 1, encryptedPayload);
+        const decryptedPacket = chacha20_openssh_xor(this._payloadKey, this.inSeqno, 1, encryptedPayload);
         const padLen = decryptedPacket[0];
         const payload = decryptedPacket.slice(1, decryptedPacket.length - padLen);
-	console.log(`[!!! DECRYPT LOG !!!] Successfully decrypted a message of type: ${payload[0]}`);
-	
-	
         this._onPayload(payload);
         this.inSeqno++;
         log(`[FINISH] SEQUENCE NUMBER INCREMENTED TO ${this.inSeqno}.`);
@@ -214,6 +277,66 @@ class GevurahDecipher {
         this._encryptedLen = null;
       }
     }
+  }
+
+  _decryptEtm(data) {
+    this._buffer = Buffer.concat([this._buffer, data]);
+    const macLen = MAC_INFO[this._macName].actualLen;
+    const macInfo = MAC_INFO[this._macName];
+
+    while (true) {
+      if (this._state === 'LENGTH') {
+        if (this._buffer.length < 4) return;
+        this._encryptedLen = this._buffer.slice(0, 4);
+        this._buffer = this._buffer.slice(4);
+        const lenBuf = macInfo.isETM ? this._encryptedLen : this._nodeDecipher.update(this._encryptedLen);
+        this._plainLen = lenBuf;
+        const pktLen = lenBuf.readUInt32BE(0);
+
+        if (pktLen > MAX_PKT_LEN || pktLen < 5) {
+          throw new Error(`[FATAL] Invalid packet length received: ${pktLen}`);
+        }
+
+        this._needed = pktLen + macLen;
+        this._state = 'PAYLOAD';
+      }
+
+      if (this._state === 'PAYLOAD') {
+        if (this._buffer.length < this._needed) return;
+        const encryptedBody = this._buffer.slice(0, this._needed - macLen);
+        const receivedMac = this._buffer.slice(this._needed - macLen, this._needed);
+        this._buffer = this._buffer.slice(this._needed);
+
+        const body = this._nodeDecipher.update(encryptedBody);
+        const expectedMac = macInfo.isETM
+          ? this._makeMac(this._encryptedLen, encryptedBody, this.inSeqno)
+          : this._makeMac(Buffer.alloc(0), Buffer.concat([this._plainLen, body]), this.inSeqno);
+        if (!timingSafeEqual(receivedMac, expectedMac)) {
+          throw new Error('[FATAL] MAC VALIDATION FAILED! PACKET REJECTED.');
+        }
+
+        const padLen = body[0];
+        const payload = body.slice(1, body.length - padLen);
+
+        this._onPayload(payload);
+        this.inSeqno++;
+        this._state = 'LENGTH';
+        this._needed = 4;
+        this._encryptedLen = null;
+      }
+    }
+  }
+
+  _makeMac(lenBuf, encryptedBody, seqno) {
+    const macInfo = MAC_INFO[this._macName];
+    const seqBuf = Buffer.alloc(4);
+    seqBuf.writeUInt32BE(Number(seqno & 0xffffffffn), 0);
+    return createHmac(macInfo.sslName, this._macKey)
+      .update(seqBuf)
+      .update(lenBuf)
+      .update(encryptedBody)
+      .digest()
+      .slice(0, macInfo.actualLen);
   }
 }
 

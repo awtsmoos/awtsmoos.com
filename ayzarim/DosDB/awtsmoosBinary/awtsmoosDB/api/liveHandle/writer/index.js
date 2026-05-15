@@ -85,7 +85,17 @@ class Writer {
      * @description Materializes a key-value pair into the structure.
      */
     set(key, value, options = {}) {
-        return this._getScribe().set(key, value, options);
+        const isPtr = options === true || (options && options.isPtr);
+        if (!isPtr && this.db._guardWrite) this.db._guardWrite(this._lockPath(key), value, 'set');
+        if (!isPtr && this.db.turbo && this.db.turbo.captureSet(this.handle, key, value)) {
+            if (this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
+            return value;
+        }
+        return this._autoWrite(key, () => {
+            const out = this._getScribe().set(key, value, options);
+            if (!isPtr && this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
+            return out;
+        });
     }
 
     /**
@@ -102,7 +112,7 @@ class Writer {
             throw new Error(`B"H Fatal: The push manifestation is only permitted on Sequences or Arrays. Current Type: ${this.handle.type} (Resolved: ${effectiveType})`);
         }
         
-        return scribe.push(value, options);
+        return this._autoWrite('$append', () => scribe.push(value, options));
     }
 
     /**
@@ -118,7 +128,7 @@ class Writer {
             throw new Error(`B"H Fatal: The splice manifestation is only permitted on Sequences or Arrays. Current Type: ${this.handle.type} (Resolved: ${effectiveType})`);
         }
         
-        return scribe.splice(...args);
+        return this._autoWrite('$range', () => scribe.splice(...args));
     }
 
     /**
@@ -126,7 +136,40 @@ class Writer {
      * @description Withdraws a specific name from existence.
      */
     delete(key) {
-        return this._getScribe().delete(key);
+        if (this.db._guardWrite) this.db._guardWrite(this._lockPath(key), undefined, 'delete');
+        if (this.db.turbo && this.db.turbo.captureDelete(this.handle, key)) {
+            if (this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
+            return true;
+        }
+        return this._autoWrite(key, () => {
+            const out = this._getScribe().delete(key);
+            if (this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
+            return out;
+        });
+    }
+
+    /**
+     * @method _autoWrite
+     * @description Wraps ordinary sync handle mutations in an internal path lock.
+     */
+    _autoWrite(key, fn) {
+        if (!this.db.concurrent || typeof this.db.concurrent.autoWrite !== 'function') {
+            return fn();
+        }
+
+        return this.db.concurrent.autoWrite(this._lockPath(key), fn);
+    }
+
+    /**
+     * @method _lockPath
+     * @description Builds the logical path used by automatic mutation locks.
+     */
+    _lockPath(key) {
+        const base = this.handle && typeof this.handle.getPath === 'function'
+            ? this.handle.getPath()
+            : 'root';
+
+        return `${base}.${String(key)}`;
     }
     
     /**

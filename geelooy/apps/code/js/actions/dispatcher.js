@@ -43,6 +43,10 @@ export const ActionDispatcher = {
             await ActionExecutor.execute(actionDef, enrichedContext, actionId);
         } catch (err) {
             console.error("B\"H - Fatal Dispatch Barrier for [" + actionId + "]", err);
+            try {
+                const { UI } = await import('../ui.js');
+                UI.showToast(`Action failed: ${err.message || err}`, 'error', 9000);
+            } catch (_) {}
         }
     }
 };

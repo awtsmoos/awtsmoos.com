@@ -68,6 +68,7 @@ class SequenceWriter {
 
         if (index === len) seq.push(valToSet);
         else if (index < len) seq.set(index, valToSet, { skipFree });
+        else if (this.db.sparseArrays) this.db.sparseArrays.setPtr(this.handle, index, valToSet);
         else throw new Error(`Index ${index} out of bounds`);
         
         this.common.checkAutoCompact(seq, constants.VAL_TYPE.SEQUENCE);
@@ -190,6 +191,9 @@ class SequenceWriter {
     delete(indexKey) {
         const index = parseInt(indexKey);
         if(isNaN(index)) return false;
+        if (this.db.sparseArrays && this.db.sparseArrays.has(this.handle, index)) {
+            return this.db.sparseArrays.delete(this.handle, index);
+        }
         
         this.splice(index, 1);
         return true;

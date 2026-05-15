@@ -63,19 +63,21 @@ class AllocatorChesed {
         if (this.cursor === 0) this.init();
         if (size <= 0) return { offset: 0, length: 0 };
 
-        for (let i = 0; i < this.freeList.length; i++) {
-            const gap = this.freeList[i];
+        if (this.canReuseFreeSpace()) {
+            for (let i = 0; i < this.freeList.length; i++) {
+                const gap = this.freeList[i];
 
-            if (gap.length >= size) {
-                const loc = { offset: gap.offset, length: size };
-                gap.offset += size;
-                gap.length -= size;
+                if (gap.length >= size) {
+                    const loc = { offset: gap.offset, length: size };
+                    gap.offset += size;
+                    gap.length -= size;
 
-                if (gap.length === 0) {
-                    this.freeList.splice(i, 1);
+                    if (gap.length === 0) {
+                        this.freeList.splice(i, 1);
+                    }
+
+                    return loc;
                 }
-
-                return loc;
             }
         }
         
@@ -123,6 +125,7 @@ class AllocatorChesed {
      * @returns {void}
      */
     releasePointer(ptr) {
+        if (!this.db || !this.db.options || this.db.options.reuseFreedSpace !== true) return;
         if (!ptr) return;
 
         const Pointer = require('../../utils/pointer/crown.js');
@@ -130,6 +133,16 @@ class AllocatorChesed {
 
         if (!dec || dec.type === require('../../constants.js').VAL_TYPE.ANCHOR) return;
         this.free(dec.offset, dec.length);
+    }
+
+    /**
+     * @method canReuseFreeSpace
+     * @description Checks runtime free-space reuse mode.
+     * @returns {boolean} True when allocator may consume the free-list.
+     */
+    canReuseFreeSpace() {
+        const mode = this.db && this.db.options && this.db.options.reuseFreedSpace;
+        return mode === true || mode === 'verified';
     }
 
     /**

@@ -36,7 +36,10 @@ class SourceScaler {
    * @returns {string} Transformed source.
    */
   transform(scriptPath, source) {
-    const list = rules[this.keyFor(scriptPath)] || [];
+    const key = this.keyFor(scriptPath);
+    if (key === 'concurrent_text_test' || key === 'turbo_writebehind_test' || key === 'deep_turbo_ai_test' || key === 'semantic_ai_dosdb_test') return source;
+
+    const list = rules[key] || [];
     let out = source;
 
     for (const [pattern, replacement] of list) {

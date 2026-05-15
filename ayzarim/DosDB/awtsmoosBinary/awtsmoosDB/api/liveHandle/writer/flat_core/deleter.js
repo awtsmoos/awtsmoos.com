@@ -14,12 +14,21 @@ module.exports = class FlatDeleter {
         this.splicer = splicer;
     }
     delete(key) {
-        if (this.common.handle.type === constants.VAL_TYPE.SMART_OBJECT) {
-            const engine = new FlatObject(this.common.db.allocator, this.common.handle.ptr);
+        const type = this.common.handle.type === constants.VAL_TYPE.ANCHOR
+            ? this.common.resolveAnchorInnerType()
+            : this.common.handle.type;
+        if (type === constants.VAL_TYPE.SMART_OBJECT) {
+            const structPtr = this.common.resolveStructPtr();
+            const engine = new FlatObject(this.common.db.allocator, structPtr);
             const res = engine.delete(key);
             PointerUpdater.update(res, this.common.handle);
         } else {
-            this.splicer.splice(parseInt(key), 1);
+            const index = Number(key);
+            if (this.common.db.sparseArrays && this.common.db.sparseArrays.has(this.common.handle, index)) {
+                this.common.db.sparseArrays.delete(this.common.handle, index);
+                return;
+            }
+            this.splicer.splice(index, 1);
         }
     }
 };

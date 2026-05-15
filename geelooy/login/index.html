@@ -14,6 +14,16 @@ return await getT("bh.html")
 
     <a href="/register">Create Account</a>
     <form action="/login/" method="POST">
+        <input type="hidden" name="next" value="<?<script>
+            var host = request.headers.host || "awtsmoos.com";
+            var url = new URL(request.url, "https://" + host);
+            var next = url.searchParams.get("next") || "";
+            return next
+                .replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        </script>?>">
 
         <div>
             <label for="username">Username:</label>
@@ -29,15 +39,91 @@ return await getT("bh.html")
     </form>
     <div id="serverMessage">
         <?<script>
-             if(request.user) {
-                
-                var msg = $a("message.html", {
-                    message: "You are already logged in."
-                })
+            function getNextFromRequest() {
+                var host = request.headers.host || "awtsmoos.com";
+                var url = new URL(request.url, "https://" + host);
 
-                olam.replace = msg;
+                return (
+                    $_POST.next ||
+                    url.searchParams.get("next") ||
+                    ""
+                );
+            }
+
+            function safeNext(rawNext) {
+                if (!rawNext) {
+                    return "/";
+                }
+
+                var next = String(rawNext).trim();
+
+                if (!next) {
+                    return "/";
+                }
+
+                if (next[0] == "/") {
+                    if (next.indexOf("//") == 0) {
+                        return "/";
+                    }
+
+                    return next;
+                }
+
+                try {
+                    var host = request.headers.host || "awtsmoos.com";
+                    var parsed = new URL(next);
+
+                    var allowed = {
+                        "awtsmoos.com": true,
+                        "www.awtsmoos.com": true
+                    };
+
+                    allowed[host.split(":")[0]] = true;
+
+                    if (parsed.protocol != "https:") {
+                        return "/";
+                    }
+
+                    if (!allowed[parsed.hostname]) {
+                        return "/";
+                    }
+
+                    return parsed.toString();
+                } catch(e) {
+                    return "/";
+                }
+            }
+
+            function messageWithNext(message, nextUrl) {
+                if (!nextUrl || nextUrl == "/") {
+                    return $a("message.html", {
+                        message: message,
+                        redirect: 6
+                    });
+                }
+
+                return $a("message.html", {
+                    message:
+                        message +
+                        " Continuing automatically. If not, open: " +
+                        nextUrl,
+                    redirect: 1,
+                    redirectURL: nextUrl
+                });
+            }
+
+            var nextUrl = safeNext(getNextFromRequest());
+
+            if(request.user) {
+                var alreadyMsg = messageWithNext(
+                    "You are already logged in.",
+                    nextUrl
+                );
+
+                olam.replace = alreadyMsg;
                 return;
             }
+
             registrar = await getT("session/login.js")
             
             var result = await registrar.handleLogin(this.request,$_POST,server.secret)
@@ -53,16 +139,17 @@ return await getT("bh.html")
                 );
                 result.token = undefined;
             }
-            if(result.status != "success") {
 
+            if(result.status != "success") {
                 return result.message;
             }
 
-            var msg = $a("message.html", {
-                message: "You have successfully logged in to the account "
-                    +$_POST.username+". Press \"B\"H\" to go to home.",
-                redirect: 6
-            })
+            var msg = messageWithNext(
+                "You have successfully logged in to the account "
+                    + $_POST.username + ". Press \"B\"H\" to go to home.",
+                nextUrl
+            );
+
             olam.replace = msg;
             return;
 

@@ -13,5 +13,9 @@ module.exports = [
   '.db-wal',
   '.db-shm',
   '.wal',
-  '.shm'
+  '.shm',
+  '.turbo.json',
+  '.turbo.log',
+  '.turbo.tree.json',
+  '.turbo.tree.json.tmp'
 ];

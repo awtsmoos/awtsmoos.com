@@ -53,7 +53,7 @@ class TempDbPath {
    * @returns {void}
    */
   static remove(dbPath) {
-    for (const suffix of ['', '-wal', '-shm']) {
+    for (const suffix of ['', '-wal', '-shm', '.wal', '.turbo.json', '.turbo.log', '.turbo.tree.json', '.turbo.tree.json.tmp', '.sparse.json', '.lock', '.txn.json', '.txn.json.tmp']) {
       try {
         fs.rmSync(`${dbPath}${suffix}`, {
           force: true

@@ -26,6 +26,9 @@ export const ArchiveGuard = {
             .map(ws => {
                 // Strip non-serializable OS handles and temporary caches
                 const { handle, _treeCache, isLocked, ...safeWs } = ws;
+                if (safeWs.type === "ssh" && safeWs.sshInfo && safeWs.sshInfo.password) {
+                    safeWs.sshInfo = { ...safeWs.sshInfo, password: null };
+                }
                 return safeWs;
             });
     },

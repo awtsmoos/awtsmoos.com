@@ -20,9 +20,9 @@ const Timer = require('./lightning/timer.js');
 /**
  * @function main
  * @description Runs all tests.
- * @returns {void}
+ * @returns {Promise<void>}
  */
-function main() {
+async function main() {
   print.start();
 
   cleanDbFiles();
@@ -34,7 +34,7 @@ function main() {
 
     print.running(i, tests.length, test);
 
-    const result = runOne(test);
+    const result = await runOne(test);
 
     if (result.status !== 0) {
       print.fail(result);
@@ -49,4 +49,7 @@ function main() {
   print.victory(tests.length, suiteStart);
 }
 
-main();
+main().catch(err => {
+  console.error(err && err.stack ? err.stack : err);
+  process.exit(1);
+});

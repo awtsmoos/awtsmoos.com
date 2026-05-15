@@ -136,6 +136,8 @@ class KexHandler {
     this._dh = null; // Holds the crypto object for DH/ECDH
     this._kex_secret = null; // Shared secret 'K'
     this._exchange_hash = null; // Exchange hash 'H'
+    this._pendingCipher = null;
+    this._pendingDecipher = null;
   }
 
   start(remotePayload) {
@@ -259,6 +261,14 @@ class KexHandler {
       this._handleDhReply(payload);
     } else if (msgType === MESSAGE.NEWKEYS) {
       this._debug && this._debug('Inbound: NEWKEYS successfully decrypted.');
+      if (this._pendingDecipher) {
+        const nextInboundSeqno = (this._protocol._decipher && this._protocol._decipher.inSeqno !== undefined)
+          ? this._protocol._decipher.inSeqno + 1n
+          : 0n;
+        this._pendingDecipher.inSeqno = nextInboundSeqno;
+        this._protocol.setInboundDecipher(this._pendingDecipher);
+        this._pendingDecipher = null;
+      }
       this._protocol._onHandshakeComplete();
     } else {
       throw new Error(`Unexpected KEX message type: ${msgType}`);
@@ -346,7 +356,7 @@ class KexHandler {
     }
     this._debug && this._debug('Server signature verified successfully.');
 
-    // STEP 5 & 6: Derive keys and switch to encrypted state
+    // STEP 5 & 6: Derive keys, send plaintext NEWKEYS, then activate outbound encryption.
     this._deriveKeysAndActivate();
   }
   
@@ -376,34 +386,39 @@ class KexHandler {
     const csCipherInfo = CIPHER_INFO[this.negotiated.csCipher];
     const scCipherInfo = CIPHER_INFO[this.negotiated.scCipher];
     
+    const cs_iv = derive('A', csCipherInfo.ivLen);
+    const sc_iv = derive('B', scCipherInfo.ivLen);
     const cs_key = derive('C', csCipherInfo.keyLen);
     const sc_key = derive('D', scCipherInfo.keyLen);
-    const cs_mac_key = derive('E', 32);
-    const sc_mac_key = derive('F', 32);
+    const cs_mac_key = derive('E', require('./Binah-Constants.js').MAC_INFO[this.negotiated.csMAC].keyLen || 32);
+    const sc_mac_key = derive('F', require('./Binah-Constants.js').MAC_INFO[this.negotiated.scMAC].keyLen || 32);
 
     this._debug && this._debug('Key derivation complete. Preparing to transition protocol state.');
 
-    // ================== THE FIX IS HERE ==================
-    // 1. Instantiate the new, final cipher and decipher objects.
-    const newCipher = new (require('./Gevurah-Crypto').GevurahCipher)(
-      this.negotiated.csCipher, this.negotiated.csMAC, null,
-      cs_key, cs_mac_key, this._protocol._onWrite, this._protocol
-    );
-	
-    const newDecipher = new (require('./Gevurah-Crypto').GevurahDecipher)(
+    const nextInboundSeqno = (this._protocol._decipher && this._protocol._decipher.inSeqno !== undefined)
+      ? this._protocol._decipher.inSeqno + 1n
+      : 0n;
+
+    this._pendingDecipher = new (require('./Gevurah-Crypto').GevurahDecipher)(
       this.negotiated.scCipher, this.negotiated.scMAC, null,
-      sc_key, sc_mac_key, this._protocol._onPayload.bind(this._protocol)
+      sc_key, sc_mac_key, this._protocol._onPayload.bind(this._protocol), nextInboundSeqno, sc_iv
     );
-    newDecipher._setDebug(this._protocol._debug);
+    this._pendingDecipher._setDebug(this._protocol._debug);
 
-    // 2. Tell the protocol engine to switch to them. This changes the parsing state.
-    this._protocol.enterEncryptedMode(newDecipher, newCipher);
-
-    // 3. NOW, send NEWKEYS. It will be the first packet encrypted with the new cipher.
     const newKeysPacket = Buffer.from([MESSAGE.NEWKEYS]);
     this._protocol.sendPacket(newKeysPacket);
-    this._debug && this._debug('Outbound: Sending NEWKEYS (encrypted).');
-    // =======================================================
+    this._debug && this._debug('Outbound: Sending NEWKEYS (plaintext; next packet will be encrypted).');
+
+    const nextOutboundSeqno = (this._protocol._cipher && this._protocol._cipher.outSeqno !== undefined)
+      ? this._protocol._cipher.outSeqno
+      : 0n;
+
+    this._pendingCipher = new (require('./Gevurah-Crypto').GevurahCipher)(
+      this.negotiated.csCipher, this.negotiated.csMAC, null,
+      cs_key, cs_mac_key, this._protocol._onWrite, this._protocol, nextOutboundSeqno, cs_iv
+    );
+    this._protocol.setOutboundCipher(this._pendingCipher);
+    this._pendingCipher = null;
   }
 }
 

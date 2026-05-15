@@ -64,6 +64,23 @@ class Channel extends EventEmitter {
     }
   }
 
+  _handleExtendedData(type, data) {
+    if (this.inWindow < data.length) {
+      this._protocol._doFatalError('Remote peer exceeded channel window size.');
+      return;
+    }
+
+    this.inWindow -= data.length;
+    this.emit('extended_data', type, data);
+
+    const consumed = DEFAULT_WINDOW - this.inWindow;
+    if (consumed >= DEFAULT_WINDOW / 2) {
+      this._debug(`[CHAN ${this.recipient}] InWindow depleted to ${this.inWindow}. Adjusting by ${consumed}.`);
+      this._adjustInWindow(consumed);
+      this.inWindow += consumed;
+    }
+  }
+
   // Send a CHANNEL_WINDOW_ADJUST packet to the remote end.
   _adjustInWindow(bytesToAdd) {
     const payload = Buffer.allocUnsafe(9);
@@ -173,8 +190,12 @@ class Channel extends EventEmitter {
     if (this._state === 'closed') return;
     this._debug(`[CHAN ${this.recipient}] Received CLOSE from remote.`);
     this._state = 'closed';
-    // The RFC requires us to respond with a CLOSE message if we receive one.
-    this.close();
+    const payload = Buffer.allocUnsafe(5);
+    payload[0] = MESSAGE.CHANNEL_CLOSE;
+    payload.writeUInt32BE(this.sender, 1);
+    this._protocol.sendPacket(payload);
+    this._manager.remove(this.recipient);
+    this.emit('close');
   }
 }
 
@@ -213,21 +234,54 @@ class NetzachChannelManager {
 
   // Open a new 'session' channel (for shell, exec, or subsystems).
   openSession() {
+    return this.openChannel('session');
+  }
+
+  openDirectTcpip(host, port, originHost = '127.0.0.1', originPort = 0) {
+    const extra = [
+      this._string(host),
+      this._uint32(port),
+      this._string(originHost),
+      this._uint32(originPort),
+    ];
+    return this.openChannel('direct-tcpip', extra);
+  }
+
+  openChannel(type, extra = []) {
     const chan = new Channel(this);
-    chan.type = 'session';
+    chan.type = type;
+    const extraLen = extra.reduce((sum, part) => sum + part.length, 0);
     
-    const payload = Buffer.allocUnsafe(17 + chan.type.length);
+    const payload = Buffer.allocUnsafe(17 + chan.type.length + extraLen);
     let p = 0;
     payload[p++] = MESSAGE.CHANNEL_OPEN;
     payload.writeUInt32BE(chan.type.length, p); p += 4;
     payload.write(chan.type, p, 'ascii'); p += chan.type.length;
     payload.writeUInt32BE(chan.recipient, p); p += 4; // Our local ID
     payload.writeUInt32BE(chan.inWindow, p); p += 4;
-    payload.writeUInt32BE(chan.inPacketSize, p);
+    payload.writeUInt32BE(chan.inPacketSize, p); p += 4;
+    for (const part of extra) {
+      part.copy(payload, p);
+      p += part.length;
+    }
 
     this._protocol.sendPacket(payload);
-    this._debug(`Channel Manager: Opening session channel (local ID ${chan.recipient})`);
+    this._debug(`Channel Manager: Opening ${type} channel (local ID ${chan.recipient})`);
     return chan;
+  }
+
+  _string(value) {
+    const body = Buffer.isBuffer(value) ? value : Buffer.from(String(value), 'utf8');
+    const packet = Buffer.allocUnsafe(4 + body.length);
+    packet.writeUInt32BE(body.length, 0);
+    body.copy(packet, 4);
+    return packet;
+  }
+
+  _uint32(value) {
+    const packet = Buffer.allocUnsafe(4);
+    packet.writeUInt32BE(value >>> 0, 0);
+    return packet;
   }
   
   handleMessage(payload) {
@@ -261,6 +315,12 @@ class NetzachChannelManager {
       case MESSAGE.CHANNEL_DATA: {
         const data = reader.readString(null);
         chan._handleData(data);
+        break;
+      }
+      case MESSAGE.CHANNEL_EXTENDED_DATA: {
+        const type = reader.readUInt32BE();
+        const data = reader.readString(null);
+        chan._handleExtendedData(type, data);
         break;
       }
       case MESSAGE.CHANNEL_WINDOW_ADJUST: {

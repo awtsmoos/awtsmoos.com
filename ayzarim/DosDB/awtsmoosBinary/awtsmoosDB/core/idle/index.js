@@ -20,6 +20,7 @@ const flushSearch = require('./flushSearch.js');
  * @returns {void}
  */
 function waitForIdle(db, options = {}) {
+  if (db.turbo && typeof db.turbo.flush === 'function') db.turbo.flush();
   db._flushSuperblock();
   drainIndexOps(db);
   flushSearch(db);

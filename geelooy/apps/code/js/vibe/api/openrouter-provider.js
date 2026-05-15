@@ -37,15 +37,18 @@ export const OpenRouterProvider = {
     async streamChat(messages, apiKey, modelId, tools, onActive, onChunk, onReasoning, onToolCall, onComplete, onError) {
         const url = 'https://openrouter.ai/api/v1/chat/completions';
         
+        const { ModelManager } = await import('../model-manager.js');
+        const modelMeta = ModelManager.getModel(modelId) || { id: modelId };
+        const maxTokens = Math.min(Number(modelMeta.max_completion_tokens || 4096), 4096);
+
         const payload = {
             model: modelId,
             messages: messages,
             stream: true,
-            temperature: 0.2
+            temperature: 0.2,
+            max_tokens: maxTokens
         };
 
-        const { ModelManager } = await import('../model-manager.js');
-        const modelMeta = ModelManager.getModel(modelId) || { id: modelId };
         const canUseTools = AgentCapabilities.supportsTools(modelMeta);
 
         if (canUseTools && tools && tools.length > 0) {
@@ -61,6 +64,10 @@ export const OpenRouterProvider = {
             });
 
             if (!res.ok) { if (onError) onError(res); return; }
+            if (!res.body) {
+                if (onError) onError(new Error('OpenRouter returned no response stream.'));
+                return;
+            }
 
             const reader = res.body.getReader();
             const decoder = new TextDecoder();
@@ -86,6 +93,10 @@ export const OpenRouterProvider = {
                     if (trimmed.startsWith('data: ')) {
                         try {
                             const data = JSON.parse(trimmed.substring(6));
+                            if (data.error) {
+                                if (onError) onError(data.error);
+                                return;
+                            }
                             const delta = data.choices[0]?.delta || {};
 
                             if (delta.content) { fullText += delta.content; if (onChunk) onChunk(delta.content); }
@@ -117,7 +128,10 @@ export const OpenRouterProvider = {
                                     toolUpdatedInThisChunk = true;
                                 });
                             }
-                        } catch(e) {}
+                        } catch(e) {
+                            if (onError) onError(new Error(`OpenRouter stream parse failed: ${e.message}. Line: ${trimmed.slice(0, 220)}`));
+                            return;
+                        }
                     }
                 }
                 
@@ -127,6 +141,10 @@ export const OpenRouterProvider = {
                 }
             }
             const finalizedTools = activeToolCalls.filter(Boolean);
+            if (!fullText && !fullReasoning && finalizedTools.length === 0) {
+                if (onError) onError(new Error(`OpenRouter stream completed without text, reasoning, or tool calls for ${modelId}.`));
+                return;
+            }
             if (onComplete) onComplete(fullText, fullReasoning, finalizedTools);
         } catch (e) { if (onError) onError(e); }
     }

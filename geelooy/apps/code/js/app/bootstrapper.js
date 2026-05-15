@@ -33,6 +33,7 @@ export class Bootstrapper {
         State.githubToken = settings.githubToken || null;
         State.useTabs = settings.useTabs ?? true;
         State.relayUrl = settings.relayUrl || ""; // B"H - Reconstitute the Relay coordinate
+        State.sshProfiles = Array.isArray(settings.sshProfiles) ? settings.sshProfiles : [];
         
         console.log('B"H: Primitive constants established.');
     }

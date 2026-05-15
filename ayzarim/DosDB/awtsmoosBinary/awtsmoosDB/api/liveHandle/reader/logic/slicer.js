@@ -57,6 +57,9 @@ module.exports = {
                     res.push(readerInstance._wrapIfNeeded(val, i, p));
                 }
             }
+            if (db.sparseArrays) {
+                res.push(...db.sparseArrays.slice(handle, s, e, (val, i, p) => readerInstance._wrapIfNeeded(val, i, p)));
+            }
             return res;
         }
 
@@ -79,6 +82,9 @@ module.exports = {
                 const val = seq.get(i);
                 res.push(readerInstance._wrapIfNeeded(val, i, p));
             }
+        }
+        if (db.sparseArrays) {
+            res.push(...db.sparseArrays.slice(handle, s, e, (val, i, p) => readerInstance._wrapIfNeeded(val, i, p)));
         }
         return res;
     }

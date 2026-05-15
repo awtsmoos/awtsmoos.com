@@ -53,6 +53,7 @@ export const SettingsManager = {
      * @returns {string} The HTML blueprint.
      */
     getHTML() {
+        const sshProfiles = this.getSshProfilesHTML();
         return `
             <div style="margin-bottom: 20px;">
                 <h4 style="margin-top:0; color:var(--neon-cyan);">General</h4>
@@ -91,6 +92,14 @@ export const SettingsManager = {
                         </div>
                     </details>
                 </div>
+
+                <div style="margin-bottom: 20px; border: 1px solid rgba(168, 255, 0, 0.28); padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.3);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px;">
+                        <label style="font-weight:bold; font-size:0.95em; color: var(--neon-lime);">SSH Workspaces & Keys</label>
+                        <button id="settings-add-ssh-profile" class="secondary-btn" style="padding:6px 10px; min-height:0;">Add SSH Profile</button>
+                    </div>
+                    <div id="ssh-profiles-settings">${sshProfiles}</div>
+                </div>
                 
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto; accent-color: var(--neon-cyan); cursor: pointer;">
@@ -101,6 +110,49 @@ export const SettingsManager = {
             <hr style="border:0; border-top:1px solid var(--color-border); margin:20px 0;">
             ${ModelManager.getSettingsPanelHTML()}
         `;
+    },
+
+    escapeAttr(value = '') {
+        return String(value).replace(/[&<>"']/g, ch => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        })[ch]);
+    },
+
+    getSshProfilesHTML() {
+        const profiles = Array.isArray(State.sshProfiles) ? State.sshProfiles : [];
+        if (!profiles.length) {
+            return `<div class="ssh-empty" style="color:var(--color-text-tertiary); font-size:0.9em;">No SSH profiles saved yet. Add one here or from Add Workspace.</div>`;
+        }
+        return profiles.map(profile => this.getSshProfileCardHTML(profile)).join('');
+    },
+
+    getSshProfileCardHTML(profile = {}) {
+        const auth = profile.authMethod || 'password';
+        const safe = value => this.escapeAttr(value || '');
+        return `
+            <div class="ssh-profile-card" data-id="${safe(profile.id || '')}" style="border:1px solid var(--color-border); border-radius:6px; padding:10px; margin-bottom:10px; display:grid; gap:8px;">
+                <div style="display:flex; gap:8px;">
+                    <input class="ssh-profile-name" placeholder="Profile name" value="${safe(profile.name || '')}" style="flex:1; background:#050505; color:#fff; border:1px solid var(--color-border); border-radius:4px; padding:7px;">
+                    <button class="ssh-profile-remove secondary-btn" type="button" style="min-height:0; padding:6px 10px;">Remove</button>
+                </div>
+                <div style="display:grid; grid-template-columns:2fr 80px 1fr; gap:8px;">
+                    <input class="ssh-profile-host" placeholder="Host" value="${safe(profile.host || '')}" style="background:#050505; color:#fff; border:1px solid var(--color-border); border-radius:4px; padding:7px;">
+                    <input class="ssh-profile-port" type="number" min="1" max="65535" value="${safe(profile.port || 22)}" style="background:#050505; color:#fff; border:1px solid var(--color-border); border-radius:4px; padding:7px;">
+                    <input class="ssh-profile-user" placeholder="User" value="${safe(profile.user || '')}" style="background:#050505; color:#fff; border:1px solid var(--color-border); border-radius:4px; padding:7px;">
+                </div>
+                <input class="ssh-profile-path" placeholder="Initial path" value="${safe(profile.initialPath || '/')}" style="background:#050505; color:#fff; border:1px solid var(--color-border); border-radius:4px; padding:7px;">
+                <select class="ssh-profile-auth" style="background:#050505; color:#fff; border:1px solid var(--color-border); border-radius:4px; padding:7px;">
+                    <option value="password" ${auth === 'password' ? 'selected' : ''}>Password</option>
+                    <option value="privateKey" ${auth !== 'password' ? 'selected' : ''}>Private Key</option>
+                </select>
+                <input class="ssh-profile-password" type="password" placeholder="Password" value="${safe(profile.password ? atob(profile.password) : '')}" style="background:#050505; color:#fff; border:1px solid var(--color-border); border-radius:4px; padding:7px;">
+                <textarea class="ssh-profile-key" rows="5" placeholder="Private key">${safe(profile.privateKey || profile.pem || '')}</textarea>
+                <input class="ssh-profile-passphrase" type="password" placeholder="Private key passphrase" value="${safe(profile.passphrase || '')}" style="background:#050505; color:#fff; border:1px solid var(--color-border); border-radius:4px; padding:7px;">
+            </div>`;
     },
 
     /**
@@ -142,8 +194,47 @@ export const SettingsManager = {
             }
         };
 
+        const sshWrap = container.querySelector('#ssh-profiles-settings');
+        const addSsh = container.querySelector('#settings-add-ssh-profile');
+        if (addSsh && sshWrap) {
+            addSsh.onclick = (e) => {
+                e.preventDefault();
+                const profile = {
+                    id: `ssh-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                    name: '',
+                    host: '',
+                    port: 22,
+                    user: '',
+                    initialPath: '/',
+                    authMethod: 'password'
+                };
+                sshWrap.insertAdjacentHTML('beforeend', this.getSshProfileCardHTML(profile));
+                this.bindSshProfileEvents(container);
+            };
+        }
+        this.bindSshProfileEvents(container);
+
         // Bind the events for the Vibe sub-panel
         ModelManager.bindSettingsEvents(container, refreshUI);
+    },
+
+    bindSshProfileEvents(container) {
+        container.querySelectorAll('.ssh-profile-card').forEach(card => {
+            const remove = card.querySelector('.ssh-profile-remove');
+            const auth = card.querySelector('.ssh-profile-auth');
+            const password = card.querySelector('.ssh-profile-password');
+            const key = card.querySelector('.ssh-profile-key');
+            const passphrase = card.querySelector('.ssh-profile-passphrase');
+            const sync = () => {
+                const isKey = auth.value !== 'password';
+                password.style.display = isKey ? 'none' : '';
+                key.style.display = isKey ? '' : 'none';
+                passphrase.style.display = isKey ? '' : 'none';
+            };
+            if (remove) remove.onclick = () => card.remove();
+            if (auth) auth.onchange = sync;
+            sync();
+        });
     },
 
     /**
@@ -161,14 +252,42 @@ export const SettingsManager = {
         if (tokenInput) State.githubToken = tokenInput.value || null;
         if (relayInput) State.relayUrl = relayInput.value.trim();
         if (useTabsCheckbox) State.useTabs = useTabsCheckbox.checked;
+        State.sshProfiles = this.collectSshProfiles(container);
 
         // Save general settings
         localStorage.setItem('vividX_settings_profound', JSON.stringify({
             githubToken: State.githubToken,
             relayUrl: State.relayUrl,
+            sshProfiles: State.sshProfiles,
             useTabs: State.useTabs
         }));
 
         // ModelManager saves its own state internally on change, so no extra call is needed.
+    }
+    ,
+    collectSshProfiles(container) {
+        return Array.from(container.querySelectorAll('.ssh-profile-card')).map(card => {
+            const authMethod = card.querySelector('.ssh-profile-auth')?.value || 'password';
+            const profile = {
+                id: card.dataset.id || `ssh-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                profileId: card.dataset.id || null,
+                name: card.querySelector('.ssh-profile-name')?.value.trim() || '',
+                host: card.querySelector('.ssh-profile-host')?.value.trim() || '',
+                port: Number(card.querySelector('.ssh-profile-port')?.value || 22),
+                user: card.querySelector('.ssh-profile-user')?.value.trim() || '',
+                initialPath: card.querySelector('.ssh-profile-path')?.value.trim() || '/',
+                authMethod
+            };
+
+            if (authMethod === 'password') {
+                const password = card.querySelector('.ssh-profile-password')?.value || '';
+                if (password) profile.password = btoa(password);
+            } else {
+                profile.privateKey = card.querySelector('.ssh-profile-key')?.value.trim() || '';
+                profile.passphrase = card.querySelector('.ssh-profile-passphrase')?.value || '';
+            }
+
+            return profile;
+        }).filter(profile => profile.host && profile.user);
     }
 };

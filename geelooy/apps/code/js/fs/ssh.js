@@ -11,10 +11,13 @@ export const SSHProvider = {
         const formData = new URLSearchParams();
         
         // This logic sends the correct credential to the API
+        if (sshInfo.port) formData.append('port', String(sshInfo.port));
+
         if (sshInfo.authMethod === 'password' && sshInfo.password) {
             formData.append('password', atob(sshInfo.password));
-        } else if (sshInfo.authMethod === 'pem' && sshInfo.pem) {
-            formData.append('pem', sshInfo.pem); 
+        } else if ((sshInfo.authMethod === 'privateKey' || sshInfo.authMethod === 'pem') && (sshInfo.privateKey || sshInfo.pem)) {
+            formData.append('privateKey', sshInfo.privateKey || sshInfo.pem);
+            if (sshInfo.passphrase) formData.append('passphrase', sshInfo.passphrase);
         } else {
             throw new Error("Missing credentials for SSH request.");
         }
@@ -37,6 +40,10 @@ export const SSHProvider = {
             throw new Error(result.message || 'An unknown error occurred on the server.');
         }
         return result;
+    },
+
+    async testConnection(sshInfo) {
+        return await this._api('connect', sshInfo, {});
     },
 
     async list(item) {

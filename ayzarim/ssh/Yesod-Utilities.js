@@ -6,6 +6,7 @@
 class NullCipher {
   constructor(onWrite) {
     this._onWrite = onWrite;
+    this.outSeqno = 0n;
   }
   encrypt(payload) {
     const payloadLen = payload.length;
@@ -41,12 +42,14 @@ class NullCipher {
     packet.fill(0, 5 + payloadLen);
     
     this._onWrite(packet);
+    this.outSeqno++;
   }
 }
 
 class NullDecipher {
   constructor(onPayload) {
     this._onPayload = onPayload;
+    this.inSeqno = 0n;
     this._len = 0; this._lenBytes = 0;
     this._packet = null; this._packetPos = 0;
   }
@@ -71,6 +74,7 @@ class NullDecipher {
       this._len = 0; this._lenBytes = 0;
       this._packet = null; this._packetPos = 0;
       this._onPayload(payload);
+      this.inSeqno++;
     }
     return p;
   }
@@ -179,6 +183,11 @@ class BufferReader {
     this.pos += 4;
     return val;
   }
+
+  readByte() {
+    if (this.pos >= this.buffer.length) return;
+    return this.buffer[this.pos++];
+  }
   
   readBytes(len) {
     if (this.pos + len > this.buffer.length) return;
@@ -227,7 +236,7 @@ class ZlibPacketWriter {
     }
 }
 
-// Placeholder for uncompressed packet I/O
+// Basic uncompressed packet I/O helpers for code paths that need the shared shape.
 class PacketReader {
     read(payload) { return payload; }
     cleanup() {}

@@ -129,19 +129,17 @@ module.exports = {
   ],
 
   DEFAULT_CIPHER: [
-    'chacha20-poly1305@openssh.com',
-    'aes128-gcm@openssh.com',
-    'aes256-gcm@openssh.com',
     'aes128-ctr',
     'aes256-ctr',
+    'chacha20-poly1305@openssh.com',
   ],
 
   DEFAULT_MAC: [
+    'hmac-sha2-256',
+    'hmac-sha2-512',
     'hmac-sha2-256-etm@openssh.com',
     'hmac-sha2-512-etm@openssh.com',
     'hmac-sha1-etm@openssh.com',
-    'hmac-sha2-256',
-    'hmac-sha2-512',
     'hmac-sha1',
   ],
 

@@ -1,128 +1,21 @@
 //B"H
-// ui/init.js
-import { openModal, closeModal, updateVideoModalDefaults } from './modals.js';
-import { updatePlayIcon } from './player.js';
-
-export function initUI(cb) {
-    console.log("VIEW: Initializing UI...");
-    
-    // -- Player Controls --
-    const btnPlay = document.getElementById('btn-play');
-    if (btnPlay) {
-        btnPlay.onclick = (e) => {
-            e.stopPropagation();
-            cb.onPlayPause();
-            updatePlayIcon(cb.isPlaying());
-        };
-    }
-
-    const btnNext = document.getElementById('btn-next');
-    if (btnNext) btnNext.onclick = cb.onNext;
-
-    const btnPrev = document.getElementById('btn-prev');
-    if (btnPrev) btnPrev.onclick = cb.onPrev;
-
-    // SCISSORS / STUDIO BTN
-    const btnSlice = document.getElementById('btn-slice');
-    if (btnSlice) {
-        btnSlice.onclick = (e) => {
-            e.stopPropagation();
-            if(cb.onOpenSliceModal) cb.onOpenSliceModal();
-        };
-    }
-
-    // Seeker - Bind to the container, not the fill, for bigger hit area
-    const seeker = document.getElementById('player-seeker');
-    if (seeker) {
-        seeker.onclick = (e) => {
-            const rect = seeker.getBoundingClientRect();
-            const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-            if (cb.onSeekFraction) cb.onSeekFraction(pct);
-        };
-    }
-
-    // -- Header Tools --
-    const btnSearch = document.getElementById('btn-search');
-    if (btnSearch) {
-        btnSearch.onclick = () => {
-            openModal('modal-search');
-            setTimeout(() => document.getElementById('inp-search').focus(), 100);
-        };
-    }
-    
-    const inpSearch = document.getElementById('inp-search');
-    if (inpSearch) {
-        inpSearch.onkeydown = (e) => { 
-            if (e.key === 'Enter') cb.onSearch(inpSearch.value); 
-        };
-    }
-
-    // SHARE
-    const btnShare = document.getElementById('btn-share');
-    if (btnShare) btnShare.onclick = cb.onShare;
-
-    // SETTINGS
-    const btnSettings = document.getElementById('btn-settings');
-    if (btnSettings) {
-        btnSettings.onclick = () => openModal('modal-settings');
-    }
-
-    const btnActionClear = document.getElementById('btn-action-clear');
-    if (btnActionClear) {
-        btnActionClear.onclick = () => {
-             if(confirm("DELETE ALL CACHED AUDIO?")) {
-                 cb.onClearDB();
-             }
-        };
-    }
-    
-    // Video Modal Buttons
-    const btnGenAnalyze = document.getElementById('btn-generate-analyze');
-    if (btnGenAnalyze) {
-        btnGenAnalyze.onclick = () => {
-            const start = parseFloat(document.getElementById('vid-start').value || 0);
-            const dur = parseFloat(document.getElementById('vid-duration').value || 15);
-            const res = document.getElementById('vid-res').value;
-            cb.onAnalyzeVideo(start, dur, res);
-        };
-    }
-
-    const btnDownloadSlice = document.getElementById('btn-download-audio');
-    if (btnDownloadSlice) {
-        btnDownloadSlice.onclick = () => {
-             cb.onDownloadAudioSlice(window.state); 
-        };
-    }
-
-    const btnCloseStudio = document.getElementById('btn-close-studio');
-    if (btnCloseStudio) {
-        btnCloseStudio.onclick = () => {
-            if(cb.onCloseStudio) cb.onCloseStudio();
-        };
-    }
-
-    // Navigation Back Buttons (Mobile)
-    const backTracks = document.getElementById('back-tracks');
-    if (backTracks && cb.onBack) backTracks.onclick = cb.onBack;
-    
-    const backFolders = document.getElementById('back-folders');
-    if (backFolders && cb.onBack) backFolders.onclick = cb.onBack;
-
-    // Modal Close Logic
-    document.querySelectorAll('.modal-close').forEach(b => {
-        b.onclick = () => {
-            document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
-            document.getElementById('overlay-layer').classList.add('hidden');
-        };
-    });
-
-    const overlay = document.getElementById('overlay-layer');
-    if(overlay) {
-        overlay.onclick = (e) => {
-            if(e.target === overlay) {
-                document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
-                overlay.classList.add('hidden');
-            }
-        };
-    }
-}
+import{openModal}from'./modals.js';import{updatePlayIcon}from'./player.js';import{getSearchOptions}from'../search.js';import state from'../modules/state.js';
+export function initUI(cb){console.log("VIEW: Initializing UI...");dateSearch(cb);let $=id=>document.getElementById(id),b;
+if(b=$('btn-play'))b.onclick=e=>{e.stopPropagation();cb.onPlayPause();updatePlayIcon(cb.isPlaying())};
+if(b=$('btn-next'))b.onclick=cb.onNext;if(b=$('btn-prev'))b.onclick=cb.onPrev;
+if(b=$('btn-slice'))b.onclick=e=>{e.stopPropagation();cb.onOpenSliceModal&&cb.onOpenSliceModal()};
+if(b=$('player-seeker'))b.onclick=e=>{let r=b.getBoundingClientRect(),p=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));cb.onSeekFraction&&cb.onSeekFraction(p)};
+if(b=$('btn-search'))b.onclick=()=>{openModal('modal-search');setTimeout(()=>$('search-month')?.focus(),100)};
+if(b=$('btn-share'))b.onclick=cb.onShare;if(b=$('btn-settings'))b.onclick=()=>openModal('modal-settings');
+if(b=$('btn-action-clear'))b.onclick=()=>{if(confirm("DELETE ALL CACHED AUDIO?"))cb.onClearDB()};
+if(b=$('btn-generate-analyze'))b.onclick=()=>cb.onAnalyzeVideo(parseFloat($('vid-start').value||0),parseFloat($('vid-duration').value||15),$('vid-res').value);
+if(b=$('btn-download-audio'))b.onclick=()=>cb.onDownloadAudioSlice(state);
+if(b=$('btn-close-studio'))b.onclick=()=>cb.onCloseStudio&&cb.onCloseStudio();
+if(b=$('back-tracks'))b.onclick=cb.onBack;if(b=$('back-folders'))b.onclick=cb.onBack;
+document.querySelectorAll('.modal-close').forEach(x=>{if(x.id!=='btn-close-studio')x.onclick=()=>closeAll(cb)});
+let o=$('overlay-layer');if(o)o.onclick=e=>{if(e.target===o)closeAll(cb)}}
+function dateSearch(cb){let $=id=>document.getElementById(id),m=$('modal-search');if(!m)return;let{years,months,days}=getSearchOptions();m.classList.add('search-modal');
+m.innerHTML=`<h2>SEARCH BY ZMAN</h2><div class="search-grid"><label>YEAR<select id="search-year" class="cyber-input"><option value="">ALL YEARS</option>${years.map(y=>`<option value="${y}">${y}</option>`).join('')}</select></label><label>MONTH<select id="search-month" class="cyber-input"><option value="">ALL MONTHS</option>${months.map(x=>`<option value="${x.id}">${x.id} // ${x.name}</option>`).join('')}</select></label><label>DAY<select id="search-day" class="cyber-input"><option value="">ALL DAYS</option>${days.map(d=>`<option value="${d}">${d}</option>`).join('')}</select></label></div><div class="search-actions"><button class="modal-btn" id="btn-date-search">SCAN INDEXES</button><button class="modal-btn" id="btn-date-reset">RESET</button><button class="modal-btn modal-close">CLOSE</button></div><div class="search-help">No text search. Combine year/month/day; month and day indexes intersect by bucket/folder.</div><div class="search-res date-search-results" id="search-results"><div class="search-empty">SELECT FILTERS AND SCAN</div></div><style>.search-modal{width:min(960px,94vw);height:min(82vh,760px);max-height:82vh}.search-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.search-grid label{display:flex;flex-direction:column;gap:7px;color:#aaa;font-weight:900;letter-spacing:1px;background:rgba(255,255,255,.04);border:1px solid #222;padding:12px}.search-actions{display:flex;gap:10px;flex-wrap:wrap}.search-help{color:#b7c5d0;border-left:3px solid var(--c-magenta);padding:8px 12px;background:rgba(255,0,128,.06);font-size:13px}.search-res.date-search-results{max-height:calc(82vh - 310px)!important;min-height:300px;overflow:auto!important;border:1px solid #244!important;margin-top:0!important}.search-empty{padding:26px;text-align:center;color:#778;letter-spacing:2px;font-weight:900}.search-summary{position:sticky;top:0;z-index:3;padding:12px 14px;background:#000;border-bottom:1px solid #244;color:#bbb;font-weight:900}.search-summary span{color:var(--c-cyan);font-size:18px}.date-result{width:100%;display:block;text-align:left;border:0;border-bottom:1px solid #222;background:linear-gradient(90deg,rgba(0,243,255,.08),transparent);color:#eee;padding:16px 20px;cursor:pointer}.date-result:hover{background:rgba(0,243,255,.16);transform:translateX(4px)}.result-topline{display:flex;justify-content:space-between}.result-date{color:var(--c-yellow);font-weight:900}.result-arrow{color:var(--c-cyan);font-weight:900}.result-title{font-size:17px;font-weight:800;color:#fff;margin:8px 0}.result-meta{display:flex;gap:8px;flex-wrap:wrap;color:#91a4ad;font:11px monospace}@media(max-width:720px){.search-grid{grid-template-columns:1fr}.search-modal{height:90vh}}</style>`;
+let run=()=>{let f={year:$('search-year')?.value||'',month:$('search-month')?.value||'',day:$('search-day')?.value||''},r=$('search-results');if(!f.year&&!f.month&&!f.day){r.innerHTML='<div class="search-empty">CHOOSE AT LEAST ONE FILTER</div>';return}r.innerHTML='<div class="search-empty">ACCESSING ARCHIVE INDEXES...</div>';cb.onSearch&&cb.onSearch(f)};
+m.querySelector('#btn-date-search')?.addEventListener('click',run);m.querySelector('#btn-date-reset')?.addEventListener('click',()=>{['search-year','search-month','search-day'].forEach(id=>{let e=$(id);if(e)e.value=''});$('search-results').innerHTML='<div class="search-empty">SELECT FILTERS AND SCAN</div>'});m.querySelectorAll('select').forEach(x=>x.addEventListener('change',run))}
+function closeAll(cb){let s=document.getElementById('modal-studio');if(s&&!s.classList.contains('hidden')&&cb?.onCloseStudio){cb.onCloseStudio();return}document.querySelectorAll('.modal').forEach(m=>m.classList.add('hidden'));document.getElementById('overlay-layer')?.classList.add('hidden')}

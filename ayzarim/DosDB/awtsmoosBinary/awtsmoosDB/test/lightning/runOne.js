@@ -21,9 +21,9 @@ const Timer = require('./timer.js');
  * @function runOne
  * @description Executes one test with lightning isolation.
  * @param {string} test - Test filename.
- * @returns {object} Result.
+ * @returns {Promise<object>} Result.
  */
-function runOne(test) {
+async function runOne(test) {
   const started = Timer.now();
   const scriptPath = path.join(__dirname, '..', test);
   const capture = new OutputCapture();
@@ -39,7 +39,8 @@ function runOne(test) {
   let error = null;
 
   try {
-    runModuleFile(scriptPath);
+    const result = runModuleFile(scriptPath);
+    if (result && typeof result.then === 'function') await result;
   } catch (err) {
     if (err && err.isExitSignal) {
       status = err.code;

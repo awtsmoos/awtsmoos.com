@@ -25,7 +25,7 @@ class ModuleRunner {
    * @method run
    * @description Runs one test file.
    * @param {string} scriptPath - Absolute test script path.
-   * @returns {void}
+   * @returns {*}
    */
   run(scriptPath) {
     const name = path.basename(scriptPath);
@@ -35,7 +35,7 @@ class ModuleRunner {
       return;
     }
 
-    compileModule(scriptPath, readSource(scriptPath));
+    return compileModule(scriptPath, readSource(scriptPath));
   }
 }
 

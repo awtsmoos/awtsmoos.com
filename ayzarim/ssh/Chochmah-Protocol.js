@@ -6,7 +6,7 @@
 
 const { EventEmitter } = require('events');
 const { inspect } = require('util');
-const { sign } = require('crypto');
+const { createPublicKey, sign } = require('crypto');
 const { dispatch } = require('./Tiferet-Handlers.js');
 const { MESSAGE, DISCONNECT_REASON } = require('./Binah-Constants.js');
 const { KexHandler } = require('./Chesed-KeyExchange.js');
@@ -27,7 +27,7 @@ class ChochmahProtocol extends EventEmitter {
     this._server = !!config.server;
     this._onWrite = config.onWrite;
     this._onError = config.onError;
-    this._debug = config.debug;
+    this._debug = typeof config.debug === 'function' ? config.debug : () => {};
     this._onHeader = config.onHeader;
     this._onHandshakeComplete = () => {
         this.emit('handshake_complete');
@@ -47,6 +47,7 @@ class ChochmahProtocol extends EventEmitter {
     
     this._authenticated = false;
     this._kex = new KexHandler(this);
+    this.channelManager = new NetzachChannelManager(this);
     this._pkAuthContext = null;
   }
   
@@ -55,6 +56,17 @@ class ChochmahProtocol extends EventEmitter {
     this._debug('STATE CHANGE: Entering encrypted mode.');
     this._decipher = newDecipher;
     this._cipher = newCipher;
+    this._parsingState = 'encrypted';
+  }
+
+  setOutboundCipher(newCipher) {
+    this._debug && this._debug('STATE CHANGE: Activating encrypted outbound packets.');
+    this._cipher = newCipher;
+  }
+
+  setInboundDecipher(newDecipher) {
+    this._debug && this._debug('STATE CHANGE: Activating encrypted inbound packets.');
+    this._decipher = newDecipher;
     this._parsingState = 'encrypted';
   }
 
@@ -280,19 +292,102 @@ class ChochmahProtocol extends EventEmitter {
   }
   
   subsystem(recipient, name, wantReply) {
-    const nameLen = Buffer.byteLength(name);
-    const payload = Buffer.allocUnsafe(1 + 4 + 4 + 9 + 1 + 4 + nameLen);
+    this.channelRequest(recipient, 'subsystem', wantReply, [this._string(name)]);
+  }
+
+  exec(recipient, command, wantReply) {
+    this.channelRequest(recipient, 'exec', wantReply, [this._string(command)]);
+  }
+
+  shell(recipient, wantReply) {
+    this.channelRequest(recipient, 'shell', wantReply);
+  }
+
+  env(recipient, name, value, wantReply = false) {
+    this.channelRequest(recipient, 'env', wantReply, [this._string(name), this._string(value)]);
+  }
+
+  pty(recipient, options = {}, wantReply = true) {
+    const term = options.term || 'xterm-256color';
+    const cols = options.cols || 80;
+    const rows = options.rows || 24;
+    const width = options.width || 640;
+    const height = options.height || 480;
+    const modes = options.modes || Buffer.from([0]);
+    const extra = [
+      this._string(term),
+      this._uint32(cols),
+      this._uint32(rows),
+      this._uint32(width),
+      this._uint32(height),
+      this._string(modes),
+    ];
+    this.channelRequest(recipient, 'pty-req', wantReply, extra);
+  }
+
+  windowChange(recipient, options = {}) {
+    const extra = [
+      this._uint32(options.cols || 80),
+      this._uint32(options.rows || 24),
+      this._uint32(options.width || 640),
+      this._uint32(options.height || 480),
+    ];
+    this.channelRequest(recipient, 'window-change', false, extra);
+  }
+
+  signal(recipient, signalName) {
+    this.channelRequest(recipient, 'signal', false, [this._string(signalName)]);
+  }
+
+  channelRequest(recipient, requestName, wantReply, extra = []) {
+    const requestLen = Buffer.byteLength(requestName);
+    const extraLen = extra.reduce((sum, part) => sum + part.length, 0);
+    const payload = Buffer.allocUnsafe(1 + 4 + 4 + requestLen + 1 + extraLen);
     let p = 0;
 
     payload[p++] = MESSAGE.CHANNEL_REQUEST;
     payload.writeUInt32BE(recipient, p); p += 4;
-    payload.writeUInt32BE(9, p); p += 4;
-    payload.write('subsystem', p, 'ascii'); p += 9;
+    payload.writeUInt32BE(requestLen, p); p += 4;
+    payload.write(requestName, p, 'ascii'); p += requestName.length;
     payload[p++] = wantReply ? 1 : 0;
-    payload.writeUInt32BE(nameLen, p); p += 4;
-    payload.write(name, p, 'utf8');
+    for (const part of extra) {
+      part.copy(payload, p);
+      p += part.length;
+    }
 
     this.sendPacket(payload);
+  }
+
+  globalRequest(name, wantReply, extra = []) {
+    const nameLen = Buffer.byteLength(name);
+    const extraLen = extra.reduce((sum, part) => sum + part.length, 0);
+    const payload = Buffer.allocUnsafe(1 + 4 + nameLen + 1 + extraLen);
+    let p = 0;
+
+    payload[p++] = MESSAGE.GLOBAL_REQUEST;
+    payload.writeUInt32BE(nameLen, p); p += 4;
+    payload.write(name, p, 'ascii'); p += nameLen;
+    payload[p++] = wantReply ? 1 : 0;
+    for (const part of extra) {
+      part.copy(payload, p);
+      p += part.length;
+    }
+
+    this.sendPacket(payload);
+  }
+
+  _string(value) {
+    const body = Buffer.isBuffer(value) ? value : Buffer.from(String(value), 'utf8');
+    const packet = Buffer.allocUnsafe(4 + body.length);
+    packet.writeUInt32BE(body.length, 0);
+    body.copy(packet, 4);
+    return packet;
+  }
+
+  _uint32(value) {
+    const packet = Buffer.allocUnsafe(4);
+    packet.writeUInt32BE(value >>> 0, 0);
+    return packet;
   }
   
   requestService(name) {
@@ -310,6 +405,10 @@ class ChochmahProtocol extends EventEmitter {
  _onPayload(payload) {
     const msgType = payload[0];
     this._debug && this._debug(`Inbound: Received message type ${msgType}`);
+    if (this.channelManager && msgType >= MESSAGE.CHANNEL_OPEN_CONFIRMATION && msgType <= MESSAGE.CHANNEL_CLOSE) {
+      this.channelManager.handleMessage(payload);
+      return;
+    }
     if (msgType >= 20 && msgType <= 49) {
       if (this._kex) {
         if (msgType === MESSAGE.KEXINIT) this._kex.start(payload);

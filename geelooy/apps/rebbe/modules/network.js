@@ -5,9 +5,11 @@
 import { YEARS } from './store.js';
 import { fetchYearFolders, fetchFolderTracks } from './network/archive.js';
 import { fetchBlob } from './network/transport.js';
+import { fetchTrackBlob, fetchFirstBlob } from './network/byte-loader.js';
+import { getAudioSources, describeAudioSources } from './network/audio-sources.js';
 import { searchArchive } from '../search.js';
 
-export { fetchBlob };
+export { fetchBlob, fetchTrackBlob, fetchFirstBlob, getAudioSources, describeAudioSources };
 
 export async function fetchIndex() {
     return YEARS;

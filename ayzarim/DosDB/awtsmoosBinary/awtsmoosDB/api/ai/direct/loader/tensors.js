@@ -19,21 +19,34 @@ function mapWeights(tensorMap) {
             const suffix = match[2];
             if (!layerTensorMap[l]) layerTensorMap[l] = {};
             if (suffix.match(/^(self_attn\.|attention\.|attn_)q\.weight$/) || suffix.match(/q_proj\.weight$/)) layerTensorMap[l]['attn_q'] = key;
+            else if (suffix.match(/^(self_attn\.|attention\.|attn_)q\.bias$/) || suffix.match(/q_proj\.bias$/)) layerTensorMap[l]['attn_q_bias'] = key;
             else if (suffix.match(/^(self_attn\.|attention\.|attn_)k\.weight$/) || suffix.match(/k_proj\.weight$/)) layerTensorMap[l]['attn_k'] = key;
+            else if (suffix.match(/^(self_attn\.|attention\.|attn_)k\.bias$/) || suffix.match(/k_proj\.bias$/)) layerTensorMap[l]['attn_k_bias'] = key;
             else if (suffix.match(/^(self_attn\.|attention\.|attn_)v\.weight$/) || suffix.match(/v_proj\.weight$/)) layerTensorMap[l]['attn_v'] = key;
+            else if (suffix.match(/^(self_attn\.|attention\.|attn_)v\.bias$/) || suffix.match(/v_proj\.bias$/)) layerTensorMap[l]['attn_v_bias'] = key;
             else if (suffix.match(/^(self_attn\.|attention\.|attn_)output\.weight$/) || suffix.match(/o_proj\.weight$/)) layerTensorMap[l]['attn_out'] = key;
+            else if (suffix.match(/^(self_attn\.|attention\.|attn_)output\.bias$/) || suffix.match(/o_proj\.bias$/)) layerTensorMap[l]['attn_out_bias'] = key;
             else if (suffix.match(/^(attn_q_norm|q_norm)\.weight$/)) layerTensorMap[l]['attn_q_norm'] = key;
             else if (suffix.match(/^(attn_k_norm|k_norm)\.weight$/)) layerTensorMap[l]['attn_k_norm'] = key;
             else if (suffix.match(/^(input_layernorm|attn_norm|pre_attention_layernorm)\.weight$/)) layerTensorMap[l]['attn_norm'] = key;
+            else if (suffix.match(/^(input_layernorm|attn_norm|pre_attention_layernorm)\.bias$/)) layerTensorMap[l]['attn_norm_bias'] = key;
             else if (suffix === 'post_attention_norm.weight' || suffix.match(/^(post_attention_layernorm|attn_post_norm)\.weight$/)) layerTensorMap[l]['attn_post_norm'] = key;
+            else if (suffix === 'post_attention_norm.bias' || suffix.match(/^(post_attention_layernorm|attn_post_norm)\.bias$/)) layerTensorMap[l]['attn_post_norm_bias'] = key;
             else if (suffix === 'ffn_norm.weight' || suffix.match(/^(pre_feedforward_layernorm|pre_mlp_layernorm|ffn_norm)\.weight$/)) layerTensorMap[l]['ffn_norm'] = key;
+            else if (suffix === 'ffn_norm.bias' || suffix.match(/^(pre_feedforward_layernorm|pre_mlp_layernorm|ffn_norm)\.bias$/)) layerTensorMap[l]['ffn_norm_bias'] = key;
             else if (suffix === 'post_ffw_norm.weight' || suffix.match(/^(post_feedforward_layernorm|post_mlp_layernorm|ffn_post_norm)\.weight$/)) layerTensorMap[l]['ffn_post_norm'] = key;
+            else if (suffix === 'post_ffw_norm.bias' || suffix.match(/^(post_feedforward_layernorm|post_mlp_layernorm|ffn_post_norm)\.bias$/)) layerTensorMap[l]['ffn_post_norm_bias'] = key;
             else if (suffix.match(/^(mlp\.|feed_forward\.|ffn_)gate\.weight$/) || suffix.match(/w1\.weight$/) || suffix.match(/gate_proj\.weight$/)) layerTensorMap[l]['ffn_gate'] = key;
             else if (suffix.match(/^(mlp\.|feed_forward\.|ffn_)down\.weight$/) || suffix.match(/w2\.weight$/) || suffix.match(/down_proj\.weight$/)) layerTensorMap[l]['ffn_down'] = key;
+            else if (suffix.match(/^(mlp\.|feed_forward\.|ffn_)down\.bias$/) || suffix.match(/w2\.bias$/) || suffix.match(/down_proj\.bias$/)) layerTensorMap[l]['ffn_down_bias'] = key;
             else if (suffix.match(/^(mlp\.|feed_forward\.|ffn_)up\.weight$/) || suffix.match(/w3\.weight$/) || suffix.match(/up_proj\.weight$/)) layerTensorMap[l]['ffn_up'] = key;
+            else if (suffix.match(/^(mlp\.|feed_forward\.|ffn_)up\.bias$/) || suffix.match(/w3\.bias$/) || suffix.match(/up_proj\.bias$/)) layerTensorMap[l]['ffn_up_bias'] = key;
         } else {
-            if (key.match(/^(token_embd|model\.embed_tokens)\.weight$/)) globalTensorMap['embed'] = key;
-            else if (key.match(/^(output_norm|model\.norm)\.weight$/)) globalTensorMap['output_norm'] = key;
+            if (key.match(/^(token_embd|model\.embed_tokens|bert\.embeddings\.word_embeddings|embeddings\.word_embeddings)\.weight$/)) globalTensorMap['embed'] = key;
+            else if (key.match(/^(position_embd|bert\.embeddings\.position_embeddings|embeddings\.position_embeddings)\.weight$/)) globalTensorMap['position_embed'] = key;
+            else if (key.match(/^(token_types|token_type_embd|bert\.embeddings\.token_type_embeddings|embeddings\.token_type_embeddings)\.weight$/)) globalTensorMap['token_type_embed'] = key;
+            else if (key.match(/^(output_norm|model\.norm|bert\.embeddings\.LayerNorm|embeddings\.LayerNorm)\.bias$/)) globalTensorMap['output_norm_bias'] = key;
+            else if (key.match(/^(output_norm|model\.norm|bert\.embeddings\.LayerNorm|embeddings\.LayerNorm)\.weight$/)) globalTensorMap['output_norm'] = key;
             else if (key.match(/^(output|lm_head)\.weight$/)) globalTensorMap['output'] = key;
         }
     }

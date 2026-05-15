@@ -23,10 +23,10 @@ module.exports = {
         
         // Data-driven magnitude strategy
         const Strategies = {
-            [T.SEQUENCE]: () => (new SequenceEngine(db.allocator, structPtr)).length(),
-            [T.ARRAY]: () => (new SequenceEngine(db.allocator, structPtr)).length(),
-            [T.SET]: () => (new SequenceEngine(db.allocator, structPtr)).length(),
-            [T.JS_SET]: () => (new SequenceEngine(db.allocator, structPtr)).length(),
+            [T.SEQUENCE]: () => sparseLength(handle, db, (new SequenceEngine(db.allocator, structPtr)).length()),
+            [T.ARRAY]: () => sparseLength(handle, db, (new SequenceEngine(db.allocator, structPtr)).length()),
+            [T.SET]: () => sparseLength(handle, db, (new SequenceEngine(db.allocator, structPtr)).length()),
+            [T.JS_SET]: () => sparseLength(handle, db, (new SequenceEngine(db.allocator, structPtr)).length()),
             [T.DICTIONARY]: () => {
                 const d = new DictionaryEngine(db.allocator, structPtr);
                 d._init();
@@ -43,10 +43,14 @@ module.exports = {
                  return root ? root.keys.length : 0; 
             },
             [T.SMART_OBJECT]: () => (new FlatObject(db.allocator, structPtr)).length(),
-            [T.SMART_ARRAY]: () => (new FlatArray(db.allocator, structPtr)).length()
+            [T.SMART_ARRAY]: () => sparseLength(handle, db, (new FlatArray(db.allocator, structPtr)).length())
         };
 
         const execute = Strategies[type] || (() => 0);
         return execute();
     }
 };
+
+function sparseLength(handle, db, dense) {
+    return db.sparseArrays ? db.sparseArrays.length(handle, dense) : dense;
+}

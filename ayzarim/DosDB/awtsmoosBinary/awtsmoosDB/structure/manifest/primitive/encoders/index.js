@@ -17,6 +17,8 @@ module.exports = [
   require('./number.js'),
   require('./bigint.js'),
   require('./encrypted.js'),
+  require('./blob.js'),
+  require('./textToken.js'),
   require('./text.js'),
   require('./symbol.js'),
   require('./function.js'),

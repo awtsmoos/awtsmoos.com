@@ -16,7 +16,7 @@ const path = require('path');
  * @description Compiles a CommonJS module from source.
  * @param {string} scriptPath - Script path.
  * @param {string} code - Source code.
- * @returns {void}
+ * @returns {*} Module exports.
  */
 function compileModule(scriptPath, code) {
   const mod = new Module(scriptPath, module.parent);
@@ -28,6 +28,7 @@ function compileModule(scriptPath, code) {
   require.cache[scriptPath] = mod;
 
   mod._compile(code, scriptPath);
+  return mod.exports;
 }
 
 module.exports = compileModule;

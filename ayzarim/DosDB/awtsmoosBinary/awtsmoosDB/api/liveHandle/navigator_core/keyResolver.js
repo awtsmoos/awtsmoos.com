@@ -32,12 +32,15 @@ module.exports = {
             vp = FlatObjectSeeker.get(db, ptr, k);
         } else if (type === T.SMART_ARRAY) {
             const flat = new FlatArray(db.allocator, ptr);
-            vp = flat.get(parseInt(k));
+            const idx = parseInt(k);
+            vp = flat.get(idx);
+            if (!vp && db.sparseArrays) vp = db.sparseArrays.getPtr(handle, idx);
         } else if (type === T.SEQUENCE || type === T.ARRAY || type === T.SET || type === T.JS_SET) {
             const idx = parseInt(k);
             if (!isNaN(idx)) {
                 const engine = new Sequence(db.allocator, ptr);
                 vp = engine.getPtr(idx);
+                if (!vp && db.sparseArrays) vp = db.sparseArrays.getPtr(handle, idx);
             }
         } else {
             const ek = keys.encode(k);

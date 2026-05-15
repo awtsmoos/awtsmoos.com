@@ -19,6 +19,7 @@ export const State = {
     contextTarget: null, contextTabTarget: null, contextPayload: null,
     hexEditorInstance: null, domItemMap: new Map(), useTabs: true,
     relayUrl: "", // B"H - The sacred coordinate of the distant Relay server
+    sshProfiles: [],
     expandedFolders: new Set(), fileClipboard: [], clipboardZip: null, 
     isSelectionModeActive: false, selectedItems: new Map(),
     activeTasks: new Map(), closedTabHistory: [], 

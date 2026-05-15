@@ -14,10 +14,10 @@ const runner = require('./moduleRunner/index.js');
  * @function runModuleFile
  * @description Runs one module path.
  * @param {string} scriptPath - Absolute script path.
- * @returns {void}
+ * @returns {*}
  */
 function runModuleFile(scriptPath) {
-  runner.run(scriptPath);
+  return runner.run(scriptPath);
 }
 
 module.exports = runModuleFile;

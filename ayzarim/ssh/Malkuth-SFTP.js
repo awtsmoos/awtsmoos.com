@@ -8,7 +8,7 @@ const { Readable, Writable } = require('stream');
 const { BufferReader, writeUInt32BE } = require('./Yesod-Utilities.js');
 
 // SFTP Protocol Constants
-const REQUEST = { INIT: 1, OPEN: 3, CLOSE: 4, READ: 5, WRITE: 6, LSTAT: 7, FSTAT: 8, SETSTAT: 9, FSETSTAT: 10, OPENDIR: 11, READDIR: 12, REMOVE: 13, MKDIR: 14, RMDIR: 15, REALPATH: 16, STAT: 17, RENAME: 18 };
+const REQUEST = { INIT: 1, OPEN: 3, CLOSE: 4, READ: 5, WRITE: 6, LSTAT: 7, FSTAT: 8, SETSTAT: 9, FSETSTAT: 10, OPENDIR: 11, READDIR: 12, REMOVE: 13, MKDIR: 14, RMDIR: 15, REALPATH: 16, STAT: 17, RENAME: 18, READLINK: 19, SYMLINK: 20, EXTENDED: 200 };
 const RESPONSE = { VERSION: 2, STATUS: 101, HANDLE: 102, DATA: 103, NAME: 104, ATTRS: 105 };
 const STATUS_CODE = { OK: 0, EOF: 1, NO_SUCH_FILE: 2, PERMISSION_DENIED: 3 };
 const ATTR = { SIZE: 0x01, UIDGID: 0x02, PERMISSIONS: 0x04, ACMODTIME: 0x08 };
@@ -38,6 +38,7 @@ class Stats {
   }
   isDirectory() { return (this.mode & 0o170000) === 0o040000; }
   isFile() { return (this.mode & 0o170000) === 0o100000; }
+  isSymbolicLink() { return (this.mode & 0o170000) === 0o120000; }
 }
 
 class MalkuthSFTP extends EventEmitter {
@@ -48,6 +49,7 @@ class MalkuthSFTP extends EventEmitter {
     this._requests = new Map();
     this._nextReqid = 0;
     this.version = -1;
+    this._incoming = Buffer.alloc(0);
 
     this._channel.on('data', (data) => this._parse(data));
     this._channel.on('close', () => this.emit('close'));
@@ -71,10 +73,14 @@ class MalkuthSFTP extends EventEmitter {
   }
 
   _parse(data) {
-    const reader = new BufferReader(data);
+    this._incoming = Buffer.concat([this._incoming, data]);
+    const reader = new BufferReader(this._incoming);
     while (reader.avail() >= 4) {
       const len = reader.readUInt32BE();
-      if (reader.avail() < len) break; // Incomplete packet
+      if (reader.avail() < len) {
+        reader.pos -= 4;
+        break;
+      }
       
       const payload = reader.readBytes(len);
       const type = payload[0];
@@ -90,6 +96,7 @@ class MalkuthSFTP extends EventEmitter {
         this._debug && this._debug(`SFTP: Unhandled response type ${type}`);
       }
     }
+    this._incoming = this._incoming.slice(reader.pos);
   }
 
   _getReqid(cb) {
@@ -201,13 +208,87 @@ class MalkuthSFTP extends EventEmitter {
   }
   
   stat(path, cb) {
+    this._pathRequest(REQUEST.STAT, path, cb);
+  }
+
+  lstat(path, cb) {
+    this._pathRequest(REQUEST.LSTAT, path, cb);
+  }
+
+  fstat(handle, cb) {
+    this._handleRequest(REQUEST.FSTAT, handle, cb);
+  }
+
+  realpath(path, cb) {
+    this._pathRequest(REQUEST.REALPATH, path, (err, names) => {
+      if (err) return cb(err);
+      cb(null, names && names[0] ? names[0].filename : path);
+    });
+  }
+
+  readlink(path, cb) {
+    this._pathRequest(REQUEST.READLINK, path, (err, names) => {
+      if (err) return cb(err);
+      cb(null, names && names[0] ? names[0].filename : path);
+    });
+  }
+
+  rename(oldPath, newPath, cb) {
+    this._twoPathRequest(REQUEST.RENAME, oldPath, newPath, cb);
+  }
+
+  symlink(targetPath, linkPath, cb) {
+    this._twoPathRequest(REQUEST.SYMLINK, targetPath, linkPath, cb);
+  }
+
+  chmod(path, mode, cb) {
+    this.setstat(path, { mode }, cb);
+  }
+
+  chown(path, uid, gid, cb) {
+    this.setstat(path, { uid, gid }, cb);
+  }
+
+  utimes(path, atime, mtime, cb) {
+    this.setstat(path, { atime, mtime }, cb);
+  }
+
+  setstat(path, attrs, cb) {
+    const attrBlob = this._attrsToBuffer(attrs);
     const reqid = this._getReqid(cb);
-    const pathLen = Buffer.byteLength(path);
-    const payload = Buffer.allocUnsafe(1 + 4 + 4 + pathLen);
-    payload[0] = REQUEST.STAT;
+    const pathBlob = this._string(path);
+    const payload = Buffer.allocUnsafe(1 + 4 + pathBlob.length + attrBlob.length);
+    payload[0] = REQUEST.SETSTAT;
     writeUInt32BE(payload, reqid, 1);
-    writeUInt32BE(payload, pathLen, 5);
-    payload.write(path, 9, 'utf8');
+    pathBlob.copy(payload, 5);
+    attrBlob.copy(payload, 5 + pathBlob.length);
+    this._send(payload);
+  }
+
+  fsetstat(handle, attrs, cb) {
+    const attrBlob = this._attrsToBuffer(attrs);
+    const reqid = this._getReqid(cb);
+    const handleBlob = this._string(handle);
+    const payload = Buffer.allocUnsafe(1 + 4 + handleBlob.length + attrBlob.length);
+    payload[0] = REQUEST.FSETSTAT;
+    writeUInt32BE(payload, reqid, 1);
+    handleBlob.copy(payload, 5);
+    attrBlob.copy(payload, 5 + handleBlob.length);
+    this._send(payload);
+  }
+
+  posixRename(oldPath, newPath, cb) {
+    const name = 'posix-rename@openssh.com';
+    const reqid = this._getReqid(cb);
+    const nameBlob = this._string(name);
+    const oldBlob = this._string(oldPath);
+    const newBlob = this._string(newPath);
+    const payload = Buffer.allocUnsafe(1 + 4 + nameBlob.length + oldBlob.length + newBlob.length);
+    payload[0] = REQUEST.EXTENDED;
+    writeUInt32BE(payload, reqid, 1);
+    nameBlob.copy(payload, 5);
+    oldBlob.copy(payload, 5 + nameBlob.length);
+    newBlob.copy(payload, 5 + nameBlob.length + oldBlob.length);
     this._send(payload);
   }
 
@@ -236,14 +317,83 @@ class MalkuthSFTP extends EventEmitter {
   }
   
   unlink(path, cb) {
+    this._pathRequest(REQUEST.REMOVE, path, cb);
+  }
+
+  _pathRequest(type, path, cb) {
     const reqid = this._getReqid(cb);
-    const pathLen = Buffer.byteLength(path);
-    const payload = Buffer.allocUnsafe(1 + 4 + 4 + pathLen);
-    payload[0] = REQUEST.REMOVE;
+    const pathBlob = this._string(path);
+    const payload = Buffer.allocUnsafe(1 + 4 + pathBlob.length);
+    payload[0] = type;
     writeUInt32BE(payload, reqid, 1);
-    writeUInt32BE(payload, pathLen, 5);
-    payload.write(path, 9, 'utf8');
+    pathBlob.copy(payload, 5);
     this._send(payload);
+  }
+
+  _handleRequest(type, handle, cb) {
+    const reqid = this._getReqid(cb);
+    const handleBlob = this._string(handle);
+    const payload = Buffer.allocUnsafe(1 + 4 + handleBlob.length);
+    payload[0] = type;
+    writeUInt32BE(payload, reqid, 1);
+    handleBlob.copy(payload, 5);
+    this._send(payload);
+  }
+
+  _twoPathRequest(type, leftPath, rightPath, cb) {
+    const reqid = this._getReqid(cb);
+    const left = this._string(leftPath);
+    const right = this._string(rightPath);
+    const payload = Buffer.allocUnsafe(1 + 4 + left.length + right.length);
+    payload[0] = type;
+    writeUInt32BE(payload, reqid, 1);
+    left.copy(payload, 5);
+    right.copy(payload, 5 + left.length);
+    this._send(payload);
+  }
+
+  _string(value) {
+    const body = Buffer.isBuffer(value) ? value : Buffer.from(String(value), 'utf8');
+    const packet = Buffer.allocUnsafe(4 + body.length);
+    packet.writeUInt32BE(body.length, 0);
+    body.copy(packet, 4);
+    return packet;
+  }
+
+  _attrsToBuffer(attrs = {}) {
+    let flags = 0;
+    const parts = [];
+
+    if (attrs.size !== undefined) {
+      flags |= ATTR.SIZE;
+      const part = Buffer.allocUnsafe(8);
+      part.writeBigUInt64BE(BigInt(attrs.size), 0);
+      parts.push(part);
+    }
+    if (attrs.uid !== undefined || attrs.gid !== undefined) {
+      flags |= ATTR.UIDGID;
+      const part = Buffer.allocUnsafe(8);
+      part.writeUInt32BE(attrs.uid || 0, 0);
+      part.writeUInt32BE(attrs.gid || 0, 4);
+      parts.push(part);
+    }
+    if (attrs.mode !== undefined) {
+      flags |= ATTR.PERMISSIONS;
+      const part = Buffer.allocUnsafe(4);
+      part.writeUInt32BE(attrs.mode, 0);
+      parts.push(part);
+    }
+    if (attrs.atime !== undefined || attrs.mtime !== undefined) {
+      flags |= ATTR.ACMODTIME;
+      const part = Buffer.allocUnsafe(8);
+      part.writeUInt32BE(Math.floor(new Date(attrs.atime || Date.now()).getTime() / 1000), 0);
+      part.writeUInt32BE(Math.floor(new Date(attrs.mtime || Date.now()).getTime() / 1000), 4);
+      parts.push(part);
+    }
+
+    const head = Buffer.allocUnsafe(4);
+    head.writeUInt32BE(flags, 0);
+    return Buffer.concat([head, ...parts]);
   }
 
   createReadStream(path, options) { return new SFTPReadStream(this, path, options); }
@@ -325,7 +475,10 @@ MalkuthSFTP.prototype._responseHandlers = {
 MalkuthSFTP.prototype._parseAttrs = function(reader) {
   const flags = reader.readUInt32BE();
   const attrs = {};
-  if (flags & ATTR.SIZE) attrs.size = Number(reader.buffer.readBigUInt64BE(reader.pos)); reader.pos += 8;
+  if (flags & ATTR.SIZE) {
+    attrs.size = Number(reader.buffer.readBigUInt64BE(reader.pos));
+    reader.pos += 8;
+  }
   if (flags & ATTR.UIDGID) { attrs.uid = reader.readUInt32BE(); attrs.gid = reader.readUInt32BE(); }
   if (flags & ATTR.PERMISSIONS) attrs.mode = reader.readUInt32BE();
   if (flags & ATTR.ACMODTIME) { attrs.atime = reader.readUInt32BE(); attrs.mtime = reader.readUInt32BE(); }
