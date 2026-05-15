@@ -1,11 +1,20 @@
 
 // B"H
 
+/**
+ * B"H
+ * Parses JSON safely from text or Buffer.
+ *
+ * @param {unknown} text JSON text.
+ * @param {unknown} fallback Fallback value.
+ * @returns {unknown} Parsed value.
+ */
 function safeJson(text, fallback = {}) {
   if (!text) return fallback;
 
   try {
-    return JSON.parse(String(text));
+    const raw = Buffer.isBuffer(text) ? text.toString("utf8") : String(text);
+    return JSON.parse(raw);
   } catch (e) {
     return fallback;
   }
@@ -13,8 +22,28 @@ function safeJson(text, fallback = {}) {
 
 /**
  * B"H
- * Reads JSON body that the Awtsmoos dynamic server already parsed, if present.
- * Falls back through several likely places because the main dynamic engine evolved.
+ * Checks whether an object contains real user payload keys.
+ *
+ * @param {unknown} value Candidate payload.
+ * @returns {boolean} Whether useful keys exist.
+ */
+function hasUserPayload(value) {
+  if (!value || typeof value !== "object" || Buffer.isBuffer(value)) {
+    return false;
+  }
+
+  return Object.keys(value).some(key => !String(key).startsWith("__"));
+}
+
+/**
+ * B"H
+ * Gets parsed JSON/body params from the dynamic server.
+ *
+ * The dynamic server now parses application/json directly into
+ * paramKinds.POST. This fallback still understands older raw-body wrappers.
+ *
+ * @param {object} $i Awtsmoos route context.
+ * @returns {object} Parsed body object.
  */
 function bodyJson($i) {
   const candidates = [
@@ -28,13 +57,16 @@ function bodyJson($i) {
   for (const one of candidates) {
     if (!one) continue;
 
-    if (typeof one === "object" && !Buffer.isBuffer(one)) {
-      return one;
-    }
+    if (hasUserPayload(one)) return one;
 
     if (typeof one === "string" || Buffer.isBuffer(one)) {
       const parsed = safeJson(one, null);
-      if (parsed && typeof parsed === "object") return parsed;
+      if (hasUserPayload(parsed)) return parsed;
+    }
+
+    if (one.__raw_body__) {
+      const parsed = safeJson(one.__raw_body__, null);
+      if (hasUserPayload(parsed)) return parsed;
     }
   }
 

@@ -3,6 +3,7 @@
 
 import { activatePane } from "./paneRouter.js";
 import { paneFromButton } from "./buttonAliases.js";
+import { showDashboardHome } from "../shell/workspaceMode.js";
 
 /**
  * B"H
@@ -15,9 +16,17 @@ export function bindNavigationButtons() {
     const button = event.target.closest("button, a");
     if (!button) return;
 
+    if (button.dataset.awtHome === "1") {
+      event.preventDefault();
+      showDashboardHome();
+      return;
+    }
+
     if (button.id === "awtRefreshView") return;
 
-    const pane = paneFromButton(button);
+    const explicit = button.dataset.awtNavigate || "";
+    const pane = explicit || paneFromButton(button);
+
     if (!pane) return;
 
     const hasPane = !!document.querySelector(`[data-pane="${CSS.escape(pane)}"]`);
@@ -36,7 +45,7 @@ export function bindNavigationButtons() {
  */
 export function markNavigationButtons() {
   for (const button of document.querySelectorAll("button, a")) {
-    const pane = paneFromButton(button);
+    const pane = button.dataset.awtNavigate || paneFromButton(button);
     if (!pane) continue;
 
     if (document.querySelector(`[data-pane="${CSS.escape(pane)}"]`)) {

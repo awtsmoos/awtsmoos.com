@@ -39,7 +39,7 @@ function getProjectPath() {
 
 /**
  * B"H
- * Hydrates old hidden/visible fields from resolved state.
+ * Hydrates old fields from resolved state.
  *
  * @param {object} tunnel Resolved tunnel.
  * @returns {void}
@@ -54,7 +54,7 @@ function hydrateFields(tunnel) {
 
 /**
  * B"H
- * Marks body with permission classes for CSS/status.
+ * Marks body with permission classes.
  *
  * @param {object} tunnel Resolved tunnel.
  * @returns {void}
@@ -75,7 +75,7 @@ function hydratePermissionClasses(tunnel) {
  */
 export async function startTunnelControl() {
   try {
-    log("boot modular control center v3100");
+    log("boot modular control center v3200");
 
     const session = await resolveSession();
 
@@ -119,7 +119,8 @@ export async function startTunnelControl() {
     setInterval(() => refreshDevice(getTunnelName), 5000);
     setInterval(refreshLogin, 30000);
   } catch (e) {
-    document.body.innerHTML = "<pre>B\\\"H\\nControl panel boot failed:\\n" +
+    document.body.innerHTML =
+      "<pre>B\\\"H\\nControl panel boot failed:\\n" +
       (e.stack || e.message || String(e)) +
       "</pre>";
 

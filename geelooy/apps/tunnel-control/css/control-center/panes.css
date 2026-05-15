@@ -3,21 +3,23 @@
 
 body.awt-pro-ready [data-pane] {
   display: none !important;
+  height: 100%;
   min-width: 0;
+  min-height: 0;
   padding: clamp(16px, 2vw, 24px) !important;
-  overflow: visible !important;
+  overflow: auto !important;
 }
 
 body.awt-pro-ready [data-pane].active {
   display: grid !important;
   gap: 16px;
-  animation: awtPaneIn 230ms ease both;
+  animation: awtPaneIn 220ms ease both;
 }
 
 @keyframes awtPaneIn {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.992);
+    transform: translateX(12px);
   }
   to {
     opacity: 1;

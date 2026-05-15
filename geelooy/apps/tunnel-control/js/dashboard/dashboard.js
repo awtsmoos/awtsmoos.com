@@ -7,7 +7,7 @@ import { createDashboardCard } from "./dashboardCard.js";
 
 /**
  * B"H
- * Builds the dashboard.
+ * Builds the home dashboard.
  *
  * @param {object} ctx Runtime context.
  * @returns {HTMLElement} Dashboard.
@@ -17,26 +17,55 @@ export function createDashboard(ctx) {
     classes: ["awt-dashboard"],
     children: [
       h("div", {
-        classes: ["awt-dashboard-head"],
+        classes: ["awt-dashboard-hero"],
         children: [
           h("div", {
+            classes: ["awt-dashboard-copy"],
             children: [
               h("div", { classes: ["awt-mini-kicker"], text: "One clean URL" }),
               h("h2", { text: "Command center" }),
               h("p", {
-                text: dashboardText(ctx)
+                text:
+                  "Start on the dashboard, choose one mission, then slide into a focused workspace. No more giant vertical debug scroll."
+              }),
+              h("div", {
+                classes: ["awt-dashboard-metrics"],
+                children: [
+                  metric("Tunnel", ctx.getTunnelName() || "waiting"),
+                  metric("Root", ctx.getProjectPath() || "."),
+                  metric("Mode", "Focused workspace")
+                ]
+              }),
+              h("div", {
+                classes: ["awt-dashboard-actions"],
+                children: [
+                  h("button", {
+                    attrs: {
+                      type: "button",
+                      "data-awt-navigate": "install"
+                    },
+                    text: "Install / Restart"
+                  }),
+                  h("button", {
+                    attrs: {
+                      type: "button",
+                      "data-awt-navigate": "docs"
+                    },
+                    text: "API Docs"
+                  }),
+                  h("button", {
+                    attrs: { type: "button", id: "awtRefreshView" },
+                    text: "Refresh view"
+                  })
+                ]
               })
             ]
           }),
-          h("button", {
-            attrs: { type: "button", id: "awtRefreshView" },
-            text: "Refresh view"
+          h("div", {
+            classes: ["awt-dashboard-grid"],
+            children: DASHBOARD_CARDS.map(createDashboardCard)
           })
         ]
-      }),
-      h("div", {
-        classes: ["awt-dashboard-grid"],
-        children: DASHBOARD_CARDS.map(createDashboardCard)
       })
     ]
   });
@@ -44,13 +73,18 @@ export function createDashboard(ctx) {
 
 /**
  * B"H
- * Dashboard summary sentence.
+ * Builds one small metric block.
  *
- * @param {object} ctx Runtime context.
- * @returns {string} Text.
+ * @param {string} label Metric label.
+ * @param {string} value Metric value.
+ * @returns {HTMLElement} Metric element.
  */
-function dashboardText(ctx) {
-  const tunnel = ctx.getTunnelName() || "active tunnel";
-  const root = ctx.getProjectPath() || ".";
-  return `Logged in panel resolved ${tunnel}. Current root: ${root}.`;
+function metric(label, value) {
+  return h("div", {
+    classes: ["awt-metric"],
+    children: [
+      h("span", { text: label }),
+      h("strong", { text: value })
+    ]
+  });
 }

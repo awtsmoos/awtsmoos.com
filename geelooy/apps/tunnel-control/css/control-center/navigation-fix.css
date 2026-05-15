@@ -3,17 +3,20 @@
 
 body.awt-pro-ready [data-awt-navigate],
 body.awt-pro-ready [data-target-tab],
-body.awt-pro-ready [data-tab] {
+body.awt-pro-ready [data-tab],
+body.awt-pro-ready [data-awt-home] {
   cursor: pointer;
 }
 
-body.awt-pro-ready [data-awt-navigate]:hover {
+body.awt-pro-ready [data-awt-navigate]:hover,
+body.awt-pro-ready [data-awt-home]:hover {
   border-color: rgba(141, 222, 255, 0.64) !important;
 }
 
 body.awt-pro-ready [data-awt-navigate]:focus-visible,
 body.awt-pro-ready [data-target-tab]:focus-visible,
-body.awt-pro-ready [data-tab]:focus-visible {
+body.awt-pro-ready [data-tab]:focus-visible,
+body.awt-pro-ready [data-awt-home]:focus-visible {
   outline: 3px solid rgba(141, 222, 255, 0.34);
   outline-offset: 3px;
 }
