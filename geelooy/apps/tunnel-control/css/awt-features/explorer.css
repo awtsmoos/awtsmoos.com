@@ -1,11 +1,13 @@
 
 /* B"H
-   Owns: file explorer pane visual density.
+   Owns: project explorer page.
 */
 
-[data-pane="explorer"] {
+[data-pane="explorer"],
+[data-page="explorer"],
+.explorer-pane {
   display: grid;
-  gap: var(--awt-space-4);
+  gap: var(--awt-space-5);
 }
 
 .explorer-toolbar,
@@ -14,7 +16,6 @@
   flex-wrap: wrap;
   gap: var(--awt-space-2);
   align-items: center;
-  margin-bottom: var(--awt-space-3);
 }
 
 .explorer-list,
@@ -23,9 +24,9 @@
   overflow: auto;
   min-height: 320px;
   max-height: min(62vh, 720px);
-  border: 1px solid var(--awt-line-0);
+  border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-lg);
-  background: rgba(3, 8, 16, 0.45);
+  background: rgba(3, 8, 17, 0.45);
 }
 
 .explorer-row,
@@ -34,12 +35,12 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: var(--awt-space-3);
   align-items: center;
-  min-height: 42px;
+  min-height: 44px;
   padding: var(--awt-space-2) var(--awt-space-3);
-  border-bottom: 1px solid rgba(148, 180, 226, 0.09);
+  border-bottom: 1px solid rgba(159, 197, 255, 0.09);
 }
 
 .explorer-row:hover,
 .file-row:hover {
-  background: rgba(141, 232, 255, 0.06);
+  background: rgba(125, 231, 255, 0.06);
 }

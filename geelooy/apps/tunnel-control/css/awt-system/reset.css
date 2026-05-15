@@ -1,6 +1,6 @@
 
 /* B"H
-   Owns: safe browser reset only.
+   Owns: safe reset only.
 */
 
 *,
@@ -11,19 +11,20 @@
 
 html {
   min-height: 100%;
-  background: var(--awt-bg-0);
+  background: var(--awt-bg-deep);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   overflow-x: hidden;
-  color: var(--awt-text-1);
+  color: var(--awt-text-soft);
   background:
-    radial-gradient(circle at 18% -10%, rgba(85, 199, 255, 0.18), transparent 35%),
-    radial-gradient(circle at 88% 8%, rgba(43, 130, 255, 0.14), transparent 34%),
-    linear-gradient(145deg, var(--awt-bg-0), var(--awt-bg-1) 48%, #030712);
+    radial-gradient(circle at 16% -14%, rgba(125, 231, 255, 0.19), transparent 32%),
+    radial-gradient(circle at 92% 0%, rgba(42, 128, 255, 0.16), transparent 34%),
+    linear-gradient(145deg, var(--awt-bg-page), var(--awt-bg-page-2) 58%, var(--awt-bg-deep));
   font-family: var(--awt-font-ui);
+  font-size: 15px;
 }
 
 body.modal-open {
@@ -43,15 +44,11 @@ button {
 
 button:disabled {
   cursor: not-allowed;
+  opacity: 0.55;
 }
 
 a {
-  color: var(--awt-accent-0);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
+  color: var(--awt-accent);
 }
 
 img,

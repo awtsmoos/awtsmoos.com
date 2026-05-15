@@ -1,53 +1,65 @@
 
 /* B"H
-   Owns: global type rhythm.
+   Owns: readable dashboard typography.
 */
 
 h1,
 h2,
 h3,
+h4,
 p {
   margin-top: 0;
 }
 
 h1 {
   margin-bottom: var(--awt-space-3);
-  color: var(--awt-text-0);
-  font-size: clamp(2rem, 3vw, 3.7rem);
-  line-height: 0.95;
-  letter-spacing: -0.065em;
+  color: var(--awt-text);
+  font-size: clamp(2rem, 4.2vw, 4.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.075em;
 }
 
 h2 {
-  margin-bottom: var(--awt-space-4);
-  color: var(--awt-text-0);
-  font-size: clamp(1.28rem, 1.8vw, 2rem);
+  margin-bottom: var(--awt-space-3);
+  color: var(--awt-text);
+  font-size: clamp(1.32rem, 2vw, 2.15rem);
   line-height: 1.08;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.045em;
 }
 
 h3 {
-  margin-bottom: var(--awt-space-3);
-  color: var(--awt-text-0);
-  font-size: 1rem;
-  line-height: 1.18;
-  letter-spacing: -0.015em;
+  margin-bottom: var(--awt-space-2);
+  color: var(--awt-text);
+  font-size: 1.08rem;
+  line-height: 1.17;
+  letter-spacing: -0.025em;
+}
+
+h4 {
+  margin-bottom: var(--awt-space-2);
+  color: var(--awt-text-soft);
+  font-size: 0.92rem;
+  letter-spacing: -0.01em;
 }
 
 p {
-  color: var(--awt-text-2);
-  line-height: 1.62;
+  margin-bottom: var(--awt-space-4);
+  color: var(--awt-muted);
+  line-height: 1.58;
 }
 
 label {
-  color: var(--awt-text-2);
+  display: grid;
+  gap: var(--awt-space-2);
+  min-width: 0;
+  color: var(--awt-muted);
   font-size: 0.78rem;
-  font-weight: 750;
-  letter-spacing: 0.025em;
+  font-weight: 800;
+  letter-spacing: 0.01em;
 }
 
 small {
-  color: var(--awt-text-3);
+  color: var(--awt-faint);
 }
 
 code,

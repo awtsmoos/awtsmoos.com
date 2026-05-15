@@ -1,17 +1,10 @@
 
 /* B"H
-   Awtsmoos Tunnel Control CSS spine.
+   Tunnel Control CSS entry.
 
-   This file is intentionally tiny. The dashboard stays AI-friendly by
-   importing many small connected files in one strict order:
-
-   1. system: tokens, reset, typography, scrollbars, utilities
-   2. layout: shell, navigation, panes, responsive structure
-   3. components: buttons, forms, cards, modals, outputs
-   4. features: setup, explorer, root picker, terminal, chrome, docs
-
-   No old final/pro/polish override pile is imported here. Every file has
-   one job, and every job has one place.
+   The dashboard must not be an archaeological stack of old overrides.
+   This file is the single ordered spine. Small files stay small, but every
+   file is connected through this one clean river.
 */
 
 @import url("./awt-system/index.css");

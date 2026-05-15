@@ -1,64 +1,76 @@
 
 /* B"H
-   Owns: tabs, nav links, and dashboard movement controls.
+   Owns: tab/nav layout only. Tabs are navigation, not giant cards.
 */
 
 .tabs,
 .nav-tabs,
-[role="tablist"] {
+.awt-tabs,
+[role="tablist"],
+[data-tabs] {
   position: sticky;
   top: 0;
-  z-index: 30;
+  z-index: 60;
   display: flex;
+  flex-wrap: wrap;
   gap: var(--awt-space-2);
   align-items: center;
-  overflow-x: auto;
-  margin: 0 0 var(--awt-space-4);
+  margin: 0 0 var(--awt-space-5);
   padding: var(--awt-space-2);
-  border: 1px solid var(--awt-line-0);
+  border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-lg);
-  background: rgba(5, 9, 20, 0.82);
+  background: rgba(4, 9, 18, 0.78);
   backdrop-filter: blur(18px);
-  box-shadow: var(--awt-shadow-0);
+  box-shadow: var(--awt-shadow-sm);
 }
 
 .tab,
 .tabs button,
 .nav-tabs button,
-[role="tab"] {
-  min-height: var(--awt-control-sm-h);
+.awt-tabs button,
+[role="tab"],
+[data-tab] {
+  width: auto;
+  min-width: 0;
+  min-height: 34px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
   padding: 0 var(--awt-space-4);
   border: 1px solid transparent;
   border-radius: 999px;
-  color: var(--awt-text-2);
+  color: var(--awt-muted);
   background: transparent;
-  font-size: 0.83rem;
-  font-weight: 800;
+  box-shadow: none;
+  font-size: 0.82rem;
+  font-weight: 820;
+  line-height: 1;
+  text-align: center;
   white-space: nowrap;
-  transition:
-    color var(--awt-speed) ease,
-    background var(--awt-speed) ease,
-    border-color var(--awt-speed) ease,
-    transform var(--awt-speed) ease;
 }
 
 .tab:hover,
 .tabs button:hover,
 .nav-tabs button:hover,
-[role="tab"]:hover {
-  color: var(--awt-text-0);
-  border-color: var(--awt-line-1);
-  background: rgba(141, 232, 255, 0.08);
-  transform: translateY(-1px);
+.awt-tabs button:hover,
+[role="tab"]:hover,
+[data-tab]:hover {
+  color: var(--awt-text);
+  border-color: var(--awt-line-2);
+  background: rgba(125, 231, 255, 0.07);
+  text-decoration: none;
 }
 
 .tab.active,
-.tab[aria-selected="true"],
 .tabs button.active,
 .nav-tabs button.active,
-[role="tab"][aria-selected="true"] {
-  color: #03111f;
-  border-color: rgba(141, 232, 255, 0.8);
-  background: linear-gradient(135deg, var(--awt-accent-0), var(--awt-accent-1));
-  box-shadow: 0 10px 26px rgba(85, 199, 255, 0.2);
+.awt-tabs button.active,
+[role="tab"][aria-selected="true"],
+[data-tab].active {
+  color: #03121d;
+  border-color: rgba(125, 231, 255, 0.78);
+  background: linear-gradient(135deg, var(--awt-accent), var(--awt-accent-2));
+  box-shadow: 0 12px 28px rgba(66, 186, 255, 0.16);
 }

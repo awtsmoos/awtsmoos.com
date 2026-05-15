@@ -1,11 +1,11 @@
 
 /* B"H
-   Owns: dashboard scrollbars.
+   Owns: scrollbars.
 */
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(141, 232, 255, 0.56) rgba(7, 13, 26, 0.72);
+  scrollbar-color: rgba(125, 231, 255, 0.56) rgba(3, 8, 17, 0.62);
 }
 
 *::-webkit-scrollbar {
@@ -14,16 +14,12 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: rgba(7, 13, 26, 0.72);
+  background: rgba(3, 8, 17, 0.62);
   border-radius: 999px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(141, 232, 255, 0.7), rgba(43, 130, 255, 0.64));
-  border: 2px solid rgba(7, 13, 26, 0.72);
+  background: linear-gradient(180deg, rgba(125, 231, 255, 0.78), rgba(42, 128, 255, 0.7));
+  border: 2px solid rgba(3, 8, 17, 0.72);
   border-radius: 999px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(141, 232, 255, 0.95), rgba(43, 130, 255, 0.84));
 }

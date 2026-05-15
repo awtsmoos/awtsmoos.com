@@ -1,7 +1,14 @@
 
 /* B"H
-   Owns: terminal pane density.
+   Owns: command runner.
 */
+
+[data-pane="terminal"],
+[data-page="terminal"],
+.terminal-pane {
+  display: grid;
+  gap: var(--awt-space-5);
+}
 
 [data-pane="terminal"] textarea,
 #terminalCommand,

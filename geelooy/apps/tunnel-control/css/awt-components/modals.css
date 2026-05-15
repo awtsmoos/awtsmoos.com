@@ -1,6 +1,6 @@
 
 /* B"H
-   Owns: modal primitive, backdrop, dialog shells.
+   Owns: modal primitive.
 */
 
 .modal,
@@ -9,7 +9,7 @@
 #chromeManualModal {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 220;
   display: grid;
   place-items: center;
   padding: var(--awt-space-4);
@@ -22,8 +22,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 12%, rgba(85, 199, 255, 0.12), transparent 42%),
-    rgba(0, 0, 0, 0.62);
+    radial-gradient(circle at 50% 10%, rgba(66, 186, 255, 0.16), transparent 42%),
+    rgba(0, 0, 0, 0.64);
   backdrop-filter: blur(14px);
 }
 
@@ -35,30 +35,22 @@
   z-index: 1;
   min-width: 0;
   min-height: 0;
-  border: 1px solid rgba(141, 232, 255, 0.28);
+  border: 1px solid rgba(125, 231, 255, 0.28);
   border-radius: var(--awt-radius-xl);
   background:
-    linear-gradient(180deg, rgba(22, 36, 62, 0.97), rgba(5, 10, 22, 0.985)),
-    var(--awt-bg-1);
-  box-shadow: var(--awt-shadow-2);
+    linear-gradient(180deg, rgba(22, 39, 66, 0.98), rgba(5, 10, 21, 0.99)),
+    var(--awt-bg-page);
+  box-shadow: var(--awt-shadow-lg);
 }
 
 .modal-head,
 .awt-modal-head {
   display: flex;
   gap: var(--awt-space-4);
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: var(--awt-space-6);
-  border-bottom: 1px solid var(--awt-line-0);
-}
-
-.modal-title,
-.awt-modal-title {
-  margin: 0;
-  color: var(--awt-text-0);
-  font-size: clamp(1.4rem, 2vw, 2.1rem);
-  letter-spacing: -0.045em;
+  padding: var(--awt-space-5);
+  border-bottom: 1px solid var(--awt-line);
 }
 
 .modal-body,
@@ -75,5 +67,5 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--awt-space-4) var(--awt-space-5);
-  border-top: 1px solid var(--awt-line-0);
+  border-top: 1px solid var(--awt-line);
 }

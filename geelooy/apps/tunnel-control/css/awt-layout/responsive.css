@@ -1,61 +1,64 @@
 
 /* B"H
-   Owns: cross-feature responsive layout.
+   Owns: global responsive behavior.
 */
 
-@media (max-width: 900px) {
-  .app,
-  .control-app,
-  main {
-    width: min(100vw - 18px, 1480px);
-  }
-
+@media (max-width: 980px) {
   body > .app,
   body > .control-app,
-  body > main {
-    padding-top: var(--awt-space-3);
-  }
-
-  .hero,
-  header.hero,
-  .awt-hero {
-    padding: var(--awt-space-5);
+  body > main,
+  .awt-control-shell,
+  #app,
+  #controlApp {
+    width: min(var(--awt-page-max), calc(100vw - 18px));
   }
 
   .controls,
   .form-grid,
-  .action-grid {
+  .action-grid,
+  .awt-form-grid {
     grid-template-columns: 1fr;
   }
 
+  .controls .wide,
   .controls .half,
   .controls .third,
   .controls .quarter,
+  .form-grid .wide,
   .form-grid .half,
   .form-grid .third,
   .form-grid .quarter,
+  .action-grid .wide,
   .action-grid .half,
   .action-grid .third,
-  .action-grid .quarter {
+  .action-grid .quarter,
+  .awt-form-grid .wide,
+  .awt-form-grid .half,
+  .awt-form-grid .third,
+  .awt-form-grid .quarter {
     grid-column: auto;
   }
 }
 
 @media (max-width: 640px) {
-  :root {
-    --awt-control-h: 38px;
+  body {
+    font-size: 14px;
   }
 
-  .section,
-  .card,
-  .panel,
-  .pane-card {
-    padding: var(--awt-space-4);
+  header,
+  .hero,
+  .awt-hero,
+  .control-hero,
+  .page-hero {
+    padding: var(--awt-space-5);
+    border-radius: var(--awt-radius-lg);
   }
 
   .tabs,
   .nav-tabs,
-  [role="tablist"] {
-    border-radius: var(--awt-radius-md);
+  .awt-tabs,
+  [role="tablist"],
+  [data-tabs] {
+    position: static;
   }
 }

@@ -1,11 +1,7 @@
 
 /* B"H
-   Owns: tiny reusable helpers.
+   Owns: tiny helpers.
 */
-
-.awt-muted {
-  color: var(--awt-text-3);
-}
 
 .awt-row {
   display: flex;
@@ -19,33 +15,19 @@
   gap: var(--awt-space-4);
 }
 
-.awt-grid {
-  display: grid;
-  gap: var(--awt-space-4);
+.awt-muted {
+  color: var(--awt-muted);
 }
 
-.awt-grid.two {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.awt-grid.three {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.awt-fill {
-  min-width: 0;
-  flex: 1 1 auto;
+.awt-faint {
+  color: var(--awt-faint);
 }
 
 .awt-mono {
   font-family: var(--awt-font-mono);
 }
 
-.awt-sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+.awt-fill {
+  min-width: 0;
+  flex: 1 1 auto;
 }

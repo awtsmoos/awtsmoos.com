@@ -1,6 +1,6 @@
 
 /* B"H
-   Owns: code/output/status boxes.
+   Owns: output boxes and pre blocks.
 */
 
 pre,
@@ -8,17 +8,23 @@ pre,
 .result,
 .awt-output,
 #chromeOut,
-#rootPickerOut {
+#rootPickerOut,
+#statusBox,
+#configOut,
+#explorerOut,
+#terminalOut,
+#actionOut,
+#usageOut {
   overflow: auto;
   max-width: 100%;
   margin: 0;
   padding: var(--awt-space-4);
-  border: 1px solid var(--awt-line-0);
+  border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-md);
-  color: #dff8ff;
+  color: #e5fbff;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.16)),
-    rgba(3, 8, 16, 0.9);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.16)),
+    rgba(2, 7, 15, 0.9);
   font-family: var(--awt-font-mono);
   font-size: 0.78rem;
   line-height: 1.55;
@@ -26,37 +32,22 @@ pre,
   word-break: break-word;
 }
 
-.awt-output.compact,
-pre.compact {
-  max-height: 240px;
-}
-
 details {
-  border: 1px solid var(--awt-line-0);
+  overflow: hidden;
+  border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-md);
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(255, 255, 255, 0.027);
 }
 
 summary {
   padding: var(--awt-space-3) var(--awt-space-4);
-  color: var(--awt-text-1);
-  font-weight: 800;
+  color: var(--awt-text-soft);
+  font-weight: 820;
   cursor: pointer;
 }
 
 details > pre,
 details > .output {
   border-width: 1px 0 0;
-  border-radius: 0 0 var(--awt-radius-md) var(--awt-radius-md);
-}
-
-.status-line,
-.awt-status-line {
-  min-height: 34px;
-  padding: var(--awt-space-2) var(--awt-space-4);
-  border: 1px solid var(--awt-line-0);
-  border-radius: 999px;
-  color: var(--awt-text-2);
-  background: rgba(255, 255, 255, 0.035);
-  font-size: 0.83rem;
+  border-radius: 0;
 }

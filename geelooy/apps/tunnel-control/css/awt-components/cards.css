@@ -1,29 +1,32 @@
 
 /* B"H
-   Owns: card and panel primitives.
+   Owns: content cards. These are block containers, never pill buttons.
 */
 
-.awt-card,
 .card,
 .panel,
 .section,
+.awt-card,
 .chrome-card,
 .explorer-card,
 .usage-card {
   position: relative;
+  display: block;
+  min-width: 0;
   overflow: hidden;
-  border: 1px solid var(--awt-line-0);
+  padding: var(--awt-space-5);
+  border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-lg);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
-    var(--awt-surface-0);
-  box-shadow: var(--awt-shadow-0);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.046), rgba(255, 255, 255, 0.012)),
+    var(--awt-panel);
+  box-shadow: var(--awt-shadow-sm);
 }
 
-.awt-card::before,
 .card::before,
 .panel::before,
 .section::before,
+.awt-card::before,
 .chrome-card::before,
 .explorer-card::before,
 .usage-card::before {
@@ -31,31 +34,42 @@
   position: absolute;
   inset: 0 0 auto;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(141, 232, 255, 0.28), transparent);
+  background: linear-gradient(90deg, transparent, rgba(125, 231, 255, 0.28), transparent);
   pointer-events: none;
+}
+
+.card > *,
+.panel > *,
+.section > *,
+.awt-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .card-header,
 .panel-header,
-.section-header {
+.section-header,
+.awt-card-header {
   display: flex;
   gap: var(--awt-space-3);
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: var(--awt-space-4);
 }
 
 .card-title,
 .panel-title,
-.section-title {
+.section-title,
+.awt-card-title {
   margin: 0;
-  color: var(--awt-text-0);
+  color: var(--awt-text);
 }
 
 .card-subtitle,
 .panel-subtitle,
-.section-subtitle {
+.section-subtitle,
+.awt-card-subtitle {
   margin: var(--awt-space-1) 0 0;
-  color: var(--awt-text-3);
-  font-size: 0.87rem;
+  color: var(--awt-muted);
+  font-size: 0.88rem;
 }

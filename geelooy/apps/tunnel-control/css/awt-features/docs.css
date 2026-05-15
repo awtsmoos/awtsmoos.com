@@ -1,17 +1,21 @@
 
 /* B"H
-   Owns: docs and install panes.
+   Owns: docs and install pages.
 */
+
+[data-pane="docs"],
+[data-pane="install"],
+[data-page="docs"],
+[data-page="install"] {
+  display: grid;
+  gap: var(--awt-space-5);
+}
 
 [data-pane="docs"] pre,
 [data-pane="install"] pre,
+[data-page="docs"] pre,
+[data-page="install"] pre,
 #agentPrompt,
 #installCommand {
   max-height: 520px;
-}
-
-[data-pane="install"] .install-options,
-.install-options {
-  display: grid;
-  gap: var(--awt-space-3);
 }

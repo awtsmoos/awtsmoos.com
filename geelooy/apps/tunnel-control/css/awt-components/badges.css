@@ -1,6 +1,6 @@
 
 /* B"H
-   Owns: badges, chips, pills.
+   Owns: chips, badges, compact status pills.
 */
 
 .badge,
@@ -11,34 +11,31 @@
   display: inline-flex;
   gap: var(--awt-space-2);
   align-items: center;
-  min-height: 28px;
+  min-height: 27px;
   padding: 0 var(--awt-space-3);
-  border: 1px solid var(--awt-line-0);
+  border: 1px solid var(--awt-line);
   border-radius: 999px;
-  color: var(--awt-text-1);
-  background: rgba(255, 255, 255, 0.045);
-  font-size: 0.78rem;
+  color: var(--awt-text-soft);
+  background: rgba(255, 255, 255, 0.044);
+  font-size: 0.77rem;
   font-weight: 780;
   white-space: nowrap;
 }
 
 .badge.good,
 .awt-badge.good {
-  color: #dffff0;
-  border-color: rgba(104, 230, 167, 0.42);
-  background: rgba(104, 230, 167, 0.12);
+  border-color: rgba(111, 240, 173, 0.42);
+  background: rgba(111, 240, 173, 0.11);
 }
 
 .badge.warn,
 .awt-badge.warn {
-  color: #fff3cf;
-  border-color: rgba(255, 208, 106, 0.42);
-  background: rgba(255, 208, 106, 0.12);
+  border-color: rgba(255, 211, 111, 0.42);
+  background: rgba(255, 211, 111, 0.11);
 }
 
 .badge.bad,
 .awt-badge.bad {
-  color: #ffe0e6;
-  border-color: rgba(255, 127, 154, 0.42);
-  background: rgba(255, 127, 154, 0.12);
+  border-color: rgba(255, 120, 149, 0.42);
+  background: rgba(255, 120, 149, 0.11);
 }
