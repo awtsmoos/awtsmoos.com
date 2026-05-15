@@ -15,7 +15,6 @@ const { docsHtml } = require("./docsHtml.js");
 const { docsJson } = require("./docsJson.js");
 const { bootstrap } = require("./bootstrap.js");
 const { osFs } = require("./osFs.js");
-const { osFs } = require("./osFs.js");
 
 const routeTable = {
   me,
