@@ -12,51 +12,82 @@ import { switchPane } from "./tabs.js";
 
 let configTimer = null;
 let loadingConfig = false;
-let autoLoadCount = 0;
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export function mountAll() {
-  qsa("[data-go]").forEach(x => x.onclick = () => switchPane(x.dataset.go));
+  safe("tabs", () => qsa("[data-go]").forEach(x => x.onclick = () => switchPane(x.dataset.go)));
 
-  $("tunnelName").oninput = () => {
-    localStorage.setItem("awtTunnelName", tunnelName());
-    localStorage.setItem("awtsmoos.tunnelName", tunnelName());
-
-    if ($("miniTunnel")) {
-      $("miniTunnel").textContent = tunnelName() || "No tunnel selected";
-    }
-
-    autoLoadConfig();
-  };
-
-  $("refreshBtn").onclick = refresh;
-  $("loginBtn").onclick = () => location.href = "/login/?next=" + encodeURIComponent(location.href);
-  $("logoutBtn").onclick = () => location.href = "/logout?next=" + encodeURIComponent(location.href);
-
-  $("loadConfigBtn").onclick = () => loadConfig({ manual: true });
-  $("saveConfigBtn").onclick = () => saveConfigNow("manual");
-  $("openRootBtn").onclick = async () => show("configOut", await callFs({ action: "openRoot" }));
-  $("rootsBtn").onclick = async () => show("configOut", await callFs({ action: "roots" }));
-
-  qsa("[data-instant-config]").forEach(box => {
-    box.onchange = () => queueConfigSave("permission changed");
+  safe("tunnel input", () => {
+    $("tunnelName").oninput = () => {
+      localStorage.setItem("awtTunnelName", tunnelName());
+      localStorage.setItem("awtsmoos.tunnelName", tunnelName());
+      setText("miniTunnel", tunnelName() || "No tunnel selected");
+      autoLoadConfig();
+    };
   });
 
-  $("rootPath").onchange = () => queueConfigSave("root changed");
-  $("rootPath").onkeydown = e => {
-    if (e.key === "Enter") queueConfigSave("root enter");
-  };
+  safe("top buttons", () => {
+    $("refreshBtn").onclick = () => refresh().then(autoLoadConfig);
+    $("loginBtn").onclick = () => location.href = "/login/?next=" + encodeURIComponent(location.href);
+    $("logoutBtn").onclick = () => location.href = "/logout?next=" + encodeURIComponent(location.href);
+  });
 
-  mountRootPicker();
-  mountChrome();
-  mountExplorer();
-  mountTerminal();
-  mountPrompt();
-  mountKeys();
+  safe("setup buttons", () => {
+    $("loadConfigBtn").onclick = () => loadConfig({ manual: true });
+    $("saveConfigBtn").onclick = () => saveConfigNow("manual");
+    $("openRootBtn").onclick = async () => show("configOut", await callFs({ action: "openRoot" }));
+    $("rootsBtn").onclick = async () => show("configOut", await callFs({ action: "roots" }));
+
+    qsa("[data-instant-config]").forEach(box => {
+      box.onchange = () => queueConfigSave("permission changed");
+    });
+
+    $("rootPath").onchange = () => queueConfigSave("root changed");
+    $("rootPath").onkeydown = e => {
+      if (e.key === "Enter") queueConfigSave("root enter");
+    };
+  });
+
+  safeMount("root picker", mountRootPicker);
+  safeMount("chrome", mountChrome);
+  safeMount("explorer", mountExplorer);
+  safeMount("terminal", mountTerminal);
+  safeMount("prompt", mountPrompt);
+  safeMount("keys", mountKeys);
 
   refresh().then(autoLoadConfig);
   setInterval(refresh, 7000);
+}
+
+function safe(name, fn) {
+  try { return fn(); }
+  catch (e) {
+    console.error("B'H control mount failed:", name, e);
+    setText("miniAgent", "UI error");
+    setText("miniLogin", "UI error");
+    show("statusBox", { ok: false, where: name, error: e.message, stack: e.stack });
+  }
+}
+
+function safeMount(name, fn) {
+  try {
+    const got = fn();
+    if (got && typeof got.catch === "function") {
+      got.catch(e => {
+        console.error("B'H async mount failed:", name, e);
+        show("statusBox", { ok: false, where: name, error: e.message, stack: e.stack });
+      });
+    }
+  } catch (e) {
+    console.error("B'H mount failed:", name, e);
+    show("statusBox", { ok: false, where: name, error: e.message, stack: e.stack });
+  }
+}
+
+function setText(id, text) {
+  const el = $(id);
+  if (el) el.textContent = text;
 }
 
 function checked(id, fallback = true) {
@@ -66,8 +97,7 @@ function checked(id, fallback = true) {
 
 function setChecked(id, value) {
   const el = $(id);
-  if (!el) return;
-  el.checked = value !== false;
+  if (el) el.checked = value !== false;
 }
 
 function toolsFromUi() {
@@ -103,23 +133,22 @@ function payloadFromUi() {
 
 function queueConfigSave(reason) {
   if (loadingConfig) return;
-
   clearTimeout(configTimer);
-  $("configSaveStatus").textContent = "Saving " + reason + "...";
+  setText("configSaveStatus", "Saving " + reason + "...");
   configTimer = setTimeout(() => saveConfigNow(reason), 250);
 }
 
 async function saveConfigNow(reason = "save") {
   clearTimeout(configTimer);
-  $("configSaveStatus").textContent = "Saving...";
+  setText("configSaveStatus", "Saving...");
   const got = await callFs(payloadFromUi());
   show("configOut", got);
 
   if (got.ok) {
-    $("configSaveStatus").textContent = "Saved instantly: " + reason;
+    setText("configSaveStatus", "Saved instantly: " + reason);
     applyConfig(got.config || {});
   } else {
-    $("configSaveStatus").textContent = "Save failed: " + humanError(got);
+    setText("configSaveStatus", "Save failed: " + humanError(got));
   }
 
   return got;
@@ -127,33 +156,26 @@ async function saveConfigNow(reason = "save") {
 
 async function autoLoadConfig() {
   for (let i = 0; i < 18; i++) {
-    autoLoadCount++;
     const got = await loadConfig({ silent: i > 0, auto: true });
-
     if (got && got.ok) return got;
-
-    $("configSaveStatus").textContent = "Waiting for tunnel config... retry " + (i + 1);
+    setText("configSaveStatus", "Waiting for tunnel config... retry " + (i + 1));
     await wait(Math.min(800 + i * 250, 4000));
   }
-
   return null;
 }
 
 async function loadConfig(options = {}) {
   loadingConfig = true;
-
-  if (!options.silent) {
-    $("configSaveStatus").textContent = "Loading config...";
-  }
+  if (!options.silent) setText("configSaveStatus", "Loading config...");
 
   const got = await callFs({ action: "configGet" });
   show("configOut", got);
 
   if (got.ok) {
     applyConfig(got.config || {});
-    $("configSaveStatus").textContent = "Config loaded. Switches are live.";
+    setText("configSaveStatus", "Config loaded. Switches are live.");
   } else if (!options.silent || options.manual) {
-    $("configSaveStatus").textContent = "Config load failed: " + humanError(got);
+    setText("configSaveStatus", "Config load failed: " + humanError(got));
   }
 
   loadingConfig = false;
@@ -169,7 +191,6 @@ function applyConfig(config) {
   setChecked("enableLocalHttpProxy", config.enableLocalHttpProxy);
 
   const tools = config.tools || {};
-
   setChecked("toolFsRead", tools.fsRead);
   setChecked("toolFsWrite", tools.fsWrite);
   setChecked("toolFsBulk", tools.fsBulk);
@@ -177,11 +198,14 @@ function applyConfig(config) {
   setChecked("toolNodeScript", tools.nodeScript);
   setChecked("toolChrome", tools.chrome !== false && tools.browser !== false);
 
-  if ($("miniKey")) $("miniKey").textContent = localStorage.getItem("awtTunnelApiKey") ? "Saved" : "Not needed";
+  setText("miniKey", localStorage.getItem("awtTunnelApiKey") ? "Saved" : "Not needed");
 }
 
 async function refresh() {
   try {
+    setText("miniAgent", "Checking...");
+    setText("miniLogin", "Checking...");
+
     const got = await fetch("/api/tunnel/control/my-device", {
       credentials: "include",
       headers: { Accept: "application/json" }
@@ -192,10 +216,12 @@ async function refresh() {
 
     if (got.tunnelName && !$("tunnelName").value) $("tunnelName").value = got.tunnelName;
 
-    $("miniTunnel").textContent = tunnelName() || got.tunnelName || "No tunnel selected";
-    $("miniAgent").textContent = got.ok ? "Connected" : "Not connected";
-    $("miniLogin").textContent = got.identity?.userId || got.identity?.email || "Logged in";
+    setText("miniTunnel", tunnelName() || got.tunnelName || "No tunnel selected");
+    setText("miniAgent", got.ok ? "Connected" : (got.error || "Not connected"));
+    setText("miniLogin", got.identity?.userId || got.identity?.email || (got.ok ? "Logged in" : "Login needed"));
   } catch (e) {
-    show("statusBox", { ok: false, error: e.message });
+    setText("miniAgent", "Refresh failed");
+    setText("miniLogin", "Unknown");
+    show("statusBox", { ok: false, error: e.message, stack: e.stack });
   }
 }

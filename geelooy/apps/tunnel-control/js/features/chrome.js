@@ -2,7 +2,46 @@
 // B"H
 import { h, area, out, $ } from "../ui/dom.js";
 import { callFs, show, humanError } from "../ui/api.js";
-import { idbGet, idbSet } from "../ui/idb.js";
+
+const DB_NAME = "awtsmoosTunnelControl";
+const STORE = "settings";
+
+async function idbGet(key, fallback = "") {
+  try {
+    const db = await openDb();
+    return await new Promise(resolve => {
+      const tx = db.transaction(STORE, "readonly");
+      const req = tx.objectStore(STORE).get(key);
+      req.onsuccess = () => resolve(req.result ?? localStorage.getItem("awt:" + key) ?? fallback);
+      req.onerror = () => resolve(localStorage.getItem("awt:" + key) ?? fallback);
+    });
+  } catch (e) {
+    return localStorage.getItem("awt:" + key) ?? fallback;
+  }
+}
+
+async function idbSet(key, value) {
+  localStorage.setItem("awt:" + key, String(value ?? ""));
+  try {
+    const db = await openDb();
+    await new Promise(resolve => {
+      const tx = db.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).put(String(value ?? ""), key);
+      tx.oncomplete = resolve;
+      tx.onerror = resolve;
+    });
+  } catch (e) {}
+}
+
+function openDb() {
+  return new Promise((resolve, reject) => {
+    if (!window.indexedDB) return reject(new Error("IndexedDB unavailable"));
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore(STORE);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
 
 function field(id, label, attrs = {}, wide = "") {
   return h("label", { className: "chrome-field " + wide }, [
@@ -22,7 +61,6 @@ export function chrome() {
       h("h2", { text: "Browser control lab" }),
       h("p", { text: "Find Chrome once, remember it, then launch and control it through your local tunnel." })
     ]),
-
     h("article", { className: "panel stack" }, [
       h("div", { className: "chrome-grid" }, [
         field("chromePath", "Chrome / Edge / Brave executable", {}, "span-9"),
@@ -37,7 +75,6 @@ export function chrome() {
       h("div", { id: "chromeStatusCard", className: "notice", text: "Loading saved Chrome path..." }),
       h("div", { id: "chromeCandidates", className: "candidate-list hidden" })
     ]),
-
     h("article", { className: "panel stack" }, [
       field("chromeUrl", "URL", { value: "https://awtsmoos.com" }, "span-12"),
       h("div", { className: "button-row" }, [
@@ -45,7 +82,6 @@ export function chrome() {
         btn("chromeEvalBtn", "Evaluate title")
       ])
     ]),
-
     h("article", { className: "panel stack" }, [
       h("div", { className: "chrome-grid" }, [
         field("chromeSelector", "Selector", { value: "body" }, "span-6"),
@@ -60,7 +96,6 @@ export function chrome() {
         btn("chromeRunScriptBtn", "Run script")
       ])
     ]),
-
     h("details", {}, [
       h("summary", { text: "Raw Chrome response" }),
       out("chromeOut")
@@ -71,7 +106,7 @@ export function chrome() {
 export async function mountChrome() {
   await restoreChrome();
 
-  const map = [
+  [
     ["chromeFindBtn", "chromeFind"],
     ["chromeLaunchBtn", "chromeLaunch"],
     ["chromeStatusBtn", "chromeStatus"],
@@ -81,19 +116,17 @@ export async function mountChrome() {
     ["chromeTypeBtn", "chromeType"],
     ["chromeEvalBtn", "chromeEval"],
     ["chromeRunScriptBtn", "chromeRunScript"]
-  ];
-
-  map.forEach(([id, action]) => $(id).onclick = () => run(action));
+  ].forEach(([id, action]) => {
+    const el = $(id);
+    if (el) el.onclick = () => run(action);
+  });
 
   $("chromeManualBtn").onclick = () => openCandidates();
   $("chromePath").onchange = saveChrome;
   $("chromePort").onchange = saveChrome;
 
-  if (!$("chromePath").value) {
-    run("chromeFind");
-  } else {
-    $("chromeStatusCard").textContent = "Remembered Chrome path: " + $("chromePath").value;
-  }
+  if (!$("chromePath").value) run("chromeFind");
+  else $("chromeStatusCard").textContent = "Remembered Chrome path: " + $("chromePath").value;
 }
 
 async function restoreChrome() {
@@ -112,23 +145,6 @@ async function saveChrome() {
   await idbSet("chromePort", port);
 }
 
-function statusText(got) {
-  if (got.action === "chromeFind") {
-    return got.found
-      ? `Found and remembered: ${got.chromePath}`
-      : `Could not find Chrome automatically. Searched ${(got.candidates || []).length} paths.`;
-  }
-
-  if (got.action === "chromeStatus") {
-    return got.connected
-      ? `Connected on port ${got.port}. Pages: ${(got.pages || []).length}.`
-      : `Not connected on port ${got.port}. ${humanError(got)}`;
-  }
-
-  if (got.ok) return `${got.action} succeeded.`;
-  return `${got.action || "Chrome action"} failed: ${humanError(got)}`;
-}
-
 function renderCandidates(list = []) {
   const host = $("chromeCandidates");
   const items = list.map(x => typeof x === "string" ? { path: x } : x).filter(x => x.path);
@@ -139,13 +155,11 @@ function renderCandidates(list = []) {
       h("code", { text: item.path }),
       h("button", {
         text: "Use",
-        on: {
-          click: async () => {
-            $("chromePath").value = item.path;
-            await saveChrome();
-            $("chromeStatusCard").textContent = "Selected and remembered: " + item.path;
-          }
-        }
+        on: { click: async () => {
+          $("chromePath").value = item.path;
+          await saveChrome();
+          $("chromeStatusCard").textContent = "Selected and remembered: " + item.path;
+        } }
       })
     ])
   ));
@@ -153,7 +167,6 @@ function renderCandidates(list = []) {
 
 function openCandidates() {
   $("chromeCandidates").classList.remove("hidden");
-
   if (!$("chromeCandidates").children.length) {
     renderCandidates([
       "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -162,6 +175,16 @@ function openCandidates() {
       "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
     ]);
   }
+}
+
+function chromeStatusText(got) {
+  if (got.action === "chromeFind") {
+    return got.found
+      ? "Found and remembered: " + got.chromePath
+      : "Could not find Chrome automatically. " + humanError(got);
+  }
+  if (got.ok) return (got.action || "Chrome action") + " succeeded.";
+  return (got.action || "Chrome action") + " failed: " + humanError(got);
 }
 
 async function run(action) {
@@ -188,10 +211,8 @@ async function run(action) {
     await saveChrome();
   }
 
-  if (got.candidates || got.existing) {
-    renderCandidates(got.existing || got.candidates);
-  }
+  if (got.candidates || got.existing) renderCandidates(got.existing || got.candidates);
 
-  $("chromeStatusCard").textContent = statusText(got);
+  $("chromeStatusCard").textContent = chromeStatusText(got);
   show("chromeOut", got);
 }

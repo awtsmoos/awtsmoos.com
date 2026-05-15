@@ -11,7 +11,7 @@ function responseBytes(obj) {
   catch (e) { return 0; }
 }
 
-function allowedByIdentity(ident, neededScope) {
+function identityAllows(ident, neededScope) {
   if (ident.kind === "session") return true;
   return scopeAllowed(ident, neededScope) || scopeAllowed(ident, "tunnel.admin");
 }
@@ -24,14 +24,14 @@ async function protectedFs($i, vars) {
       BH: "B\"H",
       ok: false,
       error: ident.error || "not_authenticated",
-      guidance: "Log in normally, reconnect OAuth, or use x-awtsmoos-api-key."
+      guidance: "Log in normally, use OAuth Bearer token, or use x-awtsmoos-api-key."
     }, 401);
   }
 
   const payload = buildFsPayload($i);
   const neededScope = actionRequiredScope(payload.action);
 
-  if (!allowedByIdentity(ident, neededScope)) {
+  if (!identityAllows(ident, neededScope)) {
     return json($i, {
       BH: "B\"H",
       ok: false,
@@ -78,8 +78,7 @@ async function protectedFs($i, vars) {
       BH: "B\"H",
       ok: false,
       error: e.message,
-      stack: e.stack,
-      guidance: "The website reached auth, but the tunnel agent did not answer in time. Make sure the local agent is running and connected."
+      stack: e.stack
     }, 500);
   }
 }
