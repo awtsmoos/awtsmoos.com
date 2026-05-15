@@ -69,7 +69,7 @@ function boolFrom($i, body, name, fallback = false) {
 
 function actionKind(action) {
   action = String(action || "");
-  if (action.startsWith("chrome")) return "chrome";
+  if (action.startsWith("chrome") || action === "httpUseChromeCookies") return "chrome";
   if (action.startsWith("command") || action === "nodeScriptRun") return "command";
   if (action === "nodeCheck" || action === "nodeCheckTree") return "command";
   return "fs";
@@ -125,6 +125,40 @@ function buildFsPayload($i) {
     expectedSha256: valueFrom($i, body, "expectedSha256", ""),
     sha256: valueFrom($i, body, "sha256", ""),
     ext: valueFrom($i, body, "ext", ""),
+    from: valueFrom($i, body, "from", ""),
+    to: valueFrom($i, body, "to", ""),
+    source: valueFrom($i, body, "source", ""),
+    dest: valueFrom($i, body, "dest", ""),
+    target: valueFrom($i, body, "target", ""),
+    expectedSourceSha256: valueFrom($i, body, "expectedSourceSha256", ""),
+    dryRun: boolFrom($i, body, "dryRun", true),
+    confirm: boolFrom($i, body, "confirm", false),
+    headers: objectBodyOr64($i, body, "headers", "headers64", {}),
+    body: preferBodyOr64($i, body, "body", "body64"),
+    bodyEncoding: valueFrom($i, body, "bodyEncoding", "utf8"),
+    method: valueFrom($i, body, "method", "GET"),
+    cookieJarName: valueFrom($i, body, "cookieJarName", ""),
+    jar: valueFrom($i, body, "jar", ""),
+    useCookies: boolFrom($i, body, "useCookies", true),
+    saveCookies: boolFrom($i, body, "saveCookies", true),
+    followRedirects: boolFrom($i, body, "followRedirects", true),
+    maxRedirects: intFrom($i, body, "maxRedirects", 5, 10),
+    responseBodyMode: valueFrom($i, body, "responseBodyMode", "text"),
+    saveResponseTo: valueFrom($i, body, "saveResponseTo", valueFrom($i, body, "to", "")),
+    includeValues: boolFrom($i, body, "includeValues", false),
+    name: valueFrom($i, body, "name", ""),
+    value: valueFrom($i, body, "value", ""),
+    domain: valueFrom($i, body, "domain", ""),
+    path: p,
+    expires: valueFrom($i, body, "expires", ""),
+    secure: boolFrom($i, body, "secure", false),
+    httpOnly: boolFrom($i, body, "httpOnly", false),
+    sameSite: valueFrom($i, body, "sameSite", ""),
+    storageType: valueFrom($i, body, "storageType", ""),
+    localStorage: objectBodyOr64($i, body, "localStorage", "localStorage64", {}),
+    sessionStorage: objectBodyOr64($i, body, "sessionStorage", "sessionStorage64", {}),
+    cookies: arrayBodyOr64($i, body, "cookies", "cookies64", []),
+
     regex: boolFrom($i, body, "regex", false),
     replaceAll: boolFrom($i, body, "replaceAll", true),
     includeDirs: boolFrom($i, body, "includeDirs", false),
@@ -185,7 +219,7 @@ function actionRequiredScope(action) {
 
   if ([
     "write", "bulkWrite", "findReplace", "replaceRange", "applyPatch",
-    "writeIfHash", "bulkWriteIfHashes", "jsonFormat",
+    "writeIfHash", "bulkWriteIfHashes", "jsonFormat", "mkdirp", "ensureFile", "touch", "copyFile", "copyTree", "moveFile", "moveTree", "deleteFile", "deleteTree", "emptyDir", "mkdirp", "ensureFile", "touch", "copyFile", "copyTree", "moveFile", "moveTree", "deleteFile", "deleteTree", "emptyDir",
     "configSet", "rootSelect", "openRoot"
   ].includes(action)) return "tunnel.write";
 
