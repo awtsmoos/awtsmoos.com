@@ -1,29 +1,20 @@
 
-/* B"H */
-@import url("./parts/base.css");
-@import url("./parts/layout.css");
-@import url("./parts/forms.css");
-@import url("./parts/buttons.css");
-@import url("./parts/status.css");
-@import url("./parts/keys.css");
-@import url("./parts/explorer.css");
-@import url("./parts/root-picker.css");
-@import url("./parts/modal.css");
-@import url("./parts/code.css");
-@import url("./parts/usage-fancy.css");
-@import url("./parts/terminal.css");
-@import url("./parts/chrome.css");
-@import url("./parts/docs.css");
-@import url("./parts/landing.css");
+/* B"H
+   Awtsmoos Tunnel Control CSS spine.
 
-/* Existing professional shell overrides. */
-@import url("./parts/pro-shell.css");
-@import url("./parts/pro-nav.css");
-@import url("./parts/pro-hero.css");
-@import url("./parts/pro-panels.css");
-@import url("./parts/pro-explorer.css");
-@import url("./parts/pro-outputs.css");
-@import url("./parts/pro-responsive.css");
+   This file is intentionally tiny. The dashboard stays AI-friendly by
+   importing many small connected files in one strict order:
 
-/* Modular control center. Keep last. */
-@import url("./control-center/index.css");
+   1. system: tokens, reset, typography, scrollbars, utilities
+   2. layout: shell, navigation, panes, responsive structure
+   3. components: buttons, forms, cards, modals, outputs
+   4. features: setup, explorer, root picker, terminal, chrome, docs
+
+   No old final/pro/polish override pile is imported here. Every file has
+   one job, and every job has one place.
+*/
+
+@import url("./awt-system/index.css");
+@import url("./awt-layout/index.css");
+@import url("./awt-components/index.css");
+@import url("./awt-features/index.css");

@@ -1,0 +1,29 @@
+
+/* B"H
+   Owns: dashboard scrollbars.
+*/
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(141, 232, 255, 0.56) rgba(7, 13, 26, 0.72);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(7, 13, 26, 0.72);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(141, 232, 255, 0.7), rgba(43, 130, 255, 0.64));
+  border: 2px solid rgba(7, 13, 26, 0.72);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(141, 232, 255, 0.95), rgba(43, 130, 255, 0.84));
+}

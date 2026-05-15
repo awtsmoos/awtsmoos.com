@@ -1,0 +1,43 @@
+
+/* B"H
+   Owns: friendly diagnostic strips and alerts.
+*/
+
+.awt-alert,
+.diagnostic,
+.error-box,
+.notice {
+  display: grid;
+  gap: var(--awt-space-2);
+  padding: var(--awt-space-4);
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-md);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.awt-alert strong,
+.diagnostic strong,
+.error-box strong,
+.notice strong {
+  color: var(--awt-text-0);
+}
+
+.awt-alert.bad,
+.diagnostic.bad,
+.error-box {
+  border-color: rgba(255, 127, 154, 0.38);
+  background: rgba(80, 22, 42, 0.28);
+}
+
+.awt-alert.good,
+.diagnostic.good {
+  border-color: rgba(104, 230, 167, 0.36);
+  background: rgba(20, 80, 54, 0.24);
+}
+
+.awt-alert.warn,
+.diagnostic.warn,
+.notice {
+  border-color: rgba(255, 208, 106, 0.34);
+  background: rgba(88, 62, 18, 0.24);
+}

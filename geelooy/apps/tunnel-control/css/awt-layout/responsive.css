@@ -1,0 +1,61 @@
+
+/* B"H
+   Owns: cross-feature responsive layout.
+*/
+
+@media (max-width: 900px) {
+  .app,
+  .control-app,
+  main {
+    width: min(100vw - 18px, 1480px);
+  }
+
+  body > .app,
+  body > .control-app,
+  body > main {
+    padding-top: var(--awt-space-3);
+  }
+
+  .hero,
+  header.hero,
+  .awt-hero {
+    padding: var(--awt-space-5);
+  }
+
+  .controls,
+  .form-grid,
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .controls .half,
+  .controls .third,
+  .controls .quarter,
+  .form-grid .half,
+  .form-grid .third,
+  .form-grid .quarter,
+  .action-grid .half,
+  .action-grid .third,
+  .action-grid .quarter {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --awt-control-h: 38px;
+  }
+
+  .section,
+  .card,
+  .panel,
+  .pane-card {
+    padding: var(--awt-space-4);
+  }
+
+  .tabs,
+  .nav-tabs,
+  [role="tablist"] {
+    border-radius: var(--awt-radius-md);
+  }
+}

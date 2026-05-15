@@ -1,0 +1,64 @@
+
+/* B"H
+   Owns: tab panes and inner dashboard page rhythm.
+*/
+
+.pane,
+[data-pane] {
+  min-width: 0;
+}
+
+.pane:not(.active):not([data-active="true"])[hidden] {
+  display: none !important;
+}
+
+[data-pane] > h2,
+.pane > h2 {
+  margin-bottom: var(--awt-space-5);
+}
+
+[data-pane] > .section + .section,
+.pane > .section + .section,
+[data-pane] > .card + .card,
+.pane > .card + .card {
+  margin-top: var(--awt-space-4);
+}
+
+.controls,
+.form-grid,
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--awt-space-3);
+  align-items: end;
+}
+
+.controls > *,
+.form-grid > *,
+.action-grid > * {
+  min-width: 0;
+}
+
+.controls .wide,
+.form-grid .wide,
+.action-grid .wide {
+  grid-column: span 12;
+}
+
+.controls .half,
+.form-grid .half,
+.action-grid .half {
+  grid-column: span 6;
+}
+
+.controls .third,
+.form-grid .third,
+.action-grid .third {
+  grid-column: span 4;
+}
+
+.controls .quarter,
+.form-grid .quarter,
+.action-grid .quarter {
+  grid-column: span 3;
+}

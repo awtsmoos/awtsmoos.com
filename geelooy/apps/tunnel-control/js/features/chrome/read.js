@@ -14,6 +14,22 @@ function read(node) {
 
 /**
  * B"H
+ * Writes a field value safely.
+ *
+ * @param {HTMLElement|null} node Field node.
+ * @param {string} value Value to write.
+ * @returns {boolean} True when written.
+ */
+export function writeField(node, value) {
+  if (!node) return false;
+  node.value = String(value ?? "");
+  node.dispatchEvent(new Event("input", { bubbles: true }));
+  node.dispatchEvent(new Event("change", { bubbles: true }));
+  return true;
+}
+
+/**
+ * B"H
  * Reads an integer with fallback.
  *
  * @param {HTMLElement|null} node Field node.
@@ -22,7 +38,7 @@ function read(node) {
  */
 function readInt(node, fallback) {
   const n = Number(read(node));
-  return Number.isFinite(n) ? n : fallback;
+  return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
 /**
@@ -58,7 +74,8 @@ export function parseScript(scriptText) {
   }
 
   try {
-    return { ok: true, script: JSON.parse(scriptText) };
+    const parsed = JSON.parse(scriptText);
+    return { ok: true, script: parsed };
   } catch (e) {
     return {
       ok: false,

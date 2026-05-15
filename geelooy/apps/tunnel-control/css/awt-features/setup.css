@@ -1,0 +1,32 @@
+
+/* B"H
+   Owns: setup pane spacing and permission controls.
+*/
+
+[data-pane="setup"] .controls,
+[data-pane="api"] .controls,
+[data-pane="account"] .controls {
+  margin-bottom: var(--awt-space-4);
+}
+
+.permission-grid,
+.tools-grid,
+.scope-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--awt-space-2);
+}
+
+.permission-grid label,
+.tools-grid label,
+.scope-grid label {
+  display: flex;
+  gap: var(--awt-space-2);
+  align-items: center;
+  min-height: 42px;
+  padding: 0 var(--awt-space-3);
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-md);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--awt-text-1);
+}

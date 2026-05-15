@@ -1,0 +1,45 @@
+
+/* B"H
+   Owns: file explorer pane visual density.
+*/
+
+[data-pane="explorer"] {
+  display: grid;
+  gap: var(--awt-space-4);
+}
+
+.explorer-toolbar,
+.file-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--awt-space-2);
+  align-items: center;
+  margin-bottom: var(--awt-space-3);
+}
+
+.explorer-list,
+.file-list,
+#explorerList {
+  overflow: auto;
+  min-height: 320px;
+  max-height: min(62vh, 720px);
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-lg);
+  background: rgba(3, 8, 16, 0.45);
+}
+
+.explorer-row,
+.file-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--awt-space-3);
+  align-items: center;
+  min-height: 42px;
+  padding: var(--awt-space-2) var(--awt-space-3);
+  border-bottom: 1px solid rgba(148, 180, 226, 0.09);
+}
+
+.explorer-row:hover,
+.file-row:hover {
+  background: rgba(141, 232, 255, 0.06);
+}

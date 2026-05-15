@@ -1,0 +1,65 @@
+
+/* B"H
+   Owns: safe browser reset only.
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--awt-bg-0);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--awt-text-1);
+  background:
+    radial-gradient(circle at 18% -10%, rgba(85, 199, 255, 0.18), transparent 35%),
+    radial-gradient(circle at 88% 8%, rgba(43, 130, 255, 0.14), transparent 34%),
+    linear-gradient(145deg, var(--awt-bg-0), var(--awt-bg-1) 48%, #030712);
+  font-family: var(--awt-font-ui);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a {
+  color: var(--awt-accent-0);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+.hidden,
+[hidden] {
+  display: none !important;
+}

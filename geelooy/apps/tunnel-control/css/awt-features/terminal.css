@@ -1,0 +1,17 @@
+
+/* B"H
+   Owns: terminal pane density.
+*/
+
+[data-pane="terminal"] textarea,
+#terminalCommand,
+#commandInput {
+  min-height: 96px;
+  font-family: var(--awt-font-mono);
+}
+
+[data-pane="terminal"] pre,
+#terminalOut {
+  min-height: 260px;
+  max-height: 58vh;
+}

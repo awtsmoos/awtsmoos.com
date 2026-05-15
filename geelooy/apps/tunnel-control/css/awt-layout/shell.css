@@ -1,0 +1,85 @@
+
+/* B"H
+   Owns: page shell, hero, main dashboard surface.
+*/
+
+.app,
+.control-app,
+main {
+  width: min(1480px, calc(100vw - 28px));
+  margin-inline: auto;
+}
+
+body > .app,
+body > .control-app,
+body > main {
+  padding: var(--awt-space-5) 0 var(--awt-space-8);
+}
+
+.hero,
+header.hero,
+.awt-hero {
+  position: relative;
+  overflow: hidden;
+  margin: var(--awt-space-4) auto var(--awt-space-5);
+  padding: clamp(22px, 3.2vw, 48px);
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-xl);
+  background:
+    linear-gradient(135deg, rgba(23, 41, 74, 0.95), rgba(8, 16, 32, 0.95)),
+    radial-gradient(circle at 10% 0%, rgba(141, 232, 255, 0.2), transparent 35%);
+  box-shadow: var(--awt-shadow-1);
+}
+
+.hero::after,
+.awt-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 20px 0 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(141, 232, 255, 0.62), transparent);
+}
+
+.top-actions,
+.hero-actions,
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--awt-space-2);
+  align-items: center;
+}
+
+.dashboard,
+.panel-grid,
+.sections,
+[data-dashboard] {
+  display: grid;
+  gap: var(--awt-space-4);
+}
+
+.section,
+.card,
+.panel,
+.pane-card,
+[data-card] {
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-lg);
+  background: linear-gradient(180deg, var(--awt-surface-1), var(--awt-surface-0));
+  box-shadow: var(--awt-shadow-0);
+}
+
+.section,
+.card,
+.panel,
+.pane-card {
+  padding: var(--awt-space-5);
+}
+
+.status-strip,
+.kpi-row,
+.summary-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--awt-space-2);
+  align-items: center;
+}

@@ -1,0 +1,93 @@
+
+/* B"H
+   Owns: every dashboard button baseline and variants.
+*/
+
+button,
+.btn,
+.button,
+input[type="button"],
+input[type="submit"] {
+  min-height: var(--awt-control-h);
+  padding: 0 var(--awt-space-4);
+  border: 1px solid var(--awt-line-1);
+  border-radius: 999px;
+  color: var(--awt-text-0);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    rgba(22, 35, 58, 0.92);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  font-size: 0.84rem;
+  font-weight: 850;
+  letter-spacing: -0.01em;
+  transition:
+    transform var(--awt-speed) ease,
+    border-color var(--awt-speed) ease,
+    background var(--awt-speed) ease,
+    box-shadow var(--awt-speed) ease,
+    opacity var(--awt-speed) ease;
+}
+
+button:hover,
+.btn:hover,
+.button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
+  border-color: rgba(141, 232, 255, 0.55);
+  background:
+    linear-gradient(180deg, rgba(141, 232, 255, 0.12), rgba(255, 255, 255, 0.035)),
+    rgba(27, 44, 72, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 10px 26px rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
+}
+
+button:active,
+.btn:active,
+.button:active {
+  transform: translateY(0);
+}
+
+button:disabled,
+.btn:disabled,
+.button:disabled {
+  opacity: 0.52;
+}
+
+.btn-primary,
+button.primary,
+button[data-variant="primary"] {
+  color: #03111f;
+  border-color: rgba(141, 232, 255, 0.82);
+  background: linear-gradient(135deg, var(--awt-accent-0), var(--awt-accent-1));
+  box-shadow: 0 14px 34px rgba(85, 199, 255, 0.2);
+}
+
+.btn-danger,
+button.danger,
+button[data-variant="danger"] {
+  border-color: rgba(255, 127, 154, 0.45);
+  background: rgba(80, 24, 42, 0.72);
+}
+
+.btn-ghost,
+button.ghost,
+button[data-variant="ghost"] {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.btn-sm,
+button.small,
+button[data-size="sm"] {
+  min-height: var(--awt-control-sm-h);
+  padding-inline: var(--awt-space-3);
+  font-size: 0.78rem;
+}
+
+.btn-square {
+  width: var(--awt-control-h);
+  padding-inline: 0;
+}

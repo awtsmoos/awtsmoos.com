@@ -1,0 +1,61 @@
+
+/* B"H
+   Owns: card and panel primitives.
+*/
+
+.awt-card,
+.card,
+.panel,
+.section,
+.chrome-card,
+.explorer-card,
+.usage-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-lg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    var(--awt-surface-0);
+  box-shadow: var(--awt-shadow-0);
+}
+
+.awt-card::before,
+.card::before,
+.panel::before,
+.section::before,
+.chrome-card::before,
+.explorer-card::before,
+.usage-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(141, 232, 255, 0.28), transparent);
+  pointer-events: none;
+}
+
+.card-header,
+.panel-header,
+.section-header {
+  display: flex;
+  gap: var(--awt-space-3);
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: var(--awt-space-4);
+}
+
+.card-title,
+.panel-title,
+.section-title {
+  margin: 0;
+  color: var(--awt-text-0);
+}
+
+.card-subtitle,
+.panel-subtitle,
+.section-subtitle {
+  margin: var(--awt-space-1) 0 0;
+  color: var(--awt-text-3);
+  font-size: 0.87rem;
+}

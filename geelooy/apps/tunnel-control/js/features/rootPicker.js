@@ -1,7 +1,7 @@
 
 // B"H
 
-import { $, jsonText } from "../lib/dom.js";
+import { $, el, jsonText, replaceChildren, text } from "../lib/dom.js";
 import { callFs } from "../api/tunnel.js";
 import { loadConfig } from "./config.js";
 import { renderAbsoluteCrumbs } from "./pathCrumbs.js";
@@ -10,138 +10,128 @@ import { log, error } from "../logger.js";
 let selectedRootPath = "";
 let currentRootPath = "__ROOTS__";
 let selectedRowPath = "";
+let lastBrowsePayload = null;
 
 /**
  * B"H
- * Escapes text for safe innerHTML.
+ * Lists the required root picker ids.
  *
- * @param {unknown} value Value.
- * @returns {string} Safe HTML.
+ * Each id is a vessel. If even one vessel is missing, the old code crashed
+ * into silence. This list lets the feature diagnose itself with clarity.
+ *
+ * @returns {string[]} Required ids.
  */
-function safeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "<")
-    .replaceAll(">", ">")
-    .replaceAll('"', "&quot;");
+function requiredIds() {
+  return [
+    "chooseRootBtn",
+    "rootPickerModal",
+    "closeRootPickerBtn",
+    "rootPickerBackdrop",
+    "rootPickerRootsBtn",
+    "rootPickerGoBtn",
+    "rootPickerUpBtn",
+    "rootPickerSelectBtn",
+    "rootPickerPath",
+    "rootPickerLocation",
+    "rootPickerList",
+    "rootPickerNice",
+    "rootPickerSelected",
+    "rootPickerOut"
+  ];
 }
 
 /**
  * B"H
- * Gets an element by id.
+ * Checks if the picker can mount.
  *
- * @param {string} id Element id.
- * @returns {HTMLElement|null} Element.
+ * @returns {boolean} True when all required nodes exist.
  */
-function get(id) {
-  return document.getElementById(id);
+function canMount() {
+  const missing = requiredIds().filter(id => !$(id));
+  if (!missing.length) return true;
+  console.error("[AwtsmoosTunnelControl] Root picker missing ids:", missing);
+  return false;
 }
 
 /**
  * B"H
- * Creates one modal button.
+ * Adds the professional layout classes to existing markup.
  *
- * @param {string} id Button id.
- * @param {string} text Button text.
- * @returns {HTMLButtonElement} Button.
- */
-function modalButton(id, text) {
-  const button = document.createElement("button");
-  button.id = id;
-  button.type = "button";
-  button.textContent = text;
-  return button;
-}
-
-/**
- * B"H
- * Ensures the modal exists even after the shell rebuilds the body.
- *
- * @returns {HTMLElement} Modal.
- */
-function ensureModal() {
-  let modal = get("rootPickerModal");
-  if (modal) return modal;
-
-  modal = document.createElement("div");
-  modal.id = "rootPickerModal";
-  modal.className = "awt-modal hidden";
-
-  modal.innerHTML = `
-    <div id="rootPickerBackdrop" class="awt-modal-backdrop"></div>
-    <section class="awt-modal-card" role="dialog" aria-modal="true" aria-label="Choose root folder">
-      <header class="awt-modal-head">
-        <div>
-          <div class="awt-pane-kicker">ROOT PICKER</div>
-          <h2>Choose local root folder</h2>
-          <p>Browse folders through the connected local agent. Pick a folder, then save config.</p>
-        </div>
-        <button id="closeRootPickerBtn" type="button">Close</button>
-      </header>
-
-      <div class="awt-root-tools">
-        <input id="rootPickerPath" value="__ROOTS__" />
-        <button id="rootPickerRootsBtn" type="button">Show drives / roots</button>
-        <button id="rootPickerUpBtn" type="button">Up</button>
-        <button id="rootPickerGoBtn" type="button">Go</button>
-        <button id="rootPickerSelectBtn" type="button">Use selected folder</button>
-      </div>
-
-      <div id="rootPickerLocation" class="awt-root-crumbs"></div>
-      <div id="rootPickerNice" class="awt-feedback-panel">Ready. Click “Show drives / roots” or browse the current path.</div>
-      <div id="rootPickerSelected" class="awt-feedback-panel subtle">None selected.</div>
-      <div id="rootPickerList" class="awt-root-list"></div>
-
-      <details class="awt-raw-details">
-        <summary>Raw root picker response</summary>
-        <pre id="rootPickerOut"></pre>
-      </details>
-    </section>
-  `;
-
-  document.body.appendChild(modal);
-  return modal;
-}
-
-/**
- * B"H
- * Opens modal.
+ * The HTML can remain old and simple. The JS blesses it with the grid names
+ * that the new CSS understands.
  *
  * @returns {void}
  */
-function openModal() {
-  ensureModal().classList.remove("hidden");
-  document.body.classList.add("modal-open");
+function normalizePickerMarkup() {
+  const modal = $("rootPickerModal");
+  if (!modal) return;
+
+  const dialog =
+    modal.querySelector(".root-picker-dialog") ||
+    modal.querySelector(".modal-dialog") ||
+    modal.querySelector(".dialog") ||
+    Array.from(modal.children).find(child => child !== $("rootPickerBackdrop"));
+
+  if (dialog) dialog.classList.add("root-picker-dialog");
+
+  const list = $("rootPickerList");
+  if (list) list.classList.add("root-picker-list");
+
+  const out = $("rootPickerOut");
+  if (out) {
+    out.classList.add("compact");
+    const details = out.closest("details");
+    if (details) details.classList.add("root-picker-raw");
+  }
 }
 
 /**
  * B"H
- * Closes modal.
+ * Opens the modal safely.
+ *
+ * @returns {boolean} True when opened.
+ */
+function openModal() {
+  const modal = $("rootPickerModal");
+  if (!modal) {
+    console.error("[AwtsmoosTunnelControl] Cannot open root picker. Missing #rootPickerModal");
+    return false;
+  }
+  modal.classList.remove("hidden");
+  modal.removeAttribute("hidden");
+  document.body.classList.add("modal-open");
+  return true;
+}
+
+/**
+ * B"H
+ * Closes the modal safely.
  *
  * @returns {void}
  */
 function closeModal() {
-  const modal = get("rootPickerModal");
+  const modal = $("rootPickerModal");
   if (modal) modal.classList.add("hidden");
   document.body.classList.remove("modal-open");
 }
 
 /**
  * B"H
- * Sets current browsing path.
+ * Sets the current browse path and breadcrumb.
  *
- * @param {string} path Path.
+ * @param {string} path Absolute path or __ROOTS__.
  * @param {Function} getTunnelName Tunnel reader.
  * @returns {void}
  */
 function setCurrent(path, getTunnelName) {
   currentRootPath = path || "__ROOTS__";
 
-  if (get("rootPickerPath")) get("rootPickerPath").value = currentRootPath;
+  const pathInput = $("rootPickerPath");
+  if (pathInput) pathInput.value = currentRootPath;
 
-  const crumb = get("rootPickerLocation");
-  if (crumb) {
-    renderAbsoluteCrumbs(crumb, currentRootPath, picked => {
+  const crumbHost = $("rootPickerLocation");
+  if (crumbHost) {
+    renderAbsoluteCrumbs(crumbHost, currentRootPath, picked => {
       browse(picked, getTunnelName);
     });
   }
@@ -149,240 +139,287 @@ function setCurrent(path, getTunnelName) {
 
 /**
  * B"H
- * Sets selected folder.
+ * Sets the selected root display.
  *
- * @param {string} path Selected path.
+ * @param {string} path Absolute path.
  * @returns {void}
  */
 function setSelected(path) {
   selectedRootPath = path || "";
-
-  if (get("rootPickerSelected")) {
-    get("rootPickerSelected").textContent = selectedRootPath
-      ? "Selected: " + selectedRootPath
-      : "None selected.";
-  }
+  text("rootPickerSelected", selectedRootPath || "None selected.");
 }
 
 /**
  * B"H
- * Shows friendly picker feedback.
+ * Writes a friendly browse status.
  *
- * @param {object} got Response.
+ * @param {object} got Browse response.
  * @returns {void}
  */
 function friendly(got) {
-  const box = get("rootPickerNice");
-  if (!box) return;
-
-  if (!got || got.ok === false) {
-    box.textContent = got?.error || got?.message || "Could not browse folder.";
-    box.classList.add("danger");
+  if (!got || !got.ok) {
+    text("rootPickerNice", got?.message || got?.error || "Could not browse folder.");
     return;
   }
 
-  box.classList.remove("danger");
-  box.textContent = "Showing " + (got.items || []).length + " folders in " + (got.current || currentRootPath);
+  const count = Array.isArray(got.items) ? got.items.length : 0;
+  const current = got.current || currentRootPath;
+  text("rootPickerNice", "Showing " + count + " folders in " + current);
 }
 
 /**
  * B"H
- * Selects a row.
+ * Clears selected row styles.
  *
- * @param {HTMLElement} row Row.
- * @param {object} item Item.
+ * @returns {void}
+ */
+function clearRowSelection() {
+  for (const node of document.querySelectorAll(".root-row.selected")) {
+    node.classList.remove("selected");
+  }
+}
+
+/**
+ * B"H
+ * Selects one row and records its absolute path.
+ *
+ * @param {HTMLElement} row Row element.
+ * @param {object} item Browse item.
  * @returns {void}
  */
 function selectRow(row, item) {
-  selectedRowPath = item.absolutePath || item.path || "";
+  selectedRowPath = item.absolutePath || "";
   setSelected(selectedRowPath);
-
-  for (const el of document.querySelectorAll(".root-row")) {
-    el.classList.remove("selected");
-  }
-
+  clearRowSelection();
   row.classList.add("selected");
 }
 
 /**
  * B"H
- * Renders rows.
+ * Creates a folder row.
+ *
+ * @param {object} item Folder item.
+ * @param {Function} getTunnelName Tunnel reader.
+ * @returns {HTMLButtonElement} Row button.
+ */
+function makeRow(item, getTunnelName) {
+  const name = item.name || item.absolutePath || "Folder";
+  const path = item.absolutePath || "";
+
+  const action = el("button", {
+    type: "button",
+    className: "root-row-action btn-sm",
+    text: "Open",
+    on: {
+      click: async event => {
+        event.stopPropagation();
+        selectRow(row, item);
+        await browse(path, getTunnelName);
+      }
+    }
+  });
+
+  const row = el("button", {
+    type: "button",
+    className: "root-row",
+    attrs: {
+      title: path,
+      "aria-label": "Select folder " + name
+    },
+    children: [
+      el("span", { className: "root-row-icon", text: "📁" }),
+      el("span", {
+        className: "root-row-copy",
+        children: [
+          el("span", { className: "root-row-name", text: name }),
+          el("span", { className: "root-row-path", text: path })
+        ]
+      }),
+      action
+    ],
+    on: {
+      click: () => selectRow(row, item),
+      dblclick: async () => {
+        selectRow(row, item);
+        await browse(path, getTunnelName);
+      }
+    }
+  });
+
+  return row;
+}
+
+/**
+ * B"H
+ * Renders folder rows.
  *
  * @param {object} got Browse response.
  * @param {Function} getTunnelName Tunnel reader.
  * @returns {void}
  */
 function renderRows(got, getTunnelName) {
-  const list = get("rootPickerList");
+  const list = $("rootPickerList");
   if (!list) return;
 
-  list.innerHTML = "";
-
-  if (!got || got.ok === false) {
-    list.innerHTML = `<div class="awt-empty-dashboard">Could not browse. ${safeHtml(got?.error || "Unknown error")}</div>`;
+  if (!got || !got.ok) {
+    replaceChildren(list, [
+      el("div", {
+        className: "root-picker-empty",
+        text: got?.message || got?.error || "Could not browse this folder."
+      })
+    ]);
     return;
   }
 
-  const items = got.items || [];
-
+  const items = Array.isArray(got.items) ? got.items : [];
   if (!items.length) {
-    list.innerHTML = `<div class="awt-empty-dashboard">No folders here. Try going up or choosing another root.</div>`;
+    replaceChildren(list, [
+      el("div", {
+        className: "root-picker-empty",
+        text: "No folders here. Go up, choose drives, or type another path."
+      })
+    ]);
     return;
   }
 
-  for (const item of items) {
-    const row = document.createElement("button");
-    row.type = "button";
-    row.className = "root-row";
-    row.innerHTML = `
-      <span class="root-row-icon">📁</span>
-      <span class="root-row-name">${safeHtml(item.name || item.path || item.absolutePath)}</span>
-      <span class="root-row-action">Open</span>
-    `;
-
-    row.onclick = () => selectRow(row, item);
-
-    row.ondblclick = async () => {
-      selectRow(row, item);
-      await browse(item.absolutePath || item.path, getTunnelName);
-    };
-
-    row.querySelector(".root-row-action").onclick = async event => {
-      event.stopPropagation();
-      selectRow(row, item);
-      await browse(item.absolutePath || item.path, getTunnelName);
-    };
-
-    list.appendChild(row);
-  }
+  replaceChildren(list, items.map(item => makeRow(item, getTunnelName)));
 }
 
 /**
  * B"H
- * Browses a root path.
+ * Browses the local filesystem through the connected agent.
  *
- * @param {string} path Path.
+ * @param {string} path Absolute path or __ROOTS__.
  * @param {Function} getTunnelName Tunnel reader.
- * @returns {Promise<void>} Done.
+ * @returns {Promise<void>} Resolves after render.
  */
 async function browse(path, getTunnelName) {
-  ensureModal();
-
   try {
     setCurrent(path || "__ROOTS__", getTunnelName);
-
-    if (get("rootPickerNice")) {
-      get("rootPickerNice").textContent = "Browsing " + currentRootPath + "...";
-      get("rootPickerNice").classList.remove("danger");
-    }
-
+    text("rootPickerNice", "Loading folders from local agent...");
     const got = await callFs(getTunnelName(), {
       action: "rootBrowse",
       absolutePath: currentRootPath
     });
 
-    if (get("rootPickerOut")) jsonText("rootPickerOut", got);
-
+    lastBrowsePayload = got;
+    jsonText("rootPickerOut", got);
     friendly(got);
 
-    if (got.current) setCurrent(got.current, getTunnelName);
+    if (got?.current) {
+      setCurrent(got.current, getTunnelName);
+    }
 
     renderRows(got, getTunnelName);
   } catch (e) {
     error("root browse failed", e);
-
-    if (get("rootPickerNice")) {
-      get("rootPickerNice").textContent = e.message || String(e);
-      get("rootPickerNice").classList.add("danger");
-    }
+    text("rootPickerNice", e.message || String(e));
+    jsonText("rootPickerOut", {
+      BH: "B\"H",
+      ok: false,
+      error: "root_browse_failed",
+      message: e.message || String(e)
+    });
   }
 }
 
 /**
  * B"H
- * Selects root into config.
+ * Selects the current highlighted folder as the agent root.
  *
  * @param {Function} getTunnelName Tunnel reader.
- * @returns {Promise<void>} Done.
+ * @returns {Promise<void>} Resolves after config refresh.
  */
 async function selectRoot(getTunnelName) {
-  const target = selectedRootPath || currentRootPath;
+  const target = selectedRootPath || selectedRowPath || currentRootPath;
 
   if (!target || target === "__ROOTS__") {
-    if (get("rootPickerNice")) get("rootPickerNice").textContent = "Select a folder first.";
+    text("rootPickerNice", "Select a real folder first.");
     return;
   }
 
+  text("rootPickerNice", "Saving root folder...");
   const got = await callFs(getTunnelName(), {
     action: "rootSelect",
     absolutePath: target
   });
 
-  if (get("rootPickerOut")) jsonText("rootPickerOut", got);
+  jsonText("rootPickerOut", got);
   friendly(got);
 
-  if (got.ok && got.config?.root) {
-    if (get("rootPath")) get("rootPath").value = got.config.root;
-    if (get("explorerPath")) get("explorerPath").value = ".";
-
+  if (got?.ok && got.config?.root) {
+    const rootPath = $("rootPath");
+    const explorerPath = $("explorerPath");
+    if (rootPath) rootPath.value = got.config.root;
+    if (explorerPath) explorerPath.value = ".";
     closeModal();
 
     try {
       await loadConfig(getTunnelName);
-    } catch (e) {}
+    } catch (e) {
+      error("load config after root select failed", e);
+    }
   }
 }
 
 /**
  * B"H
- * Wires root picker controls.
+ * Opens the parent folder.
  *
  * @param {Function} getTunnelName Tunnel reader.
- * @returns {void}
+ * @returns {Promise<void>} Resolves after browse.
  */
-export function mountRootPicker(getTunnelName) {
-  log("mountRootPicker");
+async function goUp(getTunnelName) {
+  const parent = lastBrowsePayload?.parent;
+  if (parent) {
+    await browse(parent, getTunnelName);
+    return;
+  }
 
-  if (!get("chooseRootBtn")) return;
+  const got = await callFs(getTunnelName(), {
+    action: "rootBrowse",
+    absolutePath: currentRootPath
+  });
 
-  get("chooseRootBtn").onclick = async () => {
-    log("open root picker clicked");
-    ensureModal();
-    wireModalButtons(getTunnelName);
-    openModal();
-    await browse(get("rootPath")?.value || "__ROOTS__", getTunnelName);
-  };
+  await browse(got?.parent || "__ROOTS__", getTunnelName);
 }
 
 /**
  * B"H
- * Wires modal buttons after modal creation.
+ * Mounts the root picker.
  *
- * @param {Function} getTunnelName Tunnel reader.
+ * @param {Function} getTunnelName Tunnel name reader.
  * @returns {void}
  */
-function wireModalButtons(getTunnelName) {
-  if (get("rootPickerModal")?.dataset.bound === "1") return;
+export function mountRootPicker(getTunnelName) {
+  log("mountRootPicker");
+  if (!canMount()) return;
 
-  get("rootPickerModal").dataset.bound = "1";
+  normalizePickerMarkup();
 
-  get("closeRootPickerBtn").onclick = closeModal;
-  get("rootPickerBackdrop").onclick = closeModal;
-  get("rootPickerRootsBtn").onclick = () => browse("__ROOTS__", getTunnelName);
-  get("rootPickerGoBtn").onclick = () => browse(get("rootPickerPath")?.value, getTunnelName);
-
-  get("rootPickerUpBtn").onclick = async () => {
-    const got = await callFs(getTunnelName(), {
-      action: "rootBrowse",
-      absolutePath: currentRootPath
-    });
-
-    await browse(got.parent || "__ROOTS__", getTunnelName);
+  $("chooseRootBtn").onclick = async () => {
+    log("open root picker clicked");
+    if (!openModal()) return;
+    await browse($("rootPath")?.value || "__ROOTS__", getTunnelName);
   };
 
-  get("rootPickerSelectBtn").onclick = () => selectRoot(getTunnelName);
+  $("closeRootPickerBtn").onclick = closeModal;
+  $("rootPickerBackdrop").onclick = closeModal;
+  $("rootPickerRootsBtn").onclick = () => browse("__ROOTS__", getTunnelName);
+  $("rootPickerGoBtn").onclick = () => browse($("rootPickerPath")?.value || "__ROOTS__", getTunnelName);
+  $("rootPickerUpBtn").onclick = () => goUp(getTunnelName);
+  $("rootPickerSelectBtn").onclick = () => selectRoot(getTunnelName);
 
-  get("rootPickerPath").addEventListener("keydown", event => {
-    if (event.key === "Enter") browse(get("rootPickerPath").value, getTunnelName);
+  $("rootPickerPath").addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      browse($("rootPickerPath")?.value || "__ROOTS__", getTunnelName);
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !$("rootPickerModal")?.classList.contains("hidden")) {
+      closeModal();
+    }
   });
 }

@@ -1,0 +1,64 @@
+
+/* B"H
+   Owns: tabs, nav links, and dashboard movement controls.
+*/
+
+.tabs,
+.nav-tabs,
+[role="tablist"] {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  gap: var(--awt-space-2);
+  align-items: center;
+  overflow-x: auto;
+  margin: 0 0 var(--awt-space-4);
+  padding: var(--awt-space-2);
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-lg);
+  background: rgba(5, 9, 20, 0.82);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--awt-shadow-0);
+}
+
+.tab,
+.tabs button,
+.nav-tabs button,
+[role="tab"] {
+  min-height: var(--awt-control-sm-h);
+  padding: 0 var(--awt-space-4);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--awt-text-2);
+  background: transparent;
+  font-size: 0.83rem;
+  font-weight: 800;
+  white-space: nowrap;
+  transition:
+    color var(--awt-speed) ease,
+    background var(--awt-speed) ease,
+    border-color var(--awt-speed) ease,
+    transform var(--awt-speed) ease;
+}
+
+.tab:hover,
+.tabs button:hover,
+.nav-tabs button:hover,
+[role="tab"]:hover {
+  color: var(--awt-text-0);
+  border-color: var(--awt-line-1);
+  background: rgba(141, 232, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.tab.active,
+.tab[aria-selected="true"],
+.tabs button.active,
+.nav-tabs button.active,
+[role="tab"][aria-selected="true"] {
+  color: #03111f;
+  border-color: rgba(141, 232, 255, 0.8);
+  background: linear-gradient(135deg, var(--awt-accent-0), var(--awt-accent-1));
+  box-shadow: 0 10px 26px rgba(85, 199, 255, 0.2);
+}

@@ -1,0 +1,79 @@
+
+/* B"H
+   Owns: modal primitive, backdrop, dialog shells.
+*/
+
+.modal,
+.awt-modal,
+#rootPickerModal,
+#chromeManualModal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--awt-space-4);
+}
+
+.modal-backdrop,
+.awt-modal-backdrop,
+#rootPickerBackdrop,
+#chromeManualBackdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(85, 199, 255, 0.12), transparent 42%),
+    rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(14px);
+}
+
+.modal-dialog,
+.awt-modal-dialog,
+.root-picker-dialog,
+.chrome-manual-dialog {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid rgba(141, 232, 255, 0.28);
+  border-radius: var(--awt-radius-xl);
+  background:
+    linear-gradient(180deg, rgba(22, 36, 62, 0.97), rgba(5, 10, 22, 0.985)),
+    var(--awt-bg-1);
+  box-shadow: var(--awt-shadow-2);
+}
+
+.modal-head,
+.awt-modal-head {
+  display: flex;
+  gap: var(--awt-space-4);
+  align-items: start;
+  justify-content: space-between;
+  padding: var(--awt-space-6);
+  border-bottom: 1px solid var(--awt-line-0);
+}
+
+.modal-title,
+.awt-modal-title {
+  margin: 0;
+  color: var(--awt-text-0);
+  font-size: clamp(1.4rem, 2vw, 2.1rem);
+  letter-spacing: -0.045em;
+}
+
+.modal-body,
+.awt-modal-body {
+  min-height: 0;
+  padding: var(--awt-space-5);
+}
+
+.modal-foot,
+.awt-modal-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--awt-space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--awt-space-4) var(--awt-space-5);
+  border-top: 1px solid var(--awt-line-0);
+}

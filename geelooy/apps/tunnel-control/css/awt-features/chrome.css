@@ -1,0 +1,133 @@
+
+/* B"H
+   Owns: Chrome browser-control feature only.
+*/
+
+[data-pane="chrome"] {
+  display: grid;
+  gap: var(--awt-space-4);
+}
+
+.awt-chrome-dashboard {
+  display: grid;
+  gap: var(--awt-space-4);
+}
+
+.awt-chrome-card {
+  padding: var(--awt-space-5);
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-lg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    var(--awt-surface-0);
+  box-shadow: var(--awt-shadow-0);
+}
+
+.awt-chrome-card h3 {
+  margin-bottom: var(--awt-space-3);
+}
+
+.awt-chrome-setup {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 120px auto auto auto;
+  gap: var(--awt-space-3);
+  align-items: end;
+}
+
+.awt-chrome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--awt-space-2);
+  align-items: center;
+}
+
+.awt-chrome-status {
+  display: grid;
+  gap: var(--awt-space-2);
+  padding: var(--awt-space-4);
+  border: 1px solid rgba(141, 232, 255, 0.2);
+  border-radius: var(--awt-radius-md);
+  background: rgba(141, 232, 255, 0.055);
+}
+
+.awt-chrome-status-title {
+  color: var(--awt-text-0);
+  font-weight: 900;
+}
+
+.awt-chrome-output {
+  min-height: 250px;
+  max-height: min(58vh, 620px);
+}
+
+.awt-chrome-diagnostics {
+  display: grid;
+  gap: var(--awt-space-2);
+  margin-bottom: var(--awt-space-3);
+}
+
+.awt-chrome-step {
+  display: flex;
+  gap: var(--awt-space-2);
+  align-items: center;
+  min-height: 30px;
+  padding: 0 var(--awt-space-3);
+  border: 1px solid var(--awt-line-0);
+  border-radius: 999px;
+  color: var(--awt-text-2);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.8rem;
+}
+
+.awt-chrome-step::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  background: var(--awt-accent-1);
+  box-shadow: 0 0 16px rgba(85, 199, 255, 0.8);
+}
+
+.chrome-manual-dialog {
+  width: min(850px, calc(100vw - 24px));
+  max-height: min(760px, calc(100vh - 24px));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.chrome-manual-body {
+  min-height: 0;
+  overflow: auto;
+  padding: var(--awt-space-5);
+}
+
+.chrome-candidates {
+  display: grid;
+  gap: var(--awt-space-2);
+  margin-top: var(--awt-space-3);
+}
+
+.chrome-candidate {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--awt-space-2);
+  align-items: center;
+  padding: var(--awt-space-3);
+  border: 1px solid var(--awt-line-0);
+  border-radius: var(--awt-radius-md);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.chrome-candidate code {
+  overflow: hidden;
+  color: var(--awt-text-1);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 980px) {
+  .awt-chrome-setup {
+    grid-template-columns: 1fr;
+  }
+}
