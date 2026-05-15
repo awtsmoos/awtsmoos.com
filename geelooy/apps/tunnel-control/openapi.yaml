@@ -1,16 +1,22 @@
 
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 3.0.0
-  description: B"H. Minimal Custom GPT Action schema for Awtsmoos Tunnel Control.
+  version: 3.1.0
+  description: >
+    B"H. Minimal Custom GPT Action schema for Awtsmoos Tunnel Control.
+    This schema intentionally exposes only bootstrap, active tunnel discovery,
+    and one POST tunnel action so ChatGPT reliably receives the real file/action tool.
+
 servers:
   - url: https://awtsmoos.com
+
 paths:
   /api/tunnel/control/bootstrap:
     get:
       operationId: awtsmoosBootstrap
       summary: Get setup instructions.
+      description: Use first in a new conversation to learn how to install or restart the tunnel.
       security: []
       responses:
         "200":
@@ -18,28 +24,53 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties: true
+                $ref: "#/components/schemas/BootstrapResponse"
+
   /api/tunnel/control/my-device:
     get:
       operationId: awtsmoosMyDevice
       summary: Discover the signed-in user's active tunnel.
+      description: >
+        After OAuth sign-in, call this before asking the user for a tunnelName.
+        If exactly one tunnel is connected, use the returned tunnelName automatically.
       security:
         - OAuth2:
             - profile
             - tunnel.read
       responses:
         "200":
-          description: Device response.
+          description: Active tunnel discovery result.
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties: true
+                $ref: "#/components/schemas/MyDeviceResponse"
+        "401":
+          description: User is not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No connected tunnel.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Multiple tunnels connected.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
   /api/tunnel/control/fs/{tunnelName}:
     post:
       operationId: awtsmoosTunnelAction
       summary: Run a controlled tunnel action.
+      description: >
+        Use this for list, tree, read, write, bulk, bulkWrite, findReplace,
+        commandRun, nodeScriptRun, and Chrome actions. Prefer small requests.
+        Split large writes into small modules/files.
       security:
         - OAuth2:
             - profile
@@ -48,6 +79,7 @@ paths:
         - name: tunnelName
           in: path
           required: true
+          description: Tunnel name returned by awtsmoosMyDevice.
           schema:
             type: string
       requestBody:
@@ -55,51 +87,39 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
-              required:
-                - action
-              properties:
-                action:
-                  type: string
-                p:
-                  type: string
-                path:
-                  type: string
-                depth:
-                  type: integer
-                limit:
-                  type: integer
-                maxChars:
-                  type: integer
-                totalMaxChars:
-                  type: integer
-                maxFiles:
-                  type: integer
-                offsetChars:
-                  type: integer
-                files:
-                  type: object
-                  additionalProperties:
-                    type: string
-                content:
-                  type: string
-                command:
-                  type: string
-                shell:
-                  type: string
-                cwd:
-                  type: string
-                timeoutMs:
-                  type: integer
+              $ref: "#/components/schemas/TunnelActionRequest"
       responses:
         "200":
-          description: Tunnel response.
+          description: Tunnel action result.
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties: true
+                $ref: "#/components/schemas/TunnelResponse"
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Missing or invalid authentication.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Missing OAuth scope or local permission.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "413":
+          description: Request too large; split into smaller chunks.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   securitySchemes:
     OAuth2:
@@ -111,7 +131,372 @@ components:
           scopes:
             profile: Basic profile.
             tunnel.read: Read/list/tree files and discover connected tunnel.
-            tunnel.write: Write files.
-            tunnel.command: Run commands.
-            tunnel.browser: Control Chrome.
+            tunnel.write: Write files and config.
+            tunnel.command: Run terminal and sandboxed node scripts.
+            tunnel.browser: Control Chrome DevTools.
             tunnel.admin: Full tunnel control.
+
+  schemas:
+    BootstrapResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        BH:
+          type: string
+        ok:
+          type: boolean
+        setupUrl:
+          type: string
+        controlPanelUrl:
+          type: string
+        installCommandWindows:
+          type: string
+        restartCommandWindows:
+          type: string
+        installCommandMacLinux:
+          type: string
+        restartCommandMacLinux:
+          type: string
+        docsHuman:
+          type: string
+        docsJson:
+          type: string
+        openapi:
+          type: string
+        myDevice:
+          type: string
+        privacyPolicy:
+          type: string
+        firstUserPrompt:
+          type: string
+        guidance:
+          type: string
+      required:
+        - ok
+
+    MyDeviceResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        BH:
+          type: string
+        ok:
+          type: boolean
+        mode:
+          type: string
+        tunnelName:
+          type: string
+        identity:
+          type: object
+          additionalProperties: true
+          properties:
+            userId:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            kind:
+              type: string
+        device:
+          type: object
+          additionalProperties: true
+          properties:
+            tunnelName:
+              type: string
+            root:
+              type: string
+            connected:
+              type: boolean
+            allowWrite:
+              type: boolean
+            allowCommands:
+              type: boolean
+            allowBrowser:
+              type: boolean
+        guidance:
+          type: string
+        error:
+          type: string
+      required:
+        - ok
+
+    TunnelActionRequest:
+      type: object
+      additionalProperties: true
+      properties:
+        action:
+          type: string
+          enum:
+            - list
+            - tree
+            - read
+            - readBytes
+            - read64
+            - md
+            - bulk
+            - write
+            - bulkWrite
+            - findReplace
+            - commandRun
+            - nodeScriptRun
+            - chromeFind
+            - chromeLaunch
+            - chromeStatus
+            - chromeNavigate
+            - chromeWaitForSelector
+            - chromeClick
+            - chromeType
+            - chromeEval
+            - chromeRunScript
+            - configGet
+            - configSet
+            - roots
+            - rootBrowse
+            - rootSelect
+            - openRoot
+        p:
+          type: string
+          default: "."
+        path:
+          type: string
+        depth:
+          type: integer
+          default: 2
+        limit:
+          type: integer
+          default: 150
+        maxChars:
+          type: integer
+          default: 8000
+        totalMaxChars:
+          type: integer
+          default: 24000
+        maxFiles:
+          type: integer
+          default: 3
+        offsetChars:
+          type: integer
+          default: 0
+        maxBytes:
+          type: integer
+          default: 24000
+        offsetBytes:
+          type: integer
+          default: 0
+        paths:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              path:
+                type: string
+              mode:
+                type: string
+              maxChars:
+                type: integer
+              offsetChars:
+                type: integer
+              maxBytes:
+                type: integer
+              offsetBytes:
+                type: integer
+        files:
+          type: object
+          additionalProperties:
+            type: string
+          properties:
+            example:
+              type: string
+        writes:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              path:
+                type: string
+              content:
+                type: string
+        content:
+          type: string
+        find:
+          type: string
+        replace:
+          type: string
+        regex:
+          type: boolean
+          default: false
+        replaceAll:
+          type: boolean
+          default: true
+        command:
+          type: string
+        scriptText:
+          type: string
+        input:
+          type: object
+          additionalProperties: true
+          properties:
+            value:
+              type: string
+        shell:
+          type: string
+          enum:
+            - powershell
+            - cmd
+            - bash
+            - sh
+        cwd:
+          type: string
+          default: "."
+        timeoutMs:
+          type: integer
+          default: 20000
+        url:
+          type: string
+        selector:
+          type: string
+        text:
+          type: string
+        expression:
+          type: string
+        script:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              action:
+                type: string
+        port:
+          type: integer
+          default: 9222
+        chromePath:
+          type: string
+        userDataDir:
+          type: string
+      required:
+        - action
+
+    TunnelResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        BH:
+          type: string
+        ok:
+          type: boolean
+        action:
+          type: string
+        path:
+          type: string
+        root:
+          type: string
+        absolutePath:
+          type: string
+        content:
+          type: string
+        content64:
+          type: string
+        encoding:
+          type: string
+        truncated:
+          type: boolean
+        offsetChars:
+          type: integer
+        nextOffsetChars:
+          type:
+            - integer
+            - "null"
+        offsetBytes:
+          type: integer
+        nextOffsetBytes:
+          type:
+            - integer
+            - "null"
+        returnedChars:
+          type: integer
+        totalChars:
+          type: integer
+        returnedBytes:
+          type: integer
+        totalBytes:
+          type: integer
+        items:
+          type: array
+          items:
+            type: string
+        detailedItems:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              name:
+                type: string
+              path:
+                type: string
+              type:
+                type: string
+        files:
+          type: object
+          additionalProperties: true
+          properties:
+            example:
+              type: string
+        metadata:
+          type: object
+          additionalProperties: true
+          properties:
+            note:
+              type: string
+        stdout:
+          type: string
+        stderr:
+          type: string
+        result:
+          type: object
+          additionalProperties: true
+          properties:
+            value:
+              type: string
+        results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              ok:
+                type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        guidance:
+          type:
+            - string
+            - "null"
+      required:
+        - ok
+
+    ErrorResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        BH:
+          type: string
+        ok:
+          type: boolean
+        error:
+          type: string
+        details:
+          type: string
+        message:
+          type: string
+        guidance:
+          type: string
+      required:
+        - ok
+        - error
