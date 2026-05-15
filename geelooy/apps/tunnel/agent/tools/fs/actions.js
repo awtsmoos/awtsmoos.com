@@ -8,14 +8,12 @@ const { openSystemExplorer } = require("../../lib/open.js");
 const { safePath } = require("./pathGuard.js");
 const { listDirDetailed } = require("./listing.js");
 const { treeText } = require("./tree.js");
-const { readText, writeText, normalizeWrites } = require("./readWrite.js");
+const { readText, readBytesBase64, readTextFromBytes, writeText, findReplaceText, normalizeWrites } = require("./readWrite.js");
+const { readBulk } = require("./bulkRead.js");
 const { driveRoots, rootBrowse } = require("./rootBrowser.js");
+const { statPath, readLines, grep, replaceRange, applyPatch } = require("./searchEdit.js");
 
-function num(v, fallback, min, max) {
-  const n = Number(v);
-  const good = Number.isFinite(n) ? n : fallback;
-  return Math.max(min, Math.min(max, good));
-}
+const AGENT_VERSION = "split-agent-1.0.0";
 
 function publicConfig(config) {
   return {
@@ -33,20 +31,37 @@ function publicConfig(config) {
     platform: process.platform,
     hostname: os.hostname(),
     home: HOME,
-    roots: driveRoots()
+    roots: driveRoots(),
+    agentVersion: AGENT_VERSION
   };
+}
+
+function registerAgain(ws, config) {
+  if (!ws || !ws.opened) return;
+
+  ws.sendJson({
+    type: "TUNNEL_REGISTER",
+    name: config.tunnelName,
+    deviceName: os.hostname(),
+    root: config.root,
+    allowWrite: config.allowWrite,
+    allowSecrets: config.allowSecrets,
+    allowCommands: config.allowCommands,
+    agentVersion: AGENT_VERSION
+  });
 }
 
 async function handleConfigSet(payload, ws) {
   const patch = {};
-  if (payload.root) patch.root = String(payload.root);
-  if (payload.local) patch.local = String(payload.local);
-  if (payload.relay) patch.relay = String(payload.relay);
-  if (payload.tunnelName) patch.tunnelName = String(payload.tunnelName);
-  if (typeof payload.allowWrite === "boolean") patch.allowWrite = payload.allowWrite;
-  if (typeof payload.allowSecrets === "boolean") patch.allowSecrets = payload.allowSecrets;
-  if (typeof payload.allowCommands === "boolean") patch.allowCommands = payload.allowCommands;
-  if (typeof payload.enableLocalHttpProxy === "boolean") patch.enableLocalHttpProxy = payload.enableLocalHttpProxy;
+
+  for (const key of ["root", "local", "relay", "tunnelName"]) {
+    if (payload[key]) patch[key] = String(payload[key]);
+  }
+
+  for (const key of ["allowWrite", "allowSecrets", "allowCommands", "enableLocalHttpProxy"]) {
+    if (typeof payload[key] === "boolean") patch[key] = payload[key];
+  }
+
   if (payload.tools && typeof payload.tools === "object") patch.tools = payload.tools;
   if (payload.commandConfig && typeof payload.commandConfig === "object") patch.command = payload.commandConfig;
   if (payload.chrome && typeof payload.chrome === "object") patch.chrome = payload.chrome;
@@ -61,83 +76,19 @@ async function handleConfigSet(payload, ws) {
   return { ok: true, action: "configSet", config: publicConfig(next) };
 }
 
-function registerAgain(ws, config) {
-  if (!ws || !ws.opened) return;
-  ws.sendJson({
-    type: "TUNNEL_REGISTER",
-    name: config.tunnelName,
-    deviceName: os.hostname(),
-    root: config.root,
-    allowWrite: config.allowWrite,
-    allowSecrets: config.allowSecrets,
-    allowCommands: config.allowCommands,
-    agentVersion: "split-agent-0.5.1"
-  });
-}
-
-function normalizeBulkPath(one, payload) {
-  if (typeof one === "string") {
-    return {
-      path: one,
-      maxChars: payload.maxChars,
-      offsetChars: payload.offsetChars
-    };
-  }
-
-  if (one && typeof one === "object") {
-    return {
-      path: String(one.path || one.p || ""),
-      maxChars: one.maxChars ?? payload.maxChars,
-      offsetChars: one.offsetChars ?? payload.offsetChars
-    };
-  }
-
-  return { path: "" };
-}
-
-async function bulkRead(config, payload, action) {
+async function handleBulkWrite(config, payload, action) {
   if (!config.tools.fsBulk) throw new Error("fsBulk disabled.");
 
-  const incoming = Array.isArray(payload.paths) ? payload.paths : [];
-  const maxFiles = num(payload.maxFiles, 3, 1, 10);
-  const fileMaxChars = num(payload.maxChars, 8000, 500, 30000);
-  const totalMaxChars = num(payload.totalMaxChars, 24000, 1000, 60000);
+  const writes = normalizeWrites(payload);
+  const results = {};
+  let okCount = 0;
 
-  const files = {};
-  const results = [];
-  const skippedPaths = [];
-  let usedChars = 0;
-  let stoppedBecause = null;
-
-  for (const raw of incoming) {
-    if (results.length >= maxFiles) {
-      stoppedBecause = "maxFiles";
-      skippedPaths.push(typeof raw === "string" ? raw : raw?.path || String(raw));
-      continue;
-    }
-
-    const spec = normalizeBulkPath(raw, { ...payload, maxChars: fileMaxChars });
-    if (!spec.path) {
-      results.push({ ok: false, error: "missing_path", raw });
-      continue;
-    }
-
-    const remaining = totalMaxChars - usedChars;
-    if (remaining <= 0) {
-      stoppedBecause = "totalMaxChars";
-      skippedPaths.push(spec.path);
-      continue;
-    }
-
+  for (const one of writes) {
     try {
-      const cap = Math.min(num(spec.maxChars, fileMaxChars, 500, 30000), remaining);
-      const got = await readText(config, spec.path, cap, spec.offsetChars || 0);
-      usedChars += got.returnedChars || got.content.length;
-      files[spec.path] = got;
-      results.push({ ok: true, path: spec.path, ...got });
+      results[one.path] = await writeText(config, one.path, one.content);
+      okCount++;
     } catch (e) {
-      files[spec.path] = { ok: false, error: e.message };
-      results.push({ ok: false, path: spec.path, error: e.message });
+      results[one.path] = { ok: false, error: e.message };
     }
   }
 
@@ -145,17 +96,8 @@ async function bulkRead(config, payload, action) {
     ok: true,
     action,
     root: config.root,
-    requestedCount: incoming.length,
-    returnedCount: results.filter(x => x.ok).length,
-    skippedCount: skippedPaths.length,
-    skippedPaths,
-    usedChars,
-    totalMaxChars,
-    fileMaxChars,
-    maxFiles,
-    partial: !!stoppedBecause,
-    stoppedBecause,
-    files,
+    count: writes.length,
+    okCount,
     results
   };
 }
@@ -163,8 +105,11 @@ async function bulkRead(config, payload, action) {
 async function handleFsAction(payload, ws) {
   const config = loadConfig();
   const action = payload.action || "list";
-  const p = payload.path || ".";
-  const maxChars = num(payload.maxChars, 12000, 500, 30000);
+  const p = payload.path || payload.p || ".";
+  const maxChars = Number(payload.maxChars || 12000);
+  const offsetChars = Number(payload.offsetChars || 0);
+  const maxBytes = Number(payload.maxBytes || 24000);
+  const offsetBytes = Number(payload.offsetBytes || 0);
 
   const actions = {
     async configGet() { return { ok: true, action, config: publicConfig(loadConfig()) }; },
@@ -172,7 +117,7 @@ async function handleFsAction(payload, ws) {
     async roots() { return { ok: true, action, roots: driveRoots(), home: HOME, cwd: process.cwd() }; },
     async rootBrowse() { return await rootBrowse(payload); },
     async rootSelect() {
-      const chosen = payload.absolutePath || payload.root || payload.path;
+      const chosen = payload.absolutePath || payload.root || payload.path || payload.p;
       if (!chosen) return { ok: false, action, error: "missing_root_path" };
       const stat = await fsp.stat(chosen);
       if (!stat.isDirectory()) return { ok: false, action, error: "not_a_directory", chosen };
@@ -185,41 +130,71 @@ async function handleFsAction(payload, ws) {
       openSystemExplorer(target);
       return { ok: true, action, opened: target };
     },
+
+    async stat() { return await statPath(config, payload); },
     async list() {
       const detailedItems = await listDirDetailed(config, p);
-      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), items: detailedItems.map(x => x.isDirectory ? x.name + "/" : x.name), detailedItems };
+      return {
+        ok: true,
+        action,
+        root: config.root,
+        path: p,
+        absolutePath: safePath(config, p),
+        items: detailedItems.map(x => x.isDirectory ? x.name + "/" : x.name),
+        detailedItems
+      };
     },
     async tree() {
-      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), treeText: await treeText(config, p, payload.depth, payload.limit) };
+      return {
+        ok: true,
+        action,
+        root: config.root,
+        path: p,
+        absolutePath: safePath(config, p),
+        treeText: await treeText(config, p, payload.depth, payload.limit)
+      };
     },
     async read() {
-      const got = await readText(config, p, maxChars, payload.offsetChars || 0);
+      const got = await readText(config, p, maxChars, offsetChars);
+      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got };
+    },
+    async readLines() { return await readLines(config, payload); },
+    async readBytes() {
+      const got = await readTextFromBytes(config, p, maxBytes, offsetBytes);
+      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got };
+    },
+    async read64() {
+      const got = await readBytesBase64(config, p, maxBytes, offsetBytes);
       return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got };
     },
     async md() {
-      const got = await readText(config, p, maxChars, payload.offsetChars || 0);
+      const got = await readText(config, p, maxChars, offsetChars);
       const lang = path.extname(p).replace(".", "");
       return { ok: true, action, root: config.root, path: p, content: "```" + lang + "\n" + got.content + "\n```", ...got };
     },
-    async bulk() { return await bulkRead(config, payload, action); },
+    async bulk() { return await readBulk(config, payload); },
+    async grep() { return await grep(config, payload); },
+
     async write() {
       const wrote = await writeText(config, p, payload.content || "");
       return { ok: true, action, root: config.root, ...wrote };
     },
-    async bulkWrite() {
-      if (!config.tools.fsBulk) throw new Error("fsBulk disabled.");
-      const writes = normalizeWrites(payload).slice(0, 20);
-      const results = {};
-      for (const one of writes) {
-        try { results[one.path] = await writeText(config, one.path, one.content); }
-        catch (e) { results[one.path] = { ok: false, error: e.message }; }
-      }
-      return { ok: true, action, root: config.root, count: writes.length, results };
-    }
+    async bulkWrite() { return await handleBulkWrite(config, payload, action); },
+    async findReplace() { return { root: config.root, ...(await findReplaceText(config, payload)) }; },
+    async replaceRange() { return { root: config.root, ...(await replaceRange(config, payload)) }; },
+    async applyPatch() { return { root: config.root, ...(await applyPatch(config, payload)) }; }
   };
 
-  if (!actions[action]) return { ok: false, status: 400, error: "Unknown fs action: " + action };
+  if (!actions[action]) {
+    return {
+      ok: false,
+      status: 400,
+      error: "Unknown fs action: " + action,
+      availableActions: Object.keys(actions)
+    };
+  }
+
   return await actions[action]();
 }
 
-module.exports = { handleFsAction, publicConfig };
+module.exports = { handleFsAction, publicConfig, AGENT_VERSION };

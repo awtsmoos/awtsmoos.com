@@ -1,24 +1,9 @@
 
 // B"H
-
-const { readText, readBytesBase64, readTextFromBytes, clampNumber } = require("./readWrite.js");
-
-const DEFAULT_MAX_FILES = 5;
-const HARD_MAX_FILES = 10;
-
-const DEFAULT_TOTAL_MAX_CHARS = 24000;
-const HARD_TOTAL_MAX_CHARS = 60000;
-
-const DEFAULT_FILE_MAX_CHARS = 8000;
-const HARD_FILE_MAX_CHARS = 30000;
+const { readText, readBytesBase64, readTextFromBytes, number } = require("./readWrite.js");
 
 function normalizeSpec(one) {
-  if (typeof one === "string") {
-    return {
-      path: one,
-      mode: "text"
-    };
-  }
+  if (typeof one === "string") return { path: one, mode: "text" };
 
   if (one && typeof one === "object") {
     return {
@@ -31,10 +16,7 @@ function normalizeSpec(one) {
     };
   }
 
-  return {
-    path: "",
-    mode: "text"
-  };
+  return { path: "", mode: "text" };
 }
 
 function uniqueSpecs(paths) {
@@ -44,16 +26,9 @@ function uniqueSpecs(paths) {
   for (const item of paths || []) {
     const spec = normalizeSpec(item);
     const p = String(spec.path || "").trim();
-
     if (!p) continue;
 
-    const key = [
-      p,
-      spec.mode,
-      spec.offsetChars || 0,
-      spec.offsetBytes || 0
-    ].join("::");
-
+    const key = [p, spec.mode, spec.offsetChars || 0, spec.offsetBytes || 0].join("::");
     if (seen.has(key)) continue;
 
     seen.add(key);
@@ -62,28 +37,6 @@ function uniqueSpecs(paths) {
   }
 
   return out;
-}
-
-function guidanceText({ maxFiles, totalMaxChars, fileMaxChars, stoppedBecause }) {
-  return [
-    stoppedBecause
-      ? "Bulk read stopped early because: " + stoppedBecause
-      : "Bulk read completed within caps.",
-    "",
-    "Bulk read is intentionally capped to avoid timeouts.",
-    "Try getting fewer files at a time, or request smaller chunks.",
-    "",
-    "Recommended GPT workflow:",
-    "1) tree depth=2 limit=150",
-    "2) read one important file",
-    "3) bulk 2-5 small files max",
-    "4) use offsetChars/nextOffsetChars or offsetBytes/nextOffsetBytes for long files",
-    "",
-    "Current caps:",
-    "- maxFiles: " + maxFiles,
-    "- totalMaxChars: " + totalMaxChars,
-    "- per-file maxChars: " + fileMaxChars
-  ].join("\n");
 }
 
 function fileSizeMeta(got) {
@@ -101,32 +54,32 @@ function fileSizeMeta(got) {
   };
 }
 
-async function readOne(config, spec, perFileChars, remainingChars, payload) {
+async function readOne(config, spec, payload) {
   const mode = String(spec.mode || "text");
 
   if (mode === "base64" || mode === "read64") {
     return await readBytesBase64(
       config,
       spec.path,
-      spec.maxBytes || payload.maxBytes || Math.min(remainingChars, 24000),
-      spec.offsetBytes || payload.offsetBytes || 0
+      spec.maxBytes ?? payload.maxBytes,
+      spec.offsetBytes ?? payload.offsetBytes ?? 0
     );
   }
 
-  if (mode === "bytes" || mode === "text-bytes") {
+  if (mode === "bytes" || mode === "text-bytes" || mode === "readBytes") {
     return await readTextFromBytes(
       config,
       spec.path,
-      spec.maxBytes || payload.maxBytes || Math.min(remainingChars, 24000),
-      spec.offsetBytes || payload.offsetBytes || 0
+      spec.maxBytes ?? payload.maxBytes,
+      spec.offsetBytes ?? payload.offsetBytes ?? 0
     );
   }
 
   return await readText(
     config,
     spec.path,
-    spec.maxChars || Math.min(perFileChars, remainingChars),
-    spec.offsetChars || payload.offsetChars || 0
+    spec.maxChars ?? payload.maxChars,
+    spec.offsetChars ?? payload.offsetChars ?? 0
   );
 }
 
@@ -134,48 +87,22 @@ async function readBulk(config, payload) {
   if (!config.tools.fsBulk) throw new Error("fsBulk disabled.");
 
   const requested = uniqueSpecs(payload.paths || []);
-
-  const maxFiles = clampNumber(payload.maxFiles, DEFAULT_MAX_FILES, 1, HARD_MAX_FILES);
-  const totalMaxChars = clampNumber(payload.totalMaxChars, DEFAULT_TOTAL_MAX_CHARS, 1000, HARD_TOTAL_MAX_CHARS);
-  const fileMaxChars = clampNumber(payload.maxChars, DEFAULT_FILE_MAX_CHARS, 500, HARD_FILE_MAX_CHARS);
-
-  const selected = requested.slice(0, maxFiles);
-  const skipped = requested.slice(maxFiles);
-
+  const maxFiles = number(payload.maxFiles, requested.length || 0);
+  const selected = maxFiles ? requested.slice(0, maxFiles) : requested;
+  const skipped = maxFiles ? requested.slice(maxFiles) : [];
   const files = {};
   const metadata = {};
   const order = [];
-
   let usedChars = 0;
-  let stoppedBecause = "";
 
   for (const spec of selected) {
     const one = spec.path;
     order.push(one);
 
-    const remaining = Math.max(0, totalMaxChars - usedChars);
-
-    if (remaining <= 0) {
-      files[one] = {
-        ok: false,
-        error: "bulk_total_limit_reached",
-        skipped: true
-      };
-
-      metadata[one] = {
-        skipped: true,
-        reason: "bulk_total_limit_reached"
-      };
-
-      stoppedBecause = "totalMaxChars";
-      continue;
-    }
-
     try {
-      const got = await readOne(config, spec, fileMaxChars, remaining, payload);
+      const got = await readOne(config, spec, payload);
       const returnedSize = got.returnedChars || got.returnedBytes || String(got.content || got.content64 || "").length;
-
-      usedChars += Math.min(returnedSize, remaining);
+      usedChars += returnedSize;
 
       files[one] = {
         ok: true,
@@ -192,25 +119,10 @@ async function readBulk(config, payload) {
       };
 
       metadata[one] = fileSizeMeta(got);
-
-      if (got.truncated && !stoppedBecause) {
-        stoppedBecause = "one_or_more_files_truncated";
-      }
     } catch (e) {
-      files[one] = {
-        ok: false,
-        error: e.message
-      };
-
-      metadata[one] = {
-        ok: false,
-        error: e.message
-      };
+      files[one] = { ok: false, path: one, error: e.message };
+      metadata[one] = { ok: false, error: e.message };
     }
-  }
-
-  if (skipped.length && !stoppedBecause) {
-    stoppedBecause = "maxFiles";
   }
 
   return {
@@ -223,26 +135,15 @@ async function readBulk(config, payload) {
     skippedPaths: skipped.map(x => x.path),
     usedChars,
     maxFiles,
-    totalMaxChars,
-    fileMaxChars,
-    partial: !!(skipped.length || stoppedBecause),
-    stoppedBecause: stoppedBecause || null,
-    message: skipped.length || stoppedBecause
-      ? "Response was capped. Try getting fewer files at a time or use chunked read offsets."
+    partial: skipped.length > 0,
+    stoppedBecause: skipped.length ? "maxFiles_requested" : null,
+    message: skipped.length
+      ? "Bulk returned selected files and skipped the rest because maxFiles was explicitly set."
       : "Bulk read completed.",
-    guidance: guidanceText({
-      maxFiles,
-      totalMaxChars,
-      fileMaxChars,
-      stoppedBecause
-    }),
     order,
     metadata,
     files
   };
 }
 
-module.exports = {
-  readBulk,
-  uniqueSpecs
-};
+module.exports = { readBulk, uniqueSpecs, normalizeSpec };

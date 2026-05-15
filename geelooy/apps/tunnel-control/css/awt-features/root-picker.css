@@ -3,22 +3,28 @@
 .root-head,.root-foot {
   display: flex;
   gap: 16px;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid var(--line);
 }
-.root-foot { align-items: center; border-top: 1px solid var(--line); border-bottom: 0; }
+.root-foot { border-top: 1px solid var(--line); border-bottom: 0; }
 .root-toolbar {
   display: grid;
-  grid-template-columns: minmax(260px,1fr) auto auto auto auto;
+  grid-template-columns: minmax(260px,1fr) auto auto auto auto auto;
   gap: 9px;
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid var(--line);
 }
 .root-crumbs { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 16px; }
-.root-main { min-height: 0; padding: 16px 20px; overflow: hidden; }
+.root-main {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0,1fr);
+  padding: 16px 20px;
+  overflow: hidden;
+}
 .root-status {
   min-height: 34px;
   margin-bottom: 12px;
@@ -28,24 +34,32 @@
   color: var(--muted);
 }
 .root-list {
-  height: calc(100% - 46px);
-  min-height: 350px;
+  min-height: 360px;
   overflow: auto;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid var(--line);
   border-radius: var(--r2);
   background: rgba(2,7,15,.66);
 }
 .root-row {
   width: 100%;
-  min-height: 52px;
+  min-height: 58px;
   display: grid;
-  grid-template-columns: 34px minmax(0,1fr) auto;
+  grid-template-columns: 42px minmax(0,1fr) auto;
   gap: 12px;
   align-items: center;
   margin-bottom: 8px;
-  padding: 9px 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(156,197,255,.18);
+  border-radius: 14px;
   white-space: normal;
+  text-align: left;
 }
+.root-row:hover { background: rgba(125,231,255,.08); }
+.root-icon { font-size: 1.25rem; }
+.root-copy { display: grid; gap: 3px; min-width: 0; }
 .root-name,.root-path { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.root-name { color: var(--text); font-weight: 850; }
 .root-path { color: var(--faint); font-family: var(--mono); font-size: .72rem; }
+.root-foot details { max-width: 420px; }
+.root-foot pre { max-height: 160px; }

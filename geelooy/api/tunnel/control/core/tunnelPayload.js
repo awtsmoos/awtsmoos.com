@@ -1,6 +1,5 @@
 
 // B"H
-
 const { bodyJson } = require("./bodyPayload.js");
 
 function from64(value) {
@@ -10,11 +9,8 @@ function from64(value) {
 
 function jsonFrom64(value, fallback) {
   if (!value) return fallback;
-  try {
-    return JSON.parse(from64(value));
-  } catch (e) {
-    return fallback;
-  }
+  try { return JSON.parse(from64(value)); }
+  catch (e) { return fallback; }
 }
 
 function boolValue(value) {
@@ -30,11 +26,7 @@ function queryMap($i) {
 
 function valueFrom($i, body, name, fallback = "") {
   const q = queryMap($i);
-
-  if (body && body[name] !== undefined && body[name] !== null) {
-    return body[name];
-  }
-
+  if (body && body[name] !== undefined && body[name] !== null) return body[name];
   return q[name] ?? fallback;
 }
 
@@ -43,10 +35,16 @@ function queryValue($i, name, fallback = "") {
   return q[name] ?? fallback;
 }
 
-function numberFrom($i, body, name, fallback, min, max) {
-  const raw = Number(valueFrom($i, body, name, fallback));
-  const n = Number.isFinite(raw) ? raw : fallback;
-  return Math.max(min, Math.min(max, n));
+function numberFrom($i, body, name, fallback) {
+  const raw = valueFrom($i, body, name, undefined);
+  if (raw === undefined || raw === null || raw === "") return fallback;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function intFrom($i, body, name, fallback) {
+  const n = numberFrom($i, body, name, fallback);
+  return Number.isFinite(n) ? Math.max(0, Math.floor(n)) : fallback;
 }
 
 function actionKind(action) {
@@ -61,9 +59,18 @@ function preferBodyOr64($i, body, plainName, encodedName, fallback = "") {
   return from64(queryValue($i, encodedName, "")) || fallback;
 }
 
+function arrayBodyOr64($i, body, plainName, encodedName, fallback = []) {
+  if (body && Array.isArray(body[plainName])) return body[plainName];
+  return jsonFrom64(queryValue($i, encodedName), fallback);
+}
+
+function objectBodyOr64($i, body, plainName, encodedName, fallback = null) {
+  if (body && body[plainName] && typeof body[plainName] === "object") return body[plainName];
+  return jsonFrom64(queryValue($i, encodedName), fallback);
+}
+
 function buildFsPayload($i) {
   const body = bodyJson($i);
-
   const action = valueFrom($i, body, "action", "list");
   const kind = actionKind(action);
   const p = valueFrom($i, body, "p", valueFrom($i, body, "path", "."));
@@ -73,27 +80,23 @@ function buildFsPayload($i) {
     action,
     path: p,
     absolutePath: valueFrom($i, body, "absolutePath", ""),
+    paths: arrayBodyOr64($i, body, "paths", "paths64", []),
+    files: objectBodyOr64($i, body, "files", "files64", null),
+    writes: arrayBodyOr64($i, body, "writes", "writes64", null),
+    edits: arrayBodyOr64($i, body, "edits", "edits64", []),
 
-    paths: body.paths || jsonFrom64(queryValue($i, "paths64"), []),
-    files: body.files || jsonFrom64(queryValue($i, "files64"), null),
-    writes: body.writes || jsonFrom64(queryValue($i, "writes64"), null),
-    edits: body.edits || jsonFrom64(queryValue($i, "edits64"), []),
-
-    depth: numberFrom($i, body, "depth", 2, 0, 4),
-    limit: numberFrom($i, body, "limit", 150, 1, 600),
-
-    maxChars: numberFrom($i, body, "maxChars", 12000, 500, 30000),
-    totalMaxChars: numberFrom($i, body, "totalMaxChars", 24000, 1000, 60000),
-    maxFiles: numberFrom($i, body, "maxFiles", 5, 1, 10),
-    offsetChars: numberFrom($i, body, "offsetChars", 0, 0, 5000000),
-
-    maxBytes: numberFrom($i, body, "maxBytes", 24000, 512, 120000),
-    offsetBytes: numberFrom($i, body, "offsetBytes", 0, 0, 100000000),
-
-    startLine: numberFrom($i, body, "startLine", 1, 1, 10000000),
-    endLine: numberFrom($i, body, "endLine", 250, 1, 10000000),
-    maxResults: numberFrom($i, body, "maxResults", 80, 1, 300),
-    maxFileBytes: numberFrom($i, body, "maxFileBytes", 800000, 1000, 2000000),
+    depth: intFrom($i, body, "depth", 2),
+    limit: intFrom($i, body, "limit", 150),
+    maxChars: intFrom($i, body, "maxChars", 12000),
+    totalMaxChars: intFrom($i, body, "totalMaxChars", 24000),
+    maxFiles: intFrom($i, body, "maxFiles", 5),
+    offsetChars: intFrom($i, body, "offsetChars", 0),
+    maxBytes: intFrom($i, body, "maxBytes", 24000),
+    offsetBytes: intFrom($i, body, "offsetBytes", 0),
+    startLine: intFrom($i, body, "startLine", 1),
+    endLine: intFrom($i, body, "endLine", 250),
+    maxResults: intFrom($i, body, "maxResults", 80),
+    maxFileBytes: intFrom($i, body, "maxFileBytes", 800000),
 
     content: preferBodyOr64($i, body, "content", "content64"),
     find: preferBodyOr64($i, body, "find", "find64"),
@@ -104,67 +107,48 @@ function buildFsPayload($i) {
 
     command: preferBodyOr64($i, body, "command", "command64"),
     scriptText: preferBodyOr64($i, body, "scriptText", "script64"),
-    input: body.input || jsonFrom64(queryValue($i, "input64"), {}),
+    input: objectBodyOr64($i, body, "input", "input64", {}),
     shell: valueFrom($i, body, "shell", ""),
     cwd: valueFrom($i, body, "cwd", ""),
-    timeoutMs: numberFrom($i, body, "timeoutMs", 20000, 1000, 30000),
+    timeoutMs: intFrom($i, body, "timeoutMs", 20000),
 
     url: valueFrom($i, body, "url", ""),
     selector: valueFrom($i, body, "selector", ""),
     text: preferBodyOr64($i, body, "text", "text64"),
     expression: preferBodyOr64($i, body, "expression", "expression64"),
-    script: body.script || jsonFrom64(queryValue($i, "script64"), []),
-    port: numberFrom($i, body, "port", 9222, 1, 65535),
+    script: arrayBodyOr64($i, body, "script", "script64", []),
+    port: intFrom($i, body, "port", 9222),
     chromePath: valueFrom($i, body, "chromePath", ""),
     userDataDir: valueFrom($i, body, "userDataDir", "")
   };
 
-  const root = valueFrom($i, body, "root", "");
-  const local = valueFrom($i, body, "local", "");
-  const relay = valueFrom($i, body, "relay", "");
-  const tunnelName = valueFrom($i, body, "setTunnelName", "");
-  const tools = body.tools || jsonFrom64(queryValue($i, "tools64"), null);
-  const chrome = body.chrome || jsonFrom64(queryValue($i, "chrome64"), null);
-  const commandConfig = body.commandConfig || jsonFrom64(queryValue($i, "commandConfig64"), null);
+  for (const key of ["root", "local", "relay", "setTunnelName"]) {
+    const value = valueFrom($i, body, key, "");
+    if (value) payload[key === "setTunnelName" ? "tunnelName" : key] = value;
+  }
 
-  if (root) payload.root = root;
-  if (local) payload.local = local;
-  if (relay) payload.relay = relay;
-  if (tunnelName) payload.tunnelName = tunnelName;
-  if (tools) payload.tools = tools;
-  if (chrome) payload.chrome = chrome;
-  if (commandConfig) payload.commandConfig = commandConfig;
+  for (const key of ["tools", "chrome", "commandConfig"]) {
+    const value = objectBodyOr64($i, body, key, key + "64", null);
+    if (value) payload[key] = value;
+  }
 
-  const allowWrite = boolValue(valueFrom($i, body, "allowWrite", undefined));
-  const allowSecrets = boolValue(valueFrom($i, body, "allowSecrets", undefined));
-  const enableLocalHttpProxy = boolValue(valueFrom($i, body, "enableLocalHttpProxy", undefined));
-  const allowCommands = boolValue(valueFrom($i, body, "allowCommands", undefined));
-
-  if (allowWrite !== undefined) payload.allowWrite = allowWrite;
-  if (allowSecrets !== undefined) payload.allowSecrets = allowSecrets;
-  if (enableLocalHttpProxy !== undefined) payload.enableLocalHttpProxy = enableLocalHttpProxy;
-  if (allowCommands !== undefined) payload.allowCommands = allowCommands;
+  for (const key of ["allowWrite", "allowSecrets", "enableLocalHttpProxy", "allowCommands"]) {
+    const value = boolValue(valueFrom($i, body, key, undefined));
+    if (value !== undefined) payload[key] = value;
+  }
 
   return payload;
 }
 
 function actionRequiredScope(action) {
   action = String(action || "");
-
   if (action.startsWith("command") || action === "nodeScriptRun") return "tunnel.command";
   if (action.startsWith("chrome")) return "tunnel.browser";
 
-  if (
-    action === "write" ||
-    action === "bulkWrite" ||
-    action === "findReplace" ||
-    action === "replaceRange" ||
-    action === "applyPatch" ||
-    action === "configSet" ||
-    action === "rootSelect"
-  ) {
-    return "tunnel.write";
-  }
+  if ([
+    "write", "bulkWrite", "findReplace", "replaceRange", "applyPatch",
+    "configSet", "rootSelect", "openRoot"
+  ].includes(action)) return "tunnel.write";
 
   return "tunnel.read";
 }
