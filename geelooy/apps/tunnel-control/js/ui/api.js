@@ -37,17 +37,15 @@ function addJson64(u, key, value) {
 }
 
 export function fsUrl(opts = {}) {
-  const name = encodeURIComponent(tunnelName());
-  const u = new URL("/api/tunnel/control/fs/" + name, location.origin);
+  const u = new URL("/api/tunnel/control/fs/" + encodeURIComponent(tunnelName()), location.origin);
 
   addValue(u, "action", opts.action || "list");
 
   [
-    "p", "path", "absolutePath", "root", "local", "relay", "tunnelName",
-    "depth", "limit", "maxChars", "totalMaxChars", "maxFiles",
-    "offsetChars", "maxBytes", "offsetBytes", "startLine", "endLine",
-    "maxResults", "maxFileBytes", "shell", "cwd", "timeoutMs",
-    "url", "selector", "port", "chromePath", "userDataDir"
+    "p", "path", "absolutePath", "root", "local", "relay", "depth", "limit",
+    "maxChars", "totalMaxChars", "maxFiles", "offsetChars", "maxBytes",
+    "offsetBytes", "shell", "cwd", "timeoutMs", "url", "selector", "port",
+    "chromePath", "userDataDir"
   ].forEach(key => addValue(u, key, opts[key]));
 
   [
@@ -87,8 +85,32 @@ export async function callFs(opts) {
   });
 
   const text = await res.text();
-  try { return JSON.parse(text); }
-  catch { return { ok: false, status: res.status, raw: text }; }
+
+  try {
+    const json = JSON.parse(text);
+    if (json && json.type === "TUNNEL_RESPONSE") json.ok = json.ok !== false;
+    return json;
+  } catch (e) {
+    return { ok: false, status: res.status, raw: text };
+  }
+}
+
+export function humanError(value) {
+  if (!value) return "unknown error";
+  if (typeof value === "string") return value;
+  if (value.error) return humanError(value.error);
+  if (value.message) return humanError(value.message);
+
+  try { return JSON.stringify(value); }
+  catch (e) { return String(value); }
+}
+
+export function show(id, value) {
+  const el = $(id);
+  if (!el) return;
+
+  try { el.textContent = JSON.stringify(value, null, 2); }
+  catch (e) { el.textContent = String(value); }
 }
 
 export async function apiGet(path) {
@@ -96,12 +118,16 @@ export async function apiGet(path) {
     credentials: "include",
     headers: authHeaders({ Accept: "application/json" })
   });
+
   return await res.json();
 }
 
 export async function apiPostForm(path, data) {
   const body = new URLSearchParams();
-  for (const [k, v] of Object.entries(data || {})) body.set(k, String(v ?? ""));
+
+  for (const [k, v] of Object.entries(data || {})) {
+    body.set(k, String(v ?? ""));
+  }
 
   const res = await fetch(path, {
     method: "POST",
@@ -114,11 +140,4 @@ export async function apiPostForm(path, data) {
   });
 
   return await res.json();
-}
-
-export function show(id, value) {
-  const el = $(id);
-  if (!el) return;
-  try { el.textContent = JSON.stringify(value, null, 2); }
-  catch { el.textContent = String(value); }
 }

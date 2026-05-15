@@ -1,7 +1,8 @@
 
 // B"H
 import { h, area, out, $ } from "../ui/dom.js";
-import { callFs, show } from "../ui/api.js";
+import { callFs, show, humanError } from "../ui/api.js";
+import { idbGet, idbSet } from "../ui/idb.js";
 
 function field(id, label, attrs = {}, wide = "") {
   return h("label", { className: "chrome-field " + wide }, [
@@ -19,13 +20,13 @@ export function chrome() {
     h("div", { className: "page-head" }, [
       h("p", { className: "eyebrow", text: "Chrome" }),
       h("h2", { text: "Browser control lab" }),
-      h("p", { text: "Find Chrome, save its path, launch/connect, then test navigation and evaluation." })
+      h("p", { text: "Find Chrome once, remember it, then launch and control it through your local tunnel." })
     ]),
 
     h("article", { className: "panel stack" }, [
       h("div", { className: "chrome-grid" }, [
         field("chromePath", "Chrome / Edge / Brave executable", {}, "span-9"),
-        field("chromePort", "Port", { type: "number", value: localStorage.getItem("awtChromePort") || "9222" }, "span-3")
+        field("chromePort", "Port", { type: "number", value: "9222" }, "span-3")
       ]),
       h("div", { className: "button-row" }, [
         btn("chromeFindBtn", "Find Chrome"),
@@ -33,13 +34,16 @@ export function chrome() {
         btn("chromeLaunchBtn", "Launch / Connect", true),
         btn("chromeStatusBtn", "Status")
       ]),
-      h("div", { id: "chromeStatusCard", className: "notice", text: "Chrome not checked yet." }),
+      h("div", { id: "chromeStatusCard", className: "notice", text: "Loading saved Chrome path..." }),
       h("div", { id: "chromeCandidates", className: "candidate-list hidden" })
     ]),
 
     h("article", { className: "panel stack" }, [
       field("chromeUrl", "URL", { value: "https://awtsmoos.com" }, "span-12"),
-      h("div", { className: "button-row" }, [btn("chromeNavigateBtn", "Navigate"), btn("chromeEvalBtn", "Evaluate title")])
+      h("div", { className: "button-row" }, [
+        btn("chromeNavigateBtn", "Navigate"),
+        btn("chromeEvalBtn", "Evaluate title")
+      ])
     ]),
 
     h("article", { className: "panel stack" }, [
@@ -57,69 +61,99 @@ export function chrome() {
       ])
     ]),
 
-    h("details", {}, [h("summary", { text: "Raw Chrome response" }), out("chromeOut")])
+    h("details", {}, [
+      h("summary", { text: "Raw Chrome response" }),
+      out("chromeOut")
+    ])
   ]);
 }
 
-export function mountChrome() {
-  restoreChrome();
+export async function mountChrome() {
+  await restoreChrome();
+
   const map = [
-    ["chromeFindBtn", "chromeFind"], ["chromeLaunchBtn", "chromeLaunch"],
-    ["chromeStatusBtn", "chromeStatus"], ["chromeNavigateBtn", "chromeNavigate"],
-    ["chromeWaitBtn", "chromeWaitForSelector"], ["chromeClickBtn", "chromeClick"],
-    ["chromeTypeBtn", "chromeType"], ["chromeEvalBtn", "chromeEval"],
+    ["chromeFindBtn", "chromeFind"],
+    ["chromeLaunchBtn", "chromeLaunch"],
+    ["chromeStatusBtn", "chromeStatus"],
+    ["chromeNavigateBtn", "chromeNavigate"],
+    ["chromeWaitBtn", "chromeWaitForSelector"],
+    ["chromeClickBtn", "chromeClick"],
+    ["chromeTypeBtn", "chromeType"],
+    ["chromeEvalBtn", "chromeEval"],
     ["chromeRunScriptBtn", "chromeRunScript"]
   ];
 
   map.forEach(([id, action]) => $(id).onclick = () => run(action));
+
   $("chromeManualBtn").onclick = () => openCandidates();
-  $("chromePath").onchange = saveChromeLocal;
-  $("chromePort").onchange = saveChromeLocal;
+  $("chromePath").onchange = saveChrome;
+  $("chromePort").onchange = saveChrome;
+
+  if (!$("chromePath").value) {
+    run("chromeFind");
+  } else {
+    $("chromeStatusCard").textContent = "Remembered Chrome path: " + $("chromePath").value;
+  }
 }
 
-function restoreChrome() {
-  $("chromePath").value = localStorage.getItem("awtChromePath") || "";
-  $("chromePort").value = localStorage.getItem("awtChromePort") || $("chromePort").value || "9222";
+async function restoreChrome() {
+  $("chromePath").value = await idbGet("chromePath", localStorage.getItem("awtChromePath") || "");
+  $("chromePort").value = await idbGet("chromePort", localStorage.getItem("awtChromePort") || "9222");
 }
 
-function saveChromeLocal() {
-  localStorage.setItem("awtChromePath", $("chromePath").value.trim());
-  localStorage.setItem("awtChromePort", $("chromePort").value.trim() || "9222");
+async function saveChrome() {
+  const path = $("chromePath").value.trim();
+  const port = $("chromePort").value.trim() || "9222";
+
+  localStorage.setItem("awtChromePath", path);
+  localStorage.setItem("awtChromePort", port);
+
+  await idbSet("chromePath", path);
+  await idbSet("chromePort", port);
 }
 
 function statusText(got) {
   if (got.action === "chromeFind") {
     return got.found
-      ? `Found browser: ${got.chromePath}. Existing choices: ${(got.existing || []).length}.`
-      : `No browser found automatically. Searched ${(got.candidates || []).length} common paths.`;
+      ? `Found and remembered: ${got.chromePath}`
+      : `Could not find Chrome automatically. Searched ${(got.candidates || []).length} paths.`;
   }
 
   if (got.action === "chromeStatus") {
     return got.connected
       ? `Connected on port ${got.port}. Pages: ${(got.pages || []).length}.`
-      : `Not connected on port ${got.port}. ${got.error || ""}`;
+      : `Not connected on port ${got.port}. ${humanError(got)}`;
   }
 
   if (got.ok) return `${got.action} succeeded.`;
-  return `${got.action} failed: ${got.error || got.message || "unknown"}`;
+  return `${got.action || "Chrome action"} failed: ${humanError(got)}`;
 }
 
 function renderCandidates(list = []) {
   const host = $("chromeCandidates");
-  const items = list.map(x => typeof x === "string" ? { path: x } : x).filter(x => x.path || x);
+  const items = list.map(x => typeof x === "string" ? { path: x } : x).filter(x => x.path);
 
   host.classList.toggle("hidden", !items.length);
-  host.replaceChildren(...items.map(item => {
-    const p = item.path || item;
-    return h("div", { className: "candidate" }, [
-      h("code", { text: p }),
-      h("button", { text: "Use", on: { click: () => { $("chromePath").value = p; saveChromeLocal(); } } })
-    ]);
-  }));
+  host.replaceChildren(...items.map(item =>
+    h("div", { className: "candidate" }, [
+      h("code", { text: item.path }),
+      h("button", {
+        text: "Use",
+        on: {
+          click: async () => {
+            $("chromePath").value = item.path;
+            await saveChrome();
+            $("chromeStatusCard").textContent = "Selected and remembered: " + item.path;
+          }
+        }
+      })
+    ])
+  ));
 }
 
 function openCandidates() {
   $("chromeCandidates").classList.remove("hidden");
+
   if (!$("chromeCandidates").children.length) {
     renderCandidates([
       "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -131,12 +165,12 @@ function openCandidates() {
 }
 
 async function run(action) {
-  saveChromeLocal();
+  await saveChrome();
   $("chromeStatusCard").textContent = "Working: " + action + "...";
 
   let script = [];
   try { script = JSON.parse($("chromeScript").value || "[]"); }
-  catch (_e) { script = []; }
+  catch (e) { script = []; }
 
   const got = await callFs({
     action,
@@ -145,16 +179,19 @@ async function run(action) {
     url: $("chromeUrl").value,
     selector: $("chromeSelector").value,
     text: $("chromeText").value,
-    expression: action === "chromeEval" && !$("chromeExpression").value ? "document.title" : $("chromeExpression").value,
+    expression: $("chromeExpression").value || "document.title",
     script
   });
 
   if (got.chromePath) {
     $("chromePath").value = got.chromePath;
-    saveChromeLocal();
+    await saveChrome();
   }
 
-  if (got.candidates || got.existing) renderCandidates(got.existing || got.candidates);
+  if (got.candidates || got.existing) {
+    renderCandidates(got.existing || got.candidates);
+  }
+
   $("chromeStatusCard").textContent = statusText(got);
   show("chromeOut", got);
 }
