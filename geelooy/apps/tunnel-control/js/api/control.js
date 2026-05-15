@@ -8,7 +8,7 @@ import { getJson } from "./http.js";
  * Builds a query string from defined values.
  *
  * @param {Record<string, unknown>} params Query fields.
- * @returns {string} Encoded query string with leading question mark.
+ * @returns {string} Encoded query string with a leading question mark.
  */
 function q(params = {}) {
   const u = new URLSearchParams();
@@ -25,45 +25,125 @@ function q(params = {}) {
 
 /**
  * B"H
- * Reads browser login/session identity.
+ * Calls JSON POST.
  *
- * @returns {Promise<object>} Identity response.
+ * @param {string} url Endpoint URL.
+ * @param {object} body JSON body.
+ * @returns {Promise<object>} Parsed response.
  */
-export async function me() {
-  return await getJson("/api/tunnel/control/me", {
+async function postJson(url, body) {
+  const res = await fetch(url, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body || {})
+  });
+
+  const text = await res.text();
+
+  try {
+    const data = JSON.parse(text);
+    if (!res.ok && data.ok !== false) data.ok = false;
+    return data;
+  } catch (e) {
+    return {
+      BH: "B\"H",
+      ok: false,
+      error: "non_json_response",
+      status: res.status,
+      text
+    };
+  }
+}
+
+/**
+ * B"H
+ * Reads bootstrap instructions.
+ *
+ * @returns {Promise<object>} Bootstrap response.
+ */
+export async function bootstrap() {
+  return await getJson("/api/tunnel/control/bootstrap", {
     credentials: "include"
   });
 }
 
 /**
  * B"H
- * Reads a device by tunnel name.
+ * Discovers the signed-in user's active tunnel.
  *
- * If tunnelName is omitted, the server is allowed to resolve the single
- * active tunnel for the logged-in user.
+ * This is the correct no-query control-panel path. The app should not
+ * require /apps/tunnel-control/?tunnelName=... for normal usage.
  *
- * @param {string} [tunnelName] Optional tunnel name.
+ * @returns {Promise<object>} Device discovery response.
+ */
+export async function myDevice() {
+  return await getJson("/api/tunnel/control/my-device", {
+    credentials: "include"
+  });
+}
+
+/**
+ * B"H
+ * Backward-compatible alias for older feature modules.
+ *
+ * @param {string} [tunnelName] Optional explicit tunnel name.
  * @returns {Promise<object>} Device response.
  */
-export async function device(tunnelName) {
-  return await getJson("/api/tunnel/control/device" + q({ tunnelName }), {
+export async function device(tunnelName = "") {
+  if (!tunnelName) return await myDevice();
+
+  return await getJson("/api/tunnel/control/my-device" + q({ tunnelName }), {
     credentials: "include"
   });
 }
 
 /**
  * B"H
- * Alias that documents the intended no-query flow.
+ * Preferred active-device alias.
  *
  * @returns {Promise<object>} Active device response.
  */
 export async function activeDevice() {
-  return await device("");
+  return await myDevice();
 }
 
 /**
  * B"H
- * Lists API keys for the logged-in user.
+ * Runs a controlled tunnel action through POST.
+ *
+ * @param {string} tunnelName Tunnel name.
+ * @param {object} body Action body.
+ * @returns {Promise<object>} Tunnel response.
+ */
+export async function tunnelActionPost(tunnelName, body) {
+  return await postJson(
+    "/api/tunnel/control/fs/" + encodeURIComponent(tunnelName),
+    body
+  );
+}
+
+/**
+ * B"H
+ * Runs a small controlled tunnel action through GET.
+ *
+ * @param {string} tunnelName Tunnel name.
+ * @param {Record<string, unknown>} params Query params.
+ * @returns {Promise<object>} Tunnel response.
+ */
+export async function tunnelAction(tunnelName, params = {}) {
+  return await getJson(
+    "/api/tunnel/control/fs/" + encodeURIComponent(tunnelName) + q(params),
+    { credentials: "include" }
+  );
+}
+
+/**
+ * B"H
+ * Lists API keys.
  *
  * @returns {Promise<object>} API keys response.
  */
@@ -78,21 +158,19 @@ export async function apiKeys() {
  * Creates a scoped API key.
  *
  * @param {object} options Key creation options.
- * @param {string} [options.name] Key name.
- * @param {string[]} [options.scopes] Key scopes.
- * @param {number} [options.rateLimitPerMinute] Rate limit.
- * @param {number} [options.bytesPerDay] Daily byte limit.
  * @returns {Promise<object>} Create response.
  */
-export async function createApiKey({
-  name = "Tunnel API Key",
-  scopes = ["tunnel.read"],
-  rateLimitPerMinute = 60,
-  bytesPerDay = 50000000
-} = {}) {
+export async function createApiKey(options = {}) {
+  const {
+    name = "Tunnel API Key",
+    scopes = ["tunnel.read"],
+    rateLimitPerMinute = 60,
+    bytesPerDay = 50000000
+  } = options;
+
   return await getJson("/api/tunnel/control/api-keys/create" + q({
     name,
-    scopes: scopes.join(" "),
+    scopes: Array.isArray(scopes) ? scopes.join(" ") : String(scopes || ""),
     rateLimitPerMinute,
     bytesPerDay
   }), {

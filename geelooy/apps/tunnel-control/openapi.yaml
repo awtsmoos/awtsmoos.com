@@ -1,0 +1,117 @@
+
+openapi: 3.0.3
+info:
+  title: Awtsmoos Tunnel Control GPT Actions
+  version: 3.0.0
+  description: B"H. Minimal Custom GPT Action schema for Awtsmoos Tunnel Control.
+servers:
+  - url: https://awtsmoos.com
+paths:
+  /api/tunnel/control/bootstrap:
+    get:
+      operationId: awtsmoosBootstrap
+      summary: Get setup instructions.
+      security: []
+      responses:
+        "200":
+          description: Bootstrap response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /api/tunnel/control/my-device:
+    get:
+      operationId: awtsmoosMyDevice
+      summary: Discover the signed-in user's active tunnel.
+      security:
+        - OAuth2:
+            - profile
+            - tunnel.read
+      responses:
+        "200":
+          description: Device response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /api/tunnel/control/fs/{tunnelName}:
+    post:
+      operationId: awtsmoosTunnelAction
+      summary: Run a controlled tunnel action.
+      security:
+        - OAuth2:
+            - profile
+            - tunnel.read
+      parameters:
+        - name: tunnelName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              required:
+                - action
+              properties:
+                action:
+                  type: string
+                p:
+                  type: string
+                path:
+                  type: string
+                depth:
+                  type: integer
+                limit:
+                  type: integer
+                maxChars:
+                  type: integer
+                totalMaxChars:
+                  type: integer
+                maxFiles:
+                  type: integer
+                offsetChars:
+                  type: integer
+                files:
+                  type: object
+                  additionalProperties:
+                    type: string
+                content:
+                  type: string
+                command:
+                  type: string
+                shell:
+                  type: string
+                cwd:
+                  type: string
+                timeoutMs:
+                  type: integer
+      responses:
+        "200":
+          description: Tunnel response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://awtsmoos.com/api/oauth/authorize
+          tokenUrl: https://awtsmoos.com/api/oauth/token
+          scopes:
+            profile: Basic profile.
+            tunnel.read: Read/list/tree files and discover connected tunnel.
+            tunnel.write: Write files.
+            tunnel.command: Run commands.
+            tunnel.browser: Control Chrome.
+            tunnel.admin: Full tunnel control.

@@ -10,6 +10,8 @@
 @import url("./action-card.css");
 @import url("./panes.css");
 @import url("./forms.css");
+@import url("./navigation-fix.css");
+@import url("./status-fix.css");
 @import url("./diagnostics.css");
 @import url("./diagnostic-item.css");
 @import url("./security.css");

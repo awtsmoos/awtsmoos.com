@@ -1,0 +1,50 @@
+
+/* B"H */
+
+.awt-stale-no-tunnel {
+  display: none !important;
+}
+
+.awt-readable-status {
+  overflow-wrap: anywhere;
+}
+
+body.awt-pro-ready #deviceBox,
+body.awt-pro-ready #identityBox,
+body.awt-pro-ready #connectionBox,
+body.awt-pro-ready #miniStatus {
+  line-height: 1.55;
+}
+
+body.awt-pro-ready #deviceBox > *,
+body.awt-pro-ready #identityBox > *,
+body.awt-pro-ready #connectionBox > *,
+body.awt-pro-ready #miniStatus > * {
+  margin-block: 4px;
+}
+
+body.awt-pro-ready details summary {
+  cursor: pointer;
+}
+
+body.awt-pro-ready details summary::marker {
+  color: var(--awt-sky);
+}
+
+body.awt-pro-ready .awt-dashboard-grid {
+  align-items: stretch;
+}
+
+body.awt-pro-ready .awt-dashboard-grid > * {
+  min-width: 0;
+}
+
+body.awt-pro-ready .awt-dashboard-grid strong,
+body.awt-pro-ready .awt-dashboard-grid span {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+body.awt-pro-ready .awt-dashboard-grid strong + span {
+  margin-top: 4px;
+}

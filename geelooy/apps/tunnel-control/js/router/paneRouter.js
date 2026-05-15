@@ -32,23 +32,47 @@ export function ensureActivePane() {
 
 /**
  * B"H
- * Activates a pane through the old tab button when possible.
+ * Sets selected state on tab buttons.
+ *
+ * @param {string} pane Pane name.
+ * @returns {void}
+ */
+function syncTabs(pane) {
+  for (const tab of many("[data-tab]")) {
+    const yes = tab.dataset.tab === pane;
+    tab.classList.toggle("active", yes);
+    tab.setAttribute("aria-selected", yes ? "true" : "false");
+  }
+}
+
+/**
+ * B"H
+ * Activates a pane.
+ *
+ * This does not rely on the old tab click handler. It directly controls
+ * panes, then lets old code hear the click if a tab exists.
  *
  * @param {string} pane Pane name.
  * @returns {void}
  */
 export function activatePane(pane) {
-  const tab = many("[data-tab]").find(t => t.dataset.tab === pane);
+  let found = false;
 
-  if (tab) {
-    tab.click();
-  } else {
-    for (const node of many("[data-pane]")) {
-      node.classList.toggle("active", node.dataset.pane === pane);
-    }
+  for (const node of many("[data-pane]")) {
+    const yes = node.dataset.pane === pane;
+    node.classList.toggle("active", yes);
+    if (yes) found = true;
   }
+
+  syncTabs(pane);
+
+  const tab = many("[data-tab]").find(t => t.dataset.tab === pane);
+  if (tab && !found) tab.click();
 
   document.dispatchEvent(new CustomEvent("awt:pane-change", {
     detail: { pane }
   }));
+
+  const shell = document.querySelector(".awt-control-shell");
+  if (shell) shell.scrollIntoView({ behavior: "smooth", block: "start" });
 }

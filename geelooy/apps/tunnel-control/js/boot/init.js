@@ -15,6 +15,7 @@ import { renderPrompt } from "./renderPrompt.js";
 import { mountLegacyFeatures } from "./mountLegacyFeatures.js";
 import { mountShell } from "../shell/mountShell.js";
 import { mountUiRepair } from "./repairUi.js";
+import { bindNavigationButtons } from "../router/bindNavigation.js";
 
 /**
  * B"H
@@ -38,7 +39,7 @@ function getProjectPath() {
 
 /**
  * B"H
- * Hydrates the old hidden fields from resolved state.
+ * Hydrates old hidden/visible fields from resolved state.
  *
  * @param {object} tunnel Resolved tunnel.
  * @returns {void}
@@ -53,13 +54,28 @@ function hydrateFields(tunnel) {
 
 /**
  * B"H
+ * Marks body with permission classes for CSS/status.
+ *
+ * @param {object} tunnel Resolved tunnel.
+ * @returns {void}
+ */
+function hydratePermissionClasses(tunnel) {
+  const p = tunnel.permissions || {};
+
+  document.body.classList.toggle("awt-can-write", !!p.allowWrite);
+  document.body.classList.toggle("awt-can-command", !!p.allowCommands);
+  document.body.classList.toggle("awt-can-browser", !!p.allowBrowser);
+}
+
+/**
+ * B"H
  * Starts the whole control panel.
  *
  * @returns {Promise<void>} Resolves after boot.
  */
 export async function startTunnelControl() {
   try {
-    log("boot modular control center v3000");
+    log("boot modular control center v3100");
 
     const session = await resolveSession();
 
@@ -76,6 +92,8 @@ export async function startTunnelControl() {
     }
 
     hydrateFields(tunnel);
+    hydratePermissionClasses(tunnel);
+
     window.awtsGetTunnelName = getTunnelName;
 
     wireInputs(getTunnelName);
@@ -84,7 +102,8 @@ export async function startTunnelControl() {
     renderPrompt(getTunnelName);
 
     mountShell({ session, getTunnelName, getProjectPath });
-    mountUiRepair();
+    bindNavigationButtons();
+    mountUiRepair(getTunnelName);
 
     await Promise.allSettled([
       refreshLogin(),

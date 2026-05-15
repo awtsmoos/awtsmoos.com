@@ -1,18 +1,18 @@
 
 // B"H
 
-import { activeDevice, device } from "../api/control.js";
+import { myDevice, device } from "../api/control.js";
 import { state, rememberTunnelName, forgetTunnelName } from "../state/state.js";
-import { extractTunnelName, extractRoot } from "./extractTunnel.js";
+import { extractTunnelName, extractRoot, extractPermissions } from "./extractTunnel.js";
 
 /**
  * B"H
  * Resolves the active tunnel.
  *
- * Priority:
- * 1. URL override, only for dev/backward compatibility.
- * 2. Server-side active tunnel for logged-in user.
- * 3. Locally remembered tunnel as fallback.
+ * Normal flow:
+ * /apps/tunnel-control/ -> OAuth/session -> /my-device -> tunnel.
+ *
+ * Query tunnelName remains only as a backward-compatible dev override.
  *
  * @returns {Promise<object>} Normalized tunnel result.
  */
@@ -23,7 +23,7 @@ export async function resolveActiveTunnel() {
     attempts.push(() => device(state.urlTunnelOverride));
   }
 
-  attempts.push(() => activeDevice());
+  attempts.push(() => myDevice());
 
   if (state.tunnelName && state.tunnelName !== state.urlTunnelOverride) {
     attempts.push(() => device(state.tunnelName));
@@ -43,6 +43,7 @@ export async function resolveActiveTunnel() {
         ok: true,
         tunnelName,
         root: extractRoot(raw),
+        permissions: extractPermissions(raw),
         raw
       };
     } catch (e) {
@@ -56,6 +57,7 @@ export async function resolveActiveTunnel() {
     ok: false,
     tunnelName: "",
     root: ".",
+    permissions: {},
     raw: null
   };
 }

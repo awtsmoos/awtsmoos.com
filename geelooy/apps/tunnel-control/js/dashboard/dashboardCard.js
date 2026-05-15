@@ -18,11 +18,13 @@ export function createDashboardCard(data) {
     classes: ["awt-action-card"],
     attrs: {
       type: "button",
-      "data-target-tab": tab
+      "data-target-tab": tab,
+      "data-awt-navigate": tab
     },
     children: [
       h("div", { classes: ["awt-action-icon"], text: icon }),
       h("div", {
+        classes: ["awt-action-copy"],
         children: [
           h("strong", { text: title }),
           h("span", { text })
@@ -31,6 +33,10 @@ export function createDashboardCard(data) {
     ]
   });
 
-  card.addEventListener("click", () => activatePane(tab));
+  card.addEventListener("click", event => {
+    event.preventDefault();
+    activatePane(tab);
+  });
+
   return card;
 }
