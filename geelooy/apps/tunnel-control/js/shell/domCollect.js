@@ -3,44 +3,53 @@
 
 /**
  * B"H
- * Finds the current application root.
- *
- * @returns {HTMLElement} Root element.
- */
-export function findAppRoot() {
-  return document.querySelector("main") ||
-    document.querySelector("#app") ||
-    document.querySelector(".app") ||
-    document.querySelector(".wrap") ||
-    document.querySelector(".container") ||
-    document.body;
-}
-
-/**
- * B"H
- * Collects panes from anywhere before the shell replaces the root.
+ * Collects every real pane before the old page is removed.
  *
  * @returns {HTMLElement[]} Pane nodes.
  */
 export function collectPanes() {
-  return Array.from(document.querySelectorAll("[data-pane]"))
+  const panes = Array.from(document.querySelectorAll("[data-pane]"))
     .filter(node => node instanceof HTMLElement);
+
+  return dedupePanes(panes);
 }
 
 /**
  * B"H
- * Creates a diagnostic pane if the old HTML has no panes.
+ * Removes duplicate pane keys while preserving order.
+ *
+ * @param {HTMLElement[]} panes Pane nodes.
+ * @returns {HTMLElement[]} Unique panes.
+ */
+function dedupePanes(panes) {
+  const seen = new Set();
+  const out = [];
+
+  for (const pane of panes) {
+    const key = pane.dataset.pane || "";
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(pane);
+  }
+
+  return out;
+}
+
+/**
+ * B"H
+ * Creates a fallback pane when the old page has no data-pane nodes.
  *
  * @returns {HTMLElement} Fallback pane.
  */
 export function createFallbackPane() {
   const pane = document.createElement("section");
   pane.dataset.pane = "diagnostic";
+
   pane.innerHTML = [
     "<div class='awt-pane-heading'>",
     "<div class='awt-pane-kicker'>DIAGNOSTIC</div>",
     "<h2>No panes found</h2>",
-    "<p>The shell mounted, but no data-pane sections were found in the old page.</p>",
+    "<p>The dashboard mounted, but the old page had no [data-pane] sections.</p>",
     "</div>"
   ].join("");
 

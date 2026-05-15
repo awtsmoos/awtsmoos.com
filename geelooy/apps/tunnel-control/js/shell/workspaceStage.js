@@ -6,7 +6,7 @@ import { showHome } from "../router/paneRouter.js";
 
 /**
  * B"H
- * Creates the workspace stage.
+ * Creates workspace stage.
  *
  * @returns {{stage: HTMLElement, stack: HTMLElement}} Stage and pane stack.
  */

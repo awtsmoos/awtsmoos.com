@@ -6,7 +6,7 @@ import { PANE_META } from "./paneMeta.js";
 
 /**
  * B"H
- * Adds clean headings to panes.
+ * Adds normalized headings to panes.
  *
  * @returns {void}
  */
@@ -27,10 +27,10 @@ export function normalizePaneHeadings() {
       children: [
         h("div", {
           classes: ["awt-pane-kicker"],
-          text: `${meta.icon || "✦"} ${meta.kicker}`
+          text: `${meta.icon || "✦"} ${meta.kicker || key}`
         }),
-        h("h2", { text: meta.title }),
-        h("p", { text: meta.desc })
+        h("h2", { text: meta.title || key }),
+        h("p", { text: meta.desc || "Focused controls." })
       ]
     }));
   }

@@ -6,15 +6,16 @@ import { showHome } from "../router/paneRouter.js";
 
 /**
  * B"H
- * Updates the workspace title.
+ * Updates workspace title from pane metadata.
  *
  * @param {string} pane Pane key.
  * @returns {void}
  */
 function updateTitle(pane) {
-  const node = document.getElementById("awtWorkspaceTitle");
-  if (!node) return;
-  node.textContent = PANE_META[pane]?.title || pane || "Workspace";
+  const title = document.getElementById("awtWorkspaceTitle");
+  if (!title) return;
+
+  title.textContent = PANE_META[pane]?.title || pane || "Workspace";
 }
 
 /**

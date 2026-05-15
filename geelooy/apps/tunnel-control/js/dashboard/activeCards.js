@@ -5,7 +5,7 @@ import { getActivePane } from "../router/paneRouter.js";
 
 /**
  * B"H
- * Syncs dashboard card active state.
+ * Syncs active dashboard card.
  *
  * @returns {void}
  */
@@ -19,7 +19,7 @@ export function syncDashboardCards() {
 
 /**
  * B"H
- * Mounts dashboard active syncing.
+ * Mounts card syncing.
  *
  * @returns {void}
  */

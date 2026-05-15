@@ -6,13 +6,13 @@ import { activatePane } from "../router/paneRouter.js";
 
 /**
  * B"H
- * Builds one dashboard button.
+ * Builds one dashboard card.
  *
  * @param {string} key Pane key.
  * @param {object} meta Pane metadata.
- * @returns {HTMLButtonElement} Card.
+ * @returns {HTMLButtonElement} Card button.
  */
-export function createDashboardCard(key, meta) {
+export function createDashboardCard(key, meta = {}) {
   const card = h("button", {
     classes: ["awt-action-card"],
     attrs: {
@@ -25,7 +25,7 @@ export function createDashboardCard(key, meta) {
         classes: ["awt-action-copy"],
         children: [
           h("strong", { text: meta.title || key }),
-          h("span", { text: meta.desc || "Open workspace." })
+          h("span", { text: meta.desc || "Open this workspace." })
         ]
       })
     ]

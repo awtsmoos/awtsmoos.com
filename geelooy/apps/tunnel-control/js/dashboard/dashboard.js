@@ -7,11 +7,11 @@ import { createDashboardCard } from "./dashboardCard.js";
 
 /**
  * B"H
- * Builds a metric.
+ * Builds a metric block.
  *
- * @param {string} label Metric label.
- * @param {string} value Metric value.
- * @returns {HTMLElement} Metric node.
+ * @param {string} label Label.
+ * @param {string} value Value.
+ * @returns {HTMLElement} Metric.
  */
 function metric(label, value) {
   return h("div", {
@@ -25,12 +25,12 @@ function metric(label, value) {
 
 /**
  * B"H
- * Builds dashboard cards from the panes actually collected.
+ * Creates dashboard cards from the pane keys collected before shell mount.
  *
- * @param {string[]} availablePaneKeys Available panes.
- * @returns {HTMLElement[]} Cards.
+ * @param {string[]} availablePaneKeys Available pane keys.
+ * @returns {HTMLElement[]} Card nodes.
  */
-function cards(availablePaneKeys) {
+function dashboardCards(availablePaneKeys) {
   const available = new Set(availablePaneKeys);
 
   return DASHBOARD_ORDER
@@ -44,9 +44,11 @@ function cards(availablePaneKeys) {
  *
  * @param {object} ctx Runtime context.
  * @param {string[]} availablePaneKeys Available pane keys.
- * @returns {HTMLElement} Dashboard node.
+ * @returns {HTMLElement} Dashboard.
  */
 export function createDashboard(ctx, availablePaneKeys = []) {
+  const cards = dashboardCards(availablePaneKeys);
+
   return h("section", {
     classes: ["awt-dashboard"],
     attrs: { id: "awtDashboard" },
@@ -57,21 +59,29 @@ export function createDashboard(ctx, availablePaneKeys = []) {
           h("div", { classes: ["awt-mini-kicker"], text: "B\"H CONTROL CENTER" }),
           h("h2", { text: "Awtsmoos Tunnel" }),
           h("p", {
-            text: "Choose one mission. The page opens that workspace instead of dumping every control into one giant scroll."
+            text: "Choose one mission. The app opens that workspace as a separate page instead of dumping every control into one giant scroll."
           }),
           h("div", {
             classes: ["awt-dashboard-metrics"],
             children: [
               metric("Tunnel", ctx.getTunnelName() || "connected"),
               metric("Root", ctx.getProjectPath() || "."),
-              metric("Layout", "dashboard")
+              metric("Pages", String(cards.length))
             ]
           })
         ]
       }),
       h("div", {
         classes: ["awt-dashboard-grid"],
-        children: cards(availablePaneKeys)
+        children: cards.length ? cards : [
+          h("div", {
+            classes: ["awt-empty-dashboard"],
+            children: [
+              h("strong", { text: "No dashboard pages found" }),
+              h("span", { text: "No [data-pane] sections were detected before shell mount." })
+            ]
+          })
+        ]
       })
     ]
   });

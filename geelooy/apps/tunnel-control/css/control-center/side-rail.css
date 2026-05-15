@@ -48,7 +48,7 @@
 }
 
 .awt-nav-button {
-  display: flex;
+  display: flex !important;
   align-items: center;
   gap: 10px;
 }

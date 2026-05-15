@@ -3,7 +3,7 @@
 
 /**
  * B"H
- * Returns all panes.
+ * Returns all mounted panes.
  *
  * @returns {HTMLElement[]} Pane nodes.
  */
@@ -13,33 +13,34 @@ export function panes() {
 
 /**
  * B"H
- * Gets the active pane key.
+ * Gets active pane key.
  *
- * @returns {string} Active pane.
+ * @returns {string} Active pane key.
  */
 export function getActivePane() {
-  return panes().find(p => p.classList.contains("active"))?.dataset.pane || "";
+  return panes().find(pane => pane.classList.contains("active"))?.dataset.pane || "";
 }
 
 /**
  * B"H
- * Syncs side nav active state.
+ * Syncs nav/card active state.
  *
  * @param {string} pane Pane key.
  * @returns {void}
  */
 function syncNav(pane) {
-  for (const tab of document.querySelectorAll("[data-tab], [data-awt-navigate]")) {
-    const key = tab.dataset.tab || tab.dataset.awtNavigate;
+  for (const node of document.querySelectorAll("[data-tab], [data-awt-navigate]")) {
+    const key = node.dataset.tab || node.dataset.awtNavigate;
     const yes = key === pane;
-    tab.classList.toggle("active", yes);
-    tab.setAttribute("aria-selected", yes ? "true" : "false");
+
+    node.classList.toggle("active", yes);
+    node.setAttribute("aria-selected", yes ? "true" : "false");
   }
 }
 
 /**
  * B"H
- * Activates a pane and enters workspace mode.
+ * Opens one pane as the active workspace.
  *
  * @param {string} pane Pane key.
  * @returns {void}
@@ -67,12 +68,14 @@ export function activatePane(pane) {
 
 /**
  * B"H
- * Clears active pane and returns home.
+ * Returns to dashboard.
  *
  * @returns {void}
  */
 export function showHome() {
+  for (const node of panes()) node.classList.remove("active");
+
+  syncNav("");
   document.body.classList.add("awt-home-mode");
   document.body.classList.remove("awt-workspace-mode");
-  syncNav("");
 }

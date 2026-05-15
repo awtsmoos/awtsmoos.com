@@ -5,7 +5,7 @@ import { activatePane } from "./paneRouter.js";
 
 /**
  * B"H
- * Binds any data-awt-navigate button.
+ * Binds data-awt-navigate controls.
  *
  * @returns {void}
  */

@@ -12,7 +12,6 @@
 
 .awt-control-main {
   min-width: 0;
-  position: relative;
   min-height: calc(100dvh - 24px);
 }
 

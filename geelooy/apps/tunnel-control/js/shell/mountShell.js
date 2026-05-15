@@ -7,25 +7,27 @@ import { createSideRail } from "./sideRail.js";
 import { createDashboard } from "../dashboard/dashboard.js";
 import { createWorkspaceStage } from "./workspaceStage.js";
 import { mountWorkspaceMode } from "./workspaceMode.js";
-import { findAppRoot, collectPanes, createFallbackPane } from "./domCollect.js";
+import { collectPanes, createFallbackPane } from "./domCollect.js";
 
 /**
  * B"H
- * Collects pane keys from nodes.
+ * Returns clean pane keys.
  *
- * @param {HTMLElement[]} panes Pane nodes.
+ * @param {HTMLElement[]} panes Pane elements.
  * @returns {string[]} Pane keys.
  */
 function paneKeys(panes) {
-  return panes.map(pane => pane.dataset.pane).filter(Boolean);
+  return panes
+    .map(pane => pane.dataset.pane || "")
+    .filter(Boolean);
 }
 
 /**
  * B"H
- * Moves panes into the stage stack.
+ * Moves panes into the workspace stack.
  *
- * @param {HTMLElement[]} panes Pane nodes.
- * @param {HTMLElement} stack Stack.
+ * @param {HTMLElement[]} panes Pane elements.
+ * @param {HTMLElement} stack Destination stack.
  * @returns {void}
  */
 function movePanes(panes, stack) {
@@ -37,7 +39,23 @@ function movePanes(panes, stack) {
 
 /**
  * B"H
- * Mounts the multi-page shell.
+ * Removes old body content and mounts only the new app shell.
+ *
+ * @param {HTMLElement} shell Shell element.
+ * @returns {void}
+ */
+function replaceWholeApp(shell) {
+  const headSafe = document.createComment("B'H tunnel control shell mounted");
+  document.body.replaceChildren(headSafe, shell);
+}
+
+/**
+ * B"H
+ * Mounts the actual multi-page dashboard shell.
+ *
+ * This intentionally collects panes from the entire current document
+ * before replacing the old vertical page. The previous version only
+ * looked at direct children, which produced an empty dashboard grid.
  *
  * @param {object} ctx Runtime context.
  * @returns {void}
@@ -45,9 +63,8 @@ function movePanes(panes, stack) {
 export function mountShell(ctx) {
   if (document.querySelector(".awt-control-shell")) return;
 
-  const root = findAppRoot();
-  const foundPanes = collectPanes();
-  const panes = foundPanes.length ? foundPanes : [createFallbackPane()];
+  const found = collectPanes();
+  const panes = found.length ? found : [createFallbackPane()];
   const keys = paneKeys(panes);
   const { stage, stack } = createWorkspaceStage();
 
@@ -69,8 +86,8 @@ export function mountShell(ctx) {
   });
 
   document.body.classList.add("awt-pro-ready");
-  root.replaceChildren(shell);
-
+  replaceWholeApp(shell);
   mountWorkspaceMode();
+
   document.dispatchEvent(new CustomEvent("awt:repair-ui"));
 }
