@@ -3,16 +3,14 @@
 
 .awt-control-side {
   min-height: 0;
-  height: 100%;
-  overflow: hidden;
   padding: 14px;
+  overflow: hidden;
   border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-lg);
   background:
     linear-gradient(180deg, rgba(25, 35, 60, 0.95), rgba(11, 16, 32, 0.94)),
     radial-gradient(circle at top left, rgba(141, 222, 255, 0.16), transparent 20rem);
   box-shadow: var(--awt-shadow);
-  backdrop-filter: blur(18px);
 }
 
 .awt-brand-block {
@@ -20,26 +18,35 @@
   gap: 8px;
   padding: 14px;
   margin-bottom: 12px;
-  border-radius: 24px;
+  border-radius: 22px;
   border: 1px solid rgba(141, 222, 255, 0.25);
-  background: linear-gradient(145deg, rgba(141, 222, 255, 0.13), rgba(198, 167, 255, 0.09));
+  background: rgba(255, 255, 255, 0.045);
 }
 
 .awt-brand-block h1 {
   margin: 0;
-  font-size: 1.45rem;
-  line-height: 1;
+  font-size: 1.35rem;
   letter-spacing: -0.05em;
 }
 
 .awt-brand-block p {
   margin: 0;
   color: var(--awt-muted);
-  font-size: 0.84rem;
-  line-height: 1.35;
+  font-size: 0.82rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.awt-home-button,
+.awt-nav-button {
+  width: 100%;
+  min-height: 42px;
+  margin-bottom: 8px;
+  justify-content: flex-start;
 }
 
 .awt-side-tabs {
-  max-height: calc(100% - 220px);
+  max-height: calc(100% - 170px);
   overflow: auto;
+  padding-right: 2px;
 }

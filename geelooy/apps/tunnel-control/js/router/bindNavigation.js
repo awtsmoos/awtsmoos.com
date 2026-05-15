@@ -2,54 +2,32 @@
 // B"H
 
 import { activatePane } from "./paneRouter.js";
-import { paneFromButton } from "./buttonAliases.js";
 import { showDashboardHome } from "../shell/workspaceMode.js";
 
 /**
  * B"H
- * Binds dashboard, sidebar, and top hero buttons to panes.
+ * Binds global navigation.
  *
  * @returns {void}
  */
 export function bindNavigationButtons() {
   document.addEventListener("click", event => {
-    const button = event.target.closest("button, a");
-    if (!button) return;
-
-    if (button.dataset.awtHome === "1") {
-      event.preventDefault();
-      showDashboardHome();
-      return;
-    }
-
-    if (button.id === "awtRefreshView") return;
-
-    const explicit = button.dataset.awtNavigate || "";
-    const pane = explicit || paneFromButton(button);
-
-    if (!pane) return;
-
-    const hasPane = !!document.querySelector(`[data-pane="${CSS.escape(pane)}"]`);
-    if (!hasPane) return;
+    const node = event.target.closest("[data-awt-navigate]");
+    if (!node) return;
 
     event.preventDefault();
-    activatePane(pane);
-  }, true);
+    activatePane(node.dataset.awtNavigate);
+  });
 }
 
 /**
  * B"H
- * Gives old buttons useful data attributes for CSS and debugging.
+ * Kept for repair cycle compatibility.
  *
  * @returns {void}
  */
 export function markNavigationButtons() {
-  for (const button of document.querySelectorAll("button, a")) {
-    const pane = button.dataset.awtNavigate || paneFromButton(button);
-    if (!pane) continue;
-
-    if (document.querySelector(`[data-pane="${CSS.escape(pane)}"]`)) {
-      button.dataset.awtNavigate = pane;
-    }
-  }
+  document.querySelectorAll("[data-awt-home]").forEach(node => {
+    node.addEventListener("click", showDashboardHome, { once: true });
+  });
 }

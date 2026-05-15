@@ -7,31 +7,29 @@
   box-sizing: border-box;
 }
 
-html {
+html,
+body {
   width: 100%;
   height: 100%;
+  margin: 0;
   overflow: hidden;
+}
+
+html {
   background:
-    radial-gradient(circle at 10% 0%, rgba(141, 222, 255, 0.24), transparent 28rem),
-    radial-gradient(circle at 92% 10%, rgba(198, 167, 255, 0.20), transparent 32rem),
-    linear-gradient(145deg, #050713, #0b1020 50%, #06101f);
+    radial-gradient(circle at 12% 0%, rgba(141, 222, 255, 0.22), transparent 32rem),
+    radial-gradient(circle at 90% 8%, rgba(198, 167, 255, 0.20), transparent 34rem),
+    linear-gradient(145deg, #050713, #0b1020 55%, #070a19);
   color: var(--awt-text);
 }
 
 body {
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  margin: 0;
-  overflow: hidden;
   color: var(--awt-text);
   font-family: var(--awt-font);
-  background: transparent;
 }
 
 body.awt-pro-ready {
-  padding: clamp(8px, 1.1vw, 16px);
-  overflow: hidden !important;
+  padding: 12px;
 }
 
 body.awt-pro-ready main,

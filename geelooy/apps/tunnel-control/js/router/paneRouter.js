@@ -1,74 +1,71 @@
 
 // B"H
 
-import { many } from "../ui/core/html.js";
+import { PANE_META } from "./paneMeta.js";
 
 /**
  * B"H
- * Gets active pane.
+ * Gets all live panes.
+ *
+ * @returns {HTMLElement[]} Pane nodes.
+ */
+export function panes() {
+  return Array.from(document.querySelectorAll("[data-pane]"));
+}
+
+/**
+ * B"H
+ * Gets active pane key.
  *
  * @returns {string} Active pane key.
  */
 export function getActivePane() {
-  return many("[data-pane]").find(p => p.classList.contains("active"))?.dataset.pane || "";
+  return panes().find(p => p.classList.contains("active"))?.dataset.pane || "";
 }
 
 /**
  * B"H
- * Ensures one pane is active.
- *
- * @returns {void}
- */
-export function ensureActivePane() {
-  const panes = many("[data-pane]");
-  if (!panes.length || getActivePane()) return;
-
-  const preferred = panes.find(p => p.dataset.pane === "setup") || panes[0];
-  preferred.classList.add("active");
-
-  const tab = many("[data-tab]").find(t => t.dataset.tab === preferred.dataset.pane);
-  tab?.classList.add("active");
-}
-
-/**
- * B"H
- * Syncs tab visual state.
- *
- * @param {string} pane Pane key.
- * @returns {void}
- */
-function syncTabs(pane) {
-  for (const tab of many("[data-tab]")) {
-    const yes = tab.dataset.tab === pane;
-    tab.classList.toggle("active", yes);
-    tab.setAttribute("aria-selected", yes ? "true" : "false");
-  }
-}
-
-/**
- * B"H
- * Activates a single workspace pane.
+ * Activates one pane.
  *
  * @param {string} pane Pane key.
  * @returns {void}
  */
 export function activatePane(pane) {
+  const all = panes();
   let found = false;
 
-  for (const node of many("[data-pane]")) {
+  for (const node of all) {
     const yes = node.dataset.pane === pane;
     node.classList.toggle("active", yes);
     if (yes) found = true;
   }
 
-  syncTabs(pane);
-
-  if (!found) {
-    const tab = many("[data-tab]").find(t => t.dataset.tab === pane);
-    tab?.click();
+  for (const tab of document.querySelectorAll("[data-tab]")) {
+    const yes = tab.dataset.tab === pane;
+    tab.classList.toggle("active", yes);
+    tab.setAttribute("aria-selected", yes ? "true" : "false");
   }
 
-  document.dispatchEvent(new CustomEvent("awt:pane-change", {
-    detail: { pane }
-  }));
+  if (found) {
+    document.body.classList.remove("awt-home-mode");
+    document.body.classList.add("awt-workspace-mode");
+    document.dispatchEvent(new CustomEvent("awt:pane-change", {
+      detail: { pane, meta: PANE_META[pane] || null }
+    }));
+  }
+}
+
+/**
+ * B"H
+ * Ensures some pane exists as a fallback.
+ *
+ * @returns {void}
+ */
+export function ensureActivePane() {
+  if (getActivePane()) return;
+
+  const setup = panes().find(p => p.dataset.pane === "setup");
+  const first = setup || panes()[0];
+
+  if (first) first.classList.add("active");
 }

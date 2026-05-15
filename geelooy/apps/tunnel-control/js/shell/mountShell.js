@@ -2,80 +2,53 @@
 // B"H
 
 import { h } from "../ui/core/html.js";
-import { ensureActivePane } from "../router/paneRouter.js";
 import { normalizePaneHeadings } from "../router/paneHeadings.js";
 import { createSideRail } from "./sideRail.js";
 import { createDashboard } from "../dashboard/dashboard.js";
-import { mountDashboardSync } from "../dashboard/activeCards.js";
-import { findAppRoot, findTabRail } from "./findRoot.js";
+import { createWorkspaceStage } from "./workspaceStage.js";
 import { mountWorkspaceMode } from "./workspaceMode.js";
+import { findAppRoot, collectPanes, markOldChromeArtifacts } from "./domCollect.js";
 
 /**
  * B"H
- * Splits original DOM nodes into page panes and hidden legacy nodes.
+ * Moves panes into the workspace stack.
  *
- * @param {Node[]} nodes Original nodes.
- * @param {HTMLElement|null} tabRail Existing tab rail.
- * @returns {{panes: HTMLElement[], legacy: Node[]}} Split result.
+ * @param {HTMLElement[]} panes Pane nodes.
+ * @param {HTMLElement} stack Stack node.
+ * @returns {void}
  */
-function splitNodes(nodes, tabRail) {
-  const panes = [];
-  const legacy = [];
-
-  for (const node of nodes) {
-    if (node === tabRail) continue;
-
-    if (node.nodeType === Node.ELEMENT_NODE && node.matches?.("[data-pane]")) {
-      panes.push(node);
-    } else if (node.nodeType === Node.ELEMENT_NODE || node.textContent?.trim()) {
-      legacy.push(node);
-    }
+function movePanes(panes, stack) {
+  for (const pane of panes) {
+    pane.classList.remove("active");
+    stack.append(pane);
   }
-
-  return { panes, legacy };
 }
 
 /**
  * B"H
- * Creates workspace stage.
+ * Builds a fallback if no panes are found.
  *
- * @returns {{stage: HTMLElement, stack: HTMLElement}} Stage nodes.
+ * @returns {HTMLElement} Fallback pane.
  */
-function createWorkspaceStage() {
-  const stack = h("div", { classes: ["awt-pane-stack"] });
-
-  const stage = h("section", {
-    classes: ["awt-workspace-stage"],
+function fallbackPane() {
+  return h("section", {
+    attrs: { "data-pane": "diagnostic" },
     children: [
       h("div", {
-        classes: ["awt-workspace-toolbar"],
+        classes: ["awt-pane-heading"],
         children: [
-          h("button", {
-            attrs: { type: "button", id: "awtBackDashboard", "data-awt-home": "1" },
-            text: "← Dashboard"
-          }),
-          h("div", {
-            classes: ["awt-workspace-heading"],
-            children: [
-              h("div", { classes: ["awt-mini-kicker"], text: "Focused page" }),
-              h("h2", { attrs: { id: "awtWorkspaceTitle" }, text: "Workspace" })
-            ]
-          })
+          h("div", { classes: ["awt-pane-kicker"], text: "DIAGNOSTIC" }),
+          h("h2", { text: "No panes found" }),
+          h("p", { text: "The shell mounted, but no [data-pane] sections were found." })
         ]
-      }),
-      h("div", {
-        classes: ["awt-workspace-body"],
-        children: [stack]
       })
     ]
   });
-
-  return { stage, stack };
 }
 
 /**
  * B"H
- * Mounts a real app shell.
+ * Mounts the no-scroll multi-page shell.
  *
  * @param {object} ctx Runtime context.
  * @returns {void}
@@ -84,34 +57,31 @@ export function mountShell(ctx) {
   if (document.querySelector(".awt-control-shell")) return;
 
   document.body.classList.add("awt-pro-ready");
-  ensureActivePane();
 
   const root = findAppRoot();
-  const tabRail = findTabRail();
-  const originalChildren = Array.from(root.childNodes);
-  const { panes, legacy } = splitNodes(originalChildren, tabRail);
-
-  const side = createSideRail(tabRail, ctx);
-  const dashboard = createDashboard(ctx);
+  const panes = collectPanes();
   const { stage, stack } = createWorkspaceStage();
-  const hiddenLegacy = h("div", { classes: ["awt-hidden-legacy"] });
-  const main = h("div", { classes: ["awt-control-main"] });
-  const shell = h("div", { classes: ["awt-control-shell"] });
 
-  for (const pane of panes) stack.append(pane);
-  for (const node of legacy) hiddenLegacy.append(node);
-
-  main.append(dashboard, stage, hiddenLegacy);
-  shell.append(side, main);
-
-  root.textContent = "";
-  root.append(shell);
-
+  movePanes(panes.length ? panes : [fallbackPane()], stack);
   normalizePaneHeadings();
-  mountDashboardSync();
+
+  const shell = h("div", {
+    classes: ["awt-control-shell"],
+    children: [
+      createSideRail(ctx),
+      h("main", {
+        classes: ["awt-control-main"],
+        children: [
+          createDashboard(ctx),
+          stage
+        ]
+      })
+    ]
+  });
+
+  root.replaceChildren(shell);
+  markOldChromeArtifacts();
   mountWorkspaceMode();
 
-  document.getElementById("awtRefreshView")?.addEventListener("click", () => {
-    document.dispatchEvent(new CustomEvent("awt:repair-ui"));
-  });
+  document.dispatchEvent(new CustomEvent("awt:repair-ui"));
 }

@@ -2,82 +2,33 @@
 // B"H
 
 import { h } from "../ui/core/html.js";
-import { DASHBOARD_CARDS } from "../router/paneMeta.js";
+import { DASHBOARD_ORDER, PANE_META } from "../router/paneMeta.js";
 import { createDashboardCard } from "./dashboardCard.js";
 
 /**
  * B"H
- * Builds the home dashboard.
+ * Builds dashboard cards only for panes that exist.
  *
- * @param {object} ctx Runtime context.
- * @returns {HTMLElement} Dashboard.
+ * @returns {HTMLElement[]} Cards.
  */
-export function createDashboard(ctx) {
-  return h("section", {
-    classes: ["awt-dashboard"],
-    children: [
-      h("div", {
-        classes: ["awt-dashboard-hero"],
-        children: [
-          h("div", {
-            classes: ["awt-dashboard-copy"],
-            children: [
-              h("div", { classes: ["awt-mini-kicker"], text: "One clean URL" }),
-              h("h2", { text: "Command center" }),
-              h("p", {
-                text:
-                  "Start on the dashboard, choose one mission, then slide into a focused workspace. No more giant vertical debug scroll."
-              }),
-              h("div", {
-                classes: ["awt-dashboard-metrics"],
-                children: [
-                  metric("Tunnel", ctx.getTunnelName() || "waiting"),
-                  metric("Root", ctx.getProjectPath() || "."),
-                  metric("Mode", "Focused workspace")
-                ]
-              }),
-              h("div", {
-                classes: ["awt-dashboard-actions"],
-                children: [
-                  h("button", {
-                    attrs: {
-                      type: "button",
-                      "data-awt-navigate": "install"
-                    },
-                    text: "Install / Restart"
-                  }),
-                  h("button", {
-                    attrs: {
-                      type: "button",
-                      "data-awt-navigate": "docs"
-                    },
-                    text: "API Docs"
-                  }),
-                  h("button", {
-                    attrs: { type: "button", id: "awtRefreshView" },
-                    text: "Refresh view"
-                  })
-                ]
-              })
-            ]
-          }),
-          h("div", {
-            classes: ["awt-dashboard-grid"],
-            children: DASHBOARD_CARDS.map(createDashboardCard)
-          })
-        ]
-      })
-    ]
-  });
+function dashboardCards() {
+  const existing = new Set(
+    Array.from(document.querySelectorAll("[data-pane]"))
+      .map(pane => pane.dataset.pane)
+  );
+
+  return DASHBOARD_ORDER
+    .filter(key => existing.has(key))
+    .map(key => createDashboardCard(key, PANE_META[key]));
 }
 
 /**
  * B"H
- * Builds one small metric block.
+ * Builds a metric block.
  *
- * @param {string} label Metric label.
- * @param {string} value Metric value.
- * @returns {HTMLElement} Metric element.
+ * @param {string} label Label.
+ * @param {string} value Value.
+ * @returns {HTMLElement} Metric.
  */
 function metric(label, value) {
   return h("div", {
@@ -85,6 +36,44 @@ function metric(label, value) {
     children: [
       h("span", { text: label }),
       h("strong", { text: value })
+    ]
+  });
+}
+
+/**
+ * B"H
+ * Creates the home dashboard.
+ *
+ * @param {object} ctx Runtime context.
+ * @returns {HTMLElement} Dashboard.
+ */
+export function createDashboard(ctx) {
+  return h("section", {
+    classes: ["awt-dashboard"],
+    attrs: { id: "awtDashboard" },
+    children: [
+      h("div", {
+        classes: ["awt-dashboard-copy"],
+        children: [
+          h("div", { classes: ["awt-mini-kicker"], text: "B\"H CONTROL CENTER" }),
+          h("h2", { text: "Awtsmoos Tunnel" }),
+          h("p", {
+            text: "Choose one mission. The page slides into that workspace without the old giant vertical debug scroll."
+          }),
+          h("div", {
+            classes: ["awt-dashboard-metrics"],
+            children: [
+              metric("Tunnel", ctx.getTunnelName() || "connected"),
+              metric("Root", ctx.getProjectPath() || "."),
+              metric("Layout", "multi-page")
+            ]
+          })
+        ]
+      }),
+      h("div", {
+        classes: ["awt-dashboard-grid"],
+        children: dashboardCards()
+      })
     ]
   });
 }

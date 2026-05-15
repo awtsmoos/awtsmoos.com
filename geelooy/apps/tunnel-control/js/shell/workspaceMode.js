@@ -1,11 +1,11 @@
 
 // B"H
 
-import { getActivePane } from "../router/paneRouter.js";
+import { PANE_META } from "../router/paneMeta.js";
 
 /**
  * B"H
- * Shows dashboard home.
+ * Shows home dashboard.
  *
  * @returns {void}
  */
@@ -16,44 +16,21 @@ export function showDashboardHome() {
 
 /**
  * B"H
- * Shows one focused workspace.
- *
- * @param {string} pane Active pane key.
- * @returns {void}
- */
-export function showWorkspace(pane) {
-  document.body.classList.remove("awt-home-mode");
-  document.body.classList.add("awt-workspace-mode");
-  updateWorkspaceHeader(pane);
-}
-
-/**
- * B"H
  * Updates workspace title.
  *
  * @param {string} pane Pane key.
  * @returns {void}
  */
-export function updateWorkspaceHeader(pane) {
-  const titleNode = document.getElementById("awtWorkspaceTitle");
-  if (!titleNode) return;
+function updateTitle(pane) {
+  const title = document.getElementById("awtWorkspaceTitle");
+  if (!title) return;
 
-  const activePane =
-    document.querySelector(`[data-pane="${CSS.escape(pane)}"]`) ||
-    document.querySelector("[data-pane].active");
-
-  const title =
-    activePane?.querySelector(".awt-pane-heading h2")?.textContent ||
-    activePane?.querySelector("h2")?.textContent ||
-    pane ||
-    "Workspace";
-
-  titleNode.textContent = title;
+  title.textContent = PANE_META[pane]?.title || pane || "Workspace";
 }
 
 /**
  * B"H
- * Mounts page transition mode.
+ * Mounts workspace mode.
  *
  * @returns {void}
  */
@@ -64,7 +41,7 @@ export function mountWorkspaceMode() {
   });
 
   document.addEventListener("awt:pane-change", event => {
-    showWorkspace(event.detail?.pane || getActivePane());
+    updateTitle(event.detail?.pane || "");
   });
 
   showDashboardHome();

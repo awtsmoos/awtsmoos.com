@@ -6,28 +6,26 @@ import { activatePane } from "../router/paneRouter.js";
 
 /**
  * B"H
- * Builds one dashboard action card.
+ * Builds one dashboard card.
  *
- * @param {string[]} data Card data.
- * @returns {HTMLButtonElement} Card button.
+ * @param {string} key Pane key.
+ * @param {object} meta Pane metadata.
+ * @returns {HTMLButtonElement} Card.
  */
-export function createDashboardCard(data) {
-  const [tab, icon, title, text] = data;
-
+export function createDashboardCard(key, meta) {
   const card = h("button", {
     classes: ["awt-action-card"],
     attrs: {
       type: "button",
-      "data-target-tab": tab,
-      "data-awt-navigate": tab
+      "data-awt-navigate": key
     },
     children: [
-      h("div", { classes: ["awt-action-icon"], text: icon }),
+      h("div", { classes: ["awt-action-icon"], text: meta.icon || "✦" }),
       h("div", {
         classes: ["awt-action-copy"],
         children: [
-          h("strong", { text: title }),
-          h("span", { text })
+          h("strong", { text: meta.title || key }),
+          h("span", { text: meta.desc || "Open this workspace." })
         ]
       })
     ]
@@ -35,7 +33,7 @@ export function createDashboardCard(data) {
 
   card.addEventListener("click", event => {
     event.preventDefault();
-    activatePane(tab);
+    activatePane(key);
   });
 
   return card;
