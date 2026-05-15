@@ -12,6 +12,24 @@ import {
 
 /**
  * B"H
+ * Applies Chrome finder result to the path field.
+ *
+ * @param {HTMLElement} pane Chrome pane.
+ * @param {object} result Finder result.
+ * @returns {void}
+ */
+function applyFinderResult(pane, result) {
+  if (!result || result.action !== "chromeFind") return;
+
+  const fields = getChromeFields(pane);
+
+  if (result.chromePath && fields.chromePath) {
+    fields.chromePath.value = result.chromePath;
+  }
+}
+
+/**
+ * B"H
  * Runs one Chrome button action safely.
  *
  * @param {Function} getTunnelName Tunnel name reader.
@@ -47,6 +65,7 @@ async function handleChromeAction(getTunnelName, output, action, button) {
 
   try {
     const got = await runChromeAction(tunnelName, values, action);
+    applyFinderResult(pane, got);
     renderChromeOutput(output, got);
   } catch (e) {
     renderChromeError(output, e.message || String(e));
