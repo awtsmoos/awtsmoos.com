@@ -1,10 +1,11 @@
-
 // B"H
 const { json } = require("../core/respond.js");
 const { currentIdentity } = require("../core/auth.js");
 const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.js");
 const { scopeAllowed, enforceApiKeyRate } = require("../core/apiKeyStore.js");
 const { recordUsage } = require("../core/usageStore.js");
+
+const FOUR_MINUTES_MS = 240000;
 
 function responseBytes(obj) {
   try { return Buffer.byteLength(JSON.stringify(obj), "utf8"); }
@@ -14,6 +15,19 @@ function responseBytes(obj) {
 function identityAllows(ident, neededScope) {
   if (ident.kind === "session") return true;
   return scopeAllowed(ident, neededScope) || scopeAllowed(ident, "tunnel.admin");
+}
+
+/**
+ * B"H
+ * Bounds public API waits to four minutes so slow local commands do not become false gateway failures.
+ *
+ * @param {*} value Requested timeout.
+ * @returns {number} Bounded timeout.
+ */
+function boundedTunnelTimeout(value) {
+  const n = Number(value || FOUR_MINUTES_MS);
+  if (!Number.isFinite(n)) return FOUR_MINUTES_MS;
+  return Math.max(1000, Math.min(Math.floor(n), FOUR_MINUTES_MS));
 }
 
 async function protectedFs($i, vars) {
@@ -52,7 +66,8 @@ async function protectedFs($i, vars) {
   }
 
   try {
-    const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload, payload.timeoutMs || 30000);
+    const requestTimeoutMs = boundedTunnelTimeout(payload.timeoutMs);
+    const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload, requestTimeoutMs);
     const bytes = responseBytes(result);
 
     recordUsage({
@@ -83,4 +98,4 @@ async function protectedFs($i, vars) {
   }
 }
 
-module.exports = { protectedFs };
+module.exports = { protectedFs, boundedTunnelTimeout };

@@ -1,6 +1,7 @@
-
 // B"H
 const { bodyJson } = require("./bodyPayload.js");
+
+const FOUR_MINUTES_MS = 240000;
 
 function from64(value) {
   if (!value) return "";
@@ -10,7 +11,7 @@ function from64(value) {
 function jsonFrom64(value, fallback) {
   if (!value) return fallback;
   try { return JSON.parse(from64(value)); }
-  catch (e) { return fallback; }
+  catch (_e) { return fallback; }
 }
 
 function boolValue(value) {
@@ -31,8 +32,7 @@ function valueFrom($i, body, name, fallback = "") {
 }
 
 function queryValue($i, name, fallback = "") {
-  const q = queryMap($i);
-  return q[name] ?? fallback;
+  return queryMap($i)[name] ?? fallback;
 }
 
 function numberFrom($i, body, name, fallback) {
@@ -42,16 +42,9 @@ function numberFrom($i, body, name, fallback) {
   return Number.isFinite(n) ? n : fallback;
 }
 
-function intFrom($i, body, name, fallback) {
+function intFrom($i, body, name, fallback, max = Number.MAX_SAFE_INTEGER) {
   const n = numberFrom($i, body, name, fallback);
-  return Number.isFinite(n) ? Math.max(0, Math.floor(n)) : fallback;
-}
-
-function actionKind(action) {
-  action = String(action || "");
-  if (action.startsWith("chrome")) return "chrome";
-  if (action.startsWith("command") || action === "nodeScriptRun") return "command";
-  return "fs";
+  return Number.isFinite(n) ? Math.max(0, Math.min(Math.floor(n), max)) : fallback;
 }
 
 function preferBodyOr64($i, body, plainName, encodedName, fallback = "") {
@@ -69,6 +62,26 @@ function objectBodyOr64($i, body, plainName, encodedName, fallback = null) {
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 
+function boolFrom($i, body, name, fallback = false) {
+  const got = boolValue(valueFrom($i, body, name, undefined));
+  return got === undefined ? fallback : got;
+}
+
+function actionKind(action) {
+  action = String(action || "");
+  if (action.startsWith("chrome")) return "chrome";
+  if (action.startsWith("command") || action === "nodeScriptRun") return "command";
+  if (action === "nodeCheck" || action === "nodeCheckTree") return "command";
+  return "fs";
+}
+
+/**
+ * B"H
+ * Builds the payload carried through the relay to the local agent.
+ *
+ * @param {object} $i Awtsmoos request vessel.
+ * @returns {object} Agent payload.
+ */
 function buildFsPayload($i) {
   const body = bodyJson($i);
   const action = valueFrom($i, body, "action", "list");
@@ -84,42 +97,66 @@ function buildFsPayload($i) {
     files: objectBodyOr64($i, body, "files", "files64", null),
     writes: arrayBodyOr64($i, body, "writes", "writes64", null),
     edits: arrayBodyOr64($i, body, "edits", "edits64", []),
+    ranges: arrayBodyOr64($i, body, "ranges", "ranges64", []),
 
     depth: intFrom($i, body, "depth", 2),
     limit: intFrom($i, body, "limit", 150),
     maxChars: intFrom($i, body, "maxChars", 12000),
     totalMaxChars: intFrom($i, body, "totalMaxChars", 24000),
-    maxFiles: intFrom($i, body, "maxFiles", 5),
+    maxFiles: intFrom($i, body, "maxFiles", 5, 500),
+    maxRanges: intFrom($i, body, "maxRanges", 20, 60),
+    maxEntries: intFrom($i, body, "maxEntries", 3000, 20000),
     offsetChars: intFrom($i, body, "offsetChars", 0),
     maxBytes: intFrom($i, body, "maxBytes", 24000),
     offsetBytes: intFrom($i, body, "offsetBytes", 0),
     startLine: intFrom($i, body, "startLine", 1),
     endLine: intFrom($i, body, "endLine", 250),
-    maxResults: intFrom($i, body, "maxResults", 80),
+    maxResults: intFrom($i, body, "maxResults", 80, 500),
     maxFileBytes: intFrom($i, body, "maxFileBytes", 800000),
+    sinceMinutes: intFrom($i, body, "sinceMinutes", 120),
+    minBytes: intFrom($i, body, "minBytes", 500000),
+    modifiedAfterMs: intFrom($i, body, "modifiedAfterMs", 0),
+    indent: intFrom($i, body, "indent", 2, 8),
 
     content: preferBodyOr64($i, body, "content", "content64"),
     find: preferBodyOr64($i, body, "find", "find64"),
     query: preferBodyOr64($i, body, "query", "query64"),
     replace: preferBodyOr64($i, body, "replace", "replace64"),
-    regex: boolValue(valueFrom($i, body, "regex", false)) || false,
-    replaceAll: boolValue(valueFrom($i, body, "replaceAll", true)) !== false,
+    expectedSha256: valueFrom($i, body, "expectedSha256", ""),
+    sha256: valueFrom($i, body, "sha256", ""),
+    ext: valueFrom($i, body, "ext", ""),
+    regex: boolFrom($i, body, "regex", false),
+    replaceAll: boolFrom($i, body, "replaceAll", true),
+    includeDirs: boolFrom($i, body, "includeDirs", false),
+    write: boolFrom($i, body, "write", false),
 
     command: preferBodyOr64($i, body, "command", "command64"),
     scriptText: preferBodyOr64($i, body, "scriptText", "script64"),
     input: objectBodyOr64($i, body, "input", "input64", {}),
     shell: valueFrom($i, body, "shell", ""),
     cwd: valueFrom($i, body, "cwd", ""),
-    timeoutMs: intFrom($i, body, "timeoutMs", 120000),
+    timeoutMs: intFrom($i, body, "timeoutMs", FOUR_MINUTES_MS, FOUR_MINUTES_MS),
 
     url: valueFrom($i, body, "url", ""),
     selector: valueFrom($i, body, "selector", ""),
     text: preferBodyOr64($i, body, "text", "text64"),
     expression: preferBodyOr64($i, body, "expression", "expression64"),
     script: arrayBodyOr64($i, body, "script", "script64", []),
-    port: intFrom($i, body, "port", 9222),
+    port: intFrom($i, body, "port", 9222, 65535),
     chromePath: valueFrom($i, body, "chromePath", ""),
-    userDataDir: valueFrom($i, body, "userDataDir", "")
+    userDataDir: valueFrom($i, body, "userDataDir", ""),
+    headless: boolFrom($i, body, "headless", false),
+    clearLogs: boolFrom($i, body, "clearLogs", false),
+    snapshot: boolFrom($i, body, "snapshot", true),
+    fullPage: boolFrom($i, body, "fullPage", true),
+    failedOnly: boolFrom($i, body, "failedOnly", true),
+    assertNoConsoleErrors: boolFrom($i, body, "assertNoConsoleErrors", false),
+    maxLogs: intFrom($i, body, "maxLogs", 200, 1000),
+    waitMs: intFrom($i, body, "waitMs", 0, 30000),
+    selectorTimeoutMs: intFrom($i, body, "selectorTimeoutMs", 10000, FOUR_MINUTES_MS),
+    maxText: intFrom($i, body, "maxText", 4000, 30000),
+    maxHtml: intFrom($i, body, "maxHtml", 0, 100000),
+    format: valueFrom($i, body, "format", "png")
   };
 
   for (const key of ["root", "local", "relay", "setTunnelName"]) {
@@ -143,10 +180,12 @@ function buildFsPayload($i) {
 function actionRequiredScope(action) {
   action = String(action || "");
   if (action.startsWith("command") || action === "nodeScriptRun") return "tunnel.command";
+  if (action === "nodeCheck" || action === "nodeCheckTree") return "tunnel.command";
   if (action.startsWith("chrome")) return "tunnel.browser";
 
   if ([
     "write", "bulkWrite", "findReplace", "replaceRange", "applyPatch",
+    "writeIfHash", "bulkWriteIfHashes", "jsonFormat",
     "configSet", "rootSelect", "openRoot"
   ].includes(action)) return "tunnel.write";
 
@@ -154,6 +193,7 @@ function actionRequiredScope(action) {
 }
 
 module.exports = {
+  FOUR_MINUTES_MS,
   buildFsPayload,
   actionRequiredScope,
   actionNeedsWrite: action => actionRequiredScope(action) === "tunnel.write"

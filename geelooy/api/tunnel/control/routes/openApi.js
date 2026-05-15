@@ -1,5 +1,17 @@
-
 // B"H
+const { actions } = require("../docs/actions.js");
+
+function actionEnumYaml(indent = "        ") {
+  return actions.map(action => indent + "- " + action).join("\n");
+}
+
+/**
+ * B"H
+ * Serves a compact OpenAPI document whose action enum is drawn from the same catalog as docs.
+ *
+ * @param {object} $i Awtsmoos request context.
+ * @returns {string} YAML OpenAPI schema.
+ */
 async function openApi($i) {
   $i.response.setHeader("Content-Type", "text/yaml; charset=utf-8");
   $i.response.setHeader("Cache-Control", "no-store");
@@ -7,11 +19,11 @@ async function openApi($i) {
   return `openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 3.3.0
+  version: 4.1.0
   description: >
-    B"H. GET and POST schema for the Awtsmoos tunnel. The schema intentionally avoids artificial maximums.
-    Real browsers, proxies, nginx, and the ChatGPT action runner can still reject enormous URLs or responses,
-    so use POST for large content and split huge files when the transport itself refuses the request.
+    B"H. GET-first tunnel actions. Use base64 query params for large values.
+    Long local commands are bounded to four minutes. Browser actions can run
+    headless and return console/runtime/network logs.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -25,8 +37,7 @@ paths:
           description: Bootstrap response.
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/AnyResponse"
+              schema: { $ref: "#/components/schemas/AnyResponse" }
 
   /api/tunnel/control/my-device:
     get:
@@ -39,17 +50,15 @@ paths:
           description: Active tunnel discovery result.
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/AnyResponse"
+              schema: { $ref: "#/components/schemas/AnyResponse" }
 
   /api/tunnel/control/fs/{tunnelName}:
     get:
       operationId: awtsmoosTunnelAction
       summary: Run a tunnel action with GET query parameters.
       description: >
-        GET supports every tunnel action. For arrays/objects/content, use base64 query parameters:
-        paths64, files64, writes64, edits64, content64, find64, replace64, command64, script64,
-        text64, expression64, input64, tools64, chrome64, commandConfig64.
+        GET supports every tunnel action. For arrays, objects, scripts, commands,
+        text, file content, and expressions, use base64 query params.
       security:
         - OAuth2: [profile, tunnel.read]
       parameters:
@@ -77,8 +86,8 @@ paths:
         - { name: edits64, in: query, required: false, schema: { type: string } }
         - { name: content64, in: query, required: false, schema: { type: string } }
         - { name: find64, in: query, required: false, schema: { type: string } }
-        - { name: replace64, in: query, required: false, schema: { type: string } }
         - { name: query64, in: query, required: false, schema: { type: string } }
+        - { name: replace64, in: query, required: false, schema: { type: string } }
         - { name: regex, in: query, required: false, schema: { type: boolean, default: false } }
         - { name: replaceAll, in: query, required: false, schema: { type: boolean, default: true } }
         - { name: command64, in: query, required: false, schema: { type: string } }
@@ -86,14 +95,22 @@ paths:
         - { name: input64, in: query, required: false, schema: { type: string } }
         - { name: shell, in: query, required: false, schema: { type: string, enum: [powershell, cmd, bash, sh] } }
         - { name: cwd, in: query, required: false, schema: { type: string, default: "." } }
-        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 20000 } }
+        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 240000 } }
         - { name: url, in: query, required: false, schema: { type: string } }
         - { name: selector, in: query, required: false, schema: { type: string } }
         - { name: text64, in: query, required: false, schema: { type: string } }
         - { name: expression64, in: query, required: false, schema: { type: string } }
+        - { name: script64, in: query, required: false, schema: { type: string } }
         - { name: port, in: query, required: false, schema: { type: integer, default: 9222 } }
         - { name: chromePath, in: query, required: false, schema: { type: string } }
         - { name: userDataDir, in: query, required: false, schema: { type: string } }
+        - { name: headless, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: clearLogs, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: snapshot, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: maxLogs, in: query, required: false, schema: { type: integer, default: 200 } }
+        - { name: waitMs, in: query, required: false, schema: { type: integer, default: 0 } }
+        - { name: maxText, in: query, required: false, schema: { type: integer, default: 4000 } }
+        - { name: maxHtml, in: query, required: false, schema: { type: integer, default: 0 } }
         - { name: tools64, in: query, required: false, schema: { type: string } }
         - { name: chrome64, in: query, required: false, schema: { type: string } }
         - { name: commandConfig64, in: query, required: false, schema: { type: string } }
@@ -102,166 +119,14 @@ paths:
           description: Tunnel action result.
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/AnyResponse"
-
-    post:
-      operationId: awtsmoosTunnelActionPost
-      summary: Run any tunnel action with JSON body.
-      description: POST supports every tunnel action and should be used for large writes, bulkWrite, big scripts, and big patches.
-      security:
-        - OAuth2: [profile, tunnel.read]
-      parameters:
-        - { name: tunnelName, in: path, required: true, schema: { type: string } }
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TunnelActionRequest"
-      responses:
-        "200":
-          description: Tunnel action result.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AnyResponse"
+              schema: { $ref: "#/components/schemas/AnyResponse" }
 
 components:
   schemas:
     ActionName:
       type: string
       enum:
-        - configGet
-        - configSet
-        - roots
-        - rootBrowse
-        - rootSelect
-        - openRoot
-        - stat
-        - list
-        - tree
-        - read
-        - readLines
-        - readBytes
-        - read64
-        - md
-        - bulk
-        - grep
-        - write
-        - bulkWrite
-        - findReplace
-        - replaceRange
-        - applyPatch
-        - commandRun
-        - nodeScriptRun
-        - chromeFind
-        - chromeLaunch
-        - chromeStatus
-        - chromeNavigate
-        - chromeWaitForSelector
-        - chromeClick
-        - chromeType
-        - chromeEval
-        - chromeRunScript
-
-    BulkPathSpec:
-      type: object
-      additionalProperties: true
-      properties:
-        path: { type: string }
-        p: { type: string }
-        mode: { type: string }
-        maxChars: { type: integer }
-        offsetChars: { type: integer }
-        maxBytes: { type: integer }
-        offsetBytes: { type: integer }
-
-    WriteSpec:
-      type: object
-      additionalProperties: true
-      properties:
-        path: { type: string }
-        p: { type: string }
-        content: { type: string }
-
-    TunnelActionRequest:
-      type: object
-      additionalProperties: true
-      properties:
-        action: { $ref: "#/components/schemas/ActionName" }
-        p: { type: string, default: "." }
-        path: { type: string }
-        absolutePath: { type: string }
-        root: { type: string }
-        paths:
-          type: array
-          items:
-            oneOf:
-              - { type: string }
-              - { $ref: "#/components/schemas/BulkPathSpec" }
-        files:
-          type: object
-          additionalProperties: { type: string }
-        writes:
-          type: array
-          items: { $ref: "#/components/schemas/WriteSpec" }
-        edits:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        depth: { type: integer, default: 2 }
-        limit: { type: integer, default: 150 }
-        maxChars: { type: integer, default: 12000 }
-        totalMaxChars: { type: integer, default: 24000 }
-        maxFiles: { type: integer, default: 5 }
-        offsetChars: { type: integer, default: 0 }
-        maxBytes: { type: integer, default: 24000 }
-        offsetBytes: { type: integer, default: 0 }
-        startLine: { type: integer, default: 1 }
-        endLine: { type: integer, default: 250 }
-        maxResults: { type: integer, default: 80 }
-        maxFileBytes: { type: integer, default: 800000 }
-        content: { type: string }
-        find: { type: string }
-        replace: { type: string }
-        query: { type: string }
-        regex: { type: boolean, default: false }
-        replaceAll: { type: boolean, default: true }
-        command: { type: string }
-        scriptText: { type: string }
-        input:
-          type: object
-          additionalProperties: true
-        shell:
-          type: string
-          enum: [powershell, cmd, bash, sh]
-        cwd: { type: string, default: "." }
-        timeoutMs: { type: integer, default: 20000 }
-        url: { type: string }
-        selector: { type: string }
-        text: { type: string }
-        expression: { type: string }
-        script:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        port: { type: integer, default: 9222 }
-        chromePath: { type: string }
-        userDataDir: { type: string }
-        tools:
-          type: object
-          additionalProperties: true
-        chrome:
-          type: object
-          additionalProperties: true
-        commandConfig:
-          type: object
-          additionalProperties: true
-      required: [action]
-
+${actionEnumYaml("        ")}
     AnyResponse:
       type: object
       additionalProperties: true
@@ -269,7 +134,6 @@ components:
         ok: { type: boolean }
         error: { type: string }
         BH: { type: string }
-      required: [ok]
 
   securitySchemes:
     OAuth2:
@@ -281,9 +145,9 @@ components:
           scopes:
             profile: Basic profile.
             tunnel.read: Read/list/tree/search files and discover connected tunnel.
-            tunnel.write: Write, bulkWrite, findReplace, replaceRange, applyPatch, config/root changes.
-            tunnel.command: Run terminal and sandboxed node scripts.
-            tunnel.browser: Control Chrome DevTools.
+            tunnel.write: Write/config/root changes.
+            tunnel.command: Run approved commands, node scripts, and node syntax checks.
+            tunnel.browser: Control Chrome and read browser logs.
             tunnel.admin: Full tunnel control.
 `;
 }
