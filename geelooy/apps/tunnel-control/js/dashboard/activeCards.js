@@ -1,7 +1,6 @@
 
 // B"H
 
-import { many } from "../ui/core/html.js";
 import { getActivePane } from "../router/paneRouter.js";
 
 /**
@@ -13,8 +12,8 @@ import { getActivePane } from "../router/paneRouter.js";
 export function syncDashboardCards() {
   const active = getActivePane();
 
-  for (const card of many(".awt-action-card")) {
-    card.classList.toggle("is-active", card.dataset.targetTab === active);
+  for (const card of document.querySelectorAll(".awt-action-card")) {
+    card.classList.toggle("is-active", card.dataset.awtNavigate === active);
   }
 }
 
@@ -26,11 +25,5 @@ export function syncDashboardCards() {
  */
 export function mountDashboardSync() {
   document.addEventListener("awt:pane-change", syncDashboardCards);
-  document.addEventListener("click", event => {
-    if (event.target.closest("[data-tab]")) {
-      setTimeout(syncDashboardCards, 0);
-    }
-  });
-
   syncDashboardCards();
 }

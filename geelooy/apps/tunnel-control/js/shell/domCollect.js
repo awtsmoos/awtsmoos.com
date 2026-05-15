@@ -3,9 +3,9 @@
 
 /**
  * B"H
- * Finds the main app root.
+ * Finds the current application root.
  *
- * @returns {HTMLElement} App root.
+ * @returns {HTMLElement} Root element.
  */
 export function findAppRoot() {
   return document.querySelector("main") ||
@@ -18,18 +18,7 @@ export function findAppRoot() {
 
 /**
  * B"H
- * Finds the existing tab rail.
- *
- * @returns {HTMLElement|null} Existing tab parent.
- */
-export function findTabRail() {
-  const tab = document.querySelector("[data-tab]");
-  return tab ? tab.parentElement : null;
-}
-
-/**
- * B"H
- * Collects all panes from anywhere in the app before rebuilding DOM.
+ * Collects panes from anywhere before the shell replaces the root.
  *
  * @returns {HTMLElement[]} Pane nodes.
  */
@@ -40,10 +29,20 @@ export function collectPanes() {
 
 /**
  * B"H
- * Removes stale empty install/warning blocks from the old landing flow.
+ * Creates a diagnostic pane if the old HTML has no panes.
  *
- * @returns {void}
+ * @returns {HTMLElement} Fallback pane.
  */
-export function markOldChromeArtifacts() {
-  document.body.classList.add("awt-shell-mounted");
+export function createFallbackPane() {
+  const pane = document.createElement("section");
+  pane.dataset.pane = "diagnostic";
+  pane.innerHTML = [
+    "<div class='awt-pane-heading'>",
+    "<div class='awt-pane-kicker'>DIAGNOSTIC</div>",
+    "<h2>No panes found</h2>",
+    "<p>The shell mounted, but no data-pane sections were found in the old page.</p>",
+    "</div>"
+  ].join("");
+
+  return pane;
 }

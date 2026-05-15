@@ -3,17 +3,16 @@
 
 body.awt-pro-ready [data-pane] {
   display: none !important;
-  height: 100%;
   min-width: 0;
   min-height: 0;
   padding: clamp(14px, 1.7vw, 24px) !important;
-  overflow: hidden !important;
 }
 
 body.awt-pro-ready [data-pane].active {
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 14px;
+  min-height: calc(100dvh - 118px);
 }
 
 body.awt-pro-ready [data-pane].active > :not(.awt-pane-heading) {

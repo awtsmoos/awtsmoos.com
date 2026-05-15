@@ -25,7 +25,10 @@ export function normalizePaneHeadings() {
     pane.prepend(h("div", {
       classes: ["awt-pane-heading"],
       children: [
-        h("div", { classes: ["awt-pane-kicker"], text: `${meta.icon} ${meta.kicker}` }),
+        h("div", {
+          classes: ["awt-pane-kicker"],
+          text: `${meta.icon || "✦"} ${meta.kicker}`
+        }),
         h("h2", { text: meta.title }),
         h("p", { text: meta.desc })
       ]

@@ -3,59 +3,57 @@
 
 .awt-control-shell {
   width: min(1520px, 100%);
-  height: calc(100dvh - 24px);
+  min-height: calc(100dvh - 24px);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
   gap: 14px;
-  overflow: hidden;
 }
 
 .awt-control-main {
   min-width: 0;
-  min-height: 0;
   position: relative;
-  overflow: hidden;
+  min-height: calc(100dvh - 24px);
 }
 
 .awt-dashboard,
 .awt-workspace-stage {
-  position: absolute;
-  inset: 0;
+  width: 100%;
+  min-height: calc(100dvh - 24px);
   border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-lg);
   background:
     linear-gradient(180deg, rgba(18, 27, 48, 0.96), rgba(10, 15, 31, 0.96)),
     radial-gradient(circle at top left, rgba(141, 222, 255, 0.12), transparent 24rem);
   box-shadow: var(--awt-shadow);
-  overflow: hidden;
 }
 
 body.awt-home-mode .awt-dashboard {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: auto;
+  display: grid;
+  animation: awtScreenIn 220ms ease both;
 }
 
 body.awt-home-mode .awt-workspace-stage {
-  opacity: 0;
-  transform: translateX(32px);
-  pointer-events: none;
+  display: none;
 }
 
 body.awt-workspace-mode .awt-dashboard {
-  opacity: 0;
-  transform: translateX(-32px);
-  pointer-events: none;
+  display: none;
 }
 
 body.awt-workspace-mode .awt-workspace-stage {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: auto;
+  display: grid;
+  animation: awtScreenIn 220ms ease both;
 }
 
-.awt-dashboard,
-.awt-workspace-stage {
-  transition: opacity 220ms ease, transform 220ms ease;
+@keyframes awtScreenIn {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

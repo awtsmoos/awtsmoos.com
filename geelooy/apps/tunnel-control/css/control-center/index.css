@@ -10,4 +10,6 @@
 @import url("./panes.css");
 @import url("./forms.css");
 @import url("./chrome.css");
+@import url("./diagnostics.css");
+@import url("./security.css");
 @import url("./responsive.css");

@@ -30,10 +30,18 @@ body.awt-pro-ready a.button:hover {
   border-color: rgba(141, 222, 255, 0.62) !important;
 }
 
+body.awt-pro-ready .row,
+body.awt-pro-ready .form-row,
+body.awt-pro-ready .toolbar,
+body.awt-pro-ready .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 body.awt-pro-ready pre,
 body.awt-pro-ready code,
 body.awt-pro-ready .output {
   max-width: 100%;
-  max-height: 100%;
   overflow: auto;
 }

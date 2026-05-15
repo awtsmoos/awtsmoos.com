@@ -7,14 +7,25 @@ import { createSideRail } from "./sideRail.js";
 import { createDashboard } from "../dashboard/dashboard.js";
 import { createWorkspaceStage } from "./workspaceStage.js";
 import { mountWorkspaceMode } from "./workspaceMode.js";
-import { findAppRoot, collectPanes, markOldChromeArtifacts } from "./domCollect.js";
+import { findAppRoot, collectPanes, createFallbackPane } from "./domCollect.js";
 
 /**
  * B"H
- * Moves panes into the workspace stack.
+ * Collects pane keys from nodes.
  *
  * @param {HTMLElement[]} panes Pane nodes.
- * @param {HTMLElement} stack Stack node.
+ * @returns {string[]} Pane keys.
+ */
+function paneKeys(panes) {
+  return panes.map(pane => pane.dataset.pane).filter(Boolean);
+}
+
+/**
+ * B"H
+ * Moves panes into the stage stack.
+ *
+ * @param {HTMLElement[]} panes Pane nodes.
+ * @param {HTMLElement} stack Stack.
  * @returns {void}
  */
 function movePanes(panes, stack) {
@@ -26,29 +37,7 @@ function movePanes(panes, stack) {
 
 /**
  * B"H
- * Builds a fallback if no panes are found.
- *
- * @returns {HTMLElement} Fallback pane.
- */
-function fallbackPane() {
-  return h("section", {
-    attrs: { "data-pane": "diagnostic" },
-    children: [
-      h("div", {
-        classes: ["awt-pane-heading"],
-        children: [
-          h("div", { classes: ["awt-pane-kicker"], text: "DIAGNOSTIC" }),
-          h("h2", { text: "No panes found" }),
-          h("p", { text: "The shell mounted, but no [data-pane] sections were found." })
-        ]
-      })
-    ]
-  });
-}
-
-/**
- * B"H
- * Mounts the no-scroll multi-page shell.
+ * Mounts the multi-page shell.
  *
  * @param {object} ctx Runtime context.
  * @returns {void}
@@ -56,32 +45,32 @@ function fallbackPane() {
 export function mountShell(ctx) {
   if (document.querySelector(".awt-control-shell")) return;
 
-  document.body.classList.add("awt-pro-ready");
-
   const root = findAppRoot();
-  const panes = collectPanes();
+  const foundPanes = collectPanes();
+  const panes = foundPanes.length ? foundPanes : [createFallbackPane()];
+  const keys = paneKeys(panes);
   const { stage, stack } = createWorkspaceStage();
 
-  movePanes(panes.length ? panes : [fallbackPane()], stack);
+  movePanes(panes, stack);
   normalizePaneHeadings();
 
   const shell = h("div", {
     classes: ["awt-control-shell"],
     children: [
-      createSideRail(ctx),
+      createSideRail(ctx, keys),
       h("main", {
         classes: ["awt-control-main"],
         children: [
-          createDashboard(ctx),
+          createDashboard(ctx, keys),
           stage
         ]
       })
     ]
   });
 
+  document.body.classList.add("awt-pro-ready");
   root.replaceChildren(shell);
-  markOldChromeArtifacts();
-  mountWorkspaceMode();
 
+  mountWorkspaceMode();
   document.dispatchEvent(new CustomEvent("awt:repair-ui"));
 }

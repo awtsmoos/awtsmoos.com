@@ -2,8 +2,7 @@
 /* B"H */
 
 .awt-workspace-stage {
-  display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
 }
 
 .awt-workspace-toolbar {
@@ -23,12 +22,11 @@
 }
 
 .awt-workspace-body {
+  min-width: 0;
   min-height: 0;
-  overflow: hidden;
 }
 
 .awt-pane-stack {
   height: 100%;
   min-height: 0;
-  overflow: hidden;
 }

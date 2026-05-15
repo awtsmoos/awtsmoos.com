@@ -2,9 +2,12 @@
 /* B"H */
 
 .awt-control-side {
-  min-height: 0;
+  align-self: start;
+  position: sticky;
+  top: 12px;
+  max-height: calc(100dvh - 24px);
   padding: 14px;
-  overflow: hidden;
+  overflow: auto;
   border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-lg);
   background:
@@ -33,8 +36,7 @@
   margin: 0;
   color: var(--awt-muted);
   font-size: 0.82rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 .awt-home-button,
@@ -45,8 +47,13 @@
   justify-content: flex-start;
 }
 
+.awt-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .awt-side-tabs {
-  max-height: calc(100% - 170px);
-  overflow: auto;
-  padding-right: 2px;
+  display: grid;
+  gap: 8px;
 }

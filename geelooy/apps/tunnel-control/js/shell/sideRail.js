@@ -3,18 +3,17 @@
 
 import { h } from "../ui/core/html.js";
 import { PANE_META, DASHBOARD_ORDER } from "../router/paneMeta.js";
-import { activatePane } from "../router/paneRouter.js";
-import { showDashboardHome } from "./workspaceMode.js";
+import { activatePane, showHome } from "../router/paneRouter.js";
 
 /**
  * B"H
- * Builds one nav button.
+ * Builds one side nav button.
  *
  * @param {string} key Pane key.
- * @returns {HTMLButtonElement} Button.
+ * @returns {HTMLElement} Button.
  */
 function navButton(key) {
-  const meta = PANE_META[key] || { icon: "✦", title: key };
+  const meta = PANE_META[key] || { title: key, icon: "✦" };
 
   const button = h("button", {
     classes: ["awt-nav-button"],
@@ -31,23 +30,14 @@ function navButton(key) {
 
 /**
  * B"H
- * Creates the side rail.
+ * Creates the side navigation rail.
  *
  * @param {object} ctx Runtime context.
+ * @param {string[]} availablePaneKeys Available panes.
  * @returns {HTMLElement} Side rail.
  */
-export function createSideRail(ctx) {
-  const existing = new Set(
-    Array.from(document.querySelectorAll("[data-pane]"))
-      .map(pane => pane.dataset.pane)
-  );
-
-  const nav = h("nav", {
-    classes: ["awt-side-tabs"],
-    children: DASHBOARD_ORDER
-      .filter(key => existing.has(key))
-      .map(navButton)
-  });
+export function createSideRail(ctx, availablePaneKeys = []) {
+  const available = new Set(availablePaneKeys);
 
   const home = h("button", {
     classes: ["awt-home-button"],
@@ -55,7 +45,7 @@ export function createSideRail(ctx) {
     text: "🏠 Dashboard"
   });
 
-  home.addEventListener("click", showDashboardHome);
+  home.addEventListener("click", showHome);
 
   return h("aside", {
     classes: ["awt-control-side"],
@@ -69,7 +59,12 @@ export function createSideRail(ctx) {
         ]
       }),
       home,
-      nav
+      h("nav", {
+        classes: ["awt-side-tabs"],
+        children: DASHBOARD_ORDER
+          .filter(key => available.has(key))
+          .map(navButton)
+      })
     ]
   });
 }

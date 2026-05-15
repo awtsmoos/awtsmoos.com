@@ -2,11 +2,10 @@
 // B"H
 
 import { activatePane } from "./paneRouter.js";
-import { showDashboardHome } from "../shell/workspaceMode.js";
 
 /**
  * B"H
- * Binds global navigation.
+ * Binds any data-awt-navigate button.
  *
  * @returns {void}
  */
@@ -22,12 +21,8 @@ export function bindNavigationButtons() {
 
 /**
  * B"H
- * Kept for repair cycle compatibility.
+ * Compatibility hook for repair cycle.
  *
  * @returns {void}
  */
-export function markNavigationButtons() {
-  document.querySelectorAll("[data-awt-home]").forEach(node => {
-    node.addEventListener("click", showDashboardHome, { once: true });
-  });
-}
+export function markNavigationButtons() {}

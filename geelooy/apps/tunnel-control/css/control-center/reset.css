@@ -7,15 +7,8 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-}
-
 html {
+  min-height: 100%;
   background:
     radial-gradient(circle at 12% 0%, rgba(141, 222, 255, 0.22), transparent 32rem),
     radial-gradient(circle at 90% 8%, rgba(198, 167, 255, 0.20), transparent 34rem),
@@ -24,8 +17,11 @@ html {
 }
 
 body {
+  min-height: 100dvh;
+  margin: 0;
   color: var(--awt-text);
   font-family: var(--awt-font);
+  overflow: auto;
 }
 
 body.awt-pro-ready {
@@ -38,8 +34,6 @@ body.awt-pro-ready .app,
 body.awt-pro-ready .wrap,
 body.awt-pro-ready .container {
   width: 100%;
-  height: 100%;
   max-width: none;
   margin: 0;
-  overflow: hidden;
 }

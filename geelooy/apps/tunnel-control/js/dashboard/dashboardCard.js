@@ -6,7 +6,7 @@ import { activatePane } from "../router/paneRouter.js";
 
 /**
  * B"H
- * Builds one dashboard card.
+ * Builds one dashboard button.
  *
  * @param {string} key Pane key.
  * @param {object} meta Pane metadata.
@@ -25,7 +25,7 @@ export function createDashboardCard(key, meta) {
         classes: ["awt-action-copy"],
         children: [
           h("strong", { text: meta.title || key }),
-          h("span", { text: meta.desc || "Open this workspace." })
+          h("span", { text: meta.desc || "Open workspace." })
         ]
       })
     ]

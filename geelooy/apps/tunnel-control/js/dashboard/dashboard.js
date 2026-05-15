@@ -7,28 +7,11 @@ import { createDashboardCard } from "./dashboardCard.js";
 
 /**
  * B"H
- * Builds dashboard cards only for panes that exist.
+ * Builds a metric.
  *
- * @returns {HTMLElement[]} Cards.
- */
-function dashboardCards() {
-  const existing = new Set(
-    Array.from(document.querySelectorAll("[data-pane]"))
-      .map(pane => pane.dataset.pane)
-  );
-
-  return DASHBOARD_ORDER
-    .filter(key => existing.has(key))
-    .map(key => createDashboardCard(key, PANE_META[key]));
-}
-
-/**
- * B"H
- * Builds a metric block.
- *
- * @param {string} label Label.
- * @param {string} value Value.
- * @returns {HTMLElement} Metric.
+ * @param {string} label Metric label.
+ * @param {string} value Metric value.
+ * @returns {HTMLElement} Metric node.
  */
 function metric(label, value) {
   return h("div", {
@@ -42,12 +25,28 @@ function metric(label, value) {
 
 /**
  * B"H
- * Creates the home dashboard.
+ * Builds dashboard cards from the panes actually collected.
+ *
+ * @param {string[]} availablePaneKeys Available panes.
+ * @returns {HTMLElement[]} Cards.
+ */
+function cards(availablePaneKeys) {
+  const available = new Set(availablePaneKeys);
+
+  return DASHBOARD_ORDER
+    .filter(key => available.has(key))
+    .map(key => createDashboardCard(key, PANE_META[key]));
+}
+
+/**
+ * B"H
+ * Creates the dashboard home screen.
  *
  * @param {object} ctx Runtime context.
- * @returns {HTMLElement} Dashboard.
+ * @param {string[]} availablePaneKeys Available pane keys.
+ * @returns {HTMLElement} Dashboard node.
  */
-export function createDashboard(ctx) {
+export function createDashboard(ctx, availablePaneKeys = []) {
   return h("section", {
     classes: ["awt-dashboard"],
     attrs: { id: "awtDashboard" },
@@ -58,21 +57,21 @@ export function createDashboard(ctx) {
           h("div", { classes: ["awt-mini-kicker"], text: "B\"H CONTROL CENTER" }),
           h("h2", { text: "Awtsmoos Tunnel" }),
           h("p", {
-            text: "Choose one mission. The page slides into that workspace without the old giant vertical debug scroll."
+            text: "Choose one mission. The page opens that workspace instead of dumping every control into one giant scroll."
           }),
           h("div", {
             classes: ["awt-dashboard-metrics"],
             children: [
               metric("Tunnel", ctx.getTunnelName() || "connected"),
               metric("Root", ctx.getProjectPath() || "."),
-              metric("Layout", "multi-page")
+              metric("Layout", "dashboard")
             ]
           })
         ]
       }),
       h("div", {
         classes: ["awt-dashboard-grid"],
-        children: dashboardCards()
+        children: cards(availablePaneKeys)
       })
     ]
   });
