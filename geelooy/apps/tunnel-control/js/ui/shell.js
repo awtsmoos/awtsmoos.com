@@ -8,8 +8,8 @@ export function hero() {
   return h("header", { className: "app-hero" }, [
     h("div", { className: "hero-topline" }, [
       h("span", { className: "badge", text: 'B"H' }),
-      h("span", { className: "badge", id: "authPill", text: "Login: checking" }),
-      h("span", { className: "badge", id: "agentPill", text: "Agent: checking" })
+      h("span", { className: "badge warn", id: "authPill", text: "Login: checking" }),
+      h("span", { className: "badge warn", id: "agentPill", text: "Agent: checking" })
     ]),
     h("div", { className: "hero-grid" }, [
       h("div", {}, [
@@ -31,6 +31,11 @@ export function hero() {
 
 export function tabs() {
   return h("nav", { className: "tabbar" }, pages.map(([id, icon, label]) =>
-    h("button", { className: "tab" + (id === "dashboard" ? " active" : ""), text: icon + " " + label, data: { tab: id }, on: { click: () => switchPane(id) } })
+    h("button", {
+      className: "tab" + (id === "dashboard" ? " active" : ""),
+      text: icon + " " + label,
+      data: { tab: id },
+      on: { click: () => switchPane(id) }
+    })
   ));
 }

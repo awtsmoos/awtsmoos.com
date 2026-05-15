@@ -15,22 +15,23 @@ import { install } from "../features/install.js";
 import { rootPicker } from "../features/rootPicker.js";
 import { mountAll } from "./mount.js";
 
+function rememberedTunnel() {
+  const p = new URLSearchParams(location.search);
+  return p.get("tunnelName") || p.get("tunnel") ||
+    localStorage.getItem("awtTunnelName") ||
+    localStorage.getItem("awtsmoos.tunnelName") || "";
+}
+
 export function boot() {
   const app = h("main", { className: "app-shell" }, [
-    hero(),
-    tabs(),
-    dashboard(),
-    setup(),
-    keys(),
-    explorer(),
-    terminal(),
-    chrome(),
-    promptPage(),
-    usage(),
-    account(),
-    install()
+    hero(), tabs(), dashboard(), setup(), keys(), explorer(),
+    terminal(), chrome(), promptPage(), usage(), account(), install()
   ]);
   document.body.append(app, rootPicker());
+
+  const tunnel = rememberedTunnel();
+  if ($("tunnelName")) $("tunnelName").value = tunnel;
+  if ($("miniTunnel")) $("miniTunnel").textContent = tunnel || "Discovering...";
+
   mountAll();
-  $("tunnelName").value = localStorage.getItem("awtTunnelName") || new URLSearchParams(location.search).get("tunnel") || "";
 }

@@ -27,4 +27,17 @@
   color: var(--soft);
   font-size: .78rem;
   font-weight: 760;
+  white-space: pre-wrap;
+}
+.badge.good {
+  border-color: rgba(112,239,175,.45);
+  background: rgba(112,239,175,.12);
+}
+.badge.warn {
+  border-color: rgba(255,211,111,.45);
+  background: rgba(255,211,111,.10);
+}
+.badge.bad {
+  border-color: rgba(255,120,149,.48);
+  background: rgba(255,120,149,.12);
 }
