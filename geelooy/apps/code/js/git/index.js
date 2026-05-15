@@ -21,12 +21,12 @@ export const GitManager = {
     
     /**
      * B"H - Opens the Git Control Center, the user's interface to the Git timeline.
-     * It now receives the full context of the repository's local and remote state.
-     * @param {object} item - The repository folder item.
-     * @param {object} gitInfo - The discovered git metadata for the repository.
-     * @param {boolean} scan - Whether to force a full local file scan.
+     * @param {object} item - The repository folder item, or a folder inside the repo.
+     * @param {object|boolean}gitInfo - Optional discovered Git metadata, or a legacy scan boolean.
+     * @param {boolean|object} scan - Whether to force a disk scan, or a scan options object.
+     * @param {object} options - Additional options such as `scanRoot`.
      */
-    showGitUI: (item, gitInfo, scan) => GitStatusUI.showGitUI(item, gitInfo, scan),
+    showGitUI: (item, gitInfo, scan, options) => GitStatusUI.showGitUI(item, gitInfo, scan, options),
     
     /**
      * B"H - Opens the interface for switching between different timelines (branches).

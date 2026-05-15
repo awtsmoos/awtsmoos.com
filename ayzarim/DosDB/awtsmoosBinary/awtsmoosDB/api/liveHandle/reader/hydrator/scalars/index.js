@@ -6,7 +6,7 @@
  * @chapter The Table Of Returning Sparks
  * @description
  * Every primitive type returns through this one table. No scattered fallthrough.
- * No broken ../../ path guessing. The root loader finds constants correctly.
+ * No broken ../../../ path guessing. The root loader finds constants correctly.
  */
 
 const rootRequire = require('../root.js');
@@ -46,14 +46,23 @@ const TABLE = {
   [T.NULL]: () => null,
   [T.UNDEFINED]: () => undefined,
   [T.BOOLEAN]: b => b.length ? b.readUInt8(0) === 1 : false,
+  [T.BOOLEAN_TRUE]: () => true,
+  [T.BOOLEAN_FALSE]: () => false,
 
   [T.NUMBER]: b => b.readDoubleBE(0),
+  [T.NUMBER_ZERO]: () => 0,
+  [T.NUMBER_ONE]: () => 1,
+  [T.NUMBER_NEG_ONE]: () => -1,
+  [T.NUMBER_ZERO]: () => 0,
+  [T.NUMBER_ONE]: () => 1,
+  [T.NUMBER_NEG_ONE]: () => -1,
   [T.DOUBLE_POS]: b => b.readDoubleBE(0),
   [T.DOUBLE_NEG]: b => -b.readDoubleBE(0),
   [T.NAN]: () => NaN,
   [T.INFINITY]: () => Infinity,
   [T.NEG_INFINITY]: () => -Infinity,
 
+  [T.SMALL_INT]: b => b.readUInt8(0),
   [T.UINT8]: b => b.readUInt8(0),
   [T.UINT16]: b => b.readUInt16BE(0),
   [T.UINT32]: b => b.readUInt32BE(0),
@@ -78,6 +87,9 @@ const TABLE = {
       return {};
     }
   },
+  [T.OPAQUE]: b => ({ __unserializable__: b.toString('utf8') || 'Object' }),
+  [T.PACKED_OBJECT]: (b, context) => rootRequire('api', 'packed', 'objectCodec.js').decode(b, context),
+  [T.PACKED_ARRAY]: (b, context) => rootRequire('api', 'packed', 'arrayCodec.js').decode(b, context),
 
   [T.DATE]: b => new Date(b.readDoubleBE(0)),
   [T.BIGINT]: b => BigIntScalar.fromBuffer(b, false),
@@ -94,9 +106,22 @@ const TABLE = {
   [T.ARRAY_BUFFER_OMNI]: b => arrayBufferFromBuffer(unpackOmni(b)),
   [T.TYPED_ARRAY]: reviveTypedArray,
   [T.TYPED_ARRAY_OMNI]: b => reviveTypedArray(unpackOmni(b)),
-  [T.ENCRYPTED]: b => JSON.parse(b.toString('utf8')),
-  [T.BLOB]: b => JSON.parse(b.toString('utf8')),
-  [T.TEXT]: b => JSON.parse(b.toString('utf8'))
+  [T.ENCRYPTED]: b => {
+    const EnvelopeCodec = rootRequire('utils', 'crypto', 'envelopeCodec.js');
+    const packed = EnvelopeCodec.decode(b);
+    return packed || JSON.parse(b.toString('utf8'));
+  },
+  [T.BLOB]: b => {
+    const BlobToken = rootRequire('api', 'blob', 'tokenCodec.js');
+    const packed = BlobToken.decode(b);
+    return packed || JSON.parse(b.toString('utf8'));
+  },
+  [T.TEXT]: b => {
+    const TextToken = rootRequire('api', 'text', 'tokenCodec.js');
+    const packed = TextToken.decode(b);
+    return packed || JSON.parse(b.toString('utf8'));
+  },
+  [T.COMPACT_JSON]: (b, context) => context.db.compactJson.hydrateToken(b)
 };
 
 /**
@@ -108,7 +133,7 @@ const TABLE = {
  * @param {Buffer} buffer - Stored bytes.
  * @returns {{hit:boolean,value:*}} Result object.
  */
-function hydrateScalar(type, buffer) {
+function hydrateScalar(type, buffer, context = {}) {
   const fn = TABLE[type];
 
   if (!fn) {
@@ -120,7 +145,7 @@ function hydrateScalar(type, buffer) {
 
   return {
     hit: true,
-    value: fn(buffer || Buffer.alloc(0))
+    value: fn(buffer || Buffer.alloc(0), context)
   };
 }
 

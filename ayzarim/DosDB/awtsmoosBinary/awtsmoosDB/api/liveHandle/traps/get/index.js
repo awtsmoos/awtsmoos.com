@@ -27,7 +27,10 @@ const MAPPING_TYPES = new Set([
     constants.VAL_TYPE.DICTIONARY,
     constants.VAL_TYPE.OBJECT,
     constants.VAL_TYPE.SMART_OBJECT,
-    constants.VAL_TYPE.JS_MAP
+    constants.VAL_TYPE.JS_MAP,
+    constants.VAL_TYPE.PACKED_OBJECT,
+
+    constants.VAL_TYPE.PACKED_ARRAY
 ]);
 
 /**

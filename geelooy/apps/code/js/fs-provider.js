@@ -202,7 +202,9 @@ export const FileSystemProvider = {
    * Provider result.
    */
   async write(item, content, msg, onStatus) {
-    return await this._execute('write', item, content, msg, onStatus);
+    const result = await this._execute('write', item, content, msg, onStatus);
+    import('./sync/folder-sync.js').then(m => m.FolderSync.scheduleForItem(item, { reason: 'write' })).catch(() => {});
+    return result;
   },
 
   /**
@@ -226,7 +228,9 @@ export const FileSystemProvider = {
    * Provider result.
    */
   async create(parentDir, name, kind) {
-    return await this._execute('create', parentDir, name, kind);
+    const result = await this._execute('create', parentDir, name, kind);
+    import('./sync/folder-sync.js').then(m => m.FolderSync.scheduleForItem(parentDir, { reason: 'create' })).catch(() => {});
+    return result;
   },
 
   /**
@@ -244,7 +248,9 @@ export const FileSystemProvider = {
    * Provider result.
    */
   async delete(item) {
-    return await this._execute('delete', item);
+    const result = await this._execute('delete', item);
+    import('./sync/folder-sync.js').then(m => m.FolderSync.scheduleForItem(item, { reason: 'delete' })).catch(() => {});
+    return result;
   },
 
   /**

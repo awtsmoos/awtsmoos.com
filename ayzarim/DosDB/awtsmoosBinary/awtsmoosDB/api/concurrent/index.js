@@ -11,6 +11,7 @@
 
 const RangeLocks = require('../../core/locks/range.js');
 const PathLocks = require('../../core/locks/path.js');
+const constants = require('../../constants.js');
 
 /**
  * @class ConcurrentManager
@@ -25,6 +26,10 @@ class ConcurrentManager {
     this.db = db;
     this.ranges = new RangeLocks();
     this.paths = new PathLocks();
+    this._pendingPathWrites = [];
+    this._pathWriteFlushScheduled = false;
+    this._pendingPathWrites = [];
+    this._pathWriteFlushScheduled = false;
   }
 
   /**
@@ -43,9 +48,14 @@ class ConcurrentManager {
    * @returns {Promise<*>} Written value.
    */
   writePath(path, value) {
-    return this.paths.write(path, () => {
-      this._set(path, value);
-      return value;
+    const parts = this._parts(path);
+    if (!parts.length) return Promise.reject(new Error('B"H: Cannot write the empty root path'));
+
+    return new Promise((resolve, reject) => {
+      this._pendingPathWrites.push({ parts, value, resolve, reject });
+      if (this._pathWriteFlushScheduled) return;
+      this._pathWriteFlushScheduled = true;
+      queueMicrotask(() => this._flushPathWrites());
     });
   }
 
@@ -114,6 +124,148 @@ class ConcurrentManager {
   }
 
   /**
+   * @method _flushPathWrites
+   * @description Flushes coalesced writes grouped by parent path.
+   * @returns {void}
+   */
+  _flushPathWrites() {
+    const batch = this._pendingPathWrites.splice(0);
+    this._pathWriteFlushScheduled = false;
+    if (!batch.length) return;
+
+    const groups = new Map();
+    for (const item of batch) {
+      const parentParts = item.parts.slice(0, -1);
+      const key = parentParts.join('\u0000');
+      let group = groups.get(key);
+      if (!group) {
+        group = { parentParts, items: [] };
+        groups.set(key, group);
+      }
+      group.items.push(item);
+    }
+
+    for (const group of groups.values()) {
+      this.paths.write(group.parentParts, () => {
+        try {
+          this._applyWriteGroup(group.parentParts, group.items);
+          for (const item of group.items) item.resolve(item.value);
+        } catch (err) {
+          for (const item of group.items) item.reject(err);
+        }
+      });
+    }
+  }
+
+  /**
+   * @method _applyWriteGroup
+   * @param {Array<string>} parentParts - Parent container path.
+   * @param {Array<object>} items - Write items with leaf keys.
+   * @returns {void}
+   */
+  _applyWriteGroup(parentParts, items) {
+    if (items.length === 1) {
+      this._set(items[0].parts, items[0].value);
+      return;
+    }
+
+    if (!parentParts.length) {
+      for (const item of items) this._set(item.parts, item.value);
+      return;
+    }
+
+    const parentTarget = this._parent(parentParts);
+    if (!parentTarget) {
+      for (const item of items) this._set(item.parts, item.value);
+      return;
+    }
+
+    let current = parentTarget.parent[parentTarget.key];
+    let plain = current && typeof current.__resolve__ === 'function'
+      ? current.__resolve__()
+      : current;
+
+    if (!plain || typeof plain !== 'object') plain = {};
+
+    for (const item of items) {
+      plain[item.parts[item.parts.length - 1]] = item.value;
+    }
+
+    parentTarget.parent[parentTarget.key] = plain;
+  }
+
+  /**
+   * @method _flushPathWrites
+   * @description Flushes coalesced writes grouped by parent path.
+   * @returns {void}
+   */
+  _flushPathWrites() {
+    const batch = this._pendingPathWrites.splice(0);
+    this._pathWriteFlushScheduled = false;
+    if (!batch.length) return;
+
+    const groups = new Map();
+    for (const item of batch) {
+      const parentParts = item.parts.slice(0, -1);
+      const key = parentParts.join('\u0000');
+      let group = groups.get(key);
+      if (!group) {
+        group = { parentParts, items: [] };
+        groups.set(key, group);
+      }
+      group.items.push(item);
+    }
+
+    for (const group of groups.values()) {
+      this.paths.write(group.parentParts, () => {
+        try {
+          this._applyWriteGroup(group.parentParts, group.items);
+          for (const item of group.items) item.resolve(item.value);
+        } catch (err) {
+          for (const item of group.items) item.reject(err);
+        }
+      });
+    }
+  }
+
+  /**
+   * @method _applyWriteGroup
+   * @param {Array<string>} parentParts - Parent container path.
+   * @param {Array<object>} items - Write items with leaf keys.
+   * @returns {void}
+   */
+  _applyWriteGroup(parentParts, items) {
+    if (items.length === 1) {
+      this._set(items[0].parts, items[0].value);
+      return;
+    }
+
+    if (!parentParts.length) {
+      for (const item of items) this._set(item.parts, item.value);
+      return;
+    }
+
+    const parentTarget = this._parent(parentParts);
+    if (!parentTarget) {
+      for (const item of items) this._set(item.parts, item.value);
+      return;
+    }
+
+    let current = parentTarget.parent[parentTarget.key];
+    let plain = current && typeof current.__resolve__ === 'function'
+      ? current.__resolve__()
+      : current;
+
+    if (!plain || typeof plain !== 'object') plain = {};
+
+    for (const item of items) {
+      plain[item.parts[item.parts.length - 1]] = item.value;
+    }
+
+    parentTarget.parent[parentTarget.key] = plain;
+  }
+
+  /**
    * @method _get
    * @param {string|Array<string|number>} path - Logical path.
    * @returns {*} Stored value.
@@ -159,6 +311,18 @@ class ConcurrentManager {
   _set(path, value) {
     const target = this._parent(path);
     if (!target) throw new Error('B"H: Cannot write the empty root path');
+
+    const soul = target.parent && target.parent[constants.SYMBOLS.INTERNALS];
+    if (soul && soul.writer && typeof soul.writer.set === 'function') {
+      soul.writer.set(target.key, value, {
+        assumeNew: true,
+        skipFree: true,
+        skipIndexes: true,
+        skipOldState: true
+      });
+      return;
+    }
+
     target.parent[target.key] = value;
   }
 

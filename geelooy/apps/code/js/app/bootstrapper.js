@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/app/bootstrapper.js
 
@@ -27,14 +26,19 @@ export class Bootstrapper {
      */
     static ignite() {
         ModelManager.init();
+        import('../tunnel/browser-agent.js').then(m => m.BrowserTunnelAgent.init());
+        import('../sync/folder-sync.js').then(m => m.FolderSync.init());
+        import('../session/account-panel.js').then(m => m.AwtsmoosAccountPanel.init());
         const settingsRaw = localStorage.getItem('vividX_settings_profound');
         const settings = JSON.parse(settingsRaw || '{}');
-        
+
         State.githubToken = settings.githubToken || null;
         State.useTabs = settings.useTabs ?? true;
         State.relayUrl = settings.relayUrl || ""; // B"H - Reconstitute the Relay coordinate
         State.sshProfiles = Array.isArray(settings.sshProfiles) ? settings.sshProfiles : [];
-        
+        State.browserTunnel = settings.browserTunnel || {};
+        State.folderSyncLinks = Array.isArray(settings.folderSyncLinks) ? settings.folderSyncLinks : [];
+
         console.log('B"H: Primitive constants established.');
     }
 }

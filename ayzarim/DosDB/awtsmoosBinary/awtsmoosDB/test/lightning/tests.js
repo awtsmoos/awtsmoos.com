@@ -1,5 +1,4 @@
-
-// B"H
+// B\"H
 
 /**
  * @file test/lightning/tests.js
@@ -19,7 +18,14 @@ module.exports = [
   'comprehensive_features.js',
   'compression_extreme_test.js',
   'storage_density_test.js',
+  'compact_json_test.js',
   'storage_reuse_test.js',
+  'packed_object_test.js',
+  'packed_density_test.js',
+  'packed_array_test.js',
+  'migration_density_test.js',
+  'migration_searchable_packed_test.js',
+  'packed_features_index_vector_test.js',
   'runtime_features_test.js',
   'pager_sparse_test.js',
   'gc_verify_test.js',

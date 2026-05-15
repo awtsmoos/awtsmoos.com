@@ -1,12 +1,11 @@
-
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 3.0.0
+  version: 4.0.0
   description: >
-    B"H. Minimal Custom GPT Action schema. This intentionally exposes only
-    bootstrap, active-device discovery, and one POST tunnel action so ChatGPT
-    reliably receives the real file/action tool.
+    B"H. Single import YAML. GET-only. Never POST. Never use findReplace or
+    in-file replacement. Use base64 query params for large values. If too large,
+    split into smaller complete file writes/modules.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -14,107 +13,66 @@ paths:
     get:
       operationId: awtsmoosBootstrap
       summary: Get setup instructions.
-      description: Use first in a new conversation to learn how to install or restart the tunnel.
       security: []
       responses:
-        "200":
-          description: Bootstrap response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AnyObject"
+        "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
   /api/tunnel/control/my-device:
     get:
       operationId: awtsmoosMyDevice
-      summary: Discover the signed-in user's active tunnel.
-      description: >
-        After OAuth sign-in, call this before asking the user for a tunnelName.
-        If exactly one tunnel is connected, use the returned tunnelName automatically.
+      summary: Discover active tunnel.
+      description: Use before asking for tunnelName. If exactly one tunnel is connected, use it automatically.
       security:
-        - OAuth2:
-            - profile
-            - tunnel.read
+        - OAuth2: [profile, tunnel.read]
       responses:
-        "200":
-          description: Active tunnel discovery result.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MyDeviceResponse"
-        "401":
-          description: User is not authenticated.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "404":
-          description: No connected tunnel.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "409":
-          description: Multiple tunnels connected.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+        "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
+        "401": { description: Not authenticated }
+        "404": { description: No connected tunnel }
+        "409": { description: Multiple tunnels connected }
   /api/tunnel/control/fs/{tunnelName}:
-    post:
+    get:
       operationId: awtsmoosTunnelAction
-      summary: Run a controlled tunnel action.
+      summary: Run tunnel action via GET query params only.
       description: >
-        Use this for list, tree, read, write, bulk, bulkWrite, findReplace,
-        commandRun, nodeScriptRun, and Chrome actions. Prefer small requests.
-        Split large writes into small modules/files.
+        Use this GET operation for list, tree, read, md, bulk, write, bulkWrite,
+        config, root, command, nodeScript, and Chrome actions. Do not use POST.
+        Do not use findReplace. For edits, read exact files first, then write
+        complete files. If too large, split into smaller requests.
       security:
-        - OAuth2:
-            - profile
-            - tunnel.read
+        - OAuth2: [profile, tunnel.read]
       parameters:
-        - name: tunnelName
-          in: path
-          required: true
-          description: Tunnel name returned by awtsmoosMyDevice.
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TunnelActionRequest"
+        - { name: tunnelName, in: path, required: true, schema: { type: string } }
+        - { name: action, in: query, required: true, description: findReplace intentionally omitted, schema: { type: string, enum: [list, tree, read, readBytes, read64, md, bulk, write, bulkWrite, commandRun, nodeScriptRun, chromeFind, chromeLaunch, chromeStatus, chromeNavigate, chromeWaitForSelector, chromeClick, chromeType, chromeEval, chromeRunScript, configGet, configSet, roots, rootBrowse, rootSelect, openRoot] } }
+        - { name: p, in: query, required: false, schema: { type: string, default: "." } }
+        - { name: path, in: query, required: false, schema: { type: string } }
+        - { name: depth, in: query, required: false, schema: { type: integer, default: 2 } }
+        - { name: limit, in: query, required: false, schema: { type: integer, default: 150 } }
+        - { name: maxChars, in: query, required: false, schema: { type: integer, default: 8000 } }
+        - { name: totalMaxChars, in: query, required: false, schema: { type: integer, default: 24000 } }
+        - { name: maxFiles, in: query, required: false, schema: { type: integer, default: 3 } }
+        - { name: offsetChars, in: query, required: false, schema: { type: integer, default: 0 } }
+        - { name: maxBytes, in: query, required: false, schema: { type: integer, default: 24000 } }
+        - { name: offsetBytes, in: query, required: false, schema: { type: integer, default: 0 } }
+        - { name: paths64, in: query, required: false, description: Base64 JSON array for bulk reads, schema: { type: string } }
+        - { name: content64, in: query, required: false, description: Base64 complete file content for write, schema: { type: string } }
+        - { name: files64, in: query, required: false, description: Base64 JSON object for bulkWrite, schema: { type: string } }
+        - { name: command64, in: query, required: false, schema: { type: string } }
+        - { name: script64, in: query, required: false, schema: { type: string } }
+        - { name: input64, in: query, required: false, schema: { type: string } }
+        - { name: shell, in: query, required: false, schema: { type: string, enum: [powershell, cmd, bash, sh] } }
+        - { name: cwd, in: query, required: false, schema: { type: string, default: "." } }
+        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 20000 } }
+        - { name: url, in: query, required: false, schema: { type: string } }
+        - { name: selector, in: query, required: false, schema: { type: string } }
+        - { name: text64, in: query, required: false, schema: { type: string } }
+        - { name: expression64, in: query, required: false, schema: { type: string } }
+        - { name: port, in: query, required: false, schema: { type: integer, default: 9222 } }
+        - { name: chromePath, in: query, required: false, schema: { type: string } }
       responses:
-        "200":
-          description: Tunnel action result.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TunnelResponse"
-        "400":
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          description: Missing or invalid authentication.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "403":
-          description: Missing OAuth scope or local permission.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "413":
-          description: Request too large; split into smaller chunks.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+        "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
+        "400": { description: Bad request }
+        "401": { description: Auth required }
+        "403": { description: Not allowed }
+        "413": { description: Too large; split smaller }
 components:
   securitySchemes:
     OAuth2:
@@ -125,236 +83,8 @@ components:
           tokenUrl: https://awtsmoos.com/api/oauth/token
           scopes:
             profile: Basic profile.
-            tunnel.read: Read/list/tree files and discover connected tunnel.
-            tunnel.write: Write files and config.
-            tunnel.command: Run terminal and sandboxed node scripts.
-            tunnel.browser: Control Chrome DevTools.
-            tunnel.admin: Full tunnel control.
-  schemas:
-    AnyObject:
-      type: object
-      additionalProperties: true
-    MyDeviceResponse:
-      type: object
-      additionalProperties: true
-      properties:
-        BH:
-          type: string
-        ok:
-          type: boolean
-        tunnelName:
-          type: string
-        identity:
-          type: object
-          additionalProperties: true
-        device:
-          type: object
-          additionalProperties: true
-        guidance:
-          type: string
-        error:
-          type: string
-      required:
-        - ok
-    TunnelActionRequest:
-      type: object
-      additionalProperties: true
-      properties:
-        action:
-          type: string
-          enum:
-            - list
-            - tree
-            - read
-            - readBytes
-            - read64
-            - md
-            - bulk
-            - write
-            - bulkWrite
-            - findReplace
-            - commandRun
-            - nodeScriptRun
-            - chromeFind
-            - chromeLaunch
-            - chromeStatus
-            - chromeNavigate
-            - chromeWaitForSelector
-            - chromeClick
-            - chromeType
-            - chromeEval
-            - chromeRunScript
-            - configGet
-            - configSet
-            - roots
-            - rootBrowse
-            - rootSelect
-            - openRoot
-        p:
-          type: string
-          default: .
-        path:
-          type: string
-        depth:
-          type: integer
-          default: 2
-        limit:
-          type: integer
-          default: 150
-        maxChars:
-          type: integer
-          default: 8000
-        totalMaxChars:
-          type: integer
-          default: 24000
-        maxFiles:
-          type: integer
-          default: 3
-        offsetChars:
-          type: integer
-          default: 0
-        maxBytes:
-          type: integer
-          default: 24000
-        offsetBytes:
-          type: integer
-          default: 0
-        paths:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        files:
-          type: object
-          additionalProperties:
-            type: string
-        writes:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        content:
-          type: string
-        find:
-          type: string
-        replace:
-          type: string
-        regex:
-          type: boolean
-          default: false
-        replaceAll:
-          type: boolean
-          default: true
-        command:
-          type: string
-        scriptText:
-          type: string
-        input:
-          type: object
-          additionalProperties: true
-        shell:
-          type: string
-          enum:
-            - powershell
-            - cmd
-            - bash
-            - sh
-        cwd:
-          type: string
-          default: .
-        timeoutMs:
-          type: integer
-          default: 20000
-        url:
-          type: string
-        selector:
-          type: string
-        text:
-          type: string
-        expression:
-          type: string
-        script:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        port:
-          type: integer
-          default: 9222
-        chromePath:
-          type: string
-        userDataDir:
-          type: string
-      required:
-        - action
-    TunnelResponse:
-      type: object
-      additionalProperties: true
-      properties:
-        BH:
-          type: string
-        ok:
-          type: boolean
-        action:
-          type: string
-        path:
-          type: string
-        root:
-          type: string
-        content:
-          type: string
-        content64:
-          type: string
-        truncated:
-          type: boolean
-        nextOffsetChars:
-          type: integer
-          nullable: true
-        nextOffsetBytes:
-          type: integer
-          nullable: true
-        items:
-          type: array
-          items:
-            type: string
-        detailedItems:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        files:
-          type: object
-          additionalProperties: true
-        stdout:
-          type: string
-        stderr:
-          type: string
-        result:
-          type: object
-          additionalProperties: true
-        results:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        error:
-          type: string
-      required:
-        - ok
-    ErrorResponse:
-      type: object
-      additionalProperties: true
-      properties:
-        BH:
-          type: string
-        ok:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        guidance:
-          type: string
-      required:
-        - ok
-        - error
+            tunnel.read: Read/list/tree and discover tunnel.
+            tunnel.write: Write complete files.
+            tunnel.command: Run approved commands/scripts.
+            tunnel.browser: Control Chrome.
+            tunnel.admin: Full control.

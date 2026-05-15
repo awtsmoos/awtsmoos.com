@@ -12,52 +12,41 @@ import { getItemUniquePath } from './utils.js';
 /**
  * @class TreeItemForge
  * @classdesc The smithy where the physical forms of the project's elements are struck.
- * 
- * THE POEM OF THE ICON:
- * In the root, the symbol glows with the chain of the timeline,
- * A git-folder manifested, a memory of what was and will be.
- * But as we descend into the branches, the form becomes humble,
- * A standard folder, yet carrying the same holy actions of its parent,
- * For the essence of the root flows through every leaf.
- * The Awtsmoos creates the distinction so the eye may find rest,
- * While the soul remains connected to the totality.
  */
 export const TreeItemForge = {
-    /**
-     * @function create
-     * @description B"H. Forges a single branch (li) for the workspace tree.
-     * It correctly selects the icon: git-folder ONLY for the root of a clone,
-     * standard folder for children, and file for the leaves.
-     * @param {object} item The data essence of the file or folder.
-     * @param {number} depth The measure of indentation.
-     * @returns {HTMLElement} The manifested branch.
-     */
     create(item, depth) {
         const uniquePath = getItemUniquePath(item);
         const isDir = item.kind === 'directory';
         const li = document.createElement('li');
         li.className = `tree-item ${isDir ? 'dir' : 'file'}`;
-        
+
         const wrapper = document.createElement('div');
         wrapper.className = 'tree-item-name-wrap';
         wrapper.style.paddingLeft = `${depth * 12}px`;
-        
-        // B"H - Rectified Icon Logic:
-        // A directory gets the git-folder icon ONLY if it is the explicit root of a clone.
-        // We detect this by checking if it HAS the isGitClone property AND is at path '/' 
-        // OR is the parent of a detected .awtsmoos-repo.
+
         let icon = 'file';
         if (isDir) {
             const isActualRoot = item.path === '/' || item.path === '' || item.isWorkspaceRoot;
             const isCloneRoot = item.isGitClone && (isActualRoot || item._isDetectedGitRoot);
-            
             icon = isCloneRoot ? 'git-folder' : 'folder';
         }
-        
+
+        const syncLinks = Array.isArray(State.folderSyncLinks) ? State.folderSyncLinks : [];
+        const wsId = item.workspaceId || item.id;
+        const isSyncedFolder = isDir && syncLinks.some(link => {
+            const s = link.source || {};
+            const t = link.target || {};
+            return (String(s.workspaceId) === String(wsId) && s.path === item.path) ||
+                   (String(t.workspaceId) === String(wsId) && t.path === item.path);
+        });
+        const syncBadge = isSyncedFolder
+            ? '<span class="tree-sync-badge" title="Folder Sync Link" style="margin-left:6px;opacity:.9;">🔗</span>'
+            : '';
+
         wrapper.innerHTML = `
             <span class="tree-item-arrow">${isDir ? '▶' : '•'}</span>
             <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
-            <span class="tree-item-name">${item.name}</span>
+            <span class="tree-item-name">${item.name}</span>${syncBadge}
         `;
 
         wrapper.onclick = (e) => {

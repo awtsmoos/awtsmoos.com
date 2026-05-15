@@ -54,7 +54,8 @@ export async function buildTerrain(scene, physics, def, olam = null) {
   const mat = createGroundMixMaterial({
     dirtColor:  new THREE.Color(def.props?.dirtColor || 0x5d4037),
     grassColor: new THREE.Color(def.props?.grassColor || 0x2e7d32),
-    scale:      def.props?.shaderScale || 0.05
+    scale:      def.props?.shaderScale || 0.05,
+    grassPatches: def.props?.grassPatches || []
   });
 
   const mesh = new THREE.Mesh(geo, mat);

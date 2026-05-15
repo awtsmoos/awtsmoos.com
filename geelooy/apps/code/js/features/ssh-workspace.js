@@ -16,44 +16,80 @@ function escapeHtml(value = "") {
     })[ch]);
 }
 
-function profileOptions() {
-    const profiles = State.sshProfiles || [];
-    if (!profiles.length) return '<option value="">New SSH profile</option>';
-    return [
-        '<option value="">New SSH profile</option>',
-        ...profiles.map(profile => `<option value="${escapeHtml(profile.id)}">${escapeHtml(profile.name || profile.host)}</option>`)
-    ].join('');
+function decodePassword(profile = {}) {
+    if (!profile.password) return '';
+    try { return atob(profile.password); }
+    catch { return profile.password || ''; }
 }
 
-function buildDialogHtml() {
+function normalizeInitial(initial = {}) {
+    return {
+        profileId: initial.profileId || initial.id || null,
+        name: String(initial.name || '').replace(/^SSH:\s*/i, ''),
+        host: initial.host || '',
+        user: initial.user || '',
+        port: initial.port || 22,
+        initialPath: initial.initialPath || '/',
+        authMethod: initial.authMethod || (initial.privateKey || initial.pem ? 'privateKey' : 'password'),
+        password: initial.password || '',
+        privateKey: initial.privateKey || initial.pem || '',
+        passphrase: initial.passphrase || ''
+    };
+}
+
+function profileOptions(selectedId = '') {
+    const profiles = State.sshProfiles || [];
+    const options = ['<option value="">New SSH profile</option>'];
+    for (const profile of profiles) {
+        const selected = String(profile.id || '') === String(selectedId || '') ? ' selected' : '';
+        options.push(`<option value="${escapeHtml(profile.id)}"${selected}>${escapeHtml(profile.name || profile.host)}</option>`);
+    }
+    return options.join('');
+}
+
+function buildDialogHtml(initial = {}, mode = 'add', errorMessage = '') {
+    const seed = normalizeInitial(initial);
+    const recovery = mode === 'recover'
+        ? `<div class="ssh-recovery-box">
+                <strong>SSH credentials need attention.</strong>
+                <ol>
+                    <li>Confirm host, port, username, and path.</li>
+                    <li>Paste the password or private key again.</li>
+                    <li>Keep “Save this SSH profile” checked so it reconnects later.</li>
+                </ol>
+                ${errorMessage ? `<div class="ssh-recovery-error">${escapeHtml(errorMessage)}</div>` : ''}
+           </div>`
+        : '';
+
     return `
         <div class="ssh-workspace-form">
+            ${recovery}
             <label>Saved SSH Profile</label>
-            <select id="ssh-profile-select">${profileOptions()}</select>
+            <select id="ssh-profile-select">${profileOptions(seed.profileId)}</select>
             <label>Workspace Name</label>
-            <input id="ssh-name-input" placeholder="Production server">
+            <input id="ssh-name-input" placeholder="Production server" value="${escapeHtml(seed.name)}">
             <label>Host</label>
-            <input id="ssh-host-input" placeholder="awtsmoos.com">
+            <input id="ssh-host-input" placeholder="awtsmoos.com" value="${escapeHtml(seed.host)}">
             <label>Port</label>
-            <input id="ssh-port-input" type="number" min="1" max="65535" value="22">
+            <input id="ssh-port-input" type="number" min="1" max="65535" value="${escapeHtml(seed.port)}">
             <label>Username</label>
-            <input id="ssh-user-input" placeholder="root">
+            <input id="ssh-user-input" placeholder="root" value="${escapeHtml(seed.user)}">
             <label>Initial Path</label>
-            <input id="ssh-path-input" value="/" placeholder="/var/www">
+            <input id="ssh-path-input" value="${escapeHtml(seed.initialPath)}" placeholder="/var/www">
             <label>Authentication</label>
             <select id="ssh-auth-method">
-                <option value="password">Password</option>
-                <option value="privateKey">Private Key</option>
+                <option value="password"${seed.authMethod === 'password' ? ' selected' : ''}>Password</option>
+                <option value="privateKey"${seed.authMethod !== 'password' ? ' selected' : ''}>Private Key</option>
             </select>
             <div id="ssh-password-row">
                 <label>Password</label>
-                <input id="ssh-password-input" type="password" autocomplete="new-password">
+                <input id="ssh-password-input" type="password" autocomplete="new-password" value="${escapeHtml(decodePassword(seed))}">
             </div>
             <div id="ssh-key-row" style="display:none;">
                 <label>Private Key</label>
-                <textarea id="ssh-key-input" rows="8" placeholder="-----BEGIN OPENSSH PRIVATE KEY-----"></textarea>
+                <textarea id="ssh-key-input" rows="8" placeholder="-----BEGIN OPENSSH PRIVATE KEY-----">${escapeHtml(seed.privateKey)}</textarea>
                 <label>Passphrase</label>
-                <input id="ssh-passphrase-input" type="password" autocomplete="new-password">
+                <input id="ssh-passphrase-input" type="password" autocomplete="new-password" value="${escapeHtml(seed.passphrase)}">
             </div>
             <label style="display:flex; align-items:center; gap:8px; margin-top:10px;">
                 <input id="ssh-save-profile" type="checkbox" checked>
@@ -73,6 +109,21 @@ function buildDialogHtml() {
                 border-radius:6px;
                 padding:8px;
                 font-family:var(--font-code);
+            }
+            .ssh-recovery-box {
+                border:1px solid var(--neon-lime);
+                background:rgba(168,255,0,.08);
+                color:var(--color-text-primary,#fff);
+                border-radius:10px;
+                padding:10px 12px;
+                line-height:1.45;
+            }
+            .ssh-recovery-box strong { color:var(--neon-lime); }
+            .ssh-recovery-box ol { margin:6px 0 0 18px; padding:0; }
+            .ssh-recovery-error {
+                margin-top:8px;
+                color:var(--color-accent-danger,#ff5570);
+                overflow-wrap:anywhere;
             }
         </style>`;
 }
@@ -128,21 +179,28 @@ function upsertProfile(sshInfo) {
     return safeProfile;
 }
 
+async function promptForSshInfo({ initial = {}, mode = 'add', errorMessage = '' } = {}) {
+    const dialogPromise = UI.showDialog({
+        title: mode === 'recover' ? 'Recover SSH Workspace' : 'Add SSH Workspace',
+        contentHTML: buildDialogHtml(initial, mode, errorMessage),
+        okText: mode === 'recover' ? 'Save & Reconnect' : 'Connect',
+        cancelText: 'Cancel'
+    });
+
+    SSHWorkspace.bindDialogEvents(document.getElementById('generic-dialog'));
+    const accepted = await dialogPromise;
+    if (!accepted) return null;
+
+    return collect(document.getElementById('generic-dialog'));
+}
+
 export const SSHWorkspace = {
     async add() {
-        const dialogPromise = UI.showDialog({
-            title: 'Add SSH Workspace',
-            contentHTML: buildDialogHtml(),
-            okText: 'Connect',
-            cancelText: 'Cancel'
-        });
-        this.bindDialogEvents(document.getElementById('generic-dialog'));
-        const accepted = await dialogPromise;
-        if (!accepted) return;
-
-        const dialog = document.getElementById('generic-dialog');
         try {
-            let { sshInfo, shouldSaveProfile } = collect(dialog);
+            const collected = await promptForSshInfo();
+            if (!collected) return;
+
+            let { sshInfo, shouldSaveProfile } = collected;
             if (shouldSaveProfile) {
                 sshInfo = upsertProfile(sshInfo);
                 App.saveSettings();
@@ -161,12 +219,44 @@ export const SSHWorkspace = {
         }
     },
 
+    async recoverWorkspace(workspace, error = null) {
+        if (!workspace) return;
+
+        try {
+            const collected = await promptForSshInfo({
+                initial: {
+                    ...(workspace.sshInfo || {}),
+                    name: workspace.sshInfo?.name || workspace.name || ''
+                },
+                mode: 'recover',
+                errorMessage: error?.message || ''
+            });
+            if (!collected) return;
+
+            let { sshInfo, shouldSaveProfile } = collected;
+            if (shouldSaveProfile) {
+                sshInfo = upsertProfile(sshInfo);
+                App.saveSettings();
+            }
+
+            await FileSystemProvider.SSH.testConnection(sshInfo);
+            workspace.sshInfo = sshInfo;
+            workspace.name = `SSH: ${sshInfo.name}`;
+            App.saveSession();
+            Workspaces.render();
+            UI.showToast('B"H - SSH credentials saved and workspace reconnected.', 'success');
+        } catch (e) {
+            UI.showToast(e.message, 'error', 9000);
+        }
+    },
+
     bindDialogEvents(root = document) {
         const profileSelect = root.querySelector('#ssh-profile-select');
         const auth = root.querySelector('#ssh-auth-method');
         const passwordRow = root.querySelector('#ssh-password-row');
         const keyRow = root.querySelector('#ssh-key-row');
         const profiles = State.sshProfiles || [];
+        if (!profileSelect || !auth || !passwordRow || !keyRow) return;
 
         const syncAuth = () => {
             const isKey = auth.value === 'privateKey';
@@ -176,7 +266,7 @@ export const SSHWorkspace = {
 
         auth.onchange = syncAuth;
         profileSelect.onchange = () => {
-            const profile = profiles.find(p => p.id === profileSelect.value);
+            const profile = profiles.find(p => String(p.id) === String(profileSelect.value));
             if (!profile) return;
             root.querySelector('#ssh-name-input').value = profile.name || '';
             root.querySelector('#ssh-host-input').value = profile.host || '';
@@ -184,8 +274,8 @@ export const SSHWorkspace = {
             root.querySelector('#ssh-user-input').value = profile.user || '';
             root.querySelector('#ssh-path-input').value = profile.initialPath || '/';
             auth.value = profile.authMethod || 'password';
-            root.querySelector('#ssh-password-input').value = profile.password ? atob(profile.password) : '';
-            root.querySelector('#ssh-key-input').value = profile.privateKey || '';
+            root.querySelector('#ssh-password-input').value = decodePassword(profile);
+            root.querySelector('#ssh-key-input').value = profile.privateKey || profile.pem || '';
             root.querySelector('#ssh-passphrase-input').value = profile.passphrase || '';
             syncAuth();
         };

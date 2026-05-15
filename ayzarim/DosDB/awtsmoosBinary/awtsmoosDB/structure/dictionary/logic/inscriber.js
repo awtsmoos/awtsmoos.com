@@ -35,7 +35,8 @@ module.exports = {
   set(engine, key, valPtr, options) {
     const orderKey = toKeyText(key);
     const mapKey = toKeyBytes(orderKey);
-    const exists = engine.map.getPtr(mapKey);
+    const assumeNew = options && options.assumeNew === true;
+    const exists = assumeNew ? null : engine.map.getPtr(mapKey);
     const newMS = engine.map.set(mapKey, valPtr, options);
 
     if (!exists) {

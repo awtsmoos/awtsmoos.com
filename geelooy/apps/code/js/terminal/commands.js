@@ -13,6 +13,33 @@ import { DetailedHelp } from './help-text.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { Tabs } from '../tabs/index.js';
 
+function isSshShell(shell) {
+    const type = shell?.cwd?.type || shell?.cwd?.originalType;
+    return String(type || '').toLowerCase() === 'ssh';
+}
+
+function shellQuote(value) {
+    return `'${String(value).replace(/'/g, `'\\''`)}'`;
+}
+
+function renderSshExecResult(result) {
+    if (result === undefined || result === null) return '';
+
+    if (typeof result === 'string') return result;
+
+    const parts = [];
+    const stdout = result.stdout ?? result.out ?? result.output ?? result.data;
+    const stderr = result.stderr ?? result.err;
+    const code = result.code ?? result.exitCode ?? result.status;
+
+    if (stdout !== undefined && stdout !== null && String(stdout) !== '') parts.push(String(stdout));
+    if (stderr !== undefined && stderr !== null && String(stderr) !== '') parts.push(String(stderr));
+    if (code !== undefined && code !== null && Number(code) !== 0) parts.push(`[exit ${code}]`);
+
+    if (parts.length) return parts.join('\n');
+    return JSON.stringify(result, null, 2);
+}
+
 export const TerminalCommands = {
     ...FilesystemCommands,
     ...ArchiveCommands,
@@ -21,6 +48,21 @@ export const TerminalCommands = {
     ...NPMCommands,
     ...NetworkCommands,
     ...SimulatedCommands,
+
+    async exec(shell, args) {
+        if (!isSshShell(shell)) {
+            throw new Error('exec is only available inside an SSH workspace terminal.');
+        }
+
+        const command = args.join(' ').trim();
+        if (!command) throw new Error('exec: missing remote command');
+
+        const result = await FileSystemProvider.SSH.execute(shell.cwd, command, {
+            env: shell.state.env || {}
+        });
+
+        return renderSshExecResult(result);
+    },
 
     async cat(shell, args) {
         if (!args[0]) throw new Error('cat: missing operand');
@@ -41,7 +83,8 @@ export const TerminalCommands = {
         return new Date().toString();
     },
 
-    async whoami() {
+    async whoami(shell) {
+        if (isSshShell(shell)) return shell.cwd.name || 'ssh';
         return 'awtsmoos-root';
     },
 
@@ -75,6 +118,17 @@ export const TerminalCommands = {
     async help(shell, args) {
         const cmd = args[0];
         if (cmd && DetailedHelp.commands[cmd]) return DetailedHelp.commands[cmd];
+        if (cmd === 'exec') {
+            return [
+                'exec <remote command>',
+                '',
+                'Runs one real command on the SSH device from the current terminal directory.',
+                'Examples:',
+                '  exec pwd',
+                '  exec ls -la',
+                '  exec ./BH.sh'
+            ].join('\n');
+        }
         if (cmd) return `help: no entry for '${cmd}'`;
         return DetailedHelp.getGeneralHelp();
     },

@@ -49,7 +49,8 @@ const CASE_PRESERVED_ALIASES = Object.freeze({
   ZipEntry: "zip-entry",
   OPFS: "opfs",
   PostMessage: "postmessage",
-  Relay: "relay"
+  Relay: "relay",
+  AwtsmoosOS: "awtsmoos-os"
 });
 
 /**
@@ -80,6 +81,10 @@ export const KNOWN_WORLD_TYPES = new Set([
   "PostMessage",
   "relay",
   "Relay",
+  "awtsmoos-os",
+  "AwtsmoosOS",
+  "awtsmoos-os",
+  "AwtsmoosOS",
   "vibe-manager",
   "vibe-session",
   "devtools",

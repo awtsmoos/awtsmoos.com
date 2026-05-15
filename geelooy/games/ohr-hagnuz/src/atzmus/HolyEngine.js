@@ -8,15 +8,16 @@ import { Input } from '../yesod/Input.js';
  * @class HolyEngine
  */
 export class HolyEngine {
-    static ignite() {
-        Projector.warmup();
-        Input.bind();
+  static ignite() {
+    Projector.warmup();
+    Input.bind();
 
-        const pulse = () => {
-            Logic.process();
-            Projector.project();
-            requestAnimationFrame(pulse);
-        };
-        requestAnimationFrame(pulse);
-    }
+    const pulse = () => {
+      Logic.process();
+      Projector.project();
+      requestAnimationFrame(pulse);
+    };
+
+    pulse();
+  }
 }

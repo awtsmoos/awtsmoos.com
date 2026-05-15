@@ -1,38 +1,40 @@
-
 /**
  * B"H
  * @file ChossidNpcLoader.js
  * @description
- * Loads NPCs only from the one chossid.glb URL.
+ * Loads NPCs from the one Chossid GLB path., with a direct GLTFLoader
+ * fallback so the village is never left empty just because the
+ * olam context does not expose a custom loader.
  */
 
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { CHOSSID_GLB_PATH } from "./ChossidGlbPath.js";
+
+const directLoader = new GLTFLoader();
 
 /**
  * B"H
- * Gets a GLTFLoader.
+ * Gets a custom olam loader when the world provides one.
  *
  * @param {any} olam
  * World.
  *
- * @returns {any}
+ * @returns {any|null}
  * Loader.
  */
-function getLoader(olam) {
+function getOlamLoader(olam) {
   const loader = olam?.loader;
 
-  if (!loader || typeof loader.loadAsync !== "function") {
-    throw new Error("Missing olam.loader.loadAsync for chossid NPC loading");
+  if (loader && typeof loader.loadAsync === "function") {
+    return loader;
   }
 
-  return loader;
+  return null;
 }
 
 /**
  * B"H
- * Loads a fresh chossid.glb instance.
- *
- * This intentionally uses the one exact URL every time.
+ * Loads one fresh chossid.glb instance.
  *
  * @param {any} olam
  * World.
@@ -41,5 +43,11 @@ function getLoader(olam) {
  * Loaded GLTF.
  */
 export async function loadFreshChossidGltf(olam) {
-  return await getLoader(olam).loadAsync(CHOSSID_GLB_PATH);
+  const olamLoader = getOlamLoader(olam);
+
+  if (olamLoader) {
+    return olamLoader.loadAsync(CHOSSID_GLB_PATH);
+  }
+
+  return directLoader.loadAsync(CHOSSID_GLB_PATH);
 }

@@ -12,6 +12,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const constants = require('../../constants.js');
 
 const DEFAULT_ROOT = '__dosdb__';
 
@@ -26,6 +27,7 @@ class DosDBBridge {
    */
   constructor(db) {
     this.db = db;
+    this._slotCache = new Map();
   }
 
   /**
@@ -82,7 +84,18 @@ class DosDBBridge {
    */
   write(filePath, value, options = {}) {
     const slot = this._slot(filePath, options);
-    slot.parent[slot.key] = value;
+    if (!slot.parent) throw new Error(`B"H: native DosDB parent path not found: ${filePath}`);
+    const directOptions = this._directWriteOptions(options);
+    const wroteDirect = this._writeDirect(slot.parent, slot.key, value, directOptions);
+    if (!wroteDirect) slot.parent[slot.key] = value;
+
+    if (options.cacheParents !== false) {
+      const written = slot.parent[slot.key];
+      if (isContainer(written)) {
+        this._rememberParent(options, normalizePath(filePath), written);
+      }
+    }
+
     return value;
   }
 
@@ -253,7 +266,7 @@ class DosDBBridge {
 
       if (st.isDirectory()) {
         stats.dirs++;
-        if (rel) this.write(target, {}, { rootKey });
+        if (rel) this.write(target, {}, { rootKey, cacheParents: true });
         for (const child of fs.readdirSync(abs)) importOne(path.join(abs, child));
         return;
       }
@@ -262,7 +275,7 @@ class DosDBBridge {
       stats.files++;
       stats.bytes += raw.length;
       const value = parseJsonOrBlob(this.db, raw, { source: abs, bytes: raw.length });
-      this.write(target, value, { rootKey });
+      this.write(target, value, { rootKey, cacheParents: true });
     };
 
     importOne(base);
@@ -276,8 +289,13 @@ class DosDBBridge {
    */
   _root(options = {}) {
     const rootKey = options.rootKey || DEFAULT_ROOT;
+    const cached = this._rememberedParent(options, '');
+    if (cached) return cached;
+
     if (!this.db.has(this.db.root, rootKey) && this.db.root[rootKey] === undefined) this.db.root[rootKey] = {};
-    return this.db.root[rootKey];
+    const root = this.db.root[rootKey];
+    this._rememberParent(options, '', root);
+    return root;
   }
 
   /**
@@ -289,23 +307,135 @@ class DosDBBridge {
   _slot(filePath, options = {}) {
     const parts = splitPath(filePath);
     const key = parts.pop() || '';
+    const dirPath = parts.join('/');
+
+    if (options.cacheParents !== false && options.create !== false && dirPath) {
+      const cached = this._rememberedParent(options, dirPath);
+      if (isContainer(cached)) return { parent: cached, key };
+    }
+
     let parent = this._root(options);
+    const walked = [];
 
     for (const part of parts) {
+      walked.push(part);
       if (!this.db.has(parent, part) && parent[part] === undefined) {
         if (options.create === false) return { parent: null, key };
         parent[part] = {};
       }
+
       parent = parent[part];
       if (!isContainer(parent)) return { parent: null, key };
+
+      if (options.cacheParents !== false) {
+        this._rememberParent(options, walked.join('/'), parent);
+      }
     }
 
     return { parent, key };
   }
+
+  /**
+   * @method _directWriteOptions
+   * @private
+   * @description Extracts fast-write options that must reach the LiveHandle writer.
+   * @param {object} options - Public write options.
+   * @returns {object|null} Writer options or null.
+   */
+  _directWriteOptions(options = {}) {
+    if (!options.assumeNew && !options.skipFree && !options.skipIndexes && !options.skipOldState) return null;
+    return {
+      assumeNew: !!options.assumeNew,
+      skipFree: !!options.skipFree,
+      skipIndexes: !!options.skipIndexes,
+      skipOldState: !!options.skipOldState
+    };
+  }
+
+  /**
+   * @method _writeDirect
+   * @private
+   * @description Calls a parent LiveHandle writer directly so import-only flags are preserved.
+   * @param {object} parent - Parent LiveHandle.
+   * @param {string} key - Child key.
+   * @param {*} value - Value to write.
+   * @param {object|null} directOptions - Writer options.
+   * @returns {boolean} True when direct writer accepted the operation.
+   */
+  _writeDirect(parent, key, value, directOptions) {
+    if (!directOptions) return false;
+    const soul = parent && parent[constants.SYMBOLS.INTERNALS];
+    if (!soul || !soul.writer || typeof soul.writer.set !== 'function') return false;
+    soul.writer.set(key, value, directOptions);
+    return true;
+  }
+
+  /**
+   * @method _directWriteOptions
+   * @private
+   * @description Extracts fast-write options that must reach the LiveHandle writer.
+   * @param {object} options - Public write options.
+   * @returns {object|null} Writer options or null.
+   */
+  _directWriteOptions(options = {}) {
+    if (!options.assumeNew && !options.skipFree && !options.skipIndexes && !options.skipOldState) return null;
+    return {
+      assumeNew: !!options.assumeNew,
+      skipFree: !!options.skipFree,
+      skipIndexes: !!options.skipIndexes,
+      skipOldState: !!options.skipOldState
+    };
+  }
+
+  /**
+   * @method _writeDirect
+   * @private
+   * @description Calls a parent LiveHandle writer directly so import-only flags are preserved.
+   * @param {object} parent - Parent LiveHandle.
+   * @param {string} key - Child key.
+   * @param {*} value - Value to write.
+   * @param {object|null} directOptions - Writer options.
+   * @returns {boolean} True when direct writer accepted the operation.
+   */
+  _writeDirect(parent, key, value, directOptions) {
+    if (!directOptions) return false;
+    const soul = parent && parent[constants.SYMBOLS.INTERNALS];
+    if (!soul || !soul.writer || typeof soul.writer.set !== 'function') return false;
+    soul.writer.set(key, value, directOptions);
+    return true;
+  }
+
+  /**
+   * @method clearCache
+   * @description Clears cached DosDB directory handles. Useful after bulk deletes or external root mutation.
+   * @returns {void}
+   */
+  clearCache() {
+    this._slotCache.clear();
+  }
+
+  _cacheKey(options, dirPath) {
+    return `${options.rootKey || DEFAULT_ROOT}\n${normalizePath(dirPath)}`;
+  }
+
+  _rememberParent(options, dirPath, handle) {
+    if (options.cacheParents === false || !isContainer(handle)) return;
+    this._slotCache.set(this._cacheKey(options, dirPath), handle);
+  }
+
+  _rememberedParent(options, dirPath) {
+    if (options.cacheParents === false) return null;
+    const cached = this._slotCache.get(this._cacheKey(options, dirPath));
+    return isContainer(cached) ? cached : null;
+  }
 }
 
 function splitPath(filePath) {
-  return String(filePath || '').replace(/\\/g, '/').split('/').filter(Boolean);
+  return normalizePath(filePath).split('/').filter(Boolean);
+}
+
+function normalizePath(filePath) {
+  return String(filePath || '').replace(/\\/g, '/').split('/').filter(Boolean).join('/');
 }
 
 function clonePlain(value) {
@@ -314,6 +444,10 @@ function clonePlain(value) {
 }
 
 function parseJsonOrBlob(db, raw, meta) {
+  if (db.compactJson && db.compactJson.isAwtsmoosBinary(raw)) {
+    return db.compactJson.fromRaw(raw, meta);
+  }
+
   const text = raw.toString('utf8');
   if (!text.includes('\u0000')) {
     try { return JSON.parse(text); } catch (_err) {}

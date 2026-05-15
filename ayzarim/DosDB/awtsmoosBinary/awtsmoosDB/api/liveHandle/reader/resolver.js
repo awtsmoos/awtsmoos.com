@@ -71,7 +71,8 @@ class ResolverLogic {
       T.JS_MAP,
       T.DICTIONARY,
       T.OBJECT,
-      T.SMART_OBJECT
+      T.SMART_OBJECT,
+      T.PACKED_OBJECT
     ]);
 
     if (!containers.has(type)) {

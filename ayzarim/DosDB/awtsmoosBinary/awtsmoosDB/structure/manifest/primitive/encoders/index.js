@@ -1,4 +1,3 @@
-
 // B"H
 
 /**
@@ -18,6 +17,9 @@ module.exports = [
   require('./bigint.js'),
   require('./encrypted.js'),
   require('./blob.js'),
+  require('./compactJson.js'),
+  require('./packedObject.js'),
+  require('./packedArray.js'),
   require('./textToken.js'),
   require('./text.js'),
   require('./symbol.js'),

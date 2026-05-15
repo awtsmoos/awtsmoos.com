@@ -73,7 +73,12 @@ export const RelayBrowser = {
                     currentPath = path.replace(/\/+/g, '/');
                     render();
                 } catch (e) {
-                    UI.showToast(`B"H - Sight Obscured: ${e.message}`, "error");
+                    const message = e?.message || String(e);
+                    const advice = message.includes('Failed to fetch')
+                        ? 'Could not reach the Relay Server. Make sure it is running, usually with: node relay-server.js, and that it sends CORS headers.'
+                        : message;
+                    UI.showToast(`B"H - Relay connection failed: ${advice}`, "error", 10000);
+                    cleanup(null);
                 } finally {
                     UI.hideLoading();
                 }

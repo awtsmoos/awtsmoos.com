@@ -2,20 +2,47 @@
 // B"H
 /**
  * @file relay.js
- * @brief The Ethereal Bridge (Refined & Silenced).
+ * @brief The Ethereal Bridge (now with explicit offline signals).
  */
 
 import { State } from '../state.js';
 import { PathHarmonizer } from './relay/PathHarmonizer.js';
 
+function relayError(message, options = {}) {
+    const err = new Error(message);
+    err.code = options.code || 'RELAY_ERROR';
+    err.relayUrl = options.relayUrl || '';
+    err.absPath = options.absPath || '';
+    err.action = options.action || '';
+    return err;
+}
+
+function isNetworkFailure(e) {
+    const msg = String(e?.message || e).toLowerCase();
+    return msg.includes('failed to fetch') ||
+        msg.includes('networkerror') ||
+        msg.includes('err_connection_refused') ||
+        msg.includes('net::err_connection_refused');
+}
+
+function humanAction(action) {
+    return {
+        list: 'list folder',
+        read: 'read file',
+        write: 'write file',
+        mkdir: 'create folder',
+        delete: 'delete path'
+    }[action] || action;
+}
+
 export const RelayProvider = {
     async _request(item, action, content = null) {
         const wsId = item.workspaceId || item.id;
         const ws = State.workspaces.find(w => String(w.id) === String(wsId));
-        if (!ws) throw new Error("Divine Connection Blocked: Workspace " + wsId + " vanished.");
+        if (!ws) throw relayError("Workspace " + wsId + " is no longer mounted.", { code: 'RELAY_WORKSPACE_MISSING', action });
         
         const url = ws.relayUrl || State.relayUrl;
-        if (!url) throw new Error("Relay coordinate (URL) not established.");
+        if (!url) throw relayError("Relay URL is not configured.", { code: 'RELAY_NO_URL', action });
         
         const absPath = PathHarmonizer.unify(ws.basePath || "/", item.path || "/");
 
@@ -38,18 +65,24 @@ export const RelayProvider = {
 
             if (!response.ok) {
                 const errText = await response.text().catch(() => response.statusText);
-                // B"H - We DO NOT console.error here, as 404s are normal for metadata checks!
-                // We simply throw the error for the caller to handle gracefully.
-                throw new Error("Relay Server Failure (" + response.status + "): " + errText);
+                throw relayError("Relay server rejected "> humanAction(action) + " (" + response.status + "). " + errText, {
+                    code: 'RELAY_HTTP_ERROR', relayUrl: url, absPath, action
+                });
             }
 
             return response;
         } catch (e) {
-            // Keep network/fetch level errors visible, but not the HTTP 404s we just threw above.
-            if (!e.message.includes("Relay Server Failure (404)")) {
-                console.warn("[Relay] B\"H - Request Failed [" + action + " : " + absPath + "]: " + e.message);
+            if (e.code && String(e.code).startsWith('RELAY_')) throw e;
+
+            if (isNetworkFailure(e)) {
+                throw relayError('RELAY_OFFLINE: could not reach the relay server at ' + url + '. The local relay server is probably not running.', {
+                    code: 'RELAY_OFFLINE', relayUrl: url, absPath, action
+                });
             }
-            throw e;
+
+            throw relayError('Relay request failed while trying to ' + humanAction(action) + ': ' + (e.message || e), {
+                code: 'RELAY_REQUEST_FAILED', relayUrl: url, absPath, action
+            });
         }
     },
 
@@ -60,7 +93,6 @@ export const RelayProvider = {
         return data.map(child => {
             const name = typeof child === 'string' ? child : child.name;
             const isDir = typeof child === 'string' ? !child.includes('.') : (child.isDirectory || child.type === 'directory');
-            
             const childPath = (item.path === '/' ? '' : item.path) + '/' + name;
             
             return {
@@ -84,11 +116,10 @@ export const RelayProvider = {
     async create(parent, name, kind) {
         const childPath = (parent.path === '/' ? '' : parent.path) + '/' + name;
         const normalizedChildPath = childPath.replace(/\/+/g, '/');
-        
         if (kind === 'directory') {
             await this._request({ ...parent, path: normalizedChildPath }, 'mkdir');
         } else {
-            await this._request({ ...parent, path: normalizedChildPath }, 'write', ''); 
+            await this._request({ ...parent, path: normalizedChildPath }, 'write', '');
         }
     },
 

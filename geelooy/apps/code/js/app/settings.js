@@ -101,6 +101,42 @@ export const SettingsManager = {
                     <div id="ssh-profiles-settings">${sshProfiles}</div>
                 </div>
                 
+                <div style="margin-bottom:15px;border:1px solid rgba(0,246,255,0.25);padding:12px;border-radius:8px;background:rgba(0,0,0,0.25);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                        <div>
+                            <div style="font-weight:bold;color:var(--neon-cyan);">Browser Tunnel Agent</div>
+                            <div style="font-size:0.85em;opacity:0.8;">Turn this editor tab into a live Awtsmoos tunnel without Node.js.</div>
+                        </div>
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                            <input type="checkbox" id="browser-tunnel-enabled" ${State.browserTunnel?.autoStart ? 'checked' : ''} style="width:auto;accent-color:var(--neon-cyan);">
+                            <span>Enable</span>
+                        </label>
+                    </div>
+                    <input type="text" id="browser-tunnel-name" value="${State.browserTunnel?.tunnelName || ''}" placeholder="awt-editor-4200" style="margin-top:8px;width:100%;padding:8px;background:#000;color:#fff;border:1px solid var(--color-border);border-radius:4px;">
+                    <input type="text" id="browser-tunnel-relay" value="${State.browserTunnel?.relayUrl || ''}" placeholder="wss://awtsmoos.com" style="margin-top:8px;width:100%;padding:8px;background:#000;color:#fff;border:1px solid var(--color-border);border-radius:4px;">
+                    <div style="margin-top:8px;font-size:0.85em;opacity:0.85;">
+                        Once enabled, ChatGPT/OAuth can discover this editor as a live tunnel endpoint.
+                    </div>
+                </div>
+
+                <div style="margin-bottom:15px;border:1px solid rgba(0,246,255,0.25);padding:12px;border-radius:8px;background:rgba(0,0,0,0.25);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                        <div>
+                            <div style="font-weight:bold;color:var(--neon-cyan);">Browser Tunnel Agent</div>
+                            <div style="font-size:0.85em;opacity:0.8;">Turn this editor tab into a live Awtsmoos tunnel without Node.js.</div>
+                        </div>
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                            <input type="checkbox" id="browser-tunnel-enabled" ${State.browserTunnel?.autoStart ? 'checked' : ''} style="width:auto;accent-color:var(--neon-cyan);">
+                            <span>Enable</span>
+                        </label>
+                    </div>
+                    <input type="text" id="browser-tunnel-name" value="${State.browserTunnel?.tunnelName || ''}" placeholder="awt-editor-4200" style="margin-top:8px;width:100%;padding:8px;background:#000;color:#fff;border:1px solid var(--color-border);border-radius:4px;">
+                    <input type="text" id="browser-tunnel-relay" value="${State.browserTunnel?.relayUrl || ''}" placeholder="wss://awtsmoos.com" style="margin-top:8px;width:100%;padding:8px;background:#000;color:#fff;border:1px solid var(--color-border);border-radius:4px;">
+                    <div style="margin-top:8px;font-size:0.85em;opacity:0.85;">
+                        Once enabled, ChatGPT/OAuth can discover this editor as a live tunnel endpoint.
+                    </div>
+                </div>
+
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto; accent-color: var(--neon-cyan); cursor: pointer;">
                     <label for="use-tabs-checkbox" style="cursor: pointer;">Use Tab Characters for Indentation</label>
@@ -254,11 +290,26 @@ export const SettingsManager = {
         if (useTabsCheckbox) State.useTabs = useTabsCheckbox.checked;
         State.sshProfiles = this.collectSshProfiles(container);
 
+        State.browserTunnel = {
+            ...(State.browserTunnel || {}),
+            autoStart: !!container.querySelector('#browser-tunnel-enabled')?.checked,
+            enabled: !!container.querySelector('#browser-tunnel-enabled')?.checked,
+            tunnelName: container.querySelector('#browser-tunnel-name')?.value.trim() || State.browserTunnel?.tunnelName,
+            relayUrl: container.querySelector('#browser-tunnel-relay')?.value.trim() || ''
+        };
+
+        import('../tunnel/browser-agent.js').then(m => {
+            if (State.browserTunnel.autoStart) m.BrowserTunnelAgent.start();
+            else m.BrowserTunnelAgent.stop();
+        });
+
         // Save general settings
         localStorage.setItem('vividX_settings_profound', JSON.stringify({
             githubToken: State.githubToken,
             relayUrl: State.relayUrl,
             sshProfiles: State.sshProfiles,
+            browserTunnel: State.browserTunnel,
+            folderSyncLinks: State.folderSyncLinks || [],
             useTabs: State.useTabs
         }));
 

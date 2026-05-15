@@ -12,10 +12,18 @@ const FlatObject = require('../../../../structure/flat/object/index.js');
 const FlatArray = require('../../../../structure/flat/array/index.js');
 const keysCodec = require('../../../../utils/binary/keys.js');
 const SmartPointer = require('../../../../utils/smartPointer/index.js');
+const PackedLive = require('../../../packed/liveObject.js');
+const PackedArray = require('../../../packed/liveArray.js');
 
 module.exports = function* yieldEntries(reader, db, t, structPtr) {
     const T = constants.VAL_TYPE;
-    if (t === T.DICTIONARY || t === T.OBJECT) {
+    if (t === T.PACKED_OBJECT) {
+        const obj = PackedLive.readObject(db, SmartPointer.toBuffer(structPtr)) || {};
+        for (const k of Object.keys(obj)) yield [String(k), obj[k]];
+    } else if (t === T.PACKED_ARRAY) {
+        const arr = PackedArray.readArray(db, SmartPointer.toBuffer(structPtr)) || [];
+        for (let i = 0; i < arr.length; i++) yield [i, arr[i]];
+    } else if (t === T.DICTIONARY || t === T.OBJECT) {
         for (const [k, v] of (new Dictionary(db.allocator, structPtr)).entries()) {
             yield [String(k), reader._wrapIfNeeded(v, String(k))];
         }

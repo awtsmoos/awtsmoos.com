@@ -2,14 +2,15 @@
 
 /**
  * @file structure/manifest/primitive/encoders/textToken.js
- * @chapter The Token Of Many Letters
+ * @chapter The Token Of Many Letters Becomes Binary
  * @description
- * Stores chunked text metadata as one scalar token while the byte-heavy blocks
- * remain in blob bodies.
+ * Stores chunked text metadata as a compact binary token, not JSON text,
+ * while the byte-heavy blocks remain in blob bodies.
  */
 
 const Packet = require('../packet.js');
 const TYPE = require('../typeNames.js');
+const TextToken = require('../../../../api/text/tokenCodec.js');
 
 /**
  * @function encodeTextToken
@@ -19,10 +20,10 @@ const TYPE = require('../typeNames.js');
  */
 function encodeTextToken(value) {
   if (!value || value.__awtsmoosText !== true) return null;
-  const raw = Buffer.from(JSON.stringify(value), 'utf8');
+  const raw = TextToken.encode(value);
 
   return new Packet(TYPE.TEXT, raw, {
-    sourceBytes: raw.length,
+    sourceBytes: Number(value.bytes || 0),
     storedBytes: raw.length
   });
 }

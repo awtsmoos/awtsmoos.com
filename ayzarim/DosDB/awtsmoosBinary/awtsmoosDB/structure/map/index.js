@@ -48,6 +48,57 @@ class MapEngine {
         return res.newSeal;
     }
 
+    /**
+     * @method bulkLoadSorted
+     * @description
+     * Builds a B-tree from sorted unique entries in one bottom-up pass. This is
+     * for fresh/import workloads and is bounded by the caller's current entry
+     * group, not the whole database.
+     *
+     * @param {Array<{key:Buffer|string,value:Buffer}>} entries - Sorted entries.
+     * @param {object} [options] - Builder options.
+     * @returns {Buffer} Root map seal.
+     */
+    bulkLoadSorted(entries, options = {}) {
+        const maxKeys = Math.max(8, Number(options.maxKeys || 200));
+        const prepared = Array.from(entries || []).map(entry => ({
+            key: Buffer.isBuffer(entry.key) ? entry.key : Buffer.from(String(entry.key), 'utf8'),
+            value: SmartPointer.toBuffer(entry.value)
+        }));
+
+        if (prepared.length === 0) return this.create();
+
+        const leaves = [];
+        for (let i = 0; i < prepared.length; i += maxKeys) {
+            const group = prepared.slice(i, i + maxKeys);
+            const node = {
+                isLeaf: true,
+                keys: group.map(entry => entry.key),
+                values: group.map(entry => entry.value)
+            };
+            leaves.push({ firstKey: group[0].key, seal: this.nodeIO.save(node) });
+        }
+
+        let level = leaves;
+        while (level.length > 1) {
+            const next = [];
+            const maxChildren = maxKeys + 1;
+            for (let i = 0; i < level.length; i += maxChildren) {
+                const children = level.slice(i, i + maxChildren);
+                const node = {
+                    isLeaf: false,
+                    keys: children.slice(1).map(child => child.firstKey),
+                    children: children.map(child => child.seal)
+                };
+                next.push({ firstKey: children[0].firstKey, seal: this.nodeIO.save(node) });
+            }
+            level = next;
+        }
+
+        this.ptr = SmartPointer.decode(level[0].seal);
+        return level[0].seal;
+    }
+
     delete(key) {
         if (!this.ptr) return false;
         const root = this.nodeIO.load(this.ptr);

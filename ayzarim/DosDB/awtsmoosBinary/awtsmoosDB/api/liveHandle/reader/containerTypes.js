@@ -22,5 +22,7 @@ module.exports = new Set([
   T.ARRAY,
   T.SMART_OBJECT,
   T.SMART_ARRAY,
-  T.ANCHOR
+  T.ANCHOR,
+  T.PACKED_OBJECT,
+  T.PACKED_ARRAY
 ]);

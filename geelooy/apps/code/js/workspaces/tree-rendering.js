@@ -95,7 +95,7 @@ export const WorkspaceTreeRenderer = {
         if (e.name === 'LockedAccessError' || e.message.indexOf('sealed') !== -1) {
             ErrorVessel.manifestLockedUI(parentEl, ws);
         } else {
-            ErrorVessel.manifestGeneric(parentEl, e.message);
+            ErrorVessel.manifestGeneric(parentEl, e, ws);
         }
     },
 

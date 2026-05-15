@@ -1,0 +1,2 @@
+{"rel":"a.json","id":"a","storeId":"a","kind":"json-parse-error-text","bytes":17,"sha256":"4c03642f0ba441cbeef70ca49f651801ae8ba371c723009fbcb8e35b82562d56","error":"Expected property name or '}' in JSON at position 1 (line 1 column 2)"}
+{"rel":"deep/note.txt","id":"deep/note.txt","storeId":"deep/note.txt","kind":"text","bytes":8,"sha256":"f873eef4f852e335da367d76ce7f1973c15b8ffebf532b064df4bc691cd51a87","error":null}

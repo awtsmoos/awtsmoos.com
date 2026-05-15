@@ -110,7 +110,7 @@ function buildFsPayload($i) {
     input: objectBodyOr64($i, body, "input", "input64", {}),
     shell: valueFrom($i, body, "shell", ""),
     cwd: valueFrom($i, body, "cwd", ""),
-    timeoutMs: intFrom($i, body, "timeoutMs", 20000),
+    timeoutMs: intFrom($i, body, "timeoutMs", 120000),
 
     url: valueFrom($i, body, "url", ""),
     selector: valueFrom($i, body, "selector", ""),

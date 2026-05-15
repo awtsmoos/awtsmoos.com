@@ -13,6 +13,7 @@ const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
 const Sequence = require('../../structure/sequence/index.js');
 const MapEngine = require('../../structure/map/index.js');
+const PackedArray = require('../packed/liveArray.js');
 
 class VectorReindexer {
     constructor(db) {
@@ -42,6 +43,9 @@ class VectorReindexer {
             const resolved = soul.nav.resolveStructPtr();
             const engine = new Sequence(this.db.allocator, resolved);
             iterator = this._iterateSequence(engine);
+        } else if (type === T.PACKED_ARRAY) {
+            const resolved = soul.nav.resolveStructPtr();
+            iterator = this._iteratePackedArray(resolved);
         } else if (type === T.MAP || type === T.DICTIONARY || type === T.OBJECT) {
             const resolved = soul.nav.resolveStructPtr();
             
@@ -108,6 +112,14 @@ class VectorReindexer {
         for (const raw of engine.range()) {
             const k = raw.key.toString('utf8');
             yield { key: k, ptr: raw.ptr, value: undefined };
+        }
+    }
+
+    *_iteratePackedArray(ptr) {
+        const values = PackedArray.readArray(this.db, SmartPointer.toBuffer(ptr)) || [];
+        for (let i = 0; i < values.length; i++) {
+            const value = values[i];
+            yield { key: i, ptr: this.db.builder.build(value), value };
         }
     }
 

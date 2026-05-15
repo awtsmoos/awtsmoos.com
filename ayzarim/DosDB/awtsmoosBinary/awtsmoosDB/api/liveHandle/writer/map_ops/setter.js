@@ -124,6 +124,9 @@ class MapSetter {
     set(key, value, options) {
         const isPtr    = (options === true) || (options && options.isPtr);
         const skipFree = (options && typeof options === 'object' && options.skipFree) || false;
+        const assumeNew = (options && typeof options === 'object' && options.assumeNew) || false;
+        const skipIndexes = (options && typeof options === 'object' && options.skipIndexes) || false;
+        const skipOldState = assumeNew || (options && typeof options === 'object' && options.skipOldState) || false;
 
         // 1. Build the value into its binary seal
         if (!this.builder) {
@@ -136,8 +139,8 @@ class MapSetter {
 
         // 2. Diagnostics for the search/vector indices
         const path          = this.handle.getPath();
-        const searchIndexed = this.common.getSearchIndex(path);
-        const vectorIndex   = this.common.getVectorIndex(path);
+        const searchIndexed = !skipIndexes && this.common.getSearchIndex(path);
+        const vectorIndex   = !skipIndexes && this.common.getVectorIndex(path);
 
         const T = constants.VAL_TYPE;
 
@@ -158,26 +161,34 @@ class MapSetter {
             if (!structPtr) engine.create();
         }
 
-        // 5. Capture old state for index cleanup
-        const { oldPtr, oldVal } = MapIndexer.captureOldState(
-            engine, encodedKey, this.common, this.handle, searchIndexed, vectorIndex
-        );
+        // 5. Capture old state for overwrite/index cleanup only when needed.
+        let oldPtr = null;
+        let oldVal = null;
+        if (!skipOldState) {
+            const prior = MapIndexer.captureOldState(
+                engine, encodedKey, this.common, this.handle, searchIndexed, vectorIndex
+            );
+            oldPtr = prior.oldPtr;
+            oldVal = prior.oldVal;
+        }
 
         // 6. Perform the physical inscription
-        engine.set(encodedKey, valToSet, { isPtr: true, skipFree });
+        engine.set(encodedKey, valToSet, { isPtr: true, skipFree, assumeNew });
 
-        if (oldPtr && !skipFree && !searchIndexed && !vectorIndex) {
+        if (oldPtr && !assumeNew && !skipFree && !searchIndexed && !vectorIndex) {
             this.db.allocator.releasePointer(oldPtr);
         }
 
         // 7. Update anchor + handle pointer to reflect possible relocation
         this.common.checkAutoCompact(engine, effectiveType);
 
-        // 8. Broadcast to global indices
-        MapIndexer.processSet(
-            this.db, path, key, valToSet, value,
-            oldPtr, oldVal, searchIndexed, vectorIndex, this.common
-        );
+        // 8. Broadcast to global indices unless caller explicitly skipped them.
+        if (!skipIndexes) {
+            MapIndexer.processSet(
+                this.db, path, key, valToSet, value,
+                oldPtr, oldVal, searchIndexed, vectorIndex, this.common
+            );
+        }
     }
 }
 

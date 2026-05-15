@@ -58,7 +58,7 @@ function handleTunnelResponse(ctx, data) {
   pending.resolve(data);
 }
 
-function sendTunnelRequest(ctx, name, payload, timeout = 30000) {
+function sendTunnelRequest(ctx, name, payload, timeout = 120000) {
   const tunnel = ctx.tunnels.get(name);
 
   if (!tunnel) {

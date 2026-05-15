@@ -102,6 +102,34 @@ class SequenceEngine {
   }
 
   /**
+   * @method bulkLoadPointers
+   * @description
+   * Builds a leaf sequence from already-saved pointer seals without repeated
+   * root rewrites. Intended for fresh import/build paths.
+   *
+   * @param {Array<Buffer>} values - Pointer seals in desired order.
+   * @returns {Buffer} Updated sequence seal.
+   */
+  bulkLoadPointers(values) {
+    const items = Array.from(values || []).map(value => ({
+      ptr: SmartPointer.toBuffer(value),
+      count: 1
+    }));
+
+    const root = this.nodeIO.create(true);
+    root.items = items;
+    root.totalCount = items.length;
+
+    const pLoc = this.nodeIO.save(root);
+    this.ptr = {
+      ...pLoc,
+      type: constants.VAL_TYPE.SEQUENCE
+    };
+
+    return SmartPointer.toBuffer(this.ptr);
+  }
+
+  /**
    * @method splice
    * @param {number} start - Start index.
    * @param {number} del - Delete count.

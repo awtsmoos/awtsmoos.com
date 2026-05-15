@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file ArchiveGuard.js
@@ -24,11 +23,12 @@ export const ArchiveGuard = {
         return workspaces
             .filter(ws => allowedTypes.includes(ws.type))
             .map(ws => {
-                // Strip non-serializable OS handles and temporary caches
+                // Strip non-serializable OS handles and temporary caches.
                 const { handle, _treeCache, isLocked, ...safeWs } = ws;
-                if (safeWs.type === "ssh" && safeWs.sshInfo && safeWs.sshInfo.password) {
-                    safeWs.sshInfo = { ...safeWs.sshInfo, password: null };
-                }
+
+                // B"H - SSH credentials intentionally remain in the saved workspace
+                // when the user chose to save them, so restored SSH workspaces can
+                // reconnect instead of becoming "Missing credentials" shells.
                 return safeWs;
             });
     },
@@ -40,7 +40,7 @@ export const ArchiveGuard = {
      */
     getPersistableTabs(tabs, allowedWorkspaceIds) {
         const virtualTypes = ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'];
-        
+
         return tabs.filter(tab => {
             const hasWorld = tab.item.workspaceId !== undefined && allowedWorkspaceIds.has(tab.item.workspaceId);
             const isVirtual = virtualTypes.includes(tab.item.type);

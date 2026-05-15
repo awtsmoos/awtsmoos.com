@@ -46,5 +46,5 @@ export async function buildChossidNpc(olam, def) {
   const gltf = await loadFreshChossidGltf(olam);
   const npc = getGltfScene(gltf);
 
-  return applyChossidNpcTransform(npc, def);
+  return applyChossidNpcTransform(npc, def, olam);
 }

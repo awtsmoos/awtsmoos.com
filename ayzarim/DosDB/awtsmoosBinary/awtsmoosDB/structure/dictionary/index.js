@@ -42,6 +42,57 @@ class DictionaryEngine {
         return SmartPointer.toBuffer(pLoc);
     }
 
+    /**
+     * @method bulkLoadEntries
+     * @description
+     * Builds a dictionary from fresh entries in one pass: map once, sequence
+     * once, wrapper once. The caller controls the entry group size.
+     *
+     * @param {Array<{key:string|Buffer,value:Buffer}>} entries - Dictionary entries.
+     * @param {object} [options] - Builder options.
+     * @returns {Buffer} Dictionary seal.
+     */
+    bulkLoadEntries(entries, options = {}) {
+        const MapEngine = require('../map/index.js');
+        const SequenceEngine = require('../sequence/index.js');
+        const toKeyText = require('./logic/keyText.js');
+        const toKeyBytes = require('./logic/keyBytes.js');
+
+        const prepared = Array.from(entries || []).map(entry => {
+            const text = toKeyText(entry.key);
+            return {
+                text,
+                mapKey: toKeyBytes(text),
+                value: SmartPointer.toBuffer(entry.value)
+            };
+        });
+
+        const map = new MapEngine(this.allocator);
+        const seq = new SequenceEngine(this.allocator);
+        const sorted = prepared.slice().sort((a, b) => a.mapKey.compare(b.mapKey));
+        const mapSeal = map.bulkLoadSorted(sorted.map(entry => ({ key: entry.mapKey, value: entry.value })), options.map || options);
+        const orderPointers = prepared.map(entry => this.allocator.save(entry.text));
+        const seqSeal = seq.bulkLoadPointers(orderPointers);
+
+        const total = 4 + 1 + mapSeal.length + 1 + seqSeal.length;
+        const loc = this.allocator.allocate(total);
+        const buf = Buffer.allocUnsafe(total).fill(0);
+        buf.write(constants.MAGIC_DIC, 0);
+        let p = 4;
+        buf.writeUInt8(mapSeal.length, p++);
+        mapSeal.copy(buf, p);
+        p += mapSeal.length;
+        buf.writeUInt8(seqSeal.length, p++);
+        seqSeal.copy(buf, p);
+        this.db._writeChainSafe(loc, buf);
+
+        this.map = map;
+        this.seq = seq;
+        this.initialized = true;
+        this.ptr = { ...loc, type: constants.VAL_TYPE.DICTIONARY };
+        return SmartPointer.toBuffer(this.ptr);
+    }
+
     delete(key) {
         this._init();
         if (!this.initialized || !this.map || !this.seq) return false;

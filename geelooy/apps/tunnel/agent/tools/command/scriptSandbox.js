@@ -51,7 +51,7 @@ async function runNodeScript(config, payload = {}) {
     return { ok: false, action: "nodeScriptRun", error: "missing_script64_or_scriptText" };
   }
 
-  const timeoutMs = Math.min(Number(payload.timeoutMs || 8000), 30000);
+  const timeoutMs = Math.min(Number(payload.timeoutMs || 120000), 120000);
   const maxChars = Math.min(Number(payload.maxChars || 120000), 500000);
   const { logs, console } = limitedConsole();
 

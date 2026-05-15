@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @file WorldHeescheel.js
@@ -36,12 +35,11 @@ export class WorldHeescheel {
    * Built objects.
    */
   async execute() {
-    const factory = new NivrahFactory({
-      scene: this.scene,
-      physics: this.physics,
-      postMsg: this.postMsg,
-      olam: this.olam
-    });
+    const factory = new NivrahFactory(
+      this.scene,
+      this.physics,
+      this.olam
+    );
 
     const nivrayim = await factory.buildAll(NIVRAYIM_DEFS);
 

@@ -11,8 +11,8 @@
  *  
  *  Here, the Writer directs the specialized scribes (Maps, Sequences, and 
  *  Flat-Packers) to perform the actual inscriptions. By routing based on the 
- *  effective underlying type—peeling back the layers of Stable Anchors 
- *  if necessary—it ensure the "Will" of the mutation perfectly matches 
+ *  effective underlying typeÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âpeeling back the layers of Stable Anchors 
+ *  if necessaryÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âit ensure the "Will" of the mutation perfectly matches 
  *  the "Vessel" on the disk.
  */
 
@@ -20,6 +20,8 @@ const constants = require('../../../constants.js');
 const SequenceWriter = require('./sequence.js');
 const MapWriter = require('./map.js');
 const WriterCommon = require('./common.js');
+const PackedLive = require('../../packed/liveObject.js');
+const PackedArray = require('../../packed/liveArray.js');
 
 class Writer {
     /**
@@ -72,6 +74,7 @@ class Writer {
 
         // The Lineage of the Sequential Flows (Arrays/Lists)
         const SequenceTypes = new Set([T.SEQUENCE, T.SET, T.ARRAY, T.JS_SET]);
+        if (effectiveType === T.PACKED_ARRAY) return this.seqWriter;
         if (SequenceTypes.has(effectiveType)) {
             return this.seqWriter;
         }
@@ -86,14 +89,27 @@ class Writer {
      */
     set(key, value, options = {}) {
         const isPtr = options === true || (options && options.isPtr);
+        const skipIndexes = options && typeof options === 'object' && options.skipIndexes;
         if (!isPtr && this.db._guardWrite) this.db._guardWrite(this._lockPath(key), value, 'set');
         if (!isPtr && this.db.turbo && this.db.turbo.captureSet(this.handle, key, value)) {
-            if (this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
+            if (!skipIndexes && this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
             return value;
         }
         return this._autoWrite(key, () => {
+            if (this._getEffectiveType() === constants.VAL_TYPE.PACKED_ARRAY) {
+              if (PackedArray.rewriteSet(this.handle, key, value)) return value;
+              PackedArray.promoteToSequence(this.handle);
+              if (this.common && this.common.invalidateEngine) this.common.invalidateEngine();
+            }
+            if (this._getEffectiveType() === constants.VAL_TYPE.PACKED_OBJECT) {
+              if (PackedLive.rewriteSet(this.handle, key, value)) {
+                return value;
+              }
+              PackedLive.promoteToDictionary(this.handle);
+              if (this.common && this.common.invalidateEngine) this.common.invalidateEngine();
+            }
             const out = this._getScribe().set(key, value, options);
-            if (!isPtr && this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
+            if (!isPtr && !skipIndexes && this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
             return out;
         });
     }
@@ -112,7 +128,15 @@ class Writer {
             throw new Error(`B"H Fatal: The push manifestation is only permitted on Sequences or Arrays. Current Type: ${this.handle.type} (Resolved: ${effectiveType})`);
         }
         
-        return this._autoWrite('$append', () => scribe.push(value, options));
+        return this._autoWrite('$append', () => {
+            if (effectiveType === constants.VAL_TYPE.PACKED_ARRAY) {
+              const len = PackedArray.rewritePush(this.handle, value);
+              if (len !== false) return len;
+              PackedArray.promoteToSequence(this.handle);
+              if (this.common && this.common.invalidateEngine) this.common.invalidateEngine();
+            }
+            return scribe.push(value, options);
+        });
     }
 
     /**
@@ -128,7 +152,13 @@ class Writer {
             throw new Error(`B"H Fatal: The splice manifestation is only permitted on Sequences or Arrays. Current Type: ${this.handle.type} (Resolved: ${effectiveType})`);
         }
         
-        return this._autoWrite('$range', () => scribe.splice(...args));
+        return this._autoWrite('$range', () => {
+            if (effectiveType === constants.VAL_TYPE.PACKED_ARRAY) {
+                PackedArray.promoteToSequence(this.handle);
+              if (this.common && this.common.invalidateEngine) this.common.invalidateEngine();
+            }
+            return scribe.splice(...args);
+        });
     }
 
     /**
@@ -142,6 +172,18 @@ class Writer {
             return true;
         }
         return this._autoWrite(key, () => {
+            if (this._getEffectiveType() === constants.VAL_TYPE.PACKED_ARRAY) {
+              if (PackedArray.rewriteDelete(this.handle, key)) return true;
+              PackedArray.promoteToSequence(this.handle);
+              if (this.common && this.common.invalidateEngine) this.common.invalidateEngine();
+            }
+            if (this._getEffectiveType() === constants.VAL_TYPE.PACKED_OBJECT) {
+              if (PackedLive.rewriteDelete(this.handle, key)) {
+                return true;
+              }
+              PackedLive.promoteToDictionary(this.handle);
+              if (this.common && this.common.invalidateEngine) this.common.invalidateEngine();
+            }
             const out = this._getScribe().delete(key);
             if (this.db.indexes) this.db.indexes.afterWrite(this._lockPath(key));
             return out;

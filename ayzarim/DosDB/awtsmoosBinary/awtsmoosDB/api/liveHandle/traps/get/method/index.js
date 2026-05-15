@@ -36,9 +36,9 @@ class MethodDispatcher {
         const T = constants.VAL_TYPE;
 
         // Is this soul part of the Lineage of Sequences (Arrays)?
-        const isSeq = new Set([T.SEQUENCE, T.SET, T.ARRAY, T.SMART_ARRAY, T.JS_SET]).has(type);
+        const isSeq = new Set([T.SEQUENCE, T.SET, T.ARRAY, T.SMART_ARRAY, T.JS_SET, T.PACKED_ARRAY]).has(type);
         // Is this soul part of the Lineage of Mappings (Objects)?
-        const isMap = new Set([T.MAP, T.DICTIONARY, T.OBJECT, T.SMART_OBJECT, T.JS_MAP]).has(type);
+        const isMap = new Set([T.MAP, T.DICTIONARY, T.OBJECT, T.SMART_OBJECT, T.JS_MAP, T.PACKED_OBJECT, T.PACKED_OBJECT]).has(type);
 
         if (isSeq) {
             const res = CollectionDispatcher.dispatch(state, prop, receiver);

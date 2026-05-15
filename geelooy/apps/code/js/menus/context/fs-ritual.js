@@ -21,6 +21,11 @@ export const FilesystemRitual = {
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander-tab", icon: "folder" });
             menuItems.push({ label: "Open Terminal Here", action: "open-terminal-tab", icon: "laptop" });
             menuItems.push({ label: "Open in Virtual OS", action: "open-virtual-os", icon: "monitor" });
+
+            menuItems.push({ isSeparator: true });
+            menuItems.push({ label: "🔗 Use as Sync Source", action: "sync-set-source", icon: "link" });
+            menuItems.push({ label: "🔗 Sync Here From Selected", action: "sync-set-target", icon: "link", disabled: !State.pendingSyncSource });
+            menuItems.push({ label: "🔗 Sync Links...", action: "sync-manager", icon: "link" });
         }
         
         menuItems.push({ label: "Refresh", action: "refresh", icon: "refresh" });
@@ -34,7 +39,6 @@ export const FilesystemRitual = {
             menuItems.push({ isSeparator: true });
             menuItems.push({ label: "Copy", action: "copy-item", icon: "copy" });
             
-            // B"H - Register Duplicate for files
             if (isFile) {
                 menuItems.push({ label: "Duplicate", action: "duplicate-item", icon: "copy" });
             }

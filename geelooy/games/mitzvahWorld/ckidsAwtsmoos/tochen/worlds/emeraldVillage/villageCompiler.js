@@ -10,6 +10,8 @@ import { MISSION_MANIFEST } from './missionManifest.js';
 import { ROAD_NETWORK } from './roadNetwork.js';
 import { VILLAGE_TREES, VILLAGE_FLOWERS, VILLAGE_ROCKS, EXTRA_COLLECTABLES, BOSS_SPAWNS, RANDOM_MAZIK_SPAWNS, ISLAND_PROPERTIES, PRESETS_MIX, MIKVAHS, RIVERS } from './scatteredNature.js';
 import { CAVE_SYSTEMS } from './undergroundCaves.js';
+import { applyPropertyFeatures } from './PropertyFeatureCompiler.js';
+import { VEHICLE_MANIFEST } from './vehicleManifest.js';
 import FenceAssembler from '../../../utils/3d/procedural/infrastructure/FenceAssembler.js';
 import ChasveiAwtsmoos from '../../../../utils/ChasveiAwtsmoos.js';
 
@@ -25,6 +27,14 @@ class VillageCompiler {
 
         // ═══ SKY ═══
         nivrayim.Sky = { village_sky: { dayCycle: true, cycleSpeed: 0.001, colors: { day: 0x87ceeb, night: 0x000011, sunset: 0xff4500 } } };
+
+        // ═══ VEHICLES ═══
+        Object.assign(nivrayim.HotAirBalloon, VEHICLE_MANIFEST.HotAirBalloon || {});
+        Object.assign(nivrayim.MagicalChariot, VEHICLE_MANIFEST.MagicalChariot || {});
+
+        // ═══ VEHICLES ═══
+        Object.assign(nivrayim.HotAirBalloon, VEHICLE_MANIFEST.HotAirBalloon || {});
+        Object.assign(nivrayim.MagicalChariot, VEHICLE_MANIFEST.MagicalChariot || {});
 
         // ═══ PROPERTIES ═══
         const ALL_PROPERTIES = [...PROPERTY_LAYOUTS, ...ISLAND_PROPERTIES];
@@ -64,6 +74,9 @@ class VillageCompiler {
             };
         });
 
+        // ═══ PROPERTY YT�NS, GARDENS, FENCES, GRASS ═══
+        applyPropertyFeatures(nivrayim, ALL_PROPERTIES);
+
         // ═══ NATURE (ARBORETUM VARIETY) ═══
         const treePresets = ["Oak", "Palm", "Pine", "Willow", "Bush"];
         for (let i = 0; i < 1000; i++) {
@@ -96,7 +109,26 @@ class VillageCompiler {
         }
 
         // ═══ TERRAIN ═══
-        nivrayim.ProceduralTerrain = { emeraldGround: { name: "Emerald Fields", width: 6000, depth: 6000, segments: 128, material: "grass", position: { x: 0, y: -0.1, z: 0 } } };
+        const grassPatches = ALL_PROPERTIES.slice(0, 16).map(prop => ({
+            x: prop.center.x,
+            z: prop.center.z,
+            radius: Math.max(prop.lot?.width || 40, prop.lot?.depth || 40) * 0.75,
+            gain: 1
+        }));
+
+        nivrayim.ProceduralTerrain = {
+            emeraldGround: {
+                name: "Emerald Fields",
+                width: 6000,
+                depth: 6000,
+                segments: 128,
+                material: "dirtGrass",
+                dirtColor: 0x5d4037,
+                grassColor: 0x2e7d32,
+                grassPatches,
+                position: { x: 0, y: -0.1, z: 0 }
+            }
+        };
         nivrayim.Ocean = { world_ocean: { name: "The Great Sea", size: 6000, y: -1.5, color: 0x003366 } };
 
         return nivrayim;

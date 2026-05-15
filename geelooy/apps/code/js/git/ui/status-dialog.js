@@ -4,10 +4,15 @@
 import { UI } from '../../ui.js';
 
 export const GitStatusUI = {
-    async showGitUI(item, scan) {
+    async showGitUI(item, gitInfoOrScan, scanOrOptions, maybeOptions) {
 	    var self = this;
 	    var { GitMetaProvider } = await import('../meta.js');
-	    var gitInfo = item.type === 'github' ? item : await GitMetaProvider.getGitInfoForFolder(item);
+        var providedGitInfo = (gitInfoOrScan && typeof gitInfoOrScan === 'object') ? gitInfoOrScan : null;
+        var scan = (gitInfoOrScan === true) || (scanOrOptions === true);
+        var options = {};
+        if (scanOrOptions && typeof scanOrOptions === 'object') options = scanOrOptions;
+        if (maybeOptions && typeof maybeOptions === 'object') options = maybeOptions;
+	    var gitInfo = providedGitInfo || (item.type === 'github' ? item : await GitMetaProvider.getGitInfoForFolder(item));
 	    
 	    if (!gitInfo) {
 	        UI.showToast("Not a Git repository.", "error");
@@ -20,14 +25,15 @@ export const GitStatusUI = {
 	        var { GitDiff } = await import('../git-diff.js');
 	        // B"H - FAST MODE: checkUntracked is FALSE by default.
 	        // It will only look at the IndexedDB "Queue", which is instant.
-	        var changeSet = await GitDiff.calculateDiff(item, gitInfo, { 
-	            checkUntracked: (scan === true) 
-	        });
+	        var changeSet = await GitDiff.calculateDiff(item, gitInfo, {
+            checkUntracked: (scan === true),
+            scanRoot: options.scanRoot || item
+        });
 	        
 	        var { GitStageManager } = await import('./stage-manager.js');
 	        GitStageManager.init(item, gitInfo, changeSet);
 	        
-	        this.populateFullUI(item, gitInfo);
+	        this.populateFullUI(item, gitInfo, options);
 	    } catch(e) {
 	        UI.showToast("B\"H Error: " + e.message, "error");
 	    }
@@ -48,7 +54,7 @@ export const GitStatusUI = {
         dialog.classList.add('visible');
     },
 
-    populateFullUI: function(item, gitInfo) {
+    populateFullUI: function(item, gitInfo, options = {}) {
         var loader = document.getElementById('git-loading-indicator');
         if (loader) loader.remove();
 
@@ -81,7 +87,7 @@ export const GitStatusUI = {
                 '</div>' +
             '</div>';
 
-        this._bindEvents(item, gitInfo);
+        this._bindEvents(item, gitInfo, options);
         
         // Trigger initial list render
         import('./stage-manager.js').then(function(m) {
@@ -89,9 +95,9 @@ export const GitStatusUI = {
         });
     },
 
-    _bindEvents: function(item, gitInfo) {
+    _bindEvents: function(item, gitInfo, options = {}) {
         var self = this;
-        document.getElementById('git-btn-refresh').onclick = function() { self.showGitUI(item, true); };
+        document.getElementById('git-btn-refresh').onclick = function() { self.showGitUI(item, gitInfo, true, options); };
         
         document.getElementById('git-btn-pull').onclick = async function() {
             var conf = await UI.showDialog({ title: "Pull", message: "Overwrite local files with remote?", okText: "Pull" });

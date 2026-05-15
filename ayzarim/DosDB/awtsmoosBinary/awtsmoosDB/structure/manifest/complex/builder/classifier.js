@@ -25,6 +25,9 @@ function isPrimitiveStorageValue(value) {
   if (Buffer.isBuffer(value)) return true;
   if (value && value.__awtsmoosEncrypted === true) return true;
   if (value && value.__awtsmoosBlob === true) return true;
+  if (value && value.__awtsmoosCompactJson === true) return true;
+  if (value && value.__awtsmoosPackedObject === true) return true;
+  if (value && value.__awtsmoosPackedObject === true) return true;
   if (value && value.__awtsmoosText === true) return true;
   if (value instanceof Error) return true;
   if (value instanceof Date) return true;

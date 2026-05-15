@@ -10,6 +10,7 @@ const DictionaryEngine = require('../../../../structure/dictionary/index.js');
 const MapEngine = require('../../../../structure/map/index.js');
 const FlatObject = require('../../../../structure/flat/object/index.js');
 const FlatArray = require('../../../../structure/flat/array/index.js');
+const PackedArray = require('../../../../api/packed/liveArray.js');
 
 module.exports = {
     calculate(handle, db) {
@@ -43,7 +44,8 @@ module.exports = {
                  return root ? root.keys.length : 0; 
             },
             [T.SMART_OBJECT]: () => (new FlatObject(db.allocator, structPtr)).length(),
-            [T.SMART_ARRAY]: () => sparseLength(handle, db, (new FlatArray(db.allocator, structPtr)).length())
+            [T.SMART_ARRAY]: () => sparseLength(handle, db, (new FlatArray(db.allocator, structPtr)).length()),
+            [T.PACKED_ARRAY]: () => PackedArray.length(db, handle.ptr)
         };
 
         const execute = Strategies[type] || (() => 0);

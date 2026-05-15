@@ -41,6 +41,8 @@ class SequenceMethods {
             'unshift': UnshiftOp.execute(state),
             'splice': SpliceOp.execute(state),
             'slice': SliceOp.execute(state),
+            'keys': () => state.reader.keys(),
+            'keys': () => state.reader.keys(),
             'forEach': IterationOps.forEach(state),
             'map': IterationOps.map(state),
             'filter': IterationOps.filter(state)

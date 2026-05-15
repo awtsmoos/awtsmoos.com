@@ -1,23 +1,18 @@
-
 /**
  * B"H
- * @module WorldData
+ * Compatibility barrel for the active runtime.
  */
-export const WorldData = {
-    'Overworld_Main': [
-        "TTTTTTTTTTTT⇧⇧TTTTTTTTTTT",
-        "T11111111111221111111111T",
-        "T1WWWWW11111221111WWWWW1T",
-        "T1WWWWW11111221111WWWWW1T",
-        "T1WWWWW11111221111WWWWW1T",
-        "T1WW☗WW11111221111WW★WW1T",
-        "T11111111111221111111111T",
-        "⇦⇦222222222222222222222⇨⇨",
-        "⇦⇦222222222222222222222⇨⇨",
-        "T11111111111221111111111T",
-        "T1WWWWW11111221111111111T",
-        "T1WWWWW111112211111⚔️111T",
-        "T1WW♜WW11111221111111111T",
-        "TTTTTTTTTTTT⇡⇡TTTTTTTTTTT"
-    ]
-};
+export { WorldData } from './WorldMaps.js';
+export { Portals } from './PortalIndex.js';
+export { DebateEncounters } from './EncounterIndex.js';
+export { QuestIndex, questById } from './QuestIndex.js';
+export {
+  TileLexicon,
+  tileMeta,
+  isPassableGlyph,
+  groundGlyph,
+  isDoorGlyph,
+  isEdgeGlyph,
+  isEncounterGlyph,
+  isObjectGlyph
+} from './TileLexicon.js';

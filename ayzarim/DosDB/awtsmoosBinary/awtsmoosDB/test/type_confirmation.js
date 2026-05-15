@@ -4,8 +4,8 @@
  * @file type_confirmation.js
  * @description
  *  Scientifically proves that:
- *  1. {}           -> TYPE_DICTIONARY
- *  2. []           -> TYPE_SEQUENCE
+ *  1. {}           -> PACKED_OBJECT seed or TYPE_DICTIONARY after promotion
+ *  2. []           -> PACKED_ARRAY seed or TYPE_SEQUENCE after promotion
  *  3. new Map()    -> TYPE_MAP
  *  4. new Set()    -> TYPE_SET
  */
@@ -61,12 +61,13 @@ async function runTest() {
         }
 
         const typeDict = await getType(db.root.myDict);
-        console.log(`    myDict ({})      -> Type ID: ${typeDict} (Expected ${constants.TYPE_DICTIONARY})`);
-        if (typeDict !== constants.TYPE_DICTIONARY) throw new Error("Object did not become Dictionary!");
+        const dictTypes = new Set([constants.TYPE_DICTIONARY, constants.VAL_TYPE.PACKED_OBJECT]);
+        console.log(`    myDict ({})      -> Type ID: ${typeDict} (Expected ${constants.TYPE_DICTIONARY} or ${constants.VAL_TYPE.PACKED_OBJECT})`);
+        if (!dictTypes.has(typeDict)) throw new Error("Object did not become Dictionary or PackedObject!");
 
         const typeList = await getType(db.root.myList);
-        console.log(`    myList ([])      -> Type ID: ${typeList} (Expected ${constants.TYPE_SEQUENCE})`);
-        if (typeList !== constants.TYPE_SEQUENCE) throw new Error("Array did not become Sequence!");
+        const listTypes = new Set([constants.TYPE_SEQUENCE, constants.VAL_TYPE.PACKED_ARRAY]); console.log(`    myList ([])      -> Type ID: ${typeList} (Expected ${constants.TYPE_SEQUENCE} or ${constants.VAL_TYPE.PACKED_ARRAY})`);
+        if (!listTypes.has(typeList)) throw new Error("Array did not become Sequence or PackedArray!");
 
         const typeMap = await getType(db.root.myMap);
         console.log(`    myMap (new Map)  -> Type ID: ${typeMap} (Expected ${constants.TYPE_MAP})`);
@@ -76,10 +77,10 @@ async function runTest() {
         console.log(`    mySet (new Set)  -> Type ID: ${typeSet} (Expected ${constants.TYPE_SET})`);
         if (typeSet !== constants.TYPE_SET) throw new Error("Set did not become Set!");
 
-        console.log("\n    ✅ All Type Mappings Verified.");
+        console.log("\n    Ã¢Å“â€¦ All Type Mappings Verified.");
 
     } catch (e) {
-        console.error("❌ TEST FAILED:", e);
+        console.error("Ã¢ÂÅ’ TEST FAILED:", e);
         process.exit(1);
     } finally {
         await db.close();

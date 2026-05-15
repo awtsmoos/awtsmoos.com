@@ -7,9 +7,9 @@ export const SSHProvider = {
     async _api(endpoint, sshInfo, body) {
         const { host, user } = sshInfo;
         const url = `/api/ssh/${endpoint}/${encodeURIComponent(user)}/${encodeURIComponent(host)}`;
-        
+
         const formData = new URLSearchParams();
-        
+
         // This logic sends the correct credential to the API
         if (sshInfo.port) formData.append('port', String(sshInfo.port));
 
@@ -34,7 +34,7 @@ export const SSHProvider = {
         if (!response.ok) {
             throw new Error(`API Error: ${response.statusText}`);
         }
-        
+
         const result = await response.json();
         if (!result.success) {
             throw new Error(result.message || 'An unknown error occurred on the server.');
@@ -42,13 +42,46 @@ export const SSHProvider = {
         return result;
     },
 
+    _workspace(item) {
+        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId || ws.id === item.id);
+        if (!workspace || !workspace.sshInfo) throw new Error("SSH workspace context not found.");
+        return workspace;
+    },
+
+    _remotePath(workspace, itemPath = '/') {
+        const base = workspace.sshInfo.initialPath || '/';
+        const suffix = itemPath === '/' ? '' : itemPath;
+        return `${base}${suffix}`.replace(/\/+/g, '/');
+    },
+
     async testConnection(sshInfo) {
         return await this._api('connect', sshInfo, {});
     },
 
+    async execute(item, command, options = {}) {
+        const workspace = this._workspace(item);
+        const cwd = this._remotePath(workspace, item.path || '/');
+        const wrappedCommand = options.cwd === false
+            ? command
+            : `cd ${this._quote(cwd)} && ${command}`;
+
+        const result = await this._api('execute', workspace.sshInfo, {
+            command: wrappedCommand,
+            input: options.input || '',
+            pty: options.pty ? '1' : '',
+            env: options.env ? JSON.stringify(options.env) : ''
+        });
+
+        return result.result;
+    },
+
+    _quote(value) {
+        return `'${String(value).replace(/'/g, `'\\''`)}'`;
+    },
+
     async list(item) {
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        const fullPath = (workspace.sshInfo.initialPath + (item.path === '/' ? '' : item.path)).replace(/\/+/g, '/');
+        const workspace = this._workspace(item);
+        const fullPath = this._remotePath(workspace, item.path);
         const result = await this._api('getFolderList', workspace.sshInfo, { folderPath: fullPath });
         return result.files.map(file => ({
             name: file.name,
@@ -58,21 +91,21 @@ export const SSHProvider = {
     },
 
     async read(item) {
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        const fullPath = (workspace.sshInfo.initialPath + item.path).replace(/\/+/g, '/');
+        const workspace = this._workspace(item);
+        const fullPath = this._remotePath(workspace, item.path);
         const result = await this._api('getFileContent', workspace.sshInfo, { filePath: fullPath });
         return result.content;
     },
 
     async write(item, content) {
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        const fullPath = (workspace.sshInfo.initialPath + item.path).replace(/\/+/g, '/');
+        const workspace = this._workspace(item);
+        const fullPath = this._remotePath(workspace, item.path);
         await this._api('writeFile', workspace.sshInfo, { filePath: fullPath, content: content });
     },
 
     async create(parentDir, name, kind) {
-        const workspace = State.workspaces.find(ws => ws.id === parentDir.workspaceId);
-        const parentFullPath = (workspace.sshInfo.initialPath + (parentDir.path === '/' ? '' : parentDir.path)).replace(/\/+/g, '/');
+        const workspace = this._workspace(parentDir);
+        const parentFullPath = this._remotePath(workspace, parentDir.path);
         const newFullPath = `${parentFullPath}/${name}`;
 
         if (kind === 'directory') {
@@ -83,8 +116,8 @@ export const SSHProvider = {
     },
 
     async delete(item) {
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        const fullPath = (workspace.sshInfo.initialPath + item.path).replace(/\/+/g, '/');
+        const workspace = this._workspace(item);
+        const fullPath = this._remotePath(workspace, item.path);
         await this._api('deleteAtPath', workspace.sshInfo, { deletePath: fullPath });
     }
 };

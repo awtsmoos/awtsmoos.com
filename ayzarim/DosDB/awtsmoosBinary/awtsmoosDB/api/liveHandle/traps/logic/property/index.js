@@ -18,6 +18,9 @@ const constants = require('../../../../../constants.js');
 const StructureResolver = require('./structure/index.js');
 const PrimitiveResolver = require('./primitive/index.js');
 const NativeResolver = require('../../../reader/native/index.js');
+const PackedLive = require('../../../../packed/liveObject.js');
+const PackedArray = require('../../../../packed/liveArray.js');
+const T = constants.VAL_TYPE;
 
 /**
  * @class PropertyResolver
@@ -33,13 +36,26 @@ class PropertyResolver {
      * @returns {*} Either a primitive value or a new LiveHandle proxy.
      */
     static resolve(state, prop) {
+
+        if (state.type === T.PACKED_OBJECT) {
+            const out = PackedLive.get(state.db, state.ptr, prop);
+            return out.hit ? out.value : undefined;
+        }
+        if (state.type === T.PACKED_ARRAY) {
+            const out = PackedArray.get(state.db, state.ptr, prop);
+            return out.hit ? out.value : undefined;
+        }
+        if (state.type === T.PACKED_ARRAY) {
+            const out = PackedArray.get(state.db, state.ptr, prop);
+            return out.hit ? out.value : undefined;
+        }
+
         // Find the coordinates of the child in the deep void.
         const res = state.nav.resolveKey(prop);
         if (!res || !res.ptr) return undefined;
 
         // Form a new handle (gateway) for the found coordinate.
         const nextHandle = state.nav.navigate(prop, res.ptr, res.type);
-        const T = constants.VAL_TYPE;
 
         const native = NativeResolver.resolveNative(
             state.db,
@@ -56,7 +72,7 @@ class PropertyResolver {
         /** @type {Set&lt;number>} Types that represent containing vessels */
         const containerTypes = new Set([
             T.MAP, T.SEQUENCE, T.DICTIONARY, T.OBJECT, T.ARRAY,
-            T.SMART_OBJECT, T.SMART_ARRAY, T.ANCHOR, T.JS_MAP
+            T.SMART_OBJECT, T.SMART_ARRAY, T.ANCHOR, T.JS_MAP, T.PACKED_OBJECT, T.PACKED_ARRAY
         ]);
 
         if (containerTypes.has(res.type)) {

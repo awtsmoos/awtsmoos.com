@@ -27,6 +27,7 @@ const MapEngine = require('../../structure/map/index.js');
 const Dictionary = require('../../structure/dictionary/index.js');
 const SearchIndexer = require('./indexer.js');
 const Reader = require('../liveHandle/reader/index.js');
+const PackedArray = require('../packed/liveArray.js');
 
 class SearchManager {
     /**
@@ -90,9 +91,11 @@ class SearchManager {
      * @description Checks if a path is under the watchful eye of the Search Engine.
      */
     isIndexed(path) {
-        if (this.db.sysCache && this.db.sysCache.loaded) return this.db.sysCache.search.has(path);
         const sysIndex = this.db.root ? this.db.root.__sys_search__ : null;
-        return sysIndex ? this.db.has(sysIndex, path) : false;
+        const persisted = sysIndex ? this.db.has(sysIndex, path) : false;
+        if (persisted && this.db.sysCache && this.db.sysCache.search) this.db.sysCache.search.add(path);
+        if (this.db.sysCache && this.db.sysCache.loaded) return this.db.sysCache.search.has(path) || persisted;
+        return persisted;
     }
 
     /**
@@ -203,6 +206,9 @@ class SearchManager {
                 const ptr = seq.getPtr(i);
                 if (ptr) pointers.push(ptr);
             }
+        } else if (effectiveType === T.PACKED_ARRAY) {
+            const values = PackedArray.readArray(this.db, SmartPointer.toBuffer(struct)) || [];
+            for (const value of values) pointers.push(this.db.builder.build(value));
         } else if (effectiveType === T.MAP || effectiveType === T.JS_MAP) {
             const map = new MapEngine(this.db.allocator, struct);
             for (const item of map.range()) {

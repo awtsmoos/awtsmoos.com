@@ -13,6 +13,7 @@ import { OSFolderProvider } from '../fs/os-folder.js';
 import { PostMessageProvider } from '../fs/post-message.js';
 import { OPFSProvider } from '../fs/opfs.js'; 
 import { RelayProvider } from '../fs/relay.js';
+import { AwtsmoosOSProvider } from '../fs/awtsmoos-os.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
 import { VibeManagerStrategy } from './vibe-manager-strategy.js'; 
 
@@ -54,6 +55,9 @@ export const ProviderStrategies = {
 
     relay: RelayProvider,
     Relay: RelayProvider,
+
+    'awtsmoos-os': AwtsmoosOSProvider,
+    AwtsmoosOS: AwtsmoosOSProvider,
 
     // B"H - Virtual Strategies for UI Vessels
     'vibe-manager': VibeManagerStrategy,

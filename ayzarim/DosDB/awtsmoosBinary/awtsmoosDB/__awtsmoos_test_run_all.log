@@ -1,0 +1,63 @@
+
+[36m[1mB"H - Starting Full Synchronous Validation (Strict + Total Lightning)...[0m
+
+[33m[ 1/58] RUNNING: omni_test.js                  [0m [31m? PASS (188ms)[0m
+[33m[ 2/58] RUNNING: live_test.js                  [0m [32m? PASS (22ms)[0m
+[33m[ 3/58] RUNNING: pashut.js                     [0m [32m? PASS (14ms)[0m
+[33m[ 4/58] RUNNING: api_methods_test.js           [0m [32m? PASS (3ms)[0m
+[33m[ 5/58] RUNNING: blog_engine_simulation.js     [0m [31m? PASS (135ms)[0m
+[33m[ 6/58] RUNNING: circular_stress.js            [0m [32m? PASS (20ms)[0m
+[33m[ 7/58] RUNNING: class_resurrection.js         [0m [32m? PASS (25ms)[0m
+[33m[ 8/58] RUNNING: comprehensive_features.js     [0m [31m? PASS (124ms)[0m
+[33m[ 9/58] RUNNING: compression_extreme_test.js   [0m [32m? PASS (15ms)[0m
+[33m[10/58] RUNNING: storage_density_test.js       [0m [32m? PASS (47ms)[0m
+[33m[11/58] RUNNING: storage_reuse_test.js         [0m [32m? PASS (70ms)[0m
+[33m[12/58] RUNNING: runtime_features_test.js      [0m [31m? PASS (132ms)[0m
+[33m[13/58] RUNNING: pager_sparse_test.js          [0m [32m? PASS (22ms)[0m
+[33m[14/58] RUNNING: gc_verify_test.js             [0m [32m? PASS (38ms)[0m
+[33m[15/58] RUNNING: wal_recovery_test.js          [0m [32m? PASS (29ms)[0m
+[33m[16/58] RUNNING: blob_fs_test.js               [0m [32m? PASS (29ms)[0m
+[33m[17/58] RUNNING: concurrent_text_test.js       [0m [31m? PASS (342ms)[0m
+[33m[18/58] RUNNING: turbo_writebehind_test.js     [0m [31m? PASS (260ms)[0m
+[33m[19/58] RUNNING: deep_turbo_ai_test.js         [0m [31m? PASS (3815ms)[0m
+[33m[20/58] RUNNING: semantic_ai_dosdb_test.js     [0m [31m? PASS (776ms)[0m
+[33m[21/58] RUNNING: polyglot_api_test.js          [0m [32m? PASS (77ms)[0m
+[33m[22/58] RUNNING: sparse_array_dream_test.js    [0m [31m? PASS (81ms)[0m
+[33m[23/58] RUNNING: production_features_test.js   [0m [31m? PASS (656ms)[0m
+[33m[24/58] RUNNING: production_hardening_test.js  [0m [31m? PASS (1204ms)[0m
+[33m[25/58] RUNNING: complex.js                    [0m [31m? PASS (92ms)[0m
+[33m[26/58] RUNNING: comprehensive_v2.js           [0m [31m? PASS (1172ms)[0m
+[33m[27/58] RUNNING: function_test.js              [0m [32m? PASS (45ms)[0m
+[33m[28/58] RUNNING: consistency.js                [0m [32m? PASS (29ms)[0m
+[33m[29/58] RUNNING: final_boss.js                 [0m [31m? PASS (798ms)[0m
+[33m[30/58] RUNNING: genesis.js                    [0m [31m? PASS (309ms)[0m
+[33m[31/58] RUNNING: graph_algo_test.js            [0m [31m? PASS (296ms)[0m
+[33m[32/58] RUNNING: interactive.js                [0m [31m? PASS (620ms)[0m
+[33m[33/58] RUNNING: mega_simulation.js            [0m [31m? PASS (265ms)[0m
+[33m[34/58] RUNNING: nested.js                     [0m [32m? PASS (49ms)[0m
+[33m[35/58] RUNNING: nested_literal_proof.js       [0m [32m? PASS (42ms)[0m
+[33m[36/58] RUNNING: object_order.js               [0m [32m? PASS (56ms)[0m
+[33m[37/58] RUNNING: omega_simulation.js           [0m [31m? PASS (270ms)[0m
+[33m[38/58] RUNNING: persistence_stress.js         [0m [31m? PASS (238ms)[0m
+[33m[39/58] RUNNING: production_ready.js           [0m [32m? PASS (51ms)[0m
+[33m[40/58] RUNNING: query_complex.js              [0m [31m? PASS (149ms)[0m
+[33m[41/58] RUNNING: query_test.js                 [0m [31m? PASS (145ms)[0m
+[33m[42/58] RUNNING: range_test.js                 [0m [31m? PASS (107ms)[0m
+[33m[43/58] RUNNING: search_test.js                [0m [31m? PASS (550ms)[0m
+[33m[44/58] RUNNING: simulation_omniverse.js       [0m [31m? PASS (10101ms)[0m
+[33m[45/58] RUNNING: simulate_eternity.js          [0m [31m? PASS (249ms)[0m
+[33m[46/58] RUNNING: singularity.js                [0m [31m? PASS (1758ms)[0m
+[33m[47/58] RUNNING: splice_test.js                [0m [31m? PASS (147ms)[0m
+[33m[48/58] RUNNING: stress_test.js                [0m [31m? PASS (213ms)[0m
+[33m[49/58] RUNNING: suite.js                      [0m [31m? PASS (95ms)[0m
+[33m[50/58] RUNNING: type_confirmation.js          [0m [32m? PASS (32ms)[0m
+[33m[51/58] RUNNING: ultimate.js                   [0m [31m? PASS (374ms)[0m
+[33m[52/58] RUNNING: ultimate_chaos.js             [0m [31m? PASS (300ms)[0m
+[33m[53/58] RUNNING: ultimate_feature_test.js      [0m [31m? PASS (238ms)[0m
+[33m[54/58] RUNNING: universal_types.js            [0m [31m? PASS (81ms)[0m
+[33m[55/58] RUNNING: usage.js                      [0m [32m? PASS (34ms)[0m
+[33m[56/58] RUNNING: v2_flawless.js                [0m [31m? PASS (2374ms)[0m
+[33m[57/58] RUNNING: v2_test.js                    [0m [31m? PASS (3249ms)[0m
+[33m[58/58] RUNNING: vector_test.js                [0m [31m? PASS (106ms)[0m
+
+[42m[30m[1m B"H - TOTAL VICTORY: ALL 58 TESTS PASSED IN 32.779s. [0m

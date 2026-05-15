@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file git-ritual.js
@@ -28,6 +27,15 @@ export const GitRitual = {
                     action: "git-actions", 
                     icon: "git-branch" 
                 });
+
+                if (item.kind === 'directory') {
+                    menuItems.push({
+                        label: "Scan This Git Folder",
+                        action: "scan-git-folder",
+                        icon: "refresh-cw"
+                    });
+                }
+
                 menuItems.push({ 
                     label: "Switch Branch", 
                     action: "switch-branch", 

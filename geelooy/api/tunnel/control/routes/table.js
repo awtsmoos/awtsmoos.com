@@ -14,6 +14,8 @@ const { openApiKey } = require("./openApiKey.js");
 const { docsHtml } = require("./docsHtml.js");
 const { docsJson } = require("./docsJson.js");
 const { bootstrap } = require("./bootstrap.js");
+const { osFs } = require("./osFs.js");
+const { osFs } = require("./osFs.js");
 
 const routeTable = {
   me,
@@ -40,6 +42,10 @@ const routeTable = {
   bootstrap,
   "bootstrap/": bootstrap,
 
+  "fs/awtsmoos-os": osFs,
+  "fs/awtsmoos-os/": osFs,
+  "fs/awtsmoos-os": osFs,
+  "fs/awtsmoos-os/": osFs,
   "fs/:tunnelName": protectedFs,
   "fs/:tunnelName/": protectedFs,
 

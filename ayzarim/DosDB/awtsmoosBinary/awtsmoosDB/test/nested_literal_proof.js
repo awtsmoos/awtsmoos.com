@@ -60,20 +60,22 @@ async function runTest() {
         console.log(`    root.project      -> Type: ${typeProject} (Expected ${constants.TYPE_DICTIONARY})`);
         if (typeProject !== constants.TYPE_DICTIONARY) throw new Error("Root object not Dictionary");
 
-        // 2. root.project.meta should be Dictionary
+        // 2. root.project.meta should be either a full Dictionary or the compact PACKED_OBJECT seed vessel.
         const typeMeta = await getType(db.root.project.meta);
-        console.log(`    root.project.meta -> Type: ${typeMeta} (Expected ${constants.TYPE_DICTIONARY})`);
-        if (typeMeta !== constants.TYPE_DICTIONARY) throw new Error("Nested object not Dictionary");
+        console.log(`   root.project.meta -> Type: ${typeMeta} (Expected ${constants.TYPE_DICTIONARY} or ${constants.VAL_TYPE.PACKED_OBJECT})`);
+        const validMetaTypes = new Set([constants.TYPE_DICTIONARY, constants.VAL_TYPE.PACKED_OBJECT]);
+        if (!validMetaTypes.has(typeMeta))
+            throw new Error("Nested object not Dictionary or PackedObject");
 
         // 3. root.project.tags should be Sequence (from Array)
         const typeTags = await getType(db.root.project.tags);
-        console.log(`    root.project.tags -> Type: ${typeTags} (Expected ${constants.TYPE_SEQUENCE})`);
-        if (typeTags !== constants.TYPE_SEQUENCE) throw new Error("Nested array not Sequence");
+        console.log(`    root.project.tags -> Type: ${typeTags} (Expected ${constants.TYPE_SEQUENCE} or ${constants.VAL_TYPE.PACKED_ARRAY})`);
+        if (!(new Set([constants.TYPE_SEQUENCE, constants.VAL_TYPE.PACKED_ARRAY])).has(typeTags)) throw new Error("Nested array not Sequence or PackedArray");
 
         // 4. Deep nesting
         const typeLevel2 = await getType(db.root.project.deep.level1.level2);
-        console.log(`    ...level1.level2  -> Type: ${typeLevel2} (Expected ${constants.TYPE_SEQUENCE})`);
-        if (typeLevel2 !== constants.TYPE_SEQUENCE) throw new Error("Deep nested array not Sequence");
+        console.log(`    ...level1.level2  -> Type: ${typeLevel2} (Expected ${constants.TYPE_SEQUENCE} or ${constants.VAL_TYPE.PACKED_ARRAY})`);
+        if (!(new Set([constants.TYPE_SEQUENCE, constants.VAL_TYPE.PACKED_ARRAY])).has(typeLevel2)) throw new Error("Deep nested array not Sequence or PackedArray");
 
         // --- VERIFICATION OF VALUES ---
         console.log("\n[3] Verifying Values...");
@@ -90,10 +92,10 @@ async function runTest() {
         console.log(`    Deep Item Name: ${deepItemName}`);
         if (deepItemName !== "Item 1") throw new Error("Deep value mismatch");
 
-        console.log("\n    ✅ Recursive Structure Construction Verified.");
+        console.log("\n    Ã¢Å“â€¦ Recursive Structure Construction Verified.");
 
     } catch (e) {
-        console.error("❌ TEST FAILED:", e);
+        console.error("Ã¢ÂÅ’ TEST FAILED:", e);
         process.exit(1);
     } finally {
         await db.close();

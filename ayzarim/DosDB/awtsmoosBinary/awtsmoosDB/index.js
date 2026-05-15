@@ -27,6 +27,7 @@ const PasswordBox = require('./utils/crypto/passwordBox.js');
 const Pointer = require('./utils/pointer/crown.js');
 const DbVerifier = require('./core/verify.js');
 const BlobManager = require('./api/blob/index.js');
+const CompactJsonManager = require('./api/compactJson/index.js');
 const ConcurrentManager = require('./api/concurrent/index.js');
 const TextManager = require('./api/text/index.js');
 const TurboWriteBehind = require('./api/turbo/index.js');
@@ -45,6 +46,7 @@ const TransactionManager = require('./api/transaction/index.js');
 const ReplicationManager = require('./api/replication/index.js');
 const ProcessLock = require('./core/processLock.js');
 const VirtualFs = require('./api/fs/index.js');
+const FreeListCodec = require('./core/freeListCodec.js');
 
 /**
  * @class AwtsmoosDB
@@ -82,6 +84,8 @@ class AwtsmoosDB {
     this.ai = new AIManager(this);
     this.concurrent = new ConcurrentManager(this);
     this.blob = new BlobManager(this);
+    this.compactJson = new CompactJsonManager(this);
+    this.compactJson = new CompactJsonManager(this);
     this.text = new TextManager(this);
     this.turbo = new TurboWriteBehind(this);
     this.DosDB = new DosDBBridge(this);
@@ -213,8 +217,11 @@ class AwtsmoosDB {
 
     try {
       const dec = Pointer.decode(this.freeListPtrRaw);
-      const raw = this.pager.readExact(dec.offset, dec.length);
-      const ranges = JSON.parse((raw || Buffer.alloc(0)).toString('utf8'));
+      const raw = this.pager.readExact(dec.offset, dec.length) || Buffer.alloc(0);
+      const packed = FreeListCodec.decode(raw);
+      const ranges = packed === null
+        ? JSON.parse(raw.toString('utf8'))
+        : packed;
       this.allocator.freeList = Array.isArray(ranges)
         ? ranges.filter(r => r && r.offset >= 64 && r.length > 0)
         : [];
@@ -233,14 +240,14 @@ class AwtsmoosDB {
     const ranges = (this.allocator.freeList || [])
       .filter(r => r && r.offset >= 64 && r.length > 0)
       .map(r => ({ offset: r.offset, length: r.length }));
-    const raw = Buffer.from(JSON.stringify(ranges), 'utf8');
+    const raw = FreeListCodec.encode(ranges);
     const previous = this.options.reuseFreedSpace;
     this.options.reuseFreedSpace = false;
 
     try {
       const loc = this.allocator.allocate(raw.length);
       if (raw.length) this.pager.writeExact(loc.offset, raw);
-      this.freeListPtrRaw = Pointer.encode(constants.VAL_TYPE.JSON, loc.offset, raw.length);
+      this.freeListPtrRaw = Pointer.encode(constants.VAL_TYPE.BUFFER, loc.offset, raw.length);
       this._flushSuperblock();
     } finally {
       this.options.reuseFreedSpace = previous;

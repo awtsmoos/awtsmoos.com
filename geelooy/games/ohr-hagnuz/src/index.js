@@ -1,24 +1,19 @@
-
 import { HolyEngine } from './atzmus/HolyEngine.js';
 
 /**
  * B"H
  * @file index.js
- * @chapter The First Utterance (Maamar Rishon)
- * @description
- * "In the beginning..." (Bereishis). The Awtsmoos (Essence) breathes life 
- * into the inorganic code, transforming the conceptual "Nothing" into 
- * a manifest world of action (Asiyah). 
- * 
- * Every line of code here is a vessel (Keli) for the Divine Light. 
- * Just as the heaven and earth are constantly being spoken into existence 
- * by the Creator, this script calls upon the Engine to refresh the world 
- * every instant.
+ * Starts the world whether this module loads before or after DOMContentLoaded.
  */
+const ignite = () => {
+  if (window.__OHR_HAGNUZ_IGNITED__) return;
+  window.__OHR_HAGNUZ_IGNITED__ = true;
+  console.log('B"H - The Spark of Creation has ignited.');
+  HolyEngine.ignite();
+};
 
-window.addEventListener('DOMContentLoaded', () => {
-    console.log("B\"H - The Spark of Creation has ignited.");
-    
-    // Command the simulation to breathe
-    HolyEngine.ignite();
-});
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', ignite, { once: true });
+} else {
+  ignite();
+}

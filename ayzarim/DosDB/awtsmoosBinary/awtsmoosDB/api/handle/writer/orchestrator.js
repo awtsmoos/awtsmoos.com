@@ -37,7 +37,7 @@ class WriterOrchestrator {
      * @param {string|Buffer} key - The binary key or human string name.
      * @param {*} value - The abstract thought/data to persist.
      */
-    set(key, value) {
+    set(key, value, options = {}) {
         // Ensure the Handle has revealed its true underlying structure (thru Anchor/Yesod)
         this.state.ensureResolved();
 
@@ -66,7 +66,7 @@ class WriterOrchestrator {
         
         // 3. Command the structural scribe to update the mapping
         const engine = new ScribeClass(this.db.allocator, ptr);
-        const newDataPtr = engine.set(key, childSeal, { isPtr: true });
+        const newDataPtr = engine.set(key, childSeal, { isPtr: true, ...options });
 
         // 4. If the structure has relocated to accommodate the growth, update the anchor.
         if (this.state.type === constants.VAL_TYPE.ANCHOR) {

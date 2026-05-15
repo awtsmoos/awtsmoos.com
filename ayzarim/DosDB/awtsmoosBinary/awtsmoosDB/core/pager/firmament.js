@@ -4,14 +4,18 @@
  * @file firmament.js
  * @chapter The Page-Cache Firmament
  * @description
- * The pager no longer needs to summon the whole database into RAM. It reads
- * only touched pages, writes only dirty pages, and still presents the same
- * lightning synchronous API to the rest of the system.
+ * Sparse page-cache pager with bounded memory pressure. It never needs to
+ * summon the whole database into RAM. Pages are read on demand, clean pages are
+ * evicted LRU-style, dirty pages can be pressure-flushed without fsync, and
+ * close()/waitForIdle() still perform the durable boundary.
  */
 
 const fs = require('fs');
 
 const WAL_MAGIC = Buffer.from('AWAL1');
+const DEFAULT_PAGE_SIZE = 65536;
+const DEFAULT_MAX_CACHED_PAGES = 512;
+const DEFAULT_DIRTY_FLUSH_THRESHOLD = 384;
 
 /**
  * @class PagerFirmament
@@ -30,10 +34,13 @@ class PagerFirmament {
     this.currentFileSize = 0;
     this.initialized = false;
     this.memory = null;
-    this.pageSize = 65536;
+    this.pageSize = DEFAULT_PAGE_SIZE;
     this.pages = new Map();
     this.walPath = `${filePath}.wal`;
     this.walRecords = [];
+    this.walFd = null;
+    this.walPosition = 0;
+    this.walActive = false;
     this.recovering = false;
   }
 
@@ -62,6 +69,38 @@ class PagerFirmament {
         ? fs.readFileSync(this.filePath)
         : Buffer.allocUnsafe(this.pageSize).fill(0);
     }
+  }
+
+  /**
+   * @method _optionNumber
+   * @private
+   * @param {string} key - Option key.
+   * @param {number} fallback - Default value.
+   * @returns {number} Positive numeric option.
+   */
+  _optionNumber(key, fallback) {
+    const raw = this.db && this.db.options ? this.db.options[key] : undefined;
+    const n = Number(raw === undefined ? fallback : raw);
+    return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
+  }
+
+  /**
+   * @method _maxCachedPages
+   * @private
+   * @returns {number} Maximum sparse pages to hold.
+   */
+  _maxCachedPages() {
+    return this._optionNumber('maxCachedPages', DEFAULT_MAX_CACHED_PAGES);
+  }
+
+  /**
+   * @method _dirtyFlushThreshold
+   * @private
+   * @returns {number} Dirty-page pressure threshold.
+   */
+  _dirtyFlushThreshold() {
+    const max = this._maxCachedPages();
+    return Math.min(max, this._optionNumber('dirtyPageFlushThreshold', DEFAULT_DIRTY_FLUSH_THRESHOLD));
   }
 
   /**
@@ -133,46 +172,47 @@ class PagerFirmament {
   }
 
   /**
+   * @method _ensureWalOpen
+   * @private
+   * @description Opens the WAL stream and writes its magic header once.
+   * @returns {void}
+   */
+  _ensureWalOpen() {
+    if (this.walFd !== null) return;
+    this.walFd = fs.openSync(this.walPath, 'w+');
+    fs.writeSync(this.walFd, WAL_MAGIC, 0, WAL_MAGIC.length, 0);
+    this.walPosition = WAL_MAGIC.length;
+    this.walActive = true;
+  }
+
+  /**
    * @method _recordWal
-   * @description Queues one exact write for WAL protection at fsync.
+   * @description Streams one exact write record to WAL without retaining bytes in RAM.
    * @param {number} offset - Write offset.
    * @param {Buffer} buf - Write bytes.
    * @returns {void}
    */
   _recordWal(offset, buf) {
     if (this.recovering || !this._useWal() || !buf || buf.length === 0) return;
-    this.walRecords.push({ offset, data: Buffer.from(buf) });
+    this._ensureWalOpen();
+
+    const h = Buffer.allocUnsafe(12);
+    h.writeBigUInt64BE(BigInt(offset), 0);
+    h.writeUInt32BE(buf.length, 8);
+    fs.writeSync(this.walFd, h, 0, h.length, this.walPosition);
+    this.walPosition += h.length;
+    fs.writeSync(this.walFd, buf, 0, buf.length, this.walPosition);
+    this.walPosition += buf.length;
   }
 
   /**
    * @method _flushWal
-   * @description Writes queued WAL records to disk before data pages.
+   * @description Fsyncs streamed WAL records before dirty data pages are written.
    * @returns {void}
    */
   _flushWal() {
-    if (!this._useWal() || this.walRecords.length === 0) return;
-
-    const fd = fs.openSync(this.walPath, 'w+');
-    try {
-      fs.writeSync(fd, WAL_MAGIC, 0, WAL_MAGIC.length, 0);
-      let pos = WAL_MAGIC.length;
-
-      for (const rec of this.walRecords) {
-        const h = Buffer.allocUnsafe(12);
-        h.writeBigUInt64BE(BigInt(rec.offset), 0);
-        h.writeUInt32BE(rec.data.length, 8);
-        fs.writeSync(fd, h, 0, h.length, pos);
-        pos += h.length;
-        if (rec.data.length) {
-          fs.writeSync(fd, rec.data, 0, rec.data.length, pos);
-          pos += rec.data.length;
-        }
-      }
-
-      fs.fsyncSync(fd);
-    } finally {
-      fs.closeSync(fd);
-    }
+    if (!this._useWal() || !this.walActive || this.walFd === null) return;
+    fs.fsyncSync(this.walFd);
   }
 
   /**
@@ -182,6 +222,12 @@ class PagerFirmament {
    */
   _clearWal() {
     this.walRecords = [];
+    if (this.walFd !== null) {
+      try { fs.closeSync(this.walFd); } catch (_err) {}
+      this.walFd = null;
+    }
+    this.walPosition = 0;
+    this.walActive = false;
     if (!this._useWal()) return;
 
     const fd = fs.openSync(this.walPath, 'w+');
@@ -203,6 +249,20 @@ class PagerFirmament {
   }
 
   /**
+   * @method _rememberPage
+   * @private
+   * @description Stores/touches a page as most-recently-used.
+   * @param {number} index - Page index.
+   * @param {object} page - Page record.
+   * @returns {object} Page record.
+   */
+  _rememberPage(index, page) {
+    if (this.pages.has(index)) this.pages.delete(index);
+    this.pages.set(index, page);
+    return page;
+  }
+
+  /**
    * @method _loadPage
    * @description Loads one page on demand.
    * @param {number} index - Page index.
@@ -210,7 +270,7 @@ class PagerFirmament {
    */
   _loadPage(index) {
     let page = this.pages.get(index);
-    if (page) return page;
+    if (page) return this._rememberPage(index, page);
 
     const buf = Buffer.allocUnsafe(this.pageSize).fill(0);
     const start = index * this.pageSize;
@@ -220,9 +280,97 @@ class PagerFirmament {
       fs.readSync(this.fd, buf, 0, max, start);
     }
 
-    page = { buf, dirty: false };
-    this.pages.set(index, page);
+    page = this._rememberPage(index, { buf, dirty: false });
+    this._enforceCacheLimit();
     return page;
+  }
+
+  /**
+   * @method _dirtyPageCount
+   * @private
+   * @returns {number} Dirty page count.
+   */
+  _dirtyPageCount() {
+    let count = 0;
+    for (const page of this.pages.values()) if (page.dirty) count++;
+    return count;
+  }
+
+  /**
+   * @method _writeDirtyPage
+   * @private
+   * @description Writes one dirty sparse page without fsync/truncate.
+   * @param {number} index - Page index.
+   * @param {object} page - Page record.
+   * @param {number} exactSize - Logical byte boundary.
+   * @returns {boolean} True when written or cleared.
+   */
+  _writeDirtyPage(index, page, exactSize) {
+    if (!page || !page.dirty || this.fd === null) return false;
+
+    const start = index * this.pageSize;
+    if (start >= exactSize) {
+      page.dirty = false;
+      return true;
+    }
+
+    const len = Math.min(this.pageSize, exactSize - start);
+    if (len > 0) fs.writeSync(this.fd, page.buf, 0, len, start);
+    page.dirty = false;
+    return true;
+  }
+
+  /**
+   * @method _pressureFlushDirtyPages
+   * @private
+   * @description Writes oldest dirty pages until pressure is below threshold.
+   * @returns {void}
+   */
+  _pressureFlushDirtyPages() {
+    if (this.memory || this.fd === null) return;
+
+    const threshold = this._dirtyFlushThreshold();
+    let dirtyCount = this._dirtyPageCount();
+    if (dirtyCount <= threshold) return;
+
+    const exactSize = Math.max(0, this.logicalSize());
+    if (this._useWal()) this._flushWal();
+
+    for (const [index, page] of this.pages) {
+      if (dirtyCount <= threshold) break;
+      if (!page.dirty) continue;
+      if (this._writeDirtyPage(index, page, exactSize)) dirtyCount--;
+    }
+
+    this.dirty = this._dirtyPageCount() > 0;
+  }
+
+  /**
+   * @method _enforceCacheLimit
+   * @private
+   * @description Evicts clean LRU pages and pressure-flushes dirty pages if needed.
+   * @returns {void}
+   */
+  _enforceCacheLimit() {
+    if (this.memory) return;
+
+    const maxPages = this._maxCachedPages();
+    if (this.pages.size <= maxPages) return;
+
+    for (const [index, page] of this.pages) {
+      if (this.pages.size <= maxPages) return;
+      if (page.dirty) continue;
+      this.pages.delete(index);
+    }
+
+    if (this.pages.size <= maxPages) return;
+    this._pressureFlushDirtyPages();
+
+    for (const [index, page] of this.pages) {
+      if (this.pages.size <= maxPages) return;
+      if (page.dirty) continue;
+      this.pages.delete(index);
+    }
   }
 
   /**
@@ -283,17 +431,21 @@ class PagerFirmament {
 
     while (copied < buf.length) {
       const absolute = offset + copied;
-      const page = this._loadPage(this._pageIndex(absolute));
+      const pageIndex = this._pageIndex(absolute);
+      const page = this._loadPage(pageIndex);
       const pageOffset = absolute % this.pageSize;
       const take = Math.min(buf.length - copied, this.pageSize - pageOffset);
 
       buf.copy(page.buf, pageOffset, copied, copied + take);
       page.dirty = true;
+      this._rememberPage(pageIndex, page);
       copied += take;
     }
 
     this.currentFileSize = Math.max(this.currentFileSize, offset + buf.length);
     this.dirty = true;
+    this._pressureFlushDirtyPages();
+    this._enforceCacheLimit();
   }
 
   /**
@@ -352,17 +504,7 @@ class PagerFirmament {
       if (exactSize > 0) fs.writeSync(this.fd, this.memory, 0, exactSize, 0);
     } else {
       for (const [index, page] of this.pages) {
-        if (!page.dirty) continue;
-
-        const start = index * this.pageSize;
-        if (start >= exactSize) {
-          page.dirty = false;
-          continue;
-        }
-
-        const len = Math.min(this.pageSize, exactSize - start);
-        fs.writeSync(this.fd, page.buf, 0, len, start);
-        page.dirty = false;
+        this._writeDirtyPage(index, page, exactSize);
       }
     }
 
@@ -371,6 +513,7 @@ class PagerFirmament {
     this.currentFileSize = exactSize;
     this.dirty = false;
     this._clearWal();
+    this._enforceCacheLimit();
   }
 
   /**
@@ -380,6 +523,16 @@ class PagerFirmament {
    */
   close() {
     this.fsync(true);
+
+    if (this.walFd !== null) {
+      try { fs.closeSync(this.walFd); } catch (_err) {}
+      this.walFd = null;
+    }
+
+    if (this.walFd !== null) {
+      try { fs.closeSync(this.walFd); } catch (_err) {}
+      this.walFd = null;
+    }
 
     if (this.fd !== null) {
       try { fs.closeSync(this.fd); } catch (_err) {}

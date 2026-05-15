@@ -61,7 +61,10 @@ class Hydrator {
       };
     }
 
-    const scalar = Scalars.hydrateScalar(ptr.type, this.readBytes(ptr));
+    const scalar = Scalars.hydrateScalar(ptr.type, this.readBytes(ptr), {
+      db: this.db,
+      allocator: this.allocator
+    });
 
     if (scalar.hit) return scalar.value;
 

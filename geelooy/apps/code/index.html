@@ -6,18 +6,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin" />
     <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp" />
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>⚡ Awtsmoos Editor ⚡</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- CSS (single entrypoint; internally modular via @import) -->
     <link href="css/app.css" rel="stylesheet">
 </head>  
 <body>
-    
+
     <div id="visual-layer" class="visual-layer">
         <canvas id="canvas-bg"></canvas>
         <canvas id="canvas-ui"></canvas>
@@ -40,10 +40,12 @@
         </div>
         <div id="sidebar-resizer" class="sidebar-resizer"></div>
         <div class="top-panel">
-            <div class="menu-bar">
+            <div class="menu-bar" style="display:flex;align-items:center;width:100%;gap:8px;">
                 <button class="icon-button" id="sidebar-toggle-btn" title="Toggle Explorer"><svg class="svg-icon"><use href="#icon-sidebar"></use></svg></button>
                 <button class="icon-button" id="main-menu-btn" title="Main Menu"><svg class="svg-icon"><use href="#icon-menu"></use></svg></button>
                 <div id="custom-menu-container"></div>
+                <div style="flex:1;"></div>
+                <div id="awtsmoos-account-panel" class="awtsmoos-account-panel" aria-live="polite"></div>
             </div>
             <div class="tab-bar-wrapper">
                 <div id="tab-bar" class="tab-bar"></div>
@@ -71,7 +73,7 @@
                     <div id="line-numbers">1</div>
                     <textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" rows="1"></textarea>
                 </div>
-                
+
                 <div id="data-altar-container" class="hidden"></div>
 
                 <div id="find-replace-panel">
@@ -99,9 +101,9 @@
     <div id="toast-container"></div>
     <div id="main-menu"></div>
     <div id="context-menu"></div>
-    
+
     <div id="selection-menu" class="selection-menu-bar"></div>
-    
+
     <div id="graph-nav-overlay" class="graph-nav-overlay hidden">
         <button id="graph-nav-close" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
         <canvas id="graph-canvas"></canvas>

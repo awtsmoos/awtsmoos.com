@@ -32,6 +32,14 @@ export const WorkspaceAddition = {
                     <svg class="svg-icon" style="color: var(--neon-cyan);"><use href="#icon-laptop"></use></svg>
                     <span style="color: var(--neon-cyan);">Relay Server Connection</span>
                 </button>
+                <button class="menu-button" data-action="awtsmoos-os" style="grid-column: 1 / -1; background: rgba(255, 160, 0, 0.07); border-color: #ffa000;">
+                    <svg class="svg-icon" style="color: #ffa000;"><use href="#icon-brain"></use></svg>
+                    <span style="color: #ffa000;">Awtsmoos OS</span>
+                </button>
+                <button class="menu-button" data-action="awtsmoos-os" style="grid-column: 1 / -1; background: rgba(255, 160, 0, 0.07); border-color: #ffa000;">
+                    <svg class="svg-icon" style="color: #ffa000;"><use href="#icon-brain"></use></svg>
+                    <span style="color: #ffa000;">Awtsmoos OS</span>
+                </button>
                 <button class="menu-button" data-action="ssh" style="grid-column: 1 / -1; background: rgba(168, 255, 0, 0.05); border-color: var(--neon-lime);">
                     <svg class="svg-icon" style="color: var(--neon-lime);"><use href="#icon-laptop"></use></svg>
                     <span style="color: var(--neon-lime);">SSH Workspace</span>
@@ -78,6 +86,7 @@ export const WorkspaceAddition = {
                     else if (action === 'idb') this.addIdb();
                     else if (action === 'opfs') this.addOpfs();
                     else if (action === 'relay') this.addRelay();
+                    else if (action === 'awtsmoos-os') this.addAwtsmoosOs();
                     else if (action === 'ssh') this.addSsh();
                 };
             }
@@ -87,6 +96,29 @@ export const WorkspaceAddition = {
     async addSsh() {
         const { SSHWorkspace } = await import('./ssh-workspace.js');
         return SSHWorkspace.add();
+    },
+
+    async addAwtsmoosOs() {
+        const { InlineLogin } = await import('../session/inline-login.js');
+        const login = await InlineLogin.ensure();
+        if (!login.ok) return;
+
+        const existing = State.workspaces.find(w => w.type === 'awtsmoos-os');
+        if (existing) {
+            UI.showToast('Awtsmoos OS workspace is already mounted.', 'info');
+            return existing;
+        }
+
+        const wsId = State.nextWorkspaceId++;
+        Workspaces.add({
+            id: wsId,
+            name: 'Awtsmoos OS',
+            type: 'awtsmoos-os',
+            path: '.',
+            realmid: login.identity?.id || login.identity?._id || null
+        }, true);
+
+        UI.showToast('Awtsmoos OS workspace added.', 'success');
     },
 
     /**
@@ -128,21 +160,30 @@ export const WorkspaceAddition = {
                 </div>
             `;
             
+            const DEFAULT_RELAY_URL = "http://localhost:3000";
             const enteredUrl = await UI.showDialog({
                 title: "Configure Relay Manifestation",
                 contentHTML: configHtml,
                 hasInput: true,
-                placeholder: "http://localhost:3000",
+                placeholder: DEFAULT_RELAY_URL,
                 okText: "Establish Connection",
                 cancelText: "Cancel"
             });
             
-            if (enteredUrl) {
-                State.relayUrl = enteredUrl.trim();
-                import('../app.js').then(m => m.App.saveSettings());
-            } else {
+            if (enteredUrl === null) {
+                UI.showToast("B\"H - Relay connection cancelled.", 'info');
                 return; // Action abandoned
             }
+
+            const resolvedUrl = String(enteredUrl || '').trim() || DEFAULT_RELAY_URL;
+            if (!new RegExp('^https?://', 'i').test(resolvedUrl)) {
+                UI.showToast("Relay URL must start with http:// or https://", 'error', 8000);
+                return;
+            }
+
+            State.relayUrl = resolvedUrl.replace(/\/+$/, '');
+            import('../app.js').then(m => m.App.saveSettings());
+            UI.showToast(`B"H - Trying Relay Server at ${State.relayUrl}`, 'info', 4000);
         }
         
         // Once the coordinates are secured, open the ethereal browser
@@ -163,6 +204,8 @@ export const WorkspaceAddition = {
                 }, true);
             });
             UI.showToast("B\"H - Relay World Anchored.", "success");
+        } else {
+            UI.showToast(`B"H - Relay workspace was not added. No directory was selected from ${State.relayUrl}.`, "warning", 8000);
         }
         
         // B"H - Bind the download button immediately after Dialog manifestation

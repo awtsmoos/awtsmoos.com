@@ -78,7 +78,7 @@ async function runCommand(config, payload = {}) {
 
   const shell = payload.shell || config.command.defaultShell || (process.platform === "win32" ? "powershell" : "bash");
   const cwd = safeCwd(config, payload.cwd || ".");
-  const timeoutMs = Number(payload.timeoutMs || config.command.timeoutMs || 20000);
+  const timeoutMs = Number(payload.timeoutMs || config.command.timeoutMs || 120000);
   const maxOutput = Number(payload.maxChars || config.command.maxOutput || 120000);
   const first = await execPicked(shellArgs(shell, command), command, cwd, timeoutMs, maxOutput);
 

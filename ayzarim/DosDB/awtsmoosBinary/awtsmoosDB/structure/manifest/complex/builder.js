@@ -12,6 +12,8 @@
 const PrimitiveScribe = require('../primitive/scribe.js');
 const BuilderLogic = require('./builder/logic/index.js');
 const Classifier = require('./builder/classifier.js');
+const PackedObjectCodec = require('../../../api/packed/objectCodec.js');
+const PackedArrayCodec = require('../../../api/packed/arrayCodec.js');
 
 /**
  * @class StructBuilder
@@ -42,6 +44,23 @@ class StructBuilder {
   build(value, visited = new Map()) {
     if (Classifier.isPrimitiveStorageValue(value)) {
       return this.scribe.save(value);
+    }
+
+    if (this.db && this.db.options && this.db.options.packedArrays !== false) {
+      const raw = PackedArrayCodec.tryEncodeDense(value, this.scribe, {
+        maxLength: this.db.options.packedArrayMaxLength || 2048,
+        maxBytes: this.db.options.packedArrayMaxBytes || 262 * 1024
+      });
+      if (raw) return this.scribe.save({ __awtsmoosPackedArray: true, raw });
+    }
+
+    if (this.db && this.db.options && this.db.options.packedObjects !== false) {
+      const raw = PackedObjectCodec.tryEncodePlain(value, this.scribe, {
+        maxKeys: this.db.options.packedObjectMaxKeys || 8,
+        maxBytes: this.db.options.packedObjectMaxBytes || 1024,
+        allowNested: false
+      });
+      if (raw) return this.scribe.save({ __awtsmoosPackedObject: true, raw });
     }
 
     if (visited.has(value)) {

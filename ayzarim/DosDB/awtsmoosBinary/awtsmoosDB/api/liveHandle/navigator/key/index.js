@@ -11,6 +11,8 @@ const AnchorLogic = require('../anchor/index.js');
 const FlatSeeker = require('./flat/index.js');
 const SequenceSeeker = require('./sequence/index.js');
 const MapSeeker = require('./map/index.js');
+const PackedLive = require('../../../packed/liveObject.js');
+const PackedArray = require('../../../packed/liveArray.js');
 
 class KeyLogic {
     static resolveKey(state, key, structCoords) {
@@ -23,6 +25,19 @@ class KeyLogic {
 
         const db = state.db;
         let valPtr = null;
+
+        if (type === T.PACKED_OBJECT) {
+            const out = PackedLive.get(db, state.ptr, key);
+            return out.hit ? { virtualPacked: true, value: out.value } : null;
+        }
+        if (type === T.PACKED_ARRAY) {
+            const out = PackedArray.get(db, state.ptr, key);
+            return out.hit ? { virtualPacked: true, value: out.value } : null;
+        }
+        if (type === T.PACKED_ARRAY) {
+            const out = PackedArray.get(db, state.ptr, key);
+            return out.hit ? { virtualPacked: true, value: out.value } : null;
+        }
 
         if (type === T.SMART_OBJECT || type === T.SMART_ARRAY) {
             valPtr = FlatSeeker.seek(db, type, structCoords, key);
