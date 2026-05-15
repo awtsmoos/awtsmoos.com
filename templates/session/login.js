@@ -22,6 +22,147 @@ function safeKeys(obj) {
   }
 }
 
+function safeVal(x) {
+  try {
+    if (typeof x == "function") return "[function]";
+    if (typeof x == "string") return x;
+    if (typeof x == "number" || typeof x == "boolean") return x;
+    if (!x) return x;
+    return {
+      type: typeof x,
+      keys: safeKeys(x).slice(0, 20)
+    };
+  } catch(e) {
+    return "[unreadable]";
+  }
+}
+
+function inspectDbObject() {
+  var keys = safeKeys(db);
+  var candidates = {};
+  var names = [
+    "root", "dbRoot", "rootPath", "basePath", "baseDir",
+    "directory", "dir", "folder", "path", "filePath",
+    "dbPath", "location", "config", "options", "settings"
+  ];
+
+  for (var i = 0; i < names.length; i++) {
+    var k = names[i];
+    try {
+      if (db && db[k] !== undefined) candidates[k] = safeVal(db[k]);
+    } catch(e) {
+      candidates[k] = "[error:" + e.message + "]";
+    }
+  }
+
+  return {
+    dbType: typeof db,
+    dbKeys: keys.slice(0, 60),
+    candidates
+  };
+}
+
+async function tryDbPath(path) {
+  try {
+    var got = await db.get(path);
+    return {
+      path,
+      found: !!got,
+      type: typeof got,
+      keys: safeKeys(got).slice(0, 30),
+      preview: got && typeof got == "object" ? {
+        hasPassword: !!got.password,
+        hasSalt: !!got.salt
+      } : safeVal(got)
+    };
+  } catch(e) {
+    return {
+      path,
+      error: e.message
+    };
+  }
+}
+
+function inspectFs(username) {
+  var out = {
+    canRequire: false,
+    cwd: "",
+    env: {},
+    exists: []
+  };
+
+  try {
+    var fs = require("fs");
+    var path = require("path");
+    out.canRequire = true;
+    out.cwd = process.cwd();
+
+    var envNames = [
+      "AWTSMOOS_DB_ROOT",
+      "AWTSMOOS_DOSDB_ROOT",
+      "DOSDB_ROOT",
+      "DAYUH_CHADASH",
+      "DATABASE_ROOT",
+      "DB_ROOT"
+    ];
+
+    for (var i = 0; i < envNames.length; i++) {
+      var key = envNames[i];
+      if (process.env[key]) out.env[key] = process.env[key];
+    }
+
+    var paths = [
+      "C:\\\\Users\\\\Yackov Yitzchak\\\\Documents\\\\WoW\\\\dayuhChadash",
+      "C:\\\\Users\\\\Yackov Yitzchak\\\\Documents\\\\WoW\\\\BH\\\\awtsmoos.com\\\\dayuhChadash",
+      path.join(process.cwd(), "dayuhChadash"),
+      path.join(process.cwd(), "DosDB"),
+      path.join(process.cwd(), "users")
+    ];
+
+    for (var j = 0; j < paths.length; j++) {
+      var root = paths[j];
+      var userDir = path.join(root, "users", username);
+      var accountDir = path.join(root, "users", username, "account");
+      out.exists.push({
+        root,
+        rootExists: fs.existsSync(root),
+        userDir,
+        userDirExists: fs.existsSync(userDir),
+        accountDir,
+        accountDirExists: fs.existsSync(accountDir)
+      });
+    }
+  } catch(e) {
+    out.error = e.message;
+  }
+
+  return out;
+}
+
+async function inspectUserLookup(username) {
+  logSessionLogin("db_object_inspection", inspectDbObject());
+  logSessionLogin("filesystem_inspection", inspectFs(username));
+
+  var paths = [
+    "/users/" + username + "/account",
+    "users/" + username + "/account",
+    "/users/" + username,
+    "users/" + username,
+    "/dayuhChadash/users/" + username + "/account",
+    "dayuhChadash/users/" + username + "/account"
+  ];
+
+  var results = [];
+  for (var i = 0; i < paths.length; i++) {
+    results.push(await tryDbPath(paths[i]));
+  }
+
+  logSessionLogin("db_lookup_matrix", {
+    username,
+    results
+  });
+}
+
 async function handleLogin(request, $_POST, secret) {
   logSessionLogin("handleLogin_enter", {
     requestMethod: request && request.method,
@@ -49,6 +190,8 @@ async function handleLogin(request, $_POST, secret) {
   var username = String($_POST.username);
   var password = String($_POST.password);
 
+  await inspectUserLookup(username);
+
   var ip =
     request.headers["x-forwarded-for"] ||
     request.socket?.remoteAddress ||
@@ -61,7 +204,7 @@ async function handleLogin(request, $_POST, secret) {
     ip
   });
 
-  var loginPath = "/ipAddresses/" + ip + "info/logins";
+  var loginPath = "/ipAddresses/" + ip + "/info/logins";
 
   logSessionLogin("before_db_get_login_attempts", {
     loginPath
@@ -100,12 +243,14 @@ async function handleLogin(request, $_POST, secret) {
   loginAttempts.push(now);
   while(loginAttempts.length > 5) loginAttempts.shift();
 
+  var userPath = "/users/" + username + "/account";
+
   logSessionLogin("before_user_lookup", {
     username,
-    userPath: "/users/" + username + "/account"
+    userPath
   });
 
-  var user = await db.get("/users/" + username + "/account");
+  var user = await db.get(userPath);
 
   logSessionLogin("after_user_lookup", {
     foundUser: !!user,
@@ -117,6 +262,7 @@ async function handleLogin(request, $_POST, secret) {
 
     logSessionLogin("user_not_found", {
       username,
+      userPath,
       wroteAttempts: loginAttempts.length
     });
 

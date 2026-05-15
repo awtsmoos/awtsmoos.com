@@ -21,7 +21,7 @@
             "</script>?>":"?>"
 			
         }
-    },
+    }, 
     
-    "dbPath": "../../dayuhChadash.awtsdb"
+    "dbPath": "../../dayuhChadash"
 }
