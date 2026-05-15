@@ -10,10 +10,8 @@ const { getUserId } = require("../core/currentUser.js");
 
 function esc(x) {
   return String(x ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "<")
-    .replace(/>/g, ">")
-    .replace(/"/g, "&quot;");
+    .replace(/&/g, "&amp;").replace(/</g, "<")
+    .replace(/>/g, ">").replace(/"/g, "&quot;");
 }
 
 function isApproved(value) {
@@ -32,23 +30,33 @@ function buildAuthorizeUrl(opts) {
   });
 }
 
-function approvalHtml(opts) {
-  return [
-    "<!doctype html><title>Approve OAuth</title>",
-    "<h1>B\"H Allow Access?</h1>",
-    "<p>" + esc(opts.client.name) + " wants OAuth access.</p>",
-    "<p>User: <code>" + esc(opts.userId) + "</code></p>",
-    "<p>Scopes: <code>" + esc(opts.scope) + "</code></p>",
-    "<p><a href=\"" + esc(opts.approveUrl) + "\">Allow</a></p>",
-    "<p>If the button does nothing, copy this URL:</p>",
-    "<pre>" + esc(opts.approveUrl) + "</pre>"
-  ].join("");
+function loginUrl($i, nextPath) {
+  return fullUrlFor($i, "/login/", { next: fullUrlFor($i, nextPath) });
 }
 
-function loginUrl($i, nextPath) {
-  return fullUrlFor($i, "/login", {
-    next: fullUrlFor($i, nextPath)
-  });
+function approvalHtml(opts) {
+  return `<!doctype html>
+<html>
+<head>
+  <title>Approve Awtsmoos OAuth</title>
+  <style>
+    body{margin:0;min-height:100vh;background:#071426;color:#f7faff;font-family:system-ui;display:grid;place-items:center}
+    main{width:min(720px,calc(100vw - 32px));background:#0d2037;border:1px solid rgba(125,231,255,.25);border-radius:24px;padding:32px;box-shadow:0 24px 80px rgba(0,0,0,.35)}
+    h1{margin:0 0 12px;font-size:32px} p{color:#b9cbe2;line-height:1.55}
+    code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+    pre{white-space:pre-wrap;word-break:break-word;background:#020812;border:1px solid rgba(125,231,255,.18);border-radius:14px;padding:14px;color:#dff8ff}
+    a.button{display:inline-flex;padding:12px 20px;border-radius:999px;background:linear-gradient(135deg,#7de7ff,#41bcff);color:#03131d;font-weight:800;text-decoration:none}
+  </style>
+</head>
+<body><main>
+  <h1>B"H Allow Access?</h1>
+  <p><b>${esc(opts.client.name)}</b> wants OAuth access.</p>
+  <p>User: <code>${esc(opts.userId)}</code></p>
+  <p>Scopes: <code>${esc(opts.scope)}</code></p>
+  <p><a class="button" href="${esc(opts.approveUrl)}">Allow</a></p>
+  <p>If the button does nothing, copy this URL:</p>
+  <pre>${esc(opts.approveUrl)}</pre>
+</main></body></html>`;
 }
 
 async function authorize($i) {
@@ -67,30 +75,15 @@ async function authorize($i) {
   }
 
   const client = getClient(clientId);
-  if (!client) {
-    return json($i, { BH: "B\"H", ok: false, error: "invalid_client" }, 400);
-  }
+  if (!client) return json($i, { BH: "B\"H", ok: false, error: "invalid_client" }, 400);
 
   if (!client.redirectAllowed(redirectUri)) {
-    return json($i, {
-      BH: "B\"H",
-      ok: false,
-      error: "redirect_uri_not_allowed",
-      redirect_uri: redirectUri,
-      allowed: client.redirectUris
-    }, 400);
+    return json($i, { BH: "B\"H", ok: false, error: "redirect_uri_not_allowed", redirect_uri: redirectUri, allowed: client.redirectUris }, 400);
   }
 
   const scopeCheck = validateScope(requestedScope || client.defaultScope, client.scopes);
   if (!scopeCheck.ok) {
-    return json($i, {
-      BH: "B\"H",
-      ok: false,
-      error: "invalid_scope",
-      requestedScope,
-      invalid: scopeCheck.invalid,
-      allowed: client.scopes
-    }, 400);
+    return json($i, { BH: "B\"H", ok: false, error: "invalid_scope", invalid: scopeCheck.invalid, allowed: client.scopes }, 400);
   }
 
   const scope = scopeCheck.scope || client.defaultScope;
@@ -102,29 +95,11 @@ async function authorize($i) {
   }
 
   if (!client.autoApprove && !isApproved(approveRaw)) {
-    const approvePath = buildAuthorizeUrl({
-      clientId: client.id,
-      redirectUri,
-      scope,
-      state,
-      approve: "1"
-    });
-    return html($i, approvalHtml({
-      client,
-      userId,
-      scope,
-      approveUrl: fullUrlFor($i, approvePath)
-    }));
+    const approvePath = buildAuthorizeUrl({ clientId: client.id, redirectUri, scope, state, approve: "1" });
+    return html($i, approvalHtml({ client, userId, scope, approveUrl: fullUrlFor($i, approvePath) }));
   }
 
-  const code = await saveCode({
-    userId,
-    clientId: client.id,
-    redirectUri,
-    scope,
-    state
-  });
-
+  const code = await saveCode({ userId, clientId: client.id, redirectUri, scope, state });
   return browserRedirect($i, urlWithParams(redirectUri, { code, state }));
 }
 

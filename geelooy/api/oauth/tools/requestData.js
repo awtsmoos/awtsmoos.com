@@ -23,15 +23,13 @@ function rawBodyOf(body) {
   return "";
 }
 
-function parseRawBody($i, body) {
+function parseRaw($i, body) {
   const raw = rawBodyOf(body);
   if (!raw) return {};
   const type = contentTypeOf($i);
 
-  if (type.includes("application/json") || raw.trim().startsWith("{")) {
-    try {
-      return JSON.parse(raw);
-    } catch (e) {}
+  if (type.includes("json") || raw.trim().startsWith("{")) {
+    try { return JSON.parse(raw); } catch(e) {}
   }
 
   if (type.includes("x-www-form-urlencoded") || raw.includes("=")) {
@@ -47,8 +45,8 @@ async function getBody($i) {
     if (typeof $i.getPostData === "function") await $i.getPostData();
 
     const body = $i.paramKinds?.POST || $i.$_POST || $i.request?.body || {};
-    return { ...parseRawBody($i, body), ...body };
-  } catch (e) {
+    return { ...parseRaw($i, body), ...body };
+  } catch(e) {
     return {};
   }
 }
@@ -56,12 +54,13 @@ async function getBody($i) {
 function getBasicClientAuth($i) {
   const auth = headersOf($i).authorization || headersOf($i).Authorization || "";
   if (!/^Basic\s+/i.test(auth)) return {};
+
   try {
     const raw = Buffer.from(auth.replace(/^Basic\s+/i, ""), "base64").toString("utf8");
     const at = raw.indexOf(":");
     if (at < 0) return {};
     return { client_id: raw.slice(0, at), client_secret: raw.slice(at + 1) };
-  } catch (e) {
+  } catch(e) {
     return {};
   }
 }
@@ -83,20 +82,13 @@ async function getTokenRequest($i) {
 
 function debugRequestShape($i, body) {
   const q = getQuery($i);
-  const headers = headersOf($i);
   return {
     method: $i.request?.method || "",
-    content_type: headers["content-type"] || headers["Content-Type"] || "",
+    content_type: contentTypeOf($i),
     query_keys: Object.keys(q),
     body_keys: Object.keys(body || {}).filter(k => k !== "__raw_body__"),
     has_raw_body: !!rawBodyOf(body || {})
   };
 }
 
-module.exports = {
-  getQuery,
-  getBody,
-  getBasicClientAuth,
-  getTokenRequest,
-  debugRequestShape
-};
+module.exports = { getQuery, getBody, getBasicClientAuth, getTokenRequest, debugRequestShape };

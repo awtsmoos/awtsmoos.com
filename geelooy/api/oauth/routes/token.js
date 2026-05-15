@@ -1,11 +1,7 @@
 
 // B"H
 const crypto = require("crypto");
-const {
-  getTokenRequest,
-  getBody,
-  debugRequestShape
-} = require("../tools/requestData.js");
+const { getTokenRequest, getBody, debugRequestShape } = require("../tools/requestData.js");
 const { getClient } = require("../core/clients.js");
 const { secretString } = require("../core/serverSecret.js");
 const { takeCode } = require("../core/codeStore.js");
@@ -20,10 +16,7 @@ function sign(payload, secret) {
 }
 
 function makeAccessToken(entry, secret, expiresIn) {
-  const payload = [
-    "B\"H",
-    b64url({ entry, zman: Date.now(), hoshufuh: { expiresIn } })
-  ].join(".");
+  const payload = ["B\"H", b64url({ entry, zman: Date.now(), hoshufuh: { expiresIn } })].join(".");
   return payload + "." + sign(payload, secret);
 }
 
@@ -45,11 +38,7 @@ async function token($i) {
   const req = await getTokenRequest($i);
 
   if (req.grant_type !== "authorization_code") {
-    return json($i, {
-      BH: "B\"H",
-      error: "unsupported_grant_type",
-      grant_type: req.grant_type
-    }, 400);
+    return json($i, { BH: "B\"H", error: "unsupported_grant_type", grant_type: req.grant_type }, 400);
   }
 
   if (!req.code) return missingCode($i, req);
@@ -66,8 +55,7 @@ async function token($i) {
     return json($i, {
       BH: "B\"H",
       error: "invalid_or_expired_code",
-      codePrefix: String(req.code).slice(0, 18),
-      hint: "Retry OAuth from ChatGPT immediately. Codes are one-time-use and expire after 5 minutes."
+      hint: "Start OAuth again. Codes are one-time-use and expire quickly."
     }, 400);
   }
 
