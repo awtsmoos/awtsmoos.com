@@ -1,0 +1,55 @@
+
+/* B"H */
+
+body.awt-gated {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.awt-login-gate {
+  width: min(780px, 100%);
+}
+
+.awt-login-card {
+  padding: clamp(22px, 5vw, 48px);
+  border: 1px solid var(--awt-line);
+  border-radius: 34px;
+  background:
+    linear-gradient(145deg, rgba(21, 31, 53, 0.96), rgba(8, 13, 27, 0.94)),
+    radial-gradient(circle at top left, rgba(141, 222, 255, 0.20), transparent 28rem);
+  box-shadow: var(--awt-shadow);
+}
+
+.awt-login-card h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+}
+
+.awt-login-card p {
+  max-width: 620px;
+  color: var(--awt-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.awt-login-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.awt-primary-link {
+  background: linear-gradient(135deg, var(--awt-sky), var(--awt-violet)) !important;
+  color: #04101d !important;
+}
+
+.awt-command-copy {
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(1, 5, 15, 0.78);
+  overflow: auto;
+}

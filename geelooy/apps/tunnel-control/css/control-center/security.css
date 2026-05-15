@@ -1,0 +1,31 @@
+
+/* B"H */
+
+.awt-secret-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.awt-secret-token {
+  display: inline-flex;
+  max-width: min(100%, 520px);
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 224, 138, 0.32);
+  border-radius: 12px;
+  color: var(--awt-yellow);
+  background: rgba(255, 224, 138, 0.08);
+  font-family: var(--awt-mono);
+  font-size: 0.83rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.awt-token-button {
+  min-height: 30px !important;
+  padding: 5px 10px !important;
+  font-size: 0.76rem !important;
+}

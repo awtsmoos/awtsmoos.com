@@ -2,46 +2,60 @@
 // B"H
 
 const params = new URLSearchParams(location.search);
+const savedTunnelName = localStorage.getItem("awtsmoos:tunnelName") || "";
+const savedProjectPath = localStorage.getItem("awtsmoos:projectPath") || ".";
 
-function readLocal(key, fallback = "") {
-  try {
-    return localStorage.getItem(key) || fallback;
-  } catch (e) {
-    return fallback;
+/**
+ * B"H
+ * The small memory vessel of the control panel.
+ *
+ * The normal path should be:
+ *   /apps/tunnel-control/
+ *
+ * A tunnelName query remains only as a developer override, not as the main
+ * user flow. After the page discovers a tunnel from login/session, it stores
+ * the selected tunnel locally without polluting the URL.
+ */
+export const state = {
+  tunnelName: params.get("tunnelName") || savedTunnelName,
+  projectPath: savedProjectPath,
+  explorerPath: ".",
+  urlTunnelOverride: params.get("tunnelName") || ""
+};
+
+/**
+ * B"H
+ * Remembers the active tunnel without forcing it into the URL.
+ *
+ * @param {string} tunnelName Active tunnel name.
+ * @returns {void}
+ */
+export function rememberTunnelName(tunnelName) {
+  state.tunnelName = String(tunnelName || "").trim();
+  if (state.tunnelName) {
+    localStorage.setItem("awtsmoos:tunnelName", state.tunnelName);
   }
 }
 
-function writeLocal(key, value) {
-  try {
-    if (value) localStorage.setItem(key, value);
-  } catch (e) {}
+/**
+ * B"H
+ * Clears tunnel memory when the user is logged out or no agent exists.
+ *
+ * @returns {void}
+ */
+export function forgetTunnelName() {
+  state.tunnelName = "";
+  localStorage.removeItem("awtsmoos:tunnelName");
 }
 
-const queryTunnelName = params.get("tunnelName") || "";
-const storedTunnelName = readLocal("awtsmoos.tunnelName", "");
-const tunnelName = queryTunnelName || storedTunnelName || "";
-
-if (queryTunnelName) {
-  writeLocal("awtsmoos.tunnelName", queryTunnelName);
-}
-
-export const state = {
-  tunnelName,
-  projectPath: readLocal("awtsmoos.projectPath", "."),
-  explorerPath: readLocal("awtsmoos.explorerPath", ".")
-};
-
-export function rememberTunnelName(value) {
-  state.tunnelName = String(value || "").trim();
-  writeLocal("awtsmoos.tunnelName", state.tunnelName);
-}
-
-export function rememberProjectPath(value) {
-  state.projectPath = String(value || ".").trim() || ".";
-  writeLocal("awtsmoos.projectPath", state.projectPath);
-}
-
-export function rememberExplorerPath(value) {
-  state.explorerPath = String(value || ".").trim() || ".";
-  writeLocal("awtsmoos.explorerPath", state.explorerPath);
+/**
+ * B"H
+ * Remembers the visible project path.
+ *
+ * @param {string} projectPath Project path.
+ * @returns {void}
+ */
+export function rememberProjectPath(projectPath) {
+  state.projectPath = String(projectPath || ".").trim() || ".";
+  localStorage.setItem("awtsmoos:projectPath", state.projectPath);
 }

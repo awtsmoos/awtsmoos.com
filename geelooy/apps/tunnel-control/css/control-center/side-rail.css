@@ -1,0 +1,42 @@
+
+/* B"H */
+
+.awt-control-side {
+  position: sticky;
+  top: 12px;
+  z-index: 30;
+  max-height: calc(100vh - 24px);
+  overflow: auto;
+  padding: 16px;
+  border: 1px solid var(--awt-line);
+  border-radius: var(--awt-radius-lg);
+  background:
+    linear-gradient(180deg, rgba(25, 35, 60, 0.95), rgba(11, 16, 32, 0.94)),
+    radial-gradient(circle at top left, rgba(141, 222, 255, 0.16), transparent 20rem);
+  box-shadow: var(--awt-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.awt-brand-block {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  border-radius: 24px;
+  border: 1px solid rgba(141, 222, 255, 0.25);
+  background: linear-gradient(145deg, rgba(141, 222, 255, 0.13), rgba(198, 167, 255, 0.09));
+}
+
+.awt-brand-block h1 {
+  margin: 0;
+  font-size: clamp(1.28rem, 2vw, 1.8rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.awt-brand-block p {
+  margin: 0;
+  color: var(--awt-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
