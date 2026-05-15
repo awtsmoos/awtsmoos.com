@@ -1,11 +1,10 @@
 
 // B"H
-
 const { getClient } = require("../core/clients.js");
 const { saveCode } = require("../core/codeStore.js");
 const { validateScope } = require("../core/scopes.js");
 const { getQuery, getBody } = require("../tools/requestData.js");
-const { json, html, browserRedirect } = require("../tools/respond.js");
+const { json, html, browserRedirect, redirect } = require("../tools/respond.js");
 const { localUrlFor, urlWithParams, fullUrlFor } = require("../tools/urls.js");
 const { getUserId } = require("../core/currentUser.js");
 
@@ -19,7 +18,7 @@ function esc(x) {
 
 function isApproved(value) {
   const v = String(value ?? "").trim().toLowerCase();
-  return v === "1" || v === "true" || v === "yes" || v === "y" || v === "approve" || v === "approved";
+  return ["1", "true", "yes", "y", "approve", "approved"].includes(v);
 }
 
 function buildAuthorizeUrl(opts) {
@@ -34,30 +33,22 @@ function buildAuthorizeUrl(opts) {
 }
 
 function approvalHtml(opts) {
-  const approveUrlJson = JSON.stringify(opts.approveUrl);
+  return [
+    "<!doctype html><title>Approve OAuth</title>",
+    "<h1>B\"H Allow Access?</h1>",
+    "<p>" + esc(opts.client.name) + " wants OAuth access.</p>",
+    "<p>User: <code>" + esc(opts.userId) + "</code></p>",
+    "<p>Scopes: <code>" + esc(opts.scope) + "</code></p>",
+    "<p><a href=\"" + esc(opts.approveUrl) + "\">Allow</a></p>",
+    "<p>If the button does nothing, copy this URL:</p>",
+    "<pre>" + esc(opts.approveUrl) + "</pre>"
+  ].join("");
+}
 
-  return "<!doctype html>" +
-    "<html><head><meta charset='utf-8'><title>Approve OAuth</title>" +
-    "<meta name='viewport' content='width=device-width, initial-scale=1'>" +
-    "<style>" +
-    "body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 10% 0,rgba(137,215,255,.24),transparent 34%),linear-gradient(135deg,#050712,#10172d,#171127);color:#fbfcff;font-family:system-ui}" +
-    "main{width:min(760px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:34px;background:rgba(255,255,255,.08);box-shadow:0 32px 110px rgba(0,0,0,.45);backdrop-filter:blur(16px)}" +
-    "h1{font-size:clamp(38px,7vw,68px);line-height:.92;letter-spacing:-.06em;margin:0 0 14px}" +
-    "p{color:#c3cae0;line-height:1.55}code{color:#89d7ff;word-break:break-all}" +
-    "button,a.button{display:inline-block;margin-top:16px;padding:14px 20px;border:0;border-radius:999px;background:linear-gradient(135deg,#89d7ff,#d3a1ff);color:#07101d;text-decoration:none;font-weight:950;font-size:16px;cursor:pointer}" +
-    ".box{margin-top:18px;padding:14px;border:1px solid rgba(255,255,255,.15);border-radius:18px;background:rgba(0,0,0,.22)}" +
-    "</style></head><body><main>" +
-    "<h1>B&quot;H Allow Access?</h1>" +
-    "<p><strong>" + esc(opts.client.name) + "</strong> wants OAuth access to your Awtsmoos account.</p>" +
-    "<p>User: <code>" + esc(opts.userId) + "</code></p>" +
-    "<p>Scopes: <code>" + esc(opts.scope) + "</code></p>" +
-    "<button type='button' id='allowBtn'>Allow</button>" +
-    "<noscript><a class='button' href='" + esc(opts.approveUrl) + "'>Allow</a></noscript>" +
-    "<div class='box'><p>If the button does nothing, copy this URL:</p><code>" + esc(opts.approveUrl) + "</code></div>" +
-    "<script>" +
-    "document.getElementById('allowBtn').addEventListener('click',function(){window.location.href=" + approveUrlJson + ";});" +
-    "</script>" +
-    "</main></body></html>";
+function loginUrl($i, nextPath) {
+  return fullUrlFor($i, "/login", {
+    next: fullUrlFor($i, nextPath)
+  });
 }
 
 async function authorize($i) {
@@ -72,23 +63,12 @@ async function authorize($i) {
   const approveRaw = q.approve || post.approve || "";
 
   if (responseType !== "code") {
-    return json($i, {
-      BH: "B\"H",
-      ok: false,
-      error: "unsupported_response_type",
-      response_type: responseType
-    }, 400);
+    return json($i, { BH: "B\"H", ok: false, error: "unsupported_response_type" }, 400);
   }
 
   const client = getClient(clientId);
-
   if (!client) {
-    return json($i, {
-      BH: "B\"H",
-      ok: false,
-      error: "invalid_client",
-      client_id: clientId
-    }, 400);
+    return json($i, { BH: "B\"H", ok: false, error: "invalid_client" }, 400);
   }
 
   if (!client.redirectAllowed(redirectUri)) {
@@ -102,7 +82,6 @@ async function authorize($i) {
   }
 
   const scopeCheck = validateScope(requestedScope || client.defaultScope, client.scopes);
-
   if (!scopeCheck.ok) {
     return json($i, {
       BH: "B\"H",
@@ -118,24 +97,8 @@ async function authorize($i) {
   const userId = getUserId($i);
 
   if (!userId) {
-    const next = buildAuthorizeUrl({
-      clientId: client.id,
-      redirectUri,
-      scope,
-      state
-    });
-
-    return html($i,
-      "<!doctype html><html><head><meta charset='utf-8'><title>Login required</title>" +
-      "<meta name='viewport' content='width=device-width, initial-scale=1'></head>" +
-      "<body style='margin:0;font-family:system-ui;background:#050712;color:white;display:grid;place-items:center;min-height:100vh'>" +
-      "<main style='width:min(720px,calc(100vw - 28px));border:1px solid rgba(255,255,255,.15);border-radius:28px;padding:32px;background:rgba(255,255,255,.08)'>" +
-      "<h1>B&quot;H Login required</h1>" +
-      "<p>Log in to Awtsmoos, then OAuth will continue.</p>" +
-      "<a style='display:inline-block;margin-top:16px;padding:13px 18px;border-radius:999px;background:linear-gradient(135deg,#89d7ff,#d3a1ff);color:#06101d;text-decoration:none;font-weight:900' href='/login?next=" + encodeURIComponent(next) + "'>Login to Awtsmoos</a>" +
-      "</main></body></html>",
-      401
-    );
+    const next = buildAuthorizeUrl({ clientId: client.id, redirectUri, scope, state });
+    return redirect($i, loginUrl($i, next));
   }
 
   if (!client.autoApprove && !isApproved(approveRaw)) {
@@ -146,14 +109,11 @@ async function authorize($i) {
       state,
       approve: "1"
     });
-
-    const approveUrl = fullUrlFor($i, approvePath);
-
     return html($i, approvalHtml({
       client,
       userId,
       scope,
-      approveUrl
+      approveUrl: fullUrlFor($i, approvePath)
     }));
   }
 
@@ -165,12 +125,7 @@ async function authorize($i) {
     state
   });
 
-  const finalCallbackUrl = urlWithParams(redirectUri, {
-    code,
-    state
-  });
-
-  return browserRedirect($i, finalCallbackUrl);
+  return browserRedirect($i, urlWithParams(redirectUri, { code, state }));
 }
 
 module.exports = { authorize };

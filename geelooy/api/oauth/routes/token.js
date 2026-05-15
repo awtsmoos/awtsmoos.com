@@ -1,8 +1,11 @@
 
 // B"H
-
 const crypto = require("crypto");
-const { getTokenRequest } = require("../tools/requestData.js");
+const {
+  getTokenRequest,
+  getBody,
+  debugRequestShape
+} = require("../tools/requestData.js");
 const { getClient } = require("../core/clients.js");
 const { secretString } = require("../core/serverSecret.js");
 const { takeCode } = require("../core/codeStore.js");
@@ -13,25 +16,29 @@ function b64url(obj) {
 }
 
 function sign(payload, secret) {
-  return crypto
-    .createHmac("sha256", String(secret))
-    .update(payload)
-    .digest("hex");
+  return crypto.createHmac("sha256", String(secret)).update(payload).digest("hex");
 }
 
 function makeAccessToken(entry, secret, expiresIn) {
   const payload = [
     "B\"H",
-    b64url({
-      entry,
-      zman: Date.now(),
-      hoshufuh: {
-        expiresIn
-      }
-    })
+    b64url({ entry, zman: Date.now(), hoshufuh: { expiresIn } })
   ].join(".");
-
   return payload + "." + sign(payload, secret);
+}
+
+async function missingCode($i, req) {
+  const body = await getBody($i);
+  return json($i, {
+    BH: "B\"H",
+    error: "missing_code",
+    received: {
+      has_client_id: !!req.client_id,
+      has_redirect_uri: !!req.redirect_uri,
+      grant_type: req.grant_type
+    },
+    request_shape: debugRequestShape($i, body)
+  }, 400);
 }
 
 async function token($i) {
@@ -45,36 +52,16 @@ async function token($i) {
     }, 400);
   }
 
-  if (!req.code) {
-    return json($i, {
-      BH: "B\"H",
-      error: "missing_code",
-      received: {
-        has_client_id: !!req.client_id,
-        has_redirect_uri: !!req.redirect_uri,
-        grant_type: req.grant_type
-      }
-    }, 400);
-  }
+  if (!req.code) return missingCode($i, req);
 
   const client = getClient(req.client_id || "chatgpt");
-
-  if (!client) {
-    return json($i, {
-      BH: "B\"H",
-      error: "invalid_client"
-    }, 401);
-  }
+  if (!client) return json($i, { BH: "B\"H", error: "invalid_client" }, 401);
 
   if (!client.secretAllowed(req.client_secret)) {
-    return json($i, {
-      BH: "B\"H",
-      error: "invalid_client_secret"
-    }, 401);
+    return json($i, { BH: "B\"H", error: "invalid_client_secret" }, 401);
   }
 
   const record = takeCode(req.code);
-
   if (!record) {
     return json($i, {
       BH: "B\"H",
@@ -85,12 +72,7 @@ async function token($i) {
   }
 
   if (record.clientId && record.clientId !== client.id) {
-    return json($i, {
-      BH: "B\"H",
-      error: "code_client_mismatch",
-      expected: record.clientId,
-      got: client.id
-    }, 400);
+    return json($i, { BH: "B\"H", error: "code_client_mismatch" }, 400);
   }
 
   if (record.redirectUri && req.redirect_uri && record.redirectUri !== req.redirect_uri) {
@@ -103,8 +85,6 @@ async function token($i) {
   }
 
   const expiresIn = client.accessTokenSeconds || 3600;
-  const secret = secretString($i);
-
   const entry = {
     kind: "oauth_access",
     userId: record.userId,
@@ -113,10 +93,8 @@ async function token($i) {
     createdAt: Date.now()
   };
 
-  const access_token = makeAccessToken(entry, secret, expiresIn);
-
   return json($i, {
-    access_token,
+    access_token: makeAccessToken(entry, secretString($i), expiresIn),
     token_type: "Bearer",
     expires_in: expiresIn,
     scope: entry.scope
