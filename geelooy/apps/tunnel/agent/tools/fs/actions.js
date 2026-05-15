@@ -19,8 +19,12 @@ const { packageInfo, projectOverview } = require("./projectInfo.js");
 const { dependencyGraph } = require("./dependencyGraph.js");
 const { recentFiles, largeFiles, duplicateBasenames, textStats } = require("./diagnostics.js");
 const { routeAudit, agentSelfTest } = require("./selfAudit.js");
+const { mkdirp, ensureFile, touch } = require("./fileOpsPaths.js");
+const { copyFileNative, copyTree } = require("./fileOpsCopy.js");
+const { moveFile, moveTree, deleteFile, deleteTree, emptyDir } = require("./fileOpsMoveDelete.js");
+const { handleHttpAction } = require("./httpActions.js");
 
-const AGENT_VERSION = "split-agent-1.2.0";
+const AGENT_VERSION = "split-agent-1.3.0";
 
 function publicConfig(config) {
   return {
@@ -190,6 +194,25 @@ function buildActions(config, payload, ws) {
     async textStats() { return await textStats(config, payload); },
     async routeAudit() { return await routeAudit(config, payload); },
     async agentSelfTest() { return await agentSelfTest(config, payload); },
+    async mkdirp() { return await mkdirp(config, payload); },
+    async ensureFile() { return await ensureFile(config, payload); },
+    async touch() { return await touch(config, payload); },
+    async copyFile() { return await copyFileNative(config, payload); },
+    async copyTree() { return await copyTree(config, payload); },
+    async moveFile() { return await moveFile(config, payload); },
+    async moveTree() { return await moveTree(config, payload); },
+    async deleteFile() { return await deleteFile(config, payload); },
+    async deleteTree() { return await deleteTree(config, payload); },
+    async emptyDir() { return await emptyDir(config, payload); },
+
+    async httpRequest() { return await handleHttpAction(config, payload); },
+    async httpJson() { return await handleHttpAction(config, payload); },
+    async httpDownload() { return await handleHttpAction(config, payload); },
+    async httpCookieJarList() { return await handleHttpAction(config, payload); },
+    async httpCookies() { return await handleHttpAction(config, payload); },
+    async httpCookieSet() { return await handleHttpAction(config, payload); },
+    async httpCookieDelete() { return await handleHttpAction(config, payload); },
+    async httpSessionClear() { return await handleHttpAction(config, payload); },
 
     async write() {
       const wrote = await writeText(config, p, payload.content || "");
