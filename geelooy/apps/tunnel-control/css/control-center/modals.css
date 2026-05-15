@@ -1,0 +1,135 @@
+
+/* B"H */
+
+.awt-modal.hidden {
+  display: none !important;
+}
+
+.awt-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.awt-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 4, 14, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.awt-modal-card {
+  position: relative;
+  z-index: 1;
+  width: min(980px, 100%);
+  max-height: min(820px, calc(100dvh - 36px));
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto;
+  gap: 12px;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(141, 222, 255, 0.34);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top left, rgba(141, 222, 255, 0.18), transparent 24rem),
+    linear-gradient(180deg, rgba(20, 30, 54, 0.98), rgba(8, 13, 29, 0.98));
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+}
+
+.awt-modal-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.awt-modal-head h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  letter-spacing: -0.06em;
+}
+
+.awt-modal-head p {
+  margin: 6px 0 0;
+  color: var(--awt-muted);
+}
+
+.awt-root-tools {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) repeat(4, auto);
+  gap: 10px;
+  align-items: center;
+}
+
+.awt-root-crumbs {
+  min-height: 38px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.awt-root-list {
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.root-row {
+  width: 100%;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+  padding: 12px 14px !important;
+  border-radius: 18px !important;
+}
+
+.root-row.selected {
+  border-color: rgba(120, 245, 190, 0.70) !important;
+  background: rgba(120, 245, 190, 0.12) !important;
+}
+
+.root-row-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.root-row-action {
+  color: var(--awt-sky);
+  font-weight: 950;
+}
+
+.awt-raw-details {
+  overflow: auto;
+}
+
+.awt-raw-details pre {
+  max-height: 170px;
+}
+
+@media (max-width: 760px) {
+  .awt-modal {
+    padding: 8px;
+    place-items: stretch;
+  }
+
+  .awt-modal-card {
+    max-height: calc(100dvh - 16px);
+    border-radius: 20px;
+  }
+
+  .awt-root-tools {
+    grid-template-columns: 1fr;
+  }
+
+  .awt-modal-head {
+    display: grid;
+  }
+}

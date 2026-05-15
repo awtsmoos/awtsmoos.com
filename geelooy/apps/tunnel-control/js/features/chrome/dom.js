@@ -13,7 +13,7 @@ export function getChromePane() {
 
 /**
  * B"H
- * Finds a button inside the Chrome pane by its visible text.
+ * Finds a button inside the Chrome pane by visible text.
  *
  * @param {HTMLElement} pane Chrome pane.
  * @param {RegExp} pattern Text pattern.
@@ -29,9 +29,6 @@ export function findButton(pane, pattern) {
  * B"H
  * Returns a stable map of Chrome fields.
  *
- * This supports old markup by using ids when present and order fallback
- * when the legacy HTML has no ids wired.
- *
  * @param {HTMLElement} pane Chrome pane.
  * @returns {object} Fields map.
  */
@@ -39,8 +36,8 @@ export function getChromeFields(pane) {
   const inputs = Array.from(
     pane.querySelectorAll('input:not([type="hidden"]), textarea, select')
   );
-  const textareas = Array.from(pane.querySelectorAll("textarea"));
 
+  const textareas = Array.from(pane.querySelectorAll("textarea"));
   const byId = id => pane.querySelector("#" + id);
   const nth = index => inputs[index] || null;
 
@@ -58,22 +55,25 @@ export function getChromeFields(pane) {
 
 /**
  * B"H
- * Finds or creates the output box inside the Chrome pane.
+ * Finds or creates the dedicated Chrome output box.
  *
  * @param {HTMLElement} pane Chrome pane.
  * @returns {HTMLElement} Output element.
  */
 export function ensureOutput(pane) {
-  const existing =
-    pane.querySelector("#chromeOut") ||
-    pane.querySelector(".awt-chrome-output") ||
-    pane.querySelector("pre");
+  let existing = pane.querySelector("#chromeOut");
 
-  if (existing) return existing;
+  if (existing) {
+    existing.classList.add("awt-chrome-output", "awt-feedback-panel");
+    existing.textContent = existing.textContent || "Ready.";
+    return existing;
+  }
 
-  const pre = document.createElement("pre");
-  pre.className = "awt-chrome-output";
-  pre.textContent = "Ready.";
-  pane.append(pre);
-  return pre;
+  existing = document.createElement("pre");
+  existing.id = "chromeOut";
+  existing.className = "awt-chrome-output awt-feedback-panel";
+  existing.textContent = "Ready. Click Find Chrome to search Chrome, Edge, Brave, and Chromium paths.";
+
+  pane.append(existing);
+  return existing;
 }

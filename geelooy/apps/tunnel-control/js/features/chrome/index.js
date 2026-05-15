@@ -12,6 +12,32 @@ import {
 
 /**
  * B"H
+ * Humanizes Chrome finder response.
+ *
+ * @param {object} got Response.
+ * @returns {object} Decorated response.
+ */
+function humanChromeResult(got) {
+  if (!got || got.ok === false) return got;
+
+  if (got.action !== "chromeFind" && got.action !== "chromeStatus") return got;
+
+  if (got.chromePath) {
+    return {
+      ...got,
+      nextStep: "Browser path was found. Click Launch / Connect next."
+    };
+  }
+
+  return {
+    ...got,
+    nextStep:
+      "No browser path was found automatically. Paste the full path to chrome.exe, msedge.exe, brave.exe, or chromium into the Chrome path field. On Windows, try right-clicking Chrome/Edge/Brave shortcut → Open file location → copy the .exe path."
+  };
+}
+
+/**
+ * B"H
  * Applies Chrome finder result to the path field.
  *
  * @param {HTMLElement} pane Chrome pane.
@@ -19,7 +45,7 @@ import {
  * @returns {void}
  */
 function applyFinderResult(pane, result) {
-  if (!result || result.action !== "chromeFind") return;
+  if (!result) return;
 
   const fields = getChromeFields(pane);
 
@@ -30,13 +56,13 @@ function applyFinderResult(pane, result) {
 
 /**
  * B"H
- * Runs one Chrome button action safely.
+ * Runs one Chrome action.
  *
  * @param {Function} getTunnelName Tunnel name reader.
  * @param {HTMLElement} output Output node.
  * @param {string} action Action name.
  * @param {HTMLButtonElement} button Source button.
- * @returns {Promise<void>} Resolves after action.
+ * @returns {Promise<void>} Done.
  */
 async function handleChromeAction(getTunnelName, output, action, button) {
   const pane = getChromePane();
@@ -60,17 +86,19 @@ async function handleChromeAction(getTunnelName, output, action, button) {
   const before = button.textContent;
 
   button.disabled = true;
+  button.classList.add("working");
   button.textContent = "Running...";
   renderChromeBusy(output, "Running " + action + "...");
 
   try {
-    const got = await runChromeAction(tunnelName, values, action);
+    const got = humanChromeResult(await runChromeAction(tunnelName, values, action));
     applyFinderResult(pane, got);
     renderChromeOutput(output, got);
   } catch (e) {
     renderChromeError(output, e.message || String(e));
   } finally {
     button.disabled = false;
+    button.classList.remove("working");
     button.textContent = before;
   }
 }
@@ -82,8 +110,8 @@ async function handleChromeAction(getTunnelName, output, action, button) {
  * @param {HTMLElement} pane Chrome pane.
  * @param {Function} getTunnelName Tunnel reader.
  * @param {HTMLElement} output Output node.
- * @param {RegExp} label Button label pattern.
- * @param {string} action Action name.
+ * @param {RegExp} label Button label.
+ * @param {string} action Action.
  * @returns {void}
  */
 function wireButton(pane, getTunnelName, output, label, action) {
@@ -102,7 +130,7 @@ function wireButton(pane, getTunnelName, output, label, action) {
 
 /**
  * B"H
- * Mounts the Chrome feature controls.
+ * Mounts Chrome controls.
  *
  * @param {Function} getTunnelName Tunnel name reader.
  * @returns {void}
