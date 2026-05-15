@@ -1,0 +1,92 @@
+
+/* B"H */
+
+.awt-explorer-final,
+[data-pane="explorer"] {
+  min-width: 0;
+}
+
+.awt-explorer-final .explorer-layout,
+.awt-explorer-final .file-browser-grid,
+[data-pane="explorer"] .explorer-layout,
+[data-pane="explorer"] .file-browser-grid {
+  display: grid !important;
+  grid-template-columns: minmax(300px, 430px) minmax(0, 1fr) !important;
+  gap: 16px !important;
+}
+
+.file-list,
+.explorer-list,
+#fileList,
+#rootPickerList {
+  min-height: 320px;
+  border: 1px solid rgba(158,216,255,.16) !important;
+  border-radius: 18px !important;
+  background: rgba(5, 9, 20, .82) !important;
+  overflow: auto !important;
+}
+
+.file-row,
+.explorer-row,
+.root-picker-row {
+  display: grid !important;
+  grid-template-columns: 28px minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  align-items: center !important;
+  padding: 10px 12px !important;
+  border-bottom: 1px solid rgba(255,255,255,.055) !important;
+  cursor: pointer;
+}
+
+.file-row:hover,
+.explorer-row:hover,
+.root-picker-row:hover {
+  background: rgba(139,220,255,.10) !important;
+}
+
+.file-row.selected,
+.explorer-row.selected,
+.root-picker-row.selected {
+  background: rgba(139,220,255,.16) !important;
+  outline: 1px solid rgba(139,220,255,.42);
+}
+
+.file-name,
+.explorer-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breadcrumb,
+.path-bar,
+#pathCrumbs {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 10px !important;
+  margin: 10px 0 !important;
+  border: 1px solid rgba(158,216,255,.16) !important;
+  border-radius: 16px !important;
+  background: rgba(5, 9, 20, .62) !important;
+}
+
+.icon-view #fileList,
+.icon-view .file-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important;
+  gap: 10px !important;
+  padding: 12px !important;
+}
+
+.icon-view .file-row,
+.icon-view .explorer-row {
+  grid-template-columns: 1fr !important;
+  justify-items: center;
+  text-align: center;
+  min-height: 110px;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  border-radius: 16px !important;
+}
