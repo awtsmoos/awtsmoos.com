@@ -1,11 +1,10 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 4.0.0
+  version: 4.2.0
   description: >
-    B"H. Single import YAML. GET-only. Never POST. Never use findReplace or
-    in-file replacement. Use base64 query params for large values. If too large,
-    split into smaller complete file writes/modules.
+    B"H. GET-only. Use base64 query params for large values. Long commands are bounded
+    to four minutes. Native fs/project/chrome helpers reduce shell usage.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -20,7 +19,6 @@ paths:
     get:
       operationId: awtsmoosMyDevice
       summary: Discover active tunnel.
-      description: Use before asking for tunnelName. If exactly one tunnel is connected, use it automatically.
       security:
         - OAuth2: [profile, tunnel.read]
       responses:
@@ -33,40 +31,77 @@ paths:
       operationId: awtsmoosTunnelAction
       summary: Run tunnel action via GET query params only.
       description: >
-        Use this GET operation for list, tree, read, md, bulk, write, bulkWrite,
-        config, root, command, nodeScript, and Chrome actions. Do not use POST.
-        Do not use findReplace. For edits, read exact files first, then write
-        complete files. If too large, split into smaller requests.
+        Supports file, project, command, node syntax-check, and Chrome actions. Do not use POST.
+        For edits, read exact files first, then write complete files or guarded writes.
       security:
         - OAuth2: [profile, tunnel.read]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
-        - { name: action, in: query, required: true, description: findReplace intentionally omitted, schema: { type: string, enum: [list, tree, read, readBytes, read64, md, bulk, write, bulkWrite, commandRun, nodeScriptRun, chromeFind, chromeLaunch, chromeStatus, chromeNavigate, chromeWaitForSelector, chromeClick, chromeType, chromeEval, chromeRunScript, configGet, configSet, roots, rootBrowse, rootSelect, openRoot] } }
-        - { name: p, in: query, required: false, schema: { type: string, default: "." } }
+        - { name: action, in: query, required: true, schema: { type: string, enum: [list, tree, read, readBytes, read64, md, bulk, grep, stat, readLines, readManyLines, findFiles, fileHashes, jsonValidate, jsonFormat, packageInfo, projectOverview, dependencyGraph, recentFiles, largeFiles, duplicateBasenames, textStats, routeAudit, agentSelfTest, write, bulkWrite, writeIfHash, bulkWriteIfHashes, replaceRange, applyPatch, commandRun, nodeScriptRun, nodeCheck, nodeCheckTree, chromeFind, chromeLaunch, chromeStatus, chromeNavigate, chromeWaitForSelector, chromeClick, chromeType, chromeEval, chromeLogs, chromeSnapshot, chromeRunScript, chromeScreenshot, chromeNetwork, chromeAccessibilitySnapshot, chromeTestUrl, configGet, configSet, roots, rootBrowse, rootSelect, openRoot] } }
+        - { name: p, in: query, required: false, schema: { type: string, default: . } }
         - { name: path, in: query, required: false, schema: { type: string } }
         - { name: depth, in: query, required: false, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, required: false, schema: { type: integer, default: 150 } }
         - { name: maxChars, in: query, required: false, schema: { type: integer, default: 8000 } }
         - { name: totalMaxChars, in: query, required: false, schema: { type: integer, default: 24000 } }
         - { name: maxFiles, in: query, required: false, schema: { type: integer, default: 3 } }
+        - { name: maxRanges, in: query, required: false, schema: { type: integer, default: 20 } }
+        - { name: maxEntries, in: query, required: false, schema: { type: integer, default: 3000 } }
         - { name: offsetChars, in: query, required: false, schema: { type: integer, default: 0 } }
         - { name: maxBytes, in: query, required: false, schema: { type: integer, default: 24000 } }
         - { name: offsetBytes, in: query, required: false, schema: { type: integer, default: 0 } }
-        - { name: paths64, in: query, required: false, description: Base64 JSON array for bulk reads, schema: { type: string } }
-        - { name: content64, in: query, required: false, description: Base64 complete file content for write, schema: { type: string } }
-        - { name: files64, in: query, required: false, description: Base64 JSON object for bulkWrite, schema: { type: string } }
+        - { name: startLine, in: query, required: false, schema: { type: integer, default: 1 } }
+        - { name: endLine, in: query, required: false, schema: { type: integer, default: 250 } }
+        - { name: maxResults, in: query, required: false, schema: { type: integer, default: 80 } }
+        - { name: maxFileBytes, in: query, required: false, schema: { type: integer, default: 800000 } }
+        - { name: sinceMinutes, in: query, required: false, schema: { type: integer, default: 120 } }
+        - { name: minBytes, in: query, required: false, schema: { type: integer, default: 500000 } }
+        - { name: modifiedAfterMs, in: query, required: false, schema: { type: integer, default: 0 } }
+        - { name: indent, in: query, required: false, schema: { type: integer, default: 2 } }
+        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 240000 } }
+        - { name: waitMs, in: query, required: false, schema: { type: integer, default: 0 } }
+        - { name: selectorTimeoutMs, in: query, required: false, schema: { type: integer, default: 10000 } }
+        - { name: port, in: query, required: false, schema: { type: integer, default: 9222 } }
+        - { name: maxLogs, in: query, required: false, schema: { type: integer, default: 200 } }
+        - { name: maxText, in: query, required: false, schema: { type: integer, default: 4000 } }
+        - { name: maxHtml, in: query, required: false, schema: { type: integer, default: 0 } }
+        - { name: url, in: query, required: false, schema: { type: string } }
+        - { name: selector, in: query, required: false, schema: { type: string } }
+        - { name: shell, in: query, required: false, schema: { type: string } }
+        - { name: cwd, in: query, required: false, schema: { type: string, default: . } }
+        - { name: chromePath, in: query, required: false, schema: { type: string } }
+        - { name: userDataDir, in: query, required: false, schema: { type: string } }
+        - { name: ext, in: query, required: false, schema: { type: string } }
+        - { name: expectedSha256, in: query, required: false, schema: { type: string } }
+        - { name: sha256, in: query, required: false, schema: { type: string } }
+        - { name: format, in: query, required: false, schema: { type: string, default: png } }
+        - { name: headless, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: clearLogs, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: snapshot, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: fullPage, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: failedOnly, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: assertNoConsoleErrors, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: includeDirs, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: write, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: regex, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: replaceAll, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: paths64, in: query, required: false, schema: { type: string } }
+        - { name: ranges64, in: query, required: false, schema: { type: string } }
+        - { name: files64, in: query, required: false, schema: { type: string } }
+        - { name: writes64, in: query, required: false, schema: { type: string } }
+        - { name: edits64, in: query, required: false, schema: { type: string } }
+        - { name: content64, in: query, required: false, schema: { type: string } }
+        - { name: find64, in: query, required: false, schema: { type: string } }
+        - { name: query64, in: query, required: false, schema: { type: string } }
+        - { name: replace64, in: query, required: false, schema: { type: string } }
         - { name: command64, in: query, required: false, schema: { type: string } }
         - { name: script64, in: query, required: false, schema: { type: string } }
         - { name: input64, in: query, required: false, schema: { type: string } }
-        - { name: shell, in: query, required: false, schema: { type: string, enum: [powershell, cmd, bash, sh] } }
-        - { name: cwd, in: query, required: false, schema: { type: string, default: "." } }
-        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 20000 } }
-        - { name: url, in: query, required: false, schema: { type: string } }
-        - { name: selector, in: query, required: false, schema: { type: string } }
         - { name: text64, in: query, required: false, schema: { type: string } }
         - { name: expression64, in: query, required: false, schema: { type: string } }
-        - { name: port, in: query, required: false, schema: { type: integer, default: 9222 } }
-        - { name: chromePath, in: query, required: false, schema: { type: string } }
+        - { name: tools64, in: query, required: false, schema: { type: string } }
+        - { name: chrome64, in: query, required: false, schema: { type: string } }
+        - { name: commandConfig64, in: query, required: false, schema: { type: string } }
       responses:
         "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
         "400": { description: Bad request }
@@ -83,8 +118,8 @@ components:
           tokenUrl: https://awtsmoos.com/api/oauth/token
           scopes:
             profile: Basic profile.
-            tunnel.read: Read/list/tree and discover tunnel.
-            tunnel.write: Write complete files.
-            tunnel.command: Run approved commands/scripts.
-            tunnel.browser: Control Chrome.
-            tunnel.admin: Full control.
+            tunnel.read: Read/list/tree/search/diagnostic actions.
+            tunnel.write: Write/config/root-changing actions.
+            tunnel.command: Command, node script, and node syntax-check actions.
+            tunnel.browser: Chrome/headless/browser/log actions.
+            tunnel.admin: Full tunnel control.
