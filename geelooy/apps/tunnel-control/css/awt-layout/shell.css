@@ -1,82 +1,29 @@
 
-/* B"H
-   Owns: outer app shell. This prevents the left-edge broken raw HTML look.
-*/
-
-body > .app,
-body > .control-app,
-body > main,
-.awt-control-shell,
-#app,
-#controlApp {
-  width: min(var(--awt-page-max), calc(100vw - 32px));
-  margin-inline: auto;
+/* B"H */
+.app-shell {
+  width: min(var(--page), calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 22px 0 56px;
 }
-
-body > .app,
-body > .control-app,
-body > main,
-.awt-control-shell {
-  padding: var(--awt-space-4) 0 var(--awt-space-7);
-}
-
-header,
-.hero,
-.awt-hero,
-.control-hero,
-.page-hero {
+.app-hero {
   position: relative;
   overflow: hidden;
-  margin: 0 0 var(--awt-space-5);
+  margin-bottom: 18px;
   padding: clamp(24px, 3vw, 44px);
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-xl);
+  border: 1px solid var(--line);
+  border-radius: var(--r3);
   background:
-    linear-gradient(135deg, rgba(24, 48, 82, 0.92), rgba(8, 16, 31, 0.94)),
-    radial-gradient(circle at 12% 0%, rgba(125, 231, 255, 0.17), transparent 38%);
-  box-shadow: var(--awt-shadow-md);
+    linear-gradient(135deg, rgba(24,48,82,.92), rgba(8,16,31,.95)),
+    radial-gradient(circle at 12% 0%, rgba(125,231,255,.18), transparent 38%);
+  box-shadow: var(--shadow);
 }
-
-header::before,
-.hero::before,
-.awt-hero::before,
-.control-hero::before,
-.page-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(125, 231, 255, 0.52), transparent);
-}
-
-header > *,
-.hero > *,
-.awt-hero > *,
-.control-hero > *,
-.page-hero > * {
-  position: relative;
-  z-index: 1;
-}
-
-header > :last-child,
-.hero > :last-child,
-.awt-hero > :last-child,
-.control-hero > :last-child,
-.page-hero > :last-child {
-  margin-bottom: 0;
-}
-
-.awt-shell-grid {
+.hero-grid {
   display: grid;
-  gap: var(--awt-space-5);
+  grid-template-columns: minmax(0,1fr) minmax(300px,430px);
+  gap: 24px;
+  align-items: end;
 }
-
-.awt-main-surface {
-  overflow: hidden;
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-xl);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)),
-    rgba(7, 14, 27, 0.68);
-  box-shadow: var(--awt-shadow-md);
-}
+.hero-copy { max-width: 780px; margin-bottom: 0; }
+.hero-topline { margin-bottom: 20px; }
+.hero-card { padding: 20px; }
+.hero-actions { margin-top: 13px; }

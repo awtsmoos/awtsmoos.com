@@ -1,51 +1,32 @@
 
-/* B"H
-   Owns: output boxes and pre blocks.
-*/
-
-pre,
-.output,
-.result,
-.awt-output,
-#chromeOut,
-#rootPickerOut,
-#statusBox,
-#configOut,
-#explorerOut,
-#terminalOut,
-#actionOut,
-#usageOut {
+/* B"H */
+pre,.output {
   overflow: auto;
   max-width: 100%;
   margin: 0;
-  padding: var(--awt-space-4);
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-md);
-  color: #e5fbff;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.16)),
-    rgba(2, 7, 15, 0.9);
-  font-family: var(--awt-font-mono);
-  font-size: 0.78rem;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  color: #e6fbff;
+  background: linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,.17)), rgba(2,7,15,.91);
+  font-family: var(--mono);
+  font-size: .79rem;
   line-height: 1.55;
   white-space: pre-wrap;
   word-break: break-word;
 }
-
 details {
   overflow: hidden;
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-md);
-  background: rgba(255, 255, 255, 0.027);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: rgba(255,255,255,.028);
 }
-
 summary {
-  padding: var(--awt-space-3) var(--awt-space-4);
-  color: var(--awt-text-soft);
-  font-weight: 820;
+  padding: 13px 16px;
+  color: var(--text);
+  font-weight: 830;
   cursor: pointer;
 }
-
 details > pre,
 details > .output {
   border-width: 1px 0 0;

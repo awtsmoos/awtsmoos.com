@@ -1,55 +1,27 @@
 
 // B"H
+import { h, field, area, out, $ } from "../ui/dom.js";
+import { callFs, show } from "../ui/api.js";
 
-import { $ } from "../lib/dom.js";
-import { callFs } from "../api/tunnel.js";
-
-function render(got) {
-  if (!got.ok) {
-    if (got.error === "missing_scope") {
-      return [
-        "Permission missing.",
-        "",
-        "This API key does not have tunnel.command.",
-        "Create or activate a key with tunnel.command, then try again.",
-        "",
-        JSON.stringify(got, null, 2)
-      ].join("\n");
-    }
-
-    return [
-      "FAILED",
-      got.error || "",
-      got.message || "",
-      got.details || "",
-      got.stderr || ""
-    ].filter(Boolean).join("\n");
-  }
-
-  return [
-    "Exit code: " + got.exitCode,
-    "Duration: " + got.durationMs + "ms",
-    "",
-    "STDOUT:",
-    got.stdout || "",
-    "",
-    "STDERR:",
-    got.stderr || ""
-  ].join("\n");
+export function terminal() {
+  return h("section", { className: "pane", data: { pane: "terminal" } }, [
+    h("div", { className: "page-head" }, [h("p", { className: "eyebrow", text: "Terminal" }), h("h2", { text: "Command runner" })]),
+    h("article", { className: "panel" }, [
+      h("div", { className: "form-grid" }, [
+        field("commandShell", "Shell", { value: "powershell", className: "span-3" }),
+        field("commandCwd", "CWD inside root", { value: ".", className: "span-6" }),
+        field("commandTimeout", "Timeout ms", { type: "number", value: "20000", className: "span-3" }),
+        area("commandText", "Command", "node -v")
+      ]),
+      h("button", { id: "runCommandBtn", className: "primary", text: "Run command" })
+    ]),
+    out("terminalOut")
+  ]);
 }
 
-export function mountTerminal(getTunnelName) {
+export function mountTerminal() {
   $("runCommandBtn").onclick = async () => {
-    $("commandOut").textContent = "Running...";
-
-    const got = await callFs(getTunnelName(), {
-      action: "commandRun",
-      command: $("commandText").value,
-      shell: $("commandShell").value,
-      cwd: $("commandCwd").value,
-      timeoutMs: $("commandTimeout").value
-    });
-
-    $("commandOut").textContent = render(got);
+    const got = await callFs({ action: "commandRun", shell: $("commandShell").value, cwd: $("commandCwd").value, command: $("commandText").value, timeoutMs: $("commandTimeout").value });
+    show("terminalOut", got);
   };
 }

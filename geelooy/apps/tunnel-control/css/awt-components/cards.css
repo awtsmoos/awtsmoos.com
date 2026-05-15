@@ -1,75 +1,39 @@
 
-/* B"H
-   Owns: content cards. These are block containers, never pill buttons.
-*/
-
-.card,
-.panel,
-.section,
-.awt-card,
-.chrome-card,
-.explorer-card,
-.usage-card {
-  position: relative;
-  display: block;
+/* B"H */
+.notice,
+.diagnostics,
+.empty-state,
+.kpi-card {
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  background: linear-gradient(180deg, rgba(255,255,255,.046), rgba(255,255,255,.012)), var(--panel);
+  box-shadow: 0 10px 32px rgba(0,0,0,.20);
+}
+.notice,
+.diagnostics,
+.empty-state {
+  padding: 15px;
+  color: var(--muted);
+}
+.kpi-card {
   min-width: 0;
+  padding: 18px;
+}
+.kpi-card span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--faint);
+  font-size: .74rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.kpi-card strong {
+  display: block;
   overflow: hidden;
-  padding: var(--awt-space-5);
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-lg);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.046), rgba(255, 255, 255, 0.012)),
-    var(--awt-panel);
-  box-shadow: var(--awt-shadow-sm);
-}
-
-.card::before,
-.panel::before,
-.section::before,
-.awt-card::before,
-.chrome-card::before,
-.explorer-card::before,
-.usage-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(125, 231, 255, 0.28), transparent);
-  pointer-events: none;
-}
-
-.card > *,
-.panel > *,
-.section > *,
-.awt-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-.card-header,
-.panel-header,
-.section-header,
-.awt-card-header {
-  display: flex;
-  gap: var(--awt-space-3);
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: var(--awt-space-4);
-}
-
-.card-title,
-.panel-title,
-.section-title,
-.awt-card-title {
-  margin: 0;
-  color: var(--awt-text);
-}
-
-.card-subtitle,
-.panel-subtitle,
-.section-subtitle,
-.awt-card-subtitle {
-  margin: var(--awt-space-1) 0 0;
-  color: var(--awt-muted);
-  font-size: 0.88rem;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: .96rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

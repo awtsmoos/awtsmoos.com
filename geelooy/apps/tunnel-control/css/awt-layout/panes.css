@@ -1,64 +1,22 @@
 
-/* B"H
-   Owns: tab panes and inner dashboard page rhythm.
-*/
-
-.pane,
-[data-pane] {
-  min-width: 0;
-}
-
-.pane:not(.active):not([data-active="true"])[hidden] {
+/* B"H */
+.pane {
   display: none !important;
-}
-
-[data-pane] > h2,
-.pane > h2 {
-  margin-bottom: var(--awt-space-5);
-}
-
-[data-pane] > .section + .section,
-.pane > .section + .section,
-[data-pane] > .card + .card,
-.pane > .card + .card {
-  margin-top: var(--awt-space-4);
-}
-
-.controls,
-.form-grid,
-.action-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--awt-space-3);
-  align-items: end;
-}
-
-.controls > *,
-.form-grid > *,
-.action-grid > * {
+  gap: 22px;
   min-width: 0;
 }
-
-.controls .wide,
-.form-grid .wide,
-.action-grid .wide {
-  grid-column: span 12;
+.pane.active { display: grid !important; }
+.page-head { max-width: 900px; }
+.page-head p:last-child { margin-bottom: 0; }
+.panel,
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.046), rgba(255,255,255,.012)),
+    var(--panel);
+  box-shadow: 0 10px 32px rgba(0,0,0,.22);
 }
-
-.controls .half,
-.form-grid .half,
-.action-grid .half {
-  grid-column: span 6;
-}
-
-.controls .third,
-.form-grid .third,
-.action-grid .third {
-  grid-column: span 4;
-}
-
-.controls .quarter,
-.form-grid .quarter,
-.action-grid .quarter {
-  grid-column: span 3;
-}
+.panel { padding: 20px; }

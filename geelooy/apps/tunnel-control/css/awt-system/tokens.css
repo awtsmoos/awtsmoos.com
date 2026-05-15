@@ -1,60 +1,28 @@
 
-/* B"H
-   Owns: dashboard design tokens only.
-   No components. No layout. No feature selectors.
-*/
-
+/* B"H */
 :root {
   color-scheme: dark;
-
-  --awt-bg-page: #07111f;
-  --awt-bg-page-2: #0b1b31;
-  --awt-bg-deep: #030711;
-
-  --awt-panel: rgba(13, 25, 44, 0.92);
-  --awt-panel-2: rgba(18, 34, 58, 0.94);
-  --awt-panel-3: rgba(24, 45, 74, 0.96);
-  --awt-panel-soft: rgba(255, 255, 255, 0.045);
-
-  --awt-line: rgba(159, 197, 255, 0.17);
-  --awt-line-2: rgba(159, 197, 255, 0.29);
-  --awt-line-3: rgba(159, 197, 255, 0.42);
-
-  --awt-text: #f5f9ff;
-  --awt-text-soft: #d6e3f5;
-  --awt-muted: #9fafc4;
-  --awt-faint: #718198;
-
-  --awt-accent: #7de7ff;
-  --awt-accent-2: #42baff;
-  --awt-accent-3: #2a80ff;
-  --awt-green: #6ff0ad;
-  --awt-yellow: #ffd36f;
-  --awt-red: #ff7895;
-
-  --awt-radius-xs: 8px;
-  --awt-radius-sm: 11px;
-  --awt-radius-md: 15px;
-  --awt-radius-lg: 21px;
-  --awt-radius-xl: 30px;
-
-  --awt-shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.22);
-  --awt-shadow-md: 0 18px 52px rgba(0, 0, 0, 0.34);
-  --awt-shadow-lg: 0 34px 100px rgba(0, 0, 0, 0.52);
-
-  --awt-space-1: 4px;
-  --awt-space-2: 8px;
-  --awt-space-3: 12px;
-  --awt-space-4: 16px;
-  --awt-space-5: 22px;
-  --awt-space-6: 30px;
-  --awt-space-7: 42px;
-
-  --awt-font-ui: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --awt-font-mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-
-  --awt-control-h: 36px;
-  --awt-control-sm-h: 30px;
-  --awt-page-max: 1420px;
-  --awt-speed: 160ms;
+  --bg0: #040812;
+  --bg1: #071426;
+  --bg2: #0d2037;
+  --panel: rgba(12, 24, 42, .92);
+  --panel2: rgba(18, 34, 58, .96);
+  --line: rgba(156, 197, 255, .18);
+  --line2: rgba(156, 197, 255, .34);
+  --text: #f7faff;
+  --soft: #d8e6f7;
+  --muted: #9eb2cc;
+  --faint: #70849e;
+  --accent: #7de7ff;
+  --accent2: #41bcff;
+  --good: #70efaf;
+  --warn: #ffd36f;
+  --bad: #ff7895;
+  --r1: 12px;
+  --r2: 18px;
+  --r3: 28px;
+  --shadow: 0 22px 70px rgba(0,0,0,.34);
+  --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --page: 1440px;
 }

@@ -1,25 +1,16 @@
 
-/* B"H
-   Owns: scrollbars.
-*/
-
+/* B"H */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(125, 231, 255, 0.56) rgba(3, 8, 17, 0.62);
+  scrollbar-color: rgba(125,231,255,.56) rgba(3,8,17,.62);
 }
-
-*::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
+*::-webkit-scrollbar { width: 10px; height: 10px; }
 *::-webkit-scrollbar-track {
-  background: rgba(3, 8, 17, 0.62);
+  background: rgba(3,8,17,.62);
   border-radius: 999px;
 }
-
 *::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(125, 231, 255, 0.78), rgba(42, 128, 255, 0.7));
-  border: 2px solid rgba(3, 8, 17, 0.72);
+  background: linear-gradient(180deg, rgba(125,231,255,.78), rgba(43,129,255,.72));
+  border: 2px solid rgba(3,8,17,.72);
   border-radius: 999px;
 }

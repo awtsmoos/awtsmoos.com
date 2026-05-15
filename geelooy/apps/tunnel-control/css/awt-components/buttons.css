@@ -1,87 +1,32 @@
 
-/* B"H
-   Owns: normal action buttons only.
-   Important: buttons must stay buttons. Dashboard mission cards are NOT styled here.
-*/
-
-button,
-.btn,
-.button,
-input[type="button"],
-input[type="submit"] {
-  min-height: var(--awt-control-h);
+/* B"H */
+button,.button-link,.btn {
+  min-height: 38px;
   display: inline-flex;
   width: auto;
   max-width: 100%;
-  gap: var(--awt-space-2);
+  gap: 8px;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--awt-space-4);
-  border: 1px solid var(--awt-line-2);
+  padding: 0 16px;
+  border: 1px solid var(--line2);
   border-radius: 999px;
-  color: var(--awt-text);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
-    rgba(20, 35, 58, 0.92);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  font-size: 0.83rem;
-  font-weight: 820;
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)), rgba(18,34,58,.93);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+  font-size: .84rem;
+  font-weight: 830;
   line-height: 1;
   text-align: center;
+  text-decoration: none;
   white-space: nowrap;
-  transition:
-    transform var(--awt-speed) ease,
-    border-color var(--awt-speed) ease,
-    background var(--awt-speed) ease,
-    box-shadow var(--awt-speed) ease;
 }
-
-button:hover,
-.btn:hover,
-.button:hover,
-input[type="button"]:hover,
-input[type="submit"]:hover {
-  border-color: rgba(125, 231, 255, 0.55);
-  background:
-    linear-gradient(180deg, rgba(125, 231, 255, 0.12), rgba(255, 255, 255, 0.03)),
-    rgba(27, 46, 74, 0.96);
+button:hover,.button-link:hover,.btn:hover {
+  border-color: rgba(125,231,255,.62);
   transform: translateY(-1px);
 }
-
-button:active,
-.btn:active,
-.button:active {
-  transform: translateY(0);
-}
-
-.btn-primary,
-button.primary,
-button[data-variant="primary"] {
-  color: #04131d;
-  border-color: rgba(125, 231, 255, 0.85);
-  background: linear-gradient(135deg, var(--awt-accent), var(--awt-accent-2));
-  box-shadow: 0 14px 30px rgba(66, 186, 255, 0.17);
-}
-
-.btn-ghost,
-button.ghost,
-button[data-variant="ghost"] {
-  border-color: transparent;
-  background: transparent;
-  box-shadow: none;
-}
-
-.btn-sm,
-button.small,
-button[data-size="sm"] {
-  min-height: var(--awt-control-sm-h);
-  padding-inline: var(--awt-space-3);
-  font-size: 0.76rem;
-}
-
-.btn-danger,
-button.danger,
-button[data-variant="danger"] {
-  border-color: rgba(255, 120, 149, 0.44);
-  background: rgba(85, 28, 47, 0.72);
+.primary {
+  color: #03131d;
+  border-color: rgba(125,231,255,.85);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
 }

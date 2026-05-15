@@ -1,55 +1,44 @@
 
-/* B"H
-   Owns: form controls.
-*/
-
+/* B"H */
 input:not([type="checkbox"]):not([type="radio"]),
-textarea,
-select {
+textarea,select {
   width: 100%;
-  min-height: var(--awt-control-h);
-  padding: 0 var(--awt-space-4);
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-md);
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
   outline: none;
-  color: var(--awt-text);
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.24), rgba(255, 255, 255, 0.012)),
-    rgba(4, 9, 18, 0.82);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(0,0,0,.30), rgba(255,255,255,.012)), rgba(4,9,18,.86);
 }
-
 textarea {
-  min-height: 130px;
-  padding-block: var(--awt-space-3);
+  min-height: 126px;
+  padding-block: 12px;
   resize: vertical;
   line-height: 1.5;
 }
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: rgba(125, 231, 255, 0.62);
-  box-shadow:
-    0 0 0 3px rgba(66, 186, 255, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+input:focus,textarea:focus,select:focus {
+  border-color: rgba(125,231,255,.66);
+  box-shadow: 0 0 0 3px rgba(65,188,255,.13);
 }
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--awt-faint);
-}
-
-input[type="checkbox"],
-input[type="radio"] {
+input[type="checkbox"],input[type="radio"] {
   width: 17px;
   height: 17px;
-  accent-color: var(--awt-accent-2);
+  accent-color: var(--accent2);
 }
-
-.checkbox-row,
-.toggle-row {
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.check-grid label {
   display: flex;
-  gap: var(--awt-space-2);
+  gap: 10px;
   align-items: center;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255,255,255,.034);
 }

@@ -1,227 +1,38 @@
 
-/* B"H
-   Owns: dashboard landing page and mission grid.
-
-   This file exists because the broken screenshot showed the real failure:
-   mission cards were being styled like pills and allowed to crush their own
-   text. Here, dashboard cards become a real grid with real internal blocks.
-*/
-
-.awt-dashboard,
-.dashboard,
-.control-dashboard,
-[data-pane="dashboard"],
-[data-page="dashboard"] {
+/* B"H */
+.kpi-grid {
   display: grid;
-  gap: var(--awt-space-5);
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 14px;
 }
-
-.awt-dashboard-hero,
-.dashboard-hero,
-.control-center-hero {
+.mission-grid {
   display: grid;
-  gap: var(--awt-space-3);
-  max-width: 900px;
+  grid-template-columns: repeat(auto-fit, minmax(270px,1fr));
+  gap: 16px;
 }
-
-.awt-dashboard-kpis,
-.dashboard-kpis,
-.tunnel-summary,
-.control-summary {
+.mission-card {
+  min-height: 124px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: var(--awt-space-3);
-}
-
-.awt-dashboard-kpi,
-.dashboard-kpi,
-.summary-card,
-.stat-card {
-  min-width: 0;
-  padding: var(--awt-space-4);
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-lg);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.046), rgba(255, 255, 255, 0.012)),
-    rgba(12, 24, 42, 0.82);
-}
-
-.awt-dashboard-kpi-label,
-.dashboard-kpi-label,
-.summary-label,
-.stat-label {
-  display: block;
-  margin-bottom: var(--awt-space-1);
-  color: var(--awt-faint);
-  font-size: 0.74rem;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.awt-dashboard-kpi-value,
-.dashboard-kpi-value,
-.summary-value,
-.stat-value {
-  display: block;
-  overflow: hidden;
-  color: var(--awt-text);
-  font-family: var(--awt-font-mono);
-  font-size: 0.94rem;
-  font-weight: 850;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.awt-mission-grid,
-.dashboard-missions,
-.mission-grid,
-.pages-grid,
-.launcher-grid,
-.control-pages {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: var(--awt-space-4);
-  align-items: stretch;
-  width: 100%;
-}
-
-.awt-mission-card,
-.dashboard-mission,
-.mission-card,
-.launch-card,
-.page-card,
-.control-page-card {
-  position: relative;
-  display: grid !important;
-  grid-template-columns: 42px minmax(0, 1fr);
-  gap: var(--awt-space-4);
-  align-items: flex-start;
-  min-width: 0;
-  min-height: 122px;
-  padding: var(--awt-space-5);
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-lg);
-  color: var(--awt-text-soft);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.014)),
-    rgba(11, 23, 41, 0.9);
-  box-shadow: var(--awt-shadow-sm);
+  grid-template-columns: 44px minmax(0,1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 20px;
+  border-radius: var(--r2);
   text-align: left;
-  text-decoration: none;
   white-space: normal;
-  cursor: pointer;
-  transition:
-    transform var(--awt-speed) ease,
-    border-color var(--awt-speed) ease,
-    background var(--awt-speed) ease,
-    box-shadow var(--awt-speed) ease;
+  background: radial-gradient(circle at 0 0, rgba(125,231,255,.08), transparent 44%),
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.014)),
+    rgba(11,23,41,.91);
 }
-
-.awt-mission-card:hover,
-.dashboard-mission:hover,
-.mission-card:hover,
-.launch-card:hover,
-.page-card:hover,
-.control-page-card:hover {
-  border-color: rgba(125, 231, 255, 0.5);
-  background:
-    radial-gradient(circle at 0% 0%, rgba(125, 231, 255, 0.11), transparent 42%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.018)),
-    rgba(14, 29, 51, 0.94);
-  box-shadow: var(--awt-shadow-md);
-  transform: translateY(-2px);
-}
-
-.awt-mission-icon,
-.dashboard-mission-icon,
-.mission-icon,
-.launch-icon,
-.page-icon {
+.mission-icon {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 1px solid rgba(125, 231, 255, 0.2);
-  border-radius: var(--awt-radius-md);
-  background: rgba(125, 231, 255, 0.095);
-  color: var(--awt-accent);
-  font-size: 1.1rem;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(125,231,255,.22);
+  border-radius: 14px;
+  background: rgba(125,231,255,.095);
 }
-
-.awt-mission-copy,
-.dashboard-mission-copy,
-.mission-copy,
-.launch-copy,
-.page-copy {
-  display: grid;
-  gap: var(--awt-space-2);
-  min-width: 0;
-}
-
-.awt-mission-title,
-.dashboard-mission-title,
-.mission-title,
-.launch-title,
-.page-title,
-.control-page-title {
-  display: block;
-  overflow: hidden;
-  margin: 0;
-  color: var(--awt-text);
-  font-size: 1rem;
-  font-weight: 900;
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  text-overflow: ellipsis;
-}
-
-.awt-mission-desc,
-.dashboard-mission-desc,
-.mission-desc,
-.launch-desc,
-.page-desc,
-.control-page-desc {
-  display: block;
-  margin: 0;
-  color: var(--awt-muted);
-  font-size: 0.88rem;
-  font-weight: 520;
-  line-height: 1.45;
-}
-
-.awt-mission-card button,
-.dashboard-mission button,
-.mission-card button,
-.launch-card button,
-.page-card button,
-.control-page-card button {
-  justify-self: start;
-}
-
-.awt-dashboard .raw,
-.dashboard .raw,
-[data-pane="dashboard"] pre {
-  max-height: 240px;
-}
-
-@media (max-width: 720px) {
-  .awt-mission-grid,
-  .dashboard-missions,
-  .mission-grid,
-  .pages-grid,
-  .launcher-grid,
-  .control-pages {
-    grid-template-columns: 1fr;
-  }
-
-  .awt-mission-card,
-  .dashboard-mission,
-  .mission-card,
-  .launch-card,
-  .page-card,
-  .control-page-card {
-    min-height: 108px;
-    padding: var(--awt-space-4);
-  }
-}
+.mission-copy { display: grid; gap: 8px; min-width: 0; }
+.mission-copy strong { color: var(--text); line-height: 1.2; }
+.mission-copy small { color: var(--muted); font-size: .88rem; line-height: 1.45; }

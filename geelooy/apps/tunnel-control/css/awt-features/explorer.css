@@ -1,46 +1,28 @@
 
-/* B"H
-   Owns: project explorer page.
-*/
-
-[data-pane="explorer"],
-[data-page="explorer"],
-.explorer-pane {
-  display: grid;
-  gap: var(--awt-space-5);
-}
-
-.explorer-toolbar,
-.file-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--awt-space-2);
-  align-items: center;
-}
-
-.explorer-list,
-.file-list,
-#explorerList {
-  overflow: auto;
-  min-height: 320px;
+/* B"H */
+.file-list {
+  min-height: 300px;
   max-height: min(62vh, 720px);
-  border: 1px solid var(--awt-line);
-  border-radius: var(--awt-radius-lg);
-  background: rgba(3, 8, 17, 0.45);
+  overflow: auto;
+  margin-top: 15px;
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  background: rgba(3,8,17,.48);
 }
-
-.explorer-row,
 .file-row {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: var(--awt-space-3);
-  align-items: center;
+  width: 100%;
   min-height: 44px;
-  padding: var(--awt-space-2) var(--awt-space-3);
-  border-bottom: 1px solid rgba(159, 197, 255, 0.09);
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(155,194,255,.1);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+  white-space: normal;
 }
-
-.explorer-row:hover,
-.file-row:hover {
-  background: rgba(125, 231, 255, 0.06);
-}
+.file-row:hover { background: rgba(125,231,255,.07); }

@@ -1,71 +1,35 @@
 
-/* B"H
-   Owns: modal primitive.
-*/
-
-.modal,
-.awt-modal,
-#rootPickerModal,
-#chromeManualModal {
+/* B"H */
+.modal {
   position: fixed;
   inset: 0;
-  z-index: 220;
+  z-index: 100;
   display: grid;
   place-items: center;
-  padding: var(--awt-space-4);
+  padding: 18px;
 }
-
-.modal-backdrop,
-.awt-modal-backdrop,
-#rootPickerBackdrop,
-#chromeManualBackdrop {
+.modal-backdrop {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 50% 10%, rgba(66, 186, 255, 0.16), transparent 42%),
-    rgba(0, 0, 0, 0.64);
+  background: radial-gradient(circle at 50% 10%, rgba(65,188,255,.16), transparent 42%), rgba(0,0,0,.64);
   backdrop-filter: blur(14px);
 }
-
-.modal-dialog,
-.awt-modal-dialog,
-.root-picker-dialog,
-.chrome-manual-dialog {
+.root-dialog,
+.manual-dialog {
   position: relative;
   z-index: 1;
-  min-width: 0;
-  min-height: 0;
-  border: 1px solid rgba(125, 231, 255, 0.28);
-  border-radius: var(--awt-radius-xl);
-  background:
-    linear-gradient(180deg, rgba(22, 39, 66, 0.98), rgba(5, 10, 21, 0.99)),
-    var(--awt-bg-page);
-  box-shadow: var(--awt-shadow-lg);
+  width: min(1180px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  min-height: min(820px, calc(100vh - 24px));
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0,1fr) auto;
+  overflow: hidden;
+  border: 1px solid rgba(125,231,255,.3);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(22,39,66,.985), rgba(5,10,21,.995));
+  box-shadow: 0 36px 110px rgba(0,0,0,.54);
 }
-
-.modal-head,
-.awt-modal-head {
-  display: flex;
-  gap: var(--awt-space-4);
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: var(--awt-space-5);
-  border-bottom: 1px solid var(--awt-line);
-}
-
-.modal-body,
-.awt-modal-body {
-  min-height: 0;
-  padding: var(--awt-space-5);
-}
-
-.modal-foot,
-.awt-modal-foot {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--awt-space-3);
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--awt-space-4) var(--awt-space-5);
-  border-top: 1px solid var(--awt-line);
+.manual-dialog {
+  width: min(850px, calc(100vw - 24px));
+  min-height: min(620px, calc(100vh - 24px));
 }
