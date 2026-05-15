@@ -1,21 +1,16 @@
 
 // B"H
-
 const os = require("os");
 const http = require("http");
 const https = require("https");
-
-const { loadConfig } = require("./lib/config.js");
+const { loadConfig, ROOT, HOME } = require("./lib/config.js");
 const { makeLogger } = require("./lib/log.js");
 const { openHostedControl } = require("./lib/open.js");
 const { TinyWebSocket } = require("./lib/ws.js");
-
 const { handleFs } = require("./tools/fs/index.js");
 const { handleCommand } = require("./tools/command/index.js");
 const { handleChrome } = require("./tools/chrome/index.js");
 const { AGENT_VERSION } = require("./tools/fs/actions.js");
-
-const { ROOT } = require("./lib/config.js");
 
 const log = makeLogger(ROOT);
 
@@ -36,39 +31,29 @@ function proxyLocalHttp(config, data, ws) {
   const lib = target.protocol === "https:" ? https : http;
   const body = p.body ? Buffer.from(p.body, "base64") : null;
 
-  const req = lib.request(
-    target,
-    {
-      method: p.method || "GET",
-      headers: {
-        ...(p.headers || {}),
-        host: target.host
-      }
-    },
-    res => {
-      const chunks = [];
-
-      res.on("data", c => chunks.push(c));
-      res.on("end", () => {
-        ws.sendJson({
-          type: "TUNNEL_RESPONSE",
-          id: data.id,
-          status: res.statusCode,
-          headers: res.headers,
-          body: Buffer.concat(chunks).toString("base64")
-        });
+  const req = lib.request(target, {
+    method: p.method || "GET",
+    headers: { ...(p.headers || {}), host: target.host }
+  }, res => {
+    const chunks = [];
+    res.on("data", c => chunks.push(c));
+    res.on("end", () => {
+      ws.sendJson({
+        type: "TUNNEL_RESPONSE",
+        id: data.id,
+        status: res.statusCode,
+        headers: res.headers,
+        body: Buffer.concat(chunks).toString("base64")
       });
-    }
-  );
+    });
+  });
 
   req.on("error", err => {
     ws.sendJson({
       type: "TUNNEL_RESPONSE",
       id: data.id,
       status: 502,
-      headers: {
-        "content-type": "text/plain"
-      },
+      headers: { "content-type": "text/plain" },
       body: Buffer.from(err.message).toString("base64")
     });
   });
@@ -84,14 +69,17 @@ function register(ws) {
     type: "TUNNEL_REGISTER",
     name: config.tunnelName,
     deviceName: os.hostname(),
-    root: config.root,
+    root: config.root || HOME,
     allowWrite: config.allowWrite,
     allowSecrets: config.allowSecrets,
     allowCommands: config.allowCommands,
-    agentVersion: AGENT_VERSION
+    agentVersion: AGENT_VERSION,
+    tools: config.tools,
+    chrome: config.chrome,
+    command: config.command
   });
 
-  log("Tunnel connected:", config.tunnelName, "root:", config.root);
+  log("Tunnel connected:", config.tunnelName, "root:", config.root || HOME);
 }
 
 function connect() {
@@ -103,11 +91,8 @@ function connect() {
   ws.on("message", async msg => {
     let data;
 
-    try {
-      data = JSON.parse(msg);
-    } catch (e) {
-      return;
-    }
+    try { data = JSON.parse(msg); }
+    catch (e) { return; }
 
     if (data.type !== "TUNNEL_REQUEST") return;
 
@@ -115,22 +100,15 @@ function connect() {
       const payload = data.payload || {};
       let result;
 
-      if (payload.kind === "fs") {
-        result = await handleFs(payload, ws);
-      } else if (payload.kind === "command") {
-        result = await handleCommand(payload);
-      } else if (payload.kind === "chrome") {
-        result = await handleChrome(payload);
-      } else {
+      if (payload.kind === "fs") result = await handleFs(payload, ws);
+      else if (payload.kind === "command") result = await handleCommand(payload);
+      else if (payload.kind === "chrome") result = await handleChrome(payload);
+      else {
         proxyLocalHttp(loadConfig(), data, ws);
         return;
       }
 
-      ws.sendJson({
-        type: "TUNNEL_RESPONSE",
-        id: data.id,
-        ...result
-      });
+      ws.sendJson({ type: "TUNNEL_RESPONSE", id: data.id, ...result });
     } catch (e) {
       ws.sendJson({
         type: "TUNNEL_RESPONSE",
@@ -159,8 +137,9 @@ function main() {
   const config = loadConfig();
 
   log('B"H Awtsmoos split agent starting.');
+  log("Config root dir:", ROOT);
   log("Tunnel name:", config.tunnelName);
-  log("Project root:", config.root);
+  log("Project root:", config.root || HOME);
 
   if (process.argv.includes("--open-control")) {
     openHostedControl(config);
