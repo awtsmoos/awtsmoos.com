@@ -11,16 +11,41 @@ return await getT("bh.html")
 <body>
   <div class="login">
     <h2>Login</h2>
+
+    <?Awtsmoos
+      function esc(x) {
+        return String(x ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "<")
+          .replace(/>/g, ">")
+          .replace(/"/g, "&quot;");
+      }
+
+      function safeNext(x) {
+        x = String(x || "/");
+        try {
+          var u = new URL(x, "https://awtsmoos.com");
+          if (u.hostname !== "awtsmoos.com") return "/";
+          return u.pathname + u.search + u.hash;
+        } catch(e) {
+          return x.startsWith("/") && !x.startsWith("//") ? x : "/";
+        }
+      }
+
+      var nextPath = safeNext(($_GET && $_GET.next) || ($_POST && $_POST.next) || "/");
+    ?>
+
     <a href="/register">Create Account</a>
 
-    <form action="/login/" method="POST">
+    <form action="/login/?next=<?Awtsmoos return encodeURIComponent(nextPath) ?>" method="POST">
+      <input type="hidden" name="next" value="<?Awtsmoos return esc(nextPath) ?>">
       <div>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username" required autocomplete="username">
       </div>
       <div>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" required autocomplete="current-password">
       </div>
       <div class="buttons">
         <button type="submit">Log in</button>
@@ -29,140 +54,75 @@ return await getT("bh.html")
 
     <div id="serverMessage">
       <?Awtsmoos
-        function logLoginStep(step, data) {
+        function esc(x) {
+          return String(x ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "<")
+            .replace(/>/g, ">")
+            .replace(/"/g, "&quot;");
+        }
+
+        function safeNext(x) {
+          x = String(x || "/");
           try {
-            console.log("B\"H LOGIN DEBUG", JSON.stringify({
-              step,
-              time: Date.now(),
-              method: request?.method,
-              url: request?.url,
-              userPresent: !!request?.user,
-              data
-            }, null, 2));
+            var u = new URL(x, "https://awtsmoos.com");
+            if (u.hostname !== "awtsmoos.com") return "/";
+            return u.pathname + u.search + u.hash;
           } catch(e) {
-            console.log("B\"H LOGIN DEBUG LOG_FAILED", step, e && e.message);
+            return x.startsWith("/") && !x.startsWith("//") ? x : "/";
           }
         }
 
-        function safeKeys(obj) {
-          try {
-            return Object.keys(obj || {});
-          } catch(e) {
-            return ["keys_failed"];
-          }
-        }
-
-        function safePostShape(post) {
-          post = post || {};
-          return {
-            keys: safeKeys(post),
-            username: post.username || "",
-            hasPassword: !!post.password,
-            passwordLength: post.password ? String(post.password).length : 0
-          };
-        }
-
-        logLoginStep("page_start", {
-          getKeys: safeKeys($_GET),
-          postShape: safePostShape($_POST),
-          paramKindKeys: safeKeys(typeof paramKinds != "undefined" ? paramKinds : {}),
-          postParamKeys: safeKeys(typeof paramKinds != "undefined" ? paramKinds.POST : {}),
-          requestHeaderKeys: safeKeys(request?.headers)
-        });
+        var nextPath = safeNext(($_GET && $_GET.next) || ($_POST && $_POST.next) || "/");
 
         if(request.user) {
-          logLoginStep("already_logged_in", {
-            user: request.user
-          });
-
-          var msg = $a("message.html", {
-            message: "You are already logged in."
-          });
-          olam.replace = msg;
+          olam.replace = `<!doctype html>
+<html>
+<head>
+  <title>Already logged in</title>
+  <meta http-equiv="refresh" content="0; url=${esc(nextPath)}">
+</head>
+<body>
+  B"H<br>
+  You are already logged in.<br>
+  <a href="${esc(nextPath)}">Continue</a>
+</body>
+</html>`;
           return;
         }
 
-        logLoginStep("before_getT_session_login", {
-          template: "session/login.js"
-        });
-
         registrar = await getT("session/login.js");
-
-        logLoginStep("after_getT_session_login", {
-          registrarType: typeof registrar,
-          registrarKeys: safeKeys(registrar),
-          hasHandleLogin: !!(registrar && registrar.handleLogin),
-          handleLoginType: typeof (registrar && registrar.handleLogin),
-          registrarPreview: typeof registrar == "string" ? registrar.slice(0, 300) : ""
-        });
-
-        if(!registrar || typeof registrar.handleLogin != "function") {
-          logLoginStep("fatal_missing_handleLogin", {
-            registrarType: typeof registrar,
-            registrarKeys: safeKeys(registrar)
-          });
-
-          return "B\"H Login debug: registrar.handleLogin is missing. Check server console for B\\\"H LOGIN DEBUG.";
-        }
-
-        logLoginStep("before_handleLogin", {
-          postShape: safePostShape($_POST)
-        });
-
         var result = await registrar.handleLogin(this.request, $_POST, server.secret);
-
-        logLoginStep("after_handleLogin", {
-          resultStatus: result && result.status,
-          resultKeys: safeKeys(result),
-          hasToken: !!(result && result.token),
-          message: result && result.message
-        });
 
         if(result.token) {
           var encoded = encodeURIComponent(result.token);
 
-          logLoginStep("before_set_cookie", {
-            encodedTokenLength: encoded.length
-          });
-
           setHeader(
             "set-cookie",
-            `awtsmoosKey=${encoded}; HttpOnly; `+
-            "max-age="+(60*60*24*365) + "; " +
-            "Path=/;"
+            `awtsmoosKey=${encoded}; HttpOnly; ` +
+            "max-age=" + (60*60*24*365) + "; " +
+            "Path=/; SameSite=Lax; Secure"
           );
 
           result.token = undefined;
-
-          logLoginStep("after_set_cookie", {
-            cookieHeaderSet: true
-          });
         }
 
         if(result.status != "success") {
-          logLoginStep("login_failed_returning_message", {
-            status: result.status,
-            message: result.message
-          });
-
           return result.message;
         }
 
-        logLoginStep("login_success_before_message", {
-          username: $_POST.username
-        });
-
-        var msg = $a("message.html", {
-          message: "You have successfully logged in to the account " + $_POST.username + ".\nPress \"B\"H\" to go to home.",
-          redirect: 6
-        });
-
-        olam.replace = msg;
-
-        logLoginStep("login_success_done", {
-          replaced: true
-        });
-
+        olam.replace = `<!doctype html>
+<html>
+<head>
+  <title>Logged in</title>
+  <meta http-equiv="refresh" content="0; url=${esc(nextPath)}">
+</head>
+<body>
+  B"H<br>
+  You have successfully logged in to the account ${esc($_POST.username)}.<br>
+  <a href="${esc(nextPath)}">Continue</a>
+</body>
+</html>`;
         return;
       ?>
     </div>

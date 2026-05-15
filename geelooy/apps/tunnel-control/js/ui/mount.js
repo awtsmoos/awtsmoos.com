@@ -23,7 +23,7 @@ export function mountAll() {
       localStorage.setItem("awtTunnelName", tunnelName());
       localStorage.setItem("awtsmoos.tunnelName", tunnelName());
       setText("miniTunnel", tunnelName() || "No tunnel selected");
-      autoLoadConfig();
+      refresh().then(autoLoadConfig);
     };
   });
 
@@ -39,9 +39,7 @@ export function mountAll() {
     $("openRootBtn").onclick = async () => show("configOut", await callFs({ action: "openRoot" }));
     $("rootsBtn").onclick = async () => show("configOut", await callFs({ action: "roots" }));
 
-    qsa("[data-instant-config]").forEach(box => {
-      box.onchange = () => queueConfigSave("permission changed");
-    });
+    qsa("[data-instant-config]").forEach(box => box.onchange = () => queueConfigSave("permission changed"));
 
     $("rootPath").onchange = () => queueConfigSave("root changed");
     $("rootPath").onkeydown = e => {
@@ -72,15 +70,10 @@ function safe(name, fn) {
 function safeMount(name, fn) {
   try {
     const got = fn();
-
     if (got && typeof got.catch === "function") {
-      got.catch(e => {
-        console.error("B'H async mount failed:", name, e);
-        show("statusBox", { ok: false, where: name, error: e.message, stack: e.stack });
-      });
+      got.catch(e => show("statusBox", { ok: false, where: name, error: e.message, stack: e.stack }));
     }
   } catch (e) {
-    console.error("B'H mount failed:", name, e);
     show("statusBox", { ok: false, where: name, error: e.message, stack: e.stack });
   }
 }
@@ -147,7 +140,6 @@ function payloadFromUi() {
 
 function queueConfigSave(reason) {
   if (loadingConfig) return;
-
   clearTimeout(configTimer);
   setText("configSaveStatus", "Saving " + reason + "...");
   configTimer = setTimeout(() => saveConfigNow(reason), 250);
@@ -184,7 +176,6 @@ async function autoLoadConfig() {
 
 async function loadConfig(options = {}) {
   loadingConfig = true;
-
   if (!options.silent) setText("configSaveStatus", "Loading config...");
 
   const got = await callFs({ action: "configGet" });
@@ -210,7 +201,6 @@ function applyConfig(config) {
   setChecked("enableLocalHttpProxy", config.enableLocalHttpProxy);
 
   const tools = config.tools || {};
-
   setChecked("toolFsRead", tools.fsRead);
   setChecked("toolFsWrite", tools.fsWrite);
   setChecked("toolFsBulk", tools.fsBulk);
@@ -221,13 +211,26 @@ function applyConfig(config) {
   setText("miniKey", localStorage.getItem("awtTunnelApiKey") ? "Saved" : "Not needed");
 }
 
+function myDeviceUrl() {
+  const u = new URL("/api/tunnel/control/my-device", location.origin);
+  const t = tunnelName();
+  if (t) u.searchParams.set("tunnelName", t);
+  return u.toString();
+}
+
+function pickTunnelFromMultiple(got) {
+  const t = tunnelName();
+  if (!t || !Array.isArray(got.tunnels)) return null;
+  return got.tunnels.find(x => x.tunnelName === t) || null;
+}
+
 async function refresh() {
   try {
     setText("miniAgent", "Checking...");
     setText("miniLogin", "Checking...");
     setStatusBadges("warn", "Login: checking", "Agent: checking");
 
-    const got = await fetch("/api/tunnel/control/my-device", {
+    const got = await fetch(myDeviceUrl(), {
       credentials: "include",
       headers: { Accept: "application/json" }
     }).then(r => r.json());
@@ -237,15 +240,24 @@ async function refresh() {
 
     if (got.tunnelName && !$("tunnelName").value) $("tunnelName").value = got.tunnelName;
 
-    const user = got.identity?.userId || got.identity?.email || "";
-    const agentGood = !!got.ok && !!got.device?.connected;
+    const identity = got.identity || {};
+    const user = identity.userId || identity.email || "";
+    const selected = got.device || pickTunnelFromMultiple(got);
+    const agentGood = !!selected?.connected || !!got.ok;
 
-    setText("miniTunnel", tunnelName() || got.tunnelName || "No tunnel selected");
+    setText("miniTunnel", tunnelName() || got.tunnelName || selected?.tunnelName || "No tunnel selected");
+    setText("miniLogin", user || "Login unknown");
     setText("miniAgent", agentGood ? "Connected" : (got.error || "Not connected"));
-    setText("miniLogin", user || (got.ok ? "Logged in" : "Login needed"));
 
-    setBadge("authPill", user || got.ok ? "good" : "bad", user ? "Login: " + user : "Login: needed");
-    setBadge("agentPill", agentGood ? "good" : "bad", agentGood ? "Agent: connected" : "Agent: " + (got.error || "offline"));
+    setBadge("authPill", user ? "good" : "bad", user ? "Login: " + user : "Login: needed");
+
+    if (agentGood) {
+      setBadge("agentPill", "good", "Agent: connected");
+    } else if (got.error === "multiple_tunnels_connected") {
+      setBadge("agentPill", "warn", "Agent: pick tunnel");
+    } else {
+      setBadge("agentPill", "bad", "Agent: " + (got.error || "offline"));
+    }
   } catch (e) {
     setText("miniAgent", "Refresh failed");
     setText("miniLogin", "Unknown");

@@ -1,8 +1,11 @@
 
 // B"H
-
 const { json } = require("../core/respond.js");
 const { currentIdentity } = require("../core/auth.js");
+
+function query($i) {
+  return $i.paramKinds?.GET || $i.$_GET || $i.request?.query || {};
+}
 
 function publicTunnel(client) {
   return {
@@ -14,34 +17,39 @@ function publicTunnel(client) {
     allowSecrets: !!client.allowSecrets,
     allowCommands: !!client.allowCommands,
     isAlive: !!client.isAlive,
-    agentVersion: client.agentVersion || null
+    agentVersion: client.agentVersion || null,
+    tools: client.tools || null,
+    chrome: client.chrome || null,
+    command: client.command || null,
+    registeredAt: client.registeredAt || null
   };
 }
 
 function listTunnels($i) {
-  const out = [];
+  const latestByName = new Map();
 
-  if (!$i.ws?.clients) return out;
+  if (!$i.ws?.clients) return [];
 
   for (const client of $i.ws.clients) {
-    if (!client.isTunnel) continue;
-    out.push(publicTunnel(client));
+    if (!client.isTunnel || !client.tunnelName) continue;
+
+    const old = latestByName.get(client.tunnelName);
+    if (!old || (client.registeredAt || 0) >= (old.registeredAt || 0)) {
+      latestByName.set(client.tunnelName, client);
+    }
   }
 
-  return out;
+  return Array.from(latestByName.values()).map(publicTunnel);
 }
 
-/**
- * B"H
- * OAuth/session helper for public GPTs.
- *
- * Since each logged-in Awtsmoos user normally has one active local tunnel,
- * this lets ChatGPT discover the connected tunnel after OAuth instead of
- * always asking the user to paste tunnelName.
- *
- * Later, when tunnels are tied to userId in the websocket registry, filter
- * by identity.userId here. For now, if exactly one tunnel is online, return it.
- */
+function identityPayload(identity) {
+  return {
+    kind: identity.kind,
+    userId: identity.userId,
+    clientId: identity.clientId || null
+  };
+}
+
 async function myDevice($i) {
   const identity = currentIdentity($i);
 
@@ -54,18 +62,33 @@ async function myDevice($i) {
     }, 401);
   }
 
+  const q = query($i);
+  const requested = String(q.tunnelName || q.tunnel || "").trim();
   const tunnels = listTunnels($i);
+
+  if (requested) {
+    const exact = tunnels.find(t => t.tunnelName === requested);
+
+    if (exact) {
+      return json($i, {
+        BH: "B\"H",
+        ok: true,
+        mode: "selected_tunnel",
+        identity: identityPayload(identity),
+        tunnelName: exact.tunnelName,
+        device: exact,
+        tunnels,
+        guidance: "Selected the requested tunnelName."
+      });
+    }
+  }
 
   if (tunnels.length === 1) {
     return json($i, {
       BH: "B\"H",
       ok: true,
       mode: "single_connected_tunnel",
-      identity: {
-        kind: identity.kind,
-        userId: identity.userId,
-        clientId: identity.clientId || null
-      },
+      identity: identityPayload(identity),
       tunnelName: tunnels[0].tunnelName,
       device: tunnels[0],
       guidance: "Use this tunnelName automatically for future fs calls."
@@ -77,15 +100,11 @@ async function myDevice($i) {
       BH: "B\"H",
       ok: false,
       error: "no_connected_tunnel",
-      identity: {
-        kind: identity.kind,
-        userId: identity.userId,
-        clientId: identity.clientId || null
-      },
+      identity: identityPayload(identity),
       installUrl: "https://awtsmoos.com/apps/tunnel-control/",
       windowsCommand: "irm https://awtsmoos.com/api/tunnel/install/windows | iex",
       unixCommand: "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash",
-      guidance: "Tell the user to run or restart the Awtsmoos tunnel agent, then retry my-device."
+      guidance: "Run or restart the Awtsmoos tunnel agent, then retry."
     }, 404);
   }
 
@@ -93,8 +112,12 @@ async function myDevice($i) {
     BH: "B\"H",
     ok: false,
     error: "multiple_tunnels_connected",
+    identity: identityPayload(identity),
+    requestedTunnelName: requested || null,
     tunnels,
-    guidance: "Ask the user which tunnelName to use."
+    guidance: requested
+      ? "Requested tunnelName is not connected. Pick one of the returned tunnel names."
+      : "Multiple tunnels are connected. Use tunnelName query parameter to select one."
   }, 409);
 }
 
