@@ -8,27 +8,30 @@
 }
 
 html {
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   background:
-    radial-gradient(circle at 12% 4%, rgba(141, 222, 255, 0.20), transparent 34rem),
-    radial-gradient(circle at 86% 10%, rgba(198, 167, 255, 0.16), transparent 36rem),
-    linear-gradient(145deg, var(--awt-bg-0), var(--awt-bg-1) 48%, #07101d);
+    radial-gradient(circle at 10% 0%, rgba(141, 222, 255, 0.24), transparent 28rem),
+    radial-gradient(circle at 92% 10%, rgba(198, 167, 255, 0.20), transparent 32rem),
+    linear-gradient(145deg, #050713, #0b1020 50%, #06101f);
   color: var(--awt-text);
-  overflow-x: hidden;
 }
 
 body {
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
   margin: 0;
+  overflow: hidden;
   color: var(--awt-text);
   font-family: var(--awt-font);
   background: transparent;
-  overflow-x: hidden;
 }
 
 body.awt-pro-ready {
-  padding: clamp(10px, 1.4vw, 20px);
-  padding-bottom: 86px;
+  padding: clamp(8px, 1.1vw, 16px);
+  overflow: hidden !important;
 }
 
 body.awt-pro-ready main,
@@ -36,7 +39,9 @@ body.awt-pro-ready #app,
 body.awt-pro-ready .app,
 body.awt-pro-ready .wrap,
 body.awt-pro-ready .container {
-  width: min(1460px, calc(100vw - 24px));
+  width: 100%;
+  height: 100%;
   max-width: none;
-  margin-inline: auto;
+  margin: 0;
+  overflow: hidden;
 }

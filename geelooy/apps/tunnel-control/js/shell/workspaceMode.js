@@ -5,7 +5,7 @@ import { getActivePane } from "../router/paneRouter.js";
 
 /**
  * B"H
- * Sets the app into home mode.
+ * Shows dashboard home.
  *
  * @returns {void}
  */
@@ -16,7 +16,7 @@ export function showDashboardHome() {
 
 /**
  * B"H
- * Sets the app into workspace mode.
+ * Shows one focused workspace.
  *
  * @param {string} pane Active pane key.
  * @returns {void}
@@ -29,7 +29,7 @@ export function showWorkspace(pane) {
 
 /**
  * B"H
- * Updates the workspace title from the active pane heading.
+ * Updates workspace title.
  *
  * @param {string} pane Pane key.
  * @returns {void}
@@ -40,7 +40,7 @@ export function updateWorkspaceHeader(pane) {
 
   const activePane =
     document.querySelector(`[data-pane="${CSS.escape(pane)}"]`) ||
-    document.querySelector('[data-pane].active');
+    document.querySelector("[data-pane].active");
 
   const title =
     activePane?.querySelector(".awt-pane-heading h2")?.textContent ||
@@ -53,7 +53,7 @@ export function updateWorkspaceHeader(pane) {
 
 /**
  * B"H
- * Mounts home/workspace transitions.
+ * Mounts page transition mode.
  *
  * @returns {void}
  */

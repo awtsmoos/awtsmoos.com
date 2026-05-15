@@ -5,7 +5,7 @@ import { many } from "../ui/core/html.js";
 
 /**
  * B"H
- * Gets the active pane key.
+ * Gets active pane.
  *
  * @returns {string} Active pane key.
  */
@@ -32,9 +32,9 @@ export function ensureActivePane() {
 
 /**
  * B"H
- * Sets selected state on tab buttons.
+ * Syncs tab visual state.
  *
- * @param {string} pane Pane name.
+ * @param {string} pane Pane key.
  * @returns {void}
  */
 function syncTabs(pane) {
@@ -47,12 +47,9 @@ function syncTabs(pane) {
 
 /**
  * B"H
- * Activates a pane.
+ * Activates a single workspace pane.
  *
- * This does not rely on the old tab click handler. It directly controls
- * panes, then lets old code hear the click if a tab exists.
- *
- * @param {string} pane Pane name.
+ * @param {string} pane Pane key.
  * @returns {void}
  */
 export function activatePane(pane) {
@@ -66,13 +63,12 @@ export function activatePane(pane) {
 
   syncTabs(pane);
 
-  const tab = many("[data-tab]").find(t => t.dataset.tab === pane);
-  if (tab && !found) tab.click();
+  if (!found) {
+    const tab = many("[data-tab]").find(t => t.dataset.tab === pane);
+    tab?.click();
+  }
 
   document.dispatchEvent(new CustomEvent("awt:pane-change", {
     detail: { pane }
   }));
-
-  const shell = document.querySelector(".awt-control-shell");
-  if (shell) shell.scrollIntoView({ behavior: "smooth", block: "start" });
 }

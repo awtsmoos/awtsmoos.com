@@ -2,18 +2,16 @@
 /* B"H */
 
 .awt-workspace-stage {
-  height: 100%;
-  min-height: 0;
   display: grid;
   grid-template-rows: auto 1fr;
-  overflow: hidden;
 }
 
 .awt-workspace-toolbar {
+  min-height: 72px;
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 18px;
+  padding: 14px 18px;
   border-bottom: 1px solid rgba(160, 207, 255, 0.14);
   background: rgba(255, 255, 255, 0.03);
 }
@@ -36,6 +34,7 @@
 .awt-pane-stack {
   position: relative;
   height: 100%;
+  overflow: hidden;
 }
 
 body.awt-home-mode .awt-dashboard {
@@ -59,7 +58,7 @@ body.awt-workspace-mode .awt-workspace-stage {
 @keyframes awtStageIn {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.992);
+    transform: translateX(18px) scale(0.99);
   }
   to {
     opacity: 1;

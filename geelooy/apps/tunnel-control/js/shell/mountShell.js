@@ -12,9 +12,9 @@ import { mountWorkspaceMode } from "./workspaceMode.js";
 
 /**
  * B"H
- * Splits original root nodes into panes and legacy leftovers.
+ * Splits original DOM nodes into page panes and hidden legacy nodes.
  *
- * @param {Node[]} nodes Original child nodes.
+ * @param {Node[]} nodes Original nodes.
  * @param {HTMLElement|null} tabRail Existing tab rail.
  * @returns {{panes: HTMLElement[], legacy: Node[]}} Split result.
  */
@@ -37,9 +37,9 @@ function splitNodes(nodes, tabRail) {
 
 /**
  * B"H
- * Builds the workspace stage.
+ * Creates workspace stage.
  *
- * @returns {{stage: HTMLElement, stack: HTMLElement}} Stage and stack.
+ * @returns {{stage: HTMLElement, stack: HTMLElement}} Stage nodes.
  */
 function createWorkspaceStage() {
   const stack = h("div", { classes: ["awt-pane-stack"] });
@@ -57,7 +57,7 @@ function createWorkspaceStage() {
           h("div", {
             classes: ["awt-workspace-heading"],
             children: [
-              h("div", { classes: ["awt-mini-kicker"], text: "Focused workspace" }),
+              h("div", { classes: ["awt-mini-kicker"], text: "Focused page" }),
               h("h2", { attrs: { id: "awtWorkspaceTitle" }, text: "Workspace" })
             ]
           })
@@ -75,12 +75,7 @@ function createWorkspaceStage() {
 
 /**
  * B"H
- * Mounts the professional shell around the existing app.
- *
- * The dashboard becomes the home screen. Panes move into a dedicated
- * workspace stage. Legacy leftovers are preserved in a hidden container
- * so existing scripts still have their nodes, but the user does not see
- * the old garbage vertical layout anymore.
+ * Mounts a real app shell.
  *
  * @param {object} ctx Runtime context.
  * @returns {void}

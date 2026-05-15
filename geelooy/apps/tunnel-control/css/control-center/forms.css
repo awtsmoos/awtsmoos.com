@@ -35,3 +35,10 @@ body.awt-pro-ready .actions {
   flex-wrap: wrap;
   gap: 10px !important;
 }
+
+body.awt-pro-ready pre,
+body.awt-pro-ready code,
+body.awt-pro-ready .output {
+  max-height: 100%;
+  overflow: auto;
+}

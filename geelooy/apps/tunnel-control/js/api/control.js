@@ -5,17 +5,17 @@ import { getJson } from "./http.js";
 
 /**
  * B"H
- * Builds a query string from defined values.
+ * Builds a query string from present values.
  *
  * @param {Record<string, unknown>} params Query fields.
- * @returns {string} Encoded query string with a leading question mark.
+ * @returns {string} Query string with leading ? or empty string.
  */
 function q(params = {}) {
   const u = new URLSearchParams();
 
-  for (const [k, v] of Object.entries(params)) {
-    if (v !== undefined && v !== null && v !== "") {
-      u.set(k, String(v));
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== null && value !== "") {
+      u.set(key, String(value));
     }
   }
 
@@ -25,38 +25,53 @@ function q(params = {}) {
 
 /**
  * B"H
- * Calls JSON POST.
+ * Reads browser login identity.
  *
- * @param {string} url Endpoint URL.
- * @param {object} body JSON body.
- * @returns {Promise<object>} Parsed response.
+ * Required by features/status.js.
+ *
+ * @returns {Promise<object>} Identity response.
  */
-async function postJson(url, body) {
-  const res = await fetch(url, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(body || {})
+export async function me() {
+  return await getJson("/api/tunnel/control/me", {
+    credentials: "include"
   });
+}
 
-  const text = await res.text();
+/**
+ * B"H
+ * Reads active device by explicit tunnelName or legacy device endpoint.
+ *
+ * Required by features/status.js.
+ *
+ * @param {string} tunnelName Optional tunnel name.
+ * @returns {Promise<object>} Device response.
+ */
+export async function device(tunnelName = "") {
+  return await getJson("/api/tunnel/control/device" + q({ tunnelName }), {
+    credentials: "include"
+  });
+}
 
-  try {
-    const data = JSON.parse(text);
-    if (!res.ok && data.ok !== false) data.ok = false;
-    return data;
-  } catch (e) {
-    return {
-      BH: "B\"H",
-      ok: false,
-      error: "non_json_response",
-      status: res.status,
-      text
-    };
-  }
+/**
+ * B"H
+ * Discovers the signed-in user's active tunnel.
+ *
+ * @returns {Promise<object>} My-device response.
+ */
+export async function myDevice() {
+  return await getJson("/api/tunnel/control/my-device", {
+    credentials: "include"
+  });
+}
+
+/**
+ * B"H
+ * Alias for clean active-device flow.
+ *
+ * @returns {Promise<object>} Active device response.
+ */
+export async function activeDevice() {
+  return await myDevice();
 }
 
 /**
@@ -73,79 +88,9 @@ export async function bootstrap() {
 
 /**
  * B"H
- * Discovers the signed-in user's active tunnel.
- *
- * This is the correct no-query control-panel path. The app should not
- * require /apps/tunnel-control/?tunnelName=... for normal usage.
- *
- * @returns {Promise<object>} Device discovery response.
- */
-export async function myDevice() {
-  return await getJson("/api/tunnel/control/my-device", {
-    credentials: "include"
-  });
-}
-
-/**
- * B"H
- * Backward-compatible alias for older feature modules.
- *
- * @param {string} [tunnelName] Optional explicit tunnel name.
- * @returns {Promise<object>} Device response.
- */
-export async function device(tunnelName = "") {
-  if (!tunnelName) return await myDevice();
-
-  return await getJson("/api/tunnel/control/my-device" + q({ tunnelName }), {
-    credentials: "include"
-  });
-}
-
-/**
- * B"H
- * Preferred active-device alias.
- *
- * @returns {Promise<object>} Active device response.
- */
-export async function activeDevice() {
-  return await myDevice();
-}
-
-/**
- * B"H
- * Runs a controlled tunnel action through POST.
- *
- * @param {string} tunnelName Tunnel name.
- * @param {object} body Action body.
- * @returns {Promise<object>} Tunnel response.
- */
-export async function tunnelActionPost(tunnelName, body) {
-  return await postJson(
-    "/api/tunnel/control/fs/" + encodeURIComponent(tunnelName),
-    body
-  );
-}
-
-/**
- * B"H
- * Runs a small controlled tunnel action through GET.
- *
- * @param {string} tunnelName Tunnel name.
- * @param {Record<string, unknown>} params Query params.
- * @returns {Promise<object>} Tunnel response.
- */
-export async function tunnelAction(tunnelName, params = {}) {
-  return await getJson(
-    "/api/tunnel/control/fs/" + encodeURIComponent(tunnelName) + q(params),
-    { credentials: "include" }
-  );
-}
-
-/**
- * B"H
  * Lists API keys.
  *
- * @returns {Promise<object>} API keys response.
+ * @returns {Promise<object>} API key response.
  */
 export async function apiKeys() {
   return await getJson("/api/tunnel/control/api-keys", {
@@ -155,9 +100,9 @@ export async function apiKeys() {
 
 /**
  * B"H
- * Creates a scoped API key.
+ * Creates an API key.
  *
- * @param {object} options Key creation options.
+ * @param {object} options Key options.
  * @returns {Promise<object>} Create response.
  */
 export async function createApiKey(options = {}) {
@@ -180,7 +125,7 @@ export async function createApiKey(options = {}) {
 
 /**
  * B"H
- * Revokes a key.
+ * Revokes an API key.
  *
  * @param {string} keyId Key id.
  * @returns {Promise<object>} Revoke response.
@@ -207,7 +152,7 @@ export async function usage() {
  * B"H
  * Reads machine docs.
  *
- * @returns {Promise<object>} Docs response.
+ * @returns {Promise<object>} Docs JSON response.
  */
 export async function docsJson() {
   return await getJson("/api/tunnel/control/docs.json", {

@@ -6,20 +6,25 @@ body.awt-pro-ready [data-pane] {
   height: 100%;
   min-width: 0;
   min-height: 0;
-  padding: clamp(16px, 2vw, 24px) !important;
-  overflow: auto !important;
+  padding: clamp(14px, 1.6vw, 22px) !important;
+  overflow: hidden !important;
 }
 
 body.awt-pro-ready [data-pane].active {
   display: grid !important;
-  gap: 16px;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
   animation: awtPaneIn 220ms ease both;
+}
+
+body.awt-pro-ready [data-pane].active > :not(.awt-pane-heading) {
+  min-height: 0;
 }
 
 @keyframes awtPaneIn {
   from {
     opacity: 0;
-    transform: translateX(12px);
+    transform: translateX(24px);
   }
   to {
     opacity: 1;
@@ -30,12 +35,11 @@ body.awt-pro-ready [data-pane].active {
 .awt-pane-heading {
   display: grid;
   gap: 6px;
-  margin-bottom: 6px;
 }
 
 .awt-pane-heading h2 {
   margin: 0;
-  font-size: clamp(1.5rem, 2.4vw, 2.35rem);
+  font-size: clamp(1.45rem, 2.3vw, 2.2rem);
   letter-spacing: -0.06em;
 }
 
@@ -43,5 +47,5 @@ body.awt-pro-ready [data-pane].active {
   max-width: 780px;
   margin: 0;
   color: var(--awt-muted);
-  line-height: 1.55;
+  line-height: 1.45;
 }

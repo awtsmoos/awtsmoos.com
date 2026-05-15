@@ -1,19 +1,15 @@
 
 /* B"H */
 
-body.awt-pro-ready {
-  height: 100vh;
-  overflow: hidden;
-}
-
 .awt-control-shell {
-  width: min(1460px, calc(100vw - 24px));
-  height: calc(100vh - 24px);
+  width: min(1500px, 100%);
+  height: calc(100dvh - clamp(16px, 2.2vw, 32px));
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(230px, 290px) minmax(0, 1fr);
-  gap: 16px;
+  grid-template-columns: 290px minmax(0, 1fr);
+  gap: 14px;
   align-items: stretch;
+  overflow: hidden;
 }
 
 .awt-control-main {
@@ -32,6 +28,8 @@ body.awt-pro-ready {
 .awt-workspace-stage {
   min-width: 0;
   min-height: 0;
+  height: 100%;
+  overflow: hidden;
   border: 1px solid var(--awt-line) !important;
   border-radius: var(--awt-radius-lg) !important;
   background:

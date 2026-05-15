@@ -2,12 +2,10 @@
 /* B"H */
 
 .awt-control-side {
-  position: sticky;
-  top: 12px;
-  z-index: 30;
-  max-height: calc(100vh - 24px);
-  overflow: auto;
-  padding: 16px;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  padding: 14px;
   border: 1px solid var(--awt-line);
   border-radius: var(--awt-radius-lg);
   background:
@@ -19,9 +17,9 @@
 
 .awt-brand-block {
   display: grid;
-  gap: 10px;
-  padding: 16px;
-  margin-bottom: 14px;
+  gap: 8px;
+  padding: 14px;
+  margin-bottom: 12px;
   border-radius: 24px;
   border: 1px solid rgba(141, 222, 255, 0.25);
   background: linear-gradient(145deg, rgba(141, 222, 255, 0.13), rgba(198, 167, 255, 0.09));
@@ -29,7 +27,7 @@
 
 .awt-brand-block h1 {
   margin: 0;
-  font-size: clamp(1.28rem, 2vw, 1.8rem);
+  font-size: 1.45rem;
   line-height: 1;
   letter-spacing: -0.05em;
 }
@@ -37,6 +35,11 @@
 .awt-brand-block p {
   margin: 0;
   color: var(--awt-muted);
-  font-size: 0.88rem;
-  line-height: 1.45;
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.awt-side-tabs {
+  max-height: calc(100% - 220px);
+  overflow: auto;
 }
