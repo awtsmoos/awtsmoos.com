@@ -59,9 +59,10 @@ export function chrome() {
     h("div", { className: "page-head" }, [
       h("p", { className: "eyebrow", text: "Chrome" }),
       h("h2", { text: "Browser control lab" }),
-      h("p", { text: "Find Chrome once, remember it, then launch and control it through your local tunnel." })
+      h("p", { text: "Launch Chrome, navigate, evaluate JavaScript, and see clean result cards instead of raw JSON." })
     ]),
-    h("article", { className: "panel stack" }, [
+
+    h("article", { className: "panel chrome-panel stack" }, [
       h("div", { className: "chrome-grid" }, [
         field("chromePath", "Chrome / Edge / Brave executable", {}, "span-9"),
         field("chromePort", "Port", { type: "number", value: "9222" }, "span-3")
@@ -75,14 +76,16 @@ export function chrome() {
       h("div", { id: "chromeStatusCard", className: "notice", text: "Loading saved Chrome path..." }),
       h("div", { id: "chromeCandidates", className: "candidate-list hidden" })
     ]),
-    h("article", { className: "panel stack" }, [
+
+    h("article", { className: "panel chrome-panel stack" }, [
       field("chromeUrl", "URL", { value: "https://awtsmoos.com" }, "span-12"),
       h("div", { className: "button-row" }, [
-        btn("chromeNavigateBtn", "Navigate"),
+        btn("chromeNavigateBtn", "Navigate", true),
         btn("chromeEvalBtn", "Evaluate title")
       ])
     ]),
-    h("article", { className: "panel stack" }, [
+
+    h("article", { className: "panel chrome-panel stack" }, [
       h("div", { className: "chrome-grid" }, [
         field("chromeSelector", "Selector", { value: "body" }, "span-6"),
         field("chromeText", "Text", {}, "span-6"),
@@ -96,6 +99,9 @@ export function chrome() {
         btn("chromeRunScriptBtn", "Run script")
       ])
     ]),
+
+    h("div", { id: "chromeResult", className: "result-card hidden" }),
+
     h("details", {}, [
       h("summary", { text: "Raw Chrome response" }),
       out("chromeOut")
@@ -145,6 +151,60 @@ async function saveChrome() {
   await idbSet("chromePort", port);
 }
 
+function resultHeader(got, title) {
+  const ok = got && got.ok !== false;
+  return h("div", { className: "result-head" }, [
+    h("div", {}, [
+      h("p", { className: "eyebrow", text: "Chrome" }),
+      h("h3", { text: title })
+    ]),
+    h("span", { className: "status-pill " + (ok ? "good" : "bad"), text: ok ? "Success" : "Failed" })
+  ]);
+}
+
+function kv(label, value) {
+  return h("div", { className: "kv" }, [
+    h("span", { text: label }),
+    h("b", { text: value === undefined || value === null || value === "" ? "—" : String(value) })
+  ]);
+}
+
+function block(title, text, kind = "") {
+  return h("div", { className: "output-block " + kind }, [
+    h("div", { className: "output-title", text: title }),
+    h("pre", { text: typeof text === "string" ? text : JSON.stringify(text, null, 2) })
+  ]);
+}
+
+function renderChromeResult(got) {
+  const host = $("chromeResult");
+  const ok = got && got.ok !== false;
+  host.className = "result-card " + (ok ? "good" : "bad");
+
+  const value =
+    got?.result?.value ??
+    got?.value ??
+    got?.title ??
+    got?.content ??
+    got?.message ??
+    got?.error ??
+    got;
+
+  host.replaceChildren(
+    resultHeader(got, got.action || "Chrome action"),
+    h("div", { className: "kv-grid" }, [
+      kv("Action", got.action),
+      kv("Port", got.port || $("chromePort").value),
+      kv("Path", got.chromePath || $("chromePath").value),
+      kv("URL", got.url || $("chromeUrl").value),
+      kv("Selector", got.selector || $("chromeSelector").value)
+    ]),
+    block("Result", typeof value === "string" ? value : JSON.stringify(value, null, 2), ok ? "stdout" : "stderr")
+  );
+
+  host.classList.remove("hidden");
+}
+
 function renderCandidates(list = []) {
   const host = $("chromeCandidates");
   const items = list.map(x => typeof x === "string" ? { path: x } : x).filter(x => x.path);
@@ -155,11 +215,13 @@ function renderCandidates(list = []) {
       h("code", { text: item.path }),
       h("button", {
         text: "Use",
-        on: { click: async () => {
-          $("chromePath").value = item.path;
-          await saveChrome();
-          $("chromeStatusCard").textContent = "Selected and remembered: " + item.path;
-        } }
+        on: {
+          click: async () => {
+            $("chromePath").value = item.path;
+            await saveChrome();
+            $("chromeStatusCard").textContent = "Selected and remembered: " + item.path;
+          }
+        }
       })
     ])
   ));
@@ -183,6 +245,7 @@ function chromeStatusText(got) {
       ? "Found and remembered: " + got.chromePath
       : "Could not find Chrome automatically. " + humanError(got);
   }
+
   if (got.ok) return (got.action || "Chrome action") + " succeeded.";
   return (got.action || "Chrome action") + " failed: " + humanError(got);
 }
@@ -215,4 +278,5 @@ async function run(action) {
 
   $("chromeStatusCard").textContent = chromeStatusText(got);
   show("chromeOut", got);
+  renderChromeResult(got);
 }
