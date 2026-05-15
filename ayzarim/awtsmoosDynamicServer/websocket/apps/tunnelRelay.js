@@ -1,7 +1,21 @@
-
 // B"H
+const FOUR_MINUTES_MS = 240000;
+
 function bool(value) {
   return value === true || value === "true" || value === 1 || value === "1";
+}
+
+/**
+ * B"H
+ * Bounds tunnel waits so long commands can breathe, but dead requests still return.
+ *
+ * @param {*} value Requested timeout.
+ * @returns {number} Bounded timeout.
+ */
+function boundedTimeout(value) {
+  const n = Number(value || FOUR_MINUTES_MS);
+  if (!Number.isFinite(n)) return FOUR_MINUTES_MS;
+  return Math.max(1000, Math.min(Math.floor(n), FOUR_MINUTES_MS));
 }
 
 function closeOldTunnel(ctx, client, name) {
@@ -58,7 +72,17 @@ function handleTunnelResponse(ctx, data) {
   pending.resolve(data);
 }
 
-function sendTunnelRequest(ctx, name, payload, timeout = 120000) {
+/**
+ * B"H
+ * Sends one request to the connected agent and waits up to four minutes.
+ *
+ * @param {object} ctx Relay context.
+ * @param {string} name Tunnel name.
+ * @param {object} payload Agent payload.
+ * @param {number} [timeout=240000] Timeout in ms.
+ * @returns {Promise<object>} Agent response.
+ */
+function sendTunnelRequest(ctx, name, payload, timeout = FOUR_MINUTES_MS) {
   const tunnel = ctx.tunnels.get(name);
 
   if (!tunnel) {
@@ -66,19 +90,25 @@ function sendTunnelRequest(ctx, name, payload, timeout = 120000) {
   }
 
   const id = Date.now() + "_" + Math.random().toString(36).slice(2);
+  const timeoutMs = boundedTimeout(timeout);
 
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       ctx.pendingTunnelRequests.delete(id);
-      reject(new Error("Tunnel timeout"));
-    }, timeout);
+      reject(new Error("Tunnel timeout after " + timeoutMs + "ms"));
+    }, timeoutMs);
+
+    timer.unref?.();
 
     ctx.pendingTunnelRequests.set(id, {
       resolve: data => {
         clearTimeout(timer);
         resolve(data);
       },
-      reject
+      reject: error => {
+        clearTimeout(timer);
+        reject(error);
+      }
     });
 
     tunnel.send({
@@ -90,6 +120,7 @@ function sendTunnelRequest(ctx, name, payload, timeout = 120000) {
 }
 
 module.exports = {
+  FOUR_MINUTES_MS,
   handleTunnelRegister,
   handleTunnelResponse,
   sendTunnelRequest
