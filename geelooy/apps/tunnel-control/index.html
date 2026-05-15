@@ -8,216 +8,216 @@
   <link rel="stylesheet" href="./css/app.css">
 </head>
 <body>
-  <main class="awt-control-shell" id="controlApp">
-    <header class="control-hero">
-      <div class="awt-row">
-        <span class="awt-badge">B"H</span>
-        <span class="awt-badge" id="authPill"><span id="authText">Checking login</span></span>
-        <span class="awt-badge" id="connectionPill"><span id="connectionText">Checking agent</span></span>
+  <main class="app-shell">
+    <header class="app-hero">
+      <div class="hero-topline">
+        <span class="status-pill">B"H</span>
+        <span class="status-pill" id="authPill">Login: checking</span>
+        <span class="status-pill" id="agentPill">Agent: checking</span>
       </div>
 
-      <h1>Tunnel Control</h1>
-      <p>Choose a root, activate an API key, browse files, run commands, open Chrome, and give any AI a controlled local tunnel into your project.</p>
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Local agent dashboard</p>
+          <h1>Tunnel Control</h1>
+          <p class="hero-copy">Control the Awtsmoos local tunnel from one clean panel: choose a root, manage keys, browse files, run commands, and control Chrome.</p>
+        </div>
 
-      <div class="awt-form-grid">
-        <label class="wide">
-          Tunnel name
-          <input id="tunnelName" type="text" placeholder="awt-yackov-yitzchak-3750">
-        </label>
-      </div>
-
-      <div class="awt-row">
-        <button id="refreshBtn" type="button">Refresh</button>
-        <button id="loginBtn" type="button">Login</button>
-        <button id="logoutBtn" type="button">Logout</button>
-        <a class="btn" href="/api/tunnel/docs" target="_blank" rel="noopener">API Docs</a>
+        <section class="hero-card">
+          <label>
+            Tunnel name
+            <input id="tunnelName" type="text" autocomplete="off" placeholder="awt-yackov-yitzchak-3750">
+          </label>
+          <div class="hero-actions">
+            <button id="refreshBtn" type="button">Refresh</button>
+            <button id="loginBtn" type="button">Login</button>
+            <button id="logoutBtn" type="button">Logout</button>
+          </div>
+        </section>
       </div>
     </header>
 
-    <nav class="awt-tabs" aria-label="Tunnel control pages">
-      <button type="button" class="active" data-tab="dashboard">🏠 Dashboard</button>
-      <button type="button" data-tab="setup">🛠️ Root and permissions</button>
-      <button type="button" data-tab="keys">🔐 API key vault</button>
-      <button type="button" data-tab="explorer">📁 Project explorer</button>
-      <button type="button" data-tab="terminal">⌁ Command runner</button>
-      <button type="button" data-tab="chrome">🌐 Browser control</button>
-      <button type="button" data-tab="prompt">📜 Agent docs</button>
-      <button type="button" data-tab="usage">📊 Usage and raw actions</button>
-      <button type="button" data-tab="account">👤 Account and connection</button>
-      <button type="button" data-tab="install">⚡ Install or restart</button>
+    <nav class="tabbar" aria-label="Tunnel pages">
+      <button type="button" class="tab active" data-tab="dashboard">🏠 Dashboard</button>
+      <button type="button" class="tab" data-tab="setup">🛠️ Root and permissions</button>
+      <button type="button" class="tab" data-tab="keys">🔐 API key vault</button>
+      <button type="button" class="tab" data-tab="explorer">📁 Project explorer</button>
+      <button type="button" class="tab" data-tab="terminal">⌁ Command runner</button>
+      <button type="button" class="tab" data-tab="chrome">🌐 Browser control</button>
+      <button type="button" class="tab" data-tab="prompt">📜 Agent docs</button>
+      <button type="button" class="tab" data-tab="usage">📊 Usage and raw actions</button>
+      <button type="button" class="tab" data-tab="account">👤 Account</button>
+      <button type="button" class="tab" data-tab="install">⚡ Install</button>
     </nav>
 
-    <section class="pane active awt-dashboard" data-pane="dashboard">
-      <div class="awt-dashboard-hero">
-        <div class="root-picker-eyebrow">Control center</div>
+    <section class="pane active" data-pane="dashboard">
+      <div class="page-head">
+        <p class="eyebrow">Control center</p>
         <h2>Awtsmoos Tunnel</h2>
-        <p class="awt-page-intro">Choose one focused mission. Each card opens a real control page with the relevant tools arranged cleanly.</p>
+        <p>Choose one focused mission. Only the selected page is visible, so the dashboard stays calm and usable.</p>
       </div>
 
-      <div class="awt-dashboard-kpis">
-        <article class="awt-dashboard-kpi">
-          <span class="awt-dashboard-kpi-label">Tunnel</span>
-          <span class="awt-dashboard-kpi-value" id="miniTunnel">No tunnel selected</span>
+      <div class="kpi-grid">
+        <article class="kpi-card">
+          <span>Tunnel</span>
+          <strong id="miniTunnel">No tunnel selected</strong>
         </article>
-        <article class="awt-dashboard-kpi">
-          <span class="awt-dashboard-kpi-label">Agent</span>
-          <span class="awt-dashboard-kpi-value" id="miniAgent">Checking</span>
+        <article class="kpi-card">
+          <span>Agent</span>
+          <strong id="miniAgent">Checking</strong>
         </article>
-        <article class="awt-dashboard-kpi">
-          <span class="awt-dashboard-kpi-label">Login</span>
-          <span class="awt-dashboard-kpi-value" id="miniLogin">Checking</span>
+        <article class="kpi-card">
+          <span>Login</span>
+          <strong id="miniLogin">Checking</strong>
         </article>
-        <article class="awt-dashboard-kpi">
-          <span class="awt-dashboard-kpi-label">API key</span>
-          <span class="awt-dashboard-kpi-value" id="miniKey">None</span>
+        <article class="kpi-card">
+          <span>API key</span>
+          <strong id="miniKey">None</strong>
         </article>
       </div>
 
-      <div class="awt-mission-grid">
-        <button type="button" class="awt-mission-card" data-tab="setup">
-          <span class="awt-mission-icon">🛠️</span>
-          <span class="awt-mission-copy">
-            <span class="awt-mission-title">Root and permissions</span>
-            <span class="awt-mission-desc">Choose the project root and control exactly what the agent can do.</span>
+      <div class="mission-grid">
+        <button type="button" class="mission-card" data-go="setup">
+          <span class="mission-icon">🛠️</span>
+          <span class="mission-copy">
+            <strong>Root and permissions</strong>
+            <small>Choose the project root and control exactly what the agent can do.</small>
           </span>
         </button>
 
-        <button type="button" class="awt-mission-card" data-tab="keys">
-          <span class="awt-mission-icon">🔐</span>
-          <span class="awt-mission-copy">
-            <span class="awt-mission-title">API key vault</span>
-            <span class="awt-mission-desc">Create, paste, activate, copy, and inspect scoped tunnel keys.</span>
+        <button type="button" class="mission-card" data-go="keys">
+          <span class="mission-icon">🔐</span>
+          <span class="mission-copy">
+            <strong>API key vault</strong>
+            <small>Create, paste, activate, copy, and inspect scoped tunnel keys.</small>
           </span>
         </button>
 
-        <button type="button" class="awt-mission-card" data-tab="explorer">
-          <span class="awt-mission-icon">📁</span>
-          <span class="awt-mission-copy">
-            <span class="awt-mission-title">Project explorer</span>
-            <span class="awt-mission-desc">List, tree, select, preview, read, and bulk-read files.</span>
+        <button type="button" class="mission-card" data-go="explorer">
+          <span class="mission-icon">📁</span>
+          <span class="mission-copy">
+            <strong>Project explorer</strong>
+            <small>List, tree, preview, read, and bulk-read files inside the chosen root.</small>
           </span>
         </button>
 
-        <button type="button" class="awt-mission-card" data-tab="terminal">
-          <span class="awt-mission-icon">⌁</span>
-          <span class="awt-mission-copy">
-            <span class="awt-mission-title">Command runner</span>
-            <span class="awt-mission-desc">Run controlled commands inside the selected project root.</span>
+        <button type="button" class="mission-card" data-go="terminal">
+          <span class="mission-icon">⌁</span>
+          <span class="mission-copy">
+            <strong>Command runner</strong>
+            <small>Run controlled commands inside the selected project root.</small>
           </span>
         </button>
 
-        <button type="button" class="awt-mission-card" data-tab="chrome">
-          <span class="awt-mission-icon">🌐</span>
-          <span class="awt-mission-copy">
-            <span class="awt-mission-title">Browser control</span>
-            <span class="awt-mission-desc">Find Chrome, launch/connect, navigate, click, type, evaluate, and run scripts.</span>
+        <button type="button" class="mission-card" data-go="chrome">
+          <span class="mission-icon">🌐</span>
+          <span class="mission-copy">
+            <strong>Browser control</strong>
+            <small>Find Chrome, launch, connect, navigate, click, type, evaluate, and script.</small>
           </span>
         </button>
 
-        <button type="button" class="awt-mission-card" data-tab="prompt">
-          <span class="awt-mission-icon">📜</span>
-          <span class="awt-mission-copy">
-            <span class="awt-mission-title">Agent docs</span>
-            <span class="awt-mission-desc">Copy instructions and open human, JSON, and OpenAPI documentation.</span>
+        <button type="button" class="mission-card" data-go="prompt">
+          <span class="mission-icon">📜</span>
+          <span class="mission-copy">
+            <strong>Agent docs</strong>
+            <small>Copy instructions and open human, JSON, and OpenAPI documentation.</small>
           </span>
         </button>
       </div>
 
-      <details>
+      <details class="soft-details">
         <summary>Raw dashboard status</summary>
         <pre id="miniStatus">Ready.</pre>
       </details>
     </section>
 
     <section class="pane" data-pane="setup">
-      <div>
-        <div class="root-picker-eyebrow">Setup</div>
+      <div class="page-head">
+        <p class="eyebrow">Setup</p>
         <h2>Root folder and permissions</h2>
-        <p class="awt-page-intro">Pick a safe project folder first. File, terminal, and Chrome controls should stay scoped and intentional.</p>
+        <p>Pick a safe project folder first. File, terminal, and Chrome controls stay scoped to the selected root.</p>
       </div>
 
-      <article class="card">
-        <div class="awt-form-grid">
-          <label class="wide">
+      <article class="panel">
+        <div class="form-grid">
+          <label class="span-12">
             Absolute local root folder
             <input id="rootPath" type="text" placeholder="C:\Users\Yackov Yitzchak\Documents\WoW\BH\awtsmoos.com">
           </label>
         </div>
 
-        <div class="awt-row">
-          <button id="loadConfigBtn" type="button">Load Config</button>
-          <button id="saveConfigBtn" type="button" class="btn-primary">Save Config</button>
-          <button id="chooseRootBtn" type="button">Choose root in embedded explorer</button>
-          <button id="openRootBtn" type="button">Open in Windows Explorer</button>
+        <div class="button-row">
+          <button id="loadConfigBtn" type="button">Load config</button>
+          <button id="saveConfigBtn" type="button" class="primary">Save config</button>
+          <button id="chooseRootBtn" type="button">Choose root</button>
+          <button id="openRootBtn" type="button">Open root</button>
           <button id="rootsBtn" type="button">Show drives</button>
-          <button id="useRepoRootBtn" type="button">Use awtsmoos repo path</button>
           <button id="applyRootToExplorerBtn" type="button">Set explorer to root</button>
         </div>
-
-        <div id="quickRoots" class="awt-row"></div>
       </article>
 
-      <article class="card">
-        <h3>Live agent permissions</h3>
-        <div class="permission-grid">
-          <label class="checkbox-row"><input id="allowWrite" type="checkbox"> Allow writes</label>
-          <label class="checkbox-row"><input id="allowSecrets" type="checkbox"> Secret-like files</label>
-          <label class="checkbox-row"><input id="allowCommands" type="checkbox"> Local commands</label>
-          <label class="checkbox-row"><input id="enableLocalHttpProxy" type="checkbox"> Local HTTP proxy</label>
-          <label class="checkbox-row"><input id="toolFsList" type="checkbox" checked> List</label>
-          <label class="checkbox-row"><input id="toolFsTree" type="checkbox" checked> Tree</label>
-          <label class="checkbox-row"><input id="toolFsRead" type="checkbox" checked> Read</label>
-          <label class="checkbox-row"><input id="toolFsWrite" type="checkbox"> Write</label>
-          <label class="checkbox-row"><input id="toolFsBulk" type="checkbox" checked> Bulk</label>
-          <label class="checkbox-row"><input id="toolCommand" type="checkbox"> Terminal tool</label>
-          <label class="checkbox-row"><input id="toolChrome" type="checkbox" checked> Chrome tool</label>
+      <article class="panel">
+        <h3>Live permissions</h3>
+        <div class="check-grid">
+          <label><input id="allowWrite" type="checkbox"> Allow writes</label>
+          <label><input id="allowSecrets" type="checkbox"> Secret-like files</label>
+          <label><input id="allowCommands" type="checkbox"> Local commands</label>
+          <label><input id="enableLocalHttpProxy" type="checkbox"> Local HTTP proxy</label>
+          <label><input id="toolFsList" type="checkbox" checked> List</label>
+          <label><input id="toolFsTree" type="checkbox" checked> Tree</label>
+          <label><input id="toolFsRead" type="checkbox" checked> Read</label>
+          <label><input id="toolFsWrite" type="checkbox"> Write</label>
+          <label><input id="toolFsBulk" type="checkbox" checked> Bulk</label>
+          <label><input id="toolCommand" type="checkbox"> Terminal</label>
+          <label><input id="toolChrome" type="checkbox" checked> Chrome</label>
         </div>
       </article>
 
-      <details open>
+      <details class="soft-details" open>
         <summary>Config response</summary>
         <pre id="configOut">Ready.</pre>
       </details>
     </section>
 
     <section class="pane" data-pane="keys">
-      <div>
-        <div class="root-picker-eyebrow">API Keys</div>
+      <div class="page-head">
+        <p class="eyebrow">API keys</p>
         <h2>Access key vault</h2>
-        <p class="awt-page-intro">Create scoped keys for file and command actions, or paste an existing key.</p>
+        <p>Create scoped keys for file and command actions, or paste an existing key.</p>
       </div>
 
-      <article class="card">
-        <div class="awt-row">
-          <button id="refreshKeysBtn" type="button">Refresh Keys</button>
+      <article class="panel">
+        <div class="button-row">
+          <button id="refreshKeysBtn" type="button">Refresh keys</button>
         </div>
 
         <h3>Create new key</h3>
-        <div class="awt-form-grid">
-          <label class="half">
+        <div class="form-grid">
+          <label class="span-6">
             Name
             <input id="keyName" type="text" value="local-dev-key">
           </label>
-          <label class="quarter">
+          <label class="span-3">
             Req/min
             <input id="keyRate" type="number" value="120">
           </label>
-          <label class="quarter">
+          <label class="span-3">
             Bytes/day
             <input id="keyBytes" type="number" value="50000000">
           </label>
         </div>
 
-        <div class="permission-grid">
-          <label class="checkbox-row"><input id="scopeRead" type="checkbox" checked> tunnel.read</label>
-          <label class="checkbox-row"><input id="scopeWrite" type="checkbox"> tunnel.write</label>
-          <label class="checkbox-row"><input id="scopeCommand" type="checkbox"> tunnel.command</label>
-          <label class="checkbox-row"><input id="scopeBrowser" type="checkbox" checked> tunnel.browser</label>
-          <label class="checkbox-row"><input id="scopeAdmin" type="checkbox"> tunnel.admin</label>
+        <div class="check-grid">
+          <label><input id="scopeRead" type="checkbox" checked> tunnel.read</label>
+          <label><input id="scopeWrite" type="checkbox"> tunnel.write</label>
+          <label><input id="scopeCommand" type="checkbox"> tunnel.command</label>
+          <label><input id="scopeBrowser" type="checkbox" checked> tunnel.browser</label>
+          <label><input id="scopeAdmin" type="checkbox"> tunnel.admin</label>
         </div>
 
-        <div class="awt-row">
-          <button id="createKeyBtn" type="button" class="btn-primary">Create and activate key</button>
+        <div class="button-row">
+          <button id="createKeyBtn" type="button" class="primary">Create and activate key</button>
         </div>
 
         <h3>Use existing key</h3>
@@ -226,80 +226,79 @@
           <input id="apiKeyInput" type="password" placeholder="awt_key_...">
         </label>
 
-        <div class="awt-row">
+        <div class="button-row">
           <button id="saveApiKeyBtn" type="button">Save pasted key</button>
           <button id="clearApiKeyBtn" type="button">Clear active key</button>
         </div>
 
-        <div id="activeKeySummary" class="awt-alert">No active key selected.</div>
-        <div id="savedKeysList" class="awt-stack"></div>
+        <div id="activeKeySummary" class="notice">No active key selected.</div>
+        <div id="savedKeysList" class="stack"></div>
       </article>
 
-      <details open>
+      <details class="soft-details" open>
         <summary>Raw key response</summary>
         <pre id="keysOut">Ready.</pre>
       </details>
     </section>
 
     <section class="pane" data-pane="explorer">
-      <div>
-        <div class="root-picker-eyebrow">File Explorer</div>
+      <div class="page-head">
+        <p class="eyebrow">File explorer</p>
         <h2>Project browser</h2>
-        <p class="awt-page-intro">Create or select an API key, then list or read files inside the chosen root.</p>
+        <p>List, tree, read, and inspect files inside the chosen root.</p>
       </div>
 
-      <article class="card">
-        <div class="awt-form-grid">
-          <label class="half">
+      <article class="panel">
+        <div class="form-grid">
+          <label class="span-6">
             Path inside root
             <input id="explorerPath" type="text" value=".">
           </label>
-          <label class="quarter">
+          <label class="span-3">
             Depth
             <input id="treeDepth" type="number" value="2">
           </label>
-          <label class="quarter">
+          <label class="span-3">
             Limit
             <input id="treeLimit" type="number" value="80">
           </label>
         </div>
 
-        <div class="awt-row">
+        <div class="button-row">
           <button id="explorerUpBtn" type="button">Up</button>
           <button id="listBtn" type="button">List</button>
           <button id="treeBtn" type="button">Tree</button>
-          <button id="openSelectedBtn" type="button">Open selected</button>
           <button id="readBtn" type="button">Read</button>
           <button id="mdBtn" type="button">Read Markdown</button>
           <button id="bulkReadBtn" type="button">Bulk read selected</button>
-          <button id="copyPathsBtn" type="button">Copy paths</button>
         </div>
 
-        <div id="explorerSelectionCount" class="awt-badge">0 selected</div>
-        <div id="explorerList" class="explorer-list"></div>
+        <div id="explorerList" class="file-list">
+          <div class="empty-state">Run List or Tree to load files.</div>
+        </div>
       </article>
 
-      <article class="card">
+      <article class="panel">
         <h3>Preview</h3>
         <pre id="explorerPreview">Nothing loaded yet.</pre>
       </article>
 
-      <details open>
+      <details class="soft-details" open>
         <summary>Explorer JSON</summary>
         <pre id="explorerOut">Ready.</pre>
       </details>
     </section>
 
     <section class="pane" data-pane="terminal">
-      <div>
-        <div class="root-picker-eyebrow">Terminal</div>
+      <div class="page-head">
+        <p class="eyebrow">Terminal</p>
         <h2>Command runner</h2>
-        <p class="awt-page-intro">Terminal commands are powerful. Enable terminal permission, create a key with tunnel.command, and keep cwd inside the root.</p>
+        <p>Commands are powerful. Keep cwd inside the selected root.</p>
       </div>
 
-      <article class="card">
-        <div class="awt-form-grid">
-          <label class="third">
+      <article class="panel">
+        <div class="form-grid">
+          <label class="span-3">
             Shell
             <select id="commandShell">
               <option value="powershell">PowerShell</option>
@@ -308,125 +307,125 @@
               <option value="sh">sh</option>
             </select>
           </label>
-          <label class="third">
+          <label class="span-6">
             CWD inside root
             <input id="commandCwd" type="text" value=".">
           </label>
-          <label class="third">
+          <label class="span-3">
             Timeout ms
             <input id="commandTimeout" type="number" value="20000">
           </label>
-          <label class="wide">
+          <label class="span-12">
             Command
             <textarea id="commandText">node -v</textarea>
           </label>
         </div>
 
-        <button id="runCommandBtn" type="button" class="btn-primary">Run command</button>
+        <button id="runCommandBtn" type="button" class="primary">Run command</button>
       </article>
 
       <pre id="terminalOut">Ready.</pre>
     </section>
 
     <section class="pane" data-pane="chrome">
-      <div>
-        <div class="root-picker-eyebrow">Chrome</div>
+      <div class="page-head">
+        <p class="eyebrow">Chrome</p>
         <h2>Browser control lab</h2>
-        <p class="awt-page-intro">Find Chrome, launch or connect to a debugging port, then navigate and automate pages.</p>
+        <p>Find Chrome, launch or connect to a debugging port, then navigate and automate pages.</p>
       </div>
 
-      <article class="awt-chrome-card">
+      <article class="panel">
         <h3>Setup</h3>
-        <div class="awt-chrome-setup">
-          <label>
+        <div class="form-grid">
+          <label class="span-7">
             Chrome path
             <input id="chromePath" type="text" placeholder="C:\Program Files\Google\Chrome\Application\chrome.exe">
           </label>
-          <label>
+          <label class="span-2">
             Port
             <input id="chromePort" type="number" value="9222">
           </label>
-          <div class="awt-chrome-actions">
+          <div class="span-3 button-row end">
             <button id="chromeFindBtn" type="button">Find Chrome</button>
-            <button id="chromeManualBtn" type="button">Choose Chrome manually</button>
-            <button id="chromeLaunchBtn" type="button" class="btn-primary">Launch / Connect</button>
-            <button id="chromeStatusBtn" type="button">Status</button>
+            <button id="chromeManualBtn" type="button">Manual</button>
           </div>
+        </div>
+        <div class="button-row">
+          <button id="chromeLaunchBtn" type="button" class="primary">Launch / Connect</button>
+          <button id="chromeStatusBtn" type="button">Status</button>
         </div>
       </article>
 
-      <article class="awt-chrome-card">
+      <article class="panel">
         <h3>Navigate</h3>
-        <div class="awt-form-grid">
-          <label class="wide">
-            URL
-            <input id="chromeUrl" type="url" value="https://awtsmoos.com">
-          </label>
-        </div>
+        <label>
+          URL
+          <input id="chromeUrl" type="url" value="https://awtsmoos.com">
+        </label>
         <button id="chromeNavigateBtn" type="button">Navigate</button>
       </article>
 
-      <article class="awt-chrome-card">
+      <article class="panel">
         <h3>Page actions</h3>
-        <div class="awt-form-grid">
-          <label class="third">
+        <div class="form-grid">
+          <label class="span-4">
             Selector
             <input id="chromeSelector" type="text" value="body">
           </label>
-          <label class="third">
+          <label class="span-5">
             Text
             <input id="chromeText" type="text">
           </label>
-          <label class="third">
+          <label class="span-3">
             Wait timeout
             <input id="chromeWaitTimeout" type="number" value="10000">
           </label>
         </div>
-        <div class="awt-row">
+        <div class="button-row">
           <button id="chromeWaitBtn" type="button">Wait</button>
           <button id="chromeClickBtn" type="button">Click</button>
           <button id="chromeTypeBtn" type="button">Type</button>
         </div>
       </article>
 
-      <article class="awt-chrome-card">
+      <article class="panel">
         <h3>JavaScript and scripts</h3>
         <label>
           JS expression
           <input id="chromeExpression" type="text" value="document.title">
         </label>
         <label>
-          Puppeteer-style script JSON
+          Script JSON
           <textarea id="chromeScript">[
   { "type": "goto", "url": "https://awtsmoos.com" },
   { "type": "waitForSelector", "selector": "body" },
   { "type": "eval", "expression": "document.title" }
 ]</textarea>
         </label>
-        <div class="awt-row">
+        <div class="button-row">
           <button id="chromeEvalBtn" type="button">Evaluate JS</button>
           <button id="chromeRunScriptBtn" type="button">Run script</button>
         </div>
       </article>
 
-      <div class="awt-chrome-diagnostics" id="chromeDiagnostics"></div>
+      <div id="chromeDiagnostics" class="diagnostics"></div>
       <pre id="chromeOut">Ready.</pre>
     </section>
 
     <section class="pane" data-pane="prompt">
-      <div>
-        <div class="root-picker-eyebrow">GPT / Any AI</div>
+      <div class="page-head">
+        <p class="eyebrow">GPT / Any AI</p>
         <h2>Agent instructions</h2>
-        <p class="awt-page-intro">Copy a focused instruction prompt for another AI or coding agent.</p>
+        <p>Copy a focused prompt for another AI or coding agent.</p>
       </div>
 
-      <article class="card">
-        <div class="awt-form-grid">
-          <label class="half">
+      <article class="panel">
+        <div class="form-grid">
+          <label class="span-6">
             Project path
             <input id="projectPath" type="text" value=".">
           </label>
-          <label class="half">
+          <label class="span-6">
             Mode
             <select id="promptMode">
               <option value="explorer">Codebase explorer</option>
@@ -436,38 +435,37 @@
             </select>
           </label>
         </div>
-
-        <button id="copyPromptBtn" type="button">Copy Prompt</button>
+        <button id="copyPromptBtn" type="button">Copy prompt</button>
       </article>
 
       <pre id="promptBox">Ready.</pre>
 
-      <article class="card">
+      <article class="panel">
         <h3>Documentation</h3>
-        <div class="awt-row">
-          <a class="btn" href="/api/tunnel/docs" target="_blank" rel="noopener">Human API Docs</a>
-          <a class="btn" href="/api/tunnel/docs/json" target="_blank" rel="noopener">Machine JSON Docs</a>
-          <a class="btn" href="/api/tunnel/openapi.yaml" target="_blank" rel="noopener">OpenAPI YAML</a>
+        <div class="button-row">
+          <a class="button-link" href="/api/tunnel/docs" target="_blank" rel="noopener">Human API Docs</a>
+          <a class="button-link" href="/api/tunnel/docs/json" target="_blank" rel="noopener">Machine JSON Docs</a>
+          <a class="button-link" href="/api/tunnel/openapi.yaml" target="_blank" rel="noopener">OpenAPI YAML</a>
         </div>
       </article>
     </section>
 
     <section class="pane" data-pane="usage">
-      <div>
-        <div class="root-picker-eyebrow">Usage</div>
+      <div class="page-head">
+        <p class="eyebrow">Usage</p>
         <h2>Usage and raw actions</h2>
       </div>
 
-      <article class="card">
-        <button id="loadUsageBtn" type="button">Load Usage</button>
+      <article class="panel">
+        <button id="loadUsageBtn" type="button">Load usage</button>
       </article>
 
       <pre id="usageOut">Ready.</pre>
 
-      <article class="card">
+      <article class="panel">
         <h3>Advanced raw tunnel calls</h3>
-        <div class="awt-form-grid">
-          <label class="quarter">
+        <div class="form-grid">
+          <label class="span-3">
             Action
             <select id="actionName">
               <option value="list">list</option>
@@ -495,24 +493,24 @@
               <option value="openRoot">openRoot</option>
             </select>
           </label>
-          <label class="half">
+          <label class="span-6">
             Path
             <input id="actionPath" type="text" value=".">
           </label>
-          <label class="quarter">
+          <label class="span-3">
             Max chars
             <input id="maxChars" type="number" value="20000">
           </label>
-          <label class="wide">
+          <label class="span-12">
             Content for write
             <textarea id="writeContent">B"H Tunnel write test.</textarea>
           </label>
-          <label class="half">
+          <label class="span-6">
             Bulk paths, one per line
             <textarea id="bulkPaths">package.json
 index.js</textarea>
           </label>
-          <label class="half">
+          <label class="span-6">
             Bulk write JSON object
             <textarea id="bulkWriteJson">{
   "debugging/tunnel-test-1.txt": "B\\\"H\\nhello 1\\n",
@@ -521,8 +519,8 @@ index.js</textarea>
           </label>
         </div>
 
-        <div class="awt-row">
-          <button id="runActionBtn" type="button">Run Action</button>
+        <div class="button-row">
+          <button id="runActionBtn" type="button">Run action</button>
           <button id="copyActionUrlBtn" type="button">Copy API URL</button>
         </div>
       </article>
@@ -532,48 +530,50 @@ index.js</textarea>
     </section>
 
     <section class="pane" data-pane="account">
-      <div>
-        <div class="root-picker-eyebrow">Account</div>
+      <div class="page-head">
+        <p class="eyebrow">Account</p>
         <h2>Login status and connection</h2>
       </div>
 
-      <article class="card">
-        <h3>Login status</h3>
-        <div class="awt-row">
-          <button id="accountLoginBtn" type="button">Login</button>
-          <button id="accountLogoutBtn" type="button">Logout</button>
-        </div>
-        <div id="identitySummary" class="awt-alert">Checking login...</div>
-        <details>
-          <summary>Raw identity response</summary>
-          <pre id="identityBox">Loading...</pre>
-        </details>
-      </article>
+      <div class="two-grid">
+        <article class="panel">
+          <h3>Login status</h3>
+          <div class="button-row">
+            <button id="accountLoginBtn" type="button">Login</button>
+            <button id="accountLogoutBtn" type="button">Logout</button>
+          </div>
+          <div id="identitySummary" class="notice">Checking login...</div>
+          <details class="soft-details">
+            <summary>Raw identity response</summary>
+            <pre id="identityBox">Loading...</pre>
+          </details>
+        </article>
 
-      <article class="card">
-        <h3>Connection</h3>
-        <button id="deviceRefreshBtn" type="button">Check</button>
-        <div id="deviceSummary" class="awt-alert">Checking agent...</div>
-        <details>
-          <summary>Raw connection response</summary>
-          <pre id="deviceBox">Loading...</pre>
-        </details>
-      </article>
+        <article class="panel">
+          <h3>Connection</h3>
+          <button id="deviceRefreshBtn" type="button">Check</button>
+          <div id="deviceSummary" class="notice">Checking agent...</div>
+          <details class="soft-details">
+            <summary>Raw connection response</summary>
+            <pre id="deviceBox">Loading...</pre>
+          </details>
+        </article>
+      </div>
 
-      <details>
-        <summary>Raw tunnel details</summary>
+      <details class="soft-details">
+        <summary>Raw tunnel status</summary>
         <pre id="statusBox">Loading...</pre>
       </details>
     </section>
 
     <section class="pane" data-pane="install">
-      <div>
-        <div class="root-picker-eyebrow">Install / Restart</div>
+      <div class="page-head">
+        <p class="eyebrow">Install / Restart</p>
         <h2>One command</h2>
-        <p class="awt-page-intro">Use one of these to install or restart the local agent.</p>
+        <p>Use one of these to install or restart the local agent.</p>
       </div>
 
-      <article class="card">
+      <article class="panel">
         <h3>PowerShell</h3>
         <pre id="installWindows">irm https://awtsmoos.com/api/tunnel/install/windows | iex</pre>
         <button type="button" data-copy="installWindows">Copy</button>
@@ -589,40 +589,38 @@ index.js</textarea>
     </section>
   </main>
 
-  <div id="rootPickerModal" class="hidden" role="dialog" aria-modal="true" aria-label="Choose local root folder">
-    <div id="rootPickerBackdrop" class="awt-modal-backdrop"></div>
-    <div class="root-picker-dialog">
-      <div class="root-picker-head">
+  <div id="rootPickerModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Choose local root folder">
+    <div id="rootPickerBackdrop" class="modal-backdrop"></div>
+    <div class="root-dialog">
+      <div class="root-head">
         <div>
-          <div class="root-picker-eyebrow">Root picker</div>
+          <p class="eyebrow">Root picker</p>
           <h2>Choose local root folder</h2>
           <p>Browse folders through the connected local agent. Pick a folder, then save config.</p>
         </div>
         <button id="closeRootPickerBtn" type="button">Close</button>
       </div>
 
-      <div class="root-picker-toolbar">
+      <div class="root-toolbar">
         <input id="rootPickerPath" type="text" value="__ROOTS__">
         <button id="rootPickerRootsBtn" type="button">Drives</button>
         <button id="rootPickerUpBtn" type="button">Up</button>
         <button id="rootPickerGoBtn" type="button">Go</button>
-        <button id="rootPickerSelectBtn" type="button" class="btn-primary">Use selected folder</button>
+        <button id="rootPickerSelectBtn" type="button" class="primary">Use selected folder</button>
       </div>
 
-      <div id="rootPickerLocation" class="root-picker-crumbs"></div>
+      <div id="rootPickerLocation" class="root-crumbs"></div>
 
-      <div class="root-picker-main">
-        <div class="root-picker-status">
-          <div id="rootPickerNice">Open the picker to load folders.</div>
-        </div>
-        <div id="rootPickerList" class="root-picker-list">
-          <div class="root-picker-empty">Open the picker to load folders.</div>
+      <div class="root-main">
+        <div id="rootPickerNice" class="root-status">Open the picker to load folders.</div>
+        <div id="rootPickerList" class="root-list">
+          <div class="empty-state">Open the picker to load folders.</div>
         </div>
       </div>
 
-      <div class="root-picker-foot">
+      <div class="root-foot">
         <div id="rootPickerSelected">None selected.</div>
-        <details class="root-picker-raw">
+        <details class="soft-details">
           <summary>Raw root picker response</summary>
           <pre id="rootPickerOut">Ready.</pre>
         </details>
@@ -630,8 +628,31 @@ index.js</textarea>
     </div>
   </div>
 
-  <script type="module" src="./js/main.js"></script>
-  <script src="./js/features/dashboardPolish.js"></script>
-  <script src="./js/features/chrome.js"></script>
+  <div id="chromeManualModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Choose Chrome manually">
+    <div id="chromeManualBackdrop" class="modal-backdrop"></div>
+    <div class="manual-dialog">
+      <div class="root-head">
+        <div>
+          <p class="eyebrow">Chrome path</p>
+          <h2>Choose Chrome manually</h2>
+          <p>Use this if Find Chrome cannot detect the executable.</p>
+        </div>
+        <button id="closeChromeManualBtn" type="button">Close</button>
+      </div>
+      <div class="manual-body">
+        <label>
+          Manual Chrome path
+          <input id="chromeManualPathInput" type="text" placeholder="C:\Program Files\Google\Chrome\Application\chrome.exe">
+        </label>
+        <div id="chromeCandidates" class="candidate-list"></div>
+      </div>
+      <div class="root-foot">
+        <span class="muted">After saving, click Launch / Connect.</span>
+        <button id="useChromeManualPathBtn" type="button" class="primary">Use this path</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/main.js"></script>
 </body>
 </html>
