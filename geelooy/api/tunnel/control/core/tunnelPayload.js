@@ -190,7 +190,28 @@ function buildFsPayload($i) {
     selectorTimeoutMs: intFrom($i, body, "selectorTimeoutMs", 10000, FOUR_MINUTES_MS),
     maxText: intFrom($i, body, "maxText", 4000, 30000),
     maxHtml: intFrom($i, body, "maxHtml", 0, 100000),
-    format: valueFrom($i, body, "format", "png")
+    format: valueFrom($i, body, "format", "png"),
+    host: valueFrom($i, body, "host", ""),
+    index: valueFrom($i, body, "index", ""),
+    serverId: valueFrom($i, body, "serverId", ""),
+    spaFallback: boolFrom($i, body, "spaFallback", false),
+    cors: boolFrom($i, body, "cors", false),
+    keepServer: boolFrom($i, body, "keepServer", false),
+    keepSandbox: boolFrom($i, body, "keepSandbox", false),
+    sandboxId: valueFrom($i, body, "sandboxId", ""),
+    entry: valueFrom($i, body, "entry", ""),
+    urlPath: valueFrom($i, body, "urlPath", ""),
+    testCode: preferBodyOr64($i, body, "testCode", "testCode64"),
+    html: preferBodyOr64($i, body, "html", "html64"),
+    packageJson: objectBodyOr64($i, body, "packageJson", "packageJson64", null),
+    checkOnly: boolFrom($i, body, "checkOnly", false),
+    workflowName: valueFrom($i, body, "workflowName", ""),
+    workflow: objectBodyOr64($i, body, "workflow", "workflow64", null),
+    steps: arrayBodyOr64($i, body, "steps", "steps64", []),
+    params: objectBodyOr64($i, body, "params", "params64", {}),
+    maxSteps: intFrom($i, body, "maxSteps", 50, 100),
+    maxIterations: intFrom($i, body, "maxIterations", 20, 100),
+    maxStepOutputChars: intFrom($i, body, "maxStepOutputChars", 12000, 60000)
   };
 
   for (const key of ["root", "local", "relay", "setTunnelName"]) {
@@ -214,13 +235,13 @@ function buildFsPayload($i) {
 function actionRequiredScope(action) {
   action = String(action || "");
   if (action.startsWith("command") || action === "nodeScriptRun") return "tunnel.command";
-  if (action === "nodeCheck" || action === "nodeCheckTree") return "tunnel.command";
-  if (action.startsWith("chrome")) return "tunnel.browser";
+  if (action === "nodeCheck" || action === "nodeCheckTree" || action === "isolatedJsTest" || action === "isolatedNodeCheck") return "tunnel.command";
+  if (action.startsWith("chrome") || action === "isolatedHtmlTest") return "tunnel.browser";
 
   if ([
     "write", "bulkWrite", "findReplace", "replaceRange", "applyPatch",
-    "writeIfHash", "bulkWriteIfHashes", "jsonFormat", "mkdirp", "ensureFile", "touch", "copyFile", "copyTree", "moveFile", "moveTree", "deleteFile", "deleteTree", "emptyDir", "mkdirp", "ensureFile", "touch", "copyFile", "copyTree", "moveFile", "moveTree", "deleteFile", "deleteTree", "emptyDir",
-    "configSet", "rootSelect", "openRoot"
+    "writeIfHash", "bulkWriteIfHashes", "jsonFormat", "mkdirp", "ensureFile", "touch", "copyFile", "copyTree", "moveFile", "moveTree", "deleteFile", "deleteTree", "emptyDir", "staticServerStart", "mkdirp", "ensureFile", "touch", "copyFile", "copyTree", "moveFile", "moveTree", "deleteFile", "deleteTree", "emptyDir",
+    "workflowRun", "workflowRun", "configSet", "rootSelect", "openRoot"
   ].includes(action)) return "tunnel.write";
 
   return "tunnel.read";
