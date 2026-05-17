@@ -3,7 +3,7 @@ const http = require("http");
 const https = require("https");
 const fsp = require("fs/promises");
 const path = require("path");
-const { safePath } = require("../pathGuard.js");
+const { safePath } = require("./pathGuard.js");
 const { cookieHeader, storeSetCookies } = require("./httpCookieJar.js");
 
 /**

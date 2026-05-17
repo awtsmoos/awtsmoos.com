@@ -1,6 +1,6 @@
 {
   "BH": "B\"H",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "entry": "main.js",
   "files": [
     {
@@ -131,6 +131,48 @@
     },
     {
       "path": "tools/chrome/session.js"
+    },
+    {
+      "path": "tools/fs/staticServers.js"
+    },
+    {
+      "path": "tools/fs/isolatedJs.js"
+    },
+    {
+      "path": "tools/fs/isolatedHtml.js"
+    },
+    {
+      "path": "tools/fs/workflowExpressions.js"
+    },
+    {
+      "path": "tools/fs/workflowRunner.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/configActions.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/readActions.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/projectActions.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/writeActions.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/fileOpsActions.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/httpActionsGroup.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/staticServerActions.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/isolatedActions.js"
+    },
+    {
+      "path": "tools/fs/actionGroups/workflowActions.js"
     }
   ]
 }
