@@ -1,10 +1,11 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 4.2.0
+  version: 4.4.0
   description: >
     B"H. GET-only. Use base64 query params for large values. Long commands are bounded
-    to four minutes. Native fs/project/chrome helpers reduce shell usage.
+    to four minutes. Native file, HTTP, session, static-server, isolated-test, workflow,
+    and Chrome helpers reduce shell usage. Do not use POST.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -31,51 +32,64 @@ paths:
       operationId: awtsmoosTunnelAction
       summary: Run tunnel action via GET query params only.
       description: >
-        Supports file, project, command, node syntax-check, and Chrome actions. Do not use POST.
-        For edits, read exact files first, then write complete files or guarded writes.
+        Supports native fs, project, safe file ops, Node HTTP/cookie jars, Chrome cookies/storage,
+        static servers, isolated JS/HTML tests, workflows, commands, and Chrome actions.
+        Do not use POST. For edits, read exact files first, then write complete files or guarded writes.
       security:
         - OAuth2: [profile, tunnel.read]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
-        - { name: action, in: query, required: true, schema: { type: string, enum: [list, tree, read, readBytes, read64, md, bulk, grep, stat, readLines, readManyLines, findFiles, fileHashes, jsonValidate, jsonFormat, packageInfo, projectOverview, dependencyGraph, recentFiles, largeFiles, duplicateBasenames, textStats, routeAudit, agentSelfTest, write, bulkWrite, writeIfHash, bulkWriteIfHashes, replaceRange, applyPatch, commandRun, nodeScriptRun, nodeCheck, nodeCheckTree, chromeFind, chromeLaunch, chromeStatus, chromeNavigate, chromeWaitForSelector, chromeClick, chromeType, chromeEval, chromeLogs, chromeSnapshot, chromeRunScript, chromeScreenshot, chromeNetwork, chromeAccessibilitySnapshot, chromeTestUrl, configGet, configSet, roots, rootBrowse, rootSelect, openRoot] } }
+        - { name: action, in: query, required: true, schema: { type: string, enum: [configGet, configSet, roots, rootBrowse, rootSelect, openRoot, stat, list, tree, read, readLines, readManyLines, readBytes, read64, md, bulk, grep, findFiles, fileHashes, jsonValidate, jsonFormat, packageInfo, projectOverview, dependencyGraph, recentFiles, largeFiles, duplicateBasenames, textStats, routeAudit, agentSelfTest, mkdirp, ensureFile, touch, copyFile, copyTree, moveFile, moveTree, deleteFile, deleteTree, emptyDir, httpRequest, httpJson, httpDownload, httpCookieJarList, httpCookies, httpCookieSet, httpCookieDelete, httpSessionClear, staticServerStart, staticServerList, staticServerStop, staticServerLogs, isolatedJsTest, isolatedNodeCheck, isolatedHtmlTest, isolatedCleanup, workflowRun, workflowList, workflowGet, workflowValidate, write, bulkWrite, writeIfHash, bulkWriteIfHashes, findReplace, replaceRange, applyPatch, commandRun, nodeScriptRun, nodeCheck, nodeCheckTree, chromeFind, chromeLaunch, chromeStatus, chromeNavigate, chromeWaitForSelector, chromeClick, chromeType, chromeEval, chromeLogs, chromeSnapshot, chromeRunScript, chromeScreenshot, chromeNetwork, chromeAccessibilitySnapshot, chromeTestUrl, chromeCookies, chromeCookieSet, chromeCookieDelete, chromeStorage, chromeStorageSet, chromeStorageDelete, chromeSessionExport, chromeSessionImport, httpUseChromeCookies, chromeUseHttpCookies] } }
         - { name: p, in: query, required: false, schema: { type: string, default: . } }
         - { name: path, in: query, required: false, schema: { type: string } }
+        - { name: from, in: query, required: false, schema: { type: string } }
+        - { name: to, in: query, required: false, schema: { type: string } }
+        - { name: source, in: query, required: false, schema: { type: string } }
+        - { name: dest, in: query, required: false, schema: { type: string } }
+        - { name: target, in: query, required: false, schema: { type: string } }
         - { name: depth, in: query, required: false, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, required: false, schema: { type: integer, default: 150 } }
         - { name: maxChars, in: query, required: false, schema: { type: integer, default: 8000 } }
         - { name: totalMaxChars, in: query, required: false, schema: { type: integer, default: 24000 } }
         - { name: maxFiles, in: query, required: false, schema: { type: integer, default: 3 } }
-        - { name: maxRanges, in: query, required: false, schema: { type: integer, default: 20 } }
-        - { name: maxEntries, in: query, required: false, schema: { type: integer, default: 3000 } }
-        - { name: offsetChars, in: query, required: false, schema: { type: integer, default: 0 } }
         - { name: maxBytes, in: query, required: false, schema: { type: integer, default: 24000 } }
-        - { name: offsetBytes, in: query, required: false, schema: { type: integer, default: 0 } }
-        - { name: startLine, in: query, required: false, schema: { type: integer, default: 1 } }
-        - { name: endLine, in: query, required: false, schema: { type: integer, default: 250 } }
-        - { name: maxResults, in: query, required: false, schema: { type: integer, default: 80 } }
-        - { name: maxFileBytes, in: query, required: false, schema: { type: integer, default: 800000 } }
-        - { name: sinceMinutes, in: query, required: false, schema: { type: integer, default: 120 } }
-        - { name: minBytes, in: query, required: false, schema: { type: integer, default: 500000 } }
-        - { name: modifiedAfterMs, in: query, required: false, schema: { type: integer, default: 0 } }
-        - { name: indent, in: query, required: false, schema: { type: integer, default: 2 } }
-        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 240000 } }
-        - { name: waitMs, in: query, required: false, schema: { type: integer, default: 0 } }
-        - { name: selectorTimeoutMs, in: query, required: false, schema: { type: integer, default: 10000 } }
         - { name: port, in: query, required: false, schema: { type: integer, default: 9222 } }
-        - { name: maxLogs, in: query, required: false, schema: { type: integer, default: 200 } }
-        - { name: maxText, in: query, required: false, schema: { type: integer, default: 4000 } }
-        - { name: maxHtml, in: query, required: false, schema: { type: integer, default: 0 } }
+        - { name: host, in: query, required: false, schema: { type: string, default: 127.0.0.1 } }
+        - { name: index, in: query, required: false, schema: { type: string, default: index.html } }
+        - { name: serverId, in: query, required: false, schema: { type: string } }
         - { name: url, in: query, required: false, schema: { type: string } }
+        - { name: urlPath, in: query, required: false, schema: { type: string } }
         - { name: selector, in: query, required: false, schema: { type: string } }
-        - { name: shell, in: query, required: false, schema: { type: string } }
         - { name: cwd, in: query, required: false, schema: { type: string, default: . } }
+        - { name: method, in: query, required: false, schema: { type: string, default: GET } }
+        - { name: shell, in: query, required: false, schema: { type: string } }
         - { name: chromePath, in: query, required: false, schema: { type: string } }
         - { name: userDataDir, in: query, required: false, schema: { type: string } }
-        - { name: ext, in: query, required: false, schema: { type: string } }
+        - { name: cookieJarName, in: query, required: false, schema: { type: string } }
+        - { name: jar, in: query, required: false, schema: { type: string } }
+        - { name: name, in: query, required: false, schema: { type: string } }
+        - { name: value, in: query, required: false, schema: { type: string } }
+        - { name: domain, in: query, required: false, schema: { type: string } }
+        - { name: expires, in: query, required: false, schema: { type: string } }
+        - { name: sameSite, in: query, required: false, schema: { type: string } }
+        - { name: storageType, in: query, required: false, schema: { type: string } }
+        - { name: workflowName, in: query, required: false, schema: { type: string } }
+        - { name: sandboxId, in: query, required: false, schema: { type: string } }
+        - { name: entry, in: query, required: false, schema: { type: string, default: test.js } }
         - { name: expectedSha256, in: query, required: false, schema: { type: string } }
-        - { name: sha256, in: query, required: false, schema: { type: string } }
+        - { name: expectedSourceSha256, in: query, required: false, schema: { type: string } }
         - { name: format, in: query, required: false, schema: { type: string, default: png } }
+        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 240000 } }
+        - { name: maxRedirects, in: query, required: false, schema: { type: integer, default: 5 } }
+        - { name: maxIterations, in: query, required: false, schema: { type: integer, default: 20 } }
+        - { name: maxSteps, in: query, required: false, schema: { type: integer, default: 50 } }
+        - { name: maxStepOutputChars, in: query, required: false, schema: { type: integer, default: 12000 } }
+        - { name: maxLogs, in: query, required: false, schema: { type: integer, default: 200 } }
+        - { name: waitMs, in: query, required: false, schema: { type: integer, default: 0 } }
+        - { name: selectorTimeoutMs, in: query, required: false, schema: { type: integer, default: 10000 } }
         - { name: headless, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: dryRun, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: confirm, in: query, required: false, schema: { type: boolean, default: false } }
         - { name: clearLogs, in: query, required: false, schema: { type: boolean, default: false } }
         - { name: snapshot, in: query, required: false, schema: { type: boolean, default: true } }
         - { name: fullPage, in: query, required: false, schema: { type: boolean, default: true } }
@@ -85,6 +99,12 @@ paths:
         - { name: write, in: query, required: false, schema: { type: boolean, default: false } }
         - { name: regex, in: query, required: false, schema: { type: boolean, default: false } }
         - { name: replaceAll, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: useCookies, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: saveCookies, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: followRedirects, in: query, required: false, schema: { type: boolean, default: true } }
+        - { name: keepServer, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: keepSandbox, in: query, required: false, schema: { type: boolean, default: false } }
+        - { name: includeValues, in: query, required: false, schema: { type: boolean, default: false } }
         - { name: paths64, in: query, required: false, schema: { type: string } }
         - { name: ranges64, in: query, required: false, schema: { type: string } }
         - { name: files64, in: query, required: false, schema: { type: string } }
@@ -94,6 +114,14 @@ paths:
         - { name: find64, in: query, required: false, schema: { type: string } }
         - { name: query64, in: query, required: false, schema: { type: string } }
         - { name: replace64, in: query, required: false, schema: { type: string } }
+        - { name: body64, in: query, required: false, schema: { type: string } }
+        - { name: headers64, in: query, required: false, schema: { type: string } }
+        - { name: testCode64, in: query, required: false, schema: { type: string } }
+        - { name: html64, in: query, required: false, schema: { type: string } }
+        - { name: packageJson64, in: query, required: false, schema: { type: string } }
+        - { name: workflow64, in: query, required: false, schema: { type: string } }
+        - { name: steps64, in: query, required: false, schema: { type: string } }
+        - { name: params64, in: query, required: false, schema: { type: string } }
         - { name: command64, in: query, required: false, schema: { type: string } }
         - { name: script64, in: query, required: false, schema: { type: string } }
         - { name: input64, in: query, required: false, schema: { type: string } }
@@ -101,6 +129,9 @@ paths:
         - { name: expression64, in: query, required: false, schema: { type: string } }
         - { name: tools64, in: query, required: false, schema: { type: string } }
         - { name: chrome64, in: query, required: false, schema: { type: string } }
+        - { name: cookies64, in: query, required: false, schema: { type: string } }
+        - { name: localStorage64, in: query, required: false, schema: { type: string } }
+        - { name: sessionStorage64, in: query, required: false, schema: { type: string } }
         - { name: commandConfig64, in: query, required: false, schema: { type: string } }
       responses:
         "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
@@ -119,7 +150,7 @@ components:
           scopes:
             profile: Basic profile.
             tunnel.read: Read/list/tree/search/diagnostic actions.
-            tunnel.write: Write/config/root-changing actions.
-            tunnel.command: Command, node script, and node syntax-check actions.
-            tunnel.browser: Chrome/headless/browser/log actions.
+            tunnel.write: Write/config/root/file-operations/static-server/workflow actions.
+            tunnel.command: Command, isolated JS, Node script, and syntax-check actions.
+            tunnel.browser: Chrome/headless/browser/log/isolated HTML actions.
             tunnel.admin: Full tunnel control.
