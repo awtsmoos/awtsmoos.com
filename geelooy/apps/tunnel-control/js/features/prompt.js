@@ -12,6 +12,11 @@ export function promptPage() {
 
     h("article", { className: "panel stack" }, [
       field("projectPath", "Project path", { value: "." }),
+      h("label", {}, ["Prompt mode", h("select", { id: "promptMode" }, [
+        h("option", { value: "general", text: "General" }),
+        h("option", { value: "debug", text: "Debug" }),
+        h("option", { value: "build", text: "Build" })
+      ])]),
       h("button", { id: "copyPromptBtn", text: "Copy prompt" })
     ]),
 
@@ -34,11 +39,12 @@ export function mountPrompt() {
     $("promptBox").textContent = buildPrompt({
       tunnelName: tunnelName(),
       projectPath: $("projectPath")?.value || ".",
-      mode: "general"
+      mode: $("promptMode")?.value || "general"
     });
   };
 
   $("projectPath").oninput = render;
+  $("promptMode").onchange = render;
 
   $("copyPromptBtn").onclick = () => {
     navigator.clipboard.writeText($("promptBox").textContent);

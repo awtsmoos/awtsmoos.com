@@ -16,8 +16,11 @@ import { mountLegacyFeatures } from "./mountLegacyFeatures.js";
 import { mountShell } from "../shell/mountShell.js";
 import { mountUiRepair } from "./repairUi.js";
 import { bindNavigationButtons } from "../router/bindNavigation.js";
-import { mountChrome } from "../features/chrome.js";
 import { createActiveWorkspaceRuntime } from "../runtime/activeWorkspaceRuntime.js";
+import { createVirtualRuntime } from "../runtime/virtualRuntime.js";
+import { registerRuntime, restoreActiveRuntime } from "../runtime/runtimeRegistry.js";
+import { registerDiscoveredTunnelRuntimes } from "../runtime/tunnelRuntimeHydrator.js";
+import { mountCommandPalette } from "../platform/commandPalette.js";
  
 /**
  * B"H
@@ -71,6 +74,24 @@ function hydratePermissionClasses(tunnel) {
 
 /**
  * B"H
+ * Registers available runtimes for the mesh.
+ *
+ * @param {object} localRuntime Local runtime.
+ * @returns {object} Selected active runtime.
+ */
+function hydrateRuntimeMesh(localRuntime) {
+  registerRuntime(localRuntime);
+  registerDiscoveredTunnelRuntimes(localRuntime.tunnel?.raw ? { ...localRuntime.tunnel.raw, tunnelName: localRuntime.tunnel.name } : localRuntime, localRuntime.authState);
+  registerRuntime(createVirtualRuntime());
+
+  const active = restoreActiveRuntime() || localRuntime;
+  window.awtsActiveWorkspaceRuntime = active;
+  document.body.dataset.awtRuntimeMode = active.mode;
+  return active;
+}
+
+/**
+ * B"H
  * Starts the whole control panel.
  *
  * @returns {Promise<void>} Resolves after boot.
@@ -96,15 +117,14 @@ export async function startTunnelControl() {
     hydrateFields(tunnel);
     hydratePermissionClasses(tunnel);
 
-    const runtime = createActiveWorkspaceRuntime({
+    const localRuntime = createActiveWorkspaceRuntime({
       tunnel,
       activeRoot: tunnel.root,
       authState: session,
       workspaceMode: "runtime-os"
     });
-    window.awtsActiveWorkspaceRuntime = runtime;
-    document.body.dataset.awtRuntimeMode = runtime.mode;
 
+    const runtime = hydrateRuntimeMesh(localRuntime);
     window.awtsGetTunnelName = getTunnelName;
 
     wireInputs(getTunnelName);
@@ -114,14 +134,8 @@ export async function startTunnelControl() {
 
     mountShell({ session, runtime, getTunnelName, getProjectPath });
 
-    /*
-     * B"H
-     * Chrome must be mounted again after mountShell(), because the shell
-     * creates the real data-pane="chrome" page by moving controls.
-     */
-    mountChrome(getTunnelName);
-
     bindNavigationButtons();
+    mountCommandPalette();
     mountUiRepair(getTunnelName);
 
     await Promise.allSettled([

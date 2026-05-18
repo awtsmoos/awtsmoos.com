@@ -3,6 +3,7 @@
 
 import { h } from "../ui/core/html.js";
 import { PAGE_SPECS } from "./pageSpecs.js";
+import { createMeshPanel } from "../runtime/mesh/meshPanel.js";
 
 /**
  * B"H
@@ -181,6 +182,7 @@ function createPane(spec, moved) {
   const body = h("div", { classes: ["awt-pane-content"] });
   const count = adoptControls(body, spec, moved);
 
+  if (spec.key === "mesh") body.append(createMeshPanel());
   if (spec.commandPage) body.append(installCommands());
   if (spec.links) body.append(docsLinks(spec));
 

@@ -4,6 +4,7 @@
 import { h } from "../ui/core/html.js";
 import { DASHBOARD_ORDER, PANE_META } from "../router/paneMeta.js";
 import { activatePane, showHome } from "../router/paneRouter.js";
+import { createRuntimeSwitcher } from "../runtime/runtimeSwitcher.js";
 
 /**
  * B"H
@@ -65,6 +66,7 @@ export function createSideRail(ctx) {
           h("p", { text: ctx.runtime?.id || ctx.getTunnelName() || "Unbound runtime" })
         ]
       }),
+      createRuntimeSwitcher(),
       home,
       h("nav", {
         classes: ["awt-side-tabs"],

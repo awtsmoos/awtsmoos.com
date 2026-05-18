@@ -1,6 +1,10 @@
 
 // B"H
 
+import { emit } from "../platform/eventBus.js";
+import { remember } from "../platform/workspaceMemory.js";
+import { pushActivity } from "../platform/activityStream.js";
+
 /**
  * B"H
  * Returns all mounted panes.
@@ -60,6 +64,10 @@ export function activatePane(pane) {
 
   document.body.classList.remove("awt-home-mode");
   document.body.classList.add("awt-workspace-mode");
+
+  remember("lastPane", pane);
+  emit("pane:opened", { pane });
+  pushActivity({ type: "pane", pane });
 
   document.dispatchEvent(new CustomEvent("awt:pane-change", {
     detail: { pane }

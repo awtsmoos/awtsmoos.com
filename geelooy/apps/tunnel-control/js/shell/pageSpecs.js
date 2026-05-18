@@ -46,17 +46,17 @@ export const PAGE_SPECS = [
     title: "API key vault",
     desc: "Create, paste, activate, copy, and inspect scoped tunnel keys.",
     ids: [
-      "loadKeysBtn",
+      "refreshKeysBtn",
       "keyName",
       "keyRate",
       "keyBytes",
       "createKeyBtn",
-      "pasteApiKey",
-      "savePastedKeyBtn",
-      "clearActiveKeyBtn",
-      "activeKeyCard",
+      "apiKeyInput",
+      "saveApiKeyBtn",
+      "clearApiKeyBtn",
+      "activeKeySummary",
       "savedKeysList",
-      "keysBox"
+      "keysOut"
     ],
     classes: ["scopeBox"]
   },
@@ -66,26 +66,16 @@ export const PAGE_SPECS = [
     title: "Project explorer",
     desc: "List, tree, select, preview, read, and bulk-read files.",
     ids: [
-      "explorerNotice",
       "explorerPath",
       "treeDepth",
       "treeLimit",
-      "crumb",
-      "upBtn",
       "listBtn",
       "treeBtn",
-      "openSelectedBtn",
       "readBtn",
       "mdBtn",
-      "bulkSelectedBtn",
-      "copySelectedBtn",
-      "listViewBtn",
-      "iconViewBtn",
-      "selectedCount",
-      "fileList",
-      "readablePreview",
-      "explorerOut",
-      "currentCommandOut"
+      "explorerList",
+      "explorerPreview",
+      "explorerOut"
     ],
     selectors: ["[data-viewer]"]
   },
@@ -98,9 +88,18 @@ export const PAGE_SPECS = [
       "commandShell",
       "commandCwd",
       "commandTimeout",
+      "commandMaxChars",
       "commandText",
       "runCommandBtn",
-      "commandOut"
+      "testCommandBtn",
+      "testPwdBtn",
+      "clearTerminalBtn",
+      "terminalResult",
+      "nodeScriptText",
+      "runNodeScriptBtn",
+      "clearNodeScriptBtn",
+      "nodeScriptResult",
+      "terminalOut"
     ]
   },
   {
@@ -190,6 +189,12 @@ export const PAGE_SPECS = [
     title: "Install or restart",
     desc: "Copy the one-command installer for Windows, CMD, Mac, and Linux.",
     commandPage: true
+  },
+  {
+    key: "mesh",
+    icon: "🕸️",
+    title: "Runtime mesh",
+    desc: "Inspect runtimes, mounts, graph topology, projections, and timeline events."
   }
 ];
 

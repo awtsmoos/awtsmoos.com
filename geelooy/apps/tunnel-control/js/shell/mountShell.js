@@ -26,6 +26,20 @@ function movePanes(panes, stack) {
 
 /**
  * B"H
+ * Chapter 4: The Portals Must Survive the Palace Rebuild.
+ *
+ * Some feature vessels are not panes. The root picker, browser dialogs, and
+ * future overlays live as portals. If body.replaceChildren() burns the old
+ * staging root without first saving them, their event listeners and DOM vanish.
+ *
+ * @returns {HTMLElement[]} Portal nodes to keep beside the shell.
+ */
+function collectPortals() {
+  return Array.from(document.querySelectorAll("#rootPickerModal, [data-awt-portal], .awt-portal"));
+}
+
+/**
+ * B"H
  * Mounts the multi-page shell from real controls.
  *
  * @param {object} ctx Runtime context.
@@ -35,6 +49,7 @@ export function mountShell(ctx) {
   if (document.querySelector(".awt-control-shell")) return;
 
   const panes = collectPanes();
+  const portals = collectPortals();
   const { stage, stack } = createWorkspaceStage();
 
   movePanes(panes, stack);
@@ -55,7 +70,7 @@ export function mountShell(ctx) {
   });
 
   document.body.classList.add("awt-pro-ready");
-  document.body.replaceChildren(shell);
+  document.body.replaceChildren(shell, ...portals);
 
   mountWorkspaceMode();
   document.dispatchEvent(new CustomEvent("awt:repair-ui"));
