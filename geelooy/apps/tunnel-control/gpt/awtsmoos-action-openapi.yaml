@@ -36,10 +36,10 @@ paths:
         static servers, isolated JS/HTML tests, workflows, commands, and Chrome actions.
         Do not use POST. For edits, read exact files first, then write complete files or guarded writes.
       security:
-        - OAuth2: [profile, tunnel.read]
+        - OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.admin]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
-        - { name: action, in: query, required: true, schema: { type: string, enum: [configGet, configSet, roots, rootBrowse, rootSelect, openRoot, stat, list, tree, read, readLines, readManyLines, readBytes, read64, md, bulk, grep, findFiles, fileHashes, jsonValidate, jsonFormat, packageInfo, projectOverview, dependencyGraph, recentFiles, largeFiles, duplicateBasenames, textStats, routeAudit, agentSelfTest, mkdirp, ensureFile, touch, copyFile, copyTree, moveFile, moveTree, deleteFile, deleteTree, emptyDir, httpRequest, httpJson, httpDownload, httpCookieJarList, httpCookies, httpCookieSet, httpCookieDelete, httpSessionClear, staticServerStart, staticServerList, staticServerStop, staticServerLogs, isolatedJsTest, isolatedNodeCheck, isolatedHtmlTest, isolatedCleanup, workflowRun, workflowList, workflowGet, workflowValidate, write, bulkWrite, writeIfHash, bulkWriteIfHashes, findReplace, replaceRange, applyPatch, commandRun, nodeScriptRun, nodeCheck, nodeCheckTree, chromeFind, chromeLaunch, chromeStatus, chromeNavigate, chromeWaitForSelector, chromeClick, chromeType, chromeEval, chromeLogs, chromeSnapshot, chromeRunScript, chromeScreenshot, chromeNetwork, chromeAccessibilitySnapshot, chromeTestUrl, chromeCookies, chromeCookieSet, chromeCookieDelete, chromeStorage, chromeStorageSet, chromeStorageDelete, chromeSessionExport, chromeSessionImport, httpUseChromeCookies, chromeUseHttpCookies] } }
+        - { name: action, in: query, required: true, schema: { type: string, enum: [configGet, configSet, roots, rootBrowse, rootSelect, openRoot, stat, list, tree, read, readLines, readManyLines, readBytes, read64, md, bulk, grep, selectString, findFiles, fileHashes, symbolOutline, semanticSearch, astOutline, connectedFiles, jsonValidate, jsonFormat, packageInfo, projectOverview, dependencyGraph, recentFiles, largeFiles, duplicateBasenames, textStats, routeAudit, agentSelfTest, mkdirp, ensureFile, touch, copyFile, copyTree, moveFile, moveTree, deleteFile, deleteTree, emptyDir, httpRequest, httpJson, httpDownload, httpCookieJarList, httpCookies, httpCookieSet, httpCookieDelete, httpSessionClear, staticServerStart, staticServerList, staticServerStop, staticServerLogs, isolatedJsTest, isolatedNodeCheck, isolatedHtmlTest, isolatedCleanup, simulateRuntime, runtimeWorkflow, testRuntimeOnce, inspectRuntime, launchPreview, listPreviews, previewLogs, stopPreview, restartPreview, semanticDiff, detectConceptClusters, simulateFailure, generateRepairPlan, superviseRuntime, inferArchitecture, detectAbstractionLeaks, runtimeEntityGraph, semanticRefactor, inspectRenderStorms, runtimeContractRegistry, semanticSearchRuntime, previewBranchMatrix, inferBusinessRules, stateTimeMachine, detectDeadConcepts, semanticMerge, runtimeIntrospectionStream, architectureScore, intentDriftDetector, semanticPackageGenerator, selfHealPreview, generateTestUniverse, inspectHumanConfusion, orchestrationGraph, environmentVirtualizer, runtimeSnapshot, semanticCache, goalCompiler, autonomousBackgroundAgents, semanticPipeline, universalAppManifest, workflowRun, workflowList, workflowGet, workflowValidate, write, bulkWrite, writeIfHash, bulkWriteIfHashes, findReplace, replaceRange, applyPatch, commandRun, nodeScriptRun, nodeCheck, nodeInstantTests, instantTests, nodeCheckMany, nodeCheckTree, chromeFind, chromeLaunch, chromeStatus, chromeNavigate, chromeWaitForSelector, chromeClick, chromeType, chromeEval, chromeLogs, chromeSnapshot, chromeRunScript, chromeScreenshot, chromeNetwork, chromeAccessibilitySnapshot, chromeTestUrl, chromeCookies, chromeCookieSet, chromeCookieDelete, chromeStorage, chromeStorageSet, chromeStorageDelete, chromeSessionExport, chromeSessionImport, httpUseChromeCookies, chromeUseHttpCookies] } }
         - { name: p, in: query, required: false, schema: { type: string, default: . } }
         - { name: path, in: query, required: false, schema: { type: string } }
         - { name: from, in: query, required: false, schema: { type: string } }
@@ -110,6 +110,12 @@ paths:
         - { name: files64, in: query, required: false, schema: { type: string } }
         - { name: writes64, in: query, required: false, schema: { type: string } }
         - { name: edits64, in: query, required: false, schema: { type: string } }
+        - { name: runtime, in: query, required: false, schema: { type: string } }
+        - { name: content, in: query, required: false, schema: { type: string } }
+        - { name: files, in: query, required: false, schema: { type: string } }
+        - { name: workflow, in: query, required: false, schema: { type: string } }
+        - { name: probes, in: query, required: false, schema: { type: string } }
+        - { name: interactions, in: query, required: false, schema: { type: string } }
         - { name: content64, in: query, required: false, schema: { type: string } }
         - { name: find64, in: query, required: false, schema: { type: string } }
         - { name: query64, in: query, required: false, schema: { type: string } }
@@ -120,6 +126,8 @@ paths:
         - { name: html64, in: query, required: false, schema: { type: string } }
         - { name: packageJson64, in: query, required: false, schema: { type: string } }
         - { name: workflow64, in: query, required: false, schema: { type: string } }
+        - { name: probes64, in: query, required: false, schema: { type: string } }
+        - { name: interactions64, in: query, required: false, schema: { type: string } }
         - { name: steps64, in: query, required: false, schema: { type: string } }
         - { name: params64, in: query, required: false, schema: { type: string } }
         - { name: command64, in: query, required: false, schema: { type: string } }
@@ -139,18 +147,50 @@ paths:
         "401": { description: Auth required }
         "403": { description: Not allowed }
         "413": { description: Too large; split smaller }
+
+  /api/tunnel/control/preview/{tunnelName}:
+    get:
+      operationId: awtsmoosPreviewProxy
+      summary: Fetch a live preview through the authenticated Awtsmoos tunnel.
+      description: >
+        Proxies a local preview URL through the signed-in tunnel so ChatGPT and
+        browser clients can view generated apps without direct localhost access.
+      security:
+        - OAuth2: [profile, tunnel.read]
+      parameters:
+        - { name: tunnelName, in: path, required: true, schema: { type: string } }
+        - { name: url, in: query, required: false, schema: { type: string } }
+        - { name: url64, in: query, required: false, schema: { type: string } }
+        - { name: maxChars, in: query, required: false, schema: { type: integer, default: 500000 } }
+        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 30000 } }
+      responses:
+        "200":
+          description: Live preview response body.
+          content:
+            text/html:
+              schema: { type: string }
+            text/plain:
+              schema: { type: string }
+            application/json:
+              schema: { $ref: "#/components/schemas/AnyResponse" }
+
 components:
   securitySchemes:
     OAuth2:
       type: oauth2
+      description: >
+        B"H. Authorization-code OAuth for ChatGPT/GPT Actions and the
+        Awtsmoos Tunnel Control surface. The GPT Action editor stores
+        the client secret; this scheme provides the authorization and
+        token endpoints plus the scopes that gate local tunnel power.
       flows:
         authorizationCode:
-          authorizationUrl: https://awtsmoos.com/api/oauth/authorize
+          authorizationUrl: https://awtsmoos.com/api/oauth/start
           tokenUrl: https://awtsmoos.com/api/oauth/token
           scopes:
-            profile: Basic profile.
-            tunnel.read: Read/list/tree/search/diagnostic actions.
-            tunnel.write: Write/config/root/file-operations/static-server/workflow actions.
-            tunnel.command: Command, isolated JS, Node script, and syntax-check actions.
-            tunnel.browser: Chrome/headless/browser/log/isolated HTML actions.
-            tunnel.admin: Full tunnel control.
+            profile: Basic signed-in Awtsmoos identity.
+            tunnel.read: Discover connected tunnels and read file, project, browser, and control state.
+            tunnel.write: Write files and apply hash-guarded file edits.
+            tunnel.command: Run approved local command and Node diagnostic actions.
+            tunnel.browser: Control the authorized local Chrome DevTools session.
+            tunnel.admin: Configure local tunnel roots, permissions, and keys.
