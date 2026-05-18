@@ -46,17 +46,16 @@ function Read-AwtsJson($path) {
 
 function Test-AwtsAgentUpToDate($root, $manifest, $state) {
   if ($null -eq $manifest -or $null -eq $state) { return $false }
-  if ($state.version -ne $manifest.version) { return $false }
+  if (-not $state.version) { return $false }
   if (-not (Test-Path (Join-Path $root $manifest.entry))) { return $false }
-  foreach ($file in $manifest.files) {
-    $full = Join-Path $root $file.path
-    if (-not (Test-Path $full)) { return $false }
-    if ($file.sha256) {
-      $hash = (Get-FileHash -Algorithm SHA256 -Path $full).Hash.ToLower()
-      if ($hash -ne $file.sha256) { return $false }
-    }
+
+  try {
+    $installed = [version]$state.version
+    $incoming = [version]$manifest.version
+    return $installed -ge $incoming
+  } catch {
+    return ($state.version -eq $manifest.version)
   }
-  return $true
 }
 
 if (-not (Test-AwtsCommand "node")) {

@@ -64,19 +64,25 @@ function readState() {
   catch (_) { return null; }
 }
 
-function fileSha256(full) {
-  return crypto.createHash("sha256").update(fs.readFileSync(full)).digest("hex");
-}
-
 function upToDate(state) {
-  if (!state || state.version !== manifest.version) return false;
+  if (!state || !state.version) return false;
   if (!fs.existsSync(path.join(root, manifest.entry || "main.js"))) return false;
-  return (manifest.files || []).every(file => {
-    const full = path.join(root, file.path);
-    if (!fs.existsSync(full)) return false;
-    if (file.sha256 && fileSha256(full) !== file.sha256) return false;
+
+  try {
+    const installed = String(state.version).split(".").map(Number);
+    const incoming = String(manifest.version).split(".").map(Number);
+
+    for (let i = 0; i < Math.max(installed.length, incoming.length); i++) {
+      const a = installed[i] || 0;
+      const b = incoming[i] || 0;
+      if (a > b) return true;
+      if (a < b) return false;
+    }
+
     return true;
-  });
+  } catch (_) {
+    return state.version === manifest.version;
+  }
 }
 
 function download(url, dest) {
