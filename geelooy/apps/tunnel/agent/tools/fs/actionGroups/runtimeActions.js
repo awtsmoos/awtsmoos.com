@@ -46,9 +46,31 @@ function resolveMerkavaServiceUrl(payload = {}) {
   ).href;
 }
 
+async function importHttpModule(url) {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed loading runtime module ${url}: HTTP ${response.status}`);
+  }
+
+  const source = await response.text();
+
+  const rewritten = source.replace(
+    /from\s+["'](\.\/[^"']+)["']/g,
+    (_, rel) => {
+      const absolute = new URL(rel, url).href;
+      return `from "${absolute}"`;
+    }
+  );
+
+  const dataUrl = "data:text/javascript;base64,"
+    + Buffer.from(rewritten, "utf8").toString("base64");
+
+  return import(dataUrl);
+}
+
 async function loadMerkavaService(payload = {}) {
-  const url = resolveMerkavaServiceUrl(payload);
-  return import(url);
+  return importHttpModule(resolveMerkavaServiceUrl(payload));
 }
 
 function unavailable(error) {
