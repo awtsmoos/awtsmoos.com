@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Awtsmoos Server",
+  "version": "1.0",
+  "description": "Bypasses CORs to allow for AI interactions.",
+  "permissions": [
+	  "storage",
+	  "cookies",
+	  "scripting", 
+	  "tabs", 
+	  "activeTab",
+	  "webNavigation"
+    
+  ],
+  "web_accessible_resources": [
+		{
+			"resources": ["jected.js"],
+			"matches": ["*://*/*"]
+		}
+ ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  }
+  
+}
