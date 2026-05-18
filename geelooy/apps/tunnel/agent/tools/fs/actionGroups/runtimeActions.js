@@ -1,8 +1,5 @@
 // B"H
 
-const vm = require("vm");
-const path = require("path");
-
 function json64(value, fallback) {
   if (!value) return fallback;
 
@@ -37,69 +34,21 @@ function collectOptions(payload = {}) {
   };
 }
 
-function resolveMerkavaBase(payload = {}) {
+function resolveMerkavaServiceUrl(payload = {}) {
   const base = payload.origin
     || payload.url
     || process.env.AWTSMOOS_BASE_URL
     || "https://awtsmoos.com";
 
   return new URL(
-    "/scripts/awtsmoos/MerkavaExecutor/merkava-service/",
+    "/scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js",
     base
   ).href;
 }
 
-async function fetchText(url) {
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error(`Failed fetching ${url}: HTTP ${response.status}`);
-  }
-
-  return response.text();
-}
-
-async function loadCommonJsModule(url, cache = new Map()) {
-  if (cache.has(url)) {
-    return cache.get(url).exports;
-  }
-
-  const source = await fetchText(url);
-
-  const module = { exports: {} };
-  cache.set(url, module);
-
-  const dirname = url.substring(0, url.lastIndexOf("/") + 1);
-
-  async function localRequire(specifier) {
-    if (!specifier.startsWith(".")) {
-      return require(specifier);
-    }
-
-    const nextUrl = new URL(specifier, dirname).href;
-    return loadCommonJsModule(nextUrl, cache);
-  }
-
-  const wrapped = `(async function(exports, module, require, __dirname, __filename){\n${source}\n})`;
-
-  const fn = vm.runInThisContext(wrapped, {
-    filename: url
-  });
-
-  await fn(
-    module.exports,
-    module,
-    localRequire,
-    dirname,
-    url
-  );
-
-  return module.exports;
-}
-
 async function loadMerkavaService(payload = {}) {
-  const base = resolveMerkavaBase(payload);
-  return loadCommonJsModule(new URL("index.js", base).href);
+  const url = resolveMerkavaServiceUrl(payload);
+  return import(url);
 }
 
 function unavailable(error) {
