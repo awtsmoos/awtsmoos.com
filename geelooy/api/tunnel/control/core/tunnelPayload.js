@@ -47,18 +47,35 @@ function intFrom($i, body, name, fallback, max = Number.MAX_SAFE_INTEGER) {
   return Number.isFinite(n) ? Math.max(0, Math.min(Math.floor(n), max)) : fallback;
 }
 
+function parseJsonText(value, fallback) {
+  if (value === undefined || value === null || value === "") return fallback;
+  try { return JSON.parse(String(value)); }
+  catch (_e) { return fallback; }
+}
+
+function queryPlainOrUndefined($i, name) {
+  const q = queryMap($i);
+  return q[name] === undefined ? undefined : q[name];
+}
+
 function preferBodyOr64($i, body, plainName, encodedName, fallback = "") {
   if (body && body[plainName] !== undefined) return String(body[plainName] ?? "");
+  const plainQuery = queryPlainOrUndefined($i, plainName);
+  if (plainQuery !== undefined) return String(plainQuery ?? "");
   return from64(queryValue($i, encodedName, "")) || fallback;
 }
 
 function arrayBodyOr64($i, body, plainName, encodedName, fallback = []) {
   if (body && Array.isArray(body[plainName])) return body[plainName];
+  const plainQuery = queryPlainOrUndefined($i, plainName);
+  if (plainQuery !== undefined) return parseJsonText(plainQuery, fallback);
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 
 function objectBodyOr64($i, body, plainName, encodedName, fallback = null) {
   if (body && body[plainName] && typeof body[plainName] === "object") return body[plainName];
+  const plainQuery = queryPlainOrUndefined($i, plainName);
+  if (plainQuery !== undefined) return parseJsonText(plainQuery, fallback);
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 
