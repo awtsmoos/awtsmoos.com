@@ -61,8 +61,8 @@ export function createSideRail(ctx) {
         classes: ["awt-brand-block"],
         children: [
           h("div", { classes: ["awt-mini-kicker"], text: "B\"H" }),
-          h("h1", { text: "Tunnel Control" }),
-          h("p", { text: ctx.getTunnelName() || "Connected tunnel" })
+          h("h1", { text: "Runtime OS" }),
+          h("p", { text: ctx.runtime?.id || ctx.getTunnelName() || "Unbound runtime" })
         ]
       }),
       home,

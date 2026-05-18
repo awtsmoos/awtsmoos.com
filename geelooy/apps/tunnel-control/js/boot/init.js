@@ -17,6 +17,8 @@ import { mountShell } from "../shell/mountShell.js";
 import { mountUiRepair } from "./repairUi.js";
 import { bindNavigationButtons } from "../router/bindNavigation.js";
 import { mountChrome } from "../features/chrome.js";
+import { createActiveWorkspaceRuntime } from "../runtime/activeWorkspaceRuntime.js";
+import { createActiveWorkspaceRuntime } from "../runtime/activeWorkspaceRuntime.js";
 
 /**
  * B"H
@@ -95,6 +97,15 @@ export async function startTunnelControl() {
     hydrateFields(tunnel);
     hydratePermissionClasses(tunnel);
 
+    const runtime = createActiveWorkspaceRuntime({
+      tunnel,
+      activeRoot: tunnel.root,
+      authState: session,
+      workspaceMode: "runtime-os"
+    });
+    window.awtsActiveWorkspaceRuntime = runtime;
+    document.body.dataset.awtRuntimeMode = runtime.mode;
+
     window.awtsGetTunnelName = getTunnelName;
 
     wireInputs(getTunnelName);
@@ -102,7 +113,7 @@ export async function startTunnelControl() {
 
     renderPrompt(getTunnelName);
 
-    mountShell({ session, getTunnelName, getProjectPath });
+    mountShell({ session, runtime, getTunnelName, getProjectPath });
 
     /*
      * B"H

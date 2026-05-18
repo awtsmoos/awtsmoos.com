@@ -1,6 +1,2 @@
-
 /* B"H */
-@import url("./awt-system/index.css");
-@import url("./awt-layout/index.css");
-@import url("./awt-components/index.css");
-@import url("./awt-features/index.css");
+@import url("./runtime-os.css");
