@@ -17,31 +17,16 @@ function identityAllows(ident, neededScope) {
     scopeAllowed(ident, "awtsmoos.os");
 }
 
-/**
- * B"H
- * Hosted Awtsmoos OS filesystem route.
- *
- * This file must not require ./osFs/index.js at module load time.
- * Optional Merkava runtime actions may be unavailable on production,
- * but normal tunnel-control routes must still load.
- */
 async function osFs($i) {
   const ident = currentIdentity($i);
-  if (!ident.ok) {
-    return json($i, { BH: "B\"H", ok: false, error: "not_authenticated" }, 401);
-  }
+  if (!ident.ok) return json($i, { BH: "B\"H", ok: false, error: "not_authenticated" }, 401);
 
   const payload = buildFsPayload($i);
   const neededScope = actionRequiredScope(payload.action);
-
-  if (!identityAllows(ident, neededScope)) {
-    return json($i, { BH: "B\"H", ok: false, error: "missing_scope", neededScope }, 403);
-  }
+  if (!identityAllows(ident, neededScope)) return json($i, { BH: "B\"H", ok: false, error: "missing_scope", neededScope }, 403);
 
   const rate = enforceApiKeyRate(ident, 0);
-  if (!rate.ok) {
-    return json($i, { BH: "B\"H", ok: false, error: rate.error, limit: rate.limit }, 429);
-  }
+  if (!rate.ok) return json($i, { BH: "B\"H", ok: false, error: rate.error, limit: rate.limit }, 429);
 
   try {
     const { dispatchOsFs } = require("./osFs/index.js");
@@ -69,10 +54,10 @@ async function osFs($i) {
     return json($i, {
       BH: "B\"H",
       ok: false,
-      error: e.message,
-      stack: e.stack,
+      error: "awtsmoos_os_unavailable",
+      message: e.message,
       aliasId: e.aliasId || null
-    }, e.status || 500);
+    }, e.status || 503);
   }
 }
 
