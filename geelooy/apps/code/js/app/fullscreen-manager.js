@@ -51,6 +51,8 @@ export const FullscreenManager = {
             targetEl = document.getElementById('file-commander-wrapper');
         } else if (tab.fileType === 'vibe' || tab.item.type === 'vibe-session') {
             targetEl = document.getElementById('vibe-editor-wrapper');
+        } else if (tab.fileType === 'virtual-os' || tab.item?.type === 'virtual-os') {
+            targetEl = document.getElementById('virtual-os-wrapper');
         } else if (tab.fileType === 'zip') {
             targetEl = document.getElementById('zip-editor-wrapper');
         } else if (tab.isHexView) {
