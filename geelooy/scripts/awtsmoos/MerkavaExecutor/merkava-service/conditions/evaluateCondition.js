@@ -1,31 +1,26 @@
 // B"H
-const { operators, getPath } = require("./operators.js");
 
-/**
- * B"H
- * Evaluates a safe JSON expression without eval.
- *
- * @param {*} expr Declarative expression.
- * @param {object} ctx Runtime context.
- * @returns {*} Evaluated value.
- */
-function evaluateCondition(expr, ctx = {}) {
-  if (expr == null || typeof expr !== "object" || Array.isArray(expr)) return expr;
-  if (Object.prototype.hasOwnProperty.call(expr, "literal")) return expr.literal;
-  if (Object.prototype.hasOwnProperty.call(expr, "var")) return getPath(ctx, expr.var);
+import { operators, getPath } from "./operators.js";
 
-  const entries = Object.entries(expr);
-  if (entries.length !== 1) return expr;
-
-  const [op, rawArgs] = entries[0];
-  const args = Array.isArray(rawArgs) ? rawArgs : [rawArgs];
-  if (op === "has" && args.length === 1) return getPath(ctx, args[0]) !== undefined;
-
-  if (!operators[op]) {
-    throw new Error("Unsupported Merkava condition operator: " + op);
+export function evaluateCondition(condition = {}, ctx = {}) {
+  if (!condition || typeof condition !== "object") {
+    return true;
   }
 
-  return operators[op](...args.map(item => evaluateCondition(item, ctx)));
-}
+  const left = condition.path
+    ? getPath(ctx, condition.path)
+    : condition.left;
 
-module.exports = { evaluateCondition };
+  const right = condition.right;
+  const operator = operators[condition.operator || "eq"];
+
+  if (!operator) {
+    return false;
+  }
+
+  try {
+    return !!operator(left, right, ctx);
+  } catch (_) {
+    return false;
+  }
+}
