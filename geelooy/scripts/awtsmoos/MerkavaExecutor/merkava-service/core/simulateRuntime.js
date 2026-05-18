@@ -1,6 +1,8 @@
 // B"H
 
-import { RuntimeAssembler } from "../../merkava-runtime/RuntimeAssembler.js";
+import RuntimeAssemblerModule from "../../merkava-runtime/RuntimeAssembler.js";
+
+const { RuntimeAssembler } = RuntimeAssemblerModule;
 import { executeWorkflow } from "../flow/executeWorkflow.js";
 import { createActionRegistry } from "../actions/actionRegistry.js";
 import { normalizeRuntimeResult } from "../snapshots/normalizeRuntimeResult.js";

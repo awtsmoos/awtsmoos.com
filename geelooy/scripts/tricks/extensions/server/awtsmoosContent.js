@@ -1,95 +1,94 @@
 //B"H
-console.log("HI")
-class PortManager {
+(function revealAwtsmoosServerContentBridge() {
+  const bridgeKey = "__awtsmoosServerPortManager";
+  const scriptKey = "__awtsmoosServerJectedInjected";
+
+  /**
+   * The content bridge is allowed to be injected again and again by Chrome.
+   * Nothing here may declare page globals twice, steal window.onmessage, or
+   * break when the same tab softly reincarnates. The Awtsmoos keeps the port
+   * alive as a guarded singleton and forwards only messages meant for this
+   * server bridge.
+   */
+  class AwtsmoosServerPortManager {
     constructor() {
-        this.id = "BH_WOW_" + Date.now(); // Unique ID for the connection
-        this.port = null; // Holds the port reference
-        this.retryInterval = 1000; // Time (ms) to wait before retrying connection
-        this.maxRetries = 5; // Max number of retries before giving up
-        this.retryCount = 0; // Counter to track retries
-        this.init();
+      this.id = "BH_WOW_" + Date.now();
+      this.port = null;
+      this.retryInterval = 1000;
+      this.maxRetries = 12;
+      this.retryCount = 0;
+      this.boundPageListener = event => this.onPageMessage(event);
+      this.connect();
+      this.listenForPageMessages();
     }
 
-    // Initialize the connection process and message listeners
-    init() {
-        this.connect(); // First attempt to connect to the background
-        this.listenForPageMessages(); // Start listening for messages from the webpage
-    }
-
-    // Establish the connection to the background script
     connect() {
+      try {
         console.log("Connecting to the background with id:", this.id);
         this.port = chrome.runtime.connect({ name: this.id });
-
-        // Listen for incoming messages from the background
         this.port.onMessage.addListener(this.onMessageReceived.bind(this));
-
-        // Handle port disconnection
         this.port.onDisconnect.addListener(this.onDisconnect.bind(this));
-
-        // Send an initial message to the background
-       // this.sendMessage({ action: "customEvent", data: "initial data" });
+        this.retryCount = 0;
+        window.postMessage({ from: "awtsmoos-content", type: "server-ready" }, "*");
+      } catch (error) {
+        console.error("Could not connect Awtsmoos server extension", error);
+      }
     }
 
-    // Listen for messages from the page (content script)
     listenForPageMessages() {
-        onmessage = (e) => {
-            try {
-                // Forward the page's message to the background
-                const data = e?.data;
-               // console.log("Message from page:", data);
-                this.sendMessage(data);
-            } catch (error) {
-                console.error("Error while processing message from page:", error);
-            }
-        };
+      globalThis.removeEventListener?.("message", this.boundPageListener);
+      globalThis.addEventListener?.("message", this.boundPageListener);
     }
 
-    // Handle received messages from the background
-    onMessageReceived(msg) {
-       // console.log("Message received from background:", msg);
-
-        // Forward the message to the page (content script)
-        postMessage(msg);
+    onPageMessage(event) {
+      const data = event?.data;
+      if (!data || data.from === "background" || data.from === "awtsmoos-content") return;
+      if (!data.action || !(data.id || data.action === "ping")) return;
+      try {
+        this.sendMessage(data);
+      } catch (error) {
+        console.error("Error while processing message from page:", error);
+      }
     }
 
-    // Send a message to the background script (if the port is open)
+    onMessageReceived(message) {
+      window.postMessage(message, "*");
+    }
+
     sendMessage(message) {
-		try {
-	        if (this.port) {
-	            //console.log("Sending message to background:", message);
-	            this.port.postMessage(message);
-	        } else {
-	            console.warn("Port is closed or disconnected, unable to send message.",this.port);
-	            // Optionally, handle the situation if the port is disconnected
-	        }
-		} catch(e) {
-			console.log("Awtsmoos Port Error, trying to reconnect",e)
-			try {
-				this.connect()
-				this.port.postMessage(message);
-			} catch(e) {
-				console.log("Tried, nothing..");
-			}
-
-		}
-    }
-
-    // Handle port disconnection and try reconnecting
-    onDisconnect() {
-   //     console.log("Port disconnected.");
-        this.retryCount++;
-        if (this.retryCount <= this.maxRetries) {
-            console.log(`Reconnecting... Attempt ${this.retryCount}/${this.maxRetries}`);
-            setTimeout(() => this.connect(), this.retryInterval); // Retry after the interval
-        } else {
-            console.error("Max retries reached. Could not reconnect.");
+      try {
+        if (!this.port) throw new Error("Port is closed or disconnected.");
+        this.port.postMessage(message);
+      } catch (error) {
+        console.log("Awtsmoos Port Error, trying to reconnect", error);
+        try {
+          this.connect();
+          this.port?.postMessage(message);
+        } catch (again) {
+          console.warn("Awtsmoos reconnect failed", again);
         }
+      }
     }
-}
 
-// Create a new instance of PortManager which will automatically manage the connection
-const portManager = new PortManager();
-var f = document.createElement("script")
-f.src = chrome.runtime.getURL("./jected.js")
-document.head.appendChild(f);
+    onDisconnect() {
+      this.port = null;
+      this.retryCount++;
+      if (this.retryCount <= this.maxRetries) {
+        console.log(`Reconnecting... Attempt ${this.retryCount}/${this.maxRetries}`);
+        setTimeout(() => this.connect(), this.retryInterval);
+      } else {
+        console.error("Max retries reached. Could not reconnect.");
+      }
+    }
+  }
+
+  if (!globalThis[bridgeKey]) globalThis[bridgeKey] = new AwtsmoosServerPortManager();
+
+  if (!globalThis[scriptKey]) {
+    globalThis[scriptKey] = true;
+    const script = document.createElement("script");
+    script.src = chrome.runtime.getURL("./jected.js") + "?v=" + Date.now();
+    script.onload = () => script.remove();
+    (document.head || document.documentElement).appendChild(script);
+  }
+})();

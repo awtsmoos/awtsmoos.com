@@ -7,11 +7,12 @@
         constructor(tagName = 'div', ownerDocument = null) {
             this.tagName = String(tagName).toUpperCase(); this.nodeName = this.tagName; this.ownerDocument = ownerDocument;
             this.children = []; this.parentNode = null; this.attributes = {}; this.style = {}; this.listeners = {};
+            this.dataset = {};
             this.textContent = ''; this.value = ''; this.id = ''; this.className = '';
         }
         appendChild(child) { child.parentNode = this; this.children.push(child); this.ownerDocument?.journal?.push({ kind: 'appendChild', parent: this.tagName, child: child.tagName, at: Date.now() }); return child; }
         removeChild(child) { this.children = this.children.filter(item => item !== child); child.parentNode = null; return child; }
-        setAttribute(name, value) { this.attributes[name] = String(value); if (name === 'id') this.id = String(value); if (name === 'class') this.className = String(value); if (name === 'value') this.value = String(value); }
+        setAttribute(name, value) { this.attributes[name] = String(value); if (name === 'id') this.id = String(value); if (name === 'class') this.className = String(value); if (name === 'value') this.value = String(value); if (String(name).startsWith('data-')) this.dataset[String(name).slice(5).replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = String(value); }
         getAttribute(name) { return this.attributes[name] ?? null; }
         focus() { if (this.ownerDocument) this.ownerDocument.activeElement = this; this.dispatchEvent({ type: 'focus' }); }
         click() { this.dispatchEvent({ type: 'click', bubbles: true, cancelable: true }); }
