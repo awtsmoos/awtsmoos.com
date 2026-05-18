@@ -1,10 +1,9 @@
 //B"H
-import {
-    AwtsmoosPrompt
-} from "/scripts/awtsmoos/api/utils.js";
+import { AwtsmoosPrompt } from "./prompt.js";
 import AwtsmoosGPTify from "./AwtsmoosGPTify.js";
 
 import IndexedDBHandler from "./IndexedDBHandler.js";
+import { makeOpenAICompatibleService } from "./openaiCompatible.js";
 // AI Communication Class
 
 class AIServiceHandler {
@@ -236,7 +235,9 @@ ${prompt}
           };
           
         }
-      }
+      },
+      openrouter: makeOpenAICompatibleService(self, 'openrouter'),
+      groq: makeOpenAICompatibleService(self, 'groq')
     };
   }
 

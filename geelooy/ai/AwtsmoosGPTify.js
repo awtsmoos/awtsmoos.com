@@ -1,7 +1,5 @@
 //B"H
-import {
-    AwtsmoosPrompt
-} from "/scripts/awtsmoos/api/utils.js";
+import { AwtsmoosPrompt } from "./prompt.js";
 var mFetch = window.awtsmoosFetch;
 async function checkMFetch() {
 	if(!mFetch) {
