@@ -1,4 +1,3 @@
-
 // B"H
 
 const { me } = require("./me.js");
@@ -9,6 +8,7 @@ const { createApiKey } = require("./createApiKey.js");
 const { revokeApiKey } = require("./revokeApiKey.js");
 const { usage } = require("./usage.js");
 const { protectedFs } = require("./protectedFs.js");
+const { previewProxy } = require("./previewProxy.js");
 const { openApi } = require("./openApi.js");
 const { openApiKey } = require("./openApiKey.js");
 const { docsHtml } = require("./docsHtml.js");
@@ -41,8 +41,9 @@ const routeTable = {
   bootstrap,
   "bootstrap/": bootstrap,
 
-  "fs/awtsmoos-os": osFs,
-  "fs/awtsmoos-os/": osFs,
+  "preview/:tunnelName": previewProxy,
+  "preview/:tunnelName/": previewProxy,
+
   "fs/awtsmoos-os": osFs,
   "fs/awtsmoos-os/": osFs,
   "fs/:tunnelName": protectedFs,

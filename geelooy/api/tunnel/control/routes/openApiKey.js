@@ -74,6 +74,12 @@ paths:
               - chromeType
               - chromeEval
               - chromeRunScript
+              - restartPreview, semanticDiff, detectConceptClusters, simulateFailure, generateRepairPlan, superviseRuntime, inferArchitecture, detectAbstractionLeaks, runtimeEntityGraph, semanticRefactor, inspectRenderStorms, runtimeContractRegistry, semanticSearchRuntime, previewBranchMatrix, inferBusinessRules, stateTimeMachine, detectDeadConcepts, semanticMerge, runtimeIntrospectionStream, architectureScore, intentDriftDetector, semanticPackageGenerator, selfHealPreview, generateTestUniverse, inspectHumanConfusion, orchestrationGraph, environmentVirtualizer, runtimeSnapshot, semanticCache, goalCompiler, autonomousBackgroundAgents, semanticPipeline, universalAppManifest
+              - stopPreview
+              - previewLogs
+              - listPreviews
+              - launchPreview
+              - inspectRuntime
         - name: p
           in: query
           required: false
@@ -187,6 +193,40 @@ paths:
                     type: string
                 required:
                   - ok
+
+  /api/tunnel/control/preview/{tunnelName}:
+    get:
+      operationId: awtsmoosPreviewProxyWithApiKey
+      summary: Fetch a live preview through an API-key authenticated tunnel.
+      security: []
+      parameters:
+        - name: tunnelName
+          in: path
+          required: true
+          schema: { type: string }
+        - name: apiKey
+          in: query
+          required: true
+          schema: { type: string }
+        - name: url
+          in: query
+          required: false
+          schema: { type: string }
+        - name: url64
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        "200":
+          description: Live preview response body.
+          content:
+            text/html:
+              schema: { type: string }
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
 `;
 }
 

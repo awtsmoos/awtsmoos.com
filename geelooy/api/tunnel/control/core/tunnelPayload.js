@@ -69,6 +69,7 @@ function boolFrom($i, body, name, fallback = false) {
 
 function actionKind(action) {
   action = String(action || "");
+  if (["inspectRuntime", "launchPreview", "listPreviews", "previewLogs", "stopPreview", "restartPreview"].includes(action)) return "tunnel.read";
   if (action.startsWith("chrome") || action === "httpUseChromeCookies") return "chrome";
   if (action.startsWith("command") || action === "nodeScriptRun") return "command";
   if (action === "nodeCheck" || action === "nodeCheckTree") return "command";

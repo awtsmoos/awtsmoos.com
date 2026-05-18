@@ -21,7 +21,7 @@ function identityAllows(ident, neededScope) {
  * B"H
  * Bounds public API waits to four minutes so slow local commands do not become false gateway failures.
  *
- * @param {*} value Requested timeout.
+ * @param {$} value Requested timeout.
  * @returns {number} Bounded timeout.
  */
 function boundedTunnelTimeout(value) {
@@ -43,6 +43,9 @@ async function protectedFs($i, vars) {
   }
 
   const payload = buildFsPayload($i);
+  payload.tunnelName = vars.tunnelName;
+  payload.controlBaseUrl = "https://awtsmoos.com/api/tunnel/control/fs/" + encodeURIComponent(vars.tunnelName);
+
   const neededScope = actionRequiredScope(payload.action);
 
   if (!identityAllows(ident, neededScope)) {

@@ -121,6 +121,33 @@ paths:
             application/json:
               schema: { $ref: "#/components/schemas/AnyResponse" }
 
+
+  /api/tunnel/control/preview/{tunnelName}:
+    get:
+      operationId: awtsmoosPreviewProxy
+      summary: Fetch a live preview through the authenticated Awtsmoos tunnel.
+      description: >
+        Proxies a local preview URL through the signed-in tunnel so ChatGPT and
+        browser clients can view generated apps without direct localhost access.
+      security:
+        - OAuth2: [profile, tunnel.read]
+      parameters:
+        - { name: tunnelName, in: path, required: true, schema: { type: string } }
+        - { name: url, in: query, required: false, schema: { type: string } }
+        - { name: url64, in: query, required: false, schema: { type: string } }
+        - { name: maxChars, in: query, required: false, schema: { type: integer, default: 500000 } }
+        - { name: timeoutMs, in: query, required: false, schema: { type: integer, default: 30000 } }
+      responses:
+        "200":
+          description: Live preview response body.
+          content:
+            text/html:
+              schema: { type: string }
+            text/plain:
+              schema: { type: string }
+            application/json:
+              schema: { $ref: "#/components/schemas/AnyResponse" }
+
 components:
   schemas:
     ActionName:
