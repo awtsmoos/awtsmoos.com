@@ -5,7 +5,6 @@ import { h } from "../ui/core/html.js";
 import { DASHBOARD_ORDER, PANE_META } from "../router/paneMeta.js";
 import { createDashboardCard } from "./dashboardCard.js";
 import { runtimeCatalog } from "../runtime/runtimeCatalog.js";
-import { runtimeCatalog } from "../runtime/runtimeCatalog.js";
 
 /**
  * B"H
