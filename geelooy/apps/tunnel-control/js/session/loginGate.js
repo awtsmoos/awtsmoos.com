@@ -25,11 +25,11 @@ export function createLoginGate() {
             classes: ["awt-login-actions"],
             children: [
               h("a", {
-                attrs: { href: "/login", class: "button awt-primary-link" },
+                attrs: { href: "/login", class: "button-link primary awt-primary-link" },
                 text: "Login"
               }),
               h("a", {
-                attrs: { href: "/api/tunnel/install/windows", class: "button" },
+                attrs: { href: "/api/tunnel/install/windows", class: "button-link" },
                 text: "Install agent"
               })
             ]
