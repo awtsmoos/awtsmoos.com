@@ -15,7 +15,7 @@ paths:
       summary: Get setup instructions.
       security: []
       responses:
-        "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/my-device:
     get:
       operationId: awtsmoosMyDevice
@@ -23,7 +23,7 @@ paths:
       security:
         - OAuth2: [profile, tunnel.read]
       responses:
-        "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
         "401": { description: Not authenticated }
         "404": { description: No connected tunnel }
         "409": { description: Multiple tunnels connected }
@@ -142,7 +142,7 @@ paths:
         - { name: sessionStorage64, in: query, required: false, schema: { type: string } }
         - { name: commandConfig64, in: query, required: false, schema: { type: string } }
       responses:
-        "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
         "400": { description: Bad request }
         "401": { description: Auth required }
         "403": { description: Not allowed }
@@ -175,6 +175,27 @@ paths:
               schema: { $ref: "#/components/schemas/AnyResponse" }
 
 components:
+  schemas:
+    AnyResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        BH: { type: string }
+        ok: { type: boolean }
+        error: { type: string }
+        message: { type: string }
+        tunnelName: { type: string }
+        action: { type: string }
+        path: { type: string }
+        items:
+          type: array
+          items: {}
+        results:
+          type: array
+          items: {}
+        content: { type: string }
+        base64: { type: string }
+      required: [ok]
   securitySchemes:
     OAuth2:
       type: oauth2
