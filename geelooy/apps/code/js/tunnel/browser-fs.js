@@ -161,7 +161,8 @@ function regexFromPayload(payload) {
     const query = String(payload.query || payload.find || '');
     if (!query) throw new Error('query or find is required.');
     if (payload.regex) return new RegExp(query, 'g');
-    return new RegExp(query.replace(/[.*+?^d{-()|[\]\\]/g, '\\$&'), 'g');
+    const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return new RegExp(escapedQuery, 'g');
 }
 
 async function readWhole(payload) {

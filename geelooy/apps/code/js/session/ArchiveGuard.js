@@ -39,7 +39,7 @@ export const ArchiveGuard = {
      * @param {Set} allowedWorkspaceIds - The IDs of surviving worlds.
      */
     getPersistableTabs(tabs, allowedWorkspaceIds) {
-        const virtualTypes = ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools'];
+        const virtualTypes = ['temp', 'vibe-session', 'terminal', 'commander', 'html-preview-file', 'devtools', 'virtual-os'];
 
         return tabs.filter(tab => {
             const hasWorld = tab.item.workspaceId !== undefined && allowedWorkspaceIds.has(tab.item.workspaceId);

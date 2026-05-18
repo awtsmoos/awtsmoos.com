@@ -43,6 +43,19 @@ export function HTML(blueprint) {
         }
     }
 
+    // B"H
+    /**
+     * The dataset is the whispered name-table of the vessel: it becomes
+     * `data-*` attributes so pointers, controls, drag handles, and resize
+     * handles can actually be found in the visible world. Without this
+     * little descent, the window chrome was a crown without fingers.
+     */
+    if (blueprint.dataset) {
+        for (const [key, val] of Object.entries(blueprint.dataset)) {
+            el.dataset[key] = String(val);
+        }
+    }
+
     // B"H - Reactivity (Events)
     if (blueprint.onKeyDown) el.onkeydown = blueprint.onKeyDown;
     if (blueprint.onClick) el.onclick = blueprint.onClick;

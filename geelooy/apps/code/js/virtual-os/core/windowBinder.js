@@ -52,5 +52,5 @@ export function bindWindowControls(el, win, state, env, root) {
     });
 
     bindWindowDrag(el, win, state, root);
-    bindWindowResize(el, win, state);
+    bindWindowResize(el, win, state, root);
 }

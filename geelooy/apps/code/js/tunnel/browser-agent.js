@@ -9,7 +9,6 @@ import { UI } from '../ui.js';
 import { BrowserTunnelFS, BROWSER_TUNNEL_FS_ACTIONS } from './browser-fs.js';
 import { attachBrowserAnalysis, BROWSER_ANALYSIS_ACTIONS } from './browser-analysis.js';
 import { handleBrowserPreviewAction, BROWSER_PREVIEW_ACTIONS } from './browser-preview-actions.js';
-import { handleBrowserPreviewAction, BROWSER_PREVIEW_ACTIONS } from './browser-preview-actions.js';
 
 attachBrowserAnalysis(BrowserTunnelFS);
 
@@ -192,7 +191,8 @@ export const BrowserTunnelAgent = {
                 nodeScript: false,
                 chrome: false,
                 httpProxy: false,
-                browserAnalysis: true,                previewControl: BROWSER_PREVIEW_ACTIONS,                previewControl: BROWSER_PREVIEW_ACTIONS
+                browserAnalysis: true,
+                previewControl: BROWSER_PREVIEW_ACTIONS
             },
             tools: tools(),
             chrome: { enabled: false },
@@ -223,9 +223,8 @@ export const BrowserTunnelAgent = {
     },
 
     async handleRequest(payload) {
-        if (payload.kind === 'preview') {            return await handleBrowserPreviewAction(payload);
-        }
-        if (payload.kind === 'preview') {            return await handleBrowserPreviewAction(payload);
+        if (payload.kind === 'preview') {
+            return await handleBrowserPreviewAction(payload);
         }
         if (payload.kind !== 'fs') {
             return {
