@@ -9,8 +9,11 @@ const { buildHttpActions } = require("./actionGroups/httpActionsGroup.js");
 const { buildStaticServerActions } = require("./actionGroups/staticServerActions.js");
 const { buildIsolatedActions } = require("./actionGroups/isolatedActions.js");
 const { buildWorkflowActions } = require("./actionGroups/workflowActions.js");
+const { buildPreviewActions } = require("./actionGroups/previewActions.js");
+const { buildRuntimeActions } = require("./actionGroups/runtimeActions.js");
+const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
 
-const AGENT_VERSION = "split-agent-1.4.0";
+const AGENT_VERSION = "split-agent-1.5.0";
 
 /**
  * B"H
@@ -33,7 +36,10 @@ function buildActions(config, payload, ws) {
     ...buildStaticServerActions(ctx),
     ...buildIsolatedActions(ctx),
     ...buildWriteActions(ctx),
-    ...buildWorkflowActions(ctx, buildActions)
+    ...buildWorkflowActions(ctx, buildActions),
+    ...buildPreviewActions(ctx),
+    ...buildRuntimeActions(ctx),
+    ...buildCognitionActions(ctx)
   };
 }
 

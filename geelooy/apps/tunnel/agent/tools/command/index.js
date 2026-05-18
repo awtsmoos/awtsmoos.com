@@ -3,12 +3,15 @@ const { loadConfig } = require("../../lib/config.js");
 const { runCommand } = require("./run.js");
 const { runNodeScript } = require("./scriptSandbox.js");
 const { nodeCheck, nodeCheckTree } = require("./projectChecks.js");
+const { instantTests } = require("./instantTests.js");
 
 const ACTIONS = {
   commandRun: (config, payload) => runCommand(config, payload),
   nodeScriptRun: (config, payload) => runNodeScript(config, payload),
   nodeCheck: (config, payload) => nodeCheck(config, payload),
-  nodeCheckTree: (config, payload) => nodeCheckTree(config, payload)
+  nodeCheckTree: (config, payload) => nodeCheckTree(config, payload),
+  instantTests: (config, payload) => instantTests(config, payload),
+  nodeInstantTests: (config, payload) => instantTests(config, payload)
 };
 
 /**

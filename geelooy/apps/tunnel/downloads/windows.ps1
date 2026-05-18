@@ -1,4 +1,3 @@
-
 # B"H
 $ErrorActionPreference = "Stop"
 
@@ -40,6 +39,26 @@ function Stop-OldAwtsAgent($root) {
   }
 }
 
+function Read-AwtsJson($path) {
+  if (-not (Test-Path $path)) { return $null }
+  try { return (Get-Content -Raw -Path $path | ConvertFrom-Json) } catch { return $null }
+}
+
+function Test-AwtsAgentUpToDate($root, $manifest, $state) {
+  if ($null -eq $manifest -or $null -eq $state) { return $false }
+  if ($state.version -ne $manifest.version) { return $false }
+  if (-not (Test-Path (Join-Path $root $manifest.entry))) { return $false }
+  foreach ($file in $manifest.files) {
+    $full = Join-Path $root $file.path
+    if (-not (Test-Path $full)) { return $false }
+    if ($file.sha256) {
+      $hash = (Get-FileHash -Algorithm SHA256 -Path $full).Hash.ToLower()
+      if ($hash -ne $file.sha256) { return $false }
+    }
+  }
+  return $true
+}
+
 if (-not (Test-AwtsCommand "node")) {
   Write-Host ""
   Write-Host "Node.js was not found." -ForegroundColor Yellow
@@ -50,6 +69,7 @@ if (-not (Test-AwtsCommand "node")) {
 
 $root = Join-Path $env:USERPROFILE ".awtsmoos-tunnel"
 $config = Join-Path $root "config.json"
+$statePath = Join-Path $root "install-state.json"
 $manifestUrl = "https://awtsmoos.com/apps/tunnel/agent/manifest.json"
 
 New-Item -ItemType Directory -Force -Path $root | Out-Null
@@ -81,18 +101,33 @@ if (-not (Test-Path $config)) {
 
 Stop-OldAwtsAgent $root
 
-Write-Host "Downloading Awtsmoos agent manifest..."
+Write-Host "Checking Awtsmoos agent manifest..."
 $manifest = Invoke-RestMethod -Uri $manifestUrl
+$state = Read-AwtsJson $statePath
 
-foreach ($file in $manifest.files) {
-  $dest = Join-Path $root $file.path
-  $destDir = Split-Path $dest -Parent
+if (Test-AwtsAgentUpToDate $root $manifest $state) {
+  Write-Host "Awtsmoos agent version $($manifest.version) is already installed. Restarting only." -ForegroundColor Green
+} else {
+  Write-Host "Updating Awtsmoos agent to version $($manifest.version)..."
+  foreach ($file in $manifest.files) {
+    $dest = Join-Path $root $file.path
+    $destDir = Split-Path $dest -Parent
+    New-Item -ItemType Directory -Force -Path $destDir | Out-Null
 
-  New-Item -ItemType Directory -Force -Path $destDir | Out-Null
+    $url = "https://awtsmoos.com/apps/tunnel/agent/" + $file.path
+    Write-Host "Downloading $($file.path)..."
+    Invoke-WebRequest -Uri $url -OutFile $dest
+  }
 
-  $url = "https://awtsmoos.com/apps/tunnel/agent/" + $file.path
-  Write-Host "Downloading $($file.path)..."
-  Invoke-WebRequest -Uri $url -OutFile $dest
+  $installedState = @{
+    BH = 'B"H'
+    version = $manifest.version
+    entry = $manifest.entry
+    installedAt = (Get-Date).ToUniversalTime().ToString("o")
+    files = $manifest.files
+  } | ConvertTo-Json -Depth 8
+
+  Write-Utf8NoBom $statePath $installedState
 }
 
 Write-Host ""

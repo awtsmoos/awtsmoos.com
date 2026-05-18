@@ -9,6 +9,10 @@ const { statPath, readLines, grep } = require("../searchEdit.js");
 const { readManyLines } = require("../lineBatch.js");
 const { findFiles } = require("../findFiles.js");
 const { fileHashes } = require("../hashWrite.js");
+const { selectString } = require("../selectString.js");
+const { symbolOutline } = require("../symbolOutline.js");
+const { connectedFiles } = require("../connectedFiles.js");
+const { astOutline } = require("../astOutline.js");
 
 function buildReadActions(ctx) {
   const { config, payload } = ctx;
@@ -57,8 +61,12 @@ function buildReadActions(ctx) {
     },
     async bulk() { return await readBulk(config, payload); },
     async grep() { return await grep(config, payload); },
+    async selectString() { return await selectString(config, payload); },
     async findFiles() { return await findFiles(config, payload); },
-    async fileHashes() { return await fileHashes(config, payload); }
+    async fileHashes() { return await fileHashes(config, payload); },
+    async astOutline() { return await astOutline(config, payload); },
+    async symbolOutline() { return await symbolOutline(config, payload); },
+    async connectedFiles() { return await connectedFiles(config, payload); }
   };
 }
 

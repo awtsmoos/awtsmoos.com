@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 # B"H
 
@@ -14,6 +13,7 @@ fi
 
 ROOT="$HOME/.awtsmoos-tunnel"
 CONFIG="$ROOT/config.json"
+STATE="$ROOT/install-state.json"
 MANIFEST_URL="https://awtsmoos.com/apps/tunnel/agent/manifest.json"
 
 mkdir -p "$ROOT"
@@ -46,16 +46,38 @@ else
   echo "Existing config found. Reusing same tunnel name and settings."
 fi
 
-echo "Downloading Awtsmoos agent manifest..."
+echo "Checking Awtsmoos agent manifest..."
 MANIFEST="$(curl -fsSL "$MANIFEST_URL")"
 
 node - "$ROOT" "$MANIFEST" <<'NODE'
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
+const crypto = require("crypto");
 
 const root = process.argv[2];
 const manifest = JSON.parse(process.argv[3]);
+const statePath = path.join(root, "install-state.json");
+
+function readState() {
+  try { return JSON.parse(fs.readFileSync(statePath, "utf8")); }
+  catch (_) { return null; }
+}
+
+function fileSha256(full) {
+  return crypto.createHash("sha256").update(fs.readFileSync(full)).digest("hex");
+}
+
+function upToDate(state) {
+  if (!state || state.version !== manifest.version) return false;
+  if (!fs.existsSync(path.join(root, manifest.entry || "main.js"))) return false;
+  return (manifest.files || []).every(file => {
+    const full = path.join(root, file.path);
+    if (!fs.existsSync(full)) return false;
+    if (file.sha256 && fileSha256(full) !== file.sha256) return false;
+    return true;
+  });
+}
 
 function download(url, dest) {
   return new Promise((resolve, reject) => {
@@ -75,12 +97,28 @@ function download(url, dest) {
 }
 
 (async () => {
+  const state = readState();
+
+  if (upToDate(state)) {
+    console.log("Awtsmoos agent version " + manifest.version + " is already installed. Restarting only.");
+    return;
+  }
+
+  console.log("Updating Awtsmoos agent to version " + manifest.version + "...");
   for (const file of manifest.files) {
     const url = "https://awtsmoos.com/apps/tunnel/agent/" + file.path;
     const dest = path.join(root, file.path);
     console.log("Downloading " + file.path + "...");
     await download(url, dest);
   }
+
+  fs.writeFileSync(statePath, JSON.stringify({
+    BH: 'B"H',
+    version: manifest.version,
+    entry: manifest.entry,
+    installedAt: new Date().toISOString(),
+    files: manifest.files
+  }, null, 2), "utf8");
 })();
 NODE
 
