@@ -34,41 +34,7 @@ function dashboardCards() {
   return DASHBOARD_ORDER.map(key => createDashboardCard(key, PANE_META[key]));
 }
 
-function runtimeCard(item) {
-  const card = h("article", {
-    classes: ["awt-runtime-card", item.active ? "active" : ""],
-    children: [
-      h("div", { classes: ["awt-mini-kicker"], text: item.active ? "ACTIVE" : item.id }),
-      h("h3", { text: item.title }),
-      h("p", { text: item.description }),
-      h("button", { attrs: { type: "button" }, text: item.cta })
-    ]
-  });
 
-  card.querySelector("button")?.addEventListener("click", () => {
-    if (item.href) window.open(item.href, "_blank", "noopener");
-  });
-
-  return card;
-}
-
-function runtimeCard(item) {
-  const card = h("article", {
-    classes: ["awt-runtime-card", item.active ? "active" : ""],
-    children: [
-      h("div", { classes: ["awt-mini-kicker"], text: item.active ? "ACTIVE" : item.id }),
-      h("h3", { text: item.title }),
-      h("p", { text: item.description }),
-      h("button", { attrs: { type: "button" }, text: item.cta })
-    ]
-  });
-
-  card.querySelector("button")?.addEventListener("click", () => {
-    if (item.href) window.open(item.href, "_blank", "noopener");
-  });
-
-  return card;
-}
 
 /**
  * B"H
