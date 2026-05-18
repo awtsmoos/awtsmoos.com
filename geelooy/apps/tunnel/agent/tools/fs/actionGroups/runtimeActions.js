@@ -1,13 +1,6 @@
 // B"H
 const path = require("path");
 
-const servicePath = path.join(
-  __dirname,
-  "../../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service"
-);
-
-const MerkavaService = require(servicePath);
-
 function json64(value, fallback) {
   if (!value) return fallback;
   try {
@@ -20,7 +13,11 @@ function json64(value, fallback) {
 function jsonMaybe(value, fallback) {
   if (value == null) return fallback;
   if (typeof value === "object") return value;
-  try { return JSON.parse(String(value)); } catch (_) { return fallback; }
+  try {
+    return JSON.parse(String(value));
+  } catch (_) {
+    return fallback;
+  }
 }
 
 function collectOptions(payload = {}) {
@@ -36,27 +33,56 @@ function collectOptions(payload = {}) {
   };
 }
 
-/**
- * B"H
- * Reveals the Chrome-free Merkava runtime actions to the local tunnel agent.
- *
- * @param {object} ctx Agent context containing payload.
- * @returns {object} Action handlers.
- */
+function loadMerkavaService() {
+  try {
+    const servicePath = path.join(
+      __dirname,
+      "../../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service"
+    );
+
+    return require(servicePath);
+  } catch (e) {
+    e.status = 503;
+    e.message = "Merkava runtime service unavailable in this installed tunnel agent: " + e.message;
+    throw e;
+  }
+}
+
+function unavailable(e) {
+  return {
+    ok: false,
+    status: e.status || 503,
+    error: "merkava_runtime_unavailable",
+    message: e.message
+  };
+}
+
 function buildRuntimeActions(ctx) {
   const { payload } = ctx;
 
   return {
     async simulateRuntime() {
-      return await MerkavaService.simulateRuntime(collectOptions(payload));
+      try {
+        return await loadMerkavaService().simulateRuntime(collectOptions(payload));
+      } catch (e) {
+        return unavailable(e);
+      }
     },
 
     async runtimeWorkflow() {
-      return await MerkavaService.runtimeWorkflow(collectOptions(payload));
+      try {
+        return await loadMerkavaService().runtimeWorkflow(collectOptions(payload));
+      } catch (e) {
+        return unavailable(e);
+      }
     },
 
     async testRuntimeOnce() {
-      return await MerkavaService.simulateRuntime(collectOptions(payload));
+      try {
+        return await loadMerkavaService().simulateRuntime(collectOptions(payload));
+      } catch (e) {
+        return unavailable(e);
+      }
     }
   };
 }
