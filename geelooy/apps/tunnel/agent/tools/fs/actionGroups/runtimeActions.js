@@ -1,5 +1,8 @@
 // B"H
 
+const vm = require("vm");
+const path = require("path");
+
 function json64(value, fallback) {
   if (!value) return fallback;
 
@@ -34,36 +37,69 @@ function collectOptions(payload = {}) {
   };
 }
 
-function resolveMerkavaServiceUrl(payload = {}) {
+function resolveMerkavaBase(payload = {}) {
   const base = payload.origin
     || payload.url
     || process.env.AWTSMOOS_BASE_URL
     || "https://awtsmoos.com";
 
   return new URL(
-    "/scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js",
+    "/scripts/awtsmoos/MerkavaExecutor/merkava-service/",
     base
   ).href;
 }
 
-async function importHttpModule(url) {
+async function fetchText(url) {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`Failed loading Merkava runtime from ${url}: HTTP ${response.status}`);
+    throw new Error(`Failed fetching ${url}: HTTP ${response.status}`);
   }
 
-  const source = await response.text();
+  return response.text();
+}
 
-  const dataUrl = "data:text/javascript;base64,"
-    + Buffer.from(source, "utf8").toString("base64");
+async function loadCommonJsModule(url, cache = new Map()) {
+  if (cache.has(url)) {
+    return cache.get(url).exports;
+  }
 
-  return import(dataUrl);
+  const source = await fetchText(url);
+
+  const module = { exports: {} };
+  cache.set(url, module);
+
+  const dirname = url.substring(0, url.lastIndexOf("/") + 1);
+
+  async function localRequire(specifier) {
+    if (!specifier.startsWith(".")) {
+      return require(specifier);
+    }
+
+    const nextUrl = new URL(specifier, dirname).href;
+    return loadCommonJsModule(nextUrl, cache);
+  }
+
+  const wrapped = `(async function(exports, module, require, __dirname, __filename){\n${source}\n})`;
+
+  const fn = vm.runInThisContext(wrapped, {
+    filename: url
+  });
+
+  await fn(
+    module.exports,
+    module,
+    localRequire,
+    dirname,
+    url
+  );
+
+  return module.exports;
 }
 
 async function loadMerkavaService(payload = {}) {
-  const url = resolveMerkavaServiceUrl(payload);
-  return importHttpModule(url);
+  const base = resolveMerkavaBase(payload);
+  return loadCommonJsModule(new URL("index.js", base).href);
 }
 
 function unavailable(error) {
