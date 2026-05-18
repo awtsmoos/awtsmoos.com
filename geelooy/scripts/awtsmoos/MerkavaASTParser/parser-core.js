@@ -10,7 +10,7 @@
     } else {
         root.MerkavahParserPromise = merkavaPromise;
     }
-    
+
     merkavaPromise.catch(err => {
         console.error("CRITICAL: Merkava Parser initialization failed.", err);
     });
@@ -18,6 +18,11 @@
 }(typeof self !== 'undefined' ? self : this, function() {
     const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
     const isWorker = typeof importScripts === 'function';
+    const host = isNode ? globalThis : self;
+
+    if (isNode && typeof globalThis.window === 'undefined') {
+        globalThis.window = globalThis;
+    }
 
     // --- 1. Determine Base Path Once ---
     let basePath = '';
@@ -46,14 +51,14 @@
         }
     }
     // If all else fails, default to empty string (relative to page)
-    
+
     console.log("[Merkava Parser] Detected Base Path:", basePath);
 
     const loadScript = (filename) => {
         if (isNode) {
             return Promise.resolve(require(filename));
         }
-        
+
         // Resolve path against the detected base
         // Note: filename comes in as './foo.js', we want 'http://.../foo.js'
         const cleanFile = filename.replace(/^\.\//, ''); 
@@ -80,7 +85,12 @@
         await loadScript('./constants.js');
         await loadScript('./node_helpers.js'); // B"H - Ensure helpers are loaded if separated
         await loadScript('./Lexer.js');
-        
+
+        if (isNode) {
+            host.MerkavahConstants = host.MerkavahConstants || require('./constants.js');
+            host.Lexer = host.Lexer || require('./Lexer.js');
+        }
+
         // Dependencies are now global (self.Lexer, self.MerkavahConstants)
         const { TOKEN, PRECEDENCES, PRECEDENCE } = isNode ? require('./constants.js') : self.MerkavahConstants;
         const LexerClass = isNode ? require('./Lexer.js') : self.Lexer;
@@ -96,16 +106,25 @@
                 this.prevToken = null;
                 this.currToken = null;
                 this.peekToken = null;
-                
+
                 this.prefixParseFns = {};
                 this.infixParseFns = {};
-                
+
+                if (typeof this.registerExpressionParsers === 'function') {
+                    this.registerExpressionParsers();
+                }
+
+                if (typeof this.registerExpressionParsers === 'function') {
+                    this.registerExpressionParsers();
+                }
+
                 this.recursionDepth = 0;
                 this.maxRecursionDepth = 2000;
                 this.parsingTemplateExpression = 0;
-                
+
                 this.op_count = 0;
                 this.max_ops = 500000; 
+
 
                 this.currToken = this.l.nextToken();
                 this.peekToken = this.l.nextToken();
@@ -126,6 +145,7 @@
 
             _peekTokenIs(t) { return this.peekToken.type === t; }
             _currTokenIs(t) { return this.currToken.type === t; }
+
 
             _startNode() {
                 return {
@@ -187,7 +207,7 @@
 
                 while (!this._currTokenIs(TOKEN.EOF)) {
                     try {
-                        // B"H - SAFETY CHECK
+                        // B"H
                         // This method is injected by parser-declarations.js.
                         // If it's missing, the extension failed to load.
                         if (typeof this._parseDeclaration !== 'function') {
@@ -196,14 +216,14 @@
 
                         const stmt = this._parseDeclaration();
                         if (stmt) program.body.push(stmt);
-                        
+
                     } catch (e) {
                         if (!this.errors.includes(e.message)) this.errors.push(e.message);
                         // Break on fatal errors to prevent hang
                         break; 
                     }
                 }
-                
+
                 // Finish program node
                 const endToken = this.prevToken || this.currToken;
                 program.loc.end = {
@@ -215,7 +235,7 @@
         }
 
         // 3. Expose Globally (for extensions)
-        if (!isNode) self.MerkavahParser = MerkavahParser;
+        host.MerkavahParser = MerkavahParser;
 
         // 4. Load Extensions (Sequential)
         await loadScript('./parser-expressions.js');
@@ -223,7 +243,7 @@
         await loadScript('./parser-declarations.js'); // This injects _parseDeclaration
 
         // 5. Return the fully assembled class
-        return self.MerkavahParser;
+        return host.MerkavahParser;
     };
 
     return initialize();

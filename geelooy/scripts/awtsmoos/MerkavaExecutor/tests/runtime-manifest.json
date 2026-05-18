@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "browser_dom",
+      "runtime": "browser",
+      "entry": "tests/runtime/browser_dom.js"
+    },
+    {
+      "name": "browser_network",
+      "runtime": "browser",
+      "entry": "tests/runtime/browser_network.js"
+    },
+    {
+      "name": "node_fs",
+      "runtime": "node",
+      "entry": "tests/runtime/node_fs.js"
+    },
+    {
+      "name": "html_boot",
+      "runtime": "browser",
+      "entry": "tests/runtime/html_entry.html"
+    },
+    {
+      "name": "module_imports",
+      "runtime": "browser",
+      "entry": "tests/runtime/module_imports.js",
+      "module": true
+    },
+    {
+      "name": "dom_interaction",
+      "runtime": "browser",
+      "entry": "tests/runtime/dom_interaction.js"
+    }
+  ]
+}

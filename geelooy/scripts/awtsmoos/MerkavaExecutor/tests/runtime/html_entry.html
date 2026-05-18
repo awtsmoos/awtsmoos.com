@@ -1,0 +1,16 @@
+<!-- B"H -->
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <img src="./pixel.txt">
+  <script src="./html_boot.js"></script>
+  <script>
+    if (!window.htmlBooted) throw new Error("html boot script did not run first");
+    window.inlineBooted = true;
+    console.log("inline html boot", window.htmlBooted);
+  </script>
+</body>
+</html>
