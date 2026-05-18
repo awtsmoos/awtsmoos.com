@@ -1,25 +1,31 @@
-
 // B"H
 /**
  * @file SimulatedNodeBridge.js
- * @description
- * Terminal helper commands for simulated localhost servers.
+ * @description Terminal helper commands for simulated localhost servers.
  */
 
 import { SimulatedServerRegistry } from './SimulatedServerRegistry.js';
+import { createMerkavaHeadlessServer } from './MerkavaHeadlessServer.js';
 
 /**
  * @function maybeHandleSimulatedCommand
  * @param {string} command Terminal command.
- * @returns {string|null} Output or null.
+ * @returns {Promise<string|null>} Output or null.
  */
-export function maybeHandleSimulatedCommand(command) {
+export async function maybeHandleSimulatedCommand(command) {
     const text = String(command || '').trim();
 
     if (text === 'simservers') {
         const list = SimulatedServerRegistry.list();
         if (!list.length) return 'No simulated servers are running.';
         return list.map((srv) => `:${srv.port} ${srv.name}`).join('\n');
+    }
+
+    const merkavaMatch = text.match(/^merkava-simserve(?:\s+(\d+))?$/);
+    if (merkavaMatch) {
+        const port = merkavaMatch[1] || '3999';
+        await createMerkavaHeadlessServer({ port });
+        return `B"H Merkava headless server listening at http://simulated.localhost:${port}/`;
     }
 
     const startMatch = text.match(/^simserve\s+(\d+)(?:\s+(.+))?$/);
@@ -47,7 +53,7 @@ export function maybeHandleSimulatedCommand(command) {
                 '<head><meta charset="utf-8"><title>Simulated Node</title></head>',
                 '<body style="font-family:system-ui;background:#030711;color:#e8f7ff;padding:32px">',
                 '<h1>B&quot;H Simulated Node Server</h1>',
-                '<p>Command: node ' + nodeServerMatch[1].replaceAll('<', '<') + '</p>',
+                '<p>Command: node ' + nodeServerMatch[1].replaceAll('<', '&lt;') + '</p>',
                 '<p>Visit http://simulated.localhost:3000/ in the Virtual Browser.</p>',
                 '</body>',
                 '</html>'

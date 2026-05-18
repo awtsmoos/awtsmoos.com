@@ -59,10 +59,98 @@ export const ToolSchemas = [
             }
         }
     },
+ {
+        function: {
+            name: "semantic_outline",
+            description: "Returns a compact symbol/import/export outline for a file through the active provider. Use before editing.",
+            parameters: {
+                type: "object",
+                properties: {
+                    path: { type: "string", description: "Relative file path." }
+                },
+                required: ["path"]
+            }
+        }
+    },
+    {
+        function: {
+            name: "semantic_search",
+            description: "Searches a path semantically or line-locally with the active provider. Use for lazy context instead of bulk reads.",
+            parameters: {
+                type: "object",
+                properties: {
+                    path: { type: "string", description: "File or folder path. Defaults to '/'." },
+                    query: { type: "string", description: "Query to search." },
+                    limit: { type: "number", description: "Maximum results." }
+                },
+                required: ["query"]
+            }
+        }
+    },
+    {
+        function: {
+            name: "dependency_graph",
+            description: "Builds a bounded local dependency graph from an entry file. Use to identify connected context without reading the whole project.",
+            parameters: {
+                type: "object",
+                properties: {
+                    path: { type: "string" },
+                    max_files: { type: "number" },
+                    max_depth: { type: "number" }
+                },
+                required: ["path"]
+            }
+        }
+    },
+    {
+        function: {
+            name: "file_hashes",
+            description: "Returns SHA-256 hashes for paths. Use before hash-guarded patches.",
+            parameters: {
+                type: "object",
+                properties: {
+                    paths: { type: "array", items: { type: "string" } },
+                    path: { type: "string" }
+                }
+            }
+        }
+    },
+    {
+        function: {
+            name: "replace_range",
+            description: "Hash-guarded micro-edit. Replaces a character range in a file. Prefer this over engrave_vessel for existing files.",
+            parameters: {
+                type: "object",
+                properties: {
+                    path: { type: "string" },
+                    start: { type: "number" },
+                    end: { type: "number" },
+                    replacement: { type: "string" },
+                    expectedSha256: { type: "string" }
+                },
+                required: ["path", "start", "end", "replacement", "expectedSha256"]
+            }
+        }
+    },
+    {
+        function: {
+            name: "apply_patch",
+            description: "Applies multiple hash-guarded range patches to one file.",
+            parameters: {
+                type: "object",
+                properties: {
+                    path: { type: "string" },
+                    patches: { type: "array", items: { type: "object" } },
+                    expectedSha256: { type: "string" }
+                },
+                required: ["path", "patches", "expectedSha256"]
+            }
+        }
+    },
     {
         function: {
             name: "engrave_vessel",
-            description: "The ultimate act of creation. Completely overwrites or creates a new file at the specified coordinate. Do NOT use placeholders. Provide the FULL, complete, final code.",
+            description: "Creates or intentionally replaces a full file. Prefer semantic_outline, file_hashes, replace_range, or apply_patch for existing files so the AI does not rewrite whole vessels blindly.",
             parameters: {
                 type: "object",
                 properties: {
@@ -86,9 +174,111 @@ export const ToolSchemas = [
             }
         }
     },
+
     {
         function: {
-            name: "get_model_usage_limits",
+            name: "inspect_runtime",
+            description: "Detects the app runtime from the active virtual filesystem without launching it.",
+            parameters: {
+                type: "object",
+                properties: {
+                    project_path: { type: "string", description: "Project folder. Defaults to /." }
+                }
+            }
+        }
+    },
+    {
+        function: {
+            name: "launch_preview",
+            description: "Launches a virtual preview and returns a usable URL. Supports static HTML and browser-virtual Node backend apps.",
+            parameters: {
+                type: "object",
+                properties: {
+                    project_path: { type: "string", description: "Project folder. Defaults to /." },
+                    manifest: { type: "object", description: "Optional runtime override: kind, entry, port, command." }
+                }
+            }
+        }
+    },
+    {
+        function: {
+            name: "list_previews",
+            description: "Lists active virtual previews for this editor session.",
+            parameters: { type: "object", properties: {} }
+        }
+    },
+    {
+        function: {
+            name: "preview_logs",
+            description: "Reads recent logs for a virtual preview.",
+            parameters: {
+                type: "object",
+                properties: { id: { type: "string" } },
+                required: ["id"]
+            }
+        }
+    },
+    {
+        function: {
+            name: "stop_preview",
+            description: "Stops a virtual preview and releases browser object URLs when possible.",
+            parameters: {
+                type: "object",
+                properties: { id: { type: "string" } },
+                required: ["id"]
+            }
+        }
+    },
+    {
+        function: {
+            name: "restart_preview",
+            description: "Stops and launches a fresh virtual preview for a project path.",
+            parameters: {
+                type: "object",
+                properties: {
+                    id: { type: "string" },
+                    project_path: { type: "string" }
+                }
+            }
+        }
+    },
+    {
+        function: {
+            name: "
+// B"H cognition tool names for legacy provider schema parity
+// {name: 'semantic_diff'}
+// {name: 'detect_concept_clusters'}
+// {name: 'simulate_failure'}
+// {name: 'generate_repair_plan'}
+// {name: 'supervise_runtime'}
+// {name: 'infer_architecture'}
+// {name: 'detect_abstraction_leaks'}
+// {name: 'runtime_entity_graph'}
+// {name: 'semantic_refactor'}
+// {name: 'inspect_render_storms'}
+// {name: 'runtime_contract_registry'}
+// {name: 'semantic_search_runtime'}
+// {name: 'preview_branch_matrix'}
+// {name: 'infer_business_rules'}
+// {name: 'state_time_machine'}
+// {name: 'detect_dead_concepts'}
+// {name: 'semantic_merge'}
+// {name: 'runtime_introspection_stream'}
+// {name: 'architecture_score'}
+// {name: 'intent_drift_detector'}
+// {name: 'semantic_package_generator'}
+// {name: 'self_heal_preview'}
+// {name: 'generate_test_universe'}
+// {name: 'inspect_human_confusion'}
+// {name: 'orchestration_graph'}
+// {name: 'environment_virtualizer'}
+// {name: 'runtime_snapshot'}
+// {name: 'semantic_cache'}
+// {name: 'goal_compiler'}
+// {name: 'autonomous_background_agents'}
+// {name: 'semantic_pipeline'}
+// {name: 'universal_app_manifest'}
+get_model_usage_limits",
             description: "Returns a list of all currently accessible AI models (from Gemini and OpenRouter), along with their context window limits and relative prices.",
             parameters: {
                 type: "object",

@@ -117,8 +117,50 @@ export const FileSystemSchemas = [
     },
     {
         function: {
+            name: "semantic_outline",
+            description: "Returns a compact symbol/import/export outline for a file through the active virtual filesystem provider.",
+            parameters: { type: "object", properties: { path: { type: "string" } }, required: ["path"] }
+        }
+    },
+    {
+        function: {
+            name: "semantic_search",
+            description: "Searches with the active provider without bulk-reading the workspace.",
+            parameters: { type: "object", properties: { path: { type: "string" }, query: { type: "string" }, limit: { type: "number" } }, required: ["query"] }
+        }
+    },
+    {
+        function: {
+            name: "dependency_graph",
+            description: "Builds a bounded dependency graph from an entry file. Use to hydrate only relevant context.",
+            parameters: { type: "object", properties: { path: { type: "string" }, max_files: { type: "number" }, max_depth: { type: "number" } }, required: ["path"] }
+        }
+    },
+    {
+        function: {
+            name: "file_hashes",
+            description: "Returns SHA-256 hashes. Use before hash-guarded patches.",
+            parameters: { type: "object", properties: { paths: { type: "array", items: { type: "string" } }, path: { type: "string" } } }
+        }
+    },
+    {
+        function: {
+            name: "replace_range",
+            description: "Hash-guarded micro-edit for existing files. Replaces a character range without rewriting the whole file.",
+            parameters: { type: "object", properties: { path: { type: "string" }, start: { type: "number" }, end: { type: "number" }, replacement: { type: "string" }, expectedSha256: { type: "string" } }, required: ["path", "start", "end", "replacement", "expectedSha256"] }
+        }
+    },
+    {
+        function: {
+            name: "apply_patch",
+            description: "Applies multiple hash-guarded range patches to one file.",
+            parameters: { type: "object", properties: { path: { type: "string" }, patches: { type: "array", items: { type: "object" } }, expectedSha256: { type: "string" } }, required: ["path", "patches", "expectedSha256"] }
+        }
+    },
+    {
+        function: {
             name: "engrave_vessel",
-            description: "Writes a file to disk. Provide the FULL content. This is how you implement your code changes.",
+            description: "Creates or intentionally replaces a full file. Prefer semantic_outline, file_hashes, replace_range, and apply_patch for existing files so the AI does not rewrite entire files blindly.",
             parameters: {
                 type: "object",
                 properties: {

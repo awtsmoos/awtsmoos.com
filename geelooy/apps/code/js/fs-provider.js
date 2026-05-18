@@ -299,5 +299,46 @@ export const FileSystemProvider = {
 
     await traverse(root);
     return allFiles;
+  },
+
+  /**
+   * B"H
+   * Executes a semantic capability through the item's real provider world.
+   * This keeps AI tooling from hardcoding local vs. hosted vs. relay transports.
+   */
+  async astOutline(item) {
+    return await this._execute('astOutline', item);
+  },
+
+  async semanticSearch(item, query, options) {
+    return await this._execute('semanticSearch', item, query, options);
+  },
+
+  async dependencyGraph(item, options) {
+    return await this._execute('dependencyGraph', item, options);
+  },
+
+  async connectedFiles(item, options) {
+    return await this._execute('connectedFiles', item, options);
+  },
+
+  async fileHashes(item, options) {
+    return await this._execute('fileHashes', item, options);
+  },
+
+  async writeIfHash(item, content, expectedSha256) {
+    return await this._execute('writeIfHash', item, content, expectedSha256);
+  },
+
+  async replaceRange(item, payload) {
+    const result = await this._execute('replaceRange', item, payload);
+    import('./sync/folder-sync.js').then(m => m.FolderSync.scheduleForItem(item, { reason: 'replaceRange' })).catch(() => {});
+    return result;
+  },
+
+  async applyPatch(item, payload) {
+    const result = await this._execute('applyPatch', item, payload);
+    import('./sync/folder-sync.js').then(m => m.FolderSync.scheduleForItem(item, { reason: 'applyPatch' })).catch(() => {});
+    return result;
   }
 };

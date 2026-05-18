@@ -6,15 +6,28 @@
 
 import { InlineLogin } from '../session/inline-login.js';
 
+const JSON_SUFFIX = '.awtsmoosJSON';
+
+function stripJsonSuffix(value = '') {
+    const text = String(value || '');
+    return text.endsWith(JSON_SUFFIX) ? text.slice(0, -JSON_SUFFIX.length) : text;
+}
+
 function normalizePath(path = '/') {
-    const clean = String(path || '/').replace(/\\/g, '/').replace(/^\/+/, '').replace(/\/+$/, '');
-    return clean || '.';
+    const clean = String(path || '/').replace(/\\\\/g, '/').replace(/^\/+/, '').replace(/\/+$/, '');
+    if (!clean || clean === '.') return '.';
+    return clean.split('/').filter(Boolean).map(stripJsonSuffix).join('/');
 }
 
 function join(parent, name) {
     const base = normalizePath(parent);
-    if (base === '.') return name;
-    return `${base}/${name}`;
+    if (base === '.') return stripJsonSuffix(name);
+    return `${base}/${stripJsonSuffix(name)}`;
+}
+
+function normalizeEntryPath(path = '') {
+    const clean = normalizePath(path);
+    return clean === '.' ? '.' : clean;
 }
 
 async function api(action, payload = {}) {
@@ -47,10 +60,11 @@ async function api(action, payload = {}) {
 }
 
 function aliasEntry(alias = {}) {
-    const id = alias.aliasId || alias.id || alias.name;
+    const rawId = alias.aliasId || alias.id || alias.name;
+    const id = stripJsonSuffix(rawId);
     return {
         name: id,
-        displayName: alias.displayName || alias.name || id,
+        displayName: stripJsonSuffix(alias.displayName || alias.name || id),
         aliasId: id,
         path: id,
         type: 'directory',
@@ -59,33 +73,43 @@ function aliasEntry(alias = {}) {
 }
 
 function childFromEntry(parent, entry) {
-    const name = entry.name || entry.aliasId || String(entry.path || '').split('/').pop();
-    const kind = entry.isDirectory || entry.type === 'directory' ? 'directory' : 'file';
-    const path = entry.path || join(parent.path, name);
+    const rawName = entry.name || entry.aliasId || String(entry.path || '').split('/').pop();
+    const name = stripJsonSuffix(rawName);
+    const kind = entry.isDirectory || entry.type === 'directory' || String(rawName).endsWith(JSON_SUFFIX)
+        ? 'directory'
+        : 'file';
+    const path = normalizeEntryPath(entry.path || join(parent.path, name));
+    const aliasId = stripJsonSuffix(entry.aliasId || String(path).split('/')[0]);
 
     return {
         ...parent,
         ...entry,
         name,
+        displayName: stripJsonSuffix(entry.displayName || name),
         kind,
         path,
         type: 'awtsmoos-os',
         originalType: 'awtsmoos-os',
         workspaceId: parent.workspaceId || parent.id,
-        aliasId: entry.aliasId || String(path).split('/')[0]
+        aliasId
     };
+}
+
+function pathOf(item) {
+    return normalizePath(item.path || '.');
 }
 
 export const AwtsmoosOSProvider = {
     async list(item) {
-        const path = normalizePath(item.path || '.');
+        const path = pathOf(item);
 
         if (path === '.') {
             try {
                 const data = await api('list', { path: '.' });
-                const items = data.detailedItems || [];
-                return items.map(entry => childFromEntry(item, {
+                return (data.detailedItems || []).map(entry => childFromEntry(item, {
                     ...entry,
+                    name: stripJsonSuffix(entry.name || entry.aliasId || entry.id),
+                    path: stripJsonSuffix(entry.path || entry.name || entry.aliasId || entry.id),
                     type: 'directory',
                     isDirectory: true
                 }));
@@ -102,12 +126,12 @@ export const AwtsmoosOSProvider = {
     },
 
     async read(item) {
-        const data = await api('read', { path: item.path || '.', maxChars: Number.MAX_SAFE_INTEGER });
+        const data = await api('read', { path: pathOf(item), maxChars: Number.MAX_SAFE_INTEGER });
         return data.content || '';
     },
 
     async write(item, content) {
-        return await api('write', { path: item.path || '.', content: String(content ?? '') });
+        return await api('write', { path: pathOf(item), content: String(content ?? '') });
     },
 
     async create(parentDir, name, kind) {
@@ -117,12 +141,12 @@ export const AwtsmoosOSProvider = {
     },
 
     async delete(item) {
-        return await api('delete', { path: item.path || '.' });
+        return await api('delete', { path: pathOf(item) });
     },
 
     async move(item, newPath) {
-        const oldParsed = String(item.path || '').split('/');
-        const newParsed = String(newPath || '').split('/');
+        const oldParsed = normalizePath(item.path || '').split('/');
+        const newParsed = normalizePath(newPath || '').split('/');
         if (oldParsed[0] !== newParsed[0]) throw new Error('Moving between aliases is not supported yet.');
 
         const alias = oldParsed.shift();
@@ -136,6 +160,38 @@ export const AwtsmoosOSProvider = {
         const data = await res.json();
         if (!res.ok || data.error) throw new Error(data.error?.message || data.error || 'Move failed');
         return data;
+    },
+
+    async fileHashes(item, payload = {}) {
+        return await api('fileHashes', { ...payload, path: pathOf(item) });
+    },
+
+    async writeIfHash(item, content, expectedSha256) {
+        return await api('writeIfHash', { path: pathOf(item), content: String(content ?? ''), expectedSha256 });
+    },
+
+    async astOutline(item) {
+        return await api('astOutline', { path: pathOf(item) });
+    },
+
+    async semanticSearch(item, query, options = {}) {
+        return await api('semanticSearch', { ...options, path: pathOf(item), query });
+    },
+
+    async dependencyGraph(item, options = {}) {
+        return await api('dependencyGraph', { ...options, path: pathOf(item) });
+    },
+
+    async connectedFiles(item, options = {}) {
+        return await api('connectedFiles', { ...options, path: pathOf(item) });
+    },
+
+    async replaceRange(item, payload) {
+        return await api('replaceRange', { ...payload, path: pathOf(item) });
+    },
+
+    async applyPatch(item, payload) {
+        return await api('applyPatch', { ...payload, path: pathOf(item) });
     },
 
     api

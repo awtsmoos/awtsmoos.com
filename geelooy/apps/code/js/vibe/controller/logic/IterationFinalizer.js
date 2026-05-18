@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file IterationFinalizer.js
@@ -10,6 +9,7 @@ import { ToolResultHandler } from './ToolResultHandler.js';
 import { RecursiveHarvester } from './RecursiveHarvester.js';
 import { UniversalActionParser } from '../../agent/logic/UniversalActionParser.js';
 import { EvaluatorGate } from './EvaluatorGate.js';
+import { AutoPreviewLauncher } from './AutoPreviewLauncher.js';
 
 export const IterationFinalizer = {
     /**
@@ -25,7 +25,7 @@ export const IterationFinalizer = {
         lastMsg.isStreaming = false;
         lastMsg.isConnecting = false; 
         lastMsg.content = (finalReasoning ? '<think>\n' + finalReasoning + '\n</think>\n' : '') + visibleText;
-        
+
         if (allToolCalls && allToolCalls.length > 0) {
             if (signature) allToolCalls.forEach(tc => { tc.thought_signature = signature; });
             lastMsg.tool_calls = allToolCalls;
@@ -34,14 +34,11 @@ export const IterationFinalizer = {
         await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
         controller.refreshView(tab);
 
-        // B"H - THE CORE SERIALIZATION FIX:
-        // We await ALL local tool results (including disk writes) before checking the harvester.
         let localToolResultDeterminedCycleNeeded = false;
         if (allToolCalls && allToolCalls.length > 0) {
             localToolResultDeterminedCycleNeeded = await ToolResultHandler.handle(allToolCalls, tab, controller);
         }
 
-        // Only after all actions are finished do we consult the Harvest for automated continuation.
         let triggersRefinement = false;
         if (!localToolResultDeterminedCycleNeeded) {
             triggersRefinement = RecursiveHarvester.checkAndTrigger(tab, controller);
@@ -60,9 +57,15 @@ export const IterationFinalizer = {
             return IterationRunner.run(tab, controller, null, true);
         }
 
-        // Rest. All physical manifestations confirmed.
+        await controller.refreshTree(tab);
+        await AutoPreviewLauncher.maybeLaunch({
+            tab,
+            toolCalls: allToolCalls || [],
+            lastMsg
+        });
+
         tab.vibeSession.isProcessing = false;
         controller.refreshView(tab);
-        await controller.refreshTree(tab);
+        await VibeDB.saveSession(tab.vibeSession.id, tab.vibeSession);
     }
 };

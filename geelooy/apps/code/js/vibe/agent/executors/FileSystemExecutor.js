@@ -110,6 +110,53 @@ export const FileSystemExecutor = {
                 return `[B"H Error] Unsupported terminal command: ${cmd}. Supported: pwd, ls, tree, cat, grep, head, tail`;
             }
 
+
+            case "semantic_outline": {
+                if (onProgress) onProgress('Outlining: ' + args.path);
+                const abs = resolvePath(args.path);
+                return JSON.stringify(await FileSystemProvider.astOutline({ ...itemArgs, path: abs, kind: 'file' }), null, 2);
+            }
+
+            case "semantic_search": {
+                if (onProgress) onProgress('Semantic search: ' + args.query);
+                const abs = resolvePath(args.path || args.directory_path || '/');
+                return JSON.stringify(await FileSystemProvider.semanticSearch({ ...itemArgs, path: abs, kind: 'directory' }, args.query, { limit: args.limit }), null, 2);
+            }
+
+            case "dependency_graph": {
+                if (onProgress) onProgress('Building dependency graph: ' + args.path);
+                const abs = resolvePath(args.path);
+                return JSON.stringify(await FileSystemProvider.dependencyGraph({ ...itemArgs, path: abs, kind: 'file' }, { maxFiles: args.max_files, maxDepth: args.max_depth }), null, 2);
+            }
+
+            case "file_hashes": {
+                const rawPaths = Array.isArray(args.paths) ? args.paths : [args.path].filter(Boolean);
+                const paths = rawPaths.map(pth => resolvePath(pth));
+                return JSON.stringify(await FileSystemProvider.fileHashes({ ...itemArgs, path: paths[0] || resolvePath('/'), kind: 'file' }, { paths }), null, 2);
+            }
+
+            case "replace_range": {
+                if (onProgress) onProgress('Patching range: ' + args.path);
+                const abs = resolvePath(args.path);
+                const result = await FileSystemProvider.replaceRange({ ...itemArgs, path: abs, kind: 'file' }, {
+                    start: args.start,
+                    end: args.end,
+                    replacement: args.replacement,
+                    expectedSha256: args.expectedSha256
+                });
+                return JSON.stringify(result, null, 2);
+            }
+
+            case "apply_patch": {
+                if (onProgress) onProgress('Applying patch: ' + args.path);
+                const abs = resolvePath(args.path);
+                const result = await FileSystemProvider.applyPatch({ ...itemArgs, path: abs, kind: 'file' }, {
+                    patches: args.patches,
+                    expectedSha256: args.expectedSha256
+                });
+                return JSON.stringify(result, null, 2);
+            }
+
             case "read_file_chunk": {
                 if (onProgress) onProgress('Slicing: ' + args.path);
                 const abs = resolvePath(args.path);

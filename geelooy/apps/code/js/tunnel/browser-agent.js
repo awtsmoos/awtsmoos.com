@@ -1,60 +1,77 @@
-// B"H
+// B\"H
 /**
  * @file browser-agent.js
- * @brief Makes the code editor itself an optional browser tunnel agent.
+ * @brief Lets the code editor tab register as a safe browser filesystem tunnel.
  */
 
 import { State } from '../state.js';
 import { UI } from '../ui.js';
-import { BrowserTunnelFS } from './browser-fs.js';
+import { BrowserTunnelFS, BROWSER_TUNNEL_FS_ACTIONS } from './browser-fs.js';
+import { attachBrowserAnalysis, BROWSER_ANALYSIS_ACTIONS } from './browser-analysis.js';
+import { handleBrowserPreviewAction, BROWSER_PREVIEW_ACTIONS } from './browser-preview-actions.js';
+import { handleBrowserPreviewAction, BROWSER_PREVIEW_ACTIONS } from './browser-preview-actions.js';
 
-const DEFAULT_RECONNECT_MS = 2000;
-const BROWSER_AGENT_VERSION = 'browser-editor-alef-1.0.0';
-const FS_ACTIONS = new Set(['list', 'tree', 'read', 'md', 'bulk', 'write', 'bulkWrite', 'findReplace']);
+attachBrowserAnalysis(BrowserTunnelFS);
 
-function wsUrlFromLocation() {
-    const override = State.browserTunnel?.relayUrl;
-    if (override) return override;
-    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    return `${proto}//${location.host}`;
-}
+const VERSION = 'browser-editor-gimmel-1.2.0';
+const RECONNECT_MS = 2000;
+const ALL_ACTIONS = Object.freeze([...BROWSER_TUNNEL_FS_ACTIONS, ...BROWSER_ANALYSIS_ACTIONS]);
+const FS_ACTIONS = new Set(ALL_ACTIONS);
 
 function defaultName() {
-    const saved = State.browserTunnel?.tunnelName;
+    const saved = State.browserTunnel?.tunnelName || localStorage.getItem('awtsmoos.code.browserTunnelName');
     if (saved) return saved;
-    const existing = localStorage.getItem('awtsmoos.code.browserTunnelName');
-    if (existing) return existing;
-    const name = `awt-editor-${Math.floor(1000 + Math.random() * 9000)}`;
-    localStorage.setItem('awtsmoos.code.browserTunnelName', name);
-    return name;
+    const made = `awt-editor-${Math.floor(1000 + Math.random() * 9000)}`;
+    localStorage.setItem('awtsmoos.code.browserTunnelName', made);
+    return made;
 }
 
-function jsonBytes(obj) {
-    try { return new Blob([JSON.stringify(obj)]).size; }
-    catch (_) { return 0; }
+function wsUrl() {
+    if (State.browserTunnel?.relayUrl) return State.browserTunnel.relayUrl;
+    return `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}`;
 }
 
-function errorResponse(id, error, status = 500) {
+function persist() {
+    const settings = JSON.parse(localStorage.getItem('vividX_settings_profound') || '{}');
+    settings.browserTunnel = State.browserTunnel;
+    localStorage.setItem('vividX_settings_profound', JSON.stringify(settings));
+}
+
+function sendableError(id, error) {
     return {
         type: 'TUNNEL_RESPONSE',
         id,
         ok: false,
-        status,
+        status: 500,
         error: error?.message || String(error),
         stack: error?.stack || null
     };
 }
 
-function persistSettings() {
-    const raw = localStorage.getItem('vividX_settings_profound');
-    const settings = JSON.parse(raw || '{}');
-    settings.browserTunnel = State.browserTunnel;
-    localStorage.setItem('vividX_settings_profound', JSON.stringify(settings));
+function tools() {
+    return {
+        fsList: true,
+        fsTree: true,
+        fsRead: true,
+        fsWrite: true,
+        fsBulk: true,
+        fsAdvanced: ALL_ACTIONS,
+        httpProxy: false,
+        command: false,
+        nodeScript: false,
+        chrome: false,
+        browser: true,
+        browserAnalysis: true,                previewControl: BROWSER_PREVIEW_ACTIONS,                previewControl: BROWSER_PREVIEW_ACTIONS
+    };
 }
 
 function escapeHtml(value = '') {
     return String(value).replace(/[&<>"']/g, ch => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
     })[ch]);
 }
 
@@ -76,58 +93,33 @@ export const BrowserTunnelAgent = {
             user: null,
             ...(State.browserTunnel || {})
         };
-
         window.BrowserTunnelAgent = this;
-        this.renderFloatingStatus();
+        this.render();
         if (State.browserTunnel.autoStart) this.start();
     },
 
     async start() {
         if (this.ws || this.connecting) return;
-
         State.browserTunnel.enabled = true;
         State.browserTunnel.autoStart = true;
         State.browserTunnel.tunnelName = defaultName();
-        persistSettings();
-
+        persist();
         this.connecting = true;
-        this.setStatus('connecting');
+        this.status('connecting');
 
         try {
             await this.checkSession();
-            const ws = new WebSocket(wsUrlFromLocation());
+            const ws = new WebSocket(wsUrl());
             this.ws = ws;
-
-            ws.addEventListener('open', () => {
-                this.connecting = false;
-                State.browserTunnel.connectedAt = Date.now();
-                State.browserTunnel.lastError = '';
-                this.setStatus('connected');
-                this.register();
-                this.logEvent('connected', `Browser tunnel connected as ${State.browserTunnel.tunnelName}`);
-            });
-
-            ws.addEventListener('message', event => this.handleMessage(event.data));
-
-            ws.addEventListener('close', () => {
-                if (this.ws === ws) this.ws = null;
-                this.connecting = false;
-                this.setStatus('disconnected');
-                this.logEvent('disconnected', 'Browser tunnel socket closed.');
-                if (State.browserTunnel.enabled) this.scheduleReconnect();
-            });
-
-            ws.addEventListener('error', () => {
-                this.connecting = false;
-                State.browserTunnel.lastError = 'WebSocket error';
-                this.setStatus('error');
-                this.logEvent('error', 'WebSocket error in browser tunnel.');
-            });
+            ws.addEventListener('open', () => this.onOpen());
+            ws.addEventListener('message', event => this.onMessage(event.data));
+            ws.addEventListener('close', () => this.onClose(ws));
+            ws.addEventListener('error', () => this.onError('WebSocket error'));
         } catch (e) {
             this.connecting = false;
             State.browserTunnel.lastError = e.message;
-            this.setStatus('error');
-            this.logEvent('error', e.message);
+            this.status('error');
+            this.log('error', e.message);
             UI.showToast('Browser tunnel: ' + e.message, 'error', 7000);
         }
     },
@@ -135,19 +127,12 @@ export const BrowserTunnelAgent = {
     stop() {
         State.browserTunnel.enabled = false;
         State.browserTunnel.autoStart = false;
-        persistSettings();
+        persist();
         clearTimeout(this.reconnectTimer);
-        if (this.ws) {
-            try { this.ws.close(); } catch (_) {}
-            this.ws = null;
-        }
-        this.setStatus('idle');
-        this.logEvent('stopped', 'Browser tunnel disabled.');
-    },
-
-    scheduleReconnect() {
-        clearTimeout(this.reconnectTimer);
-        this.reconnectTimer = setTimeout(() => this.start(), DEFAULT_RECONNECT_MS);
+        try { this.ws?.close(); } catch (_) {}
+        this.ws = null;
+        this.status('idle');
+        this.log('stopped', 'Browser tunnel disabled.');
     },
 
     async checkSession() {
@@ -159,6 +144,33 @@ export const BrowserTunnelAgent = {
         }
     },
 
+    onOpen() {
+        this.connecting = false;
+        State.browserTunnel.connectedAt = Date.now();
+        State.browserTunnel.lastError = '';
+        this.status('connected');
+        this.register();
+        this.log('connected', `Browser tunnel connected as ${State.browserTunnel.tunnelName}`);
+    },
+
+    onClose(ws) {
+        if (this.ws === ws) this.ws = null;
+        this.connecting = false;
+        this.status('disconnected');
+        this.log('disconnected', 'Browser tunnel socket closed.');
+        if (State.browserTunnel.enabled) {
+            clearTimeout(this.reconnectTimer);
+            this.reconnectTimer = setTimeout(() => this.start(), RECONNECT_MS);
+        }
+    },
+
+    onError(message) {
+        this.connecting = false;
+        State.browserTunnel.lastError = message;
+        this.status('error');
+        this.log('error', message);
+    },
+
     register() {
         this.send({
             type: 'TUNNEL_REGISTER',
@@ -168,72 +180,59 @@ export const BrowserTunnelAgent = {
             allowWrite: true,
             allowSecrets: false,
             allowCommands: false,
-            agentVersion: BROWSER_AGENT_VERSION,
+            agentVersion: VERSION,
             browserAgent: true,
             userAgent: navigator.userAgent,
             capabilities: {
                 fs: true,
                 browserWorkspaces: true,
                 write: true,
+                fsActions: ALL_ACTIONS,
                 commandRun: false,
                 nodeScript: false,
                 chrome: false,
-                httpProxy: false
-            },
-            tools: {
-                fsList: true,
-                fsTree: true,
-                fsRead: true,
-                fsWrite: true,
-                fsBulk: true,
                 httpProxy: false,
-                command: false,
-                nodeScript: false,
-                chrome: false,
-                browser: true
+                browserAnalysis: true,                previewControl: BROWSER_PREVIEW_ACTIONS,                previewControl: BROWSER_PREVIEW_ACTIONS
             },
+            tools: tools(),
             chrome: { enabled: false },
             command: { enabled: false }
         });
     },
 
-    send(obj) {
-        if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
-        this.ws.send(JSON.stringify(obj));
+    send(packet) {
+        if (this.ws?.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(packet));
     },
 
-    async handleMessage(raw) {
+    async onMessage(raw) {
         let data;
-        try { data = JSON.parse(raw); }
-        catch (_) { return; }
-
-        if (data.type === 'TUNNEL_REPLACED') {
-            this.logEvent('replaced', 'This browser tunnel was replaced by a newer connection.');
-            return;
-        }
-
+        try { data = JSON.parse(raw); } catch (_) { return; }
+        if (data.type === 'TUNNEL_REPLACED') return this.log('replaced', 'This browser tunnel was replaced.');
         if (data.type !== 'TUNNEL_REQUEST') return;
 
         const payload = data.payload || {};
-        this.logEvent('request', `${payload.action || payload.kind || 'unknown'} ${payload.path || ''}`);
-        UI.showToast(`Browser tunnel request: ${payload.action || payload.kind}`, 'info', 2200);
-
+        this.log('request', `${payload.action || payload.kind || 'unknown'} ${payload.path || ''}`);
         try {
             const result = await this.handleRequest(payload);
             this.send({ type: 'TUNNEL_RESPONSE', id: data.id, ...result });
-            this.logEvent('response', `${result.ok === false ? 'failed' : 'ok'} (${jsonBytes(result)} bytes)`);
+            this.log('response', result.ok === false ? 'failed' : 'ok');
         } catch (e) {
-            this.send(errorResponse(data.id, e));
-            this.logEvent('error', e.message);
+            this.send(sendableError(data.id, e));
+            this.log('error', e.message);
         }
     },
 
     async handleRequest(payload) {
+        if (payload.kind === 'preview') {            return await handleBrowserPreviewAction(payload);
+        }
+        if (payload.kind === 'preview') {            return await handleBrowserPreviewAction(payload);
+        }
         if (payload.kind !== 'fs') {
             return {
                 ok: false,
                 status: 403,
-                error: 'Browser editor tunnel only supports filesystem actions.'
+                error: 'Browser editor tunnel only supports filesystem actions.',
+                availableActions: Array.from(FS_ACTIONS)
             };
         }
 
@@ -242,25 +241,26 @@ export const BrowserTunnelAgent = {
             return {
                 ok: false,
                 status: 400,
-                error: 'Unsupported browser tunnel action: ' + action
+                error: 'Unsupported browser tunnel action: ' + action,
+                availableActions: Array.from(FS_ACTIONS)
             };
         }
 
         return await BrowserTunnelFS[action](payload);
     },
 
-    setStatus(status) {
-        State.browserTunnel.status = status;
-        this.renderFloatingStatus();
+    status(value) {
+        State.browserTunnel.status = value;
+        this.render();
     },
 
-    logEvent(type, message) {
+    log(type, message) {
         this.events.unshift({ type, message, at: new Date().toLocaleTimeString() });
         this.events = this.events.slice(0, 25);
-        this.renderFloatingStatus();
+        this.render();
     },
 
-    renderFloatingStatus() {
+    render() {
         let el = document.getElementById('browser-tunnel-status');
         if (!el) {
             el = document.createElement('div');
@@ -276,7 +276,10 @@ export const BrowserTunnelAgent = {
         }
 
         el.style.display = 'block';
-        const recent = this.events.slice(0, 4).map(e => `<div style="opacity:.85;margin-top:4px;">[${escapeHtml(e.at)}] ${escapeHtml(e.type)}: ${escapeHtml(e.message)}</div>`).join('');
+        const recent = this.events.slice(0, 4)
+            .map(e => `<div style="opacity:.85;margin-top:4px;">[${escapeHtml(e.at)}] ${escapeHtml(e.type)}: ${escapeHtml(e.message)}</div>`)
+            .join('');
+
         el.innerHTML = `
             <div style="display:flex;gap:6px;align-items:center;justify-content:space-between;">
                 <strong>Editor Tunnel</strong>
@@ -284,10 +287,9 @@ export const BrowserTunnelAgent = {
             </div>
             <div>Status: <span style="color:#00f6ff;">${escapeHtml(b.status || 'idle')}</span></div>
             <div>Name: ${escapeHtml(b.tunnelName || '')}</div>
+            <div>FS tools: ${ALL_ACTIONS.length}</div>
             ${b.lastError ? `<div style="color:#ff5656;">${escapeHtml(b.lastError)}</div>` : ''}
             <div style="max-height:110px;overflow:auto;margin-top:6px;">${recent}</div>`;
-
-        const btn = document.getElementById('browser-tunnel-stop');
-        if (btn) btn.onclick = () => this.stop();
+        document.getElementById('browser-tunnel-stop')?.addEventListener('click', () => this.stop());
     }
 };

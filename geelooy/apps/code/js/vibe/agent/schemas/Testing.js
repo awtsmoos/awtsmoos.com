@@ -55,6 +55,16 @@ export const TestingSchemas = [
     },
     {
         function: {
+            name: "verify_vibe_tool_parity",
+            description: "Verifies that semantic, patch, runtime, and preview tools exist across editor schemas, legacy schemas, routers, executors, tunnel docs, agent actions, and GPT Action OpenAPI.",
+            parameters: {
+                type: "object",
+                properties: {}
+            }
+        }
+    },
+    {
+        function: {
             name: "run_command_batch",
             description: "Runs a sequential batch of terminal commands in one call. Useful for setup/build/test chains and for executing .bat/.sh scripts through the emulated command runner.",
             parameters: {
@@ -68,6 +78,34 @@ export const TestingSchemas = [
                     }
                 },
                 required: ["commands"]
+            }
+        }
+    },
+    {
+        function: {
+            name: "run_semantic_workflow",
+            description: "Runs a declarative conditional workflow graph instead of shell scripting.",
+            parameters: {
+                type: "object",
+                properties: { workflow: { type: "object" } },
+                required: ["workflow"]
+            }
+        }
+    },
+    {
+        function: {
+            name: "assert_runtime_contracts",
+            description: "Asserts semantic runtime behaviors like page health, DOM expectations, and console errors.",
+            parameters: {
+                type: "object",
+                properties: {
+                    target_url: {type: "string" },
+                    assertions: {
+                        type: "array",
+                        items: { type: "string" }
+                    }
+                },
+                required: ["target_url", "assertions"]
             }
         }
     }
