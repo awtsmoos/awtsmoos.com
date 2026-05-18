@@ -719,7 +719,8 @@ async function handleFs(config, payload) {
     },
 
     async write() {
-      const wrote = await writeText(config, p, payload.content || "");
+      const content = payload.content !== undefined ? payload.content : payload.text;
+      const wrote = await writeText(config, p, content ?? "");
       return { ok: true, action, ...wrote };
     },
 

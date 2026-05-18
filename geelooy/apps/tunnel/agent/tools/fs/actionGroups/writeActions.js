@@ -29,7 +29,8 @@ function buildWriteActions(ctx) {
 
   return {
     async write() {
-      const wrote = await writeText(config, p, payload.content || "");
+      const content = payload.content !== undefined ? payload.content : payload.text;
+      const wrote = await writeText(config, p, content ?? "");
       return { ok: true, action, root: config.root, ...wrote };
     },
     async bulkWrite() { return await handleBulkWrite(config, payload, action); },
