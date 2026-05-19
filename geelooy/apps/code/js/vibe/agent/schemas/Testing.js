@@ -83,17 +83,6 @@ export const TestingSchemas = [
     },
     {
         function: {
-            name: "run_semantic_workflow",
-            description: "Runs a declarative conditional workflow graph instead of shell scripting.",
-            parameters: {
-                type: "object",
-                properties: { workflow: { type: "object" } },
-                required: ["workflow"]
-            }
-        }
-    },
-    {
-        function: {
             name: "assert_runtime_contracts",
             description: "Asserts semantic runtime behaviors like page health, DOM expectations, and console errors.",
             parameters: {

@@ -71,6 +71,35 @@ const workflowGraphSchema = {
 export const WorkflowSchemas = [
     {
         function: {
+            name: "run_command_tree",
+            description: "Runs a universal provider-agnostic command tree. One function call can read, branch, write, test, retry, recover, and continue through every registered tool.",
+            parameters: {
+                type: "object",
+                properties: {
+                    workflow: workflowGraphSchema,
+                    steps: { type: "array", items: workflowStepSchema },
+                    vars: { type: "object" },
+                    known: { type: "object" }
+                }
+            }
+        }
+    },
+    {
+        function: {
+            name: "ai_command_batch",
+            description: "Alias for run_command_tree, optimized for plain-text AIs using universal pseudo-tool calls.",
+            parameters: {
+                type: "object",
+                properties: {
+                    commands: { type: "array", items: workflowStepSchema },
+                    vars: { type: "object" },
+                    known: { type: "object" }
+                }
+            }
+        }
+    },
+    {
+        function: {
             name: "run_semantic_workflow",
             description: "Executes a declarative workflow graph with conditions, fallbacks, pipelines, retries, foreach loops, and failure handlers.",
             parameters: {

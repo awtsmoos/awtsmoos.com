@@ -29,7 +29,8 @@ const testingTools = [
 ];
 
 const workflowTools = [
-    'run_semantic_workflow', 'assert_runtime_contracts'
+    'run_semantic_workflow', 'run_command_tree',
+    'ai_command_batch', 'assert_runtime_contracts'
 ];
 
 const metaTools = [

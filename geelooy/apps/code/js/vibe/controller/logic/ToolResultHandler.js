@@ -50,7 +50,7 @@ export const ToolResultHandler = {
             if (isAutoMode) {
                 triggersLoop = true;
             } else {
-                if (['continue_autonomous_loop', 'engrave_vessel', 'run_ui_test', 'purge_vessel', 'shift_consciousness', 'consult_oracle'].includes(toolCall.function.name)) {
+                if (['continue_autonomous_loop', 'engrave_vessel', 'run_ui_test', 'run_command_tree', 'ai_command_batch', 'purge_vessel', 'shift_consciousness', 'consult_oracle'].includes(toolCall.function.name)) {
                     triggersLoop = true;
                 }
             }

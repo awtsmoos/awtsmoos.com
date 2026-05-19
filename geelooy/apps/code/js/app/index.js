@@ -13,6 +13,7 @@ import { Bootstrapper } from './bootstrapper.js';
 import { StorageOrchestrator } from './storage-orchestrator.js';
 import { GitOrchestrator } from './git-orchestrator.js';
 import { FullscreenManager } from './fullscreen-manager.js';
+import { registerCodeTabTunnel } from '../tunnel/tabTunnelRegistrar.js';
 
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
@@ -20,6 +21,7 @@ export const App = {
     async initialize() {
         UI.showLoading("Manifesting Reality...");
         try {
+            registerCodeTabTunnel();
             Bootstrapper.ignite();
             await StorageOrchestrator.recallPreviousReality();
 
