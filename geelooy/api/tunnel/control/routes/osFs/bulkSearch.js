@@ -2,10 +2,12 @@
 const { cleanPath } = require("./path.js");
 const { listFolder, readFile, readWhole } = require("./listRead.js");
 const { writeFile, writeIfHash, sha256 } = require("./writeOps.js");
+const { parsePlainList, parsePlainWrites } = require("./plainPayload.js");
+
 
 async function bulk($i, userId, payload) {
   const files = {};
-  const paths = Array.isArray(payload.paths) ? payload.paths : [];
+  const paths = Array.isArray(payload.paths) ? payload.paths : parsePlainList(payload.paths || payload.files || payload.path || payload.p);
   for (const one of paths.slice(0, Number(payload.maxFiles || 5))) {
     const path = typeof one === "string" ? one : one.path;
     try { files[path] = await readFile($i, userId, { ...payload, path, maxChars: one.maxChars || payload.maxChars }); }
@@ -15,21 +17,21 @@ async function bulk($i, userId, payload) {
 }
 
 async function bulkWrite($i, userId, payload) {
-  const writes = payload.writes || (payload.files ? Object.entries(payload.files).map(([path, content]) => ({ path, content })) : []);
+  const writes = parsePlainWrites(payload);
   const results = {};
   for (const w of writes) results[w.path] = await writeFile($i, userId, { ...payload, path: w.path, content: w.content ?? "" });
   return { ok: true, action: "bulkWrite", count: writes.length, results };
 }
 
 async function bulkWriteIfHashes($i, userId, payload) {
-  const writes = Array.isArray(payload.writes) ? payload.writes : [];
+  const writes = parsePlainWrites(payload);
   const results = {};
   for (const w of writes) results[w.path] = await writeIfHash($i, userId, { ...payload, ...w });
   return { ok: true, action: "bulkWriteIfHashes", count: writes.length, results };
 }
 
 async function fileHashes($i, userId, payload) {
-  const paths = Array.isArray(payload.paths) ? payload.paths : [payload.path || payload.p || "."];
+  const paths = Array.isArray(payload.paths) ? payload.paths : (parsePlainList(payload.paths || payload.files || payload.path || payload.p) || ["."]);
   const files = {};
   for (const path of paths) {
     const got = await readWhole($i, userId, path);

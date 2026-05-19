@@ -10,7 +10,8 @@ const oauthClients = {
     secret: "",
 
     autoApprove: false,
-    accessTokenSeconds: 3600,
+    accessTokenSeconds: 30 * 24 * 60 * 60,
+    refreshTokens: true,
 
     defaultScope: "profile tunnel.read tunnel.write tunnel.command tunnel.browser",
 

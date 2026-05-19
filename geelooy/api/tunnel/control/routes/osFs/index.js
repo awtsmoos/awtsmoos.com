@@ -35,7 +35,7 @@ function runtimeOptions(payload = {}) {
     runtime: payload.runtime || "browser",
     entry: payload.entry || payload.path || payload.p || "index.html",
     files: payload.files || json64(payload.files64, {}),
-    workflow: payload.workflow || json64(payload.workflow64, null),
+    workflow: payload.workflow || (payload.steps?.length ? { steps: payload.steps } : null) || json64(payload.workflow64, null),
     probes: payload.probes || json64(payload.probes64, []),
     interactions: payload.interactions || json64(payload.interactions64, []),
     origin: payload.origin || "http://localhost:8080/",
@@ -114,6 +114,9 @@ async function dispatchOsFs($i, userId, payload) {
 
     simulateRuntime: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
     runtimeWorkflow: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
+    merkavaWorkflowRun: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
+    aiWorkflowRun: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
+    aiCommandBatch: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
     testRuntimeOnce: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload))
   };
 

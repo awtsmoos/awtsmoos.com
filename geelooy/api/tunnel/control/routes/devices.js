@@ -8,6 +8,30 @@ async function devices($i) {
   const ident = currentIdentity($i);
   const devices = [];
 
+  devices.push({
+    tunnelName: "awtsmoos-virtual-os",
+    deviceName: "Awtsmoos Virtual OS",
+    root: "awtsmoos://virtual-os",
+    allowWrite: true,
+    allowSecrets: false,
+    isAlive: true,
+    synthetic: true,
+    kind: "virtual-os",
+    ownedByCurrentUser: !!ident.ok
+  });
+
+  devices.push({
+    tunnelName: "awtsmoos-virtual-os",
+    deviceName: "Awtsmoos Virtual OS",
+    root: "awtsmoos://virtual-os",
+    allowWrite: true,
+    allowSecrets: false,
+    isAlive: true,
+    synthetic: true,
+    kind: "virtual-os",
+    ownedByCurrentUser: !!ident.ok
+  });
+
   if ($i.ws?.clients) {
     for (const client of $i.ws.clients) {
       if (!client.isTunnel) continue;
