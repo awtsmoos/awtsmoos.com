@@ -7,6 +7,8 @@ import {
   mountGptText,
   mountStatus
 } from "./ui.js";
+import { mountHandoff } from "./handoff.js";
+import { mountHandoff } from "./handoff.js";
 
 /**
  * B"H
@@ -19,6 +21,8 @@ function main() {
   mountCopyButtons();
   mountGptText();
   mountStatus();
+  mountHandoff();
+  mountHandoff();
 
   const ps = document.getElementById("cmdPowerShell");
   const cmd = document.getElementById("cmdCmd");
