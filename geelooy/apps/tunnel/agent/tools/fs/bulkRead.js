@@ -1,6 +1,8 @@
 
 // B"H
 const { readText, readBytesBase64, readTextFromBytes, number } = require("./readWrite.js");
+const { parsePlainList, firstPayloadValue } = require("./plainPayload.js");
+
 
 function normalizeSpec(one) {
   if (typeof one === "string") return { path: one, mode: "text" };
@@ -86,7 +88,7 @@ async function readOne(config, spec, payload) {
 async function readBulk(config, payload) {
   if (!config.tools.fsBulk) throw new Error("fsBulk disabled.");
 
-  const requested = uniqueSpecs(payload.paths || []);
+  const requested = uniqueSpecs(parsePlainList(firstPayloadValue(payload, ["paths", "files", "path", "p"]) || []));
   const maxFiles = number(payload.maxFiles, requested.length || 0);
   const selected = maxFiles ? requested.slice(0, maxFiles) : requested;
   const skipped = maxFiles ? requested.slice(maxFiles) : [];

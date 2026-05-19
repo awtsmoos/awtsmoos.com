@@ -13,6 +13,8 @@ const { selectString } = require("../selectString.js");
 const { symbolOutline } = require("../symbolOutline.js");
 const { connectedFiles } = require("../connectedFiles.js");
 const { astOutline } = require("../astOutline.js");
+const { bulkSearch } = require("../pagedSearch.js");
+
 
 function buildReadActions(ctx) {
   const { config, payload } = ctx;
@@ -61,6 +63,10 @@ function buildReadActions(ctx) {
     },
     async bulk() { return await readBulk(config, payload); },
     async grep() { return await grep(config, payload); },
+    async bulkSearch() { return await bulkSearch(config, payload); },
+    async bulkSearchPage() { return await bulkSearch(config, payload); },
+    async bulkSearch() { return await bulkSearch(config, payload); },
+    async bulkSearchPage() { return await bulkSearch(config, payload); },
     async selectString() { return await selectString(config, payload); },
     async findFiles() { return await findFiles(config, payload); },
     async fileHashes() { return await fileHashes(config, payload); },

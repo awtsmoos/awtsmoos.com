@@ -1,6 +1,8 @@
 // B"H
 const fs = require("fs");
 const path = require("path");
+const { safePath } = require("../pathGuard.js");
+
 
 const cognitionActionNames = [
   "semanticDiff",
@@ -70,13 +72,14 @@ function score(project) {
 }
 
 function report(action, ctx) {
-  const root = ctx.payload.root || ctx.config.rootDir || process.cwd();
+  const requested = ctx.payload.path || ctx.payload.p || ctx.payload.target || ".";
+  const root = safePath(ctx.config, requested);
   const project = inspectRoot(root);
   return {
     ok: true,
     action,
     generatedAt: new Date().toISOString(),
-    target: ctx.payload.target || root,
+    target: root,
     goal: ctx.payload.goal || null,
     project,
     architecture: score(project),

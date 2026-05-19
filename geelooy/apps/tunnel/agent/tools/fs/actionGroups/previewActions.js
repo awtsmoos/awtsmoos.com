@@ -4,9 +4,12 @@ const { staticServerStart, staticServerStop, staticServerLogs } = require("../st
 const { create, get, list, stop } = require("../previewRegistry.js");
 const { detectRuntime } = require("../runtimeDetect.js");
 const { createRuntimeManifest, withPreview } = require("../runtimeManifest.js");
+const { safePath } = require("../pathGuard.js");
+
 
 function absRoot(config, payload) {
-    return payload.root || config.rootDir || config.root || process.cwd();
+    const requested = payload.path || payload.p || payload.root || ".";
+    return safePath(config, requested);
 }
 
 function controlUrl(payload, action, extra = {}) {

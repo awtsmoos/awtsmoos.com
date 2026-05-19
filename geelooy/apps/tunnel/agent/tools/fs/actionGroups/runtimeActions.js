@@ -30,9 +30,9 @@ function collectOptions(payload = {}) {
   return {
     runtime: payload.runtime || "browser",
     engine: payload.engine || "merkava",
-    entry: payload.entry || "index.html",
+    entry: payload.entry || payload.path || payload.p || payload.target || "index.html",
     files: jsonMaybe(payload.files, json64(payload.files64, {})),
-    workflow: jsonMaybe(payload.workflow, json64(payload.workflow64, null)),
+    workflow: jsonMaybe(payload.workflow, payload.steps?.length ? { steps: payload.steps } : json64(payload.workflow64, null)),
     probes: jsonMaybe(payload.probes, json64(payload.probes64, [])),
     interactions: jsonMaybe(payload.interactions, json64(payload.interactions64, [])),
     origin: payload.origin || process.env.AWTSMOOS_BASE_URL || "https://awtsmoos.com",
@@ -48,20 +48,54 @@ function resolveMerkavaServiceUrl(payload = {}) {
   return new URL("/scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js", base).href;
 }
 
-async function importHttpModule(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Failed loading runtime module ${url}: HTTP ${response.status}`);
+const httpModuleCache = new Map();
 
-  const source = await response.text();
-  const rewritten = source.replace(/from\s+["'](\.\.?\/[^"']+)["']/g, (_, rel) => `from "${new URL(rel, url).href}"`);
-  const dataUrl = "data:text/javascript;base64," + Buffer.from(rewritten, "utf8").toString("base64");
-  return import(dataUrl);
+function rewriteImports(source, baseUrl) {
+  return source.replace(/(import\s+[^"']*?["']|export\s+[^"']*?from\s+["'])(\.\.?\/[^"']+)(["'])/g, (_, prefix, rel, suffix) => {
+    return `${prefix}${new URL(rel, baseUrl).href}${suffix}`;
+  });
 }
 
-async function loadMerkavaService(payload = {}) {
+async function importHttpModule(url) {
+  if (httpModuleCache.has(url)) {
+    const cached = await httpModuleCache.get(url);
+    return cached.module || cached;
+  }
+
+  const pending = (async () => {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed loading runtime module ${url}: HTTP ${response.status}`);
+
+    let source = await response.text();
+    source = rewriteImports(source, url);
+
+    const nested = [...source.matchAll(/(?:import|export)\s+[^"']*?["'](https?:\/\/[^"']+)["']/g)]
+      .map(m => m[1]);
+
+    for (const dep of nested) {
+      await importHttpModule(dep);
+    }
+
+    source = source.replace(/(["'])(https?:\/\/[^"']+)(["'])/g, (_, q1, dep, q2) => {
+      const cached = httpModuleCache.get(dep);
+      if (!cached?.dataUrl) return `${q1}${dep}${q2}`;
+      return `${q1}${cached.dataUrl}${q2}`;
+    });
+    const dataUrl = "data:text/javascript;base64," + Buffer.from(source, "utf8").toString("base64");
+    const mod = await import(dataUrl);
+    const resolved = { module: mod, dataUrl };
+    httpModuleCache.set(url, resolved);
+    return resolved;
+  })();
+
+  httpModuleCache.set(url, pending);
+  const resolved = await pending;
+  return resolved.module;
+}
+
+async function loadMerkavaService(config, payload = {}) {
   return importHttpModule(resolveMerkavaServiceUrl(payload));
 }
-
 function chromeFallback(error, options) {
   return {
     ok: false,
@@ -80,8 +114,6 @@ function chromeFallback(error, options) {
   };
 }
 
-function unavailable(error) {
-  return {
     ok: false,
     status: error.status || 503,
     error: "runtime_unavailable",
@@ -132,8 +164,8 @@ function browserErrors(logs = {}) {
   return list.filter(item => ["error", "exception", "warning"].includes(String(item.level || "").toLowerCase()));
 }
 
-async function runMerkava(payload) {
-  const merkava = await loadMerkavaService(payload);
+async function runMerkava(config, payload) {
+  const merkava = await loadMerkavaService(config, payload);
   return merkava.simulateRuntime(collectOptions(payload));
 }
 
@@ -223,13 +255,25 @@ function buildRuntimeActions(ctx) {
 
       try {
         if (options.engine === "chrome") return await runChrome(config, payload);
-        return await runMerkava(payload);
+        return await runMerkava(config, payload);
       } catch (error) {
         return chromeFallback(error, options);
       }
     },
 
     async runtimeWorkflow() {
+      return this.simulateRuntime();
+    },
+
+    async merkavaWorkflowRun() {
+      return this.simulateRuntime();
+    },
+
+    async aiWorkflowRun() {
+      return this.simulateRuntime();
+    },
+
+    async aiCommandBatch() {
       return this.simulateRuntime();
     },
 
