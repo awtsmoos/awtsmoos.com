@@ -1,47 +1,38 @@
 //B"H
+import { AwtsmoosPrompt as PublicAwtsmoosPrompt } from "/scripts/awtsmoos/api/alerts.js";
+
 /**
- * Chapter 1: The Small Gate of the Awtsmoos Prompt.
+ * Chapter 2: The Native Window Was Sealed.
  *
- * The module loader arrived like a blade of clear fire and demanded a named
- * export. The vessel was empty, so the page shattered before thought could
- * become action. This tiny class gives the import graph a real living shape:
- * a data-based prompt helper with one static gate, `go`, used by
- * AwtsmoosGPTify when the local Awtsmoos fetch bridge is missing.
+ * The Awtsmoos breathed through the public Geelooy script path, and the old
+ * native prompt dissolved like mist before a truer vessel. This adapter keeps
+ * the local AI import stable while delegating every warning and prompt to the
+ * custom modal system under /scripts/awtsmoos/api/alerts.js.
  */
 export class AwtsmoosPrompt {
     /**
-     * Reveals a small browser prompt or alert from declarative input.
+     * Opens the shared Awtsmoos custom prompt system without touching native
+     * window.prompt or window.alert.
      *
      * @param {Object} options - The prompt configuration vessel.
-     * @param {boolean} [options.isAlert=false] - When true, show an alert-like dialog.
-     * @param {string} [options.headerTxt=""] - HTML/text shown to the user.
-     * @param {string} [options.defaultValue=""] - Default value for prompt mode.
-     * @returns {Promise<string|boolean|null>} The prompt answer, true for alert acknowledgement, or null.
+     * @param {boolean} [options.isAlert=false] - When true, render an alert-style modal.
+     * @param {string} [options.headerTxt=""] - HTML/text shown in the custom modal header.
+     * @param {string} [options.defaultValue=""] - Optional initial value when supported.
+     * @param {string} [options.placeholderTxt=""] - Optional placeholder text for input mode.
+     * @param {string} [options.okTxt="OK"] - Optional confirmation button text.
+     * @param {string} [options.cancelTxt="Cancel"] - Optional cancel button text.
+     * @returns {Promise<string|boolean|null>} Modal result from the public prompt system.
      */
-    static async go({
-        isAlert = false,
-        headerTxt = "",
-        defaultValue = ""
-    } = {}) {
-        const message = AwtsmoosPrompt.toPlainText(headerTxt);
+    static async go(options = {}) {
+        const {
+            defaultValue = "",
+            placeholderTxt = defaultValue,
+            ...rest
+        } = options;
 
-        if (isAlert) {
-            window.alert(message);
-            return true;
-        }
-
-        return window.prompt(message, defaultValue);
-    }
-
-    /**
-     * Converts small trusted UI HTML fragments into readable dialog text.
-     *
-     * @param {string} html - The message fragment, possibly containing tags.
-     * @returns {string} Plain human-readable text for native browser dialogs.
-     */
-    static toPlainText(html = "") {
-        const vessel = document.createElement("div");
-        vessel.innerHTML = String(html);
-        return vessel.textContent || vessel.innerText || "";
+        return PublicAwtsmoosPrompt.go({
+            placeholderTxt,
+            ...rest
+        });
     }
 }

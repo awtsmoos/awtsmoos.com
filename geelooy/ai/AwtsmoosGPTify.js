@@ -1,17 +1,93 @@
 //B"H
 import { AwtsmoosPrompt } from "./prompt.js";
-var mFetch = window.awtsmoosFetch;
-async function checkMFetch() {
-	if(!mFetch) {
-		mFetch = window.awtsmoosFetch;
-		if(!mFetch) {
-			return await AwtsmoosPrompt.go({
-	                    isAlert: true,
-	                    headerTxt: "You need to <a href='https://github.com/ymerkos/awtsfaria/blob/main/geelooy/scripts/tricks/extensions/server.zip'>awtsmoos server</a> extension to run this.",
-	                });
-		}
+
+const RELAY_URLS = [
+	"http://127.0.0.1:3847",
+	"http://localhost:3847"
+];
+
+var mFetch = null;
+var activeTransport = null;
+
+async function checkMFetch({ silent = false, fresh = false } = {}) {
+	if (!fresh && typeof mFetch === "function" && mFetch === window.awtsmoosFetch) return mFetch;
+	const resolved = await resolveAwtsmoosTransport();
+	if (resolved?.fetcher) {
+		mFetch = resolved.fetcher;
+		activeTransport = resolved;
+		window.__awtsmoosAiTransport = resolved;
+		window.dispatchEvent(new CustomEvent("awtsmoos-ai-transport", { detail: resolved }));
+		return mFetch;
 	}
+	const message = buildTransportHelp();
+	window.dispatchEvent(new CustomEvent("awtsmoos-ai-transport-error", { detail: message }));
+	if (!silent) console.warn(message.text);
+	throw Object.assign(new Error(message.text), { help: message });
 }
+
+async function resolveAwtsmoosTransport() {
+	const extension = await waitForExtensionFetch();
+	if (extension) return { kind: "extension", label: "Awtsmoos Chrome Server Extension", fetcher: extension };
+	const relay = await findRelayFetch();
+	if (relay) return relay;
+	return null;
+}
+
+async function waitForExtensionFetch() {
+	for (var i = 0; i < 24; i++) {
+		if (typeof window.awtsmoosFetch === "function") return window.awtsmoosFetch;
+		await new Promise(resolve => setTimeout(resolve, 125));
+	}
+	return null;
+}
+
+async function findRelayFetch() {
+	for (const base of RELAY_URLS) {
+		try {
+			const health = await fetch(`${base}/health`, { cache: "no-store" });
+			if (!health.ok) continue;
+			return { kind: "relay", label: `Local Awtsmoos AI Relay (${base})`, base, fetcher: makeRelayFetch(base) };
+		} catch {}
+	}
+	return null;
+}
+
+function makeRelayFetch(base) {
+	return async function relayFetch(url, options = {}) {
+		return await fetch(`${base}/fetch`, {
+			method: "POST",
+			headers: { "content-type": "application/json", "x-awtsmoos-relay": "1" },
+			body: JSON.stringify({ url: String(url), options: serializeFetchOptions(options) })
+		});
+	};
+}
+
+function serializeFetchOptions(options = {}) {
+	return {
+		method: options.method || "GET",
+		headers: normalizeHeadersForRelay(options.headers || {}),
+		body: options.body ?? null,
+		redirect: options.redirect || "follow"
+	};
+}
+
+function normalizeHeadersForRelay(headers) {
+	if (headers instanceof Headers) return Object.fromEntries(headers.entries());
+	if (Array.isArray(headers)) return Object.fromEntries(headers);
+	return { ...(headers || {}) };
+}
+
+function buildTransportHelp() {
+	return {
+		title: "Awtsmoos transport is not ready",
+		text: "Install/start the Awtsmoos server extension or run the local Node relay.",
+		extensionUrl: "https://awtsmoos.com/scripts/tricks/extensions/server.zip",
+		relayUrl: "https://awtsmoos.com/scripts/tricks/ai-relay/awtsmoos-ai-relay.mjs",
+		macLinux: "mkdir -p ~/.awtsmoos-ai-relay && curl -L https://awtsmoos.com/scripts/tricks/ai-relay/awtsmoos-ai-relay.mjs -o ~/.awtsmoos-ai-relay/awtsmoos-ai-relay.mjs && node ~/.awtsmoos-ai-relay/awtsmoos-ai-relay.mjs",
+		windows: "mkdir %USERPROFILE%\\.awtsmoos-ai-relay && curl -L https://awtsmoos.com/scripts/tricks/ai-relay/awtsmoos-ai-relay.mjs -o %USERPROFILE%\\.awtsmoos-ai-relay\\awtsmoos-ai-relay.mjs && node %USERPROFILE%\\.awtsmoos-ai-relay\\awtsmoos-ai-relay.mjs"
+	};
+}
+
 	//B"H
 	class AwtsmoosGPTify {
 	    _lastMessageId = null;
@@ -30,7 +106,7 @@ async function checkMFetch() {
 	        onstream,
 	        ondone,
 	        action = "next",
-	        parentMessageId,// = this._lastMessageId,
+	        parentMessageId,
 	        model ="auto",
 	        conversationId = this._conversationId,
 	        timezoneOffsetMin = 240,
@@ -43,57 +119,44 @@ async function checkMFetch() {
 	        customTextEncoder=TextDecoder,
 	        customHeaders = {},
 	        }) {
-				var customFetch;
-		checkMFetch()
-			try {
-				customFetch = mFetch;
-			} catch(e) {
-				await AwtsmoosPrompt.go({
-					isAlert:true,
-					headerTxt: "Something happened check console"
-				})
-				console.log(e,"WOW")
-			}
+			const resolvedFetch = await checkMFetch();
+			customFetch = typeof customFetch === "function" ? customFetch : resolvedFetch;
 	        var self = this;
 	        var headers = null;
-	
+
 	        if(!authorizationToken) {
 	                var token = await getAuthToken();
-	                if(token) {
-	                    authorizationToken = token
-	                } else {
-	                    console.log("problem getting token")
-	                }
+	                if(token) authorizationToken = token;
+	                else console.log("No bearer token from session; trying cookie-backed ChatGPT request.");
 	        }
-			console.log("got auth",authorizationToken)
+			console.log("got auth",authorizationToken ? "bearer-present" : "cookie-mode")
 	        var awtsmoosToikens = await awtsmoosifyTokens();
 	        var nameURL = convoId =>
 	        `https://chatgpt.com/backend-api/conversation/gen_title/${convoId}`
-		if(!parentMessageId) {
-			var co=await getConversation(
-				conversationId,
-				authorizationToken
-	
-			)
-			var n = co?.current_node;
-			var msg = co?.mapping?.[n];
-			if(msg?.message?.author?.role == "assistant")
-				parentMessageId=co?.current_node;
-			else {
-				console.log("Couldn't get parent")
-				parentMessageId = null;
+		if(!parentMessageId && conversationId) {
+			try {
+				var co=await getConversation(
+					conversationId,
+					authorizationToken
+				)
+				var n = co?.current_node;
+				var msg = co?.mapping?.[n];
+				if(msg?.message?.author?.role == "assistant") {
+					parentMessageId=co?.current_node;
+					this._lastMessageId = parentMessageId;
+				} else {
+					console.log("Couldn't get parent")
+					parentMessageId = null;
+				}
+			} catch(parentError) {
+				console.warn("Could not hydrate parent conversation", parentError);
 			}
-	
 		}
 	        if(!parentMessageId && !conversationId) {
 	            parentMessageId = generateUUID();
 	        }
 			console.log("GETTING",authorizationToken,parentMessageId)
-	
-	        
-	
-	
-	
+
 	        if(print)
 	            console.log("par",parentMessageId)
 	        /**
@@ -102,7 +165,7 @@ async function checkMFetch() {
 	         * @returns {Object} - The request options object
 	         */
 	        async function generateMessageJson() {
-	
+
 	            var messageJson = {
 	                action: action,
 					/*"supported_encodings": [
@@ -123,41 +186,31 @@ async function checkMFetch() {
 	                ],
 	                parent_message_id: parentMessageId,
 	                model: model || 'text-davinci-002-render',
-	                conversation_id: conversationId??undefined
-	                ,
+	                conversation_id: conversationId??undefined,
 	                ...more
 	            };
-	
-	            
-	
+
 	            headers = {
 	                'Content-Type': 'application/json',
-	                'Authorization': 'Bearer ' + authorizationToken,
+	                ...(authorizationToken ? { 'Authorization': 'Bearer ' + authorizationToken } : {}),
 	                ...customHeaders,
 			        ...(awtsmoosToikens)
 	            }
-	
+
 	            var requestOptions = {
 	                method: 'POST',
 	                headers,
 	                body: JSON.stringify(messageJson)
 	            };
-	
+
 	            return requestOptions;
 	        }
-	
-	        // This is the URL to which we send our JSON data.
-	        // Like the tree of life in Kabbalah, it's the central point from which all creation flows.
+
 	        var URL = "https://chatgpt.com/backend-api/conversation";
-	
 	        var json = await generateMessageJson()
 	        console.log("Sending: ",json)
-	        // Fetch API sends the request to the URL with our generated JSON data.
-	        // Like casting a spell in Kabbalah, we're asking the universe (or at least the server) to do something.
 	        var response = await customFetch(URL, json);
-	        // We're creating a reader and a decoder to read and decode the incoming stream of data.
-	       var res =  await logStream(response, async (c)=>{
-				//console.log(c)
+	        var res =  await logStream(response, async (c)=>{
 			   	if(c?.data?.conversation_id) {
 					this._conversationId = c?.data?.conversation_id
 				}
@@ -167,63 +220,25 @@ async function checkMFetch() {
 				if(typeof(onstream) == "function") {
 					onstream(c.data)
 				}
-			   if(c?.dataNoJSON == "[DONE]") {
-					
-				}
-			   	
 			});
-			/*await new Promise(r=>
-				setTimeout(r, 7000)
-			);
-
-			var convo = await this.getConversation();
-			var cur = convo?.current_node;
-			if(cur) {
-				res = convo?.mapping?.[cur];
-				console.log("Got conversation data",convo,cur);
-				if(typeof(ondone) == "function") {
-						
-					ondone(res);
-					onstream(res)
-				}
+			if(res) {
+				res.awtsmoos = res.awtsmoos || {};
+				res.awtsmoos.otherEvents = res.awtsmoos.otherEvents || [];
+				if(this._conversationId) res.awtsmoos.otherEvents.push({ conversation_id: this._conversationId });
+				ondone?.(res);
 			}
-			console.log("Finished it",res, convo, cur);
-			
-			res.conversation_id = this._conversationId ;*/
-			
 			return res;
-	
-	    /*
-	        if(!self.sessionName) {
-	            var newTitleFetch = await customFetch(nameURL(convo), {
-	                headers,
-	                body: JSON.stringify({
-	                    message_id: messageID
-	                }),
-	                method: "POST"
-	            });
-	            var newTitle = await newTitleFetch.text();
-	            self.sessionName = newTitle;
-	            console.log("New name!",self.sessionName);
-	        }
-	
-	        var messageID = jsonData.message.id
-	        self._lastMessageId = messageID;
-	        var convo = jsonData.conversation_id;
-	        self._conversationId = convo;
-	    */
-		
-	
-	
-	
 	    }
 
+
+
+
 		async getConversation(conversationId=this._conversationId) {
-			checkMFetch()
+			await checkMFetch()
 			return await getConversation(conversationId)
 		}
 		async getConversations(...args) {
-			checkMFetch()
+			await checkMFetch()
 			return await getConversations(...args);
 		}
 	}
@@ -235,100 +250,110 @@ async function checkMFetch() {
     async function logStream(response, callback) {
 	   var hasCallback = typeof(callback) == "function";
 	   var myCallback =  hasCallback ? callback : () => {};
-	    var result = []
-	    // Check if the response is okay
-	    if (!response.ok) {
-	        console.error('Network response was not ok:', window.resp = response);
-	        return {message: "Something happened"};
-	    }
-	   // return response.text();
-	    const reader = response.body.getReader();
-	    const decoder = new TextDecoder("utf-8");
-	    let buffer = '';
-	    var curEvent = null;
-		var message = null;
-		var otherEvents = []
-	    while (true) {
+	   var result = [];
+	   if (!response.ok) {
+	        const responseBody = await safeResponseText(response);
+	        console.error('Network response was not ok:', window.resp = response, responseBody);
+	        const error = new Error(`ChatGPT request rejected: ${response.status} ${response.statusText}`);
+	        error.response = response;
+	        error.responseBody = responseBody;
+	        throw error;
+	   }
+	   const reader = response.body.getReader();
+	   const decoder = new TextDecoder("utf-8");
+	   let buffer = '';
+	   var curEvent = null;
+	   var message = null;
+	   var otherEvents = [];
+	   var messagesById = new Map();
+	   while (true) {
 	        const { done, value } = await reader.read();
-	
 	        if (done) {
-	            console.log('Stream finished',message);
-				return message;
-	            break;
+	            if(message) message.awtsmoos = { otherEvents };
+	            return message || {
+				awtsmoos: { otherEvents },
+				message: { author: { role: "assistant" }, content: { parts: [""] } }
+			};
 	        }
-	
-	        // Decode the current chunk and add to the buffer
 	        buffer += decoder.decode(value, { stream: true });
-			
-	        // Split buffer into lines
 	        const lines = buffer.split('\n');
-	
-	        // Process each line
 	        for (let line of lines) {
-	            line = line.trim(); // Remove whitespace
-	
-	            // Check if the line starts with "event:" or "data:"
+	            line = line.trim();
+	            if (!line) continue;
 	            if (line.startsWith('event:')) {
-	                const event = line.substring(6).trim(); // Extract event type
-	                curEvent = event;
-	
-	            } else if (line.startsWith('data:')) {
-	                const data = line.substring(5).trim(); // Extract data
-	
-	
-	                // Attempt to parse the data as JSON
-	                try {
-	                    const jsonData = JSON.parse(data);
-						//console.log(jsonData)
-	                    if(!hasCallback)
-	                        console.log('Parsed JSON Data:', jsonData);
-				        var k={data:jsonData, event: curEvent}
-				        result. push(k)
-						if(jsonData.message?.content?.parts) {
-							message = jsonData.message;	
-						} else {
-							otherEvents.push(jsonData)
-						}
-	                    myCallback?.(k)
-	                } catch (e) {
-						//console.log(data)
-	                    if(!hasCallback)
-	                        console.warn('Data is not valid JSON:', data,result);
-	        var k=({dataNoJSON: data,  event: curEvent, error:e})
-	   
-	                    myCallback?.(k, "done")
-						message.awtsmoos  = {otherEvents}
-						//return {message}
-	                }
+	                curEvent = line.substring(6).trim();
+	                continue;
+	            }
+	            if (!line.startsWith('data:')) continue;
+	            const data = line.substring(5).trim();
+	            try {
+	                const jsonData = JSON.parse(data);
+	                var k = { data: jsonData, event: curEvent };
+	                result.push(k);
+				const extracted = extractMessageFromStreamData(jsonData, messagesById);
+				if(extracted?.id) messagesById.set(extracted.id, extracted);
+				if(extracted?.author?.role === "assistant" && hasRenderableContent(extracted)) message = extracted;
+				if(!extracted || !hasRenderableContent(extracted)) otherEvents.push(jsonData);
+	                myCallback?.(k);
+	            } catch (e) {
+	                var k = ({ dataNoJSON: data, event: curEvent, error: e });
+	                myCallback?.(k, "done");
+				if(data !== "[DONE]") otherEvents.push(k);
+				if(message) message.awtsmoos = { otherEvents };
 	            }
 	        }
-	
-	        // Clear the buffer if the last line was complete
-	        if (lines[lines.length - 1].trim() === '') {
-	            buffer = '';
-	        } else {
-	            // Retain incomplete line for next iteration
-	            buffer = lines[lines.length - 1];
-	        }
-	    }
+	        if (lines[lines.length - 1].trim() === '') buffer = '';
+	        else buffer = lines[lines.length - 1];
+	   }
 	}
 
-	
-	var token = null;
-	async function getConversations({offset=0,limit=27}={}) {
-		if(!token) {
-			var session = (await (await mFetch("https://chatgpt.com/api/auth/session")).json())
-			token = session.accessToken;
+	function extractMessageFromStreamData(jsonData, messagesById) {
+		const direct = jsonData?.message || jsonData?.input_message || jsonData?.v?.message;
+		if(direct?.id) return direct;
+		if(jsonData?.p && jsonData?.o && jsonData?.v !== undefined) {
+			const last = [...messagesById.values()].at(-1);
+			if(!last) return null;
+			applyTinyPatch(last, jsonData);
+			return last;
 		}
-		var convo = await (
-			await mFetch(`https://chatgpt.com/backend-api/conversations?offset=${offset}&limit=${limit}&order=updated`, {
-			headers: {
-				 authorization: "Bearer " + token
-			}
-		})
-		).json();
-		return convo;
+		return null;
 	}
+
+	function hasRenderableContent(message) {
+		const c = message?.content || {};
+		return Boolean(c?.parts?.length || c?.text || c?.thoughts?.length || c?.content_type === "thoughts" || c?.content_type === "code");
+	}
+
+	function applyTinyPatch(message, patch) {
+		try {
+			const path = String(patch.p || "");
+			if(patch.o === "append" && path.endsWith("/text")) {
+				message.content = message.content || { content_type: "text", parts: [""] };
+				if(typeof message.content.text === "string") message.content.text += patch.v;
+				else {
+					message.content.parts = message.content.parts || [""];
+					message.content.parts[0] = String(message.content.parts[0] || "") + patch.v;
+				}
+			}
+		} catch(e) {
+			console.warn("Could not apply stream patch", patch, e);
+		}
+	}
+	var token = null;
+	/**
+	 * B"H — Loads the ChatGPT conversation list through the extension bridge.
+	 * The token is refreshed on every attempt because the browser session is a
+	 * living river, not a stone; if ChatGPT rejects one bearer, the next wave is
+	 * gathered and the list request is replayed with the exact filters used by
+	 * the working browser request.
+	 */
+	async function getConversations({offset=0,limit=28}={}) {
+		const fetcher = await checkMFetch({ fresh: true });
+		const url = `https://chatgpt.com/backend-api/conversations?offset=${offset}&limit=${limit}&order=updated&is_archived=false&is_starred=false`;
+		return await fetchJsonWithFreshAuth(fetcher, url, { method: "GET" });
+	}
+
+
 	async function getAwtsmoosAudio({
 	    message_id, 
 	    conversation_id,
@@ -377,21 +402,54 @@ async function checkMFetch() {
 		  reader.readAsDataURL(blob);
 		})
 	}
+
+	async function getFreshAuthToken(fetcher = mFetch, { required = false } = {}) {
+		const response = await fetcher("https://chatgpt.com/api/auth/session", { method: "GET", cache: "no-store" });
+		const session = await response.json();
+		const found = session?.accessToken || session?.token || session?.access_token || null;
+		if (!found) {
+			if (required) throw new Error("ChatGPT session returned no bearer token; cookie-mode will be tried where possible.");
+			return null;
+		}
+		token = found;
+		authToken = found;
+		return found;
+	}
+
+	async function fetchJsonWithFreshAuth(fetcher, url, options = {}) {
+		let lastError = null;
+		for (let attempt = 0; attempt < 3; attempt++) {
+			const baseHeaders = { ...(options.headers || {}), accept: "*/*" };
+			delete baseHeaders.authorization;
+			let response = await fetcher(url, { ...options, method: options.method || "GET", headers: baseHeaders, credentials: "include", cache: "no-store" });
+			if (response.ok) return await response.json();
+			lastError = new Error(`ChatGPT cookie fetch failed: ${response.status} ${response.statusText}`);
+			lastError.responseBody = await safeResponseText(response);
+
+			const bearer = await getFreshAuthToken(fetcher).catch(() => null);
+			if (bearer) {
+				response = await fetcher(url, { ...options, method: options.method || "GET", headers: { ...baseHeaders, authorization: "Bearer " + bearer }, credentials: "include", cache: "no-store" });
+				if (response.ok) return await response.json();
+				lastError = new Error(`ChatGPT bearer fetch failed: ${response.status} ${response.statusText}`);
+				lastError.responseBody = await safeResponseText(response);
+			}
+			if (![401, 403, 429].includes(response.status)) break;
+			await new Promise(resolve => setTimeout(resolve, 350 * (attempt + 1)));
+		}
+		throw lastError || new Error("ChatGPT fetch failed before a response was available.");
+	}
+
 	window.getAwtsmoosAudio=getAwtsmoosAudio;
 	async function getConversation(conversation_id, token) {
-		if(!token) {
-			var session = (await (await mFetch("https://chatgpt.com/api/auth/session")).json())
-	    	token = session.accessToken;
-		}
-	    return (await (await mFetch("https://chatgpt.com/backend-api/conversation/" + conversation_id, {
+		const fetcher = await checkMFetch({ fresh: true });
+		if(!token) token = await getFreshAuthToken(fetcher);
+	    return await fetchJsonWithFreshAuth(fetcher, "https://chatgpt.com/backend-api/conversation/" + conversation_id, {
 	      "headers": {
-	        "accept": "*/*",
 	        "accept-language": "en-US,en;q=0.9",
 	        "authorization": "Bearer "+token,
-	
 	      },
 	      "method": "GET"
-	    })).json())
+	    })
 	}
 	window.getConversation=getConversation;
 	/**
@@ -421,17 +479,15 @@ async function checkMFetch() {
 	}
 	
 	var authToken = null;
-	async function getAuthToken() {
-	    if(authToken) return authToken;
-	    var sesh = await mFetch(
-	        "https://chatgpt.com/api/auth/session"
-	    );
-		var j = await sesh.json();
-	    var token = j.accessToken;
-	    if(token) {
-	        authToken = token;
-	        return token;
-	    } else return null;//console.log("problem getting token")
+	async function getAuthToken({ fresh = false } = {}) {
+	    if(authToken && !fresh) return authToken;
+		const fetcher = await checkMFetch({ fresh: true });
+		try {
+			return await getFreshAuthToken(fetcher);
+		} catch(error) {
+			console.warn("problem getting token", error);
+			return null;
+		}
 	}
 	
 	

@@ -97,7 +97,8 @@ ${prompt}
     this.dbHandler = new IndexedDBHandler('AIAppDB');
     
 
-    this.activeAIService = 'gemini';
+    this.activeAIService = 'chatgpt';
+    this.chatgptMode = localStorage.getItem("awtsmoosChatGPTMode") || "regular";
     var self = this;
     this.services = {
       chatgpt: {
@@ -131,14 +132,12 @@ ${prompt}
         }={}) => self.instance.go({
           prompt: userMessage,
           conversationId,
+          more: self.getChatGPTModePayload(),
           ondone: (d) => {
-            var res = d?.content?.parts?.[0] || d?.message?.content?.parts?.[0];
-            if (res && d?.message?.author?.role == "assistant")
-              ondone(res);
+            ondone?.(d);
           },
           onstream: (d) => {
-            var res = d?.content?.parts?.[0] || d?.message?.content?.parts?.[0];
-            if (res) onstream(res)
+            onstream?.(d);
           },
         }),
       },
@@ -238,6 +237,21 @@ ${prompt}
       },
       openrouter: makeOpenAICompatibleService(self, 'openrouter'),
       groq: makeOpenAICompatibleService(self, 'groq')
+    };
+  }
+
+  setChatGPTMode(mode = "regular") {
+    this.chatgptMode = mode;
+    localStorage.setItem("awtsmoosChatGPTMode", mode);
+  }
+
+  getChatGPTModePayload() {
+    if (this.chatgptMode !== "awtsmoos-vibe-coder") return {};
+    return {
+      conversation_mode: {
+        kind: "gizmo_interaction",
+        gizmo_id: "g-6a03feea8398819192067ae3dbfa449c"
+      }
     };
   }
 

@@ -1,49 +1,57 @@
-<!--B"H
-awtsmoos ai engine
--->
+<!--B"H awtsmoos ai semantic cockpit-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AwtsmoosGPTify Chat</title>
-  
+  <title>Awtsmoos AI Cockpit</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <!-- Navigation Bar -->
-
- <!--<span class="app-title">AwtsmoosGPTify Chat</span>-->
-    <button id="toggle-sidebar" class="toggle-sidebar">☰</button>
-    <div id="sidebar" class="sidebar">
-      
+    <button id="toggle-sidebar" class="toggle-sidebar" aria-label="Toggle conversations">☰</button>
+    <aside id="sidebar" class="sidebar">
       <div class="conversation-list">
         <button id="new-chat" class="refresh-button new-chat">New Chat</button>
         <button id="refresh-conversations" class="refresh-button">Refresh</button>
         <div class="service-selector">
-          <label for="ai-service-select">AI Service:</label>
+          <label for="ai-service-select">AI Service</label>
           <select id="ai-service-select">
-            
-            <option value="gemini">Gemini</option>
             <option value="chatgpt">ChatGPT</option>
-            <option value="openrouter">OpenRouter</option>
-            <option value="groq">Groq</option>
+            <option value="gemini">Gemini</option>
             <option value="openrouter">OpenRouter</option>
             <option value="groq">Groq</option>
           </select>
         </div>
+        <div id="chatgpt-mode-wrap" class="service-selector chatgpt-mode-wrap">
+          <label for="chatgpt-mode-select">ChatGPT Vessel</label>
+          <select id="chatgpt-mode-select">
+            <option value="regular">Regular ChatGPT</option>
+            <option value="awtsmoos-vibe-coder">Awtsmoos Vibe Coder GPT</option>
+          </select>
+        </div>
         <ul id="conversation-items"></ul>
       </div>
-    </div>
+    </aside>
 
-    <div class="main">
-      <div id="chat-box" class="chat-box"></div>
+    <div id="left-resizer" class="resize-bar" aria-hidden="true"></div>
+    <main class="main">
+      <div id="transport-status" class="transport-status" aria-live="polite"></div>
+      <div id="chat-box" class="chat-box" aria-live="polite"></div>
+      <div id="composer-resizer" class="composer-resizer" aria-hidden="true"></div>
       <div class="input-area">
-        <textarea id="message-input" type="text" placeholder="Type your message here..."></textarea>
+        <textarea id="message-input" placeholder="Paste or drop images. Type. Ctrl+Enter sends."></textarea>
         <button id="send-button">Send</button>
+        <input id="attachment-input" type="file" accept="image/*" multiple hidden>
       </div>
-    </div>
+      <div class="attachment-tools">
+        <label class="attach-button" for="attachment-input">＋ Image</label>
+        <div id="attachment-tray" class="attachment-tray"></div>
+      </div>
+    </main>
+
+    <div id="right-resizer" class="resize-bar" aria-hidden="true"></div>
+    <aside id="automation-panel" class="automation-panel" aria-label="Automation pipeline settings"></aside>
   </div>
   <script type="module" src="index.js"></script>
 </body>

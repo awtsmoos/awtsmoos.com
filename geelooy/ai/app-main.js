@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.aiHandler = aiHandler;
 
   const dom = collectDom();
+  new LayoutController(dom).mount();
   const attachments = new AttachmentTray({ tray: dom.attachmentTray, input: dom.messageInput, fileInput: dom.attachmentInput });
   attachments.mount();
   const renderer = new MessageRenderer({ chatBox: dom.chatBox });
@@ -32,8 +33,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     sendPrompt: prompt => sendFromText(prompt),
     report: text => panel.report(text)
   });
-  new LayoutController(dom).mount();
-  wireTransportStatus(dom);
 
   wireChrome({ dom, controller, aiHandler, pipeline, panel, attachments, sendFromText });
   await bootstrapFromUrl({ dom, aiHandler, controller });
@@ -46,8 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   window.sendMessageToAi = sendFromText;
-});
-
 function collectDom() {
   return {
     chatBox: document.getElementById("chat-box"),
@@ -59,15 +56,12 @@ function collectDom() {
     conversationList: document.getElementById("conversation-items"),
     refreshButton: document.getElementById("refresh-conversations"),
     serviceSelect: document.getElementById("ai-service-select"),
-    chatgptModeWrap: document.getElementById("chatgpt-mode-wrap"),
-    chatgptModeSelect: document.getElementById("chatgpt-mode-select"),
     automationPanel: document.getElementById("automation-panel"),
     leftResizer: document.getElementById("left-resizer"),
     rightResizer: document.getElementById("right-resizer"),
     composerResizer: document.getElementById("composer-resizer"),
     attachmentTray: document.getElementById("attachment-tray"),
-    attachmentInput: document.getElementById("attachment-input"),
-    transportStatus: document.getElementById("transport-status")
+    attachmentInput: document.getElementById("attachment-input")
   };
 }
 function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText }) {
@@ -78,66 +72,18 @@ function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText }) {
   dom.messageInput.addEventListener("keydown", event => {
     if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) sendFromText();
   });
-  dom.chatgptModeSelect.value = aiHandler.chatgptMode || "regular";
-  syncChatGptModeChrome(dom);
-  dom.chatgptModeSelect.onchange = async event => {
-    aiHandler.setChatGPTMode(event.target.value);
-    updateSearchParams({ awtsmoosChatGPTMode: event.target.value, awtsmoosConversation: null });
-    await controller.newConversation();
-    await controller.refreshList(dom.conversationList);
-  };
   dom.serviceSelect.onchange = async event => {
     aiHandler.switchService(event.target.value);
-    syncChatGptModeChrome(dom);
     updateSearchParams({ awtsmoosAi: event.target.value, awtsmoosConversation: null });
     await controller.newConversation();
     await controller.refreshList(dom.conversationList);
   };
 }
 
-function syncChatGptModeChrome(dom) {
-  const isChatGPT = dom.serviceSelect.value === "chatgpt";
-  dom.chatgptModeWrap.hidden = !isChatGPT;
-}
-
-function wireTransportStatus(dom) {
-  const el = dom.transportStatus;
-  if (!el) return;
-  const renderReady = detail => {
-    el.hidden = false;
-    el.className = `transport-status is-${detail.kind || detail.transport || "ready"}`;
-    el.innerHTML = `<strong>Transport:</strong> ${escapeInline(detail.label || detail.transport || "ready")}`;
-  };
-  const renderMissing = help => {
-    el.hidden = false;
-    el.className = "transport-status is-missing";
-    el.innerHTML = `
-      <strong>Awtsmoos transport needed.</strong>
-      <span>Use the Chrome server extension or run the local Node relay.</span>
-      <a href="${help.extensionUrl}" target="_blank" rel="noreferrer">Extension zip</a>
-      <button type="button" data-copy="mac">Copy macOS/Linux relay command</button>
-      <button type="button" data-copy="win">Copy Windows relay command</button>
-    `;
-    el.querySelector('[data-copy="mac"]')?.addEventListener("click", () => navigator.clipboard?.writeText(help.macLinux));
-    el.querySelector('[data-copy="win"]')?.addEventListener("click", () => navigator.clipboard?.writeText(help.windows));
-  };
-  window.addEventListener("awtsmoos-ai-transport", event => renderReady(event.detail || {}));
-  window.addEventListener("awtsmoos-server-ready", event => renderReady({ kind: "extension", label: "Awtsmoos Chrome Server Extension" }));
-  window.addEventListener("awtsmoos-ai-transport-error", event => renderMissing(event.detail || {}));
-}
-
-function escapeInline(text) {
-  return String(text || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-}
-
 async function bootstrapFromUrl({ dom, aiHandler, controller }) {
   const params = new URLSearchParams(location.search);
   const selected = params.get("awtsmoosAi");
-  const mode = params.get("awtsmoosChatGPTMode");
-  if (mode) aiHandler.setChatGPTMode(mode);
   if (selected) { dom.serviceSelect.value = selected; aiHandler.switchService(selected); }
-  dom.chatgptModeSelect.value = aiHandler.chatgptMode || "regular";
-  syncChatGptModeChrome(dom);
   const convo = getConversationId();
   if (convo) await controller.loadConversation(convo);
   await controller.refreshList(dom.conversationList);
