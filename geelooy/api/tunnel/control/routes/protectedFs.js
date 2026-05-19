@@ -4,6 +4,7 @@ const { currentIdentity } = require("../core/auth.js");
 const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.js");
 const { scopeAllowed, enforceApiKeyRate } = require("../core/apiKeyStore.js");
 const { recordUsage } = require("../core/usageStore.js");
+const { maybeExternalize } = require("../core/responseModes.js");
 
 const FOUR_MINUTES_MS = 240000;
 
@@ -71,7 +72,8 @@ async function protectedFs($i, vars) {
   try {
     const requestTimeoutMs = boundedTunnelTimeout(payload.timeoutMs);
     const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload, requestTimeoutMs);
-    const bytes = responseBytes(result);
+    const shaped = maybeExternalize(result, payload);
+    const bytes = responseBytes(shaped);
 
     recordUsage({
       userId: ident.userId,
@@ -82,7 +84,7 @@ async function protectedFs($i, vars) {
       ok: result.ok !== false
     });
 
-    return json($i, result, result.status || 200);
+    return json($i, shaped, shaped.status || result.status || 200);
   } catch (e) {
     recordUsage({
       userId: ident.userId,

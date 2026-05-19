@@ -79,6 +79,13 @@ function objectBodyOr64($i, body, plainName, encodedName, fallback = null) {
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 
+function plainStructuredOr64($i, body, plainName, encodedName, fallback = null) {
+  if (body && body[plainName] !== undefined) return body[plainName];
+  const plainQuery = queryPlainOrUndefined($i, plainName);
+  if (plainQuery !== undefined) return String(plainQuery ?? "");
+  return jsonFrom64(queryValue($i, encodedName), fallback);
+}
+
 function boolFrom($i, body, name, fallback = false) {
   const got = boolValue(valueFrom($i, body, name, undefined));
   return got === undefined ? fallback : got;
@@ -111,10 +118,10 @@ function buildFsPayload($i) {
     action,
     path: p,
     absolutePath: valueFrom($i, body, "absolutePath", ""),
-    paths: arrayBodyOr64($i, body, "paths", "paths64", []),
-    files: objectBodyOr64($i, body, "files", "files64", null),
-    writes: arrayBodyOr64($i, body, "writes", "writes64", null),
-    edits: arrayBodyOr64($i, body, "edits", "edits64", []),
+    paths: plainStructuredOr64($i, body, "paths", "paths64", []),
+    files: plainStructuredOr64($i, body, "files", "files64", null),
+    writes: plainStructuredOr64($i, body, "writes", "writes64", null),
+    edits: plainStructuredOr64($i, body, "edits", "edits64", []),
     ranges: arrayBodyOr64($i, body, "ranges", "ranges64", []),
 
     depth: intFrom($i, body, "depth", 2),
@@ -229,7 +236,14 @@ function buildFsPayload($i) {
     params: objectBodyOr64($i, body, "params", "params64", {}),
     maxSteps: intFrom($i, body, "maxSteps", 50, 100),
     maxIterations: intFrom($i, body, "maxIterations", 20, 100),
-    maxStepOutputChars: intFrom($i, body, "maxStepOutputChars", 12000, 60000)
+    maxStepOutputChars: intFrom($i, body, "maxStepOutputChars", 12000, 60000),
+    responseMode: valueFrom($i, body, "responseMode", "inline"),
+    maxInlineBytes: intFrom($i, body, "maxInlineBytes", 12000, 1000000),
+    ttlSeconds: intFrom($i, body, "ttlSeconds", 300, 900),
+    page: intFrom($i, body, "page", 1, 1000000),
+    pageSize: intFrom($i, body, "pageSize", 50, 1000),
+    sort: valueFrom($i, body, "sort", ""),
+    order: valueFrom($i, body, "order", "asc")
   };
 
   for (const key of ["root", "local", "relay", "setTunnelName"]) {

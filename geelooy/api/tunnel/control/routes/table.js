@@ -15,6 +15,7 @@ const { docsHtml } = require("./docsHtml.js");
 const { docsJson } = require("./docsJson.js");
 const { bootstrap } = require("./bootstrap.js");
 const { osFs } = require("./osFs.js");
+const { blob } = require("./blob.js");
 
 const routeTable = {
   me,
@@ -40,6 +41,9 @@ const routeTable = {
 
   bootstrap,
   "bootstrap/": bootstrap,
+
+  "blob/:blobId": blob,
+  "blob/:blobId/": blob,
 
   "preview/:tunnelName": previewProxy,
   "preview/:tunnelName/": previewProxy,
