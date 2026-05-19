@@ -1,0 +1,33 @@
+/* B"H */
+.awt-nav-button:hover, .awt-home-button:hover,
+.awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card):hover,
+.awt-login-gate :where(button, .button-link):hover, .button-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--awt-line-hot);
+  box-shadow: 0 18px 44px rgba(0,0,0,.28), 0 0 34px rgba(119,236,255,.14), inset 0 1px 0 rgba(255,255,255,.12);
+  filter: saturate(1.12);
+}
+.awt-nav-button:active, .awt-home-button:active,
+.awt-control-shell :where(button):active, .awt-login-gate :where(button, .button-link):active, .button-link:active {
+  transform: translateY(0) scale(.985);
+}
+.awt-nav-button.active, .awt-action-card.active, .awt-control-shell [aria-selected="true"] {
+  border-color: var(--awt-line-hot);
+  background: radial-gradient(circle at 18% 0%, rgba(119,236,255,.28), transparent 42%), linear-gradient(135deg, rgba(119,236,255,.18), rgba(188,149,255,.13));
+  box-shadow: 0 0 0 1px rgba(119,236,255,.12), 0 0 38px rgba(119,236,255,.18), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.awt-action-card:hover {
+  transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-7px) scale(1.018);
+  border-color: var(--awt-line-hot);
+  box-shadow: 0 30px 80px rgba(0,0,0,.36), 0 0 48px rgba(119,236,255,.16), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.awt-action-card:hover::before { opacity: 1; }
+.awt-action-card:active { transform: perspective(1100px) rotateX(0) rotateY(0) translateY(-2px) scale(.992); }
+.awt-action-card.active .awt-action-icon, .awt-nav-button.active span { animation: awtIconPulse 1.7s ease-in-out infinite; }
+.awt-control-shell :where([disabled], .disabled, [aria-disabled="true"]) { opacity: .48; cursor: not-allowed; filter: grayscale(.45); }
+.awt-control-shell :where(.success, .ok, [data-state="success"]) { border-color: rgba(125,255,186,.45); color: var(--awt-green); }
+.awt-control-shell :where(.danger, .error, [data-state="error"]) { border-color: rgba(255,108,145,.45); color: var(--awt-red); }
+.awt-control-shell :where(.warning, [data-state="warning"]) { border-color: rgba(255,215,127,.45); color: var(--awt-gold); }
+.awt-login-card:hover, .awt-workspace-stage:hover, .awt-dashboard:hover, .awt-control-side:hover {
+  box-shadow: var(--awt-shadow), 0 0 64px rgba(119,236,255,.09), inset 0 1px 0 rgba(255,255,255,.09);
+}

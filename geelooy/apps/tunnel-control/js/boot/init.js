@@ -5,6 +5,7 @@ import { $ } from "../lib/dom.js";
 import { log, error } from "../logger.js";
 import { state, rememberTunnelName, rememberProjectPath } from "../state/state.js";
 import { refreshLogin, refreshDevice } from "../features/status.js";
+import { devices } from "../api/control.js";
 import { loadConfig } from "../features/config.js";
 import { resolveSession } from "../session/sessionClient.js";
 import { showLoginGate } from "../session/loginGate.js";
@@ -21,6 +22,8 @@ import { createVirtualRuntime } from "../runtime/virtualRuntime.js";
 import { registerRuntime, restoreActiveRuntime } from "../runtime/runtimeRegistry.js";
 import { registerDiscoveredTunnelRuntimes } from "../runtime/tunnelRuntimeHydrator.js";
 import { mountCommandPalette } from "../platform/commandPalette.js";
+import { mountPointerField } from "../interactions/pointerField.js";
+import { mountCardTilt } from "../interactions/cardTilt.js";
  
 /**
  * B"H
@@ -79,9 +82,11 @@ function hydratePermissionClasses(tunnel) {
  * @param {object} localRuntime Local runtime.
  * @returns {object} Selected active runtime.
  */
-function hydrateRuntimeMesh(localRuntime) {
+function hydrateRuntimeMesh(localRuntime, discoveredRaw = null) {
   registerRuntime(localRuntime);
-  registerDiscoveredTunnelRuntimes(localRuntime.tunnel?.raw ? { ...localRuntime.tunnel.raw, tunnelName: localRuntime.tunnel.name } : localRuntime, localRuntime.authState);
+  const activeRaw = localRuntime.tunnel?.raw ? { ...localRuntime.tunnel.raw, tunnelName: localRuntime.tunnel.name } : localRuntime;
+  registerDiscoveredTunnelRuntimes(activeRaw, localRuntime.authState);
+  if (discoveredRaw) registerDiscoveredTunnelRuntimes({ ...activeRaw, raw: discoveredRaw }, localRuntime.authState);
   registerRuntime(createVirtualRuntime());
 
   const active = restoreActiveRuntime() || localRuntime;
@@ -124,7 +129,14 @@ export async function startTunnelControl() {
       workspaceMode: "runtime-os"
     });
 
-    const runtime = hydrateRuntimeMesh(localRuntime);
+    let discoveredDevices = null;
+    try {
+      discoveredDevices = await devices();
+    } catch (e) {
+      error("devices discovery failed", e);
+    }
+
+    const runtime = hydrateRuntimeMesh(localRuntime, discoveredDevices);
     window.awtsGetTunnelName = getTunnelName;
 
     wireInputs(getTunnelName);
@@ -133,6 +145,8 @@ export async function startTunnelControl() {
     renderPrompt(getTunnelName);
 
     mountShell({ session, runtime, getTunnelName, getProjectPath });
+    mountPointerField();
+    mountCardTilt();
 
     bindNavigationButtons();
     mountCommandPalette();

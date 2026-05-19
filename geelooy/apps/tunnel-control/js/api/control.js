@@ -66,6 +66,18 @@ export async function myDevice() {
 
 /**
  * B"H
+ * Lists every connected device/tunnel visible to the signed-in account.
+ *
+ * @returns {Promise<object>} Devices response.
+ */
+export async function devices() {
+  return await getJson("/api/tunnel/control/devices", {
+    credentials: "include"
+  });
+}
+
+/**
+ * B"H
  * Alias for clean active-device flow.
  *
  * @returns {Promise<object>} Active device response.

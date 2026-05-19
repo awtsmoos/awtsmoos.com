@@ -1,0 +1,69 @@
+/* B"H */
+.awt-control-shell :where(input, select, textarea), .awt-login-gate :where(input, select, textarea) {
+  width: 100%;
+  border: 1px solid rgba(166,218,255,.20);
+  border-radius: var(--awt-radius-2);
+  background: rgba(0, 6, 16, .52);
+  color: var(--awt-ink);
+  padding: 12px 14px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+  outline: none;
+  transition: border-color var(--awt-fast), box-shadow var(--awt-fast), background var(--awt-fast), transform var(--awt-fast);
+}
+.awt-control-shell textarea { min-height: 120px; resize: vertical; }
+.awt-control-shell :where(input, select, textarea):focus, .awt-login-gate :where(input, select, textarea):focus {
+  border-color: var(--awt-line-hot);
+  box-shadow: 0 0 0 4px rgba(119,236,255,.11), inset 0 1px 0 rgba(255,255,255,.08);
+  background: rgba(2, 13, 30, .72);
+}
+.awt-control-shell label { display: grid; gap: 7px; font-weight: 800; }
+.awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card),
+.awt-login-gate :where(button, .button-link), .button-link {
+  display: inline-grid;
+  place-items: center;
+  min-height: 44px;
+  border: 1px solid rgba(166,218,255,.24);
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: var(--awt-ink);
+  font-weight: 950;
+  background: linear-gradient(135deg, rgba(119,236,255,.18), rgba(188,149,255,.12)), rgba(255,255,255,.035);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 10px 24px rgba(0,0,0,.22);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--awt-fast), border-color var(--awt-fast), box-shadow var(--awt-fast), background var(--awt-fast), filter var(--awt-fast);
+}
+.awt-control-shell :where(.primary,button.primary), .awt-login-gate .awt-primary-link {
+  border-color: var(--awt-line-hot);
+  background: radial-gradient(circle at 30% 0%, rgba(255,255,255,.26), transparent 35%), linear-gradient(135deg, rgba(119,236,255,.34), rgba(188,149,255,.24));
+  box-shadow: 0 0 34px rgba(119,236,255,.18), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.awt-control-shell :where(.badge,.pill,kbd,.status-pill,.awt-badge) {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(166,218,255,.20);
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: rgba(255,255,255,.065);
+  color: var(--awt-muted);
+  font-size: .78rem;
+  font-weight: 850;
+}
+.awt-command-palette, .awt-control-shell :where(dialog,.modal,.root-dialog) {
+  color: var(--awt-ink);
+  border: 1px solid var(--awt-line-hot);
+  border-radius: var(--awt-radius-4);
+  background: rgba(4, 10, 22, .94);
+  box-shadow: var(--awt-shadow), 0 0 55px rgba(119,236,255,.14);
+  backdrop-filter: blur(24px) saturate(145%);
+}
+.awt-command-palette {
+  position: fixed;
+  z-index: 200;
+  inset: 9vh auto auto 50%;
+  transform: translateX(-50%);
+  width: min(780px, calc(100vw - 24px));
+  padding: 16px;
+}
+.awt-command-results { display: grid; gap: 9px; margin-top: 12px; }

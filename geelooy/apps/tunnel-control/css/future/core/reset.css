@@ -1,0 +1,44 @@
+/* B"H */
+*, *::before, *::after { box-sizing: border-box; }
+html { min-height: 100%; background: var(--awt-bg-0); text-size-adjust: 100%; }
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: var(--awt-font);
+  color: var(--awt-ink);
+  background:
+    radial-gradient(circle at 4% -8%, rgba(119,236,255,.22), transparent 34rem),
+    radial-gradient(circle at 97% 0%, rgba(188,149,255,.20), transparent 34rem),
+    radial-gradient(circle at 52% 116%, rgba(255,123,212,.12), transparent 38rem),
+    linear-gradient(135deg, var(--awt-bg-0), var(--awt-bg-1) 48%, #030714);
+}
+body::before, body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+body::before {
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(180,226,255,.062) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180,226,255,.05) 1px, transparent 1px),
+    radial-gradient(circle at var(--awt-pointer-x, 50%) var(--awt-pointer-y, 24%), rgba(119,236,255,.14), transparent 18rem);
+  background-size: 48px 48px, 48px 48px, auto;
+  mask-image: radial-gradient(circle at 50% 20%, black 0 58%, transparent 84%);
+}
+body::after {
+  z-index: -1;
+  opacity: .26;
+  mix-blend-mode: screen;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,.04) 0 1px, transparent 1px 5px);
+}
+button, input, select, textarea { font: inherit; }
+button { color: inherit; }
+a { color: var(--awt-cyan); text-decoration: none; }
+pre, code, kbd { font-family: var(--awt-mono); }
+pre, code { white-space: pre-wrap; overflow-wrap: anywhere; }
+img, svg, canvas { max-width: 100%; }
+::selection { background: rgba(119,236,255,.32); color: white; }
+:focus-visible { outline: 2px solid var(--awt-cyan); outline-offset: 4px; }

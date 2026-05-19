@@ -1,0 +1,35 @@
+/* B"H */
+@media (max-width: 1240px) {
+  .awt-control-shell { grid-template-columns: minmax(230px, 300px) minmax(0, 1fr); }
+  .awt-dashboard { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .awt-control-shell { grid-template-columns: 1fr; padding: 12px; }
+  .awt-control-side { position: relative; top: 0; max-height: none; border-radius: var(--awt-radius-4); }
+  .awt-side-tabs { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .awt-dashboard, .awt-workspace-stage, .awt-login-card { border-radius: var(--awt-radius-4); }
+  .awt-control-shell :where(.form-grid,.terminal-grid) { grid-template-columns: 1fr; }
+  .awt-control-shell :where(.span-12,.span-6,.span-5,.span-4,.span-3,.span-2) { grid-column: auto; }
+}
+@media (max-width: 620px) {
+  body::before { background-size: 36px 36px, 36px 36px, auto; }
+  .awt-control-shell, .awt-login-gate { padding: 10px; }
+  .awt-brand-block, .awt-runtime-switcher { padding: 13px; border-radius: var(--awt-radius-3); }
+  .awt-side-tabs { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .awt-nav-button strong { white-space: normal; line-height: 1.1; }
+  .awt-dashboard { padding: 16px; }
+  .awt-dashboard-copy h2, .awt-login-card h1 { font-size: clamp(2.35rem, 16vw, 4.6rem); }
+  .awt-dashboard-metrics, .awt-feature-dashboard-grid, .awt-mode-grid { grid-template-columns: 1fr; }
+  .awt-action-card { grid-template-columns: 1fr; min-height: 0; padding: 16px; border-radius: var(--awt-radius-3); }
+  .awt-workspace-toolbar { align-items: flex-start; flex-direction: column; }
+  .awt-control-shell :where([data-pane], .awt-pane-content) { padding: 14px; }
+  .awt-control-shell :where(.two-grid,.check-grid,.awt-mesh-graph,.chrome-grid,.docs-grid,.usage-grid,.explorer-grid) { grid-template-columns: 1fr; }
+  .awt-login-actions { align-items: stretch; flex-direction: column; }
+  .awt-login-actions > * { width: 100%; }
+  .awt-command-palette { top: 8px; width: calc(100vw - 16px); border-radius: var(--awt-radius-3); }
+}
+@media (max-width: 390px) {
+  .awt-side-tabs { grid-template-columns: 1fr; }
+  .awt-mini-kicker { letter-spacing: .12em; }
+  .awt-dashboard-copy h2, .awt-login-card h1 { letter-spacing: -.075em; }
+}

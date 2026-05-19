@@ -9,6 +9,8 @@ import { mountTerminal } from "../features/terminal.js";
 import { mountPrompt } from "../features/prompt.js";
 import { mountKeys } from "../features/keys.js";
 import { switchPane } from "./tabs.js";
+import { createLiveTunnelMesh } from "../platform/liveTunnelMesh.js";
+import { createLiveTunnelMesh } from "../platform/liveTunnelMesh.js";
 
 let configTimer = null;
 let loadingConfig = false;
@@ -56,6 +58,7 @@ export function mountAll() {
 
   refresh().then(autoLoadConfig);
   setInterval(refresh, 7000);
+  createLiveTunnelMesh({ readTunnel: tunnelName, onSnapshot: applyLiveTunnelSnapshot }).start();
 }
 
 function safe(name, fn) {
@@ -209,6 +212,22 @@ function applyConfig(config) {
   setChecked("toolChrome", tools.chrome !== false && tools.browser !== false);
 
   setText("miniKey", localStorage.getItem("awtTunnelApiKey") ? "Saved" : "Not needed");
+}
+
+function applyLiveTunnelSnapshot(snapshot) {
+  if (!snapshot || snapshot.ok === false) return;
+  const selected = (snapshot.devices || []).find(x => x.tunnelName === tunnelName()) || (snapshot.devices || [])[0];
+  if (selected?.tunnelName && !tunnelName()) $("tunnelName").value = selected.tunnelName;
+  if (selected?.tunnelName) setText("miniTunnel", selected.tunnelName);
+  if (selected) setText("miniAgent", selected.connected === false ? "Offline" : "Connected live");
+}
+
+function applyLiveTunnelSnapshot(snapshot) {
+  if (!snapshot || snapshot.ok === false) return;
+  const selected = (snapshot.devices || []).find(x => x.tunnelName === tunnelName()) || (snapshot.devices || [])[0];
+  if (selected?.tunnelName && !tunnelName()) $("tunnelName").value = selected.tunnelName;
+  if (selected?.tunnelName) setText("miniTunnel", selected.tunnelName);
+  if (selected) setText("miniAgent", selected.connected === false ? "Offline" : "Connected live");
 }
 
 function myDeviceUrl() {
