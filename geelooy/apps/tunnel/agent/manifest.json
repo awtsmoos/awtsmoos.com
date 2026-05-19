@@ -1,6 +1,6 @@
 {
   "BH": "B\"H",
-  "version": "1.5.0",
+  "version": "1.5.6",
   "entry": "main.js",
   "files": [
     {
@@ -145,18 +145,18 @@
     },
     {
       "path": "tools/fs/actionGroups/projectActions.js",
-      "bytes": 1319,
-      "sha256": "27dedb1c2efd4729ba0ec8164a04a3eb84dffd593675abda655b25cc77566177"
+      "bytes": 1973,
+      "sha256": "57e6eeae344af8ced26e436413030d99b2d46ca8e624d21ef342080581c64855"
     },
     {
       "path": "tools/fs/actionGroups/readActions.js",
-      "bytes": 3722,
-      "sha256": "9dc0850dbed15f449d54624bf9bfe96c9d4dae6fdd16bcd4847ae43443ccb2ae"
+      "bytes": 4580,
+      "sha256": "a4045700cca672399919b393e8afeea652e6ae4a038e776988002cfd077969d5"
     },
     {
       "path": "tools/fs/actionGroups/runtimeActions.js",
-      "bytes": 9023,
-      "sha256": "32bbeec5f55d9514ec12a9ab18026fd7d54104a6e81dc0af6b58426208bba6b5"
+      "bytes": 8978,
+      "sha256": "804e96ff9898bc3852119e4c60998d2d172fda2e2fb42f2a8f8d40238067844d"
     },
     {
       "path": "tools/fs/actionGroups/staticServerActions.js",
@@ -309,6 +309,11 @@
       "sha256": "e08aba80dba9b0a6aa59aad443f0e8befe847ccc2ccfefce498512a52c9cdde3"
     },
     {
+      "path": "tools/fs/projectValidation.js",
+      "bytes": 2680,
+      "sha256": "e76cfc04468662205188088314f2d05f4809d254899be867166cb5d204842b51"
+    },
+    {
       "path": "tools/fs/readWrite.js",
       "bytes": 5646,
       "sha256": "97a104eb00515f8dc170ef440e2ec3e27cd244f39e36a5fec5caef0f2fb826fd"
@@ -350,8 +355,8 @@
     },
     {
       "path": "tools/fs/semantic/merkavaParser.js",
-      "bytes": 1310,
-      "sha256": "736ed723f4da64da596f24635a6a29ef547d1d24f4bb67465a73738a6feae444"
+      "bytes": 4618,
+      "sha256": "2e1e9af05b4b8c7d37c21d7c17559c627174dc5ebeed46a9a640629c855d14b0"
     },
     {
       "path": "tools/fs/semantic/walk.js",
