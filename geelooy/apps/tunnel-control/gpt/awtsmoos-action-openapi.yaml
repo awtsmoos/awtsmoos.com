@@ -3,9 +3,10 @@ info:
   title: Awtsmoos Tunnel Control GPT Actions
   version: 4.4.0
   description: >
-    B"H. GET-only. Use base64 query params for large values. Long commands are bounded
-    to four minutes. Native file, HTTP, session, static-server, isolated-test, workflow,
-    and Chrome helpers reduce shell usage. Do not use POST.
+    B"H. GET-only. Use PLAIN TEXT ALMOST ALWAYS query params even for large values. only base64 in absolute emergency.
+    Long commands are bounded to four minutes. Native file, 
+    HTTP, session, static-server, isolated-test, workflow,
+    and Chrome helpers reduce shell usage. Do not use POST. Ever.
 servers:
   - url: https://awtsmoos.com
 paths:

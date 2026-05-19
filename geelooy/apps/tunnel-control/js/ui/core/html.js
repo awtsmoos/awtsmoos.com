@@ -15,7 +15,10 @@
 export function h(tag, options = {}) {
   const node = document.createElement(tag);
 
-  for (const cls of options.classes || []) node.classList.add(cls);
+  for (const cls of options.classes || []) {
+    const token = String(cls || "").trim();
+    if (token) node.classList.add(token);
+  }
 
   for (const [key, value] of Object.entries(options.attrs || {})) {
     if (value !== false && value !== null && value !== undefined) {
