@@ -43,6 +43,7 @@ function maybeExternalize(result, payload = {}) {
 
   const base = String(payload.controlBaseUrl || "").replace(/\/fs\/[^/]+$/, "");
   const contentUrl = `${base}/blob/${stored.id}`;
+  const viewUrl = `${contentUrl}/view`;
 
   return {
     BH: "B\"H",
@@ -50,6 +51,7 @@ function maybeExternalize(result, payload = {}) {
     action: payload.action,
     responseMode: "url",
     contentUrl,
+    viewUrl,
     expiresAt: stored.expiresAt,
     bytes: stored.bytes,
     sha256: stored.sha256,

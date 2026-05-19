@@ -16,6 +16,9 @@ const { docsJson } = require("./docsJson.js");
 const { bootstrap } = require("./bootstrap.js");
 const { osFs } = require("./osFs.js");
 const { blob } = require("./blob.js");
+const { blobView } = require("./blobView.js");
+const { blobManifest } = require("./blobManifest.js");
+const { blobManifest } = require("./blobManifest.js");
 
 const routeTable = {
   me,
@@ -42,6 +45,12 @@ const routeTable = {
   bootstrap,
   "bootstrap/": bootstrap,
 
+  "blob/:blobId/manifest": blobManifest,
+  "blob/:blobId/manifest/": blobManifest,
+  "blob/:blobId/manifest": blobManifest,
+  "blob/:blobId/manifest/": blobManifest,
+  "blob/:blobId/view": blobView,
+  "blob/:blobId/view/": blobView,
   "blob/:blobId": blob,
   "blob/:blobId/": blob,
 
