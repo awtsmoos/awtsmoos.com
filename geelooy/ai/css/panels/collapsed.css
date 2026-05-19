@@ -1,0 +1,62 @@
+/*B"H — collapsed rails cannot overlap: only one full-rail expander */
+.is-collapsed,
+.is-detached {
+  min-width: 62px !important;
+  width: auto !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+.is-collapsed > :not(.panel-topbar),
+.is-detached > :not(.panel-topbar) { display: none !important; }
+.is-collapsed .panel-topbar,
+.is-detached .panel-topbar {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 44px;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+  border-bottom: 0;
+  cursor: pointer;
+  outline: none;
+}
+.is-collapsed .panel-title,
+.is-detached .panel-title {
+  display: block;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: .8rem;
+  opacity: .9;
+}
+.is-collapsed .panel-actions,
+.is-detached .panel-actions {
+  grid-row: 2;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+}
+.is-collapsed .panel-actions button,
+.is-detached .panel-actions button {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+}
+.is-collapsed .panel-topbar:hover,
+.is-detached .panel-topbar:hover,
+.is-collapsed .panel-topbar:focus-visible,
+.is-detached .panel-topbar:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--ai-border-hot), 0 0 28px rgba(45, 212, 255, .18);
+}
+.is-detached {
+  position: relative !important;
+  z-index: auto !important;
+  resize: none !important;
+}

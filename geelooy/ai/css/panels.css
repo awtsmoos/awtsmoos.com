@@ -1,117 +1,12 @@
-/*B"H
-  Chapter 2b: The rails became instruments instead of bruises.
-  Titles dodge the floating opener; controls breathe in capsules; detached
-  panes remain bounded to the visible world even during violent resizing.
-*/
-.panel-topbar {
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 0 12px;
-  border-bottom: 1px solid var(--ai-border);
-  background:
-    linear-gradient(90deg, rgba(31,111,235,.34), rgba(47,240,160,.13)),
-    radial-gradient(circle at 0 0, rgba(126,212,255,.20), transparent 42%);
-  user-select: none;
-  cursor: grab;
-}
-.sidebar .panel-topbar { padding-left: 58px; }
-.panel-title {
-  font-weight: 950;
-  letter-spacing: .012em;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-shadow: 0 1px 16px rgba(126,212,255,.18);
-}
-.panel-actions {
-  display: inline-flex;
-  gap: 6px;
-  flex: 0 0 auto;
-  padding: 3px;
-  border-radius: 14px;
-  background: rgba(0,0,0,.16);
-}
-.panel-actions button {
-  width: 28px;
-  height: 28px;
-  border-radius: 10px;
-  border: 1px solid var(--ai-border);
-  background: rgba(2,8,16,.78);
-  color: var(--ai-text);
-  cursor: pointer;
-  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
-}
-.panel-actions button:hover {
-  transform: translateY(-1px);
-  border-color: var(--ai-border-hot);
-  background: rgba(10, 28, 48, .9);
-  box-shadow: 0 0 0 3px rgba(126,212,255,.08);
-}
-.is-collapsed {
-  min-width: 54px !important;
-  width: 54px !important;
-  max-width: 54px !important;
-  overflow: hidden !important;
-}
-.is-collapsed > :not(.panel-topbar) { display: none !important; }
-.is-collapsed .panel-topbar {
-  height: 100%;
-  min-height: 0;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 12px 6px;
-  border-bottom: 0;
-}
-.is-collapsed .panel-title {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  max-height: 210px;
-  white-space: nowrap;
-  font-size: .88rem;
-}
-.is-collapsed .panel-actions { flex-direction: column; }
-.is-detached {
-  position: fixed !important;
-  z-index: 60;
-  resize: both;
-  overflow: hidden;
-  max-width: calc(100vw - 16px);
-  max-height: calc(100dvh - 16px);
-  min-width: min(250px, calc(100vw - 22px));
-}
-.resize-bar {
-  min-width: 7px;
-  border-radius: 99px;
-  background: linear-gradient(180deg, transparent, rgba(126,212,255,.32), transparent);
-  cursor: col-resize;
-  opacity: .72;
-  transition: opacity .18s ease, background .18s ease, transform .18s ease;
-}
-.resize-bar:hover {
-  opacity: 1;
-  transform: scaleX(1.2);
-  background: linear-gradient(180deg, transparent, rgba(47,240,160,.46), transparent);
-}
-.composer-resizer {
-  height: 8px;
-  cursor: row-resize;
-  background: linear-gradient(90deg, transparent, rgba(126,212,255,.32), transparent);
-}
-.load-events {
-  border: 1px solid var(--ai-border);
-  border-radius: 10px;
-  background: rgba(3,8,14,.78);
-  color: var(--ai-muted);
-  padding: 7px 10px;
-  cursor: pointer;
-}
+/*B"H — panel modules */
+@import url("./panels/base.css");
+@import url("./panels/collapsed.css");
+@import url("./panels/resizers.css");
+@import url("./panels/windowing.css");
+
 @media (max-width: 940px) {
   .sidebar .panel-topbar { padding-left: 60px; }
-  .automation-panel .panel-topbar { padding-right: 12px; }
+  .automation-panel .panel-topbar { padding-right: 8px; }
 }
 @media (max-width: 680px) {
   .sidebar .panel-topbar { padding-left: 56px; }

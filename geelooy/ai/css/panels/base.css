@@ -1,0 +1,50 @@
+/*B"H — one panel, one clear control */
+.panel-topbar {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--ai-border);
+  background:
+    linear-gradient(90deg, rgba(31,111,235,.34), rgba(47,240,160,.13)),
+    radial-gradient(circle at 0 0, rgba(126,212,255,.20), transparent 42%);
+  user-select: none;
+  cursor: default;
+  overflow: hidden;
+}
+.panel-title {
+  font-weight: 950;
+  letter-spacing: .012em;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 16px rgba(126,212,255,.18);
+}
+.panel-actions {
+  display: inline-flex;
+  gap: 0;
+  flex: 0 0 auto;
+  padding: 0;
+  border-radius: 14px;
+  background: transparent;
+}
+.panel-actions button {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid var(--ai-border);
+  background: rgba(2,8,16,.88);
+  color: var(--ai-text);
+  cursor: pointer;
+  line-height: 1;
+  font-weight: 900;
+}
+.panel-actions button:hover {
+  transform: translateY(-1px);
+  border-color: var(--ai-border-hot);
+  background: rgba(10, 28, 48, .94);
+  box-shadow: 0 0 0 3px rgba(126,212,255,.08);
+}

@@ -74,8 +74,7 @@ ${prompt}
     }
 
     async loadConversation(conversationId) {
-      var convo = await getConversation(conversationId);
-      
+      return await this.getConversation(conversationId);
     }
 
     
@@ -106,8 +105,8 @@ ${prompt}
         async getAwtsmoosAudio(...args) {
           return self?.instance?.getAwtsmoosAudio(...args)
         },
-        async getConversationsFnc() {
-          return self.instance.getConversations({ limit: this.conversationLimit, offset: this.conversationOffset })
+        async getConversationsFnc({ limit = self.conversationLimit, offset = self.conversationOffset } = {}) {
+          return self.instance.getConversations({ limit, offset })
         },
         async getConversation(conversationId) {
           var convo = await self.instance.getConversation(conversationId);
@@ -146,8 +145,8 @@ ${prompt}
         async getAwtsmoosAudio(...args) {
           return null
         },
-        async getConversationsFnc(pageSize = 26, offset = 0) {
-          return await self.getConversations(pageSize, offset)
+        async getConversationsFnc({ limit = 26, offset = 0 } = {}) {
+          return await self.getConversations(limit, offset)
         },
         async getConversation(conversationId) {
             var convo = await self.getConversation(conversationId);

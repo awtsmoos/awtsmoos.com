@@ -1,0 +1,19 @@
+/*B"H*/
+.resize-bar {
+  min-width: 7px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, transparent, rgba(126,212,255,.32), transparent);
+  cursor: col-resize;
+  opacity: .72;
+  transition: opacity .18s ease, background .18s ease, transform .18s ease;
+}
+.resize-bar:hover {
+  opacity: 1;
+  transform: scaleX(1.2);
+  background: linear-gradient(180deg, transparent, rgba(47,240,160,.46), transparent);
+}
+.composer-resizer {
+  height: 6px;
+  cursor: row-resize;
+  background: linear-gradient(90deg, transparent, rgba(126,212,255,.24), transparent);
+}

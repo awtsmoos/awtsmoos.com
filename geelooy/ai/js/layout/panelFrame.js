@@ -1,46 +1,63 @@
 //B"H
-/** Adds one clean detach/collapse/drag frame to a panel vessel. */
+/**
+ * B"H — Adds one clean collapse frame to a panel vessel.
+ *
+ * Exactly one control per panel. The glyph changes direction with state:
+ * left open ⇤, left closed ⇥, right open ⇥, right closed ⇤.
+ */
 export function mountPanelFrame({ panel, name, title, store, onLayout }) {
   panel.dataset.panel = name;
   panel.querySelector(".panel-topbar")?.remove();
   panel.insertAdjacentHTML("afterbegin", `
-    <div class="panel-topbar" data-drag-handle>
+    <div class="panel-topbar" data-panel-rail tabindex="0" role="button" aria-label="Toggle ${title}">
       <span class="panel-title">${title}</span>
       <span class="panel-actions">
-        <button data-panel-action="collapse" title="Collapse / expand">◐</button>
-        <button data-panel-action="detach" title="Float / dock">⇱</button>
+        <button data-panel-action="toggle" title="Collapse / expand" aria-label="Collapse or expand ${title}"></button>
       </span>
     </div>`);
-  panel.querySelector("[data-panel-action='collapse']").onclick = () => toggleCollapsed(panel, name, store, onLayout);
-  panel.querySelector("[data-panel-action='detach']").onclick = () => toggleDetached(panel, name, store, onLayout);
-  wireDrag(panel, name, store, onLayout);
-}
 
-function toggleCollapsed(panel, name, store, onLayout) {
-  onLayout(store.save({ [name]: { collapsed: !panel.classList.contains("is-collapsed") } }));
-}
+  const rail = panel.querySelector("[data-panel-rail]");
+  const toggle = panel.querySelector("[data-panel-action='toggle']");
+  const sync = () => syncGlyph(panel, name, toggle);
+  sync();
+  new MutationObserver(sync).observe(panel, { attributes: true, attributeFilter: ["class"] });
 
-function toggleDetached(panel, name, store, onLayout) {
-  const detached = !panel.classList.contains("is-detached");
-  const box = panel.getBoundingClientRect();
-  onLayout(store.save({ [name]: { detached, collapsed: false, x: box.left, y: box.top, h: box.height, width: box.width } }));
-}
-
-function wireDrag(panel, name, store, onLayout) {
-  const handle = panel.querySelector("[data-drag-handle]");
-  handle.addEventListener("pointerdown", event => {
-    if (!panel.classList.contains("is-detached") || event.target.closest("button")) return;
-    const start = { x: event.clientX, y: event.clientY, box: panel.getBoundingClientRect() };
-    handle.setPointerCapture(event.pointerId);
-    handle.onpointermove = move => {
-      const x = Math.max(8, Math.min(innerWidth - 72, start.box.left + move.clientX - start.x));
-      const y = Math.max(8, Math.min(innerHeight - 72, start.box.top + move.clientY - start.y));
-      panel.style.left = `${x}px`; panel.style.top = `${y}px`;
-    };
-    handle.onpointerup = () => {
-      const box = panel.getBoundingClientRect();
-      onLayout(store.save({ [name]: { x: box.left, y: box.top, width: box.width, h: box.height } }));
-      handle.onpointermove = handle.onpointerup = null;
-    };
+  rail.addEventListener("click", event => {
+    const clickedButton = event.target.closest("[data-panel-action]");
+    if (isClosed(panel)) return expand(panel, name, store, onLayout);
+    if (clickedButton) return collapsePanel(name, store, onLayout);
   });
+
+  rail.addEventListener("keydown", event => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    if (isClosed(panel)) expand(panel, name, store, onLayout);
+    else collapsePanel(name, store, onLayout);
+  });
+
+  toggle.onclick = event => event.stopPropagation();
+  toggle.addEventListener("click", () => {
+    if (isClosed(panel)) expand(panel, name, store, onLayout);
+    else collapsePanel(name, store, onLayout);
+  });
+}
+
+function syncGlyph(panel, name, toggle) {
+  const closed = isClosed(panel);
+  const isRight = name === "automation";
+  toggle.textContent = isRight ? (closed ? "⇤" : "⇥") : (closed ? "⇥" : "⇤");
+}
+
+function isClosed(panel) {
+  return panel.classList.contains("is-collapsed") || panel.classList.contains("is-detached");
+}
+
+function collapsePanel(name, store, onLayout) {
+  onLayout(store.save({ [name]: { collapsed: true, detached: false } }));
+}
+
+function expand(panel, name, store, onLayout) {
+  panel.classList.remove("is-collapsed", "is-detached");
+  panel.style.left = panel.style.top = panel.style.height = panel.style.width = "";
+  onLayout(store.save({ [name]: { collapsed: false, detached: false } }));
 }

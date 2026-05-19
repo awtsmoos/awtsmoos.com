@@ -1,26 +1,24 @@
-/*B"H
-  Composer and controls: bounded, tactile, impossible to overlap.
-*/
+/*B"H — composer has reserved space; image controls never overlap input */
 .input-area {
   min-width: 0;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(82px, auto);
+  grid-template-columns: minmax(0, 1fr) 76px;
   align-items: stretch;
-  gap: 12px;
-  padding: 12px 14px 10px;
+  gap: 8px;
+  padding: 8px 10px;
   border-top: 1px solid var(--ai-border);
   background: linear-gradient(180deg, rgba(9, 18, 32, .82), rgba(2, 6, 13, .96));
+  overflow: hidden;
 }
 #message-input {
   min-width: 0;
   width: 100%;
   height: 100%;
   min-height: 54px;
-  max-height: 32vh;
   resize: none;
-  padding: 14px 15px;
-  border-radius: 18px;
+  padding: 11px 13px;
+  border-radius: 16px;
   border: 1px solid var(--ai-border);
   background: rgba(1, 6, 12, .88);
   color: var(--ai-text);
@@ -32,28 +30,19 @@
 #message-input:focus { border-color: var(--ai-border-hot); box-shadow: 0 0 0 3px rgba(126,212,255,.12), inset 0 1px 0 rgba(255,255,255,.06); }
 #send-button, .refresh-button, .new-chat, .transport-details button {
   border: 1px solid var(--ai-border-hot);
-  border-radius: 16px;
+  border-radius: 15px;
   background: linear-gradient(135deg, rgba(47,240,160,.94), rgba(31,111,235,.88));
   color: white;
-  padding: 12px 16px;
+  padding: 10px 13px;
   font-weight: 850;
   cursor: pointer;
   box-shadow: 0 12px 32px rgba(31,111,235,.22);
 }
-#send-button { align-self: stretch; min-width: 76px; }
+#send-button { align-self: stretch; min-width: 70px; }
 #send-button:hover, .refresh-button:hover, .new-chat:hover { filter: brightness(1.08); transform: translateY(-1px); }
 .refresh-button { width: calc(100% - 20px); margin: 5px 10px; }
-.service-selector {
-  display: grid;
-  gap: 8px;
-  margin: 12px 10px;
-  color: var(--ai-muted);
-}
-.service-selector label {
-  font-size: .75rem;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-}
+.service-selector { display: grid; gap: 8px; margin: 12px 10px; color: var(--ai-muted); }
+.service-selector label { font-size: .75rem; letter-spacing: .09em; text-transform: uppercase; }
 #ai-service-select, #chatgpt-mode-select {
   min-width: 0;
   width: 100%;
@@ -65,41 +54,44 @@
   outline: none;
 }
 #ai-service-select:focus, #chatgpt-mode-select:focus { border-color: var(--ai-border-hot); }
-.chatgpt-mode-wrap {
-  border: 1px solid rgba(115, 226, 255, .18);
-  border-radius: 18px;
-  padding: 10px;
-  background: rgba(63, 154, 255, .07);
-}
+.chatgpt-mode-wrap { border: 1px solid rgba(115, 226, 255, .18); border-radius: 18px; padding: 10px; background: rgba(63, 154, 255, .07); }
 .attachment-tools {
+  align-self: end;
+  justify-self: start;
+  z-index: 4;
+  transform: translate(12px, -8px);
   min-width: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 14px 12px;
-  background: rgba(2, 6, 13, .96);
+  gap: 7px;
+  max-width: min(70%, 520px);
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+  pointer-events: none;
 }
 .attach-button {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 5px;
   max-width: 100%;
-  padding: 9px 14px;
+  height: 26px;
+  padding: 0 10px;
   border-radius: 999px;
   border: 1px solid var(--ai-border);
   color: var(--ai-text);
   background: rgba(1, 6, 12, .86);
   cursor: pointer;
+  line-height: 1;
+  font-size: .86rem;
+  white-space: nowrap;
+  align-self: center;
+  pointer-events: auto;
 }
-.attachment-tray { min-width: 0; display: flex; flex-wrap: wrap; gap: 8px; overflow: auto; }
+.attachment-tray { min-width: 0; display: flex; flex-wrap: nowrap; gap: 6px; overflow-x: auto; overflow-y: hidden; max-height: 28px; }
 .automation-panel h2 { margin: 0 0 12px; font-size: 1.05rem; }
 .automation-field { display: grid; gap: 6px; margin: 0 0 12px; color: var(--ai-muted); }
-.automation-field input, .automation-field select {
-  width: 100%; padding: 10px; border-radius: 12px;
-  border: 1px solid var(--ai-border); background: rgba(3,8,14,.82); color: var(--ai-text);
-}
+.automation-field input, .automation-field select { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--ai-border); background: rgba(3,8,14,.82); color: var(--ai-text); }
 .automation-status { color: var(--ai-muted); font-size: .9rem; overflow-wrap: anywhere; }
-@media (max-width: 620px) {
-  .input-area { grid-template-columns: 1fr; }
-  #send-button { min-height: 48px; }
-}
+@media (max-width: 620px) { .input-area { grid-template-columns: 1fr; } #send-button { min-height: 42px; } }

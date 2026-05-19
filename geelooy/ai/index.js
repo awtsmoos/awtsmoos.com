@@ -36,6 +36,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   wireTransportStatus(dom);
 
   wireChrome({ dom, controller, aiHandler, pipeline, panel, attachments, sendFromText });
+  dom.conversationList.innerHTML = `<li class="is-loading">Loading conversations…</li>`;
+  dom.chatBox.innerHTML = `<div class="render-loading"><i></i><span>Preparing Awtsmoos cockpit…</span></div>`;
   await bootstrapFromUrl({ dom, aiHandler, controller });
 
   async function sendFromText(text = dom.messageInput.value) {
@@ -71,12 +73,18 @@ function collectDom() {
   };
 }
 function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText }) {
-  dom.toggleSidebar.onclick = () => dom.sidebar.classList.toggle("hidden");
+  if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.classList.toggle("hidden");
   dom.refreshButton.onclick = () => controller.refreshList(dom.conversationList);
   dom.newChat.onclick = () => { pipeline.reset(); controller.newConversation(); };
   dom.sendButton.onclick = () => sendFromText();
   dom.messageInput.addEventListener("keydown", event => {
-    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) sendFromText();
+    if (event.key !== "Enter") return;
+    const mobile = isMobileInputDevice();
+    const commandSend = event.ctrlKey || event.metaKey;
+    const desktopPlainSend = !mobile && !event.shiftKey && !event.altKey;
+    if (!commandSend && !desktopPlainSend) return;
+    event.preventDefault();
+    sendFromText();
   });
   dom.chatgptModeSelect.value = aiHandler.chatgptMode || "regular";
   syncChatGptModeChrome(dom);
@@ -95,10 +103,16 @@ function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText }) {
   };
 }
 
+function isMobileInputDevice() {
+  return matchMedia?.("(pointer: coarse)")?.matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
+}
+
 function syncChatGptModeChrome(dom) {
   const isChatGPT = dom.serviceSelect.value === "chatgpt";
   dom.chatgptModeWrap.hidden = !isChatGPT;
 }
+
+
 
 function wireTransportStatus(dom) {
   const el = dom.transportStatus;
@@ -141,4 +155,7 @@ async function bootstrapFromUrl({ dom, aiHandler, controller }) {
   const convo = getConversationId();
   if (convo) await controller.loadConversation(convo);
   await controller.refreshList(dom.conversationList);
+  if (!convo && dom.chatBox.textContent.includes("Preparing Awtsmoos cockpit")) {
+    dom.chatBox.innerHTML = `<div class="render-loading idle"><span>Select a conversation or start a new chat.</span></div>`;
+  }
 }
