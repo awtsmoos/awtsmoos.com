@@ -1,6 +1,6 @@
 {
   "BH": "B\"H",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "entry": "main.js",
   "files": [
     {
@@ -125,8 +125,8 @@
     },
     {
       "path": "tools/fs/actionGroups/fileOpsActions.js",
-      "bytes": 1045,
-      "sha256": "71a64e520dd0a563e87c6522a56c6c8da66875e2e646c4324bd82f357b2959b4"
+      "bytes": 1044,
+      "sha256": "3391476e3ff7eef4270db15cd5303d849ea433db7b06728a06ff58632ff88e86"
     },
     {
       "path": "tools/fs/actionGroups/httpActionsGroup.js",
