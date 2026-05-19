@@ -245,7 +245,12 @@ portManager.on("fetch", async (msg, port) => {
     const { id, url, options } = msg;
 
     try {
-        const response = await fetch(url, options);
+        const safeOptions = {
+            ...(options || {}),
+            credentials: options?.credentials || "include",
+            cache: options?.cache || "no-store"
+        };
+        const response = await fetch(url, safeOptions);
         const metadata = {
             status: response.status,
             ok: response.ok,
