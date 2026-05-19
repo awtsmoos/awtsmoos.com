@@ -1,13 +1,35 @@
-
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="Awtsmoos Tunnel Control connects ChatGPT to a local project through a secure browser session and active tunnel agent.">
   <title>Awtsmoos Tunnel Control</title>
   <link rel="stylesheet" href="./css/app.css">
-</head>
-<body>
   <script type="module" src="./js/app.js"></script>
+</head>
+<body class="awt-gated awt-preboot">
+  <section class="awt-login-gate" aria-labelledby="awt-preboot-title">
+    <div class="awt-login-card">
+      <div class="awt-mini-kicker">B&quot;H Tunnel Control</div>
+      <h1 id="awt-preboot-title">Awtsmoos Tunnel Control is opening</h1>
+      <p>
+        The panel is loading your secure browser session, then it will discover
+        the connected local tunnel and reveal the project workspace.
+      </p>
+      <div class="awt-login-actions" aria-label="Tunnel Control actions">
+        <a class="button-link primary awt-primary-link" href="/login">Login</a>
+        <a class="button-link" href="/api/tunnel/install/windows">Install Windows agent</a>
+        <a class="button-link" href="/api/tunnel/install/unix">Install Mac / Linux agent</a>
+      </div>
+      <noscript>
+        <p>
+          JavaScript is required for the live tunnel dashboard. Use the login or
+          installer links above, then return with JavaScript enabled.
+        </p>
+      </noscript>
+    </div>
+  </section>
 </body>
 </html>
