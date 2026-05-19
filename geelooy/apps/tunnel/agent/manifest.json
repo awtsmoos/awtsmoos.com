@@ -1,6 +1,6 @@
 {
   "BH": "B\"H",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "entry": "main.js",
   "files": [
     {
@@ -155,8 +155,8 @@
     },
     {
       "path": "tools/fs/actionGroups/runtimeActions.js",
-      "bytes": 8978,
-      "sha256": "804e96ff9898bc3852119e4c60998d2d172fda2e2fb42f2a8f8d40238067844d"
+      "bytes": 4895,
+      "sha256": "ea9a7de65c59cb14aa22e41753662ef2ac6772e70a3f10fe38cccec64daa7628"
     },
     {
       "path": "tools/fs/actionGroups/staticServerActions.js",
