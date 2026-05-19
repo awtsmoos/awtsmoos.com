@@ -15,10 +15,15 @@ const path = require("path");
  * @returns {string} YAML OpenAPI schema.
  */
 async function openApi($i) {
-  const yamlPath = path.resolve(
+  const generatedPath = path.resolve(
+    __dirname,
+    "../../../../apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml"
+  );
+  const checkedInPath = path.resolve(
     __dirname,
     "../../../../apps/tunnel-control/gpt/awtsmoos-action-openapi.yaml"
   );
+  const yamlPath = fs.existsSync(generatedPath) ? generatedPath : checkedInPath;
 
   $i.response.setHeader("Content-Type", "text/yaml; charset=utf-8");
   $i.response.setHeader("Cache-Control", "no-store");

@@ -1,5 +1,6 @@
 // B"H
 const { bodyJson } = require("./bodyPayload.js");
+const { flatQueryArray } = require("./indexedQueryArrays.js");
 
 const FOUR_MINUTES_MS = 240000;
 
@@ -86,6 +87,13 @@ function plainStructuredOr64($i, body, plainName, encodedName, fallback = null) 
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 
+function arrayWithIndexed($i, body, plainName, encodedName, fallback = [], options = {}) {
+  const existing = arrayBodyOr64($i, body, plainName, encodedName, null);
+  if (Array.isArray(existing)) return existing;
+  const indexed = flatQueryArray(queryMap($i), options);
+  return indexed.length ? indexed : fallback;
+}
+
 function boolFrom($i, body, name, fallback = false) {
   const got = boolValue(valueFrom($i, body, name, undefined));
   return got === undefined ? fallback : got;
@@ -118,7 +126,10 @@ function buildFsPayload($i) {
     action,
     path: p,
     absolutePath: valueFrom($i, body, "absolutePath", ""),
-    paths: plainStructuredOr64($i, body, "paths", "paths64", []),
+    paths: arrayWithIndexed($i, body, "paths", "paths64", [], {
+      prefixes: ["f", "file", "path", "paths"],
+      brackets: ["paths", "files"]
+    }),
     files: plainStructuredOr64($i, body, "files", "files64", null),
     writes: plainStructuredOr64($i, body, "writes", "writes64", null),
     edits: plainStructuredOr64($i, body, "edits", "edits64", []),
