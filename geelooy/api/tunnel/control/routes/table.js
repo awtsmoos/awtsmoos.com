@@ -18,6 +18,7 @@ const { osFs } = require("./osFs.js");
 const { blob } = require("./blob.js");
 const { blobView } = require("./blobView.js");
 const { blobManifest } = require("./blobManifest.js");
+const { handoff } = require("./handoff.js");
 
 const routeTable = {
   me,
@@ -44,8 +45,8 @@ const routeTable = {
   bootstrap,
   "bootstrap/": bootstrap,
 
-  "blob/:blobId/manifest": blobManifest,
-  "blob/:blobId/manifest/": blobManifest,
+  "handoff/:tunnelName": handoff,
+  "handoff/:tunnelName/": handoff,
   "blob/:blobId/manifest": blobManifest,
   "blob/:blobId/manifest/": blobManifest,
   "blob/:blobId/view": blobView,

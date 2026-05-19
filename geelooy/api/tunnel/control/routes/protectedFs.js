@@ -5,6 +5,7 @@ const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.j
 const { scopeAllowed, enforceApiKeyRate } = require("../core/apiKeyStore.js");
 const { recordUsage } = require("../core/usageStore.js");
 const { maybeExternalize } = require("../core/responseModes.js");
+const { publishHandoff } = require("../core/handoffStore.js");
 
 const FOUR_MINUTES_MS = 240000;
 
@@ -72,6 +73,7 @@ async function protectedFs($i, vars) {
   try {
     const requestTimeoutMs = boundedTunnelTimeout(payload.timeoutMs);
     const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload, requestTimeoutMs);
+    publishHandoff(vars.tunnelName, { action: payload.action, result });
     const shaped = maybeExternalize(result, payload);
     const bytes = responseBytes(shaped);
 
@@ -94,12 +96,14 @@ async function protectedFs($i, vars) {
       ok: false
     });
 
-    return json($i, {
+    const failure = {
       BH: "B\"H",
       ok: false,
       error: e.message,
       stack: e.stack
-    }, 500);
+    };
+    publishHandoff(vars.tunnelName, { action: payload.action, result: failure });
+    return json($i, failure, 500);
   }
 }
 
