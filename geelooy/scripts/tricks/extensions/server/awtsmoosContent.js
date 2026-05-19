@@ -1,5 +1,7 @@
 //B"H
 (function revealAwtsmoosServerContentBridge() {
+  console.log('B"H awtsmoosContent guarded bridge v2 loaded');
+  console.log('B"H awtsmoosContent guarded bridge v2 loaded');
   const bridgeKey = "__awtsmoosServerPortManager";
   const scriptKey = "__awtsmoosServerJectedInjected";
 
@@ -19,6 +21,7 @@
       this.maxQueue = 300;
       this.retryDelay = 250;
       this.maxRetryDelay = 5000;
+      this.deadContext = false;
       this.reconnectTimer = null;
       this.heartbeatTimer = null;
       this.boundPageListener = event => this.onPageMessage(event);
@@ -31,16 +34,38 @@
       globalThis.addEventListener?.("message", this.boundPageListener);
     }
 
-    connectSoon(delay = this.retryDelay) {
+    runtimeAvailable() {
+      try {
+        return Boolean(globalThis.chrome?.runtime?.id && globalThis.chrome?.runtime?.connect);
+      } catch (error) {
+        this.markDeadContext(error);
+        return false;
+      }
+    }
+
+    markDeadContext(error) {
+      const message = String(error?.message || error || "Extension context invalidated");
+      if (/context invalidated|extension context/i.test(message)) this.deadContext = true;
+      this.port = null;
       clearTimeout(this.reconnectTimer);
-      this.reconnectTimer = setTimeout(() => this.connect(), delay);
+      clearInterval(this.heartbeatTimer);
+      this.announce("server-context-invalidated", { error: message });
+    }
+
+    connectSoon(delay = this.retryDelay) {
+      if (this.deadContext) return;
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = setTimeout(() => {
+        if (!this.deadContext) this.connect();
+      }, delay);
     }
 
     connect() {
+      if (this.deadContext) return;
       this.epoch++;
       const epoch = this.epoch;
       try {
-        if (!chrome?.runtime?.id) throw new Error("Extension runtime is not available yet.");
+        if (!this.runtimeAvailable()) throw new Error("Extension runtime is not available yet.");
         this.port = chrome.runtime.connect({ name: this.id });
         this.port.onMessage.addListener(message => this.onMessageReceived(message));
         this.port.onDisconnect.addListener(() => this.onDisconnect(epoch));
@@ -50,7 +75,9 @@
         this.startHeartbeat();
       } catch (error) {
         this.port = null;
-        this.announce("server-reconnecting", { error: String(error?.message || error) });
+        const message = String(error?.message || error);
+        this.announce("server-reconnecting", { error: message });
+        if (/context invalidated|extension context/i.test(message)) return this.markDeadContext(error);
         this.retryDelay = Math.min(this.retryDelay * 1.6, this.maxRetryDelay);
         this.connectSoon(this.retryDelay);
       }
@@ -59,12 +86,15 @@
     startHeartbeat() {
       clearInterval(this.heartbeatTimer);
       this.heartbeatTimer = setInterval(() => {
+        if (this.deadContext) return clearInterval(this.heartbeatTimer);
         this.sendMessage({ action: "ping", id: "BH_HEARTBEAT_" + Date.now(), internal: true });
       }, 15000);
     }
 
     announce(type, extra = {}) {
-      window.postMessage({ from: "awtsmoos-content", type, epoch: this.epoch, ...extra }, "*");
+      try {
+        window.postMessage({ from: "awtsmoos-content", type, epoch: this.epoch, ...extra }, "*");
+      } catch {}
     }
 
     onPageMessage(event) {
@@ -75,24 +105,32 @@
     }
 
     onMessageReceived(message) {
+      this.announce("server-message", { lastAction: message?.action, id: message?.id });
       window.postMessage(message, "*");
     }
 
     sendMessage(message) {
+      if (this.deadContext) return this.queueMessage(message, "context invalidated");
       if (!this.port) return this.queueAndReconnect(message);
       try {
         this.port.postMessage(message);
       } catch (error) {
         this.port = null;
+        const text = String(error?.message || error);
+        if (/context invalidated|extension context/i.test(text)) return this.markDeadContext(error);
         this.queueAndReconnect(message, error);
       }
     }
 
-    queueAndReconnect(message, error) {
+    queueMessage(message) {
       if (message && !message.internal) {
         this.queue.push(message);
         if (this.queue.length > this.maxQueue) this.queue.shift();
       }
+    }
+
+    queueAndReconnect(message, error) {
+      this.queueMessage(message);
       this.announce("server-reconnecting", { error: String(error?.message || error || "closed") });
       this.connectSoon();
     }
@@ -106,6 +144,7 @@
       if (epoch !== this.epoch) return;
       this.port = null;
       clearInterval(this.heartbeatTimer);
+      if (this.deadContext) return;
       this.announce("server-disconnected");
       this.retryDelay = Math.min(this.retryDelay * 1.6, this.maxRetryDelay);
       this.connectSoon(this.retryDelay);
@@ -116,9 +155,15 @@
 
   if (!globalThis[scriptKey]) {
     globalThis[scriptKey] = true;
-    const script = document.createElement("script");
-    script.src = chrome.runtime.getURL("./jected.js") + "?v=" + Date.now();
-    script.onload = () => script.remove();
-    (document.head || document.documentElement).appendChild(script);
+    try {
+      if (globalThis.chrome?.runtime?.getURL) {
+        const script = document.createElement("script");
+        script.src = chrome.runtime.getURL("./jected.js") + "?v=" + Date.now();
+        script.onload = () => script.remove();
+        (document.head || document.documentElement).appendChild(script);
+      }
+    } catch (error) {
+      globalThis[bridgeKey]?.markDeadContext?.(error);
+    }
   }
 })();

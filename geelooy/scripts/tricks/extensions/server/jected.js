@@ -62,7 +62,7 @@
       function cleanup(after) { clearTimeout(timeout); window.removeEventListener("message", onMessage); after?.(); }
       function onMessage(event) {
         if (event.data?.from === "background" && event.data.id === id) {
-          cleanup(() => event.data.error ? reject(new Error(event.data.error)) : resolve(event.data.result ?? event.data.metadata));
+          cleanup(() => event.data.error ? reject(new Error(event.data.error)) : resolve(Object.prototype.hasOwnProperty.call(event.data, "result") ? event.data.result : event.data.metadata));
         }
       }
       window.addEventListener("message", onMessage);

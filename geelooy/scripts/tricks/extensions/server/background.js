@@ -10,7 +10,7 @@ chrome.webNavigation.onCompleted.addListener(async details => {
     });
 });
 
-class ChromePortManager {
+const ChromePortManager = globalThis.ChromePortManager || class ChromePortManager {
   constructor() {
     this.ports = {}; // Store active ports
     this.events = {}; // Store event listeners
@@ -154,10 +154,13 @@ class ChromePortManager {
       this.onPortDisconnect(port);
     });
   }
-}
+};
+
+globalThis.ChromePortManager = ChromePortManager;
 
 // Instantiate the class
-const portManager = new ChromePortManager();
+const portManager = globalThis.__awtsmoosPortManager || new ChromePortManager();
+globalThis.__awtsmoosPortManager = portManager;
 
 portManager.on("ping", async (msg, p) => {
 	portManager.reply(p, {
@@ -259,12 +262,11 @@ portManager.on("fetch", async (msg, port) => {
             redirected: response.redirected,
         };
 		var parst = new URL(url)
-		var cooks = await getCookieString(parst.host)
-		metadata.headers["Cookie"] = cooks?.string;
-		metadata.cookies = cooks;
+		var cooks = await getCookieString(parst.hostname)
+		metadata.cookies = { count: cooks?.cookies?.length || 0 };
 
         const bodyReader = response.body?.getReader();
-        activeResponses.set(id, { reader: bodyReader });
+        activeResponses.set(id, { reader: bodyReader, empty: !bodyReader });
 
         portManager.reply(port, { metadata, id });
     } catch (error) {
@@ -281,7 +283,12 @@ portManager.on("fetch-body", async (msg, port) => {
             throw new Error("Response not found or already consumed.");
         }
 
-        const { reader } = active;
+        const { reader, empty } = active;
+        if (empty || !reader) {
+            activeResponses.delete(id);
+            portManager.reply(port, { result: bodyAction === "read" ? null : "", id });
+            return;
+        }
 
         if (
 			bodyAction === "text" || 
