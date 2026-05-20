@@ -1,181 +1,185 @@
-/* B"H - INSANE MARGINALIA AESTHETICS 
-   Every commentary is a spark from the original Flame, refreshing the text.
-   This file commands the appearance of the 'Inline' commentaries.
+/* B"H - INSANE MARGINALIA AESTHETICS
+   Chapter One: the Awtsmoos breathes a margin into being, not one pixel too early,
+   not one verse too far, but beside the exact letters whose fire summoned it.
 */
 
-.post-reader-localized-context .marginal-gloss-shelter {
-    margin: 1.5rem 0 2rem 1.5rem !important;
-    padding-left: 1.5rem !important;
-    border-left: 8px solid var(--color-accent) !important;
-    background: rgba(0,0,0,0.02) !important;
-    box-shadow: inset 10px 0 20px -10px rgba(0,0,0,0.1) !important;
-    position: relative !important;
-    border-radius: 0 8px 8px 0 !important;
-    display: flex;
-    flex-direction: column;
-    clear: both; /* Ensure it drops below floated text if any */
+.post-reader-localized-context .section,
+.post-reader-localized-context .sub-awtsmoos,
+.post-reader-localized-context .toichen {
+    scroll-margin-top: clamp(7rem, 16vh, 12rem) !important;
 }
 
-/* The Connector Line */
+.post-reader-localized-context .marginal-gloss-shelter {
+    margin: clamp(0.85rem, 2vw, 1.35rem) 0 clamp(1.1rem, 3vw, 2rem) clamp(0.75rem, 2vw, 1.25rem) !important;
+    padding: clamp(0.75rem, 2vw, 1.15rem) !important;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent) !important;
+    border-left: 5px solid var(--color-accent) !important;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(0,0,0,0.025)) !important;
+    box-shadow: 0 14px 34px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.72) !important;
+    position: relative !important;
+    border-radius: 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    clear: both !important;
+}
+
 .post-reader-localized-context .marginal-gloss-shelter::before {
-    content: "↳" !important;
+    content: "" !important;
     position: absolute !important;
-    left: -28px !important;
-    top: -20px !important;
-    font-size: 28px !important;
-    color: var(--color-accent) !important;
-    font-family: var(--font-ui) !important;
-    font-weight: 900 !important;
+    left: -10px !important;
+    top: 1.1rem !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 999px !important;
+    background: var(--color-accent) !important;
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 18%, transparent) !important;
 }
 
 .post-reader-localized-context .heb .marginal-gloss-shelter {
-    margin: 1.5rem 1.5rem 2rem 0 !important;
-    border-left: none !important;
-    border-right: 8px solid var(--color-accent) !important;
-    padding-left: 0 !important;
-    padding-right: 1.5rem !important;
-    box-shadow: inset -10px 0 20px -10px rgba(0,0,0,0.1) !important;
-    border-radius: 8px 0 0 8px !important;
+    margin-left: 0 !important;
+    margin-right: clamp(0.75rem, 2vw, 1.25rem) !important;
+    border-left: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent) !important;
+    border-right: 5px solid var(--color-accent) !important;
 }
 
 .post-reader-localized-context .heb .marginal-gloss-shelter::before {
     left: auto !important;
-    right: -28px !important;
-    transform: scaleX(-1) !important; 
+    right: -10px !important;
 }
 
 .post-reader-localized-context .comments-holder-inline {
     display: flex !important;
     flex-direction: column !important;
-    gap: 1.5rem !important;
+    gap: clamp(0.75rem, 2vw, 1.15rem) !important;
     width: 100% !important;
-    margin-top: 1rem !important;
+    margin-top: 0.85rem !important;
 }
 
-/* INSANE INLINE COMMENT CARD */
 .post-reader-localized-context .inline-comment {
-    border: 4px solid var(--color-ink) !important;
-    box-shadow: 8px 8px 0 var(--color-primary) !important;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,0.11) !important;
     background: var(--bg-surface) !important;
-    margin-bottom: 1rem !important;
-    width: 100% !important; 
-    max-width: 900px !important; 
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: min(100%, 860px) !important;
     position: relative !important;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease !important;
     display: block !important;
-    border-radius: 0 !important;
-    /* B"H - Anchor the Root Size */
-    font-size: var(--post-text-size, 24px) !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    font-size: clamp(1rem, calc(var(--post-text-size, 22px) * 0.74), 1.25rem) !important;
 }
 
 .post-reader-localized-context .inline-comment:hover {
-    border-color: var(--color-electric) !important;
-    box-shadow: 12px 12px 0 var(--color-electric) !important;
-    transform: translate(-3px, -3px) !important;
+    border-color: color-mix(in srgb, var(--color-accent) 70%, var(--color-ink)) !important;
+    box-shadow: 0 20px 48px rgba(0,0,0,0.15) !important;
+    transform: translateY(-2px) !important;
 }
 
 .post-reader-localized-context .inline-comment .comment-body-vessel {
-    padding: 20px !important;
+    padding: clamp(0.85rem, 2.5vw, 1.35rem) !important;
 }
 
-/* B"H - SCALED INLINE TEXT: Targeting the Paragraph AND its inner <p> tags absolutely! */
 .post-reader-localized-context .inline-comment .awtsmoos-comment-paragraph,
 .post-reader-localized-context .inline-comment .awtsmoos-comment-paragraph p,
 .post-reader-localized-context .inline-comment .awtsmoos-comment-paragraph span,
 .post-reader-localized-context .inline-comment .comment-text,
 .post-reader-localized-context .inline-comment .comment-text p {
-    font-size: calc(var(--post-text-size) * 1.1) !important; 
-    line-height: 1.6 !important;
+    font-size: inherit !important;
+    line-height: 1.65 !important;
     color: var(--color-ink) !important;
     font-family: var(--font-content) !important;
-    font-weight: 700 !important; 
-    margin: 0 0 10px 0 !important; /* Provide breathing room between inner paragraphs */
+    font-weight: 500 !important;
+    margin: 0 0 0.65rem 0 !important;
     text-transform: none !important;
     word-break: break-word !important;
-    overflow-wrap: break-word !important;
+    overflow-wrap: anywhere !important;
 }
 
 .post-reader-localized-context .inline-comment .awtsmoos-comment-paragraph p:last-child {
     margin-bottom: 0 !important;
 }
 
-/* Inline Title Override */
 .post-reader-localized-context .inline-comment .commentTitle {
-    background: var(--color-ink) !important;
-    color: var(--color-accent) !important;
-    font-size: calc(var(--post-text-size) * 0.9) !important; 
-    padding: 12px 20px !important;
-    border-bottom: 4px solid var(--color-primary) !important;
-    letter-spacing: 1px !important;
-    font-weight: 900 !important;
-    text-transform: none !important; 
+    background: linear-gradient(135deg, var(--color-ink), color-mix(in srgb, var(--color-ink) 82%, var(--color-primary))) !important;
+    color: var(--bg-surface) !important;
+    font-size: clamp(0.95rem, calc(var(--post-text-size, 22px) * 0.62), 1.1rem) !important;
+    padding: 0.8rem 2.8rem 0.8rem 1rem !important;
+    border-bottom: 3px solid var(--color-accent) !important;
+    letter-spacing: 0 !important;
+    font-weight: 800 !important;
+    text-transform: none !important;
     word-break: break-word !important;
-    overflow-wrap: break-word !important;
+    overflow-wrap: anywhere !important;
 }
 
-/* Guardian Gateway Button - SCALED DOWN */
 .post-reader-localized-context .commentator.inline-holder .inline-summary-btn {
-    background: var(--color-ink) !important;
-    color: var(--bg-surface) !important;
-    font-size: 14px !important; /* Absolute size for UI control */
-    padding: 10px 20px !important;
-    border: 3px solid var(--color-accent) !important;
-    box-shadow: 4px 4px 0 var(--color-ink) !important;
-    text-transform: none !important; 
-    font-weight: 900 !important;
+    background: var(--bg-surface) !important;
+    color: var(--color-ink) !important;
+    font-size: clamp(0.82rem, 1.8vw, 0.95rem) !important;
+    padding: 0.65rem 0.95rem !important;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent) !important;
+    border-radius: 999px !important;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.1) !important;
+    text-transform: none !important;
+    font-weight: 800 !important;
     cursor: pointer !important;
     font-family: var(--font-heading) !important;
-    transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1) !important;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
 }
 
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn:hover {
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 7px 7px 0 var(--color-primary) !important;
-    background: var(--color-accent) !important;
-    color: var(--color-ink) !important;
-    border-color: var(--color-ink) !important;
-}
-
+.post-reader-localized-context .commentator.inline-holder .inline-summary-btn:hover,
 .post-reader-localized-context .commentator.inline-holder .inline-summary-btn.active {
-    background: var(--color-primary) !important;
-    color: white !important;
-    border-color: var(--color-ink) !important;
-    box-shadow: 2px 2px 0 var(--color-ink) !important;
-    transform: translate(2px, 2px) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.14) !important;
+    background: var(--color-ink) !important;
+    color: var(--bg-surface) !important;
 }
 
-/* Pop-out trigger icon */
 .post-reader-localized-context .inline-comment .focus-trigger {
     position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    width: 36px !important;
-    height: 36px !important;
-    border-left: 4px solid var(--color-ink) !important;
-    border-bottom: 4px solid var(--color-ink) !important;
-    color: var(--color-ink) !important;
-    background: var(--color-accent) !important;
+    top: 0.55rem !important;
+    right: 0.55rem !important;
+    width: 2rem !important;
+    height: 2rem !important;
+    border: 1px solid rgba(255,255,255,0.35) !important;
+    border-radius: 999px !important;
+    color: var(--bg-surface) !important;
+    background: rgba(255,255,255,0.16) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    font-size: 18px !important;
+    font-size: 1rem !important;
     font-weight: 900 !important;
-    transition: all 0.2s !important;
+    transition: all 0.18s ease !important;
     z-index: 5 !important;
 }
 
 .post-reader-localized-context .heb .inline-comment .focus-trigger {
-    left: 0 !important;
+    left: 0.55rem !important;
     right: auto !important;
-    border-left: none !important;
-    border-right: 4px solid var(--color-ink) !important;
 }
 
 .post-reader-localized-context .inline-comment .focus-trigger:hover {
-    background: var(--color-ink) !important;
-    color: var(--color-accent) !important;
+    background: var(--color-accent) !important;
+    color: var(--color-ink) !important;
+}
+
+@media (max-width: 720px) {
+    .post-reader-localized-context .marginal-gloss-shelter,
+    .post-reader-localized-context .heb .marginal-gloss-shelter {
+        margin-inline: 0 !important;
+        padding: 0.75rem !important;
+        border-left-width: 3px !important;
+        border-right-width: 3px !important;
+        border-radius: 14px !important;
+    }
+
+    .post-reader-localized-context .inline-comment .commentTitle {
+        padding-inline-end: 2.5rem !important;
+    }
 }

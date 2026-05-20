@@ -9,8 +9,12 @@
     width: 100%;
     overflow: hidden;
     background: var(--bg-surface);
-    /* B"H - Absolute Box Sizing for structural integrity */
-    * { box-sizing: border-box; }
+}
+
+/* B"H - Scoped box sizing: no naked universal selector is allowed to leak into the world. */
+.post-reader-localized-context .awtsmoos-sidebar-shell,
+.post-reader-localized-context .awtsmoos-sidebar-shell :where(div, section, article, header, footer, nav, aside, button, input, textarea, select, label, span) {
+    box-sizing: border-box;
 }
 
 /* 2. CHROME HEADER (The Crown) */
@@ -108,9 +112,11 @@
     opacity: 0;
 }
 
-/* PADDING WITHIN VIEWS */
-.awtsmoos-view-content, .keepers-container, .keepers-assembly {
-    padding: 1.25rem;
+/* PADDING WITHIN VIEWS — scoped under the reader vessel only. */
+.post-reader-localized-context .awtsmoos-view-content,
+.post-reader-localized-context .keepers-container,
+.post-reader-localized-context .keepers-assembly {
+    padding: clamp(0.85rem, 2.6vw, 1.25rem);
 }
 
 /* 5. FULLSCREEN MODE OVERRIDE */

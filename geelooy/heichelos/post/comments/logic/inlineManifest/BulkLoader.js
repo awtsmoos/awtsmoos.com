@@ -172,7 +172,8 @@ export async function loadAllCommentsForAlias(alias, context) {
                         // B"H - Assign a deterministic ID if the API did not provide one.
                         // This guarantees the SparkFixer has a physical ID to anchor to in the DOM.
                         const trueId = spark.id || spark.commentId || spark.postId;
-                        const generatedId = trueId || `awtsmoos-${generateSparkHash(JSON.stringify(spark.content || ""))}-${spark.dayuh?.verseSection || "root"}`;
+                        const verseKey = spark.dayuh?.verseSection ?? "root";
+                        const generatedId = trueId || `awtsmoos-${generateSparkHash(JSON.stringify(spark.content || ""))}-${verseKey}`;
                         
                         spark.id = generatedId; // Mutate the object to ensure the ID is manifest
 
