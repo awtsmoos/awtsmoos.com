@@ -4,6 +4,7 @@ const { sp } = require("../../../../social/helper/_awtsmoos.constants.js");
 const { cleanPath, dbPath, splitPath } = require("./path.js");
 const { aliasOwned } = require("./aliases.js");
 const { readWhole } = require("./listRead.js");
+const { syntaxAfterWrite } = require("./syntaxAfterWrite.js");
 
 function sha256(text) {
   return crypto.createHash("sha256").update(String(text ?? ""), "utf8").digest("hex");
@@ -30,7 +31,8 @@ async function writeFile($i, userId, payload) {
   const absolutePath = dbPath(sp, got.parsed.aliasId, got.parsed.innerPath);
   const wr = await $i.db.write(absolutePath, payload.content ?? "");
   broadcast($i, { type: "AWTSMOOS_OS_CHANGED", action: payload.action || "write", aliasId: got.parsed.aliasId, path: cleanPath(payload.path || "."), at: Date.now() });
-  return { ok: true, action: payload.action || "write", path: cleanPath(payload.path || "."), absolutePath, wr };
+  const syntax = syntaxAfterWrite(absolutePath);
+  return { ok: true, action: payload.action || "write", path: cleanPath(payload.path || "."), absolutePath, wr, ...(syntax ? { syntax } : {}) };
 }
 
 async function makeFolder($i, userId, payload) {

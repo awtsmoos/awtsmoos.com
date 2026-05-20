@@ -4,9 +4,14 @@ const { cleanPath } = require("./path.js");
 const { listFolder, readFile } = require("./listRead.js");
 const { writeFile, makeFolder, deletePath, writeIfHash } = require("./writeOps.js");
 const { bulk, bulkWrite, bulkWriteIfHashes, fileHashes, tree } = require("./bulkSearch.js");
-const { astOutline, semanticSearch } = require("./semantic.js");
+const { semanticSearch } = require("./semantic.js");
+const { astOutline, astEdit } = require("./astTools.js");
 const { replaceRange, applyPatch } = require("./patchOps.js");
 const { dependencyGraph, connectedFiles } = require("./graph.js");
+const { checkAiRender, checkTunnelSurface, checkAwtsmoosAi } = require("./nativeChecks.js");
+const { textSearch } = require("./textSearch.js");
+const { runActionBatch } = require("./actionBatch.js");
+const { testMatrix, bundleTrace, dependencyCycleCheck, deadExportScan, mutationPatchTest, browserReplay, apiContractCheck, perfBudgetCheck } = require("./qualityActions.js");
 
 function json64(value, fallback) {
   if (!value) return fallback;
@@ -100,12 +105,22 @@ async function dispatchOsFs($i, userId, payload) {
     deleteTree: () => deletePath($i, userId, payload),
 
     bulk: () => bulk($i, userId, payload),
+    grep: () => textSearch($i, userId, payload),
+    rg: () => textSearch($i, userId, payload),
+    bulkSearch: () => textSearch($i, userId, payload),
+    selectString: () => textSearch($i, userId, payload),
+    selectStringFile: () => textSearch($i, userId, { ...payload, path: payload.path || payload.p }),
+    find: () => textSearch($i, userId, payload),
     bulkWrite: () => bulkWrite($i, userId, payload),
     writeIfHash: () => writeIfHash($i, userId, payload),
     bulkWriteIfHashes: () => bulkWriteIfHashes($i, userId, payload),
     fileHashes: () => fileHashes($i, userId, payload),
 
     astOutline: () => astOutline($i, userId, payload),
+    replaceFunction: () => astEdit($i, userId, payload),
+    replaceFunctionBody: () => astEdit($i, userId, payload),
+    insertBeforeFunction: () => astEdit($i, userId, payload),
+    insertAfterFunction: () => astEdit($i, userId, payload),
     semanticSearch: () => semanticSearch($i, userId, payload),
     dependencyGraph: () => dependencyGraph($i, userId, payload),
     connectedFiles: () => connectedFiles($i, userId, payload),
@@ -113,11 +128,39 @@ async function dispatchOsFs($i, userId, payload) {
     applyPatch: () => applyPatch($i, userId, payload),
 
     simulateRuntime: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
+    testMatrix: () => testMatrix($i, userId, payload, next => dispatchOsFs($i, userId, next)),
+    bundleTrace: () => bundleTrace($i, userId, payload),
+    dependencyCycleCheck: () => dependencyCycleCheck($i, userId, payload),
+    deadExportScan: () => deadExportScan($i, userId, payload),
+    mutationPatchTest: () => mutationPatchTest($i, userId, payload, next => dispatchOsFs($i, userId, next)),
+    browserReplay: () => browserReplay($i, userId, payload),
+    apiContractCheck: () => apiContractCheck($i, userId, payload),
+    perfBudgetCheck: () => perfBudgetCheck($i, userId, payload, next => dispatchOsFs($i, userId, next)),
+    testMatrix: () => testMatrix($i, userId, payload, next => dispatchOsFs($i, userId, next)),
+    bundleTrace: () => bundleTrace($i, userId, payload),
+    dependencyCycleCheck: () => dependencyCycleCheck($i, userId, payload),
+    deadExportScan: () => deadExportScan($i, userId, payload),
+    mutationPatchTest: () => mutationPatchTest($i, userId, payload, next => dispatchOsFs($i, userId, next)),
+    browserReplay: () => browserReplay($i, userId, payload),
+    apiContractCheck: () => apiContractCheck($i, userId, payload),
+    perfBudgetCheck: () => perfBudgetCheck($i, userId, payload, next => dispatchOsFs($i, userId, next)),
+    actionBatch: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
+    workflowRun: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
+    commandBatch: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
+    aiCommandBatch: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
     runtimeWorkflow: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
     merkavaWorkflowRun: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
     aiWorkflowRun: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
-    aiCommandBatch: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
-    testRuntimeOnce: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload))
+    testRuntimeOnce: () => loadMerkavaService().simulateRuntime(runtimeOptions(payload)),
+    checkAiRender: () => checkAiRender(process.cwd()),
+    checkTunnelSurface: () => checkTunnelSurface(process.cwd()),
+    checkAwtsmoosAi: () => checkAwtsmoosAi(process.cwd()),
+    nodeEval: () => loadMerkavaService().simulateRuntime({
+      runtime: payload.runtime || "node",
+      engine: payload.engine || "node",
+      entry: payload.entry || "inline-eval.js",
+      files: { "inline-eval.js": String(payload.script || payload.expression || payload.text || "") }
+    })
   };
 
   const fn = actions[action];
