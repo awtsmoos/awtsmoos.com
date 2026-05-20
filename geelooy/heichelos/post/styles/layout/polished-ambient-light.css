@@ -1,0 +1,23 @@
+/* B"H
+   Chapter 15: A nearly invisible moving light reminds the reader that the
+   chamber is alive.
+*/
+
+@keyframes awtsmoosAmbientFloat {
+    0% { transform: translate3d(-2%, 0, 0); }
+    50% { transform: translate3d(2%, -1%, 0); }
+    100% { transform: translate3d(-2%, 0, 0); }
+}
+
+.post-reader-localized-context::before {
+    content: "" !important;
+    position: fixed !important;
+    inset: -20vh -10vw !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    opacity: 0.42 !important;
+    background:
+        radial-gradient(circle at 22% 18%, rgba(255,214,106,0.10), transparent 24%),
+        radial-gradient(circle at 78% 34%, rgba(110,18,55,0.07), transparent 28%) !important;
+    animation: awtsmoosAmbientFloat 22s ease-in-out infinite !important;
+}

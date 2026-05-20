@@ -11,6 +11,8 @@
 @import url("./tokens/physics.css");
 @import url("./tokens/z-index.css");
 @import url("./tokens/spacing.css");
+@import url("./tokens/polished-codex-vars.css");
+@import url("./tokens/polished-codex-vars.css");
 
 /* 2. THE RESET (Returning to the Void) */
 @import url("./reset/base.css");
@@ -21,10 +23,28 @@
 @import url("./layout/sidebar.css");
 @import url("./layout/sidebar-breadcrumbs.css"); 
 @import url("./layout/resizer.css"); 
+@import url("./layout/polished-shell.css");
+@import url("./layout/polished-sidebar.css");
+@import url("./layout/polished-resizer.css");
+@import url("./layout/polished-desktop-rhythm.css");
+@import url("./layout/polished-ambient-light.css");
+@import url("./layout/polished-sidebar-depth.css");
+@import url("./layout/polished-mobile-drawer.css");
+@import url("./layout/polished-mobile-drawer.css");
+@import url("./layout/polished-sidebar-depth.css");
+@import url("./layout/polished-ambient-light.css");
+@import url("./layout/polished-resizer.css");
+@import url("./layout/polished-desktop-rhythm.css");
+@import url("./layout/polished-shell.css");
+@import url("./layout/polished-sidebar.css");
 
 /* 4. THE COMPONENTS (Vessels of Interaction) */
 @import url("./components/buttons.css");
 @import url("./components/inputs.css");
+@import url("./components/polished-inputs.css");
+@import url("./components/polished-action-surfaces.css");
+@import url("./components/polished-inputs.css");
+@import url("./components/polished-action-surfaces.css");
 @import url("./components/cards.css");
 @import url("./components/verse-menu.css"); 
 @import url("./components/floating-orbs.css"); 
@@ -33,6 +53,12 @@
 @import url("./modules/settings.css");
 @import url("./modules/header.css");
 @import url("./modules/sidebar-chrome.css");
+@import url("./modules/polished-sidebar-controls.css");
+@import url("./modules/polished-tab-atmosphere.css");
+@import url("./modules/polished-panel-surfaces.css");
+@import url("./modules/polished-panel-surfaces.css");
+@import url("./modules/polished-tab-atmosphere.css");
+@import url("./modules/polished-sidebar-controls.css");
 @import url("./modules/sidebar-menu.css");
 @import url("./modules/tabs.css");
 @import url("./modules/info-cards.css");
@@ -52,6 +78,22 @@
 @import url("./content/verse-numbers.css"); 
 @import url("./content/paragraphs.css");    
 @import url("./content/titles.css");        
+@import url("./content/entry-cushion.css");
+@import url("./content/polished-reading-column.css");
+@import url("./content/polished-title-vessel.css");
+@import url("./content/polished-verse-rhythm.css");
+@import url("./content/polished-typography-rhythm.css");
+@import url("./content/polished-focus-reading.css");
+@import url("./content/polished-sigils.css");
+@import url("./content/polished-active-state.css");
+@import url("./content/polished-sigils.css");
+@import url("./content/polished-active-state.css");
+@import url("./content/polished-typography-rhythm.css");
+@import url("./content/polished-focus-reading.css");
+@import url("./content/polished-title-vessel.css");
+@import url("./content/polished-verse-rhythm.css");
+@import url("./content/polished-reading-column.css");
+@import url("./content/entry-cushion.css");
 
 /* 7. THEMES & ANIMATIONS (The Garments of the Light) */
 @import url("./themes/dark-mode.css");

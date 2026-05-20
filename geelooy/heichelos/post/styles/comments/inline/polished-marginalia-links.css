@@ -1,0 +1,28 @@
+/* B"H
+   Chapter 17: Commentary sparks tether themselves to the manuscript margin.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root {
+    overflow: visible !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root::before {
+    box-shadow:
+        0 0 0 1px rgba(197,138,26,0.18),
+        0 0 36px rgba(197,138,26,0.10) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .commentTitle::after {
+    content: "" !important;
+    display: block !important;
+    width: clamp(3rem, 10vw, 7rem) !important;
+    height: 2px !important;
+    margin-top: 0.75rem !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, rgba(110,18,55,0.92), rgba(214,170,79,0.25)) !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-commentary-root .commentTitle::after,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-commentary-root .commentTitle::after {
+    margin-left: auto !important;
+}

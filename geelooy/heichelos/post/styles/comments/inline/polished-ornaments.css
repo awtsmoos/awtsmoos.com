@@ -1,0 +1,44 @@
+/* B"H
+   Chapter 2: A small wine-gold ribbon appears like a seal on the margin. The
+   Awtsmoos hides order in ornament, but every selector stays inside the inline
+   commentary root so old kingdoms cannot seize the cascade.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root::after {
+    content: "✺" !important;
+    position: absolute !important;
+    inset-block-start: clamp(1rem, 2vw, 1.6rem) !important;
+    inset-inline-end: -0.2rem !important;
+    display: grid !important;
+    place-items: center !important;
+    width: clamp(2.8rem, 6vw, 4.4rem) !important;
+    height: clamp(4.8rem, 10vw, 6.8rem) !important;
+    border: 1px solid color-mix(in srgb, var(--inline-gold) 76%, black) !important;
+    border-radius: 12px 0 0 12px !important;
+    background: linear-gradient(180deg, var(--inline-wine), #4f0823) !important;
+    color: #e6b85f !important;
+    font-size: clamp(1.1rem, 2.8vw, 1.7rem) !important;
+    box-shadow: 0 14px 30px rgba(80, 8, 35, 0.22) !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-commentary-root::after,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-commentary-root::after {
+    inset-inline-start: -0.2rem !important;
+    inset-inline-end: auto !important;
+    border-radius: 0 12px 12px 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
+    padding: clamp(2.15rem, 4.8vw, 3.6rem) clamp(2rem, 5vw, 4.4rem) !important;
+    min-height: clamp(9rem, 22vh, 16rem) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .commentTitle {
+    margin-block-end: clamp(1rem, 2vw, 1.6rem) !important;
+    background: transparent !important;
+    border: 0 !important;
+    color: var(--inline-wine) !important;
+    text-align: end !important;
+    font-size: clamp(1.35rem, 3vw, 2.25rem) !important;
+    letter-spacing: 0.01em !important;
+}

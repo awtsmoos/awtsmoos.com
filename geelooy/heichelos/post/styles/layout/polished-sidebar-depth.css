@@ -1,0 +1,21 @@
+/* B"H
+   Chapter 18: The sidebar floats as a separate scholarly instrument.
+*/
+
+@media (min-width: 900px) {
+    .post-reader-localized-context .sidebar {
+        transform: translateZ(0) !important;
+        backdrop-filter: blur(14px) saturate(1.08) !important;
+    }
+
+    .post-reader-localized-context .sidebar:hover {
+        box-shadow:
+            -34px 0 100px rgba(52, 34, 12, 0.24),
+            inset 0 1px 0 rgba(255,255,255,0.72) !important;
+    }
+
+    .post-reader-localized-context .sidebar > * {
+        position: relative !important;
+        z-index: 1 !important;
+    }
+}

@@ -1,0 +1,28 @@
+/* B"H
+   Inline responsive polish: on narrow screens the gloss becomes full-width,
+   still exact, still calm, still visually connected to its source text.
+*/
+
+@media (max-width: 720px) {
+    .post-reader-localized-context .marginal-gloss-shelter,
+    .post-reader-localized-context .heb .marginal-gloss-shelter {
+        margin-inline: 0 !important;
+        padding: 0.75rem !important;
+        border-left-width: 3px !important;
+        border-right-width: 3px !important;
+        border-radius: 14px !important;
+    }
+
+    .post-reader-localized-context .marginal-gloss-shelter::before,
+    .post-reader-localized-context .heb .marginal-gloss-shelter::before {
+        display: none !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-commentary-root .commentTitle {
+        padding-inline-end: 2.5rem !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
+        padding: 0.85rem !important;
+    }
+}

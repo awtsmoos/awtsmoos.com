@@ -1,0 +1,21 @@
+/* B"H
+   Chapter 23: Verse numbers and bookmarks become marginal sigils.
+*/
+
+.post-reader-localized-context #realPost .awtsmoos-verse-number,
+.post-reader-localized-context #realPost .bookmark-btn {
+    border: 1px solid rgba(88, 56, 16, 0.24) !important;
+    border-radius: 999px !important;
+    background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,0.78), transparent 38%),
+        linear-gradient(135deg, #fff4d8, #c58a1a) !important;
+    color: #2a190b !important;
+    box-shadow: 0 12px 28px rgba(91, 55, 11, 0.18) !important;
+}
+
+.post-reader-localized-context #realPost .awtsmoos-verse-number:hover,
+.post-reader-localized-context #realPost .bookmark-btn:hover {
+    background: linear-gradient(135deg, var(--codex-wine, #6e1237), #1b090f) !important;
+    color: #fff4d8 !important;
+    transform: translateY(-1px) scale(1.03) !important;
+}

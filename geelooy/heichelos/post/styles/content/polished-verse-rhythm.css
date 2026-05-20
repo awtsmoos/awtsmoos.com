@@ -1,0 +1,27 @@
+/* B"H
+   Chapter 13: Each verse section emerges softly from the parchment sea.
+*/
+
+.post-reader-localized-context #realPost .section {
+    isolation: isolate !important;
+}
+
+.post-reader-localized-context #realPost .section::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: -1.2rem !important;
+    transform: translateX(-50%) !important;
+    width: min(720px, 82vw) !important;
+    height: 140% !important;
+    border-radius: 999px !important;
+    pointer-events: none !important;
+    background: radial-gradient(circle, rgba(255,255,255,0.30), transparent 72%) !important;
+    filter: blur(18px) !important;
+    opacity: 0.9 !important;
+    z-index: -1 !important;
+}
+
+.post-reader-localized-context #realPost .section:hover {
+    transform: translateY(-2px) !important;
+}

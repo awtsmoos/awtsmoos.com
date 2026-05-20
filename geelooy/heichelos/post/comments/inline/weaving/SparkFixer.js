@@ -41,6 +41,7 @@ export class SparkFixer {
                 if (spark.subSection !== undefined && spark.subSection !== null) coords.subSection = spark.subSection;
                 else if (spark.sub !== undefined && spark.sub !== null) coords.subSection = spark.sub;
             }
+            spark.dayuh = coords;
             const vessel = resolveCoordinateToDOM(coords);
 
             if (vessel) {

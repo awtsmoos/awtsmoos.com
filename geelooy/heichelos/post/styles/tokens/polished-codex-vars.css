@@ -1,0 +1,16 @@
+/* B"H
+   Chapter 20: Codex design tokens. One small vocabulary for gold, wine, vellum,
+   ink, and depth so the whole reader speaks one language.
+*/
+
+.post-reader-localized-context {
+    --codex-ink: #1d140e;
+    --codex-muted: #7a654b;
+    --codex-vellum: #fbf5e9;
+    --codex-vellum-deep: #eadcc3;
+    --codex-gold: #c58a1a;
+    --codex-gold-light: #f4d17b;
+    --codex-wine: #6e1237;
+    --codex-shadow-soft: 0 22px 70px rgba(50, 32, 12, 0.13);
+    --codex-shadow-lift: 0 34px 110px rgba(50, 32, 12, 0.20);
+}

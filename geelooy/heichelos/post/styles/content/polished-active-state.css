@@ -1,0 +1,19 @@
+/* B"H
+   Chapter 26: The active reading locus receives a gold-wine halo.
+*/
+
+.post-reader-localized-context #realPost .active-reading-section,
+.post-reader-localized-context #realPost .active-reading-sub {
+    position: relative !important;
+}
+
+.post-reader-localized-context #realPost .active-reading-section::after,
+.post-reader-localized-context #realPost .active-reading-sub::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: -0.75rem !important;
+    border: 1px solid rgba(197, 138, 26, 0.28) !important;
+    border-radius: 28px !important;
+    pointer-events: none !important;
+    box-shadow: 0 0 36px rgba(197, 138, 26, 0.16) !important;
+}

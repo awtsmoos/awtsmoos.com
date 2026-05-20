@@ -50,9 +50,11 @@ export function resolveCoordinateToDOM(commentDayuh) {
         if (paraVessel) {
             return paraVessel;
         }
+        console.warn(`B"H - CoordinateResolver: Verse ${verseCoord} exists, but subsection ${subCoord} is missing. Refusing verse-level fallback.`);
+        return null;
     }
 
-    // Default to the main body of the verse if no specific paragraph is targeted or found
+    // Default to the main body only when no specific paragraph was requested.
     const mainToichen = verseVessel.querySelector(".toichen");
     return mainToichen || verseVessel;
 }

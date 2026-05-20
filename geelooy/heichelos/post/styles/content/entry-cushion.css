@@ -1,0 +1,20 @@
+/* B"H
+   Chapter 4: The first letters need air before the fixed firmament. This tiny
+   content-only vessel pushes the first visible message down without touching
+   inline commentary, comments, header, body, html, or any global selector.
+*/
+
+.post-reader-localized-context #realPost {
+    padding-block-start: clamp(9rem, 24vh, 17rem) !important;
+    scroll-padding-block-start: clamp(10rem, 28vh, 20rem) !important;
+}
+
+.post-reader-localized-context #realPost > .section:first-of-type {
+    margin-block-start: clamp(4.5rem, 12vh, 9rem) !important;
+    scroll-margin-block-start: clamp(12rem, 32vh, 22rem) !important;
+}
+
+.post-reader-localized-context #realPost .section:first-of-type .toichen,
+.post-reader-localized-context #realPost .section:first-of-type .sub-awtsmoos:first-child {
+    scroll-margin-block-start: clamp(12rem, 32vh, 22rem) !important;
+}

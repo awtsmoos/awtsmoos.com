@@ -1,0 +1,25 @@
+/* B"H
+   Chapter 16: Nearby verses recede so the active chamber glows with attention.
+*/
+
+.post-reader-localized-context #realPost:hover .section {
+    opacity: 0.58 !important;
+    filter: saturate(0.82) blur(0.2px) !important;
+    transform: scale(0.996) !important;
+}
+
+.post-reader-localized-context #realPost .section:hover,
+.post-reader-localized-context #realPost .section:focus-within,
+.post-reader-localized-context #realPost .section.section-active {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: translateY(-2px) scale(1.002) !important;
+    z-index: 5 !important;
+}
+
+.post-reader-localized-context #realPost .section:hover .toichen,
+.post-reader-localized-context #realPost .section:focus-within .toichen {
+    box-shadow:
+        0 40px 120px rgba(56, 34, 11, 0.16),
+        inset 0 1px 0 rgba(255,255,255,0.9) !important;
+}

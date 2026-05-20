@@ -28,7 +28,7 @@ export function makeInlineComment(comment) {
     const blueprint = {
         tag: 'div',
         attr: { 
-            class: 'inline-comment intense-marginalia',
+            class: 'inline-comment intense-marginalia awtsmoos-inline-commentary-root',
             'data-cid': comment.id 
         },
         children: [

@@ -1,0 +1,32 @@
+/* B"H
+   Inline text: the words must breathe. No uppercase shouting, no cramped line
+   height, no inherited brutality from general comment cards.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .awtsmoos-comment-paragraph,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .awtsmoos-comment-paragraph p,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .awtsmoos-comment-paragraph span,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-text,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-text p {
+    margin: 0 0 0.65rem 0 !important;
+    padding: 0 !important;
+    border-bottom: 0 !important;
+    color: var(--color-ink) !important;
+    font-family: var(--font-content) !important;
+    font-size: inherit !important;
+    font-weight: 500 !important;
+    line-height: 1.68 !important;
+    text-transform: none !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .awtsmoos-comment-paragraph p:last-child,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-text p:last-child {
+    margin-bottom: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-toolbar {
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent) !important;
+    background: color-mix(in srgb, var(--bg-vellum) 72%, transparent) !important;
+}

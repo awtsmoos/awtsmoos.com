@@ -1,0 +1,31 @@
+/* B"H
+   Chapter 14: Sidebar tabs become engraved index seals beside the codex.
+*/
+
+.post-reader-localized-context .tab-button,
+.post-reader-localized-context .sidebar-tab,
+.post-reader-localized-context .tab-btn {
+    border: 1px solid rgba(71, 44, 11, 0.16) !important;
+    border-radius: 18px !important;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.82), rgba(240,228,209,0.92)) !important;
+    color: #241912 !important;
+    box-shadow: 0 8px 18px rgba(44, 28, 10, 0.08) !important;
+    transition:
+        transform 140ms ease,
+        box-shadow 140ms ease,
+        background 140ms ease !important;
+}
+
+.post-reader-localized-context .tab-button:hover,
+.post-reader-localized-context .sidebar-tab:hover,
+.post-reader-localized-context .tab-btn:hover,
+.post-reader-localized-context .tab-button.active,
+.post-reader-localized-context .sidebar-tab.active,
+.post-reader-localized-context .tab-btn.active {
+    transform: translateY(-1px) !important;
+    background:
+        linear-gradient(135deg, #6e1237, #24140d) !important;
+    color: #fff6e8 !important;
+    box-shadow: 0 16px 30px rgba(62, 18, 37, 0.18) !important;
+}

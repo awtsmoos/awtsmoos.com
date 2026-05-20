@@ -1,0 +1,35 @@
+/* B"H
+   Inline focus trigger: small, clear, accessible, and anchored without fighting
+   the title. The Awtsmoos opens the side chamber with one precise gesture.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .focus-trigger {
+    position: absolute !important;
+    top: 0.55rem !important;
+    right: 0.55rem !important;
+    z-index: 5 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 2rem !important;
+    height: 2rem !important;
+    border: 1px solid rgba(255,255,255,0.38) !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,0.16) !important;
+    color: var(--bg-surface) !important;
+    cursor: pointer !important;
+    font-size: 1rem !important;
+    font-weight: 900 !important;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-commentary-root .focus-trigger {
+    left: 0.55rem !important;
+    right: auto !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .focus-trigger:hover {
+    background: var(--color-accent) !important;
+    color: var(--color-ink) !important;
+    transform: scale(1.04) !important;
+}

@@ -1,0 +1,35 @@
+/* B"H
+   Chapter 5: The summary pill becomes a sealed black-gold gate. It announces
+   the commentator with force, but never moves the inline card chamber below it.
+*/
+
+.post-reader-localized-context .commentator.inline-holder .inline-summary-btn {
+    padding: 0.72rem 1.15rem !important;
+    border: 1px solid rgba(255,255,255,0.18) !important;
+    border-radius: 999px !important;
+    background:
+        radial-gradient(circle at 84% 48%, rgba(255,255,255,0.18), transparent 14%),
+        linear-gradient(135deg, #050505, #17120d 52%, #030303) !important;
+    color: #fffaf0 !important;
+    box-shadow:
+        0 16px 32px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.16) !important;
+    font-size: clamp(0.86rem, 1.8vw, 1rem) !important;
+    letter-spacing: 0.01em !important;
+}
+
+.post-reader-localized-context .commentator.inline-holder .inline-summary-btn::after {
+    content: "" !important;
+    width: 0.62rem !important;
+    height: 0.62rem !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #fff, #d8c7ff) !important;
+    box-shadow: 0 0 14px rgba(216,199,255,0.9) !important;
+}
+
+.post-reader-localized-context .commentator.inline-holder .inline-summary-btn:hover,
+.post-reader-localized-context .commentator.inline-holder .inline-summary-btn.active {
+    background: linear-gradient(135deg, #7a0f3a, #1b0c14 58%, #000) !important;
+    color: #fff7e6 !important;
+    transform: translateY(-2px) !important;
+}

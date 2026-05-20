@@ -1,0 +1,24 @@
+/* B"H
+   Chapter 19: Typography breathes slower and deeper.
+*/
+
+.post-reader-localized-context #realPost .toichen {
+    letter-spacing: 0.008em !important;
+    word-spacing: 0.03em !important;
+    line-height: 1.82 !important;
+}
+
+.post-reader-localized-context #realPost .toichen p,
+.post-reader-localized-context #realPost .toichen .sub-awtsmoos {
+    margin-block: clamp(1rem, 2.6vh, 2rem) !important;
+}
+
+.post-reader-localized-context .heb #realPost .toichen,
+.post-reader-localized-context [dir="rtl"] #realPost .toichen {
+    line-height: 2.04 !important;
+    letter-spacing: 0.01em !important;
+}
+
+.post-reader-localized-context #realPost .toichen strong {
+    color: #5d0d2d !important;
+}

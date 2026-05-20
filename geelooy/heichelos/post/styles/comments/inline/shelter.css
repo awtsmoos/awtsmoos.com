@@ -1,0 +1,52 @@
+/* B"H
+   Inline commentary shelter: the Awtsmoos gives each gloss a measured vessel,
+   close to the text, calm in the cascade, and professional in the eye.
+*/
+
+.post-reader-localized-context .section,
+.post-reader-localized-context .sub-awtsmoos,
+.post-reader-localized-context .toichen {
+    scroll-margin-top: clamp(11rem, 24vh, 18rem) !important;
+}
+
+.post-reader-localized-context .marginal-gloss-shelter {
+    margin: clamp(0.9rem, 2vw, 1.35rem) 0 clamp(1.15rem, 3vw, 2rem) clamp(0.85rem, 2vw, 1.3rem) !important;
+    padding: clamp(0.85rem, 2vw, 1.2rem) !important;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 38%, transparent) !important;
+    border-left: 4px solid var(--color-accent) !important;
+    border-radius: 20px !important;
+    background:
+        radial-gradient(circle at 0 0, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 34%),
+        linear-gradient(135deg, color-mix(in srgb, var(--bg-surface) 96%, white), color-mix(in srgb, var(--bg-vellum) 86%, transparent)) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.55) !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: clamp(0.7rem, 1.6vw, 1rem) !important;
+    clear: both !important;
+    isolation: isolate !important;
+}
+
+.post-reader-localized-context .marginal-gloss-shelter::before {
+    content: "" !important;
+    position: absolute !important;
+    left: -9px !important;
+    top: 1.15rem !important;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 999px !important;
+    background: var(--color-accent) !important;
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 17%, transparent) !important;
+}
+
+.post-reader-localized-context .heb .marginal-gloss-shelter {
+    margin-left: 0 !important;
+    margin-right: clamp(0.85rem, 2vw, 1.3rem) !important;
+    border-left: 1px solid color-mix(in srgb, var(--color-accent) 38%, transparent) !important;
+    border-right: 4px solid var(--color-accent) !important;
+}
+
+.post-reader-localized-context .heb .marginal-gloss-shelter::before {
+    left: auto !important;
+    right: -9px !important;
+}
