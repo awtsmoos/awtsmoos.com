@@ -36,6 +36,14 @@ paths:
               - abstractionLeakTrace
               - actionAliasResolver
               - actionBatch
+              - actionHistoryDiff
+              - actionHistoryExplain
+              - actionHistoryGet
+              - actionHistoryList
+              - actionHistoryPatch
+              - actionHistoryReplace
+              - actionHistoryReplay
+              - actionHistorySearch
               - actionSchemaTrace
               - affectedComponents
               - affectedRoutes
@@ -110,6 +118,13 @@ paths:
               - commandBatch
               - commandFailureClassifier
               - commandIntentClassifier
+              - commandMemoryDelete
+              - commandMemoryFork
+              - commandMemoryGet
+              - commandMemoryList
+              - commandMemoryPatch
+              - commandMemoryRun
+              - commandMemorySave
               - commandPresetDelete
               - commandPresetGet
               - commandPresetList
@@ -229,6 +244,7 @@ paths:
               - jsonValidate
               - largeFiles
               - largeFileSplitPlanner
+              - lastActionReplay
               - lastFailureExplain
               - launchPreview
               - lazyContextPack
@@ -239,6 +255,11 @@ paths:
               - lockfileDoctor
               - logSearch
               - logTail
+              - macroExplain
+              - macroPatch
+              - macroRecordStart
+              - macroRecordStop
+              - macroReplay
               - md
               - merkavaCommandTree
               - merkavaParserSmoke
@@ -372,6 +393,11 @@ paths:
               - symbolContextPack
               - symbolOutline
               - symbolResolutionTrace
+              - templateFork
+              - templateFromAction
+              - templateFromHistory
+              - templatePatchRun
+              - templatePromote
               - testDiscovery
               - testFailureExplainer
               - testMatrix
@@ -436,6 +462,11 @@ paths:
         - { name: query, in: query, schema: { type: string } }
         - { name: text, in: query, schema: { type: string } }
         - { name: goal, in: query, schema: { type: string } }
+        - { name: ref, in: query, schema: { type: string } }
+        - { name: parentActionId, in: query, schema: { type: string } }
+        - { name: patch, in: query, schema: { type: string } }
+        - { name: otherActionId, in: query, schema: { type: string } }
+        - { name: actionId, in: query, schema: { type: string } }
         - { name: args, in: query, schema: { type: string } }
         - { name: options, in: query, schema: { type: string } }
         - { name: presetName, in: query, schema: { type: string } }
