@@ -1,5 +1,6 @@
 
 // B"H
+import { AwtsmoosNativeToolExtras } from "./ToolSchemaExtras.js";
 /**
  * @file ToolSchemas.js
  * @brief The Ten Utterances of the Digital Realm.
@@ -343,6 +344,8 @@ get_model_usage_limits",
             }
         }
     },
+    ...AwtsmoosNativeToolExtras,
+    ...AwtsmoosNativeToolExtras,
     {
         function: {
             name: "continue_autonomous_loop",
