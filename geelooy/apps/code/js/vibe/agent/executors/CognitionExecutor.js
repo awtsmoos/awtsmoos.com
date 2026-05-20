@@ -9,41 +9,7 @@ import { RuntimeSnapshot } from '../../runtime/reality/RuntimeSnapshot.js';
 import { RealityScore } from '../../runtime/reality/RealityScore.js';
 import { SelfHealLoop } from '../../runtime/reality/SelfHealLoop.js';
 import { ImportAssetVerifier } from '../../runtime/reality/ImportAssetVerifier.js';
-
-export const cognitiveToolNames = [
-    "semantic_diff",
-    "detect_concept_clusters",
-    "simulate_failure",
-    "generate_repair_plan",
-    "supervise_runtime",
-    "infer_architecture",
-    "detect_abstraction_leaks",
-    "runtime_entity_graph",
-    "semantic_refactor",
-    "inspect_render_storms",
-    "runtime_contract_registry",
-    "semantic_search_runtime",
-    "preview_branch_matrix",
-    "infer_business_rules",
-    "state_time_machine",
-    "detect_dead_concepts",
-    "semantic_merge",
-    "runtime_introspection_stream",
-    "architecture_score",
-    "intent_drift_detector",
-    "semantic_package_generator",
-    "self_heal_preview",
-    "generate_test_universe",
-    "inspect_human_confusion",
-    "orchestration_graph",
-    "environment_virtualizer",
-    "runtime_snapshot",
-    "semantic_cache",
-    "goal_compiler",
-    "autonomous_background_agents",
-    "semantic_pipeline",
-    "universal_app_manifest"
-];
+import { cognitiveToolNames } from '../cognitionToolNames.js';
 
 function json(value) { return JSON.stringify(value, null, 2); }
 

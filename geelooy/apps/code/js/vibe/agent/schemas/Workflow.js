@@ -1,149 +1,93 @@
 // B"H
-/**
- * @file Workflow.js
- * @brief Semantic workflow graph and contract assertion schemas.
- *
- * Chapter 1: In the workshop of tiny vessels, the Awtsmoos glimmers through
- * every schema edge. A workflow is not a heap of commands; it is a riverbed:
- * each step names its kav, each condition opens or closes a gate, each retry
- * admits that created things can crack yet be renewed. These tool schemas are
- * deliberately declarative, so the runtime can inspect intent before action.
- */
-
-/**
- * Schema fragment for one executable workflow node.
- *
- * @type {object}
- */
+/** Workflow tool schemas for Vibe agent orchestration. */
 const workflowStepSchema = {
-    type: "object",
-    description: "One semantic workflow step: tool call, branch, foreach loop, pipe, fallback, retry, or failure handler.",
-    properties: {
-        id: { type: "string", description: "Stable step identifier for logs, references, and recovery." },
-        tool: { type: "string", description: "Optional tool/function name to invoke for this step." },
-        args: { type: "object", description: "Arguments passed to the tool or interpreter." },
-        if: { description: "Condition expression or structured predicate controlling branch execution." },
-        then: { type: "array", items: { type: "object" }, description: "Steps executed when the condition is truthy." },
-        else: { type: "array", items: { type: "object" }, description: "Steps executed when the condition is falsy." },
-        foreach: { description: "Iterable expression, array, or data reference used to repeat this step." },
-        pipe: { type: "array", items: { type: "object" }, description: "Pipeline of steps receiving prior output." },
-        fallback: { type: "array", items: { type: "object" }, description: "Alternative steps attempted when primary execution fails." },
-        retry: {
-            type: "object",
-            description: "Retry policy for transient failures.",
-            properties: {
-                attempts: { type: "number" },
-                delay_ms: { type: "number" },
-                backoff: { type: "string", enum: ["none", "linear", "exponential"] }
-            }
-        },
-        onFailure: { type: "array", items: { type: "object" }, description: "Cleanup or reporting steps after unrecovered failure." }
-    }
+  type: "object",
+  description: "One command-tree/workflow step: action/tool call, branch, loop, retry, assertion, or recovery handler.",
+  properties: {
+    id: { type: "string" },
+    action: { type: "string" },
+    tool: { type: "string" },
+    call: { type: "string" },
+    with: { type: "object" },
+    args: { type: "object" },
+    payload: { type: "object" },
+    saveAs: { type: "string" },
+    if: { type: "object" },
+    when: { type: "object" },
+    then: { type: "array", items: { type: "object" } },
+    else: { type: "array", items: { type: "object" } },
+    do: { type: "array", items: { type: "object" } },
+    parallel: { type: "array", items: { type: "object" } },
+    forEach: { type: "object" },
+    retry: { type: "object" },
+    assert: { type: "object" },
+    onError: { type: "array", items: { type: "object" } },
+    finally: { type: "array", items: { type: "object" } }
+  }
 };
 
-/**
- * The complete workflow graph schema. It keeps orchestration data-shaped, so
- * each runtime can walk it with humility instead of guessing hidden intent.
- *
- * @type {object}
- */
 const workflowGraphSchema = {
-    type: "object",
-    description: "Declarative workflow graph with variables, ordered steps, branches, loops, pipelines, fallbacks, retries, and failure hooks.",
-    properties: {
-        name: { type: "string", description: "Human-readable workflow name." },
-        description: { type: "string", description: "Purpose and safety notes for this workflow." },
-        vars: { type: "object", description: "Named values available to expressions and step arguments." },
-        steps: {
-            type: "array",
-            description: "Primary ordered workflow steps.",
-            items: workflowStepSchema
-        },
-        onFailure: {
-            type: "array",
-            description: "Global failure handler steps.",
-            items: workflowStepSchema
-        }
-    },
-    required: ["steps"]
+  type: "object",
+  description: "Declarative workflow graph with variables, ordered steps, branches, loops, retries, assertions, and failure hooks.",
+  properties: {
+    name: { type: "string" },
+    description: { type: "string" },
+    vars: { type: "object" },
+    policy: { type: "object" },
+    steps: { type: "array", items: workflowStepSchema },
+    do: { type: "array", items: workflowStepSchema },
+    onError: { type: "array", items: workflowStepSchema },
+    finally: { type: "array", items: workflowStepSchema }
+  }
 };
+
+const workflowParams = {
+  type: "object",
+  properties: {
+    workflow: workflowGraphSchema,
+    steps: { type: "array", items: workflowStepSchema },
+    do: { type: "array", items: workflowStepSchema },
+    commands: { type: "array", items: workflowStepSchema },
+    vars: { type: "object" },
+    policy: { type: "object" },
+    known: { type: "object" },
+    dryRun: { type: "boolean" }
+  }
+};
+
+function schema(name, description = "B'H. Declarative workflow/command-tree tool.") {
+  return { function: { name, description, parameters: workflowParams } };
+}
+
+const commandTreeNames = [
+  "command_tree_run", "command_tree_validate", "command_tree_dry_run",
+  "command_tree_explain", "command_tree_visualize", "command_tree_resume",
+  "command_tree_replay", "command_tree_cancel", "command_tree_status",
+  "command_tree_save", "command_tree_load", "awtsmoos_command_tree",
+  "merkava_command_tree", "ai_workflow_lang", "parallel_action_batch",
+  "for_each_action_batch", "retry_action", "assert_action",
+  "snapshot_before_after", "policy_guard", "destructive_intent_gate"
+];
 
 export const WorkflowSchemas = [
-    {
-        function: {
-            name: "run_command_tree",
-            description: "Runs a universal provider-agnostic command tree. One function call can read, branch, write, test, retry, recover, and continue through every registered tool.",
-            parameters: {
-                type: "object",
-                properties: {
-                    workflow: workflowGraphSchema,
-                    steps: { type: "array", items: workflowStepSchema },
-                    vars: { type: "object" },
-                    known: { type: "object" }
-                }
-            }
+  schema("run_command_tree", "Runs a provider-agnostic command tree in one tool call."),
+  schema("ai_command_batch", "Alias for run_command_tree optimized for plain-text AIs."),
+  schema("run_semantic_workflow", "Executes a declarative semantic workflow graph."),
+  ...commandTreeNames.map(name => schema(name, "B'H. Command-tree language tool with do/if/then/else/parallel/forEach/retry/assert/finally semantics.")),
+  {
+    function: {
+      name: "assert_runtime_contracts",
+      description: "Checks runtime output against explicit contracts/invariants.",
+      parameters: {
+        type: "object",
+        properties: {
+          contracts: { type: "array", items: { type: "object" } },
+          runtime_state: { type: "object" },
+          strict: { type: "boolean" }
         }
-    },
-    {
-        function: {
-            name: "ai_command_batch",
-            description: "Alias for run_command_tree, optimized for plain-text AIs using universal pseudo-tool calls.",
-            parameters: {
-                type: "object",
-                properties: {
-                    commands: { type: "array", items: workflowStepSchema },
-                    vars: { type: "object" },
-                    known: { type: "object" }
-                }
-            }
-        }
-    },
-    {
-        function: {
-            name: "run_semantic_workflow",
-            description: "Executes a declarative workflow graph with conditions, fallbacks, pipelines, retries, foreach loops, and failure handlers.",
-            parameters: {
-                type: "object",
-                properties: {
-                    workflow: workflowGraphSchema
-                },
-                required: ["workflow"]
-            }
-        }
-    },
-    {
-        function: {
-            name: "assert_runtime_contracts",
-            description: "Verifies runtime contracts such as URL reachability, DOM selectors, expected files, required exports, and semantic assertions.",
-            parameters: {
-                type: "object",
-                properties: {
-                    target_url: {
-                        type: "string",
-                        description: "Optional URL that must be reachable before selector assertions run."
-                    },
-                    selectors: {
-                        type: "array",
-                        description: "CSS selectors expected to exist in the active runtime document.",
-                        items: { type: "string" }
-                    },
-                    files: {
-                        type: "array",
-                        description: "Project-relative files expected to exist.",
-                        items: { type: "string" }
-                    },
-                    exports: {
-                        type: "array",
-                        description: "Expected module exports, expressed as strings or structured checks.",
-                        items: {}
-                    },
-                    assertions: {
-                        type: "array",
-                        description: "Free-form semantic assertions the runtime should evaluate and report.",
-                        items: {}
-                    }
-                }
-            }
-        }
+      }
     }
+  }
 ];
+
+export { workflowStepSchema, workflowGraphSchema };
