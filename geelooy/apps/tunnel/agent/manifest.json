@@ -9,6 +9,16 @@
       "sha256": "89293b8a32fcf796412e0dd836a8564820f70620ec2dbf316e469fbe4d3fe017"
     },
 {
+  "path": "tools/fs/actionGroups/qualityActions.js",
+  "bytes": 971,
+  "sha256": "REGENERATE_THIS"
+},
+{
+  "path": "tools/fs/actionGroups/remoteModuleCompat.js",
+  "bytes": 971,
+  "sha256": "REGENERATE_THIS"
+},
+{
   "path": "tools/fs/actionBatch.js",
   "bytes": 4894,
   "sha256": "REGENERATE_THIS_HASH"
