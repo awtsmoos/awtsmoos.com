@@ -96,5 +96,6 @@
 
   awtsFetch[bridgeMark] = true;
   window.awtsmoosFetch = awtsFetch;
-  readyEvent();
+  window.mFetch = awtsFetch;
+  readyEvent({ fetchName: "awtsmoosFetch" });
 })();

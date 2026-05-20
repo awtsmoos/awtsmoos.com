@@ -4,23 +4,29 @@
   "version": "1.0",
   "description": "Bypasses CORs to allow for AI interactions.",
   "permissions": [
-	  "storage",
-	  "cookies",
-	  "scripting", 
-	  "tabs", 
-	  "activeTab",
-	  "webNavigation"
-    
+    "storage",
+    "cookies",
+    "scripting",
+    "tabs",
+    "activeTab",
+    "webNavigation"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["awtsmoosContent.js"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
   ],
   "web_accessible_resources": [
-		{
-			"resources": ["jected.js"],
-			"matches": ["*://*/*"]
-		}
- ],
+    {
+      "resources": ["jected.js"],
+      "matches": ["*://*/*"]
+    }
+  ],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
   }
-  
 }

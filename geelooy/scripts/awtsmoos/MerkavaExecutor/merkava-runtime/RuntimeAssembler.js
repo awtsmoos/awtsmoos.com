@@ -35,7 +35,7 @@
 
             let result;
             if (entry.endsWith('.html')) result = await this.runHTML(assembly.html, runtime, globals);
-            else if (this.options.module || /\bimport\s|\bexport\s/.test(this.files[entry] || '')) {
+            else if (this.options.module || /\bimport\s|\bexport\s|\brequire\s*\(/.test(this.files[entry] || '')) {
                 result = await runtime.executeFunction(() => new ModuleExecutor({ files: this.files, graph: this.graph, runtimeGlobals: globals, runtime: this.options.runtime }).execute(entry));
             } else {
                 result = await runtime.executeFunction(this.options.execute || makeExecutor(this.files[entry] || '', this.options.runtime));

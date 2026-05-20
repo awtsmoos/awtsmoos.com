@@ -588,6 +588,7 @@ setHtml(el, opts = {}) {
      */
     htmlAction({
         shaym,
+        selector,
         html,
         properties = {},
         methods = {}
@@ -596,12 +597,16 @@ setHtml(el, opts = {}) {
         // if it's an HTMLElement, use it directly
         
         
-        if(!html) 
-            html = typeof shaym === "string" ? 
-            this.getHtml(shaym) : html;
+        if (!html && typeof shaym === "string") {
+            html = this.getHtml(shaym);
+        }
+
+        if (!html && typeof selector === "string") {
+            html = document.querySelector(selector);
+        }
 
         if (!html) {
-            throw "Not found element: " + shaym;
+            throw "Not found element: " + (shaym || selector);
             return null; // If the element is not found, return null
         } 
 

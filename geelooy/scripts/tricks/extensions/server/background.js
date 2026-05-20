@@ -1,14 +1,18 @@
 // B"H
 console.log('B"H');
 
-chrome.webNavigation.onCompleted.addListener(async details => {
-    chrome.scripting.executeScript({
-        target: { tabId: details.tabId },
-        files: ['awtsmoosContent.js'],
-		
-        //runAt: 'document_start' 
-    });
+chrome.webNavigation.onCompleted.addListener(async details => injectAwtsmoosContent(details.tabId));
+chrome.tabs.onUpdated.addListener((tabId, info) => {
+  if (info.status === "complete") injectAwtsmoosContent(tabId);
 });
+
+async function injectAwtsmoosContent(tabId) {
+  try {
+    await chrome.scripting.executeScript({ target: { tabId }, files: ["awtsmoosContent.js"] });
+  } catch (error) {
+    console.warn("B'H content bridge injection skipped", tabId, error?.message || error);
+  }
+}
 
 const ChromePortManager = globalThis.ChromePortManager || class ChromePortManager {
   constructor() {
