@@ -61,15 +61,25 @@ paths:
               - md
               - bulk
               - grep
+              - rg
               - bulkSearch
               - bulkSearchPage
               - selectString
               - selectStringFile
+              - find
+              - checkAiRender
+              - checkTunnelSurface
+              - checkAwtsmoosAi
+              - nodeEval
               - findFiles
               - fileHashes
               - symbolOutline
               - semanticSearch
               - astOutline
+              - replaceFunction
+              - replaceFunctionBody
+              - insertBeforeFunction
+              - insertAfterFunction
               - connectedFiles
               - jsonValidate
               - jsonFormat
@@ -114,11 +124,21 @@ paths:
               - isolatedNodeCheck
               - isolatedHtmlTest
               - isolatedCleanup
+              - actionBatch
+              - commandBatch
               - workflowRun
               - workflowList
               - workflowGet
               - workflowValidate
               - simulateRuntime
+              - testMatrix
+              - bundleTrace
+              - dependencyCycleCheck
+              - deadExportScan
+              - mutationPatchTest
+              - browserReplay
+              - apiContractCheck
+              - perfBudgetCheck
               - runtimeWorkflow
               - merkavaWorkflowRun
               - aiWorkflowRun
@@ -268,6 +288,7 @@ paths:
         - { name: entry, in: query, schema: { type: string } }
         - { name: format, in: query, schema: { type: string, default: "png" } }
         - { name: runtime, in: query, schema: { type: string } }
+        - { name: engine, in: query, schema: { type: string } }
         - { name: ext, in: query, schema: { type: string } }
         - { name: shell, in: query, schema: { type: string } }
         - { name: expectedSha256, in: query, schema: { type: string } }

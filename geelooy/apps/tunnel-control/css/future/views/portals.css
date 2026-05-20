@@ -1,0 +1,69 @@
+/* B"H */
+.modal.hidden, .awt-diagnostics-drawer:not(.is-open) { display: none !important; }
+body.modal-open { overflow: hidden; }
+#rootPickerModal.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  display: grid;
+  place-items: center;
+  padding: clamp(14px, 3vw, 36px);
+}
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 5, 16, .72);
+  backdrop-filter: blur(14px);
+}
+.root-dialog, .awt-diagnostics-drawer {
+  color: var(--awt-ink);
+  border: 1px solid var(--awt-line-hot);
+  border-radius: var(--awt-radius-4);
+  background: rgba(4, 10, 22, .96);
+  box-shadow: var(--awt-shadow), 0 0 55px rgba(119,236,255,.14);
+  backdrop-filter: blur(24px) saturate(145%);
+}
+.root-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(1080px, calc(100vw - 28px));
+  max-height: min(820px, calc(100vh - 28px));
+  display: grid;
+  gap: 16px;
+  padding: clamp(16px, 2.5vw, 28px);
+  overflow: auto;
+}
+.root-head, .root-toolbar, .root-foot, .awt-diagnostics-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.root-toolbar input { min-width: min(460px, 100%); flex: 1 1 360px; }
+.root-main, .root-list, .awt-diagnostics-body { display: grid; gap: 10px; }
+.root-list { max-height: 46vh; overflow: auto; }
+.root-row-wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.root-row { justify-items: start; text-align: left; }
+.root-copy { display: grid; min-width: 0; }
+.root-path, .root-selected, #rootPickerOut, .awt-diagnostics-body pre {
+  max-width: 100%;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.awt-diagnostics-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 240;
+}
+.awt-diagnostics-drawer {
+  position: fixed;
+  z-index: 270;
+  inset: auto 18px 78px auto;
+  width: min(760px, calc(100vw - 36px));
+  max-height: min(720px, calc(100vh - 108px));
+  padding: 18px;
+  overflow: auto;
+}
