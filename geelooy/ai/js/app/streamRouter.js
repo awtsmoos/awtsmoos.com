@@ -1,18 +1,18 @@
 //B"H
 import { normalizeMessage } from "../render/messageNormalizer.js";
-import { eventRecordKey } from "./stream/eventKeys.js";
 import { isDonePacket, looksLikeUserEcho } from "./stream/packetState.js";
 
 /**
- * B"H — Routes every stream packet without losing hidden vessels.
+ * B"H — Routes every stream packet into one assistant vessel.
  *
- * Done packets are normalized before completion, because ChatGPT often hides
- * status/tool/thinking details inside the same final packet that says complete.
+ * Streaming order is sacred: user prompt, then the assistant's thought chamber,
+ * then the final answer. So thought/tool/result packets no longer create side
+ * records that can drift above the user or below the answer; they accumulate
+ * on the live assistant record and reconcile in place.
  */
 export class StreamRouter {
   constructor(renderer) {
     this.renderer = renderer;
-    this.records = new Map();
     this.assistant = null;
     this.done = false;
   }
@@ -21,13 +21,12 @@ export class StreamRouter {
     const normalized = normalizeMessage(packet);
     const hasText = Boolean(normalized.text?.trim());
     const hasEvents = Boolean(normalized.events?.length);
+    const target = hasEvents || (hasText && normalized.role === "assistant") ? this.ensureAssistant() : null;
 
+    if (hasEvents) this.renderer.setRecordEvents(target.id, normalized.events);
     if (hasText && normalized.role === "assistant" && !looksLikeUserEcho(this.renderer, normalized.text)) {
-      const target = this.ensureAssistant();
       await this.renderer.updateRecord(target.id, packet, "assistant");
     }
-
-    if (hasEvents) for (const event of normalized.events) this.routeEvent(event);
     if (isDonePacket(packet)) this.finishDone();
   }
 
@@ -43,20 +42,6 @@ export class StreamRouter {
       awtsmoosLoading: true
     });
     return this.assistant;
-  }
-
-  routeEvent(event) {
-    if (!event) return;
-    const key = eventRecordKey(event);
-    let record = this.records.get(key);
-    if (!record) {
-      record = this.renderer.add({
-        message: { author: { role: "assistant" }, content: { parts: [""] } },
-        awtsmoosStreamEvent: event
-      });
-      this.records.set(key, record);
-    }
-    this.renderer.setRecordEvents(record.id, [event]);
   }
 
   finishDone() {

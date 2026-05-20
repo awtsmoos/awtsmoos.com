@@ -1,7 +1,8 @@
 //B"H
 import { escapeHtml } from "../escapeHtml.js";
-import { eventFacts, importantLinks, requestPayload, responsePayload } from "./eventFacts.js";
+import { eventFacts, requestPayload, responsePayload } from "./eventFacts.js";
 import { valueView } from "./valueView.js";
+import { collectReferences } from "./referenceFacts.js";
 
 export function factsCard(title, facts = {}) {
   const chips = Object.entries(facts).map(([k, v]) => `<span class="event-chip"><b>${escapeHtml(k)}</b>${escapeHtml(short(v))}</span>`).join("");
@@ -14,7 +15,7 @@ export function interpretedEvent(event = {}) {
   const response = responsePayload(event);
   if (request) sections.push(panel("Request / input", request, true));
   if (response) sections.push(panel("Result / output", response, true));
-  sections.push(linkPanel(importantLinks(event)));
+  sections.push(referencePanel(collectReferences(event)));
   sections.push(panel("All interpreted fields", event.raw || event, false));
   return sections.filter(Boolean).join("");
 }
@@ -27,10 +28,12 @@ function panel(title, value, open = false) {
   return `<details class="event-payload" ${open ? "open" : ""}><summary>${escapeHtml(title)}</summary>${valueView(value)}</details>`;
 }
 
-function linkPanel(links = []) {
-  if (!links.length) return "";
-  const body = links.map(link => `<a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">${escapeHtml(labelLink(link))}</a>`).join("");
-  return `<section class="event-link-panel"><b>Links / policy / external references</b><div>${body}</div></section>`;
+function referencePanel(refs = []) {
+  if (!refs.length) return "";
+  const body = refs.map(ref => ref.href
+    ? `<a href="${escapeHtml(ref.href)}" target="_blank" rel="noreferrer"><span>${escapeHtml(ref.kind)}</span>${escapeHtml(ref.label)}</a>`
+    : `<span class="event-reference-chip"><span>${escapeHtml(ref.kind)}</span>${escapeHtml(ref.label)}</span>`).join("");
+  return `<section class="event-link-panel"><b>References / citations</b><div>${body}</div></section>`;
 }
 
 function short(value, max = 160) {

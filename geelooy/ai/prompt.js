@@ -44,7 +44,7 @@ async function downloadExtensionZip(button) {
   button.disabled = true;
   button.textContent = "Building zip…";
   try {
-    const zip = await import("/scripts/awtsmoos/zip");
+    const zip = await import("/scripts/awtsmoos/zip/api.js");
     await zip.downloadZipFromUrls(EXTENSION_FILES, { zipName: "awtsmoos-server-extension.zip" });
     button.textContent = "Downloaded zip";
   } catch (error) {

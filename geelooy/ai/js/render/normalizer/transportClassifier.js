@@ -1,5 +1,5 @@
 //B"H
-import { extractEventText, findFirstUrl } from "./textExtractors.js";
+import { extractEventText, findFirstUrl, visibleContentText } from "./textExtractors.js";
 import { isToolCallSignal, isToolResultSignal, toolLabel } from "./toolSignals.js";
 
 const DEDUP_NOISE = /delta_encoding|server_ste_metadata|conversation_detail_metadata|moderation_response/i;
@@ -17,8 +17,8 @@ export function classifyTransportEvent(event) {
   if (raw?.dataNoJSON === "[DONE]") return capsule("status", "Stream complete", raw, "Stream complete.");
   if (isThinking(metadata, type, channel)) return capsule("thinking", thinkingLabel(metadata, channel), raw, extractEventText(raw));
   if (metadata.is_visually_hidden_from_conversation) return capsule("hidden", "Hidden message", raw, extractEventText(raw));
-  if (isToolCallSignal(raw, message)) return capsule("tool_call", toolLabel(raw, message), raw, extractEventText(raw));
-  if (isToolResultSignal(raw, message)) return capsule("tool_result", toolLabel(raw, message), raw, extractEventText(raw));
+  if (isToolCallSignal(raw, message)) return capsule(toolKind(raw, message, "call"), toolLabel(raw, message), raw, extractEventText(raw));
+  if (isToolResultSignal(raw, message)) return capsule(toolKind(raw, message, "result"), toolLabel(raw, message), raw, extractEventText(raw));
   if (looksLikeOAuth(raw)) return oauthCapsule(raw);
   if (STATUS.test(String(type || raw?.type || raw?.event || ""))) return capsule("status", raw.type || raw.event || type, raw, extractEventText(raw));
   return capsule("raw", raw.type || raw.event || type || "raw", raw, extractEventText(raw));
@@ -40,14 +40,21 @@ export function isVisibleConversationMessage(message = {}, content = message.con
   const role = message?.author?.role || message?.role;
   const recipient = message?.recipient;
   const channel = message?.channel;
+  const metadata = message?.metadata || {};
+  if (metadata.is_thinking_preamble_message || metadata.reasoning_status) return false;
   if (recipient && recipient !== "all") return false;
   if (channel === "analysis") return false;
   if (!["assistant", "user", "model", undefined].includes(role)) return false;
   if (!["text", "multimodal_text", undefined].includes(type)) return false;
-  return Boolean((Array.isArray(content.parts) && content.parts.length) || typeof content.text === "string");
+  return Boolean(visibleContentText(content));
 }
 
 function capsule(kind, label, raw, text = "") { return { kind, label, raw, text: text || "" }; }
+function toolKind(raw, message, fallback) {
+  const label = toolLabel(raw, message);
+  if (/awtsmoos|tunnel|jit_plugin/i.test(label)) return "awtsmoos_tool";
+  return fallback === "result" ? "tool_result" : "agent_tool";
+}
 function isThinking(metadata, type, channel) { return metadata.is_thinking_preamble_message || type === "thoughts" || metadata.reasoning_status || channel === "analysis"; }
 function thinkingLabel(metadata, channel) { return metadata.reasoning_status || (channel === "analysis" ? "Analysis" : "Thinking"); }
 function oauthCapsule(raw) { const href = findFirstUrl(raw); return { kind: "oauth", label: "Sign-in / OAuth", raw, text: "", action: href ? { href, label: "Open sign-in" } : null }; }

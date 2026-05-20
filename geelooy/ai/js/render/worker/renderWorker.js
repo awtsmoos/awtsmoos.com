@@ -1,25 +1,40 @@
 //B"H
+import { storeEvent, readEvent, storeRaw, readRaw } from "./eventStore.js";
 
 const CHUNK = 1800;
 const MAX_CHUNKS = 8;
 
 self.onmessage = event => {
-  const { id, records } = event.data || {};
-  const prepared = (records || []).map(prepareRecord);
-  self.postMessage({ id, records: prepared });
+  const msg = event.data || {};
+  if (msg.kind === "storeEvent") return reply(msg, { key: storeEvent(msg.event || {}) });
+  if (msg.kind === "readEvent") return reply(msg, { event: readEvent(msg.key) });
+  if (msg.kind === "storeRaw") return reply(msg, { key: storeRaw(msg.value) });
+  if (msg.kind === "readRaw") return reply(msg, { raw: readRaw(msg.key) });
+  const records = (msg.records || []).map(prepareRecord);
+  self.postMessage({ id: msg.id, records });
 };
+
+function reply(msg, extra) { self.postMessage({ id: msg.id, ...extra }); }
 
 function prepareRecord(record) {
   const text = String(record.text || "");
-  const chunks = splitText(text);
   return {
     id: record.id,
     role: record.role || "assistant",
-    raw: record.raw || null,
-    events: record.events || [],
+    raw: null,
+    events: summarizeEvents(record.events || []),
     textLength: text.length,
-    chunks
+    chunks: splitText(text)
   };
+}
+
+function summarizeEvents(events) {
+  return events.map(event => ({
+    kind: event.kind || "raw",
+    label: event.label || "event",
+    textLength: String(event.text || "").length,
+    key: storeEvent(event)
+  }));
 }
 
 function splitText(text) {
@@ -32,15 +47,14 @@ function splitText(text) {
     chunks.push({ index: chunks.length, total: 0, text: text.slice(offset, soft), overflow: false });
     offset = soft;
   }
-  if (offset < text.length) chunks.push({ index: chunks.length, total: 0, text: `… ${text.length - offset} more characters stored off-DOM. Open raw/source to inspect.`, overflow: true });
-  const total = chunks.length;
-  return chunks.map(chunk => ({ ...chunk, total }));
+  if (offset < text.length) chunks.push({ index: chunks.length, total: 0, text: `… ${text.length - offset} more characters stored off-DOM.`, overflow: true });
+  return chunks.map(chunk => ({ ...chunk, total: chunks.length }));
 }
 
 function findSoftBreak(text, start, hardEnd) {
   if (hardEnd >= text.length) return text.length;
   const slice = text.slice(start, hardEnd);
-  const candidates = [slice.lastIndexOf("\n\n"), slice.lastIndexOf("\n"), slice.lastIndexOf(". "), slice.lastIndexOf(" ")].filter(v => v > CHUNK * .55);
-  const best = candidates.length ? Math.max(...candidates) : slice.length;
+  const marks = ["\n\n", "\n", ". ", " "].map(mark => slice.lastIndexOf(mark)).filter(v => v > CHUNK * .55);
+  const best = marks.length ? Math.max(...marks) : slice.length;
   return Math.max(start + 1, start + best + (slice[best] === " " ? 1 : 0));
 }

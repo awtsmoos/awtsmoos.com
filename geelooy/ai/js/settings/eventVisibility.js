@@ -1,7 +1,7 @@
 //B"H
 
-export const EVENT_TYPES = ["thinking", "status", "tool_call", "tool_result", "oauth", "raw", "hidden", "code"];
-const KEY = "awtsmoosEventVisibility";
+export const EVENT_TYPES = ["thinking", "status", "awtsmoos_tool", "agent_tool", "tool_call", "tool_result", "oauth", "raw", "hidden", "code"];
+const KEY = "awtsmoosEventVisibility:v2";
 
 export function loadEventVisibility() {
   try { return { ...defaults(), ...JSON.parse(localStorage.getItem(KEY) || "{}") }; }
@@ -21,5 +21,16 @@ export function applyEventVisibility(settings = loadEventVisibility()) {
 }
 
 export function defaults() {
-  return Object.fromEntries(EVENT_TYPES.map(type => [type, true]));
+  return {
+    thinking: true,
+    oauth: true,
+    awtsmoos_tool: true,
+    agent_tool: true,
+    tool_call: true,
+    tool_result: true,
+    status: false,
+    raw: false,
+    hidden: false,
+    code: false
+  };
 }

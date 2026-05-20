@@ -9,7 +9,11 @@ export function normalizeRole(role) {
 
 export function visibleContentText(content = {}) {
   if (Array.isArray(content.parts)) return content.parts.map(partToText).filter(Boolean).join("\n");
+  if (Array.isArray(content.content)) return content.content.map(partToText).filter(Boolean).join("\n");
   if (typeof content.text === "string") return content.text;
+  if (typeof content.result === "string") return content.result;
+  if (typeof content.output === "string") return content.output;
+  if (typeof content.message === "string") return content.message;
   return "";
 }
 
@@ -28,8 +32,10 @@ export function extractEventText(input) {
 
 export function partToText(part) {
   if (typeof part === "string") return part;
-  if (part?.text) return part.text;
+  if (part?.text) return typeof part.text === "string" ? part.text : partToText(part.text);
   if (part?.summary) return part.summary;
+  if (part?.content) return visibleContentText(part.content);
+  if (part?.value) return String(part.value);
   return "";
 }
 

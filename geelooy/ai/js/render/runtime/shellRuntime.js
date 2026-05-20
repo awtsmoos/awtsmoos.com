@@ -4,6 +4,7 @@ import { renderEventRegion } from "./eventRuntime.js";
 import { VISIBLE_TEXT_LIMIT } from "./renderConstants.js";
 import { dedupeEvents } from "./renderHelpers.js";
 import { primaryRecordKind, recordKinds } from "./recordWeight.js";
+import { visibleEvents } from "./eventVisibilityRuntime.js";
 
 export function createShell(renderer, record) {
   const shell = document.createElement("div");
@@ -12,11 +13,19 @@ export function createShell(renderer, record) {
   shell.dataset.messageId = record.id;
   shell.dataset.eventKinds = recordKinds(record).join(" ");
   record.shell = shell;
-  if (!record.text && record.events?.length) shell.append(eventBadge(record));
+  const visible = visibleEvents(dedupeEvents(record.events || []));
+  if (!record.text && !record.loading && !visible.length) {
+    shell.classList.add("is-render-suppressed");
+    return shell;
+  }
+  if (!record.text && !record.loading && !visible.length) {
+    shell.classList.add("is-render-suppressed");
+    return shell;
+  }
+  if (!record.text && visible.length) shell.append(eventBadge({ ...record, events: visible }));
+  if (visible.length) renderEventRegion(shell, visible, record);
   if (record.text) shell.append(createCombinedBubble(renderer, record));
-  if (record.loading && !record.text && !record.events?.length) shell.append(loadingBubble());
-  const cleanEvents = dedupeEvents(record.events || []);
-  if (cleanEvents.length) renderEventRegion(shell, cleanEvents, record);
+  if (record.loading && !record.text && !visible.length) shell.append(loadingBubble());
   return shell;
 }
 

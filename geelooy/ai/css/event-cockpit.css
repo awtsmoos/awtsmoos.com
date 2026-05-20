@@ -1,0 +1,180 @@
+/* B"H */
+/*
+  Chapter 3: The Trace Chamber Receives Glass Bones.
+  The Awtsmoos shines through each packet like lightning trapped in carved ice:
+  hidden tool sparks stay quiet by default, yet when opened they unfold as
+  readable vessels instead of gray rubble.
+*/
+.event-lanes {
+  display: grid;
+  gap: 10px;
+}
+.event-lane {
+  box-shadow: 0 14px 35px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.04);
+  background: radial-gradient(circle at top left, rgba(34,211,238,.13), transparent 34%), rgba(2,8,23,.78);
+}
+.event-lane > summary {
+  min-height: 42px;
+  color: #e6fbff;
+  font-weight: 850;
+}
+.event-lane.awtsmoos_tool { border-left-color: #22d3ee; }
+.event-lane.agent_tool { border-left-color: #a78bfa; }
+.event-lane.tool_result { border-left-color: #34d399; }
+.event-tool-meta {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(125,211,252,.22);
+  color: #bae6fd;
+  background: rgba(14,165,233,.12);
+  font-size: .72rem;
+  font-weight: 800;
+}
+.event-tool-meta {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(125,211,252,.22);
+  color: #bae6fd;
+  background: rgba(14,165,233,.12);
+  font-size: .72rem;
+  font-weight: 800;
+}
+.event-payload {
+  margin: 10px;
+  border: 1px solid rgba(125,211,252,.18);
+  border-radius: 15px;
+  background: rgba(1,8,18,.62);
+  overflow: hidden;
+}
+.event-payload > summary {
+  cursor: pointer;
+  padding: 10px 12px;
+  color: #bff4ff;
+  font-weight: 850;
+  background: linear-gradient(90deg, rgba(14,165,233,.14), rgba(15,23,42,.18));
+}
+.event-object, .event-array {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+}
+.event-field {
+  display: grid;
+  grid-template-columns: minmax(96px, 170px) minmax(0,1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 8px;
+  border: 1px solid rgba(148,163,184,.12);
+  border-radius: 12px;
+  background: rgba(15,23,42,.44);
+}
+.event-field > b {
+  color: #93e7ff;
+  font-size: .75rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.event-code-block {
+  margin: 0;
+  max-height: 420px;
+  overflow: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(125,211,252,.16);
+  background: #020617;
+  color: #d9f7ff;
+  padding: 12px;
+  font: 12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  white-space: pre;
+}
+.event-code-block .token-comment { color: #fbbf24; }
+.event-code-block .token-string,
+.event-code-block .token-attribute-value { color: #7dd3fc; }
+.event-code-block .token-controlKeyword { color: #c084fc; font-weight: 800; }
+.event-code-block .token-definitionKeyword { color: #34d399; font-weight: 800; }
+.event-code-block .token-functionName { color: #fde68a; }
+.event-code-block .token-number { color: #fb7185; }
+.event-code-block .token-property,
+.event-code-block .token-attribute-name { color: #93c5fd; }
+.event-code-block .token-tag { color: #f0abfc; }
+.event-code-block .token-punctuation { color: #bae6fd; }
+.event-code-block .token-operator { color: #67e8f9; }
+.event-code-block .token-selector { color: #86efac; }
+.thought-envelope-card {
+  display: block;
+  padding: 12px;
+  border: 1px solid rgba(167,139,250,.24);
+  border-radius: 18px;
+  background: radial-gradient(circle at top right, rgba(167,139,250,.14), transparent 38%), rgba(15,23,42,.58);
+}
+.thought-envelope-card > summary {
+  cursor: pointer;
+  color: #f5d0fe;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.thought-envelope-readable {
+  margin-bottom: 10px;
+  border: 1px solid rgba(167,139,250,.18);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.thought-envelope-readable > summary {
+  cursor: pointer;
+  padding: 9px 11px;
+  color: #ddd6fe;
+  font-weight: 850;
+}
+.thought-envelope-card > summary {
+  cursor: pointer;
+  color: #f5d0fe;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.thought-envelope-readable {
+  margin-bottom: 10px;
+  border: 1px solid rgba(167,139,250,.18);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.thought-envelope-readable > summary {
+  cursor: pointer;
+  padding: 9px 11px;
+  color: #ddd6fe;
+  font-weight: 850;
+}
+.thought-envelope-events {
+  border: 1px solid rgba(125,211,252,.15);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.thought-envelope-events > summary {
+  cursor: pointer;
+  padding: 9px 11px;
+  color: #e9d5ff;
+  font-weight: 850;
+}
+.thought-envelope-events .transport-details {
+  margin: 8px;
+}
+.event-long summary { color: #a7f3d0; }
+.event-long div { padding: 10px; overflow-wrap: anywhere; }
+.event-filter-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+.event-filter {
+  border: 1px solid rgba(125,211,252,.16);
+  border-radius: 14px;
+  background: rgba(15,23,42,.52);
+}
+@media (max-width: 720px) {
+  .event-field { grid-template-columns: 1fr; }
+}

@@ -32,10 +32,17 @@ export function responsePayload(event = {}) {
 }
 
 export function importantLinks(event = {}) {
-  try {
-    const text = JSON.stringify(event.raw || event);
-    return [...new Set(text.match(/https?:\/\/[^\s"')]+/g) || [])];
-  } catch { return []; }
+  const raw = event.raw || event;
+  const fields = [event.text, event.action?.href, raw.url, raw.href, raw.request?.url, raw.response?.url]
+    .filter(value => typeof value === "string");
+  const links = fields.flatMap(cleanLinksFromText);
+  return [...new Set(links)].slice(0, 8);
+}
+
+function cleanLinksFromText(text = "") {
+  return (String(text).match(/https?:\/\/[^\s"'<>\\)]+/g) || [])
+    .map(link => link.replace(/\\n|\\r|\\t/g, "").replace(/[),.;]+$/g, ""))
+    .filter(link => !/localhost:8080\/ai\/js\//.test(link));
 }
 
 function clean(obj) {

@@ -1,4 +1,5 @@
 //B"H
+import { resolveToolName } from "./toolNameResolver.js";
 
 export function isToolCallSignal(raw = {}, message = raw.message || raw.input_message || raw) {
   const recipient = message.recipient || raw.recipient;
@@ -21,7 +22,7 @@ export function isToolResultSignal(raw = {}, message = raw.message || raw.input_
 }
 
 export function toolLabel(raw = {}, message = raw.message || raw.input_message || raw) {
-  return message.recipient || raw.recipient || message.author?.name || raw.name || raw.tool_name || raw.function?.name || "tool";
+  return resolveToolName(raw, message);
 }
 
 function hasToolPayload(value = {}) {

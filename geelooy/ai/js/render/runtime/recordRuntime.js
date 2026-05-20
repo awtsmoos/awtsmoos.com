@@ -10,7 +10,7 @@ export function makeRecord(input) {
     id: msg.id || crypto.randomUUID(),
     role: msg.role,
     text: msg.text || "",
-    events: streamEvent ? [streamEvent] : (msg.events || []),
+    events: mergeEvents(streamEvent ? [streamEvent] : (msg.events || []), input?.awtsmoosFoldedEvents || []),
     raw: msg.raw,
     prepared: null,
     shell: null,

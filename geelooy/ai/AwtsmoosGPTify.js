@@ -40,16 +40,11 @@ class AwtsmoosGPTify {
     authorizationToken = "",
     more = {},
     print = true,
-    customFetch = getMFetch(),
+    customFetch = null,
     customTextEncoder = TextDecoder,
     customHeaders = {}
   }) {
-    await checkMFetch();
-    try {
-      customFetch = getMFetch();
-    } catch (e) {
-      console.log(e, "WOW");
-    }
+    customFetch = typeof customFetch === "function" ? customFetch : await checkMFetch();
 
     var headers = null;
     if (!authorizationToken) {
@@ -113,7 +108,7 @@ class AwtsmoosGPTify {
     var response = await customFetch(URL, json);
     var res = await logStream(response, async c => {
       if (c?.data?.conversation_id) this._conversationId = c?.data?.conversation_id;
-      if (typeof onstream == "function") onstream(c.data);
+      if (typeof onstream == "function") onstream(c);
     });
     if (typeof ondone == "function") ondone(res);
     return res;

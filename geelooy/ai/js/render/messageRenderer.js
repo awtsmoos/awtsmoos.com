@@ -8,6 +8,7 @@ import { refreshEventsLive } from "./runtime/eventRuntime.js";
 import { applyPacket, makeRecord, snapshotRecord } from "./runtime/recordRuntime.js";
 import { createCombinedBubble, createShell, updateBubbleHtml } from "./runtime/shellRuntime.js";
 import { removeIfEmptyLoading } from "./runtime/loadingRuntime.js";
+import { sweepLoadingGhosts } from "./runtime/loadingSweep.js";
 import { pruneTopRenderedShells, syncWindowGates, weightedEnd } from "./runtime/windowRuntime.js";
 
 export class MessageRenderer {
@@ -38,7 +39,7 @@ export class MessageRenderer {
   async updateRecord(id, input, role = "assistant") {
     const record = this.byId.get(id); if (!record) return;
     applyPacket(record, input, role); await this.vault.put(record.id, snapshotRecord(record));
-    this.refreshLive(record); this.scrollDown();
+    this.refreshLive(record); if (record.text) sweepLoadingGhosts(this); this.scrollDown();
   }
 
   setRecordEvents(id, events = []) {
@@ -53,7 +54,10 @@ export class MessageRenderer {
     const slice = this.records.slice(this.windowStart, end);
     await this.prepareSlice(slice); if (seq !== this.renderSeq) return;
     this.chatBox.innerHTML = ""; syncWindowGates(this, end); this.chatBox.append(this.topSpacer);
-    for (const record of slice) this.chatBox.append(createShell(this, record));
+    for (const record of slice) {
+      const shell = createShell(this, record);
+      if (!shell.classList.contains("is-render-suppressed")) this.chatBox.append(shell);
+    }
     this.chatBox.append(this.bottomSpacer, this.bottomSentinel);
   }
 
@@ -70,7 +74,7 @@ export class MessageRenderer {
 
   refreshLive(record) {
     if (!record.shell || !record.shell.isConnected) return this.appendLiveRecord(record);
-    if (!record.bubble && record.text) record.shell.prepend(createCombinedBubble(this, record));
+    if (!record.bubble && record.text) record.shell.append(createCombinedBubble(this, record));
     updateBubbleHtml(this, record); refreshEventsLive(this, record);
   }
 

@@ -24,6 +24,7 @@ export function dedupeEvents(events = []) {
 
 export function eventMergeKey(event = {}) {
   const raw = event.raw || event;
+  if (raw.groupedThoughtEnvelope) return [event.kind, "thought-envelope"].join("::");
   const msg = raw.message || raw.input_message || raw.data?.message || raw;
   const stable = msg.id || raw.id || raw.message_id || raw.parent || raw.type || raw.event;
   if (stable) return [event.kind, event.label, stable].join("::");

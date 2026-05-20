@@ -2,74 +2,88 @@
 
 import { AwtsmoosPrompt } from "../../../prompt.js";
 
-let mFetch = globalThis.awtsmoosFetch || null;
+let mFetch = currentBridge();
 let waiting = null;
 
 /**
- * B"H — Reveals the Awtsmoos extension fetch bridge as the old file did, but
- * with patience. The content script can arrive shortly after the app shell, so
- * we wait for `window.awtsmoosFetch` and `server-ready` before showing the
- * custom extension instructions.
+ * B"H — Reveals the Awtsmoos extension fetch bridge.
  *
- * @returns {Promise<Function|null>} The living fetch bridge, or null if unavailable.
+ * The bridge can vanish while Chrome reloads an extension or sleeps a service
+ * worker. This gate never returns a non-function: it waits for the injected
+ * fetcher, listens for reconnect events, and throws a clear transport error
+ * instead of letting callers crash with "mFetch is not a function".
+ *
+ * @param {{quiet?:boolean,timeout?:number}} options Prompt and wait controls.
+ * @returns {Promise<Function>} The live fetch bridge.
  */
-export async function checkMFetch({ quiet = false, timeout = 3500 } = {}) {
-  if (!mFetch) mFetch = globalThis.awtsmoosFetch;
-  if (mFetch) return mFetch;
+export async function checkMFetch({ quiet = false, timeout = 12000 } = {}) {
+  mFetch = currentBridge();
+  if (typeof mFetch === "function") return mFetch;
 
   mFetch = await waitForBridge(timeout);
-  if (mFetch) return mFetch;
+  if (typeof mFetch === "function") return mFetch;
 
-  if (!quiet) {
-    await AwtsmoosPrompt.go({
-      isAlert: true,
-      headerTxt: `
-        <p>The Awtsmoos Chrome Server Extension bridge is not visible on this page yet.</p>
-        <p>Make sure the unpacked extension is loaded from <code>geelooy/scripts/tricks/extensions/server</code>, click <strong>Reload</strong> on <code>chrome://extensions</code>, then refresh this tab.</p>
-      `
-    });
-  }
-  return null;
+  const error = new Error("Awtsmoos Chrome Server Extension bridge is not connected yet.");
+  if (!quiet) await AwtsmoosPrompt.go({ isAlert: true, headerTxt: installHelp(error.message) });
+  throw error;
 }
 
 export function getMFetch() {
-  return mFetch || globalThis.awtsmoosFetch || null;
+  return currentBridge() || (typeof mFetch === "function" ? mFetch : null);
 }
 
 export function setMFetch(fetcher) {
-  mFetch = fetcher;
+  mFetch = typeof fetcher === "function" ? fetcher : null;
   return mFetch;
 }
 
-function waitForBridge(timeout = 3500) {
-  if (globalThis.awtsmoosFetch) return Promise.resolve(globalThis.awtsmoosFetch);
+function currentBridge() {
+  if (typeof globalThis.awtsmoosFetch === "function") return globalThis.awtsmoosFetch;
+  if (typeof globalThis.mFetch === "function") return globalThis.mFetch;
+  return null;
+}
+
+function waitForBridge(timeout = 12000) {
+  const bridge = currentBridge();
+  if (bridge) return Promise.resolve(bridge);
   if (waiting) return waiting;
 
   waiting = new Promise(resolve => {
     const started = Date.now();
+    let timer = null;
     const done = fetcher => {
       cleanup();
-      mFetch = fetcher || globalThis.awtsmoosFetch || null;
+      mFetch = fetcher || currentBridge();
       waiting = null;
-      resolve(mFetch);
+      resolve(typeof mFetch === "function" ? mFetch : null);
     };
     const tick = () => {
-      if (globalThis.awtsmoosFetch) return done(globalThis.awtsmoosFetch);
+      const found = currentBridge();
+      if (found) return done(found);
       if (Date.now() - started >= timeout) return done(null);
-      timer = setTimeout(tick, 100);
+      timer = setTimeout(tick, 150);
     };
+    const onReady = () => setTimeout(() => done(currentBridge()), 30);
     const onMessage = event => {
-      if (event?.data?.from === "awtsmoos-content" && event.data.type === "server-ready") {
-        setTimeout(() => done(globalThis.awtsmoosFetch || null), 50);
-      }
+      if (event?.data?.from === "awtsmoos-content" && /server-(ready|message)/.test(event.data.type || "")) onReady();
     };
     const cleanup = () => {
       clearTimeout(timer);
       globalThis.removeEventListener?.("message", onMessage);
+      globalThis.removeEventListener?.("awtsmoos-server-ready", onReady);
     };
-    let timer = setTimeout(tick, 0);
     globalThis.addEventListener?.("message", onMessage);
+    globalThis.addEventListener?.("awtsmoos-server-ready", onReady);
+    tick();
   });
 
   return waiting;
+}
+
+function installHelp(reason = "") {
+  return `
+    <p><b>Conversation load error:</b> the Awtsmoos Chrome Server Extension bridge is not visible yet.</p>
+    ${reason ? `<p><code>${reason}</code></p>` : ""}
+    <p>Reload the unpacked extension from <code>geelooy/scripts/tricks/extensions/server</code>, then refresh this tab. The extension now injects at <code>document_start</code> and aliases both <code>awtsmoosFetch</code> and <code>mFetch</code>.</p>
+  `;
 }

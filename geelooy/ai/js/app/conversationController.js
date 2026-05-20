@@ -114,8 +114,8 @@ export class ConversationController {
   }
 
   renderSendError(error) {
-    const body = error?.responseBody || error?.body || error?.rawBody || "";
-    const text = `Error sending message\n\n${error?.message || error}\n\n${body}`;
+    const body = parseErrorBody(error?.responseBody || error?.body || error?.rawBody || "");
+    const text = [`Request error`, `Message: ${error?.message || error}`, body && `Body:\n${body}`].filter(Boolean).join("\n\n");
     const failure = this.renderer.add({ message: { author: { role: "assistant" }, content: { parts: [text] } } });
     this.renderer.pushTransport(failure.shell, { type: "network_error", error: error?.stack || String(error), body });
   }
@@ -124,6 +124,12 @@ export class ConversationController {
 function extractAssistantText(packet) {
   if (typeof packet === "string") return packet;
   return packet?.content?.parts?.[0] || packet?.message?.content?.parts?.[0] || packet?.text || "";
+}
+
+function parseErrorBody(body = "") {
+  const text = typeof body === "string" ? body : JSON.stringify(body, null, 2);
+  if (!text) return "";
+  try { return JSON.stringify(JSON.parse(text), null, 2); } catch { return text; }
 }
 
 function escapeHtml(text) {

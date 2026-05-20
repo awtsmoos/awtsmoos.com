@@ -47,4 +47,18 @@ function tab(name, label, active) { return `<button type="button" data-tab="${na
 function field(name, label, type, value) { const checked = type === "checkbox" && value ? "checked" : ""; const val = type === "checkbox" ? "" : `value="${attr(value)}"`; return `<label class="automation-field">${label}<input data-auto="${name}" type="${type}" ${val} ${checked}></label>`; }
 function cast(value) { return /^\d+$/.test(String(value)) ? Number(value) : value; }
 function attr(value) { return String(value ?? "").replaceAll('"', "&quot;"); }
-function label(type) { return type.replace(/_/g, " "); }
+function label(type) {
+  const labels = {
+    awtsmoos_tool: "Awtsmoos tool calls",
+    agent_tool: "Agent tool calls",
+    tool_call: "Generic tool calls",
+    tool_result: "Tool results",
+    status: "Status packets",
+    raw: "Raw packets",
+    hidden: "Hidden messages",
+    code: "Code payloads",
+    thinking: "Thinking traces",
+    oauth: "OAuth prompts"
+  };
+  return labels[type] || type.replace(/_/g, " ");
+}

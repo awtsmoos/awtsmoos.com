@@ -1,17 +1,34 @@
 //B"H
 import { renderEventDetails } from "../eventDetails.js";
 import { dedupeEvents, eventMergeKey } from "./renderHelpers.js";
+import { installRawJsonHydrator } from "./rawJsonHydrator.js";
+import { groupReasoningEvents } from "./reasoningGrouper.js";
+import { envelopeThoughtEvents } from "./thoughtEnvelope.js";
+import { installPanelChrome } from "./panelChrome.js";
+import { visibleEvents } from "./eventVisibilityRuntime.js";
+import { installCollapsedDomVault, vaultCollapsedPanels } from "./collapsedDomVault.js";
+import { installEventBodyHydrator } from "./eventBodyHydrator.js";
 
 /**
  * B"H — Events are living retractable traces.
  *
- * New kinds append. Existing kinds update only when their payload actually
- * changes, while remembering which <details> panels the user opened.
+ * Streaming re-renders the same thought chamber many times as new sparks come
+ * in. This reconciler replaces stale event nodes by key, so old one-event
+ * chambers do not remain beside the newer full chamber.
  */
 export function renderEventRegion(shell, events = [], record = null) {
   const region = ensureRegion(shell);
+  installRawJsonHydrator(region);
+  installPanelChrome(region);
+  installCollapsedDomVault(region);
+  installEventBodyHydrator(region);
+  installEventBodyHydrator(region);
+  installCollapsedDomVault(region);
   const nodes = record ? (record.renderedEventNodes ||= new Map()) : new Map();
-  for (const event of events) renderOneEvent(region, nodes, event);
+  const visible = visibleEvents(envelopeThoughtEvents(groupReasoningEvents(events)));
+  reconcileNodes(region, nodes, visible);
+  if (!visible.length) return region;
+  for (const event of visible) renderOneEvent(region, nodes, event);
   return region;
 }
 
@@ -20,6 +37,16 @@ export function refreshEventsLive(renderer, record) {
   const cleanEvents = dedupeEvents(record.events || []);
   if (!cleanEvents.length) return clearEvents(record);
   renderEventRegion(record.shell, cleanEvents, record);
+}
+
+function reconcileNodes(region, nodes, visible) {
+  const liveKeys = new Set(visible.map(eventMergeKey));
+  for (const [key, node] of nodes) {
+    if (!liveKeys.has(key)) {
+      node.remove();
+      nodes.delete(key);
+    }
+  }
 }
 
 function renderOneEvent(region, nodes, event) {
@@ -38,6 +65,7 @@ function renderOneEvent(region, nodes, event) {
   node.innerHTML = html;
   node.dataset.eventHtml = html;
   restoreOpenDetails(node, openKeys);
+  vaultCollapsedPanels(node);
 }
 
 function ensureRegion(shell) {
