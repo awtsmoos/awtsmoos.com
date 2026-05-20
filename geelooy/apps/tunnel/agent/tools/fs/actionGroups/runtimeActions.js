@@ -1,4 +1,5 @@
 // B"H
+const { stabilizeRemoteModuleSource } = require("./remoteModuleCompat.js");
 
 function json64(value, fallback) {
   if (!value) return fallback;
@@ -61,6 +62,13 @@ function rewriteImports(source, baseUrl) {
   );
 }
 
+function collectRemoteDeps(source, baseUrl) {
+  const deps = new Set();
+  for (const match of String(source || "").matchAll(/(?:import|export)\s+[^"']*?["'](https?:\/\/[^"']+)["']/g)) deps.add(match[1]);
+  for (const match of String(source || "").matchAll(/require\(["'](\.{1,2}\/[^"']+)["']\)/g)) deps.add(new URL(match[1], baseUrl).href);
+  return [...deps];
+}
+
 async function importHttpModule(url) {
   if (moduleCache.has(url)) {
     const cached = await moduleCache.get(url);
@@ -69,12 +77,10 @@ async function importHttpModule(url) {
 
   const pending = (async () => {
     let source = await fetchText(url);
+    source = stabilizeRemoteModuleSource(source, url);
     source = rewriteImports(source, url);
 
-    const deps = Array.from(
-      source.matchAll(/(?:import|export)\s+[^"']*?["'](https?:\/\/[^"']+)["']/g),
-      match => match[1]
-    );
+    const deps = collectRemoteDeps(source, url);
 
     for (const dep of deps) {
       await importHttpModule(dep);
@@ -153,9 +159,6 @@ function buildRuntimeActions(ctx) {
       return await runService(payload, "runtimeWorkflow");
     },
 
-    async aiCommandBatch() {
-      return await runService(payload, "runtimeWorkflow");
-    },
 
     async testRuntimeOnce() {
       return await runService(payload, "simulateRuntime");
