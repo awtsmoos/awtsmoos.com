@@ -2,6 +2,7 @@
 const { writeText, findReplaceText, normalizeWrites } = require("../readWrite.js");
 const { replaceRange, applyPatch } = require("../searchEdit.js");
 const { writeIfHash, bulkWriteIfHashes } = require("../hashWrite.js");
+const { verifyJsFile } = require("../jsWriteVerifier.js");
 
 async function handleBulkWrite(config, payload, action) {
   if (!config.tools.fsBulk) throw new Error("fsBulk disabled.");
@@ -13,6 +14,7 @@ async function handleBulkWrite(config, payload, action) {
   for (const one of writes) {
     try {
       results[one.path] = await writeText(config, one.path, one.content);
+      results[one.path].jsVerification = verifyJsFile(results[one.path].absolutePath);
       okCount++;
     } catch (e) {
       results[one.path] = { ok: false, error: e.message };
@@ -31,7 +33,8 @@ function buildWriteActions(ctx) {
     async write() {
       const content = payload.content !== undefined ? payload.content : payload.text;
       const wrote = await writeText(config, p, content ?? "");
-      return { ok: true, action, root: config.root, ...wrote };
+      const jsVerification = verifyJsFile(wrote.absolutePath);
+      return { ok: true, action, root: config.root, ...wrote, jsVerification };
     },
     async bulkWrite() { return await handleBulkWrite(config, payload, action); },
     async writeIfHash() { return await writeIfHash(config, payload); },

@@ -13,6 +13,8 @@ const { buildPreviewActions } = require("./actionGroups/previewActions.js");
 const { buildRuntimeActions } = require("./actionGroups/runtimeActions.js");
 const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
 const { buildQualityActions } = require("./actionGroups/qualityActions.js");
+const { buildCommandPresetActions } = require("./actionGroups/commandPresetActions.js");
+const { buildAiTemplateActions } = require("./actionGroups/aiTemplateActions.js");
 
 const AGENT_VERSION = "split-agent-1.5.0";
 
@@ -38,10 +40,11 @@ function buildActions(config, payload, ws) {
     ...buildIsolatedActions(ctx),
     ...buildWriteActions(ctx),
     ...buildWorkflowActions(ctx, buildActions),
+    ...buildCommandPresetActions(ctx, buildActions),
+    ...buildAiTemplateActions(ctx, buildActions),
     ...buildPreviewActions(ctx),
     ...buildRuntimeActions(ctx),
     ...buildCognitionActions(ctx),
-    ...buildQualityActions(ctx, buildActions),
     ...buildQualityActions(ctx, buildActions)
   };
 }

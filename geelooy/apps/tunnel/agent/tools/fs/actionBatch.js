@@ -1,50 +1,149 @@
 // B"H
 
 /**
- * Chapter 25: Many Sparks Became One Command.
+ * Chapter 25: Many sparks became one command tree.
  *
- * Local tunnel-agent batch runner. It mirrors the public API batch vessel so the
- * installed agent can run write/read/search/simulate sequences without shell
- * strings and without losing conditional control.
+ * This runner is a tiny declarative language for tunnel actions. It keeps AIs
+ * away from raw shell strings when structured tool calls can express the same
+ * intention. The language supports sequential steps, if/then/else, parallel
+ * branches, forEach loops, retry/backoff, assertions, saveAs variables,
+ * $ctx references, dry-run plans, onError branches, and finally blocks.
  */
 async function runActionBatch(payload = {}, runAction) {
   const steps = normalizeSteps(payload);
-  const ctx = { ok: true, results: [], named: {}, last: null, error: null };
-  const options = { stopOnError: payload.stopOnError !== false, maxSteps: Number(payload.maxSteps || 50) };
-  await runSteps(steps, ctx, runAction, options);
+  const ctx = {
+    ok: true,
+    vars: payload.vars || {},
+    policy: payload.policy || {},
+    results: [],
+    named: {},
+    last: null,
+    error: null,
+    dryRun: !!(payload.dryRun || payload.explainOnly || payload.validateOnly)
+  };
+  const options = {
+    stopOnError: payload.stopOnError !== false,
+    maxSteps: Number(payload.maxSteps || payload.policy?.maxSteps || 200),
+    retryDelayMs: Number(payload.retryDelayMs || 0)
+  };
+
+  if (payload.validateOnly) {
+    return { ok: true, action: payload.action || "actionBatch", validated: true, plan: explainSteps(steps) };
+  }
+
+  try {
+    await runSteps(steps, ctx, runAction, options);
+  } finally {
+    if (payload.finally) await runSteps(asSteps(payload.finally), ctx, runAction, options);
+  }
+
   ctx.ok = ctx.results.every(item => item.ok !== false);
-  return { ok: ctx.ok, action: payload.action || "actionBatch", count: ctx.results.length, results: ctx.results, named: ctx.named, last: ctx.last, error: ctx.error };
+  return {
+    ok: ctx.ok,
+    action: payload.action || "actionBatch",
+    count: ctx.results.length,
+    results: ctx.results,
+    named: ctx.named,
+    vars: ctx.vars,
+    last: ctx.last,
+    error: ctx.error,
+    plan: ctx.dryRun ? explainSteps(steps) : undefined
+  };
 }
 
 async function runSteps(steps, ctx, runAction, options) {
-  for (const step of steps) {
-    if (ctx.results.length >= options.maxSteps) throw new Error(`actionBatch maxSteps exceeded: ${options.maxSteps}`);
-    if (!step || typeof step !== "object") continue;
-    if (step.condition && !evaluateCondition(step.condition, ctx)) {
-      if (step.else) await runSteps(asSteps(step.else), ctx, runAction, options);
-      continue;
+  for (const step of asSteps(steps)) await runOneStep(step, ctx, runAction, options);
+}
+
+async function runOneStep(step, ctx, runAction, options) {
+  if (ctx.results.length >= options.maxSteps) throw new Error(`actionBatch maxSteps exceeded: ${options.maxSteps}`);
+  if (!step || typeof step !== "object") return;
+
+  if (step.if || step.when || step.condition) {
+    const passed = evaluateCondition(step.if || step.when || step.condition, ctx);
+    if (step.then || step.else || step.do) {
+      await runSteps(passed ? (step.then || step.do) : step.else, ctx, runAction, options);
+      return;
     }
+    if (!passed) return;
+  }
+
+  if (step.parallel) {
+    const branches = asSteps(step.parallel);
+    if (ctx.dryRun) return record(ctx, step, { ok: true, dryRun: true, parallel: branches.length });
+    const snapshots = branches.map(() => forkCtx(ctx));
+    const branchResults = await Promise.all(branches.map((branch, i) => runSteps(asSteps(branch), snapshots[i], runAction, options).then(() => snapshots[i])));
+    for (const branch of branchResults) mergeCtx(ctx, branch);
+    return record(ctx, step, { ok: branchResults.every(b => b.ok !== false), parallel: branchResults.length });
+  }
+
+  if (step.forEach) {
+    const list = resolveValue(step.forEach.in || step.forEach.items || [], ctx) || [];
+    const arr = Array.isArray(list) ? list : Object.values(list);
+    for (let i = 0; i < arr.length; i++) {
+      ctx.vars[step.forEach.as || "item"] = arr[i];
+      ctx.vars.index = i;
+      await runSteps(step.forEach.do || step.do || [], ctx, runAction, options);
+    }
+    return record(ctx, step, { ok: true, forEach: arr.length });
+  }
+
+  if (step.assert) {
+    const ok = evaluateCondition(step.assert, ctx);
+    const result = { ok, assertion: step.assert, message: ok ? "assertion_passed" : "assertion_failed" };
+    record(ctx, step, result);
+    if (!ok && options.stopOnError && step.stopOnError !== false) throw new Error(result.message);
+    return;
+  }
+
+  if (step.do && !step.action && !step.type) return runSteps(step.do, ctx, runAction, options);
+
+  const attempts = Math.max(1, Number(step.retry?.times || step.retries || 1));
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
-      const result = await runAction(resolvePayload({ ...(step.payload || step.with || {}), action: step.action || step.type }, ctx));
-      ctx.last = result;
-      ctx.results.push({ name: step.name || step.id || null, action: step.action, ok: result?.ok !== false, result });
+      if (ctx.dryRun) {
+        return record(ctx, step, { ok: true, dryRun: true, wouldRun: publicStep(step), attempt });
+      }
+      const result = await invokeAction(step, ctx, runAction);
+      record(ctx, step, result, attempt);
       if (step.saveAs || step.id) ctx.named[step.saveAs || step.id] = result;
-      if (step.then) await runSteps(asSteps(step.then), ctx, runAction, options);
       if (result?.ok === false && step.onError) await runSteps(asSteps(step.onError), ctx, runAction, options);
-      else if (result?.ok === false && options.stopOnError && step.stopOnError !== false) break;
+      if (result?.ok === false && options.stopOnError && step.stopOnError !== false) break;
+      if (step.then) await runSteps(asSteps(step.then), ctx, runAction, options);
+      return;
     } catch (error) {
-      ctx.error = { message: error.message, stack: error.stack, step: step.action || null };
-      ctx.results.push({ name: step.name || step.id || null, action: step.action, ok: false, error: ctx.error });
-      if (step.onError) await runSteps(asSteps(step.onError), ctx, runAction, options);
-      else if (options.stopOnError && step.stopOnError !== false) break;
+      lastError = error;
+      if (attempt < attempts) await sleep(Number(step.retry?.delayMs || options.retryDelayMs || 0));
     }
   }
+  ctx.error = { message: lastError?.message || "action_failed", stack: lastError?.stack || "", step: step.action || step.type || null };
+  record(ctx, step, { ok: false, error: ctx.error });
+  if (step.onError) await runSteps(asSteps(step.onError), ctx, runAction, options);
+  else if (options.stopOnError && step.stopOnError !== false) throw lastError;
+}
+
+async function invokeAction(step, ctx, runAction) {
+  const action = step.action || step.type || step.call;
+  if (!action) return { ok: true, skipped: true, reason: "missing_action" };
+  const payload = resolvePayload({ ...(step.payload || step.with || {}), action }, ctx);
+  return await runAction(payload);
+}
+
+function record(ctx, step, result, attempt = 1) {
+  ctx.last = result;
+  const item = { name: step.name || step.id || step.saveAs || null, action: step.action || step.type || step.call || "control", ok: result?.ok !== false, attempt, result };
+  ctx.results.push(item);
+  if (item.ok === false) ctx.ok = false;
+  return item;
 }
 
 function normalizeSteps(payload) {
-  const raw = payload.steps || payload.actions || payload.workflow || [];
-  if (typeof raw === "string") { try { return asSteps(JSON.parse(raw)); } catch { return []; } }
-  return asSteps(raw.steps || raw);
+  const raw = payload.steps || payload.actions || payload.workflow || payload.commandTree || payload.tree || payload.do || [];
+  if (typeof raw === "string") { try { return normalizeSteps(JSON.parse(raw)); } catch { return []; } }
+  if (raw && raw.steps) return asSteps(raw.steps);
+  if (raw && raw.do) return asSteps(raw.do);
+  return asSteps(raw);
 }
 
 function asSteps(value) { return Array.isArray(value) ? value : value ? [value] : []; }
@@ -59,29 +158,39 @@ function resolvePayload(value, ctx) {
 
 function resolveValue(value, ctx) {
   if (typeof value === "string" && value.startsWith("$ctx.")) return getPath(ctx, value.slice(5));
+  if (typeof value === "string" && value.startsWith("$vars.")) return getPath(ctx.vars, value.slice(6));
   if (Array.isArray(value)) return value.map(item => resolveValue(item, ctx));
   if (value && typeof value === "object") return resolvePayload(value, ctx);
   return value;
 }
 
 function evaluateCondition(condition, ctx) {
+  if (condition === true) return true;
+  if (!condition) return false;
   if (Array.isArray(condition.all)) return condition.all.every(item => evaluateCondition(item, ctx));
   if (Array.isArray(condition.any)) return condition.any.some(item => evaluateCondition(item, ctx));
   if (condition.not) return !evaluateCondition(condition.not, ctx);
-  const left = condition.path ? getPath(ctx, condition.path) : condition.left;
-  const right = condition.right;
-  const op = condition.operator || "truthy";
+  const left = condition.path ? getPath(ctx, condition.path) : resolveValue(condition.left, ctx);
+  const right = resolveValue(condition.right, ctx);
+  const op = condition.operator || condition.op || Object.keys(condition).find(k => ["eq", "ne", "gt", "gte", "lt", "lte", "includes", "regex"].includes(k)) || "truthy";
+  const expected = condition[op] !== undefined ? resolveValue(condition[op], ctx) : right;
   const ops = {
     truthy: a => !!a, falsy: a => !a, exists: a => a !== undefined && a !== null, missing: a => a === undefined || a === null,
     ok: a => (a ?? ctx.last)?.ok !== false, failed: a => (a ?? ctx.last)?.ok === false,
     eq: (a, b) => a === b, ne: (a, b) => a !== b, gt: (a, b) => a > b, gte: (a, b) => a >= b, lt: (a, b) => a < b, lte: (a, b) => a <= b,
     includes: (a, b) => Array.isArray(a) ? a.includes(b) : String(a || "").includes(String(b || "")), regex: (a, b) => new RegExp(String(b)).test(String(a || ""))
   };
-  try { return !!(ops[op] || ops.truthy)(left, right); } catch { return false; }
+  try { return !!(ops[op] || ops.truthy)(left, expected); } catch { return false; }
 }
 
 function getPath(target, path) {
   return String(path || "").split(".").filter(Boolean).reduce((acc, key) => acc?.[key], target);
 }
 
-module.exports = { runActionBatch, evaluateCondition };
+function forkCtx(ctx) { return { ...ctx, results: [], named: { ...ctx.named }, vars: { ...ctx.vars }, last: ctx.last, error: null }; }
+function mergeCtx(ctx, branch) { ctx.results.push(...branch.results); Object.assign(ctx.named, branch.named); Object.assign(ctx.vars, branch.vars); ctx.last = branch.last || ctx.last; if (branch.error) ctx.error = branch.error; }
+function sleep(ms) { return ms > 0 ? new Promise(resolve => setTimeout(resolve, ms)) : Promise.resolve(); }
+function publicStep(step) { return { action: step.action || step.type || step.call || null, hasCondition: !!(step.if || step.when || step.condition), saveAs: step.saveAs || step.id || null }; }
+function explainSteps(steps) { return asSteps(steps).map((step, index) => ({ index, ...publicStep(step), control: step.parallel ? "parallel" : step.forEach ? "forEach" : step.assert ? "assert" : step.do && !step.action ? "group" : "action" })); }
+
+module.exports = { runActionBatch, evaluateCondition, normalizeSteps, explainSteps };

@@ -2,42 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const { safePath } = require("../pathGuard.js");
-
-
-const cognitionActionNames = [
-  "semanticDiff",
-  "detectConceptClusters",
-  "simulateFailure",
-  "generateRepairPlan",
-  "superviseRuntime",
-  "inferArchitecture",
-  "detectAbstractionLeaks",
-  "runtimeEntityGraph",
-  "semanticRefactor",
-  "inspectRenderStorms",
-  "runtimeContractRegistry",
-  "semanticSearchRuntime",
-  "previewBranchMatrix",
-  "inferBusinessRules",
-  "stateTimeMachine",
-  "detectDeadConcepts",
-  "semanticMerge",
-  "runtimeIntrospectionStream",
-  "architectureScore",
-  "intentDriftDetector",
-  "semanticPackageGenerator",
-  "selfHealPreview",
-  "generateTestUniverse",
-  "inspectHumanConfusion",
-  "orchestrationGraph",
-  "environmentVirtualizer",
-  "runtimeSnapshot",
-  "semanticCache",
-  "goalCompiler",
-  "autonomousBackgroundAgents",
-  "semanticPipeline",
-  "universalAppManifest"
-];
+const { cognitionActionNames } = require("../cognitionCommandNames.js");
 
 function safeRead(file) {
   try { return fs.readFileSync(file, "utf8"); } catch (e) { return ""; }

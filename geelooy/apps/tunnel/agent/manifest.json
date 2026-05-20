@@ -1,6 +1,6 @@
 {
   "BH": "B\"H",
-  "version": "1.5.14",
+  "version": "1.5.30",
   "entry": "main.js",
   "files": [
     {
@@ -20,22 +20,6 @@
     },
     {
       "path": "lib/ws.js",
-      "bytes": 6652,
-      "sha256": "f77886115d3b36f3250847f6ce339682c425edb4b726692b1f67e5354ced3f96"
-    },
-	
-    {
-      "path": "tools/fs/actionBatch.js",
-      "bytes": 6652,
-      "sha256": "f77886115d3b36f3250847f6ce339682c425edb4b726692b1f67e5354ced3f96"
-    },
-    {
-      "path": "tools/fs/actionGroups/qualityActions.js",
-      "bytes": 6652,
-      "sha256": "f77886115d3b36f3250847f6ce339682c425edb4b726692b1f67e5354ced3f96"
-    },
-    {
-      "path": "tools/fs/actionGroups/remoteModuleCompat.js",
       "bytes": 6652,
       "sha256": "f77886115d3b36f3250847f6ce339682c425edb4b726692b1f67e5354ced3f96"
     },
@@ -131,13 +115,28 @@
     },
     {
       "path": "tools/fs/actionBatch.js",
-      "bytes": 4573,
-      "sha256": "dd2682c3e52b661da38e90b6003c1cba043d83032b1cedbf484d8292a5217867"
+      "bytes": 9479,
+      "sha256": "091eb1a9c9ec4502a1d0166e590cdfaf1636f2c99fd9d54ced621deacac7601e"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiTemplateActions.js",
+      "bytes": 1929,
+      "sha256": "e7bc2331ffd35fd4abf29a9dfa090578291769bbac78bdc32cef003483171de0"
+    },
+    {
+      "path": "tools/fs/actionGroups/aiTemplateCatalog.js",
+      "bytes": 2541,
+      "sha256": "daad52f982d62d1d482bda1d28a89a328c4f3aaf828d93ad6e794e61566b2c40"
     },
     {
       "path": "tools/fs/actionGroups/cognitionActions.js",
-      "bytes": 3039,
-      "sha256": "0697e50879befa5f1a46faad500147cbfd90f56eaf55241384c787224f9da4de"
+      "bytes": 2299,
+      "sha256": "235974d210a0f4f122f94718274ab0a0ff04ed8c43715c5b753c619c1f73f56b"
+    },
+    {
+      "path": "tools/fs/actionGroups/commandPresetActions.js",
+      "bytes": 3505,
+      "sha256": "ca3d934ab60d82d5a717aac2f7de61e6e9c015818ed4408395fae4f36a9c3908"
     },
     {
       "path": "tools/fs/actionGroups/configActions.js",
@@ -196,18 +195,18 @@
     },
     {
       "path": "tools/fs/actionGroups/workflowActions.js",
-      "bytes": 1910,
-      "sha256": "9f08e24ead8215cb57ced57480c84acfaf5f0ff2043d4dcb0f244516a320fa6c"
+      "bytes": 2377,
+      "sha256": "fe687396cb494dda1ed7d8f07e5de764efccadb77b15a53dfbd39650969478bb"
     },
     {
       "path": "tools/fs/actionGroups/writeActions.js",
-      "bytes": 1749,
-      "sha256": "85bf44cd12a8917a1a1dbac4cf7428bd2aacf584a30012b30cbb90aabf219cc8"
+      "bytes": 1974,
+      "sha256": "715635faa3f0f127852240b731a10d5ec91d2cf14b6636a0b9d8d4818a337871"
     },
     {
       "path": "tools/fs/actions.js",
-      "bytes": 2565,
-      "sha256": "48f397b4287137648c5a02ae555ad56aaf86d968c1fb0049a18bdeabcb063b77"
+      "bytes": 2793,
+      "sha256": "63313c504f57378b941286d5a7dec489e5c171b1558f32975af72d2f1bd6c4cd"
     },
     {
       "path": "tools/fs/astOutline.js",
@@ -218,6 +217,11 @@
       "path": "tools/fs/bulkRead.js",
       "bytes": 4211,
       "sha256": "4d34c4bb3e6e04bfe5ee03950b97d86b0786730029bd5a57629bd2f7ada99a97"
+    },
+    {
+      "path": "tools/fs/cognitionCommandNames.js",
+      "bytes": 5270,
+      "sha256": "a7786227bec6d65bfd9b2ee6f79ac15c06975ba9babf9f6ccf6469c23ac58229"
     },
     {
       "path": "tools/fs/connectedFiles.js",
@@ -298,6 +302,11 @@
       "path": "tools/fs/jsonTools.js",
       "bytes": 2225,
       "sha256": "a141b666357dd2b81ef589682cc57befdd36ca81719165e57896d05886e55f03"
+    },
+    {
+      "path": "tools/fs/jsWriteVerifier.js",
+      "bytes": 2891,
+      "sha256": "638f96c217bf34352e52e31308ffa9607b664f485109cd156c8a032cf9e53f57"
     },
     {
       "path": "tools/fs/lineBatch.js",
