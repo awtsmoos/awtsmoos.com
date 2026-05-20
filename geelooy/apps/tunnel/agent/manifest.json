@@ -8,6 +8,11 @@
       "bytes": 5757,
       "sha256": "89293b8a32fcf796412e0dd836a8564820f70620ec2dbf316e469fbe4d3fe017"
     },
+{
+  "path": "tools/fs/actionBatch.js",
+  "bytes": 4894,
+  "sha256": "REGENERATE_THIS_HASH"
+},
     {
       "path": "lib/log.js",
       "bytes": 715,
