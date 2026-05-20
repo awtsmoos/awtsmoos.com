@@ -68,13 +68,14 @@ module.exports = ({
 		}
 	},
 	"/heichelos/:heichel": async vars => {
+		var heichelId = vars.heichel;
+		var aliasId = $i.$_DELETE?.aliasId || $i.$_POST?.aliasId || $i.$_PUT?.aliasId || $i.$_GET?.aliasId;
+
 		if ($i.request.method == "DELETE") {
 			return await deleteHeichel({
 				$i,
-				
 				heichelId,
 				aliasId,
-				
 				er
 			});
 		}
@@ -84,26 +85,21 @@ module.exports = ({
 				$i,
 				sp,
 				er,
-				
-				//
 				aliasId: $i.$_POST.aliasId
 			}) 
 		}
 
 		if ($i.request.method == "PUT") {
-			return await deleteHeichel({
-				
-				$i,
-				sp
+			return await updateHeichel({
+				vars,
+				$i
 			})
 		}
 
 		// Existing GET logic
 		return await getHeichel({
-			heichelId: vars.heichel,
-			
+			heichelId,
 			$i,
-			
 			er
 		});
 	},

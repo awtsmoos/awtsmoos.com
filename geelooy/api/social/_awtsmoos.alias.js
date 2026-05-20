@@ -100,7 +100,7 @@ module.exports = ({
 	},
 	"/user/:user/aliases/details": async (v) => {
 		return await getAliasesDetails({
-			$i, sp, userID: v.us
+			$i, sp, userID: v.user
 		
 		});
 	},
@@ -310,7 +310,7 @@ module.exports = ({
 			
 			return await updateAlias({
 				$i,
-				
+				aliasId,
 				verifyAliasOwnership,
 				userid
 			});

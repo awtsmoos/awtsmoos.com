@@ -34,6 +34,46 @@ const {
 } = require("./commentPaths.js");
 
 /**
+ * B"H
+ * @function parseDayuhVessel
+ * @description Turns JSON-string dayuh bodies into objects before verse routing.
+ * Numeric zero is never root; only missing/invalid vessels fall back later.
+ * @param {any} dayuh Raw dayuh from request/comment payload.
+ * @returns {object|undefined} Parsed dayuh object, or undefined.
+ */
+function parseDayuhVessel(dayuh) {
+    if (!dayuh) return undefined;
+    if (typeof dayuh === "object") return dayuh;
+    if (typeof dayuh !== "string") return undefined;
+    try {
+        const parsed = JSON.parse(dayuh);
+        return parsed && typeof parsed === "object" ? parsed : undefined;
+    } catch (_) {
+        return undefined;
+    }
+}
+
+/**
+ * B"H
+ * @function parseDayuhVessel
+ * @description Turns JSON-string dayuh bodies into objects before verse routing.
+ * Numeric zero is never root; only missing/invalid vessels fall back later.
+ * @param {any} dayuh Raw dayuh from request/comment payload.
+ * @returns {object|undefined} Parsed dayuh object, or undefined.
+ */
+function parseDayuhVessel(dayuh) {
+    if (!dayuh) return undefined;
+    if (typeof dayuh === "object") return dayuh;
+    if (typeof dayuh !== "string") return undefined;
+    try {
+        const parsed = JSON.parse(dayuh);
+        return parsed && typeof parsed === "object" ? parsed : undefined;
+    } catch (_) {
+        return undefined;
+    }
+}
+
+/**
  * @method addComment
  * @description Initiates comment creation, verifying ownership and authority. (Checks remain similar)
  * @returns {Object} Success or error response.
@@ -217,9 +257,9 @@ async function addLotsOfCommentsToPostByVerseSections({
         commentArray = commentArray || $i.$_POST.commentArray || [];
         var realArray = commentArray?.map?.(q => ({
             content: q.content,
-            dayuh: q.dayuh
+            dayuh: parseDayuhVessel(q.dayuh)
 
-        })).filter(q => q?.dayuh?.verseSection || q?.dayuh?.verseSection === 0);
+        })).filter(q => q?.dayuh?.verseSection || q?.dayuh?.verseSection === 0 || q?.dayuh?.verseSection === "0");
         if(!realArray || !realArray?.length) {
             return er({
                 message: "No ARRAY of comments with verseSection dayuh attribute provided",
@@ -284,8 +324,8 @@ async function addOrApproveComment(
     try {
         // 1. Validate Input (Redundant checks removed, handled in addComment)
         const content = $i.$_POST.content; // Or from submittedCommentData if approval
-        const dayuh = $i.$_POST.dayuh;     // Or from submittedCommentData if approval
-        const verseSection = dayuh?.verseSection ?? $i.$_POST?.dayuh?.verseSection ?? "root"; // Default to "root"
+        const dayuh = parseDayuhVessel($i.$_POST.dayuh);     // Or from submittedCommentData if approval
+        const verseSection = dayuh?.verseSection ?? "root"; // Default to "root" only when missing
 
         if (!content && !dayuh) {
             return er("Comment must have content or dayuh.", { code: "EMPTY_COMMENT" });

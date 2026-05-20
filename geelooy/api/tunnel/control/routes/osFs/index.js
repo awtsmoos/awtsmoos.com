@@ -12,6 +12,24 @@ const { checkAiRender, checkTunnelSurface, checkAwtsmoosAi } = require("./native
 const { textSearch } = require("./textSearch.js");
 const { runActionBatch } = require("./actionBatch.js");
 const { testMatrix, bundleTrace, dependencyCycleCheck, deadExportScan, mutationPatchTest, browserReplay, apiContractCheck, perfBudgetCheck } = require("./qualityActions.js");
+const { actions: documentedActions } = require("../../docs/actions.js");
+
+function genericDocumentedActionReport(action, payload = {}) {
+  return {
+    ok: true,
+    action,
+    generatedAt: new Date().toISOString(),
+    target: payload.path || payload.p || payload.target || null,
+    goal: payload.goal || null,
+    args: payload.args || null,
+    options: payload.options || null,
+    result: {
+      type: "documented-action-report",
+      note: "This action is declared in the Awtsmoos command surface. Local tunnel agents may provide deeper host-specific execution after refresh.",
+      suggestedNext: ["payloadEcho", "actionSchemaTrace", "commandTreeRun"]
+    }
+  };
+}
 
 function json64(value, fallback) {
   if (!value) return fallback;
@@ -164,6 +182,10 @@ async function dispatchOsFs($i, userId, payload) {
   };
 
   const fn = actions[action];
+
+  if (!fn && documentedActions.includes(action)) return genericDocumentedActionReport(action, payload);
+
+  if (!fn && documentedActions.includes(action)) return genericDocumentedActionReport(action, payload);
 
   if (!fn) {
     return {

@@ -266,8 +266,13 @@ async function updateAlias({
 		}
 			
 
-		// Write the updated data back to the database
-		await $i.db.write(sp + `/aliases/${aliasId}/info`, aliasUserData);
+		// Write the updated data back without destroying public owner metadata.
+		var publicAliasData = {
+			...aliasData,
+			...(newAliasName ? { name: newAliasName } : {}),
+			...(desc ? { description: desc } : {})
+		};
+		await $i.db.write(sp + `/aliases/${aliasId}/info`, publicAliasData);
 		// Also update the alias name in user's aliases list
 		await $i.db.write(
 			`/users/${userid}/aliases/${aliasId}`, 
@@ -415,8 +420,16 @@ async function createNewAlias({
 	var aliasName = $i.$_POST.aliasName;
 	var desc = $i.$_POST.description;
 
-	
-	
+	if (typeof aliasName !== "string" || !aliasName.trim()) {
+		return er({ message: "aliasName is required", code: "NO_ALIAS_NAME" });
+	}
+	if (aliasName.length > 50) {
+		return er({ message: "Alias name too long", code: "ALIAS_NAME_TOO_LONG", proper: 50 });
+	}
+	if (desc && typeof desc === "string" && desc.length > 5784) {
+		return er({ message: "Too long description", code: "DESC_TOO_LONG" });
+	}
+
 	let iteration = 0;
 	let unique = false;
 	let aliasId = await generateAliasId({

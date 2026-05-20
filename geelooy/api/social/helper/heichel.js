@@ -118,11 +118,12 @@ async function removeHeichelEditor({
 			if(ind > -1) {
 				cur.splice(ind, 1)
 			}
-            var del = await $i.db.write(pth);
+            cur = sortStringsAscCaseInsensitive(cur);
+            var del = await $i.db.write(pth, cur);
             return {
                 success: {
                     deleted: prospectAlias,
-                    was: cur,
+                    now: cur,
                     del
                 }
             }
@@ -235,17 +236,18 @@ async function updateHeichel({
         $i.$_PUT.description;
     var dayuh = $i.$_PUT.dayuh
 
+    var aliasId = vars.alias || $i.$_PUT.aliasId || $i.$_POST?.aliasId || $i.$_GET?.aliasId;
     var ver = await verifyHeichelAuthority({
         $i,
         heichelId,
-        aliasId: vars.alias
+        aliasId
     });
 
     if(!ver) {
         return er({
             code: "NO_AUTH",
             heichelId,
-            aliasId:vars.alias
+            aliasId
         })
     }
     if (
@@ -467,7 +469,7 @@ async function createHeichel({
 
 
 
-    if(name > 50 || description > 365) {
+    if((name && name.length > 50) || (description && description.length > 365)) {
         return er({
             message: "Name or description too long. Name max: 50 char. desc: 365",
             proper: {
@@ -489,10 +491,11 @@ async function createHeichel({
     //creating new heichel
     if (!heichelId) {
 
-        heichelId = await generateHeichelId({$i})
-        if(heichelId.error) {
-            return heichelId
+        var generated = await generateHeichelId({$i})
+        if(generated.error) {
+            return generated
         }
+        heichelId = generated.heichelId;
     }
 
     await $i.db.syncKeyInObj(
