@@ -12,7 +12,8 @@
 
     .post-reader-localized-context .scroll-view-wrapper {
         border-radius: 32px !important;
-        overflow: hidden !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
         box-shadow: 0 24px 74px rgba(44, 28, 10, 0.12) !important;
     }
 

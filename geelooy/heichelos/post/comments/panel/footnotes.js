@@ -2,18 +2,28 @@
 //B"H
 /**
  * @file footnotes.js
- * @description 
- * Renders the footnotes side panel using the Genesis Engine.
- * Purged of `innerHTML` strings.
+ * @description
+ * Renders the footnotes side panel using the Genesis Engine, after normalizing
+ * all known footnote packet shapes into one luminous list.
  */
 
 import { GenesisEngine } from "../../functions/dom/GenesisEngine.js";
+import { getNormalizedFootnotes } from "../../functions/interaction/footnoteData.js";
+
+function paragraphChildren(note) {
+    const paragraphs = note.paragraphs?.length ? note.paragraphs : [note.content || ""];
+    return paragraphs.map(text => ({
+        tag: 'p',
+        attr: { class: 'footnote-paragraph' },
+        text: String(text)
+    }));
+}
 
 export function renderFootnotesPanel(actualTab) {
     actualTab.innerHTML = "";
-    const footnotes = window.post?.dayuh?.footnotes;
+    const footnotes = getNormalizedFootnotes(window.post?.dayuh);
     
-    if(!footnotes || !Array.isArray(footnotes) || footnotes.length === 0) {
+    if (!footnotes.length) {
         const emptyPlan = {
             tag: 'div',
             attr: { style: 'padding:20px; text-align:center; color:#888; font-weight: 700;' },
@@ -26,16 +36,16 @@ export function renderFootnotesPanel(actualTab) {
     const listPlan = {
         tag: 'div',
         attr: { class: 'footnotes-list' },
-        children: footnotes.map((note, i) => {
-            const idVal = note.id || (i + 1);
+        children: footnotes.map(note => {
+            const idVal = note.id;
             return {
                 tag: 'div',
                 attr: { class: 'awtsmoos-list-item footnote-item', 'data-footnote-id': idVal },
                 events: {
                     click: (e) => {
                         e.stopPropagation();
-                        const ref = document.querySelector(`sup[data-footnote-id="${CSS.escape(idVal)}"], .footnote-ref[data-footnote-id="${CSS.escape(idVal)}"]`);
-                        if(ref) {
+                        const ref = document.querySelector(`sup[data-footnote-id="${CSS.escape(idVal)}"], sub[data-footnote-id="${CSS.escape(idVal)}"], .footnote-ref[data-footnote-id="${CSS.escape(idVal)}"]`);
+                        if (ref) {
                             ref.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             ref.classList.add('active-footnote-match');
                             setTimeout(() => ref.classList.remove('active-footnote-match'), 2000);
@@ -46,7 +56,7 @@ export function renderFootnotesPanel(actualTab) {
                         }
                     }
                 },
-                children:[
+                children: [
                     {
                         tag: 'div',
                         attr: { class: 'footnote-id' },
@@ -54,8 +64,8 @@ export function renderFootnotesPanel(actualTab) {
                     },
                     {
                         tag: 'div',
-                        attr: { style: 'font-size:14px; line-height:1.5;' },
-                        text: note.content || ""
+                        attr: { class: 'footnote-text' },
+                        children: paragraphChildren(note)
                     }
                 ]
             };

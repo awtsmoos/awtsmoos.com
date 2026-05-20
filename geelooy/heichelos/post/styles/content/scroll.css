@@ -47,7 +47,7 @@
 }
 
 /* 4. LOCKED STATE (When you click 'Comment') */
-.commentary-focus {
+.post-reader-localized-context .post-reader-localized-context .commentary-focus {
     background-color: var(--bg-surface) !important;
     outline: 4px solid var(--color-accent);
     /* Box shadow overlay is a paint operation, very cheap */

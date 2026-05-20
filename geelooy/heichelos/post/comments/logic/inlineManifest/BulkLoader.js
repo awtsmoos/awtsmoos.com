@@ -12,7 +12,6 @@ import { buildBulkFetchPromises } from "./bulk/requestBatch.js";
 import { normalizeSparkDayuh, chooseTruestDuplicateSpark } from "./bulk/coordinate.js";
 import { ensureSparkIdentity } from "./bulk/sparkIdentity.js";
 import { filterSparksToUrlScope } from "./bulk/urlScope.js";
-import { filterSparksToUrlScope } from "./bulk/urlScope.js";
 
 /**
  * Adds one spark to the dedupe map after restoring coordinate and identity.
