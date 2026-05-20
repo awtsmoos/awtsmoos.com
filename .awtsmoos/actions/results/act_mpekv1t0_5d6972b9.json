@@ -1,0 +1,258 @@
+{
+  "entry": {
+    "actionId": "act_mpekv1t0_5d6972b9",
+    "inputRef": "cmd_act_mpekv1t0_5d6972b9",
+    "outputRef": ".awtsmoos/actions/results/act_mpekv1t0_5d6972b9.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": ".awtsmoos-tmp/merkava-prompt-smoke.cjs",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\n'use strict';\n\nconst fs = require('fs');\nconst { buildRuntimeActions } = require('../geelooy/apps/tunnel/agent/tools/fs/actionGroups/runtimeActions.js');\n\n/**\n * Chapter 1: The small vessel enters Merkava.\n * This runner feeds a real geelooy/ai file into simulateRuntime through the\n * Merkava executor parameters: runtime, engine, entry, files, probes, waitMs,\n * timeoutMs, origin, and url. No shell quoting storm is allowed to devour it.\n */\nasync function main() {\n  const promptSource = fs.readFileSync('geelooy/ai/prompt.js', 'utf8');\n  const files = {\n    'index.html': '<main id=\"root\"></main><script type=\"module\" src=\"./prompt-check.js\"></script>',\n    'prompt.js': promptSource,\n    'prompt-check.js': [\n      'import { AwtsmoosPrompt } from \"./prompt.js\";',\n      'globalThis.__promptExportType = typeof AwtsmoosPrompt;',\n      'AwtsmoosPrompt.go({ isAlert: true, headerTxt: \"<p id=\\\\\"bh-probe\\\\\">BH Merkava Prompt Test</p>\" });',\n      'console.log(\"prompt-export\", globalThis.__promptExportType);'\n    ].join('\\n')\n  };\n\n  const payload = {\n    action: 'simulateRuntime',\n    runtime: 'browser',\n    engine: 'merkava',\n    entry: 'index.html',\n    files,\n    probes: [\n      'globalThis.__promptExportType',\n      'document.querySelector(\"#bh-probe\")?.textContent',\n      'document.querySelector(\".awtsmoos-local-prompt-overlay\")?.className'\n    ],\n    waitMs: 700,\n    timeoutMs: 30000,\n    origin: 'http://localhost:8080',\n    url: 'http://localhost:8080'\n  };\n\n  const result = await buildRuntimeActions({ config: { root: process.cwd() }, payload }).simulateRuntime();\n  console.log(JSON.stringify({\n    ok: result.ok !== false,\n    engine: result.engine,\n    runtime: result.runtime,\n    entry: result.entry,\n    score: result.score,\n    errors: result.errors,\n    message: result.message,\n    probes: result.variableSnapshots,\n    domText: result.domSnapshot?.documentElement?.textContent?.slice?.(0, 240),\n    moduleGraph: result.moduleGraph,\n    assetGraph: result.assetGraph\n  }, null, 2));\n}\n\nmain().catch(error => {\n  console.error(error && (error.stack || error.message) || String(error));\n  process.exit(1);\n});\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-20T21:32:15.972Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": ".awtsmoos-tmp/merkava-prompt-smoke.cjs",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\.awtsmoos-tmp\\merkava-prompt-smoke.cjs",
+    "bytes": 2145,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "buildRuntimeActions",
+          "index": 37
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "action",
+          "index": 283
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "runtime",
+          "index": 298
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "engine",
+          "index": 314
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "entry",
+          "index": 329
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "probes",
+          "index": 354
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "waitMs",
+          "index": 401
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "timeoutMs",
+          "index": 418
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "origin",
+          "index": 440
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "http",
+          "index": 449
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "config",
+          "index": 507
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "root",
+          "index": 517
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ok",
+          "index": 605
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "score",
+          "index": 715
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "errors",
+          "index": 740
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "message",
+          "index": 767
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "domText",
+          "index": 834
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "moduleGraph",
+          "index": 914
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "assetGraph",
+          "index": 951
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "error",
+          "index": 1013
+        }
+      ]
+    }
+  }
+}
