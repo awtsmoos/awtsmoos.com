@@ -77,8 +77,22 @@ async function runOneStep(step, ctx, runAction, options) {
     return record(ctx, step, { ok: branchResults.every(b => b.ok !== false), parallel: branchResults.length });
   }
 
+  if (step.until) {
+    const max = Number(step.until.maxIterations || step.maxIterations || options.maxSteps);
+    let count = 0;
+    while (!evaluateCondition(step.until.condition || step.until, ctx) && count++ < max) await runSteps(step.until.do || step.do || [], ctx, runAction, options);
+    return record(ctx, step, { ok: true, until: count });
+  }
+
+  if (step.while) {
+    const max = Number(step.while.maxIterations || step.maxIterations || options.maxSteps);
+    let count = 0;
+    while (evaluateCondition(step.while.condition || step.while, ctx) && count++ < max) await runSteps(step.while.do || step.do || [], ctx, runAction, options);
+    return record(ctx, step, { ok: true, while: count });
+  }
+
   if (step.forEach) {
-    const list = resolveValue(step.forEach.in || step.forEach.items || [], ctx) || [];
+    const list = await resolveValue(step.forEach.in || step.forEach.items || [], ctx, runAction) || [];
     const arr = Array.isArray(list) ? list : Object.values(list);
     for (let i = 0; i < arr.length; i++) {
       ctx.vars[step.forEach.as || "item"] = arr[i];
@@ -126,7 +140,7 @@ async function runOneStep(step, ctx, runAction, options) {
 async function invokeAction(step, ctx, runAction) {
   const action = step.action || step.type || step.call;
   if (!action) return { ok: true, skipped: true, reason: "missing_action" };
-  const payload = resolvePayload({ ...(step.payload || step.with || {}), action }, ctx);
+  const payload = await resolvePayload({ ...(step.payload || step.with || {}), action }, ctx, runAction);
   return await runAction(payload);
 }
 
@@ -148,19 +162,30 @@ function normalizeSteps(payload) {
 
 function asSteps(value) { return Array.isArray(value) ? value : value ? [value] : []; }
 
-function resolvePayload(value, ctx) {
-  if (Array.isArray(value)) return value.map(item => resolvePayload(item, ctx));
-  if (!value || typeof value !== "object") return resolveValue(value, ctx);
+async function resolvePayload(value, ctx, runAction) {
+  if (Array.isArray(value)) return Promise.all(value.map(item => resolvePayload(item, ctx, runAction)));
+  if (!value || typeof value !== "object") return await resolveValue(value, ctx, runAction);
   const out = {};
-  for (const [key, val] of Object.entries(value)) out[key] = resolveValue(val, ctx);
+  for (const [key, val] of Object.entries(value)) out[key] = await resolveValue(val, ctx, runAction);
   return out;
 }
 
-function resolveValue(value, ctx) {
+async function resolveValue(value, ctx, runAction) {
   if (typeof value === "string" && value.startsWith("$ctx.")) return getPath(ctx, value.slice(5));
   if (typeof value === "string" && value.startsWith("$vars.")) return getPath(ctx.vars, value.slice(6));
-  if (Array.isArray(value)) return value.map(item => resolveValue(item, ctx));
-  if (value && typeof value === "object") return resolvePayload(value, ctx);
+  if (typeof value === "string" && value.startsWith("$action.")) {
+    const [, id, ...rest] = value.split(".");
+    const got = await runAction({ action: "actionHistoryGet", actionId: id });
+    return rest.length ? getPath(got.record, rest.join(".")) : got.record;
+  }
+  if (typeof value === "string" && value.startsWith("$result.")) {
+    const [, id, ...rest] = value.split(".");
+    const got = await runAction({ action: "actionHistoryGet", actionId: id });
+    const base = got.record && got.record.output;
+    return rest.length ? getPath(base, rest.join(".")) : base;
+  }
+  if (Array.isArray(value)) return Promise.all(value.map(item => resolveValue(item, ctx, runAction)));
+  if (value && typeof value === "object") return await resolvePayload(value, ctx, runAction);
   return value;
 }
 

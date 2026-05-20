@@ -1,6 +1,6 @@
 {
   "BH": "B\"H",
-  "version": "1.5.30",
+  "version": "1.5.32",
   "entry": "main.js",
   "files": [
     {
@@ -115,8 +115,13 @@
     },
     {
       "path": "tools/fs/actionBatch.js",
-      "bytes": 9479,
-      "sha256": "091eb1a9c9ec4502a1d0166e590cdfaf1636f2c99fd9d54ced621deacac7601e"
+      "bytes": 10937,
+      "sha256": "e1ed9c113183ada0a13203c9c4e05daafdb091cf4a8f66999399b046587bfbeb"
+    },
+    {
+      "path": "tools/fs/actionGroups/actionHistoryActions.js",
+      "bytes": 4751,
+      "sha256": "cddcbd433aa986ca8220637ee61e25133fac9bc24b19ef50fb54ec97f7a46cc0"
     },
     {
       "path": "tools/fs/actionGroups/aiTemplateActions.js",
@@ -204,9 +209,14 @@
       "sha256": "715635faa3f0f127852240b731a10d5ec91d2cf14b6636a0b9d8d4818a337871"
     },
     {
+      "path": "tools/fs/actionLedger.js",
+      "bytes": 2363,
+      "sha256": "b5651055177661d03ae7f06a5b72df017020e7c95f1c17212bd4e9663e434e10"
+    },
+    {
       "path": "tools/fs/actions.js",
-      "bytes": 2793,
-      "sha256": "63313c504f57378b941286d5a7dec489e5c171b1558f32975af72d2f1bd6c4cd"
+      "bytes": 3043,
+      "sha256": "562bd6a5248c0786b528cf3492b27b682838cbefaa52a5f005079e1f10d1ab87"
     },
     {
       "path": "tools/fs/astOutline.js",

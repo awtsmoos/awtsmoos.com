@@ -15,6 +15,8 @@ const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
 const { buildQualityActions } = require("./actionGroups/qualityActions.js");
 const { buildCommandPresetActions } = require("./actionGroups/commandPresetActions.js");
 const { buildAiTemplateActions } = require("./actionGroups/aiTemplateActions.js");
+const { buildActionHistoryActions } = require("./actionGroups/actionHistoryActions.js");
+const ledger = require("./actionLedger.js");
 
 const AGENT_VERSION = "split-agent-1.5.0";
 
@@ -42,6 +44,7 @@ function buildActions(config, payload, ws) {
     ...buildWorkflowActions(ctx, buildActions),
     ...buildCommandPresetActions(ctx, buildActions),
     ...buildAiTemplateActions(ctx, buildActions),
+    ...buildActionHistoryActions(ctx, buildActions),
     ...buildPreviewActions(ctx),
     ...buildRuntimeActions(ctx),
     ...buildCognitionActions(ctx),
@@ -58,7 +61,8 @@ async function handleFsAction(payload, ws) {
     return { ok: false, status: 400, error: "Unknown fs action: " + action, availableActions: Object.keys(actions) };
   }
 
-  return await actions[action]();
+  const result = await actions[action]();
+  return await ledger.record(config, payload, result);
 }
 
 function publicConfigWithVersion(config) {
