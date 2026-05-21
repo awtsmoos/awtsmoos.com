@@ -98,7 +98,7 @@ export const Transfer = {
     },
 
     async pullAndOverwrite(gitContextItem, gitInfo) {
-        // B"H - Left intact for Git ops
-        // ... (original implementation remains safe here as it's separate from copy/paste)
+        const { runPullFlow } = await import('../git/pull/flow.js');
+        return await runPullFlow(gitContextItem, gitInfo);
     }
 };

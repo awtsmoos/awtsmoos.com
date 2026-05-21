@@ -1,6 +1,8 @@
 // B"H
 // FILE: js/git/ui/stage-manager.js
 
+import { renderStageTree } from './stage-tree-html.js';
+
 /**
  * B"H - Git Stage Manager
  * Handles the logic of adding/removing files from the commit set.
@@ -48,16 +50,33 @@ export const GitStageManager = {
         this.render();
     },
 
+    stageDirectory(dirPath) {
+        const moving = this.unstaged.filter(i => i.path === dirPath || i.path.startsWith(dirPath + '/'));
+        moving.forEach(item => this.stage(item.path));
+    },
+
+    unstageDirectory(dirPath) {
+        const moving = Array.from(this.staged).filter(i => i.path === dirPath || i.path.startsWith(dirPath + '/'));
+        moving.forEach(item => this.unstage(item.path));
+    },
+
+    stageDirectory(dirPath) {
+        const moving = this.unstaged.filter(i => i.path === dirPath || i.path.startsWith(dirPath + '/'));
+        moving.forEach(item => this.stage(item.path));
+    },
+
+    unstageDirectory(dirPath) {
+        const moving = Array.from(this.staged).filter(i => i.path === dirPath || i.path.startsWith(dirPath + '/'));
+        moving.forEach(item => this.unstage(item.path));
+    },
+
     render() {
         const uList = document.getElementById('git-unstaged-list');
         const sList = document.getElementById('git-staged-list');
         if (!uList || !sList) return;
 
-        uList.innerHTML = this.unstaged.map(i => this._row(i, 'stage')).join('') || 
-                         '<div style="padding:10px; color:gray; font-style:italic;">No changes.</div>';
-
-        sList.innerHTML = Array.from(this.staged).map(i => this._row(i, 'unstage')).join('') || 
-                         '<div style="padding:10px; color:gray; font-style:italic;">Nothing staged.</div>';
+        uList.innerHTML = renderStageTree(this.unstaged, 'stage');
+        sList.innerHTML = renderStageTree(Array.from(this.staged), 'unstage');
 
         document.getElementById('git-unstaged-count').textContent = `(${this.unstaged.length})`;
         document.getElementById('git-staged-count').textContent = `(${this.staged.size})`;
@@ -93,4 +112,6 @@ export const GitStageManager = {
 // B"H - Global Hooks for inline onclick
 window.gitStage = (p) => GitStageManager.stage(p);
 window.gitUnstage = (p) => GitStageManager.unstage(p);
+window.gitStageDir = (p) => GitStageManager.stageDirectory(p);
+window.gitUnstageDir = (p) => GitStageManager.unstageDirectory(p);
 window.gitStageAll = () => GitStageManager.stageAll();
