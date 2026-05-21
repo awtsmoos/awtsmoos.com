@@ -3,7 +3,7 @@
  * @file ai_search_embedder_config_test.js
  * @description
  * Verifies the AwtsmoosDB AI-search embedder config points at the selected
- * GGUF model and exposes honest readiness state.
+ * GGUF model and exposes honest readiness state inside the synchronous runner.
  */
 
 const assert = require("assert");
@@ -16,8 +16,7 @@ const {
     resolveEmbedderModelPath
 } = require("../../../aiSearch/embedderConfig.js");
 const {
-    assertGgufEmbedderReady,
-    embedTextWithConfiguredGguf
+    assertGgufEmbedderReady
 } = require("../../../aiSearch/ggufEmbedder.js");
 
 const config = loadEmbedderConfig();
@@ -32,6 +31,7 @@ assert.equal(provider.expectedBytes, 36685152);
 assert.equal(provider.embeddingDimensions, 384);
 assert.equal(provider.task, "feature-extraction");
 assert.equal(provider.language, "en");
+assert.ok(provider.runnerPreference.includes("llama-embedding"));
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-embedder-config-"));
 assert.equal(
@@ -42,17 +42,6 @@ assert.equal(
 const readiness = assertGgufEmbedderReady({ rootOrPath: root, provider });
 assert.equal(readiness.modelExists, false);
 assert.equal(readiness.ok, false);
+assert.equal(readiness.provider.filename, provider.filename);
 
-(async () => {
-    try {
-        await embedTextWithConfiguredGguf("find this comment", { rootOrPath: root, provider });
-        assert.fail("embedTextWithConfiguredGguf should fail honestly when runner/model are missing");
-    } catch (error) {
-        assert.equal(error.code, "GGUF_EMBEDDER_NOT_READY");
-        assert.equal(error.readiness.modelExists, false);
-    }
-    console.log('B"H ai_search_embedder_config_test passed');
-})().catch(error => {
-    console.error(error);
-    process.exit(1);
-});
+console.log('B"H ai_search_embedder_config_test passed');

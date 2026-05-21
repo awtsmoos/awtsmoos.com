@@ -11,6 +11,7 @@ module.exports = [
   'dosdb_parallel_awtsmoosdb_test.js',
   'ai_search_bridge_test.js',
   'ai_search_internals_test.js',
+  'ai_search_embedder_config_test.js',
   'omni_test.js',
   'live_test.js',
   'pashut.js',
