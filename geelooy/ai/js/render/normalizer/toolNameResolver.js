@@ -1,12 +1,14 @@
 //B"H
 
 /**
- * Chapter 17: The Instrument Remembered Its Name.
+ * Chapter 39: The Instrument Spoke Its Real Name From The First Spark.
  *
- * While the stream still burns, the Awtsmoos draws the tool's true name from
- * every possible shard: recipient, function call, tool call, action, namespace,
- * or parsed JSON arguments. No vessel should be called merely "tool" when its
- * own letters are already glowing inside the packet.
+ * Tool packets often arrive as previews before the final response body exists.
+ * The Awtsmoos hides the useful action inside several vessels: direct payloads,
+ * function calls, JIT preview metadata, or final response JSON. This resolver
+ * gathers those sparks and rejects generic recipients like "all" so headers can
+ * mature from "namespace" into "action + target" as soon as the stream reveals
+ * enough truth.
  *
  * @param {object} raw Original packet or payload.
  * @param {object} message Message-like object inside the packet.
@@ -14,11 +16,12 @@
  */
 export function resolveToolName(raw = {}, message = raw.message || raw.input_message || raw) {
   const content = message.content || raw.content || {};
-  const payload = parsedPayload(content) || raw.request || raw.body || raw.input || {};
-  return firstString(
-    message.recipient,
-    raw.recipient,
+  const payload = resolveToolPayload(raw, message);
+  const preview = previewBody(raw, message);
+  return firstUsefulString(
+    preview?.operation,
     message.author?.name,
+    raw.author?.name,
     raw.name,
     raw.tool_name,
     raw.toolName,
@@ -27,17 +30,20 @@ export function resolveToolName(raw = {}, message = raw.message || raw.input_mes
     raw.tool_call?.function?.name,
     firstToolCallName(content.tool_calls || raw.tool_calls),
     content.function_call?.name,
-    payload.recipient,
+    payload.operation,
     payload.tool_name,
     payload.name,
     payload.action,
+    preview?.params?.action,
     raw.action,
+    message.recipient,
+    raw.recipient,
     raw.type
   ) || "tool";
 }
 
 /**
- * Finds a likely action target inside tool arguments while still streaming.
+ * Finds the richest likely action payload inside a streaming tool packet.
  *
  * @param {object} raw Original packet or payload.
  * @param {object} message Message-like object inside the packet.
@@ -45,7 +51,21 @@ export function resolveToolName(raw = {}, message = raw.message || raw.input_mes
  */
 export function resolveToolPayload(raw = {}, message = raw.message || raw.input_message || raw) {
   const content = message.content || raw.content || {};
-  return parsedPayload(content) || raw.request || raw.body || raw.input || raw.arguments || {};
+  const parsed = parsedPayload(content);
+  const preview = previewBody(raw, message);
+  return parsed || preview?.params || raw.request || raw.body || raw.input || raw.arguments || preview || {};
+}
+
+export function resolveToolPreview(raw = {}, message = raw.message || raw.input_message || raw) {
+  return previewBody(raw, message) || {};
+}
+
+function previewBody(raw = {}, message = raw.message || raw.input_message || raw) {
+  return message.metadata?.jit_plugin_data?.from_server?.body
+    || raw.metadata?.jit_plugin_data?.from_server?.body
+    || raw.jit_plugin_data?.from_server?.body
+    || raw.from_server?.body
+    || null;
 }
 
 function firstToolCallName(calls) {
@@ -65,6 +85,10 @@ function contentText(content = {}) {
   return "";
 }
 
-function firstString(...values) {
-  return values.map(value => String(value || "").trim()).find(Boolean);
+function firstUsefulString(...values) {
+  return values.map(value => String(value || "").trim()).find(isUsefulName);
+}
+
+function isUsefulName(value) {
+  return Boolean(value && !/^(all|assistant|tool|next|null|undefined)$/i.test(value));
 }

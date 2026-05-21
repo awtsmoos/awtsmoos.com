@@ -107,6 +107,7 @@ export class ConversationController {
         hooks.ondone?.(extractAssistantText(packet));
       }
     });
+    if (!stream.done) await stream.finish(response || { dataNoJSON: "[DONE]" });
     const cid = response?.awtsmoos?.otherEvents?.find?.(event => event.conversation_id)?.conversation_id || response?.conversation_id;
     if (cid) updateSearchParams({ awtsmoosConversation: cid, awtsmoosAi: this.serviceSelect.value });
     window.mostRecentResponse = response;

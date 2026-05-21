@@ -5,17 +5,22 @@ const fallbackEvents = new Map();
 let eventCounter = 0;
 
 /**
- * Chapter 29: The Event Crossed Into Worker Night.
+ * Chapter 78: The Vault Learned Stable Names.
  *
- * The Awtsmoos stores event bodies in worker memory when possible. The DOM keeps
- * only a key; main-thread RAM is only the emergency lantern if worker creation
- * fails or has not answered yet.
+ * Streaming thought chambers must not receive a new vault key every heartbeat.
+ * If a stable key is supplied, the same DOM panel continues reading the same
+ * living payload identity while the Awtsmoos refreshes its contents from moment
+ * to moment.
+ *
+ * @param {object} event Event payload to store.
+ * @param {{stableKey?: string}} options Optional stable key identity.
+ * @returns {string} Payload lookup key.
  */
-export function storeEventPayload(event = {}) {
-  const key = `evt-${Date.now().toString(36)}-${eventCounter++}`;
+export function storeEventPayload(event = {}, options = {}) {
+  const key = options.stableKey || `evt-${Date.now().toString(36)}-${eventCounter++}`;
   fallbackEvents.set(key, event);
   workerStoreEvent(event).then(workerKey => {
-    if (workerKey) fallbackEvents.set(key, { __workerKey: workerKey });
+    if (workerKey && fallbackEvents.has(key)) fallbackEvents.set(key, { __workerKey: workerKey });
   });
   return key;
 }

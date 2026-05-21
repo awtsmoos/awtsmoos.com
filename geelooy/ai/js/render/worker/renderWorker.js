@@ -1,5 +1,6 @@
 //B"H
 import { storeEvent, readEvent, storeRaw, readRaw } from "./eventStore.js";
+import { parseSseChunk } from "./sseParser.js";
 
 const CHUNK = 1800;
 const MAX_CHUNKS = 8;
@@ -10,6 +11,7 @@ self.onmessage = event => {
   if (msg.kind === "readEvent") return reply(msg, { event: readEvent(msg.key) });
   if (msg.kind === "storeRaw") return reply(msg, { key: storeRaw(msg.value) });
   if (msg.kind === "readRaw") return reply(msg, { raw: readRaw(msg.key) });
+  if (msg.kind === "sseChunk") return reply(msg, { packets: parseSseChunk(msg.sessionId, msg.text, msg.final) });
   const records = (msg.records || []).map(prepareRecord);
   self.postMessage({ id: msg.id, records });
 };

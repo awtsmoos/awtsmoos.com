@@ -122,6 +122,11 @@ function wireTransportStatus(dom) {
     el.className = `transport-status is-${detail.kind || detail.transport || "ready"}`;
     el.innerHTML = `<strong>Transport:</strong> ${escapeInline(detail.label || detail.transport || "ready")}`;
   };
+  const renderFeedback = detail => {
+    el.hidden = false;
+    el.className = "transport-status is-missing";
+    el.innerHTML = `<strong>Transport feedback:</strong> ${escapeInline(detail.type || "extension issue")} ${escapeInline(detail.error || "")}`;
+  };
   const renderMissing = help => {
     el.hidden = false;
     el.className = "transport-status is-missing";
@@ -137,6 +142,7 @@ function wireTransportStatus(dom) {
   };
   window.addEventListener("awtsmoos-ai-transport", event => renderReady(event.detail || {}));
   window.addEventListener("awtsmoos-server-ready", event => renderReady({ kind: "extension", label: "Awtsmoos Chrome Server Extension" }));
+  window.addEventListener("awtsmoos-server-feedback", event => renderFeedback(event.detail || {}));
   window.addEventListener("awtsmoos-ai-transport-error", event => renderMissing(event.detail || {}));
 }
 

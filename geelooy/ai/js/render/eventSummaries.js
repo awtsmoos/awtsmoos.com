@@ -21,10 +21,6 @@ function isToolKind(kind = "") {
   return /^(tool_call|agent_tool|awtsmoos_tool|tool_result)$/.test(String(kind));
 }
 
-function isToolKind(kind = "") {
-  return /^(tool_call|agent_tool|awtsmoos_tool|tool_result)$/.test(String(kind));
-}
-
 function extractText(event = {}) {
   const raw = event.raw || event;
   const msg = raw.message || raw.input_message || raw.data?.message || raw;

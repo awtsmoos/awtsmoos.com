@@ -4,22 +4,22 @@
 @import "./css/chat.css";
 @import "./css/event-cockpit.css";
 @import "./css/event-visibility.css";
-@import "./css/event-visibility.css";
 @import "./css/automation-cockpit.css";
 @import "./css/panel-polish.css";
 @import "./css/final-alignment.css";
 @import "./css/thinking-window.css";
-@import "./css/thinking-window.css";
-@import "./css/final-alignment.css";
-@import "./css/panel-polish.css";
-@import "./css/automation-cockpit.css";
-@import "./css/event-cockpit.css";
 @import "./css/forms.css";
 @import "./css/transport.css";
 @import "./css/event-loading.css";
 @import "./css/panels.css";
 @import "./css/attachments.css";
 @import "./css/visual.css";
+@import "./css/stream-polish.css";
+@import "./css/event-responsive.css";
+@import "./css/focus-accessibility.css";
+@import "./css/panel-controls.css";
+@import "./css/markdown-polish.css";
+@import "./css/panel-action-rail.css";
 
 /*
   Chapter 1: The vessel stopped leaking sideways.

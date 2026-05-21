@@ -1,12 +1,20 @@
 //B"H
+import { visibleRenderableEvents } from "./eventRuntime.js";
 
 /**
- * B"H — Loading ghosts may vanish, but event vessels are real messages.
- * Never remove a record that contains thinking, status, raw, OAuth, or tool data.
+ * B"H — Loading ghosts may vanish when no visible spark was born.
+ *
+ * Hidden transport traces are allowed to remain in memory for diagnosis, but
+ * they must not pin a dead loading bubble after the stream has finished.
+ *
+ * @param {{byId:Map}} renderer Message renderer instance.
+ * @param {object} record Candidate loading record.
+ * @returns {boolean} True when the shell was removed.
  */
 export function removeIfEmptyLoading(renderer, record) {
-  if (!record.loading) return false;
-  if (record.text || record.events?.length) return false;
+  const hasVisibleEvents = visibleRenderableEvents(record.events || []).length > 0;
+  const stillStreaming = record.loading || record.streaming;
+  if (stillStreaming || record.text || hasVisibleEvents) return false;
   record.shell?.remove();
   renderer.byId.delete(record.id);
   return true;

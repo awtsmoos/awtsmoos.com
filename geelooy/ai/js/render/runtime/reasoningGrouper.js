@@ -62,5 +62,5 @@ function gateMatches(event, regex) {
 }
 
 function canBelongToThought(event = {}) {
-  return ["thinking", "hidden", "raw", "awtsmoos_tool", "agent_tool", "tool_call", "tool_result"].includes(event.kind) || Boolean(event.text);
+  return ["thinking", "hidden", "raw", "awtsmoos_tool", "awtsmoos_tool_result", "agent_tool", "tool_call", "tool_result"].includes(event.kind) || Boolean(event.text);
 }

@@ -15,10 +15,12 @@ export function classifyTransportEvent(event) {
   if (isVisibleConversationMessage(message, content)) return null;
   if (isDedupNoise(raw, type, metadata)) return null;
   if (raw?.dataNoJSON === "[DONE]") return capsule("status", "Stream complete", raw, "Stream complete.");
+  if (isToolResultSignal(raw, message)) return capsule(toolKind(raw, message, "result"), toolLabel(raw, message), raw, extractEventText(raw));
+  if (isToolCallSignal(raw, message)) return capsule(toolKind(raw, message, "call"), toolLabel(raw, message), raw, extractEventText(raw));
+  if (isAssistantToolMarker(message, content)) return null;
+  if (isEmptyThinkingStatus(message, content, metadata, type, channel)) return null;
   if (isThinking(metadata, type, channel)) return capsule("thinking", thinkingLabel(metadata, channel), raw, extractEventText(raw));
   if (metadata.is_visually_hidden_from_conversation) return capsule("hidden", "Hidden message", raw, extractEventText(raw));
-  if (isToolCallSignal(raw, message)) return capsule(toolKind(raw, message, "call"), toolLabel(raw, message), raw, extractEventText(raw));
-  if (isToolResultSignal(raw, message)) return capsule(toolKind(raw, message, "result"), toolLabel(raw, message), raw, extractEventText(raw));
   if (looksLikeOAuth(raw)) return oauthCapsule(raw);
   if (STATUS.test(String(type || raw?.type || raw?.event || ""))) return capsule("status", raw.type || raw.event || type, raw, extractEventText(raw));
   return capsule("raw", raw.type || raw.event || type || "raw", raw, extractEventText(raw));
@@ -45,14 +47,32 @@ export function isVisibleConversationMessage(message = {}, content = message.con
   if (recipient && recipient !== "all") return false;
   if (channel === "analysis") return false;
   if (!["assistant", "user", "model", undefined].includes(role)) return false;
-  if (!["text", "multimodal_text", undefined].includes(type)) return false;
+  if (!["text", "multimodal_text", "code", undefined].includes(type)) return false;
   return Boolean(visibleContentText(content));
 }
 
+function isEmptyThinkingStatus(message = {}, content = {}, metadata = {}, type = "", channel = "") {
+  if (!isThinking(metadata, type, channel)) return false;
+  if (extractEventText(message || {}).trim() || extractEventText({ content }).trim()) return false;
+  if (Array.isArray(content.thoughts) && content.thoughts.length > 0) return false;
+  if (type === "thoughts") return true;
+  return Boolean(metadata.reasoning_status) && !metadata.is_thinking_preamble_message;
+}
+
 function capsule(kind, label, raw, text = "") { return { kind, label, raw, text: text || "" }; }
+function isAssistantToolMarker(message = {}, content = {}) {
+  const text = visibleContentText(content).trim();
+  if (text) return false;
+  if (message.recipient === "assistant") return true;
+  const pendingTool = message.status === "in_progress"
+    && message.recipient
+    && message.recipient !== "all"
+    && ["analysis", "commentary"].includes(message.channel);
+  return Boolean(pendingTool);
+}
 function toolKind(raw, message, fallback) {
   const label = toolLabel(raw, message);
-  if (/awtsmoos|tunnel|jit_plugin/i.test(label)) return "awtsmoos_tool";
+  if (/awtsmoos|tunnel|jit_plugin/i.test(label)) return fallback === "result" ? "awtsmoos_tool_result" : "awtsmoos_tool";
   return fallback === "result" ? "tool_result" : "agent_tool";
 }
 function isThinking(metadata, type, channel) { return metadata.is_thinking_preamble_message || type === "thoughts" || metadata.reasoning_status || channel === "analysis"; }

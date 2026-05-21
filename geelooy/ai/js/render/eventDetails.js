@@ -4,6 +4,7 @@ import { eventSearchKey } from "./eventSummaries.js";
 import { eventKind, eventTitle } from "./runtime/eventLabels.js";
 import { toolHeadline } from "./event-ui/toolHeadline.js";
 import { renderThoughtEnvelope } from "./event-ui/thoughtEnvelopeCard.js";
+import { renderThoughtTextCard } from "./event-ui/thoughtTextCard.js";
 import { storeEventPayload } from "./runtime/eventPayloadVault.js";
 
 export function renderEventDetails(events = [], { maxPerGroup = 200, nested = false } = {}) {
@@ -12,6 +13,7 @@ export function renderEventDetails(events = [], { maxPerGroup = 200, nested = fa
 
 function renderEventCard(event, nested = false) {
   if (!nested && event?.raw?.groupedThoughtEnvelope) return renderThoughtEnvelope(event);
+  if (nested && event?.kind === "thinking" && event.text) return renderThoughtTextCard(event);
   const kind = eventKind(event);
   const title = eventTitle(event);
   const key = storeEventPayload(event);
@@ -22,7 +24,7 @@ function renderEventCard(event, nested = false) {
 
 function eventHeader(event, fallback) {
   const kind = eventKind(event);
-  if (kind === "awtsmoos_tool" || kind === "agent_tool" || kind === "tool_result") return toolHeader(event);
+  if (kind === "awtsmoos_tool" || kind === "awtsmoos_tool_result" || kind === "agent_tool" || kind === "tool_result") return toolHeader(event);
   return `<b>${escapeHtml(fallback)}</b>`;
 }
 

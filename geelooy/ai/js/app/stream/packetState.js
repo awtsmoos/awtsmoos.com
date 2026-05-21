@@ -1,10 +1,16 @@
 //B"H
 
 export function isDonePacket(packet) {
+  const raw = packet?.data || packet || {};
+  const type = String(raw?.type || packet?.type || packet?.event || "");
+  const status = String(raw?.status || packet?.status || raw?.state || packet?.state || "");
+  const finish = String(raw?.finish_reason || packet?.finish_reason || raw?.message?.status || "");
   return packet === "[DONE]"
     || packet?.dataNoJSON === "[DONE]"
     || packet?.data?.dataNoJSON === "[DONE]"
-    || /message_stream_complete|conversation-turn-complete/i.test(String(packet?.type || packet?.event || packet?.data?.type || ""));
+    || /message_stream_complete|conversation-turn-complete|stream_complete|done/i.test(type)
+    || /finished|complete|completed|done|success/i.test(status)
+    || /stop|finished|complete|completed|done/i.test(finish);
 }
 
 export function looksLikeUserEcho(renderer, text) {

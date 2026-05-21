@@ -1,64 +1,45 @@
 //B"H
+import { parseStreamChunk } from "./workerStreamClient.js";
+import { streamResumeStore } from "./streamResumeStore.js";
 
 /**
- * B"H — SSE parser that only releases complete events.
+ * Chapter 37: The Stream Entered the Worker Furnace.
  *
- * The previous line splitter could revisit partial lines on every chunk. This
- * parser waits for the blank-line SSE boundary, so live thoughts/tool/status
- * packets do not duplicate while streaming.
+ * The page reads bytes because the extension bridge lives on `window`, but the
+ * worker parses SSE boundaries and JSON. While bytes pass through, this ledger
+ * records the background stream id and cursor, so a refreshed page can ask the
+ * extension for all sparks it has not yet seen.
  */
 export async function logStream(response, callback) {
-  const hasCallback = typeof callback === "function";
-  const emit = hasCallback ? callback : () => {};
-  if (!response.ok) {
-    console.error("Network response was not ok:", globalThis.resp = response);
-    return { message: "Something happened" };
-  }
+  const emit = typeof callback === "function" ? callback : () => {};
+  if (!response.ok) return { message: "Something happened" };
 
+  const streamId = response.id || response.streamId || response.metadata?.streamId;
   const reader = response.body.getReader();
   const decoder = new TextDecoder("utf-8");
-  let buffer = "";
+  const sessionId = `sse-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  let cursor = 0;
   let message = null;
   const otherEvents = [];
-  const seen = new Set();
+  if (streamId) streamResumeStore.upsert({ id: streamId, cursor, sessionId });
 
   while (true) {
     const { done, value } = await reader.read();
+    const text = done ? "" : decoder.decode(value, { stream: true });
+    const packets = await parseStreamChunk(sessionId, text, done);
+    for (const packet of packets) collect(packet, emit, otherEvents, value => message = value, streamId);
+    if (!done && streamId) streamResumeStore.patch(streamId, { cursor: ++cursor });
     if (done) {
-      flush(buffer, true);
+      if (streamId) streamResumeStore.remove(streamId);
       if (message) message.awtsmoos = { otherEvents };
-      console.log("Stream finished", message);
       return message;
     }
-    buffer += decoder.decode(value, { stream: true });
-    const parts = buffer.split(/\r?\n\r?\n/);
-    buffer = parts.pop() || "";
-    for (const part of parts) flush(part, false);
   }
+}
 
-  function flush(block, final) {
-    const trimmed = String(block || "").trim();
-    if (!trimmed) return;
-    let curEvent = null;
-    const dataLines = [];
-    for (const line of trimmed.split(/\r?\n/)) {
-      if (line.startsWith("event:")) curEvent = line.slice(6).trim();
-      if (line.startsWith("data:")) dataLines.push(line.slice(5).trimStart());
-    }
-    if (!dataLines.length) return;
-    const data = dataLines.join("\n").trim();
-    const key = `${curEvent || "message"}:${data}`;
-    if (seen.has(key)) return;
-    seen.add(key);
-    try {
-      const jsonData = JSON.parse(data);
-      const packet = { data: jsonData, event: curEvent };
-      if (jsonData.message?.content?.parts) message = jsonData.message;
-      else otherEvents.push(jsonData);
-      emit(packet);
-    } catch (error) {
-      const packet = { dataNoJSON: data, event: curEvent, error };
-      if (data !== "[DONE]" || final) emit(packet, "done");
-    }
-  }
+function collect(packet, emit, otherEvents, setMessage, streamId) {
+  if (packet?.data?.message?.content?.parts) setMessage(packet.data.message);
+  else if (packet?.data) otherEvents.push(packet.data);
+  if (streamId && packet?.data?.conversation_id) streamResumeStore.patch(streamId, { conversationId: packet.data.conversation_id });
+  if (packet?.dataNoJSON !== "[DONE]" || packet.event) emit(packet);
 }

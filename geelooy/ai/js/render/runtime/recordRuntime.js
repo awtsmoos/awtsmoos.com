@@ -3,6 +3,16 @@ import { normalizeMessage } from "../messageNormalizer.js";
 import { interpretStreamPacket, mergeStreamText } from "../streamPacket.js";
 import { mergeEvents } from "./renderHelpers.js";
 
+/**
+ * Chapter 52: The Record Became A Living Scroll.
+ *
+ * A record starts as a vessel for loading, text, or hidden events. While stream
+ * packets arrive it is marked `streaming`; when the router finishes, the record
+ * freezes into normal markdown history without losing its raw traces.
+ *
+ * @param {object} input Raw message input.
+ * @returns {object} Mutable render record.
+ */
 export function makeRecord(input) {
   const msg = normalizeMessage(input);
   const streamEvent = input?.awtsmoosStreamEvent;
@@ -16,10 +26,19 @@ export function makeRecord(input) {
     shell: null,
     expanded: false,
     loading: Boolean(input?.awtsmoosLoading),
+    streaming: Boolean(input?.awtsmoosLoading),
     message: msg
   };
 }
 
+/**
+ * Applies a live packet to a record without replacing the whole record object.
+ *
+ * @param {object} record Existing record.
+ * @param {object|string} input Incoming packet.
+ * @param {string} role Render role.
+ * @returns {void}
+ */
 export function applyPacket(record, input, role) {
   const live = interpretStreamPacket(input);
   const normalized = typeof input === "string" ? null : normalizeMessage(input);
@@ -29,8 +48,13 @@ export function applyPacket(record, input, role) {
   if (events.length) record.events = mergeEvents(record.events, events);
   record.role = role;
   record.loading = false;
+  record.streaming = true;
 }
 
+/**
+ * @param {object} record Record to snapshot.
+ * @returns {{text:string,events:Array,role:string,raw:object}} Serializable record snapshot.
+ */
 export function snapshotRecord(record) {
   return { text: record.text, events: record.events, role: record.role, raw: record.raw };
 }

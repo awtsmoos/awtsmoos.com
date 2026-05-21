@@ -13,6 +13,15 @@ import { ensureToken } from "../auth/session.js";
  */
 export async function getConversations(mFetch, { offset = 0, limit = 27 } = {}) {
   var token = await ensureToken(mFetch);
+  if (!token) {
+    return {
+      items: [],
+      awtsmoosAuth: {
+        requiresSignIn: true,
+        message: "ChatGPT did not reveal an access token yet. Open ChatGPT, finish sign-in, then refresh this cockpit."
+      }
+    };
+  }
   var url = `https://chatgpt.com/backend-api/conversations?offset=${offset}&limit=${limit}&order=updated`;
   var requestSummary = { url, hasBearer: Boolean(token), limit, offset };
   console.log("B\"H legacy getConversations request JSON", JSON.stringify(requestSummary));

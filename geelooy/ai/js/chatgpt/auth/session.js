@@ -26,7 +26,7 @@ export async function getAuthToken(mFetch) {
     token = found;
     return found;
   }
-  console.warn("B\"H legacy auth session returned no accessToken JSON", JSON.stringify(summary));
+  console.log("B\"H auth session needs sign-in before backend calls", JSON.stringify(summary));
   return null;
 }
 

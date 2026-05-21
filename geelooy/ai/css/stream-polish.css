@@ -1,0 +1,82 @@
+/* B"H */
+/*
+  Chapter 36: The Stream Learned To Breathe Without Shaking The Chamber.
+  The Awtsmoos renews each visible spark in order; these rules make the living
+  thought/tool river feel appended, anchored, and readable instead of jolting.
+*/
+.message-shell,
+.event-region,
+.event-entry,
+.thought-envelope-card,
+.transport-details,
+.message,
+.chat-bottom-sentinel {
+  overflow-anchor: none;
+}
+
+.thought-envelope-events[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: min(62vh, 620px);
+}
+
+.thought-inner-window {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  min-height: 0;
+  max-height: min(52vh, 520px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+.thought-inner-window > .transport-details:last-child,
+.thought-inner-window > .thought-inner-event-vessel:last-child {
+  animation: streamAppendGlow .42s ease-out both;
+}
+
+.thought-envelope-events[open] > summary {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(135deg, rgba(30,41,59,.94), rgba(15,23,42,.88));
+  box-shadow: 0 10px 22px rgba(2,6,23,.22);
+}
+
+.event-entry {
+  min-width: 0;
+  contain: layout style;
+}
+
+.event-title-wrap {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.event-panel-actions {
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+@keyframes streamAppendGlow {
+  from {
+    transform: translateY(5px);
+    box-shadow: 0 0 0 1px rgba(103,232,249,.28), 0 10px 28px rgba(14,165,233,.18);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thought-inner-window > .transport-details:last-child,
+  .thought-inner-window > .thought-inner-event-vessel:last-child {
+    animation: none;
+  }
+}

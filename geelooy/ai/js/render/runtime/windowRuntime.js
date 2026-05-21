@@ -31,6 +31,41 @@ export function weightedEnd(records = [], start = 0) {
   return Math.max(index, Math.min(records.length, start + 1));
 }
 
+export function bottomWeightedStart(records = []) {
+  let index = records.length;
+  let weight = 0;
+  while (index > 0 && weight < WINDOW) {
+    index--;
+    weight += recordWeight(records[index]);
+  }
+  return Math.max(0, index);
+}
+
+export function shiftWeightedWindow(records = [], start = 0, direction = 1) {
+  if (direction < 0) return shiftBackward(records, start);
+  return shiftForward(records, start);
+}
+
+function shiftBackward(records, start) {
+  let index = Math.max(0, start);
+  let weight = 0;
+  while (index > 0 && weight < WINDOW) {
+    index--;
+    weight += recordWeight(records[index]);
+  }
+  return Math.max(0, index);
+}
+
+function shiftForward(records, start) {
+  let index = Math.max(0, start);
+  let weight = 0;
+  while (index < records.length - 1 && weight < WINDOW) {
+    weight += recordWeight(records[index]);
+    index++;
+  }
+  return Math.min(index, bottomWeightedStart(records));
+}
+
 function visibleWeight(renderer, shells) {
   return shells.reduce((sum, shell) => sum + recordWeight(renderer.byId.get(shell?.dataset?.messageId)), 0);
 }

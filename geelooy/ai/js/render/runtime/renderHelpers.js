@@ -1,4 +1,5 @@
 //B"H
+import { streamingToolKey } from "./toolStreamIdentity.js";
 
 export function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
@@ -23,8 +24,10 @@ export function dedupeEvents(events = []) {
 }
 
 export function eventMergeKey(event = {}) {
+  const streamKey = streamingToolKey(event);
+  if (streamKey) return streamKey;
   const raw = event.raw || event;
-  if (raw.groupedThoughtEnvelope) return [event.kind, "thought-envelope"].join("::");
+  if (raw.groupedThoughtEnvelope) return raw.groupKey || [event.kind, "thought-envelope"].join("::");
   const msg = raw.message || raw.input_message || raw.data?.message || raw;
   const stable = msg.id || raw.id || raw.message_id || raw.parent || raw.type || raw.event;
   if (stable) return [event.kind, event.label, stable].join("::");

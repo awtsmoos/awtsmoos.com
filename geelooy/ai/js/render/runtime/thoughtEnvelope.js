@@ -1,28 +1,53 @@
 //B"H
 
-const THOUGHT_KIND = new Set(["thinking", "hidden", "awtsmoos_tool", "agent_tool", "tool_call", "tool_result", "raw"]);
+const THOUGHT_ACTION_KIND = new Set([
+  "awtsmoos_tool",
+  "awtsmoos_tool_result",
+  "agent_tool",
+  "tool_call",
+  "tool_result",
+  "function_call",
+  "function_result",
+  "code",
+  "raw",
+  "hidden"
+]);
 
 /**
- * Chapter 22: The Scattered Sparks Entered One Chamber.
+ * Chapter 74: Before The First Word, The Tools Already Marched.
  *
- * The outer Thoughts vessel is only a container, not a second transcript. Each
- * spark keeps its own expandable body inside the chamber, so text is not
- * copied upward into one giant monolith and then repeated below.
+ * A thought chamber may begin as pure action when no thought-text has yet
+ * spoken. The instant a real thought-text appears, it becomes the head of a new
+ * chamber. After that, all tools/functions/results march beneath that head
+ * until the next thought-text cleaves reality and opens another chamber.
  *
  * @param {{kind?:string,label?:string,text?:string,raw?:object}[]} events Ordered render events.
- * @returns {Array} Events with one grouped thoughts capsule plus outer events.
+ * @returns {Array<object>} Chronological thought/action envelopes.
  */
 export function envelopeThoughtEvents(events = []) {
-  const thoughtEvents = [];
-  const outside = [];
+  const output = [];
+  let active = [];
   for (const event of events) {
-    const expanded = expandThoughtEvent(event);
-    const innerThoughts = expanded.filter(belongsInThoughtEnvelope);
-    if (innerThoughts.length) thoughtEvents.push(...innerThoughts);
-    else outside.push(event);
+    for (const inner of expandThoughtEvent(event)) active = consume(output, active, inner);
   }
-  if (!thoughtEvents.length) return outside;
-  return [makeEnvelope(thoughtEvents), ...outside];
+  flush(output, active);
+  return output;
+}
+
+function consume(output, active, event) {
+  if (startsTextThought(event)) {
+    flush(output, active);
+    return [event];
+  }
+  if (belongsInThoughtChamber(event)) return [...active, event];
+  flush(output, active);
+  output.push(event);
+  return [];
+}
+
+function flush(output, active) {
+  if (!active?.length) return;
+  output.push(makeEnvelope(active.splice(0), output.length));
 }
 
 function expandThoughtEvent(event = {}) {
@@ -30,19 +55,33 @@ function expandThoughtEvent(event = {}) {
   return [event];
 }
 
-function makeEnvelope(events) {
+function startsTextThought(event = {}) {
+  return event.kind === "thinking" && Boolean(String(event.text || "").trim());
+}
+
+function belongsInThoughtChamber(event = {}) {
+  if (event.kind === "thinking") return Boolean(String(event.text || "").trim());
+  if (!THOUGHT_ACTION_KIND.has(event.kind)) return false;
+  if (event.kind === "raw") return /thought|reasoning|analysis|tool|function|action/i.test(signature(event));
+  return true;
+}
+
+function makeEnvelope(events, index = 0) {
   return {
     kind: "thinking",
     label: `Thoughts · ${events.length} event${events.length === 1 ? "" : "s"}`,
     text: "",
-    raw: { groupedThoughtEnvelope: true, events }
+    raw: { groupedThoughtEnvelope: true, groupKey: envelopeGroupKey(events, index), events }
   };
 }
 
-function belongsInThoughtEnvelope(event = {}) {
-  if (!THOUGHT_KIND.has(event.kind)) return false;
-  if (event.kind === "raw") return /thought|reasoning|analysis/i.test(signature(event));
-  return true;
+function envelopeGroupKey(events = [], index = 0) {
+  const first = events[0] || {};
+  const raw = first.raw || first;
+  const msg = raw.message || raw.input_message || raw.data?.message || raw;
+  const stable = msg.id || raw.id || raw.message_id || raw.parent || raw.call_id || raw.tool_call_id;
+  if (stable) return `thought-envelope::${stable}`;
+  return `thought-envelope::${index}`;
 }
 
 function signature(event = {}) {

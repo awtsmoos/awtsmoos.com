@@ -9,6 +9,8 @@ import { getConversationId, updateSearchParams } from "./js/app/urlState.js";
 import { LayoutController } from "./js/layout/layoutController.js";
 import { AttachmentTray } from "./js/attachments/attachmentTray.js";
 import { ComposerAutosize } from "./js/forms/composerAutosize.js";
+import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
+import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
 
 /**
  * Chapter 1: The cockpit gathers its organs in order.
@@ -35,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   wireChrome({ dom, controller, aiHandler, pipeline, sendFromText });
   await bootstrapFromUrl({ dom, aiHandler, controller });
+  resumeStoredStreams(renderer);
 
   async function sendFromText(text = dom.messageInput.value) {
     const prompt = String(text || "").trim();

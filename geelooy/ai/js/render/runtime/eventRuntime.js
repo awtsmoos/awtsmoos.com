@@ -7,36 +7,63 @@ import { envelopeThoughtEvents } from "./thoughtEnvelope.js";
 import { installPanelChrome } from "./panelChrome.js";
 import { visibleEvents } from "./eventVisibilityRuntime.js";
 import { installCollapsedDomVault, vaultCollapsedPanels } from "./collapsedDomVault.js";
-import { installEventBodyHydrator } from "./eventBodyHydrator.js";
+import { hydrateOpenEventBodies, installEventBodyHydrator } from "./eventBodyHydrator.js";
+import { renderThoughtEnvelopeNode } from "./thoughtEnvelopeRuntime.js";
+import { preservePanelScroll } from "./scrollAnchor.js";
 
 /**
- * B"H — Events are living retractable traces.
+ * Chapter 68: The Court Let The Thought Banner Stand.
  *
- * Streaming re-renders the same thought chamber many times as new sparks come
- * in. This reconciler replaces stale event nodes by key, so old one-event
- * chambers do not remain beside the newer full chamber.
+ * Rendering may hide top-level event kinds through settings, but once a real
+ * thought-text has opened a chamber, the chamber is a chronological vessel.
+ * Its render key and DOM node persist while following actions stream beneath
+ * it, until another thought-text opens the next vessel.
+ *
+ * @param {Element} shell Message shell that owns the event region.
+ * @param {Array<object>} events Raw record events in stream order.
+ * @param {object|null} record Record that stores rendered event nodes.
+ * @returns {Element} Stable event region.
  */
 export function renderEventRegion(shell, events = [], record = null) {
   const region = ensureRegion(shell);
-  installRawJsonHydrator(region);
-  installPanelChrome(region);
-  installCollapsedDomVault(region);
-  installEventBodyHydrator(region);
-  installEventBodyHydrator(region);
-  installCollapsedDomVault(region);
+  installRegionBehaviors(region);
   const nodes = record ? (record.renderedEventNodes ||= new Map()) : new Map();
-  const visible = visibleEvents(envelopeThoughtEvents(groupReasoningEvents(events)));
+  const visible = visibleRenderableEvents(events);
   reconcileNodes(region, nodes, visible);
-  if (!visible.length) return region;
   for (const event of visible) renderOneEvent(region, nodes, event);
   return region;
 }
 
+/**
+ * @param {Array<object>} events Raw record events.
+ * @returns {Array<object>} Visible top-level events.
+ */
+export function visibleRenderableEvents(events = []) {
+  return visibleEvents(envelopeThoughtEvents(groupReasoningEvents(events))).filter(hasRenderableBody);
+}
+
+/**
+ * @param {object} renderer Message renderer.
+ * @param {object} record Record to refresh.
+ * @returns {void}
+ */
 export function refreshEventsLive(renderer, record) {
   if (!record.shell || !record.shell.isConnected) return renderer.appendLiveRecord(record);
   const cleanEvents = dedupeEvents(record.events || []);
-  if (!cleanEvents.length) return clearEvents(record);
+  if (!visibleRenderableEvents(cleanEvents).length) return clearEvents(record);
   renderEventRegion(record.shell, cleanEvents, record);
+}
+
+function installRegionBehaviors(region) {
+  installRawJsonHydrator(region);
+  installPanelChrome(region);
+  installCollapsedDomVault(region);
+  installEventBodyHydrator(region);
+}
+
+function hasRenderableBody(event = {}) {
+  if (!event?.raw?.groupedThoughtEnvelope) return true;
+  return Array.isArray(event.raw.events) && event.raw.events.length > 0;
 }
 
 function reconcileNodes(region, nodes, visible) {
@@ -58,14 +85,32 @@ function renderOneEvent(region, nodes, event) {
     node.className = "event-entry";
     node.dataset.eventKey = key;
     nodes.set(key, node);
-    region.appendChild(node);
+  }
+  const mutate = () => mutateEventNode(region, node, event, html);
+  return shouldAnchorLiveMutation(node) ? preservePanelScroll(node, mutate) : mutate();
+}
+
+function mutateEventNode(region, node, event, html) {
+  region.appendChild(node);
+  if (event?.raw?.groupedThoughtEnvelope) {
+    renderThoughtEnvelopeNode(node, event);
+    node.dataset.eventHtml = "thought-envelope-live";
+    return;
   }
   if (node.dataset.eventHtml === html) return;
   const openKeys = snapshotOpenDetails(node);
+  const panelState = snapshotPanelState(node);
   node.innerHTML = html;
   node.dataset.eventHtml = html;
   restoreOpenDetails(node, openKeys);
+  restorePanelState(node, panelState);
+  hydrateOpenEventBodies(node);
   vaultCollapsedPanels(node);
+}
+
+function shouldAnchorLiveMutation(node) {
+  const scroller = node?.closest?.(".chat-box");
+  return Boolean(scroller && Date.now() < Number(scroller.__awtsmoosPanelInteractionUntil || 0));
 }
 
 function ensureRegion(shell) {
@@ -93,4 +138,20 @@ function restoreOpenDetails(node, keys) {
     const key = detail.dataset.persistKey || detail.className || String(index);
     if (keys.includes(key)) detail.open = true;
   });
+}
+
+function snapshotPanelState(node) {
+  const panel = node.querySelector(".transport-details, .thought-envelope-card");
+  if (!panel) return null;
+  return { maximized: panel.classList.contains("is-maximized"), fullscreen: panel.classList.contains("is-fullscreen"), panelState: panel.dataset.panelState || "" };
+}
+
+function restorePanelState(node, state) {
+  if (!state) return;
+  const panel = node.querySelector(".transport-details, .thought-envelope-card");
+  if (!panel) return;
+  panel.classList.toggle("is-maximized", Boolean(state.maximized));
+  panel.classList.toggle("is-fullscreen", Boolean(state.fullscreen));
+  if (state.panelState) panel.dataset.panelState = state.panelState;
+  document.body.classList.toggle("has-event-fullscreen", Boolean(document.querySelector(".transport-details.is-fullscreen, .thought-envelope-card.is-fullscreen")));
 }
