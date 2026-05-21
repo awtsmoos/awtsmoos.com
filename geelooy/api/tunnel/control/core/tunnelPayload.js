@@ -68,6 +68,7 @@ function preferBodyOr64($i, body, plainName, encodedName, fallback = "") {
 
 function arrayBodyOr64($i, body, plainName, encodedName, fallback = []) {
   if (body && Array.isArray(body[plainName])) return body[plainName];
+  if (body && typeof body[plainName] === "string") return parseJsonText(body[plainName], fallback);
   const plainQuery = queryPlainOrUndefined($i, plainName);
   if (plainQuery !== undefined) return parseJsonText(plainQuery, fallback);
   return jsonFrom64(queryValue($i, encodedName), fallback);
@@ -75,15 +76,22 @@ function arrayBodyOr64($i, body, plainName, encodedName, fallback = []) {
 
 function objectBodyOr64($i, body, plainName, encodedName, fallback = null) {
   if (body && body[plainName] && typeof body[plainName] === "object") return body[plainName];
+  if (body && typeof body[plainName] === "string") return parseJsonText(body[plainName], fallback);
   const plainQuery = queryPlainOrUndefined($i, plainName);
   if (plainQuery !== undefined) return parseJsonText(plainQuery, fallback);
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 
 function plainStructuredOr64($i, body, plainName, encodedName, fallback = null) {
-  if (body && body[plainName] !== undefined) return body[plainName];
+  if (body && body[plainName] !== undefined) {
+    const value = body[plainName];
+    return typeof value === "string" ? parseJsonText(value, value) : value;
+  }
   const plainQuery = queryPlainOrUndefined($i, plainName);
-  if (plainQuery !== undefined) return String(plainQuery ?? "");
+  if (plainQuery !== undefined) {
+    const value = String(plainQuery ?? "");
+    return parseJsonText(value, value);
+  }
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 

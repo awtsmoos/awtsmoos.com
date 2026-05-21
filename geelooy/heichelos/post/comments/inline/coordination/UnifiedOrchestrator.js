@@ -16,6 +16,10 @@
 import { SparksGatherer } from "/heichelos/post/comments/inline/loading/SparksGatherer.js";
 import { SparkFixer } from "/heichelos/post/comments/inline/weaving/SparkFixer.js";
 import { getInlineAliases } from "/heichelos/post/comments/state.js";
+import { activateInlineEventCoordinator } from "./InlineEventCoordinator.js";
+import { activateAnchorMutationHealer } from "./AnchorMutationHealer.js";
+import { activateInlineEventCoordinator } from "./InlineEventCoordinator.js";
+import { activateAnchorMutationHealer } from "./AnchorMutationHealer.js";
 
 /**
  * @class UnifiedOrchestrator
@@ -26,6 +30,10 @@ export class UnifiedOrchestrator {
      * @description Gather and fix all insights for every Guardian currently enabled.
      */
     static async manifestAllActive() {
+        activateInlineEventCoordinator();
+        activateAnchorMutationHealer();
+        activateInlineEventCoordinator();
+        activateAnchorMutationHealer();
         const post = window.post;
         if (!post) {
             console.warn("B\"H - [UnifiedOrchestrator] Post context missing. Aborting batch.");
@@ -48,6 +56,10 @@ export class UnifiedOrchestrator {
      */
     static async manifestSingle(alias) {
         if (!alias) return;
+        activateInlineEventCoordinator();
+        activateAnchorMutationHealer();
+        activateInlineEventCoordinator();
+        activateAnchorMutationHealer();
         const post = window.post;
         if (!post) return;
 

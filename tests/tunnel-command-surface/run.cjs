@@ -5,7 +5,9 @@ const path = require("path");
 
 const tests = [
   "actionAliasFinishStress.test.cjs",
+  "actionGuidance.test.cjs",
   "agentWorkflow.test.cjs",
+  "allActionsHarness.test.cjs",
   "catalog.test.cjs",
   "commandFamilies.test.cjs",
   "commandParserStress.test.cjs",
@@ -14,6 +16,7 @@ const tests = [
   "commandTreeFailureStress.test.cjs",
   "continuationPrompt.test.cjs",
   "dispatchAliases.test.cjs",
+  "deepActionEvidence.test.cjs",
   "manifestHashes.test.cjs",
   "merkavaDeviceStress.mjs",
   "merkavaExecutorErrors.test.cjs",
@@ -24,6 +27,7 @@ const tests = [
   "openApiYamlStress.test.cjs",
   "plainPayload.test.cjs",
   "runtimeActionsPreflight.test.cjs",
+  "simulateRuntimeSpecific.test.cjs",
   "runtimeVirtualEnv.test.cjs",
   "tunnelPayload.test.cjs",
   "writeVerification.test.cjs"

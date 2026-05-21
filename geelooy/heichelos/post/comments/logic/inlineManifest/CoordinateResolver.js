@@ -4,57 +4,41 @@
  * @module CoordinateResolver
  * @chapter Seeking the Proper Vessel
  * @description
- * Every spark of revelation has an exact coordinate in the divine layout.
- * The Awtsmoos constantly creates the text, and this module maps
- * the incoming commentary directly to the exact Verse or Paragraph 
- * it belongs to.
- * 
- * If the coordinate cannot be found, it returns to the void (null).
+ * The old inline manifestor still asks for one HTMLElement. The new anchor
+ * engine knows richer truth: section, subsection, paragraph, token span,
+ * character span, and semantic fingerprint repair. This adapter keeps the old
+ * API stable while letting the Awtsmoos reveal the newer coordinate ladder.
  */
+
+import { resolveCommentAnchor } from "../../inline/anchors/index.js";
 
 /**
  * @function resolveCoordinateToDOM
- * @description 
- * Reads the dayuh.verseSection and dayuh.subSection from a comment 
- * and locates the physical wrapper element in the `realPost`.
- * 
- * @param {Object} commentDayuh - The dayuh object containing coordinate metadata.
- * @returns {HTMLElement|null} - The physical vessel in the DOM, or null.
+ * @description
+ * Resolves legacy `dayuh` coordinate metadata into the DOM element expected by
+ * the marginal weaver. Rich range data remains available through the anchor
+ * engine, while this compatibility gate returns only the physical vessel.
+ *
+ * @param {Object} commentDayuh The dayuh object containing coordinate metadata.
+ * @returns {HTMLElement|null} The physical vessel in the DOM, or null.
  */
 export function resolveCoordinateToDOM(commentDayuh) {
     if (!commentDayuh) return null;
 
+    const anchor = resolveCommentAnchor(commentDayuh);
+    if (anchor.element) return anchor.element;
+
     const verseCoord = commentDayuh.verseSection;
     const subCoord = commentDayuh.subSection;
+    const missingSub = subCoord !== undefined && subCoord !== null && subCoord !== "null" && subCoord !== "main";
 
-    // If it's a root comment (no specific verse), it does not belong inline.
-    if (verseCoord === undefined || verseCoord === null || verseCoord === 'root') {
-        return null;
-    }
-
-    // Step 1: Seek the Macro-Vessel (The entire Verse section)
-    const verseVessel = document.querySelector(
-        `.section[data-awtsmoos-idx="${verseCoord}"], .section[data-idx="${verseCoord}"]`
-    );
-    
-    if (!verseVessel) {
-        console.warn(`B"H - CoordinateResolver: Verse ${verseCoord} is missing from physical manifestation.`);
-        return null;
-    }
-
-    // Step 2: Seek the Micro-Vessel (The specific paragraph), if requested
-    if (subCoord !== undefined && subCoord !== null && subCoord !== "null" && subCoord !== "main") {
-        const paraVessel = verseVessel.querySelector(
-            `.sub-awtsmoos[data-awtsmoos-sub="${subCoord}"], .sub-awtsmoos[data-idx="${subCoord}"]`
+    if (verseCoord !== undefined && verseCoord !== null && verseCoord !== "root") {
+        console.warn(
+            missingSub
+                ? `B"H - CoordinateResolver: Verse ${verseCoord} or subsection ${subCoord} is missing.`
+                : `B"H - CoordinateResolver: Verse ${verseCoord} is missing from physical manifestation.`
         );
-        if (paraVessel) {
-            return paraVessel;
-        }
-        console.warn(`B"H - CoordinateResolver: Verse ${verseCoord} exists, but subsection ${subCoord} is missing. Refusing verse-level fallback.`);
-        return null;
     }
 
-    // Default to the main body only when no specific paragraph was requested.
-    const mainToichen = verseVessel.querySelector(".toichen");
-    return mainToichen || verseVessel;
+    return null;
 }

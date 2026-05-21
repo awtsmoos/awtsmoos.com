@@ -1,0 +1,451 @@
+{
+  "generatedAt": "2026-05-21T17:30:48.215Z",
+  "tests": [
+    {
+      "name": "few-file-browser-merkava-dom-and-interactions",
+      "durationMs": 92,
+      "payload": {
+        "action": "simulateRuntime",
+        "runtime": "browser",
+        "engine": "merkava",
+        "entry": "index.html",
+        "files": {
+          "index.html": "<!doctype html><main id=\"app\">BH start</main><input id=\"box\"><button id=\"btn\">Click</button><script src=\"app.js\"></script>",
+          "app.js": "document.getElementById(\"app\").textContent = \"BH simulated\"; window.__awtsmoosResult = { text: document.getElementById(\"app\").textContent };"
+        },
+        "interactions": [
+          {
+            "op": "assertExists",
+            "selector": "#btn"
+          },
+          {
+            "op": "assertText",
+            "selector": "#app",
+            "expected": "BH simulated"
+          },
+          {
+            "op": "click",
+            "selector": "#btn"
+          },
+          {
+            "op": "type",
+            "selector": "#box",
+            "text": "abc"
+          },
+          {
+            "op": "key",
+            "selector": "#box",
+            "key": "Enter"
+          }
+        ],
+        "maxText": 12000
+      },
+      "ok": true,
+      "keys": [
+        "BH",
+        "assetGraph",
+        "console",
+        "domSnapshot",
+        "entry",
+        "epochs",
+        "errors",
+        "interactionError",
+        "interactionLog",
+        "interactions",
+        "moduleGraph",
+        "networkLog",
+        "ok",
+        "runtime",
+        "runtimeGraph",
+        "score",
+        "stackTraces",
+        "suggestions",
+        "variableSnapshots"
+      ],
+      "result": {
+        "BH": "B\"H",
+        "ok": true,
+        "runtime": "browser",
+        "entry": "index.html",
+        "console": {
+          "logs": []
+        },
+        "errors": [],
+        "stackTraces": [],
+        "variableSnapshots": [],
+        "domSnapshot": {
+          "activeElement": "box",
+          "documentElement": {
+            "tagName": "HTML",
+            "id": "",
+            "className": "",
+            "value": "",
+            "textContent": "",
+            "attributes": {},
+            "children": [
+              {
+                "tagName": "HEAD",
+                "id": "",
+                "className": "",
+                "value": "",
+                "textContent": "",
+                "attributes": {},
+                "children": []
+              },
+              {
+                "tagName": "BODY",
+                "id": "",
+                "className": "",
+                "value": "",
+                "textContent": "!doctype html>",
+                "attributes": {},
+                "children": [
+                  {
+                    "tagName": "MAIN",
+                    "id": "app",
+                    "className": "",
+                    "value": "",
+                    "textContent": "BH simulated",
+                    "attributes": {
+                      "id": "app"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tagName": "INPUT",
+                    "id": "box",
+                    "className": "",
+                    "value": "abc",
+                    "textContent": "",
+                    "attributes": {
+                      "id": "box"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tagName": "BUTTON",
+                    "id": "btn",
+                    "className": "",
+                    "value": "",
+                    "textContent": "Click",
+                    "attributes": {
+                      "id": "btn"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "journal": [
+            {
+              "kind": "appendChild",
+              "parent": "HTML",
+              "child": "HEAD",
+              "at": 1779384648199
+            },
+            {
+              "kind": "appendChild",
+              "parent": "HTML",
+              "child": "BODY",
+              "at": 1779384648199
+            },
+            {
+              "kind": "appendChild",
+              "parent": "BODY",
+              "child": "MAIN",
+              "at": 1779384648202
+            },
+            {
+              "kind": "appendChild",
+              "parent": "BODY",
+              "child": "INPUT",
+              "at": 1779384648202
+            },
+            {
+              "kind": "appendChild",
+              "parent": "BODY",
+              "child": "BUTTON",
+              "at": 1779384648202
+            }
+          ]
+        },
+        "networkLog": {
+          "requests": []
+        },
+        "moduleGraph": {
+          "entry": "index.html",
+          "modules": [
+            "index.html"
+          ],
+          "unresolved": []
+        },
+        "assetGraph": {
+          "entry": "index.html",
+          "scripts": [
+            {
+              "kind": "script",
+              "type": "classic",
+              "src": "app.js",
+              "inline": false,
+              "code": "",
+              "from": "index.html",
+              "resolved": "app.js"
+            }
+          ],
+          "styles": [],
+          "assets": [],
+          "executionPlan": [
+            {
+              "kind": "script",
+              "type": "classic",
+              "src": "app.js",
+              "inline": false,
+              "code": "",
+              "from": "index.html",
+              "resolved": "app.js"
+            }
+          ],
+          "warnings": []
+        },
+        "runtimeGraph": {
+          "nodes": [
+            {
+              "kind": "browser",
+              "entry": "index.html",
+              "id": "runtime",
+              "updatedAt": "2026-05-21T17:30:48.193Z"
+            },
+            {
+              "kind": "html",
+              "id": "index.html",
+              "updatedAt": "2026-05-21T17:30:48.196Z"
+            }
+          ],
+          "edges": [
+            {
+              "from": "index.html",
+              "to": "app.js",
+              "kind": "classic-script",
+              "at": "2026-05-21T17:30:48.198Z"
+            }
+          ],
+          "events": []
+        },
+        "score": 100,
+        "suggestions": [],
+        "interactions": [
+          {
+            "op": "assertExists",
+            "selector": "#btn"
+          },
+          {
+            "op": "assertText",
+            "selector": "#app",
+            "expected": "BH simulated"
+          },
+          {
+            "op": "click",
+            "selector": "#btn"
+          },
+          {
+            "op": "type",
+            "selector": "#box",
+            "text": "abc"
+          },
+          {
+            "op": "key",
+            "selector": "#box",
+            "key": "Enter"
+          }
+        ],
+        "interactionLog": [
+          {
+            "op": "assertExists",
+            "selector": "#btn",
+            "ok": true,
+            "value": true
+          },
+          {
+            "op": "assertText",
+            "selector": "#app",
+            "ok": true,
+            "value": true
+          },
+          {
+            "op": "click",
+            "selector": "#btn",
+            "ok": true,
+            "value": {
+              "type": "click",
+              "bubbles": true,
+              "cancelable": true,
+              "defaultPrevented": false,
+              "clientX": 0,
+              "clientY": 0,
+              "button": 0,
+              "target": {
+                "tagName": "BUTTON",
+                "id": "btn",
+                "className": "",
+                "value": "",
+                "textContent": "Click",
+                "attributes": {
+                  "id": "btn"
+                },
+                "children": []
+              }
+            }
+          },
+          {
+            "op": "type",
+            "selector": "#box",
+            "ok": true,
+            "value": "abc"
+          },
+          {
+            "op": "key",
+            "selector": "#box",
+            "ok": true
+          }
+        ],
+        "interactionError": null,
+        "epochs": [
+          {
+            "id": 0,
+            "name": "boot",
+            "ok": true
+          },
+          {
+            "id": 1,
+            "name": "interactions",
+            "count": 5,
+            "ok": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "node-inline-merkava-plain-global",
+      "durationMs": 3,
+      "payload": {
+        "action": "simulateRuntime",
+        "runtime": "node",
+        "engine": "merkava",
+        "entry": "main.js",
+        "files": {
+          "main.js": "globalThis.__awtsmoosResult = { ok: true, value: 42 };"
+        },
+        "maxText": 12000
+      },
+      "ok": true,
+      "keys": [
+        "BH",
+        "assetGraph",
+        "console",
+        "domSnapshot",
+        "entry",
+        "epochs",
+        "errors",
+        "interactionError",
+        "interactionLog",
+        "interactions",
+        "moduleGraph",
+        "networkLog",
+        "ok",
+        "runtime",
+        "runtimeGraph",
+        "score",
+        "stackTraces",
+        "suggestions",
+        "variableSnapshots"
+      ],
+      "result": {
+        "BH": "B\"H",
+        "ok": true,
+        "runtime": "node",
+        "entry": "main.js",
+        "console": [],
+        "errors": [],
+        "stackTraces": [],
+        "variableSnapshots": [],
+        "domSnapshot": null,
+        "networkLog": null,
+        "moduleGraph": {
+          "entry": "main.js",
+          "modules": [
+            "main.js"
+          ],
+          "unresolved": []
+        },
+        "assetGraph": null,
+        "runtimeGraph": {
+          "nodes": [
+            {
+              "kind": "node",
+              "entry": "main.js",
+              "id": "runtime",
+              "updatedAt": "2026-05-21T17:30:48.212Z"
+            },
+            {
+              "kind": "module",
+              "id": "main.js",
+              "updatedAt": "2026-05-21T17:30:48.212Z"
+            }
+          ],
+          "edges": [],
+          "events": []
+        },
+        "score": 100,
+        "suggestions": [],
+        "interactions": [],
+        "interactionLog": [],
+        "interactionError": null,
+        "epochs": [
+          {
+            "id": 0,
+            "name": "boot",
+            "ok": true
+          },
+          {
+            "id": 1,
+            "name": "interactions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "runtimeWorkflow-basic",
+      "durationMs": 1,
+      "payload": {
+        "action": "runtimeWorkflow",
+        "runtime": "browser",
+        "engine": "merkava",
+        "entry": "index.html",
+        "files": {
+          "index.html": "<main id=\"app\">workflow</main><input id=\"box\"><button id=\"btn\">B</button>"
+        },
+        "steps": [
+          {
+            "action": "simulateRuntime",
+            "payload": {
+              "entry": "index.html"
+            }
+          }
+        ],
+        "maxText": 12000
+      },
+      "ok": true,
+      "keys": [
+        "ok",
+        "workflow"
+      ],
+      "result": {
+        "ok": true,
+        "workflow": true
+      }
+    }
+  ]
+}

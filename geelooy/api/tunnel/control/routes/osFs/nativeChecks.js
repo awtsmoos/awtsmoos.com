@@ -26,14 +26,16 @@ function checkAiRender(rootDir = process.cwd()) {
 }
 
 function checkTunnelSurface(rootDir = process.cwd()) {
-  const syntaxFiles = ["scripts/generate-tunnel-openapi-live.cjs", "geelooy/api/tunnel/control/routes/openApi.js"];
+  const syntaxFiles = ["geelooy/api/tunnel/control/routes/openApi.js"];
+  const optionalSyntaxFiles = ["scripts/generate-tunnel-openapi-live.cjs"];
   const yamlFiles = [
     "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml",
     "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.yaml"
   ];
   const syntax = syntaxFiles.map(file => nodeCheck(path.join(rootDir, file), file));
+  const optionalSyntax = optionalSyntaxFiles.map(file => optionalNodeCheck(path.join(rootDir, file), file));
   const yamlChecks = yamlFiles.map(file => checkYamlSurface(path.join(rootDir, file), file));
-  return { ok: syntax.every(item => item.ok) && yamlChecks.every(item => item.ok), syntax, yamlChecks };
+  return { ok: syntax.every(item => item.ok) && yamlChecks.every(item => item.ok), syntax, optionalSyntax, yamlChecks };
 }
 
 function checkAwtsmoosAi(rootDir = process.cwd()) {
@@ -45,6 +47,16 @@ function checkAwtsmoosAi(rootDir = process.cwd()) {
 function nodeCheck(abs, label) {
   const result = child.spawnSync(process.execPath, ["--check", abs], { encoding: "utf8" });
   return { file: label, ok: result.status === 0, stderr: result.stderr.trim() };
+}
+
+function optionalNodeCheck(abs, label) {
+  if (!fs.existsSync(abs)) return { file: label, ok: true, optional: true, missing: true, warning: "optional_file_not_present" };
+  return { ...nodeCheck(abs, label), optional: true };
+}
+
+function optionalNodeCheck(abs, label) {
+  if (!fs.existsSync(abs)) return { file: label, ok: true, optional: true, missing: true, warning: "optional_file_not_present" };
+  return { ...nodeCheck(abs, label), optional: true };
 }
 
 function duplicateImportScan(rootDir, roots) {

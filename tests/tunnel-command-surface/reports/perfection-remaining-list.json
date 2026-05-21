@@ -1,0 +1,41 @@
+{
+  "generatedAt": "2026-05-21T17:18:22.118Z",
+  "deepCounts": {
+    "real_result": 338,
+    "skipped_destructive": 36,
+    "skipped_chrome": 28
+  },
+  "supportCount": 210,
+  "remaining": [
+    {
+      "area": "Chrome actions",
+      "count": 28,
+      "status": "not_tested_here",
+      "why": "Tunnel reports Chrome disabled. Need Chrome enabled for real browser actions; Node-only mock would not prove DevTools integration."
+    },
+    {
+      "area": "Destructive actions",
+      "count": 36,
+      "status": "safety_skipped",
+      "why": "Need isolated disposable sandbox/root and explicit permission to execute write/delete/move/server/process-kill actions."
+    },
+    {
+      "area": "Support-layer depth",
+      "count": 210,
+      "status": "contract_tested_not_deep_host_specific",
+      "why": "Returned structured real results and passed assertions, but many are safe support contracts rather than full host-side behavior."
+    },
+    {
+      "area": "Live deployment parity",
+      "count": 1,
+      "status": "not_guaranteed_by_local_tests",
+      "why": "Local repo tests pass; hosted awtsmoos.com process may need reload/deploy to serve exact patched code."
+    },
+    {
+      "area": "Absolute no-errors guarantee",
+      "count": 1,
+      "status": "impossible_claim",
+      "why": "Cannot honestly guarantee every future environment/user test has no problem; can only report tested evidence and remaining untested surfaces."
+    }
+  ]
+}

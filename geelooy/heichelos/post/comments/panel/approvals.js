@@ -2,16 +2,14 @@
 /**
  * @file approvals.js
  * @description
- * A mobile-first approval queue for submitted comments. It speaks directly to
- * /api/social submittedComments routes and refreshes the living comment panels
- * after every approval or denial.
+ * Event-aware approval queue with optimistic moderation flows.
  */
 
 import { GenesisEngine } from "../../functions/dom/GenesisEngine.js";
-import { normalizeCommentCoordinate } from "../state/commentCoordinate.js";
 import { emitAwtsmoosEvent } from "../state/eventBus.js";
-import { normalizeCommentCoordinate } from "../state/commentCoordinate.js";
-import { emitAwtsmoosEvent } from "../state/eventBus.js";
+import { approvalCoordinate, navigateApprovalCoordinate } from "./coordinateNavigator.js";
+import { approvalFilterOptions, approvalPassesFilter } from "./approvalFilters.js";
+import { approvalFilterOptions, approvalPassesFilter } from "./approvalFilters.js";
 
 function activeAlias() {
     const alias = window.curAlias || localStorage.getItem("lastAliasUsed") || "";
@@ -34,24 +32,34 @@ function normalizeSubmitted(payload) {
     return Object.entries(raw).map(([id, value]) => ({ id, ...(value || {}) }));
 }
 
+function coordinateFor(comment) {
+    return approvalCoordinate(comment);
+}
+
 async function decide(comment, action) {
     const commentId = comment.id || comment.commentId;
     const aliasId = activeAlias();
-    const coordinate = normalizeCommentCoordinate({
-        ...comment,
-        dayuh: comment.dayuh,
-        heichelId: window.post?.heichel?.id,
-        seriesId: window.post?.parentSeriesId,
-        postId: window.post?.id
-    });
+    const coordinate = coordinateFor(comment);
     const url = `/api/social/heichelos/${window.post?.heichel?.id}/submittedComments/${action}`;
+
     const res = await fetch(url, {
         method: "POST",
         body: new URLSearchParams({ aliasId, commentId })
     });
+
     const json = await res.json();
-    if (window.commentLogic?.handleNewComment) await window.commentLogic.handleNewComment({ aliasId, coordinate });
-    emitAwtsmoosEvent(action === "approve" ? "comment:approved" : "comment:denied", { aliasId, commentId, coordinate, response: json });
+
+    if (!json?.error && window.commentLogic?.handleNewComment && action === "approve") {
+        await window.commentLogic.handleNewComment({ aliasId, coordinate });
+    }
+
+    emitAwtsmoosEvent(action === "approve" ? "comment:approved" : "comment:denied", {
+        aliasId,
+        commentId,
+        coordinate,
+        response: json
+    });
+
     return json;
 }
 
@@ -68,21 +76,135 @@ function coordinateText(comment) {
     return sub === undefined || sub === null ? `Section ${verse}` : `Section ${verse}, paragraph ${Number(sub) + 1}`;
 }
 
-function renderCard(comment, reload) {
+function setCardLoading(card, loading, label = "") {
+    card.dataset.loading = loading ? "true" : "false";
+    card.querySelectorAll("button").forEach(button => {
+        button.disabled = loading;
+        if (loading && label) button.dataset.originalText = button.textContent;
+        if (loading && button.classList.contains(`approval-${label}`)) {
+            button.textContent = `${label}ing...`;
+        } else if (!loading && button.dataset.originalText) {
+            button.textContent = button.dataset.originalText;
+        }
+    });
+}
+
+function navigateToCoordinate(comment) {
+    navigateApprovalCoordinate(comment);
+}
+
+async function optimisticDecision({ comment, action, card, list }) {
+    const nextSibling = card.nextSibling;
+    const parent = card.parentNode;
+
+    setCardLoading(card, true, action);
+    card.remove();
+
+    try {
+        const result = await decide(comment, action);
+        if (result?.error) throw new Error(result.error.message || result.error);
+        emitAwtsmoosEvent("approval:queue:changed", { action, comment });
+    } catch (error) {
+        if (nextSibling) {
+            parent.insertBefore(card, nextSibling);
+        } else {
+            parent.appendChild(card);
+        }
+        setCardLoading(card, false);
+        console.error('B"H approval mutation failed', error);
+        emitAwtsmoosEvent("approval:queue:error", { action, comment, error });
+    }
+
+    if (!list.children.length) {
+        list.appendChild(GenesisEngine.manifest({
+            tag: "div",
+            attr: { class: "approval-empty-inline" },
+            text: "All visible submissions resolved."
+        }));
+    }
+}
+
+function renderFilterControls(state, rerender) {
+    return {
+        tag: "div",
+        attr: { class: "approval-filters", role: "group", "aria-label": "Approval filters" },
+        children: approvalFilterOptions().map(option => ({
+            tag: "button",
+            attr: {
+                type: "button",
+                class: option.id === state.filter ? "approval-filter active" : "approval-filter",
+                "data-filter": option.id
+            },
+            text: option.label,
+            events: {
+                click: () => {
+                    state.filter = option.id;
+                    rerender();
+                }
+            }
+        }))
+    };
+}
+
+function renderFilterControls(state, rerender) {
+    return {
+        tag: "div",
+        attr: { class: "approval-filters", role: "group", "aria-label": "Approval filters" },
+        children: approvalFilterOptions().map(option => ({
+            tag: "button",
+            attr: {
+                type: "button",
+                class: option.id === state.filter ? "approval-filter active" : "approval-filter",
+                "data-filter": option.id
+            },
+            text: option.label,
+            events: {
+                click: () => {
+                    state.filter = option.id;
+                    rerender();
+                }
+            }
+        }))
+    };
+}
+
+function renderCard(comment, list) {
     const commentId = comment.id || comment.commentId;
+
     return {
         tag: "article",
-        attr: { class: "approval-card awtsmoos-list-item", "data-comment-id": commentId || "" },
+        attr: {
+            class: "approval-card awtsmoos-list-item",
+            "data-comment-id": commentId || ""
+        },
+        events: {
+            click: event => {
+                if (event.target.closest("button")) return;
+                navigateToCoordinate(comment);
+            }
+        },
         children: [
             {
                 tag: "div",
                 attr: { class: "approval-card-top" },
                 children: [
-                    { tag: "div", attr: { class: "approval-author" }, text: `@${comment.aliasId || comment.author || "unknown"}` },
-                    { tag: "div", attr: { class: "approval-coordinate" }, text: coordinateText(comment) }
+                    {
+                        tag: "div",
+                        attr: { class: "approval-author" },
+                        text: `@${comment.aliasId || comment.author || "unknown"}`
+                    },
+                    {
+                        tag: "div",
+                        attr: { class: "approval-coordinate" },
+                        text: coordinateText(comment)
+                    }
                 ]
             },
-            { tag: "p", attr: { class: "approval-preview" }, text: previewText(comment) },
+            {
+                tag: "p",
+                attr: { class: "approval-preview" },
+                text: previewText(comment)
+            },
             {
                 tag: "div",
                 attr: { class: "approval-actions" },
@@ -91,13 +213,33 @@ function renderCard(comment, reload) {
                         tag: "button",
                         attr: { class: "approval-deny", type: "button" },
                         text: "Deny",
-                        events: { click: async () => { await decide(comment, "deny"); await reload(); } }
+                        events: {
+                            click: async event => {
+                                event.stopPropagation();
+                                await optimisticDecision({
+                                    comment,
+                                    action: "deny",
+                                    card: event.currentTarget.closest("article"),
+                                    list
+                                });
+                            }
+                        }
                     },
                     {
                         tag: "button",
                         attr: { class: "approval-approve", type: "button" },
                         text: "Approve",
-                        events: { click: async () => { await decide(comment, "approve"); await reload(); } }
+                        events: {
+                            click: async event => {
+                                event.stopPropagation();
+                                await optimisticDecision({
+                                    comment,
+                                    action: "approve",
+                                    card: event.currentTarget.closest("article"),
+                                    list
+                                });
+                            }
+                        }
                     }
                 ]
             }
@@ -107,6 +249,7 @@ function renderCard(comment, reload) {
 
 export async function renderApprovalsPanel(actualTab) {
     actualTab.innerHTML = "";
+
     actualTab.appendChild(GenesisEngine.manifest({
         tag: "div",
         attr: { class: "approval-loading" },
@@ -115,6 +258,7 @@ export async function renderApprovalsPanel(actualTab) {
 
     const payload = await fetchSubmissions();
     const submissions = normalizeSubmitted(payload);
+
     actualTab.innerHTML = "";
 
     if (payload?.error || !submissions.length) {
@@ -130,7 +274,26 @@ export async function renderApprovalsPanel(actualTab) {
         return;
     }
 
-    actualTab.appendChild(GenesisEngine.manifest({
+    const state = { filter: "all" };
+    let list;
+
+    const mountCards = () => {
+        const cards = submissions.filter(item => approvalPassesFilter(item, state.filter, coordinateFor));
+        list.querySelectorAll(".approval-card, .approval-empty-inline").forEach(node => node.remove());
+        cards
+            .map(item => GenesisEngine.manifest(renderCard(item, list)))
+            .forEach(card => list.appendChild(card));
+
+        if (!cards.length) {
+            list.appendChild(GenesisEngine.manifest({
+                tag: "div",
+                attr: { class: "approval-empty-inline" },
+                text: "No submissions match this filter."
+            }));
+        }
+    };
+
+    list = GenesisEngine.manifest({
         tag: "section",
         attr: { class: "approval-queue" },
         children: [
@@ -138,14 +301,24 @@ export async function renderApprovalsPanel(actualTab) {
                 tag: "header",
                 attr: { class: "approval-hero" },
                 children: [
-                    { tag: "span", attr: { class: "approval-count" }, text: String(submissions.length) },
-                    { tag: "div", children: [
-                        { tag: "h2", text: "Approval Queue" },
-                        { tag: "p", text: "Review submitted comments before they enter the living text." }
-                    ] }
+                    {
+                        tag: "span",
+                        attr: { class: "approval-count" },
+                        text: String(submissions.length)
+                    },
+                    {
+                        tag: "div",
+                        children: [
+                            { tag: "h2", text: "Approval Queue" },
+                            { tag: "p", text: "Review submitted comments before they enter the living text." }
+                        ]
+                    }
                 ]
             },
-            ...submissions.map(item => renderCard(item, () => renderApprovalsPanel(actualTab)))
+            renderFilterControls(state, mountCards)
         ]
-    }));
+    });
+
+    mountCards();
+    actualTab.appendChild(list);
 }

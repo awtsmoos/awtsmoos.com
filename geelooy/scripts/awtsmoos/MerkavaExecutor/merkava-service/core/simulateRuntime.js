@@ -20,6 +20,53 @@ function decodeJsonMaybe(value, fallback) {
   }
 }
 
+function readPath(root, key) {
+  if (!root || !key) return undefined;
+  return String(key).split(".").reduce((value, part) => value == null ? undefined : value[part], root);
+}
+
+function cloneValue(value) {
+  if (value === undefined) return undefined;
+  try {
+    return JSON.parse(JSON.stringify(value));
+  } catch (_) {
+    return String(value);
+  }
+}
+
+function extractRequestedValues(raw, runOptions = {}) {
+  const runtime = raw?.runtime;
+  const windowObj = runtime?.window || null;
+  const nodeSnapshot = runtime?.snapshot ? runtime.snapshot() : null;
+  const requested = Array.isArray(runOptions.returnValues)
+    ? runOptions.returnValues
+    : Array.isArray(runOptions.values)
+      ? runOptions.values
+      : [];
+  const sources = {
+    window: windowObj,
+    globalThis: globalThis,
+    result: raw?.result?.result,
+    snapshot: nodeSnapshot
+  };
+  const values = {};
+  for (const key of requested) {
+    const plain = String(key);
+    values[plain] = cloneValue(
+      readPath(sources, plain) ??
+      readPath(windowObj, plain) ??
+      readPath(raw?.result?.result, plain) ??
+      readPath(nodeSnapshot, plain)
+    );
+  }
+  const awtsmoosResult = cloneValue(
+    windowObj?.__awtsmoosResult ??
+    raw?.result?.result?.__awtsmoosResult ??
+    globalThis.__awtsmoosResult
+  );
+  return { values, awtsmoosResult };
+}
+
 export function normalizeOptions(options = {}) {
   return {
     ...options,
@@ -84,6 +131,10 @@ async function runOnce(runOptions) {
     { ...raw, interactionLog },
     { ...runOptions, files }
   );
+
+  const extracted = extractRequestedValues(raw, runOptions);
+  result.values = extracted.values;
+  if (extracted.awtsmoosResult !== undefined) result.awtsmoosResult = extracted.awtsmoosResult;
 
   result.interactions = runOptions.interactions || [];
   result.interactionLog = interactionLog;

@@ -11,9 +11,10 @@ async function main() {
   assert.equal(out.action, "commandTreeDryRun");
   assert.equal(out.count, 1);
 
-  const generic = await dispatchOsFs(null, "test", { action: "envDoctor", p: "." });
-  assert.equal(generic.ok, true);
-  assert.equal(generic.result.type, "documented-action-report");
+  const support = await dispatchOsFs(null, "test", { action: "envDoctor", p: "." });
+  assert.equal(support.ok, true);
+  assert.equal(support.resultType, "support-action-result");
+  assert.equal(support.family, "diagnostic");
 }
 
 main().catch((error) => {

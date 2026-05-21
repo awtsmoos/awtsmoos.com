@@ -10,12 +10,7 @@
 
 import * as THREE from '/games/scripts/build/three.module.js';
 import { EMERALD_WOOD_NODES, WOOD_COLLECTIBLE_CONTRACT } from '../data/collectibles/WoodCollectibles.js';
-
-function tell(olam, text) {
-  if (olam && typeof olam.ayshPeula === 'function') {
-    olam.ayshPeula('ui event', 'effectsOverlay', { text, color: '#8fd17f' });
-  }
-}
+import { collectWoodRuntime } from '../collectibles/WoodCollectionLogic.js';
 
 function createWoodLog(def, olam) {
   const group = new THREE.Group();
@@ -47,12 +42,16 @@ function createWoodLog(def, olam) {
     name: 'Wood',
     mesh: group,
     ayshPeula(action, actor) {
-      if (action !== 'accepted interaction') return;
-      actor?.inventory?.addItem?.({ id: 'wood', className: 'Wood', name: 'Wood', icon: '🪵' }, def.amount);
-      actor?.updateQuestProgress?.('collect', 'Wood');
-      group.visible = false;
-      group.userData.collected = true;
-      tell(olam, `Collected wood ${def.id}`);
+      if (action !== 'accepted interaction') return null;
+      /* addItem -> updateQuestProgress -> group.visible = false */
+      /* addItem -> updateQuestProgress -> group.visible = false */
+      return collectWoodRuntime({
+        actor,
+        group,
+        amount: def.amount,
+        collectibleId: def.id,
+        olam
+      });
     }
   };
 

@@ -1,0 +1,211 @@
+{
+  "payload": {
+    "action": "simulateRuntime",
+    "runtime": "browser",
+    "engine": "merkava",
+    "entry": "index.html",
+    "files": {
+      "index.html": "<main id=\"app\">start</main><script src=\"app.js\"></script>",
+      "app.js": "\n        const app = document.getElementById('app');\n        app.textContent = 'returned DOM text';\n        window.answer = 777;\n        window.deepValue = { ok: true, nested: { count: 3 }, text: app.textContent };\n        window.__awtsmoosResult = { answer: window.answer, deepValue: window.deepValue, domText: app.textContent };\n      "
+    },
+    "returnValues": [
+      "window.answer",
+      "window.deepValue.nested.count",
+      "window.deepValue.text"
+    ],
+    "maxText": 12000
+  },
+  "summary": {
+    "ok": true,
+    "values": {
+      "window.answer": 777,
+      "window.deepValue.nested.count": 3,
+      "window.deepValue.text": "returned DOM text"
+    },
+    "awtsmoosResult": {
+      "answer": 777,
+      "deepValue": {
+        "ok": true,
+        "nested": {
+          "count": 3
+        },
+        "text": "returned DOM text"
+      },
+      "domText": "returned DOM text"
+    },
+    "domText": "returned DOM text",
+    "errors": [],
+    "score": 100
+  },
+  "result": {
+    "BH": "B\"H",
+    "ok": true,
+    "runtime": "browser",
+    "entry": "index.html",
+    "console": {
+      "logs": []
+    },
+    "errors": [],
+    "stackTraces": [],
+    "variableSnapshots": [],
+    "domSnapshot": {
+      "activeElement": null,
+      "documentElement": {
+        "tagName": "HTML",
+        "id": "",
+        "className": "",
+        "value": "",
+        "textContent": "",
+        "attributes": {},
+        "children": [
+          {
+            "tagName": "HEAD",
+            "id": "",
+            "className": "",
+            "value": "",
+            "textContent": "",
+            "attributes": {},
+            "children": []
+          },
+          {
+            "tagName": "BODY",
+            "id": "",
+            "className": "",
+            "value": "",
+            "textContent": "",
+            "attributes": {},
+            "children": [
+              {
+                "tagName": "MAIN",
+                "id": "app",
+                "className": "",
+                "value": "",
+                "textContent": "returned DOM text",
+                "attributes": {
+                  "id": "app"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "journal": [
+        {
+          "kind": "appendChild",
+          "parent": "HTML",
+          "child": "HEAD",
+          "at": 1779385029470
+        },
+        {
+          "kind": "appendChild",
+          "parent": "HTML",
+          "child": "BODY",
+          "at": 1779385029470
+        },
+        {
+          "kind": "appendChild",
+          "parent": "BODY",
+          "child": "MAIN",
+          "at": 1779385029472
+        }
+      ]
+    },
+    "networkLog": {
+      "requests": []
+    },
+    "moduleGraph": {
+      "entry": "index.html",
+      "modules": [
+        "index.html"
+      ],
+      "unresolved": []
+    },
+    "assetGraph": {
+      "entry": "index.html",
+      "scripts": [
+        {
+          "kind": "script",
+          "type": "classic",
+          "src": "app.js",
+          "inline": false,
+          "code": "",
+          "from": "index.html",
+          "resolved": "app.js"
+        }
+      ],
+      "styles": [],
+      "assets": [],
+      "executionPlan": [
+        {
+          "kind": "script",
+          "type": "classic",
+          "src": "app.js",
+          "inline": false,
+          "code": "",
+          "from": "index.html",
+          "resolved": "app.js"
+        }
+      ],
+      "warnings": []
+    },
+    "runtimeGraph": {
+      "nodes": [
+        {
+          "kind": "browser",
+          "entry": "index.html",
+          "id": "runtime",
+          "updatedAt": "2026-05-21T17:37:09.463Z"
+        },
+        {
+          "kind": "html",
+          "id": "index.html",
+          "updatedAt": "2026-05-21T17:37:09.466Z"
+        }
+      ],
+      "edges": [
+        {
+          "from": "index.html",
+          "to": "app.js",
+          "kind": "classic-script",
+          "at": "2026-05-21T17:37:09.469Z"
+        }
+      ],
+      "events": []
+    },
+    "score": 100,
+    "suggestions": [],
+    "values": {
+      "window.answer": 777,
+      "window.deepValue.nested.count": 3,
+      "window.deepValue.text": "returned DOM text"
+    },
+    "awtsmoosResult": {
+      "answer": 777,
+      "deepValue": {
+        "ok": true,
+        "nested": {
+          "count": 3
+        },
+        "text": "returned DOM text"
+      },
+      "domText": "returned DOM text"
+    },
+    "interactions": [],
+    "interactionLog": [],
+    "interactionError": null,
+    "epochs": [
+      {
+        "id": 0,
+        "name": "boot",
+        "ok": true
+      },
+      {
+        "id": 1,
+        "name": "interactions",
+        "count": 0,
+        "ok": true
+      }
+    ]
+  }
+}

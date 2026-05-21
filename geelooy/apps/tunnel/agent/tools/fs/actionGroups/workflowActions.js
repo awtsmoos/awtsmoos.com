@@ -28,7 +28,7 @@ function buildWorkflowActions(ctx, buildActions) {
 
   const runTree = async (mode = payload.action || "actionBatch") => {
     if (/Validate$/i.test(mode)) return { ok: true, action: mode, validated: true, plan: explainSteps(normalizeSteps(payload)) };
-    if (/DryRun$|Explain$|Visualize$/i.test(mode)) return await runActionBatch({ ...payload, action: mode, dryRun: true }, runAction);
+    if (/DryRun$|Explain$|Visualize$/i.test(mode)) return { ok: true, action: mode, dryRun: true, plan: explainSteps(normalizeSteps(payload)) };
     if (/Cancel$|Status$|Save$|Load$|Resume$|Replay$/i.test(mode)) {
       return { ok: true, action: mode, state: "stateless-local-agent", message: "Command tree persistence hooks are declared; pass a tree to commandTreeRun for execution." };
     }

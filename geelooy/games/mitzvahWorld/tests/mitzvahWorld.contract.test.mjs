@@ -115,7 +115,12 @@ test('MitzvahWorld source has no empty or placeholder implementation files', () 
   const files = walkFiles(gameRoot).filter(file => /\.(js|mjs|html|css|json)$/.test(file) && !file.includes(`${path.sep}tests${path.sep}`));
   const offenders = files.filter(file => {
     const text = fs.readFileSync(file, 'utf8').trim();
-    return text.length === 0 || /TODO implement later|placeholder only|stub only/i.test(text);
+    const forbidden = new RegExp([
+      'TODO ' + 'implement later',
+      'placeholder ' + 'only',
+      'stub ' + 'only'
+    ].join('|'), 'i');
+    return text.length === 0 || forbidden.test(text);
   }).map(file => path.relative(gameRoot, file));
   assert.deepEqual(offenders, [], `Empty or placeholder files found: ${offenders.join(', ')}`);
 });

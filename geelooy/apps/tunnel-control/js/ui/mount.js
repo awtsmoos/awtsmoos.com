@@ -211,7 +211,7 @@ function applyConfig(config) {
   setChecked("toolCommand", tools.command);
   setChecked("toolNodeScript", tools.nodeScript);
   setChecked("toolChrome", tools.chrome !== false && tools.browser !== false);
-  if ($("continuationPrompt")) $("continuationPrompt").value = config.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.";
+  if ($("continuationPrompt")) $("continuationPrompt").value = config.continuationPrompt || "Keep going. First give me a list of all remaining things needed to make this complete, then do them one by one with real verification. At the end, call finishAndContinue if anything remains, otherwise call the conclude/final-summary step.";
 
   setText("miniKey", localStorage.getItem("awtTunnelApiKey") ? "Saved" : "Not needed");
 }

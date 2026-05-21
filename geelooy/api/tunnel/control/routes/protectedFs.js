@@ -6,6 +6,7 @@ const { scopeAllowed, enforceApiKeyRate } = require("../core/apiKeyStore.js");
 const { recordUsage } = require("../core/usageStore.js");
 const { maybeExternalize } = require("../core/responseModes.js");
 const { publishHandoff } = require("../core/handoffStore.js");
+const { attachActionGuidance } = require("../core/actionGuidance.js");
 
 const FOUR_MINUTES_MS = 240000;
 
@@ -34,47 +35,46 @@ function boundedTunnelTimeout(value) {
 
 async function protectedFs($i, vars) {
   const ident = currentIdentity($i);
-
-  if (!ident.ok) {
-    return json($i, {
-      BH: "B\"H",
-      ok: false,
-      error: ident.error || "not_authenticated",
-      guidance: "Log in normally, use OAuth Bearer token, or use x-awtsmoos-api-key."
-    }, 401);
-  }
-
   const payload = buildFsPayload($i);
   payload.tunnelName = vars.tunnelName;
   payload.controlBaseUrl = "https://awtsmoos.com/api/tunnel/control/fs/" + encodeURIComponent(vars.tunnelName);
 
+  if (!ident.ok) {
+    return json($i, attachActionGuidance({
+      BH: "B\"H",
+      ok: false,
+      error: ident.error || "not_authenticated",
+      guidance: "Log in normally, use OAuth Bearer token, or use x-awtsmoos-api-key."
+    }, payload), 401);
+  }
+
   const neededScope = actionRequiredScope(payload.action);
 
   if (!identityAllows(ident, neededScope)) {
-    return json($i, {
+    return json($i, attachActionGuidance({
       BH: "B\"H",
       ok: false,
       error: "missing_scope",
       neededScope,
       identityKind: ident.kind
-    }, 403);
+    }, payload), 403);
   }
 
   const rate = enforceApiKeyRate(ident, 0);
   if (!rate.ok) {
-    return json($i, {
+    return json($i, attachActionGuidance({
       BH: "B\"H",
       ok: false,
       error: rate.error,
       limit: rate.limit
-    }, 429);
+    }, payload), 429);
   }
 
   try {
     const requestTimeoutMs = boundedTunnelTimeout(payload.timeoutMs);
     const result = await $i.ws.sendTunnelRequest(vars.tunnelName, payload, requestTimeoutMs);
     publishHandoff(vars.tunnelName, { action: payload.action, result });
-    const shaped = maybeExternalize(result, payload);
+    const shaped = attachActionGuidance(maybeExternalize(result, payload), payload);
     const bytes = responseBytes(shaped);
 
     recordUsage({
@@ -96,12 +96,12 @@ async function protectedFs($i, vars) {
       ok: false
     });
 
-    const failure = {
+    const failure = attachActionGuidance({
       BH: "B\"H",
       ok: false,
       error: e.message,
       stack: e.stack
-    };
+    }, payload);
     publishHandoff(vars.tunnelName, { action: payload.action, result: failure });
     return json($i, failure, 500);
   }

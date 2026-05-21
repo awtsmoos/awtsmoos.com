@@ -132,8 +132,7 @@ function applyConfig(config) {
   if (config.chrome?.port) setValue("chromePort", config.chrome.port);
   if (config.command?.defaultShell) setValue("commandShell", config.command.defaultShell);
   if (config.command?.timeoutMs) setValue("commandTimeout", config.command.timeoutMs);
-  setValue("continuationPrompt", config.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.");
-  setValue("continuationPrompt", config.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.");
+  setValue("continuationPrompt", config.continuationPrompt || "Keep going. First give me a list of all remaining things needed to make this complete, then do them one by one with real verification. At the end, call finishAndContinue if anything remains, otherwise call the conclude/final-summary step.");
 
   renderRoots(config.roots || [], config.home);
 }

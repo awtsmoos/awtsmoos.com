@@ -4,6 +4,7 @@ const { currentIdentity } = require("../core/auth.js");
 const { buildFsPayload, actionRequiredScope } = require("../core/tunnelPayload.js");
 const { scopeAllowed, enforceApiKeyRate } = require("../core/apiKeyStore.js");
 const { recordUsage } = require("../core/usageStore.js");
+const { attachActionGuidance } = require("../core/actionGuidance.js");
 
 function responseBytes(obj) {
   try { return Buffer.byteLength(JSON.stringify(obj), "utf8"); }
@@ -19,18 +20,17 @@ function identityAllows(ident, neededScope) {
 
 async function osFs($i) {
   const ident = currentIdentity($i);
-  if (!ident.ok) return json($i, { BH: "B\"H", ok: false, error: "not_authenticated" }, 401);
-
   const payload = buildFsPayload($i);
+  if (!ident.ok) return json($i, attachActionGuidance({ BH: "B\"H", ok: false, error: "not_authenticated" }, payload), 401);
   const neededScope = actionRequiredScope(payload.action);
-  if (!identityAllows(ident, neededScope)) return json($i, { BH: "B\"H", ok: false, error: "missing_scope", neededScope }, 403);
+  if (!identityAllows(ident, neededScope)) return json($i, attachActionGuidance({ BH: "B\"H", ok: false, error: "missing_scope", neededScope }, payload), 403);
 
   const rate = enforceApiKeyRate(ident, 0);
-  if (!rate.ok) return json($i, { BH: "B\"H", ok: false, error: rate.error, limit: rate.limit }, 429);
+  if (!rate.ok) return json($i, attachActionGuidance({ BH: "B\"H", ok: false, error: rate.error, limit: rate.limit }, payload), 429);
 
   try {
     const { dispatchOsFs } = require("./osFs/index.js");
-    const result = await dispatchOsFs($i, ident.userId, payload);
+    const result = attachActionGuidance(await dispatchOsFs($i, ident.userId, payload), payload);
 
     recordUsage({
       userId: ident.userId,
@@ -51,13 +51,13 @@ async function osFs($i) {
       ok: false
     });
 
-    return json($i, {
+    return json($i, attachActionGuidance({
       BH: "B\"H",
       ok: false,
       error: "awtsmoos_os_unavailable",
       message: e.message,
       aliasId: e.aliasId || null
-    }, e.status || 503);
+    }, payload), e.status || 503);
   }
 }
 

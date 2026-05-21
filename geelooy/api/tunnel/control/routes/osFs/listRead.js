@@ -52,4 +52,33 @@ async function readFile($i, userId, payload) {
   return { ok: true, action: payload.action || "read", path: cleanPath(payload.path || "."), absolutePath: got.absolutePath, mode: "text", content, totalChars: got.content.length, offsetChars, nextOffsetChars, truncated: nextOffsetChars !== null };
 }
 
-module.exports = { listFolder, readWhole, readFile };
+async function readLines($i, userId, payload) {
+  const got = await readWhole($i, userId, payload.path || payload.p || ".");
+  const lines = String(got.content || "").split(/\r?\n/);
+  const startLine = Math.max(1, Number(payload.startLine || 1));
+  const endLine = Math.max(startLine, Math.min(Number(payload.endLine || payload.limit || 250), lines.length));
+  const selected = lines.slice(startLine - 1, endLine).map((text, index) => ({ line: startLine + index, text }));
+  return {
+    ok: true,
+    action: payload.action || "readLines",
+    path: cleanPath(payload.path || payload.p || "."),
+    startLine,
+    endLine,
+    totalLines: lines.length,
+    returnedLines: selected.length,
+    lines: selected,
+    content: selected.map(x => String(x.line).padStart(5, " ") + " | " + x.text).join("\n")
+  };
+}
+
+async function readManyLines($i, userId, payload) {
+  const paths = Array.isArray(payload.paths) ? payload.paths : String(payload.files || payload.paths || payload.path || payload.p || "").split(/\r?\n|,/).map(x => x.trim()).filter(Boolean);
+  const results = {};
+  for (const path of paths.slice(0, Number(payload.maxFiles || 20))) {
+    try { results[path] = await readLines($i, userId, { ...payload, path, action: "readLines" }); }
+    catch (e) { results[path] = { ok: false, path, error: e.message }; }
+  }
+  return { ok: true, action: "readManyLines", count: Object.keys(results).length, results };
+}
+
+module.exports = { listFolder, readWhole, readFile, readLines, readManyLines };

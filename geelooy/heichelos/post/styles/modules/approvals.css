@@ -17,6 +17,28 @@
     box-shadow: 0 14px 34px rgba(40, 24, 8, 0.11);
 }
 
+.post-reader-localized-context .approval-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.post-reader-localized-context .approval-filter {
+    border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+    border-radius: 999px;
+    padding: 0.45rem 0.75rem;
+    background: var(--bg-surface);
+    color: var(--color-ink-secondary);
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.post-reader-localized-context .approval-filter.active {
+    background: var(--color-primary);
+    color: var(--bg-surface);
+    border-color: var(--color-primary);
+}
+
 .post-reader-localized-context .approval-count {
     display: grid;
     place-items: center;
@@ -51,6 +73,14 @@
     background: var(--bg-surface) !important;
     border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent) !important;
     box-shadow: 0 12px 34px rgba(40, 24, 8, 0.09) !important;
+    cursor: pointer;
+    transition: opacity 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+.post-reader-localized-context .approval-card[data-loading="true"] {
+    opacity: 0.58;
+    pointer-events: none;
+    transform: scale(0.985);
 }
 
 .post-reader-localized-context .approval-card-top {
@@ -95,6 +125,10 @@
     cursor: pointer;
 }
 
+.post-reader-localized-context .approval-actions button:disabled {
+    cursor: progress;
+}
+
 .post-reader-localized-context .approval-deny {
     background: color-mix(in srgb, var(--color-ink) 8%, transparent);
     color: var(--color-ink-secondary);
@@ -107,7 +141,8 @@
 }
 
 .post-reader-localized-context .approval-empty,
-.post-reader-localized-context .approval-loading {
+.post-reader-localized-context .approval-loading,
+.post-reader-localized-context .approval-empty-inline {
     padding: 1.4rem;
     border-radius: 24px;
     text-align: center;
@@ -126,4 +161,17 @@
     color: var(--color-primary);
     font-size: 1.6rem;
     font-weight: 900;
+}
+
+.post-reader-localized-context .awtsmoos-inline-anchor-highlight {
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--color-primary) 24%, transparent);
+    color: inherit;
+}
+
+.post-reader-localized-context .awtsmoos-approval-target {
+    outline: 3px solid color-mix(in srgb, var(--color-primary) 78%, #fff);
+    outline-offset: 0.35rem;
+    border-radius: 18px;
+    box-shadow: 0 0 0 0.65rem color-mix(in srgb, var(--color-primary) 18%, transparent);
 }

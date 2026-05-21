@@ -1,0 +1,26 @@
+{
+  "BH": "B\"H",
+  "defaultProvider": "gguf-bge-small-en-v1.5-q8_0",
+  "providers": {
+    "gguf-bge-small-en-v1.5-q8_0": {
+      "kind": "gguf",
+      "task": "feature-extraction",
+      "language": "en",
+      "modelFamily": "bge",
+      "repoId": "ggml-org/bge-small-en-v1.5-Q8_0-GGUF",
+      "filename": "bge-small-en-v1.5-q8_0.gguf",
+      "huggingFaceTreeUrl": "https://huggingface.co/ggml-org/bge-small-en-v1.5-Q8_0-GGUF/tree/main",
+      "huggingFaceReadmeUrl": "https://huggingface.co/ggml-org/bge-small-en-v1.5-Q8_0-GGUF/blob/main/README.md",
+      "downloadUrl": "https://huggingface.co/ggml-org/bge-small-en-v1.5-Q8_0-GGUF/resolve/main/bge-small-en-v1.5-q8_0.gguf",
+      "expectedBytes": 36685152,
+      "expectedEtag": "f6794d77f686167b29b57cfc533c2b8f43d40b097d91eedb561577211e4179e4",
+      "embeddingDimensions": 384,
+      "runnerPreference": [
+        "llama-embedding",
+        "llama-cli --embedding",
+        "llama-cpp-python"
+      ],
+      "notes": "English retrieval/sentence-similarity GGUF sidecar model for AwtsmoosDB AI comment search. Downloadable, but embeddings require a local GGUF runner."
+    }
+  }
+}

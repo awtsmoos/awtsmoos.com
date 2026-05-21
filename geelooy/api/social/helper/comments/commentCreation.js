@@ -33,6 +33,10 @@ const {
     getSubmittedCommentPath // Unchanged for submission logic
 } = require("./commentPaths.js");
 
+const {
+    indexCommentSearchRecord
+} = require("./commentAwtsmoosDbBridge.js");
+
 /**
  * B"H
  * @function parseDayuhVessel
@@ -268,6 +272,14 @@ async function addLotsOfCommentsToPostByVerseSections({
             }
             verseSections[v].push(com);
         }
+        for (const section of Object.keys(verseSections)) {
+            verseSections[section].forEach(comment => {
+                if (!comment.id) comment.id = `BH_bulk_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+                if (!comment.author) comment.author = aliasId;
+                if (!comment.verseSection && comment.verseSection !== 0) comment.verseSection = section;
+            });
+        }
+
         const aliasCommentFilePath = getAliasCommentFilePath({
             heichelId, seriesId, parentId, aliasId, parentType, postId
         });
@@ -276,12 +288,32 @@ async function addLotsOfCommentsToPostByVerseSections({
             verseSections
         );
 
+        const searchIndex = [];
+        for (const section of Object.keys(verseSections)) {
+            for (const comment of verseSections[section]) {
+                const commentId = comment.id || `BH_bulk_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+                comment.id = commentId;
+                searchIndex.push(await indexCommentSearchRecord({
+                    $i,
+                    comment: { ...comment, id: commentId, author: aliasId, verseSection: section },
+                    heichelId,
+                    seriesId,
+                    parentId,
+                    parentType,
+                    postId,
+                    aliasId,
+                    status: "active"
+                }));
+            }
+        }
+
         return {
             success: {
                 message: "Added lots of comments to post",
                 count: commentArray.length,
                 verseSections: Object.keys(verseSections),
-                wrote: wr
+                wrote: wr,
+                searchIndex
             }
         }
 
@@ -397,13 +429,26 @@ async function addOrApproveComment(
         //     // Maybe remove from submission list too
          }
 
+        const searchIndex = await indexCommentSearchRecord({
+            $i,
+            comment: shtar,
+            heichelId,
+            seriesId,
+            parentId,
+            parentType,
+            postId,
+            aliasId,
+            status: "active"
+        });
+
         return {
             success: true,
             message: isApproval ? "Comment approved and added!" : "Comment added!",
             details: {
                 id: commentId,
                 path: aliasCommentFilePath,
-                verseSection: verseSection
+                verseSection: verseSection,
+                searchIndex
             }
         };
 

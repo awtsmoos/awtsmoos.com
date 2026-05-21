@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import { DialogueMemoryRuntime } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/dialogue/DialogueMemoryRuntime.js';
+import { PathfindingRuntime } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/navigation/PathfindingRuntime.js';
+import { CinematicRuntime } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/cinematics/CinematicRuntime.js';
+import { TerrainEvolutionRuntime } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/environment/TerrainEvolutionRuntime.js';
+import { RitualInteractionRuntime } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/rituals/RitualInteractionRuntime.js';
+import { AccessibilityRuntime } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/accessibility/AccessibilityRuntime.js';
+import { ContextualHudPromptRuntime } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/ui/ContextualHudPromptRuntime.js';
+import { RuntimeDiagnosticsOverlay } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/diagnostics/RuntimeDiagnosticsOverlay.js';
+
+const memory = new DialogueMemoryRuntime();
+memory.remember('npc', 'met', true);
+assert.equal(memory.recall('npc', 'met'), true);
+assert.deepEqual(new PathfindingRuntime({ a: ['b'], b: ['c'] }).route('a', 'c'), ['a', 'b', 'c']);
+assert.equal(new CinematicRuntime({ intro: { camera: 'street' } }).play('intro').camera, 'street');
+const terrain = new TerrainEvolutionRuntime();
+terrain.stepOn('cell');
+assert.equal(terrain.rain(2)[0].wetness, 2);
+const actor = { id: 'player' };
+assert.equal(new RitualInteractionRuntime({ mezuzah: { blessing: 'guarded' } }).perform('mezuzah', actor).blessing, 'guarded');
+const access = new AccessibilityRuntime();
+assert.equal(access.update({ highContrast: true }).highContrast, true);
+assert.equal(access.remap('activate', 'KeyF').activate, 'KeyF');
+assert.equal(new ContextualHudPromptRuntime().prompt({ type: 'npc', label: 'Reb Shlomo' }).text, 'Speak Reb Shlomo');
+const diag = new RuntimeDiagnosticsOverlay();
+diag.sample('npcs', 3);
+assert.equal(diag.summary().npcs, 3);
+console.log('B"H runtime expansion two passed');
