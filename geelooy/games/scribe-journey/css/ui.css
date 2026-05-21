@@ -10,7 +10,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 20;
+    z-index: var(--layer-menu);
     backdrop-filter: blur(5px);
 }
 
@@ -67,15 +67,15 @@ h2, h3, h4 {
 /* Dialogue Box */
 #dialogue-box {
     position: absolute;
-    bottom: 25%; /* Above controls */
+    bottom: calc(var(--mobile-action-size) + var(--safe-bottom) + 34px);
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
+    width: min(92%, 720px);
     background: rgba(0, 0, 0, 0.9);
     border: 2px solid var(--neon-gold);
     color: #fff;
     padding: 15px;
-    z-index: 40;
+    z-index: var(--layer-dialogue);
     box-shadow: 0 0 20px var(--neon-gold);
 }
 
@@ -99,7 +99,7 @@ h2, h3, h4 {
     flex-direction: column;
     align-items: center;
     pointer-events: none;
-    z-index: 100;
+    z-index: var(--layer-toast);
 }
 
 .toast {

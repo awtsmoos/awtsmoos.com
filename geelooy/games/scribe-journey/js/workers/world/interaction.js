@@ -7,6 +7,8 @@ import * as BotSystem from '../botSystem.js';
 import * as Quests from '../quests.js';
 import { generateTractateMap } from '../../procedural/map_generator.js';
 import { startDialogue, advanceDialogue, handleDialogueChoice } from './dialogue.js';
+import { clearEntityTile, getEntityAt } from './entity/occupancy.js';
+import { clearEntityTile, getEntityAt } from './entity/occupancy.js';
 
 export function checkInteraction(state, trigger, sendUIUpdate) {
     if (state.player.isMoving || state.dialogue.active) return;
@@ -21,8 +23,7 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
 
     // 2. Map Entities
     const map = state.maps[state.currentMapId];
-    const key = `${tx},${ty}`;
-    const entity = map.interactables[key];
+    const entity = getEntityAt(map, tx, ty);
     
     // Check for bookshelf interactions (Generic)
     if (!entity && map.baseLayer[ty] && (map.baseLayer[ty][tx] === '📚' || map.baseLayer[ty][tx] === '📖')) {
@@ -34,10 +35,7 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
         // --- PICKUP ITEM LOGIC ---
         if (entity.pickup) {
             Quests.giveItem(state, entity.pickup, 1, (msg) => trigger.sendToast(msg, 'success')); 
-            delete map.interactables[key];
-            if (map.baseLayer[ty] && map.baseLayer[ty][tx] === entity.emoji) {
-                map.baseLayer[ty][tx] = '⬜'; 
-            }
+            clearEntityTile(map, entity);
             return;
         }
 

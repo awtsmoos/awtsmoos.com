@@ -1,22 +1,35 @@
-
 /* B"H */
-/* Battle UI */
+/* css/battle.css */
+
 .battle-area {
     display: flex;
     justify-content: space-around;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: clamp(12px, 3vh, 24px);
     align-items: flex-end;
+    gap: clamp(8px, 3vw, 24px);
 }
 
 .battle-musag-display {
-    background: rgba(0, 20, 40, 0.8);
+    position: relative;
+    background: rgba(0, 20, 40, 0.82);
     border: 1px solid var(--neon-blue);
-    padding: 10px;
+    padding: clamp(8px, 2vw, 14px);
     text-align: center;
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-    width: 45%;
+    border-radius: 14px;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.22);
+    width: min(45%, 360px);
+    overflow: hidden;
+}
+
+.battle-musag-display::after {
+    content: '';
+    position: absolute;
+    inset: auto 12% 0;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.25;
+    filter: blur(2px);
 }
 
 .health-bar {
@@ -25,21 +38,26 @@
     height: 10px;
     margin-top: 5px;
     width: 100%;
+    border-radius: 999px;
+    overflow: hidden;
 }
 
 .health-bar-inner {
     height: 100%;
     background: var(--hp-high);
     box-shadow: 0 0 5px var(--hp-high);
-    transition: width 0.3s;
+    transition: width 0.3s ease;
 }
 
 .kavanah-bar {
     background: #333;
     border: 1px solid #555;
     height: 6px;
-    margin-top: 2px;
+    margin-top: 4px;
+    border-radius: 999px;
+    overflow: hidden;
 }
+
 .kavanah-bar-inner {
     height: 100%;
     background: var(--kavanah);
@@ -47,8 +65,28 @@
 }
 
 .musag-emoji {
-    font-size: 3em;
+    font-size: clamp(2.1rem, 9vw, 3.3rem);
     margin: 10px 0;
     filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
     animation: float 3s infinite ease-in-out;
+}
+
+.fx-debate-damage { filter: drop-shadow(0 0 12px #ff5555); }
+.fx-debate-crit { filter: drop-shadow(0 0 18px #ffd166); }
+.fx-debate-heal { filter: drop-shadow(0 0 16px #66ff99); }
+.fx-holy-fire { filter: drop-shadow(0 0 18px #ff9f1c); }
+.fx-bittul-crown { filter: drop-shadow(0 0 24px #f7e7a1); }
+.fx-capture-spark { filter: drop-shadow(0 0 18px #ffff00); }
+
+@media (max-width: 768px), (pointer: coarse) {
+    .battle-area {
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .battle-musag-display {
+        width: 48%;
+        padding: 8px;
+        font-size: 0.88rem;
+    }
 }

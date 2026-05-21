@@ -1,0 +1,1 @@
+window.child = 7;

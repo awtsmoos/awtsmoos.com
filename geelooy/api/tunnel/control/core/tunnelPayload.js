@@ -99,8 +99,21 @@ function boolFrom($i, body, name, fallback = false) {
   return got === undefined ? fallback : got;
 }
 
+const FS_WORKFLOW_ACTIONS = new Set([
+  "commandTreeRun", "commandTreeValidate", "commandTreeDryRun",
+  "commandTreeExplain", "commandTreeVisualize", "commandTreeResume",
+  "commandTreeReplay", "commandTreeCancel", "commandTreeStatus",
+  "commandTreeSave", "commandTreeLoad", "awtsmoosCommandTree",
+  "merkavaCommandTree", "aiWorkflowLang", "parallelActionBatch",
+  "forEachActionBatch", "retryAction", "assertAction",
+  "snapshotBeforeAfter", "policyGuard", "destructiveIntentGate",
+  "actionBatch", "workflowRun", "workflowValidate", "workflowList", "workflowGet",
+  "testMatrix", "runtimeWorkflow", "merkavaWorkflowRun", "aiWorkflowRun"
+]);
+
 function actionKind(action) {
   action = String(action || "");
+  if (FS_WORKFLOW_ACTIONS.has(action)) return "fs";
   if (["inspectRuntime", "launchPreview", "listPreviews", "previewLogs", "stopPreview", "restartPreview"].includes(action)) return "tunnel.read";
   if (action.startsWith("chrome") || action === "httpUseChromeCookies") return "chrome";
   if (action.startsWith("command") || action === "nodeScriptRun") return "command";
@@ -277,6 +290,7 @@ function buildFsPayload($i) {
 
 function actionRequiredScope(action) {
   action = String(action || "");
+  if (FS_WORKFLOW_ACTIONS.has(action)) return "tunnel.write";
   if (action.startsWith("command") || action === "nodeScriptRun") return "tunnel.command";
   if (action === "nodeCheck" || action === "nodeCheckTree" || action === "isolatedJsTest" || action === "isolatedNodeCheck") return "tunnel.command";
   if (action.startsWith("chrome") || action === "isolatedHtmlTest") return "tunnel.browser";

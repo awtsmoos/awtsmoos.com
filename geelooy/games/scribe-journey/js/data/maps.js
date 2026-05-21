@@ -57,17 +57,25 @@ const towerHub = {
         baseLayerString: `
 🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
 🧱⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🧱
-🧱⬜🔢⬜1️⃣⬜2️⃣⬜3️⃣⬜4️⃣⬜🔢⬜🧱
+🧱⬜ﶁ⬜1️⃣⬜2️⃣⬜3️⃣⬜4️⃣⬜ﶂ⬜🧱
 🧱⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🧱
-🧱⬜👾⬜⬜⬜⬜🆙⬜⬜⬜⬜👾⬜🧱
+🧱⬜ﶃ⬜⬜⬜⬜ﶄ⬜⬜⬜⬜ﶅ⬜🧱
 🧱⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🧱
-🧱🚪⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🚪🧱
+🧱ﶆ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ﶇ🧱
 🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
         `,
         interactables: {
-            'exit': { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 7, targetY: 6 },
-            'start_climb': { type: 'door', emoji: '🆙', targetMap: 'tower_floor_1', targetX: 7, targetY: 7, dialogue: {start: ["You stand before the Infinite Loop. 1234 Floors. Good luck."]} },
-            'feature_npc': { type: 'npc', emoji: '🔢', dialogue: {start: ["You wanted features? We have 1234 features upstairs. Go get them."]} }
+            'exit': { type: 'door', uu: '\ufd86', visual: '🚪', emoji: '🚪', x: 1, y: 6, targetMap: 'malkuth_village', targetX: 7, targetY: 6 },
+            'start_climb': { type: 'door', uu: '\ufd84', visual: '🆙', emoji: '🆙', x: 7, y: 4, targetMap: 'tower_floor_1', targetX: 7, targetY: 7, dialogue: {start: ["You stand before the Infinite Loop. 1234 Floors. Good luck."]} },
+            'feature_npc': { type: 'npc', uu: '\ufd81', visual: '🔢', emoji: '🔢', x: 2, y: 2, dialogue: {start: ["You wanted features? We have 1234 features upstairs. Go get them."]} },
+            'feature_npc_east': { type: 'npc', uu: '\ufd82', visual: '🔢', emoji: '🔢', x: 12, y: 2, dialogue: {start: ["Every feature has a name now. Even the mirror sign is unique."]} },
+            'glitch_west': { type: 'npc', uu: '\ufd83', visual: '👾', emoji: '👾', x: 2, y: 4, dialogue: {start: ["A glitch admits it used to steal identities."]} },
+            'glitch_east': { type: 'npc', uu: '\ufd85', visual: '👾', emoji: '👾', x: 12, y: 4, dialogue: {start: ["The second glitch is now named separately."]} },
+            'east_exit': { type: 'door', uu: '\ufd87', visual: '🚪', emoji: '🚪', x: 13, y: 6, targetMap: 'malkuth_village', targetX: 7, targetY: 6 },
+            'feature_npc_east': { type: 'npc', uu: '\ufd82', visual: '🔢', emoji: '🔢', x: 12, y: 2, dialogue: {start: ["Every feature has a name now. Even the mirror sign is unique."]} },
+            'glitch_west': { type: 'npc', uu: '\ufd83', visual: '👾', emoji: '👾', x: 2, y: 4, dialogue: {start: ["A glitch admits it used to steal identities."]} },
+            'glitch_east': { type: 'npc', uu: '\ufd85', visual: '👾', emoji: '👾', x: 12, y: 4, dialogue: {start: ["The second glitch is now named separately."]} },
+            'east_exit': { type: 'door', uu: '\ufd87', visual: '🚪', emoji: '🚪', x: 13, y: 6, targetMap: 'malkuth_village', targetX: 7, targetY: 6 }
         }
     }
 };

@@ -11,6 +11,10 @@
  */
 
 import { updateQueryStringParameter } from "../../functions/utils.js";
+import { normalizeCommentCoordinate } from "../../comments/state/commentCoordinate.js";
+import { emitAwtsmoosEvent } from "../../comments/state/eventBus.js";
+import { normalizeCommentCoordinate } from "../../comments/state/commentCoordinate.js";
+import { emitAwtsmoosEvent } from "../../comments/state/eventBus.js";
 
 let lastActiveIdx = null;
 let lastActiveSub = null;
@@ -102,7 +106,9 @@ export function performGeometricCheck() {
         
         updateQueryStringParameter("idx", idx); 
         updateQueryStringParameter("sub", sub);
-        window.dispatchEvent(new CustomEvent("awtsmoos index", { detail: { idx: parseInt(idx), sub: parseInt(sub), hunter: true } }));
+        const coordinate = normalizeCommentCoordinate({ idx, sub });
+        window.dispatchEvent(new CustomEvent("awtsmoos index", { detail: { idx: parseInt(idx), sub: parseInt(sub), hunter: true, coordinate } }));
+        emitAwtsmoosEvent("coordinate:changed", { idx: parseInt(idx), sub: parseInt(sub), coordinate });
         return;
     }
 
@@ -110,6 +116,8 @@ export function performGeometricCheck() {
         winner.classList.add('active-reading-section');
         updateQueryStringParameter("idx", idx); 
         updateQueryStringParameter("sub", null); 
-        window.dispatchEvent(new CustomEvent("awtsmoos index", { detail: { idx: parseInt(idx), sub: null, hunter: true } }));
+        const coordinate = normalizeCommentCoordinate({ idx, sub: null });
+        window.dispatchEvent(new CustomEvent("awtsmoos index", { detail: { idx: parseInt(idx), sub: null, hunter: true, coordinate } }));
+        emitAwtsmoosEvent("coordinate:changed", { idx: parseInt(idx), sub: null, coordinate });
     }
 }

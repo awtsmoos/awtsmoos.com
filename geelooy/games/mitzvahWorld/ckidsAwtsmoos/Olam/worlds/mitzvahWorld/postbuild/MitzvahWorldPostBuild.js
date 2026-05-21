@@ -9,6 +9,8 @@
 import { ensureChossidNpcs } from "../npcs/EnsureChossidNpcs.js";
 import { ensureHouseDoors } from "../doors/EnsureHouseDoors.js";
 import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js";
+import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js";
+import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js";
 
 /**
  * B"H
@@ -65,7 +67,9 @@ function countSceneMarkers(scene) {
     chossidNpcs: 0,
     battleTargets: 0,
     generatedTrees: 0,
-    doors: 0
+    doors: 0,
+    woodCollectibles: 0,
+    woodCollectibles: 0
   };
 
   if (!scene || typeof scene.traverse !== "function") return counts;
@@ -75,6 +79,8 @@ function countSceneMarkers(scene) {
     if (child?.userData?.isBattleTarget) counts.battleTargets++;
     if (child?.userData?.nefeshType === "tree" || child?.userData?.isGeneratedFoliage) counts.generatedTrees++;
     if (String(child?.name || "").toLowerCase().includes("door")) counts.doors++;
+    if (child?.userData?.isCollectibleWood) counts.woodCollectibles++;
+    if (child?.userData?.isCollectibleWood) counts.woodCollectibles++;
   });
 
   return counts;
@@ -99,6 +105,7 @@ export async function runMitzvahWorldPostBuild(context) {
   await runSafe("HOUSE_DOORS", () => ensureHouseDoors(context), summary);
   await runSafe("CHOSSID_NPCS", () => ensureChossidNpcs(context), summary);
   await runSafe("GENERATED_BATTLE_LAYER", () => ensureGeneratedBattleLayer(context), summary);
+  await runSafe("WOOD_COLLECTIBLES", () => ensureWoodCollectibles(context), summary);
 
   summary.finishedAt = Date.now();
   summary.finalCounts = countSceneMarkers(context?.scene || context?.olam?.scene);

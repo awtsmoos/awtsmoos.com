@@ -34,9 +34,16 @@ function compactResult(result, maxChars) {
   return { ok: result && result.ok !== false, truncated: true, preview: text.slice(0, maxChars) };
 }
 
+function jsonMaybe(value) {
+  if (!value || typeof value !== "string") return value;
+  try { return JSON.parse(value); } catch { return value; }
+}
+
 function getWorkflow(payload = {}) {
-  if (payload.workflow && typeof payload.workflow === "object") return payload.workflow;
-  if (Array.isArray(payload.steps)) return { name: payload.workflowName || "inline", steps: payload.steps };
+  const workflow = jsonMaybe(payload.workflow);
+  const steps = jsonMaybe(payload.steps);
+  if (workflow && typeof workflow === "object") return workflow;
+  if (Array.isArray(steps)) return { name: payload.workflowName || "inline", steps };
   if (payload.workflowName && BUILT_INS[payload.workflowName]) return BUILT_INS[payload.workflowName];
   return null;
 }

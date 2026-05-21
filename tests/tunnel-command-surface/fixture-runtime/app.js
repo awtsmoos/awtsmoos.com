@@ -1,0 +1,1 @@
+let answer = 42; window.answer = answer;

@@ -8,6 +8,8 @@ for (let i = 1; i <= 18; i++) {
     const id = `dibbur_${i}`;
     const prev = i === 1 ? 'hall_of_mirrors' : `dibbur_${i - 1}`;
     const next = i === 18 ? 'hall_of_mirrors' : `dibbur_${i + 1}`;
+    const uuBase = 61440 + (i * 8);
+    const uu = (offset) => String.fromCodePoint(uuBase + offset);
     let encounterLevel = 50 + i;
 
     let baseString = `
@@ -20,8 +22,8 @@ for (let i = 1; i <= 18; i++) {
 🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱`;
 
     const interactables = {
-        'prev': { type: 'door', emoji: '🚪', targetMap: prev, targetX: 1, targetY: 3, x: 1, y: 3 },
-        'next': { type: 'door', emoji: '🚪', targetMap: next, targetX: 1, targetY: 3, x: 13, y: 3 }
+        'prev': { type: 'door', uu: uu(1), visual: '🚪', emoji: '🚪', targetMap: prev, targetX: 1, targetY: 3, x: 1, y: 3 },
+        'next': { type: 'door', uu: uu(2), visual: '🚪', emoji: '🚪', targetMap: next, targetX: 1, targetY: 3, x: 13, y: 3 }
     };
 
     if (i === 3) {

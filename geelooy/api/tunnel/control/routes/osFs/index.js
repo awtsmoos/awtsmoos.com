@@ -11,6 +11,7 @@ const { dependencyGraph, connectedFiles } = require("./graph.js");
 const { checkAiRender, checkTunnelSurface, checkAwtsmoosAi } = require("./nativeChecks.js");
 const { textSearch } = require("./textSearch.js");
 const { runActionBatch } = require("./actionBatch.js");
+const { commandTreeHandlers } = require("./commandTree.js");
 const { testMatrix, bundleTrace, dependencyCycleCheck, deadExportScan, mutationPatchTest, browserReplay, apiContractCheck, perfBudgetCheck } = require("./qualityActions.js");
 const { actions: documentedActions } = require("../../docs/actions.js");
 
@@ -166,6 +167,7 @@ async function dispatchOsFs($i, userId, payload) {
     workflowRun: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
     commandBatch: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
     aiCommandBatch: () => runActionBatch(payload, next => dispatchOsFs($i, userId, next)),
+    ...commandTreeHandlers(runActionBatch, next => dispatchOsFs($i, userId, next), payload),
     runtimeWorkflow: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
     merkavaWorkflowRun: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
     aiWorkflowRun: () => loadMerkavaService().runtimeWorkflow(runtimeOptions(payload)),
@@ -182,8 +184,6 @@ async function dispatchOsFs($i, userId, payload) {
   };
 
   const fn = actions[action];
-
-  if (!fn && documentedActions.includes(action)) return genericDocumentedActionReport(action, payload);
 
   if (!fn && documentedActions.includes(action)) return genericDocumentedActionReport(action, payload);
 

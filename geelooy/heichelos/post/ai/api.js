@@ -7,6 +7,10 @@ import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { stripTags } from "/heichelos/post/functions/utils.js";
 import { markdownToHtml } from "/heichelos/post/parsing.js";
 import { getHistory, setHistory, setActiveCommentId } from "./chat.js";
+import { normalizeCommentCoordinate, coordinateToDayuh } from "/heichelos/post/comments/state/commentCoordinate.js";
+import { emitAwtsmoosEvent } from "/heichelos/post/comments/state/eventBus.js";
+import { normalizeCommentCoordinate, coordinateToDayuh } from "/heichelos/post/comments/state/commentCoordinate.js";
+import { emitAwtsmoosEvent } from "/heichelos/post/comments/state/eventBus.js";
 
 function getContextContent(idx) {
     if (idx !== null && window.sectionDayuh?.[idx]) {
@@ -88,10 +92,17 @@ export async function saveChat(chatHistory, verseSection, activeCommentId, chatT
         return alert("Log in to save!");
     }
     
-    const dayuhObject = {
-        conversation: chatHistory,
-        verseSection: verseSection === "root" ? "root" : parseInt(verseSection)
-    };
+    const coordinate = normalizeCommentCoordinate({
+        heichelId: window.post?.heichel?.id,
+        seriesId: window.post?.parentSeriesId,
+        postId: window.post?.id,
+        parentType: "post",
+        parentId: window.post?.id,
+        verseSection
+    });
+    const dayuhObject = coordinateToDayuh(coordinate, {
+        conversation: chatHistory
+    });
     
     const method = activeCommentId ? "PUT" : "POST";
     const bodyParams = {
@@ -114,12 +125,29 @@ export async function saveChat(chatHistory, verseSection, activeCommentId, chatT
             const newId = json.details?.id || activeCommentId;
             setActiveCommentId(newId);
             
-            if(window.awtsmoosConductor?.handleNewComment) {
-                await window.awtsmoosConductor.handleNewComment({
-                    aliasId: currentAlias, verseSection: dayuhObject.verseSection, commentId: newId,
-                    newCommentData: { id: newId, author: currentAlias, content: bodyParams.content, dayuh: dayuhObject }
-                });
+            const payload = {
+                aliasId: currentAlias,
+                verseSection: dayuhObject.verseSection,
+                commentId: newId,
+                newCommentData: { id: newId, author: currentAlias, content: bodyParams.content, dayuh: dayuhObject },
+                coordinate
+            };
+
+            emitAwtsmoosEvent("ai-comment:saved", {
+                aliasId: currentAlias,
+                commentId: newId,
+                coordinate,
+                title: bodyParams.content
+            });
+
+            if (window.commentLogic?.handleNewComment) {
+                await window.commentLogic.handleNewComment(payload);
+            } else if (window.awtsmoosConductor?.handleNewComment) {
+                await window.awtsmoosConductor.handleNewComment(payload);
             }
+
+            const inline = await import("/heichelos/post/comments/logic/inlineManifest.js");
+            await inline.manifestAliasInline(currentAlias);
 
             AwtsmoosPrompt.go({
                 headerTxt: "Chat Immortalized!",

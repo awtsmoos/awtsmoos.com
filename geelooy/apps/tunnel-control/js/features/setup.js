@@ -24,7 +24,16 @@ export function setup() {
         btn("openRootBtn", "Open root"),
         btn("rootsBtn", "Show drives")
       ]),
-      h("div", { id: "configSaveStatus", className: "notice", text: "Settings not loaded yet." })
+      h("div", { id: "configSaveStatus", className: "notice", text: "Settings not loaded yet." }),
+      h("label", { className: "stack" }, [
+        h("span", { text: "End-of-run auto response" }),
+        h("textarea", {
+          id: "continuationPrompt",
+          rows: 4,
+          data: { instantConfig: "1" },
+          text: "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully."
+        })
+      ])
     ]),
 
     h("article", { className: "panel stack" }, [

@@ -12,6 +12,32 @@
  */
 
 export const ShlichusLedger = {
+    'Q_GATHER_EMERALD_WOOD': {
+        id: 'Q_GATHER_EMERALD_WOOD',
+        title: 'Gather Wood for Real Doors',
+        description: 'Collect 6 wood/etz/lumber pieces so Emerald Void houses can receive strong doors, stairs, and warm rooms.',
+        requirements: {
+            item: 'Wood',
+            quantity: 6
+        },
+        rewards: {
+            item: 'book_chumash_bereishis',
+            quantity: 1
+        }
+    },
+    'Q_GATHER_EMERALD_WOOD': {
+        id: 'Q_GATHER_EMERALD_WOOD',
+        title: 'Gather Wood for Real Doors',
+        description: 'Collect 6 wood/etz/lumber pieces so Emerald Void houses can receive strong doors, stairs, and warm rooms.',
+        requirements: {
+            item: 'Wood',
+            quantity: 6
+        },
+        rewards: {
+            item: 'book_chumash_bereishis',
+            quantity: 1
+        }
+    },
     'Q_ELEVATE_APPLES': {
         id: 'Q_ELEVATE_APPLES',
         title: 'Elevate the Fallen Sparks (Apples)',

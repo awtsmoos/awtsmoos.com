@@ -7,6 +7,7 @@ import { giveItem, updateObjective } from '../quests.js';
 import { checkMitzvahs } from '../../data/mitzvahs.js';
 import { TYPE_CHART, getTypeEffectiveness } from '../../data/types.js';
 import { evolutions } from '../../data/evolutions.js';
+import { debateFx } from './debateEffects.js';
 
 let BATTLE_STATE = {};
 
@@ -82,7 +83,7 @@ function executeUltimate(state, sendUIUpdate) {
     
     sendUIUpdate({ 
         battle: getBattleUIPayload(battle, false, [], state),
-        fx: { type: 'particles', amount: 500, color: '#ffd700' } // Intense gold explosion
+        fx: debateFx('bittulCrown', { amount: 500 }) // Intense gold explosion
     });
 }
 
@@ -143,7 +144,7 @@ function executeTurn(state, moveId, isOpponent, sendUIUpdate, trigger) {
             
             sendUIUpdate({ fx: { type: 'floatingText', text: `-${damage}`, style: 'float-damage', x: targetTag } });
             if(isCrit) sendUIUpdate({ fx: { type: 'floatingText', text: 'CRIT!', style: 'float-crit', x: targetTag } });
-            sendUIUpdate({ fx: { type: 'particles', amount: 10, color: '#ff5555' } });
+            sendUIUpdate({ fx: debateFx(isCrit ? 'crit' : 'damage') });
         }
         
         if (move.effect && move.effect.stat === 'inflict_status') {
@@ -194,7 +195,7 @@ function useItem(state, itemId, sendUIUpdate) {
         
         if (Math.random() < chance) {
             battle.log += `Captured!`;
-            sendUIUpdate({ fx: { type: 'particles', amount: 20, color: '#ffff00' } });
+            sendUIUpdate({ fx: debateFx('capture') });
             if (state.player.team.length < 6) {
                 state.player.team.push({ id: battle.opponent.id, level: battle.opponent.level });
             } else {

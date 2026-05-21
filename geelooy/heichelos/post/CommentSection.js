@@ -4,6 +4,16 @@ import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { ImageUploader } from "/heichelos/post/ImageUploader.js";
 import { createWysiwygEditor } from "/heichelos/post/logic/wysiwyg.js";
 import { markdownToHtml } from "/heichelos/post/parsing.js";
+import { normalizeCommentCoordinate, coordinateToDayuh } from "/heichelos/post/comments/state/commentCoordinate.js";
+import { emitAwtsmoosEvent } from "/heichelos/post/comments/state/eventBus.js";
+import { normalizeCommentCoordinate, coordinateToDayuh } from "/heichelos/post/comments/state/commentCoordinate.js";
+import { emitAwtsmoosEvent } from "/heichelos/post/comments/state/eventBus.js";
+
+function getActiveAlias() {
+    const alias = window.curAlias || localStorage.getItem("lastAliasUsed") || localStorage.getItem("awtsmoos-alias") || "";
+    if (alias) window.curAlias = alias;
+    return alias;
+}
 
 export class CommentSection {
     imgResults = [];
@@ -44,11 +54,11 @@ export class CommentSection {
         this.btn.classList.add("btn", "awtsmoos-add-comment-btn");
         this.btn.innerHTML = "<span>✍️ Transcribe your Insight...</span>";
         this.btn.onclick = async () => {
-            if (!window.curAlias) {
-                await AwtsmoosPrompt.go({ 
-                    isAlert: true, 
-                    headerTxt: "Authentication Required", 
-                    bodyTxt: "You must choose an Alias to contribute." 
+            if (!getActiveAlias()) {
+                await AwtsmoosPrompt.go({
+                    isAlert: true,
+                    headerTxt: "Choose an Alias",
+                    bodyTxt: "Pick an alias from the top selector first, then your insight can be posted."
                 });
                 return;
             }
@@ -245,20 +255,30 @@ export class CommentSection {
         this.submitBtn.disabled = true;
 
         try {
+            const activeAlias = getActiveAlias();
+            if (!activeAlias) throw new Error("Choose an alias before transmitting.");
+
             const sParams = new URLSearchParams(location.search);
             const idx = sParams.get("idx");
             const sub = sParams.get("sub");
             
-            const verseSection = idx !== null ? parseInt(idx) : "root";
+            const coordinate = normalizeCommentCoordinate({
+                heichelId: window.post?.heichel?.id,
+                seriesId: window?.post?.parentSeriesId,
+                postId: window.post?.id,
+                parentType: "post",
+                parentId: window.post?.id,
+                idx,
+                sub
+            });
+            const verseSection = coordinate.verseSection;
 
-            let dayuhObject = { images };
-            if (idx !== null) dayuhObject.verseSection = verseSection;
-            if (sub !== null && sub !== "null") dayuhObject.subSection = parseInt(sub);
+            let dayuhObject = coordinateToDayuh(coordinate, { images });
             
             const response = await fetch(`/api/social/heichelos/${window.post?.heichel?.id}/post/${window.post?.id}/comments/`, {
                 method: "POST",
                 body: new URLSearchParams({
-                    aliasId: window.curAlias,
+                    aliasId: activeAlias,
                     content: content, 
                     seriesId: window?.post?.parentSeriesId,
                     dayuh: JSON.stringify(dayuhObject),
@@ -270,14 +290,31 @@ export class CommentSection {
 
             let newId = json.details?.id || json.success?.id || json.id;
 
-            if (newId && window.awtsmoosConductor?.handleNewComment) {
-                const newCommentData = { id: newId, author: window.curAlias, content, dayuh: dayuhObject };
-                await window.awtsmoosConductor.handleNewComment({
-                    aliasId: window.curAlias,
-                    verseSection: verseSection,
+            if (newId) {
+                const newCommentData = { id: newId, author: activeAlias, content, dayuh: dayuhObject };
+                const payload = {
+                    aliasId: activeAlias,
+                    verseSection,
                     commentId: newId,
-                    newCommentData: newCommentData
+                    newCommentData,
+                    coordinate
+                };
+
+                emitAwtsmoosEvent("comment:submitted", {
+                    aliasId: activeAlias,
+                    commentId: newId,
+                    coordinate,
+                    content
                 });
+
+                if (window.commentLogic?.handleNewComment) {
+                    await window.commentLogic.handleNewComment(payload);
+                } else if (window.awtsmoosConductor?.handleNewComment) {
+                    await window.awtsmoosConductor.handleNewComment(payload);
+                }
+
+                const inline = await import("/heichelos/post/comments/logic/inlineManifest.js");
+                await inline.manifestAliasInline(activeAlias);
             }
             this.resetForm();
 

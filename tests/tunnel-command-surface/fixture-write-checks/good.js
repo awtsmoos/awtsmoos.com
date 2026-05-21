@@ -1,0 +1,1 @@
+window.goodWrite = 1;

@@ -98,7 +98,11 @@ function createInlineToggle(alias, isInline) {
             }
         ],
         events: {
-            click: (e) => e.stopPropagation()
+            click: (e) => {
+                e.stopPropagation();
+                const input = e.currentTarget.querySelector('.inline-toggle-input');
+                if (input && e.target !== input) input.click();
+            }
         }
     };
 }

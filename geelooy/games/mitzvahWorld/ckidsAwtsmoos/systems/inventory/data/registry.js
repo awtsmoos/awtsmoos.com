@@ -28,5 +28,8 @@ export const ITEM_REGISTRY = {
     "Fire": { isBuildable: true, stackSize: 1, name: "Fire", description: "Warmth and light.", equipSlot: 'rightHand' },
     "Fruit": { stackSize: 64, icon: "🍎", name: "Fruit", description: "Sweet nosh." },
     "Lava": { isBuildable: true, stackSize: 1, name: "Lava", description: "Molten earth.", equipSlot: 'rightHand' },
-    "CharacterMaker": { stackSize: 1, name: "Neshama Maker", description: "Create souls.", equipSlot: 'rightHand' }
+    "CharacterMaker": { stackSize: 1, name: "Neshama Maker", description: "Create souls.", equipSlot: 'rightHand' },
+    "Wood": { stackSize: 128, icon: "🪵", name: "Wood", description: "Collected etz/lumber for building warm homes and completing shlichus.", isQuestItem: true },
+    "Chumash": { stackSize: 1, icon: "📘", name: "Chumash", description: "A readable Torah book whose passages can enter the action bar for debate.", isTool: true, readable: true, equipSlot: 'rightHand' },
+    "TorahPassage": { stackSize: 24, icon: "📜", name: "Torah Passage", description: "A verse-card used in Torah debate battles.", isDebateCard: true }
 };

@@ -1,5 +1,6 @@
 // B"H
 const { stabilizeRemoteModuleSource } = require("./remoteModuleCompat.js");
+const { buildRuntimeVirtualEnv } = require("../runtimeVirtualEnv.js");
 
 function json64(value, fallback) {
   if (!value) return fallback;
@@ -20,12 +21,14 @@ function jsonMaybe(value, fallback) {
   }
 }
 
-function collectOptions(payload = {}) {
+function collectOptions(payload = {}, config = {}) {
+  const env = buildRuntimeVirtualEnv(payload, config);
   return {
     runtime: payload.runtime || "browser",
     engine: payload.engine || "merkava",
-    entry: payload.entry || payload.path || payload.p || payload.target || "index.html",
-    files: jsonMaybe(payload.files, json64(payload.files64, {})),
+    entry: env.entry || payload.entry || payload.path || payload.p || payload.target || "index.html",
+    files: Object.keys(env.files || {}).length ? env.files : jsonMaybe(payload.files, json64(payload.files64, {})),
+    virtualEnv: env,
     workflow: jsonMaybe(
       payload.workflow,
       payload.steps && payload.steps.length ? { steps: payload.steps } : json64(payload.workflow64, null)
@@ -122,46 +125,51 @@ function fallback(error, payload) {
       engine: "chrome",
       reason: "Merkava runtime failed; retry with browser-backed runtime."
     },
-    options: collectOptions(payload)
+    options: collectOptions(payload, {})
   };
 }
 
-async function runService(payload, method) {
+async function runService(payload, method, config = {}) {
+  const options = collectOptions(payload, config);
+  if (options.virtualEnv?.diagnostics?.length) {
+    return { ok: false, action: method, engine: "merkava", error: "runtime_preflight_failed", diagnostics: options.virtualEnv.diagnostics, options };
+  }
   try {
     const service = await loadMerkavaService(payload);
     const fn = service && service[method];
     if (typeof fn !== "function") {
       throw new Error(`Remote Merkava service missing method: ${method}`);
     }
-    return await fn(collectOptions(payload));
+    const result = await fn(options);
+    return { ...result, virtualEnv: options.virtualEnv };
   } catch (error) {
     return fallback(error, payload);
   }
 }
 
 function buildRuntimeActions(ctx) {
-  const { payload } = ctx;
+  const { payload, config } = ctx;
 
   return {
     async simulateRuntime() {
-      return await runService(payload, "simulateRuntime");
+      return await runService(payload, "simulateRuntime", config);
     },
 
     async runtimeWorkflow() {
-      return await runService(payload, "runtimeWorkflow");
+      return await runService(payload, "runtimeWorkflow", config);
     },
 
     async merkavaWorkflowRun() {
-      return await runService(payload, "runtimeWorkflow");
+      return await runService(payload, "runtimeWorkflow", config);
     },
 
     async aiWorkflowRun() {
-      return await runService(payload, "runtimeWorkflow");
+      return await runService(payload, "runtimeWorkflow", config);
     },
 
 
     async testRuntimeOnce() {
-      return await runService(payload, "simulateRuntime");
+      return await runService(payload, "simulateRuntime", config);
     }
   };
 }

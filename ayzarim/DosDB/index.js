@@ -24,6 +24,10 @@ var directoryMethods = require("./methods/directory.js");
 var firebaseMethods = require("./methods/firebaseMethods.js");
 
 var awtsmoosMerge = require("./utils/awtsmoosMerge.js");
+const {
+	AwtsmoosDB,
+	createAwtsmoosDb
+} = require("./awtsmoosDbBridge.js");
 
 
 
@@ -74,6 +78,36 @@ class DosDB {
 		} catch (e) {
 			console.log(e, "Index issue - the Awtsmoos remains unperturbed.");
 		}
+	}
+
+	/**
+	 * @method awtsmoosDb
+	 * @description
+	 * Opens a parallel AwtsmoosDB binary vessel beside this DosDB instance. This
+	 * is intended for AI search, vector indexes, graph memory, and future split
+	 * storage without disturbing the current filesystem-backed DosDB records.
+	 *
+	 * @param {string} filePath Relative-to-DosDB-root or absolute database path.
+	 * @param {object} [options={}] AwtsmoosDB options plus { open, attachOwner }.
+	 * @returns {AwtsmoosDB} A full AwtsmoosDB instance with live handle at .root.
+	 */
+	awtsmoosDb(filePath, options = {}) {
+		return createAwtsmoosDb(filePath, options, this);
+	}
+
+	/**
+	 * @method awtsmoosDb
+	 * @description
+	 * Opens a parallel AwtsmoosDB binary vessel beside this DosDB instance. This
+	 * is intended for AI search, vector indexes, graph memory, and future split
+	 * storage without disturbing the current filesystem-backed DosDB records.
+	 *
+	 * @param {string} filePath Relative-to-DosDB-root or absolute database path.
+	 * @param {object} [options={}] AwtsmoosDB options plus { open, attachOwner }.
+	 * @returns {AwtsmoosDB} A full AwtsmoosDB instance with live handle at .root.
+	 */
+	awtsmoosDb(filePath, options = {}) {
+		return createAwtsmoosDb(filePath, options, this);
 	}
 	
 	/**
@@ -147,5 +181,17 @@ class DosDB {
 		}
 	}
 }
+
+DosDB.AwtsmoosDB = AwtsmoosDB;
+DosDB.awtsmoosDb = function awtsmoosDb(filePath, options = {}) {
+	return createAwtsmoosDb(filePath, options, null);
+};
+DosDB.createAwtsmoosDb = DosDB.awtsmoosDb;
+
+DosDB.AwtsmoosDB = AwtsmoosDB;
+DosDB.awtsmoosDb = function awtsmoosDb(filePath, options = {}) {
+	return createAwtsmoosDb(filePath, options, null);
+};
+DosDB.createAwtsmoosDb = DosDB.awtsmoosDb;
 
 module.exports = DosDB;

@@ -3,6 +3,7 @@
 // js/render.js
 
 import { TILE_SIZE } from './data/database.js';
+import { resolveTileVisual } from './rendering/tileVisualResolver.js';
 
 // --- VISUAL SETTINGS (EXTREME OPTIMIZED) ---
 const SETTINGS = {
@@ -165,7 +166,7 @@ export function renderGameState(ctx, renderState) {
         for (let y = startRow; y <= endRow; y++) {
             if (!layer[y]) continue;
             for (let x = startCol; x <= endCol; x++) {
-                const tile = layer[y][x];
+                const tile = resolveTileVisual(map, layer[y][x]);
                 if (tile) {
                     const posX = Math.floor(x * TILE_SIZE + TILE_SIZE / 2 + cameraOffsetX);
                     const posY = Math.floor(y * TILE_SIZE + TILE_SIZE / 2 + cameraOffsetY);

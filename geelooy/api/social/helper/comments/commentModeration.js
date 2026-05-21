@@ -101,6 +101,7 @@ async function approveComment(
             parentId,
             parentType,
             postId,
+            seriesId,
             content,
             dayuh
         } = submittedComment;
@@ -109,7 +110,7 @@ async function approveComment(
             commentAliasId = aliasId;
         }
 
-        if (!parentId || !parentType || !commentAliasId) {
+        if (!parentId || !parentType || !commentAliasId || !seriesId) {
             return er(
                 {
                     message: "Invalid comment data. Missing ",
@@ -117,7 +118,8 @@ async function approveComment(
                         parentId,
                         parentType,
                         postId,
-                        commentAliasId
+                        commentAliasId,
+                        seriesId
                     },
                     code: "DATA_CORRUPT"
                 }
@@ -136,7 +138,8 @@ async function approveComment(
                 $i,
                 postId,
                 commentId,
-                aliasId: commentAliasId
+                aliasId: commentAliasId,
+                seriesId
             }
         );
 
@@ -144,7 +147,9 @@ async function approveComment(
 
         $i.$_POST.dayuh = dayuh;
 
-        $i.$_POST.aliasId = aliasId;
+        $i.$_POST.aliasId = commentAliasId;
+
+        $i.$_POST.seriesId = seriesId;
 
         var add = await addOrApproveComment(
             {
@@ -153,8 +158,9 @@ async function approveComment(
                 parentId,
                 userid,
                 heichelId,
-                aliasId,
-                postId
+                aliasId: commentAliasId,
+                postId,
+                seriesId
             }
         );
 
@@ -272,7 +278,8 @@ async function denyComment(
                 $i,
                 postId,
                 commentId,
-                aliasId: commentAliasId
+                aliasId: commentAliasId,
+                seriesId
             }
         );
 

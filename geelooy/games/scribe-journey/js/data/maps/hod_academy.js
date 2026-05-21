@@ -8,13 +8,13 @@ export const hodAcademyMaps = {
         baseLayerString: `
 📚📚📚📚📚📚📚📚📚📚📚📚📚📚📚
 📚⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜📚
-🚪⬜📚📚📚📚⬜📚📚📚📚⬜🤔⬜📚
+⬜📚📚📚📚⬜📚📚📚📚⬜🤔⬜📚
 📚⬜📚⬜⬜⬜⬜⬜⬜⬜📚⬜⬜⬜📚
 📚⬜📚⬜⬜⬜👨‍🔬⬜⬜⬜📚⬜⬜⬜📚
 📚⬜📚⬜⬜⬜⬜⬜⬜⬜📚⬜⬜⬜📚
 📚⬜📚📚📚📚⬜📚📚📚📚⬜⬜⬜📚
 📚⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜📚
-📚📚📚📚📚📚📚📚📚📚📚🔬📚📚📚
+📚📚📚📚📚📚📚📚📚📚📚📚📚📚
         `,
         encounters: {
             '⬜': [ 
@@ -23,8 +23,8 @@ export const hodAcademyMaps = {
             ]
         },
         interactables: {
-            'to_atheneum': {type: 'door', emoji: '🚪', targetMap: 'scribe_atheneum_upstairs', targetX: 5, targetY: 2},
-            'to_lab': {type: 'door', emoji: '🔬', targetMap: 'hod_laboratory', targetX: 1, targetY: 4},
+            'to_atheneum': {type: 'door', uu: '\ue401', visual: '🚪', emoji: '🚪', x: 0, y: 2, targetMap: 'scribe_atheneum_upstairs', targetX: 5, targetY: 2},
+            'to_lab': {type: 'door', uu: '\ue402', visual: '🔬', emoji: '🔬', x: 11, y: 8, targetMap: 'hod_laboratory', targetX: 1, targetY: 4},
         }
     },
     'hod_laboratory': {
@@ -34,7 +34,7 @@ export const hodAcademyMaps = {
 🧱⬜⬜⬜⬜⬜⬜⬜⬜⬜🧱
 🧱⬜⚗️⬜⚙️⬜⚗️⬜⚙️⬜🧱
 🧱⬜⬜⬜⬜⬜⬜⬜⬜⬜🧱
-🚪⬜📐⬜⬜🤖⬜⬜📐⬜🧱
+⬜📐⬜⬜🤖⬜⬜📐⬜🧱
 🧱⬜⬜⬜⬜⬜⬜⬜⬜⬜🧱
 🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
         `,
@@ -45,7 +45,7 @@ export const hodAcademyMaps = {
             ]
         },
         interactables: {
-            'to_library': {type: 'door', emoji: '🚪', targetMap: 'hod_library', targetX: 12, targetY: 8},
+            'to_library': {type: 'door', uu: '\ue411', visual: '🚪', emoji: '🚪', x: 0, y: 4, targetMap: 'hod_library', targetX: 12, targetY: 8},
         }
     }
 };

@@ -42,11 +42,16 @@ for (let y = 0; y < HEIGHT; y++) {
             row += '🧱';
         } else if (placedCount < 677 && (x % 2 !== 0 && y % 2 !== 0)) {
             // Place an IDOL
-            row += '🗿';
+            const idolUu = String.fromCodePoint(0xF1000 + placedCount);
+            row += idolUu;
             placedCount++;
             interactables[`${x},${y}`] = {
+                id: `idol_${placedCount}`,
+                uu: idolUu,
+                visual: '🗿',
                 type: 'npc',
                 emoji: '🗿',
+                x, y,
                 dialogue: {
                     start: [
                         `You stand before Idol #${placedCount}. It blocks the light.`,
@@ -64,7 +69,10 @@ for (let y = 0; y < HEIGHT; y++) {
 }
 
 // Add exit
-interactables[`${Math.floor(WIDTH/2)},${HEIGHT-2}`] = { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 10, targetY: 10 };
+const hallExitX = Math.floor(WIDTH/2);
+const hallExitY = HEIGHT - 2;
+baseString = baseString.split('\n').map((row, y) => y === hallExitY ? row.substring(0, hallExitX) + '\u{F1FFF}' + row.substring(hallExitX + 1) : row).join('\n');
+interactables[`${hallExitX},${hallExitY}`] = { type: 'door', uu: '\u{F1FFF}', visual: '🚪', emoji: '🚪', x: hallExitX, y: hallExitY, targetMap: 'malkuth_village', targetX: 10, targetY: 10 };
 
 // 3. Generate Enemies
 greekNames.forEach(name => {

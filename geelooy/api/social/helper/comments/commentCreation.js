@@ -61,18 +61,6 @@ function parseDayuhVessel(dayuh) {
  * @param {any} dayuh Raw dayuh from request/comment payload.
  * @returns {object|undefined} Parsed dayuh object, or undefined.
  */
-function parseDayuhVessel(dayuh) {
-    if (!dayuh) return undefined;
-    if (typeof dayuh === "object") return dayuh;
-    if (typeof dayuh !== "string") return undefined;
-    try {
-        const parsed = JSON.parse(dayuh);
-        return parsed && typeof parsed === "object" ? parsed : undefined;
-    } catch (_) {
-        return undefined;
-    }
-}
-
 /**
  * @method addComment
  * @description Initiates comment creation, verifying ownership and authority. (Checks remain similar)
@@ -115,7 +103,7 @@ async function addComment(
             // If no direct authority, submit for approval
           //  console.log(`Alias ${aliasId} lacks authority for ${heichelId}, submitting comment.`);
             return await submitComment({
-                $i, parentType, parentId, heichelId, aliasId, userid, postId
+                $i, parentType, parentId, heichelId, aliasId, userid, postId, seriesId
             });
              /* // Original logic seemed to prevent submission if no auth, corrected above
              return er( {
@@ -158,7 +146,7 @@ async function addComment(
  */
 async function submitComment(
     {
-        $i, parentType, parentId, heichelId, aliasId, userid, postId
+        $i, parentType, parentId, heichelId, aliasId, userid, postId, seriesId
     }
 ) {
     const { content, dayuh } = $i.$_POST; // Assuming data comes from POST
@@ -168,7 +156,7 @@ async function submitComment(
 
     // Prepare comment data
     const commentData = {
-        aliasId, parentId, parentType, content, dayuh, timestamp, userid, // Include userid?
+        aliasId, parentId, parentType, postId, seriesId, content, dayuh, timestamp, userid,
         status: "submitted" // Mark as submitted
     };
 
@@ -181,7 +169,8 @@ async function submitComment(
     }
 
     // Optional: Path to a general list of submissions for the parent (maybe for admins)
-    const allSubmittedListPath = `${sp}/heichelos/${heichelId}/comments/submitted/list/${parentType}/${parentId}`; // Example path
+    const allSubmittedListPath = `${sp}/heichelos/${heichelId}/comments/submitted/list/${parentType}/${parentId}`;
+    const allSubmittedDetailPath = `${sp}/heichelos/${heichelId}/comments/submitted/all/${commentId}`;
 
     // Add metadata to the comment itself
     commentData.awtsmoosDayuh = {
@@ -194,9 +183,10 @@ async function submitComment(
     try {
         // Write the detailed submitted comment data
         await db.write(submittedCommentSpecificPath, commentData);
+        await db.write(allSubmittedDetailPath, commentData);
 
         // Optionally, add a reference to the general list
-         await db.arrayAppend(allSubmittedListPath, { commentId, aliasId, timestamp }); // Example
+         await db.arrayAppend(allSubmittedListPath, { commentId, aliasId, timestamp, path: submittedCommentSpecificPath });
 
      //   console.log(`Comment ${commentId} submitted successfully to ${submittedCommentSpecificPath}`);
         return {
@@ -204,6 +194,7 @@ async function submitComment(
             message: "Comment submitted for approval.",
             commentId,
             path: submittedCommentSpecificPath,
+            allPath: allSubmittedDetailPath,
            // listPath: allSubmittedListPath
         };
     } catch (e) {
@@ -481,7 +472,7 @@ async function addCommentIndexToAlias({
 		    }/seriesChain/${
 				crumbled
 			}`;
-			var wr = await $i.db.write(crumbled);
+			var wr = await $i.db.write(pth, { seriesId, breadcrumb: crumbled, updatedAt: Date.now() });
 		}
 
      //   console.log(`Ensured series ${seriesId} is indexed for alias ${aliasId} in heichel ${heichelId}.`,syncResult);

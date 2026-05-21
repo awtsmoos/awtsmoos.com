@@ -7,12 +7,12 @@ export const maamarHub = {
         width: 20,
         baseLayerString: `
 🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️
-🌫️🚪⬜⬜⬜⬜⬜👑⬜⬜🕯️⬜⬜💰⬜⬜⬜⬜⬜🚪🌫️
+🌫️⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌫️
 🌫️⬜🌳🌳🌳🌳⬜⬜⬜⬜⬜⬜⬜⬜⚡⚡⚡⚡⬜🌫️
-🌫️⬜🌳🌍🌳🌳⬜⬜⬜✡️⬜⬜⬜⚡👁️⚡⚡⬜🌫️
+🌫️⬜🌳🌳🌳⬜⬜⬜⬜⬜⬜⚡⚡⚡⬜🌫️
 🌫️⬜🌳🌳🌳🌳⬜⬜⬜⬜⬜⬜⬜⬜⚡⚡⚡⚡⬜🌫️
-🌫️⬜⬜⬜⬜⬜🌊⬜⬜⬜⬜⬜🗣️⬜⬜⬜⬜⬜🌫️
-🌫️⬜🎭⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🎭⬜🌫️
+🌫️⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌫️
+🌫️⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌫️
 🌫️⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌫️
 🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️🌫️
         `,
@@ -21,9 +21,9 @@ export const maamarHub = {
             '⚡': [{ id: 'nes_glory', levelRange: [25, 30], chance: 0.4 }]
         },
         interactables: {
-            'exit': { type: 'door', emoji: '🚪', targetMap: 'scribe_atheneum_upstairs', targetX: 2, targetY: 3 },
+            'exit': { type: 'door', uu: '\uee01', visual: '🚪', emoji: '🚪', x: 1, y: 1, targetMap: 'scribe_atheneum_upstairs', targetX: 2, targetY: 3 },
             'elijah_prophet': { 
-                type: 'npc', emoji: '🕯️', questGiver: 'yud_tet_1_unification',
+                type: 'npc', uu: '\uee02', visual: '🕯️', emoji: '🕯️', x: 10, y: 1, questGiver: 'yud_tet_1_unification',
                 dialogue: { 
                     start: [
                         "Patah Eliyahu: 'You are One but not in calculation.'", 
@@ -49,13 +49,13 @@ export const maamarHub = {
                     found_jewel_keter: ["You have the Crown Jewel.", {finalizeQuest: 'maamar_4_ratzon'}, "end"]
                 } 
             },
-            'to_matbea': { type: 'door', emoji: '💰', targetMap: 'matbea_1', targetX: 1, targetY: 4 },
-            'to_tvia': { type: 'door', emoji: '🌊', targetMap: 'tvia_1', targetX: 1, targetY: 3 },
-            'to_dibbur': { type: 'door', emoji: '🗣️', targetMap: 'dibbur_1', targetX: 1, targetY: 3 },
-            'to_ratzon': { type: 'door', emoji: '👑', targetMap: 'ratzon_1', targetX: 1, targetY: 3 },
+            'to_matbea': { type: 'door', uu: '\uee06', visual: '💰', emoji: '💰', x: 13, y: 1, targetMap: 'matbea_1', targetX: 1, targetY: 4 },
+            'to_tvia': { type: 'door', uu: '\uee03', visual: '🌊', emoji: '🌊', x: 6, y: 5, targetMap: 'tvia_1', targetX: 1, targetY: 3 },
+            'to_dibbur': { type: 'door', uu: '\uee04', visual: '🗣️', emoji: '🗣️', x: 12, y: 5, targetMap: 'dibbur_1', targetX: 1, targetY: 3 },
+            'to_ratzon': { type: 'door', uu: '\uee05', visual: '👑', emoji: '👑', x: 7, y: 1, targetMap: 'ratzon_1', targetX: 1, targetY: 3 },
             
             'daat_tachton_npc': {
-                type: 'npc', emoji: '🌍', 
+                type: 'npc', uu: '\uee09', visual: '🌍', emoji: '🌍', x: 3, y: 3, 
                 dialogue: {
                     start: ["I am Daat Tachton. I see the Creation as YESH (Something).", "Do you deny reality?"],
                     flagRequired: 'met_elijah',
@@ -65,7 +65,7 @@ export const maamarHub = {
                 }
             },
             'daat_elyon_npc': {
-                type: 'npc', emoji: '👁️', 
+                type: 'npc', uu: '\uee0a', visual: '👁️', emoji: '👁️', x: 14, y: 3, 
                 dialogue: {
                     start: ["I am Daat Elyon. I see the Creation as AYIN (Nothing).", "The world is a lie."],
                     flagRequired: 'met_elijah',
@@ -75,13 +75,16 @@ export const maamarHub = {
                 }
             },
             'unity_spark': {
-                type: 'npc', emoji: '✡️',
+                type: 'npc', uu: '\uee0b', visual: '✡️', emoji: '✡️', x: 9, y: 3,
                 dialogue: {
                     start: ["(A spark of Atzmus)."],
                     condition: { type: 'flags', flags: ['defeated_tachton', 'defeated_elyon'] },
                     success: ["Daat Elyon and Daat Tachton merge.", {setFlag: 'unified_daat'}, "Return to Elijah."]
                 }
-            }
+            },
+            'upper_exit': { type: 'door', uu: '\uee07', visual: '🚪', emoji: '🚪', x: 19, y: 1, targetMap: 'scribe_atheneum_upstairs', targetX: 2, targetY: 3 },
+            'mask_left': { type: 'npc', uu: '\uee0c', visual: '🎭', emoji: '🎭', x: 2, y: 6, dialogue: { start: ["A mask asks: are nature and miracle two things, or two garments?"] } },
+            'mask_right': { type: 'npc', uu: '\uee0d', visual: '🎭', emoji: '🎭', x: 16, y: 6, dialogue: { start: ["When the mask is named exactly, it stops stealing another face."] } }
         }
     }
 };

@@ -23,15 +23,7 @@ import { CommentSection } from "../../../CommentSection.js";
 export function makeAddCommentSection(parent) {
     const div = document.createElement("div");
     
-    // Intense physical boundaries for the transcription area
-    div.classList.add("comment-section-container");
-    div.style.cssText = `
-        padding: 20px;
-        border: 4px solid var(--color-ink);
-        background: var(--bg-surface);
-        box-shadow: var(--shadow-ui);
-        margin-bottom: 30px;
-    `;
+    div.classList.add("comment-section-container", "awtsmoos-scribe-altar");
     
     parent.appendChild(div);
     

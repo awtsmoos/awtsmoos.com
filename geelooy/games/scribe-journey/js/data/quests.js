@@ -21,6 +21,7 @@ import { tanyaQuests } from './quests/tanya.js';
 import { tribeQuests } from './quests/tribes.js';
 import { ganEdenQuests } from './quests/gan_eden_quests.js';
 import { expansionQuests } from './quests/expansion_quests.js';
+import { shlichusCampaignQuests } from './quests/shlichus_campaigns.js';
 
 const taharotQuests = {
     'mikvaot_1_pure_waters': {
@@ -75,6 +76,7 @@ export const quests = {
     ...ganEdenQuests,
     ...sideQuests,
     ...expansionQuests,
+    ...shlichusCampaignQuests,
     ...towerQuests,
     ...dailyQuestMap
 };

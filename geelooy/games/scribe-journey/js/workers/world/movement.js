@@ -3,6 +3,7 @@
 // js/workers/world/movement.js
 import { TILE_SIZE, PLAYER_SPEED } from '../../data/database.js';
 import { generateChunk } from '../../procedural/world_generator.js';
+import { blocksMovement, getEntityAt } from './entity/occupancy.js';
 
 export function updatePosition(state, deltaTime, trigger) {
     const p = state.player;
@@ -105,9 +106,9 @@ export function attemptMove(state, direction) {
     const solidTiles = ['🌳', '🏠', '🪨', '🔥', '🌊', '💎', '📜', '📚', '🕳️', '👨‍🏫', '👨', '👨‍🌾', '🐂', '🛒', '🚪', '☁️', '⬛', '🧱', '🛡️', '⚠️', '🌲', '🪵', '🍄', '🌵', '🐪', '⛰️', '🧗', '🦅', '🚤', '🦈', '🏝️', '🕸️', '🕷️', '💀', '🏛️', '🗼'];
     if (solidTiles.includes(tile)) return;
     
-    // Check NPC/Interactable
-    const entity = map.interactables[`${tx},${ty}`];
-    if (entity && ['npc', 'door'].includes(entity.type)) return;
+    // Check entity occupancy. The entity registry decides blocking, not tile art.
+    const entity = getEntityAt(map, tx, ty);
+    if (blocksMovement(entity)) return;
     
     // Check Bots
     const bot = state.bots && state.bots.find(b => b.mapId === state.currentMapId && b.targetX === tx && b.targetY === ty);

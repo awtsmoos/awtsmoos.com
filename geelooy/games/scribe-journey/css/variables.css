@@ -16,4 +16,13 @@
     --hp-mid: #ffff00; 
     --hp-low: #ff0000;
     --kavanah: #00f3ff;
+
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --mobile-control-size: clamp(52px, 15vw, 72px);
+    --mobile-action-size: clamp(68px, 19vw, 88px);
+    --layer-menu: 60;
+    --layer-dialogue: 70;
+    --layer-controls: 80;
+    --layer-toast: 90;
+    --layer-effects: 10;
 }

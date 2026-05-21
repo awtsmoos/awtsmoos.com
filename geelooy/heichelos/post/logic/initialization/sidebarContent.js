@@ -66,7 +66,15 @@ export function populateRootMenu(actualTab, post, tabRefs) {
         }
     ));
 
-    // 4. Saved Sparks (Bookmarks)
+    // 4. Approval queue for submitted comments
+    blueprint.children.push(createMenuPortal(
+        "Approval Queue",
+        "Review submitted insights",
+        "✅",
+        () => tabRefs.approvals.open()
+    ));
+
+    // 5. Saved Sparks (Bookmarks)
     blueprint.children.push(createMenuPortal(
         "Saved Sparks", 
         "Your bookmarked verses", 

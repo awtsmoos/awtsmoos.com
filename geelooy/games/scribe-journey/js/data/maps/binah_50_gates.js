@@ -10,6 +10,8 @@ for (let i = 1; i <= 50; i++) {
     const id = `binah_gate_${i}`;
     const next = i === 50 ? 'keter_heights' : `binah_gate_${i + 1}`;
     const prev = i === 1 ? 'binah_upper' : `binah_gate_${i - 1}`;
+    const uuBase = 0xF500 + (i * 8);
+    const uu = (offset) => String.fromCodePoint(uuBase + offset);
     
     // Procedural decoration based on level depth
     let wall = '🧱';
@@ -43,10 +45,10 @@ ${wall.repeat(GATE_SIZE)}
             ]
         },
         interactables: {
-            'prev': { type: 'door', emoji: '🚪', targetMap: prev, targetX: 2, targetY: 2, x: 1, y: 1 },
-            'next': { type: 'door', emoji: '🚪', targetMap: next, targetX: 1, targetY: 1, x: GATE_SIZE-2, y: 1 },
+            'prev': { type: 'door', uu: uu(1), visual: '🚪', emoji: '🚪', targetMap: prev, targetX: 2, targetY: 2, x: 1, y: 1 },
+            'next': { type: 'door', uu: uu(2), visual: '🚪', emoji: '🚪', targetMap: next, targetX: 1, targetY: 1, x: GATE_SIZE-2, y: 1 },
             'gate_marker': { 
-                type: 'npc', emoji: '🔢', 
+                type: 'npc', uu: uu(3), visual: '🔢', emoji: '🔢', 
                 x: Math.floor(GATE_SIZE/2), y: Math.floor(GATE_SIZE/2),
                 dialogue: { start: [`(Gate ${i} of Understanding).`] }
             }
@@ -56,7 +58,7 @@ ${wall.repeat(GATE_SIZE)}
     // Inject special boss every 10 levels
     if (i % 10 === 0) {
         binahGatesMaps[id].interactables['boss'] = {
-            type: 'npc', emoji: '🦁', x: 5, y: 5,
+            type: 'npc', uu: uu(4), visual: '🦁', emoji: '🦁', x: 5, y: 5,
             dialogue: { start: [`Guardian of Gate ${i}. Prove your logic!`, {startBattle: [{id: 'royal_lion', level: 50 + i}]}] }
         };
         binahGatesMaps[id].baseLayerString = binahGatesMaps[id].baseLayerString.replace('⚠️', '🦁');

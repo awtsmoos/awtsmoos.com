@@ -18,6 +18,7 @@ function publicConfig(config, version) {
     tools: config.tools,
     command: config.command,
     chrome: config.chrome,
+    continuationPrompt: config.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.",
     platform: process.platform,
     hostname: os.hostname(),
     home: HOME,
@@ -53,6 +54,7 @@ async function handleConfigSet(payload, ws, version) {
   }
 
   if (payload.tools && typeof payload.tools === "object") patch.tools = payload.tools;
+  if (payload.continuationPrompt !== undefined) patch.continuationPrompt = String(payload.continuationPrompt || "");
   if (payload.commandConfig && typeof payload.commandConfig === "object") patch.command = payload.commandConfig;
   if (payload.chrome && typeof payload.chrome === "object") patch.chrome = payload.chrome;
 
@@ -88,6 +90,16 @@ function buildConfigActions(ctx) {
       const target = payload.root || config.root;
       openSystemExplorer(target);
       return { ok: true, action, opened: target };
+    },
+    async finishAndContinue() {
+      const current = loadConfig();
+      const prompt = payload.continuationPrompt || current.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.";
+      return { ok: true, action: "finishAndContinue", finished: true, finalInstruction: { role: "user", content: String(prompt) } };
+    },
+    async finishAndContinue() {
+      const current = loadConfig();
+      const prompt = payload.continuationPrompt || current.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.";
+      return { ok: true, action: "finishAndContinue", finished: true, finalInstruction: { role: "user", content: String(prompt) } };
     }
   };
 }

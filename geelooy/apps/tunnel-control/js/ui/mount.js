@@ -132,6 +132,7 @@ function payloadFromUi() {
     allowSecrets: checked("allowSecrets"),
     allowCommands: checked("allowCommands"),
     enableLocalHttpProxy: checked("enableLocalHttpProxy"),
+    continuationPrompt: $("continuationPrompt")?.value || "",
     tools: toolsFromUi(),
     commandConfig: {
       enabled: checked("allowCommands") && checked("toolCommand"),
@@ -210,6 +211,7 @@ function applyConfig(config) {
   setChecked("toolCommand", tools.command);
   setChecked("toolNodeScript", tools.nodeScript);
   setChecked("toolChrome", tools.chrome !== false && tools.browser !== false);
+  if ($("continuationPrompt")) $("continuationPrompt").value = config.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.";
 
   setText("miniKey", localStorage.getItem("awtTunnelApiKey") ? "Saved" : "Not needed");
 }

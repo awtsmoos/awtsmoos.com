@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
-  version: 5.3.0-generated
-  description: B"H. Generated from docs/actions.js. GET-only transport with UTF-8 query parameters.
+  version: 5.4.0-generated
+  description: B"H. Generated from docs/actions.js. GET-only transport with UTF-8 query parameters. Use finishAndContinue at the end of an autonomous run to return the configured continuation prompt as finalInstruction.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,6 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
+      description: B"H. Run one tunnel action. For long autonomous loops, call finishAndContinue after finishing; then continue with the returned finalInstruction.content when appropriate.
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
         - name: action
@@ -91,8 +92,8 @@ paths:
               - chromeAccessibilitySnapshot
               - chromeClick
               - chromeCookieDelete
-              - chromeCookies
               - chromeCookieSet
+              - chromeCookies
               - chromeEval
               - chromeEvalSlim
               - chromeFind
@@ -189,6 +190,7 @@ paths:
               - find
               - findFiles
               - findReplace
+              - finishAndContinue
               - forEachActionBatch
               - fsPermissionEnvelope
               - functionPatchDryRun
@@ -212,8 +214,8 @@ paths:
               - hashGuardAdvisor
               - httpCookieDelete
               - httpCookieJarList
-              - httpCookies
               - httpCookieSet
+              - httpCookies
               - httpDownload
               - httpJson
               - httpRequest
@@ -242,8 +244,8 @@ paths:
               - jsdocCoverageScan
               - jsonFormat
               - jsonValidate
-              - largeFiles
               - largeFileSplitPlanner
+              - largeFiles
               - lastActionReplay
               - lastFailureExplain
               - launchPreview
@@ -337,9 +339,10 @@ paths:
               - retryAction
               - reviewPack
               - rg
+              - rgbgrep
               - rootBrowse
-              - roots
               - rootSelect
+              - roots
               - routeAudit
               - routeContextPack
               - routeExecutorGraph
@@ -360,8 +363,8 @@ paths:
               - scriptDiscovery
               - secretScan
               - securityHeadersCheck
-              - selfHealingCommandRegistry
               - selfHealPreview
+              - selfHealingCommandRegistry
               - semanticCache
               - semanticDiff
               - semanticEditPreview
@@ -432,23 +435,12 @@ paths:
               - write
               - writeIfHash
               - writePayloadSizer
-              - undefined
         - { name: p, in: query, schema: { type: string, default: "." } }
         - { name: path, in: query, schema: { type: string } }
         - { name: paths, in: query, schema: { type: string } }
         - { name: files, in: query, schema: { type: string } }
         - { name: writes, in: query, schema: { type: string } }
         - { name: edits, in: query, schema: { type: string } }
-        - { name: f1, in: query, schema: { type: string } }
-        - { name: f2, in: query, schema: { type: string } }
-        - { name: f3, in: query, schema: { type: string } }
-        - { name: f4, in: query, schema: { type: string } }
-        - { name: f5, in: query, schema: { type: string } }
-        - { name: path1, in: query, schema: { type: string } }
-        - { name: path2, in: query, schema: { type: string } }
-        - { name: path3, in: query, schema: { type: string } }
-        - { name: path4, in: query, schema: { type: string } }
-        - { name: path5, in: query, schema: { type: string } }
         - { name: from, in: query, schema: { type: string } }
         - { name: to, in: query, schema: { type: string } }
         - { name: source, in: query, schema: { type: string } }
@@ -462,21 +454,6 @@ paths:
         - { name: query, in: query, schema: { type: string } }
         - { name: text, in: query, schema: { type: string } }
         - { name: goal, in: query, schema: { type: string } }
-        - { name: ref, in: query, schema: { type: string } }
-        - { name: parentActionId, in: query, schema: { type: string } }
-        - { name: patch, in: query, schema: { type: string } }
-        - { name: otherActionId, in: query, schema: { type: string } }
-        - { name: actionId, in: query, schema: { type: string } }
-        - { name: args, in: query, schema: { type: string } }
-        - { name: options, in: query, schema: { type: string } }
-        - { name: presetName, in: query, schema: { type: string } }
-        - { name: commandName, in: query, schema: { type: string } }
-        - { name: description, in: query, schema: { type: string } }
-        - { name: vars, in: query, schema: { type: string } }
-        - { name: defaults, in: query, schema: { type: string } }
-        - { name: template, in: query, schema: { type: string } }
-        - { name: presetAction, in: query, schema: { type: string } }
-        - { name: templateName, in: query, schema: { type: string } }
         - { name: command, in: query, schema: { type: string } }
         - { name: script, in: query, schema: { type: string } }
         - { name: scriptText, in: query, schema: { type: string } }
@@ -485,32 +462,16 @@ paths:
         - { name: testCode, in: query, schema: { type: string } }
         - { name: workflow, in: query, schema: { type: string } }
         - { name: workflowName, in: query, schema: { type: string } }
-        - { name: codeObject, in: query, schema: { type: string } }
-        - { name: bytecodeObject, in: query, schema: { type: string } }
-        - { name: globals, in: query, schema: { type: string } }
         - { name: steps, in: query, schema: { type: string } }
         - { name: params, in: query, schema: { type: string } }
         - { name: probes, in: query, schema: { type: string } }
         - { name: interactions, in: query, schema: { type: string } }
-        - { name: provider, in: query, schema: { type: string } }
-        - { name: origin, in: query, schema: { type: string } }
         - { name: url, in: query, schema: { type: string } }
         - { name: urlPath, in: query, schema: { type: string } }
         - { name: method, in: query, schema: { type: string, default: "GET" } }
         - { name: headers, in: query, schema: { type: string } }
         - { name: body, in: query, schema: { type: string } }
         - { name: bodyEncoding, in: query, schema: { type: string, default: "utf8" } }
-        - { name: cookieJarName, in: query, schema: { type: string } }
-        - { name: jar, in: query, schema: { type: string } }
-        - { name: name, in: query, schema: { type: string } }
-        - { name: value, in: query, schema: { type: string } }
-        - { name: domain, in: query, schema: { type: string } }
-        - { name: expires, in: query, schema: { type: string } }
-        - { name: sameSite, in: query, schema: { type: string } }
-        - { name: storageType, in: query, schema: { type: string } }
-        - { name: localStorage, in: query, schema: { type: string } }
-        - { name: sessionStorage, in: query, schema: { type: string } }
-        - { name: cookies, in: query, schema: { type: string } }
         - { name: selector, in: query, schema: { type: string } }
         - { name: chromePath, in: query, schema: { type: string } }
         - { name: userDataDir, in: query, schema: { type: string } }
@@ -522,48 +483,22 @@ paths:
         - { name: format, in: query, schema: { type: string, default: "png" } }
         - { name: runtime, in: query, schema: { type: string } }
         - { name: engine, in: query, schema: { type: string } }
-        - { name: ext, in: query, schema: { type: string } }
-        - { name: shell, in: query, schema: { type: string } }
-        - { name: expectedSha256, in: query, schema: { type: string } }
-        - { name: expectedSourceSha256, in: query, schema: { type: string } }
-        - { name: sha256, in: query, schema: { type: string } }
-        - { name: responseMode, in: query, schema: { type: string, default: "inline" } }
-        - { name: sort, in: query, schema: { type: string } }
-        - { name: order, in: query, schema: { type: string, default: "asc" } }
-        - { name: startLine, in: query, schema: { type: integer } }
-        - { name: endLine, in: query, schema: { type: integer } }
-        - { name: startColumn, in: query, schema: { type: integer } }
-        - { name: endColumn, in: query, schema: { type: integer } }
+        - { name: continuationPrompt, in: query, schema: { type: string } }
+        - { name: checkSyntax, in: query, schema: { type: boolean, default: true } }
+        - { name: runtimeCheck, in: query, schema: { type: boolean, default: false } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
         - { name: offsetBytes, in: query, schema: { type: integer, default: 0 } }
         - { name: maxBytes, in: query, schema: { type: integer, default: 24000 } }
         - { name: maxFiles, in: query, schema: { type: integer, default: 5 } }
-        - { name: maxRanges, in: query, schema: { type: integer, default: 20 } }
-        - { name: maxEntries, in: query, schema: { type: integer, default: 3000 } }
         - { name: maxResults, in: query, schema: { type: integer, default: 80 } }
-        - { name: maxFileBytes, in: query, schema: { type: integer, default: 800000 } }
-        - { name: sinceMinutes, in: query, schema: { type: integer, default: 120 } }
-        - { name: minBytes, in: query, schema: { type: integer, default: 500000 } }
-        - { name: modifiedAfterMs, in: query, schema: { type: integer, default: 0 } }
         - { name: depth, in: query, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, schema: { type: integer, default: 150 } }
         - { name: timeoutMs, in: query, schema: { type: integer, default: 240000 } }
-        - { name: waitMs, in: query, schema: { type: integer, default: 0 } }
-        - { name: selectorTimeoutMs, in: query, schema: { type: integer, default: 10000 } }
-        - { name: maxLogs, in: query, schema: { type: integer, default: 200 } }
         - { name: maxText, in: query, schema: { type: integer, default: 4000 } }
-        - { name: maxHtml, in: query, schema: { type: integer, default: 0 } }
-        - { name: maxRedirects, in: query, schema: { type: integer, default: 5 } }
         - { name: maxSteps, in: query, schema: { type: integer, default: 50 } }
         - { name: maxIterations, in: query, schema: { type: integer, default: 20 } }
-        - { name: maxStepOutputChars, in: query, schema: { type: integer, default: 12000 } }
-        - { name: indent, in: query, schema: { type: integer, default: 2 } }
-        - { name: page, in: query, schema: { type: integer, default: 1 } }
-        - { name: pageSize, in: query, schema: { type: integer, default: 50 } }
-        - { name: maxInlineBytes, in: query, schema: { type: integer, default: 12000 } }
-        - { name: ttlSeconds, in: query, schema: { type: integer, default: 300 } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
         - { name: regex, in: query, schema: { type: boolean, default: false } }
         - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
@@ -572,17 +507,8 @@ paths:
         - { name: includeDirs, in: query, schema: { type: boolean, default: false } }
         - { name: write, in: query, schema: { type: boolean, default: false } }
         - { name: snapshot, in: query, schema: { type: boolean, default: true } }
-        - { name: assertNoConsoleErrors, in: query, schema: { type: boolean, default: false } }
         - { name: headless, in: query, schema: { type: boolean, default: false } }
-        - { name: clearLogs, in: query, schema: { type: boolean, default: false } }
         - { name: fullPage, in: query, schema: { type: boolean, default: true } }
-        - { name: failedOnly, in: query, schema: { type: boolean, default: true } }
-        - { name: useCookies, in: query, schema: { type: boolean, default: true } }
-        - { name: saveCookies, in: query, schema: { type: boolean, default: true } }
-        - { name: followRedirects, in: query, schema: { type: boolean, default: true } }
-        - { name: keepServer, in: query, schema: { type: boolean, default: false } }
-        - { name: keepSandbox, in: query, schema: { type: boolean, default: false } }
-        - { name: includeValues, in: query, schema: { type: boolean, default: false } }
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/preview/{tunnelName}:
@@ -606,6 +532,12 @@ components:
         BH: { type: string }
         error: { type: string }
         message: { type: string }
+        finalInstruction:
+          type: object
+          additionalProperties: true
+          properties:
+            role: { type: string }
+            content: { type: string }
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -1,15 +1,15 @@
-
 /* B"H */
-/* --- EFFECTS --- */
+/* css/effects.css */
 
-/* CRT Scanline Overlay */
 body::after {
     content: " ";
     display: block;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    z-index: 1000;
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.18) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.04));
+    z-index: var(--layer-effects);
     background-size: 100% 2px, 3px 100%;
     pointer-events: none;
 }
@@ -17,16 +17,16 @@ body::after {
 body::before {
     content: " ";
     display: block;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: radial-gradient(circle, transparent 50%, black 100%);
-    z-index: 999;
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, transparent 54%, rgba(0, 0, 0, 0.82) 100%);
+    z-index: var(--layer-effects);
     pointer-events: none;
 }
 
 @keyframes textFlicker {
     0% { opacity: 1; }
-    5% { opacity: 0.8; }
+    5% { opacity: 0.82; }
     10% { opacity: 1; }
     100% { opacity: 1; }
 }
@@ -41,7 +41,6 @@ body::before {
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* Extreme Mode Effects */
 .extreme-pulse {
     animation: extremePulse 0.5s infinite alternate;
 }
@@ -56,8 +55,22 @@ body::before {
 }
 
 @keyframes shake {
-  10%, 90% { transform: translate3d(-1px, 0, 0); }
-  20%, 80% { transform: translate3d(2px, 0, 0); }
-  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-  40%, 60% { transform: translate3d(4px, 0, 0); }
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+    }
+
+    body::after,
+    body::before {
+        opacity: 0.35;
+    }
 }

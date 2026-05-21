@@ -132,6 +132,8 @@ function applyConfig(config) {
   if (config.chrome?.port) setValue("chromePort", config.chrome.port);
   if (config.command?.defaultShell) setValue("commandShell", config.command.defaultShell);
   if (config.command?.timeoutMs) setValue("commandTimeout", config.command.timeoutMs);
+  setValue("continuationPrompt", config.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.");
+  setValue("continuationPrompt", config.continuationPrompt || "keep going. First give me a list of all remaining items to make it perfect, the DJ then one by one fully.");
 
   renderRoots(config.roots || [], config.home);
 }
@@ -171,6 +173,7 @@ export async function saveConfig(getTunnelName) {
     allowSecrets: checked("allowSecrets"),
     allowCommands: checked("allowCommands"),
     enableLocalHttpProxy: checked("enableLocalHttpProxy", true),
+    continuationPrompt: el("continuationPrompt")?.value || "",
     tools: readTools(),
     commandConfig: {
       enabled: checked("allowCommands"),

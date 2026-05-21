@@ -1,6 +1,7 @@
 // B"H
 const { spawn } = require("child_process");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
+const { parsePlainList, firstPayloadValue } = require("./plainPayload.js");
 
 function checkOne(config, rel, timeoutMs, cwd) {
   return new Promise(resolve => {
@@ -26,7 +27,8 @@ function checkOne(config, rel, timeoutMs, cwd) {
 }
 
 async function nodeCheckMany(config, payload = {}) {
-  const paths = Array.isArray(payload.paths) ? payload.paths : [payload.path || payload.p || "."];
+  const raw = firstPayloadValue(payload, ["paths", "files", "path", "p"]);
+  const paths = parsePlainList(raw && raw !== "." ? raw : ".");
   const limit = Math.min(Number(payload.maxFiles || 50), 200);
   const timeoutMs = Math.max(1000, Math.min(Number(payload.timeoutMs || 20005), 60000));
   const cwd = safePath(config, payload.cwd || ".");

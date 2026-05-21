@@ -8,6 +8,7 @@
  */
 
 module.exports = [
+  'dosdb_parallel_awtsmoosdb_test.js',
   'omni_test.js',
   'live_test.js',
   'pashut.js',

@@ -30,6 +30,50 @@ export default {
         this.inventory.addItem({
             id: 'book_tehillim', className: 'Sefer', name: 'Sefer Tehillim (Weapon)', description: 'A holy book. Fire Hebrew letters to battle the darkness.', icon: '📖', isTool: true
         }, 1);
+
+        this.inventory.addItem({
+            id: 'book_chumash_bereishis',
+            className: 'Chumash',
+            name: 'Chumash: Opening Light',
+            description: 'Readable Chumash passages for Torah debate: pshat, remez, derush, and sod.',
+            icon: '📘',
+            isTool: true,
+            readable: true,
+            actionBarReady: true,
+            passageIds: ['bereishis_1_1', 'shemos_20_2']
+        }, 1);
+
+        this.inventory.addItem({
+            id: 'passage_bereishis_1_1',
+            className: 'TorahPassage',
+            name: 'Bereishis 1:1 Passage',
+            description: 'A debate passage carrying pshat earth, remez water, derush fire, and sod air.',
+            icon: '📜',
+            isDebateCard: true,
+            passageId: 'bereishis_1_1'
+        }, 1);
+
+        this.inventory.addItem({
+            id: 'book_chumash_bereishis',
+            className: 'Chumash',
+            name: 'Chumash: Opening Light',
+            description: 'Readable Chumash passages for Torah debate: pshat, remez, derush, and sod.',
+            icon: '📘',
+            isTool: true,
+            readable: true,
+            actionBarReady: true,
+            passageIds: ['bereishis_1_1', 'shemos_20_2']
+        }, 1);
+
+        this.inventory.addItem({
+            id: 'passage_bereishis_1_1',
+            className: 'TorahPassage',
+            name: 'Bereishis 1:1 Passage',
+            description: 'A debate passage carrying pshat earth, remez water, derush fire, and sod air.',
+            icon: '📜',
+            isDebateCard: true,
+            passageId: 'bereishis_1_1'
+        }, 1);
         
         // The Garments of the Soul
         this.inventory.addItem({
@@ -111,6 +155,18 @@ export default {
             equip('garment_yamulka', 'head');
             equip('garment_shirt', 'shirt');
             equip('garment_glasses', 'eyes');
+
+            const chumashIndex = this.inventory.slots.findIndex(s => s && s.id === 'book_chumash_bereishis');
+            const passageIndex = this.inventory.slots.findIndex(s => s && s.id === 'passage_bereishis_1_1');
+            if (chumashIndex > -1 && !this.inventory.actionSlots[0]) this.inventory.actionSlots[0] = this.inventory.slots[chumashIndex];
+            if (passageIndex > -1 && !this.inventory.actionSlots[1]) this.inventory.actionSlots[1] = this.inventory.slots[passageIndex];
+            this.inventory.updateUI();
+
+            const chumashIndex = this.inventory.slots.findIndex(s => s && s.id === 'book_chumash_bereishis');
+            const passageIndex = this.inventory.slots.findIndex(s => s && s.id === 'passage_bereishis_1_1');
+            if (chumashIndex > -1 && !this.inventory.actionSlots[0]) this.inventory.actionSlots[0] = this.inventory.slots[chumashIndex];
+            if (passageIndex > -1 && !this.inventory.actionSlots[1]) this.inventory.actionSlots[1] = this.inventory.slots[passageIndex];
+            this.inventory.updateUI();
         }, 500);
 
     }

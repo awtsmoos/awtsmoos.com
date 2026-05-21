@@ -58,10 +58,23 @@ async function runOnce(runOptions) {
 
   const raw = await assembler.run(runOptions.entry);
 
-  const interactionLog = await applyInteractions(
-    raw.runtime,
-    runOptions.interactions || []
-  );
+  let interactionLog = [];
+  let interactionError = null;
+  try {
+    interactionLog = await applyInteractions(
+      raw.runtime,
+      runOptions.interactions || []
+    );
+  } catch (error) {
+    interactionError = error;
+    raw.ok = false;
+    raw.result = {
+      ...(raw.result || {}),
+      ok: false,
+      error: error.message,
+      stack: error.stack || ""
+    };
+  }
 
   if (raw.runtime?.snapshot) {
     raw.result.snapshot = raw.runtime.snapshot();
@@ -74,6 +87,7 @@ async function runOnce(runOptions) {
 
   result.interactions = runOptions.interactions || [];
   result.interactionLog = interactionLog;
+  result.interactionError = interactionError ? { message: interactionError.message, stack: interactionError.stack || "" } : null;
   result.epochs = [
     { id: 0, name: "boot", ok: raw.ok !== false },
     { id: 1, name: "interactions", count: interactionLog.length, ok: true }

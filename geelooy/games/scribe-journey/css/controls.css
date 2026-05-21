@@ -1,22 +1,19 @@
-
 /* B"H */
-/* --- CONTROLS --- */
+/* css/controls.css */
 
 #mobile-controls {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none; /* Hidden by default (Desktop) */
+    position: fixed;
+    inset-inline: 0;
+    bottom: calc(12px + var(--safe-bottom));
+    display: none;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    z-index: 50;
-    padding-bottom: 20px; /* Safe area */
+    gap: clamp(8px, 2vh, 14px);
+    z-index: var(--layer-controls);
+    pointer-events: none;
 }
 
-/* Only show controls on mobile devices (screens smaller than 768px) */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) {
     #mobile-controls {
         display: flex;
     }
@@ -24,49 +21,55 @@
 
 .dpad-row {
     display: flex;
-    gap: 20px;
+    gap: clamp(14px, 5vw, 26px);
     align-items: center;
     justify-content: center;
+    pointer-events: none;
 }
 
 .control-button {
-    width: 60px;
-    height: 60px;
-    background: rgba(0, 0, 0, 0.5);
+    width: var(--mobile-control-size);
+    height: var(--mobile-control-size);
+    min-width: 48px;
+    min-height: 48px;
+    background: rgba(0, 0, 0, 0.62);
     border: 2px solid var(--neon-green);
     color: var(--neon-green);
-    font-size: 1.5em;
+    font-size: clamp(1.15rem, 5vw, 1.65rem);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     user-select: none;
-    border-radius: 10px;
+    border-radius: 16px;
     box-shadow: 0 0 10px var(--neon-green);
-    backdrop-filter: blur(4px);
-    transition: all 0.1s;
-    touch-action: manipulation; /* Improves touch response */
+    backdrop-filter: blur(6px);
+    transition: transform 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
+    touch-action: none;
+    pointer-events: auto;
 }
 
-.control-button:active, .control-button.active {
+.control-button:active,
+.control-button.active {
     background: var(--neon-green);
     color: #000;
-    box-shadow: 0 0 20px var(--neon-green);
-    transform: scale(0.9);
+    box-shadow: 0 0 22px var(--neon-green);
+    transform: scale(0.92);
 }
 
 #action-button {
-    width: 80px;
-    height: 80px;
+    width: var(--mobile-action-size);
+    height: var(--mobile-action-size);
     border-color: var(--neon-pink);
     color: var(--neon-pink);
-    box-shadow: 0 0 10px var(--neon-pink);
-    border-radius: 50%;
-    font-size: 0.9em;
+    box-shadow: 0 0 12px var(--neon-pink);
+    border-radius: 999px;
+    font-size: clamp(0.75rem, 3vw, 0.95rem);
     font-weight: bold;
 }
 
-#action-button:active, #action-button.active {
+#action-button:active,
+#action-button.active {
     background: var(--neon-pink);
     color: #fff;
     box-shadow: 0 0 30px var(--neon-pink);

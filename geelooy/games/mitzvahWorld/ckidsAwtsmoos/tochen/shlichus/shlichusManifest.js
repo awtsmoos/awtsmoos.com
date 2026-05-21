@@ -6,6 +6,28 @@
  */
 
 export const SHLICHUS_MANIFEST = {
+    "gather_emerald_wood": {
+        id: "gather_emerald_wood",
+        title: "Gather Wood for the Emerald Homes",
+        description: "The street does not stop. Collect 6 pieces of wood/etz/lumber so real houses can receive warm doors, firm stairs, and vessels fit for mitzvos.",
+        shortObjective: "Collect 6 Wood.",
+        steps: [
+            { type: "collect", target: "Wood", itemId: "Wood", amount: 6, description: "Collect 6 pieces of wood from the Emerald Void street." },
+            { type: "talk", npcId: "npc_reb_yosei", description: "Return to Reb Yosei, the quest NPC with the exclamation marker." }
+        ],
+        rewards: { xp: 250, items: [{ itemId: "Wood", amount: 3 }, { itemId: "book_chumash_bereishis", amount: 1 }] }
+    },
+    "gather_emerald_wood": {
+        id: "gather_emerald_wood",
+        title: "Gather Wood for the Emerald Homes",
+        description: "The street does not stop. Collect 6 pieces of wood/etz/lumber so real houses can receive warm doors, firm stairs, and vessels fit for mitzvos.",
+        shortObjective: "Collect 6 Wood.",
+        steps: [
+            { type: "collect", target: "Wood", itemId: "Wood", amount: 6, description: "Collect 6 pieces of wood from the Emerald Void street." },
+            { type: "talk", npcId: "npc_reb_yosei", description: "Return to Reb Yosei, the quest NPC with the exclamation marker." }
+        ],
+        rewards: { xp: 250, items: [{ itemId: "Wood", amount: 3 }, { itemId: "book_chumash_bereishis", amount: 1 }] }
+    },
     "refining_the_dust": {
         id: "refining_the_dust",
         title: "The Refinement of the Dust",

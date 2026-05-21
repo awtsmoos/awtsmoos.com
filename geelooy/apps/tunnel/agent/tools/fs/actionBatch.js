@@ -38,10 +38,12 @@ async function runActionBatch(payload = {}, runAction) {
   }
 
   ctx.ok = ctx.results.every(item => item.ok !== false);
+  const continuationPrompt = payload.continuationPrompt || payload.config?.continuationPrompt || process.env.AWTSMOOS_CONTINUATION_PROMPT || "";
   return {
     ok: ctx.ok,
     action: payload.action || "actionBatch",
     count: ctx.results.length,
+    finalInstruction: continuationPrompt ? { role: "user", content: continuationPrompt } : null,
     results: ctx.results,
     named: ctx.named,
     vars: ctx.vars,
@@ -60,7 +62,7 @@ async function runOneStep(step, ctx, runAction, options) {
   if (!step || typeof step !== "object") return;
 
   if (step.if || step.when || step.condition) {
-    const passed = evaluateCondition(step.if || step.when || step.condition, ctx);
+    const passed = await evaluateCondition(step.if || step.when || step.condition, ctx, runAction);
     if (step.then || step.else || step.do) {
       await runSteps(passed ? (step.then || step.do) : step.else, ctx, runAction, options);
       return;
@@ -80,14 +82,14 @@ async function runOneStep(step, ctx, runAction, options) {
   if (step.until) {
     const max = Number(step.until.maxIterations || step.maxIterations || options.maxSteps);
     let count = 0;
-    while (!evaluateCondition(step.until.condition || step.until, ctx) && count++ < max) await runSteps(step.until.do || step.do || [], ctx, runAction, options);
+    while (!(await evaluateCondition(step.until.condition || step.until, ctx, runAction)) && count++ < max) await runSteps(step.until.do || step.do || [], ctx, runAction, options);
     return record(ctx, step, { ok: true, until: count });
   }
 
   if (step.while) {
     const max = Number(step.while.maxIterations || step.maxIterations || options.maxSteps);
     let count = 0;
-    while (evaluateCondition(step.while.condition || step.while, ctx) && count++ < max) await runSteps(step.while.do || step.do || [], ctx, runAction, options);
+    while ((await evaluateCondition(step.while.condition || step.while, ctx, runAction)) && count++ < max) await runSteps(step.while.do || step.do || [], ctx, runAction, options);
     return record(ctx, step, { ok: true, while: count });
   }
 
@@ -103,7 +105,7 @@ async function runOneStep(step, ctx, runAction, options) {
   }
 
   if (step.assert) {
-    const ok = evaluateCondition(step.assert, ctx);
+    const ok = await evaluateCondition(step.assert, ctx, runAction);
     const result = { ok, assertion: step.assert, message: ok ? "assertion_passed" : "assertion_failed" };
     record(ctx, step, result);
     if (!ok && options.stopOnError && step.stopOnError !== false) throw new Error(result.message);
@@ -121,6 +123,10 @@ async function runOneStep(step, ctx, runAction, options) {
       }
       const result = await invokeAction(step, ctx, runAction);
       record(ctx, step, result, attempt);
+      if (result?.ok === false && attempt < attempts) {
+        await sleep(Number(step.retry?.delayMs || options.retryDelayMs || 0));
+        continue;
+      }
       if (step.saveAs || step.id) ctx.named[step.saveAs || step.id] = result;
       if (result?.ok === false && step.onError) await runSteps(asSteps(step.onError), ctx, runAction, options);
       if (result?.ok === false && options.stopOnError && step.stopOnError !== false) break;
@@ -153,8 +159,13 @@ function record(ctx, step, result, attempt = 1) {
 }
 
 function normalizeSteps(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (typeof payload === "string") {
+    try { return normalizeSteps(JSON.parse(payload)); } catch { return []; }
+  }
   const raw = payload.steps || payload.actions || payload.workflow || payload.commandTree || payload.tree || payload.do || [];
   if (typeof raw === "string") { try { return normalizeSteps(JSON.parse(raw)); } catch { return []; } }
+  if (Array.isArray(raw)) return raw;
   if (raw && raw.steps) return asSteps(raw.steps);
   if (raw && raw.do) return asSteps(raw.do);
   return asSteps(raw);
@@ -189,16 +200,16 @@ async function resolveValue(value, ctx, runAction) {
   return value;
 }
 
-function evaluateCondition(condition, ctx) {
+async function evaluateCondition(condition, ctx, runAction) {
   if (condition === true) return true;
   if (!condition) return false;
-  if (Array.isArray(condition.all)) return condition.all.every(item => evaluateCondition(item, ctx));
-  if (Array.isArray(condition.any)) return condition.any.some(item => evaluateCondition(item, ctx));
-  if (condition.not) return !evaluateCondition(condition.not, ctx);
-  const left = condition.path ? getPath(ctx, condition.path) : resolveValue(condition.left, ctx);
-  const right = resolveValue(condition.right, ctx);
+  if (Array.isArray(condition.all)) { for (const item of condition.all) if (!(await evaluateCondition(item, ctx, runAction))) return false; return true; }
+  if (Array.isArray(condition.any)) { for (const item of condition.any) if (await evaluateCondition(item, ctx, runAction)) return true; return false; }
+  if (condition.not) return !(await evaluateCondition(condition.not, ctx, runAction));
+  const left = condition.path ? getPath(ctx, condition.path) : await resolveValue(condition.left, ctx, runAction);
+  const right = await resolveValue(condition.right, ctx, runAction);
   const op = condition.operator || condition.op || Object.keys(condition).find(k => ["eq", "ne", "gt", "gte", "lt", "lte", "includes", "regex"].includes(k)) || "truthy";
-  const expected = condition[op] !== undefined ? resolveValue(condition[op], ctx) : right;
+  const expected = condition[op] !== undefined ? await resolveValue(condition[op], ctx, runAction) : right;
   const ops = {
     truthy: a => !!a, falsy: a => !a, exists: a => a !== undefined && a !== null, missing: a => a === undefined || a === null,
     ok: a => (a ?? ctx.last)?.ok !== false, failed: a => (a ?? ctx.last)?.ok === false,

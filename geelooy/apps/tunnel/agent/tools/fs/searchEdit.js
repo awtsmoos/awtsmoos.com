@@ -24,7 +24,7 @@ function escapeRegex(s) {
 }
 
 async function statPath(config, payload = {}) {
-  const p = payload.path || ".";
+  const p = payload.path || payload.p || ".";
   const full = safePath(config, p);
   assertNotSecret(config, full);
 
@@ -52,7 +52,7 @@ async function statPath(config, payload = {}) {
 async function readLines(config, payload = {}) {
   if (!config.tools.fsRead) throw new Error("fsRead disabled.");
 
-  const p = payload.path || ".";
+  const p = payload.path || payload.p || ".";
   const full = safePath(config, p);
   const ext = path.extname(full).toLowerCase();
 
@@ -87,7 +87,7 @@ async function readLines(config, payload = {}) {
 async function grep(config, payload = {}) {
   if (!config.tools.fsRead) throw new Error("fsRead disabled.");
 
-  const rootPath = payload.path || ".";
+  const rootPath = payload.path || payload.p || ".";
   const query = String(payload.query || payload.find || "");
   const isRegex = !!payload.regex;
 
@@ -190,7 +190,7 @@ async function replaceRange(config, payload = {}) {
   if (!config.tools.fsWrite) throw new Error("fsWrite disabled.");
   if (!config.allowWrite) throw new Error("Writes disabled.");
 
-  const p = payload.path || ".";
+  const p = payload.path || payload.p || ".";
   const full = safePath(config, p);
   const ext = path.extname(full).toLowerCase();
 
@@ -241,7 +241,7 @@ async function applyPatch(config, payload = {}) {
   if (!config.tools.fsWrite) throw new Error("fsWrite disabled.");
   if (!config.allowWrite) throw new Error("Writes disabled.");
 
-  const p = payload.path || ".";
+  const p = payload.path || payload.p || ".";
   const full = safePath(config, p);
   const ext = path.extname(full).toLowerCase();
 
