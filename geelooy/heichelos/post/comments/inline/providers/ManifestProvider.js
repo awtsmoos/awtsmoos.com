@@ -12,7 +12,6 @@
 import { manifestAliasInline as _one, manifestAllActiveInlines as _all } from "../../logic/inlineManifest.js";
 import { activateInlineEventCoordinator } from "../coordination/InlineEventCoordinator.js";
 import { activateAnchorMutationHealer } from "../coordination/AnchorMutationHealer.js";
-import { activateAnchorMutationHealer } from "../coordination/AnchorMutationHealer.js";
 
 /**
  * @function manifestAliasInline

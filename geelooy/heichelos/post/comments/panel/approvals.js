@@ -9,7 +9,6 @@ import { GenesisEngine } from "../../functions/dom/GenesisEngine.js";
 import { emitAwtsmoosEvent } from "../state/eventBus.js";
 import { approvalCoordinate, navigateApprovalCoordinate } from "./coordinateNavigator.js";
 import { approvalFilterOptions, approvalPassesFilter } from "./approvalFilters.js";
-import { approvalFilterOptions, approvalPassesFilter } from "./approvalFilters.js";
 
 function activeAlias() {
     const alias = window.curAlias || localStorage.getItem("lastAliasUsed") || "";
@@ -122,28 +121,6 @@ async function optimisticDecision({ comment, action, card, list }) {
             text: "All visible submissions resolved."
         }));
     }
-}
-
-function renderFilterControls(state, rerender) {
-    return {
-        tag: "div",
-        attr: { class: "approval-filters", role: "group", "aria-label": "Approval filters" },
-        children: approvalFilterOptions().map(option => ({
-            tag: "button",
-            attr: {
-                type: "button",
-                class: option.id === state.filter ? "approval-filter active" : "approval-filter",
-                "data-filter": option.id
-            },
-            text: option.label,
-            events: {
-                click: () => {
-                    state.filter = option.id;
-                    rerender();
-                }
-            }
-        }))
-    };
 }
 
 function renderFilterControls(state, rerender) {

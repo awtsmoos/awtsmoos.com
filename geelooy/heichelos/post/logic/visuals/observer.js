@@ -13,8 +13,6 @@
 import { updateQueryStringParameter } from "../../functions/utils.js";
 import { normalizeCommentCoordinate } from "../../comments/state/commentCoordinate.js";
 import { emitAwtsmoosEvent } from "../../comments/state/eventBus.js";
-import { normalizeCommentCoordinate } from "../../comments/state/commentCoordinate.js";
-import { emitAwtsmoosEvent } from "../../comments/state/eventBus.js";
 
 let lastActiveIdx = null;
 let lastActiveSub = null;

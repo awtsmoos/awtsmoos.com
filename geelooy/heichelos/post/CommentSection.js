@@ -6,8 +6,6 @@ import { createWysiwygEditor } from "/heichelos/post/logic/wysiwyg.js";
 import { markdownToHtml } from "/heichelos/post/parsing.js";
 import { normalizeCommentCoordinate, coordinateToDayuh } from "/heichelos/post/comments/state/commentCoordinate.js";
 import { emitAwtsmoosEvent } from "/heichelos/post/comments/state/eventBus.js";
-import { normalizeCommentCoordinate, coordinateToDayuh } from "/heichelos/post/comments/state/commentCoordinate.js";
-import { emitAwtsmoosEvent } from "/heichelos/post/comments/state/eventBus.js";
 
 function getActiveAlias() {
     const alias = window.curAlias || localStorage.getItem("lastAliasUsed") || localStorage.getItem("awtsmoos-alias") || "";

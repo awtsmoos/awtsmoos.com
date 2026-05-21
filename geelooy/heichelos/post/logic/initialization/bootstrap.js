@@ -24,7 +24,6 @@ import { setupViewEffects } from "/heichelos/post/logic/viewEffects.js";
 
 import { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.js";
 import { renderApprovalsPanel } from "/heichelos/post/comments/panel/approvals.js";
-import { renderApprovalsPanel } from "/heichelos/post/comments/panel/approvals.js";
 import TabManager from "/heichelos/post/TabManager.js";
 import { loadInitial } from "/heichelos/post/logic/initialization/coordinates.js";
 import { populateRootMenu } from "/heichelos/post/logic/initialization/sidebarContent.js";
@@ -73,10 +72,6 @@ export async function ignite() {
             footnotes: window.tabManager.addTab({
                 header: "Footnotes", name: "footnotes",
                 onopen: async ({ actualTab }) => renderFootnotesPanel(actualTab)
-            }),
-            approvals: window.tabManager.addTab({
-                header: "Approvals", name: "approvals",
-                onopen: async ({ actualTab }) => renderApprovalsPanel(actualTab)
             }),
             approvals: window.tabManager.addTab({
                 header: "Approvals", name: "approvals",
