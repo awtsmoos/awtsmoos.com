@@ -29,11 +29,23 @@ function postEntity(item, appState) {
 }
 
 function aliasEntity() {
+    const aliasId = currentAlias();
     return {
         type: 'alias',
-        id: window.curAlias || 'seeker',
-        aliasId: window.curAlias || 'seeker'
+        id: aliasId,
+        aliasId
     };
+}
+
+function currentAlias() {
+    return window.curAlias || window.curAliasId || window.awtsmoosAlias || '';
+}
+
+function requireAlias(label) {
+    const aliasId = currentAlias();
+    if (aliasId) return aliasId;
+    notify(`Sign in before ${label.toLowerCase()}.`, 'error');
+    return '';
 }
 
 async function runAction(label, action) {
@@ -53,25 +65,29 @@ async function runAction(label, action) {
 }
 
 async function addComment(item, appState) {
+    const aliasId = requireAlias('Comment');
+    if (!aliasId) return null;
     const content = await askText('Comment');
     if (!content) return null;
     return await runAction('Comment', () => api.createComment({
         heichelId: appState.heichelId,
         postId: item.id || item.postId,
-        aliasId: window.curAlias,
+        aliasId,
         seriesId: appState.currentSeries,
         content
     }));
 }
 
 async function addAnswer(item, appState) {
+    const aliasId = requireAlias('Answer');
+    if (!aliasId) return null;
     const content = await askText('Answer');
     if (!content) return null;
     const answerId = `answer_${Date.now()}`;
     return await runAction('Answer', () => api.createAnswer({
         heichelId: appState.heichelId,
         questionId: item.id || item.postId,
-        aliasId: window.curAlias,
+        aliasId,
         answerId,
         title: `Answer to ${item.title || item.id || item.postId}`,
         content,
@@ -80,10 +96,12 @@ async function addAnswer(item, appState) {
 }
 
 async function graphIntent(item, appState, mode) {
+    const aliasId = requireAlias(mode);
+    if (!aliasId) return null;
     const note = mode === 'Reference' ? await askText('Reference note', '') : '';
     if (mode === 'Reference' && note === null) return null;
     const payload = {
-        aliasId: window.curAlias,
+        aliasId,
         from: aliasEntity(),
         to: postEntity(item, appState),
         note,
@@ -109,7 +127,7 @@ function actionButton(label, handler) {
 }
 
 export function socialActionBlueprints(item, appState) {
-    if (!item || !appState?.heichelId || !window.curAlias) return [];
+    if (!item || !appState?.heichelId || !(item.id || item.postId)) return [];
     const contentType = item.contentType || item.postType || 'post';
     const actions = [
         actionButton('Comment', () => addComment(item, appState)),

@@ -1,5 +1,5 @@
 B'H embedded MerkavaExecutor bytecode artifact
 name=embedded_executor.merkava
-bytes=27299
-files=403
+bytes=27437
+files=405
 entry=/index.html

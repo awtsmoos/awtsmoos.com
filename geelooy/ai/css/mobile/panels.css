@@ -14,6 +14,7 @@
     overflow: hidden !important;
     z-index: 1 !important;
     transform: none !important;
+    touch-action: pan-y !important;
   }
 
   .sidebar {
@@ -107,5 +108,37 @@
   .graph-canvas {
     max-width: 100% !important;
     min-width: 0 !important;
+  }
+
+  .is-collapsed,
+  .is-detached {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .is-collapsed .panel-topbar,
+  .is-detached .panel-topbar {
+    display: flex !important;
+    grid-template: none !important;
+    height: 70px !important;
+    min-height: 70px !important;
+    justify-content: space-between !important;
+  }
+
+  .is-collapsed .panel-title,
+  .is-detached .panel-title {
+    writing-mode: horizontal-tb !important;
+    transform: none !important;
+    text-orientation: mixed !important;
+    max-height: none !important;
+  }
+
+  .is-collapsed .panel-actions,
+  .is-detached .panel-actions {
+    display: flex !important;
+    width: auto !important;
+    height: auto !important;
+    grid-row: auto !important;
   }
 }

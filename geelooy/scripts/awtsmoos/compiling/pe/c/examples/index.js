@@ -14,8 +14,6 @@ import { source as mandelbrot } from './mandelbrot.js';
 import { source as list_dir } from './list_dir.js';
 import { source as opengl_triangle } from './opengl_triangle.js';
 import { source as opengl_stress } from './opengl_stress.js';
-import { source as opengl_triangle } from './opengl_triangle.js';
-import { source as opengl_stress } from './opengl_stress.js';
 import { STDLIB as STDLIB } from './stdlib.js';
 
 export const C_EXAMPLES = {
@@ -30,5 +28,5 @@ export const C_EXAMPLES = {
     list_dir,
     opengl_triangle,
     opengl_stress,
-    STDLIB 
+    STDLIB
 };

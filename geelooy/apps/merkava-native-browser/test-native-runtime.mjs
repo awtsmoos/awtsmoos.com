@@ -71,6 +71,7 @@ cases.push(['index-navigation-renders-executor-stream', run(['--nav-test', '/ind
   assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'pageKind=merkava-executor-render-stream');
   assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'pageTitle=/index.html');
   assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'status=loaded MerkavaExecutor render stream: /index.html');
+  assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'domCount=0');
 }]);
 
 cases.push(['address-hitbox-aligns-with-rendered-bar', run(['--hit-test', '960', '540', '175', '45']), out => {
@@ -81,10 +82,11 @@ cases.push(['address-hitbox-aligns-with-rendered-bar', run(['--hit-test', '960',
   assertIncludes('address-hitbox-aligns-with-rendered-bar', out.stdout, 'bottom=64');
 }]);
 
-cases.push(['local-html-renders-parsed-dom', run(['--nav-test', '..\\samples\\frontend.html']), out => {
-  assertIncludes('local-html-renders-parsed-dom', out.stdout, 'pageKind=file');
-  assertIncludes('local-html-renders-parsed-dom', out.stdout, 'domCount=');
-  assertIncludes('local-html-renders-parsed-dom', out.stdout, 'canvas=');
+cases.push(['local-html-does-not-use-c-dom-fallback', run(['--nav-test', '..\\samples\\frontend.html']), out => {
+  assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'pageKind=file');
+  assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'domCount=0');
+  assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'canvas=-1');
+  assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'waiting for MerkavaExecutor render ops');
 }]);
 
 cases.push(['browser-shell-smoke', run(['--smoke']), out => {

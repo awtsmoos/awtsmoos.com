@@ -93,6 +93,20 @@ function exec0f(cpu, rex) {
     if (take(cpu, op)) cpu.ip += d;
     return;
   }
+  if (op === 0x94 || op === 0x95) {
+    const m = cpu.u8();
+    const d = decodeModRm(cpu, rex, m);
+    const value = op === 0x94 ? (cpu.flags.z ? 1 : 0) : (!cpu.flags.z ? 1 : 0);
+    d.direct ? setLow8(cpu, d.addr, value) : writeMem(cpu, d.addr, value);
+    return;
+  }
+  if (op === 0x94 || op === 0x95) {
+    const m = cpu.u8();
+    const d = decodeModRm(cpu, rex, m);
+    const value = op === 0x94 ? (cpu.flags.z ? 1 : 0) : (!cpu.flags.z ? 1 : 0);
+    d.direct ? setLow8(cpu, d.addr, value) : writeMem(cpu, d.addr, value);
+    return;
+  }
   if (op === 0xB6 || op === 0xBE) {
     const m = cpu.u8();
     const { reg, addr, direct } = decodeModRm(cpu, rex, m);
@@ -209,6 +223,8 @@ function readMem(cpu, addr) {
 function writeMem(cpu, addr, value) { cpu.mem.set(addr >>> 0, value >>> 0); }
 function getReg(cpu, idx) { return cpu.regs[REG[idx]] || 0; }
 function setReg(cpu, idx, val) { cpu.regs[REG[idx]] = val >>> 0; if (idx < LOW32.length) cpu.regs[LOW32[idx]] = val >>> 0; }
+function setLow8(cpu, idx, val) { setReg(cpu, idx, (getReg(cpu, idx) & 0xFFFFFF00) | (val & 0xFF)); }
+function setLow8(cpu, idx, val) { setReg(cpu, idx, (getReg(cpu, idx) & 0xFFFFFF00) | (val & 0xFF)); }
 function rw(rex) { return (rex & 8) !== 0; }
 function rr(rex) { return (rex & 4) ? 8 : 0; }
 function rx(rex) { return (rex & 2) ? 8 : 0; }

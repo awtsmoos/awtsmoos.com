@@ -186,46 +186,11 @@ static void draw_loaded_text_page(AwtsBrowserState* state) {
   }
 }
 
-static void draw_dom_page(AwtsBrowserState* state) {
-  float pageX = sx(state, 36), pageY = sy(state, 116), pageW = sw(state, state->width - 72), pageH = -sh(state, state->height - 146);
-  rect(pageX, pageY, pageW, pageH, 1.0f, 1.0f, 1.0f);
-  int y = 146;
-  awts_draw_text(state, sx(state, 58), sy(state, y), state->pageTitle[0] ? state->pageTitle : "Document", 0.02f, 0.02f, 0.02f);
-  y += 24;
-  for (int i = 0; i < state->dom.count && y < state->height - 38; i++) {
-    AwtsDomNode* n = &state->dom.nodes[i];
-    if (!strcmp(n->tag, "#text")) {
-      int x = 58 + n->depth * 18;
-      awts_draw_text(state, sx(state, x), sy(state, y), n->text, 0.05f, 0.05f, 0.05f);
-      y += 22;
-    } else if (!strcmp(n->tag, "canvas")) {
-      float x = sx(state, 58 + n->depth * 18), yy = sy(state, y + 92), w = sw(state, 240), h = -sh(state, 92);
-      draw_webgl_canvas(state, x, yy, w, h);
-      y += 110;
-    } else if (!strcmp(n->tag, "button")) {
-      int x = 58 + n->depth * 18;
-      float bx = sx(state, x), by = sy(state, y + 28), bw = sw(state, 96), bh = -sh(state, 30);
-      rect(bx, by, bw, bh, 0.91f, 0.91f, 0.91f);
-      outline(bx, by, bw, bh, 0.55f, 0.55f, 0.55f);
-      awts_draw_text(state, sx(state, x + 12), sy(state, y + 20), n->text[0] ? n->text : "button", 0.0f, 0.0f, 0.0f);
-      y += 42;
-    } else if (!strcmp(n->tag, "input")) {
-      int x = 58 + n->depth * 18;
-      float ix = sx(state, x), iy = sy(state, y + 30), iw = sw(state, 220), ih = -sh(state, 30);
-      rect(ix, iy, iw, ih, 0.98f, 0.98f, 1.0f);
-      outline(ix, iy, iw, ih, 0.55f, 0.62f, 0.74f);
-      y += 42;
-    }
-  }
-}
-
 void awts_draw_native_browser(AwtsBrowserState* state) {
   glViewport(0, 0, state->width, state->height);
   glClearColor(0.80f, 0.82f, 0.86f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
   draw_browser_chrome(state);
   if (!strcmp(state->pageTitle, "/index.html") && draw_executor_stream(state)) return;
-  if (!strcmp(state->pageTitle, "/index.html") && state->dom.count > 0) draw_embedded_app(state);
-  else if (state->dom.count > 0) draw_dom_page(state);
-  else draw_loaded_text_page(state);
+  draw_loaded_text_page(state);
 }

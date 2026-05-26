@@ -3,6 +3,7 @@ import { automationRunStore } from "./runStore.js";
 import { automationGraphStore } from "./graphStore.js";
 import { evaluateAutomationGraph } from "./graphEngine.js";
 import { automationArchiveStore } from "./messageArchive.js";
+import { automationContinuationGate } from "./continuationGate.js";
 
 /**
  * Guarded multi-conversation automation loop.
@@ -85,7 +86,10 @@ export class AutomationPipeline {
     const continuationReply = typeof assistantReply === "string"
       ? (assistantReply.trim() || replyText || promptSummaryFromRun(this.runStore.get(conversationId)))
       : "";
-    if (continuationReply && this.getSettings().enabled) setTimeout(() => this.afterAssistantReply(continuationReply, { conversationId, allowRepeat: !String(assistantReply || "").trim() }), 0);
+    if (automationContinuationGate.canSchedule({ conversationId, replyText: continuationReply, settings: this.getSettings(), context, turns: nextTurn })) {
+      this.mark(conversationId, { status: "armed", lastReply: continuationReply }, "automation continuation armed once");
+      setTimeout(() => this.afterAssistantReply(continuationReply, { conversationId, allowRepeat: !String(assistantReply || "").trim() }), 0);
+    }
   }
 
   mark(conversationId, patch, message = "") {

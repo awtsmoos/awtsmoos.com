@@ -170,6 +170,31 @@ const APIS = {
   GetStockObject({ cpu, state }) { cpu.regs.rax = state.handle('stock-object', { id: cpu.regs.rcx }); },
   TextOutA({ win, cpu }) { const text = cpu.readString(cpu.regs.r9, cpu.mem.get(cpu.regs.rsp + 32) || 4096); win.print(`GDI TextOutA: ${text}`); win.draw?.({ type: 'text', text, x: cpu.regs.rdx, y: cpu.regs.r8 }); cpu.regs.rax = 1; },
   SetPixel({ win, cpu }) { if ((cpu.regs.rdx % 40) === 0) win.draw?.({ type: 'pixel-line' }); cpu.regs.rax = 1; },
+
+  glBegin({ win, cpu, state }) {
+    state.gl.mode = cpu.regs.rcx;
+    state.gl.vertices = [];
+    state.gl.batches++;
+    win.print(`OpenGL glBegin(mode=${cpu.regs.rcx})`);
+    cpu.regs.rax = 0;
+  },
+  glColor3ub({ cpu, state }) {
+    state.gl.color = [cpu.regs.rcx & 255, cpu.regs.rdx & 255, cpu.regs.r8 & 255];
+    cpu.regs.rax = 0;
+  },
+  glVertex2i({ cpu, state }) {
+    state.gl.vertices.push({ x: cpu.regs.rcx, y: cpu.regs.rdx, color: [...state.gl.color] });
+    cpu.regs.rax = 0;
+  },
+  glEnd({ win, cpu, state }) {
+    const vertices = state.gl.vertices.slice();
+    win.print(`OpenGL glEnd(vertices=${vertices.length})`);
+    if (state.gl.mode === 4 && vertices.length >= 3) win.draw?.({ type: 'opengl-triangles', vertices });
+    state.gl.vertices = [];
+    cpu.regs.rax = 0;
+  },
+  glFlush({ win, cpu, state }) { win.print(`OpenGL glFlush(batches=${state.gl.batches})`); cpu.regs.rax = 0; },
+
   ExitProcess({ cpu }) { cpu.halted = true; },
   default({ win, name, cpu }) { win.print(`Unhandled import shim: ${name}`); cpu.regs.rax = 0; }
 };

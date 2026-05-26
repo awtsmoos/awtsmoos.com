@@ -21,6 +21,7 @@ export function createWebGlRenderer(canvas) {
     draw(op) {
       if (op.type === 'pixel-line') return drawLine(gl, buffer);
       if (op.type === 'triangle') return drawTriangle(gl, buffer);
+      if (op.type === 'opengl-triangles') return drawOpenGlTriangles(gl, buffer, op);
       if (op.type === 'text') return drawTextOverlay(canvas, op);
       return false;
     }
@@ -41,12 +42,25 @@ function drawTriangle(gl, buffer) {
   return true;
 }
 
+function drawOpenGlTriangles(gl, buffer, op) {
+  const verts = (op.vertices || []).flatMap(v => [clamp(v.x / 120), clamp(v.y / 120)]);
+  if (verts.length < 6) return false;
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+  gl.drawArrays(gl.TRIANGLES, 0, Math.floor(verts.length / 2));
+  return true;
+}
+
 function drawTextOverlay(canvas, op) {
   const label = document.createElement('div');
   label.className = 'webgl-label';
   label.textContent = op.text || '';
   canvas.insertAdjacentElement('afterend', label);
   return true;
+}
+
+function clamp(n) {
+  return Math.max(-1, Math.min(1, n));
 }
 
 function makeProgram(gl) {
