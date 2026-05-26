@@ -1,16 +1,20 @@
-# B"H
+﻿# B"H
 $ErrorActionPreference = "Stop"
 
 Write-Host 'B"H Awtsmoos Tunnel Bootstrap' -ForegroundColor Cyan
 
-function Test-AwtsCommand($name) {
-  $cmd = Get-Command $name -ErrorAction SilentlyContinue
-  return $null -ne $cmd
-}
-
 function Write-Utf8NoBom($path, $text) {
   $encoding = New-Object System.Text.UTF8Encoding($false)
   [System.IO.File]::WriteAllText($path, $text, $encoding)
+}
+
+function Read-AwtsJson($path) {
+  if (-not (Test-Path $path)) { return $null }
+  try { return (Get-Content -Raw -Path $path | ConvertFrom-Json) } catch { return $null }
+}
+
+function Test-AwtsCommand($name) {
+  return $null -ne (Get-Command $name -ErrorAction SilentlyContinue)
 }
 
 function Clean-AwtsName($value) {
@@ -23,13 +27,9 @@ function Clean-AwtsName($value) {
 function Stop-OldAwtsAgent($root) {
   try {
     $escaped = [Regex]::Escape($root)
-    $procs = Get-CimInstance Win32_Process |
-      Where-Object {
-        $_.CommandLine -and
-        $_.CommandLine -match "node" -and
-        $_.CommandLine -match $escaped
-      }
-
+    $procs = Get-CimInstance Win32_Process | Where-Object {
+      $_.CommandLine -and $_.CommandLine -match "node" -and $_.CommandLine -match $escaped
+    }
     foreach ($p in $procs) {
       Write-Host "Stopping old Awtsmoos agent PID $($p.ProcessId)..."
       Stop-Process -Id $p.ProcessId -Force -ErrorAction SilentlyContinue
@@ -39,50 +39,11 @@ function Stop-OldAwtsAgent($root) {
   }
 }
 
-function Read-AwtsJson($path) {
-  if (-not (Test-Path $path)) { return $null }
-  try { return (Get-Content -Raw -Path $path | ConvertFrom-Json) } catch { return $null }
-}
-
-function Get-AwtsFileSha256($path) {
-  return (Get-FileHash -Algorithm SHA256 -Path $path).Hash.ToLowerInvariant()
-}
-
-function Get-AwtsChangedFiles($root, $manifest) {
-  $changed = @()
-  if ($null -eq $manifest.files) { return $changed }
-
-  foreach ($file in $manifest.files) {
-    $dest = Join-Path $root $file.path
-    if (-not (Test-Path $dest)) { $changed += $file; continue }
-
-    $item = Get-Item $dest
-    if ($item.Length -ne [int64]$file.bytes) { $changed += $file; continue }
-
-    $actualSha = Get-AwtsFileSha256 $dest
-    if ($actualSha -ne $file.sha256) { $changed += $file; continue }
-  }
-
-  return $changed
-}
-
-function Test-AwtsInstalledFiles($root, $manifest) {
-  return @((Get-AwtsChangedFiles $root $manifest)).Count -eq 0
-}
-
 function Test-AwtsAgentUpToDate($root, $manifest, $state) {
   if ($null -eq $manifest -or $null -eq $state) { return $false }
-  if (-not $state.version) { return $false }
+  if ($state.version -ne $manifest.version) { return $false }
   if (-not (Test-Path (Join-Path $root $manifest.entry))) { return $false }
-  if (-not (Test-AwtsInstalledFiles $root $manifest)) { return $false }
-
-  try {
-    $installed = [version]$state.version
-    $incoming = [version]$manifest.version
-    return $installed -ge $incoming
-  } catch {
-    return ($state.version -eq $manifest.version)
-  }
+  return $true
 }
 
 function Write-AwtsInstallState($statePath, $manifest) {
@@ -91,16 +52,13 @@ function Write-AwtsInstallState($statePath, $manifest) {
     version = $manifest.version
     entry = $manifest.entry
     installedAt = (Get-Date).ToUniversalTime().ToString("o")
-    files = $manifest.files
   } | ConvertTo-Json -Depth 8
 
   Write-Utf8NoBom $statePath $installedState
 }
 
 if (-not (Test-AwtsCommand "node")) {
-  Write-Host ""
   Write-Host "Node.js was not found." -ForegroundColor Yellow
-  Write-Host "Please install Node.js LTS from https://nodejs.org/ then run this command again."
   Start-Process "https://nodejs.org/"
   exit 1
 }
@@ -146,25 +104,15 @@ $state = Read-AwtsJson $statePath
 if (Test-AwtsAgentUpToDate $root $manifest $state) {
   Write-Host "Awtsmoos agent version $($manifest.version) is already installed. Restarting only." -ForegroundColor Green
 } else {
-  $changedFiles = @(Get-AwtsChangedFiles $root $manifest)
-  if ($changedFiles.Count -eq 0) {
-    Write-Host "Agent files already match manifest. Recording version $($manifest.version) without downloads." -ForegroundColor Green
-  } else {
-    Write-Host "Updating Awtsmoos agent to version $($manifest.version): $($changedFiles.Count) changed file(s)..."
-    foreach ($file in $changedFiles) {
-      $dest = Join-Path $root $file.path
-      $destDir = Split-Path $dest -Parent
-      New-Item -ItemType Directory -Force -Path $destDir | Out-Null
+  Write-Host "Installing Awtsmoos agent version $($manifest.version)..."
 
-      $url = "https://awtsmoos.com/apps/tunnel/agent/" + $file.path
-      Write-Host "Downloading $($file.path)..."
-      Invoke-WebRequest -Uri $url -OutFile $dest
-
-      $actualSha = Get-AwtsFileSha256 $dest
-      if ($actualSha -ne $file.sha256) {
-        throw "Downloaded hash mismatch for $($file.path)"
-      }
-    }
+  foreach ($file in $manifest.files) {
+    $path = if ($file.path) { $file.path } else { $file }
+    $dest = Join-Path $root $path
+    New-Item -ItemType Directory -Force -Path (Split-Path $dest -Parent) | Out-Null
+    $url = "https://awtsmoos.com/apps/tunnel/agent/" + $path
+    Write-Host "Downloading $path..."
+    Invoke-WebRequest -Uri $url -OutFile $dest
   }
 
   Write-AwtsInstallState $statePath $manifest
@@ -172,7 +120,4 @@ if (Test-AwtsAgentUpToDate $root $manifest $state) {
 
 Write-Host ""
 Write-Host "Starting Awtsmoos background agent..." -ForegroundColor Green
-Write-Host "The hosted control panel should open automatically."
-Write-Host ""
-
 node (Join-Path $root "main.js") --open-control
