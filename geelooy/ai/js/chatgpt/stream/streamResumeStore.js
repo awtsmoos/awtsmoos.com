@@ -42,8 +42,24 @@ export class StreamResumeStore {
     this.patch(id, { claimedAt: Date.now(), claimedBy: this.tabId });
   }
 
+  release(id) {
+    const found = this.list().find(item => item.id === id);
+    if (found) this.upsert({ ...found, claimedAt: 0, claimedBy: null, status: found.status || "streaming" });
+  }
+
   remove(id) {
     this.write(this.list().filter(item => item.id !== id));
+  }
+
+  removeStaleForConversation(conversationId, { keepRecentMs = 30000 } = {}) {
+    if (!conversationId) return;
+    const now = Date.now();
+    this.write(this.list().filter(item => {
+      const owner = item.conversationId || item.surfaceConversationId;
+      if (owner !== conversationId) return true;
+      if (item.status === "done" || item.status === "stopped" || item.status === "error") return false;
+      return now - Number(item.updatedAt || item.createdAt || 0) <= keepRecentMs;
+    }));
   }
 
   write(items) {

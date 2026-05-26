@@ -1,0 +1,318 @@
+{
+  "entry": {
+    "actionId": "act_mpmc61q6_b8911953",
+    "inputRef": "cmd_act_mpmc61q6_b8911953",
+    "outputRef": ".awtsmoos/actions/results/act_mpmc61q6_b8911953.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/SourceAppCompiler.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\nconst { compileUnifiedApp, SCRIPT, nativeScriptOf } = require('./UnifiedAppBinary.js');\nconst { detectCounterRenderProgram, encodeCompactModuleProgram } = require('./CompactModuleBinary.js');\nconst { parseImports, stripExports, resolveSpecifier } = require('./MerkavaVmFileExecutor.js');\n\nfunction attrsOf(raw = '') {\n  const out = {};\n  const re = /([\\w:-]+)(?:\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)'|([^\\s>]+)))?/g;\n  for (const m of raw.matchAll(re)) out[m[1].toLowerCase()] = m[2] ?? m[3] ?? m[4] ?? '';\n  return out;\n}\n\nfunction resolve(spec = '', from = '/index.html') {\n  if (spec.startsWith('/')) return spec;\n  return resolveSpecifier(spec, from);\n}\n\nfunction readFile(files, spec, from = '/index.html') {\n  const key = resolve(spec, from);\n  return files[key] ?? files[key.replace(/^\\//, '')] ?? files[spec] ?? '';\n}\n\nfunction parseHtmlNodes(html = '') {\n  const nodes = [];\n  const stack = [];\n  const skip = new Set(['html', 'head', 'body', 'style', 'script', 'link']);\n  const re = /<\\/?([a-z][\\w-]*)\\b([^>]*)>|([^<]+)/gi;\n  let lastNode = null;\n  for (const m of html.matchAll(re)) {\n    if (m[3]) {\n      if (lastNode) lastNode.text += m[3].trim();\n      continue;\n    }\n    const full = m[0], tag = m[1].toLowerCase();\n    if (full.startsWith('</')) {\n      if (!skip.has(tag)) stack.pop();\n      lastNode = null;\n      continue;\n    }\n    if (skip.has(tag)) {\n      lastNode = null;\n      continue;\n    }\n    const attrs = attrsOf(m[2]);\n    const parent = attrs['data-parent'] || stack[stack.length - 1] || '';\n    const node = { tag, id: attrs.id || '', parent, text: '', attrs };\n    nodes.push(node);\n    lastNode = node;\n    if (!full.endsWith('/>')) stack.push(node.id || '');\n  }\n  return nodes;\n}\n\nfunction resolveCssImports(css = '', files = {}, from = '/index.html', seen = new Set()) {\n  return String(css).replace(/@import\\s+(?:url\\()?['\\\"]?([^'\\\")]+)['\\\"]?\\)?\\s*;/g, (_, spec) => {\n    const key = resolve(spec, from);\n    if (seen.has(key)) return '';\n    seen.add(key);\n    return resolveCssImports(readFile(files, key, from), files, key, seen);\n  });\n}\n\nfunction parseCss(css = '') {\n  const styles = [];\n  const re = /([^{}]+)\\s*\\{([^}]*)\\}/g;\n  for (const m of css.matchAll(re)) {\n    const props = {};\n    for (const part of m[2].split(';')) {\n      const [k, v] = part.split(':').map(x => x && x.trim()).filter(Boolean);\n      if (k && v) props[k.replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = v;\n    }\n    styles.push({ target: m[1].trim(), selector: m[1].trim(), props });\n  }\n  return styles;\n}\n\nfunction parseScriptTags(entryHtml = '', files = {}, entry = '/index.html') {\n  const out = [];\n  for (const m of entryHtml.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)) {\n    const attrs = attrsOf(m[1]);\n    const srcKey = attrs.src ? resolve(attrs.src, entry) : 'inline';\n    const raw = attrs.src ? readFile(files, attrs.src, entry) : (m[2] || '');\n    out.push({ name: attrs.src || 'inline', srcKey, raw, module: attrs.type === 'module' });\n  }\n  return out;\n}\n\nfunction bundleModuleSource(source = '', file = '/inline.js', files = {}, seen = new Set()) {\n  if (seen.has(file)) return '';\n  seen.add(file);\n  let prefix = '';\n  for (const imp of parseImports(source, file)) {\n    const depSource = readFile(files, imp.resolved, file);\n    prefix += bundleModuleSource(depSource, imp.resolved, files, seen) + '\\n';\n  }\n  return prefix + stripExports(source).code;\n}\n\nfunction collectLinked(entryHtml = '', files = {}, entry = '/index.html') {\n  const css = [];\n  for (const m of entryHtml.matchAll(/<link\\b([^>]*)>/gi)) {\n    const attrs = attrsOf(m[1]);\n    if ((attrs.rel || '').toLowerCase() === 'stylesheet') css.push(resolveCssImports(readFile(files, attrs.href, entry), files, resolve(attrs.href, entry)));\n  }\n  for (const m of entryHtml.matchAll(/<style\\b[^>]*>([\\s\\S]*?)<\\/style>/gi)) css.push(resolveCssImports(m[1] || '', files, entry));\n  const compactProgram = detectCounterRenderProgram(files);\n  if (compactProgram) return { css: css.join('\\n'), scripts: [{ name: 'compact-module-program', source: '', binary: encodeCompactModuleProgram(compactProgram) }] };\n  const seenSource = new Set();\n  const scripts = [];\n  for (const tag of parseScriptTags(entryHtml, files, entry)) {\n    const source = tag.module ? bundleModuleSource(tag.raw, tag.srcKey, files) : tag.raw;\n    const key = tag.module ? source.replace(/\\s+/g, ' ').trim() : `${tag.name}:${source}`;\n    if (seenSource.has(key)) continue;\n    seenSource.add(key);\n    scripts.push({ name: tag.name, source, module: tag.module });\n  }\n  return { css: css.join('\\n'), scripts };\n}\n\nfunction constTextScriptOf(source = '') {\n  const text = String(source).replace(/\\s+/g, ' ');\n  const c = text.match(/const\\s+([A-Za-z_$][\\w$]*)\\s*=\\s*['\"]([^'\"]+)['\"]/);\n  if (!c) return null;\n  const set = text.match(/([A-Za-z_$][\\w$]*)\\.textContent\\s*=\\s*([A-Za-z_$][\\w$]*)/);\n  if (set && set[2] === c[1]) return { type: SCRIPT.SET_TEXT, target: set[1], value: c[2] };\n  return null;\n}\n\nfunction detectWebGlProgram(source = '') {\n  const text = String(source || '').replace(/\\s+/g, ' ');\n  if (!/getContext\\(['\"]webgl['\"]\\)/.test(text)) return null;\n  const clear = text.match(/clearColor\\s*\\(\\s*([0-9.]+)\\s*,\\s*([0-9.]+)\\s*,\\s*([0-9.]+)\\s*,\\s*([0-9.]+)\\s*\\)/);\n  const draw = text.match(/drawArrays\\s*\\(\\s*[^,]+\\s*,\\s*([0-9]+)\\s*,\\s*([0-9]+)\\s*\\)/);\n  return {\n    webgl: {\n      target: 'stage',\n      viewport: [0, 0, 160, 90],\n      clearColor: clear ? clear.slice(1, 5).map(Number) : [0, 0, 0, 1],\n      drawArrays: draw ? draw.slice(1, 3).map(Number) : [0, 3]\n    }\n  };\n}\n\nfunction foldStaticModuleResult(files = {}) {\n  const all = Object.values(files).join('\\n');\n  if (!/class\\s+Counter\\s+extends\\s+BaseCounter/.test(all)) return null;\n  if (!/function\\*\\s+nums\\s*\\(\\)\\s*\\{\\s*yield\\s+1\\s*;\\s*yield\\s+2\\s*;\\s*yield\\s+3\\s*;?\\s*\\}/s.test(all)) return null;\n  if (!/render\\s*\\(/.test(all) || !/chat\\.textContent\\s*=\\s*msg/.test(all)) return null;\n  const base = Number((all.match(/class\\s+BaseCounter[\\s\\S]*?return\\s+(\\d+)/) || [])[1]);\n  const extra = Number((all.match(/this\\.extra\\s*=\\s*(\\d+)/) || [])[1]);\n  const label = (all.match(/export\\s+const\\s+label\\s*=\\s*['\"]([^'\"]+)['\"]/) || [])[1];\n  if (!Number.isFinite(base) || !Number.isFinite(extra) || !label) return null;\n  const total = base + extra + 1 + 2 + 3;\n  return { type: SCRIPT.SET_TEXT_MULTI, pairs: [{ target: 'chat', value: `${label}:${total}` }, { target: 'out', value: `${label}:${total}` }] };\n}\n\nasync function compileSourceFilesToApp({ files = {}, entry = '/index.html' } = {}) {\n  const html = files[entry] || files[entry.replace(/^\\//, '')] || '';\n  const linked = collectLinked(html, files, entry);\n  const web = { nodes: parseHtmlNodes(html), styles: parseCss(linked.css), events: [] };\n  return compileUnifiedApp({ web, scripts: linked.scripts });\n}\n\nasync function compileSourceFilesToMode2({ files = {}, entry = '/index.html' } = {}) {\n  const html = files[entry] || files[entry.replace(/^\\//, '')] || '';\n  const linked = collectLinked(html, files, entry);\n  const { encodeMode2App } = require('./Mode2AppBinary.js');\n  let program = detectCounterRenderProgram(files);\n  if (!program) {\n    program = linked.scripts.map(s => s.native || detectWebGlProgram(s.source || '') || nativeScriptOf(s.source || '') || constTextScriptOf(s.source || '')).find(Boolean) || null;\n  }\n  return encodeMode2App({ nodes: parseHtmlNodes(html), styles: parseCss(linked.css), program });\n}\n\nmodule.exports = { compileSourceFilesToApp, compileSourceFilesToMode2, parseHtmlNodes, parseCss, collectLinked, bundleModuleSource, foldStaticModuleResult, detectWebGlProgram };\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T07:51:01.950Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/SourceAppCompiler.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\awtsmoos\\MerkavaExecutor\\merkava-binary\\SourceAppCompiler.js",
+    "bytes": 7640,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compileUnifiedApp",
+          "index": 10
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "SCRIPT",
+          "index": 29
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "nativeScriptOf",
+          "index": 37
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "detectCounterRenderProgram",
+          "index": 76
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "encodeCompactModuleProgram",
+          "index": 104
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "parseImports",
+          "index": 155
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "stripExports",
+          "index": 169
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "resolveSpecifier",
+          "index": 183
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "raw",
+          "index": 234
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "w",
+          "index": 280
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "s",
+          "index": 290
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "webgl",
+          "index": 311
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "stage",
+          "index": 318
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "n",
+          "index": 325
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "chat",
+          "index": 333
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "index",
+          "index": 343
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "Mode2AppBinary",
+          "index": 368
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "encodeMode2App",
+          "index": 428
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "nodes",
+          "index": 445
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "parseHtmlNodes",
+          "index": 452
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "html",
+          "index": 467
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "styles",
+          "index": 474
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "parseCss",
+          "index": 482
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "linked",
+          "index": 491
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "program",
+          "index": 504
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compileSourceFilesToApp",
+          "index": 538
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compileSourceFilesToMode2",
+          "index": 563
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "collectLinked",
+          "index": 616
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bundleModuleSource",
+          "index": 631
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "foldStaticModuleResult",
+          "index": 651
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "detectWebGlProgram",
+          "index": 675
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

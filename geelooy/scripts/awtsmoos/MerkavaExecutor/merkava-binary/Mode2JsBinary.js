@@ -437,7 +437,7 @@ function createMode2NodeRuntime(options = {}) {
     nextTick(fn, ...args) { if (typeof fn === 'function') fn(...args); }
   });
   const builtins = Object.assign(Object.create(null), {
-    path: nodePath,
+    path: nodePath.posix || nodePath,
     url: nodeUrl,
     fs: safeFs,
     events: nodeEvents,

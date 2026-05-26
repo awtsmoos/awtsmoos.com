@@ -519,6 +519,53 @@ class AliasPageNavigator {
         });
         return e
     }
+
+    _createActivityCard(label, value, caption) {
+        const card = this._createElement('article', ['alias-activity-card'], [], {
+            'data-activity-card': label.toLowerCase()
+        });
+        const labelEl = this._createElement('span', ['alias-activity-label'], [label]);
+        const valueEl = this._createElement('strong', ['alias-activity-value'], [value], {
+            'data-activity-value': label.toLowerCase()
+        });
+        const captionEl = this._createElement('span', ['alias-activity-caption'], [caption]);
+        card.append(labelEl, valueEl, captionEl);
+        return card;
+    }
+
+    async _renderActivitySummary() {
+        const aliasId = this.aliasDetails?.id;
+        if (!aliasId) {
+            this._setActivityValue('posts', '0');
+            this._setActivityValue('comments', '0');
+            return;
+        }
+
+        const [postHeichelos, commentHeichelos] = await Promise.all([
+            this._safeActivityCount(() => getHeichelosOfPostsOfAlias({ aliasId })),
+            this._safeActivityCount(() => getHeichelosOfCommentsOfAlias({ aliasId }))
+        ]);
+
+        this._setActivityValue('posts', String(postHeichelos));
+        this._setActivityValue('comments', String(commentHeichelos));
+    }
+
+    async _safeActivityCount(fetcher) {
+        try {
+            const response = await fetcher();
+            const items = response?.success || response?.series || response?.heichelos || response || [];
+            if (Array.isArray(items)) return items.length;
+            if (items && typeof items === 'object') return Object.keys(items).length;
+            return 0;
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    _setActivityValue(name, value) {
+        const node = this.activitySummary?.querySelector(`[data-activity-value="${name}"]`);
+        if (node) node.textContent = value;
+    }
 }
 
 export function makeAliasPage({details, container, ownership = false}) {

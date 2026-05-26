@@ -1,12 +1,12 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory();
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualElement = factory().VirtualElement; }
-})(typeof self !== 'undefined' ? self : this, function() {
-    const { VirtualStyleDeclaration } = require('./VirtualStyleDeclaration.js');
-    const { VirtualClassList } = require('./VirtualClassList.js');
-    const { VirtualEvent } = require('./VirtualEvents.js');
-    const html = () => new (require('./VirtualHtmlSerializer.js').VirtualHtmlSerializer)();
+    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualStyleDeclaration.js'), require('./VirtualClassList.js'), require('./VirtualEvents.js'), require('./VirtualHtmlSerializer.js'), require('./VirtualCanvas2DContext.js'), require('./VirtualWebGLContext.js'));
+    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualElement = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualElement; }
+})(typeof self !== 'undefined' ? self : this, function(styleMod, classMod, eventMod, htmlMod, canvas2dMod, webglMod) {
+    const VirtualStyleDeclaration = styleMod.VirtualStyleDeclaration;
+    const VirtualClassList = classMod.VirtualClassList;
+    const VirtualEvent = eventMod.VirtualEvent;
+    const html = () => new htmlMod.VirtualHtmlSerializer();
     const isCapture = options => options === true || !!options?.capture;
     const matches = (node, selector) => selector.startsWith('#') ? node.id === selector.slice(1) : selector.startsWith('.') ? node.classList?.contains(selector.slice(1)) : selector.includes('[') ? attrMatch(node, selector) : node.tagName.toLowerCase() === selector.toLowerCase();
     const attrMatch = (node, selector) => { const m = selector.match(/^([\w-]+)?\[([\w-]+)(?:=["']?([^"'\]]+)["']?)?\]$/); return !!m && (!m[1] || node.tagName.toLowerCase() === m[1].toLowerCase()) && (m[3] == null ? node.hasAttribute(m[2]) : node.getAttribute(m[2]) === m[3]); };
@@ -38,7 +38,7 @@
         querySelector(selector) { return this.querySelectorAll(selector)[0] || null; } matches(selector) { return matches(this, selector); }
         querySelectorAll(selector) { const out = [], walk = node => { if (matches(node, selector)) out.push(node); node.children.forEach(walk); }; this.children.forEach(walk); return out; }
         get innerHTML() { return html().serializeChildren(this); } set innerHTML(value) { html().parseInto(this, value); } get outerHTML() { return html().serialize(this); }
-        getContext(kind) { const type = String(kind || '').toLowerCase(); if (this.tagName !== 'CANVAS') return null; if (type === '2d') { if (!this.__canvas2dContext) { const { VirtualCanvas2DContext } = require('./VirtualCanvas2DContext.js'); this.__canvas2dContext = new VirtualCanvas2DContext(this, this.ownerDocument?.textureArena); } return this.__canvas2dContext; } if (type !== 'webgl' && type !== 'webgl2') return null; if (!this.__webglContext) { const { VirtualWebGLContext } = require('./VirtualWebGLContext.js'); this.__webglContext = new VirtualWebGLContext(this, this.ownerDocument?.textureArena); } return this.__webglContext; }
+        getContext(kind) { const type = String(kind || '').toLowerCase(); if (this.tagName !== 'CANVAS') return null; if (type === '2d') { if (!this.__canvas2dContext) this.__canvas2dContext = new canvas2dMod.VirtualCanvas2DContext(this, this.ownerDocument?.textureArena); return this.__canvas2dContext; } if (type !== 'webgl' && type !== 'webgl2') return null; if (!this.__webglContext) this.__webglContext = new webglMod.VirtualWebGLContext(this, this.ownerDocument?.textureArena); return this.__webglContext; }
         toJSON() { return { tagName: this.tagName, id: this.id, className: this.className, value: this.value, checked: this.checked, selected: this.selected, textContent: this.textContent, attributes: this.attributes, style: this.style.toJSON(), webgl: this.__webglContext?.snapshot?.() || null, children: this.children.map(c => c.toJSON()) }; }
     }
     return { VirtualElement };

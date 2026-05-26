@@ -1,0 +1,551 @@
+{
+  "entry": {
+    "actionId": "act_mpm7kfa2_b1054e4f",
+    "inputRef": "cmd_act_mpm7kfa2_b1054e4f",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7kfa2_b1054e4f.json",
+    "parentActionId": null,
+    "action": "selectString",
+    "input": {
+      "kind": "fs",
+      "action": "selectString",
+      "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 120,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "nodeCompat,require,path,basename,join",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 16000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:42:14.618Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "selectString",
+    "pattern": "nodeCompat,require,path,basename,join",
+    "count": 80,
+    "results": [
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/BitPackedValueCodec.js",
+        "lineNumber": 2,
+        "line": "const { BitWriter } = require('./BitWriter.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/BitPackedValueCodec.js",
+        "lineNumber": 3,
+        "line": "const { BitReader } = require('./BitReader.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/ByteReader.js",
+        "lineNumber": 2,
+        "line": "const { readVarUint } = require('./VarInt.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/ByteWriter.js",
+        "lineNumber": 2,
+        "line": "const { writeVarUint } = require('./VarInt.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactClassBinary.js",
+        "lineNumber": 2,
+        "line": "const { ByteWriter } = require('./ByteWriter.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactClassBinary.js",
+        "lineNumber": 3,
+        "line": "const { ByteReader } = require('./ByteReader.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactClassBinary.js",
+        "lineNumber": 4,
+        "line": "const { classNodeToCompact } = require('./CompactClassCodec.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactClassBinary.js",
+        "lineNumber": 5,
+        "line": "const { installCompactClasses } = require('./CompactClassRuntime.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactClassCodec.js",
+        "lineNumber": 2,
+        "line": "const { encodeSangArtifact } = require('./SangCodec.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactClassRuntime.js",
+        "lineNumber": 2,
+        "line": "const { CC_OP } = require('./CompactClassCodec.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactModuleBinary.js",
+        "lineNumber": 2,
+        "line": "const { ByteWriter } = require('./ByteWriter.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactModuleBinary.js",
+        "lineNumber": 3,
+        "line": "const { ByteReader } = require('./ByteReader.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactModuleBinary.js",
+        "lineNumber": 10,
+        "line": "  const all = Object.values(files).join('\\n');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/CompactModuleBinary.js",
+        "lineNumber": 20,
+        "line": "  const suffix = suffixParts.join(':');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/DefaultMerkavaHost.js",
+        "lineNumber": 6,
+        "line": " * by the Merkava VM syscall path."
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/DefaultMerkavaHost.js",
+        "lineNumber": 8,
+        "line": "const { installCompactClasses, newCompactInstance, callCompactMethod } = require('./CompactClassRuntime.js');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 4,
+        "line": "  ...require('./NativeTables.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 5,
+        "line": "  ...require('./NativeCapabilityBridge.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 6,
+        "line": "  ...require('./ModeOpcodes.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 7,
+        "line": "  ...require('./ModeSelectorCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 8,
+        "line": "  ...require('./ModeAppBinary.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 9,
+        "line": "  ...require('./Mode2ValueCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 10,
+        "line": "  ...require('./Mode2RepeatNodes.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 11,
+        "line": "  ...require('./Mode2Templates.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 12,
+        "line": "  ...require('./Mode2CssBitCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 13,
+        "line": "  ...require('./Mode2PoolCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 14,
+        "line": "  ...require('./Mode2PoolBytes.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 15,
+        "line": "  ...require('./Mode2JsBitCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 16,
+        "line": "  ...require('./Mode2JsBinary.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 17,
+        "line": "  ...require('./Mode2SlotFrames.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 18,
+        "line": "  ...require('./Mode2SlotSymbols.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 19,
+        "line": "  ...require('./Mode2IteratorRuntime.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 20,
+        "line": "  ...require('./Mode2LoopControl.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 21,
+        "line": "  ...require('./Mode2JsBinary.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 22,
+        "line": "  ...require('./Mode2ArenaRuntime.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 23,
+        "line": "  ...require('./Mode2BinaryArena.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 24,
+        "line": "  ...require('./Mode2PathLoader.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 25,
+        "line": "  ...require('./Mode2NativeIntrinsics.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 26,
+        "line": "  ...require('./Mode2ClosureVm.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 27,
+        "line": "  ...require('./Mode2AppBinary.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 28,
+        "line": "  ...require('./LocalSymbolTable.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 29,
+        "line": "  ...require('./CompactClassCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 30,
+        "line": "  ...require('./CompactClassBinary.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 31,
+        "line": "  ...require('./CompactClassRuntime.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 32,
+        "line": "  ...require('./CompactModuleBinary.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 33,
+        "line": "  ...require('./PackedValueCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 34,
+        "line": "  ...require('./BitWriter.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 35,
+        "line": "  ...require('./BitReader.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 36,
+        "line": "  ...require('./BitPackedValueCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 37,
+        "line": "  ...require('./ByteReader.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 38,
+        "line": "  ...require('./ByteWriter.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 39,
+        "line": "  ...require('./DefaultMerkavaHost.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 40,
+        "line": "  ...require('./CssSelectorEngine.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 41,
+        "line": "  ...require('./CssSelectorEngine.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 42,
+        "line": "  ...require('./MerkavaAstLowerer.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 43,
+        "line": "  ...require('./MerkavaJsCompiler.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 44,
+        "line": "  ...require('./MerkavaJsRunner.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 45,
+        "line": "  ...require('./MerkavaVmFileExecutor.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 46,
+        "line": "  ...require('./MerkavaBundleBuilder.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 47,
+        "line": "  ...require('./MerkavaJsonCompiler.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 48,
+        "line": "  ...require('./MerkavaJsonRunner.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 49,
+        "line": "  ...require('./MerkavaVmLoader.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 50,
+        "line": "  ...require('./SangCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 51,
+        "line": "  ...require('./UnifiedAppBinary.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 52,
+        "line": "  ...require('./SourceAppCompiler.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 53,
+        "line": "  ...require('./Md2BytecodeApi.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 54,
+        "line": "  ...require('./Md2BytecodeApi.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 55,
+        "line": "  ...require('./SangExpressionCompiler.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 56,
+        "line": "  ...require('./SangStrictJsCompiler.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 57,
+        "line": "  ...require('./SangVmRunner.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 58,
+        "line": "  ...require('./SangWebCompiler.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 59,
+        "line": "  ...require('./VarInt.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 60,
+        "line": "  ...require('./WebBinaryOpcodes.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 61,
+        "line": "  ...require('./WebBinaryCodec.js'),"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js",
+        "lineNumber": 62,
+        "line": "  ...require('./WebBinaryRuntime.js')"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/js-md2/optimizer/Mode2Optimizer.js",
+        "lineNumber": 5,
+        "line": " * Chapter 13: The Awtsmoos compresses the path without bending truth."
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/js-md2/runtime/Mode2DecompilerRuntime.js",
+        "lineNumber": 66,
+        "line": "        return `${marker} ${label}:${realIp} ${row.opName} ${row.args.join(' ')}`.trimEnd();"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/js-md2/runtime/Mode2DecompilerRuntime.js",
+        "lineNumber": 68,
+        "line": "      .join('\\n');"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/js-md2/runtime/Mode2DecompilerRuntime.js",
+        "lineNumber": 79,
+        "line": "      lines.push('', `function ${fn.generator ? '*' : ''}fn_${id}(${(fn.params || []).map(pid => program.pool?.[pid] || `p${pid}`).join(', ')}) {`);"
+      },
+      {
+        "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-binary/js-md2/runtime/Mode2DecompilerRuntime.js",
+        "lineNumber": 83,
+        "line": "    return lines.join('\\n');"
+      }
+    ]
+  }
+}

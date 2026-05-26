@@ -1,0 +1,701 @@
+{
+  "entry": {
+    "actionId": "act_mpmawdqo_7e5ceefc",
+    "inputRef": "cmd_act_mpmawdqo_7e5ceefc",
+    "outputRef": ".awtsmoos/actions/results/act_mpmawdqo_7e5ceefc.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 120,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 200,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "panel-topbar|data-sidebar|automation-collapsed|sidebar-collapsed|fullscreen|collapse|right-panel|topbar|minimize|maximize",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 30000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T07:15:31.345Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai",
+    "query": "panel-topbar|data-sidebar|automation-collapsed|sidebar-collapsed|fullscreen|collapse|right-panel|topbar|minimize|maximize",
+    "regex": true,
+    "scannedFiles": 120,
+    "skippedFiles": 0,
+    "maxFiles": 120,
+    "maxResults": 200,
+    "returnedResults": 108,
+    "partial": true,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 26,
+        "preview": "  body[data-sidebar-collapsed=\"true\"] .sidebar,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 27,
+        "preview": "  body[data-automation-collapsed=\"true\"] .automation-panel {"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 33,
+        "preview": "  body[data-sidebar-collapsed=\"false\"] .sidebar,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 34,
+        "preview": "  body[data-automation-collapsed=\"false\"] .automation-panel {"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 39,
+        "preview": "  .automation-panel > :not(.panel-topbar) {"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 47,
+        "preview": "  .panel-topbar {"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 52,
+        "preview": "  .is-collapsed .panel-topbar,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 53,
+        "preview": "  .is-detached .panel-topbar {"
+      },
+      {
+        "path": "geelooy/ai/css/panels/base.css",
+        "line": 2,
+        "preview": ".panel-topbar {"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 1,
+        "preview": "/*B\"H — collapsed rails cannot overlap: only one full-rail expander */"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 2,
+        "preview": ".is-collapsed,"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 9,
+        "preview": ".is-collapsed > :not(.panel-topbar),"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 10,
+        "preview": ".is-detached > :not(.panel-topbar) { display: none !important; }"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 11,
+        "preview": ".is-collapsed .panel-topbar,"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 12,
+        "preview": ".is-detached .panel-topbar {"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 26,
+        "preview": ".is-collapsed .panel-title,"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 38,
+        "preview": ".is-collapsed .panel-actions,"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 46,
+        "preview": ".is-collapsed .panel-actions button,"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 52,
+        "preview": ".is-collapsed .panel-topbar:hover,"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 53,
+        "preview": ".is-detached .panel-topbar:hover,"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 54,
+        "preview": ".is-collapsed .panel-topbar:focus-visible,"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 55,
+        "preview": ".is-detached .panel-topbar:focus-visible {"
+      },
+      {
+        "path": "geelooy/ai/css/automation-cockpit.css",
+        "line": 28,
+        "preview": ".right-panel-body {"
+      },
+      {
+        "path": "geelooy/ai/css/automation-cockpit.css",
+        "line": 31,
+        "preview": ".right-panel-body h2 {"
+      },
+      {
+        "path": "geelooy/ai/css/automation-futuristic.css",
+        "line": 4,
+        "preview": "#automation-panel .right-panel-body {"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 17,
+        "preview": ".right-panel-body::-webkit-scrollbar,"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 23,
+        "preview": ".right-panel-body::-webkit-scrollbar-thumb,"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 67,
+        "preview": "#right-rail, .right-rail, .collapse-rail {"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 33,
+        "preview": ".input-area.is-fullscreen {"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 39,
+        "preview": ".input-area.is-fullscreen #message-input { height: 100% !important; max-height: none; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 17,
+        "preview": "body[data-sidebar-collapsed=\"true\"] .container { --ai-left-col: 62px; --ai-left-resizer: 0px; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 18,
+        "preview": "body[data-automation-collapsed=\"true\"] .container { --ai-right-col: 62px; --ai-right-resizer: 0px; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 24,
+        "preview": "body[data-sidebar-collapsed=\"true\"] #left-resizer,"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 25,
+        "preview": "body[data-automation-collapsed=\"true\"] #right-resizer { display: none !important; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 49,
+        "preview": ".automation-panel > :not(.panel-topbar) { min-height: 0; overflow: auto; padding: 12px; }"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 4,
+        "preview": "  Minimize, maximize, and fullscreen now show state without stealing space from"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 5,
+        "preview": "  the streamed header. Fullscreen becomes a real readable overlay."
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 33,
+        "preview": "body.has-event-fullscreen .chat-box,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 34,
+        "preview": "body.has-event-fullscreen .input-area,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 35,
+        "preview": "body.has-event-fullscreen .transport-status {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 39,
+        "preview": ".transport-details.is-fullscreen,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 40,
+        "preview": ".thought-envelope-card.is-fullscreen {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 46,
+        "preview": ".transport-details.is-fullscreen > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 47,
+        "preview": ".thought-envelope-card.is-fullscreen > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 55,
+        "preview": ".transport-details.is-fullscreen .event-payload,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 56,
+        "preview": ".thought-envelope-card.is-fullscreen .thought-inner-window {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 60,
+        "preview": ".transport-details[data-panel-state=\"minimized\"],"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 61,
+        "preview": ".thought-envelope-card[data-panel-state=\"minimized\"] {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 22,
+        "preview": "#automation-panel .right-panel-body {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 76,
+        "preview": ".transport-details.is-maximized,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 77,
+        "preview": ".thought-envelope-card.is-maximized {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 81,
+        "preview": ".transport-details.is-fullscreen,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 82,
+        "preview": ".thought-envelope-card.is-fullscreen {"
+      },
+      {
+        "path": "geelooy/ai/css/panels.css",
+        "line": 3,
+        "preview": "@import url(\"./panels/collapsed.css\");"
+      },
+      {
+        "path": "geelooy/ai/css/panels.css",
+        "line": 8,
+        "preview": "  .sidebar .panel-topbar { padding-left: 60px; }"
+      },
+      {
+        "path": "geelooy/ai/css/panels.css",
+        "line": 9,
+        "preview": "  .automation-panel .panel-topbar { padding-right: 8px; }"
+      },
+      {
+        "path": "geelooy/ai/css/panels.css",
+        "line": 12,
+        "preview": "  .sidebar .panel-topbar { padding-left: 56px; }"
+      },
+      {
+        "path": "geelooy/ai/css/panels.css",
+        "line": 13,
+        "preview": "  .panel-topbar { min-height: 46px; }"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 48,
+        "preview": ".transport-details[data-panel-state=\"minimized\"] > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 49,
+        "preview": ".thought-envelope-card[data-panel-state=\"minimized\"] > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 53,
+        "preview": ".transport-details.is-maximized,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 54,
+        "preview": ".thought-envelope-card.is-maximized {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 64,
+        "preview": ".transport-details.is-maximized > .event-lanes,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 65,
+        "preview": ".thought-envelope-card.is-maximized .thought-inner-window {"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 38,
+        "preview": ".event-panel-actions [data-panel-action=\"minimize\"]::before { content: \"−\"; }"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 39,
+        "preview": ".event-panel-actions [data-panel-action=\"maximize\"]::before { content: \"▣\"; }"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 40,
+        "preview": ".event-panel-actions [data-panel-action=\"fullscreen\"]::before { content: \"⤢\"; }"
+      },
+      {
+        "path": "geelooy/ai/css/visual.css",
+        "line": 20,
+        "preview": ".chat-box, .conversation-list, .automation-panel, .automation-panel > :not(.panel-topbar) { scrollbar-width: thin; scrollbar-color: rgba(126,212,255,.45) transparent; }"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 26,
+        "preview": "    </div><div class=\"right-panel-body\">${this.body()}</div>`;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/debugFetch.js",
+        "line": 21,
+        "preview": "  console.groupCollapsed(`B\"H ChatGPT request: ${context.label || \"chatgpt-fetch\"}`);"
+      },
+      {
+        "path": "geelooy/ai/js/forms/composerAutosize.js",
+        "line": 29,
+        "preview": "    const max = this.inputArea?.classList.contains(\"is-fullscreen\") ? window.innerHeight - 150 : this.maxHeight;"
+      },
+      {
+        "path": "geelooy/ai/js/forms/composerAutosize.js",
+        "line": 46,
+        "preview": "    if (action === \"full\") this.inputArea.classList.toggle(\"is-fullscreen\");"
+      },
+      {
+        "path": "geelooy/ai/js/forms/composerAutosize.js",
+        "line": 47,
+        "preview": "    if (action === \"min\") this.inputArea.classList.remove(\"is-fullscreen\", \"is-writing\");"
+      },
+      {
+        "path": "geelooy/ai/js/layout/layoutController.js",
+        "line": 20,
+        "preview": "        sidebar: { collapsed: true, detached: false },"
+      },
+      {
+        "path": "geelooy/ai/js/layout/layoutController.js",
+        "line": 21,
+        "preview": "        automation: { collapsed: true, detached: false },"
+      },
+      {
+        "path": "geelooy/ai/js/layout/layoutController.js",
+        "line": 35,
+        "preview": "    document.body.dataset.sidebarCollapsed = String(Boolean(layout.sidebar.collapsed || layout.sidebar.detached));"
+      },
+      {
+        "path": "geelooy/ai/js/layout/layoutController.js",
+        "line": 36,
+        "preview": "    document.body.dataset.automationCollapsed = String(Boolean(layout.automation.collapsed || layout.automation.detached));"
+      },
+      {
+        "path": "geelooy/ai/js/layout/layoutController.js",
+        "line": 43,
+        "preview": "    const collapsed = Boolean(state.collapsed || state.detached);"
+      },
+      {
+        "path": "geelooy/ai/js/layout/layoutController.js",
+        "line": 44,
+        "preview": "    panel.classList.toggle(\"is-collapsed\", collapsed);"
+      },
+      {
+        "path": "geelooy/ai/js/layout/layoutStore.js",
+        "line": 5,
+        "preview": "  sidebar: { width: 290, collapsed: false, detached: false, x: 24, y: 86, h: 520 },"
+      },
+      {
+        "path": "geelooy/ai/js/layout/layoutStore.js",
+        "line": 6,
+        "preview": "  automation: { width: 300, collapsed: false, detached: false, x: 820, y: 86, h: 520 },"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 3,
+        "preview": " * B\"H — Adds one clean collapse frame to a panel vessel."
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 10,
+        "preview": "  panel.querySelector(\".panel-topbar\")?.remove();"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 12,
+        "preview": "    <div class=\"panel-topbar\" data-panel-rail tabindex=\"0\" role=\"button\" aria-label=\"Toggle ${title}\">"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 15,
+        "preview": "        <button data-panel-action=\"toggle\" title=\"Collapse / expand\" aria-label=\"Collapse or expand ${title}\"></button>"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 28,
+        "preview": "    if (clickedButton) return collapsePanel(name, store, onLayout);"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 35,
+        "preview": "    else collapsePanel(name, store, onLayout);"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 41,
+        "preview": "    else collapsePanel(name, store, onLayout);"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 52,
+        "preview": "  return panel.classList.contains(\"is-collapsed\") || panel.classList.contains(\"is-detached\");"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 55,
+        "preview": "function collapsePanel(name, store, onLayout) {"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 56,
+        "preview": "  onLayout(store.save({ [name]: { collapsed: true, detached: false } }));"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 60,
+        "preview": "  panel.classList.remove(\"is-collapsed\", \"is-detached\");"
+      },
+      {
+        "path": "geelooy/ai/js/layout/panelFrame.js",
+        "line": 62,
+        "preview": "  onLayout(store.save({ [name]: { collapsed: false, detached: false } }));"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js",
+        "line": 26,
+        "preview": "  return `<span class=\"event-panel-actions\"><button type=\"button\" data-panel-action=\"minimize\" title=\"Collapse\">−</button><button type=\"button\" data-panel-action=\"maximize\" title=\"Maximize\">▢</button><button type=\"button\" data-panel-action=\"fullscreen\" title=\"Fullscreen\">⛶</button></span>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 20,
+        "preview": "export function installCollapsedDomVault(root) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 21,
+        "preview": "  if (!root || root.__awtsmoosCollapsedDomVault) return;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 22,
+        "preview": "  root.__awtsmoosCollapsedDomVault = true;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 36,
+        "preview": "export function vaultCollapsedPanels(root) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 4,
+        "preview": "import { vaultCollapsedPanels } from \"./collapsedDomVault.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 68,
+        "preview": "  vaultCollapsedPanels(panel);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 94,
+        "preview": "  vaultCollapsedPanels(panel);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 9,
+        "preview": "import { installCollapsedDomVault, vaultCollapsedPanels } from \"./collapsedDomVault.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 60,
+        "preview": "  installCollapsedDomVault(region);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 108,
+        "preview": "  vaultCollapsedPanels(node);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 146,
+        "preview": "  return { maximized: panel.classList.contains(\"is-maximized\"), fullscreen: panel.classList.contains(\"is-fullscreen\"), panelState: panel.dataset.panelState || \"\" };"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 153,
+        "preview": "  panel.classList.toggle(\"is-maximized\", Boolean(state.maximized));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 154,
+        "preview": "  panel.classList.toggle(\"is-fullscreen\", Boolean(state.fullscreen));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 156,
+        "preview": "  document.body.classList.toggle(\"has-event-fullscreen\", Boolean(document.querySelector(\".transport-details.is-fullscreen, .thought-envelope-card.is-fullscreen\")));"
+      }
+    ]
+  }
+}

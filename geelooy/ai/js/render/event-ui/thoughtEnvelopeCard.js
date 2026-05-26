@@ -16,7 +16,8 @@ export function renderThoughtEnvelope(event = {}) {
   const inner = Array.isArray(event.raw?.events) ? event.raw.events : [];
   const key = storeEventPayload(event);
   return `<details class="thought-envelope-card" open data-thought-envelope-key="${escapeHtml(key)}">
-    <summary><span class="event-summary-title">${escapeHtml(event.label || "Thoughts")}</span>${chromeButtons()}</summary>
+    <summary><span class="event-summary-title">${escapeHtml(event.label || "Thoughts")}</span></summary>
+    ${chromeButtons()}
     <details class="thought-envelope-events" data-inner-count="${inner.length}"><summary>${inner.length} inner event(s)</summary></details>
   </details>`;
 }

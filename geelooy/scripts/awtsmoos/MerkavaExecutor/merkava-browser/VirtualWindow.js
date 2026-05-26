@@ -1,13 +1,13 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualDocument.js'), require('./VirtualStorage.js'), require('./VirtualConsole.js'), require('./VirtualFetch.js'), require('./VirtualEvents.js'), require('./VirtualMouse.js'), require('./VirtualKeyboard.js'), require('./VirtualInteractions.js'), require('./RuntimeProbe.js'));
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWindow = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualWindow; }
-})(typeof self !== 'undefined' ? self : this, function(docMod, storageMod, consoleMod, fetchMod, events, mouseMod, keyboardMod, interactionMod, probeMod) {
+    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualDocument.js'), require('./VirtualStorage.js'), require('./VirtualConsole.js'), require('./VirtualFetch.js'), require('./VirtualEvents.js'), require('./VirtualMouse.js'), require('./VirtualKeyboard.js'), require('./VirtualInteractions.js'), require('./RuntimeProbe.js'), require('./VirtualWebGLBoxRenderer.js'));
+    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWindow = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualWindow; }
+})(typeof self !== 'undefined' ? self : this, function(docMod, storageMod, consoleMod, fetchMod, events, mouseMod, keyboardMod, interactionMod, probeMod, boxRendererMod) {
     const VirtualDocument = docMod.VirtualDocument;
     const VirtualStorage = storageMod.VirtualStorage;
     const VirtualConsole = consoleMod.VirtualConsole;
     const VirtualFetch = fetchMod.VirtualFetch;
-    const { VirtualWebGLBoxRenderer } = require('./VirtualWebGLBoxRenderer.js');
+    const VirtualWebGLBoxRenderer = boxRendererMod.VirtualWebGLBoxRenderer;
 
     class VirtualWindow {
         constructor({ files = {}, graph = null, url = 'http://127.0.0.1:8080/' } = {}) {

@@ -1,0 +1,50 @@
+{
+  "entry": {
+    "actionId": "act_mpm7jufk_6b768706",
+    "inputRef": "cmd_act_mpm7jufk_6b768706",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7jufk_6b768706.json",
+    "parentActionId": null,
+    "action": "simulateRuntime",
+    "input": {
+      "action": "simulateRuntime",
+      "engine": "md2",
+      "runtime": "browser",
+      "entry": "index.html",
+      "files": {
+        "index.html": "<main id=\"out\"></main><script>const msg=\"BH Tunnel MD2\"; out.textContent=msg;</script>"
+      },
+      "timeoutMs": 30000
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:41:47.600Z"
+  },
+  "output": {
+    "BH": "B\"H",
+    "ok": true,
+    "runtime": "browser",
+    "engine": "md2",
+    "entry": "index.html",
+    "bytecode": {
+      "kind": "md2-app",
+      "magic": "MD2\u0000",
+      "bytes": 46,
+      "base64": "TUQyAAMCA291dA1CSCBUdW5uZWwgTUQyABQAAQEAFAEAAAAAAAAABAEBAAEBAA=="
+    },
+    "result": {
+      "ok": true,
+      "scripts": [],
+      "web": null
+    },
+    "score": 100,
+    "suggestions": [],
+    "virtualEnv": {
+      "entry": "index.html",
+      "files": {
+        "index.html": "<main id=\"out\"></main><script>const msg=\"BH Tunnel MD2\"; out.textContent=msg;</script>"
+      },
+      "source": "explicit",
+      "diagnostics": [],
+      "ok": true
+    }
+  }
+}

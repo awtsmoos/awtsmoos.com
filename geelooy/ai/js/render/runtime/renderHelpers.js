@@ -37,5 +37,12 @@ export function eventMergeKey(event = {}) {
 export function mergeEvents(current = [], next = []) {
   const keyed = new Map();
   for (const event of [...current, ...next]) keyed.set(eventMergeKey(event), event);
-  return dedupeEvents([...keyed.values()]).slice(-140);
+  return dedupeEvents([...keyed.values()].sort(eventOrderSort)).slice(-140);
+}
+
+function eventOrderSort(a = {}, b = {}) {
+  const ao = Number.isFinite(Number(a.order)) ? Number(a.order) : Number.MAX_SAFE_INTEGER;
+  const bo = Number.isFinite(Number(b.order)) ? Number(b.order) : Number.MAX_SAFE_INTEGER;
+  if (ao !== bo) return ao - bo;
+  return 0;
 }

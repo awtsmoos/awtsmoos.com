@@ -2,6 +2,10 @@
 import { EVENT_TYPES, applyEventVisibility, loadEventVisibility, saveEventVisibility } from "../settings/eventVisibility.js";
 import { checkNodeRelay, openRelayControl, openRelayLogin } from "../chatgpt/transport/nodeRelayFetch.js";
 import { loadNodeRelaySettings, saveNodeRelaySettings } from "../chatgpt/transport/nodeRelaySettings.js";
+import { automationGraphStore } from "./graphStore.js";
+import { cloneDefaultAutomationGraph, cloneStudioExampleGraph } from "./graphDefaults.js";
+import { automationArchiveStore, downloadTextFile } from "./messageArchive.js";
+import { renderGraphFields, captureGraphFormsFromRoot, createGraphNode } from "./graphEditorUi.js";
 
 export class AutomationPanel {
   constructor({ root, store, onChange }) {
@@ -9,6 +13,7 @@ export class AutomationPanel {
     this.store = store;
     this.onChange = onChange;
     this.settings = store.load();
+    this.graph = automationGraphStore.load();
     this.eventVisibility = loadEventVisibility();
     this.relaySettings = loadNodeRelaySettings();
     this.tab = "automation";
@@ -16,20 +21,18 @@ export class AutomationPanel {
     this.render();
   }
 
-  /**
-   * Chapter 49: The Cockpit Kept Every Door Within Reach.
-   *
-   * The Awtsmoos lets Settings remain available at every hour: extension path,
-   * localhost relay path, trace filters, and automation all sit in one drawer.
-   *
-   * @returns {void}
-   */
   render() {
-    this.root.innerHTML = `<div class="right-tabs">
-      ${tab("automation", "Automation", this.tab)}${tab("settings", "Settings", this.tab)}${tab("trace", "Trace filters", this.tab)}
+    const topbar = this.root.querySelector(":scope > .panel-topbar");
+    const content = document.createElement("div");
+    content.className = "automation-panel-content";
+    content.innerHTML = `<div class="right-tabs">
+      ${tab("automation", "Automation", this.tab)}${tab("graph", "Graph", this.tab)}${tab("archive", "Archive", this.tab)}${tab("settings", "Settings", this.tab)}${tab("trace", "Trace filters", this.tab)}
     </div><div class="right-panel-body">${this.body()}</div>`;
+    this.root.replaceChildren(...[topbar, content].filter(Boolean));
     this.bindTabs();
     this.bindAutomation();
+    this.bindGraph();
+    this.bindArchive();
     this.bindVisibility();
     this.bindRelay();
   }
@@ -37,7 +40,26 @@ export class AutomationPanel {
   body() {
     if (this.tab === "settings") return `<h2>B"H Cockpit Settings</h2><p class="panel-note">The right drawer is now a multi-panel vessel.</p>${this.relayFields()}${this.visibilityFields()}`;
     if (this.tab === "trace") return `<h2>Message Trace Filters</h2><p class="panel-note">Disable noisy trace families without deleting them from history.</p>${this.visibilityFields()}`;
-    return `<h2>Automation Pipeline</h2>${field("enabled", "Enable auto-continue", "checkbox", this.settings.enabled)}${field("maxTurns", "Max turns", "number", this.settings.maxTurns)}${field("delayMs", "Delay ms", "number", this.settings.delayMs)}<label class="automation-field">Prompt<input data-auto="prompt" value="${attr(this.settings.prompt)}"></label><div class="automation-status" id="automation-status">automation off</div>`;
+    if (this.tab === "graph") return this.graphFields();
+    if (this.tab === "archive") return this.archiveFields();
+    return `<h2>Automation Pipeline</h2>${field("enabled", "Enable auto-continue", "checkbox", this.settings.enabled)}${field("maxTurns", "Max turns", "number", this.settings.maxTurns)}${field("delayMs", "Delay ms", "number", this.settings.delayMs)}<label class="automation-field prompt-field">Prompt<textarea data-auto="prompt" rows="7">${text(this.settings.prompt)}</textarea></label><div class="automation-status" id="automation-status">${this.settings.enabled ? "automation armed" : "automation off"}</div>`;
+  }
+
+  graphFields() {
+    return renderGraphFields(this.graph);
+  }
+
+  archiveFields() {
+    return `<section class="automation-archive-panel">
+      <h2>Automation Archive</h2>
+      <p class="panel-note">Assistant replies are stored in IndexedDB for graph runs. Download or clear the archive here.</p>
+      <div class="graph-toolbar">
+        <button type="button" data-archive-action="download">Download archive JSON</button>
+        <button type="button" data-archive-action="clear">Clear archive</button>
+        <button type="button" data-archive-action="count">Count messages</button>
+      </div>
+      <div class="automation-status" id="archive-status">archive ready</div>
+    </section>`;
   }
 
   relayFields() {
@@ -45,14 +67,9 @@ export class AutomationPanel {
     return `<section class="automation-card relay-card">
       <h3>ChatGPT transport</h3>
       <p class="panel-note">Use the extension bridge, or connect to the experimental split-browser relay already running from <code>geelooy/ai/relay/split-browser</code>.</p>
-      <p class="panel-note">Run <code>node index.js</code> there, then open the localhost control URL to render ChatGPT through Node.</p>
       <label class="automation-field">Relay URL<input data-relay="url" value="${attr(this.relaySettings.url)}"></label>
       <label class="automation-field"><input data-relay="enabled" type="checkbox" ${enabled}> Use Node relay instead of extension</label>
-      <div class="relay-actions">
-        <button type="button" data-relay-action="health">Check split relay</button>
-        <button type="button" data-relay-action="control">Get localhost control URL</button>
-        <button type="button" data-relay-action="extension">Switch back to extension</button>
-      </div>
+      <div class="relay-actions"><button type="button" data-relay-action="health">Check split relay</button><button type="button" data-relay-action="control">Get localhost control URL</button><button type="button" data-relay-action="extension">Switch back to extension</button></div>
       <div class="automation-status" id="relay-status">${this.relaySettings.enabled ? "Node relay selected" : "Extension bridge selected"}</div>
     </section>`;
   }
@@ -61,19 +78,22 @@ export class AutomationPanel {
     return `<div class="event-filter-grid">${EVENT_TYPES.map(type => `<label class="automation-field event-filter"><input data-event-type="${type}" type="checkbox" ${this.eventVisibility[type] !== false ? "checked" : ""}> Show ${label(type)}</label>`).join("")}</div>`;
   }
 
-  bindTabs() {
-    this.root.querySelectorAll("[data-tab]").forEach(btn => btn.onclick = () => {
-      this.tab = btn.dataset.tab;
-      this.render();
+  bindTabs() { this.root.querySelectorAll("[data-tab]").forEach(btn => btn.onclick = () => { this.tab = btn.dataset.tab; this.render(); }); }
+  bindAutomation() {
+    this.root.querySelectorAll("[data-auto]").forEach(input => {
+      const handler = () => this.captureAutomation();
+      input.oninput = handler;
+      input.onchange = handler;
     });
   }
+  bindVisibility() { this.root.querySelectorAll("[data-event-type]").forEach(input => input.onchange = () => this.captureVisibility()); }
 
-  bindAutomation() {
-    this.root.querySelectorAll("[data-auto]").forEach(input => input.oninput = () => this.captureAutomation());
+  bindGraph() {
+    this.root.querySelectorAll("[data-graph-action]").forEach(button => button.onclick = () => this.handleGraphAction(button.dataset.graphAction));
   }
 
-  bindVisibility() {
-    this.root.querySelectorAll("[data-event-type]").forEach(input => input.onchange = () => this.captureVisibility());
+  bindArchive() {
+    this.root.querySelectorAll("[data-archive-action]").forEach(button => button.onclick = () => this.handleArchiveAction(button.dataset.archiveAction));
   }
 
   bindRelay() {
@@ -85,7 +105,56 @@ export class AutomationPanel {
     const next = {};
     this.root.querySelectorAll("[data-auto]").forEach(input => next[input.dataset.auto] = input.type === "checkbox" ? input.checked : cast(input.value));
     this.settings = this.store.save(next);
-    this.onChange?.(this.settings);
+    Promise.resolve(this.onChange?.(this.settings)).catch(error => this.report(`automation change failed: ${error?.message || error}`));
+  }
+
+  handleGraphAction(action) {
+    const status = this.root.querySelector("#graph-status");
+    try {
+      if (action === "reset") this.graph = automationGraphStore.save(cloneDefaultAutomationGraph());
+      if (action === "load-example") this.graph = automationGraphStore.save(cloneStudioExampleGraph());
+      if (action === "add-session") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("session", this.graph.nodes.length)] });
+      if (action === "load-example") this.graph = automationGraphStore.save(cloneStudioExampleGraph());
+      if (action === "add-session") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("session", this.graph.nodes.length)] });
+      if (action === "add-send") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("send", this.graph.nodes.length)] });
+      if (action === "add-condition") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("condition", this.graph.nodes.length)] });
+      if (action === "add-memory") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("memory", this.graph.nodes.length)] });
+      if (action === "add-compile") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("compile", this.graph.nodes.length)] });
+      if (action === "add-memory") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("memory", this.graph.nodes.length)] });
+      if (action === "add-compile") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("compile", this.graph.nodes.length)] });
+      if (action === "add-archive") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("archive", this.graph.nodes.length)] });
+      if (action === "add-delay") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("delay", this.graph.nodes.length)] });
+      if (action === "add-jump") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("jump", this.graph.nodes.length)] });
+      if (action === "add-stop") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("stop", this.graph.nodes.length)] });
+      if (action === "save-forms") this.graph = automationGraphStore.save(this.captureGraphForms());
+      if (action?.startsWith?.("delete:")) this.graph = automationGraphStore.save({ ...this.graph, nodes: this.graph.nodes.filter(node => node.id !== action.slice(7)) });
+      if (action === "save-json") this.graph = automationGraphStore.save(JSON.parse(this.root.querySelector("[data-graph-json]").value));
+      if (action === "download-json") downloadTextFile("BH_automation_graph.json", JSON.stringify(this.graph, null, 2));
+      status && (status.textContent = "graph saved");
+      this.render();
+    } catch (error) {
+      status && (status.textContent = `graph error: ${error.message || error}`);
+    }
+  }
+
+  captureGraphForms() {
+    return captureGraphFormsFromRoot(this.root, this.graph);
+  }
+
+  async handleArchiveAction(action) {
+    const status = this.root.querySelector("#archive-status");
+    if (action === "download") {
+      downloadTextFile("BH_automation_archive.json", await automationArchiveStore.exportJson());
+      status.textContent = "archive downloaded";
+    }
+    if (action === "clear") {
+      await automationArchiveStore.clear();
+      status.textContent = "archive cleared";
+    }
+    if (action === "count") {
+      const list = await automationArchiveStore.list();
+      status.textContent = `${list.length} archived message(s)`;
+    }
   }
 
   captureVisibility() {
@@ -102,28 +171,13 @@ export class AutomationPanel {
   }
 
   async handleRelayAction(action) {
-    if (action === "extension") {
-      this.relaySettings = saveNodeRelaySettings({ enabled: false });
-      this.relayReport("Extension bridge selected");
-      this.render();
-      return;
-    }
-    if (action === "control" || action === "login") {
-      this.relaySettings = saveNodeRelaySettings({ ...this.relaySettings, enabled: true });
-      this.relayReport("Opening localhost control URL…");
-      const url = action === "login" ? await openRelayLogin() : await openRelayControl();
-      this.relayReport(`Split relay control opened: ${url}`);
-      this.render();
-      return;
-    }
-    if (action === "health") {
-      this.relayReport("Checking relay…");
-      const ok = await checkNodeRelay();
-      this.relayReport(ok ? "Node relay is reachable" : "Node relay not reachable yet. Run: node chatgpt-node-relay.cjs");
-    }
+    if (action === "extension") { this.relaySettings = saveNodeRelaySettings({ enabled: false }); this.relayReport("Extension bridge selected"); this.render(); return; }
+    if (action === "control" || action === "login") { this.relaySettings = saveNodeRelaySettings({ ...this.relaySettings, enabled: true }); this.relayReport("Opening localhost control URL…"); const url = action === "login" ? await openRelayLogin() : await openRelayControl(); this.relayReport(`Split relay control opened: ${url}`); this.render(); return; }
+    if (action === "health") { this.relayReport("Checking relay…"); const ok = await checkNodeRelay(); this.relayReport(ok ? "Node relay is reachable" : "Node relay not reachable yet. Run: node chatgpt-node-relay.cjs"); }
   }
 
   getSettings() { return this.settings; }
+  getGraph() { return this.graph; }
   report(text) { const status = this.root.querySelector("#automation-status"); if (status) status.textContent = text; }
   relayReport(text) { const status = this.root.querySelector("#relay-status"); if (status) status.textContent = text; }
 }
@@ -131,19 +185,6 @@ export class AutomationPanel {
 function tab(name, labelText, active) { return `<button type="button" data-tab="${name}" class="${active === name ? "active" : ""}">${labelText}</button>`; }
 function field(name, labelText, type, value) { const checked = type === "checkbox" && value ? "checked" : ""; const val = type === "checkbox" ? "" : `value="${attr(value)}"`; return `<label class="automation-field">${labelText}<input data-auto="${name}" type="${type}" ${val} ${checked}></label>`; }
 function cast(value) { return /^\d+$/.test(String(value)) ? Number(value) : value; }
-function attr(value) { return String(value ?? "").replaceAll('"', "&quot;"); }
-function label(type) {
-  const labels = {
-    awtsmoos_tool: "Awtsmoos tool calls",
-    agent_tool: "Agent tool calls",
-    tool_call: "Generic tool calls",
-    tool_result: "Tool results",
-    status: "Status packets",
-    raw: "Raw packets",
-    hidden: "Hidden messages",
-    code: "Code payloads",
-    thinking: "Thinking traces",
-    oauth: "OAuth prompts"
-  };
-  return labels[type] || type.replace(/_/g, " ");
-}
+function attr(value) { return String(value ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function text(value) { return String(value ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])); }
+function label(type) { return ({ awtsmoos_tool: "Awtsmoos tool calls", agent_tool: "Agent tool calls", tool_call: "Generic tool calls", tool_result: "Tool results", status: "Status packets", raw: "Raw packets", hidden: "Hidden messages", code: "Code payloads", thinking: "Thinking traces", oauth: "OAuth prompts" })[type] || type.replace(/_/g, " "); }

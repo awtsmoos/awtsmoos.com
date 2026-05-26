@@ -28,7 +28,10 @@ async function run() {
     assert(firsts.every(Boolean), "all first chunks must be readable");
     assert(resumes.every(r => Array.isArray(r.chunks) && r.chunks.every(c => c.index >= 1)), "resume chunks must be cursor-indexed");
     assert(texts.every((t, i) => t === Array.from({ length: 5 }, (_, j) => `s${i}-${j};`).join("")), "all stream text bodies must complete");
-    return { streams: 16, firsts: firsts.length, resumes: resumes.length };
+    const jected = fs.readFileSync(path.join(ROOT, "../scripts/tricks/extensions/server/jected.js"), "utf8");
+    assert(/unhandledrejection/.test(jected) && /preventDefault\(\)/.test(jected), "injected bridge must suppress expected extension promise rejections");
+    assert(/extension-timeout/.test(jected) && /awtsmoos-server-feedback/.test(jected), "injected bridge must report timeout feedback instead of silent console spam");
+    return { streams: 16, firsts: firsts.length, resumes: resumes.length, timeoutGuard: true };
   });
 }
 module.exports = { run };

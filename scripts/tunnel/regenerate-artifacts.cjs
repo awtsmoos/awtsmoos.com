@@ -13,6 +13,14 @@ function sha256(buffer) {
   return crypto.createHash('sha256').update(buffer).digest('hex');
 }
 
+function bumpPatch(version) {
+  const parts = String(version || '1.5.39').split('.').map(x => Number(x));
+  while (parts.length < 3) parts.push(0);
+  if (parts.some(x => !Number.isFinite(x))) return '1.5.40';
+  parts[2] += 1;
+  return parts.slice(0, 3).join('.');
+}
+
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir)) {
     const full = path.join(dir, name);
@@ -21,10 +29,11 @@ function walk(dir, out = []) {
     if (stat.isDirectory()) {
       if (rel === 'tools/fs/testing' || rel.startsWith('tools/fs/testing/')) continue;
       walk(full, out);
-    } else {
-      if (rel === 'manifest.json') continue;
-      out.push(rel);
+      continue;
     }
+    if (rel === 'manifest.json') continue;
+    if (!/\.(js|json)$/i.test(name)) continue;
+    out.push(rel);
   }
   return out;
 }
@@ -36,23 +45,24 @@ function readExistingManifest() {
 
 function regenerateManifest() {
   const previous = readExistingManifest();
+  const version = bumpPatch(previous.version);
   const files = walk(agentDir).sort().map(rel => {
     const buf = fs.readFileSync(path.join(agentDir, rel));
     return { path: rel, bytes: buf.length, sha256: sha256(buf) };
   });
   const next = {
     BH: previous.BH || 'B"H',
-    version: previous.version || '1.5.39',
+    version,
     entry: previous.entry || 'main.js',
     files
   };
-  fs.writeFileSync(manifestPath, JSON.stringify(next, null, 2) + '\n');
-  return { path: path.relative(root, manifestPath), files: files.length, version: next.version };
+  fs.writeFileSync(manifestPath, JSON.stringify(next, null, 2) + '\n', 'utf8');
+  return { path: path.relative(root, manifestPath), files: files.length, previousVersion: previous.version || null, version };
 }
 
 function regenerateOpenApiYaml() {
   const source = fs.readFileSync(yamlPath, 'utf8');
-  fs.writeFileSync(generatedYamlPath, source);
+  fs.writeFileSync(generatedYamlPath, source, 'utf8');
   return {
     source: path.relative(root, yamlPath),
     generated: path.relative(root, generatedYamlPath),

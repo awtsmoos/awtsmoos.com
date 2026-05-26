@@ -64,9 +64,25 @@ function readState() {
   catch (_) { return null; }
 }
 
+function installedFilesMatch() {
+  if (!Array.isArray(manifest.files)) return false;
+
+  for (const file of manifest.files) {
+    const target = path.join(root, file.path);
+    if (!fs.existsSync(target)) return false;
+
+    const bytes = fs.readFileSync(target);
+    const sha = crypto.createHash("sha256").update(bytes).digest("hex");
+    if (bytes.length !== file.bytes || sha !== file.sha256) return false;
+  }
+
+  return true;
+}
+
 function upToDate(state) {
   if (!state || !state.version) return false;
   if (!fs.existsSync(path.join(root, manifest.entry || "main.js"))) return false;
+  if (!installedFilesMatch()) return false;
 
   try {
     const installed = String(state.version).split(".").map(Number);

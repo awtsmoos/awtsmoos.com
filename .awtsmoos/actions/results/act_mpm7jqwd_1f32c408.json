@@ -1,0 +1,293 @@
+{
+  "entry": {
+    "actionId": "act_mpm7jqwd_1f32c408",
+    "inputRef": "cmd_act_mpm7jqwd_1f32c408",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7jqwd_1f32c408.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/md2/md2Runtime.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\r\nimport { createRequire } from 'module';\r\n\r\nconst require = createRequire(import.meta.url);\r\nconst md2 = require('../../merkava-binary/Md2BytecodeApi.js');\r\n\r\nfunction normalizeFiles(files = {}) {\r\n  return md2.normalizeFiles(files || {});\r\n}\r\n\r\nfunction elementSummary(element) {\r\n  if (!element) return null;\r\n  return {\r\n    tagName: element.tagName || element.tag || '',\r\n    id: element.id || '',\r\n    className: element.className || '',\r\n    textContent: element.textContent || '',\r\n    attributes: element.attributes || {},\r\n    children: Array.isArray(element.children)\r\n      ? element.children.slice(0, 20).map(elementSummary)\r\n      : []\r\n  };\r\n}\r\n\r\nfunction summarizeMd2Run(run) {\r\n  const result = run?.result || run;\r\n  const web = result?.web;\r\n  const document = web?.document;\r\n  const ids = {};\r\n  if (document?.byId instanceof Map) {\r\n    for (const [id, element] of document.byId.entries()) ids[id] = elementSummary(element);\r\n  }\r\n  return {\r\n    ok: result?.ok !== false,\r\n    scripts: Array.isArray(result?.scripts)\r\n      ? result.scripts.map(script => ({\r\n        name: script.name || '',\r\n        target: script.target || '',\r\n        event: script.event || '',\r\n        result: script.result && JSON.parse(JSON.stringify(script.result))\r\n      }))\r\n      : [],\r\n    web: document ? {\r\n      root: elementSummary(document.documentElement || document.root || null),\r\n      ids\r\n    } : null\r\n  };\r\n}\r\n\r\nexport async function compileMd2Runtime(options = {}) {\r\n  return md2.compileMd2App({\r\n    files: normalizeFiles(options.files || {}),\r\n    entry: options.entry || 'index.html'\r\n  });\r\n}\r\n\r\nexport function runMd2Runtime(bytecode, options = {}) {\r\n  const run = md2.runMd2App(bytecode, options);\r\n  return { ...run, result: summarizeMd2Run(run) };\r\n}\r\n\r\nexport async function simulateMd2Runtime(options = {}) {\r\n  const compiled = await compileMd2Runtime(options);\r\n  const run = runMd2Runtime(compiled.bytecode, options.runOptions || options);\r\n  return {\r\n    BH: 'B\"H',\r\n    ok: run.ok !== false,\r\n    runtime: options.runtime || 'browser',\r\n    engine: 'md2',\r\n    entry: options.entry || 'index.html',\r\n    bytecode: {\r\n      kind: compiled.kind,\r\n      magic: compiled.magic,\r\n      bytes: compiled.bytecode.length,\r\n      base64: compiled.bytecode64\r\n    },\r\n    result: run.result,\r\n    score: run.ok === false ? 0 : 100,\r\n    suggestions: []\r\n  };\r\n}\r\n\r\nexport async function compileAndRunMd2Js(source = '', options = {}) {\r\n  return md2.compileAndRunMd2Js(source, options);\r\n}\r\n\r\nexport function inspectMd2(bytecode) {\r\n  return md2.inspectMd2(bytecode);\r\n}\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:41:43.021Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/md2/md2Runtime.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\awtsmoos\\MerkavaExecutor\\merkava-service\\md2\\md2Runtime.js",
+    "bytes": 2603,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createRequire",
+          "index": 12
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "files",
+          "index": 139
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "tagName",
+          "index": 284
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "id",
+          "index": 335
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "className",
+          "index": 361
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "textContent",
+          "index": 401
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "attributes",
+          "index": 445
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "children",
+          "index": 488
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ok",
+          "index": 920
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "scripts",
+          "index": 951
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "script",
+          "index": 1019
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "name",
+          "index": 1041
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "target",
+          "index": 1074
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "root",
+          "index": 1267
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "options",
+          "index": 1417
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "entry",
+          "index": 1517
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "BH",
+          "index": 1927
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "runtime",
+          "index": 1966
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "engine",
+          "index": 2002
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "kind",
+          "index": 2069
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "magic",
+          "index": 2097
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bytes",
+          "index": 2127
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "base64",
+          "index": 2167
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "score",
+          "index": 2233
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "suggestions",
+          "index": 2273
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "source",
+          "index": 2342
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

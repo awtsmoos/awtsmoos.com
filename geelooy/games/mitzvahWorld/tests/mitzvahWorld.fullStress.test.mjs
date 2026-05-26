@@ -138,7 +138,9 @@ await record('Wood collection logic mutates inventory, quest, object, and UI', (
 });
 
 await record('Manifest integrity: decks, passages, wood nodes, files', () => {
-  assert.equal(Object.keys(TORAH_DEBATE_DECKS).length, 1);
+  const deckIds = Object.keys(TORAH_DEBATE_DECKS);
+  assert.ok(deckIds.includes('chumash_bereishis_opening'));
+  assert.ok(deckIds.length >= 1);
   assert.equal(Object.keys(CHUMASH_PASSAGES).length, 2);
   assert.equal(EMERALD_WOOD_NODES.length, 6);
   const seen = new Set();
@@ -151,7 +153,7 @@ await record('Manifest integrity: decks, passages, wood nodes, files', () => {
   ['debate/TorahDebateController.js', 'debate/ChumashReaderController.js', 'mobile/ResponsiveActionDispatcher.js', 'postbuild/NpcRolePostBuild.js'].forEach(file => {
     assert.ok(fs.existsSync(path.join(worldRoot, file)), `missing ${file}`);
   });
-  return '1 deck, 2 passages, 6 unique wood nodes, 4 runtime files';
+  return `${deckIds.length} decks, 2 passages, 6 unique wood nodes, 4 runtime files`;
 });
 
 const failed = results.filter(r => !r.ok);

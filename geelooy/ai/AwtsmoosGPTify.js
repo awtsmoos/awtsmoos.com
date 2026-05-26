@@ -4,7 +4,7 @@ import { checkMFetch, getMFetch, setMFetch } from "./js/chatgpt/transport/bridge
 import { getAuthToken } from "./js/chatgpt/auth/session.js";
 import { getConversations as getLegacyConversations } from "./js/chatgpt/conversations/list.js";
 import { getConversation as getLegacyConversation } from "./js/chatgpt/conversations/detail.js";
-import { getAwtsmoosAudio as getLegacyAwtsmoosAudio } from "./js/chatgpt/audio/synthesize.js";
+import { getAwtsmoosAudio as getLegacyAwtsmoosAudio, getAwtsmoosAudioStream as getLegacyAwtsmoosAudioStream } from "./js/chatgpt/audio/synthesize.js";
 import { logStream } from "./js/chatgpt/stream/logStream.js";
 import { awtsmoosifyTokens } from "./js/chatgpt/sentinel/requirements.js";
 import { generateUUID } from "./js/chatgpt/util/ids.js";
@@ -19,6 +19,8 @@ class AwtsmoosGPTify {
     this._lastMessageId = parent_message_id;
     this._conversationId = conversation_id;
     this.getAwtsmoosAudio = options => getAwtsmoosAudio(options);
+    this.getAwtsmoosAudioStream = options => getAwtsmoosAudioStream(options);
+    this.getAwtsmoosAudioStream = options => getAwtsmoosAudioStream(options);
   }
 
   /**
@@ -141,8 +143,14 @@ async function getAwtsmoosAudio(options) {
   return await getLegacyAwtsmoosAudio(fetcher, options);
 }
 
+async function getAwtsmoosAudioStream(options) {
+  const fetcher = await checkMFetch();
+  return await getLegacyAwtsmoosAudioStream(fetcher, options);
+}
+
 window.getConversation = getConversation;
 window.getAwtsmoosAudio = getAwtsmoosAudio;
+window.getAwtsmoosAudioStream = getAwtsmoosAudioStream;
 window.getConversations = getConversations;
 
 export default AwtsmoosGPTify;

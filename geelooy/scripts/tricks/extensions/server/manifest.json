@@ -9,7 +9,9 @@
     "scripting",
     "tabs",
     "activeTab",
-    "webNavigation"
+    "webNavigation",
+    "alarms",
+    "alarms"
   ],
   "content_scripts": [
     {

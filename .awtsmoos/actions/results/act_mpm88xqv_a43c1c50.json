@@ -1,0 +1,24 @@
+{
+  "entry": {
+    "actionId": "act_mpm88xqv_a43c1c50",
+    "inputRef": "cmd_act_mpm88xqv_a43c1c50",
+    "outputRef": ".awtsmoos/actions/results/act_mpm88xqv_a43c1c50.json",
+    "parentActionId": null,
+    "action": "processKillSafe",
+    "input": {
+      "action": "processKillSafe",
+      "query": "definitely-not-real-awtsmoos-process",
+      "dryRun": true
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:01:18.295Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "processKillSafe",
+    "dryRun": true,
+    "confirmRequired": true,
+    "matched": 0,
+    "killable": []
+  }
+}

@@ -4,7 +4,15 @@
   Minimize, maximize, and fullscreen now show state without stealing space from
   the streamed header. Fullscreen becomes a real readable overlay.
 */
+.event-panel-actions {
+  pointer-events: auto;
+  user-select: none;
+}
+
 .event-panel-actions button {
+  display: inline-grid;
+  place-items: center;
+  touch-action: manipulation;
   transition: transform .12s ease, filter .12s ease, border-color .12s ease, background .12s ease;
 }
 

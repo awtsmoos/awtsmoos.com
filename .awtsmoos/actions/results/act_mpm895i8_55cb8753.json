@@ -1,0 +1,48 @@
+{
+  "entry": {
+    "actionId": "act_mpm895i8_55cb8753",
+    "inputRef": "cmd_act_mpm895i8_55cb8753",
+    "outputRef": ".awtsmoos/actions/results/act_mpm895i8_55cb8753.json",
+    "parentActionId": null,
+    "action": "processFind",
+    "input": {
+      "action": "processFind",
+      "query": "node",
+      "maxResults": 3
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:01:28.354Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "processFind",
+    "query": "node",
+    "count": 3,
+    "processes": [
+      {
+        "Id": 340,
+        "ProcessName": "node",
+        "Path": "C:\\Program Files\\nodejs\\node.exe",
+        "StartTime": "/Date(1779769399377)/",
+        "CPU": 21.78125,
+        "WorkingSet64": 4915200
+      },
+      {
+        "Id": 8944,
+        "ProcessName": "node",
+        "Path": "C:\\Program Files\\nodejs\\node.exe",
+        "StartTime": "/Date(1779156483019)/",
+        "CPU": 68.828125,
+        "WorkingSet64": 90112
+      },
+      {
+        "Id": 9088,
+        "ProcessName": "node",
+        "Path": "C:\\Program Files\\nodejs\\node.exe",
+        "StartTime": "/Date(1779775280405)/",
+        "CPU": 0.234375,
+        "WorkingSet64": 40841216
+      }
+    ]
+  }
+}

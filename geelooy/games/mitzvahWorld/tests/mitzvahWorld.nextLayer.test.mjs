@@ -31,7 +31,7 @@ must(rules, /derush[\s\S]*Beriah[\s\S]*fire/, 'derush rule');
 must(rules, /sod[\s\S]*Atzilus[\s\S]*air/, 'sod rule');
 must(rules, /resolveDebateType[\s\S]*strong[\s\S]*weak[\s\S]*neutral/, 'debate resolver');
 
-must(decks, /chumash_bereishis_opening[\s\S]*opensBattleDebate/, 'battle debate deck');
+must(decks, /opensBattleDebate[\s\S]*chumash_bereishis_opening/, 'battle debate deck');
 must(decks, /requiredPassages[\s\S]*bereishis_1_1/, 'required passage');
 must(decks, /rewards[\s\S]*unlockPassages[\s\S]*shemos_20_2/, 'unlock reward');
 

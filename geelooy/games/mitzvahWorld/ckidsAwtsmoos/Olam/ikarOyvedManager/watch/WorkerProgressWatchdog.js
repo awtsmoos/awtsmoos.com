@@ -21,11 +21,13 @@ import {
  * @returns {void}
  */
 export function startWorkerProgressWatchdog(manager) {
+  const stallLimitMs = 60000;
+
   const check = () => {
     const store = ensureWorkerProgressStore();
     const age = getWorkerProgressAge();
 
-    if (!manager._worldLoaded && age > 12000) {
+    if (!manager._vesselIsReady && age > stallLimitMs) {
       console.error(
         [
           `B"H | WORKER_STALLED`,
@@ -42,5 +44,5 @@ export function startWorkerProgressWatchdog(manager) {
     setTimeout(check, 4000);
   };
 
-  setTimeout(check, 12000);
+  setTimeout(check, stallLimitMs);
 }

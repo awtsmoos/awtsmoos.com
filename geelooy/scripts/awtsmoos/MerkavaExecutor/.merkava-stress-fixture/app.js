@@ -1,0 +1,1 @@
+const value = Array.from({length: 8}, (_, i) => i + 1).reduce((a, b) => a + b, 0); document.getElementById('root').textContent = 'sum=' + value; window.__awtsmoosResult = { value };

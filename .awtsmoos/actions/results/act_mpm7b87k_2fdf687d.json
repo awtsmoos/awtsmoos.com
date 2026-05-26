@@ -1,0 +1,396 @@
+{
+  "entry": {
+    "actionId": "act_mpm7b87k_2fdf687d",
+    "inputRef": "cmd_act_mpm7b87k_2fdf687d",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7b87k_2fdf687d.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/api/tunnel",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 200,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 120,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "zip|archive|download|readdir|folder|compress",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 24000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:35:05.552Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/api/tunnel",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\api\\tunnel",
+    "query": "zip|archive|download|readdir|folder|compress",
+    "regex": true,
+    "scannedFiles": 68,
+    "skippedFiles": 0,
+    "maxFiles": 200,
+    "maxResults": 120,
+    "returnedResults": 47,
+    "partial": false,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/api/tunnel/control/docs/actions.js",
+        "line": 166,
+        "preview": "  \"httpDownload\","
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/bulkSearch.js",
+        "line": 3,
+        "preview": "const { listFolder, readFile, readWhole } = require(\"./listRead.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/bulkSearch.js",
+        "line": 67,
+        "preview": "    const res = await listFolder($i, userId, { ...payload, path });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 4,
+        "preview": "const { listFolder, readFile, readLines, readManyLines } = require(\"./listRead.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 5,
+        "preview": "const { writeFile, makeFolder, deletePath, writeIfHash } = require(\"./writeOps.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 116,
+        "preview": "    list: () => listFolder($i, userId, payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 119,
+        "preview": "    roots: () => listFolder($i, userId, { ...payload, path: \".\" }),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 120,
+        "preview": "    rootBrowse: () => listFolder($i, userId, { ...payload, path: payload.path || payload.p || \".\" }),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 147,
+        "preview": "    makeFolder: () => makeFolder($i, userId, payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 148,
+        "preview": "    mkdir: () => makeFolder($i, userId, payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 149,
+        "preview": "    mkdirp: () => makeFolder($i, userId, payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 264,
+        "preview": "    httpDownload: () => dispatchNetworkSupport(\"httpDownload\", payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 280,
+        "preview": "    httpDownload: () => dispatchNetworkSupport(\"httpDownload\", payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 319,
+        "preview": "    httpDownload: () => dispatchNetworkSupport(\"httpDownload\", payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 335,
+        "preview": "    httpDownload: () => dispatchNetworkSupport(\"httpDownload\", payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/listRead.js",
+        "line": 19,
+        "preview": "async function listFolder($i, userId, payload) {"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/listRead.js",
+        "line": 84,
+        "preview": "module.exports = { listFolder, readWhole, readFile, readLines, readManyLines };"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/nativeChecks.js",
+        "line": 85,
+        "preview": "  for (const name of fs.readdirSync(dir)) {"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/networkSupport.js",
+        "line": 71,
+        "preview": "  if (action === \"httpDownload\") return { ...httpRequest(action, payload), savedTo: payload.saveResponseTo || payload.to || null };"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/projectDiagnostics.js",
+        "line": 3,
+        "preview": "const { listFolder, readWhole } = require(\"./listRead.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/projectDiagnostics.js",
+        "line": 14,
+        "preview": "    try { listed = await listFolder($i, userId, { ...payload, path }); }"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/textSearch.js",
+        "line": 2,
+        "preview": "const { listFolder, readFile } = require(\"./listRead.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/textSearch.js",
+        "line": 39,
+        "preview": "  const listed = await listFolder($i, userId, { ...payload, path: dir });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/writeOps.js",
+        "line": 38,
+        "preview": "async function makeFolder($i, userId, payload) {"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/writeOps.js",
+        "line": 43,
+        "preview": "  broadcast($i, { type: \"AWTSMOOS_OS_CHANGED\", action: \"makeFolder\", aliasId: got.parsed.aliasId, path: cleanPath(payload.path || \".\"), at: Date.now() });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/writeOps.js",
+        "line": 44,
+        "preview": "  return { ok: true, action: payload.action || \"makeFolder\", path: cleanPath(payload.path || \".\"), absolutePath, wr };"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/writeOps.js",
+        "line": 64,
+        "preview": "module.exports = { sha256, writeFile, makeFolder, deletePath, writeIfHash };"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/docsHtml.js",
+        "line": 165,
+        "preview": "      <p>Use this API to connect a GPT, AI agent, or tool to a user's local Awtsmoos Tunnel agent. The user controls the root folder, API key scopes, writes, terminal access, and Chrome access.</p>"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/client.js",
+        "line": 4,
+        "preview": "const { readTunnelDownload } = require(\"../tools/sourceFile.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/client.js",
+        "line": 17,
+        "preview": "  return readTunnelDownload(\"awtsmoos-tunnel-client.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/unix.js",
+        "line": 4,
+        "preview": "const { readTunnelDownload } = require(\"../tools/sourceFile.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/unix.js",
+        "line": 16,
+        "preview": "  return readTunnelDownload(\"unix.sh\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/windows.js",
+        "line": 4,
+        "preview": "const { readTunnelDownload } = require(\"../tools/sourceFile.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/windows.js",
+        "line": 15,
+        "preview": " * This version serves the actual .ps1 file from apps/tunnel/downloads, so the"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/windows.js",
+        "line": 21,
+        "preview": "  return readTunnelDownload(\"windows.ps1\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/tools/sourceFile.js",
+        "line": 9,
+        "preview": " * Resolves the repo's geelooy folder from this installer endpoint."
+      },
+      {
+        "path": "geelooy/api/tunnel/install/tools/sourceFile.js",
+        "line": 17,
+        "preview": " * @returns {string} Absolute path to geelooy folder."
+      },
+      {
+        "path": "geelooy/api/tunnel/install/tools/sourceFile.js",
+        "line": 25,
+        "preview": " * Reads a public tunnel download file from geelooy/apps/tunnel/downloads."
+      },
+      {
+        "path": "geelooy/api/tunnel/install/tools/sourceFile.js",
+        "line": 31,
+        "preview": " * @param {string} fileName File name inside geelooy/apps/tunnel/downloads."
+      },
+      {
+        "path": "geelooy/api/tunnel/install/tools/sourceFile.js",
+        "line": 34,
+        "preview": "function readTunnelDownload(fileName) {"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/tools/sourceFile.js",
+        "line": 39,
+        "preview": "    \"downloads\","
+      },
+      {
+        "path": "geelooy/api/tunnel/install/tools/sourceFile.js",
+        "line": 48,
+        "preview": "  readTunnelDownload"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/_awtsmoos.derech.js",
+        "line": 5,
+        "preview": "const { readTunnelDownload } = require(\"./tools/sourceFile.js\");"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/_awtsmoos.derech.js",
+        "line": 14,
+        "preview": " * corrupt JS downloads. The agent is now static public content under:"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/_awtsmoos.derech.js",
+        "line": 29,
+        "preview": "        readTunnelDownload(\"windows.ps1\"),"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/_awtsmoos.derech.js",
+        "line": 37,
+        "preview": "        readTunnelDownload(\"unix.sh\"),"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/_awtsmoos.derech.js",
+        "line": 66,
+        "preview": "        \"Do not download the agent from this API route anymore.\","
+      }
+    ]
+  }
+}

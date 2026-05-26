@@ -1,0 +1,131 @@
+{
+  "BH": "B'H",
+  "name": "Merkava Native Browser embedded report",
+  "executor": {
+    "publicName": "merkava",
+    "defaultEngine": "merkava",
+    "runtimeOk": true,
+    "entry": "/index.html",
+    "bytecodeKind": "merkava-app",
+    "inspectKind": "merkava-app",
+    "magic": "MERKAVA",
+    "appBytes": 111,
+    "shellBytes": 214,
+    "embeddedExecutor": {
+      "name": "embedded_executor.merkava",
+      "byteLength": 26645,
+      "fileCount": 395,
+      "entry": "/index.html"
+    },
+    "hostBindingCount": 36,
+    "appSection": 3,
+    "shellSection": 3
+  },
+  "sourceUnderstanding": {
+    "files": {
+      "/index.html": {
+        "bytes": 222,
+        "lines": 10,
+        "hasDocument": false,
+        "hasWebGL": false,
+        "hasServer": false,
+        "scriptTags": 1,
+        "linkTags": 0
+      },
+      "/app.js": {
+        "bytes": 506,
+        "lines": 13,
+        "hasDocument": true,
+        "hasWebGL": true,
+        "hasServer": false,
+        "scriptTags": 0,
+        "linkTags": 0
+      },
+      "/browser-shell.html": {
+        "bytes": 392,
+        "lines": 15,
+        "hasDocument": false,
+        "hasWebGL": false,
+        "hasServer": false,
+        "scriptTags": 1,
+        "linkTags": 0
+      },
+      "/browser-shell.js": {
+        "bytes": 599,
+        "lines": 15,
+        "hasDocument": true,
+        "hasWebGL": true,
+        "hasServer": false,
+        "scriptTags": 0,
+        "linkTags": 0
+      }
+    },
+    "html": "parsed into nodes / assets / script references by Merkava source compiler",
+    "css": "linked and inline CSS collected for bytecode compilation",
+    "js": "MerkavaASTParser + bytecode compiler available at build time; native executable embeds this report",
+    "node": "Node-style entry points are handled by Merkava JS bytecode path in service stress tests"
+  },
+  "runtimeResult": {
+    "ok": true,
+    "score": 100,
+    "input": {
+      "source": "explicit",
+      "files": [
+        "/index.html",
+        "/app.js"
+      ],
+      "root": null
+    },
+    "errors": [],
+    "web": null
+  },
+  "nativePlan": {
+    "architecture": "C host VM obeys embedded MerkavaExecutor bytecode; browser intelligence belongs to bytecode",
+    "hostBindings": [
+      "window.createWindow",
+      "window.setTitle",
+      "window.requestAnimationFrame",
+      "input.onMouseMove",
+      "input.onMouseDown",
+      "input.onMouseUp",
+      "input.onKeyDown",
+      "input.onWheel",
+      "storage.readFile",
+      "storage.writeFile",
+      "storage.stat",
+      "storage.listDir",
+      "network.fetch",
+      "fonts.loadFont",
+      "fonts.measureGlyph",
+      "fonts.rasterizeGlyph",
+      "fonts.uploadGlyphAtlas",
+      "webgl.createContext",
+      "webgl.createShader",
+      "webgl.shaderSource",
+      "webgl.compileShader",
+      "webgl.createProgram",
+      "webgl.linkProgram",
+      "webgl.useProgram",
+      "webgl.createBuffer",
+      "webgl.bindBuffer",
+      "webgl.bufferData",
+      "webgl.vertexAttribPointer",
+      "webgl.enableVertexAttribArray",
+      "webgl.drawArrays",
+      "webgl.drawElements",
+      "timers.setTimeout",
+      "timers.clearTimeout",
+      "timers.now",
+      "threads.spawnWorker",
+      "threads.postMessage"
+    ],
+    "dom": "executor-owned; native DOM code is transitional diagnostic only",
+    "webgl": "executor lowers JS/WebGL semantics into bytecode ops; C maps bytecode ops to OpenGL",
+    "next": "boot embedded_executor.merkava first, then let it load and compile page bytecode"
+  },
+  "executorRender": {
+    "commandCount": 21,
+    "textureCount": 8,
+    "streamBytes": 427
+  }
+}

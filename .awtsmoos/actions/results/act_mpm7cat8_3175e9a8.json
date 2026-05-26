@@ -1,0 +1,541 @@
+{
+  "entry": {
+    "actionId": "act_mpm7cat8_3175e9a8",
+    "inputRef": "cmd_act_mpm7cat8_3175e9a8",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7cat8_3175e9a8.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai/css",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 80,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 120,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "event-panel-actions|transport-details|thought-envelope-card|summary",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 20000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:35:55.580Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/css",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\css",
+    "query": "event-panel-actions|transport-details|thought-envelope-card|summary",
+    "regex": true,
+    "scannedFiles": 31,
+    "skippedFiles": 0,
+    "maxFiles": 80,
+    "maxResults": 120,
+    "returnedResults": 76,
+    "partial": false,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 17,
+        "preview": "  .transport-details,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 18,
+        "preview": "  .thought-envelope-card,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 20,
+        "preview": "  .event-summary-card,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 27,
+        "preview": "  .transport-details[open],"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 28,
+        "preview": "  .thought-envelope-card[open],"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 108,
+        "preview": ".transport-details {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 117,
+        "preview": ".transport-details > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 143,
+        "preview": ".event-lane > summary, .event-raw > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 156,
+        "preview": ".event-summary-card {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 164,
+        "preview": ".event-summary-title {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 189,
+        "preview": ".event-summary-body {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 249,
+        "preview": "  .message, .transport-details { max-width: 100%; width: 100%; }"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 16,
+        "preview": ".event-lane > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 43,
+        "preview": ".event-payload > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 97,
+        "preview": ".thought-envelope-card {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 104,
+        "preview": ".thought-envelope-card > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 116,
+        "preview": ".thought-envelope-readable > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 127,
+        "preview": ".thought-envelope-events > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 133,
+        "preview": ".thought-envelope-events .transport-details {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 172,
+        "preview": ".event-long summary { color: #a7f3d0; }"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 7,
+        "preview": ".transport-details > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 8,
+        "preview": ".thought-envelope-card > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 9,
+        "preview": ".event-lane > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 13,
+        "preview": ".transport-details > summary .event-title-wrap,"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 14,
+        "preview": ".thought-envelope-card > summary .event-summary-title {"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 27,
+        "preview": "  .transport-details > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 28,
+        "preview": "  .thought-envelope-card > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 33,
+        "preview": "  .event-panel-actions {"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 39,
+        "preview": ".transport-details {"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 44,
+        "preview": ".transport-details > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/focus-accessibility.css",
+        "line": 7,
+        "preview": ":where(button, select, textarea, summary, a):focus-visible {"
+      },
+      {
+        "path": "geelooy/ai/css/focus-accessibility.css",
+        "line": 13,
+        "preview": ":where(summary) {"
+      },
+      {
+        "path": "geelooy/ai/css/focus-accessibility.css",
+        "line": 17,
+        "preview": ":where(button, summary) {"
+      },
+      {
+        "path": "geelooy/ai/css/focus-accessibility.css",
+        "line": 21,
+        "preview": ":where(button, .conversation-list li, summary):active {"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 57,
+        "preview": "#send-button, .refresh-button, .new-chat, .transport-details button {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 6,
+        "preview": ".transport-details > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 7,
+        "preview": ".thought-envelope-card > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 8,
+        "preview": ".thought-envelope-events > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 15,
+        "preview": ".event-summary-title,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 22,
+        "preview": ".event-panel-actions {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 33,
+        "preview": ".event-panel-actions button {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 7,
+        "preview": ".event-panel-actions button {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 11,
+        "preview": ".event-panel-actions button[aria-pressed=\"true\"] {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 17,
+        "preview": ".event-panel-actions button:hover {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 21,
+        "preview": ".event-panel-actions button:active {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 31,
+        "preview": ".transport-details.is-fullscreen,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 32,
+        "preview": ".thought-envelope-card.is-fullscreen {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 38,
+        "preview": ".transport-details.is-fullscreen > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 39,
+        "preview": ".thought-envelope-card.is-fullscreen > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 47,
+        "preview": ".transport-details.is-fullscreen .event-payload,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 48,
+        "preview": ".thought-envelope-card.is-fullscreen .thought-inner-window {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 52,
+        "preview": ".transport-details[data-panel-state=\"minimized\"],"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 53,
+        "preview": ".thought-envelope-card[data-panel-state=\"minimized\"] {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 59,
+        "preview": ".event-panel-actions {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 64,
+        "preview": ".event-panel-actions button {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 73,
+        "preview": ".event-panel-actions button:hover {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 76,
+        "preview": ".transport-details.is-maximized,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 77,
+        "preview": ".thought-envelope-card.is-maximized {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 81,
+        "preview": ".transport-details.is-fullscreen,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 82,
+        "preview": ".thought-envelope-card.is-fullscreen {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 97,
+        "preview": ".event-raw-lazy > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 10,
+        "preview": ".thought-envelope-card,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 11,
+        "preview": ".transport-details,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 36,
+        "preview": ".thought-inner-window > .transport-details:last-child,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 41,
+        "preview": ".thought-envelope-events[open] > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 62,
+        "preview": ".event-panel-actions {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 78,
+        "preview": "  .thought-inner-window > .transport-details:last-child,"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 10,
+        "preview": ".event-kind-thinking > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 13,
+        "preview": ".event-kind-thinking .event-summary-card {"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 17,
+        "preview": ".event-kind-thinking .event-summary-title::before {"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 28,
+        "preview": ".event-panel-actions button {"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 34,
+        "preview": ".event-panel-actions button::before {"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 38,
+        "preview": ".event-panel-actions [data-panel-action=\"minimize\"]::before { content: \"−\"; }"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 39,
+        "preview": ".event-panel-actions [data-panel-action=\"maximize\"]::before { content: \"▣\"; }"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 40,
+        "preview": ".event-panel-actions [data-panel-action=\"fullscreen\"]::before { content: \"⤢\"; }"
+      },
+      {
+        "path": "geelooy/ai/css/thinking-window.css",
+        "line": 41,
+        "preview": ".event-panel-actions button {"
+      }
+    ]
+  }
+}

@@ -104,7 +104,7 @@ function buildPlatformPanelShell(panel) {
 
   const actions = document.createElement('div');
   actions.className = 'awtsmoos-platform-actions';
-  for (const action of ['feed', 'presence', 'db', 'sync', 'ops']) {
+  for (const action of ['feed', 'presence', 'db', 'cache', 'sync', 'searchIndex', 'graph', 'thread', 'digest', 'media', 'relationships', 'jobs', 'permissions', 'ops']) {
     const button = document.createElement('button');
     button.setAttribute('data-platform-action', action);
     button.dataset.platformAction = action;

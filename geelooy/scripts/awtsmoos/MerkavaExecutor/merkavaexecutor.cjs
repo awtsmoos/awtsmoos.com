@@ -32,6 +32,8 @@ async function compilePath(entryPath, options = {}) {
   const packed = await compileSourceDefault(loaded, { ...options, type: 'source' });
   return options.meta ? { ok: true, binary: packed, magic: magicOf(packed), files: Object.keys(loaded.files), entry: loaded.entry, root: loaded.root } : packed;
 }
+async function bundleEntry(input, options = {}) { return binary.bundleSource(typeof input === 'string' ? { entryPath: input } : input, options); }
+async function bundleSelf(options = {}) { return binary.bundleMerkavaExecutor(__dirname, options); }
 async function writeBinaryPath(entryPath, outPath, options = {}) {
   const packed = await compilePath(entryPath, options);
   const buffer = Buffer.from(packed.binary || packed);
@@ -107,6 +109,7 @@ function inferType(input, options = {}) {
 module.exports = {
   ...binary, compile, compileToBinary, compileToBinsry: compileToBinary, compileToBin: compileToBinary,
   compilePath, executePath, writeBinaryPath, readBinaryPath,
+  bundleEntry, bundleSelf,
   execute, executeBinary, executeRawJS, executeRawJSC: executeRawJS, executeRaw: executeRawJS,
   executeJSON, executeJson: executeJSON, executeWeb, executeFiles, executeFileList: executeFiles,
   executeBrowserFiles, executeNodeFiles, executeWorkerFiles, executeSTD, executeStd: executeSTD,

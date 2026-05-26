@@ -1,0 +1,661 @@
+{
+  "entry": {
+    "actionId": "act_mpm7vcoo_071964ff",
+    "inputRef": "cmd_act_mpm7vcoo_071964ff",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7vcoo_071964ff.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai/css",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 80,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 100,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "thought-inner-window|overflow|scroll",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 18000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:50:44.472Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/css",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\css",
+    "query": "thought-inner-window|overflow|scroll",
+    "regex": true,
+    "scannedFiles": 28,
+    "skippedFiles": 0,
+    "maxFiles": 80,
+    "maxResults": 100,
+    "returnedResults": 100,
+    "partial": true,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 3,
+        "preview": "  Chapter 5: The Stream Kept Its Bones While Opening Its Scrolls."
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 31,
+        "preview": "    overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 32,
+        "preview": "    -webkit-overflow-scrolling: touch;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 36,
+        "preview": "  .thought-inner-window,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 41,
+        "preview": "    overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 5,
+        "preview": "  each drawer remains bounded, scrollable, and obedient to the little screen."
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 19,
+        "preview": "    overflow: hidden !important;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 41,
+        "preview": "    overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 43,
+        "preview": "    scrollbar-gutter: stable;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 44,
+        "preview": "    -webkit-overflow-scrolling: touch;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/shell.css",
+        "line": 9,
+        "preview": "    overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/shell.css",
+        "line": 10,
+        "preview": "    overscroll-behavior: none;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/shell.css",
+        "line": 28,
+        "preview": "    overflow: auto hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/shell.css",
+        "line": 30,
+        "preview": "    scrollbar-width: thin;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/base.css",
+        "line": 15,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/base.css",
+        "line": 21,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/base.css",
+        "line": 22,
+        "preview": "  text-overflow: ellipsis;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 7,
+        "preview": "  overflow: hidden !important;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 33,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/attachments.css",
+        "line": 24,
+        "preview": "  overflow-x: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/attachments.css",
+        "line": 39,
+        "preview": ".attachment-chip figcaption { font-size: .7rem; color: var(--ai-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 5,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 10,
+        "preview": "  scrollbar-gutter: stable;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 11,
+        "preview": "  overscroll-behavior: contain;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 25,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 26,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 42,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 49,
+        "preview": ".message code { overflow-wrap: anywhere; word-break: break-word; white-space: pre-wrap; }"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 56,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 93,
+        "preview": ".inline-overflow-note {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 98,
+        "preview": ".inline-overflow-button {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 107,
+        "preview": ".protocol-chip { display: inline-flex; max-width: 100%; padding: 2px 8px; margin: 0 2px; border: 1px solid var(--ai-border-hot); border-radius: 999px; background: rgba(34,211,238,.12); color: #b8f3ff; overflow-wrap: anywhere; }"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 115,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 124,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 133,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 141,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 149,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 155,
+        "preview": ".event-text { padding: 8px 11px; overflow-wrap: anywhere; word-break: break-word; }"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 186,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 193,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 199,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 41,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 70,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 75,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 114,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 125,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 173,
+        "preview": ".event-long div { padding: 10px; overflow-wrap: anywhere; }"
+      },
+      {
+        "path": "geelooy/ai/css/event-loading.css",
+        "line": 14,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 16,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 23,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 43,
+        "preview": "  .thought-inner-window {"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 4,
+        "preview": "  Every rail, chip, bubble, and scrollbar is aligned into quiet order: the"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 13,
+        "preview": "  scrollbar-width: thin;"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 14,
+        "preview": "  scrollbar-color: rgba(34,211,238,.55) rgba(2,6,23,.5);"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 16,
+        "preview": ".chat-box::-webkit-scrollbar,"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 17,
+        "preview": ".right-panel-body::-webkit-scrollbar,"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 18,
+        "preview": ".event-code-block::-webkit-scrollbar {"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 22,
+        "preview": ".chat-box::-webkit-scrollbar-thumb,"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 23,
+        "preview": ".right-panel-body::-webkit-scrollbar-thumb,"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 24,
+        "preview": ".event-code-block::-webkit-scrollbar-thumb {"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 65,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 76,
+        "preview": "  overflow-x: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/focus-accessibility.css",
+        "line": 27,
+        "preview": "    scroll-behavior: auto !important;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 13,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 52,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 53,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 98,
+        "preview": "  overflow: visible;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 120,
+        "preview": ".attachment-tray { min-width: 0; display: flex; flex-wrap: nowrap; gap: 6px; overflow-x: auto; overflow-y: hidden; max-height: 28px; }"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 124,
+        "preview": ".automation-status { color: var(--ai-muted); font-size: .9rem; overflow-wrap: anywhere; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 3,
+        "preview": "html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 13,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 35,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 49,
+        "preview": ".automation-panel > :not(.panel-topbar) { min-height: 0; overflow: auto; padding: 12px; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 52,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 54,
+        "preview": "  scrollbar-gutter: stable;"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 61,
+        "preview": "  overflow: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 62,
+        "preview": "  text-overflow: ellipsis;"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 71,
+        "preview": ".conversation-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; }"
+      },
+      {
+        "path": "geelooy/ai/css/markdown-polish.css",
+        "line": 56,
+        "preview": "  scrollbar-gutter: stable;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 36,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 56,
+        "preview": ".thought-envelope-card.is-fullscreen .thought-inner-window {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 4,
+        "preview": "  Headers stay fixed, bodies scroll, panels expand like palaces, and the"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 14,
+        "preview": "  overflow: visible !important;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 15,
+        "preview": "  overflow: visible !important;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 25,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 26,
+        "preview": "  scrollbar-width: thin;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 91,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 105,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 14,
+        "preview": "  overflow-anchor: none;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 23,
+        "preview": ".thought-inner-window {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 29,
+        "preview": "  overflow-y: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 30,
+        "preview": "  overflow-x: hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 31,
+        "preview": "  scrollbar-gutter: stable;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 32,
+        "preview": "  overscroll-behavior: contain;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 36,
+        "preview": ".thought-inner-window > .transport-details:last-child,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 37,
+        "preview": ".thought-inner-window > .thought-inner-event-vessel:last-child {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 78,
+        "preview": "  .thought-inner-window > .transport-details:last-child,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 79,
+        "preview": "  .thought-inner-window > .thought-inner-event-vessel:last-child {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 13,
+        "preview": "  overflow-wrap: anywhere;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 14,
+        "preview": "  scroll-margin-block: 1rem;"
+      }
+    ]
+  }
+}

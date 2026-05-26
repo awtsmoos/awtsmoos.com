@@ -54,11 +54,23 @@
 
   function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
+  window.addEventListener("unhandledrejection", event => {
+    const message = String(event?.reason?.message || event?.reason || "");
+    if (/Awtsmoos extension fetch timed out|disconnected port object|Extension context invalidated/i.test(message)) {
+      event.preventDefault();
+      window.dispatchEvent(new CustomEvent("awtsmoos-server-feedback", { detail: { type: "suppressed-extension-rejection", error: message } }));
+    }
+  });
+
   function sendBridgeMessage(payload, timeoutMs = 120000) {
     const id = payload.id || `BH_${Date.now()}_${Math.random().toString(36).slice(2)}`;
     payload.id = id;
     return new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => cleanup(() => reject(new Error("Awtsmoos extension fetch timed out."))), timeoutMs);
+      const timeout = setTimeout(() => cleanup(() => {
+        const error = new Error("Awtsmoos extension fetch timed out.");
+        window.dispatchEvent(new CustomEvent("awtsmoos-server-feedback", { detail: { type: "extension-timeout", action: payload.action, id, timeoutMs, error: error.message } }));
+        reject(error);
+      }), timeoutMs);
       function cleanup(after) { clearTimeout(timeout); window.removeEventListener("message", onMessage); after?.(); }
       function onMessage(event) {
         if (event.data?.from === "background" && event.data.id === id) {
@@ -72,6 +84,30 @@
 
   async function resumeStream(id, cursor = 0) {
     return await sendBridgeMessage({ action: "resume-stream", id, cursor }, 180000);
+  }
+
+  async function ackStream(id, cursor = 0) {
+    try { return await sendBridgeMessage({ action: "ack-stream", id, cursor }, 30000); }
+    catch (error) {
+      window.dispatchEvent(new CustomEvent("awtsmoos-server-feedback", { detail: { type: "ack-timeout", error: String(error?.message || error), id } }));
+      return null;
+    }
+  }
+
+  async function streamStats(id) {
+    return await sendBridgeMessage({ action: "stream-stats", id }, 30000);
+  }
+
+  async function startBackgroundAutomation(config = {}) {
+    return await sendBridgeMessage({ action: "automation-start", config }, 60000);
+  }
+
+  async function stopBackgroundAutomation(reason = "stopped") {
+    return await sendBridgeMessage({ action: "automation-stop", reason }, 30000);
+  }
+
+  async function backgroundAutomationStatus() {
+    return await sendBridgeMessage({ action: "automation-status" }, 30000);
   }
 
   async function awtsFetch(url, options = {}) {
@@ -100,6 +136,11 @@
 
   awtsFetch[bridgeMark] = true;
   awtsFetch.resumeStream = resumeStream;
+  awtsFetch.ackStream = ackStream;
+  awtsFetch.streamStats = streamStats;
+  awtsFetch.startBackgroundAutomation = startBackgroundAutomation;
+  awtsFetch.stopBackgroundAutomation = stopBackgroundAutomation;
+  awtsFetch.backgroundAutomationStatus = backgroundAutomationStatus;
   window.awtsmoosFetch = awtsFetch;
   window.mFetch = awtsFetch;
   readyEvent({ fetchName: "awtsmoosFetch" });

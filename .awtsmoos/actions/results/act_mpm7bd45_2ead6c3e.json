@@ -1,0 +1,761 @@
+{
+  "entry": {
+    "actionId": "act_mpm7bd45_2ead6c3e",
+    "inputRef": "cmd_act_mpm7bd45_2ead6c3e",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7bd45_2ead6c3e.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 300,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 120,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "<summary|summary>|document.createElement\\(\"summary\"|details|toggle|open|streaming|isStreaming|AbortController|IndexedDB|indexedDB|Map\\(",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 30000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:35:11.909Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai",
+    "query": "<summary|summary>|document.createElement\\(\"summary\"|details|toggle|open|streaming|isStreaming|AbortController|IndexedDB|indexedDB|Map\\(",
+    "regex": true,
+    "scannedFiles": 15,
+    "skippedFiles": 0,
+    "maxFiles": 300,
+    "maxResults": 120,
+    "returnedResults": 120,
+    "partial": true,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 198,
+        "preview": "                pState.computedParams.openFactor = UTILS.lerp(getEVal(prevExpr, pId, 'openFactor', 1), getEVal(curExpr, pId, 'openFactor', 1), tE);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 341,
+        "preview": "        let partsToProcess = template.parts.map(pDef => pDef.id);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 668,
+        "preview": "            eyeL: { openFactor: 1.0, pupilShiftXFactor: 0, pupilShiftYFactor: 0 }, eyeR: { openFactor: 1.0, pupilShiftXFactor: 0, pupilShiftYFactor: 0 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 673,
+        "preview": "            eyeL: { openFactor: 0.85, pupilShiftYFactor: -0.1 }, eyeR: { openFactor: 0.85, pupilShiftYFactor: -0.1 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 678,
+        "preview": "            eyeL: { openFactor: 0.7, pupilShiftYFactor: 0.15 }, eyeR: { openFactor: 0.7, pupilShiftYFactor: 0.15 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 683,
+        "preview": "            eyeL: { openFactor: 0.9, pupilShiftXFactor: 0.05 }, eyeR: { openFactor: 0.9, pupilShiftXFactor: -0.05 }, // Slight squint"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 688,
+        "preview": "            eyeL: { openFactor: 1.15 }, eyeR: { openFactor: 1.15 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 692,
+        "preview": "        'blink_half': { eyeL: { openFactor: 0.5 }, eyeR: { openFactor: 0.5 } },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 693,
+        "preview": "        'blink_closed': { eyeL: { openFactor: 0.05 }, eyeR: { openFactor: 0.05 } }"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 702,
+        "preview": "        'neutral': { path: [{ cmd: 'M', x: -0.5, y: 0 }, { cmd: 'L', x: 0.5, y: 0 }], openFactor: 0 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 703,
+        "preview": "        'smile': { path: [{ cmd: 'M', x: -0.5, y: -0.05 }, { cmd: 'Q', x1: 0, y1: 0.3, x: 0.5, y: -0.05 }], openFactor: 0.1 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 704,
+        "preview": "        'frown': { path: [{ cmd: 'M', x: -0.5, y: 0.15 }, { cmd: 'Q', x1: 0, y1: -0.1, x: 0.5, y: 0.15 }], openFactor: 0.05 }, // NEW"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 705,
+        "preview": "        'snarl': { path: [{ cmd: 'M', x: -0.5, y: 0.05 }, {cmd: 'L', x:-0.2, y:-0.1}, {cmd:'L', x:0.2, y:-0.1}, { cmd: 'L', x: 0.5, y: 0.05 }], openFactor: 0.08 }, // NEW"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 706,
+        "preview": "        'o_small': { type: 'ellipse', widthFactor: 0.5, heightFactor: 0.4, openFactor: 0.3 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 707,
+        "preview": "        'o_large': { type: 'ellipse', widthFactor: 0.7, heightFactor: 0.75, openFactor: 0.8 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 708,
+        "preview": "        'm_consonant': { path: [{ cmd: 'M', x: -0.4, y: 0 }, { cmd: 'L', x: 0.4, y: 0 }], openFactor: 0.02 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 709,
+        "preview": "        'ee_ih': { path: [{ cmd: 'M', x: -0.45, y: -0.02 }, { cmd: 'L', x: 0.45, y: -0.02 }], openFactor: 0.05 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 710,
+        "preview": "        'ah_small': { type: 'ellipse', widthFactor: 0.6, heightFactor: 0.5, openFactor: 0.4 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.CharacterPipeline.js",
+        "line": 711,
+        "preview": "        'th_l': { path: [{cmd:'M', x:-0.3, y:-0.05}, {cmd:'L', x:0.3, y:-0.05}, {cmd:'M', x:-0.2, y:0.05}, {cmd:'L', x:0.2, y:0.05}], openFactor:0.1} // Tongue visible"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Core.js",
+        "line": 67,
+        "preview": "        this.ui.playStopBtn.addEventListener('click', () => this.togglePlayStop());"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Core.js",
+        "line": 72,
+        "preview": "    togglePlayStop() { if (!this.animationData) return; this.isPlaying ? this.stopAnimation() : this.playAnimation(); }"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Core.js",
+        "line": 190,
+        "preview": "             bundledScripts += `if(window.AnimatorSpeech && window.AnimatorSpeech._utterances && Array.isArray(window.AnimatorSpeech._utterances)) { window.AnimatorSpeech._utterances = new Map(window.AnimatorSpeech._utterances); }\\n`;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 968,
+        "preview": "                openFactor: 1.0"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 971,
+        "preview": "                openFactor: 1.0"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 979,
+        "preview": "                openFactor: 0.85,"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 983,
+        "preview": "                openFactor: 0.85,"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 993,
+        "preview": "                openFactor: 1.15"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 996,
+        "preview": "                openFactor: 1.15"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1004,
+        "preview": "                openFactor: 0.5"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1007,
+        "preview": "                openFactor: 0.5"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1012,
+        "preview": "                openFactor: 0.05"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1015,
+        "preview": "                openFactor: 0.05"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1021,
+        "preview": "        'neutral': { path: [{ cmd: 'M', x: -0.5, y: 0 }, { cmd: 'L', x: 0.5, y: 0 }], openFactor: 0 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1022,
+        "preview": "        'smile': { path: [{ cmd: 'M', x: -0.5, y: -0.05 }, { cmd: 'Q', x1: 0, y1: 0.3, x: 0.5, y: -0.05 }], openFactor: 0.1 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1023,
+        "preview": "        'o_small': { type: 'ellipse', widthFactor: 0.5, heightFactor: 0.4, openFactor: 0.3 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1024,
+        "preview": "        'o_large': { type: 'ellipse', widthFactor: 0.7, heightFactor: 0.75, openFactor: 0.8 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1025,
+        "preview": "        'm_consonant': { path: [{ cmd: 'M', x: -0.4, y: 0 }, { cmd: 'L', x: 0.4, y: 0 }], openFactor: 0.02 },"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1027,
+        "preview": "        'ee_ih': { path: [{ cmd: 'M', x: -0.45, y: -0.02 }, { cmd: 'L', x: 0.45, y: -0.02 }], openFactor: 0.05 }, // Slightly open, flatter"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Data.js",
+        "line": 1028,
+        "preview": "        'ah_small': { type: 'ellipse', widthFactor: 0.6, heightFactor: 0.5, openFactor: 0.4 }"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.DataHandler.js",
+        "line": 85,
+        "preview": "        animator.eventTimeline = data.timeline.map((group, gi) => group.map((event, ei) => ({ ...event, _instanceId: `g${gi}_e${ei}` })));"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.DataHandler.js",
+        "line": 97,
+        "preview": "            animator.cameraState.focusEntityIds = data.characters.map(c => c.id);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.DataHandler.js",
+        "line": 282,
+        "preview": "                animator.cameraState.focusEntityIds = animator.animationData.characters.map(c => c.id);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SceneDrawing.js",
+        "line": 210,
+        "preview": "        const textBlockWidth = Math.max(...lines.map(line => { ctx.font = `${cfg.fontSizeScreen}px ${cfg.fontFamily}`; const m = ctx.measureText(line).width; ctx.font = originalFont; return m; }));"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 6,
+        "preview": "    soundCache: new Map(), // soundId -> AudioBuffer"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 7,
+        "preview": "    activeSources: new Map(), // soundId -> [AudioBufferSourceNode, gainNode] (to manage multiple plays of same sound)"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Speech.js",
+        "line": 8,
+        "preview": "    _utterances: new Map(),"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 185,
+        "preview": "            const openFactor = computedParams.openFactor !== undefined ? computedParams.openFactor : 1.0;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 189,
+        "preview": "            const eyeHeight = h * openFactor;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 217,
+        "preview": "            const mouthDef = AD.MOUTH_SHAPES[mouthKey] || AD.MOUTH_SHAPES['neutral'] || {path: [{cmd:'M',x:-0.5,y:0},{cmd:'L',x:0.5,y:0}], openFactor:0};"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 236,
+        "preview": "            if (mouthDef.openFactor > 0.05 && style.color) { // only fill if it has a color (not just outline)"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 336,
+        "preview": "                let openFactor;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 338,
+        "preview": "                    openFactor = 1 - AnimatorUtils.smoothStep(state.blinkProgress * 2) * 0.95;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 340,
+        "preview": "                    openFactor = 0.05 + AnimatorUtils.smoothStep((state.blinkProgress - 0.5) * 2) * 0.95;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 342,
+        "preview": "                openFactor = AnimatorUtils.clamp(openFactor, 0.05, 1.0);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 345,
+        "preview": "                    if (charState.parts[id]) charState.parts[id].computedParams.openFactor = openFactor;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Utils.js",
+        "line": 353,
+        "preview": "                         if (charState.parts[id]) charState.parts[id].computedParams.openFactor = 1.0;"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 222,
+        "preview": "                console.log(\"Available TTS voices:\", this.availableVoices.map(v => ({name: v.name, lang: v.lang})));"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 275,
+        "preview": "                talkingShapes: ['neutral', 'slight_open', 'ah', 'ee', 'o', 's', 'fv', 'mbp'],"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 298,
+        "preview": "        this.ui.playStopBtn.addEventListener('click', () => this.togglePlayStop());"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 358,
+        "preview": "        this.eventTimeline = this.animationData.timeline.map((group, groupIndex) =>"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 359,
+        "preview": "            group.map((event, eventIndex) => ({ ...event, _instanceId: `g${groupIndex}_e${eventIndex}` }))"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 422,
+        "preview": "                        restingWidthFactor: mouthCfg.restingWidthFactor || 0.03, restingOpenFactor: mouthCfg.restingOpenFactor || 0.002,"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 423,
+        "preview": "                        talkingWidthFactor: mouthCfg.talkingWidthFactor || 0.06, talkingOpenFactor: mouthCfg.talkingOpenFactor || 0.035,"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 502,
+        "preview": "    togglePlayStop() {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 936,
+        "preview": "            if (activeExpr.eyeOpenF > 1.1 && activeExpr.name === 'surprised') { // Example condition"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1180,
+        "preview": "                mouthBehav.nextShapeChangeInterval = mouthUpdateInterval * (nextShape === 'neutral' ? 1.5 : 1); // Hold neutral/slight_open a bit longer"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1279,
+        "preview": "            const finalPoseDetails = this._getCharacterPoseDetails(char);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1280,
+        "preview": "            this._updateAccessorySway(char, finalPoseDetails.head.rawTilt, deltaTime);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1588,
+        "preview": "    _getCharacterPoseDetails(char) {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1642,
+        "preview": "        const specificPoseData = this._interpolatePoseDetails(sPoseDataCurrent, sPoseDataTarget, char.poseTransitionProgress);        "
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1826,
+        "preview": "    _interpolatePoseDetails(poseA, poseB, t) {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1914,
+        "preview": "        const d = this._getCharacterPoseDetails(char); "
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1945,
+        "preview": "    _drawCharacterTzitzit(char, poseDetails) {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1949,
+        "preview": "        const hipY = poseDetails.body.y1; "
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1968,
+        "preview": "        const rightSideAnchorX = poseDetails.body.x1 + tzitzitAnchorOffset * visualFacingSign + (poseDetails.bodyLean || 0);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1980,
+        "preview": "        const leftSideAnchorX = poseDetails.body.x1 - tzitzitAnchorOffset * visualFacingSign + (poseDetails.bodyLean || 0);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1996,
+        "preview": "            'neutral': { eyebrowTilt: 0, eyebrowRaiseF: 0, eyeOpenF: 1.0, pupilSizeF: 1.0, mouthCurve: 0, mouthDefaultShape: 'neutral' },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1997,
+        "preview": "            'happy': { eyebrowTilt: -15, eyebrowRaiseF: -0.2, eyeOpenF: 0.85, pupilSizeF: 1.0, mouthCurve: 0.8, mouthDefaultShape: 'smile' },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1998,
+        "preview": "            'sad': { eyebrowTilt: 20, eyebrowRaiseF: 0.05, eyeOpenF: 0.8, pupilSizeF: 1.0, mouthCurve: -0.7, mouthDefaultShape: 'frown_subtle' },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 1999,
+        "preview": "            'angry': { eyebrowTilt: (chr, vfm, vfs) => (vfm === 'front' ? 0 : (vfs === -1 ? 30 : -30)), eyebrowRaiseF: 0.1, eyeOpenF: 0.7, pupilSizeF: 1.0, mouthCurve: -0.4, mouthDefaultShape: 'frown_subtle' },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2000,
+        "preview": "            'surprised': { eyebrowTilt: -10, eyebrowRaiseF: -0.4, eyeOpenF: 1.15, pupilSizeF: 0.8, mouthDefaultShape: 'o_large' },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2001,
+        "preview": "            'focused': { eyebrowTilt: (chr, vfm, vfs) => (vfs === -1 ? 15 : -15), eyebrowRaiseF: 0.05, eyeOpenF: 0.9, pupilSizeF: 0.9, mouthCurve: -0.1, mouthDefaultShape: 'neutral' },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2002,
+        "preview": "            'subtle_emphasis': { eyebrowTilt: -5, eyebrowRaiseF: -0.1, eyeOpenF: 1.0, pupilSizeF: 1.0, mouthCurve: 0.2, mouthDefaultShape: 'slight_open' },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2003,
+        "preview": "            'skeptical': { eyebrowTilt: (chr, vfm, vfs) => (vfs === -1 ? -20 : 10), eyebrowRaiseF: (chr, vfm, vfs) => (vfs === -1 ? -0.3 : 0.1), eyeOpenF: 0.9, pupilSizeF: 1.0, mouthCurve: -0.2, mouthDefaultShape: 'neutral' },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2066,
+        "preview": "        let eyeOpenFactor = expression.eyeOpenF;"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2069,
+        "preview": "        if (expression.name === 'angry') eyeOpenFactor = Math.max(0.1, eyeOpenFactor / intensityFactor);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2070,
+        "preview": "        if (expression.name === 'sad') eyeOpenFactor = Math.max(0.1, eyeOpenFactor / intensityFactor);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2074,
+        "preview": "            eyeOpenFactor *= (1 - Math.sin(currentBlinkPhase * Math.PI * 0.5) * 0.99);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2076,
+        "preview": "        eyeOpenFactor = Math.max(0.01, eyeOpenFactor);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2085,
+        "preview": "            ctx.beginPath(); ctx.ellipse(farEyeX, eyeYPos, eyeR_base * farEyeRadiusFactor, eyeR_base * eyeOpenFactor * farEyeRadiusFactor, 0, 0, Math.PI*2); ctx.fill();"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2086,
+        "preview": "            if (eyeOpenFactor > 0.1) {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2094,
+        "preview": "        ctx.beginPath(); ctx.ellipse(mainEyeX, eyeYPos, eyeR_base, eyeR_base * eyeOpenFactor, 0, 0, Math.PI*2); ctx.fill();"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2096,
+        "preview": "        if (eyeOpenFactor > 0.1) {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2217,
+        "preview": "            case 'slight_open':   mouthWidthFactor = 0.22; mouthHeightFactor = 0.05 + mouthAnimScalar * 0.03; break;"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2479,
+        "preview": "                    // Could add pinch details to crown for fedora"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2521,
+        "preview": "        const pose = this._getCharacterPoseDetails(character); "
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 2684,
+        "preview": "            // Could add more overridable properties here (e.g. texture details if instance needs to vary them)"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 252,
+        "preview": "                console.log(\"Available TTS voices:\", this.availableVoices.map(v => ({name: v.name, lang: v.lang})));"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 450,
+        "preview": "                eyeL: { shapeParams: { eyeOpenFactor: 1.0, pupilShiftX: 0, pupilShiftY: 0 } },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 451,
+        "preview": "                eyeR: { shapeParams: { eyeOpenFactor: 1.0, pupilShiftX: 0, pupilShiftY: 0 } },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 457,
+        "preview": "                eyeL: { shapeParams: { eyeOpenFactor: 0.85 } }, // Slightly squinted"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 458,
+        "preview": "                eyeR: { shapeParams: { eyeOpenFactor: 0.85 } },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 464,
+        "preview": "                eyeL: { shapeParams: { eyeOpenFactor: 0.8, pupilShiftY: 0.005 } }, // Slightly looking down"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 465,
+        "preview": "                eyeR: { shapeParams: { eyeOpenFactor: 0.8, pupilShiftY: 0.005 } },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 471,
+        "preview": "                eyeL: { shapeParams: { eyeOpenFactor: 1.25, pupilSizeFactor: 0.8 } }, // Wide eyes, smaller pupils"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 472,
+        "preview": "                eyeR: { shapeParams: { eyeOpenFactor: 1.25, pupilSizeFactor: 0.8 } },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 478,
+        "preview": "                eyeL: { shapeParams: { eyeOpenFactor: 0.75 } },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 479,
+        "preview": "                eyeR: { shapeParams: { eyeOpenFactor: 0.75 } },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 490,
+        "preview": "            'neutral':       { path: [{ cmd: 'M', x: -0.5, y: 0 }, { cmd: 'L', x: 0.5, y: 0 }], heightFactor: 0.05, openFactor: 0 },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 491,
+        "preview": "            'slight_open':   { path: [{ cmd: 'M', x: -0.5, y: -0.1 }, { cmd: 'Q', x1:0, y1:0.1, x:0.5, y:-0.1 }, { cmd: 'Q', x1:0, y1:0, x:-0.5, y:-0.1 } ], heightFactor: 0.2, openFactor: 0.2 },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 492,
+        "preview": "            'smile':         { path: [{ cmd: 'M', x: -0.5, y: 0 }, { cmd: 'Q', x1:0, y1:0.3, x:0.5, y:0 }], heightFactor: 0.15, openFactor: 0.1 },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 493,
+        "preview": "            'frown_subtle':  { path: [{ cmd: 'M', x: -0.5, y: 0.1 }, { cmd: 'Q', x1:0, y1:-0.1, x:0.5, y:0.1 }], heightFactor: 0.1, openFactor: 0 },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 494,
+        "preview": "            'frown_large':   { path: [{ cmd: 'M', x: -0.5, y: 0.15 }, { cmd: 'Q', x1:0, y1:-0.2, x:0.5, y:0.15 }], heightFactor: 0.1, openFactor: 0 },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 495,
+        "preview": "            'o_large':       { type: 'ellipse', widthFactor: 0.8, heightFactor: 0.8, openFactor: 0.8 },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 496,
+        "preview": "            'ah':            { type: 'ellipse', widthFactor: 0.6, heightFactor: 0.9, openFactor: 0.7 },"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 505,
+        "preview": "        this.ui.playStopBtn.addEventListener('click', () => this.togglePlayStop());"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 572,
+        "preview": "        this.eventTimeline = this.animationData.timeline.map((group, groupIndex) =>"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 573,
+        "preview": "            group.map((event, eventIndex) => ({ ...event, _instanceId: `g${groupIndex}_e${eventIndex}` }))"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 701,
+        "preview": "    togglePlayStop() { /* Identical to original */ "
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 1032,
+        "preview": "    _updateBlinking(char, deltaTime, currentTime) { /* Modify to affect eye part shapeParams.eyeOpenFactor */ }"
+      }
+    ]
+  }
+}

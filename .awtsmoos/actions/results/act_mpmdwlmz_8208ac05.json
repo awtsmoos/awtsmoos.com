@@ -1,0 +1,308 @@
+{
+  "entry": {
+    "actionId": "act_mpmdwlmz_8208ac05",
+    "inputRef": "cmd_act_mpmdwlmz_8208ac05",
+    "outputRef": ".awtsmoos/actions/results/act_mpmdwlmz_8208ac05.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/js/automation/graphNodeUi.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\n\nexport const NODE_TYPES = [\"session\", \"send\", \"condition\", \"memory\", \"compile\", \"archive\", \"delay\", \"jump\", \"stop\"];\n\nexport function createGraphNode(type, index) {\n  const id = `${type}-${index + 1}`;\n  return {\n    id, type, label: `${type} ${index + 1}`, role: defaultRole(type), model: \"auto\",\n    match: \"\", negate: false, regex: false, flags: \"i\", delayMs: type === \"delay\" ? 1000 : 0,\n    maxTurns: 0, inputKeys: \"lastReply\", outputKey: type === \"session\" ? id : \"\",\n    archiveQuery: \"\", archiveTag: type === \"archive\" || type === \"send\" || type === \"session\" ? \"graph\" : \"\",\n    prompt: defaultPrompt(type), instructions: defaultInstructions(type), compileTemplate: \"{{lastReply}}\",\n    onTrue: \"\", onFalse: \"\", next: \"\"\n  };\n}\n\nexport function nodeEditor(node, index, list = []) {\n  return `<article class=\"graph-node graph-node-${attr(node.type)}\" data-graph-node>\n    <div class=\"graph-node-head\"><strong>${text(node.label || node.id)}</strong><span>${text(node.type)}</span><button type=\"button\" data-graph-action=\"delete:${attr(node.id)}\">×</button></div>\n    <div class=\"graph-node-grid\">\n      ${nodeInput(\"id\", \"ID\", node.id)}${nodeSelect(\"type\", \"Type\", node.type, NODE_TYPES)}${nodeInput(\"label\", \"Label\", node.label)}\n      ${nodeInput(\"role\", \"Worker role\", node.role || \"\")}${nodeInput(\"model\", \"Model\", node.model || \"auto\")}${nodeInput(\"outputKey\", \"Save output as\", node.outputKey || \"\")}\n      ${nodeInput(\"inputKeys\", \"Inputs / memory keys\", node.inputKeys || \"\")}${nodeInput(\"archiveTag\", \"Archive tag\", node.archiveTag)}${nodeInput(\"archiveQuery\", \"Archive query/ref\", node.archiveQuery || \"\")}\n      ${nodeInput(\"match\", node.regex ? \"Regex\" : \"Contains text\", node.match)}${nodeCheckbox(\"regex\", \"Use regex\", node.regex)}${nodeInput(\"flags\", \"Regex flags\", node.flags || \"i\")}\n      ${nodeInput(\"delayMs\", \"Delay ms\", node.delayMs || 0)}${nodeInput(\"maxTurns\", \"Max turns at node\", node.maxTurns || 0)}${nodeCheckbox(\"negate\", \"Negate condition\", node.negate)}\n      ${nodeSelect(\"onTrue\", \"On true\", node.onTrue, [\"\", ...list.map(n => n.id)])}${nodeSelect(\"onFalse\", \"On false\", node.onFalse, [\"\", ...list.map(n => n.id)])}${nodeSelect(\"next\", \"Next\", node.next, [\"\", ...list.map(n => n.id)])}\n    </div>\n    <label class=\"automation-field graph-node-prompt\">Prompt<textarea data-node-field=\"prompt\" rows=\"4\">${text(node.prompt || \"\")}</textarea></label>\n    <label class=\"automation-field graph-node-prompt\">Instructions<textarea data-node-field=\"instructions\" rows=\"3\">${text(node.instructions || \"\")}</textarea></label>\n    <label class=\"automation-field graph-node-prompt\">Compile template<textarea data-node-field=\"compileTemplate\" rows=\"3\">${text(node.compileTemplate || \"\")}</textarea></label>\n    <p>${text(describeNode(node))}</p>\n  </article>`;\n}\n\nexport function nodeOptions(nodes = [], selected = \"\") {\n  return nodes.map(node => `<option value=\"${attr(node.id)}\" ${node.id === selected ? \"selected\" : \"\"}>${text(node.label || node.id)}</option>`).join(\"\");\n}\n\nfunction defaultRole(type) { return type === \"session\" ? \"specialized worker\" : \"\"; }\nfunction defaultPrompt(type) { return type === \"session\" || type === \"send\" ? \"{{settings.prompt}}\" : \"\"; }\nfunction defaultInstructions(type) { return type === \"session\" ? \"Act as one focused specialist in a larger Awtsmoos production pipeline.\" : \"\"; }\nfunction describeNode(node) {\n  if (node.type === \"session\") return `${node.role || \"worker\"} → saves ${node.outputKey || \"reply\"}`;\n  if (node.type === \"compile\") return `compile template then ${node.next || \"stop\"}`;\n  if (node.type === \"memory\") return `load memory ${node.inputKeys || node.archiveQuery || \"\"}`;\n  if (node.type === \"condition\") return `${node.negate ? \"unless\" : \"if\"} last message ${node.regex ? \"matches\" : \"contains\"} \"${node.match}\" → ${node.onTrue || \"?\"} / ${node.onFalse || \"?\"}`;\n  if (node.type === \"send\") return `send: ${node.prompt || \"settings prompt\"}`;\n  if (node.type === \"archive\") return `archive as ${node.archiveTag || node.id} then ${node.next || \"stop\"}`;\n  if (node.type === \"delay\") return `wait ${node.delayMs || 0}ms then ${node.next || \"stop\"}`;\n  if (node.type === \"jump\") return `jump to ${node.next || \"stop\"}`;\n  return \"stop\";\n}\nfunction nodeInput(name, labelText, value = \"\") { return `<label class=\"automation-field\">${labelText}<input data-node-field=\"${name}\" value=\"${attr(value)}\"></label>`; }\nfunction nodeCheckbox(name, labelText, value = false) { return `<label class=\"automation-field graph-toggle\"><input data-node-field=\"${name}\" type=\"checkbox\" ${value ? \"checked\" : \"\"}> ${labelText}</label>`; }\nfunction nodeSelect(name, labelText, value, values) { return `<label class=\"automation-field\">${labelText}<select data-node-field=\"${name}\">${values.map(item => `<option value=\"${attr(item)}\" ${item === value ? \"selected\" : \"\"}>${text(item || \"—\")}</option>`).join(\"\")}</select></label>`; }\nfunction attr(value) { return String(value ?? \"\").replace(/[&<>\"]/g, c => ({ \"&\": \"&amp;\", \"<\": \"&lt;\", \">\": \"&gt;\", '\"': \"&quot;\" }[c])); }\nfunction text(value) { return String(value ?? \"\").replace(/[&<>]/g, c => ({ \"&\": \"&amp;\", \"<\": \"&lt;\", \">\": \"&gt;\" }[c])); }\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T08:39:40.427Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/js/automation/graphNodeUi.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\js\\automation\\graphNodeUi.js",
+    "bytes": 5180,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "label",
+          "index": 147
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "role",
+          "index": 157
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "model",
+          "index": 182
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "match",
+          "index": 196
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "negate",
+          "index": 206
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "regex",
+          "index": 221
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "flags",
+          "index": 235
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "delayMs",
+          "index": 245
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "maxTurns",
+          "index": 281
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "inputKeys",
+          "index": 294
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "outputKey",
+          "index": 308
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "archiveQuery",
+          "index": 344
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "archiveTag",
+          "index": 361
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "prompt",
+          "index": 425
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "instructions",
+          "index": 454
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compileTemplate",
+          "index": 495
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "onTrue",
+          "index": 519
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "onFalse",
+          "index": 530
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "next",
+          "index": 542
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "list",
+          "index": 598
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "nodes",
+          "index": 654
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "selected",
+          "index": 666
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "option",
+          "index": 1422
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "item",
+          "index": 1439
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "amp",
+          "index": 1561
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lt",
+          "index": 1569
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "gt",
+          "index": 1576
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "c",
+          "index": 1587
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "g",
+          "index": 1659
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

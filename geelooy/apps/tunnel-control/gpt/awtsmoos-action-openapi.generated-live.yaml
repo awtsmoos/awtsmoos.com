@@ -39,12 +39,15 @@ paths:
               - actionBatch
               - actionHistoryDiff
               - actionHistoryExplain
+              - actionHistoryGarbageCollect
               - actionHistoryGet
               - actionHistoryList
               - actionHistoryPatch
+              - actionHistoryPin
               - actionHistoryReplace
               - actionHistoryReplay
               - actionHistorySearch
+              - actionHistoryUnpin
               - actionSchemaTrace
               - affectedComponents
               - affectedRoutes
@@ -79,6 +82,7 @@ paths:
               - bugReproPack
               - buildRunner
               - bulk
+              - bulkDebugPayload
               - bulkSearch
               - bulkSearchPage
               - bulkWrite
@@ -86,36 +90,9 @@ paths:
               - bundleTrace
               - capabilityParityAudit
               - changeImpactGraph
-              - checkAiRender
-              - checkAwtsmoosAi
-              - checkTunnelSurface
-              - chromeAccessibilitySnapshot
-              - chromeClick
-              - chromeCookieDelete
-              - chromeCookieSet
-              - chromeCookies
-              - chromeEval
               - chromeEvalSlim
-              - chromeFind
-              - chromeLaunch
-              - chromeLogs
-              - chromeNavigate
-              - chromeNetwork
-              - chromeRunScript
-              - chromeScreenshot
-              - chromeSessionExport
-              - chromeSessionImport
-              - chromeSnapshot
               - chromeSnapshotScoped
-              - chromeStatus
-              - chromeStorage
-              - chromeStorageDelete
-              - chromeStorageSet
               - chromeTargetSelector
-              - chromeTestUrl
-              - chromeType
-              - chromeUseHttpCookies
-              - chromeWaitForSelector
               - commandBatch
               - commandFailureClassifier
               - commandIntentClassifier
@@ -131,7 +108,6 @@ paths:
               - commandPresetList
               - commandPresetRun
               - commandPresetSave
-              - commandRun
               - commandTreeCancel
               - commandTreeDryRun
               - commandTreeExplain
@@ -214,14 +190,13 @@ paths:
               - hashGuardAdvisor
               - httpCookieDelete
               - httpCookieJarList
-              - httpCookieSet
               - httpCookies
+              - httpCookieSet
               - httpDownload
               - httpJson
               - httpRequest
               - httpSessionClear
               - httpTrace
-              - httpUseChromeCookies
               - importResolverExplain
               - inferArchitecture
               - inferBusinessRules
@@ -232,7 +207,6 @@ paths:
               - inspectRuntime
               - installPlan
               - installScriptParityCheck
-              - instantTests
               - intentDriftDetector
               - interactionRecorder
               - interactionReplayDiff
@@ -244,8 +218,8 @@ paths:
               - jsdocCoverageScan
               - jsonFormat
               - jsonValidate
-              - largeFileSplitPlanner
               - largeFiles
+              - largeFileSplitPlanner
               - lastActionReplay
               - lastFailureExplain
               - launchPreview
@@ -253,6 +227,7 @@ paths:
               - lintRunner
               - list
               - listPreviews
+              - liveAgentVersionCompare
               - localVsPublicRouteDiff
               - lockfileDoctor
               - logSearch
@@ -278,13 +253,10 @@ paths:
               - networkDoctor
               - networkFailureTriage
               - networkReplaySummary
-              - nodeCheck
+              - nodeCheckFile
+              - nodeCheckFiles
               - nodeCheckMany
-              - nodeCheckTree
               - nodeDoctor
-              - nodeEval
-              - nodeInstantTests
-              - nodeScriptRun
               - nodeVersionCompatibility
               - npmScriptExplain
               - npmScriptMatrix
@@ -292,6 +264,7 @@ paths:
               - oauthStateDoctor
               - openApiAgentDiff
               - openApiRegenerator
+              - openApiValidate
               - openRoot
               - orchestrationGraph
               - outdatedDependencyScan
@@ -341,8 +314,8 @@ paths:
               - rg
               - rgbgrep
               - rootBrowse
-              - rootSelect
               - roots
+              - rootSelect
               - routeAudit
               - routeContextPack
               - routeExecutorGraph
@@ -363,8 +336,10 @@ paths:
               - scriptDiscovery
               - secretScan
               - securityHeadersCheck
-              - selfHealPreview
+              - selectString
+              - selectStringFile
               - selfHealingCommandRegistry
+              - selfHealPreview
               - semanticCache
               - semanticDiff
               - semanticEditPreview
@@ -396,6 +371,7 @@ paths:
               - symbolContextPack
               - symbolOutline
               - symbolResolutionTrace
+              - syntaxCheck
               - templateFork
               - templateFromAction
               - templateFromHistory
@@ -435,6 +411,7 @@ paths:
               - write
               - writeIfHash
               - writePayloadSizer
+              - yamlValidate
         - { name: p, in: query, schema: { type: string, default: "." } }
         - { name: path, in: query, schema: { type: string } }
         - { name: paths, in: query, schema: { type: string } }

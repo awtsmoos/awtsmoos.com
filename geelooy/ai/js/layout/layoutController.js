@@ -32,16 +32,19 @@ export class LayoutController {
     root.style.setProperty("--ai-composer", `${layout.composer.height}px`);
     this.applyPanel(this.dom.sidebar, layout.sidebar);
     this.applyPanel(this.dom.automationPanel, layout.automation);
-    document.body.dataset.sidebarCollapsed = String(Boolean(layout.sidebar.collapsed || layout.sidebar.detached));
-    document.body.dataset.automationCollapsed = String(Boolean(layout.automation.collapsed || layout.automation.detached));
+    document.body.dataset.sidebarCollapsed = String(Boolean((layout.sidebar.collapsed || layout.sidebar.detached) && !layout.sidebar.fullscreen));
+    document.body.dataset.automationCollapsed = String(Boolean((layout.automation.collapsed || layout.automation.detached) && !layout.automation.fullscreen));
+    document.body.classList.toggle("has-panel-fullscreen", Boolean(layout.sidebar.fullscreen || layout.automation.fullscreen));
     document.body.dataset.sidebarDetached = "false";
     document.body.dataset.automationDetached = "false";
     document.body.dataset.density = layout.density || "comfy";
   }
 
   applyPanel(panel, state) {
-    const collapsed = Boolean(state.collapsed || state.detached);
+    const fullscreen = Boolean(state.fullscreen);
+    const collapsed = Boolean((state.collapsed || state.detached) && !fullscreen);
     panel.classList.toggle("is-collapsed", collapsed);
+    panel.classList.toggle("is-panel-fullscreen", fullscreen);
     panel.classList.remove("is-detached");
     panel.style.left = "";
     panel.style.top = "";

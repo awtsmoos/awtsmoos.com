@@ -1,0 +1,466 @@
+{
+  "entry": {
+    "actionId": "act_mpm7uy9v_ee179411",
+    "inputRef": "cmd_act_mpm7uy9v_ee179411",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7uy9v_ee179411.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai/js/render",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 120,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 200,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "innerHTML|replaceChildren|outerHTML|setRecordEvents|updateRecord|finalizeLiveRecords|thought-inner-window|thought-envelope-events|renderEventDetails|renderThoughtEnvelope|ensureCard|append\\(",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 30000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:50:25.795Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/js/render",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\js\\render",
+    "query": "innerHTML|replaceChildren|outerHTML|setRecordEvents|updateRecord|finalizeLiveRecords|thought-inner-window|thought-envelope-events|renderEventDetails|renderThoughtEnvelope|ensureCard|append\\(",
+    "regex": true,
+    "scannedFiles": 57,
+    "skippedFiles": 0,
+    "maxFiles": 120,
+    "maxResults": 200,
+    "returnedResults": 61,
+    "partial": false,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js",
+        "line": 15,
+        "preview": "export function renderThoughtEnvelope(event = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js",
+        "line": 21,
+        "preview": "    <details class=\"thought-envelope-events\" data-inner-count=\"${inner.length}\"><summary>${inner.length} inner event(s)</summary></details>"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 39,
+        "preview": "  root.querySelectorAll(\"details.thought-envelope-events[open]\").forEach(panel => {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 40,
+        "preview": "    if (!panel.querySelector(\":scope > .thought-inner-window\")) hydrateInner(panel);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 48,
+        "preview": "  if (panel?.matches?.(\"details.thought-envelope-events\")) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 49,
+        "preview": "    preservePanelScroll(panel, () => panel.open ? hydrateInner(panel) : removeBody(panel, \".thought-inner-window\"));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 57,
+        "preview": "  const panel = button.closest(\"details.thought-envelope-events\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 63,
+        "preview": "  panel.append(loadingNode(\"Interpreting event…\"));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 72,
+        "preview": "  removeBody(panel, \".thought-inner-window\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 73,
+        "preview": "  panel.append(loadingNode(\"Loading inner thought timeline…\"));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 82,
+        "preview": "  body.className = \"thought-inner-window\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 83,
+        "preview": "  if (start > 0) body.append(moreButton(offset + INNER_WINDOW));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 84,
+        "preview": "  panel.append(body);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 2,
+        "preview": "import { renderEventDetails } from \"../eventDetails.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 11,
+        "preview": "import { renderThoughtEnvelopeNode } from \"./thoughtEnvelopeRuntime.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 81,
+        "preview": "  const html = renderEventDetails([event]);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 96,
+        "preview": "    renderThoughtEnvelopeNode(node, event);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 103,
+        "preview": "  node.innerHTML = html;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/liveTextRuntime.js",
+        "line": 26,
+        "preview": "  bubble.innerHTML = renderMarkdown(text);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/liveTextRuntime.js",
+        "line": 46,
+        "preview": "    bubble.append(node);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonHydrator.js",
+        "line": 25,
+        "preview": "  detail.append(loadingNode());"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 32,
+        "preview": "  if (!record.text && visible.length) shell.append(eventBadge({ ...record, events: visible }));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 34,
+        "preview": "  if (record.text) shell.append(createCombinedBubble(renderer, record));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 35,
+        "preview": "  if (record.loading && !record.text && !visible.length) shell.append(loadingBubble());"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 57,
+        "preview": "  if (tooLong) record.bubble.append(createInlineOverflow(renderer, record, text.length - visibleText.length));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 80,
+        "preview": "  wrap.append(show);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 87,
+        "preview": "  bubble.innerHTML = `<div class=\"message-loading\"><i></i><span></span><span></span><span></span><em>incoming sparks…</em></div>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 20,
+        "preview": "export function renderThoughtEnvelopeNode(node, event = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 22,
+        "preview": "  const card = ensureCard(node);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 33,
+        "preview": "function ensureCard(node) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 43,
+        "preview": "  summary.append(title);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 44,
+        "preview": "  card.append(summary, chromeButtons());"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 45,
+        "preview": "  node.append(card);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 60,
+        "preview": "  let panel = card.querySelector(\":scope > details.thought-envelope-events\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 63,
+        "preview": "  panel.className = \"thought-envelope-events\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 64,
+        "preview": "  panel.append(document.createElement(\"summary\"));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 65,
+        "preview": "  card.append(panel);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 99,
+        "preview": "    wrap.append(button);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 2,
+        "preview": "import { renderEventDetails } from \"../eventDetails.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 29,
+        "preview": "  let body = panel.querySelector(\":scope > .thought-inner-window\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 32,
+        "preview": "    body.className = \"thought-inner-window\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 33,
+        "preview": "    panel.append(body);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 41,
+        "preview": "  const html = renderEventDetails([event], { nested: true });"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 48,
+        "preview": "  body.append(vessel);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 50,
+        "preview": "    vessel.innerHTML = html;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtStreamReconciler.js",
+        "line": 16,
+        "preview": "  const panel = node?.querySelector?.(\":scope .thought-envelope-events[open]\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtStreamReconciler.js",
+        "line": 18,
+        "preview": "  const body = panel.querySelector(\":scope > .thought-inner-window\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtStreamReconciler.js",
+        "line": 38,
+        "preview": "  const panel = node?.querySelector?.(\":scope .thought-envelope-events\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtStreamReconciler.js",
+        "line": 45,
+        "preview": "  if (snapshot.body) panel.append(snapshot.body);"
+      },
+      {
+        "path": "geelooy/ai/js/render/eventDetails.js",
+        "line": 6,
+        "preview": "import { renderThoughtEnvelope } from \"./event-ui/thoughtEnvelopeCard.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/eventDetails.js",
+        "line": 10,
+        "preview": "export function renderEventDetails(events = [], { maxPerGroup = 200, nested = false } = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/eventDetails.js",
+        "line": 15,
+        "preview": "  if (!nested && event?.raw?.groupedThoughtEnvelope) return renderThoughtEnvelope(event);"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 48,
+        "preview": "    this.chatBox.innerHTML = \"\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 76,
+        "preview": "  async updateRecord(id, input, role = \"assistant\") {"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 86,
+        "preview": "  setRecordEvents(id, events = []) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 106,
+        "preview": "    this.chatBox.innerHTML = \"\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 108,
+        "preview": "    this.chatBox.append(this.topSpacer);"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 111,
+        "preview": "      if (!shell.classList.contains(\"is-render-suppressed\")) this.chatBox.append(shell);"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 113,
+        "preview": "    this.chatBox.append(this.bottomSpacer, this.bottomSentinel);"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 147,
+        "preview": "    if (!record.bubble && record.text) record.shell.append(createCombinedBubble(this, record));"
+      },
+      {
+        "path": "geelooy/ai/js/render/messageRenderer.js",
+        "line": 152,
+        "preview": "  finalizeLiveRecords() {"
+      }
+    ]
+  }
+}

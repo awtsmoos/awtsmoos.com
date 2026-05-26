@@ -64,12 +64,13 @@ export class MessageRenderer {
     try {
       for (const input of inputs) this.add(input, { deferRender: true });
       await this.renderWindow({ bottom: true });
-      this.forceScrollDown();
     } catch (error) {
       showLoadState(this.chatBox, `Conversation load failed: ${error?.message || error}`, "error");
       throw error;
     } finally {
       clearLoadState(this.chatBox);
+      this.forceScrollDown();
+      this.forceScrollDownSoon();
     }
   }
 
@@ -191,6 +192,15 @@ export class MessageRenderer {
     this.userPinnedScroll = false;
     this.chatBox.scrollTop = this.chatBox.scrollHeight;
     scrollToLiveBottom(this, { instant: true, force: true });
+  }
+
+  forceScrollDownSoon() {
+    const schedule = globalThis.requestAnimationFrame || (callback => setTimeout(callback, 16));
+    schedule(() => {
+      this.forceScrollDown();
+      setTimeout(() => this.forceScrollDown(), 80);
+      setTimeout(() => this.forceScrollDown(), 240);
+    });
   }
 
   trackWheelIntent(event) {

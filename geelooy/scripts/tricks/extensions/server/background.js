@@ -1,5 +1,19 @@
 // B"H
 importScripts("streamLedger.js");
+importScripts(
+  "bgAutomation/storage.js",
+  "bgAutomation/graph.js",
+  "bgAutomation/chatgpt.js",
+  "bgAutomation/engine.js",
+  "bgAutomation/api.js"
+);
+importScripts(
+  "bgAutomation/storage.js",
+  "bgAutomation/graph.js",
+  "bgAutomation/chatgpt.js",
+  "bgAutomation/engine.js",
+  "bgAutomation/api.js"
+);
 console.log('B"H');
 
 chrome.webNavigation.onCompleted.addListener(async details => injectAwtsmoosContent(details.tabId));
@@ -42,7 +56,7 @@ const ChromePortManager = globalThis.ChromePortManager || class ChromePortManage
   // Emit events to listeners
   emit(event, ...data) {
     if (this.events[event]) {
-      this.events[event].forEach(async listener => await listener(...data));
+      this.events[event].forEach(listener => Promise.resolve(listener(...data)).catch(error => console.warn("B'H port listener failed", event, error?.message || error)));
     }
   }
 
@@ -93,8 +107,13 @@ const ChromePortManager = globalThis.ChromePortManager || class ChromePortManage
         from: data.name || 'background'
       };
 	  
-      port.postMessage(ob);
-      console.log("Reply sent:", ob);
+      try {
+        port.postMessage(ob);
+        console.log("Reply sent:", ob);
+      } catch (error) {
+        console.warn("B'H reply skipped; port disconnected", error?.message || error);
+        this.onPortDisconnect(port);
+      }
     }
   }
 
@@ -166,6 +185,7 @@ globalThis.ChromePortManager = ChromePortManager;
 // Instantiate the class
 const portManager = globalThis.__awtsmoosPortManager || new ChromePortManager();
 globalThis.__awtsmoosPortManager = portManager;
+globalThis.globalThis.registerAwtsmoosBackgroundAutomation?.(portManager);
 
 portManager.on("ping", async (msg, p) => {
 	portManager.reply(p, {
@@ -200,6 +220,7 @@ portManager.on("fetch", async (msg, port) => {
             headers: Array.from(response.headers.entries()),
             url: response.url,
             redirected: response.redirected,
+            streamId: id
         };
 		var parst = new URL(url)
 		var cooks = await getCookieString(parst.hostname)
@@ -231,6 +252,24 @@ portManager.on("resume-stream", async (msg, port) => {
     const { id, cursor } = msg;
     try {
         portManager.reply(port, { result: await globalThis.__awtsmoosStreamLedger.resume(id, cursor), id });
+    } catch (error) {
+        portManager.reply(port, { error: error.stack, id });
+    }
+});
+
+portManager.on("ack-stream", async (msg, port) => {
+    const { id, cursor } = msg;
+    try {
+        portManager.reply(port, { result: globalThis.__awtsmoosStreamLedger.ack(id, cursor), id });
+    } catch (error) {
+        portManager.reply(port, { error: error.stack, id });
+    }
+});
+
+portManager.on("stream-stats", async (msg, port) => {
+    const { id } = msg;
+    try {
+        portManager.reply(port, { result: globalThis.__awtsmoosStreamLedger.stats(id), id });
     } catch (error) {
         portManager.reply(port, { error: error.stack, id });
     }

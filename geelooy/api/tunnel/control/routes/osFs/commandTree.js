@@ -2,7 +2,9 @@
 
 const COMMAND_TREE_ACTIONS = [
   "commandTreeRun", "commandTreeValidate", "commandTreeDryRun",
-  "commandTreeExplain", "commandTreeVisualize", "awtsmoosCommandTree",
+  "commandTreeExplain", "commandTreeVisualize", "commandTreeResume",
+  "commandTreeReplay", "commandTreeCancel", "commandTreeStatus",
+  "commandTreeSave", "commandTreeLoad", "awtsmoosCommandTree",
   "merkavaCommandTree", "aiWorkflowLang", "parallelActionBatch",
   "forEachActionBatch", "retryAction", "assertAction",
   "snapshotBeforeAfter", "policyGuard", "destructiveIntentGate"

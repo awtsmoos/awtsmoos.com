@@ -2,8 +2,8 @@
 const KEY = "BH_ai_cockpit_layout_v2";
 
 export const DEFAULT_LAYOUT = Object.freeze({
-  sidebar: { width: 290, collapsed: false, detached: false, x: 24, y: 86, h: 520 },
-  automation: { width: 300, collapsed: false, detached: false, x: 820, y: 86, h: 520 },
+  sidebar: { width: 290, collapsed: false, detached: false, fullscreen: false, x: 24, y: 86, h: 520 },
+  automation: { width: 300, collapsed: false, detached: false, fullscreen: false, x: 820, y: 86, h: 520 },
   composer: { height: 96 },
   density: "comfy",
   mobile: { initialized: false }

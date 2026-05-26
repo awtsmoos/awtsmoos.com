@@ -44,10 +44,32 @@ function Read-AwtsJson($path) {
   try { return (Get-Content -Raw -Path $path | ConvertFrom-Json) } catch { return $null }
 }
 
+function Get-AwtsFileSha256($path) {
+  return (Get-FileHash -Algorithm SHA256 -Path $path).Hash.ToLowerInvariant()
+}
+
+function Test-AwtsInstalledFiles($root, $manifest) {
+  if ($null -eq $manifest.files) { return $false }
+
+  foreach ($file in $manifest.files) {
+    $dest = Join-Path $root $file.path
+    if (-not (Test-Path $dest)) { return $false }
+
+    $item = Get-Item $dest
+    if ($item.Length -ne [int64]$file.bytes) { return $false }
+
+    $actualSha = Get-AwtsFileSha256 $dest
+    if ($actualSha -ne $file.sha256) { return $false }
+  }
+
+  return $true
+}
+
 function Test-AwtsAgentUpToDate($root, $manifest, $state) {
   if ($null -eq $manifest -or $null -eq $state) { return $false }
   if (-not $state.version) { return $false }
   if (-not (Test-Path (Join-Path $root $manifest.entry))) { return $false }
+  if (-not (Test-AwtsInstalledFiles $root $manifest)) { return $false }
 
   try {
     $installed = [version]$state.version

@@ -7,6 +7,23 @@ import { FileSystemProvider } from '../../fs-provider.js';
 import { ZipFile } from '/scripts/awtsmoos/zip/encoder.js';
 import { ZipReader } from '/scripts/awtsmoos/zip/decoder.js';
 
+async function addItemToZip(zip, item, pathInZip) {
+    if (item.kind === 'directory') {
+        zip.addFolder(pathInZip);
+        const listed = await FileSystemProvider.list(item);
+        for (const child of listed?.entries || []) {
+            await addItemToZip(zip, child, `${pathInZip}/${child.name}`);
+        }
+        return;
+    }
+
+    const content = await FileSystemProvider.read(item);
+    const bytes = content instanceof Blob
+        ? new Uint8Array(await content.arrayBuffer())
+        : new TextEncoder().encode(String(content));
+    zip.addFile(pathInZip, bytes);
+}
+
 export const ArchiveCommands = {
     /**
      * Creates a zip archive from virtual filesystem vessels.
@@ -22,11 +39,7 @@ export const ArchiveCommands = {
 
         for (const fileName of args) {
             const item = await shell.resolveItem(fileName);
-            const content = await FileSystemProvider.read(item);
-            const bytes = content instanceof Blob
-                ? new Uint8Array(await content.arrayBuffer())
-                : new TextEncoder().encode(String(content));
-            zip.addFile(item.name, bytes);
+            await addItemToZip(zip, item, item.name);
         }
 
         const blob = zip.build();

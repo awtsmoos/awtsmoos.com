@@ -11,6 +11,7 @@ const { buildIsolatedActions } = require("./actionGroups/isolatedActions.js");
 const { buildWorkflowActions } = require("./actionGroups/workflowActions.js");
 const { buildPreviewActions } = require("./actionGroups/previewActions.js");
 const { buildRuntimeActions } = require("./actionGroups/runtimeActions.js");
+const { buildProcessActions } = require("./actionGroups/processActions.js");
 const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
 const { buildQualityActions } = require("./actionGroups/qualityActions.js");
 const { buildCommandPresetActions } = require("./actionGroups/commandPresetActions.js");
@@ -41,13 +42,14 @@ function buildActions(config, payload, ws) {
     ...buildStaticServerActions(ctx),
     ...buildIsolatedActions(ctx),
     ...buildWriteActions(ctx),
-    ...buildWorkflowActions(ctx, buildActions),
+    ...buildCognitionActions(ctx),
     ...buildCommandPresetActions(ctx, buildActions),
     ...buildAiTemplateActions(ctx, buildActions),
     ...buildActionHistoryActions(ctx, buildActions),
     ...buildPreviewActions(ctx),
     ...buildRuntimeActions(ctx),
-    ...buildCognitionActions(ctx),
+    ...buildProcessActions(ctx),
+    ...buildWorkflowActions(ctx, buildActions),
     ...buildQualityActions(ctx, buildActions)
   };
 }

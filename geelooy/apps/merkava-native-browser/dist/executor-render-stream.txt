@@ -1,0 +1,13 @@
+WEBGL|1|webgl.viewport|56
+WEBGL|2|webgl.clearColor|64
+WEBGL|3|webgl.clear|45
+WEBGL|4|webgl.drawArrays|81
+BOX|6|0.00|0.00|0.00|0.00|#ffffff
+BOX|8|0.00|0.00|0.00|0.00|#ffffff
+BOX|10|0.00|0.00|0.00|0.00|#ffffff
+BOX|12|0.00|0.00|360.00|40.00|#ffffff
+BOX|14|0.00|0.00|160.00|90.00|#102038
+BOX|16|0.00|90.00|80.00|28.00|#e8e8e8
+TEXT|17|0.00|90.00|draw|#111111
+BOX|19|0.00|118.00|240.00|28.00|#f8f8f8
+TEXT|20|0.00|118.00|drawn|#111111

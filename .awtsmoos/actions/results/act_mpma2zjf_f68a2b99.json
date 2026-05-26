@@ -1,0 +1,258 @@
+{
+  "entry": {
+    "actionId": "act_mpma2zjf_f68a2b99",
+    "inputRef": "cmd_act_mpma2zjf_f68a2b99",
+    "outputRef": ".awtsmoos/actions/results/act_mpma2zjf_f68a2b99.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/js/automation/graphStore.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\r\nimport { cloneDefaultAutomationGraph } from \"./graphDefaults.js\";\r\n\r\nconst KEY = \"BH_awtsmoos_ai_automation_graph_v1\";\r\n\r\n/**\r\n * Stores the visual automation graph as JSON.\r\n */\r\nexport class AutomationGraphStore {\r\n  constructor(storage = localStorage) { this.storage = storage; }\r\n\r\n  load() {\r\n    try { return normalizeGraph(JSON.parse(this.storage.getItem(KEY) || \"null\") || cloneDefaultAutomationGraph()); }\r\n    catch { return cloneDefaultAutomationGraph(); }\r\n  }\r\n\r\n  save(graph) {\r\n    const next = normalizeGraph(graph);\r\n    this.storage.setItem(KEY, JSON.stringify(next));\r\n    return next;\r\n  }\r\n\r\n  reset() { return this.save(cloneDefaultAutomationGraph()); }\r\n}\r\n\r\nexport function normalizeGraph(graph = {}) {\r\n  const fallback = cloneDefaultAutomationGraph();\r\n  const nodes = Array.isArray(graph.nodes) && graph.nodes.length ? graph.nodes.map(normalizeNode) : fallback.nodes;\r\n  const start = graph.start && nodes.some(node => node.id === graph.start) ? graph.start : nodes[0]?.id || fallback.start;\r\n  return { version: 1, start, nodes };\r\n}\r\n\r\nfunction normalizeNode(node = {}, index = 0) {\r\n  const id = String(node.id || `node-${index + 1}`).trim().replace(/\\s+/g, \"-\");\r\n  const type = [\"condition\", \"send\", \"stop\", \"archive\"].includes(node.type) ? node.type : \"send\";\r\n  return {\r\n    id,\r\n    type,\r\n    label: String(node.label || id),\r\n    match: String(node.match || \"\"),\r\n    negate: Boolean(node.negate),\r\n    prompt: String(node.prompt || \"\"),\r\n    archiveTag: String(node.archiveTag || \"\"),\r\n    onTrue: String(node.onTrue || \"\"),\r\n    onFalse: String(node.onFalse || \"\"),\r\n    next: String(node.next || \"\")\r\n  };\r\n}\r\n\r\nexport const automationGraphStore = new AutomationGraphStore();\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:52:39.915Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/js/automation/graphStore.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\js\\automation\\graphStore.js",
+    "bytes": 1725,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "cloneDefaultAutomationGraph",
+          "index": 12
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "storage",
+          "index": 125
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "localStorage",
+          "index": 135
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "load",
+          "index": 182
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "save",
+          "index": 367
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "graph",
+          "index": 372
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "reset",
+          "index": 504
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "node",
+          "index": 827
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "version",
+          "index": 920
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "index",
+          "index": 988
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "s",
+          "index": 1053
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "g",
+          "index": 1056
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "label",
+          "index": 1166
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "match",
+          "index": 1204
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "negate",
+          "index": 1241
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "prompt",
+          "index": 1276
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "archiveTag",
+          "index": 1315
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "onTrue",
+          "index": 1362
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "onFalse",
+          "index": 1401
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

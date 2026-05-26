@@ -3,6 +3,8 @@ import { getConversationId, updateSearchParams } from "./urlState.js";
 import { ConversationListPager } from "./conversationListPager.js";
 import { StreamRouter } from "./streamRouter.js";
 import { describeAttachments } from "../attachments/describeAttachments.js";
+import { mountAwtsmoosAudioOffer } from "../chatgpt/audio/audioControls.js";
+import { streamResumeStore } from "../chatgpt/stream/streamResumeStore.js";
 
 /**
  * B"H — ConversationController is now a narrow orchestration vessel.
@@ -65,6 +67,8 @@ export class ConversationController {
       const messages = service.getConversation ? await service.getConversation(conversationId) : [];
       if (this.renderer.loadMessages) await this.renderer.loadMessages(messages);
       else messages.forEach(message => this.renderer.add(message));
+      streamResumeStore.removeStaleForConversation(conversationId, { keepRecentMs: 30000 });
+      this.mountLoadedAudioOffer({ messages, conversationId });
       this.renderer.forceScrollDown?.({ rerender: false });
       await this.onConversationLoaded?.(conversationId);
     } catch (error) {
@@ -140,7 +144,30 @@ export class ConversationController {
       window.curConversationId = cid;
     }
     window.mostRecentResponse = response;
+    this.mountAudioOffer({ stream, response, conversationId: cid, visible: hooks.paintAssistant !== false });
     return extractAssistantText(response) || stream?.assistant?.shell?.textContent || "";
+  }
+
+  mountLoadedAudioOffer({ messages = [], conversationId }) {
+    if (this.serviceSelect?.value !== "chatgpt" || !conversationId) return;
+    const record = [...(this.renderer.records || [])].reverse().find(item => item.role === "assistant" && item.text && item.shell?.isConnected);
+    const message = [...messages].reverse().find(item => normalizeRoleFromMessage(item) === "assistant" && extractMessageText(item));
+    mountAwtsmoosAudioOffer({
+      shell: record?.shell,
+      aiHandler: this.aiHandler,
+      conversationId,
+      messageId: extractMessageId(message)
+    });
+  }
+
+  mountAudioOffer({ stream, response, conversationId, visible }) {
+    if (!visible || this.serviceSelect?.value !== "chatgpt" || !conversationId) return;
+    mountAwtsmoosAudioOffer({
+      shell: stream?.assistant?.shell,
+      aiHandler: this.aiHandler,
+      conversationId,
+      messageId: extractMessageId(response)
+    });
   }
 
   renderSendError(error) {
@@ -165,8 +192,22 @@ function isVisibleConversation(targetConversationId, startedOnBlankConversation,
   return startedOnBlankConversation && (!current || current === cid);
 }
 
+function normalizeRoleFromMessage(input = {}) {
+  const message = input?.message || input;
+  return message?.author?.role || message?.role || input?.author?.role || "";
+}
+
+function extractMessageText(input = {}) {
+  const message = input?.message || input;
+  return message?.content?.parts?.join?.("\n") || input?.text || "";
+}
+
 function extractConversationId(packet) {
   return packet?.data?.conversation_id || packet?.conversation_id || packet?.awtsmoos?.otherEvents?.find?.(event => event.conversation_id)?.conversation_id || null;
+}
+
+function extractMessageId(packet) {
+  return packet?.id || packet?.message?.id || packet?.data?.message?.id || packet?.awtsmoos?.otherEvents?.find?.(event => event?.message?.id)?.message?.id || null;
 }
 
 function extractAssistantText(packet) {

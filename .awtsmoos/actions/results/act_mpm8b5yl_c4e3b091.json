@@ -1,0 +1,31 @@
+{
+  "entry": {
+    "actionId": "act_mpm8b5yl_c4e3b091",
+    "inputRef": "cmd_act_mpm8b5yl_c4e3b091",
+    "outputRef": ".awtsmoos/actions/results/act_mpm8b5yl_c4e3b091.json",
+    "parentActionId": null,
+    "action": "windowsExeSmokeTest",
+    "input": {
+      "action": "windowsExeSmokeTest",
+      "path": "geelooy/apps/merkava-native-browser/dist/merkava-console-smoke.exe",
+      "timeoutMs": 8000
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:03:02.263Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "windowsExeSmokeTest",
+    "path": "geelooy/apps/merkava-native-browser/dist/merkava-console-smoke.exe",
+    "bytes": 1024,
+    "mz": true,
+    "timeoutMs": 8000,
+    "exitCode": 0,
+    "signal": null,
+    "timedOut": false,
+    "durationMs": 3150,
+    "stdout": "B'H Merkava bytecode console smoke: JS bytecode path alive\r\n",
+    "stderr": "",
+    "error": null
+  }
+}

@@ -8,8 +8,8 @@ import { streamingToolKey } from "./toolStreamIdentity.js";
  * A thought group is not a visibility filter; it is a chronological chamber.
  * The first thought-text opens the gate, each following tool/function/action
  * marches inside it, and the next thought-text opens the next gate. This
- * reconciler merely gives the opened gate a stable DOM body and keeps its
- * children ordered by the group's real timeline.
+ * reconciler keeps existing DOM vessels alive while the stream breathes, so a
+ * user's nested scrollbar is not thrown back to the beginning every heartbeat.
  *
  * @param {Element} panel Thought inner details panel.
  * @param {Array<object>} inner Raw grouped inner events in exact timeline order.
@@ -18,10 +18,13 @@ import { streamingToolKey } from "./toolStreamIdentity.js";
 export function reconcileThoughtInnerEvents(panel, inner = []) {
   const body = ensureBody(panel);
   if (!body) return;
+  const scrollState = snapshotScrollState(body);
   removeLegacyDirectCards(body);
   const liveKeys = new Set();
-  for (const [index, event] of inner.entries()) renderInnerVessel(body, liveKeys, event, index);
+  let cursor = null;
+  for (const [index, event] of inner.entries()) cursor = renderInnerVessel(body, liveKeys, cursor, event, index);
   pruneDeadVessels(body, liveKeys);
+  restoreScrollState(body, scrollState);
 }
 
 function ensureBody(panel) {
@@ -35,21 +38,32 @@ function ensureBody(panel) {
   return body;
 }
 
-function renderInnerVessel(body, liveKeys, event, index) {
+function renderInnerVessel(body, liveKeys, cursor, event, index) {
   const key = innerEventKey(event, index);
   liveKeys.add(key);
-  const html = renderEventDetails([event], { nested: true });
+  const html = renderEventDetails([event], { nested: true, stableKeyPrefix: `thought-inner::${key}` });
   let vessel = body.querySelector(`:scope > [data-inner-event-key="${cssEscape(key)}"]`);
   if (!vessel) {
     vessel = document.createElement("div");
     vessel.className = "thought-inner-event-vessel";
     vessel.dataset.innerEventKey = key;
   }
-  body.append(vessel);
+  placeAfter(body, vessel, cursor);
   if (vessel.dataset.innerEventHtml !== html) {
+    const vesselState = snapshotScrollState(vessel);
+    const openState = snapshotOpenState(vessel);
     vessel.innerHTML = html;
     vessel.dataset.innerEventHtml = html;
+    restoreOpenState(vessel, openState);
+    restoreScrollState(vessel, vesselState);
   }
+  return vessel;
+}
+
+function placeAfter(body, vessel, previous) {
+  const expected = previous ? previous.nextSibling : body.firstChild;
+  if (expected === vessel) return;
+  body.insertBefore(vessel, expected || null);
 }
 
 function pruneDeadVessels(body, liveKeys) {
@@ -74,6 +88,43 @@ function innerEventKey(event = {}, index = 0) {
   const stable = msg.id || raw.id || raw.message_id || raw.parent || raw.call_id || raw.tool_call_id;
   if (stable) return [event.kind, event.label, stable].filter(Boolean).join("::");
   return [event.kind || "event", event.label || "inner", `position-${index}`].join("::");
+}
+
+function snapshotScrollState(root) {
+  const nodes = [root, ...root.querySelectorAll?.(".thought-inner-window, .event-payload, .event-code-block, .event-lanes, .event-long, pre, code") || []];
+  return nodes.map((node, index) => ({ key: scrollKey(node, index), top: node.scrollTop || 0, left: node.scrollLeft || 0 }));
+}
+
+function restoreScrollState(root, state = []) {
+  if (!state.length) return;
+  const nodes = [root, ...root.querySelectorAll?.(".thought-inner-window, .event-payload, .event-code-block, .event-lanes, .event-long, pre, code") || []];
+  const byKey = new Map(state.map(item => [item.key, item]));
+  nodes.forEach((node, index) => {
+    const saved = byKey.get(scrollKey(node, index));
+    if (!saved) return;
+    node.scrollTop = saved.top;
+    node.scrollLeft = saved.left;
+  });
+}
+
+function snapshotOpenState(root) {
+  return [...root.querySelectorAll?.("details[open]") || []].map((detail, index) => openKey(detail, index));
+}
+
+function restoreOpenState(root, keys = []) {
+  if (!keys.length) return;
+  const set = new Set(keys);
+  [...root.querySelectorAll?.("details") || []].forEach((detail, index) => {
+    if (set.has(openKey(detail, index))) detail.open = true;
+  });
+}
+
+function scrollKey(node, index) {
+  return node.dataset?.innerEventKey || node.dataset?.persistKey || node.dataset?.eventPayloadKey || node.className || node.tagName || String(index);
+}
+
+function openKey(detail, index) {
+  return detail.dataset?.innerEventKey || detail.dataset?.persistKey || detail.dataset?.eventPayloadKey || detail.className || String(index);
 }
 
 function cssEscape(value = "") {

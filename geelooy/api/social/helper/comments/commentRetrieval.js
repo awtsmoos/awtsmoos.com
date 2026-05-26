@@ -22,6 +22,12 @@ const {
     // Deprecated: getShtarPath, getAuthorPath, getAliasesAtVerseSectionPath
 } = require("./commentPaths.js");
 
+const {
+    readCommentShardRecords,
+    listPackedCommentAuthors,
+    listPackedCommentVerseSections
+} = require("./commentShardMirror.js");
+
 // Helper to get verseSection from input or default
 function getVerseSectionInput($i, verseSection) {
     if (
@@ -31,6 +37,33 @@ function getVerseSectionInput($i, verseSection) {
     }
     // Allow 0 as a valid verseSection, default to "root" otherwise
     return (verseSection !== undefined && verseSection !== null) ? verseSection : "root";
+}
+
+function packedCommentFallback({
+    $i,
+    aliasId,
+    parentType,
+    parentId,
+    heichelId,
+    postId,
+    seriesId,
+    verseSection
+}) {
+    try {
+        return readCommentShardRecords({
+            $i,
+            aliasId,
+            parentType,
+            parentId,
+            heichelId,
+            postId,
+            seriesId,
+            verseSection
+        });
+    } catch (error) {
+        console.warn("B\"H packed comment fallback could not read shard", error);
+        return [];
+    }
 }
 
 /**
@@ -82,16 +115,24 @@ async function getCommentsByAliasAtVerseSection({
         const commentsArray = await $i.db.getObjectKey(aliasCommentFilePath, verseSection);
 
         if (Array.isArray(commentsArray)) {
-            
-            return { success: commentsArray };
+            if (commentsArray.length) return { success: commentsArray };
+            const packed = packedCommentFallback({
+                $i, aliasId, parentType, parentId, heichelId, postId, seriesId, verseSection
+            });
+            return { success: packed, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
         } else {
-            // Key might exist but not be an array, or not exist at all. Treat as no comments found.
-            return { success: [] }; // Return empty array for consistency
+            const packed = packedCommentFallback({
+                $i, aliasId, parentType, parentId, heichelId, postId, seriesId, verseSection
+            });
+            return { success: packed, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
         }
     } catch (e) {
         // Handle case where the alias file itself doesn't exist (vs. key not existing)
         if (e.code === 'NOT_FOUND' || e.code === 404) { // Adjust based on actual DB error codes
-             return { success: [] }; // No comments if file doesn't exist
+            const packed = packedCommentFallback({
+                $i, aliasId, parentType, parentId, heichelId, postId, seriesId, verseSection
+            });
+            return { success: packed, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
         }
         console.error(`Error retrieving comments from ${aliasCommentFilePath} key ${verseSection}:`, e);
         return er("Database error retrieving comments.", { code: "DB_READ_ERROR", details: e, path: aliasCommentFilePath, key: verseSection });
@@ -141,14 +182,23 @@ async function getVerseSectionsCommentedByAuthorInParent({
         const verseSectionKeys = await $i.db.getObjectKeys(aliasCommentFilePath);
 
         if (Array.isArray(verseSectionKeys)) {
-            return { success: verseSectionKeys };
+            if (verseSectionKeys.length) return { success: verseSectionKeys };
+            const packed = listPackedCommentVerseSections({
+                $i, aliasId, parentType, parentId, heichelId, postId, seriesId
+            });
+            return { success: packed, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
         } else {
-            // Should return empty array if file exists but has no keys
-            return { success: [], failed: verseSectionKeys };
+            const packed = listPackedCommentVerseSections({
+                $i, aliasId, parentType, parentId, heichelId, postId, seriesId
+            });
+            return { success: packed, failed: verseSectionKeys, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
         }
     } catch (e) {
          if (e.code === 'NOT_FOUND' || e.code === 404) {
-             return { success: [] }; // No verse sections if file doesn't exist
+            const packed = listPackedCommentVerseSections({
+                $i, aliasId, parentType, parentId, heichelId, postId, seriesId
+            });
+            return { success: packed, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
          }
         console.error(`Error retrieving verse sections from ${aliasCommentFilePath}:`, e);
         return er("Database error retrieving verse sections.", { code: "DB_READ_ERROR", details: e, path: aliasCommentFilePath });
@@ -199,7 +249,10 @@ async function getAuthorsCommentingAtVerseSectionInParent({
         const allAliasIds = await $i.db.get(parentBasePath); // Returns array of alias IDs (filenames)
 
         if (!Array.isArray(allAliasIds) || allAliasIds.length === 0) {
-            return { success: [] };
+            const packed = listPackedCommentAuthors({
+                $i, parentType, parentId, heichelId, postId, seriesId, verseSection
+            });
+            return { success: packed, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
         }
 
         // 2. Filter aliases: Check if each alias has the specified verseSection key
@@ -228,11 +281,18 @@ async function getAuthorsCommentingAtVerseSectionInParent({
             }
         }
 
-        return { success: authorsAtVerseSection };
+        if (authorsAtVerseSection.length) return { success: authorsAtVerseSection };
+        const packed = listPackedCommentAuthors({
+            $i, parentType, parentId, heichelId, postId, seriesId, verseSection
+        });
+        return { success: packed, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
 
     } catch (e) {
          if (e.code === 'NOT_FOUND' || e.code === 404) {
-             return { success: [] }; // No authors if parent dir doesn't exist
+            const packed = listPackedCommentAuthors({
+                $i, parentType, parentId, heichelId, postId, seriesId, verseSection
+            });
+            return { success: packed, fallbackSource: packed.length ? "packed-comment-shard" : undefined };
          }
         console.error(`Error listing or checking aliases in ${parentBasePath}:`, e);
         return er("Database error retrieving authors.", { code: "DB_READ_ERROR", details: e, path: parentBasePath });

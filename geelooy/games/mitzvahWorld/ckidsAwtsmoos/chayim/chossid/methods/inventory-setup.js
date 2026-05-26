@@ -53,28 +53,6 @@ export default {
             passageId: 'bereishis_1_1'
         }, 1);
 
-        this.inventory.addItem({
-            id: 'book_chumash_bereishis',
-            className: 'Chumash',
-            name: 'Chumash: Opening Light',
-            description: 'Readable Chumash passages for Torah debate: pshat, remez, derush, and sod.',
-            icon: '📘',
-            isTool: true,
-            readable: true,
-            actionBarReady: true,
-            passageIds: ['bereishis_1_1', 'shemos_20_2']
-        }, 1);
-
-        this.inventory.addItem({
-            id: 'passage_bereishis_1_1',
-            className: 'TorahPassage',
-            name: 'Bereishis 1:1 Passage',
-            description: 'A debate passage carrying pshat earth, remez water, derush fire, and sod air.',
-            icon: '📜',
-            isDebateCard: true,
-            passageId: 'bereishis_1_1'
-        }, 1);
-        
         // The Garments of the Soul
         this.inventory.addItem({
             id: 'garment_shirt', className: 'Apparel', name: 'White Shirt', description: 'A pristine garment reflecting pure intent.', icon: icons.shirt, equipSlot: 'shirt', customData: { meshName: 'outer-shirt' }
@@ -162,11 +140,6 @@ export default {
             if (passageIndex > -1 && !this.inventory.actionSlots[1]) this.inventory.actionSlots[1] = this.inventory.slots[passageIndex];
             this.inventory.updateUI();
 
-            const chumashIndex = this.inventory.slots.findIndex(s => s && s.id === 'book_chumash_bereishis');
-            const passageIndex = this.inventory.slots.findIndex(s => s && s.id === 'passage_bereishis_1_1');
-            if (chumashIndex > -1 && !this.inventory.actionSlots[0]) this.inventory.actionSlots[0] = this.inventory.slots[chumashIndex];
-            if (passageIndex > -1 && !this.inventory.actionSlots[1]) this.inventory.actionSlots[1] = this.inventory.slots[passageIndex];
-            this.inventory.updateUI();
         }, 500);
 
     }

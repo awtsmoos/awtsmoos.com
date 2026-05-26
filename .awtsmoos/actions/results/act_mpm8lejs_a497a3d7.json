@@ -1,0 +1,338 @@
+{
+  "entry": {
+    "actionId": "act_mpm8lejs_a497a3d7",
+    "inputRef": "cmd_act_mpm8lejs_a497a3d7",
+    "outputRef": ".awtsmoos/actions/results/act_mpm8lejs_a497a3d7.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/tricks/extensions/server/streamLedger.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\r\n(function revealAwtsmoosStreamLedger() {\r\n  const ttl = 1000 * 60 * 8;\r\n  const MAX_STREAMS = 24;\r\n  const MAX_CHUNKS = 1800;\r\n  const MAX_BYTES = 12 * 1024 * 1024;\r\n\r\n  /**\r\n   * B\"H — The background river remembers, but refuses to drown Chrome.\r\n   *\r\n   * A page may reload while ChatGPT still breathes. This ledger keeps numbered\r\n   * byte chunks for replay, but stores only one data URL copy, trims old stream\r\n   * records, and hard-caps per-stream memory. If a stream becomes impossibly\r\n   * huge, the oldest replay chunks are sacrificed rather than crashing the tab.\r\n   */\r\n  class AwtsmoosStreamLedger {\r\n    constructor() {\r\n      this.streams = new Map();\r\n    }\r\n\r\n    create(id, response) {\r\n      this.pruneStreamCount();\r\n      const reader = response.body?.getReader?.();\r\n      const stream = { id, reader, chunks: [], baseIndex: 0, readCursor: 0, byteSize: 0, done: !reader, error: null, truncated: false, waiters: [], createdAt: Date.now(), touchedAt: Date.now() };\r\n      this.streams.set(id, stream);\r\n      if (reader) this.pump(stream);\r\n      else this.scheduleCleanup(id);\r\n      return stream;\r\n    }\r\n\r\n    async read(id) {\r\n      const stream = this.touch(id);\r\n      if (!stream) throw new Error(\"Response not found or already consumed.\");\r\n      const chunk = await this.waitForChunk(stream, stream.readCursor);\r\n      if (!chunk) return null;\r\n      stream.readCursor = chunk.index + 1;\r\n      return chunk.chunk;\r\n    }\r\n\r\n    async body(id, kind) {\r\n      const stream = this.touch(id);\r\n      if (!stream) throw new Error(\"Response not found or already consumed.\");\r\n      await this.waitUntilDone(stream);\r\n      const blobs = await Promise.all(stream.chunks.map(chunk => fetch(chunk.chunk).then(r => r.blob())));\r\n      const blob = new Blob(blobs, { type: \"application/octet-stream\" });\r\n      if (kind === \"blob\") return await blobToDataURL(blob);\r\n      const text = await blob.text();\r\n      return kind === \"json\" ? JSON.parse(text) : text;\r\n    }\r\n\r\n    async resume(id, cursor = 0) {\r\n      const stream = this.touch(id);\r\n      if (!stream) return null;\r\n      const wanted = Math.max(Number(cursor || 0), stream.baseIndex);\r\n      await this.waitForMovement(stream, wanted, 10000);\r\n      return {\r\n        id,\r\n        done: Boolean(stream.done),\r\n        error: stream.error || null,\r\n        baseIndex: stream.baseIndex,\r\n        truncated: Boolean(stream.truncated || Number(cursor || 0) < stream.baseIndex),\r\n        chunks: stream.chunks.filter(chunk => chunk.index >= wanted).map(({ index, chunk }) => ({ index, chunk }))\r\n      };\r\n    }\r\n\r\n    ack(id, cursor = 0) {\r\n      const stream = this.touch(id);\r\n      if (!stream) return null;\r\n      stream.touchedAt = Date.now();\r\n      return this.stats(id);\r\n    }\r\n\r\n    stats(id) {\r\n      const stream = this.streams.get(id);\r\n      if (!stream) return null;\r\n      return { id, chunks: stream.chunks.length, baseIndex: stream.baseIndex, byteSize: stream.byteSize, done: stream.done, truncated: stream.truncated };\r\n    }\r\n\r\n    async pump(stream) {\r\n      try {\r\n        while (true) {\r\n          const { done, value } = await stream.reader.read();\r\n          if (done) break;\r\n          const index = stream.baseIndex + stream.chunks.length;\r\n          const chunk = await blobToDataURL(new Blob([value], { type: \"application/octet-stream\" }));\r\n          stream.chunks.push({ index, size: value?.byteLength || 0, chunk });\r\n          stream.byteSize += value?.byteLength || 0;\r\n          stream.touchedAt = Date.now();\r\n          this.enforceStreamBudget(stream);\r\n          this.wake(stream);\r\n        }\r\n      } catch (error) {\r\n        stream.error = String(error?.stack || error?.message || error);\r\n      } finally {\r\n        stream.done = true;\r\n        this.wake(stream);\r\n        this.scheduleCleanup(stream.id);\r\n      }\r\n    }\r\n\r\n    enforceStreamBudget(stream) {\r\n      while (stream.chunks.length > MAX_CHUNKS || stream.byteSize > MAX_BYTES) {\r\n        const removed = stream.chunks.shift();\r\n        if (!removed) break;\r\n        stream.baseIndex = removed.index + 1;\r\n        stream.byteSize = Math.max(0, stream.byteSize - (removed.size || 0));\r\n        stream.truncated = true;\r\n      }\r\n    }\r\n\r\n    pruneStreamCount() {\r\n      while (this.streams.size >= MAX_STREAMS) {\r\n        const oldest = [...this.streams.values()].sort((a, b) => (a.touchedAt || a.createdAt) - (b.touchedAt || b.createdAt))[0];\r\n        if (!oldest) break;\r\n        this.streams.delete(oldest.id);\r\n      }\r\n    }\r\n\r\n    touch(id) {\r\n      const stream = this.streams.get(id);\r\n      if (stream) stream.touchedAt = Date.now();\r\n      return stream;\r\n    }\r\n\r\n    waitForChunk(stream, cursor) {\r\n      if (cursor < stream.baseIndex) cursor = stream.baseIndex;\r\n      const found = stream.chunks.find(chunk => chunk.index === cursor);\r\n      if (found) return Promise.resolve(found);\r\n      if (stream.done) return Promise.resolve(null);\r\n      return this.wait(stream).then(() => this.waitForChunk(stream, cursor));\r\n    }\r\n\r\n    waitUntilDone(stream) {\r\n      if (stream.done) return Promise.resolve();\r\n      return this.wait(stream).then(() => this.waitUntilDone(stream));\r\n    }\r\n\r\n    waitForMovement(stream, cursor, timeoutMs = 10000) {\r\n      if (stream.done || stream.error || stream.chunks.some(chunk => chunk.index >= cursor)) return Promise.resolve();\r\n      return this.wait(stream, timeoutMs).then(() => undefined);\r\n    }\r\n\r\n    wait(stream, timeoutMs = 0) {\r\n      return new Promise(resolve => {\r\n        let done = false;\r\n        let timer = null;\r\n        const finish = () => {\r\n          if (done) return;\r\n          done = true;\r\n          if (timer) clearTimeout(timer);\r\n          const index = stream.waiters.indexOf(finish);\r\n          if (index >= 0) stream.waiters.splice(index, 1);\r\n          resolve();\r\n        };\r\n        stream.waiters.push(finish);\r\n        if (timeoutMs > 0) timer = setTimeout(finish, timeoutMs);\r\n      });\r\n    }\r\n\r\n    wake(stream) {\r\n      const waiters = stream.waiters.splice(0);\r\n      for (const resolve of waiters) resolve();\r\n    }\r\n\r\n    scheduleCleanup(id) {\r\n      setTimeout(() => this.streams.delete(id), ttl);\r\n    }\r\n  }\r\n\r\n  function blobToDataURL(blob) {\r\n    return new Promise(resolve => {\r\n      const reader = new FileReader();\r\n      reader.onload = () => resolve(reader.result);\r\n      reader.readAsDataURL(blob);\r\n    });\r\n  }\r\n\r\n  globalThis.AwtsmoosStreamLedger = globalThis.AwtsmoosStreamLedger || AwtsmoosStreamLedger;\r\n  globalThis.__awtsmoosStreamLedger = globalThis.__awtsmoosStreamLedger || new globalThis.AwtsmoosStreamLedger();\r\n})();\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:10:59.944Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/tricks/extensions/server/streamLedger.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\tricks\\extensions\\server\\streamLedger.js",
+    "bytes": 6633,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "create",
+          "index": 275
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "id",
+          "index": 282
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "response",
+          "index": 286
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "chunks",
+          "index": 418
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "baseIndex",
+          "index": 430
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "readCursor",
+          "index": 444
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "byteSize",
+          "index": 459
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "truncated",
+          "index": 500
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createdAt",
+          "index": 531
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "touchedAt",
+          "index": 554
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "read",
+          "index": 734
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "body",
+          "index": 1019
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "kind",
+          "index": 1028
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "r",
+          "index": 1245
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "Blob",
+          "index": 1287
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "type",
+          "index": 1301
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "resume",
+          "index": 1481
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "cursor",
+          "index": 1492
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ack",
+          "index": 2077
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "stats",
+          "index": 2252
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "pump",
+          "index": 2517
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "value",
+          "index": 2594
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "size",
+          "index": 2843
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "enforceStreamBudget",
+          "index": 3304
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "pruneStreamCount",
+          "index": 3677
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "a",
+          "index": 3805
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "touch",
+          "index": 3972
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "waitForChunk",
+          "index": 4114
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "waitUntilDone",
+          "index": 4480
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "waitForMovement",
+          "index": 4640
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "timeoutMs",
+          "index": 4672
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "wait",
+          "index": 4893
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "wake",
+          "index": 5425
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "scheduleCleanup",
+          "index": 5552
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "FileReader",
+          "index": 5740
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

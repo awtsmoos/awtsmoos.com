@@ -1,0 +1,358 @@
+{
+  "entry": {
+    "actionId": "act_mpm8otav_bffdc878",
+    "inputRef": "cmd_act_mpm8otav_bffdc878",
+    "outputRef": ".awtsmoos/actions/results/act_mpm8otav_bffdc878.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/apps/merkava-native-browser/build-seed.mjs",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\nimport fs from \"fs\";\nimport path from \"path\";\nimport { fileURLToPath } from \"url\";\nimport { execFileSync } from \"child_process\";\nimport MerkavaExecutor from \"../../scripts/awtsmoos/MerkavaExecutor/merkavaexecutor.cjs\";\nimport { readMerkavaBytecode } from \"./core/merkavaBytecodeReader.js\";\nimport { buildNativeBrowserC } from \"./core/nativeBrowserSource.js\";\nimport { buildLauncherC } from \"./core/launcherSource.js\";\nimport { compile } from \"../../scripts/awtsmoos/compiling/index.js\";\nimport { simulateRuntime, compileMerkavaRuntime, inspectMerkava } from \"../../scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js\";\n\nconst here = path.dirname(fileURLToPath(import.meta.url));\nconst outDir = path.join(here, \"dist\");\nconst nativeDir = path.join(here, \"native\");\n\nfunction readSample(name) {\n  return fs.readFileSync(path.join(here, \"samples\", name), \"utf8\");\n}\n\nfunction cStringLiteral(value) {\n  return JSON.stringify(String(value || \"\"));\n}\n\nfunction fileStats(files) {\n  return Object.fromEntries(Object.entries(files).map(([name, source]) => [name, {\n    bytes: Buffer.byteLength(source, \"utf8\"),\n    lines: String(source).split(/\\r?\\n/).length,\n    hasDocument: /\\bdocument\\b/.test(source),\n    hasWebGL: /getContext\\([\"']webgl/.test(source),\n    hasServer: /createServer|listen\\(/.test(source),\n    scriptTags: (String(source).match(/<script\\b/gi) || []).length,\n    linkTags: (String(source).match(/<link\\b/gi) || []).length\n  }]));\n}\n\nfunction buildReport({ appFiles, shellFiles, binary, shellBinary, merkava, shellMerkava, simulated, compiled, inspected }) {\n  return {\n    BH: \"B'H\",\n    name: \"Merkava Native Browser embedded report\",\n    executor: {\n      publicName: \"merkava\",\n      defaultEngine: simulated.engine,\n      runtimeOk: simulated.ok,\n      entry: simulated.entry,\n      bytecodeKind: compiled.kind,\n      inspectKind: inspected.kind,\n      magic: inspected.magic,\n      appBytes: binary.length,\n      shellBytes: shellBinary.length,\n      appSection: merkava.section,\n      shellSection: shellMerkava.section\n    },\n    sourceUnderstanding: {\n      files: fileStats({ ...appFiles, ...shellFiles }),\n      html: \"parsed into nodes / assets / script references by Merkava source compiler\",\n      css: \"linked and inline CSS collected for bytecode compilation\",\n      js: \"MerkavaASTParser + bytecode compiler available at build time; native executable embeds this report\",\n      node: \"Node-style entry points are handled by Merkava JS bytecode path in service stress tests\"\n    },\n    runtimeResult: {\n      ok: simulated.ok,\n      score: simulated.score,\n      input: simulated.input || simulated.virtualEnv || null,\n      errors: simulated.errors || [],\n      web: simulated.result?.web || null\n    },\n    nativePlan: {\n      dom: \"native DOM tree is still partial; report proves parsed/compiled inputs, renderer is native Win32 OpenGL\",\n      webgl: \"native bridge maps clear/drawArrays into OpenGL immediate-mode smoke path now\",\n      next: \"replace build-time report with full C bytecode VM interpreter for JS/DOM/WebGL opcodes\"\n    }\n  };\n}\n\nconst appFiles = {\n  \"/index.html\": readSample(\"frontend.html\"),\n  \"/app.js\": readSample(\"app.js\")\n};\nconst shellFiles = {\n  \"/browser-shell.html\": readSample(\"browser-shell.html\"),\n  \"/browser-shell.js\": readSample(\"browser-shell.js\")\n};\n\nconst bundle = await MerkavaExecutor.bundleEntry({ entry: \"/index.html\", files: appFiles });\nconst shellBundle = await MerkavaExecutor.bundleEntry({ entry: \"/browser-shell.html\", files: shellFiles });\nconst binary = bundle.binary;\nconst shellBinary = shellBundle.binary;\nconst merkava = readMerkavaBytecode(binary);\nif (!merkava.ok) throw new Error(\"Merkava did not produce Merkava bytecode.\");\nconst shellMerkava = readMerkavaBytecode(shellBinary);\nif (!shellMerkava.ok) throw new Error(\"Merkava shell did not produce Merkava bytecode.\");\n\nconst simulated = await simulateRuntime({ files: appFiles, entry: \"/index.html\" });\nconst compiled = await compileMerkavaRuntime({ files: appFiles, entry: \"/index.html\" });\nconst inspected = inspectMerkava(compiled.bytecode);\nconst report = buildReport({ appFiles, shellFiles, binary, shellBinary, merkava, shellMerkava, simulated, compiled, inspected });\n\nfs.mkdirSync(outDir, { recursive: true });\nfs.writeFileSync(path.join(outDir, \"sample.merkava\"), Buffer.from(binary));\nfs.writeFileSync(path.join(outDir, \"browser-shell.merkava\"), Buffer.from(shellBinary));\nfs.writeFileSync(path.join(outDir, \"native-browser-seed.c\"), buildNativeBrowserC(binary, shellBinary));\nfs.writeFileSync(path.join(outDir, \"merkavaapp-launcher.c\"), buildLauncherC());\nfs.writeFileSync(path.join(outDir, \"merkava-runtime-report.json\"), JSON.stringify(report, null, 2));\nfs.writeFileSync(path.join(nativeDir, \"merkava-runtime-report.h\"), `/* B\\\"H generated */\\n#define AWTS_MERKAVA_REPORT_JSON ${cStringLiteral(JSON.stringify(report))}\\n`);\n\nconst smokeExe = compile(\"B'H Merkava bytecode console smoke: JS bytecode path alive\", \"console\");\nfs.writeFileSync(path.join(outDir, \"merkava-console-smoke.exe\"), Buffer.from(await smokeExe.arrayBuffer()));\n\nexecFileSync(\"gcc\", [\n  path.join(nativeDir, \"merkava-opengl-browser.c\"),\n  \"-include\", path.join(nativeDir, \"merkava-runtime-report.h\"),\n  \"-o\", path.join(outDir, \"merkavaapp.exe\"),\n  \"-lopengl32\", \"-lgdi32\", \"-luser32\"\n], { stdio: \"inherit\" });\nfs.copyFileSync(path.join(outDir, \"merkavaapp.exe\"), path.join(outDir, \"merkava-opengl-browser.exe\"));\n\nconsole.log(JSON.stringify({\n  ok: true,\n  bytes: binary.length,\n  shellBytes: shellBinary.length,\n  section: merkava.section,\n  simulatedOk: simulated.ok,\n  engine: simulated.engine,\n  outDir,\n  exe: \"merkavaapp.exe\",\n  smokeExe: \"merkava-console-smoke.exe\",\n  report: \"merkava-runtime-report.json\"\n}, null, 2));\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:13:39.031Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/apps/merkava-native-browser/build-seed.mjs",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\merkava-native-browser\\build-seed.mjs",
+    "bytes": 5765,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "fileURLToPath",
+          "index": 49
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "execFileSync",
+          "index": 82
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "readMerkavaBytecode",
+          "index": 145
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "buildNativeBrowserC",
+          "index": 184
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "buildLauncherC",
+          "index": 223
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compile",
+          "index": 257
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "simulateRuntime",
+          "index": 284
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compileMerkavaRuntime",
+          "index": 301
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "inspectMerkava",
+          "index": 324
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "source",
+          "index": 740
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bytes",
+          "index": 765
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lines",
+          "index": 806
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "r",
+          "index": 836
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "n",
+          "index": 839
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "hasDocument",
+          "index": 855
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bdocument",
+          "index": 870
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "b",
+          "index": 880
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "hasWebGL",
+          "index": 901
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "getContext",
+          "index": 912
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "B",
+          "index": 926
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "H",
+          "index": 928
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "Merkava",
+          "index": 930
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bytecode",
+          "index": 938
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "smoke",
+          "index": 955
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "JS",
+          "index": 962
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "alive",
+          "index": 979
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "merkava",
+          "index": 993
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "gcc",
+          "index": 1019
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "opengl",
+          "index": 1031
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "browser",
+          "index": 1038
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "include",
+          "index": 1049
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "runtime",
+          "index": 1065
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "report",
+          "index": 1073
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "o",
+          "index": 1083
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "merkavaapp",
+          "index": 1085
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lopengl32",
+          "index": 1101
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lgdi32",
+          "index": 1112
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "luser32",
+          "index": 1120
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "inherit",
+          "index": 1128
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

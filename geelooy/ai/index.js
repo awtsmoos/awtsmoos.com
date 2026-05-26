@@ -1,9 +1,11 @@
 //B"H
 import AIServiceHandler from "./aiService.js";
 import { MessageRenderer } from "./js/render/messageRenderer.js";
+import { resetRenderWorkerStores } from "./js/render/workerClient.js";
 import { AutomationSettingsStore } from "./js/automation/settingsStore.js";
 import { AutomationPipeline } from "./js/automation/pipeline.js";
 import { AutomationPanel } from "./js/automation/panel.js";
+import { syncBackgroundAutomation } from "./js/automation/backgroundBridge.js";
 import { ConversationController } from "./js/app/conversationController.js";
 import { getConversationId, updateSearchParams } from "./js/app/urlState.js";
 import { LayoutController } from "./js/layout/layoutController.js";
@@ -16,6 +18,7 @@ import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
  * settings, and pipeline, so no one giant script devours the world.
  */
 document.addEventListener("DOMContentLoaded", async () => {
+  await resetRenderWorkerStores();
   const aiHandler = new AIServiceHandler();
   await aiHandler.init();
   window.aiHandler = aiHandler;
@@ -32,11 +35,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     onConversationLoaded: () => resumeVisibleStreams()
   });
   const store = new AutomationSettingsStore();
-  const panel = new AutomationPanel({ root: dom.automationPanel, store });
-  const pipeline = new AutomationPipeline({
+  let pipeline = null;
+  const panel = new AutomationPanel({ root: dom.automationPanel, store, onChange: async settings => {
+    await pipeline?.onSettingsChanged(settings);
+    await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId: getConversationId(), report: text => panel.report(text) });
+  } });
+  pipeline = new AutomationPipeline({
     settingsStore: store,
     getSettings: () => panel.getSettings(),
-    sendPrompt: (prompt, context = {}) => controller.sendAutomation(prompt, { conversationId: context.conversationId, ondone: (reply, meta) => pipeline.afterAssistantReply(reply, meta) }),
+    sendPrompt: (prompt, context = {}) => controller.sendAutomation(prompt, { conversationId: context.conversationId }),
     report: text => panel.report(text)
   });
   resumeVisibleStreams = () => resumeStoredStreams(renderer, {
@@ -49,8 +56,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   wireChrome({ dom, controller, aiHandler, pipeline, panel, attachments, sendFromText });
   dom.conversationList.innerHTML = `<li class="is-loading">Loading conversations…</li>`;
   dom.chatBox.innerHTML = `<div class="render-loading"><i></i><span>Preparing Awtsmoos cockpit…</span></div>`;
-  await bootstrapFromUrl({ dom, aiHandler, controller });
-  resumeVisibleStreams();
+  const bootedConversation = await bootstrapFromUrl({ dom, aiHandler, controller });
+  pipeline.resumeActiveRuns();
+  if (!bootedConversation) resumeVisibleStreams();
 
   async function sendFromText(text = dom.messageInput.value) {
     const prompt = String(text || "").trim();
@@ -171,9 +179,14 @@ async function bootstrapFromUrl({ dom, aiHandler, controller }) {
   dom.chatgptModeSelect.value = aiHandler.chatgptMode || "regular";
   syncChatGptModeChrome(dom);
   const convo = getConversationId();
-  if (convo) await controller.loadConversation(convo);
+  if (convo) {
+    await controller.loadConversation(convo);
+    await controller.refreshList(dom.conversationList);
+    return true;
+  }
   await controller.refreshList(dom.conversationList);
-  if (!convo && dom.chatBox.textContent.includes("Preparing Awtsmoos cockpit")) {
+  if (dom.chatBox.textContent.includes("Preparing Awtsmoos cockpit")) {
     dom.chatBox.innerHTML = `<div class="render-loading idle"><span>Select a conversation or start a new chat.</span></div>`;
   }
+  return false;
 }

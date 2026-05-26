@@ -2,6 +2,7 @@
 import { workerReadEvent, workerStoreEvent } from "../workerClient.js";
 
 const fallbackEvents = new Map();
+const MAX_FALLBACK_EVENTS = 1200;
 let eventCounter = 0;
 
 /**
@@ -19,7 +20,8 @@ let eventCounter = 0;
 export function storeEventPayload(event = {}, options = {}) {
   const key = options.stableKey || `evt-${Date.now().toString(36)}-${eventCounter++}`;
   fallbackEvents.set(key, event);
-  workerStoreEvent(event).then(workerKey => {
+  trimFallbackEvents();
+  workerStoreEvent(event, key).then(workerKey => {
     if (workerKey && fallbackEvents.has(key)) fallbackEvents.set(key, { __workerKey: workerKey });
   });
   return key;
@@ -35,4 +37,13 @@ export async function readEventPayload(key = "") {
   const local = fallbackEvents.get(String(key || ""));
   if (local?.__workerKey) return await workerReadEvent(local.__workerKey) || null;
   return local || null;
+}
+
+/**
+ * Prevents fallback RAM from swallowing the tab during very long streams.
+ *
+ * @returns {void}
+ */
+function trimFallbackEvents() {
+  while (fallbackEvents.size > MAX_FALLBACK_EVENTS) fallbackEvents.delete(fallbackEvents.keys().next().value);
 }

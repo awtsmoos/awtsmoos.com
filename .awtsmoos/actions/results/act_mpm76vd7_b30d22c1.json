@@ -1,0 +1,29 @@
+{
+  "entry": {
+    "actionId": "act_mpm76vd7_b30d22c1",
+    "inputRef": "cmd_act_mpm76vd7_b30d22c1",
+    "outputRef": ".awtsmoos/actions/results/act_mpm76vd7_b30d22c1.json",
+    "parentActionId": null,
+    "action": "commandTreeValidate",
+    "input": {
+      "action": "commandTreeValidate",
+      "steps": "[{\"id\":\"g\",\"action\":\"grep\",\"with\":{\"p\":\"scripts\",\"query\":\"manifest.json\",\"maxFiles\":120,\"maxResults\":2}}]"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:31:42.283Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "commandTreeValidate",
+    "validated": true,
+    "plan": [
+      {
+        "index": 0,
+        "action": "grep",
+        "hasCondition": false,
+        "saveAs": "g",
+        "control": "action"
+      }
+    ]
+  }
+}

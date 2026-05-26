@@ -1,0 +1,351 @@
+{
+  "entry": {
+    "actionId": "act_mpm7bamp_2d815eca",
+    "inputRef": "cmd_act_mpm7bamp_2d815eca",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7bamp_2d815eca.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/api/tunnel",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 200,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 120,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "commandRun|action.*zip|archiver|Compress-Archive|powershell|exec",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 20000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:35:08.689Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/api/tunnel",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\api\\tunnel",
+    "query": "commandRun|action.*zip|archiver|Compress-Archive|powershell|exec",
+    "regex": true,
+    "scannedFiles": 68,
+    "skippedFiles": 0,
+    "maxFiles": 200,
+    "maxResults": 120,
+    "returnedResults": 38,
+    "partial": false,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/api/tunnel/control/core/actionGuidance.js",
+        "line": 7,
+        "preview": "  \"Keep going; do not stop on a partial success. List what remains and execute the next real action.\","
+      },
+      {
+        "path": "geelooy/api/tunnel/control/core/actionGuidance.js",
+        "line": 20,
+        "preview": "  \"Keep a living list: done, unverified, blocked, next. Then execute next immediately.\","
+      },
+      {
+        "path": "geelooy/api/tunnel/control/docs/actions.js",
+        "line": 257,
+        "preview": "  \"powershellCompatibilityCheck\","
+      },
+      {
+        "path": "geelooy/api/tunnel/control/docs/actions.js",
+        "line": 292,
+        "preview": "  \"routeExecutorGraph\","
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/astTools.js",
+        "line": 52,
+        "preview": "  while ((m = DEF_RE.exec(text))) {"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/astTools.js",
+        "line": 64,
+        "preview": "  while ((m = re.exec(text)) && out.length < 500) out.push(map(m));"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandSupport.js",
+        "line": 17,
+        "preview": "function commandRun(action, payload = {}) {"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandSupport.js",
+        "line": 26,
+        "preview": "    executable: tokens[0] || null,"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandSupport.js",
+        "line": 35,
+        "preview": "    note: \"Awtsmoos OS command support records the command contract safely. Host tunnel commandRun executes on the live agent.\""
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandSupport.js",
+        "line": 61,
+        "preview": "      syntax: \"not_executed_in_awtsmoos_os_support\","
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandSupport.js",
+        "line": 64,
+        "preview": "    recommendation: \"Use live tunnel commandRun/nodeCheck for host execution; this support contract keeps the action non-generic.\""
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandSupport.js",
+        "line": 86,
+        "preview": "  return commandRun(action, payload);"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandSupport.js",
+        "line": 89,
+        "preview": "module.exports = { dispatchCommandSupport, commandRun, nodeScript, nodeCheck, testRunner };"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandTree.js",
+        "line": 16,
+        "preview": " * @param {Function} runActionBatch Existing structured batch executor."
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/commandTree.js",
+        "line": 30,
+        "preview": " * executable steps are supplied."
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/graph.js",
+        "line": 23,
+        "preview": "  while ((m = IMPORT_RE.exec(text))) out.push({ spec: specOf(m), index: m.index });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 34,
+        "preview": "      note: \"This action is declared in the Awtsmoos command surface. Local tunnel agents may provide deeper host-specific execution after refresh.\","
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 53,
+        "preview": "      \"../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service\""
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 294,
+        "preview": "    commandRun: () => dispatchCommandSupport(\"commandRun\", payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/index.js",
+        "line": 349,
+        "preview": "    commandRun: () => dispatchCommandSupport(\"commandRun\", payload),"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/nativeChecks.js",
+        "line": 48,
+        "preview": "  const result = child.spawnSync(process.execPath, [\"--check\", abs], { encoding: \"utf8\" });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/qualityActions.js",
+        "line": 10,
+        "preview": "  return require(path.join(__dirname, \"../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service\"));"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/semantic.js",
+        "line": 22,
+        "preview": "    while ((m = def.re.exec(text))) out.push({ name: m[1], kind: def.kind, index: m.index, loc: lineCol(text, m.index) });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/semantic.js",
+        "line": 31,
+        "preview": "  while ((m = IMPORT_RE.exec(text))) out.push({ spec: m[1], index: m.index, loc: lineCol(text, m.index) });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/supportActions.js",
+        "line": 49,
+        "preview": "  return base(action, payload, { family: classify(action), payload: summarizePayload(payload), note: \"Direct support handler executed; deepen this action by replacing supportAction mapping with a focused implementation.\" });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/supportActions.js",
+        "line": 156,
+        "preview": "    executed: safe && payload.dryRun === false ? \"simulated_safe_operation\" : false,"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/supportActions.js",
+        "line": 158,
+        "preview": "    note: \"Potentially host-affecting operation is represented safely in Awtsmoos OS dispatcher. Live tunnel agent may provide host execution.\""
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/osFs/syntaxAfterWrite.js",
+        "line": 13,
+        "preview": "  const result = child.spawnSync(process.execPath, [\"--check\", filePath], { encoding: \"utf8\" });"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/openApiKey.js",
+        "line": 66,
+        "preview": "              - commandRun"
+      },
+      {
+        "path": "geelooy/api/tunnel/control/routes/openApiKey.js",
+        "line": 143,
+        "preview": "              - powershell"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/windows.js",
+        "line": 8,
+        "preview": " * Returns the Windows PowerShell installer as raw text."
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/windows.js",
+        "line": 10,
+        "preview": " * The first broken version embedded PowerShell inside a JavaScript template"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/windows.js",
+        "line": 11,
+        "preview": " * literal. PowerShell uses the backtick character, and JavaScript template"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/windows.js",
+        "line": 16,
+        "preview": " * script can contain normal PowerShell without fighting JavaScript parsing."
+      },
+      {
+        "path": "geelooy/api/tunnel/install/scripts/windows.js",
+        "line": 18,
+        "preview": " * @returns {string} PowerShell installer script."
+      },
+      {
+        "path": "geelooy/api/tunnel/install/tools/sourceFile.js",
+        "line": 27,
+        "preview": " * This lets PowerShell, Bash, and the Node local control app live as their"
+      },
+      {
+        "path": "geelooy/api/tunnel/install/_awtsmoos.derech.js",
+        "line": 46,
+        "preview": "        \"Windows PowerShell:\","
+      },
+      {
+        "path": "geelooy/api/tunnel/install/_awtsmoos.derech.js",
+        "line": 50,
+        "preview": "        \"powershell -ExecutionPolicy Bypass -Command \\\"irm https://awtsmoos.com/api/tunnel/install/windows | iex\\\"\","
+      }
+    ]
+  }
+}

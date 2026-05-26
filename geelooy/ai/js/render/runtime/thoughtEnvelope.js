@@ -14,40 +14,41 @@ const THOUGHT_ACTION_KIND = new Set([
 ]);
 
 /**
- * Chapter 74: Before The First Word, The Tools Already Marched.
+ * Chapter 114: The Thought Spoke As A Message; The Tools Walked Behind It.
  *
- * A thought chamber may begin as pure action when no thought-text has yet
- * spoken. The instant a real thought-text appears, it becomes the head of a new
- * chamber. After that, all tools/functions/results march beneath that head
- * until the next thought-text cleaves reality and opens another chamber.
+ * Text thoughts are no longer the collapsible head of a group. A real thought
+ * text becomes its own top-level, non-collapsible message-like card. Every tool,
+ * hidden/result/action event after it is gathered into a collapsible action
+ * group until the next text thought appears. Then the cycle repeats.
  *
  * @param {{kind?:string,label?:string,text?:string,raw?:object}[]} events Ordered render events.
- * @returns {Array<object>} Chronological thought/action envelopes.
+ * @returns {Array<object>} Chronological thought-text cards and action envelopes.
  */
 export function envelopeThoughtEvents(events = []) {
   const output = [];
-  let active = [];
+  let activeActions = [];
   for (const event of events) {
-    for (const inner of expandThoughtEvent(event)) active = consume(output, active, inner);
+    for (const inner of expandThoughtEvent(event)) activeActions = consume(output, activeActions, inner);
   }
-  flush(output, active);
+  flushActions(output, activeActions);
   return output;
 }
 
-function consume(output, active, event) {
-  if (startsTextThought(event)) {
-    flush(output, active);
-    return [event];
+function consume(output, activeActions, event) {
+  if (isTextThought(event)) {
+    flushActions(output, activeActions);
+    output.push(markStandaloneThought(event));
+    return [];
   }
-  if (belongsInThoughtChamber(event)) return [...active, event];
-  flush(output, active);
+  if (belongsInActionGroup(event)) return [...activeActions, event];
+  flushActions(output, activeActions);
   output.push(event);
   return [];
 }
 
-function flush(output, active) {
-  if (!active?.length) return;
-  output.push(makeEnvelope(active.splice(0), output.length));
+function flushActions(output, activeActions) {
+  if (!activeActions?.length) return;
+  output.push(makeActionEnvelope(activeActions.splice(0), output.length));
 }
 
 function expandThoughtEvent(event = {}) {
@@ -55,21 +56,31 @@ function expandThoughtEvent(event = {}) {
   return [event];
 }
 
-function startsTextThought(event = {}) {
+function isTextThought(event = {}) {
   return event.kind === "thinking" && Boolean(String(event.text || "").trim());
 }
 
-function belongsInThoughtChamber(event = {}) {
-  if (event.kind === "thinking") return Boolean(String(event.text || "").trim());
-  if (!THOUGHT_ACTION_KIND.has(event.kind)) return false;
-  if (event.kind === "raw") return /thought|reasoning|analysis|tool|function|action/i.test(signature(event));
-  return true;
+function markStandaloneThought(event = {}) {
+  return {
+    ...event,
+    raw: { ...(event.raw || {}), standaloneThoughtText: true }
+  };
 }
 
-function makeEnvelope(events, index = 0) {
+function belongsInActionGroup(event = {}) {
+  if (event.kind === "thinking") return false;
+  if (THOUGHT_ACTION_KIND.has(event.kind)) {
+    if (event.kind === "raw") return /thought|reasoning|analysis|tool|function|action/i.test(signature(event));
+    return true;
+  }
+  if (event.kind === "status") return /thought|reasoning|analysis|tool|function|action|stream|message/i.test(signature(event));
+  return false;
+}
+
+function makeActionEnvelope(events, index = 0) {
   return {
     kind: "thinking",
-    label: `Thoughts · ${events.length} event${events.length === 1 ? "" : "s"}`,
+    label: `Actions after thought · ${events.length} event${events.length === 1 ? "" : "s"}`,
     text: "",
     raw: { groupedThoughtEnvelope: true, groupKey: envelopeGroupKey(events, index), events }
   };
@@ -80,8 +91,8 @@ function envelopeGroupKey(events = [], index = 0) {
   const raw = first.raw || first;
   const msg = raw.message || raw.input_message || raw.data?.message || raw;
   const stable = msg.id || raw.id || raw.message_id || raw.parent || raw.call_id || raw.tool_call_id;
-  if (stable) return `thought-envelope::${stable}`;
-  return `thought-envelope::${index}`;
+  if (stable) return `thought-actions::${stable}`;
+  return `thought-actions::${index}`;
 }
 
 function signature(event = {}) {

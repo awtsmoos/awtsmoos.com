@@ -3,7 +3,7 @@ B"H
 Boruch Hashem
 Biezrash Hashem
 */
-import { compileC } from './c/compiler.js';
+import { compileC } from '../../scripts/awtsmoos/compiling/index.js';
 import { createCustomAsmApp } from './compiler_asm.js';
 
 export function createCApp(source) {

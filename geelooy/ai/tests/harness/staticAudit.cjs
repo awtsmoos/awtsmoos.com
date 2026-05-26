@@ -26,13 +26,16 @@ async function run() {
   return test("static-regression-audit", async () => {
     const files = [...auditFiles(), ...collectFiles(EXT_ROOT, /\.(js|json)$/)];
     const duplicateImports = [];
+    const duplicateImportedNames = [];
     const suspicious = [];
     for (const file of files) {
       const text = fs.readFileSync(file, "utf8");
       const rel = relative(file);
       const imports = [...text.matchAll(/^(?:import\s+[^;]+;|const\s+\{?[^=]+\}?\s*=\s*require\([^\n]+\);)/gm)].map(m => m[0].trim());
       for (const line of imports.filter((line, i) => imports.indexOf(line) !== i)) duplicateImports.push({ file: rel, line });
-      if (!rel.startsWith("tests/harness/") && /TODO|FIXME|not implemented/i.test(text)) suspicious.push({ file: rel, kind: "unfinished marker" });
+      for (const item of duplicateNamedImports(text)) duplicateImportedNames.push({ file: rel, ...item });
+      const relUnix = rel.replace(/\\/g, "/");
+      if (!relUnix.startsWith("tests/harness/") && /TODO|FIXME|not implemented/i.test(text)) suspicious.push({ file: rel, kind: "unfinished marker" });
       if (/\/\*[\s\S]*portManager\.on\("fetch"/.test(text)) suspicious.push({ file: rel, kind: "commented fetch handler" });
     }
     const bg = readExt("background.js");
@@ -43,12 +46,13 @@ async function run() {
     const appMain = read("app-main.js");
     const count = (s, re) => (s.match(re) || []).length;
     assert(duplicateImports.length === 0, "duplicate imports/requires found", { duplicateImports });
+    assert(duplicateImportedNames.length === 0, "duplicate imported names found", { duplicateImportedNames });
     assert(suspicious.length === 0, "suspicious unfinished text found", { suspicious });
     assert(count(bg, /portManager\.on\("fetch"/g) === 1, "extension fetch handler count drifted");
     assert(count(bg, /portManager\.on\("fetch-body"/g) === 1, "extension fetch-body handler count drifted");
     assert(count(bg, /portManager\.on\("resume-stream"/g) === 1, "extension resume handler count drifted");
     assert(/Number\(facts\.status\) >= 400/.test(logger), "logger should only treat 4xx/5xx as important by default");
-    assert(count(layout, /\.conversation-automation-badge\s*\{\n\s*border-color:\s*rgba\(255,205,92,\.48\);\n\s*color:\s*#fff1c7;\n\s*background:\s*rgba\(255,205,92,\.14\);\n\}/g) === 1, "conversation automation badge variant CSS must not duplicate blocks");
+    assert(count(layout, /\.conversation-automation-badge\s*\{[\s\S]*?border-color:\s*rgba\(255,205,92,\.48\)/g) === 1, "conversation automation badge variant CSS must not duplicate blocks");
     assert(count(forms, /\.composer-chrome\s*\{/g) === 1, "composer chrome CSS must not duplicate blocks");
     assert(count(forms, /\.input-area\.is-fullscreen\s*\{/g) === 1, "composer fullscreen CSS must not duplicate blocks");
     assert(!/min-height:\s*42px/.test(forms), "mobile send button must not regress below 44px touch target");
@@ -71,6 +75,48 @@ function collectFiles(dir, re, out = []) {
     else if (re.test(ent.name)) out.push(full);
   }
   return out;
+}
+function duplicateNamedImports(text) {
+  const seen = new Map();
+  const duplicates = [];
+  for (const match of text.matchAll(/^import\s+([^;]+?)\s+from\s+["'][^"']+["'];?/gm)) {
+    const clause = match[1].trim();
+    const names = importedNamesFromClause(clause);
+    for (const name of names) {
+      if (seen.has(name)) duplicates.push({ name, first: seen.get(name), line: match[0].trim() });
+      else seen.set(name, match[0].trim());
+    }
+  }
+  return duplicates;
+}
+function importedNamesFromClause(clause) {
+  const names = [];
+  const brace = clause.match(/\{([^}]+)\}/);
+  if (brace) names.push(...brace[1].split(",").map(part => part.trim().split(/\s+as\s+/i).pop()).filter(Boolean));
+  const defaultPart = clause.replace(/\{[^}]+\}/, "").split(",")[0].trim();
+  if (defaultPart && !defaultPart.startsWith("*")) names.push(defaultPart);
+  return names;
+}
+function duplicateNamedImports(text) {
+  const seen = new Map();
+  const duplicates = [];
+  for (const match of text.matchAll(/^import\s+([^;]+?)\s+from\s+["'][^"']+["'];?/gm)) {
+    const clause = match[1].trim();
+    const names = importedNamesFromClause(clause);
+    for (const name of names) {
+      if (seen.has(name)) duplicates.push({ name, first: seen.get(name), line: match[0].trim() });
+      else seen.set(name, match[0].trim());
+    }
+  }
+  return duplicates;
+}
+function importedNamesFromClause(clause) {
+  const names = [];
+  const brace = clause.match(/\{([^}]+)\}/);
+  if (brace) names.push(...brace[1].split(",").map(part => part.trim().split(/\s+as\s+/i).pop()).filter(Boolean));
+  const defaultPart = clause.replace(/\{[^}]+\}/, "").split(",")[0].trim();
+  if (defaultPart && !defaultPart.startsWith("*")) names.push(defaultPart);
+  return names;
 }
 function read(file) { return fs.readFileSync(path.join(ROOT, file), "utf8"); }
 function readExt(file) { return fs.readFileSync(path.join(EXT_ROOT, file), "utf8"); }

@@ -1,15 +1,18 @@
 //B"H
-import { storeEvent, readEvent, storeRaw, readRaw } from "./eventStore.js";
+import { storeEvent, readEvent, storeRaw, readRaw, resetStores, stats } from "./eventStore.js";
 import { parseSseChunk } from "./sseParser.js";
 
 const CHUNK = 1800;
 const MAX_CHUNKS = 8;
+const HISTORY_EVENT_LIMIT = 180;
 
 self.onmessage = event => {
   const msg = event.data || {};
-  if (msg.kind === "storeEvent") return reply(msg, { key: storeEvent(msg.event || {}) });
+  if (msg.kind === "resetStores") return reply(msg, { stats: resetStores() });
+  if (msg.kind === "storeStats") return reply(msg, { stats: stats() });
+  if (msg.kind === "storeEvent") return reply(msg, { key: storeEvent(msg.event || {}, msg.key || "") });
   if (msg.kind === "readEvent") return reply(msg, { event: readEvent(msg.key) });
-  if (msg.kind === "storeRaw") return reply(msg, { key: storeRaw(msg.value) });
+  if (msg.kind === "storeRaw") return reply(msg, { key: storeRaw(msg.value, msg.key || "") });
   if (msg.kind === "readRaw") return reply(msg, { raw: readRaw(msg.key) });
   if (msg.kind === "sseChunk") return reply(msg, { packets: parseSseChunk(msg.sessionId, msg.text, msg.final) });
   const records = (msg.records || []).map(prepareRecord);
@@ -31,12 +34,19 @@ function prepareRecord(record) {
 }
 
 function summarizeEvents(events) {
-  return events.map(event => ({
+  return events.slice(-HISTORY_EVENT_LIMIT).map(event => ({
     kind: event.kind || "raw",
     label: event.label || "event",
     textLength: String(event.text || "").length,
-    key: storeEvent(event)
+    key: storeEvent(event, stableSummaryKey(event))
   }));
+}
+
+function stableSummaryKey(event = {}) {
+  const raw = event.raw || event;
+  const id = raw.id || raw.message_id || raw.message?.id || raw.call_id || raw.tool_call_id || "";
+  const text = String(event.text || raw.dataNoJSON || "").replace(/\s+/g, " ").slice(0, 160);
+  return ["history", event.kind || "raw", event.label || "event", id || text].join("::");
 }
 
 function splitText(text) {

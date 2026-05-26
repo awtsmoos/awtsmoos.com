@@ -30,6 +30,11 @@
       "name": "dom_interaction",
       "runtime": "browser",
       "entry": "tests/runtime/dom_interaction.js"
+    },
+    {
+      "name": "html_webgl_canvas",
+      "runtime": "browser",
+      "entry": "tests/runtime/html_webgl_entry.html"
     }
   ]
 }

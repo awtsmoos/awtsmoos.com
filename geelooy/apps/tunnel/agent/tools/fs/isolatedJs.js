@@ -47,6 +47,16 @@ function runNode(cwd, args, timeoutMs, maxChars) {
  * B"H
  * Creates a small isolated sandbox, copies explicit files, and runs a Node check or test harness.
  */
+function safeEntryName(payload = {}) {
+  const candidates = [payload.entry, payload.path, payload.p];
+  for (const candidate of candidates) {
+    const value = String(candidate || "").trim();
+    if (!value || value === "." || value === "./" || value === "\\.") continue;
+    return value;
+  }
+  return "test.js";
+}
+
 async function isolatedJsTest(config, payload = {}) {
   const sandboxId = payload.sandboxId || id();
   const sandbox = path.join(SANDBOX_ROOT, sandboxId);
@@ -64,7 +74,7 @@ async function isolatedJsTest(config, payload = {}) {
     await fsp.writeFile(path.join(sandbox, "package.json"), JSON.stringify(payload.packageJson, null, 2), "utf8");
   }
 
-  const entry = payload.entry || payload.path || payload.p || "test.js";
+  const entry = safeEntryName(payload);
   if (payload.testCode) {
     const entryPath = path.join(sandbox, entry);
     await fsp.mkdir(path.dirname(entryPath), { recursive: true });

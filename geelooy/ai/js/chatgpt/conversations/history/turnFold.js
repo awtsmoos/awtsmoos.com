@@ -52,7 +52,11 @@ function pushPending(map, turn, events = []) {
 function appendEvents(msg, events = []) {
   const clean = events.filter(event => event?.kind !== "hidden" || event.text || event.raw?.type || event.raw?.event);
   if (!clean.length) return;
-  msg.awtsmoosFoldedEvents = [...(msg.awtsmoosFoldedEvents || []), ...clean];
+  msg.awtsmoosFoldedEvents = [...(msg.awtsmoosFoldedEvents || []), ...clean].sort((a, b) => ordered(a) - ordered(b));
+}
+
+function ordered(event = {}) {
+  return Number.isFinite(Number(event.order)) ? Number(event.order) : Number.MAX_SAFE_INTEGER;
 }
 
 function turnId(msg = {}) {

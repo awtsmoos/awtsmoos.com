@@ -71,6 +71,7 @@ export function normalizeOptions(options = {}) {
   return {
     ...options,
     runtime: options.runtime || "browser",
+    engine: options.engine || "merkava",
     entry: options.entry || "index.html",
     files: decodeJsonMaybe(options.files, options.files || {}),
     workflow: decodeJsonMaybe(options.workflow, options.workflow || null),
@@ -149,6 +150,11 @@ async function runOnce(runOptions) {
 
 export async function simulateRuntime(options = {}) {
   const normalized = normalizeOptions(options);
+
+  if (normalized.engine === "merkava" || normalized.engine === "md2" || normalized.bytecode === "merkava" || normalized.bytecode === "md2" || normalized.mode === "merkava" || normalized.mode === "md2") {
+    const { simulateMerkavaRuntime } = await import("../merkava/merkavaRuntime.js");
+    return simulateMerkavaRuntime(normalized);
+  }
 
   if (normalized.workflow) {
     const ctx = {

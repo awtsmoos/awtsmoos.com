@@ -1,0 +1,631 @@
+{
+  "entry": {
+    "actionId": "act_mpm7aw9z_174e61d2",
+    "inputRef": "cmd_act_mpm7aw9z_174e61d2",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7aw9z_174e61d2.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "ayzarim/awtsmoosDynamicServer",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 80,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 100,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "zip|archive|tar|download|directory|readdir",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 20000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:34:50.087Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "ayzarim/awtsmoosDynamicServer",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\ayzarim\\awtsmoosDynamicServer",
+    "query": "zip|archive|tar|download|directory|readdir",
+    "regex": true,
+    "scannedFiles": 64,
+    "skippedFiles": 0,
+    "maxFiles": 80,
+    "maxResults": 100,
+    "returnedResults": 94,
+    "partial": false,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/request/body/jsonGuess.js",
+        "line": 15,
+        "preview": "  return text.startsWith(\"{\") || text.startsWith(\"[\");"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/request/body/urlEncodedBody.js",
+        "line": 11,
+        "preview": "  if (text.startsWith(\"{\") || text.startsWith(\"[\")) return true;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/request/fileFallback.js",
+        "line": 10,
+        "preview": "  if (context.isDirectoryWithIndex || context.isRealFile) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/request/fileFallback.js",
+        "line": 11,
+        "preview": "    var startsWithAw = context.fileName.startsWith(\"_awtsmoos\");"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/request/fileFallback.js",
+        "line": 13,
+        "preview": "    if (!startsWithAw || request.superSecret) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/request/fileFallback.js",
+        "line": 26,
+        "preview": "      idwi: context.isDirectoryWithIndex,"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/request/missingPath.js",
+        "line": 9,
+        "preview": "  if (context.fileName && context.fileName.startsWith(\"@\")) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/routing/childPath.js",
+        "line": 12,
+        "preview": "  return clean.startsWith(\"/\") ? clean : \"/\" + clean;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/routing/dynamicRouteMatcher.js",
+        "line": 25,
+        "preview": "    if (routePart.startsWith(\":\")) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/authSetup.js",
+        "line": 9,
+        "preview": " * @param {string} directory Server directory."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/authSetup.js",
+        "line": 12,
+        "preview": "function loadSecret(deps, directory) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/authSetup.js",
+        "line": 18,
+        "preview": "    return require(directory + deps.config.secret);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/authSetup.js",
+        "line": 30,
+        "preview": " * @param {string} directory Server directory."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/authSetup.js",
+        "line": 33,
+        "preview": "function installAuth(server, deps, directory) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/authSetup.js",
+        "line": 34,
+        "preview": "  const secret = loadSecret(deps, directory);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 23,
+        "preview": "  constructor(directory, mail = null) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 24,
+        "preview": "    this.directory = (directory || __dirname) + \"/\";"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 30,
+        "preview": "    process.env.__awtsdir = this.directory;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 93,
+        "preview": "    this.db = await initDb(deps, this.directory);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 98,
+        "preview": "      deps.startTaskRunner(this.db);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 100,
+        "preview": "      console.error(\"CRITICAL: Failed to start cleanup worker!\", workerError);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 103,
+        "preview": "    installAuth(this, deps, this.directory);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 153,
+        "preview": "      this.directory,"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/bodyReaders.js",
+        "line": 6,
+        "preview": "  return String(request.url || \"\").startsWith(\"/login\");"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/bodyReaders.js",
+        "line": 72,
+        "preview": "    logBodyStage(request, \"reader_start\", {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/deps.js",
+        "line": 47,
+        "preview": "  startTaskRunner"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/deps.js",
+        "line": 56,
+        "preview": " * Central dependency altar for the dynamic server."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/deps.js",
+        "line": 79,
+        "preview": "  startTaskRunner,"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/initDb.js",
+        "line": 9,
+        "preview": " * @param {string} directory Server directory."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/initDb.js",
+        "line": 12,
+        "preview": "function resolveDbPath(deps, directory) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/initDb.js",
+        "line": 14,
+        "preview": "    return deps.path.resolve(directory, deps.config.dbPath);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/initDb.js",
+        "line": 17,
+        "preview": "  return deps.path.resolve(directory, \"../../\");"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/initDb.js",
+        "line": 25,
+        "preview": " * @param {string} directory Server directory."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/initDb.js",
+        "line": 28,
+        "preview": "async function initDb(deps, directory) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/initDb.js",
+        "line": 29,
+        "preview": "  process.awtsmoosDbPath = resolveDbPath(deps, directory);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/pathState.js",
+        "line": 9,
+        "preview": " * @param {string} directory Server directory."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/pathState.js",
+        "line": 14,
+        "preview": "function createPathState(deps, directory, mainDir, originalPath) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/pathState.js",
+        "line": 15,
+        "preview": "  const serverPath = deps.path.join(directory, mainDir);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/runtimeDeps.js",
+        "line": 41,
+        "preview": "    isDirectoryWithIndex: false,"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 19,
+        "preview": "function sendToAlias(ctx, targetAlias, data) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 20,
+        "preview": "  if (!targetAlias) return false;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 21,
+        "preview": "  if (trySend(ctx, targetAlias, data)) return true;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 23,
+        "preview": "  const shortName = targetAlias.split(/[@_]/)[0];"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 24,
+        "preview": "  if (shortName && shortName !== targetAlias && trySend(ctx, shortName, data)) return true;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 26,
+        "preview": "  if (!targetAlias.includes(\"_\") && !targetAlias.includes(\"@\")) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 27,
+        "preview": "    const longName = `${targetAlias}_at_awtsmoos.com`;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 31,
+        "preview": "  const swapped = targetAlias.includes(\"_at_\")"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 32,
+        "preview": "    ? targetAlias.replace(\"_at_\", \"@\")"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 33,
+        "preview": "    : targetAlias.replace(\"@\", \"_at_\");"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js",
+        "line": 35,
+        "preview": "  if (swapped !== targetAlias && trySend(ctx, swapped, data)) return true;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/awtsmoosResponse.js",
+        "line": 272,
+        "preview": "        if (moos && !moos.isDirectory()) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js",
+        "line": 135,
+        "preview": "  sendToAlias(targetAlias, data) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js",
+        "line": 136,
+        "preview": "    return sendToAlias(this, targetAlias, data);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 113,
+        "preview": " * The main exported function that starts the worker's polling loop."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 115,
+        "preview": "function startTaskRunner(databaseInstance) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 117,
+        "preview": "        console.error(\"Task Runner: CRITICAL - Cannot start without a database instance!\");"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 122,
+        "preview": "    console.log(\"Task Runner: Starting background polling for generic jobs...\");"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 129,
+        "preview": "    console.log(`Task Runner: Initialized and will start processing immediately, recurring every ${POLLING_INTERVAL_MS/1000} seconds.`);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 132,
+        "preview": "module.exports = { startTaskRunner };"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/DependencyInjector.js",
+        "line": 69,
+        "preview": "        var isAsync = hd.startsWith(\"async\")"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/DependencyInjector.js",
+        "line": 114,
+        "preview": "            get: (target, name) => {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/DependencyInjector.js",
+        "line": 115,
+        "preview": "                if (name in target) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/DependencyInjector.js",
+        "line": 116,
+        "preview": "                    return target[name];"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/fetch.js",
+        "line": 7,
+        "preview": "        const protocol = url.startsWith('https://') ? https : http;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/fileServer.js",
+        "line": 45,
+        "preview": "\t\t\tif (!(ext == \"html\" || context.isDirectoryWithIndex)) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/getAwtsmooses.js",
+        "line": 22,
+        "preview": "\t\tthis.isDirectoryWithIndex = false"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 3,
+        "preview": "// START: Intensely Robust Multipart Parser"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 27,
+        "preview": "        for (let i = 1; i < parts.length; i++) { // Start at 1 to skip \"form-data\""
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 34,
+        "preview": "                if (value.startsWith('\"') && value.endsWith('\"')) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 46,
+        "preview": "     * @param {number} startPosition - The position to start searching from."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 49,
+        "preview": "    _find(pattern, startPosition = 0) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 50,
+        "preview": "        return this.body.indexOf(pattern, startPosition);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 60,
+        "preview": "            console.error(\"Awtsmoos Parser Warning: Malformed multipart body. Missing start boundary.\");"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 64,
+        "preview": "        // Start searching for the next part right after the first boundary line."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 68,
+        "preview": "            // Find the start of the next boundary marker"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 98,
+        "preview": "                if (lowerHeader.startsWith('content-disposition:')) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 100,
+        "preview": "                } else if (lowerHeader.startsWith('content-type:')) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/multipartParser.js",
+        "line": 126,
+        "preview": "            // Move position to the start of the next part."
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/pathResolver.js",
+        "line": 45,
+        "preview": "\t\t\t\t\tif (st && st.isDirectory()) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/pathResolver.js",
+        "line": 55,
+        "preview": "\t\tif (st && st.isDirectory()) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/pathResolver.js",
+        "line": 61,
+        "preview": "\t\t\t\tcontext.isDirectoryWithIndex = true;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/pathResolver.js",
+        "line": 64,
+        "preview": "\t\t\t\tcontext.isDirectoryWithoutIndex = true;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/pathResolver.js",
+        "line": 73,
+        "preview": "\t\t\t\t// If it's a directory (or we resolved an index inside one)"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/pathResolver.js",
+        "line": 130,
+        "preview": "\tvar isDynamic = !isReal || context.isDirectoryWithoutIndex;"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/requestHandler.js",
+        "line": 37,
+        "preview": "  if (context.isDirectoryWithIndex) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/requestHandler.js",
+        "line": 50,
+        "preview": "  if (context.foundAwtsmooses.length && !context.isDirectoryWithIndex) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/TemplateObjectGenerator.js",
+        "line": 146,
+        "preview": "    get: function(target, prop, receiver) {"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/TemplateObjectGenerator.js",
+        "line": 148,
+        "preview": "        const originalValue = Reflect.get(target, prop, receiver);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/TemplateObjectGenerator.js",
+        "line": 167,
+        "preview": "                        const realDataPath = await target.getAwtsmoosFilePath(key);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/TemplateObjectGenerator.js",
+        "line": 187,
+        "preview": "            return originalValue.apply(target, args);"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/TemplateObjectGenerator.js",
+        "line": 198,
+        "preview": "        var pth = self.directory + \"/\" + "
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/TemplateObjectGenerator.js",
+        "line": 221,
+        "preview": "     * gets a file in current directory"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/TemplateObjectGenerator.js",
+        "line": 233,
+        "preview": "            // Use path.dirname to get the parent directory of derechPath"
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/TemplateObjectGenerator.js",
+        "line": 346,
+        "preview": "        __awtsdir: self.directory,"
+      }
+    ]
+  }
+}

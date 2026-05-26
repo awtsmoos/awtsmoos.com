@@ -1,0 +1,336 @@
+{
+  "entry": {
+    "actionId": "act_mpmch9sg_2f2cecce",
+    "inputRef": "cmd_act_mpmch9sg_2f2cecce",
+    "outputRef": ".awtsmoos/actions/results/act_mpmch9sg_2f2cecce.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai/js/chatgpt",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 220,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 220,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "backend-api/conversation|promptFunction|messages|parent_message_id|conversation_mode|arkose|sentinel|action|timezone_offset_min|model|parts",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 30000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T07:59:45.616Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/js/chatgpt",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\js\\chatgpt",
+    "query": "backend-api/conversation|promptFunction|messages|parent_message_id|conversation_mode|arkose|sentinel|action|timezone_offset_min|model|parts",
+    "regex": true,
+    "scannedFiles": 22,
+    "skippedFiles": 0,
+    "maxFiles": 220,
+    "maxResults": 220,
+    "returnedResults": 35,
+    "partial": false,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 16,
+        "preview": "    <div class=\"audio-offer-actions\">"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 17,
+        "preview": "      <button type=\"button\" data-audio-action=\"play\">▶ Stream + play MP3</button>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 18,
+        "preview": "      <button type=\"button\" data-audio-action=\"download\">⬇ Download</button>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 19,
+        "preview": "      <button type=\"button\" data-audio-action=\"settings\" aria-expanded=\"false\">⚙ Audio settings</button>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 28,
+        "preview": "        <button type=\"button\" class=\"player-play\" data-audio-action=\"toggle\" disabled>▶</button>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 50,
+        "preview": "  const action = event.target?.closest?.(\"[data-audio-action]\")?.dataset?.audioAction;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 51,
+        "preview": "  if (!action) return;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 53,
+        "preview": "  if (action === \"settings\") return toggleSettings(context.root, event.target.closest(\"button\"));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 54,
+        "preview": "  if (action === \"toggle\") return togglePlayback(context.root);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 56,
+        "preview": "  if (action === \"play\") return synthesizeForPlay(context, settings);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 57,
+        "preview": "  if (action === \"download\") return synthesizeForDownload(context, settings);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 63,
+        "preview": "  const generateButton = root.querySelector('[data-audio-action=\"play\"]');"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 305,
+        "preview": "  root.querySelectorAll('[data-audio-action=\"play\"], [data-audio-action=\"download\"]').forEach(button => {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 306,
+        "preview": "    const action = button.dataset.audioAction;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 307,
+        "preview": "    button.disabled = Boolean(busy && !options[`allow${capitalize(action)}`]);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/history/historyMessages.js",
+        "line": 10,
+        "preview": " * status, tool calls, tool results, OAuth/raw metadata, and final messages."
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/history/historyMessages.js",
+        "line": 12,
+        "preview": "export function conversationToMessages(convo = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/history/keepNode.js",
+        "line": 11,
+        "preview": "  return Boolean(message.content?.parts?.length || message.content?.text || message.content?.thoughts?.length);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/history/turnFold.js",
+        "line": 9,
+        "preview": " * to, so this fold keeps a living current turn. User messages open a turn;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/detail.js",
+        "line": 10,
+        "preview": "  var url = \"https://chatgpt.com/backend-api/conversation/\" + conversation_id;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/list.js",
+        "line": 11,
+        "preview": " *   3. GET `/backend-api/conversations?offset&limit&order=updated`."
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/list.js",
+        "line": 25,
+        "preview": "  var url = `https://chatgpt.com/backend-api/conversations?offset=${offset}&limit=${limit}&order=updated`;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/sentinel/requirements.js",
+        "line": 6,
+        "preview": " * B\"H — Old sentinel helper logic, split out. The heavy legacy token engine is"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/sentinel/requirements.js",
+        "line": 16,
+        "preview": "    \"openai-sentinel-chat-requirements-token\": z.token,"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/sentinel/requirements.js",
+        "line": 17,
+        "preview": "    \"openai-sentinel-proof-token\": p"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/sentinel/requirements.js",
+        "line": 26,
+        "preview": "  return await (await mFetch(\"https://chatgpt.com/backend-api/sentinel/chat-requirements\", {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/sentinel/tokenClassLegacy.js",
+        "line": 627,
+        "preview": "\t\t\t    let u = config.join(\"\"); // Combine parts of the config into a string"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/stream/logStream.js",
+        "line": 49,
+        "preview": "  if (packet?.data?.message?.content?.parts) setMessage(packet.data.message);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/stream/streamResumer.js",
+        "line": 136,
+        "preview": "  return packet?.content?.parts?.[0] || packet?.message?.content?.parts?.[0] || packet?.data?.message?.content?.parts?.[0] || packet?.text || \"\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/stream/workerStreamClient.js",
+        "line": 36,
+        "preview": "  const parts = state.buffer.split(/\\r?\\n\\r?\\n/);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/stream/workerStreamClient.js",
+        "line": 37,
+        "preview": "  state.buffer = final ? \"\" : parts.pop() || \"\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/stream/workerStreamClient.js",
+        "line": 38,
+        "preview": "  const packets = parts.map(block => parseBlock(block, state)).filter(Boolean);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/transport/nodeRelayFetch.js",
+        "line": 91,
+        "preview": "async function relayBody(bodyAction, id, extra = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/transport/nodeRelayFetch.js",
+        "line": 95,
+        "preview": "    body: JSON.stringify({ id, bodyAction, ...extra })"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/generateLegacyModules.tmp.cjs",
+        "line": 42,
+        "preview": "write('js/chatgpt/sentinel/tokenClassLegacy.js', `//B\"H\\n\\n${tokenClass}\\n\\nexport { getTokenClass };\\n`);"
+      }
+    ]
+  }
+}

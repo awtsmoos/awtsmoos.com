@@ -1,0 +1,248 @@
+{
+  "entry": {
+    "actionId": "act_mpm7nl2r_42cee18a",
+    "inputRef": "cmd_act_mpm7nl2r_42cee18a",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7nl2r_42cee18a.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/js/chatgpt/stream/streamResumer.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\r\nimport { StreamRouter } from \"../../app/streamRouter.js\";\r\nimport { parseStreamChunk } from \"./workerStreamClient.js\";\r\nimport { streamResumeStore } from \"./streamResumeStore.js\";\r\n\r\nconst activeResumes = new Set();\r\n\r\n/**\r\n * B\"H — Reattaches a refreshed page to background-owned streams.\r\n *\r\n * On refresh, the extension-injected fetch bridge can arrive after this module\r\n * is called, and early stream packets may not yet contain a conversation id.\r\n * This resumer therefore waits briefly for a resume-capable bridge and permits\r\n * ownerless stream entries to reattach to the currently visible chat instead of\r\n * silently abandoning them.\r\n */\r\nexport async function resumeStoredStreams(renderer, { maxPolls = 900, getActiveConversationId = null, onDone = null } = {}) {\r\n  const fetcher = await waitForResumeFetcher();\r\n  if (!fetcher?.resumeStream) return;\r\n  for (const entry of streamResumeStore.list()) {\r\n    if (!shouldRenderEntry(entry, getActiveConversationId)) continue;\r\n    if (isClaimedByAnotherLiveTab(entry)) continue;\r\n    if (activeResumes.has(entry.id)) continue;\r\n    activeResumes.add(entry.id);\r\n    streamResumeStore.claim(entry.id);\r\n    resumeOne(fetcher, renderer, entry, maxPolls, onDone).finally(() => activeResumes.delete(entry.id));\r\n  }\r\n}\r\n\r\nasync function resumeOne(fetcher, renderer, entry, maxPolls, onDone) {\r\n  const router = new StreamRouter(renderer);\r\n  const sessionId = `resume-${entry.id}-${Date.now()}`;\r\n  let cursor = Number(entry.cursor || 0);\r\n  let finalText = \"\";\r\n  for (let polls = 0; polls < maxPolls; polls++) {\r\n    const packet = await safeResume(fetcher, entry.id, cursor);\r\n    if (!packet) return streamResumeStore.release(entry.id);\r\n    for (const chunk of orderedChunks(packet.chunks)) {\r\n      const text = await dataUrlText(chunk.chunk);\r\n      cursor = Math.max(cursor, Number(chunk.index || 0) + 1);\r\n      streamResumeStore.patch(entry.id, { cursor, status: \"streaming\", lastPollAt: Date.now() });\r\n      for (const parsed of await parseStreamChunk(sessionId, text, false)) {\r\n        await router.route(parsed);\r\n        finalText = extractAssistantText(parsed) || finalText;\r\n      }\r\n    }\r\n    if (packet.done) {\r\n      const finalPackets = await parseStreamChunk(sessionId, \"\", true);\r\n      if (finalPackets.length) {\r\n        for (const parsed of finalPackets) {\r\n          await router.finish(parsed);\r\n          finalText = extractAssistantText(parsed) || finalText;\r\n        }\r\n      } else await router.finish({ dataNoJSON: \"[DONE]\" });\r\n      streamResumeStore.remove(entry.id);\r\n      onDone?.(finalText, { conversationId: entry.conversationId || entry.surfaceConversationId, streamId: entry.id });\r\n      return;\r\n    }\r\n    await sleep(packet.chunks?.length ? 80 : 1000);\r\n  }\r\n  streamResumeStore.release(entry.id);\r\n}\r\n\r\nfunction orderedChunks(chunks = []) {\r\n  return [...(Array.isArray(chunks) ? chunks : [])].sort((a, b) => Number(a?.index || 0) - Number(b?.index || 0));\r\n}\r\n\r\nfunction shouldRenderEntry(entry, getActiveConversationId) {\r\n  if (typeof getActiveConversationId !== \"function\") return true;\r\n  const active = getActiveConversationId();\r\n  if (!active) return true;\r\n  const owner = entry?.conversationId || entry?.surfaceConversationId;\r\n  return !owner || owner === active;\r\n}\r\n\r\nfunction isClaimedByAnotherLiveTab(entry) {\r\n  if (!entry?.claimedBy || entry.claimedBy === streamResumeStore.tabId) return false;\r\n  return Date.now() - Number(entry.claimedAt || 0) < 8000;\r\n}\r\n\r\nasync function waitForResumeFetcher(timeout = 16000) {\r\n  const first = resumeFetcher();\r\n  if (first) return first;\r\n  const started = Date.now();\r\n  while (Date.now() - started < timeout) {\r\n    await onceBridgeSignal(250);\r\n    const found = resumeFetcher();\r\n    if (found) return found;\r\n  }\r\n  return resumeFetcher();\r\n}\r\n\r\nfunction resumeFetcher() {\r\n  const fetcher = window.awtsmoosFetch || window.mFetch;\r\n  return typeof fetcher?.resumeStream === \"function\" ? fetcher : null;\r\n}\r\n\r\nfunction onceBridgeSignal(ms) {\r\n  return new Promise(resolve => {\r\n    const timer = setTimeout(done, ms);\r\n    function done() {\r\n      clearTimeout(timer);\r\n      window.removeEventListener(\"awtsmoos-server-ready\", done);\r\n      window.removeEventListener(\"message\", onMessage);\r\n      resolve();\r\n    }\r\n    function onMessage(event) {\r\n      if (event?.data?.from === \"awtsmoos-content\" && /server-(ready|message)/.test(event.data.type || \"\")) done();\r\n    }\r\n    window.addEventListener(\"awtsmoos-server-ready\", done, { once: true });\r\n    window.addEventListener(\"message\", onMessage);\r\n  });\r\n}\r\n\r\nasync function safeResume(fetcher, id, cursor) {\r\n  try { return await fetcher.resumeStream(id, cursor); }\r\n  catch { return null; }\r\n}\r\n\r\nasync function dataUrlText(url) {\r\n  const blob = await (await fetch(url)).blob();\r\n  return new TextDecoder(\"utf-8\").decode(await blob.arrayBuffer());\r\n}\r\n\r\nfunction extractAssistantText(packet) {\r\n  if (typeof packet === \"string\") return packet;\r\n  return packet?.content?.parts?.[0] || packet?.message?.content?.parts?.[0] || packet?.data?.message?.content?.parts?.[0] || packet?.text || \"\";\r\n}\r\n\r\nfunction sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:44:42.099Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/js/chatgpt/stream/streamResumer.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\js\\chatgpt\\stream\\streamResumer.js",
+    "bytes": 5215,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "StreamRouter",
+          "index": 12
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "parseStreamChunk",
+          "index": 45
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "streamResumeStore",
+          "index": 82
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "status",
+          "index": 1389
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lastPollAt",
+          "index": 1400
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "dataNoJSON",
+          "index": 1951
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "conversationId",
+          "index": 2041
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "streamId",
+          "index": 2110
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "chunks",
+          "index": 2282
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "a",
+          "index": 2356
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "timeout",
+          "index": 2961
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "resolve",
+          "index": 3463
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "server",
+          "index": 3758
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ready",
+          "index": 3766
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "message",
+          "index": 3772
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "once",
+          "index": 3865
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TextDecoder",
+          "index": 4173
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

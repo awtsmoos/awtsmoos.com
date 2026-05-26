@@ -12,9 +12,9 @@ const notificationCss = fs.readFileSync('geelooy/style/heichelos/revamped-partia
 const notificationMobileCss = fs.readFileSync('geelooy/style/heichelos/revamped-partials/notifications-mobile.css', 'utf8');
 const revamped = fs.readFileSync('geelooy/style/heichelos/heichel.revamped.css', 'utf8');
 
-const renderedActions = [...panel.matchAll(/data-platform-action="([^"]+)"/g)].map(match => match[1]);
+const renderedActions = [...panel.matchAll(/\['([^']+)',\s*'[^']+'\]/g)].map(match => match[1]);
 assert.deepEqual(renderedActions, [...new Set(renderedActions)], 'platformPanel renders duplicate actions');
-assert.deepEqual(renderedActions.sort(), ['db', 'feed', 'ops', 'presence', 'sync']);
+assert.deepEqual(renderedActions.sort(), ['cache', 'db', 'digest', 'feed', 'graph', 'jobs', 'media', 'ops', 'permissions', 'presence', 'relationships', 'searchIndex', 'sync', 'thread'].sort());
 assert.match(notificationsPanel, /aria-expanded/, 'notifications toggle must expose expanded state');
 assert.match(notificationsPanel, /setInterval/, 'notifications panel must poll for live updates');
 assert.match(notificationsPanel, /markNotificationRead/, 'notifications panel must expose mark-read flow');

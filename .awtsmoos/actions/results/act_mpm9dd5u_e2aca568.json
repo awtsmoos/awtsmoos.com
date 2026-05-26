@@ -1,0 +1,1261 @@
+{
+  "entry": {
+    "actionId": "act_mpm9dd5u_e2aca568",
+    "inputRef": "cmd_act_mpm9dd5u_e2aca568",
+    "outputRef": ".awtsmoos/actions/results/act_mpm9dd5u_e2aca568.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 220,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 220,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "automation|auto|checkbox|promptP|textarea|settings|innerHTML =|replaceChildren|renderThoughtEnvelope|reconcileThought|thought-envelope|groupedThoughtEnvelope",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 30000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:32:44.514Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai",
+    "query": "automation|auto|checkbox|promptP|textarea|settings|innerHTML =|replaceChildren|renderThoughtEnvelope|reconcileThought|thought-envelope|groupedThoughtEnvelope",
+    "regex": true,
+    "scannedFiles": 65,
+    "skippedFiles": 0,
+    "maxFiles": 220,
+    "maxResults": 220,
+    "returnedResults": 220,
+    "partial": true,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/animation/a.html",
+        "line": 47,
+        "preview": "/* --- Textarea for JSON Input --- */"
+      },
+      {
+        "path": "geelooy/ai/animation/a.html",
+        "line": 48,
+        "preview": "textarea#jsonInput {"
+      },
+      {
+        "path": "geelooy/ai/animation/a.html",
+        "line": 61,
+        "preview": "textarea#jsonInput:focus {"
+      },
+      {
+        "path": "geelooy/ai/animation/a.html",
+        "line": 113,
+        "preview": "    margin: 0 auto 20px auto; /* Centered, with bottom margin before controls */"
+      },
+      {
+        "path": "geelooy/ai/animation/a.html",
+        "line": 185,
+        "preview": "    width: auto;"
+      },
+      {
+        "path": "geelooy/ai/animation/a.html",
+        "line": 204,
+        "preview": "        <textarea id=\"jsonInput\" placeholder=\"Paste JSON animation data here. Check console for new feature examples in Animator.Data.js!\"></textarea>"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Core.js",
+        "line": 65,
+        "preview": "        this.ui.loadJsonBtn.addEventListener('click', () => this.DATA_HANDLER.loadJsonFromTextarea(this));"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Core.js",
+        "line": 126,
+        "preview": "        container.innerHTML = ''; // Clear previous indicators"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.DataHandler.js",
+        "line": 17,
+        "preview": "                if (animator.animationData?.scene?.autoplay) setTimeout(() => animator.playAnimation(), 100);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.DataHandler.js",
+        "line": 27,
+        "preview": "    loadJsonFromTextarea: function(animator) {"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.DataHandler.js",
+        "line": 77,
+        "preview": "            ...animator.cameraState, // Preserve existing settings like minZoom, maxZoom, speeds"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 38,
+        "preview": "textarea#jsonInput {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 85,
+        "preview": "    margin: 20px auto;"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 114,
+        "preview": "        <textarea id=\"jsonInput\" placeholder=\"Paste JSON animation data here...\"></textarea>"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 296,
+        "preview": "        this.ui.loadJsonBtn.addEventListener('click', () => this.loadJsonFromTextarea());"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 322,
+        "preview": "    loadJsonFromTextarea() {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 742,
+        "preview": "                        if (event.voiceSettings) {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 743,
+        "preview": "                            if(event.voiceSettings.lang){"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 744,
+        "preview": "                                let voice = this.availableVoices.find(v => v.name === event.voiceSettings.lang || v.lang === event.voiceSettings.lang);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 745,
+        "preview": "                                if(voice) utterance.voice = voice; else console.warn(`TTS voice/lang '${event.voiceSettings.lang}' not found for \"${event.text}\"`);"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 747,
+        "preview": "                            utterance.rate = event.voiceSettings.rate || 1.0;"
+      },
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 748,
+        "preview": "                            utterance.pitch = event.voiceSettings.pitch || 1.0;"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 38,
+        "preview": "textarea#jsonInput {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 85,
+        "preview": "    margin: 20px auto;"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 117,
+        "preview": "        <textarea id=\"jsonInput\" placeholder=\"Paste JSON animation data here...\"></textarea>"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 503,
+        "preview": "        this.ui.loadJsonBtn.addEventListener('click', () => this.loadJsonFromTextarea());"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 524,
+        "preview": "                    if (this.animationData.scene && this.animationData.scene.autoplay) {"
+      },
+      {
+        "path": "geelooy/ai/animation/code (4).html",
+        "line": 535,
+        "preview": "    loadJsonFromTextarea() { /* Identical to original */"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 38,
+        "preview": "textarea#jsonInput {"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 85,
+        "preview": "    margin: 20px auto;"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 114,
+        "preview": "        <textarea id=\"jsonInput\" placeholder=\"Paste JSON animation data here...\"></textarea>"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 300,
+        "preview": "        this.ui.loadJsonBtn.addEventListener('click', () => this.loadJsonFromTextarea());"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 318,
+        "preview": "                     // Auto-play if specified in embedded data"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 319,
+        "preview": "                    if (this.animationData.scene && this.animationData.scene.autoplay) {"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 330,
+        "preview": "    loadJsonFromTextarea() {"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 817,
+        "preview": "                        if (event.voiceSettings) {"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 818,
+        "preview": "                            if(event.voiceSettings.lang && this.availableVoices.length > 0){"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 819,
+        "preview": "                                let voice = this.availableVoices.find(v => v.name === event.voiceSettings.lang || v.lang === event.voiceSettings.lang);"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 820,
+        "preview": "                                if(voice) utterance.voice = voice; else console.warn(`TTS voice/lang '${event.voiceSettings.lang}' not found for \"${event.text}\". Using default.`);"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 822,
+        "preview": "                            utterance.rate = event.voiceSettings.rate || 1.0;"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 823,
+        "preview": "                            utterance.pitch = event.voiceSettings.pitch || 1.0;"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 1531,
+        "preview": "                    // if an active camera event is found, its settings (already applied to targetX/Y/Zoom by _applyCameraEvent) take precedence"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 38,
+        "preview": "textarea#jsonInput {"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 85,
+        "preview": "    margin: 20px auto;"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 142,
+        "preview": "        <textarea id=\"jsonInput\" placeholder=\"Paste JSON animation data here...\"></textarea>"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 255,
+        "preview": "        this.ui.loadJsonBtn.addEventListener('click', () => this.loadJsonFromTextarea());"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 281,
+        "preview": "    loadJsonFromTextarea() { /* Same as before */"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 665,
+        "preview": "                        if (event.voiceSettings) {"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 666,
+        "preview": "                            if(event.voiceSettings.lang){"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 667,
+        "preview": "                                var voice = this.availableVoices.find(v => v.lang === event.voiceSettings.lang || v.name === event.voiceSettings.lang);"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 668,
+        "preview": "                                if(voice) utterance.voice = voice; else console.warn(`TTS voice/lang '${event.voiceSettings.lang}' not found.`);"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 670,
+        "preview": "                            utterance.rate = event.voiceSettings.rate || 1.0;"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 671,
+        "preview": "                            utterance.pitch = event.voiceSettings.pitch || 1.0;"
+      },
+      {
+        "path": "geelooy/ai/animation/index.html",
+        "line": 1580,
+        "preview": "        <textarea id=\"jsonInput\"></textarea>"
+      },
+      {
+        "path": "geelooy/ai/animation/parser.js",
+        "line": 549,
+        "preview": "            tempDiv.innerHTML = currentCommentaryHTML;"
+      },
+      {
+        "path": "geelooy/ai/animation/script.js",
+        "line": 388,
+        "preview": "        this.ui.loadJsonBtn.addEventListener('click', () => this.loadJsonFromTextarea());"
+      },
+      {
+        "path": "geelooy/ai/animation/script.js",
+        "line": 405,
+        "preview": "                if (this.animationData?.scene?.autoplay) setTimeout(() => this.playAnimation(), 100);"
+      },
+      {
+        "path": "geelooy/ai/animation/script.js",
+        "line": 409,
+        "preview": "    loadJsonFromTextarea() { /* Same */ try { this.loadAnimation(JSON.parse(this.ui.jsonInput.value)); } catch (e) { this.ui.statusDiv.textContent = \"JSON Error: \" + e.message + \"\\n\" + e.stack; } }"
+      },
+      {
+        "path": "geelooy/ai/animation/script.js",
+        "line": 1294,
+        "preview": "        const stylesContent = `body.exported-body{justify-content:center;align-items:center;min-height:100vh;padding-top:10px;} h1.exported-h1{margin-bottom:10px;font-size:1.6em;} #inputContainer.hidden-exported,#exportBtn.hidden-exported{display:none!important;} #playbackControlsContainer.full-width-exported{width:auto;max-width:${this.canvas.width}px;box-shadow:none;background-color:transparent;padding:10px 0;margin-bottom:10px;}`;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 18,
+        "preview": "  .thought-envelope-card,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 28,
+        "preview": "  .thought-envelope-card[open],"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 31,
+        "preview": "    overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/chat-events.css",
+        "line": 41,
+        "preview": "    overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 4,
+        "preview": "  Conversation and Automation become narrow doors until summoned; when opened,"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 9,
+        "preview": "  .automation-panel {"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 24,
+        "preview": "  .automation-panel { right: 6px !important; }"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 27,
+        "preview": "  body[data-automation-collapsed=\"true\"] .automation-panel {"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 34,
+        "preview": "  body[data-automation-collapsed=\"false\"] .automation-panel {"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 39,
+        "preview": "  .automation-panel > :not(.panel-topbar) {"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/panels.css",
+        "line": 41,
+        "preview": "    overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/mobile/shell.css",
+        "line": 28,
+        "preview": "    overflow: auto hidden;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/base.css",
+        "line": 5,
+        "preview": "  grid-template-columns: minmax(0, 1fr) auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/base.css",
+        "line": 29,
+        "preview": "  flex: 0 0 auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 5,
+        "preview": "  width: auto !important;"
+      },
+      {
+        "path": "geelooy/ai/css/panels/collapsed.css",
+        "line": 60,
+        "preview": "  z-index: auto !important;"
+      },
+      {
+        "path": "geelooy/ai/css/attachments.css",
+        "line": 24,
+        "preview": "  overflow-x: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/attachments.css",
+        "line": 30,
+        "preview": "  flex: 0 0 auto;"
+      },
+      {
+        "path": "geelooy/ai/css/automation-cockpit.css",
+        "line": 41,
+        "preview": ".automation-field {"
+      },
+      {
+        "path": "geelooy/ai/css/automation-cockpit.css",
+        "line": 48,
+        "preview": ".automation-field input:not([type=\"checkbox\"]) {"
+      },
+      {
+        "path": "geelooy/ai/css/automation-cockpit.css",
+        "line": 58,
+        "preview": ".automation-field input:not([type=\"checkbox\"]):focus {"
+      },
+      {
+        "path": "geelooy/ai/css/automation-cockpit.css",
+        "line": 62,
+        "preview": ".automation-field input[type=\"checkbox\"] {"
+      },
+      {
+        "path": "geelooy/ai/css/automation-cockpit.css",
+        "line": 73,
+        "preview": ".automation-status {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 5,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 42,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 76,
+        "preview": "  flex: 0 0 auto;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 133,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 199,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 219,
+        "preview": ".message-window-spacer { margin: 2px auto; }"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 75,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 97,
+        "preview": ".thought-envelope-card {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 104,
+        "preview": ".thought-envelope-card > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 110,
+        "preview": ".thought-envelope-readable {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 116,
+        "preview": ".thought-envelope-readable > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 122,
+        "preview": ".thought-envelope-events {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 127,
+        "preview": ".thought-envelope-events > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/event-cockpit.css",
+        "line": 133,
+        "preview": ".thought-envelope-events .transport-details {"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 8,
+        "preview": ".thought-envelope-card > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 14,
+        "preview": ".thought-envelope-card > summary .event-summary-title {"
+      },
+      {
+        "path": "geelooy/ai/css/event-responsive.css",
+        "line": 28,
+        "preview": "  .thought-envelope-card > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 70,
+        "preview": ".automation-status {"
+      },
+      {
+        "path": "geelooy/ai/css/final-alignment.css",
+        "line": 76,
+        "preview": "  overflow-x: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/focus-accessibility.css",
+        "line": 7,
+        "preview": ":where(button, select, textarea, summary, a):focus-visible {"
+      },
+      {
+        "path": "geelooy/ai/css/focus-accessibility.css",
+        "line": 27,
+        "preview": "    scroll-behavior: auto !important;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 7,
+        "preview": "  grid-template-rows: auto auto;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 37,
+        "preview": "  grid-template-rows: auto minmax(0, 1fr);"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 52,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 118,
+        "preview": "  pointer-events: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 120,
+        "preview": ".attachment-tray { min-width: 0; display: flex; flex-wrap: nowrap; gap: 6px; overflow-x: auto; overflow-y: hidden; max-height: 28px; }"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 121,
+        "preview": ".automation-panel h2 { margin: 0 0 12px; font-size: 1.05rem; }"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 122,
+        "preview": ".automation-field { display: grid; gap: 6px; margin: 0 0 12px; color: var(--ai-muted); }"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 123,
+        "preview": ".automation-field input, .automation-field select { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--ai-border); background: rgba(3,8,14,.82); color: var(--ai-text); }"
+      },
+      {
+        "path": "geelooy/ai/css/forms.css",
+        "line": 124,
+        "preview": ".automation-status { color: var(--ai-muted); font-size: .9rem; overflow-wrap: anywhere; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 18,
+        "preview": "body[data-automation-collapsed=\"true\"] .container { --ai-right-col: 62px; --ai-right-resizer: 0px; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 23,
+        "preview": "#automation-panel { grid-area: right; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 25,
+        "preview": "body[data-automation-collapsed=\"true\"] #right-resizer { display: none !important; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 26,
+        "preview": ".sidebar, .main, .automation-panel {"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 37,
+        "preview": ".sidebar, .automation-panel { display: grid; grid-template-rows: auto minmax(0, 1fr); }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 49,
+        "preview": ".automation-panel > :not(.panel-topbar) { min-height: 0; overflow: auto; padding: 12px; }"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 52,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 73,
+        "preview": ".conversation-automation-badge {"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 74,
+        "preview": "  flex: 0 0 auto;"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 88,
+        "preview": ".conversation-automation-badge {"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 94,
+        "preview": ".conversation-automation-badge::before {"
+      },
+      {
+        "path": "geelooy/ai/css/layout.css",
+        "line": 127,
+        "preview": "  .sidebar, .automation-panel { display: none !important; }"
+      },
+      {
+        "path": "geelooy/ai/css/markdown-polish.css",
+        "line": 47,
+        "preview": "  inset: 0 0 auto 0;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 7,
+        "preview": ".thought-envelope-card > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 8,
+        "preview": ".thought-envelope-events > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 16,
+        "preview": ".thought-envelope-card {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 21,
+        "preview": ".thought-envelope-card > .event-panel-actions {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 29,
+        "preview": ".thought-envelope-card > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-action-rail.css",
+        "line": 45,
+        "preview": "  flex: 0 0 auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 8,
+        "preview": "  pointer-events: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 40,
+        "preview": ".thought-envelope-card.is-fullscreen {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 42,
+        "preview": "  grid-template-rows: auto minmax(0, 1fr);"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 47,
+        "preview": ".thought-envelope-card.is-fullscreen > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 56,
+        "preview": ".thought-envelope-card.is-fullscreen .thought-inner-window {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-controls.css",
+        "line": 61,
+        "preview": ".thought-envelope-card[data-panel-state=\"minimized\"] {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 7,
+        "preview": "#automation-panel {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 12,
+        "preview": "#automation-panel .right-tabs {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 13,
+        "preview": "  flex: 0 0 auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 22,
+        "preview": "#automation-panel .right-panel-body {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 23,
+        "preview": "  flex: 1 1 auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 25,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 60,
+        "preview": "  margin-left: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 77,
+        "preview": ".thought-envelope-card.is-maximized {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 82,
+        "preview": ".thought-envelope-card.is-fullscreen {"
+      },
+      {
+        "path": "geelooy/ai/css/panel-polish.css",
+        "line": 91,
+        "preview": "  overflow: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/panels.css",
+        "line": 9,
+        "preview": "  .automation-panel .panel-topbar { padding-right: 8px; }"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 10,
+        "preview": ".thought-envelope-card,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 17,
+        "preview": ".thought-envelope-events[open] {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 19,
+        "preview": "  grid-template-rows: auto minmax(0, 1fr);"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 29,
+        "preview": "  overflow-y: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 41,
+        "preview": ".thought-envelope-events[open] > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 63,
+        "preview": "  margin-left: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-polish.css",
+        "line": 64,
+        "preview": "  flex: 0 0 auto;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 7,
+        "preview": ".thought-envelope-card,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 12,
+        "preview": ".thought-envelope-events {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 18,
+        "preview": ".thought-envelope-card > summary,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 23,
+        "preview": ".thought-envelope-events > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 30,
+        "preview": ".thought-envelope-card[open] {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 35,
+        "preview": ".thought-envelope-card > .event-panel-actions {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 49,
+        "preview": ".thought-envelope-card[data-panel-state=\"minimized\"] > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 54,
+        "preview": ".thought-envelope-card.is-maximized {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 56,
+        "preview": "  margin-inline: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 62,
+        "preview": "  content-visibility: auto;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 67,
+        "preview": ".thought-envelope-events:not([open]) > :not(summary),"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 103,
+        "preview": ".audio-settings {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 111,
+        "preview": ".audio-settings select {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 126,
+        "preview": "  grid-template-columns: auto minmax(120px, 1fr) auto;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 186,
+        "preview": "  .thought-envelope-card > summary {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 191,
+        "preview": "  .thought-envelope-card > .event-panel-actions {"
+      },
+      {
+        "path": "geelooy/ai/css/tokens.css",
+        "line": 62,
+        "preview": "button, select, textarea { font: inherit; }"
+      },
+      {
+        "path": "geelooy/ai/css/transport.css",
+        "line": 26,
+        "preview": ".transport-status strong { color: white; flex: 0 0 auto; }"
+      },
+      {
+        "path": "geelooy/ai/css/visual.css",
+        "line": 14,
+        "preview": ".sidebar, .main, .automation-panel {"
+      },
+      {
+        "path": "geelooy/ai/css/visual.css",
+        "line": 20,
+        "preview": ".chat-box, .conversation-list, .automation-panel, .automation-panel > :not(.panel-topbar) { scrollbar-width: thin; scrollbar-color: rgba(126,212,255,.45) transparent; }"
+      },
+      {
+        "path": "geelooy/ai/css/visual.css",
+        "line": 21,
+        "preview": ".chat-box::-webkit-scrollbar, .conversation-list::-webkit-scrollbar, .automation-panel::-webkit-scrollbar { width: 10px; height: 10px; }"
+      },
+      {
+        "path": "geelooy/ai/css/visual.css",
+        "line": 22,
+        "preview": ".chat-box::-webkit-scrollbar-thumb, .conversation-list::-webkit-scrollbar-thumb, .automation-panel::-webkit-scrollbar-thumb {"
+      },
+      {
+        "path": "geelooy/ai/css/visual.css",
+        "line": 60,
+        "preview": "button, select, textarea, .conversation-list li, .message-offload, .event-group {"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 11,
+        "preview": " * Streams may belong to the visible chat or to a hidden automation chat. Visible"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 39,
+        "preview": "        list.innerHTML = `<li class=\"is-loading\">Reconnecting conversations… ${attempt + 1}/6</li>`;"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 48,
+        "preview": "      list.innerHTML = `<li class=\"is-error\">${escapeHtml(response.awtsmoosAuth.message)} <a href=\"https://chatgpt.com/\" target=\"_blank\" rel=\"noreferrer\">Open ChatGPT</a></li>`;"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 51,
+        "preview": "    list.innerHTML = `<li class=\"is-empty\">No conversations returned.</li>`;"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 55,
+        "preview": "    list.innerHTML = `<li class=\"is-error\">Conversation list could not load: ${escapeHtml(error?.message || error)}</li>`;"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 88,
+        "preview": "  async sendAutomation(userMessage, hooks = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 96,
+        "preview": "      automation: true"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 125,
+        "preview": "        automation: Boolean(hooks.automation)"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 133,
+        "preview": "        hooks.ondone?.(extractAssistantText(packet), { conversationId: cid, automation: Boolean(hooks.automation) });"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 3,
+        "preview": "import { AUTOMATION_RUNS_EVENT, automationRunStore } from \"../automation/runStore.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 8,
+        "preview": " * The list receives pulse badges for both hidden streams and hidden automation"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 19,
+        "preview": "    globalThis.addEventListener?.(AUTOMATION_RUNS_EVENT, () => this.applyBadges());"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 28,
+        "preview": "    list.innerHTML = `<li class=\"is-loading\">Loading conversations…</li>`;"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 32,
+        "preview": "    list.innerHTML = \"\";"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 72,
+        "preview": "    const activeRuns = new Map(automationRunStore.list().filter(run => run.conversationId && ![\"off\", \"done\", \"stopped\", \"error\"].includes(run.status)).map(run => [run.conversationId, run]));"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 77,
+        "preview": "      item.classList.toggle(\"is-automating\", Boolean(run));"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 78,
+        "preview": "      item.querySelectorAll(\".conversation-stream-badge,.conversation-automation-badge\").forEach(node => node.remove());"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationListPager.js",
+        "line": 80,
+        "preview": "      if (run) item.appendChild(makeBadge(\"conversation-automation-badge\", `auto ${run.turns || 0}`, `Automation is ${run.status || \"active\"}`));"
+      },
+      {
+        "path": "geelooy/ai/js/attachments/attachmentTray.js",
+        "line": 33,
+        "preview": "    this.tray.innerHTML = items.map(item => `"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 2,
+        "preview": "import { EVENT_TYPES, applyEventVisibility, loadEventVisibility, saveEventVisibility } from \"../settings/eventVisibility.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 4,
+        "preview": "import { loadNodeRelaySettings, saveNodeRelaySettings } from \"../chatgpt/transport/nodeRelaySettings.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 6,
+        "preview": "export class AutomationPanel {"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 11,
+        "preview": "    this.settings = store.load();"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 13,
+        "preview": "    this.relaySettings = loadNodeRelaySettings();"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 14,
+        "preview": "    this.tab = \"automation\";"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 22,
+        "preview": "   * The Awtsmoos lets Settings remain available at every hour: extension path,"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 23,
+        "preview": "   * localhost relay path, trace filters, and automation all sit in one drawer."
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 28,
+        "preview": "    this.root.innerHTML = `<div class=\"right-tabs\">"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 29,
+        "preview": "      ${tab(\"automation\", \"Automation\", this.tab)}${tab(\"settings\", \"Settings\", this.tab)}${tab(\"trace\", \"Trace filters\", this.tab)}"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 32,
+        "preview": "    this.bindAutomation();"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 38,
+        "preview": "    if (this.tab === \"settings\") return `<h2>B\"H Cockpit Settings</h2><p class=\"panel-note\">The right drawer is now a multi-panel vessel.</p>${this.relayFields()}${this.visibilityFields()}`;"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 40,
+        "preview": "    return `<h2>Automation Pipeline</h2>${field(\"enabled\", \"Enable auto-continue\", \"checkbox\", this.settings.enabled)}${field(\"maxTurns\", \"Max turns\", \"number\", this.settings.maxTurns)}${field(\"delayMs\", \"Delay ms\", \"number\", this.settings.delayMs)}<label class=\"automation-field\">Prompt<input data-auto=\"prompt\" value=\"${attr(this.settings.prompt)}\"></label><div class=\"automation-status\" id=\"automation-status\">automation off</div>`;"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 44,
+        "preview": "    const enabled = this.relaySettings.enabled ? \"checked\" : \"\";"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 45,
+        "preview": "    return `<section class=\"automation-card relay-card\">"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 49,
+        "preview": "      <label class=\"automation-field\">Relay URL<input data-relay=\"url\" value=\"${attr(this.relaySettings.url)}\"></label>"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 50,
+        "preview": "      <label class=\"automation-field\"><input data-relay=\"enabled\" type=\"checkbox\" ${enabled}> Use Node relay instead of extension</label>"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 56,
+        "preview": "      <div class=\"automation-status\" id=\"relay-status\">${this.relaySettings.enabled ? \"Node relay selected\" : \"Extension bridge selected\"}</div>"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 61,
+        "preview": "    return `<div class=\"event-filter-grid\">${EVENT_TYPES.map(type => `<label class=\"automation-field event-filter\"><input data-event-type=\"${type}\" type=\"checkbox\" ${this.eventVisibility[type] !== false ? \"checked\" : \"\"}> Show ${label(type)}</label>`).join(\"\")}</div>`;"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 71,
+        "preview": "  bindAutomation() {"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 72,
+        "preview": "    this.root.querySelectorAll(\"[data-auto]\").forEach(input => input.oninput = () => this.captureAutomation());"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 84,
+        "preview": "  captureAutomation() {"
+      },
+      {
+        "path": "geelooy/ai/js/automation/panel.js",
+        "line": 86,
+        "preview": "    this.root.querySelectorAll(\"[data-auto]\").forEach(input => next[input.dataset.auto] = input.type === \"checkbox\" ? input.checked : cast(input.value));"
+      }
+    ]
+  }
+}

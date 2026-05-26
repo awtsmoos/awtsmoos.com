@@ -1,12 +1,13 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory(require('./RuntimeGraph.js'), require('./ImportResolver.js'), require('./HTMLAssembler.js'), require('./CSSAssembler.js'), require('./ModuleExecutor.js'), require('../merkava-browser/SyntheticBrowserRuntime.js'), require('../merkava-node/VirtualNodeRuntime.js'), require('./DOMHydrator.js'));
-    else { root.Merkava = root.Merkava || {}; root.Merkava.RuntimeAssembler = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava.DOMHydrator || root.Merkava).RuntimeAssembler; }
-})(typeof self !== 'undefined' ? self : this, function(graphMod, resolverMod, htmlMod, cssMod, moduleMod, browserMod, nodeMod, domHydratorMod) {
+    if (typeof module === 'object' && module.exports) module.exports = factory(require('./RuntimeGraph.js'), require('./ImportResolver.js'), require('./HTMLAssembler.js'), require('./CSSAssembler.js'), require('./ModuleExecutor.js'), require('../merkava-browser/SyntheticBrowserRuntime.js'), require('../merkava-node/VirtualNodeRuntime.js'), require('./DOMHydrator.js'), require('../merkava-binary/MerkavaVmFileExecutor.js'));
+    else { root.Merkava = root.Merkava || {}; root.Merkava.RuntimeAssembler = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava.DOMHydrator || root.Merkava, root.Merkava).RuntimeAssembler; }
+})(typeof self !== 'undefined' ? self : this, function(graphMod, resolverMod, htmlMod, cssMod, moduleMod, browserMod, nodeMod, domHydratorMod, vmFileMod) {
     const RuntimeGraph = graphMod.RuntimeGraph, ImportResolver = resolverMod.ImportResolver;
     const HTMLAssembler = htmlMod.HTMLAssembler, CSSAssembler = cssMod.CSSAssembler, ModuleExecutor = moduleMod.ModuleExecutor;
     const SyntheticBrowserRuntime = browserMod.SyntheticBrowserRuntime, VirtualNodeRuntime = nodeMod.VirtualNodeRuntime;
     const hydrateHTML = domHydratorMod.hydrateHTML || (() => ({ ok: false, count: 0 }));
+    const executeVmFiles = vmFileMod.executeVmFiles;
     const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 
     /**
@@ -37,7 +38,7 @@
             let result;
             if (entry.endsWith('.html')) result = await this.runHTML(assembly.html, runtime, globals);
             else if (this.options.module || /\bimport\s|\bexport\s|\brequire\s*\(/.test(this.files[entry] || '')) {
-                result = await runtime.executeFunction(() => new ModuleExecutor({ files: this.files, graph: this.graph, runtimeGlobals: globals, runtime: this.options.runtime }).execute(entry));
+                result = await runtime.executeFunction(() => runModuleFile({ files: this.files, entry, globals, runtime: this.options.runtime, graph: this.graph }));
             } else {
                 result = await runtime.executeFunction(this.options.execute || makeExecutor(this.files[entry] || '', this.options.runtime));
             }
@@ -49,7 +50,7 @@
             let last = null;
             for (const step of html.executionPlan) {
                 const code = step.inline ? step.code : this.files[step.resolved] || '';
-                if (step.type === 'module') last = await runtime.executeFunction(() => new ModuleExecutor({ files: this.files, graph: this.graph, runtimeGlobals: globals }).execute(step.resolved || step.from));
+                if (step.type === 'module') last = await runtime.executeFunction(() => runModuleFile({ files: this.files, entry: step.resolved || step.from, globals, runtime: this.options.runtime || 'browser', graph: this.graph }));
                 else last = await runtime.executeFunction(makeExecutor(code, 'browser'));
                 if (!last.ok) return last;
             }
@@ -72,6 +73,10 @@
         return runtime === 'node'
             ? async api => AsyncFunction('api', 'with(api){' + source + '\n}')(api)
             : async globals => AsyncFunction('globals', 'with(globals){' + source + '\n}')(globals);
+    }
+    async function runModuleFile(options) {
+        if (typeof executeVmFiles === 'function') return executeVmFiles(options);
+        return new ModuleExecutor(options).execute(options.entry);
     }
     return { RuntimeAssembler };
 });

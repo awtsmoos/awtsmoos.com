@@ -15,11 +15,11 @@ import { storeRawJson } from "./runtime/rawJsonVault.js";
  * @param {object} event Classified event capsule.
  * @returns {string} Body HTML for one expanded event.
  */
-export function renderEventBody(event = {}) {
+export function renderEventBody(event = {}, options = {}) {
   const kind = eventKind(event);
   const summaryHtml = renderSummary(summarizeEvent(event));
   const action = event?.action?.href ? `<a class="event-action" href="${escapeHtml(event.action.href)}" target="_blank" rel="noreferrer">${escapeHtml(event.action.label || "open")}</a>` : "";
-  const rawKey = storeRawJson(event?.raw ?? event);
+  const rawKey = storeRawJson(event?.raw ?? event, { stableKey: options.rawKey || "" });
   return `<div class="event-lanes"><article class="event-lane ${escapeHtml(kind)}">
     <div class="event-text">${summaryHtml}</div>${action}
     <details class="event-raw-lazy" data-persist-key="raw" data-raw-json-key="${escapeHtml(rawKey)}"><summary>Raw JSON kept outside DOM</summary></details>

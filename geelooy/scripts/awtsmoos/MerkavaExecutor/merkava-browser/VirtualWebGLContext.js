@@ -1,9 +1,9 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory();
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWebGLContext = factory().VirtualWebGLContext; }
-})(typeof self !== 'undefined' ? self : this, function() {
-    const { VirtualWebGLTextureArena } = require('./VirtualWebGLTextureArena.js');
+    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualWebGLTextureArena.js'));
+    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWebGLContext = factory(root.Merkava).VirtualWebGLContext; }
+})(typeof self !== 'undefined' ? self : this, function(arenaMod) {
+    const VirtualWebGLTextureArena = arenaMod.VirtualWebGLTextureArena;
     /**
      * Chapter 12: The Awtsmoos paints photons before the screen exists.
      *

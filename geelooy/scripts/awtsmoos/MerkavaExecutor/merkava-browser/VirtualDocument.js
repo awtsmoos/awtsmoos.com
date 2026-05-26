@@ -1,14 +1,14 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualElement.js'));
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualDocument = factory({ VirtualElement: root.Merkava.VirtualElement }).VirtualDocument; }
-})(typeof self !== 'undefined' ? self : this, function(elements) {
+    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualElement.js'), require('./VirtualWebGLTextureArena.js'), require('./VirtualFontAtlas.js'), require('./VirtualCssEngine.js'));
+    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualDocument = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualDocument; }
+})(typeof self !== 'undefined' ? self : this, function(elements, arenaMod, fontMod, cssMod) {
     const VirtualElement = elements.VirtualElement;
+    const VirtualWebGLTextureArena = arenaMod.VirtualWebGLTextureArena;
+    const VirtualFontAtlas = fontMod.VirtualFontAtlas;
+    const VirtualCssEngine = cssMod.VirtualCssEngine;
     class VirtualDocument {
         constructor() {
-            const { VirtualWebGLTextureArena } = require('./VirtualWebGLTextureArena.js');
-            const { VirtualFontAtlas } = require('./VirtualFontAtlas.js');
-            const { VirtualCssEngine } = require('./VirtualCssEngine.js');
             this.textureArena = new VirtualWebGLTextureArena();
             this.fontAtlas = new VirtualFontAtlas();
             this.cssEngine = new VirtualCssEngine();

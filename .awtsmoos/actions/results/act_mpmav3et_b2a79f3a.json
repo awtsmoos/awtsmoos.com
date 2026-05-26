@@ -1,0 +1,248 @@
+{
+  "entry": {
+    "actionId": "act_mpmav3et_b2a79f3a",
+    "inputRef": "cmd_act_mpmav3et_b2a79f3a",
+    "outputRef": ".awtsmoos/actions/results/act_mpmav3et_b2a79f3a.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/js/app/streamRouter.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\r\nimport { normalizeMessage } from \"../render/messageNormalizer.js\";\r\nimport { isDonePacket, looksLikeUserEcho } from \"./stream/packetState.js\";\r\nimport { withoutFinalReplayEvents } from \"./stream/livePacketSanitizer.js\";\r\n\r\n/**\r\n * Chapter 72: One Assistant Vessel Held The Whole River.\r\n *\r\n * A streamed turn must never split into a trace record and then a later text\r\n * record. That split was the root of out-of-order bubbles, audio controls\r\n * appearing before/after the wrong message, and thought events seeming to jump\r\n * beyond the final answer. This router creates exactly one assistant record per\r\n * visible streamed turn, then mutates that same vessel for events and text.\r\n */\r\nexport class StreamRouter {\r\n  constructor(renderer) {\r\n    this.renderer = renderer;\r\n    this.record = null;\r\n    this.assistant = null;\r\n    this.done = false;\r\n  }\r\n\r\n  async route(packet) {\r\n    const normalized = normalizeMessage(packet);\r\n    await this.routeNormalized(packet, normalized);\r\n    if (isDonePacket(packet)) this.finishDone();\r\n  }\r\n\r\n  async finish(packet) {\r\n    if (packet && !isDonePacket(packet)) {\r\n      const safePacket = withoutFinalReplayEvents(packet);\r\n      const normalized = normalizeMessage(safePacket);\r\n      await this.routeNormalized(safePacket, normalized);\r\n    }\r\n    this.finishDone();\r\n  }\r\n\r\n  async routeNormalized(packet, normalized) {\r\n    const hasText = Boolean(normalized.text?.trim());\r\n    const hasEvents = Boolean(normalized.events?.length);\r\n    const record = this.ensureAssistantRecord();\r\n    if (hasEvents) this.renderer.setRecordEvents(record.id, normalized.events);\r\n    if (hasText && normalized.role === \"assistant\" && !looksLikeUserEcho(this.renderer, normalized.text)) {\r\n      await this.renderer.updateRecord(record.id, packet, \"assistant\");\r\n    }\r\n  }\r\n\r\n  ensureAssistantRecord() {\r\n    if (this.record) return this.record;\r\n    this.record = this.renderer.add({ message: { author: { role: \"assistant\" }, content: { parts: [\"\"] } }, awtsmoosLoading: true });\r\n    this.assistant = this.record;\r\n    return this.record;\r\n  }\r\n\r\n  finishDone() {\r\n    if (this.done) return;\r\n    this.done = true;\r\n    this.renderer.finalizeLiveRecords?.();\r\n  }\r\n}\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T07:14:31.301Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/js/app/streamRouter.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\js\\app\\streamRouter.js",
+    "bytes": 2220,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "normalizeMessage",
+          "index": 12
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "isDonePacket",
+          "index": 49
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "looksLikeUserEcho",
+          "index": 63
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "withoutFinalReplayEvents",
+          "index": 101
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "renderer",
+          "index": 185
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "route",
+          "index": 321
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "packet",
+          "index": 327
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "finish",
+          "index": 506
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "routeNormalized",
+          "index": 789
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ensureAssistantRecord",
+          "index": 1251
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "message",
+          "index": 1358
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "author",
+          "index": 1369
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "role",
+          "index": 1379
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "content",
+          "index": 1390
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "parts",
+          "index": 1401
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "awtsmoosLoading",
+          "index": 1417
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "finishDone",
+          "index": 1513
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

@@ -10,6 +10,12 @@ export function makeChatGPTService(self) {
     async getAwtsmoosAudio(...args) {
       return self?.instance?.getAwtsmoosAudio(...args);
     },
+    async getAwtsmoosAudioStream(...args) {
+      return self?.instance?.getAwtsmoosAudioStream(...args);
+    },
+    async getAwtsmoosAudioStream(...args) {
+      return self?.instance?.getAwtsmoosAudioStream(...args);
+    },
     async getConversationsFnc({ limit = self.conversationLimit, offset = self.conversationOffset } = {}) {
       return self.instance.getConversations({ limit, offset });
     },

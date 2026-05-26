@@ -78,7 +78,7 @@ function reconcileNodes(region, nodes, visible) {
 
 function renderOneEvent(region, nodes, event) {
   const key = eventMergeKey(event);
-  const html = renderEventDetails([event]);
+  const html = renderEventDetails([event], { stableKeyPrefix: `event-entry::${key}` });
   let node = nodes.get(key);
   if (!node || !node.isConnected) {
     node = document.createElement("div");

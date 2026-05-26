@@ -1,64 +1,50 @@
 //B"H
 
-const collapsedBodies = new WeakMap();
-const PANEL_SELECTOR = "details.transport-details, details.event-payload, details.event-raw-lazy, details.event-long, details.event-object, details.event-array";
+const DISCARD_SELECTOR = "details.transport-details[data-event-payload-key], details.thought-envelope-events";
+const DISCARD_BODY_SELECTORS = [":scope > .event-lanes", ":scope > .thought-inner-window", ":scope > .event-hydration-loading"];
 
 /**
  * Chapter 8: The Closed Gate Held No Crowd.
  *
- * The Awtsmoos shows mercy to the browser: when a gate is shut, its citizens
- * leave the DOM and wait as detached living sparks in RAM. When the gate opens,
- * they return in order; when it closes, they vanish again from the visible tree.
+ * Closed heavy panels must not merely hide their citizens, nor keep detached
+ * citizens breathing in RAM. This vault discards rehydratable bodies. Opening a
+ * gate lets the event-body hydrator rebuild only that requested section from
+ * the payload vault. Lightweight nested value panels are left alone unless they
+ * gain their own payload key, because destroying unrecoverable markup would be
+ * false mercy.
  *
- * @param {ParentNode} root Region whose closed detail panels should be light.
+ * @param {ParentNode} root Region whose closed heavy panels should be light.
  * @returns {void}
- * @sideEffects Installs one delegated toggle listener and mutates panel bodies.
+ * @sideEffects Installs one delegated toggle listener and removes closed bodies.
  */
 export function installCollapsedDomVault(root) {
   if (!root || root.__awtsmoosCollapsedDomVault) return;
   root.__awtsmoosCollapsedDomVault = true;
   root.addEventListener("toggle", event => {
     const panel = event.target;
-    if (!isVaultPanel(panel)) return;
-    panel.open ? restorePanel(panel) : vaultPanel(panel);
+    if (!isDiscardable(panel)) return;
+    if (!panel.open) discardBody(panel);
   }, true);
 }
 
 /**
- * Sweeps a freshly rendered region and removes every closed panel body.
+ * Sweeps a freshly rendered region and removes every closed heavy body.
  *
  * @param {ParentNode} root Freshly rendered node or region.
  * @returns {void}
  */
 export function vaultCollapsedPanels(root) {
   if (!root?.querySelectorAll) return;
-  [...root.querySelectorAll(PANEL_SELECTOR)].forEach(panel => {
-    if (!panel.open) vaultPanel(panel);
+  [...root.querySelectorAll(DISCARD_SELECTOR)].forEach(panel => {
+    if (!panel.open) discardBody(panel);
   });
 }
 
-function isVaultPanel(node) {
-  return node?.matches?.(PANEL_SELECTOR);
+function isDiscardable(node) {
+  return node?.matches?.(DISCARD_SELECTOR);
 }
 
-function vaultPanel(panel) {
-  if (collapsedBodies.has(panel)) return;
-  const fragment = document.createDocumentFragment();
-  bodyNodes(panel).forEach(node => fragment.appendChild(node));
-  collapsedBodies.set(panel, fragment);
-  panel.dataset.domVaulted = "1";
-}
-
-function restorePanel(panel) {
-  const fragment = collapsedBodies.get(panel);
-  if (!fragment) return;
-  panel.appendChild(fragment);
-  collapsedBodies.delete(panel);
-  delete panel.dataset.domVaulted;
-  vaultCollapsedPanels(panel);
-}
-
-function bodyNodes(panel) {
-  const summary = panel.querySelector(":scope > summary");
-  return [...panel.childNodes].filter(node => node !== summary);
+function discardBody(panel) {
+  for (const selector of DISCARD_BODY_SELECTORS) panel.querySelector(selector)?.remove();
+  panel.dataset.domVaulted = "discarded";
 }

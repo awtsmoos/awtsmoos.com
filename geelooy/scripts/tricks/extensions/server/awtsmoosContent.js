@@ -1,7 +1,6 @@
 //B"H
 (function revealAwtsmoosServerContentBridge() {
   console.log('B"H awtsmoosContent guarded bridge v2 loaded');
-  console.log('B"H awtsmoosContent guarded bridge v2 loaded');
   const bridgeKey = "__awtsmoosServerPortManager";
   const scriptKey = "__awtsmoosServerJectedInjected";
 
@@ -77,7 +76,7 @@
         this.port = null;
         const message = String(error?.message || error);
         this.announce("server-reconnecting", { error: message });
-        if (/context invalidated|extension context/i.test(message)) return this.markDeadContext(error);
+        if (/context invalidated|extension context|disconnected port object|port object/i.test(message)) return this.queueAndReconnect(null, error);
         this.retryDelay = Math.min(this.retryDelay * 1.6, this.maxRetryDelay);
         this.connectSoon(this.retryDelay);
       }
@@ -118,6 +117,7 @@
         this.port = null;
         const text = String(error?.message || error);
         if (/context invalidated|extension context/i.test(text)) return this.markDeadContext(error);
+        if (/disconnected port object|port object/i.test(text)) return this.queueAndReconnect(message, error);
         this.queueAndReconnect(message, error);
       }
     }

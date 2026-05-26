@@ -1,0 +1,59 @@
+{
+  "entry": {
+    "actionId": "act_mpm7vksc_15a7ec91",
+    "inputRef": "cmd_act_mpm7vksc_15a7ec91",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7vksc_15a7ec91.json",
+    "parentActionId": null,
+    "action": "simulateRuntime",
+    "input": {
+      "action": "simulateRuntime",
+      "runtime": "browser",
+      "entry": "index.html",
+      "files": {
+        "index.html": "<main id=\"out\"></main><script>const msg=\"BH Default Merkava\"; out.textContent=msg;</script>"
+      },
+      "timeoutMs": 30000
+    },
+    "ok": false,
+    "createdAt": "2026-05-26T05:50:54.973Z"
+  },
+  "output": {
+    "ok": false,
+    "engine": "merkava",
+    "error": "merkava_runtime_failed",
+    "message": "The requested module '../interactions/applyInteractions.js' does not provide an export named 'applyInteractions'",
+    "stack": "file:///C:/Users/Yackov%20Yitzchak/Documents/WoW/BH/awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/core/simulateRuntime.js:10\nimport { applyInteractions } from \"../interactions/applyInteractions.js\";\n         ^^^^^^^^^^^^^^^^^\nSyntaxError: The requested module '../interactions/applyInteractions.js' does not provide an export named 'applyInteractions'\n    at ModuleJob._instantiate (node:internal/modules/esm/module_job:226:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async ModuleJob.run (node:internal/modules/esm/module_job:335:5)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)\n    at async loadMerkavaService (C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\tunnel\\agent\\tools\\fs\\actionGroups\\runtimeActions.js:120:12)\n    at async runService (C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\tunnel\\agent\\tools\\fs\\actionGroups\\runtimeActions.js:150:21)\n    at async Object.simulateRuntime (C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\tunnel\\agent\\tools\\fs\\actionGroups\\runtimeActions.js:167:14)\n    at async handleFsAction (C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\tunnel\\agent\\tools\\fs\\actions.js:64:18)\n    at async C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\.awtsmoos-tmp\\simulate-merkava-default-source-smoke.cjs:5:18",
+    "retryWith": "chrome",
+    "chromeRecommended": true,
+    "suggestion": {
+      "action": "simulateRuntime",
+      "engine": "chrome",
+      "reason": "Merkava runtime failed; retry with browser-backed runtime."
+    },
+    "options": {
+      "runtime": "browser",
+      "engine": "merkava",
+      "entry": "index.html",
+      "files": {
+        "index.html": "<main id=\"out\"></main><script>const msg=\"BH Default Merkava\"; out.textContent=msg;</script>"
+      },
+      "virtualEnv": {
+        "entry": "index.html",
+        "files": {
+          "index.html": "<main id=\"out\"></main><script>const msg=\"BH Default Merkava\"; out.textContent=msg;</script>"
+        },
+        "source": "explicit",
+        "diagnostics": [],
+        "ok": true
+      },
+      "workflow": null,
+      "probes": [],
+      "interactions": [],
+      "origin": "https://awtsmoos.com",
+      "url": "https://awtsmoos.com",
+      "headless": true,
+      "waitMs": 800,
+      "timeoutMs": 30000
+    }
+  }
+}

@@ -1,55 +1,60 @@
 <!--B"H-->
-<script awts>
-	var own = this.belongsToMe;
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Awtsmoos Profile</title>
+    <link rel="stylesheet" href="/style/social/alias.css">
+  </head>
+  <body>
+    <main class="all awtsmoospage">
+      <section class="main">
+        <div class="alias-container" aria-live="polite"></div>
+      </section>
+    </main>
+    <script type="module">
+      // B"H
+      import {
+        getAliasOwnership,
+        getAliasDetails
+      } from "/scripts/awtsmoos/api/social/alias.js";
+      import {
+        makeAliasPage
+      } from "/scripts/awtsmoos/social/aliasPage.js";
 
-	if(this. alias) {
-		
-		sharedData.ownsThis = own && own.code != "NO";
-		sharedData.alias = this.alias
-	}
-	/*/var aliasURL = "/profile/alias-manage?" + new URLSearchParams({
-		alias: alias.id,
-		action: "update",
-		returnURL: thisURL
-	});*/
-	var thisURL = "@" + alias.id;
-	return $a(
-		"nav/page.html", {
-			centered: true,
-			tochen:/*html*/`
-			<title>@${alias.id}</title>
-			<link rel="stylesheet" href="/style/social/alias.css">
-			<div class="aliasInfo">
-			<div class="alias-container">
-			<div class="alias-name">`
-				+
-					(own ? (/*html*/`
-					
-						<a href="/profile/alias-manage" id="aliasId">@${alias.id}</a>
-						<script>
-						var ref = new URL(location.origin+"/profile/alias-manage");
-						ref.search = new URLSearchParams({
-							alias: "${alias.id}",
-							action: "update",
-							returnURL: "/${thisURL}"
-						});
-						aliasId.href = ref+""
-						</script>
-					`) : "@"+alias.id)
-				+
-				/*html*/`
-			</div>
-			<div class="alias-name">${
-					alias.name	
-				}</div>
-				<div class="alias-description">${
-					alias.description	
-				}</div>
-				<a href="/heichelos?alias=${alias.id}" class="alias-links">Heichelos</a>
-			</div>
-			</div>
-			`
-		}
-	);
+      const container = document.querySelector(".alias-container");
+      const alias = decodeURIComponent(location.pathname.replace(/^\/@\/?/, ""));
 
-</script>?>
+      async function awakenAliasPage() {
+        if (!alias) {
+          container.textContent = "B'H - no alias selected.";
+          return;
+        }
+
+        const [ownership, details] = await Promise.all([
+          getAliasOwnership(alias),
+          getAliasDetails(alias)
+        ]);
+
+        if (!details || details.error) {
+          container.textContent = "B'H - @" + alias + " was not found.";
+          return;
+        }
+
+        document.title = "@" + (details.id || alias);
+
+        await makeAliasPage({
+          details,
+          ownership: ownership?.code === "YES",
+          container
+        });
+      }
+
+      awakenAliasPage().catch(error => {
+        console.error("B'H - Alias profile rupture:", error);
+        container.textContent = "B'H - Could not load @" + alias + ".";
+      });
+    </script>
+  </body>
+</html>

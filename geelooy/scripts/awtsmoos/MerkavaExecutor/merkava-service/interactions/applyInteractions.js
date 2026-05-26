@@ -13,7 +13,7 @@ async function pause(ms) {
  * @param {Array<object>} interactions Declarative interactions.
  * @returns {Promise<Array<object>>} Interaction replay log.
  */
-async function applyInteractions(runtime, interactions = []) {
+export async function applyInteractions(runtime, interactions = []) {
   const log = [];
   const virtual = runtime?.window?.interactions;
   if (!virtual) return log;
@@ -27,5 +27,3 @@ async function applyInteractions(runtime, interactions = []) {
   }
   return log;
 }
-
-module.exports = { applyInteractions };

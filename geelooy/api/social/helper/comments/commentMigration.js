@@ -16,6 +16,14 @@ const {
     indexCommentSearchRecord
 } = require("./commentAwtsmoosDbBridge.js");
 
+const {
+    writeCommentShardRecord
+} = require("./commentShardMirror.js");
+
+const {
+    writeMigrationManifest
+} = require("../packed/socialPacked.js");
+
 function stableMigratedId({ comment, aliasId, verseSection, index }) {
     if (comment?.id) return comment.id;
     if (comment?.commentId) return comment.commentId;
@@ -47,7 +55,9 @@ async function migrateParentCommentsToAwtsmoosDb({
     parentId,
     postId,
     storageFormat = "awtsmoosBinary",
-    legacySourceFormat = "awtsmoosJson"
+    legacySourceFormat = "awtsmoosJson",
+    dryRun = false,
+    writeManifest = true
 }) {
     if (!$i?.db) return { error: true, message: "Missing $i.db" };
     if (!heichelId || !seriesId || !parentId) {
@@ -75,7 +85,9 @@ async function migrateParentCommentsToAwtsmoosDb({
         parentBasePath,
         aliasesSeen: aliasIds.length,
         migrated: 0,
+        sharded: 0,
         skipped: 0,
+        dryRun,
         errors: []
     };
 
@@ -119,6 +131,13 @@ async function migrateParentCommentsToAwtsmoosDb({
                 comment.author = comment.author || aliasId;
                 comment.verseSection = comment.verseSection ?? verseSection;
 
+                const migration = migrationPacket({ sourcePath: aliasPath, aliasId, verseSection, index });
+                if (dryRun) {
+                    report.migrated++;
+                    report.sharded++;
+                    continue;
+                }
+
                 const indexed = await indexCommentSearchRecord({
                     $i,
                     comment,
@@ -131,13 +150,52 @@ async function migrateParentCommentsToAwtsmoosDb({
                     status: "migrated",
                     storageFormat,
                     legacySourceFormat,
-                    migration: migrationPacket({ sourcePath: aliasPath, aliasId, verseSection, index })
+                    migration
+                });
+
+                const sharded = writeCommentShardRecord({
+                    $i,
+                    comment,
+                    context: {
+                        heichelId,
+                        seriesId,
+                        parentType,
+                        parentId,
+                        postId: postId || (parentType === "post" ? parentId : undefined),
+                        aliasId,
+                        verseSection
+                    },
+                    migration
                 });
 
                 if (indexed?.success) report.migrated++;
                 else report.errors.push({ aliasId, verseSection, index, indexed });
+                if (sharded?.file) report.sharded++;
+                else report.errors.push({ aliasId, verseSection, index, sharded });
             }
         }
+    }
+
+    if (!dryRun && writeManifest) {
+        writeMigrationManifest({
+            $i,
+            manifest: {
+                id: `comment_${heichelId}_${seriesId}_${parentType}_${parentId}_${Date.now()}`,
+                type: "legacyCommentsToPackedShards",
+                parentBasePath,
+                heichelId,
+                seriesId,
+                parentType,
+                parentId,
+                postId: postId || (parentType === "post" ? parentId : ""),
+                aliasesSeen: report.aliasesSeen,
+                migrated: report.migrated,
+                sharded: report.sharded,
+                skipped: report.skipped,
+                errors: report.errors.length,
+                createdAt: Date.now()
+            }
+        });
     }
 
     return report;

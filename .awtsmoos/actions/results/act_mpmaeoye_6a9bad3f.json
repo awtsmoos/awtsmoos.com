@@ -1,0 +1,298 @@
+{
+  "entry": {
+    "actionId": "act_mpmaeoye_6a9bad3f",
+    "inputRef": "cmd_act_mpmaeoye_6a9bad3f",
+    "outputRef": ".awtsmoos/actions/results/act_mpmaeoye_6a9bad3f.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/tests/harness/automationGraph.cjs",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\r\nconst path = require(\"path\");\r\nconst { pathToFileURL } = require(\"url\");\r\nconst { ROOT, assert, test, makeStorage } = require(\"./assert.cjs\");\r\n\r\n/**\r\n * B\"H — Proves the automation graph compiler/executor remains deterministic.\r\n */\r\nasync function run() {\r\n  return test(\"automation-graph-engine-and-archive\", async () => {\r\n    globalThis.localStorage = makeStorage();\r\n    globalThis.window = undefined;\r\n    const suffix = `?h=${Date.now()}${Math.random()}`;\r\n    const graphUrl = pathToFileURL(path.join(ROOT, \"js/automation/graphEngine.js\")).href + suffix;\r\n    const storeUrl = pathToFileURL(path.join(ROOT, \"js/automation/graphStore.js\")).href + suffix;\r\n    const archiveUrl = pathToFileURL(path.join(ROOT, \"js/automation/messageArchive.js\")).href + suffix;\r\n    const { evaluateAutomationGraph } = await import(graphUrl);\r\n    const { AutomationGraphStore } = await import(storeUrl);\r\n    const { AutomationArchiveStore } = await import(archiveUrl);\r\n\r\n    const graph = {\r\n      version: 1,\r\n      start: \"contains-done\",\r\n      nodes: [\r\n        { id: \"contains-done\", type: \"condition\", label: \"done?\", match: \"DONE\", onTrue: \"stop\", onFalse: \"send-next\" },\r\n        { id: \"send-next\", type: \"send\", label: \"next\", prompt: \"turn {{turn}} for {{conversationId}}: {{settings.prompt}}\", archiveTag: \"branch-a\" },\r\n        { id: \"stop\", type: \"stop\", label: \"stop\" }\r\n      ]\r\n    };\r\n    const sendDecision = evaluateAutomationGraph(graph, { lastReply: \"keep going\", conversationId: \"c77\", turn: 4, settings: { prompt: \"continue precisely\" } });\r\n    assert(sendDecision.prompt === \"turn 4 for c77: continue precisely\", \"send graph must template prompt\", sendDecision);\r\n    assert(sendDecision.archiveTag === \"branch-a\", \"send node must carry archive tag\", sendDecision);\r\n    const stopDecision = evaluateAutomationGraph(graph, { lastReply: \"DONE now\", conversationId: \"c77\", turn: 5, settings: {} });\r\n    assert(stopDecision.stop === true, \"condition true must route to stop\", stopDecision);\r\n\r\n    const graphStore = new AutomationGraphStore(makeStorage());\r\n    const saved = graphStore.save(graph);\r\n    assert(saved.nodes.length === 3 && graphStore.load().start === \"contains-done\", \"graph store must roundtrip normalized graph\");\r\n\r\n    const archive = new AutomationArchiveStore(makeStorage());\r\n    await archive.add({ conversationId: \"c77\", role: \"assistant\", text: \"first\", tag: \"branch-a\" });\r\n    await archive.add({ conversationId: \"c77\", role: \"assistant\", text: \"second\", tag: \"branch-a\" });\r\n    const list = await archive.list();\r\n    assert(list.length === 2 && list[0].text === \"second\", \"archive fallback must store newest-first messages\", { list });\r\n    return { prompt: sendDecision.prompt, archive: list.length, savedNodes: saved.nodes.length };\r\n  });\r\n}\r\nmodule.exports = { run };\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T07:01:46.070Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/tests/harness/automationGraph.cjs",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\tests\\harness\\automationGraph.cjs",
+    "bytes": 2831,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "pathToFileURL",
+          "index": 37
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ROOT",
+          "index": 76
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "assert",
+          "index": 82
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "test",
+          "index": 90
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "makeStorage",
+          "index": 96
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "evaluateAutomationGraph",
+          "index": 518
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "AutomationGraphStore",
+          "index": 583
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "AutomationArchiveStore",
+          "index": 645
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "version",
+          "index": 728
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "start",
+          "index": 747
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "nodes",
+          "index": 764
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "id",
+          "index": 784
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "type",
+          "index": 791
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "label",
+          "index": 800
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "match",
+          "index": 810
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "onTrue",
+          "index": 820
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "onFalse",
+          "index": 831
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "prompt",
+          "index": 882
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "archiveTag",
+          "index": 893
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lastReply",
+          "index": 1024
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "conversationId",
+          "index": 1038
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "turn",
+          "index": 1057
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "settings",
+          "index": 1066
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "role",
+          "index": 1683
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "text",
+          "index": 1692
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "tag",
+          "index": 1701
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "savedNodes",
+          "index": 1957
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

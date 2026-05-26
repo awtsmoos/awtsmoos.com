@@ -1,0 +1,49 @@
+{
+  "entry": {
+    "actionId": "act_mpm7xhiu_bb437ec6",
+    "inputRef": "cmd_act_mpm7xhiu_bb437ec6",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7xhiu_bb437ec6.json",
+    "parentActionId": null,
+    "action": "simulateRuntime",
+    "input": {
+      "action": "simulateRuntime",
+      "runtime": "browser",
+      "entry": "index.html",
+      "files": {
+        "index.html": "<main id=\"out\"></main><script>const msg=\"BH Default Merkava\"; out.textContent=msg;</script>"
+      },
+      "timeoutMs": 30000
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:52:24.054Z"
+  },
+  "output": {
+    "BH": "B\"H",
+    "ok": true,
+    "runtime": "browser",
+    "engine": "merkava",
+    "entry": "index.html",
+    "bytecode": {
+      "kind": "merkava-app",
+      "magic": "MERKAVA",
+      "bytes": 51,
+      "base64": "TUQyAAMCA291dBJCSCBEZWZhdWx0IE1lcmthdmEAFAABAQAUAQAAAAAAAAAEAQEAAQEA"
+    },
+    "result": {
+      "ok": true,
+      "scripts": [],
+      "web": null
+    },
+    "score": 100,
+    "suggestions": [],
+    "virtualEnv": {
+      "entry": "index.html",
+      "files": {
+        "index.html": "<main id=\"out\"></main><script>const msg=\"BH Default Merkava\"; out.textContent=msg;</script>"
+      },
+      "source": "explicit",
+      "diagnostics": [],
+      "ok": true
+    }
+  }
+}

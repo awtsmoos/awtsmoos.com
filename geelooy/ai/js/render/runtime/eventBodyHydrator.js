@@ -64,26 +64,49 @@ async function hydrateEvent(panel) {
   const payload = await readEventPayload(panel.dataset.eventPayloadKey);
   panel.querySelector(":scope > .event-hydration-loading")?.remove();
   if (!panel.open) return;
-  panel.insertAdjacentHTML("beforeend", renderEventBody(payload || {}));
+  panel.insertAdjacentHTML("beforeend", renderEventBody(payload || {}, { rawKey: `${panel.dataset.eventPayloadKey || "event"}::raw` }));
   vaultCollapsedPanels(panel);
 }
 
 async function hydrateInner(panel, offset = 0) {
-  removeBody(panel, ".thought-inner-window");
-  panel.append(loadingNode("Loading inner thought timeline…"));
+  const existing = panel.querySelector(":scope > .thought-inner-window");
+  const sameOffset = Number(panel.dataset.thoughtOffset || 0) === Number(offset || 0);
+  if (existing && sameOffset) return;
+  panel.dataset.thoughtOffset = String(offset || 0);
+  if (!existing) panel.append(loadingNode("Loading inner thought timeline…"));
   const envelope = panel.closest(".thought-envelope-card");
   const event = await readEventPayload(envelope?.dataset?.thoughtEnvelopeKey);
   panel.querySelector(":scope > .event-hydration-loading")?.remove();
   if (!panel.open) return;
   const inner = Array.isArray(event?.raw?.events) ? event.raw.events : [];
+  if (!inner.length) return showEmptyInner(panel, "No inner events are currently available for this thought bubble.");
   const end = Math.max(0, inner.length - offset);
   const start = Math.max(0, end - INNER_WINDOW);
-  const body = document.createElement("div");
-  body.className = "thought-inner-window";
-  if (start > 0) body.append(moreButton(offset + INNER_WINDOW));
-  panel.append(body);
+  if (!existing) {
+    const body = document.createElement("div");
+    body.className = "thought-inner-window";
+    panel.append(body);
+  }
+  panel.dataset.thoughtWindowEnd = String(end);
   reconcileThoughtInnerEvents(panel, inner.slice(start, end));
+  const body = panel.querySelector(":scope > .thought-inner-window");
+  if (start > 0 && body && !body.querySelector(":scope > .thought-window-more")) body.prepend(moreButton(offset + INNER_WINDOW));
   vaultCollapsedPanels(panel);
+}
+
+function showEmptyInner(panel, text) {
+  let body = panel.querySelector(":scope > .thought-inner-window");
+  if (!body) {
+    body = document.createElement("div");
+    body.className = "thought-inner-window";
+    panel.append(body);
+  }
+  if (!body.children.length) {
+    const empty = document.createElement("div");
+    empty.className = "event-hydration-loading";
+    empty.textContent = text;
+    body.append(empty);
+  }
 }
 
 function moreButton(offset) {

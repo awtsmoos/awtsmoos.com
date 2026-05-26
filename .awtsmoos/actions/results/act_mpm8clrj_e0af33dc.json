@@ -1,0 +1,313 @@
+{
+  "entry": {
+    "actionId": "act_mpm8clrj_e0af33dc",
+    "inputRef": "cmd_act_mpm8clrj_e0af33dc",
+    "outputRef": ".awtsmoos/actions/results/act_mpm8clrj_e0af33dc.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/merkava/merkavaRuntime.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\nimport { createRequire } from 'module';\n\nconst require = createRequire(import.meta.url);\nconst merkava = require('../../merkava-binary/MerkavaBytecodeApi.js');\n\nfunction normalizeFiles(files = {}) {\n  return merkava.normalizeFiles(files || {});\n}\n\nfunction elementSummary(element) {\n  if (!element) return null;\n  return {\n    tagName: element.tagName || element.tag || '',\n    id: element.id || '',\n    className: element.className || '',\n    textContent: element.textContent || '',\n    attributes: element.attributes || {},\n    children: Array.isArray(element.children)\n      ? element.children.slice(0, 20).map(elementSummary)\n      : []\n  };\n}\n\nfunction scriptSources(files = {}) {\n  const sources = [];\n  for (const [name, source] of Object.entries(files || {})) {\n    const text = String(source || '');\n    if (name.endsWith('.js')) sources.push({ name, source: text });\n    if (name.endsWith('.html')) {\n      for (const match of text.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/gi)) {\n        if (match[1] && match[1].trim()) sources.push({ name: `${name}#inline`, source: match[1] });\n      }\n    }\n  }\n  return sources;\n}\n\nfunction detectObviousRuntimeErrors(files = {}) {\n  const errors = [];\n  for (const script of scriptSources(files)) {\n    for (const match of script.source.matchAll(/throw\\s+new\\s+Error\\s*\\(\\s*['\"]([^'\"]+)['\"]\\s*\\)/g)) {\n      errors.push({\n        file: script.name,\n        name: 'Error',\n        message: match[1],\n        kind: 'static-runtime-error-preflight'\n      });\n    }\n  }\n  return errors;\n}\n\nfunction summarizeMerkavaRun(run) {\n  const result = run?.result || run;\n  const web = result?.web;\n  const document = web?.document;\n  const ids = {};\n  if (document?.byId instanceof Map) {\n    for (const [id, element] of document.byId.entries()) ids[id] = elementSummary(element);\n  }\n  return {\n    ok: result?.ok !== false,\n    scripts: Array.isArray(result?.scripts)\n      ? result.scripts.map(script => ({\n        name: script.name || '',\n        target: script.target || '',\n        event: script.event || '',\n        result: script.result && JSON.parse(JSON.stringify(script.result))\n      }))\n      : [],\n    web: document ? {\n      root: elementSummary(document.documentElement || document.root || null),\n      ids\n    } : null\n  };\n}\n\nexport async function compileMerkavaRuntime(options = {}) {\n  return merkava.compileMerkavaApp({\n    files: normalizeFiles(options.files || {}),\n    entry: options.entry || 'index.html'\n  });\n}\n\nexport function runMerkavaRuntime(bytecode, options = {}) {\n  const run = merkava.runMerkavaApp(bytecode, options);\n  return { ...run, result: summarizeMerkavaRun(run) };\n}\n\nexport async function simulateMerkavaRuntime(options = {}) {\n  const files = normalizeFiles(options.files || {});\n  const preflightErrors = detectObviousRuntimeErrors(files);\n  const compiled = await compileMerkavaRuntime({ ...options, files });\n  const run = runMerkavaRuntime(compiled.bytecode, options.runOptions || options);\n  const ok = run.ok !== false && preflightErrors.length === 0;\n  return {\n    BH: 'B\"H',\n    ok,\n    runtime: options.runtime || 'browser',\n    engine: 'merkava',\n    entry: options.entry || 'index.html',\n    bytecode: {\n      kind: compiled.kind,\n      magic: compiled.magic,\n      bytes: compiled.bytecode.length,\n      base64: compiled.bytecode64\n    },\n    result: {\n      ...run.result,\n      ok,\n      errors: preflightErrors\n    },\n    errors: preflightErrors,\n    score: ok ? 100 : 40,\n    suggestions: preflightErrors.length ? ['Merkava preflight found a script throw before bytecode execution.'] : []\n  };\n}\n\nexport async function compileAndRunMerkavaJs(source = '', options = {}) {\n  return merkava.compileAndRunMerkavaJs(source, options);\n}\n\nexport function inspectMerkava(bytecode) {\n  return merkava.inspectMerkava(bytecode);\n}\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:04:09.391Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/merkava/merkavaRuntime.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\awtsmoos\\MerkavaExecutor\\merkava-service\\merkava\\merkavaRuntime.js",
+    "bytes": 3833,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createRequire",
+          "index": 11
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "tagName",
+          "index": 279
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "id",
+          "index": 329
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "className",
+          "index": 354
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "textContent",
+          "index": 393
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "attributes",
+          "index": 436
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "children",
+          "index": 478
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "name",
+          "index": 670
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "source",
+          "index": 676
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "b",
+          "index": 897
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "s",
+          "index": 907
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "S",
+          "index": 909
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "gi",
+          "index": 925
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "g",
+          "index": 1260
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "file",
+          "index": 1294
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "message",
+          "index": 1338
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "kind",
+          "index": 1365
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "scripts",
+          "index": 1745
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "target",
+          "index": 1865
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "root",
+          "index": 2052
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "options",
+          "index": 2200
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "entry",
+          "index": 2305
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "BH",
+          "index": 2921
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "runtime",
+          "index": 2940
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "engine",
+          "index": 2975
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "magic",
+          "index": 3066
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bytes",
+          "index": 3095
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "base64",
+          "index": 3134
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "score",
+          "index": 3284
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "suggestions",
+          "index": 3310
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

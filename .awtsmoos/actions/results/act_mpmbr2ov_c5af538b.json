@@ -1,0 +1,311 @@
+{
+  "entry": {
+    "actionId": "act_mpmbr2ov_c5af538b",
+    "inputRef": "cmd_act_mpmbr2ov_c5af538b",
+    "outputRef": ".awtsmoos/actions/results/act_mpmbr2ov_c5af538b.json",
+    "parentActionId": null,
+    "action": "actionBatch",
+    "input": {
+      "kind": "fs",
+      "action": "actionBatch",
+      "path": ".",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 20000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 20000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [
+        {
+          "action": "bulk",
+          "paths": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/readActions.js\ngeelooy/apps/tunnel/agent/tools/fs/bulkRead.js",
+          "maxFiles": 2,
+          "maxChars": 1000
+        },
+        {
+          "action": "rg",
+          "p": "geelooy/apps/tunnel/agent/tools/fs/actionGroups",
+          "query": "bulkSearch",
+          "maxFiles": 60,
+          "maxResults": 10
+        },
+        {
+          "action": "rgbgrep",
+          "p": "geelooy/apps/tunnel/agent/tools/fs/actionGroups",
+          "query": "read64",
+          "maxFiles": 60,
+          "maxResults": 10
+        },
+        {
+          "action": "read64",
+          "p": "geelooy/apps/tunnel/agent/tools/fs/bulkRead.js",
+          "maxBytes": 64
+        },
+        {
+          "action": "isolatedJsTest",
+          "testCode": "const x = 2 + 3; if (x !== 5) throw new Error('bad math'); return {ok:true,x};"
+        }
+      ],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T07:39:23.359Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "actionBatch",
+    "count": 5,
+    "finalInstruction": null,
+    "results": [
+      {
+        "name": null,
+        "action": "bulk",
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "ok": true,
+          "dryRun": true,
+          "wouldRun": {
+            "action": "bulk",
+            "hasCondition": false,
+            "saveAs": null
+          },
+          "attempt": 1
+        }
+      },
+      {
+        "name": null,
+        "action": "rg",
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "ok": true,
+          "dryRun": true,
+          "wouldRun": {
+            "action": "rg",
+            "hasCondition": false,
+            "saveAs": null
+          },
+          "attempt": 1
+        }
+      },
+      {
+        "name": null,
+        "action": "rgbgrep",
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "ok": true,
+          "dryRun": true,
+          "wouldRun": {
+            "action": "rgbgrep",
+            "hasCondition": false,
+            "saveAs": null
+          },
+          "attempt": 1
+        }
+      },
+      {
+        "name": null,
+        "action": "read64",
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "ok": true,
+          "dryRun": true,
+          "wouldRun": {
+            "action": "read64",
+            "hasCondition": false,
+            "saveAs": null
+          },
+          "attempt": 1
+        }
+      },
+      {
+        "name": null,
+        "action": "isolatedJsTest",
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "ok": true,
+          "dryRun": true,
+          "wouldRun": {
+            "action": "isolatedJsTest",
+            "hasCondition": false,
+            "saveAs": null
+          },
+          "attempt": 1
+        }
+      }
+    ],
+    "named": {},
+    "vars": {},
+    "last": {
+      "ok": true,
+      "dryRun": true,
+      "wouldRun": {
+        "action": "isolatedJsTest",
+        "hasCondition": false,
+        "saveAs": null
+      },
+      "attempt": 1
+    },
+    "error": null,
+    "plan": [
+      {
+        "index": 0,
+        "action": "bulk",
+        "hasCondition": false,
+        "saveAs": null,
+        "control": "action"
+      },
+      {
+        "index": 1,
+        "action": "rg",
+        "hasCondition": false,
+        "saveAs": null,
+        "control": "action"
+      },
+      {
+        "index": 2,
+        "action": "rgbgrep",
+        "hasCondition": false,
+        "saveAs": null,
+        "control": "action"
+      },
+      {
+        "index": 3,
+        "action": "read64",
+        "hasCondition": false,
+        "saveAs": null,
+        "control": "action"
+      },
+      {
+        "index": 4,
+        "action": "isolatedJsTest",
+        "hasCondition": false,
+        "saveAs": null,
+        "control": "action"
+      }
+    ]
+  }
+}

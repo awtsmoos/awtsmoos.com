@@ -25,7 +25,7 @@ for (const exportPath of [
 const required = {
   socialContent: ['createQuestion', 'createAnswer', 'listAnswers', 'createSection', 'listSections', 'repostEntity', 'shareEntity'],
   notifications: ['listNotifications', 'getUnreadNotificationCount', 'markNotificationRead', 'createNotification', 'pollNotifications', 'fanoutNotifications'],
-  platform: ['getFeedHome', 'getHeichelFeed', 'searchSocial', 'publishLiveEvent', 'setLivePresence', 'replayLiveEvents', 'getPackedStats', 'getPackedSnapshot', 'pullSync', 'getCache', 'checkRateLimit', 'materializeFeed'],
+  platform: ['getFeedHome', 'getHeichelFeed', 'getTrendingFeed', 'getDiscoverFeed', 'searchSocial', 'indexSearchDocument', 'publishLiveEvent', 'subscribeLiveChannel', 'setLivePresence', 'replayLiveEvents', 'getPackedStats', 'getPackedSnapshot', 'pullSync', 'pushSyncOp', 'getCache', 'setCache', 'invalidateCache', 'checkRateLimit', 'materializeFeed', 'runGraphTransaction', 'listGraphTransactions', 'createNotificationDigest', 'appendThreadComment', 'getRankedThread'],
   platformOps: ['moderationQueues', 'moderationReport', 'moderationAction', 'moderationEscalate', 'migrationDryRun', 'migrationRun', 'federationImport', 'mediaRegister', 'mediaAttach', 'listRelationships', 'setRelationship', 'recordMetric', 'enqueueJob', 'runJobs', 'compilePermissions'],
   semanticSearch: ['semanticSearch']
 };

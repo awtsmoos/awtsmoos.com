@@ -1,0 +1,283 @@
+{
+  "entry": {
+    "actionId": "act_mpma1jel_e8df03a2",
+    "inputRef": "cmd_act_mpma1jel_e8df03a2",
+    "outputRef": ".awtsmoos/actions/results/act_mpma1jel_e8df03a2.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/tests/harness/reloadOrdering.cjs",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\r\nconst path = require(\"path\");\r\nconst { pathToFileURL } = require(\"url\");\r\nconst { ROOT, assert, test, makeStorage } = require(\"./assert.cjs\");\r\n\r\n/**\r\n * B\"H — Guards the refresh covenant.\r\n *\r\n * A fully loaded conversation is the kingly path: it must render from the final\r\n * `current_node` ancestry, then only fresh live rivers may resume. Old stream\r\n * ledger echoes from the same conversation are dusted away so they can never\r\n * replay out of order over completed history.\r\n */\r\nasync function run() {\r\n  return test(\"reload-full-history-before-stream-resume\", async () => {\r\n    globalThis.localStorage = makeStorage();\r\n    globalThis.sessionStorage = makeStorage();\r\n    globalThis.CustomEvent = class CustomEvent { constructor(type, init) { this.type = type; this.detail = init?.detail; } };\r\n    globalThis.dispatchEvent = () => null;\r\n    const suffix = `?h=${Date.now()}${Math.random()}`;\r\n    const storeUrl = pathToFileURL(path.join(ROOT, \"js/chatgpt/stream/streamResumeStore.js\")).href + suffix;\r\n    const walkUrl = pathToFileURL(path.join(ROOT, \"js/chatgpt/conversations/history/walkConversation.js\")).href + suffix;\r\n    const { StreamResumeStore } = await import(storeUrl);\r\n    const { walkConversationNodes } = await import(walkUrl);\r\n    const storage = makeStorage();\r\n    const store = new StreamResumeStore(storage, makeStorage());\r\n    const conversationId = \"conv-reload\";\r\n    const now = Date.now();\r\n    storage.setItem(\"awtsmoos.activeStreams.v2\", JSON.stringify([\r\n      { id: \"old-visible\", conversationId, status: \"streaming\", updatedAt: now - 120000, createdAt: now - 120000, cursor: 3 },\r\n      { id: \"fresh-visible\", conversationId, status: \"streaming\", updatedAt: now - 500, createdAt: now - 500, cursor: 9 },\r\n      { id: \"old-other\", conversationId: \"other\", status: \"streaming\", updatedAt: now - 120000, createdAt: now - 120000, cursor: 1 },\r\n      { id: \"done-visible\", conversationId, status: \"done\", updatedAt: now, createdAt: now, cursor: 99 }\r\n    ]));\r\n    store.removeStaleForConversation(conversationId, { keepRecentMs: 30000 });\r\n    const remaining = store.list().map(item => item.id);\r\n    assert(remaining.join(\",\") === \"fresh-visible,old-other\", \"reload must purge stale same-conversation streams before resume\", { remaining });\r\n    const nodes = walkConversationNodes({\r\n      current_node: \"assistant-2\",\r\n      mapping: {\r\n        root: { id: \"root\", parent: null, message: { id: \"m-root\" } },\r\n        user: { id: \"user\", parent: \"root\", message: { id: \"m-user\" } },\r\n        \"assistant-1\": { id: \"assistant-1\", parent: \"user\", message: { id: \"m-a1\" } },\r\n        \"assistant-2\": { id: \"assistant-2\", parent: \"assistant-1\", message: { id: \"m-a2\" } },\r\n        branch: { id: \"branch\", parent: \"user\", message: { id: \"m-branch\" } }\r\n      }\r\n    });\r\n    const chain = nodes.map(node => node.id);\r\n    const order = nodes.map(node => node.message.__awtsmoosHistoryIndex);\r\n    assert(chain.join(\",\") === \"root,user,assistant-1,assistant-2\", \"history reload must follow current_node ancestry only\", { chain });\r\n    assert(order.join(\",\") === \"0,1,2,3\", \"history nodes must receive stable monotonic order\", { order });\r\n    return { remaining, chain, order };\r\n  });\r\n}\r\nmodule.exports = { run };\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T06:51:32.349Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/tests/harness/reloadOrdering.cjs",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\tests\\harness\\reloadOrdering.cjs",
+    "bytes": 3266,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "pathToFileURL",
+          "index": 37
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ROOT",
+          "index": 76
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "assert",
+          "index": 82
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "test",
+          "index": 90
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "makeStorage",
+          "index": 96
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "type",
+          "index": 341
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "init",
+          "index": 347
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "StreamResumeStore",
+          "index": 627
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "walkConversationNodes",
+          "index": 686
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "id",
+          "index": 947
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "status",
+          "index": 970
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "updatedAt",
+          "index": 981
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createdAt",
+          "index": 1006
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "cursor",
+          "index": 1031
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "keepRecentMs",
+          "index": 1407
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "item",
+          "index": 1471
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "current_node",
+          "index": 1595
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "mapping",
+          "index": 1619
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "root",
+          "index": 1639
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "parent",
+          "index": 1654
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "message",
+          "index": 1668
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "user",
+          "index": 1699
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "branch",
+          "index": 1864
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "node",
+          "index": 1960
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

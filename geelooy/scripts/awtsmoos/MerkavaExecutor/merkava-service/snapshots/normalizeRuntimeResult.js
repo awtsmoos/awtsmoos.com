@@ -7,7 +7,7 @@
  * @param {object} options Simulation options.
  * @returns {object} Stable headless report.
  */
-function normalizeRuntimeResult(raw = {}, options = {}) {
+export function normalizeRuntimeResult(raw = {}, options = {}) {
   const snapshot = raw.result?.snapshot || raw.snapshot || null;
   const win = snapshot?.window || {};
   const errors = []
@@ -20,6 +20,7 @@ function normalizeRuntimeResult(raw = {}, options = {}) {
     BH: "B\"H",
     ok: raw.ok !== false && errors.length === 0,
     runtime: options.runtime || "browser",
+    engine: options.engine || "merkava",
     entry: options.entry || "index.html",
     console: raw.console || win.console || snapshot?.logs || [],
     errors,
@@ -34,5 +35,3 @@ function normalizeRuntimeResult(raw = {}, options = {}) {
     suggestions: errors.length ? ["Inspect stackTraces and add AST probes near the failing line."] : []
   };
 }
-
-module.exports = { normalizeRuntimeResult };

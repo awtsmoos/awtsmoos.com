@@ -3,9 +3,21 @@ const assert = require('assert');
 const fs = require('fs');
 const fsp = require('fs/promises');
 const path = require('path');
+const { pathToFileURL } = require('url');
 const vm = require('vm');
 
-const repoRoot = path.resolve(__dirname, '../../../../../..');
+function findPublicRoot(start) {
+  let dir = start;
+  while (dir && dir !== path.dirname(dir)) {
+    const hasTunnel = fs.existsSync(path.join(dir, 'apps/tunnel/agent/main.js'));
+    const hasMerkava = fs.existsSync(path.join(dir, 'scripts/awtsmoos/MerkavaExecutor/merkavaexecutor.cjs'));
+    if (hasTunnel && hasMerkava) return dir;
+    dir = path.dirname(dir);
+  }
+  throw new Error('Could not locate geelooy public root from ' + start);
+}
+
+const repoRoot = findPublicRoot(__dirname);
 const fsRoot = path.resolve(__dirname, '.tmp-source-suite');
 const merkavaRoot = path.join(repoRoot, 'scripts/awtsmoos/MerkavaExecutor');
 const runtimeDir = path.join(merkavaRoot, 'merkava-runtime');
@@ -34,7 +46,7 @@ function findNode(root, tagName, id) {
 }
 
 async function testMerkavaCjsService() {
-  const service = await import(path.join(merkavaRoot, 'merkava-service/index.js'));
+  const service = await import(pathToFileURL(path.join(merkavaRoot, 'merkava-service/index.js')).href);
   const htmlResult = await service.simulateRuntime({
     runtime: 'browser',
     entry: 'index.html',
@@ -75,6 +87,16 @@ async function testMerkavaBrowserUmdBranch() {
   const sandbox = { console, URL, URLSearchParams, Blob, setTimeout, clearTimeout, setInterval, clearInterval, self: null };
   sandbox.self = sandbox;
   for (const file of [
+    '../merkava-browser/VirtualStyleDeclaration.js',
+    '../merkava-browser/VirtualClassList.js',
+    '../merkava-browser/VirtualEvents.js',
+    '../merkava-browser/VirtualHtmlSerializer.js',
+    '../merkava-browser/VirtualWebGLTextureArena.js',
+    '../merkava-browser/VirtualFontAtlas.js',
+    '../merkava-browser/VirtualCssEngine.js',
+    '../merkava-browser/VirtualCanvas2DContext.js',
+    '../merkava-browser/VirtualWebGLContext.js',
+    '../merkava-browser/VirtualWebGLBoxRenderer.js',
     '../merkava-browser/VirtualElement.js',
     '../merkava-browser/VirtualDocument.js',
     '../merkava-browser/VirtualStorage.js',

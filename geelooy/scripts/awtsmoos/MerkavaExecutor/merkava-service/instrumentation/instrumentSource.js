@@ -1,5 +1,5 @@
 // B"H
-const { probeId } = require("./probeId.js");
+import { probeId } from "./probeId.js";
 
 function safeExpr(expr) {
   return String(expr || "").replace(/[;\n\r]/g, "");
@@ -22,7 +22,7 @@ function captureLine(probe, index) {
  * @param {Array<object>} probes Probes for the file.
  * @returns {string} Instrumented source.
  */
-function instrumentSource(file, source, probes = []) {
+export function instrumentSource(file, source, probes = []) {
   const lines = String(source || "").split(/\r?\n/g);
   const mapped = probes
     .map((probe, index) => ({ probe, index, line: Number(probe.line || 0) }))
@@ -36,5 +36,3 @@ function instrumentSource(file, source, probes = []) {
 
   return lines.join("\n");
 }
-
-module.exports = { instrumentSource };

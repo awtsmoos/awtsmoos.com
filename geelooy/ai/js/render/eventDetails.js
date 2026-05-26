@@ -7,19 +7,24 @@ import { renderThoughtEnvelope } from "./event-ui/thoughtEnvelopeCard.js";
 import { renderThoughtTextCard } from "./event-ui/thoughtTextCard.js";
 import { storeEventPayload } from "./runtime/eventPayloadVault.js";
 
-export function renderEventDetails(events = [], { maxPerGroup = 200, nested = false } = {}) {
-  return dedupeEvents(events).slice(-maxPerGroup).map(event => renderEventCard(event, nested)).join("");
+export function renderEventDetails(events = [], { maxPerGroup = 200, nested = false, stableKeyPrefix = "" } = {}) {
+  return dedupeEvents(events).slice(-maxPerGroup).map((event, index) => renderEventCard(event, { nested, stableKeyPrefix, index })).join("");
 }
 
-function renderEventCard(event, nested = false) {
+function renderEventCard(event, { nested = false, stableKeyPrefix = "", index = 0 } = {}) {
   if (!nested && event?.raw?.groupedThoughtEnvelope) return renderThoughtEnvelope(event);
-  if (nested && event?.kind === "thinking" && event.text) return renderThoughtTextCard(event);
+  if ((nested || event?.raw?.standaloneThoughtText) && event?.kind === "thinking" && event.text) return renderThoughtTextCard(event);
   const kind = eventKind(event);
   const title = eventTitle(event);
-  const key = storeEventPayload(event);
+  const key = storeEventPayload(event, stableKeyPrefix ? { stableKey: stablePayloadKey(stableKeyPrefix, event, index) } : {});
   return `<details class="transport-details event-kind-${escapeHtml(kind)}" data-persist-key="${escapeHtml(eventSearchKey(event))}" data-event-payload-key="${escapeHtml(key)}">
-    <summary><span class="event-title-wrap">${eventHeader(event, title)}</span><span class="event-panel-actions"><button type="button" data-panel-action="minimize" title="Minimize">−</button><button type="button" data-panel-action="maximize" title="Maximize">□</button><button type="button" data-panel-action="fullscreen" title="Fullscreen">⛶</button></span></summary>
+    <summary><span class="event-title-wrap">${eventHeader(event, title)}</span></summary>
+    ${panelActions()}
   </details>`;
+}
+
+function panelActions() {
+  return `<span class="event-panel-actions"><button type="button" data-panel-action="minimize" title="Minimize">−</button><button type="button" data-panel-action="maximize" title="Maximize">□</button><button type="button" data-panel-action="fullscreen" title="Fullscreen">⛶</button></span>`;
 }
 
 function eventHeader(event, fallback) {
@@ -42,4 +47,9 @@ function dedupeEvents(events = []) {
     seen.add(key);
     return true;
   });
+}
+
+function stablePayloadKey(prefix, event, index) {
+  const rawKey = `${prefix}::${eventSearchKey(event) || index}`;
+  return rawKey.replace(/\s+/g, " ").slice(0, 700);
 }

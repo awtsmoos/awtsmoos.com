@@ -22,9 +22,20 @@ function installFetchRecorder({ failPattern = '' } = {}) {
     if (href.includes('packed/stats')) return json({ success: [{ shard: 'core', records: 7, logicalKeys: 5 }] });
     if (href.includes('packed/snapshot')) return json({ success: { manifests: 2, migrations: 1 } });
     if (href.includes('search/query')) return json({ success: [{ id: 'search-spark', title: 'Search Spark' }] });
+    if (href.includes('search/index')) return json({ success: { id: 'indexed-spark', title: 'Indexed Spark' } });
     if (href.includes('feed/heichel')) return json({ success: { items: [{ postId: 'feed-post', title: 'Feed Post' }] } });
+    if (href.includes('feed/home')) return json({ success: { items: [{ postId: 'home-post', title: 'Home Post' }] } });
+    if (href.includes('feed/trending')) return json({ success: { items: [{ id: 'trend-one', title: 'Trend One' }] } });
+    if (href.includes('feed/discover')) return json({ success: { items: [{ id: 'discover-one', title: 'Discover One' }] } });
     if (href.includes('live/replay')) return json({ success: [{ type: 'presence', title: 'Alias is online' }] });
     if (href.includes('sync/pull')) return json({ success: [{ type: 'sync', title: 'Pulled shard delta' }], cursor: 8844 });
+    if (href.includes('cache/get')) return json({ success: { key: 'ui', title: 'Cache Hit' } });
+    if (href.includes('graph/transaction') && !opts.method) return json({ success: [{ id: 'graph-one', title: 'Graph Transaction' }] });
+    if (href.includes('comments/thread') && href.includes('ranked')) return json({ success: { comments: [{ commentId: 'c1', title: 'Ranked Comment' }] } });
+    if (href.includes('notifications/digest')) return json({ success: { id: 'digest-one', title: 'Digest Ready' } });
+    if (href.includes('relationships/')) return json({ success: [{ id: 'follow-one', title: 'Follow Linked' }] });
+    if (href.includes('jobs/run')) return json({ success: [{ id: 'job-one', title: 'Job Ran' }] });
+    if (href.includes('permissions/compile')) return json({ success: { id: 'perm-one', title: 'Permissions Ready' } });
     if (href.includes('mod/queues')) return json({ success: [{ id: 'queue-one' }, { id: 'queue-two' }] });
     if (href.includes('migrations/posts/v2/dryRun')) return json({ success: { found: 3 } });
     return json({ success: [] });
@@ -54,7 +65,7 @@ async function testMountToggleAndDbRender() {
   assert.equal(mountPlatformPanel({ root: document.body }), null, 'mount should be idempotent');
   const actionNames = [...panel.querySelectorAll('[data-platform-action]')].map(button => button.dataset.platformAction);
   assert.deepEqual(actionNames, [...new Set(actionNames)], 'platform action buttons must not be duplicated');
-  assert.deepEqual(actionNames.sort(), ['db', 'feed', 'ops', 'presence', 'sync']);
+  assert.deepEqual(actionNames.sort(), ['cache', 'db', 'digest', 'feed', 'graph', 'jobs', 'media', 'ops', 'permissions', 'presence', 'relationships', 'searchIndex', 'sync', 'thread'].sort());
   assert.match(textOf(panel), /core: 7 records \/ 5 keys/);
   assert.match(textOf(panel), /manifests: 2/);
   assert.ok(calls.some(call => call.url.endsWith('/api/social/packed/stats')));
@@ -79,6 +90,7 @@ async function testFeedPresenceAndSyncActionsMoveRealData() {
   const { calls, panel } = await mountWithFetch();
   await action(panel, 'feed').onclick();
   assert.match(textOf(panel), /Feed Post/);
+  assert.match(textOf(panel), /Trend One/);
   await action(panel, 'presence').onclick();
   assert.match(textOf(panel), /Alias is online/);
   await action(panel, 'sync').onclick();
@@ -86,6 +98,26 @@ async function testFeedPresenceAndSyncActionsMoveRealData() {
   assert.ok(calls.some(call => call.url.includes('packed/feed/materialize') && call.opts.method === 'POST'));
   assert.ok(calls.some(call => call.url.includes('live/presence') && call.opts.method === 'POST'));
   assert.ok(calls.some(call => call.url.includes('abuse/rateLimit/check') && call.opts.method === 'POST'));
+}
+
+async function testAdvancedActionsSurfaceEveryPlatformRouteFamily() {
+  const { panel } = await mountWithFetch();
+  await action(panel, 'cache').onclick();
+  assert.match(textOf(panel), /Cache/);
+  await action(panel, 'searchIndex').onclick();
+  assert.match(textOf(panel), /Indexed Spark/);
+  await action(panel, 'graph').onclick();
+  assert.match(textOf(panel), /Graph Transaction/);
+  await action(panel, 'thread').onclick();
+  assert.match(textOf(panel), /Ranked Comment/);
+  await action(panel, 'digest').onclick();
+  assert.match(textOf(panel), /Digest Ready/);
+  await action(panel, 'relationships').onclick();
+  assert.match(textOf(panel), /Follow Linked/);
+  await action(panel, 'jobs').onclick();
+  assert.match(textOf(panel), /Job Ran/);
+  await action(panel, 'permissions').onclick();
+  assert.match(textOf(panel), /Permissions Ready/);
 }
 
 async function testOpsActionSurfacesModerationAndMigrationState() {
@@ -120,6 +152,7 @@ async function testServerFailureShowsLivingErrorState() {
 await testMountToggleAndDbRender();
 await testSearchSubmitRendersResults();
 await testFeedPresenceAndSyncActionsMoveRealData();
+await testAdvancedActionsSurfaceEveryPlatformRouteFamily();
 await testOpsActionSurfacesModerationAndMigrationState();
 await testServerFailureShowsLivingErrorState();
 console.log('B"H platformPanelNodeSimulation.test passed');

@@ -6,6 +6,11 @@ const path = require("path");
 
 const { migrateParentCommentsToAwtsmoosDb } = require("../commentMigration.js");
 const { searchCommentSearchRecords } = require("../commentAwtsmoosDbBridge.js");
+const {
+    getCommentsByAliasAtVerseSection,
+    getAuthorsCommentingAtVerseSectionInParent,
+    getVerseSectionsCommentedByAuthorInParent
+} = require("../commentRetrieval.js");
 
 function fakeOldCommentDb() {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), "awts-comment-migration-"));
@@ -32,7 +37,7 @@ function fakeOldCommentDb() {
 
 (async () => {
     const db = fakeOldCommentDb();
-    const $i = { db };
+    const $i = { db, $_GET: {} };
 
     const parentBase = "/social/heichelos/h1/comments/atSeries/s1/atPost/post1";
     const aliasAPath = `${parentBase}/aliasA`;
@@ -65,6 +70,7 @@ function fakeOldCommentDb() {
     assert.equal(report.success, true);
     assert.equal(report.aliasesSeen, 2);
     assert.equal(report.migrated, 3);
+    assert.equal(report.sharded, 3);
     assert.equal(report.skipped, 0);
     assert.equal(report.errors.length, 0);
 
@@ -81,6 +87,46 @@ function fakeOldCommentDb() {
     const migratedGenerated = await searchCommentSearchRecords({ $i, heichelId: "h1", seriesId: "s1", query: "forever" });
     assert.equal(migratedGenerated.success.length, 1);
     assert.ok(migratedGenerated.success[0].record.id.startsWith("BH_migrated_aliasA_root_0"));
+
+    db.store.delete(parentBase);
+    db.store.delete(aliasAPath);
+    db.store.delete(aliasBPath);
+
+    const fallbackComments = await getCommentsByAliasAtVerseSection({
+        $i,
+        aliasId: "aliasA",
+        heichelId: "h1",
+        seriesId: "s1",
+        parentType: "post",
+        parentId: "post1",
+        postId: "post1",
+        verseSection: "7"
+    });
+    assert.equal(fallbackComments.fallbackSource, "packed-comment-shard");
+    assert.equal(fallbackComments.success.length, 1);
+    assert.equal(fallbackComments.success[0].id, "legacy-7");
+
+    const fallbackAuthors = await getAuthorsCommentingAtVerseSectionInParent({
+        $i,
+        heichelId: "h1",
+        seriesId: "s1",
+        parentType: "post",
+        parentId: "post1",
+        postId: "post1",
+        verseSection: "7"
+    });
+    assert.deepEqual(fallbackAuthors.success.sort(), ["aliasA", "aliasB"]);
+
+    const fallbackSections = await getVerseSectionsCommentedByAuthorInParent({
+        $i,
+        aliasId: "aliasA",
+        heichelId: "h1",
+        seriesId: "s1",
+        parentType: "post",
+        parentId: "post1",
+        postId: "post1"
+    });
+    assert.deepEqual(fallbackSections.success.sort(), ["7", "root"]);
 
     console.log('B"H commentMigration.test passed');
 })().catch(error => {

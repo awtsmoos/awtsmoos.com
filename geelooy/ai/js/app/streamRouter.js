@@ -4,18 +4,18 @@ import { isDonePacket, looksLikeUserEcho } from "./stream/packetState.js";
 import { withoutFinalReplayEvents } from "./stream/livePacketSanitizer.js";
 
 /**
- * Chapter 72: The Stream Did Not Repeat Its Own Footsteps.
+ * Chapter 72: One Assistant Vessel Held The Whole River.
  *
- * Live packets are routed as they arrive. The final response may contain an
- * archive of all prior streamed events; that archive belongs to history, not to
- * the live tail. Finish therefore removes replay-only archives before one last
- * text merge, then freezes the living records into stable markdown history.
+ * A streamed turn must never split into a trace record and then a later text
+ * record. That split was the root of out-of-order bubbles, audio controls
+ * appearing before/after the wrong message, and thought events seeming to jump
+ * beyond the final answer. This router creates exactly one assistant record per
+ * visible streamed turn, then mutates that same vessel for events and text.
  */
 export class StreamRouter {
   constructor(renderer) {
     this.renderer = renderer;
-    this.eventRecord = null;
-    this.textRecord = null;
+    this.record = null;
     this.assistant = null;
     this.done = false;
   }
@@ -38,25 +38,18 @@ export class StreamRouter {
   async routeNormalized(packet, normalized) {
     const hasText = Boolean(normalized.text?.trim());
     const hasEvents = Boolean(normalized.events?.length);
-    if (hasEvents) this.renderer.setRecordEvents(this.ensureEventRecord().id, normalized.events);
+    const record = this.ensureAssistantRecord();
+    if (hasEvents) this.renderer.setRecordEvents(record.id, normalized.events);
     if (hasText && normalized.role === "assistant" && !looksLikeUserEcho(this.renderer, normalized.text)) {
-      await this.renderer.updateRecord(this.ensureTextRecord().id, packet, "assistant");
+      await this.renderer.updateRecord(record.id, packet, "assistant");
     }
   }
 
-  ensureEventRecord() {
-    if (this.eventRecord && !this.eventRecord.shell?.classList?.contains("has-text")) return this.eventRecord;
-    if (this.textRecord) return this.textRecord;
-    this.eventRecord = this.renderer.add({ message: { author: { role: "assistant" }, content: { parts: [""] } }, awtsmoosLoading: true });
-    this.assistant = this.eventRecord;
-    return this.eventRecord;
-  }
-
-  ensureTextRecord() {
-    if (this.textRecord) return this.textRecord;
-    this.textRecord = this.renderer.add({ message: { author: { role: "assistant" }, content: { parts: [""] } }, awtsmoosLoading: true });
-    this.assistant = this.textRecord;
-    return this.textRecord;
+  ensureAssistantRecord() {
+    if (this.record) return this.record;
+    this.record = this.renderer.add({ message: { author: { role: "assistant" }, content: { parts: [""] } }, awtsmoosLoading: true });
+    this.assistant = this.record;
+    return this.record;
   }
 
   finishDone() {

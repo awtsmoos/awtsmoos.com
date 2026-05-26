@@ -1,0 +1,318 @@
+{
+  "entry": {
+    "actionId": "act_mpmavedx_0033a2fc",
+    "inputRef": "cmd_act_mpmavedx_0033a2fc",
+    "outputRef": ".awtsmoos/actions/results/act_mpmavedx_0033a2fc.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/tests/harness/streamOrdering.cjs",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\r\nconst path = require(\"path\");\r\nconst { pathToFileURL } = require(\"url\");\r\nconst { ROOT, assert, test } = require(\"./assert.cjs\");\r\n\r\nasync function run() {\r\n  return test(\"stream-router-single-assistant-record-order\", async () => {\r\n    globalThis.crypto = globalThis.crypto || { randomUUID: () => `id-${Math.random()}` };\r\n    const suffix = `?h=${Date.now()}${Math.random()}`;\r\n    const { StreamRouter } = await import(pathToFileURL(path.join(ROOT, \"js/app/streamRouter.js\")).href + suffix);\r\n    const records = [];\r\n    const renderer = {\r\n      records,\r\n      add(input) {\r\n        const id = `record-${records.length + 1}`;\r\n        const shell = { classList: { contains: () => false }, dataset: { messageId: id }, isConnected: true };\r\n        const record = { id, shell, input, text: \"\", events: [] };\r\n        records.push(record);\r\n        return record;\r\n      },\r\n      setRecordEvents(id, events) {\r\n        const record = records.find(item => item.id === id);\r\n        record.events.push(...events);\r\n      },\r\n      async updateRecord(id, packet) {\r\n        const record = records.find(item => item.id === id);\r\n        record.text += packet?.message?.content?.parts?.[0] || packet?.data?.message?.content?.parts?.[0] || packet?.text || \"\";\r\n      },\r\n      finalizeLiveRecords() { this.finalized = true; }\r\n    };\r\n    const router = new StreamRouter(renderer);\r\n    await router.route({ message: { author: { role: \"assistant\" }, content: { parts: [\"\"] }, metadata: { command: \"thinking\", message_type: \"next\" } } });\r\n    await router.route({ message: { author: { role: \"assistant\" }, content: { parts: [\"final text\"] } } });\r\n    await router.finish({ dataNoJSON: \"[DONE]\" });\r\n    assert(records.length === 1, \"stream router must create exactly one assistant record for events and text\", { length: records.length, records });\r\n    assert(records[0].events.length >= 1, \"single record must keep streamed events\", { records });\r\n    assert(records[0].text.includes(\"final text\"), \"single record must keep final text\", { records });\r\n    assert(renderer.finalized === true, \"stream must finalize\", { finalized: renderer.finalized });\r\n    return { records: records.length, events: records[0].events.length, text: records[0].text };\r\n  });\r\n}\r\nmodule.exports = { run };\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T07:14:45.525Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/tests/harness/streamOrdering.cjs",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\tests\\harness\\streamOrdering.cjs",
+    "bytes": 2295,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "pathToFileURL",
+          "index": 37
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ROOT",
+          "index": 76
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "assert",
+          "index": 82
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "test",
+          "index": 90
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "randomUUID",
+          "index": 217
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "StreamRouter",
+          "index": 276
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "add",
+          "index": 428
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "input",
+          "index": 432
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "classList",
+          "index": 489
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "contains",
+          "index": 502
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "dataset",
+          "index": 527
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "messageId",
+          "index": 538
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "isConnected",
+          "index": 555
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "text",
+          "index": 620
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "events",
+          "index": 629
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "setRecordEvents",
+          "index": 715
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "item",
+          "index": 782
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "updateRecord",
+          "index": 870
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "packet",
+          "index": 887
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "finalizeLiveRecords",
+          "index": 1105
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "message",
+          "index": 1236
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "author",
+          "index": 1247
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "role",
+          "index": 1257
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "content",
+          "index": 1268
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "parts",
+          "index": 1279
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "metadata",
+          "index": 1293
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "command",
+          "index": 1305
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "message_type",
+          "index": 1317
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "dataNoJSON",
+          "index": 1456
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "length",
+          "index": 1513
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "finalized",
+          "index": 1713
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

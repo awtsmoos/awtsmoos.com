@@ -1,0 +1,961 @@
+{
+  "entry": {
+    "actionId": "act_mpm7bf39_63b9c0b5",
+    "inputRef": "cmd_act_mpm7bf39_63b9c0b5",
+    "outputRef": ".awtsmoos/actions/results/act_mpm7bf39_63b9c0b5.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai/js/render",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 120,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 160,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "summary|details|createElement|innerHTML|open|streaming|IndexedDB|indexedDB|Map\\(",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 30000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T05:35:14.469Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/js/render",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\js\\render",
+    "query": "summary|details|createElement|innerHTML|open|streaming|IndexedDB|indexedDB|Map\\(",
+    "regex": true,
+    "scannedFiles": 39,
+    "skippedFiles": 0,
+    "maxFiles": 120,
+    "maxResults": 160,
+    "returnedResults": 160,
+    "partial": true,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/js/render/event-ui/cards.js",
+        "line": 8,
+        "preview": "  const chips = Object.entries(facts).map(([k, v]) => `<span class=\"event-chip\"><b>${escapeHtml(k)}</b>${escapeHtml(short(v))}</span>`).join(\"\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/cards.js",
+        "line": 9,
+        "preview": "  return `<section class=\"event-summary-card\"><div class=\"event-summary-title\">${escapeHtml(title)}</div><div class=\"event-chip-row\">${chips || \"details\"}</div></section>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/cards.js",
+        "line": 24,
+        "preview": "  return `<section class=\"event-summary-card\"><div class=\"event-summary-title\">${escapeHtml(title)}</div><div class=\"event-markdown-source\">${escapeHtml(text || \"\")}</div></section>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/cards.js",
+        "line": 27,
+        "preview": "function panel(title, value, open = false) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/cards.js",
+        "line": 28,
+        "preview": "  return `<details class=\"event-payload\" ${open ? \"open\" : \"\"}><summary>${escapeHtml(title)}</summary>${valueView(value)}</details>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/cards.js",
+        "line": 33,
+        "preview": "  const body = refs.map(ref => ref.href"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/eventFacts.js",
+        "line": 38,
+        "preview": "  const links = fields.flatMap(cleanLinksFromText);"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/eventFacts.js",
+        "line": 44,
+        "preview": "    .map(link => link.replace(/\\\\n|\\\\r|\\\\t/g, \"\").replace(/[),.;]+$/g, \"\"))"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/eventFacts.js",
+        "line": 54,
+        "preview": "  if (Array.isArray(content.parts)) return content.parts.map(part => typeof part === \"string\" ? part : part?.text || part?.summary || \"\").filter(Boolean).join(\"\\n\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/referenceFacts.js",
+        "line": 32,
+        "preview": "  return (text.match(/https?:\\/\\/[^\\s\"'<>\\\\)]+/g) || []).map(href => ({ href, label: href, kind: \"url\" }));"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js",
+        "line": 9,
+        "preview": " * and tools stay vaulted until the chamber opens; even then, only recent inner"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js",
+        "line": 18,
+        "preview": "  return `<details class=\"thought-envelope-card\" open data-thought-envelope-key=\"${escapeHtml(key)}\">"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js",
+        "line": 19,
+        "preview": "    <summary><span class=\"event-summary-title\">${escapeHtml(event.label || \"Thoughts\")}</span>${chromeButtons()}</summary>"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js",
+        "line": 20,
+        "preview": "    <details class=\"thought-envelope-events\" data-inner-count=\"${inner.length}\"><summary>${inner.length} inner event(s)</summary></details>"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/thoughtEnvelopeCard.js",
+        "line": 21,
+        "preview": "  </details>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/toolHeadline.js",
+        "line": 9,
+        "preview": " * them in order, so streaming cards keep sharpening instead of freezing with a"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/toolHeadline.js",
+        "line": 79,
+        "preview": "  if (Array.isArray(content.parts)) return content.parts.map(part => typeof part === \"string\" ? part : part?.text || \"\").filter(Boolean).join(\"\\n\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/toolHeadline.js",
+        "line": 95,
+        "preview": "  return values.map(value => String(value || \"\").trim()).find(Boolean) || \"tool\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/toolHeadline.js",
+        "line": 99,
+        "preview": "  return values.map(value => String(value || \"\").trim()).find(value => value && !/^(all|assistant|tool|next|null|undefined)$/i.test(value));"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/valueView.js",
+        "line": 27,
+        "preview": "  if (text.length > 320) return `<details class=\"event-long\"><summary>${escapeHtml(text.slice(0, 120))}…</summary>${codeBlock(text, languageFor(key, text))}</details>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/valueView.js",
+        "line": 32,
+        "preview": "  const rows = Object.entries(obj || {}).map(([key, value]) => row(key, value, depth)).join(\"\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/valueView.js",
+        "line": 34,
+        "preview": "  if (depth > 1) return `<details class=\"event-object\"><summary>${Object.keys(obj).length} fields</summary>${rows}</details>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/valueView.js",
+        "line": 40,
+        "preview": "  const body = items.map((item, index) => row(`#${index + 1}`, item, depth)).join(\"\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/event-ui/valueView.js",
+        "line": 41,
+        "preview": "  return `<details class=\"event-array\" ${depth < 1 ? \"open\" : \"\"}><summary>${items.length} item(s)</summary>${body}</details>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/markdown/blocks.js",
+        "line": 37,
+        "preview": "  return lines.map(line => {"
+      },
+      {
+        "path": "geelooy/ai/js/render/markdown/blocks.js",
+        "line": 115,
+        "preview": "  state.html.push(`<p>${state.paragraph.map(inlineMarkdown).join(\"<br>\")}</p>`);"
+      },
+      {
+        "path": "geelooy/ai/js/render/markdown/blocks.js",
+        "line": 121,
+        "preview": "  state.html.push(`<${state.list.type}>${state.list.items.map(item => `<li>${inlineMarkdown(item)}</li>`).join(\"\")}</${state.list.type}>`);"
+      },
+      {
+        "path": "geelooy/ai/js/render/markdown/blocks.js",
+        "line": 127,
+        "preview": "  state.html.push(`<blockquote>${state.quote.map(inlineMarkdown).join(\"<br>\")}</blockquote>`);"
+      },
+      {
+        "path": "geelooy/ai/js/render/normalizer/textExtractors.js",
+        "line": 11,
+        "preview": "  if (Array.isArray(content.parts)) return content.parts.map(partToText).filter(Boolean).join(\"\\n\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/normalizer/textExtractors.js",
+        "line": 12,
+        "preview": "  if (Array.isArray(content.content)) return content.content.map(partToText).filter(Boolean).join(\"\\n\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/normalizer/textExtractors.js",
+        "line": 36,
+        "preview": "  if (part?.summary) return part.summary;"
+      },
+      {
+        "path": "geelooy/ai/js/render/normalizer/toolNameResolver.js",
+        "line": 46,
+        "preview": " * Finds the richest likely action payload inside a streaming tool packet."
+      },
+      {
+        "path": "geelooy/ai/js/render/normalizer/toolNameResolver.js",
+        "line": 84,
+        "preview": "  if (Array.isArray(content.parts)) return content.parts.map(part => typeof part === \"string\" ? part : part?.text || \"\").filter(Boolean).join(\"\\n\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/normalizer/toolNameResolver.js",
+        "line": 89,
+        "preview": "  return values.map(value => String(value || \"\").trim()).find(isUsefulName);"
+      },
+      {
+        "path": "geelooy/ai/js/render/normalizer/toolSignals.js",
+        "line": 53,
+        "preview": "  if (Array.isArray(content.parts)) return content.parts.map(part => typeof part === \"string\" ? part : part?.text || \"\").filter(Boolean).join(\"\\n\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/normalizer/transportClassifier.js",
+        "line": 80,
+        "preview": "function oauthCapsule(raw) { const href = findFirstUrl(raw); return { kind: \"oauth\", label: \"Sign-in / OAuth\", raw, text: \"\", action: href ? { href, label: \"Open sign-in\" } : null }; }"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 3,
+        "preview": "const collapsedBodies = new WeakMap();"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 4,
+        "preview": "const PANEL_SELECTOR = \"details.transport-details, details.event-payload, details.event-raw-lazy, details.event-long, details.event-object, details.event-array\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 10,
+        "preview": " * leave the DOM and wait as detached living sparks in RAM. When the gate opens,"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 23,
+        "preview": "    panel.open ? restorePanel(panel) : vaultPanel(panel);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 36,
+        "preview": "    if (!panel.open) vaultPanel(panel);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 62,
+        "preview": "  const summary = panel.querySelector(\":scope > summary\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/collapsedDomVault.js",
+        "line": 63,
+        "preview": "  return [...panel.childNodes].filter(node => node !== summary);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 11,
+        "preview": " * Chapter 77: The Vault Opened Without Throwing The Reader Backward."
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 13,
+        "preview": " * Every expandable event owns its own vaulted payload key. Opening hydrates only"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 29,
+        "preview": " * Hydrates panels that streaming reconciliation restored as already-open shells."
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 34,
+        "preview": "export function hydrateOpenEventBodies(root) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 36,
+        "preview": "  root.querySelectorAll(\"details.transport-details[data-event-payload-key][open]\").forEach(panel => {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 39,
+        "preview": "  root.querySelectorAll(\"details.thought-envelope-events[open]\").forEach(panel => {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 45,
+        "preview": "  if (panel?.matches?.(\"details.transport-details[data-event-payload-key]\")) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 46,
+        "preview": "    preservePanelScroll(panel, () => panel.open ? hydrateEvent(panel) : removeBody(panel, \".event-lanes\"));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 48,
+        "preview": "  if (panel?.matches?.(\"details.thought-envelope-events\")) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 49,
+        "preview": "    preservePanelScroll(panel, () => panel.open ? hydrateInner(panel) : removeBody(panel, \".thought-inner-window\"));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 57,
+        "preview": "  const panel = button.closest(\"details.thought-envelope-events\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 66,
+        "preview": "  if (!panel.open) return;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 77,
+        "preview": "  if (!panel.open) return;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 81,
+        "preview": "  const body = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 90,
+        "preview": "  const button = document.createElement(\"button\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventBodyHydrator.js",
+        "line": 104,
+        "preview": "  const node = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventPayloadVault.js",
+        "line": 4,
+        "preview": "const fallbackEvents = new Map();"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventPayloadVault.js",
+        "line": 10,
+        "preview": " * Streaming thought chambers must not receive a new vault key every heartbeat."
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 2,
+        "preview": "import { renderEventDetails } from \"../eventDetails.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 10,
+        "preview": "import { hydrateOpenEventBodies, installEventBodyHydrator } from \"./eventBodyHydrator.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 11,
+        "preview": "import { renderThoughtEnvelopeNode } from \"./thoughtEnvelopeRuntime.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 18,
+        "preview": " * thought-text has opened a chamber, the chamber is a chronological vessel."
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 20,
+        "preview": " * it, until another thought-text opens the next vessel."
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 30,
+        "preview": "  const nodes = record ? (record.renderedEventNodes ||= new Map()) : new Map();"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 70,
+        "preview": "  const liveKeys = new Set(visible.map(eventMergeKey));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 81,
+        "preview": "  const html = renderEventDetails([event]);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 84,
+        "preview": "    node = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 96,
+        "preview": "    renderThoughtEnvelopeNode(node, event);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 101,
+        "preview": "  const openKeys = snapshotOpenDetails(node);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 103,
+        "preview": "  node.innerHTML = html;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 105,
+        "preview": "  restoreOpenDetails(node, openKeys);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 107,
+        "preview": "  hydrateOpenEventBodies(node);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 119,
+        "preview": "    region = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 127,
+        "preview": "  record.renderedEventNodes = new Map();"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 131,
+        "preview": "function snapshotOpenDetails(node) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 132,
+        "preview": "  return [...node.querySelectorAll(\"details[open]\")].map((detail, index) => detail.dataset.persistKey || detail.className || String(index));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 135,
+        "preview": "function restoreOpenDetails(node, keys) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 137,
+        "preview": "  [...node.querySelectorAll(\"details\")].forEach((detail, index) => {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 139,
+        "preview": "    if (keys.includes(key)) detail.open = true;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 144,
+        "preview": "  const panel = node.querySelector(\".transport-details, .thought-envelope-card\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 151,
+        "preview": "  const panel = node.querySelector(\".transport-details, .thought-envelope-card\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/eventRuntime.js",
+        "line": 156,
+        "preview": "  document.body.classList.toggle(\"has-event-fullscreen\", Boolean(document.querySelector(\".transport-details.is-fullscreen, .thought-envelope-card.is-fullscreen\")));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/liveTextRuntime.js",
+        "line": 7,
+        "preview": " * The Awtsmoos lets plain streaming speech flow through one stable text node,"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/liveTextRuntime.js",
+        "line": 22,
+        "preview": "  if (record.streaming && !looksLikeStructuredMarkdown(text)) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/liveTextRuntime.js",
+        "line": 26,
+        "preview": "  bubble.innerHTML = renderMarkdown(text);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/liveTextRuntime.js",
+        "line": 35,
+        "preview": "  record.streaming = false;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/liveTextRuntime.js",
+        "line": 44,
+        "preview": "    node = document.createElement(\"span\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/loadingRuntime.js",
+        "line": 16,
+        "preview": "  const stillStreaming = record.loading || record.streaming;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/loadingRuntime.js",
+        "line": 17,
+        "preview": "  if (stillStreaming || record.text || hasVisibleEvents) return false;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/loadState.js",
+        "line": 11,
+        "preview": "  const node = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 20,
+        "preview": "    const panel = event.target?.closest?.(\".transport-details, .thought-envelope-card\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 24,
+        "preview": "  root.querySelectorAll(\".transport-details, .thought-envelope-card\").forEach(syncPanelChrome);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 32,
+        "preview": "  const panel = button.closest(\".transport-details, .thought-envelope-card\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 40,
+        "preview": "    panel.open = false;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 45,
+        "preview": "    panel.open = true;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 51,
+        "preview": "    panel.open = true;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 60,
+        "preview": "  const minimized = !panel.open;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 84,
+        "preview": "    const fullscreen = document.querySelector(\".transport-details.is-fullscreen, .thought-envelope-card.is-fullscreen\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/panelChrome.js",
+        "line": 93,
+        "preview": "  if (!document.querySelector(\".transport-details.is-fullscreen, .thought-envelope-card.is-fullscreen\")) document.body.classList.remove(\"has-event-fullscreen\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonHydrator.js",
+        "line": 7,
+        "preview": " * The Awtsmoos lets raw JSON sleep in the worker. Opening the gate asks for the"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonHydrator.js",
+        "line": 18,
+        "preview": "    if (!detail?.matches?.(\"details.event-raw-lazy\")) return;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonHydrator.js",
+        "line": 19,
+        "preview": "    detail.open ? hydrate(detail) : dehydrate(detail);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonHydrator.js",
+        "line": 28,
+        "preview": "  if (!detail.open) return;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonHydrator.js",
+        "line": 29,
+        "preview": "  const pre = document.createElement(\"pre\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonHydrator.js",
+        "line": 31,
+        "preview": "  const code = document.createElement(\"code\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonHydrator.js",
+        "line": 43,
+        "preview": "  const node = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/rawJsonVault.js",
+        "line": 4,
+        "preview": "const fallbackRaw = new Map();"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/recordRuntime.js",
+        "line": 10,
+        "preview": " * packets arrive it is marked `streaming`; when the router finishes, the record"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/recordRuntime.js",
+        "line": 29,
+        "preview": "    streaming: Boolean(input?.awtsmoosLoading),"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/recordRuntime.js",
+        "line": 51,
+        "preview": "  record.streaming = true;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/recordWeight.js",
+        "line": 5,
+        "preview": "  const kinds = new Set((record.events || []).map(event => event.kind));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/recordWeight.js",
+        "line": 13,
+        "preview": "  return [...new Set((record.events || []).map(event => event.kind).filter(Boolean))];"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/renderHelpers.js",
+        "line": 2,
+        "preview": "import { streamingToolKey } from \"./toolStreamIdentity.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/renderHelpers.js",
+        "line": 9,
+        "preview": "  const el = document.createElement(\"button\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/renderHelpers.js",
+        "line": 27,
+        "preview": "  const streamKey = streamingToolKey(event);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/renderHelpers.js",
+        "line": 38,
+        "preview": "  const keyed = new Map();"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/scrollAnchor.js",
+        "line": 45,
+        "preview": " * Marks a deliberate panel interaction so live streaming does not immediately"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/scrollRuntime.js",
+        "line": 9,
+        "preview": " * not chained to the flood. Live streaming pins to bottom only while the reader"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 21,
+        "preview": "  const shell = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 40,
+        "preview": "  const bubble = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 52,
+        "preview": "  if (record.renderedText === visibleText && record.renderedExpanded === record.expanded && record.renderedStreaming === record.streaming) return;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 56,
+        "preview": "  record.renderedStreaming = record.streaming;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 67,
+        "preview": "  const badge = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 74,
+        "preview": "  const wrap = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 76,
+        "preview": "  const show = document.createElement(\"button\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 85,
+        "preview": "  const bubble = document.createElement(\"div\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/shellRuntime.js",
+        "line": 87,
+        "preview": "  bubble.innerHTML = `<div class=\"message-loading\"><i></i><span></span><span></span><span></span><em>incoming sparks…</em></div>`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelope.js",
+        "line": 22,
+        "preview": " * until the next thought-text cleaves reality and opens another chamber."
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 10,
+        "preview": " * While streaming, a thought group receives more inner sparks. Its DOM card and"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 11,
+        "preview": " * vault payload must keep the same identity, or an already-open panel may ask"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 20,
+        "preview": "export function renderThoughtEnvelopeNode(node, event = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 28,
+        "preview": "  ensureInnerSummary(innerPanel).textContent = `${inner.length} inner event${inner.length === 1 ? \"\" : \"s\"}`;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 34,
+        "preview": "  let card = node.querySelector(\":scope > details.thought-envelope-card\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 37,
+        "preview": "  card = document.createElement(\"details\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 39,
+        "preview": "  card.open = true;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 40,
+        "preview": "  const summary = document.createElement(\"summary\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 41,
+        "preview": "  const title = document.createElement(\"span\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 42,
+        "preview": "  title.className = \"event-summary-title\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 43,
+        "preview": "  summary.append(title, chromeButtons());"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 44,
+        "preview": "  card.append(summary);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 50,
+        "preview": "  let title = card.querySelector(\":scope > summary > .event-summary-title\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 52,
+        "preview": "    title = document.createElement(\"span\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 53,
+        "preview": "    title.className = \"event-summary-title\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 54,
+        "preview": "    card.querySelector(\":scope > summary\")?.prepend(title);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 60,
+        "preview": "  let panel = card.querySelector(\":scope > details.thought-envelope-events\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 62,
+        "preview": "  panel = document.createElement(\"details\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 64,
+        "preview": "  panel.append(document.createElement(\"summary\"));"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 69,
+        "preview": "function ensureInnerSummary(panel) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 70,
+        "preview": "  let summary = panel.querySelector(\":scope > summary\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 71,
+        "preview": "  if (!summary) {"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 72,
+        "preview": "    summary = document.createElement(\"summary\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 73,
+        "preview": "    panel.prepend(summary);"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 75,
+        "preview": "  return summary;"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 91,
+        "preview": "  const wrap = document.createElement(\"span\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtEnvelopeRuntime.js",
+        "line": 94,
+        "preview": "    const button = document.createElement(\"button\");"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 2,
+        "preview": "import { renderEventDetails } from \"../eventDetails.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/render/runtime/thoughtInnerReconciler.js",
+        "line": 3,
+        "preview": "import { streamingToolKey } from \"./toolStreamIdentity.js\";"
+      }
+    ]
+  }
+}

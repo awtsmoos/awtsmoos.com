@@ -1,4 +1,7 @@
 // B"H
+const fs = require("fs");
+const path = require("path");
+const { pathToFileURL } = require("url");
 const { stabilizeRemoteModuleSource } = require("./remoteModuleCompat.js");
 const { buildRuntimeVirtualEnv } = require("../runtimeVirtualEnv.js");
 
@@ -107,7 +110,16 @@ async function importHttpModule(url) {
   return resolved.module;
 }
 
-async function loadMerkavaService(payload = {}) {
+async function loadMerkavaService(payload = {}, config = {}) {
+  const localPath = path.join(
+    config.root || process.cwd(),
+    "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js"
+  );
+
+  if (fs.existsSync(localPath)) {
+    return await import(pathToFileURL(localPath).href + "?awtsmoos=" + Date.now());
+  }
+
   return await importHttpModule(resolveMerkavaServiceUrl(payload));
 }
 
@@ -135,7 +147,7 @@ async function runService(payload, method, config = {}) {
     return { ok: false, action: method, engine: "merkava", error: "runtime_preflight_failed", diagnostics: options.virtualEnv.diagnostics, options };
   }
   try {
-    const service = await loadMerkavaService(payload);
+    const service = await loadMerkavaService(payload, config);
     const fn = service && service[method];
     if (typeof fn !== "function") {
       throw new Error(`Remote Merkava service missing method: ${method}`);

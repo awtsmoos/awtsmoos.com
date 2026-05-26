@@ -1,0 +1,461 @@
+{
+  "entry": {
+    "actionId": "act_mpmchdk6_ac733284",
+    "inputRef": "cmd_act_mpmchdk6_ac733284",
+    "outputRef": ".awtsmoos/actions/results/act_mpmchdk6_ac733284.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 500,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 220,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "async function prompt|promptFunction|backend-api/conversation|POST|parent_message_id|messages:|action: \"next\"|action:\\s*'next'",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 30000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T07:59:50.502Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai",
+    "query": "async function prompt|promptFunction|backend-api/conversation|POST|parent_message_id|messages:|action: \"next\"|action:\\s*'next'",
+    "regex": true,
+    "scannedFiles": 222,
+    "skippedFiles": 0,
+    "maxFiles": 500,
+    "maxResults": 220,
+    "returnedResults": 60,
+    "partial": false,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/animation/code (1).html",
+        "line": 937,
+        "preview": "                blink.lastBlinkTime = now; // Postpone"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 1037,
+        "preview": "                blink.lastBlinkTime = now; // Postpone"
+      },
+      {
+        "path": "geelooy/ai/animation/coy.html",
+        "line": 1157,
+        "preview": "                darts.lastDartTime = now; // Postpone dart if surprised, focused, or blinking"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 120,
+        "preview": "    const response = await service.promptFunction(userMessage, {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/detail.js",
+        "line": 10,
+        "preview": "  var url = \"https://chatgpt.com/backend-api/conversation/\" + conversation_id;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/list.js",
+        "line": 11,
+        "preview": " *   3. GET `/backend-api/conversations?offset&limit&order=updated`."
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/conversations/list.js",
+        "line": 25,
+        "preview": "  var url = `https://chatgpt.com/backend-api/conversations?offset=${offset}&limit=${limit}&order=updated`;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/sentinel/requirements.js",
+        "line": 27,
+        "preview": "    method: \"POST\","
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/stream/workerStreamClient.js",
+        "line": 20,
+        "preview": "    worker.postMessage({ id, kind: \"sseChunk\", sessionId, text, final });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/transport/nodeRelayFetch.js",
+        "line": 19,
+        "preview": "    method: \"POST\","
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/transport/nodeRelayFetch.js",
+        "line": 93,
+        "preview": "    method: \"POST\","
+      },
+      {
+        "path": "geelooy/ai/js/render/worker/renderWorker.js",
+        "line": 19,
+        "preview": "  self.postMessage({ id: msg.id, records });"
+      },
+      {
+        "path": "geelooy/ai/js/render/worker/renderWorker.js",
+        "line": 22,
+        "preview": "function reply(msg, extra) { self.postMessage({ id: msg.id, ...extra }); }"
+      },
+      {
+        "path": "geelooy/ai/js/render/workerClient.js",
+        "line": 51,
+        "preview": "    try { worker.postMessage({ id, ...message }); }"
+      },
+      {
+        "path": "geelooy/ai/js/render/workerClient.js",
+        "line": 55,
+        "preview": "      resetWorker(\"postMessage failed\");"
+      },
+      {
+        "path": "geelooy/ai/js/services/chatgptService.js",
+        "line": 26,
+        "preview": "    promptFunction: async (userMessage, { onstream = null, ondone = null, conversationId = null, streamContext = {} } = {}) => self.instance.go({"
+      },
+      {
+        "path": "geelooy/ai/js/services/geminiApi.js",
+        "line": 12,
+        "preview": "    method: \"POST\","
+      },
+      {
+        "path": "geelooy/ai/js/services/geminiService.js",
+        "line": 10,
+        "preview": "    promptFunction: (userMessage, options = {}) => promptGemini(self, userMessage, options)"
+      },
+      {
+        "path": "geelooy/ai/js/services/geminiService.js",
+        "line": 33,
+        "preview": "async function promptGemini(self, userMessage, { onstream, ondone, remember = false, model } = {}) {"
+      },
+      {
+        "path": "geelooy/ai/relay/split-browser/debugClient.cjs",
+        "line": 17,
+        "preview": "      method: 'POST', headers: { 'Content-Type': 'application/json' },"
+      },
+      {
+        "path": "geelooy/ai/relay/split-browser/http.cjs",
+        "line": 26,
+        "preview": "    \"Access-Control-Allow-Methods\": \"GET,POST,PUT,PATCH,DELETE,OPTIONS\","
+      },
+      {
+        "path": "geelooy/ai/relay/split-browser/jsPreamble.cjs",
+        "line": 35,
+        "preview": "        fetch('/client-state', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});"
+      },
+      {
+        "path": "geelooy/ai/relay/split-browser/relayApi.cjs",
+        "line": 14,
+        "preview": " * and Node keeps walking as the experimental browser. POST bodies and generic"
+      },
+      {
+        "path": "geelooy/ai/relay/chatgpt-node-relay.cjs",
+        "line": 45,
+        "preview": "    if (req.url === \"/fetch\" && req.method === \"POST\") return startFetch(req, res);"
+      },
+      {
+        "path": "geelooy/ai/relay/chatgpt-node-relay.cjs",
+        "line": 46,
+        "preview": "    if (req.url === \"/body\" && req.method === \"POST\") return readBody(req, res);"
+      },
+      {
+        "path": "geelooy/ai/relay/chatgpt-node-relay.cjs",
+        "line": 233,
+        "preview": "function cors(res) { res.setHeader(\"Access-Control-Allow-Origin\", \"*\"); res.setHeader(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS\"); res.setHeader(\"Access-Control-Allow-Headers\", \"content-type,authorization,oai-device-id,oai-language\"); }"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/browserClientSim.cjs",
+        "line": 63,
+        "preview": "    await context.fetch(\"https://accounts.google.com/o/oauth2/v2/auth\", { method: \"POST\" });"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/browserDebug.cjs",
+        "line": 28,
+        "preview": "    assert(!isImportant(\"route:incoming\", { method: \"POST\", status: 200 }), \"normal POST route logs should be quiet by default\");"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/browserDebug.cjs",
+        "line": 41,
+        "preview": "      const goto = await (await fetch(base + \"/debug/goto\", { method: \"POST\", headers: { \"content-type\": \"application/json\" }, body: JSON.stringify({ session: session.session.id, url: \"https://chatgpt.com/g/g-1\" }) })).json();"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/browserDebug.cjs",
+        "line": 43,
+        "preview": "      const evalCmd = await (await fetch(base + \"/debug/evaluate\", { method: \"POST\", headers: { \"content-type\": \"application/json\" }, body: JSON.stringify({ session: session.session.id, expression: \"1+1\" }) })).json();"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/browserDebug.cjs",
+        "line": 47,
+        "preview": "      const result = await (await fetch(base + \"/debug/result\", { method: \"POST\", headers: { \"content-type\": \"application/json\" }, body: JSON.stringify({ session: session.session.id, command: pending.commands[0].id, ok: true, result: { href: \"/g/g-1\" } }) })).json();"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/relay.cjs",
+        "line": 8,
+        "preview": " * It verifies multiple independent relay streams, POST body preservation,"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/relay.cjs",
+        "line": 35,
+        "preview": "      const post = await (await fetch(base + \"/echo\", { method: \"POST\", headers: { \"content-type\": \"text/plain\" }, body: \"hello\" })).json();"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/relay.cjs",
+        "line": 36,
+        "preview": "      assert(post.method === \"POST\" && post.body === \"hello\", \"proxy POST body must survive\", post);"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/relay.cjs",
+        "line": 41,
+        "preview": "        starts.push(await (await fetch(base + \"/fetch\", { method: \"POST\", headers: { \"content-type\": \"application/json\" }, body: JSON.stringify({ url: `${origin}/stream?id=${i}`, options: { method: \"GET\" } }) })).json());"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/relay.cjs",
+        "line": 45,
+        "preview": "        texts.push((await (await fetch(base + \"/body\", { method: \"POST\", headers: { \"content-type\": \"application/json\" }, body: JSON.stringify({ id: meta.id, bodyAction: \"text\" }) })).json()).result);"
+      },
+      {
+        "path": "geelooy/ai/tests/harness/relay.cjs",
+        "line": 49,
+        "preview": "      return { post: true, redirect: true, streams: starts.length };"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 18,
+        "preview": "  constructor({ conversation_id, parent_message_id } = {}) {"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 19,
+        "preview": "    this._lastMessageId = parent_message_id;"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 80,
+        "preview": "        messages: ["
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 88,
+        "preview": "        parent_message_id: parentMessageId,"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 102,
+        "preview": "        method: \"POST\","
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 108,
+        "preview": "    var URL = \"https://chatgpt.com/backend-api/conversation\";"
+      },
+      {
+        "path": "geelooy/ai/awtsmoosGrok.js",
+        "line": 100,
+        "preview": "      \"method\": \"POST\""
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 24,
+        "preview": "\t\t\tparent_message_id"
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 26,
+        "preview": "\t\t\tthis._lastMessageId=parent_message_id;"
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 73,
+        "preview": "\t        `https://chatgpt.com/backend-api/conversation/gen_title/${convoId}`"
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 113,
+        "preview": "\t                messages: ["
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 126,
+        "preview": "\t                parent_message_id: parentMessageId,"
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 143,
+        "preview": "\t                method: 'POST',"
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 153,
+        "preview": "\t        var URL = \"https://chatgpt.com/backend-api/conversation\";"
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 205,
+        "preview": "\t                method: \"POST\""
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 326,
+        "preview": "\t\t\tawait mFetch(`https://chatgpt.com/backend-api/conversations?offset=${offset}&limit=${limit}&order=updated`, {"
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 388,
+        "preview": "\t    return (await (await mFetch(\"https://chatgpt.com/backend-api/conversation/\" + conversation_id, {"
+      },
+      {
+        "path": "geelooy/ai/old.AwtsmoosGPTify.reference.js",
+        "line": 455,
+        "preview": "\t        method: \"POST\","
+      },
+      {
+        "path": "geelooy/ai/openaiCompatible.js",
+        "line": 24,
+        "preview": " * @returns {object} A browser-safe chat service with promptFunction parity."
+      },
+      {
+        "path": "geelooy/ai/openaiCompatible.js",
+        "line": 41,
+        "preview": "    async promptFunction(userMessage, options = {}) {"
+      },
+      {
+        "path": "geelooy/ai/openaiCompatible.js",
+        "line": 92,
+        "preview": "    method: \"POST\","
+      },
+      {
+        "path": "geelooy/ai/openaiCompatible.js",
+        "line": 99,
+        "preview": "      messages: [{ role: \"user\", content: userMessage }]"
+      },
+      {
+        "path": "geelooy/ai/STREAMING_AUTOMATION_LIMITS.md",
+        "line": 24,
+        "preview": "- Node relay POST body preservation."
+      }
+    ]
+  }
+}

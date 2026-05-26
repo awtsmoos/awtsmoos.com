@@ -1,0 +1,123 @@
+<!--B"H
+Boruch Hashem
+Biezras Hashem
+--><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awtsmoos EXE Compiler</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+    </style>
+</head>
+<body class="app-body">
+
+    <!-- HOLY HEADERS -->
+    <div class="bh-corner-left">B"H</div>
+    <div class="bh-corner-right">ב״ה</div>
+
+    <div class="compiler-card">
+        
+        <!-- Header -->
+        <div class="card-header">
+            <h1 class="app-title">Awtsmoos EXE Compiler</h1>
+            <p class="app-subtitle">
+                Generating Existence from Nothingness.
+                <br>
+                Compiles native Windows 64-bit binaries in the browser.
+            </p>
+        </div>
+
+        <!-- Content -->
+        <div class="card-content">
+            
+            <div class="input-group">
+                <label class="input-label">App Mode</label>
+                <div class="mode-selector">
+                    <label class="radio-label">
+                        <input type="radio" name="appMode" value="console" checked>
+                        <span class="radio-custom"></span>
+                        <span>Console App</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="appMode" value="gui">
+                        <span class="radio-custom"></span>
+                        <span>GUI App</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="appMode" value="asm">
+                        <span class="radio-custom"></span>
+                        <span>Custom ASM</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="appMode" value="c">
+                        <span class="radio-custom"></span>
+                        <span>Custom C</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Standard Text Input (Console/GUI) -->
+            <div id="standardInputGroup" class="input-group">
+                <label for="userText" class="input-label">Message / Window Title</label>
+                <input type="text" id="userText" placeholder="Hello, World!" 
+                    class="input-field" autocomplete="off">
+                <p class="input-hint">For Console: Printed to stdout. For GUI: Used as Window Title.</p>
+            </div>
+
+            <!-- ASM/C Editor -->
+            <div id="asmInputGroup" class="input-group hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <label for="asmEditor" class="input-label" style="margin-bottom:0;">Assembly Source (x64)</label>
+                    
+                    <!-- ASM Selector -->
+                    <select id="asmExampleSelect" class="input-field" style="width: auto; padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                        <option value="hello">Load: Hello World (GUI)</option>
+                        <option value="loop">Load: Console Loop</option>
+                        <option value="file">Load: File Writer</option>
+                        <option value="window">Load: Native Window</option>
+                        <option value="draw">Load: GDI Graphics</option>
+                        <option value="triangle">Load: Animated Triangle</option>
+                    </select>
+
+                    <!-- C Selector (Hidden by default) -->
+                    <select id="cExampleSelect" class="input-field hidden" style="width: auto; padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                        <option value="hello">Load: Hello World (GUI)</option>
+                        <option value="console">Load: Console Output</option>
+                        <option value="echo">Load: Console Input (Echo)</option>
+                    </select>
+
+                </div>
+                <textarea id="asmEditor" class="asm-editor" spellcheck="false"></textarea>
+                <p class="input-hint">Compiles locally in browser to native PE32+.</p>
+            </div>
+
+            <div class="info-panel">
+                <p class="info-title">Compilation Details:</p>
+                <ul class="info-list" id="infoList">
+                    <!-- Dynamic content based on mode -->
+                </ul>
+            </div>
+
+            <button id="compileBtn" class="btn-primary">
+                Compile & Download .EXE
+            </button>
+            
+            <div id="status" class="status-msg hidden">
+                <!-- Status text injected via JS -->
+            </div>
+
+        </div>
+        
+        <!-- Footer -->
+        <div class="card-footer">
+            Powered by Pure JavaScript. No Backend. No Libraries.
+        </div>
+    </div>
+
+    <!-- MODULE ENTRY POINT -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>

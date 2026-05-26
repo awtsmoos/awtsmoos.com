@@ -1,0 +1,298 @@
+{
+  "entry": {
+    "actionId": "act_mpmdn8tx_ef97b712",
+    "inputRef": "cmd_act_mpmdn8tx_ef97b712",
+    "outputRef": ".awtsmoos/actions/results/act_mpmdn8tx_ef97b712.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/apps/merkava-native-browser/core/merkavaExecutorRenderStream.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\nimport { createRequire } from \"module\";\nconst require = createRequire(import.meta.url);\n\nconst { parseHtmlNodes } = require(\"../../scripts/awtsmoos/MerkavaExecutor/merkava-binary/SourceAppCompiler.js\");\nconst { encodeMode2JsBinary, runMode2JsBinary } = require(\"../../scripts/awtsmoos/MerkavaExecutor/merkava-binary/Mode2JsBinary.js\");\nconst { SyntheticBrowserRuntime } = require(\"../../scripts/awtsmoos/MerkavaExecutor/merkava-browser/SyntheticBrowserRuntime.js\");\n\n/**\n * Chapter 3: The Page Soul Learns to Speak OpenGL.\n *\n * This file is deliberately not a C browser. It asks MerkavaExecutor's virtual\n * browser to parse, host, execute, interact, and render. The output is a tiny\n * native command stream: C receives rectangles, text, and WebGL facts after the\n * executor has already decided what the page means.\n *\n * @param {{html: string, scripts: string[], url?: string}} page\n * @returns {Promise<{stream: string, summary: object, snapshot: object}>}\n */\nexport async function buildMerkavaExecutorRenderStream(page) {\n  const runtime = new SyntheticBrowserRuntime({ url: page.url || \"file:///index.html\" });\n  hydrateVirtualDom(runtime.window.document, parseHtmlNodes(page.html || \"\"));\n  for (const source of page.scripts || []) {\n    const binary = await encodeMode2JsBinary(String(source || \"\"));\n    runMode2JsBinary(binary, { globals: runtime.globals() });\n  }\n  clickIfPresent(runtime.window, \"#draw\");\n  const snapshot = runtime.window.renderWebGLDom();\n  const stream = encodeNativeStream(snapshot.commands);\n  return {\n    stream,\n    snapshot,\n    summary: {\n      commandCount: snapshot.commands.length,\n      textureCount: snapshot.textures.length,\n      streamBytes: Buffer.byteLength(stream, \"utf8\")\n    }\n  };\n}\n\nfunction hydrateVirtualDom(document, nodes) {\n  const byId = { \"\": document.body };\n  for (const node of nodes) {\n    const element = document.createElement(node.tag);\n    for (const [key, value] of Object.entries(node.attrs || {})) element.setAttribute(key, value);\n    if (node.text) element.textContent = node.text;\n    applyNativeDefaults(element, node);\n    const parent = byId[node.parent || \"\"] || document.body;\n    parent.appendChild(element);\n    if (node.id) byId[node.id] = element;\n  }\n}\n\nfunction applyNativeDefaults(element, node) {\n  const attrs = node.attrs || {};\n  if (node.tag === \"canvas\") {\n    element.width = Number(attrs.width || 300);\n    element.height = Number(attrs.height || 150);\n    element.setAttribute(\"style\", `width: ${element.width}px; height: ${element.height}px; background-color: #102038`);\n  } else if (node.tag === \"button\") {\n    element.setAttribute(\"style\", \"width: 80px; height: 28px; background-color: #e8e8e8; color: #111111\");\n  } else if (node.tag === \"output\") {\n    element.setAttribute(\"style\", \"width: 240px; height: 28px; background-color: #f8f8f8; color: #111111\");\n  } else {\n    element.setAttribute(\"style\", \"width: 360px; height: 40px; background-color: #ffffff; color: #111111\");\n  }\n}\n\nfunction clickIfPresent(window, selector) {\n  const target = window.document.querySelector(selector);\n  if (target) target.dispatchEvent(new window.MouseEvent(\"click\", { bubbles: true }));\n}\n\nfunction encodeNativeStream(commands) {\n  return commands.map((command, index) => encodeCommand(command, index)).filter(Boolean).join(\"\\n\");\n}\n\nfunction encodeCommand(command, index) {\n  if (command.op === \"paintBox\") return [\"BOX\", index, n(command.x), n(command.y), n(command.width), n(command.height), color(command.background)].join(\"|\");\n  if (command.op === \"paintTextPlaceholder\") return [\"TEXT\", index, n(command.x), n(command.y), safe(command.text), color(command.color)].join(\"|\");\n  if (command.op?.startsWith?.(\"webgl.\")) return [\"WEBGL\", index, safe(command.op), JSON.stringify(command).length].join(\"|\");\n  return null;\n}\n\nfunction n(value) { return Number(value || 0).toFixed(2); }\nfunction safe(value) { return String(value || \"\").replace(/[|\\r\\n]/g, \" \").slice(0, 120); }\nfunction color(value) { return safe(value || \"#ffffff\"); }\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T08:32:23.925Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/apps/merkava-native-browser/core/merkavaExecutorRenderStream.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\merkava-native-browser\\core\\merkavaExecutorRenderStream.js",
+    "bytes": 4034,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createRequire",
+          "index": 11
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "parseHtmlNodes",
+          "index": 92
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "encodeMode2JsBinary",
+          "index": 131
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "runMode2JsBinary",
+          "index": 152
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "SyntheticBrowserRuntime",
+          "index": 193
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "url",
+          "index": 347
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "draw",
+          "index": 368
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "utf8",
+          "index": 373
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "canvas",
+          "index": 380
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "style",
+          "index": 387
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "button",
+          "index": 393
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "width",
+          "index": 406
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "height",
+          "index": 419
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "background",
+          "index": 433
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "color",
+          "index": 444
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "e8e8e8",
+          "index": 452
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "output",
+          "index": 475
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "f8f8f8",
+          "index": 535
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ffffff",
+          "index": 611
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "click",
+          "index": 634
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "n",
+          "index": 641
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "paintBox",
+          "index": 643
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "BOX",
+          "index": 652
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "paintTextPlaceholder",
+          "index": 658
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TEXT",
+          "index": 679
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "webgl",
+          "index": 686
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "WEBGL",
+          "index": 693
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

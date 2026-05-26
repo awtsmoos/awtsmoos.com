@@ -128,7 +128,7 @@ const StartWorldFlow = {
       } else if (!manager._canvasTransferred) {
         console.warn('B"H - Diagnostic: Canvas not yet transferred. Meshes may still be forging.');
       }
-    }, 45000);
+    }, 90000);
 
     return true;
   },
@@ -168,7 +168,10 @@ const StartWorldFlow = {
 
       if (!res.ok) return null;
 
-      const json = await res.json();
+      const text = await res.text();
+      if (!text.trim()) return null;
+
+      const json = JSON.parse(text);
       return json && !json.error ? json : null;
     } catch (error) {
       console.warn("B\"H - Persistent settings could not be loaded.", error);

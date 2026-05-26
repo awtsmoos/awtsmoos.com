@@ -59,7 +59,18 @@ function isEmptyThinkingStatus(message = {}, content = {}, metadata = {}, type =
   return Boolean(metadata.reasoning_status) && !metadata.is_thinking_preamble_message;
 }
 
-function capsule(kind, label, raw, text = "") { return { kind, label, raw, text: text || "" }; }
+function capsule(kind, label, raw, text = "") {
+  return { kind, label, raw, text: text || "", order: eventOrder(raw) };
+}
+function eventOrder(raw = {}) {
+  const msg = raw.message || raw.input_message || raw.data?.message || raw;
+  const metadata = msg.metadata || raw.metadata || {};
+  const direct = raw.__awtsmoosHistoryIndex ?? msg.__awtsmoosHistoryIndex ?? metadata.__awtsmoosHistoryIndex;
+  if (Number.isFinite(Number(direct))) return Number(direct);
+  const time = msg.create_time ?? raw.create_time ?? metadata.create_time;
+  if (Number.isFinite(Number(time))) return Number(time) * 1000;
+  return Number.MAX_SAFE_INTEGER;
+}
 function isAssistantToolMarker(message = {}, content = {}) {
   const text = visibleContentText(content).trim();
   if (text) return false;

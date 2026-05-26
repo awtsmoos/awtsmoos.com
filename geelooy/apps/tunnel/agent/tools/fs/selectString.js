@@ -1,81 +1,101 @@
 // B"H
 const fs = require("fs/promises");
 const path = require("path");
-const { safePath } = require("./pathGuard.js");
+const { safePath, assertNotSecret } = require("./pathGuard.js");
 
-function rx(patterns, caseSensitive) {
-  const list = Array.isArray(patterns)
-    ? patterns
-    : String(patterns || "")
-      .split(",")
-      .map(x => x.trim())
-      .filter(Boolean);
+const SKIP_DIRS = new Set(["node_modules", ".git", ".next", "dist", "build", ".cache", ".awtsmoos-repo"]);
+const DEFAULT_EXTS = [".js", ".cjs", ".mjs", ".ps1", ".sh", ".json"];
 
-  if (!list.length) {
-    throw new Error("pattern or patterns is required.");
-  }
-
-  return new RegExp(
-    list.map(x => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"),
-    caseSensitive ? "g" : "gi"
-  );
+function listOf(value) {
+  if (Array.isArray(value)) return value.map(String).map(x => x.trim()).filter(Boolean);
+  return String(value || "").split(",").map(x => x.trim()).filter(Boolean);
 }
 
-async function walk(dir, out, limit) {
-  if (out.length >= limit) return;
+function escapeRegex(text) {
+  return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
-  for (const ent of await fs.readdir(dir, { withFileTypes: true })) {
-    if (out.length >= limit) return;
-    if (["node_modules", ".git", ".awtsmoos-repo"].includes(ent.name)) continue;
+function buildMatcher(payload) {
+  const terms = listOf(payload.patterns || payload.pattern || payload.query || payload.find);
+  if (!terms.length) throw new Error("query, find, pattern, or patterns is required.");
+  const body = payload.regex ? terms.join("|") : terms.map(escapeRegex).join("|");
+  return { terms, matcher: new RegExp(body, payload.caseSensitive ? "g" : "gi") };
+}
 
+function wantedExts(payload) {
+  const raw = listOf(payload.exts || payload.ext || payload.include || "");
+  const list = raw.length ? raw : DEFAULT_EXTS;
+  return new Set(list.map(x => x.startsWith(".") ? x.toLowerCase() : "." + x.toLowerCase()));
+}
+
+async function walkFiles(config, dir, out, options) {
+  if (out.length >= options.maxFiles) return;
+  let entries = [];
+  try { entries = await fs.readdir(dir, { withFileTypes: true }); } catch { return; }
+
+  for (const ent of entries) {
+    if (out.length >= options.maxFiles) return;
+    if (SKIP_DIRS.has(ent.name)) continue;
     const full = path.join(dir, ent.name);
-    if (ent.isDirectory()) await walk(full, out, limit);
-    else out.push(full);
+    if (ent.isDirectory()) { await walkFiles(config, full, out, options); continue; }
+    if (!ent.isFile()) continue;
+    const ext = path.extname(ent.name).toLowerCase();
+    if (options.exts.size && !options.exts.has(ext)) continue;
+    assertNotSecret(config, full);
+    out.push(full);
   }
 }
 
-async function selectString(config, payload) {
+async function selectString(config, payload = {}) {
   const root = safePath(config, payload.path || payload.p || ".");
+  const { terms, matcher } = buildMatcher(payload);
+  const options = {
+    maxFiles: Math.max(1, Math.min(Number(payload.maxFiles || 2000), 10000)),
+    maxResults: Math.max(1, Math.min(Number(payload.maxResults || 200), 2000)),
+    maxFileBytes: Math.max(1000, Math.min(Number(payload.maxFileBytes || 800000), 5000000)),
+    exts: wantedExts(payload)
+  };
+
   const files = [];
-  const maxFiles = Number(payload.maxFiles || 2000);
-  const maxResults = Number(payload.maxResults || 200);
-  const matcher = rx(
-    payload.patterns || payload.pattern || payload.query || payload.find,
-    !!payload.caseSensitive
-  );
-
-  await walk(root, files, maxFiles);
-
+  await walkFiles(config, root, files, options);
   const results = [];
+  let skippedFiles = 0;
 
   for (const file of files) {
-    if (results.length >= maxResults) break;
+    if (results.length >= options.maxResults) break;
+    let stat;
+    try { stat = await fs.stat(file); } catch { continue; }
+    if (stat.size > options.maxFileBytes) { skippedFiles++; continue; }
 
     let text = "";
-    try {
-      text = await fs.readFile(file, "utf8");
-    } catch (_) {
-      continue;
-    }
+    try { text = await fs.readFile(file, "utf8"); } catch { skippedFiles++; continue; }
 
-    text.split(/\r?\n/).forEach((line, i) => {
-      if (results.length < maxResults && matcher.test(line)) {
-        results.push({
-          path: path.relative(config.root, file).replace(/\\/g, "/"),
-          lineNumber: i + 1,
-          line
-        });
-      }
-
+    text.split(/\r?\n/).forEach((line, index) => {
+      if (results.length >= options.maxResults) return;
+      if (!matcher.test(line)) { matcher.lastIndex = 0; return; }
       matcher.lastIndex = 0;
+      results.push({
+        path: path.relative(config.root, file).replace(/\\/g, "/"),
+        lineNumber: index + 1,
+        line,
+        preview: line.slice(0, 500),
+        sizeBytes: stat.size,
+        mtimeMs: stat.mtimeMs
+      });
     });
   }
 
   return {
     ok: true,
-    action: "selectString",
-    pattern: payload.pattern || payload.query || payload.find,
-    count: results.length,
+    action: payload.action || "selectString",
+    path: payload.path || payload.p || ".",
+    absolutePath: root,
+    terms,
+    exts: [...options.exts],
+    scannedFiles: files.length,
+    skippedFiles,
+    returnedResults: results.length,
+    partial: files.length >= options.maxFiles || results.length >= options.maxResults,
     results
   };
 }
