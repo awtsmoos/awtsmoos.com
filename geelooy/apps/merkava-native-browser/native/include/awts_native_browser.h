@@ -85,6 +85,7 @@ typedef struct AwtsDomTree {
 typedef struct AwtsBrowserState {
   int running;
   int smokeMode;
+  int verbose;
   int frames;
   unsigned int bytecodeLen;
   unsigned int bytecodeOk;
@@ -127,6 +128,10 @@ void awts_browser_backspace(AwtsBrowserState* state);
 void awts_browser_append_char(AwtsBrowserState* state, char c);
 void awts_browser_update_window_title(HWND hwnd, const AwtsBrowserState* state);
 int awts_browser_address_hit(const AwtsBrowserState* state, int x, int y);
+int awts_browser_address_left(const AwtsBrowserState* state);
+int awts_browser_address_right(const AwtsBrowserState* state);
+int awts_browser_address_top(const AwtsBrowserState* state);
+int awts_browser_address_bottom(const AwtsBrowserState* state);
 void awts_browser_update_cursor(HWND hwnd, AwtsBrowserState* state, int x, int y);
 void awts_dom_parse(AwtsDomTree* tree, const char* html);
 void awts_dom_apply_sample_script(AwtsBrowserState* state);

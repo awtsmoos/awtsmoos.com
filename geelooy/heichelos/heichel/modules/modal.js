@@ -48,11 +48,6 @@ function creationLabel(type, contentType) {
     return ({ question: "Question", answer: "Answer", post: "Post" })[contentType] || "Post";
 }
 
-function creationLabel(type, contentType) {
-    if (type === "series") return "Series";
-    return ({ question: "Question", answer: "Answer", post: "Post" })[contentType] || "Post";
-}
-
 // Handles the form submission logic.
 async function handleSubmit(event) {
     event.preventDefault();

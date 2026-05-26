@@ -42,6 +42,12 @@ async function run() {
     assert(!/!options\.force\s*&&\s*!isNearBottom/.test(scroll), "auto-follow must not pin merely because content growth moved the bottom");
     assert(/liveFollowButton/.test(renderer) && /forceScrollDown\(\)/.test(renderer), "renderer must expose a live bottom button that re-enables auto-follow");
     assert(/isProgrammaticScroll/.test(renderer) && /deltaY < 0/.test(renderer), "scroll pinning must depend on explicit user upward intent");
+    assert(/trackTouchStart/.test(renderer) && /trackTouchMove/.test(renderer), "mobile touch scroll must explicitly pause live-follow during upward scrolling");
+    assert(count(renderer, /liveFollowButton = document\.createElement/g) === 1, "live follow button must not be duplicated");
+    const resize = read("js/layout/resizeHandles.js");
+    assert(/resizeMobilePanel/.test(resize) && /clientY/.test(resize), "mobile panel resize must use vertical pointer movement");
+    const eventRuntime = read("js/render/runtime/eventRuntime.js");
+    assert(/shouldFreezeOpenEventNode/.test(eventRuntime) && /pendingEventHtml/.test(eventRuntime), "open expanded event nodes must not be innerHTML-rewritten during streaming");
     return { files:files.length, duplicateImports:0, duplicateExports:0, duplicateFunctions:0, suspicious:0 };
   });
 }

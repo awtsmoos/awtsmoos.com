@@ -39,8 +39,9 @@ export async function getPostDetails(heichelId, seriesId) {
 export async function getBreadcrumb(heichelId, seriesId) {
     if (seriesId === 'root') return [];
     const data = await AwtsmoosRequest.fetch(`${BASE_API_URL}heichelos/${heichelId}/series/${seriesId}/breadcrumb`);
-    // Breadcrumbs are returned from specific to general; we reverse to follow the flow of light.
-    return data?.reverse() || [];
+    const trail = Array.isArray(data) ? data : Array.isArray(data?.success) ? data.success : [];
+    // Breadcrumbs may arrive in either direction from old and new readers.
+    return trail[0]?.id === 'root' ? trail : trail.toReversed?.() || [...trail].reverse();
 }
 
 

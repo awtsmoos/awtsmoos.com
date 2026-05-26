@@ -49,6 +49,7 @@ static void awts_prepare_browser_shell_state(AwtsBrowserState* state, int smokeM
   memset(state, 0, sizeof(*state));
   state->running = 1;
   state->smokeMode = smokeMode;
+  state->verbose = smokeMode;
   state->width = 960;
   state->height = 540;
   state->focusedAddress = 1;
@@ -68,14 +69,16 @@ int awts_launch_browser(const char* bytecodePath, int smokeMode) {
     awts_load_merkava_file(&g_state, resolvedBytecode);
   }
 
-  printf("B'H Merkava Native Browser / Runtime Executor\n");
-  printf("bytecode=%s bytes=%u ok=%u section=%u version=%u\n", resolvedBytecode, g_state.bytecodeLen, g_state.bytecodeOk, g_state.section, g_state.version);
-  printf("boot=embedded-executor-first host=c-vm-os-opengl-primitives stay-open=%s\n", smokeMode ? "false" : "true");
-  printf("browser-shell=browser-shell.html browser-shell.js embedded=embedded_executor.merkava\n");
-  printf("navigation=type-address-enter backspace-edits escape-closes\n");
-  awts_print_webgl_table(&g_state.webgl);
-  awts_print_runtime_report();
-  fflush(stdout);
+  if (smokeMode) {
+    printf("B'H Merkava Native Browser / Runtime Executor\n");
+    printf("bytecode=%s bytes=%u ok=%u section=%u version=%u\n", resolvedBytecode, g_state.bytecodeLen, g_state.bytecodeOk, g_state.section, g_state.version);
+    printf("boot=embedded-executor-first host=c-vm-os-opengl-primitives stay-open=%s\n", smokeMode ? "false" : "true");
+    printf("browser-shell=browser-shell.html browser-shell.js embedded=embedded_executor.merkava\n");
+    printf("navigation=type-address-enter backspace-edits escape-closes\n");
+    awts_print_webgl_table(&g_state.webgl);
+    awts_print_runtime_report();
+    fflush(stdout);
+  }
 
   HINSTANCE hInst = GetModuleHandle(NULL);
   WNDCLASS wc;
@@ -106,12 +109,14 @@ int awts_launch_browser(const char* bytecodePath, int smokeMode) {
   HGLRC rc = wglCreateContext(dc);
   if (!rc || !wglMakeCurrent(dc, rc)) { printf("opengl_context_failed=%lu\n", GetLastError()); return 13; }
 
-  printf("opengl_vendor=%s\n", glGetString(GL_VENDOR));
-  printf("opengl_renderer=%s\n", glGetString(GL_RENDERER));
-  printf("opengl_version=%s\n", glGetString(GL_VERSION));
   awts_font_init(&g_state, dc);
-  printf("font=system-gdi-opengl-bitmaps ready=%d\n", g_state.font.ready);
-  fflush(stdout);
+  if (smokeMode) {
+    printf("opengl_vendor=%s\n", glGetString(GL_VENDOR));
+    printf("opengl_renderer=%s\n", glGetString(GL_RENDERER));
+    printf("opengl_version=%s\n", glGetString(GL_VERSION));
+    printf("font=times-new-roman-gdi-opengl-bitmaps ready=%d\n", g_state.font.ready);
+    fflush(stdout);
+  }
 
   MSG msg;
   DWORD start = GetTickCount();
@@ -133,9 +138,11 @@ int awts_launch_browser(const char* bytecodePath, int smokeMode) {
   if (rc) wglDeleteContext(rc);
   ReleaseDC(g_hwnd, dc);
   DestroyWindow(g_hwnd);
-  printf("frames=%d loaded=%d renderer=win32-opengl browser-shell=drawn navigations=%u url=%s status=%s mode=%s\n",
-    g_state.frames, g_state.loaded, g_state.navigations, g_state.url, g_state.statusText, smokeMode ? "smoke" : "interactive");
-  fflush(stdout);
+  if (smokeMode) {
+    printf("frames=%d loaded=%d renderer=win32-opengl browser-shell=drawn navigations=%u url=%s status=%s mode=%s\n",
+      g_state.frames, g_state.loaded, g_state.navigations, g_state.url, g_state.statusText, smokeMode ? "smoke" : "interactive");
+    fflush(stdout);
+  }
   return g_state.loaded ? 0 : 2;
 }
 
@@ -161,8 +168,20 @@ int main(int argc, char** argv) {
     AwtsBrowserState test;
     memset(&test, 0, sizeof(test));
     awts_browser_set_url(&test, argv[2]);
+    test.verbose = 1;
     awts_browser_navigate(&test);
     printf("nav-test url=%s status=%s navigations=%u pageKind=%s pageTitle=%s domCount=%d canvas=%d button=%d output=%d preview=%.160s\n", test.url, test.statusText, test.navigations, test.pageKind, test.pageTitle, test.dom.count, test.dom.canvasIndex, test.dom.buttonIndex, test.dom.outputIndex, test.pagePreview);
+    return 0;
+  }
+  if (argc > 5 && !strcmp(argv[1], "--hit-test")) {
+    AwtsBrowserState test;
+    memset(&test, 0, sizeof(test));
+    test.width = atoi(argv[2]);
+    test.height = atoi(argv[3]);
+    printf("hit-test x=%s y=%s address=%d left=%d right=%d top=%d bottom=%d\n",
+      argv[4], argv[5], awts_browser_address_hit(&test, atoi(argv[4]), atoi(argv[5])),
+      awts_browser_address_left(&test), awts_browser_address_right(&test),
+      awts_browser_address_top(&test), awts_browser_address_bottom(&test));
     return 0;
   }
   int smokeMode = argc > 1 && !strcmp(argv[1], "--smoke");

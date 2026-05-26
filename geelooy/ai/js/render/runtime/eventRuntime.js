@@ -98,6 +98,10 @@ function mutateEventNode(region, node, event, html) {
     return;
   }
   if (node.dataset.eventHtml === html) return;
+  if (shouldFreezeOpenEventNode(node)) {
+    node.dataset.pendingEventHtml = html;
+    return;
+  }
   const openKeys = snapshotOpenDetails(node);
   const panelState = snapshotPanelState(node);
   node.innerHTML = html;
@@ -106,6 +110,14 @@ function mutateEventNode(region, node, event, html) {
   restorePanelState(node, panelState);
   hydrateOpenEventBodies(node);
   vaultCollapsedPanels(node);
+}
+
+function shouldFreezeOpenEventNode(node) {
+  return Boolean(node?.querySelector?.("details[open], .transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen"));
+}
+
+function shouldFreezeOpenEventNode(node) {
+  return Boolean(node?.querySelector?.("details[open], .transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen"));
 }
 
 function shouldAnchorLiveMutation(node) {

@@ -41,17 +41,12 @@ export class MessageRenderer {
     this.liveFollowButton.className = "live-follow-button";
     this.liveFollowButton.textContent = "↓ Live bottom";
     this.liveFollowButton.onclick = () => this.forceScrollDown();
-    this.liveFollowButton = document.createElement("button");
-    this.liveFollowButton.type = "button";
-    this.liveFollowButton.className = "live-follow-button";
-    this.liveFollowButton.textContent = "↓ Live bottom";
-    this.liveFollowButton.onclick = () => this.forceScrollDown();
     this.topSpacer.onclick = () => !this.topSpacer.disabled && this.shiftWindow(-WINDOW);
     this.bottomSpacer.onclick = () => !this.bottomSpacer.disabled && this.shiftWindow(WINDOW);
     this.chatBox.parentElement?.append?.(this.liveFollowButton);
-    this.chatBox.parentElement?.append?.(this.liveFollowButton);
     chatBox.addEventListener("wheel", event => this.trackWheelIntent(event), { passive: true });
-    chatBox.addEventListener("touchmove", () => this.trackScrollIntent(), { passive: true });
+    chatBox.addEventListener("touchstart", event => this.trackTouchStart(event), { passive: true });
+    chatBox.addEventListener("touchmove", event => this.trackTouchMove(event), { passive: true });
     chatBox.addEventListener("scroll", () => this.trackScrollIntent(), { passive: true });
     this.renderWindow({ bottom: true });
   }
@@ -228,14 +223,42 @@ export class MessageRenderer {
       this.userPinnedScroll = true;
       this.chatBox.dataset.liveFollow = "paused";
       this.liveFollowButton?.classList?.add?.("is-visible");
-      this.liveFollowButton?.classList?.add?.("is-visible");
     }
     if (event?.deltaY > 0 && isNearBottom(this.chatBox)) {
       this.userPinnedScroll = false;
       this.chatBox.dataset.liveFollow = "active";
       this.liveFollowButton?.classList?.remove?.("is-visible");
-      this.liveFollowButton?.classList?.remove?.("is-visible");
     }
+  }
+
+  trackTouchStart(event) {
+    this.touchStartY = event?.touches?.[0]?.clientY ?? 0;
+    this.touchStartScrollTop = this.chatBox.scrollTop;
+  }
+
+  trackTouchMove(event) {
+    const y = event?.touches?.[0]?.clientY ?? this.touchStartY;
+    if (y > this.touchStartY + 8 && !isNearBottom(this.chatBox)) {
+      this.userPinnedScroll = true;
+      this.chatBox.dataset.liveFollow = "paused";
+      this.liveFollowButton?.classList?.add?.("is-visible");
+    }
+    this.trackScrollIntent();
+  }
+
+  trackTouchStart(event) {
+    this.touchStartY = event?.touches?.[0]?.clientY ?? 0;
+    this.touchStartScrollTop = this.chatBox.scrollTop;
+  }
+
+  trackTouchMove(event) {
+    const y = event?.touches?.[0]?.clientY ?? this.touchStartY;
+    if (y > this.touchStartY + 8 && !isNearBottom(this.chatBox)) {
+      this.userPinnedScroll = true;
+      this.chatBox.dataset.liveFollow = "paused";
+      this.liveFollowButton?.classList?.add?.("is-visible");
+    }
+    this.trackScrollIntent();
   }
 
   trackScrollIntent() {
@@ -250,13 +273,11 @@ export class MessageRenderer {
       this.userPinnedScroll = false;
       this.chatBox.dataset.liveFollow = "active";
       this.liveFollowButton?.classList?.remove?.("is-visible");
-      this.liveFollowButton?.classList?.remove?.("is-visible");
       return;
     }
     if (movedUp) {
       this.userPinnedScroll = true;
       this.chatBox.dataset.liveFollow = "paused";
-      this.liveFollowButton?.classList?.add?.("is-visible");
       this.liveFollowButton?.classList?.add?.("is-visible");
     }
   }

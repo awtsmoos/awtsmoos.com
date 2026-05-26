@@ -33,14 +33,16 @@ async function run() {
     assert(missing.length === 0, "CSS import missing", { missing });
     assert(cssBalanced, "Imported CSS braces must be balanced");
     assert(/env\(safe-area-inset-top\)/.test(mobileShell), "mobile shell must respect safe-area top inset");
-    assert(/grid-template-areas:\s*\"left\" \"main\" \"right\"/.test(mobileShell), "mobile shell must keep both side panels in-flow and reachable");
+    assert(/grid-template-areas:\s*\"left\" \"leftResize\" \"main\" \"rightResize\" \"right\"/.test(mobileShell), "mobile shell must keep both side panels and resize rails in-flow and reachable");
     assert(/\.sidebar,[\s\S]*\.automation-panel[\s\S]*display:\s*grid\s*!important/.test(mobilePanels), "mobile panels must override desktop display:none collapse");
     assert(/body:not\(\[data-automation-collapsed="true"\]\) \.automation-panel/.test(mobilePanels), "mobile automation panel must be expandable/reachable");
     assert(/env\(safe-area-inset-bottom\)/.test(mobileShell + mobilePanels), "mobile surfaces must respect safe-area bottom inset");
     assert(/#send-button,\s*\n\s*\.attachment-tools button/.test(mobileComposer), "mobile composer controls must share touch target rule");
     assert(/min-height:\s*44px/.test(mobileComposer) && /min-width:\s*44px/.test(mobileComposer), "mobile composer controls must preserve 44px touch targets");
     assert(/@media\(max-width:680px\)/.test(promptJs) && /font-size:16px/.test(promptJs), "install prompt inline CSS must be mobile-safe and avoid browser zoom");
-    assert(/@media\(max-width:680px\)/.test(promptJs) && /font-size:16px/.test(promptJs), "install prompt inline CSS must be mobile-safe and avoid browser zoom");
+    assert(/writing-mode:\s*horizontal-tb/.test(mobileRails), "collapsed mobile labels must remain horizontal");
+    assert(/touch-action:\s*none/.test(mobileRails) && /#left-resizer/.test(mobileRails), "mobile resize rails must stay touch interactive");
+    assert(/grid-template-rows:\s*auto 14px minmax\(0, 1fr\) 14px auto/.test(mobileShell), "mobile shell must give left\/right resize rails real grid rows");
     assert(/overscroll-behavior:\s*contain/.test(chatCss), "chat surfaces must contain overscroll bounce");
     assert(!/classList\.toggle\("hidden"\)/.test(index + appMain), "raw hidden sidebar toggle returned");
     assert(count(index, /controller\.sendAutomation/g) === 1, "index page fallback sendAutomation wiring count wrong");

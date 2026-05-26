@@ -150,13 +150,17 @@ export class ConversationController {
 
   mountLoadedAudioOffer({ messages = [], conversationId }) {
     if (this.serviceSelect?.value !== "chatgpt" || !conversationId) return;
-    const record = [...(this.renderer.records || [])].reverse().find(item => item.role === "assistant" && item.text && item.shell?.isConnected);
-    const message = [...messages].reverse().find(item => normalizeRoleFromMessage(item) === "assistant" && extractMessageText(item));
-    mountAwtsmoosAudioOffer({
-      shell: record?.shell,
-      aiHandler: this.aiHandler,
-      conversationId,
-      messageId: extractMessageId(message)
+    const records = (this.renderer.records || []).filter(item => item.role === "assistant" && item.text && item.shell?.isConnected);
+    const assistantMessages = messages.filter(item => normalizeRoleFromMessage(item) === "assistant" && extractMessageText(item));
+    records.forEach((record, index) => {
+      const message = assistantMessages[index] || assistantMessages.find(item => extractMessageText(item) === record.text);
+      mountAwtsmoosAudioOffer({
+        shell: record.shell,
+        aiHandler: this.aiHandler,
+        conversationId,
+        messageId: extractMessageId(message),
+        copyText: record.text
+      });
     });
   }
 

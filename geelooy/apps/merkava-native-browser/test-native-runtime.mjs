@@ -67,11 +67,32 @@ cases.push(['node-server-refuses-fake-success', run(['..\\samples\\server.js']),
   assertIncludes('node-server-refuses-fake-success', out.stdout, 'refusing to fake success');
 }]);
 
+cases.push(['index-navigation-renders-executor-stream', run(['--nav-test', '/index.html']), out => {
+  assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'pageKind=merkava-executor-render-stream');
+  assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'pageTitle=/index.html');
+  assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'status=loaded MerkavaExecutor render stream: /index.html');
+}]);
+
+cases.push(['address-hitbox-aligns-with-rendered-bar', run(['--hit-test', '960', '540', '175', '45']), out => {
+  assertIncludes('address-hitbox-aligns-with-rendered-bar', out.stdout, 'address=1');
+  assertIncludes('address-hitbox-aligns-with-rendered-bar', out.stdout, 'left=170');
+  assertIncludes('address-hitbox-aligns-with-rendered-bar', out.stdout, 'right=900');
+  assertIncludes('address-hitbox-aligns-with-rendered-bar', out.stdout, 'top=36');
+  assertIncludes('address-hitbox-aligns-with-rendered-bar', out.stdout, 'bottom=64');
+}]);
+
+cases.push(['local-html-renders-parsed-dom', run(['--nav-test', '..\\samples\\frontend.html']), out => {
+  assertIncludes('local-html-renders-parsed-dom', out.stdout, 'pageKind=file');
+  assertIncludes('local-html-renders-parsed-dom', out.stdout, 'domCount=');
+  assertIncludes('local-html-renders-parsed-dom', out.stdout, 'canvas=');
+}]);
+
 cases.push(['browser-shell-smoke', run(['--smoke']), out => {
   assertIncludes('browser-shell-smoke', out.stdout, 'B\'H Merkava Native Browser');
   assertIncludes('browser-shell-smoke', out.stdout, 'bytecode=embedded_executor.merkava');
   assertIncludes('browser-shell-smoke', out.stdout, 'browser-shell=browser-shell.html browser-shell.js');
   assertIncludes('browser-shell-smoke', out.stdout, 'navigation=type-address-enter');
+  assertIncludes('browser-shell-smoke', out.stdout, 'loaded MerkavaExecutor render stream: /index.html');
   assertIncludes('browser-shell-smoke', out.stdout, 'opengl_renderer=');
   assertIncludes('browser-shell-smoke', out.stdout, 'browser-shell=drawn');
   assertIncludes('browser-shell-smoke', out.stdout, 'mode=smoke');

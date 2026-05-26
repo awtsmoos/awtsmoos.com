@@ -20,20 +20,18 @@
     max-height: 100dvh !important;
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-rows: auto minmax(0, 1fr) auto !important;
-    grid-template-areas: "left" "main" "right" !important;
+    grid-template-rows: auto 14px minmax(0, 1fr) 14px auto !important;
+    grid-template-areas: "left" "leftResize" "main" "rightResize" "right" !important;
     gap: var(--ai-mobile-gap) !important;
     padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom)) !important;
     overflow: hidden !important;
     transform: none !important;
     background: radial-gradient(circle at 50% 0, rgba(34,211,238,.13), transparent 42%), #020711 !important;
   }
-  .container > * {
-    min-width: 0 !important;
-    max-width: 100% !important;
-    transform: none !important;
-  }
-  #left-resizer, #right-resizer, #composer-resizer { display: none !important; }
+  .container > * { min-width: 0 !important; max-width: 100% !important; transform: none !important; }
+  #left-resizer { grid-area: leftResize !important; }
+  #right-resizer { grid-area: rightResize !important; }
+  #composer-resizer { grid-area: composerResize !important; }
   .main {
     grid-area: main !important;
     width: 100% !important;
@@ -41,14 +39,9 @@
     min-width: 0 !important;
     overflow: hidden !important;
     border-radius: 18px !important;
-    grid-template-rows: auto minmax(0, 1fr) minmax(112px, auto) !important;
-    grid-template-areas: "transport" "chat" "composer" !important;
+    grid-template-rows: auto minmax(0, 1fr) 16px minmax(112px, auto) !important;
+    grid-template-areas: "transport" "chat" "composerResize" "composer" !important;
   }
-  #transport-status {
-    min-height: 36px !important;
-    max-width: 100% !important;
-    overflow: auto !important;
-    white-space: nowrap !important;
-  }
-  #chat-box { min-height: 0 !important; max-width: 100% !important; overflow: auto !important; }
+  #transport-status { min-height: 36px !important; max-width: 100% !important; overflow: auto !important; white-space: nowrap !important; }
+  #chat-box { min-height: 0 !important; max-width: 100% !important; overflow: auto !important; touch-action: pan-y !important; }
 }

@@ -38,8 +38,8 @@ static int next_part(char** cursor, char* out, size_t cap) {
 void awts_font_init(AwtsBrowserState* state, HDC dc) {
   if (state->font.ready) return;
   state->font.base = glGenLists(256);
-  state->font.font = CreateFontA(-18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE | VARIABLE_PITCH, "Times New Roman");
-  if (!state->font.font) state->font.font = CreateFontA(-17, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE | VARIABLE_PITCH, "Segoe UI");
+  state->font.font = CreateFontA(-18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FF_ROMAN | VARIABLE_PITCH, "Times New Roman");
+  if (!state->font.font) state->font.font = CreateFontA(-17, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FF_ROMAN | VARIABLE_PITCH, "Times New Roman");
   SelectObject(dc, state->font.font);
   state->font.ready = wglUseFontBitmapsA(dc, 0, 255, state->font.base) ? 1 : 0;
 }
@@ -61,12 +61,16 @@ void awts_draw_text(AwtsBrowserState* state, float x, float y, const char* text,
 }
 
 static void draw_address(AwtsBrowserState* state) {
-  float ax = sx(state, 170), ay = sy(state, 64), aw = sw(state, state->width - 230), ah = -sh(state, 28);
+  int left = awts_browser_address_left(state);
+  int right = awts_browser_address_right(state);
+  int top = awts_browser_address_top(state);
+  int bottom = awts_browser_address_bottom(state);
+  float ax = sx(state, left), ay = sy(state, bottom), aw = sw(state, right - left), ah = -sh(state, bottom - top);
   rect(ax, ay, aw, ah, state->hoverAddress ? 0.98f : 0.96f, 0.98f, 1.0f);
   outline(ax, ay, aw, ah, state->focusedAddress ? 0.10f : 0.45f, 0.36f, 0.78f);
   char shown[170];
   snprintf(shown, sizeof(shown), "%s%s", state->url, state->focusedAddress && ((state->frames / 30) % 2 == 0) ? "|" : "");
-  awts_draw_text(state, ax + 0.010f, ay + 0.039f, shown, 0.02f, 0.04f, 0.08f);
+  awts_draw_text(state, sx(state, left + 5), sy(state, top + 19), shown, 0.02f, 0.04f, 0.08f);
 }
 
 static void draw_browser_chrome(AwtsBrowserState* state) {
@@ -75,7 +79,7 @@ static void draw_browser_chrome(AwtsBrowserState* state) {
   rect(sx(state, 62), sy(state, 45), sw(state, 38), -sh(state, 28), 0.95f, 0.72f, 0.18f);
   rect(sx(state, 108), sy(state, 45), sw(state, 38), -sh(state, 28), 0.18f, 0.78f, 0.34f);
   draw_address(state);
-  awts_draw_text(state, sx(state, 170), sy(state, 86), state->statusText, 0.08f, 0.28f, 0.12f);
+  awts_draw_text(state, sx(state, awts_browser_address_left(state)), sy(state, 82), state->statusText, 0.08f, 0.28f, 0.12f);
 }
 
 static AwtsDomNode* find_node(AwtsBrowserState* state, const char* tag, const char* id) {
@@ -124,8 +128,11 @@ static int draw_executor_stream(AwtsBrowserState* state) {
   if (!stream || !*stream) return 0;
   char* copy = _strdup(stream);
   if (!copy) return 0;
-  float ox = sx(state, 96), oy = sy(state, 150);
-  float scaleX = sw(state, 2), scaleY = -sh(state, 2);
+  float ox = sx(state, 36), oy = sy(state, 116);
+  float scaleX = sw(state, 1), scaleY = -sh(state, 1);
+  float canvasX = 0.0f, canvasY = 0.0f, canvasW = 0.0f, canvasH = 0.0f;
+  int canvasSeen = 0;
+  int webglDraws = 0;
   for (char* line = copy; line && *line;) {
     char* next = strchr(line, '\n');
     if (next) *next++ = 0;
@@ -139,16 +146,25 @@ static int draw_executor_stream(AwtsBrowserState* state) {
     next_part(&at, c, sizeof(c)); next_part(&at, d, sizeof(d)); next_part(&at, e, sizeof(e));
     if (!strcmp(kind, "BOX")) {
       float r, g, blue; hex_color(e, &r, &g, &blue);
-      rect(ox + atof(a) * scaleX, oy + atof(b) * scaleY, atof(c) * scaleX, atof(d) * scaleY, r, g, blue);
-      outline(ox + atof(a) * scaleX, oy + atof(b) * scaleY, atof(c) * scaleX, atof(d) * scaleY, 0.70f, 0.72f, 0.78f);
+      float x = ox + atof(a) * scaleX;
+      float y = oy + atof(b) * scaleY;
+      float w = atof(c) * scaleX;
+      float h = atof(d) * scaleY;
+      rect(x, y, w, h, r, g, blue);
+      outline(x, y, w, h, 0.70f, 0.72f, 0.78f);
+      if (!strcmp(e, "#102038")) {
+        canvasSeen = 1;
+        canvasX = x; canvasY = y; canvasW = w; canvasH = h;
+      }
     } else if (!strcmp(kind, "TEXT")) {
       float r, g, blue; hex_color(d, &r, &g, &blue);
       awts_draw_text(state, ox + atof(a) * scaleX, oy + atof(b) * scaleY, c, r, g, blue);
     } else if (!strcmp(kind, "WEBGL")) {
-      rect(sx(state, 470), sy(state, 180 + atoi(id) * 18), sw(state, 220), -sh(state, 10), 0.10f, 0.18f, 0.32f);
+      if (strstr(c, "drawArrays")) webglDraws++;
     }
     line = next;
   }
+  if (canvasSeen && webglDraws) draw_webgl_canvas(state, canvasX, canvasY, canvasW, canvasH);
   free(copy);
   return 1;
 }
@@ -156,8 +172,8 @@ static int draw_executor_stream(AwtsBrowserState* state) {
 static void draw_loaded_text_page(AwtsBrowserState* state) {
   float pageX = sx(state, 36), pageY = sy(state, 116), pageW = sw(state, state->width - 72), pageH = -sh(state, state->height - 146);
   rect(pageX, pageY, pageW, pageH, 1.0f, 1.0f, 1.0f);
-  awts_draw_text(state, pageX + 0.045f, pageY - 0.070f, state->pageTitle[0] ? state->pageTitle : "Loaded page", 0.03f, 0.03f, 0.03f);
-  awts_draw_text(state, pageX + 0.045f, pageY - 0.120f, state->pageKind[0] ? state->pageKind : "document", 0.35f, 0.35f, 0.35f);
+  awts_draw_text(state, sx(state, 58), sy(state, 150), state->pageTitle[0] ? state->pageTitle : "Loaded page", 0.03f, 0.03f, 0.03f);
+  awts_draw_text(state, sx(state, 58), sy(state, 174), state->pageKind[0] ? state->pageKind : "document", 0.35f, 0.35f, 0.35f);
   const char* p = state->pagePreview;
   char line[118];
   for (int row = 0; row < 18 && p && *p; row++) {
@@ -170,6 +186,39 @@ static void draw_loaded_text_page(AwtsBrowserState* state) {
   }
 }
 
+static void draw_dom_page(AwtsBrowserState* state) {
+  float pageX = sx(state, 36), pageY = sy(state, 116), pageW = sw(state, state->width - 72), pageH = -sh(state, state->height - 146);
+  rect(pageX, pageY, pageW, pageH, 1.0f, 1.0f, 1.0f);
+  int y = 146;
+  awts_draw_text(state, sx(state, 58), sy(state, y), state->pageTitle[0] ? state->pageTitle : "Document", 0.02f, 0.02f, 0.02f);
+  y += 24;
+  for (int i = 0; i < state->dom.count && y < state->height - 38; i++) {
+    AwtsDomNode* n = &state->dom.nodes[i];
+    if (!strcmp(n->tag, "#text")) {
+      int x = 58 + n->depth * 18;
+      awts_draw_text(state, sx(state, x), sy(state, y), n->text, 0.05f, 0.05f, 0.05f);
+      y += 22;
+    } else if (!strcmp(n->tag, "canvas")) {
+      float x = sx(state, 58 + n->depth * 18), yy = sy(state, y + 92), w = sw(state, 240), h = -sh(state, 92);
+      draw_webgl_canvas(state, x, yy, w, h);
+      y += 110;
+    } else if (!strcmp(n->tag, "button")) {
+      int x = 58 + n->depth * 18;
+      float bx = sx(state, x), by = sy(state, y + 28), bw = sw(state, 96), bh = -sh(state, 30);
+      rect(bx, by, bw, bh, 0.91f, 0.91f, 0.91f);
+      outline(bx, by, bw, bh, 0.55f, 0.55f, 0.55f);
+      awts_draw_text(state, sx(state, x + 12), sy(state, y + 20), n->text[0] ? n->text : "button", 0.0f, 0.0f, 0.0f);
+      y += 42;
+    } else if (!strcmp(n->tag, "input")) {
+      int x = 58 + n->depth * 18;
+      float ix = sx(state, x), iy = sy(state, y + 30), iw = sw(state, 220), ih = -sh(state, 30);
+      rect(ix, iy, iw, ih, 0.98f, 0.98f, 1.0f);
+      outline(ix, iy, iw, ih, 0.55f, 0.62f, 0.74f);
+      y += 42;
+    }
+  }
+}
+
 void awts_draw_native_browser(AwtsBrowserState* state) {
   glViewport(0, 0, state->width, state->height);
   glClearColor(0.80f, 0.82f, 0.86f, 1.0f);
@@ -177,5 +226,6 @@ void awts_draw_native_browser(AwtsBrowserState* state) {
   draw_browser_chrome(state);
   if (!strcmp(state->pageTitle, "/index.html") && draw_executor_stream(state)) return;
   if (!strcmp(state->pageTitle, "/index.html") && state->dom.count > 0) draw_embedded_app(state);
+  else if (state->dom.count > 0) draw_dom_page(state);
   else draw_loaded_text_page(state);
 }

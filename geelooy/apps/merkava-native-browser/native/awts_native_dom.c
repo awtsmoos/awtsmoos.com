@@ -64,11 +64,12 @@ void awts_dom_parse(AwtsDomTree* tree, const char* html) {
   tree->buttonIndex = -1;
   tree->outputIndex = -1;
   int depth = 0;
+  int skipDepth = 0;
   const char* p = html ? html : "";
   while (*p && tree->count < AWTS_DOM_NODES) {
     const char* lt = strchr(p, '<');
     if (!lt) break;
-    if (lt > p) {
+    if (lt > p && skipDepth == 0) {
       char text[AWTS_DOM_TEXT];
       trim_copy_text(text, sizeof(text), p, lt);
       if (text[0]) {
@@ -91,7 +92,14 @@ void awts_dom_parse(AwtsDomTree* tree, const char* html) {
     char tag[32];
     copy_token(tag, sizeof(tag), nameStart, nameEnd);
     if (closing) {
+      if ((!strcmp(tag, "script") || !strcmp(tag, "style") || !strcmp(tag, "svg") || !strcmp(tag, "head")) && skipDepth > 0) skipDepth--;
       if (depth > 0) depth--;
+      p = gt + 1;
+      continue;
+    }
+    if (!strcmp(tag, "script") || !strcmp(tag, "style") || !strcmp(tag, "svg") || !strcmp(tag, "head")) {
+      skipDepth++;
+      if (!is_void_tag(tag) && gt > lt && *(gt - 1) != '/') depth++;
       p = gt + 1;
       continue;
     }

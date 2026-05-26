@@ -309,8 +309,13 @@ void awts_browser_navigate(AwtsBrowserState* state) {
       char samplePath[MAX_PATH];
       awts_resolve_exe_relative_path("sample.merkava", samplePath, sizeof(samplePath));
       int decoded = awts_decode_merkava_dom_file(state, samplePath);
-      snprintf(state->statusText, sizeof(state->statusText), decoded ? "loaded raw bytecode DOM: /index.html" : "loaded embedded app: /index.html");
-      if (!decoded) set_page(state, "embedded-html", "/index.html", AWTS_SAMPLE_HTML);
+      snprintf(state->statusText, sizeof(state->statusText), decoded ? "loaded MerkavaExecutor render stream: /index.html" : "loaded embedded app: /index.html");
+      if (decoded) {
+        snprintf(state->pageKind, sizeof(state->pageKind), "merkava-executor-render-stream");
+        snprintf(state->pageTitle, sizeof(state->pageTitle), "/index.html");
+      } else {
+        set_page(state, "embedded-html", "/index.html", AWTS_SAMPLE_HTML);
+      }
       awts_scan_webgl(&state->webgl, AWTS_SAMPLE_JS);
     } else if (!strcmp(path, "/browser-shell.html") || !strcmp(path, "browser-shell.html")) {
       snprintf(state->statusText, sizeof(state->statusText), "loaded embedded shell: /browser-shell.html");
@@ -321,8 +326,10 @@ void awts_browser_navigate(AwtsBrowserState* state) {
       snprintf(state->statusText, sizeof(state->statusText), "%s: %s", ok ? "loaded" : "missing", url);
     }
   }
-  printf("navigation[%u]=%s status=%s\n", state->navigations, state->url, state->statusText);
-  fflush(stdout);
+  if (state->verbose || state->smokeMode) {
+    printf("navigation[%u]=%s status=%s\n", state->navigations, state->url, state->statusText);
+    fflush(stdout);
+  }
 }
 
 void awts_browser_backspace(AwtsBrowserState* state) {
@@ -339,8 +346,14 @@ void awts_browser_append_char(AwtsBrowserState* state, char c) {
 }
 
 int awts_browser_address_hit(const AwtsBrowserState* state, int x, int y) {
-  return x >= 238 && x <= 873 && y >= 50 && y <= 95;
+  return x >= awts_browser_address_left(state) && x <= awts_browser_address_right(state) &&
+         y >= awts_browser_address_top(state) && y <= awts_browser_address_bottom(state);
 }
+
+int awts_browser_address_left(const AwtsBrowserState* state) { (void)state; return 170; }
+int awts_browser_address_right(const AwtsBrowserState* state) { return state->width - 60; }
+int awts_browser_address_top(const AwtsBrowserState* state) { (void)state; return 36; }
+int awts_browser_address_bottom(const AwtsBrowserState* state) { (void)state; return 64; }
 
 void awts_browser_update_cursor(HWND hwnd, AwtsBrowserState* state, int x, int y) {
   state->mouseX = x;
