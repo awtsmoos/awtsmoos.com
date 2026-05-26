@@ -1,159 +1,64 @@
 #!/usr/bin/env bash
 # B"H
-
-set -e
+set -euo pipefail
 
 echo 'B"H Awtsmoos Tunnel Bootstrap'
 
-if ! command -v node >/dev/null 2>&1; then
-  echo "Node.js was not found."
-  echo "Install Node.js LTS from https://nodejs.org/ then run this again."
-  exit 1
-fi
-
 ROOT="$HOME/.awtsmoos-tunnel"
 CONFIG="$ROOT/config.json"
-STATE="$ROOT/install-state.json"
-MANIFEST_URL="https://awtsmoos.com/apps/tunnel/agent/manifest.json"
+STATE="$ROOT/install-state.txt"
+MANIFEST_URL="https://awtsmoos.com/apps/tunnel/agent/manifest.txt"
+BASE_URL="https://awtsmoos.com/apps/tunnel/agent"
 
 mkdir -p "$ROOT"
 
-if [ ! -f "$CONFIG" ]; then
-  USER_CLEAN="$(whoami | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/^-*//;s/-*$//')"
-  if [ -z "$USER_CLEAN" ]; then USER_CLEAN="user"; fi
-  TUNNEL_NAME="awt-$USER_CLEAN-$RANDOM"
+command -v node >/dev/null 2>&1 || { echo "Node.js is required but was not found."; exit 1; }
+command -v curl >/dev/null 2>&1 || { echo "curl is required but was not found."; exit 1; }
 
-  node - "$CONFIG" "$TUNNEL_NAME" "$(pwd)" <<'NODE'
-const fs = require("fs");
-const [configPath, tunnelName, root] = process.argv.slice(2);
-fs.writeFileSync(configPath, JSON.stringify({
-  relay: "wss://awtsmoos.com",
-  tunnelName,
-  local: "http://localhost:3000",
-  root,
-  allowWrite: true,
-  allowSecrets: false,
-  enableLocalHttpProxy: true,
-  chrome: {
-    enabled: false,
-    port: 9222,
-    path: "",
-    userDataDir: ""
-  }
-}, null, 2), "utf8");
-NODE
+if [ ! -f "$CONFIG" ]; then
+  NAME="awt-$(whoami | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_-')-$((1000 + RANDOM % 9000))"
+  cat > "$CONFIG" <<EOF
+{
+  "BH": "B\"H",
+  "relay": "wss://awtsmoos.com",
+  "tunnelName": "$NAME",
+  "local": "http://localhost:3000",
+  "root": "$(pwd)",
+  "allowWrite": true,
+  "allowSecrets": false,
+  "enableLocalHttpProxy": true
+}
+EOF
 else
   echo "Existing config found. Reusing same tunnel name and settings."
 fi
 
 echo "Checking Awtsmoos agent manifest..."
 MANIFEST="$(curl -fsSL "$MANIFEST_URL")"
+VERSION="$(printf '%s\n' "$MANIFEST" | sed '/^[[:space:]]*$/d' | sed -n '2p')"
+ENTRY="$(printf '%s\n' "$MANIFEST" | sed '/^[[:space:]]*$/d' | sed -n '3p')"
+FILES="$(printf '%s\n' "$MANIFEST" | sed '/^[[:space:]]*$/d' | sed '1,3d')"
 
-node - "$ROOT" "$MANIFEST" <<'NODE'
-const fs = require("fs");
-const path = require("path");
-const https = require("https");
-const crypto = require("crypto");
+OLD_VERSION=""
+[ -f "$STATE" ] && OLD_VERSION="$(cat "$STATE" | tr -d '[:space:]')"
 
-const root = process.argv[2];
-const manifest = JSON.parse(process.argv[3]);
-const statePath = path.join(root, "install-state.json");
+if [ "$OLD_VERSION" = "$VERSION" ] && [ -f "$ROOT/$ENTRY" ]; then
+  echo "Awtsmoos agent version $VERSION is already installed. Restarting only."
+else
+  echo "Installing Awtsmoos agent version $VERSION..."
 
-function readState() {
-  try { return JSON.parse(fs.readFileSync(statePath, "utf8")); }
-  catch (_) { return null; }
-}
+  printf '%s\n' "$FILES" | while IFS= read -r path; do
+    [ -z "$path" ] && continue
+    mkdir -p "$(dirname "$ROOT/$path")"
+    echo "Downloading $path..."
+    curl -fsSL "$BASE_URL/$path" -o "$ROOT/$path"
+  done
 
-function fileMatches(file) {
-  const target = path.join(root, file.path);
-  if (!fs.existsSync(target)) return false;
-  const bytes = fs.readFileSync(target);
-  const sha = crypto.createHash("sha256").update(bytes).digest("hex");
-  return bytes.length === file.bytes && sha === file.sha256;
-}
+  printf '%s\n' "$VERSION" > "$STATE"
+fi
 
-function changedFiles() {
-  if (!Array.isArray(manifest.files)) return [];
-  return manifest.files.filter(file => !fileMatches(file));
-}
+pkill -f "$ROOT/$ENTRY" 2>/dev/null || true
 
-function installedFilesMatch() {
-  return changedFiles().length === 0;
-}
-
-function compareVersion(a, b) {
-  const left = String(a || "").split(".").map(Number);
-  const right = String(b || "").split(".").map(Number);
-  for (let i = 0; i < Math.max(left.length, right.length); i++) {
-    const x = Number.isFinite(left[i]) ? left[i] : 0;
-    const y = Number.isFinite(right[i]) ? right[i] : 0;
-    if (x > y) return 1;
-    if (x < y) return -1;
-  }
-  return 0;
-}
-
-function upToDate(state) {
-  if (!state || !state.version) return false;
-  if (!fs.existsSync(path.join(root, manifest.entry || "main.js"))) return false;
-  if (!installedFilesMatch()) return false;
-  return compareVersion(state.version, manifest.version) >= 0;
-}
-
-function download(url, dest) {
-  return new Promise((resolve, reject) => {
-    fs.mkdirSync(path.dirname(dest), { recursive: true });
-    const file = fs.createWriteStream(dest);
-    https.get(url, res => {
-      if (res.statusCode !== 200) {
-        reject(new Error("HTTP " + res.statusCode + " for " + url));
-        return;
-      }
-      res.pipe(file);
-      file.on("finish", () => file.close(resolve));
-    }).on("error", reject);
-  });
-}
-
-function writeState() {
-  fs.writeFileSync(statePath, JSON.stringify({
-    BH: 'B"H',
-    version: manifest.version,
-    entry: manifest.entry,
-    installedAt: new Date().toISOString(),
-    files: manifest.files
-  }, null, 2), "utf8");
-}
-
-(async () => {
-  const state = readState();
-  if (upToDate(state)) {
-    console.log("Awtsmoos agent version " + manifest.version + " is already installed. Restarting only.");
-    return;
-  }
-
-  const changed = changedFiles();
-  if (changed.length === 0) {
-    console.log("Agent files already match manifest. Recording version " + manifest.version + " without downloads.");
-    writeState();
-    return;
-  }
-
-  console.log("Updating Awtsmoos agent to version " + manifest.version + ": " + changed.length + " changed file(s)...");
-  for (const file of changed) {
-    const url = "https://awtsmoos.com/apps/tunnel/agent/" + file.path;
-    const dest = path.join(root, file.path);
-    console.log("Downloading " + file.path + "...");
-    await download(url, dest);
-    if (!fileMatches(file)) throw new Error("Downloaded hash mismatch for " + file.path);
-  }
-  writeState();
-})();
-NODE
-
-echo ""
+echo
 echo "Starting Awtsmoos background agent..."
-echo "The hosted control panel should open automatically."
-echo ""
-
-node "$ROOT/main.js" --open-control
+node "$ROOT/$ENTRY" --open-control

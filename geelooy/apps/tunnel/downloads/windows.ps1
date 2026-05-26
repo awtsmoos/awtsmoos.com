@@ -1,54 +1,78 @@
 ﻿# B"H
 $ErrorActionPreference = "Stop"
-
+ 
 Write-Host 'B"H Awtsmoos Tunnel Bootstrap' -ForegroundColor Cyan
-
+ 
 function Write-Utf8NoBom($path, $text) {
   $encoding = New-Object System.Text.UTF8Encoding($false)
   [System.IO.File]::WriteAllText($path, $text, $encoding)
 }
-
-function Read-AwtsJson($path) {
-  if (-not (Test-Path $path)) { return $null }
-  try { return (Get-Content -Raw -Path $path | ConvertFrom-Json) } catch { return $null }
+ 
+function Stop-OldAwtsAgent($root, $entry) {
+  Get-CimInstance Win32_Process | Where-Object {
+    $_.CommandLine -and
+    $_.CommandLine -match "node" -and
+    $_.CommandLine -match [Regex]::Escape((Join-Path $root $entry))
+  } | ForEach-Object {
+    Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
+  }
 }
-
-function Test-AwtsAgentUpToDate($root, $manifest, $state) {
-  if ($null -eq $manifest -or $null -eq $state) { return $false }
-  if ($state.version -ne $manifest.version) { return $false }
-  if (-not (Test-Path (Join-Path $root $manifest.entry))) { return $false }
-  return $true
-}
-
+ 
 $root = Join-Path $env:USERPROFILE ".awtsmoos-tunnel"
 $config = Join-Path $root "config.json"
-$statePath = Join-Path $root "install-state.json"
-$manifestUrl = "https://awtsmoos.com/apps/tunnel/agent/manifest.json"
-
+$statePath = Join-Path $root "install-state.txt"
+$manifestUrl = "https://awtsmoos.com/apps/tunnel/agent/manifest.txt"
+$baseUrl = "https://awtsmoos.com/apps/tunnel/agent"
+ 
 New-Item -ItemType Directory -Force -Path $root | Out-Null
-
-Write-Host "Checking Awtsmoos agent manifest..."
-$manifest = Invoke-RestMethod -Uri $manifestUrl
-$state = Read-AwtsJson $statePath
-
-if (Test-AwtsAgentUpToDate $root $manifest $state) {
-  Write-Host "Awtsmoos agent version $($manifest.version) is already installed. Restarting only." -ForegroundColor Green
+ 
+if (-not (Test-Path $config)) {
+  $cfg = @{
+    BH = 'B"H'
+    relay = "wss://awtsmoos.com"
+    tunnelName = "awt-$($env:USERNAME)-$(Get-Random -Minimum 1000 -Maximum 9999)"
+    local = "http://localhost:3000"
+    root = (Get-Location).Path
+    allowWrite = $true
+    allowSecrets = $false
+    enableLocalHttpProxy = $true
+  } | ConvertTo-Json -Depth 8
+ 
+  Write-Utf8NoBom $config $cfg
 } else {
-  Write-Host "Installing Awtsmoos agent version $($manifest.version)..."
-  foreach ($path in $manifest.files) {
+  Write-Host "Existing config found. Reusing same tunnel name and settings."
+}
+ 
+Write-Host "Checking Awtsmoos agent manifest..."
+$lines = (Invoke-WebRequest -Uri $manifestUrl -UseBasicParsing).Content -split "`r?`n"
+$lines = $lines | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" }
+ 
+$version = $lines[1]
+$entry = $lines[2]
+$files = $lines | Select-Object -Skip 3
+ 
+$oldVersion = ""
+if (Test-Path $statePath) {
+  $oldVersion = (Get-Content -Raw $statePath).Trim()
+}
+ 
+if ($oldVersion -eq $version -and (Test-Path (Join-Path $root $entry))) {
+  Write-Host "Awtsmoos agent version $version is already installed. Restarting only." -ForegroundColor Green
+} else {
+  Write-Host "Installing Awtsmoos agent version $version..."
+ 
+  foreach ($path in $files) {
     $dest = Join-Path $root $path
     New-Item -ItemType Directory -Force -Path (Split-Path $dest -Parent) | Out-Null
-    Invoke-WebRequest -Uri ("https://awtsmoos.com/apps/tunnel/agent/" + $path) -OutFile $dest
+    Write-Host "Downloading $path..."
+    Invoke-WebRequest -Uri "$baseUrl/$path" -OutFile $dest
   }
-
-  @{
-    BH = 'B"H'
-    version = $manifest.version
-    entry = $manifest.entry
-    installedAt = (Get-Date).ToUniversalTime().ToString("o")
-  } | ConvertTo-Json -Depth 8 | Set-Content -Encoding UTF8 $statePath
+ 
+  Write-Utf8NoBom $statePath $version
 }
-
+ 
+Stop-OldAwtsAgent $root $entry
+ 
 Write-Host ""
 Write-Host "Starting Awtsmoos background agent..." -ForegroundColor Green
-& node (Join-Path $root "main.js") --open-control
+& node (Join-Path $root $entry) --open-control
