@@ -170,7 +170,8 @@ export class ConversationController {
       shell: stream?.assistant?.shell,
       aiHandler: this.aiHandler,
       conversationId,
-      messageId: extractMessageId(response)
+      messageId: extractMessageId(response),
+      copyText: extractAssistantText(response) || stream?.assistant?.text || stream?.assistant?.record?.text || ""
     });
   }
 

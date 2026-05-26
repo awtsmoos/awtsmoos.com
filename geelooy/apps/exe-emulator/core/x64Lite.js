@@ -68,6 +68,7 @@ function execOne(cpu, callImport) {
   if (b === 0x8B) return movRegRm(cpu, rex, cpu.u8());
   if (b === 0x8D) return lea(cpu, rex, cpu.u8());
   if (b === 0xC7) return movRmImm(cpu, rex, cpu.u8());
+  if (b === 0xD1) return shiftOne(cpu, rex, cpu.u8());
   if (b === 0xFF) return execFf(cpu, rex, cpu.u8(), callImport);
   if (b === 0xE8) return callRel(cpu);
   if (b === 0xE9) return jmpRel(cpu);
@@ -181,6 +182,20 @@ function aluImm(cpu, rex, m, v) {
   else if (op === 5) out = old - v;
   else if (op === 7) { setFlags(cpu, old - v); return; }
   else throw new Error(`Unsupported ALU imm /${op}`);
+  d.direct ? setReg(cpu, d.addr, out) : writeMem(cpu, d.addr, out);
+  setFlags(cpu, out);
+}
+
+function shiftOne(cpu, rex, m) {
+  const d = decodeModRm(cpu, rex, m);
+  const op = (m >> 3) & 7;
+  const old = d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr);
+  let out = old;
+  if (op === 4) out = old << 1;
+  else if (op === 5) out = old >>> 1;
+  else if (op === 7) out = old >> 1;
+  else if (op === 0 || op === 1 || op === 2 || op === 3) out = old;
+  else throw new Error(`Unsupported shift /${op}`);
   d.direct ? setReg(cpu, d.addr, out) : writeMem(cpu, d.addr, out);
   setFlags(cpu, out);
 }

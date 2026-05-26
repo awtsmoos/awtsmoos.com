@@ -246,21 +246,6 @@ export class MessageRenderer {
     this.trackScrollIntent();
   }
 
-  trackTouchStart(event) {
-    this.touchStartY = event?.touches?.[0]?.clientY ?? 0;
-    this.touchStartScrollTop = this.chatBox.scrollTop;
-  }
-
-  trackTouchMove(event) {
-    const y = event?.touches?.[0]?.clientY ?? this.touchStartY;
-    if (y > this.touchStartY + 8 && !isNearBottom(this.chatBox)) {
-      this.userPinnedScroll = true;
-      this.chatBox.dataset.liveFollow = "paused";
-      this.liveFollowButton?.classList?.add?.("is-visible");
-    }
-    this.trackScrollIntent();
-  }
-
   trackScrollIntent() {
     if (isProgrammaticScroll(this.chatBox)) {
       this.lastScrollTop = this.chatBox.scrollTop;

@@ -12,6 +12,7 @@ import { ScribeOfManifestation } from '../../engine/scribe-of-manifestation.js';
 import { showContextMenu } from '../contextmenu.js';
 import { getItemKey } from '../../state.js';
 import { socialActionBlueprints } from './social-actions.js';
+import { openRecordVessel } from '../../navigator/content-normalizer.js';
 
 /**
  * @function renderContentGrids
@@ -52,12 +53,12 @@ function manifestSpecificGrid(items, container, type, navigator, appState) {
  * @function getCardBlueprint
  */
 function getCardBlueprint(item, type, navigator, appState) {
-    const data = type === 'post' ? item : (item.prateem || item);
-    const id = item.id || item.postId;
-    const title = data.title || data.name || "Hidden Insight";
+    const data = openRecordVessel(type === 'post' ? item : (item.prateem || item)) || {};
+    const id = data.id || data.postId || data.seriesId || data.inputId || item.id || item.postId || item.seriesId;
+    const title = data.title || data.name || data.id || id || "Hidden Insight";
     const desc = (data.content || data.description || "").substring(0, 150);
     const isSelected = appState.selectedItems.has(getItemKey({ id, type }));
-    const socialItem = { ...data, ...item, id, title };
+    const socialItem = { ...item, ...data, id, title };
 
     return {
         tag: 'div',

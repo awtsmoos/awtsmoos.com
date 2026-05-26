@@ -12,6 +12,7 @@ import { appState } from '../state.js';
 import * as api from '../api.js';
 import * as ui from '../ui.js';
 import * as DND from '../dragdrop.js';
+import { normalizeCollection } from './content-normalizer.js';
 
 /**
  * @function loadContent
@@ -47,8 +48,8 @@ export async function loadContent(navigator, seriesId) {
         ]);
         
         appState.currentContent = {
-            posts: Array.isArray(posts) ? posts : Object.values(posts || {}),
-            subSeries: Array.isArray(subSeries) ? subSeries : Object.values(subSeries || {})
+            posts: normalizeCollection(posts),
+            subSeries: normalizeCollection(subSeries)
         };
         
         // Command the UI to manifest the gathered sparks

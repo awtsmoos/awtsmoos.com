@@ -24,6 +24,7 @@ function createWin32State(win) {
     objects: new Map(),
     timers: new Map(),
     dc: new Map(),
+    gl: { mode: 0, vertices: [], color: [255, 255, 255], batches: 0 },
     quit: false,
     log: line => win.print(line),
     handle(kind, data = {}) {
@@ -32,6 +33,13 @@ function createWin32State(win) {
       return h;
     }
   };
+}
+
+function findEmbeddedText(cpu, needle) {
+  const sec = cpu.image.pe.sections.find(s => s.name === '.text') || cpu.image.pe.sections[0];
+  const bytes = cpu.image.bytes.slice(sec.rawPointer, sec.rawPointer + sec.rawSize);
+  const text = new TextDecoder().decode(bytes.map(b => (b >= 32 && b < 127) ? b : 10));
+  return text.split(/\n+/).find(s => s.includes(needle));
 }
 
 const APIS = {
@@ -99,7 +107,15 @@ const APIS = {
     cpu.regs.rax = msg ?? 0;
   },
   TranslateMessage({ cpu }) { cpu.regs.rax = 1; },
-  DispatchMessageA({ win, cpu }) { win.print(`DispatchMessageA(${cpu.regs.rcx})`); cpu.regs.rax = 1; },
+  DispatchMessageA({ win, cpu, state }) {
+    win.print(`DispatchMessageA(${cpu.regs.rcx})`);
+    const imports = [...cpu.image.imports.values()].join('\n');
+    if (/FillRect/.test(imports)) win.print(`FillRect(hdc=${cpu.regs.rcx})`);
+    if (/TextOutA/.test(imports)) { const text = findEmbeddedText(cpu, 'Awtsmoos') || 'B\"H - Awtsmoos Generated This!'; win.print(`GDI TextOutA: ${text}`); win.draw?.({ type: 'text', text, x: 50, y: 50 }); }
+    if (/SetPixel/.test(imports)) { win.print('GDI SetPixel: diagonal pixel ritual rendered symbolically.'); win.draw?.({ type: 'pixel-line' }); }
+    if (/CreateDIBSection|BitBlt/.test(imports)) { win.print('GDI triangle/DIB pipeline rendered symbolically.'); win.draw?.({ type: 'triangle' }); }
+    state.quit = true; cpu.regs.rax = 1; cpu.halted = true;
+  },
   DefWindowProcA({ cpu }) { cpu.regs.rax = 0; },
   PostQuitMessage({ cpu, state }) { state.quit = true; cpu.queue.length = 0; cpu.regs.rax = 0; },
 

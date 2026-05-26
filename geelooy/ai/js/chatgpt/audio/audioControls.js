@@ -6,14 +6,15 @@ const VOICES = ["orbit", "breeze", "cove", "ember", "juniper", "maple", "sol", "
 const FORMATS = ["mp3", "aac", "wav", "opus"];
 const STREAM_START_BYTES = 24 * 1024;
 
-export function mountAwtsmoosAudioOffer({ shell, aiHandler, conversationId = null, messageId = null } = {}) {
+export function mountAwtsmoosAudioOffer({ shell, aiHandler, conversationId = null, messageId = null, copyText = "" } = {}) {
   if (!shell || !conversationId || shell.querySelector?.(":scope > .awtsmoos-audio-offer")) return null;
   const root = document.createElement("section");
-  root.className = "awtsmoos-audio-offer";
-  root.__awtsmoosAudio = makeAudioState();
+  root.className = "awtsmoos-audio-offer awtsmoos-message-options";
+  root.__awtsmoosCopyText = copyText || shell.querySelector?.(":scope > .message")?.textContent || "";
   root.innerHTML = `
-    <div class="audio-offer-head"><strong>Awtsmoos Audio</strong><span>Listen to the final answer</span></div>
+    <div class="audio-offer-head"><strong>Message options</strong><span>Copy or listen to this answer</span></div>
     <div class="audio-offer-actions">
+      <button type="button" data-audio-action="copy">⧉ Copy message</button>
       <button type="button" data-audio-action="play">▶ Stream + play MP3</button>
       <button type="button" data-audio-action="download">⬇ Download</button>
       <button type="button" data-audio-action="settings" aria-expanded="false">⚙ Audio settings</button>
@@ -50,11 +51,37 @@ async function handleAudioClick(event, context) {
   const action = event.target?.closest?.("[data-audio-action]")?.dataset?.audioAction;
   if (!action) return;
   event.preventDefault();
+  if (action === "copy") return copyMessageText(context.root);
   if (action === "settings") return toggleSettings(context.root, event.target.closest("button"));
   if (action === "toggle") return togglePlayback(context.root);
   const settings = saveFromRoot(context.root);
   if (action === "play") return synthesizeForPlay(context, settings);
   if (action === "download") return synthesizeForDownload(context, settings);
+}
+
+async function copyMessageText(root) {
+  const text = root.__awtsmoosCopyText || "";
+  const status = statusNode(root);
+  try {
+    if (!text.trim()) throw new Error("No assistant text found to copy.");
+    await writeClipboard(text);
+    status.textContent = "Copied message text.";
+  } catch (error) {
+    status.textContent = `Copy failed: ${error?.message || error}`;
+  }
+}
+
+async function writeClipboard(text) {
+  if (navigator.clipboard?.writeText) return await navigator.clipboard.writeText(text);
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.setAttribute("readonly", "");
+  area.style.position = "fixed";
+  area.style.opacity = "0";
+  document.body.append(area);
+  area.select();
+  document.execCommand("copy");
+  area.remove();
 }
 
 async function synthesizeForPlay({ root, aiHandler, conversationId, messageId }, settings) {
