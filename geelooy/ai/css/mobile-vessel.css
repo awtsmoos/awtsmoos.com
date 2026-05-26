@@ -2,4 +2,5 @@
 @import "./mobile/shell.css";
 @import "./mobile/panels.css";
 @import "./mobile/composer.css";
+@import "./mobile/panel-rails.css";
 @import "./mobile/prompt.css";

@@ -1,0 +1,65 @@
+/* B"H — mobile rails and collapsed labels */
+@media (max-width: 680px) {
+  body[data-sidebar-collapsed="true"] .sidebar::before,
+  body[data-automation-collapsed="true"] .automation-panel::before {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    letter-spacing: .08em !important;
+    font-size: .82rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 70px !important;
+    width: 100% !important;
+    padding: 0 14px !important;
+  }
+
+  #left-resizer,
+  #right-resizer,
+  #composer-resizer {
+    display: block !important;
+    position: relative !important;
+    touch-action: none !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    background: linear-gradient(180deg, rgba(34,211,238,.18), rgba(15,23,42,.08)) !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+    opacity: .95 !important;
+  }
+
+  #left-resizer,
+  #right-resizer {
+    width: 100% !important;
+    height: 14px !important;
+    min-height: 14px !important;
+    cursor: row-resize !important;
+    margin: 2px 0 !important;
+  }
+
+  #composer-resizer {
+    height: 16px !important;
+    min-height: 16px !important;
+    width: 100% !important;
+    cursor: row-resize !important;
+  }
+
+  #left-resizer::after,
+  #right-resizer::after,
+  #composer-resizer::after {
+    content: "";
+    position: absolute;
+    inset: 3px 18%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(125,211,252,.18), rgba(34,211,238,.72), rgba(125,211,252,.18));
+    box-shadow: 0 0 18px rgba(34,211,238,.28);
+  }
+
+  .resize-bar:active,
+  #left-resizer:active,
+  #right-resizer:active,
+  #composer-resizer:active {
+    transform: scaleY(1.12);
+    box-shadow: 0 0 0 3px rgba(34,211,238,.12), 0 0 24px rgba(34,211,238,.34);
+  }
+}

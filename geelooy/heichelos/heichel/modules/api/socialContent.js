@@ -52,6 +52,10 @@ export async function shareEntity({ aliasId, from, to, note = '', excerpt = '' }
     return await graphLink('/content/share', { aliasId, from, to, note, excerpt, kind: 'crossLinks' });
 }
 
+export async function referenceEntity({ aliasId, from, to, note = '', excerpt = '' }) {
+    return await graphLink('/graph/references', { aliasId, from, to, note, excerpt, kind: 'references' });
+}
+
 async function graphLink(path, { aliasId, from, to, note, excerpt, kind }) {
     const body = { aliasId, note, excerpt, kind };
     for (const [prefix, entity] of [['from', from], ['to', to]]) {

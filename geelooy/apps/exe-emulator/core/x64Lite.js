@@ -16,7 +16,7 @@ export function runCompilerX64(image, win) {
   const cpu = makeCpu(image, text);
   const callImport = createWinApi(win, cpu);
 
-  const maxInstructions = 20000;
+  const maxInstructions = 1200;
   for (let guard = 0; guard < maxInstructions && !cpu.halted; guard++) {
     execOne(cpu, callImport);
   }

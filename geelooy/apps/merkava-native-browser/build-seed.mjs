@@ -32,6 +32,19 @@ function cMacroString(name, value) {
   return `#define ${name} ${cStringLiteral(value)}\n`;
 }
 
+function stopGeneratedExeIfRunning(exePath) {
+  const target = path.resolve(exePath).toLowerCase();
+  const script = [
+    "$target = " + JSON.stringify(target),
+    "Get-Process | Where-Object { $_.Path -and ($_.Path.ToLower() -eq $target) } | Stop-Process -Force"
+  ].join("; ");
+  try {
+    execFileSync("powershell", ["-NoProfile", "-Command", script], { stdio: "ignore" });
+  } catch {
+    // No generated process is running, or Windows denied metadata for an unrelated process.
+  }
+}
+
 function fileStats(files) {
   return Object.fromEntries(Object.entries(files).map(([name, source]) => [name, {
     bytes: Buffer.byteLength(source, "utf8"),
@@ -125,13 +138,13 @@ const rendererModel = {
   source: 'MerkavaExecutor.SourceAppCompiler',
   entry: '/index.html',
   nodes: parseHtmlNodes(appFiles['/index.html']),
-  scripts: linkedApp.scripts.map(script => ({ name: script.name, sourceBytes: Buffer.byteLength(script.source || '', 'utf8'), hasWebGl: /getContext\(["']webgl/.test(script.source || ''), commands: {
-    viewport: (script.source.match(/viewport\(/g) || []).length,
-    clearColor: (script.source.match(/clearColor\(/g) || []).length,
-    clear: (script.source.match(/clear\(/g) || []).length,
-    drawArrays: (script.source.match(/drawArrays\(/g) || []).length
-  }})),
+  scripts: linkedApp.scripts.map(script => ({
+    name: script.name,
+    sourceBytes: Buffer.byteLength(script.source || '', 'utf8'),
+    analysis: 'executed by MerkavaExecutor render stream, not native C regex'
+  })),
   styles: [],
+  renderStream: executorRender.summary,
   runtime: { simulatedOk: simulated.ok, engine: simulated.engine }
 };
 
@@ -140,19 +153,15 @@ fs.writeFileSync(path.join(outDir, "sample.merkava"), Buffer.from(binary));
 fs.writeFileSync(path.join(outDir, "browser-shell.merkava"), Buffer.from(shellBinary));
 fs.writeFileSync(path.join(outDir, "embedded_executor.merkava"), Buffer.from(executorBinary));
 fs.writeFileSync(path.join(outDir, "embedded_executor.txt"), executorArtifactBanner(executorArtifact));
-fs.writeFileSync(path.join(outDir, "embedded_executor.merkava"), Buffer.from(executorBinary));
-fs.writeFileSync(path.join(outDir, "embedded_executor.txt"), executorArtifactBanner(executorArtifact));
 fs.writeFileSync(path.join(outDir, "native-browser-seed.c"), buildNativeBrowserC(binary, shellBinary));
 fs.writeFileSync(path.join(outDir, "merkavaapp-launcher.c"), buildLauncherC());
 fs.writeFileSync(path.join(outDir, "merkava-runtime-report.json"), JSON.stringify(report, null, 2));
 fs.writeFileSync(path.join(outDir, "diagnostic-render-model.json"), JSON.stringify(rendererModel, null, 2));
 fs.writeFileSync(path.join(outDir, "executor-render-stream.txt"), executorRender.stream);
-fs.writeFileSync(path.join(outDir, "executor-render-stream.txt"), executorRender.stream);
 fs.writeFileSync(path.join(nativeDir, "merkava-runtime-report.h"), [
   '/* B\"H generated */',
   `#define AWTS_MERKAVA_REPORT_JSON ${cStringLiteral(JSON.stringify(report, null, 2))}`,
   `#define AWTS_RENDER_MODEL_JSON ${cStringLiteral(JSON.stringify(rendererModel, null, 2))}`,
-  `#define AWTS_NATIVE_RENDER_STREAM ${cStringLiteral(executorRender.stream)}`,
   `#define AWTS_NATIVE_RENDER_STREAM ${cStringLiteral(executorRender.stream)}`,
   cMacroString('AWTS_SAMPLE_HTML', appFiles['/index.html']).trim(),
   cMacroString('AWTS_SAMPLE_JS', appFiles['/app.js']).trim(),
@@ -164,6 +173,9 @@ fs.writeFileSync(path.join(nativeDir, "merkava-runtime-report.h"), [
 const smokeExe = compile("B'H Merkava bytecode console smoke: JS bytecode path alive", "console");
 fs.writeFileSync(path.join(outDir, "merkava-console-smoke.exe"), Buffer.from(await smokeExe.arrayBuffer()));
 
+const finalExe = path.join(outDir, "merkavaapp.exe");
+const tempExe = path.join(outDir, `merkavaapp-build-${Date.now()}-${process.pid}.exe`);
+stopGeneratedExeIfRunning(finalExe);
 execFileSync("gcc", [
   path.join(nativeDir, "merkava-opengl-browser.c"),
   path.join(nativeDir, "awts_native_util.c"),
@@ -172,10 +184,12 @@ execFileSync("gcc", [
   path.join(nativeDir, "awts_native_render.c"),
   "-I", nativeDir,
   "-include", path.join(nativeDir, "merkava-runtime-report.h"),
-  "-o", path.join(outDir, "merkavaapp.exe"),
+  "-o", tempExe,
   "-lopengl32", "-lgdi32", "-luser32", "-lwininet"
 ], { stdio: "inherit" });
-fs.copyFileSync(path.join(outDir, "merkavaapp.exe"), path.join(outDir, "merkava-opengl-browser.exe"));
+fs.copyFileSync(tempExe, finalExe);
+fs.copyFileSync(tempExe, path.join(outDir, "merkava-opengl-browser.exe"));
+fs.rmSync(tempExe, { force: true });
 
 console.log(JSON.stringify({
   ok: true,

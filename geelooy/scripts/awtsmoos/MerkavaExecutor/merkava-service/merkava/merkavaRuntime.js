@@ -2,9 +2,12 @@
 import { createRequire } from 'module';
 import fs from 'fs';
 import path from 'path';
+import RuntimeAssemblerModule from '../../merkava-runtime/RuntimeAssembler.js';
+import { applyInteractions } from '../interactions/applyInteractions.js';
 
 const require = createRequire(import.meta.url);
 const merkava = require('../../merkava-binary/MerkavaBytecodeApi.js');
+const { RuntimeAssembler } = RuntimeAssemblerModule;
 
 function normalizeFiles(files = {}) {
   return merkava.normalizeFiles(files || {});
@@ -84,6 +87,82 @@ function scriptSources(files = {}) {
   return sources;
 }
 
+function readPath(root, key) {
+  if (!root || !key) return undefined;
+  return String(key).split('.').reduce((value, part) => value == null ? undefined : value[part], root);
+}
+
+function cloneValue(value) {
+  if (value === undefined) return undefined;
+  try {
+    return JSON.parse(JSON.stringify(value));
+  } catch (_) {
+    return String(value);
+  }
+}
+
+function extractRequestedValues(runtime, raw, options = {}) {
+  const requested = Array.isArray(options.returnValues)
+    ? options.returnValues
+    : Array.isArray(options.values)
+      ? options.values
+      : [];
+  const windowObj = runtime?.window || null;
+  const snapshot = runtime?.snapshot ? runtime.snapshot() : null;
+  const sources = {
+    window: windowObj,
+    globalThis,
+    result: raw?.result?.result,
+    snapshot
+  };
+  const values = {};
+  for (const key of requested) {
+    const plain = String(key);
+    values[plain] = cloneValue(
+      readPath(sources, plain) ??
+      readPath(windowObj, plain) ??
+      readPath(raw?.result?.result, plain) ??
+      readPath(snapshot, plain)
+    );
+  }
+  return {
+    values,
+    awtsmoosResult: cloneValue(
+      windowObj?.__awtsmoosResult ??
+      raw?.result?.result?.__awtsmoosResult ??
+      globalThis.__awtsmoosResult
+    )
+  };
+}
+
+async function runObservableRuntime(input, options = {}) {
+  const assembler = new RuntimeAssembler({
+    ...options,
+    files: input.files,
+    entry: input.entry
+  });
+  const raw = await assembler.run(input.entry);
+  let interactionLog = [];
+  let interactionError = null;
+  try {
+    interactionLog = await applyInteractions(raw.runtime, options.interactions || []);
+  } catch (error) {
+    interactionError = { message: error.message, stack: error.stack || '' };
+  }
+  const snapshot = raw.runtime?.snapshot ? raw.runtime.snapshot() : null;
+  const extracted = extractRequestedValues(raw.runtime, raw, options);
+  return {
+    raw,
+    snapshot,
+    domSnapshot: snapshot?.window?.document || null,
+    console: snapshot?.window?.console || raw.console || null,
+    interactionLog,
+    interactionError,
+    values: extracted.values,
+    awtsmoosResult: extracted.awtsmoosResult
+  };
+}
+
 function detectObviousRuntimeErrors(files = {}) {
   const errors = [];
   for (const script of scriptSources(files)) {
@@ -143,7 +222,15 @@ export async function simulateMerkavaRuntime(options = {}) {
   const preflightErrors = detectObviousRuntimeErrors(input.files);
   const compiled = await compileMerkavaRuntime({ ...options, files: input.files, entry: input.entry });
   const run = runMerkavaRuntime(compiled.bytecode, options.runOptions || options);
-  const ok = run.ok !== false && preflightErrors.length === 0;
+  let observable = null;
+  let observableErrors = [];
+  try {
+    observable = await runObservableRuntime(input, options);
+    if (observable.interactionError) observableErrors.push(observable.interactionError);
+  } catch (error) {
+    observableErrors.push({ message: error.message, stack: error.stack || '' });
+  }
+  const ok = run.ok !== false && preflightErrors.length === 0 && observableErrors.length === 0;
   return {
     BH: 'B"H',
     ok,
@@ -160,9 +247,17 @@ export async function simulateMerkavaRuntime(options = {}) {
     result: {
       ...run.result,
       ok,
-      errors: preflightErrors
+      snapshot: observable?.snapshot || null,
+      errors: [...preflightErrors, ...observableErrors]
     },
-    errors: preflightErrors,
+    domSnapshot: observable?.domSnapshot || null,
+    console: observable?.console || null,
+    values: observable?.values || {},
+    awtsmoosResult: observable?.awtsmoosResult,
+    interactions: options.interactions || [],
+    interactionLog: observable?.interactionLog || [],
+    interactionError: observable?.interactionError || null,
+    errors: [...preflightErrors, ...observableErrors],
     score: ok ? 100 : 40,
     suggestions: preflightErrors.length ? ['Merkava preflight found a script throw before bytecode execution.'] : []
   };

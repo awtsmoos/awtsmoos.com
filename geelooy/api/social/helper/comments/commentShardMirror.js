@@ -120,6 +120,53 @@ function writeCommentShardRecord({
 }
 
 /**
+ * Writes a packed tombstone for one comment so fallback readers do not
+ * resurrect a comment after the legacy path has deleted it.
+ * @param {object} params Delete params.
+ * @returns {object} Packed delete result.
+ */
+function deleteCommentShardRecord({
+    $i,
+    heichelId,
+    seriesId,
+    parentType = "post",
+    parentId,
+    postId,
+    aliasId,
+    verseSection = "root",
+    commentId
+}) {
+    const coordinate = commentCoordinate({
+        heichelId,
+        seriesId,
+        parentType,
+        parentId,
+        postId,
+        aliasId,
+        verseSection
+    });
+    return writePacked({
+        $i,
+        shard: "core",
+        key: commentShardKey({ ...coordinate, commentId }),
+        op: "delete",
+        value: {
+            deleted: true,
+            commentId,
+            coordinate,
+            deletedAt: Date.now()
+        },
+        meta: {
+            kind: "comment",
+            entityKind: "comment",
+            deleted: true,
+            ...coordinate,
+            commentId
+        }
+    });
+}
+
+/**
  * Reads packed comments matching a legacy retrieval coordinate.
  * @param {object} params Read params.
  * @returns {Array<object>} Matching packed comment values.
@@ -143,8 +190,13 @@ function readCommentShardRecords({
         aliasId,
         verseSection
     });
-    return listPackedRecords({ $i, shard: "core" })
+    const latest = new Map();
+    for (const record of listPackedRecords({ $i, shard: "core" })) {
+        if (record.key) latest.set(record.key, record);
+    }
+    return [...latest.values()]
         .filter(record => record.meta?.kind === "comment")
+        .filter(record => record.op !== "delete" && !record.meta?.deleted)
         .filter(record => record.meta?.heichelId === wanted.heichelId)
         .filter(record => record.meta?.seriesId === wanted.seriesId)
         .filter(record => record.meta?.parentType === wanted.parentType)
@@ -177,6 +229,7 @@ module.exports = {
     commentShardKey,
     commentCoordinate,
     writeCommentShardRecord,
+    deleteCommentShardRecord,
     readCommentShardRecords,
     listPackedCommentAuthors,
     listPackedCommentVerseSections

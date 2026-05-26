@@ -9,6 +9,9 @@ const css = fs.readFileSync("geelooy/style/heichelos/revamped-partials/content.c
 const modal = fs.readFileSync("geelooy/heichelos/heichel/modules/modal.js", "utf8");
 const apiAggregate = fs.readFileSync("geelooy/heichelos/heichel/modules/api.js", "utf8");
 const socialContentApi = fs.readFileSync("geelooy/heichelos/heichel/modules/api/socialContent.js", "utf8");
+const commentsApi = fs.readFileSync("geelooy/heichelos/heichel/modules/api/comments.js", "utf8");
+const gridRenderer = fs.readFileSync("geelooy/heichelos/heichel/modules/ui/render/grids.js", "utf8");
+const socialActions = fs.readFileSync("geelooy/heichelos/heichel/modules/ui/render/social-actions.js", "utf8");
 const mainLayout = fs.readFileSync("geelooy/heichelos/heichel/modules/ui/blueprints/main-layout.js", "utf8");
 const uiMap = fs.readFileSync("geelooy/heichelos/heichel/modules/ui/map.js", "utf8");
 const rolesApi = fs.readFileSync("geelooy/heichelos/heichel/modules/api/roles.js", "utf8");
@@ -75,6 +78,13 @@ assert.ok(modal.includes('api.createAnswer'));
 assert.ok(apiAggregate.includes('socialContent.js'));
 assert.match(socialContentApi, /createQuestion/);
 assert.match(socialContentApi, /repostEntity/);
+assert.match(socialContentApi, /referenceEntity/);
+assert.match(commentsApi, /createComment/);
+assert.match(commentsApi, /replyToComment/);
+assert.match(gridRenderer, /socialActionBlueprints/);
+assert.match(socialActions, /card-social-actions/);
+assert.match(socialActions, /api\.createComment/);
+assert.match(css, /card-social-action/);
 assert.match(css, /heichel-content-type-select/);
 
 const postsApi = fs.readFileSync("geelooy/heichelos/heichel/modules/api/posts.js", "utf8");

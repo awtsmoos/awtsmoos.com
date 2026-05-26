@@ -24,6 +24,9 @@ export * from './api/posts.js';
 // B"H - Exporting question, answer, section, repost and share vessels
 export * from './api/socialContent.js';
 
+// B"H - Exporting post/comment reply vessels
+export * from './api/comments.js';
+
 // B"H - Exporting the governance and contraction rituals
 export * from './api/management.js';
 

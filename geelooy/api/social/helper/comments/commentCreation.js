@@ -41,6 +41,10 @@ const {
     indexCommentSearchRecord
 } = require("./commentAwtsmoosDbBridge.js");
 
+const {
+    writeCommentShardRecord
+} = require("./commentShardMirror.js");
+
 /**
  * B"H
  * @function parseDayuhVessel
@@ -302,6 +306,19 @@ async function addLotsOfCommentsToPostByVerseSections({
                     aliasId,
                     status: "active"
                 }));
+                writeCommentShardRecord({
+                    $i,
+                    comment: { ...comment, id: commentId, author: aliasId, verseSection: section },
+                    context: {
+                        heichelId,
+                        seriesId,
+                        parentType,
+                        parentId,
+                        postId: postId || (parentType === "post" ? parentId : undefined),
+                        aliasId,
+                        verseSection: section
+                    }
+                });
             }
         }
 
@@ -437,6 +454,19 @@ async function addOrApproveComment(
             aliasId,
             status: "active"
         });
+        const shardMirror = writeCommentShardRecord({
+            $i,
+            comment: shtar,
+            context: {
+                heichelId,
+                seriesId,
+                parentType,
+                parentId,
+                postId: postId || (parentType === "post" ? parentId : undefined),
+                aliasId,
+                verseSection
+            }
+        });
 
         return {
             success: true,
@@ -445,7 +475,8 @@ async function addOrApproveComment(
                 id: commentId,
                 path: aliasCommentFilePath,
                 verseSection: verseSection,
-                searchIndex
+                searchIndex,
+                shardMirror
             }
         };
 

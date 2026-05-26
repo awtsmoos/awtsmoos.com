@@ -11,6 +11,7 @@ import { DOMElements } from '../../dom.js';
 import { ScribeOfManifestation } from '../../engine/scribe-of-manifestation.js';
 import { showContextMenu } from '../contextmenu.js';
 import { getItemKey } from '../../state.js';
+import { socialActionBlueprints } from './social-actions.js';
 
 /**
  * @function renderContentGrids
@@ -56,6 +57,7 @@ function getCardBlueprint(item, type, navigator, appState) {
     const title = data.title || data.name || "Hidden Insight";
     const desc = (data.content || data.description || "").substring(0, 150);
     const isSelected = appState.selectedItems.has(getItemKey({ id, type }));
+    const socialItem = { ...data, ...item, id, title };
 
     return {
         tag: 'div',
@@ -84,7 +86,8 @@ function getCardBlueprint(item, type, navigator, appState) {
                 attr: { class: `post-card ${type}` },
                 children:[
                     { tag: 'h2', children: [title] },
-                    { tag: 'p', children: [desc + (desc.length >= 150 ? "..." : "")] }
+                    { tag: 'p', children: [desc + (desc.length >= 150 ? "..." : "")] },
+                    ...(type === 'post' ? socialActionBlueprints(socialItem, appState) : [])
                 ]
             }
         ].filter(Boolean)

@@ -93,7 +93,8 @@ const APIS = {
   },
   UpdateWindow({ win, cpu }) { win.print(`UpdateWindow(${cpu.regs.rcx})`); cpu.regs.rax = 1; },
   GetMessageA({ cpu, state }) {
-    if (state.quit) { cpu.regs.rax = 0; return; }
+    state.messagePolls = (state.messagePolls || 0) + 1;
+    if (state.quit || state.messagePolls > 2) { cpu.regs.rax = 0; return; }
     const msg = cpu.queue.shift();
     cpu.regs.rax = msg ?? 0;
   },

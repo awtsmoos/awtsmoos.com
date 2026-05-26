@@ -15,6 +15,7 @@ async function run() {
     const mobileShell = read("css/mobile/shell.css");
     const mobilePanels = read("css/mobile/panels.css");
     const mobileComposer = read("css/mobile/composer.css");
+    const mobileRails = read("css/mobile/panel-rails.css");
     const chatCss = read("css/chat.css");
     const promptJs = read("prompt.js");
     const imports = [...styles.matchAll(/@import\s+"([^"]+)";/g)].map(m => m[1]);

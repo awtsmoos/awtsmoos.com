@@ -7,8 +7,15 @@ import {
   createSection,
   listSections,
   repostEntity,
-  shareEntity
+  shareEntity,
+  referenceEntity
 } from '../api/socialContent.js';
+import {
+  createComment,
+  replyToComment,
+  listCommentAuthors,
+  listCommentsByAlias
+} from '../api/comments.js';
 import {
   listNotifications,
   getUnreadNotificationCount,
@@ -34,6 +41,11 @@ await createSection({ heichelId: 'h 1', postId: 'p1', aliasId: 'a', sectionId: '
 await listSections({ heichelId: 'h 1', postId: 'p1' });
 await repostEntity({ aliasId: 'a', from: { type: 'post', id: 'p1', heichelId: 'h', seriesId: 'root' }, to: { type: 'question', id: 'q1', sectionId: 's1' }, note: 'n', excerpt: 'e' });
 await shareEntity({ aliasId: 'a', from: { type: 'section', id: 's1', parentId: 'p1' }, to: { type: 'answer', id: 'ans1' } });
+await referenceEntity({ aliasId: 'a', from: { type: 'alias', id: 'a' }, to: { type: 'post', id: 'p1', heichelId: 'h' }, note: 'ref' });
+await createComment({ heichelId: 'h 1', postId: 'p1', aliasId: 'a', seriesId: 's1', content: 'Comment', verseSection: 'v1' });
+await replyToComment({ heichelId: 'h 1', postId: 'p1', commentId: 'c1', aliasId: 'a', seriesId: 's1', content: 'Reply' });
+await listCommentAuthors({ heichelId: 'h 1', postId: 'p1', seriesId: 's1', verseSection: 'v1' });
+await listCommentsByAlias({ heichelId: 'h 1', postId: 'p1', aliasId: 'a', seriesId: 's1', verseSection: 'v1' });
 await listNotifications({ aliasId: 'a', includeRead: true });
 await getUnreadNotificationCount({ aliasId: 'a' });
 await markNotificationRead({ aliasId: 'a', notificationId: 'n1' });
@@ -49,6 +61,11 @@ assert.ok(calls.some(call => call.url.includes('/api/social/content/heichelos/h%
 assert.ok(calls.some(call => call.url.includes('/api/social/content/heichelos/h%201/posts/p1/sections') && !call.opts.method));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/content/repost') && bodyText(call).includes('toSectionId=s1')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/content/share') && bodyText(call).includes('fromParentId=p1')));
+assert.ok(calls.some(call => call.url.endsWith('/api/social/graph/references') && bodyText(call).includes('kind=references')));
+assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/post/p1/comments/') && call.opts.method === 'POST' && bodyText(call).includes('verseSection')));
+assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/comment/c1') && call.opts.method === 'POST' && bodyText(call).includes('Reply')));
+assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/post/p1/comments/aliases?') && call.url.includes('verseSection=v1')));
+assert.ok(calls.some(call => call.url.includes('/api/social/heichelos/h%201/comments/inSeries/s1/atPost/p1/atAlias/a?') && call.url.includes('verseSection=v1')));
 assert.ok(calls.some(call => call.url.includes('/api/social/notifications/a?includeRead=yes')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/notifications/a/unread/count')));
 assert.ok(calls.some(call => call.url.endsWith('/api/social/notifications/a/n1/read') && call.opts.method === 'POST'));

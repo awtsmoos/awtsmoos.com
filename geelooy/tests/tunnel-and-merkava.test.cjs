@@ -11,7 +11,8 @@ const tests = [
   ["Merkava linked bundle", ["tests/merkava-bundle.test.cjs"]],
   ["C++ compiler bridge", ["tests/cpp-compiler.test.mjs"]],
   ["Merkava native browser seed", ["apps/merkava-native-browser/build-seed.mjs"]],
-  ["Native browser artifacts", ["tests/native-browser-artifacts.test.cjs"]]
+  ["Native browser artifacts", ["tests/native-browser-artifacts.test.cjs"]],
+  ["Native browser runtime", ["apps/merkava-native-browser/test-native-runtime.mjs"]]
 ];
 
 let ok = true;

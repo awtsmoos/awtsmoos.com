@@ -69,7 +69,7 @@ cases.push(['node-server-refuses-fake-success', run(['..\\samples\\server.js']),
 
 cases.push(['browser-shell-smoke', run(['--smoke']), out => {
   assertIncludes('browser-shell-smoke', out.stdout, 'B\'H Merkava Native Browser');
-  assertIncludes('browser-shell-smoke', out.stdout, 'bytecode=browser-shell.merkava');
+  assertIncludes('browser-shell-smoke', out.stdout, 'bytecode=embedded_executor.merkava');
   assertIncludes('browser-shell-smoke', out.stdout, 'browser-shell=browser-shell.html browser-shell.js');
   assertIncludes('browser-shell-smoke', out.stdout, 'navigation=type-address-enter');
   assertIncludes('browser-shell-smoke', out.stdout, 'opengl_renderer=');

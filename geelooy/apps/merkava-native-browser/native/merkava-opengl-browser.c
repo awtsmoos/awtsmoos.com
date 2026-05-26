@@ -71,6 +71,7 @@ int awts_launch_browser(const char* bytecodePath, int smokeMode) {
   printf("B'H Merkava Native Browser / Runtime Executor\n");
   printf("bytecode=%s bytes=%u ok=%u section=%u version=%u\n", resolvedBytecode, g_state.bytecodeLen, g_state.bytecodeOk, g_state.section, g_state.version);
   printf("boot=embedded-executor-first host=c-vm-os-opengl-primitives stay-open=%s\n", smokeMode ? "false" : "true");
+  printf("browser-shell=browser-shell.html browser-shell.js embedded=embedded_executor.merkava\n");
   printf("navigation=type-address-enter backspace-edits escape-closes\n");
   awts_print_webgl_table(&g_state.webgl);
   awts_print_runtime_report();

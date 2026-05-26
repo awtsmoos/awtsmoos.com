@@ -272,7 +272,7 @@ int awts_load_merkava_file(AwtsBrowserState* state, const char* path) {
 void awts_print_help(void) {
   printf("B'H Merkava Native Browser / Runtime Executor\n");
   printf("Usage:\n");
-  printf("  merkavaapp.exe                     open browser-shell.merkava and stay open\n");
+  printf("  merkavaapp.exe                     boot embedded_executor.merkava and stay open\n");
   printf("  merkavaapp.exe --smoke             open browser shell briefly for tests\n");
   printf("  merkavaapp.exe sample.merkava      load Merkava bytecode\n");
   printf("  merkavaapp.exe --check file.js     parse/analyze JS/HTML/bytecode without launching browser\n");

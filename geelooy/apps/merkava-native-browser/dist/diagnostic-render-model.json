@@ -46,16 +46,20 @@
     {
       "name": "/app.js",
       "sourceBytes": 506,
-      "hasWebGl": true,
-      "commands": {
-        "viewport": 1,
-        "clearColor": 1,
-        "clear": 1,
-        "drawArrays": 1
-      }
+      "analysis": "executed by MerkavaExecutor render stream, not native C regex"
     }
   ],
   "styles": [],
+  "renderStream": {
+    "hydration": {
+      "ok": true,
+      "nodes": 10,
+      "title": ""
+    },
+    "commandCount": 19,
+    "textureCount": 7,
+    "streamBytes": 412
+  },
   "runtime": {
     "simulatedOk": true,
     "engine": "merkava"
