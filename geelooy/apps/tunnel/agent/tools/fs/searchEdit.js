@@ -8,6 +8,7 @@ const crypto = require("crypto");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 const { listDirDetailed } = require("./listing.js");
 const { BIN } = require("./constants.js");
+const { bulkSearch } = require("./pagedSearch.js");
 
 function clamp(n, fallback, min, max) {
   n = Number(n);
@@ -97,6 +98,14 @@ async function grep(config, payload = {}) {
       action: "grep",
       error: "missing_query"
     };
+  }
+
+  if (payload.page || payload.pageSize || payload.limit || payload.cursor) {
+    return await bulkSearch(config, { ...payload, action: payload.action || "grep" });
+  }
+
+  if (payload.page || payload.pageSize || payload.limit || payload.cursor) {
+    return await bulkSearch(config, { ...payload, action: payload.action || "grep" });
   }
 
   const maxFiles = clamp(payload.maxFiles, 100, 1, 800);

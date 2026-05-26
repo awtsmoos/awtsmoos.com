@@ -1,0 +1,413 @@
+{
+  "entry": {
+    "actionId": "act_mpmw3d0x_1b914132",
+    "inputRef": "cmd_act_mpmw3d0x_1b914132",
+    "outputRef": ".awtsmoos/actions/results/act_mpmw3d0x_1b914132.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/prompt.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\n\nconst EXTENSION_ROOT = \"/scripts/tricks/extensions/server\";\nconst EXTENSION_FILE_NAMES = [\n  \"manifest.json\",\n  \"background.js\",\n  \"awtsmoosContent.js\",\n  \"jected.js\",\n  \"streamLedger.js\",\n  \"bgAutomation/storage.js\",\n  \"bgAutomation/graph.js\",\n  \"bgAutomation/chatgpt.js\",\n  \"bgAutomation/pageDelegate.js\",\n  \"bgAutomation/engine.js\",\n  \"bgAutomation/api.js\"\n];\nconst EXTENSION_FILES = EXTENSION_FILE_NAMES.map(name => ({ name, url: `${EXTENSION_ROOT}/${name}` }));\n\nexport class AwtsmoosPrompt {\n  static async go(options = {}) {\n    const shared = globalThis?.AwtsmoosPrompt;\n    if (shared?.go && shared !== AwtsmoosPrompt) return await shared.go(options);\n    return renderLocalPrompt(options);\n  }\n}\n\nfunction renderLocalPrompt(options = {}) {\n  return new Promise(resolve => {\n    const isAlert = Boolean(options.isAlert);\n    const overlay = document.createElement(\"div\");\n    overlay.className = \"awtsmoos-local-prompt-overlay\";\n    overlay.innerHTML = markup(options, isAlert);\n    document.body.appendChild(overlay);\n    const input = overlay.querySelector(\"input\");\n    input?.focus();\n    const finish = value => { overlay.remove(); resolve(value); };\n    overlay.addEventListener(\"click\", event => handleClick(event, { input, isAlert, finish }));\n    overlay.addEventListener(\"keydown\", event => {\n      if (event.key === \"Escape\") finish(null);\n      if (event.key === \"Enter\" && !isAlert) finish(input?.value ?? null);\n    });\n  });\n}\n\nasync function handleClick(event, context) {\n  const action = event.target?.dataset?.awtsAction;\n  if (action === \"download-extension\") return downloadExtensionZip(event.target);\n  if (action === \"ok\") context.finish(context.isAlert ? true : context.input?.value ?? null);\n  if (action === \"cancel\") context.finish(null);\n}\n\nasync function downloadExtensionZip(button) {\n  button.disabled = true;\n  button.textContent = \"Building zip…\";\n  try {\n    const zip = await import(\"/scripts/awtsmoos/zip/api.js\");\n    await zip.downloadZipFromUrls(EXTENSION_FILES, { zipName: \"awtsmoos-server-extension.zip\" });\n    button.textContent = \"Downloaded zip\";\n  } catch (error) {\n    console.error(\"Extension zip failed\", error);\n    button.textContent = \"Zip failed — see console\";\n  } finally {\n    setTimeout(() => { button.disabled = false; button.textContent = \"Download extension zip\"; }, 1800);\n  }\n}\n\nfunction markup(options, isAlert) {\n  return `\n    <style>${style()}</style>\n    <section class=\"awtsmoos-local-prompt-card\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"awtsmoos-local-prompt-title\">\n      <h2 id=\"awtsmoos-local-prompt-title\">B\"H — Awtsmoos Server Extension Needed</h2>\n      <div class=\"awtsmoos-local-prompt-body\">${options.headerTxt || defaultExtensionHelp()}</div>\n      ${isAlert ? \"\" : `<input class=\"awtsmoos-local-prompt-input\" placeholder=\"${escapeAttr(options.placeholderTxt || \"\")}\" value=\"${escapeAttr(options.defaultValue || \"\")}\" />`}\n      <div class=\"awtsmoos-local-prompt-actions\">\n        <button type=\"button\" data-awts-action=\"download-extension\">Download extension zip</button>\n        <a href=\"https://github.com/awtsmoos/awtsmoos.com/tree/main/geelooy/scripts/tricks/extensions/server\" target=\"_blank\" rel=\"noreferrer\">View source</a>\n        <button type=\"button\" data-awts-action=\"ok\">${isAlert ? \"Got it\" : \"OK\"}</button>\n        <button class=\"secondary\" type=\"button\" data-awts-action=\"cancel\">Close</button>\n      </div>\n    </section>`;\n}\n\nfunction defaultExtensionHelp() {\n  return `<p>The Awtsmoos AI cockpit needs the local <strong>Awtsmoos Server Extension</strong> bridge before ChatGPT requests can flow.</p><p>Click <strong>Download extension zip</strong>, unzip it, load it in <code>chrome://extensions</code> with Developer Mode, then refresh this page.</p>`;\n}\n\nfunction style() {\n  return `.awtsmoos-local-prompt-overlay{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;padding:24px;background:rgba(2,8,18,.72);backdrop-filter:blur(8px);color:#e8f4ff;font-family:Inter,ui-sans-serif,system-ui}.awtsmoos-local-prompt-card{width:min(620px,100%);border:1px solid rgba(99,179,237,.28);border-radius:24px;background:linear-gradient(145deg,rgba(4,17,31,.97),rgba(3,30,45,.94));box-shadow:0 24px 80px rgba(0,0,0,.45);padding:24px}.awtsmoos-local-prompt-body{color:rgba(232,244,255,.86);line-height:1.55;font-size:15px}.awtsmoos-local-prompt-body a{color:#7dd3fc}.awtsmoos-local-prompt-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.awtsmoos-local-prompt-actions button,.awtsmoos-local-prompt-actions a{appearance:none;border:1px solid rgba(125,211,252,.28);border-radius:14px;padding:10px 14px;background:rgba(14,116,144,.28);color:#e0f2fe;text-decoration:none;font-weight:700;cursor:pointer}.awtsmoos-local-prompt-actions .secondary{background:rgba(15,23,42,.65)}.awtsmoos-local-prompt-input{width:100%;margin-top:16px;box-sizing:border-box;border-radius:14px;border:1px solid rgba(125,211,252,.24);background:rgba(2,6,23,.72);color:#e8f4ff;padding:12px 14px;font:inherit}`;\n}\n\nfunction escapeAttr(text) { return String(text || \"\").replace(/[&<>\"]/g, c => ({ \"&\": \"&amp;\", \"<\": \"&lt;\", \">\": \"&gt;\", '\"': \"&quot;\" }[c])); }\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:08:48.946Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/prompt.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\prompt.js",
+    "bytes": 5181,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "name",
+          "index": 166
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "url",
+          "index": 183
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "go",
+          "index": 241
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "resolve",
+          "index": 499
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "value",
+          "index": 805
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "zipName",
+          "index": 1601
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "placeholder",
+          "index": 1885
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "local",
+          "index": 1971
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "prompt",
+          "index": 1977
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "position",
+          "index": 1992
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "fixed",
+          "index": 2001
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "inset",
+          "index": 2007
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "z",
+          "index": 2015
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "index",
+          "index": 2017
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "display",
+          "index": 2034
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "grid",
+          "index": 2042
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "place",
+          "index": 2047
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "items",
+          "index": 2053
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "center",
+          "index": 2059
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "padding",
+          "index": 2066
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "background",
+          "index": 2079
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "rgba",
+          "index": 2090
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "backdrop",
+          "index": 2107
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "filter",
+          "index": 2116
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "blur",
+          "index": 2123
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "color",
+          "index": 2133
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "e8f4ff",
+          "index": 2140
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "font",
+          "index": 2147
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "family",
+          "index": 2152
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "Inter",
+          "index": 2159
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ui",
+          "index": 2165
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "sans",
+          "index": 2168
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "serif",
+          "index": 2173
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "system",
+          "index": 2179
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "card",
+          "index": 2212
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "width",
+          "index": 2217
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "min",
+          "index": 2223
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "border",
+          "index": 2239
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "solid",
+          "index": 2250
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "radius",
+          "index": 2284
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "linear",
+          "index": 2307
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "gradient",
+          "index": 2314
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "box",
+          "index": 2367
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "shadow",
+          "index": 2371
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "body",
+          "index": 2442
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "line",
+          "index": 2475
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "height",
+          "index": 2480
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "size",
+          "index": 2497
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "a",
+          "index": 2535
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "actions",
+          "index": 2574
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

@@ -12,7 +12,9 @@ const modules = {
   relay: "./relay.cjs",
   browser: "./browserDebug.cjs",
   client: "./browserClientSim.cjs",
-  static: "./staticAudit.cjs"
+  static: "./staticAudit.cjs",
+  packaging: "./extensionPackaging.cjs",
+  packaging: "./extensionPackaging.cjs"
 };
 
 /**

@@ -1,0 +1,556 @@
+{
+  "entry": {
+    "actionId": "act_mpmw5bcb_e2bf68ac",
+    "inputRef": "cmd_act_mpmw5bcb_e2bf68ac",
+    "outputRef": ".awtsmoos/actions/results/act_mpmw5bcb_e2bf68ac.json",
+    "parentActionId": null,
+    "action": "findFiles",
+    "input": {
+      "kind": "fs",
+      "action": "findFiles",
+      "path": "geelooy/apps",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 50,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "tunnel",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:10:20.075Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "findFiles",
+    "path": "geelooy/apps",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps",
+    "query": "tunnel",
+    "ext": "",
+    "visited": 1606,
+    "returnedResults": 50,
+    "partial": true,
+    "results": [
+      {
+        "path": "geelooy/apps/code/js/tunnel/browser-agent.js",
+        "relativePath": "geelooy/apps/code/js/tunnel/browser-agent.js",
+        "name": "browser-agent.js",
+        "isFile": true,
+        "sizeBytes": 10613,
+        "mtimeMs": 1779768666373.8347
+      },
+      {
+        "path": "geelooy/apps/code/js/tunnel/browser-analysis.js",
+        "relativePath": "geelooy/apps/code/js/tunnel/browser-analysis.js",
+        "name": "browser-analysis.js",
+        "isFile": true,
+        "sizeBytes": 4290,
+        "mtimeMs": 1779768666375.1672
+      },
+      {
+        "path": "geelooy/apps/code/js/tunnel/browser-fs.js",
+        "relativePath": "geelooy/apps/code/js/tunnel/browser-fs.js",
+        "name": "browser-fs.js",
+        "isFile": true,
+        "sizeBytes": 19012,
+        "mtimeMs": 1779768666375.1672
+      },
+      {
+        "path": "geelooy/apps/code/js/tunnel/browser-preview-actions.js",
+        "relativePath": "geelooy/apps/code/js/tunnel/browser-preview-actions.js",
+        "name": "browser-preview-actions.js",
+        "isFile": true,
+        "sizeBytes": 918,
+        "mtimeMs": 1779768666376.4763
+      },
+      {
+        "path": "geelooy/apps/code/js/tunnel/tabTunnelRegistrar.js",
+        "relativePath": "geelooy/apps/code/js/tunnel/tabTunnelRegistrar.js",
+        "name": "tabTunnelRegistrar.js",
+        "isFile": true,
+        "sizeBytes": 1589,
+        "mtimeMs": 1779768666376.4763
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/lib/config.js",
+        "relativePath": "geelooy/apps/tunnel/agent/lib/config.js",
+        "name": "config.js",
+        "isFile": true,
+        "sizeBytes": 5980,
+        "mtimeMs": 1779768666910.2888
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/lib/log.js",
+        "relativePath": "geelooy/apps/tunnel/agent/lib/log.js",
+        "name": "log.js",
+        "isFile": true,
+        "sizeBytes": 743,
+        "mtimeMs": 1779768666910.2888
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/lib/open.js",
+        "relativePath": "geelooy/apps/tunnel/agent/lib/open.js",
+        "name": "open.js",
+        "isFile": true,
+        "sizeBytes": 1275,
+        "mtimeMs": 1779768666911.3008
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/lib/ws.js",
+        "relativePath": "geelooy/apps/tunnel/agent/lib/ws.js",
+        "name": "ws.js",
+        "isFile": true,
+        "sizeBytes": 6926,
+        "mtimeMs": 1779768666911.3008
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/main.js",
+        "relativePath": "geelooy/apps/tunnel/agent/main.js",
+        "name": "main.js",
+        "isFile": true,
+        "sizeBytes": 7768,
+        "mtimeMs": 1779768666911.3008
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/manifest.json",
+        "relativePath": "geelooy/apps/tunnel/agent/manifest.json",
+        "name": "manifest.json",
+        "isFile": true,
+        "sizeBytes": 14442,
+        "mtimeMs": 1779781403636.9854
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/actions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/actions.js",
+        "name": "actions.js",
+        "isFile": true,
+        "sizeBytes": 12643,
+        "mtimeMs": 1779768666913.994
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/cdp.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/cdp.js",
+        "name": "cdp.js",
+        "isFile": true,
+        "sizeBytes": 5284,
+        "mtimeMs": 1779768666915.005
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/extras.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/extras.js",
+        "name": "extras.js",
+        "isFile": true,
+        "sizeBytes": 5728,
+        "mtimeMs": 1779768666915.005
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/finder.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/finder.js",
+        "name": "finder.js",
+        "isFile": true,
+        "sizeBytes": 6214,
+        "mtimeMs": 1779768666916.0066
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/index.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/index.js",
+        "name": "index.js",
+        "isFile": true,
+        "sizeBytes": 1965,
+        "mtimeMs": 1779768666916.0066
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/launchArgs.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/launchArgs.js",
+        "name": "launchArgs.js",
+        "isFile": true,
+        "sizeBytes": 1905,
+        "mtimeMs": 1779768666917.0518
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/logs.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/logs.js",
+        "name": "logs.js",
+        "isFile": true,
+        "sizeBytes": 4071,
+        "mtimeMs": 1779768666917.0518
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/session.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/session.js",
+        "name": "session.js",
+        "isFile": true,
+        "sizeBytes": 10263,
+        "mtimeMs": 1779768666918.0637
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome/snapshot.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome/snapshot.js",
+        "name": "snapshot.js",
+        "isFile": true,
+        "sizeBytes": 2050,
+        "mtimeMs": 1779768666918.0637
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/chrome.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/chrome.js",
+        "name": "chrome.js",
+        "isFile": true,
+        "sizeBytes": 7193,
+        "mtimeMs": 1779768666912.5718
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/command/index.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/command/index.js",
+        "name": "index.js",
+        "isFile": true,
+        "sizeBytes": 1248,
+        "mtimeMs": 1779768666923.7056
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/command/instantTests.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/command/instantTests.js",
+        "name": "instantTests.js",
+        "isFile": true,
+        "sizeBytes": 2495,
+        "mtimeMs": 1779768666925.7002
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/command/projectChecks.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/command/projectChecks.js",
+        "name": "projectChecks.js",
+        "isFile": true,
+        "sizeBytes": 3346,
+        "mtimeMs": 1779768666926.6963
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/command/run.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/command/run.js",
+        "name": "run.js",
+        "isFile": true,
+        "sizeBytes": 4037,
+        "mtimeMs": 1779768666926.6963
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/command/scriptSandbox.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/command/scriptSandbox.js",
+        "name": "scriptSandbox.js",
+        "isFile": true,
+        "sizeBytes": 5316,
+        "mtimeMs": 1779768666928.2014
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/command/shells.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/command/shells.js",
+        "name": "shells.js",
+        "isFile": true,
+        "sizeBytes": 1988,
+        "mtimeMs": 1779768666928.2014
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionBatch.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionBatch.js",
+        "name": "actionBatch.js",
+        "isFile": true,
+        "sizeBytes": 12037,
+        "mtimeMs": 1779768666930.2102
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/actionHistoryActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/actionHistoryActions.js",
+        "name": "actionHistoryActions.js",
+        "isFile": true,
+        "sizeBytes": 4781,
+        "mtimeMs": 1779768666930.2102
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/aiTemplateActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/aiTemplateActions.js",
+        "name": "aiTemplateActions.js",
+        "isFile": true,
+        "sizeBytes": 1969,
+        "mtimeMs": 1779768666930.2102
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/aiTemplateCatalog.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/aiTemplateCatalog.js",
+        "name": "aiTemplateCatalog.js",
+        "isFile": true,
+        "sizeBytes": 2592,
+        "mtimeMs": 1779768666931.7034
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/cognitionActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/cognitionActions.js",
+        "name": "cognitionActions.js",
+        "isFile": true,
+        "sizeBytes": 2369,
+        "mtimeMs": 1779768666931.7034
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/commandPresetActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/commandPresetActions.js",
+        "name": "commandPresetActions.js",
+        "isFile": true,
+        "sizeBytes": 3577,
+        "mtimeMs": 1779768666931.7034
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/configActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/configActions.js",
+        "name": "configActions.js",
+        "isFile": true,
+        "sizeBytes": 4571,
+        "mtimeMs": 1779768666932.95
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/fileOpsActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/fileOpsActions.js",
+        "name": "fileOpsActions.js",
+        "isFile": true,
+        "sizeBytes": 1066,
+        "mtimeMs": 1779768666933.4553
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/httpActionsGroup.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/httpActionsGroup.js",
+        "name": "httpActionsGroup.js",
+        "isFile": true,
+        "sizeBytes": 844,
+        "mtimeMs": 1779768666933.4553
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/isolatedActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/isolatedActions.js",
+        "name": "isolatedActions.js",
+        "isFile": true,
+        "sizeBytes": 840,
+        "mtimeMs": 1779768666934.4758
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/previewActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/previewActions.js",
+        "name": "previewActions.js",
+        "isFile": true,
+        "sizeBytes": 6844,
+        "mtimeMs": 1779768666934.4758
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/processActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/processActions.js",
+        "name": "processActions.js",
+        "isFile": true,
+        "sizeBytes": 9446,
+        "mtimeMs": 1779775692217.6003
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/projectActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/projectActions.js",
+        "name": "projectActions.js",
+        "isFile": true,
+        "sizeBytes": 2012,
+        "mtimeMs": 1779768666934.4758
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/qualityActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/qualityActions.js",
+        "name": "qualityActions.js",
+        "isFile": true,
+        "sizeBytes": 5248,
+        "mtimeMs": 1779768666935.699
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/readActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/readActions.js",
+        "name": "readActions.js",
+        "isFile": true,
+        "sizeBytes": 5357,
+        "mtimeMs": 1779768666935.699
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/remoteModuleCompat.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/remoteModuleCompat.js",
+        "name": "remoteModuleCompat.js",
+        "isFile": true,
+        "sizeBytes": 1482,
+        "mtimeMs": 1779768666935.699
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/runtimeActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/runtimeActions.js",
+        "name": "runtimeActions.js",
+        "isFile": true,
+        "sizeBytes": 6367,
+        "mtimeMs": 1779773868307.2988
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/staticServerActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/staticServerActions.js",
+        "name": "staticServerActions.js",
+        "isFile": true,
+        "sizeBytes": 587,
+        "mtimeMs": 1779768666936.9138
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/workflowActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/workflowActions.js",
+        "name": "workflowActions.js",
+        "isFile": true,
+        "sizeBytes": 2439,
+        "mtimeMs": 1779768666937.922
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/writeActions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionGroups/writeActions.js",
+        "name": "writeActions.js",
+        "isFile": true,
+        "sizeBytes": 2276,
+        "mtimeMs": 1779768666937.922
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actionLedger.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actionLedger.js",
+        "name": "actionLedger.js",
+        "isFile": true,
+        "sizeBytes": 2408,
+        "mtimeMs": 1779768666938.9275
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/actions.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/actions.js",
+        "name": "actions.js",
+        "isFile": true,
+        "sizeBytes": 3231,
+        "mtimeMs": 1779775248508.2705
+      },
+      {
+        "path": "geelooy/apps/tunnel/agent/tools/fs/astOutline.js",
+        "relativePath": "geelooy/apps/tunnel/agent/tools/fs/astOutline.js",
+        "name": "astOutline.js",
+        "isFile": true,
+        "sizeBytes": 811,
+        "mtimeMs": 1779768666945.2383
+      }
+    ]
+  }
+}

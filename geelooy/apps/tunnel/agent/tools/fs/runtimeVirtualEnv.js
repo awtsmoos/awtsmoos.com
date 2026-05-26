@@ -7,9 +7,14 @@ const MAX_BYTES = 512000;
 
 function buildRuntimeVirtualEnv(payload = {}, config = {}) {
   const root = path.resolve(config.root || process.cwd());
-  const explicit = parseObject(payload.files || payload.files64, null);
   const entryRaw = payload.entry || payload.path || payload.p || "index.html";
+  const inline = inlineRuntimeFiles(payload, entryRaw);
+  if (inline) return withPreflight({ entry: entryRaw, files: inline, source: "inline" });
+  const explicit = parseObject(payload.files || payload.files64, null);
   if (explicit) return withPreflight({ entry: entryRaw, files: explicit, source: "explicit" });
+  if (String(payload.files || "") === "[object Object]") {
+    return withPreflight({ entry: entryRaw, files: {}, source: "coerced-files", error: "files_object_coerced" });
+  }
 
   const entryAbs = safeJoin(root, entryRaw);
   if (!entryAbs || !fs.existsSync(entryAbs) || !fs.statSync(entryAbs).isFile()) {
@@ -62,6 +67,30 @@ function checkScript(file, source) {
   } catch (error) {
     return { ok: false, file, name: error.name, message: error.message, kind: "syntax" };
   }
+}
+
+function inlineRuntimeFiles(payload, entryRaw) {
+  const html = payload.html || payload.content;
+  if (html) return { [slash(entryRaw || "index.html")]: String(html) };
+  if (payload.testCode) {
+    return {
+      [slash(entryRaw || "index.html")]: `<script src="./test.js"></script>`,
+      "test.js": String(payload.testCode)
+    };
+  }
+  return null;
+}
+
+function inlineRuntimeFiles(payload, entryRaw) {
+  const html = payload.html || payload.content;
+  if (html) return { [slash(entryRaw || "index.html")]: String(html) };
+  if (payload.testCode) {
+    return {
+      [slash(entryRaw || "index.html")]: `<script src="./test.js"></script>`,
+      "test.js": String(payload.testCode)
+    };
+  }
+  return null;
 }
 
 function parseObject(value, fallback) {

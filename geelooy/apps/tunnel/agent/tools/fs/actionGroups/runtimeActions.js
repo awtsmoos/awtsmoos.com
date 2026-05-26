@@ -143,8 +143,16 @@ function fallback(error, payload) {
 
 async function runService(payload, method, config = {}) {
   const options = collectOptions(payload, config);
-  if (options.virtualEnv?.diagnostics?.length) {
-    return { ok: false, action: method, engine: "merkava", error: "runtime_preflight_failed", diagnostics: options.virtualEnv.diagnostics, options };
+  if (options.virtualEnv && options.virtualEnv.ok === false) {
+    return {
+      ok: false,
+      action: method,
+      engine: "merkava",
+      error: "runtime_preflight_failed",
+      diagnostics: options.virtualEnv.diagnostics || [],
+      virtualEnv: options.virtualEnv,
+      options
+    };
   }
   try {
     const service = await loadMerkavaService(payload, config);

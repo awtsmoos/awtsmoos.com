@@ -1,11 +1,20 @@
 //B"H
 
-const EXTENSION_FILES = [
+const EXTENSION_ROOT = "/scripts/tricks/extensions/server";
+const EXTENSION_FILE_NAMES = [
   "manifest.json",
   "background.js",
   "awtsmoosContent.js",
-  "jected.js"
-].map(name => ({ name, url: `/scripts/tricks/extensions/server/${name}` }));
+  "jected.js",
+  "streamLedger.js",
+  "bgAutomation/storage.js",
+  "bgAutomation/graph.js",
+  "bgAutomation/chatgpt.js",
+  "bgAutomation/pageDelegate.js",
+  "bgAutomation/engine.js",
+  "bgAutomation/api.js"
+];
+const EXTENSION_FILES = EXTENSION_FILE_NAMES.map(name => ({ name, url: `${EXTENSION_ROOT}/${name}` }));
 
 export class AwtsmoosPrompt {
   static async go(options = {}) {

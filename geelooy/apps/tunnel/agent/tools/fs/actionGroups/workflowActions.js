@@ -6,6 +6,7 @@ const {
   validateWorkflow
 } = require("../workflowRunner.js");
 const { runActionBatch, normalizeSteps, explainSteps } = require("../actionBatch.js");
+const ledger = require("../actionLedger.js");
 
 const commandTreeAliases = [
   "commandTreeRun", "commandTreeValidate", "commandTreeDryRun",
@@ -23,7 +24,8 @@ function buildWorkflowActions(ctx, buildActions) {
   const runAction = async (nextPayload) => {
     const nextActions = buildActions(config, nextPayload, ws);
     if (!nextActions[nextPayload.action]) throw new Error("Unknown batch action: " + nextPayload.action);
-    return await nextActions[nextPayload.action]();
+    const output = await nextActions[nextPayload.action]();
+    return await ledger.record(config, nextPayload, output, { parentActionId: payload.actionId || null });
   };
 
   const runTree = async (mode = payload.action || "actionBatch") => {

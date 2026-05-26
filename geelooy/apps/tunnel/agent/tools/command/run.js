@@ -1,6 +1,8 @@
 // B"H
 const childProcess = require("child_process");
 const path = require("path");
+const fsp = require("fs/promises");
+const crypto = require("crypto");
 const { FOUR_MINUTES_MS } = require("../../lib/config.js");
 const { shellArgs, fallbackShellArgs } = require("./shells.js");
 
@@ -33,6 +35,24 @@ function trimOutput(text, max) {
   return text.length <= max ? { text, truncated: false } : { text: text.slice(0, max), truncated: true };
 }
 
+async function spillOutput(config, kind, text) {
+  const dir = path.join(config.root, ".awtsmoos", "command-output");
+  await fsp.mkdir(dir, { recursive: true });
+  const id = `cmdout_${Date.now().toString(36)}_${crypto.randomBytes(4).toString("hex")}_${kind}.txt`;
+  const rel = `.awtsmoos/command-output/${id}`;
+  await fsp.writeFile(path.join(config.root, rel), String(text || ""), "utf8");
+  return { ref: rel, bytes: Buffer.byteLength(String(text || ""), "utf8") };
+}
+
+async function spillOutput(config, kind, text) {
+  const dir = path.join(config.root, ".awtsmoos", "command-output");
+  await fsp.mkdir(dir, { recursive: true });
+  const id = `cmdout_${Date.now().toString(36)}_${crypto.randomBytes(4).toString("hex")}_${kind}.txt`;
+  const rel = `.awtsmoos/command-output/${id}`;
+  await fsp.writeFile(path.join(config.root, rel), String(text || ""), "utf8");
+  return { ref: rel, bytes: Buffer.byteLength(String(text || ""), "utf8") };
+}
+
 /**
  * B"H
  * Bounds local command time so real builds can breathe but frozen commands do not rule forever.
@@ -47,7 +67,7 @@ function boundedTimeout(value, fallback = FOUR_MINUTES_MS) {
   return Math.max(1000, Math.min(Math.floor(n), FOUR_MINUTES_MS));
 }
 
-function execPicked(picked, command, cwd, timeoutMs, maxOutput) {
+function execPicked(config, picked, command, cwd, timeoutMs, maxOutput) {
   return new Promise(resolve => {
     const startedAt = Date.now();
 
@@ -55,9 +75,11 @@ function execPicked(picked, command, cwd, timeoutMs, maxOutput) {
       picked.file,
       picked.args,
       { cwd, timeout: timeoutMs, windowsHide: false, maxBuffer: maxOutput + 20000 },
-      (err, stdout, stderr) => {
+      async (err, stdout, stderr) => {
         const out = trimOutput(stdout, maxOutput);
         const er = trimOutput(stderr, maxOutput);
+        const stdoutSpill = out.truncated ? await spillOutput(config, "stdout", stdout) : null;
+        const stderrSpill = er.truncated ? await spillOutput(config, "stderr", stderr) : null;
         const durationMs = Date.now() - startedAt;
         const timedOut =
           err?.killed === true ||
@@ -80,7 +102,12 @@ function execPicked(picked, command, cwd, timeoutMs, maxOutput) {
             timedOut,
             stdout: out.text,
             stderr: er.text,
+            stdoutRef: stdoutSpill?.ref || null,
+            stderrRef: stderrSpill?.ref || null,
+            stdoutBytes: stdoutSpill?.bytes || Buffer.byteLength(String(stdout || ""), "utf8"),
+            stderrBytes: stderrSpill?.bytes || Buffer.byteLength(String(stderr || ""), "utf8"),
             truncated: out.truncated || er.truncated,
+            guidance: out.truncated || er.truncated ? "Read stdoutRef/stderrRef with the read action for the full captured output." : null,
             error: err ? err.message : null
           }
         });
@@ -101,10 +128,10 @@ async function runCommand(config, payload = {}) {
   const cwd = safeCwd(config, payload.cwd || ".");
   const timeoutMs = boundedTimeout(payload.timeoutMs, config.command.timeoutMs);
   const maxOutput = Number(payload.maxChars || config.command.maxOutput || 120000);
-  const first = await execPicked(shellArgs(shell, command), command, cwd, timeoutMs, maxOutput);
+  const first = await execPicked(config, shellArgs(shell, command), command, cwd, timeoutMs, maxOutput);
 
   if (first.err && first.err.code === "ENOENT") {
-    const second = await execPicked(fallbackShellArgs(command), command, cwd, timeoutMs, maxOutput);
+    const second = await execPicked(config, fallbackShellArgs(command), command, cwd, timeoutMs, maxOutput);
     second.response.firstShellError = first.response.error;
     return second.response;
   }

@@ -1,0 +1,298 @@
+{
+  "entry": {
+    "actionId": "act_mpmwc9cw_620d84c9",
+    "inputRef": "cmd_act_mpmwc9cw_620d84c9",
+    "outputRef": ".awtsmoos/actions/results/act_mpmwc9cw_620d84c9.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/apps/exe-emulator/core/winApi.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\n/**\n * Win32 shim garden: imports become browser-visible console/window effects.\n * @param {{print:Function, openWindow:Function}} win virtual Windows host\n * @param {{readString:Function, mem:Map, regs:object, queue:Array}} cpu CPU vessel\n * @returns {(name:string)=>void} import caller\n */\nexport function createWinApi(win, cpu) {\n  let nextHandle = 100;\n  return function callImport(name) {\n    const fn = name.split('!').pop();\n    const api = APIS[fn] || APIS.default;\n    api({ win, cpu, next: () => ++nextHandle, name });\n  };\n}\n\nconst APIS = {\n  GetStdHandle({ cpu, next }) { cpu.regs.rax = next(); },\n  GetModuleHandleA({ cpu }) { cpu.regs.rax = 0x400000; },\n  Sleep({ win, cpu }) { win.print(`Sleep(${cpu.regs.rcx || 0}) skipped in virtual time.`); },\n  WriteFile({ win, cpu }) {\n    const text = cpu.readString(cpu.regs.rdx, cpu.regs.r8 || 4096);\n    win.print(text.replace(/\\r?\\n$/, ''));\n    cpu.regs.rax = 1;\n  },\n  MessageBoxA({ win, cpu }) {\n    win.openWindow(cpu.readString(cpu.regs.r8), cpu.readString(cpu.regs.rdx));\n    cpu.regs.rax = 1;\n  },\n  RegisterClassA({ cpu }) { cpu.regs.rax = 1; },\n  CreateWindowExA({ win, cpu, next }) {\n    const title = cpu.readString(cpu.regs.r8) || 'Virtual Window';\n    const handle = next();\n    win.openWindow(title, 'CreateWindowExA mapped this native window into JS.');\n    cpu.regs.rax = handle;\n  },\n  ShowWindow({ cpu }) { cpu.regs.rax = 1; },\n  UpdateWindow({ cpu }) { cpu.regs.rax = 1; },\n  GetMessageA({ cpu }) { cpu.regs.rax = cpu.queue.shift() ?? 0; },\n  TranslateMessage({ cpu }) { cpu.regs.rax = 1; },\n  DispatchMessageA({ cpu }) { cpu.regs.rax = 1; },\n  DefWindowProcA({ cpu }) { cpu.regs.rax = 0; },\n  PostQuitMessage({ cpu }) { cpu.queue.length = 0; cpu.regs.rax = 0; },\n  BeginPaint({ cpu, next }) { cpu.regs.rax = next(); },\n  EndPaint({ cpu }) { cpu.regs.rax = 1; },\n  FillRect({ win, cpu }) { win.print(`FillRect(hdc=${cpu.regs.rcx})`); cpu.regs.rax = 1; },\n  SetTextColor({ cpu }) { cpu.regs.rax = 1; },\n  SetBkMode({ cpu }) { cpu.regs.rax = 1; },\n  SelectObject({ cpu }) { cpu.regs.rax = 1; },\n  GetStockObject({ cpu, next }) { cpu.regs.rax = next(); },\n  TextOutA({ win, cpu }) { win.print(`GDI TextOutA: ${cpu.readString(cpu.regs.r9, cpu.mem.get(cpu.regs.rsp + 32) || 4096)}`); },\n  SetPixel({ cpu }) { cpu.regs.rax = 1; },\n  ExitProcess({ cpu }) { cpu.halted = true; },\n  default({ win, name, cpu }) { win.print(`Unhandled import shim: ${name}`); cpu.regs.rax = 0; }\n};\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:15:44.097Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/apps/exe-emulator/core/winApi.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\core\\winApi.js",
+    "bytes": 2457,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "next",
+          "index": 204
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "GetStdHandle",
+          "index": 264
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "GetModuleHandleA",
+          "index": 322
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "Sleep",
+          "index": 380
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "WriteFile",
+          "index": 421
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "r",
+          "index": 544
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "n",
+          "index": 547
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "MessageBoxA",
+          "index": 586
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "RegisterClassA",
+          "index": 722
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CreateWindowExA",
+          "index": 771
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ShowWindow",
+          "index": 952
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "UpdateWindow",
+          "index": 997
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "GetMessageA",
+          "index": 1044
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TranslateMessage",
+          "index": 1111
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "DispatchMessageA",
+          "index": 1162
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "DefWindowProcA",
+          "index": 1213
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "PostQuitMessage",
+          "index": 1262
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "BeginPaint",
+          "index": 1334
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "EndPaint",
+          "index": 1390
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "FillRect",
+          "index": 1433
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "SetTextColor",
+          "index": 1495
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "SetBkMode",
+          "index": 1542
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "SelectObject",
+          "index": 1586
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "GetStockObject",
+          "index": 1633
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TextOutA",
+          "index": 1693
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "SetPixel",
+          "index": 1737
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ExitProcess",
+          "index": 1780
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

@@ -1,0 +1,396 @@
+{
+  "generatedAt": "2026-05-26T17:25:22.345Z",
+  "nativeTimeoutMs": 2400,
+  "results": [
+    {
+      "name": "standard-console",
+      "mode": "console",
+      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\standard-console.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-console",
+          "message": "Executed compiler x64 subset.",
+          "runtime": {
+            "steps": 45,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Subsystem: windows-console",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x1078 -> KERNEL32.dll!GetStdHandle",
+          "IAT 0x1080 -> KERNEL32.dll!WriteFile",
+          "IAT 0x1088 -> KERNEL32.dll!Sleep",
+          "IAT 0x1090 -> KERNEL32.dll!ExitProcess",
+          "B\"H generated console test",
+          "Sleep(1500) skipped in virtual time."
+        ],
+        "windows": []
+      },
+      "native": {
+        "ok": true,
+        "code": 0,
+        "signal": null,
+        "killedByHarness": false,
+        "stdout": "B\"H generated console test\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "standard-gui",
+      "mode": "gui",
+      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\standard-gui.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Executed compiler x64 subset.",
+          "runtime": {
+            "steps": 23,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x1058 -> KERNEL32.dll!ExitProcess",
+          "IAT 0x1068 -> USER32.dll!MessageBoxA"
+        ],
+        "windows": [
+          {
+            "title": "Awtsmoos GUI",
+            "body": "B\"H generated GUI test"
+          }
+        ]
+      },
+      "native": {
+        "ok": true,
+        "code": null,
+        "signal": "SIGTERM",
+        "killedByHarness": true,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-hello",
+      "mode": "asm",
+      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-hello.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Executed compiler x64 subset.",
+          "runtime": {
+            "steps": 23,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x1050 -> USER32.dll!MessageBoxA",
+          "IAT 0x1060 -> KERNEL32.dll!ExitProcess"
+        ],
+        "windows": [
+          {
+            "title": "B\"H",
+            "body": "Welcome to Awtsmoos ASM!"
+          }
+        ]
+      },
+      "native": {
+        "ok": true,
+        "code": null,
+        "signal": "SIGTERM",
+        "killedByHarness": true,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-loop",
+      "mode": "asm",
+      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-loop.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-console",
+          "message": "Executed compiler x64 subset.",
+          "runtime": {
+            "steps": 163,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Subsystem: windows-console",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x1078 -> KERNEL32.dll!GetStdHandle",
+          "IAT 0x1080 -> KERNEL32.dll!WriteFile",
+          "IAT 0x1088 -> KERNEL32.dll!Sleep",
+          "IAT 0x1090 -> KERNEL32.dll!ExitProcess",
+          ".",
+          "Sleep(200) skipped in virtual time.",
+          ".",
+          "Sleep(200) skipped in virtual time.",
+          ".",
+          "Sleep(200) skipped in virtual time.",
+          ".",
+          "Sleep(200) skipped in virtual time.",
+          ".",
+          "Sleep(200) skipped in virtual time."
+        ],
+        "windows": []
+      },
+      "native": {
+        "ok": true,
+        "code": 0,
+        "signal": null,
+        "killedByHarness": false,
+        "stdout": ".....",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-file",
+      "mode": "asm",
+      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-file.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-console",
+          "message": "Executed compiler x64 subset.",
+          "runtime": {
+            "steps": 71,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Subsystem: windows-console",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x10d0 -> KERNEL32.dll!CreateFileA",
+          "IAT 0x10d8 -> KERNEL32.dll!WriteFile",
+          "IAT 0x10e0 -> KERNEL32.dll!CloseHandle",
+          "IAT 0x10e8 -> KERNEL32.dll!ExitProcess",
+          "Unhandled import shim: KERNEL32.dll!CreateFileA",
+          "B\"H - Existence generated from nothingness.",
+          "Unhandled import shim: KERNEL32.dll!CloseHandle"
+        ],
+        "windows": []
+      },
+      "native": {
+        "ok": true,
+        "code": 0,
+        "signal": null,
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-window",
+      "mode": "asm",
+      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-window.exe",
+      "bytes": 1536,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Used compiler window fallback.",
+          "runtime": {
+            "fallback": true,
+            "reason": "Unsupported opcode 0xd1 at 0x10ec"
+          }
+        },
+        "lines": [
+          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=1024",
+          "IAT 0x1198 -> KERNEL32.dll!GetModuleHandleA",
+          "IAT 0x11a0 -> KERNEL32.dll!ExitProcess",
+          "IAT 0x11b0 -> USER32.dll!RegisterClassA",
+          "IAT 0x11b8 -> USER32.dll!CreateWindowExA",
+          "IAT 0x11c0 -> USER32.dll!ShowWindow",
+          "IAT 0x11c8 -> USER32.dll!UpdateWindow",
+          "IAT 0x11d0 -> USER32.dll!GetMessageA",
+          "IAT 0x11d8 -> USER32.dll!TranslateMessage",
+          "IAT 0x11e0 -> USER32.dll!DispatchMessageA",
+          "IAT 0x11e8 -> USER32.dll!DefWindowProcA",
+          "IAT 0x11f0 -> USER32.dll!PostQuitMessage",
+          "Fallback reason: Unsupported opcode 0xd1 at 0x10ec"
+        ],
+        "windows": [
+          {
+            "title": "B\"H - Native Window",
+            "body": "CreateWindowExA mapped this native window into JS."
+          },
+          {
+            "title": "B\"H - Native Window",
+            "body": "Compiler-generated Win32 window mapped semantically."
+          }
+        ]
+      },
+      "native": {
+        "ok": true,
+        "code": null,
+        "signal": "SIGTERM",
+        "killedByHarness": true,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-draw",
+      "mode": "asm",
+      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-draw.exe",
+      "bytes": 2048,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Used compiler window fallback.",
+          "runtime": {
+            "fallback": true,
+            "reason": "Unsupported opcode 0x0 at 0x10ee"
+          }
+        },
+        "lines": [
+          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=1536",
+          "IAT 0x12c0 -> KERNEL32.dll!GetModuleHandleA",
+          "IAT 0x12c8 -> KERNEL32.dll!ExitProcess",
+          "IAT 0x12d8 -> GDI32.dll!GetStockObject",
+          "IAT 0x12e0 -> GDI32.dll!SetBkMode",
+          "IAT 0x12e8 -> GDI32.dll!SetTextColor",
+          "IAT 0x12f0 -> GDI32.dll!SelectObject",
+          "IAT 0x12f8 -> GDI32.dll!TextOutA",
+          "IAT 0x1300 -> GDI32.dll!SetPixel",
+          "IAT 0x1310 -> USER32.dll!RegisterClassA",
+          "IAT 0x1318 -> USER32.dll!CreateWindowExA",
+          "IAT 0x1320 -> USER32.dll!ShowWindow",
+          "IAT 0x1328 -> USER32.dll!GetMessageA",
+          "IAT 0x1330 -> USER32.dll!TranslateMessage",
+          "IAT 0x1338 -> USER32.dll!DispatchMessageA",
+          "IAT 0x1340 -> USER32.dll!DefWindowProcA",
+          "IAT 0x1348 -> USER32.dll!PostQuitMessage",
+          "IAT 0x1350 -> USER32.dll!BeginPaint",
+          "IAT 0x1358 -> USER32.dll!EndPaint",
+          "IAT 0x1360 -> USER32.dll!FillRect",
+          "GDI TextOutA: B\"H - Awtsmoos Generated This!",
+          "GDI SetPixel: diagonal pixel ritual rendered symbolically.",
+          "Fallback reason: Unsupported opcode 0x0 at 0x10ee"
+        ],
+        "windows": [
+          {
+            "title": "B\"H - Drawing",
+            "body": "CreateWindowExA mapped this native window into JS."
+          },
+          {
+            "title": "B\"H - Drawing",
+            "body": "B\"H - Awtsmoos Generated This!"
+          }
+        ]
+      },
+      "native": {
+        "ok": true,
+        "code": null,
+        "signal": "SIGTERM",
+        "killedByHarness": true,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-triangle",
+      "mode": "asm",
+      "exePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\tests\\generated\\asm-triangle.exe",
+      "bytes": 3072,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Used compiler window fallback.",
+          "runtime": {
+            "fallback": true,
+            "reason": "Unsupported opcode 0xa at 0x10fb"
+          }
+        },
+        "lines": [
+          "Awtsmoos loader: MZ became PE, PE became mapped memory.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=2560",
+          "IAT 0x1628 -> KERNEL32.dll!GetModuleHandleA",
+          "IAT 0x1630 -> KERNEL32.dll!ExitProcess",
+          "IAT 0x1640 -> USER32.dll!RegisterClassA",
+          "IAT 0x1648 -> USER32.dll!CreateWindowExA",
+          "IAT 0x1650 -> USER32.dll!ShowWindow",
+          "IAT 0x1658 -> USER32.dll!GetMessageA",
+          "IAT 0x1660 -> USER32.dll!LoadCursorA",
+          "IAT 0x1668 -> USER32.dll!TranslateMessage",
+          "IAT 0x1670 -> USER32.dll!DispatchMessageA",
+          "IAT 0x1678 -> USER32.dll!DefWindowProcA",
+          "IAT 0x1680 -> USER32.dll!PostQuitMessage",
+          "IAT 0x1688 -> USER32.dll!GetDC",
+          "IAT 0x1690 -> USER32.dll!ReleaseDC",
+          "IAT 0x1698 -> USER32.dll!InvalidateRect",
+          "IAT 0x16a0 -> USER32.dll!SetTimer",
+          "IAT 0x16b0 -> GDI32.dll!CreateCompatibleDC",
+          "IAT 0x16b8 -> GDI32.dll!CreateDIBSection",
+          "IAT 0x16c0 -> GDI32.dll!SelectObject",
+          "IAT 0x16c8 -> GDI32.dll!BitBlt",
+          "IAT 0x16d0 -> GDI32.dll!DeleteObject",
+          "IAT 0x16d8 -> GDI32.dll!DeleteDC",
+          "Unhandled import shim: USER32.dll!LoadCursorA",
+          "Unhandled import shim: USER32.dll!GetDC",
+          "Fallback reason: Unsupported opcode 0xa at 0x10fb"
+        ],
+        "windows": [
+          {
+            "title": "B\"H - Rotating Triangle",
+            "body": "CreateWindowExA mapped this native window into JS."
+          },
+          {
+            "title": "B\"H - Rotating Triangle",
+            "body": "Compiler-generated Win32 window mapped semantically."
+          }
+        ]
+      },
+      "native": {
+        "ok": true,
+        "code": null,
+        "signal": "SIGTERM",
+        "killedByHarness": true,
+        "stdout": "",
+        "stderr": ""
+      }
+    }
+  ]
+}

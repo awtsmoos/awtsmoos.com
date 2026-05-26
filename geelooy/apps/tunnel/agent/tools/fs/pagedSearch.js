@@ -103,6 +103,28 @@ async function bulkSearch(config, payload = {}) {
     returnedResults: pageResults.length,
     hasNextPage: start + pageSize < results.length,
     nextPage: start + pageSize < results.length ? page + 1 : null,
+    nextRequest: start + pageSize < results.length ? {
+      action: payload.action || "bulkSearch",
+      p: rootPath,
+      query,
+      regex: !!payload.regex,
+      page: page + 1,
+      pageSize,
+      maxFiles,
+      maxResults,
+      maxFileBytes
+    } : null,
+    nextRequest: start + pageSize < results.length ? {
+      action: payload.action || "bulkSearch",
+      p: rootPath,
+      query,
+      regex: !!payload.regex,
+      page: page + 1,
+      pageSize,
+      maxFiles,
+      maxResults,
+      maxFileBytes
+    } : null,
     scannedFiles: files.length,
     skippedFiles,
     partial: files.length >= maxFiles || results.length >= maxResults,

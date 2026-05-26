@@ -39,16 +39,19 @@ async function runActionBatch(payload = {}, runAction) {
 
   ctx.ok = ctx.results.every(item => item.ok !== false);
   const continuationPrompt = payload.continuationPrompt || payload.config?.continuationPrompt || process.env.AWTSMOOS_CONTINUATION_PROMPT || "";
+  const maxInlineBytes = Number(payload.maxInlineBytes || 12000);
   return {
     ok: ctx.ok,
     action: payload.action || "actionBatch",
     count: ctx.results.length,
     finalInstruction: continuationPrompt ? { role: "user", content: continuationPrompt } : null,
-    results: ctx.results,
-    named: ctx.named,
-    vars: ctx.vars,
-    last: ctx.last,
+    results: compactForReturn(ctx.results, maxInlineBytes),
+    named: compactForReturn(ctx.named, maxInlineBytes),
+    vars: compactForReturn(ctx.vars, maxInlineBytes),
+    last: compactForReturn(ctx.last, maxInlineBytes),
     error: ctx.error,
+    compacted: true,
+    maxInlineBytes,
     plan: ctx.dryRun ? explainSteps(steps) : undefined
   };
 }
@@ -206,7 +209,9 @@ async function evaluateCondition(condition, ctx, runAction) {
   if (Array.isArray(condition.all)) { for (const item of condition.all) if (!(await evaluateCondition(item, ctx, runAction))) return false; return true; }
   if (Array.isArray(condition.any)) { for (const item of condition.any) if (await evaluateCondition(item, ctx, runAction)) return true; return false; }
   if (condition.not) return !(await evaluateCondition(condition.not, ctx, runAction));
-  const left = condition.path ? getPath(ctx, condition.path) : await resolveValue(condition.left, ctx, runAction);
+  const left = condition.path
+    ? await resolveValue(String(condition.path).startsWith("$") ? condition.path : "$ctx." + condition.path, ctx, runAction)
+    : await resolveValue(condition.left, ctx, runAction);
   const right = await resolveValue(condition.right, ctx, runAction);
   const op = condition.operator || condition.op || Object.keys(condition).find(k => ["eq", "ne", "gt", "gte", "lt", "lte", "includes", "regex"].includes(k)) || "truthy";
   const expected = condition[op] !== undefined ? await resolveValue(condition[op], ctx, runAction) : right;
@@ -217,6 +222,38 @@ async function evaluateCondition(condition, ctx, runAction) {
     includes: (a, b) => Array.isArray(a) ? a.includes(b) : String(a || "").includes(String(b || "")), regex: (a, b) => new RegExp(String(b)).test(String(a || ""))
   };
   try { return !!(ops[op] || ops.truthy)(left, expected); } catch { return false; }
+}
+
+function compactForReturn(value, maxInlineBytes) {
+  if (!value || typeof value !== "object") return value;
+  const text = JSON.stringify(value);
+  if (Buffer.byteLength(text, "utf8") <= maxInlineBytes) return value;
+  const ref = value.outputRef || value.result?.outputRef || value.actionId || value.result?.actionId || null;
+  return {
+    ok: value.ok !== false,
+    compacted: true,
+    inlineBytes: Buffer.byteLength(text, "utf8"),
+    maxInlineBytes,
+    actionId: value.actionId || value.result?.actionId || null,
+    outputRef: value.outputRef || value.result?.outputRef || null,
+    access: ref ? `Use actionHistoryGet with actionId ${value.actionId || value.result?.actionId}` : "Increase maxInlineBytes or inspect the parent action outputRef."
+  };
+}
+
+function compactForReturn(value, maxInlineBytes) {
+  if (!value || typeof value !== "object") return value;
+  const text = JSON.stringify(value);
+  if (Buffer.byteLength(text, "utf8") <= maxInlineBytes) return value;
+  const ref = value.outputRef || value.result?.outputRef || value.actionId || value.result?.actionId || null;
+  return {
+    ok: value.ok !== false,
+    compacted: true,
+    inlineBytes: Buffer.byteLength(text, "utf8"),
+    maxInlineBytes,
+    actionId: value.actionId || value.result?.actionId || null,
+    outputRef: value.outputRef || value.result?.outputRef || null,
+    access: ref ? `Use actionHistoryGet with actionId ${value.actionId || value.result?.actionId}` : "Increase maxInlineBytes or inspect the parent action outputRef."
+  };
 }
 
 function getPath(target, path) {
