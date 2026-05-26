@@ -13,8 +13,8 @@
     "shellBytes": 214,
     "embeddedExecutor": {
       "name": "embedded_executor.merkava",
-      "byteLength": 26645,
-      "fileCount": 395,
+      "byteLength": 27299,
+      "fileCount": 403,
       "entry": "/index.html"
     },
     "hostBindingCount": 36,
@@ -124,8 +124,13 @@
     "next": "boot embedded_executor.merkava first, then let it load and compile page bytecode"
   },
   "executorRender": {
-    "commandCount": 21,
-    "textureCount": 8,
-    "streamBytes": 427
+    "hydration": {
+      "ok": true,
+      "nodes": 10,
+      "title": ""
+    },
+    "commandCount": 19,
+    "textureCount": 7,
+    "streamBytes": 412
   }
 }

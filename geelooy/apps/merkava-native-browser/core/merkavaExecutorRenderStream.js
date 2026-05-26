@@ -2,24 +2,25 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
-const { parseHtmlNodes } = require("../../../scripts/awtsmoos/MerkavaExecutor/merkava-binary/SourceAppCompiler.js");
 const { encodeMode2JsBinary, runMode2JsBinary } = require("../../../scripts/awtsmoos/MerkavaExecutor/merkava-binary/Mode2JsBinary.js");
 const { SyntheticBrowserRuntime } = require("../../../scripts/awtsmoos/MerkavaExecutor/merkava-browser/SyntheticBrowserRuntime.js");
+const { VirtualHtmlHydrator } = require("../../../scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualHtmlHydrator.js");
 
 /**
  * Chapter 3: The Page Soul Learns to Speak OpenGL.
  *
- * This file is deliberately not a C browser. It asks MerkavaExecutor's virtual
- * browser to parse, host, execute, interact, and render. The output is a tiny
- * native command stream: C receives rectangles, text, and WebGL facts after the
- * executor has already decided what the page means.
+ * MerkavaExecutor parses and hydrates HTML into its own virtual DOM, executes
+ * page JS against that DOM, lays it out into virtual WebGL/DOM paint commands,
+ * and only then emits a compact command stream for the C host. The host remains
+ * a servant of bytecode/runtime decisions, not a browser engine.
  *
  * @param {{html: string, scripts: string[], url?: string}} page
  * @returns {Promise<{stream: string, summary: object, snapshot: object}>}
  */
 export async function buildMerkavaExecutorRenderStream(page) {
   const runtime = new SyntheticBrowserRuntime({ url: page.url || "file:///index.html" });
-  hydrateVirtualDom(runtime.window.document, parseHtmlNodes(page.html || ""));
+  const hydration = new VirtualHtmlHydrator().hydrate(runtime.window.document, page.html || "");
+  applyRuntimeDefaults(runtime.window.document);
   for (const source of page.scripts || []) {
     const binary = await encodeMode2JsBinary(String(source || ""));
     runMode2JsBinary(binary, { globals: runtime.globals() });
@@ -31,6 +32,7 @@ export async function buildMerkavaExecutorRenderStream(page) {
     stream,
     snapshot,
     summary: {
+      hydration,
       commandCount: snapshot.commands.length,
       textureCount: snapshot.textures.length,
       streamBytes: Buffer.byteLength(stream, "utf8")
@@ -38,31 +40,31 @@ export async function buildMerkavaExecutorRenderStream(page) {
   };
 }
 
-function hydrateVirtualDom(document, nodes) {
-  const byId = { "": document.body };
-  for (const node of nodes) {
-    const element = document.createElement(node.tag);
-    for (const [key, value] of Object.entries(node.attrs || {})) element.setAttribute(key, value);
-    if (node.text) element.textContent = node.text;
-    applyNativeDefaults(element, node);
-    const parent = byId[node.parent || ""] || document.body;
-    parent.appendChild(element);
-    if (node.id) byId[node.id] = element;
-  }
+function applyRuntimeDefaults(document) {
+  const walk = node => {
+    if (node.nodeType === 3) return;
+    const tag = node.localName;
+    if (tag === "canvas") {
+      const width = Number(node.getAttribute("width") || node.width || 300);
+      const height = Number(node.getAttribute("height") || node.height || 150);
+      node.width = width; node.height = height;
+      ensureStyle(node, { width: `${width}px`, height: `${height}px`, "background-color": "#102038", color: "#ffffff" });
+    } else if (tag === "button") ensureStyle(node, { width: "96px", height: "32px", "background-color": "#e8e8e8", color: "#111111", padding: "6px" });
+    else if (tag === "input") ensureStyle(node, { width: "220px", height: "30px", "background-color": "#ffffff", color: "#111111", padding: "5px", "border-width": "1px" });
+    else if (tag === "textarea") ensureStyle(node, { width: "260px", height: "70px", "background-color": "#ffffff", color: "#111111", padding: "5px", "border-width": "1px" });
+    else if (tag === "select") ensureStyle(node, { width: "220px", height: "30px", "background-color": "#ffffff", color: "#111111", padding: "5px", "border-width": "1px" });
+    else if (tag === "output") ensureStyle(node, { width: "260px", height: "32px", "background-color": "#f8f8f8", color: "#111111", padding: "6px" });
+    else if (tag === "body") ensureStyle(node, { width: "760px", "background-color": "#ffffff", color: "#111111", padding: "12px" });
+    else if (!node.style.getPropertyValue("width") && tag !== "head" && tag !== "html") ensureStyle(node, { width: "360px", "min-height": "24px", "background-color": "#ffffff", color: "#111111" });
+    for (const child of node.children || []) walk(child);
+  };
+  walk(document.documentElement);
 }
 
-function applyNativeDefaults(element, node) {
-  const attrs = node.attrs || {};
-  if (node.tag === "canvas") {
-    element.width = Number(attrs.width || 300);
-    element.height = Number(attrs.height || 150);
-    element.setAttribute("style", `width: ${element.width}px; height: ${element.height}px; background-color: #102038`);
-  } else if (node.tag === "button") {
-    element.setAttribute("style", "width: 80px; height: 28px; background-color: #e8e8e8; color: #111111");
-  } else if (node.tag === "output") {
-    element.setAttribute("style", "width: 240px; height: 28px; background-color: #f8f8f8; color: #111111");
-  } else {
-    element.setAttribute("style", "width: 360px; height: 40px; background-color: #ffffff; color: #111111");
+function ensureStyle(node, props) {
+  const computed = node.ownerDocument?.cssEngine?.compute(node) || {};
+  for (const [key, value] of Object.entries(props)) {
+    if (!node.style.getPropertyValue(key) && !computed[key]) node.style.setProperty(key, value);
   }
 }
 

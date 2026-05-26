@@ -58,7 +58,21 @@ async function run() {
     await kickPipeline.onSettingsChanged({ enabled: true });
     await new Promise(resolve => setTimeout(resolve, 10));
     assert(kickSends.length === 1 && kickSends[0].context.conversationId === "c-kick", "turning automation on must immediately send for current conversation", { kickSends });
+    globalThis.location = { search: "?awtsmoosConversation=c-empty" };
+    const emptySends = [];
+    const emptyPipeline = new AutomationPipeline({
+      settingsStore: { save: patch => patch },
+      getSettings: () => ({ enabled: true, maxTurns: 3, delayMs: 0, prompt: "continue", stopOnError: true }),
+      sendPrompt: async (prompt, context) => { emptySends.push({ prompt, context }); return ""; },
+      report: () => {},
+      runStore: new AutomationRunStore(makeStorage())
+    });
+    await emptyPipeline.afterAssistantReply("finished stream text", { conversationId: "c-empty" });
+    await new Promise(resolve => setTimeout(resolve, 25));
+    assert(emptySends.length >= 2, "automation must continue even when transport returns empty final string after a streamed turn", { emptySends });
     const fs = require("fs");
+    const pipelineSource = fs.readFileSync(path.join(ROOT, "js/automation/pipeline.js"), "utf8");
+    assert(/runStore\.remove\(conversationId\)/.test(pipelineSource), "turning automation on must reset stale per-conversation run state");
     const panelSource = fs.readFileSync(path.join(ROOT, "js/automation/panel.js"), "utf8");
     assert(/input\.onchange\s*=\s*handler/.test(panelSource) && /input\.oninput\s*=\s*handler/.test(panelSource), "automation UI must bind checkbox/text changes to both input and change events");
     assert(/automation change failed/.test(panelSource), "automation UI must surface async kick failures in the status panel");

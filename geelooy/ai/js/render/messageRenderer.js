@@ -11,7 +11,7 @@ import { removeIfEmptyLoading } from "./runtime/loadingRuntime.js";
 import { sweepLoadingGhosts } from "./runtime/loadingSweep.js";
 import { bottomWeightedStart, pruneTopRenderedShells, shiftWeightedWindow, syncWindowGates, weightedEnd } from "./runtime/windowRuntime.js";
 import { clearLoadState, showLoadState } from "./runtime/loadState.js";
-import { isNearBottom, scrollToLiveBottom } from "./runtime/scrollRuntime.js";
+import { isNearBottom, isProgrammaticScroll, scrollToLiveBottom } from "./runtime/scrollRuntime.js";
 import { finalizeTextRecord } from "./runtime/liveTextRuntime.js";
 
 /**
@@ -30,12 +30,26 @@ export class MessageRenderer {
     this.windowStart = 0;
     this.renderSeq = 0;
     this.userPinnedScroll = false;
+    this.lastScrollTop = 0;
+    this.chatBox.dataset.liveFollow = "active";
     this.topSpacer = button("message-window-spacer top");
     this.bottomSpacer = button("message-window-spacer bottom");
     this.bottomSentinel = document.createElement("div");
     this.bottomSentinel.className = "chat-bottom-sentinel";
+    this.liveFollowButton = document.createElement("button");
+    this.liveFollowButton.type = "button";
+    this.liveFollowButton.className = "live-follow-button";
+    this.liveFollowButton.textContent = "↓ Live bottom";
+    this.liveFollowButton.onclick = () => this.forceScrollDown();
+    this.liveFollowButton = document.createElement("button");
+    this.liveFollowButton.type = "button";
+    this.liveFollowButton.className = "live-follow-button";
+    this.liveFollowButton.textContent = "↓ Live bottom";
+    this.liveFollowButton.onclick = () => this.forceScrollDown();
     this.topSpacer.onclick = () => !this.topSpacer.disabled && this.shiftWindow(-WINDOW);
     this.bottomSpacer.onclick = () => !this.bottomSpacer.disabled && this.shiftWindow(WINDOW);
+    this.chatBox.parentElement?.append?.(this.liveFollowButton);
+    this.chatBox.parentElement?.append?.(this.liveFollowButton);
     chatBox.addEventListener("wheel", event => this.trackWheelIntent(event), { passive: true });
     chatBox.addEventListener("touchmove", () => this.trackScrollIntent(), { passive: true });
     chatBox.addEventListener("scroll", () => this.trackScrollIntent(), { passive: true });
@@ -45,6 +59,10 @@ export class MessageRenderer {
   clear() {
     this.records = [];
     this.byId.clear();
+    this.userPinnedScroll = false;
+    this.lastScrollTop = 0;
+    this.chatBox.dataset.liveFollow = "active";
+    this.liveFollowButton?.classList?.remove?.("is-visible");
     this.chatBox.innerHTML = "";
     this.renderWindow({ bottom: true });
   }
@@ -190,6 +208,8 @@ export class MessageRenderer {
 
   forceScrollDown() {
     this.userPinnedScroll = false;
+    this.chatBox.dataset.liveFollow = "active";
+    this.liveFollowButton?.classList?.remove?.("is-visible");
     this.chatBox.scrollTop = this.chatBox.scrollHeight;
     scrollToLiveBottom(this, { instant: true, force: true });
   }
@@ -204,12 +224,41 @@ export class MessageRenderer {
   }
 
   trackWheelIntent(event) {
-    if (event?.deltaY < 0) this.userPinnedScroll = true;
-    if (event?.deltaY > 0 && isNearBottom(this.chatBox)) this.userPinnedScroll = false;
+    if (event?.deltaY < 0) {
+      this.userPinnedScroll = true;
+      this.chatBox.dataset.liveFollow = "paused";
+      this.liveFollowButton?.classList?.add?.("is-visible");
+      this.liveFollowButton?.classList?.add?.("is-visible");
+    }
+    if (event?.deltaY > 0 && isNearBottom(this.chatBox)) {
+      this.userPinnedScroll = false;
+      this.chatBox.dataset.liveFollow = "active";
+      this.liveFollowButton?.classList?.remove?.("is-visible");
+      this.liveFollowButton?.classList?.remove?.("is-visible");
+    }
   }
 
   trackScrollIntent() {
-    this.userPinnedScroll = !isNearBottom(this.chatBox);
+    if (isProgrammaticScroll(this.chatBox)) {
+      this.lastScrollTop = this.chatBox.scrollTop;
+      return;
+    }
+    const current = this.chatBox.scrollTop;
+    const movedUp = current < this.lastScrollTop - 8;
+    this.lastScrollTop = current;
+    if (isNearBottom(this.chatBox)) {
+      this.userPinnedScroll = false;
+      this.chatBox.dataset.liveFollow = "active";
+      this.liveFollowButton?.classList?.remove?.("is-visible");
+      this.liveFollowButton?.classList?.remove?.("is-visible");
+      return;
+    }
+    if (movedUp) {
+      this.userPinnedScroll = true;
+      this.chatBox.dataset.liveFollow = "paused";
+      this.liveFollowButton?.classList?.add?.("is-visible");
+      this.liveFollowButton?.classList?.add?.("is-visible");
+    }
   }
 
   scrollDown() {

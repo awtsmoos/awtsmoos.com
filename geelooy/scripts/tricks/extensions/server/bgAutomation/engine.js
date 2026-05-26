@@ -6,12 +6,11 @@
   async function startAutomation(config = {}) {
     const store = globalThis.AwtsmoosBgAutomationStorage;
     const next = await store.saveAutomationState({
-      enabled:true, turns:0, status:"armed", lastError:"",
-      conversationId:config.conversationId,
-      graph:config.graph || null,
-      settings:{ ...(config.settings || {}), enabled:true },
+      enabled:true, turns:0, status:"armed", lastError:"", conversationId:config.conversationId,
+      graph:config.graph || null, settings:{ ...(config.settings || {}), enabled:true },
       prompt:config.settings?.prompt || config.prompt || "continue"
     });
+    announce(next);
     schedule(0.02);
     tickAutomation("start").catch(error => fail(error));
     return store.publicAutomationState(next);
@@ -19,8 +18,7 @@
 
   async function stopAutomation(reason = "stopped") {
     chrome.alarms.clear(ALARM);
-    const store = globalThis.AwtsmoosBgAutomationStorage;
-    return store.publicAutomationState(await store.saveAutomationState({ enabled:false, status:reason }));
+    return await savePublic({ enabled:false, status:reason });
   }
 
   async function statusAutomation() {
@@ -43,30 +41,45 @@
 
   async function runTurn({ state, settings }) {
     const store = globalThis.AwtsmoosBgAutomationStorage;
-    const graph = globalThis.AwtsmoosBgAutomationGraph;
-    const chat = globalThis.AwtsmoosBgChatGpt;
     const turn = Number(state.turns || 0) + 1;
-    const prompt = graph.chooseAutomationPrompt(state.graph, { ...state, settings, turn }) || state.prompt || settings.prompt;
-    await store.saveAutomationState({ status:`sending:${turn}`, turns:turn, lastPrompt:prompt });
-    const result = await chat.sendChatGptBackground({ conversationId:state.conversationId, prompt });
+    const prompt = globalThis.AwtsmoosBgAutomationGraph.chooseAutomationPrompt(state.graph, { ...state, settings, turn }) || state.prompt || settings.prompt;
+    await savePublic({ status:`sending:${turn}`, turns:turn, lastPrompt:prompt, visiblePage:false });
+    streamMirror({ phase:"start", conversationId:state.conversationId, prompt, turn, seq:0 });
+    const result = await globalThis.AwtsmoosBgChatGpt.sendChatGptBackground({
+      conversationId:state.conversationId,
+      prompt,
+      onPacket:event => streamMirror({ ...event, conversationId:event.conversationId || state.conversationId, prompt, turn })
+    });
     const next = await store.saveAutomationState({
       status:"waiting", lastReply:result.text || "", lastMessageId:result.messageId || "",
       lastConversationId:result.conversationId || state.conversationId, lastError:""
     });
+    announce(next);
+    const latest = await store.loadAutomationState();
+    if (!latest.enabled) return store.publicAutomationState(latest);
     if (turn >= Number(settings.maxTurns || 0)) return await stopAutomation("done:max-turns");
-    schedule(Math.max(0.02, Number(settings.delayMs || 1000) / 60000));
+    scheduleNext(Number(settings.delayMs || 1000));
     return store.publicAutomationState(next);
   }
 
   async function fail(error, stop = true) {
-    const store = globalThis.AwtsmoosBgAutomationStorage;
-    const next = await store.saveAutomationState({ status:"error", lastError:String(error?.stack || error?.message || error) });
+    const next = await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState({ status:"error", lastError:String(error?.stack || error?.message || error) });
+    announce(next);
     if (stop) await stopAutomation("error"); else schedule(1);
     console.warn("B'H background automation error", error?.message || error);
-    return store.publicAutomationState(next);
+    return globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(next);
   }
 
+  async function savePublic(patch) {
+    const next = await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState(patch);
+    announce(next);
+    return globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(next);
+  }
+
+  function announce(state) { globalThis.AwtsmoosBgPageDelegate?.broadcastAutomationState?.(globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(state)); }
+  function streamMirror(detail) { globalThis.AwtsmoosBgPageDelegate?.broadcastAutomationStream?.(detail); }
   function schedule(delayInMinutes) { chrome.alarms.create(ALARM, { delayInMinutes }); }
+  function scheduleNext(delayMs) { const ms = Math.max(100, Number(delayMs || 1000)); schedule(Math.max(0.02, ms / 60000)); setTimeout(() => tickAutomation("timer"), ms); }
   chrome.alarms.onAlarm.addListener(alarm => { if (alarm.name === ALARM) tickAutomation("alarm"); });
   globalThis.AwtsmoosBgAutomationEngine = { startAutomation, stopAutomation, statusAutomation, tickAutomation };
 })();

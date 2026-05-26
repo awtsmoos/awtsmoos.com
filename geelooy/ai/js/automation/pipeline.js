@@ -42,7 +42,10 @@ export class AutomationPipeline {
     const conversationId = getCurrentConversationId();
     if (!settings.enabled) return this.report("automation off");
     this.report("automation armed");
-    if (conversationId) this.afterAssistantReply("", { conversationId, manualKick: true });
+    if (conversationId) {
+      this.runStore.remove(conversationId);
+      this.afterAssistantReply("", { conversationId, manualKick: true, allowRepeat: true });
+    }
   }
 
   async afterAssistantReply(replyText = "", context = {}) {
@@ -54,7 +57,7 @@ export class AutomationPipeline {
     if (this.busy.has(conversationId)) return this.report(`automation busy guard held for ${conversationId}`);
     const run = this.runStore.get(conversationId) || { conversationId, turns: 0, lastReply: "" };
     if (run.turns >= Number(settings.maxTurns || 0)) return this.mark(conversationId, { status: "done" }, "max turns reached");
-    if (this.isRepeating(replyText, run.lastReply)) return this.mark(conversationId, { status: "stopped", lastReply: replyText }, "loop guard stopped repeated reply");
+    if (!context.allowRepeat && this.isRepeating(replyText, run.lastReply)) return this.mark(conversationId, { status: "stopped", lastReply: replyText }, "loop guard stopped repeated reply");
     this.busy.add(conversationId);
     const nextTurn = Number(run.turns || 0) + 1;
     this.mark(conversationId, { status: "waiting", turns: nextTurn, lastReply: replyText }, `automation turn ${nextTurn}/${settings.maxTurns}`);
@@ -79,7 +82,10 @@ export class AutomationPipeline {
     } finally {
       this.busy.delete(conversationId);
     }
-    if (typeof assistantReply === "string" && assistantReply.trim() && this.getSettings().enabled) setTimeout(() => this.afterAssistantReply(assistantReply, { conversationId }), 0);
+    const continuationReply = typeof assistantReply === "string"
+      ? (assistantReply.trim() || replyText || promptSummaryFromRun(this.runStore.get(conversationId)))
+      : "";
+    if (continuationReply && this.getSettings().enabled) setTimeout(() => this.afterAssistantReply(continuationReply, { conversationId, allowRepeat: !String(assistantReply || "").trim() }), 0);
   }
 
   mark(conversationId, patch, message = "") {
@@ -97,6 +103,10 @@ export class AutomationPipeline {
 function getCurrentConversationId() {
   try { return new URLSearchParams(location.search).get("awtsmoosConversation") || window.curConversationId || null; }
   catch { return null; }
+}
+
+function promptSummaryFromRun(run = {}) {
+  return String(run.lastReply || run.lastPrompt || "").trim();
 }
 
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }

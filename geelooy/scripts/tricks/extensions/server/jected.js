@@ -98,6 +98,10 @@
     return await sendBridgeMessage({ action: "stream-stats", id }, 30000);
   }
 
+  async function cancelStream(id, reason = "cancelled") {
+    return await sendBridgeMessage({ action: "cancel-stream", id, reason }, 30000);
+  }
+
   async function startBackgroundAutomation(config = {}) {
     return await sendBridgeMessage({ action: "automation-start", config }, 60000);
   }
@@ -138,9 +142,22 @@
   awtsFetch.resumeStream = resumeStream;
   awtsFetch.ackStream = ackStream;
   awtsFetch.streamStats = streamStats;
+  awtsFetch.cancelStream = cancelStream;
   awtsFetch.startBackgroundAutomation = startBackgroundAutomation;
   awtsFetch.stopBackgroundAutomation = stopBackgroundAutomation;
   awtsFetch.backgroundAutomationStatus = backgroundAutomationStatus;
+  window.addEventListener("message", event => {
+    const data = event?.data;
+    if (data?.from === "background" && data?.action === "automation-state") {
+      window.dispatchEvent(new CustomEvent("awtsmoos-background-automation-state", { detail: data.detail || {} }));
+    }
+    if (data?.from === "background" && data?.action === "automation-stream") {
+      window.dispatchEvent(new CustomEvent("awtsmoos-background-automation-stream", { detail: data.detail || {} }));
+    }
+    if (data?.from === "background" && data?.action === "automation-stream") {
+      window.dispatchEvent(new CustomEvent("awtsmoos-background-automation-stream", { detail: data.detail || {} }));
+    }
+  });
   window.awtsmoosFetch = awtsFetch;
   window.mFetch = awtsFetch;
   readyEvent({ fetchName: "awtsmoosFetch" });

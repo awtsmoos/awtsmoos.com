@@ -6,6 +6,7 @@
     bind(portManager, "automation-stop", async msg => await engine.stopAutomation(msg.reason || "stopped"));
     bind(portManager, "automation-status", async () => await engine.statusAutomation());
     bind(portManager, "automation-tick", async () => await engine.tickAutomation("manual"));
+
   }
 
   function bind(portManager, action, fn) {

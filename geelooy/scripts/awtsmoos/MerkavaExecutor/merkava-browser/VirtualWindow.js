@@ -45,7 +45,7 @@
             this.interactions = new interactionMod.VirtualInteractions(this);
             this.probe = new probeMod.RuntimeProbe();
             this.webglRenderer = new VirtualWebGLBoxRenderer(this.document.textureArena);
-            this.renderWebGLDom = () => { this.webglRenderer.paintElement(this.document.documentElement); return this.document.textureArena.snapshot(); };
+            this.renderWebGLDom = () => { this.webglRenderer.paintElement(this.document.body, 0, 0, 760); return this.document.textureArena.snapshot(); };
 
             this.requestAnimationFrame = cb => this.setTimeout(() => cb(this.performance.now()), 16);
             this.cancelAnimationFrame = id => this.clearTimeout(id);

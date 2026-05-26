@@ -31,6 +31,7 @@ export class AutomationPanel {
     this.root.replaceChildren(...[topbar, content].filter(Boolean));
     this.bindTabs();
     this.bindAutomation();
+    this.bindAutomationActions();
     this.bindGraph();
     this.bindArchive();
     this.bindVisibility();
@@ -42,7 +43,7 @@ export class AutomationPanel {
     if (this.tab === "trace") return `<h2>Message Trace Filters</h2><p class="panel-note">Disable noisy trace families without deleting them from history.</p>${this.visibilityFields()}`;
     if (this.tab === "graph") return this.graphFields();
     if (this.tab === "archive") return this.archiveFields();
-    return `<h2>Automation Pipeline</h2>${field("enabled", "Enable auto-continue", "checkbox", this.settings.enabled)}${field("maxTurns", "Max turns", "number", this.settings.maxTurns)}${field("delayMs", "Delay ms", "number", this.settings.delayMs)}<label class="automation-field prompt-field">Prompt<textarea data-auto="prompt" rows="7">${text(this.settings.prompt)}</textarea></label><div class="automation-status" id="automation-status">${this.settings.enabled ? "automation armed" : "automation off"}</div>`;
+    return `<h2>Automation Pipeline</h2>${field("enabled", "Enable auto-continue", "checkbox", this.settings.enabled)}<div class="automation-actions"><button type="button" class="automation-stop-button" data-auto-action="stop">Stop automation now</button></div>${field("maxTurns", "Max turns", "number", this.settings.maxTurns)}${field("delayMs", "Delay ms", "number", this.settings.delayMs)}<label class="automation-field prompt-field">Prompt<textarea data-auto="prompt" rows="7">${text(this.settings.prompt)}</textarea></label><div class="automation-status" id="automation-status">${this.settings.enabled ? "automation armed" : "automation off"}</div>`;
   }
 
   graphFields() {
@@ -86,6 +87,24 @@ export class AutomationPanel {
       input.onchange = handler;
     });
   }
+  bindAutomationActions() {
+    this.root.querySelectorAll("[data-auto-action]").forEach(button => button.onclick = () => {
+      if (button.dataset.autoAction !== "stop") return;
+      const enabled = this.root.querySelector('[data-auto="enabled"]');
+      if (enabled) enabled.checked = false;
+      this.captureAutomation();
+      this.report("automation stop requested");
+    });
+  }
+  bindAutomationActions() {
+    this.root.querySelectorAll("[data-auto-action]").forEach(button => button.onclick = () => {
+      if (button.dataset.autoAction !== "stop") return;
+      const enabled = this.root.querySelector('[data-auto="enabled"]');
+      if (enabled) enabled.checked = false;
+      this.captureAutomation();
+      this.report("automation stop requested");
+    });
+  }
   bindVisibility() { this.root.querySelectorAll("[data-event-type]").forEach(input => input.onchange = () => this.captureVisibility()); }
 
   bindGraph() {
@@ -114,12 +133,8 @@ export class AutomationPanel {
       if (action === "reset") this.graph = automationGraphStore.save(cloneDefaultAutomationGraph());
       if (action === "load-example") this.graph = automationGraphStore.save(cloneStudioExampleGraph());
       if (action === "add-session") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("session", this.graph.nodes.length)] });
-      if (action === "load-example") this.graph = automationGraphStore.save(cloneStudioExampleGraph());
-      if (action === "add-session") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("session", this.graph.nodes.length)] });
       if (action === "add-send") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("send", this.graph.nodes.length)] });
       if (action === "add-condition") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("condition", this.graph.nodes.length)] });
-      if (action === "add-memory") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("memory", this.graph.nodes.length)] });
-      if (action === "add-compile") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("compile", this.graph.nodes.length)] });
       if (action === "add-memory") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("memory", this.graph.nodes.length)] });
       if (action === "add-compile") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("compile", this.graph.nodes.length)] });
       if (action === "add-archive") this.graph = automationGraphStore.save({ ...this.graph, nodes: [...this.graph.nodes, createGraphNode("archive", this.graph.nodes.length)] });

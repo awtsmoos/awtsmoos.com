@@ -1,0 +1,482 @@
+{
+  "entry": {
+    "actionId": "act_mpmv7jnp_92e75122",
+    "inputRef": "cmd_act_mpmv7jnp_92e75122",
+    "outputRef": ".awtsmoos/actions/results/act_mpmv7jnp_92e75122.json",
+    "parentActionId": null,
+    "action": "list",
+    "input": {
+      "kind": "fs",
+      "action": "list",
+      "path": "geelooy",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 20000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T16:44:04.549Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "list",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy",
+    "items": [
+      "@/",
+      "about/",
+      "ai/",
+      "api/",
+      "apps/",
+      "ayin/",
+      "control/",
+      "db/",
+      "donate/",
+      "editor/",
+      "email/",
+      "fetch/",
+      "games/",
+      "heichel/",
+      "heichelos/",
+      "libs/",
+      "login/",
+      "logout/",
+      "mawgawl/",
+      "ocr/",
+      "os/",
+      "parsers/",
+      "profile/",
+      "record/",
+      "recorder/",
+      "reeyuh/",
+      "register/",
+      "resources/",
+      "scripts/",
+      "sod/",
+      "style/",
+      "tests/",
+      "webScrapers/",
+      "favicon.ico",
+      "index.html",
+      "index2.html",
+      "index3.html",
+      "manifest.json",
+      "oyvedEdom.js",
+      "register.js",
+      "service-worker.js"
+    ],
+    "detailedItems": [
+      {
+        "name": "@",
+        "type": "directory",
+        "path": "geelooy/@",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\@",
+        "isDirectory": true
+      },
+      {
+        "name": "about",
+        "type": "directory",
+        "path": "geelooy/about",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\about",
+        "isDirectory": true
+      },
+      {
+        "name": "ai",
+        "type": "directory",
+        "path": "geelooy/ai",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai",
+        "isDirectory": true
+      },
+      {
+        "name": "api",
+        "type": "directory",
+        "path": "geelooy/api",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\api",
+        "isDirectory": true
+      },
+      {
+        "name": "apps",
+        "type": "directory",
+        "path": "geelooy/apps",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps",
+        "isDirectory": true
+      },
+      {
+        "name": "ayin",
+        "type": "directory",
+        "path": "geelooy/ayin",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ayin",
+        "isDirectory": true
+      },
+      {
+        "name": "control",
+        "type": "directory",
+        "path": "geelooy/control",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\control",
+        "isDirectory": true
+      },
+      {
+        "name": "db",
+        "type": "directory",
+        "path": "geelooy/db",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\db",
+        "isDirectory": true
+      },
+      {
+        "name": "donate",
+        "type": "directory",
+        "path": "geelooy/donate",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\donate",
+        "isDirectory": true
+      },
+      {
+        "name": "editor",
+        "type": "directory",
+        "path": "geelooy/editor",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\editor",
+        "isDirectory": true
+      },
+      {
+        "name": "email",
+        "type": "directory",
+        "path": "geelooy/email",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\email",
+        "isDirectory": true
+      },
+      {
+        "name": "fetch",
+        "type": "directory",
+        "path": "geelooy/fetch",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\fetch",
+        "isDirectory": true
+      },
+      {
+        "name": "games",
+        "type": "directory",
+        "path": "geelooy/games",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\games",
+        "isDirectory": true
+      },
+      {
+        "name": "heichel",
+        "type": "directory",
+        "path": "geelooy/heichel",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\heichel",
+        "isDirectory": true
+      },
+      {
+        "name": "heichelos",
+        "type": "directory",
+        "path": "geelooy/heichelos",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\heichelos",
+        "isDirectory": true
+      },
+      {
+        "name": "libs",
+        "type": "directory",
+        "path": "geelooy/libs",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\libs",
+        "isDirectory": true
+      },
+      {
+        "name": "login",
+        "type": "directory",
+        "path": "geelooy/login",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\login",
+        "isDirectory": true
+      },
+      {
+        "name": "logout",
+        "type": "directory",
+        "path": "geelooy/logout",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\logout",
+        "isDirectory": true
+      },
+      {
+        "name": "mawgawl",
+        "type": "directory",
+        "path": "geelooy/mawgawl",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\mawgawl",
+        "isDirectory": true
+      },
+      {
+        "name": "ocr",
+        "type": "directory",
+        "path": "geelooy/ocr",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ocr",
+        "isDirectory": true
+      },
+      {
+        "name": "os",
+        "type": "directory",
+        "path": "geelooy/os",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\os",
+        "isDirectory": true
+      },
+      {
+        "name": "parsers",
+        "type": "directory",
+        "path": "geelooy/parsers",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\parsers",
+        "isDirectory": true
+      },
+      {
+        "name": "profile",
+        "type": "directory",
+        "path": "geelooy/profile",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\profile",
+        "isDirectory": true
+      },
+      {
+        "name": "record",
+        "type": "directory",
+        "path": "geelooy/record",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\record",
+        "isDirectory": true
+      },
+      {
+        "name": "recorder",
+        "type": "directory",
+        "path": "geelooy/recorder",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\recorder",
+        "isDirectory": true
+      },
+      {
+        "name": "reeyuh",
+        "type": "directory",
+        "path": "geelooy/reeyuh",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\reeyuh",
+        "isDirectory": true
+      },
+      {
+        "name": "register",
+        "type": "directory",
+        "path": "geelooy/register",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\register",
+        "isDirectory": true
+      },
+      {
+        "name": "resources",
+        "type": "directory",
+        "path": "geelooy/resources",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\resources",
+        "isDirectory": true
+      },
+      {
+        "name": "scripts",
+        "type": "directory",
+        "path": "geelooy/scripts",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts",
+        "isDirectory": true
+      },
+      {
+        "name": "sod",
+        "type": "directory",
+        "path": "geelooy/sod",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\sod",
+        "isDirectory": true
+      },
+      {
+        "name": "style",
+        "type": "directory",
+        "path": "geelooy/style",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\style",
+        "isDirectory": true
+      },
+      {
+        "name": "tests",
+        "type": "directory",
+        "path": "geelooy/tests",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\tests",
+        "isDirectory": true
+      },
+      {
+        "name": "webScrapers",
+        "type": "directory",
+        "path": "geelooy/webScrapers",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\webScrapers",
+        "isDirectory": true
+      },
+      {
+        "name": "favicon.ico",
+        "type": "file",
+        "path": "geelooy/favicon.ico",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\favicon.ico",
+        "isDirectory": false
+      },
+      {
+        "name": "index.html",
+        "type": "file",
+        "path": "geelooy/index.html",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\index.html",
+        "isDirectory": false
+      },
+      {
+        "name": "index2.html",
+        "type": "file",
+        "path": "geelooy/index2.html",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\index2.html",
+        "isDirectory": false
+      },
+      {
+        "name": "index3.html",
+        "type": "file",
+        "path": "geelooy/index3.html",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\index3.html",
+        "isDirectory": false
+      },
+      {
+        "name": "manifest.json",
+        "type": "file",
+        "path": "geelooy/manifest.json",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\manifest.json",
+        "isDirectory": false
+      },
+      {
+        "name": "oyvedEdom.js",
+        "type": "file",
+        "path": "geelooy/oyvedEdom.js",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\oyvedEdom.js",
+        "isDirectory": false
+      },
+      {
+        "name": "register.js",
+        "type": "file",
+        "path": "geelooy/register.js",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\register.js",
+        "isDirectory": false
+      },
+      {
+        "name": "service-worker.js",
+        "type": "file",
+        "path": "geelooy/service-worker.js",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\service-worker.js",
+        "isDirectory": false
+      }
+    ]
+  }
+}

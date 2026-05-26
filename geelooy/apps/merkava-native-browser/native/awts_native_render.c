@@ -35,7 +35,6 @@ static int next_part(char** cursor, char* out, size_t cap) {
   return 1;
 }
 
-
 void awts_font_init(AwtsBrowserState* state, HDC dc) {
   if (state->font.ready) return;
   state->font.base = glGenLists(256);
@@ -60,6 +59,10 @@ void awts_draw_text(AwtsBrowserState* state, float x, float y, const char* text,
   glCallLists((GLsizei)strlen(text), GL_UNSIGNED_BYTE, text);
   glPopAttrib();
 }
+
+static void draw_address(AwtsBrowserState* state) {
+  float ax = sx(state, 170), ay = sy(state, 64), aw = sw(state, state->width - 230), ah = -sh(state, 28);
+  rect(ax, ay, aw, ah, state->hoverAddress ? 0.98f : 0.96f, 0.98f, 1.0f);
   outline(ax, ay, aw, ah, state->focusedAddress ? 0.10f : 0.45f, 0.36f, 0.78f);
   char shown[170];
   snprintf(shown, sizeof(shown), "%s%s", state->url, state->focusedAddress && ((state->frames / 30) % 2 == 0) ? "|" : "");
@@ -88,9 +91,6 @@ static AwtsDomNode* find_node(AwtsBrowserState* state, const char* tag, const ch
 static void draw_webgl_canvas(AwtsBrowserState* state, float x, float y, float w, float h) {
   rect(x, y, w, h, 0.07f, 0.10f, 0.14f);
   outline(x, y, w, h, 0.12f, 0.34f, 0.72f);
-
-  /* This is the page canvas rendering. It remains a minimal WebGL bridge result,
-     not a diagnostic panel. */
   float cx = x + w * 0.50f, cy = y + h * 0.48f, s = h * 0.31f;
   glBegin(GL_TRIANGLES);
     glColor3f(1.0f, 0.28f, 0.10f); glVertex2f(cx - s, cy - s * 0.70f);
@@ -102,22 +102,15 @@ static void draw_webgl_canvas(AwtsBrowserState* state, float x, float y, float w
 static void draw_embedded_app(AwtsBrowserState* state) {
   float pageX = sx(state, 36), pageY = sy(state, 116), pageW = sw(state, state->width - 72), pageH = -sh(state, state->height - 146);
   rect(pageX, pageY, pageW, pageH, 1.0f, 1.0f, 1.0f);
-
   awts_draw_text(state, pageX + 0.045f, pageY - 0.070f, "Merkava sample app", 0.05f, 0.05f, 0.05f);
   awts_draw_text(state, pageX + 0.045f, pageY - 0.125f, "Native DOM nodes parsed from /index.html", 0.25f, 0.25f, 0.25f);
-
-  float canvasX = pageX + 0.25f;
-  float canvasY = pageY - 0.54f;
-  float canvasW = 0.86f;
-  float canvasH = 0.33f;
-  if (find_node(state, "canvas", "stage")) draw_webgl_canvas(state, canvasX, canvasY, canvasW, canvasH);
-
+  float canvasX = pageX + 0.25f, canvasY = pageY - 0.54f;
+  if (find_node(state, "canvas", "stage")) draw_webgl_canvas(state, canvasX, canvasY, 0.86f, 0.33f);
   if (find_node(state, "button", "draw")) {
     rect(canvasX, canvasY - 0.14f, 0.22f, -0.070f, 0.91f, 0.91f, 0.91f);
     outline(canvasX, canvasY - 0.14f, 0.22f, -0.070f, 0.55f, 0.55f, 0.55f);
     awts_draw_text(state, canvasX + 0.065f, canvasY - 0.183f, "draw", 0.0f, 0.0f, 0.0f);
   }
-
   AwtsDomNode* out = find_node(state, "output", "status");
   if (out) {
     rect(canvasX + 0.28f, canvasY - 0.14f, 0.68f, -0.070f, 0.98f, 0.98f, 0.98f);
@@ -160,20 +153,17 @@ static int draw_executor_stream(AwtsBrowserState* state) {
   return 1;
 }
 
-
 static void draw_loaded_text_page(AwtsBrowserState* state) {
   float pageX = sx(state, 36), pageY = sy(state, 116), pageW = sw(state, state->width - 72), pageH = -sh(state, state->height - 146);
   rect(pageX, pageY, pageW, pageH, 1.0f, 1.0f, 1.0f);
   awts_draw_text(state, pageX + 0.045f, pageY - 0.070f, state->pageTitle[0] ? state->pageTitle : "Loaded page", 0.03f, 0.03f, 0.03f);
   awts_draw_text(state, pageX + 0.045f, pageY - 0.120f, state->pageKind[0] ? state->pageKind : "document", 0.35f, 0.35f, 0.35f);
-
   const char* p = state->pagePreview;
   char line[118];
   for (int row = 0; row < 18 && p && *p; row++) {
     int n = 0;
     while (p[n] && n < 105) n++;
-    memcpy(line, p, n);
-    line[n] = 0;
+    memcpy(line, p, n); line[n] = 0;
     awts_draw_text(state, pageX + 0.045f, pageY - 0.190f - row * 0.045f, line, 0.08f, 0.08f, 0.08f);
     p += n;
     while (*p == ' ') p++;
@@ -184,7 +174,6 @@ void awts_draw_native_browser(AwtsBrowserState* state) {
   glViewport(0, 0, state->width, state->height);
   glClearColor(0.80f, 0.82f, 0.86f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
-
   draw_browser_chrome(state);
   if (!strcmp(state->pageTitle, "/index.html") && draw_executor_stream(state)) return;
   if (!strcmp(state->pageTitle, "/index.html") && state->dom.count > 0) draw_embedded_app(state);

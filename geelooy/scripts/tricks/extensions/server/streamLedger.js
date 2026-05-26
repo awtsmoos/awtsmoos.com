@@ -69,10 +69,22 @@
       return this.stats(id);
     }
 
+    cancel(id, reason = "cancelled") {
+      const stream = this.touch(id);
+      if (!stream) return null;
+      stream.cancelled = true;
+      stream.done = true;
+      stream.error = reason;
+      try { stream.reader?.cancel?.(reason); } catch {}
+      this.wake(stream);
+      this.scheduleCleanup(id);
+      return this.stats(id);
+    }
+
     stats(id) {
       const stream = this.streams.get(id);
       if (!stream) return null;
-      return { id, chunks: stream.chunks.length, baseIndex: stream.baseIndex, byteSize: stream.byteSize, done: stream.done, truncated: stream.truncated };
+      return { id, chunks: stream.chunks.length, baseIndex: stream.baseIndex, byteSize: stream.byteSize, done: stream.done, truncated: stream.truncated, cancelled: Boolean(stream.cancelled), error: stream.error || null };
     }
 
     async pump(stream) {

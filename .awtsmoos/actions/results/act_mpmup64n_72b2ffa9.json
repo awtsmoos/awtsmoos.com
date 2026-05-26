@@ -1,0 +1,1261 @@
+{
+  "entry": {
+    "actionId": "act_mpmup64n_72b2ffa9",
+    "inputRef": "cmd_act_mpmup64n_72b2ffa9",
+    "outputRef": ".awtsmoos/actions/results/act_mpmup64n_72b2ffa9.json",
+    "parentActionId": null,
+    "action": "grep",
+    "input": {
+      "kind": "fs",
+      "action": "grep",
+      "path": "geelooy/ai",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 220,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 220,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "audio|Audio|download audio|play audio|synthesize|Awtsmoos options|copy|clipboard|message-actions|turn options|audio controls|last message",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 30000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T16:29:47.207Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "grep",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai",
+    "query": "audio|Audio|download audio|play audio|synthesize|Awtsmoos options|copy|clipboard|message-actions|turn options|audio controls|last message",
+    "regex": true,
+    "scannedFiles": 219,
+    "skippedFiles": 0,
+    "maxFiles": 220,
+    "maxResults": 220,
+    "returnedResults": 220,
+    "partial": true,
+    "guidance": "If partial=true, narrow path/query or raise limits carefully.",
+    "results": [
+      {
+        "path": "geelooy/ai/animation/Animator.Core.js",
+        "line": 188,
+        "preview": "        // Special handling for Speech and SFX due to internal Maps or AudioContexts if any"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Core.js",
+        "line": 192,
+        "preview": "         if (window.AnimatorSFX.audioContext) { // If SFX uses AudioContext directly in its state"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.Core.js",
+        "line": 193,
+        "preview": "            console.warn(\"SFX module AudioContext state not easily serializable for export. Exported SFX might not work.\");"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 5,
+        "preview": "    audioContext: null,"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 6,
+        "preview": "    soundCache: new Map(), // soundId -> AudioBuffer"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 7,
+        "preview": "    activeSources: new Map(), // soundId -> [AudioBufferSourceNode, gainNode] (to manage multiple plays of same sound)"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 12,
+        "preview": "            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 14,
+        "preview": "            console.log(\"[AnimatorSFX] AudioContext initialized. SFX Library:\", this.sfxLibrary);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 18,
+        "preview": "            console.warn(\"[AnimatorSFX] AudioContext not supported or failed to initialize.\", e);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 19,
+        "preview": "            this.audioContext = null;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 24,
+        "preview": "        if (!this.audioContext || !url) return;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 31,
+        "preview": "            const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 32,
+        "preview": "            this.soundCache.set(soundId, audioBuffer);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 34,
+        "preview": "            return audioBuffer;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 42,
+        "preview": "        if (!this.audioContext) return;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 44,
+        "preview": "        let audioBuffer = this.soundCache.get(soundId);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 45,
+        "preview": "        if (!audioBuffer && this.sfxLibrary[soundId]) {"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 46,
+        "preview": "            audioBuffer = await this.loadSound(soundId, this.sfxLibrary[soundId]);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 49,
+        "preview": "        if (!audioBuffer) {"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 54,
+        "preview": "        const source = this.audioContext.createBufferSource();"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 55,
+        "preview": "        source.buffer = audioBuffer;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 58,
+        "preview": "        const gainNode = this.audioContext.createGain();"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 59,
+        "preview": "        gainNode.gain.setValueAtTime(Math.max(0, Math.min(1, volume)), this.audioContext.currentTime);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 62,
+        "preview": "        if (this.audioContext.createStereoPanner) {"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 63,
+        "preview": "            stereoPannerNode = this.audioContext.createStereoPanner();"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 64,
+        "preview": "            stereoPannerNode.pan.setValueAtTime(pan, this.audioContext.currentTime);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 65,
+        "preview": "            source.connect(stereoPannerNode).connect(gainNode).connect(this.audioContext.destination);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 67,
+        "preview": "            source.connect(gainNode).connect(this.audioContext.destination);"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 92,
+        "preview": "        if (!this.audioContext || !this.activeSources.has(soundId)) return;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 105,
+        "preview": "        if (!this.audioContext) return;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 117,
+        "preview": "        if (!this.audioContext || !this.activeSources.has(soundId)) return;"
+      },
+      {
+        "path": "geelooy/ai/animation/Animator.SFX.js",
+        "line": 120,
+        "preview": "            entry.gainNode.gain.setValueAtTime(Math.max(0, Math.min(1, volume)), this.audioContext.currentTime);"
+      },
+      {
+        "path": "geelooy/ai/animation/script.js",
+        "line": 502,
+        "preview": "            definition: JSON.parse(JSON.stringify(template)), // Store a copy of its base definition"
+      },
+      {
+        "path": "geelooy/ai/animation/script.js",
+        "line": 724,
+        "preview": "            // Start with a fresh copy of the base definition for this part"
+      },
+      {
+        "path": "geelooy/ai/animation/script.js",
+        "line": 1176,
+        "preview": "        const template = objState.definition; // Already a copy of the template"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 75,
+        "preview": ".md-code-copy {"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 86,
+        "preview": ".md-code-copy:hover { background: rgba(34,211,238,.18); }"
+      },
+      {
+        "path": "geelooy/ai/css/chat.css",
+        "line": 220,
+        "preview": ".audio { width: fit-content; border: 1px solid var(--ai-border); border-radius: 999px; background: rgba(3,8,14,.78); color: var(--ai-text); padding: 7px 10px; }"
+      },
+      {
+        "path": "geelooy/ai/css/markdown-polish.css",
+        "line": 66,
+        "preview": ".md-code-copy {"
+      },
+      {
+        "path": "geelooy/ai/css/markdown-polish.css",
+        "line": 70,
+        "preview": ".md-code-copy:hover {"
+      },
+      {
+        "path": "geelooy/ai/css/markdown-polish.css",
+        "line": 97,
+        "preview": "  .md-code-copy {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 89,
+        "preview": ".awtsmoos-audio-offer {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 100,
+        "preview": ".audio-offer-head {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 107,
+        "preview": ".audio-offer-head span,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 108,
+        "preview": ".audio-status {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 113,
+        "preview": ".audio-offer-actions,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 114,
+        "preview": ".audio-settings {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 121,
+        "preview": ".awtsmoos-audio-offer button,"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 122,
+        "preview": ".audio-settings select {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 131,
+        "preview": ".audio-player-wrap audio {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 181,
+        "preview": ".awtsmoos-audio-offer.is-audio-busy .audio-offer-head strong::after {"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 190,
+        "preview": "  animation: awtsmoosAudioSpin .8s linear infinite;"
+      },
+      {
+        "path": "geelooy/ai/css/stream-resume-hardening.css",
+        "line": 193,
+        "preview": "@keyframes awtsmoosAudioSpin { to { transform: rotate(360deg); } }"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 6,
+        "preview": "import { mountAwtsmoosAudioOffer } from \"../chatgpt/audio/audioControls.js\";"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 71,
+        "preview": "      this.mountLoadedAudioOffer({ messages, conversationId });"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 147,
+        "preview": "    this.mountAudioOffer({ stream, response, conversationId: cid, visible: hooks.paintAssistant !== false });"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 151,
+        "preview": "  mountLoadedAudioOffer({ messages = [], conversationId }) {"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 155,
+        "preview": "    mountAwtsmoosAudioOffer({"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 163,
+        "preview": "  mountAudioOffer({ stream, response, conversationId, visible }) {"
+      },
+      {
+        "path": "geelooy/ai/js/app/conversationController.js",
+        "line": 165,
+        "preview": "    mountAwtsmoosAudioOffer({"
+      },
+      {
+        "path": "geelooy/ai/js/app/streamRouter.js",
+        "line": 10,
+        "preview": " * record. That split was the root of out-of-order bubbles, audio controls"
+      },
+      {
+        "path": "geelooy/ai/js/attachments/attachmentTray.js",
+        "line": 14,
+        "preview": "    this.input.addEventListener(\"paste\", event => this.add(event.clipboardData?.files));"
+      },
+      {
+        "path": "geelooy/ai/js/automation/graphNodeUi.js",
+        "line": 46,
+        "preview": "  if (node.type === \"condition\") return `${node.negate ? \"unless\" : \"if\"} last message ${node.regex ? \"matches\" : \"contains\"} \"${node.match}\" → ${node.onTrue || \"?\"} / ${node.onFalse || \"?\"}`;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 3,
+        "preview": "const SETTINGS_KEY = \"awtsmoos.audio.settings.v1\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 9,
+        "preview": "export function mountAwtsmoosAudioOffer({ shell, aiHandler, conversationId = null, messageId = null } = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 10,
+        "preview": "  if (!shell || !conversationId || shell.querySelector?.(\":scope > .awtsmoos-audio-offer\")) return null;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 12,
+        "preview": "  root.className = \"awtsmoos-audio-offer\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 13,
+        "preview": "  root.__awtsmoosAudio = makeAudioState();"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 15,
+        "preview": "    <div class=\"audio-offer-head\"><strong>Awtsmoos Audio</strong><span>Listen to the final answer</span></div>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 16,
+        "preview": "    <div class=\"audio-offer-actions\">"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 17,
+        "preview": "      <button type=\"button\" data-audio-action=\"play\">▶ Stream + play MP3</button>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 18,
+        "preview": "      <button type=\"button\" data-audio-action=\"download\">⬇ Download</button>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 19,
+        "preview": "      <button type=\"button\" data-audio-action=\"settings\" aria-expanded=\"false\">⚙ Audio settings</button>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 21,
+        "preview": "    <div class=\"audio-settings\" hidden>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 22,
+        "preview": "      <label>Voice <select data-audio-setting=\"voice\"></select></label>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 23,
+        "preview": "      <label>Download format <select data-audio-setting=\"format\"></select></label>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 25,
+        "preview": "    <div class=\"audio-player-wrap\" hidden>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 26,
+        "preview": "      <audio preload=\"auto\"></audio>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 28,
+        "preview": "        <button type=\"button\" class=\"player-play\" data-audio-action=\"toggle\" disabled>▶</button>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 29,
+        "preview": "        <div class=\"player-meter\" role=\"slider\" aria-label=\"Audio position\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"0\"><span></span></div>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 33,
+        "preview": "    <p class=\"audio-status\" aria-live=\"polite\"></p>"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 35,
+        "preview": "  const settings = loadAudioSettings();"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 36,
+        "preview": "  hydrateSelect(root.querySelector('[data-audio-setting=\"voice\"]'), VOICES, settings.voice);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 37,
+        "preview": "  hydrateSelect(root.querySelector('[data-audio-setting=\"format\"]'), FORMATS, settings.format);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 40,
+        "preview": "  root.addEventListener(\"click\", event => handleAudioClick(event, { root, aiHandler, conversationId, messageId }));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 45,
+        "preview": "function makeAudioState() {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 46,
+        "preview": "  return { signature: \"\", mode: \"idle\", chunks: [], bytes: 0, mime: \"audio/mpeg\", objectUrl: \"\", done: false, promise: null, controller: null, startedAt: 0 };"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 49,
+        "preview": "async function handleAudioClick(event, context) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 50,
+        "preview": "  const action = event.target?.closest?.(\"[data-audio-action]\")?.dataset?.audioAction;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 56,
+        "preview": "  if (action === \"play\") return synthesizeForPlay(context, settings);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 57,
+        "preview": "  if (action === \"download\") return synthesizeForDownload(context, settings);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 60,
+        "preview": "async function synthesizeForPlay({ root, aiHandler, conversationId, messageId }, settings) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 63,
+        "preview": "  const generateButton = root.querySelector('[data-audio-action=\"play\"]');"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 64,
+        "preview": "  const signature = audioSignature({ conversationId, messageId, voice: settings.voice, format: \"mp3\" });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 66,
+        "preview": "    if (root.__awtsmoosAudio?.signature === signature && root.__awtsmoosAudio.mode !== \"idle\") {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 67,
+        "preview": "      status.textContent = root.__awtsmoosAudio.done ? \"Reusing completed streamed MP3.\" : \"Stream already running.\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 69,
+        "preview": "      await root.querySelector(\"audio\")?.play?.().catch(() => undefined);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 72,
+        "preview": "    resetAudioState(root);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 79,
+        "preview": "    const result = await service?.getAwtsmoosAudio?.({ message_id: messageId, conversation_id: conversationId, voice: settings.voice, format: \"mp3\", download: false });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 83,
+        "preview": "    status.textContent = `Audio failed: ${error?.message || error}`;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 91,
+        "preview": "  if (!supportsMp3MediaSource() || typeof service?.getAwtsmoosAudioStream !== \"function\") return false;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 92,
+        "preview": "  const audio = root.querySelector(\"audio\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 93,
+        "preview": "  const wrap = root.querySelector(\".audio-player-wrap\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 98,
+        "preview": "    const result = await service.getAwtsmoosAudioStream(options);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 101,
+        "preview": "    const state = root.__awtsmoosAudio = makeAudioState();"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 104,
+        "preview": "    state.mime = \"audio/mpeg\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 108,
+        "preview": "    revokeCurrentAudio(audio);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 109,
+        "preview": "    audio.src = state.objectUrl;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 110,
+        "preview": "    audio.dataset.objectUrl = state.objectUrl;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 112,
+        "preview": "    status.textContent = \"Streaming audio bytes…\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 113,
+        "preview": "    const sourceBuffer = await openSourceBuffer(mediaSource, \"audio/mpeg\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 124,
+        "preview": "        status.textContent = `Streaming MP3… ${formatSize(state.bytes)} received${estimateLiveTime(audio)}`;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 128,
+        "preview": "          await audio.play().catch(() => undefined);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 134,
+        "preview": "      if (!started) await audio.play().catch(() => undefined);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 149,
+        "preview": "  if (!result?.objectUrl && !result?.url) throw new Error(\"No audio URL returned.\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 151,
+        "preview": "  const wrap = root.querySelector(\".audio-player-wrap\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 152,
+        "preview": "  const audio = root.querySelector(\"audio\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 154,
+        "preview": "  resetAudioState(root);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 155,
+        "preview": "  root.__awtsmoosAudio.signature = signature;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 156,
+        "preview": "  root.__awtsmoosAudio.mode = \"blob\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 157,
+        "preview": "  root.__awtsmoosAudio.done = true;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 158,
+        "preview": "  root.__awtsmoosAudio.bytes = result.size || 0;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 159,
+        "preview": "  root.__awtsmoosAudio.objectUrl = result.objectUrl || result.url;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 160,
+        "preview": "  revokeCurrentAudio(audio);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 161,
+        "preview": "  audio.src = result.objectUrl || result.url;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 162,
+        "preview": "  audio.dataset.objectUrl = result.objectUrl || result.url;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 163,
+        "preview": "  audio.dataset.mime = result.mime || \"audio/mpeg\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 167,
+        "preview": "  audio.load();"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 168,
+        "preview": "  await waitForPlayable(audio, 12000);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 170,
+        "preview": "  await audio.play();"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 174,
+        "preview": "async function synthesizeForDownload({ root, aiHandler, conversationId, messageId }, settings) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 176,
+        "preview": "  const streamSignature = audioSignature({ conversationId, messageId, voice: settings.voice, format: \"mp3\" });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 178,
+        "preview": "    const state = root.__awtsmoosAudio;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 190,
+        "preview": "    await service?.getAwtsmoosAudio?.({ message_id: messageId, conversation_id: conversationId, voice: settings.voice, format: settings.format, download: true });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 191,
+        "preview": "    status.textContent = `Downloaded ${settings.format.toUpperCase()} audio.`;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 200,
+        "preview": "  const blob = new Blob(state.chunks, { type: state.mime || \"audio/mpeg\" });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 204,
+        "preview": "  a.download = `BH_awtsmoosAudio_${Date.now()}.${format}`;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 210,
+        "preview": "  const audio = root.querySelector(\"audio\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 212,
+        "preview": "  audio.addEventListener(\"loadedmetadata\", () => syncPlayer(root));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 213,
+        "preview": "  audio.addEventListener(\"timeupdate\", () => syncPlayer(root));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 214,
+        "preview": "  audio.addEventListener(\"durationchange\", () => syncPlayer(root));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 215,
+        "preview": "  audio.addEventListener(\"progress\", () => syncPlayer(root, { live: root.__awtsmoosAudio?.mode === \"streaming\" && !root.__awtsmoosAudio?.done }));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 216,
+        "preview": "  audio.addEventListener(\"play\", () => setPlayerState(root, \"playing\"));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 217,
+        "preview": "  audio.addEventListener(\"pause\", () => setPlayerState(root, \"paused\"));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 218,
+        "preview": "  audio.addEventListener(\"ended\", () => setPlayerState(root, \"ended\"));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 219,
+        "preview": "  audio.addEventListener(\"error\", () => { root.querySelector(\".audio-status\").textContent = mediaError(audio); });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 221,
+        "preview": "    const duration = Number(audio.duration || 0);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 224,
+        "preview": "    audio.currentTime = Math.max(0, Math.min(duration, ((event.clientX - rect.left) / rect.width) * duration));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 229,
+        "preview": "  const audio = root.querySelector(\"audio\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 230,
+        "preview": "  if (!audio.src) return;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 231,
+        "preview": "  if (audio.paused) await audio.play().catch(error => { statusNode(root).textContent = `Playback blocked: ${error?.message || error}`; });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 232,
+        "preview": "  else audio.pause();"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 236,
+        "preview": "  const audio = root.querySelector(\"audio\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 240,
+        "preview": "  const duration = Number.isFinite(audio.duration) ? audio.duration : 0;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 241,
+        "preview": "  const current = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 245,
+        "preview": "  const liveSuffix = live || (root.__awtsmoosAudio?.mode === \"streaming\" && !root.__awtsmoosAudio?.done) ? \"live\" : formatTime(duration);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 247,
+        "preview": "  root.querySelector(\".player-play\").textContent = audio.paused ? \"▶\" : \"❚❚\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 252,
+        "preview": "  syncPlayer(root, { live: root.__awtsmoosAudio?.mode === \"streaming\" && !root.__awtsmoosAudio?.done });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 255,
+        "preview": "function waitForPlayable(audio, timeoutMs = 12000) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 256,
+        "preview": "  if (audio.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) return Promise.resolve();"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 258,
+        "preview": "    const timer = setTimeout(() => reject(new Error(\"Browser could not decode the generated audio.\")), timeoutMs);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 260,
+        "preview": "    const fail = () => { cleanup(); reject(new Error(mediaError(audio))); };"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 263,
+        "preview": "      audio.removeEventListener(\"canplay\", done);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 264,
+        "preview": "      audio.removeEventListener(\"loadeddata\", done);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 265,
+        "preview": "      audio.removeEventListener(\"error\", fail);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 267,
+        "preview": "    audio.addEventListener(\"canplay\", done, { once: true });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 268,
+        "preview": "    audio.addEventListener(\"loadeddata\", done, { once: true });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 269,
+        "preview": "    audio.addEventListener(\"error\", fail, { once: true });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 274,
+        "preview": "  return typeof MediaSource !== \"undefined\" && MediaSource.isTypeSupported?.(\"audio/mpeg\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 291,
+        "preview": "    const fail = () => { cleanup(); reject(new Error(\"Audio stream append failed.\")); };"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 304,
+        "preview": "  root.classList.toggle(\"is-audio-busy\", Boolean(busy));"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 305,
+        "preview": "  root.querySelectorAll('[data-audio-action=\"play\"], [data-audio-action=\"download\"]').forEach(button => {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 306,
+        "preview": "    const action = button.dataset.audioAction;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 311,
+        "preview": "function resetAudioState(root) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 312,
+        "preview": "  const audio = root.querySelector(\"audio\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 313,
+        "preview": "  const old = root.__awtsmoosAudio;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 315,
+        "preview": "  revokeCurrentAudio(audio);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 316,
+        "preview": "  root.__awtsmoosAudio = makeAudioState();"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 320,
+        "preview": "function revokeCurrentAudio(audio) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 321,
+        "preview": "  if (audio?.dataset?.objectUrl?.startsWith?.(\"blob:\")) URL.revokeObjectURL(audio.dataset.objectUrl);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 322,
+        "preview": "  audio?.removeAttribute?.(\"src\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 323,
+        "preview": "  try { audio?.load?.(); } catch {}"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 326,
+        "preview": "function audioSignature({ conversationId, messageId, voice, format }) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 330,
+        "preview": "function estimateLiveTime(audio) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 331,
+        "preview": "  const duration = Number(audio.duration || 0);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 335,
+        "preview": "function updateStatusSize(status, result = {}) { status.textContent = `Audio fetched${formatSize(result.size)}. Preparing player…`; }"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 336,
+        "preview": "function mediaError(audio) { const code = audio?.error?.code; return ({ 1: \"Audio loading was aborted.\", 2: \"Network error while loading audio.\", 3: \"Browser could not decode this audio.\", 4: \"Audio format is not supported.\" })[code] || \"Audio playback error.\"; }"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 340,
+        "preview": "function toggleSettings(root, button) { const panel = root.querySelector(\".audio-settings\"); panel.hidden = !panel.hidden; button?.setAttribute(\"aria-expanded\", panel.hidden ? \"false\" : \"true\"); }"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 342,
+        "preview": "function saveFromRoot(root) { const settings = { voice: root.querySelector('[data-audio-setting=\"voice\"]')?.value || DEFAULTS.voice, format: root.querySelector('[data-audio-setting=\"format\"]')?.value || DEFAULTS.format }; try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch {} return settings; }"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 343,
+        "preview": "function loadAudioSettings() { try { return { ...DEFAULTS, ...(JSON.parse(localStorage.getItem(SETTINGS_KEY) || \"{}\") || {}) }; } catch { return { ...DEFAULTS }; } }"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/audioControls.js",
+        "line": 344,
+        "preview": "function statusNode(root) { return root.querySelector(\".audio-status\"); }"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 10,
+        "preview": " * @param {{message_id?:string,conversation_id:string,voice?:string,format?:string}} options Audio request."
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 19,
+        "preview": "  if (!conversation_id) throw new Error(\"conversation_id is required for audio synthesis.\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 23,
+        "preview": "  if (!messageId) throw new Error(\"No assistant message id found for audio synthesis.\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 24,
+        "preview": "  const url = \"https://chatgpt.com/backend-api/synthesize?\" + new URLSearchParams({"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 37,
+        "preview": " * @param {object} options Audio options."
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 40,
+        "preview": "export async function getAwtsmoosAudioStream(mFetch, options = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 43,
+        "preview": "  if (!response?.ok) throw new Error(`Audio synthesis failed with status ${response?.status || \"unknown\"}.`);"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 55,
+        "preview": "export async function getAwtsmoosAudio(mFetch, options = {}) {"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 58,
+        "preview": "  const { response, mime } = await getAwtsmoosAudioStream(mFetch, { ...options, format });"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 60,
+        "preview": "  if (!blob?.size) throw new Error(\"Audio synthesis returned an empty file.\");"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 65,
+        "preview": "    a.download = \"BH_awtsmoosAudio_\" + Date.now() + \".\" + format;"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/audio/synthesize.js",
+        "line": 75,
+        "preview": "  return ({ mp3: \"audio/mpeg\", aac: \"audio/aac\", wav: \"audio/wav\", opus: \"audio/ogg; codecs=opus\" })[format] || \"audio/mpeg\";"
+      },
+      {
+        "path": "geelooy/ai/js/chatgpt/sentinel/tokenClassLegacy.js",
+        "line": 12,
+        "preview": "\t\t * @copyright Chen, Yi-Cyuan 2015-2023"
+      },
+      {
+        "path": "geelooy/ai/js/render/markdown/blocks.js",
+        "line": 150,
+        "preview": "  return `<div class=\"md-code-block\" data-language=\"${lang}\"><div class=\"md-code-toolbar\"><span class=\"md-code-language\">${lang}</span><button class=\"md-code-copy\" type=\"button\" onclick=\"navigator.clipboard?.writeText(decodeURIComponent('${encoded}'))\">Copy</button></div><pre class=\"md-code\"><code class=\"language-${lang}\" data-language=\"${lang}\">${highlighted}</code></pre></div>`;"
+      },
+      {
+        "path": "geelooy/ai/js/services/chatgptService.js",
+        "line": 10,
+        "preview": "    async getAwtsmoosAudio(...args) {"
+      },
+      {
+        "path": "geelooy/ai/js/services/chatgptService.js",
+        "line": 11,
+        "preview": "      return self?.instance?.getAwtsmoosAudio(...args);"
+      },
+      {
+        "path": "geelooy/ai/js/services/chatgptService.js",
+        "line": 13,
+        "preview": "    async getAwtsmoosAudioStream(...args) {"
+      },
+      {
+        "path": "geelooy/ai/js/services/chatgptService.js",
+        "line": 14,
+        "preview": "      return self?.instance?.getAwtsmoosAudioStream(...args);"
+      },
+      {
+        "path": "geelooy/ai/js/services/chatgptService.js",
+        "line": 16,
+        "preview": "    async getAwtsmoosAudioStream(...args) {"
+      },
+      {
+        "path": "geelooy/ai/js/services/chatgptService.js",
+        "line": 17,
+        "preview": "      return self?.instance?.getAwtsmoosAudioStream(...args);"
+      },
+      {
+        "path": "geelooy/ai/js/services/geminiService.js",
+        "line": 7,
+        "preview": "    async getAwtsmoosAudio() { return null; },"
+      },
+      {
+        "path": "geelooy/ai/relay/split-browser/bodyPolicy.cjs",
+        "line": 16,
+        "preview": "  if (/javascript|json|event-stream|octet-stream|wasm|font|image|audio|video/i.test(type || \"\")) return false;"
+      },
+      {
+        "path": "geelooy/ai/relay/split-browser/headerMap.cjs",
+        "line": 8,
+        "preview": " * The relay should copy the browser's request as faithfully as possible, then"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 7,
+        "preview": "import { getAwtsmoosAudio as getLegacyAwtsmoosAudio, getAwtsmoosAudioStream as getLegacyAwtsmoosAudioStream } from \"./js/chatgpt/audio/synthesize.js\";"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 21,
+        "preview": "    this.getAwtsmoosAudio = options => getAwtsmoosAudio(options);"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 22,
+        "preview": "    this.getAwtsmoosAudioStream = options => getAwtsmoosAudioStream(options);"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 23,
+        "preview": "    this.getAwtsmoosAudioStream = options => getAwtsmoosAudioStream(options);"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 141,
+        "preview": "async function getAwtsmoosAudio(options) {"
+      },
+      {
+        "path": "geelooy/ai/AwtsmoosGPTify.js",
+        "line": 143,
+        "preview": "  return await getLegacyAwtsmoosAudio(fetcher, options);"
+      }
+    ]
+  }
+}

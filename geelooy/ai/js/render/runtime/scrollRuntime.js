@@ -1,47 +1,39 @@
 //B"H
 
-const BOTTOM_LOCK_PX = 72;
+const BOTTOM_LOCK_PX = 96;
 
 /**
- * Chapter 38: The River Bowed Before the Climber.
- *
- * The Awtsmoos pours live letters downward, but a reader who climbs upward is
- * not chained to the flood. Live streaming pins to bottom only while the reader
- * is already near the bottom; one upward gesture breaks the spell until the
- * reader returns to the lower gate. The final animation breath re-checks that
- * covenant so queued scrolls cannot drag the reader back after escape.
- *
- * @param {object} renderer MessageRenderer-like owner of chatBox and sentinel.
- * @param {{instant?: boolean, force?: boolean}} options Scroll behavior controls.
- * @returns {void}
+ * Live-scroll covenant:
+ * - Follow the bottom by default.
+ * - Only an explicit user upward gesture escapes.
+ * - Scrolling back near bottom re-arms live follow.
+ * - Passive DOM growth must never falsely pin the user in the middle.
  */
 export function scrollToLiveBottom(renderer, options = {}) {
   if (!renderer?.chatBox) return;
   const chatBox = renderer.chatBox;
   if (!options.force && shouldSuppressAutoFollow(renderer, chatBox)) return;
-  if (!options.force && !isNearBottom(chatBox)) {
-    renderer.userPinnedScroll = true;
-    return;
-  }
-  const behavior = options.instant ? "auto" : "auto";
   const schedule = globalThis.requestAnimationFrame || (callback => setTimeout(callback, 16));
+  markProgrammaticScroll(chatBox);
   schedule(() => {
     if (!options.force && shouldSuppressAutoFollow(renderer, chatBox)) return;
-    if (!options.force && !isNearBottom(chatBox)) {
-      renderer.userPinnedScroll = true;
-      return;
-    }
-    scrollContainerToBottom(chatBox, behavior);
+    markProgrammaticScroll(chatBox);
+    scrollContainerToBottom(chatBox, options.instant ? "auto" : "auto");
   });
 }
 
-/**
- * @param {Element} chatBox Scroll container.
- * @returns {boolean} Whether the user is close enough to keep auto-following.
- */
 export function isNearBottom(chatBox) {
   if (!chatBox) return true;
   return chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight <= BOTTOM_LOCK_PX;
+}
+
+export function markProgrammaticScroll(chatBox, ms = 180) {
+  if (!chatBox) return;
+  chatBox.__awtsmoosProgrammaticScrollUntil = Date.now() + ms;
+}
+
+export function isProgrammaticScroll(chatBox) {
+  return Date.now() < Number(chatBox?.__awtsmoosProgrammaticScrollUntil || 0);
 }
 
 function shouldSuppressAutoFollow(renderer, chatBox) {
@@ -50,5 +42,7 @@ function shouldSuppressAutoFollow(renderer, chatBox) {
 }
 
 function scrollContainerToBottom(chatBox, behavior) {
-  chatBox?.scrollTo?.({ top: chatBox.scrollHeight, behavior });
+  if (!chatBox) return;
+  chatBox.scrollTo?.({ top: chatBox.scrollHeight, behavior });
+  chatBox.scrollTop = chatBox.scrollHeight;
 }

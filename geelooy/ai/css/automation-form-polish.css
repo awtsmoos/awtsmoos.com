@@ -1,0 +1,16 @@
+/* B"H — Automation form polish: clean cockpit controls */
+#automation-panel .right-panel-body > h2,
+#automation-panel .right-panel-body .automation-status{margin-inline:.15rem}
+#automation-panel .right-panel-body{display:grid;gap:1rem;padding:1rem}
+#automation-panel .automation-field{display:grid;gap:.45rem;min-width:0}
+#automation-panel .automation-field:has(input[type="checkbox"]){grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"label switch";align-items:center;min-height:78px;padding:1rem 1.05rem;font-size:.96rem;font-weight:850;line-height:1.2}
+#automation-panel .automation-field:has(input[type="checkbox"]) input{grid-area:switch;justify-self:end}
+#automation-panel .automation-field:has(input[type="checkbox"])::before{content:"Background + page automation";grid-area:label;display:block;color:rgba(226,232,240,.72);font-size:.72rem;font-weight:650;text-transform:uppercase;letter-spacing:.08em;order:2}
+#automation-panel .automation-field input[type="number"],
+#automation-panel .automation-field input:not([type="checkbox"]){height:3.2rem;font-size:1rem}
+#automation-panel .prompt-field{min-height:14rem}
+#automation-panel .prompt-field textarea{min-height:11rem!important;font-size:.95rem;line-height:1.55}
+#automation-panel .automation-status{position:sticky;bottom:.6rem;z-index:4;padding:.78rem .9rem;font-weight:800;backdrop-filter:blur(12px)}
+#automation-panel .right-tabs{display:flex;flex-wrap:wrap;gap:.5rem;padding:.7rem .85rem;border-bottom:1px solid rgba(125,211,252,.12);background:rgba(2,6,23,.34)}
+#automation-panel .right-tabs button{flex:1 1 7rem;min-height:2.85rem;border-radius:1rem;font-weight:900}
+@media (max-width:760px){#automation-panel .right-panel-body{padding:.7rem;gap:.75rem}#automation-panel .automation-field:has(input[type="checkbox"]){min-height:68px}#automation-panel .right-tabs button{flex-basis:6.2rem;font-size:.86rem}}

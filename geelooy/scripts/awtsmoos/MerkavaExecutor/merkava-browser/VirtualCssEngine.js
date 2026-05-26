@@ -4,38 +4,89 @@
     else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualCssEngine = factory().VirtualCssEngine; }
 })(typeof self !== 'undefined' ? self : this, function() {
     const dash = name => String(name).replace(/[A-Z]/g, c => '-' + c.toLowerCase());
-    const atomsOf = selector => String(selector).replace(/([>+])/g, ' $1 ').split(/\s+/).filter(Boolean);
-    const atomScore = s => s === '>' || s === '+' ? 0 : s.startsWith('#') ? 100 : s.startsWith('.') || s.includes('[') || s.includes(':') ? 10 : 1;
-    const score = selector => atomsOf(selector).reduce((n, part) => n + atomScore(part), 0);
-    const parseDecls = text => Object.fromEntries(String(text || '').split(';').map(x => x.trim()).filter(Boolean).map(part => { const i = part.indexOf(':'); const raw = part.slice(i + 1).trim(); return [dash(part.slice(0, i).trim()), raw.replace(/\s*!important$/, '')]; }).filter(x => x[0]));
-    const atom = (el, s) => {
-        if (s.endsWith(':focus')) return atom(el, s.slice(0, -6) || '*') && el.ownerDocument?.activeElement === el;
-        if (s.endsWith(':checked')) return atom(el, s.slice(0, -8) || '*') && !!el.checked;
-        if (s === '*') return true;
-        if (s.startsWith('#')) return el.id === s.slice(1);
-        if (s.startsWith('.')) return el.classList?.contains(s.slice(1));
-        const attr = s.match(/^([\w-]+)?\[([\w-]+)(?:=["']?([^"'\]]+)["']?)?\]$/);
-        if (attr) return (!attr[1] || el.tagName?.toLowerCase() === attr[1].toLowerCase()) && (attr[3] == null ? el.hasAttribute(attr[2]) : el.getAttribute(attr[2]) === attr[3]);
-        return el.tagName?.toLowerCase() === s.toLowerCase();
-    };
-    const findAncestor = (el, s) => { for (let cur = el?.parentNode; cur; cur = cur.parentNode) if (atom(cur, s)) return cur; return null; };
-    const match = (el, selector) => {
-        const parts = atomsOf(selector); let cur = el;
-        for (let i = parts.length - 1; i >= 0; i--) {
-            const part = parts[i];
-            if (part === '>') { i--; cur = cur?.parentNode; if (!cur || !atom(cur, parts[i])) return false; cur = cur.parentNode; continue; }
-            if (part === '+') { i--; cur = cur?.previousSibling; if (!cur || !atom(cur, parts[i])) return false; cur = cur.parentNode; continue; }
-            if (!atom(cur, part)) { cur = findAncestor(cur, part); if (!cur) return false; }
-            if (i > 0 && parts[i - 1] !== '>' && parts[i - 1] !== '+') cur = cur.parentNode;
-            if (i > 0 && parts[i - 1] !== '>' && parts[i - 1] !== '+') cur = cur.parentNode;
-        }
-        return true;
-    };
+    const parseDecls = text => Object.fromEntries(String(text || '').split(';').map(x => x.trim()).filter(Boolean).map(part => {
+        const i = part.indexOf(':'); if (i < 0) return ['', ''];
+        return [dash(part.slice(0, i).trim()), part.slice(i + 1).trim().replace(/\s*!important$/, '')];
+    }).filter(x => x[0]));
+
+    /** Chapter 29: Selectors descend through ancestry without C learning CSS. */
     class VirtualCssEngine {
         constructor() { this.rules = []; }
-        addRule(selector, declarations) { this.rules.push({ selector: String(selector).trim(), declarations: { ...declarations }, specificity: score(String(selector).trim()), order: this.rules.length }); }
-        parseStyleSheet(cssText) { for (const m of String(cssText || '').matchAll(/([^{}]+)\{([^}]*)\}/g)) for (const selector of m[1].split(',')) this.addRule(selector.trim(), parseDecls(m[2])); }
-        compute(element) { const out = Object.create(null), ranked = []; for (const rule of this.rules) if (match(element, rule.selector)) ranked.push(rule); ranked.sort((a, b) => a.specificity - b.specificity || a.order - b.order); for (const rule of ranked) Object.assign(out, rule.declarations); Object.assign(out, element.style?.toJSON?.() || {}); return out; }
+        addRule(selector, declarations) {
+            const clean = String(selector || '').trim();
+            if (!clean) return;
+            this.rules.push({ selector: clean, declarations: { ...declarations }, specificity: specificity(clean), order: this.rules.length });
+        }
+        parseStyleSheet(cssText) {
+            const text = String(cssText || '').replace(/\/\*[\s\S]*?\*\//g, '');
+            for (const m of text.matchAll(/([^{}]+)\{([^}]*)\}/g)) for (const selector of m[1].split(',')) this.addRule(selector.trim(), parseDecls(m[2]));
+        }
+        compute(element) {
+            const out = Object.create(null), ranked = [];
+            for (const rule of this.rules) if (matchesSelector(element, rule.selector)) ranked.push(rule);
+            ranked.sort((a, b) => a.specificity - b.specificity || a.order - b.order);
+            for (const rule of ranked) Object.assign(out, rule.declarations);
+            Object.assign(out, element.style?.toJSON?.() || {});
+            return out;
+        }
     }
+
+    function specificity(selector) {
+        let ids = 0, classes = 0, tags = 0;
+        for (const part of tokenize(selector).filter(t => t !== '>' && t !== '+')) {
+            ids += (part.match(/#[\w-]+/g) || []).length;
+            classes += (part.match(/\.[\w-]+|\[[^\]]+\]|:[\w-]+/g) || []).length;
+            const tag = part.match(/^[a-zA-Z][\w-]*/)?.[0];
+            if (tag && tag !== '*') tags++;
+        }
+        return ids * 100 + classes * 10 + tags;
+    }
+
+    function tokenize(selector) { return String(selector || '').replace(/([>+])/g, ' $1 ').split(/\s+/).filter(Boolean); }
+
+    function matchesSelector(element, selector) {
+        const tokens = tokenize(selector);
+        return matchFromRight(element, tokens, tokens.length - 1);
+    }
+
+    function matchFromRight(element, tokens, index) {
+        if (!element || index < 0) return index < 0;
+        if (!matchCompound(element, tokens[index])) return false;
+        if (index === 0) return true;
+        const combinator = tokens[index - 1];
+        if (combinator === '>') return matchFromRight(element.parentNode, tokens, index - 2);
+        if (combinator === '+') return matchFromRight(element.previousSibling, tokens, index - 2);
+        for (let parent = element.parentNode; parent; parent = parent.parentNode) if (matchFromRight(parent, tokens, index - 1)) return true;
+        return false;
+    }
+
+    function matchCompound(element, compound) {
+        if (!element || !compound) return false;
+        if (compound === '*') return true;
+        const tag = compound.match(/^[a-zA-Z][\w-]*|^\*/)?.[0] || '';
+        if (tag && tag !== '*' && element.localName !== tag.toLowerCase()) return false;
+        for (const id of compound.match(/#[\w-]+/g) || []) if (element.id !== id.slice(1)) return false;
+        for (const cls of compound.match(/\.[\w-]+/g) || []) if (!element.classList?.contains(cls.slice(1))) return false;
+        for (const attrText of compound.match(/\[[^\]]+\]/g) || []) if (!matchAttr(element, attrText.slice(1, -1))) return false;
+        for (const pseudo of compound.match(/:[\w-]+/g) || []) if (!matchPseudo(element, pseudo.slice(1))) return false;
+        return true;
+    }
+
+    function matchAttr(element, raw) {
+        const m = raw.match(/^([\w-]+)(?:\s*=\s*["']?([^"']*)["']?)?$/);
+        if (!m) return false;
+        const value = element.getAttribute?.(m[1]);
+        return m[2] == null ? value != null : value === m[2];
+    }
+
+    function matchPseudo(element, pseudo) {
+        if (pseudo === 'focus') return element.ownerDocument?.activeElement === element;
+        if (pseudo === 'checked') return !!element.checked;
+        if (pseudo === 'disabled') return !!element.disabled;
+        if (pseudo === 'enabled') return !element.disabled;
+        if (pseudo === 'first-child') return element.parentNode?.children?.filter(x => x.nodeType === 1)[0] === element;
+        return false;
+    }
+
     return { VirtualCssEngine };
 });

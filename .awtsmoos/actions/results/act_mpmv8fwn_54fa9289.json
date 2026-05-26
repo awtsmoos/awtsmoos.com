@@ -1,0 +1,413 @@
+{
+  "entry": {
+    "actionId": "act_mpmv8fwn_54fa9289",
+    "inputRef": "cmd_act_mpmv8fwn_54fa9289",
+    "outputRef": ".awtsmoos/actions/results/act_mpmv8fwn_54fa9289.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/ai/tests/harness/staticAudit.cjs",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\nconst fs = require(\"fs\");\nconst path = require(\"path\");\nconst { ROOT, assert, test } = require(\"./assert.cjs\");\n\nconst AUDIT_DIRS = [\"js/app\", \"js/automation\", \"js/chatgpt/stream\", \"js/chatgpt/transport\", \"js/services\", \"relay/split-browser\", \"tests/harness\"];\nconst AUDIT_FILES = [\"index.js\", \"app-main.js\", \"AwtsmoosGPTify.js\", \"styles.css\"];\nconst EXT_ROOT = path.resolve(ROOT, \"../scripts/tricks/extensions/server\");\n\nasync function run() {\n  return test(\"static-regression-audit\", async () => {\n    const files = [...auditFiles(), ...collectFiles(EXT_ROOT, /\\.(js|json)$/)];\n    const duplicateImports = [], duplicateImportedNames = [], duplicateExports = [], duplicateFunctions = [], suspicious = [];\n    for (const file of files) {\n      const text = fs.readFileSync(file, \"utf8\"), rel = relative(file), relUnix = rel.replace(/\\\\/g, \"/\");\n      const imports = [...text.matchAll(/^(?:import\\s+[^;]+;|const\\s+\\{?[^=]+\\}?\\s*=\\s*require\\([^\\n]+\\);)/gm)].map(m => m[0].trim());\n      for (const line of imports.filter((line, i) => imports.indexOf(line) !== i)) duplicateImports.push({ file:rel, line });\n      for (const item of duplicateNamedImports(text)) duplicateImportedNames.push({ file:rel, ...item });\n      for (const item of duplicateExportedNames(text)) duplicateExports.push({ file:rel, ...item });\n      for (const item of duplicateLocalFunctions(text)) duplicateFunctions.push({ file:rel, ...item });\n      if (!relUnix.startsWith(\"tests/harness/\") && /TODO|FIXME|not implemented/i.test(text)) suspicious.push({ file:rel, kind:\"unfinished marker\" });\n      if (/\\/\\*[\\s\\S]*portManager\\.on\\(\"fetch\"/.test(text)) suspicious.push({ file:rel, kind:\"commented fetch handler\" });\n    }\n    const bg = readExt(\"background.js\"), logger = read(\"relay/split-browser/logger.cjs\"), layout = read(\"css/layout.css\"), forms = read(\"css/forms.css\"), styles = read(\"styles.css\"), index = read(\"index.js\"), appMain = read(\"app-main.js\"), scroll = read(\"js/render/runtime/scrollRuntime.js\"), renderer = read(\"js/render/messageRenderer.js\");\n    const count = (s, re) => (s.match(re) || []).length;\n    assert(duplicateImports.length === 0, \"duplicate imports/requires found\", { duplicateImports });\n    assert(duplicateImportedNames.length === 0, \"duplicate imported names found\", { duplicateImportedNames });\n    assert(duplicateExports.length === 0, \"duplicate exported declarations found\", { duplicateExports });\n    assert(duplicateFunctions.length === 0, \"duplicate local function declarations found\", { duplicateFunctions });\n    assert(suspicious.length === 0, \"suspicious unfinished text found\", { suspicious });\n    assert(count(bg, /portManager\\.on\\(\"fetch\"/g) === 1, \"extension fetch handler count drifted\");\n    assert(count(bg, /portManager\\.on\\(\"fetch-body\"/g) === 1, \"extension fetch-body handler count drifted\");\n    assert(count(bg, /portManager\\.on\\(\"resume-stream\"/g) === 1, \"extension resume handler count drifted\");\n    assert(/Number\\(facts\\.status\\) >= 400/.test(logger), \"logger should only treat 4xx/5xx as important by default\");\n    assert(count(layout, /\\.conversation-automation-badge\\s*\\{[\\s\\S]*?border-color:\\s*rgba\\(255,205,92,\\.48\\)/g) === 1, \"conversation automation badge variant CSS must not duplicate blocks\");\n    assert(count(forms, /\\.composer-chrome\\s*\\{/g) === 1, \"composer chrome CSS must not duplicate blocks\");\n    assert(count(forms, /\\.input-area\\.is-fullscreen\\s*\\{/g) === 1, \"composer fullscreen CSS must not duplicate blocks\");\n    assert(!/min-height:\\s*42px/.test(forms), \"mobile send button must not regress below 44px touch target\");\n    assert(uniqueCssImports(styles), \"styles.css must not contain duplicate @import entries\");\n    assert(count(styles, /live-scroll-follow\\.css/g) === 1, \"live scroll follow CSS must be imported exactly once\");\n    assert(!/classList\\.toggle\\(\"hidden\"\\)/.test(index + appMain), \"raw hidden sidebar toggle returned\");\n    assert(!/!options\\.force\\s*&&\\s*!isNearBottom/.test(scroll), \"auto-follow must not pin merely because content growth moved the bottom\");\n    assert(/liveFollowButton/.test(renderer) && /forceScrollDown\\(\\)/.test(renderer), \"renderer must expose a live bottom button that re-enables auto-follow\");\n    assert(/isProgrammaticScroll/.test(renderer) && /deltaY < 0/.test(renderer), \"scroll pinning must depend on explicit user upward intent\");\n    return { files:files.length, duplicateImports:0, duplicateExports:0, duplicateFunctions:0, suspicious:0 };\n  });\n}\n\nfunction auditFiles() {\n  const files = AUDIT_FILES.map(file => path.join(ROOT, file)).filter(fs.existsSync);\n  for (const dir of AUDIT_DIRS) files.push(...collectFiles(path.join(ROOT, dir), /\\.(js|cjs|css|md)$/));\n  return [...new Set(files)];\n}\nfunction collectFiles(dir, re, out = []) {\n  if (!fs.existsSync(dir)) return out;\n  for (const ent of fs.readdirSync(dir, { withFileTypes:true })) {\n    if ([\"node_modules\", \".git\"].includes(ent.name)) continue;\n    const full = path.join(dir, ent.name);\n    if (ent.isDirectory()) collectFiles(full, re, out); else if (re.test(ent.name)) out.push(full);\n  }\n  return out;\n}\nfunction uniqueCssImports(text) { const imports = [...text.matchAll(/^@import\\s+[\"']([^\"']+)[\"'];/gm)].map(match => match[1]); return imports.length === new Set(imports).size; }\nfunction duplicateNamedImports(text) { return duplicatesFromMatches(text, /^import\\s+([^;]+?)\\s+from\\s+[\"'][^\"']+[\"'];?/gm, clause => importedNamesFromClause(clause)); }\nfunction duplicateExportedNames(text) { return duplicatesFromMatches(text, /^export\\s+(?:async\\s+)?(?:function|class|const|let|var)\\s+([A-Za-z_$][\\w$]*)/gm, name => [name]); }\nfunction duplicateLocalFunctions(text) { return duplicatesFromMatches(text, /^(?!export\\s)(?:async\\s+)?function\\s+([A-Za-z_$][\\w$]*)\\s*\\(/gm, name => [name]); }\nfunction duplicatesFromMatches(text, regex, namesOf) {\n  const seen = new Map(), duplicates = [];\n  for (const match of text.matchAll(regex)) for (const name of namesOf(match[1].trim())) {\n    if (seen.has(name)) duplicates.push({ name, first:seen.get(name), line:match[0].trim() }); else seen.set(name, match[0].trim());\n  }\n  return duplicates;\n}\nfunction importedNamesFromClause(clause) {\n  const names = [], brace = clause.match(/\\{([^}]+)\\}/);\n  if (brace) names.push(...brace[1].split(\",\").map(part => part.trim().split(/\\s+as\\s+/i).pop()).filter(Boolean));\n  const defaultPart = clause.replace(/\\{[^}]+\\}/, \"\").split(\",\")[0].trim();\n  if (defaultPart && !defaultPart.startsWith(\"*\")) names.push(defaultPart);\n  return names;\n}\nfunction read(file) { return fs.readFileSync(path.join(ROOT, file), \"utf8\"); }\nfunction readExt(file) { return fs.readFileSync(path.join(EXT_ROOT, file), \"utf8\"); }\nfunction relative(file) { return path.relative(ROOT, file).replace(/^\\.\\.\\//, \"\"); }\nmodule.exports = { run };\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T16:44:46.343Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/ai/tests/harness/staticAudit.cjs",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\ai\\tests\\harness\\staticAudit.cjs",
+    "bytes": 6791,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ROOT",
+          "index": 58
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "assert",
+          "index": 64
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "test",
+          "index": 72
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "js",
+          "index": 331
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "json",
+          "index": 334
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "duplicateImportedNames",
+          "index": 378
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "duplicateExports",
+          "index": 407
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "duplicateFunctions",
+          "index": 430
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "suspicious",
+          "index": 455
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "rel",
+          "index": 549
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "relUnix",
+          "index": 571
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "g",
+          "index": 597
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "n",
+          "index": 703
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "gm",
+          "index": 711
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "m",
+          "index": 720
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TODO",
+          "index": 1213
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "FIXME",
+          "index": 1218
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "not",
+          "index": 1224
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "implemented",
+          "index": 1228
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "kind",
+          "index": 1282
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "S",
+          "index": 1312
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "portManager",
+          "index": 1315
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "logger",
+          "index": 1419
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "layout",
+          "index": 1437
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "forms",
+          "index": 1455
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "styles",
+          "index": 1472
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "index",
+          "index": 1490
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "appMain",
+          "index": 1507
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "scroll",
+          "index": 1526
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "renderer",
+          "index": 1544
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "facts",
+          "index": 2150
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "automation",
+          "index": 2233
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "badge",
+          "index": 2244
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "border",
+          "index": 2262
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "color",
+          "index": 2269
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "rgba",
+          "index": 2278
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "chrome",
+          "index": 2352
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "area",
+          "index": 2411
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "fullscreen",
+          "index": 2420
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "min",
+          "index": 2463
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "height",
+          "index": 2467
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "live",
+          "index": 2567
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "follow",
+          "index": 2579
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "classList",
+          "index": 2618
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "options",
+          "index": 2683
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "isNearBottom",
+          "index": 2706
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "liveFollowButton",
+          "index": 2750
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "forceScrollDown",
+          "index": 2787
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "isProgrammaticScroll",
+          "index": 2840
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "deltaY",
+          "index": 2881
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

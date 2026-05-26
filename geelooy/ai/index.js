@@ -5,7 +5,8 @@ import { resetRenderWorkerStores } from "./js/render/workerClient.js";
 import { AutomationSettingsStore } from "./js/automation/settingsStore.js";
 import { AutomationPipeline } from "./js/automation/pipeline.js";
 import { AutomationPanel } from "./js/automation/panel.js";
-import { syncBackgroundAutomation } from "./js/automation/backgroundBridge.js";
+import { syncBackgroundAutomation, hasBackgroundAutomationBridge } from "./js/automation/backgroundBridge.js";
+import { mountBackgroundAutomationMirror } from "./js/automation/backgroundStreamMirror.js";
 import { ConversationController } from "./js/app/conversationController.js";
 import { getConversationId, updateSearchParams } from "./js/app/urlState.js";
 import { LayoutController } from "./js/layout/layoutController.js";
@@ -37,34 +38,49 @@ document.addEventListener("DOMContentLoaded", async () => {
   const store = new AutomationSettingsStore();
   let pipeline = null;
   const panel = new AutomationPanel({ root: dom.automationPanel, store, onChange: async settings => {
-    await pipeline?.onSettingsChanged(settings);
-    await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId: getConversationId(), report: text => panel.report(text) });
+    const owner = await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId: getConversationId(), report: text => panel.report(text) });
+    if (owner?.owner === "page") await pipeline?.onSettingsChanged(settings);
+    else pipeline?.reset(getConversationId());
   } });
   pipeline = new AutomationPipeline({
     settingsStore: store,
     getSettings: () => panel.getSettings(),
-    sendPrompt: (prompt, context = {}) => controller.sendAutomation(prompt, { conversationId: context.conversationId }),
+    sendPrompt: async (prompt, context = {}) => {
+      let finalReply = "";
+      const result = await controller.sendAutomation(prompt, {
+        conversationId: context.conversationId,
+        ondone: reply => { if (reply) finalReply = reply; }
+      });
+      return finalReply || result || "";
+    },
     report: text => panel.report(text)
   });
   resumeVisibleStreams = () => resumeStoredStreams(renderer, {
     getActiveConversationId: () => getConversationId(),
-    onDone: reply => pipeline.afterAssistantReply(reply)
+    onDone: reply => {
+      if (!hasBackgroundAutomationBridge()) pipeline.afterAssistantReply(reply);
+    }
   });
   new LayoutController(dom).mount();
   wireTransportStatus(dom);
 
   wireChrome({ dom, controller, aiHandler, pipeline, panel, attachments, sendFromText });
+  mountBackgroundAutomationMirror({ renderer, controller, panel, getConversationId });
   dom.conversationList.innerHTML = `<li class="is-loading">Loading conversations…</li>`;
   dom.chatBox.innerHTML = `<div class="render-loading"><i></i><span>Preparing Awtsmoos cockpit…</span></div>`;
   const bootedConversation = await bootstrapFromUrl({ dom, aiHandler, controller });
-  pipeline.resumeActiveRuns();
+  if (!hasBackgroundAutomationBridge()) pipeline.resumeActiveRuns();
+  else panel.report("automation owner: extension background");
   if (!bootedConversation) resumeVisibleStreams();
 
   async function sendFromText(text = dom.messageInput.value) {
     const prompt = String(text || "").trim();
     if (!prompt) return null;
     dom.messageInput.value = "";
-    return await controller.send(prompt, { attachments: attachments.consume(), ondone: (reply, meta) => pipeline.afterAssistantReply(reply, meta) });
+    return await controller.send(prompt, { attachments: attachments.consume(), ondone: async (reply, meta) => {
+      if (!hasBackgroundAutomationBridge()) return pipeline.afterAssistantReply(reply, meta);
+      if (panel.getSettings().enabled) await syncBackgroundAutomation({ settings: panel.getSettings(), graph: panel.getGraph(), conversationId: getConversationId(), report: text => panel.report(text) });
+    } });
   }
 
   window.sendMessageToAi = sendFromText;

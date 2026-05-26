@@ -1,0 +1,278 @@
+{
+  "entry": {
+    "actionId": "act_mpmeitpp_5a4e84d0",
+    "inputRef": "cmd_act_mpmeitpp_5a4e84d0",
+    "outputRef": ".awtsmoos/actions/results/act_mpmeitpp_5a4e84d0.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualWebGLBoxRenderer.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\n(function(root, factory) {\n    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualWebGLTextureArena.js'));\n    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWebGLBoxRenderer = factory(root.Merkava).VirtualWebGLBoxRenderer; }\n})(typeof self !== 'undefined' ? self : this, function(arenaMod) {\n    const VirtualWebGLTextureArena = arenaMod.VirtualWebGLTextureArena;\n    const hiddenTags = new Set(['head', 'script', 'style', 'meta', 'link', 'title']);\n    const inlineTags = new Set(['#text', 'span', 'a', 'b', 'i', 'strong', 'em', 'small', 'label']);\n    const n = value => Number(String(value || '0').replace(/px$/, '')) || 0;\n    const textOf = element => element.nodeType === 3 ? element.textContent : element.textContent;\n\n    /**\n     * Chapter 16: CSS boxes become quads in the hidden sea of WebGL.\n     *\n     * This is still intentionally small, but it now belongs to the executor:\n     * visibility, CSS sizing, block flow, inline-ish text placement, and skipped\n     * non-visual nodes are decided here before C receives simple paint ops.\n     */\n    class VirtualWebGLBoxRenderer {\n        constructor(arena = new VirtualWebGLTextureArena()) { this.arena = arena; }\n        ensureTexture(element) {\n            if (!element.__webglBoxTexture) element.__webglBoxTexture = this.arena.createTexture('dom-box', element, 0, 0);\n            return element.__webglBoxTexture;\n        }\n        paintElement(element, x = 0, y = 0, containingWidth = 760) {\n            if (!element || this.isHidden(element)) return { width: 0, height: 0 };\n            const style = this.computed(element);\n            if (style.display === 'none') return { width: 0, height: 0 };\n            const metrics = this.measure(element, style, containingWidth);\n            const texture = this.ensureTexture(element);\n            texture.width = metrics.width; texture.height = metrics.height;\n            this.arena.record(texture, 'paintBox', {\n                x, y, width: metrics.width, height: metrics.height,\n                padding: metrics.padding, margin: metrics.margin, border: metrics.border,\n                background: style['background-color'] || style.backgroundColor || '',\n                color: style.color || '', display: style.display || 'block'\n            });\n            const directText = this.directText(element);\n            if (directText) this.arena.record(texture, 'paintTextPlaceholder', {\n                text: directText, x: x + metrics.padding + metrics.border + 2, y: y + metrics.padding + metrics.border + 14,\n                color: style.color || '#111111', note: 'native host draws glyphs from executor text command'\n            });\n            let childY = y + metrics.padding + metrics.border + (directText ? 20 : 0);\n            let childX = x + metrics.padding + metrics.border;\n            const innerWidth = Math.max(0, metrics.width - metrics.padding * 2 - metrics.border * 2);\n            for (const child of element.children || []) {\n                if (this.isHidden(child)) continue;\n                const childStyle = this.computed(child);\n                if (childStyle.display === 'none') continue;\n                const isInline = childStyle.display === 'inline' || inlineTags.has(child.localName);\n                const box = this.paintElement(child, childX, childY, innerWidth || containingWidth);\n                if (isInline) childX += box.width || this.measureText(child).width;\n                else { childY += box.height || 0; childX = x + metrics.padding + metrics.border; }\n            }\n            return metrics;\n        }\n        isHidden(element) { return !!element.hidden || hiddenTags.has(element.localName); }\n        computed(element) { return element.ownerDocument?.cssEngine?.compute(element) || element.style?.toJSON?.() || {}; }\n        directText(element) { return (element.children || []).length ? String(element.textContent || '').trim() : String(textOf(element) || '').trim(); }\n        measureText(element) { const text = this.directText(element); return { width: Math.max(0, text.length * 8), height: text ? 20 : 0 }; }\n        measure(element, style, containingWidth) {\n            const padding = n(style.padding), margin = n(style.margin), border = n(style['border-width']);\n            const explicitWidth = n(style.width), explicitHeight = n(style.height), minHeight = n(style['min-height']);\n            const text = this.measureText(element);\n            let childHeight = 0, childWidth = 0;\n            for (const child of element.children || []) {\n                if (this.isHidden(child)) continue;\n                const childStyle = this.computed(child);\n                if (childStyle.display === 'none') continue;\n                const childBox = this.measure(child, childStyle, containingWidth);\n                childHeight += childBox.height;\n                childWidth = Math.max(childWidth, childBox.width);\n            }\n            const width = explicitWidth || (style.display === 'inline' ? text.width : Math.max(childWidth, Math.min(containingWidth || 760, 760)));\n            const contentHeight = Math.max(text.height, childHeight, minHeight, explicitHeight);\n            const height = explicitHeight || contentHeight + padding * 2 + border * 2 + margin;\n            return { width, height, padding, margin, border };\n        }\n        snapshot() { return this.arena.snapshot(); }\n    }\n    return { VirtualWebGLBoxRenderer };\n});\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T08:56:57.325Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualWebGLBoxRenderer.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\awtsmoos\\MerkavaExecutor\\merkava-browser\\VirtualWebGLBoxRenderer.js",
+    "bytes": 5482,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "value",
+          "index": 504
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "px",
+          "index": 548
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "element",
+          "index": 583
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "arena",
+          "index": 725
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ensureTexture",
+          "index": 797
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "paintElement",
+          "index": 1002
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "x",
+          "index": 1024
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "y",
+          "index": 1031
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "containingWidth",
+          "index": 1038
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "margin",
+          "index": 1628
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "border",
+          "index": 1652
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "background",
+          "index": 1692
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "color",
+          "index": 1760
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "display",
+          "index": 1785
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "note",
+          "index": 2112
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "isHidden",
+          "index": 3049
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "computed",
+          "index": 3141
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "measureText",
+          "index": 3417
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "measure",
+          "index": 3560
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "explicitHeight",
+          "index": 3747
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "minHeight",
+          "index": 3781
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "childWidth",
+          "index": 3891
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "snapshot",
+          "index": 4757
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

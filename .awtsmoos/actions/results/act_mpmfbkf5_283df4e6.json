@@ -1,0 +1,243 @@
+{
+  "entry": {
+    "actionId": "act_mpmfbkf5_283df4e6",
+    "inputRef": "cmd_act_mpmfbkf5_283df4e6",
+    "outputRef": ".awtsmoos/actions/results/act_mpmfbkf5_283df4e6.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/tricks/extensions/server/bgAutomation/engine.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "//B\"H\n(function(){\n  const ALARM = \"BH_awtsmoos_background_automation_tick\";\n  let busy = false;\n\n  async function startAutomation(config = {}) {\n    const store = globalThis.AwtsmoosBgAutomationStorage;\n    const next = await store.saveAutomationState({\n      enabled:true, turns:0, status:\"armed\", lastError:\"\", conversationId:config.conversationId,\n      graph:config.graph || null, settings:{ ...(config.settings || {}), enabled:true },\n      prompt:config.settings?.prompt || config.prompt || \"continue\"\n    });\n    schedule(0.02);\n    tickAutomation(\"start\").catch(error => fail(error));\n    return store.publicAutomationState(next);\n  }\n\n  async function stopAutomation(reason = \"stopped\") {\n    chrome.alarms.clear(ALARM);\n    return publicSave({ enabled:false, status:reason });\n  }\n\n  async function statusAutomation() { return globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(await globalThis.AwtsmoosBgAutomationStorage.loadAutomationState()); }\n\n  async function tickAutomation(reason = \"tick\") {\n    if (busy) return await statusAutomation();\n    const store = globalThis.AwtsmoosBgAutomationStorage;\n    const state = await store.loadAutomationState();\n    const settings = { ...store.DEFAULTS, ...(state.settings || {}) };\n    if (!state.enabled || !state.conversationId) return store.publicAutomationState(state);\n    if (Number(state.turns || 0) >= Number(settings.maxTurns || 0)) return await stopAutomation(\"done:max-turns\");\n    busy = true;\n    try { return await runTurn({ state, settings }); }\n    catch (error) { return await fail(error, settings.stopOnError !== false); }\n    finally { busy = false; }\n  }\n\n  async function runTurn({ state, settings }) {\n    const store = globalThis.AwtsmoosBgAutomationStorage;\n    const turn = Number(state.turns || 0) + 1;\n    const prompt = globalThis.AwtsmoosBgAutomationGraph.chooseAutomationPrompt(state.graph, { ...state, settings, turn }) || state.prompt || settings.prompt;\n    await store.saveAutomationState({ status:`sending:${turn}`, turns:turn, lastPrompt:prompt });\n    const visible = globalThis.AwtsmoosBgPageDelegate?.dispatchAutomationToVisiblePage?.({ conversationId:state.conversationId, prompt, turn }) || 0;\n    if (visible) return store.publicAutomationState(await store.saveAutomationState({ status:`visible-page:${turn}`, visiblePage:true }));\n    const result = await globalThis.AwtsmoosBgChatGpt.sendChatGptBackground({ conversationId:state.conversationId, prompt });\n    await markReply(result, state, settings, turn);\n    return await statusAutomation();\n  }\n\n  async function markReply(result = {}, state = {}, settings = {}, turn = 0) {\n    await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState({\n      status:\"waiting\", lastReply:result.text || \"\", lastMessageId:result.messageId || \"\",\n      lastConversationId:result.conversationId || state.conversationId, lastError:\"\"\n    });\n    if (turn >= Number(settings.maxTurns || 0)) return await stopAutomation(\"done:max-turns\");\n    scheduleNext(Number(settings.delayMs || 1000));\n  }\n\n  async function visiblePageDone(result = {}) {\n    const state = await globalThis.AwtsmoosBgAutomationStorage.loadAutomationState();\n    const settings = { ...globalThis.AwtsmoosBgAutomationStorage.DEFAULTS, ...(state.settings || {}) };\n    await markReply(result, state, settings, Number(state.turns || 0));\n    return await statusAutomation();\n  }\n\n  async function fail(error, stop = true) {\n    const next = await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState({ status:\"error\", lastError:String(error?.stack || error?.message || error) });\n    if (stop) await stopAutomation(\"error\"); else schedule(1);\n    console.warn(\"B'H background automation error\", error?.message || error);\n    return globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(next);\n  }\n\n  async function publicSave(patch) { return globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState(patch)); }\n  function schedule(delayInMinutes) { chrome.alarms.create(ALARM, { delayInMinutes }); }\n  function scheduleNext(delayMs) { const ms = Math.max(100, Number(delayMs || 1000)); schedule(Math.max(0.02, ms / 60000)); setTimeout(() => tickAutomation(\"timer\"), ms); }\n  chrome.alarms.onAlarm.addListener(alarm => { if (alarm.name === ALARM) tickAutomation(\"alarm\"); });\n  globalThis.AwtsmoosBgAutomationEngine = { startAutomation, stopAutomation, statusAutomation, tickAutomation, visiblePageDone };\n})();\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T09:19:18.306Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/tricks/extensions/server/bgAutomation/engine.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\tricks\\extensions\\server\\bgAutomation\\engine.js",
+    "bytes": 4513,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "config",
+          "index": 88
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "enabled",
+          "index": 218
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "turns",
+          "index": 232
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "status",
+          "index": 241
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lastError",
+          "index": 251
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "conversationId",
+          "index": 264
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "graph",
+          "index": 308
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "reason",
+          "index": 612
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "chrome",
+          "index": 630
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lastPrompt",
+          "index": 1923
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "visiblePage",
+          "index": 2191
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lastReply",
+          "index": 2599
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lastMessageId",
+          "index": 2627
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lastConversationId",
+          "index": 2670
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "stop",
+          "index": 3274
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "alarm",
+          "index": 4105
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

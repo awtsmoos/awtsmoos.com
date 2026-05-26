@@ -1,0 +1,308 @@
+{
+  "entry": {
+    "actionId": "act_mpmehtua_cb7aacaf",
+    "inputRef": "cmd_act_mpmehtua_cb7aacaf",
+    "outputRef": ".awtsmoos/actions/results/act_mpmehtua_cb7aacaf.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualHtmlHydrator.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\n(function(root, factory) {\n    if (typeof module === 'object' && module.exports) module.exports = factory();\n    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualHtmlHydrator = factory().VirtualHtmlHydrator; }\n})(typeof self !== 'undefined' ? self : this, function() {\n    const voidTags = new Set('area base br col embed hr img input link meta param source track wbr'.split(' '));\n    const rawTextTags = new Set(['script', 'style', 'textarea', 'title']);\n    const decode = text => String(text || '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '\"').replace(/&#39;/g, \"'\");\n    const attrRe = /([:\\w-]+)(?:\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)'|([^\\s\"'=<>`]+)))?/g;\n\n    /**\n     * Chapter 28: The letters of HTML descend into vessels.\n     *\n     * This hydrator is deliberately executor-owned. It turns HTML text into\n     * VirtualDocument nodes inside MerkavaExecutor. The native host receives\n     * only the later render command stream; C never decides what a tag means.\n     */\n    class VirtualHtmlHydrator {\n        hydrate(document, source, options = {}) {\n            document.head.replaceChildren();\n            document.body.replaceChildren();\n            const root = document.documentElement;\n            const stack = [root];\n            const html = stripDoctype(String(source || ''));\n            let i = 0;\n            while (i < html.length) {\n                if (html.startsWith('<!--', i)) { i = skipComment(html, i); continue; }\n                if (html[i] !== '<') { appendText(document, stack[stack.length - 1], html.slice(i, nextTag(html, i))); i = nextTag(html, i); continue; }\n                const close = html.indexOf('>', i + 1);\n                if (close < 0) { appendText(document, stack[stack.length - 1], html.slice(i)); break; }\n                const raw = html.slice(i + 1, close).trim();\n                if (!raw) { i = close + 1; continue; }\n                if (raw[0] === '/') { closeElement(stack, raw.slice(1).trim().toLowerCase()); i = close + 1; continue; }\n                const selfClosing = raw.endsWith('/');\n                const body = selfClosing ? raw.slice(0, -1).trim() : raw;\n                const space = body.search(/\\s/);\n                const tag = (space < 0 ? body : body.slice(0, space)).toLowerCase();\n                const attrText = space < 0 ? '' : body.slice(space + 1);\n                const el = document.createElement(tag);\n                readAttrs(el, attrText);\n                const parent = chooseParent(document, stack, tag);\n                parent.appendChild(el);\n                if (tag === 'style') document.cssEngine.parseStyleSheet(readRaw(html, tag, close + 1).text);\n                if (rawTextTags.has(tag)) {\n                    const rawValue = readRaw(html, tag, close + 1);\n                    if (rawValue.text) el.textContent = rawValue.text;\n                    i = rawValue.end;\n                    continue;\n                }\n                if (!selfClosing && !voidTags.has(tag)) stack.push(el);\n                i = close + 1;\n            }\n            applyDefaultDisplay(document.body);\n            return { ok: true, nodes: countNodes(document.documentElement), title: document.querySelector('title')?.textContent || '' };\n        }\n    }\n\n    function stripDoctype(text) { return text.replace(/^\\s*<!doctype[^>]*>/i, ''); }\n    function nextTag(html, i) { const n = html.indexOf('<', i); return n < 0 ? html.length : n; }\n    function skipComment(html, i) { const n = html.indexOf('-->', i + 4); return n < 0 ? html.length : n + 3; }\n    function readAttrs(el, text) { for (const m of text.matchAll(attrRe)) if (m[1]) el.setAttribute(m[1], decode(m[2] ?? m[3] ?? m[4] ?? '')); }\n    function appendText(document, parent, text) { const value = decode(text).replace(/\\s+/g, ' ').trim(); if (value) parent.appendChild(document.createTextNode(value)); }\n    function closeElement(stack, tag) { for (let i = stack.length - 1; i > 0; i--) if (stack[i].localName === tag) { stack.length = i; return; } }\n    function readRaw(html, tag, from) { const endTag = `</${tag}>`; const lower = html.toLowerCase(); const end = lower.indexOf(endTag, from); return end < 0 ? { text: html.slice(from), end: html.length } : { text: html.slice(from, end), end: end + endTag.length }; }\n    function chooseParent(document, stack, tag) { if (tag === 'html') return document.documentElement; if (tag === 'head') return document.documentElement; if (tag === 'body') return document.documentElement; if (tag === 'title' || tag === 'meta' || tag === 'link' || tag === 'style' || tag === 'script') return document.head; const top = stack[stack.length - 1]; return top === document.documentElement ? document.body : top; }\n    function countNodes(node) { return 1 + (node.children || []).reduce((n, child) => n + countNodes(child), 0); }\n    function applyDefaultDisplay(node) { for (const child of node.children || []) { if (!child.style.getPropertyValue?.('display')) child.style.setProperty?.('display', defaultDisplay(child.localName)); applyDefaultDisplay(child); } }\n    function defaultDisplay(tag) { return ['span','a','b','i','strong','em','small','label','#text'].includes(tag) ? 'inline' : tag === 'script' || tag === 'style' || tag === 'meta' || tag === 'link' ? 'none' : 'block'; }\n\n    return { VirtualHtmlHydrator };\n});\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T08:56:10.834Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualHtmlHydrator.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\awtsmoos\\MerkavaExecutor\\merkava-browser\\VirtualHtmlHydrator.js",
+    "bytes": 5362,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "text",
+          "index": 375
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "lt",
+          "index": 411
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "g",
+          "index": 415
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "gt",
+          "index": 431
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "amp",
+          "index": 451
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "quot",
+          "index": 472
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "w",
+          "index": 530
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "s",
+          "index": 539
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "style",
+          "index": 569
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "title",
+          "index": 575
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "html",
+          "index": 592
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "head",
+          "index": 597
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "body",
+          "index": 602
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "meta",
+          "index": 613
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "link",
+          "index": 618
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "script",
+          "index": 629
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "display",
+          "index": 636
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "span",
+          "index": 652
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "a",
+          "index": 657
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "b",
+          "index": 659
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "i",
+          "index": 661
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "strong",
+          "index": 663
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "em",
+          "index": 670
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "small",
+          "index": 673
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "label",
+          "index": 679
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "inline",
+          "index": 691
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "none",
+          "index": 721
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "block",
+          "index": 726
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "VirtualHtmlHydrator",
+          "index": 750
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

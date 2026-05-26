@@ -36,7 +36,11 @@ async function run() {
     assert(/min-height:\s*44px/.test(mobileComposer) && /min-width:\s*44px/.test(mobileComposer), "mobile composer controls must preserve 44px touch targets");
     assert(/overscroll-behavior:\s*contain/.test(chatCss), "chat surfaces must contain overscroll bounce");
     assert(!/classList\.toggle\("hidden"\)/.test(index + appMain), "raw hidden sidebar toggle returned");
-    assert(count(index, /controller\.sendAutomation/g) === 1, "index sendAutomation wiring count wrong");
+    assert(count(index, /controller\.sendAutomation/g) === 1, "index page fallback sendAutomation wiring count wrong");
+    assert(!/awtsmoos-background-automation-send/.test(index) && !/backgroundAutomationVisibleDone/.test(index), "page must mirror extension automation state, not continue it");
+    const mirror = read("js/automation/backgroundStreamMirror.js");
+    assert(/awtsmoos-background-automation-state/.test(mirror) && /controller\.loadConversation/.test(mirror), "open tab must refresh UI from background-owned automation state");
+    assert(/awtsmoos-background-automation-stream/.test(mirror) && /StreamRouter/.test(mirror), "open tab must render background-owned automation stream packets live");
     assert(count(appMain, /controller\.sendAutomation/g) === 1, "app-main sendAutomation wiring count wrong");
     assert(count(index, /resumeVisibleStreams\s*=\s*\(\) => resumeStoredStreams/g) === 1, "index resume wiring count wrong");
     assert(count(appMain, /resumeVisibleStreams\s*=\s*\(\) => resumeStoredStreams/g) === 1, "app-main resume wiring count wrong");

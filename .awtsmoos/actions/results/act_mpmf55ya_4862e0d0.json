@@ -1,0 +1,413 @@
+{
+  "entry": {
+    "actionId": "act_mpmf55ya_4862e0d0",
+    "inputRef": "cmd_act_mpmf55ya_4862e0d0",
+    "outputRef": ".awtsmoos/actions/results/act_mpmf55ya_4862e0d0.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/WebGLBytecodeCompiler.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\n(function(root, factory) {\n  if (typeof module === 'object' && module.exports) module.exports = factory(require('./RuntimeLog.js'));\n  else { root.Merkava = root.Merkava || {}; root.Merkava.WebGLBytecodeCompiler = factory(root.Merkava).WebGLBytecodeCompiler; }\n})(typeof self !== 'undefined' ? self : this, function(logMod) {\n  const RuntimeLog = logMod.RuntimeLog;\n  const OPS = Object.freeze({ CREATE_SHADER:1, SHADER_SOURCE:2, COMPILE_SHADER:3, CREATE_PROGRAM:4, ATTACH_SHADER:5, LINK_PROGRAM:6, USE_PROGRAM:7, CREATE_BUFFER:8, BIND_BUFFER:9, BUFFER_DATA:10, CREATE_TEXTURE:11, TEX_IMAGE_2D:12, UNIFORM:13, DRAW_ARRAYS:14, DRAW_ELEMENTS:15 });\n  class WebGLBytecodeCompiler {\n    constructor(options = {}) { this.log = options.log || new RuntimeLog('webgl'); this.ops = []; this.next = 1; this.state = { program: null, buffers: {}, textures: {}, shaders: {}, uniforms: {}, drawCalls: 0 }; }\n    emit(op, payload = {}) { const record = { id: this.next++, op, code: OPS[op], payload }; this.ops.push(record); this.log.push('webgl', op, summarize(payload)); return record; }\n    createShader(kind, source = '') { const id = 'shader' + this.next; this.state.shaders[id] = { kind, source, compiled: false }; this.emit('CREATE_SHADER', { id, kind }); if (source) this.shaderSource(id, source); return id; }\n    shaderSource(id, source) { this.state.shaders[id] ||= {}; this.state.shaders[id].source = String(source); this.emit('SHADER_SOURCE', { id, bytes: String(source).length }); }\n    compileShader(id) { this.state.shaders[id] ||= {}; this.state.shaders[id].compiled = true; this.emit('COMPILE_SHADER', { id, ok: true }); }\n    createProgram() { const id = 'program' + this.next; this.state.programs ||= {}; this.state.programs[id] = { shaders: [], linked: false }; this.emit('CREATE_PROGRAM', { id }); return id; }\n    attachShader(program, shader) { this.state.programs[program].shaders.push(shader); this.emit('ATTACH_SHADER', { program, shader }); }\n    linkProgram(program) { this.state.programs[program].linked = true; this.emit('LINK_PROGRAM', { program, ok: true }); }\n    useProgram(program) { this.state.program = program; this.emit('USE_PROGRAM', { program }); }\n    createBuffer(bytes = 0) { const id = 'buffer' + this.next; this.state.buffers[id] = { bytes, target: null }; this.emit('CREATE_BUFFER', { id }); return id; }\n    bindBuffer(target, buffer) { if (buffer) this.state.buffers[buffer].target = target; this.emit('BIND_BUFFER', { target, buffer }); }\n    bufferData(target, data) { const bytes = byteLength(data); this.emit('BUFFER_DATA', { target, bytes }); }\n    createTexture(width = 0, height = 0) { const id = 'texture' + this.next; this.state.textures[id] = { width, height }; this.emit('CREATE_TEXTURE', { id }); return id; }\n    texImage2D(texture, width, height, bytes = width * height * 4) { this.state.textures[texture] = { width, height, bytes }; this.emit('TEX_IMAGE_2D', { texture, width, height, bytes }); }\n    uniform(name, value) { this.state.uniforms[name] = value; this.emit('UNIFORM', { name, value }); }\n    drawArrays(mode, first, count) { this.state.drawCalls++; this.emit('DRAW_ARRAYS', { mode, first, count, triangles: Math.floor(count / 3) }); }\n    drawElements(mode, count, type, offset) { this.state.drawCalls++; this.emit('DRAW_ELEMENTS', { mode, count, type, offset }); }\n    compileFromCanvasCommands(commands = []) { for (const cmd of commands) this.lowerCanvasCommand(cmd); return this.ops; }\n    lowerCanvasCommand(cmd) { const op = cmd.op || cmd.name || ''; if (op.includes('drawArrays')) this.drawArrays(cmd.mode || 'TRIANGLES', cmd.first || 0, cmd.count || 3); else if (op.includes('bufferData')) this.bufferData(cmd.target || 'ARRAY_BUFFER', cmd.data || cmd.bytes || 0); else if (op.includes('texImage2D')) this.texImage2D(cmd.texture || 'texture0', cmd.width || 1, cmd.height || 1, cmd.bytes); else this.emit('UNIFORM', { loweredFrom: op || 'unknown' }); }\n    toBytecode() { return Buffer.from(JSON.stringify({ kind: 'webgl-bytecode', version: 1, ops: this.ops }), 'utf8'); }\n  }\n  function byteLength(data) { if (typeof data === 'number') return data; if (data?.byteLength != null) return data.byteLength; if (Array.isArray(data)) return data.length * 4; return Buffer.byteLength(String(data || ''), 'utf8'); }\n  function summarize(payload) { if ('bytes' in payload) return { bytes: payload.bytes }; if ('triangles' in payload) return { triangles: payload.triangles }; if ('kind' in payload) return { kind: payload.kind }; if ('ok' in payload) return { ok: payload.ok }; return payload; }\n  return { WebGLBytecodeCompiler, OPS };\n});\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T09:14:19.618Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/WebGLBytecodeCompiler.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\awtsmoos\\MerkavaExecutor\\merkava-browser\\WebGLBytecodeCompiler.js",
+    "bytes": 4608,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CREATE_SHADER",
+          "index": 365
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "SHADER_SOURCE",
+          "index": 382
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "COMPILE_SHADER",
+          "index": 399
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CREATE_PROGRAM",
+          "index": 417
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ATTACH_SHADER",
+          "index": 435
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "LINK_PROGRAM",
+          "index": 452
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "USE_PROGRAM",
+          "index": 468
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CREATE_BUFFER",
+          "index": 483
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "BIND_BUFFER",
+          "index": 500
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "BUFFER_DATA",
+          "index": 515
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CREATE_TEXTURE",
+          "index": 531
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TEX_IMAGE_2D",
+          "index": 550
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "UNIFORM",
+          "index": 567
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "DRAW_ARRAYS",
+          "index": 579
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "DRAW_ELEMENTS",
+          "index": 595
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "options",
+          "index": 664
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "program",
+          "index": 770
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "buffers",
+          "index": 785
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "textures",
+          "index": 798
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "shaders",
+          "index": 812
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "uniforms",
+          "index": 825
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "drawCalls",
+          "index": 839
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "emit",
+          "index": 861
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "code",
+          "index": 924
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createShader",
+          "index": 1036
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "kind",
+          "index": 1049
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "source",
+          "index": 1055
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compiled",
+          "index": 1136
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "shaderSource",
+          "index": 1243
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compileShader",
+          "index": 1407
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ok",
+          "index": 1517
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createProgram",
+          "index": 1536
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "linked",
+          "index": 1649
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "attachShader",
+          "index": 1705
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "shader",
+          "index": 1727
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "linkProgram",
+          "index": 1829
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "useProgram",
+          "index": 1939
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createBuffer",
+          "index": 2024
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "target",
+          "index": 2110
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bindBuffer",
+          "index": 2165
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "buffer",
+          "index": 2184
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bufferData",
+          "index": 2290
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "createTexture",
+          "index": 2388
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "width",
+          "index": 2402
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "height",
+          "index": 2413
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "texImage2D",
+          "index": 2537
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "texture",
+          "index": 2548
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "uniform",
+          "index": 2714
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "name",
+          "index": 2722
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "value",
+          "index": 2728
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

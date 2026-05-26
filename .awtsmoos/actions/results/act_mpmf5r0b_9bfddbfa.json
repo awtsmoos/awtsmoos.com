@@ -1,0 +1,348 @@
+{
+  "entry": {
+    "actionId": "act_mpmf5r0b_9bfddbfa",
+    "inputRef": "cmd_act_mpmf5r0b_9bfddbfa",
+    "outputRef": ".awtsmoos/actions/results/act_mpmf5r0b_9bfddbfa.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/PersistentBrowserRuntime.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\n(function(root, factory) {\n  if (typeof module === 'object' && module.exports) module.exports = factory(require('./SyntheticBrowserRuntime.js'), require('./RuntimeLog.js'), require('./IncrementalDomCompiler.js'), require('./RetainedLayoutEngine.js'), require('./EventRoutingEngine.js'), require('./WebGLBytecodeCompiler.js'), require('./TextLayoutEngine.js'));\n  else { root.Merkava = root.Merkava || {}; root.Merkava.PersistentBrowserRuntime = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava).PersistentBrowserRuntime; }\n})(typeof self !== 'undefined' ? self : this, function(runtimeMod, logMod, domMod, layoutMod, eventMod, webglMod, textMod) {\n  const SyntheticBrowserRuntime = runtimeMod.SyntheticBrowserRuntime;\n  const RuntimeLog = logMod.RuntimeLog;\n  const IncrementalDomCompiler = domMod.IncrementalDomCompiler;\n  const RetainedLayoutEngine = layoutMod.RetainedLayoutEngine;\n  const EventRoutingEngine = eventMod.EventRoutingEngine;\n  const WebGLBytecodeCompiler = webglMod.WebGLBytecodeCompiler;\n  const TextLayoutEngine = textMod.TextLayoutEngine;\n\n  class PersistentBrowserRuntime {\n    constructor(options = {}) {\n      this.synthetic = new SyntheticBrowserRuntime(options);\n      this.window = this.synthetic.window;\n      this.log = options.log || new RuntimeLog('persistent-browser');\n      this.dom = new IncrementalDomCompiler(this.window.document, { log: this.log });\n      this.layout = new RetainedLayoutEngine(this.window.document, { log: this.log });\n      this.events = new EventRoutingEngine(this.window, this.layout, { log: this.log });\n      this.webgl = new WebGLBytecodeCompiler({ log: this.log });\n      this.text = new TextLayoutEngine({ log: this.log });\n      this.frames = [];\n    }\n    pushHtml(chunk, final = false) { return this.dom.pushChunk(chunk, final); }\n    appendHtml(selector, html) { const parent = this.window.document.querySelector(selector) || this.window.document.body; return this.dom.appendHtml(parent, html); }\n    frame(viewport = { width: 760, height: 600 }) {\n      const started = Date.now();\n      const tree = this.layout.layout(viewport);\n      const snapshot = this.window.renderWebGLDom();\n      const renderOps = snapshot.commands.length + this.layout.ops.length;\n      const summary = { treeNodes: countTree(tree), layoutOps: this.layout.ops.length, renderOps, invalidations: this.dom.invalidations.length, frameMs: Date.now() - started };\n      this.log.push('render', 'emitted', { BOX: this.layout.ops.filter(x => x.op === 'layoutBox').length, TEXT: this.layout.ops.filter(x => x.op === 'layoutText').length });\n      this.log.push('executor', 'frame', { frameMs: summary.frameMs });\n      this.frames.push(summary);\n      return { tree, snapshot, summary, log: this.log.text() };\n    }\n    pointer(type, x, y) { return this.events.pointer(type, x, y); }\n    keyboard(type, key) { return this.events.keyboard(type, key); }\n    compileWebGLDemo() {\n      const vs = this.webgl.createShader('vertex', 'attribute vec2 p; void main(){gl_Position=vec4(p,0.0,1.0);}');\n      this.webgl.compileShader(vs);\n      const fs = this.webgl.createShader('fragment', 'void main(){gl_FragColor=vec4(1.0);}');\n      this.webgl.compileShader(fs);\n      const program = this.webgl.createProgram();\n      this.webgl.attachShader(program, vs); this.webgl.attachShader(program, fs); this.webgl.linkProgram(program); this.webgl.useProgram(program);\n      const buffer = this.webgl.createBuffer(); this.webgl.bindBuffer('ARRAY_BUFFER', buffer); this.webgl.bufferData('ARRAY_BUFFER', new Float32Array([0,0, 1,0, 0,1]));\n      const texture = this.webgl.createTexture(); this.webgl.texImage2D(texture, 32, 32, 4096); this.webgl.uniform('u_color', [1,0,0,1]); this.webgl.drawArrays('TRIANGLES', 0, 3);\n      return { ops: this.webgl.ops, bytes: this.webgl.toBytecode().length };\n    }\n    shapeText(text, style, width) { return this.text.shape(text, style, width); }\n    report() { return { frames: this.frames, dom: this.dom.summary(), webglOps: this.webgl.ops.length, textAtlasGlyphs: this.text.atlas.size, log: this.log.text() }; }\n  }\n  function countTree(node) { return node ? 1 + (node.children || []).reduce((n, c) => n + countTree(c), 0) : 0; }\n  return { PersistentBrowserRuntime };\n});\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T09:14:46.908Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-browser/PersistentBrowserRuntime.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\scripts\\awtsmoos\\MerkavaExecutor\\merkava-browser\\PersistentBrowserRuntime.js",
+    "bytes": 4299,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "options",
+          "index": 981
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "log",
+          "index": 1220
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "pushHtml",
+          "index": 1572
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "chunk",
+          "index": 1581
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "final",
+          "index": 1588
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "appendHtml",
+          "index": 1652
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "selector",
+          "index": 1663
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "html",
+          "index": 1673
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "frame",
+          "index": 1819
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "viewport",
+          "index": 1825
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "width",
+          "index": 1838
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "height",
+          "index": 1850
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "treeNodes",
+          "index": 2102
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "layoutOps",
+          "index": 2130
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "invalidations",
+          "index": 2176
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "frameMs",
+          "index": 2222
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "BOX",
+          "index": 2283
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "x",
+          "index": 2311
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TEXT",
+          "index": 2336
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "pointer",
+          "index": 2557
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "type",
+          "index": 2565
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "y",
+          "index": 2574
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "keyboard",
+          "index": 2625
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "key",
+          "index": 2640
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "compileWebGLDemo",
+          "index": 2693
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "Float32Array",
+          "index": 3190
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ops",
+          "index": 3399
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bytes",
+          "index": 3420
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "shapeText",
+          "index": 3471
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "text",
+          "index": 3481
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "style",
+          "index": 3487
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "report",
+          "index": 3553
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "frames",
+          "index": 3573
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "dom",
+          "index": 3594
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "webglOps",
+          "index": 3619
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "textAtlasGlyphs",
+          "index": 3652
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "n",
+          "index": 3798
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}
