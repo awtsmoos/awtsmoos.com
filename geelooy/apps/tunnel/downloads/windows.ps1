@@ -1,4 +1,4 @@
-﻿# B"H
+﻿#BH
 $ErrorActionPreference = 'Stop'
  
 Write-Host 'Awtsmoos Tunnel Bootstrap' -ForegroundColor Cyan
