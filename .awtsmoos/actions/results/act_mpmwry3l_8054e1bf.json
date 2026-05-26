@@ -1,0 +1,32 @@
+{
+  "entry": {
+    "actionId": "act_mpmwry3l_8054e1bf",
+    "inputRef": "cmd_act_mpmwry3l_8054e1bf",
+    "outputRef": ".awtsmoos/actions/results/act_mpmwry3l_8054e1bf.json",
+    "parentActionId": null,
+    "action": "read",
+    "input": {
+      "p": "package.json",
+      "maxChars": 250,
+      "action": "read"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:27:56.001Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "read",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "package.json",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\package.json",
+    "content": "{\r\n  \"name\": \"awtsfaria\",\r\n  \"version\": \"1.0.0\",\r\n  \"description\": \"\",\r\n  \"main\": \"index.js\",\r\n  \"scripts\": {\r\n    \"start\": \"node index\",\r\n    \"wok\": \"node test\",\r\n    \"test\": \"npm run test:routes && npm run test:css-quality && npm run test:profile-m",
+    "encoding": "utf8",
+    "truncated": true,
+    "offsetChars": 0,
+    "returnedChars": 250,
+    "totalChars": 3386,
+    "totalBytes": 3386,
+    "nextOffsetChars": 250,
+    "maxChars": 250
+  }
+}

@@ -1,32 +1,31 @@
-/*B"H*/
-/*
-  Chapter 3: The Outer Vessel Folded Into A Palm.
-  The Awtsmoos narrows the world without crushing it: one chat river in the
-  center, two living rails at the sides, no hidden panel exiled into silence.
-*/
+/* B"H — mobile shell: side panels become real reachable rows, not overlays */
 @media (max-width: 680px) {
-  html, body {
-    overflow: hidden;
-    overscroll-behavior: none;
-  }
-
+  html, body { min-width: 0; width: 100%; height: 100%; overflow: hidden; }
   .container {
+    width: 100vw !important;
+    height: 100dvh !important;
+    display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-areas: "main" !important;
-    gap: 0 !important;
-    padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left)) !important;
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+    grid-template-areas: "left" "main" "right" !important;
+    gap: 6px !important;
+    padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom)) !important;
+    overflow: hidden !important;
+    background: radial-gradient(circle at 50% 0, rgba(34,211,238,.13), transparent 42%), #020711 !important;
   }
-
+  #left-resizer, #right-resizer, #composer-resizer { display: none !important; }
   .main {
     grid-area: main !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
     border-radius: 18px !important;
-    grid-template-rows: 38px minmax(0, 1fr) 8px minmax(112px, var(--ai-composer, 132px));
+    grid-template-rows: auto minmax(0, 1fr) minmax(112px, auto) !important;
+    grid-template-areas: "transport" "chat" "composer" !important;
   }
-
   #transport-status {
-    min-width: 0;
-    overflow: auto hidden;
-    white-space: nowrap;
-    scrollbar-width: thin;
+    min-height: 36px !important;
+    overflow: auto !important;
+    white-space: nowrap !important;
   }
+  #chat-box { min-height: 0 !important; overflow: auto !important; }
 }

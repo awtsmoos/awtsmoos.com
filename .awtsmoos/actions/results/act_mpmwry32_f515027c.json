@@ -1,0 +1,170 @@
+{
+  "entry": {
+    "actionId": "act_mpmwry32_f515027c",
+    "inputRef": "cmd_act_mpmwry32_f515027c",
+    "outputRef": ".awtsmoos/actions/results/act_mpmwry32_f515027c.json",
+    "parentActionId": null,
+    "action": "list",
+    "input": {
+      "p": ".",
+      "action": "list"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:27:55.983Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "list",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": ".",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com",
+    "items": [
+      ".awtsmoos/",
+      ".awtsmoos-preview-smoke/",
+      ".awtsmoos-tmp/",
+      ".github/",
+      "AI_THOUGHTS/",
+      "ayzarim/",
+      "debugging/",
+      "extra/",
+      "geelooy/",
+      "scripts/",
+      "templates/",
+      "test-results/",
+      "tests/",
+      "created_by_asm.txt",
+      "index.js",
+      "package-lock.json",
+      "package.json",
+      "readme.md"
+    ],
+    "detailedItems": [
+      {
+        "name": ".awtsmoos",
+        "type": "directory",
+        "path": ".awtsmoos",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\.awtsmoos",
+        "isDirectory": true
+      },
+      {
+        "name": ".awtsmoos-preview-smoke",
+        "type": "directory",
+        "path": ".awtsmoos-preview-smoke",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\.awtsmoos-preview-smoke",
+        "isDirectory": true
+      },
+      {
+        "name": ".awtsmoos-tmp",
+        "type": "directory",
+        "path": ".awtsmoos-tmp",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\.awtsmoos-tmp",
+        "isDirectory": true
+      },
+      {
+        "name": ".github",
+        "type": "directory",
+        "path": ".github",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\.github",
+        "isDirectory": true
+      },
+      {
+        "name": "AI_THOUGHTS",
+        "type": "directory",
+        "path": "AI_THOUGHTS",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\AI_THOUGHTS",
+        "isDirectory": true
+      },
+      {
+        "name": "ayzarim",
+        "type": "directory",
+        "path": "ayzarim",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\ayzarim",
+        "isDirectory": true
+      },
+      {
+        "name": "debugging",
+        "type": "directory",
+        "path": "debugging",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\debugging",
+        "isDirectory": true
+      },
+      {
+        "name": "extra",
+        "type": "directory",
+        "path": "extra",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\extra",
+        "isDirectory": true
+      },
+      {
+        "name": "geelooy",
+        "type": "directory",
+        "path": "geelooy",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy",
+        "isDirectory": true
+      },
+      {
+        "name": "scripts",
+        "type": "directory",
+        "path": "scripts",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\scripts",
+        "isDirectory": true
+      },
+      {
+        "name": "templates",
+        "type": "directory",
+        "path": "templates",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\templates",
+        "isDirectory": true
+      },
+      {
+        "name": "test-results",
+        "type": "directory",
+        "path": "test-results",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\test-results",
+        "isDirectory": true
+      },
+      {
+        "name": "tests",
+        "type": "directory",
+        "path": "tests",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\tests",
+        "isDirectory": true
+      },
+      {
+        "name": "created_by_asm.txt",
+        "type": "file",
+        "path": "created_by_asm.txt",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\created_by_asm.txt",
+        "isDirectory": false
+      },
+      {
+        "name": "index.js",
+        "type": "file",
+        "path": "index.js",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\index.js",
+        "isDirectory": false
+      },
+      {
+        "name": "package-lock.json",
+        "type": "file",
+        "path": "package-lock.json",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\package-lock.json",
+        "isDirectory": false
+      },
+      {
+        "name": "package.json",
+        "type": "file",
+        "path": "package.json",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\package.json",
+        "isDirectory": false
+      },
+      {
+        "name": "readme.md",
+        "type": "file",
+        "path": "readme.md",
+        "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\readme.md",
+        "isDirectory": false
+      }
+    ]
+  }
+}

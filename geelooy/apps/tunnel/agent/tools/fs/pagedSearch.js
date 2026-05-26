@@ -28,6 +28,11 @@ function sortResults(results, sortBy) {
 
 async function walkFiles(config, rootPath, maxFiles) {
   const files = [];
+  const rootFull = safePath(config, rootPath || ".");
+  try {
+    const stat = await fsp.stat(rootFull);
+    if (stat.isFile()) return [rootPath || "."];
+  } catch (_) {}
   async function walk(rel) {
     if (files.length >= maxFiles) return;
     const items = await listDirDetailed(config, rel || ".");

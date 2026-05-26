@@ -1,0 +1,523 @@
+{
+  "entry": {
+    "actionId": "act_mpmwx8g0_d11beb18",
+    "inputRef": "cmd_act_mpmwx8g0_d11beb18",
+    "outputRef": ".awtsmoos/actions/results/act_mpmwx8g0_d11beb18.json",
+    "parentActionId": null,
+    "action": "rg",
+    "input": {
+      "kind": "fs",
+      "action": "rg",
+      "path": ".",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 500,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 120,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "openapi|docs.json|prepare_artifact|awtsmoosTunnelAction|pageSize|maxInlineBytes",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 24000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:32:02.688Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "rg",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": ".",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com",
+    "query": "openapi|docs.json|prepare_artifact|awtsmoosTunnelAction|pageSize|maxInlineBytes",
+    "page": 1,
+    "pageSize": 50,
+    "totalResults": 120,
+    "returnedResults": 50,
+    "hasNextPage": true,
+    "nextPage": 2,
+    "nextRequest": {
+      "action": "rg",
+      "p": ".",
+      "query": "openapi|docs.json|prepare_artifact|awtsmoosTunnelAction|pageSize|maxInlineBytes",
+      "regex": true,
+      "page": 2,
+      "pageSize": 50,
+      "maxFiles": 500,
+      "maxResults": 120,
+      "maxFileBytes": 800000
+    },
+    "scannedFiles": 500,
+    "skippedFiles": 0,
+    "partial": true,
+    "results": [
+      {
+        "path": ".awtsmoos/actions/results/act_mpekqyzg_c5b5c26b.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664741.8674,
+        "sizeBytes": 8618
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekqyzg_c5b5c26b.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664741.8674,
+        "sizeBytes": 8618
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekqz2i_51cb8d5e.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664741.8674,
+        "sizeBytes": 8877
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekqz2i_51cb8d5e.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664741.8674,
+        "sizeBytes": 8877
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr0o0_8d02303a.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 8584
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr0o0_8d02303a.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 8584
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr0o0_8d02303a.json",
+        "line": 145,
+        "preview": "    \"treeText\": \"awtsmoos.com/\\n  .awtsmoos/\\n    actions/\\n      history.jsonl\\n      results/\\n        act_mpekqyzg_c5b5c26b.json\\n        act_mpekqz2i_51cb8d5e.json\\n  .awtsmoos-preview-smoke/\\n    index.html\\n  .awtsmoos-repo/\\n    ikar.js\\n  .awtsmoos-tmp/\\n    ai-thoughts/\\n      2026-05-17-path-verification.md\\n    check-openapi-duplicates.cjs\\n    check-openapi-file.cjs\\n    check-openapi-fs-duplicates.cjs\\n    check-tunnel-control-duplicate-imports.cjs\\n    check-tunnel-control-startup.",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 8584
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr0ux_08b619b3.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 8627
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr0ux_08b619b3.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 8627
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr0ux_08b619b3.json",
+        "line": 145,
+        "preview": "    \"treeText\": \"awtsmoos.com/\\n  .awtsmoos/\\n    actions/\\n      history.jsonl\\n      results/\\n        act_mpekqyzg_c5b5c26b.json\\n        act_mpekqz2i_51cb8d5e.json\\n        act_mpekr0o0_8d02303a.json\\n  .awtsmoos-preview-smoke/\\n    index.html\\n  .awtsmoos-repo/\\n    ikar.js\\n  .awtsmoos-tmp/\\n    ai-thoughts/\\n      2026-05-17-path-verification.md\\n    check-openapi-duplicates.cjs\\n    check-openapi-file.cjs\\n    check-openapi-fs-duplicates.cjs\\n    check-tunnel-control-duplicate-imports.cj",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 8627
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr3kk_32c753cb.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 5314
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr3kk_32c753cb.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 5314
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr3kk_32c753cb.json",
+        "line": 145,
+        "preview": "    \"content\": \"{\\n  \\\"name\\\": \\\"awtsfaria\\\",\\n  \\\"version\\\": \\\"1.0.0\\\",\\n  \\\"description\\\": \\\"\\\",\\n  \\\"main\\\": \\\"index.js\\\",\\n  \\\"scripts\\\": {\\n    \\\"start\\\": \\\"node index\\\",\\n    \\\"wok\\\": \\\"node test\\\",\\n    \\\"test\\\": \\\"echo \\\\\\\"Error: no test specified\\\\\\\" && exit 1\\\",\\n    \\\"keys\\\": \\\"node ayzarim/tools/generateKeyPairs.js\\\",\\n    \\\"emailTest\\\": \\\"node ayzarim/email/emailTest.js\\\",\\n    \\\"tunnel:manifest\\\": \\\"node scripts/generate-tunnel-agent-manifest.cjs\\\",\\n    \\\"tunnel:openapi\\\": \\\"node ",
+        "mtimeMs": 1779768664743.094,
+        "sizeBytes": 5314
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr3q4_0824eba9.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664744.2437,
+        "sizeBytes": 5314
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr3q4_0824eba9.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664744.2437,
+        "sizeBytes": 5314
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr3q4_0824eba9.json",
+        "line": 145,
+        "preview": "    \"content\": \"{\\n  \\\"name\\\": \\\"awtsfaria\\\",\\n  \\\"version\\\": \\\"1.0.0\\\",\\n  \\\"description\\\": \\\"\\\",\\n  \\\"main\\\": \\\"index.js\\\",\\n  \\\"scripts\\\": {\\n    \\\"start\\\": \\\"node index\\\",\\n    \\\"wok\\\": \\\"node test\\\",\\n    \\\"test\\\": \\\"echo \\\\\\\"Error: no test specified\\\\\\\" && exit 1\\\",\\n    \\\"keys\\\": \\\"node ayzarim/tools/generateKeyPairs.js\\\",\\n    \\\"emailTest\\\": \\\"node ayzarim/email/emailTest.js\\\",\\n    \\\"tunnel:manifest\\\": \\\"node scripts/generate-tunnel-agent-manifest.cjs\\\",\\n    \\\"tunnel:openapi\\\": \\\"node ",
+        "mtimeMs": 1779768664744.2437,
+        "sizeBytes": 5314
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr8zf_e2c7c395.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664745.2502,
+        "sizeBytes": 4653
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr8zf_e2c7c395.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664745.2502,
+        "sizeBytes": 4653
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr52i_5c2a31aa.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664744.2437,
+        "sizeBytes": 4034
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr52i_5c2a31aa.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664744.2437,
+        "sizeBytes": 4034
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr579_d995dbc5.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664745.2502,
+        "sizeBytes": 4034
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr579_d995dbc5.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664745.2502,
+        "sizeBytes": 4034
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr929_6014e371.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664746.2498,
+        "sizeBytes": 4653
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekr929_6014e371.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664746.2498,
+        "sizeBytes": 4653
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrba6_15518468.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664746.2498,
+        "sizeBytes": 5470
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrba6_15518468.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664746.2498,
+        "sizeBytes": 5470
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrbh2_3605cc6d.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664746.2498,
+        "sizeBytes": 5470
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrbh2_3605cc6d.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664746.2498,
+        "sizeBytes": 5470
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrepe_ea544892.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664747.2493,
+        "sizeBytes": 4822
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrepe_ea544892.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664747.2493,
+        "sizeBytes": 4822
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekres8_0663bace.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664747.2493,
+        "sizeBytes": 4822
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekres8_0663bace.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664747.2493,
+        "sizeBytes": 4822
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrjzq_983662e3.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664748.2534,
+        "sizeBytes": 5655
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrjzq_983662e3.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664748.2534,
+        "sizeBytes": 5655
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrk2a_3c1a3363.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664748.2534,
+        "sizeBytes": 5655
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrk2a_3c1a3363.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664748.2534,
+        "sizeBytes": 5655
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrmbh_1ee33acd.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664749.5205,
+        "sizeBytes": 10170
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrmbh_1ee33acd.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664749.5205,
+        "sizeBytes": 10170
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrmj2_b60c4d8e.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664749.5205,
+        "sizeBytes": 10170
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrmj2_b60c4d8e.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664749.5205,
+        "sizeBytes": 10170
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrwbo_b5db2ed0.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664749.5205,
+        "sizeBytes": 6132
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrwbo_b5db2ed0.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664749.5205,
+        "sizeBytes": 6132
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrwei_dbc56491.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664750.7012,
+        "sizeBytes": 6132
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpekrwei_dbc56491.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664750.7012,
+        "sizeBytes": 6132
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpeks0o9_01766cc0.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664750.7012,
+        "sizeBytes": 4279
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpeks0o9_01766cc0.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664750.7012,
+        "sizeBytes": 4279
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpeks01u_9861366c.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664750.7012,
+        "sizeBytes": 4280
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpeks01u_9861366c.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664750.7012,
+        "sizeBytes": 4280
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpeks2i4_f42fddbf.json",
+        "line": 127,
+        "preview": "      \"maxInlineBytes\": 12000,",
+        "mtimeMs": 1779768664752.0864,
+        "sizeBytes": 3840
+      },
+      {
+        "path": ".awtsmoos/actions/results/act_mpeks2i4_f42fddbf.json",
+        "line": 130,
+        "preview": "      \"pageSize\": 50,",
+        "mtimeMs": 1779768664752.0864,
+        "sizeBytes": 3840
+      }
+    ]
+  }
+}

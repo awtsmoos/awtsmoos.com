@@ -470,6 +470,9 @@ paths:
         - { name: maxBytes, in: query, schema: { type: integer, default: 24000 } }
         - { name: maxFiles, in: query, schema: { type: integer, default: 5 } }
         - { name: maxResults, in: query, schema: { type: integer, default: 80 } }
+        - { name: page, in: query, schema: { type: integer, default: 1 } }
+        - { name: pageSize, in: query, schema: { type: integer, default: 50 } }
+        - { name: maxInlineBytes, in: query, schema: { type: integer, default: 12000 } }
         - { name: depth, in: query, schema: { type: integer, default: 2 } }
         - { name: limit, in: query, schema: { type: integer, default: 150 } }
         - { name: timeoutMs, in: query, schema: { type: integer, default: 240000 } }

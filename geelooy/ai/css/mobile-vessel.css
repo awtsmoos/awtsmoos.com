@@ -1,10 +1,5 @@
-/*B"H*/
-/*
-  Chapter 2: The Pocket Glass Learned To Breathe.
-  This file is now only the mobile gate: small imports, clear vessels, no
-  monolith. Each child sheet guards one limb of the cockpit.
-*/
-@import url("./mobile/shell.css");
-@import url("./mobile/panels.css");
-@import url("./mobile/chat-events.css");
-@import url("./mobile/composer.css");
+/* B"H — mobile vessel imports, kept last to override desktop shell */
+@import "./mobile/shell.css";
+@import "./mobile/panels.css";
+@import "./mobile/composer.css";
+@import "./mobile/prompt.css";

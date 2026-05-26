@@ -43,8 +43,8 @@
       return out;
     }
     layoutInline(node, x, y, containingWidth, style) {
-      const text = directText(node);
-      const measured = measureText(text || node.textContent || '', style, containingWidth);
+      const text = directText(node) || String(node.textContent || '').trim();
+      const measured = measureText(text, style, containingWidth);
       const out = box(node, x, y, px(style.width) || measured.width, px(style.height) || measured.height, style, []);
       if (text) out.children.push(this.textLine(text, x + 2, y + 14, containingWidth, style));
       this.emitBox(out);
@@ -74,7 +74,9 @@
       if (measured.lines > 1) this.log.push('layout', 'linebreak', { x: Math.round(x + width), lines: measured.lines });
       const node = { localName: '#text-line', textContent: text };
       const out = box(node, x, y, Math.min(width || measured.width, measured.width), measured.height, style, []);
-      out.text = text; return out;
+      out.text = text;
+      this.emitBox(out);
+      return out;
     }
     computed(node) { return node?.ownerDocument?.cssEngine?.compute(node) || node?.style?.toJSON?.() || {}; }
     emitBox(b) { this.ops.push({ op: 'layoutBox', tag: b.tag, id: b.id, x: b.x, y: b.y, width: b.width, height: b.height, background: b.style['background-color'] || '', color: b.style.color || '' }); if (b.text) this.ops.push({ op: 'layoutText', text: b.text, x: b.x, y: b.y, color: b.style.color || '#111111' }); }

@@ -1,56 +1,47 @@
-/*B"H*/
-/*
-  Chapter 4: The Twin Rails Refused To Vanish.
-  Conversation and Automation become narrow doors until summoned; when opened,
-  each drawer remains bounded, scrollable, and obedient to the little screen.
-*/
+/* B"H — mobile panels: compact reachable top/bottom vessels */
 @media (max-width: 680px) {
   .sidebar,
   .automation-panel {
     display: grid !important;
-    position: fixed !important;
-    top: max(6px, env(safe-area-inset-top)) !important;
-    bottom: max(6px, env(safe-area-inset-bottom)) !important;
-    width: min(88vw, 360px) !important;
-    max-width: calc(100vw - 18px) !important;
-    max-height: calc(100dvh - 12px) !important;
-    z-index: 80;
-    border-radius: 20px !important;
+    position: relative !important;
+    inset: auto !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 18px !important;
     overflow: hidden !important;
-    transition: width .18s ease, box-shadow .18s ease, transform .18s ease;
+    z-index: auto !important;
   }
-
-  .sidebar { left: 6px !important; }
-  .automation-panel { right: 6px !important; }
-
-  body[data-sidebar-collapsed="true"] .sidebar,
-  body[data-automation-collapsed="true"] .automation-panel {
-    width: 50px !important;
-    min-width: 50px !important;
-    box-shadow: 0 14px 34px rgba(0,0,0,.38);
+  .sidebar { grid-area: left !important; max-height: 84px !important; grid-template-rows: 72px minmax(0, 1fr) !important; }
+  .automation-panel { grid-area: right !important; max-height: 90px !important; grid-template-rows: 76px minmax(0, 1fr) !important; }
+  body:not([data-sidebar-collapsed="true"]) .sidebar { max-height: min(42dvh, 360px) !important; }
+  body:not([data-automation-collapsed="true"]) .automation-panel { max-height: min(48dvh, 420px) !important; }
+  .panel-topbar,
+  .sidebar-header {
+    min-height: 68px !important;
+    padding: 10px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
   }
-
-  body[data-sidebar-collapsed="false"] .sidebar,
-  body[data-automation-collapsed="false"] .automation-panel {
-    box-shadow: 0 20px 70px rgba(0,0,0,.58), 0 0 0 1px rgba(126,212,255,.22);
+  .sidebar::before,
+  .automation-panel::before {
+    writing-mode: horizontal-tb !important;
+    transform: none !important;
+    position: static !important;
   }
-
   .conversation-list,
   .automation-panel > :not(.panel-topbar) {
-    min-height: 0;
-    overflow: auto;
-    padding-bottom: 18px;
-    scrollbar-gutter: stable;
-    -webkit-overflow-scrolling: touch;
+    min-height: 0 !important;
+    overflow: auto !important;
+    padding: 10px !important;
   }
-
-  .panel-topbar {
-    min-height: 46px;
-    touch-action: manipulation;
-  }
-
-  .is-collapsed .panel-topbar,
-  .is-detached .panel-topbar {
-    padding: 8px 5px;
-  }
+  body[data-sidebar-collapsed="true"] .conversation-list,
+  body[data-automation-collapsed="true"] .automation-panel > :not(.panel-topbar) { display: none !important; }
+  body[data-sidebar-collapsed="true"] .sidebar,
+  body[data-automation-collapsed="true"] .automation-panel { max-height: 76px !important; }
+  .panel-action-rail,
+  .panel-corner-actions { position: static !important; transform: none !important; }
+  .right-tabs { overflow-x: auto !important; flex-wrap: nowrap !important; }
+  .right-tabs button { flex: 0 0 auto !important; min-width: 104px !important; }
 }

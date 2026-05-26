@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T17:25:22.345Z",
+  "generatedAt": "2026-05-26T17:32:00.792Z",
   "nativeTimeoutMs": 2400,
   "results": [
     {
@@ -193,9 +193,9 @@
           "IAT 0x10d8 -> KERNEL32.dll!WriteFile",
           "IAT 0x10e0 -> KERNEL32.dll!CloseHandle",
           "IAT 0x10e8 -> KERNEL32.dll!ExitProcess",
-          "Unhandled import shim: KERNEL32.dll!CreateFileA",
-          "B\"H - Existence generated from nothingness.",
-          "Unhandled import shim: KERNEL32.dll!CloseHandle"
+          "CreateFileA RAM handle 101: created_by_asm.txt",
+          "WriteFile RAM created_by_asm.txt: B\"H - Existence generated from nothingness.",
+          "CloseHandle RAM created_by_asm.txt (43 chars)"
         ],
         "windows": []
       },
@@ -240,6 +240,9 @@
           "IAT 0x11e0 -> USER32.dll!DispatchMessageA",
           "IAT 0x11e8 -> USER32.dll!DefWindowProcA",
           "IAT 0x11f0 -> USER32.dll!PostQuitMessage",
+          "RegisterClassA -> 101",
+          "ShowWindow(102, 5)",
+          "DispatchMessageA(8388456)",
           "Fallback reason: Unsupported opcode 0xd1 at 0x10ec"
         ],
         "windows": [
@@ -302,6 +305,9 @@
           "IAT 0x1350 -> USER32.dll!BeginPaint",
           "IAT 0x1358 -> USER32.dll!EndPaint",
           "IAT 0x1360 -> USER32.dll!FillRect",
+          "RegisterClassA -> 101",
+          "ShowWindow(102, 5)",
+          "DispatchMessageA(8388456)",
           "GDI TextOutA: B\"H - Awtsmoos Generated This!",
           "GDI SetPixel: diagonal pixel ritual rendered symbolically.",
           "Fallback reason: Unsupported opcode 0x0 at 0x10ee"
@@ -368,8 +374,9 @@
           "IAT 0x16c8 -> GDI32.dll!BitBlt",
           "IAT 0x16d0 -> GDI32.dll!DeleteObject",
           "IAT 0x16d8 -> GDI32.dll!DeleteDC",
-          "Unhandled import shim: USER32.dll!LoadCursorA",
-          "Unhandled import shim: USER32.dll!GetDC",
+          "RegisterClassA -> 102",
+          "GetDC(103) -> 104",
+          "GDI triangle/DIB pipeline rendered symbolically.",
           "Fallback reason: Unsupported opcode 0xa at 0x10fb"
         ],
         "windows": [

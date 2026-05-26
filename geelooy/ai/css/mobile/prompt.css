@@ -1,0 +1,23 @@
+/* B"H — mobile install prompt: no zoom-out, no giant desktop dialog */
+@media (max-width: 680px) {
+  .awtsmoos-local-prompt-overlay {
+    align-items: stretch !important;
+    justify-items: stretch !important;
+    padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom)) !important;
+    overflow: auto !important;
+  }
+  .awtsmoos-local-prompt-card {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+    overflow: auto !important;
+    border-radius: 18px !important;
+    padding: 16px !important;
+  }
+  .awtsmoos-local-prompt-card h2 { font-size: 1.1rem !important; line-height: 1.25 !important; }
+  .awtsmoos-local-prompt-body { font-size: 16px !important; }
+  .awtsmoos-local-prompt-input { font-size: 16px !important; min-height: 44px !important; }
+  .awtsmoos-local-prompt-actions { display: grid !important; grid-template-columns: 1fr !important; }
+  .awtsmoos-local-prompt-actions button,
+  .awtsmoos-local-prompt-actions a { min-height: 44px !important; text-align: center !important; }
+}

@@ -1,0 +1,413 @@
+{
+  "entry": {
+    "actionId": "act_mpmwv5zl_33b5d431",
+    "inputRef": "cmd_act_mpmwv5zl_33b5d431",
+    "outputRef": ".awtsmoos/actions/results/act_mpmwv5zl_33b5d431.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/apps/exe-emulator/core/winApi.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\n/**\n * Stateful Win32 shim garden: imports become console breath, RAM files,\n * windows, device contexts, timers, bitmaps, and symbolic GDI drawings.\n * @param {{print:Function, openWindow:Function, updateWindow?:Function, draw?:Function}} win virtual Windows host\n * @param {{readString:Function, mem:Map, regs:object, queue:Array}} cpu CPU vessel\n * @returns {(name:string)=>void} import caller\n */\nexport function createWinApi(win, cpu) {\n  const state = cpu.win32 || (cpu.win32 = createWin32State(win));\n  return function callImport(name) {\n    const fn = name.split('!').pop();\n    const api = APIS[fn] || APIS.default;\n    api({ win, cpu, state, name });\n  };\n}\n\nfunction createWin32State(win) {\n  return {\n    nextHandle: 100,\n    stdout: 1,\n    windows: new Map(),\n    files: new Map(),\n    objects: new Map(),\n    timers: new Map(),\n    dc: new Map(),\n    quit: false,\n    log: line => win.print(line),\n    handle(kind, data = {}) {\n      const h = ++this.nextHandle;\n      this.objects.set(h, { kind, ...data });\n      return h;\n    }\n  };\n}\n\nconst APIS = {\n  GetStdHandle({ cpu, state }) { cpu.regs.rax = state.stdout; },\n  GetModuleHandleA({ cpu }) { cpu.regs.rax = 0x400000; },\n  LoadCursorA({ cpu, state }) { cpu.regs.rax = state.handle('cursor', { id: cpu.regs.rdx }); },\n  Sleep({ win, cpu }) { win.print(`Sleep(${cpu.regs.rcx || 0}) skipped in virtual time.`); },\n\n  CreateFileA({ win, cpu, state }) {\n    const name = cpu.readString(cpu.regs.rcx) || `ram-file-${state.nextHandle}.bin`;\n    const handle = state.handle('file', { name, bytes: '', closed: false });\n    state.files.set(handle, state.objects.get(handle));\n    win.print(`CreateFileA RAM handle ${handle}: ${name}`);\n    cpu.regs.rax = handle;\n  },\n  WriteFile({ win, cpu, state }) {\n    const handle = cpu.regs.rcx;\n    const text = cpu.readString(cpu.regs.rdx, cpu.regs.r8 || 4096);\n    if (handle === state.stdout || !state.files.has(handle)) {\n      win.print(text.replace(/\\r?\\n$/, ''));\n    } else {\n      const file = state.files.get(handle);\n      file.bytes += text;\n      win.print(`WriteFile RAM ${file.name}: ${text}`.replace(/\\r?\\n$/, ''));\n    }\n    if (cpu.regs.r9) cpu.mem.set(cpu.regs.r9, text.length);\n    cpu.regs.rax = 1;\n  },\n  CloseHandle({ win, cpu, state }) {\n    const file = state.files.get(cpu.regs.rcx);\n    if (file) {\n      file.closed = true;\n      win.print(`CloseHandle RAM ${file.name} (${file.bytes.length} chars)`);\n    }\n    cpu.regs.rax = 1;\n  },\n\n  MessageBoxA({ win, cpu }) {\n    win.openWindow(cpu.readString(cpu.regs.r8), cpu.readString(cpu.regs.rdx));\n    cpu.regs.rax = 1;\n  },\n  RegisterClassA({ win, cpu, state }) {\n    const handle = state.handle('class', { ptr: cpu.regs.rcx });\n    win.print(`RegisterClassA -> ${handle}`);\n    cpu.regs.rax = handle;\n  },\n  CreateWindowExA({ win, cpu, state }) {\n    const title = cpu.readString(cpu.regs.r8) || 'Virtual Window';\n    const handle = state.handle('window', { title, visible: false, messages: [] });\n    state.windows.set(handle, state.objects.get(handle));\n    win.openWindow(title, 'CreateWindowExA mapped this native window into JS.');\n    cpu.regs.rax = handle;\n  },\n  ShowWindow({ win, cpu, state }) {\n    const wnd = state.windows.get(cpu.regs.rcx);\n    if (wnd) wnd.visible = true;\n    win.print(`ShowWindow(${cpu.regs.rcx}, ${cpu.regs.rdx})`);\n    cpu.regs.rax = 1;\n  },\n  UpdateWindow({ win, cpu }) { win.print(`UpdateWindow(${cpu.regs.rcx})`); cpu.regs.rax = 1; },\n  GetMessageA({ cpu, state }) {\n    if (state.quit) { cpu.regs.rax = 0; return; }\n    const msg = cpu.queue.shift();\n    cpu.regs.rax = msg ?? 0;\n  },\n  TranslateMessage({ cpu }) { cpu.regs.rax = 1; },\n  DispatchMessageA({ win, cpu }) { win.print(`DispatchMessageA(${cpu.regs.rcx})`); cpu.regs.rax = 1; },\n  DefWindowProcA({ cpu }) { cpu.regs.rax = 0; },\n  PostQuitMessage({ cpu, state }) { state.quit = true; cpu.queue.length = 0; cpu.regs.rax = 0; },\n\n  GetDC({ win, cpu, state }) {\n    const hdc = state.handle('dc', { hwnd: cpu.regs.rcx, ops: [] });\n    state.dc.set(hdc, state.objects.get(hdc));\n    win.print(`GetDC(${cpu.regs.rcx}) -> ${hdc}`);\n    cpu.regs.rax = hdc;\n  },\n  ReleaseDC({ win, cpu }) { win.print(`ReleaseDC(${cpu.regs.rcx}, ${cpu.regs.rdx})`); cpu.regs.rax = 1; },\n  BeginPaint({ win, cpu, state }) {\n    const hdc = state.handle('paint-dc', { hwnd: cpu.regs.rcx, ops: [] });\n    state.dc.set(hdc, state.objects.get(hdc));\n    win.print(`BeginPaint(${cpu.regs.rcx}) -> ${hdc}`);\n    cpu.regs.rax = hdc;\n  },\n  EndPaint({ win, cpu }) { win.print(`EndPaint(${cpu.regs.rcx})`); cpu.regs.rax = 1; },\n  InvalidateRect({ win, cpu }) { win.print(`InvalidateRect(${cpu.regs.rcx})`); cpu.regs.rax = 1; },\n  SetTimer({ win, cpu, state }) {\n    const h = state.handle('timer', { hwnd: cpu.regs.rcx, id: cpu.regs.rdx, ms: cpu.regs.r8 });\n    state.timers.set(h, state.objects.get(h));\n    win.print(`SetTimer(hwnd=${cpu.regs.rcx}, id=${cpu.regs.rdx}, ms=${cpu.regs.r8})`);\n    cpu.regs.rax = h;\n  },\n\n  CreateCompatibleDC({ win, cpu, state }) {\n    const hdc = state.handle('memory-dc', { source: cpu.regs.rcx, ops: [] });\n    state.dc.set(hdc, state.objects.get(hdc));\n    win.print(`CreateCompatibleDC(${cpu.regs.rcx}) -> ${hdc}`);\n    cpu.regs.rax = hdc;\n  },\n  CreateDIBSection({ win, cpu, state }) {\n    const bitmap = state.handle('bitmap', { width: 600, height: 600, pixels: [] });\n    const pixelsPtr = state.handle('pixel-buffer', { bitmap });\n    if (cpu.regs.r9) cpu.mem.set(cpu.regs.r9, pixelsPtr);\n    win.print(`CreateDIBSection -> bitmap ${bitmap}, pixels ${pixelsPtr}`);\n    cpu.regs.rax = bitmap;\n  },\n  SelectObject({ win, cpu, state }) {\n    const dc = state.dc.get(cpu.regs.rcx);\n    if (dc) dc.selected = cpu.regs.rdx;\n    win.print(`SelectObject(dc=${cpu.regs.rcx}, obj=${cpu.regs.rdx})`);\n    cpu.regs.rax = cpu.regs.rdx;\n  },\n  BitBlt({ win, cpu }) { win.print(`BitBlt(dst=${cpu.regs.rcx}, w=${cpu.regs.r9})`); cpu.regs.rax = 1; },\n  DeleteObject({ win, cpu, state }) { state.objects.delete(cpu.regs.rcx); win.print(`DeleteObject(${cpu.regs.rcx})`); cpu.regs.rax = 1; },\n  DeleteDC({ win, cpu, state }) { state.dc.delete(cpu.regs.rcx); win.print(`DeleteDC(${cpu.regs.rcx})`); cpu.regs.rax = 1; },\n\n  FillRect({ win, cpu }) { win.print(`FillRect(hdc=${cpu.regs.rcx})`); cpu.regs.rax = 1; },\n  SetTextColor({ win, cpu }) { win.print(`SetTextColor(${cpu.regs.rdx})`); cpu.regs.rax = 1; },\n  SetBkMode({ win, cpu }) { win.print(`SetBkMode(${cpu.regs.rdx})`); cpu.regs.rax = 1; },\n  GetStockObject({ cpu, state }) { cpu.regs.rax = state.handle('stock-object', { id: cpu.regs.rcx }); },\n  TextOutA({ win, cpu }) { win.print(`GDI TextOutA: ${cpu.readString(cpu.regs.r9, cpu.mem.get(cpu.regs.rsp + 32) || 4096)}`); cpu.regs.rax = 1; },\n  SetPixel({ cpu }) { cpu.regs.rax = 1; },\n  ExitProcess({ cpu }) { cpu.halted = true; },\n  default({ win, name, cpu }) { win.print(`Unhandled import shim: ${name}`); cpu.regs.rax = 0; }\n};\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:30:26.193Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/apps/exe-emulator/core/winApi.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\exe-emulator\\core\\winApi.js",
+    "bytes": 6912,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "nextHandle",
+          "index": 318
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "stdout",
+          "index": 339
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "windows",
+          "index": 354
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "files",
+          "index": 378
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "objects",
+          "index": 400
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "timers",
+          "index": 424
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "quit",
+          "index": 466
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "log",
+          "index": 483
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "line",
+          "index": 488
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "kind",
+          "index": 524
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "data",
+          "index": 530
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "GetStdHandle",
+          "index": 671
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "GetModuleHandleA",
+          "index": 736
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "LoadCursorA",
+          "index": 794
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "id",
+          "index": 857
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "Sleep",
+          "index": 883
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CreateFileA",
+          "index": 925
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bytes",
+          "index": 1055
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "closed",
+          "index": 1065
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "WriteFile",
+          "index": 1191
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "r",
+          "index": 1419
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "n",
+          "index": 1422
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CloseHandle",
+          "index": 1651
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "MessageBoxA",
+          "index": 1832
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "RegisterClassA",
+          "index": 1968
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ptr",
+          "index": 2043
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CreateWindowExA",
+          "index": 2117
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "visible",
+          "index": 2252
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "messages",
+          "index": 2268
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ShowWindow",
+          "index": 2407
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "UpdateWindow",
+          "index": 2570
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "GetMessageA",
+          "index": 2636
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TranslateMessage",
+          "index": 2787
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "DispatchMessageA",
+          "index": 2838
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "DefWindowProcA",
+          "index": 2908
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "PostQuitMessage",
+          "index": 2957
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "GetDC",
+          "index": 3056
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "hwnd",
+          "index": 3119
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ops",
+          "index": 3139
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ReleaseDC",
+          "index": 3247
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "BeginPaint",
+          "index": 3310
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "EndPaint",
+          "index": 3506
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "InvalidateRect",
+          "index": 3568
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "SetTimer",
+          "index": 3636
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ms",
+          "index": 3738
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CreateCompatibleDC",
+          "index": 3853
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "source",
+          "index": 3929
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "CreateDIBSection",
+          "index": 4059
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "width",
+          "index": 4136
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "height",
+          "index": 4148
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

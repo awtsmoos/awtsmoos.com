@@ -33,8 +33,9 @@ function fallbackCompilerWindow(image, win, error) {
   const title = strings.find(s => /B\\?"H|Window|Drawing|Native/i.test(s)) || 'Virtual Native Window';
   const body = strings.find(s => /Awtsmoos|Generated|Native/i.test(s) && s !== title) || 'Compiler-generated Win32 window mapped semantically.';
   win.openWindow(title, body);
-  if (/TextOutA/.test(imports)) win.print(`GDI TextOutA: ${body}`);
-  if (/SetPixel/.test(imports)) win.print('GDI SetPixel: diagonal pixel ritual rendered symbolically.');
+  if (/TextOutA/.test(imports)) { win.print(`GDI TextOutA: ${body}`); win.draw?.({ type: 'text', text: body, x: 50, y: 50 }); }
+  if (/SetPixel/.test(imports)) { win.print('GDI SetPixel: diagonal pixel ritual rendered symbolically.'); win.draw?.({ type: 'pixel-line' }); }
+  if (/BitBlt|CreateDIBSection/.test(imports)) { win.print('GDI triangle/DIB pipeline rendered symbolically.'); win.draw?.({ type: 'triangle' }); }
   win.print(`Fallback reason: ${error.message}`);
   return { fallback: true, reason: error.message };
 }

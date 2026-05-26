@@ -52,11 +52,36 @@ function refsFrom(text, fromKey) {
 function withPreflight(env) {
   const diagnostics = [];
   for (const [file, source] of Object.entries(env.files || {})) {
-    if (!file.endsWith(".js")) continue;
-    const got = checkScript(file, source);
-    if (!got.ok) diagnostics.push(got);
+    if (file.endsWith(".js")) {
+      const got = checkScript(file, source);
+      if (!got.ok) diagnostics.push(got);
+    }
+    if (/\.html?$/i.test(file)) {
+      for (const script of extractInlineScripts(source, file)) {
+        const got = checkScript(script.file, script.source);
+        if (!got.ok) diagnostics.push(got);
+      }
+    }
   }
   return { ...env, diagnostics, ok: !env.error && diagnostics.length === 0 };
+}
+
+function extractInlineScripts(html, file) {
+  const scripts = [];
+  let index = 0;
+  for (const match of String(html || "").matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)) {
+    scripts.push({ file: `${file}#inline-script-${++index}`, source: match[1] || "" });
+  }
+  return scripts;
+}
+
+function extractInlineScripts(html, file) {
+  const scripts = [];
+  let index = 0;
+  for (const match of String(html || "").matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)) {
+    scripts.push({ file: `${file}#inline-script-${++index}`, source: match[1] || "" });
+  }
+  return scripts;
 }
 
 function checkScript(file, source) {
@@ -67,18 +92,6 @@ function checkScript(file, source) {
   } catch (error) {
     return { ok: false, file, name: error.name, message: error.message, kind: "syntax" };
   }
-}
-
-function inlineRuntimeFiles(payload, entryRaw) {
-  const html = payload.html || payload.content;
-  if (html) return { [slash(entryRaw || "index.html")]: String(html) };
-  if (payload.testCode) {
-    return {
-      [slash(entryRaw || "index.html")]: `<script src="./test.js"></script>`,
-      "test.js": String(payload.testCode)
-    };
-  }
-  return null;
 }
 
 function inlineRuntimeFiles(payload, entryRaw) {

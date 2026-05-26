@@ -1,26 +1,30 @@
-/*B"H*/
-/*
-  Chapter 6: The Composer Became A Small Gate Of Fire.
-  The input, send button, and attachments sit in one narrow vessel without
-  stepping on the chat river or swallowing the final line of living text.
-*/
-@media (max-width: 520px) {
+/* B"H — mobile composer: no zoom, real touch targets */
+@media (max-width: 680px) {
   .input-area {
+    min-height: 112px !important;
+    padding: 8px !important;
+    display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
-    gap: 7px;
-    padding: 7px;
+    grid-template-rows: minmax(54px, 1fr) 54px !important;
+    gap: 8px !important;
+    border-radius: 18px !important;
   }
-
+  #message-input {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+    resize: none !important;
+  }
   #send-button,
   .attachment-tools button {
-    min-height: 44px;
-    min-width: 44px;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 16px !important;
+    border-radius: 16px !important;
   }
-
-  .attachment-tools {
-    max-width: calc(100% - 14px);
-    justify-self: start;
-    align-self: start;
-    margin: 4px 0 0 4px;
-  }
+  #send-button { width: 100% !important; }
+  .attachment-tools { position: static !important; display: flex !important; flex-wrap: wrap !important; gap: 8px !important; }
+  .live-follow-button { right: 12px !important; bottom: 132px !important; }
 }
