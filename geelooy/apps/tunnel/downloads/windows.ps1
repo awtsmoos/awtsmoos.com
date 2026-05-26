@@ -1,4 +1,4 @@
-
+﻿
 $ErrorActionPreference = 'Stop'
  
 Write-Host 'Awtsmoos Tunnel Bootstrap' -ForegroundColor Cyan
@@ -45,11 +45,33 @@ if (-not (Test-Path $config)) {
 Write-Host 'Checking Awtsmoos manifest...'
  
 $manifestText = (Invoke-WebRequest -Uri $manifestUrl -UseBasicParsing).Content
-$lines = [regex]::Split($manifestText, '\r?\n') | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
- 
-$version = $lines[1]
-$entry = $lines[2]
-$files = $lines | Select-Object -Skip 3
+$lines = @(
+  [regex]::Split($manifestText, '\r?\n') |
+  ForEach-Object { $_.Trim() } |
+  Where-Object { $_ -ne '' }
+)
+
+if ($lines.Count -lt 4) {
+  $lines = @(
+    [regex]::Split($manifestText, '\s+') |
+    ForEach-Object { $_.Trim() } |
+    Where-Object { $_ -ne '' }
+  )
+}
+
+if ($lines[0] -eq 'B"H') {
+  $version = $lines[1]
+  $entry = $lines[2]
+  $files = $lines | Select-Object -Skip 3
+} else {
+  $version = $lines[0]
+  $entry = $lines[1]
+  $files = $lines | Select-Object -Skip 2
+}
+
+if ([string]::IsNullOrWhiteSpace($version)) { throw 'Missing manifest version' }
+if ([string]::IsNullOrWhiteSpace($entry)) { throw 'Missing manifest entry' }
+if ($entry -ne 'main.js') { throw "Bad manifest entry: $entry" }
  
 $installedVersion = ''
  
