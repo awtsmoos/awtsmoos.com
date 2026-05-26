@@ -8,6 +8,12 @@ function Write-Utf8NoBom($path, $text) {
   [System.IO.File]::WriteAllText($path, $text, $encoding)
 }
  
+function Download-Text($url) {
+  $wc = New-Object System.Net.WebClient
+  $wc.Encoding = [System.Text.Encoding]::UTF8
+  return $wc.DownloadString($url).TrimStart([char]0xFEFF)
+}
+ 
 function Stop-OldAwtsAgent($root, $entry) {
   $agentPath = [Regex]::Escape((Join-Path $root $entry))
   Get-CimInstance Win32_Process | Where-Object {
@@ -20,7 +26,7 @@ function Stop-OldAwtsAgent($root, $entry) {
 function Get-ManifestLines($text) {
   return @(
     [regex]::Split($text, '\r?\n') |
-    ForEach-Object { $_.Trim() } |
+    ForEach-Object { $_.Trim().TrimStart([char]0xFEFF) } |
     Where-Object {
       $_ -ne '' -and
       $_ -ne 'B"H' -and
@@ -56,16 +62,16 @@ if (-not (Test-Path $config)) {
  
 Write-Host 'Checking Awtsmoos manifest...'
  
-$manifestText = (Invoke-WebRequest -Uri $manifestUrl -UseBasicParsing).Content
+$manifestText = Download-Text $manifestUrl
 $lines = Get-ManifestLines $manifestText
  
 if ($lines.Count -lt 2) {
-  throw 'Manifest is missing version and entry.'
+  throw ('Manifest is missing version and entry. Got: ' + $manifestText.Substring(0, [Math]::Min(200, $manifestText.Length)))
 }
  
 $version = $lines[0]
 $entry = $lines[1]
-$files = @($lines | Select-Object -Skip 2)
+$files = @($lines | Select-Object -Skip 2 | Where-Object { $_ -ne 'manifest.json' -and $_ -ne 'manifest.txt' })
  
 if ($entry -ne 'main.js') {
   throw ('Bad manifest entry: ' + $entry)
@@ -76,7 +82,6 @@ if ($files.Count -lt 1) {
 }
  
 $installedVersion = ''
- 
 if (Test-Path $statePath) {
   $installedVersion = (Get-Content -Raw $statePath).Trim()
 }
@@ -91,12 +96,10 @@ if ($installedVersion -eq $version -and (Test-Path $entryPath)) {
   foreach ($filePath in $files) {
     $dest = Join-Path $root $filePath
     $parent = Split-Path $dest -Parent
- 
     New-Item -ItemType Directory -Force -Path $parent | Out-Null
  
     $url = $baseUrl + '/' + $filePath
     Write-Host ('Downloading ' + $filePath + '...')
- 
     Invoke-WebRequest -Uri $url -OutFile $dest
   }
  
