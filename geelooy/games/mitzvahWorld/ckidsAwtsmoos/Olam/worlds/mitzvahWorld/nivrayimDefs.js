@@ -17,11 +17,8 @@
  * @module nivrayimDefs
  */
 
-import { MALCHUS_TERRAIN }    from './data/nefashos/MalchusTerrain.js';
-import { NETZACH_GRASS_LIST } from './data/nefashos/NetzachGrass.js';
-import { GEVURAH_WALLS_LIST } from './data/nefashos/GevurahWalls.js';
-import { STRUCTURES_LIST }    from './data/nefashos/StructuresDefs.js';
 import { TIFERES_CHOSSID }    from './data/nefashos/TiferesChossid.js';
+import { DESERT_TEST_STRUCTURES } from './data/nefashos/DesertTestWorld.js';
 
 /**
  * @typedef {Object} NefeshDef
@@ -41,10 +38,7 @@ import { TIFERES_CHOSSID }    from './data/nefashos/TiferesChossid.js';
  *   then the player entity last.
  */
 export const NIVRAYIM_DEFS = [
-  MALCHUS_TERRAIN,
-  ...NETZACH_GRASS_LIST,
-  ...GEVURAH_WALLS_LIST,
-  ...STRUCTURES_LIST,
+  ...DESERT_TEST_STRUCTURES,
   TIFERES_CHOSSID,
 ];
 

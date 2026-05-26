@@ -5,7 +5,7 @@ const COMMON_NUMBERS = Object.freeze([0,1,2,3,4,5,6,7,8,9,10,12,14,16,20,24,25,3
 const COMMON_INDEX = Object.freeze(Object.fromEntries(COMMON_NUMBERS.map((value, index) => [value, index])));
 const UNITS = Object.freeze(['px','%','em','rem','vh','vw','ms','s','deg','fr']);
 const UNIT_INDEX = Object.freeze(Object.fromEntries(UNITS.map((value, index) => [value, index])));
-const KIND = Object.freeze({ SMALL:0, COMMON:1, UNIT:2, CALC_SUB:3, RGB:4, VAR:5 });
+const KIND = Object.freeze({ SMALL:0, COMMON:1, UNIT:2, CALC_SUB:3, RGB:4, VAR:5, U16:6 });
 
 function parseUnit(value) {
   const m = String(value).trim().match(/^(\d+)(px|%|em|rem|vh|vw|ms|s|deg|fr)$/);
@@ -42,6 +42,7 @@ function writeBitPackedValue(bits, value) {
   if (calc) { bits.bits(KIND.CALC_SUB, 3); bits.bits(UNIT_INDEX[calc.au], 4); writeTinyNumber(bits, calc.a); bits.bits(UNIT_INDEX[calc.bu], 4); return writeTinyNumber(bits, calc.b); }
   if (rgb) { bits.bits(KIND.RGB, 3); return bits.bits(rgb[0], 8).bits(rgb[1], 8).bits(rgb[2], 8); }
   if (typeof value === 'number' && Number.isInteger(value) && value >= 0 && value < 256) return bits.bits(KIND.VAR, 3).bits(value, 8);
+  if (typeof value === 'number' && Number.isInteger(value) && value >= 0 && value < 65536) return bits.bits(KIND.U16, 3).bits(value, 16);
   throw new Error(`Cannot bit-pack value: ${value}`);
 }
 function readBitPackedValue(bits) {
@@ -52,6 +53,7 @@ function readBitPackedValue(bits) {
   if (kind === KIND.CALC_SUB) { const au = UNITS[bits.bits(4)], a = readTinyNumber(bits), bu = UNITS[bits.bits(4)], b = readTinyNumber(bits); return `calc(${a}${au} - ${b}${bu})`; }
   if (kind === KIND.RGB) return `rgb(${bits.bits(8)}, ${bits.bits(8)}, ${bits.bits(8)})`;
   if (kind === KIND.VAR) return bits.bits(8);
+  if (kind === KIND.U16) return bits.bits(16);
   throw new Error(`Unknown bit packed kind: ${kind}`);
 }
 function encodeBitPackedValues(values = []) {

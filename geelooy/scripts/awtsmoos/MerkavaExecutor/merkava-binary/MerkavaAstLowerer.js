@@ -60,16 +60,34 @@ function lowerAstToJson(ast) {
     body: fnBody(node)
   });
 
+  const templateLiteral = node => {
+    const parts = [];
+    for (let i = 0; i < (node.quasis || []).length; i++) {
+      const cooked = node.quasis[i]?.value?.cooked ?? node.quasis[i]?.value?.raw ?? '';
+      if (cooked) parts.push({ const: cooked });
+      if (node.expressions?.[i]) parts.push(expr(node.expressions[i]));
+    }
+    if (!parts.length) return { const: '' };
+    return parts.reduce((left, right) => ({ op: 'add', args: [left, right] }));
+  };
+
   const expr = node => {
     if (!node) return { const: null };
     if (node.type === 'Literal') return { const: node.value };
+    if (node.type === 'TemplateLiteral') return templateLiteral(node);
+    if (node.type === 'MetaProperty') {
+      const meta = node.meta?.name || node.meta?.value || "meta";
+      const property = node.property?.name || node.property?.value || "";
+      if (meta === "import" && property === "meta") return { const: { url: "merkava://module" } };
+      return { const: `${meta}.${property}` };
+    }
     if (node.type === 'Identifier') return { get: node.name };
-    if (node.type === 'ChainExpression') return expr(node.expression);
     if (node.type === 'ChainExpression') return expr(node.expression);
     if (node.type === 'ThisExpression') return { get: 'this' };
     if (node.type === 'Super') return { get: 'super' };
     if (node.type === 'AwaitExpression') return { op: 'await', value: expr(node.argument) };
     if (node.type === 'YieldExpression') return expr(node.argument);
+    if (node.type === 'SpreadElement') return expr(node.argument);
     if (node.type === 'UnaryExpression') return { op: UNARY[node.operator], value: expr(node.argument) };
     if (node.type === 'LogicalExpression') return { op: LOGICAL[node.operator], args: [expr(node.left), expr(node.right)] };
     if (node.type === 'ConditionalExpression') return { op: 'conditional', test: expr(node.test), consequent: expr(node.consequent), alternate: expr(node.alternate) };
@@ -120,6 +138,7 @@ function lowerAstToJson(ast) {
       if (node.callee.type === 'Super') return { op: 'superConstructor', args };
       if (node.callee.type === 'Identifier') return { op: 'callFunction', fn: expr(node.callee), args };
       if (node.callee.type === 'MemberExpression') return { op: 'callMethod', object: expr(node.callee.object), method: propName(node.callee.property), args };
+      return { op: 'callFunction', fn: expr(node.callee), args };
     }
     throw new Error(`Unsupported JS AST expression: ${node.type}`);
   };
@@ -155,6 +174,49 @@ function lowerAstToJson(ast) {
         consequent: stmt.consequent?.type === 'BlockStatement' ? blockSteps(stmt.consequent) : statementSteps(stmt.consequent),
         alternate: stmt.alternate ? (stmt.alternate.type === 'BlockStatement' ? blockSteps(stmt.alternate) : statementSteps(stmt.alternate)) : []
       });
+    } else if (stmt.type === 'ForOfStatement') {
+      const left = stmt.left?.type === 'VariableDeclaration'
+        ? stmt.left.declarations?.[0]?.id?.name
+        : stmt.left?.name;
+      target.push({
+        op: 'forOf',
+        left: left || `__forOf${target.length}`,
+        right: expr(stmt.right),
+        body: stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body)
+      });
+    } else if (stmt.type === 'ForOfStatement') {
+      const left = stmt.left?.type === 'VariableDeclaration'
+        ? stmt.left.declarations?.[0]?.id?.name
+        : stmt.left?.name;
+      target.push({
+        op: 'forOf',
+        left: left || `__forOf${target.length}`,
+        right: expr(stmt.right),
+        body: stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body)
+      });
+    } else if (stmt.type === 'WhileStatement') {
+      target.push({
+        op: 'while',
+        test: expr(stmt.test),
+        body: stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body)
+      });
+    } else if (stmt.type === 'ForStatement') {
+      if (stmt.init) {
+        if (stmt.init.type === 'VariableDeclaration') lowerStmt(stmt.init, target);
+        else target.push(expr(stmt.init));
+      }
+      const body = stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body);
+      if (stmt.update) body.push(expr(stmt.update));
+      target.push({ op: 'while', test: stmt.test ? expr(stmt.test) : { const: true }, body });
+    } else if (stmt.type === 'SwitchStatement') {
+      target.push({
+        op: 'switch',
+        discriminant: expr(stmt.discriminant),
+        cases: (stmt.cases || []).map(item => ({
+          test: item.test ? expr(item.test) : null,
+          body: blockSteps({ body: item.consequent || [] })
+        }))
+      });
     } else if (stmt.type === 'ThrowStatement') {
       target.push({ op: 'throw', value: expr(stmt.argument) });
     } else if (stmt.type === 'TryStatement') {
@@ -172,6 +234,8 @@ function lowerAstToJson(ast) {
       if (stmt.generator) target.push({ op: 'set', name: stmt.id.name, value: { op: 'generator', values: yieldsOf(stmt.body) } });
       else if (stmt.async) target.push({ op: 'set', name: stmt.id.name, value: { op: 'asyncFunction', result: returnExpr(stmt.body) } });
       else target.push({ op: 'set', name: stmt.id.name, value: fnDescriptor(stmt) });
+    } else if (stmt.type === 'ContinueStatement' || stmt.type === 'BreakStatement') {
+      return null;
     } else {
       throw new Error(`Unsupported JS AST statement: ${stmt.type}`);
     }

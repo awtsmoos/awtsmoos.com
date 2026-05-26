@@ -18,7 +18,6 @@
             const raw = String(specifier || '');
             if (!raw) return raw;
             if (/^[a-z][a-z0-9+.-]*:/i.test(raw)) return raw;
-            if (!raw.startsWith('.') && !raw.startsWith('/')) return raw;
             return new URL(raw, new URL(from, this.origin)).pathname;
         }
         fileKey(specifier, from = this.base, files = {}) {

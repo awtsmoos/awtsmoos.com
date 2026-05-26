@@ -1,0 +1,53 @@
+/* B"H
+  Chapter 1: The Settings Panel Stopped Fighting Its Own Text.
+  Checkboxes are now real two-column controls: label text breathes on the left,
+  the switch lives on the right, and no generated caption overlays the words.
+*/
+#automation-panel .automation-field:has(input[type="checkbox"]) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-areas: "copy switch" !important;
+  align-items: center !important;
+  gap: .85rem !important;
+  min-height: auto !important;
+  padding: .82rem .92rem !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  line-height: 1.35 !important;
+}
+
+#automation-panel .automation-field:has(input[type="checkbox"])::before {
+  content: none !important;
+}
+
+#automation-panel .automation-field:has(input[type="checkbox"]) input[type="checkbox"] {
+  grid-area: switch !important;
+  justify-self: end !important;
+  align-self: center !important;
+  flex: 0 0 auto !important;
+}
+
+#automation-panel .event-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: .65rem;
+}
+
+#automation-panel .event-filter {
+  min-height: 54px !important;
+  font-size: .88rem !important;
+  font-weight: 800 !important;
+  color: rgba(226,246,255,.9) !important;
+}
+
+#automation-panel .relay-card code,
+#automation-panel .panel-note code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+#automation-panel .automation-field textarea,
+#automation-panel .automation-field input:not([type="checkbox"]),
+#automation-panel .automation-field select {
+  min-width: 0 !important;
+}

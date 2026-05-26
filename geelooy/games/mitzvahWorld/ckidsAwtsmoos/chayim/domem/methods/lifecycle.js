@@ -81,9 +81,9 @@ export default {
                 }
             }
 
-            if (this.interactable && olam.interactiveOctree) {
-                // B"H: THE TIKKUN OF THE PROTRUSION — no more invisible spheres or proxies!
-                // We anchor the actual mesh to the interactive octree for precise raycasting.
+            if (this.interactable && !isLiving && olam.interactiveOctree) {
+                // B"H: Static interactables may enter the interactive octree.
+                // Living beings keep their render mesh separate from spatial baking.
                 olam.interactiveOctree.addObject(this.mesh);
             }
 

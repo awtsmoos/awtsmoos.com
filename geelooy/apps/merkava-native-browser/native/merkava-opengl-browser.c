@@ -54,7 +54,7 @@ static void awts_prepare_browser_shell_state(AwtsBrowserState* state, int smokeM
   state->height = 540;
   state->focusedAddress = 1;
   strncpy(state->statusText, "Merkava shell ready", sizeof(state->statusText) - 1);
-  awts_browser_set_url(state, "file:///index.html");
+  awts_browser_set_url(state, "http://localhost:8080");
   awts_scan_webgl(&state->webgl, AWTS_SHELL_JS);
   awts_browser_navigate(state);
   awts_browser_navigate(state);

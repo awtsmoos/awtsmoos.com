@@ -1,44 +1,32 @@
 /**
  * @fileoverview
- * ════════════════════════════════════════════════════════════════════════
  * B"H
- *
- *   THE LOADER OF VESSELS — GlbLoader.js
- *   ────────────────────────────────────────
- *   "And He brought him outside..." (Bereishis 15:5).
- *   The loader brings the data from the outside world into the 
- *   inner sanctuary of the scene. It is the channel through which
- *   the binary light of the GLB is translated into the physical
- *   language of the GPU.
- *
- *   This is the pure function of fetching and parsing, a vessel 
- *   of the Divine Will that ensures nothing is lost in the descent.
- *
- * ════════════════════════════════════════════════════════════════════════
+ * The Loader of Vessels now remembers the first breath by path. When the
+ * Awtsmoos allows a GLB to descend once into the scene, later callers receive
+ * that same promise instead of tearing open another network gate.
  *
  * @module GlbLoader
  */
 
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 
-/** @constant {GLTFLoader} _LOADER - Shared loader instance */
+/** @constant {GLTFLoader} _LOADER - Shared loader instance. */
 const _LOADER = new GLTFLoader();
 
+/** @constant {Map<string, Promise<import('three').Group>>} GLB_PROMISES */
+const GLB_PROMISES = globalThis.__AWTSMOOS_GLB_PROMISES ||= new Map();
+
 /**
- * @function loadGlb
- * @description
- *   Wraps GLTFLoader.load() in a Promise.
- *   Returns the gltf.scene with animations grafted onto it.
+ * B"H
+ * Loads a GLB path once per runtime and returns the cached promise after that.
  *
- *   "Open for me an opening like the eye of a needle, and I will 
- *   open for you an opening like the hall of the Temple."
- *   The loader opens the needle-eye for the great data to enter.
- *
- * @param   {string} path - URL path to the GLB file
- * @returns {Promise<import('three').Group>}
+ * @param {string} path - URL path to the GLB file.
+ * @returns {Promise<import('three').Group>} Loaded scene root with animations.
  */
 export function loadGlb(path) {
-  return new Promise((resolve, reject) => {
+  if (GLB_PROMISES.has(path)) return GLB_PROMISES.get(path);
+
+  const promise = new Promise((resolve, reject) => {
     _LOADER.load(
       path,
       (gltf) => {
@@ -46,12 +34,16 @@ export function loadGlb(path) {
         root.animations = gltf.animations || [];
         resolve(root);
       },
-      (xhr) => {
-        // B"H: Progress is silent, but the work continues.
+      () => {},
+      (err) => {
+        GLB_PROMISES.delete(path);
+        reject(err);
       },
-      (err) => reject(err),
     );
   });
+
+  GLB_PROMISES.set(path, promise);
+  return promise;
 }
 
 export default loadGlb;

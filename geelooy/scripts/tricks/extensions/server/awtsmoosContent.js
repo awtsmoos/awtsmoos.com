@@ -25,12 +25,61 @@
       this.heartbeatTimer = null;
       this.boundPageListener = event => this.onPageMessage(event);
       this.listenForPageMessages();
+      this.listenForLifecycle();
       this.connectSoon(0);
     }
 
     listenForPageMessages() {
       globalThis.removeEventListener?.("message", this.boundPageListener);
       globalThis.addEventListener?.("message", this.boundPageListener);
+    }
+
+    listenForLifecycle() {
+      globalThis.addEventListener?.("pagehide", event => {
+        if (!event.persisted) return;
+        this.announce("server-suspended-bfcache");
+        this.disconnectQuietly("page entering BFCache");
+      });
+      globalThis.addEventListener?.("pageshow", event => {
+        if (!event.persisted || this.deadContext) return;
+        this.announce("server-restoring-bfcache");
+        this.connectSoon(0);
+      });
+      globalThis.addEventListener?.("visibilitychange", () => {
+        if (document.visibilityState === "visible" && !this.port && !this.deadContext) this.connectSoon(0);
+      });
+    }
+
+    disconnectQuietly(reason = "disconnect") {
+      clearInterval(this.heartbeatTimer);
+      const port = this.port;
+      this.port = null;
+      try { port?.disconnect?.(); }
+      catch (error) { this.announce("server-disconnect-skip", { reason, error: String(error?.message || error) }); }
+    }
+
+    listenForLifecycle() {
+      globalThis.addEventListener?.("pagehide", event => {
+        if (!event.persisted) return;
+        this.announce("server-suspended-bfcache");
+        this.disconnectQuietly("page entering BFCache");
+      });
+      globalThis.addEventListener?.("pageshow", event => {
+        if (!event.persisted || this.deadContext) return;
+        this.announce("server-restoring-bfcache");
+        this.connectSoon(0);
+      });
+      globalThis.addEventListener?.("visibilitychange", () => {
+        if (document.visibilityState === "visible" && !this.port && !this.deadContext) this.connectSoon(0);
+      });
+    }
+
+    disconnectQuietly(reason = "disconnect") {
+      clearInterval(this.heartbeatTimer);
+      const port = this.port;
+      this.port = null;
+      try { port?.disconnect?.(); }
+      catch (error) { this.announce("server-disconnect-skip", { reason, error: String(error?.message || error) }); }
     }
 
     runtimeAvailable() {
@@ -67,7 +116,11 @@
         if (!this.runtimeAvailable()) throw new Error("Extension runtime is not available yet.");
         this.port = chrome.runtime.connect({ name: this.id });
         this.port.onMessage.addListener(message => this.onMessageReceived(message));
-        this.port.onDisconnect.addListener(() => this.onDisconnect(epoch));
+        this.port.onDisconnect.addListener(() => {
+          const lastError = chrome.runtime?.lastError;
+          if (lastError?.message) this.announce("server-port-last-error", { error: lastError.message });
+          this.onDisconnect(epoch, lastError);
+        });
         this.retryDelay = 250;
         this.announce("server-ready");
         this.flushQueue();

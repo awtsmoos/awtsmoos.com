@@ -68,14 +68,15 @@ export function updateBots(state, deltaTime, staticMaps) {
     // 1. Simulate Global Chat
     if (Math.random() < 0.02) { 
         const bot = state.bots[Math.floor(Math.random() * state.bots.length)];
-        const type = Math.random() > 0.7 ? 'trade' : (Math.random() > 0.8 ? 'lfg' : 'general');
-        const list = botDialogues[type] || botDialogues.general;
+        const type = Math.random() > 0.78 ? 'trade' : (Math.random() > 0.84 ? 'lfg' : 'local');
+        const list = botDialogues[type] || botDialogues.local || botDialogues.general;
         const msg = list[Math.floor(Math.random() * list.length)];
-        
+        const mapName = String(bot.mapId || 'nearby').replace(/_/g, ' ');
         const chatEntry = {
             id: Date.now() + Math.random(),
             sender: bot.name,
             guild: bot.guild,
+            place: mapName,
             message: msg,
             type: type
         };

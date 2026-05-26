@@ -69,7 +69,7 @@ static void set_page(AwtsBrowserState* state, const char* kind, const char* titl
   snprintf(state->pageKind, sizeof(state->pageKind), "%s", kind ? kind : "unknown");
   snprintf(state->pageTitle, sizeof(state->pageTitle), "%s", title ? title : "Untitled");
   (void)preview;
-  snprintf(state->pagePreview, sizeof(state->pagePreview), "native host loaded bytes; waiting for MerkavaExecutor render ops");
+  clean_preview(state->pagePreview, sizeof(state->pagePreview), preview && *preview ? preview : "MerkavaExecutor render stream is active; native host only maps verified ops");
 }
 
 static void print_fs_exists(const char* path) {
@@ -141,6 +141,17 @@ static int execute_simple_fs_js(const char* scriptPath, const char* text) {
   return 1;
 }
 
+static int awts_url_is_local_http(const char* url) {
+  return awts_text_has(url, "http://localhost") || awts_text_has(url, "https://localhost") ||
+         awts_text_has(url, "http://127.0.0.1") || awts_text_has(url, "https://127.0.0.1");
+}
+
+static int awts_html_wants_webgl_executor(const char* html) {
+  return awts_text_has(html, "<canvas") || awts_text_has(html, "getContext(\"webgl") ||
+         awts_text_has(html, "getContext('webgl") || awts_text_has(html, "drawArrays(") ||
+         awts_text_has(html, "createShader(") || awts_text_has(html, "bufferData(");
+}
+
 static int load_http_preview(AwtsBrowserState* state, const char* url) {
   HINTERNET session = InternetOpenA("MerkavaNativeBrowser/0.6", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
   if (!session) return 0;
@@ -156,7 +167,12 @@ static int load_http_preview(AwtsBrowserState* state, const char* url) {
   buffer[read] = 0;
   InternetCloseHandle(handle);
   InternetCloseHandle(session);
-  set_page(state, "network", url, buffer);
+  if (read > 0 && (awts_url_is_local_http(url) || awts_html_wants_webgl_executor(buffer))) {
+    set_page(state, "merkava-executor-render-stream", url, "network WebGL DOM routed through MerkavaExecutor render stream");
+    awts_scan_webgl(&state->webgl, buffer);
+  } else {
+    set_page(state, "network", url, buffer);
+  }
   return read > 0;
 }
 
@@ -229,7 +245,7 @@ int awts_analyze_html(const char* path, int checkOnly) {
   printf("html-surface: scriptTags=%u linkTags=%u canvasTags=%u styleTags=%u\n",
     awts_count_token(file.data, "<script"), awts_count_token(file.data, "<link"), awts_count_token(file.data, "<canvas"), awts_count_token(file.data, "<style"));
   awts_print_webgl_table(&webgl);
-  printf("dom-status=disabled-native-host-waits-for-merkava-render-ops webgl-status=command-table-plus-opengl-smoke\n");
+  printf("dom-status=merkava-render-stream-required-no-waiting-fallback webgl-status=command-table-plus-opengl-smoke\n");
   free(file.data);
   return 0;
 }

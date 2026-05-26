@@ -1,25 +1,35 @@
 // B"H
+const path = require('path');
 const { compileJsToJson } = require('./MerkavaJsCompiler.js');
 const { runJsonCode } = require('./MerkavaJsonRunner.js');
 
+function canonicalModulePath(value = '') {
+  const raw = String(value || '').replace(/\\/g, '/');
+  const absolute = raw.startsWith('/');
+  const normalized = path.posix.normalize(raw || '.');
+  const cleaned = normalized === '.' ? '' : normalized.replace(/^\.\//, '');
+  return absolute ? `/${cleaned.replace(/^\//, '')}` : cleaned.replace(/^\//, '');
+}
+
+function moduleAliases(key = '') {
+  const bare = canonicalModulePath(key).replace(/^\//, '');
+  return [...new Set([bare, `/${bare}`, `./${bare}`].filter(value => value && value !== './'))];
+}
+
 function normalizeFiles(files = {}) {
-  const out = { ...files };
+  const out = {};
   for (const [key, value] of Object.entries(files)) {
-    const bare = key.replace(/^\.\//, '').replace(/^\//, '');
-    if (!out[bare]) out[bare] = value;
-    if (!out['/' + bare]) out['/' + bare] = value;
-    if (!out['./' + bare]) out['./' + bare] = value;
+    for (const alias of moduleAliases(key)) out[alias] = value;
   }
   return out;
 }
 function resolveSpecifier(specifier, from = '') {
-  if (specifier.startsWith('/')) return specifier;
-  const clean = specifier.replace(/^\.\//, '');
-  if (from.includes('/')) {
-    const base = from.split('/').slice(0, -1).join('/') || '/';
-    return (base === '/' ? '/' : base + '/') + clean;
-  }
-  return '/' + clean;
+  const raw = String(specifier || '').replace(/\\/g, '/');
+  if (/^[a-z]+:/i.test(raw)) return raw;
+  if (raw.startsWith('/')) return `/${canonicalModulePath(raw).replace(/^\//, '')}`;
+  const base = from && from.includes('/') ? from.split('/').slice(0, -1).join('/') : '';
+  const joined = base ? `${base}/${raw}` : raw;
+  return `/${canonicalModulePath(joined).replace(/^\//, '')}`;
 }
 function parseImports(source, from) {
   const imports = [];
@@ -102,10 +112,12 @@ async function executeVmFiles({ files = {}, entry = '/main.js', globals = {}, ru
 
   async function load(file) {
     const resolvedFile = resolveSpecifier(file, '/');
-    const key = allFiles[resolvedFile] !== undefined ? resolvedFile : file;
+    const key = moduleAliases(resolvedFile).find(alias => allFiles[alias] !== undefined)
+      || moduleAliases(file).find(alias => allFiles[alias] !== undefined)
+      || resolvedFile;
     if (cache.has(key)) return cache.get(key);
     const source = allFiles[key];
-    if (source == null) throw new Error(`VM module not found: ${file}`);
+    if (source == null) throw new Error(`VM module not found: ${file} resolved as ${resolvedFile}`);
 
     const moduleGlobals = { ...runtimeGlobals, ...globals };
     for (const imp of parseImports(source, key)) {
@@ -128,4 +140,4 @@ async function executeVmFiles({ files = {}, entry = '/main.js', globals = {}, ru
   return { ok: true, entry, exports, files: allFiles, modules: Object.fromEntries(cache.entries()) };
 }
 
-module.exports = { executeVmFiles, normalizeFiles, parseImports, stripExports, resolveSpecifier, createVirtualNodeGlobals };
+module.exports = { executeVmFiles, normalizeFiles, parseImports, stripExports, resolveSpecifier, canonicalModulePath, moduleAliases, createVirtualNodeGlobals };

@@ -5,6 +5,7 @@ import { StreamRouter } from "./streamRouter.js";
 import { describeAttachments } from "../attachments/describeAttachments.js";
 import { mountAwtsmoosAudioOffer } from "../chatgpt/audio/audioControls.js";
 import { streamResumeStore } from "../chatgpt/stream/streamResumeStore.js";
+import { withTimeout } from "./conversations/withTimeout.js";
 
 /**
  * B"H — ConversationController is now a narrow orchestration vessel.
@@ -34,7 +35,9 @@ export class ConversationController {
     for (let attempt = 0; attempt < 6; attempt++) {
       try {
         const service = await this.getService();
-        return service.getConversationsFnc ? await service.getConversationsFnc(page) : null;
+        return service.getConversationsFnc
+          ? await withTimeout(service.getConversationsFnc(page), { ms: 12000, label: "Conversation list request" })
+          : null;
       } catch (error) {
         lastError = error;
         list.innerHTML = `<li class="is-loading">Reconnecting conversations… ${attempt + 1}/6</li>`;
@@ -142,10 +145,43 @@ export class ConversationController {
     if (cid && isVisibleConversation(targetConversationId, startedOnBlankConversation, cid)) {
       updateSearchParams({ awtsmoosConversation: cid, awtsmoosAi: this.serviceSelect.value });
       window.curConversationId = cid;
+      this.refreshSidebarAfterNewConversation({ cid, startedOnBlankConversation });
     }
     window.mostRecentResponse = response;
     this.mountAudioOffer({ stream, response, conversationId: cid, visible: hooks.paintAssistant !== false });
     return extractAssistantText(response) || stream?.assistant?.shell?.textContent || "";
+  }
+
+  /**
+   * B"H — pulls a newly born chat into the sidebar after its id descends.
+   *
+   * A blank prompt has no conversation id until the provider answers. The moment
+   * that id becomes visible, this quiet pulse asks the sidebar pager to refresh
+   * so the new vessel appears without a manual reload.
+   *
+   * @param {{cid:string, startedOnBlankConversation:boolean}} state Creation state.
+   * @returns {void}
+   */
+  refreshSidebarAfterNewConversation({ cid, startedOnBlankConversation } = {}) {
+    const list = this.listPager?.boundList;
+    if (!cid || !startedOnBlankConversation || !list) return;
+    Promise.resolve(this.refreshList(list)).catch(error => console.warn("Sidebar refresh after new conversation failed", error));
+  }
+
+  /**
+   * B"H — pulls a newly born chat into the sidebar after its id descends.
+   *
+   * A blank prompt has no conversation id until the provider answers. The moment
+   * that id becomes visible, this quiet pulse asks the sidebar pager to refresh
+   * so the new vessel appears without a manual reload.
+   *
+   * @param {{cid:string, startedOnBlankConversation:boolean}} state Creation state.
+   * @returns {void}
+   */
+  refreshSidebarAfterNewConversation({ cid, startedOnBlankConversation } = {}) {
+    const list = this.listPager?.boundList;
+    if (!cid || !startedOnBlankConversation || !list) return;
+    Promise.resolve(this.refreshList(list)).catch(error => console.warn("Sidebar refresh after new conversation failed", error));
   }
 
   mountLoadedAudioOffer({ messages = [], conversationId }) {

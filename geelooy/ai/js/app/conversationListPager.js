@@ -1,12 +1,14 @@
 //B"H
-import { ACTIVE_STREAMS_EVENT, streamResumeStore } from "../chatgpt/stream/streamResumeStore.js";
+import { ACTIVE_STREAMS_EVENT, streamResumeStore, isLivingStream } from "../chatgpt/stream/streamResumeStore.js";
 import { AUTOMATION_RUNS_EVENT, automationRunStore } from "../automation/runStore.js";
+import { prependMissingLiveRows } from "./conversationSidebarLiveRows.js";
 
 /**
  * B"H — A small sidebar vessel for conversation pagination.
  *
- * The list receives pulse badges for both hidden streams and hidden automation
- * runs, so many living chats can be watched from one open page.
+ * The list receives pulse badges for hidden live streams and automation runs,
+ * but completed stream ghosts are pruned before paint so the sidebar cannot
+ * claim "streaming" after the river has already rested.
  */
 export class ConversationListPager {
   constructor({ controller, limit = 26 } = {}) {
@@ -15,8 +17,8 @@ export class ConversationListPager {
     this.offset = 0;
     this.total = null;
     this.boundList = null;
-    globalThis.addEventListener?.(ACTIVE_STREAMS_EVENT, () => this.applyBadges());
-    globalThis.addEventListener?.(AUTOMATION_RUNS_EVENT, () => this.applyBadges());
+    globalThis.addEventListener?.(ACTIVE_STREAMS_EVENT, () => this.refreshLiveRows());
+    globalThis.addEventListener?.(AUTOMATION_RUNS_EVENT, () => this.refreshLiveRows());
   }
 
   async reset(list) { this.offset = 0; this.total = null; await this.render(list); }
@@ -25,22 +27,36 @@ export class ConversationListPager {
 
   async render(list) {
     this.boundList = list;
-    list.innerHTML = `<li class="is-loading">Loading conversations…</li>`;
+    list.replaceChildren(this.makeNotice("is-loading", "Loading conversations…"));
     const response = await this.controller.loadConversationListWithRetries(list, { offset: this.offset, limit: this.limit });
     const items = Array.isArray(response?.items) ? response.items : [];
     if (Number.isFinite(response?.total)) this.total = response.total;
-    list.innerHTML = "";
+    list.replaceChildren();
     if (this.offset > 0) list.appendChild(this.makeGate("previous"));
+    prependMissingLiveRows(list, items, conversation => this.makeConversation(conversation));
     for (const conversation of items) list.appendChild(this.makeConversation(conversation));
     if (!items.length) this.controller.renderEmptyList(list, response);
     if (this.hasNext(items)) list.appendChild(this.makeGate("next", items.length));
     this.applyBadges(list);
   }
 
+  refreshLiveRows() {
+    if (!this.boundList) return;
+    prependMissingLiveRows(this.boundList, [], conversation => this.makeConversation(conversation));
+    this.applyBadges(this.boundList);
+  }
+
   hasNext(items) {
     if (!items.length) return false;
     if (Number.isFinite(this.total)) return this.offset + items.length < this.total;
     return items.length >= this.limit;
+  }
+
+  makeNotice(className, text) {
+    const li = document.createElement("li");
+    li.className = className;
+    li.textContent = text;
+    return li;
   }
 
   makeGate(kind, count = this.limit) {
@@ -68,7 +84,8 @@ export class ConversationListPager {
 
   applyBadges(list = this.boundList) {
     if (!list) return;
-    const activeStreams = new Map(streamResumeStore.list().filter(s => s.conversationId).map(s => [s.conversationId, s]));
+    streamResumeStore.prune?.();
+    const activeStreams = new Map(streamResumeStore.list().filter(s => s.conversationId && isLivingStream(s)).map(s => [s.conversationId, s]));
     const activeRuns = new Map(automationRunStore.list().filter(run => run.conversationId && !["off", "done", "stopped", "error"].includes(run.status)).map(run => [run.conversationId, run]));
     list.querySelectorAll("li[data-id]").forEach(item => {
       const stream = activeStreams.get(item.dataset.id);

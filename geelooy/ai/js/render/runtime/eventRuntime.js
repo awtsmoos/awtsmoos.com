@@ -61,9 +61,24 @@ function installRegionBehaviors(region) {
   installEventBodyHydrator(region);
 }
 
+/**
+ * B"H — refuses to render empty ceremonial shells.
+ *
+ * Some transports emit action-after-thought husks with a label but no payload,
+ * no text, and no nested events. Those ghosts became expandable dead bubbles.
+ * This gate admits only events with real inner fire: text, action, raw payload,
+ * tool identity, or a non-empty thought envelope.
+ *
+ * @param {object} event Candidate event.
+ * @returns {boolean} True when the event can produce useful UI.
+ */
 function hasRenderableBody(event = {}) {
-  if (!event?.raw?.groupedThoughtEnvelope) return true;
-  return Array.isArray(event.raw.events) && event.raw.events.length > 0;
+  if (event?.raw?.groupedThoughtEnvelope) return Array.isArray(event.raw.events) && event.raw.events.length > 0;
+  const raw = event.raw || event;
+  const msg = raw.message || raw.input_message || raw.data?.message || raw;
+  const content = msg.content || raw.content || {};
+  const text = event.text || (Array.isArray(content.parts) ? content.parts.join(" ") : content.text) || raw.text || raw.dataNoJSON || "";
+  return Boolean(String(text).trim() || event.action?.href || msg.recipient || raw.recipient || raw.type || raw.name || raw.id);
 }
 
 function reconcileNodes(region, nodes, visible) {

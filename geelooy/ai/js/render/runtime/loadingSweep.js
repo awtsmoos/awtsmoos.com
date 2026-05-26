@@ -14,7 +14,7 @@ import { visibleRenderableEvents } from "./eventRuntime.js";
 export function sweepLoadingGhosts(renderer) {
   let removed = 0;
   renderer.records = renderer.records.filter(record => {
-    const ghost = record.loading && !record.text && !visibleRenderableEvents(record.events || []).length;
+    const ghost = record.loading && !record.finalTextPending && !record.text && !visibleRenderableEvents(record.events || []).length;
     if (!ghost) return true;
     record.shell?.remove();
     renderer.byId.delete(record.id);

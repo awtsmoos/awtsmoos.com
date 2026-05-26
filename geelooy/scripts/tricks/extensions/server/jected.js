@@ -154,9 +154,6 @@
     if (data?.from === "background" && data?.action === "automation-stream") {
       window.dispatchEvent(new CustomEvent("awtsmoos-background-automation-stream", { detail: data.detail || {} }));
     }
-    if (data?.from === "background" && data?.action === "automation-stream") {
-      window.dispatchEvent(new CustomEvent("awtsmoos-background-automation-stream", { detail: data.detail || {} }));
-    }
   });
   window.awtsmoosFetch = awtsFetch;
   window.mFetch = awtsFetch;

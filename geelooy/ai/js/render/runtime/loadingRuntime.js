@@ -14,7 +14,7 @@ import { visibleRenderableEvents } from "./eventRuntime.js";
 export function removeIfEmptyLoading(renderer, record) {
   const hasVisibleEvents = visibleRenderableEvents(record.events || []).length > 0;
   const stillStreaming = record.loading || record.streaming;
-  if (stillStreaming || record.text || hasVisibleEvents) return false;
+  if (stillStreaming || record.text || hasVisibleEvents || record.finalTextPending) return false;
   record.shell?.remove();
   renderer.byId.delete(record.id);
   return true;

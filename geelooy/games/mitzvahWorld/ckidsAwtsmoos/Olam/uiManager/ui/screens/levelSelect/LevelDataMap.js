@@ -11,15 +11,15 @@
  * be humbled before the Awtsmoos (Atzmus from Kabbalah), the Essence of the Creator.
  * 
  * This array is the pure, logic-free manifestation of the worlds available to the soul.
- * It contains the roots of the Emerald world and the Village world, entirely data-driven.
+ * It contains the roots of the tiny test world and the larger realms, entirely data-driven.
  */
 
 export const LevelDataMap =[
     { 
-        id: "emerald.js", 
-        icon: "🟩", 
-        title: "Emerald Void", 
-        desc: "A living emerald district: houses, roads, NPCs, doors, mezuzos, yards, missions, and light towers." 
+        id: "desertTest.js", 
+        icon: "🏜️", 
+        title: "Desert Test World", 
+        desc: "A tiny debug realm: desert ground, three simple houses, and two NPCs for fast testing." 
     },
     { 
         id: "village.js", 

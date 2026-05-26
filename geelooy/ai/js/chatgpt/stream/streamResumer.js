@@ -70,12 +70,24 @@ function orderedChunks(chunks = []) {
   return [...(Array.isArray(chunks) ? chunks : [])].sort((a, b) => Number(a?.index || 0) - Number(b?.index || 0));
 }
 
+/**
+ * B"H — decides whether a reborn page may repaint a living stream.
+ *
+ * Refreshing the bare AI app with no awtsmoosConversation query string must not
+ * resurrect some unrelated background river. Only a URL-bound conversation is a
+ * clear vessel for replay; otherwise the Awtsmoos lets the stream remain hidden
+ * in the durable ledger until its own chat is opened.
+ *
+ * @param {object} entry Active stream ledger entry.
+ * @param {Function|null} getActiveConversationId Reads the URL-owned chat id.
+ * @returns {boolean} True when this tab may visibly replay the stream.
+ */
 function shouldRenderEntry(entry, getActiveConversationId) {
-  if (typeof getActiveConversationId !== "function") return true;
+  if (typeof getActiveConversationId !== "function") return false;
   const active = getActiveConversationId();
-  if (!active) return true;
+  if (!active) return false;
   const owner = entry?.conversationId || entry?.surfaceConversationId;
-  return !owner || owner === active;
+  return Boolean(owner && owner === active);
 }
 
 function isClaimedByAnotherLiveTab(entry) {

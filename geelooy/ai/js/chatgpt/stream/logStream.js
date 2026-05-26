@@ -38,11 +38,17 @@ export async function logStream(response, callback, context = {}) {
     for (const packet of packets) collect(packet, emit, otherEvents, value => message = value, streamId);
     if (!done && streamId) streamResumeStore.patch(streamId, { cursor: ++cursor });
     if (done) {
-      if (streamId) streamResumeStore.remove(streamId);
+      if (streamId) markStreamDone(streamId, message);
       if (message) message.awtsmoos = { otherEvents };
       return message;
     }
   }
+}
+
+function markStreamDone(streamId, message) {
+  const conversationId = message?.conversation_id || message?.conversationId || null;
+  streamResumeStore.patch(streamId, { status: "done", doneAt: Date.now(), conversationId: conversationId || undefined });
+  setTimeout(() => streamResumeStore.remove(streamId), 60000);
 }
 
 function collect(packet, emit, otherEvents, setMessage, streamId) {

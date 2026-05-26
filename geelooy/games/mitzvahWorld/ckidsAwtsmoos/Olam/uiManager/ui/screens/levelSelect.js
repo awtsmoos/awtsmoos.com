@@ -71,10 +71,13 @@ export default {
                 if(ld) ld.classList.remove("hidden");
             };
 
+            // --- B"H: THE DESERT TEST TIKKUN ---
+            if (worldPath === 'desertTest.js') {
+                return sparkWorld(null, MINIMAL_GRASS_WORLD, 'desertTest.js');
+            }
+
             // --- B"H: THE EMERALD TIKKUN ---
             if (worldPath === 'emerald.js') {
-                // B"H: silent
-
                 const module = await import(`/games/mitzvahWorld/ckidsAwtsmoos/tochen/worlds/emerald.js`);
                 return sparkWorld(`/games/mitzvahWorld/ckidsAwtsmoos/tochen/worlds/emerald.js`, module.default);
             }

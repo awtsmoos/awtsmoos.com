@@ -39,7 +39,7 @@ export class MessageRenderer {
     this.liveFollowButton = document.createElement("button");
     this.liveFollowButton.type = "button";
     this.liveFollowButton.className = "live-follow-button";
-    this.liveFollowButton.textContent = "↓ Live bottom";
+    this.liveFollowButton.textContent = "↓ Jump to bottom";
     this.liveFollowButton.onclick = () => this.forceScrollDown();
     this.topSpacer.onclick = () => !this.topSpacer.disabled && this.shiftWindow(-WINDOW);
     this.bottomSpacer.onclick = () => !this.bottomSpacer.disabled && this.shiftWindow(WINDOW);
@@ -219,16 +219,32 @@ export class MessageRenderer {
   }
 
   trackWheelIntent(event) {
-    if (event?.deltaY < 0) {
-      this.userPinnedScroll = true;
-      this.chatBox.dataset.liveFollow = "paused";
-      this.liveFollowButton?.classList?.add?.("is-visible");
+    if (event?.deltaY < 0 && this.chatBox.scrollTop > 0) {
+      this.pauseLiveFollow();
+      return;
     }
-    if (event?.deltaY > 0 && isNearBottom(this.chatBox)) {
-      this.userPinnedScroll = false;
-      this.chatBox.dataset.liveFollow = "active";
-      this.liveFollowButton?.classList?.remove?.("is-visible");
-    }
+    if (event?.deltaY > 0 && isNearBottom(this.chatBox)) this.resumeLiveFollow();
+  }
+
+  /**
+   * B"H — lets a human hand escape the streaming river.
+   *
+   * Any clear upward intention becomes stronger than automatic follow. The page
+   * stops pulling the reader downward until they explicitly jump back, like a
+   * vessel refusing to spill one letter of the Awtsmoos while inspection burns.
+   *
+   * @returns {void}
+   */
+  pauseLiveFollow() {
+    this.userPinnedScroll = true;
+    this.chatBox.dataset.liveFollow = "paused";
+    this.liveFollowButton?.classList?.add?.("is-visible");
+  }
+
+  resumeLiveFollow() {
+    this.userPinnedScroll = false;
+    this.chatBox.dataset.liveFollow = "active";
+    this.liveFollowButton?.classList?.remove?.("is-visible");
   }
 
   trackTouchStart(event) {
@@ -239,9 +255,7 @@ export class MessageRenderer {
   trackTouchMove(event) {
     const y = event?.touches?.[0]?.clientY ?? this.touchStartY;
     if (y > this.touchStartY + 8 && !isNearBottom(this.chatBox)) {
-      this.userPinnedScroll = true;
-      this.chatBox.dataset.liveFollow = "paused";
-      this.liveFollowButton?.classList?.add?.("is-visible");
+      this.pauseLiveFollow();
     }
     this.trackScrollIntent();
   }
@@ -255,15 +269,11 @@ export class MessageRenderer {
     const movedUp = current < this.lastScrollTop - 8;
     this.lastScrollTop = current;
     if (isNearBottom(this.chatBox)) {
-      this.userPinnedScroll = false;
-      this.chatBox.dataset.liveFollow = "active";
-      this.liveFollowButton?.classList?.remove?.("is-visible");
+      this.resumeLiveFollow();
       return;
     }
     if (movedUp) {
-      this.userPinnedScroll = true;
-      this.chatBox.dataset.liveFollow = "paused";
-      this.liveFollowButton?.classList?.add?.("is-visible");
+      this.pauseLiveFollow();
     }
   }
 

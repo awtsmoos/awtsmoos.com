@@ -148,7 +148,38 @@ function createDefaultHost(rootScope = {}) {
       return object[interpretNode(node.prop, scope)];
     }
     if (node.op === 'if') return evalBlock(interpretNode(node.test, scope) ? (node.consequent || []) : (node.alternate || []), scope);
-    if (node.op === 'if') return evalBlock(interpretNode(node.test, scope) ? (node.consequent || []) : (node.alternate || []), scope);
+    if (node.op === 'forOf') {
+      const values = interpretNode(node.right, scope) || [];
+      for (const value of values) {
+        scope[node.left] = value;
+        evalBlock(node.body || [], scope);
+      }
+      return undefined;
+    }
+    if (node.op === 'while') {
+      let guard = 10000;
+      while (interpretNode(node.test, scope) && guard-- > 0) evalBlock(node.body || [], scope);
+      return undefined;
+    }
+    if (node.op === 'switch') {
+      const value = interpretNode(node.discriminant, scope);
+      const cases = node.cases || [];
+      const start = Math.max(0, cases.findIndex(item => item.test == null || interpretNode(item.test, scope) === value));
+      for (const item of cases.slice(start)) evalBlock(item.body || [], scope);
+      return undefined;
+    }
+    if (node.op === 'switch') {
+      const value = interpretNode(node.discriminant, scope);
+      const cases = node.cases || [];
+      const start = Math.max(0, cases.findIndex(item => item.test == null || interpretNode(item.test, scope) === value));
+      for (const item of cases.slice(start)) evalBlock(item.body || [], scope);
+      return undefined;
+    }
+    if (node.op === 'while') {
+      let guard = 10000;
+      while (interpretNode(node.test, scope) && guard-- > 0) evalBlock(node.body || [], scope);
+      return undefined;
+    }
     if (node.op === 'superConstructor') return scope.super || null;
     if (node.op === 'superConstructor') return scope.super || null;
     if (node.op === 'block') return evalBlock(node.body || [], scope);
@@ -242,6 +273,9 @@ function createDefaultHost(rootScope = {}) {
     37: value => value && value.__kind === 'syncPromise' ? value.value : value,
     38: (obj, prop) => obj == null ? undefined : obj[prop],
     39: message => new Error(message),
+    40: node => interpretNode(node, Object.create(rootScope)),
+    41: node => interpretNode(node, Object.create(rootScope)),
+    42: node => interpretNode(node, Object.create(rootScope)),
     60: (classes) => installCompactClasses(classes, rootScope),
     60: (classes) => installCompactClasses(classes, rootScope)
   };

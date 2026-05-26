@@ -6,7 +6,7 @@ const SYS = {
   class: 20, new: 21, callMethod: 22, getProp: 23, generator: 24,
   asyncFunction: 25, callFunction: 26, array: 27, object: 28, typedArray: 29,
   setProp: 31, function: 32, binary: 33, unary: 34, conditional: 35,
-  objectMerge: 36, awaitValue: 37, optionalGetProp: 38, newError: 39
+  objectMerge: 36, awaitValue: 37, optionalGetProp: 38, newError: 39, forOf: 40, whileLoop: 41, switchStmt: 42
 };
 
 function addConst(constants, value) { constants.push(value); return constants.length - 1; }
@@ -75,6 +75,9 @@ function compileJsonCode(program = {}) {
     if (node.op === 'await') return emitSys(SYS.awaitValue, [node.value]);
     if (node.op === 'newError') return emitSys(SYS.newError, [node.message || { const: '' }]);
     if (node.op === 'throw') { emit(node.value); bytecode.push(0x91); return; }
+    if (node.op === 'forOf') return emitSys(SYS.forOf, [{ const: node }]);
+    if (node.op === 'while') return emitSys(SYS.whileLoop, [{ const: node }]);
+    if (node.op === 'switch') return emitSys(SYS.switchStmt, [{ const: node }]);
     if (node.op === 'if') {
       const falsePatch = emitJumpIfFalse(node.test);
       emitBlock(node.consequent || []);

@@ -2,13 +2,12 @@
 import { renderMarkdown } from "../markdown.js";
 
 /**
- * Chapter 51: The Living Sentence Chose Its Vessel.
+ * Chapter 51: The Living Sentence Refused To Murder Selection.
  *
- * The Awtsmoos lets plain streaming speech flow through one stable text node,
- * so the DOM does not flash with every syllable. But when markdown structure is
- * visible — fences, headings, lists, quotes, links, or emphasis — the renderer
- * honors that structure immediately. Finalized records always freeze into full
- * markdown HTML.
+ * While a response streams, every visible letter flows through one stable text
+ * actor. No markdown preview, no innerHTML churn, no replacing the vessel while
+ * a human is selecting text. When the stream finishes, the record is marked
+ * non-streaming and the next refresh may freeze the full text into markdown.
  *
  * @param {object} renderer Message renderer.
  * @param {object} record Message record.
@@ -19,7 +18,7 @@ export function updateLiveText(renderer, record, visibleText) {
   const bubble = record?.bubble;
   if (!bubble) return;
   const text = String(visibleText || "");
-  if (record.streaming && !looksLikeStructuredMarkdown(text)) {
+  if (record.streaming) {
     updatePlainActor(bubble, text);
     return;
   }
@@ -33,6 +32,7 @@ export function updateLiveText(renderer, record, visibleText) {
 export function finalizeTextRecord(record) {
   if (!record) return;
   record.streaming = false;
+  record.loading = false;
   record.renderedText = null;
   record.renderedExpanded = null;
 }
@@ -46,8 +46,4 @@ function updatePlainActor(bubble, text) {
     bubble.append(node);
   }
   if (node.textContent !== text) node.textContent = text;
-}
-
-function looksLikeStructuredMarkdown(text = "") {
-  return /(^|\n)\s{0,3}(```|~~~)|(^|\n)\s{0,3}#{1,6}\s+|(^|\n)\s{0,3}[-*+]\s+|(^|\n)\s{0,3}\d+[.)]\s+|(^|\n)\s{0,3}>\s|\[[^\]]+\]\(https?:\/\/|`[^`]+`|\*\*[^*]+\*\*|__[^_]+__/m.test(text);
 }

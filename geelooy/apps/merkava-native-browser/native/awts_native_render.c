@@ -161,6 +161,6 @@ void awts_draw_native_browser(AwtsBrowserState* state) {
   glClearColor(0.80f, 0.82f, 0.86f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
   draw_browser_chrome(state);
-  if (!strcmp(state->pageTitle, "/index.html") && draw_executor_stream(state)) return;
+  if (!strcmp(state->pageKind, "merkava-executor-render-stream") && draw_executor_stream(state)) return;
   draw_loaded_text_page(state);
 }

@@ -2,48 +2,24 @@
  * B"H
  * @file ChossidNpcLoader.js
  * @description
- * Loads NPCs from the one Chossid GLB path through the renderer capability
- * membrane first. Three's GLTFLoader remains only as a lazy adapter fallback,
- * so future custom WebGL can replace model realization without changing the
- * Chossid NPC gameplay builder.
+ * Loads every NPC from the shared mitzvahWorld GLB cache. The first caller
+ * opens the gate; every later caller receives the same promise, then clones
+ * the scene. Thus two NPCs, the player, and future tests do not stampede the
+ * network for the same chossid.glb vessel.
  */
 
 import { CHOSSID_GLB_PATH } from "./ChossidGlbPath.js";
+import { loadGlb } from "../builders/glb/GlbLoader.js";
 
-let directLoader = null;
 let chossidGltfPromise = null;
 
 /**
  * B"H
- * Gets a custom olam loader when the world provides one.
+ * Wraps a loaded Object3D in the GLTF-like envelope expected downstream.
  *
- * @param {any} olam World.
- * @returns {any|null} Loader.
+ * @param {any} model - Loaded scene root or GLTF-like object.
+ * @returns {{scene:any}|any} GLTF-like envelope.
  */
-function getOlamLoader(olam) {
-  const loader = olam?.loader;
-  return loader && typeof loader.loadAsync === "function" ? loader : null;
-}
-
-/**
- * B"H
- * Gets the renderer capability model loader when available.
- *
- * @param {any} olam World.
- * @returns {Function|null} loadModel function.
- */
-function getCapabilityModelLoader(olam) {
-  const loadModel = olam?.rendererCapabilities?.loadModel;
-  return typeof loadModel === "function" ? loadModel : null;
-}
-
-async function getDirectThreeLoader() {
-  if (directLoader) return directLoader;
-  const mod = await import("/games/scripts/jsm/loaders/GLTFLoader.js");
-  directLoader = new mod.GLTFLoader();
-  return directLoader;
-}
-
 function asGltfEnvelope(model) {
   if (model?.scene || model?.scenes) return model;
   return { scene: model };
@@ -51,29 +27,14 @@ function asGltfEnvelope(model) {
 
 /**
  * B"H
- * Loads one fresh chossid.glb instance.
+ * Loads the shared chossid.glb source once per runtime.
  *
- * @param {any} olam World.
  * @returns {Promise<any>} Loaded GLTF-like envelope.
  */
-export async function loadFreshChossidGltf(olam) {
-  if (chossidGltfPromise) return chossidGltfPromise;
+export async function loadFreshChossidGltf() {
+  if (!chossidGltfPromise) {
+    chossidGltfPromise = loadGlb(CHOSSID_GLB_PATH).then(asGltfEnvelope);
+  }
 
-  chossidGltfPromise = loadChossidGltfOnce(olam);
   return chossidGltfPromise;
-}
-
-async function loadChossidGltfOnce(olam) {
-  const capabilityLoadModel = getCapabilityModelLoader(olam);
-  if (capabilityLoadModel) {
-    return asGltfEnvelope(await capabilityLoadModel(CHOSSID_GLB_PATH));
-  }
-
-  const olamLoader = getOlamLoader(olam);
-  if (olamLoader) {
-    return olamLoader.loadAsync(CHOSSID_GLB_PATH);
-  }
-
-  const loader = await getDirectThreeLoader();
-  return loader.loadAsync(CHOSSID_GLB_PATH);
 }

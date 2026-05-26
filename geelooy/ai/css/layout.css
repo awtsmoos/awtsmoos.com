@@ -69,6 +69,26 @@ body[data-automation-collapsed="true"] #right-resizer { display: none !important
   cursor: pointer;
 }
 .conversation-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.conversation-list li.is-live-transient {
+  border-color: rgba(34,211,238,.42);
+  background: radial-gradient(circle at top left, rgba(34,211,238,.16), transparent 42%), linear-gradient(135deg, rgba(22,39,66,.86), rgba(8,16,30,.92));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 26px rgba(14,165,233,.12);
+}
+.conversation-list li.is-live-transient .conversation-title::before {
+  content: "live · ";
+  color: #67e8f9;
+  font-weight: 900;
+}
+.conversation-list li.is-live-transient {
+  border-color: rgba(34,211,238,.42);
+  background: radial-gradient(circle at top left, rgba(34,211,238,.16), transparent 42%), linear-gradient(135deg, rgba(22,39,66,.86), rgba(8,16,30,.92));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 26px rgba(14,165,233,.12);
+}
+.conversation-list li.is-live-transient .conversation-title::before {
+  content: "live · ";
+  color: #67e8f9;
+  font-weight: 900;
+}
 .conversation-stream-badge,
 .conversation-automation-badge {
   flex: 0 0 auto;

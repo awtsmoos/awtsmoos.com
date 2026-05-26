@@ -53,7 +53,9 @@ export async function ensureChossidNpcs(context) {
   }
 
   const added = [];
-  const defs = makeVisibleDefs(scene);
+  const settings = scene.userData?.mitzvahWorldSettings || {};
+  const limit = Number.isFinite(settings.npcLimit) ? settings.npcLimit : CHOSSID_NPC_DEFS.length;
+  const defs = makeVisibleDefs(scene).slice(0, limit);
 
   for (const def of defs) {
     const npc = await buildChossidNpc(olam, def);

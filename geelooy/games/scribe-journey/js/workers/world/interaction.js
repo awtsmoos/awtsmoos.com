@@ -8,7 +8,6 @@ import * as Quests from '../quests.js';
 import { generateTractateMap } from '../../procedural/map_generator.js';
 import { startDialogue, advanceDialogue, handleDialogueChoice } from './dialogue.js';
 import { clearEntityTile, getEntityAt } from './entity/occupancy.js';
-import { clearEntityTile, getEntityAt } from './entity/occupancy.js';
 
 export function checkInteraction(state, trigger, sendUIUpdate) {
     if (state.player.isMoving || state.dialogue.active) return;

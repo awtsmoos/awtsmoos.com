@@ -20,7 +20,6 @@ class AwtsmoosGPTify {
     this._conversationId = conversation_id;
     this.getAwtsmoosAudio = options => getAwtsmoosAudio(options);
     this.getAwtsmoosAudioStream = options => getAwtsmoosAudioStream(options);
-    this.getAwtsmoosAudioStream = options => getAwtsmoosAudioStream(options);
   }
 
   /**

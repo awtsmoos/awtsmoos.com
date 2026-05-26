@@ -1,6 +1,7 @@
 //B"H
 import { renderEventDetails } from "../eventDetails.js";
 import { streamingToolKey } from "./toolStreamIdentity.js";
+import { applyPendingWhenClosed, holdOpenVessel } from "./thoughtVesselStability.js";
 
 /**
  * Chapter 64: The Chamber Remembered The Whole March.
@@ -18,6 +19,7 @@ import { streamingToolKey } from "./toolStreamIdentity.js";
 export function reconcileThoughtInnerEvents(panel, inner = []) {
   const body = ensureBody(panel);
   if (!body) return;
+  installPendingUpdateGate(body);
   const scrollState = snapshotScrollState(body);
   removeLegacyDirectCards(body);
   const liveKeys = new Set();
@@ -25,6 +27,15 @@ export function reconcileThoughtInnerEvents(panel, inner = []) {
   for (const [index, event] of inner.entries()) cursor = renderInnerVessel(body, liveKeys, cursor, event, index);
   pruneDeadVessels(body, liveKeys);
   restoreScrollState(body, scrollState);
+}
+
+function installPendingUpdateGate(body) {
+  if (body.dataset.pendingUpdateGate === "installed") return;
+  body.dataset.pendingUpdateGate = "installed";
+  body.addEventListener("toggle", event => {
+    const vessel = event.target?.closest?.(".thought-inner-event-vessel");
+    if (vessel) applyPendingWhenClosed(vessel);
+  }, true);
 }
 
 function ensureBody(panel) {
@@ -50,6 +61,7 @@ function renderInnerVessel(body, liveKeys, cursor, event, index) {
   }
   placeAfter(body, vessel, cursor);
   if (vessel.dataset.innerEventHtml !== html) {
+    if (holdOpenVessel(vessel, html)) return vessel;
     const vesselState = snapshotScrollState(vessel);
     const openState = snapshotOpenState(vessel);
     vessel.innerHTML = html;

@@ -19,12 +19,13 @@
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
 
-        <!-- Global Chat Box -->
-        <div id="global-chat-box">
+        <!-- World Echoes: in-world bot activity feed, not fake live multiplayer chat. -->
+        <div id="global-chat-box" aria-label="World Echoes activity feed">
             <div class="chat-header" id="chat-header">
-                <span>Global Chat</span>
+                <span>World Echoes</span>
                 <span id="chat-toggle">[-]</span>
             </div>
+            <div class="chat-status">Simulated travelers nearby; no fake humans.</div>
             <div id="chat-messages"></div>
         </div>
 
@@ -58,7 +59,7 @@
         </div>
 
         <!-- Main Menu -->
-        <div id="main-menu" class="menu-screen">
+        <div id="main-menu" class="menu-screen is-visible">
             <h2 class="extreme-pulse title-logo">The Scribe's Journey</h2>
             <h3 class="subtitle-logo">Echoes of Ein Sof</h3>
             <div class="title-actions">
@@ -129,14 +130,17 @@
     </div>
 
     <!-- Mobile Controls -->
-    <div id="mobile-controls">
-        <div class="dpad-row"><div class="control-button" id="control-up">⬆️</div></div>
-        <div class="dpad-row">
-            <div class="control-button" id="control-left">⬅️</div>
-            <div class="control-button" id="action-button">ACT</div>
-            <div class="control-button" id="control-right">➡️</div>
+    <div id="mobile-controls" aria-label="Mobile controls">
+        <div class="joystick-pad" aria-label="Movement joystick">
+            <div class="control-button joy-up" id="control-up">▲</div>
+            <div class="control-button joy-left" id="control-left">◀</div>
+            <div class="joystick-core">✦</div>
+            <div class="control-button joy-right" id="control-right">▶</div>
+            <div class="control-button joy-down" id="control-down">▼</div>
         </div>
-        <div class="dpad-row"><div class="control-button" id="control-down">⬇️</div></div>
+        <div class="action-cluster">
+            <div class="control-button" id="action-button">ACT</div>
+        </div>
     </div>
 
     <script type="module" src="js/main.js"></script>

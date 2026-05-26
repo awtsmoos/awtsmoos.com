@@ -10,7 +10,6 @@
     "tabs",
     "activeTab",
     "webNavigation",
-    "alarms",
     "alarms"
   ],
   "content_scripts": [

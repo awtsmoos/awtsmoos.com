@@ -44,13 +44,22 @@ function refsFrom(text, fromKey) {
   return refs;
 }
 
-function collectFilesFromEntry(entry) {
+function runtimeCollectionRoot(absEntry, options = {}) {
+  if (options.rootDir) return path.resolve(String(options.rootDir));
+  const parts = slash(absEntry).split('/');
+  const geelooyIndex = parts.lastIndexOf('geelooy');
+  if (geelooyIndex >= 0) return parts.slice(0, geelooyIndex + 1).join(path.sep);
+  return path.dirname(absEntry);
+}
+
+function collectFilesFromEntry(entry, options = {}) {
   const absEntry = path.resolve(String(entry || ''));
   if (!absEntry || !fs.existsSync(absEntry) || !fs.statSync(absEntry).isFile()) return null;
-  const root = path.dirname(absEntry);
+  const root = runtimeCollectionRoot(absEntry, options);
   const files = {};
   const queue = [absEntry];
-  while (queue.length && Object.keys(files).length < 80) {
+  const maxFiles = Number(options?.maxFiles || options?.fileLimit || 500);
+  while (queue.length && Object.keys(files).length < maxFiles) {
     const abs = queue.shift();
     const rel = slash(path.relative(root, abs));
     if (files[rel] !== undefined) continue;
@@ -69,7 +78,7 @@ function collectFilesFromEntry(entry) {
 function resolveRuntimeInput(options = {}) {
   const explicit = normalizeFiles(options.files || {});
   if (Object.keys(explicit).length) return { entry: options.entry || 'index.html', files: explicit, source: 'explicit' };
-  const collected = collectFilesFromEntry(options.entry);
+  const collected = collectFilesFromEntry(options.entry, options);
   return collected || { entry: options.entry || 'index.html', files: explicit, source: 'empty' };
 }
 
@@ -178,6 +187,15 @@ function detectObviousRuntimeErrors(files = {}) {
   return errors;
 }
 
+function runtimeSnapshotErrors(observable) {
+  const errors = observable?.snapshot?.errors || observable?.raw?.result?.snapshot?.errors || [];
+  return Array.isArray(errors) ? errors.filter(Boolean).map(error => ({
+    message: error.message || String(error),
+    stack: error.stack || '',
+    kind: error.kind || 'observable-runtime-error'
+  })) : [];
+}
+
 function summarizeMerkavaRun(run) {
   const result = run?.result || run;
   const web = result?.web;
@@ -219,7 +237,7 @@ export function runMerkavaRuntime(bytecode, options = {}) {
 
 export async function simulateMerkavaRuntime(options = {}) {
   const input = resolveRuntimeInput(options);
-  const preflightErrors = detectObviousRuntimeErrors(input.files);
+  const preflightErrors = options.strictPreflightThrows ? detectObviousRuntimeErrors(input.files) : [];
   const compiled = await compileMerkavaRuntime({ ...options, files: input.files, entry: input.entry });
   const run = runMerkavaRuntime(compiled.bytecode, options.runOptions || options);
   let observable = null;
@@ -227,6 +245,8 @@ export async function simulateMerkavaRuntime(options = {}) {
   try {
     observable = await runObservableRuntime(input, options);
     if (observable.interactionError) observableErrors.push(observable.interactionError);
+    observableErrors.push(...runtimeSnapshotErrors(observable));
+    observableErrors.push(...runtimeSnapshotErrors(observable));
   } catch (error) {
     observableErrors.push({ message: error.message, stack: error.stack || '' });
   }

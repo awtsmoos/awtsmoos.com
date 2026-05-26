@@ -55,7 +55,11 @@ const ChromePortManager = globalThis.ChromePortManager || class ChromePortManage
   handleNewConnection(port) {
     this.registerPortByName(port, port.name);
     port.onMessage.addListener(async message => await this.handlePortMessage(port, message));
-    port.onDisconnect.addListener(() => this.onPortDisconnect(port));
+    port.onDisconnect.addListener(() => {
+      const lastError = chrome.runtime?.lastError;
+      if (lastError?.message) console.debug("B'H port disconnected", lastError.message);
+      this.onPortDisconnect(port);
+    });
   }
 };
 
@@ -91,10 +95,6 @@ portManager.on("ack-stream", async (msg, port) => {
 });
 portManager.on("stream-stats", async (msg, port) => {
   try { portManager.reply(port, { result: globalThis.__awtsmoosStreamLedger.stats(msg.id), id: msg.id }); }
-  catch (error) { portManager.reply(port, { error: error.stack, id: msg.id }); }
-});
-portManager.on("cancel-stream", async (msg, port) => {
-  try { portManager.reply(port, { result: globalThis.__awtsmoosStreamLedger.cancel(msg.id, msg.reason || "cancelled"), id: msg.id }); }
   catch (error) { portManager.reply(port, { error: error.stack, id: msg.id }); }
 });
 portManager.on("cancel-stream", async (msg, port) => {

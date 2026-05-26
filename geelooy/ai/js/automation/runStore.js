@@ -12,6 +12,7 @@ const EVENT = "awtsmoos-automation-runs";
 export class AutomationRunStore {
   constructor(storage = localStorage) {
     this.storage = storage;
+    installStorageWakeup(this);
   }
 
   list() {
@@ -48,6 +49,14 @@ export class AutomationRunStore {
     try { this.storage.setItem(KEY, JSON.stringify(items)); } catch {}
     announce(items);
   }
+}
+
+function installStorageWakeup(store) {
+  if (globalThis.__awtsmoosAutomationStorageWakeup) return;
+  globalThis.__awtsmoosAutomationStorageWakeup = true;
+  globalThis.addEventListener?.("storage", event => {
+    if (event?.key === KEY) announce(store.list());
+  });
 }
 
 function announce(runs) {

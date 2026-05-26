@@ -56,7 +56,9 @@ export async function buildGlbEntity(scene, physics, def, olam = null) {
   let root;
 
   try {
-    root = await loadGlb(glbPath);
+    const sourceRoot = await loadGlb(glbPath);
+    root = sourceRoot.clone(true);
+    root.animations = sourceRoot.animations || [];
   } catch (err) {
     console.error(`B"H - buildGlbEntity: ❌ Failed to load "${glbPath}":`, err);
     root = makeFallbackCapsule();

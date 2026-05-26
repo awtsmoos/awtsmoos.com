@@ -22,9 +22,11 @@
 @import "./css/panel-action-rail.css";
 @import "./css/stream-resume-hardening.css";
 @import "./css/live-scroll-follow.css";
+@import "./css/hover-affordance-polish.css";
 @import "./css/automation-futuristic.css";
 @import "./css/automation-graph-nodes.css";
 @import "./css/automation-form-polish.css";
 @import "./css/automation-stop-button.css";
+@import "./css/settings-controls-fix.css";
 @import "./css/boundary-guard.css";
 @import "./css/mobile-vessel.css";

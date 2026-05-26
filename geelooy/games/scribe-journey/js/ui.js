@@ -117,6 +117,8 @@ export function initUI(sendToWorker) {
         const target = screens[screenName] || screens.game;
         if (target) target.classList.add('is-visible');
     }
+
+    showScreen('main-menu');
     
     function update(payload) {
         if(payload.screen) showScreen(payload.screen);
@@ -226,19 +228,24 @@ export function initUI(sendToWorker) {
     function updateChat(messages) { 
         if (!chatContainer || !messages || messages.length === 0) return;
         const lastMsg = messages[messages.length - 1];
-        if (lastMsg.id === lastChatTimestamp) return; // No new messages
-        
+        if (lastMsg.id === lastChatTimestamp) return;
         lastChatTimestamp = lastMsg.id;
-        chatContainer.innerHTML = ''; 
-        
-        messages.forEach(msg => { 
-            const el = document.createElement('div'); 
-            el.className = `chat-message chat-channel-${msg.type}`; 
-            const guildSpan = msg.guild ? `<span class="chat-guild-tag">${msg.guild}</span> ` : ''; 
-            el.innerHTML = `[${msg.type.toUpperCase()}] ${guildSpan}<strong>${msg.sender}:</strong> ${msg.message}`; 
-            chatContainer.appendChild(el); 
-        }); 
-        chatContainer.scrollTop = chatContainer.scrollHeight; 
+        chatContainer.textContent = '';
+        messages.forEach(msg => {
+            const el = document.createElement('div');
+            const type = msg.type || 'general';
+            el.className = `chat-message chat-channel-${type}`;
+            const meta = document.createElement('span');
+            meta.className = 'chat-meta';
+            const place = msg.place ? ` · ${msg.place}` : '';
+            meta.textContent = `[${type.toUpperCase()}${place}] ${msg.guild ? msg.guild + ' ' : ''}${msg.sender}`;
+            const body = document.createElement('span');
+            body.textContent = msg.message;
+            el.appendChild(meta);
+            el.appendChild(body);
+            chatContainer.appendChild(el);
+        });
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
     function showFloatingText(text, style, x, y) { const el = document.createElement('div'); el.className = `floating-text ${style}`; el.textContent = text; const container = document.getElementById('gameContainer'); let left = '50%'; let top = '50%'; if (x === 'player') { left = '70%'; top = '60%'; } else if (x === 'opponent') { left = '30%'; top = '60%'; } else { left = `${50 + (Math.random()-0.5)*20}%`; top = `${50 + (Math.random()-0.5)*20}%`; } el.style.left = left; el.style.top = top; container.appendChild(el); setTimeout(() => el.remove(), 800); }

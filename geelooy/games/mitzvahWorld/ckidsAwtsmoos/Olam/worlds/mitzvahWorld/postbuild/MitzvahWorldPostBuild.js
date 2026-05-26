@@ -34,7 +34,14 @@ function countSceneMarkers(scene) {
 export async function runMitzvahWorldPostBuild(context = {}) {
   const summary = { steps: {}, finalCounts: {} };
 
+  const settings = (context.scene || context.olam?.scene)?.userData?.mitzvahWorldSettings || {};
+
   for (const [label, step] of Object.entries(STEPS)) {
+    if (settings.disableEmeraldVoidFeatures && label === 'EMERALD_VOID_FEATURES') {
+      summary.steps[label] = { ok: true, skipped: true, count: 0 };
+      continue;
+    }
+
     try {
       const result = await step(context);
       summary.steps[label] = {

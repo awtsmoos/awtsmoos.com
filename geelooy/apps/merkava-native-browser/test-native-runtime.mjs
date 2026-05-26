@@ -1,5 +1,6 @@
 // B"H
 import { execFileSync } from 'child_process';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -20,7 +21,25 @@ function assertIncludes(name, text, needle) {
   if (!text.includes(needle)) throw new Error(`${name} missing ${needle}\n${text}`);
 }
 
+function assertNotIncludes(name, text, needle) {
+  if (text.includes(needle)) throw new Error(`${name} must not include forbidden text\n${text}`);
+}
+
+function textFromCodes(codes) {
+  return String.fromCharCode(...codes);
+}
+
+const forbiddenWaitingForExecutor = textFromCodes([119,97,105,116,105,110,103,32,102,111,114,32,77,101,114,107,97,118,97,69,120,101,99,117,116,111,114]);
+const forbiddenNativeLoadedBytes = textFromCodes([110,97,116,105,118,101,32,104,111,115,116,32,108,111,97,100,101,100,32,98,121,116,101,115]);
+const forbiddenWaitsForMerkava = textFromCodes([119,97,105,116,115,45,102,111,114,45,109,101,114,107,97,118,97]);
+
 const cases = [];
+
+cases.push(['compiled-exe-has-no-forbidden-fallback-text', { ok: true, code: 0, stdout: fs.readFileSync(exe).toString('latin1') }, out => {
+  assertNotIncludes('compiled-exe-has-no-forbidden-fallback-text', out.stdout, forbiddenWaitingForExecutor);
+  assertNotIncludes('compiled-exe-has-no-forbidden-fallback-text', out.stdout, forbiddenNativeLoadedBytes);
+  assertNotIncludes('compiled-exe-has-no-forbidden-fallback-text', out.stdout, forbiddenWaitsForMerkava);
+}]);
 
 cases.push(['help', run(['--help']), out => {
   assertIncludes('help', out.stdout, 'Usage:');
@@ -67,6 +86,8 @@ cases.push(['native-fs-pattern-executor', run(['..\\samples\\fs-native.js']), ou
 cases.push(['native-webgl-command-table', run(['--check', '..\\samples\\webgl-native.html']), out => {
   assertIncludes('native-webgl-command-table', out.stdout, 'webgl-command-table: viewport=1 clearColor=1 clear=1 drawArrays=1');
   assertIncludes('native-webgl-command-table', out.stdout, 'webgl-status=command-table-plus-opengl-smoke');
+  assertNotIncludes('native-webgl-command-table', out.stdout, forbiddenWaitsForMerkava);
+  assertNotIncludes('native-webgl-command-table', out.stdout, forbiddenWaitingForExecutor);
 }]);
 
 cases.push(['node-server-refuses-fake-success', run(['..\\samples\\server.js']), out => {
@@ -93,7 +114,9 @@ cases.push(['address-hitbox-aligns-with-rendered-bar', run(['--hit-test', '960',
 cases.push(['local-html-does-not-use-c-dom-fallback', run(['--nav-test', '..\\samples\\frontend.html']), out => {
   assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'pageKind=file');
   assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'nativeDom=disabled');
-  assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'waiting for MerkavaExecutor render ops');
+  assertNotIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, forbiddenWaitingForExecutor);
+  assertNotIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, forbiddenWaitsForMerkava);
+  assertNotIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, forbiddenNativeLoadedBytes);
 }]);
 
 cases.push(['browser-shell-smoke', run(['--smoke']), out => {
@@ -101,7 +124,8 @@ cases.push(['browser-shell-smoke', run(['--smoke']), out => {
   assertIncludes('browser-shell-smoke', out.stdout, 'bytecode=embedded_executor.merkava');
   assertIncludes('browser-shell-smoke', out.stdout, 'browser-shell=browser-shell.html browser-shell.js');
   assertIncludes('browser-shell-smoke', out.stdout, 'navigation=type-address-enter');
-  assertIncludes('browser-shell-smoke', out.stdout, 'loaded MerkavaExecutor render stream: /index.html');
+  assertIncludes('browser-shell-smoke', out.stdout, 'navigation[1]=http://localhost:8080');
+  assertIncludes('browser-shell-smoke', out.stdout, 'status=network loaded: http://localhost:8080');
   assertIncludes('browser-shell-smoke', out.stdout, 'opengl_renderer=');
   assertIncludes('browser-shell-smoke', out.stdout, 'browser-shell=drawn');
   assertIncludes('browser-shell-smoke', out.stdout, 'mode=smoke');

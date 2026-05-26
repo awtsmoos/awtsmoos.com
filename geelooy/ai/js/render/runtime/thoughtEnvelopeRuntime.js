@@ -20,7 +20,7 @@ const LIVE_INNER_WINDOW = 80;
  * @returns {void}
  */
 export function renderThoughtEnvelopeNode(node, event = {}) {
-  const inner = Array.isArray(event.raw?.events) ? event.raw.events : [];
+  const inner = realInnerEvents(Array.isArray(event.raw?.events) ? event.raw.events : []);
   const fingerprint = thoughtEnvelopeFingerprint(event, inner);
   if (node.dataset.thoughtEnvelopeFingerprint === fingerprint) return;
   node.dataset.thoughtEnvelopeFingerprint = fingerprint;
@@ -115,6 +115,16 @@ function syncMoreButton(panel, start, offset) {
   }
   button.dataset.thoughtWindow = String(offset + LIVE_INNER_WINDOW);
   button.textContent = "Load earlier inner events";
+}
+
+function realInnerEvents(inner = []) {
+  return inner.filter(event => {
+    const raw = event?.raw || event || {};
+    const msg = raw.message || raw.input_message || raw.data?.message || raw;
+    const content = msg.content || raw.content || {};
+    const text = event?.text || raw.text || raw.dataNoJSON || content.text || (Array.isArray(content.parts) ? content.parts.join(" ") : "");
+    return Boolean(String(text || "").trim() || msg.id || raw.id || raw.type || raw.name || msg.recipient || raw.recipient || event?.action?.href);
+  });
 }
 
 function thoughtEnvelopeFingerprint(event = {}, inner = []) {

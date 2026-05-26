@@ -68,7 +68,7 @@ function collectDom() {
 }
 
 function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText }) {
-  dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
+  if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
   dom.refreshButton.onclick = () => controller.refreshList(dom.conversationList);
   dom.newChat.onclick = () => { pipeline.reset(); controller.newConversation(); };
   dom.sendButton.onclick = () => sendFromText();

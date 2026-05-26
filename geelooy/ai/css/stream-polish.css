@@ -74,6 +74,44 @@
   }
 }
 
+.thought-inner-event-vessel.has-pending-stream-update {
+  outline: 1px solid rgba(251,191,36,.45);
+  border-radius: 14px;
+  position: relative;
+}
+
+.thought-inner-event-vessel.has-pending-stream-update::after {
+  content: "new stream data held until collapse";
+  display: inline-flex;
+  margin: 4px 8px 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(251,191,36,.14);
+  color: #fde68a;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.thought-inner-event-vessel.has-pending-stream-update {
+  outline: 1px solid rgba(251,191,36,.45);
+  border-radius: 14px;
+  position: relative;
+}
+
+.thought-inner-event-vessel.has-pending-stream-update::after {
+  content: "new stream data held until collapse";
+  display: inline-flex;
+  margin: 4px 8px 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(251,191,36,.14);
+  color: #fde68a;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .thought-inner-window > .transport-details:last-child,
   .thought-inner-window > .thought-inner-event-vessel:last-child {
