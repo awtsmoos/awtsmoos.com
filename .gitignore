@@ -1,0 +1,18 @@
+# B"H
+# Awtsmoos tunnel runtime artifacts
+.awtsmoos/
+.awtsmoos-tmp/
+
+# Tunnel logs / generated local runtime state
+*.awtsmoos.log
+
+# Optional local tunnel overrides
+.awtsmoos.local.json
+.awtsmoos.config.local.json
+
+# Command output spill files
+command-output/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
