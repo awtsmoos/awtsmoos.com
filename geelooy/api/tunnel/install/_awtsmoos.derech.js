@@ -1,29 +1,53 @@
 // B"H
-const fs = require("fs");
-const path = require("path");
+const { sendText } = require("./tools/respond.js");
+const { readTunnelDownload } = require("./tools/sourceFile.js");
  
-module.exports = async function $awtsmoos(req, res) {
-  try {
-    const type = req.params?.type || req.path?.split("/").pop();
+module.exports = {
+  dynamicRoutes: async $i => {
+    $i.response.setHeader("Access-Control-Allow-Origin", "*");
+    $i.response.setHeader("Cache-Control", "no-store");
  
-    const file =
-      type === "windows"
-        ? "geelooy/apps/tunnel/downloads/windows.ps1"
-        : type === "linux"
-          ? "geelooy/apps/tunnel/downloads/linux.sh"
-          : null;
+    await $i.use("windows", async () => {
+      return sendText(
+        $i,
+        readTunnelDownload("windows.ps1"),
+        "text/plain; charset=utf-8"
+      );
+    });
  
-    if (!file) {
-      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
-      return res.end('B"H\nNot found');
-    }
+    await $i.use("linux", async () => {
+      return sendText(
+        $i,
+        readTunnelDownload("linux.sh"),
+        "text/plain; charset=utf-8"
+      );
+    });
  
-    const text = fs.readFileSync(path.join(process.cwd(), file), "utf8");
+    await $i.use("unix", async () => {
+      return sendText(
+        $i,
+        readTunnelDownload("linux.sh"),
+        "text/plain; charset=utf-8"
+      );
+    });
  
-    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
-    return res.end(text);
-  } catch (e) {
-    res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
-    return res.end('B"H\n' + String(e?.stack || e));
+    await $i.use("status", async () => {
+      return sendText(
+        $i,
+        [
+          'B"H Awtsmoos Tunnel installer endpoint works.',
+          "",
+          "Windows:",
+          "irm https://awtsmoos.com/api/tunnel/install/windows | iex",
+          "",
+          "Linux/Mac:",
+          "curl -fsSL https://awtsmoos.com/api/tunnel/install/linux | bash",
+          "",
+          "Manifest:",
+          "https://awtsmoos.com/apps/tunnel/agent/manifest.txt"
+        ].join("\n"),
+        "text/plain; charset=utf-8"
+      );
+    });
   }
 };
