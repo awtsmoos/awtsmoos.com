@@ -1,0 +1,1350 @@
+{
+  "entry": {
+    "actionId": "act_mpmxujh7_13decd93",
+    "inputRef": "cmd_act_mpmxujh7_13decd93",
+    "outputRef": ".awtsmoos/actions/results/act_mpmxujh7_13decd93.json",
+    "parentActionId": null,
+    "action": "processList",
+    "input": {
+      "kind": "fs",
+      "action": "processList",
+      "path": ".",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 12000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:57:56.635Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "processList",
+    "count": 150,
+    "processes": [
+      {
+        "Id": 6708,
+        "ProcessName": "AggregatorHost",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 204800
+      },
+      {
+        "Id": 11608,
+        "ProcessName": "ApplicationFrameHost",
+        "Path": "C:\\WINDOWS\\system32\\ApplicationFrameHost.exe",
+        "StartTime": "/Date(1779156507735)/",
+        "CPU": 2.328125,
+        "WorkingSet64": 864256
+      },
+      {
+        "Id": 11284,
+        "ProcessName": "backgroundTaskHost",
+        "Path": "C:\\WINDOWS\\system32\\backgroundTaskHost.exe",
+        "StartTime": "/Date(1779769030974)/",
+        "CPU": 0.234375,
+        "WorkingSet64": 65536
+      },
+      {
+        "Id": 1964,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779177838781)/",
+        "CPU": 2160.875,
+        "WorkingSet64": 1830912
+      },
+      {
+        "Id": 3696,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779180118007)/",
+        "CPU": 7.40625,
+        "WorkingSet64": 593920
+      },
+      {
+        "Id": 4248,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779780170785)/",
+        "CPU": 36976.140625,
+        "WorkingSet64": 57147392
+      },
+      {
+        "Id": 4364,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779772025834)/",
+        "CPU": 3.546875,
+        "WorkingSet64": 1622016
+      },
+      {
+        "Id": 4632,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779780170755)/",
+        "CPU": 6.59375,
+        "WorkingSet64": 3756032
+      },
+      {
+        "Id": 6376,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779780881216)/",
+        "CPU": 4.921875,
+        "WorkingSet64": 2007040
+      },
+      {
+        "Id": 6700,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779777446948)/",
+        "CPU": 281.53125,
+        "WorkingSet64": 14065664
+      },
+      {
+        "Id": 7188,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779771098037)/",
+        "CPU": 54.75,
+        "WorkingSet64": 1613824
+      },
+      {
+        "Id": 7256,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779784089033)/",
+        "CPU": 5.65625,
+        "WorkingSet64": 43163648
+      },
+      {
+        "Id": 7752,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779778932597)/",
+        "CPU": 1.90625,
+        "WorkingSet64": 3444736
+      },
+      {
+        "Id": 7920,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779180117249)/",
+        "CPU": 1.59375,
+        "WorkingSet64": 94208
+      },
+      {
+        "Id": 8284,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779175878201)/",
+        "CPU": 39.375,
+        "WorkingSet64": 3784704
+      },
+      {
+        "Id": 8408,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779814989261)/",
+        "CPU": 39.6875,
+        "WorkingSet64": 13791232
+      },
+      {
+        "Id": 9504,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779180117730)/",
+        "CPU": 265.21875,
+        "WorkingSet64": 42954752
+      },
+      {
+        "Id": 9596,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779768639101)/",
+        "CPU": 17.84375,
+        "WorkingSet64": 4911104
+      },
+      {
+        "Id": 9836,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779156402403)/",
+        "CPU": 20.15625,
+        "WorkingSet64": 180224
+      },
+      {
+        "Id": 9844,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779180117197)/",
+        "CPU": 496.71875,
+        "WorkingSet64": 48312320
+      },
+      {
+        "Id": 11172,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779156402264)/",
+        "CPU": 8987.78125,
+        "WorkingSet64": 241786880
+      },
+      {
+        "Id": 11700,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779175977617)/",
+        "CPU": 8.6875,
+        "WorkingSet64": 2134016
+      },
+      {
+        "Id": 12088,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779180117730)/",
+        "CPU": 66.765625,
+        "WorkingSet64": 6537216
+      },
+      {
+        "Id": 12116,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779156822535)/",
+        "CPU": 404.765625,
+        "WorkingSet64": 2338816
+      },
+      {
+        "Id": 12440,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779156402629)/",
+        "CPU": 35794.046875,
+        "WorkingSet64": 526544896
+      },
+      {
+        "Id": 12448,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779156402631)/",
+        "CPU": 1722.09375,
+        "WorkingSet64": 27459584
+      },
+      {
+        "Id": 12476,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779156402669)/",
+        "CPU": 274.875,
+        "WorkingSet64": 4374528
+      },
+      {
+        "Id": 12528,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779156402763)/",
+        "CPU": 178.15625,
+        "WorkingSet64": 14024704
+      },
+      {
+        "Id": 12996,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779180117843)/",
+        "CPU": 7.6875,
+        "WorkingSet64": 2834432
+      },
+      {
+        "Id": 13492,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779156406946)/",
+        "CPU": 141.84375,
+        "WorkingSet64": 3956736
+      },
+      {
+        "Id": 13728,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779259386925)/",
+        "CPU": 81.9375,
+        "WorkingSet64": 7790592
+      },
+      {
+        "Id": 14116,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779301635995)/",
+        "CPU": 119.109375,
+        "WorkingSet64": 6557696
+      },
+      {
+        "Id": 14640,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779779013733)/",
+        "CPU": 43.8125,
+        "WorkingSet64": 6713344
+      },
+      {
+        "Id": 14848,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779776340727)/",
+        "CPU": 4.015625,
+        "WorkingSet64": 5312512
+      },
+      {
+        "Id": 14864,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779786518942)/",
+        "CPU": 63.828125,
+        "WorkingSet64": 20025344
+      },
+      {
+        "Id": 15616,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779779991137)/",
+        "CPU": 5.6875,
+        "WorkingSet64": 5619712
+      },
+      {
+        "Id": 15916,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779817159402)/",
+        "CPU": 237.546875,
+        "WorkingSet64": 28004352
+      },
+      {
+        "Id": 16436,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779817128826)/",
+        "CPU": 0.640625,
+        "WorkingSet64": 6356992
+      },
+      {
+        "Id": 16932,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779817159400)/",
+        "CPU": 168.78125,
+        "WorkingSet64": 71421952
+      },
+      {
+        "Id": 17600,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779780140654)/",
+        "CPU": 3.578125,
+        "WorkingSet64": 1314816
+      },
+      {
+        "Id": 17628,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779780170881)/",
+        "CPU": 1.609375,
+        "WorkingSet64": 1789952
+      },
+      {
+        "Id": 17716,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779768717616)/",
+        "CPU": 29.28125,
+        "WorkingSet64": 6033408
+      },
+      {
+        "Id": 18248,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779777372167)/",
+        "CPU": 977.859375,
+        "WorkingSet64": 105119744
+      },
+      {
+        "Id": 18296,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779398601359)/",
+        "CPU": 59.53125,
+        "WorkingSet64": 8085504
+      },
+      {
+        "Id": 18708,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779778082872)/",
+        "CPU": 88.578125,
+        "WorkingSet64": 95887360
+      },
+      {
+        "Id": 18780,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779780168520)/",
+        "CPU": 0.09375,
+        "WorkingSet64": 69632
+      },
+      {
+        "Id": 18800,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779772025834)/",
+        "CPU": 2.40625,
+        "WorkingSet64": 991232
+      },
+      {
+        "Id": 18820,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779780168434)/",
+        "CPU": 30.015625,
+        "WorkingSet64": 12529664
+      },
+      {
+        "Id": 19488,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779785224769)/",
+        "CPU": 1026.359375,
+        "WorkingSet64": 39460864
+      },
+      {
+        "Id": 19764,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779779903738)/",
+        "CPU": 36.234375,
+        "WorkingSet64": 32854016
+      },
+      {
+        "Id": 20392,
+        "ProcessName": "chrome",
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "StartTime": "/Date(1779780173407)/",
+        "CPU": 397.9375,
+        "WorkingSet64": 6705152
+      },
+      {
+        "Id": 1768,
+        "ProcessName": "Codex",
+        "Path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.519.5221.0_x64__2p2nqsd0c76g0\\app\\Codex.exe",
+        "StartTime": "/Date(1779769428164)/",
+        "CPU": 0.171875,
+        "WorkingSet64": 69632
+      },
+      {
+        "Id": 2564,
+        "ProcessName": "Codex",
+        "Path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.519.5221.0_x64__2p2nqsd0c76g0\\app\\Codex.exe",
+        "StartTime": "/Date(1779769428401)/",
+        "CPU": 52.65625,
+        "WorkingSet64": 10452992
+      },
+      {
+        "Id": 7744,
+        "ProcessName": "Codex",
+        "Path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.519.5221.0_x64__2p2nqsd0c76g0\\app\\Codex.exe",
+        "StartTime": "/Date(1779769430338)/",
+        "CPU": 1245.71875,
+        "WorkingSet64": 99328000
+      },
+      {
+        "Id": 10932,
+        "ProcessName": "codex",
+        "Path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.519.5221.0_x64__2p2nqsd0c76g0\\app\\resources\\codex.exe",
+        "StartTime": "/Date(1779769429396)/",
+        "CPU": 697,
+        "WorkingSet64": 63266816
+      },
+      {
+        "Id": 11368,
+        "ProcessName": "Codex",
+        "Path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.519.5221.0_x64__2p2nqsd0c76g0\\app\\Codex.exe",
+        "StartTime": "/Date(1779769427329)/",
+        "CPU": 441.296875,
+        "WorkingSet64": 71368704
+      },
+      {
+        "Id": 15636,
+        "ProcessName": "codex",
+        "Path": "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\OpenAI\\Codex\\bin\\3f4fb8cdd344abc7\\codex.exe",
+        "StartTime": "/Date(1779771565284)/",
+        "CPU": 14.46875,
+        "WorkingSet64": 487424
+      },
+      {
+        "Id": 17988,
+        "ProcessName": "Codex",
+        "Path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.519.5221.0_x64__2p2nqsd0c76g0\\app\\Codex.exe",
+        "StartTime": "/Date(1779769428316)/",
+        "CPU": 6949.375,
+        "WorkingSet64": 140410880
+      },
+      {
+        "Id": 19464,
+        "ProcessName": "Codex",
+        "Path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.519.5221.0_x64__2p2nqsd0c76g0\\app\\Codex.exe",
+        "StartTime": "/Date(1779769836072)/",
+        "CPU": 46743.40625,
+        "WorkingSet64": 187187200
+      },
+      {
+        "Id": 8800,
+        "ProcessName": "conhost",
+        "Path": "C:\\WINDOWS\\system32\\conhost.exe",
+        "StartTime": "/Date(1779156422181)/",
+        "CPU": 0.203125,
+        "WorkingSet64": 53248
+      },
+      {
+        "Id": 11932,
+        "ProcessName": "conhost",
+        "Path": "C:\\WINDOWS\\system32\\conhost.exe",
+        "StartTime": "/Date(1779769429403)/",
+        "CPU": 2.015625,
+        "WorkingSet64": 413696
+      },
+      {
+        "Id": 13952,
+        "ProcessName": "conhost",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 4096
+      },
+      {
+        "Id": 15608,
+        "ProcessName": "conhost",
+        "Path": "C:\\WINDOWS\\system32\\conhost.exe",
+        "StartTime": "/Date(1779818274917)/",
+        "CPU": 0.015625,
+        "WorkingSet64": 7159808
+      },
+      {
+        "Id": 7528,
+        "ProcessName": "CrossDeviceResume",
+        "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe",
+        "StartTime": "/Date(1779156372737)/",
+        "CPU": 3.734375,
+        "WorkingSet64": 983040
+      },
+      {
+        "Id": 8528,
+        "ProcessName": "CrossDeviceService",
+        "Path": "C:\\Program Files\\WindowsApps\\MicrosoftWindows.CrossDevice_1.26032.83.0_x64__cw5n1h2txyewy\\CrossDeviceService.exe",
+        "StartTime": "/Date(1779156373343)/",
+        "CPU": 17.71875,
+        "WorkingSet64": 1826816
+      },
+      {
+        "Id": 632,
+        "ProcessName": "csrss",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 1740800
+      },
+      {
+        "Id": 948,
+        "ProcessName": "csrss",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 790528
+      },
+      {
+        "Id": 4392,
+        "ProcessName": "ctfmon",
+        "Path": null,
+        "StartTime": "/Date(1779156387253)/",
+        "CPU": 313.1875,
+        "WorkingSet64": 8900608
+      },
+      {
+        "Id": 10780,
+        "ProcessName": "DataExchangeHost",
+        "Path": "C:\\Windows\\System32\\DataExchangeHost.exe",
+        "StartTime": "/Date(1779159755205)/",
+        "CPU": 1.140625,
+        "WorkingSet64": 602112
+      },
+      {
+        "Id": 9060,
+        "ProcessName": "dllhost",
+        "Path": "C:\\WINDOWS\\system32\\DllHost.exe",
+        "StartTime": "/Date(1779156374357)/",
+        "CPU": 5.8125,
+        "WorkingSet64": 987136
+      },
+      {
+        "Id": 1572,
+        "ProcessName": "dwm",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 51187712
+      },
+      {
+        "Id": 4016,
+        "ProcessName": "esif_uf",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 1347584
+      },
+      {
+        "Id": 7776,
+        "ProcessName": "explorer",
+        "Path": "C:\\WINDOWS\\Explorer.EXE",
+        "StartTime": "/Date(1779156372062)/",
+        "CPU": 1864.015625,
+        "WorkingSet64": 101068800
+      },
+      {
+        "Id": 1220,
+        "ProcessName": "fontdrvhost",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 4096
+      },
+      {
+        "Id": 1228,
+        "ProcessName": "fontdrvhost",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 577536
+      },
+      {
+        "Id": 0,
+        "ProcessName": "Idle",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 8192
+      },
+      {
+        "Id": 2648,
+        "ProcessName": "igfxCUIServiceN",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 8192
+      },
+      {
+        "Id": 7224,
+        "ProcessName": "igfxEMN",
+        "Path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\cui_dch.inf_amd64_f9a50a60f9a51394\\igfxEMN.exe",
+        "StartTime": "/Date(1779156371459)/",
+        "CPU": 1.484375,
+        "WorkingSet64": 77824
+      },
+      {
+        "Id": 3772,
+        "ProcessName": "IntelAudioService",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 1236992
+      },
+      {
+        "Id": 2096,
+        "ProcessName": "IntelCpHDCPSvc",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 8192
+      },
+      {
+        "Id": 13544,
+        "ProcessName": "IntelGraphicsSoftware.Service",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 2555904
+      },
+      {
+        "Id": 940,
+        "ProcessName": "jhi_service",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 4096
+      },
+      {
+        "Id": 20252,
+        "ProcessName": "LockApp",
+        "Path": "C:\\WINDOWS\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe",
+        "StartTime": "/Date(1779815257068)/",
+        "CPU": 3.03125,
+        "WorkingSet64": 167936
+      },
+      {
+        "Id": 1068,
+        "ProcessName": "LsaIso",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 4096
+      },
+      {
+        "Id": 1076,
+        "ProcessName": "lsass",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 6500352
+      },
+      {
+        "Id": 2892,
+        "ProcessName": "Memory Compression",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 176836608
+      },
+      {
+        "Id": 5240,
+        "ProcessName": "merkavaapp",
+        "Path": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\merkava-native-browser\\dist\\merkavaapp.exe",
+        "StartTime": "/Date(1779818263375)/",
+        "CPU": 0.65625,
+        "WorkingSet64": 82022400
+      },
+      {
+        "Id": 10764,
+        "ProcessName": "MicrosoftStartFeedProvider",
+        "Path": "C:\\Program Files\\WindowsApps\\Microsoft.StartExperiencesApp_1.264.3.0_x64__8wekyb3d8bbwe\\MicrosoftStartFeedProvider\\MicrosoftStartFeedProvider.exe",
+        "StartTime": "/Date(1779156377756)/",
+        "CPU": 25.03125,
+        "WorkingSet64": 15646720
+      },
+      {
+        "Id": 14400,
+        "ProcessName": "MoUsoCoreWorker",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 2457600
+      },
+      {
+        "Id": 15484,
+        "ProcessName": "MpDefenderCoreService",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 405504
+      },
+      {
+        "Id": 2544,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.83\\msedgewebview2.exe",
+        "StartTime": "/Date(1779785147925)/",
+        "CPU": 16.8125,
+        "WorkingSet64": 24920064
+      },
+      {
+        "Id": 7236,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.70\\msedgewebview2.exe",
+        "StartTime": "/Date(1779156376529)/",
+        "CPU": 21.890625,
+        "WorkingSet64": 3534848
+      },
+      {
+        "Id": 8068,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.83\\msedgewebview2.exe",
+        "StartTime": "/Date(1779785148946)/",
+        "CPU": 17.796875,
+        "WorkingSet64": 39280640
+      },
+      {
+        "Id": 9576,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.70\\msedgewebview2.exe",
+        "StartTime": "/Date(1779156375664)/",
+        "CPU": 55.53125,
+        "WorkingSet64": 7942144
+      },
+      {
+        "Id": 9632,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.70\\msedgewebview2.exe",
+        "StartTime": "/Date(1779156375764)/",
+        "CPU": 1.640625,
+        "WorkingSet64": 131072
+      },
+      {
+        "Id": 10084,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.70\\msedgewebview2.exe",
+        "StartTime": "/Date(1779156376324)/",
+        "CPU": 12.796875,
+        "WorkingSet64": 3289088
+      },
+      {
+        "Id": 10088,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.70\\msedgewebview2.exe",
+        "StartTime": "/Date(1779156376324)/",
+        "CPU": 8.40625,
+        "WorkingSet64": 2674688
+      },
+      {
+        "Id": 10220,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.70\\msedgewebview2.exe",
+        "StartTime": "/Date(1779156376445)/",
+        "CPU": 3.59375,
+        "WorkingSet64": 282624
+      },
+      {
+        "Id": 12724,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.83\\msedgewebview2.exe",
+        "StartTime": "/Date(1779785149281)/",
+        "CPU": 4,
+        "WorkingSet64": 17436672
+      },
+      {
+        "Id": 13584,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.83\\msedgewebview2.exe",
+        "StartTime": "/Date(1779785148132)/",
+        "CPU": 0.34375,
+        "WorkingSet64": 167936
+      },
+      {
+        "Id": 14220,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.83\\msedgewebview2.exe",
+        "StartTime": "/Date(1779785149518)/",
+        "CPU": 0.890625,
+        "WorkingSet64": 4825088
+      },
+      {
+        "Id": 15752,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.83\\msedgewebview2.exe",
+        "StartTime": "/Date(1779785149511)/",
+        "CPU": 33.25,
+        "WorkingSet64": 83439616
+      },
+      {
+        "Id": 20356,
+        "ProcessName": "msedgewebview2",
+        "Path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.83\\msedgewebview2.exe",
+        "StartTime": "/Date(1779785149511)/",
+        "CPU": 0.546875,
+        "WorkingSet64": 2072576
+      },
+      {
+        "Id": 15652,
+        "ProcessName": "MsMpEng",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 168812544
+      },
+      {
+        "Id": 7096,
+        "ProcessName": "NisSrv",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 3665920
+      },
+      {
+        "Id": 8944,
+        "ProcessName": "node",
+        "Path": "C:\\Program Files\\nodejs\\node.exe",
+        "StartTime": "/Date(1779156483019)/",
+        "CPU": 69.296875,
+        "WorkingSet64": 1163264
+      },
+      {
+        "Id": 14904,
+        "ProcessName": "node",
+        "Path": "C:\\Program Files\\nodejs\\node.exe",
+        "StartTime": "/Date(1779817726020)/",
+        "CPU": 5.796875,
+        "WorkingSet64": 24526848
+      },
+      {
+        "Id": 3248,
+        "ProcessName": "node_repl",
+        "Path": "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\OpenAI\\Codex\\bin\\3c238e29bbc930ff\\node_repl.exe",
+        "StartTime": "/Date(1779818027477)/",
+        "CPU": 0.03125,
+        "WorkingSet64": 307200
+      },
+      {
+        "Id": 15176,
+        "ProcessName": "node_repl",
+        "Path": "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\OpenAI\\Codex\\bin\\3c238e29bbc930ff\\node_repl.exe",
+        "StartTime": "/Date(1779771564535)/",
+        "CPU": 0.0625,
+        "WorkingSet64": 40960
+      },
+      {
+        "Id": 20092,
+        "ProcessName": "node_repl",
+        "Path": "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\OpenAI\\Codex\\bin\\3c238e29bbc930ff\\node_repl.exe",
+        "StartTime": "/Date(1779818175098)/",
+        "CPU": 0.046875,
+        "WorkingSet64": 442368
+      },
+      {
+        "Id": 14420,
+        "ProcessName": "Notepad",
+        "Path": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsNotepad_11.2512.29.0_x64__8wekyb3d8bbwe\\Notepad\\Notepad.exe",
+        "StartTime": "/Date(1779157000624)/",
+        "CPU": 25.5,
+        "WorkingSet64": 2306048
+      },
+      {
+        "Id": 10660,
+        "ProcessName": "ollama",
+        "Path": "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Programs\\Ollama\\ollama.exe",
+        "StartTime": "/Date(1779156422072)/",
+        "CPU": 12.796875,
+        "WorkingSet64": 835584
+      },
+      {
+        "Id": 13876,
+        "ProcessName": "ollama app",
+        "Path": "C:\\Users\\Yackov Yitzchak\\AppData\\Local\\Programs\\Ollama\\ollama app.exe",
+        "StartTime": "/Date(1779156420879)/",
+        "CPU": 10.375,
+        "WorkingSet64": 450560
+      },
+      {
+        "Id": 2916,
+        "ProcessName": "OpenConsole",
+        "Path": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\OpenConsole.exe",
+        "StartTime": "/Date(1779156478273)/",
+        "CPU": 0.390625,
+        "WorkingSet64": 49152
+      },
+      {
+        "Id": 8296,
+        "ProcessName": "OpenConsole",
+        "Path": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\OpenConsole.exe",
+        "StartTime": "/Date(1779775844013)/",
+        "CPU": 0.40625,
+        "WorkingSet64": 1015808
+      },
+      {
+        "Id": 9472,
+        "ProcessName": "OpenConsole",
+        "Path": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\OpenConsole.exe",
+        "StartTime": "/Date(1779157003312)/",
+        "CPU": 0.65625,
+        "WorkingSet64": 53248
+      },
+      {
+        "Id": 11636,
+        "ProcessName": "OpenConsole",
+        "Path": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\OpenConsole.exe",
+        "StartTime": "/Date(1779156599558)/",
+        "CPU": 14.53125,
+        "WorkingSet64": 200704
+      },
+      {
+        "Id": 18968,
+        "ProcessName": "OpenConsole",
+        "Path": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\OpenConsole.exe",
+        "StartTime": "/Date(1779768615247)/",
+        "CPU": 1.625,
+        "WorkingSet64": 77824
+      },
+      {
+        "Id": 20372,
+        "ProcessName": "OpenConsole",
+        "Path": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11321.0_x64__8wekyb3d8bbwe\\OpenConsole.exe",
+        "StartTime": "/Date(1779772771495)/",
+        "CPU": 5.90625,
+        "WorkingSet64": 978944
+      },
+      {
+        "Id": 3136,
+        "ProcessName": "powershell",
+        "Path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "StartTime": "/Date(1779157003317)/",
+        "CPU": 58.078125,
+        "WorkingSet64": 2228224
+      },
+      {
+        "Id": 7272,
+        "ProcessName": "powershell",
+        "Path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "StartTime": "/Date(1779818274763)/",
+        "CPU": 0.6875,
+        "WorkingSet64": 74530816
+      },
+      {
+        "Id": 7648,
+        "ProcessName": "powershell",
+        "Path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "StartTime": "/Date(1779156599564)/",
+        "CPU": 67,
+        "WorkingSet64": 6832128
+      },
+      {
+        "Id": 8464,
+        "ProcessName": "powershell",
+        "Path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "StartTime": "/Date(1779775844022)/",
+        "CPU": 24.9375,
+        "WorkingSet64": 10395648
+      },
+      {
+        "Id": 10688,
+        "ProcessName": "powershell",
+        "Path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "StartTime": "/Date(1779772771513)/",
+        "CPU": 11.15625,
+        "WorkingSet64": 5107712
+      },
+      {
+        "Id": 11452,
+        "ProcessName": "powershell",
+        "Path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "StartTime": "/Date(1779769465609)/",
+        "CPU": 9.03125,
+        "WorkingSet64": 5611520
+      },
+      {
+        "Id": 15052,
+        "ProcessName": "powershell",
+        "Path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "StartTime": "/Date(1779156478279)/",
+        "CPU": 1.453125,
+        "WorkingSet64": 253952
+      },
+      {
+        "Id": 18244,
+        "ProcessName": "powershell",
+        "Path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "StartTime": "/Date(1779768615255)/",
+        "CPU": 4.15625,
+        "WorkingSet64": 2326528
+      },
+      {
+        "Id": 13944,
+        "ProcessName": "PresentMonService",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 643072
+      },
+      {
+        "Id": 136,
+        "ProcessName": "Registry",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 2469888
+      },
+      {
+        "Id": 3916,
+        "ProcessName": "remoting_host",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 73728
+      },
+      {
+        "Id": 4784,
+        "ProcessName": "remoting_host",
+        "Path": null,
+        "StartTime": "/Date(1779156360591)/",
+        "CPU": 1000.90625,
+        "WorkingSet64": 3436544
+      },
+      {
+        "Id": 4368,
+        "ProcessName": "RstMwService",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 4096
+      },
+      {
+        "Id": 4468,
+        "ProcessName": "RtkAudUService64",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 196608
+      },
+      {
+        "Id": 6044,
+        "ProcessName": "RtkAudUService64",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 4096
+      },
+      {
+        "Id": 12228,
+        "ProcessName": "RtkAudUService64",
+        "Path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\realtekservice.inf_amd64_434f4faf6aa034b3\\RtkAudUService64.exe",
+        "StartTime": "/Date(1779156399927)/",
+        "CPU": 12.0625,
+        "WorkingSet64": 503808
+      },
+      {
+        "Id": 4476,
+        "ProcessName": "RtkBtManServ",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 8192
+      },
+      {
+        "Id": 9020,
+        "ProcessName": "RuntimeBroker",
+        "Path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+        "StartTime": "/Date(1779156374280)/",
+        "CPU": 13.78125,
+        "WorkingSet64": 3207168
+      },
+      {
+        "Id": 9948,
+        "ProcessName": "RuntimeBroker",
+        "Path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+        "StartTime": "/Date(1779156376245)/",
+        "CPU": 1.609375,
+        "WorkingSet64": 245760
+      },
+      {
+        "Id": 11288,
+        "ProcessName": "RuntimeBroker",
+        "Path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+        "StartTime": "/Date(1779156397329)/",
+        "CPU": 5.28125,
+        "WorkingSet64": 204800
+      },
+      {
+        "Id": 15912,
+        "ProcessName": "RuntimeBroker",
+        "Path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+        "StartTime": "/Date(1779769032017)/",
+        "CPU": 0.78125,
+        "WorkingSet64": 716800
+      },
+      {
+        "Id": 18416,
+        "ProcessName": "RuntimeBroker",
+        "Path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+        "StartTime": "/Date(1779815258390)/",
+        "CPU": 0.671875,
+        "WorkingSet64": 3297280
+      },
+      {
+        "Id": 8856,
+        "ProcessName": "SearchHost",
+        "Path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe",
+        "StartTime": "/Date(1779156373930)/",
+        "CPU": 21.171875,
+        "WorkingSet64": 3444736
+      },
+      {
+        "Id": 9328,
+        "ProcessName": "SearchIndexer",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 5996544
+      },
+      {
+        "Id": 92,
+        "ProcessName": "Secure System",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 40890368
+      },
+      {
+        "Id": 11292,
+        "ProcessName": "SecurityHealthService",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 770048
+      },
+      {
+        "Id": 11216,
+        "ProcessName": "SecurityHealthSystray",
+        "Path": "C:\\Windows\\System32\\SecurityHealthSystray.exe",
+        "StartTime": "/Date(1779156399482)/",
+        "CPU": 0.5,
+        "WorkingSet64": 69632
+      },
+      {
+        "Id": 1044,
+        "ProcessName": "services",
+        "Path": null,
+        "StartTime": null,
+        "CPU": null,
+        "WorkingSet64": 3416064
+      },
+      {
+        "Id": 4580,
+        "ProcessName": "ShellExperienceHost",
+        "Path": "C:\\WINDOWS\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe",
+        "StartTime": "/Date(1779156396810)/",
+        "CPU": 37.96875,
+        "WorkingSet64": 110592
+      },
+      {
+        "Id": 14708,
+        "ProcessName": "ShellHost",
+        "Path": "C:\\Windows\\System32\\ShellHost.exe",
+        "StartTime": "/Date(1779246121554)/",
+        "CPU": 3.296875,
+        "WorkingSet64": 1695744
+      },
+      {
+        "Id": 6840,
+        "ProcessName": "sihost",
+        "Path": "C:\\WINDOWS\\system32\\sihost.exe",
+        "StartTime": "/Date(1779156371399)/",
+        "CPU": 73.890625,
+        "WorkingSet64": 3973120
+      }
+    ]
+  }
+}

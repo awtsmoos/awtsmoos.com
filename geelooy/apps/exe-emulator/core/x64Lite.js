@@ -2,9 +2,11 @@
 import { createWinApi } from './winApi.js';
 
 const REG = ['rax','rcx','rdx','rbx','rsp','rbp','rsi','rdi','r8','r9','r10','r11','r12','r13','r14','r15'];
+const LOW32 = ['eax','ecx','edx','ebx','esp','ebp','esi','edi','r8d','r9d','r10d','r11d','r12d','r13d','r14d','r15d'];
 
 /**
  * Executes the x64 subset emitted by the Awtsmoos compiler examples.
+ * This is not a universal CPU; it is a grounded vessel for the compiler's PE output.
  * @param {object} image mapped PE image
  * @param {object} win virtual Windows host
  * @returns {{steps:number, halted:boolean}}
@@ -13,109 +15,190 @@ export function runCompilerX64(image, win) {
   const text = image.pe.sections.find(s => s.name === '.text') || image.pe.sections[0];
   const cpu = makeCpu(image, text);
   const callImport = createWinApi(win, cpu);
-  for (let steps = 0; steps < 50000 && !cpu.halted; steps++) {
-    const b = cpu.u8();
-    if (b === 0x48 || b === 0x49 || b === 0x4C || b === 0x4D || b === 0x41) execRex(cpu, b, callImport);
-    else if (b >= 0x50 && b <= 0x57) cpu.push(cpu.regs[REG[b - 0x50]]);
-    else if (b >= 0x58 && b <= 0x5F) cpu.regs[REG[b - 0x58]] = cpu.pop();
-    else if (b === 0xE8) cpu.callRel();
-    else if (b === 0xE9) cpu.jmpRel();
-    else if (b === 0x0F) exec0f(cpu);
-    else if (b === 0x31) xorReg(cpu, cpu.u8(), 0);
-    else if (b === 0xFF) execFf(cpu, callImport);
-    else if (b === 0xC3) cpu.ret();
-    else if (b === 0x90 || b === 0xFC || b === 0xFD) {}
-    else if (b === 0xEB) cpu.ip += cpu.i8();
-    else throw new Error(`Unsupported opcode 0x${b.toString(16)} at 0x${cpu.rva().toString(16)}`);
-    if (steps === 49999) throw new Error('Execution step limit reached.');
+
+  const maxInstructions = 20000;
+  for (let guard = 0; guard < maxInstructions && !cpu.halted; guard++) {
+    execOne(cpu, callImport);
   }
+  if (!cpu.halted) throw new Error(`Execution instruction limit reached at 0x${cpu.rva().toString(16)}`);
   return { steps: cpu.steps, halted: cpu.halted };
 }
 
 function makeCpu(image, text) {
-  const base = text.virtualAddress, raw = text.rawPointer;
-  const cpu = { image, text, ip: image.pe.entryRva - base, regs: {}, mem: new Map(), stack: [], flags: {}, halted:false, steps:0, queue:[1,0] };
-  REG.forEach(r => { cpu.regs[r] = 0; }); cpu.regs.rsp = 0x800000;
-  cpu.rva = () => base + cpu.ip; cpu.off = () => raw + cpu.ip;
+  const base = text.virtualAddress;
+  const raw = text.rawPointer;
+  const cpu = {
+    image, text, base, raw,
+    ip: image.pe.entryRva - base,
+    regs: {}, mem: new Map(), stack: [], flags: {}, halted: false, steps: 0,
+    queue: [1, 0]
+  };
+  REG.forEach(r => { cpu.regs[r] = 0; });
+  cpu.regs.rsp = 0x800000;
+  cpu.rva = () => base + cpu.ip;
   cpu.u8 = () => (cpu.steps++, image.bytes[raw + cpu.ip++]);
-  cpu.i8 = () => { const n = cpu.u8(); return n > 127 ? n - 256 : n; };
-  cpu.u32 = () => { const v = image.view.getUint32(raw + cpu.ip, true); cpu.ip += 4; return v; };
+  cpu.i8 = () => sign(cpu.u8(), 8);
+  cpu.u32 = () => { const v = image.view.getUint32(raw + cpu.ip, true); cpu.ip += 4; return v >>> 0; };
   cpu.i32 = () => { const v = image.view.getInt32(raw + cpu.ip, true); cpu.ip += 4; return v; };
-  cpu.push = v => cpu.stack.push(v >>> 0); cpu.pop = () => cpu.stack.pop() || 0;
-  cpu.readString = (rva, len=4096) => image.readCString(rva).slice(0, len);
-  cpu.callRel = () => { const d = cpu.i32(); cpu.push(cpu.rva()); cpu.ip += d; };
-  cpu.jmpRel = () => { cpu.ip += cpu.i32(); };
-  cpu.ret = () => { const rva = cpu.pop(); cpu.ip = rva ? rva - base : (cpu.halted = true, cpu.ip); };
+  cpu.u64lo = () => { const lo = cpu.u32(); cpu.u32(); return lo; };
+  cpu.readString = (rva, len = 4096) => image.readCString(rva).slice(0, len);
+  cpu.push = v => { cpu.regs.rsp -= 8; cpu.mem.set(cpu.regs.rsp, v >>> 0); cpu.stack.push(v >>> 0); };
+  cpu.pop = () => { const v = cpu.mem.get(cpu.regs.rsp) ?? cpu.stack.pop() ?? 0; cpu.regs.rsp += 8; return v >>> 0; };
   return cpu;
 }
 
-function execRex(cpu, rex, callImport) {
-  const op = cpu.u8();
-  if (op >= 0xB8 && op <= 0xBF) { const lo=cpu.u32(); const isWide=(rex & 0x08)!==0; if (isWide) cpu.u32(); return setReg(cpu, (op - 0xB8) + ((rex & 1) ? 8 : 0), lo); }
-  if (op === 0x83) return alu83(cpu);
-  if (op === 0x81) return alu81(cpu);
-  if (op === 0x39) return cmpReg(cpu, cpu.u8(), rex);
-  if (op === 0x31) return xorReg(cpu, cpu.u8(), rex);
-  if (op === 0x89) return movRmReg(cpu, cpu.u8(), rex);
-  if (op === 0x8B) return movRegRm(cpu, cpu.u8(), rex);
-  if (op === 0x8D) return lea(cpu, cpu.u8(), rex);
-  if (op === 0xC7) return movRmImm(cpu, cpu.u8(), rex);
-  if (op === 0xFF) return execFf(cpu, callImport);
-  throw new Error(`Unsupported REX opcode 0x${op.toString(16)}`);
+function execOne(cpu, callImport) {
+  let b = cpu.u8();
+  if (b === 0xFC || b === 0xFD || b === 0x90) return;
+  if (b === 0xF3) return execRep(cpu);
+
+  let rex = 0;
+  if (b >= 0x40 && b <= 0x4F) { rex = b; b = cpu.u8(); }
+
+  if (b >= 0x50 && b <= 0x57) return cpu.push(getReg(cpu, (b - 0x50) + rb(rex)));
+  if (b >= 0x58 && b <= 0x5F) return setReg(cpu, (b - 0x58) + rb(rex), cpu.pop());
+  if (b >= 0xB8 && b <= 0xBF) return setReg(cpu, (b - 0xB8) + rb(rex), rw(rex) ? cpu.u64lo() : cpu.u32());
+
+  if (b === 0x31) return xorRmReg(cpu, rex, cpu.u8());
+  if (b === 0x39) return cmpRmReg(cpu, rex, cpu.u8());
+  if (b === 0x3B) return cmpRegRm(cpu, rex, cpu.u8());
+  if (b === 0x83) return aluImm(cpu, rex, cpu.u8(), cpu.i8());
+  if (b === 0x81) return aluImm(cpu, rex, cpu.u8(), cpu.u32());
+  if (b === 0x89) return movRmReg(cpu, rex, cpu.u8());
+  if (b === 0x8B) return movRegRm(cpu, rex, cpu.u8());
+  if (b === 0x8D) return lea(cpu, rex, cpu.u8());
+  if (b === 0xC7) return movRmImm(cpu, rex, cpu.u8());
+  if (b === 0xFF) return execFf(cpu, rex, cpu.u8(), callImport);
+  if (b === 0xE8) return callRel(cpu);
+  if (b === 0xE9) return jmpRel(cpu);
+  if (b === 0xEB) { cpu.ip += cpu.i8(); return; }
+  if (b === 0xC3) return ret(cpu);
+  if (b === 0x0F) return exec0f(cpu, rex);
+  if (b === 0x0B) return orRegRm(cpu, rex, cpu.u8());
+  if (b === 0x23) return andRegRm(cpu, rex, cpu.u8());
+  if (b === 0x21) return andRmReg(cpu, rex, cpu.u8());
+  if (b === 0x01) return addRmReg(cpu, rex, cpu.u8());
+  if (b === 0x03) return addRegRm(cpu, rex, cpu.u8());
+  if (b === 0x2B) return subRegRm(cpu, rex, cpu.u8());
+  if (b === 0x29) return subRmReg(cpu, rex, cpu.u8());
+
+  throw new Error(`Unsupported opcode 0x${b.toString(16)} at 0x${(cpu.rva() - 1).toString(16)}`);
 }
 
-function execFf(cpu, callImport) {
-  const mod = cpu.u8();
-  if (mod === 0x15 || mod === 0x25) {
+function exec0f(cpu, rex) {
+  const op = cpu.u8();
+  if ([0x84,0x85,0x8C,0x8D,0x8E,0x8F].includes(op)) {
+    const d = cpu.i32();
+    if (take(cpu, op)) cpu.ip += d;
+    return;
+  }
+  if (op === 0xB6 || op === 0xBE) {
+    const m = cpu.u8();
+    const { reg, addr, direct } = decodeModRm(cpu, rex, m);
+    const v = direct ? getReg(cpu, addr) : readMem(cpu, addr);
+    setReg(cpu, reg, op === 0xBE ? sign(v & 0xFF, 8) : (v & 0xFF));
+    return;
+  }
+  throw new Error(`Unsupported 0F opcode 0x${op.toString(16)} at 0x${(cpu.rva() - 2).toString(16)}`);
+}
+
+function execRep(cpu) {
+  const op = cpu.u8();
+  if (op !== 0xAB) throw new Error(`Unsupported REP opcode 0x${op.toString(16)}`);
+  const count = Math.min(getReg(cpu, 1), 200000);
+  const val = getReg(cpu, 0);
+  let ptr = getReg(cpu, 7);
+  for (let i = 0; i < count; i++) { cpu.mem.set(ptr, val); ptr += 4; }
+  setReg(cpu, 7, ptr);
+}
+
+function execFf(cpu, rex, m, callImport) {
+  const op = (m >> 3) & 7;
+  const decoded = decodeModRm(cpu, rex, m);
+  if (op === 0 && decoded.direct) { setReg(cpu, decoded.addr, getReg(cpu, decoded.addr) + 1); setFlags(cpu, getReg(cpu, decoded.addr)); return; }
+  if (op === 1 && decoded.direct) { setReg(cpu, decoded.addr, getReg(cpu, decoded.addr) - 1); setFlags(cpu, getReg(cpu, decoded.addr)); return; }
+  if (op === 2 && !decoded.direct) {
+    const name = cpu.image.imports.get(decoded.addr) || `IAT@${decoded.addr.toString(16)}`;
+    callImport(name);
+    return;
+  }
+  if (op === 4 && !decoded.direct) { cpu.ip = readMem(cpu, decoded.addr) - cpu.base; return; }
+  throw new Error(`Unsupported FF /${op} at 0x${cpu.rva().toString(16)}`);
+}
+
+function callRel(cpu) { const d = cpu.i32(); cpu.push(cpu.rva()); cpu.ip += d; }
+function jmpRel(cpu) { cpu.ip += cpu.i32(); }
+function ret(cpu) { const rva = cpu.pop(); cpu.ip = rva ? rva - cpu.base : (cpu.halted = true, cpu.ip); }
+
+function decodeModRm(cpu, rex, m) {
+  const mode = m & 0xC0;
+  const rm0 = m & 7;
+  const reg = ((m >> 3) & 7) + rr(rex);
+  let rm = rm0 + rb(rex);
+  if (mode === 0xC0) return { reg, addr: rm, direct: true };
+
+  let base = 0;
+  if (rm0 === 4) {
+    const sib = cpu.u8();
+    const baseIndex = (sib & 7) + rb(rex);
+    const index = ((sib >> 3) & 7) + rx(rex);
+    const scale = 1 << ((sib >> 6) & 3);
+    base = baseIndex === 5 && mode === 0 ? 0 : getReg(cpu, baseIndex);
+    if (index !== 4) base += getReg(cpu, index) * scale;
+  } else if (rm0 === 5 && mode === 0) {
     const disp = cpu.i32();
-    const target = cpu.rva() + disp;
-    callImport(cpu.image.imports.get(target) || `IAT@${target.toString(16)}`);
-    return;
+    return { reg, addr: cpu.rva() + disp, direct: false };
+  } else {
+    base = getReg(cpu, rm);
   }
-  if ((mod & 0xC0) === 0xC0) {
-    const op=(mod>>3)&7, r=regFromRm(mod,0);
-    if (op===0) setReg(cpu,r,getReg(cpu,r)+1);
-    else if (op===1) setReg(cpu,r,getReg(cpu,r)-1);
-    else throw new Error(`Unsupported FF reg op ${op} mod=0x${mod.toString(16)} at 0x${cpu.rva().toString(16)}`);
-    setFlags(cpu,getReg(cpu,r));
-    return;
-  }
-  throw new Error(`Unsupported FF modrm 0x${mod.toString(16)}`);
+  if (mode === 0x40) base += cpu.i8();
+  if (mode === 0x80) base += cpu.i32();
+  return { reg, addr: base >>> 0, direct: false };
 }
 
-function exec0f(cpu) {
-  const op = cpu.u8();
-  const rel = () => { const d = cpu.i32(); if (take(cpu, op)) cpu.ip += d; };
-  if ([0x84,0x85,0x8C,0x8D,0x8E,0x8F].includes(op)) return rel();
-  throw new Error(`Unsupported 0F opcode 0x${op.toString(16)}`);
+function movRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); }
+function movRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); setReg(cpu, d.reg, d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); }
+function movRmImm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = cpu.u32(); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); }
+function lea(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); setReg(cpu, d.reg, d.addr); }
+function xorRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) ^ getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); setFlags(cpu, v); }
+function cmpRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); setFlags(cpu, (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) - getReg(cpu, d.reg)); }
+function cmpRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); setFlags(cpu, getReg(cpu, d.reg) - (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr))); }
+function orRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg) | (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); setReg(cpu, d.reg, v); setFlags(cpu, v); }
+function andRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg) & (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); setReg(cpu, d.reg, v); setFlags(cpu, v); }
+function andRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) & getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); setFlags(cpu, v); }
+function addRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) + getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); setFlags(cpu, v); }
+function addRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg) + (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); setReg(cpu, d.reg, v); setFlags(cpu, v); }
+function subRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) - getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); setFlags(cpu, v); }
+function subRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg) - (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); setReg(cpu, d.reg, v); setFlags(cpu, v); }
+
+function aluImm(cpu, rex, m, v) {
+  const d = decodeModRm(cpu, rex, m);
+  const op = (m >> 3) & 7;
+  const old = d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr);
+  let out = old;
+  if (op === 0) out = old + v;
+  else if (op === 4) out = old & v;
+  else if (op === 5) out = old - v;
+  else if (op === 7) { setFlags(cpu, old - v); return; }
+  else throw new Error(`Unsupported ALU imm /${op}`);
+  d.direct ? setReg(cpu, d.addr, out) : writeMem(cpu, d.addr, out);
+  setFlags(cpu, out);
 }
 
-function alu83(cpu) {
-  const m=cpu.u8(), op=(m>>3)&7, r=regFromRm(m,0), v=cpu.i8();
-  if (op===0) { setReg(cpu,r,getReg(cpu,r)+v); setFlags(cpu,getReg(cpu,r)); }
-  else if (op===5) { setReg(cpu,r,getReg(cpu,r)-v); setFlags(cpu,getReg(cpu,r)); }
-  else if (op===7) setFlags(cpu,getReg(cpu,r)-v);
-  else throw new Error('Unsupported 83');
+function readMem(cpu, addr) {
+  if (cpu.mem.has(addr)) return cpu.mem.get(addr) >>> 0;
+  const off = cpu.image.rvaToOffset(addr);
+  if (off >= 0 && off + 4 <= cpu.image.bytes.length) return cpu.image.view.getUint32(off, true) >>> 0;
+  return 0;
 }
-function alu81(cpu) { const m=cpu.u8(), v=cpu.u32(); if (m===0xEC) cpu.regs.rsp-=v; else if (m===0xC4) cpu.regs.rsp+=v; else throw new Error('Unsupported 81'); }
-function xorReg(cpu, mod, rex) { const r = regFromRm(mod, rex); setReg(cpu, r, 0); setFlags(cpu,0); }
-function cmpReg(cpu, mod, rex) { setFlags(cpu, getReg(cpu, regFromRm(mod, rex)) - getReg(cpu, regField(mod, rex))); }
-function setReg(cpu, idx, val) { cpu.regs[REG[idx]] = val >>> 0; }
+function writeMem(cpu, addr, value) { cpu.mem.set(addr >>> 0, value >>> 0); }
 function getReg(cpu, idx) { return cpu.regs[REG[idx]] || 0; }
-function regFromRm(mod, rex) { return (mod & 7) + ((rex & 1) ? 8 : 0); }
-function regField(mod, rex) { return ((mod >> 3) & 7) + ((rex & 4) ? 8 : 0); }
-
-function movRmReg(cpu, mod, rex) { const v = getReg(cpu, regField(mod, rex)); if ((mod & 0xC0) === 0xC0) setReg(cpu, regFromRm(mod, rex), v); else cpu.mem.set(memAddr(cpu, mod), v); }
-function movRegRm(cpu, mod, rex) { const dst = regField(mod, rex); if ((mod & 0xC0) === 0xC0) setReg(cpu, dst, getReg(cpu, regFromRm(mod, rex))); else setReg(cpu, dst, cpu.mem.get(memAddr(cpu, mod)) || 0); }
-function movRmImm(cpu, mod) { const direct=(mod&0xC0)===0xC0, addr=direct?0:memAddr(cpu,mod), val=cpu.u32(); if (direct) setReg(cpu, regFromRm(mod,0), val); else cpu.mem.set(addr, val); }
-function lea(cpu, mod, rex) { const dst = regField(mod, rex); if ((mod & 7) === 5) setReg(cpu, dst, cpu.rva() + 4 + cpu.i32()); else setReg(cpu, dst, memAddr(cpu, mod)); }
-function memAddr(cpu, mod) {
-  const rm = mod & 7, mode = mod & 0xC0;
-  const base = rm === 4 ? (cpu.u8(), cpu.regs.rsp) : getReg(cpu, rm);
-  if (mode === 0x40) return base + cpu.i8();
-  if (mode === 0x80) return base + cpu.i32();
-  return base;
-}
+function setReg(cpu, idx, val) { cpu.regs[REG[idx]] = val >>> 0; if (idx < LOW32.length) cpu.regs[LOW32[idx]] = val >>> 0; }
+function rw(rex) { return (rex & 8) !== 0; }
+function rr(rex) { return (rex & 4) ? 8 : 0; }
+function rx(rex) { return (rex & 2) ? 8 : 0; }
+function rb(rex) { return (rex & 1) ? 8 : 0; }
+function sign(v, bits) { const m = 1 << (bits - 1); return (v & m) ? v - (1 << bits) : v; }
 function setFlags(cpu, v) { cpu.flags.z = (v >>> 0) === 0; cpu.flags.s = v < 0; }
 function take(cpu, op) {
   if (op === 0x85) return !cpu.flags.z;

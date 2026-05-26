@@ -1,0 +1,413 @@
+{
+  "entry": {
+    "actionId": "act_mpmxvdfv_387d3663",
+    "inputRef": "cmd_act_mpmxvdfv_387d3663",
+    "outputRef": ".awtsmoos/actions/results/act_mpmxvdfv_387d3663.json",
+    "parentActionId": null,
+    "action": "write",
+    "input": {
+      "kind": "fs",
+      "action": "write",
+      "path": "geelooy/apps/tunnel/agent/main.js",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 5,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 80,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "// B\"H\r\nconst os = require(\"os\");\r\nconst http = require(\"http\");\r\nconst https = require(\"https\");\r\nconst { loadConfig, ROOT, HOME } = require(\"./lib/config.js\");\r\nconst { makeLogger } = require(\"./lib/log.js\");\r\nconst { openHostedControl } = require(\"./lib/open.js\");\r\nconst { TinyWebSocket } = require(\"./lib/ws.js\");\r\nconst { handleFs } = require(\"./tools/fs/index.js\");\r\nconst { handleCommand } = require(\"./tools/command/index.js\");\r\nconst { handleChrome } = require(\"./tools/chrome/index.js\");\r\nconst { AGENT_VERSION } = require(\"./tools/fs/actions.js\");\r\n\r\nconst log = makeLogger(ROOT);\r\n\r\nconst CPU_COUNT = Math.max(1, os.cpus?.().length || 1);\r\nconst MAX_INFLIGHT = boundedNumber(process.env.AWTSMOOS_MAX_INFLIGHT, Math.min(16, Math.max(8, CPU_COUNT * 2)), 1, 64);\r\nconst MAX_QUEUE = boundedNumber(process.env.AWTSMOOS_MAX_QUEUE, 1000, 0, 10000);\r\nconst REQUEST_MAX_AGE_MS = boundedNumber(process.env.AWTSMOOS_REQUEST_MAX_AGE_MS, 220000, 1000, 240000);\r\nconst MAX_RESPONSE_BYTES = boundedNumber(process.env.AWTSMOOS_MAX_RESPONSE_BYTES, 80 * 1024 * 1024, 1024 * 1024, 512 * 1024 * 1024);\r\nconst MAX_PROXY_BYTES = boundedNumber(process.env.AWTSMOOS_MAX_PROXY_BYTES, 32 * 1024 * 1024, 1024 * 1024, 256 * 1024 * 1024);\r\n\r\nlet activeWs = null;\r\nlet reconnectTimer = null;\r\nlet reconnecting = false;\r\nlet generation = 0;\r\nconst inflight = new Set();\r\nconst requestQueue = [];\r\n\r\nfunction boundedNumber(value, fallback, min, max) {\r\n  const n = Number(value || fallback);\r\n  if (!Number.isFinite(n)) return fallback;\r\n  return Math.max(min, Math.min(max, Math.floor(n)));\r\n}\r\n\r\nfunction bytesOfJson(obj) {\r\n  try { return Buffer.byteLength(JSON.stringify(obj), \"utf8\"); }\r\n  catch (_e) { return 0; }\r\n}\r\n\r\nfunction safeSend(ws, obj) {\r\n  if (!ws || !ws.opened) return;\r\n  const size = bytesOfJson(obj);\r\n  if (size > MAX_RESPONSE_BYTES) {\r\n    ws.sendJson({\r\n      type: \"TUNNEL_RESPONSE\",\r\n      id: obj.id,\r\n      ok: false,\r\n      status: 413,\r\n      error: \"agent_response_too_large\",\r\n      bytes: size,\r\n      maxBytes: MAX_RESPONSE_BYTES,\r\n      guidance: \"Read with smaller maxChars, offsets, read64 chunks, smaller bulk groups, or outputRef chunks.\"\r\n    });\r\n    return;\r\n  }\r\n  ws.sendJson(obj);\r\n}\r\n\r\nfunction memorySnapshot() {\r\n  const m = process.memoryUsage();\r\n  return {\r\n    rssMB: Math.round(m.rss / 1024 / 1024),\r\n    heapUsedMB: Math.round(m.heapUsed / 1024 / 1024),\r\n    heapTotalMB: Math.round(m.heapTotal / 1024 / 1024),\r\n    externalMB: Math.round(m.external / 1024 / 1024),\r\n    inflight: inflight.size,\r\n    queued: requestQueue.length,\r\n    maxInflight: MAX_INFLIGHT,\r\n    maxQueue: MAX_QUEUE\r\n  };\r\n}\r\n\r\nsetInterval(() => {\r\n  log(\"Memory:\", JSON.stringify(memorySnapshot()));\r\n}, 60000).unref();\r\n\r\nfunction proxyLocalHttp(config, data, ws) {\r\n  if (!config.enableLocalHttpProxy || !config.tools.httpProxy) {\r\n    safeSend(ws, { type: \"TUNNEL_RESPONSE\", id: data.id, ok: false, status: 403, error: \"Local HTTP proxy disabled.\" });\r\n    return;\r\n  }\r\n\r\n  const p = data.payload || {};\r\n  const target = new URL(p.url || \"/\", config.local);\r\n  const lib = target.protocol === \"https:\" ? https : http;\r\n  const body = p.body ? Buffer.from(p.body, \"base64\") : null;\r\n\r\n  const req = lib.request(target, { method: p.method || \"GET\", headers: { ...(p.headers || {}), host: target.host } }, res => {\r\n    const chunks = [];\r\n    let total = 0;\r\n    let aborted = false;\r\n\r\n    res.on(\"data\", c => {\r\n      total += c.length;\r\n      if (total > MAX_PROXY_BYTES) {\r\n        aborted = true;\r\n        req.destroy();\r\n        safeSend(ws, { type: \"TUNNEL_RESPONSE\", id: data.id, ok: false, status: 413, error: \"local_proxy_response_too_large\", bytes: total, maxBytes: MAX_PROXY_BYTES });\r\n        return;\r\n      }\r\n      chunks.push(c);\r\n    });\r\n\r\n    res.on(\"end\", () => {\r\n      if (aborted) return;\r\n      safeSend(ws, { type: \"TUNNEL_RESPONSE\", id: data.id, status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks).toString(\"base64\") });\r\n    });\r\n  });\r\n\r\n  req.on(\"error\", err => {\r\n    safeSend(ws, { type: \"TUNNEL_RESPONSE\", id: data.id, status: 502, headers: { \"content-type\": \"text/plain\" }, body: Buffer.from(err.message).toString(\"base64\") });\r\n  });\r\n\r\n  if (body) req.write(body);\r\n  req.end();\r\n}\r\n\r\nfunction register(ws) {\r\n  const config = loadConfig();\r\n  ws.sendJson({\r\n    type: \"TUNNEL_REGISTER\",\r\n    name: config.tunnelName,\r\n    deviceName: os.hostname(),\r\n    root: config.root || HOME,\r\n    allowWrite: config.allowWrite,\r\n    allowSecrets: config.allowSecrets,\r\n    allowCommands: config.allowCommands,\r\n    agentVersion: AGENT_VERSION,\r\n    tools: config.tools,\r\n    chrome: config.chrome,\r\n    command: config.command,\r\n    limits: { maxInflight: MAX_INFLIGHT, maxQueue: MAX_QUEUE, requestMaxAgeMs: REQUEST_MAX_AGE_MS, maxResponseBytes: MAX_RESPONSE_BYTES, maxProxyBytes: MAX_PROXY_BYTES }\r\n  });\r\n  log(\"Tunnel connected:\", config.tunnelName, \"root:\", config.root || HOME);\r\n}\r\n\r\nfunction enqueueRequest(ws, data) {\r\n  if (requestQueue.length >= MAX_QUEUE) {\r\n    safeSend(ws, {\r\n      type: \"TUNNEL_RESPONSE\",\r\n      id: data.id,\r\n      ok: false,\r\n      status: 429,\r\n      error: \"agent_queue_full\",\r\n      inflight: inflight.size,\r\n      queued: requestQueue.length,\r\n      maxInflight: MAX_INFLIGHT,\r\n      maxQueue: MAX_QUEUE,\r\n      guidance: \"The agent accepted many requests already. Retry after the queue drains, or raise AWTSMOOS_MAX_QUEUE carefully.\"\r\n    });\r\n    return;\r\n  }\r\n  requestQueue.push({ ws, data, enqueuedAt: Date.now() });\r\n  drainQueue();\r\n}\r\n\r\nfunction drainQueue() {\r\n  while (inflight.size < MAX_INFLIGHT && requestQueue.length) {\r\n    const item = requestQueue.shift();\r\n    if (!item.ws || !item.ws.opened) continue;\r\n    const ageMs = Date.now() - item.enqueuedAt;\r\n    if (ageMs > REQUEST_MAX_AGE_MS) {\r\n      safeSend(item.ws, {\r\n        type: \"TUNNEL_RESPONSE\",\r\n        id: item.data.id,\r\n        ok: false,\r\n        status: 504,\r\n        error: \"agent_queue_timeout\",\r\n        queuedMs: ageMs,\r\n        maxQueuedMs: REQUEST_MAX_AGE_MS,\r\n        guidance: \"The request waited too long in the local queue. Retry with smaller work or raise AWTSMOOS_REQUEST_MAX_AGE_MS carefully.\"\r\n      });\r\n      continue;\r\n    }\r\n    runRequest(item.ws, item.data, item.enqueuedAt);\r\n  }\r\n}\r\n\r\nasync function runRequest(ws, data, enqueuedAt) {\r\n  const token = data.id || Date.now() + \"_\" + Math.random().toString(36).slice(2);\r\n  inflight.add(token);\r\n  try {\r\n    const payload = data.payload || {};\r\n    let result;\r\n    if (payload.kind === \"fs\") result = await handleFs(payload, ws);\r\n    else if (payload.kind === \"command\") result = await handleCommand(payload);\r\n    else if (payload.kind === \"chrome\") result = await handleChrome(payload);\r\n    else {\r\n      proxyLocalHttp(loadConfig(), data, ws);\r\n      return;\r\n    }\r\n\r\n    safeSend(ws, {\r\n      type: \"TUNNEL_RESPONSE\",\r\n      id: data.id,\r\n      queuedMs: Math.max(0, Date.now() - enqueuedAt),\r\n      queueStats: { inflight: inflight.size, queued: requestQueue.length, maxInflight: MAX_INFLIGHT, maxQueue: MAX_QUEUE },\r\n      ...result\r\n    });\r\n  } catch (e) {\r\n    safeSend(ws, { type: \"TUNNEL_RESPONSE\", id: data.id, ok: false, status: 500, error: e.message, stack: e.stack });\r\n  } finally {\r\n    inflight.delete(token);\r\n    setImmediate(drainQueue);\r\n  }\r\n}\r\n\r\nfunction handleRequest(ws, data) {\r\n  enqueueRequest(ws, data);\r\n}\r\n\r\nfunction scheduleReconnect(reason) {\r\n  if (reconnecting) return;\r\n  reconnecting = true;\r\n  clearTimeout(reconnectTimer);\r\n  log(\"Tunnel reconnect scheduled:\", reason || \"unknown\", JSON.stringify(memorySnapshot()));\r\n  reconnectTimer = setTimeout(() => {\r\n    reconnecting = false;\r\n    connect();\r\n  }, 2000);\r\n  reconnectTimer.unref?.();\r\n}\r\n\r\nfunction connect() {\r\n  generation++;\r\n  if (activeWs) {\r\n    try { activeWs.removeAllListeners(); } catch (_e) {}\r\n    try { activeWs.close(true); } catch (_e) {}\r\n    activeWs = null;\r\n  }\r\n\r\n  const myGeneration = generation;\r\n  const config = loadConfig();\r\n  const ws = new TinyWebSocket(config.relay);\r\n  activeWs = ws;\r\n\r\n  ws.on(\"open\", () => {\r\n    if (myGeneration !== generation) return;\r\n    register(ws);\r\n  });\r\n\r\n  ws.on(\"message\", msg => {\r\n    if (myGeneration !== generation) return;\r\n    let data;\r\n    try { data = JSON.parse(msg); }\r\n    catch (_e) { return; }\r\n    if (data.type === \"TUNNEL_REPLACED\") {\r\n      log(\"Tunnel replaced by newer connection.\");\r\n      return;\r\n    }\r\n    if (data.type !== \"TUNNEL_REQUEST\") return;\r\n    handleRequest(ws, data);\r\n  });\r\n\r\n  ws.once(\"close\", () => {\r\n    if (myGeneration !== generation) return;\r\n    scheduleReconnect(\"close\");\r\n  });\r\n\r\n  ws.on(\"error\", err => {\r\n    if (myGeneration !== generation) return;\r\n    log(\"Tunnel error:\", err.message);\r\n  });\r\n\r\n  ws.connect();\r\n}\r\n\r\nfunction main() {\r\n  const config = loadConfig();\r\n  log('B\"H Awtsmoos split agent starting.');\r\n  log(\"Config root dir:\", ROOT);\r\n  log(\"Tunnel name:\", config.tunnelName);\r\n  log(\"Project root:\", config.root || HOME);\r\n  log(\"Limits:\", JSON.stringify({ MAX_INFLIGHT, MAX_QUEUE, REQUEST_MAX_AGE_MS, MAX_RESPONSE_BYTES, MAX_PROXY_BYTES }));\r\n  if (process.argv.includes(\"--open-control\")) openHostedControl(config);\r\n  connect();\r\n}\r\n\r\nprocess.on(\"uncaughtException\", err => {\r\n  log(\"Uncaught exception:\", err.stack || err.message);\r\n});\r\n\r\nprocess.on(\"unhandledRejection\", err => {\r\n  log(\"Unhandled rejection:\", err && (err.stack || err.message || String(err)));\r\n});\r\n\r\nmain();\r\n",
+      "find": "",
+      "query": "",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": false,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 4000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:58:35.467Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "write",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "geelooy/apps/tunnel/agent/main.js",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\geelooy\\apps\\tunnel\\agent\\main.js",
+    "bytes": 9470,
+    "jsVerification": {
+      "ok": true,
+      "syntax": {
+        "ok": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "staticHints": [
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "loadConfig",
+          "index": 88
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ROOT",
+          "index": 100
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "HOME",
+          "index": 106
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "makeLogger",
+          "index": 136
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "openHostedControl",
+          "index": 172
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "TinyWebSocket",
+          "index": 215
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "handleFs",
+          "index": 254
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "handleCommand",
+          "index": 288
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "handleChrome",
+          "index": 327
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "AGENT_VERSION",
+          "index": 365
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "type",
+          "index": 1696
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "id",
+          "index": 1712
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "ok",
+          "index": 1731
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "status",
+          "index": 1749
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "error",
+          "index": 1769
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "bytes",
+          "index": 1786
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "maxBytes",
+          "index": 1806
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "guidance",
+          "index": 1843
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "rssMB",
+          "index": 1990
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "heapUsedMB",
+          "index": 2035
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "heapTotalMB",
+          "index": 2090
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "externalMB",
+          "index": 2147
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "queued",
+          "index": 2232
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "maxInflight",
+          "index": 2266
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "maxQueue",
+          "index": 2298
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "method",
+          "index": 2861
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "headers",
+          "index": 2884
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "host",
+          "index": 2917
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "res",
+          "index": 2940
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "c",
+          "index": 3036
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "err",
+          "index": 3556
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "name",
+          "index": 3837
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "deviceName",
+          "index": 3867
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "root",
+          "index": 3899
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "allowWrite",
+          "index": 3931
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "allowSecrets",
+          "index": 3967
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "allowCommands",
+          "index": 4007
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "agentVersion",
+          "index": 4049
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "tools",
+          "index": 4083
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "chrome",
+          "index": 4109
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "command",
+          "index": 4137
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "limits",
+          "index": 4167
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "requestMaxAgeMs",
+          "index": 4225
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "maxResponseBytes",
+          "index": 4262
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "maxProxyBytes",
+          "index": 4300
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "queuedMs",
+          "index": 5256
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "maxQueuedMs",
+          "index": 5282
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "queueStats",
+          "index": 6072
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "stack",
+          "index": 6317
+        },
+        {
+          "kind": "possible_undefined_identifier",
+          "id": "setImmediate",
+          "index": 6385
+        }
+      ]
+    },
+    "runtimeVerification": null
+  }
+}

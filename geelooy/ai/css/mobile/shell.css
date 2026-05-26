@@ -1,31 +1,54 @@
-/* B"H — mobile shell: side panels become real reachable rows, not overlays */
+/* B"H — mobile shell: one true viewport, no sideways desert */
 @media (max-width: 680px) {
-  html, body { min-width: 0; width: 100%; height: 100%; overflow: hidden; }
+  :root { --ai-mobile-gap: 6px; }
+  html, body {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+  }
+  body { position: fixed !important; inset: 0 !important; }
+  body::before, body::after { max-width: 100vw !important; overflow: hidden !important; }
   .container {
-    width: 100vw !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
     height: 100dvh !important;
+    max-height: 100dvh !important;
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
     grid-template-rows: auto minmax(0, 1fr) auto !important;
     grid-template-areas: "left" "main" "right" !important;
-    gap: 6px !important;
+    gap: var(--ai-mobile-gap) !important;
     padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom)) !important;
     overflow: hidden !important;
+    transform: none !important;
     background: radial-gradient(circle at 50% 0, rgba(34,211,238,.13), transparent 42%), #020711 !important;
+  }
+  .container > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    transform: none !important;
   }
   #left-resizer, #right-resizer, #composer-resizer { display: none !important; }
   .main {
     grid-area: main !important;
+    width: 100% !important;
     min-height: 0 !important;
     min-width: 0 !important;
+    overflow: hidden !important;
     border-radius: 18px !important;
     grid-template-rows: auto minmax(0, 1fr) minmax(112px, auto) !important;
     grid-template-areas: "transport" "chat" "composer" !important;
   }
   #transport-status {
     min-height: 36px !important;
+    max-width: 100% !important;
     overflow: auto !important;
     white-space: nowrap !important;
   }
-  #chat-box { min-height: 0 !important; overflow: auto !important; }
+  #chat-box { min-height: 0 !important; max-width: 100% !important; overflow: auto !important; }
 }

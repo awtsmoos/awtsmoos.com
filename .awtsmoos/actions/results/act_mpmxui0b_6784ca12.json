@@ -1,0 +1,523 @@
+{
+  "entry": {
+    "actionId": "act_mpmxui0b_6784ca12",
+    "inputRef": "cmd_act_mpmxui0b_6784ca12",
+    "outputRef": ".awtsmoos/actions/results/act_mpmxui0b_6784ca12.json",
+    "parentActionId": null,
+    "action": "rg",
+    "input": {
+      "kind": "fs",
+      "action": "rg",
+      "path": "ayzarim",
+      "absolutePath": "",
+      "paths": [],
+      "files": null,
+      "writes": null,
+      "edits": [],
+      "ranges": [],
+      "depth": 2,
+      "limit": 150,
+      "maxChars": 12000,
+      "totalMaxChars": 24000,
+      "maxFiles": 500,
+      "maxRanges": 20,
+      "maxEntries": 3000,
+      "offsetChars": 0,
+      "maxBytes": 24000,
+      "offsetBytes": 0,
+      "startLine": 1,
+      "endLine": 250,
+      "maxResults": 120,
+      "maxFileBytes": 800000,
+      "sinceMinutes": 120,
+      "minBytes": 500000,
+      "modifiedAfterMs": 0,
+      "indent": 2,
+      "content": "",
+      "find": "",
+      "query": "maxInflight|inflight|agent_busy|sendTunnelRequest|Tunnel timeout|timeoutMs|queue|pending",
+      "replace": "",
+      "expectedSha256": "",
+      "sha256": "",
+      "ext": "",
+      "from": "",
+      "to": "",
+      "source": "",
+      "dest": "",
+      "target": "",
+      "expectedSourceSha256": "",
+      "dryRun": true,
+      "confirm": false,
+      "headers": {},
+      "body": "",
+      "bodyEncoding": "utf8",
+      "method": "GET",
+      "cookieJarName": "",
+      "jar": "",
+      "useCookies": true,
+      "saveCookies": true,
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "responseBodyMode": "text",
+      "saveResponseTo": "",
+      "includeValues": false,
+      "name": "",
+      "value": "",
+      "domain": "",
+      "expires": "",
+      "secure": false,
+      "httpOnly": false,
+      "sameSite": "",
+      "storageType": "",
+      "localStorage": {},
+      "sessionStorage": {},
+      "cookies": [],
+      "regex": true,
+      "replaceAll": true,
+      "includeDirs": false,
+      "write": false,
+      "command": "",
+      "scriptText": "",
+      "input": {},
+      "shell": "",
+      "cwd": "",
+      "timeoutMs": 240000,
+      "url": "",
+      "selector": "",
+      "text": "",
+      "expression": "",
+      "script": [],
+      "port": 9222,
+      "chromePath": "",
+      "userDataDir": "",
+      "headless": false,
+      "clearLogs": false,
+      "snapshot": true,
+      "fullPage": true,
+      "failedOnly": true,
+      "assertNoConsoleErrors": false,
+      "maxLogs": 200,
+      "waitMs": 0,
+      "selectorTimeoutMs": 10000,
+      "maxText": 20000,
+      "maxHtml": 0,
+      "format": "png",
+      "host": "",
+      "index": "",
+      "serverId": "",
+      "spaFallback": false,
+      "cors": false,
+      "keepServer": false,
+      "keepSandbox": false,
+      "sandboxId": "",
+      "entry": "",
+      "urlPath": "",
+      "testCode": "",
+      "html": "",
+      "packageJson": null,
+      "checkOnly": false,
+      "workflowName": "",
+      "workflow": null,
+      "steps": [],
+      "probes": [],
+      "interactions": [],
+      "returnValues": [],
+      "values": [],
+      "params": {},
+      "maxSteps": 50,
+      "maxIterations": 20,
+      "maxStepOutputChars": 12000,
+      "responseMode": "inline",
+      "maxInlineBytes": 12000,
+      "ttlSeconds": 300,
+      "page": 1,
+      "pageSize": 50,
+      "sort": "",
+      "order": "asc",
+      "tunnelName": "awt-yackov-yitzchak-3750",
+      "controlBaseUrl": "https://awtsmoos.com/api/tunnel/control/fs/awt-yackov-yitzchak-3750"
+    },
+    "ok": true,
+    "createdAt": "2026-05-26T17:57:54.731Z"
+  },
+  "output": {
+    "ok": true,
+    "action": "rg",
+    "root": "C:/Users/Yackov Yitzchak/Documents/WoW/BH/awtsmoos.com",
+    "path": "ayzarim",
+    "absolutePath": "C:\\Users\\Yackov Yitzchak\\Documents\\WoW\\BH\\awtsmoos.com\\ayzarim",
+    "query": "maxInflight|inflight|agent_busy|sendTunnelRequest|Tunnel timeout|timeoutMs|queue|pending",
+    "page": 1,
+    "pageSize": 50,
+    "totalResults": 120,
+    "returnedResults": 50,
+    "hasNextPage": true,
+    "nextPage": 2,
+    "nextRequest": {
+      "action": "rg",
+      "p": "ayzarim",
+      "query": "maxInflight|inflight|agent_busy|sendTunnelRequest|Tunnel timeout|timeoutMs|queue|pending",
+      "regex": true,
+      "page": 2,
+      "pageSize": 50,
+      "maxFiles": 500,
+      "maxResults": 120,
+      "maxFileBytes": 800000
+    },
+    "scannedFiles": 500,
+    "skippedFiles": 0,
+    "partial": true,
+    "results": [
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js",
+        "line": 8,
+        "preview": "const { sendTunnelRequest } = require(\"./websocket/apps/tunnelRelay.js\");",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4286
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js",
+        "line": 16,
+        "preview": "    this.pendingTunnelRequests = new Map();",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4286
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js",
+        "line": 131,
+        "preview": "  sendTunnelRequest(name, payload, timeout) {",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4286
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js",
+        "line": 132,
+        "preview": "    return sendTunnelRequest(this, name, payload, timeout);",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4286
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 4,
+        "preview": " * Reads an array of job objects from a single queue file, processes them,",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 5,
+        "preview": " * and clears the queue to prevent reprocessing.",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 52,
+        "preview": " * Finds and processes jobs from the generic task queue file.",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 54,
+        "preview": "async function processTaskQueue() {",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 56,
+        "preview": "        const queuePath = \"/_system/jobs/taskQueue\";",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 60,
+        "preview": "            // Step 1: Read the entire job queue array.",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 61,
+        "preview": "            const allJobs = await db.get(queuePath); ",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 66,
+        "preview": "                // Step 2: IMMEDIATELY \"claim\" the jobs by clearing the queue file.",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 67,
+        "preview": "                await db.write(queuePath, []); ",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 68,
+        "preview": "                console.log(`\\nTask Runner: Claimed ${jobsToProcess.length} job(s) from the queue and cleared it.`);",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 70,
+        "preview": "                return; // No jobs to process, or queue is not an array.",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 74,
+        "preview": "                console.error(\"Task Runner: CRITICAL Error reading the job queue file:\", e.stack || e);",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 76,
+        "preview": "            return; // Exit if we can't read the queue (e.g., it doesn't exist yet).",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 79,
+        "preview": "        // Step 3: Process the jobs that we claimed from the queue.",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 82,
+        "preview": "                console.error(\"Task Runner: Found a malformed job in queue, skipping.\", job);",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 102,
+        "preview": "                // already been removed from the queue. A more advanced system might",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 103,
+        "preview": "                // move it to a \"dead letter queue\" for inspection.",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 125,
+        "preview": "        processTaskQueue(); ",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/cleanup-worker.js",
+        "line": 126,
+        "preview": "        setInterval(processTaskQueue, POLLING_INTERVAL_MS);",
+        "mtimeMs": 1779768665435.7432,
+        "sizeBytes": 4993
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 64,
+        "preview": "      status: \"pending\",",
+        "mtimeMs": 1779768665460.2297,
+        "sizeBytes": 6884
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 71,
+        "preview": "    const result = await this.db.arrayAppend(\"/_system/jobs/taskQueue\", jobRecord);",
+        "mtimeMs": 1779768665460.2297,
+        "sizeBytes": 6884
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/server/AwtsmoosStaticServer.js",
+        "line": 74,
+        "preview": "      throw new Error(\"Failed to write job to the queue.\");",
+        "mtimeMs": 1779768665460.2297,
+        "sizeBytes": 6884
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 68,
+        "preview": "  const pending = ctx.pendingTunnelRequests.get(data.id);",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 69,
+        "preview": "  if (!pending) return;",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 71,
+        "preview": "  ctx.pendingTunnelRequests.delete(data.id);",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 72,
+        "preview": "  pending.resolve(data);",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 85,
+        "preview": "function sendTunnelRequest(ctx, name, payload, timeout = FOUR_MINUTES_MS) {",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 93,
+        "preview": "  const timeoutMs = boundedTimeout(timeout);",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 97,
+        "preview": "      ctx.pendingTunnelRequests.delete(id);",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 98,
+        "preview": "      reject(new Error(\"Tunnel timeout after \" + timeoutMs + \"ms\"));",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 99,
+        "preview": "    }, timeoutMs);",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 103,
+        "preview": "    ctx.pendingTunnelRequests.set(id, {",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.js",
+        "line": 126,
+        "preview": "  sendTunnelRequest",
+        "mtimeMs": 1779768665475.1758,
+        "sizeBytes": 3300
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/modify/append.js",
+        "line": 2,
+        "preview": "// Appending to the Object, finding space in the void or extending the expanse.",
+        "mtimeMs": 1779768664811.7056,
+        "sizeBytes": 9998
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/modify/append.js",
+        "line": 152,
+        "preview": "                 // For now, assume overwriteTail will handle appending the tail,",
+        "mtimeMs": 1779768664811.7056,
+        "sizeBytes": 9998
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/modify/helpers.js",
+        "line": 238,
+        "preview": "            console.warn(`B\"H: No free space for rewritten blob (size ${newMetadataBlob.length}). Appending.`);",
+        "mtimeMs": 1779768664813.214,
+        "sizeBytes": 16363
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/array/append.js",
+        "line": 2,
+        "preview": "// Appending to the Array, triggering rewrite if parent offset grows too large.",
+        "mtimeMs": 1779768664820.2214,
+        "sizeBytes": 19231
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/array/append.js",
+        "line": 90,
+        "preview": " * @param {object} [options.targetArrayMetadata=null] - If appending to nested array, pass its metadata.",
+        "mtimeMs": 1779768664820.2214,
+        "sizeBytes": 19231
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/array/append.js",
+        "line": 91,
+        "preview": " * @param {BufferWrapper} [options.parentBufferWrapper=null] - If appending to nested, pass the top-level buffer.",
+        "mtimeMs": 1779768664820.2214,
+        "sizeBytes": 19231
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/array/append.js",
+        "line": 279,
+        "preview": "              // Ensure buffer is large enough if appending (fileBuffer handles this)",
+        "mtimeMs": 1779768664820.2214,
+        "sizeBytes": 19231
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js",
+        "line": 56,
+        "preview": "        pendingBlocksToProcess: [], ",
+        "mtimeMs": 1779768664827.0837,
+        "sizeBytes": 49926
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js",
+        "line": 69,
+        "preview": "        pageTransactionState.pendingBlocksToProcess.push({...options.entry});",
+        "mtimeMs": 1779768664827.0837,
+        "sizeBytes": 49926
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js",
+        "line": 75,
+        "preview": "    while(pageTransactionState.pendingBlocksToProcess.length > 0 && iteration < MAX_ITERATIONS_SAFETY_NET) {",
+        "mtimeMs": 1779768664827.0837,
+        "sizeBytes": 49926
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js",
+        "line": 76,
+        "preview": "        let blockToInsert = pageTransactionState.pendingBlocksToProcess.shift(); ",
+        "mtimeMs": 1779768664827.0837,
+        "sizeBytes": 49926
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js",
+        "line": 89,
+        "preview": "    if (iteration >= MAX_ITERATIONS_SAFETY_NET && pageTransactionState.pendingBlocksToProcess.length > 0) {",
+        "mtimeMs": 1779768664827.0837,
+        "sizeBytes": 49926
+      },
+      {
+        "path": "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/operations/obj/makomChafshee_aiPrompt.js",
+        "line": 90,
+        "preview": "        // console.warn(\"Max iterations reached. Some free blocks may not have been processed:\", pageTransactionState.pendingBlocksToProcess);",
+        "mtimeMs": 1779768664827.0837,
+        "sizeBytes": 49926
+      }
+    ]
+  }
+}
