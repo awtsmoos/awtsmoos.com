@@ -1,5 +1,5 @@
 B"H
-1.0.2
+1.0.3
 main.js
 
 lib/config.js
@@ -7,6 +7,7 @@ lib/log.js
 lib/open.js
 lib/ws.js
 main.js
+manifest.json
 tools/chrome.js
 tools/chrome/actions.js
 tools/chrome/cdp.js

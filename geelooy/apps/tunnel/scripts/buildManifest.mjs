@@ -21,7 +21,6 @@ function walk(dir) {
     const rel = path.relative(agentDir, full).replaceAll("\\", "/");
  
     if (
-      rel === "manifest.json" ||
       rel === "manifest.txt" ||
       rel.includes("/testing/") ||
       rel.includes("/.tmp-") ||
@@ -43,27 +42,39 @@ function bump(version) {
     .map(v => parseInt(v, 10) || 0);
  
   while (parts.length < 3) parts.push(0);
+ 
   parts[2] += 1;
+ 
   return parts.join(".");
 }
  
 let oldVersion = "1.0.0";
  
 if (fs.existsSync(manifestPath)) {
-  const firstLine = fs.readFileSync(manifestPath, "utf8").split(/\r?\n/)[0]?.trim();
-  if (firstLine) oldVersion = firstLine;
+  const first = fs.readFileSync(manifestPath, "utf8")
+    .split(/\r?\n/)
+    .map(v => v.trim())
+    .filter(Boolean);
+ 
+  if (first[1]) oldVersion = first[1];
 }
  
 const nextVersion = bump(oldVersion);
 const entry = "main.js";
+ 
 const files = walk(agentDir).sort();
  
-
-const text = ['B"H', nextVersion, entry, "", ...files, ""].join("\n");
+const text = [
+  'B"H',
+  nextVersion,
+  entry,
+  "",
+  ...files,
+  ""
+].join("\n");
  
 fs.writeFileSync(manifestPath, text, "utf8");
  
-console.log(`B"H wrote ${manifestPath}`);
+console.log(`B"H wrote manifest`);
 console.log(`version ${oldVersion} -> ${nextVersion}`);
-console.log(`entry ${entry}`);
 console.log(`files ${files.length}`);

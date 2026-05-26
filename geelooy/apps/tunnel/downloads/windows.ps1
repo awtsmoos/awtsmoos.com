@@ -21,6 +21,7 @@ function Stop-OldAwtsAgent($root, $entry) {
 $root = Join-Path $env:USERPROFILE ".awtsmoos-tunnel"
 $config = Join-Path $root "config.json"
 $statePath = Join-Path $root "install-state.txt"
+ 
 $manifestUrl = "https://awtsmoos.com/apps/tunnel/agent/manifest.txt"
 $baseUrl = "https://awtsmoos.com/apps/tunnel/agent"
  
@@ -39,33 +40,50 @@ if (-not (Test-Path $config)) {
   } | ConvertTo-Json -Depth 8
  
   Write-Utf8NoBom $config $cfg
-} else {
-  Write-Host "Existing config found. Reusing same tunnel name and settings."
 }
  
-Write-Host "Checking Awtsmoos agent manifest..."
-$lines = (Invoke-WebRequest -Uri $manifestUrl -UseBasicParsing).Content -split "`r?`n"
-$lines = $lines | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" }
+Write-Host "Checking Awtsmoos manifest..."
+ 
+$manifestRaw = Invoke-WebRequest -Uri $manifestUrl -UseBasicParsing
+$manifestText = $manifestRaw.Content
+ 
+$lines = $manifestText -split "`r?`n" |
+  ForEach-Object { $_.Trim() } |
+  Where-Object { $_ -ne "" }
  
 $version = $lines[1]
 $entry = $lines[2]
 $files = $lines | Select-Object -Skip 3
  
-$oldVersion = ""
+$installedVersion = ""
+ 
 if (Test-Path $statePath) {
-  $oldVersion = (Get-Content -Raw $statePath).Trim()
+  $installedVersion = (Get-Content -Raw $statePath).Trim()
 }
  
-if ($oldVersion -eq $version -and (Test-Path (Join-Path $root $entry))) {
-  Write-Host "Awtsmoos agent version $version is already installed. Restarting only." -ForegroundColor Green
+if (
+  $installedVersion -eq $version -and
+  (Test-Path (Join-Path $root $entry))
+) {
+  Write-Host "Awtsmoos version $version already installed."
 } else {
-  Write-Host "Installing Awtsmoos agent version $version..."
+  Write-Host "Installing Awtsmoos version $version..."
  
   foreach ($path in $files) {
     $dest = Join-Path $root $path
-    New-Item -ItemType Directory -Force -Path (Split-Path $dest -Parent) | Out-Null
+ 
+    New-Item `
+      -ItemType Directory `
+      -Force `
+      -Path (Split-Path $dest -Parent) | Out-Null
+ 
+    $url = "$baseUrl/$path"
+ 
     Write-Host "Downloading $path..."
-    Invoke-WebRequest -Uri "$baseUrl/$path" -OutFile $dest
+ 
+    Invoke-WebRequest `
+      -Uri $url `
+      -OutFile $dest
   }
  
   Write-Utf8NoBom $statePath $version
@@ -75,4 +93,5 @@ Stop-OldAwtsAgent $root $entry
  
 Write-Host ""
 Write-Host "Starting Awtsmoos background agent..." -ForegroundColor Green
+ 
 & node (Join-Path $root $entry) --open-control
