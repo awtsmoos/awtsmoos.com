@@ -11,6 +11,7 @@
 import { CHOSSID_GLB_PATH } from "./ChossidGlbPath.js";
 
 let directLoader = null;
+let chossidGltfPromise = null;
 
 /**
  * B"H
@@ -38,7 +39,7 @@ function getCapabilityModelLoader(olam) {
 
 async function getDirectThreeLoader() {
   if (directLoader) return directLoader;
-  const mod = await import("three/addons/loaders/GLTFLoader.js");
+  const mod = await import("/games/scripts/jsm/loaders/GLTFLoader.js");
   directLoader = new mod.GLTFLoader();
   return directLoader;
 }
@@ -56,6 +57,13 @@ function asGltfEnvelope(model) {
  * @returns {Promise<any>} Loaded GLTF-like envelope.
  */
 export async function loadFreshChossidGltf(olam) {
+  if (chossidGltfPromise) return chossidGltfPromise;
+
+  chossidGltfPromise = loadChossidGltfOnce(olam);
+  return chossidGltfPromise;
+}
+
+async function loadChossidGltfOnce(olam) {
   const capabilityLoadModel = getCapabilityModelLoader(olam);
   if (capabilityLoadModel) {
     return asGltfEnvelope(await capabilityLoadModel(CHOSSID_GLB_PATH));

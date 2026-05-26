@@ -64,76 +64,58 @@ function readState() {
   catch (_) { return null; }
 }
 
+function fileMatches(file) {
+  const target = path.join(root, file.path);
+  if (!fs.existsSync(target)) return false;
+  const bytes = fs.readFileSync(target);
+  const sha = crypto.createHash("sha256").update(bytes).digest("hex");
+  return bytes.length === file.bytes && sha === file.sha256;
+}
+
+function changedFiles() {
+  if (!Array.isArray(manifest.files)) return [];
+  return manifest.files.filter(file => !fileMatches(file));
+}
+
 function installedFilesMatch() {
-  if (!Array.isArray(manifest.files)) return false;
+  return changedFiles().length === 0;
+}
 
-  for (const file of manifest.files) {
-    const target = path.join(root, file.path);
-    if (!fs.existsSync(target)) return false;
-
-    const bytes = fs.readFileSync(target);
-    const sha = crypto.createHash("sha256").update(bytes).digest("hex");
-    if (bytes.length !== file.bytes || sha !== file.sha256) return false;
+function compareVersion(a, b) {
+  const left = String(a || "").split(".").map(Number);
+  const right = String(b || "").split(".").map(Number);
+  for (let i = 0; i < Math.max(left.length, right.length); i++) {
+    const x = Number.isFinite(left[i]) ? left[i] : 0;
+    const y = Number.isFinite(right[i]) ? right[i] : 0;
+    if (x > y) return 1;
+    if (x < y) return -1;
   }
-
-  return true;
+  return 0;
 }
 
 function upToDate(state) {
   if (!state || !state.version) return false;
   if (!fs.existsSync(path.join(root, manifest.entry || "main.js"))) return false;
   if (!installedFilesMatch()) return false;
-
-  try {
-    const installed = String(state.version).split(".").map(Number);
-    const incoming = String(manifest.version).split(".").map(Number);
-
-    for (let i = 0; i < Math.max(installed.length, incoming.length); i++) {
-      const a = installed[i] || 0;
-      const b = incoming[i] || 0;
-      if (a > b) return true;
-      if (a < b) return false;
-    }
-
-    return true;
-  } catch (_) {
-    return state.version === manifest.version;
-  }
+  return compareVersion(state.version, manifest.version) >= 0;
 }
 
 function download(url, dest) {
   return new Promise((resolve, reject) => {
     fs.mkdirSync(path.dirname(dest), { recursive: true });
     const file = fs.createWriteStream(dest);
-
     https.get(url, res => {
       if (res.statusCode !== 200) {
         reject(new Error("HTTP " + res.statusCode + " for " + url));
         return;
       }
-
       res.pipe(file);
       file.on("finish", () => file.close(resolve));
     }).on("error", reject);
   });
 }
 
-(async () => {
-  const state = readState();
-
-  if (upToDate(state)) {
-    console.log("Awtsmoos agent version " + manifest.version + " is already installed. Restarting only.");
-    return;
-  }
-
-  console.log("Updating Awtsmoos agent to version " + manifest.version + "...");
-  for (const file of manifest.files) {
-    const url = "https://awtsmoos.com/apps/tunnel/agent/" + file.path;
-    const dest = path.join(root, file.path);
-    console.log("Downloading " + file.path + "...");
-    await download(url, dest);
-  }
-
+function writeState() {
   fs.writeFileSync(statePath, JSON.stringify({
     BH: 'B"H',
     version: manifest.version,
@@ -141,6 +123,31 @@ function download(url, dest) {
     installedAt: new Date().toISOString(),
     files: manifest.files
   }, null, 2), "utf8");
+}
+
+(async () => {
+  const state = readState();
+  if (upToDate(state)) {
+    console.log("Awtsmoos agent version " + manifest.version + " is already installed. Restarting only.");
+    return;
+  }
+
+  const changed = changedFiles();
+  if (changed.length === 0) {
+    console.log("Agent files already match manifest. Recording version " + manifest.version + " without downloads.");
+    writeState();
+    return;
+  }
+
+  console.log("Updating Awtsmoos agent to version " + manifest.version + ": " + changed.length + " changed file(s)...");
+  for (const file of changed) {
+    const url = "https://awtsmoos.com/apps/tunnel/agent/" + file.path;
+    const dest = path.join(root, file.path);
+    console.log("Downloading " + file.path + "...");
+    await download(url, dest);
+    if (!fileMatches(file)) throw new Error("Downloaded hash mismatch for " + file.path);
+  }
+  writeState();
 })();
 NODE
 

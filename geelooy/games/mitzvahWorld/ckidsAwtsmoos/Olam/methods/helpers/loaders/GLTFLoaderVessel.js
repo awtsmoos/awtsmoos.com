@@ -25,12 +25,17 @@ export default class GLTFLoaderVessel {
                 let blob = await AssetCache.get(url);
                 let fetchUrl = url;
 
-                if (blob) {
-                    LoaderMonitor.logLoad("GLTF", url, "LOCATED_IN_MEMORY");
-                    fetchUrl = URL.createObjectURL(blob);
-                } else {
+                if (!blob) {
                     LoaderMonitor.logLoad("GLTF", url, "PULLING_FROM_NETWORK");
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    blob = await response.blob();
+                    await AssetCache.put(url, blob);
+                } else {
+                    LoaderMonitor.logLoad("GLTF", url, "LOCATED_IN_MEMORY");
                 }
+
+                fetchUrl = URL.createObjectURL(blob);
 
                 const { GLTFLoader } = await import('/games/scripts/jsm/loaders/GLTFLoader.js');
                 const loader = new GLTFLoader();
@@ -50,7 +55,7 @@ export default class GLTFLoaderVessel {
                 // B"H: silent
 
 
-                if (blob) URL.revokeObjectURL(fetchUrl);
+                URL.revokeObjectURL(fetchUrl);
 
                 LoaderMonitor.logLoad("GLTF", url, "VESSEL_SOLIDIFIED");
                 return gltf;

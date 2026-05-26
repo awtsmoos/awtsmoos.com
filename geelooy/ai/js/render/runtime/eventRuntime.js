@@ -116,10 +116,6 @@ function shouldFreezeOpenEventNode(node) {
   return Boolean(node?.querySelector?.("details[open], .transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen"));
 }
 
-function shouldFreezeOpenEventNode(node) {
-  return Boolean(node?.querySelector?.("details[open], .transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen"));
-}
-
 function shouldAnchorLiveMutation(node) {
   const scroller = node?.closest?.(".chat-box");
   return Boolean(scroller && Date.now() < Number(scroller.__awtsmoosPanelInteractionUntil || 0));

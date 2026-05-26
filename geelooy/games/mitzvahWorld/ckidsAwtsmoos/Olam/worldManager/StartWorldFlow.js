@@ -120,13 +120,13 @@ const StartWorldFlow = {
     setTimeout(() => {
       if (!manager._vesselIsReady) {
         console.warn(
-          'B"H - Diagnostic: Worker has not sent vessel_ready after 45s. ' +
+          'B"H - Diagnostic: Worker has not sent vessel_ready after 90s. ' +
           'Check module paths and MIME headers.'
         );
       } else if (!manager._pawsawchDispatched) {
         console.warn('B"H - Diagnostic: vessel_ready received but pawsawch not dispatched.');
       } else if (!manager._canvasTransferred) {
-        console.warn('B"H - Diagnostic: Canvas not yet transferred. Meshes may still be forging.');
+        console.info('B"H - Diagnostic: Canvas not yet transferred. Meshes may still be forging.');
       }
     }, 90000);
 

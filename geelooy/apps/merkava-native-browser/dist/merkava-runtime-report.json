@@ -119,7 +119,7 @@
       "threads.spawnWorker",
       "threads.postMessage"
     ],
-    "dom": "executor-owned; native DOM code is transitional diagnostic only",
+    "dom": "executor-owned; native DOM renderer disabled in C host",
     "webgl": "executor lowers JS/WebGL semantics into bytecode ops; C maps bytecode ops to OpenGL",
     "next": "boot embedded_executor.merkava first, then let it load and compile page bytecode"
   },

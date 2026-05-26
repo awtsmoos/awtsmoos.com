@@ -26,22 +26,38 @@ function walk(dir, prefix = "") {
     }
     if (!entry.isFile() || !/\.(js|json)$/i.test(entry.name)) return [];
     const data = fs.readFileSync(full);
-    return [{
-      path: rel,
-      bytes: data.length,
-      sha256: crypto.createHash("sha256").update(data).digest("hex")
-    }];
+    return [{ path: rel, bytes: data.length, sha256: crypto.createHash("sha256").update(data).digest("hex") }];
   });
 }
 
+function sameFiles(a = [], b = []) {
+  if (a.length !== b.length) return false;
+  const left = [...a].sort((x, y) => x.path.localeCompare(y.path));
+  const right = [...b].sort((x, y) => x.path.localeCompare(y.path));
+  return left.every((file, i) =>
+    file.path === right[i].path &&
+    file.bytes === right[i].bytes &&
+    file.sha256 === right[i].sha256
+  );
+}
+
 const current = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+const files = walk(agentRoot).sort((a, b) => a.path.localeCompare(b.path));
+const unchanged = sameFiles(files, current.files || []);
 const manifest = {
   BH: current.BH || "B\"H",
-  version: bumpPatch(current.version),
-  previousVersion: current.version || null,
+  version: unchanged ? current.version : bumpPatch(current.version),
+  previousVersion: unchanged ? current.previousVersion || null : current.version || null,
   entry: current.entry || "main.js",
-  files: walk(agentRoot).sort((a, b) => a.path.localeCompare(b.path))
+  files
 };
 
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n", "utf8");
-console.log(JSON.stringify({ ok: true, previousVersion: manifest.previousVersion, version: manifest.version, files: manifest.files.length, manifestPath }, null, 2));
+console.log(JSON.stringify({
+  ok: true,
+  unchanged,
+  previousVersion: manifest.previousVersion,
+  version: manifest.version,
+  files: manifest.files.length,
+  manifestPath
+}, null, 2));

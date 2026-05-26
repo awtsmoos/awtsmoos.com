@@ -34,6 +34,14 @@ cases.push(['version', run(['--version']), out => {
 
 cases.push(['bytecode-check', run(['--check', 'sample.merkava']), out => {
   assertIncludes('bytecode-check', out.stdout, 'ok=1');
+  assertIncludes('bytecode-check', out.stdout, 'bytecode-vm=bytecode-vm-host');
+}]);
+
+cases.push(['bytecode-vm-loads-embedded-executor', run(['--bytecode-vm-test', 'embedded_executor.merkava']), out => {
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'bytecode-vm-test ok=1');
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'mode=bytecode-vm-host');
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'hostBindings=36');
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'renderOps=');
 }]);
 
 cases.push(['js-check', run(['--check', '..\\samples\\app.js']), out => {
@@ -71,7 +79,7 @@ cases.push(['index-navigation-renders-executor-stream', run(['--nav-test', '/ind
   assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'pageKind=merkava-executor-render-stream');
   assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'pageTitle=/index.html');
   assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'status=loaded MerkavaExecutor render stream: /index.html');
-  assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'domCount=0');
+  assertIncludes('index-navigation-renders-executor-stream', out.stdout, 'nativeDom=disabled');
 }]);
 
 cases.push(['address-hitbox-aligns-with-rendered-bar', run(['--hit-test', '960', '540', '175', '45']), out => {
@@ -84,8 +92,7 @@ cases.push(['address-hitbox-aligns-with-rendered-bar', run(['--hit-test', '960',
 
 cases.push(['local-html-does-not-use-c-dom-fallback', run(['--nav-test', '..\\samples\\frontend.html']), out => {
   assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'pageKind=file');
-  assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'domCount=0');
-  assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'canvas=-1');
+  assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'nativeDom=disabled');
   assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'waiting for MerkavaExecutor render ops');
 }]);
 

@@ -173,6 +173,16 @@ async function main() {
     assert.equal(aliasB.status, 200, `aliasB response: ${aliasB.text}`);
     assert.ok(aliasB.json?.aliasId || aliasB.json?.success || aliasB.json?.id, `aliasB response: ${aliasB.text}`);
 
+    const authorityDb = new DosDB(dbRoot);
+    await authorityDb.init();
+    await authorityDb.write(`/social/heichelos/${heichelId}/info`, {
+      name: `${runId} Heichel`,
+      description: 'Real smoke heichel for comment tree UI/API writes.',
+      author: aliasId
+    });
+    await authorityDb.write(`/social/heichelos/${heichelId}/editors`, [aliasId, aliasIdB]);
+    await authorityDb.write(`/social/heichelos/${heichelId}/public`, { public: true });
+
     const mail = await request(`/api/social/mail/sendTo/${encodeURIComponent(aliasIdB)}/from/${encodeURIComponent(aliasId)}`, {
       method: 'POST',
       apiKey,
@@ -335,6 +345,47 @@ async function main() {
     });
     assert.equal(comment.status, 200);
     assert.ok(comment.json?.success || comment.json?.message || comment.json?.error === undefined, `comment response: ${comment.text}`);
+
+    const directComment = await request(`/api/social/heichelos/${encodeURIComponent(heichelId)}/post/${encodeURIComponent(postId)}/comments/`, {
+      method: 'POST',
+      apiKey,
+      body: {
+        aliasId,
+        seriesId,
+        content: 'Real active root comment for visible UI tree.',
+        dayuh: JSON.stringify({ verseSection: 'root', smoke: runId, branch: 'root' })
+      }
+    });
+    assert.equal(directComment.status, 200, `direct comment response: ${directComment.text}`);
+    assert.equal(directComment.json?.success, true, `direct comment response: ${directComment.text}`);
+    const directCommentId = directComment.json.details.id;
+
+    const replyComment = await request(`/api/social/heichelos/${encodeURIComponent(heichelId)}/comment/${encodeURIComponent(directCommentId)}`, {
+      method: 'POST',
+      apiKey: apiKeyB,
+      body: {
+        postId,
+        seriesId,
+        aliasId: aliasIdB,
+        content: 'Real active reply from alias B to alias A.',
+        dayuh: JSON.stringify({ verseSection: 'root', replyToId: directCommentId, smoke: runId, branch: 'reply' })
+      }
+    });
+    assert.equal(replyComment.status, 200, `reply comment response: ${replyComment.text}`);
+    assert.equal(replyComment.json?.success, true, `reply comment response: ${replyComment.text}`);
+    const replyCommentId = replyComment.json.details.id;
+
+    const commentAuthors = await request(`/api/social/heichelos/${encodeURIComponent(heichelId)}/post/${encodeURIComponent(postId)}/comments/aliases?seriesId=${encodeURIComponent(seriesId)}&verseSection=root`, { apiKey });
+    assert.equal(commentAuthors.status, 200, `comment authors response: ${commentAuthors.text}`);
+    assert.ok(commentAuthors.json?.success?.includes(aliasId), `comment authors response: ${commentAuthors.text}`);
+
+    const rootComments = await request(`/api/social/heichelos/${encodeURIComponent(heichelId)}/comments/inSeries/${encodeURIComponent(seriesId)}/atPost/${encodeURIComponent(postId)}/atAlias/${encodeURIComponent(aliasId)}?verseSection=root`, { apiKey });
+    assert.equal(rootComments.status, 200, `root comments response: ${rootComments.text}`);
+    assert.ok(rootComments.json?.success?.some(item => item.id === directCommentId), `root comments response: ${rootComments.text}`);
+
+    const replyComments = await request(`/api/social/heichelos/${encodeURIComponent(heichelId)}/comments/inSeries/${encodeURIComponent(seriesId)}/atPost/${encodeURIComponent(postId)}/atComment/${encodeURIComponent(directCommentId)}/atAlias/${encodeURIComponent(aliasIdB)}/atVerseSection/root`, { apiKey: apiKeyB });
+    assert.equal(replyComments.status, 200, `reply comments response: ${replyComments.text}`);
+    assert.ok(replyComments.json?.success?.some(item => item.id === replyCommentId), `reply comments response: ${replyComments.text}`);
 
     const dryMigration = await request(`/api/social/packed/migrations/posts/v2/dryRun?heichelId=${encodeURIComponent(heichelId)}&seriesId=${encodeURIComponent(seriesId)}`, { apiKey });
     assert.equal(dryMigration.status, 200, `dry migration response: ${dryMigration.text}`);
@@ -593,6 +644,9 @@ async function main() {
       repostId: repost.json.success.id,
       shareId: share.json.success.id,
       commentResponse: comment.json,
+      directCommentId,
+      replyCommentId,
+      commentAuthors: commentAuthors.json.success,
       packedStats: stats,
       packedSnapshot: packedSnapshot.json.success,
       packedIntegrity: packedIntegrity.json.success,

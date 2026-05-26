@@ -82,16 +82,6 @@ static void draw_browser_chrome(AwtsBrowserState* state) {
   awts_draw_text(state, sx(state, awts_browser_address_left(state)), sy(state, 82), state->statusText, 0.08f, 0.28f, 0.12f);
 }
 
-static AwtsDomNode* find_node(AwtsBrowserState* state, const char* tag, const char* id) {
-  for (int i = 0; i < state->dom.count; i++) {
-    AwtsDomNode* n = &state->dom.nodes[i];
-    if (tag && strcmp(n->tag, tag)) continue;
-    if (id && strcmp(n->id, id)) continue;
-    return n;
-  }
-  return NULL;
-}
-
 static void draw_webgl_canvas(AwtsBrowserState* state, float x, float y, float w, float h) {
   rect(x, y, w, h, 0.07f, 0.10f, 0.14f);
   outline(x, y, w, h, 0.12f, 0.34f, 0.72f);
@@ -101,26 +91,6 @@ static void draw_webgl_canvas(AwtsBrowserState* state, float x, float y, float w
     glColor3f(0.10f, 0.90f, 0.38f); glVertex2f(cx + s, cy - s * 0.70f);
     glColor3f(0.30f, 0.45f, 1.0f); glVertex2f(cx, cy + s);
   glEnd();
-}
-
-static void draw_embedded_app(AwtsBrowserState* state) {
-  float pageX = sx(state, 36), pageY = sy(state, 116), pageW = sw(state, state->width - 72), pageH = -sh(state, state->height - 146);
-  rect(pageX, pageY, pageW, pageH, 1.0f, 1.0f, 1.0f);
-  awts_draw_text(state, pageX + 0.045f, pageY - 0.070f, "Merkava sample app", 0.05f, 0.05f, 0.05f);
-  awts_draw_text(state, pageX + 0.045f, pageY - 0.125f, "Native DOM nodes parsed from /index.html", 0.25f, 0.25f, 0.25f);
-  float canvasX = pageX + 0.25f, canvasY = pageY - 0.54f;
-  if (find_node(state, "canvas", "stage")) draw_webgl_canvas(state, canvasX, canvasY, 0.86f, 0.33f);
-  if (find_node(state, "button", "draw")) {
-    rect(canvasX, canvasY - 0.14f, 0.22f, -0.070f, 0.91f, 0.91f, 0.91f);
-    outline(canvasX, canvasY - 0.14f, 0.22f, -0.070f, 0.55f, 0.55f, 0.55f);
-    awts_draw_text(state, canvasX + 0.065f, canvasY - 0.183f, "draw", 0.0f, 0.0f, 0.0f);
-  }
-  AwtsDomNode* out = find_node(state, "output", "status");
-  if (out) {
-    rect(canvasX + 0.28f, canvasY - 0.14f, 0.68f, -0.070f, 0.98f, 0.98f, 0.98f);
-    outline(canvasX + 0.28f, canvasY - 0.14f, 0.68f, -0.070f, 0.70f, 0.70f, 0.70f);
-    awts_draw_text(state, canvasX + 0.30f, canvasY - 0.183f, out->text[0] ? out->text : "ready", 0.0f, 0.0f, 0.0f);
-  }
 }
 
 static int draw_executor_stream(AwtsBrowserState* state) {

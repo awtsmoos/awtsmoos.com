@@ -10,6 +10,7 @@ const tests = [
   ["Merkava advanced runtime", ["scripts/awtsmoos/MerkavaExecutor/tests/merkava-runtime-advanced.test.cjs"]],
   ["Merkava linked bundle", ["tests/merkava-bundle.test.cjs"]],
   ["C++ compiler bridge", ["tests/cpp-compiler.test.mjs"]],
+  ["Merkava executor render stream", ["apps/merkava-native-browser/core/testExecutorRenderStreamContract.mjs"]],
   ["Merkava native browser seed", ["apps/merkava-native-browser/build-seed.mjs"]],
   ["Native browser artifacts", ["tests/native-browser-artifacts.test.cjs"]],
   ["Native browser runtime", ["apps/merkava-native-browser/test-native-runtime.mjs"]]

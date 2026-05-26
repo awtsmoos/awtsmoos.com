@@ -30,11 +30,11 @@
   }
 
   body:not([data-sidebar-collapsed="true"]) .sidebar {
-    max-height: min(42dvh, 360px) !important;
+    max-height: min(72dvh, var(--ai-mobile-sidebar, 360px)) !important;
   }
 
   body:not([data-automation-collapsed="true"]) .automation-panel {
-    max-height: min(48dvh, 420px) !important;
+    max-height: min(72dvh, var(--ai-mobile-automation, 420px)) !important;
   }
 
   .panel-topbar,

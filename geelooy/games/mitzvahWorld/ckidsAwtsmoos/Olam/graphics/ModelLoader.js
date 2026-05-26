@@ -11,10 +11,16 @@
 import { loadNeutralGltf } from './procedural/NeutralGltfLoader.js';
 
 let cachedGltfLoader = null;
+const modelPromiseCache = new Map();
+
+function canLoadBrowserModules() {
+  return typeof window !== 'undefined' ||
+    (typeof WorkerGlobalScope !== 'undefined' && globalThis.self instanceof WorkerGlobalScope);
+}
 
 async function loadBrowserGltfLoader() {
   if (cachedGltfLoader) return cachedGltfLoader;
-  if (typeof window === 'undefined') return null;
+  if (!canLoadBrowserModules()) return null;
   const mod = await import('/games/scripts/jsm/loaders/GLTFLoader.js');
   cachedGltfLoader = new mod.GLTFLoader();
   return cachedGltfLoader;
@@ -47,6 +53,14 @@ async function loadGltcDescriptor(path, fetcher = globalThis.fetch) {
 
 export async function loadModel(path, options = {}) {
   if (!path) return makeNeutralNode({ name: 'missing-model', userData: { missingPath: true } });
+  if (modelPromiseCache.has(path)) return modelPromiseCache.get(path);
+
+  const promise = loadModelOnce(path, options);
+  modelPromiseCache.set(path, promise);
+  return promise;
+}
+
+async function loadModelOnce(path, options = {}) {
   if (/\.gltc(?:\.json)?$/i.test(path)) return loadGltcDescriptor(path, options.fetcher);
   if (/\.gltf$/i.test(path)) return loadNeutralGltf(path, options.fetcher);
 

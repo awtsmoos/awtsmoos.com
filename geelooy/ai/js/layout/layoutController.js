@@ -30,6 +30,8 @@ export class LayoutController {
     root.style.setProperty("--ai-sidebar", `${layout.sidebar.width}px`);
     root.style.setProperty("--ai-right", `${layout.automation.width}px`);
     root.style.setProperty("--ai-composer", `${layout.composer.height}px`);
+    root.style.setProperty("--ai-mobile-sidebar", `${layout.mobile?.sidebarHeight || 360}px`);
+    root.style.setProperty("--ai-mobile-automation", `${layout.mobile?.automationHeight || 420}px`);
     this.applyPanel(this.dom.sidebar, layout.sidebar);
     this.applyPanel(this.dom.automationPanel, layout.automation);
     document.body.dataset.sidebarCollapsed = String(Boolean((layout.sidebar.collapsed || layout.sidebar.detached) && !layout.sidebar.fullscreen));

@@ -1,0 +1,234 @@
+/* B"H
+   Chapter: The Reader Chamber Learns to Breathe
+   The Awtsmoos speaks the scroll into being each instant; this final layer
+   gathers the chrome, footnotes, comment tree, and action gates into calmer
+   vessels that remain intense without crushing the text beneath them.
+*/
+
+.post-reader-localized-context .awtsmoos-integrated-header {
+    position: relative !important;
+    z-index: 95000 !important;
+    min-height: 46px !important;
+    border-bottom: 3px solid #111 !important;
+    background: linear-gradient(180deg, #9fc9f5, #8ab9ec) !important;
+}
+
+.post-reader-localized-context .main {
+    min-height: 0 !important;
+}
+
+.post-reader-localized-context .content {
+    padding-inline: clamp(1rem, 5vw, 3.4rem) !important;
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls {
+    top: calc(54px + env(safe-area-inset-top, 0px)) !important;
+    left: clamp(0.55rem, 1.6vw, 1.25rem) !important;
+    gap: 0.7rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button {
+    width: 44px !important;
+    height: 44px !important;
+    border: 2px solid #15110c !important;
+    background: linear-gradient(180deg, #fffdf6, #eadcc4) !important;
+    box-shadow: 0 10px 28px rgba(30, 18, 8, 0.18) !important;
+    color: #17110b !important;
+    font-size: 1.3rem !important;
+}
+
+.post-reader-localized-context #typographyBtn::after {
+    content: "Aa" !important;
+    font: 900 1.08rem/1 var(--font-heading) !important;
+}
+
+.post-reader-localized-context #commentaryBtn::after {
+    content: "i" !important;
+    font: italic 900 1.45rem/1 Georgia, serif !important;
+}
+
+.post-reader-localized-context .sidebar {
+    width: min(44vw, 520px) !important;
+    min-width: 380px !important;
+    background: linear-gradient(180deg, #fffaf0, #f4ead8 56%, #fffaf3) !important;
+}
+
+.post-reader-localized-context .sidebar.fullscreen-mode {
+    position: fixed !important;
+    inset: 58px 1rem 1rem 1rem !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: auto !important;
+    z-index: 98000 !important;
+    border: 3px solid #1d140d !important;
+    border-radius: 20px !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-shell {
+    position: relative !important;
+    z-index: 1 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-header-chrome {
+    padding: 1rem 1rem 0.8rem !important;
+    background: linear-gradient(135deg, #fffdf8, #eee0c7) !important;
+}
+
+.post-reader-localized-context .awtsmoos-current-view-title {
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem) !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn {
+    width: 2.35rem !important;
+    height: 2.35rem !important;
+    font-size: 1rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+    overflow: visible !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-header {
+    padding: 0.72rem 1rem !important;
+    background: #0f0b08 !important;
+    border-bottom: 4px solid #f5ad00 !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-title-text {
+    color: #ffbd17 !important;
+    font-size: clamp(1.05rem, 2.4vw, 1.55rem) !important;
+    letter-spacing: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-content {
+    padding: clamp(0.8rem, 2vw, 1.2rem) !important;
+    background: linear-gradient(180deg, #fffdf8, #f6eddc) !important;
+}
+
+.post-reader-localized-context .footnotes-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.8rem !important;
+}
+
+.post-reader-localized-context .footnote-item.awtsmoos-list-item {
+    align-items: flex-start !important;
+    gap: 0.85rem !important;
+    padding: 0.95rem 1rem !important;
+    border: 1px solid rgba(35, 24, 14, 0.18) !important;
+    border-radius: 14px !important;
+    background: linear-gradient(180deg, #fffef9, #f2e6cf) !important;
+    box-shadow: 0 10px 28px rgba(38, 23, 9, 0.08) !important;
+}
+
+.post-reader-localized-context .footnote-id {
+    flex: 0 0 auto !important;
+    min-width: 2rem !important;
+    height: 2rem !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #111 !important;
+    color: #ffbd17 !important;
+    font-weight: 900 !important;
+}
+
+.post-reader-localized-context .footnote-text,
+.post-reader-localized-context .footnote-paragraph {
+    font: 500 clamp(1rem, 1.6vw, 1.18rem)/1.65 var(--font-content) !important;
+    color: #1d150f !important;
+    margin: 0 !important;
+}
+
+.post-reader-localized-context .comment-content {
+    border-radius: 16px !important;
+    border: 1px solid rgba(26, 18, 11, 0.18) !important;
+    background: linear-gradient(180deg, #fffef9, #f5ead7) !important;
+    box-shadow: 0 14px 34px rgba(38, 23, 9, 0.1) !important;
+}
+
+.post-reader-localized-context .comment-meta-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.6rem !important;
+    padding: 0.7rem 0.9rem !important;
+    border-bottom: 1px solid rgba(36, 24, 14, 0.12) !important;
+    background: rgba(255, 255, 255, 0.42) !important;
+}
+
+.post-reader-localized-context .comment-author-link {
+    color: #2a1d12 !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context .comment-author-link:hover {
+    color: #8f2400 !important;
+    text-decoration: underline !important;
+}
+
+.post-reader-localized-context .comment-action-strip {
+    display: flex !important;
+    gap: 0.45rem !important;
+    flex-wrap: wrap !important;
+}
+
+.post-reader-localized-context .comment-chip-action {
+    all: unset !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    border-radius: 999px !important;
+    padding: 0.4rem 0.62rem !important;
+    border: 1px solid rgba(29, 20, 13, 0.22) !important;
+    background: #fffaf0 !important;
+    color: #1b120b !important;
+    font: 850 0.78rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .comment-chip-action:hover {
+    background: #111 !important;
+    color: #ffbd17 !important;
+    border-color: #ffbd17 !important;
+}
+
+.post-reader-localized-context .comment-toolbar {
+    justify-content: space-between !important;
+    gap: 0.65rem !important;
+    border-top: 1px solid rgba(31, 21, 12, 0.12) !important;
+}
+
+.post-reader-localized-context .menu-btn {
+    border-radius: 999px !important;
+}
+
+.post-reader-localized-context .awtsmoos-reply-box {
+    border: 1px solid rgba(31, 21, 12, 0.22) !important;
+    border-radius: 16px !important;
+    background: linear-gradient(180deg, #fffaf0, #efe1c9) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 12px 26px rgba(36,22,10,0.10) !important;
+}
+
+@media (max-width: 900px) {
+    .post-reader-localized-context .sidebar {
+        width: auto !important;
+        min-width: 0 !important;
+        height: min(78vh, 720px) !important;
+        border-radius: 22px 22px 0 0 !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-floating-controls {
+        top: auto !important;
+        left: 0.8rem !important;
+        bottom: 0.8rem !important;
+        flex-direction: row !important;
+    }
+}

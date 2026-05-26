@@ -22,10 +22,15 @@ import { NeutralQuaternion, NeutralVector3 } from './procedural/NeutralMath.js';
 let cachedDracoLoaderCtor = null;
 let cachedGltfLoaderCtor = null;
 
+function canLoadBrowserModules() {
+  return typeof window !== 'undefined' ||
+    (typeof WorkerGlobalScope !== 'undefined' && globalThis.self instanceof WorkerGlobalScope);
+}
+
 async function loadBrowserConstructor(path, exportName, cacheGetter) {
   const cached = cacheGetter();
   if (cached) return cached;
-  if (typeof window === 'undefined') return null;
+  if (!canLoadBrowserModules()) return null;
   const mod = await import(path);
   return mod?.[exportName] || null;
 }

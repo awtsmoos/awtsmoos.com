@@ -154,9 +154,13 @@ int main(int argc, char** argv) {
     if (awts_ends_with(argv[2], ".html") || awts_ends_with(argv[2], ".htm")) return awts_analyze_html(argv[2], 1);
     if (awts_ends_with(argv[2], ".merkava")) {
       AwtsBrowserState check;
+      AwtsMerkavaHostFrame frame;
       memset(&check, 0, sizeof(check));
       int ok = awts_load_merkava_file(&check, argv[2]);
+      memset(&frame, 0, sizeof(frame));
+      awts_execute_merkava_bytecode_file(argv[2], &frame);
       printf("B'H Merkava bytecode check\nfile=%s bytes=%u ok=%u section=%u version=%u\n", argv[2], check.bytecodeLen, check.bytecodeOk, check.section, check.version);
+      printf("bytecode-vm=%s hostBindings=%u renderOps=%u message=%s\n", frame.ok ? frame.mode : "failed", frame.hostBindingCount, frame.mappedRenderOps, frame.message);
       return ok ? 0 : 2;
     }
     printf("--check unsupported file type: %s\n", argv[2]); return 64;
@@ -170,7 +174,7 @@ int main(int argc, char** argv) {
     awts_browser_set_url(&test, argv[2]);
     test.verbose = 1;
     awts_browser_navigate(&test);
-    printf("nav-test url=%s status=%s navigations=%u pageKind=%s pageTitle=%s domCount=%d canvas=%d button=%d output=%d preview=%.160s\n", test.url, test.statusText, test.navigations, test.pageKind, test.pageTitle, test.dom.count, test.dom.canvasIndex, test.dom.buttonIndex, test.dom.outputIndex, test.pagePreview);
+    printf("nav-test url=%s status=%s navigations=%u pageKind=%s pageTitle=%s nativeDom=disabled preview=%.160s\n", test.url, test.statusText, test.navigations, test.pageKind, test.pageTitle, test.pagePreview);
     return 0;
   }
   if (argc > 5 && !strcmp(argv[1], "--hit-test")) {
@@ -183,6 +187,13 @@ int main(int argc, char** argv) {
       awts_browser_address_left(&test), awts_browser_address_right(&test),
       awts_browser_address_top(&test), awts_browser_address_bottom(&test));
     return 0;
+  }
+  if (argc > 2 && !strcmp(argv[1], "--bytecode-vm-test")) {
+    AwtsMerkavaHostFrame frame;
+    int ok = awts_execute_merkava_bytecode_file(argv[2], &frame);
+    printf("bytecode-vm-test ok=%d mode=%s hostBindings=%u renderOps=%u message=%s\n",
+      ok, frame.mode, frame.hostBindingCount, frame.mappedRenderOps, frame.message);
+    return ok ? 0 : 2;
   }
   int smokeMode = argc > 1 && !strcmp(argv[1], "--smoke");
   const char* bytecodePath = "embedded_executor.merkava";

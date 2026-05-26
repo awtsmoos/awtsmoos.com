@@ -44,7 +44,7 @@ export function createSidebarShell(parent, headerTxt, onGlobalClose) {
         e.stopPropagation();
         parent.classList.toggle("fullscreen-mode");
         const isFull = parent.classList.contains("fullscreen-mode");
-        fullScreenBtn.innerHTML = isFull ? "╬" : "⛶"; // Contract vs Expand
+        fullScreenBtn.innerHTML = isFull ? "□" : "⛶"; // Contract vs Expand
     };
 
     const closeBtn = document.createElement("button");

@@ -93,7 +93,7 @@ function buildReport({ appFiles, shellFiles, binary, shellBinary, executorArtifa
     nativePlan: {
       architecture: "C host VM obeys embedded MerkavaExecutor bytecode; browser intelligence belongs to bytecode",
       hostBindings: hostContract.flat,
-      dom: "executor-owned; native DOM code is transitional diagnostic only",
+      dom: "executor-owned; native DOM renderer disabled in C host",
       webgl: "executor lowers JS/WebGL semantics into bytecode ops; C maps bytecode ops to OpenGL",
       next: "boot embedded_executor.merkava first, then let it load and compile page bytecode"
     }
@@ -179,7 +179,6 @@ stopGeneratedExeIfRunning(finalExe);
 execFileSync("gcc", [
   path.join(nativeDir, "merkava-opengl-browser.c"),
   path.join(nativeDir, "awts_native_util.c"),
-  path.join(nativeDir, "awts_native_dom.c"),
   path.join(nativeDir, "awts_bytecode_decoder.c"),
   path.join(nativeDir, "awts_native_render.c"),
   "-I", nativeDir,

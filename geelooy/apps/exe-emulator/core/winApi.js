@@ -126,6 +126,16 @@ const APIS = {
     cpu.regs.rax = hdc;
   },
   ReleaseDC({ win, cpu }) { win.print(`ReleaseDC(${cpu.regs.rcx}, ${cpu.regs.rdx})`); cpu.regs.rax = 1; },
+  ChoosePixelFormat({ win, cpu }) { win.print(`ChoosePixelFormat(hdc=${cpu.regs.rcx})`); cpu.regs.rax = 1; },
+  SetPixelFormat({ win, cpu }) { win.print(`SetPixelFormat(hdc=${cpu.regs.rcx}, pf=${cpu.regs.rdx})`); cpu.regs.rax = 1; },
+  SwapBuffers({ win, cpu }) { win.print(`SwapBuffers(hdc=${cpu.regs.rcx})`); cpu.regs.rax = 1; },
+  wglCreateContext({ win, cpu, state }) { const h = state.handle('wgl-context', { hdc: cpu.regs.rcx }); win.print(`wglCreateContext(${cpu.regs.rcx}) -> ${h}`); cpu.regs.rax = h; },
+  wglMakeCurrent({ win, cpu, state }) { state.gl.current = { hdc: cpu.regs.rcx, rc: cpu.regs.rdx }; win.print(`wglMakeCurrent(hdc=${cpu.regs.rcx}, rc=${cpu.regs.rdx})`); cpu.regs.rax = 1; },
+  ChoosePixelFormat({ win, cpu }) { win.print(`ChoosePixelFormat(hdc=${cpu.regs.rcx})`); cpu.regs.rax = 1; },
+  SetPixelFormat({ win, cpu }) { win.print(`SetPixelFormat(hdc=${cpu.regs.rcx}, pf=${cpu.regs.rdx})`); cpu.regs.rax = 1; },
+  SwapBuffers({ win, cpu }) { win.print(`SwapBuffers(hdc=${cpu.regs.rcx})`); cpu.regs.rax = 1; },
+  wglCreateContext({ win, cpu, state }) { const h = state.handle('wgl-context', { hdc: cpu.regs.rcx }); win.print(`wglCreateContext(${cpu.regs.rcx}) -> ${h}`); cpu.regs.rax = h; },
+  wglMakeCurrent({ win, cpu, state }) { state.gl.current = { hdc: cpu.regs.rcx, rc: cpu.regs.rdx }; win.print(`wglMakeCurrent(hdc=${cpu.regs.rcx}, rc=${cpu.regs.rdx})`); cpu.regs.rax = 1; },
   BeginPaint({ win, cpu, state }) {
     const hdc = state.handle('paint-dc', { hwnd: cpu.regs.rcx, ops: [] });
     state.dc.set(hdc, state.objects.get(hdc));
@@ -196,5 +206,7 @@ const APIS = {
   glFlush({ win, cpu, state }) { win.print(`OpenGL glFlush(batches=${state.gl.batches})`); cpu.regs.rax = 0; },
 
   ExitProcess({ cpu }) { cpu.halted = true; },
+  exit({ cpu }) { cpu.halted = true; },
+  abort({ cpu }) { cpu.halted = true; },
   default({ win, name, cpu }) { win.print(`Unhandled import shim: ${name}`); cpu.regs.rax = 0; }
 };

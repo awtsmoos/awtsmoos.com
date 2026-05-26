@@ -7,6 +7,7 @@
  */
 
 import { loadFreshChossidGltf } from "./ChossidNpcLoader.js";
+import { cloneChossidNpcScene } from "./ChossidNpcClone.js";
 import { applyChossidNpcTransform } from "./ChossidNpcTransform.js";
 
 /**
@@ -44,7 +45,7 @@ function getGltfScene(gltf) {
  */
 export async function buildChossidNpc(olam, def) {
   const gltf = await loadFreshChossidGltf(olam);
-  const npc = getGltfScene(gltf);
+  const npc = cloneChossidNpcScene({ scene: getGltfScene(gltf) });
 
   return applyChossidNpcTransform(npc, def, olam);
 }

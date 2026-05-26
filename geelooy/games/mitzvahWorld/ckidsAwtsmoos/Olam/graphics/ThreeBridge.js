@@ -10,9 +10,14 @@ import { AwtsmoosVector3 } from './Vector3.js';
 
 let cachedThree = null;
 
+function canLoadBrowserModules() {
+  return typeof window !== 'undefined' ||
+    (typeof WorkerGlobalScope !== 'undefined' && globalThis.self instanceof WorkerGlobalScope);
+}
+
 export async function loadThree() {
   if (cachedThree) return cachedThree;
-  if (typeof window === 'undefined') return null;
+  if (!canLoadBrowserModules()) return null;
   cachedThree = await import('/games/scripts/build/three.module.js');
   return cachedThree;
 }

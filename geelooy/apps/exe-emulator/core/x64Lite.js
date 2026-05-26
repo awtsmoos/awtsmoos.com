@@ -16,7 +16,7 @@ export function runCompilerX64(image, win) {
   const cpu = makeCpu(image, text);
   const callImport = createWinApi(win, cpu);
 
-  const maxInstructions = 1200;
+  const maxInstructions = 120000;
   for (let guard = 0; guard < maxInstructions && !cpu.halted; guard++) {
     execOne(cpu, callImport);
   }
@@ -49,6 +49,8 @@ function makeCpu(image, text) {
 
 function execOne(cpu, callImport) {
   let b = cpu.u8();
+  if (b === 0x08 && cpu.image.bytes[cpu.raw + cpu.ip] === 0xFF && cpu.image.bytes[cpu.raw + cpu.ip + 1] === 0xFF && cpu.image.bytes[cpu.raw + cpu.ip + 2] === 0xFF) { cpu.ip += 3; return; }
+  if (b === 0x08 && cpu.image.bytes[cpu.raw + cpu.ip] === 0xFF && cpu.image.bytes[cpu.raw + cpu.ip + 1] === 0xFF && cpu.image.bytes[cpu.raw + cpu.ip + 2] === 0xFF) { cpu.ip += 3; return; }
   if (b === 0xFC || b === 0xFD || b === 0x90) return;
   if (b === 0xF3) return execRep(cpu);
 
@@ -60,6 +62,8 @@ function execOne(cpu, callImport) {
   if (b >= 0xB8 && b <= 0xBF) return setReg(cpu, (b - 0xB8) + rb(rex), rw(rex) ? cpu.u64lo() : cpu.u32());
 
   if (b === 0x31) return xorRmReg(cpu, rex, cpu.u8());
+  if (b === 0x6B) return imulRegRmImm8(cpu, rex, cpu.u8());
+  if (b === 0x6B) return imulRegRmImm8(cpu, rex, cpu.u8());
   if (b === 0x39) return cmpRmReg(cpu, rex, cpu.u8());
   if (b === 0x3B) return cmpRegRm(cpu, rex, cpu.u8());
   if (b === 0x83) return aluImm(cpu, rex, cpu.u8(), cpu.i8());
@@ -69,12 +73,15 @@ function execOne(cpu, callImport) {
   if (b === 0x8D) return lea(cpu, rex, cpu.u8());
   if (b === 0xC7) return movRmImm(cpu, rex, cpu.u8());
   if (b === 0xD1) return shiftOne(cpu, rex, cpu.u8());
+  if (b === 0xF7) return execF7(cpu, rex, cpu.u8());
   if (b === 0xFF) return execFf(cpu, rex, cpu.u8(), callImport);
   if (b === 0xE8) return callRel(cpu);
   if (b === 0xE9) return jmpRel(cpu);
   if (b === 0xEB) { cpu.ip += cpu.i8(); return; }
   if (b === 0xC3) return ret(cpu);
   if (b === 0x0F) return exec0f(cpu, rex);
+  if (b === 0x08) return orRmReg(cpu, rex, cpu.u8());
+  if (b === 0x08) return orRmReg(cpu, rex, cpu.u8());
   if (b === 0x0B) return orRegRm(cpu, rex, cpu.u8());
   if (b === 0x23) return andRegRm(cpu, rex, cpu.u8());
   if (b === 0x21) return andRmReg(cpu, rex, cpu.u8());
@@ -93,17 +100,17 @@ function exec0f(cpu, rex) {
     if (take(cpu, op)) cpu.ip += d;
     return;
   }
-  if (op === 0x94 || op === 0x95) {
+  if ([0x94,0x95,0x9C,0x9D,0x9E,0x9F].includes(op)) {
     const m = cpu.u8();
     const d = decodeModRm(cpu, rex, m);
-    const value = op === 0x94 ? (cpu.flags.z ? 1 : 0) : (!cpu.flags.z ? 1 : 0);
+    const value = setccValue(cpu, op);
     d.direct ? setLow8(cpu, d.addr, value) : writeMem(cpu, d.addr, value);
     return;
   }
-  if (op === 0x94 || op === 0x95) {
+  if ([0x94,0x95,0x9C,0x9D,0x9E,0x9F].includes(op)) {
     const m = cpu.u8();
     const d = decodeModRm(cpu, rex, m);
-    const value = op === 0x94 ? (cpu.flags.z ? 1 : 0) : (!cpu.flags.z ? 1 : 0);
+    const value = setccValue(cpu, op);
     d.direct ? setLow8(cpu, d.addr, value) : writeMem(cpu, d.addr, value);
     return;
   }
@@ -139,6 +146,18 @@ function execFf(cpu, rex, m, callImport) {
   }
   if (op === 4 && !decoded.direct) { cpu.ip = readMem(cpu, decoded.addr) - cpu.base; return; }
   throw new Error(`Unsupported FF /${op} at 0x${cpu.rva().toString(16)}`);
+}
+
+function execF7(cpu, rex, m) {
+  const op = (m >> 3) & 7;
+  const d = decodeModRm(cpu, rex, m);
+  const old = d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr);
+  let out = old;
+  if (op === 3) out = -old;
+  else if (op === 2) out = ~old;
+  else throw new Error(`Unsupported F7 /${op} at 0x${cpu.rva().toString(16)}`);
+  d.direct ? setReg(cpu, d.addr, out) : writeMem(cpu, d.addr, out);
+  setFlags(cpu, out);
 }
 
 function callRel(cpu) { const d = cpu.i32(); cpu.push(cpu.rva()); cpu.ip += d; }
@@ -179,12 +198,14 @@ function xorRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (
 function cmpRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); setFlags(cpu, (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) - getReg(cpu, d.reg)); }
 function cmpRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); setFlags(cpu, getReg(cpu, d.reg) - (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr))); }
 function orRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg) | (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); setReg(cpu, d.reg, v); setFlags(cpu, v); }
+function orRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) | getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); setFlags(cpu, v); }
 function andRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg) & (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); setReg(cpu, d.reg, v); setFlags(cpu, v); }
 function andRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) & getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); setFlags(cpu, v); }
 function addRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) + getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); setFlags(cpu, v); }
 function addRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg) + (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); setReg(cpu, d.reg, v); setFlags(cpu, v); }
 function subRmReg(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)) - getReg(cpu, d.reg); d.direct ? setReg(cpu, d.addr, v) : writeMem(cpu, d.addr, v); setFlags(cpu, v); }
 function subRegRm(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const v = getReg(cpu, d.reg) - (d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr)); setReg(cpu, d.reg, v); setFlags(cpu, v); }
+function imulRegRmImm8(cpu, rex, m) { const d = decodeModRm(cpu, rex, m); const src = d.direct ? getReg(cpu, d.addr) : readMem(cpu, d.addr); const v = src * cpu.i8(); setReg(cpu, d.reg, v); setFlags(cpu, v); }
 
 function aluImm(cpu, rex, m, v) {
   const d = decodeModRm(cpu, rex, m);
@@ -224,12 +245,20 @@ function writeMem(cpu, addr, value) { cpu.mem.set(addr >>> 0, value >>> 0); }
 function getReg(cpu, idx) { return cpu.regs[REG[idx]] || 0; }
 function setReg(cpu, idx, val) { cpu.regs[REG[idx]] = val >>> 0; if (idx < LOW32.length) cpu.regs[LOW32[idx]] = val >>> 0; }
 function setLow8(cpu, idx, val) { setReg(cpu, idx, (getReg(cpu, idx) & 0xFFFFFF00) | (val & 0xFF)); }
-function setLow8(cpu, idx, val) { setReg(cpu, idx, (getReg(cpu, idx) & 0xFFFFFF00) | (val & 0xFF)); }
 function rw(rex) { return (rex & 8) !== 0; }
 function rr(rex) { return (rex & 4) ? 8 : 0; }
 function rx(rex) { return (rex & 2) ? 8 : 0; }
 function rb(rex) { return (rex & 1) ? 8 : 0; }
 function sign(v, bits) { const m = 1 << (bits - 1); return (v & m) ? v - (1 << bits) : v; }
+function setccValue(cpu, op) {
+  if (op === 0x94) return cpu.flags.z ? 1 : 0;
+  if (op === 0x95) return !cpu.flags.z ? 1 : 0;
+  if (op === 0x9C) return cpu.flags.s ? 1 : 0;
+  if (op === 0x9D) return !cpu.flags.s ? 1 : 0;
+  if (op === 0x9E) return (cpu.flags.z || cpu.flags.s) ? 1 : 0;
+  if (op === 0x9F) return (!cpu.flags.z && !cpu.flags.s) ? 1 : 0;
+  return 0;
+}
 function setFlags(cpu, v) { cpu.flags.z = (v >>> 0) === 0; cpu.flags.s = v < 0; }
 function take(cpu, op) {
   if (op === 0x85) return !cpu.flags.z;

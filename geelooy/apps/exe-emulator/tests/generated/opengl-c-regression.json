@@ -1,0 +1,88 @@
+[
+  {
+    "name": "opengl_triangle",
+    "exe": "geelooy\\apps\\exe-emulator\\tests\\generated\\c-opengl_triangle.exe",
+    "bytes": 4096,
+    "emulated": {
+      "msg": "Executed compiler x64 subset.",
+      "reason": null,
+      "halted": true,
+      "steps": 6363,
+      "windows": 1,
+      "draws": 1,
+      "glTail": [
+        "IAT 0x19e8 -> OPENGL32.dll!glBegin",
+        "IAT 0x19f0 -> OPENGL32.dll!glColor3ub",
+        "IAT 0x19f8 -> OPENGL32.dll!glVertex2i",
+        "IAT 0x1a00 -> OPENGL32.dll!glEnd",
+        "IAT 0x1a08 -> OPENGL32.dll!glFlush",
+        "wglCreateContext(103) -> 104",
+        "wglMakeCurrent(hdc=103, rc=104)",
+        "OpenGL glBegin(mode=4)",
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glFlush(batches=1)"
+      ],
+      "tail": [
+        "SetPixelFormat(hdc=103, pf=1)",
+        "wglCreateContext(103) -> 104",
+        "wglMakeCurrent(hdc=103, rc=104)",
+        "OpenGL glBegin(mode=4)",
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glFlush(batches=1)",
+        "SwapBuffers(hdc=103)",
+        "Sleep(1000) skipped in virtual time."
+      ]
+    },
+    "native": {
+      "ok": false,
+      "code": 3221225477,
+      "signal": null,
+      "killed": false,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "name": "opengl_stress",
+    "exe": "geelooy\\apps\\exe-emulator\\tests\\generated\\c-opengl_stress.exe",
+    "bytes": 4096,
+    "emulated": {
+      "msg": "Executed compiler x64 subset.",
+      "reason": null,
+      "halted": true,
+      "steps": 28762,
+      "windows": 1,
+      "draws": 64,
+      "glTail": [
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glBegin(mode=4)",
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glBegin(mode=4)",
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glBegin(mode=4)",
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glBegin(mode=4)",
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glFlush(batches=64)"
+      ],
+      "tail": [
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glBegin(mode=4)",
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glBegin(mode=4)",
+        "OpenGL glEnd(vertices=3)",
+        "OpenGL glFlush(batches=64)",
+        "SwapBuffers(hdc=103)",
+        "Sleep(1000) skipped in virtual time."
+      ]
+    },
+    "native": {
+      "ok": true,
+      "code": null,
+      "signal": "SIGTERM",
+      "killed": true,
+      "stdout": "",
+      "stderr": ""
+    }
+  }
+]

@@ -13,12 +13,23 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
+let buildingMaterialsPromise = null;
+
 export default {
     /**
      * @method loadBuildingMaterials
      * @description Fetches textures and returns a standard material array.
      */
     async loadBuildingMaterials(olam) {
+        if (buildingMaterialsPromise) {
+            return await buildingMaterialsPromise;
+        }
+
+        buildingMaterialsPromise = this.loadBuildingMaterialsUncached(olam);
+        return await buildingMaterialsPromise;
+    },
+
+    async loadBuildingMaterialsUncached(olam) {
         const load = async (url, repeat = 2) => {
             if (!olam || typeof olam.loadTexture !== 'function') return null;
             return await olam.loadTexture({ 

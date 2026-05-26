@@ -1,8 +1,21 @@
 
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
+import AssetCache from '../../../../utils/assetCache/index.js';
 import LoaderMonitor from './LoaderMonitor.js';
 import ProceduralTextureInterceptor from './ProceduralTextureInterceptor.js';
+
+const texturePromiseCache = new Map();
+
+function textureCacheKey({ url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
+    return JSON.stringify({ url, shouldRepeat, repeatX, repeatY });
+}
+
+function canPersistUrl(url) {
+    return typeof url === 'string' &&
+        !url.startsWith('data:') &&
+        !url.startsWith('blob:');
+}
 
 /**
  * B"H
@@ -30,16 +43,35 @@ export default class TextureLoaderVessel {
             return null;
         }
 
+        const cacheKey = textureCacheKey({ url, shouldRepeat, repeatX, repeatY });
+        if (texturePromiseCache.has(cacheKey)) {
+            LoaderMonitor.logLoad("TEXTURE", url, "MEMORY_CACHE_HIT");
+            return await texturePromiseCache.get(cacheKey);
+        }
+
         LoaderMonitor.logLoad("TEXTURE", url, "INIT_BREATH");
 
-        // B"H: Intercept and forge procedural textures (bricks, stone, etc)
+        const promise = this.loadUncached({ url, shouldRepeat, repeatX, repeatY });
+        texturePromiseCache.set(cacheKey, promise);
+        return await promise;
+    }
+
+    static async loadUncached({ url, shouldRepeat = false, repeatX = 1, repeatY = 1 }) {
         const finalUrl = await ProceduralTextureInterceptor.intercept(url);
 
         try {
-            const response = await fetch(finalUrl);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            
-            const blob = await response.blob();
+            let blob = canPersistUrl(finalUrl) ? await AssetCache.get(finalUrl) : null;
+
+            if (!blob) {
+                const response = await fetch(finalUrl);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                blob = await response.blob();
+
+                if (canPersistUrl(finalUrl)) {
+                    await AssetCache.put(finalUrl, blob);
+                }
+            }
             
             // Asynchronous decoding on background thread logic
             const imageBitmap = await createImageBitmap(blob, { imageOrientation: 'flipY' });

@@ -16,7 +16,7 @@ function wirePanelHandle(handle, panelName, min, max, store, onLayout, direction
     const start = { x: event.clientX, y: event.clientY, layout: startLayout, height: panel?.getBoundingClientRect?.().height || 0 };
     handle.setPointerCapture?.(event.pointerId);
     handle.onpointermove = move => mobile
-      ? resizeMobilePanel(panel, panelName, start, move)
+      ? resizeMobilePanel(panel, panelName, start, move, store, onLayout)
       : resizeDesktopPanel(panelName, min, max, direction, start, move, store, onLayout);
     handle.onpointerup = handle.onpointercancel = () => { handle.onpointermove = handle.onpointerup = handle.onpointercancel = null; };
   });
@@ -28,13 +28,15 @@ function resizeDesktopPanel(panelName, min, max, direction, start, move, store, 
   onLayout(store.save({ [panelName]: { width } }));
 }
 
-function resizeMobilePanel(panel, panelName, start, move) {
+function resizeMobilePanel(panel, panelName, start, move, store, onLayout) {
   if (!panel) return;
+  move.preventDefault?.();
   const delta = move.clientY - start.y;
   const height = clamp(start.height + delta, 72, Math.round(globalThis.innerHeight * .72));
-  panel.style.maxHeight = `${height}px`;
+  const key = panelName === "sidebar" ? "sidebarHeight" : "automationHeight";
   panel.classList.toggle("is-mobile-resizing", true);
   document.body.dataset[`${panelName}Collapsed`] = "false";
+  onLayout(store.save({ [panelName]: { collapsed: false }, mobile: { [key]: height } }));
 }
 
 function wireVertical(handle, store, onLayout) {

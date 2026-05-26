@@ -6,7 +6,7 @@ export const DEFAULT_LAYOUT = Object.freeze({
   automation: { width: 300, collapsed: false, detached: false, fullscreen: false, x: 820, y: 86, h: 520 },
   composer: { height: 96 },
   density: "comfy",
-  mobile: { initialized: false }
+  mobile: { initialized: false, sidebarHeight: 360, automationHeight: 420 }
 });
 
 /** Stores panel geometry so the cockpit remembers its vessels. */

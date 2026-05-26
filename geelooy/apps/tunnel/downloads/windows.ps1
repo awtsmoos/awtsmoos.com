@@ -48,21 +48,26 @@ function Get-AwtsFileSha256($path) {
   return (Get-FileHash -Algorithm SHA256 -Path $path).Hash.ToLowerInvariant()
 }
 
-function Test-AwtsInstalledFiles($root, $manifest) {
-  if ($null -eq $manifest.files) { return $false }
+function Get-AwtsChangedFiles($root, $manifest) {
+  $changed = @()
+  if ($null -eq $manifest.files) { return $changed }
 
   foreach ($file in $manifest.files) {
     $dest = Join-Path $root $file.path
-    if (-not (Test-Path $dest)) { return $false }
+    if (-not (Test-Path $dest)) { $changed += $file; continue }
 
     $item = Get-Item $dest
-    if ($item.Length -ne [int64]$file.bytes) { return $false }
+    if ($item.Length -ne [int64]$file.bytes) { $changed += $file; continue }
 
     $actualSha = Get-AwtsFileSha256 $dest
-    if ($actualSha -ne $file.sha256) { return $false }
+    if ($actualSha -ne $file.sha256) { $changed += $file; continue }
   }
 
-  return $true
+  return $changed
+}
+
+function Test-AwtsInstalledFiles($root, $manifest) {
+  return @((Get-AwtsChangedFiles $root $manifest)).Count -eq 0
 }
 
 function Test-AwtsAgentUpToDate($root, $manifest, $state) {
@@ -78,6 +83,18 @@ function Test-AwtsAgentUpToDate($root, $manifest, $state) {
   } catch {
     return ($state.version -eq $manifest.version)
   }
+}
+
+function Write-AwtsInstallState($statePath, $manifest) {
+  $installedState = @{
+    BH = 'B"H'
+    version = $manifest.version
+    entry = $manifest.entry
+    installedAt = (Get-Date).ToUniversalTime().ToString("o")
+    files = $manifest.files
+  } | ConvertTo-Json -Depth 8
+
+  Write-Utf8NoBom $statePath $installedState
 }
 
 if (-not (Test-AwtsCommand "node")) {
@@ -129,26 +146,28 @@ $state = Read-AwtsJson $statePath
 if (Test-AwtsAgentUpToDate $root $manifest $state) {
   Write-Host "Awtsmoos agent version $($manifest.version) is already installed. Restarting only." -ForegroundColor Green
 } else {
-  Write-Host "Updating Awtsmoos agent to version $($manifest.version)..."
-  foreach ($file in $manifest.files) {
-    $dest = Join-Path $root $file.path
-    $destDir = Split-Path $dest -Parent
-    New-Item -ItemType Directory -Force -Path $destDir | Out-Null
+  $changedFiles = @(Get-AwtsChangedFiles $root $manifest)
+  if ($changedFiles.Count -eq 0) {
+    Write-Host "Agent files already match manifest. Recording version $($manifest.version) without downloads." -ForegroundColor Green
+  } else {
+    Write-Host "Updating Awtsmoos agent to version $($manifest.version): $($changedFiles.Count) changed file(s)..."
+    foreach ($file in $changedFiles) {
+      $dest = Join-Path $root $file.path
+      $destDir = Split-Path $dest -Parent
+      New-Item -ItemType Directory -Force -Path $destDir | Out-Null
 
-    $url = "https://awtsmoos.com/apps/tunnel/agent/" + $file.path
-    Write-Host "Downloading $($file.path)..."
-    Invoke-WebRequest -Uri $url -OutFile $dest
+      $url = "https://awtsmoos.com/apps/tunnel/agent/" + $file.path
+      Write-Host "Downloading $($file.path)..."
+      Invoke-WebRequest -Uri $url -OutFile $dest
+
+      $actualSha = Get-AwtsFileSha256 $dest
+      if ($actualSha -ne $file.sha256) {
+        throw "Downloaded hash mismatch for $($file.path)"
+      }
+    }
   }
 
-  $installedState = @{
-    BH = 'B"H'
-    version = $manifest.version
-    entry = $manifest.entry
-    installedAt = (Get-Date).ToUniversalTime().ToString("o")
-    files = $manifest.files
-  } | ConvertTo-Json -Depth 8
-
-  Write-Utf8NoBom $statePath $installedState
+  Write-AwtsInstallState $statePath $manifest
 }
 
 Write-Host ""

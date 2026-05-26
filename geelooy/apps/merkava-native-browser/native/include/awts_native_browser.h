@@ -34,9 +34,6 @@
 
 #define AWTS_MAX_PATH_TEXT 4096
 #define AWTS_URL_TEXT 512
-#define AWTS_DOM_TEXT 192
-#define AWTS_DOM_NODES 128
-
 typedef struct AwtsTextFile { char* data; long size; } AwtsTextFile;
 
 typedef struct AwtsWebGlCommandTable {
@@ -61,26 +58,30 @@ typedef struct AwtsFontState {
   HFONT font;
 } AwtsFontState;
 
-typedef struct AwtsDomNode {
-  char tag[32];
-  char id[64];
-  char text[AWTS_DOM_TEXT];
-  int depth;
-  int isClosing;
-  int isVoid;
-  float x;
-  float y;
-  float w;
-  float h;
-} AwtsDomNode;
+typedef struct AwtsMerkavaBytecode {
+  unsigned char* bytes;
+  unsigned int length;
+  unsigned int ok;
+  unsigned int section;
+  unsigned int version;
+  unsigned int poolCount;
+  unsigned int selectorCount;
+  unsigned int programOffset;
+} AwtsMerkavaBytecode;
 
-typedef struct AwtsDomTree {
-  AwtsDomNode nodes[AWTS_DOM_NODES];
-  int count;
-  int canvasIndex;
-  int buttonIndex;
-  int outputIndex;
-} AwtsDomTree;
+typedef struct AwtsMerkavaReader {
+  unsigned char* bytes;
+  unsigned int length;
+  unsigned int at;
+} AwtsMerkavaReader;
+
+typedef struct AwtsMerkavaHostFrame {
+  int ok;
+  unsigned int hostBindingCount;
+  unsigned int mappedRenderOps;
+  char mode[64];
+  char message[256];
+} AwtsMerkavaHostFrame;
 
 typedef struct AwtsBrowserState {
   int running;
@@ -106,7 +107,6 @@ typedef struct AwtsBrowserState {
   char pageTitle[256];
   char pagePreview[2048];
   AwtsWebGlCommandTable webgl;
-  AwtsDomTree dom;
   AwtsFontState font;
 } AwtsBrowserState;
 
@@ -119,6 +119,11 @@ void awts_print_webgl_table(const AwtsWebGlCommandTable* t);
 int awts_analyze_js(const char* path, int checkOnly);
 int awts_analyze_html(const char* path, int checkOnly);
 int awts_load_merkava_file(AwtsBrowserState* state, const char* path);
+int awts_read_merkava_bytecode_file(const char* path, AwtsMerkavaBytecode* out);
+void awts_free_merkava_bytecode(AwtsMerkavaBytecode* bytecode);
+int awts_validate_merkava_bytecode(AwtsMerkavaBytecode* bytecode);
+int awts_execute_merkava_bytecode(AwtsMerkavaBytecode* bytecode, AwtsMerkavaHostFrame* frame);
+int awts_execute_merkava_bytecode_file(const char* path, AwtsMerkavaHostFrame* frame);
 void awts_resolve_exe_relative_path(const char* name, char* out, size_t cap);
 void awts_print_help(void);
 void awts_print_runtime_report(void);
@@ -133,9 +138,6 @@ int awts_browser_address_right(const AwtsBrowserState* state);
 int awts_browser_address_top(const AwtsBrowserState* state);
 int awts_browser_address_bottom(const AwtsBrowserState* state);
 void awts_browser_update_cursor(HWND hwnd, AwtsBrowserState* state, int x, int y);
-void awts_dom_parse(AwtsDomTree* tree, const char* html);
-void awts_dom_apply_sample_script(AwtsBrowserState* state);
-int awts_decode_merkava_dom_file(AwtsBrowserState* state, const char* path);
 void awts_font_init(AwtsBrowserState* state, HDC dc);
 void awts_font_destroy(AwtsBrowserState* state);
 void awts_draw_text(AwtsBrowserState* state, float x, float y, const char* text, float r, float g, float b);
