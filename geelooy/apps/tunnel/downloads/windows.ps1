@@ -1,7 +1,7 @@
 ﻿# B"H
 $ErrorActionPreference = 'Stop'
  
-Write-Host 'B"H Awtsmoos Tunnel Bootstrap' -ForegroundColor Cyan
+Write-Host 'Awtsmoos Tunnel Bootstrap' -ForegroundColor Cyan
  
 function Write-Utf8NoBom($path, $text) {
   $encoding = New-Object System.Text.UTF8Encoding($false)
@@ -29,7 +29,7 @@ if (-not (Test-Path $config)) {
   $name = 'awt-' + $env:USERNAME + '-' + (Get-Random -Minimum 1000 -Maximum 9999)
  
   $cfg = @{
-    BH = 'B"H'
+    BH = 'BH'
     relay = 'wss://awtsmoos.com'
     tunnelName = $name
     local = 'http://localhost:3000'
