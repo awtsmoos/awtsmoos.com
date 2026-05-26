@@ -1,4 +1,4 @@
-﻿
+﻿$BH="BH"
 $ErrorActionPreference = 'Stop'
  
 Write-Host 'Awtsmoos Tunnel Bootstrap' -ForegroundColor Cyan
@@ -15,6 +15,18 @@ function Stop-OldAwtsAgent($root, $entry) {
   } | ForEach-Object {
     Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
   }
+}
+ 
+function Get-ManifestLines($text) {
+  return @(
+    [regex]::Split($text, '\r?\n') |
+    ForEach-Object { $_.Trim() } |
+    Where-Object {
+      $_ -ne '' -and
+      $_ -ne 'B"H' -and
+      $_ -ne '# B"H'
+    }
+  )
 }
  
 $root = Join-Path $env:USERPROFILE '.awtsmoos-tunnel'
@@ -45,33 +57,23 @@ if (-not (Test-Path $config)) {
 Write-Host 'Checking Awtsmoos manifest...'
  
 $manifestText = (Invoke-WebRequest -Uri $manifestUrl -UseBasicParsing).Content
-$lines = @(
-  [regex]::Split($manifestText, '\r?\n') |
-  ForEach-Object { $_.Trim() } |
-  Where-Object { $_ -ne '' }
-)
-
-if ($lines.Count -lt 4) {
-  $lines = @(
-    [regex]::Split($manifestText, '\s+') |
-    ForEach-Object { $_.Trim() } |
-    Where-Object { $_ -ne '' }
-  )
+$lines = Get-ManifestLines $manifestText
+ 
+if ($lines.Count -lt 2) {
+  throw 'Manifest is missing version and entry.'
 }
-
-if ($lines[0] -eq 'B"H') {
-  $version = $lines[1]
-  $entry = $lines[2]
-  $files = $lines | Select-Object -Skip 3
-} else {
-  $version = $lines[0]
-  $entry = $lines[1]
-  $files = $lines | Select-Object -Skip 2
+ 
+$version = $lines[0]
+$entry = $lines[1]
+$files = @($lines | Select-Object -Skip 2)
+ 
+if ($entry -ne 'main.js') {
+  throw ('Bad manifest entry: ' + $entry)
 }
-
-if ([string]::IsNullOrWhiteSpace($version)) { throw 'Missing manifest version' }
-if ([string]::IsNullOrWhiteSpace($entry)) { throw 'Missing manifest entry' }
-if ($entry -ne 'main.js') { throw "Bad manifest entry: $entry" }
+ 
+if ($files.Count -lt 1) {
+  throw 'Manifest has no files.'
+}
  
 $installedVersion = ''
  
@@ -89,10 +91,12 @@ if ($installedVersion -eq $version -and (Test-Path $entryPath)) {
   foreach ($filePath in $files) {
     $dest = Join-Path $root $filePath
     $parent = Split-Path $dest -Parent
+ 
     New-Item -ItemType Directory -Force -Path $parent | Out-Null
  
     $url = $baseUrl + '/' + $filePath
     Write-Host ('Downloading ' + $filePath + '...')
+ 
     Invoke-WebRequest -Uri $url -OutFile $dest
   }
  
