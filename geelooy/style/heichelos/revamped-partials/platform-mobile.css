@@ -1,0 +1,24 @@
+/* B"H - Mobile tuning for platform panels */
+@media (max-width: 760px) {
+    .awtsmoos-platform-panel {
+        inset-inline: 0.75rem;
+        width: auto;
+    }
+
+    .awtsmoos-platform-toggle,
+    .awtsmoos-platform-search button,
+    .awtsmoos-platform-actions button {
+        width: 100%;
+    }
+
+    .awtsmoos-platform-body header,
+    .awtsmoos-platform-actions,
+    .awtsmoos-platform-search {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .awtsmoos-platform-body {
+        max-height: 68vh;
+    }
+}

@@ -16,5 +16,6 @@ export const digitalMoves = {
     'Permaban': { name: 'Permaban', power: 999, cost: 50, type: 'Gevurah', desc: 'The ultimate judgment. Low accuracy.' },
     'Grief': { name: 'Grief', power: 30, cost: 10, type: 'Qliphoth', effect: { target: 'opponent', stat: 'kavanah', amount: -20 }, desc: 'Drains enemy Kavanah.' },
     'Grind': { name: 'Grind', power: 0, cost: 5, type: 'Netzach', effect: { target: 'self', stat: 'hp_regen' }, desc: 'Slowly restores health.' },
-    'Report': { name: 'Report', power: 0, cost: 15, type: 'Gevurah', effect: { target: 'opponent', stat: 'inflict_status', status: 'stun' }, desc: 'Calls the admins.' }
+    'Report': { name: 'Report', power: 0, cost: 15, type: 'Gevurah', effect: { target: 'opponent', stat: 'inflict_status', status: 'stun' }, desc: 'Calls the admins.' },
+    'Fire_Breath': { name: 'Firewall Breath', power: 65, cost: 16, type: 'Gevurah', effect: { target: 'opponent', stat: 'inflict_status', status: 'burn' }, desc: 'A dragon-like burst from the glowing server furnace.' }
 };

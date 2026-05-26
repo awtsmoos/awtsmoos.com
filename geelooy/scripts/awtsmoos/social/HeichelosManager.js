@@ -48,7 +48,6 @@ async function go(myAlias) {
       return heych
     },
     updateDataFn: async (r) => {
-      console.log(r)
       return {
         aliasId: r.entity.author,
         heichelId: r.id,
@@ -68,7 +67,6 @@ async function go(myAlias) {
           isPublic: true
         }
       )
-      console.log("MAde! heichel", r)
     }
   }
   );

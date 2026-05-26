@@ -660,5 +660,7 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
                 });
             }
         }
-    } catch(e) { console.log("System Mail Error", e); }
+    } catch(e) {
+        return { error: { code: "SYSTEM_MAIL_FAILED", message: e.message || "System mail failed" } };
+    }
 }

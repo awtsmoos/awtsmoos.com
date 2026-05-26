@@ -32,7 +32,7 @@ export class ProceduralGeometryFactory {
             verts: [], norms: [], uvs: [], inds: [],
             leafVerts: [], leafNorms: [], leafUVs: [], leafInds: [], leafColors: [],
             indexOffset: 0, leafOffset: 0,
-            rng: new RNG(options.seed || Math.random() * 10000),
+            rng: new RNG(options.seed ?? 123),
             options: {
                 branch: {
                     levels: options.levels || 3,

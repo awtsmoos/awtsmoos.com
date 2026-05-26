@@ -113,7 +113,6 @@ const heichelCreationModal = new ModalBuilder({
     submitButtonText: 'Manifest Heichel',
     showCloseButton: true,
     onSubmit: async (data) => {
-        console.log('Attempting to manifest Heichel:', data);
         // Simulate an API call or processing
         await new Promise(resolve => setTimeout(resolve, 1800));
 

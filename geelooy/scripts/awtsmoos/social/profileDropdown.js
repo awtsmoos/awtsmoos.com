@@ -80,6 +80,10 @@ export default function createProfileDropdown(parentElement) {
     var notLogged = container.querySelector(".notLoggedIn");
     var logged = container.querySelector(".loggedIn");
 
+    function aliasProfileHref(aliasId) {
+        return aliasId ? `/@${encodeURIComponent(aliasId)}` : '#';
+    }
+
     fetch(location.origin + '/api/social', { credentials: 'include' })
         .then(response => response.json())
         .then(data => {
@@ -100,7 +104,7 @@ export default function createProfileDropdown(parentElement) {
                     aliasSection.classList.remove('hidden');
                     document.querySelectorAll('.currentAliasName').forEach(element => {
                         element.textContent = '@' + alias;
-                        if (element.tagName === 'A') element.href = '/@' + alias;
+                        if (element.tagName === 'A') element.href = aliasProfileHref(alias);
                     });
                     
                     // Fire Success Event
@@ -110,9 +114,11 @@ export default function createProfileDropdown(parentElement) {
                     window.dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: null } }));
                 }
 
-                document.getElementById('logoutSection').innerHTML = `<a href="/logout?redirect=${
-                    encodeURIComponent(location.href)
-                }">Logout</a>`;
+                const logoutSection = document.getElementById('logoutSection');
+                const logoutLink = document.createElement('a');
+                logoutLink.href = '/logout?redirect=' + encodeURIComponent(location.href);
+                logoutLink.textContent = 'Logout';
+                logoutSection.replaceChildren(logoutLink);
             } else {
                 // NOT LOGGED IN
                 logged.classList.add("hidden");
@@ -150,10 +156,7 @@ export default function createProfileDropdown(parentElement) {
         const backdrop = document.createElement('div');
         signinDropdown.style.zIndex = 9999999;
         const id = 'BH_signin_' + Date.now();
-        backdrop.classList.add(id + '-blocker', 'awtsBlock');
-        const sty = document.createElement('style');
-        backdrop.appendChild(sty);
-        sty.innerHTML = `.${id}-blocker { position: fixed; left: 0; top: 0; margin: 0; z-index: 9999998; background: rgba(0,0,0,0.4); width: 100%; height: 100%; }`;
+        backdrop.classList.add(id + '-blocker', 'awtsBlock', 'awtsmoos-dropdown-backdrop');
         container.appendChild(backdrop);
         backdrop.addEventListener('click', () => {
             signinDropdown.classList.add('hidden');
@@ -266,10 +269,7 @@ export default function createProfileDropdown(parentElement) {
         const backdrop = document.createElement('div');
         awtsmoosProfileDropContent.style.zIndex = 9999999;
         const id = 'BH_' + Date.now();
-        backdrop.classList.add(id + '-blocker', 'awtsBlock');
-        const sty = document.createElement('style');
-        backdrop.appendChild(sty);
-        sty.innerHTML = `.${id}-blocker { position: fixed; left: 0; top: 0; margin: 0; z-index: 9999998; background: rgba(0,0,0,0.4); width: 100%; height: 100%; }`;
+        backdrop.classList.add(id + '-blocker', 'awtsBlock', 'awtsmoos-dropdown-backdrop');
         container.appendChild(backdrop);
         backdrop.addEventListener('click', () => {
             awtsmoosProfileDropContent.classList.add('hidden');
@@ -313,7 +313,9 @@ export default function createProfileDropdown(parentElement) {
     function showAliases(aliases) {
         aliasInfo.innerHTML = '';
         if (!aliases.length) {
-            aliasInfo.innerHTML = '<div>No aliases yet</div>';
+            const emptyAliases = document.createElement('div');
+            emptyAliases.textContent = 'No aliases yet';
+            aliasInfo.appendChild(emptyAliases);
         } else {
             aliases.forEach(w => {
                 const h = document.createElement('div');
@@ -325,10 +327,10 @@ export default function createProfileDropdown(parentElement) {
                 h.appendChild(p);
                 aliasInfo.appendChild(h);
                 h.addEventListener('click', async () => {
-                    h.innerHTML = 'Setting as default...';
+                    h.textContent = 'Setting as default...';
                     const resp = await (await fetch(`/api/social/alias/default`, {
                         method: 'POST',
-                        body: 'alias=' + w.id,
+                        body: new URLSearchParams({ alias: w.id }).toString(),
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         credentials: 'include'
                     })).json();
@@ -337,7 +339,7 @@ export default function createProfileDropdown(parentElement) {
                         window.dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: w.id } }));
                         showAliases(aliasesGot);
                     } else {
-                        h.innerHTML = 'Couldn\'t set default';
+                        h.textContent = 'Couldn\'t set default';
                     }
                 });
             });
@@ -465,7 +467,7 @@ export default function createProfileDropdown(parentElement) {
         window.curAlias = e.detail.id;
         document.querySelectorAll('.currentAliasName').forEach(d => {
             d.textContent = '@' + e.detail.id;
-            if (d.tagName === 'A') d.href = '/@' + e.detail.id;
+            if (d.tagName === 'A') d.href = aliasProfileHref(e.detail.id);
         });
         if (aliasSection.classList.contains('hidden')) aliasSection.classList.remove('hidden');
         if (aliasesGot && isShowingAliases) showAliases(aliasesGot);

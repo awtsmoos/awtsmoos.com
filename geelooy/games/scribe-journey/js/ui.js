@@ -65,8 +65,7 @@ export function initUI(sendToWorker) {
         btn.className = 'menu-button';
         btn.dataset.action = 'gates37-screen';
         btn.textContent = '37 Gates of Wisdom';
-        btn.style.color = '#00ffff';
-        btn.style.borderColor = '#00ffff';
+        btn.classList.add('accent-cyan');
         gameMenu.insertBefore(btn, gameMenu.lastElementChild);
     }
 
@@ -76,8 +75,7 @@ export function initUI(sendToWorker) {
         
         if (battleBtn) { 
             e.preventDefault(); 
-            // FIX: Explicitly set the type to 'battleAction' and pass specific action as a separate property
-            // This prevents the 'action' property from the dataset (e.g., 'fight') overwriting the routing action 'battleAction'
+            // Route combat intent without letting dataset.action overwrite the message type.
             sendToWorker('battleAction', { 
                 combatAction: battleBtn.dataset.action, 
                 value: battleBtn.dataset.value 
@@ -113,14 +111,11 @@ export function initUI(sendToWorker) {
     });
 
     function showScreen(screenName) {
-        Object.values(screens).forEach(s => { if(s) s.style.display = 'none' });
-        if (screens[screenName]) {
-            // Force flex for screens other than game canvas to ensure proper centering
-            const display = screenName === 'game' ? 'block' : 'flex';
-            screens[screenName].style.display = display;
-        } else {
-             screens['game'].style.display = 'block';
-        }
+        Object.values(screens).forEach(screen => {
+            if (screen) screen.classList.remove('is-visible');
+        });
+        const target = screens[screenName] || screens.game;
+        if (target) target.classList.add('is-visible');
     }
     
     function update(payload) {
@@ -186,28 +181,30 @@ export function initUI(sendToWorker) {
         
         if (state.log) { 
             battleLog.innerHTML = state.log; 
-            battleLog.style.display = 'block'; 
-            battleMenu.style.display = 'none'; 
-            continueIndicator.style.display = state.awaitingConfirm ? 'block' : 'none'; 
+            battleLog.classList.add('battle-log-visible');
+            battleLog.classList.remove('battle-menu-hidden');
+            battleMenu.classList.add('battle-menu-hidden');
+            battleMenu.classList.remove('battle-menu-visible');
+            continueIndicator.classList.toggle('is-visible', Boolean(state.awaitingConfirm));
         } else if (state.menu) { 
-            battleLog.style.display = 'none'; 
-            battleMenu.style.display = 'grid'; 
-            battleMenu.style.gridTemplateColumns = "1fr 1fr";
-            battleMenu.style.gap = "15px"; 
-            continueIndicator.style.display = 'none'; 
+            battleLog.classList.add('battle-menu-hidden');
+            battleLog.classList.remove('battle-log-visible');
+            battleMenu.classList.remove('battle-menu-hidden');
+            battleMenu.classList.add('battle-menu-visible', 'battle-menu-grid');
+            continueIndicator.classList.remove('is-visible');
             // Add class battle-button explicitly
-            battleMenu.innerHTML = state.menu.buttons.map(btn => `<button class="battle-button" data-action="${btn.action}" data-value="${btn.value || ''}" style="${btn.style||''}" ${btn.disabled ? 'disabled' : ''}>${btn.text}</button>`).join(''); 
+            battleMenu.innerHTML = state.menu.buttons.map(btn => `<button class="battle-button ${btn.className || ''}" data-action="${btn.action}" data-value="${btn.value || ''}" ${btn.disabled ? 'disabled' : ''}>${btn.text}</button>`).join(''); 
         } 
     }
 
     function updateDialogue(state) { 
-        if (!state.active) { dialogueBox.style.display = 'none'; return; } 
-        dialogueBox.style.display = 'flex'; 
+        if (!state.active) { dialogueBox.classList.remove('is-visible'); return; }
+        dialogueBox.classList.add('is-visible'); 
         document.getElementById('dialogue-text').innerHTML = state.text; 
         const choicesEl = document.getElementById('dialogue-choices'); 
         choicesEl.innerHTML = ''; 
         if (state.choices && state.choices.length > 0) { 
-            document.getElementById('dialogue-continue-indicator').style.display = 'none'; 
+            document.getElementById('dialogue-continue-indicator').classList.remove('is-visible'); 
             state.choices.forEach((choice, index) => { 
                 const choiceEl = document.createElement('div'); 
                 choiceEl.className = `dialogue-choice ${choice.disabled ? 'disabled-choice' : ''}`; 
@@ -216,13 +213,13 @@ export function initUI(sendToWorker) {
                 choicesEl.appendChild(choiceEl); 
             }); 
         } else { 
-            document.getElementById('dialogue-continue-indicator').style.display = 'block'; 
+            document.getElementById('dialogue-continue-indicator').classList.add('is-visible'); 
         } 
     }
 
     function updateGemachScreen(data) { document.getElementById('gemach-player-money').textContent = data.playerMoney; document.getElementById('gemach-balance').textContent = data.balance; }
     
-    function updateMoonUI(phase) { let m=document.getElementById('moon-display'); if(!m){ m=document.createElement('div'); m.id='moon-display'; m.style.cssText="position:absolute;top:15px;right:15px;font-size:2.5em;pointer-events:none;z-index:50;text-shadow:0 0 10px white;"; document.getElementById('gameContainer').appendChild(m); } m.textContent = phase.icon; }
+    function updateMoonUI(phase) { let m=document.getElementById('moon-display'); if(!m){ m=document.createElement('div'); m.id='moon-display'; document.getElementById('gameContainer').appendChild(m); } m.textContent = phase.icon; }
 
     // ANTI-FLICKER CHAT
     let lastChatTimestamp = 0;
@@ -249,15 +246,97 @@ export function initUI(sendToWorker) {
     function showToast(message, type = 'info') { const container = document.getElementById('toast-container'); const toast = document.createElement('div'); toast.className = `toast toast-${type}`; toast.textContent = message; container.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
 
     // Helpers
-    function updateFeaturesScreen(data) { document.getElementById('features-screen').innerHTML = `<div class="modal-content" style="max-width:700px;"><h3>The 666 Features</h3><div style="max-height:60vh;overflow-y:auto;">${data.list.map(f=>`<div style="padding:5px;border-bottom:1px solid #333;"><strong style="color:${f.active?'#0f0':'#888'}">${f.name}</strong><br><span style="font-size:0.8em;color:#ccc;">${f.desc}</span></div>`).join('')}</div><button class="modal-action-button" data-action="close-features">Close</button></div>`; }
-    function updateOtzarScreen(data) { document.getElementById('otzar-screen').innerHTML = `<div class="modal-content" style="max-width:800px;width:95%;"><h3>Otzar HaNefashot</h3><div style="display:flex;gap:20px;"><div style="flex:1;border:1px solid #555;padding:5px;"><h4>Current Shem</h4>${data.team.map((m,i)=>`<div style="padding:5px;border-bottom:1px solid #333;display:flex;justify-content:space-between;"><span>${m.emoji} ${m.name} (Lv ${m.level})</span><button class="menu-button" style="font-size:0.7em;padding:2px 5px;" data-action="swapOtzar" data-from="team" data-index="${i}">Deposit</button></div>`).join('')}</div><div style="flex:1;border:1px solid #555;padding:5px;"><h4>Storage</h4><div style="max-height:40vh;overflow-y:auto;">${data.storage.length===0?'<div>Empty</div>':data.storage.map((m,i)=>`<div style="padding:5px;border-bottom:1px solid #333;display:flex;justify-content:space-between;"><span>${m.emoji} ${m.name} (Lv ${m.level})</span><button class="menu-button" style="font-size:0.7em;padding:2px 5px;" data-action="swapOtzar" data-from="storage" data-index="${i}">Withdraw</button></div>`).join('')}</div></div></div><button class="modal-action-button" data-action="close-otzar">Close</button></div>`; }
-    function updateDreidelScreen(data) { document.getElementById('dreidel-screen').innerHTML = `<div class="modal-content" style="max-width:500px;text-align:center;"><h3>High Stakes Dreidel</h3><div style="font-size:3em;margin:20px;">${data.lastResult?data.lastResult.letter:'🥯'}</div><div style="margin-bottom:20px;">${data.lastResult?data.lastResult.outcome:'Spin to play!'}</div><div class="gemach-balance-box"><div>Pot: <span style="color:gold">${data.pot}</span>p</div><div>Pockets: <span>${data.playerMoney}</span>p</div></div><div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;"><button class="menu-button" data-action="spinDreidel" data-value="10">Bet 10</button><button class="menu-button" data-action="spinDreidel" data-value="50">Bet 50</button></div><button class="modal-action-button" data-action="close-dreidel">Leave</button></div>`; }
-    function updateGatesScreen(data) { document.getElementById('gates-screen').innerHTML = `<div class="modal-content" style="max-width:800px;"><h3>50 Gates of Binah</h3><div class="gates-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;max-height:60vh;overflow-y:auto;">${data.list.map(g=>`<div class="gate-entry" style="background:${g.isActive?'rgba(0,255,0,0.2)':'rgba(255,255,255,0.05)'};padding:10px;border-radius:5px;border:1px solid ${g.isUnlocked?(g.isActive?'#0f0':'#888'):'#440000'};opacity:${g.isUnlocked?1:0.5};cursor:pointer;"><div style="font-weight:bold;">${g.name}</div><div style="font-size:0.7em;">${g.isUnlocked?g.desc:'Locked'}</div>${g.isUnlocked?`<button class="menu-button" style="font-size:0.7em;margin-top:5px;width:100%;" data-action="toggleGate" data-value="${g.id}">${g.isActive?'Disable':'Enable'}</button>`:''}</div>`).join('')}</div><button class="modal-action-button" data-action="close-gates">Close</button></div>`; }
-    function updateBestiaryScreen(data) { document.getElementById('bestiary-screen').innerHTML = `<div class="modal-content" style="max-width:700px;"><h3>Sefer HaYetzira</h3><div class="bestiary-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;max-height:60vh;overflow-y:auto;">${data.entries.map(e=>`<div class="bestiary-entry" style="background:${e.seen?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.5)'};padding:5px;border-radius:5px;text-align:center;border:1px solid ${e.caught?'gold':'#555'};opacity:${e.seen?1:0.5};"><div style="font-size:2em;">${e.seen?e.emoji:'❓'}</div><div style="font-size:0.7em;">${e.seen?e.name:'Unknown'}</div></div>`).join('')}</div><div style="margin-top:10px;">Seen: ${data.seenCount}</div><button class="modal-action-button" data-action="close-bestiary">Close</button></div>`; }
-    function updateMitzvahScreen(data) { document.getElementById('mitzvah-screen').innerHTML = `<div class="modal-content" style="max-width:600px;"><h3>Mitzvah Tank</h3><div style="max-height:60vh;overflow-y:auto;text-align:left;">${data.list.map(m=>`<div style="padding:10px;margin-bottom:5px;background:${m.completed?'rgba(0,255,0,0.1)':'rgba(255,255,255,0.05)'};border-left:4px solid ${m.completed?'#4CAF50':'#888'};"><div style="font-weight:bold;">${m.name} ${m.completed?'✅':''}</div><div style="font-size:0.8em;color:#ccc;">${m.desc}</div></div>`).join('')}</div><button class="modal-action-button" data-action="close-mitzvah">Close</button></div>`; }
-    function updateCraftingScreen(data) { document.getElementById('crafting-screen').innerHTML = `<div class="modal-content" style="max-width:700px;"><h3>Tikkun Kelim</h3><div style="max-height:60vh;overflow-y:auto;">${data.recipes.map(r=>`<div style="background:rgba(255,255,255,0.05);padding:10px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;"><div><strong>${r.name}</strong><br><span style="font-size:0.8em;color:#ccc;">${r.description}</span><br><div style="font-size:0.8em;color:#aaa;">${r.ingredients.map(i=>`${i.name}(${i.has}/${i.needed})`).join(', ')}</div></div><button class="menu-button" data-action="craftAction" data-recipe-id="${r.id}" ${!r.canCraft?'disabled':''}>Craft</button></div>`).join('')}</div><button class="modal-action-button" data-action="close-crafting">Close</button></div>`; }
-    function updateShemScreen(data) { document.getElementById('shem-screen').innerHTML = `<div class="modal-content"><h3>Your Shem</h3><div id="shem-list">${data.team.map(m=>`<div style="margin-bottom:20px;border-bottom:1px solid #444;"><div style="display:flex;align-items:center;gap:15px;"><span class="musag-emoji">${m.emoji}</span><div><div style="font-weight:bold;">${m.name}</div><div>Lv ${m.level}</div></div></div></div>`).join('')}</div><button class="modal-action-button" data-action="close-shem">Close</button></div>`; }
-    function updatePlayerQuestScreen(quests, inventory) { document.getElementById('player-quest-screen').innerHTML = `<div class="modal-content" style="max-width:600px;"><h3>Your Quest Board</h3><div style="border:1px solid #555;padding:10px;"><h4>Post New Quest</h4><select id="quest-type-select" class="menu-button"><option value="fetch">Fetch Item</option><option value="kill">Defeat Monster</option></select><select id="quest-target-input" class="menu-button"><option value="wheat_bundle">Wheat</option><option value="clay_golem">Golem</option></select><select id="quest-reward-select" class="menu-button"><option value="money">Perutah</option>${inventory.map(i=>`<option value="${i.id}">${i.name}</option>`).join('')}</select><input id="quest-reward-amount" type="number" value="10" style="width:50px;background:#333;color:white;"><button class="menu-button" data-action="create_quest">Post</button></div><div><h4>Active Posts</h4>${quests.map(q=>`<div>${q.type.toUpperCase()} ${q.targetId} - Status: ${q.status}</div>`).join('')}</div><button class="modal-action-button" data-action="close-player-quests">Close</button></div>`; }
+    function updateFeaturesScreen(data) {
+        document.getElementById('features-screen').innerHTML = `
+            <div class="modal-content wide-modal">
+                <h3>The 666 Features</h3>
+                <div class="scroll-panel">
+                    ${data.list.map(f => `<div class="feature-entry ${f.active ? 'is-active' : ''}"><strong>${f.name}</strong><br><span class="muted-copy">${f.desc}</span></div>`).join('')}
+                </div>
+                <button class="modal-action-button" data-action="close-features">Close</button>
+            </div>`;
+    }
+
+    function updateOtzarScreen(data) {
+        const renderMusag = (m, i, from, label) => `
+            <div class="storage-row list-row">
+                <span>${m.emoji} ${m.name} (Lv ${m.level})</span>
+                <button class="menu-button compact-button" data-action="swapOtzar" data-from="${from}" data-index="${i}">${label}</button>
+            </div>`;
+        document.getElementById('otzar-screen').innerHTML = `
+            <div class="modal-content wide-modal">
+                <h3>Otzar HaNefashot</h3>
+                <div class="two-column-panel">
+                    <div class="sub-panel"><h4>Current Shem</h4>${data.team.map((m,i)=>renderMusag(m,i,'team','Deposit')).join('')}</div>
+                    <div class="sub-panel"><h4>Storage</h4><div class="scroll-panel compact-scroll">${data.storage.length === 0 ? '<div class="empty-state">Empty</div>' : data.storage.map((m,i)=>renderMusag(m,i,'storage','Withdraw')).join('')}</div></div>
+                </div>
+                <button class="modal-action-button" data-action="close-otzar">Close</button>
+            </div>`;
+    }
+
+    function updateDreidelScreen(data) {
+        document.getElementById('dreidel-screen').innerHTML = `
+            <div class="modal-content narrow-modal">
+                <h3>High Stakes Dreidel</h3>
+                <div class="big-symbol">${data.lastResult ? data.lastResult.letter : '🥯'}</div>
+                <div class="result-copy">${data.lastResult ? data.lastResult.outcome : 'Spin to play!'}</div>
+                <div class="gemach-balance-box"><div>Pot: <span class="gold-copy">${data.pot}</span>p</div><div>Pockets: <span>${data.playerMoney}</span>p</div></div>
+                <div class="form-row"><button class="menu-button" data-action="spinDreidel" data-value="10">Bet 10</button><button class="menu-button" data-action="spinDreidel" data-value="50">Bet 50</button></div>
+                <button class="modal-action-button" data-action="close-dreidel">Leave</button>
+            </div>`;
+    }
+
+    function updateGatesScreen(data) {
+        document.getElementById('gates-screen').innerHTML = `
+            <div class="modal-content wide-modal">
+                <h3>50 Gates of Binah</h3>
+                <div class="grid-cards scroll-panel gates-grid">${data.list.map(g => `<div class="grid-card gate-entry ${g.isUnlocked ? '' : 'is-dim'} ${g.isActive ? 'is-active' : ''}"><div class="entry-title">${g.name}</div><div class="muted-copy">${g.isUnlocked ? g.desc : 'Locked'}</div>${g.isUnlocked ? `<button class="menu-button compact-button" data-action="toggleGate" data-value="${g.id}">${g.isActive ? 'Disable' : 'Enable'}</button>` : ''}</div>`).join('')}</div>
+                <button class="modal-action-button" data-action="close-gates">Close</button>
+            </div>`;
+    }
+
+    function updateBestiaryScreen(data) {
+        document.getElementById('bestiary-screen').innerHTML = `
+            <div class="modal-content wide-modal">
+                <h3>Sefer HaYetzira</h3>
+                <div class="grid-cards scroll-panel bestiary-grid">${data.entries.map(e => `<div class="grid-card bestiary-entry ${e.seen ? '' : 'is-dim'} ${e.caught ? 'is-gold' : ''}"><div class="big-entry-icon">${e.seen ? e.emoji : '❓'}</div><div class="muted-copy">${e.seen ? e.name : 'Unknown'}</div></div>`).join('')}</div>
+                <div class="count-copy">Seen: ${data.seenCount}</div>
+                <button class="modal-action-button" data-action="close-bestiary">Close</button>
+            </div>`;
+    }
+
+    function updateMitzvahScreen(data) {
+        document.getElementById('mitzvah-screen').innerHTML = `
+            <div class="modal-content wide-modal">
+                <h3>Mitzvah Tank</h3>
+                <div class="scroll-panel text-left">${data.list.map(m => `<div class="mitzvah-entry ${m.completed ? 'is-complete' : ''}"><div class="entry-title">${m.name} ${m.completed ? '✅' : ''}</div><div class="muted-copy">${m.desc}</div></div>`).join('')}</div>
+                <button class="modal-action-button" data-action="close-mitzvah">Close</button>
+            </div>`;
+    }
+
+    function updateCraftingScreen(data) {
+        document.getElementById('crafting-screen').innerHTML = `
+            <div class="modal-content wide-modal">
+                <h3>Tikkun Kelim</h3>
+                <div class="scroll-panel">${data.recipes.map(r => `<div class="recipe-row list-row"><div><strong>${r.name}</strong><br><span class="muted-copy">${r.description}</span><br><span class="subtle-copy">${r.ingredients.map(i => `${i.name}(${i.has}/${i.needed})`).join(', ')}</span></div><button class="menu-button compact-button" data-action="craftAction" data-recipe-id="${r.id}" ${!r.canCraft ? 'disabled' : ''}>Craft</button></div>`).join('')}</div>
+                <button class="modal-action-button" data-action="close-crafting">Close</button>
+            </div>`;
+    }
+
+    function updateShemScreen(data) {
+        document.getElementById('shem-screen').innerHTML = `
+            <div class="modal-content"><h3>Your Shem</h3><div id="shem-list">${data.team.map(m => `<div class="shem-card"><div class="shem-row"><span class="musag-emoji">${m.emoji}</span><div><div class="entry-title">${m.name}</div><div>Lv ${m.level}</div></div></div></div>`).join('')}</div><button class="modal-action-button" data-action="close-shem">Close</button></div>`;
+    }
+
+    function updatePlayerQuestScreen(quests, inventory) {
+        document.getElementById('player-quest-screen').innerHTML = `
+            <div class="modal-content wide-modal">
+                <h3>Your Quest Board</h3>
+                <div class="sub-panel"><h4>Post New Quest</h4><div class="form-row"><select id="quest-type-select" class="form-control"><option value="fetch">Fetch Item</option><option value="kill">Defeat Monster</option></select><select id="quest-target-input" class="form-control"><option value="wheat_bundle">Wheat</option><option value="clay_golem">Golem</option></select><select id="quest-reward-select" class="form-control"><option value="money">Perutah</option>${inventory.map(i => `<option value="${i.id}">${i.name}</option>`).join('')}</select><input id="quest-reward-amount" class="form-control number-input" type="number" value="10"><button class="menu-button" data-action="create_quest">Post</button></div></div>
+                <div><h4>Active Posts</h4>${quests.map(q => `<div class="list-row">${q.type.toUpperCase()} ${q.targetId} - Status: ${q.status}</div>`).join('')}</div>
+                <button class="modal-action-button" data-action="close-player-quests">Close</button>
+            </div>`;
+    }
 
     return { update, showToast };
 }

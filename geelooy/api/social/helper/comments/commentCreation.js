@@ -22,6 +22,10 @@ const {
 } = require("../heichel.js");
 
 const {
+    getHeichelSubmissionSettings
+} = require("../heichelRoles.js");
+
+const {
     verifyAliasOwnership
 } = require("../alias.js");
 
@@ -57,14 +61,6 @@ function parseDayuhVessel(dayuh) {
     }
 }
 
-/**
- * B"H
- * @function parseDayuhVessel
- * @description Turns JSON-string dayuh bodies into objects before verse routing.
- * Numeric zero is never root; only missing/invalid vessels fall back later.
- * @param {any} dayuh Raw dayuh from request/comment payload.
- * @returns {object|undefined} Parsed dayuh object, or undefined.
- */
 /**
  * @method addComment
  * @description Initiates comment creation, verifying ownership and authority. (Checks remain similar)
@@ -104,21 +100,24 @@ async function addComment(
         var hasAuthority = await verifyHeichelAuthority({ heichelId, aliasId, $i });
 
         if (!hasAuthority) {
-            // If no direct authority, submit for approval
-          //  console.log(`Alias ${aliasId} lacks authority for ${heichelId}, submitting comment.`);
+            const settings = (await getHeichelSubmissionSettings({ $i, heichelId })).success || {};
+            if (settings.allowCommentSubmissions === false) {
+                return er({
+                    message: "Comment submissions are closed for this heichel.",
+                    code: "COMMENT_SUBMISSIONS_CLOSED"
+                });
+            }
+            if (settings.requireCommentApproval === false) {
+                return await addOrApproveComment({
+                    $i, parentType, parentId, heichelId, aliasId, userid, postId, seriesId
+                });
+            }
             return await submitComment({
                 $i, parentType, parentId, heichelId, aliasId, userid, postId, seriesId
             });
-             /* // Original logic seemed to prevent submission if no auth, corrected above
-             return er( {
-                 message: "You don't have authority to post to this heichel",
-                 code: "NO_AUTH"
-             });
-             */
         }
 
         // If has authority, add directly
-      //  console.log(`Alias ${aliasId} has authority for ${heichelId}, adding comment directly.`);
         var commentArray = $i.$_POST.commentArray;
         if(Array.isArray(commentArray)) {
             return await addLotsOfCommentsToPostByVerseSections({
@@ -192,7 +191,6 @@ async function submitComment(
         // Optionally, add a reference to the general list
          await db.arrayAppend(allSubmittedListPath, { commentId, aliasId, timestamp, path: submittedCommentSpecificPath });
 
-     //   console.log(`Comment ${commentId} submitted successfully to ${submittedCommentSpecificPath}`);
         return {
             success: true,
             message: "Comment submitted for approval.",
@@ -326,7 +324,7 @@ async function addLotsOfCommentsToPostByVerseSections({
 }
 /**
  * @method addOrApproveComment
- * @description Core function to add a comment directly (or approve a submitted one - approval logic TBD).
+ * @description Core function to add a comment directly (or approve a submitted one - approval flow).
  * Uses the new path structure and DB operations.
  * @returns {Object} Result of operation.
  */
@@ -398,7 +396,6 @@ async function addOrApproveComment(
                 throw writeResult.error; // Rethrow DB error
             }
 
-           // console.log(`Successfully added comment ${commentId} to ${aliasCommentFilePath} under key ${verseSection}`);
 
         } catch (dbError) {
             console.error("Database error adding comment:", dbError);
@@ -520,7 +517,6 @@ async function addCommentIndexToAlias({
 			var wr = await $i.db.write(pth, { seriesId, breadcrumb: crumbled, updatedAt: Date.now() });
 		}
 
-     //   console.log(`Ensured series ${seriesId} is indexed for alias ${aliasId} in heichel ${heichelId}.`,syncResult);
         return { success: true, details: syncResult }; // Return DB operation details
 
     } catch (e) {

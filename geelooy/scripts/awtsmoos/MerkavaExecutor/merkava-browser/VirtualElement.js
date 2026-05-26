@@ -3,28 +3,43 @@
     if (typeof module === 'object' && module.exports) module.exports = factory();
     else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualElement = factory().VirtualElement; }
 })(typeof self !== 'undefined' ? self : this, function() {
+    const { VirtualStyleDeclaration } = require('./VirtualStyleDeclaration.js');
+    const { VirtualClassList } = require('./VirtualClassList.js');
+    const { VirtualEvent } = require('./VirtualEvents.js');
+    const html = () => new (require('./VirtualHtmlSerializer.js').VirtualHtmlSerializer)();
+    const isCapture = options => options === true || !!options?.capture;
+    const matches = (node, selector) => selector.startsWith('#') ? node.id === selector.slice(1) : selector.startsWith('.') ? node.classList?.contains(selector.slice(1)) : selector.includes('[') ? attrMatch(node, selector) : node.tagName.toLowerCase() === selector.toLowerCase();
+    const attrMatch = (node, selector) => { const m = selector.match(/^([\w-]+)?\[([\w-]+)(?:=["']?([^"'\]]+)["']?)?\]$/); return !!m && (!m[1] || node.tagName.toLowerCase() === m[1].toLowerCase()) && (m[3] == null ? node.hasAttribute(m[2]) : node.getAttribute(m[2]) === m[3]); };
     class VirtualElement {
         constructor(tagName = 'div', ownerDocument = null) {
-            this.tagName = String(tagName).toUpperCase(); this.nodeName = this.tagName; this.ownerDocument = ownerDocument;
-            this.children = []; this.parentNode = null; this.attributes = {}; this.style = {}; this.listeners = {};
-            this.dataset = {};
-            this.textContent = ''; this.value = ''; this.id = ''; this.className = '';
+            this.tagName = String(tagName).toUpperCase(); this.nodeName = this.tagName; this.localName = String(tagName).toLowerCase(); this.nodeType = this.tagName === '#TEXT' ? 3 : this.tagName === '#FRAGMENT' ? 11 : 1;
+            this.ownerDocument = ownerDocument; this.parentNode = null; this.children = []; this.childNodes = this.children; this.attributes = {}; this.listeners = {}; this.style = new VirtualStyleDeclaration(); this.dataset = {};
+            this.textContent = ''; this.value = ''; this.checked = false; this.selected = false; this.id = ''; this.className = ''; this.name = ''; this.type = ''; this.tabIndex = -1; this.hidden = false; this.disabled = false; this.classList = new VirtualClassList(this);
         }
-        appendChild(child) { child.parentNode = this; this.children.push(child); this.ownerDocument?.journal?.push({ kind: 'appendChild', parent: this.tagName, child: child.tagName, at: Date.now() }); return child; }
-        removeChild(child) { this.children = this.children.filter(item => item !== child); child.parentNode = null; return child; }
-        setAttribute(name, value) { this.attributes[name] = String(value); if (name === 'id') this.id = String(value); if (name === 'class') this.className = String(value); if (name === 'value') this.value = String(value); if (String(name).startsWith('data-')) this.dataset[String(name).slice(5).replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = String(value); }
-        getAttribute(name) { return this.attributes[name] ?? null; }
-        focus() { if (this.ownerDocument) this.ownerDocument.activeElement = this; this.dispatchEvent({ type: 'focus' }); }
-        click() { this.dispatchEvent({ type: 'click', bubbles: true, cancelable: true }); }
-        addEventListener(type, handler) { this.listeners[type] = this.listeners[type] || []; this.listeners[type].push(handler); }
-        dispatchEvent(event) { event.target = event.target || this; for (const handler of this.listeners[event.type] || []) handler.call(this, event); if (event.bubbles && this.parentNode) this.parentNode.dispatchEvent(event); return !event.defaultPrevented; }
-        querySelector(selector) { return this.querySelectorAll(selector)[0] || null; }
-        querySelectorAll(selector) {
-            const out = [], matches = node => selector.startsWith('#') ? node.id === selector.slice(1) : selector.startsWith('.') ? String(node.className).split(/\s+/).includes(selector.slice(1)) : node.tagName.toLowerCase() === selector.toLowerCase();
-            const walk = node => { if (matches(node)) out.push(node); node.children.forEach(walk); };
-            this.children.forEach(walk); return out;
-        }
-        toJSON() { return { tagName: this.tagName, id: this.id, className: this.className, value: this.value, textContent: this.textContent, attributes: this.attributes, children: this.children.map(c => c.toJSON()) }; }
+        get firstChild() { return this.children[0] || null; } get lastChild() { return this.children[this.children.length - 1] || null; } get parentElement() { return this.parentNode?.nodeType === 1 ? this.parentNode : null; }
+        get previousSibling() { const p = this.parentNode?.children || []; return p[p.indexOf(this) - 1] || null; } get nextSibling() { const p = this.parentNode?.children || []; return p[p.indexOf(this) + 1] || null; }
+        get firstElementChild() { return this.children.find(x => x.nodeType === 1) || null; } get childElementCount() { return this.children.filter(x => x.nodeType === 1).length; }
+        appendChild(child) { if (child.nodeType === 11) { while (child.firstChild) this.appendChild(child.firstChild); return child; } if (child.parentNode) child.parentNode.removeChild(child); child.parentNode = this; this.children.push(child); this.ownerDocument?.journal?.push({ kind: 'appendChild', parent: this.tagName, child: child.tagName, at: Date.now() }); return child; }
+        insertBefore(child, before) { if (!before) return this.appendChild(child); const i = this.children.indexOf(before); if (i < 0) throw new Error('Reference node not found'); if (child.parentNode) child.parentNode.removeChild(child); child.parentNode = this; this.children.splice(i, 0, child); return child; }
+        removeChild(child) { const i = this.children.indexOf(child); if (i < 0) throw new Error('Child not found'); this.children.splice(i, 1); child.parentNode = null; return child; }
+        replaceChildren(...nodes) { while (this.firstChild) this.removeChild(this.firstChild); nodes.forEach(node => this.appendChild(node)); }
+        cloneNode(deep = false) { const copy = new VirtualElement(this.localName, this.ownerDocument); for (const [k, v] of Object.entries(this.attributes)) copy.setAttribute(k, v); copy.textContent = this.textContent; copy.value = this.value; copy.checked = this.checked; copy.selected = this.selected; copy.id = this.id; copy.className = this.className; copy.name = this.name; copy.type = this.type; copy.tabIndex = this.tabIndex; copy.hidden = this.hidden; copy.disabled = this.disabled; if (deep) this.children.forEach(c => copy.appendChild(c.cloneNode(true))); return copy; }
+        contains(node) { for (let cur = node; cur; cur = cur.parentNode) if (cur === this) return true; return false; }
+        setAttribute(name, value) { const key = String(name); this.attributes[key] = String(value); if (key === 'id') this.id = String(value); if (key === 'class') this.className = String(value); if (key === 'style') this.style.assignText(value); if (key === 'value') this.value = String(value); if (key === 'name') this.name = String(value); if (key === 'type') this.type = String(value); if (key === 'tabindex') this.tabIndex = Number(value); if (key === 'checked') this.checked = true; if (key === 'selected') this.selected = true; if (key === 'hidden') this.hidden = true; if (key === 'disabled') this.disabled = true; if (key.startsWith('data-')) this.dataset[key.slice(5).replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = String(value); }
+        getAttribute(name) { return this.attributes[String(name)] ?? null; } hasAttribute(name) { return Object.prototype.hasOwnProperty.call(this.attributes, String(name)); }
+        removeAttribute(name) { const key = String(name); delete this.attributes[key]; if (key === 'id') this.id = ''; if (key === 'class') this.className = ''; if (key === 'checked') this.checked = false; if (key === 'selected') this.selected = false; if (key === 'hidden') this.hidden = false; if (key === 'disabled') this.disabled = false; }
+        focus() { const doc = this.ownerDocument; if (!doc || doc.activeElement === this) return; const old = doc.activeElement; if (old) { old.dispatchEvent(new VirtualEvent('blur')); old.dispatchEvent(new VirtualEvent('focusout', { bubbles: true })); } doc.activeElement = this; this.dispatchEvent(new VirtualEvent('focus')); this.dispatchEvent(new VirtualEvent('focusin', { bubbles: true })); }
+        blur() { if (this.ownerDocument?.activeElement === this) { this.dispatchEvent(new VirtualEvent('blur')); this.dispatchEvent(new VirtualEvent('focusout', { bubbles: true })); this.ownerDocument.activeElement = null; } }
+        click() { if (this.disabled) return; if (this.type === 'checkbox') this.checked = !this.checked; this.dispatchEvent(new VirtualEvent('click', { bubbles: true, cancelable: true })); }
+        addEventListener(type, handler, options = false) { if (!handler) return; (this.listeners[type] = this.listeners[type] || []).push({ handler, capture: isCapture(options), once: !!options?.once }); }
+        removeEventListener(type, handler, options = false) { const cap = isCapture(options); this.listeners[type] = (this.listeners[type] || []).filter(item => item.handler !== handler || item.capture !== cap); }
+        __invoke(event, capture) { for (const item of (this.listeners[event.type] || []).slice()) { if (item.capture !== capture) continue; event.currentTarget = this; item.handler.call(this, event); if (item.once) this.removeEventListener(event.type, item.handler, { capture }); if (event.__immediateStopped) break; } }
+        dispatchEvent(rawEvent) { const event = typeof rawEvent === 'string' ? new VirtualEvent(rawEvent) : rawEvent; if (!event.type) throw new Error('Event missing type'); event.target ||= this; const path = []; for (let n = this; n; n = n.parentNode) path.push(n); event.__path = path.slice(); for (let i = path.length - 1; i > 0 && !event.cancelBubble; i--) { event.eventPhase = 1; path[i].__invoke(event, true); } if (!event.cancelBubble) { event.eventPhase = 2; this.__invoke(event, true); if (!event.__immediateStopped) this.__invoke(event, false); } if (event.bubbles) for (let i = 1; i < path.length && !event.cancelBubble; i++) { event.eventPhase = 3; path[i].__invoke(event, false); } event.eventPhase = 0; event.currentTarget = null; return !event.defaultPrevented; }
+        querySelector(selector) { return this.querySelectorAll(selector)[0] || null; } matches(selector) { return matches(this, selector); }
+        querySelectorAll(selector) { const out = [], walk = node => { if (matches(node, selector)) out.push(node); node.children.forEach(walk); }; this.children.forEach(walk); return out; }
+        get innerHTML() { return html().serializeChildren(this); } set innerHTML(value) { html().parseInto(this, value); } get outerHTML() { return html().serialize(this); }
+        getContext(kind) { const type = String(kind || '').toLowerCase(); if (this.tagName !== 'CANVAS') return null; if (type === '2d') { if (!this.__canvas2dContext) { const { VirtualCanvas2DContext } = require('./VirtualCanvas2DContext.js'); this.__canvas2dContext = new VirtualCanvas2DContext(this, this.ownerDocument?.textureArena); } return this.__canvas2dContext; } if (type !== 'webgl' && type !== 'webgl2') return null; if (!this.__webglContext) { const { VirtualWebGLContext } = require('./VirtualWebGLContext.js'); this.__webglContext = new VirtualWebGLContext(this, this.ownerDocument?.textureArena); } return this.__webglContext; }
+        toJSON() { return { tagName: this.tagName, id: this.id, className: this.className, value: this.value, checked: this.checked, selected: this.selected, textContent: this.textContent, attributes: this.attributes, style: this.style.toJSON(), webgl: this.__webglContext?.snapshot?.() || null, children: this.children.map(c => c.toJSON()) }; }
     }
     return { VirtualElement };
 });

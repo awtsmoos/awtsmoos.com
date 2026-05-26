@@ -10,9 +10,15 @@ const { sp } = require("../_awtsmoos.constants.js");
 const { loggedIn, er, myOpts, generateAwtsmoosId } = require("../general.js");
 const { verifyHeichelAuthority } = require("../heichel.js");
 const { deleteAllCommentsOfParent } = require("../comments/index.js");
+const {
+    shouldSubmitPostForApproval,
+    submitPostForApproval,
+    getSubmittedPosts,
+    approveSubmittedPost,
+    denySubmittedPost
+} = require("./submissions.js");
 async function get(pth, $i, withOpts=true) {
 	var opts = {};
-	//console.log("Getting",pth)
 	opts.max = true;
 	try {
 		return {
@@ -205,7 +211,6 @@ async function getPostsOfAliasInSeries({
 		crumbpath.length == 0
 	) {
 		var g = await get(mp, $i)
-		console.log("asd")
 		return g;
 	}
 	var crumbled = mp + crumbpath;
@@ -368,7 +373,7 @@ async function getPostsOfAliasInSeries({
  * @description Adds a new post directly into its parent series' post object.
  * @requires $_POST: { aliasId, title, content, seriesId (parent), dayuh? }
  */
-async function addPostToSeries({ $i, heichelId, seriesId}) {
+async function addPostToSeries({ $i, heichelId, seriesId, isApproval = false }) {
     if (!loggedIn($i)) return er({ message: "NO_LOGIN" });
 
     const { aliasId, title, content, dayuh } = 
@@ -388,9 +393,15 @@ async function addPostToSeries({ $i, heichelId, seriesId}) {
         return er({ message: "Input too long", proper: { title: 100, content: 15784 } });
     }
 
-    const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
-    if (!isAuthorized) {
-        return er({ code: "NO_AUTH", details: `Alias ${aliasId} cannot post to heichel ${heichelId}` });
+    if (!isApproval) {
+        const approvalState = await shouldSubmitPostForApproval({ $i, heichelId, aliasId });
+        if (approvalState.error) return approvalState.error;
+        if (approvalState.shouldSubmit) {
+            return await submitPostForApproval({ $i, heichelId, seriesId });
+        }
+        if (!approvalState.authority) {
+            return er({ code: "NO_AUTH", details: `Alias ${aliasId} cannot post to heichel ${heichelId}` });
+        }
     }
 
     // Check if parent series exists (optional but good practice)
@@ -448,7 +459,6 @@ async function addPostToSeries({ $i, heichelId, seriesId}) {
 			crumbed	
 		}`;
 	        const trackResult = await $i.db.write(trackingPath);
-	      //  console.log("Trying to write",trackingPath,trackResult)
 	        if(trackResult?.error) {
 			return er({
 				message: "Error in tracking",
@@ -664,7 +674,6 @@ async function getPostFromSeries({ $i, heichelId, seriesId, postId }) {
         try {
             postData = await $i.db.getValue(postPath, postId, map); // Assumes get works on sub-keys
         } catch (eGet) {
-			console.log(eGet)
             // Fallback: get the whole posts object and extract
 			var pm = opts?.propertyMap || {title:true,dayuh:true,content:true,author:true,id:true};
             const allPosts = await $i.db.get(seriesPostsPath+"/"+postId, {
@@ -713,7 +722,6 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
                  if(postIds.error.code === 'PATH_NOT_FOUND' || postIds.error.code === 'NOT_AN_OBJECT') return []; // Empty array if no posts path/object
                  throw new Error(`DB Error getting keys: ${postIds.error.message || postIds.error}`);
              }
-             console.log("just ideas",postIds);
             return postIds || [];
         } else {
 			
@@ -753,27 +761,6 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
 			
 			//let postsArray = Object.values(postsObject).filter(Boolean);
 				
-             // TODO: Re-implement property filtering if required, similar to the original getPostsInHeichel
-             /* Example adaptation:
-             if (properties && typeof properties === 'object') {
-                 postsArray = postsArray.map(post => {
-                     const filteredPost = {};
-                     for (const prop in properties) {
-                         if (post.hasOwnProperty(prop)) {
-                             const rule = properties[prop];
-                             if (rule === true) {
-                                 filteredPost[prop] = post[prop];
-                             } else if (typeof rule === 'number' && typeof post[prop] === 'string') {
-                                 filteredPost[prop] = post[prop].substring(0, rule);
-                             } // Add other rules if needed
-                         }
-                     }
-                     // Always include essential fields like id?
-                     if (!filteredPost.id && post.id) filteredPost.id = post.id;
-                     return filteredPost;
-                 });
-             }
-             */
              // Add seriesId back if useful for context (already implicit)
              // postsArray.forEach(p => p.seriesId = seriesId);
 
@@ -845,6 +832,9 @@ module.exports = {
     getPostFromSeries,
     getPostsInSeries,
     getPostsByProperty,
+    getSubmittedPosts,
+    approveSubmittedPost,
+    denySubmittedPost,
     // Removed: getPost, addPostToHeichel, deletePost, editPostDetails, getPostsInHeichel (replaced by Series-centric versions)
     // Removed: detailedPostOperation (replace with specific GET/PUT/DELETE routes)
 };

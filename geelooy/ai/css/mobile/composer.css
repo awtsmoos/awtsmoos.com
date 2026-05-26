@@ -1,0 +1,26 @@
+/*B"H*/
+/*
+  Chapter 6: The Composer Became A Small Gate Of Fire.
+  The input, send button, and attachments sit in one narrow vessel without
+  stepping on the chat river or swallowing the final line of living text.
+*/
+@media (max-width: 520px) {
+  .input-area {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 7px;
+    padding: 7px;
+  }
+
+  #send-button,
+  .attachment-tools button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .attachment-tools {
+    max-width: calc(100% - 14px);
+    justify-self: start;
+    align-self: start;
+    margin: 4px 0 0 4px;
+  }
+}

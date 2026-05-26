@@ -175,6 +175,11 @@ function createCreationModal(onSubmit, onCancel) {
                         ref: 'modalForm',
                         events: { submit: onSubmit },
                         children: [
+                            { tag: 'select', attr: { class: 'heichel-content-type-select', 'aria-label': 'Content type' }, ref: 'modalContentTypeSelect', children: [
+                                { tag: 'option', attr: { value: 'post' }, children: ['Regular Post'] },
+                                { tag: 'option', attr: { value: 'question' }, children: ['Question'] },
+                                { tag: 'option', attr: { value: 'answer' }, children: ['Answer'] }
+                            ] },
                             { tag: 'input', attr: { type: 'text', id: 'modal-input-title', required: true, placeholder: 'Title' }, ref: 'modalTitleInput' },
                             { tag: 'textarea', attr: { id: 'modal-input-description', placeholder: 'Description' }, ref: 'modalDescTextarea' },
                             { tag: 'input', attr: { type: 'text', id: 'modal-input-id', placeholder: 'Custom ID (Optional)' }, ref: 'modalIdInput' },

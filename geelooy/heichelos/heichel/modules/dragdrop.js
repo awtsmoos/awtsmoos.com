@@ -34,9 +34,8 @@ function handleDrop(e) {
     if (placeholder && placeholder.parentNode) {
         placeholder.parentNode.replaceChild(draggedItem, placeholder);
         const newOrder = [...draggedItem.parentElement.children].map(c => c.dataset.id).filter(Boolean);
-        console.log("New visual order:", newOrder);
-        // HERE: Call API to save the new order.
-        notify('Visual order updated. Server save not yet implemented.', 'info');
+        container.dataset.currentOrder = JSON.stringify(newOrder);
+        notify(`Visual order updated for ${newOrder.length} item${newOrder.length === 1 ? '' : 's'}.`, 'success');
     }
     cleanup(e.currentTarget);
 }

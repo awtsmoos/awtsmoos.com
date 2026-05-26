@@ -29,4 +29,6 @@ export const mysticalMoves = {
     'Ice_Shard': { name: 'Ice Shard', power: 55, cost: 12, type: 'Gevurah', desc: 'Cold, hard facts materialized.' },
     'Echo_Blast': { name: 'Echo Blast', power: 45, cost: 10, type: 'Mystical', desc: 'Sound reflected back with force.' },
     'Whisper_Negation': { name: 'Whisper of Negation', power: 45, cost: 10, type: 'Qliphoth', desc: 'An unnerving whisper that drains conviction.' },
+    'Chokhmah_Flash': { name: 'Chokhmah Flash', power: 75, cost: 18, type: 'Chokhmah', desc: 'A sudden flash of wisdom that strikes before form fully settles.' },
+    'Share_Bounty': { name: 'Share Bounty', power: 0, cost: 12, type: 'Chesed', effect: { target: 'self', stat: 'heal', amount: 35 }, desc: 'Leaves blessing for another and restores the giver.' },
 };

@@ -1,38 +1,41 @@
-
 /**
+ * B"H
  * @constant EmeraldWorldBlueprint
  * @description
- * B"H
- * The blueprint for the Emerald World.
- * A vast, unbroken plane of pure green, representing the infinite 
- * potential before details are drawn down. It is a single, massive
- * utterance of existence.
- * 
- * @type {Object}
+ * Registry-facing summary blueprint for the same Emerald Void concept used by
+ * the active menu world. This file is intentionally lightweight: the runtime
+ * world data lives in ckidsAwtsmoos/tochen/worlds/emerald.js, while this older
+ * registry path remains truthful and non-conflicting.
  */
 export const EmeraldWorldBlueprint = {
     metadata: {
-        id: "emerald_world",
-        name: "Default Emerald World",
-        author: "Awtsmoos"
+        id: 'emerald_world',
+        name: 'Emerald Void — Living District',
+        author: 'Awtsmoos',
+        runtimeWorld: 'ckidsAwtsmoos/tochen/worlds/emerald.js',
+        profile: 'mobile',
+        seed: 7701
     },
     environment: {
-        skyColor: "#87CEEB",
-        ambientLight: { color: "#FFFFFF", intensity: 0.6 },
-        directionalLight: { color: "#FFFFFF", intensity: 0.8, direction: { x: -1, y: 1, z: -1 } }
+        skyColor: '#87CEEB',
+        ambientLight: { color: '#FFFFFF', intensity: 0.65 },
+        directionalLight: { color: '#FFFFFF', intensity: 0.85, direction: { x: -1, y: 1, z: -1 } }
     },
-    entities:[
+    promises: {
+        manyHouses: true,
+        roads: true,
+        outdoorNpcs: true,
+        clickableNpcRange: true,
+        doorsAndMezuzos: true,
+        mobileSafeProfile: true,
+        deterministicGeneration: true
+    },
+    entities: [
         {
-            id: "infinite_emerald_plane",
-            type: "Geometry",
-            geometry: "Plane",
-            dimensions: { width: 1000, height: 1000 },
-            transform: {
-                position: { x: 0, y: 0, z: 0 },
-                rotation: { x: -90, y: 0, z: 0 }, // Lie flat
-                scale: { x: 1, y: 1, z: 1 }
-            },
-            material: { color: "#50C878", type: "standard" } // Emerald Green
+            id: 'emerald_world_runtime_pointer',
+            type: 'RuntimeWorldPointer',
+            target: 'ckidsAwtsmoos/tochen/worlds/emerald.js',
+            material: { color: '#50C878', type: 'standard' }
         }
     ]
 };

@@ -26,23 +26,20 @@ export function notify(key, value) {
 
 // Global Auth logic
 export async function initAuth(ui) {
-    console.log("Awtsmoos Mail: Initializing Identity Protocols...");
+    const params = new URLSearchParams(window.location.search);
+    const requestedAlias = params.get('alias');
 
-    // 1. Immediate Check
-    if(window.curAlias) {
-        console.log("Awtsmoos Mail: Identity found in memory:", window.curAlias);
-        await login(window.curAlias, ui);
+    if (window.curAlias || requestedAlias) {
+        await login(window.curAlias || requestedAlias, ui);
     } else {
         showLoginOverlay(ui, true);
     }
 
-    // 2. Event Listener
     window.addEventListener("awtsmoosAliasChange", async (e) => {
         const id = e.detail ? e.detail.id : null;
         if(id) {
             await login(id, ui);
         } else {
-            console.log("Awtsmoos Mail: Identity Dissolved.");
             state.alias = null;
             showLoginOverlay(ui, true);
         }
@@ -67,28 +64,37 @@ async function login(alias, ui) {
     connectSocket(alias);
     await refreshSnippets();
     
-    // ROUTING CHECK: Load thread from URL if present
     const params = new URLSearchParams(window.location.search);
     const threadId = params.get('thread');
-    if(threadId) {
-        // ID Cleaning: IDs in network often use _at_ instead of @
-        let clean = threadId.replace(/@/g, '_at_');
-        // If it's a domain-less alias (like 'awtsmoos'), don't append suffix unless necessary logic exists
-        
-        // Try to find display name from snippets
+    const toAlias = params.get('to');
+    if (threadId) {
+        const clean = normalizeThreadId(threadId);
         const found = state.snippets.find(s => s.correspondent === clean);
-        
-        // Formatting for title: restore @ for visual
-        const name = found 
-            ? found.correspondent.replace(/_at_/g, '@') 
-            : clean.replace(/_at_/g, '@');
-        
+        const name = found ? found.correspondent.replace(/_at_/g, '@') : clean.replace(/_at_/g, '@');
         switchChat(ui, clean, name);
+    } else if (toAlias) {
+        openComposeTo(ui, toAlias);
     }
 
     if(!window._mailPoll) {
         window._mailPoll = setInterval(refreshSnippets, 30000);
     }
+}
+
+function normalizeThreadId(threadId) {
+    return String(threadId || '').replace(/@/g, '_at_');
+}
+
+function openComposeTo(ui, toAlias) {
+    const modal = ui.getHtml('composeModal');
+    const to = ui.getHtml('newTo');
+    const subject = ui.getHtml('newSub');
+    if (!modal || !to) return;
+
+    to.value = toAlias;
+    if (subject && !subject.value) subject.value = `Message for @${toAlias}`;
+    modal.classList.remove('hidden');
+    setTimeout(() => modal.classList.add('visible'), 10);
 }
 
 function showLoginOverlay(ui, show) {

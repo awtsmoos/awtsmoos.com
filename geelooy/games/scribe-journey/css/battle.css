@@ -1,92 +1,107 @@
-/* B"H */
-/* css/battle.css */
-
+/* B"H - Battle HUD: combat vessels, health, kavanah, and Geula button only. */
 .battle-area {
     display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-bottom: clamp(12px, 3vh, 24px);
+    justify-content: space-between;
     align-items: flex-end;
-    gap: clamp(8px, 3vw, 24px);
+    gap: 18px;
+    width: min(100%, 980px);
+    padding: 0 20px;
 }
 
 .battle-musag-display {
     position: relative;
-    background: rgba(0, 20, 40, 0.82);
-    border: 1px solid var(--neon-blue);
-    padding: clamp(8px, 2vw, 14px);
+    width: 45%;
+    padding: 12px;
     text-align: center;
+    background: rgba(0,0,0,0.78);
+    border: 1px solid rgba(255,255,255,0.25);
     border-radius: 14px;
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.22);
-    width: min(45%, 360px);
-    overflow: hidden;
+    box-shadow: inset 0 0 18px rgba(0, 243, 255, 0.08);
 }
 
 .battle-musag-display::after {
-    content: '';
+    content: "";
     position: absolute;
-    inset: auto 12% 0;
-    height: 2px;
-    background: currentColor;
-    opacity: 0.25;
-    filter: blur(2px);
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: 0 0 22px rgba(0, 243, 255, 0.08);
 }
 
-.health-bar {
-    background: #333;
-    border: 1px solid #555;
-    height: 10px;
-    margin-top: 5px;
+.battle-button {
     width: 100%;
-    border-radius: 999px;
-    overflow: hidden;
+    min-height: 46px;
+    min-width: min(88vw, 260px);
+    margin: 7px;
+    padding: 12px 22px;
+    border: 1px solid var(--neon-blue);
+    border-radius: 12px;
+    background: rgba(0, 20, 40, 0.72);
+    color: var(--neon-blue);
+    font: inherit;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.18);
+    transition: transform 0.14s ease, background 0.14s ease, color 0.14s ease, box-shadow 0.14s ease;
 }
 
-.health-bar-inner {
-    height: 100%;
-    background: var(--hp-high);
-    box-shadow: 0 0 5px var(--hp-high);
-    transition: width 0.3s ease;
+.battle-button:hover:not(:disabled) {
+    background: var(--neon-blue);
+    color: #001018;
+    box-shadow: 0 0 22px rgba(0, 243, 255, 0.72);
+    transform: translateY(-1px);
 }
 
+.battle-button:active { transform: scale(0.97); }
+.battle-button:disabled { opacity: 0.48; cursor: not-allowed; border-color: #555; color: #888; }
+
+.ultimate-battle-button {
+    color: var(--neon-gold);
+    border-color: var(--neon-gold);
+    font-weight: 700;
+}
+
+.ultimate-battle-button:hover:not(:disabled) {
+    background: var(--neon-gold);
+    color: #140d00;
+    box-shadow: 0 0 24px rgba(255, 215, 0, 0.78);
+}
+
+.battle-menu-visible { display: grid; }
+.battle-menu-hidden { display: none; }
+.battle-log-visible { display: block; }
+.battle-menu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+.battle-ui-box { width: min(90vw, 760px); margin-top: 20px; }
+
+.health-bar,
 .kavanah-bar {
-    background: #333;
-    border: 1px solid #555;
-    height: 6px;
-    margin-top: 4px;
-    border-radius: 999px;
     overflow: hidden;
+    background: #333;
+    border-radius: 999px;
 }
 
-.kavanah-bar-inner {
-    height: 100%;
-    background: var(--kavanah);
-    box-shadow: 0 0 5px var(--kavanah);
-}
+.health-bar { height: 10px; margin-top: 6px; }
+.kavanah-bar { height: 5px; margin-top: 2px; }
+.health-bar-inner { height: 100%; background: var(--hp-high); transition: width 0.3s; }
+.kavanah-bar-inner { height: 100%; background: var(--kavanah); transition: width 0.3s; }
 
 .musag-emoji {
-    font-size: clamp(2.1rem, 9vw, 3.3rem);
-    margin: 10px 0;
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
-    animation: float 3s infinite ease-in-out;
+    font-size: clamp(2.8rem, 8vw, 4.3rem);
+    animation: battleFloat 3s infinite;
 }
 
-.fx-debate-damage { filter: drop-shadow(0 0 12px #ff5555); }
-.fx-debate-crit { filter: drop-shadow(0 0 18px #ffd166); }
-.fx-debate-heal { filter: drop-shadow(0 0 16px #66ff99); }
-.fx-holy-fire { filter: drop-shadow(0 0 18px #ff9f1c); }
-.fx-bittul-crown { filter: drop-shadow(0 0 24px #f7e7a1); }
-.fx-capture-spark { filter: drop-shadow(0 0 18px #ffff00); }
+@keyframes battleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
 
 @media (max-width: 768px), (pointer: coarse) {
     .battle-area {
+        flex-direction: column;
         align-items: stretch;
-        gap: 8px;
+        padding: calc(12px + var(--safe-top)) 12px 0;
     }
 
-    .battle-musag-display {
-        width: 48%;
-        padding: 8px;
-        font-size: 0.88rem;
-    }
+    .battle-musag-display { width: 100%; }
 }

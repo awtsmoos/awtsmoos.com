@@ -3,6 +3,7 @@
 //- Logic for the actions context menu, restoring the missing feature.
 import {notify} from './ui.js';
 import {appState} from '../state.js';
+import { openModal } from './modal.js';
 // Added import for appState
 
 let currentMenu = null;
@@ -36,7 +37,7 @@ export function showContextMenu(iconElement, item, navigator) {
 
     const actions = {
         'Delete': () => navigatorInstance.deleteSingleItem(item),
-        'Edit': () => notify(`Editing "${item.title}" is not yet implemented.`, 'info'),
+        'Edit': () => openModal(item.type === 'series' ? 'series' : 'post', navigatorInstance, { mode: item.type === 'series' ? 'edit' : 'create', seriesId: item.id, inputId: item.id, title: item.title || '', description: item.description || item.content || '', contentType: item.contentType || 'post' }),
         'Share': shareAction
     };
     
@@ -44,7 +45,6 @@ export function showContextMenu(iconElement, item, navigator) {
 	    actions["Clear"] = () => navigatorInstance.clearSingleItem(item);
     }
     
-    console.log(item)
 
     for (const [label,action] of Object.entries(actions)) {
         const menuItem = document.createElement('div');
@@ -71,7 +71,6 @@ export function showContextMenu(iconElement, item, navigator) {
     // Align to the right of the icon
     menu.style.opacity = "1";
     currentMenu = menu;
-    console.log(item,33,menu,rect)
     // Add listeners to close the menu
     setTimeout( () => {
         // Timeout prevents immediate self-closing

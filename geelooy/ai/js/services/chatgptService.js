@@ -17,10 +17,11 @@ export function makeChatGPTService(self) {
       const convo = await self.instance.getConversation(conversationId);
       return conversationToMessages(convo);
     },
-    promptFunction: async (userMessage, { onstream = null, ondone = null, conversationId = null } = {}) => self.instance.go({
+    promptFunction: async (userMessage, { onstream = null, ondone = null, conversationId = null, streamContext = {} } = {}) => self.instance.go({
       prompt: userMessage,
       conversationId,
       more: self.getChatGPTModePayload(),
+      streamContext: { ...streamContext, conversationId: streamContext.conversationId ?? conversationId ?? null },
       ondone: data => ondone?.(data),
       onstream: data => onstream?.(data)
     })

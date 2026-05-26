@@ -21,7 +21,9 @@ import { TORAH_DEBATE_TYPES, resolveDebateType } from '../ckidsAwtsmoos/Olam/wor
 import { TORAH_DEBATE_DECKS } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/data/debate/TorahDebateDecks.js';
 import { EMERALD_WOOD_NODES } from '../ckidsAwtsmoos/Olam/worlds/mitzvahWorld/data/collectibles/WoodCollectibles.js';
 
-const repoRoot = path.resolve('geelooy/games/mitzvahWorld');
+const cwdGameRoot = path.resolve('.');
+const repoGameRoot = path.resolve('geelooy/games/mitzvahWorld');
+const repoRoot = fs.existsSync(path.join(cwdGameRoot, 'index.js')) ? cwdGameRoot : repoGameRoot;
 const worldRoot = path.join(repoRoot, 'ckidsAwtsmoos/Olam/worlds/mitzvahWorld');
 const results = [];
 

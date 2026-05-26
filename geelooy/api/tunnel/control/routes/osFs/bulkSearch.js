@@ -5,15 +5,32 @@ const { writeFile, writeIfHash, sha256 } = require("./writeOps.js");
 const { parsePlainList, parsePlainWrites } = require("./plainPayload.js");
 
 
+function bulkPathList(payload = {}) {
+  const direct = Array.isArray(payload.paths) ? payload.paths : [];
+  if (direct.length) return direct;
+  const fromFiles = parsePlainList(payload.files);
+  if (fromFiles.length) return fromFiles;
+  return parsePlainList(payload.path && payload.path !== "." ? payload.path : payload.p);
+}
+
 async function bulk($i, userId, payload) {
   const files = {};
-  const paths = Array.isArray(payload.paths) ? payload.paths : parsePlainList(payload.paths || payload.files || payload.path || payload.p);
-  for (const one of paths.slice(0, Number(payload.maxFiles || 5))) {
+  const paths = bulkPathList(payload);
+  const maxFiles = Number(payload.maxFiles || 5);
+  const totalMaxChars = Number(payload.totalMaxChars || 24000);
+  let usedChars = 0;
+  let stoppedBecause = null;
+  for (const one of paths.slice(0, maxFiles)) {
     const path = typeof one === "string" ? one : one.path;
-    try { files[path] = await readFile($i, userId, { ...payload, path, maxChars: one.maxChars || payload.maxChars }); }
-    catch (e) { files[path] = { ok: false, path, error: e.message }; }
+    const remaining = Math.max(0, totalMaxChars - usedChars);
+    if (!remaining) { stoppedBecause = "totalMaxChars"; break; }
+    try {
+      const got = await readFile($i, userId, { ...payload, path, maxChars: Math.min(Number(one.maxChars || payload.maxChars || 12000), remaining) });
+      usedChars += String(got.content || "").length;
+      files[path] = got;
+    } catch (e) { files[path] = { ok: false, path, error: e.message }; }
   }
-  return { ok: true, action: "bulk", requestedCount: paths.length, returnedCount: Object.keys(files).length, files };
+  return { ok: true, action: "bulk", requestedCount: paths.length, returnedCount: Object.keys(files).length, skippedCount: Math.max(0, paths.length - Object.keys(files).length), usedChars, maxFiles, totalMaxChars, partial: Object.keys(files).length < paths.length, stoppedBecause, files };
 }
 
 async function bulkWrite($i, userId, payload) {

@@ -80,7 +80,6 @@ function createInlineToggle(alias, isInline) {
                     click: (e) => e.stopPropagation(),
                     change: (e) => {
                         e.stopPropagation();
-                        console.log(`%c B"H - Toggling Inline Manifestation for @${alias}`, "color: #00ffff; font-weight: bold;");
                         // Call the higher mutator logic to switch the worlds
                         toggleInlineForComments([], alias);
                     }

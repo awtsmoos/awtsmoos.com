@@ -48,10 +48,19 @@ export async function buildBrickWall(scene, physics, def) {
   const totalBricks = bricksX * bricksY;
   const gap = 0.05;
 
-  const geoA = new THREE.BoxGeometry(brickW - gap, brickH - gap, brickD - gap);
-  const geoB = new THREE.BoxGeometry(brickW - gap, brickH - gap, brickD - gap);
-  const matA = new THREE.MeshLambertMaterial({ color: colorA });
-  const matB = new THREE.MeshLambertMaterial({ color: colorB });
+  const descriptorA = {
+    geometry: { type: 'box', width: brickW - gap, height: brickH - gap, depth: brickD - gap },
+    material: { type: 'lambert', color: colorA }
+  };
+  const descriptorB = {
+    geometry: { type: 'box', width: brickW - gap, height: brickH - gap, depth: brickD - gap },
+    material: { type: 'lambert', color: colorB }
+  };
+
+  const geoA = new THREE.BoxGeometry(descriptorA.geometry.width, descriptorA.geometry.height, descriptorA.geometry.depth);
+  const geoB = new THREE.BoxGeometry(descriptorB.geometry.width, descriptorB.geometry.height, descriptorB.geometry.depth);
+  const matA = new THREE.MeshLambertMaterial({ color: descriptorA.material.color });
+  const matB = new THREE.MeshLambertMaterial({ color: descriptorB.material.color });
 
   const meshA = new THREE.InstancedMesh(geoA, matA, totalBricks);
   const meshB = new THREE.InstancedMesh(geoB, matB, totalBricks);

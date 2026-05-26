@@ -75,3 +75,458 @@
     color: var(--color-ink-secondary);
 }
 .context-menu-icon:hover { color: var(--color-primary); }
+
+.heichel-editor-panel {
+    display: grid;
+    gap: 0.75rem;
+    margin-block: 1rem;
+    padding: clamp(0.9rem, 2.5vw, 1.25rem);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.92), rgba(8, 12, 22, 0.82));
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
+}
+
+.heichel-editor-panel h3 {
+    margin: 0;
+    font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.heichel-editor-panel-copy,
+.heichel-editor-status,
+.heichel-editor-empty {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.heichel-editor-list {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.heichel-editor-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.heichel-editor-row a {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    color: inherit;
+    font-weight: 800;
+}
+
+.heichel-editor-remove,
+.heichel-editor-add {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.heichel-editor-remove {
+    padding: 0.5rem 0.85rem;
+    background: rgba(239, 68, 68, 0.15);
+    color: #fff;
+}
+
+.heichel-editor-add {
+    justify-self: start;
+}
+
+@media (max-width: 640px) {
+    .heichel-editor-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .heichel-editor-remove,
+    .heichel-editor-add {
+        width: 100%;
+        min-height: 2.75rem;
+    }
+}
+
+
+.heichel-role-settings-panel {
+    display: grid;
+    gap: clamp(0.8rem, 2vw, 1.1rem);
+    margin-block: 1rem;
+    padding: clamp(1rem, 3vw, 1.35rem);
+    border: 1px solid rgba(125, 211, 252, 0.22);
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(2, 6, 23, 0.94), rgba(15, 23, 42, 0.82));
+    box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28);
+}
+
+.heichel-role-settings-title h3,
+.heichel-submission-settings h4,
+.heichel-role-card h4 {
+    margin: 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.heichel-role-settings-title p {
+    margin: 0.25rem 0 0;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.heichel-role-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.heichel-role-card,
+.heichel-submission-settings {
+    min-width: 0;
+    display: grid;
+    gap: 0.7rem;
+    padding: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.heichel-role-card-header,
+.heichel-role-member {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+}
+
+.heichel-role-card button,
+.heichel-submission-form button {
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 999px;
+    background: rgba(14, 165, 233, 0.15);
+    color: inherit;
+    cursor: pointer;
+    font-weight: 800;
+    min-height: 2.35rem;
+    padding: 0.45rem 0.85rem;
+}
+
+.heichel-role-list,
+.heichel-submission-form {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.heichel-role-member a {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    color: inherit;
+    font-weight: 800;
+}
+
+.heichel-role-empty,
+.heichel-role-status {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.heichel-setting-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 0;
+}
+
+.heichel-setting-toggle input {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: 0 0 auto;
+}
+
+@media (max-width: 760px) {
+    .heichel-role-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .heichel-role-card-header,
+    .heichel-role-member {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .heichel-role-card button,
+    .heichel-submission-form button {
+        width: 100%;
+    }
+}
+
+
+.heichel-post-approval-panel {
+    display: grid;
+    gap: 0.8rem;
+    margin-block: 1rem;
+    padding: clamp(1rem, 3vw, 1.35rem);
+    border: 1px solid rgba(251, 191, 36, 0.22);
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(30, 24, 10, 0.92), rgba(15, 23, 42, 0.82));
+    box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28);
+}
+
+.heichel-post-approval-header,
+.heichel-post-approval-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.heichel-post-approval-header h3,
+.heichel-post-approval-card h4 {
+    margin: 0;
+    letter-spacing: 0.04em;
+}
+
+.heichel-post-approval-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.heichel-post-approval-card {
+    display: grid;
+    gap: 0.55rem;
+    padding: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.heichel-post-approval-meta,
+.heichel-post-approval-preview,
+.heichel-post-approval-status,
+.heichel-post-approval-empty {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    overflow-wrap: anywhere;
+}
+
+.heichel-post-approval-action,
+.heichel-post-approval-header button {
+    min-height: 2.4rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    border-radius: 999px;
+    background: rgba(251, 191, 36, 0.14);
+    color: inherit;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.heichel-post-approval-action.danger {
+    border-color: rgba(239, 68, 68, 0.42);
+    background: rgba(239, 68, 68, 0.18);
+}
+
+@media (max-width: 760px) {
+    .heichel-post-approval-header,
+    .heichel-post-approval-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .heichel-post-approval-action,
+    .heichel-post-approval-header button {
+        width: 100%;
+    }
+}
+
+
+.heichel-role-member-identity {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.heichel-role-member-chat {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid rgba(125, 211, 252, 0.28);
+    border-radius: 999px;
+    color: inherit;
+    background: rgba(14, 165, 233, 0.11);
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+@media (max-width: 760px) {
+    .heichel-role-member-identity,
+    .heichel-role-member-chat {
+        width: 100%;
+    }
+
+    .heichel-role-member-chat {
+        justify-content: center;
+    }
+}
+
+
+.heichel-post-approval-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.heichel-post-approval-meta a,
+.heichel-post-approval-message {
+    color: inherit;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.heichel-post-approval-message {
+    display: inline-flex;
+    min-height: 1.9rem;
+    align-items: center;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid rgba(251, 191, 36, 0.28);
+    border-radius: 999px;
+    background: rgba(251, 191, 36, 0.12);
+    text-decoration: none;
+}
+
+@media (max-width: 760px) {
+    .heichel-post-approval-meta,
+    .heichel-post-approval-message {
+        width: 100%;
+    }
+
+    .heichel-post-approval-message {
+        justify-content: center;
+    }
+}
+
+
+.heichel-content-type-select {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid rgba(125, 211, 252, 0.26);
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.82);
+    color: inherit;
+    font-weight: 800;
+}
+
+.heichel-content-type-select:focus-visible {
+    outline: 2px solid rgba(125, 211, 252, 0.55);
+    outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+    .heichel-content-type-select {
+        min-height: 3rem;
+        font-size: 1rem;
+    }
+}
+
+
+.awtsmoos-notifications-panel {
+    position: fixed;
+    inset-inline-end: clamp(0.75rem, 2vw, 1.25rem);
+    inset-block-end: clamp(0.75rem, 2vw, 1.25rem);
+    z-index: 9998;
+    display: grid;
+    gap: 0.55rem;
+    width: min(22rem, calc(100vw - 1.5rem));
+    pointer-events: none;
+}
+
+.awtsmoos-notifications-toggle,
+.awtsmoos-notifications-list {
+    pointer-events: auto;
+}
+
+.awtsmoos-notifications-toggle {
+    justify-self: end;
+    min-height: 2.75rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgba(125, 211, 252, 0.34);
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.92);
+    color: inherit;
+    font-weight: 900;
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
+    cursor: pointer;
+}
+
+.awtsmoos-notifications-list {
+    max-height: min(28rem, 70vh);
+    overflow: auto;
+    display: grid;
+    gap: 0.65rem;
+    padding: 0.7rem;
+    border: 1px solid rgba(125, 211, 252, 0.22);
+    border-radius: 18px;
+    background: rgba(2, 6, 23, 0.94);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
+}
+
+.awtsmoos-notifications-list[hidden] {
+    display: none;
+}
+
+.awtsmoos-notification-card,
+.awtsmoos-notifications-empty {
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.055);
+}
+
+.awtsmoos-notification-card p {
+    margin: 0.35rem 0 0;
+    color: rgba(255, 255, 255, 0.72);
+    overflow-wrap: anywhere;
+}
+
+.awtsmoos-notification-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.55rem;
+}
+
+.awtsmoos-notification-actions a,
+.awtsmoos-notification-actions button {
+    min-height: 2rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 999px;
+    background: rgba(14, 165, 233, 0.12);
+    color: inherit;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+@media (max-width: 760px) {
+    .awtsmoos-notifications-panel {
+        inset-inline: 0.75rem;
+        width: auto;
+    }
+
+    .awtsmoos-notifications-toggle,
+    .awtsmoos-notification-actions a,
+    .awtsmoos-notification-actions button {
+        width: 100%;
+        justify-content: center;
+    }
+}

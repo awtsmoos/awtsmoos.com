@@ -80,7 +80,6 @@ class EntityModule extends AwtsmoosSocialHandler{
       await this.fetchEntities(
         `/${this.entityType}`
       );
-      console.log("What is it?",dayuh,this.entityType)
       var args = 
       [
         dayuh,
@@ -93,7 +92,6 @@ class EntityModule extends AwtsmoosSocialHandler{
         ...args
       )
     } catch(e) {
-      console.log("Error getting entities: ", e)
       this.errorFn?.call(0, e);
     }
 
@@ -104,7 +102,6 @@ class EntityModule extends AwtsmoosSocialHandler{
   
   async defaultDisplayFn(dayuh, containerID, editHandler) {
     var container = document.getElementById(containerID);
-    console.log("dayuh", dayuh)
     // Clear the container before displaying entities
     ui.htmlAction({ html: container, properties: { innerHTML: "" } });
 
@@ -119,7 +116,6 @@ class EntityModule extends AwtsmoosSocialHandler{
         textContent: 'Add New',
         events: {
           click: async () => {
-            console.log("Hi!")
             
             if(this.createFn) 
               await this.createFn(this);
@@ -146,7 +142,6 @@ class EntityModule extends AwtsmoosSocialHandler{
       })
     }
     if(dayuh.error) {
-      console.log(dayuh.error)
       ui.html({
         textContent: 
           "There was an error! Here: " + 
@@ -215,7 +210,6 @@ class EntityModule extends AwtsmoosSocialHandler{
                                     (dayuh[index], field, newValue);
                                     this.initialize(); // Refresh the display after editing
                                 } catch (e) {
-                                    console.log("Error", e);
                                 }
                             }
                         }
@@ -241,11 +235,6 @@ class EntityModule extends AwtsmoosSocialHandler{
 				
 		  ]
         }))
-
-        console.log(
-          "Fields",readOnlyFields,editableFields,
-          container
-        )
 
         var deleteButton = 
         (!isPublic?({
@@ -275,7 +264,6 @@ class EntityModule extends AwtsmoosSocialHandler{
               try {
                 this.viewFn(entity,this)
               } catch(e) {
-                console.log(e)
               }
             }
           }

@@ -19,7 +19,7 @@ export const LevelDataMap =[
         id: "emerald.js", 
         icon: "🟩", 
         title: "Emerald Void", 
-        desc: "The pristine, untouched potential. An infinite plane of pure green." 
+        desc: "A living emerald district: houses, roads, NPCs, doors, mezuzos, yards, missions, and light towers." 
     },
     { 
         id: "village.js", 

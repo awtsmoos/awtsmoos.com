@@ -5,7 +5,8 @@ export const DEFAULT_LAYOUT = Object.freeze({
   sidebar: { width: 290, collapsed: false, detached: false, x: 24, y: 86, h: 520 },
   automation: { width: 300, collapsed: false, detached: false, x: 820, y: 86, h: 520 },
   composer: { height: 96 },
-  density: "comfy"
+  density: "comfy",
+  mobile: { initialized: false }
 });
 
 /** Stores panel geometry so the cockpit remembers its vessels. */

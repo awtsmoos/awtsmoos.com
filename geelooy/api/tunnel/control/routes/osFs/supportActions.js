@@ -38,12 +38,53 @@ function summarizePayload(payload = {}) {
 
 async function supportAction(action, payload = {}, dispatch) {
   if (action === "finishAndContinue") return finishAndContinue(payload);
+  if (action === "payloadEcho") return payloadEcho(payload);
+  if (action === "actionSchemaTrace") return actionSchemaTrace(payload);
+  if (isRuntimeSupportAction(action)) return runtimeSupportAction(action, payload, dispatch);
   if (/Preset|Template|History|Memory|Macro/.test(action)) return stateAction(action, payload);
   if (/List$/.test(action) || action.endsWith("Status")) return listLike(action, payload);
   if (/Get$/.test(action)) return getLike(action, payload);
   if (/Validate|Linter|Tester|Check|Doctor|Scan|Audit|Diff|Matrix|Trace|Explain|Discover|Probe|Triage|Plan|Pack|Report|Summary|Health|Freshness|Parity|Compatibility|Coverage|Surface|Manifest|Contract|Schema|Fuzzer|Stress/.test(action)) return diagnosticLike(action, payload, dispatch);
   if (/Run$|Runner$|Start$|Stop$|Restart$|Replay$|Resume$|Cancel$|Save$|Patch$|Replace$|Fork$|Promote$|Record/.test(action)) return operationLike(action, payload);
   return base(action, payload, { family: classify(action), payload: summarizePayload(payload), note: "Direct support handler executed; deepen this action by replacing supportAction mapping with a focused implementation." });
+}
+
+function isRuntimeSupportAction(action) {
+  return /runtime|merkava|virtualDom/i.test(action);
+}
+
+async function runtimeSupportAction(action, payload = {}, dispatch) {
+  if (action === "runtimeOptionEcho") return base(action, payload, { family: "preview-runtime", options: summarizePayload(payload) });
+  if (action === "runtimeEngineMatrix") return base(action, payload, { family: "preview-runtime", available: ["browser", "node", "merkava"] });
+  if (action === "simulateRuntimeProviders") return base(action, payload, { family: "preview-runtime", providers: ["merkava-service"] });
+  return diagnosticLike(action, payload, dispatch);
+}
+
+function payloadEcho(payload = {}) {
+  return base("payloadEcho", payload, { family: "schema", payload: summarizePayload(payload), keys: Object.keys(payload).sort() });
+}
+
+function actionSchemaTrace(payload = {}) {
+  return base("actionSchemaTrace", payload, { family: "schema", targetAction: payload.target || payload.name || payload.actionName || "", acceptedFields: Object.keys(payload).sort(), payload: summarizePayload(payload) });
+}
+
+function isRuntimeSupportAction(action) {
+  return /runtime|merkava|virtualDom/i.test(action);
+}
+
+async function runtimeSupportAction(action, payload = {}, dispatch) {
+  if (action === "runtimeOptionEcho") return base(action, payload, { family: "preview-runtime", options: summarizePayload(payload) });
+  if (action === "runtimeEngineMatrix") return base(action, payload, { family: "preview-runtime", available: ["browser", "node", "merkava"] });
+  if (action === "simulateRuntimeProviders") return base(action, payload, { family: "preview-runtime", providers: ["merkava-service"] });
+  return diagnosticLike(action, payload, dispatch);
+}
+
+function payloadEcho(payload = {}) {
+  return base("payloadEcho", payload, { family: "schema", payload: summarizePayload(payload), keys: Object.keys(payload).sort() });
+}
+
+function actionSchemaTrace(payload = {}) {
+  return base("actionSchemaTrace", payload, { family: "schema", targetAction: payload.target || payload.name || payload.actionName || "", acceptedFields: Object.keys(payload).sort(), payload: summarizePayload(payload) });
 }
 
 function finishAndContinue(payload = {}) {

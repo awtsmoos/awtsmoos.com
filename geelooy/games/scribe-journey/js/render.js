@@ -12,6 +12,129 @@ const SETTINGS = {
     particleLimit: 200 
 };
 
+const HUMAN_EMOJIS = new Set(['🧑','👨','👩','👴','👵','👶','🧔','👨‍🔧','👩‍🔧','🤱','🧙','👲','👳','🕵️','👮','👷','🧕','👤']);
+
+function isHumanLike(entity) {
+    const glyph = entity?.emoji || entity?.visual || '';
+    return HUMAN_EMOJIS.has(glyph) || /(?:rabbi|rebbe|mother|builder|digger|guard|merchant|scribe|elder|teacher|student|maccabee|levi|person|human|father|woman|man)/i.test(`${entity?.id || ''} ${entity?.name || ''}`);
+}
+
+function avatarPalette(seed = '') {
+    let hash = 0;
+    for (const ch of seed) hash = ((hash << 5) - hash + ch.charCodeAt(0)) | 0;
+    const clothes = ['#1c7ed6', '#9c36b5', '#2f9e44', '#e67700', '#5f3dc4', '#0b7285'];
+    const skin = ['#f2c078', '#d99a5b', '#8d5524', '#f1b889'];
+    const hair = ['#2b1d13', '#4a2f1b', '#d4a373', '#1f1f1f', '#6f4e37'];
+    return {
+        clothes: clothes[Math.abs(hash) % clothes.length],
+        skin: skin[Math.abs(hash >> 3) % skin.length],
+        hair: hair[Math.abs(hash >> 6) % hair.length]
+    };
+}
+
+function drawHumanAvatar(ctx, entity, x, y, scale = 1) {
+    const palette = avatarPalette(`${entity?.id || ''}${entity?.name || ''}${entity?.emoji || ''}`);
+    const questGlow = entity?.questGiver ? 'rgba(255,215,0,0.72)' : entity?.shop ? 'rgba(0,243,255,0.48)' : 'rgba(0,0,0,0)';
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(scale, scale);
+
+    ctx.fillStyle = 'rgba(0,0,0,0.34)';
+    ctx.beginPath();
+    ctx.ellipse(0, 17, 12, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (questGlow !== 'rgba(0,0,0,0)') {
+        ctx.strokeStyle = questGlow;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, -2, 20, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+
+    ctx.fillStyle = palette.clothes;
+    roundRect(ctx, -9, 0, 18, 19, 7);
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, 2);
+    ctx.lineTo(0, 17);
+    ctx.stroke();
+
+    ctx.fillStyle = palette.skin;
+    ctx.beginPath();
+    ctx.arc(0, -9, 9, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = palette.hair;
+    ctx.beginPath();
+    ctx.arc(0, -13, 9, Math.PI, 0);
+    ctx.fill();
+
+    if ((entity?.emoji || '').includes('🧔') || /rabbi|rebbe|elder|levi/i.test(`${entity?.id || ''} ${entity?.name || ''}`)) {
+        ctx.fillStyle = palette.hair;
+        ctx.beginPath();
+        ctx.ellipse(0, -4, 6, 6, 0, 0, Math.PI);
+        ctx.fill();
+    }
+
+    ctx.fillStyle = '#101820';
+    ctx.beginPath();
+    ctx.arc(-3, -10, 1.2, 0, Math.PI * 2);
+    ctx.arc(3, -10, 1.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(20,24,30,0.65)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(0, -7, 3, 0.15, Math.PI - 0.15);
+    ctx.stroke();
+
+    ctx.strokeStyle = palette.skin;
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(-8, 5);
+    ctx.lineTo(-13, 13);
+    ctx.moveTo(8, 5);
+    ctx.lineTo(13, 13);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#151515';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-4, 17);
+    ctx.lineTo(-6, 23);
+    ctx.moveTo(4, 17);
+    ctx.lineTo(6, 23);
+    ctx.stroke();
+    ctx.restore();
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+}
+
+function drawEntityGlyph(ctx, entity, x, y, fontFace, bounce = 0) {
+    if (isHumanLike(entity)) {
+        drawHumanAvatar(ctx, entity, x, y + bounce, 1);
+        return;
+    }
+    ctx.fillStyle = '#fff';
+    ctx.fillText(entity.emoji, x, y + bounce);
+}
+
 // --- PARTICLE SYSTEM ---
 class Particle {
     constructor(x, y, type, color, life, velocity) {
@@ -185,7 +308,7 @@ export function renderGameState(ctx, renderState) {
 
     // 4. Render Entities
     const renderEntity = (e) => {
-        // FIX: Ensure emoji is valid and NOT the literal string "undefined"
+        // Guard against absent or literal invalid emoji data.
         if (!e.emoji || e.emoji === 'undefined') return; 
 
         const posX = e.pixelX !== undefined ? e.pixelX : e.x * TILE_SIZE;
@@ -200,13 +323,8 @@ export function renderGameState(ctx, renderState) {
         ctx.ellipse(screenX, screenY + 15, 10, 5, 0, 0, Math.PI*2);
         ctx.fill();
 
-        ctx.fillStyle = '#fff';
-        if(e.questGiver || e.shop) { 
-            const bounce = Math.sin(Date.now() / 200) * 3;
-            ctx.fillText(e.emoji, screenX, screenY + bounce);
-        } else {
-            ctx.fillText(e.emoji, screenX, screenY);
-        }
+        const bounce = (e.questGiver || e.shop) ? Math.sin(Date.now() / 200) * 3 : 0;
+        drawEntityGlyph(ctx, e, screenX, screenY, fontFace, bounce);
         
         if (e.name) {
             ctx.font = '10px monospace';
@@ -273,8 +391,13 @@ export function renderGameState(ctx, renderState) {
     }
     
     ctx.globalAlpha = 1;
-    ctx.fillStyle = '#fff';
-    if(p.emoji && p.emoji !== 'undefined') ctx.fillText(p.emoji, 0, 0);
+    if(p.emoji && p.emoji !== 'undefined') {
+        if (isHumanLike(p)) drawHumanAvatar(ctx, p, 0, 0, 1.08);
+        else {
+            ctx.fillStyle = '#fff';
+            ctx.fillText(p.emoji, 0, 0);
+        }
+    }
     ctx.restore();
 
     // 7. Particles

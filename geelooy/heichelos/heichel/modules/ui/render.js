@@ -22,7 +22,6 @@ export { renderContentGrids } from './render/grids.js';
  * Recreates the Realm from nothingness using the Word of the JSON.
  */
 export function manifestWorld(navigator, mountPoint = document.body) {
-    console.log("B\"H - Starting the Seder Histalshelus of the Library.");
 
     // 1. Purify existing registries
     clearRegistry();
@@ -56,7 +55,6 @@ export function manifestWorld(navigator, mountPoint = document.body) {
     target.innerHTML = "";
     target.appendChild(rootVessel);
 
-    console.log("B\"H - Realm is manifest.");
 }
 
 /**

@@ -132,8 +132,9 @@ export const WANDERERS = [
       ],
       dialogues: ["B\"H! We are just JSON data compiled into a 3D matrix!", "The Awtsmoos is the real programmer!"] },
 
-    { id: "w14", name: "Rivka the Herbalist", position: { x: 25, z: 25 },
-      isWandering: false, canDebate: false,
+    { id: "w14", name: "Rivka the Herbalist Merchant", position: { x: 25, z: 25 },
+      isWandering: false, canDebate: false, missionId: "gather_healing_herbs", hasShop: true,
+      shopInventory: ["healing_herb", "small_lamp", "simple_bandage"],
       clothes: [
         { meshName: "outer-shirt", color: "#339966" },
         { meshName: "pants", color: "#226644" },
@@ -142,7 +143,7 @@ export const WANDERERS = [
       dialogues: ["B\"H! Every plant contains sparks of holiness.", "The healing herbs grow where the Awtsmoos desires."] },
 
     { id: "w15", name: "Noach the Builder", position: { x: 60, z: 60 },
-      isWandering: true, canDebate: false,
+      isWandering: true, canDebate: false, missionId: "repair_village_roofs",
       clothes: [
         { meshName: "outer-shirt", color: "#886644" },
         { meshName: "pants", color: "#553322" },
@@ -240,5 +241,17 @@ export const WANDERERS = [
         { meshName: "pants", color: "#112266" },
         { meshName: "top-hat", color: "#1a3388" }
       ],
-      dialogues: ["B\"H! I study Torah day and night.", "The letters of the Torah are the building blocks of reality!"] }
+      dialogues: ["B\"H! I study Torah day and night.", "The letters of the Torah are the building blocks of reality!"] },
+
+    { id: "w26", name: "Joe the Boundary Keeper", position: { x: -15, z: 75 },
+      isWandering: false, canDebate: false,
+      clothes: [
+        { meshName: "outer-shirt", color: "#1f7a7a" },
+        { meshName: "pants", color: "#123f3f" },
+        { meshName: "yamulka", color: "#2aa6a6" }
+      ],
+      dialogues: [
+        "B\"H! I'm Joe. I watch the renderer boundary so the village keeps breathing.",
+        "A world becomes stronger when its features are tested before they shine."
+      ] }
 ];

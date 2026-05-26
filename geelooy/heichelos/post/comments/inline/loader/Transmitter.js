@@ -31,7 +31,6 @@ export class Transmitter {
     static async summonAllForAlias(alias, postContext) {
         if (!alias || !postContext) return [];
 
-        console.log(`%c B"H - [Transmitter] Direct Network Fallback Call initiated for @${alias}`, "color: #ffaa00; font-weight: bold;");
 
         try {
             const hId = postContext.heichel?.id;
@@ -56,7 +55,6 @@ export class Transmitter {
                 return cAuth === targetAlias;
             });
             
-            console.log(`B"H - [Transmitter] Fallback successfully drew down ${filtered.length} purified sparks for @${alias}.`);
             return filtered;
         } catch (error) {
             console.error(`B"H - [Transmitter] Rupture in the transmission for @${alias}:`, error);

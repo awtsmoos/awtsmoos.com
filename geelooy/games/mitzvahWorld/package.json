@@ -1,3 +1,13 @@
 {
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "test:emerald": "node tests/emerald/runEmeraldTests.js --repeat=20",
+    "test:emerald:gameplay": "node tests/emerald/emeraldGameplayAudit.mjs",
+    "test:emerald:geometry": "node tests/emerald/emeraldGeometryDoorStress.mjs",
+    "test:emerald:deep": "node tests/emerald/runEmeraldDeepAudit.js",
+    "test:emerald:stress": "node tests/emerald/runEmeraldTests.js --repeat=100 && node tests/emerald/emeraldGameplayAudit.mjs && node tests/emerald/emeraldGeometryDoorStress.mjs && node tests/emerald/runEmeraldDeepAudit.js",
+    "test:audit": "node tests/audits/entryStyleAudit.mjs && node tests/audits/noExtraCodeAudit.mjs",
+    "test:all": "node tests/audits/runAllMitzvahWorldTests.mjs",
+    "bench:mitzvah": "node tests/audits/benchmarkMitzvahWorld.mjs"
+  }
 }

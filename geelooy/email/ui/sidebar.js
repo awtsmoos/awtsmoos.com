@@ -20,59 +20,21 @@ export function renderSidebar(ui, parent) {
     ui.html({
         parent,
         tag: 'div',
-        classList: ['sidebar-header'],
-        style: 'overflow: visible; z-index: 100;', // FIXED: Allow dropdown to overflow
+        classList: ['sidebar-header', 'mail-sidebar-header'],
         children: [
             { 
                 tag: 'div', 
-                style: 'display:flex; flex-direction:column; gap:4px; width:100%;',
+                classList: ['mail-sidebar-identity'],
                 children: [
                     { tag: 'div', classList: ['brand-title'], textContent: 'Awtsmoos Mail' },
                     // Mount Point for Profile Dropdown
                     { 
                         tag: 'div', 
                         shaym: 'sidebarProfileMount',
-                        style: 'font-size:0.8rem; position:relative; z-index:1000; margin-top: 5px;',
+                        classList: ['mail-sidebar-profile-mount'],
                         ready: (el) => {
                             try {
                                 createProfileDropdown(el);
-                                // Style Tweaks for Sidebar context
-                                const style = document.createElement('style');
-                                style.textContent = `
-                                    .awtsmoosDrop { width: 100%; }
-                                    .awtsmoosDrop .btn.dropt { 
-                                        color: var(--neon-cyan); 
-                                        padding: 8px 12px; 
-                                        background: rgba(6, 182, 212, 0.1); 
-                                        border: 1px solid rgba(6, 182, 212, 0.2); 
-                                        border-radius: 6px;
-                                        font-family: var(--font-mono); font-size: 0.8rem;
-                                        display: flex; align-items: center; justify-content: space-between; gap: 6px;
-                                        width: 100%; box-sizing: border-box;
-                                        cursor: pointer; transition: 0.2s;
-                                    }
-                                    .awtsmoosDrop .btn.dropt:hover {
-                                        background: rgba(6, 182, 212, 0.2);
-                                        border-color: var(--neon-cyan);
-                                        box-shadow: 0 0 10px rgba(6, 182, 212, 0.1);
-                                    }
-                                    .awtsmoosDrop .arrow { font-size: 0.6em; opacity: 0.7; }
-                                    .awtsmoosDrop .dropdown-content {
-                                        background: rgba(5, 5, 8, 0.98);
-                                        border: 1px solid var(--neon-cyan);
-                                        backdrop-filter: blur(20px);
-                                        box-shadow: 0 10px 40px #000;
-                                        min-width: 220px;
-                                        top: 110%; left: 0;
-                                        z-index: 99999;
-                                        border-radius: 8px;
-                                        padding: 8px 0;
-                                    }
-                                    .awtsmoosDrop .dropdown-content > div { padding: 8px 16px; }
-                                    .awtsmoosDrop .dropdown-content a { color: #fff; text-decoration: none; display:block; padding: 8px 16px; }
-                                    .awtsmoosDrop .dropdown-content a:hover { background: rgba(255,255,255,0.1); }
-                                `;
-                                el.appendChild(style);
                             } catch(e) { console.error("Profile Mount Error", e); }
                         }
                     }
@@ -172,7 +134,7 @@ export function renderThreadList() {
     }) : [];
 
     if (threads.length === 0) {
-        _uiRef.html({ parent: list, tag: 'div', style: 'padding:20px; text-align:center; color:#555;', textContent: 'Void.' });
+        _uiRef.html({ parent: list, tag: 'div', classList: ['thread-empty-state'], textContent: 'Void.' });
         return;
     }
 

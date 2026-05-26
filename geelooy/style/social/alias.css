@@ -89,6 +89,9 @@
 
 /* --- MAIN LAYOUT --- */
 .alias-page-scope {
+    box-sizing: border-box;
+    min-height: 100vh;
+    max-width: 100vw;
     background-color: var(--bg-color);
     color: var(--text-color);
     /* Switched to a clean system font for modern look & performance */
@@ -104,6 +107,7 @@
 
 /* --- HEADER --- */
 .alias-page-scope .alias-header {
+    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -177,6 +181,7 @@
 }
 
 .alias-page-scope .navigator-column {
+    box-sizing: border-box;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -228,6 +233,7 @@
 
 /* ** REFINED ITEM STRUCTURE ** */
 .alias-page-scope .navigator-item {
+    min-width: 0;
     position: relative;
     display: flex;
     background: linear-gradient(90deg, rgba(0,255,255,0.03), transparent);
@@ -265,6 +271,7 @@
 }
 
 .alias-page-scope .item-main {
+    min-width: 0;
     flex-grow: 1;
     padding: 1.5rem;
     cursor: pointer;
@@ -319,6 +326,8 @@
 }
 
 .alias-page-scope .item-name {
+    overflow-wrap: anywhere;
+    word-break: break-word;
     font-size: var(--font-size-item);
     font-weight: 700;
     line-height: 1.1;
@@ -356,9 +365,118 @@
         padding: 1.5rem;
     }
 
-    .alias-page-scope .item-action {
-        width: 70px;
+    .alias-page-scope .timeline {
+        min-width: 0;
+        overflow-x: auto;
+        flex-wrap: nowrap;
     }
 
-    /* clamp() handles font sizes, so no major overrides are needed! */
+    .alias-page-scope .navigator-column {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .alias-page-scope .navigator-item {
+        flex-direction: column;
+    }
+
+    .alias-page-scope .item-main {
+        padding: 1rem;
+    }
+
+    .alias-page-scope .item-action {
+        width: 100%;
+        min-height: 3rem;
+        border-left: 0;
+        border-top: 1px solid var(--secondary-glow);
+    }
+}
+
+
+
+.alias-page-scope .alias-activity-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.8rem, 2vw, 1.2rem);
+    width: min(1180px, calc(100vw - 2rem));
+    margin: 0 auto clamp(1rem, 2vw, 1.5rem);
+}
+
+.alias-page-scope .alias-activity-card {
+    min-width: 0;
+    border: 1px solid var(--secondary-glow);
+    border-radius: var(--border-radius-medium);
+    padding: clamp(0.95rem, 2.5vw, 1.25rem);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(17, 24, 39, 0.72));
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
+}
+
+.alias-page-scope .alias-activity-label,
+.alias-page-scope .alias-activity-caption {
+    display: block;
+    color: var(--text-muted);
+    font-size: clamp(0.72rem, 1.8vw, 0.85rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.alias-page-scope .alias-activity-value {
+    display: block;
+    margin: 0.25rem 0;
+    color: var(--text-color);
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    line-height: 1;
+}
+
+@media (max-width: 640px) {
+    .alias-page-scope .alias-activity-summary {
+        grid-template-columns: 1fr;
+        width: calc(100vw - 1rem);
+    }
+}
+
+
+.alias-page-scope .alias-profile-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    margin-inline-start: auto;
+    flex-wrap: wrap;
+}
+
+.alias-page-scope .alias-profile-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.45rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--primary-glow);
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.12);
+    color: var(--text-color);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.alias-page-scope .alias-profile-action:hover,
+.alias-page-scope .alias-profile-action:focus-visible {
+    transform: translateY(-1px);
+    background: rgba(56, 189, 248, 0.22);
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    .alias-page-scope .alias-profile-actions {
+        width: 100%;
+        justify-content: stretch;
+        margin-inline-start: 0;
+    }
+
+    .alias-page-scope .alias-profile-action {
+        flex: 1 1 10rem;
+    }
 }

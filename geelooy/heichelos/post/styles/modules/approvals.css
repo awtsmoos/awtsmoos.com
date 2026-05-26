@@ -175,3 +175,14 @@
     border-radius: 18px;
     box-shadow: 0 0 0 0.65rem color-mix(in srgb, var(--color-primary) 18%, transparent);
 }
+
+@media (max-width: 520px) {
+    .post-reader-localized-context .approval-hero,
+    .post-reader-localized-context .approval-card-top {
+        align-items: flex-start;
+    }
+
+    .post-reader-localized-context .approval-actions {
+        grid-template-columns: 1fr;
+    }
+}

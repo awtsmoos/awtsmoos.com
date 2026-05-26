@@ -24,7 +24,6 @@ export function initializeEventListeners(navigator) {
 
     // 2. Global History Ritual
     window.addEventListener('popstate', () => {
-        console.log("B\"H - Navigating through the scrolls of time.");
         const params = new URLSearchParams(window.location.search);
         navigator.currentView = params.get('view') || 'posts';
         navigator.loadContent(params.get('series') || 'root');
@@ -33,7 +32,22 @@ export function initializeEventListeners(navigator) {
     // 3. UI-specific rituals that require direct monitoring
     setupSidebarHoverRituals();
 
-    console.log("B\"H - Nerve Center is alert.");
+    // 4. Durable social notifications for the current alias
+    if (window.curAlias) {
+        import('./ui/notificationsPanel.js').then(module => {
+            module.mountNotificationsPanel({ root: document.body, aliasId: window.curAlias });
+        });
+    }
+
+    // 5. Feed/search/live/db sharing tools
+    import('./ui/platformPanel.js').then(module => {
+        module.mountPlatformPanel({
+            root: document.body,
+            heichelId: appState.heichelId,
+            aliasId: window.curAlias || ''
+        });
+    });
+
 }
 
 /**

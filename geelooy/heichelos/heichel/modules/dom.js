@@ -12,4 +12,3 @@
 // B"H - Exporting the holy references from the centralized store
 export { DOMElements, clearRegistry } from './registry/dom-store.js';
 
-console.log("B\"H - DOM Registry Gateway established.");

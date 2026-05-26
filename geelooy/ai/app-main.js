@@ -10,7 +10,6 @@ import { LayoutController } from "./js/layout/layoutController.js";
 import { AttachmentTray } from "./js/attachments/attachmentTray.js";
 import { ComposerAutosize } from "./js/forms/composerAutosize.js";
 import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
-import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
 
 /**
  * Chapter 1: The cockpit gathers its organs in order.
@@ -30,21 +29,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   composerAutosize.mount();
 
   const renderer = new MessageRenderer({ chatBox: dom.chatBox });
-  const controller = new ConversationController({ aiHandler, renderer, serviceSelect: dom.serviceSelect });
+  let resumeVisibleStreams = () => {};
+  const controller = new ConversationController({ aiHandler, renderer, serviceSelect: dom.serviceSelect, onConversationLoaded: () => resumeVisibleStreams() });
   const store = new AutomationSettingsStore();
   const panel = new AutomationPanel({ root: dom.automationPanel, store });
-  const pipeline = new AutomationPipeline({ settingsStore: store, getSettings: () => panel.getSettings(), sendPrompt: prompt => sendFromText(prompt), report: text => panel.report(text) });
+  const pipeline = new AutomationPipeline({ settingsStore: store, getSettings: () => panel.getSettings(), sendPrompt: (prompt, context = {}) => controller.sendAutomation(prompt, { conversationId: context.conversationId, ondone: (reply, meta) => pipeline.afterAssistantReply(reply, meta) }), report: text => panel.report(text) });
 
+  resumeVisibleStreams = () => resumeStoredStreams(renderer, {
+    getActiveConversationId: () => getConversationId(),
+    onDone: (reply, meta) => pipeline.afterAssistantReply(reply, meta)
+  });
   wireChrome({ dom, controller, aiHandler, pipeline, sendFromText });
   await bootstrapFromUrl({ dom, aiHandler, controller });
-  resumeStoredStreams(renderer);
+  resumeVisibleStreams();
 
   async function sendFromText(text = dom.messageInput.value) {
     const prompt = String(text || "").trim();
     if (!prompt) return null;
     dom.messageInput.value = "";
     composerAutosize.resize();
-    return await controller.send(prompt, { attachments: attachments.consume(), ondone: reply => pipeline.afterAssistantReply(reply) });
+    return await controller.send(prompt, { attachments: attachments.consume(), ondone: (reply, meta) => pipeline.afterAssistantReply(reply, meta) });
   }
 
   window.sendMessageToAi = sendFromText;
@@ -64,7 +68,7 @@ function collectDom() {
 }
 
 function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText }) {
-  dom.toggleSidebar.onclick = () => dom.sidebar.classList.toggle("hidden");
+  dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
   dom.refreshButton.onclick = () => controller.refreshList(dom.conversationList);
   dom.newChat.onclick = () => { pipeline.reset(); controller.newConversation(); };
   dom.sendButton.onclick = () => sendFromText();

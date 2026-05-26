@@ -44,5 +44,6 @@ export const moves66 = {
     'Binding': { name: 'Akeidah', power: 100, cost: 40, type: 'Gevurah', desc: 'Total self-sacrifice. Massive damage.' },
     'Dream_Solve': { name: 'Dream Solve', power: 0, cost: 10, type: 'Yesod', effect: { target: 'self', stat: 'diligence', amount: 20 }, desc: 'Interprets the reality.' },
     'Sweet_Singer': { name: 'Sweet Song', power: 0, cost: 10, type: 'Malkuth', effect: { target: 'self', stat: 'kavanah', amount: 50 }, desc: 'Psalms of David restore the soul.' },
-    'Sabbath_Rest': { name: 'Menuchah', power: 0, cost: 30, type: 'Keter', effect: { target: 'self', stat: 'hp_regen' }, desc: 'Complete rest and regeneration.' }
+    'Sabbath_Rest': { name: 'Menuchah', power: 0, cost: 30, type: 'Keter', effect: { target: 'self', stat: 'hp_regen' }, desc: 'Complete rest and regeneration.' },
+    'Judge': { name: 'Judge', power: 65, cost: 14, type: 'Gevurah', effect: { target: 'opponent', stat: 'defense', amount: -8 }, desc: 'Clarifies the case and weakens false defenses.' }
 };

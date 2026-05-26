@@ -165,6 +165,14 @@ var comments = require("./_awtsmoos.comments.js");
 var series = require("./_awtsmoos.series.js")
 
 var fileSystem = require("./_awtsmoos.fileSystem.js");
+var { verifyApiKey } = require("./helper/apiKeys.js");
+var keys = require("./_awtsmoos.keys.js");
+var graph = require("./_awtsmoos.graph.js");
+var content = require("./_awtsmoos.content.js");
+var notifications = require("./_awtsmoos.notifications.js");
+var packed = require("./_awtsmoos.packed.js");
+var platform = require("./_awtsmoos.platform.js");
+var migrations = require("./_awtsmoos.migrations.js");
 /**
  * /api
  */
@@ -182,10 +190,19 @@ module.exports =
     // Check if logged in
     
     var userid = null;
-    if(loggedIn($i))
-      userid = $i.request.user.info.userId; // Alias connected to the logged-in user
+    if (loggedIn($i)) {
+      userid = $i.request.user.info.userId;
+    } else {
+      const apiKeyIdentity = await verifyApiKey({ $i });
+      if (apiKeyIdentity?.success?.userId) {
+        userid = apiKeyIdentity.success.userId;
+        $i.request.user = {
+          info: { userId: userid },
+          apiKey: apiKeyIdentity.success.key
+        };
+      }
+    }
 
-      
     await $i.use({
       "/": async () => ({
 	BH: "yes",
@@ -249,6 +266,41 @@ module.exports =
 
       ...fileSystem({
         $i
+      }),
+
+      ...keys({
+        $i,
+        userid
+      }),
+
+      ...graph({
+        $i,
+        userid
+      }),
+
+      ...content({
+        $i,
+        userid
+      }),
+
+      ...notifications({
+        $i,
+        userid
+      }),
+
+      ...packed({
+        $i,
+        userid
+      }),
+
+      ...platform({
+        $i,
+        userid
+      }),
+
+      ...migrations({
+        $i,
+        userid
       }),
 
 	/**

@@ -85,7 +85,6 @@ async function readFile({$i}) {
 	   // return {dataModified: stats?.mtime?.getTime?.()};
     }
     var file = await $i.db.read(filePath);
-   //console.log("Read",filePath)
 
     var extInd = filePath.lastIndexOf(".");
  
@@ -106,7 +105,6 @@ async function readFile({$i}) {
         )
     }
     
- //   console.log("returning",mime,ext, file, filePath)
     return  (file) || "";
 }
 
@@ -292,8 +290,6 @@ async function readFolder({$i}) {
         })
         //return {wgy:2}
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
-	//console.log("Getting", folderPath, path, folderContents)
-	// console.log("READING",folderPath,folderContents );
         return folderContents || [];  // List files and folders
     } catch(e) {
         return er({ message: "System Error", code: "SYSTEM", details:e.stack });

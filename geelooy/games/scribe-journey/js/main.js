@@ -8,7 +8,6 @@ import { renderGameState, updateTimeVisuals, addParticle } from './render.js';
 import * as GameEngine from './workers/gameWorker.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("B''H - Initializing The Scribe's Journey Extreme (Main Thread Mode)...");
 
     const canvas = document.getElementById('gameCanvas');
     const container = document.getElementById('gameContainer');
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.className = 'menu-button';
             btn.dataset.action = action;
             btn.textContent = text;
-            if(color) btn.style.color = color;
+            if(color) btn.classList.add('menu-button-accent');
             return btn;
         };
         

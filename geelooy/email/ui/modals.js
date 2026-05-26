@@ -13,22 +13,23 @@ export function renderLoginOverlay(ui, root) {
         classList: ['overlay'], // .visible managed by store
         children: [{
             tag: 'div',
-            classList: ['modal-card', 'holo-border'],
-            style: 'text-align: center; min-height: 350px; display: flex; flex-direction: column; justify-content: center; align-items: center;',
+            classList: ['modal-card', 'holo-border', 'identity-modal-card'],
             children: [
                 { tag: 'h2', classList: ['modal-title'], textContent: 'Identity Verification' },
-                { tag: 'p', style: 'color:#aaa; margin-bottom:20px; font-family:monospace;', textContent: 'The Void requires a name.' },
+                { tag: 'p', classList: ['identity-modal-copy'], textContent: 'The Void requires a name.' },
                 { 
                     tag: 'div', 
                     shaym: 'authWrapper',
-                    style: 'width: 100%; min-height: 60px; display: flex; justify-content: center; position: relative; z-index: 100;',
+                    classList: ['identity-dropdown-mount'],
                     ready: (el) => {
-                        console.log("Mounting Profile Dropdown...");
                         try {
                             createProfileDropdown(el);
                         } catch(e) {
                             console.error("Dropdown Mount Failed:", e);
-                            el.innerHTML = "<div style='color:red'>Signal Lost. Reload.</div>";
+                            const err = document.createElement('div');
+                            err.className = 'mail-error-text';
+                            err.textContent = 'Signal Lost. Reload.';
+                            el.replaceChildren(err);
                         }
                     }
                 }
@@ -45,10 +46,10 @@ export function renderComposeModal(ui, root) {
         classList: ['overlay'],
         children: [{
             tag: 'div',
-            classList: ['modal-card', 'holo-border'],
+            classList: ['modal-card', 'holo-border', 'compose-modal-card'],
             children: [
-                { tag: 'div', style: 'display:flex; justify-content:space-between; margin-bottom:15px;', children: [
-                    { tag: 'h2', classList: ['modal-title'], style:'margin:0', textContent: 'New Transmission' },
+                { tag: 'div', classList: ['compose-modal-top'], children: [
+                    { tag: 'h2', classList: ['modal-title', 'compose-modal-title'], textContent: 'New Transmission' },
                     { 
                         tag: 'span', classList: ['close-modal'], textContent: '×', 
                         events: { 
@@ -81,7 +82,7 @@ export function renderComposeModal(ui, root) {
                     tag: 'div', classList: ['input-group'],
                     children: [
                         { tag: 'label', classList: ['input-label'], textContent: 'Message Payload' },
-                        { tag: 'textarea', shaym: 'newBody', classList: ['styled-input'], style: 'height:120px; font-family:monospace;', placeholder: 'Initiate data stream...' }
+                        { tag: 'textarea', shaym: 'newBody', classList: ['styled-input', 'compose-body-input'], placeholder: 'Initiate data stream...' }
                     ]
                 },
                 {

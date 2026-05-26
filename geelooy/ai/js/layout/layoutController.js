@@ -14,7 +14,15 @@ export class LayoutController {
     mountPanelFrame({ panel: this.dom.sidebar, name: "sidebar", title: "Conversations", store: this.store, onLayout: l => this.apply(l) });
     mountPanelFrame({ panel: this.dom.automationPanel, name: "automation", title: "Automation", store: this.store, onLayout: l => this.apply(l) });
     mountResizeHandles({ dom: this.dom, store: this.store, onLayout: l => this.apply(l) });
-    this.apply(this.store.load());
+    let layout = this.store.load();
+    if (isFirstMobileVessel(layout)) {
+      layout = this.store.save({
+        sidebar: { collapsed: true, detached: false },
+        automation: { collapsed: true, detached: false },
+        mobile: { initialized: true }
+      });
+    }
+    this.apply(layout);
   }
 
   apply(layout) {
@@ -40,4 +48,16 @@ export class LayoutController {
     panel.style.height = "";
     panel.style.width = "";
   }
+}
+
+/**
+ * B"H — Determines whether the first narrow-screen revelation should fold.
+ *
+ * @param {object} layout The merged layout vessel from localStorage/defaults.
+ * @returns {boolean} True only on the first mobile encounter, so future user
+ * expansions are remembered instead of being crushed back into rails.
+ */
+function isFirstMobileVessel(layout) {
+  const mobileQuery = globalThis.matchMedia?.("(max-width: 680px)");
+  return Boolean(mobileQuery?.matches && !layout?.mobile?.initialized);
 }

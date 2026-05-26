@@ -1,31 +1,21 @@
 //B"H
 
 /**
- * Chapter 10: The Lantern Learned Restraint.
+ * Chapter 10: The Lantern Learned Deeper Restraint.
  *
- * The split-browser relay must reveal failures and living API motion without
- * drowning the terminal in asset dust. Routine JS/CSS/images stay quiet unless
- * verbose mode is enabled; POSTs, APIs, auth, redirects, rewrites, and errors
- * speak clearly.
- *
- * @param {{verbose?:boolean}} config Runtime config.
- * @param {string} label Event label.
- * @param {Record<string, unknown>} facts Safe diagnostic facts.
- * @returns {void}
+ * By default the relay should not log every request. It speaks on errors,
+ * blocked/failed status, and explicit verbose mode only. This keeps terminal
+ * output usable while still surfacing the things that actually need attention.
  */
 function log(config, label, facts = {}) {
   if (!config?.verbose && !isImportant(label, facts)) return;
   console.log(`B"H split ${label}`, JSON.stringify(redact(facts)));
 }
 
-function isImportant(label, facts) {
-  if (/^(server|error|rewrite)/.test(label)) return true;
-  if (facts.status && (facts.status >= 400 || facts.status < 300 === false && facts.status >= 300)) return true;
-  if (facts.method && facts.method !== "GET") return true;
-  const path = String(facts.local || facts.path || facts.url || "");
-  if (/[?&]_data=/.test(path)) return true;
-  if (/\/(backend|backend-anon|api|auth|ces|cdn-cgi)\b/.test(path)) return true;
-  if (facts.mode && facts.mode !== "raw") return true;
+function isImportant(label, facts = {}) {
+  if (/error|fail|blocked|timeout/i.test(label)) return true;
+  if (facts.error || facts.blocked || facts.timedOut) return true;
+  if (Number(facts.status) >= 400) return true;
   return false;
 }
 

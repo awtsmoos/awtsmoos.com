@@ -54,6 +54,24 @@ function parseJsonText(value, fallback) {
   catch (_e) { return fallback; }
 }
 
+function parsePlainListText(value, fallback = []) {
+  if (Array.isArray(value)) return value;
+  if (value === undefined || value === null || value === "") return fallback;
+  const parsed = parseJsonText(value, null);
+  if (Array.isArray(parsed)) return parsed;
+  if (parsed && typeof parsed === "object") return Object.keys(parsed);
+  return String(value).split(/\r?\n|,/).map(x => x.trim()).filter(Boolean);
+}
+
+function parsePlainListText(value, fallback = []) {
+  if (Array.isArray(value)) return value;
+  if (value === undefined || value === null || value === "") return fallback;
+  const parsed = parseJsonText(value, null);
+  if (Array.isArray(parsed)) return parsed;
+  if (parsed && typeof parsed === "object") return Object.keys(parsed);
+  return String(value).split(/\r?\n|,/).map(x => x.trim()).filter(Boolean);
+}
+
 function queryPlainOrUndefined($i, name) {
   const q = queryMap($i);
   return q[name] === undefined ? undefined : q[name];
@@ -68,9 +86,9 @@ function preferBodyOr64($i, body, plainName, encodedName, fallback = "") {
 
 function arrayBodyOr64($i, body, plainName, encodedName, fallback = []) {
   if (body && Array.isArray(body[plainName])) return body[plainName];
-  if (body && typeof body[plainName] === "string") return parseJsonText(body[plainName], fallback);
+  if (body && typeof body[plainName] === "string") return parsePlainListText(body[plainName], fallback);
   const plainQuery = queryPlainOrUndefined($i, plainName);
-  if (plainQuery !== undefined) return parseJsonText(plainQuery, fallback);
+  if (plainQuery !== undefined) return parsePlainListText(plainQuery, fallback);
   return jsonFrom64(queryValue($i, encodedName), fallback);
 }
 
@@ -265,6 +283,10 @@ function buildFsPayload($i) {
     workflowName: valueFrom($i, body, "workflowName", ""),
     workflow: objectBodyOr64($i, body, "workflow", "workflow64", null),
     steps: arrayBodyOr64($i, body, "steps", "steps64", []),
+    probes: arrayBodyOr64($i, body, "probes", "probes64", []),
+    interactions: arrayBodyOr64($i, body, "interactions", "interactions64", []),
+    returnValues: arrayBodyOr64($i, body, "returnValues", "returnValues64", []),
+    values: arrayBodyOr64($i, body, "values", "values64", []),
     params: objectBodyOr64($i, body, "params", "params64", {}),
     maxSteps: intFrom($i, body, "maxSteps", 50, 100),
     maxIterations: intFrom($i, body, "maxIterations", 20, 100),

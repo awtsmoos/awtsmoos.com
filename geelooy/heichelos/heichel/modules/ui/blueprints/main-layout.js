@@ -171,6 +171,11 @@ function getCreationModalBlueprint(actions) {
                         ref: 'modalForm',
                         events: { submit: actions.onModalSubmit },
                         children:[
+                            { tag: 'select', attr: { class: 'heichel-content-type-select', 'aria-label': 'Content type' }, ref: 'modalContentTypeSelect', children: [
+                                { tag: 'option', attr: { value: 'post' }, children: ['Regular Post'] },
+                                { tag: 'option', attr: { value: 'question' }, children: ['Question'] },
+                                { tag: 'option', attr: { value: 'answer' }, children: ['Answer'] }
+                            ] },
                             { tag: 'input', attr: { type: 'text', required: true, placeholder: 'Holy Title' }, ref: 'modalTitleInput' },
                             { tag: 'textarea', attr: { placeholder: 'Essence Description' }, ref: 'modalDescTextarea' },
                             { tag: 'input', attr: { type: 'text', placeholder: 'Custom ID' }, ref: 'modalIdInput' },

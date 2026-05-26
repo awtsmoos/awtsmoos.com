@@ -54,6 +54,10 @@ assert.equal(db.stats().count, 0);
     });
     assert.equal(indexed.success, true);
     assert.equal(indexed.stats.count, 1);
+    assert.equal(indexed.stats.embeddedCount, 1);
+    assert.ok(Array.isArray(indexed.record.embedding));
+    assert.equal(indexed.record.embedding.length, 384);
+    assert.equal(indexed.record.metadata.embeddingProvider, 'awtsmoosdb-js-fallback');
 
     const found = await searchCommentSearchRecords({ $i, query: "searchable", heichelId: "h1", seriesId: "s1" });
     assert.equal(found.success.length, 1);

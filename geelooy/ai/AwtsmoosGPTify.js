@@ -42,7 +42,8 @@ class AwtsmoosGPTify {
     print = true,
     customFetch = null,
     customTextEncoder = TextDecoder,
-    customHeaders = {}
+    customHeaders = {},
+    streamContext = {}
   }) {
     customFetch = typeof customFetch === "function" ? customFetch : await checkMFetch();
 
@@ -109,7 +110,7 @@ class AwtsmoosGPTify {
     var res = await logStream(response, async c => {
       if (c?.data?.conversation_id) this._conversationId = c?.data?.conversation_id;
       if (typeof onstream == "function") onstream(c);
-    });
+    }, streamContext);
     if (typeof ondone == "function") ondone(res);
     return res;
   }

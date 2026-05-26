@@ -1,7 +1,7 @@
 /*B"H*/
 .awtsmoosDrop {
     display: inline-flex;
-    z-index: 999999999999999999;
+    z-index: 9999;
     font-family: Arial, sans-serif;
 }
 
@@ -12,7 +12,6 @@ div#createAliasDropdown {
 .awtsmoosDrop .btn, .awtsmoosDrop button, .awtsmoosDrop a {
     padding: 10px 26px 10px 16px;
     background: linear-gradient(135deg,rgb(121 230 213 / 90%), #00ddebd9);
-    border-radius: 8px;
     cursor: pointer;
     border: 1px solid black;
     border-radius: 26px;
@@ -123,7 +122,7 @@ div#logoutSection {
     background: linear-gradient(135deg, #ffffff, #f0f0ff);
     min-width: 200px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    z-index: 9999999;
+    z-index: 9999;
     border-radius: 12px;
     border: 1px solid #ddd;
 }
@@ -176,8 +175,9 @@ div#logoutSection {
     color: #ff3333;
 }
 
-.hidden {
-    display: none !important;
+.awtsmoosDrop .hidden,
+.awtsmoos-auth-portal.hidden {
+    display: none;
 }
 
 .notLoggedIn {
@@ -192,7 +192,7 @@ div#logoutSection {
     background: linear-gradient(135deg, #ffffff, #e6e6ff);
     min-width: 250px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    z-index: 9999999;
+    z-index: 9999;
     padding: 20px;
     border-radius: 12px;
     border: 1px solid #ccc;
@@ -264,4 +264,12 @@ div#logoutSection {
         max-width: 100%;
         margin-left: 0;
     }
+}
+
+.awtsmoos-dropdown-backdrop {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    z-index: 9998;
+    background: rgba(0, 0, 0, 0.4);
 }

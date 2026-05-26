@@ -5,7 +5,6 @@ import * as THREE from "/games/scripts/build/three.module.js";
 import {FontLoader} from "/games/scripts/jsm/loaders/FontLoader.js"
 import {TextGeometry} from "/games/scripts/jsm/utils/TextGeometry.js";
 
-console.log("B\"H");
 
 var helixRadius = 5;
 var helixLength = 100; // You can adjust this based on your needs.
@@ -123,9 +122,7 @@ class ThreeJSScene {
 	}
 
 	setupIntervals() {
-		console.log("Hi")
 		this.lettersParticleSystem.children.forEach((child,imd) => {
-			console.log("Trying",imd,child)
 			var changeLetter = () => {
 				var randomLetter = this.hebrewLetters[Math.floor(Math.random() * this.hebrewLetters.length)];
 				var textGeo = new TextGeometry(randomLetter, {
@@ -315,7 +312,6 @@ class ThreeJSScene {
 		
 			this.setupIntervals();
 		}, undefined, e => {
-			console.log("Error: ",e)
 		});
 
 		this.scene.add(this.lettersParticleSystem);

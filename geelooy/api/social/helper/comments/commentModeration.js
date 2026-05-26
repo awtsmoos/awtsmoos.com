@@ -255,20 +255,38 @@ async function denyComment(
                         parentId: true,
                         parentType: true,
                         postId: true,
-                        commentAliasId: true
-                    }
+                        commentAliasId: true,
+                        seriesId: true
+                    },
+                    seriesId: true
                 }
             }
         );
 
+        if (!submittedComment) {
+            return er(
+                {
+                    message: "Submitted comment not found.",
+                    code: "NOT_FOUND",
+                    details: {
+                        fullPath
+                    }
+                }
+            );
+        }
+
         var { 
+            seriesId: directSeriesId,
             awtsmoosDayuh: {
                 parentId,
                 parentType,
                 postId,
-                commentAliasId
+                commentAliasId,
+                seriesId: dayuhSeriesId
             } = {} 
         } = submittedComment;
+
+        var seriesId = directSeriesId || dayuhSeriesId;
 
         const submittedPath = await getSubmittedCommentPath(
             {

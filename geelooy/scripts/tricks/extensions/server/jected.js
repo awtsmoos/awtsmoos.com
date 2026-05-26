@@ -70,6 +70,10 @@
     });
   }
 
+  async function resumeStream(id, cursor = 0) {
+    return await sendBridgeMessage({ action: "resume-stream", id, cursor }, 180000);
+  }
+
   async function awtsFetch(url, options = {}) {
     let lastError;
     for (let attempt = 0; attempt < 4; attempt++) {
@@ -95,6 +99,7 @@
   });
 
   awtsFetch[bridgeMark] = true;
+  awtsFetch.resumeStream = resumeStream;
   window.awtsmoosFetch = awtsFetch;
   window.mFetch = awtsFetch;
   readyEvent({ fetchName: "awtsmoosFetch" });

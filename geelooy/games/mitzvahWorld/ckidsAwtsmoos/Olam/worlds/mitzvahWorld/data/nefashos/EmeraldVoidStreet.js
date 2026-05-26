@@ -13,6 +13,8 @@
  * @property {Object} props Builder-facing manifest data.
  */
 
+import { EMERALD_VOID_GENERATED_DISTRICT } from './EmeraldVoidGeneratedDistrict.js';
+
 export const EMERALD_VOID_STREET = [
   {
     id: 'emerald_street_spine',
@@ -94,5 +96,6 @@ export const EMERALD_HOUSE_LOTS = [
 
 export const EMERALD_VOID_STRUCTURES = [
   ...EMERALD_VOID_STREET,
-  ...EMERALD_HOUSE_LOTS
+  ...EMERALD_HOUSE_LOTS,
+  ...EMERALD_VOID_GENERATED_DISTRICT
 ];

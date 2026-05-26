@@ -27,7 +27,10 @@ const indexed = ai.indexCommentRecord({
 });
 
 assert.equal(indexed.id, "comment-1");
-assert.equal(indexed.embedding.length, 0);
+assert.equal(indexed.embedding.length, 384);
+assert.equal(indexed.metadata.embeddingProvider, "awtsmoosdb-js-fallback");
+assert.equal(indexed.metadata.embeddingModel, "bge-small-en-v1.5-q8_0");
+assert.equal(indexed.metadata.ggufFile, "bge-small-en-v1.5-q8_0.gguf");
 assert.ok(indexed.metadata.lexicalSignature, "lexical signature should be stored for repair/search metadata");
 assert.equal(indexed.metadata.textLength, indexed.text.length);
 
@@ -38,6 +41,7 @@ assert.ok(results[0].score >= 2);
 
 const stats = ai.stats();
 assert.equal(stats.count, 1);
+assert.equal(stats.embeddedCount, 1);
 assert.equal(stats.hasAwtsmoosDb, true);
 assert.ok(stats.latestIndexedAt > 0);
 

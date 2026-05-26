@@ -38,7 +38,7 @@ async function addHeichelEditor({
     heichelId
 }) {
     try {
-        var aliasId = $i.$_POST.aliasId;
+        var aliasId = $i.$_DELETE?.aliasId || $i.$_POST?.aliasId;
         var ver = await verifyHeichelAuthority({
             $i,
             heichelId,
@@ -91,7 +91,7 @@ async function removeHeichelEditor({
     heichelId
 }) {
     try {
-        var aliasId = $i.$_POST.aliasId;
+        var aliasId = $i.$_DELETE?.aliasId || $i.$_POST?.aliasId;
         var ver = await verifyHeichelAuthority({
             $i,
             heichelId,
@@ -618,27 +618,15 @@ async function verifyHeichelAuthority({
 
     
     
-	try{
+	try {
         var me = await $i.db.get(
             `${sp}/heichelos/${heichelId}/editors`
-        )
-        var has = me.includes(aliasId)
-      //  console.log("What",me)
-        if(has) {
-            return true
-        } else {
-            return false;
-        }
-		return editor
+        );
+        if (!Array.isArray(me)) return false;
+        return me.includes(aliasId);
 
-	        
-	}  catch(e){
-        console.log("ISsue getting editor",e)
-		return er({
-            message: "Strange Issue in Editor",
-            details: e.stack
-        })
-
+	} catch(e) {
+        return false;
 	}
 
 

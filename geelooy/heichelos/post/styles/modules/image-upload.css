@@ -1,2 +1,124 @@
+/* B"H - Image upload modal, scoped by Awtsmoos class names */
 
-/* B"H - Image upload styles will be loaded here */
+.awtsmoos-modal-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.78);
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 4vw, 2rem);
+    box-sizing: border-box;
+    backdrop-filter: blur(5px);
+}
+
+.image-upload-popup.awtsmoos-image-upload-popup {
+    width: min(100%, 520px);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    box-sizing: border-box;
+    padding: clamp(1.1rem, 4vw, 1.9rem);
+    border: 2px solid #000;
+    border-radius: 24px;
+    background: #fff;
+    color: #000;
+    box-shadow: 10px 10px 0 #2b00ff;
+    font-family: "Space Grotesk", monospace;
+}
+
+.awtsmoos-image-upload-title {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(1.15rem, 5vw, 1.5rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+    padding-inline-end: 2.25rem;
+}
+
+.awtsmoos-image-upload-close {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #000;
+    font-size: 1.8rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.awtsmoos-image-upload-close:hover,
+.awtsmoos-image-upload-close:focus-visible {
+    background: rgba(0, 0, 0, 0.08);
+    outline: none;
+}
+
+.awtsmoos-image-upload-key {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.75rem;
+    border: 2px solid #000;
+    border-radius: 12px;
+    font: inherit;
+    font-size: 0.95rem;
+}
+
+.dropzone.awtsmoos-image-dropzone {
+    border: 3px dashed #000;
+    border-radius: 20px;
+    padding: clamp(1.4rem, 8vw, 2.5rem);
+    text-align: center;
+    font-weight: 850;
+    cursor: pointer;
+    background: #f0f0f0;
+    transition: background 0.2s ease, border-style 0.2s ease, transform 0.2s ease;
+}
+
+.dropzone.awtsmoos-image-dropzone.drag-over {
+    background: #d9933d;
+    border-style: solid;
+    transform: translateY(-1px);
+}
+
+.awtsmoos-image-upload-progress {
+    min-height: 1.25rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.awtsmoos-comment-gallery-grid {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.awtsmoos-creation-thumbnail {
+    height: 60px;
+    width: auto;
+    border: 1px solid color-mix(in srgb, var(--color-ink, #000) 28%, transparent);
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+@media (max-width: 520px) {
+    .awtsmoos-modal-overlay {
+        align-items: flex-end;
+        padding: 0.75rem;
+    }
+
+    .image-upload-popup.awtsmoos-image-upload-popup {
+        width: 100%;
+        border-radius: 24px 24px 16px 16px;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+    }
+}

@@ -91,8 +91,10 @@ module.exports = ({
 					userid
 				});
 			} catch(e) {
-				console.log(e);
-				er(e+"")
+				return er({
+					message: e.message || e + "",
+					code: "ALIAS_CREATE_FAILED"
+				});
 			}
 			
 			return resp;
@@ -121,9 +123,8 @@ module.exports = ({
 					aliasId
 				});
 			} catch(e) {
-				console.log(e)
 				return er({
-					message: "Couldn't delete",
+					message: e.message || "Couldn't delete",
 					code: "NO_DEL"
 				})
 			}
@@ -230,8 +231,10 @@ module.exports = ({
 					userid
 				});
 			} catch(e) {
-				console.log(e);
-				er(e+"")
+				return er({
+					message: e.message || e + "",
+					code: "ALIAS_CREATE_FAILED"
+				});
 			}
 			
 
@@ -328,7 +331,6 @@ module.exports = ({
 			aliasId: v.alias,
 			userID: null
 		});
-	//	console.log("HI",v,da);
 		return da || er({code: "PROBLEM_WITH_ALIAS"});
 	},
 });

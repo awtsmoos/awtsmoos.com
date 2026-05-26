@@ -16,7 +16,6 @@ module.exports = ({
 
     return ({ 
         "/counters": async v => {
-            console.log($i.request.method)
             if($i.request.method == "GET") {
                 var f = await getCounters({
                     $i,

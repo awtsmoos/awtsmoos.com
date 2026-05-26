@@ -1,0 +1,22 @@
+/* B"H - Mobile tuning for notification vessels */
+@media (max-width: 760px) {
+    .awtsmoos-notifications-panel {
+        inset-inline: 0.75rem;
+        inset-block-end: 5.25rem;
+        width: auto;
+    }
+
+    .awtsmoos-notifications-toggle,
+    .awtsmoos-notification-actions button,
+    .awtsmoos-notification-actions a {
+        width: 100%;
+    }
+
+    .awtsmoos-notification-actions {
+        flex-direction: column;
+    }
+
+    .awtsmoos-notifications-list {
+        max-height: 58vh;
+    }
+}

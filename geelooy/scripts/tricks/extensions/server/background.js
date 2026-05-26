@@ -1,4 +1,5 @@
 // B"H
+importScripts("streamLedger.js");
 console.log('B"H');
 
 chrome.webNavigation.onCompleted.addListener(async details => injectAwtsmoosContent(details.tabId));
@@ -183,71 +184,6 @@ portManager.on('customEvent', async (message, port) => {
 	message.LOL = 1234
     portManager.reply(port, { status: 'Processed', data: message });
 });
-/*
-portManager.on("fetch", async (msg, port) => {
-	var d = msg?.data;
-	var url = d?.url
-	var opts = d?.options;
-	var func = d?.after;
-	try {
-		var parst = new URL(url)
-		var cooks = await getCookieString(parst.host)
-		var res = await fetch(url, opts);
-		var {
-			status,
-			ok,
-			type,
-			url,
-			redirected
-		} = res;
-		var resObj = {
-			status,
-			ok,
-			type,
-			url,
-			redirected
-		}
-		//console.log("res",resObj, res);
-		var f = await res?.[func]();
-		var headers = [];
-		for (const pair of res.headers.entries()) {
-			headers.push({
-				[pair[0]]:pair[1]
-			})
-		  // console.log(pair[0]+ ': '+ pair[1]);
-		}
-		portManager.reply(port, {
-			result: f,
-			headers,
-			response: resObj,
-			cookies: cooks,
-			id: msg?.id
-		})
-	} catch(e) {
-		portManager.reply(port, {
-			error: e.stack,
-			result:`B"H
-You got an error!
-
-<div style="color:red">
-${e.stack}
-</div>
-<div>
-URL: ${url}<br>
-options: ${JSON.stringify(opts)}
-</div>
-`,
-			tried: {
-				url
-			},
-			id: msg?.id
-		})
-	}
-})
-*/
-
-const activeResponses = new Map();
-
 portManager.on("fetch", async (msg, port) => {
     const { id, url, options } = msg;
 
@@ -269,8 +205,7 @@ portManager.on("fetch", async (msg, port) => {
 		var cooks = await getCookieString(parst.hostname)
 		metadata.cookies = { count: cooks?.cookies?.length || 0 };
 
-        const bodyReader = response.body?.getReader();
-        activeResponses.set(id, { reader: bodyReader, empty: !bodyReader });
+        globalThis.__awtsmoosStreamLedger.create(id, response);
 
         portManager.reply(port, { metadata, id });
     } catch (error) {
@@ -282,107 +217,24 @@ portManager.on("fetch-body", async (msg, port) => {
     const { id, bodyAction } = msg;
 
     try {
-        const active = activeResponses.get(id);
-        if (!active) {
-            throw new Error("Response not found or already consumed.");
-        }
-
-        const { reader, empty } = active;
-        if (empty || !reader) {
-            activeResponses.delete(id);
-            portManager.reply(port, { result: bodyAction === "read" ? null : "", id });
-            return;
-        }
-
-        if (
-			bodyAction === "text" || 
-			bodyAction === "json" ||
-			bodyAction == "blob"
-		) {
-            const chunks = [];
-            let done = false;
-
-            // Keep reading the stream until it is done
-            while (!done) {
-                const { done: isDone, value } = await reader.read();
-                done = isDone;
-                if (value) {
-                    chunks.push(value);
-                }
-            }
-
-            // We only delete the response once the entire body is consumed
-            activeResponses.delete(id);
-
-            // Concatenate all Uint8Arrays into one
-            const concatenated = concatUint8Arrays(chunks);
-
-			
-            if (bodyAction === "json") {
-                // Parse as JSON if requested
-				
-	            // Decode the concatenated Uint8Array to a string
-	            const text = new TextDecoder().decode(concatenated);
-                portManager.reply(port, { result: JSON.parse(text), id });
-            } else if(bodyAction == "text") {
-                // Send as text if requested
-				
-	            // Decode the concatenated Uint8Array to a string
-	            const text = new TextDecoder().decode(concatenated);
-                portManager.reply(port, { result: text, id });
-            } else if(bodyAction == "blob") {
-				var blob = new Blob([concatenated] , { type: 'application/octet-stream' })
-				var url = await blobToDataURL(blob);
-				portManager.reply(port, { result: url, id });
-			}
-        } else if (bodyAction === "read") {
-            // For 'read', we handle chunks as they come in, without deleting the response prematurely
-            const { done, value } = await reader.read();
-			
-            if (done) {
-                activeResponses.delete(id);
-                portManager.reply(port, { result: null, id });
-            } else {
-				var blob = new Blob([value] , { type: 'application/octet-stream' })
-				var url = await blobToDataURL(blob);
-			//	var url = URL.createObjectURL(blob)
-				//console.log("Sending",blob,value,url);
-                portManager.reply(port, { result: url, id });
-            }
+        if (bodyAction === "read") {
+            portManager.reply(port, { result: await globalThis.__awtsmoosStreamLedger.read(id), id });
+        } else if (bodyAction === "text" || bodyAction === "json" || bodyAction === "blob") {
+            portManager.reply(port, { result: await globalThis.__awtsmoosStreamLedger.body(id, bodyAction), id });
         }
     } catch (error) {
         portManager.reply(port, { error: error.stack, id });
     }
 });
 
-function concatUint8Arrays(arrays) {
-    // Calculate the total length of the concatenated array
-    let totalLength = arrays.reduce((acc, curr) => acc + curr.length, 0);
-
-    // Create a new Uint8Array to hold the result
-    let concatenated = new Uint8Array(totalLength);
-
-    // Copy each array into the result array
-    let offset = 0;
-    arrays.forEach(array => {
-        concatenated.set(array, offset);
-        offset += array.length;
-    });
-
-    return concatenated;
-}
-
-function blobToDataURL(blob) {
-	return new Promise(r => {
-		var reader = new FileReader();
-		reader.onload = function() {
-			var dataUrl = reader.result;
-
-			r(dataUrl);
-		};
-		reader.readAsDataURL(blob);
-	})
-}
+portManager.on("resume-stream", async (msg, port) => {
+    const { id, cursor } = msg;
+    try {
+        portManager.reply(port, { result: await globalThis.__awtsmoosStreamLedger.resume(id, cursor), id });
+    } catch (error) {
+        portManager.reply(port, { error: error.stack, id });
+    }
+});
 
 function getCookieString(domain) {
     return new Promise(r => 

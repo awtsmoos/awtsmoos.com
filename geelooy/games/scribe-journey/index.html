@@ -6,9 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Scribe's Journey: Echoes of Ein Sof</title>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/controls.css">
     <script>
         window.onerror = function(msg, url, line, col, error) {
             if(msg.includes("ResizeObserver")) return;
@@ -34,7 +32,7 @@
         <div id="dialogue-box">
             <div id="dialogue-text"></div>
             <div id="dialogue-choices"></div>
-            <div id="dialogue-continue-indicator" style="text-align:right; color:#888; font-size:0.8em; margin-top:5px;">[PRESS SPACE]</div>
+            <div id="dialogue-continue-indicator" class="continue-indicator">[PRESS SPACE]</div>
         </div>
 
         <!-- Battle Screen -->
@@ -48,26 +46,26 @@
                 <div id="player-display" class="battle-musag-display">
                     <div class="musag-stats"><h4 id="player-name"></h4><span id="player-level" class="musag-level"></span></div>
                     <div class="health-bar"><div id="player-hp-bar" class="health-bar-inner"></div></div>
-                    <div class="kavanah-bar" style="height:5px; background:#333; margin-top:2px;"><div id="player-kavanah-bar" class="kavanah-bar-inner" style="height:100%; background:cyan;"></div></div>
+                    <div class="kavanah-bar"><div id="player-kavanah-bar" class="kavanah-bar-inner"></div></div>
                     <div id="player-emoji" class="musag-emoji"></div>
                 </div>
             </div>
-            <div class="battle-ui-box modal-content" style="width:90%; margin-top:20px;">
+            <div class="battle-ui-box modal-content">
                 <div id="battle-log"></div>
                 <div id="battle-menu-container"></div>
-                <div id="battle-log-continue-indicator" style="display:none; text-align:right;">▼</div>
+                <div id="battle-log-continue-indicator" class="continue-indicator">▼</div>
             </div>
         </div>
 
         <!-- Main Menu -->
         <div id="main-menu" class="menu-screen">
-            <h2 class="extreme-pulse" style="font-size: 2.5em; margin-bottom: 10px;">The Scribe's Journey</h2>
-            <h3 style="font-size: 1.2em; color: var(--neon-pink);">Echoes of Ein Sof</h3>
-            <div style="margin-top: 40px;">
+            <h2 class="extreme-pulse title-logo">The Scribe's Journey</h2>
+            <h3 class="subtitle-logo">Echoes of Ein Sof</h3>
+            <div class="title-actions">
                 <button class="menu-button" data-action="newGame">Begin Anew</button>
                 <button class="menu-button" data-action="loadGame" id="main-menu-load-game-button">Continue Chronicle</button>
             </div>
-            <div style="margin-top:30px; font-size: 0.8em; color: #555;">v2.7 Kabbalah Expansion</div>
+            <div class="version-copy">v2.7 Kabbalah Expansion</div>
         </div>
         
         <!-- In-Game Menu -->
@@ -86,7 +84,7 @@
         <div id="gemach-screen" class="menu-screen">
             <div class="modal-content gemach-content">
                 <h3>Gemach of Loving Kindness</h3>
-                <div class="gemach-balance-box" style="border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px; margin:10px;">
+                <div class="gemach-balance-box">
                     <div>Your Pockets: <span id="gemach-player-money">0</span>p</div>
                     <div>Gemach Account: <span id="gemach-balance">0</span>p</div>
                 </div>
@@ -111,7 +109,7 @@
             <div class="modal-content">
                 <h3>Satchel</h3>
                 <div id="inventory-list"></div>
-                <div id="player-money-display" style="margin:10px; color:var(--neon-gold);"></div>
+                <div id="player-money-display" class="money-display"></div>
                 <button class="modal-action-button" data-action="close-inventory">Close</button>
             </div>
         </div>

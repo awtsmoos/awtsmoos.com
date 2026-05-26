@@ -42,7 +42,7 @@ export function renderOwnerControls(breadcrumb, navigator, appState) {
         DOMElements.seriesControlsContainer.appendChild(selectBtn);
         
         if (appState.currentSeries !== 'root') {
-            const editBtn = createButton('Edit Series', () => notify('Editing series details is not yet implemented.', 'info'));
+            const editBtn = createButton('Edit Series', () => openModal('series', navigator, { mode: 'edit', seriesId: appState.currentSeries, title: breadcrumb[breadcrumb.length - 1]?.name || '' }));
             const deleteBtn = createButton('Delete This Series', () => {
                 const parentItem = breadcrumb.length > 1 ? breadcrumb[breadcrumb.length - 2] : { id: 'root' };
                 navigator.deleteSingleItem({

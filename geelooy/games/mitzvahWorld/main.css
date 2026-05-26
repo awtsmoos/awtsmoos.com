@@ -1,208 +1,222 @@
-/*B"H*/
+/* B"H */
 
+html,
 body {
-	margin:0
-	;overflow:hidden
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+#ikar,
+#container {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 a {
-	color: #ff0;
-	text-decoration: none;
+  color: #ff0;
+  text-decoration: none;
 }
 
 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
+}
+
+button,
+a,
+input,
+select {
+  pointer-events: auto;
 }
 
 button {
-	cursor: pointer;
-	text-transform: uppercase;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 
 #info {
-	position: absolute;
-	top: 26px;
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-	text-align: center;
-	/*
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;*/
-	z-index: 1; /* TODO Solve this in HTML */
-}
-
-a, button, input, select {
-	pointer-events: auto;
+  position: absolute;
+  top: 26px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 10;
+  color: #fff;
+  pointer-events: none;
 }
 
 .lil-gui {
-	z-index: 2 !important; /* TODO Solve this in HTML */
+  z-index: 20 !important;
 }
 
-@media all and ( max-width: 640px ) {
-	.lil-gui.root { 
-		right: auto;
-		top: auto;
-		max-height: 50%;
-		max-width: 80%;
-		bottom: 0;
-		left: 0;
-	}
+@media all and (max-width: 640px) {
+  .lil-gui.root {
+    right: auto;
+    top: auto;
+    max-height: 50%;
+    max-width: 80%;
+    bottom: 0;
+    left: 0;
+  }
 }
 
 #overlay {
-	position: absolute;
-	font-size: 16px;
-	z-index: 2;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	background: rgba(0,0,0,0.7);
+  position: absolute;
+  font-size: 16px;
+  z-index: 30;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.7);
 }
 
-body {
-	/* margin: 0; */
-	/* color: #fff; */
-	/* font-family: Monospace; */
-	/* font-size: 13px; */
-	/* overscroll-behavior: none; */
-	/* overflow: hidden; */
-	/*background-color: black;
-	display: flex;
-	align-items: center;
-	justify-content: center;*/
+#overlay button {
+  background: transparent;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 12px 18px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
-
-	canvas {
-		width:100%;
-		height:100%;
-	display: block;
-  }
-
-	#overlay button {
-		background: transparent;
-		border: 0;
-		border: 1px solid rgb(255, 255, 255);
-		border-radius: 4px;
-		color: #ffffff;
-		padding: 12px 18px;
-		text-transform: uppercase;
-		cursor: pointer;
-	}
 
 #notSupported {
-	width: 50%;
-	margin: auto;
-	background-color: #f00;
-	margin-top: 20px;
-	padding: 10px;
+  width: 50%;
+  margin: 20px auto 0;
+  background-color: #f00;
+  padding: 10px;
 }
 
-/* B"H - Arena of Clarification Styles */
 .battle-overlay {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(0,20,0,0.8) 0%, rgba(0,0,0,0.95) 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    z-index: 1000;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 20, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: 'Outfit', system-ui, sans-serif;
+  z-index: 1000;
 }
 
 .battle-container {
-    width: 90%;
-    height: 90%;
-    display: grid;
-    grid-template-rows: 1fr 1fr 180px;
-    gap: 20px;
+  width: min(90%, 1100px);
+  height: 90%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 180px;
+  gap: 20px;
 }
 
 .stat-box {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 15px;
-    padding: 15px;
-    width: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 15px;
+  width: min(300px, 90vw);
 }
 
 .health-bar-container {
-    width: 100%;
-    height: 12px;
-    background: #333;
-    border-radius: 6px;
-    overflow: hidden;
-    margin: 10px 0;
+  width: 100%;
+  height: 12px;
+  background: #333;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0;
 }
 
 .health-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #4caf50, #8bc34a);
-    transition: width 0.5s ease-out;
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #8bc34a);
+  transition: width 0.5s ease-out;
 }
 
 .battle-actions {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 15px;
-    background: rgba(0,0,0,0.5);
-    border-top: 2px solid #ffd700;
-    padding: 15px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border-top: 2px solid #ffd700;
+  padding: 15px;
 }
 
 .action-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .battle-btn {
-    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 10px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 10px;
-    text-align: left;
-    transition: all 0.2s;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  text-align: left;
+  transition: all 0.2s;
 }
 
-.battle-btn:hover {
-    background: rgba(255,255,255,0.25);
-    border-color: #ffd700;
-    transform: translateY(-2px);
+.battle-btn:hover,
+.battle-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #ffd700;
+  transform: translateY(-2px);
 }
 
 .pardes-indicators {
-    display: flex;
-    gap: 4px;
-    margin-top: 5px;
+  display: flex;
+  gap: 4px;
+  margin-top: 5px;
 }
 
 .p-dot {
-    font-size: 10px;
-    padding: 2px 4px;
-    border-radius: 3px;
-    background: #444;
-    color: #888;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: #444;
+  color: #888;
 }
 
 .p-dot.active {
-    background: #ffd700;
-    color: #000;
-    font-weight: bold;
-    box-shadow: 0 0 5px #ffd700;
+  background: #ffd700;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 5px #ffd700;
+}
+
+@media all and (max-width: 640px) {
+  .battle-container {
+    width: 96%;
+    height: 96%;
+    grid-template-rows: 1fr 1fr auto;
+    gap: 10px;
+  }
+
+  .battle-actions {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
 }

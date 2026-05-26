@@ -360,3 +360,9 @@ input[type="text"]:focus, textarea:focus {
     .grid-container { gap: 1.5rem; }
     .sidebar-toggle { display: none; }
 }
+
+@import url('./revamped-partials/platform-panels.css');
+@import url('./revamped-partials/notifications.css');
+
+@import url('./revamped-partials/platform-mobile.css');
+@import url('./revamped-partials/notifications-mobile.css');

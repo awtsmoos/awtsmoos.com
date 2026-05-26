@@ -7,6 +7,7 @@
     const VirtualStorage = storageMod.VirtualStorage;
     const VirtualConsole = consoleMod.VirtualConsole;
     const VirtualFetch = fetchMod.VirtualFetch;
+    const { VirtualWebGLBoxRenderer } = require('./VirtualWebGLBoxRenderer.js');
 
     class VirtualWindow {
         constructor({ files = {}, graph = null, url = 'http://127.0.0.1:8080/' } = {}) {
@@ -43,11 +44,18 @@
             this.keyboard = new keyboardMod.VirtualKeyboard(this);
             this.interactions = new interactionMod.VirtualInteractions(this);
             this.probe = new probeMod.RuntimeProbe();
+            this.webglRenderer = new VirtualWebGLBoxRenderer(this.document.textureArena);
+            this.renderWebGLDom = () => { this.webglRenderer.paintElement(this.document.documentElement); return this.document.textureArena.snapshot(); };
 
             this.requestAnimationFrame = cb => this.setTimeout(() => cb(this.performance.now()), 16);
             this.cancelAnimationFrame = id => this.clearTimeout(id);
             this.showDirectoryPicker = async () => ({ kind: 'directory', name: 'virtual-root', values: async function*(){} });
             this.showOpenFilePicker = async () => [];
+            this.getComputedStyle = element => {
+                const computed = this.document.cssEngine.compute(element);
+                return { ...computed, getPropertyValue: name => computed[String(name).replace(/[A-Z]/g, c => '-' + c.toLowerCase())] || '' };
+            };
+            this.addStyleSheet = cssText => this.document.cssEngine.parseStyleSheet(cssText);
         }
 
         setTimeout(fn, ms = 0, ...args) { const id = setTimeout(fn, ms, ...args); this.__timers.set(id, { kind: 'timeout', ms }); return id; }

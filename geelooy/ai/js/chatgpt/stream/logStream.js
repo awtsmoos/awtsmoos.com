@@ -10,7 +10,7 @@ import { streamResumeStore } from "./streamResumeStore.js";
  * records the background stream id and cursor, so a refreshed page can ask the
  * extension for all sparks it has not yet seen.
  */
-export async function logStream(response, callback) {
+export async function logStream(response, callback, context = {}) {
   const emit = typeof callback === "function" ? callback : () => {};
   if (!response.ok) return { message: "Something happened" };
 
@@ -21,7 +21,15 @@ export async function logStream(response, callback) {
   let cursor = 0;
   let message = null;
   const otherEvents = [];
-  if (streamId) streamResumeStore.upsert({ id: streamId, cursor, sessionId });
+  if (streamId) streamResumeStore.upsert({
+    id: streamId,
+    cursor,
+    sessionId,
+    status: "streaming",
+    conversationId: context.conversationId || null,
+    surfaceConversationId: context.conversationId || null,
+    title: context.title || "Streaming chat"
+  });
 
   while (true) {
     const { done, value } = await reader.read();

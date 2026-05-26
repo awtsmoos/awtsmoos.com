@@ -180,8 +180,6 @@ export class CommentSection {
         this.galleryContainer = document.createElement("div");
         this.galleryContainer.className = "awtsmoos-comment-gallery-grid";
         this.galleryContainer.style.display = "none";
-        this.galleryContainer.style.gap = "8px";
-        this.galleryContainer.style.marginTop = "8px";
         this.addCommentArea.appendChild(this.galleryContainer);
         return this.galleryContainer;
     }
@@ -193,8 +191,6 @@ export class CommentSection {
                 const img = document.createElement("img");
                 img.src = r.data?.thumb?.url;
                 img.className = "awtsmoos-creation-thumbnail";
-                img.style.height = "60px";
-                img.style.border = "1px solid #ccc";
                 this.galleryContainer.appendChild(img);
             }
         });

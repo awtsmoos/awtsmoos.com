@@ -1,76 +1,76 @@
-/* B"H */
-/* css/effects.css */
-
+/* B"H - Effects only: overlays, pulses, shakes, floating text, and motion safety. */
+body::before,
 body::after {
-    content: " ";
-    display: block;
+    content: "";
     position: fixed;
     inset: 0;
-    background:
-        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.18) 50%),
-        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.04));
-    z-index: var(--layer-effects);
-    background-size: 100% 2px, 3px 100%;
     pointer-events: none;
 }
 
 body::before {
-    content: " ";
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle, transparent 54%, rgba(0, 0, 0, 0.82) 100%);
-    z-index: var(--layer-effects);
-    pointer-events: none;
+    z-index: var(--layer-vignette);
+    background: radial-gradient(circle at center, transparent 62%, rgba(0,0,0,0.58) 100%);
 }
 
-@keyframes textFlicker {
-    0% { opacity: 1; }
-    5% { opacity: 0.82; }
-    10% { opacity: 1; }
-    100% { opacity: 1; }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes slideDown {
-    from { transform: translateY(-20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+body::after {
+    z-index: var(--layer-scanlines);
+    opacity: 0.08;
+    background: linear-gradient(rgba(255,255,255,0) 50%, rgba(0,0,0,0.18) 50%);
+    background-size: 100% 4px;
 }
 
 .extreme-pulse {
-    animation: extremePulse 0.5s infinite alternate;
-}
-
-@keyframes extremePulse {
-    from { box-shadow: 0 0 10px var(--neon-pink); border-color: var(--neon-pink); }
-    to { box-shadow: 0 0 25px var(--neon-blue); border-color: var(--neon-blue); }
+    animation: extremePulse 2s infinite alternate;
 }
 
 .screen-shake {
-    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    animation: shake 0.24s linear;
+}
+
+.floating-text {
+    position: absolute;
+    z-index: var(--layer-toast);
+    pointer-events: none;
+    font-weight: 700;
+    text-shadow: 0 0 8px #000, 0 0 14px currentColor;
+    animation: floatAway 0.8s ease-out forwards;
+}
+
+.float-damage { color: var(--neon-red); }
+.float-crit { color: var(--neon-gold); font-size: 1.35rem; }
+.float-heal { color: var(--neon-green); }
+.float-info { color: var(--neon-blue); }
+
+.fx-debate-damage { filter: drop-shadow(0 0 12px #ff5555); }
+.fx-debate-crit { filter: drop-shadow(0 0 18px #ffd166); }
+.fx-debate-heal { filter: drop-shadow(0 0 16px #66ff99); }
+.fx-holy-fire { filter: drop-shadow(0 0 18px #ff9f1c); }
+.fx-bittul-crown { filter: drop-shadow(0 0 24px #f7e7a1); }
+.fx-capture-spark { filter: drop-shadow(0 0 18px #ffff00); }
+
+@keyframes extremePulse {
+    from { text-shadow: 2px 2px 0 var(--neon-pink), -1px -1px 0 var(--neon-blue), 0 0 14px rgba(0,243,255,0.24); }
+    to { text-shadow: 3px 3px 0 var(--neon-pink), -2px -2px 0 var(--neon-blue), 0 0 34px rgba(255,0,255,0.42); }
 }
 
 @keyframes shake {
-    10%, 90% { transform: translate3d(-1px, 0, 0); }
-    20%, 80% { transform: translate3d(2px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-    40%, 60% { transform: translate3d(4px, 0, 0); }
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(4px, -3px); }
+    50% { transform: translate(-4px, 3px); }
+    75% { transform: translate(3px, 4px); }
+}
+
+@keyframes floatAway {
+    from { transform: translate(-50%, 0) scale(1); opacity: 1; }
+    to { transform: translate(-50%, -42px) scale(1.08); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.001ms !important;
         animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
-        transition-duration: 0.001ms !important;
-    }
-
-    body::after,
-    body::before {
-        opacity: 0.35;
     }
 }

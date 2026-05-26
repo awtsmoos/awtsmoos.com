@@ -42,3 +42,20 @@ export async function getBreadcrumb(heichelId, seriesId) {
     // Breadcrumbs are returned from specific to general; we reverse to follow the flow of light.
     return data?.reverse() || [];
 }
+
+
+/**
+ * @function createPost
+ * @description Creates a regular post in the current heichel series.
+ */
+export async function createPost({ heichelId, seriesId = 'root', aliasId, title, content, dayuh = '' }) {
+    return await AwtsmoosRequest.post(
+        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/posts`,
+        new URLSearchParams({
+            aliasId,
+            title,
+            content,
+            dayuh
+        })
+    );
+}

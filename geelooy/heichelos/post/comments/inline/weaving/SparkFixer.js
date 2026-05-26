@@ -18,7 +18,6 @@ export class SparkFixer {
     static fix(sparks, alias) {
         if (!Array.isArray(sparks) || sparks.length === 0) return;
 
-        console.log(`%c B"H - [SparkFixer] Re-evaluating ${sparks.length} sparks for @${alias}.`, "color: #ff00ff;");
 
         const escapeForAttr = (value) => {
             const str = String(value);
@@ -74,7 +73,6 @@ export class SparkFixer {
         });
 
         if (fixCount > 0) {
-            console.log(`%c B"H - [SparkFixer] Anchored ${fixCount} unique insights into the margins for @${alias}.`, "color: #00ff00; font-weight: bold;");
         }
     }
 }

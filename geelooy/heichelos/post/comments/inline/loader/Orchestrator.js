@@ -32,7 +32,6 @@ export class Orchestrator {
             return;
         }
 
-        console.log(`%c B"H - [Orchestrator] Commencing unified manifestation for ${activeGuardians.length} guardians.`, "color: #00ff00;");
 
         for (const alias of activeGuardians) {
             const sparks = await Transmitter.summonAllForAlias(alias, context);

@@ -16,14 +16,11 @@
     left: 0 !important; 
     right: 0 !important;
     height: 60vh !important;
-    background: var(--bg-surface) !important;
-    border-top: 6px solid var(--color-ink) !important; 
     z-index: var(--z-sidebar) !important;
     display: flex !important;
     flex-direction: column !important;
     transition: transform var(--time-std) var(--ease-snap) !important;
     transform: translateY(0) !important;
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.3) !important;
 }
 
 .post-reader-localized-context .sidebar.hidden-comments {
@@ -40,9 +37,6 @@
         width: 420px !important;
         flex-shrink: 0 !important;
         height: 100% !important;
-        border-top: none !important;
-        border-left: 6px solid var(--color-ink) !important; 
-        box-shadow: -10px 0 40px rgba(0,0,0,0.3) !important;
         transform: none !important;
         transition: margin-right var(--time-std) var(--ease-snap) !important;
         margin-right: 0 !important;

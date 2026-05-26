@@ -47,11 +47,24 @@ export class AwtsmoosRequest {
      * @returns {Promise<Object|null>} - The response from the server's wisdom.
      */
     static async post(url, body) {
+        return await this.send(url, "POST", body);
+    }
+
+    /**
+     * @method delete
+     * @description Removes a vessel through a guarded request.
+     */
+    static async delete(url, body) {
+        return await this.send(url, "DELETE", body);
+    }
+
+    /**
+     * @method send
+     * @description Carries a mutation request and returns structured JSON.
+     */
+    static async send(url, method, body) {
         try {
-            const response = await fetch(url, {
-                method: "POST",
-                body
-            });
+            const response = await fetch(url, { method, body });
             if (!response.ok) {
                 throw new Error(`Submission Denied: ${response.status} ${response.statusText}`);
             }

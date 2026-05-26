@@ -9,15 +9,19 @@
 //
 //================================================================================================
 
-import {getHeichelosOfPostsOfAlias, getPostsOfAliasInSeries} from "/scripts/awtsmoos/api/social/alias.js";
+import {
+    getHeichelosOfPostsOfAlias,
+    getPostsOfAliasInSeries,
+    getHeichelosOfCommentsOfAlias
+} from "/scripts/awtsmoos/api/social/alias.js";
 
-console.log('B"H - The Final Manuscript (Refined) Loaded\n');
 
 class AliasPageNavigator {
 
-    constructor({details, container}) {
+    constructor({details, container, ownership = false}) {
         this.aliasDetails = details;
         this.container = container;
+        this.ownership = ownership;
         this.uniqueId = 'alias-page-hyper-instance-' + Date.now();
         this.state = this._getDefaultState();
         this.apiCache = new Map();
@@ -57,10 +61,36 @@ class AliasPageNavigator {
             'data-level': '-1'
         });
         this.timeline = this._createElement('div', ['timeline']);
-        this.header = this._createElement('div', ['alias-header'], [homeBtn, this.timeline]);
+        this.profileActions = this._createProfileActions();
+        this.header = this._createElement('div', ['alias-header'], [homeBtn, this.timeline, this.profileActions]);
+        this.activitySummary = this._createElement('section', ['alias-activity-summary'], [
+            this._createActivityCard('Posts', 'Loading...', 'Realms where this alias has posted'),
+            this._createActivityCard('Comments', 'Loading...', 'Heichelos where this alias has commented')
+        ], { 'aria-label': 'Profile activity summary' });
         this.navigatorBody = this._createElement('div', ['navigator-body']);
         const navigator = this._createElement('div', ['alias-navigator'], [this.navigatorBody]);
-        this.container.replaceChildren(this.header, navigator);
+        this.container.replaceChildren(this.header, this.activitySummary, navigator);
+        this._renderActivitySummary();
+    }
+
+    _createProfileActions() {
+        const aliasId = this.aliasDetails?.id || this.aliasDetails?.name || '';
+        const actions = [];
+        if (aliasId) {
+            actions.push(this._createElement('a', ['alias-profile-action', 'alias-profile-message'], ['Message'], {
+                href: `/email?to=${encodeURIComponent(aliasId)}`,
+                'aria-label': `Open chat with ${aliasId}`
+            }));
+        }
+        if (this.ownership && aliasId) {
+            actions.push(this._createElement('a', ['alias-profile-action'], ['Mail'], {
+                href: `/email?alias=${encodeURIComponent(aliasId)}`,
+                'aria-label': `Open mail as ${aliasId}`
+            }));
+        }
+        return this._createElement('nav', ['alias-profile-actions'], actions, {
+            'aria-label': 'Profile actions'
+        });
     }
 
     _bindEvents() {
@@ -132,7 +162,7 @@ class AliasPageNavigator {
         this.timeline.replaceChildren(timelineFragment);
     }
     
-    // ... _pruneFutureColumns and _createAndRenderColumn remain unchanged ...
+
     _pruneFutureColumns(activeIndex) {
         return new Promise(resolve=>{
             const columnsToRemove = Array.from(this.navigatorBody.querySelectorAll('.navigator-column')).filter(col=>parseInt(col.dataset.columnIndex, 10) >= activeIndex);
@@ -188,7 +218,7 @@ class AliasPageNavigator {
             columnInner.replaceChildren(errorHeader, errorMsg)
         }
     }
-    // ... _getDataForColumn remains unchanged ...
+
     async _getDataForColumn(columnIndex) {
         const isHeichelos = columnIndex === 0;
         let heichel, pathForApi, pathStr;
@@ -291,15 +321,6 @@ class AliasPageNavigator {
         await this._syncViewToState();
     }
     
-    // ... _restoreStateFromURL, _updateURL, and all element creation helpers remain unchanged ...
-    
-       // in class AliasPageNavigator
-
-   // in class AliasPageNavigator
-
-   // in class AliasPageNavigator
-
-    // in class AliasPageNavigator
 
    /**
      * **DEFINITIVE FIX USING THE BREADCRUMB ENDPOINT**
@@ -351,9 +372,7 @@ class AliasPageNavigator {
         await this._syncViewToState();
     }
 
-    // B"H
-    // In a file like /scripts/awtsmoos/api/social/series.js
-    
+
     /**
      * Fetches the full breadcrumb path for a given series.
      * @param {object} params
@@ -366,12 +385,11 @@ class AliasPageNavigator {
             throw new Error("Heichel ID and Series ID are required for breadcrumb.");
         }
         try {
-            const response = await fetch(`/api/social/heichelos/${heichelId}/series/${seriesId}/breadcrumb`);
+            const response = await fetch(`/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/breadcrumb`);
             if (!response.ok) {
                 throw new Error(`API error: ${response.statusText}`);
             }
             const data = await response.json();
-            // Assuming the response is the array directly, e.g., [{"id": "...", "name": "..."}]
             return data; 
         } catch (error) {
             console.error("Failed to fetch breadcrumb:", error);
@@ -412,7 +430,7 @@ class AliasPageNavigator {
         if (!isHeichel) {
             const actionIcon = this._createElement('span', ['action-icon']);
             const actionLink = this._createElement('a', ['item-action'], [actionIcon], {
-                href: `/heichelos/${this.state.heichel?.id}?view=series&series=${encodeURIComponent(d.id)}`,
+                href: `/heichelos/${encodeURIComponent(this.state.heichel?.id || "")}?view=series&series=${encodeURIComponent(d.id)}`,
                 'aria-label': `View details for ${d.name}`,
                 title: `View details for ${d.name}`
             });
@@ -435,7 +453,7 @@ class AliasPageNavigator {
         if (!response)
             throw new Error("API Error: No response received.");
         if (response.error)
-            throw new Error(response.error);
+            throw new Error(response.error?.message || response.error?.code || response.error || 'API Error');
         return {
             series: response.seriesInPath || response.series || response.success || [],
             posts: response.posts || []
@@ -497,15 +515,16 @@ class AliasPageNavigator {
         const name = this._createElement('span', ['item-name'], [d.title]);
         const author = this._createElement('span', ['item-author'], [d.author ? `by ${d.author}` : '']);
         const e = this._createElement('a', ['navigator-item', 'post-item'], [name, author], {
-            href: `/heichelos/${data.heichel.id}/series/${d.parentSeriesId}/${d.index}`
+            href: `/heichelos/${encodeURIComponent(data.heichel.id)}/series/${encodeURIComponent(d.parentSeriesId)}/${encodeURIComponent(d.index)}`
         });
         return e
     }
 }
 
-export function makeAliasPage({details, container}) {
+export function makeAliasPage({details, container, ownership = false}) {
     return new AliasPageNavigator({
         details,
-        container
+        container,
+        ownership
     });
 }

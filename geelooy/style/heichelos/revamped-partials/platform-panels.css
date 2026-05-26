@@ -1,0 +1,102 @@
+/* B"H - Platform panels: feed, search, live, packed DB health */
+.awtsmoos-platform-panel {
+    position: fixed;
+    inset-inline-start: clamp(0.75rem, 2vw, 1.25rem);
+    inset-block-end: clamp(0.75rem, 2vw, 1.25rem);
+    z-index: 9997;
+    width: min(24rem, calc(100vw - 1.5rem));
+    display: grid;
+    gap: 0.55rem;
+    pointer-events: none;
+}
+
+.awtsmoos-platform-toggle,
+.awtsmoos-platform-body {
+    pointer-events: auto;
+}
+
+.awtsmoos-platform-toggle {
+    justify-self: start;
+    min-height: 2.75rem;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(167, 139, 250, 0.34);
+    background: rgba(15, 23, 42, 0.92);
+    color: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
+}
+
+.awtsmoos-platform-body {
+    display: grid;
+    gap: 0.75rem;
+    max-height: min(34rem, 74vh);
+    overflow: auto;
+    padding: 0.8rem;
+    border: 1px solid rgba(167, 139, 250, 0.24);
+    border-radius: 18px;
+    background: rgba(2, 6, 23, 0.94);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
+}
+
+.awtsmoos-platform-body[hidden] {
+    display: none;
+}
+
+.awtsmoos-platform-body header,
+.awtsmoos-platform-actions,
+.awtsmoos-platform-search {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.awtsmoos-platform-body small {
+    opacity: 0.72;
+    font-weight: 800;
+}
+
+.awtsmoos-platform-search input {
+    min-width: 0;
+    flex: 1;
+    min-height: 2.45rem;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.055);
+    color: inherit;
+}
+
+.awtsmoos-platform-search button,
+.awtsmoos-platform-actions button {
+    min-height: 2.75rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgba(167, 139, 250, 0.32);
+    border-radius: 999px;
+    background: rgba(124, 58, 237, 0.14);
+    color: inherit;
+    font-weight: 850;
+    cursor: pointer;
+}
+
+.awtsmoos-platform-list {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.awtsmoos-platform-card,
+.awtsmoos-platform-error {
+    padding: 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.055);
+    overflow-wrap: anywhere;
+}
+
+.awtsmoos-platform-error {
+    border-color: rgba(248, 113, 113, 0.34);
+    background: rgba(127, 29, 29, 0.18);
+    font-weight: 800;
+}

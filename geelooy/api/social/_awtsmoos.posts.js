@@ -27,7 +27,6 @@ const { loggedIn } = require("./helper/general.js"); // For auth checks if neede
 module.exports = ({ $i, userid } = {}) => ({
 
 	"/aliases/:alias/postsMade/heichel/:heichel/pathToSeries/:pathive": async vars => {
-		//console.log("Wow",vars)
 		var pathic = "";
 		try {
 			pathic = decodeURIComponent(
@@ -39,9 +38,7 @@ module.exports = ({ $i, userid } = {}) => ({
 				).toString("utf-8")
 			)
 		} catch(e) {
-			console.log(e)
 		}
-		if(!pathic) console.log("LOL")
 		return await getPostsOfAliasInSeries({
 			$i,
 			aliasId: vars.alias,
@@ -52,7 +49,6 @@ module.exports = ({ $i, userid } = {}) => ({
 		})
 	},
 	"/aliases/:alias/postsMade/heichelos": async vars => {
-		//console.log(22,vars)
 		return await getHeichelosOfPostsOfAlias({
 			$i,
 			aliasId: vars.alias
@@ -65,6 +61,33 @@ module.exports = ({ $i, userid } = {}) => ({
 			heichelId: vars.heichel
 		})
 	},
+
+    "/heichelos/:heichel/submittedPosts": async vars => {
+        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+        return await getSubmittedPosts({ $i, heichelId: vars.heichel });
+    },
+
+    "/heichelos/:heichel/submittedPosts/approve": async vars => {
+        if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
+        return await approveSubmittedPost({
+            $i,
+            heichelId: vars.heichel,
+            postId: $i.$_POST.postId,
+            approverAliasId: $i.$_POST.aliasId,
+            addPostToSeries
+        });
+    },
+
+    "/heichelos/:heichel/submittedPosts/deny": async vars => {
+        if ($i.request.method !== "POST" && $i.request.method !== "DELETE") return er({ code: "METHOD_NOT_ALLOWED" });
+        const body = $i.$_POST || $i.$_DELETE || {};
+        return await denySubmittedPost({
+            $i,
+            heichelId: vars.heichel,
+            postId: body.postId,
+            approverAliasId: body.aliasId
+        });
+    },
     /**
      * @endpoint POST /heichelos/:heichel/series/:series/posts
      * @description Adds a new post to the specified series.

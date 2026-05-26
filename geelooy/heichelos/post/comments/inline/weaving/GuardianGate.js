@@ -49,7 +49,6 @@ export class GuardianGate {
                             e.stopPropagation();
                             
                             // B"H - Command the Sidebar to reveal the Secrets.
-                            console.log(`B"H - [GuardianGate] Insights button clicked for @${alias}.`);
                             SidebarConduit.openChamber({ idx: verseIdx });
 
                             // B"H - Locally toggle the marginal list.

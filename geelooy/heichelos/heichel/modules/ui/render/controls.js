@@ -8,6 +8,7 @@
  * the owner of the Realm. All buttons are manifest from JSON plans.
  */
 
+import { openModal } from '../../modal.js';
 import { DOMElements } from '../../dom.js';
 import { ScribeOfManifestation } from '../../engine/scribe-of-manifestation.js';
 import * as api from '../../api.js';
@@ -62,7 +63,7 @@ export function renderOwnerControls(breadcrumb, navigator, appState) {
             tag: 'div',
             attr: { class: 'btn-group-row' },
             children:[
-                createBtnPlan("Edit Series", () => navigator.notify("Modification ritual coming soon.", "info")),
+                createBtnPlan("Edit Series", () => openModal("series", navigator, { mode: "edit", seriesId: appState.currentSeries, title: breadcrumb[breadcrumb.length - 1]?.name || "" })),
                 createBtnPlan("Destroy Series", () => {
                     const parent = breadcrumb.length > 1 ? breadcrumb[breadcrumb.length - 2] : { id: 'root' };
                     navigator.deleteSingleItem({ id: appState.currentSeries, type: 'series', parentId: parent.id });

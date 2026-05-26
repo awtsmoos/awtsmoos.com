@@ -51,7 +51,10 @@ var {
     deletePostFromSeries,    // Renamed/Rewritten
     getPostFromSeries,       // Renamed/Rewritten
     getPostsInSeries,        // Renamed/Rewritten
-    getPostsByProperty       // Renamed/Rewritten
+    getPostsByProperty,      // Renamed/Rewritten
+    getSubmittedPosts,
+    approveSubmittedPost,
+    denySubmittedPost
 
 } = require("./post/index.js");
 
@@ -62,6 +65,16 @@ var {
     getHeichelEditors, removeHeichelEditor, addHeichelEditor,
 	generateHeichelId
 } = require("./heichel.js");
+
+var {
+    ROLE_NAMES,
+    SETTING_DEFAULTS,
+    getHeichelRoleList,
+    addHeichelRoleMember,
+    removeHeichelRoleMember,
+    getHeichelSubmissionSettings,
+    updateHeichelSubmissionSettings
+} = require("./heichelRoles.js");
 
 // Series
 var {
@@ -148,6 +161,9 @@ module.exports = {
     getPostFromSeries,
     getPostsInSeries,
     getPostsByProperty,
+    getSubmittedPosts,
+    approveSubmittedPost,
+    denySubmittedPost,
 
     // Comments
     addComment,

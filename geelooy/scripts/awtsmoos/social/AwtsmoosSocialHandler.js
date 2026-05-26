@@ -2,7 +2,6 @@
 B"H
 social media handler
 **/
-console.log("B\"H")
 class AwtsmoosSocialHandler {
   constructor(baseEndpoint, subPath) {
     this.baseEndpoint = baseEndpoint;
@@ -11,35 +10,50 @@ class AwtsmoosSocialHandler {
 
   async endpoint(
     path, {
-      method = 'GET', 
+      method = 'GET',
       body = null, headers = {}
     } = {}
   ) {
-   
-    var params = body?
-    new URLSearchParams(body)
-    .toString():null;
-    var realPath = this.baseEndpoint +
-      this.subPath+ "/"+
-      path;
-      
-    try {
-      var response = await fetch(realPath, {
-        method,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          ...headers,
-        },
-        body:params,
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
+    var params = body ? new URLSearchParams(body).toString() : null;
+    var realPath = this.baseEndpoint + this.subPath + "/" + path;
+
+    var response = await fetch(realPath, {
+      method,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        ...headers,
+      },
+      credentials: 'include',
+      body: params,
+    });
+
+    var text = await response.text();
+    var parsed = null;
+    if (text) {
+      try {
+        parsed = JSON.parse(text);
+      } catch (error) {
+        return {
+          error: {
+            code: 'INVALID_JSON',
+            message: error.message || 'Invalid JSON response',
+            raw: text
+          }
+        };
       }
-      return await response.json();
-    } catch (error) {
-      console.error('Fetch error: ', error);
-      throw error;
     }
+
+    if (!response.ok) {
+      return {
+        error: {
+          code: response.status,
+          message: response.statusText,
+          details: parsed
+        }
+      };
+    }
+
+    return parsed;
   }
 
   async fetchEntities(endpoint, options={}) {
@@ -56,7 +70,6 @@ class AwtsmoosSocialHandler {
   }
 
   async editEntity({entityId, entityType, updatedData}) {
-    console.log("updating",updatedData)
 	var cleansedObj = {};
 	if(updatedData && typeof(updatedData) == "object") 
 		for(var k in updatedData) {
@@ -114,16 +127,11 @@ class AwtsmoosSocialHandler {
    * @description: This method sends a POST request, like a whispered prayer, to create new celestial entities within the digital cosmos.
    * @returns {Promise} - An eternal promise of creation or explanation.
    */
-  postData(urlExtension, data) {
-    return fetch(`${this.baseEndpoint}${urlExtension}`, {
+  async postData(urlExtension, data) {
+    return await this.endpoint(urlExtension.replace(/^\//, ''), {
       method: 'POST',
-      headers: {
-       // 'Content-Type': 'application/json'
-      },
-      body: new URLSearchParams(data).toString()
-    })
-    .then(response => response.json())
-    .catch(err => console.log('Error:', err));
+      body: data
+    });
   }
 
 }

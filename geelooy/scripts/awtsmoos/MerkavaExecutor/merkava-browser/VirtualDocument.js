@@ -6,11 +6,18 @@
     const VirtualElement = elements.VirtualElement;
     class VirtualDocument {
         constructor() {
+            const { VirtualWebGLTextureArena } = require('./VirtualWebGLTextureArena.js');
+            const { VirtualFontAtlas } = require('./VirtualFontAtlas.js');
+            const { VirtualCssEngine } = require('./VirtualCssEngine.js');
+            this.textureArena = new VirtualWebGLTextureArena();
+            this.fontAtlas = new VirtualFontAtlas();
+            this.cssEngine = new VirtualCssEngine();
             this.journal = []; this.activeElement = null;
             this.documentElement = new VirtualElement('html', this); this.head = new VirtualElement('head', this); this.body = new VirtualElement('body', this);
             this.documentElement.appendChild(this.head); this.documentElement.appendChild(this.body);
         }
         createElement(tagName) { return new VirtualElement(tagName, this); }
+        createDocumentFragment() { return new VirtualElement('#fragment', this); }
         createTextNode(text) { const node = new VirtualElement('#text', this); node.textContent = String(text); return node; }
         getElementById(id) { return this.documentElement.querySelector('#' + id); }
         querySelector(selector) { return this.documentElement.querySelector(selector); }

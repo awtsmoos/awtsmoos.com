@@ -6,9 +6,10 @@ import { loadNodeRelaySettings } from "./nodeRelaySettings.js";
  *
  * The relay may answer `pending` while the Awtsmoos stream is still carving a
  * byte from the hidden river. This fetch wrapper mirrors the extension: it
- * waits, asks again, and only ends when the relay says the stream is truly done.
+ * preserves method/headers/body, waits, asks again, and only ends when the
+ * relay says the stream is truly done.
  *
- * @param {string|URL} url Target ChatGPT URL.
+ * @param {string|URL} url Target URL.
  * @param {RequestInit} options Fetch options.
  * @returns {Promise<NodeRelayResponse>} Fetch-shaped streaming response.
  */
@@ -17,7 +18,7 @@ export async function nodeRelayFetch(url, options = {}) {
   const response = await fetch(`${relay}/fetch`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url: String(url), options: serializeOptions(options) })
+    body: JSON.stringify({ url: String(url), options: await serializeOptions(options) })
   });
   if (!response.ok) throw new Error(`Node relay failed: ${response.status} ${await response.text()}`);
   const metadata = await response.json();
@@ -35,7 +36,7 @@ export async function checkNodeRelay() {
 }
 
 export async function openRelayLogin() {
-  await openRelayControl();
+  return await openRelayControl();
 }
 
 export async function openRelayControl() {
@@ -104,12 +105,35 @@ async function dataUrlBytes(url) {
   return new Uint8Array(await blob.arrayBuffer());
 }
 
-function serializeOptions(options = {}) {
-  return {
-    method: options.method || "GET",
-    headers: Object.fromEntries(new Headers(options.headers || {}).entries()),
-    body: typeof options.body === "string" ? options.body : options.body ? String(options.body) : undefined
-  };
+async function serializeOptions(options = {}) {
+  const headers = new Headers(options.headers || {});
+  const body = await serializeBody(options.body, headers);
+  return { method: options.method || "GET", headers: Object.fromEntries(headers.entries()), body };
+}
+
+async function serializeBody(body, headers) {
+  if (body == null) return undefined;
+  if (typeof body === "string") return body;
+  if (body instanceof URLSearchParams) {
+    if (!headers.has("content-type")) headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+    return body.toString();
+  }
+  if (body instanceof FormData || body instanceof Blob) {
+    const response = new Response(body);
+    response.headers.forEach((value, key) => { if (!headers.has(key)) headers.set(key, value); });
+    return { type: "base64", data: await bufferToBase64(await response.arrayBuffer()) };
+  }
+  if (body instanceof ArrayBuffer) return { type: "base64", data: await bufferToBase64(body) };
+  if (ArrayBuffer.isView(body)) return { type: "base64", data: await bufferToBase64(body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength)) };
+  return String(body);
+}
+
+async function bufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  const step = 0x8000;
+  for (let i = 0; i < bytes.length; i += step) binary += String.fromCharCode(...bytes.subarray(i, i + step));
+  return btoa(binary);
 }
 
 function relayUrl() { return loadNodeRelaySettings().url.replace(/\/+$/, ""); }

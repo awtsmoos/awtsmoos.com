@@ -60,7 +60,6 @@ module.exports = {
     getCommentsByAliasAtVerseSection,
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
-    getComment,
 
     addLotsOfCommentsToPostByVerseSections
 };

@@ -21,6 +21,9 @@ export * from './api/series.js';
 // B"H - Exporting the particular content retrieval
 export * from './api/posts.js';
 
+// B"H - Exporting question, answer, section, repost and share vessels
+export * from './api/socialContent.js';
+
 // B"H - Exporting the governance and contraction rituals
 export * from './api/management.js';
 
@@ -38,4 +41,15 @@ export function generateInputId(title) {
     return words[0].toLowerCase() + words.slice(1).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('');
 }
 
-console.log("B\"H - The API Chariot is manifest and all conduits are open.");
+
+// B"H - Exporting durable social notification vessels
+export * from './api/notifications.js';
+
+// B"H - Exporting platform/feed/search/live/db sharing vessels
+export * from './api/platform.js';
+
+// B"H - Exporting embedding-native search vessels
+export * from './api/semanticSearch.js';
+
+// B"H - Exporting operational dashboards: moderation, migrations, federation, media, relationships, analytics, jobs, permissions
+export * from './api/platformOps.js';

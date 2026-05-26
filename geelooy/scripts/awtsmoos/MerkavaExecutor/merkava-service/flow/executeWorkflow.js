@@ -40,10 +40,12 @@ export async function executeWorkflow(workflow = [], ctx = {}, actions = {}) {
     try {
       const action = actions[step.action];
 
-      if (typeof action === "function") {
-        last = await action({ ...ctx, step, last }, step.payload || {});
-        ctx.result = last;
+      if (typeof action !== "function") {
+        throw new Error(`Unknown Merkava workflow action: ${step.action || "<missing>"}`);
       }
+
+      last = await action({ ...ctx, step, last }, step.payload || {});
+      ctx.result = last;
 
       if (step.then) {
         last = await runBranch(step.then, ctx, actions) ?? last;

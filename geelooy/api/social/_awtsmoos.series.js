@@ -95,7 +95,14 @@ module.exports = ({ $i, userid } = {}) => ({
 		}
 		if ($i.request.method !== "POST") 
             return er({ code: "METHOD_NOT_ALLOWED" });
-        return {hi:3}
+        const ids = Array.isArray($i.$_POST.seriesIds)
+            ? $i.$_POST.seriesIds
+            : String($i.$_POST.seriesIds || "").split(",").filter(Boolean);
+        const details = {};
+        for (const id of ids) {
+            details[id] = await getSeries({ $i, heichelId: v.heichel, seriesId: id, withDetails: true });
+        }
+        return { success: details };
      },
     "/heichelos/:heichel/series/:series/subSeriesDetails": async v => { // Note: Route seems specific, but logic is general
         return await getSeries({

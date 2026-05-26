@@ -21,7 +21,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["jected.js"],
+      "resources": ["jected.js", "streamLedger.js"],
       "matches": ["*://*/*"]
     }
   ],

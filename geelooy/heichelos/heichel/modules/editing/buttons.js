@@ -1,6 +1,9 @@
 //B"H
 import { makeDragLogic } from './drag.js';
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
+import { addEditor, removeEditor } from '../api/management.js';
+import { mountRoleSettingsPanel } from './roleSettingsPanel.js';
+import { mountPostApprovalPanel } from './postApprovalPanel.js';
 
 // Global storage for admin buttons to remove them easily
 window.adminBtns = window.adminBtns || [];
@@ -74,6 +77,8 @@ export function addSubmitButtons() {
     
     // 6. Editor Management
     setupEditorManagement();
+    setupRoleSettingsPanel();
+    setupPostApprovalPanel();
 }
 
 function makeEditorBtn(selector, { type="post" }={}) {
@@ -143,22 +148,130 @@ function makeEditorBtn(selector, { type="post" }={}) {
 }
 
 function setupEditorManagement() {
-    var editorSection = document.querySelector(".editorSection");
-    if(!editorSection) return;
-    
-    var addEditor = document.createElement("div");
-    addEditor.classList.add("btn");
-    addEditor.innerText = "Add New Editor";
-    editorSection.appendChild(addEditor);
-    window.adminBtns.push(addEditor);
-    
-    addEditor.onclick = async () => {
-        var p = await AwtsmoosPrompt.go({ headerTxt: "Enter an editor's alias" });
-        if (p) {
-            // API call...
-            alert("Added " + p);
+    const editorSection = document.querySelector(".editorSection");
+    if (!editorSection) return;
+
+    const panel = document.createElement("section");
+    panel.className = "heichel-editor-panel";
+
+    const title = document.createElement("h3");
+    title.textContent = "Realm Editors";
+    panel.appendChild(title);
+
+    const explainer = document.createElement("p");
+    explainer.className = "heichel-editor-panel-copy";
+    explainer.textContent = "Editors can help manage this heichel. Add or remove aliases with authority.";
+    panel.appendChild(explainer);
+
+    const list = document.createElement("div");
+    list.className = "heichel-editor-list";
+    panel.appendChild(list);
+
+    const status = document.createElement("div");
+    status.className = "heichel-editor-status";
+    panel.appendChild(status);
+
+    const addButton = document.createElement("button");
+    addButton.type = "button";
+    addButton.className = "btn heichel-editor-add";
+    addButton.textContent = "Add Editor";
+    panel.appendChild(addButton);
+
+    editorSection.appendChild(panel);
+    window.adminBtns.push(panel);
+
+    const render = () => renderEditorList(list, status);
+    render();
+
+    addButton.onclick = async () => {
+        const editorAliasId = await AwtsmoosPrompt.go({ headerTxt: "Enter an editor's alias" });
+        if (!editorAliasId) return;
+        status.textContent = "Adding editor...";
+        const result = await addEditor({
+            heichelId: window.heichelID,
+            aliasId: window.curAlias,
+            editorAliasId
+        });
+
+        if (result?.success) {
+            window.editors = result.success.editors || [...(window.editors || []), editorAliasId];
+            status.textContent = `Added @${editorAliasId}`;
+            render();
+        } else {
+            status.textContent = result?.error?.message || "Could not add editor.";
         }
     };
+}
+
+function renderEditorList(list, status) {
+    list.replaceChildren();
+    const editors = Array.isArray(window.editors) ? [...new Set(window.editors)].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })) : [];
+
+    if (!editors.length) {
+        const empty = document.createElement("div");
+        empty.className = "heichel-editor-empty";
+        empty.textContent = "No editors yet.";
+        list.appendChild(empty);
+        return;
+    }
+
+    editors.forEach(editorAliasId => {
+        const row = document.createElement("div");
+        row.className = "heichel-editor-row";
+
+        const link = document.createElement("a");
+        link.href = `/@${encodeURIComponent(editorAliasId)}`;
+        link.textContent = `@${editorAliasId}`;
+        row.appendChild(link);
+
+        if (editorAliasId !== window.curAlias) {
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.className = "heichel-editor-remove";
+            remove.textContent = "Remove";
+            remove.onclick = async () => {
+                status.textContent = `Removing @${editorAliasId}...`;
+                const result = await removeEditor({
+                    heichelId: window.heichelID,
+                    aliasId: window.curAlias,
+                    editorAliasId
+                });
+
+                if (result?.success) {
+                    window.editors = result.success.now || editors.filter(x => x !== editorAliasId);
+                    status.textContent = `Removed @${editorAliasId}`;
+                    renderEditorList(list, status);
+                } else {
+                    status.textContent = result?.error?.message || "Could not remove editor.";
+                }
+            };
+            row.appendChild(remove);
+        }
+
+        list.appendChild(row);
+    });
+}
+
+function setupPostApprovalPanel() {
+    const editorSection = document.querySelector(".editorSection") || document.querySelector(".editors-section");
+    if (!editorSection || !window.heichelID || !window.curAlias) return;
+    const panel = mountPostApprovalPanel({
+        root: editorSection,
+        heichelId: window.heichelID,
+        aliasId: window.curAlias
+    });
+    if (panel) window.adminBtns.push(panel);
+}
+
+function setupRoleSettingsPanel() {
+    const editorSection = document.querySelector(".editorSection") || document.querySelector(".editors-section");
+    if (!editorSection || !window.heichelID || !window.curAlias) return;
+    const panel = mountRoleSettingsPanel({
+        root: editorSection,
+        heichelId: window.heichelID,
+        aliasId: window.curAlias
+    });
+    if (panel) window.adminBtns.push(panel);
 }
 
 export function removeAdminButtons() {
@@ -178,7 +291,7 @@ export function setupEditorHTML() {
     
     editors.forEach(ed => {
         const span = document.createElement('a');
-        span.href = `/@${ed}`;
+        span.href = `/@${encodeURIComponent(ed)}`;
         span.innerText = `@${ed} `;
         holder.appendChild(span);
     });

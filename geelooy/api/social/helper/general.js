@@ -45,8 +45,7 @@ function myOpts($i){
 }
 
 function loggedIn($i) {
-
-    return !!$i.request.user;
+    return Boolean($i?.request?.user?.loggedIn || $i?.request?.user?.info?.userId);
   }
   
       

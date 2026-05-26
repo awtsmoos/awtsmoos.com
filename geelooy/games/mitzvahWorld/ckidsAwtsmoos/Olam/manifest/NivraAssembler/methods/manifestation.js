@@ -11,7 +11,7 @@
  * ║  becomes a tangible Nivrah in the World.                                 ║
  * ╚══════════════════════════════════════════════════════════════════════════╝
  */
-import * as THREE from '/games/scripts/build/three.module.js';
+import { createVector3 } from '../../../graphics/ThreeBridge.js';
 
 export default {
     /**
@@ -41,7 +41,7 @@ export default {
 
         // 1. Resolve raw local position
         const rawPos = this.resolvePosition(entityNode.position);
-        const posVec = new THREE.Vector3(rawPos.x, rawPos.y, rawPos.z);
+        const posVec = createVector3(rawPos.x, rawPos.y, rawPos.z);
 
         // 2. Apply parent context if available
         if (this.context.parent) {

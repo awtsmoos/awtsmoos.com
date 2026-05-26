@@ -283,7 +283,6 @@ async function updateAlias({
 		
 		return { message: "Alias edited successfully", newAliasName, code:"ALIAS_EDIT_GOOD" };
 	} catch (error) {
-		console.log(error)
 		return er("Failed to edit alias");
 	}
 }

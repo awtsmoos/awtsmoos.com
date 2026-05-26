@@ -56,7 +56,6 @@ export async function indexSwitch(force = false) {
     
     activeVerse = newVerse;
     activeSub = newSub;
-    console.log(`B"H - Context Sync: Verse ${activeVerse}, Sub ${activeSub}`);
 
     // Update Root List
     if (window.insightManager) {
@@ -186,7 +185,6 @@ window.commentLogic.showAllVerse = async () => {
 };
 
 export async function handleNewComment(data) {
-    console.log("B\"H - New Insight Anchored. Refreshing...");
     await indexSwitch(true);
 }
 

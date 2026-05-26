@@ -20,7 +20,8 @@ const {
 } = require("../../../aiSearch/ggufEmbedder.js");
 
 const config = loadEmbedderConfig();
-assert.equal(config.defaultProvider, "gguf-bge-small-en-v1.5-q8_0");
+assert.equal(config.defaultProvider, "bge-small-en-v1.5-q8_0");
+assert.equal(config.native.default.file, "bge-small-en-v1.5-q8_0.gguf");
 
 const provider = getDefaultEmbedderConfig();
 assert.equal(provider.kind, "gguf");
@@ -31,7 +32,8 @@ assert.equal(provider.expectedBytes, 36685152);
 assert.equal(provider.embeddingDimensions, 384);
 assert.equal(provider.task, "feature-extraction");
 assert.equal(provider.language, "en");
-assert.ok(provider.runnerPreference.includes("llama-embedding"));
+assert.ok(provider.runnerPreference.includes("awtsmoosdb-pure-js-direct-gguf"));
+assert.ok(provider.runnerPreference.includes("awtsmoosdb-js-fallback"));
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-embedder-config-"));
 assert.equal(

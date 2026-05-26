@@ -2,14 +2,16 @@
 /**
  * @file index.js
  * @description
- * AI-search bridge skeleton. It opens a parallel AwtsmoosDB vessel while
- * exposing a small tested record/search API that can later receive embeddings.
+ * AI-search bridge. It opens a parallel AwtsmoosDB vessel and gives records a
+ * default pure-JS embedding from the existing AwtsmoosDB AI chamber before a
+ * local GGUF file is downloaded/awakened.
  */
 
 const path = require("path");
 const DosDB = require("../index.js");
 const { createMemoryIndex } = require("./memoryIndex.js");
 const { normalizeAiSearchRecord } = require("./recordShape.js");
+const { attachDefaultEmbedding } = require("./awtsmoosDbEmbedder.js");
 
 function resolveDbPath(rootOrPath) {
     if (!rootOrPath) return "ai-search.awtsdb";
@@ -20,10 +22,11 @@ function resolveDbPath(rootOrPath) {
 /**
  * Creates an isolated AI-search bridge.
  * @param {string} rootOrPath Directory root or explicit .awtsdb path.
+ * @param {object} [options={}] Options.
  * @returns {object} AI search DB bridge API.
  */
 function createAiSearchDb(rootOrPath, options = {}) {
-    const index = createMemoryIndex();
+    const index = createMemoryIndex({ embedQuery: options.embedQuery });
     const dbPath = resolveDbPath(rootOrPath);
     const awtsmoosDb = DosDB.awtsmoosDb(dbPath, { open: options.open !== false });
 
@@ -32,7 +35,8 @@ function createAiSearchDb(rootOrPath, options = {}) {
         awtsmoosDb,
 
         indexCommentRecord(record) {
-            return index.upsert(normalizeAiSearchRecord(record));
+            const normalized = normalizeAiSearchRecord(record);
+            return index.upsert(attachDefaultEmbedding(normalized, options));
         },
 
         searchCommentRecords(query) {
@@ -49,7 +53,8 @@ function createAiSearchDb(rootOrPath, options = {}) {
                 path: dbPath,
                 count: all.length,
                 hasAwtsmoosDb: Boolean(awtsmoosDb),
-                latestIndexedAt: all.reduce((max, item) => Math.max(max, item.indexedAt || 0), 0)
+                latestIndexedAt: all.reduce((max, item) => Math.max(max, item.indexedAt || 0), 0),
+                embeddedCount: all.filter(item => Array.isArray(item.embedding) && item.embedding.length).length
             };
         }
     };

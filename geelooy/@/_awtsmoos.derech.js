@@ -1,76 +1,46 @@
 //B"H
-module. exports={
-  dynamicRoutes:async $i=>{
-	  
-  var loggedInUser = $i.request.user ?
-	$i.request.user.info.userId : null
-  /*:a is the current
-  alias to view*/
-  await $i
-  .use(
-    ":a",
-    async (vars)=>{
-      
-      var t=await $i.fetchAwtsmoos(
-        "/@/_awtsmoos.ind.html",
-		{
-		  superSecret: "yes"
-        }
+/**
+ * Dynamic profile routes for /@.
+ * The Awtsmoos route matcher gives `:a` as the viewed alias id; this file
+ * gathers the social API state and then renders the alias vessel.
+ */
+module.exports = {
+  dynamicRoutes: async ($i) => {
+    const loggedInUser = $i.request.user ? $i.request.user.info.userId : null;
 
-      );
-	  return {
-        response: t
+    await $i.use(":a", async (vars) => {
+      const aliasId = vars.a;
+      const encodedAlias = encodeURIComponent(aliasId);
 
-      };
-      var pt = `/api/social/alias/${vars.a}/ownership`;
-	  
-      var belongsToMe = loggedInUser ? 
-	  await $i.fetchAwtsmoos(
-        pt, {
-          superSecret:"maybe"
-        }
-      ) : {code: "NO"};
-	  belongsToMe = belongsToMe.code != "NO"
-	  var aliasDetails = await $i.fetchAwtsmoos(
-		`/api/social/alias/${vars.a}/details`
-	  )
-      var t=await $i.fetchAwtsmoos(
-        "/@/_awtsmoos.alias.html",
-		{
-			yeser: {
-			  alias:aliasDetails,
-			  wow:2,
-			  loggedInUser,
-			  belongsToMe
-			},
-		  superSecret: "yes"
-		
-        }
+      const ownershipPath = `/api/social/alias/${encodedAlias}/ownership`;
+      const detailsPath = `/api/social/alias/${encodedAlias}/details`;
 
-      );
-	  
-      if(!t){
+      const belongsToMeResponse = loggedInUser
+        ? await $i.fetchAwtsmoos(ownershipPath, { superSecret: "maybe" })
+        : { code: "NO" };
+
+      const belongsToMe = belongsToMeResponse && belongsToMeResponse.code !== "NO";
+      const aliasDetails = await $i.fetchAwtsmoos(detailsPath, { superSecret: "maybe" });
+
+      if (!aliasDetails || aliasDetails.error) {
         return {
-          mimeType:"text/html",
-          response:
-            "B\"H<br>"+
-            "User "+vars.u+" not found."
-
-        }
-
+          mimeType: "text/html",
+          response: `B\"H<br>User @${aliasId} not found.`
+        };
       }
 
+      const page = await $i.fetchAwtsmoos("/@/_awtsmoos.alias.html", {
+        yeser: {
+          alias: aliasDetails,
+          loggedInUser,
+          belongsToMe
+        },
+        superSecret: "yes"
+      });
+
       return {
-        response: t
-
+        response: page
       };
-
-      
-
-    }
-
-  );
-
-}
-
-}
+    });
+  }
+};

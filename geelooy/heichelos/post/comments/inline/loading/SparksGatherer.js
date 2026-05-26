@@ -30,11 +30,9 @@ export class SparksGatherer {
     static async collect(alias, postContext) {
         if (!alias) return [];
         
-        console.log(`%c B"H - [SparksGatherer] The Oracle has commanded the manifestation of @${alias}. Initiating absolute Bulk Load sequence...`, "color: #00ccff; font-weight: bold;");
         
         if (postContext) {
             const networkSparks = await loadAllCommentsForAlias(alias, postContext);
-            console.log(`B"H - [SparksGatherer] Collection complete. Delivering ${networkSparks?.length || 0} sparks to the Weaver.`);
             return networkSparks || [];
         }
         

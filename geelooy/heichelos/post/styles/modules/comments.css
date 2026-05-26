@@ -1,17 +1,4 @@
 
-.post-reader-localized-context .comment-content {
-    background: var(--bg-surface);
-    border: var(--border-thick);
-    margin-bottom: 25px;
-    box-shadow: var(--shadow-ui);
-    transition: transform var(--time-std) var(--ease-snap), box-shadow var(--time-std) var(--ease-snap);
-    position: relative; overflow: hidden; display: flex; flex-direction: column;
-}
-.post-reader-localized-context .comment-content:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--color-electric);
-}
 .post-reader-localized-context .comment-text {
     padding: 1.5rem; font-size: 15px; line-height: 1.6;
     border-bottom: var(--border-thin); font-family: var(--font-content);
@@ -21,19 +8,4 @@
     background: var(--bg-vellum); padding: 10px 15px;
     display: flex; align-items: center; justify-content: flex-end; gap: 12px;
 }
-.post-reader-localized-context .children-slot {
-    margin-left: 1.5rem; padding-left: 1.25rem; margin-top: 1.25rem;
-    border-left: 3px solid var(--color-ink-secondary); 
-    display: flex; flex-direction: column; gap: 1.25rem; position: relative;
-}
 .post-reader-localized-context .children-slot.hidden { display: none !important; }
-.post-reader-localized-context .reply-toggle-btn {
-    margin-top: 10px; padding: 8px 16px !important;
-    background: var(--bg-surface) !important; color: var(--color-ink) !important;
-    border: var(--border-thin) !important; font-family: var(--font-ui) !important;
-    font-weight: 900 !important; font-size: 11px !important; text-transform: uppercase !important;
-    cursor: pointer !important; box-shadow: 2px 2px 0 var(--color-ink) !important;
-}
-.post-reader-localized-context .reply-toggle-btn:hover {
-    transform: translate(-2px, -2px) !important; box-shadow: 4px 4px 0 var(--color-accent) !important;
-}

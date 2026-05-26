@@ -10,6 +10,7 @@
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { appState } from '../state.js';
 import { notify } from './render/toast.js';
+import { openModal } from '../modal.js';
 
 let currentMenuVessel = null;
 
@@ -58,7 +59,7 @@ export function closeCurrentMenu() {
 function getMenuBlueprint(item, navigator) {
     const actions = {
         'Share': () => navigator.handleShareClick(item),
-        'Edit Details': () => notify(`Modification ritual for "${item.title}" is still being prepared by the Scribes.`, 'info'),
+        'Edit Details': () => openModal(item.type === 'series' ? 'series' : 'post', navigator, { mode: item.type === 'series' ? 'edit' : 'create', seriesId: item.id, inputId: item.id, title: item.title || '', description: item.description || item.content || '', contentType: item.contentType || 'post' }),
         'Delete': () => navigator.deleteSingleItem(item)
     };
 

@@ -90,7 +90,6 @@ async function editComment(
         newDayuh = $i.$_PUT?.dayuh;
     }
     newDayuh = parseDayuhVessel(newDayuh);
-    newDayuh = parseDayuhVessel(newDayuh);
      if (!userid) userid = $i.awtsmoosSession?.user?.id || $i.moch?.userid;
 
     // Basic validation
@@ -116,7 +115,6 @@ async function editComment(
             if (!hasAdminAuth) {
                  return er("You do not have permission to edit this comment.", { code: "EDIT_FORBIDDEN", aliasId, userid });
             }
-             console.log(`Admin/Mod ${userid} editing comment ${commentId} by ${aliasId}`);
         }
 
         // 2. Get Path
@@ -162,7 +160,6 @@ async function editComment(
             throw writeResult.error; // Let catch block handle DB errors
         }
 
-        console.log(`Successfully edited comment ${commentId} in ${aliasCommentFilePath} at key ${verseSection}`);
         return {
             success: true,
             message: "Comment edited successfully!",

@@ -11,7 +11,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 
-const root = path.resolve('geelooy/games/mitzvahWorld/ckidsAwtsmoos/Olam/worlds/mitzvahWorld');
+const cwdGameRoot = path.resolve('.');
+const repoGameRoot = path.resolve('geelooy/games/mitzvahWorld');
+const gameRoot = fs.existsSync(path.join(cwdGameRoot, 'index.js')) ? cwdGameRoot : repoGameRoot;
+const root = path.join(gameRoot, 'ckidsAwtsmoos/Olam/worlds/mitzvahWorld');
 const read = relativePath => fs.readFileSync(path.join(root, relativePath), 'utf8');
 const must = (text, regex, label) => assert.ok(regex.test(text), `${label} must match ${regex}`);
 

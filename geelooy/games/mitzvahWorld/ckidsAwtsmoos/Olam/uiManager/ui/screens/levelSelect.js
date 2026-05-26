@@ -87,7 +87,7 @@ export default {
             
             if (localWorldFiles.includes(worldPath)) {
                 // Using an absolute path from root to ensure the server finds it!
-                const localUrl = `/games/mitzvahWorld/tochen/worlds/${worldPath}`;
+                const localUrl = `/games/mitzvahWorld/ckidsAwtsmoos/tochen/worlds/${worldPath}`;
                 
                 try {
                     // B"H: silent

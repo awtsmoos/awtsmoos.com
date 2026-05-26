@@ -59,16 +59,32 @@ function loadMerkavaService() {
   }
 }
 
+function jsonText(value, fallback) {
+  if (!value || value === "[object Object]") return fallback;
+  if (typeof value === "object") return value;
+  try { return JSON.parse(String(value)); }
+  catch (_) { return fallback; }
+}
+
+function runtimeFiles(payload = {}) {
+  const parsed = jsonText(payload.files, null) || json64(payload.files64, null);
+  if (parsed && typeof parsed === "object") return parsed;
+  if (payload.html) return { [payload.entry || "index.html"]: String(payload.html) };
+  if (payload.content && payload.entry) return { [payload.entry]: String(payload.content) };
+  return {};
+}
+
 function runtimeOptions(payload = {}) {
+  const entry = payload.entry || (payload.path && payload.path !== "." ? payload.path : "index.html");
   return {
     runtime: payload.runtime || "browser",
-    entry: payload.entry || payload.path || payload.p || "index.html",
-    files: payload.files || json64(payload.files64, {}),
+    entry,
+    files: runtimeFiles(payload),
     workflow: payload.workflow || (payload.steps?.length ? { steps: payload.steps } : null) || json64(payload.workflow64, null),
     probes: payload.probes || json64(payload.probes64, []),
     interactions: payload.interactions || json64(payload.interactions64, []),
-    returnValues: payload.returnValues || payload.values || json64(payload.returnValues64, []) || json64(payload.values64, []),
-    values: payload.values || payload.returnValues || json64(payload.values64, []) || json64(payload.returnValues64, []),
+    returnValues: jsonText(payload.returnValues || payload.values, payload.returnValues || payload.values || json64(payload.returnValues64, []) || json64(payload.values64, [])),
+    values: jsonText(payload.values || payload.returnValues, payload.values || payload.returnValues || json64(payload.values64, []) || json64(payload.returnValues64, [])),
     origin: payload.origin || "http://localhost:8080/",
     url: payload.url || "http://localhost:8080/"
   };

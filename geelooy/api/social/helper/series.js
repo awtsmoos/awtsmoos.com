@@ -53,7 +53,6 @@ async function ensureRootSeriesExists({ $i, heichelId }) {
     }
 
     // Root doesn't exist, create it
-    console.log(`Creating 'root' series structure for Heichel: ${heichelId}`);
     try {
         const rootPrateem = {
             id: "root",
@@ -512,7 +511,6 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = true 
 	        var serPath = seriesPrateemPath(heichelId, seriesId)
                 const seriesData = await $i.db.get(serPath)
                 
-	          //  console.log("What is this", serPath, seriesData  );
                 if (seriesData && !seriesData.error && !Buffer.isBuffer(seriesData)) {
                     detailedSeries.push(seriesData);
                 } else {

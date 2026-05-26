@@ -27,10 +27,10 @@ var aliasesHandler = new EntityModule({
   ],
   beforeHTML: entity => {
     return /*html*/`
-    <a href="/email?alias=${entity.id}">Email account
+    <a href="/email?alias=${encodeURIComponent(entity.id)}">Email account
     for alias</a><br>
       <a target="_blank" href="/u/heichelos/?alias=${
-       entity.id 
+       encodeURIComponent(entity.id) 
       }">View and edit Heichelos for Alias</a>
     `
   },
@@ -38,10 +38,9 @@ var aliasesHandler = new EntityModule({
     "name",
 	"description"
   ],
-  viewURL: m => "/@"+m.id,
+  viewURL: m => "/@" + encodeURIComponent(m.id),
   
   updateDataFn: async (r) => {
-	  console.log(r)
     return {
       aliasName: r.updatedData.name,
       aliasId: r.id,

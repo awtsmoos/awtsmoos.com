@@ -60,7 +60,19 @@ export async function clearSeries(data) {
  * @description Invites a new Guardian to watch over the Realm.
  */
 export async function addEditor({ heichelId, aliasId, editorAliasId }) {
-    return await AwtsmoosRequest.post(`${BASE_API_URL}heichelos/${heichelId}/editors`, new URLSearchParams({
+    return await AwtsmoosRequest.post(`${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/editors`, new URLSearchParams({
+        aliasId,
+        editorAliasId
+    }));
+}
+
+
+/**
+ * @function removeEditor
+ * @description Releases a Guardian from the Realm authority list.
+ */
+export async function removeEditor({ heichelId, aliasId, editorAliasId }) {
+    return await AwtsmoosRequest.delete(`${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/editors`, new URLSearchParams({
         aliasId,
         editorAliasId
     }));

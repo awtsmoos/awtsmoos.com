@@ -118,3 +118,19 @@
     transition: transform 0.2s; color: #000; font-size: 1.4rem;
 }
 .send-btn:hover { transform: scale(1.1) rotate(-10deg); box-shadow: 0 0 25px var(--neon-gold); }
+
+
+.identity-modal-card {
+    text-align: center;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.identity-modal-copy { color: #aaa; margin-bottom: 20px; font-family: var(--font-mono); }
+.identity-dropdown-mount { width: 100%; min-height: 60px; display: flex; justify-content: center; position: relative; z-index: 100; }
+.mail-error-text { color: var(--neon-fire); font-family: var(--font-mono); }
+.compose-modal-top { display: flex; justify-content: space-between; margin-bottom: 15px; }
+.compose-modal-title { margin: 0; }
+.compose-body-input { height: 120px; font-family: var(--font-mono); }

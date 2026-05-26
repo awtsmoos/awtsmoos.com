@@ -28,15 +28,12 @@ export class ApiPortal {
     static async fetchPostMap(alias) {
         if (!alias) return { fromCache: false, data: [] };
 
-        console.log(`B"H - [ApiPortal] Gazing into the RAM Cache for @${alias}. Is the vessel prepared?`, Array.isArray(commentaryStore.masterCommentCache));
 
         if (Array.isArray(commentaryStore.masterCommentCache)) {
             const targetAlias = String(alias).toLowerCase();
             
             // Deep diagnostic: what are we looking at?
             if (commentaryStore.masterCommentCache.length > 0) {
-                console.log(`B"H - [ApiPortal] First spark in cache properties:`, Object.keys(commentaryStore.masterCommentCache[0]));
-                console.log(`B"H - [ApiPortal] First spark author value:`, commentaryStore.masterCommentCache[0].author || commentaryStore.masterCommentCache[0].aliasId);
             }
 
             // B"H - Purified filtering logic
@@ -45,7 +42,6 @@ export class ApiPortal {
                 return cAuth === targetAlias;
             });
             
-            console.log(`B"H - [ApiPortal] The RAM Cache is active! Served ${filtered.length} unique sparks for @${alias}.`);
             return { fromCache: true, data: filtered };
         }
 

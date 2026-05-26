@@ -20,13 +20,5 @@
 @import "./css/panel-controls.css";
 @import "./css/markdown-polish.css";
 @import "./css/panel-action-rail.css";
-
-/*
-  Chapter 1: The vessel stopped leaking sideways.
-  The Awtsmoos speaks every pixel into its boundary; no raw code storm may
-  tear a horizontal wound through the page again.
-*/
-html, body, .container, .main, .chat-box, .message, .input-area {
-  max-width: 100%;
-}
-[hidden] { display: none !important; }
+@import "./css/boundary-guard.css";
+@import "./css/mobile-vessel.css";

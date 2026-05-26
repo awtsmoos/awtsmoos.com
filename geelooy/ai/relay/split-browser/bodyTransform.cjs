@@ -2,6 +2,8 @@
 const { rewriteBody } = require("./rewriteText.cjs");
 const { mayRewriteBody } = require("./bodyPolicy.cjs");
 const { jsPreamble } = require("./jsPreamble.cjs");
+const { debugClientScript } = require("./debugClient.cjs");
+const { autoLoginScript } = require("./autoLogin.cjs");
 
 /**
  * Chapter 23: The Body Chose The Smallest Honest Change.
@@ -17,7 +19,7 @@ const { jsPreamble } = require("./jsPreamble.cjs");
  * @returns {{body:Buffer|string,rewrite:boolean,mode:string}}
  */
 function transformBody(bytes, type, local, origin) {
-  if (/javascript|ecmascript/i.test(type || "")) return { body: jsPreamble(origin) + bytes.toString("utf8"), rewrite: true, mode: "js-preamble" };
+  if (/javascript|ecmascript/i.test(type || "")) return { body: jsPreamble(origin) + debugClientScript() + autoLoginScript() + bytes.toString("utf8"), rewrite: true, mode: "js-preamble" };
   const rewrite = mayRewriteBody(local, type);
   return { body: rewrite ? rewriteBody(bytes, type, origin) : bytes, rewrite, mode: rewrite ? "html" : "raw" };
 }

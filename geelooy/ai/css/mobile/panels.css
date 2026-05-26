@@ -1,0 +1,56 @@
+/*B"H*/
+/*
+  Chapter 4: The Twin Rails Refused To Vanish.
+  Conversation and Automation become narrow doors until summoned; when opened,
+  each drawer remains bounded, scrollable, and obedient to the little screen.
+*/
+@media (max-width: 680px) {
+  .sidebar,
+  .automation-panel {
+    display: grid !important;
+    position: fixed !important;
+    top: max(6px, env(safe-area-inset-top)) !important;
+    bottom: max(6px, env(safe-area-inset-bottom)) !important;
+    width: min(88vw, 360px) !important;
+    max-width: calc(100vw - 18px) !important;
+    max-height: calc(100dvh - 12px) !important;
+    z-index: 80;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    transition: width .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+
+  .sidebar { left: 6px !important; }
+  .automation-panel { right: 6px !important; }
+
+  body[data-sidebar-collapsed="true"] .sidebar,
+  body[data-automation-collapsed="true"] .automation-panel {
+    width: 50px !important;
+    min-width: 50px !important;
+    box-shadow: 0 14px 34px rgba(0,0,0,.38);
+  }
+
+  body[data-sidebar-collapsed="false"] .sidebar,
+  body[data-automation-collapsed="false"] .automation-panel {
+    box-shadow: 0 20px 70px rgba(0,0,0,.58), 0 0 0 1px rgba(126,212,255,.22);
+  }
+
+  .conversation-list,
+  .automation-panel > :not(.panel-topbar) {
+    min-height: 0;
+    overflow: auto;
+    padding-bottom: 18px;
+    scrollbar-gutter: stable;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .panel-topbar {
+    min-height: 46px;
+    touch-action: manipulation;
+  }
+
+  .is-collapsed .panel-topbar,
+  .is-detached .panel-topbar {
+    padding: 8px 5px;
+  }
+}

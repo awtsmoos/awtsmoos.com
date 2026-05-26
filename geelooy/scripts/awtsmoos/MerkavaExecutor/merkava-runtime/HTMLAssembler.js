@@ -12,32 +12,37 @@
             const html = this.files[entry] || '';
             const scripts = [], styles = [], assets = [], executionPlan = [], warnings = [];
             this.graph?.node?.(entry, { kind: 'html' });
-            eachTag(html, (tag, attrs, body) => {
-                if (tag === 'script') {
-                    const inline = !attrs.src;
-                    const item = { kind: 'script', type: attrs.type === 'module' ? 'module' : 'classic', src: attrs.src || null, inline, code: inline ? body : '', from: entry };
-                    if (attrs.src) item.resolved = this.address.fileKey(attrs.src, entry, this.files);
-                    scripts.push(item); executionPlan.push(item);
-                    this.graph?.edge?.(entry, item.resolved || 'inline-script:' + scripts.length, item.type + '-script');
-                }
-                if (tag === 'link' && String(attrs.rel || '').toLowerCase() === 'stylesheet') {
-                    const href = this.address.fileKey(attrs.href, entry, this.files);
-                    styles.push({ href, specifier: attrs.href, from: entry });
-                    this.graph?.edge?.(entry, href, 'stylesheet');
-                }
-                for (const name of ['src','href']) if (attrs[name] && tag !== 'script' && tag !== 'link') {
-                    const href = this.address.fileKey(attrs[name], entry, this.files);
-                    assets.push({ tag, attr: name, href, specifier: attrs[name], from: entry });
-                    this.graph?.edge?.(entry, href, 'html-asset');
-                }
-            });
+
+            for (const { attrs, body } of scriptTags(html)) {
+                const inline = !attrs.src;
+                const item = { kind: 'script', type: attrs.type === 'module' ? 'module' : 'classic', src: attrs.src || null, inline, code: inline ? body : '', from: entry };
+                if (attrs.src) item.resolved = this.address.fileKey(attrs.src, entry, this.files);
+                scripts.push(item); executionPlan.push(item);
+                this.graph?.edge?.(entry, item.resolved || 'inline-script:' + scripts.length, item.type + '-script');
+            }
+
+            for (const attrs of linkTags(html)) {
+                if (String(attrs.rel || '').toLowerCase() !== 'stylesheet') continue;
+                const href = this.address.fileKey(attrs.href, entry, this.files);
+                styles.push({ href, specifier: attrs.href, from: entry });
+                this.graph?.edge?.(entry, href, 'stylesheet');
+            }
+
             for (const item of [...styles, ...assets]) if (!this.files[item.href]) warnings.push({ kind: 'missing-asset', href: item.href, from: entry });
             return { entry, scripts, styles, assets, executionPlan, warnings };
         }
     }
-    function eachTag(html, visit) {
-        const re = /<([a-z][\w:-]*)([^>]*)>([\s\S]*?)<\/\1>|<([a-z][\w:-]*)([^>]*)\/?>/gi;
-        for (const m of html.matchAll(re)) visit(String(m[1] || m[4]).toLowerCase(), attrsOf(m[2] || m[5] || ''), m[3] || '');
+    function scriptTags(html) {
+        const out = [];
+        const re = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+        for (const m of String(html).matchAll(re)) out.push({ attrs: attrsOf(m[1] || ''), body: m[2] || '' });
+        return out;
+    }
+    function linkTags(html) {
+        const out = [];
+        const re = /<link\b([^>]*)\/?\s*>/gi;
+        for (const m of String(html).matchAll(re)) out.push(attrsOf(m[1] || ''));
+        return out;
     }
     function attrsOf(raw) {
         const out = {}; const re = /([\w:-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g;

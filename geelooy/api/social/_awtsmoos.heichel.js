@@ -42,6 +42,28 @@ module.exports = ({
 	$i,
 	userid,
 } = {}) => ({
+
+        "/heichelos/:heichel/roles/:role": async vars => {
+            if ($i.request.method == "GET") {
+                return await getHeichelRoleList({ $i, heichelId: vars.heichel, role: vars.role });
+            }
+            if ($i.request.method == "POST") {
+                return await addHeichelRoleMember({ $i, heichelId: vars.heichel, role: vars.role });
+            }
+            if ($i.request.method == "DELETE") {
+                return await removeHeichelRoleMember({ $i, heichelId: vars.heichel, role: vars.role });
+            }
+            return er({ message: "Unsupported method", code: "BAD_METHOD" });
+        },
+        "/heichelos/:heichel/settings/submissions": async vars => {
+            if ($i.request.method == "GET") {
+                return await getHeichelSubmissionSettings({ $i, heichelId: vars.heichel });
+            }
+            if ($i.request.method == "POST" || $i.request.method == "PUT") {
+                return await updateHeichelSubmissionSettings({ $i, heichelId: vars.heichel });
+            }
+            return er({ message: "Unsupported method", code: "BAD_METHOD" });
+        },
 	"/heichelActions/generateHeichelId": async () => {
 		//return "ASDF";
 		return await generateHeichelId({
@@ -172,7 +194,6 @@ module.exports = ({
 					
 					er
 				});
-				//console.log("Hi awd ", details, heichelIds, i)
 				if (!details) continue;
 				details.id = heichelIds[i]
 
@@ -280,19 +301,6 @@ module.exports = ({
 	 * @property author
 	 * 
 	 */
-/*
-	"/heichelos/:heichel/editors": async vars => {
-	
-		// Existing GET logic
-		return await getHeichelEditors({
-			heichelId: vars.heichel,
-			$i
-		});
-	},*/
-
-
-	
-	
 	/**
         seriesName required 
 		description optional

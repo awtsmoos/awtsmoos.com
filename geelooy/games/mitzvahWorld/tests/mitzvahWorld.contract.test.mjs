@@ -17,7 +17,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 
-const gameRoot = path.resolve('geelooy/games/mitzvahWorld');
+const cwdGameRoot = path.resolve('.');
+const repoGameRoot = path.resolve('geelooy/games/mitzvahWorld');
+const gameRoot = fs.existsSync(path.join(cwdGameRoot, 'index.js')) ? cwdGameRoot : repoGameRoot;
 const worldRoot = path.join(gameRoot, 'ckidsAwtsmoos/Olam/worlds/mitzvahWorld');
 
 function read(relativePath) {

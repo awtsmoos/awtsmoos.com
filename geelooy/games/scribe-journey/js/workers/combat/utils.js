@@ -48,7 +48,7 @@ export function getBattleUIPayload(battleState, withMenu = false, buttons = [], 
 	if (withMenu) {
         // Inject Ultimate Button if Gate of Redemption is unlocked
         if (state && state.gateEffects && state.gateEffects.combat && state.gateEffects.combat.hasUltimate) {
-            buttons.unshift({ action: 'ultimate', text: '🏆 GEULA 🏆', style: 'color:gold; font-weight:bold;' });
+            buttons.unshift({ action: 'ultimate', text: '🏆 GEULA 🏆', className: 'ultimate-battle-button' });
         }
 		payload.menu = { buttons };
 		payload.log = null;

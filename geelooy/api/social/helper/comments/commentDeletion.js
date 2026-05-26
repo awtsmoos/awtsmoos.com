@@ -23,6 +23,10 @@ const {
 } = require("../heichel.js");
 
 const {
+    verifyAliasOwnership
+} = require("../alias.js");
+
+const {
     // New path functions
     getAliasCommentFilePath,
     getParentCommentsBasePath,
@@ -75,10 +79,8 @@ async function checkAndDeleteEmptyPathRecursive(currentPath, stopAtComponent, $i
                     console.error(`Error deleting empty path ${currentPath}:`, deleteResult.error);
                     return { success: false, deletedPaths, error: er("DB delete error during cleanup", deleteResult.error) };
                 }
-                console.log(`Cleaned up empty path: ${currentPath}`);
                 deletedPaths.push(currentPath);
              } else {
-                 console.log(`Path ${currentPath} already gone, proceeding with parent check.`);
              }
 
 
@@ -87,7 +89,6 @@ async function checkAndDeleteEmptyPathRecursive(currentPath, stopAtComponent, $i
             return await checkAndDeleteEmptyPathRecursive(parentPath, stopAtComponent, $i, deletedPaths);
         } else {
             // Path is not empty, stop cleanup for this branch
-            console.log(`Path ${currentPath} is not empty, stopping recursive cleanup here.`);
             return { success: true, deletedPaths };
         }
     } catch (e) {
@@ -151,7 +152,6 @@ async function deleteComment(
             if (!hasAdminAuth) {
                  return er("You do not have permission to delete this comment.", { code: "DELETE_FORBIDDEN", aliasId, userid });
             }
-             console.log(`Admin/Mod ${userid} deleting comment ${commentId} by ${aliasId}`);
         }
 
         // 2. Get Path
@@ -166,7 +166,6 @@ async function deleteComment(
         let commentsArray = await $i.db.getObjectKey(aliasCommentFilePath, verseSection);
         if (!Array.isArray(commentsArray)) {
              // Maybe the comment/file was already deleted? Treat as success (idempotent).
-            console.log(`Comment array not found at ${aliasCommentFilePath} key ${verseSection}. Assuming already deleted.`);
             return { success: true, message: "Comment likely already deleted (array not found)." };
         }
 
@@ -182,7 +181,6 @@ async function deleteComment(
 
         if (!commentFound) {
             // Comment ID wasn't in the expected array. Idempotency: treat as success.
-             console.log(`Comment ID ${commentId} not found in array at ${aliasCommentFilePath} key ${verseSection}. Assuming already deleted.`);
              return { success: true, message: "Comment likely already deleted (ID not found in array)." };
         }
 
@@ -194,7 +192,6 @@ async function deleteComment(
             // If array still has comments, write it back
             const writeResult = await $i.db.setObjectKey(aliasCommentFilePath, verseSection, updatedCommentsArray);
             if (writeResult.error) throw writeResult.error; // Handle DB errors below
-            console.log(`Removed comment ${commentId}, updated array for key ${verseSection} in ${aliasCommentFilePath}`);
         } else {
             // Array is empty, delete the key itself
             const deleteKeyResult = await $i.db.deleteObjectKey(aliasCommentFilePath, verseSection);
@@ -202,7 +199,6 @@ async function deleteComment(
                 // Ignore "not found" errors for the key, but fail on others
                 throw deleteKeyResult.error;
             }
-            console.log(`Removed comment ${commentId}, deleted empty key ${verseSection} in ${aliasCommentFilePath}`);
 
             // Check if the entire alias file is now empty
             const remainingKeys = await $i.db.getObjectKeys(aliasCommentFilePath);
@@ -215,7 +211,6 @@ async function deleteComment(
                  if (deleteFileResult.error && !(deleteFileResult.error.code === 'NOT_FOUND' || deleteFileResult.error.code === 404)) {
                      throw deleteFileResult.error;
                  }
-                console.log(`Deleted empty alias comment file: ${aliasCommentFilePath}`);
                 deletedPaths.push(aliasCommentFilePath);
             }
         }
@@ -254,7 +249,6 @@ async function deleteComment(
                      // To be perfectly accurate, we'd need to search if the alias has *any* remaining files in the series.
                      // For now, let's trigger an index check/update if significant cleanup occurred.
                      // A more robust approach might involve a separate maintenance task.
-                     console.log("Significant cleanup occurred, checking/updating alias series index as a precaution.");
                       // We need to check if the alias has ANY remaining comment file in this series
                       const hasMoreComments = await checkAliasHasAnyCommentsInSeries($i, aliasId, heichelId, seriesId);
                       if (hasMoreComments.error) {
@@ -268,7 +262,6 @@ async function deleteComment(
 
 
             if (needsIndexUpdate) {
-                console.log(`Attempting to remove series ${seriesId} from index for alias ${aliasId} in heichel ${heichelId}`);
                 const indexUpdateResult = await removeSeriesFromAliasIndex($i, aliasId, heichelId, seriesId);
                 if (indexUpdateResult.error) {
                     console.error("Failed to update alias series index:", indexUpdateResult.error);
@@ -338,7 +331,6 @@ async function deleteAllCommentsOfAlias({
          if (!hasAdminAuth) {
               return er("You do not have permission to delete all comments of this alias.", { code: "DELETE_ALL_FORBIDDEN", aliasId, userid });
          }
-          console.log(`Admin/Mod ${userid} deleting all comments by ${aliasId} on parent ${parentId}`);
 
         // 2. Get Path to the alias's comment file
         const aliasCommentFilePath = getAliasCommentFilePath({
@@ -355,9 +347,7 @@ async function deleteAllCommentsOfAlias({
              throw deleteFileResult.error;
          }
          if (!deleteFileResult.error) {
-            console.log(`Deleted alias comment file: ${aliasCommentFilePath}`);
          } else {
-             console.log(`Alias comment file already deleted: ${aliasCommentFilePath}`);
          }
 
 
@@ -377,7 +367,6 @@ async function deleteAllCommentsOfAlias({
          if (hasMoreComments.error) {
              console.error("Failed to check for remaining comments, skipping index update.", hasMoreComments.error);
          } else if (!hasMoreComments.success) {
-             console.log(`Attempting to remove series ${seriesId} from index for alias ${aliasId} in heichel ${heichelId}`);
              const indexUpdateResult = await removeSeriesFromAliasIndex($i, aliasId, heichelId, seriesId);
              if (indexUpdateResult.error) {
                  console.error("Failed to update alias series index:", indexUpdateResult.error);
@@ -458,7 +447,6 @@ async function deleteAllCommentsOfParent(
                  code: "DELETE_PARENT_FORBIDDEN", parentId, userid 
             });
          }
-          console.log(`Admin/Mod ${userid} deleting all comments on parent ${parentId}`);
 
         // 2. Get Path to the parent's comment base directory
         const parentBasePath = getParentCommentsBasePath({
@@ -484,9 +472,7 @@ async function deleteAllCommentsOfParent(
              throw deleteDirResult.error;
          }
          if (!deleteDirResult.error) {
-             console.log(`Deleted parent comment base directory: ${parentBasePath}`);
          } else {
-             console.log(`Parent comment base directory already deleted: ${parentBasePath}`);
          }
 
         // 5. Perform Recursive Cleanup (from the directory *containing* the parentBasePath)
@@ -507,7 +493,6 @@ async function deleteAllCommentsOfParent(
                  console.error(`Failed check for remaining comments for ${aliasId}, skipping index update.`, hasMoreComments.error);
                  indexUpdateErrors.push({ aliasId, error: "Check failed" });
              } else if (!hasMoreComments.success) {
-                 console.log(`Attempting to remove series ${seriesId} from index for alias ${aliasId} in heichel ${heichelId}`);
                  const indexUpdateResult = await removeSeriesFromAliasIndex($i, aliasId, heichelId, seriesId);
                  if (indexUpdateResult.error) {
                      console.error(`Failed index update for ${aliasId}:`, indexUpdateResult.error);
@@ -516,7 +501,6 @@ async function deleteAllCommentsOfParent(
                      deletedPaths = deletedPaths.concat(indexUpdateResult.deletedPaths || []);
                  }
              } else {
-                 console.log(`Alias ${aliasId} still has other comments in series ${seriesId}, index not updated.`);
              }
          }
 
@@ -565,7 +549,6 @@ async function removeSeriesFromAliasIndex($i, aliasId, heichelId, seriesId) {
         let deletedPaths = [];
         if(removeResult.success?.wasDeleted) { // Check if the file itself was deleted by the DB operation
              deletedPaths.push(seriesIndexPath);
-             console.log(`Removed series ${seriesId} and deleted empty index file ${seriesIndexPath}`);
              // Clean up parent directories of the index file
              const indexParentPath = path.dirname(seriesIndexPath);
               // Stop cleanup at 'aliases' or 'heichel' level? Choose 'heichel'.
@@ -573,9 +556,7 @@ async function removeSeriesFromAliasIndex($i, aliasId, heichelId, seriesId) {
              if (!cleanupResult.success) console.error("Error cleaning up index parent directory:", cleanupResult.error);
              deletedPaths = deletedPaths.concat(cleanupResult.deletedPaths);
         } else if (!removeResult.error){
-            console.log(`Removed series ${seriesId} from index ${seriesIndexPath}`);
         } else {
-            console.log(`Series ${seriesId} or index ${seriesIndexPath} already gone.`);
         }
 
         return { success: true, deletedPaths };

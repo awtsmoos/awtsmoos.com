@@ -50,3 +50,20 @@ export async function createSeries(data) {
      });
     return result;
 }
+
+
+/**
+ * @function editSeriesDetails
+ * @description Refines an existing series name/description without moving it.
+ */
+export async function editSeriesDetails({ heichelId, seriesId, aliasId, title, description }) {
+    return AwtsmoosRequest.send(
+        `${BASE_API_URL}heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/editSeriesDetails`,
+        "PUT",
+        new URLSearchParams({
+            aliasId,
+            title,
+            description
+        })
+    );
+}

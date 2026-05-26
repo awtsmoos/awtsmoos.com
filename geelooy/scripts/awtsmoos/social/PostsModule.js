@@ -8,7 +8,6 @@ for displaying and editing one's posts.
 import Awts from "../alerts.js";
 
 import EntityModule from './EntityModule.js';
-console.log(window.heichelID)
 function go() {
 
 	var a = document.createElement("a")
@@ -76,7 +75,6 @@ function go() {
 		});
 	postsHandler.initialize();
 	} catch ($) {
-	console.log($)
 	}
 }
 

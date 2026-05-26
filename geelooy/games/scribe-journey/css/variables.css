@@ -1,28 +1,31 @@
-
-/* B"H */
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
+/* B"H - Design tokens: the measured vessels that stop style conflict before it begins. */
 :root {
     --neon-blue: #00f3ff;
     --neon-pink: #ff00ff;
     --neon-green: #00ff00;
     --neon-gold: #ffd700;
     --neon-red: #ff3333;
-    --bg-dark: #050505;
-    --bg-panel: rgba(10, 10, 15, 0.95);
-    --grid-color: rgba(0, 243, 255, 0.1);
-    
-    --hp-high: #00ff00; 
-    --hp-mid: #ffff00; 
-    --hp-low: #ff0000;
-    --kavanah: #00f3ff;
-
+    --neon-purple: #bc13fe;
+    --bg-dark: #020308;
+    --bg-panel: rgba(5, 9, 18, 0.94);
+    --bg-panel-strong: rgba(2, 5, 12, 0.97);
+    --grid-color: rgba(0, 243, 255, 0.08);
+    --panel-border: rgba(0, 243, 255, 0.42);
+    --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
     --mobile-control-size: clamp(52px, 15vw, 72px);
     --mobile-action-size: clamp(68px, 19vw, 88px);
+    --layer-chat: 45;
     --layer-menu: 60;
     --layer-dialogue: 70;
     --layer-controls: 80;
     --layer-toast: 90;
-    --layer-effects: 10;
+    --layer-moon: 50;
+    --layer-vignette: 1999;
+    --layer-scanlines: 2000;
+    --panel-radius: 16px;
+    --hp-high: #00ff00;
+    --hp-mid: #ffff00;
+    --hp-low: #ff3333;
+    --kavanah: #00f3ff;
 }
