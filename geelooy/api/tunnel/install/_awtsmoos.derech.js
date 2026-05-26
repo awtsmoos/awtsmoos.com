@@ -1,26 +1,29 @@
 // B"H
-import fs from "fs";
-import path from "path";
+const fs = require("fs");
+const path = require("path");
  
-const root = process.cwd();
+module.exports = async function $awtsmoos(req, res) {
+  try {
+    const type = req.params?.type || req.path?.split("/").pop();
  
-function readFile(rel) {
-  return fs.readFileSync(path.join(root, rel), "utf8");
-}
+    const file =
+      type === "windows"
+        ? "geelooy/apps/tunnel/downloads/windows.ps1"
+        : type === "linux"
+          ? "geelooy/apps/tunnel/downloads/linux.sh"
+          : null;
  
-export default async function handler(req, res) {
-  const type = req.params?.type || "";
+    if (!file) {
+      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+      return res.end('B"H\nNot found');
+    }
  
-  if (type === "windows") {
-    res.setHeader("Content-Type", "text/plain; charset=utf-8");
-    return readFile("geelooy/apps/tunnel/downloads/windows.ps1");
+    const text = fs.readFileSync(path.join(process.cwd(), file), "utf8");
+ 
+    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+    return res.end(text);
+  } catch (e) {
+    res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
+    return res.end('B"H\n' + String(e?.stack || e));
   }
- 
-  if (type === "linux") {
-    res.setHeader("Content-Type", "text/plain; charset=utf-8");
-    return readFile("geelooy/apps/tunnel/downloads/linux.sh");
-  }
- 
-  res.statusCode = 404;
-  return 'B"H\nNot found';
-}
+};
