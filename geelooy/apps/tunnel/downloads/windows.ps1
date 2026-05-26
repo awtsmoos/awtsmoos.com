@@ -1,5 +1,5 @@
 ﻿# B"H
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = 'Stop'
  
 Write-Host 'B"H Awtsmoos Tunnel Bootstrap' -ForegroundColor Cyan
  
@@ -9,30 +9,30 @@ function Write-Utf8NoBom($path, $text) {
 }
  
 function Stop-OldAwtsAgent($root, $entry) {
+  $agentPath = [Regex]::Escape((Join-Path $root $entry))
   Get-CimInstance Win32_Process | Where-Object {
-    $_.CommandLine -and
-    $_.CommandLine -match "node" -and
-    $_.CommandLine -match [Regex]::Escape((Join-Path $root $entry))
+    $_.CommandLine -and $_.CommandLine -match 'node' -and $_.CommandLine -match $agentPath
   } | ForEach-Object {
     Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
   }
 }
  
-$root = Join-Path $env:USERPROFILE ".awtsmoos-tunnel"
-$config = Join-Path $root "config.json"
-$statePath = Join-Path $root "install-state.txt"
- 
-$manifestUrl = "https://awtsmoos.com/apps/tunnel/agent/manifest.txt"
-$baseUrl = "https://awtsmoos.com/apps/tunnel/agent"
+$root = Join-Path $env:USERPROFILE '.awtsmoos-tunnel'
+$config = Join-Path $root 'config.json'
+$statePath = Join-Path $root 'install-state.txt'
+$manifestUrl = 'https://awtsmoos.com/apps/tunnel/agent/manifest.txt'
+$baseUrl = 'https://awtsmoos.com/apps/tunnel/agent'
  
 New-Item -ItemType Directory -Force -Path $root | Out-Null
  
 if (-not (Test-Path $config)) {
+  $name = 'awt-' + $env:USERNAME + '-' + (Get-Random -Minimum 1000 -Maximum 9999)
+ 
   $cfg = @{
     BH = 'B"H'
-    relay = "wss://awtsmoos.com"
-    tunnelName = "awt-$($env:USERNAME)-$(Get-Random -Minimum 1000 -Maximum 9999)"
-    local = "http://localhost:3000"
+    relay = 'wss://awtsmoos.com'
+    tunnelName = $name
+    local = 'http://localhost:3000'
     root = (Get-Location).Path
     allowWrite = $true
     allowSecrets = $false
@@ -42,48 +42,36 @@ if (-not (Test-Path $config)) {
   Write-Utf8NoBom $config $cfg
 }
  
-Write-Host "Checking Awtsmoos manifest..."
+Write-Host 'Checking Awtsmoos manifest...'
  
-$manifestRaw = Invoke-WebRequest -Uri $manifestUrl -UseBasicParsing
-$manifestText = $manifestRaw.Content
- 
-$lines = $manifestText -split "`r?`n" |
-  ForEach-Object { $_.Trim() } |
-  Where-Object { $_ -ne "" }
+$manifestText = (Invoke-WebRequest -Uri $manifestUrl -UseBasicParsing).Content
+$lines = [regex]::Split($manifestText, '\r?\n') | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
  
 $version = $lines[1]
 $entry = $lines[2]
 $files = $lines | Select-Object -Skip 3
  
-$installedVersion = ""
+$installedVersion = ''
  
 if (Test-Path $statePath) {
   $installedVersion = (Get-Content -Raw $statePath).Trim()
 }
  
-if (
-  $installedVersion -eq $version -and
-  (Test-Path (Join-Path $root $entry))
-) {
-  Write-Host "Awtsmoos version $version already installed."
+$entryPath = Join-Path $root $entry
+ 
+if ($installedVersion -eq $version -and (Test-Path $entryPath)) {
+  Write-Host ('Awtsmoos version ' + $version + ' already installed.')
 } else {
-  Write-Host "Installing Awtsmoos version $version..."
+  Write-Host ('Installing Awtsmoos version ' + $version + '...')
  
-  foreach ($path in $files) {
-    $dest = Join-Path $root $path
+  foreach ($filePath in $files) {
+    $dest = Join-Path $root $filePath
+    $parent = Split-Path $dest -Parent
+    New-Item -ItemType Directory -Force -Path $parent | Out-Null
  
-    New-Item `
-      -ItemType Directory `
-      -Force `
-      -Path (Split-Path $dest -Parent) | Out-Null
- 
-    $url = "$baseUrl/$path"
- 
-    Write-Host "Downloading $path..."
- 
-    Invoke-WebRequest `
-      -Uri $url `
-      -OutFile $dest
+    $url = $baseUrl + '/' + $filePath
+    Write-Host ('Downloading ' + $filePath + '...')
+    Invoke-WebRequest -Uri $url -OutFile $dest
   }
  
   Write-Utf8NoBom $statePath $version
@@ -91,7 +79,7 @@ if (
  
 Stop-OldAwtsAgent $root $entry
  
-Write-Host ""
-Write-Host "Starting Awtsmoos background agent..." -ForegroundColor Green
+Write-Host ''
+Write-Host 'Starting Awtsmoos background agent...' -ForegroundColor Green
  
-& node (Join-Path $root $entry) --open-control
+& node $entryPath --open-control
