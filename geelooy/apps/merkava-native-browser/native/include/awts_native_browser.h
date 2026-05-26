@@ -106,8 +106,17 @@ typedef struct AwtsBrowserState {
   char pageKind[64];
   char pageTitle[256];
   char pagePreview[2048];
+  char pageSource[8192];
+  char dynamicRenderStream[65536];
+  unsigned int dynamicRenderStreamBytes;
+  unsigned int pageSourceBytes;
+  int pageHasCanvas;
+  int pageHasWebGl;
   AwtsWebGlCommandTable webgl;
   AwtsFontState font;
+  int loggedExecutorRender;
+  int loggedTextRender;
+  int loggedWebGlOpenGl;
 } AwtsBrowserState;
 
 int awts_ends_with(const char* s, const char* suffix);

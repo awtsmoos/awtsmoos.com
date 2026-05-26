@@ -3,6 +3,7 @@ import { escapeHtml } from "../escapeHtml.js";
 import { eventFacts, requestPayload, responsePayload } from "./eventFacts.js";
 import { valueView } from "./valueView.js";
 import { collectReferences } from "./referenceFacts.js";
+import { safeHttpUrl } from "../safeUrl.js";
 
 export function factsCard(title, facts = {}) {
   const chips = Object.entries(facts).map(([k, v]) => `<span class="event-chip"><b>${escapeHtml(k)}</b>${escapeHtml(short(v))}</span>`).join("");
@@ -30,9 +31,12 @@ function panel(title, value, open = false) {
 
 function referencePanel(refs = []) {
   if (!refs.length) return "";
-  const body = refs.map(ref => ref.href
-    ? `<a href="${escapeHtml(ref.href)}" target="_blank" rel="noreferrer"><span>${escapeHtml(ref.kind)}</span>${escapeHtml(ref.label)}</a>`
-    : `<span class="event-reference-chip"><span>${escapeHtml(ref.kind)}</span>${escapeHtml(ref.label)}</span>`).join("");
+  const body = refs.map(ref => {
+    const href = safeHttpUrl(ref.href);
+    return href
+      ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"><span>${escapeHtml(ref.kind)}</span>${escapeHtml(ref.label)}</a>`
+      : `<span class="event-reference-chip"><span>${escapeHtml(ref.kind)}</span>${escapeHtml(ref.label)}</span>`;
+  }).join("");
   return `<section class="event-link-panel"><b>References / citations</b><div>${body}</div></section>`;
 }
 

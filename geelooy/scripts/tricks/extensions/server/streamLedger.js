@@ -34,15 +34,15 @@
       const chunk = await this.waitForChunk(stream, stream.readCursor);
       if (!chunk) return null;
       stream.readCursor = chunk.index + 1;
-      return chunk.chunk;
+      return bytesToDataURLSync(chunk.chunk);
     }
 
     async body(id, kind) {
       const stream = this.touch(id);
       if (!stream) throw new Error("Response not found or already consumed.");
       await this.waitUntilDone(stream);
-      const bytes = concatUint8Arrays(stream.chunks.map(chunk => dataUrlToBytes(chunk.chunk)));
-      if (kind === "blob") return await blobToDataURL(new Blob([bytes], { type: "application/octet-stream" }));
+      const bytes = concatUint8Arrays(stream.chunks.map(chunk => chunk.chunk));
+      if (kind === "blob") return await bytesToDataURL(bytes);
       const text = new TextDecoder().decode(bytes);
       return kind === "json" ? JSON.parse(text) : text;
     }
@@ -58,7 +58,7 @@
         error: stream.error || null,
         baseIndex: stream.baseIndex,
         truncated: Boolean(stream.truncated || Number(cursor || 0) < stream.baseIndex),
-        chunks: stream.chunks.filter(chunk => chunk.index >= wanted).map(({ index, chunk }) => ({ index, chunk }))
+        chunks: stream.chunks.filter(chunk => chunk.index >= wanted).map(({ index, chunk }) => ({ index, chunk: bytesToDataURLSync(chunk) }))
       };
     }
 
@@ -93,8 +93,8 @@
           const { done, value } = await stream.reader.read();
           if (done) break;
           const index = stream.baseIndex + stream.chunks.length;
-          const chunk = await blobToDataURL(new Blob([value], { type: "application/octet-stream" }));
-          stream.chunks.push({ index, size: value?.byteLength || 0, chunk });
+          const chunk = copyBytes(value);
+          stream.chunks.push({ index, size: chunk.byteLength || 0, chunk });
           stream.byteSize += value?.byteLength || 0;
           stream.touchedAt = Date.now();
           this.enforceStreamBudget(stream);
@@ -218,12 +218,46 @@
     return new Uint8Array(out);
   }
 
-  function blobToDataURL(blob) {
-    return new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(blob);
-    });
+  function copyBytes(value) {
+    if (!value) return new Uint8Array();
+    if (value instanceof Uint8Array) return new Uint8Array(value);
+    return new Uint8Array(value.buffer ? value.buffer.slice(value.byteOffset || 0, (value.byteOffset || 0) + value.byteLength) : value);
+  }
+
+  function bytesToDataURLSync(bytes) {
+    const binary = Array.from(bytes || [], byte => String.fromCharCode(byte)).join("");
+    const encoded = typeof btoa === "function" ? btoa(binary) : encodeBase64(bytes || []);
+    return `data:application/octet-stream;base64,${encoded}`;
+  }
+
+  function bytesToDataURL(bytes) {
+    return Promise.resolve(bytesToDataURLSync(bytes));
+  }
+
+  function encodeBase64(bytes) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    let out = "";
+    for (let i = 0; i < bytes.length; i += 3) {
+      const a = bytes[i] || 0;
+      const b = bytes[i + 1] || 0;
+      const c = bytes[i + 2] || 0;
+      const n = (a << 16) | (b << 8) | c;
+      out += chars[(n >> 18) & 63] + chars[(n >> 12) & 63] + (i + 1 < bytes.length ? chars[(n >> 6) & 63] : "=") + (i + 2 < bytes.length ? chars[n & 63] : "=");
+    }
+    return out;
+  }
+
+  function encodeBase64(bytes) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    let out = "";
+    for (let i = 0; i < bytes.length; i += 3) {
+      const a = bytes[i] || 0;
+      const b = bytes[i + 1] || 0;
+      const c = bytes[i + 2] || 0;
+      const n = (a << 16) | (b << 8) | c;
+      out += chars[(n >> 18) & 63] + chars[(n >> 12) & 63] + (i + 1 < bytes.length ? chars[(n >> 6) & 63] : "=") + (i + 2 < bytes.length ? chars[n & 63] : "=");
+    }
+    return out;
   }
 
   globalThis.AwtsmoosStreamLedger = globalThis.AwtsmoosStreamLedger || AwtsmoosStreamLedger;

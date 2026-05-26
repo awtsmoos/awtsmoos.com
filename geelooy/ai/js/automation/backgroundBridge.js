@@ -26,7 +26,9 @@ export async function syncBackgroundAutomation({ settings, graph, conversationId
 }
 
 export function hasBackgroundAutomationBridge() {
-  return isBridgeReady(window.awtsmoosFetch || window.mFetch);
+  const ready = isBridgeReady(window.awtsmoosFetch || window.mFetch);
+  try { globalThis.__awtsmoosBackgroundBridgeActive = ready; } catch {}
+  return ready;
 }
 
 export async function getBackgroundAutomationStatus() {

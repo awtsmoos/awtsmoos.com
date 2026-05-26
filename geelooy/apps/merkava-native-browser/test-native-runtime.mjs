@@ -53,14 +53,22 @@ cases.push(['version', run(['--version']), out => {
 
 cases.push(['bytecode-check', run(['--check', 'sample.merkava']), out => {
   assertIncludes('bytecode-check', out.stdout, 'ok=1');
-  assertIncludes('bytecode-check', out.stdout, 'bytecode-vm=bytecode-vm-host');
+  assertIncludes('bytecode-check', out.stdout, 'bytecode-vm=embedded-executor-host');
+  assertIncludes('bytecode-check', out.stdout, 'dom=executor-owned');
+  assertIncludes('bytecode-check', out.stdout, 'cHost=native-bindings-only');
+  assertNotIncludes('bytecode-check', out.stdout, 'executed Merkava bytecode header');
 }]);
 
 cases.push(['bytecode-vm-loads-embedded-executor', run(['--bytecode-vm-test', 'embedded_executor.merkava']), out => {
   assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'bytecode-vm-test ok=1');
-  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'mode=bytecode-vm-host');
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'mode=embedded-executor-host');
   assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'hostBindings=36');
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'awts-executor-host-bindings count=36');
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'awts-host-binding[12]=network.fetch');
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'awts-host-binding[29]=webgl.drawArrays');
   assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'renderOps=');
+  assertIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'dom=executor-owned');
+  assertNotIncludes('bytecode-vm-loads-embedded-executor', out.stdout, 'executed Merkava bytecode header');
 }]);
 
 cases.push(['js-check', run(['--check', '..\\samples\\app.js']), out => {
@@ -126,6 +134,10 @@ cases.push(['browser-shell-smoke', run(['--smoke']), out => {
   assertIncludes('browser-shell-smoke', out.stdout, 'navigation=type-address-enter');
   assertIncludes('browser-shell-smoke', out.stdout, 'navigation[1]=http://localhost:8080');
   assertIncludes('browser-shell-smoke', out.stdout, 'status=network loaded: http://localhost:8080');
+  assertIncludes('browser-shell-smoke', out.stdout, 'awts-nav-start id=1 url=http://localhost:8080');
+  assertIncludes('browser-shell-smoke', out.stdout, 'awts-route-decision route=network-html-dynamic reason=fetched-html-no-webgl');
+  assertIncludes('browser-shell-smoke', out.stdout, 'awts-render-decision route=dynamic-network result=drawn source=network-fetched');
+  assertNotIncludes('browser-shell-smoke', out.stdout, 'route=merkava-executor-render-stream reason=local-http-forced');
   assertIncludes('browser-shell-smoke', out.stdout, 'opengl_renderer=');
   assertIncludes('browser-shell-smoke', out.stdout, 'browser-shell=drawn');
   assertIncludes('browser-shell-smoke', out.stdout, 'mode=smoke');

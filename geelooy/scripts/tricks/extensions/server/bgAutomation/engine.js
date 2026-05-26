@@ -2,6 +2,7 @@
 (function(){
   const ALARM = "BH_awtsmoos_background_automation_tick";
   let busy = false;
+  let wakeTimer = null;
 
   async function startAutomation(config = {}) {
     const store = globalThis.AwtsmoosBgAutomationStorage;
@@ -18,6 +19,7 @@
 
   async function stopAutomation(reason = "stopped") {
     chrome.alarms.clear(ALARM);
+    clearWakeTimer();
     return await savePublic({ enabled:false, status:reason });
   }
 
@@ -79,7 +81,17 @@
   function announce(state) { globalThis.AwtsmoosBgPageDelegate?.broadcastAutomationState?.(globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(state)); }
   function streamMirror(detail) { globalThis.AwtsmoosBgPageDelegate?.broadcastAutomationStream?.(detail); }
   function schedule(delayInMinutes) { chrome.alarms.create(ALARM, { delayInMinutes }); }
-  function scheduleNext(delayMs) { const ms = Math.max(100, Number(delayMs || 1000)); schedule(Math.max(0.02, ms / 60000)); setTimeout(() => tickAutomation("timer"), ms); }
+  function scheduleNext(delayMs) {
+    const ms = Math.max(100, Number(delayMs || 1000));
+    clearWakeTimer();
+    schedule(Math.max(0.02, ms / 60000));
+    wakeTimer = setTimeout(() => tickAutomation("timer"), ms);
+  }
+  function clearWakeTimer() {
+    if (!wakeTimer) return;
+    clearTimeout(wakeTimer);
+    wakeTimer = null;
+  }
   chrome.alarms.onAlarm.addListener(alarm => { if (alarm.name === ALARM) tickAutomation("alarm"); });
   globalThis.AwtsmoosBgAutomationEngine = { startAutomation, stopAutomation, statusAutomation, tickAutomation };
 })();

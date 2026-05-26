@@ -56,5 +56,20 @@ export function applyPacket(record, input, role) {
  * @returns {{text:string,events:Array,role:string,raw:object}} Serializable record snapshot.
  */
 export function snapshotRecord(record) {
-  return { text: record.text, events: record.events, role: record.role, raw: record.raw };
+  return { text: record.text, events: record.events, role: record.role, raw: summarizeRawForVault(record.raw) };
+}
+
+/**
+ * B"H — stores only the footprint of raw provider thunder.
+ *
+ * Raw packets can contain vast event forests. The renderer keeps the living text
+ * and semantic events; the vault needs only enough raw shape for diagnostics,
+ * not a second hidden copy of every extension payload.
+ *
+ * @param {*} raw Raw normalized message payload.
+ * @returns {object|null} Compact diagnostic shape.
+ */
+function summarizeRawForVault(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  return { kind: Array.isArray(raw) ? "array" : "object", keys: Object.keys(raw).slice(0, 16), id: raw.id || raw.message?.id || null };
 }

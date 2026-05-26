@@ -147,25 +147,9 @@ export class ConversationController {
       window.curConversationId = cid;
       this.refreshSidebarAfterNewConversation({ cid, startedOnBlankConversation });
     }
-    window.mostRecentResponse = response;
+    window.mostRecentResponseSummary = summarizeResponseForDebug(response);
     this.mountAudioOffer({ stream, response, conversationId: cid, visible: hooks.paintAssistant !== false });
     return extractAssistantText(response) || stream?.assistant?.shell?.textContent || "";
-  }
-
-  /**
-   * B"H — pulls a newly born chat into the sidebar after its id descends.
-   *
-   * A blank prompt has no conversation id until the provider answers. The moment
-   * that id becomes visible, this quiet pulse asks the sidebar pager to refresh
-   * so the new vessel appears without a manual reload.
-   *
-   * @param {{cid:string, startedOnBlankConversation:boolean}} state Creation state.
-   * @returns {void}
-   */
-  refreshSidebarAfterNewConversation({ cid, startedOnBlankConversation } = {}) {
-    const list = this.listPager?.boundList;
-    if (!cid || !startedOnBlankConversation || !list) return;
-    Promise.resolve(this.refreshList(list)).catch(error => console.warn("Sidebar refresh after new conversation failed", error));
   }
 
   /**
@@ -190,7 +174,7 @@ export class ConversationController {
     const assistantMessages = messages.filter(item => normalizeRoleFromMessage(item) === "assistant" && extractMessageText(item));
     records.forEach((record, index) => {
       const message = assistantMessages[index] || assistantMessages.find(item => extractMessageText(item) === record.text);
-      mountAwtsmoosAudioOffer({
+      mountAudioOfferLazy({
         shell: record.shell,
         aiHandler: this.aiHandler,
         conversationId,
@@ -202,7 +186,7 @@ export class ConversationController {
 
   mountAudioOffer({ stream, response, conversationId, visible }) {
     if (!visible || this.serviceSelect?.value !== "chatgpt" || !conversationId) return;
-    mountAwtsmoosAudioOffer({
+    mountAudioOfferLazy({
       shell: stream?.assistant?.shell,
       aiHandler: this.aiHandler,
       conversationId,
@@ -254,6 +238,32 @@ function extractMessageId(packet) {
 function extractAssistantText(packet) {
   if (typeof packet === "string") return packet;
   return packet?.content?.parts?.[0] || packet?.message?.content?.parts?.[0] || packet?.data?.message?.content?.parts?.[0] || packet?.text || "";
+}
+
+/**
+ * B"H — keeps debug light without chaining the whole dragon to `window`.
+ *
+ * The Awtsmoos lets the browser remember only the useful sparks: ids, shape,
+ * and text length. The full provider packet can contain whole event forests,
+ * attachment echoes, and extension bridge bodies, so this summary prevents a
+ * global debug variable from becoming a memory-root.
+ *
+ * @param {*} response Provider response or stream completion packet.
+ * @returns {{kind:string, conversationId:string|null, messageId:string|null, textLength:number, keys:string[]}}
+ */
+function summarizeResponseForDebug(response) {
+  const text = extractAssistantText(response);
+  return {
+    kind: response === null ? "null" : Array.isArray(response) ? "array" : typeof response,
+    conversationId: extractConversationId(response),
+    messageId: extractMessageId(response),
+    textLength: String(text || "").length,
+    keys: response && typeof response === "object" ? Object.keys(response).slice(0, 16) : []
+  };
+}
+
+function mountAudioOfferLazy(options) {
+  mountAwtsmoosAudioOffer(options);
 }
 
 function parseErrorBody(body = "") {

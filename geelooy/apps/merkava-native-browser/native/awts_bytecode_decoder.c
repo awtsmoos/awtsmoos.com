@@ -95,17 +95,44 @@ int awts_validate_merkava_bytecode(AwtsMerkavaBytecode* bytecode) {
   return 1;
 }
 
+static const char* awts_required_host_bindings[] = {
+  "window.createWindow", "window.setTitle", "window.requestAnimationFrame",
+  "input.onMouseMove", "input.onMouseDown", "input.onMouseUp", "input.onKeyDown", "input.onWheel",
+  "storage.readFile", "storage.writeFile", "storage.stat", "storage.listDir",
+  "network.fetch",
+  "fonts.loadFont", "fonts.measureGlyph", "fonts.rasterizeGlyph", "fonts.uploadGlyphAtlas",
+  "webgl.createContext", "webgl.createShader", "webgl.shaderSource", "webgl.compileShader",
+  "webgl.createProgram", "webgl.linkProgram", "webgl.useProgram", "webgl.createBuffer",
+  "webgl.bindBuffer", "webgl.bufferData", "webgl.vertexAttribPointer",
+  "webgl.enableVertexAttribArray", "webgl.drawArrays", "webgl.drawElements",
+  "timers.setTimeout", "timers.clearTimeout", "timers.now",
+  "threads.spawnWorker", "threads.postMessage"
+};
+
+static unsigned int awts_host_binding_count(void) {
+  return (unsigned int)(sizeof(awts_required_host_bindings) / sizeof(awts_required_host_bindings[0]));
+}
+
+static void awts_log_executor_binding_surface(void) {
+  printf("awts-executor-host-bindings count=%u\n", awts_host_binding_count());
+  for (unsigned int i = 0; i < awts_host_binding_count(); i++) {
+    printf("awts-host-binding[%u]=%s\n", i, awts_required_host_bindings[i]);
+  }
+  fflush(stdout);
+}
+
 int awts_execute_merkava_bytecode(AwtsMerkavaBytecode* bytecode, AwtsMerkavaHostFrame* frame) {
   if (!bytecode || !bytecode->ok || !frame) return 0;
   memset(frame, 0, sizeof(*frame));
   frame->ok = 1;
-  frame->hostBindingCount = 36;
+  frame->hostBindingCount = awts_host_binding_count();
   frame->mappedRenderOps = (unsigned int)awts_count_token(AWTS_NATIVE_RENDER_STREAM, "\n") +
     (AWTS_NATIVE_RENDER_STREAM[0] ? 1u : 0u);
-  snprintf(frame->mode, sizeof(frame->mode), "bytecode-vm-host");
+  awts_log_executor_binding_surface();
+  snprintf(frame->mode, sizeof(frame->mode), "embedded-executor-host");
   snprintf(frame->message, sizeof(frame->message),
-    "executed Merkava bytecode header section=%u version=%u pool=%u selectors=%u renderOps=%u",
-    bytecode->section, bytecode->version, bytecode->poolCount, bytecode->selectorCount, frame->mappedRenderOps);
+    "booted embedded MerkavaExecutor bytecode section=%u version=%u pool=%u selectors=%u hostBindings=%u renderOps=%u dom=executor-owned cHost=native-bindings-only",
+    bytecode->section, bytecode->version, bytecode->poolCount, bytecode->selectorCount, frame->hostBindingCount, frame->mappedRenderOps);
   return 1;
 }
 

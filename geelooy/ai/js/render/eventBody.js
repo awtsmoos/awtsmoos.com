@@ -4,6 +4,7 @@ import { renderMarkdown } from "./markdown.js";
 import { summarizeEvent } from "./eventSummaries.js";
 import { eventKind } from "./runtime/eventLabels.js";
 import { storeRawJson } from "./runtime/rawJsonVault.js";
+import { safeHttpUrl } from "./safeUrl.js";
 
 /**
  * Chapter 25: Only the Open Gate Interpreted the Fire.
@@ -18,7 +19,8 @@ import { storeRawJson } from "./runtime/rawJsonVault.js";
 export function renderEventBody(event = {}, options = {}) {
   const kind = eventKind(event);
   const summaryHtml = renderSummary(summarizeEvent(event));
-  const action = event?.action?.href ? `<a class="event-action" href="${escapeHtml(event.action.href)}" target="_blank" rel="noreferrer">${escapeHtml(event.action.label || "open")}</a>` : "";
+  const actionHref = safeHttpUrl(event?.action?.href);
+  const action = actionHref ? `<a class="event-action" href="${escapeHtml(actionHref)}" target="_blank" rel="noopener noreferrer">${escapeHtml(event.action.label || "open")}</a>` : "";
   const rawKey = storeRawJson(event?.raw ?? event, { stableKey: options.rawKey || "" });
   return `<div class="event-lanes"><article class="event-lane ${escapeHtml(kind)}">
     <div class="event-text">${summaryHtml}</div>${action}

@@ -6,22 +6,20 @@ import { fileURLToPath } from 'url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const exe = path.join(here, 'dist', 'merkavaapp.exe');
 const dist = path.join(here, 'dist');
-const port = 18080;
+const port = 18083;
+const unique = 'AWTS_DYNAMIC_URL_CONTENT_18083';
+
+const html = `<!doctype html>
+<body>
+  <main>
+    <h1>${unique}</h1>
+    <p>This text must come from the HTTP response, not from the baked sample render stream.</p>
+  </main>
+</body>`;
 
 const serverCode = `
 const http = require('http');
-const html = ${JSON.stringify(`<!doctype html>
-<body>
-  <canvas id="stage" width="320" height="180"></canvas>
-  <p>AWTS_DYNAMIC_WEBGL_URL_CONTENT_18080</p>
-  <script>
-    const gl = document.querySelector('#stage').getContext('webgl');
-    gl.viewport(0, 0, 320, 180);
-    gl.clearColor(0.1, 0.2, 0.3, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  </script>
-</body>`)};
+const html = ${JSON.stringify(html)};
 http.createServer((req, res) => {
   res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
   res.end(html);
@@ -58,15 +56,14 @@ try {
     encoding: 'utf8',
     timeout: 15000
   });
-  assertHas('localhost-webgl-dom', stdout, 'awts-net-read url=http://127.0.0.1:18080');
-  assertHas('localhost-webgl-dom', stdout, 'htmlHints canvas=1 webgl=1 drawArrays=1 local=1');
-  assertHas('localhost-webgl-dom', stdout, 'awts-route-decision route=network-webgl-dynamic reason=webgl-dom-hints');
-  assertHas('localhost-webgl-dom', stdout, 'pageKind=network-webgl-dynamic');
-  assertHas('localhost-webgl-dom', stdout, 'AWTS_DYNAMIC_WEBGL_URL_CONTENT_18080');
-  assertHas('localhost-webgl-dom', stdout, 'webgl-command-table: viewport=1 clearColor=1 clear=1 drawArrays=1');
-  assertNotHas('localhost-webgl-dom', stdout, 'route=merkava-executor-render-stream reason=local-http-forced');
-  assertNotHas('localhost-webgl-dom', stdout, 'preview=network WebGL DOM routed through MerkavaExecutor render stream');
-  console.log(JSON.stringify({ ok: true, stdout }, null, 2));
+  assertHas('network-fetched-html', stdout, 'awts-net-read url=http://127.0.0.1:18083');
+  assertHas('network-fetched-html', stdout, 'awts-route-decision route=network-html-dynamic reason=fetched-html-no-webgl');
+  assertHas('network-fetched-html', stdout, 'pageKind=network-html-dynamic');
+  assertHas('network-fetched-html', stdout, unique);
+  assertNotHas('network-fetched-html', stdout, 'route=merkava-executor-render-stream reason=local-http-forced');
+  assertNotHas('network-fetched-html', stdout, 'route=executor-stream result=drawn');
+  assertNotHas('network-fetched-html', stdout, 'preview=network WebGL DOM routed through MerkavaExecutor render stream');
+  console.log(JSON.stringify({ ok: true, url: `http://127.0.0.1:${port}`, unique, stdout }, null, 2));
 } finally {
   server.kill();
 }

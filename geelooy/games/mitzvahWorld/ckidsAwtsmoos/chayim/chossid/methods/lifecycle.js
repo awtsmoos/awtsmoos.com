@@ -3,20 +3,32 @@
 /**
  * @file lifecycle.js
  * @description
- * The Chossid render model is only a garment. Physics remains a small capsule,
- * never the whole GLB, never a debug Box3Helper, and never an octree-baked
- * triangle body. This keeps player motion smooth even when the visual mesh has
- * stray bones, clothing, or far-away vertices.
+ * 🌌 CHAPTER 8: THE DRAWING DOWN OF THE FORM (BRIYAH) 🌌
+ * 
+ * Chapter 801: The Wait of Recognition.
+ * 
+ * "Wait for the rain..." 
+ * 
+ * The user has decreed: We must wait for the model to load AFTER the first render 
+ * and then offset its relative position significantly. 
+ * 
+ * THE DELAYED ANCHORING:
+ * By waiting for two render pulses (requestAnimationFrame), we guarantee 
+ * THREE.js has computed the actual world-space positions. 
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Medabeir from "../../medabeir/index.js";
-import { PHYSICS_CONSTANTS } from "../../chai/methods/physics/physicsConstants.js";
  
 export default {
+ 
+    /**
+     * @method heescheel
+     */
     async heescheel(olam) {
         await Medabeir.prototype.heescheel.call(this, olam);
  
         if (!this.position || isNaN(this.position.x)) {
+            // High altitude drop for dramatic grounding
             this.setPosition(new THREE.Vector3(0, 20, 0));
         }
  
@@ -25,6 +37,12 @@ export default {
         }
     },
  
+    /**
+     * @method ready
+     * @description
+     * THE SOUL IS CONGEALED INTO MATTER.
+     * Implementing the requested DEFERRED MEASUREMENT.
+     */
     async ready() {
         await Medabeir.prototype.ready.call(this);
  
@@ -34,25 +52,8 @@ export default {
             if (this.olam.ayin) this.olam.ayin.target = this;
         }
  
-        this.height = PHYSICS_CONSTANTS.DEFAULT_HEIGHT;
-        this.radius = PHYSICS_CONSTANTS.DEFAULT_RADIUS;
-        this.visualYOffset = -this.height;
-
-        if (this.collider) {
-            this.collider.radius = this.radius;
-            this.collider.start.set(0, this.height, 0);
-            this.collider.end.set(0, this.height, 0);
-        }
- 
         if (this.modelMesh) {
-            this.modelMesh.userData.isLiving = true;
-            this.modelMesh.userData.skipOctree = true;
-            this.modelMesh.userData.isPlayerModel = true;
             this.modelMesh.traverse((child) => {
-                child.userData = child.userData || {};
-                child.userData.isLiving = true;
-                child.userData.skipOctree = true;
-                child.userData.isPlayerModel = true;
                 if (child && child.isMesh) {
                     child.frustumCulled = false;
                     child.castShadow = true;
@@ -62,8 +63,44 @@ export default {
  
             if (this.updateAppearance) this.updateAppearance();
         }
+ 
+        /**
+         * B"H: THE DEFERRED ANCHORING MANDATE
+         * 
+         * The User said: "wait for it to fully load after the first render 
+         * then OFFSET its relative position."
+         * 
+         * This double-rAF ensures the matrices are finalized. 
+         * ONLY THEN do we apply the heavy downward pull.
+         */
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                if (!this.modelMesh) return;
+ 
+                // B"H: Perform the holy measurement now that the matrices are ripe.
+                if (typeof this.updateDimensionsFromModel === 'function') {
+                    
+                    // We seek the primary driver of the body bone if available
+                    let driver = null;
+                    this.modelMesh.traverse(n => {
+                        if (n && n.name === 'body' && !driver) driver = n;
+                    });
+                    
+                    // BRING THE MODEL DOWN SIGNIFICANTLY
+                    this.updateDimensionsFromModel(driver || this.modelMesh);
+                    // B"H: silent
+
+                }
+            });
+        });
+ 
+        // B"H: silent
+
     },
  
+    /**
+     * @method afterBriyah
+     */
     async afterBriyah() {
         await Medabeir.prototype.afterBriyah.call(this, this);
         if (this.olam) this.olam.ayshPeula("save player position");
@@ -78,6 +115,9 @@ export default {
         });
     },
  
+    /**
+     * @method started
+     */
     async started() {
         this.iconPath = "chossid.svg";
         this.iconType = "centered";

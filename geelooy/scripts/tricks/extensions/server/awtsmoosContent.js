@@ -58,30 +58,6 @@
       catch (error) { this.announce("server-disconnect-skip", { reason, error: String(error?.message || error) }); }
     }
 
-    listenForLifecycle() {
-      globalThis.addEventListener?.("pagehide", event => {
-        if (!event.persisted) return;
-        this.announce("server-suspended-bfcache");
-        this.disconnectQuietly("page entering BFCache");
-      });
-      globalThis.addEventListener?.("pageshow", event => {
-        if (!event.persisted || this.deadContext) return;
-        this.announce("server-restoring-bfcache");
-        this.connectSoon(0);
-      });
-      globalThis.addEventListener?.("visibilitychange", () => {
-        if (document.visibilityState === "visible" && !this.port && !this.deadContext) this.connectSoon(0);
-      });
-    }
-
-    disconnectQuietly(reason = "disconnect") {
-      clearInterval(this.heartbeatTimer);
-      const port = this.port;
-      this.port = null;
-      try { port?.disconnect?.(); }
-      catch (error) { this.announce("server-disconnect-skip", { reason, error: String(error?.message || error) }); }
-    }
-
     runtimeAvailable() {
       try {
         return Boolean(globalThis.chrome?.runtime?.id && globalThis.chrome?.runtime?.connect);

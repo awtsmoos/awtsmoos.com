@@ -19,7 +19,7 @@ import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
  * settings, and pipeline, so no one giant script devours the world.
  */
 document.addEventListener("DOMContentLoaded", async () => {
-  await resetRenderWorkerStores();
+  scheduleIdle(() => resetRenderWorkerStores());
   const aiHandler = new AIServiceHandler();
   await aiHandler.init();
   window.aiHandler = aiHandler;
@@ -69,9 +69,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   dom.conversationList.innerHTML = `<li class="is-loading">Loading conversations…</li>`;
   dom.chatBox.innerHTML = `<div class="render-loading"><i></i><span>Preparing Awtsmoos cockpit…</span></div>`;
   const bootedConversation = await bootstrapFromUrl({ dom, aiHandler, controller });
-  if (!hasBackgroundAutomationBridge()) pipeline.resumeActiveRuns();
-  else panel.report("automation owner: extension background");
-  if (!bootedConversation) resumeVisibleStreams();
+  scheduleIdle(() => {
+    if (!hasBackgroundAutomationBridge()) pipeline.resumeActiveRuns();
+    else panel.report("automation owner: extension background");
+    if (!bootedConversation) resumeVisibleStreams();
+  });
 
   async function sendFromText(text = dom.messageInput.value) {
     const prompt = String(text || "").trim();
@@ -195,14 +197,21 @@ async function bootstrapFromUrl({ dom, aiHandler, controller }) {
   dom.chatgptModeSelect.value = aiHandler.chatgptMode || "regular";
   syncChatGptModeChrome(dom);
   const convo = getConversationId();
+  const refreshSidebarSoon = () => scheduleIdle(() => controller.refreshList(dom.conversationList));
   if (convo) {
     await controller.loadConversation(convo);
-    await controller.refreshList(dom.conversationList);
+    refreshSidebarSoon();
     return true;
   }
-  await controller.refreshList(dom.conversationList);
   if (dom.chatBox.textContent.includes("Preparing Awtsmoos cockpit")) {
     dom.chatBox.innerHTML = `<div class="render-loading idle"><span>Select a conversation or start a new chat.</span></div>`;
   }
+  refreshSidebarSoon();
   return false;
+}
+
+function scheduleIdle(task) {
+  const runner = () => Promise.resolve().then(task).catch(error => console.warn("Deferred AI boot task failed", error));
+  if (typeof requestIdleCallback === "function") return requestIdleCallback(runner, { timeout: 1500 });
+  return setTimeout(runner, 0);
 }

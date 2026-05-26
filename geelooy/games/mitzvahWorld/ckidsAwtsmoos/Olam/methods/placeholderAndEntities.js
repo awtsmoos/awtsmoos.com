@@ -36,7 +36,7 @@ export default class {
                             av.addedTo = nivra;
                             nivra.addedToPlaceholder = av;
                             var m = nivra.modelMesh || nivra.mesh;
-                            if(m) {
+                            if(m && !m.userData?.isLiving && !m.userData?.skipOctree) {
                                 this.meshesToInteractWith.push(m);
                             }
                         }

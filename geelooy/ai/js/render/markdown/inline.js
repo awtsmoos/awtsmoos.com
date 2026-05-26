@@ -1,14 +1,15 @@
 //B"H
 import { escapeHtml } from "../escapeHtml.js";
+import { safeHttpUrl } from "../safeUrl.js";
 import { PROTOCOL_TOKEN, renderProtocol } from "./protocol.js";
 
 /**
- * Chapter 73: The Bare URL Became A Door.
+ * Chapter 73: The Bare URL Became A Door With Guards.
  *
  * The Awtsmoos sometimes sends links without markdown brackets, raw shining
  * paths through the web. This inline renderer guards code/protocol tokens,
- * escapes hostile HTML, then turns both bracket links and bare HTTPS URLs into
- * safe outbound anchors.
+ * escapes hostile HTML, validates outbound URLs, then turns both bracket links
+ * and bare HTTPS URLs into safe anchors without letting attribute sparks leak.
  *
  * @param {unknown} value Inline markdown source.
  * @returns {string} Safe inline HTML.
@@ -29,11 +30,28 @@ export function inlineMarkdown(value) {
 }
 
 function linkBracketMarkdown(text) {
-  return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, `<a href="$2" target="_blank" rel="noreferrer">$1</a>`);
+  return text.replace(/\[([^\]]+)\]\(([^\s)]+)\)/g, (_, label, url) => anchor(url, label));
 }
 
 function linkBareUrls(text) {
-  return text.replace(/(^|[\s(])((?:https?:\/\/)[^\s<]+[^\s<.,;:!?\)])/g, (_, lead, url) => `${lead}<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`);
+  return text.replace(/(^|[\s(])((?:https?:\/\/)[^\s<]+[^\s<.,;:!?\)])/g, (_, lead, url) => `${lead}${anchor(url, url)}`);
+}
+
+/**
+ * B"H — creates one safe outbound gate.
+ *
+ * All markdown is already escaped before linkification, but URLs still pass
+ * through validation and attribute escaping so encoded quotes, control marks,
+ * or malformed schemes cannot become script-bearing attributes.
+ *
+ * @param {string} url Candidate URL.
+ * @param {string} label Already-escaped link label.
+ * @returns {string} Safe anchor HTML, or escaped label fallback.
+ */
+function anchor(url, label) {
+  const safe = safeHttpUrl(url);
+  if (!safe) return label;
+  return `<a href="${escapeHtml(safe)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
 }
 
 function stash(tokens, html) {

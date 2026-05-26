@@ -68,8 +68,17 @@ static void clean_preview(char* out, size_t cap, const char* input) {
 static void set_page(AwtsBrowserState* state, const char* kind, const char* title, const char* preview) {
   snprintf(state->pageKind, sizeof(state->pageKind), "%s", kind ? kind : "unknown");
   snprintf(state->pageTitle, sizeof(state->pageTitle), "%s", title ? title : "Untitled");
-  (void)preview;
   clean_preview(state->pagePreview, sizeof(state->pagePreview), preview && *preview ? preview : "MerkavaExecutor render stream is active; native host only maps verified ops");
+  state->pageSource[0] = 0;
+  state->pageSourceBytes = 0;
+  state->pageHasCanvas = 0;
+  state->pageHasWebGl = 0;
+  state->loggedExecutorRender = 0;
+  state->loggedTextRender = 0;
+  state->loggedWebGlOpenGl = 0;
+  state->loggedWebGlOpenGl = 0;
+  printf("awts-page-state kind=%s title=%s previewBytes=%u\n", state->pageKind, state->pageTitle, (unsigned int)strlen(state->pagePreview));
+  fflush(stdout);
 }
 
 static void print_fs_exists(const char* path) {
@@ -152,11 +161,124 @@ static int awts_html_wants_webgl_executor(const char* html) {
          awts_text_has(html, "createShader(") || awts_text_has(html, "bufferData(");
 }
 
+static void awts_extract_visible_text(char* out, size_t cap, const char* html) {
+  size_t j = 0;
+  int inTag = 0;
+  int skipScript = 0;
+  int skipStyle = 0;
+  int lastSpace = 1;
+  const char* src = html ? html : "";
+  for (size_t i = 0; src[i] && j + 1 < cap; i++) {
+    if (!_strnicmp(src + i, "<script", 7)) { skipScript = 1; inTag = 1; continue; }
+    if (!_strnicmp(src + i, "</script", 8)) { skipScript = 0; inTag = 1; continue; }
+    if (!_strnicmp(src + i, "<style", 6)) { skipStyle = 1; inTag = 1; continue; }
+    if (!_strnicmp(src + i, "</style", 7)) { skipStyle = 0; inTag = 1; continue; }
+    char c = src[i];
+    if (c == '<') { inTag = 1; if (!lastSpace && j + 1 < cap) { out[j++] = ' '; lastSpace = 1; } continue; }
+    if (c == '>') { inTag = 0; continue; }
+    if (inTag || skipScript || skipStyle) continue;
+    if (c == '\r' || c == '\n' || c == '\t') c = ' ';
+    if ((unsigned char)c < 32) continue;
+    if (c == ' ') {
+      if (lastSpace) continue;
+      lastSpace = 1;
+    } else {
+      lastSpace = 0;
+    }
+    out[j++] = c;
+  }
+  out[j] = 0;
+}
+
+static void awts_set_dynamic_source(AwtsBrowserState* state, const char* html, DWORD read) {
+  unsigned int copy = (unsigned int)read;
+  if (copy >= sizeof(state->pageSource)) copy = sizeof(state->pageSource) - 1;
+  memcpy(state->pageSource, html, copy);
+  state->pageSource[copy] = 0;
+  state->pageSourceBytes = copy;
+  state->pageHasCanvas = awts_text_has(html, "<canvas");
+  state->pageHasWebGl = awts_text_has(html, "getContext") || awts_text_has(html, "drawArrays(") || awts_text_has(html, "createShader(");
+}
+
+static int awts_write_temp_html(const char* html, char* outPath, size_t cap) {
+  char tempDir[MAX_PATH];
+  char tempFile[MAX_PATH];
+  DWORD dirLen = GetTempPathA(sizeof(tempDir), tempDir);
+  if (!dirLen || dirLen >= sizeof(tempDir)) return 0;
+  if (!GetTempFileNameA(tempDir, "awt", 0, tempFile)) return 0;
+  FILE* f = fopen(tempFile, "wb");
+  if (!f) return 0;
+  fwrite(html, 1, strlen(html), f);
+  fclose(f);
+  snprintf(outPath, cap, "%s", tempFile);
+  return 1;
+}
+
+static int awts_compile_html_with_executor(AwtsBrowserState* state, const char* html, const char* url) {
+  char htmlPath[MAX_PATH];
+  char exePath[MAX_PATH];
+  char exeDir[MAX_PATH];
+  char helperPath[MAX_PATH];
+  char command[4096];
+  char line[2048];
+  int inStream = 0;
+  size_t used = 0;
+  if (!awts_write_temp_html(html, htmlPath, sizeof(htmlPath))) {
+    printf("awts-executor-compile-error stage=temp-write url=%s\n", url);
+    fflush(stdout);
+    return 0;
+  }
+  GetModuleFileNameA(NULL, exePath, sizeof(exePath));
+  snprintf(exeDir, sizeof(exeDir), "%s", exePath);
+  char* slash = strrchr(exeDir, '\\');
+  if (slash) *slash = 0;
+  snprintf(helperPath, sizeof(helperPath), "%s\\compileFetchedHtmlToRenderStream.mjs", exeDir);
+  snprintf(command, sizeof(command), "node \"%s\" \"%s\" \"%s\"", helperPath, htmlPath, url);
+  FILE* pipe = _popen(command, "r");
+  state->dynamicRenderStream[0] = 0;
+  state->dynamicRenderStreamBytes = 0;
+  if (!pipe) {
+    printf("awts-executor-compile-error stage=popen helper=%s url=%s\n", helperPath, url);
+    DeleteFileA(htmlPath);
+    fflush(stdout);
+    return 0;
+  }
+  while (fgets(line, sizeof(line), pipe)) {
+    if (strstr(line, "AWTS_EXECUTOR_RENDER_STREAM_BEGIN")) { inStream = 1; continue; }
+    if (strstr(line, "AWTS_EXECUTOR_RENDER_STREAM_END")) { inStream = 0; continue; }
+    if (inStream) {
+      size_t len = strlen(line);
+      if (used + len + 1 < sizeof(state->dynamicRenderStream)) {
+        memcpy(state->dynamicRenderStream + used, line, len);
+        used += len;
+        state->dynamicRenderStream[used] = 0;
+      }
+    } else if (strstr(line, "\"ok\":true") || strstr(line, "dom")) {
+      printf("awts-executor-compile-report %s", line);
+    }
+  }
+  int exitCode = _pclose(pipe);
+  DeleteFileA(htmlPath);
+  state->dynamicRenderStreamBytes = (unsigned int)used;
+  if (exitCode != 0 || used == 0) {
+    printf("awts-executor-compile-error stage=node-exit code=%d bytes=%u url=%s helper=%s\n", exitCode, state->dynamicRenderStreamBytes, url, helperPath);
+    fflush(stdout);
+    return 0;
+  }
+  printf("awts-executor-compile-ok url=%s dom=executor-owned cHost=native-bindings-only streamBytes=%u helper=%s\n", url, state->dynamicRenderStreamBytes, helperPath);
+  fflush(stdout);
+  return 1;
+}
+
 static int load_http_preview(AwtsBrowserState* state, const char* url) {
+  printf("awts-net-start url=%s local=%u\n", url, awts_url_is_local_http(url));
+  fflush(stdout);
   HINTERNET session = InternetOpenA("MerkavaNativeBrowser/0.6", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
-  if (!session) return 0;
+  if (!session) { printf("awts-net-error stage=InternetOpen url=%s\n", url); fflush(stdout); return 0; }
   HINTERNET handle = InternetOpenUrlA(session, url, NULL, 0, INTERNET_FLAG_RELOAD | INTERNET_FLAG_NO_CACHE_WRITE, 0);
   if (!handle) {
+    printf("awts-net-error stage=InternetOpenUrl url=%s\n", url);
+    fflush(stdout);
     InternetCloseHandle(session);
     return 0;
   }
@@ -167,12 +289,32 @@ static int load_http_preview(AwtsBrowserState* state, const char* url) {
   buffer[read] = 0;
   InternetCloseHandle(handle);
   InternetCloseHandle(session);
-  if (read > 0 && (awts_url_is_local_http(url) || awts_html_wants_webgl_executor(buffer))) {
-    set_page(state, "merkava-executor-render-stream", url, "network WebGL DOM routed through MerkavaExecutor render stream");
+  printf("awts-net-read url=%s bytes=%lu htmlHints canvas=%u webgl=%u drawArrays=%u local=%u\n",
+    url, (unsigned long)read, awts_text_has(buffer, "<canvas"),
+    awts_text_has(buffer, "getContext"), awts_text_has(buffer, "drawArrays("), awts_url_is_local_http(url));
+  fflush(stdout);
+  if (read > 0) {
+    char visible[2048];
+    awts_extract_visible_text(visible, sizeof(visible), buffer);
     awts_scan_webgl(&state->webgl, buffer);
+    if (awts_compile_html_with_executor(state, buffer, url)) {
+      printf("awts-route-decision route=network-executor-render-stream reason=merkava-executor-compiled-html url=%s sourceBytes=%lu streamBytes=%u\n", url, (unsigned long)read, state->dynamicRenderStreamBytes);
+      set_page(state, "network-executor-render-stream", url, "dom=executor-owned cHost=native-bindings-only network HTML compiled by MerkavaExecutor");
+      state->dynamicRenderStreamBytes = (unsigned int)strlen(state->dynamicRenderStream);
+    } else if (awts_html_wants_webgl_executor(buffer)) {
+      printf("awts-route-decision route=network-webgl-dynamic reason=webgl-dom-hints url=%s sourceBytes=%lu\n", url, (unsigned long)read);
+      set_page(state, "network-webgl-dynamic", url, visible[0] ? visible : "dynamic WebGL document fetched from network");
+    } else {
+      printf("awts-route-decision route=network-html-dynamic reason=executor-compile-failed-fallback url=%s sourceBytes=%lu\n", url, (unsigned long)read);
+      set_page(state, "network-html-dynamic", url, visible[0] ? visible : "dynamic HTML document fetched from network");
+    }
+    awts_set_dynamic_source(state, buffer, read);
+    awts_print_webgl_table(&state->webgl);
   } else {
+    printf("awts-route-decision route=network-text-preview reason=no-bytes url=%s\n", url);
     set_page(state, "network", url, buffer);
   }
+  fflush(stdout);
   return read > 0;
 }
 
@@ -304,6 +446,8 @@ void awts_browser_set_url(AwtsBrowserState* state, const char* url) {
 void awts_browser_navigate(AwtsBrowserState* state) {
   state->navigations++;
   const char* url = state->url;
+  printf("awts-nav-start id=%u url=%s currentKind=%s embeddedExecutorBytes=%u loaded=%d\n", state->navigations, url, state->pageKind, state->bytecodeLen, state->loaded);
+  fflush(stdout);
   if (!strncmp(url, "http://", 7) || !strncmp(url, "https://", 8)) {
     int ok = load_http_preview(state, url);
     snprintf(state->statusText, sizeof(state->statusText), "%s: %s", ok ? "network loaded" : "network failed", url);
@@ -314,6 +458,8 @@ void awts_browser_navigate(AwtsBrowserState* state) {
       char samplePath[MAX_PATH];
       awts_resolve_exe_relative_path("sample.merkava", samplePath, sizeof(samplePath));
       int loaded = awts_load_merkava_file(state, samplePath);
+      printf("awts-bytecode-load target=sample.merkava path=%s ok=%d bytes=%u section=%u version=%u\n", samplePath, loaded, state->bytecodeLen, state->section, state->version);
+      fflush(stdout);
       snprintf(state->statusText, sizeof(state->statusText), loaded ? "loaded MerkavaExecutor render stream: /index.html" : "missing MerkavaExecutor bytecode: /index.html");
       snprintf(state->pageKind, sizeof(state->pageKind), "merkava-executor-render-stream");
       snprintf(state->pageTitle, sizeof(state->pageTitle), "/index.html");
@@ -328,10 +474,14 @@ void awts_browser_navigate(AwtsBrowserState* state) {
       snprintf(state->statusText, sizeof(state->statusText), "%s: %s", ok ? "loaded" : "missing", url);
     }
   }
+  printf("awts-nav-final id=%u url=%s status=%s pageKind=%s title=%s loaded=%d bytecodeOk=%u previewBytes=%u\n",
+    state->navigations, state->url, state->statusText, state->pageKind, state->pageTitle,
+    state->loaded, state->bytecodeOk, (unsigned int)strlen(state->pagePreview));
+  awts_print_webgl_table(&state->webgl);
   if (state->verbose || state->smokeMode) {
     printf("navigation[%u]=%s status=%s\n", state->navigations, state->url, state->statusText);
-    fflush(stdout);
   }
+  fflush(stdout);
 }
 
 void awts_browser_backspace(AwtsBrowserState* state) {

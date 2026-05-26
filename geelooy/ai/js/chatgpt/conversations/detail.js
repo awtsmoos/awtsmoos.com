@@ -26,6 +26,7 @@ export async function getConversation(mFetch, conversation_id, token) {
     mappingCount: convo?.mapping ? Object.keys(convo.mapping).length : null,
     title: convo?.title
   }));
-  console.log("B\"H legacy getConversation raw", convo);
+  // B"H: do not log full conversation detail. DevTools retains expanded
+  // console objects, and a full ChatGPT mapping can be a massive memory root.
   return convo;
 }

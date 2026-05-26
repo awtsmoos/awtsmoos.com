@@ -60,7 +60,40 @@ function isEmptyThinkingStatus(message = {}, content = {}, metadata = {}, type =
 }
 
 function capsule(kind, label, raw, text = "") {
-  return { kind, label, raw, text: text || "", order: eventOrder(raw) };
+  return { kind, label, raw: compactEventRaw(raw), text: text || "", order: eventOrder(raw) };
+}
+
+/**
+ * B"H — turns provider thunder into a small diagnostic fossil.
+ *
+ * Event UI needs shape, ids, type, and a few meaningful fields. It does not need
+ * to retain the entire streamed provider packet, because those packets can carry
+ * nested messages, tool bodies, and extension envelopes large enough to pin the
+ * page. The Awtsmoos lets the meaning remain while the heavy husk falls away.
+ *
+ * @param {*} raw Provider/transport event.
+ * @returns {object|null} Compact raw event summary.
+ */
+function compactEventRaw(raw) {
+  if (!raw || typeof raw !== "object") return raw ?? null;
+  const msg = raw.message || raw.input_message || raw.data?.message || null;
+  const content = msg?.content || raw.content || {};
+  const metadata = msg?.metadata || raw.metadata || {};
+  return {
+    type: raw.type || raw.event || content.content_type || null,
+    id: raw.id || msg?.id || raw.data?.id || null,
+    role: msg?.author?.role || msg?.role || null,
+    channel: msg?.channel || raw.channel || null,
+    recipient: msg?.recipient || raw.recipient || null,
+    content_type: content.content_type || null,
+    metadata: compactMetadata(metadata),
+    keys: Object.keys(raw).slice(0, 16)
+  };
+}
+
+function compactMetadata(metadata = {}) {
+  const keep = ["request_id", "turn_exchange_id", "reasoning_status", "is_thinking_preamble_message", "is_visually_hidden_from_conversation", "command", "aggregate_result"];
+  return Object.fromEntries(keep.filter(key => metadata[key] !== undefined).map(key => [key, metadata[key]]));
 }
 function eventOrder(raw = {}) {
   const msg = raw.message || raw.input_message || raw.data?.message || raw;
@@ -88,6 +121,6 @@ function toolKind(raw, message, fallback) {
 }
 function isThinking(metadata, type, channel) { return metadata.is_thinking_preamble_message || type === "thoughts" || metadata.reasoning_status || channel === "analysis"; }
 function thinkingLabel(metadata, channel) { return metadata.reasoning_status || (channel === "analysis" ? "Analysis" : "Thinking"); }
-function oauthCapsule(raw) { const href = findFirstUrl(raw); return { kind: "oauth", label: "Sign-in / OAuth", raw, text: "", action: href ? { href, label: "Open sign-in" } : null }; }
+function oauthCapsule(raw) { const href = findFirstUrl(raw); return { kind: "oauth", label: "Sign-in / OAuth", raw: compactEventRaw(raw), text: "", action: href ? { href, label: "Open sign-in" } : null }; }
 function looksLikeOAuth(raw) { try { return /oauth|sign.?in|login|authorization/i.test(JSON.stringify(raw).slice(0, 3000)); } catch { return false; } }
 function isDedupNoise(raw, type, metadata) { return !metadata?.reasoning_status && DEDUP_NOISE.test(String(type || raw?.type || "")); }

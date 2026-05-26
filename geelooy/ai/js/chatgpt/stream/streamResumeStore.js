@@ -6,6 +6,8 @@ const EVENT = "awtsmoos-active-streams";
 const DONE_STATUSES = new Set(["done", "stopped", "error"]);
 const DONE_TTL_MS = 15000;
 const ACTIVE_TTL_MS = 1000 * 60 * 30;
+const MAX_STREAM_ROWS = 80;
+const MAX_STORAGE_CHARS = 512000;
 
 /**
  * B"H — A durable ledger for living extension/relay streams.
@@ -14,7 +16,7 @@ const ACTIVE_TTL_MS = 1000 * 60 * 30;
  * ghosts keep the sidebar saying "streaming" after the source has finished.
  */
 export class StreamResumeStore {
-  constructor(storage = localStorage, tabStorage = sessionStorage) {
+  constructor(storage = safeStorage("localStorage"), tabStorage = safeStorage("sessionStorage")) {
     this.storage = storage;
     this.tabStorage = tabStorage;
     this.tabId = getTabId(tabStorage);
@@ -36,7 +38,7 @@ export class StreamResumeStore {
     if (!entry?.id) return;
     const next = this.readClean().filter(item => item.id !== entry.id);
     next.push({ status: "streaming", tabId: this.tabId, ...entry, updatedAt: Date.now() });
-    this.write(this.clean(next).slice(-200));
+    this.write(this.clean(next).slice(-MAX_STREAM_ROWS));
   }
 
   patch(id, patch) {
@@ -73,8 +75,19 @@ export class StreamResumeStore {
   }
 
   readRaw() {
-    try { return JSON.parse(this.storage.getItem(KEY) || "[]").filter(item => item?.id); }
-    catch { return []; }
+    try {
+      const text = this.storage.getItem(KEY) || "[]";
+      if (text.length > MAX_STORAGE_CHARS) {
+        this.storage.removeItem?.(KEY);
+        return [];
+      }
+      const parsed = JSON.parse(text);
+      return Array.isArray(parsed) ? parsed.filter(item => item?.id).slice(-MAX_STREAM_ROWS) : [];
+    }
+    catch {
+      try { this.storage.removeItem?.(KEY); } catch {}
+      return [];
+    }
   }
 
   readClean() {
@@ -136,5 +149,37 @@ function announce(items) {
   try { globalThis.dispatchEvent?.(new CustomEvent(EVENT, { detail: { streams: items } })); } catch {}
 }
 
-export const streamResumeStore = new StreamResumeStore();
+function safeStorage(key) {
+  try {
+    const store = globalThis?.[key];
+    if (store?.getItem && store?.setItem) return store;
+  } catch {}
+  return {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {}
+  };
+}
+
+function shouldUsePageStreamStore() {
+  try {
+    return !(globalThis.chrome?.runtime?.id && globalThis.__awtsmoosBackgroundBridgeActive);
+  } catch {
+    return true;
+  }
+}
+
+export const streamResumeStore = shouldUsePageStreamStore()
+  ? new StreamResumeStore()
+  : {
+      list: () => [],
+      active: () => [],
+      upsert: () => {},
+      patch: () => {},
+      claim: () => {},
+      release: () => {},
+      remove: () => {},
+      prune: () => {},
+      removeStaleForConversation: () => {}
+    };
 export const ACTIVE_STREAMS_EVENT = EVENT;

@@ -30,8 +30,13 @@ export const DESERT_TEST_WORLD = {
         height: 1.5,
         speed: 120,
         interactable: false,
-        path: "https://models-3122d.web.app/chossid.glb",
-        position: { x: 0, y: 5, z: 0 }
+        path: "https://models-3122d.web.app/chossid.glb?k=2",
+        position: { x: 0, y: 5, z: 0 },
+        on: {
+          ready(n) {
+            if (n && typeof n.updateAppearance === "function") n.updateAppearance();
+          }
+        }
       }
     ],
     ProceduralBuilding: [

@@ -40,6 +40,8 @@ export async function getConversations(mFetch, { offset = 0, limit = 27 } = {}) 
     firstIds: Array.isArray(convo?.items) ? convo.items.slice(0, 5).map(item => item?.id || item?.conversation_id || item?.title) : []
   };
   console.log("B\"H legacy getConversations response JSON", JSON.stringify(responseSummary));
-  console.log("B\"H legacy getConversations raw", convo);
+  // B"H: never log the full raw response here. DevTools can retain the
+  // entire conversations payload and turn a simple sidebar refresh into a
+  // memory altar of pinned objects when the extension bridge is active.
   return convo;
 }

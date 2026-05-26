@@ -45,7 +45,7 @@ static LRESULT CALLBACK AwtsWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
   return DefWindowProc(hwnd, msg, wp, lp);
 }
 
-static void awts_prepare_browser_shell_state(AwtsBrowserState* state, int smokeMode) {
+static void awts_prepare_browser_shell_state(AwtsBrowserState* state, int smokeMode, const char* startUrl) {
   memset(state, 0, sizeof(*state));
   state->running = 1;
   state->smokeMode = smokeMode;
@@ -54,14 +54,65 @@ static void awts_prepare_browser_shell_state(AwtsBrowserState* state, int smokeM
   state->height = 540;
   state->focusedAddress = 1;
   strncpy(state->statusText, "Merkava shell ready", sizeof(state->statusText) - 1);
-  awts_browser_set_url(state, "http://localhost:8080");
+  awts_browser_set_url(state, startUrl && *startUrl ? startUrl : "http://localhost:8080");
   awts_scan_webgl(&state->webgl, AWTS_SHELL_JS);
   awts_browser_navigate(state);
   awts_browser_navigate(state);
 }
 
+static int awts_launch_render_test(const char* url) {
+  awts_prepare_browser_shell_state(&g_state, 1, url);
+  HINSTANCE hInst = GetModuleHandle(NULL);
+  WNDCLASS wc;
+  ZeroMemory(&wc, sizeof(wc));
+  wc.style = CS_OWNDC;
+  wc.lpfnWndProc = AwtsWndProc;
+  wc.hInstance = hInst;
+  wc.lpszClassName = "AwtsMerkavaNativeBrowserRenderTest";
+  wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+  RegisterClass(&wc);
+
+  g_hwnd = CreateWindowEx(0, wc.lpszClassName, "B'H Merkava Browser Render Test", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, g_state.width, g_state.height, NULL, NULL, hInst, NULL);
+  if (!g_hwnd) { printf("render-test create_window_failed=%lu\n", GetLastError()); return 11; }
+  awts_browser_update_window_title(g_hwnd, &g_state);
+
+  HDC dc = GetDC(g_hwnd);
+  PIXELFORMATDESCRIPTOR pfd;
+  ZeroMemory(&pfd, sizeof(pfd));
+  pfd.nSize = sizeof(pfd);
+  pfd.nVersion = 1;
+  pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+  pfd.iPixelType = PFD_TYPE_RGBA;
+  pfd.cColorBits = 32;
+  pfd.cDepthBits = 24;
+  pfd.iLayerType = PFD_MAIN_PLANE;
+  int pf = ChoosePixelFormat(dc, &pfd);
+  if (!pf || !SetPixelFormat(dc, pf, &pfd)) { printf("render-test pixel_format_failed=%lu\n", GetLastError()); return 12; }
+  HGLRC rc = wglCreateContext(dc);
+  if (!rc || !wglMakeCurrent(dc, rc)) { printf("render-test opengl_context_failed=%lu\n", GetLastError()); return 13; }
+  awts_font_init(&g_state, dc);
+
+  printf("render-test-start url=%s pageKind=%s webgl.drawArrays=%u\n", g_state.url, g_state.pageKind, g_state.webgl.drawArrays);
+  printf("opengl_vendor=%s\n", glGetString(GL_VENDOR));
+  printf("opengl_renderer=%s\n", glGetString(GL_RENDERER));
+  printf("opengl_version=%s\n", glGetString(GL_VERSION));
+  for (int i = 0; i < 8; i++) {
+    awts_draw_native_browser(&g_state);
+    SwapBuffers(dc);
+    g_state.frames++;
+    Sleep(16);
+  }
+  printf("render-test-end frames=%d url=%s pageKind=%s status=%s sourceBytes=%u preview=%.160s\n", g_state.frames, g_state.url, g_state.pageKind, g_state.statusText, g_state.pageSourceBytes, g_state.pagePreview);
+  awts_font_destroy(&g_state);
+  wglMakeCurrent(NULL, NULL);
+  if (rc) wglDeleteContext(rc);
+  ReleaseDC(g_hwnd, dc);
+  DestroyWindow(g_hwnd);
+  return 0;
+}
+
 int awts_launch_browser(const char* bytecodePath, int smokeMode) {
-  awts_prepare_browser_shell_state(&g_state, smokeMode);
+  awts_prepare_browser_shell_state(&g_state, smokeMode, NULL);
   char resolvedBytecode[MAX_PATH];
   snprintf(resolvedBytecode, sizeof(resolvedBytecode), "%s", bytecodePath);
   if (!awts_load_merkava_file(&g_state, resolvedBytecode) && !strchr(bytecodePath, '\\') && !strchr(bytecodePath, '/')) {
@@ -168,6 +219,8 @@ int main(int argc, char** argv) {
   if (argc > 1 && awts_ends_with(argv[1], ".js")) return awts_analyze_js(argv[1], 0);
   if (argc > 1 && (awts_ends_with(argv[1], ".html") || awts_ends_with(argv[1], ".htm"))) return awts_analyze_html(argv[1], 0);
 
+  if (argc > 2 && !strcmp(argv[1], "--render-test")) return awts_launch_render_test(argv[2]);
+  if (argc > 2 && !strcmp(argv[1], "--render-test")) return awts_launch_render_test(argv[2]);
   if (argc > 2 && !strcmp(argv[1], "--nav-test")) {
     AwtsBrowserState test;
     memset(&test, 0, sizeof(test));

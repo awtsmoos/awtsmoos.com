@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const { ROOT, assert, test } = require("./assert.cjs");
 
-const AUDIT_DIRS = ["js/app", "js/automation", "js/chatgpt/stream", "js/chatgpt/transport", "js/services", "relay/split-browser", "tests/harness"];
+const AUDIT_DIRS = ["js/app", "js/automation", "js/chatgpt/stream", "js/chatgpt/transport", "js/services", "js/render", "relay/split-browser", "tests/harness"];
 const AUDIT_FILES = ["index.js", "app-main.js", "AwtsmoosGPTify.js", "styles.css"];
 const EXT_ROOT = path.resolve(ROOT, "../scripts/tricks/extensions/server");
 

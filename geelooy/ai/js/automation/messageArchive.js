@@ -2,6 +2,8 @@
 const DB_NAME = "BH_awtsmoos_ai_automation_archive";
 const STORE = "messages";
 const FALLBACK_KEY = "BH_awtsmoos_ai_automation_archive_fallback_v1";
+const MAX_ARCHIVE_RECORDS = 500;
+const MAX_ARCHIVE_TEXT_CHARS = 24000;
 let fallbackMemory = [];
 
 /**
@@ -13,21 +15,22 @@ export class AutomationArchiveStore {
 
   async add(entry = {}) {
     if (!entry.text) return null;
-    const record = { id: `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`, createdAt: Date.now(), ...entry };
+    const record = compactArchiveRecord({ id: `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`, createdAt: Date.now(), ...entry });
     if (!hasIndexedDb()) return fallbackAdd(this.storage, record);
     const db = await openDb();
     await txStore(db, "readwrite").add(record);
     return record;
   }
 
-  async list(limit = 500) {
+  async list(limit = MAX_ARCHIVE_RECORDS) {
     if (!hasIndexedDb()) return fallbackList(this.storage, limit);
     const db = await openDb();
     const all = await request(txStore(db, "readonly").getAll());
-    return all.sort((a, b) => b.createdAt - a.createdAt).slice(0, limit);
+    const sorted = all.sort((a, b) => b.createdAt - a.createdAt).slice(0, Math.min(limit, MAX_ARCHIVE_RECORDS));
+    return sorted.map(compactArchiveRecord);
   }
 
-  async exportJson() { return JSON.stringify(await this.list(5000), null, 2); }
+  async exportJson() { return JSON.stringify(await this.list(MAX_ARCHIVE_RECORDS), null, 2); }
 
   async clear() {
     if (!hasIndexedDb()) return fallbackWrite(this.storage, []);
@@ -47,9 +50,25 @@ function fallbackList(storage, limit = 500) {
 }
 
 function fallbackAdd(storage, record) {
-  const next = [record, ...fallbackList(storage, 5000)].slice(0, 5000);
+  const next = [compactArchiveRecord(record), ...fallbackList(storage, MAX_ARCHIVE_RECORDS)].slice(0, MAX_ARCHIVE_RECORDS);
   fallbackWrite(storage, next);
   return record;
+}
+
+/**
+ * B"H — trims archived replies before they harden into browser memory.
+ *
+ * The archive is for reuse, not for imprisoning every thunderous token forever.
+ * Long assistant text is sliced with an explicit marker, preserving usefulness
+ * while preventing storage from becoming a hidden heap of old lightning.
+ *
+ * @param {object} record Archive record.
+ * @returns {object} Compact archive record.
+ */
+function compactArchiveRecord(record = {}) {
+  const text = String(record.text || "");
+  if (text.length <= MAX_ARCHIVE_TEXT_CHARS) return record;
+  return { ...record, text: `${text.slice(0, MAX_ARCHIVE_TEXT_CHARS)}\n\n[Awtsmoos archive trimmed ${text.length - MAX_ARCHIVE_TEXT_CHARS} chars]`, trimmed: true, originalTextLength: text.length };
 }
 
 function fallbackWrite(storage, items) {

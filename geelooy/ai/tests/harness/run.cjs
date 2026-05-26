@@ -15,6 +15,7 @@ const modules = {
   relay: "./relay.cjs",
   browser: "./browserDebug.cjs",
   client: "./browserClientSim.cjs",
+  memory: "./memoryRetention.cjs",
   static: "./staticAudit.cjs",
   packaging: "./extensionPackaging.cjs"
 };
@@ -43,7 +44,7 @@ async function main() {
 }
 
 function printMenu() {
-  console.log(`B"H Awtsmoos AI harness menu\n\nAvailable:\n  all        run everything\n  css        CSS cascade, entrypoint parity, extension handler counts\n  extension extension background stream ledger stress\n  stores     durable stream store, tab identity, automation run store\n  reload     full-history reload before stream resume ordering\n  stream     one assistant record per live stream\n  liveUi     stable streaming text selection and sidebar stream ghosts\n  background extension-owned automation after page closes\n  thoughts   thought text stands alone; following actions group\n  thoughtDom opened thought DOM does not churn during stream\n  graph      automation graph engine and archive fallback\n  relay      local Node relay multi-stream/body/redirect test\n  browser    URL rewrite, login proxy routing, debug command queue\n  client     VM browser-client simulation of injected scripts\n  static     duplicate imports, stale handlers, TODO-like regression audit\n\nExamples:\n  node tests/harness/run.cjs all\n  AWTSMOOS_AI_TEST_ROUNDS=5 node tests/harness/run.cjs all\n`);
+  console.log(`B"H Awtsmoos AI harness menu\n\nAvailable:\n  all        run everything\n  css        CSS cascade, entrypoint parity, extension handler counts\n  extension extension background stream ledger stress\n  stores     durable stream store, tab identity, automation run store\n  reload     full-history reload before stream resume ordering\n  stream     one assistant record per live stream\n  liveUi     stable streaming text selection and sidebar stream ghosts\n  background extension-owned automation after page closes\n  thoughts   thought text stands alone; following actions group\n  thoughtDom opened thought DOM does not churn during stream\n  graph      automation graph engine and archive fallback\n  relay      local Node relay multi-stream/body/redirect test\n  browser    URL rewrite, login proxy routing, debug command queue\n  client     VM browser-client simulation of injected scripts\n  memory     raw-payload memory-retention boundaries\n  static     duplicate imports, stale handlers, TODO-like regression audit\n\nExamples:\n  node tests/harness/run.cjs all\n  AWTSMOOS_AI_TEST_ROUNDS=5 node tests/harness/run.cjs all\n`);
 }
 
 main().catch(error => { console.error(error.stack || error); process.exit(1); });

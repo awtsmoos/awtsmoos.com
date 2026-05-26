@@ -158,6 +158,8 @@ fs.writeFileSync(path.join(outDir, "merkavaapp-launcher.c"), buildLauncherC());
 fs.writeFileSync(path.join(outDir, "merkava-runtime-report.json"), JSON.stringify(report, null, 2));
 fs.writeFileSync(path.join(outDir, "diagnostic-render-model.json"), JSON.stringify(rendererModel, null, 2));
 fs.writeFileSync(path.join(outDir, "executor-render-stream.txt"), executorRender.stream);
+fs.copyFileSync(path.join(here, "core", "compileFetchedHtmlToRenderStream.mjs"), path.join(outDir, "compileFetchedHtmlToRenderStream.mjs"));
+fs.copyFileSync(path.join(here, "core", "compileFetchedHtmlToRenderStream.mjs"), path.join(outDir, "compileFetchedHtmlToRenderStream.mjs"));
 fs.writeFileSync(path.join(nativeDir, "merkava-runtime-report.h"), [
   '/* B\"H generated */',
   `#define AWTS_MERKAVA_REPORT_JSON ${cStringLiteral(JSON.stringify(report, null, 2))}`,

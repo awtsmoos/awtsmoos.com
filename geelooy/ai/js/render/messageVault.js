@@ -1,6 +1,7 @@
 //B"H
 const DB_NAME = "BH_ai_message_vault_v1";
 const STORE = "messages";
+const MAX_MEMORY_ROWS = 160;
 
 /**
  * A tiny IndexedDB vault for heavy message bodies.
@@ -13,7 +14,7 @@ export class MessageVault {
   }
 
   async put(id, payload) {
-    this.memory.set(id, payload);
+    this.remember(id, payload);
     const db = await this.dbPromise;
     if (!db) return;
     await txRequest(db, "readwrite", store => store.put({ id, payload, savedAt: Date.now() }));
@@ -24,8 +25,24 @@ export class MessageVault {
     const db = await this.dbPromise;
     if (!db) return null;
     const row = await txRequest(db, "readonly", store => store.get(id));
-    if (row?.payload) this.memory.set(id, row.payload);
+    if (row?.payload) this.remember(id, row.payload);
     return row?.payload || null;
+  }
+
+  /**
+   * B"H — keeps the hot vault small while IndexedDB carries the colder scrolls.
+   *
+   * The Map is only a near-memory cache. Once it grows beyond the visible window
+   * neighborhood, oldest keys are released so a long chat cannot pin every past
+   * record in RAM while `/ai/` is merely trying to breathe.
+   *
+   * @param {string} id Message id.
+   * @param {object} payload Compact snapshot payload.
+   * @returns {void}
+   */
+  remember(id, payload) {
+    this.memory.set(id, payload);
+    while (this.memory.size > MAX_MEMORY_ROWS) this.memory.delete(this.memory.keys().next().value);
   }
 
   open() {
