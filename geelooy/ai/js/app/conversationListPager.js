@@ -27,8 +27,13 @@ export class ConversationListPager {
 
   async render(list) {
     this.boundList = list;
-    list.replaceChildren(this.makeNotice("is-loading", "Loading conversations…"));
-    const response = await this.controller.loadConversationListWithRetries(list, { offset: this.offset, limit: this.limit });
+    const loadingGate = this.makeNotice("is-loading", "Loading conversations…");
+    list.replaceChildren(loadingGate);
+    const frozenTimer = setTimeout(() => {
+      if (loadingGate.isConnected) loadingGate.textContent = "Still loading conversations… checking ChatGPT transport.";
+    }, 3500);
+    try {
+      const response = await this.controller.loadConversationListWithRetries(list, { offset: this.offset, limit: this.limit });
     const items = Array.isArray(response?.items) ? response.items : [];
     if (Number.isFinite(response?.total)) this.total = response.total;
     list.replaceChildren();
@@ -38,6 +43,9 @@ export class ConversationListPager {
     if (!items.length) this.controller.renderEmptyList(list, response);
     if (this.hasNext(items)) list.appendChild(this.makeGate("next", items.length));
     this.applyBadges(list);
+    } finally {
+      clearTimeout(frozenTimer);
+    }
   }
 
   refreshLiveRows() {
@@ -84,7 +92,6 @@ export class ConversationListPager {
 
   applyBadges(list = this.boundList) {
     if (!list) return;
-    streamResumeStore.prune?.();
     const activeStreams = new Map(streamResumeStore.list().filter(s => s.conversationId && isLivingStream(s)).map(s => [s.conversationId, s]));
     const activeRuns = new Map(automationRunStore.list().filter(run => run.conversationId && !["off", "done", "stopped", "error"].includes(run.status)).map(run => [run.conversationId, run]));
     list.querySelectorAll("li[data-id]").forEach(item => {

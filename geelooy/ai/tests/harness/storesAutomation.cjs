@@ -28,6 +28,13 @@ async function run() {
     assert(s2.list()[0].cursor === 7, "stream cursor must survive a new tab store");
     assert(s1.tabId !== s2.tabId, "two tab stores need different tab ids");
     assert(s2.list()[0].claimedBy === s1.tabId, "claim metadata must be visible cross-tab");
+    const passiveEventsBefore = events.length;
+    s2.prune();
+    s2.list();
+    s2.active();
+    assert(events.length === passiveEventsBefore, "passive stream reads and cleanup must not re-announce into sidebar listeners", { before: passiveEventsBefore, after: events.length });
+    s2.upsert({ id: "stream-a", cursor: 8, conversationId: "c1" });
+    assert(events.length === passiveEventsBefore + 1, "real stream mutations should still announce once", { before: passiveEventsBefore, after: events.length });
     const runStore = new AutomationRunStore(makeStorage());
     const sends = [];
     const pipeline = new AutomationPipeline({

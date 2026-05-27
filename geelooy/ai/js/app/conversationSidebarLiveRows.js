@@ -13,7 +13,6 @@ import { automationRunStore } from "../automation/runStore.js";
  */
 export function liveConversationRows() {
   const byId = new Map();
-  streamResumeStore.prune?.();
   for (const stream of streamResumeStore.active()) {
     const id = stream.conversationId || stream.surfaceConversationId;
     if (!id) continue;

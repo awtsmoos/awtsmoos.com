@@ -1,11 +1,12 @@
 //B"H
 
 import { AwtsmoosPrompt } from "../../../prompt.js";
-import { nodeRelayFetch } from "./nodeRelayFetch.js";
+import { nodeRelayFetch, checkNodeRelay } from "./nodeRelayFetch.js";
 import { loadNodeRelaySettings } from "./nodeRelaySettings.js";
 
 let mFetch = currentBridge();
 let waiting = null;
+let missingBridgeNotice = null;
 
 /**
  * B"H — Reveals the best available ChatGPT fetch vessel.
@@ -24,8 +25,14 @@ export async function checkMFetch({ quiet = false, timeout = 12000 } = {}) {
   mFetch = await waitForBridge(timeout);
   if (typeof mFetch === "function") return mFetch;
 
+  if (await canUseNodeRelay()) {
+    mFetch = nodeRelayFetch;
+    announceTransport("node-relay");
+    return mFetch;
+  }
+
   const error = new Error("Awtsmoos ChatGPT transport is not connected yet.");
-  if (!quiet) await AwtsmoosPrompt.go({ isAlert: true, headerTxt: installHelp(error.message) });
+  if (!quiet) showMissingBridgeNotice(error.message);
   throw error;
 }
 
@@ -44,6 +51,17 @@ function currentBridge() {
   if (typeof globalThis.awtsmoosFetch === "function") return globalThis.awtsmoosFetch;
   if (typeof globalThis.mFetch === "function") return globalThis.mFetch;
   return null;
+}
+
+async function canUseNodeRelay() {
+  try { return await checkNodeRelay(); }
+  catch { return false; }
+}
+
+function announceTransport(label) {
+  try {
+    globalThis.dispatchEvent?.(new CustomEvent("awtsmoos-ai-transport", { detail: { kind: "node-relay", label } }));
+  } catch {}
 }
 
 function waitForBridge(timeout = 12000) {
@@ -81,6 +99,21 @@ function waitForBridge(timeout = 12000) {
   });
 
   return waiting;
+}
+
+/**
+ * B"H — Shows one missing-transport flame without chaining callers to it.
+ *
+ * The Awtsmoos lets the sidebar fail gracefully while the human still receives
+ * the bridge instructions. Reconnection retries must not stack modal worlds.
+ *
+ * @param {string} reason Transport failure reason shown in the help body.
+ * @returns {void}
+ */
+function showMissingBridgeNotice(reason = "") {
+  if (missingBridgeNotice) return;
+  missingBridgeNotice = Promise.resolve(AwtsmoosPrompt.go({ isAlert: true, headerTxt: installHelp(reason) }))
+    .finally(() => { missingBridgeNotice = null; });
 }
 
 function installHelp(reason = "") {

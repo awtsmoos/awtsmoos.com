@@ -3,8 +3,8 @@
 const KEY = "BH_awtsmoos_ai_node_relay_v1";
 
 export const DEFAULT_NODE_RELAY_SETTINGS = Object.freeze({
-  enabled: false,
-  url: "http://127.0.0.1:38488"
+  enabled: true,
+  url: "http://127.0.0.1:38487"
 });
 
 /**
@@ -17,8 +17,16 @@ export const DEFAULT_NODE_RELAY_SETTINGS = Object.freeze({
  * @returns {{enabled:boolean,url:string}} Current relay settings.
  */
 export function loadNodeRelaySettings() {
-  try { return normalize(JSON.parse(localStorage.getItem(KEY) || "{}")); }
-  catch { return { ...DEFAULT_NODE_RELAY_SETTINGS }; }
+  try {
+    const raw = localStorage.getItem(KEY);
+    const settings = normalize(JSON.parse(raw || "{}"));
+    if (raw && shouldHealStoredSettings(JSON.parse(raw || "{}"), settings)) {
+      localStorage.setItem(KEY, JSON.stringify(settings));
+    }
+    return settings;
+  } catch {
+    return { ...DEFAULT_NODE_RELAY_SETTINGS };
+  }
 }
 
 /**
@@ -32,6 +40,13 @@ export function saveNodeRelaySettings(next = {}) {
 }
 
 function normalize(value = {}) {
-  const url = String(value.url || DEFAULT_NODE_RELAY_SETTINGS.url).replace(/\/+$/, "");
-  return { enabled: Boolean(value.enabled), url };
+  const rawUrl = String(value.url || DEFAULT_NODE_RELAY_SETTINGS.url).replace(/\/+$/, "");
+  const staleUrl = /:38488$/.test(rawUrl);
+  const url = staleUrl ? DEFAULT_NODE_RELAY_SETTINGS.url : rawUrl;
+  const enabled = value.enabled === false && !staleUrl ? false : DEFAULT_NODE_RELAY_SETTINGS.enabled;
+  return { enabled, url };
+}
+
+function shouldHealStoredSettings(raw = {}, settings = DEFAULT_NODE_RELAY_SETTINGS) {
+  return raw.enabled !== settings.enabled || String(raw.url || "").replace(/\/+$/, "") !== settings.url;
 }

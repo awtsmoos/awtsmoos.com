@@ -209,7 +209,19 @@ async function chromeVersion(port = DEBUG_PORT) {
   return { ok: true, ...version };
 }
 function wsClient(raw) { return new Promise((resolve, reject) => { const u = new URL(raw), key = randomBytes(16).toString("base64"), socket = net.connect(Number(u.port), u.hostname); let ready = false, buf = Buffer.alloc(0), id = 0, pending = new Map(); socket.on("connect", () => socket.write(`GET ${u.pathname}${u.search} HTTP/1.1\r\nHost: ${u.host}\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: ${key}\r\nSec-WebSocket-Version: 13\r\n\r\n`)); socket.on("data", d => { buf = Buffer.concat([buf, d]); if (!ready) { const n = buf.indexOf("\r\n\r\n"); if (n < 0) return; ready = true; buf = buf.slice(n + 4); resolve({ send: (m, p) => sendWs(socket, pending, ++id, m, p), close: () => socket.end() }); } buf = consumeWs(buf, pending); }); socket.on("error", reject); }); }
-function sendWs(socket, pending, id, method, params) { socket.write(wsFrame(JSON.stringify({ id, method, params }))); return new Promise((resolve, reject) => pending.set(id, { resolve, reject })); }
+function sendWs(socket, pending, id, method, params) {
+  socket.write(wsFrame(JSON.stringify({ id, method, params })));
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      pending.delete(id);
+      reject(new Error(`Chrome DevTools timed out during ${method}`));
+    }, 3500);
+    pending.set(id, {
+      resolve: value => { clearTimeout(timer); resolve(value); },
+      reject: error => { clearTimeout(timer); reject(error); }
+    });
+  });
+}
 function consumeWs(buf, pending) { while (buf.length >= 2) { const len = buf[1] & 127, h = len === 126 ? 4 : len === 127 ? 10 : 2, size = len === 126 ? buf.readUInt16BE(2) : len === 127 ? Number(buf.readBigUInt64BE(2)) : len; if (buf.length < h + size) break; const msg = JSON.parse(buf.slice(h, h + size).toString("utf8")); if (pending.has(msg.id)) { const p = pending.get(msg.id); pending.delete(msg.id); msg.error ? p.reject(new Error(msg.error.message)) : p.resolve(msg.result || {}); } buf = buf.slice(h + size); } return buf; }
 function wsFrame(text) { const body = Buffer.from(text), mask = randomBytes(4), head = body.length < 126 ? Buffer.from([129, 128 | body.length]) : Buffer.from([129, 254, body.length >> 8, body.length & 255]), out = Buffer.alloc(body.length); for (let i = 0; i < body.length; i++) out[i] = body[i] ^ mask[i % 4]; return Buffer.concat([head, mask, out]); }
 function cleanHeaders(input) { const h = {}; for (const [k, v] of Object.entries(input || {})) if (!/^(host|origin|cookie|content-length)$/i.test(k)) h[k] = v; return h; }

@@ -22,7 +22,7 @@ export class StreamResumeStore {
     this.tabId = getTabId(tabStorage);
     this.migrateLegacy();
     installStorageWakeup(this);
-    this.prune();
+    this.prune({ announce: false });
   }
 
   list({ activeOnly = false } = {}) {
@@ -59,8 +59,20 @@ export class StreamResumeStore {
     this.write(this.readClean().filter(item => item.id !== id));
   }
 
-  prune() {
-    this.write(this.clean(this.readRaw()));
+  /**
+   * B"H - trims stream ghosts without summoning an event storm.
+   *
+   * The Awtsmoos lets a sidebar ask, "who is still alive?" without that very
+   * question becoming another thunderclap in the hallway. Active mutations
+   * still announce, but render-time housekeeping may stay silent.
+   *
+   * @param {{announce?:boolean}} options Cleanup announcement controls.
+   * @returns {Array<object>} The cleaned stream rows.
+   */
+  prune({ announce = false } = {}) {
+    const clean = this.clean(this.readRaw());
+    this.write(clean, { announce });
+    return clean;
   }
 
   removeStaleForConversation(conversationId, { keepRecentMs = 30000 } = {}) {
@@ -93,7 +105,7 @@ export class StreamResumeStore {
   readClean() {
     const raw = this.readRaw();
     const clean = this.clean(raw);
-    if (clean.length !== raw.length) this.write(clean);
+    if (clean.length !== raw.length) this.write(clean, { announce: false });
     return clean;
   }
 
@@ -106,9 +118,25 @@ export class StreamResumeStore {
     });
   }
 
-  write(items) {
-    try { this.storage.setItem(KEY, JSON.stringify(items)); } catch {}
-    announce(items);
+  /**
+   * B"H - writes the ledger once, announcing only real changes by request.
+   *
+   * When the same purified rows are written again, no event should rise from
+   * the deep. Otherwise a listener can prune, write, announce, and call itself
+   * through a mirror until the tab burns all its breath.
+   *
+   * @param {Array<object>} items Stream rows to persist.
+   * @param {{announce?:boolean}} options Whether to emit the live-stream event.
+   * @returns {void}
+   */
+  write(items, { announce: shouldAnnounce = true } = {}) {
+    let changed = true;
+    try {
+      const text = JSON.stringify(items);
+      changed = this.storage.getItem(KEY) !== text;
+      if (changed) this.storage.setItem(KEY, text);
+    } catch {}
+    if (shouldAnnounce && changed) announce(items);
   }
 
   migrateLegacy() {

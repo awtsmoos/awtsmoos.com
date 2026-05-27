@@ -127,8 +127,8 @@ class AwtsmoosGPTify {
   }
 }
 
-async function getConversations(options) {
-  const fetcher = await checkMFetch();
+async function getConversations(options = {}) {
+  const fetcher = await checkMFetch({ timeout: options.transportTimeout ?? 3000 });
   return await getLegacyConversations(fetcher, options);
 }
 

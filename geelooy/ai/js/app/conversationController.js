@@ -40,6 +40,7 @@ export class ConversationController {
           : null;
       } catch (error) {
         lastError = error;
+        if (isMissingTransportError(error)) break;
         list.innerHTML = `<li class="is-loading">Reconnecting conversations… ${attempt + 1}/6</li>`;
         await new Promise(resolve => setTimeout(resolve, 400 * (attempt + 1)));
       }
@@ -201,6 +202,10 @@ export class ConversationController {
     const failure = this.renderer.add({ message: { author: { role: "assistant" }, content: { parts: [text] } } });
     this.renderer.pushTransport(failure.shell, { type: "network_error", error: error?.stack || String(error), body });
   }
+}
+
+function isMissingTransportError(error) {
+  return /transport is not connected/i.test(error?.message || String(error || ""));
 }
 
 function isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation) {
