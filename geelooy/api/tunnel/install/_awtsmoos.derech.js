@@ -22,7 +22,7 @@ module.exports = {
     await $i.use("linux", async () => {
       return sendText(
         $i,
-        clean(readTunnelDownload("linux.sh")),
+        clean(readTunnelDownload("unix.sh")),
         "text/plain; charset=utf-8"
       );
     });
@@ -30,7 +30,7 @@ module.exports = {
     await $i.use("unix", async () => {
       return sendText(
         $i,
-        clean(readTunnelDownload("linux.sh")),
+        clean(readTunnelDownload("unix.sh")),
         "text/plain; charset=utf-8"
       );
     });
