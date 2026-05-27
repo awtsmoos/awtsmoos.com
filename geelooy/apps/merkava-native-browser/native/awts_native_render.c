@@ -116,6 +116,8 @@ static int draw_executor_stream(AwtsBrowserState* state) {
   float canvasX = 0.0f, canvasY = 0.0f, canvasW = 0.0f, canvasH = 0.0f;
   int canvasSeen = 0;
   int webglDraws = 0;
+  int boxesDrawn = 0;
+  int textsDrawn = 0;
   for (char* line = copy; line && *line;) {
     char* next = strchr(line, '\n');
     if (next) *next++ = 0;
@@ -135,18 +137,24 @@ static int draw_executor_stream(AwtsBrowserState* state) {
       float h = atof(d) * scaleY;
       rect(x, y, w, h, r, g, blue);
       outline(x, y, w, h, 0.70f, 0.72f, 0.78f);
+      boxesDrawn++;
       if (!strcmp(e, "#102038")) { canvasSeen = 1; canvasX = x; canvasY = y; canvasW = w; canvasH = h; }
     } else if (!strcmp(kind, "TEXT")) {
       float r, g, blue; hex_color(d, &r, &g, &blue);
       awts_draw_text(state, ox + atof(a) * scaleX, oy + atof(b) * scaleY, c, r, g, blue);
+      textsDrawn++;
     } else if (!strcmp(kind, "WEBGL")) {
       if (strstr(c, "drawArrays")) webglDraws++;
     }
     line = next;
   }
   if (!state->loggedExecutorRender) {
+    GLenum err = glGetError();
     printf("awts-render-decision route=executor-stream result=drawn url=%s pageKind=%s streamBytes=%u canvasSeen=%d webglDraws=%d\n",
       state->url, state->pageKind, (unsigned int)strlen(stream), canvasSeen, webglDraws);
+    printf("awts-opengl-render-stream-draw source=%s url=%s pageKind=%s boxes=%d texts=%d glError=%u\n",
+      !strcmp(state->pageKind, "network-executor-render-stream") ? "network-executor-render-stream" : "merkava-bytecode-render-stream",
+      state->url, state->pageKind, boxesDrawn, textsDrawn, (unsigned int)err);
     fflush(stdout);
     state->loggedExecutorRender = 1;
   }

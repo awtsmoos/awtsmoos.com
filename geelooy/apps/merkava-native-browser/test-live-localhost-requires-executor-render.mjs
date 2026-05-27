@@ -23,6 +23,14 @@ const stdout = execFileSync(exe, ['--render-test', url], {
 });
 
 assertHas(stdout, `render-test-start url=${url}`);
+assertHas(stdout, 'awts-executor-compile-ok');
+assertHas(stdout, 'dom=executor-owned');
+assertHas(stdout, 'cHost=native-bindings-only');
+assertHas(stdout, 'route=network-executor-render-stream reason=merkava-executor-compiled-html');
+assertHas(stdout, 'pageKind=network-executor-render-stream');
+assertHas(stdout, 'awts-render-decision route=executor-stream result=drawn');
+assertHas(stdout, 'awts-opengl-render-stream-draw source=network-executor-render-stream');
+assertHas(stdout, 'glError=0');
 assertNotHas(stdout, 'pageKind=network-html-dynamic');
 assertNotHas(stdout, 'route=dynamic-network result=drawn source=network-fetched');
 assertNotHas(stdout, 'preview=Awtsmoos |');
@@ -31,9 +39,5 @@ assertNotHas(stdout, 'onclick');
 assertNotHas(stdout, 'function ');
 assertNotHas(stdout, 'import(');
 assertNotHas(stdout, '�');
-assertHas(stdout, 'dom=executor-owned');
-assertHas(stdout, 'cHost=native-bindings-only');
-assertHas(stdout, 'awts-opengl-webgl-draw');
-assertHas(stdout, 'glError=0');
 
 console.log(JSON.stringify({ ok: true, kind: 'live-localhost-executor-render', url, stdout }, null, 2));
