@@ -52,6 +52,7 @@ export class MessageRenderer {
   }
 
   clear() {
+    this.purgeHotDom();
     this.records = [];
     this.byId.clear();
     this.userPinnedScroll = false;
@@ -60,6 +61,24 @@ export class MessageRenderer {
     this.liveFollowButton?.classList?.remove?.("is-visible");
     this.chatBox.innerHTML = "";
     this.renderWindow({ bottom: true });
+  }
+
+  /**
+   * B"H — tears old visible vessels out of RAM before another chat opens.
+   *
+   * DOM nodes, pending render flags, and hot vault rows are only for the current
+   * visible chat. The durable vault may keep cold snapshots, but switching chats
+   * must release attached shells immediately so hidden streams cannot keep a
+   * whole forest of thought panels breathing in memory.
+   */
+  purgeHotDom() {
+    for (const record of this.records) {
+      record.shell = null;
+      record.bubble = null;
+      record.renderedEventNodes = null;
+      record.refreshQueued = false;
+    }
+    this.vault?.purgeMemory?.();
   }
 
   add(input, { deferRender = false } = {}) {

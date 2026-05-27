@@ -7,15 +7,22 @@ import { getAuthToken } from "../auth/session.js";
  * imported lazily so conversation listing keeps the old bearer flow without
  * forcing the dev server to serve the large proof module during app boot.
  */
+let cachedSentinel = null;
+let cachedSentinelAt = 0;
+const SENTINEL_TTL_MS = 45000;
+
 export async function awtsmoosifyTokens(mFetch) {
+  if (cachedSentinel && Date.now() - cachedSentinelAt < SENTINEL_TTL_MS) return cachedSentinel;
   console.log("Getting tokens");
   var z = await getChatRequirements(mFetch);
   console.log("Chat", z);
   var p = await getEnforcementToken(z);
-  return {
+  cachedSentinel = {
     "openai-sentinel-chat-requirements-token": z.token,
     "openai-sentinel-proof-token": p
   };
+  cachedSentinelAt = Date.now();
+  return cachedSentinel;
 }
 
 export async function getChatRequirements(mFetch, authToken) {

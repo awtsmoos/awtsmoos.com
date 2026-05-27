@@ -3,7 +3,7 @@ import { storeEventPayload } from "./eventPayloadVault.js";
 import { vaultCollapsedPanels } from "./collapsedDomVault.js";
 import { reconcileThoughtInnerEvents } from "./thoughtInnerReconciler.js";
 import { toolHeadline } from "../event-ui/toolHeadline.js";
-import { usefulInnerEvents } from "./innerEventFilter.js";
+import { displayableThoughtInnerEvents } from "./thoughtInnerEvents.js";
 
 const LIVE_INNER_WINDOW = 80;
 
@@ -21,7 +21,7 @@ const LIVE_INNER_WINDOW = 80;
  * @returns {void}
  */
 export function renderThoughtEnvelopeNode(node, event = {}) {
-  const inner = usefulInnerEvents(realInnerEvents(Array.isArray(event.raw?.events) ? event.raw.events : []));
+  const inner = displayableThoughtInnerEvents(Array.isArray(event.raw?.events) ? event.raw.events : []);
   if (!inner.length) {
     node.remove();
     return;
@@ -32,10 +32,10 @@ export function renderThoughtEnvelopeNode(node, event = {}) {
   const card = ensureCard(node);
   const title = ensureTitle(card);
   const innerPanel = ensureInnerPanel(card);
-  title.textContent = thoughtGroupTitle(event, inner);
+  setTextIfChanged(title, thoughtGroupTitle(event, inner));
   card.dataset.thoughtEnvelopeKey = storeEventPayload(event, { stableKey: event.raw?.groupKey || node.dataset.eventKey });
   innerPanel.dataset.innerCount = String(inner.length);
-  ensureInnerSummary(innerPanel).textContent = `${inner.length} inner event${inner.length === 1 ? "" : "s"}`;
+  setTextIfChanged(ensureInnerSummary(innerPanel), `${inner.length} inner event${inner.length === 1 ? "" : "s"}`);
   reconcileLiveInnerWindow(innerPanel, inner);
   vaultCollapsedPanels(card);
 }
@@ -122,16 +122,6 @@ function syncMoreButton(panel, start, offset) {
   button.textContent = "Load earlier inner events";
 }
 
-function realInnerEvents(inner = []) {
-  return inner.filter(event => {
-    const raw = event?.raw || event || {};
-    const msg = raw.message || raw.input_message || raw.data?.message || raw;
-    const content = msg.content || raw.content || {};
-    const text = event?.text || raw.text || raw.dataNoJSON || content.text || (Array.isArray(content.parts) ? content.parts.join(" ") : "");
-    return Boolean(String(text || "").trim() || msg.id || raw.id || raw.type || raw.name || msg.recipient || raw.recipient || event?.action?.href);
-  });
-}
-
 function thoughtEnvelopeFingerprint(event = {}, inner = []) {
   const last = inner[inner.length - 1] || {};
   const raw = last.raw || last;
@@ -151,6 +141,11 @@ function thoughtGroupTitle(event = {}, inner = []) {
   const thought = [...inner].reverse().find(item => item?.kind === "thinking" && String(item.text || "").trim());
   if (thought) return `Thinking · ${String(thought.text).trim().slice(0, 80)}`;
   return event.label || "Thoughts";
+}
+
+function setTextIfChanged(node, value) {
+  const next = String(value || "");
+  if (node && node.textContent !== next) node.textContent = next;
 }
 
 function chromeButtons() {

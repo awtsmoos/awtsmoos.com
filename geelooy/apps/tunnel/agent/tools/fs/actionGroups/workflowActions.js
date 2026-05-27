@@ -18,6 +18,32 @@ const commandTreeAliases = [
   "snapshotBeforeAfter", "policyGuard", "destructiveIntentGate"
 ];
 
+function hasExecutableSteps(payload) {
+  return normalizeSteps(payload).length > 0;
+}
+
+function commandTreePayload(payload, mode) {
+  const dryMode = /DryRun$|Explain$|Visualize$/i.test(mode);
+  const validateMode = /Validate$/i.test(mode);
+  return {
+    ...payload,
+    action: mode,
+    dryRun: dryMode,
+    validateOnly: validateMode,
+    explainOnly: dryMode && /Explain$|Visualize$/i.test(mode)
+  };
+}
+
+/**
+ * B"H
+ * Chapter 4: The Awtsmoos set fire to the silent branch. A command tree may
+ * now either reveal a plan, validate a plan, or execute a plan; it may no
+ * longer smile with ok=true while carrying no living steps in its hands.
+ *
+ * @param {object} ctx Fresh tunnel action context.
+ * @param {Function} buildActions Builds child action handlers.
+ * @returns {object} Workflow and command-tree handlers.
+ */
 function buildWorkflowActions(ctx, buildActions) {
   const { config, payload, ws } = ctx;
 
@@ -29,12 +55,15 @@ function buildWorkflowActions(ctx, buildActions) {
   };
 
   const runTree = async (mode = payload.action || "actionBatch") => {
+    if (/Cancel$|Status$|Save$|Load$|Resume$|Replay$/i.test(mode)) {
+      return { ok: true, action: mode, state: "stateless-local-agent", message: "Pass steps/tree/workflow to commandTreeRun for execution." };
+    }
+    if (!hasExecutableSteps(payload)) {
+      return { ok: false, action: mode, error: "missing_steps", expected: "steps, actions, workflow, commandTree, tree, or do" };
+    }
     if (/Validate$/i.test(mode)) return { ok: true, action: mode, validated: true, plan: explainSteps(normalizeSteps(payload)) };
     if (/DryRun$|Explain$|Visualize$/i.test(mode)) return { ok: true, action: mode, dryRun: true, plan: explainSteps(normalizeSteps(payload)) };
-    if (/Cancel$|Status$|Save$|Load$|Resume$|Replay$/i.test(mode)) {
-      return { ok: true, action: mode, state: "stateless-local-agent", message: "Command tree persistence hooks are declared; pass a tree to commandTreeRun for execution." };
-    }
-    return await runActionBatch({ ...payload, action: mode }, runAction);
+    return await runActionBatch(commandTreePayload(payload, mode), runAction);
   };
 
   const actions = {
@@ -51,4 +80,4 @@ function buildWorkflowActions(ctx, buildActions) {
   return actions;
 }
 
-module.exports = { buildWorkflowActions, commandTreeAliases };
+module.exports = { buildWorkflowActions, commandTreeAliases, commandTreePayload };

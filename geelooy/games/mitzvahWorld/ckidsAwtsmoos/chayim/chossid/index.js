@@ -29,9 +29,17 @@ export default class Chossid extends Medabeir {
     
     constructor(options, olam) {
         options = options || {};
-        options.path = options.path || "https://models-3122d.web.app/chossid.glb?k=2";
+        options.path = null;
+        options.golem = options.golem || {
+            guf: { BoxGeometry: [1.1, 2.2, 1.1] },
+            toyr: { MeshLambertMaterial: { color: 0x1f6fff } }
+        };
+        options.height = options.height || 2.2;
+        options.radius = options.radius || 0.45;
+        options.speed = options.speed || 6;
         options.isSolid = false;
         super(options, olam);
+        this.speedScale = 1;
         
         // B"H: Spiritual Attributes
         this.baseStats = {
@@ -41,7 +49,7 @@ export default class Chossid extends Medabeir {
             health: 100,
             defense: 5,
             attack: 10,
-            speed: options.speed || 12
+            speed: options.speed || 6
         };
 
         this.currentStats = { ...this.baseStats };

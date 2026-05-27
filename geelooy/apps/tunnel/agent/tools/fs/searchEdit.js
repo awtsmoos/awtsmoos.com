@@ -100,11 +100,7 @@ async function grep(config, payload = {}) {
     };
   }
 
-  if (payload.page || payload.pageSize || payload.limit || payload.cursor) {
-    return await bulkSearch(config, { ...payload, action: payload.action || "grep" });
-  }
-
-  if (payload.page || payload.pageSize || payload.limit || payload.cursor) {
+  if (payload.usePaged === true || payload.cursor) {
     return await bulkSearch(config, { ...payload, action: payload.action || "grep" });
   }
 

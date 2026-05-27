@@ -1,4 +1,5 @@
 //B"H
+import { hasUsefulInnerEventFire } from "./eventRenderableGate.js";
 
 /**
  * Chapter 1: The Empty Husk Was Not Counted As A Soul.
@@ -15,13 +16,5 @@ export function usefulInnerEvents(inner = []) {
 }
 
 function isUsefulInnerEvent(event = {}) {
-  const raw = event.raw || event || {};
-  const msg = raw.message || raw.input_message || raw.data?.message || raw;
-  const content = msg.content || raw.content || {};
-  const text = String(event.text || raw.text || raw.dataNoJSON || content.text || (Array.isArray(content.parts) ? content.parts.join(" ") : "") || "").trim();
-  const label = String(event.label || raw.type || raw.event || content.content_type || "");
-  if (/stream complete|message_stream_complete|conversation-turn-complete/i.test(label + " " + text)) return false;
-  if (/Awtsmoos extension fetch timed out|extension fetch timed out|request error/i.test(text)) return false;
-  if (!text && !event.action?.href && !msg.recipient && !raw.recipient && !raw.name && !raw.id && !msg.id) return false;
-  return true;
+  return hasUsefulInnerEventFire(event);
 }

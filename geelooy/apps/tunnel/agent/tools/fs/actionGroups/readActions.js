@@ -39,6 +39,15 @@ async function selectStringFile(config, payload) {
   return { ok: true, action: "selectStringFile", pattern, count: results.length, results };
 }
 
+/**
+ * B"H
+ * Chapter 5: Duplicate gates melted from the wall. Each read action now stands
+ * once, with one name and one covenant, so the registry does not echo like a
+ * cave while the Awtsmoos asks it for a single living answer.
+ *
+ * @param {object} ctx Fresh tunnel action context.
+ * @returns {object} Read/search/outline action handlers.
+ */
 function buildReadActions(ctx) {
   const { config, payload } = ctx;
   const action = payload.action || "list";
@@ -52,33 +61,14 @@ function buildReadActions(ctx) {
     async stat() { return await statPath(config, payload); },
     async list() {
       const detailedItems = await listDirDetailed(config, p);
-      return {
-        ok: true,
-        action,
-        root: config.root,
-        path: p,
-        absolutePath: safePath(config, p),
-        items: detailedItems.map(x => x.isDirectory ? x.name + "/" : x.name),
-        detailedItems
-      };
+      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), items: detailedItems.map(x => x.isDirectory ? x.name + "/" : x.name), detailedItems };
     },
-    async tree() {
-      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), treeText: await treeText(config, p, payload.depth, payload.limit) };
-    },
-    async read() {
-      const got = await readText(config, p, maxChars, offsetChars);
-      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got };
-    },
+    async tree() { return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), treeText: await treeText(config, p, payload.depth, payload.limit) }; },
+    async read() { return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...(await readText(config, p, maxChars, offsetChars)) }; },
     async readLines() { return await readLines(config, payload); },
     async readManyLines() { return await readManyLines(config, payload); },
-    async readBytes() {
-      const got = await readTextFromBytes(config, p, maxBytes, offsetBytes);
-      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got };
-    },
-    async read64() {
-      const got = await readBytesBase64(config, p, maxBytes, offsetBytes);
-      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got };
-    },
+    async readBytes() { return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...(await readTextFromBytes(config, p, maxBytes, offsetBytes)) }; },
+    async read64() { return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...(await readBytesBase64(config, p, maxBytes, offsetBytes)) }; },
     async md() {
       const got = await readText(config, p, maxChars, offsetChars);
       const lang = path.extname(p).replace(".", "");
@@ -89,16 +79,12 @@ function buildReadActions(ctx) {
     async rg() { return await grep(config, { ...payload, action: "rg" }); },
     async rgbgrep() { return await grep(config, { ...payload, action: "rgbgrep" }); },
     async find() { return await findFiles(config, payload); },
-    async semanticSearch() { return await bulkSearch(config, { ...payload, action: "semanticSearch" }); },
-    async rg() { return await grep(config, { ...payload, action: "rg" }); },
-    async rgbgrep() { return await grep(config, { ...payload, action: "rgbgrep" }); },
-    async find() { return await findFiles(config, payload); },
+    async findFiles() { return await findFiles(config, payload); },
     async semanticSearch() { return await bulkSearch(config, { ...payload, action: "semanticSearch" }); },
     async bulkSearch() { return await bulkSearch(config, payload); },
     async bulkSearchPage() { return await bulkSearch(config, payload); },
     async selectString() { return await selectString(config, payload); },
     async selectStringFile() { return await selectStringFile(config, payload); },
-    async findFiles() { return await findFiles(config, payload); },
     async fileHashes() { return await fileHashes(config, payload); },
     async astOutline() { return await astOutline(config, payload); },
     async symbolOutline() { return await symbolOutline(config, payload); },

@@ -1,45 +1,60 @@
 //B"H
 import { storeEvent, readEvent, storeRaw, readRaw, resetStores, stats } from "./eventStore.js";
 import { parseSseChunk } from "./sseParser.js";
+import { packetsToDeltas } from "./streamDelta.js";
 
 const CHUNK = 1800;
 const MAX_CHUNKS = 8;
-const HISTORY_EVENT_LIMIT = 180;
+const HISTORY_EVENT_LIMIT = 120;
 
-self.onmessage = event => {
-  const msg = event.data || {};
+self.onmessage = event => handleMessage(event.data || {});
+
+/**
+ * Chapter 90: The Worker Became The Gate Of Lightning.
+ *
+ * Full provider packets enter this hidden furnace; compact deltas leave. The
+ * visible page receives almost nothing: text, event capsules, chunk summaries,
+ * and keys. The Awtsmoos creates the storm, yet the DOM touches only sparks.
+ *
+ * @param {object} msg Worker request message.
+ * @returns {void}
+ */
+function handleMessage(msg) {
   if (msg.kind === "resetStores") return reply(msg, { stats: resetStores() });
   if (msg.kind === "storeStats") return reply(msg, { stats: stats() });
   if (msg.kind === "storeEvent") return reply(msg, { key: storeEvent(msg.event || {}, msg.key || "") });
   if (msg.kind === "readEvent") return reply(msg, { event: readEvent(msg.key) });
   if (msg.kind === "storeRaw") return reply(msg, { key: storeRaw(msg.value, msg.key || "") });
   if (msg.kind === "readRaw") return reply(msg, { raw: readRaw(msg.key) });
-  if (msg.kind === "sseChunk") return reply(msg, { packets: parseSseChunk(msg.sessionId, msg.text, msg.final) });
-  const records = (msg.records || []).map(prepareRecord);
-  self.postMessage({ id: msg.id, records });
-};
+  if (msg.kind === "sseChunk") return parseAndReply(msg, msg.text || "");
+  if (msg.kind === "sseDataUrl") return decodeAndParse(msg);
+  self.postMessage({ id: msg.id, records: (msg.records || []).map(prepareRecord) });
+}
 
 function reply(msg, extra) { self.postMessage({ id: msg.id, ...extra }); }
 
+function parseAndReply(msg, text) {
+  const packets = parseSseChunk(msg.sessionId, text, msg.final);
+  reply(msg, { packets, deltas: packetsToDeltas(packets) });
+}
+
+async function decodeAndParse(msg) {
+  try { parseAndReply(msg, await dataUrlText(msg.url)); }
+  catch (error) { reply(msg, { packets: [], deltas: [{ kind: "event", event: { kind: "status", label: "Worker parse error", text: String(error?.message || error), raw: null } }] }); }
+}
+
+async function dataUrlText(url) {
+  const blob = await (await fetch(url)).blob();
+  return new TextDecoder("utf-8").decode(await blob.arrayBuffer());
+}
+
 function prepareRecord(record) {
   const text = String(record.text || "");
-  return {
-    id: record.id,
-    role: record.role || "assistant",
-    raw: null,
-    events: summarizeEvents(record.events || []),
-    textLength: text.length,
-    chunks: splitText(text)
-  };
+  return { id: record.id, role: record.role || "assistant", raw: null, events: summarizeEvents(record.events || []), textLength: text.length, chunks: splitText(text) };
 }
 
 function summarizeEvents(events) {
-  return events.slice(-HISTORY_EVENT_LIMIT).map(event => ({
-    kind: event.kind || "raw",
-    label: event.label || "event",
-    textLength: String(event.text || "").length,
-    key: storeEvent(event, stableSummaryKey(event))
-  }));
+  return events.slice(-HISTORY_EVENT_LIMIT).map(event => ({ kind: event.kind || "raw", label: event.label || "event", textLength: String(event.text || "").length, key: storeEvent(event, stableSummaryKey(event)) }));
 }
 
 function stableSummaryKey(event = {}) {

@@ -4,13 +4,13 @@ import { isDonePacket, looksLikeUserEcho } from "./stream/packetState.js";
 import { withoutFinalReplayEvents } from "./stream/livePacketSanitizer.js";
 
 /**
- * Chapter 75: The Final Answer Could Not Be Overtaken By Its Own Thunder.
+ * Chapter 97: The Stream Refused To Die From A Rumor.
  *
- * Stream callbacks can arrive like lightning: thought, tool, text, done. Browser
- * handlers do not promise that every async render finishes before the final
- * packet descends. This router therefore serializes every packet through one
- * queue, so the last visible assistant text lands in the same vessel after the
- * thought traces and before markdown freezes the record.
+ * Route packets may include status-only end markers before the visible answer is
+ * fully mirrored into `/ai`. Only finish() closes the vessel, or a literal
+ * `[DONE]` routed after actual text. Empty/status-only packets can add events but
+ * cannot create a dead blank assistant bubble like the one shown in the pasted
+ * trace.
  */
 export class StreamRouter {
   constructor(renderer) {
@@ -18,7 +18,12 @@ export class StreamRouter {
     this.record = null;
     this.assistant = null;
     this.done = false;
+    this.hasVisibleText = false;
     this.queue = Promise.resolve();
+  }
+
+  open() {
+    return this.ensureAssistantRecord();
   }
 
   route(packet) {
@@ -26,7 +31,7 @@ export class StreamRouter {
     return this.queue;
   }
 
-  async finish(packet) {
+  finish(packet) {
     this.queue = this.queue.then(() => this.finishNow(packet)).catch(error => this.fail(error));
     return this.queue;
   }
@@ -34,24 +39,22 @@ export class StreamRouter {
   async routeNow(packet) {
     const normalized = normalizeMessage(packet);
     await this.routeNormalized(packet, normalized);
-    if (isDonePacket(packet)) this.finishDone();
+    if (isDonePacket(packet) && this.hasVisibleText) this.finishDone();
   }
 
   async finishNow(packet) {
     if (packet && !isDonePacket(packet)) {
       const safePacket = withoutFinalReplayEvents(packet);
-      const normalized = normalizeMessage(safePacket);
-      await this.routeNormalized(safePacket, normalized);
+      await this.routeNormalized(safePacket, normalizeMessage(safePacket));
     }
-    this.finishDone();
+    if (this.hasVisibleText || this.hasUsefulEvents()) this.finishDone();
   }
 
   async routeNormalized(packet, normalized) {
-    const hasText = Boolean(normalized.text?.trim());
-    const hasEvents = Boolean(normalized.events?.length);
     const record = this.ensureAssistantRecord();
-    if (hasEvents) this.renderer.setRecordEvents(record.id, normalized.events);
-    if (hasText && normalized.role === "assistant" && !looksLikeUserEcho(this.renderer, normalized.text)) {
+    if (normalized.events?.length) this.renderer.setRecordEvents(record.id, normalized.events);
+    if (normalized.text?.trim() && normalized.role === "assistant" && !looksLikeUserEcho(this.renderer, normalized.text)) {
+      this.hasVisibleText = true;
       await this.renderer.updateRecord(record.id, packet, "assistant");
     }
   }
@@ -61,6 +64,10 @@ export class StreamRouter {
     this.record = this.renderer.add({ message: { author: { role: "assistant" }, content: { parts: [""] } }, awtsmoosLoading: true });
     this.assistant = this.record;
     return this.record;
+  }
+
+  hasUsefulEvents() {
+    return Boolean(this.record?.events?.length);
   }
 
   abort(error) {

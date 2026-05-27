@@ -115,47 +115,6 @@ async function writeText(config, p, content) {
   };
 }
 
-function escapeRegex(s) {
-  return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-async function findReplaceText(config, payload) {
-  if (!config.tools.fsWrite) throw new Error("fsWrite disabled.");
-  if (!config.allowWrite) throw new Error("Writes disabled.");
-
-  const p = payload.path || payload.p || ".";
-  const full = safePath(config, p);
-  const ext = path.extname(full).toLowerCase();
-  assertNotSecret(config, full);
-
-  if (BIN.has(ext)) throw new Error("Refusing binary file for findReplace: " + ext);
-
-  const before = await fsp.readFile(full, "utf8");
-  const find = String(payload.find || "");
-  const replace = String(payload.replace ?? "");
-
-  if (!find) return { ok: false, action: "findReplace", error: "missing_find_text" };
-
-  const flags = payload.replaceAll === false ? "" : "g";
-  const pattern = payload.regex ? new RegExp(find, flags) : new RegExp(escapeRegex(find), flags);
-  const matches = before.match(pattern) || [];
-  const after = before.replace(pattern, replace);
-
-  if (after !== before) await fsp.writeFile(full, after, "utf8");
-
-  return {
-    ok: true,
-    action: "findReplace",
-    path: p,
-    absolutePath: full,
-    changed: after !== before,
-    replacements: matches.length,
-    beforeChars: before.length,
-    afterChars: after.length,
-    deltaChars: after.length - before.length
-  };
-}
-
 function normalizeWrites(payload) {
   if (Array.isArray(payload.writes)) {
     return payload.writes
@@ -180,7 +139,6 @@ module.exports = {
   readBytesBase64,
   readTextFromBytes,
   writeText,
-  findReplaceText,
   normalizeWrites,
   number,
   requestTooLargeGuidance

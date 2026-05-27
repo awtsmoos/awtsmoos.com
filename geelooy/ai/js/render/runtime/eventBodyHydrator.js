@@ -4,7 +4,7 @@ import { readEventPayload } from "./eventPayloadVault.js";
 import { vaultCollapsedPanels } from "./collapsedDomVault.js";
 import { reconcileThoughtInnerEvents } from "./thoughtInnerReconciler.js";
 import { preservePanelScroll } from "./scrollAnchor.js";
-import { usefulInnerEvents } from "./innerEventFilter.js";
+import { displayableThoughtInnerEvents } from "./thoughtInnerEvents.js";
 
 const INNER_WINDOW = 40;
 
@@ -72,14 +72,15 @@ async function hydrateEvent(panel) {
 async function hydrateInner(panel, offset = 0) {
   const existing = panel.querySelector(":scope > .thought-inner-window");
   const sameOffset = Number(panel.dataset.thoughtOffset || 0) === Number(offset || 0);
-  if (existing && sameOffset) return;
+  const hasOnlyEmptyNotice = existing && !existing.querySelector(":scope > .thought-inner-event-vessel") && existing.querySelector(":scope > .event-hydration-loading");
+  if (existing && sameOffset && !hasOnlyEmptyNotice) return;
   panel.dataset.thoughtOffset = String(offset || 0);
   if (!existing) panel.append(loadingNode("Loading inner thought timeline…"));
   const envelope = panel.closest(".thought-envelope-card");
   const event = await readEventPayload(envelope?.dataset?.thoughtEnvelopeKey);
   panel.querySelector(":scope > .event-hydration-loading")?.remove();
   if (!panel.open) return;
-  const inner = usefulInnerEvents(Array.isArray(event?.raw?.events) ? event.raw.events : []);
+  const inner = displayableThoughtInnerEvents(Array.isArray(event?.raw?.events) ? event.raw.events : []);
   if (!inner.length) return showEmptyInner(panel, "No useful inner events are currently available for this thought bubble.");
   const end = Math.max(0, inner.length - offset);
   const start = Math.max(0, end - INNER_WINDOW);

@@ -282,35 +282,58 @@ static int load_http_preview(AwtsBrowserState* state, const char* url) {
     InternetCloseHandle(session);
     return 0;
   }
-  char buffer[3072];
+  size_t cap = 65536;
+  size_t used = 0;
+  char* buffer = (char*)calloc(cap + 1, 1);
+  char chunk[4096];
   DWORD read = 0;
-  memset(buffer, 0, sizeof(buffer));
-  InternetReadFile(handle, buffer, sizeof(buffer) - 1, &read);
-  buffer[read] = 0;
+  if (!buffer) {
+    InternetCloseHandle(handle);
+    InternetCloseHandle(session);
+    printf("awts-net-error stage=alloc url=%s\n", url);
+    fflush(stdout);
+    return 0;
+  }
+  while (InternetReadFile(handle, chunk, sizeof(chunk), &read) && read > 0) {
+    if (used + read + 1 > cap) {
+      size_t nextCap = cap * 2;
+      if (nextCap > 1048576) nextCap = 1048576;
+      if (nextCap <= cap || used + read + 1 > nextCap) break;
+      char* next = (char*)realloc(buffer, nextCap + 1);
+      if (!next) break;
+      buffer = next;
+      cap = nextCap;
+    }
+    memcpy(buffer + used, chunk, read);
+    used += read;
+    buffer[used] = 0;
+  }
   InternetCloseHandle(handle);
   InternetCloseHandle(session);
   printf("awts-net-read url=%s bytes=%lu htmlHints canvas=%u webgl=%u drawArrays=%u local=%u\n",
-    url, (unsigned long)read, awts_text_has(buffer, "<canvas"),
+    url, (unsigned long)used, awts_text_has(buffer, "<canvas"),
     awts_text_has(buffer, "getContext"), awts_text_has(buffer, "drawArrays("), awts_url_is_local_http(url));
   fflush(stdout);
-  if (read > 0) {
+  if (used > 0) {
     awts_scan_webgl(&state->webgl, buffer);
     if (awts_compile_html_with_executor(state, buffer, url)) {
-      printf("awts-route-decision route=network-executor-render-stream reason=merkava-executor-compiled-html url=%s sourceBytes=%lu streamBytes=%u\n", url, (unsigned long)read, state->dynamicRenderStreamBytes);
+      printf("awts-route-decision route=network-executor-render-stream reason=merkava-executor-compiled-html url=%s sourceBytes=%lu streamBytes=%u\n", url, (unsigned long)used, state->dynamicRenderStreamBytes);
       set_page(state, "network-executor-render-stream", url, "dom=executor-owned cHost=native-bindings-only network HTML compiled by MerkavaExecutor");
       state->dynamicRenderStreamBytes = (unsigned int)strlen(state->dynamicRenderStream);
     } else {
-      printf("awts-route-decision route=network-executor-error reason=executor-compile-failed-no-c-dom-fallback url=%s sourceBytes=%lu\n", url, (unsigned long)read);
+      printf("awts-route-decision route=network-executor-error reason=executor-compile-failed-no-c-dom-fallback url=%s sourceBytes=%lu\n", url, (unsigned long)used);
       set_page(state, "network-executor-error", url, "MerkavaExecutor compile failed; C host refused DOM fallback");
     }
-    awts_set_dynamic_source(state, buffer, read);
+    awts_set_dynamic_source(state, buffer, (DWORD)used);
     awts_print_webgl_table(&state->webgl);
+    free(buffer);
   } else {
     printf("awts-route-decision route=network-text-preview reason=no-bytes url=%s\n", url);
     set_page(state, "network", url, buffer);
+    free(buffer);
   }
   fflush(stdout);
-  return read > 0;
+  return used > 0;
 }
 
 static int load_file_preview(AwtsBrowserState* state, const char* path, const char* label) {

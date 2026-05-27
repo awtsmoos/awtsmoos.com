@@ -71,7 +71,8 @@ export default {
             const isLiving = this.type === "chossid" || 
                            this.type === "chai" || 
                            this.type === "medabeir" ||
-                           this.type === "customNpc";
+                           this.type === "customNpc" ||
+                           this.type === "interactiveNpc";
 
             if (isLiving) {
                  this.mesh.userData.isLiving = true; 

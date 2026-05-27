@@ -21,7 +21,7 @@ import collisions from "./collisions.js";
 import ground    from "./ground.js";
 import sync      from "./sync.js";
 
-const STEPS_PER_FRAME = 2; // B"H: Accelerated flow of time!
+const STEPS_PER_FRAME = 5; // B"H: old steady cadence restored against wall tunneling.
 
 export default {
     ...core, ...forces, ...movement, ...collisions, ...ground, ...sync,

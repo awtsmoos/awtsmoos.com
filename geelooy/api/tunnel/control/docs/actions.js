@@ -1,7 +1,8 @@
 // B"H
 /**
  * Generated public tunnel action surface.
- * Source: local agent dispatcher availableActions.
+ * Source: local agent dispatcher buildActions().
+ * Rebuild with: node scripts/generate-tunnel-openapi-live.cjs
  */
 const actions = [
   "absoluteImportMapper",
@@ -136,7 +137,6 @@ const actions = [
   "fileTreeDiff",
   "find",
   "findFiles",
-  "findReplace",
   "finishAndContinue",
   "forEachActionBatch",
   "fsPermissionEnvelope",
@@ -161,8 +161,8 @@ const actions = [
   "hashGuardAdvisor",
   "httpCookieDelete",
   "httpCookieJarList",
-  "httpCookieSet",
   "httpCookies",
+  "httpCookieSet",
   "httpDownload",
   "httpJson",
   "httpRequest",
@@ -172,7 +172,9 @@ const actions = [
   "inferArchitecture",
   "inferBusinessRules",
   "insertAfterFunction",
+  "insertAfterScope",
   "insertBeforeFunction",
+  "insertBeforeScope",
   "inspectHumanConfusion",
   "inspectRenderStorms",
   "inspectRuntime",
@@ -189,8 +191,8 @@ const actions = [
   "jsdocCoverageScan",
   "jsonFormat",
   "jsonValidate",
-  "largeFileSplitPlanner",
   "largeFiles",
+  "largeFileSplitPlanner",
   "lastActionReplay",
   "lastFailureExplain",
   "launchPreview",
@@ -276,7 +278,11 @@ const actions = [
   "repairPatchSuggester",
   "replaceFunction",
   "replaceFunctionBody",
+  "replaceMethod",
   "replaceRange",
+  "replaceScope",
+  "replaceScopeBody",
+  "replaceSymbol",
   "repoDoctor",
   "restartPreview",
   "restoreSnapshotPlan",
@@ -285,8 +291,8 @@ const actions = [
   "rg",
   "rgbgrep",
   "rootBrowse",
-  "rootSelect",
   "roots",
+  "rootSelect",
   "routeAudit",
   "routeContextPack",
   "routeExecutorGraph",
@@ -309,8 +315,8 @@ const actions = [
   "securityHeadersCheck",
   "selectString",
   "selectStringFile",
-  "selfHealPreview",
   "selfHealingCommandRegistry",
+  "selfHealPreview",
   "semanticCache",
   "semanticDiff",
   "semanticEditPreview",
@@ -373,6 +379,7 @@ const actions = [
   "waitForPort",
   "waitForUrl",
   "watchTestOnce",
+  "windowsExeSmokeTest",
   "workflowGet",
   "workflowList",
   "workflowRun",

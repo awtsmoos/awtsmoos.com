@@ -1,19 +1,31 @@
 //B"H
 
 /**
- * Chooses the single automation owner.
- * Extension background is primary; page pipeline is only a fallback.
+ * Chooses the automation owner.
+ *
+ * Visible /ai conversations must behave exactly like the human pressing Enter:
+ * the page pipeline sends through ConversationController, which reaches
+ * AwtsmoosGPTify.go(), the same ChatGPT body/header/sentinel path as textarea
+ * send. Extension background remains the owner only when the page is hidden or
+ * when a non-visible conversation must keep moving without DOM ownership.
  */
 export async function syncBackgroundAutomation({ settings, graph, conversationId, chatgptMode = "regular", chatgptModePayload = {}, report = () => {} } = {}) {
   const bridge = window.awtsmoosFetch || window.mFetch;
+  if (!settings?.enabled) {
+    if (isBridgeReady(bridge)) await bridge.stopBackgroundAutomation("page-disabled").catch(error => ({ error: String(error?.message || error) }));
+    report("automation owner: off");
+    return { owner: "off", available: Boolean(isBridgeReady(bridge)) };
+  }
+
+  if (shouldUsePageSender(conversationId)) {
+    if (isBridgeReady(bridge)) await bridge.stopBackgroundAutomation("visible-page-owns-send").catch(() => null);
+    report("automation owner: page · same as textarea send");
+    return { owner: "page", available: isBridgeReady(bridge), sameAsTextarea: true };
+  }
+
   if (!isBridgeReady(bridge)) {
     report("automation owner: page fallback");
     return { owner: "page", available: false, reason: "no-extension-bridge" };
-  }
-  if (!settings?.enabled) {
-    const stopped = await bridge.stopBackgroundAutomation("page-disabled").catch(error => ({ error: String(error?.message || error) }));
-    report("automation owner: off");
-    return { owner: "off", available: true, state: stopped };
   }
   if (!conversationId) {
     report("automation owner: waiting for conversation id");
@@ -26,13 +38,24 @@ export async function syncBackgroundAutomation({ settings, graph, conversationId
 }
 
 export function hasBackgroundAutomationBridge() {
-  const ready = isBridgeReady(window.awtsmoosFetch || window.mFetch);
+  const ready = isBridgeReady(window.awtsmoosFetch || window.mFetch) && !shouldUsePageSender(currentConversationId());
   try { globalThis.__awtsmoosBackgroundBridgeActive = ready; } catch {}
   return ready;
 }
 
 export async function getBackgroundAutomationStatus() {
   return await (window.awtsmoosFetch || window.mFetch)?.backgroundAutomationStatus?.();
+}
+
+function shouldUsePageSender(conversationId) {
+  if (!conversationId) return true;
+  if (document.visibilityState === "hidden") return false;
+  return conversationId === currentConversationId();
+}
+
+function currentConversationId() {
+  try { return new URLSearchParams(location.search).get("awtsmoosConversation") || window.curConversationId || null; }
+  catch { return window.curConversationId || null; }
 }
 
 function isBridgeReady(bridge) {

@@ -86,6 +86,14 @@ function encodeCommand(command, index) {
   if (command.op === "paintBox") return ["BOX", index, n(command.x), n(command.y), n(command.width), n(command.height), color(command.background)].join("|");
   if (command.op === "paintBorder") return ["BORDER", index, n(command.x), n(command.y), n(command.width), n(command.height), color(command.color)].join("|");
   if (command.op === "paintShadow") return ["BOX", index, n(command.x), n(command.y), n(command.width), n(command.height), "#d8d8d8"].join("|");
+  if (command.op === "paintImageTexture") return ["IMAGE", index, n(command.x), n(command.y), n(command.width), n(command.height), safe(command.src)].join("|");
+  if (command.op === "paintBackgroundImage") return ["BGIMAGE", index, n(command.x), n(command.y), n(command.width), n(command.height), safe(command.src)].join("|");
+  if (command.op === "paintGradient") return ["GRADIENT", index, n(command.x), n(command.y), n(command.width), n(command.height), safe(command.gradient)].join("|");
+  if (command.op === "paintClipPush") return ["CLIP_PUSH", index, n(command.x), n(command.y), n(command.width), n(command.height), n(command.radius)].join("|");
+  if (command.op === "paintClipPop") return ["CLIP_POP", index, n(command.x), n(command.y), n(command.width), n(command.height), ""].join("|");
+  if (command.op === "paintBorderRadius") return ["RADIUS", index, n(command.x), n(command.y), n(command.width), n(command.height), n(command.radius)].join("|");
+  if (command.op === "paintOpacity") return ["OPACITY", index, n(command.x), n(command.y), n(command.width), n(command.height), n(command.alpha)].join("|");
+  if (command.op === "paintTransform") return ["TRANSFORM", index, n(command.x), n(command.y), n(command.width), n(command.height), safe(command.transform)].join("|");
   if (command.op === "paintImagePlaceholder") return ["BOX", index, n(command.x), n(command.y), n(command.width), n(command.height), color(command.background || "#e0e6ef")].join("|");
   if (command.op === "paintTextPlaceholder") return ["TEXT", index, n(command.x), n(command.y), safe(command.text), color(command.color)].join("|");
   if (command.op?.startsWith?.("webgl.")) return ["WEBGL", index, safe(command.op), JSON.stringify(command).length].join("|");

@@ -110,16 +110,20 @@ async function importHttpModule(url) {
   return resolved.module;
 }
 
-async function loadMerkavaService(payload = {}, config = {}) {
-  const localPath = path.join(
-    config.root || process.cwd(),
-    "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js"
-  );
-
-  if (fs.existsSync(localPath)) {
-    return await import(pathToFileURL(localPath).href + "?awtsmoos=" + Date.now());
+function findLocalMerkavaService(start) {
+  const candidates = [];
+  let dir = path.resolve(start || process.cwd());
+  while (dir && dir !== path.dirname(dir)) {
+    candidates.push(path.join(dir, "geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js"));
+    candidates.push(path.join(dir, "scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js"));
+    dir = path.dirname(dir);
   }
+  return candidates.find(file => fs.existsSync(file)) || null;
+}
 
+async function loadMerkavaService(payload = {}, config = {}) {
+  const localPath = findLocalMerkavaService(config.root || process.cwd());
+  if (localPath) return await import(pathToFileURL(localPath).href + "?awtsmoos=" + Date.now());
   return await importHttpModule(resolveMerkavaServiceUrl(payload));
 }
 

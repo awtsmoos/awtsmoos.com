@@ -10,6 +10,7 @@ import { installCollapsedDomVault, vaultCollapsedPanels } from "./collapsedDomVa
 import { hydrateOpenEventBodies, installEventBodyHydrator } from "./eventBodyHydrator.js";
 import { renderThoughtEnvelopeNode } from "./thoughtEnvelopeRuntime.js";
 import { preservePanelScroll } from "./scrollAnchor.js";
+import { hasRenderableEventFire } from "./eventRenderableGate.js";
 
 /**
  * Chapter 68: The Court Let The Thought Banner Stand.
@@ -73,12 +74,7 @@ function installRegionBehaviors(region) {
  * @returns {boolean} True when the event can produce useful UI.
  */
 function hasRenderableBody(event = {}) {
-  if (event?.raw?.groupedThoughtEnvelope) return Array.isArray(event.raw.events) && event.raw.events.length > 0;
-  const raw = event.raw || event;
-  const msg = raw.message || raw.input_message || raw.data?.message || raw;
-  const content = msg.content || raw.content || {};
-  const text = event.text || (Array.isArray(content.parts) ? content.parts.join(" ") : content.text) || raw.text || raw.dataNoJSON || "";
-  return Boolean(String(text).trim() || event.action?.href || msg.recipient || raw.recipient || raw.type || raw.name || raw.id);
+  return hasRenderableEventFire(event);
 }
 
 function reconcileNodes(region, nodes, visible) {
@@ -106,7 +102,7 @@ function renderOneEvent(region, nodes, event) {
 }
 
 function mutateEventNode(region, node, event, html) {
-  region.appendChild(node);
+  if (node.parentNode !== region) region.appendChild(node);
   if (event?.raw?.groupedThoughtEnvelope) {
     renderThoughtEnvelopeNode(node, event);
     node.dataset.eventHtml = "thought-envelope-live";

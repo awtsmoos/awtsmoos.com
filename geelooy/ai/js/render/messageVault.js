@@ -29,6 +29,16 @@ export class MessageVault {
     return row?.payload || null;
   }
 
+  /** @returns {void} Releases hot RAM while IndexedDB remains available. */
+  purgeMemory() {
+    this.memory.clear();
+  }
+
+  /** @returns {void} Releases hot RAM while IndexedDB remains available. */
+  purgeMemory() {
+    this.memory.clear();
+  }
+
   /**
    * B"H — keeps the hot vault small while IndexedDB carries the colder scrolls.
    *

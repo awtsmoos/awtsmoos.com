@@ -29,6 +29,8 @@ export class ConversationListPager {
     this.boundList = list;
     const loadingGate = this.makeNotice("is-loading", "Loading conversations…");
     list.replaceChildren(loadingGate);
+    prependMissingLiveRows(list, [], conversation => this.makeConversation(conversation));
+    this.applyBadges(list);
     const frozenTimer = setTimeout(() => {
       if (loadingGate.isConnected) loadingGate.textContent = "Still loading conversations… checking ChatGPT transport.";
     }, 3500);

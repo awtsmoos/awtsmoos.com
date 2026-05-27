@@ -1,0 +1,36 @@
+<!--B"H-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Sulam HaSod</title>
+  <link rel="stylesheet" href="./css/game.css">
+</head>
+<body>
+  <main class="shell">
+    <section id="menu" class="menu">
+      <h1>Sulam HaSod</h1>
+      <p>Climb the secret ladder through worlds of sparks, keys, gates, and prowling shadows.</p>
+      <button id="playBtn">Play</button>
+      <button id="instructionsBtn" class="ghost">Instructions</button>
+      <article id="instructions" class="instructions" hidden>
+        <b>How to play</b><br>
+        Desktop: ← → or A/D to move, Space/W to jump. Mobile: drag the orb and tap Jump.<br>
+        Gather coins, take the key, jump on enemies from above, and enter the glowing gate.
+      </article>
+    </section>
+    <section class="hud">
+      <button id="menuBtn" class="tiny">Menu</button>
+      <div><b>Sulam HaSod</b><span id="levelName"> —</span></div>
+      <div id="stats">Coins 0 · Keys 0 · Level 1</div>
+    </section>
+    <canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
+    <section class="touch" aria-label="mobile controls">
+      <div id="stick" class="stick"><i></i></div>
+      <button id="jump" class="jump">Jump</button>
+    </section>
+  </main>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

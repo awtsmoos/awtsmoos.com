@@ -30,7 +30,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const renderer = new MessageRenderer({ chatBox: dom.chatBox });
   let resumeVisibleStreams = () => {};
-  const controller = new ConversationController({ aiHandler, renderer, serviceSelect: dom.serviceSelect, onConversationLoaded: () => resumeVisibleStreams() });
+  const stopVisibleStreams = () => resumeStoredStreams.stopActive?.();
+  const controller = new ConversationController({ aiHandler, renderer, serviceSelect: dom.serviceSelect, onConversationChanging: () => stopVisibleStreams(), onConversationLoaded: () => resumeVisibleStreams() });
   const store = new AutomationSettingsStore();
   const panel = new AutomationPanel({ root: dom.automationPanel, store });
   const pipeline = new AutomationPipeline({ settingsStore: store, getSettings: () => panel.getSettings(), sendPrompt: (prompt, context = {}) => controller.sendAutomation(prompt, { conversationId: context.conversationId, ondone: (reply, meta) => pipeline.afterAssistantReply(reply, meta) }), report: text => panel.report(text) });

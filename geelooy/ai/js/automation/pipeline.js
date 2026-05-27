@@ -78,7 +78,7 @@ export class AutomationPipeline {
       this.mark(conversationId, { status: "sending", turns: nextTurn, lastReply: replyText, lastGraphNode: decision.nodeId || null });
       assistantReply = await this.sendPrompt(prompt, { conversationId, automation: true, graphNode: decision.nodeId || null, role: decision.role || "", instructions: decision.instructions || "" });
       const nextMemory = { ...memory, [decision.outputKey || "lastReply"]: assistantReply || replyText };
-      this.mark(conversationId, { status: "streaming", turns: nextTurn, lastReply: assistantReply || replyText, lastPrompt: prompt, graphNode: decision.next || graph.start, memory: nextMemory });
+      this.mark(conversationId, { status: "completed-turn", turns: nextTurn, lastReply: assistantReply || replyText, lastPrompt: prompt, graphNode: decision.next || graph.start, memory: nextMemory });
     } catch (error) {
       this.mark(conversationId, { status: "error", error: error.message || String(error) }, `automation error: ${error.message || error}`);
       if (settings.stopOnError) this.settingsStore.save({ enabled: false });
@@ -95,7 +95,9 @@ export class AutomationPipeline {
       const gate = await automationStreamCompletionGuard.waitForSafeContinuation({ conversationId, settings: freshSettings });
       this.mark(conversationId, { status: "armed", lastReply: continuationReply }, `automation continuation armed after ${gate.waitedMs}ms`);
       setTimeout(() => this.afterAssistantReply(continuationReply, { conversationId, allowRepeat: !String(assistantReply || "").trim(), completionPhase: "post-settle" }), 0);
+      return;
     }
+    this.mark(conversationId, { status: "done", lastReply: continuationReply }, "automation run complete");
   }
 
   mark(conversationId, patch, message = "") {

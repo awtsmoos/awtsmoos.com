@@ -44,8 +44,8 @@ export default {
         },
         Chossid: {
             me: {
-                height: 1.5, name: "player", speed: 170, interactable: true, 
-                path: "awtsmoos://awduhm", position: { x: 10, y: 40, z: 10 }
+                height: 2.2, radius: 0.45, name: "player", speed: 6, interactable: true, 
+                position: { x: 10, y: 40, z: 10 }
             }
         }
     }

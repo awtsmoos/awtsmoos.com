@@ -1,17 +1,32 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory();
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualCssEngine = factory().VirtualCssEngine; }
-})(typeof self !== 'undefined' ? self : this, function() {
+    if (typeof module === 'object' && module.exports) module.exports = factory(require('./CssValueResolver.js'));
+    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualCssEngine = factory(root.Merkava).VirtualCssEngine; }
+})(typeof self !== 'undefined' ? self : this, function(valueMod) {
+    const CssValueResolver = valueMod.CssValueResolver;
     const dash = name => String(name).replace(/[A-Z]/g, c => '-' + c.toLowerCase());
-    const parseDecls = text => Object.fromEntries(String(text || '').split(';').map(x => x.trim()).filter(Boolean).map(part => {
+    const parseDecls = text => Object.fromEntries(splitDecls(text).map(part => {
         const i = part.indexOf(':'); if (i < 0) return ['', ''];
         return [dash(part.slice(0, i).trim()), normalizeValue(part.slice(i + 1).trim().replace(/\s*!important$/, ''))];
     }).filter(x => x[0]));
 
+    function splitDecls(text) {
+        const out = []; let buf = '', depth = 0, quote = '';
+        for (const ch of String(text || '')) {
+            if (quote) { buf += ch; if (ch === quote) quote = ''; continue; }
+            if (ch === '"' || ch === "'") { quote = ch; buf += ch; continue; }
+            if (ch === '(') depth++;
+            if (ch === ')') depth = Math.max(0, depth - 1);
+            if (ch === ';' && depth === 0) { if (buf.trim()) out.push(buf.trim()); buf = ''; continue; }
+            buf += ch;
+        }
+        if (buf.trim()) out.push(buf.trim());
+        return out;
+    }
+
     /** Chapter 29: Selectors descend through ancestry without C learning CSS. */
     class VirtualCssEngine {
-        constructor() { this.rules = []; }
+        constructor() { this.rules = []; this.values = new CssValueResolver(); }
         addRule(selector, declarations) {
             const clean = String(selector || '').trim();
             if (!clean) return;
@@ -29,9 +44,11 @@
             const out = Object.create(null), ranked = [];
             for (const rule of this.rules) if (matchesSelector(element, rule.selector)) ranked.push(rule);
             ranked.sort((a, b) => a.specificity - b.specificity || a.order - b.order);
+            const inherited = element?.parentNode?.ownerDocument ? this.compute(element.parentNode) : {};
+            Object.assign(out, pickCustomProperties(inherited));
             for (const rule of ranked) Object.assign(out, expandDeclarations(rule.declarations));
             Object.assign(out, element.style?.toJSON?.() || {});
-            return out;
+            return this.values.resolveDeclarations(out, inherited);
         }
     }
 
@@ -109,6 +126,11 @@
     }
 
     function normalizeValue(value) { return String(value || '').replace(/\s+/g, ' ').trim(); }
+    function pickCustomProperties(style) {
+        const out = Object.create(null);
+        for (const [key, value] of Object.entries(style || {})) if (key.startsWith('--')) out[key] = value;
+        return out;
+    }
     function unwrapMedia(css) {
         let out = css;
         out = out.replace(/@media[^{]*\{([\s\S]*?)\}\s*/g, (_m, body) => body);
@@ -117,7 +139,14 @@
     }
     function expandDeclarations(declarations) {
         const out = { ...declarations };
-        if (out.background && !out['background-color']) out['background-color'] = out.background;
+        if (out.background && !out['background-color']) {
+            const c = firstBackgroundColor(out.background);
+            if (c) out['background-color'] = c;
+        }
+        if (out.background && !out['background-image']) {
+            const img = firstBackgroundImage(out.background);
+            if (img) out['background-image'] = img;
+        }
         if (out.border) {
             if (!out['border-width']) out['border-width'] = out.border;
             if (!out['border-color']) out['border-color'] = out.border;
@@ -127,6 +156,38 @@
         if (out['border-top']) { out['border-top-width'] ||= out['border-top']; out['border-top-color'] ||= out['border-top']; }
         if (out['border-bottom']) { out['border-bottom-width'] ||= out['border-bottom']; out['border-bottom-color'] ||= out['border-bottom']; }
         return out;
+    }
+    function firstBackgroundColor(value) {
+        const text = String(value || '');
+        if (/(?:repeating-)?(?:linear|radial|conic)-gradient\(/i.test(text) || /url\(/i.test(text)) return '';
+        const hex = text.match(/#[0-9a-f]{3,8}\b/i); if (hex) return hex[0];
+        const rgb = text.match(/rgba?\([^)]+\)/i); if (rgb) return rgb[0];
+        const hsl = text.match(/hsla?\([^)]+\)/i); if (hsl) return hsl[0];
+        const named = text.match(/\b(?:black|white|red|green|blue|yellow|cyan|magenta|gray|grey|orange|purple|pink|brown|transparent)\b/i);
+        return named ? named[0] : '';
+    }
+    function firstBackgroundImage(value) {
+        const text = String(value || '');
+        const gradient = text.match(/(?:repeating-)?(?:linear|radial|conic)-gradient\([^)]*\)/i);
+        if (gradient) return gradient[0];
+        const url = text.match(/url\(([^)]+)\)/i);
+        return url ? url[0] : '';
+    }
+    function firstBackgroundColor(value) {
+        const text = String(value || '');
+        if (/(?:repeating-)?(?:linear|radial|conic)-gradient\(/i.test(text) || /url\(/i.test(text)) return '';
+        const hex = text.match(/#[0-9a-f]{3,8}\b/i); if (hex) return hex[0];
+        const rgb = text.match(/rgba?\([^)]+\)/i); if (rgb) return rgb[0];
+        const hsl = text.match(/hsla?\([^)]+\)/i); if (hsl) return hsl[0];
+        const named = text.match(/\b(?:black|white|red|green|blue|yellow|cyan|magenta|gray|grey|orange|purple|pink|brown|transparent)\b/i);
+        return named ? named[0] : '';
+    }
+    function firstBackgroundImage(value) {
+        const text = String(value || '');
+        const gradient = text.match(/(?:repeating-)?(?:linear|radial|conic)-gradient\([^)]*\)/i);
+        if (gradient) return gradient[0];
+        const url = text.match(/url\(([^)]+)\)/i);
+        return url ? url[0] : '';
     }
     function nth(element, pseudo, siblings) {
         const index = siblings.indexOf(element) + 1;

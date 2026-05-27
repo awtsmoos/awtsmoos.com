@@ -13,8 +13,8 @@
     "shellBytes": 214,
     "embeddedExecutor": {
       "name": "embedded_executor.merkava",
-      "byteLength": 27593,
-      "fileCount": 407,
+      "byteLength": 27839,
+      "fileCount": 410,
       "entry": "/index.html"
     },
     "hostBindingCount": 36,

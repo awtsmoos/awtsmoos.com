@@ -45,11 +45,30 @@ function appendLiveDelta(bubble, text) {
   const previous = actor.dataset.liveText || "";
   if (text === previous) return;
   if (text.startsWith(previous)) {
-    actor.append(document.createTextNode(text.slice(previous.length)));
-  } else {
-    actor.textContent = text;
+    appendTextNode(actor, text.slice(previous.length));
+    actor.dataset.liveText = text;
+    return;
   }
-  actor.dataset.liveText = text;
+  if (previous.startsWith(text) || previous.includes(text)) return;
+  const overlap = longestSuffixPrefix(previous, text, 12000);
+  if (overlap) {
+    const healed = previous + text.slice(overlap);
+    appendTextNode(actor, healed.slice(previous.length));
+    actor.dataset.liveText = healed;
+  }
+}
+
+function appendTextNode(actor, text) {
+  if (!text) return;
+  const node = document.createTextNode ? document.createTextNode(text) : { textContent: text };
+  if (typeof actor.append === "function") actor.append(node);
+  else actor.textContent = `${actor.textContent || ""}${node.textContent || ""}`;
+}
+
+function longestSuffixPrefix(left, right, max) {
+  const limit = Math.min(max, left.length, right.length);
+  for (let size = limit; size > 0; size--) if (left.slice(-size) === right.slice(0, size)) return size;
+  return 0;
 }
 
 function ensureLiveActor(bubble) {
@@ -58,6 +77,7 @@ function ensureLiveActor(bubble) {
   bubble.textContent = "";
   actor = document.createElement("span");
   actor.className = "message-live-text";
+  actor.dataset ||= {};
   actor.dataset.liveText = "";
   bubble.append(actor);
   return actor;

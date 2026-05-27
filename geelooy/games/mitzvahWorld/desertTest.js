@@ -25,9 +25,8 @@ const DESERT_TEST_WORLD = {
       {
         name: "The Chossid",
         height: 1.5,
-        speed: 120,
+        speed: 6,
         interactable: false,
-        path: "https://models-3122d.web.app/chossid.glb?k=2",
         position: { x: 0, y: 5, z: 10 },
         on: {
           ready(n) {

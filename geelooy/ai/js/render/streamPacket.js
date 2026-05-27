@@ -1,9 +1,21 @@
 //B"H
 import { classifyTransportEvent } from "./messageNormalizer.js";
 import { isVisibleConversationMessage } from "./normalizer/transportClassifier.js";
+import { visibleContentText } from "./normalizer/textExtractors.js";
 
 const TRANSPORT_TYPES = /resume_conversation_token|message_marker|server_ste_metadata|conversation_detail_metadata|message_stream_complete|input_message|delta_encoding|conversation-turn-complete|status/i;
 
+/**
+ * Chapter 88: The Last Message Was Crowned In Order.
+ *
+ * Live packets can hold text, images, file references, hidden markers, or tool
+ * thunder. This interpreter keeps visible content as ordered lightweight
+ * markdown and leaves transport-only sparks as events. The final answer never
+ * loses its tail to a status packet.
+ *
+ * @param {object|string} packet Incoming provider packet.
+ * @returns {{text:string,event:object|null}} Visible text or semantic event.
+ */
 export function interpretStreamPacket(packet) {
   const text = extractVisibleText(packet);
   const event = text ? null : extractTransport(packet);
@@ -15,9 +27,12 @@ export function mergeStreamText(previous = "", next = "") {
   next = String(next || "");
   if (!next) return previous;
   if (!previous || next.startsWith(previous)) return next;
-  if (previous.endsWith(next) || previous.includes(next)) return previous;
+  if (previous.startsWith(next) || previous.endsWith(next) || previous.includes(next)) return previous;
   const overlap = longestSuffixPrefix(previous, next, 12000);
-  return overlap ? previous + next.slice(overlap) : previous + next;
+  if (overlap) return previous + next.slice(overlap);
+  const stableTail = longestSharedPrefix(previous, next);
+  if (stableTail >= Math.min(previous.length, next.length) * 0.8) return next.length > previous.length ? next : previous;
+  return previous;
 }
 
 function extractVisibleText(packet) {
@@ -25,7 +40,7 @@ function extractVisibleText(packet) {
   const raw = packet?.data || packet;
   const message = raw?.message || raw?.input_message || packet?.message || packet?.input_message;
   if (!message || !isVisibleConversationMessage(message, message.content || {})) return "";
-  return contentText(message.content || {});
+  return visibleContentText(message.content || {});
 }
 
 function extractTransport(packet) {
@@ -39,14 +54,11 @@ function extractTransport(packet) {
   return event;
 }
 
-function contentText(content = {}) {
-  if (Array.isArray(content.parts)) return content.parts.map(partText).filter(Boolean).join("\n");
-  return typeof content.text === "string" ? content.text : "";
-}
-
-function partText(part) {
-  if (typeof part === "string") return part;
-  return part?.text || part?.summary || "";
+function longestSharedPrefix(left, right) {
+  const limit = Math.min(left.length, right.length);
+  let index = 0;
+  while (index < limit && left[index] === right[index]) index++;
+  return index;
 }
 
 function longestSuffixPrefix(left, right, max) {

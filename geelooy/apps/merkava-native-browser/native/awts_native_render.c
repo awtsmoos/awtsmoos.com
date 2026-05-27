@@ -118,6 +118,11 @@ static int draw_executor_stream(AwtsBrowserState* state) {
   int webglDraws = 0;
   int boxesDrawn = 0;
   int textsDrawn = 0;
+  int imagesDrawn = 0;
+  int clipsApplied = 0;
+  int clipDepth = 0;
+  GLint clipStack[16][4];
+  memset(clipStack, 0, sizeof(clipStack));
   for (char* line = copy; line && *line;) {
     char* next = strchr(line, '\n');
     if (next) *next++ = 0;
@@ -129,7 +134,44 @@ static int draw_executor_stream(AwtsBrowserState* state) {
     next_part(&at, kind, sizeof(kind)); next_part(&at, id, sizeof(id));
     next_part(&at, a, sizeof(a)); next_part(&at, b, sizeof(b));
     next_part(&at, c, sizeof(c)); next_part(&at, d, sizeof(d)); next_part(&at, e, sizeof(e));
-    if (!strcmp(kind, "BOX")) {
+    if (!strcmp(kind, "CLIP_PUSH")) {
+      GLint sxp = (GLint)(36 + atof(a));
+      GLint syp = (GLint)(state->height - (116 + atof(b) + atof(d)));
+      GLint swp = (GLint)atof(c);
+      GLint shp = (GLint)atof(d);
+      if (sxp < 0) { swp += sxp; sxp = 0; }
+      if (syp < 0) { shp += syp; syp = 0; }
+      if (sxp + swp > state->width) swp = state->width - sxp;
+      if (syp + shp > state->height) shp = state->height - syp;
+      if (clipDepth > 0) {
+        GLint* prev = clipStack[clipDepth - 1];
+        GLint x2 = sxp + swp, y2 = syp + shp;
+        GLint px2 = prev[0] + prev[2], py2 = prev[1] + prev[3];
+        if (sxp < prev[0]) sxp = prev[0];
+        if (syp < prev[1]) syp = prev[1];
+        if (x2 > px2) x2 = px2;
+        if (y2 > py2) y2 = py2;
+        swp = x2 - sxp; shp = y2 - syp;
+      }
+      if (swp < 0) swp = 0;
+      if (shp < 0) shp = 0;
+      if (clipDepth < 16) {
+        clipStack[clipDepth][0] = sxp; clipStack[clipDepth][1] = syp;
+        clipStack[clipDepth][2] = swp; clipStack[clipDepth][3] = shp;
+        clipDepth++;
+      }
+      glEnable(GL_SCISSOR_TEST);
+      glScissor(sxp, syp, swp, shp);
+      clipsApplied++;
+    } else if (!strcmp(kind, "CLIP_POP")) {
+      if (clipDepth > 0) clipDepth--;
+      if (clipDepth > 0) {
+        GLint* prev = clipStack[clipDepth - 1];
+        glScissor(prev[0], prev[1], prev[2], prev[3]);
+      } else {
+        glDisable(GL_SCISSOR_TEST);
+      }
+    } else if (!strcmp(kind, "BOX")) {
       float r, g, blue; hex_color(e, &r, &g, &blue);
       float x = ox + atof(a) * scaleX;
       float y = oy + atof(b) * scaleY;
@@ -145,6 +187,14 @@ static int draw_executor_stream(AwtsBrowserState* state) {
       float r, g, blue; hex_color(d, &r, &g, &blue);
       awts_draw_text(state, ox + atof(a) * scaleX, oy + atof(b) * scaleY, c, r, g, blue);
       textsDrawn++;
+    } else if (!strcmp(kind, "IMAGE") || !strcmp(kind, "BGIMAGE")) {
+      float x = ox + atof(a) * scaleX;
+      float y = oy + atof(b) * scaleY;
+      float w = atof(c) * scaleX;
+      float h = atof(d) * scaleY;
+      rect(x, y, w, h, 0.92f, 0.96f, 1.0f);
+      outline(x, y, w, h, 0.18f, 0.38f, 0.74f);
+      imagesDrawn++;
     } else if (!strcmp(kind, "WEBGL")) {
       if (strstr(c, "drawArrays")) webglDraws++;
     }
@@ -154,9 +204,9 @@ static int draw_executor_stream(AwtsBrowserState* state) {
     GLenum err = glGetError();
     printf("awts-render-decision route=executor-stream result=drawn url=%s pageKind=%s streamBytes=%u canvasSeen=%d webglDraws=%d\n",
       state->url, state->pageKind, (unsigned int)strlen(stream), canvasSeen, webglDraws);
-    printf("awts-opengl-render-stream-draw source=%s url=%s pageKind=%s boxes=%d texts=%d glError=%u\n",
+    printf("awts-opengl-render-stream-draw source=%s url=%s pageKind=%s boxes=%d texts=%d images=%d clips=%d glError=%u\n",
       !strcmp(state->pageKind, "network-executor-render-stream") ? "network-executor-render-stream" : "merkava-bytecode-render-stream",
-      state->url, state->pageKind, boxesDrawn, textsDrawn, (unsigned int)err);
+      state->url, state->pageKind, boxesDrawn, textsDrawn, imagesDrawn, clipsApplied, (unsigned int)err);
     fflush(stdout);
     state->loggedExecutorRender = 1;
   }

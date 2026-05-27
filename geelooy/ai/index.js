@@ -30,10 +30,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   attachments.mount();
   const renderer = new MessageRenderer({ chatBox: dom.chatBox });
   let resumeVisibleStreams = () => {};
+  const stopVisibleStreams = () => resumeStoredStreams.stopActive?.();
   const controller = new ConversationController({
     aiHandler,
     renderer,
     serviceSelect: dom.serviceSelect,
+    onConversationChanging: () => stopVisibleStreams(),
     onConversationLoaded: () => resumeVisibleStreams()
   });
   const store = new AutomationSettingsStore();

@@ -326,7 +326,6 @@ function actionRequiredScope(action) {
   if (action.startsWith("chrome") || action === "isolatedHtmlTest") return "tunnel.browser";
 
   if ([
-    "write", "bulkWrite", "findReplace", "replaceRange", "applyPatch",
     "writeIfHash", "bulkWriteIfHashes", "jsonFormat", "mkdirp", "ensureFile", "touch", "copyFile", "copyTree", "moveFile", "moveTree", "deleteFile", "deleteTree", "emptyDir", "staticServerStart", "mkdirp", "ensureFile", "touch", "copyFile", "copyTree", "moveFile", "moveTree", "deleteFile", "deleteTree", "emptyDir",
     "workflowRun", "workflowRun", "configSet", "rootSelect", "openRoot"
   ].includes(action)) return "tunnel.write";

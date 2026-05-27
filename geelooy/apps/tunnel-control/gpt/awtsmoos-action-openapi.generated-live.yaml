@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
-  version: 5.4.0-generated
-  description: B"H. Generated from docs/actions.js. GET-only transport with UTF-8 query parameters. Use finishAndContinue at the end of an autonomous run to return the configured continuation prompt as finalInstruction.
+  version: 5.5.0-generated
+  description: B"H. Generated from the local tunnel agent action registry. GET-only transport with UTF-8 query parameters. Use finishAndContinue at the end of an autonomous run to return the configured continuation prompt as finalInstruction.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -165,7 +165,6 @@ paths:
               - fileTreeDiff
               - find
               - findFiles
-              - findReplace
               - finishAndContinue
               - forEachActionBatch
               - fsPermissionEnvelope
@@ -201,7 +200,9 @@ paths:
               - inferArchitecture
               - inferBusinessRules
               - insertAfterFunction
+              - insertAfterScope
               - insertBeforeFunction
+              - insertBeforeScope
               - inspectHumanConfusion
               - inspectRenderStorms
               - inspectRuntime
@@ -305,7 +306,11 @@ paths:
               - repairPatchSuggester
               - replaceFunction
               - replaceFunctionBody
+              - replaceMethod
               - replaceRange
+              - replaceScope
+              - replaceScopeBody
+              - replaceSymbol
               - repoDoctor
               - restartPreview
               - restoreSnapshotPlan
@@ -402,6 +407,7 @@ paths:
               - waitForPort
               - waitForUrl
               - watchTestOnce
+              - windowsExeSmokeTest
               - workflowGet
               - workflowList
               - workflowRun
@@ -461,8 +467,6 @@ paths:
         - { name: runtime, in: query, schema: { type: string } }
         - { name: engine, in: query, schema: { type: string } }
         - { name: continuationPrompt, in: query, schema: { type: string } }
-        - { name: checkSyntax, in: query, schema: { type: boolean, default: true } }
-        - { name: runtimeCheck, in: query, schema: { type: boolean, default: false } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
         - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
@@ -480,6 +484,8 @@ paths:
         - { name: maxSteps, in: query, schema: { type: integer, default: 50 } }
         - { name: maxIterations, in: query, schema: { type: integer, default: 20 } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
+        - { name: checkSyntax, in: query, schema: { type: boolean, default: true } }
+        - { name: runtimeCheck, in: query, schema: { type: boolean, default: false } }
         - { name: regex, in: query, schema: { type: boolean, default: false } }
         - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
         - { name: dryRun, in: query, schema: { type: boolean, default: true } }

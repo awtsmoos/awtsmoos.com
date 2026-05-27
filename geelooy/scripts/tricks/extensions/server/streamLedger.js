@@ -247,19 +247,6 @@
     return out;
   }
 
-  function encodeBase64(bytes) {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    let out = "";
-    for (let i = 0; i < bytes.length; i += 3) {
-      const a = bytes[i] || 0;
-      const b = bytes[i + 1] || 0;
-      const c = bytes[i + 2] || 0;
-      const n = (a << 16) | (b << 8) | c;
-      out += chars[(n >> 18) & 63] + chars[(n >> 12) & 63] + (i + 1 < bytes.length ? chars[(n >> 6) & 63] : "=") + (i + 2 < bytes.length ? chars[n & 63] : "=");
-    }
-    return out;
-  }
-
   globalThis.AwtsmoosStreamLedger = globalThis.AwtsmoosStreamLedger || AwtsmoosStreamLedger;
   globalThis.__awtsmoosStreamLedger = globalThis.__awtsmoosStreamLedger || new globalThis.AwtsmoosStreamLedger();
 })();

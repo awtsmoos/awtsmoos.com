@@ -7,7 +7,7 @@
 export const PHYSICS_CONSTANTS = {
     // Movement
     DEFAULT_SPEED: 6,
-    RUN_MULTIPLIER: 2,
+    RUN_MULTIPLIER: 1.5,
     LERP_TURN_SPEED: 0.145,
     
     // Forces

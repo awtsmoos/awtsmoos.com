@@ -54,7 +54,8 @@ export default class {
         try {
             const isLivingType = nivra.type === "chossid" || 
                                nivra.type === "medabeir" || 
-                               nivra.type === "customNpc";
+                               nivra.type === "customNpc" ||
+                               nivra.type === "interactiveNpc";
 
             if (nivra.path && typeof nivra.path === "string") {
                 let derech = nivra.path;

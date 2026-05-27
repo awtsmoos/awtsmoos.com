@@ -102,15 +102,6 @@
     }
   }
 
-  async function safeResumePacket(id, cursor = 0) {
-    try { return await resumeStream(id, cursor); }
-    catch (error) {
-      const message = String(error?.message || error);
-      if (/Response not found|already consumed|stream missing/i.test(message)) return null;
-      throw error;
-    }
-  }
-
   async function ackStream(id, cursor = 0) {
     try { return await sendBridgeMessage({ action: "ack-stream", id, cursor }, 30000); }
     catch (error) {

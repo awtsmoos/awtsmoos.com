@@ -1,58 +1,74 @@
-
 // B"H
-/**
- * @class Octree
- * @description
- * ╔══════════════════════════════════════════════════════════════════════════════════╗
- * ║  THE AWTSMOOS OCTREE — THE FOUNDATION OF ALL PHYSICAL REALITY                 ║
- * ╚══════════════════════════════════════════════════════════════════════════════════╝
- *
- * @file index.js
- * @memberof AwtsmoosOctree
- */
-import { Box3 } from '/games/scripts/build/three.module.js';
-import build from './methods/build/index.js';
-import intersection from './methods/intersection/index.js';
+import {
+	Box3,
+	Line3,
+	Plane,
+	Sphere,
+	Triangle,
+	Vector3
+} from '/games/scripts/build/three.module.js';
+import { Capsule } from '../Capsule.js';
+import build from "./methods/build.js";
+import intersection from "./methods/intersection.js";
+
+// --- Reusable private variables ---
+const _v1 = new Vector3();
+const _v2 = new Vector3();
+const _plane = new Plane();
+const _line1 = new Line3();
+const _line2 = new Line3();
+const _temp_triangle = new Triangle();
+
+const MAX_DEPTH = 55;
 
 export class Octree {
-    allTriangles;
-    worldTrianglesData;
-    isBuilt;
+	// Holds Triangle objects until the build is triggered.
+	// Kept permanently to allow for reliable removals and rebuilds.
+	allTriangles;
+	
+	// The memory-optimized flat array, derived from allTriangles.
+	worldTrianglesData;
 
-    constructor(box, config = {}) {
-        this.triangles = [];
-        this.box = box || new Box3();
-        this.subTrees = [];
-        this.allTriangles = [];
-        this.isBuilt = false;
-        this.dynamicTriangles = [];
-        this._isManaged = false;
+	// Flag to control the "Just-in-Time" build.
+	isBuilt;
 
-        this.config = {
-            MAX_DEPTH: 5,
-            MAX_TRIANGLES_PER_NODE: 32,
-            ...config
-        };
+	constructor(box) {
+		this.triangles = []; // This will store triangle INDICES
+		this.box = box || new Box3();
+		this.subTrees = [];
+		this.allTriangles = [];
+		this.isBuilt = false;
+		this.dynamicTriangles = [];
+		Object.keys(build).forEach(q => {
+			this[q] = build[q].bind(this);
+		})
+		Object.keys(intersection).forEach(q => {
+			this[q] = intersection[q].bind(this);
+		})
+	}
+	
+	
+	
+	/**
+	 * B"H
+	 *  Resets the octree to a clean state without needing to create a new instance.
+	 * This is critical for the performance of the dynamic OctreeWorld, which rebuilds
+	 * chunk physics frequently.
+	 */
+	clear() {
+	    this.allTriangles.length = 0;
+	    this.worldTrianglesData = null; // Let garbage collector handle the old Float32Array
+	    this.triangles.length = 0;
+	    this.subTrees.length = 0;
+	    this.box.makeEmpty();
+	    this.isBuilt = false;
+	    this._isManaged = false; // When cleared, it reverts to a normal, unmanaged octree.
 
-        Object.keys(build).forEach(methodName => {
-            this[methodName] = build[methodName].bind(this);
-        });
-
-        Object.keys(intersection).forEach(methodName => {
-            this[methodName] = intersection[methodName].bind(this);
-        });
-    }
-
-    clear() {
-        this.allTriangles.length = 0;
-        this.worldTrianglesData = null; 
-        this.triangles.length = 0;
-        this.subTrees.length = 0;
-        this.dynamicTriangles.length = 0;
-        this.box.makeEmpty();
-        this.isBuilt = false;
-        this._isManaged = false; 
-
-        return this;
-    }
+	    return this; // Allow chaining
+	}
+	
+	
+	
+	
+	
 }

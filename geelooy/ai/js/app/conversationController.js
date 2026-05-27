@@ -16,11 +16,12 @@ import { showLoadState } from "../render/runtime/loadState.js";
  * and completion hooks without corrupting the open surface.
  */
 export class ConversationController {
-  constructor({ aiHandler, renderer, serviceSelect, onConversationLoaded = null } = {}) {
+  constructor({ aiHandler, renderer, serviceSelect, onConversationLoaded = null, onConversationChanging = null } = {}) {
     this.aiHandler = aiHandler;
     this.renderer = renderer;
     this.serviceSelect = serviceSelect;
     this.onConversationLoaded = onConversationLoaded;
+    this.onConversationChanging = onConversationChanging;
     this.listPager = new ConversationListPager({ controller: this, limit: 26 });
   }
 
@@ -65,6 +66,7 @@ export class ConversationController {
 
   async loadConversation(conversationId) {
     try {
+      this.onConversationChanging?.(conversationId);
       updateSearchParams({ awtsmoosConversation: conversationId, awtsmoosAi: this.serviceSelect.value });
       window.curConversationId = conversationId;
       this.renderer.clear();
@@ -85,6 +87,7 @@ export class ConversationController {
   }
 
   async newConversation() {
+    this.onConversationChanging?.(null);
     this.renderer.clear();
     updateSearchParams({ awtsmoosConversation: null, awtsmoosAi: this.serviceSelect.value });
     await window?.aiHandler?.newConversation?.();
@@ -113,6 +116,8 @@ export class ConversationController {
       const visibleMessage = userMessage + describeAttachments(attachments);
       this.renderer.add({ message: { author: { role: "user" }, content: { parts: [visibleMessage] } } });
     }
+    if (stream) stream.open();
+    this.renderer.forceScrollDownSoon?.();
     try { return await this.sendThroughService(userMessage, attachments, stream, hooks); }
     catch (error) {
       const cid = hooks.conversationId || getConversationId();

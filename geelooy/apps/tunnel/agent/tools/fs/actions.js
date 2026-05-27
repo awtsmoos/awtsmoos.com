@@ -73,6 +73,7 @@ function publicConfigWithVersion(config) {
 
 module.exports = {
   handleFsAction,
+  buildActions,
   publicConfig: publicConfigWithVersion,
   AGENT_VERSION
 };

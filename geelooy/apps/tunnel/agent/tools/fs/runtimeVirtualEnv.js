@@ -75,15 +75,6 @@ function extractInlineScripts(html, file) {
   return scripts;
 }
 
-function extractInlineScripts(html, file) {
-  const scripts = [];
-  let index = 0;
-  for (const match of String(html || "").matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)) {
-    scripts.push({ file: `${file}#inline-script-${++index}`, source: match[1] || "" });
-  }
-  return scripts;
-}
-
 function checkScript(file, source) {
   try {
     if (/\bimport\s|\bexport\s/.test(source)) return { ok: true, file, skipped: "module_syntax_runtime_checked" };

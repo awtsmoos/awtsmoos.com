@@ -54,11 +54,6 @@ function optionalNodeCheck(abs, label) {
   return { ...nodeCheck(abs, label), optional: true };
 }
 
-function optionalNodeCheck(abs, label) {
-  if (!fs.existsSync(abs)) return { file: label, ok: true, optional: true, missing: true, warning: "optional_file_not_present" };
-  return { ...nodeCheck(abs, label), optional: true };
-}
-
 function duplicateImportScan(rootDir, roots) {
   const bad = [];
   for (const root of roots) walk(path.join(rootDir, root), file => {
@@ -75,7 +70,7 @@ function checkYamlSurface(abs, label) {
     simulateRuntimeAction: /- simulateRuntime/.test(text),
     engineParam: /name: engine/.test(text),
     runtimeParam: /name: runtime/.test(text),
-    nativeChecks: /- checkAwtsmoosAi/.test(text) && /- nodeEval/.test(text),
+    nativeChecks: /- doctorAll/.test(text) && /- yamlValidate/.test(text),
     getOnlyTunnelAction: /operationId: awtsmoosTunnelAction[\s\S]*?parameters:/.test(text)
   };
   return { file: label, ok: Object.values(checks).every(Boolean), checks };

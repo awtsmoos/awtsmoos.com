@@ -1,9 +1,10 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualWebGLTextureArena.js'));
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWebGLBoxRenderer = factory(root.Merkava).VirtualWebGLBoxRenderer; }
-})(typeof self !== 'undefined' ? self : this, function(arenaMod) {
+    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualWebGLTextureArena.js'), require('./VirtualImagePaintResolver.js'));
+    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWebGLBoxRenderer = factory(root.Merkava, root.Merkava).VirtualWebGLBoxRenderer; }
+})(typeof self !== 'undefined' ? self : this, function(arenaMod, imageMod) {
     const VirtualWebGLTextureArena = arenaMod.VirtualWebGLTextureArena;
+    const VirtualImagePaintResolver = imageMod.VirtualImagePaintResolver;
     const hiddenTags = new Set(['head', 'script', 'style', 'meta', 'link', 'title', 'option']);
     const inlineTags = new Set(['#text', 'span', 'a', 'b', 'i', 'strong', 'em', 'small', 'label']);
     const replacedTags = new Set(['img', 'canvas', 'video', 'svg']);
@@ -24,6 +25,7 @@
             this.viewportWidth = options.width || 760;
             this.viewportHeight = options.height || 560;
             this.rootStyle = null;
+            this.imagePaint = new VirtualImagePaintResolver();
         }
         ensureTexture(element) {
             if (!element.__webglBoxTexture) element.__webglBoxTexture = this.arena.createTexture('dom-box', element, 0, 0);
@@ -38,11 +40,17 @@
             const placed = this.place(element, style, metrics, x, y, containingWidth, containingHeight);
             const texture = this.ensureTexture(element);
             texture.width = metrics.outerWidth; texture.height = metrics.outerHeight;
+            this.paintCompositingHints(texture, placed, metrics, style);
             this.paintVisual(element, texture, placed, metrics, style);
             if (replacedTags.has(element.localName)) return this.paintReplaced(element, texture, placed, metrics, style);
-            if (style.display === 'flex' || style.display === 'inline-flex') return this.paintFlex(element, placed, containingWidth, containingHeight, style, metrics);
+            if (style.display === 'flex' || style.display === 'inline-flex') {
+                const result = this.paintFlex(element, placed, containingWidth, containingHeight, style, metrics);
+                this.paintClipPopIfNeeded(texture, placed, metrics, style);
+                return result;
+            }
             this.paintTextIfDirect(element, texture, placed, metrics, style);
             this.paintNormalFlow(element, placed, metrics, style);
+            this.paintClipPopIfNeeded(texture, placed, metrics, style);
             return metrics;
         }
         isHidden(element) { return !!element.hidden || hiddenTags.has(element.localName); }
@@ -77,6 +85,48 @@
             const ty = transformY(style.transform, metrics.outerHeight);
             return { x: px + tx, y: py + ty, contentX: px + tx + metrics.borderLeft + metrics.paddingLeft, contentY: py + ty + metrics.borderTop + metrics.paddingTop };
         }
+        paintCompositingHints(texture, placed, metrics, style) {
+            const radius = length(style['border-radius'] || 0, Math.min(metrics.outerWidth, metrics.outerHeight));
+            const alpha = opacity(style.opacity);
+            if (style.overflow === 'hidden' || style.overflow === 'clip' || style['overflow-x'] === 'hidden' || style['overflow-y'] === 'hidden') this.arena.record(texture, 'paintClipPush', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight, radius
+            });
+            if (radius > 0) this.arena.record(texture, 'paintBorderRadius', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight, radius
+            });
+            if (alpha < 1) this.arena.record(texture, 'paintOpacity', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight, alpha
+            });
+            if (style.transform && style.transform !== 'none') this.arena.record(texture, 'paintTransform', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight, transform: style.transform
+            });
+        }
+        paintCompositingHints(texture, placed, metrics, style) {
+            const radius = length(style['border-radius'] || 0, Math.min(metrics.outerWidth, metrics.outerHeight));
+            const alpha = opacity(style.opacity);
+            if (style.overflow === 'hidden' || style.overflow === 'clip' || style['overflow-x'] === 'hidden' || style['overflow-y'] === 'hidden') this.arena.record(texture, 'paintClipPush', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight, radius
+            });
+            if (radius > 0) this.arena.record(texture, 'paintBorderRadius', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight, radius
+            });
+            if (alpha < 1) this.arena.record(texture, 'paintOpacity', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight, alpha
+            });
+            if (style.transform && style.transform !== 'none') this.arena.record(texture, 'paintTransform', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight, transform: style.transform
+            });
+        }
+        paintClipPopIfNeeded(texture, placed, metrics, style) {
+            if (style.overflow === 'hidden' || style.overflow === 'clip' || style['overflow-x'] === 'hidden' || style['overflow-y'] === 'hidden') this.arena.record(texture, 'paintClipPop', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight
+            });
+        }
+        paintClipPopIfNeeded(texture, placed, metrics, style) {
+            if (style.overflow === 'hidden' || style.overflow === 'clip' || style['overflow-x'] === 'hidden' || style['overflow-y'] === 'hidden') this.arena.record(texture, 'paintClipPop', {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight
+            });
+        }
         paintVisual(element, texture, placed, metrics, style) {
             const background = backgroundColor(style);
             const border = borderColor(style);
@@ -91,14 +141,16 @@
             if (style['box-shadow']) this.arena.record(texture, 'paintShadow', {
                 x: placed.x + 3, y: placed.y + 3, width: metrics.outerWidth, height: metrics.outerHeight, color: '#000000'
             });
+            for (const op of this.imagePaint.backgroundLayers(style, {
+                x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight
+            })) this.arena.record(texture, op.op, op);
         }
         paintReplaced(element, texture, placed, metrics, style) {
             if (element.localName === 'img') {
-                const src = element.getAttribute?.('src') || '';
-                this.arena.record(texture, 'paintImagePlaceholder', {
-                    src, x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight,
-                    background: style['background-color'] || '#dddddd'
-                });
+                const op = this.imagePaint.imageElement(element, {
+                    x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight
+                }, style);
+                this.arena.record(texture, op.op, op);
             }
             if (element.localName === 'canvas') this.arena.record(texture, 'paintBox', {
                 x: placed.x, y: placed.y, width: metrics.outerWidth, height: metrics.outerHeight,
@@ -124,7 +176,7 @@
             let childY = placed.contentY + (this.directText(element) ? textBlockHeight(this.directText(element), metrics.contentWidth, style) : 0);
             let childX = placed.contentX;
             let lineHeightMax = 0;
-            for (const child of element.children || []) {
+            for (const child of stackOrderedChildren(element, style, this)) {
                 if (this.isHidden(child)) continue;
                 const childStyle = this.computed(child, style);
                 if (childStyle.display === 'none') continue;
@@ -181,7 +233,7 @@
                 this.paintElement(child, childX, childY, row ? box.outerWidth : metrics.contentWidth, row ? metrics.contentHeight : box.outerHeight, style);
                 main += (row ? box.outerWidth : box.outerHeight) + gap + between;
             }
-            for (const child of element.children || []) {
+            for (const child of stackOrderedChildren(element, style, this)) {
                 const childStyle = this.computed(child, style);
                 if (childStyle.position === 'absolute' || childStyle.position === 'fixed') this.paintElement(child, placed.contentX, placed.contentY, metrics.contentWidth, metrics.contentHeight, style);
             }
@@ -216,7 +268,7 @@
             let childHeight = 0, childWidth = 0;
             const ownText = this.directText(element);
             if (ownText) childHeight += textBlockHeight(ownText, contentWidth, style);
-            for (const child of element.children || []) {
+            for (const child of stackOrderedChildren(element, style, this)) {
                 if (this.isHidden(child)) continue;
                 const childStyle = this.computed(child, style);
                 if (childStyle.display === 'none' || childStyle.position === 'absolute' || childStyle.position === 'fixed') continue;
@@ -249,7 +301,7 @@
     }
     function normalizeShorthands(style) {
         if (style.background && !style['background-color']) style['background-color'] = firstColor(style.background);
-        if (style.background && !style['background-image']) style['background-image'] = firstUrl(style.background);
+        if (style.background && !style['background-image']) style['background-image'] = firstBackgroundImage(style.background);
         if (style.border && !style['border-width']) {
             const width = String(style.border).match(/(?:^|\s)(\d+(?:\.\d+)?(?:px|em|rem)?|thin|medium|thick)(?:\s|$)/);
             if (width) style['border-width'] = width[1];
@@ -317,6 +369,10 @@
     function edge(value, basis, fallback) { return lengthValue(value) ? length(value, basis) : fallback; }
     function lengthValue(value) { return value != null && String(value).trim() !== '' && !['auto', 'normal', 'unset'].includes(String(value).trim()); }
     function number(value) { return Number.parseFloat(String(value ?? '0')) || 0; }
+    function opacity(value) {
+        const n = Number.parseFloat(String(value ?? '1'));
+        return Number.isFinite(n) ? Math.max(0, Math.min(1, n)) : 1;
+    }
     function clamp(value, min = null, max = null) { let out = value; if (min != null) out = Math.max(out, min); if (max != null && max > 0) out = Math.min(out, max); return out; }
     function lineHeight(style) { return style['line-height'] && style['line-height'] !== 'normal' ? length(style['line-height'], fontSize(style)) : fontSize(style) * 1.2; }
     function fontSize(style) { return length(style['font-size'] || '16px', 16) || 16; }
@@ -359,6 +415,21 @@
         return 'transparent';
     }
     function firstUrl(value) { const m = String(value || '').match(/url\(([^)]+)\)/i); return m ? m[1].replace(/^["']|["']$/g, '') : ''; }
+    function firstBackgroundImage(value) {
+        const text = String(value || '');
+        const gradient = text.match(/(?:repeating-)?(?:linear|radial|conic)-gradient\([^)]*\)/i);
+        if (gradient) return gradient[0];
+        return firstUrl(text);
+    }
+    function stackOrderedChildren(element, parentStyle, renderer) {
+        return Array.from(element.children || []).map((child, order) => {
+            const style = renderer.computed(child, parentStyle);
+            const positioned = ['relative', 'absolute', 'fixed', 'sticky'].includes(String(style.position || 'static'));
+            const z = style['z-index'] === 'auto' || style['z-index'] == null ? 0 : number(style['z-index']);
+            const bucket = positioned || Number.isFinite(z) && z !== 0 || Number.parseFloat(style.opacity) < 1 ? 1 : 0;
+            return { child, order, z, bucket };
+        }).sort((a, b) => a.bucket - b.bucket || a.z - b.z || a.order - b.order).map(item => item.child);
+    }
     function transformX(value, width) { const m = String(value || '').match(/translate(?:3d|x)?\(([^,)]+)/i); return m ? length(m[1], width) : 0; }
     function transformY(value, height) { const m = String(value || '').match(/translate(?:3d|y)?\([^,]+,\s*([^,)]+)/i); return m ? length(m[1], height) : 0; }
     function emptyBox() { return { outerWidth: 0, outerHeight: 0, contentWidth: 0, contentHeight: 0 }; }
