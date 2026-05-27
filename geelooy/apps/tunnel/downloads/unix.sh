@@ -27,7 +27,7 @@ command -v curl >/dev/null 2>&1 || {
 if [ ! -f "$CONFIG" ]; then
 cat > "$CONFIG" <<EOF
 {
-  "BH": "B\"H",
+  
   "relay": "wss://awtsmoos.com",
   "tunnelName": "awt-$(whoami)-$RANDOM",
   "local": "http://localhost:3000",
