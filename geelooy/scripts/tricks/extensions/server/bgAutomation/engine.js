@@ -2,16 +2,15 @@
 (function(){
   const ALARM = "BH_awtsmoos_background_automation_tick";
   const MIN_DELAY_MS = 250;
-  let busy = false;
+  const busyConversations = new Set();
   let wakeTimer = null;
 
   /**
-   * Chapter 100: The Counter Stopped Lying.
+   * Chapter 105: The Engine Counted Only Living Footsteps.
    *
-   * A turn is not a turn when a request merely begins. It becomes a turn only
-   * after ChatGPT accepts the prompt and a settled assistant answer is recovered.
-   * This prevents AUTO 2/AUTO 3 badges from appearing when no new message was
-   * actually created on chatgpt.com.
+   * The loop may arm, send, wait, commit, and schedule, yet turns rise only at
+   * commit. Separate conversations carry separate lamps, so one active stream no
+   * longer darkens another branch of the palace.
    */
   async function startAutomation(config = {}) {
     const store = globalThis.AwtsmoosBgAutomationStorage;
@@ -21,6 +20,7 @@
       enabled:true,
       turns:sameConversation ? Number(current.turns || 0) : 0,
       status:"armed",
+      phase:"armed",
       lastError:"",
       nextRunAt:0,
       conversationId:config.conversationId,
@@ -39,7 +39,7 @@
   async function stopAutomation(reason = "stopped") {
     chrome.alarms.clear(ALARM);
     clearWakeTimer();
-    return await savePublic({ enabled:false, status:reason, nextRunAt:0 });
+    return await savePublic({ enabled:false, status:reason, phase:reason, nextRunAt:0, pendingTurn:0 });
   }
 
   async function statusAutomation() {
@@ -48,29 +48,30 @@
   }
 
   async function tickAutomation(reason = "tick") {
-    if (busy) return await statusAutomation();
     const store = globalThis.AwtsmoosBgAutomationStorage;
     const state = await store.loadAutomationState();
     const settings = { ...store.DEFAULTS, ...(state.settings || {}) };
     if (!state.enabled || !state.conversationId) return store.publicAutomationState(state);
-    const nextRunAt = Number(state.nextRunAt || 0);
-    if (nextRunAt && Date.now() < nextRunAt) {
-      await scheduleNext(nextRunAt - Date.now(), { preserveTarget:true });
+    if (busyConversations.has(state.conversationId)) return store.publicAutomationState(state);
+    if (Date.now() < Number(state.nextRunAt || 0)) {
+      await scheduleNext(Number(state.nextRunAt) - Date.now(), { preserveTarget:true });
       return store.publicAutomationState(await store.loadAutomationState());
     }
     if (Number(state.turns || 0) >= Number(settings.maxTurns || 0)) return await stopAutomation("done:max-turns");
-    busy = true;
+    busyConversations.add(state.conversationId);
     try { return await runTurn({ state, settings, reason }); }
     catch (error) { return await fail(error, settings.stopOnError !== false); }
-    finally { busy = false; }
+    finally { busyConversations.delete(state.conversationId); }
   }
 
   async function runTurn({ state, settings }) {
     const store = globalThis.AwtsmoosBgAutomationStorage;
-    const nextTurn = Number(state.turns || 0) + 1;
-    const prompt = globalThis.AwtsmoosBgAutomationGraph.chooseAutomationPrompt(state.graph, { ...state, settings, turn: nextTurn }) || state.prompt || settings.prompt;
-    await savePublic({ status:`sending:${nextTurn}`, pendingTurn:nextTurn, lastPrompt:prompt, visiblePage:false, nextRunAt:0, lastError:"" });
+    const pending = globalThis.AwtsmoosBgTurnState.beginTurn(state);
+    const nextTurn = pending.pendingTurn;
+    const prompt = globalThis.AwtsmoosBgAutomationGraph.chooseAutomationPrompt(state.graph, { ...state, settings, turn:nextTurn }) || state.prompt || settings.prompt;
+    await savePublic({ ...pending, status:`sending:${nextTurn}`, lastPrompt:prompt, visiblePage:false });
     streamMirror({ phase:"start", conversationId:state.conversationId, prompt, turn:nextTurn, seq:0 });
+    await savePublic(globalThis.AwtsmoosBgTurnState.awaitingAssistant({ pendingTurn:nextTurn, prompt }));
     const result = await globalThis.AwtsmoosBgChatGpt.sendChatGptBackground({
       conversationId:state.conversationId,
       prompt,
@@ -78,16 +79,9 @@
       chatgptModePayload:state.chatgptModePayload || settings.chatgptModePayload || {},
       onPacket:event => streamMirror({ ...event, conversationId:event.conversationId || state.conversationId, prompt, turn:nextTurn })
     });
-    if (!result?.messageId && !String(result?.text || "").trim()) throw new Error("Automation send returned no assistant message id or text.");
-    const committed = await store.saveAutomationState({
-      status:"waiting",
-      turns:nextTurn,
-      pendingTurn:0,
-      lastReply:result.text || "",
-      lastMessageId:result.messageId || "",
-      lastConversationId:result.conversationId || state.conversationId,
-      lastError:""
-    });
+    if (!result?.ok && !String(result?.text || "").trim()) throw new Error("Automation send was not verified by ChatGPT conversation history.");
+    const fresh = await store.loadAutomationState();
+    const committed = await store.saveAutomationState(globalThis.AwtsmoosBgTurnState.commitTurn(fresh, result));
     announce(committed);
     const latest = await store.loadAutomationState();
     if (!latest.enabled) return store.publicAutomationState(latest);
@@ -97,11 +91,11 @@
   }
 
   async function fail(error, stop = true) {
-    const message = String(error?.stack || error?.message || error);
-    const next = await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState({ status:"error", pendingTurn:0, lastError:message });
+    const patch = globalThis.AwtsmoosBgTurnState.errorTurn(error);
+    const next = await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState(patch);
     announce(next);
     if (stop) await stopAutomation("error"); else await scheduleNext(5000);
-    console.warn("B'H background automation error", error?.message || error);
+    if (localStorageFlag()) console.warn("B'H background automation error", error?.message || error);
     return globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(next);
   }
 
@@ -113,22 +107,17 @@
 
   function announce(state) { globalThis.AwtsmoosBgPageDelegate?.broadcastAutomationState?.(globalThis.AwtsmoosBgAutomationStorage.publicAutomationState(state)); }
   function streamMirror(detail) { globalThis.AwtsmoosBgPageDelegate?.broadcastAutomationStream?.(detail); }
-  function scheduleSoon(ms) { setWakeTimer(ms); chrome.alarms.create(ALARM, { delayInMinutes: Math.max(0.02, ms / 60000) }); }
+  function scheduleSoon(ms) { setWakeTimer(ms); chrome.alarms.create(ALARM, { delayInMinutes:Math.max(0.02, ms / 60000) }); }
   async function scheduleNext(delayMs, options = {}) {
     const ms = Math.max(MIN_DELAY_MS, Number(delayMs || 1000));
     clearWakeTimer();
-    if (!options.preserveTarget) await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState({ nextRunAt:Date.now() + ms });
+    if (!options.preserveTarget) await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState(globalThis.AwtsmoosBgTurnState.scheduledNext(ms));
     scheduleSoon(ms);
   }
-  function setWakeTimer(ms) {
-    clearWakeTimer();
-    wakeTimer = setTimeout(() => tickAutomation("timer"), Math.max(MIN_DELAY_MS, Number(ms || MIN_DELAY_MS)));
-  }
-  function clearWakeTimer() {
-    if (!wakeTimer) return;
-    clearTimeout(wakeTimer);
-    wakeTimer = null;
-  }
+  function setWakeTimer(ms) { clearWakeTimer(); wakeTimer = setTimeout(() => tickAutomation("timer"), Math.max(MIN_DELAY_MS, Number(ms || MIN_DELAY_MS))); }
+  function clearWakeTimer() { if (wakeTimer) clearTimeout(wakeTimer); wakeTimer = null; }
+  function localStorageFlag() { try { return localStorage.getItem("awtsmoosDebugAutomation") === "1"; } catch { return false; } }
+
   chrome.alarms.onAlarm.addListener(alarm => { if (alarm.name === ALARM) tickAutomation("alarm"); });
   globalThis.AwtsmoosBgAutomationEngine = { startAutomation, stopAutomation, statusAutomation, tickAutomation };
 })();

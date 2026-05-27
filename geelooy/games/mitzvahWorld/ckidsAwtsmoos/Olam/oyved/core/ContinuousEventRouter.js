@@ -73,14 +73,14 @@ export class ContinuousEventRouter {
      * @method route
      * @description Judges an incoming array of keys and rapidly routes them.
      */
-    static route(olam, key, payload, promiseMap) {
+    static async route(olam, key, payload, promiseMap) {
         if (!olam && key !== 'vessel_ready') return;
 
         const action = this.actionMap[key];
 
         // Exists in the active route ledger? Run it directly!
         if (typeof action === 'function') {
-            action(olam, payload);
+            await action(olam, payload);
             return;
         }
 

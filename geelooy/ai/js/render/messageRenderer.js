@@ -13,6 +13,7 @@ import { bottomWeightedStart, pruneTopRenderedShells, shiftWeightedWindow, syncW
 import { clearLoadState, showLoadState } from "./runtime/loadState.js";
 import { isNearBottom, isProgrammaticScroll, scrollToLiveBottom } from "./runtime/scrollRuntime.js";
 import { finalizeTextRecord } from "./runtime/liveTextRuntime.js";
+import { captureWindowScrollAnchor, restoreWindowScrollAnchor } from "./runtime/windowScrollAnchor.js";
 
 /**
  * Chapter 54: The Renderer Became A Court Of Living Actors.
@@ -232,9 +233,12 @@ export class MessageRenderer {
     this.records = this.records.filter(record => !removeIfEmptyLoading(this, record));
   }
 
-  shiftWindow(delta) {
+  async shiftWindow(delta) {
+    const anchor = captureWindowScrollAnchor(this.chatBox);
+    this.pauseLiveFollow();
     this.windowStart = clamp(shiftWeightedWindow(this.records, this.windowStart, delta), 0, Math.max(0, this.records.length - 1));
-    this.renderWindow();
+    await this.renderWindow();
+    restoreWindowScrollAnchor(this.chatBox, anchor);
   }
 
   forceScrollDown() {

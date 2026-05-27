@@ -8,10 +8,9 @@ const MIRROR_HARD_SILENCE_MS = 20 * 60 * 1000;
  * Chapter 98: The Mirror Learned Patience.
  *
  * A long ChatGPT turn may pause while tools run, files upload, or the model
- * thinks. The old mirror treated 45 seconds of silence as completion, producing
- * exactly the dead empty assistant seen in the pasted end fragment. This mirror
- * never finalizes from silence. It emits a tiny status event, keeps the live
- * vessel open, and waits for a real `phase:"done"` from the extension stream.
+ * thinks. The mirror never finalizes from silence. It also refreshes visible UI
+ * state from background-owned automation state without stealing ownership of
+ * the loop from the extension.
  */
 export function mountBackgroundAutomationMirror({ renderer, controller, panel, getConversationId }) {
   const streams = new Map();
@@ -21,6 +20,7 @@ export function mountBackgroundAutomationMirror({ renderer, controller, panel, g
   async function mirrorState(state) {
     panel.report(`automation owner: extension background · ${state.status || "state"} · ${state.turns || 0}/${state.settings?.maxTurns || "?"}`);
     if (state.conversationId !== getConversationId()) return;
+    if (shouldRefreshConversation(state)) await controller.loadConversation?.(state.conversationId, { preserveVisibleStream:true, source:"background-automation-state" });
     if (/error|stopped|max-turns/i.test(String(state.status || ""))) await finishMirrorsForConversation(state.conversationId, state.status || "stopped");
   }
 
@@ -62,7 +62,7 @@ export function mountBackgroundAutomationMirror({ renderer, controller, panel, g
       entry.seq++;
       entry.lastPacketAt = Date.now();
       armIdleNotice(key, entry, detail);
-      if (detail.phase === "packet") await entry.router.route(detail.packet);
+      if (detail.phase === "packet") await entry.router.route(detail.packet || detail);
       if (detail.phase === "done") return await finishMirror(key, entry, detail);
     }
   }
@@ -97,6 +97,11 @@ export function mountBackgroundAutomationMirror({ renderer, controller, panel, g
       await entry.router.route({ awtsmoos: { otherEvents: [{ type: "automation_stream_closed", text: `Automation stream closed: ${reason}` }] } });
       await finishMirror(key, entry, { conversationId, packet: { dataNoJSON: "[DONE]" } });
     }
+  }
+
+  function shouldRefreshConversation(state = {}) {
+    const status = String(state.status || "");
+    return /committed|done:max-turns|error|stopped/i.test(status) && !streams.has(streamKey({ conversationId:state.conversationId, turn:state.turns }));
   }
 
   function streamKey(detail = {}) {

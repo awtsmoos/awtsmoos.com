@@ -41,7 +41,7 @@ export class OyvedMessageInterpreter {
      * @method handleOngoing
      * @description Directs all post-creation heartbeat pulses.
      */
-    static handleOngoing(ActiveOlamInstance, data, promiseMap) {
-        ContinuousRoute.route(ActiveOlamInstance, data, promiseMap);
+    static async handleOngoing(ActiveOlamInstance, data, promiseMap) {
+        await ContinuousRoute.route(ActiveOlamInstance, data, promiseMap);
     }
 }

@@ -3,6 +3,9 @@ importScripts("streamLedger.js");
 importScripts(
   "bgAutomation/storage.js",
   "bgAutomation/graph.js",
+  "bgAutomation/turnState.js",
+  "bgAutomation/settledConversationPoller.js",
+  "bgAutomation/sendVerifier.js",
   "bgAutomation/chatgpt.js",
   "bgAutomation/pageDelegate.js",
   "bgAutomation/engine.js",

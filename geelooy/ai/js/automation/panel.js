@@ -7,6 +7,14 @@ import { cloneDefaultAutomationGraph, cloneStudioExampleGraph } from "./graphDef
 import { automationArchiveStore, downloadTextFile } from "./messageArchive.js";
 import { renderGraphFields, captureGraphFormsFromRoot, createGraphNode } from "./graphEditorUi.js";
 
+const TAB_LABELS = {
+  automation: "Automation",
+  graph: "Graph",
+  archive: "Archive",
+  settings: "Settings",
+  trace: "Trace filters"
+};
+
 export class AutomationPanel {
   constructor({ root, store, onChange, onDownloadChat = null, onDownloadJson = null }) {
     this.root = root;
@@ -27,9 +35,7 @@ export class AutomationPanel {
     const topbar = this.root.querySelector(":scope > .panel-topbar");
     const content = document.createElement("div");
     content.className = "automation-panel-content";
-    content.innerHTML = `<div class="right-tabs">
-      ${tab("automation", "Automation", this.tab)}${tab("graph", "Graph", this.tab)}${tab("archive", "Archive", this.tab)}${tab("settings", "Settings", this.tab)}${tab("trace", "Trace filters", this.tab)}
-    </div><div class="right-panel-body">${this.body()}</div>`;
+    content.innerHTML = `${this.menu()}<div class="right-panel-body">${this.body()}</div>`;
     this.root.replaceChildren(...[topbar, content].filter(Boolean));
     this.bindTabs();
     this.bindAutomation();
@@ -41,45 +47,31 @@ export class AutomationPanel {
     this.bindRelay();
   }
 
-  body() {
-    if (this.tab === "settings") return `<h2>B"H Cockpit Settings</h2><p class="panel-note">The right drawer is now a multi-panel vessel.</p>${this.exportFields()}${this.relayFields()}${this.visibilityFields()}`;
-    if (this.tab === "trace") return `<h2>Message Trace Filters</h2><p class="panel-note">Disable noisy trace families without deleting them from history.</p>${this.visibilityFields()}`;
-    if (this.tab === "graph") return this.graphFields();
-    if (this.tab === "archive") return this.archiveFields();
-    return `<h2>Automation Pipeline</h2>${field("enabled", "Enable auto-continue", "checkbox", this.settings.enabled)}<div class="automation-actions"><button type="button" class="automation-stop-button" data-auto-action="stop">Stop automation now</button></div>${field("maxTurns", "Max turns", "number", this.settings.maxTurns)}${field("delayMs", "Delay ms", "number", this.settings.delayMs)}${field("streamSettleMs", "Stream settle ms", "number", this.settings.streamSettleMs)}<label class="automation-field prompt-field">Prompt<textarea data-auto="prompt" rows="7">${text(this.settings.prompt)}</textarea></label><div class="automation-status" id="automation-status">${this.settings.enabled ? "automation armed" : "automation off"}</div>`;
+  menu() {
+    return `<details class="right-menu"><summary aria-label="Open settings sections"><span class="hamburger-bars" aria-hidden="true">☰</span><span class="right-menu-current">${TAB_LABELS[this.tab]}</span></summary><div class="right-tabs">${Object.entries(TAB_LABELS).map(([name, labelText]) => tab(name, labelText, this.tab)).join("")}</div></details>`;
   }
 
-  graphFields() {
-    return renderGraphFields(this.graph);
+  body() {
+    if (this.tab === "settings") return `<h3 class="panel-section-label">B"H Cockpit Settings</h3><p class="panel-note">The right drawer is a compact multi-panel vessel.</p>${this.exportFields()}${this.relayFields()}${this.visibilityFields()}`;
+    if (this.tab === "trace") return `<h3 class="panel-section-label">Message Trace Filters</h3><p class="panel-note">Disable noisy trace families without deleting them from history.</p>${this.visibilityFields()}`;
+    if (this.tab === "graph") return this.graphFields();
+    if (this.tab === "archive") return this.archiveFields();
+    return `<h3 class="panel-section-label">Automation Pipeline</h3>${field("enabled", "Enable auto-continue", "checkbox", this.settings.enabled)}<div class="automation-actions"><button type="button" class="automation-stop-button" data-auto-action="stop">Stop automation now</button></div>${field("maxTurns", "Max turns", "number", this.settings.maxTurns)}${field("delayMs", "Delay ms", "number", this.settings.delayMs)}${field("streamSettleMs", "Stream settle ms", "number", this.settings.streamSettleMs)}<label class="automation-field prompt-field">Prompt<textarea data-auto="prompt" rows="7">${text(this.settings.prompt)}</textarea></label><div class="automation-status" id="automation-status">${this.settings.enabled ? "automation armed" : "automation off"}</div>`;
   }
+
+  graphFields() { return renderGraphFields(this.graph); }
 
   exportFields() {
     return `<section class="automation-card chat-export-card"><h3>Chat export</h3><p class="panel-note">Download the loaded RAM conversation as readable HTML, or the full unfiltered debug JSON with records, raw packets, events, and live flags.</p><div class="relay-actions"><button type="button" data-settings-action="download-chat-html">Download chat HTML</button><button type="button" data-settings-action="download-chat-json">Download full debug JSON</button></div><div class="automation-status" id="settings-status">ready</div></section>`;
   }
 
   archiveFields() {
-    return `<section class="automation-archive-panel">
-      <h2>Automation Archive</h2>
-      <p class="panel-note">Assistant replies are stored in IndexedDB for graph runs. Download or clear the archive here.</p>
-      <div class="graph-toolbar">
-        <button type="button" data-archive-action="download">Download archive JSON</button>
-        <button type="button" data-archive-action="clear">Clear archive</button>
-        <button type="button" data-archive-action="count">Count messages</button>
-      </div>
-      <div class="automation-status" id="archive-status">archive ready</div>
-    </section>`;
+    return `<section class="automation-archive-panel"><h3 class="panel-section-label">Automation Archive</h3><p class="panel-note">Assistant replies are stored in IndexedDB for graph runs. Download or clear the archive here.</p><div class="graph-toolbar"><button type="button" data-archive-action="download">Download archive JSON</button><button type="button" data-archive-action="clear">Clear archive</button><button type="button" data-archive-action="count">Count messages</button></div><div class="automation-status" id="archive-status">archive ready</div></section>`;
   }
 
   relayFields() {
     const enabled = this.relaySettings.enabled ? "checked" : "";
-    return `<section class="automation-card relay-card">
-      <h3>ChatGPT transport</h3>
-      <p class="panel-note">Use the extension bridge, or connect to the experimental split-browser relay already running from <code>geelooy/ai/relay/split-browser</code>.</p>
-      <label class="automation-field">Relay URL<input data-relay="url" value="${attr(this.relaySettings.url)}"></label>
-      <label class="automation-field"><input data-relay="enabled" type="checkbox" ${enabled}> Use Node relay instead of extension</label>
-      <div class="relay-actions"><button type="button" data-relay-action="health">Check split relay</button><button type="button" data-relay-action="control">Get localhost control URL</button><button type="button" data-relay-action="extension">Switch back to extension</button></div>
-      <div class="automation-status" id="relay-status">${this.relaySettings.enabled ? "Node relay selected" : "Extension bridge selected"}</div>
-    </section>`;
+    return `<section class="automation-card relay-card"><h3>ChatGPT transport</h3><p class="panel-note">Use the extension bridge, or connect to the experimental split-browser relay already running from <code>geelooy/ai/relay/split-browser</code>.</p><label class="automation-field">Relay URL<input data-relay="url" value="${attr(this.relaySettings.url)}"></label><label class="automation-field"><input data-relay="enabled" type="checkbox" ${enabled}> Use Node relay instead of extension</label><div class="relay-actions"><button type="button" data-relay-action="health">Check split relay</button><button type="button" data-relay-action="control">Get localhost control URL</button><button type="button" data-relay-action="extension">Switch back to extension</button></div><div class="automation-status" id="relay-status">${this.relaySettings.enabled ? "Node relay selected" : "Extension bridge selected"}</div></section>`;
   }
 
   visibilityFields() {
@@ -87,6 +79,7 @@ export class AutomationPanel {
   }
 
   bindTabs() { this.root.querySelectorAll("[data-tab]").forEach(btn => btn.onclick = () => { this.tab = btn.dataset.tab; this.render(); }); }
+
   bindAutomation() {
     this.root.querySelectorAll("[data-auto]").forEach(input => {
       const handler = () => this.captureAutomation();
@@ -94,6 +87,7 @@ export class AutomationPanel {
       input.onchange = handler;
     });
   }
+
   bindAutomationActions() {
     this.root.querySelectorAll("[data-auto-action]").forEach(button => button.onclick = () => {
       if (button.dataset.autoAction !== "stop") return;
@@ -103,28 +97,14 @@ export class AutomationPanel {
       this.report("automation stop requested");
     });
   }
-  bindAutomationActions() {
-    this.root.querySelectorAll("[data-auto-action]").forEach(button => button.onclick = () => {
-      if (button.dataset.autoAction !== "stop") return;
-      const enabled = this.root.querySelector('[data-auto="enabled"]');
-      if (enabled) enabled.checked = false;
-      this.captureAutomation();
-      this.report("automation stop requested");
-    });
-  }
+
   bindVisibility() { this.root.querySelectorAll("[data-event-type]").forEach(input => input.onchange = () => this.captureVisibility()); }
 
-  bindGraph() {
-    this.root.querySelectorAll("[data-graph-action]").forEach(button => button.onclick = () => this.handleGraphAction(button.dataset.graphAction));
-  }
+  bindGraph() { this.root.querySelectorAll("[data-graph-action]").forEach(button => button.onclick = () => this.handleGraphAction(button.dataset.graphAction)); }
 
-  bindArchive() {
-    this.root.querySelectorAll("[data-archive-action]").forEach(button => button.onclick = () => this.handleArchiveAction(button.dataset.archiveAction));
-  }
+  bindArchive() { this.root.querySelectorAll("[data-archive-action]").forEach(button => button.onclick = () => this.handleArchiveAction(button.dataset.archiveAction)); }
 
-  bindSettingsActions() {
-    this.root.querySelectorAll("[data-settings-action]").forEach(button => button.onclick = () => this.handleSettingsAction(button.dataset.settingsAction));
-  }
+  bindSettingsActions() { this.root.querySelectorAll("[data-settings-action]").forEach(button => button.onclick = () => this.handleSettingsAction(button.dataset.settingsAction)); }
 
   bindRelay() {
     this.root.querySelectorAll("[data-relay]").forEach(input => input.oninput = () => this.captureRelay());
@@ -163,19 +143,13 @@ export class AutomationPanel {
     }
   }
 
-  captureGraphForms() {
-    return captureGraphFormsFromRoot(this.root, this.graph);
-  }
+  captureGraphForms() { return captureGraphFormsFromRoot(this.root, this.graph); }
 
   handleSettingsAction(action) {
     const status = this.root.querySelector("#settings-status");
     if (action === "download-chat-html") {
       this.onDownloadChat?.();
       if (status) status.textContent = "chat HTML downloaded";
-    }
-    if (action === "download-chat-json") {
-      this.onDownloadJson?.();
-      if (status) status.textContent = "full debug JSON downloaded";
     }
     if (action === "download-chat-json") {
       this.onDownloadJson?.();

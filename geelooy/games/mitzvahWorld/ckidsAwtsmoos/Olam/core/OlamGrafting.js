@@ -45,7 +45,7 @@ export default class OlamGrafting {
         const CanvasSetup = (await import("../methods/canvasSetup.js")).default;
         graftModule(CanvasSetup);
         
-        const boyrayNivraClass = (await import("../methods/boyrayNivra.js?v=interactive-npc-living-fast-20260527")).default;
+        const boyrayNivraClass = (await import("../methods/boyrayNivra.js?v=interactive-npc-static-safe-20260527")).default;
         graftModule(boyrayNivraClass);
 
         const Ohr = (await import("../methods/ohr.js")).default;

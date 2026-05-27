@@ -54,7 +54,7 @@ export async function handleWorkerMessageFlow(state, data, OyvedMessageInterpret
 
     if (responseType === "CONTINUOUS") {
       postWorkerProgress(`message:${typeText}:handleOngoing:start`);
-      OyvedMessageInterpreter.handleOngoing(
+      await OyvedMessageInterpreter.handleOngoing(
         state.activeOlamInstance,
         data,
         state.promiseMap

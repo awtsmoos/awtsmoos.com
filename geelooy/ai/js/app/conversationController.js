@@ -7,6 +7,7 @@ import { mountAwtsmoosAudioOffer } from "../chatgpt/audio/audioControls.js";
 import { streamResumeStore } from "../chatgpt/stream/streamResumeStore.js";
 import { withTimeout } from "./conversations/withTimeout.js";
 import { showLoadState } from "../render/runtime/loadState.js";
+import { beginVisibleConversation, isCurrentNavigation, setVisibleConversationId } from "./conversations/visibleConversationSession.js";
 
 /**
  * B"H — ConversationController is now a narrow orchestration vessel.
@@ -65,31 +66,36 @@ export class ConversationController {
   }
 
   async loadConversation(conversationId) {
+    const navigation = beginVisibleConversation(conversationId);
     try {
       this.onConversationChanging?.(conversationId);
       updateSearchParams({ awtsmoosConversation: conversationId, awtsmoosAi: this.serviceSelect.value });
-      window.curConversationId = conversationId;
       this.renderer.clear();
       showLoadState(this.renderer.chatBox, "Opening conversation…", "loading");
       const service = await this.getService();
+      if (!isCurrentNavigation(navigation)) return;
       showLoadState(this.renderer.chatBox, "Fetching messages…", "loading");
       const messages = service.getConversation ? await service.getConversation(conversationId) : [];
+      if (!isCurrentNavigation(navigation)) return;
       if (this.renderer.loadMessages) await this.renderer.loadMessages(messages);
       else messages.forEach(message => this.renderer.add(message));
+      if (!isCurrentNavigation(navigation)) return;
       streamResumeStore.removeStaleForConversation(conversationId, { keepRecentMs: 30000 });
       this.mountLoadedAudioOffer({ messages, conversationId });
       this.renderer.forceScrollDown?.({ rerender: false });
       await this.onConversationLoaded?.(conversationId);
     } catch (error) {
-      this.renderer.showError?.("Conversation load error", error);
+      if (isCurrentNavigation(navigation)) this.renderer.showError?.("Conversation load error", error);
       throw error;
     }
   }
 
   async newConversation() {
+    beginVisibleConversation(null);
     this.onConversationChanging?.(null);
     this.renderer.clear();
     updateSearchParams({ awtsmoosConversation: null, awtsmoosAi: this.serviceSelect.value });
+    setVisibleConversationId(null);
     await window?.aiHandler?.newConversation?.();
   }
 
@@ -162,7 +168,7 @@ export class ConversationController {
     const cid = extractConversationId(response) || targetConversationId;
     if (cid && isVisibleConversation(targetConversationId, startedOnBlankConversation, cid)) {
       updateSearchParams({ awtsmoosConversation: cid, awtsmoosAi: this.serviceSelect.value });
-      window.curConversationId = cid;
+      setVisibleConversationId(cid);
       this.refreshSidebarAfterNewConversation({ cid, startedOnBlankConversation });
     }
     window.mostRecentResponseSummary = summarizeResponseForDebug(response);
