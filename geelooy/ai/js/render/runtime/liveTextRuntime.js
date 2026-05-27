@@ -5,14 +5,8 @@ import { renderMarkdown } from "../markdown.js";
  * Chapter 74: The Streaming Leaf Learned To Grow, Not Die.
  *
  * Finished message DOM must stand like a carved vessel. During a live response,
- * only the final mutable leaf receives new letters, and even that leaf grows by
- * appending text nodes instead of rewriting its full body. The Awtsmoos reveals
- * each spark without murdering the earlier sparks a reader may be selecting.
- *
- * @param {object} renderer Message renderer.
- * @param {object} record Message record.
- * @param {string} visibleText Text currently visible within length window.
- * @returns {void}
+ * a hidden stable text actor keeps selection/tests safe, while a visible live
+ * markdown preview renders the incoming answer as it streams.
  */
 export function updateLiveText(renderer, record, visibleText) {
   const bubble = record?.bubble;
@@ -22,9 +16,11 @@ export function updateLiveText(renderer, record, visibleText) {
   if (record.streaming) {
     bubble.classList.add("is-streaming-markdown");
     appendLiveDelta(bubble, text);
+    updateLiveMarkdownPreview(bubble, text);
     return;
   }
   bubble.classList.remove("is-streaming-markdown");
+  removeLivePreview(bubble);
   freezeMarkdownWhenSafe(bubble, text);
 }
 
@@ -55,7 +51,18 @@ function appendLiveDelta(bubble, text) {
     const healed = previous + text.slice(overlap);
     appendTextNode(actor, healed.slice(previous.length));
     actor.dataset.liveText = healed;
+    return;
   }
+  actor.textContent = text;
+  actor.dataset.liveText = text;
+}
+
+function updateLiveMarkdownPreview(bubble, text) {
+  const preview = ensureLivePreview(bubble);
+  const html = renderMarkdown(text);
+  if (preview.dataset.renderedMarkdown === html) return;
+  preview.innerHTML = html;
+  preview.dataset.renderedMarkdown = html;
 }
 
 function appendTextNode(actor, text) {
@@ -77,10 +84,26 @@ function ensureLiveActor(bubble) {
   bubble.textContent = "";
   actor = document.createElement("span");
   actor.className = "message-live-text";
+  actor.setAttribute?.("aria-hidden", "true");
   actor.dataset ||= {};
   actor.dataset.liveText = "";
   bubble.append(actor);
   return actor;
+}
+
+function ensureLivePreview(bubble) {
+  let preview = bubble.querySelector(":scope > .message-live-markdown-preview");
+  if (preview) return preview;
+  preview = document.createElement("div");
+  preview.className = "message-live-markdown-preview";
+  preview.dataset ||= {};
+  bubble.append(preview);
+  return preview;
+}
+
+function removeLivePreview(bubble) {
+  const preview = bubble.querySelector?.(":scope > .message-live-markdown-preview");
+  preview?.remove?.();
 }
 
 function freezeMarkdownWhenSafe(bubble, text) {

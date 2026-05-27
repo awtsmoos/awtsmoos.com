@@ -116,6 +116,8 @@ export class ConversationController {
   }
 
   async sendWithVisibility(userMessage, hooks = {}) {
+    const visibleConversationId = hooks.conversationId ?? getConversationId();
+    if (hooks.paintUser || hooks.paintAssistant) beginVisibleConversation(visibleConversationId || null);
     const attachments = hooks.attachments || [];
     const stream = hooks.paintAssistant ? new StreamRouter(this.renderer) : null;
     if (hooks.paintUser) {

@@ -14,7 +14,7 @@ import { Capsule } from '../../Olam/math/Capsule.js';
 // Import Faculties
 import visualMethods from "./methods/visuals.js";
 import movementMethods from "./methods/movement.js";
-import physicsMethods from "./methods/physics.js";
+import physicsMethods from "./methods/physics.js?v=old-stable-physics-20260527";
 import raycastingMethods from "./methods/raycasting.js";
 import buildingMethods from "./methods/building.js";
 import projectileMethods from "./methods/projectiles.js";

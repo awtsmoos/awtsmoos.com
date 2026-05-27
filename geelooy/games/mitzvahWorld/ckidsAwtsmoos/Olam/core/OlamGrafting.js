@@ -13,7 +13,7 @@ import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
 import heesHawvoos from "../methods/heesHawvoos.js";
 import HelpersBridge from "../methods/helpers.js";
-import loadNivrayim from "../methods/loadNivrayim/index.js";
+import loadNivrayim from "../methods/loadNivrayim.js?v=old-stable-loader-20260527";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";
@@ -45,7 +45,7 @@ export default class OlamGrafting {
         const CanvasSetup = (await import("../methods/canvasSetup.js")).default;
         graftModule(CanvasSetup);
         
-        const boyrayNivraClass = (await import("../methods/boyrayNivra.js?v=interactive-npc-static-safe-20260527")).default;
+        const boyrayNivraClass = (await import("../methods/boyrayNivra.js?v=old-loader-physics-safe-20260527")).default;
         graftModule(boyrayNivraClass);
 
         const Ohr = (await import("../methods/ohr.js")).default;

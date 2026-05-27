@@ -11,7 +11,13 @@ importScripts(
   "bgAutomation/engine.js",
   "bgAutomation/api.js"
 );
-console.log('B"H');
+
+const AWAKE_ALARM = "BH_awtsmoos_background_awake";
+console.log('B"H Awtsmoos background awake', new Date().toISOString());
+markAwake("loaded");
+chrome.alarms.create(AWAKE_ALARM, { periodInMinutes: 1 });
+chrome.runtime.onStartup?.addListener?.(() => markAwake("startup"));
+chrome.runtime.onInstalled?.addListener?.(() => markAwake("installed"));
 
 chrome.webNavigation.onCompleted.addListener(async details => injectAwtsmoosContent(details.tabId));
 chrome.tabs.onUpdated.addListener((tabId, info) => { if (info.status === "complete") injectAwtsmoosContent(tabId); });
@@ -71,10 +77,12 @@ const portManager = globalThis.__awtsmoosPortManager || new ChromePortManager();
 globalThis.__awtsmoosPortManager = portManager;
 globalThis.registerAwtsmoosBackgroundAutomation?.(portManager);
 
-portManager.on("ping", async (msg, p) => portManager.reply(p, { pong: msg, id: msg.id }));
+portManager.on("ping", async (msg, p) => portManager.reply(p, { pong: msg, awake: awakeState(), id: msg.id }));
+portManager.on("background-awake", async (msg, p) => { const state = await markAwake("manual"); portManager.reply(p, { result: state, id: msg.id }); });
 portManager.on("fetch", async (msg, port) => {
   const { id, url, options } = msg;
   try {
+    await markAwake("fetch");
     const response = await fetch(url, { ...(options || {}), credentials: options?.credentials || "include", cache: options?.cache || "no-store" });
     const metadata = { status: response.status, ok: response.ok, headers: Array.from(response.headers.entries()), url: response.url, redirected: response.redirected, streamId: id };
     metadata.cookies = { count: (await getCookieString(new URL(url).hostname))?.cookies?.length || 0 };
@@ -84,12 +92,13 @@ portManager.on("fetch", async (msg, port) => {
 });
 portManager.on("fetch-body", async (msg, port) => {
   try {
+    await markAwake("fetch-body");
     const result = msg.bodyAction === "read" ? await globalThis.__awtsmoosStreamLedger.read(msg.id) : await globalThis.__awtsmoosStreamLedger.body(msg.id, msg.bodyAction);
     portManager.reply(port, { result, id: msg.id });
   } catch (error) { portManager.reply(port, { error: error.stack, id: msg.id }); }
 });
 portManager.on("resume-stream", async (msg, port) => {
-  try { portManager.reply(port, { result: await globalThis.__awtsmoosStreamLedger.resume(msg.id, msg.cursor), id: msg.id }); }
+  try { await markAwake("resume-stream"); portManager.reply(port, { result: await globalThis.__awtsmoosStreamLedger.resume(msg.id, msg.cursor), id: msg.id }); }
   catch (error) { portManager.reply(port, { error: error.stack, id: msg.id }); }
 });
 portManager.on("ack-stream", async (msg, port) => {
@@ -97,13 +106,29 @@ portManager.on("ack-stream", async (msg, port) => {
   catch (error) { portManager.reply(port, { error: error.stack, id: msg.id }); }
 });
 portManager.on("stream-stats", async (msg, port) => {
-  try { portManager.reply(port, { result: globalThis.__awtsmoosStreamLedger.stats(msg.id), id: msg.id }); }
+  try { portManager.reply(port, { result: globalThis.__awtsmoosStreamLedger.stats(msg.id), awake: awakeState(), id: msg.id }); }
   catch (error) { portManager.reply(port, { error: error.stack, id: msg.id }); }
 });
 portManager.on("cancel-stream", async (msg, port) => {
   try { portManager.reply(port, { result: globalThis.__awtsmoosStreamLedger.cancel(msg.id, msg.reason || "cancelled"), id: msg.id }); }
   catch (error) { portManager.reply(port, { error: error.stack, id: msg.id }); }
 });
+
+chrome.alarms.onAlarm.addListener(alarm => {
+  if (alarm.name === AWAKE_ALARM) markAwake("alarm");
+});
+
+function awakeState(reason = "status") {
+  return { ok:true, awake:true, reason, at:Date.now(), iso:new Date().toISOString() };
+}
+
+async function markAwake(reason = "awake") {
+  const state = awakeState(reason);
+  globalThis.__awtsmoosBackgroundAwake = state;
+  console.log(`B"H Awtsmoos background awake: ${reason}`, state.iso);
+  try { await chrome.storage.local.set({ BH_awtsmoos_background_awake: state }); } catch {}
+  return state;
+}
 
 function getCookieString(domain) {
   return new Promise(resolve => chrome.cookies.getAll({ domain }, cookies => resolve({ string: cookies.map(w => `${w.name}=${w.value}; `).join(""), cookies })));

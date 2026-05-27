@@ -21,6 +21,7 @@
 @import "./css/focus-accessibility.css";
 @import "./css/panel-controls.css";
 @import "./css/markdown-polish.css";
+@import "./css/live-stream-markdown.css";
 @import "./css/panel-action-rail.css";
 @import "./css/stream-resume-hardening.css";
 @import "./css/live-scroll-follow.css";
@@ -32,6 +33,7 @@
 @import "./css/automation-settle-gate.css";
 @import "./css/settings-controls-fix.css";
 @import "./css/right-panel-menu.css";
+@import "./css/automation-status-compact.css";
 @import "./css/boundary-guard.css";
 @import "./css/stream-selection-stability.css";
 @import "./css/mobile-vessel.css";

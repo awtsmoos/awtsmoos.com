@@ -5,8 +5,9 @@ import { interpretStreamPacket } from "../streamPacket.js";
  * Chapter 89: The Packet Was Reduced To A Spark.
  *
  * The worker sees the full provider packet. The main thread should not. This
- * reducer emits only the text delta or a compact event capsule, so the DOM code
- * receives a feather rather than a mountain of nested JSON.
+ * reducer emits only text deltas, semantic event capsules, and literal stream
+ * terminators. Tool lifecycle statuses may say "complete" before the final
+ * assistant answer exists; they must remain events, never fake done markers.
  *
  * @param {Array<object>} packets Parsed SSE packets.
  * @returns {Array<object>} Compact render deltas.
@@ -16,16 +17,15 @@ export function packetsToDeltas(packets = []) {
 }
 
 function packetToDelta(packet) {
+  if (isLiteralDone(packet)) return { kind: "done" };
   const live = interpretStreamPacket(packet);
   if (live.text) return { kind: "text", text: live.text };
   if (live.event) return { kind: "event", event: live.event };
-  if (isDone(packet)) return { kind: "done" };
   return null;
 }
 
-function isDone(packet = {}) {
-  const raw = packet?.data || packet || {};
-  const type = String(raw.type || packet.type || packet.event || "");
-  const status = String(raw.status || packet.status || raw.state || packet.state || "");
-  return packet === "[DONE]" || packet.dataNoJSON === "[DONE]" || /complete|done|finished/i.test(`${type} ${status}`);
+function isLiteralDone(packet = {}) {
+  return packet === "[DONE]"
+    || packet?.dataNoJSON === "[DONE]"
+    || packet?.data?.dataNoJSON === "[DONE]";
 }

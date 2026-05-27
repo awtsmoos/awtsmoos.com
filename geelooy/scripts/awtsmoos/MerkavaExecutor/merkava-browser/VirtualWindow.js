@@ -1,13 +1,14 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualDocument.js'), require('./VirtualStorage.js'), require('./VirtualConsole.js'), require('./VirtualFetch.js'), require('./VirtualEvents.js'), require('./VirtualMouse.js'), require('./VirtualKeyboard.js'), require('./VirtualInteractions.js'), require('./RuntimeProbe.js'), require('./VirtualWebGLBoxRenderer.js'));
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWindow = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualWindow; }
-})(typeof self !== 'undefined' ? self : this, function(docMod, storageMod, consoleMod, fetchMod, events, mouseMod, keyboardMod, interactionMod, probeMod, boxRendererMod) {
+    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualDocument.js'), require('./VirtualStorage.js'), require('./VirtualConsole.js'), require('./VirtualFetch.js'), require('./VirtualEvents.js'), require('./VirtualMouse.js'), require('./VirtualKeyboard.js'), require('./VirtualInteractions.js'), require('./RuntimeProbe.js'), require('./VirtualWebGLBoxRenderer.js'), require('./BrowserRenderPipeline.js'));
+    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWindow = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualWindow; }
+})(typeof self !== 'undefined' ? self : this, function(docMod, storageMod, consoleMod, fetchMod, events, mouseMod, keyboardMod, interactionMod, probeMod, boxRendererMod, pipelineMod) {
     const VirtualDocument = docMod.VirtualDocument;
     const VirtualStorage = storageMod.VirtualStorage;
     const VirtualConsole = consoleMod.VirtualConsole;
     const VirtualFetch = fetchMod.VirtualFetch;
     const VirtualWebGLBoxRenderer = boxRendererMod.VirtualWebGLBoxRenderer;
+    const BrowserRenderPipeline = pipelineMod.BrowserRenderPipeline;
 
     class VirtualWindow {
         constructor({ files = {}, graph = null, url = 'http://127.0.0.1:8080/' } = {}) {
@@ -45,7 +46,8 @@
             this.interactions = new interactionMod.VirtualInteractions(this);
             this.probe = new probeMod.RuntimeProbe();
             this.webglRenderer = new VirtualWebGLBoxRenderer(this.document.textureArena);
-            this.renderWebGLDom = () => { this.webglRenderer.paintElement(this.document.body, 0, 0, 760); return this.document.textureArena.snapshot(); };
+            this.renderPipeline = new BrowserRenderPipeline(this, { renderer: this.webglRenderer, viewport: { width: 760, height: 560 } });
+            this.renderWebGLDom = () => this.renderPipeline.render();
 
             this.requestAnimationFrame = cb => this.setTimeout(() => cb(this.performance.now()), 16);
             this.cancelAnimationFrame = id => this.clearTimeout(id);

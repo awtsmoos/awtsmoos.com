@@ -8,23 +8,25 @@
   /**
    * Chapter 105: The Engine Counted Only Living Footsteps.
    *
-   * The loop may arm, send, wait, commit, and schedule, yet turns rise only at
-   * commit. Separate conversations carry separate lamps, so one active stream no
-   * longer darkens another branch of the palace.
+   * Background automation is the real driver. It waits the configured delay,
+   * sends the same ChatGPT conversation POST a normal Enter would produce,
+   * commits only after verification, and schedules the next turn until maxTurns.
    */
   async function startAutomation(config = {}) {
     const store = globalThis.AwtsmoosBgAutomationStorage;
     const current = await store.loadAutomationState();
     const sameConversation = current.enabled && current.conversationId === config.conversationId;
+    const shouldContinue = sameConversation && Number(current.turns || 0) < Number(config.settings?.maxTurns || current.settings?.maxTurns || store.DEFAULTS.maxTurns || 3);
     const next = await store.saveAutomationState({
       enabled:true,
-      turns:sameConversation ? Number(current.turns || 0) : 0,
+      turns:shouldContinue ? Number(current.turns || 0) : 0,
       status:"armed",
       phase:"armed",
       lastError:"",
       nextRunAt:0,
+      pendingTurn:0,
       conversationId:config.conversationId,
-      graph:config.graph || null,
+      graph:config.graph || current.graph || null,
       settings:{ ...(config.settings || {}), enabled:true },
       chatgptMode:config.chatgptMode || "regular",
       chatgptModePayload:config.chatgptModePayload || {},
@@ -48,6 +50,7 @@
   }
 
   async function tickAutomation(reason = "tick") {
+    touchAwake(`automation:${reason}`);
     const store = globalThis.AwtsmoosBgAutomationStorage;
     const state = await store.loadAutomationState();
     const settings = { ...store.DEFAULTS, ...(state.settings || {}) };
@@ -111,12 +114,16 @@
   async function scheduleNext(delayMs, options = {}) {
     const ms = Math.max(MIN_DELAY_MS, Number(delayMs || 1000));
     clearWakeTimer();
-    if (!options.preserveTarget) await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState(globalThis.AwtsmoosBgTurnState.scheduledNext(ms));
+    let nextState = null;
+    if (!options.preserveTarget) nextState = await globalThis.AwtsmoosBgAutomationStorage.saveAutomationState(globalThis.AwtsmoosBgTurnState.scheduledNext(ms));
+    else nextState = await globalThis.AwtsmoosBgAutomationStorage.loadAutomationState();
+    announce(nextState);
     scheduleSoon(ms);
   }
   function setWakeTimer(ms) { clearWakeTimer(); wakeTimer = setTimeout(() => tickAutomation("timer"), Math.max(MIN_DELAY_MS, Number(ms || MIN_DELAY_MS))); }
   function clearWakeTimer() { if (wakeTimer) clearTimeout(wakeTimer); wakeTimer = null; }
   function localStorageFlag() { try { return localStorage.getItem("awtsmoosDebugAutomation") === "1"; } catch { return false; } }
+  function touchAwake(reason) { try { globalThis.__awtsmoosBackgroundAwake = { ok:true, awake:true, reason, at:Date.now(), iso:new Date().toISOString() }; } catch {} }
 
   chrome.alarms.onAlarm.addListener(alarm => { if (alarm.name === ALARM) tickAutomation("alarm"); });
   globalThis.AwtsmoosBgAutomationEngine = { startAutomation, stopAutomation, statusAutomation, tickAutomation };

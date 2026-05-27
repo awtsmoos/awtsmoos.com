@@ -13,8 +13,10 @@ const MAX_STORAGE_CHARS = 512000;
 /**
  * B"H — A durable ledger for living extension/relay streams.
  *
- * This store remembers active rivers across reloads, but it refuses to let old
- * ghosts keep the sidebar saying "streaming" after the source has finished.
+ * This store remembers active rivers across reloads and chat switches. Opening
+ * an already-streaming conversation keeps fresh or claimed rivers alive, while
+ * stale unclaimed same-chat echoes are dusted away before replay can corrupt
+ * completed history.
  */
 export class StreamResumeStore {
   constructor(storage = safeStorage("localStorage"), tabStorage = safeStorage("sessionStorage")) {
@@ -31,9 +33,7 @@ export class StreamResumeStore {
     return activeOnly ? items.filter(isLivingStream) : items;
   }
 
-  active() {
-    return this.list({ activeOnly: true });
-  }
+  active() { return this.list({ activeOnly: true }); }
 
   upsert(entry) {
     if (!entry?.id) return;
@@ -47,29 +47,15 @@ export class StreamResumeStore {
     if (found) this.upsert({ ...found, ...patch, tabId: this.tabId });
   }
 
-  claim(id) {
-    this.patch(id, { claimedAt: Date.now(), claimedBy: this.tabId });
-  }
+  claim(id) { this.patch(id, { claimedAt: Date.now(), claimedBy: this.tabId }); }
 
   release(id) {
     const found = this.readClean().find(item => item.id === id);
     if (found) this.upsert({ ...found, claimedAt: 0, claimedBy: null, status: found.status || "streaming" });
   }
 
-  remove(id) {
-    this.write(this.readClean().filter(item => item.id !== id));
-  }
+  remove(id) { this.write(this.readClean().filter(item => item.id !== id)); }
 
-  /**
-   * B"H - trims stream ghosts without summoning an event storm.
-   *
-   * The Awtsmoos lets a sidebar ask, "who is still alive?" without that very
-   * question becoming another thunderclap in the hallway. Active mutations
-   * still announce, but render-time housekeeping may stay silent.
-   *
-   * @param {{announce?:boolean}} options Cleanup announcement controls.
-   * @returns {Array<object>} The cleaned stream rows.
-   */
   prune({ announce = false } = {}) {
     const clean = this.clean(this.readRaw());
     this.write(clean, { announce });
@@ -83,7 +69,9 @@ export class StreamResumeStore {
       const owner = item.conversationId || item.surfaceConversationId;
       if (owner !== conversationId) return true;
       if (DONE_STATUSES.has(item.status)) return false;
-      return now - Number(item.updatedAt || item.createdAt || 0) <= keepRecentMs;
+      if (item.claimedBy || item.claimedAt) return true;
+      const age = now - Number(item.updatedAt || item.createdAt || 0);
+      return age <= keepRecentMs;
     }));
   }
 
@@ -115,22 +103,13 @@ export class StreamResumeStore {
     return items.filter(item => {
       const age = now - Number(item.updatedAt || item.doneAt || item.createdAt || 0);
       if (DONE_STATUSES.has(item.status)) return age <= DONE_TTL_MS;
-      if (item.claimedAt && now - Number(item.claimedAt || 0) > CLAIM_STALE_MS) return false;
       return age <= ACTIVE_TTL_MS;
+    }).map(item => {
+      if (item.claimedAt && now - Number(item.claimedAt || 0) > CLAIM_STALE_MS) return { ...item, claimedAt: 0, claimedBy: null };
+      return item;
     });
   }
 
-  /**
-   * B"H - writes the ledger once, announcing only real changes by request.
-   *
-   * When the same purified rows are written again, no event should rise from
-   * the deep. Otherwise a listener can prune, write, announce, and call itself
-   * through a mirror until the tab burns all its breath.
-   *
-   * @param {Array<object>} items Stream rows to persist.
-   * @param {{announce?:boolean}} options Whether to emit the live-stream event.
-   * @returns {void}
-   */
   write(items, { announce: shouldAnnounce = true } = {}) {
     let changed = true;
     try {
@@ -150,9 +129,7 @@ export class StreamResumeStore {
   }
 }
 
-export function isLivingStream(item = {}) {
-  return Boolean(item?.id) && !DONE_STATUSES.has(item.status);
-}
+export function isLivingStream(item = {}) { return Boolean(item?.id) && !DONE_STATUSES.has(item.status); }
 
 function installStorageWakeup(store) {
   if (globalThis.__awtsmoosStreamStorageWakeup) return;
@@ -170,9 +147,7 @@ function getTabId(tabStorage) {
       tabStorage.setItem(TAB_KEY, id);
     }
     return id;
-  } catch {
-    return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  }
+  } catch { return `tab-${Date.now()}-${Math.random().toString(36).slice(2)}`; }
 }
 
 function announce(items) {
@@ -184,32 +159,15 @@ function safeStorage(key) {
     const store = globalThis?.[key];
     if (store?.getItem && store?.setItem) return store;
   } catch {}
-  return {
-    getItem: () => null,
-    setItem: () => {},
-    removeItem: () => {}
-  };
+  return { getItem: () => null, setItem: () => {}, removeItem: () => {} };
 }
 
 function shouldUsePageStreamStore() {
-  try {
-    return !(globalThis.chrome?.runtime?.id && globalThis.__awtsmoosBackgroundBridgeActive);
-  } catch {
-    return true;
-  }
+  try { return !(globalThis.chrome?.runtime?.id && globalThis.__awtsmoosBackgroundBridgeActive); }
+  catch { return true; }
 }
 
 export const streamResumeStore = shouldUsePageStreamStore()
   ? new StreamResumeStore()
-  : {
-      list: () => [],
-      active: () => [],
-      upsert: () => {},
-      patch: () => {},
-      claim: () => {},
-      release: () => {},
-      remove: () => {},
-      prune: () => {},
-      removeStaleForConversation: () => {}
-    };
+  : { list: () => [], active: () => [], upsert: () => {}, patch: () => {}, claim: () => {}, release: () => {}, remove: () => {}, prune: () => {}, removeStaleForConversation: () => {} };
 export const ACTIVE_STREAMS_EVENT = EVENT;

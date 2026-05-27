@@ -1,0 +1,22 @@
+/*B"H*/
+#automation-panel .automation-status{
+  position:static!important;
+  margin:.45rem 0 0!important;
+  padding:.48rem .62rem!important;
+  min-height:auto!important;
+  border-radius:.7rem!important;
+  border:1px solid rgba(125,211,252,.16)!important;
+  background:rgba(2,6,23,.66)!important;
+  color:rgba(226,232,240,.78)!important;
+  box-shadow:none!important;
+  font-size:.74rem!important;
+  line-height:1.28!important;
+  font-weight:760!important;
+  letter-spacing:.01em!important;
+  overflow-wrap:anywhere!important;
+}
+
+#automation-panel .automation-status::before,
+#automation-panel .automation-status::after{display:none!important}
+
+#automation-panel .automation-status:is(:empty){display:none!important}

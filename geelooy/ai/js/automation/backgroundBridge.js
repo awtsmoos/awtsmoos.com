@@ -3,43 +3,43 @@
 /**
  * Chooses the automation owner.
  *
- * Visible /ai conversations must behave exactly like the human pressing Enter:
- * the page pipeline sends through ConversationController, which reaches
- * AwtsmoosGPTify.go(), the same ChatGPT body/header/sentinel path as textarea
- * send. Extension background remains the owner only when the page is hidden or
- * when a non-visible conversation must keep moving without DOM ownership.
+ * Automation is deliberately background-owned whenever the extension bridge is
+ * available. The visible `/ai` page should not run its own continuation loop,
+ * because page visibility, repeated text guards, and DOM stream state can stop
+ * after the first turn. The background engine waits the configured delay, sends
+ * as if the user pressed Enter, and the open page only mirrors state/stream UI.
  */
 export async function syncBackgroundAutomation({ settings, graph, conversationId, chatgptMode = "regular", chatgptModePayload = {}, report = () => {} } = {}) {
   const bridge = window.awtsmoosFetch || window.mFetch;
   if (!settings?.enabled) {
     if (isBridgeReady(bridge)) await bridge.stopBackgroundAutomation("page-disabled").catch(error => ({ error: String(error?.message || error) }));
-    report("automation owner: off");
+    report("automation off");
+    setBridgeFlag(false);
     return { owner: "off", available: Boolean(isBridgeReady(bridge)) };
   }
 
-  if (shouldUsePageSender(conversationId)) {
-    if (isBridgeReady(bridge)) await bridge.stopBackgroundAutomation("visible-page-owns-send").catch(() => null);
-    report("automation owner: page · same as textarea send");
-    return { owner: "page", available: isBridgeReady(bridge), sameAsTextarea: true };
-  }
-
   if (!isBridgeReady(bridge)) {
-    report("automation owner: page fallback");
+    report("automation owner: page fallback · extension bridge missing");
+    setBridgeFlag(false);
     return { owner: "page", available: false, reason: "no-extension-bridge" };
   }
+
   if (!conversationId) {
-    report("automation owner: waiting for conversation id");
+    report("automation waiting for a conversation id");
+    setBridgeFlag(true);
     return { owner: "extension", available: true, waiting: true };
   }
+
   const cleanSettings = normalizeSettings(settings);
   const state = await bridge.startBackgroundAutomation({ settings: cleanSettings, graph, conversationId, chatgptMode, chatgptModePayload });
-  report(`automation owner: extension background · ${state?.status || "armed"} · max ${cleanSettings.maxTurns}`);
-  return { owner: "extension", available: true, state, settings: cleanSettings };
+  setBridgeFlag(true);
+  report(formatBackgroundStatus(state, cleanSettings));
+  return { owner: "extension", available: true, state, settings: cleanSettings, backgroundOwned:true };
 }
 
 export function hasBackgroundAutomationBridge() {
-  const ready = isBridgeReady(window.awtsmoosFetch || window.mFetch) && !shouldUsePageSender(currentConversationId());
-  try { globalThis.__awtsmoosBackgroundBridgeActive = ready; } catch {}
+  const ready = isBridgeReady(window.awtsmoosFetch || window.mFetch);
+  setBridgeFlag(ready);
   return ready;
 }
 
@@ -47,19 +47,12 @@ export async function getBackgroundAutomationStatus() {
   return await (window.awtsmoosFetch || window.mFetch)?.backgroundAutomationStatus?.();
 }
 
-function shouldUsePageSender(conversationId) {
-  if (!conversationId) return true;
-  if (document.visibilityState === "hidden") return false;
-  return conversationId === currentConversationId();
-}
-
-function currentConversationId() {
-  try { return new URLSearchParams(location.search).get("awtsmoosConversation") || window.curConversationId || null; }
-  catch { return window.curConversationId || null; }
-}
-
 function isBridgeReady(bridge) {
   return Boolean(bridge?.startBackgroundAutomation && bridge?.stopBackgroundAutomation && bridge?.backgroundAutomationStatus);
+}
+
+function setBridgeFlag(value) {
+  try { globalThis.__awtsmoosBackgroundBridgeActive = Boolean(value); } catch {}
 }
 
 function normalizeSettings(settings = {}) {
@@ -70,4 +63,16 @@ function normalizeSettings(settings = {}) {
     prompt: String(settings.prompt || "continue"),
     stopOnError: settings.stopOnError !== false
   };
+}
+
+function formatBackgroundStatus(state = {}, settings = {}) {
+  const turn = Number(state.turns || state.committedTurn || 0);
+  const pending = Number(state.pendingTurn || 0);
+  const max = Number(settings.maxTurns || state.settings?.maxTurns || 0);
+  const status = String(state.status || "armed");
+  if (/error/i.test(status)) return `automation error · ${state.lastError || "see background"}`;
+  if (/scheduled/i.test(status)) return `automation waiting · ${turn}/${max} · next turn armed`;
+  if (/sending|awaiting/i.test(status)) return `automation sending · ${pending || turn + 1}/${max}`;
+  if (/done:max-turns/i.test(status)) return `automation complete · ${turn}/${max}`;
+  return `automation background · ${status} · ${turn}/${max}`;
 }

@@ -16,7 +16,7 @@ import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 // Import Modular Faculties
 import controlMethods from './methods/controls.js';
 import interactionMethods from './methods/interaction.js';
-import lifecycleMethods from './methods/lifecycle.js?v=player-gltf-untouched-20260527';
+import lifecycleMethods from './methods/lifecycle.js?v=old-camera-distance-20260527';
 import visualMethods from './methods/visuals.js';
 import updateMethods from './methods/update.js';
 import inventorySetupMethods from './methods/inventory-setup.js'; 

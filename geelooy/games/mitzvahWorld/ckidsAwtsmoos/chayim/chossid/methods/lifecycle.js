@@ -2,15 +2,66 @@
 /**
  * @file lifecycle.js
  * @description
- * Chapter 1: The Capsule and the Untouched Garment.
+ * Player lifecycle safety for the desert smoke test.
  *
- * The player is a plain physics capsule for collision and motion. The GLB is
- * loaded by the same Medabeir/Domem path used by NPCs, then left alone as a
- * visual garment. No player-only GLB scaling, hiding, measuring, clothing
- * mutation, octree baking, or collider derivation happens here.
+ * The player may use a GLB or a generated mesh, but the camera/physics follow
+ * the Chai empty vessel after ready(). Therefore we always attach one simple
+ * visible body to that vessel so the Chossid can never disappear while the
+ * rest of the loading system is being repaired.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Medabeir from "../../medabeir/index.js";
+
+function ensureVisibleChossidBody(chossid) {
+    if (!chossid || !chossid.mesh || !chossid.mesh.isObject3D) return;
+
+    let existing = chossid.mesh.getObjectByName?.('BASIC_VISIBLE_CHOSSID_BODY');
+    if (existing) {
+        existing.visible = true;
+        return;
+    }
+
+    const body = new THREE.Group();
+    body.name = 'BASIC_VISIBLE_CHOSSID_BODY';
+
+    const robe = new THREE.Mesh(
+        new THREE.BoxGeometry(0.85, 1.45, 0.55),
+        new THREE.MeshLambertMaterial({ color: 0x1f6fff })
+    );
+    robe.name = 'BASIC_VISIBLE_CHOSSID_ROBE';
+    robe.position.y = 0.8;
+    robe.castShadow = true;
+    robe.receiveShadow = true;
+
+    const head = new THREE.Mesh(
+        new THREE.BoxGeometry(0.45, 0.45, 0.45),
+        new THREE.MeshLambertMaterial({ color: 0xf1d0a8 })
+    );
+    head.name = 'BASIC_VISIBLE_CHOSSID_HEAD';
+    head.position.y = 1.75;
+    head.castShadow = true;
+    head.receiveShadow = true;
+
+    const hat = new THREE.Mesh(
+        new THREE.BoxGeometry(0.65, 0.22, 0.65),
+        new THREE.MeshLambertMaterial({ color: 0x111111 })
+    );
+    hat.name = 'BASIC_VISIBLE_CHOSSID_HAT';
+    hat.position.y = 2.08;
+    hat.castShadow = true;
+    hat.receiveShadow = true;
+
+    body.add(robe, head, hat);
+    body.userData.isLiving = true;
+    body.userData.isPlayerFallback = true;
+    body.traverse(child => {
+        child.userData.isLiving = true;
+        child.frustumCulled = false;
+        child.nivraAwtsmoos = chossid;
+    });
+
+    chossid.mesh.add(body);
+}
 
 export default {
     /**
@@ -22,7 +73,7 @@ export default {
         await Medabeir.prototype.heescheel.call(this, olam);
 
         if (!this.position || isNaN(this.position.x)) {
-            this.setPosition(new THREE.Vector3(0, 20, 0));
+            this.setPosition(new THREE.Vector3(0, 5, 10));
         }
 
         if (typeof this.setupInputListeners === 'function') {
@@ -31,7 +82,7 @@ export default {
     },
 
     /**
-     * Registers the player while preserving the loaded GLB exactly as received.
+     * Registers the player and guarantees a visible fallback body on the physics vessel.
      * @returns {Promise<void>} Resolves after base readiness and inventory setup.
      */
     async ready() {
@@ -40,8 +91,14 @@ export default {
         if (this.olam) {
             this.olam.chossid = this;
             this.olam.player = this;
-            if (this.olam.ayin) this.olam.ayin.target = this;
+            if (this.olam.ayin) {
+                this.olam.ayin.target = this;
+                this.olam.ayin.currentDistance = 5;
+                this.olam.ayin.desiredDistance = 5;
+            }
         }
+
+        ensureVisibleChossidBody(this);
 
         if (this.inventory && typeof this.inventory.hydrateItems === 'function') {
             this.inventory.hydrateItems();
@@ -60,6 +117,8 @@ export default {
      */
     async afterBriyah() {
         await Medabeir.prototype.afterBriyah.call(this, this);
+        ensureVisibleChossidBody(this);
+
         if (this.olam) this.olam.ayshPeula("save player position");
 
         this.olam.on("wheel", ({ deltaY }) => {

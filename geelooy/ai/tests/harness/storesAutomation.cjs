@@ -52,6 +52,19 @@ async function run() {
     await pipeline.afterAssistantReply("a3", { conversationId: "c1" });
     assert(runStore.get("c1").turns === 2 && runStore.get("c2").turns === 1, "automation turns must be per conversation");
     assert(sends.filter(s => s.context.conversationId === "c1").length === 2, "c1 max turn guard must hold");
+
+    const failStore = new AutomationRunStore(makeStorage());
+    const failPipeline = new AutomationPipeline({
+      settingsStore: { save: patch => patch },
+      getSettings: () => ({ enabled: true, maxTurns: 3, delayMs: 0, prompt: "continue", stopOnError: true }),
+      sendPrompt: async () => { throw new Error("POST failed"); },
+      report: () => {},
+      runStore: failStore
+    });
+    await failPipeline.afterAssistantReply("before failure", { conversationId: "c-fail" });
+    const failedRun = failStore.get("c-fail");
+    assert(failedRun.turns === 0 && failedRun.pendingTurn === 0 && failedRun.status === "error", "automation must not increment committed turns when sendPrompt fails", { failedRun });
+
     globalThis.location = { search: "?awtsmoosConversation=c-kick" };
     const kickSends = [];
     const kickStore = new AutomationRunStore(makeStorage());
@@ -65,6 +78,8 @@ async function run() {
     await kickPipeline.onSettingsChanged({ enabled: true });
     await new Promise(resolve => setTimeout(resolve, 10));
     assert(kickSends.length === 1 && kickSends[0].context.conversationId === "c-kick", "turning automation on must immediately send for current conversation", { kickSends });
+    assert(kickStore.get("c-kick").turns === 1 && kickStore.get("c-kick").pendingTurn === 0, "successful kick must commit exactly one turn", { run: kickStore.get("c-kick") });
+
     globalThis.location = { search: "?awtsmoosConversation=c-empty" };
     const emptySends = [];
     const emptyPipeline = new AutomationPipeline({
@@ -75,15 +90,16 @@ async function run() {
       runStore: new AutomationRunStore(makeStorage())
     });
     await emptyPipeline.afterAssistantReply("finished stream text", { conversationId: "c-empty" });
-    await new Promise(resolve => setTimeout(resolve, 25));
+    for (let i = 0; i < 50 && emptySends.length < 2; i++) await new Promise(resolve => setTimeout(resolve, 10));
     assert(emptySends.length >= 2, "automation must continue even when transport returns empty final string after a streamed turn", { emptySends });
     const fs = require("fs");
     const pipelineSource = fs.readFileSync(path.join(ROOT, "js/automation/pipeline.js"), "utf8");
     assert(/runStore\.remove\(conversationId\)/.test(pipelineSource), "turning automation on must reset stale per-conversation run state");
+    assert(/pendingTurn/.test(pipelineSource) && /turns: committedTurns/.test(pipelineSource), "page automation must use pendingTurn until sendPrompt commits");
     const panelSource = fs.readFileSync(path.join(ROOT, "js/automation/panel.js"), "utf8");
     assert(/input\.onchange\s*=\s*handler/.test(panelSource) && /input\.oninput\s*=\s*handler/.test(panelSource), "automation UI must bind checkbox/text changes to both input and change events");
     assert(/automation change failed/.test(panelSource), "automation UI must surface async kick failures in the status panel");
-    return { events: events.length, sends: sends.length, kickSends: kickSends.length, tabIdsDifferent: true, uiEvents: true };
+    return { events: events.length, sends: sends.length, kickSends: kickSends.length, tabIdsDifferent: true, uiEvents: true, failedTurns: failedRun.turns };
   });
 }
 module.exports = { run };
