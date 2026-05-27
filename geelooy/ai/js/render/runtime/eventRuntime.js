@@ -128,7 +128,10 @@ function mutateEventNode(region, node, event, html) {
 }
 
 function shouldFreezeOpenEventNode(node) {
-  return Boolean(node?.querySelector?.("details[open], .transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen"));
+  return Boolean(
+    selectionTouches(node)
+    || node?.querySelector?.("details[open], .transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen")
+  );
 }
 
 function shouldAnchorLiveMutation(node) {
@@ -177,4 +180,17 @@ function restorePanelState(node, state) {
   panel.classList.toggle("is-fullscreen", Boolean(state.fullscreen));
   if (state.panelState) panel.dataset.panelState = state.panelState;
   document.body.classList.toggle("has-event-fullscreen", Boolean(document.querySelector(".transport-details.is-fullscreen, .thought-envelope-card.is-fullscreen")));
+}
+
+function selectionTouches(node) {
+  try {
+    const selection = globalThis.getSelection?.();
+    if (!selection || selection.isCollapsed || !selection.rangeCount) return false;
+    for (let index = 0; index < selection.rangeCount; index++) {
+      const range = selection.getRangeAt(index);
+      if (range?.intersectsNode?.(node)) return true;
+      if (node.contains?.(range.commonAncestorContainer)) return true;
+    }
+  } catch {}
+  return false;
 }

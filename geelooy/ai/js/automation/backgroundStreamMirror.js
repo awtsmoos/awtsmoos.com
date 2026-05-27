@@ -17,17 +17,26 @@ export function mountBackgroundAutomationMirror({ renderer, controller, panel, g
     const key = `${detail.conversationId}:${detail.turn || 0}`;
     if (detail.phase === "start") return startMirror(key, detail);
     const entry = streams.get(key);
-    if (!entry || Number(detail.seq || 0) <= entry.seq) return;
-    entry.seq = Number(detail.seq || 0);
-    if (detail.phase === "packet") return await entry.router.route(detail.packet);
-    if (detail.phase === "done") return await finishMirror(key, entry, detail);
+    if (!entry) return;
+    entry.pending.set(Number(detail.seq || 0), detail);
+    await drainMirrorQueue(key, entry);
   }
 
   function startMirror(key, detail) {
     if (streams.has(key)) return;
     renderer.add({ message: { author: { role: "user" }, content: { parts: [String(detail.prompt || "")] } } });
-    streams.set(key, { seq: 0, router: new StreamRouter(renderer) });
+    streams.set(key, { seq: 0, pending: new Map(), router: new StreamRouter(renderer) });
     panel.report(`automation streaming turn ${detail.turn || ""}`);
+  }
+
+  async function drainMirrorQueue(key, entry) {
+    while (entry.pending.has(entry.seq + 1)) {
+      const detail = entry.pending.get(entry.seq + 1);
+      entry.pending.delete(entry.seq + 1);
+      entry.seq++;
+      if (detail.phase === "packet") await entry.router.route(detail.packet);
+      if (detail.phase === "done") return await finishMirror(key, entry, detail);
+    }
   }
 
   async function finishMirror(key, entry, detail) {

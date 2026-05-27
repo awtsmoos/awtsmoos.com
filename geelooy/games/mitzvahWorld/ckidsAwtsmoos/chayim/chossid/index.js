@@ -16,7 +16,7 @@ import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
 // Import Modular Faculties
 import controlMethods from './methods/controls.js';
 import interactionMethods from './methods/interaction.js';
-import lifecycleMethods from './methods/lifecycle.js';
+import lifecycleMethods from './methods/lifecycle.js?v=player-gltf-untouched-20260527';
 import visualMethods from './methods/visuals.js';
 import updateMethods from './methods/update.js';
 import inventorySetupMethods from './methods/inventory-setup.js'; 
@@ -28,6 +28,9 @@ export default class Chossid extends Medabeir {
     approachedEntities =[];
     
     constructor(options, olam) {
+        options = options || {};
+        options.path = options.path || "https://models-3122d.web.app/chossid.glb?k=2";
+        options.isSolid = false;
         super(options, olam);
         
         // B"H: Spiritual Attributes
@@ -112,17 +115,14 @@ export default class Chossid extends Medabeir {
         });
     }
 
+    /**
+     * B"H: Marks only the capsule anchor as the player vessel.
+     * The loaded GLB remains untouched, exactly like an NPC model after loading.
+     */
     async madeAll() {
         if (this.mesh) {
             this.mesh.userData.isPlayer = true;
         }
-        if (this.modelMesh) {
-            this.modelMesh.userData.isPlayer = true;
-            this.modelMesh.traverse(c => {
-                if (c.isMesh) c.userData.isPlayer = true;
-            });
-        }
-        // Initial stat calculation
         this.recalculateStats();
     }
 

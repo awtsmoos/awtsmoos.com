@@ -9,6 +9,7 @@
     const next = await store.saveAutomationState({
       enabled:true, turns:0, status:"armed", lastError:"", conversationId:config.conversationId,
       graph:config.graph || null, settings:{ ...(config.settings || {}), enabled:true },
+      chatgptMode:config.chatgptMode || "regular", chatgptModePayload:config.chatgptModePayload || {},
       prompt:config.settings?.prompt || config.prompt || "continue"
     });
     announce(next);
@@ -50,6 +51,8 @@
     const result = await globalThis.AwtsmoosBgChatGpt.sendChatGptBackground({
       conversationId:state.conversationId,
       prompt,
+      chatgptMode:state.chatgptMode || settings.chatgptMode || "regular",
+      chatgptModePayload:state.chatgptModePayload || settings.chatgptModePayload || {},
       onPacket:event => streamMirror({ ...event, conversationId:event.conversationId || state.conversationId, prompt, turn })
     });
     const next = await store.saveAutomationState({

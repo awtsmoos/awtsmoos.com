@@ -8,10 +8,12 @@ import { automationArchiveStore, downloadTextFile } from "./messageArchive.js";
 import { renderGraphFields, captureGraphFormsFromRoot, createGraphNode } from "./graphEditorUi.js";
 
 export class AutomationPanel {
-  constructor({ root, store, onChange }) {
+  constructor({ root, store, onChange, onDownloadChat = null, onDownloadJson = null }) {
     this.root = root;
     this.store = store;
     this.onChange = onChange;
+    this.onDownloadChat = onDownloadChat;
+    this.onDownloadJson = onDownloadJson;
     this.settings = store.load();
     this.graph = automationGraphStore.load();
     this.eventVisibility = loadEventVisibility();
@@ -34,20 +36,25 @@ export class AutomationPanel {
     this.bindAutomationActions();
     this.bindGraph();
     this.bindArchive();
+    this.bindSettingsActions();
     this.bindVisibility();
     this.bindRelay();
   }
 
   body() {
-    if (this.tab === "settings") return `<h2>B"H Cockpit Settings</h2><p class="panel-note">The right drawer is now a multi-panel vessel.</p>${this.relayFields()}${this.visibilityFields()}`;
+    if (this.tab === "settings") return `<h2>B"H Cockpit Settings</h2><p class="panel-note">The right drawer is now a multi-panel vessel.</p>${this.exportFields()}${this.relayFields()}${this.visibilityFields()}`;
     if (this.tab === "trace") return `<h2>Message Trace Filters</h2><p class="panel-note">Disable noisy trace families without deleting them from history.</p>${this.visibilityFields()}`;
     if (this.tab === "graph") return this.graphFields();
     if (this.tab === "archive") return this.archiveFields();
-    return `<h2>Automation Pipeline</h2>${field("enabled", "Enable auto-continue", "checkbox", this.settings.enabled)}<div class="automation-actions"><button type="button" class="automation-stop-button" data-auto-action="stop">Stop automation now</button></div>${field("maxTurns", "Max turns", "number", this.settings.maxTurns)}${field("delayMs", "Delay ms", "number", this.settings.delayMs)}<label class="automation-field prompt-field">Prompt<textarea data-auto="prompt" rows="7">${text(this.settings.prompt)}</textarea></label><div class="automation-status" id="automation-status">${this.settings.enabled ? "automation armed" : "automation off"}</div>`;
+    return `<h2>Automation Pipeline</h2>${field("enabled", "Enable auto-continue", "checkbox", this.settings.enabled)}<div class="automation-actions"><button type="button" class="automation-stop-button" data-auto-action="stop">Stop automation now</button></div>${field("maxTurns", "Max turns", "number", this.settings.maxTurns)}${field("delayMs", "Delay ms", "number", this.settings.delayMs)}${field("streamSettleMs", "Stream settle ms", "number", this.settings.streamSettleMs)}<label class="automation-field prompt-field">Prompt<textarea data-auto="prompt" rows="7">${text(this.settings.prompt)}</textarea></label><div class="automation-status" id="automation-status">${this.settings.enabled ? "automation armed" : "automation off"}</div>`;
   }
 
   graphFields() {
     return renderGraphFields(this.graph);
+  }
+
+  exportFields() {
+    return `<section class="automation-card chat-export-card"><h3>Chat export</h3><p class="panel-note">Download the loaded RAM conversation as readable HTML, or the full unfiltered debug JSON with records, raw packets, events, and live flags.</p><div class="relay-actions"><button type="button" data-settings-action="download-chat-html">Download chat HTML</button><button type="button" data-settings-action="download-chat-json">Download full debug JSON</button></div><div class="automation-status" id="settings-status">ready</div></section>`;
   }
 
   archiveFields() {
@@ -115,6 +122,10 @@ export class AutomationPanel {
     this.root.querySelectorAll("[data-archive-action]").forEach(button => button.onclick = () => this.handleArchiveAction(button.dataset.archiveAction));
   }
 
+  bindSettingsActions() {
+    this.root.querySelectorAll("[data-settings-action]").forEach(button => button.onclick = () => this.handleSettingsAction(button.dataset.settingsAction));
+  }
+
   bindRelay() {
     this.root.querySelectorAll("[data-relay]").forEach(input => input.oninput = () => this.captureRelay());
     this.root.querySelectorAll("[data-relay-action]").forEach(button => button.onclick = () => this.handleRelayAction(button.dataset.relayAction));
@@ -154,6 +165,22 @@ export class AutomationPanel {
 
   captureGraphForms() {
     return captureGraphFormsFromRoot(this.root, this.graph);
+  }
+
+  handleSettingsAction(action) {
+    const status = this.root.querySelector("#settings-status");
+    if (action === "download-chat-html") {
+      this.onDownloadChat?.();
+      if (status) status.textContent = "chat HTML downloaded";
+    }
+    if (action === "download-chat-json") {
+      this.onDownloadJson?.();
+      if (status) status.textContent = "full debug JSON downloaded";
+    }
+    if (action === "download-chat-json") {
+      this.onDownloadJson?.();
+      if (status) status.textContent = "full debug JSON downloaded";
+    }
   }
 
   async handleArchiveAction(action) {

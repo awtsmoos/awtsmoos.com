@@ -5,7 +5,8 @@ const TAB_KEY = "awtsmoos.streamTabId.v1";
 const EVENT = "awtsmoos-active-streams";
 const DONE_STATUSES = new Set(["done", "stopped", "error"]);
 const DONE_TTL_MS = 15000;
-const ACTIVE_TTL_MS = 1000 * 60 * 30;
+const ACTIVE_TTL_MS = 1000 * 60 * 6;
+const CLAIM_STALE_MS = 1000 * 60 * 2;
 const MAX_STREAM_ROWS = 80;
 const MAX_STORAGE_CHARS = 512000;
 
@@ -114,6 +115,7 @@ export class StreamResumeStore {
     return items.filter(item => {
       const age = now - Number(item.updatedAt || item.doneAt || item.createdAt || 0);
       if (DONE_STATUSES.has(item.status)) return age <= DONE_TTL_MS;
+      if (item.claimedAt && now - Number(item.claimedAt || 0) > CLAIM_STALE_MS) return false;
       return age <= ACTIVE_TTL_MS;
     });
   }

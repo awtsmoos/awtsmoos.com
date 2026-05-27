@@ -51,13 +51,15 @@ try {
     encoding: 'utf8',
     timeout: 20000
   });
-  assertHas(stdout, unique);
-  assertHas(stdout, 'pageKind=network-html-dynamic');
-  assertHas(stdout, 'awts-render-decision route=dynamic-network result=drawn source=network-fetched');
+  assertHas(stdout, 'pageKind=network-executor-render-stream');
+  assertHas(stdout, 'awts-render-decision route=executor-stream result=drawn');
+  assertHas(stdout, 'awts-opengl-render-stream-draw source=network-executor-render-stream');
+  assertHas(stdout, 'texts=1');
   assertNotHas(stdout, 'THIS_SCRIPT_TEXT_MUST_NOT_BE_RENDERED_AS_PAGE_BODY');
   assertNotHas(stdout, 'console.log');
   assertNotHas(stdout, '�');
-  assertNotHas(stdout, 'route=executor-stream result=drawn');
+  assertNotHas(stdout, 'pageKind=network-html-dynamic');
+  assertNotHas(stdout, 'route=dynamic-network');
   console.log(JSON.stringify({ ok: true, kind: 'network-no-raw-bytecode-render', stdout }, null, 2));
 } finally {
   server.kill();

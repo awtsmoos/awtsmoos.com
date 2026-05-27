@@ -2,7 +2,6 @@
 
 import { AwtsmoosPrompt } from "../../../prompt.js";
 import { nodeRelayFetch, checkNodeRelay } from "./nodeRelayFetch.js";
-import { loadNodeRelaySettings } from "./nodeRelaySettings.js";
 
 let mFetch = currentBridge();
 let waiting = null;
@@ -46,8 +45,6 @@ export function setMFetch(fetcher) {
 }
 
 function currentBridge() {
-  const relay = loadNodeRelaySettings();
-  if (relay.enabled) return nodeRelayFetch;
   if (typeof globalThis.awtsmoosFetch === "function") return globalThis.awtsmoosFetch;
   if (typeof globalThis.mFetch === "function") return globalThis.mFetch;
   return null;

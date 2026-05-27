@@ -13,9 +13,6 @@ export function makeChatGPTService(self) {
     async getAwtsmoosAudioStream(...args) {
       return self?.instance?.getAwtsmoosAudioStream(...args);
     },
-    async getAwtsmoosAudioStream(...args) {
-      return self?.instance?.getAwtsmoosAudioStream(...args);
-    },
     async getConversationsFnc({ limit = self.conversationLimit, offset = self.conversationOffset } = {}) {
       return self.instance.getConversations({ limit, offset });
     },

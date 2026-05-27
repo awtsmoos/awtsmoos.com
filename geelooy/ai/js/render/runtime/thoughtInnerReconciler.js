@@ -24,7 +24,8 @@ export function reconcileThoughtInnerEvents(panel, inner = []) {
   removeLegacyDirectCards(body);
   const liveKeys = new Set();
   let cursor = null;
-  for (const [index, event] of inner.entries()) cursor = renderInnerVessel(body, liveKeys, cursor, event, index);
+  for (const [index, event] of inner.entries()) cursor = renderInnerVessel(body, liveKeys, cursor, event, index, index === inner.length - 1);
+  freezeCompletedInnerVessels(body, cursor);
   pruneDeadVessels(body, liveKeys);
   restoreScrollState(body, scrollState);
 }
@@ -49,11 +50,12 @@ function ensureBody(panel) {
   return body;
 }
 
-function renderInnerVessel(body, liveKeys, cursor, event, index) {
+function renderInnerVessel(body, liveKeys, cursor, event, index, isLatest = false) {
   const key = innerEventKey(event, index);
   liveKeys.add(key);
   const html = renderEventDetails([event], { nested: true, stableKeyPrefix: `thought-inner::${key}` });
   let vessel = body.querySelector(`:scope > [data-inner-event-key="${cssEscape(key)}"]`);
+  const isNew = !vessel;
   if (!vessel) {
     vessel = document.createElement("div");
     vessel.className = "thought-inner-event-vessel";
@@ -61,11 +63,18 @@ function renderInnerVessel(body, liveKeys, cursor, event, index) {
   }
   placeAfter(body, vessel, cursor);
   if (vessel.dataset.innerEventHtml !== html) {
+    if (!isNew && vessel.dataset.innerEventFrozen === "true") return vessel;
+    if (!isNew && !isLatest) {
+      vessel.dataset.innerEventFrozen = "true";
+      return vessel;
+    }
     if (holdOpenVessel(vessel, html)) return vessel;
     const vesselState = snapshotScrollState(vessel);
     const openState = snapshotOpenState(vessel);
     vessel.innerHTML = html;
     vessel.dataset.innerEventHtml = html;
+    if (!isLatest) vessel.dataset.innerEventFrozen = "true";
+    else delete vessel.dataset.innerEventFrozen;
     restoreOpenState(vessel, openState);
     restoreScrollState(vessel, vesselState);
   }
@@ -76,6 +85,12 @@ function placeAfter(body, vessel, previous) {
   const expected = previous ? previous.nextSibling : body.firstChild;
   if (expected === vessel) return;
   body.insertBefore(vessel, expected || null);
+}
+
+function freezeCompletedInnerVessels(body, latest) {
+  for (const vessel of [...body.querySelectorAll(":scope > .thought-inner-event-vessel")]) {
+    if (vessel !== latest) vessel.dataset.innerEventFrozen = "true";
+  }
 }
 
 function pruneDeadVessels(body, liveKeys) {

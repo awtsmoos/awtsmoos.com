@@ -294,19 +294,14 @@ static int load_http_preview(AwtsBrowserState* state, const char* url) {
     awts_text_has(buffer, "getContext"), awts_text_has(buffer, "drawArrays("), awts_url_is_local_http(url));
   fflush(stdout);
   if (read > 0) {
-    char visible[2048];
-    awts_extract_visible_text(visible, sizeof(visible), buffer);
     awts_scan_webgl(&state->webgl, buffer);
     if (awts_compile_html_with_executor(state, buffer, url)) {
       printf("awts-route-decision route=network-executor-render-stream reason=merkava-executor-compiled-html url=%s sourceBytes=%lu streamBytes=%u\n", url, (unsigned long)read, state->dynamicRenderStreamBytes);
       set_page(state, "network-executor-render-stream", url, "dom=executor-owned cHost=native-bindings-only network HTML compiled by MerkavaExecutor");
       state->dynamicRenderStreamBytes = (unsigned int)strlen(state->dynamicRenderStream);
-    } else if (awts_html_wants_webgl_executor(buffer)) {
-      printf("awts-route-decision route=network-webgl-dynamic reason=webgl-dom-hints url=%s sourceBytes=%lu\n", url, (unsigned long)read);
-      set_page(state, "network-webgl-dynamic", url, visible[0] ? visible : "dynamic WebGL document fetched from network");
     } else {
-      printf("awts-route-decision route=network-html-dynamic reason=executor-compile-failed-fallback url=%s sourceBytes=%lu\n", url, (unsigned long)read);
-      set_page(state, "network-html-dynamic", url, visible[0] ? visible : "dynamic HTML document fetched from network");
+      printf("awts-route-decision route=network-executor-error reason=executor-compile-failed-no-c-dom-fallback url=%s sourceBytes=%lu\n", url, (unsigned long)read);
+      set_page(state, "network-executor-error", url, "MerkavaExecutor compile failed; C host refused DOM fallback");
     }
     awts_set_dynamic_source(state, buffer, read);
     awts_print_webgl_table(&state->webgl);
@@ -439,7 +434,12 @@ void awts_print_runtime_report(void) {
 }
 
 void awts_browser_set_url(AwtsBrowserState* state, const char* url) {
-  strncpy(state->url, url && *url ? url : "file:///index.html", sizeof(state->url) - 1);
+  const char* input = url && *url ? url : "https://awtsmoos.com";
+  if (strstr(input, "://") || !strncmp(input, "file:", 5) || input[0] == '/' || strchr(input, '\\')) {
+    strncpy(state->url, input, sizeof(state->url) - 1);
+  } else {
+    snprintf(state->url, sizeof(state->url), "%s%s", !strncmp(input, "localhost", 9) || !strncmp(input, "127.0.0.1", 9) ? "http://" : "https://", input);
+  }
   state->url[sizeof(state->url) - 1] = 0;
 }
 

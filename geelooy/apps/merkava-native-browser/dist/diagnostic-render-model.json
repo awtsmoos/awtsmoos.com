@@ -56,9 +56,10 @@
       "nodes": 10,
       "title": ""
     },
-    "commandCount": 19,
+    "scriptErrors": [],
+    "commandCount": 18,
     "textureCount": 7,
-    "streamBytes": 412
+    "streamBytes": 363
   },
   "runtime": {
     "simulatedOk": true,

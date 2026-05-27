@@ -6,6 +6,7 @@ import { describeAttachments } from "../attachments/describeAttachments.js";
 import { mountAwtsmoosAudioOffer } from "../chatgpt/audio/audioControls.js";
 import { streamResumeStore } from "../chatgpt/stream/streamResumeStore.js";
 import { withTimeout } from "./conversations/withTimeout.js";
+import { showLoadState } from "../render/runtime/loadState.js";
 
 /**
  * B"H — ConversationController is now a narrow orchestration vessel.
@@ -67,7 +68,9 @@ export class ConversationController {
       updateSearchParams({ awtsmoosConversation: conversationId, awtsmoosAi: this.serviceSelect.value });
       window.curConversationId = conversationId;
       this.renderer.clear();
+      showLoadState(this.renderer.chatBox, "Opening conversation…", "loading");
       const service = await this.getService();
+      showLoadState(this.renderer.chatBox, "Fetching messages…", "loading");
       const messages = service.getConversation ? await service.getConversation(conversationId) : [];
       if (this.renderer.loadMessages) await this.renderer.loadMessages(messages);
       else messages.forEach(message => this.renderer.add(message));
@@ -112,7 +115,12 @@ export class ConversationController {
     }
     try { return await this.sendThroughService(userMessage, attachments, stream, hooks); }
     catch (error) {
-      if (hooks.paintAssistant !== false) this.renderSendError(error);
+      const cid = hooks.conversationId || getConversationId();
+      if (cid) streamResumeStore.removeStaleForConversation(cid, { keepRecentMs: 0 });
+      if (hooks.paintAssistant !== false) {
+        if (stream?.assistant) stream.abort?.(error);
+        else this.renderSendError(error);
+      }
       throw error;
     }
   }
@@ -131,14 +139,18 @@ export class ConversationController {
         automation: Boolean(hooks.automation)
       },
       onstream: packet => {
-        if (stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation)) stream.route(packet);
+        if (stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation)) return stream.route(packet);
       },
       ondone: packet => {
         const cid = extractConversationId(packet) || targetConversationId;
-        if (stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation)) stream.finish(packet);
-        hooks.ondone?.(extractAssistantText(packet), { conversationId: cid, automation: Boolean(hooks.automation) });
+        const finalText = extractAssistantText(packet);
+        const finish = stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation)
+          ? stream.finish(packet)
+          : Promise.resolve();
+        return finish.then(() => hooks.ondone?.(finalText, { conversationId: cid, automation: Boolean(hooks.automation) }));
       }
     });
+    if (stream?.queue) await stream.queue;
     if (stream && !stream.done && isVisibleStreamPacket(response, targetConversationId, startedOnBlankConversation)) {
       await stream.finish(response || { dataNoJSON: "[DONE]" });
     }

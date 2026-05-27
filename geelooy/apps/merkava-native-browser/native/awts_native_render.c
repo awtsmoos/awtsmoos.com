@@ -94,7 +94,7 @@ static void draw_webgl_canvas(AwtsBrowserState* state, float x, float y, float w
   GLenum err = glGetError();
   if (!state->loggedWebGlOpenGl) {
     printf("awts-opengl-webgl-draw source=%s url=%s pageKind=%s drawArrays=%u viewport=%u clearColor=%u clear=%u glError=%u triangle=1\n",
-      state->loaded ? "merkava-bytecode-render-stream" : "network-webgl-dynamic",
+      !strcmp(state->pageKind, "network-executor-render-stream") ? "network-executor-render-stream" : state->loaded ? "merkava-bytecode-render-stream" : "native-webgl-diagnostic",
       state->url, state->pageKind, state->webgl.drawArrays, state->webgl.viewport,
       state->webgl.clearColor, state->webgl.clear, (unsigned int)err);
     fflush(stdout);
@@ -136,9 +136,11 @@ static int draw_executor_stream(AwtsBrowserState* state) {
       float w = atof(c) * scaleX;
       float h = atof(d) * scaleY;
       rect(x, y, w, h, r, g, blue);
-      outline(x, y, w, h, 0.70f, 0.72f, 0.78f);
       boxesDrawn++;
       if (!strcmp(e, "#102038")) { canvasSeen = 1; canvasX = x; canvasY = y; canvasW = w; canvasH = h; }
+    } else if (!strcmp(kind, "BORDER")) {
+      float r, g, blue; hex_color(e, &r, &g, &blue);
+      outline(ox + atof(a) * scaleX, oy + atof(b) * scaleY, atof(c) * scaleX, atof(d) * scaleY, r, g, blue);
     } else if (!strcmp(kind, "TEXT")) {
       float r, g, blue; hex_color(d, &r, &g, &blue);
       awts_draw_text(state, ox + atof(a) * scaleX, oy + atof(b) * scaleY, c, r, g, blue);
@@ -160,34 +162,6 @@ static int draw_executor_stream(AwtsBrowserState* state) {
   }
   if (canvasSeen && (webglDraws || state->webgl.drawArrays)) draw_webgl_canvas(state, canvasX, canvasY, canvasW, canvasH);
   free(copy);
-  return 1;
-}
-
-static int draw_dynamic_network_page(AwtsBrowserState* state) {
-  if (strcmp(state->pageKind, "network-html-dynamic") && strcmp(state->pageKind, "network-webgl-dynamic")) return 0;
-  float pageX = sx(state, 36), pageY = sy(state, 116), pageW = sw(state, state->width - 72), pageH = -sh(state, state->height - 146);
-  rect(pageX, pageY, pageW, pageH, 1.0f, 1.0f, 1.0f);
-  outline(pageX, pageY, pageW, pageH, 0.55f, 0.62f, 0.76f);
-  awts_draw_text(state, sx(state, 58), sy(state, 150), state->pageTitle, 0.03f, 0.03f, 0.03f);
-  awts_draw_text(state, sx(state, 58), sy(state, 174), state->pageKind, 0.24f, 0.28f, 0.38f);
-  if (state->pageHasCanvas || state->pageHasWebGl) draw_webgl_canvas(state, sx(state, 58), sy(state, 210), sw(state, 320), -sh(state, 180));
-  const char* p = state->pagePreview;
-  char line[118];
-  int startY = (state->pageHasCanvas || state->pageHasWebGl) ? 420 : 210;
-  for (int row = 0; row < 14 && p && *p; row++) {
-    int n = 0;
-    while (p[n] && n < 105) n++;
-    memcpy(line, p, n); line[n] = 0;
-    awts_draw_text(state, sx(state, 58), sy(state, startY + row * 24), line, 0.06f, 0.06f, 0.06f);
-    p += n;
-    while (*p == ' ') p++;
-  }
-  if (!state->loggedTextRender) {
-    printf("awts-render-decision route=dynamic-network result=drawn source=network-fetched url=%s pageKind=%s sourceBytes=%u canvas=%d webgl=%d preview=%s\n",
-      state->url, state->pageKind, state->pageSourceBytes, state->pageHasCanvas, state->pageHasWebGl, state->pagePreview);
-    fflush(stdout);
-    state->loggedTextRender = 1;
-  }
   return 1;
 }
 
@@ -214,8 +188,6 @@ void awts_draw_native_browser(AwtsBrowserState* state) {
   glClear(GL_COLOR_BUFFER_BIT);
   draw_browser_chrome(state);
   if (!strcmp(state->pageKind, "network-executor-render-stream") && draw_executor_stream(state)) return;
-  if (!strcmp(state->pageKind, "network-executor-render-stream") && draw_executor_stream(state)) return;
-  if (draw_dynamic_network_page(state)) return;
   if (!strcmp(state->pageKind, "merkava-executor-render-stream") && draw_executor_stream(state)) return;
   if (!state->loggedTextRender) {
     printf("awts-render-decision route=text-preview result=drawn url=%s pageKind=%s previewBytes=%u\n",

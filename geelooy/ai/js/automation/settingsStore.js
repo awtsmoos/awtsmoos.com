@@ -6,6 +6,7 @@ export const DEFAULT_AUTOMATION_SETTINGS = Object.freeze({
   mode: "continue",
   maxTurns: 3,
   delayMs: 1800,
+  streamSettleMs: 1400,
   prompt: "continue with the next precise verified step",
   stopOnError: true
 });

@@ -31,7 +31,8 @@ export const DESERT_TEST_WORLD = {
         speed: 120,
         interactable: false,
         path: "https://models-3122d.web.app/chossid.glb?k=2",
-        position: { x: 0, y: 5, z: 0 },
+        position: { x: 0, y: 5, z: 10 },
+        scale: { x: 0.035, y: 0.035, z: 0.035 },
         on: {
           ready(n) {
             if (n && typeof n.updateAppearance === "function") n.updateAppearance();
@@ -42,29 +43,29 @@ export const DESERT_TEST_WORLD = {
     ProceduralBuilding: [
       {
         name: "Desert_House_West",
-        position: { x: -18, y: 0, z: -12 },
+        position: { x: -18, y: 0, z: 24 },
         blueprint: { width: 10, height: 6, depth: 8, textureRepeat: { x: 2, y: 1 } }
       },
       {
         name: "Desert_House_Center",
-        position: { x: 0, y: 0, z: -16 },
+        position: { x: 0, y: 0, z: 32 },
         blueprint: { width: 11, height: 6, depth: 8, textureRepeat: { x: 2, y: 1 } }
       },
       {
         name: "Desert_House_East",
-        position: { x: 18, y: 0, z: -12 },
+        position: { x: 18, y: 0, z: 24 },
         blueprint: { width: 10, height: 6, depth: 8, textureRepeat: { x: 2, y: 1 } }
       }
     ],
     InteractiveNpc: [
       {
         name: "Desert Guide",
-        position: { x: -8, y: 4, z: -6 },
+        position: { x: -8, y: 4, z: 16 },
         dialogues: ["B\\\"H. This tiny desert is here for fast testing."]
       },
       {
         name: "House Keeper",
-        position: { x: 8, y: 4, z: -6 },
+        position: { x: 8, y: 4, z: 16 },
         dialogues: ["Three houses, two NPCs, one clear path."]
       }
     ]

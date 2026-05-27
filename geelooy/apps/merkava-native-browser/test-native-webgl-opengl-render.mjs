@@ -59,15 +59,16 @@ try {
     timeout: 20000
   });
   assertHas(stdout, 'render-test-start url=http://127.0.0.1:18084');
-  assertHas(stdout, 'pageKind=network-webgl-dynamic');
+  assertHas(stdout, 'pageKind=network-executor-render-stream');
   assertHas(stdout, 'webgl.drawArrays=1');
   assertHas(stdout, 'opengl_renderer=');
-  assertHas(stdout, 'awts-opengl-webgl-draw source=network-webgl-dynamic');
+  assertHas(stdout, 'awts-opengl-render-stream-draw source=network-executor-render-stream');
+  assertHas(stdout, 'awts-opengl-webgl-draw source=network-executor-render-stream');
   assertHas(stdout, 'drawArrays=1');
   assertHas(stdout, 'glError=0');
-  assertHas(stdout, unique);
   assertHas(stdout, 'render-test-end frames=8');
-  assertNotHas(stdout, 'route=executor-stream result=drawn');
+  assertNotHas(stdout, 'pageKind=network-webgl-dynamic');
+  assertNotHas(stdout, 'route=dynamic-network');
   console.log(JSON.stringify({ ok: true, kind: 'native-webgl-opengl-render', stdout }, null, 2));
 } finally {
   server.kill();

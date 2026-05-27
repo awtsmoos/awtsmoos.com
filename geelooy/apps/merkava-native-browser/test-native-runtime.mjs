@@ -119,6 +119,14 @@ cases.push(['address-hitbox-aligns-with-rendered-bar', run(['--hit-test', '960',
   assertIncludes('address-hitbox-aligns-with-rendered-bar', out.stdout, 'bottom=64');
 }]);
 
+cases.push(['bare-domain-adds-https-prefix', run(['--nav-test', 'awtsmoos.com']), out => {
+  assertIncludes('bare-domain-adds-https-prefix', out.stdout, 'url=https://awtsmoos.com');
+}]);
+
+cases.push(['bare-localhost-adds-http-prefix', run(['--nav-test', 'localhost:8080']), out => {
+  assertIncludes('bare-localhost-adds-http-prefix', out.stdout, 'url=http://localhost:8080');
+}]);
+
 cases.push(['local-html-does-not-use-c-dom-fallback', run(['--nav-test', '..\\samples\\frontend.html']), out => {
   assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'pageKind=file');
   assertIncludes('local-html-does-not-use-c-dom-fallback', out.stdout, 'nativeDom=disabled');
@@ -132,11 +140,16 @@ cases.push(['browser-shell-smoke', run(['--smoke']), out => {
   assertIncludes('browser-shell-smoke', out.stdout, 'bytecode=embedded_executor.merkava');
   assertIncludes('browser-shell-smoke', out.stdout, 'browser-shell=browser-shell.html browser-shell.js');
   assertIncludes('browser-shell-smoke', out.stdout, 'navigation=type-address-enter');
-  assertIncludes('browser-shell-smoke', out.stdout, 'navigation[1]=http://localhost:8080');
-  assertIncludes('browser-shell-smoke', out.stdout, 'status=network loaded: http://localhost:8080');
-  assertIncludes('browser-shell-smoke', out.stdout, 'awts-nav-start id=1 url=http://localhost:8080');
-  assertIncludes('browser-shell-smoke', out.stdout, 'awts-route-decision route=network-html-dynamic reason=fetched-html-no-webgl');
-  assertIncludes('browser-shell-smoke', out.stdout, 'awts-render-decision route=dynamic-network result=drawn source=network-fetched');
+  assertIncludes('browser-shell-smoke', out.stdout, 'navigation[1]=https://awtsmoos.com');
+  assertIncludes('browser-shell-smoke', out.stdout, 'status=network loaded: https://awtsmoos.com');
+  assertIncludes('browser-shell-smoke', out.stdout, 'awts-nav-start id=1 url=https://awtsmoos.com');
+  assertIncludes('browser-shell-smoke', out.stdout, 'awts-executor-compile-report');
+  assertIncludes('browser-shell-smoke', out.stdout, '"url":"https://awtsmoos.com"');
+  assertIncludes('browser-shell-smoke', out.stdout, 'awts-route-decision route=network-executor-render-stream');
+  assertIncludes('browser-shell-smoke', out.stdout, 'awts-render-decision route=executor-stream result=drawn url=https://awtsmoos.com pageKind=network-executor-render-stream');
+  assertIncludes('browser-shell-smoke', out.stdout, 'awts-opengl-render-stream-draw source=network-executor-render-stream');
+  assertNotIncludes('browser-shell-smoke', out.stdout, 'route=network-html-dynamic');
+  assertNotIncludes('browser-shell-smoke', out.stdout, 'route=dynamic-network');
   assertNotIncludes('browser-shell-smoke', out.stdout, 'route=merkava-executor-render-stream reason=local-http-forced');
   assertIncludes('browser-shell-smoke', out.stdout, 'opengl_renderer=');
   assertIncludes('browser-shell-smoke', out.stdout, 'browser-shell=drawn');

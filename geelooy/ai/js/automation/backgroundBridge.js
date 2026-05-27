@@ -4,7 +4,7 @@
  * Chooses the single automation owner.
  * Extension background is primary; page pipeline is only a fallback.
  */
-export async function syncBackgroundAutomation({ settings, graph, conversationId, report = () => {} } = {}) {
+export async function syncBackgroundAutomation({ settings, graph, conversationId, chatgptMode = "regular", chatgptModePayload = {}, report = () => {} } = {}) {
   const bridge = window.awtsmoosFetch || window.mFetch;
   if (!isBridgeReady(bridge)) {
     report("automation owner: page fallback");
@@ -20,7 +20,7 @@ export async function syncBackgroundAutomation({ settings, graph, conversationId
     return { owner: "extension", available: true, waiting: true };
   }
   const cleanSettings = normalizeSettings(settings);
-  const state = await bridge.startBackgroundAutomation({ settings: cleanSettings, graph, conversationId });
+  const state = await bridge.startBackgroundAutomation({ settings: cleanSettings, graph, conversationId, chatgptMode, chatgptModePayload });
   report(`automation owner: extension background · ${state?.status || "armed"} · max ${cleanSettings.maxTurns}`);
   return { owner: "extension", available: true, state, settings: cleanSettings };
 }

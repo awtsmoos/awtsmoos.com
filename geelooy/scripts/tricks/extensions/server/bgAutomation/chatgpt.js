@@ -15,22 +15,24 @@
     return await response.json();
   }
 
-  async function sendChatGptBackground({ conversationId, prompt, onPacket }) {
+  async function sendChatGptBackground({ conversationId, prompt, chatgptMode = "regular", chatgptModePayload = {}, onPacket }) {
     const token = await getAuthToken();
     const convo = await getConversation(conversationId, token);
     const response = await fetch("https://chatgpt.com/backend-api/conversation", {
       method:"POST", credentials:"include", cache:"no-store",
       headers:{ "content-type":"application/json", authorization:`Bearer ${token}` },
-      body:JSON.stringify(makeBody({ conversationId, prompt, parent:convo?.current_node }))
+      body:JSON.stringify(makeBody({ conversationId, prompt, parent:convo?.current_node, chatgptMode, chatgptModePayload }))
     });
     if (!response.ok) throw new Error(`ChatGPT send failed: ${response.status}`);
     return await waitForSettledAssistant(conversationId, token, await readSse(response, onPacket));
   }
 
-  function makeBody({ conversationId, prompt, parent }) {
+  function makeBody({ conversationId, prompt, parent, chatgptMode = "regular", chatgptModePayload = {} }) {
     if (!parent) throw new Error("Conversation has no current_node.");
-    return { action:"next", conversation_id:conversationId, parent_message_id:parent, model:"auto",
+    const body = { action:"next", conversation_id:conversationId, parent_message_id:parent, model:"auto",
       messages:[{ id:uuid(), author:{ role:"user" }, content:{ content_type:"text", parts:[prompt] }, metadata:{} }] };
+    if (chatgptMode !== "regular" && chatgptModePayload && typeof chatgptModePayload === "object") Object.assign(body, chatgptModePayload);
+    return body;
   }
 
   async function readSse(response, onPacket = () => {}) {

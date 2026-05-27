@@ -8,7 +8,7 @@
  * ==============================================================================
  * Unifying the shattered fragments back into a comprehensive entry point.
  */
-import GLTFLoaderVessel from './GLTFLoaderVessel.js';
+import GLTFLoaderVessel from './GLTFLoaderVessel.js?v=player-gltf-sanitize-20260527';
 import TextureLoaderVessel from './TextureLoaderVessel.js';
 
 export default {

@@ -4,6 +4,7 @@ import { readEventPayload } from "./eventPayloadVault.js";
 import { vaultCollapsedPanels } from "./collapsedDomVault.js";
 import { reconcileThoughtInnerEvents } from "./thoughtInnerReconciler.js";
 import { preservePanelScroll } from "./scrollAnchor.js";
+import { usefulInnerEvents } from "./innerEventFilter.js";
 
 const INNER_WINDOW = 40;
 
@@ -78,8 +79,8 @@ async function hydrateInner(panel, offset = 0) {
   const event = await readEventPayload(envelope?.dataset?.thoughtEnvelopeKey);
   panel.querySelector(":scope > .event-hydration-loading")?.remove();
   if (!panel.open) return;
-  const inner = Array.isArray(event?.raw?.events) ? event.raw.events : [];
-  if (!inner.length) return showEmptyInner(panel, "No inner events are currently available for this thought bubble.");
+  const inner = usefulInnerEvents(Array.isArray(event?.raw?.events) ? event.raw.events : []);
+  if (!inner.length) return showEmptyInner(panel, "No useful inner events are currently available for this thought bubble.");
   const end = Math.max(0, inner.length - offset);
   const start = Math.max(0, end - INNER_WINDOW);
   if (!existing) {

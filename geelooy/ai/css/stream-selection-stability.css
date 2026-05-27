@@ -1,0 +1,66 @@
+/* B"H
+  Chapter 4: The Reader's Hand Became Law.
+  Streaming may continue, but selected/opened vessels must stop shaking. The
+  current leaf may breathe; completed cards hold their shape.
+*/
+.message-live-text {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  contain: style;
+}
+
+.message.is-streaming-markdown {
+  position: relative;
+  border-color: rgba(103,232,249,.28);
+  box-shadow: 0 12px 34px rgba(0,0,0,.20), inset 0 0 0 1px rgba(103,232,249,.05);
+}
+
+.message.is-streaming-markdown::after {
+  content: "";
+  display: inline-block;
+  width: .55em;
+  height: 1.05em;
+  margin-left: .16em;
+  vertical-align: -.14em;
+  border-radius: 999px;
+  background: rgba(103,232,249,.86);
+  box-shadow: 0 0 18px rgba(103,232,249,.42);
+  animation: liveCaretPulse 1s ease-in-out infinite;
+}
+
+.message.has-pending-markdown-freeze::before,
+.event-entry[data-pending-event-html]::before,
+.thought-inner-event-vessel.has-pending-stream-update::before {
+  content: "update held while reading";
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 6px;
+  padding: 3px 8px;
+  border: 1px solid rgba(250,204,21,.34);
+  border-radius: 999px;
+  color: #fde68a;
+  background: rgba(113,63,18,.18);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+
+.event-entry,
+.thought-inner-event-vessel,
+.transport-details,
+.thought-envelope-card {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+@keyframes liveCaretPulse {
+  50% { opacity: .28; transform: scaleY(.72); }
+}
+
+@media (max-width: 680px) {
+  .message.is-streaming-markdown::after { width: .46em; height: .95em; }
+  .message-live-text { font-size: .96rem; line-height: 1.62; }
+}

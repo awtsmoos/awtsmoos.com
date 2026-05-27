@@ -5,6 +5,41 @@ import Utils from '../../utils.js';
 import BoneSanctifier from './boyrayNivra/BoneSanctifier.js';
 import AttributeHealer from './boyrayNivra/AttributeHealer.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
+import { loadFreshChossidGltf } from '../worlds/mitzvahWorld/npcs/ChossidNpcLoader.js';
+import { cloneChossidNpcScene } from '../worlds/mitzvahWorld/npcs/ChossidNpcClone.js';
+
+const LIVING_MODEL_HIDDEN_PARTS = new Set([
+    'Camera',
+    'Camera.001',
+    'NurbsPath',
+    'Plane.001',
+    'Plane.002',
+    'teeth',
+    'tooth-distance'
+]);
+
+const LIVING_MODEL_HIDDEN_MATERIALS = new Set([
+    'teffilinStrap'
+]);
+
+function hasHiddenAncestor(node) {
+    let current = node;
+    while (current) {
+        if (LIVING_MODEL_HIDDEN_PARTS.has(current.name)) return true;
+        current = current.parent;
+    }
+    return false;
+}
+
+function materialNameOf(node) {
+    const material = Array.isArray(node.material) ? node.material[0] : node.material;
+    return material?.name || '';
+}
+
+function shouldHideLivingPart(node) {
+    return hasHiddenAncestor(node) ||
+        LIVING_MODEL_HIDDEN_MATERIALS.has(materialNameOf(node));
+}
 
 /**
  * @file boyrayNivra.js
@@ -26,6 +61,29 @@ export default class {
                 if (derech.startsWith('awtsmoos://')) derech = this.getComponent(derech);
                 if (!derech) return await generateThreeJsMesh({ guf: { BoxGeometry:[1, 1, 1] } }, this);
 
+                if (nivra.type === "chossid") {
+                    const playerBlock = await generateThreeJsMesh({
+                        guf: { BoxGeometry: [0.8, 1.6, 0.8] },
+                        toyr: { MeshLambertMaterial: { color: 0x1f6fff } }
+                    }, this);
+                    playerBlock.name = nivra.name || "Chossid_Player_Test_Block";
+                    playerBlock.geometry?.translate?.(0, 0.8, 0);
+                    playerBlock.updateMatrixWorld(true);
+                    playerBlock.userData.isLiving = true;
+                    playerBlock.nivraAwtsmoos = nivra;
+                    return playerBlock;
+                }
+
+                if (nivra.type === "__never_player_glb" && derech.includes("chossid.glb")) {
+                    const npcGltf = await loadFreshChossidGltf(this);
+                    const scene = cloneChossidNpcScene(npcGltf);
+                    return {
+                        scene,
+                        animations: npcGltf.animations || npcGltf.scene?.animations || [],
+                        cameras: npcGltf.cameras || []
+                    };
+                }
+
                 const baseGltf = await this.loadGLTF(derech);
                 if (!baseGltf || !baseGltf.scene) throw new Error(`Divine source missing for "${nivra.name}".`);
 
@@ -43,6 +101,10 @@ export default class {
                 const materials =[];
 
                 clonedScene.traverse(child => {
+                    if (isLivingType && shouldHideLivingPart(child)) {
+                        child.visible = false;
+                    }
+
                     if (child.isMesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;

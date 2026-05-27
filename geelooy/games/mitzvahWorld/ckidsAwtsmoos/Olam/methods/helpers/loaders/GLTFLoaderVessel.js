@@ -6,6 +6,23 @@ import LoaderStateMap from './LoaderStateMap.js';
 const GLTF_LOAD_TIMEOUT_MS = 30000;
 const GLTF_FETCH_TIMEOUT_MS = 25000;
 
+function canonicalGltfUrl(url) {
+    if (typeof url !== "string") return url;
+
+    try {
+        const parsed = new URL(url, self.location?.href || globalThis.location?.href);
+        if (parsed.pathname.endsWith("/chossid.glb")) {
+            parsed.search = "";
+            parsed.hash = "";
+            return parsed.href;
+        }
+    } catch (error) {
+        if (url.includes("chossid.glb")) return url.split("?")[0].split("#")[0];
+    }
+
+    return url;
+}
+
 /**
  * B"H
  * Chapter: The Model Gate With a Living Clock.
@@ -86,23 +103,25 @@ export default class GLTFLoaderVessel {
             return null;
         }
         
-        if (LoaderStateMap.hasCache(url)) {
-            return await LoaderStateMap.getCache()[url];
+        const cacheUrl = canonicalGltfUrl(url);
+        
+        if (LoaderStateMap.hasCache(cacheUrl)) {
+            return await LoaderStateMap.getCache()[cacheUrl];
         }
 
-        LoaderMonitor.logLoad("GLTF", url, "STARTING_THE_DESCENT");
+        LoaderMonitor.logLoad("GLTF", cacheUrl, "STARTING_THE_DESCENT");
 
         const loadProcess = async () => {
             try {
-                let blob = await AssetCache.get(url);
-                let fetchUrl = url;
+                let blob = await AssetCache.get(cacheUrl);
+                let fetchUrl = cacheUrl;
 
                 if (blob) {
-                    LoaderMonitor.logLoad("GLTF", url, "LOCATED_IN_MEMORY");
+                    LoaderMonitor.logLoad("GLTF", cacheUrl, "LOCATED_IN_MEMORY");
                     fetchUrl = URL.createObjectURL(blob);
                 } else {
-                    LoaderMonitor.logLoad("GLTF", url, "PULLING_FROM_NETWORK");
-                    blob = await fetchAndRememberBlob(url);
+                    LoaderMonitor.logLoad("GLTF", cacheUrl, "PULLING_FROM_NETWORK");
+                    blob = await fetchAndRememberBlob(cacheUrl);
                     if (blob) fetchUrl = URL.createObjectURL(blob);
                 }
 
@@ -119,7 +138,7 @@ export default class GLTFLoaderVessel {
                 
                 // This parses the GLB binary. 
                 // If it hangs here without errors, it implies WebGL/Draco stall.
-                const gltf = await withLoadTimeout(loader.loadAsync(fetchUrl), url);
+                const gltf = await withLoadTimeout(loader.loadAsync(fetchUrl), cacheUrl);
                 
                 // B"H: silent
 
@@ -127,21 +146,21 @@ export default class GLTFLoaderVessel {
                 if (blob) URL.revokeObjectURL(fetchUrl);
 
                 if (!gltf) {
-                    LoaderMonitor.logLoad("GLTF", url, "ABORTED");
+                    LoaderMonitor.logLoad("GLTF", cacheUrl, "ABORTED");
                     return null;
                 }
 
-                LoaderMonitor.logLoad("GLTF", url, "VESSEL_SOLIDIFIED");
+                LoaderMonitor.logLoad("GLTF", cacheUrl, "VESSEL_SOLIDIFIED");
                 return gltf;
             } catch(e) {
-                LoaderMonitor.logLoad("GLTF", url, "SHATTERED_VESSEL");
+                LoaderMonitor.logLoad("GLTF", cacheUrl, "SHATTERED_VESSEL");
                 console.error("B\"H - 🚨 Mesh Manifestation Failed:", e);
                 return null;
             }
         };
 
         const activePromise = loadProcess();
-        LoaderStateMap.setCache(url, activePromise);
+        LoaderStateMap.setCache(cacheUrl, activePromise);
         
         return await activePromise;
     }

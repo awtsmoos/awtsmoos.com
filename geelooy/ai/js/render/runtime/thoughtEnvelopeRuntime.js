@@ -3,6 +3,7 @@ import { storeEventPayload } from "./eventPayloadVault.js";
 import { vaultCollapsedPanels } from "./collapsedDomVault.js";
 import { reconcileThoughtInnerEvents } from "./thoughtInnerReconciler.js";
 import { toolHeadline } from "../event-ui/toolHeadline.js";
+import { usefulInnerEvents } from "./innerEventFilter.js";
 
 const LIVE_INNER_WINDOW = 80;
 
@@ -20,7 +21,11 @@ const LIVE_INNER_WINDOW = 80;
  * @returns {void}
  */
 export function renderThoughtEnvelopeNode(node, event = {}) {
-  const inner = realInnerEvents(Array.isArray(event.raw?.events) ? event.raw.events : []);
+  const inner = usefulInnerEvents(realInnerEvents(Array.isArray(event.raw?.events) ? event.raw.events : []));
+  if (!inner.length) {
+    node.remove();
+    return;
+  }
   const fingerprint = thoughtEnvelopeFingerprint(event, inner);
   if (node.dataset.thoughtEnvelopeFingerprint === fingerprint) return;
   node.dataset.thoughtEnvelopeFingerprint = fingerprint;

@@ -10,11 +10,13 @@
 @import "./css/thinking-window.css";
 @import "./css/forms.css";
 @import "./css/transport.css";
+@import "./css/transport-error-polish.css";
 @import "./css/event-loading.css";
 @import "./css/panels.css";
 @import "./css/attachments.css";
 @import "./css/visual.css";
 @import "./css/stream-polish.css";
+@import "./css/thought-freeze-polish.css";
 @import "./css/event-responsive.css";
 @import "./css/focus-accessibility.css";
 @import "./css/panel-controls.css";
@@ -27,6 +29,8 @@
 @import "./css/automation-graph-nodes.css";
 @import "./css/automation-form-polish.css";
 @import "./css/automation-stop-button.css";
+@import "./css/automation-settle-gate.css";
 @import "./css/settings-controls-fix.css";
 @import "./css/boundary-guard.css";
+@import "./css/stream-selection-stability.css";
 @import "./css/mobile-vessel.css";

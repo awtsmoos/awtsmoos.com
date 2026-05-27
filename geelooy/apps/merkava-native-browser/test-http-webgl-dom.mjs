@@ -60,12 +60,13 @@ try {
   });
   assertHas('localhost-webgl-dom', stdout, 'awts-net-read url=http://127.0.0.1:18080');
   assertHas('localhost-webgl-dom', stdout, 'htmlHints canvas=1 webgl=1 drawArrays=1 local=1');
-  assertHas('localhost-webgl-dom', stdout, 'awts-route-decision route=network-webgl-dynamic reason=webgl-dom-hints');
-  assertHas('localhost-webgl-dom', stdout, 'pageKind=network-webgl-dynamic');
-  assertHas('localhost-webgl-dom', stdout, 'AWTS_DYNAMIC_WEBGL_URL_CONTENT_18080');
+  assertHas('localhost-webgl-dom', stdout, 'awts-executor-compile-report');
+  assertHas('localhost-webgl-dom', stdout, 'awts-route-decision route=network-executor-render-stream reason=merkava-executor-compiled-html');
+  assertHas('localhost-webgl-dom', stdout, 'pageKind=network-executor-render-stream');
   assertHas('localhost-webgl-dom', stdout, 'webgl-command-table: viewport=1 clearColor=1 clear=1 drawArrays=1');
   assertNotHas('localhost-webgl-dom', stdout, 'route=merkava-executor-render-stream reason=local-http-forced');
-  assertNotHas('localhost-webgl-dom', stdout, 'preview=network WebGL DOM routed through MerkavaExecutor render stream');
+  assertNotHas('localhost-webgl-dom', stdout, 'route=network-webgl-dynamic');
+  assertNotHas('localhost-webgl-dom', stdout, 'route=network-html-dynamic');
   console.log(JSON.stringify({ ok: true, stdout }, null, 2));
 } finally {
   server.kill();

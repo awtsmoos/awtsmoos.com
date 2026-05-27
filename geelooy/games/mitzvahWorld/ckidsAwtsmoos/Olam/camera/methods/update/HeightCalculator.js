@@ -25,11 +25,12 @@ export default class HeightCalculator {
             if (boundingBox && !isNaN(boundingBox.max.y) && !isNaN(boundingBox.min.y)) {
                  const absoluteHeight = (boundingBox.max.y - boundingBox.min.y);
                  // B"H: Focusing the gaze down to the heart and mid-shoulders.
-                 if (absoluteHeight > 0) {
+                 if (absoluteHeight > 0 && absoluteHeight < 4) {
                      targetHeadHeight = absoluteHeight * 0.55; 
                  }
             }
         }
-        return targetHeadHeight;
+
+        return Math.max(0.8, Math.min(targetHeadHeight, 2.2));
     }
 }

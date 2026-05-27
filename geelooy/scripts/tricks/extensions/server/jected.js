@@ -36,11 +36,18 @@
     get body() {
       return { getReader: () => {
         let done = false;
+        let cursor = 0;
         return { read: async () => {
           if (done) return { done: true, value: undefined };
-          const value = await this._requestBody("read");
-          if (value === null) { done = true; return { done: true, value: undefined }; }
-          const blob = await (await fetch(value)).blob();
+          const packet = await safeResumePacket(this.id, cursor);
+          if (!packet || packet.error || (packet.done && !packet.chunks?.length)) {
+            done = true;
+            return { done: true, value: undefined };
+          }
+          const chunk = [...(packet.chunks || [])].sort((a, b) => Number(a.index || 0) - Number(b.index || 0))[0];
+          if (!chunk) return { done: false, value: new Uint8Array() };
+          cursor = Math.max(cursor, Number(chunk.index || 0) + 1);
+          const blob = await (await fetch(chunk.chunk)).blob();
           return { done: false, value: new Uint8Array(await blob.arrayBuffer()) };
         }};
       }};
@@ -84,6 +91,24 @@
 
   async function resumeStream(id, cursor = 0) {
     return await sendBridgeMessage({ action: "resume-stream", id, cursor }, 180000);
+  }
+
+  async function safeResumePacket(id, cursor = 0) {
+    try { return await resumeStream(id, cursor); }
+    catch (error) {
+      const message = String(error?.message || error);
+      if (/Response not found|already consumed|stream missing/i.test(message)) return null;
+      throw error;
+    }
+  }
+
+  async function safeResumePacket(id, cursor = 0) {
+    try { return await resumeStream(id, cursor); }
+    catch (error) {
+      const message = String(error?.message || error);
+      if (/Response not found|already consumed|stream missing/i.test(message)) return null;
+      throw error;
+    }
   }
 
   async function ackStream(id, cursor = 0) {

@@ -57,12 +57,12 @@ try {
     timeout: 15000
   });
   assertHas('network-fetched-html', stdout, 'awts-net-read url=http://127.0.0.1:18083');
-  assertHas('network-fetched-html', stdout, 'awts-route-decision route=network-html-dynamic reason=fetched-html-no-webgl');
-  assertHas('network-fetched-html', stdout, 'pageKind=network-html-dynamic');
-  assertHas('network-fetched-html', stdout, unique);
+  assertHas('network-fetched-html', stdout, 'awts-executor-compile-report');
+  assertHas('network-fetched-html', stdout, 'awts-route-decision route=network-executor-render-stream reason=merkava-executor-compiled-html');
+  assertHas('network-fetched-html', stdout, 'pageKind=network-executor-render-stream');
   assertNotHas('network-fetched-html', stdout, 'route=merkava-executor-render-stream reason=local-http-forced');
-  assertNotHas('network-fetched-html', stdout, 'route=executor-stream result=drawn');
-  assertNotHas('network-fetched-html', stdout, 'preview=network WebGL DOM routed through MerkavaExecutor render stream');
+  assertNotHas('network-fetched-html', stdout, 'route=network-html-dynamic');
+  assertNotHas('network-fetched-html', stdout, 'route=dynamic-network');
   console.log(JSON.stringify({ ok: true, url: `http://127.0.0.1:${port}`, unique, stdout }, null, 2));
 } finally {
   server.kill();

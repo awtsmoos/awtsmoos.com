@@ -75,7 +75,10 @@ export class MessageRenderer {
     this.clear();
     showLoadState(this.chatBox, "Loading conversation sparks…");
     try {
-      for (const input of inputs) this.add(input, { deferRender: true });
+      for (const input of inputs) {
+        const record = this.add(input, { deferRender: true });
+        this.finalizeHistoricalRecord(record.id);
+      }
       await this.renderWindow({ bottom: true });
     } catch (error) {
       showLoadState(this.chatBox, `Conversation load failed: ${error?.message || error}`, "error");
@@ -157,10 +160,20 @@ export class MessageRenderer {
 
   performLiveRefresh(record) {
     if (!record.shell || !record.shell.isConnected) return this.appendLiveRecord(record);
+    record.shell.classList.toggle("is-live", Boolean(record.streaming || record.loading));
+    record.shell.classList.toggle("is-finished", !record.streaming && !record.loading);
     record.shell.querySelector?.(":scope > .message.is-loading")?.remove();
     if (!record.bubble && record.text) record.shell.append(createCombinedBubble(this, record));
     updateBubbleHtml(this, record);
     refreshEventsLive(this, record);
+  }
+
+  finalizeHistoricalRecord(id) {
+    const record = this.byId.get(id);
+    if (!record) return;
+    finalizeTextRecord(record);
+    record.loading = false;
+    record.streaming = false;
   }
 
   finalizeLiveRecords() {
@@ -168,8 +181,12 @@ export class MessageRenderer {
       if (!record.streaming && !record.loading) continue;
       finalizeTextRecord(record);
       record.loading = false;
+      record.streaming = false;
       record.shell?.querySelector?.(":scope > .message.is-loading")?.remove();
-      this.refreshLive(record);
+      record.bubble?.classList?.remove?.("is-streaming-markdown", "has-pending-markdown-freeze");
+      if (record.bubble?.dataset) delete record.bubble.dataset.pendingMarkdownHtml;
+      refreshEventBadge(record);
+      this.performLiveRefresh(record);
     }
     this.removeLoadingRecords();
   }

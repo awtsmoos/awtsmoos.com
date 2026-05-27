@@ -11,7 +11,7 @@ const streamModulePath = path.basename(here).toLowerCase() === 'dist'
   : path.join(here, 'merkavaExecutorRenderStream.js');
 const { buildMerkavaExecutorRenderStream } = await import(pathToFileURL(streamModulePath).href);
 
-const [, , htmlPath, url = 'http://localhost:8080'] = process.argv;
+const [, , htmlPath, url = 'https://awtsmoos.com'] = process.argv;
 if (!htmlPath) {
   console.error('missing htmlPath');
   process.exit(64);
@@ -19,9 +19,10 @@ if (!htmlPath) {
 
 const html = fs.readFileSync(htmlPath, 'utf8');
 const cssAssets = await collectCssAssets(html, url);
+const scriptAssets = await collectScriptAssets(html, url);
 const cssTag = cssAssets.css ? `<style data-awts-live-css="true">${cssAssets.css}</style>` : '';
 const htmlWithCss = injectCssIntoHtml(html, cssTag);
-const result = await buildMerkavaExecutorRenderStream({ html: htmlWithCss, scripts: [], url });
+const result = await buildMerkavaExecutorRenderStream({ html: htmlWithCss, scripts: scriptAssets.scripts, url });
 
 process.stdout.write('AWTS_EXECUTOR_RENDER_STREAM_BEGIN\n');
 process.stdout.write(result.stream || '');
@@ -34,6 +35,9 @@ process.stdout.write(JSON.stringify({
   streamBytes: result.summary.streamBytes,
   cssLinks: cssAssets.links.length,
   cssBytes: Buffer.byteLength(cssAssets.css, 'utf8'),
+  scriptLinks: scriptAssets.links.length,
+  scriptBytes: scriptAssets.scripts.reduce((sum, script) => sum + Buffer.byteLength(script, 'utf8'), 0),
+  scriptErrors: result.summary.scriptErrors.length,
   url
 }) + '\n');
 
@@ -60,6 +64,22 @@ async function collectCssAssets(source, baseUrl) {
     catch (err) { fetched.push(`/* failed ${href}: ${err.message} */`); }
   }
   return { links, css: [...fetched, ...inline].join('\n') };
+}
+
+async function collectScriptAssets(source, baseUrl) {
+  const links = [];
+  const inline = [];
+  for (const m of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+    const attrs = attrsOf(m[1]);
+    if (attrs.src) links.push(new URL(attrs.src, baseUrl).href);
+    else if ((m[2] || '').trim()) inline.push(m[2]);
+  }
+  const fetched = [];
+  for (const href of links.slice(0, 12)) {
+    try { fetched.push(`/* ${href} */\n` + await fetchText(href)); }
+    catch (err) { fetched.push(`/* failed ${href}: ${err.message} */`); }
+  }
+  return { links, scripts: [...fetched, ...inline] };
 }
 
 function attrsOf(text) {

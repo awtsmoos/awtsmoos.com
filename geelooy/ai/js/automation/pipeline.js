@@ -4,6 +4,7 @@ import { automationGraphStore } from "./graphStore.js";
 import { evaluateAutomationGraph } from "./graphEngine.js";
 import { automationArchiveStore } from "./messageArchive.js";
 import { automationContinuationGate } from "./continuationGate.js";
+import { automationStreamCompletionGuard } from "./streamCompletionGuard.js";
 
 /**
  * Guarded multi-conversation automation loop.
@@ -54,7 +55,8 @@ export class AutomationPipeline {
     if (!conversationId) return this.report("automation waiting for conversation id");
     const settings = this.getSettings();
     if (!settings.enabled) return this.mark(conversationId, { status: "off" }, "automation off");
-    await this.archiveStore.add({ conversationId, role: "assistant", text: replyText, source: context.resumed ? "resume" : "live" });
+    const source = context.resumed ? "resume" : context.completionPhase ? context.completionPhase : "live";
+    if (context.completionPhase !== "post-settle") await this.archiveStore.add({ conversationId, role: "assistant", text: replyText, source });
     if (this.busy.has(conversationId)) return this.report(`automation busy guard held for ${conversationId}`);
     const run = this.runStore.get(conversationId) || { conversationId, turns: 0, lastReply: "" };
     if (run.turns >= Number(settings.maxTurns || 0)) return this.mark(conversationId, { status: "done" }, "max turns reached");
@@ -86,9 +88,13 @@ export class AutomationPipeline {
     const continuationReply = typeof assistantReply === "string"
       ? (assistantReply.trim() || replyText || promptSummaryFromRun(this.runStore.get(conversationId)))
       : "";
-    if (automationContinuationGate.canSchedule({ conversationId, replyText: continuationReply, settings: this.getSettings(), context, turns: nextTurn })) {
-      this.mark(conversationId, { status: "armed", lastReply: continuationReply }, "automation continuation armed once");
-      setTimeout(() => this.afterAssistantReply(continuationReply, { conversationId, allowRepeat: !String(assistantReply || "").trim() }), 0);
+    automationStreamCompletionGuard.recordCompletion({ conversationId, turn: nextTurn, text: continuationReply });
+    const freshSettings = this.getSettings();
+    if (automationContinuationGate.canSchedule({ conversationId, replyText: continuationReply, settings: freshSettings, context, turns: nextTurn })) {
+      this.mark(conversationId, { status: "settling", lastReply: continuationReply }, "automation waiting for stream settle gate");
+      const gate = await automationStreamCompletionGuard.waitForSafeContinuation({ conversationId, settings: freshSettings });
+      this.mark(conversationId, { status: "armed", lastReply: continuationReply }, `automation continuation armed after ${gate.waitedMs}ms`);
+      setTimeout(() => this.afterAssistantReply(continuationReply, { conversationId, allowRepeat: !String(assistantReply || "").trim(), completionPhase: "post-settle" }), 0);
     }
   }
 

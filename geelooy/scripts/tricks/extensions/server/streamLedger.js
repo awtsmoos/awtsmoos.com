@@ -30,7 +30,7 @@
 
     async read(id) {
       const stream = this.touch(id);
-      if (!stream) throw new Error("Response not found or already consumed.");
+      if (!stream) return null;
       const chunk = await this.waitForChunk(stream, stream.readCursor);
       if (!chunk) return null;
       stream.readCursor = chunk.index + 1;

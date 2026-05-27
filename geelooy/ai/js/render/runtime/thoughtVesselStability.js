@@ -39,5 +39,18 @@ export function applyPendingWhenClosed(vessel) {
  * @returns {boolean} True when the user has an expanded readable surface.
  */
 export function hasOpenSurface(vessel) {
-  return Boolean(vessel?.querySelector?.("details[open], .is-maximized, .is-fullscreen"));
+  return Boolean(selectionTouches(vessel) || vessel?.querySelector?.("details[open], .is-maximized, .is-fullscreen"));
+}
+
+function selectionTouches(node) {
+  try {
+    const selection = globalThis.getSelection?.();
+    if (!selection || selection.isCollapsed || !selection.rangeCount) return false;
+    for (let index = 0; index < selection.rangeCount; index++) {
+      const range = selection.getRangeAt(index);
+      if (range?.intersectsNode?.(node)) return true;
+      if (node.contains?.(range.commonAncestorContainer)) return true;
+    }
+  } catch {}
+  return false;
 }

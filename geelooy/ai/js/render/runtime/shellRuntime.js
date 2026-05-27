@@ -20,7 +20,7 @@ import { toolHeadline } from "../event-ui/toolHeadline.js";
 export function createShell(renderer, record) {
   const shell = document.createElement("div");
   const kind = primaryRecordKind(record);
-  shell.className = `message-shell ${record.role === "user" ? "end-flow" : "start-flow"} kind-${kind} ${record.text ? "has-text" : "event-only"}`;
+  shell.className = `message-shell ${record.role === "user" ? "end-flow" : "start-flow"} kind-${kind} ${record.text ? "has-text" : "event-only"} ${record.streaming || record.loading ? "is-live" : "is-finished"}`;
   shell.dataset.messageId = record.id;
   shell.dataset.eventKinds = recordKinds(record).join(" ");
   record.shell = shell;
@@ -94,10 +94,11 @@ function activeEventLabel(record) {
   if (activeTool) {
     const info = toolHeadline(activeTool);
     const target = info.target && info.target !== info.action ? ` · ${info.target}` : "";
-    return `Running: ${info.action}${target}`;
+    const prefix = record.streaming || record.loading ? "Running" : "Tool trace";
+    return `${prefix}: ${info.action}${target}`;
   }
   const kinds = recordKinds(record);
-  if (kinds.includes("thinking")) return "Thinking trace";
-  if (kinds.includes("status")) return "Status trace";
-  return "Transport trace";
+  if (kinds.includes("thinking")) return record.streaming || record.loading ? "Thinking…" : "Thinking trace";
+  if (kinds.includes("status")) return record.streaming || record.loading ? "Status streaming…" : "Status trace";
+  return record.streaming || record.loading ? "Transport streaming…" : "Transport trace";
 }

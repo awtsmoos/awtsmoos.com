@@ -12,6 +12,7 @@ import { getConversationId, updateSearchParams } from "./js/app/urlState.js";
 import { LayoutController } from "./js/layout/layoutController.js";
 import { AttachmentTray } from "./js/attachments/attachmentTray.js";
 import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
+import { downloadCurrentChatHtml, downloadCurrentChatJson } from "./js/export/chatHtmlExporter.js";
 
 /**
  * Chapter 1: The page becomes a cockpit, not a leaking scroll.
@@ -37,11 +38,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   const store = new AutomationSettingsStore();
   let pipeline = null;
-  const panel = new AutomationPanel({ root: dom.automationPanel, store, onChange: async settings => {
-    const owner = await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId: getConversationId(), report: text => panel.report(text) });
-    if (owner?.owner === "page") await pipeline?.onSettingsChanged(settings);
-    else pipeline?.reset(getConversationId());
-  } });
+  const panel = new AutomationPanel({
+    root: dom.automationPanel,
+    store,
+    onDownloadChat: () => downloadCurrentChatHtml(renderer),
+    onDownloadJson: () => downloadCurrentChatJson(renderer),
+    onChange: async settings => {
+      const owner = await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId: getConversationId(), chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
+      if (owner?.owner === "page") await pipeline?.onSettingsChanged(settings);
+      else pipeline?.reset(getConversationId());
+    }
+  });
   pipeline = new AutomationPipeline({
     settingsStore: store,
     getSettings: () => panel.getSettings(),
@@ -81,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     dom.messageInput.value = "";
     return await controller.send(prompt, { attachments: attachments.consume(), ondone: async (reply, meta) => {
       if (!hasBackgroundAutomationBridge()) return pipeline.afterAssistantReply(reply, meta);
-      if (panel.getSettings().enabled) await syncBackgroundAutomation({ settings: panel.getSettings(), graph: panel.getGraph(), conversationId: getConversationId(), report: text => panel.report(text) });
+      if (panel.getSettings().enabled) await syncBackgroundAutomation({ settings: panel.getSettings(), graph: panel.getGraph(), conversationId: getConversationId(), chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
     } });
   }
 
@@ -161,9 +168,12 @@ function wireTransportStatus(dom) {
     el.innerHTML = `<strong>Transport:</strong> ${escapeInline(detail.label || detail.transport || "ready")}`;
   };
   const renderFeedback = detail => {
+    const type = String(detail.type || "extension issue");
+    const error = String(detail.error || "");
+    if (/Response not found|already consumed/i.test(error)) return;
     el.hidden = false;
-    el.className = "transport-status is-missing";
-    el.innerHTML = `<strong>Transport feedback:</strong> ${escapeInline(detail.type || "extension issue")} ${escapeInline(detail.error || "")}`;
+    el.className = `transport-status is-${type.replace(/[^a-z0-9_-]+/gi, "-").toLowerCase() || "missing"}`;
+    el.innerHTML = `<strong>Transport feedback:</strong> ${escapeInline(type)} ${error ? `<span class="transport-error-text">${escapeInline(error)}</span>` : ""}`;
   };
   const renderMissing = help => {
     el.hidden = false;

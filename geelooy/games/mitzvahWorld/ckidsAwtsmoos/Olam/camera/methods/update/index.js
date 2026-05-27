@@ -10,7 +10,7 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 import { handleRotation } from "./rotation.js";
 import { calculateFinalDistance } from "./distance.js";
-import HeightCalculator from "./HeightCalculator.js";
+import HeightCalculator from "./HeightCalculator.js?v=player-gltf-sanitize-20260527";
 
 export default function update() {
     if (!this.target) return;

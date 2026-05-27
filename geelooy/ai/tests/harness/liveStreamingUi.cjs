@@ -51,7 +51,9 @@ function fakeBubble() {
   const bubble = {
     childNodes: [],
     innerHTMLSetCount: 0,
+    dataset: {},
     querySelector(selector) { return selector === ":scope > .message-live-text" ? this.childNodes.find(n => n.className === "message-live-text") || null : null; },
+    classList: { add() {}, remove() {} },
     append(node) { this.childNodes.push(node); },
     set textContent(value) { this.childNodes = []; this._textContent = value; },
     get textContent() { return this._textContent || this.childNodes.map(n => n.textContent || "").join(""); },

@@ -10,5 +10,5 @@
  * The monolithic file has been shattered into highly organized sub-modules.
  */
 
-export * from './exports/index.js';
+export * from './exports/index.js?v=player-gltf-root-cap-20260527';
 export class ok {}

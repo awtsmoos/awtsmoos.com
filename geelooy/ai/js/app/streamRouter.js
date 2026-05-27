@@ -4,13 +4,13 @@ import { isDonePacket, looksLikeUserEcho } from "./stream/packetState.js";
 import { withoutFinalReplayEvents } from "./stream/livePacketSanitizer.js";
 
 /**
- * Chapter 72: One Assistant Vessel Held The Whole River.
+ * Chapter 75: The Final Answer Could Not Be Overtaken By Its Own Thunder.
  *
- * A streamed turn must never split into a trace record and then a later text
- * record. That split was the root of out-of-order bubbles, audio controls
- * appearing before/after the wrong message, and thought events seeming to jump
- * beyond the final answer. This router creates exactly one assistant record per
- * visible streamed turn, then mutates that same vessel for events and text.
+ * Stream callbacks can arrive like lightning: thought, tool, text, done. Browser
+ * handlers do not promise that every async render finishes before the final
+ * packet descends. This router therefore serializes every packet through one
+ * queue, so the last visible assistant text lands in the same vessel after the
+ * thought traces and before markdown freezes the record.
  */
 export class StreamRouter {
   constructor(renderer) {
@@ -18,15 +18,26 @@ export class StreamRouter {
     this.record = null;
     this.assistant = null;
     this.done = false;
+    this.queue = Promise.resolve();
   }
 
-  async route(packet) {
+  route(packet) {
+    this.queue = this.queue.then(() => this.routeNow(packet)).catch(error => this.fail(error));
+    return this.queue;
+  }
+
+  async finish(packet) {
+    this.queue = this.queue.then(() => this.finishNow(packet)).catch(error => this.fail(error));
+    return this.queue;
+  }
+
+  async routeNow(packet) {
     const normalized = normalizeMessage(packet);
     await this.routeNormalized(packet, normalized);
     if (isDonePacket(packet)) this.finishDone();
   }
 
-  async finish(packet) {
+  async finishNow(packet) {
     if (packet && !isDonePacket(packet)) {
       const safePacket = withoutFinalReplayEvents(packet);
       const normalized = normalizeMessage(safePacket);
@@ -52,9 +63,31 @@ export class StreamRouter {
     return this.record;
   }
 
+  abort(error) {
+    const record = this.ensureAssistantRecord();
+    record.text = friendlyStreamError(error);
+    record.events = [];
+    record.loading = false;
+    record.streaming = false;
+    this.renderer.refreshLive?.(record);
+    this.renderer.finalizeLiveRecords?.();
+    this.done = true;
+  }
+
   finishDone() {
     if (this.done) return;
     this.done = true;
     this.renderer.finalizeLiveRecords?.();
   }
+
+  fail(error) {
+    console.warn("Stream router failed", error);
+    this.abort(error);
+  }
+}
+
+function friendlyStreamError(error) {
+  const message = String(error?.message || error || "Unknown stream error");
+  if (/timed out|timeout/i.test(message)) return "The stream timed out before a final answer arrived. Try sending again; the stale streaming state has been cleared.";
+  return `The stream stopped before completion. ${message}`;
 }
