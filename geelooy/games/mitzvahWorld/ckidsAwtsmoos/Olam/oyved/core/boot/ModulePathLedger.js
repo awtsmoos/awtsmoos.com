@@ -2,18 +2,18 @@
 /**
  * @file ModulePathLedger.js
  * @description
- * Chapter 5: Worker boot module paths with cache freshness.
+ * Chapter 7: Worker boot module paths with visibility freshness.
  *
- * The Worker imports the real Olam class directly, and the Olam path carries a
- * version key so loader-warning and terrain/control fixes reach a fresh worker
- * after a hard refresh.
+ * The worker imports the real Olam vessel directly. The cache key now carries
+ * the base-visibility repair so a hard refresh cannot keep the old black-screen
+ * worker core.
  */
 
 export const MODULE_PATH_LEDGER = Object.freeze({
   olamCore: Object.freeze({
     key: "olamCore",
     label: "Olam core direct vessel",
-    relativePath: "../../../core/OlamVessel.js?v=lean-l1-20260528-bh8",
+    relativePath: "../../../core/OlamVessel.js?v=lean-l1-20260528-bh11",
     expectedEnd: "/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js",
     requiredExport: "default"
   }),

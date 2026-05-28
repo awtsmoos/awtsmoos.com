@@ -2,9 +2,9 @@
 /**
  * @file index.js
  * @description
- * Chapter 6: The page gate opens the verified Level 1 starter.
+ * Chapter 7: The page gate opens the verified visible Level 1 starter.
  */
-const IKAR_VERSION = "lean-l1-20260528-bh9";
+const IKAR_VERSION = "lean-l1-20260528-bh11";
 
 function storeLastError(details) {
   if (typeof window !== "undefined") window.__AWTSMOOS_LAST_ERROR__ = details;

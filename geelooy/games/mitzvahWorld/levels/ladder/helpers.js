@@ -4,9 +4,8 @@
  * @description
  * Chapter 6: The desert ladder is authored by small, data-only sparks.
  *
- * These helpers keep Level 1 pure: terrain, Chossid, solid platforms, coins,
- * simple doors, spikes, and fall reset. The platforms now carry texture seeds,
- * and the spike floor is generated as data so no hidden procedural world wakes.
+ * The black-screen repair is here too: Level 1 now explicitly asks for a bright
+ * ProceduralSky so lights are born before Lambert platforms and spikes are seen.
  */
 
 export const platform = (name, x, y, z, width, depth, color = 0xc6aa62) => ({
@@ -19,12 +18,14 @@ export const platform = (name, x, y, z, width, depth, color = 0xc6aa62) => ({
   position: { x, y, z }
 });
 
-export const coin = (name, x, y, z, value = 1) => ({
+export const sky = (name = "Bright_Desert_Sky") => ({
   name,
-  value,
-  rotationSpeed: 0.025,
-  position: { x, y, z }
+  timeOfDay: 10,
+  timeMultiplier: 0.05,
+  position: { x: 0, y: 0, z: 0 }
 });
+
+export const coin = (name, x, y, z, value = 1) => ({ name, value, rotationSpeed: 0.025, position: { x, y, z } });
 
 export const bonus = (name, x, y, z, globalValue = 3) => ({
   name,

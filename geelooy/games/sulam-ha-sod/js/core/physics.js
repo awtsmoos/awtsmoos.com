@@ -7,7 +7,7 @@ import { TrickPlatformField } from '../systems/trickPlatforms.js';
 import { LevelTriggerField } from '../systems/levelTriggers.js';
 import { SpatialHash } from '../systems/spatialHash.js';
 import { SacredRandom, seedFromText } from '../systems/sacredRandom.js';
-import { buyNextSkin, equippedSkin } from '../systems/market.js';
+import { equippedSkin } from '../systems/market.js';
 import { TrickCoinField } from '../systems/trickCoins.js';
 import { MomentumCurse } from '../systems/momentumCurse.js';
 import { spawnHebrewShatter, stepBursts } from '../systems/deathBursts.js';
@@ -23,25 +23,31 @@ const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a
 /**
  * PhysicsWorld is the living chamber of Sulam HaSod.
  *
- * The Awtsmoos speaks letters into the level every frame. When the player dies,
- * the old location is preserved as a witness: cameraX, deathX, deathY, burst,
- * and reason remain while the level quietly reloads behind the veil. Only after
- * the Hebrew-letter explosion breathes for a moment does the continue prompt
- * become visible and accept key, tap, or joystick OK.
+ * The Awtsmoos speaks letters into the level every frame. Every honest coin is
+ * now part of the lock: a key alone remembers the door, but all real coins must
+ * be gathered before the door opens. Fake coins remain teeth. The camera lock
+ * during death preserves the exact visible shatter site until continue.
  */
 export class PhysicsWorld {
-  constructor(level) { this.soundEvents = []; this.load(level); }
+  constructor(level) {
+    this.soundEvents = [];
+    this.visibleCameraX = 0;
+    this.load(level);
+  }
 
   load(level) {
     const oldCurrency = this.currency || { perutah: 0, dinar: 0, sela: 0, maneh: 0, shefa: 0, chain: 0, bestChain: 0 };
-    const oldMarket = this.market || { owned: ['plain'], equipped: 'plain', open: false, message: 'Press B to bargain with the brutal market.' };
+    const oldMarket = this.market || { owned: ['plain'], equipped: 'plain', open: false, message: level.law || 'Find the key, read the floor, reach the gate.' };
     const oldDeathBursts = this.deathBursts || [];
     const oldDeathPause = this.deathPause || null;
+    const oldVisibleCameraX = this.visibleCameraX || 0;
     this.level = clone(level);
     this.width = level.width || 960;
     this.rng = new SacredRandom(seedFromText(`${level.name}${level.law}`));
     this.player = { ...level.spawn, w: 34, h: 48, vx: 0, vy: 0, on: false, ice: 0, stomps: 0, skin: equippedSkin(oldMarket) };
     this.coins = clone(level.coins || []);
+    this.realCoinTotal = this.coins.length;
+    this.realCoinsCollected = 0;
     this.fakeCoins = clone(level.fakeCoins || []);
     this.keys = clone(level.keys || []);
     this.enemies = clone(level.enemies || []);
@@ -49,6 +55,7 @@ export class PhysicsWorld {
     this.momentumCurse = new MomentumCurse();
     this.deathBursts = oldDeathBursts;
     this.deathPause = oldDeathPause;
+    this.visibleCameraX = oldDeathPause?.cameraX ?? oldVisibleCameraX;
     this.currency = oldCurrency;
     this.market = oldMarket;
     this.rotors = new RotatingPlatformField(level.rotatingPlatforms || []);
@@ -60,7 +67,7 @@ export class PhysicsWorld {
     this.keyCount = 0;
     this.score = this.currency.shefa || 0;
     this.performance = { platformChecks: 0, enemyChecks: 0, totalPlatforms: 0, totalEnemies: 0, difficulty: this.difficulty() };
-    this.message = oldDeathPause ? oldDeathPause.reason : oldMarket.message || level.law || 'Find the key, read the floor, reach the gate.';
+    this.message = oldDeathPause ? oldDeathPause.reason : level.law || 'Find the key, read the floor, reach the gate.';
     this.reindex();
   }
 
@@ -73,7 +80,6 @@ export class PhysicsWorld {
   step(input, dt) {
     if (input.restart && !this.deathPause) this.load(this.level);
     if (this.deathPause) return this.stepDeathPause(dt);
-    if (input.buy) this.buySkin();
     this.deathBursts = stepBursts(this.deathBursts, dt);
     this.moveEnemies(dt);
     this.trickCoins.step(dt, this);
@@ -95,9 +101,13 @@ export class PhysicsWorld {
     if (this.touchEnemy(oldY)) return 'deadPause';
     if (this.touchSpike()) return 'deadPause';
     if (this.player.y > 660) { this.loseMoneyAndReset('The abyss charged a brutal fall fee.'); return 'deadPause'; }
-    if (this.keyCount && hit(this.player, this.level.door)) return 'next';
+    if (this.canExit() && hit(this.player, this.level.door)) return 'next';
+    if (this.keyCount && !this.allRealCoinsCollected() && hit(this.player, this.level.door)) this.message = `The door wants every real coin: ${this.realCoinsCollected}/${this.realCoinTotal}.`;
     return 'play';
   }
+
+  canExit() { return this.keyCount > 0 && this.allRealCoinsCollected(); }
+  allRealCoinsCollected() { return this.realCoinsCollected >= this.realCoinTotal; }
 
   stepDeathPause(dt) {
     this.deathBursts = stepBursts(this.deathBursts, dt);
@@ -156,7 +166,7 @@ export class PhysicsWorld {
     p.x = Math.max(0, Math.min(this.width - p.w, p.x));
   }
 
-  collectStaticCoins() { this.collect(this.coins, 26, coin => { const kind = collectCurrency(this.currency, coin); this.score = this.currency.shefa; this.message = `${kind.kind} joins the chain.`; this.queueSound('coin'); }); }
+  collectStaticCoins() { this.collect(this.coins, 26, coin => { const kind = collectCurrency(this.currency, coin); this.realCoinsCollected += 1; this.score = this.currency.shefa; this.message = `${kind.kind} joins the chain. Coins ${this.realCoinsCollected}/${this.realCoinTotal}.`; this.queueSound('coin'); }); }
 
   collectTrickCoins() {
     const coin = this.trickCoins.collect(this.player);
@@ -164,7 +174,7 @@ export class PhysicsWorld {
     if (this.trickCoins.touchFake(this.player)) this.loseMoneyAndReset('The fleeing treasure was a spike all along.');
   }
 
-  collectKeys() { this.collect(this.keys, 28, () => { this.keyCount += 1; this.message = 'The key remembers the door.'; this.queueSound('key'); }); }
+  collectKeys() { this.collect(this.keys, 28, () => { this.keyCount += 1; this.message = this.allRealCoinsCollected() ? 'The key remembers the door.' : `The key waits for every real coin: ${this.realCoinsCollected}/${this.realCoinTotal}.`; this.queueSound('key'); }); }
 
   touchEnemy(oldY) {
     const p = this.player;
@@ -216,7 +226,7 @@ export class PhysicsWorld {
 
   loseMoneyAndReset(reason) {
     const dead = { ...this.player };
-    const lockCameraX = Math.max(0, Math.min(Math.max(0, this.width - 960), dead.x - 430));
+    const lockCameraX = Number.isFinite(this.visibleCameraX) ? this.visibleCameraX : Math.max(0, dead.x - 430);
     this.deathBursts.push(spawnHebrewShatter(dead, reason, this.rng));
     this.deathPause = { reason, t: 0, ready: false, promptAlpha: 0, deathX: dead.x, deathY: dead.y, cameraX: lockCameraX };
     const loss = Math.max(1, Math.ceil((this.currency.shefa || 0) * 0.18));
@@ -226,8 +236,6 @@ export class PhysicsWorld {
     this.queueSound('death');
     this.load(this.level);
   }
-
-  buySkin() { const bought = buyNextSkin(this.market, this.currency); this.player.skin = equippedSkin(this.market); this.message = this.market.message; return bought; }
 
   collect(list, size, onCollect) {
     for (let i = list.length - 1; i >= 0; i -= 1) {

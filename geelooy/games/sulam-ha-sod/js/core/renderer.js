@@ -8,10 +8,9 @@ import { CanvasViewport } from './viewport.js';
 /**
  * Renderer paints the visible lie without browser stretch-blur.
  *
- * The Awtsmoos gives every device its own vessel. The old renderer assumed a
- * fixed 960×540 backing store, so a tall mobile viewport stretched the whole
- * scene and made text soft. This renderer syncs the canvas to its real CSS size,
- * caps DPR for speed, caches stars, and draws the world in crisp logical pixels.
+ * The Awtsmoos gives every device its own vessel. Coins now glow with clearer
+ * value rings, the door visibly stays locked until every real coin plus the key
+ * has been gathered, and mobile drawing remains capped and culled for speed.
  */
 export class Renderer {
   constructor(canvas) {
@@ -44,11 +43,11 @@ export class Renderer {
     for (const p of view.rotors) this.rotor(c, p);
     for (const s of view.warnings) this.spike(c, s, '#56eaff77', '#bffcff');
     for (const s of view.active) this.spike(c, s, '#ff2f6d', '#ffe28a');
-    this.door(c, world.level.door, world.keyCount > 0);
-    for (const coin of view.coins) { const k = coinKind(coin); this.spark(c, coin.x, coin.y, k.color, k.label, false); }
+    this.door(c, world.level.door, world.canExit?.(), world);
+    for (const coin of view.coins) { const k = coinKind(coin); this.spark(c, coin.x, coin.y, k.color, k.label, false, k.kind); }
     for (const coin of view.fakeCoins) this.fakeCoinThatLooksReal(c, coin);
     for (const coin of view.trickCoins) this.trickCoin(c, coin);
-    for (const key of view.keys) this.spark(c, key.x, key.y, '#9df7ff', '⚿', false);
+    for (const key of view.keys) this.spark(c, key.x, key.y, '#9df7ff', '⚿', false, 'key');
     for (const e of view.enemies) this.enemy(c, e);
     if (!world.deathPause) this.hero(c, world.player);
     this.deathBursts.draw(c, world.deathBursts || []);
@@ -93,10 +92,11 @@ export class Renderer {
 
   hudText(c, w) {
     const compact = this.view.width < 560;
+    const coins = `${w.realCoinsCollected || 0}/${w.realCoinTotal || 0}`;
     c.fillStyle = '#fff7ff'; c.font = `800 ${compact ? 15 : 18}px system-ui, sans-serif`;
     c.fillText(w.message || w.level?.law || '', 16, compact ? 28 : 34, Math.max(280, this.view.width - 32));
-    c.fillStyle = '#9df7ff'; c.font = `700 ${compact ? 11 : 13}px system-ui, sans-serif`;
-    c.fillText(`draw ${this.metrics.drawn}/${this.metrics.total} · checks ${w.performance.platformChecks}/${w.performance.totalPlatforms}`, 16, compact ? 48 : 56);
+    c.fillStyle = w.canExit?.() ? '#9dffcf' : '#9df7ff'; c.font = `800 ${compact ? 11 : 13}px system-ui, sans-serif`;
+    c.fillText(`coins ${coins} · key ${w.keyCount ? 'yes' : 'no'} · draw ${this.metrics.drawn}/${this.metrics.total}`, 16, compact ? 48 : 56);
   }
 
   rect(c, r, fill, stroke) { c.fillStyle = fill; c.strokeStyle = stroke; c.lineWidth = 3; c.fillRect(r.x, r.y, r.w, r.h); c.strokeRect(r.x, r.y, r.w, r.h); }
@@ -118,10 +118,20 @@ export class Renderer {
   hero(c, p) { const s = p.skin || {}; this.rect(c, p, s.body || '#ffffff', s.trim || '#ffe28a'); c.fillStyle = '#16091f'; c.fillRect(p.x + 8, p.y + 12, 6, 6); c.fillRect(p.x + 21, p.y + 12, 6, 6); c.beginPath(); c.arc(p.x + p.w / 2, p.y + 4, 15, Math.PI, Math.PI * 2); c.fillStyle = s.kippah || '#1a0b2d'; c.fill(); }
   enemy(c, e) { const m = enemyMask(e); this.rect(c, e, m.color, '#ff6ad5'); c.fillStyle = m.eye; c.fillRect(e.x + 7, e.y + 8, 6, 6); c.fillRect(e.x + Math.max(14, e.w - 13), e.y + 8, 6, 6); if (m.armored) { c.strokeStyle = '#ffffff'; c.lineWidth = 2; c.beginPath(); c.moveTo(e.x + 4, e.y + 4); c.lineTo(e.x + e.w - 4, e.y + e.h - 4); c.stroke(); } if (m.chaser) { c.fillStyle = '#ff2f6d'; c.fillText('!', e.x + e.w / 2 - 3, e.y - 4); } }
   spike(c, s, fill, stroke) { c.fillStyle = fill; c.strokeStyle = stroke; c.lineWidth = 2; c.beginPath(); const teeth = Math.max(2, Math.floor(s.w / 18)); c.moveTo(s.x, s.y + s.h); for (let i = 0; i < teeth; i += 1) { const x = s.x + i * s.w / teeth; c.lineTo(x + s.w / teeth / 2, s.y); c.lineTo(x + s.w / teeth, s.y + s.h); } c.closePath(); c.fill(); c.stroke(); }
-  spark(c, x, y, fill, label, cursed) { c.beginPath(); c.arc(x + 13, y + 13, 13, 0, Math.PI * 2); c.fillStyle = fill; c.fill(); if (cursed) { c.strokeStyle = '#ff2f6d'; c.lineWidth = 3; c.stroke(); } c.fillStyle = '#14081f'; c.font = '18px serif'; c.textAlign = 'center'; c.fillText(label, x + 13, y + 19); c.textAlign = 'start'; }
-  fakeCoinThatLooksReal(c, coin) { const kind = coinKind(coin); this.spark(c, coin.x, coin.y, kind.color, kind.label, false); c.fillStyle = '#ffffff33'; c.fillRect(coin.x + 8, coin.y + 3, 10, 2); }
-  trickCoin(c, coin) { const fake = coin.kind === 'revealedSpike' || coin.kind === 'fakeRunner'; const flee = ['runner', 'panicRunner', 'iceRunner', 'reverseRunner', 'trapBait', 'shyVanish'].includes(coin.kind); this.spark(c, coin.x, coin.y, fake ? '#ff2f6d' : '#ffe28a', fake ? '!' : '₪', fake); if (flee) { c.strokeStyle = '#9df7ff'; c.beginPath(); c.moveTo(coin.x + 6, coin.y + 6); c.lineTo(coin.x - 8, coin.y + 13); c.lineTo(coin.x + 6, coin.y + 20); c.stroke(); } }
-  door(c, d, open) { this.rect(c, d, open ? '#1e816f' : '#65438c', open ? '#9df7ff' : '#ffd36a'); c.fillStyle = '#fff'; c.font = '16px system-ui'; c.fillText(open ? 'OPEN' : 'KEY', d.x - 2, d.y - 8); }
+
+  spark(c, x, y, fill, label, cursed, kind = 'coin') {
+    c.save();
+    c.shadowColor = cursed ? '#ff2f6d' : fill;
+    c.shadowBlur = kind === 'maneh' ? 18 : 10;
+    c.beginPath(); c.arc(x + 13, y + 13, kind === 'maneh' ? 15 : 13, 0, Math.PI * 2); c.fillStyle = fill; c.fill();
+    c.shadowBlur = 0; c.lineWidth = kind === 'maneh' ? 3 : 2; c.strokeStyle = cursed ? '#ff2f6d' : '#fff7ff'; c.stroke();
+    c.fillStyle = '#14081f'; c.font = kind === 'key' ? '20px serif' : '18px serif'; c.textAlign = 'center'; c.fillText(label, x + 13, y + 19); c.textAlign = 'start';
+    c.restore();
+  }
+
+  fakeCoinThatLooksReal(c, coin) { const kind = coinKind(coin); this.spark(c, coin.x, coin.y, kind.color, kind.label, false, kind.kind); c.fillStyle = '#ffffff33'; c.fillRect(coin.x + 8, coin.y + 3, 10, 2); }
+  trickCoin(c, coin) { const fake = coin.kind === 'revealedSpike' || coin.kind === 'fakeRunner'; const flee = ['runner', 'panicRunner', 'iceRunner', 'reverseRunner', 'trapBait', 'shyVanish'].includes(coin.kind); this.spark(c, coin.x, coin.y, fake ? '#ff2f6d' : '#ffe28a', fake ? '!' : '₪', fake, fake ? 'fake' : 'coin'); if (flee) { c.strokeStyle = '#9df7ff'; c.beginPath(); c.moveTo(coin.x + 6, coin.y + 6); c.lineTo(coin.x - 8, coin.y + 13); c.lineTo(coin.x + 6, coin.y + 20); c.stroke(); } }
+  door(c, d, open, world) { this.rect(c, d, open ? '#1e816f' : '#65438c', open ? '#9df7ff' : '#ffd36a'); c.fillStyle = '#fff'; c.font = '16px system-ui'; const need = world && !open ? `${world.realCoinsCollected || 0}/${world.realCoinTotal || 0}` : 'OPEN'; c.fillText(open ? 'OPEN' : need, d.x - 2, d.y - 8); }
 
   deathPrompt(c, world) {
     const pause = world.deathPause;
@@ -140,7 +150,7 @@ export class Renderer {
     c.textAlign = 'center'; c.fillStyle = '#ffd36a'; c.font = `${width < 560 ? 32 : 42}px serif`; c.fillText('ש ב י ר ה', width / 2, y + 64);
     c.fillStyle = '#fff7ff'; c.font = `${width < 560 ? 17 : 24}px system-ui, sans-serif`; c.fillText('The vessel shattered into Hebrew letters.', width / 2, y + 112, panelW - 40);
     c.font = `${width < 560 ? 13 : 17}px system-ui, sans-serif`; c.fillStyle = pause?.ready ? '#9df7ff' : '#ffffffaa';
-    c.fillText(pause?.ready ? 'Press any key · tap · joystick OK' : 'Watch the fragments finish speaking...', width / 2, y + 158, panelW - 40);
+    c.fillText(pause?.ready ? 'Press any key · tap · Jump' : 'Watch the fragments finish speaking...', width / 2, y + 158, panelW - 40);
     c.font = '13px system-ui, sans-serif'; c.fillStyle = '#ffffff99'; c.fillText(world.market?.message || world.message || '', width / 2, y + 196, panelW - 40);
     c.textAlign = 'start'; c.restore();
   }

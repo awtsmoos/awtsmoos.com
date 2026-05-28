@@ -13,13 +13,13 @@
     <section id="menu" class="menu glass">
       <p class="eyebrow">B"H · Living Kabbalistic Dream Platformer</p>
       <h1>Sulam HaSod</h1>
-      <p>Lightning-fast chaos: cursed platforms, spike prophecy, brutal markets, yarmulke skins, and a ladder that keeps getting meaner.</p>
+      <p>Lightning-fast chaos: cursed platforms, spike prophecy, brutal traps, Hebrew shatter, and a ladder that keeps getting meaner.</p>
       <div class="menuActions"><button id="playBtn">Enter the Ladder</button><button id="instructionsBtn" class="ghost">How it betrays you</button></div>
       <article id="instructions" class="instructions" hidden>
         <b>How to play</b><br>
-        Desktop: ← → or A/D to move, Space/W to jump, B to buy/cycle skins.<br>
-        Mobile: drag the orb, tap Jump, tap Buy. Death drains in-game Shefa only, never real money.<br>
-        Watch the progress bar, difficulty flame, spike warnings, and suspicious blocks. Normal-looking platforms may shatter, vanish, or jump.
+        Desktop: ← → or A/D to move, Space/W to jump.<br>
+        Mobile: hold Left or Right, then tap Jump. The mobile hit zones extend upward, so nearby taps still count.<br>
+        You must collect every real coin and the key before the door opens. Fake coins still bite.
       </article>
     </section>
     <section class="hud glass">
@@ -27,13 +27,16 @@
       <div class="hudMain">
         <div class="titleRow"><b>Sulam HaSod</b><span id="levelName"> —</span><span id="difficulty" class="pill">D1</span></div>
         <div class="progressShell"><i id="progressFill"></i><em id="progressText">0%</em></div>
-        <div id="stats" class="stats">Shefa 0 · Keys 0 · Level 1</div>
+        <div id="stats" class="stats">Coins 0/0 · Key 0/1 · Level 1</div>
       </div>
     </section>
     <canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
     <section class="touch" aria-label="mobile controls">
-      <div id="stick" class="stick"><i></i></div>
-      <div class="touchActions"><button id="buy" class="buy">Buy</button><button id="jump" class="jump">Jump</button></div>
+      <div class="movePad" aria-label="movement controls">
+        <button id="leftBtn" class="moveBtn leftBtn">Left</button>
+        <button id="rightBtn" class="moveBtn rightBtn">Right</button>
+      </div>
+      <button id="jump" class="jump">Jump</button>
     </section>
   </main>
   <script type="module" src="./js/main.js"></script>

@@ -8,9 +8,9 @@ import { SoundEffects } from '../systems/soundEffects.js';
  * Game orchestrates the ladder and the sound of its judgments.
  *
  * The Awtsmoos lets a frame become a chamber, a chamber become a test, and a
- * test become a sound. The loop drains explicit sound events from PhysicsWorld:
- * jump, coin, key, death, and continue. Death waits until the shatter animation
- * has breathed before any input restores the player.
+ * test become a sound. The HUD now makes the true lock visible: all real coins
+ * plus the key are required before the door yields. This keeps the player from
+ * sprinting past the authored bait path and forces engagement with each chamber.
  */
 export class Game {
   constructor({ input, renderer, hud }) {
@@ -25,16 +25,28 @@ export class Game {
     this.loop = this.loop.bind(this);
   }
 
-  start() { if (this.running) return; this.running = true; this.last = 0; requestAnimationFrame(this.loop); }
+  start() {
+    if (this.running) return;
+    this.running = true;
+    this.last = 0;
+    requestAnimationFrame(this.loop);
+  }
+
   pause() { this.running = false; }
-  newGame() { this.index = 0; this.world = new PhysicsWorld(LEVELS[0]); this.start(); }
+
+  newGame() {
+    this.index = 0;
+    this.world = new PhysicsWorld(LEVELS[0]);
+    this.start();
+  }
 
   loop(t) {
     if (!this.running) return;
     const dt = Math.min(0.033, (t - this.last) / 1000 || 0);
     this.last = t;
     const input = this.input.read();
-    if (input.ok || input.jump || input.buy) this.sound.unlock();
+    if (input.ok || input.jump) this.sound.unlock();
+    this.world.visibleCameraX = this.renderer.camera?.x ?? this.world.visibleCameraX ?? 0;
     if (this.world.deathPause) this.handleDeathPause(input, dt);
     else if (this.world.step(input, dt) === 'next') this.advance();
     this.playWorldSounds();
@@ -62,10 +74,13 @@ export class Game {
   paintHud() {
     const w = this.world;
     const progress = Math.max(0, Math.min(100, Math.round((w.player.x / Math.max(1, w.width - w.player.w)) * 100)));
+    const coins = `${w.realCoinsCollected || 0}/${w.realCoinTotal || 0}`;
+    const key = `${w.keyCount > 0 ? 1 : 0}/1`;
+    const lock = w.canExit?.() ? 'Door OPEN' : `Door locked · Coins ${coins} · Key ${key}`;
     this.hud.level.textContent = ` ${w.level.name}`;
     this.hud.difficulty.textContent = `D${w.performance.difficulty}`;
     this.hud.progressFill.style.width = `${progress}%`;
     this.hud.progressText.textContent = `${progress}%`;
-    this.hud.stats.textContent = `${currencyHud(w.currency)} · Keys ${w.keyCount} · Level ${this.index + 1}/${LEVELS.length}`;
+    this.hud.stats.textContent = `${lock} · ${currencyHud(w.currency)} · Level ${this.index + 1}/${LEVELS.length}`;
   }
 }
