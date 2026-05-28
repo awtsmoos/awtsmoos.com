@@ -2,11 +2,11 @@
 /**
  * @file SpikeHazard.js
  * @description
- * Chapter 6: The thorn now answers with visible judgment.
+ * Chapter 12: The thorn learns the full ceremony.
  *
- * A spike hit no longer tries to reload from inside the Worker. It makes a
- * small 3D block burst near the Chossid, raises a Hebrew-letter overlay on the
- * main thread, and lets the overlay reload on the next key or click.
+ * The Awtsmoos makes a red cone from speech, plants it on the sand, and waits
+ * for true contact. On contact: the player freezes, cubes explode, the mesh
+ * disappears after the right beat, then the overlay says press any key to reset.
  */
 import Tzomayach from "../../chayim/tzomayach.js";
 import * as THREE from '/games/scripts/build/three.module.js';
@@ -14,66 +14,106 @@ import * as THREE from '/games/scripts/build/three.module.js';
 const HEBREW = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "כ", "ל", "מ"];
 const schedule = cb => (typeof requestAnimationFrame === "function" ? requestAnimationFrame(cb) : setTimeout(cb, 16));
 
+function hideMeshTree(mesh) {
+  if (!mesh?.traverse) return;
+  mesh.traverse(child => { child.visible = false; });
+}
+
 export default class SpikeHazard extends Tzomayach {
   type = "spikeHazard";
   static itemName = "Spike Hazard";
-  static description = "A verdict thorn. Touching it pauses and asks for reset.";
+  static description = "A grounded thorn. True contact pauses and asks for reset.";
 
   constructor(op = {}, olam) {
     op.interactable = true;
-    op.proximity ||= 1.65;
+    op.proximity = Number.isFinite(op.proximity) ? op.proximity : 1.35;
+    op.verticalHitRange = Number.isFinite(op.verticalHitRange) ? op.verticalHitRange : 4.2;
+    op.groundY = Number.isFinite(op.groundY) ? op.groundY : -3;
+    op.height = Number.isFinite(op.height) ? op.height : 1.65;
     op.golem ||= {
-      guf: { ConeGeometry: [op.radius || 0.85, op.height || 1.65, 4] },
-      toyr: { MeshLambertMaterial: { color: op.color || 0xcc1133, emissive: 0x550000 } }
+      guf: { ConeGeometry: [op.radius || 1.1, op.height, 4] },
+      toyr: { MeshLambertMaterial: { color: op.color || 0xcc1133, emissive: 0x110000 } }
     };
     super(op, olam);
     this.penalty = op.penalty || 0;
+    this.groundY = op.groundY;
+    this.height = op.height;
+    this.verticalHitRange = op.verticalHitRange;
+    this.proximity = op.proximity;
     this._triggered = false;
     this.heesHawveh = true;
 
-    this.on("ready", () => {
-      if (!this.mesh) return;
-      this.mesh.rotation.y = Math.PI / 4;
-      this.mesh.userData.isSolid = false;
-    });
+    this.on("ready", () => this.afterReadyGrounding());
     this.on("nivraNeechnas", nivra => this.hit(nivra));
   }
 
+  /** Grounds the cone and marks it non-solid. */
+  afterReadyGrounding() {
+    if (!this.mesh) return;
+    this.mesh.rotation.y = Math.PI / 4;
+    this.mesh.userData.isSolid = false;
+    this.mesh.userData.skipRaycast = true;
+    const centerY = this.groundY + this.height / 2;
+    this.mesh.position.y = centerY;
+    this.position ||= {};
+    this.position.y = centerY;
+    this.mesh.updateMatrixWorld(true);
+  }
+
+  /** Checks the player every frame against the visible thorn. */
   heesHawvoos() {
     this.checkPlayerHit();
   }
 
+  /** Tests true spike contact with a forgiving visual match. */
   checkPlayerHit() {
     if (this._triggered || !this.mesh) return;
     const player = this.olam?.chossid;
     const p = player?.mesh?.position;
-    if (!p) return;
-    const dx = p.x - this.mesh.position.x;
-    const dz = p.z - this.mesh.position.z;
-    const dy = Math.abs(p.y - this.mesh.position.y);
-    if (Math.hypot(dx, dz) <= (this.proximity || 1.65) && dy < 3.8) this.hit(player);
+    if (!player || !p || player.__spikeDefeated) return;
+
+    const horizontalInside = Math.hypot(p.x - this.mesh.position.x, p.z - this.mesh.position.z) <= this.proximity;
+    if (!horizontalInside) return;
+
+    const playerBottom = p.y - (Number(player.radius) || 0.45);
+    const playerTop = p.y + (Number(player.height) || 1.5);
+    const spikeBottom = this.groundY - 0.25;
+    const spikeTop = this.groundY + this.verticalHitRange;
+    if (playerBottom <= spikeTop && playerTop >= spikeBottom) this.hit(player);
   }
 
+  /** Handles a true spike death exactly once. */
   hit(nivra) {
     if (this._triggered || nivra?.type !== "chossid") return;
     this._triggered = true;
     this.pausePlayer(nivra);
     this.spawnBlockBurst(nivra);
-    this.olam?.ayshPeula?.("ui event", "effectsOverlay", {
-      effect: "spikeDeath",
-      text: "נפילה בקוצים — PRESS ANY KEY TO RESET",
-      color: "#ff3355"
-    });
+    setTimeout(() => hideMeshTree(nivra.mesh || nivra.modelMesh), 260);
+    setTimeout(() => this.showResetOverlay(), 900);
   }
 
+  /** Freezes the Chossid only after a true spike hit. */
   pausePlayer(nivra) {
     if (!nivra) return;
+    nivra.__spikeDefeated = true;
     nivra.moving = {};
     nivra.speed = 0;
     nivra._movementSpeed = 0;
     if (nivra.velocity?.set) nivra.velocity.set(0, 0, 0);
   }
 
+  /** Sends the visible reset gate after the explosion beat. */
+  showResetOverlay() {
+    this.olam?.ayshPeula?.("ui event", "effectsOverlay", {
+      effect: "spikeDeath",
+      text: "נפילה בקוצים — PRESS ANY KEY TO RESET",
+      color: "#ff3355",
+      overlayDelayMs: 0,
+      playProceduralSound: { key: "spikeDeath", options: { volume: 0.5 } }
+    });
+  }
+
+  /** Creates a short 3D block burst at the contact point. */
   spawnBlockBurst(nivra) {
     const scene = this.olam?.scene;
     const origin = nivra?.mesh?.position || this.mesh?.position;

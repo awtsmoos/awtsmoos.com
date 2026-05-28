@@ -1,10 +1,10 @@
 ﻿/**
  * B"H
  * @module UnifiedOrchestrator
- * @chapter The Harmony of the Spheres
  * @description
- * Single measurable conductor for inline commentary. It now announces loading,
- * empty, and error states, so the user never clicks a silent switch.
+ * One eager conductor for inline commentary. When inline aliases are active, all
+ * selected aliases are fetched together immediately, then woven into their exact
+ * subsection vessels or the verse-end vessel in one pass.
  */
 
 import { SparksGatherer } from "/heichelos/post/comments/inline/loading/SparksGatherer.js";
@@ -27,6 +27,19 @@ function mergeStats(total, next) {
     return total;
 }
 
+async function gatherAndFix(alias, post) {
+    try {
+        SparkFixer.showLoading(alias);
+        const sparks = await SparksGatherer.collect(alias, post);
+        return SparkFixer.fix(sparks || [], alias);
+    } catch (error) {
+        const message = error?.message || String(error);
+        console.error(`B"H - [Orchestrator] Manifestation failure for @${alias}:`, error);
+        SparkFixer.showEmpty(alias);
+        return emptyStats(alias, message);
+    }
+}
+
 export class UnifiedOrchestrator {
     static async manifestAllActive() {
         this.activateGuardians();
@@ -41,7 +54,8 @@ export class UnifiedOrchestrator {
             return this.remember(total);
         }
 
-        for (const alias of aliases) mergeStats(total, await this.manifestSingle(alias));
+        const results = await Promise.all(aliases.map(alias => gatherAndFix(alias, post)));
+        results.forEach(result => mergeStats(total, result));
         return this.remember(total);
     }
 
@@ -50,19 +64,7 @@ export class UnifiedOrchestrator {
         this.activateGuardians();
         const post = window.post;
         if (!post) return emptyStats(alias, "Post context missing");
-
-        try {
-            SparkFixer.showLoading(alias);
-            const sparks = await SparksGatherer.collect(alias, post);
-            const stats = SparkFixer.fix(sparks || [], alias);
-            return this.remember(stats);
-        } catch (e) {
-            const message = e?.message || String(e);
-            console.error(`B"H - [Orchestrator] Manifestation failure for @${alias}:`, e);
-            const stats = emptyStats(alias, message);
-            SparkFixer.showEmpty(alias);
-            return this.remember(stats);
-        }
+        return this.remember(await gatherAndFix(alias, post));
     }
 
     static activateGuardians() {

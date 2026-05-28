@@ -14,6 +14,7 @@
  * This ensures lightning-fast O(1) retrieval for routing actions, keeping 
  * the 60fps threshold purely sanctified.
  */
+import RenderTrace from "../../methods/canvas/RenderTrace.js";
 
 export class ContinuousEventRouter {
     /**
@@ -22,13 +23,40 @@ export class ContinuousEventRouter {
      */
     static actionMap = {
         'takeInCanvas': async (olam, payload) => {
-            // B"H: silent
+            RenderTrace.speak("worker_route:takeInCanvas_received", {
+                width: payload?.width,
+                height: payload?.height,
+                devicePixelRatio: payload?.devicePixelRatio,
+                hasOlam: Boolean(olam),
+                hasAyin: Boolean(olam?.ayin),
+                hasCamera: Boolean(olam?.activeCamera || olam?.ayin?.camera)
+            });
 
             olam.takeInCanvas(payload.canvas, payload.devicePixelRatio);
+            RenderTrace.speak("worker_route:takeInCanvas_after_renderer", {
+                hasRenderer: Boolean(olam.renderer),
+                hasScene: Boolean(olam.scene),
+                sceneChildren: olam.scene?.children?.length || 0
+            });
             if (typeof olam.setSize === 'function') await olam.setSize(payload.width, payload.height);
-            // B"H: silent
+            RenderTrace.speak("worker_route:takeInCanvas_after_size", {
+                width: olam.width,
+                height: olam.height,
+                hasRenderer: Boolean(olam.renderer)
+            });
 
-            if (typeof olam.heesHawvoos === 'function') olam.heesHawvoos(); 
+            if (typeof olam.heesHawvoos === 'function') olam.heesHawvoos();
+            self.postMessage({
+                type: 'canvas_transferred',
+                payload: {
+                    width: payload.width,
+                    height: payload.height,
+                    devicePixelRatio: payload.devicePixelRatio,
+                    rendererReady: Boolean(olam.renderer),
+                    hasCamera: Boolean(olam.activeCamera || olam.ayin?.camera),
+                    sceneChildren: olam.scene?.children?.length || 0
+                }
+            });
         },
         'resize': async (olam, payload) => {
             if (typeof olam.setSize === 'function') await olam.setSize(payload.width, payload.height);

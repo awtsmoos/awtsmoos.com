@@ -5,6 +5,7 @@
  * system update -> octree focus update -> entity update -> camera update -> render.
  */
 import UniversePulsator from '../oyved/UniversePulsator.js';
+import RenderTrace from './canvas/RenderTrace.js';
 
 const FOCUS_MOVING_EPSILON_SQ = 0.0001;
 
@@ -51,10 +52,29 @@ export default class HeesHawvoosManager {
         let confirmedGaze = false;
         let loopCounter = 0;
         let vanityPurged = false;
+        RenderTrace.speak("heesHawvoos:ignite", {
+            hasRenderer: Boolean(self.renderer),
+            hasScene: Boolean(self.scene),
+            hasAyin: Boolean(self.ayin),
+            hasCamera: Boolean(self.activeCamera || self.ayin?.camera),
+            sceneChildren: self.scene?.children?.length || 0,
+            nivrayim: self.nivrayim?.length || 0
+        });
 
         this.updateStep = (dt) => {
             loopCounter++;
             const shouldLog = loopCounter <= 3 || (loopCounter % 1000 === 0);
+            if (loopCounter <= 5) {
+                RenderTrace.speak("heesHawvoos:frame_state", {
+                    frame: loopCounter,
+                    dt,
+                    hasRenderer: Boolean(self.renderer),
+                    hasScene: Boolean(self.scene),
+                    hasCamera: Boolean(self.activeCamera || self.ayin?.camera),
+                    sceneChildren: self.scene?.children?.length || 0,
+                    nivrayim: self.nivrayim?.length || 0
+                });
+            }
 
             try {
                 if (self.shlichusHandler) self.shlichusHandler.update(dt);
@@ -139,12 +159,40 @@ export default class HeesHawvoosManager {
 
                         if (!confirmedGaze && loopCounter > 3) {
                             confirmedGaze = true;
+                            RenderTrace.speak("heesHawvoos:first_render_confirmed", {
+                                frame: loopCounter,
+                                sceneChildren: self.scene?.children?.length || 0,
+                                cameraPosition: activeEye.position ? {
+                                    x: activeEye.position.x,
+                                    y: activeEye.position.y,
+                                    z: activeEye.position.z
+                                } : null
+                            });
                             if (self.ayshPeula) self.ayshPeula('rendered first time');
                         }
                     } catch (renderErr) {
-                        if (loopCounter % 500 === 0) console.error('B"H - [HeesHawvoos] render failed:', renderErr);
+                        if (loopCounter <= 5 || loopCounter % 500 === 0) {
+                            console.error('B"H - [HeesHawvoos] render failed:', renderErr);
+                            RenderTrace.speak("heesHawvoos:render_failed", {
+                                frame: loopCounter,
+                                message: renderErr?.message || String(renderErr),
+                                stack: String(renderErr?.stack || "no stack").replace(/\s+/g, " ")
+                            });
+                        }
                     }
+                } else if (loopCounter <= 5) {
+                    RenderTrace.speak("heesHawvoos:no_active_camera", {
+                        frame: loopCounter,
+                        hasAyin: Boolean(self.ayin),
+                        hasAyinCamera: Boolean(self.ayin?.camera)
+                    });
                 }
+            } else if (loopCounter <= 5) {
+                RenderTrace.speak("heesHawvoos:no_renderer_or_scene", {
+                    frame: loopCounter,
+                    hasRenderer: Boolean(self.renderer),
+                    hasScene: Boolean(self.scene)
+                });
             }
         };
 

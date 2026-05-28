@@ -1,47 +1,25 @@
-
+// B"H
 /**
- * B"H
- * @file OyvedMessageInterpreter.js
  * @module OyvedMessageInterpreter
- * @description
- * ✉️ THE READING OF THE SCROLL ✉️
- * Parses messages arriving from the Heavenly dimension (Main Thread) and 
- * channels them into the appropriate processing routines.
- * 
- * Entirely stripped of mass; it merely hands off the data to the 
- * GenesisRoute or the ContinuousRoute.
+ * @description Chapter 12: Routes genesis and continuous worker messages freshly.
  */
-import { GenesisRoute } from './GenesisRoute.js';
-import { ContinuousRoute } from './ContinuousRoute.js';
+import { GenesisRoute } from './GenesisRoute.js?v=lean-l1-20260528-bh17';
+import { ContinuousRoute } from './ContinuousRoute.js?v=lean-l1-20260528-bh17';
 
 export class OyvedMessageInterpreter {
-    /**
-     * @method handleMessage
-     * @description Directs the initial thrust of creation or delegates ongoing events.
-     */
-    static async handleMessage(data, isVesselsSound, SystemCore, promiseMap) {
-        if (!data || typeof data !== 'object') return null;
-
-        // Await structural confirmation
-        if (!isVesselsSound) {
-            console.warn("B\"H - ⚠️ Sub-vessels shattered! Command discarded: ", Object.keys(data));
-            return null;
-        }
-
-        // Phase 1: The Initial Outpouring (Genesis / Pawsawch)
-        if (data.type === 'pawsawch' || data.pawsawch) {
-            const payload = data.payload || data.pawsawch;
-            return await GenesisRoute.execute(payload, SystemCore, promiseMap);
-        }
-
-        return 'CONTINUOUS';
+  /** Directs the initial creation message or delegates ongoing events. */
+  static async handleMessage(data, isVesselsSound, SystemCore, promiseMap) {
+    if (!data || typeof data !== 'object') return null;
+    if (!isVesselsSound) {
+      console.warn('B"H - Sub-vessels shattered. Command discarded:', Object.keys(data));
+      return null;
     }
+    if (data.type === 'pawsawch' || data.pawsawch) return await GenesisRoute.execute(data.payload || data.pawsawch, SystemCore, promiseMap);
+    return 'CONTINUOUS';
+  }
 
-    /**
-     * @method handleOngoing
-     * @description Directs all post-creation heartbeat pulses.
-     */
-    static async handleOngoing(ActiveOlamInstance, data, promiseMap) {
-        await ContinuousRoute.route(ActiveOlamInstance, data, promiseMap);
-    }
+  /** Directs all post-creation pulses. */
+  static async handleOngoing(ActiveOlamInstance, data, promiseMap) {
+    await ContinuousRoute.route(ActiveOlamInstance, data, promiseMap);
+  }
 }

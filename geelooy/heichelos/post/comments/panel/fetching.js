@@ -1,90 +1,98 @@
-
 /**
  * B"H
  * @module CommentFetchingEngine
- * @chapter The Seeker in the Dark
+ * @description
+ * Sidebar discovery follows the same covenant as inline placement: only a real
+ * `dayuh.subSection` makes a note paragraph-specific. Notes without it still
+ * count for the focused verse because they gather at verse end.
  */
 
 import { getCommentsByAlias, getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { unrollApiResponse } from "../logic/unroller.js";
+import { data, getInlineAliases } from "../state.js";
 
-// B"H - ANCHORING TO THE CORRECT STATE AGGREGATOR
-import { data } from "../state.js";
-
-/**
- * @function getAndSaveAliases
- * @description Scans the coordinated heavens of the API to find speakers.
- */
-export async function getAndSaveAliases(full = false, forceFresh = false, forcedIdx = null, forcedSub = undefined, allowFallback = true) {
-    if (!window.post || !window.post.heichel) return [];
-    
-    const s = new URLSearchParams(location.search);
-    const verseSection = forcedIdx !== null ? forcedIdx : (s.get("idx") ?? "root");
-    
-    let subSection = forcedSub !== undefined ? forcedSub : s.get("sub");
-    if(subSection === null || subSection === "null") subSection = undefined; 
-
-    const fetchVerseAliases = async (vs) => {
-        const cacheKey = `${vs}-verse-all`;
-        if (!forceFresh && data.aliases?.[cacheKey]) {
-            return data.aliases[cacheKey].aliases;
-        }
-        try {
-            let result = await getCommentsByAlias({
-                seriesId: window.post.parentSeriesId, 
-                postId: window.post.id, 
-                heichelId: window.post.heichel.id,
-                fromCache: !forceFresh, 
-                get: { verseSection: vs, map: true } 
-            });
-
-            const aliases = unrollApiResponse(result);
-
-            if (Array.isArray(aliases)) {
-                if (!data.aliases) data.aliases = {};
-                data.aliases[cacheKey] = { aliases: aliases, lastModified: Date.now() };
-                return aliases;
-            }
-        } catch (e) { console.error("B\"H - Spatial logic rupture:", e); }
-        return [];
-    };
-
-    let verseAliases = await fetchVerseAliases(verseSection);
-
-    if (subSection !== undefined) {
-        const checks = await Promise.all(verseAliases.map(async (aliasId) => {
-            const relevant = await fetchRelevantComments(aliasId, verseSection, subSection);
-            return (relevant.length > 0) ? aliasId : null;
-        }));
-        return checks.filter(Boolean);
+function normalizeDayuh(raw) {
+    if (!raw) return {};
+    if (typeof raw === "string") {
+        try { return JSON.parse(raw) || {}; } catch { return {}; }
     }
-
-    return verseAliases;
+    return typeof raw === "object" ? raw : {};
 }
 
-/**
- * @function fetchRelevantComments
- * @description Collects the specific gems of insight for an Alias.
- */
+function mainSub(sub) {
+    return sub === undefined || sub === null || sub === "" || sub === "main" || sub === "root";
+}
+
+function uniqueAliases(items) {
+    return Array.from(new Set((items || []).filter(Boolean).map(String)));
+}
+
+function scopedAliasSeeds(verseAliases = []) {
+    return uniqueAliases([...verseAliases, ...getInlineAliases()]);
+}
+
+async function fetchVerseAliases(verseSection, forceFresh) {
+    const cacheKey = `${verseSection}-verse-all`;
+    if (!forceFresh && data.aliases?.[cacheKey]) return data.aliases[cacheKey].aliases;
+
+    try {
+        const result = await getCommentsByAlias({
+            seriesId: window.post.parentSeriesId,
+            postId: window.post.id,
+            heichelId: window.post.heichel.id,
+            fromCache: !forceFresh,
+            get: { verseSection, map: true }
+        });
+        const aliases = unrollApiResponse(result);
+        if (Array.isArray(aliases)) {
+            if (!data.aliases) data.aliases = {};
+            data.aliases[cacheKey] = { aliases, lastModified: Date.now() };
+            return aliases;
+        }
+    } catch (error) {
+        if (window.__awtsmoosInlineDebug) console.error("B\"H - Spatial logic rupture:", error);
+    }
+    return [];
+}
+
+export async function getAndSaveAliases(full = false, forceFresh = false, forcedIdx = null, forcedSub = undefined) {
+    if (!window.post || !window.post.heichel) return [];
+
+    const params = new URLSearchParams(location.search);
+    const verseSection = forcedIdx !== null ? forcedIdx : (params.get("idx") ?? "root");
+    let subSection = forcedSub !== undefined ? forcedSub : params.get("sub");
+    if (subSection === null || subSection === "null") subSection = undefined;
+
+    const verseAliases = await fetchVerseAliases(verseSection, forceFresh);
+    const aliases = scopedAliasSeeds(verseAliases);
+    if (subSection === undefined) return aliases;
+
+    const checks = await Promise.all(aliases.map(async aliasId => {
+        const relevant = await fetchRelevantComments(aliasId, verseSection, subSection);
+        return relevant.length ? aliasId : null;
+    }));
+    return uniqueAliases(checks);
+}
+
 export async function fetchRelevantComments(alias, cv, cs) {
-    let result = await getCommentsOfAlias({
-        seriesId: window?.post?.parentSeriesId, 
-        postId: window?.post?.id, 
-        heichelId: window?.post?.heichel.id, 
+    const result = await getCommentsOfAlias({
+        seriesId: window?.post?.parentSeriesId,
+        postId: window?.post?.id,
+        heichelId: window?.post?.heichel.id,
         aliasId: alias,
-        fromCache: true, 
+        fromCache: true,
         get: { verseSection: cv, map: true }
     });
-    
-    const allVerseComments = unrollApiResponse(result);
 
+    const allVerseComments = unrollApiResponse(result);
     if (!Array.isArray(allVerseComments)) return [];
 
-    return allVerseComments.filter(c => {
-        const cSub = c.dayuh?.subSection;
-        if (cs === null || cs === undefined || cs === "null") {
-            return cSub === undefined || cSub === null || cSub === 'main' || cSub === 'root';
-        } 
-        return String(cSub) === String(cs) || (cSub === undefined || cSub === null || cSub === 'main');
+    return allVerseComments.filter(comment => {
+        const dayuh = normalizeDayuh(comment.dayuh);
+        const cVerse = dayuh.verseSection ?? comment.verseSection ?? cv;
+        const cSub = dayuh.subSection;
+        if (String(cVerse) !== String(cv)) return false;
+        if (cs === null || cs === undefined || cs === "null") return mainSub(cSub);
+        return String(cSub) === String(cs) || mainSub(cSub);
     });
 }

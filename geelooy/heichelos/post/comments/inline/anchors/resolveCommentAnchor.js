@@ -2,8 +2,9 @@
 /**
  * @file resolveCommentAnchor.js
  * @description
- * Chapter 1: the Awtsmoos reveals a map from abstract coordinate to physical
- * text. Section, subsection, token, char, and fingerprint each become a rung.
+ * Chapter 21: The Awtsmoos separates paragraph sparks from verse sparks. A note
+ * with a subsection enters that paragraph; a note without subsection waits at
+ * the verse end, where the whole section gathers into one marginal court.
  */
 
 import { normalizeCommentCoordinate } from "../../state/commentCoordinate.js";
@@ -15,19 +16,29 @@ function activeDocument(root) {
     return root || (typeof document !== "undefined" ? document : null);
 }
 
+function hasSpecificSubsection(coordinate) {
+    const sub = coordinate.subSection;
+    return sub !== null && sub !== undefined && sub !== "" && sub !== "main" && sub !== "root";
+}
+
+function resolveVerseElement(scope, coordinate) {
+    const verse = firstMatchingElement(scope, verseSectionSelectors(coordinate.verseSection));
+    return verse || findBySemanticFingerprint(scope, coordinate.semanticFingerprint);
+}
+
 function resolveBaseElement(coordinate, root) {
     const scope = activeDocument(root);
     if (!scope || coordinate.verseSection === "root") return null;
 
-    const verse = firstMatchingElement(scope, verseSectionSelectors(coordinate.verseSection));
-    if (!verse) return findBySemanticFingerprint(scope, coordinate.semanticFingerprint);
+    const verse = resolveVerseElement(scope, coordinate);
+    if (!verse) return null;
 
-    if (coordinate.subSection !== null && coordinate.subSection !== undefined) {
+    if (hasSpecificSubsection(coordinate)) {
         return firstMatchingElement(verse, subSectionSelectors(coordinate.subSection))
             || findBySemanticFingerprint(verse, coordinate.semanticFingerprint);
     }
 
-    return verse.querySelector?.(".toichen") || verse;
+    return verse;
 }
 
 function resolveRange(element, coordinate) {
@@ -35,13 +46,6 @@ function resolveRange(element, coordinate) {
         || createCharacterRange(element, coordinate.charStart, coordinate.charEnd);
 }
 
-/**
- * Converts a normalized comment coordinate into a DOM anchor description.
- * @param {object} coordinate Raw or normalized coordinate.
- * @param {object} [options={}] Options.
- * @param {ParentNode} [options.root=document] DOM search root.
- * @returns {{coordinate: object, element: Element|null, range: Range|null, method: string}}
- */
 export function resolveCommentAnchor(coordinate, options = {}) {
     const normalized = normalizeCommentCoordinate(coordinate || {});
     const element = resolveBaseElement(normalized, options.root);

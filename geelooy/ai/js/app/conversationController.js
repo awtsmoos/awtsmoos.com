@@ -10,11 +10,12 @@ import { showLoadState } from "../render/runtime/loadState.js";
 import { beginVisibleConversation, isCurrentNavigation, setVisibleConversationId } from "./conversations/visibleConversationSession.js";
 
 /**
- * B"H — ConversationController is now a narrow orchestration vessel.
+ * B"H — ConversationController is the single send gate.
  *
- * Streams may belong to the visible chat or to a hidden automation chat. Visible
- * packets paint the current renderer. Hidden packets continue through transport
- * and completion hooks without corrupting the open surface.
+ * Manual clicks and page automation both descend through `send`. Hidden
+ * same-tab automation may call `sendAutomation`, but that vessel is deliberately
+ * only a visibility wrapper: it never marks the provider payload or stream
+ * context as automation.
  */
 export class ConversationController {
   constructor({ aiHandler, renderer, serviceSelect, onConversationLoaded = null, onConversationChanging = null } = {}) {
@@ -27,20 +28,14 @@ export class ConversationController {
   }
 
   async getService() { return await this.aiHandler.getActiveService(); }
-
-  async refreshList(list) {
-    try { await this.listPager.reset(list); }
-    catch (error) { this.renderListError(list, error); }
-  }
+  async refreshList(list) { try { await this.listPager.reset(list); } catch (error) { this.renderListError(list, error); } }
 
   async loadConversationListWithRetries(list, page = {}) {
     let lastError;
     for (let attempt = 0; attempt < 6; attempt++) {
       try {
         const service = await this.getService();
-        return service.getConversationsFnc
-          ? await withTimeout(service.getConversationsFnc(page), { ms: 12000, label: "Conversation list request" })
-          : null;
+        return service.getConversationsFnc ? await withTimeout(service.getConversationsFnc(page), { ms: 12000, label: "Conversation list request" }) : null;
       } catch (error) {
         lastError = error;
         if (isMissingTransportError(error)) break;
@@ -106,13 +101,7 @@ export class ConversationController {
   async sendAutomation(userMessage, hooks = {}) {
     const targetConversationId = hooks.conversationId || getConversationId();
     const visible = Boolean(targetConversationId && targetConversationId === getConversationId());
-    return await this.sendWithVisibility(userMessage, {
-      ...hooks,
-      conversationId: targetConversationId,
-      paintUser: visible,
-      paintAssistant: visible,
-      automation: true
-    });
+    return await this.sendWithVisibility(userMessage, { ...hooks, conversationId: targetConversationId, paintUser: visible, paintAssistant: visible, automation: false });
   }
 
   async sendWithVisibility(userMessage, hooks = {}) {
@@ -120,10 +109,7 @@ export class ConversationController {
     if (hooks.paintUser || hooks.paintAssistant) beginVisibleConversation(visibleConversationId || null);
     const attachments = hooks.attachments || [];
     const stream = hooks.paintAssistant ? new StreamRouter(this.renderer) : null;
-    if (hooks.paintUser) {
-      const visibleMessage = userMessage + describeAttachments(attachments);
-      this.renderer.add({ message: { author: { role: "user" }, content: { parts: [visibleMessage] } } });
-    }
+    if (hooks.paintUser) this.renderer.add({ message: { author: { role: "user" }, content: { parts: [userMessage + describeAttachments(attachments)] } } });
     if (stream) stream.open();
     this.renderer.forceScrollDownSoon?.();
     try { return await this.sendThroughService(userMessage, attachments, stream, hooks); }
@@ -146,27 +132,17 @@ export class ConversationController {
       conversationId: targetConversationId,
       remember: true,
       attachments,
-      streamContext: {
-        conversationId: targetConversationId,
-        title: userMessage.slice(0, 80) || "Streaming chat",
-        automation: Boolean(hooks.automation)
-      },
-      onstream: packet => {
-        if (stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation)) return stream.route(packet);
-      },
+      streamContext: { conversationId: targetConversationId, title: userMessage.slice(0, 80) || "Streaming chat", automation: false },
+      onstream: packet => { if (stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation)) return stream.route(packet); },
       ondone: packet => {
         const cid = extractConversationId(packet) || targetConversationId;
         const finalText = extractAssistantText(packet);
-        const finish = stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation)
-          ? stream.finish(packet)
-          : Promise.resolve();
-        return finish.then(() => hooks.ondone?.(finalText, { conversationId: cid, automation: Boolean(hooks.automation) }));
+        const finish = stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation) ? stream.finish(packet) : Promise.resolve();
+        return finish.then(() => hooks.ondone?.(finalText, { conversationId: cid, automation: false }));
       }
     });
     if (stream?.queue) await stream.queue;
-    if (stream && !stream.done && isVisibleStreamPacket(response, targetConversationId, startedOnBlankConversation)) {
-      await stream.finish(response || { dataNoJSON: "[DONE]" });
-    }
+    if (stream && !stream.done && isVisibleStreamPacket(response, targetConversationId, startedOnBlankConversation)) await stream.finish(response || { dataNoJSON: "[DONE]" });
     const cid = extractConversationId(response) || targetConversationId;
     if (cid && isVisibleConversation(targetConversationId, startedOnBlankConversation, cid)) {
       updateSearchParams({ awtsmoosConversation: cid, awtsmoosAi: this.serviceSelect.value });
@@ -178,16 +154,6 @@ export class ConversationController {
     return extractAssistantText(response) || stream?.assistant?.shell?.textContent || "";
   }
 
-  /**
-   * B"H — pulls a newly born chat into the sidebar after its id descends.
-   *
-   * A blank prompt has no conversation id until the provider answers. The moment
-   * that id becomes visible, this quiet pulse asks the sidebar pager to refresh
-   * so the new vessel appears without a manual reload.
-   *
-   * @param {{cid:string, startedOnBlankConversation:boolean}} state Creation state.
-   * @returns {void}
-   */
   refreshSidebarAfterNewConversation({ cid, startedOnBlankConversation } = {}) {
     const list = this.listPager?.boundList;
     if (!cid || !startedOnBlankConversation || !list) return;
@@ -200,13 +166,7 @@ export class ConversationController {
     const assistantMessages = messages.filter(item => normalizeRoleFromMessage(item) === "assistant" && extractMessageText(item));
     records.forEach((record, index) => {
       const message = assistantMessages[index] || assistantMessages.find(item => extractMessageText(item) === record.text);
-      mountAudioOfferLazy({
-        shell: record.shell,
-        aiHandler: this.aiHandler,
-        conversationId,
-        messageId: extractMessageId(message),
-        copyText: record.text
-      });
+      mountAudioOfferLazy({ shell: record.shell, aiHandler: this.aiHandler, conversationId, messageId: extractMessageId(message), copyText: record.text });
     });
   }
 
@@ -214,13 +174,7 @@ export class ConversationController {
     if (!visible || this.serviceSelect?.value !== "chatgpt" || !conversationId || !stream?.done) return;
     const copyText = extractAssistantText(response) || stream?.assistant?.text || stream?.assistant?.record?.text || "";
     if (!String(copyText || "").trim()) return;
-    mountAudioOfferLazy({
-      shell: stream?.assistant?.shell,
-      aiHandler: this.aiHandler,
-      conversationId,
-      messageId: extractMessageId(response),
-      copyText
-    });
+    mountAudioOfferLazy({ shell: stream?.assistant?.shell, aiHandler: this.aiHandler, conversationId, messageId: extractMessageId(response), copyText });
   }
 
   renderSendError(error) {
@@ -231,10 +185,7 @@ export class ConversationController {
   }
 }
 
-function isMissingTransportError(error) {
-  return /transport is not connected/i.test(error?.message || String(error || ""));
-}
-
+function isMissingTransportError(error) { return /transport is not connected/i.test(error?.message || String(error || "")); }
 function isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation) {
   const current = getConversationId();
   const packetConversation = extractConversationId(packet);
@@ -242,68 +193,17 @@ function isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConve
   if (startedOnBlankConversation && !current) return true;
   return Boolean(packetConversation && current && packetConversation === current);
 }
-
 function isVisibleConversation(targetConversationId, startedOnBlankConversation, cid) {
   const current = getConversationId();
   if (targetConversationId) return current === targetConversationId;
   return startedOnBlankConversation && (!current || current === cid);
 }
-
-function normalizeRoleFromMessage(input = {}) {
-  const message = input?.message || input;
-  return message?.author?.role || message?.role || input?.author?.role || "";
-}
-
-function extractMessageText(input = {}) {
-  const message = input?.message || input;
-  return message?.content?.parts?.join?.("\n") || input?.text || "";
-}
-
-function extractConversationId(packet) {
-  return packet?.data?.conversation_id || packet?.conversation_id || packet?.awtsmoos?.otherEvents?.find?.(event => event.conversation_id)?.conversation_id || null;
-}
-
-function extractMessageId(packet) {
-  return packet?.id || packet?.message?.id || packet?.data?.message?.id || packet?.awtsmoos?.otherEvents?.find?.(event => event?.message?.id)?.message?.id || null;
-}
-
-function extractAssistantText(packet) {
-  if (typeof packet === "string") return packet;
-  return packet?.content?.parts?.[0] || packet?.message?.content?.parts?.[0] || packet?.data?.message?.content?.parts?.[0] || packet?.text || "";
-}
-
-/**
- * B"H — keeps debug light without chaining the whole dragon to `window`.
- *
- * The Awtsmoos lets the browser remember only the useful sparks: ids, shape,
- * and text length. The full provider packet can contain whole event forests,
- * attachment echoes, and extension bridge bodies, so this summary prevents a
- * global debug variable from becoming a memory-root.
- *
- * @param {*} response Provider response or stream completion packet.
- * @returns {{kind:string, conversationId:string|null, messageId:string|null, textLength:number, keys:string[]}}
- */
-function summarizeResponseForDebug(response) {
-  const text = extractAssistantText(response);
-  return {
-    kind: response === null ? "null" : Array.isArray(response) ? "array" : typeof response,
-    conversationId: extractConversationId(response),
-    messageId: extractMessageId(response),
-    textLength: String(text || "").length,
-    keys: response && typeof response === "object" ? Object.keys(response).slice(0, 16) : []
-  };
-}
-
-function mountAudioOfferLazy(options) {
-  mountAwtsmoosAudioOffer(options);
-}
-
-function parseErrorBody(body = "") {
-  const text = typeof body === "string" ? body : JSON.stringify(body, null, 2);
-  if (!text) return "";
-  try { return JSON.stringify(JSON.parse(text), null, 2); } catch { return text; }
-}
-
-function escapeHtml(text) {
-  return String(text || "").replace(/[&<>\"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-}
+function normalizeRoleFromMessage(input = {}) { const message = input?.message || input; return message?.author?.role || message?.role || input?.author?.role || ""; }
+function extractMessageText(input = {}) { const message = input?.message || input; return message?.content?.parts?.join?.("\n") || input?.text || ""; }
+function extractConversationId(packet) { return packet?.data?.conversation_id || packet?.conversation_id || packet?.awtsmoos?.otherEvents?.find?.(event => event.conversation_id)?.conversation_id || null; }
+function extractMessageId(packet) { return packet?.id || packet?.message?.id || packet?.data?.message?.id || packet?.awtsmoos?.otherEvents?.find?.(event => event?.message?.id)?.message?.id || null; }
+function extractAssistantText(packet) { if (typeof packet === "string") return packet; return packet?.content?.parts?.[0] || packet?.message?.content?.parts?.[0] || packet?.data?.message?.content?.parts?.[0] || packet?.text || ""; }
+function summarizeResponseForDebug(response) { const text = extractAssistantText(response); return { kind: response === null ? "null" : Array.isArray(response) ? "array" : typeof response, conversationId: extractConversationId(response), messageId: extractMessageId(response), textLength: String(text || "").length, keys: response && typeof response === "object" ? Object.keys(response).slice(0, 16) : [] }; }
+function mountAudioOfferLazy(options) { mountAwtsmoosAudioOffer(options); }
+function parseErrorBody(body = "") { const text = typeof body === "string" ? body : JSON.stringify(body, null, 2); if (!text) return ""; try { return JSON.stringify(JSON.parse(text), null, 2); } catch { return text; } }
+function escapeHtml(text) { return String(text || "").replace(/[&<>\"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }

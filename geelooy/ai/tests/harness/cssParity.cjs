@@ -20,10 +20,7 @@ async function run() {
     const promptJs = read("prompt.js");
     const imports = [...styles.matchAll(/@import\s+"([^"]+)";/g)].map(m => m[1]);
     const missing = imports.filter(p => !fs.existsSync(path.join(ROOT, p)));
-    const cssBalanced = imports.every(p => {
-      const text = read(p);
-      return count(text, /\{/g) === count(text, /\}/g);
-    });
+    const cssBalanced = imports.every(p => count(read(p), /\{/g) === count(read(p), /\}/g));
     const index = read("index.js");
     const appMain = read("app-main.js");
     const bg = fs.readFileSync(path.join(ROOT, "../scripts/tricks/extensions/server/background.js"), "utf8");
@@ -42,13 +39,14 @@ async function run() {
     assert(/@media\(max-width:680px\)/.test(promptJs) && /font-size:16px/.test(promptJs), "install prompt inline CSS must be mobile-safe and avoid browser zoom");
     assert(/writing-mode:\s*horizontal-tb/.test(mobileRails), "collapsed mobile labels must remain horizontal");
     assert(/touch-action:\s*none/.test(mobileRails) && /#left-resizer/.test(mobileRails), "mobile resize rails must stay touch interactive");
-    assert(/grid-template-rows:\s*auto 14px minmax\(0, 1fr\) 14px auto/.test(mobileShell), "mobile shell must give left\/right resize rails real grid rows");
+    assert(/grid-template-rows:\s*auto 14px minmax\(0, 1fr\) 14px auto/.test(mobileShell), "mobile shell must give left/right resize rails real grid rows");
     assert(/overscroll-behavior:\s*contain/.test(chatCss), "chat surfaces must contain overscroll bounce");
     assert(!/classList\.toggle\("hidden"\)/.test(index + appMain), "raw hidden sidebar toggle returned");
-    assert(count(index, /controller\.sendAutomation/g) === 1, "index page fallback sendAutomation wiring count wrong");
+    assert(count(index, /controller\.sendAutomation/g) === 0, "index automation must not use special sendAutomation path");
+    assert(/sendPrompt:[\s\S]*controller\.send\(prompt/.test(index), "index automation must send through the same controller.send path as the Send button");
     assert(!/awtsmoos-background-automation-send/.test(index) && !/backgroundAutomationVisibleDone/.test(index), "page must mirror extension automation state, not continue it");
     const mirror = read("js/automation/backgroundStreamMirror.js");
-    assert(/awtsmoos-background-automation-state/.test(mirror) && /controller\.loadConversation/.test(mirror), "open tab must refresh UI from background-owned automation state");
+    assert(/awtsmoos-background-automation-state/.test(mirror) && /controller\.loadConversation/.test(mirror), "open tab must refresh UI from committed background-owned automation state");
     assert(/awtsmoos-background-automation-stream/.test(mirror) && /StreamRouter/.test(mirror), "open tab must render background-owned automation stream packets live");
     assert(count(appMain, /controller\.sendAutomation/g) === 1, "app-main sendAutomation wiring count wrong");
     assert(count(index, /resumeVisibleStreams\s*=\s*\(\) => resumeStoredStreams/g) === 1, "index resume wiring count wrong");

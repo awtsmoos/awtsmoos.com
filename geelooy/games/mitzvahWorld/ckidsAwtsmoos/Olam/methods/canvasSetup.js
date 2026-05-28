@@ -1,72 +1,44 @@
-
+// B"H
 /**
- * B"H
  * @module MasterCanvasSetup
- * @description
- * 📐 CHAPTER 26: THE PROPORTIONS OF REALITY 📐
+ * @description Chapter 12: Quiet bh17 canvas setup.
  */
-
 import WebGLGuard from "./canvas/WebGLGuard.js";
-import RendererFactory from "./canvas/RendererFactory.js";
+import RendererFactory from "./canvas/RendererFactory.js?v=lean-l1-20260528-bh17";
 import ViewportSizer from "./canvas/ViewportSizer.js";
 import ContextMonitor from "./canvas/ContextMonitor.js";
 import UIRectifier from "./ui/UIRectifier.js";
 
 export default class MasterCanvasSetup {
-    /** 
-     * @function takeInCanvas
-     */
-    takeInCanvas(canvas, devicePixelRatio = 1) {
-        // B"H: silent
-
-        
-        const guard = WebGLGuard.verify(canvas);
-        if (!guard.success) {
-            this.ayshPeula("error", { code: "WEBGL_FAIL", message: guard.reason });
-            return;
-        }
-
-        ContextMonitor.bind(canvas, this);
-
-        try {
-            this.renderer = RendererFactory.manifest(canvas);
-            
-            /**
-             * B"H: THE PERFORMANCE CAPPING
-             * Most eyes cannot distinguish beyond 2x pixel density. 
-             * Capping at 2.0 significantly increases FPS on high-res mobiles.
-             */
-            const optimizedRatio = Math.min(devicePixelRatio || 1, 2.0);
-            this.renderer.setPixelRatio(optimizedRatio);
-            
-            // B"H: silent
-
-            this.ayshPeula("canvased");
-        } catch (err) {
-            console.error("B\"H - 🚨 RENDERER BIRTH FAILURE:", err.message);
-            this.ayshPeula("error", { code: "RENDERER_FAIL", message: err.message });
-        }
+  /** Accepts the transferred canvas and creates the renderer. */
+  takeInCanvas(canvas, devicePixelRatio = 1) {
+    const guard = WebGLGuard.verify(canvas);
+    if (!guard.success) {
+      this.ayshPeula("error", { code: "WEBGL_FAIL", message: guard.reason });
+      return;
     }
-
-    /** 
-     * @function setSize
-     */
-    async setSize(vOrWidth = {}, height) {
-        let w, h;
-        if (typeof vOrWidth === "number") {
-            w = vOrWidth; h = height;
-        } else {
-            w = vOrWidth.width; h = vOrWidth.height;
-        }
-
-        const sizing = ViewportSizer.calculate({ width: w, height: h });
-        this.width = sizing.newWidth;
-        this.height = sizing.newHeight;
-
-        if (this.renderer) {
-            this.renderer.setSize(this.width, this.height, false);
-            if (this.refreshCameraAspect) this.refreshCameraAspect();
-            await UIRectifier.rectify(this, this.width, this.height);
-        }
+    ContextMonitor.bind(canvas, this);
+    try {
+      this.renderer = RendererFactory.manifest(canvas);
+      const optimizedRatio = Math.min(devicePixelRatio || 1, 1.25);
+      this.renderer.setPixelRatio(optimizedRatio);
+      this.ayshPeula("canvased");
+    } catch (err) {
+      const message = err?.message || String(err);
+      console.error("B\"H - RENDERER_BIRTH_FAILURE:", message);
+      this.ayshPeula("error", { code: "RENDERER_FAIL", message });
     }
+  }
+
+  /** Sizes the renderer and camera. */
+  async setSize(vOrWidth = {}, height) {
+    const input = typeof vOrWidth === "number" ? { width: vOrWidth, height } : vOrWidth;
+    const sizing = ViewportSizer.calculate({ width: input.width, height: input.height });
+    this.width = sizing.newWidth;
+    this.height = sizing.newHeight;
+    if (!this.renderer) return;
+    this.renderer.setSize(this.width, this.height, false);
+    this.refreshCameraAspect?.();
+    await UIRectifier.rectify(this, this.width, this.height);
+  }
 }

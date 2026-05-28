@@ -1,13 +1,19 @@
 //B"H
 import { nodeRelayFetch, checkNodeRelay } from "../chatgpt/transport/nodeRelayFetch.js";
 
+const EXPLICIT_BACKGROUND_KEY = "awtsmoos.backgroundAutomation.enabled";
+
 /**
- * Chooses the automation owner.
+ * Chapter 106: The Visible Hand Was Restored To The Wheel.
  *
- * Automation is background-owned whenever a background-capable bridge exists:
- * first the Chrome extension, then the localhost Node relay. The visible `/ai`
- * page should not run its own continuation loop unless neither background
- * vessel exists.
+ * Automation must feel exactly like the user pressing Send again and again.
+ * The background is support, not a thief of the living page. Therefore normal
+ * visible automation is page-owned, where ChatGPT tokens, sentinel headers,
+ * render state, and parent tracking already match a real user send. Only an
+ * explicit background opt-in may move the sender into the extension/relay.
+ *
+ * @param {{settings?:object,graph?:object,conversationId?:string,chatgptMode?:string,chatgptModePayload?:object,report?:Function}} input Sync request.
+ * @returns {Promise<{owner:string,available:boolean,backgroundOwned?:boolean,reason?:string}>} Ownership decision.
  */
 export async function syncBackgroundAutomation({ settings, graph, conversationId, chatgptMode = "regular", chatgptModePayload = {}, report = () => {} } = {}) {
   const bridge = await automationBridge();
@@ -16,6 +22,13 @@ export async function syncBackgroundAutomation({ settings, graph, conversationId
     report("automation off");
     setBridgeFlag(false);
     return { owner: "off", available: Boolean(isBridgeReady(bridge)) };
+  }
+
+  if (!shouldUseBackground(settings)) {
+    if (isBridgeReady(bridge)) await bridge.stopBackgroundAutomation("visible-page-owner", conversationId).catch(error => ({ error: String(error?.message || error) }));
+    report("automation owner: visible page sender · background standby");
+    setBridgeFlag(false);
+    return { owner: "page", available: Boolean(isBridgeReady(bridge)), reason: "visible-page-sends-like-user" };
   }
 
   if (!isBridgeReady(bridge)) {
@@ -37,10 +50,16 @@ export async function syncBackgroundAutomation({ settings, graph, conversationId
   return { owner: bridge === nodeRelayFetch ? "node-relay" : "extension", available: true, state, settings: cleanSettings, backgroundOwned:true };
 }
 
+/**
+ * B"H — Synchronous detection used by hot UI paths.
+ *
+ * This must never probe localhost, fetch, or await. It answers only whether this
+ * page deliberately handed automation ownership away from the visible sender.
+ *
+ * @returns {boolean} True when background automation explicitly owns sending.
+ */
 export function hasBackgroundAutomationBridge() {
-  const ready = isBridgeReady(window.awtsmoosFetch || window.mFetch) || Boolean(globalThis.__awtsmoosBackgroundBridgeActive);
-  setBridgeFlag(ready);
-  return ready;
+  return Boolean(globalThis.__awtsmoosBackgroundBridgeActive);
 }
 
 export async function getBackgroundAutomationStatus() {
@@ -52,6 +71,11 @@ async function automationBridge() {
   if (isBridgeReady(extension)) return extension;
   try { if (await checkNodeRelay()) return nodeRelayFetch; } catch {}
   return extension;
+}
+
+function shouldUseBackground(settings = {}) {
+  if (settings.backgroundOwned === true || settings.background === true) return true;
+  try { return localStorage.getItem(EXPLICIT_BACKGROUND_KEY) === "1"; } catch { return false; }
 }
 
 function isBridgeReady(bridge) {

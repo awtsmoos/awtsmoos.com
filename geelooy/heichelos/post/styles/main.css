@@ -79,14 +79,12 @@
 @import url("./themes/dark-mode.css");
 @import url("./themes/animations.css");
 
-/* 8. INSANE COMMENTARY STYLES (ABSOLUTE DOMINION)
-   B"H - Placed at the very end to shatter any restricting kelipot 
-   from the files above it.
-*/
+/* 8. COMMENTARY STYLES */
 @import url("./comments/titles.css");       
 @import url("./comments/toolbars.css");     
 @import url("./comments/inputs.css");
 @import url("./comments/editor.css");
 @import url("./comments/inline-intense.css");
 @import url("./comments/sidebar-intense.css");
+@import url("./comments/sidebar-premium.css");
 @import url("./reader-runtime-polish.css");

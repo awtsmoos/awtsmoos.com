@@ -1,15 +1,11 @@
 // B"H
 /**
  * @module ManagerOfAllWorlds
- * @description
- * Chapter 7: The manager opens the fresh UI and direct worker flow.
- *
- * StartWorldFlow is cache-busted so the worker URL visibility repair cannot be
- * trapped behind an older browser module instance.
+ * @description Chapter 12: Manager opens bh17 UI and bh17 worker flow.
  */
 import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
-import UIManager from "../uiManager/index.js?v=lean-l1-20260528-bh11";
-import StartWorldFlow from "./StartWorldFlow.js?v=lean-l1-20260528-bh11";
+import UIManager from "../uiManager/index.js?v=lean-l1-20260528-bh17";
+import StartWorldFlow from "./StartWorldFlow.js?v=lean-l1-20260528-bh17";
 import SocketHandler from "./SocketHandler.js";
 import ServiceWorkerInit from "./ServiceWorkerInit.js";
 import SwitchDestroyLogic from "./SwitchDestroyLogic.js";

@@ -1,32 +1,21 @@
 // B"H
 /**
  * @module OlamGrafting
- * @description
- * Chapter 2: The world receives only the limbs it needs.
- *
- * The Awtsmoos reveals the Olam through explicit grafts. The loader now comes
- * from the modular `methods/loadNivrayim/index.js` path, not the older legacy
- * gateway, reducing stale code paths that could revive placeholder/entity
- * chains during the clean Level 1 worker boot.
+ * @description Chapter 12: The world receives bh17 limbs only.
  */
 import loading from "../methods/loading.js";
 import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
-import heesHawvoos from "../methods/heesHawvoos.js";
+import heesHawvoos from "../methods/heesHawvoos.js?v=lean-l1-20260528-bh17";
 import HelpersBridge from "../methods/helpers.js";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=lean-l1-20260528-bh6";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=lean-l1-20260528-bh17";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";
 import bindAllListeners from "../eventListeners/index.js";
 
 export default class OlamGrafting {
-  /**
-   * Grafts safe Olam methods into a runtime vessel.
-   *
-   * @param {object} olam Runtime world vessel.
-   * @returns {Promise<void>}
-   */
+  /** Grafts safe Olam methods into a runtime vessel. */
   static async graft(olam) {
     const isWorker = typeof document === "undefined";
     const graftModule = ClassDef => {
@@ -36,25 +25,13 @@ export default class OlamGrafting {
       });
     };
 
-    [
-      hoyseef,
-      loadNivrayim,
-      placeholderAndEntities,
-      loading,
-      entityLogic,
-      hebrewLetters,
-      heesHawvoos,
-      HelpersBridge,
-      sealayk
-    ].forEach(graftModule);
+    [hoyseef, loadNivrayim, placeholderAndEntities, loading, entityLogic, hebrewLetters, heesHawvoos, HelpersBridge, sealayk].forEach(graftModule);
 
-    const CanvasSetup = (await import("../methods/canvasSetup.js")).default;
+    const CanvasSetup = (await import("../methods/canvasSetup.js?v=lean-l1-20260528-bh17")).default;
     graftModule(CanvasSetup);
-
-    const boyrayNivraClass = (await import("../methods/boyrayNivra.js?v=lean-l1-20260528-bh6")).default;
+    const boyrayNivraClass = (await import("../methods/boyrayNivra.js?v=lean-l1-20260528-bh17")).default;
     graftModule(boyrayNivraClass);
-
-    const Ohr = (await import("../methods/ohr.js")).default;
+    const Ohr = (await import("../methods/ohr.js?v=lean-l1-20260528-bh17")).default;
     graftModule(Ohr);
 
     if (!isWorker) {

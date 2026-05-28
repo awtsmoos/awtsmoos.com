@@ -1,128 +1,86 @@
-
-
 // B"H
+/**
+ * @file collision.js
+ * @description
+ * Chapter 12: The Kav stops staring into broken shards.
+ *
+ * Some visual meshes in the clean desert are not meant for hover raycasts. When
+ * the mouse ray touched malformed or non-interactive geometry, THREE warned
+ * about NaN values. This file now raycasts only safe interactive vessels and
+ * catches bad geometry, so hovering cannot poison the console.
+ */
+function safeIntersect(raycaster, object) {
+  if (!object || object.userData?.skipRaycast) return [];
+  try {
+    return raycaster.intersectObject(object, true);
+  } catch {
+    object.userData ||= {};
+    object.userData.skipRaycast = true;
+    return [];
+  }
+}
+
+function validNivraTarget(nivra) {
+  if (!nivra || nivra.type === 'chossid' || nivra.type === 'spikeHazard' || nivra.type === 'proceduralTerrain') return false;
+  const mesh = nivra.modelMesh || nivra.mesh;
+  return !!mesh && !mesh.userData?.skipRaycast;
+}
 
 export default {
-    updateSceneObjects(newObjects) {
-        this.objectsInScene = newObjects;
-        this.previousResults.clear(); // Clear cache when scene objects change
-    },
+  updateSceneObjects(newObjects) {
+    this.objectsInScene = newObjects;
+    this.previousResults.clear();
+  },
 
-    performOptimizedRaycasting(isCorrected) {
-        let isSceneChanged = this.isSceneChanged();
-
-        for (let obj of this.objectsInScene) {
-            let collisionResults;
-            if (isSceneChanged || !this.previousResults.has(obj)) {
-                collisionResults = this.raycaster.intersectObject(obj, true);
-                this.previousResults.set(obj, collisionResults);
-            } else {
-                collisionResults = this.previousResults.get(obj);
-            }
-
-            if (collisionResults.length > 0) {
-                let distanceToObject = collisionResults[0].distance - this.offsetFromWall;
-                if (distanceToObject < this.correctedDistance) {
-                    this.correctedDistance = distanceToObject;
-                    isCorrected = true;
-                }
-            }
+  performOptimizedRaycasting(isCorrected) {
+    const isSceneChanged = this.isSceneChanged();
+    for (const obj of this.objectsInScene) {
+      if (!obj || obj.userData?.skipRaycast) continue;
+      const collisionResults = isSceneChanged || !this.previousResults.has(obj)
+        ? safeIntersect(this.raycaster, obj)
+        : this.previousResults.get(obj);
+      this.previousResults.set(obj, collisionResults);
+      if (collisionResults.length > 0) {
+        const distanceToObject = collisionResults[0].distance - this.offsetFromWall;
+        if (Number.isFinite(distanceToObject) && distanceToObject < this.correctedDistance) {
+          this.correctedDistance = distanceToObject;
+          isCorrected = true;
         }
-
-        return isCorrected;
-    },
-    
-    getHovered(
-        startAlternative,
-        directionAlternative
-    ) {
-        if (startAlternative && directionAlternative) {
-            // If startAlternative and directionAlternative are provided, set the ray manually
-            this
-            .mouseRaycaster
-            .set(
-                startAlternative, 
-                directionAlternative.multiplyScalar(-1) // Direction might need normalization if not already
-            );
-        } else {
-            // Otherwise, default to raycasting from the camera using the mouse pointer
-            this.mouseRaycaster.setFromCamera(
-                this.olam.pointer,
-                this.camera
-    
-            );
-        }
-        
-        let closest = null;
-        
-        // 1. B"H FIX: Check Dynamic Entities (NPCs) FIRST
-        // This ensures moving characters are prioritized over static background geometry.
-        if (this.olam.interactableNivrayim) {
-            for (const nivra of this.olam.interactableNivrayim) {
-                // Skip Chossid (Player)
-                if (nivra.type === 'chossid') continue;
-
-                const targetMesh = nivra.modelMesh || nivra.mesh;
-                if (targetMesh) {
-                    // Check intersection against the entire mesh hierarchy of the NPC
-                    const hits = this.mouseRaycaster.intersectObject(targetMesh, true); 
-                    
-                    if (hits.length > 0) {
-                        const hit = hits[0];
-                        
-                        // Check if this hit is closer than previous hits
-                        if (!closest || hit.distance < closest.distance) {
-                            closest = {
-                                distance: hit.distance,
-                                point: hit.point,
-                                object: hit.object,
-                                nivraAwtsmoos: nivra // Direct reference to the logic class
-                            };
-                        }
-                    }
-                }
-            }
-        }
-
-        // 2. Check Static Octree (Buildings, Landscape)
-        // Only if no dynamic entity hit yet OR the static hit is closer
-        if (this.olam.interactiveOctree) {
-            var oct = this
-                .olam
-                .interactiveOctree
-                .rayIntersect(this.mouseRaycaster.ray);
-        
-            if(oct) {
-                // B"H: Normalize properties from Octree to match THREE.Raycaster results
-                oct.point = oct.point || oct.position;
-                
-                // B"H: If we already hit an NPC, compare distances
-                if (!closest || oct.distance < closest.distance) {
-                     // B"H FIX: Safely retrieve sourceMesh if triangle data exists
-                     if (oct.triangle) {
-                        oct.object = oct.triangle.sourceMesh || oct.object; 
-                     }
-                     
-                     // B"H: If the static object is actually linked to a dynamic entity (like a solid NPC), retrieve it
-                     if (oct.object && oct.object.nivraAwtsmoos) {
-                         oct.nivraAwtsmoos = oct.object.nivraAwtsmoos;
-                     }
-                     
-                     closest = oct;
-                }
-            }
-        }
-        
-        if(closest) return closest;
-
-        return null;
-
-        //
-    },
-
-    isSceneChanged() {
-        // Implement logic to determine if scene objects have changed
-        // This can be based on a flag that is set when objects are added/removed/modified
-        return false;
+      }
     }
+    return isCorrected;
+  },
+
+  getHovered(startAlternative, directionAlternative) {
+    if (startAlternative && directionAlternative) this.mouseRaycaster.set(startAlternative, directionAlternative.multiplyScalar(-1));
+    else this.mouseRaycaster.setFromCamera(this.olam.pointer, this.camera);
+
+    let closest = null;
+    if (this.olam.interactableNivrayim) {
+      for (const nivra of this.olam.interactableNivrayim) {
+        if (!validNivraTarget(nivra)) continue;
+        const targetMesh = nivra.modelMesh || nivra.mesh;
+        const hits = safeIntersect(this.mouseRaycaster, targetMesh);
+        if (hits.length > 0) {
+          const hit = hits[0];
+          if (!closest || hit.distance < closest.distance) closest = { distance: hit.distance, point: hit.point, object: hit.object, nivraAwtsmoos: nivra };
+        }
+      }
+    }
+
+    if (this.olam.interactiveOctree) {
+      const oct = this.olam.interactiveOctree.rayIntersect(this.mouseRaycaster.ray);
+      if (oct && (!closest || oct.distance < closest.distance)) {
+        oct.point = oct.point || oct.position;
+        if (oct.triangle) oct.object = oct.triangle.sourceMesh || oct.object;
+        if (oct.object?.nivraAwtsmoos) oct.nivraAwtsmoos = oct.object.nivraAwtsmoos;
+        closest = oct;
+      }
+    }
+    return closest || null;
+  },
+
+  isSceneChanged() {
+    return false;
+  }
 };

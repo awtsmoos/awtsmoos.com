@@ -2,11 +2,12 @@
 /**
  * @file controls.js
  * @description
- * Chapter 5: Platformer-safe Chossid controls.
+ * Chapter 9: Platformer-safe controls with old-stable movement fallback.
  *
- * The clean desert ladder does not need the old building preview, editor,
- * combat, shop, or NPC dialogue command web. This file keeps movement,
- * camera toggles, interaction with simple doors, and harmless bag/tool clicks.
+ * The player had movement intent only through `olam.inputs`; if a key pulse was
+ * dropped or a stale UI focus prevented normal input mapping, touching the floor
+ * felt frozen. This file keeps the clean light controls, but also reads the raw
+ * keyStates as a backup, exactly where the movement flags are copied each frame.
  */
 
 const CAMERA_PAN_UP = "KeyR";
@@ -15,6 +16,10 @@ const CAMERA_FPS_TOGGLE = "KeyT";
 const ACTION_TOGGLE = "KeyC";
 const ACTION_SELECT = "Enter";
 const DISMOUNT_KEY = "KeyX";
+
+function keyOn(olam, ...codes) {
+  return codes.some(code => !!olam?.keyStates?.[code]);
+}
 
 export default {
   /** Copies input state into movement flags every frame. */
@@ -28,16 +33,16 @@ export default {
     if (this.olam.showingImportantMessage) return;
 
     const inputs = this.olam.inputs || {};
-    this.moving.running = !!inputs.RUNNING;
-    this.moving.forward = !!inputs.FORWARD;
-    this.moving.backward = !!inputs.BACKWARD;
-    this.moving.down = !!inputs.DOWN;
+    this.moving.running = inputs.RUNNING !== false || keyOn(this.olam, "ShiftLeft", "ShiftRight");
+    this.moving.forward = !!inputs.FORWARD || keyOn(this.olam, "KeyW", "ArrowUp");
+    this.moving.backward = !!inputs.BACKWARD || keyOn(this.olam, "KeyS", "ArrowDown");
+    this.moving.turningLeft = !!inputs.LEFT_ROTATE || keyOn(this.olam, "KeyA", "ArrowLeft");
+    this.moving.turningRight = !!inputs.RIGHT_ROTATE || keyOn(this.olam, "KeyD", "ArrowRight");
+    this.moving.stridingLeft = !!inputs.LEFT_STRIDE || keyOn(this.olam, "KeyQ");
+    this.moving.stridingRight = !!inputs.RIGHT_STRIDE || keyOn(this.olam, "KeyE");
+    this.moving.jump = !!inputs.JUMP || keyOn(this.olam, "Space");
+    this.moving.down = !!inputs.DOWN || keyOn(this.olam, "KeyX");
     this.moving.up = !!inputs.UP;
-    this.moving.turningLeft = !!inputs.LEFT_ROTATE;
-    this.moving.turningRight = !!inputs.RIGHT_ROTATE;
-    this.moving.stridingLeft = !!inputs.LEFT_STRIDE;
-    this.moving.stridingRight = !!inputs.RIGHT_STRIDE;
-    this.moving.jump = !!inputs.JUMP;
 
     this.cameraControls();
   },
@@ -78,9 +83,6 @@ export default {
       case "NumLock":
         this.movingAutomatically = !this.movingAutomatically;
         break;
-      case "KeyQ":
-        this.resetPreviewRotation?.();
-        break;
       case DISMOUNT_KEY:
         if (this.isDriving && this.drivingVehicle) this.drivingVehicle.dismount?.();
         break;
@@ -98,7 +100,7 @@ export default {
         break;
       case "Space":
         this.olam.ayshPeula("setInput", { code: "Space" });
-        setTimeout(() => this.olam.ayshPeula("setInputOut", { code: "Space" }), 50);
+        setTimeout(() => this.olam.ayshPeula("setInputOut", { code: "Space" }), 80);
         break;
       case "Tab":
         event.preventDefault?.();
@@ -145,9 +147,7 @@ export default {
   },
 
   /** Compatibility no-op for removed building preview rotation. */
-  resetPreviewRotation() {
-    this.placementRotation = 0;
-  },
+  resetPreviewRotation() { this.placementRotation = 0; },
 
   /** Compatibility no-op for removed visual editor. */
   handleEditorClick() {}

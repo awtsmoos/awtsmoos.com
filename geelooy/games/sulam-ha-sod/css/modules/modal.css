@@ -1,0 +1,8 @@
+/* B"H
+ * Coin study modal.
+ *
+ * The Awtsmoos turns the question mark into a tiny beis midrash: a centered,
+ * readable scroll that teaches coin values without bloating the in-game HUD.
+ */
+.coinModal{position:fixed;z-index:7;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,560px);max-height:min(82dvh,620px);overflow:auto;text-align:left;box-shadow:0 22px 70px #000;background:#090316e8;border:1px solid #ffffff33;border-radius:22px;padding:18px;line-height:1.55;color:#f9efff}.coinModal h2{margin:0 0 14px;font-size:clamp(24px,4vw,38px);text-shadow:0 0 18px #9df7ff88}.coinModal p{margin:0 0 14px;color:#eee2ff}.coinClose{position:absolute;right:12px;top:12px;width:34px;height:34px;padding:0!important;border:0;border-radius:12px;background:linear-gradient(135deg,#fff,var(--gold));color:#160720;font-weight:1000}.coinRows{display:grid;grid-template-columns:auto 1fr;gap:9px 14px;background:#ffffff10;border-radius:16px;padding:14px}.coinRows b{color:var(--gold)}.coinNote{margin-bottom:0!important;color:#9df7ff!important}
+@media (max-width:420px){.coinModal{width:94vw;padding:16px}.coinRows{grid-template-columns:1fr;gap:4px}.coinRows span{margin-bottom:8px}}

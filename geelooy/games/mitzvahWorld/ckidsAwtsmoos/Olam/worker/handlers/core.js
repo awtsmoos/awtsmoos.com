@@ -57,6 +57,20 @@ export default function coreHandlers(manager) {
                 const dpr = window.devicePixelRatio || 1;
                 const w = window.innerWidth || 1024;
                 const h = window.innerHeight || 768;
+                const rect = manager.canvasElement.getBoundingClientRect?.();
+                console.info("B\"H | MAIN_CANVAS_TRACE | heescheel:measured", {
+                    windowWidth: w,
+                    windowHeight: h,
+                    devicePixelRatio: dpr,
+                    canvasClientWidth: manager.canvasElement.clientWidth,
+                    canvasClientHeight: manager.canvasElement.clientHeight,
+                    canvasRect: rect ? {
+                        width: rect.width,
+                        height: rect.height,
+                        left: rect.left,
+                        top: rect.top
+                    } : null
+                });
                 
                 manager.canvasElement.width = w * dpr;
                 manager.canvasElement.height = h * dpr;

@@ -1,11 +1,7 @@
 // B"H
 /**
  * @file ladder-1.js
- * @description
- * Chapter 6: Dust Gate stays fast, visible, textured, and dangerous below.
- *
- * The black-screen bug was caused by a level with Lambert objects but no bright
- * sky/light vessel. This authored level now explicitly includes ProceduralSky.
+ * @description Chapter 12: Dust Gate with bh17 helpers.
  */
 import {
   bonus,
@@ -18,7 +14,7 @@ import {
   sky,
   spikeFloor,
   terrain
-} from './helpers.js?v=lean-l1-20260528-bh11';
+} from './helpers.js?v=lean-l1-20260528-bh17';
 
 const solids = [
   platform('ground_return_01', -18, -2.0, 5, 8, 5, 0xd2b878),
@@ -33,18 +29,12 @@ const solids = [
   platform('gate_landing', 44, 6.4, 0, 12, 8, 0xa77d3d)
 ];
 
-const spikes = spikeFloor({ minX: -18, maxX: 50, minZ: -13, maxZ: 13, y: -0.95, step: 3.05 });
+const spikes = spikeFloor({ minX: -20, maxX: 52, minZ: -14, maxZ: 14, step: 2.15 });
 
 export default level('Desert_Dust_Gate', 7, 'ladder-2.js', {
-  ProceduralSky: {
-    brightDesertSky: sky()
-  },
-  ProceduralTerrain: {
-    sandFloor: terrain('Dust_Gate_Sand', 'sand')
-  },
-  Chossid: [
-    player(-8, 5, 0)
-  ],
+  ProceduralSky: { brightDesertSky: sky() },
+  ProceduralTerrain: { sandFloor: terrain('Dust_Gate_Sand', 'sand') },
+  Chossid: [player(-8, 5, 0)],
   SolidBlock: solids,
   SpikeHazard: spikes,
   Coin: [
@@ -57,10 +47,6 @@ export default level('Desert_Dust_Gate', 7, 'ladder-2.js', {
     coin('p7', 43, 7.6, 0),
     bonus('optional_global_sela', 46, 7.8, 2.8, 3)
   ],
-  InteractiveDoor: [
-    door('Gate to Mirror Dunes', 50, 9.1, 0, 'ladder-2.js')
-  ],
-  FallResetTrigger: [
-    resetPit('fall_reset_under_world', 20, -12, 0, 140, 120)
-  ]
+  InteractiveDoor: [door('Gate to Mirror Dunes', 50, 9.1, 0, 'ladder-2.js')],
+  FallResetTrigger: [resetPit('fall_reset_under_world', 20, -12, 0, 140, 120)]
 });

@@ -2,15 +2,18 @@
 /**
  * @file effectsOverlay.js
  * @description
- * Chapter 6: Main-thread sparks for spike death.
+ * Chapter 12: The reset veil waits after the blast.
  *
- * The worker asks for `effect: spikeDeath`; this overlay shows Hebrew letters,
- * a clear reset instruction, and reloads on the next key, click, or touch.
+ * The Awtsmoos tears open the thorn moment: first sparks, then silence, then the
+ * command to begin again. This overlay does not reload instantly. It lets the
+ * worker hide the player, waits for the flash, and only then shows the gate:
+ * press any key or click, and the level returns to the starting point.
  */
 
 const LETTERS = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "כ", "ל", "מ", "נ", "ס", "ע"];
 
 function particle(parent, text, className, ms = 1600) {
+  if (!parent?.appendChild) return;
   const el = document.createElement("div");
   el.className = className;
   el.textContent = text;
@@ -22,11 +25,24 @@ function particle(parent, text, className, ms = 1600) {
   setTimeout(() => el.remove(), ms);
 }
 
+function floatingText(parent, data) {
+  if (!parent?.appendChild || !data?.text) return;
+  const el = document.createElement("div");
+  el.className = "floating-text";
+  el.textContent = data.text;
+  el.style.color = data.color || "white";
+  el.style.left = `${window.innerWidth / 2}px`;
+  el.style.top = `${window.innerHeight / 2}px`;
+  parent.appendChild(el);
+  setTimeout(() => el.remove(), data.effect === "spikeDeath" ? 4500 : 1600);
+}
+
 function installResetGate(parent) {
-  if (parent.__awtsmoosResetGate) return;
+  if (!parent?.appendChild || parent.__awtsmoosResetGate) return;
   parent.__awtsmoosResetGate = true;
   const gate = document.createElement("div");
   gate.className = "awtsmoos-reset-gate";
+  gate.style.pointerEvents = "auto";
   gate.innerHTML = `<div class="reset-title">נפילה בקוצים</div><div class="reset-subtitle">PRESS ANY KEY / CLICK TO RESET</div>`;
   parent.appendChild(gate);
 
@@ -36,6 +52,13 @@ function installResetGate(parent) {
   window.addEventListener("touchstart", reset, { once: true });
 }
 
+function burstLetters(parent, effect) {
+  const amount = effect === "spikeDeath" ? 64 : 12;
+  for (let i = 0; i < amount; i += 1) {
+    particle(parent, LETTERS[i % LETTERS.length], effect === "spikeDeath" ? "hebrew-particle spike" : "hebrew-particle");
+  }
+}
+
 export default {
   shaym: "effectsOverlay",
   className: "effects-overlay",
@@ -43,25 +66,10 @@ export default {
   on: {
     awtsmoosRevealed(e) {
       const data = e.detail || {};
-      if (data.text) {
-        const el = document.createElement("div");
-        el.className = "floating-text";
-        el.textContent = data.text;
-        el.style.color = data.color || "white";
-        el.style.left = `${window.innerWidth / 2}px`;
-        el.style.top = `${window.innerHeight / 2}px`;
-        e.target.appendChild(el);
-        setTimeout(() => el.remove(), data.effect === "spikeDeath" ? 4500 : 2000);
-      }
-
-      if (data.effect === "transaction" || data.effect === "spikeDeath") {
-        const amount = data.effect === "spikeDeath" ? 52 : 20;
-        for (let i = 0; i < amount; i += 1) {
-          particle(e.target, LETTERS[i % LETTERS.length], data.effect === "spikeDeath" ? "hebrew-particle spike" : "hebrew-particle");
-        }
-      }
-
-      if (data.effect === "spikeDeath") installResetGate(e.target);
+      const parent = e.target;
+      floatingText(parent, data);
+      if (data.effect === "transaction" || data.effect === "spikeDeath") burstLetters(parent, data.effect);
+      if (data.effect === "spikeDeath") setTimeout(() => installResetGate(parent), Number(data.overlayDelayMs) || 900);
       bridgeAudio(data);
     }
   }
@@ -71,13 +79,7 @@ function bridgeAudio(data) {
   if (data.playProceduralSound) {
     import("../../../../systems/audio/AudioEngine.js")
       .then(m => m.default.play(data.playProceduralSound.key, data.playProceduralSound.options))
-      .catch(err => console.warn("B\"H Audio failed to bridge:", err));
-  }
-  if (data.triggerDynamicJump !== undefined) {
-    import("../../../../systems/audio/DynamicAudio.js").then(m => m.default.triggerJump(data.triggerDynamicJump)).catch(() => {});
-  }
-  if (data.triggerDynamicImpact !== undefined) {
-    import("../../../../systems/audio/DynamicAudio.js").then(m => m.default.triggerImpact(data.triggerDynamicImpact)).catch(() => {});
+      .catch(() => {});
   }
   if (data.triggerDynamicStep) {
     import("../../../../systems/audio/DynamicAudio.js").then(m => m.default.triggerStep()).catch(() => {});

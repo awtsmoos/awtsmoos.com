@@ -1,0 +1,13 @@
+/* B"H
+ * Touch controls vessel.
+ *
+ * The Awtsmoos makes mobile controls simple and forgiving without letting them
+ * devour the viewport. Large invisible hit zones remain, visible buttons shrink
+ * slightly, and desktop never shows them.
+ */
+.touch{position:fixed;left:10px;right:10px;bottom:calc(10px + var(--safe-bottom));z-index:3;display:none;justify-content:space-between;align-items:end;gap:10px;pointer-events:none}.movePad{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(56vw,290px);pointer-events:none}.moveBtn,.jump{position:relative;pointer-events:auto;user-select:none;-webkit-user-select:none;border:0;color:#160720;font-weight:1000;box-shadow:0 10px 24px #0009,0 0 18px #9df7ff22}.moveBtn:before,.jump:before{content:"";position:absolute;left:-8px;right:-8px;top:-150px;bottom:-8px}.moveBtn{height:62px;border-radius:21px;font-size:16px;background:linear-gradient(135deg,#9df7ff,#dffcff)}.jump{width:min(33vw,142px);height:66px;border-radius:999px;font-size:18px;background:linear-gradient(135deg,var(--gold),var(--pink))}.moveBtn.held,.jump.held{transform:translateY(2px) scale(.985);filter:saturate(1.35);box-shadow:0 4px 16px #000b,0 0 34px #ffd36a88}
+@media (min-width:900px){.touch{display:none!important}}
+@media (max-width:720px){.touch{display:flex}}
+@media (max-width:420px){.touch{left:8px;right:8px;gap:8px}.movePad{gap:8px;width:58vw}.moveBtn{height:58px;font-size:15px;border-radius:19px}.jump{width:35vw;height:60px;font-size:17px}.moveBtn:before,.jump:before{top:-170px}}
+@media (hover:none),(pointer:coarse){.touch{display:flex}}
+@media (prefers-reduced-motion:reduce){.moveBtn.held,.jump.held{transform:none}}

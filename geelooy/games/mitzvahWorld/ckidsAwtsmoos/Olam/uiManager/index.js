@@ -2,14 +2,15 @@
 /**
  * @class UIManager
  * @description
- * Chapter 6: The UI receives fresh styling and reset effects.
+ * Chapter 12: The UI receives bh17 coin and spike vessels.
  *
- * The clean Level 1 UI still refuses Blob/custom-world starts, while the style
- * vessel is cache-busted so the repaired inventory and action bar CSS loads.
+ * The clean Level 1 UI still refuses Blob/custom-world starts. The main menu is
+ * cache-busted so `window.awtsmoosGameUI` includes the new `perutahProgress`
+ * vessel and the delayed reset overlay.
  */
 import UI from "/scripts/awtsmoos/ui/index.js";
 import style from "./ui/style.js?v=lean-l1-20260528-bh9";
-import mainMenu from "./ui/mainMenu/index.js";
+import mainMenu from "./ui/mainMenu/index.js?v=lean-l1-20260528-bh17";
 
 export default class UIManager {
   constructor() {}

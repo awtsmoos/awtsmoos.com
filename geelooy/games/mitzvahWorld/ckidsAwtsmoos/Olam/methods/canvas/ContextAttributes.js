@@ -1,52 +1,32 @@
-
+// B"H
 /**
- * B"H
  * @module ContextAttributes
  * @description
- * 
- * THE LAWS OF THE VESSEL
- * 
- * "With wisdom, He establishes the foundations..."
- * Every creation needs its laws. These are the laws of the physical context.
- * We request 'high-performance' to draw the maximum Koach (Strength) from 
- * the hardware, and we enable 'antialias' to smooth the jagged edges of 
- * finite matter, aiming for the smooth curves of the Infinite.
- * 
- * 'preserveDrawingBuffer' is kept false to allow for efficient 
- * recreation of the screen on every frame.
- * 
- * @author The Awtsmoos Manifestation
+ * Chapter 8: Minimal WebGL vows for the worker canvas.
+ *
+ * The renderer was failing before the scene could draw: Chrome reported the GPU
+ * as disabled while trying to create the OffscreenCanvas WebGL context. The
+ * safest repair is to stop asking for expensive or fragile context flags. No
+ * antialias, no logarithmic depth buffer, no high-performance demand: first let
+ * the browser give us any stable WebGL vessel, then the small Level 1 scene can
+ * draw normally.
  */
-
 export default class ContextAttributes {
-    /**
-     * @function get
-     * @description
-     * Returns the finalized set of attributes to be passed into the 
-     * Three.js Renderer birth sequence.
-     * 
-     * @returns {Object} The dictionary of WebGL context parameters.
-     */
-    static get() {
-        return {
-            antialias: true,
-            alpha: true,
-            depth: true,
-            stencil: false,
-            premultipliedAlpha: true,
-            preserveDrawingBuffer: false,
-            /**
-             * B"H: REQUEST HIGH PERFORMANCE
-             * We tell the GPU to prioritize the light of the Olam.
-             */
-            powerPreference: "high-performance",
-            /**
-             * B"H: PERFORMANCE GUARD
-             * We do not fail if performance is low; we prefer a slow world 
-             * over a non-existent one.
-             */
-            failIfMajorPerformanceCaveat: false,
-            logarithmicDepthBuffer: true
-        };
-    }
+  /**
+   * Returns conservative WebGL context parameters.
+   *
+   * @returns {object} Context attributes for THREE.WebGLRenderer.
+   */
+  static get() {
+    return {
+      antialias: false,
+      alpha: false,
+      depth: true,
+      stencil: false,
+      premultipliedAlpha: false,
+      preserveDrawingBuffer: false,
+      powerPreference: "default",
+      failIfMajorPerformanceCaveat: false
+    };
+  }
 }

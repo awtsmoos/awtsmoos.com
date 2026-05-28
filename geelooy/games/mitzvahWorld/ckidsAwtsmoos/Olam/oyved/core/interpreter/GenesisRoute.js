@@ -1,33 +1,19 @@
-
+// B"H
 /**
- * B"H
  * @module GenesisRoute
- * @description
- * 🌟 THE GATEWAY OF ORIGINS 🌟
- * Isolates the logic for the very first command sent to the Worker.
+ * @description Chapter 12: First worker command uses bh17 Pawsawch path.
  */
-import { PawsawchProcessor } from '../pawsawch/PawsawchProcessor.js';
+import { PawsawchProcessor } from '../pawsawch/PawsawchProcessor.js?v=lean-l1-20260528-bh17';
 
 export class GenesisRoute {
-    /**
-     * @method execute
-     * @description Hands the payload over to the Pawsawch Processor.
-     */
-    static async execute(payload, SystemCore, promiseMap) {
-        try {
-            const manifestation = await PawsawchProcessor.beginGenesis(
-                payload, 
-                SystemCore.OlamClass, 
-                promiseMap, 
-                SystemCore.UtilsClass
-            );
-            
-            // Return the eternal instance so index can hold it globally
-            return manifestation.olam;
-
-        } catch (genErr) {
-            console.error('B"H - 🚨[GENESIS CRITICAL]: World shattered at the origin point.', genErr);
-            return null;
-        }
+  /** Hands the payload over to the Pawsawch Processor. */
+  static async execute(payload, SystemCore, promiseMap) {
+    try {
+      const manifestation = await PawsawchProcessor.beginGenesis(payload, SystemCore.OlamClass, promiseMap, SystemCore.UtilsClass);
+      return manifestation.olam;
+    } catch (genErr) {
+      console.error('B"H - [GENESIS CRITICAL]: World shattered at the origin point.', genErr);
+      return null;
     }
+  }
 }

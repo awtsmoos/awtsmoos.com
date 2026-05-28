@@ -1,45 +1,30 @@
-
 /**
  * B"H
  * @module SparksGatherer
- * @chapter Gathering the Pre-Purified Emanation
  * @description
- * Every spark must be summoned by Name and Coordinate.
- * 
- * HEALED: We have severed the connection to the flawed Master Cache (ApiPortal). 
- * This Gatherer now directly invokes the `BulkLoader`, which performs the exact 
- * same verse-by-verse API parallelization that makes the Sidebar function perfectly.
+ * Summons all inline sparks page-wide. There is no lazy coordinate loading: the
+ * BulkLoader fetches every rendered verse for the alias in one eager page pass,
+ * then caches that result for the current page.
  */
 
-import { loadAllCommentsForAlias } from "/heichelos/post/comments/logic/inlineManifest/BulkLoader.js";
+import {
+    clearInlinePageCache,
+    loadAllCommentsForAlias
+} from "/heichelos/post/comments/logic/inlineManifest/BulkLoader.js";
 
-/**
- * @class SparksGatherer
- */
 export class SparksGatherer {
-    /**
-     * @method collect
-     * @description 
-     * Summons all purified insights for an identity directly from the API 
-     * by blasting parallel requests across every manifest coordinate.
-     * 
-     * @param {string} alias - The identity to summon.
-     * @param {Object} postContext - The Divine Context (post, heichel, series).
-     * @returns {Promise<Array>}
-     */
     static async collect(alias, postContext) {
         if (!alias) return [];
-        
-        
-        if (postContext) {
-            const networkSparks = await loadAllCommentsForAlias(alias, postContext);
-            return networkSparks || [];
-        }
-        
+        if (postContext) return await loadAllCommentsForAlias(alias, postContext) || [];
         console.warn(`B"H - [SparksGatherer] No post context provided for @${alias}. The void remains.`);
         return [];
     }
 
-    static clearCacheForAlias() { /* Reverted to pure network architecture */ }
-    static clearAllCache() { /* Reverted to pure network architecture */ }
+    static clearCacheForAlias(alias) {
+        clearInlinePageCache(alias);
+    }
+
+    static clearAllCache() {
+        clearInlinePageCache();
+    }
 }

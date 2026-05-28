@@ -130,6 +130,13 @@ export function interceptWorkerMessage(manager, event) {
     return;
   }
 
+  if (data && data.type === "render_trace") {
+    const stage = String(data.stage || "unknown");
+    const payload = JSON.stringify(data.payload || {});
+    console.info(`B"H | RENDER_TRACE | ${stage} | ${payload}`);
+    return;
+  }
+
   if (isWorkerTextLog(data)) {
     const text = workerMessageToText(data);
 
@@ -171,6 +178,6 @@ export function interceptWorkerMessage(manager, event) {
   if (data.type === "canvas_transferred") {
     markCanvasTransferred(manager);
     recordWorkerProgress("canvas_transferred");
-    console.info(`B"H | WORKER_PROGRESS | canvas_transferred`);
+    console.info(`B"H | WORKER_PROGRESS | canvas_transferred | ${JSON.stringify(data.payload || {})}`);
   }
 }

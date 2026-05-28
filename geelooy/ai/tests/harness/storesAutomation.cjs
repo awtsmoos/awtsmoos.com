@@ -37,12 +37,10 @@ async function run() {
     assert(events.length === passiveEventsBefore + 1, "real stream mutations should still announce once", { before: passiveEventsBefore, after: events.length });
     const runStore = new AutomationRunStore(makeStorage());
     const sends = [];
-    const pipeline = new AutomationPipeline({
-      settingsStore: { save: patch => patch },
-      getSettings: () => ({ enabled: true, maxTurns: 2, delayMs: 0, prompt: "continue", stopOnError: true }),
-      sendPrompt: async (prompt, context) => sends.push({ prompt, context }),
-      report: () => {},
-      runStore
+    const pipeline = makeFastPipeline(AutomationPipeline, {
+      runStore,
+      getSettings: () => ({ enabled: true, maxTurns: 2, delayMs: 0, streamSettleMs: 0, prompt: "continue", stopOnError: true }),
+      sendPrompt: async (prompt, context) => sends.push({ prompt, context })
     });
     await Promise.all([
       pipeline.afterAssistantReply("a1", { conversationId: "c1" }),
@@ -54,12 +52,10 @@ async function run() {
     assert(sends.filter(s => s.context.conversationId === "c1").length === 2, "c1 max turn guard must hold");
 
     const failStore = new AutomationRunStore(makeStorage());
-    const failPipeline = new AutomationPipeline({
-      settingsStore: { save: patch => patch },
-      getSettings: () => ({ enabled: true, maxTurns: 3, delayMs: 0, prompt: "continue", stopOnError: true }),
-      sendPrompt: async () => { throw new Error("POST failed"); },
-      report: () => {},
-      runStore: failStore
+    const failPipeline = makeFastPipeline(AutomationPipeline, {
+      runStore: failStore,
+      getSettings: () => ({ enabled: true, maxTurns: 3, delayMs: 0, streamSettleMs: 0, prompt: "continue", stopOnError: true }),
+      sendPrompt: async () => { throw new Error("POST failed"); }
     });
     await failPipeline.afterAssistantReply("before failure", { conversationId: "c-fail" });
     const failedRun = failStore.get("c-fail");
@@ -68,26 +64,22 @@ async function run() {
     globalThis.location = { search: "?awtsmoosConversation=c-kick" };
     const kickSends = [];
     const kickStore = new AutomationRunStore(makeStorage());
-    const kickPipeline = new AutomationPipeline({
-      settingsStore: { save: patch => patch },
-      getSettings: () => ({ enabled: true, maxTurns: 1, delayMs: 0, prompt: "continue", stopOnError: true }),
-      sendPrompt: async (prompt, context) => { kickSends.push({ prompt, context }); return ""; },
-      report: () => {},
-      runStore: kickStore
+    const kickPipeline = makeFastPipeline(AutomationPipeline, {
+      runStore: kickStore,
+      getSettings: () => ({ enabled: true, maxTurns: 1, delayMs: 0, streamSettleMs: 0, prompt: "continue", stopOnError: true }),
+      sendPrompt: async (prompt, context) => { kickSends.push({ prompt, context }); return ""; }
     });
     await kickPipeline.onSettingsChanged({ enabled: true });
     await new Promise(resolve => setTimeout(resolve, 10));
-    assert(kickSends.length === 1 && kickSends[0].context.conversationId === "c-kick", "turning automation on must immediately send for current conversation", { kickSends });
+    assert(kickSends.length === 1 && kickSends[0].context.conversationId === "c-kick", "turning automation on must send for current conversation after the configured wait", { kickSends });
     assert(kickStore.get("c-kick").turns === 1 && kickStore.get("c-kick").pendingTurn === 0, "successful kick must commit exactly one turn", { run: kickStore.get("c-kick") });
 
     globalThis.location = { search: "?awtsmoosConversation=c-empty" };
     const emptySends = [];
-    const emptyPipeline = new AutomationPipeline({
-      settingsStore: { save: patch => patch },
-      getSettings: () => ({ enabled: true, maxTurns: 3, delayMs: 0, prompt: "continue", stopOnError: true }),
-      sendPrompt: async (prompt, context) => { emptySends.push({ prompt, context }); return ""; },
-      report: () => {},
-      runStore: new AutomationRunStore(makeStorage())
+    const emptyPipeline = makeFastPipeline(AutomationPipeline, {
+      runStore: new AutomationRunStore(makeStorage()),
+      getSettings: () => ({ enabled: true, maxTurns: 3, delayMs: 0, streamSettleMs: 0, prompt: "continue", stopOnError: true }),
+      sendPrompt: async (prompt, context) => { emptySends.push({ prompt, context }); return ""; }
     });
     await emptyPipeline.afterAssistantReply("finished stream text", { conversationId: "c-empty" });
     for (let i = 0; i < 50 && emptySends.length < 2; i++) await new Promise(resolve => setTimeout(resolve, 10));
@@ -96,10 +88,22 @@ async function run() {
     const pipelineSource = fs.readFileSync(path.join(ROOT, "js/automation/pipeline.js"), "utf8");
     assert(/runStore\.remove\(conversationId\)/.test(pipelineSource), "turning automation on must reset stale per-conversation run state");
     assert(/pendingTurn/.test(pipelineSource) && /turns: committedTurns/.test(pipelineSource), "page automation must use pendingTurn until sendPrompt commits");
+    assert(/onWaiting/.test(pipelineSource) && /waiting \$\{seconds\} second/.test(pipelineSource), "automation wait must expose a visible countdown hook");
     const panelSource = fs.readFileSync(path.join(ROOT, "js/automation/panel.js"), "utf8");
     assert(/input\.onchange\s*=\s*handler/.test(panelSource) && /input\.oninput\s*=\s*handler/.test(panelSource), "automation UI must bind checkbox/text changes to both input and change events");
     assert(/automation change failed/.test(panelSource), "automation UI must surface async kick failures in the status panel");
     return { events: events.length, sends: sends.length, kickSends: kickSends.length, tabIdsDifferent: true, uiEvents: true, failedTurns: failedRun.turns };
   });
 }
+
+function makeFastPipeline(AutomationPipeline, options = {}) {
+  return new AutomationPipeline({
+    settingsStore: { save: patch => patch },
+    report: () => {},
+    minDelayMs: 0,
+    minStreamSettleMs: 0,
+    ...options
+  });
+}
+
 module.exports = { run };

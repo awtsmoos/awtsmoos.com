@@ -2,14 +2,15 @@
 /**
  * @file index.js
  * @description
- * Chapter 6: The light HUD receives the repaired bag and spike overlay.
+ * Chapter 12: The light HUD receives the coin counter and reset veil.
  *
- * This keeps the fast Level 1 pipeline while restoring inventory, action bar,
- * bag button, tooltip vessels, drag ghost, and the spike reset effect.
+ * The Awtsmoos counts copper moons through `perutahProgress`, while the spike
+ * veil still explodes letters through `effectsOverlay`. This index is the small
+ * clean table of UI vessels: no shops, no dialogue generators, no heavy world.
  */
-import hud from "./hud.js";
+import hud from "./hud.js?v=lean-l1-20260528-bh17";
 import dialogues from "./dialogues.js";
-import effectsOverlay from "../components/effectsOverlay.js?v=lean-l1-20260528-bh9";
+import effectsOverlay from "../components/effectsOverlay.js?v=lean-l1-20260528-bh17";
 import joystick from "../joystick.js";
 import ActionBar from "./actionBar.js";
 import InventoryScreen from "./inventory/index.js";
@@ -18,11 +19,13 @@ import { DragGhost } from "./components/DragGhost.js";
 import { Tooltips } from "./components/Tooltips.js";
 import { Toast } from "./components/Toast.js";
 import { InteractionPrompt } from "./components/InteractionPrompt.js";
+import { PerutahProgress } from "./perutahProgress.js?v=lean-l1-20260528-bh17";
 
 if (typeof window !== "undefined") initDragSystem();
 
 const uiVessels = [
   hud,
+  PerutahProgress,
   ActionBar,
   InventoryScreen,
   DragGhost,

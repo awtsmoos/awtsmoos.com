@@ -2,26 +2,23 @@
 /**
  * @module OlamVessel
  * @description
- * Chapter 7: The world vessel refuses the black void.
+ * Chapter 12: The world vessel imports the bh17 eye.
  *
- * I traced the full visible path: page -> ikar -> manager -> worker -> Olam ->
- * loadNivrayim -> render loop. The CSS did not hide the canvas; the real risk
- * was that visibility depended on later level lighting. This vessel now creates
- * a tiny base sky/background/light floor immediately, before any level entity
- * succeeds or fails, so the canvas can never render as an unexplained black box.
+ * The Awtsmoos gives the world a tiny fallback candle, not a flood. The camera
+ * arrives through a cache key so the NaN-safe hover ray is truly the active one.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGrafting.js";
+import OlamGrafting from "./OlamGrafting.js?v=lean-l1-20260528-bh17";
 import OlamProperties from "../properties/index.js";
-import OlamInit from "./OlamInit.js?v=lean-l1-20260528-bh11";
-import Ayin from "../camera/index.js";
+import OlamInit from "./OlamInit.js?v=lean-l1-20260528-bh17";
+import Ayin from "../camera/index.js?v=lean-l1-20260528-bh17";
 import UserProgressManager from "../../systems/UserProgressManager.js";
 import Yichud from "../interaction/Yichud.js";
 import PlacementManager from "../interaction/PlacementManager.js";
 import CombatManager from "../../systems/combat/CombatManager.js";
 
-const DAY_SKY = 0x87ceeb;
+const SAFE_SKY = 0x5d8fa8;
 
 export default class Olam extends Nivra {
   constructor() {
@@ -31,7 +28,6 @@ export default class Olam extends Nivra {
     this.official = "official";
     this.styled = false;
     this._activeCamera = null;
-
     OlamProperties.apply(this);
     this._facultiesGrafted = OlamGrafting.graft(this);
     this._facultiesGrafted.then(() => this.finishConstructorSetup()).catch(error => {
@@ -61,41 +57,26 @@ export default class Olam extends Nivra {
     }
   }
 
-  /** Creates minimal always-on visibility so canvas/CSS mistakes are obvious. */
+  /** Creates only a non-invasive fallback background and dim ambient candle. */
   installBaseVisibility() {
     if (!this.scene) return;
-    this.scene.background = new THREE.Color(DAY_SKY);
-    this.scene.fog = new THREE.Fog(DAY_SKY, 220, 3000);
+    this.scene.background = new THREE.Color(SAFE_SKY);
+    this.scene.fog = new THREE.Fog(SAFE_SKY, 520, 4200);
     if (this.__baseVisibilityInstalled) return;
     this.__baseVisibilityInstalled = true;
-
-    const ambient = new THREE.AmbientLight(0xffffff, 1.15);
-    ambient.name = "Awtsmoos_Base_Ambient";
+    const ambient = new THREE.AmbientLight(0xffffff, 0.045);
+    ambient.name = "Awtsmoos_Base_Tiny_Ambient";
     this.scene.add(ambient);
-
-    const hemi = new THREE.HemisphereLight(0xdff5ff, 0x8c6a3f, 1.25);
-    hemi.name = "Awtsmoos_Base_Hemisphere";
-    this.scene.add(hemi);
-
-    const sun = new THREE.DirectionalLight(0xfff4cf, 1.85);
-    sun.name = "Awtsmoos_Base_Sun";
-    sun.position.set(160, 420, 140);
-    sun.castShadow = false;
-    this.scene.add(sun);
   }
 
-  get activeCamera() {
-    return this._activeCamera;
-  }
+  get activeCamera() { return this._activeCamera; }
 
   set activeCamera(value) {
     this._activeCamera = value;
     this.refreshCameraAspect();
   }
 
-  get camera() {
-    return this.activeCamera || this.ayin.camera;
-  }
+  get camera() { return this.activeCamera || this.ayin.camera; }
 
   set pixelRatio(pixelRatio) {
     if (this.renderer) this.renderer.setPixelRatio(pixelRatio);

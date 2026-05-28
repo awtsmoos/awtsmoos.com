@@ -1,12 +1,11 @@
 ﻿/**
  * B"H
  * @module SparkFixer
- * @chapter Fixing the Vessels in the World of Action
  * @description
- * The Awtsmoos does not throw sparks into a heap. Each inline comment is seated
- * beside its source passage, bound to a gate, protected from duplicates, and now
- * polished with semantic direction, anchor intelligence, keyboard rhythm,
- * cluster metrics, and editorial reading metadata after it becomes real DOM.
+ * Seats already-fetched inline sparks into the correct vessel. A top-level API
+ * `sub` or `subSection` echo is never trusted for placement; only a real
+ * `dayuh.subSection` makes a comment paragraph-specific. Otherwise the note is
+ * verse-level and gathers once at the end of its verse section.
  */
 
 import { makeInlineComment } from "/heichelos/post/comments/render/core.js";
@@ -30,23 +29,35 @@ function escapeForAttr(value) {
     return str.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
 }
 
+function parseDayuh(raw) {
+    if (!raw) return {};
+    if (typeof raw === "string") {
+        try { return JSON.parse(raw) || {}; } catch { return {}; }
+    }
+    return typeof raw === "object" ? raw : {};
+}
+
+function hasSpecificDayuhSub(dayuh) {
+    return Object.prototype.hasOwnProperty.call(dayuh, "subSection")
+        && dayuh.subSection !== undefined
+        && dayuh.subSection !== null
+        && dayuh.subSection !== ""
+        && dayuh.subSection !== "main"
+        && dayuh.subSection !== "root";
+}
+
 function normalizeSparkCoordinates(spark) {
-    const coords = (spark.dayuh && typeof spark.dayuh === "object") ? spark.dayuh : {};
+    const coords = parseDayuh(spark.dayuh);
     if (coords.verseSection === undefined || coords.verseSection === null) {
         if (spark.verseSection !== undefined && spark.verseSection !== null) coords.verseSection = spark.verseSection;
     }
-    if (coords.subSection === undefined || coords.subSection === null) {
-        if (spark.subSection !== undefined && spark.subSection !== null) coords.subSection = spark.subSection;
-        else if (spark.sub !== undefined && spark.sub !== null) coords.subSection = spark.sub;
-    }
+    if (!hasSpecificDayuhSub(coords)) delete coords.subSection;
     spark.dayuh = coords;
     return coords;
 }
 
 function getOrCreateGate(shelter, alias, coords) {
-    let gate = Array.from(shelter.children).find(c =>
-        c.classList.contains("commentator") && c.dataset.alias === alias
-    );
+    let gate = Array.from(shelter.children).find(c => c.classList.contains("commentator") && c.dataset.alias === alias);
     if (!gate) {
         gate = GuardianGate.build(alias, coords.verseSection, coords.subSection);
         shelter.appendChild(gate);
@@ -60,9 +71,7 @@ function getPageShelters() {
 
 function rememberGateComment(gate, spark) {
     if (!gate.__awtsmoosInlineComments) gate.__awtsmoosInlineComments = [];
-    if (!gate.__awtsmoosInlineComments.some(item => String(item?.id) === String(spark?.id))) {
-        gate.__awtsmoosInlineComments.push(spark);
-    }
+    if (!gate.__awtsmoosInlineComments.some(item => String(item?.id) === String(spark?.id))) gate.__awtsmoosInlineComments.push(spark);
     hydrateGateSummary(gate, gate.__awtsmoosInlineComments);
 }
 
@@ -89,9 +98,7 @@ export class SparkFixer {
             return this.remember(stats);
         }
 
-        console.log(`%c B"H - [SparkFixer] Re-evaluating ${sparks.length} sparks for @${alias}.`, "color: #ff00ff;");
         const touchedGates = new Set();
-
         sparks.forEach(spark => {
             if (!spark || !spark.id) return;
             const sparkIdStr = String(spark.id);
@@ -100,7 +107,6 @@ export class SparkFixer {
 
             if (!vessel) {
                 stats.missing++;
-                console.warn("B\"H - [SparkFixer] Missing anchor for inline comment", { alias, id: sparkIdStr, coords });
                 return;
             }
 
@@ -139,9 +145,6 @@ export class SparkFixer {
             refreshGatePolish(gate);
         });
         if (stats.inserted === 0 && stats.duplicates === 0) this.showEmpty(alias);
-        if (stats.inserted > 0) {
-            console.log(`%c B"H - [SparkFixer] Anchored ${stats.inserted} unique insights into the margins for @${alias}.`, "color: #00ff00; font-weight: bold;");
-        }
         return this.remember(stats);
     }
 

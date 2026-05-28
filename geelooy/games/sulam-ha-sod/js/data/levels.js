@@ -4,7 +4,7 @@
  *
  * No generated overlay lives here. Every cruelty must be inside its level file,
  * hand-authored and inspectable. The Awtsmoos raises the ladder one chamber at
- * a time: eighteen explicit imports, eighteen deliberate vessels.
+ * a time: twenty-four explicit imports, twenty-four deliberate vessels.
  */
 import { level01 } from './levels/level01-malchus.js';
 import { level02 } from './levels/level02-yesod.js';
@@ -24,6 +24,12 @@ import { level15 } from './levels/level15-razor-ayin.js';
 import { level16 } from './levels/level16-trust-breaker.js';
 import { level17 } from './levels/level17-bait-vault.js';
 import { level18 } from './levels/level18-no-autopilot.js';
+import { level19 } from './levels/level19-hidden-manna.js';
+import { level20 } from './levels/level20-crown-of-return.js';
+import { level21 } from './levels/level21-shattered-ledger.js';
+import { level22 } from './levels/level22-mirror-market.js';
+import { level23 } from './levels/level23-vertical-vault.js';
+import { level24 } from './levels/level24-crown-auction.js';
 
 export const LEVELS = [
   level01,
@@ -43,5 +49,11 @@ export const LEVELS = [
   level15,
   level16,
   level17,
-  level18
+  level18,
+  level19,
+  level20,
+  level21,
+  level22,
+  level23,
+  level24
 ];

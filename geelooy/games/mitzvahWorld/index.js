@@ -1,10 +1,9 @@
 // B"H
 /**
  * @file index.js
- * @description
- * Chapter 7: The page gate opens the verified visible Level 1 starter.
+ * @description Chapter 12: Page gate opens bh17 coin/spike/UI repair.
  */
-const IKAR_VERSION = "lean-l1-20260528-bh11";
+const IKAR_VERSION = "lean-l1-20260528-bh17";
 
 function storeLastError(details) {
   if (typeof window !== "undefined") window.__AWTSMOOS_LAST_ERROR__ = details;

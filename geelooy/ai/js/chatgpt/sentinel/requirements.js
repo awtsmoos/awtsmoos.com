@@ -3,50 +3,55 @@
 import { getAuthToken } from "../auth/session.js";
 
 /**
- * B"H — Old sentinel helper logic, split out. The heavy legacy token engine is
- * imported lazily so conversation listing keeps the old bearer flow without
- * forcing the dev server to serve the large proof module during app boot.
+ * Chapter 110: Every Send Receives Its Own Seal.
+ *
+ * The ChatGPT conversation POST is guarded by sentinel headers. A proof token is
+ * not a reusable coin; it is a fresh spark minted for the next knock. Caching it
+ * made the first automated turn pass and the second turn look suspicious. This
+ * module now mints requirements and proof tokens every time the normal send path
+ * calls it, exactly as a visible manual send should.
+ *
+ * @param {Function} mFetch Extension-backed fetch vessel.
+ * @returns {Promise<Record<string,string>>} Fresh sentinel headers for one POST.
  */
-let cachedSentinel = null;
-let cachedSentinelAt = 0;
-const SENTINEL_TTL_MS = 45000;
-
 export async function awtsmoosifyTokens(mFetch) {
-  if (cachedSentinel && Date.now() - cachedSentinelAt < SENTINEL_TTL_MS) return cachedSentinel;
-  console.log("Getting tokens");
-  var z = await getChatRequirements(mFetch);
-  console.log("Chat", z);
-  var p = await getEnforcementToken(z);
-  cachedSentinel = {
-    "openai-sentinel-chat-requirements-token": z.token,
-    "openai-sentinel-proof-token": p
+  const requirements = await getChatRequirements(mFetch);
+  const proof = await getEnforcementToken(requirements);
+  return {
+    "openai-sentinel-chat-requirements-token": requirements.token,
+    "openai-sentinel-proof-token": proof
   };
-  cachedSentinelAt = Date.now();
-  return cachedSentinel;
 }
 
+/**
+ * B"H — asks ChatGPT for the current requirement token.
+ *
+ * No full token is logged. DevTools is a memory root, and the Awtsmoos keeps the
+ * seal private while still allowing the sender to prove the browser session.
+ *
+ * @param {Function} mFetch Transport fetch.
+ * @param {string} authToken Optional bearer token.
+ * @returns {Promise<object>} Chat requirements response.
+ */
 export async function getChatRequirements(mFetch, authToken) {
-  var tok = authToken || await getAuthToken(mFetch);
-  console.log("Have token", tok);
-  var req = await getRequirementsToken();
-  console.log("Got require token", req);
-  return await (await mFetch("https://chatgpt.com/backend-api/sentinel/chat-requirements", {
+  const token = authToken || await getAuthToken(mFetch);
+  const proofSeed = await getRequirementsToken();
+  const response = await mFetch("https://chatgpt.com/backend-api/sentinel/chat-requirements", {
     method: "POST",
-    body: JSON.stringify({ p: req }),
-    headers: {
-      authorization: "Bearer " + tok
-    }
-  })).json();
+    body: JSON.stringify({ p: proofSeed }),
+    headers: { authorization: `Bearer ${token}` }
+  });
+  return await response.json();
 }
 
-export async function getEnforcementToken(z) {
-  var cl = await getLegacyTokenClass();
-  return await cl.getEnforcementToken(z);
+export async function getEnforcementToken(requirements) {
+  const tokenClass = await getLegacyTokenClass();
+  return await tokenClass.getEnforcementToken(requirements);
 }
 
 export async function getRequirementsToken() {
-  var cl = await getLegacyTokenClass();
-  return await cl.getRequirementsToken();
+  const tokenClass = await getLegacyTokenClass();
+  return await tokenClass.getRequirementsToken();
 }
 
 async function getLegacyTokenClass() {

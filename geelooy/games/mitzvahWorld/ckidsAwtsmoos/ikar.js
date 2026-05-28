@@ -1,12 +1,11 @@
 // B"H
 /**
  * @file ikar.js
- * @description
- * Chapter 7: The direct ladder gate with fresh visibility cache keys.
+ * @description Chapter 12: Direct ladder gate with bh17 coin/spike/UI cache.
  */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh11";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh17";
 
-const VERSION = "lean-l1-20260528-bh11";
+const VERSION = "lean-l1-20260528-bh17";
 
 function createManager() {
   const manager = new ManagerOfAllWorlds(null);

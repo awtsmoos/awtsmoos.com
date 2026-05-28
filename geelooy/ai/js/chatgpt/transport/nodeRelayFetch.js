@@ -1,14 +1,21 @@
 //B"H
-import { loadNodeRelaySettings } from "./nodeRelaySettings.js";
+import { isNodeRelayEnabled, loadNodeRelaySettings } from "./nodeRelaySettings.js";
 
 /**
- * Chapter 70: The Browser Waited Like The Extension Waited.
+ * Chapter 103: The Chosen Relay Answers Only When Summoned.
  *
- * The relay speaks the extension dialect: fetch/body streams plus background
- * automation controls. This lets the page treat the Node relay like
- * awtsmoosFetch when the Chrome extension is absent.
+ * The extension is the ordinary palace gate. The Node relay is a hidden side
+ * gate for deliberate split-browser work. This fetcher refuses to wake during
+ * normal extension boot unless the user explicitly selected the relay, so a
+ * cold localhost socket can never freeze the conversation list while the
+ * Awtsmoos bridge is already breathing in Chrome.
+ *
+ * @param {string|URL} url Remote URL to fetch through the relay.
+ * @param {RequestInit} options Fetch options to serialize.
+ * @returns {Promise<NodeRelayResponse>} Relay-backed response vessel.
  */
 export async function nodeRelayFetch(url, options = {}) {
+  if (!isNodeRelayEnabled()) throw new Error("Node relay is not enabled.");
   const relay = relayUrl();
   const response = await fetch(`${relay}/fetch`, {
     method: "POST",
@@ -24,26 +31,15 @@ export async function nodeRelayFetch(url, options = {}) {
 nodeRelayFetch.resumeStream = async function resumeStream(id, cursor = 0) {
   return await relayBody("resume", id, { cursor });
 };
-
-nodeRelayFetch.ackStream = async function ackStream(id, cursor = 0) {
-  return { ok: true, id, cursor };
-};
-
-nodeRelayFetch.startBackgroundAutomation = async function startBackgroundAutomation(payload = {}) {
-  return await relayJson("/automation-start", payload);
-};
-
-nodeRelayFetch.stopBackgroundAutomation = async function stopBackgroundAutomation(reason = "stopped", conversationId = null) {
-  return await relayJson("/automation-stop", { reason, conversationId });
-};
-
+nodeRelayFetch.ackStream = async function ackStream(id, cursor = 0) { return { ok: true, id, cursor }; };
+nodeRelayFetch.startBackgroundAutomation = async function startBackgroundAutomation(payload = {}) { return await relayJson("/automation-start", payload); };
+nodeRelayFetch.stopBackgroundAutomation = async function stopBackgroundAutomation(reason = "stopped", conversationId = null) { return await relayJson("/automation-stop", { reason, conversationId }); };
 nodeRelayFetch.backgroundAutomationStatus = async function backgroundAutomationStatus(conversationId = null) {
   const suffix = conversationId ? `?conversationId=${encodeURIComponent(conversationId)}` : "";
   const response = await fetch(`${relayUrl()}/automation-status${suffix}`, { cache: "no-store" });
   if (!response.ok) throw new Error(`Node relay automation status failed: ${response.status} ${await response.text()}`);
   return await response.json();
 };
-
 nodeRelayFetch.backgroundAutomationEvents = async function backgroundAutomationEvents({ conversationId = null, after = 0 } = {}) {
   const params = new URLSearchParams();
   if (conversationId) params.set("conversationId", conversationId);
@@ -53,13 +49,19 @@ nodeRelayFetch.backgroundAutomationEvents = async function backgroundAutomationE
   return await response.json();
 };
 
-export async function checkNodeRelay() {
+/**
+ * B"H — Health check guarded by explicit relay choice.
+ *
+ * @param {{ignoreEnabled?:boolean}} options Set by settings-panel buttons only.
+ * @returns {Promise<boolean>} Whether the selected relay URL answers health.
+ */
+export async function checkNodeRelay({ ignoreEnabled = false } = {}) {
+  if (!ignoreEnabled && !isNodeRelayEnabled()) return false;
   try { return (await fetch(`${relayUrl()}/health`, { cache: "no-store" })).ok; }
   catch { return false; }
 }
 
 export async function openRelayLogin() { return await openRelayControl(); }
-
 export async function openRelayControl() {
   const base = relayUrl();
   let url = `${base}/control`;
@@ -107,59 +109,35 @@ async function readReadyChunk(id, cursor) {
     await sleep(Math.min(packet.retryAfter || 750, 5000));
   }
 }
-
 async function relayJson(path, payload = {}) {
-  const response = await fetch(`${relayUrl()}${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  const response = await fetch(`${relayUrl()}${path}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
   if (!response.ok) throw new Error(`Node relay request failed: ${response.status} ${await response.text()}`);
   const data = await response.json();
   if (data.error) throw new Error(data.error);
   return data;
 }
-
 async function relayBody(bodyAction, id, extra = {}) {
-  const response = await fetch(`${relayUrl()}/body`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id, bodyAction, ...extra })
-  });
+  const response = await fetch(`${relayUrl()}/body`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, bodyAction, ...extra }) });
   if (!response.ok) throw new Error(`Node relay body failed: ${response.status} ${await response.text()}`);
   const data = await response.json();
   if (data.error) throw new Error(data.error);
   return data.result;
 }
-
-async function dataUrlBytes(url) {
-  const blob = await (await fetch(url)).blob();
-  return new Uint8Array(await blob.arrayBuffer());
-}
-
+async function dataUrlBytes(url) { const blob = await (await fetch(url)).blob(); return new Uint8Array(await blob.arrayBuffer()); }
 async function serializeOptions(options = {}) {
   const headers = new Headers(options.headers || {});
   const body = await serializeBody(options.body, headers);
   return { method: options.method || "GET", headers: Object.fromEntries(headers.entries()), body };
 }
-
 async function serializeBody(body, headers) {
   if (body == null) return undefined;
   if (typeof body === "string") return body;
-  if (body instanceof URLSearchParams) {
-    if (!headers.has("content-type")) headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
-    return body.toString();
-  }
-  if (body instanceof FormData || body instanceof Blob) {
-    const response = new Response(body);
-    response.headers.forEach((value, key) => { if (!headers.has(key)) headers.set(key, value); });
-    return { type: "base64", data: await bufferToBase64(await response.arrayBuffer()) };
-  }
+  if (body instanceof URLSearchParams) { if (!headers.has("content-type")) headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"); return body.toString(); }
+  if (body instanceof FormData || body instanceof Blob) { const response = new Response(body); response.headers.forEach((value, key) => { if (!headers.has(key)) headers.set(key, value); }); return { type: "base64", data: await bufferToBase64(await response.arrayBuffer()) }; }
   if (body instanceof ArrayBuffer) return { type: "base64", data: await bufferToBase64(body) };
   if (ArrayBuffer.isView(body)) return { type: "base64", data: await bufferToBase64(body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength)) };
   return String(body);
 }
-
 async function bufferToBase64(buffer) {
   const bytes = new Uint8Array(buffer);
   let binary = "";
@@ -167,6 +145,5 @@ async function bufferToBase64(buffer) {
   for (let i = 0; i < bytes.length; i += step) binary += String.fromCharCode(...bytes.subarray(i, i + step));
   return btoa(binary);
 }
-
 function relayUrl() { return loadNodeRelaySettings().url.replace(/\/+$/, ""); }
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }

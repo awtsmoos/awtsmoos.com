@@ -50,7 +50,7 @@ const subsection = new FakeElement({
 });
 const section = new FakeElement({
     classes: ["section"],
-    attrs: { "data-awtsmoos-idx": "7" },
+    attrs: { "data-awtsmoos-idx": "7", id: "verse-seven" },
     children: [subsection]
 });
 const root = new FakeElement({ children: [section] });
@@ -58,6 +58,10 @@ const root = new FakeElement({ children: [section] });
 const anchor = resolveCommentAnchor({ verseSection: 7, subSection: 3 }, { root });
 assert.equal(anchor.element, subsection);
 assert.equal(anchor.method, "element");
+
+const verseEnd = resolveCommentAnchor({ verseSection: 7 }, { root });
+assert.equal(verseEnd.element, section);
+assert.equal(verseEnd.method, "element");
 
 const fallback = resolveCommentAnchor({
     verseSection: 99,

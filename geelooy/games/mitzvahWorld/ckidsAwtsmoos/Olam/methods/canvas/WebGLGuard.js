@@ -26,26 +26,14 @@ export default class WebGLGuard {
             return { success: false, reason: "The vessel (canvas) is non-existent." };
         }
 
-        const contexts = ['webgl2', 'webgl', 'experimental-webgl'];
-        
-        for (const ctxType of contexts) {
-            try {
-                const gl = canvas.getContext(ctxType);
-                if (gl) {
-                    return { 
-                        success: true, 
-                        type: ctxType,
-                        version: ctxType === 'webgl2' ? 2 : 1
-                    };
-                }
-            } catch (e) {
-                // This context attempt was swallowed by the void
-            }
+        if (typeof canvas.getContext !== "function") {
+            return { success: false, reason: "The vessel cannot create a graphics context." };
         }
 
-        return { 
-            success: false, 
-            reason: "WebGL is unavailable. Ensure hardware acceleration is enabled." 
+        return {
+            success: true,
+            type: "deferred-to-three",
+            reason: "Three.js owns first contact with the canvas context."
         };
     }
 }

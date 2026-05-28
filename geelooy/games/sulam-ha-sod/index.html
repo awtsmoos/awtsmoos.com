@@ -10,10 +10,24 @@
 </head>
 <body>
   <main class="shell">
+    <canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
+
+    <section class="hud glass" aria-label="game status overlay">
+      <button id="menuBtn" class="tiny">Menu</button>
+      <div class="hudMain">
+        <div class="titleRow"><b>Sulam HaSod</b><span id="levelName"> —</span><span id="difficulty" class="pill">D1</span></div>
+        <div class="runMeter" aria-label="route progress"><span class="meterLabel">Route</span><div class="progressShell"><i id="progressFill"></i><em id="progressText">0%</em></div></div>
+        <div class="coinOrb" id="coinRing" style="--coinPct:0" aria-label="mandatory coin progress"><strong id="coinText">0/0</strong></div>
+        <div class="keyBadge locked" id="keyBadge" aria-label="key status"><i></i><span>No key</span></div>
+        <div class="walletCluster" aria-label="wallet totals"><div class="shefaPills" id="shefaPills"></div><button id="coinHelpBtn" class="coinHelp" aria-label="coin values help">?</button></div>
+        <span id="stats" class="stats">Locked · 0/0 coins</span>
+      </div>
+    </section>
+
     <section id="menu" class="menu glass">
       <p class="eyebrow">B"H · Living Kabbalistic Dream Platformer</p>
       <h1>Sulam HaSod</h1>
-      <p id="menuStatus">Choose a chamber, study the coins, or enter the Shefa shop.</p>
+      <p id="menuStatus">Choose a chamber, study the coins, unlock the next gate, or enter the Shefa shop.</p>
       <div class="menuActions"><button id="playBtn">Continue</button><button id="levelsTab" class="ghost">Levels</button><button id="shopTab" class="ghost">Shop</button><button id="instructionsBtn" class="ghost">Help</button></div>
       <article id="instructions" class="instructions" hidden>
         <b>How to play</b><br>
@@ -21,26 +35,17 @@
         Mobile: hold Left or Right, then tap Jump. The hit zones extend upward.<br>
         You must collect every real coin and the key before the door opens. Fake coins still bite.
       </article>
-      <section class="menuPanel">
-        <h2>Level Selector</h2>
-        <div id="levelGrid" class="levelGrid"></div>
-      </section>
-      <section class="menuPanel">
-        <h2>Shefa Shop</h2>
-        <p id="shopShefa" class="shopShefa">Shefa 0</p>
+      <section class="menuPanel"><h2>Level Selector</h2><div id="levelGrid" class="levelGrid"></div></section>
+      <section class="menuPanel marketPanel">
+        <div class="marketHeader"><h2>Shefa Shop</h2><p id="shopShefa" class="shopShefa">Shefa 0</p></div>
+        <div class="marketUnlock"><div><b>Paid Gate Unlock</b><span id="marketNext">Next paid unlock: —</span></div><button id="marketUnlock">Unlock</button></div>
+        <div id="marketWallet" class="marketWallet" aria-label="coin wallet breakdown"></div>
         <div id="shopGrid" class="shopGrid"></div>
       </section>
     </section>
-    <section class="hud glass">
-      <button id="menuBtn" class="tiny">Menu</button>
-      <div class="hudMain">
-        <div class="titleRow"><b>Sulam HaSod</b><span id="levelName"> —</span><span id="difficulty" class="pill">D1</span></div>
-        <div class="progressShell"><i id="progressFill"></i><em id="progressText">0%</em></div>
-        <div class="coinHud"><button id="coinHelpBtn" class="coinHelp" aria-label="coin values help">?</button><span id="stats" class="stats">Coins 0/0 · Key 0/1 · Level 1</span></div>
-      </div>
-    </section>
-    <canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
+
     <section class="touch" aria-label="mobile controls"><div class="movePad" aria-label="movement controls"><button id="leftBtn" class="moveBtn leftBtn">Left</button><button id="rightBtn" class="moveBtn rightBtn">Right</button></div><button id="jump" class="jump">Jump</button></section>
+
     <aside id="coinModal" class="coinModal glass" hidden>
       <button id="coinClose" class="coinClose">×</button>
       <h2>Talmudic Coin Ladder</h2>

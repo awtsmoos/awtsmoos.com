@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { LEVELS } from '../js/data/levels.js';
 import { PhysicsWorld } from '../js/core/physics.js';
 import { TrickPlatformField } from '../js/systems/trickPlatforms.js';
+import { buyLevelUnlock, levelUnlockCost, walletRows } from '../js/systems/market.js';
 
 const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 const rectCoin = c => ({ x: c.x, y: c.y, w: 26, h: 26 });
@@ -14,11 +15,12 @@ const solids = level => [...(level.platforms || []), ...allTricks(level).filter(
  * Regression suite for a cruel but readable ladder.
  *
  * The Awtsmoos allows the game to deceive the player, but not the codebase:
- * every chamber must remain ordered, trap-dense, overlap-safe, and capable of
- * exploding the player into Hebrew letters when a spike reveals the hidden law.
+ * every chamber must remain ordered, trap-dense, overlap-safe, market-aware,
+ * and capable of exploding the player into Hebrew letters when a spike reveals
+ * the hidden law.
  */
 function testCampaignShape() {
-  assert.equal(LEVELS.length, 18, 'campaign should have 18 manually authored chambers');
+  assert.equal(LEVELS.length, 24, 'campaign should have 24 manually authored chambers');
   LEVELS.forEach((level, i) => {
     assert.ok(/^\d+/.test(level.name), `${level.name} must be ordered`);
     assert.ok(level.width >= 2200 + i * 250, `${level.name} must grow wider`);
@@ -39,7 +41,8 @@ function testNewMechanicsExist() {
   assert.ok(LEVELS.every(l => (l.triggers || []).some(t => (t.spikes || []).length >= 3)), 'every level should contain an invisible spike-curtain trigger');
   assert.ok(LEVELS.slice(3).every(l => (l.trickPlatforms || []).some(t => t.kind === 'ice')), 'levels 4+ should include ice/slippery play');
   assert.ok(LEVELS.slice(3).every(l => (l.trickPlatforms || []).some(t => t.kind === 'booster')), 'levels 4+ should include booster play');
-  assert.ok(LEVELS.slice(14).every(l => (l.trickCoins || []).length >= 4), 'new late levels need cruel trick coin routes');
+  assert.ok(LEVELS.slice(14).every(l => (l.trickCoins || []).length >= 4), 'late levels need cruel trick coin routes');
+  assert.ok(LEVELS.filter(l => (l.enemies || []).some(e => e.dropCoin)).length >= 7, 'many levels should include enemy-swallowed required coins');
 }
 
 function testNoNonsenseOverlaps() {
@@ -81,7 +84,7 @@ function testSpecialPlatformBehavior() {
 
 function testPhysicsStillRuns() {
   const world = new PhysicsWorld(LEVELS.at(-1));
-  for (let i = 0; i < 12; i += 1) world.step({ x: 1, jump: false, restart: false, buy: false }, 1 / 60);
+  for (let i = 0; i < 12; i += 1) world.step({ x: 1, jump: false, restart: false, ok: false }, 1 / 60);
   assert.ok(world.performance.totalPlatforms > 20, 'final level has many spatial bodies');
   assert.ok(world.performance.platformChecks < world.performance.totalPlatforms, 'spatial query narrows checks');
 }
@@ -90,13 +93,33 @@ function testHebrewDeathBurst() {
   const world = new PhysicsWorld(LEVELS[0]);
   world.player.x = 160;
   world.player.y = 430;
-  world.player.vx = 220;
-  world.player.vy = -80;
+  world.visibleCameraY = -123;
   world.loseMoneyAndReset('Test spike shattered the vessel.');
+  assert.equal(world.deathPause.cameraY, -123, 'death should freeze vertical camera too');
   assert.ok(world.deathBursts.length >= 1, 'death should leave a visible burst after reset');
   const particles = world.deathBursts.at(-1).particles;
   assert.ok(particles.some(p => p.letter), 'death burst should include Hebrew letters');
   assert.ok(particles.some(p => !p.letter), 'death burst should include block shards');
+}
+
+function testEnemyCoinDrop() {
+  const level = LEVELS.find(l => (l.enemies || []).some(e => e.dropCoin));
+  const world = new PhysicsWorld(level);
+  const carrier = world.enemies.find(e => e.dropCoin);
+  const before = world.coins.length;
+  world.enemyStomp(world.enemies.indexOf(carrier), carrier, { revives: false, stomp: 'test', stompable: true });
+  assert.equal(world.coins.length, before + 1, 'stomping a carrier should drop a required real coin');
+  assert.ok(world.realCoinTotal > level.coins.length, 'enemy-held coins count toward the door lock');
+}
+
+function testMarketUnlocks() {
+  const state = { unlocked: 1, currency: { shefa: levelUnlockCost(2) }, market: { owned: ['plain'], equipped: 'plain', message: '' } };
+  const rows = walletRows({ perutah: 2, dinar: 3, sela: 4, maneh: 5, shefa: 6 });
+  assert.equal(rows.length, 5, 'store should expose a full coin breakdown');
+  const result = buyLevelUnlock(state, LEVELS.length);
+  assert.equal(result.ok, true, 'store should allow buying the next locked level with enough Shefa');
+  assert.equal(state.unlocked, 2, 'paid unlock should open exactly one next level');
+  assert.equal(state.currency.shefa, 0, 'paid unlock should subtract the cost');
 }
 
 function testEnemyCatalog() {
@@ -111,4 +134,6 @@ testNoNonsenseOverlaps();
 testSpecialPlatformBehavior();
 testPhysicsStillRuns();
 testHebrewDeathBurst();
-console.log('Sulam HaSod regression ok: 18 cruel levels, Hebrew shatter bursts, fake coins, spike curtains, validated spacing');
+testEnemyCoinDrop();
+testMarketUnlocks();
+console.log('Sulam HaSod regression ok: 24 cruel levels, store unlocks, coin breakdown, vertical camera, enemy-held coins');
