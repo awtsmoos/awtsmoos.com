@@ -3,41 +3,67 @@ import { LEVELS } from '../data/levels.js';
 import { PhysicsWorld } from './physics.js';
 import { currencyHud } from '../systems/currency.js';
 import { SoundEffects } from '../systems/soundEffects.js';
+import { ProgressionStore } from '../systems/progression.js';
+import { buySkin, equipSkin } from '../systems/market.js';
 
 /**
- * Game orchestrates the ladder and the sound of its judgments.
+ * Game orchestrates chambers, persistence, shop, and level unlocks.
  *
- * The Awtsmoos lets a frame become a chamber, a chamber become a test, and a
- * test become a sound. The HUD now makes the true lock visible: all real coins
- * plus the key are required before the door yields. This keeps the player from
- * sprinting past the authored bait path and forces engagement with each chamber.
+ * The Awtsmoos lets ascent leave a trace: coins buy garments, finished levels
+ * unlock later chambers, and the main menu can choose any opened rung.
  */
 export class Game {
-  constructor({ input, renderer, hud }) {
+  constructor({ input, renderer, hud, onProgress, onLevelComplete }) {
     this.input = input;
     this.renderer = renderer;
     this.hud = hud;
+    this.onProgress = onProgress || (() => {});
+    this.onLevelComplete = onLevelComplete || (() => {});
     this.sound = new SoundEffects();
+    this.progress = new ProgressionStore();
     this.index = 0;
     this.running = false;
-    this.world = new PhysicsWorld(LEVELS[0]);
+    this.world = this.createWorld(0);
     this.last = 0;
     this.loop = this.loop.bind(this);
   }
 
-  start() {
-    if (this.running) return;
-    this.running = true;
-    this.last = 0;
-    requestAnimationFrame(this.loop);
+  createWorld(index) {
+    const world = new PhysicsWorld(LEVELS[index]);
+    this.progress.applyToWorld(world);
+    return world;
   }
 
+  start() { if (this.running) return; this.running = true; this.last = 0; requestAnimationFrame(this.loop); }
   pause() { this.running = false; }
 
-  newGame() {
-    this.index = 0;
-    this.world = new PhysicsWorld(LEVELS[0]);
+  newGame(index = Math.min(this.progress.state.unlocked - 1, this.index || 0)) {
+    this.index = Math.max(0, Math.min(LEVELS.length - 1, index));
+    this.world = this.createWorld(this.index);
     this.start();
+    this.onProgress(this);
+  }
+
+  chooseLevel(index) {
+    if (index + 1 > this.progress.state.unlocked) return false;
+    this.newGame(index);
+    return true;
+  }
+
+  buyOrEquipSkin(id) {
+    const result = buySkin(this.progress.state.market, this.progress.state.currency, id);
+    this.progress.save();
+    this.progress.applyToWorld(this.world);
+    this.onProgress(this);
+    return result;
+  }
+
+  equipSkin(id) {
+    const result = equipSkin(this.progress.state.market, id);
+    this.progress.save();
+    this.progress.applyToWorld(this.world);
+    this.onProgress(this);
+    return result;
   }
 
   loop(t) {
@@ -52,6 +78,7 @@ export class Game {
     this.playWorldSounds();
     this.renderer.draw(this.world);
     this.paintHud();
+    this.progress.syncFromWorld(this.world);
     requestAnimationFrame(this.loop);
   }
 
@@ -60,15 +87,19 @@ export class Game {
     if (input.ok && this.world.continueAfterDeath()) this.playWorldSounds();
   }
 
-  playWorldSounds() {
-    for (const name of this.world.drainSoundEvents?.() || []) this.sound.play(name);
-  }
+  playWorldSounds() { for (const name of this.world.drainSoundEvents?.() || []) this.sound.play(name); }
 
   advance() {
-    this.index = (this.index + 1) % LEVELS.length;
-    this.world = new PhysicsWorld(LEVELS[this.index]);
-    this.world.message = this.index ? 'A higher chamber opens.' : 'The ladder returns to dust.';
+    const completed = this.index;
+    this.progress.syncFromWorld(this.world);
+    this.progress.unlock(completed + 1);
+    this.index = Math.min(LEVELS.length - 1, this.index + 1);
+    this.world = this.createWorld(this.index);
+    this.world.message = 'A higher chamber opens. Menu may choose your next rung.';
     this.sound.play('continue');
+    this.pause();
+    this.onProgress(this);
+    this.onLevelComplete(completed, this.index);
   }
 
   paintHud() {

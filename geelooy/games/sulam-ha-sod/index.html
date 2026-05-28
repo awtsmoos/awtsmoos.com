@@ -13,31 +13,41 @@
     <section id="menu" class="menu glass">
       <p class="eyebrow">B"H · Living Kabbalistic Dream Platformer</p>
       <h1>Sulam HaSod</h1>
-      <p>Lightning-fast chaos: cursed platforms, spike prophecy, brutal traps, Hebrew shatter, and a ladder that keeps getting meaner.</p>
-      <div class="menuActions"><button id="playBtn">Enter the Ladder</button><button id="instructionsBtn" class="ghost">How it betrays you</button></div>
+      <p id="menuStatus">Choose a chamber, study the coins, or enter the Shefa shop.</p>
+      <div class="menuActions"><button id="playBtn">Continue</button><button id="levelsTab" class="ghost">Levels</button><button id="shopTab" class="ghost">Shop</button><button id="instructionsBtn" class="ghost">Help</button></div>
       <article id="instructions" class="instructions" hidden>
         <b>How to play</b><br>
         Desktop: ← → or A/D to move, Space/W to jump.<br>
-        Mobile: hold Left or Right, then tap Jump. The mobile hit zones extend upward, so nearby taps still count.<br>
+        Mobile: hold Left or Right, then tap Jump. The hit zones extend upward.<br>
         You must collect every real coin and the key before the door opens. Fake coins still bite.
       </article>
+      <section class="menuPanel">
+        <h2>Level Selector</h2>
+        <div id="levelGrid" class="levelGrid"></div>
+      </section>
+      <section class="menuPanel">
+        <h2>Shefa Shop</h2>
+        <p id="shopShefa" class="shopShefa">Shefa 0</p>
+        <div id="shopGrid" class="shopGrid"></div>
+      </section>
     </section>
     <section class="hud glass">
       <button id="menuBtn" class="tiny">Menu</button>
       <div class="hudMain">
         <div class="titleRow"><b>Sulam HaSod</b><span id="levelName"> —</span><span id="difficulty" class="pill">D1</span></div>
         <div class="progressShell"><i id="progressFill"></i><em id="progressText">0%</em></div>
-        <div id="stats" class="stats">Coins 0/0 · Key 0/1 · Level 1</div>
+        <div class="coinHud"><button id="coinHelpBtn" class="coinHelp" aria-label="coin values help">?</button><span id="stats" class="stats">Coins 0/0 · Key 0/1 · Level 1</span></div>
       </div>
     </section>
     <canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
-    <section class="touch" aria-label="mobile controls">
-      <div class="movePad" aria-label="movement controls">
-        <button id="leftBtn" class="moveBtn leftBtn">Left</button>
-        <button id="rightBtn" class="moveBtn rightBtn">Right</button>
-      </div>
-      <button id="jump" class="jump">Jump</button>
-    </section>
+    <section class="touch" aria-label="mobile controls"><div class="movePad" aria-label="movement controls"><button id="leftBtn" class="moveBtn leftBtn">Left</button><button id="rightBtn" class="moveBtn rightBtn">Right</button></div><button id="jump" class="jump">Jump</button></section>
+    <aside id="coinModal" class="coinModal glass" hidden>
+      <button id="coinClose" class="coinClose">×</button>
+      <h2>Talmudic Coin Ladder</h2>
+      <p>Breakfast-table version: small coins stack into larger measures. In game, Shefa is the shop currency.</p>
+      <div class="coinRows"><b>פ Perutah</b><span>1 Shefa · tiny copper spark</span><b>ד Dinar</b><span>5 Shefa · silver ring</span><b>ס Sela</b><span>20 Shefa · strong gate coin</span><b>מ Maneh</b><span>100 Shefa · royal pink crown</span></div>
+      <p class="coinNote">Collect every real coin in a level to unlock the door. Fake coins look tempting and punish greed.</p>
+    </aside>
   </main>
   <script type="module" src="./js/main.js"></script>
 </body>

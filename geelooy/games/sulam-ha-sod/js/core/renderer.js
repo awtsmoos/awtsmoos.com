@@ -151,7 +151,7 @@ export class Renderer {
     c.fillStyle = '#fff7ff'; c.font = `${width < 560 ? 17 : 24}px system-ui, sans-serif`; c.fillText('The vessel shattered into Hebrew letters.', width / 2, y + 112, panelW - 40);
     c.font = `${width < 560 ? 13 : 17}px system-ui, sans-serif`; c.fillStyle = pause?.ready ? '#9df7ff' : '#ffffffaa';
     c.fillText(pause?.ready ? 'Press any key · tap · Jump' : 'Watch the fragments finish speaking...', width / 2, y + 158, panelW - 40);
-    c.font = '13px system-ui, sans-serif'; c.fillStyle = '#ffffff99'; c.fillText(world.market?.message || world.message || '', width / 2, y + 196, panelW - 40);
+    const loss = String(world.market?.message || '').match(/Lost (\\d+)/)?.[1]; if (loss) { c.fillStyle = '#ff6ad5'; c.font = '900 30px system-ui, sans-serif'; c.fillText('-' + loss + ' Shefa', width / 2, y + 198); } c.font = '13px system-ui, sans-serif'; c.fillStyle = '#ffffff99'; c.fillText(world.market?.message || world.message || '', width / 2, y + 224, panelW - 40);
     c.textAlign = 'start'; c.restore();
   }
 }

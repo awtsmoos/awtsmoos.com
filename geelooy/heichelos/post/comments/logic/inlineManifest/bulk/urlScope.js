@@ -2,10 +2,10 @@
  * B"H
  * @module InlineUrlScope
  * @description
- * The Awtsmoos seals the visible gate without exiling real commentary. A verse
- * level comment may belong inside a focused paragraph view, exactly as the
- * sidebar already permits. Therefore `sub=` narrows to paragraph-specific notes
- * while still allowing main/root verse notes to appear as contextual marginalia.
+ * The Awtsmoos gives each paragraph its own vessel. When the URL has `sub=1`,
+ * inline commentary must not pour every verse-level or sibling paragraph note
+ * into that vessel. Exact subsection matching is the default; only comments with
+ * no subsection are allowed when no subsection is requested.
  */
 
 /**
@@ -37,9 +37,9 @@ export function isMainSubsection(sub) {
 }
 
 /**
- * Checks whether a spark belongs to the currently visible URL coordinates.
+ * Checks whether a spark belongs to the current URL coordinates.
  * @param {object} spark Comment spark after coordinate normalization.
- * @returns {boolean} True when verse matches and subsection is exact or main/root.
+ * @returns {boolean} True only for the requested verse and requested subsection.
  */
 export function sparkMatchesUrlScope(spark) {
     const requestedVerse = getRequestedVerseSection();
@@ -48,8 +48,8 @@ export function sparkMatchesUrlScope(spark) {
     const sub = spark?.dayuh?.subSection ?? spark?.subSection ?? spark?.sub ?? null;
 
     if (requestedVerse !== null && String(verse) !== requestedVerse) return false;
-    if (requestedSub === null) return true;
-    return String(sub) === requestedSub || isMainSubsection(sub);
+    if (requestedSub !== null) return String(sub) === requestedSub;
+    return isMainSubsection(sub);
 }
 
 /**
