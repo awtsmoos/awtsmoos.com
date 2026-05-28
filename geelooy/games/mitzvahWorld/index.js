@@ -1,9 +1,9 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 12: Page gate opens bh17 coin/spike/UI repair.
+ * @description Chapter 17: Page gate opens bh21 reset overlay, compact HUD, and retractable inventory.
  */
-const IKAR_VERSION = "lean-l1-20260528-bh18";
+const IKAR_VERSION = "lean-l1-20260528-bh28";
 
 function storeLastError(details) {
   if (typeof window !== "undefined") window.__AWTSMOOS_LAST_ERROR__ = details;
@@ -22,17 +22,9 @@ if (typeof window !== "undefined") {
   window.addEventListener("unhandledrejection", event => describeAwtsmoosError(event.reason, { label: "Unhandled promise rejection", phase: "window.unhandledrejection" }));
 }
 
-export async function heescheel(ctx) {
-  console.log("B\"H - Index [Worker]: data-driven level hook.", !!ctx);
-}
-
-export function ready(ctx) {
-  ctx.postMsg({ type: "game started", payload: true });
-}
-
-export function afterBriyah(ctx) {
-  console.log("B\"H - Index [Worker]: afterBriyah() called", !!ctx);
-}
+export async function heescheel(ctx) { console.log("B\"H - Index [Worker]: data-driven level hook.", !!ctx); }
+export function ready(ctx) { ctx.postMsg({ type: "game started", payload: true }); }
+export function afterBriyah(ctx) { console.log("B\"H - Index [Worker]: afterBriyah() called", !!ctx); }
 
 if (typeof window !== "undefined" && window.document) {
   window.addEventListener("DOMContentLoaded", () => {

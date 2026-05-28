@@ -1,0 +1,9 @@
+/* B"H
+ * HUD action dropdown.
+ *
+ * The Awtsmoos places small world-level actions in a narrow crown: fullscreen
+ * and webcam bubble. The menu is compact, tap-friendly, and never blocks the
+ * playfield unless the player explicitly opens it.
+ */
+.hudButtons{position:relative;display:flex;gap:5px;align-items:center}.actionsMenu{position:absolute;left:0;top:calc(100% + 7px);display:grid;gap:6px;min-width:174px;border-radius:15px;padding:8px;background:#10061de8;border:1px solid #ffffff30;box-shadow:0 14px 32px #000c;backdrop-filter:blur(12px)}.actionsMenu[hidden]{display:none}.actionsMenu button{border:0;border-radius:12px;padding:9px 10px;background:linear-gradient(135deg,#ffffff,#9df7ff);color:#17071f;font-size:12px;font-weight:1000;text-align:left;box-shadow:0 6px 16px #0007}.actionsMenu button:disabled{opacity:.55;filter:grayscale(1)}
+@media (max-width:720px){.hudButtons{grid-column:2;grid-row:1 / span 3;display:grid;gap:3px}.hudButtons .tiny{grid-column:auto;grid-row:auto}.actionsMenu{right:0;left:auto;top:calc(100% + 5px);min-width:158px}.actionsMenu button{font-size:11px;padding:8px}}

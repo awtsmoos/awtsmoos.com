@@ -2,14 +2,16 @@
  * B"H
  * @module InlineBulkRequestBatch
  * @description
- * No lazy loading. When inline commentary is active, every rendered verse on the
- * page is requested immediately. The client then places each spark either in its
- * explicit `dayuh.subSection` or once at the verse-end chamber.
+ * Chapter 8: The Awtsmoos demands the whole page at once. Every rendered verse
+ * is requested immediately for the alias. URL subsection focus is forbidden from
+ * narrowing inline manifestation.
  */
 
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { unrollApiResponse } from "../../unroller.js";
 import { normalizeSparkDayuh } from "./coordinate.js";
+export { getPhysicalVerseIndices } from "./renderedVerses.js";
+import { getPhysicalVerseIndices } from "./renderedVerses.js";
 
 function debugLog(...args) {
     if (typeof window !== "undefined" && window.__awtsmoosInlineDebug) console.log(...args);
@@ -19,17 +21,17 @@ function debugError(...args) {
     if (typeof window !== "undefined" && window.__awtsmoosInlineDebug) console.error(...args);
 }
 
-export function getPhysicalVerseIndices() {
-    const verseElements = document.querySelectorAll(".post-reader-localized-context .section[data-awtsmoos-idx], .post-reader-localized-context .section[data-idx]");
-    return Array.from(verseElements)
-        .map(el => el.dataset.awtsmoosIdx || el.dataset.idx)
-        .filter((value, index, list) => value !== undefined && value !== null && list.indexOf(value) === index);
-}
-
 function requestPayload(verseSection) {
     return { verseSection, map: true };
 }
 
+/**
+ * Fetches all sparks for one alias at one verse.
+ * @param {string} alias Alias id.
+ * @param {object} context Post context.
+ * @param {string|number} verseSection Verse coordinate.
+ * @returns {Promise<object[]>} Unrolled sparks.
+ */
 export function fetchCoordinateSparks(alias, context, verseSection) {
     return getCommentsOfAlias({
         seriesId: context.parentSeriesId || context.seriesId,
@@ -51,6 +53,12 @@ export function fetchCoordinateSparks(alias, context, verseSection) {
     });
 }
 
+/**
+ * Builds eager fetch promises for every rendered verse.
+ * @param {string} alias Alias id.
+ * @param {object} context Post context.
+ * @returns {Promise<object[]>[]} Fetch promises.
+ */
 export function buildBulkFetchPromises(alias, context) {
     const wanted = getPhysicalVerseIndices();
     debugLog(`B"H - [BulkLoader] Eager page request for @${alias}: ${wanted.join(", ")}.`);

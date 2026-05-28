@@ -1,14 +1,14 @@
 // B"H
 /**
  * @module OlamGrafting
- * @description Chapter 12: The world receives bh17 limbs only.
+ * @description Chapter 17: The world receives bh21 limbs for fresh spike reset.
  */
 import loading from "../methods/loading.js";
 import entityLogic from "../methods/entityLogic.js";
 import hebrewLetters from "../methods/hebrewLetters.js";
-import heesHawvoos from "../methods/heesHawvoos.js?v=lean-l1-20260528-bh17";
+import heesHawvoos from "../methods/heesHawvoos.js?v=lean-l1-20260528-bh28";
 import HelpersBridge from "../methods/helpers.js";
-import loadNivrayim from "../methods/loadNivrayim/index.js?v=lean-l1-20260528-bh17";
+import loadNivrayim from "../methods/loadNivrayim/index.js?v=lean-l1-20260528-bh28";
 import placeholderAndEntities from "../methods/placeholderAndEntities/index.js";
 import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";
@@ -27,11 +27,11 @@ export default class OlamGrafting {
 
     [hoyseef, loadNivrayim, placeholderAndEntities, loading, entityLogic, hebrewLetters, heesHawvoos, HelpersBridge, sealayk].forEach(graftModule);
 
-    const CanvasSetup = (await import("../methods/canvasSetup.js?v=lean-l1-20260528-bh17")).default;
+    const CanvasSetup = (await import("../methods/canvasSetup.js?v=lean-l1-20260528-bh28")).default;
     graftModule(CanvasSetup);
-    const boyrayNivraClass = (await import("../methods/boyrayNivra.js?v=lean-l1-20260528-bh17")).default;
+    const boyrayNivraClass = (await import("../methods/boyrayNivra.js?v=lean-l1-20260528-bh28")).default;
     graftModule(boyrayNivraClass);
-    const Ohr = (await import("../methods/ohr.js?v=lean-l1-20260528-bh17")).default;
+    const Ohr = (await import("../methods/ohr.js?v=lean-l1-20260528-bh28")).default;
     graftModule(Ohr);
 
     if (!isWorker) {

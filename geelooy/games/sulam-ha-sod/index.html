@@ -13,7 +13,14 @@
     <canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
 
     <section class="hud glass" aria-label="game status overlay">
-      <button id="menuBtn" class="tiny">Menu</button>
+      <div class="hudButtons">
+        <button id="menuBtn" class="tiny">Menu</button>
+        <button id="actionsBtn" class="tiny" aria-haspopup="true" aria-expanded="false">Actions</button>
+        <div id="actionsMenu" class="actionsMenu glass" hidden>
+          <button id="fullscreenBtn">Fullscreen</button>
+          <button id="webcamBtn">Enable Webcam Bubble</button>
+        </div>
+      </div>
       <div class="hudMain">
         <div class="titleRow"><b>Sulam HaSod</b><span id="levelName"> —</span><span id="difficulty" class="pill">D1</span></div>
         <div class="runMeter" aria-label="route progress"><span class="meterLabel">Route</span><div class="progressShell"><i id="progressFill"></i><em id="progressText">0%</em></div></div>
@@ -33,7 +40,7 @@
         <b>How to play</b><br>
         Desktop: ← → or A/D to move, Space/W to jump.<br>
         Mobile: hold Left or Right, then tap Jump. The hit zones extend upward.<br>
-        You must collect every real coin and the key before the door opens. Fake coins still bite.
+        Actions: Fullscreen expands the game. Webcam Bubble asks for video only and paints a small circular camera buffer above the player.
       </article>
       <section class="menuPanel"><h2>Level Selector</h2><div id="levelGrid" class="levelGrid"></div></section>
       <section class="menuPanel marketPanel">

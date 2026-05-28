@@ -33,7 +33,7 @@ self.addEventListener("unhandledrejection", event => {
   shellPost("ERROR_TEXT", text);
 });
 
-import("./core/entry/WorkerEntrypoint.js?v=lean-l1-20260528-bh17")
+import("./core/entry/WorkerEntrypoint.js?v=lean-l1-20260528-bh28")
   .then(module => {
     if (!module || typeof module.startOyvedEntrypoint !== "function") throw new Error("WorkerEntrypoint.js loaded but did not export startOyvedEntrypoint");
     console.info(`${BH} | OYVED_SHELL | WorkerEntrypoint module loaded`);

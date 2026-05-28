@@ -2,15 +2,14 @@
 /**
  * @class UIManager
  * @description
- * Chapter 12: The UI receives bh17 coin and spike vessels.
+ * Chapter 16: The UI manager pours compact bh20 Level 1 vessels.
  *
- * The clean Level 1 UI still refuses Blob/custom-world starts. The main menu is
- * cache-busted so `window.awtsmoosGameUI` includes the new `perutahProgress`
- * vessel and the delayed reset overlay.
+ * The Awtsmoos restores inventory and action names while keeping their bodies
+ * small. Nothing screams missing vessel; nothing devours the view.
  */
 import UI from "/scripts/awtsmoos/ui/index.js";
-import style from "./ui/style.js?v=lean-l1-20260528-bh9";
-import mainMenu from "./ui/mainMenu/index.js?v=lean-l1-20260528-bh17";
+import style from "./ui/style.js?v=lean-l1-20260528-bh22";
+import mainMenu from "./ui/mainMenu/index.js?v=lean-l1-20260528-bh22";
 
 export default class UIManager {
   constructor() {}
@@ -66,14 +65,7 @@ export default class UIManager {
     return true;
   }
 
-  makeGameMenu() {
-    if (this.ui.$g("menu")) return;
-    const par = this.ui.$g("gameID") || document.querySelector(".gameUi");
-    if (!par) return;
-    import("./ui/gameUI/MainMenu/index.js")
-      .then(({ MainMenu }) => this.ui.html({ ...MainMenu, parent: par }))
-      .catch(error => console.error('B"H: Failed to lazy-load in-game menu', error));
-  }
+  makeGameMenu() {}
 
   gameMenuItem() {}
 }

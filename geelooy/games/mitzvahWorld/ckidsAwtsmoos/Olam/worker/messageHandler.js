@@ -1,13 +1,13 @@
 // B"H
 /**
  * @file messageHandler.js
- * @description Chapter 13: Main-thread worker message dispatcher with bh18 UI fallback.
+ * @description Chapter 20: Main-thread worker dispatcher with bh24 UI and input cache keys.
  */
 import coreHandlers from "./handlers/core.js";
 import htmlHandlers from "./handlers/html.js";
-import uiHandlers from "./handlers/ui.js?v=lean-l1-20260528-bh18";
+import uiHandlers from "./handlers/ui.js?v=lean-l1-20260528-bh28";
 import worldHandlers from "./handlers/world.js";
-import inputHandlers from "./handlers/input.js";
+import inputHandlers from "./handlers/input.js?v=lean-l1-20260528-bh28";
 
 export default function setupMessageHandler(manager) {
   const promiseMap = new Map();

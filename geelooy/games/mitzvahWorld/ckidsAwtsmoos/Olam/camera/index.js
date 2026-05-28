@@ -2,16 +2,16 @@
 /**
  * @file index.js
  * @description
- * Chapter 12: The Ayin sees without swallowing NaN shards.
+ * Chapter 15: The Ayin lowers from the clouds to the Chossid's shoulders.
  *
- * The Awtsmoos gives the camera an eye, but the eye must not stare into broken
- * geometry. Collision now arrives through a cache-busted guard that skips
- * non-interactive thorns and catches malformed hover meshes.
+ * The Awtsmoos gives the camera a calmer mobile vessel: farther back, less
+ * buried in the player's hair, and cache-busted into the same bh19 river as the
+ * touch controls. The eye now has room to see the ladder before it judges it.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import update from "./methods/update/index.js?v=old-camera-follow-20260527";
-import controls from "./methods/controls.js";
-import collision from "./methods/collision.js?v=lean-l1-20260528-bh17";
+import update from "./methods/update/index.js?v=lean-l1-20260528-bh19";
+import controls from "./methods/controls.js?v=lean-l1-20260528-bh19";
+import collision from "./methods/collision.js?v=lean-l1-20260528-bh19";
 
 export default class Ayin {
   constructor(olam) {
@@ -25,26 +25,26 @@ export default class Ayin {
     this.mouseX = 0;
     this.mouseY = 0;
     this.deltaY = 0;
-    this.targetHeight = 1;
-    this.anchorOffset = new THREE.Vector3(0, 0, 0);
+    this.targetHeight = 0.95;
+    this.anchorOffset = new THREE.Vector3(0, 0.15, 0);
     this.amountToStartHidingTarget = 1.52;
     this.amountToHideTargetCompletely = 1.508;
-    this.distance = 5.0;
-    this.offsetFromWall = 3.6;
-    this.maxDistance = 20;
-    this.minDistance = 0.1;
+    this.distance = 8.5;
+    this.offsetFromWall = 2.2;
+    this.maxDistance = 18;
+    this.minDistance = 2.2;
     this.speedDistance = 5;
     this.xSpeed = 75.0;
-    this.ySpeed = 75.0;
+    this.ySpeed = 54.0;
     this.sensitivity = 0.001;
-    this.yMinLimit = -40;
-    this.yMaxLimit = 80;
+    this.yMinLimit = -18;
+    this.yMaxLimit = 48;
     this.movedRotation = null;
-    this.zoomRate = 0.01;
+    this.zoomRate = 0.018;
     this.rotationDampening = 3.0;
     this.zoomDampening = 5.0;
     this.xDeg = 0.0;
-    this.yDeg = 0.0;
+    this.yDeg = 10.0;
     this.currentDistance = this.distance;
     this.desiredDistance = this.distance;
     this.correctedDistance = this.distance;
@@ -60,8 +60,9 @@ export default class Ayin {
     this.playerCollisionBuffer = 0.770;
     this.objectsInScene = [];
     this.userInputTheta = 0;
-    this.userInputPhi = 0;
+    this.userInputPhi = 10;
     this.mouseIsDown = false;
+    this.rightMouseIsDown = false;
     this.lastDistance = null;
     this.panAmount = 0.5;
     this.modelMesh = null;
@@ -76,7 +77,7 @@ export default class Ayin {
 
   set target(v) {
     this._target = v;
-    if (v && typeof v.height === 'number') this.targetHeight = v.height;
+    if (v && typeof v.height === 'number') this.targetHeight = Math.max(0.8, Math.min(1.15, v.height * 0.62));
   }
 
   setSize(width, height) {

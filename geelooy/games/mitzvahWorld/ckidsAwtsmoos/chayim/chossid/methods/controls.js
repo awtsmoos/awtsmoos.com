@@ -2,14 +2,13 @@
 /**
  * @file controls.js
  * @description
- * Chapter 9: Platformer-safe controls with old-stable movement fallback.
+ * Chapter 19: Spike death freezes only intent until a local reset restores it.
  *
- * The player had movement intent only through `olam.inputs`; if a key pulse was
- * dropped or a stale UI focus prevented normal input mapping, touching the floor
- * felt frozen. This file keeps the clean light controls, but also reads the raw
- * keyStates as a backup, exactly where the movement flags are copied each frame.
+ * The Awtsmoos lets the burst keep moving while the Chossid cannot. This file
+ * honors `__spikeDeathControlsFrozen`, so no joystick/key state sneaks motion
+ * back during the overlay. After `resetAfterSpikeDeath`, the flag clears and
+ * the same vessel walks again.
  */
-
 const CAMERA_PAN_UP = "KeyR";
 const CAMERA_PAN_DOWN = "KeyZ";
 const CAMERA_FPS_TOGGLE = "KeyT";
@@ -24,12 +23,12 @@ function keyOn(olam, ...codes) {
 export default {
   /** Copies input state into movement flags every frame. */
   controls() {
+    this.resetMoving();
+    if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
     if (this.isDriving && this.drivingVehicle) {
       if (this.olam.keyStates?.[DISMOUNT_KEY]) this.drivingVehicle.dismount?.();
       return;
     }
-
-    this.resetMoving();
     if (this.olam.showingImportantMessage) return;
 
     const inputs = this.olam.inputs || {};
@@ -43,41 +42,37 @@ export default {
     this.moving.jump = !!inputs.JUMP || keyOn(this.olam, "Space");
     this.moving.down = !!inputs.DOWN || keyOn(this.olam, "KeyX");
     this.moving.up = !!inputs.UP;
-
     this.cameraControls();
   },
 
-  /** Kept for compatibility; the light platformer has no footstep audio here. */
   movingSounds() {},
 
-  /** Simple camera pan keys. */
   cameraControls() {
     if (this.olam.keyStates?.[CAMERA_PAN_UP]) this.olam.ayin?.panUp?.();
     else if (this.olam.keyStates?.[CAMERA_PAN_DOWN]) this.olam.ayin?.panDown?.();
   },
 
-  /** Old dialogue numeric controls are inert when no dialogue exists. */
   dialogueControls(event) {
     if (!this.interactingWith) return;
     const n = Number.parseInt(event?.key, 10);
     if (n >= 1 && n <= 9) this.interactingWith.toggleToOption?.(n - 1);
   },
 
-  /** Installs only safe mouse/key listeners. */
   setupInputListeners(olam) {
     olam.on("mousedown", event => {
+      if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
       if (event.button === 0) this.handleClick?.(event) || this.shoot?.();
       if (event.button === 2) this.getRealActiveItemInstance?.();
     });
 
     olam.on("keypressed", async event => {
+      if (this.__spikeDeathControlsFrozen || this.__spikeDefeated) return;
       this.ayshPeula("keypressed", event);
       this.dialogueControls(event);
       await this.handlePlatformerKey(event);
     });
   },
 
-  /** Routes platformer-safe key commands. */
   async handlePlatformerKey(event = {}) {
     switch (event.code) {
       case "NumLock":
@@ -111,7 +106,6 @@ export default {
     }
   },
 
-  /** Uses a nearby simple interactable or a harmless selected tool. */
   async activateNearbyOrTool() {
     const activeItem = this.getActiveItem?.();
     if (activeItem?.isPainter) {
@@ -122,20 +116,17 @@ export default {
       });
       return;
     }
-
     const target = this.interactingWith || this.approachedEntities?.[0];
     if (target?.ayshPeula) target.ayshPeula("accepted interaction", this);
     else this.shoot?.();
   },
 
-  /** Selects a focused dialogue/object only if that legacy focus exists. */
   async selectFocusedThing() {
     if (this.selected) return void this.selectMenuOption?.();
     if (this.interactingWith?.selectOption) return void await this.interactingWith.selectOption();
     if (this.intersected) return void await this.selectIntersected?.();
   },
 
-  /** Rotates focus through simple interactables. */
   cycleApproachedEntities() {
     if (!Array.isArray(this.approachedEntities) || this.approachedEntities.length <= 1) return;
     const last = this.approachedEntities.shift();
@@ -146,9 +137,6 @@ export default {
     current?._showInteractionPrompt?.();
   },
 
-  /** Compatibility no-op for removed building preview rotation. */
   resetPreviewRotation() { this.placementRotation = 0; },
-
-  /** Compatibility no-op for removed visual editor. */
   handleEditorClick() {}
 };

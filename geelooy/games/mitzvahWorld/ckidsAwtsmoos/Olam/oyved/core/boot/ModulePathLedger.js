@@ -1,13 +1,13 @@
 // B"H
 /**
  * @file ModulePathLedger.js
- * @description Chapter 12: Worker boot module paths with bh17 runtime freshness.
+ * @description Chapter 17: Worker boot module paths with bh21 runtime freshness.
  */
 export const MODULE_PATH_LEDGER = Object.freeze({
   olamCore: Object.freeze({
     key: "olamCore",
     label: "Olam core direct vessel",
-    relativePath: "../../../core/OlamVessel.js?v=lean-l1-20260528-bh17",
+    relativePath: "../../../core/OlamVessel.js?v=lean-l1-20260528-bh23",
     expectedEnd: "/games/mitzvahWorld/ckidsAwtsmoos/Olam/core/OlamVessel.js",
     requiredExport: "default"
   }),

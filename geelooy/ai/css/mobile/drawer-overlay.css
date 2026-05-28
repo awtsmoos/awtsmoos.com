@@ -1,4 +1,4 @@
-/* B"H — mobile drawer overlay: the rails move aside, not downward */
+/* B"H — mobile drawer overlay: crisp drawers, no blurry veil */
 @media (max-width: 680px) {
   html, body, .container, .main, #chat-box { overflow-x: hidden !important; }
   .container {
@@ -14,8 +14,8 @@
     height: auto !important;
     max-height: none !important;
     z-index: 40 !important;
-    transition: width .22s ease, transform .22s ease, box-shadow .22s ease !important;
-    box-shadow: 0 24px 80px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.08) !important;
+    transition: width .18s ease, transform .18s ease, box-shadow .18s ease !important;
+    box-shadow: 0 20px 58px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08) !important;
   }
   .sidebar { left: 6px !important; width: min(86vw, 360px) !important; }
   .automation-panel { right: 6px !important; width: min(92vw, 420px) !important; }
@@ -73,9 +73,13 @@
     position: fixed;
     inset: 0;
     z-index: 35;
-    background: rgba(2, 6, 23, .44);
-    backdrop-filter: blur(5px);
+    background: rgba(2, 6, 23, .18);
+    pointer-events: none;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
+  body:not([data-sidebar-collapsed="true"]) #sidebar,
+  body:not([data-automation-collapsed="true"]) #automation-panel { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
   .conversation-list, .automation-panel > :not(.panel-topbar) { overflow-x: hidden !important; }
   .message, .bubble, .event-region, .event-lanes, .transport-details, .thought-envelope-card,
   .event-text, .event-markdown-rendered, .md-code, .right-tabs, .automation-field, .graph-node {

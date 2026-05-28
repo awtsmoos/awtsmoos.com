@@ -2,17 +2,16 @@
 /**
  * @file instantiate.js
  * @description
- * Chapter 12: The soul registry enters through the bh17 gate.
+ * Chapter 19: The soul registry enters through the bh23 gate.
  *
- * The Awtsmoos renews every constructor spark. This is the narrow bridge that
- * makes grounded SpikeHazard, counting Coin, and fresh UI-safe entities the real
- * classes used by Level 1, not stale browser memory.
+ * The Awtsmoos renews every constructor spark. This bridge must not drink stale
+ * SpikeHazard or Chossid code; local reset and instanced burst depend on fresh
+ * living classes.
  */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh18';
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh28';
 import Utils from '../../../utils.js';
 
 const instantiate = {
-  /** Summons an object and anchors it in the grid of existence. */
   async addObject(type, options) {
     const SoulType = AWTSMOOS[type];
     if (!SoulType) return null;
@@ -24,7 +23,6 @@ const instantiate = {
     return nivra;
   },
 
-  /** Interprets the JSON scroll of all beginning sparks. */
   parseDefinitions(nivrayim) {
     const list = [];
     if (!nivrayim) return list;

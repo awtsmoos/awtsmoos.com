@@ -1,10 +1,10 @@
 // B"H
 /**
  * @module OyvedMessageInterpreter
- * @description Chapter 12: Routes genesis and continuous worker messages freshly.
+ * @description Chapter 20: Routes genesis and continuous worker messages through bh24.
  */
-import { GenesisRoute } from './GenesisRoute.js?v=lean-l1-20260528-bh17';
-import { ContinuousRoute } from './ContinuousRoute.js?v=lean-l1-20260528-bh17';
+import { GenesisRoute } from './GenesisRoute.js?v=lean-l1-20260528-bh28';
+import { ContinuousRoute } from './ContinuousRoute.js?v=lean-l1-20260528-bh28';
 
 export class OyvedMessageInterpreter {
   /** Directs the initial creation message or delegates ongoing events. */

@@ -2,10 +2,12 @@
 /**
  * @file commentCoordinate.js
  * @description
- * One normalized coordinate shape for comments, AI drafts, approvals, and inline
- * manifestation. It accepts the old dayuh fields while preparing room for later
- * word/token anchoring and semantic fingerprint repair.
+ * Chapter 3: The Awtsmoos teaches the coordinate to stop borrowing crowns. URL
+ * focus may reveal a page, but placement is born only from the comment's own
+ * dayuh. Top-level `sub` and `subSection` are never promoted into placement.
  */
+
+import { getRealCommentSubSection, parseRealDayuh } from "../logic/inlineManifest/realCommentCoordinate.js";
 
 const ROOT = "root";
 
@@ -20,25 +22,25 @@ function cleanString(value, fallback = "") {
     return String(value);
 }
 
+function currentUrlValue(name) {
+    const win = typeof globalThis !== "undefined" ? globalThis.window : undefined;
+    const loc = win?.location || (typeof location !== "undefined" ? location : null);
+    if (!loc || typeof URLSearchParams === "undefined") return null;
+    const value = new URLSearchParams(loc.search).get(name);
+    return value === "" ? null : value;
+}
+
 /**
- * @function normalizeCommentCoordinate
- * @description Converts any known comment-coordinate vessel into one shape.
+ * Converts any known comment-coordinate vessel into one safe shape.
  * @param {object} [input={}] Source coordinate/dayuh/query-like object.
  * @returns {object} Normalized coordinate.
  */
 export function normalizeCommentCoordinate(input = {}) {
-    const dayuh = input.dayuh && typeof input.dayuh === "object" ? input.dayuh : input;
+    const dayuh = input.dayuh ? parseRealDayuh(input.dayuh) : parseRealDayuh(input);
     const win = typeof globalThis !== "undefined" ? globalThis.window : undefined;
-    const loc = win?.location || (typeof location !== "undefined" ? location : null);
-    const url = typeof URLSearchParams !== "undefined" && loc
-        ? new URLSearchParams(loc.search)
-        : null;
-
-    const sectionRaw = dayuh.verseSection ?? dayuh.section ?? dayuh.idx ?? input.verseSection ?? input.idx ?? url?.get("idx") ?? ROOT;
-    const subRaw = dayuh.subSection ?? dayuh.sub ?? dayuh.paragraph ?? input.subSection ?? input.sub ?? url?.get("sub");
-
+    const sectionRaw = dayuh.verseSection ?? dayuh.section ?? dayuh.idx ?? input.verseSection ?? input.idx ?? currentUrlValue("idx") ?? ROOT;
     const section = sectionRaw === undefined || sectionRaw === null || sectionRaw === "" ? ROOT : sectionRaw;
-    const subSection = parseMaybeNumber(subRaw, null);
+    const subSection = parseMaybeNumber(getRealCommentSubSection({ dayuh }), null);
 
     const coordinate = {
         version: 1,
@@ -62,8 +64,7 @@ export function normalizeCommentCoordinate(input = {}) {
 }
 
 /**
- * @function coordinateToKey
- * @description Stable string key for maps and inline registries.
+ * Stable string key for maps and inline registries.
  * @param {object} coordinate Normalized coordinate.
  * @returns {string} Stable coordinate key.
  */
@@ -83,8 +84,7 @@ export function coordinateToKey(coordinate) {
 }
 
 /**
- * @function coordinateToDayuh
- * @description Creates backward-compatible dayuh fields from a normalized coordinate.
+ * Creates backward-compatible dayuh fields from a normalized coordinate.
  * @param {object} coordinate Normalized coordinate.
  * @param {object} [extra={}] Extra dayuh fields.
  * @returns {object} Dayuh object.
@@ -92,7 +92,6 @@ export function coordinateToKey(coordinate) {
 export function coordinateToDayuh(coordinate, extra = {}) {
     const c = normalizeCommentCoordinate(coordinate || {});
     const dayuh = { ...extra };
-
     if (c.verseSection !== ROOT) dayuh.verseSection = c.verseSection;
     if (c.subSection !== null) dayuh.subSection = c.subSection;
     if (c.tokenStart !== null) dayuh.tokenStart = c.tokenStart;
@@ -100,7 +99,6 @@ export function coordinateToDayuh(coordinate, extra = {}) {
     if (c.charStart !== null) dayuh.charStart = c.charStart;
     if (c.charEnd !== null) dayuh.charEnd = c.charEnd;
     if (c.semanticFingerprint) dayuh.semanticFingerprint = c.semanticFingerprint;
-
     dayuh.coordinate = c;
     return dayuh;
 }

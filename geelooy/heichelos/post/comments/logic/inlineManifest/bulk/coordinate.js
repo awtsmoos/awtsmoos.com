@@ -2,51 +2,50 @@
  * B"H
  * @module InlineBulkCoordinate
  * @description
- * Coordinates must remain truthful. A comment is subsection-specific only when
- * its own `dayuh.subSection` says so. Request metadata, URL sub values, mapped
- * wrapper fields, or old top-level echoes must not promote a verse-level note
- * into every paragraph.
+ * Chapter 2: The Awtsmoos cuts away the painted masks. A spark is paragraph-
+ * specific only when its own dayuh vessel says `subSection`; every other echo
+ * falls silent and the spark gathers once at verse-end.
  */
 
-function parseDayuh(raw) {
-    if (!raw) return {};
-    if (typeof raw === "string") {
-        try { return JSON.parse(raw) || {}; } catch { return {}; }
-    }
-    return typeof raw === "object" ? raw : {};
-}
+import {
+    buildRealPlacementDayuh,
+    getRealCommentSubSection,
+    parseRealDayuh
+} from "../realCommentCoordinate.js";
 
-function hasOwnSpecificSub(dayuh) {
-    return Object.prototype.hasOwnProperty.call(dayuh, "subSection")
-        && dayuh.subSection !== undefined
-        && dayuh.subSection !== null
-        && dayuh.subSection !== ""
-        && dayuh.subSection !== "main"
-        && dayuh.subSection !== "root";
-}
-
+/**
+ * Normalizes placement metadata without copying poisoned top-level subsection
+ * fields into dayuh.
+ * @param {object} spark Comment spark from the API.
+ * @param {string|number|null} defaultVerseSection Verse requested by loader.
+ * @returns {object} Clean dayuh object.
+ */
 export function normalizeSparkDayuh(spark, defaultVerseSection) {
     if (!spark || typeof spark !== "object") return { verseSection: defaultVerseSection };
-
-    const dayuh = parseDayuh(spark.dayuh);
-    if (dayuh.verseSection === undefined || dayuh.verseSection === null) {
-        if (spark.verseSection !== undefined && spark.verseSection !== null) dayuh.verseSection = spark.verseSection;
-        else dayuh.verseSection = defaultVerseSection;
-    }
-
-    if (!hasOwnSpecificSub(dayuh)) delete dayuh.subSection;
+    const dayuh = buildRealPlacementDayuh(spark, defaultVerseSection);
     spark.dayuh = dayuh;
     return dayuh;
 }
 
+/**
+ * Scores a spark by the truth of its own coordinate, not wrapper noise.
+ * @param {object} spark Comment spark.
+ * @returns {number} Truth score.
+ */
 export function scoreInlineCoordinate(spark) {
-    const dayuh = parseDayuh(spark?.dayuh);
+    const dayuh = parseRealDayuh(spark?.dayuh);
     let score = 0;
     if (dayuh.verseSection !== undefined && dayuh.verseSection !== null && dayuh.verseSection !== "root") score += 2;
-    if (hasOwnSpecificSub(dayuh)) score += 3;
+    if (getRealCommentSubSection({ dayuh }) !== null) score += 3;
     return score;
 }
 
+/**
+ * Keeps the duplicate whose coordinate is most explicit.
+ * @param {object|null} existing Existing spark.
+ * @param {object} incoming Incoming spark.
+ * @returns {object} Selected spark.
+ */
 export function chooseTruestDuplicateSpark(existing, incoming) {
     if (!existing) return incoming;
     return scoreInlineCoordinate(incoming) > scoreInlineCoordinate(existing) ? incoming : existing;

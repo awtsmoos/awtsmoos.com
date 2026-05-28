@@ -2,10 +2,12 @@
 /**
  * Campaign index for Sulam HaSod.
  *
- * No generated overlay lives here. Every cruelty must be inside its level file,
- * hand-authored and inspectable. The Awtsmoos raises the ladder one chamber at
- * a time: twenty-four explicit imports, twenty-four deliberate vessels.
+ * No generated overlay lives here. Every cruelty remains inspectable and rooted
+ * in authored geometry. The Awtsmoos now raises thirty-three explicit chambers,
+ * then grafts high-sky side-thoughts onto each one: optional ascents, rotating
+ * saw ladders, fake-safe spikes, collapsing greed corridors, and falling iron.
  */
+import { enrichLevel } from './levelCruelty.js';
 import { level01 } from './levels/level01-malchus.js';
 import { level02 } from './levels/level02-yesod.js';
 import { level03 } from './levels/level03-hod.js';
@@ -30,30 +32,29 @@ import { level21 } from './levels/level21-shattered-ledger.js';
 import { level22 } from './levels/level22-mirror-market.js';
 import { level23 } from './levels/level23-vertical-vault.js';
 import { level24 } from './levels/level24-crown-auction.js';
+import { level25 } from './levels/level25-natural-chain.js';
+import { level26 } from './levels/level26-natural-chain.js';
+import { level27 } from './levels/level27-natural-chain.js';
+import { level28 } from './levels/level28-natural-chain.js';
+import { level29 } from './levels/level29-natural-chain.js';
+import { level30 } from './levels/level30-sky-oath.js';
+import { level31 } from './levels/level31-echo-orchard.js';
+import { level32 } from './levels/level32-cave-of-breath.js';
+import { level33 } from './levels/level33-last-ladder.js';
 
-export const LEVELS = [
-  level01,
-  level02,
-  level03,
-  level04,
-  level05,
-  level06,
-  level07,
-  level08,
-  level09,
-  level10,
-  level11,
-  level12,
-  level13,
-  level14,
-  level15,
-  level16,
-  level17,
-  level18,
-  level19,
-  level20,
-  level21,
-  level22,
-  level23,
-  level24
+const RAW_LEVELS = [
+  level01, level02, level03, level04, level05, level06, level07, level08,
+  level09, level10, level11, level12, level13, level14, level15, level16,
+  level17, level18, level19, level20, level21, level22, level23, level24,
+  level25, level26, level27, level28, level29, level30, level31, level32,
+  level33
 ];
+
+/**
+ * Every level receives optional side adventures and reactive cruelty.
+ *
+ * The main routes stay solvable. The extra upper chambers tempt the player into
+ * voluntary danger with better treasure, moving saw bridges, false-safe spike
+ * runs, and trigger-driven ceiling traps.
+ */
+export const LEVELS = RAW_LEVELS.map((level, index) => enrichLevel(level, index));

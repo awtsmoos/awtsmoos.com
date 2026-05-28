@@ -1,5 +1,28 @@
 // B"H
-import { bonus, coin, door, level, platform, player, resetPit, sky, spikeFloor, stairs, terrain } from './helpers.js?v=lean-l1-20260528-bh17';
+/**
+ * @file ladder-1.js
+ * @description
+ * Chapter 24: The first ladder clears thorns from every safe stone.
+ *
+ * The Awtsmoos separates platform from punishment. The spike carpet remains in
+ * the desert gaps, but start slab, stairs, jump stones, rest slab, and gate
+ * landing carve safe rectangles out of it. This prevents instant spike death
+ * while standing on or resetting to a valid platform.
+ */
+import {
+  bonus,
+  coin,
+  door,
+  level,
+  platform,
+  player,
+  resetPit,
+  safeRectsFrom,
+  sky,
+  spikeFloor,
+  stairs,
+  terrain
+} from './helpers.js?v=lean-l1-20260528-bh28';
 
 const solids = [
   platform('start_slab', -6, 0, 0, 10, 8, 0xd6b46b),
@@ -12,7 +35,15 @@ const solids = [
   platform('gate_landing', 46, 7.4, 0, 10, 8, 0xa77d3d)
 ];
 
-const spikes = spikeFloor({ minX: -20, maxX: 55, minZ: -14, maxZ: 14, step: 2.15 });
+const spikes = spikeFloor({
+  minX: -20,
+  maxX: 55,
+  minZ: -14,
+  maxZ: 14,
+  step: 2.15,
+  exclude: safeRectsFrom(solids),
+  margin: 2.85
+});
 
 export default level('Desert_Dust_Gate', 7, 'ladder-2.js', {
   ProceduralSky: { brightDesertSky: sky() },

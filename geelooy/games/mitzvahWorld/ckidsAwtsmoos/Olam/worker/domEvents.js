@@ -1,51 +1,32 @@
-
+// B"H
 /**
  * @module DomEventsUnified
  * @description
- * 🌉 CHAPTER 5: THE UNIFIED BRIDGE 🌉
- * 
- * Bringing the disparate senses together into a single monitoring routine.
- * It observes the window, its growth (resize), its touch, and its keyboard.
- * Everything is passed through to the Worker manager.
+ * Chapter 16: Keyboard, mouse, and bh20 touch enter through one bridge.
+ *
+ * The Awtsmoos makes a single gate for the senses: resize, keys, desktop mouse,
+ * and the corrected mobile TouchOrchestrator that understands joystick stride,
+ * open-screen rotation, and pinch without confusing UI vessels for desert sky.
  */
 import KeyboardEmissary from './input/KeyboardEmissary.js';
 import MouseEmissary from './input/MouseEmissary.js';
-import TouchOrchestrator from './input/TouchOrchestrator.js';
+import TouchOrchestrator from './input/TouchOrchestrator.js?v=lean-l1-20260528-bh23';
 
 export default function setupDomEvents(manager) {
-    const { eved } = manager;
+  const { eved } = manager;
 
-    // B"H: silent
+  const broadcastResize = () => {
+    eved.postMessage({ resize: { width: window.innerWidth, height: window.innerHeight, devicePixelRatio: window.devicePixelRatio || 1 } });
+  };
 
+  window.addEventListener('resize', broadcastResize);
+  KeyboardEmissary.bind(eved);
+  MouseEmissary.bind(eved);
+  TouchOrchestrator.bind(eved);
+  broadcastResize();
 
-    // 1. Initial Measurement
-    const broadcastResize = () => {
-        const payload = {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            devicePixelRatio: window.devicePixelRatio || 1
-        };
-        eved.postMessage({ resize: payload });
-    };
-
-    window.addEventListener('resize', broadcastResize);
-
-    // 2. Bind Senses
-    KeyboardEmissary.bind(eved);
-    MouseEmissary.bind(eved);
-    TouchOrchestrator.bind(eved);
-
-    // 3. Initial Pulse
-    broadcastResize();
-
-    // Prevent system menus on Right-Click unless over UI
-    window.addEventListener("contextmenu", e => {
-        const markers = [
-            'button', '.mitzvahBtn', '.awtsmoosBtn', '.ctx-btn',
-            '.characterDesigner', '.store-container', '.quest-log'
-        ];
-        if (!e.target.closest(markers.join(', '))) {
-            e.preventDefault();
-        }
-    });
+  window.addEventListener("contextmenu", event => {
+    const markers = ['button', '.mitzvahBtn', '.awtsmoosBtn', '.ctx-btn', '.characterDesigner', '.store-container', '.quest-log'];
+    if (!event.target.closest(markers.join(', '))) event.preventDefault();
+  });
 }

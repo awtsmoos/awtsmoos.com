@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file WorkerBootImports.js
- * @description Chapter 12: Worker entry imports bh17 repaired runtime.
+ * @description Chapter 17: Worker entry imports bh21 repaired runtime.
  */
 import { postPlainWorkerText } from "./PlainWorkerPost.js";
 import { plainWorkerErrorText } from "./PlainWorkerErrorText.js";
@@ -22,9 +22,9 @@ export async function importWorkerDependency(path, label) {
 }
 
 export function importBootModule() {
-  return importWorkerDependency("../boot/OlamDynamicBoot.js?v=lean-l1-20260528-bh17", "OlamDynamicBoot");
+  return importWorkerDependency("../boot/OlamDynamicBoot.js?v=lean-l1-20260528-bh28", "OlamDynamicBoot");
 }
 
 export function importInterpreterModule() {
-  return importWorkerDependency("../interpreter/OyvedMessageInterpreter.js?v=lean-l1-20260528-bh17", "OyvedMessageInterpreter");
+  return importWorkerDependency("../interpreter/OyvedMessageInterpreter.js?v=lean-l1-20260528-bh28", "OyvedMessageInterpreter");
 }

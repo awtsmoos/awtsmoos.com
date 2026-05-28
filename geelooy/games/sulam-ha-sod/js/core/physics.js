@@ -24,31 +24,45 @@ const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a
 /**
  * PhysicsWorld is the living chamber of Sulam HaSod.
  *
- * The Awtsmoos speaks letters into the level every frame. Every Shefa spark
- * collected during a run now becomes part of the death bill: the player loses
- * at least that run's gathered value, plus a progress and difficulty tax.
+ * The Awtsmoos recreates every frame, but the engine must not recreate needless
+ * garbage. This world now keeps reusable broadphase arrays, query buffers, and
+ * hash courts, while resets explicitly clear transient run-memory unless the
+ * player is inside the death pause where the shatter must remain visible.
  */
 export class PhysicsWorld {
   constructor(level) {
+    this.sourceLevel = level;
     this.soundEvents = [];
     this.visibleCameraX = 0;
     this.visibleCameraY = 0;
+    this.previousPlayerY = 0;
     this.cameraResetAfterDeath = false;
+    this.platformBodies = [];
+    this.nearPlatforms = [];
+    this.nearEnemies = [];
+    this.probe = { x: 0, y: 0, w: 0, h: 0 };
+    this.spatial = new SpatialHash(180);
+    this.enemySpatial = new SpatialHash(220);
     this.load(level);
   }
 
-  load(level) {
+  /** @param {object} level source level @param {{preserveDeath?:boolean}=} options reset mode */
+  load(level, options = {}) {
+    const preserveDeath = Boolean(options.preserveDeath);
     const oldCurrency = this.currency || { perutah: 0, dinar: 0, sela: 0, maneh: 0, shefa: 0, chain: 0, bestChain: 0 };
     const oldMarket = this.market || { owned: ['plain'], equipped: 'plain', open: false, message: level.law || 'Find the key, read the floor, reach the gate.' };
-    const oldDeathBursts = this.deathBursts || [];
-    const oldDeathPause = this.deathPause || null;
+    const oldDeathBursts = preserveDeath ? (this.deathBursts || []) : [];
+    const oldDeathPause = preserveDeath ? this.deathPause : null;
     const oldVisibleCameraX = this.visibleCameraX || 0;
     const oldVisibleCameraY = this.visibleCameraY || 0;
-    const oldCameraResetAfterDeath = this.cameraResetAfterDeath || false;
+    const oldCameraResetAfterDeath = preserveDeath && this.cameraResetAfterDeath;
+    if (!preserveDeath) this.soundEvents.length = 0;
+    this.sourceLevel = level;
     this.level = clone(level);
     this.width = level.width || 960;
     this.rng = new SacredRandom(seedFromText(`${level.name}${level.law}`));
     this.player = { ...level.spawn, w: 34, h: 48, vx: 0, vy: 0, on: false, ice: 0, stomps: 0, skin: equippedSkin(oldMarket) };
+    this.previousPlayerY = this.player.y;
     this.coins = clone(level.coins || []);
     this.enemyCoinTotal = (level.enemies || []).filter(enemy => enemy.dropCoin).length;
     this.realCoinTotal = this.coins.length + this.enemyCoinTotal;
@@ -70,8 +84,6 @@ export class PhysicsWorld {
     this.tricks = new TrickPlatformField(level.trickPlatforms || []);
     this.triggers = new LevelTriggerField(level.triggers || []);
     this.spikes = new SpikeOracle(level.spikes || [], this.rng);
-    this.spatial = new SpatialHash(180);
-    this.enemySpatial = new SpatialHash(220);
     this.keyCount = 0;
     this.score = this.currency.shefa || 0;
     this.performance = { platformChecks: 0, enemyChecks: 0, totalPlatforms: 0, totalEnemies: 0, difficulty: this.difficulty() };
@@ -80,13 +92,13 @@ export class PhysicsWorld {
   }
 
   difficulty() {
-    const level = this.level || {};
+    const level = this.sourceLevel || this.level || {};
     const pressure = (level.spikes?.length || 0) + (level.rotatingPlatforms?.length || 0) + (level.trickPlatforms?.length || 0) + (level.enemies?.length || 0) + (level.triggers?.length || 0);
     return 1 + Math.floor(pressure / 5);
   }
 
   step(input, dt) {
-    if (input.restart && !this.deathPause) this.load(this.level);
+    if (input.restart && !this.deathPause) this.load(this.sourceLevel);
     if (this.deathPause) return this.stepDeathPause(dt);
     this.deathBursts = stepBursts(this.deathBursts, dt);
     this.moveEnemies(dt);
@@ -97,6 +109,7 @@ export class PhysicsWorld {
     this.momentumCurse.step(dt, input, this.player, this.rng);
     this.reindex();
     const oldY = this.player.y;
+    this.previousPlayerY = oldY;
     this.applyHorizontalInput(input, dt);
     this.jumpIfAllowed(input);
     this.applyGravity(dt);
@@ -129,6 +142,7 @@ export class PhysicsWorld {
   continueAfterDeath() {
     if (!this.deathPause || !this.deathPause.ready) return false;
     this.deathPause = null;
+    this.deathBursts.length = 0;
     this.cameraResetAfterDeath = true;
     this.visibleCameraY = 0;
     this.message = this.level.law || 'Read the floor again.';
@@ -142,30 +156,32 @@ export class PhysicsWorld {
     else p.vx = input.x * SPEED + p.vx * 0.08;
   }
 
-  jumpIfAllowed(input) {
-    if (input.jump && this.player.on) { this.player.vy = JUMP; this.player.on = false; this.queueSound('jump'); }
-  }
-
+  jumpIfAllowed(input) { if (input.jump && this.player.on) { this.player.vy = JUMP; this.player.on = false; this.queueSound('jump'); } }
   applyGravity(dt) { this.player.vy += GRAVITY * dt; }
   moveAndResolve(dt) { this.player.x += this.player.vx * dt; this.resolve('x'); this.player.y += this.player.vy * dt; this.resolve('y'); }
 
   reindex() {
-    const platforms = [...(this.level.platforms || []), ...this.rotors.bodies(), ...this.tricks.bodies()];
-    this.performance.totalPlatforms = platforms.length;
+    this.platformBodies.length = 0;
+    for (const p of this.level.platforms || []) this.platformBodies.push(p);
+    for (const p of this.rotors.bodies()) this.platformBodies.push(p);
+    for (const p of this.tricks.bodies()) this.platformBodies.push(p);
+    this.performance.totalPlatforms = this.platformBodies.length;
     this.performance.totalEnemies = this.enemies.length;
     this.performance.platformChecks = 0;
     this.performance.enemyChecks = 0;
-    this.spatial.build(platforms);
+    this.spatial.build(this.platformBodies);
     this.enemySpatial.build(this.enemies);
   }
 
   resolve(axis) {
     const p = this.player;
     if (axis === 'y') p.on = false;
-    const nearby = this.spatial.query({ x: p.x - 8, y: p.y - 8, w: p.w + 16, h: p.h + 16 });
+    this.probe.x = p.x - 8; this.probe.y = p.y - 8; this.probe.w = p.w + 16; this.probe.h = p.h + 16;
+    const nearby = this.spatial.queryInto(this.probe, this.nearPlatforms);
     this.performance.platformChecks += nearby.length;
     for (const body of nearby) {
       if (!hit(p, body)) continue;
+      if (this.shouldPassThroughOneWay(body, axis)) continue;
       if (axis === 'x') { p.x = p.vx > 0 ? body.x - p.w : body.x + body.w; continue; }
       p.y = p.vy > 0 ? body.y - p.h : body.y + body.h;
       p.on = p.vy > 0;
@@ -174,6 +190,13 @@ export class PhysicsWorld {
       if (body.warn && p.on) { const message = this.tricks.land(body, p); if (message) this.message = message; this.reindex(); }
     }
     p.x = Math.max(0, Math.min(this.width - p.w, p.x));
+  }
+
+  shouldPassThroughOneWay(body, axis) {
+    if (body.warn !== 'oneWay' && body.kind !== 'oneWay') return false;
+    if (axis === 'x') return true;
+    const oldBottom = this.previousPlayerY + this.player.h;
+    return this.player.vy < 0 || oldBottom > body.y + 7;
   }
 
   collectStaticCoins() {
@@ -203,7 +226,8 @@ export class PhysicsWorld {
 
   touchEnemy(oldY) {
     const p = this.player;
-    const nearby = this.enemySpatial.query({ x: p.x - 16, y: p.y - 16, w: p.w + 32, h: p.h + 32 });
+    this.probe.x = p.x - 16; this.probe.y = p.y - 16; this.probe.w = p.w + 32; this.probe.h = p.h + 32;
+    const nearby = this.enemySpatial.queryInto(this.probe, this.nearEnemies);
     this.performance.enemyChecks += nearby.length;
     for (const enemy of nearby) {
       if (!hit(p, enemy)) continue;
@@ -230,15 +254,11 @@ export class PhysicsWorld {
     this.reindex();
   }
 
-  dropEnemyCoin(enemy) {
-    this.coins.push({ x: enemy.x + enemy.w / 2 - 13, y: Math.max(40, enemy.y - 30), kind: enemy.dropCoin });
-    this.queueSound('key');
-  }
+  dropEnemyCoin(enemy) { this.coins.push({ x: enemy.x + enemy.w / 2 - 13, y: Math.max(40, enemy.y - 30), kind: enemy.dropCoin }); this.queueSound('key'); }
 
   touchSpike() {
-    for (const spike of [...this.spikes.active(), ...this.momentumCurse.active()]) {
-      if (hit(this.player, spike)) { this.loseMoneyAndReset('Spikes burst: Shefa spilled into the floor.'); return true; }
-    }
+    for (const spike of this.spikes.active()) if (hit(this.player, spike)) { this.loseMoneyAndReset('Spikes burst: Shefa spilled into the floor.'); return true; }
+    for (const spike of this.momentumCurse.active()) if (hit(this.player, spike)) { this.loseMoneyAndReset('Spikes burst: Shefa spilled into the floor.'); return true; }
     const ghostMessage = this.tricks.touchGhost?.(this.player);
     if (ghostMessage) { this.loseMoneyAndReset(ghostMessage); return true; }
     return false;
@@ -255,18 +275,8 @@ export class PhysicsWorld {
     return false;
   }
 
-  runProgress() {
-    return Math.max(0, Math.min(1, this.player.x / Math.max(1, this.width - this.player.w)));
-  }
-
-  deathLoss() {
-    return calculateDeathPenalty({
-      shefa: this.currency.shefa || 0,
-      runShefa: this.runShefaCollected || 0,
-      progress: this.runProgress(),
-      difficulty: this.performance?.difficulty || this.difficulty()
-    });
-  }
+  runProgress() { return Math.max(0, Math.min(1, this.player.x / Math.max(1, this.width - this.player.w))); }
+  deathLoss() { return calculateDeathPenalty({ shefa: this.currency.shefa || 0, runShefa: this.runShefaCollected || 0, progress: this.runProgress(), difficulty: this.performance?.difficulty || this.difficulty() }); }
 
   loseMoneyAndReset(reason) {
     const dead = { ...this.player };
@@ -281,7 +291,7 @@ export class PhysicsWorld {
     this.currency.chain = 0;
     this.market.message = `${reason} ${deathPenaltyReceipt(loss, runShefa, progress)}`;
     this.queueSound('death');
-    this.load(this.level);
+    this.load(this.sourceLevel, { preserveDeath: true });
   }
 
   collect(list, size, onCollect) {

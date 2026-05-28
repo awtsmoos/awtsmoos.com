@@ -1,12 +1,12 @@
 // B"H
 /**
  * @file ikarOyvedManager.js
- * @description Chapter 13: Thin modular main-thread Worker manager with bh18 UI handler.
+ * @description Chapter 16: Thin modular main-thread Worker manager with bh20 touch/UI handler.
  */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
-import setupDomEvents from "./worker/domEvents.js";
-import setupMessageHandler from "./worker/messageHandler.js?v=lean-l1-20260528-bh18";
+import setupDomEvents from "./worker/domEvents.js?v=lean-l1-20260528-bh28";
+import setupMessageHandler from "./worker/messageHandler.js?v=lean-l1-20260528-bh28";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
 import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js";

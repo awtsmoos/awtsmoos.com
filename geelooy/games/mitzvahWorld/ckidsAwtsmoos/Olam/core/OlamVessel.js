@@ -1,18 +1,14 @@
 // B"H
 /**
  * @module OlamVessel
- * @description
- * Chapter 12: The world vessel imports the bh17 eye.
- *
- * The Awtsmoos gives the world a tiny fallback candle, not a flood. The camera
- * arrives through a cache key so the NaN-safe hover ray is truly the active one.
+ * @description Chapter 17: The world vessel imports the bh21 spike-reset body.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGrafting.js?v=lean-l1-20260528-bh17";
+import OlamGrafting from "./OlamGrafting.js?v=lean-l1-20260528-bh28";
 import OlamProperties from "../properties/index.js";
-import OlamInit from "./OlamInit.js?v=lean-l1-20260528-bh17";
-import Ayin from "../camera/index.js?v=lean-l1-20260528-bh17";
+import OlamInit from "./OlamInit.js?v=lean-l1-20260528-bh28";
+import Ayin from "../camera/index.js?v=lean-l1-20260528-bh28";
 import UserProgressManager from "../../systems/UserProgressManager.js";
 import Yichud from "../interaction/Yichud.js";
 import PlacementManager from "../interaction/PlacementManager.js";
@@ -70,17 +66,9 @@ export default class Olam extends Nivra {
   }
 
   get activeCamera() { return this._activeCamera; }
-
-  set activeCamera(value) {
-    this._activeCamera = value;
-    this.refreshCameraAspect();
-  }
-
+  set activeCamera(value) { this._activeCamera = value; this.refreshCameraAspect(); }
   get camera() { return this.activeCamera || this.ayin.camera; }
-
-  set pixelRatio(pixelRatio) {
-    if (this.renderer) this.renderer.setPixelRatio(pixelRatio);
-  }
+  set pixelRatio(pixelRatio) { if (this.renderer) this.renderer.setPixelRatio(pixelRatio); }
 
   async init() {
     await this._facultiesGrafted;

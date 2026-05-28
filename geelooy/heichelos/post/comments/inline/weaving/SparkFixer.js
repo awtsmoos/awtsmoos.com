@@ -2,16 +2,17 @@
  * B"H
  * @module SparkFixer
  * @description
- * Seats already-fetched inline sparks into the correct vessel. A top-level API
- * `sub` or `subSection` echo is never trusted for placement; only a real
- * `dayuh.subSection` makes a comment paragraph-specific. Otherwise the note is
- * verse-level and gathers once at the end of its verse section.
+ * Chapter 10: The Awtsmoos seats each spark once. A paragraph spark enters its
+ * own chamber; a verse spark enters the end-courtyard. The whole document is
+ * guarded so one alias and one comment ID can never duplicate across shelters.
  */
 
 import { makeInlineComment } from "/heichelos/post/comments/render/core.js";
 import { resolveCoordinateToDOM } from "/heichelos/post/comments/logic/inlineManifest/CoordinateResolver.js";
+import { buildRealPlacementDayuh } from "/heichelos/post/comments/logic/inlineManifest/realCommentCoordinate.js";
 import { ShelterArchitect } from "/heichelos/post/comments/inline/weaving/ShelterArchitect.js";
 import { GuardianGate } from "/heichelos/post/comments/inline/weaving/GuardianGate.js";
+import { inlineDuplicateExists } from "/heichelos/post/comments/inline/weaving/DuplicateGuard.js";
 import {
     bindReadingFocus,
     connectShelterToVessel,
@@ -23,35 +24,8 @@ import {
     refreshGatePolish
 } from "/heichelos/post/comments/inline/weaving/polish/EditorialReadingPolish.js";
 
-function escapeForAttr(value) {
-    const str = String(value);
-    if (globalThis.CSS && typeof globalThis.CSS.escape === "function") return globalThis.CSS.escape(str);
-    return str.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
-}
-
-function parseDayuh(raw) {
-    if (!raw) return {};
-    if (typeof raw === "string") {
-        try { return JSON.parse(raw) || {}; } catch { return {}; }
-    }
-    return typeof raw === "object" ? raw : {};
-}
-
-function hasSpecificDayuhSub(dayuh) {
-    return Object.prototype.hasOwnProperty.call(dayuh, "subSection")
-        && dayuh.subSection !== undefined
-        && dayuh.subSection !== null
-        && dayuh.subSection !== ""
-        && dayuh.subSection !== "main"
-        && dayuh.subSection !== "root";
-}
-
 function normalizeSparkCoordinates(spark) {
-    const coords = parseDayuh(spark.dayuh);
-    if (coords.verseSection === undefined || coords.verseSection === null) {
-        if (spark.verseSection !== undefined && spark.verseSection !== null) coords.verseSection = spark.verseSection;
-    }
-    if (!hasSpecificDayuhSub(coords)) delete coords.subSection;
+    const coords = buildRealPlacementDayuh(spark, spark?.dayuh?.verseSection ?? spark?.verseSection ?? null);
     spark.dayuh = coords;
     return coords;
 }
@@ -79,6 +53,16 @@ function findInlineSections() {
     return document.querySelectorAll(".post-reader-localized-context .section, .section[data-awtsmoos-idx], .section[data-idx]");
 }
 
+function appendCard(list, spark, alias, sparkIdStr) {
+    list.style.setProperty("display", "flex", "important");
+    list.style.setProperty("visibility", "visible", "important");
+    const card = makeInlineComment(spark);
+    card.dataset.fromAlias = alias;
+    card.dataset.cid = sparkIdStr;
+    polishCard(card, spark, list.children.length);
+    list.appendChild(card);
+}
+
 export class SparkFixer {
     static showLoading(alias) {
         getPageShelters().forEach(shelter => ShelterArchitect.setStatus(shelter, `Loading inline comments for @${alias}…`, "info"));
@@ -102,13 +86,11 @@ export class SparkFixer {
         sparks.forEach(spark => {
             if (!spark || !spark.id) return;
             const sparkIdStr = String(spark.id);
+            if (inlineDuplicateExists(document, sparkIdStr, alias)) { stats.duplicates++; return; }
+
             const coords = normalizeSparkCoordinates(spark);
             const vessel = resolveCoordinateToDOM(coords);
-
-            if (!vessel) {
-                stats.missing++;
-                return;
-            }
+            if (!vessel) { stats.missing++; return; }
 
             const shelter = ShelterArchitect.secureShelter(vessel);
             if (!shelter) { stats.missing++; return; }
@@ -121,21 +103,9 @@ export class SparkFixer {
             touchedGates.add(gate);
             rememberGateComment(gate, spark);
 
-            if (shelter.querySelector(`[data-cid="${escapeForAttr(sparkIdStr)}"]`)) {
-                stats.duplicates++;
-                return;
-            }
-
             const list = gate.querySelector(".comments-holder-inline");
             if (!list) { stats.missing++; return; }
-
-            list.style.setProperty("display", "flex", "important");
-            list.style.setProperty("visibility", "visible", "important");
-            const card = makeInlineComment(spark);
-            card.dataset.fromAlias = alias;
-            card.dataset.cid = sparkIdStr;
-            polishCard(card, spark, list.children.length);
-            list.appendChild(card);
+            appendCard(list, spark, alias, sparkIdStr);
             refreshGatePolish(gate);
             stats.inserted++;
         });

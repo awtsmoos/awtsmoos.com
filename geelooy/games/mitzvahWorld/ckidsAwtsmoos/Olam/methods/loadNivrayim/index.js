@@ -1,9 +1,9 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 12: LoadNivrayim pulls bh17 constructors through instantiate.
+ * @description Chapter 17: LoadNivrayim pulls bh21 constructors through instantiate.
  */
-import instantiate from "./instantiate.js?v=lean-l1-20260528-bh18";
+import instantiate from "./instantiate.js?v=lean-l1-20260528-bh28";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 

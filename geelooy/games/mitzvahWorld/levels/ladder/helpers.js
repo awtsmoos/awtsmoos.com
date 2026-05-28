@@ -1,7 +1,12 @@
 // B"H
 /**
  * @file helpers.js
- * @description Chapter 12: Cleaner desert ladder geometry and vivid materials.
+ * @description Chapter 24: Level helpers with safe spike exclusion geometry.
+ *
+ * The Awtsmoos does not place thorns beneath the first breath. Platforms now
+ * expose simple rectangle bounds, and `spikeFloor` can exclude those rectangles
+ * with a margin. The first slab and jump stones remain safe; spikes live in the
+ * gaps where falling should matter.
  */
 
 const SPIKE_HEIGHT = 1.65;
@@ -15,13 +20,15 @@ export const platform = (name, x, y, z, width, depth, color = 0xc6aa62) => ({
   depth,
   color,
   textureSeed: name,
-  position: { x, y, z }
+  position: { x, y, z },
+  safeRect: { x, z, width, depth }
 });
 
 export const stairs = (name, x, y, z, width, height, depth) => ({
   name,
   dimensions: { x: width, y: height, z: depth },
   position: { x, y, z },
+  safeRect: { x, z, width: width + 1.5, depth: depth + 1.5 },
   golem: {
     guf: { StairGeometry: [width, height, depth] },
     toyr: { MeshLambertMaterial: { color: 0xb16a3c, emissive: 0x2a1200, map: 'awtsmoosTex://brick' } }
@@ -51,11 +58,10 @@ export const spike = (name, x, z, penalty = 0) => ({
   name,
   radius: 1.28,
   height: SPIKE_HEIGHT,
-  proximity: 1.38,
-  verticalHitRange: 2.85,
+  hitRadius: 0.78,
+  verticalHitRange: 0.55,
   groundY: TERRAIN_TOP_Y,
   penalty,
-  resetDelayMs: 999999,
   position: { x, y: SPIKE_CENTER_Y, z },
   golem: {
     guf: { ConeGeometry: [1.1, SPIKE_HEIGHT, 4] },
@@ -71,16 +77,25 @@ export const player = (x = -8, y = 5, z = 0) => ({ name: 'The Chossid', height: 
 
 export const resetPit = (name, x, y, z, width, depth) => ({ name, width, height: 0.4, depth, proximity: 6, penalty: 0, color: 0x330000, position: { x, y, z } });
 
-export const spikeFloor = ({ minX, maxX, minZ, maxZ, step = 2.15 }) => {
+function insideRect(x, z, rect, margin = 2.2) {
+  const halfW = rect.width / 2 + margin;
+  const halfD = rect.depth / 2 + margin;
+  return x >= rect.x - halfW && x <= rect.x + halfW && z >= rect.z - halfD && z <= rect.z + halfD;
+}
+
+export const spikeFloor = ({ minX, maxX, minZ, maxZ, step = 2.15, exclude = [], margin = 2.2 }) => {
   const out = [];
   let count = 0;
   for (let x = minX; x <= maxX; x += step) {
     for (let z = minZ; z <= maxZ; z += step) {
+      if (exclude.some(rect => insideRect(x, z, rect, margin))) continue;
       out.push(spike(`spike_floor_${String(count).padStart(3, '0')}`, x, z));
       count += 1;
     }
   }
   return out;
 };
+
+export const safeRectsFrom = solids => solids.map(solid => solid.safeRect).filter(Boolean);
 
 export const level = (shaym, requiredPerutos, nextLevel, nivrayim) => ({ shaym, requiredPerutos, nextLevel, globalCoinStorageKey: 'awtsmoosMitzvahGlobalCoins', nivrayim });

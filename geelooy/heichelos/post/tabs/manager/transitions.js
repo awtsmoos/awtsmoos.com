@@ -1,45 +1,59 @@
 //B"H
 /**
- * @method slideIn
- * @description Transitions a new world into manifest focus.
+ * @module TabTransitions
+ * @description
+ * Chapter 12: The Awtsmoos moves chambers without ripping layout from the
+ * browser. No forced reflow. No offsetWidth tax. Only compositor-friendly class
+ * changes scheduled on the next frame, so opening students feels immediate.
  */
-export function slideIn(newTab, currentTab, viewport) {
-    if (currentTab) {
-        console.log(`B"H - [Transitions] Sliding ${currentTab.header} into the shadows.`);
-        currentTab.dom.classList.add('slide-out-left');
-        currentTab.dom.classList.remove('active-view');
-    }
 
-    if (!viewport.contains(newTab.dom)) {
-        viewport.appendChild(newTab.dom);
-    }
+function nextPaint(ritual) {
+    if (typeof requestAnimationFrame === "function") requestAnimationFrame(ritual);
+    else setTimeout(ritual, 0);
+}
 
-    // Force reflow for the browser to acknowledge the Kav
-    void newTab.dom.offsetWidth;
-    
-    console.log(`B"H - [Transitions] Sliding ${newTab.header} into focus.`);
-    newTab.dom.classList.add('active-view');
+function attachOnce(viewport, tab) {
+    if (viewport && tab?.dom && !viewport.contains(tab.dom)) viewport.appendChild(tab.dom);
 }
 
 /**
- * @method slideOut
- * @description Retreats from the current world.
+ * Transitions a new chamber into manifest focus without forced reflow.
+ * @param {object} newTab Tab entering focus.
+ * @param {object|null} currentTab Current tab leaving focus.
+ * @param {Element} viewport Sidebar viewport.
  */
-export function slideOut(leavingTab, returningTab, viewport) {
-    if (leavingTab) {
-        console.log(`B"H - [Transitions] Dismissing manifest presence: ${leavingTab.header}.`);
-        leavingTab.dom.classList.remove('active-view');
-        // Wait for the slide animation before removing from the physical DOM
-        setTimeout(() => {
-            if (leavingTab.dom.parentNode === viewport) {
-                viewport.removeChild(leavingTab.dom);
-            }
-        }, 400);
+export function slideIn(newTab, currentTab, viewport) {
+    if (!newTab?.dom || !viewport) return;
+    if (currentTab?.dom) {
+        currentTab.dom.classList.add("slide-out-left");
+        currentTab.dom.classList.remove("active-view");
     }
 
-    if (returningTab) {
-        console.log(`B"H - [Transitions] Resurrecting focus: ${returningTab.header}.`);
-        returningTab.dom.classList.remove('slide-out-left');
-        returningTab.dom.classList.add('active-view');
+    attachOnce(viewport, newTab);
+    newTab.dom.style.willChange = "transform, opacity";
+    nextPaint(() => newTab.dom.classList.add("active-view"));
+}
+
+/**
+ * Retreats from the current chamber and restores the previous chamber.
+ * @param {object|null} leavingTab Tab leaving focus.
+ * @param {object|null} returningTab Tab returning focus.
+ * @param {Element} viewport Sidebar viewport.
+ */
+export function slideOut(leavingTab, returningTab, viewport) {
+    if (leavingTab?.dom) {
+        leavingTab.dom.classList.remove("active-view");
+        leavingTab.dom.style.willChange = "transform, opacity";
+        setTimeout(() => {
+            if (leavingTab.dom.parentNode === viewport) viewport.removeChild(leavingTab.dom);
+            leavingTab.dom.style.willChange = "";
+        }, 260);
+    }
+
+    if (returningTab?.dom) {
+        returningTab.dom.classList.remove("slide-out-left");
+        returningTab.dom.style.willChange = "transform, opacity";
+        nextPaint(() => returningTab.dom.classList.add("active-view"));
+        setTimeout(() => { returningTab.dom.style.willChange = ""; }, 320);
     }
 }

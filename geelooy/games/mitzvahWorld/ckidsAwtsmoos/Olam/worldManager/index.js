@@ -1,11 +1,11 @@
 // B"H
 /**
  * @module ManagerOfAllWorlds
- * @description Chapter 12: Manager opens bh17 UI and bh17 worker flow.
+ * @description Chapter 15: Manager opens bh19 UI and worker flow.
  */
 import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
-import UIManager from "../uiManager/index.js?v=lean-l1-20260528-bh18";
-import StartWorldFlow from "./StartWorldFlow.js?v=lean-l1-20260528-bh18";
+import UIManager from "../uiManager/index.js?v=lean-l1-20260528-bh28";
+import StartWorldFlow from "./StartWorldFlow.js?v=lean-l1-20260528-bh28";
 import SocketHandler from "./SocketHandler.js";
 import ServiceWorkerInit from "./ServiceWorkerInit.js";
 import SwitchDestroyLogic from "./SwitchDestroyLogic.js";

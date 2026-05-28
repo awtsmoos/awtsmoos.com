@@ -1,12 +1,12 @@
 // B"H
 /**
  * @file StartWorldFlow.js
- * @description Chapter 12: Direct world data enters the bh17 worker.
+ * @description Chapter 16: Direct world data enters the bh20 worker shell.
  */
-import OlamWorkerManager from "../ikarOyvedManager.js";
+import OlamWorkerManager from "../ikarOyvedManager.js?v=lean-l1-20260528-bh28";
 
 const WORLD_FLOW_PATHS = Object.freeze({
-  WORKER_ENTRY: "../oyved/index.js?v=lean-l1-20260528-bh18",
+  WORKER_ENTRY: "../oyved/index.js?v=lean-l1-20260528-bh28",
   PLAYER_DATA: "desktop.folder/game data.folder/playerData.json"
 });
 

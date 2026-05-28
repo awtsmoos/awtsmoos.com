@@ -1,15 +1,31 @@
 // B"H
 /**
  * @file SpikeHazard.js
- * @description Chapter 13: Spike death hides the player and opens reset veil.
+ * @description Chapter 24: Spikes leave the generic proximity universe.
+ *
+ * The Awtsmoos exposed the hidden blade: `Tzomayach` proximity was firing
+ * `nivraNeechnas` while the Chossid merely passed near or above spikes. A hazard
+ * is not a shop, not a door, not an NPC. It must not live in the interactable
+ * proximity registry. This class now sets `interactable=false`, `proximity=0`,
+ * never subscribes to `nivraNeechnas`, and checks only a tight foot/capsule band
+ * in its own lightweight heartbeat.
+ *
+ * One fall. One death gate. No Three explosion. No proximity death.
  */
 import Tzomayach from "../../chayim/tzomayach.js";
-import * as THREE from '/games/scripts/build/three.module.js';
 
-const HEBREW = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "כ", "ל", "מ"];
-const schedule = cb => (typeof requestAnimationFrame === "function" ? requestAnimationFrame(cb) : setTimeout(cb, 16));
+const LOG = 'B"H | SPIKE_DEATH_TRACE';
+const FEET_PAD = 0.18;
+const HORIZONTAL_RADIUS = 0.92;
+const now = () => Math.round(globalThis.performance?.now?.() || Date.now());
 
-function hideObjectTree(obj) {
+function log(stage, extra = {}) {
+  const payload = { stage, at: now(), ...extra };
+  console.info(LOG, payload);
+  try { globalThis.postMessage?.({ type: "worker_text_log", payload: `SPIKE_DEATH_TRACE ${JSON.stringify(payload)}` }); } catch {}
+}
+
+function hideTree(obj) {
   if (!obj) return;
   obj.visible = false;
   if (obj.scale?.setScalar) obj.scale.setScalar(0.001);
@@ -19,24 +35,47 @@ function hideObjectTree(obj) {
   });
 }
 
-function hidePlayer(nivra) {
-  hideObjectTree(nivra?.mesh);
-  hideObjectTree(nivra?.modelMesh);
-  hideObjectTree(nivra?.guf);
-  hideObjectTree(nivra?.visualObject);
-  if (nivra?.mesh?.position) nivra.mesh.position.y = -999;
-  if (nivra?.modelMesh?.position) nivra.modelMesh.position.y = -999;
+function maybeHidePlayer(nivra, token) {
+  if (!nivra?.__spikeDeathControlsFrozen || nivra.__spikeDeathToken !== token) return log("player:hide-cancelled", { token });
+  hideTree(nivra.mesh);
+  hideTree(nivra.modelMesh);
+  hideTree(nivra.guf);
+  hideTree(nivra.visualObject);
+  if (nivra.mesh?.position) nivra.mesh.position.y = -999;
+  if (nivra.modelMesh?.position) nivra.modelMesh.position.y = -999;
+  log("player:hidden", { token });
+}
+
+function sendMainOverlay(payload) {
+  try {
+    globalThis.postMessage?.({ type: "forceSpikeResetOverlay", payload });
+    log("overlay:direct-posted", { reason: payload.reason, token: payload.token });
+  } catch (error) {
+    log("overlay:direct-post-failed", { message: error?.message || String(error), token: payload.token });
+  }
+}
+
+function playerFeetY(player) {
+  if (player?.collider?.start) return player.collider.start.y - (Number(player.radius) || 0.45);
+  const p = player?.mesh?.position || player?.modelMesh?.position;
+  return Number.isFinite(p?.y) ? p.y - (Number(player.radius) || 0.45) : NaN;
+}
+
+function horizontalDistance(player, spikeMesh) {
+  const p = player?.mesh?.position || player?.modelMesh?.position;
+  if (!p || !spikeMesh?.position) return Infinity;
+  return Math.hypot(p.x - spikeMesh.position.x, p.z - spikeMesh.position.z);
 }
 
 export default class SpikeHazard extends Tzomayach {
   type = "spikeHazard";
   static itemName = "Spike Hazard";
-  static description = "A grounded thorn. True contact pauses and asks for reset.";
+  static description = "A grounded thorn with manual foot contact only.";
 
   constructor(op = {}, olam) {
-    op.interactable = true;
-    op.proximity = Number.isFinite(op.proximity) ? op.proximity : 1.35;
-    op.verticalHitRange = Number.isFinite(op.verticalHitRange) ? op.verticalHitRange : 4.2;
+    op.interactable = false;
+    op.proximity = 0;
+    op.isSolid = false;
     op.groundY = Number.isFinite(op.groundY) ? op.groundY : -3;
     op.height = Number.isFinite(op.height) ? op.height : 1.65;
     op.golem ||= {
@@ -44,21 +83,22 @@ export default class SpikeHazard extends Tzomayach {
       toyr: { MeshStandardMaterial: { color: 0xff2233, emissive: 0xaa1100, roughness: 0.7, metalness: 0.1 } }
     };
     super(op, olam);
-    this.penalty = op.penalty || 0;
     this.groundY = op.groundY;
     this.height = op.height;
-    this.verticalHitRange = op.verticalHitRange;
-    this.proximity = op.proximity;
+    this.manualHitRadius = Number.isFinite(op.manualHitRadius) ? op.manualHitRadius : HORIZONTAL_RADIUS;
     this._triggered = false;
+    this._debugNearLogged = false;
     this.heesHawveh = true;
     this.on("ready", () => this.afterReadyGrounding());
-    this.on("nivraNeechnas", nivra => this.hit(nivra));
   }
 
   afterReadyGrounding() {
     if (!this.mesh) return;
+    this.proximity = 0;
+    this.objectsCollidingWith = [];
     this.mesh.rotation.y = Math.PI / 4;
     this.mesh.userData.isSolid = false;
+    this.mesh.userData.addToOctree = false;
     this.mesh.userData.skipRaycast = true;
     const centerY = this.groundY + this.height / 2;
     this.mesh.position.y = centerY;
@@ -67,75 +107,73 @@ export default class SpikeHazard extends Tzomayach {
     this.mesh.updateMatrixWorld(true);
   }
 
-  heesHawvoos() { this.checkPlayerHit(); }
+  heesHawvoos() { this.checkManualPlayerHit(); }
 
-  checkPlayerHit() {
-    if (this._triggered || !this.mesh) return;
+  checkManualPlayerHit() {
+    if (this._triggered || this.olam?.__spikeDeathActive || !this.mesh) return;
     const player = this.olam?.chossid;
-    const p = player?.mesh?.position || player?.modelMesh?.position;
-    if (!player || !p || player.__spikeDefeated) return;
-    if (Math.hypot(p.x - this.mesh.position.x, p.z - this.mesh.position.z) > this.proximity) return;
-    const playerBottom = p.y - (Number(player.radius) || 0.45);
-    const playerTop = p.y + (Number(player.height) || 1.5);
-    const spikeBottom = this.groundY - 0.25;
-    const spikeTop = this.groundY + this.verticalHitRange;
-    if (playerBottom <= spikeTop && playerTop >= spikeBottom) this.hit(player);
+    if (!player || player.__spikeDefeated || player.__spikeDeathControlsFrozen) return;
+    const feetY = playerFeetY(player);
+    if (!Number.isFinite(feetY)) return;
+    const dxz = horizontalDistance(player, this.mesh);
+    const topY = this.groundY + this.height;
+    const nearHoriz = dxz <= this.manualHitRadius;
+    const footContact = feetY <= topY + FEET_PAD && feetY >= this.groundY - 0.35;
+
+    if (nearHoriz && !footContact && !this._debugNearLogged) {
+      this._debugNearLogged = true;
+      log("near-but-not-contact", { name: this.name, dxz: Number(dxz.toFixed(3)), feetY: Number(feetY.toFixed(3)), topY });
+    }
+    if (nearHoriz && footContact) this.hit(player, "manual-foot-contact", { dxz, feetY, topY });
   }
 
-  hit(nivra) {
-    if (this._triggered || nivra?.type !== "chossid") return;
+  hit(nivra, source = "unknown", metrics = {}) {
+    if (this._triggered) return log("hit:ignored-spike-already-triggered", { source });
+    if (nivra?.type !== "chossid") return;
+    if (nivra.__spikeDefeated || nivra.__spikeDeathControlsFrozen || this.olam?.__spikeDeathActive) {
+      return log("hit:ignored-global-death-active", { source, olamActive: Boolean(this.olam?.__spikeDeathActive), playerDefeated: Boolean(nivra.__spikeDefeated) });
+    }
+
     this._triggered = true;
-    this.pausePlayer(nivra);
-    this.spawnBlockBurst(nivra);
-    setTimeout(() => hidePlayer(nivra), 220);
-    setTimeout(() => this.showResetOverlay(), 900);
+    this.olam.__spikeDeathActive = true;
+    const token = (this.olam.__spikeDeathToken || 0) + 1;
+    this.olam.__spikeDeathToken = token;
+    nivra.__spikeDeathToken = token;
+    log("hit:claimed-single-death", { token, source, spike: this.name, ...metrics });
+    this.freezeControlsOnly(nivra, token);
+    this.requestOverlay("manual-foot-contact", nivra, token);
+    setTimeout(() => maybeHidePlayer(nivra, token), 120);
+    setTimeout(() => {
+      if (this.olam?.__spikeDeathActive && this.olam.__spikeDeathToken === token) this.requestOverlay("watchdog-350ms", nivra, token);
+    }, 350);
   }
 
-  pausePlayer(nivra) {
-    if (!nivra) return;
+  freezeControlsOnly(nivra, token) {
     nivra.__spikeDefeated = true;
+    nivra.__spikeDeathControlsFrozen = true;
     nivra.moving = {};
-    nivra.speed = 0;
-    nivra._movementSpeed = 0;
     if (nivra.velocity?.set) nivra.velocity.set(0, 0, 0);
+    log("controls:frozen-only", { token });
   }
 
-  showResetOverlay() {
-    this.olam?.ayshPeula?.("ui event", "effectsOverlay", {
+  requestOverlay(reason, nivra, token) {
+    const p = nivra?.mesh?.position || nivra?.modelMesh?.position;
+    const payload = {
       effect: "spikeDeath",
+      reason,
+      token,
+      cssOnly: true,
       text: "נפילה בקוצים — PRESS ANY KEY TO RESET",
       color: "#ff3355",
-      overlayDelayMs: 0,
-      playProceduralSound: { key: "spikeDeath", options: { volume: 0.5 } }
-    });
-  }
-
-  spawnBlockBurst(nivra) {
-    const scene = this.olam?.scene;
-    const origin = nivra?.mesh?.position || nivra?.modelMesh?.position || this.mesh?.position;
-    if (!scene || !origin) return;
-    const group = new THREE.Group();
-    group.name = "Spike_Hit_Block_Burst";
-    scene.add(group);
-    for (let i = 0; i < 22; i += 1) {
-      const cube = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.24, 0.24), new THREE.MeshLambertMaterial({ color: i % 2 ? 0xff3355 : 0xffcc33 }));
-      cube.position.set(origin.x, origin.y + 0.8, origin.z);
-      cube.userData.vel = new THREE.Vector3(Math.sin(i * 2.41) * 0.2, 0.14 + ((i % 5) * 0.04), Math.cos(i * 1.73) * 0.2);
-      cube.name = `אות_${HEBREW[i % HEBREW.length]}_block`;
-      group.add(cube);
-    }
-    let frames = 0;
-    const animate = () => {
-      frames += 1;
-      for (const cube of group.children) {
-        cube.position.add(cube.userData.vel);
-        cube.userData.vel.y -= 0.008;
-        cube.rotation.x += 0.16;
-        cube.rotation.y += 0.12;
-      }
-      if (frames < 90) schedule(animate);
-      else scene.remove(group);
+      resetPath: "ladder-1.js",
+      worldPosition: p ? { x: p.x, y: p.y, z: p.z } : null
     };
-    schedule(animate);
+    sendMainOverlay(payload);
+    try {
+      this.olam?.ayshPeula?.("ui event", "effectsOverlay", payload);
+      log("overlay:ui-event-requested", { reason, token });
+    } catch (error) {
+      log("overlay:ui-event-failed", { reason, token, message: error?.message || String(error) });
+    }
   }
 }
