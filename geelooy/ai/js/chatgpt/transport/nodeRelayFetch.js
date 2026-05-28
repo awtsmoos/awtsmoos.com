@@ -4,14 +4,9 @@ import { loadNodeRelaySettings } from "./nodeRelaySettings.js";
 /**
  * Chapter 70: The Browser Waited Like The Extension Waited.
  *
- * The relay may answer `pending` while the Awtsmoos stream is still carving a
- * byte from the hidden river. This fetch wrapper mirrors the extension: it
- * preserves method/headers/body, waits, asks again, and only ends when the
- * relay says the stream is truly done.
- *
- * @param {string|URL} url Target URL.
- * @param {RequestInit} options Fetch options.
- * @returns {Promise<NodeRelayResponse>} Fetch-shaped streaming response.
+ * The relay speaks the extension dialect: fetch/body streams plus background
+ * automation controls. This lets the page treat the Node relay like
+ * awtsmoosFetch when the Chrome extension is absent.
  */
 export async function nodeRelayFetch(url, options = {}) {
   const relay = relayUrl();
@@ -30,14 +25,40 @@ nodeRelayFetch.resumeStream = async function resumeStream(id, cursor = 0) {
   return await relayBody("resume", id, { cursor });
 };
 
+nodeRelayFetch.ackStream = async function ackStream(id, cursor = 0) {
+  return { ok: true, id, cursor };
+};
+
+nodeRelayFetch.startBackgroundAutomation = async function startBackgroundAutomation(payload = {}) {
+  return await relayJson("/automation-start", payload);
+};
+
+nodeRelayFetch.stopBackgroundAutomation = async function stopBackgroundAutomation(reason = "stopped", conversationId = null) {
+  return await relayJson("/automation-stop", { reason, conversationId });
+};
+
+nodeRelayFetch.backgroundAutomationStatus = async function backgroundAutomationStatus(conversationId = null) {
+  const suffix = conversationId ? `?conversationId=${encodeURIComponent(conversationId)}` : "";
+  const response = await fetch(`${relayUrl()}/automation-status${suffix}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`Node relay automation status failed: ${response.status} ${await response.text()}`);
+  return await response.json();
+};
+
+nodeRelayFetch.backgroundAutomationEvents = async function backgroundAutomationEvents({ conversationId = null, after = 0 } = {}) {
+  const params = new URLSearchParams();
+  if (conversationId) params.set("conversationId", conversationId);
+  if (after) params.set("after", String(after));
+  const response = await fetch(`${relayUrl()}/automation-events${params.size ? `?${params}` : ""}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`Node relay automation events failed: ${response.status} ${await response.text()}`);
+  return await response.json();
+};
+
 export async function checkNodeRelay() {
   try { return (await fetch(`${relayUrl()}/health`, { cache: "no-store" })).ok; }
   catch { return false; }
 }
 
-export async function openRelayLogin() {
-  return await openRelayControl();
-}
+export async function openRelayLogin() { return await openRelayControl(); }
 
 export async function openRelayControl() {
   const base = relayUrl();
@@ -60,7 +81,6 @@ class NodeRelayResponse {
     this.bodyUsed = false;
     this.headers = new Headers(Array.isArray(metadata.headers) ? metadata.headers : []);
   }
-
   clone() { return new NodeRelayResponse({ ...this, headers: Array.from(this.headers.entries()) }, this.relay); }
   async text() { this.bodyUsed = true; return await relayBody("text", this.id); }
   async json() { return JSON.parse(await this.text()); }
@@ -86,6 +106,18 @@ async function readReadyChunk(id, cursor) {
     if (!packet?.pending) return packet;
     await sleep(Math.min(packet.retryAfter || 750, 5000));
   }
+}
+
+async function relayJson(path, payload = {}) {
+  const response = await fetch(`${relayUrl()}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) throw new Error(`Node relay request failed: ${response.status} ${await response.text()}`);
+  const data = await response.json();
+  if (data.error) throw new Error(data.error);
+  return data;
 }
 
 async function relayBody(bodyAction, id, extra = {}) {

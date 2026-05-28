@@ -77,9 +77,6 @@ export default class ProceduralTerrain extends Domem {
     }
 
     heesHawvoos(dt) {
-        // B"H: The Breath of Time upon the Grass
-        if (!this.isReady || !this.mesh?.material?.userData?.shader) return;
-        const su = this.mesh.material.userData.shader.uniforms;
-        if (su?.uTime) su.uTime.value += dt;
+        // B"H: The terrain texture is stable and cached; no per-frame grass work.
     }
 }

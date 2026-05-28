@@ -5,8 +5,6 @@ import Utils from '../../utils.js';
 import BoneSanctifier from './boyrayNivra/BoneSanctifier.js';
 import AttributeHealer from './boyrayNivra/AttributeHealer.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
-import { loadFreshChossidGltf } from '../worlds/mitzvahWorld/npcs/ChossidNpcLoader.js';
-import { cloneChossidNpcScene } from '../worlds/mitzvahWorld/npcs/ChossidNpcClone.js';
 
 const LIVING_MODEL_HIDDEN_PARTS = new Set([
     'Camera',
@@ -42,6 +40,39 @@ function shouldHideLivingPart(node) {
 }
 
 /**
+ * B"H
+ * Marks a loaded living visual as a visual garment only, never as terrain for
+ * the heavy physics octree. The capsule owns collision; the GLB reveals form,
+ * animation, shadow, and click ownership without being baked into triangles.
+ *
+ * @param {THREE.Object3D} root
+ * Root scene or mesh returned from the model loader.
+ *
+ * @param {object} nivra
+ * Living entity that owns the model.
+ *
+ * @returns {void}
+ */
+function markLivingModel(root, nivra) {
+    if (!root) return;
+    if (!root.userData) root.userData = {};
+    root.userData.isLiving = true;
+    root.userData.skipOctree = true;
+    root.userData.noOctree = true;
+    root.nivraAwtsmoos = nivra;
+
+    root.traverse?.(child => {
+        if (!child.userData) child.userData = {};
+        child.userData.isLiving = true;
+        child.userData.skipOctree = true;
+        child.userData.noOctree = true;
+        if (nivra.type === "interactiveNpc") child.userData.isNpc = true;
+        if (nivra.type === "chossid") child.userData.isPlayer = true;
+        child.nivraAwtsmoos = nivra;
+    });
+}
+
+/**
  * @file boyrayNivra.js
  * @description
  * ╔══════════════════════════════════════════════════════════════════════════╗
@@ -54,35 +85,13 @@ export default class {
         try {
             const isLivingType = nivra.type === "chossid" || 
                                nivra.type === "medabeir" || 
-                               nivra.type === "customNpc";
+                               nivra.type === "customNpc" ||
+                               nivra.type === "interactiveNpc";
 
             if (nivra.path && typeof nivra.path === "string") {
                 let derech = nivra.path;
                 if (derech.startsWith('awtsmoos://')) derech = this.getComponent(derech);
                 if (!derech) return await generateThreeJsMesh({ guf: { BoxGeometry:[1, 1, 1] } }, this);
-
-                if (nivra.type === "chossid") {
-                    const playerBlock = await generateThreeJsMesh({
-                        guf: { BoxGeometry: [0.8, 1.6, 0.8] },
-                        toyr: { MeshLambertMaterial: { color: 0x1f6fff } }
-                    }, this);
-                    playerBlock.name = nivra.name || "Chossid_Player_Test_Block";
-                    playerBlock.geometry?.translate?.(0, 0.8, 0);
-                    playerBlock.updateMatrixWorld(true);
-                    playerBlock.userData.isLiving = true;
-                    playerBlock.nivraAwtsmoos = nivra;
-                    return playerBlock;
-                }
-
-                if (nivra.type === "__never_player_glb" && derech.includes("chossid.glb")) {
-                    const npcGltf = await loadFreshChossidGltf(this);
-                    const scene = cloneChossidNpcScene(npcGltf);
-                    return {
-                        scene,
-                        animations: npcGltf.animations || npcGltf.scene?.animations || [],
-                        cameras: npcGltf.cameras || []
-                    };
-                }
 
                 const baseGltf = await this.loadGLTF(derech);
                 if (!baseGltf || !baseGltf.scene) throw new Error(`Divine source missing for "${nivra.name}".`);
@@ -96,6 +105,8 @@ export default class {
                 }
 
                 const gltf = { scene: clonedScene, animations: baseGltf.animations, cameras: baseGltf.cameras };
+                if (isLivingType) markLivingModel(clonedScene, nivra);
+
                 const boneChildren = {};
                 const garments = {};
                 const materials =[];
@@ -112,6 +123,8 @@ export default class {
                         // B"H: Marking as living to shield from Octree triangle bake
                         if (isLivingType) {
                             child.userData.isLiving = true;
+                            child.userData.skipOctree = true;
+                            child.userData.noOctree = true;
                         }
                     }
 
@@ -141,6 +154,8 @@ export default class {
                 
                 if (isLivingType) {
                     mesh.userData.isLiving = true;
+                    mesh.userData.skipOctree = true;
+                    mesh.userData.noOctree = true;
                 }
 
                 return mesh;

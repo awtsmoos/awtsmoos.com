@@ -30,12 +30,18 @@ export default class {
             if (options.position) mesh.position.copy(options.position);
             if (options.rotation) {
                  const r = options.rotation;
-                 if(typeof r.x === 'number') mesh.rotation.set(r.x, r.y, r.z);
+                 mesh.rotation.set(Number(r.x) || 0, Number(r.y) || 0, Number(r.z) || 0);
             }
             if (options.scale) mesh.scale.copy(options.scale);
             
             if (options.itemData) {
                 mesh.userData.itemData = options.itemData;
+            }
+            if (options.isSolid) mesh.userData.isSolid = true;
+            if (type === 'InteractiveNpc' || type === 'Chossid' || type === 'Medabeir' || type === 'CustomNpc') {
+                mesh.userData.isLiving = true;
+                mesh.userData.skipOctree = true;
+                mesh.userData.noOctree = true;
             }
 
             mesh.updateMatrixWorld(true);
@@ -59,8 +65,11 @@ export default class {
                     }
                 });
                 
-                if (options.interactable && type !== 'CustomNpc' && type !== 'Chossid' && type !== 'Medabeir') {
+                if (options.interactable && type !== 'CustomNpc' && type !== 'Chossid' && type !== 'Medabeir' && type !== 'InteractiveNpc') {
                     this.interactiveOctree.fromGraphNode(mesh);
+                }
+                if (options.interactable && this.interactableNivrayim && !this.interactableNivrayim.includes(nivra)) {
+                    this.interactableNivrayim.push(nivra);
                 }
                 this.nivrayimGroup.add(mesh);
             }

@@ -16,10 +16,6 @@ import visualMethods from "./methods/visuals.js";
 import movementMethods from "./methods/movement.js";
 import physicsMethods from "./methods/physics.js?v=old-stable-physics-20260527";
 import raycastingMethods from "./methods/raycasting.js";
-import buildingMethods from "./methods/building.js";
-import projectileMethods from "./methods/projectiles.js";
-import combatMethods from "./methods/combat.js";
-import shlichusMethods from "./methods/shlichus.js";
 
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js";
 
@@ -176,11 +172,7 @@ ChasveiAwtsmoos.emanate(Chai.prototype, [
     visualMethods,
     movementMethods,
     physicsMethods,
-    raycastingMethods,
-    buildingMethods,
-    projectileMethods,
-    combatMethods,
-    shlichusMethods
+    raycastingMethods
 ]);
 
 

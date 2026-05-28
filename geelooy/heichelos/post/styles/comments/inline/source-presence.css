@@ -1,0 +1,85 @@
+/* B"H
+   Chapter 24: The source text answers. The Awtsmoos makes the paragraph and the
+   margin acknowledge one another: not noisy, not theatrical, just a quiet mutual
+   recognition that this note belongs to this piece of text.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-source-vessel {
+    position: relative !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-source-vessel::after {
+    content: "" !important;
+    position: absolute !important;
+    inset-block: .18rem !important;
+    inset-inline-start: -.55rem !important;
+    width: 3px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, transparent, var(--inline-thread, rgba(197,138,26,.42)), transparent) !important;
+    opacity: .34 !important;
+    transform: scaleY(.72) !important;
+    transform-origin: center !important;
+    transition: opacity .22s ease, transform .22s ease !important;
+    pointer-events: none !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-source-vessel::after,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-source-vessel::after {
+    inset-inline-start: auto !important;
+    inset-inline-end: -.55rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-source-focused::after,
+.post-reader-localized-context .awtsmoos-inline-source-vessel:has(.awtsmoos-inline-reading-focus)::after {
+    opacity: .9 !important;
+    transform: scaleY(1) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-reading-focus .awtsmoos-inline-trigger-preview::before {
+    content: "Linked passage · " !important;
+    color: rgba(255,255,255,.68) !important;
+    font-weight: 900 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header::before {
+    content: "" !important;
+    align-self: stretch !important;
+    width: 3px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, var(--inline-thread, rgba(197,138,26,.52)), transparent) !important;
+    opacity: .72 !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-card-header::before,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-card-header::before {
+    order: 99 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root:hover .awtsmoos-inline-card-header::before,
+.post-reader-localized-context .awtsmoos-inline-commentary-root:focus-within .awtsmoos-inline-card-header::before {
+    opacity: 1 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shelter-label::after {
+    content: "anchored marginalia" !important;
+    margin-inline-start: .45rem !important;
+    padding: .16rem .45rem !important;
+    border-radius: 999px !important;
+    border: 1px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 28%, transparent) !important;
+    color: color-mix(in srgb, currentColor 78%, var(--inline-gold, #c58a1a)) !important;
+    font-size: .68rem !important;
+    letter-spacing: .08em !important;
+}
+
+@media (max-width: 760px) {
+    .post-reader-localized-context .awtsmoos-inline-source-vessel::after,
+    .post-reader-localized-context .awtsmoos-inline-shelter-label::after {
+        display: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .post-reader-localized-context .awtsmoos-inline-source-vessel::after {
+        transition: none !important;
+    }
+}

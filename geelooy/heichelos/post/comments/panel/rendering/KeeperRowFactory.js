@@ -1,27 +1,18 @@
-
-/**
+﻿/**
  * B"H
  * @module KeeperRowFactory
  * @chapter Forging the Seats of the Council
  * @description
- * Every commentator who adds their voice to the text is a Guardian (Keeper).
- * This factory forges the visual row in the sidebar that represents them,
- * providing the portal to their insights and the toggle to manifest their 
- * words in the margins.
+ * A clear inline-comment control: no mystery checkbox, no silent state. The row
+ * announces loading, empty, shown, and hidden based on the mutator result.
  */
 
 import { BlueprintManifestor } from "../../../logic/manifestation/BlueprintManifestor.js";
 import { isAliasInline } from "../../state.js";
 import { toggleInlineForComments } from "../../inline.js";
 
-/**
- * @function createKeeperRow
- * @description Manifests the Neo-Brutalist card for a specific commentator.
- */
 export function createKeeperRow(alias, triggerAliasTab) {
     const isInline = isAliasInline(alias);
-    
-    // Safety check for empty strings
     const validAlias = alias || "guest";
     const initial = validAlias.charAt(0).toUpperCase();
 
@@ -30,8 +21,8 @@ export function createKeeperRow(alias, triggerAliasTab) {
         attr: { class: 'keeper-row awtsmoos-list-item', 'data-alias': validAlias },
         children:[
             {
-                tag: 'div',
-                attr: { class: 'keeper-portal-trigger', title: `Enter insights of @${validAlias}` },
+                tag: 'button',
+                attr: { class: 'keeper-portal-trigger', title: `Read sidebar insights of @${validAlias}`, type: 'button' },
                 children:[
                     { tag: 'div', attr: { class: 'commentator-avatar' }, children:[initial] },
                     { tag: 'span', attr: { class: 'commentator-name' }, children: [`@${validAlias}`] }
@@ -57,50 +48,72 @@ export function createKeeperRow(alias, triggerAliasTab) {
     return BlueprintManifestor.manifest(blueprint);
 }
 
-/**
- * @private
- * @function createInlineToggle
- */
+function labelFor(result, fallbackVisible = false) {
+    if (result?.hidden) return 'Show inline';
+    if (result?.error) return 'Inline error';
+    if (result?.empty) return 'No inline yet';
+    if (result?.visible) return `Shown inline${result.inserted ? ` (${result.inserted})` : ''}`;
+    return fallbackVisible ? 'Hide inline' : 'Show inline';
+}
+
+function setButtonState(button, result, fallbackVisible = false) {
+    const visible = result?.visible ?? fallbackVisible;
+    button.classList.remove('is-working', 'is-empty', 'is-error');
+    button.classList.toggle('is-inline', !!visible && !result?.empty && !result?.error);
+    button.classList.toggle('is-empty', !!result?.empty);
+    button.classList.toggle('is-error', !!result?.error);
+    button.setAttribute('aria-pressed', String(!!visible));
+    const text = button.querySelector('.inline-toggle-text');
+    if (text) text.textContent = labelFor(result, fallbackVisible);
+    const detail = button.querySelector('.inline-toggle-detail');
+    if (detail) {
+        detail.textContent = result?.error
+            ? 'Could not load'
+            : result?.empty
+                ? 'Nothing found on page'
+                : result?.visible
+                    ? 'Inserted into text'
+                    : 'Sidebar only';
+    }
+}
+
 function createInlineToggle(alias, isInline) {
-    const safeAliasId = alias.replace(/\s+/g, '-'); 
+    const labelText = isInline ? 'Hide inline' : 'Show inline';
 
     return {
-        tag: 'div',
-        attr: { class: 'inline-toggle-altar', title: 'Toggle Marginal Appearance' },
+        tag: 'button',
+        attr: {
+            class: `inline-toggle-altar ${isInline ? 'is-inline' : ''}`,
+            title: `${labelText} comments for @${alias}`,
+            type: 'button',
+            'aria-pressed': String(isInline)
+        },
         children:[
             {
-                tag: 'input',
-                attr: { 
-                    type: 'checkbox', 
-                    id: `inline-toggle-${safeAliasId}`, 
-                    class: 'inline-toggle-input',
-                    ...(isInline ? { checked: true } : {}) 
-                },
-                events: {
-                    click: (e) => e.stopPropagation(),
-                    change: (e) => {
-                        e.stopPropagation();
-                        // Call the higher mutator logic to switch the worlds
-                        toggleInlineForComments([], alias);
-                    }
-                }
+                tag: 'span',
+                attr: { class: 'inline-toggle-switch', 'aria-hidden': 'true' },
+                children: [{ tag: 'span', attr: { class: 'inline-toggle-knob' } }]
             },
-            { 
-                tag: 'label', 
-                attr: { 
-                    for: `inline-toggle-${safeAliasId}`, 
-                    class: 'inline-toggle-label' 
-                },
-                events: {
-                    click: (e) => e.stopPropagation()
-                }
+            {
+                tag: 'span',
+                attr: { class: 'inline-toggle-copy' },
+                children: [
+                    { tag: 'span', attr: { class: 'inline-toggle-text' }, children: [labelText] },
+                    { tag: 'span', attr: { class: 'inline-toggle-detail' }, children: [isInline ? 'Inserted into text' : 'Sidebar only'] }
+                ]
             }
         ],
         events: {
-            click: (e) => {
+            click: async (e) => {
                 e.stopPropagation();
-                const input = e.currentTarget.querySelector('.inline-toggle-input');
-                if (input && e.target !== input) input.click();
+                const button = e.currentTarget;
+                button.classList.add('is-working');
+                const text = button.querySelector('.inline-toggle-text');
+                const detail = button.querySelector('.inline-toggle-detail');
+                if (text) text.textContent = 'Loading…';
+                if (detail) detail.textContent = 'Finding anchors';
+                const result = await toggleInlineForComments([], alias);
+                setButtonState(button, result);
             }
         }
     };

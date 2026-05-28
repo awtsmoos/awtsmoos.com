@@ -1,0 +1,106 @@
+/* B"H
+   Chapter 22: Letters cross rivers. The Awtsmoos breathes through Hebrew,
+   English, code, quote, title, and punctuation. This layer gives mixed scripts
+   dignity without forcing one language to wear the other language's clothes.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root,
+.post-reader-localized-context .awtsmoos-inline-trigger {
+    font-kerning: normal !important;
+    font-optical-sizing: auto !important;
+    text-rendering: optimizeLegibility !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-text,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .awtsmoos-comment-paragraph {
+    max-width: var(--inline-reading-measure, 68ch) !important;
+    letter-spacing: .002em !important;
+    word-spacing: .02em !important;
+    hanging-punctuation: first allow-end last !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root p,
+.post-reader-localized-context .awtsmoos-inline-commentary-root li {
+    margin-block: 0 .82em !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root p:last-child,
+.post-reader-localized-context .awtsmoos-inline-commentary-root li:last-child {
+    margin-block-end: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root blockquote {
+    margin: 1rem 0 !important;
+    padding: .75rem 1rem !important;
+    border-inline-start: 3px solid var(--inline-thread, rgba(197,138,26,.55)) !important;
+    border-radius: 0 14px 14px 0 !important;
+    background: color-mix(in srgb, var(--inline-gold, #c58a1a) 8%, transparent) !important;
+    color: color-mix(in srgb, currentColor 88%, var(--inline-gold, #c58a1a)) !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-commentary-root blockquote,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-commentary-root blockquote {
+    border-inline-start: 0 !important;
+    border-inline-end: 3px solid var(--inline-thread, rgba(197,138,26,.55)) !important;
+    border-radius: 14px 0 0 14px !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root code,
+.post-reader-localized-context .awtsmoos-inline-commentary-root pre {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root code {
+    padding: .12rem .32rem !important;
+    border-radius: .45rem !important;
+    background: color-mix(in srgb, currentColor 9%, transparent) !important;
+    font-size: .91em !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root pre {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    padding: 1rem !important;
+    border-radius: 16px !important;
+    background: rgba(15, 23, 42, .94) !important;
+    color: #f8fafc !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-commentary-root .comment-body-vessel,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-commentary-root .comment-body-vessel {
+    line-height: 1.86 !important;
+    letter-spacing: 0 !important;
+    word-spacing: .045em !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-card-header,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-card-header {
+    flex-direction: row-reverse !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-trigger-count,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-trigger-count {
+    margin-inline-start: 0 !important;
+    margin-inline-end: auto !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger-title,
+.post-reader-localized-context .awtsmoos-inline-trigger-subtitle,
+.post-reader-localized-context .awtsmoos-inline-trigger-preview,
+.post-reader-localized-context .awtsmoos-inline-trigger-meta {
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root a {
+    color: color-mix(in srgb, var(--inline-wine, #6e1237) 82%, #2563eb) !important;
+    text-decoration-thickness: .08em !important;
+    text-underline-offset: .18em !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root a:hover {
+    text-decoration-thickness: .14em !important;
+}

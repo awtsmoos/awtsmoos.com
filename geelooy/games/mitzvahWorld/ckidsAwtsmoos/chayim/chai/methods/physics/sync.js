@@ -87,6 +87,7 @@ export default {
                 this.lastRotateOffset = this.rotateOffset;
             }
             this.modelMesh.position.copy(this.mesh.position);
+            this.modelMesh.position.y += Number(this.modelMesh.userData?.visualGroundOffsetY || 0);
         }
         
         if(this.emptyCopy) this.emptyCopy.position.copy(this.mesh.position);

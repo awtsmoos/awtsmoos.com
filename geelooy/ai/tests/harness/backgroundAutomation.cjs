@@ -42,7 +42,7 @@ async function run() {
     return { alarms:true, bridge:true, backgroundOwnsStreaming:true, pageMirrorsOnly:true, stop:true, settled:true, awake:true };
   }));
 
-  results.push(await test("background-engine-sends-three-real-turns", async () => {
+  results.push(await test("background-engine-sends-five-real-turns", async () => {
     const ext = path.join(ROOT, "../scripts/tricks/extensions/server/bgAutomation");
     const turnState = fs.readFileSync(path.join(ext, "turnState.js"), "utf8");
     const engine = fs.readFileSync(path.join(ext, "engine.js"), "utf8");
@@ -51,7 +51,7 @@ async function run() {
       enabled:true,
       conversationId:"conv-auto",
       turns:0,
-      settings:{ enabled:true, maxTurns:3, delayMs:25, prompt:"continue", stopOnError:true },
+      settings:{ enabled:true, maxTurns:5, delayMs:25, prompt:"continue", stopOnError:true },
       prompt:"continue"
     };
     const sends = [];
@@ -67,7 +67,7 @@ async function run() {
     };
     context.globalThis = context;
     context.AwtsmoosBgAutomationStorage = {
-      DEFAULTS:{ maxTurns:3, delayMs:25, prompt:"continue", stopOnError:true },
+      DEFAULTS:{ maxTurns:5, delayMs:25, prompt:"continue", stopOnError:true },
       async loadAutomationState(){ return { ...state, settings:{ ...(state.settings || {}) } }; },
       async saveAutomationState(patch){ state = { ...state, ...patch, settings: patch.settings ? { ...patch.settings } : state.settings }; return { ...state, settings:{ ...(state.settings || {}) } }; },
       publicAutomationState(x){ return { ...x, settings:{ ...(x.settings || {}) } }; }
@@ -77,16 +77,19 @@ async function run() {
     context.AwtsmoosBgPageDelegate = { broadcastAutomationState: s => broadcasts.push({ type:"state", s }), broadcastAutomationStream: s => broadcasts.push({ type:"stream", s }) };
     vm.runInNewContext(turnState, context, { filename:"turnState.js" });
     vm.runInNewContext(engine, context, { filename:"engine.js" });
-    await context.AwtsmoosBgAutomationEngine.tickAutomation("test-1");
-    assert(sends.length === 1 && state.turns === 1 && state.status === "scheduled_next", "first background turn must commit then schedule next", { sends, state });
-    now = state.nextRunAt + 1;
-    await context.AwtsmoosBgAutomationEngine.tickAutomation("test-2");
-    assert(sends.length === 2 && state.turns === 2 && state.status === "scheduled_next", "second background turn must send after delay", { sends, state });
-    now = state.nextRunAt + 1;
-    await context.AwtsmoosBgAutomationEngine.tickAutomation("test-3");
-    assert(sends.length === 3 && state.turns === 3 && state.status === "done:max-turns" && state.enabled === false, "third background turn must finish only at maxTurns", { sends, state });
+    for (let turn = 1; turn <= 5; turn++) {
+      await context.AwtsmoosBgAutomationEngine.tickAutomation(`test-${turn}`);
+      const finalTurn = turn === 5;
+      assert(sends.length === turn && state.turns === turn, `background turn ${turn} must commit exactly once`, { sends, state, turn });
+      if (!finalTurn) {
+        assert(state.status === "scheduled_next" && state.enabled === true, `background turn ${turn} must schedule the next turn`, { sends, state, turn });
+        now = state.nextRunAt + 1;
+      }
+    }
+    assert(state.status === "done:max-turns" && state.enabled === false, "background must stop only after five committed turns", { sends, state });
+    assert(sends.every((send, index) => send.parent === `assistant-${index}`), "background sends must keep advancing parents for five turns", sends);
     assert(broadcasts.some(x => x.s?.status === "scheduled_next"), "scheduled-next state must be broadcast to UI", broadcasts);
-    return { sends:sends.length, turns:state.turns, status:state.status, scheduledBroadcast:true };
+    return { sends:sends.length, turns:state.turns, status:state.status, scheduledBroadcast:true, parents:sends.map(send => send.parent) };
   }));
 
   return {

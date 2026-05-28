@@ -145,12 +145,7 @@ export default class Domem extends Nivra {
             this.ayshPeula("collider transform update", { position, rotation, scale });
             this.locationsChanged.push({ position, rotation, scale });
         });
-
-        this.on("sealayk", () => {
-            if(this.olam) {
-                this.olam?.sealayk(this);
-            }
-        });
+        // B"H: Sealayk is controlled by Olam.sealayk; no recursive self-listener.
 
         this.ayshPeula("varructed", this);
     }

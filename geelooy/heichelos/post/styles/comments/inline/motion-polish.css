@@ -1,0 +1,80 @@
+/* B"H
+   Chapter 23: Movement becomes manners. The Awtsmoos does not shake the page;
+   it lets new insight arrive like a page edge lifting in candlelight, and it
+   becomes perfectly still when the reader asks for reduced motion.
+*/
+
+@keyframes awtsmoosInlineCardArrival {
+    from {
+        opacity: 0;
+        transform: translateY(.65rem) scale(.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes awtsmoosInlineGateBreath {
+    0% { box-shadow: 0 16px 38px rgba(15,23,42,.23); }
+    50% { box-shadow: 0 22px 52px rgba(110,18,55,.20); }
+    100% { box-shadow: 0 16px 38px rgba(15,23,42,.23); }
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root {
+    animation: awtsmoosInlineCardArrival .28s cubic-bezier(.2,.8,.2,1) both !important;
+    transform-origin: top center !important;
+    will-change: transform, opacity !important;
+}
+
+.post-reader-localized-context .comments-holder-inline > .awtsmoos-inline-commentary-root:nth-child(2) {
+    animation-delay: .035s !important;
+}
+
+.post-reader-localized-context .comments-holder-inline > .awtsmoos-inline-commentary-root:nth-child(3) {
+    animation-delay: .07s !important;
+}
+
+.post-reader-localized-context .comments-holder-inline > .awtsmoos-inline-commentary-root:nth-child(n+4) {
+    animation-delay: .095s !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .awtsmoos-inline-trigger {
+    animation: awtsmoosInlineGateBreath 4.8s ease-in-out infinite !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell.awtsmoos-inline-reading-focus .awtsmoos-inline-commentary-root {
+    transform: translateY(-1px) !important;
+}
+
+.post-reader-localized-context .comments-holder-inline {
+    transform-origin: top center !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger-count {
+    transition: transform .18s ease, background-color .18s ease !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger:hover .awtsmoos-inline-trigger-count,
+.post-reader-localized-context .awtsmoos-inline-trigger:focus-visible .awtsmoos-inline-trigger-count {
+    transform: scale(1.08) !important;
+    background: rgba(255,255,255,.22) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-source-focused {
+    transition-duration: .28s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .post-reader-localized-context .awtsmoos-inline-commentary-root,
+    .post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .awtsmoos-inline-trigger {
+        animation: none !important;
+        will-change: auto !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-shell.awtsmoos-inline-reading-focus .awtsmoos-inline-commentary-root,
+    .post-reader-localized-context .awtsmoos-inline-trigger:hover .awtsmoos-inline-trigger-count,
+    .post-reader-localized-context .awtsmoos-inline-trigger:focus-visible .awtsmoos-inline-trigger-count {
+        transform: none !important;
+    }
+}

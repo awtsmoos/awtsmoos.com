@@ -1,10 +1,10 @@
-
+// B"H
 /**
- * B"H
  * @module ExportsHub
+ * @description Chapter 2: The lean Level 1 barrel.
  */
-export * from './ChayimExports.js?v=player-gltf-root-cap-20260527';
-export * from './DvarimExports.js';
-export * from './SystemExports.js';
-export * from './NatureExports.js';
-export * from './ArchitectureExports.js';
+export * from './ChayimExports.js?v=lean-l1-20260528-bh6';
+export * from './DvarimExports.js?v=lean-l1-20260528-bh6';
+export * from './SystemExports.js?v=lean-l1-20260528-bh6';
+export * from './NatureExports.js?v=lean-l1-20260528-bh6';
+export * from './ArchitectureExports.js?v=lean-l1-20260528-bh6';

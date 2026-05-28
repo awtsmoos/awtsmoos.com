@@ -215,23 +215,6 @@ static int draw_executor_stream(AwtsBrowserState* state) {
   return 1;
 }
 
-static void draw_loaded_text_page(AwtsBrowserState* state) {
-  float pageX = sx(state, 36), pageY = sy(state, 116), pageW = sw(state, state->width - 72), pageH = -sh(state, state->height - 146);
-  rect(pageX, pageY, pageW, pageH, 1.0f, 1.0f, 1.0f);
-  awts_draw_text(state, sx(state, 58), sy(state, 150), state->pageTitle[0] ? state->pageTitle : "Loaded page", 0.03f, 0.03f, 0.03f);
-  awts_draw_text(state, sx(state, 58), sy(state, 174), state->pageKind[0] ? state->pageKind : "document", 0.35f, 0.35f, 0.35f);
-  const char* p = state->pagePreview;
-  char line[118];
-  for (int row = 0; row < 18 && p && *p; row++) {
-    int n = 0;
-    while (p[n] && n < 105) n++;
-    memcpy(line, p, n); line[n] = 0;
-    awts_draw_text(state, pageX + 0.045f, pageY - 0.190f - row * 0.045f, line, 0.08f, 0.08f, 0.08f);
-    p += n;
-    while (*p == ' ') p++;
-  }
-}
-
 void awts_draw_native_browser(AwtsBrowserState* state) {
   glViewport(0, 0, state->width, state->height);
   glClearColor(0.80f, 0.82f, 0.86f, 1.0f);
@@ -240,10 +223,9 @@ void awts_draw_native_browser(AwtsBrowserState* state) {
   if (!strcmp(state->pageKind, "network-executor-render-stream") && draw_executor_stream(state)) return;
   if (!strcmp(state->pageKind, "merkava-executor-render-stream") && draw_executor_stream(state)) return;
   if (!state->loggedTextRender) {
-    printf("awts-render-decision route=text-preview result=drawn url=%s pageKind=%s previewBytes=%u\n",
-      state->url, state->pageKind, (unsigned int)strlen(state->pagePreview));
+    printf("awts-render-decision route=executor-only result=no-content-rendered url=%s pageKind=%s reason=no-merkava-display-stream\n",
+      state->url, state->pageKind);
     fflush(stdout);
     state->loggedTextRender = 1;
   }
-  draw_loaded_text_page(state);
 }

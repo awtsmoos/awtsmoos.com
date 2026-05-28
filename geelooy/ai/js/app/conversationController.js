@@ -211,13 +211,15 @@ export class ConversationController {
   }
 
   mountAudioOffer({ stream, response, conversationId, visible }) {
-    if (!visible || this.serviceSelect?.value !== "chatgpt" || !conversationId) return;
+    if (!visible || this.serviceSelect?.value !== "chatgpt" || !conversationId || !stream?.done) return;
+    const copyText = extractAssistantText(response) || stream?.assistant?.text || stream?.assistant?.record?.text || "";
+    if (!String(copyText || "").trim()) return;
     mountAudioOfferLazy({
       shell: stream?.assistant?.shell,
       aiHandler: this.aiHandler,
       conversationId,
       messageId: extractMessageId(response),
-      copyText: extractAssistantText(response) || stream?.assistant?.text || stream?.assistant?.record?.text || ""
+      copyText
     });
   }
 

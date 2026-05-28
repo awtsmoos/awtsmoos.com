@@ -16,10 +16,7 @@
 
 import UI from "/scripts/awtsmoos/ui/index.js";
 import style from "./ui/style.js";
-import btnBubble from "./ui/resources/btnBubble.js";
 import mainMenu from "./ui/mainMenu/index.js";
-import gameMenuData from "./gameMenu.js";
-import { MainMenu } from "./ui/gameUI/MainMenu/index.js";
 
 export default class UIManager {
     /** @constructor — empty vessel, awaiting UI() to begin creation */
@@ -198,15 +195,15 @@ export default class UIManager {
             setTimeout(() => this.makeGameMenu(), 500);
             return;
         }
-
-        // B"H: silent
-
-        
-        // Manifesting the premium MainMenu component
-        this.ui.html({
-            ...MainMenu,
-            parent: par
-        });
+        // B"H: Load the in-game pause/menu UI only when actually requested.
+        import("./ui/gameUI/MainMenu/index.js")
+            .then(({ MainMenu }) => {
+                this.ui.html({
+                    ...MainMenu,
+                    parent: par
+                });
+            })
+            .catch(error => console.error('B"H: Failed to lazy-load in-game menu', error));
     }
 
     /**

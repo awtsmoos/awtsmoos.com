@@ -8,9 +8,11 @@ const STREAM_START_BYTES = 24 * 1024;
 
 export function mountAwtsmoosAudioOffer({ shell, aiHandler, conversationId = null, messageId = null, copyText = "" } = {}) {
   if (!shell || !conversationId || shell.querySelector?.(":scope > .awtsmoos-audio-offer")) return null;
+  const realText = String(copyText || shell.querySelector?.(":scope > .message:not(.is-loading)")?.textContent || "").trim();
+  if (!realText || shell.querySelector?.(":scope > .message.is-loading")) return null;
   const root = document.createElement("section");
   root.className = "awtsmoos-audio-offer awtsmoos-message-options";
-  root.__awtsmoosCopyText = copyText || shell.querySelector?.(":scope > .message")?.textContent || "";
+  root.__awtsmoosCopyText = realText;
   root.innerHTML = `
     <div class="audio-offer-head"><strong>Message options</strong><span>Copy or listen to this answer</span></div>
     <div class="audio-offer-actions">

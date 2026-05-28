@@ -5,6 +5,7 @@
  * @description
  * Clones the loaded chossid.glb scene for NPC use.
  */
+import * as SkeletonUtils from '/games/scripts/jsm/utils/SkeletonUtils.js';
 
 /**
  * B"H
@@ -23,9 +24,21 @@ export function cloneChossidNpcScene(gltf) {
     throw new Error("Loaded chossid.glb does not contain a cloneable scene");
   }
 
-  const clone = source.clone(true);
+  const clone = SkeletonUtils.clone(source);
+
+  if (!clone.userData) clone.userData = {};
+  clone.userData.isLiving = true;
+  clone.userData.isNpc = true;
+  clone.userData.skipOctree = true;
+  clone.userData.noOctree = true;
 
   clone.traverse(child => {
+    if (!child.userData) child.userData = {};
+    child.userData.isLiving = true;
+    child.userData.isNpc = true;
+    child.userData.skipOctree = true;
+    child.userData.noOctree = true;
+
     if (!child?.isMesh) return;
 
     if (child.material && typeof child.material.clone === "function") {

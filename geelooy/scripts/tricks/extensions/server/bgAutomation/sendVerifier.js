@@ -21,7 +21,7 @@
       headers:{ "content-type":"application/json", authorization:`Bearer ${token}` },
       body:JSON.stringify(body)
     });
-    if (!response.ok) throw new Error(`ChatGPT send failed: ${response.status}`);
+    if (!response.ok) throw globalThis.AwtsmoosBgAuthErrors.classifyHttp(response.status);
     const live = await readSse(response, onPacket);
     const proof = await globalThis.AwtsmoosBgSettledConversationPoller.waitForSettledAssistantAfter({
       conversationId,
@@ -52,7 +52,7 @@
   async function getAuthToken() {
     const response = await fetch("https://chatgpt.com/api/auth/session", { credentials:"include", cache:"no-store" });
     const session = await response.json().catch(() => null);
-    if (!session?.accessToken) throw new Error("No ChatGPT access token for background automation.");
+    if (!session?.accessToken) throw globalThis.AwtsmoosBgAuthErrors.authError("missing_token", "token_absent", "Session loaded but did not include an access token. Refresh ChatGPT login and retry.");
     return session.accessToken;
   }
 

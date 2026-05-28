@@ -12,7 +12,8 @@ export default class {
      */
 
     sealayk(nivra) {
-        if(!nivra) return;
+        if(!nivra || nivra.__awtsmoosSealayking) return;
+        nivra.__awtsmoosSealayking = true;
         /**
          * keep track of if it was removed
          */
@@ -25,13 +26,7 @@ export default class {
                 methods: { classList: { add: "hidden" } }
             });
         } catch(e) { console.error("B\"H - Error caught:", e); }
-
-        // B"H: Trigger sealayk event BEFORE destroying everything so listeners can clean up.
-        try {
-            if(nivra && nivra.ayshPeula) {
-		        nivra.ayshPeula("sealayk"); 
-            }
-        } catch(e) { console.error("B\"H - Error caught:", e); }
+        // B"H: Do not fire nivra sealayk here; Domem registered a recursive listener.
 
         if(nivra.isMesh) {
             try {

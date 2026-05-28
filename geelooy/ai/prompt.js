@@ -11,6 +11,7 @@ const EXTENSION_FILE_NAMES = [
   "bgAutomation/graph.js",
   "bgAutomation/turnState.js",
   "bgAutomation/settledConversationPoller.js",
+  "bgAutomation/authErrors.js",
   "bgAutomation/sendVerifier.js",
   "bgAutomation/chatgpt.js",
   "bgAutomation/pageDelegate.js",

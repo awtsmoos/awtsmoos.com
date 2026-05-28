@@ -1,55 +1,66 @@
-/* B"H
-   Inline commentator gate: a quiet, exact control surface. The Awtsmoos
-   lets the alias speak without letting old card styles seize the layout.
+﻿/* B"H
+   Inline gate v3: readable summary, count pill, smooth collapse.
 */
 
+.post-reader-localized-context .awtsmoos-inline-shell,
 .post-reader-localized-context .commentator.inline-holder {
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.75rem !important;
+    gap: .85rem !important;
     padding: 0 !important;
-    border: 0 !important;
     background: transparent !important;
+    border: 0 !important;
 }
 
-.post-reader-localized-context .comments-holder-inline {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: clamp(0.8rem, 2vw, 1.15rem) !important;
-    width: 100% !important;
-    margin-top: 0.15rem !important;
-    position: relative !important;
-}
-
-.post-reader-localized-context .comments-holder-inline > :first-child {
-    scroll-margin-top: clamp(14rem, 30vh, 20rem) !important;
-}
-
+.post-reader-localized-context .awtsmoos-inline-trigger,
 .post-reader-localized-context .commentator.inline-holder .inline-summary-btn {
-    width: fit-content !important;
-    max-width: 100% !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: .75rem !important;
+    border: 1px solid rgba(255,255,255,.16) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg, rgba(30,41,59,.98), rgba(88,28,135,.94)) !important;
+    color: white !important;
+    box-shadow: 0 16px 38px rgba(15,23,42,.23) !important;
+    padding: .85rem 1rem !important;
+    cursor: pointer !important;
+    font-weight: 850 !important;
+    text-align: left !important;
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger:hover,
+.post-reader-localized-context .commentator.inline-holder .inline-summary-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 22px 48px rgba(88,28,135,.28) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger-count {
+    margin-inline-start: auto !important;
+    min-width: 2.15rem !important;
+    height: 2.15rem !important;
     display: inline-flex !important;
     align-items: center !important;
-    gap: 0.5rem !important;
-    padding: 0.65rem 0.95rem !important;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent) !important;
+    justify-content: center !important;
     border-radius: 999px !important;
-    background: color-mix(in srgb, var(--bg-surface) 92%, white) !important;
-    color: var(--color-ink) !important;
-    box-shadow: 0 8px 22px rgba(0,0,0,0.09) !important;
-    backdrop-filter: blur(10px) !important;
-    cursor: pointer !important;
-    font-family: var(--font-heading) !important;
-    font-size: clamp(0.82rem, 1.8vw, 0.95rem) !important;
-    font-weight: 800 !important;
-    text-transform: none !important;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease !important;
+    background: rgba(255,255,255,.14) !important;
+    color: white !important;
+    font-size: .84rem !important;
+    font-weight: 950 !important;
 }
 
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn:hover,
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn.active {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.14) !important;
-    background: var(--color-ink) !important;
-    color: var(--bg-surface) !important;
+.post-reader-localized-context .comments-holder-inline,
+.post-reader-localized-context .awtsmoos-inline-comments {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: clamp(.8rem, 2vw, 1.15rem) !important;
+    width: 100% !important;
+    transition: opacity .2s ease, transform .2s ease !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .comments-holder-inline,
+.post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .awtsmoos-inline-comments {
+    display: none !important;
 }

@@ -1,28 +1,39 @@
-/* B"H
-   Inline responsive polish: on narrow screens the gloss becomes full-width,
-   still exact, still calm, still visually connected to its source text.
+﻿/* B"H
+   Inline responsive v3.
 */
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
     .post-reader-localized-context .marginal-gloss-shelter,
-    .post-reader-localized-context .heb .marginal-gloss-shelter {
+    .post-reader-localized-context .awtsmoos-inline-shelter-v2,
+    .post-reader-localized-context .heb .marginal-gloss-shelter,
+    .post-reader-localized-context .heb .awtsmoos-inline-shelter-v2 {
         margin-inline: 0 !important;
-        padding: 0.75rem !important;
+        padding: .72rem !important;
         border-left-width: 3px !important;
         border-right-width: 3px !important;
-        border-radius: 14px !important;
+        border-radius: 18px !important;
     }
 
     .post-reader-localized-context .marginal-gloss-shelter::before,
-    .post-reader-localized-context .heb .marginal-gloss-shelter::before {
+    .post-reader-localized-context .awtsmoos-inline-shelter-v2::before,
+    .post-reader-localized-context .heb .marginal-gloss-shelter::before,
+    .post-reader-localized-context .heb .awtsmoos-inline-shelter-v2::before {
         display: none !important;
     }
 
-    .post-reader-localized-context .awtsmoos-inline-commentary-root .commentTitle {
-        padding-inline-end: 2.5rem !important;
+    .post-reader-localized-context .awtsmoos-inline-trigger,
+    .post-reader-localized-context .commentator.inline-holder .inline-summary-btn {
+        border-radius: 16px !important;
+        padding: .75rem !important;
     }
 
+    .post-reader-localized-context .awtsmoos-inline-card-header {
+        align-items: flex-start !important;
+        gap: .65rem !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-body,
     .post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
-        padding: 0.85rem !important;
+        padding: .85rem !important;
     }
 }

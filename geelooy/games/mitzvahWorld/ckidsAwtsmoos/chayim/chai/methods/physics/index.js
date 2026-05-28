@@ -13,6 +13,43 @@ import Utils from "../../../../utils.js";
 import Tzomayach from "../../../tzomayach.js";
 
 const _ground_check_ray = new THREE.Ray();
+const MOVING_EPSILON_SQ = 0.0001;
+
+/**
+ * B"H
+ * Decides whether a living entity deserves octree work this frame. The player
+ * always does; resting NPCs keep their visual updates but do not raycast or
+ * capsule-test the world until real movement intent appears.
+ *
+ * @param {object} entity
+ * Living Chai/Medabeir instance.
+ *
+ * @returns {boolean}
+ * True when physics collision should run.
+ */
+function needsOctreePhysics(entity) {
+    if (!entity) return false;
+    if (entity.type === "chossid" || entity.olam?.chossid === entity || entity.olam?.player === entity) {
+        return true;
+    }
+
+    const moving = entity.moving || {};
+    const hasIntent = !!(
+        moving.forward ||
+        moving.backward ||
+        moving.stridingLeft ||
+        moving.stridingRight ||
+        moving.turningLeft ||
+        moving.turningRight ||
+        moving.jump ||
+        entity.movingAutomatically ||
+        entity.navTarget ||
+        entity.currentPath ||
+        entity._isMoving
+    );
+
+    return hasIntent || ((entity.velocity?.lengthSq?.() || 0) > MOVING_EPSILON_SQ);
+}
 
 export default {
     setPosition(vec3) {
@@ -60,6 +97,14 @@ export default {
         this._updateSubSystems(deltaTime);
 
         const isWorldBusy = this.olam?.worldOctree ? this.olam.worldOctree.isProcessing : true;
+
+        if (!needsOctreePhysics(this)) {
+            this.velocity.set(0, 0, 0);
+            this._syncMesh(deltaTime);
+            if (this.activeObject && typeof this.alignObject === 'function') this.alignObject();
+            Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
+            return;
+        }
 
         this._checkGround();
         this._applyPhysicsForces(deltaTime, isWorldBusy);
@@ -312,6 +357,10 @@ export default {
                 this.lastRotateOffset = this.rotateOffset;
             }
             this.modelMesh.position.copy(this.mesh.position);
+            const groundOffset = this.modelMesh.userData?.visualGroundOffsetY;
+            if (Number.isFinite(groundOffset)) {
+                this.modelMesh.position.y += groundOffset;
+            }
         }
 
         if (this.emptyCopy) this.emptyCopy.position.copy(this.mesh.position);

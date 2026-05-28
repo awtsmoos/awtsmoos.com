@@ -130,6 +130,13 @@ export default class WorldHeescheel {
          * Priority: explicit worldDayuh → userInfo spread → raw options fallback.
          */
         const worldData = options.worldDayuh || options.userInfo || options;
+        me.olam.sourcePath = options.sourcePath || worldData.sourcePath || worldData.shaym || "current";
+        me.olam.requiredPerutos = Number(worldData.requiredPerutos || 0);
+        me.olam.ayshPeula("ui event", "levelGoal", {
+            requiredPerutos: me.olam.requiredPerutos,
+            sourcePath: me.olam.sourcePath
+        });
+
         const nivrayim  = worldData.nivrayim || {};
         const typeCount = Object.keys(nivrayim).length;
 

@@ -12,7 +12,7 @@
   function bind(portManager, action, fn) {
     portManager.on(action, async (msg, port) => {
       try { portManager.reply(port, { result: await fn(msg), id:msg.id }); }
-      catch (error) { portManager.reply(port, { error:String(error?.stack || error), id:msg.id }); }
+      catch (error) { const safe = globalThis.AwtsmoosBgAuthErrors?.publicError?.(error) || { status:"automation_error", error:"automation_error", safeHint:String(error?.message || error) }; portManager.reply(port, { ok:false, status:safe.status, error:safe.error, safeHint:safe.safeHint, facts:safe.facts || {}, id:msg.id }); }
     });
   }
 

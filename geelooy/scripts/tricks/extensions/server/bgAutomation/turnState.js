@@ -56,7 +56,8 @@
   }
 
   function errorTurn(error) {
-    return { status:"error", phase:"error", pendingTurn:0, lastError:String(error?.stack || error?.message || error) };
+    const safe = globalThis.AwtsmoosBgAuthErrors?.publicError?.(error) || { status:"automation_error", error:"automation_error", safeHint:String(error?.message || error) };
+    return { status:"error", phase:"error", pendingTurn:0, error:safe.error, safeHint:safe.safeHint, errorStatus:safe.status, errorFacts:safe.facts || {}, lastError:safe.safeHint };
   }
 
   function isTerminal(state = {}) { return TERMINAL.has(String(state.status || "")); }

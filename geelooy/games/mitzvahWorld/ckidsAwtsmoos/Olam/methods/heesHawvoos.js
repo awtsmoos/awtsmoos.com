@@ -6,6 +6,45 @@
  */
 import UniversePulsator from '../oyved/UniversePulsator.js';
 
+const FOCUS_MOVING_EPSILON_SQ = 0.0001;
+
+/**
+ * B"H
+ * Keeps the octree's attention on the player and on genuinely moving souls.
+ * Static NPCs can still animate, glow, and speak, but they do not become
+ * collision-streaming foci every frame.
+ *
+ * @param {object} nivra
+ * World entity being considered as a focus.
+ *
+ * @param {object} self
+ * Olam instance.
+ *
+ * @returns {boolean}
+ * True when this entity should drive octree LOD updates.
+ */
+function shouldDriveOctreeFocus(nivra, self) {
+    if (!nivra) return false;
+    if (nivra === self.chossid || nivra === self.player || nivra.type === "chossid") return true;
+
+    const moving = nivra.moving || {};
+    const hasIntent = !!(
+        moving.forward ||
+        moving.backward ||
+        moving.stridingLeft ||
+        moving.stridingRight ||
+        moving.turningLeft ||
+        moving.turningRight ||
+        moving.jump ||
+        nivra.movingAutomatically ||
+        nivra.navTarget ||
+        nivra.currentPath ||
+        nivra._isMoving
+    );
+
+    return hasIntent || ((nivra.velocity?.lengthSq?.() || 0) > FOCUS_MOVING_EPSILON_SQ);
+}
+
 export default class HeesHawvoosManager {
     async heesHawvoos() {
         const self = this;
@@ -38,7 +77,7 @@ export default class HeesHawvoosManager {
 
                     if (self.nivrayim) {
                         for (const n of self.nivrayim) {
-                            if (n !== self.chossid && n !== self.player && n?.velocity && n?.mesh?.position && n?.onFloor !== undefined && n?.isReady) {
+                            if (n !== self.chossid && n !== self.player && n?.velocity && n?.mesh?.position && n?.onFloor !== undefined && n?.isReady && shouldDriveOctreeFocus(n, self)) {
                                 foci.push({ position: n.mesh.position, velocity: n.velocity });
                             }
                         }

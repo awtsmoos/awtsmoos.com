@@ -1,9 +1,9 @@
-// B"H
+﻿// B"H
 /**
  * @file AnchorMutationHealer.js
  * @description
- * Chapter 2: when the DOM breathes and old vessels crack, this healer waits
- * one quiet heartbeat, then asks inline aliases to re-manifest without storms.
+ * When the DOM breathes and new reading vessels appear, re-run the same unified
+ * inline orchestrator used by the sidebar toggle. No old manifest path remains.
  */
 
 import { getInlineAliases } from "../../state.js";
@@ -12,11 +12,9 @@ let observer = null;
 let pending = false;
 
 async function manifestAlias(alias) {
-    if (window.__awtsmoosInlineManifestTestHook) {
-        return window.__awtsmoosInlineManifestTestHook(alias);
-    }
-    const module = await import("../../logic/inlineManifest.js");
-    return module.manifestAliasInline(alias);
+    if (window.__awtsmoosInlineManifestTestHook) return window.__awtsmoosInlineManifestTestHook(alias);
+    const { UnifiedOrchestrator } = await import("./UnifiedOrchestrator.js");
+    return UnifiedOrchestrator.manifestSingle(alias);
 }
 
 async function healActiveAliases() {
@@ -31,11 +29,6 @@ function scheduleHeal() {
     setTimeout(healActiveAliases, 90);
 }
 
-/**
- * Starts a tiny mutation healer for a reader root.
- * @param {Element|Document} [root=document] Root to observe.
- * @returns {MutationObserver|null} Active observer.
- */
 export function activateAnchorMutationHealer(root = null) {
     const scope = root || (typeof document !== "undefined" ? document : null);
     if (!scope || observer || typeof MutationObserver === "undefined") return observer;
@@ -43,19 +36,13 @@ export function activateAnchorMutationHealer(root = null) {
     if (!target) return null;
 
     observer = new MutationObserver(records => {
-        if (records.some(record => record.addedNodes.length || record.removedNodes.length)) {
-            scheduleHeal();
-        }
+        if (records.some(record => record.addedNodes.length || record.removedNodes.length)) scheduleHeal();
     });
 
     observer.observe(target, { childList: true, subtree: true });
     return observer;
 }
 
-/**
- * Stops the active mutation healer.
- * @returns {void}
- */
 export function deactivateAnchorMutationHealer() {
     observer?.disconnect?.();
     observer = null;

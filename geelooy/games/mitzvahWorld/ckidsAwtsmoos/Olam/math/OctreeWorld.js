@@ -10,6 +10,76 @@ const _v1 = new THREE.Vector3();
 const _tempBox = new THREE.Box3();
 const _tempTri = new THREE.Triangle();
 
+function triangleCountOf(geometry) {
+    if (!geometry?.attributes?.position) return 0;
+    const count = geometry.index ? geometry.index.count : geometry.attributes.position.count;
+    return Math.ceil(count / 3);
+}
+
+function isFiniteBox(box) {
+    return box &&
+        Number.isFinite(box.min.x) && Number.isFinite(box.min.y) && Number.isFinite(box.min.z) &&
+        Number.isFinite(box.max.x) && Number.isFinite(box.max.y) && Number.isFinite(box.max.z);
+}
+
+function hasLivingAncestor(object) {
+    let current = object;
+    while (current) {
+        if (
+            current.userData?.isLiving ||
+            current.userData?.isPlayer ||
+            current.userData?.isNpc ||
+            current.userData?.skipOctree ||
+            current.userData?.noOctree
+        ) {
+            return true;
+        }
+        current = current.parent;
+    }
+    return false;
+}
+
+function shouldBakeMesh(mesh, worldBox = null) {
+    if (!mesh?.isMesh || !mesh.geometry) return false;
+    if (hasLivingAncestor(mesh)) return false;
+    if (mesh.userData?.notSolid || mesh.userData?.isDynamic) return false;
+    if (mesh.isSkinnedMesh || mesh.isInstancedMesh) return false;
+    if (mesh.type === 'SkinnedMesh' || mesh.type === 'InstancedMesh') return false;
+
+    const triCount = triangleCountOf(mesh.geometry);
+    if (triCount <= 0 || triCount > CONFIG.MAX_TRIANGLES_PER_MESH) return false;
+
+    const box = worldBox || new THREE.Box3().setFromObject(mesh);
+    if (!isFiniteBox(box) || box.isEmpty()) return false;
+
+    const size = box.getSize(new THREE.Vector3());
+    return size.x <= CONFIG.MAX_WORLD_BOX_SIZE &&
+        size.y <= CONFIG.MAX_WORLD_BOX_SIZE &&
+        size.z <= CONFIG.MAX_WORLD_BOX_SIZE;
+}
+
+function collectBakeMeshes(root) {
+    const meshes = [];
+    if (!root || hasLivingAncestor(root)) return meshes;
+    root.updateMatrixWorld?.(true);
+    root.traverse?.(obj => {
+        if (meshes.length >= CONFIG.MAX_TOTAL_INTAKE_QUEUE) return;
+        if (obj.isMesh && obj.geometry && shouldBakeMesh(obj)) meshes.push(obj);
+    });
+    return meshes;
+}
+
+function makePhysicsClone(mesh) {
+    const clone = new THREE.Mesh(mesh.geometry.clone());
+    mesh.getWorldPosition(clone.position);
+    mesh.getWorldQuaternion(clone.quaternion);
+    mesh.getWorldScale(clone.scale);
+    clone.updateMatrix();
+    clone.updateMatrixWorld(true);
+    clone.userData = { ...mesh.userData, visualReference: mesh, inMainWorld: true };
+    return clone;
+}
+
 export class OctreeWorld {
     constructor() {
         this.root = null;
@@ -158,24 +228,20 @@ export class OctreeWorld {
             if (performance.now() > deadline) return;
             const job = this._intakeQueue[0];
             if (job.group) {
-                const meshes = [];
-                job.group.traverse(obj => {
-                    if (obj.isMesh && obj.geometry && !obj.userData.notSolid) meshes.push(obj);
-                });
+                const meshes = collectBakeMeshes(job.group);
                 this._intakeQueue.shift();
-                for(const m of meshes) this._intakeQueue.unshift({ mesh: m });
+                for (const m of meshes) {
+                    if (this._intakeQueue.length >= CONFIG.MAX_TOTAL_INTAKE_QUEUE) break;
+                    this._intakeQueue.unshift({ mesh: m });
+                }
                 continue;
             }
             const { mesh } = this._intakeQueue.shift();
-            const clone = new THREE.Mesh(mesh.geometry.clone()); 
-            mesh.getWorldPosition(clone.position);
-            mesh.getWorldQuaternion(clone.quaternion);
-            mesh.getWorldScale(clone.scale);
-            clone.updateMatrix();
-            clone.updateMatrixWorld(true);
-            clone.userData = { ...mesh.userData, visualReference: mesh };
+            if (!shouldBakeMesh(mesh)) continue;
+            const clone = makePhysicsClone(mesh);
             if (!clone.geometry.boundingBox) clone.geometry.computeBoundingBox();
             const worldBox = clone.geometry.boundingBox.clone().applyMatrix4(clone.matrixWorld);
+            if (!shouldBakeMesh(clone, worldBox)) continue;
             this._insertMeshOnly(this.root, clone, worldBox);
         }
     }
@@ -393,20 +459,24 @@ export class OctreeWorld {
     
     addObject(mesh) {
         if (!mesh) return false;
+        if (!mesh.isMesh || !mesh.geometry) {
+            const meshes = collectBakeMeshes(mesh);
+            let addedAny = false;
+            for (const childMesh of meshes) {
+                if (this.addObject(childMesh)) addedAny = true;
+            }
+            return addedAny;
+        }
+
         mesh.updateMatrixWorld(true);
         if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
         const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+        if (!shouldBakeMesh(mesh, worldBox)) return false;
 
         if (!this.root) this.root = new LODNode(worldBox.clone());
         else this.root.box.union(worldBox);
 
-        const physicsClone = new THREE.Mesh(mesh.geometry.clone());
-        mesh.getWorldPosition(physicsClone.position);
-        mesh.getWorldQuaternion(physicsClone.quaternion);
-        mesh.getWorldScale(physicsClone.scale);
-        physicsClone.updateMatrix();
-        physicsClone.updateMatrixWorld(true);
-        physicsClone.userData = { ...mesh.userData, visualReference: mesh };
+        const physicsClone = makePhysicsClone(mesh);
 
         const satGeo = mesh.geometry.clone();
         const satClone = new THREE.Mesh(satGeo);
@@ -427,36 +497,32 @@ export class OctreeWorld {
         satelliteOctree.sourceMesh = mesh;
 
         this._pendingOctrees.push(satelliteOctree);
+        if (this._pendingOctrees.length > CONFIG.MAX_PENDING_OCTREES) {
+            this._pendingOctrees.splice(0, this._pendingOctrees.length - CONFIG.MAX_PENDING_OCTREES);
+        }
         physicsClone.userData.inMainWorld = true; 
         this._insertMeshOnly(this.root, physicsClone, worldBox);
         return true;
     }
 
     fromGraphNode(group) {
-        if (!group) return;
+        if (!group || hasLivingAncestor(group)) return false;
         group.updateMatrixWorld(true);
         const groupBox = new THREE.Box3().setFromObject(group);
-        if (groupBox.isEmpty()) return;
+        if (!isFiniteBox(groupBox) || groupBox.isEmpty()) return false;
+
+        const meshes = collectBakeMeshes(group);
+        if (meshes.length === 0) return false;
 
         if (!this.root) this.root = new LODNode(groupBox.clone());
         else this.root.box.union(groupBox);
 
-        const meshes = [];
-        group.traverse(obj => {
-            if (obj.isMesh && obj.geometry && !obj.userData.notSolid) meshes.push(obj);
-        });
-
         for (const mesh of meshes) {
             if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
             const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+            if (!shouldBakeMesh(mesh, worldBox)) continue;
 
-            const clone = new THREE.Mesh(mesh.geometry.clone());
-            mesh.getWorldPosition(clone.position);
-            mesh.getWorldQuaternion(clone.quaternion);
-            mesh.getWorldScale(clone.scale);
-            clone.updateMatrix();
-            clone.updateMatrixWorld(true);
-            clone.userData = { ...mesh.userData, visualReference: mesh };
+            const clone = makePhysicsClone(mesh);
 
             const tempGroup = new THREE.Group();
             tempGroup.add(clone);
@@ -468,7 +534,11 @@ export class OctreeWorld {
             sat.sourceMesh = mesh;
             this._pendingOctrees.push(sat);
         }
+        if (this._pendingOctrees.length > CONFIG.MAX_PENDING_OCTREES) {
+            this._pendingOctrees.splice(0, this._pendingOctrees.length - CONFIG.MAX_PENDING_OCTREES);
+        }
         this._intakeQueue.push({ group: group, isStaticWorld: true });
+        return true;
     }
 
     removeMesh(mesh) {
@@ -478,14 +548,23 @@ export class OctreeWorld {
         const nodes = this._findLeafNodesInBox(this.root, meshBox);
 
         nodes.forEach(node => {
-            if (node.physicsMeshGroup && node.physicsMeshGroup.children.includes(mesh)) {
-                node.physicsMeshGroup.remove(mesh);
-                if (node.physics) node.physics.removeMesh(mesh); 
+            if (!node.physicsMeshGroup) return;
+            const toRemove = node.physicsMeshGroup.children.filter(child => {
+                const childRef = child.userData?.visualReference || child;
+                return child === mesh || child === visualRef || childRef === mesh || childRef === visualRef;
+            });
+
+            if (toRemove.length > 0) {
+                toRemove.forEach(child => node.physicsMeshGroup.remove(child));
+                if (node.physics?.clear) node.physics.clear();
+                node.physics = null;
+                node.state = node.physicsMeshGroup.children.length > 0 ? NODE_STATE.PENDING_BUILD : NODE_STATE.EMPTY;
+                if (node.state === NODE_STATE.PENDING_BUILD) this._buildQueue.add(node);
             }
         });
 
         this._pendingOctrees = this._pendingOctrees.filter(sat => {
-            return sat.sourceMesh !== visualRef;
+            return sat.sourceMesh !== mesh && sat.sourceMesh !== visualRef;
         });
     }
 }

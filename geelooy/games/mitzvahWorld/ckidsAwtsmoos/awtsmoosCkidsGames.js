@@ -1,14 +1,7 @@
-
+// B"H
 /**
- * B"H
  * @file awtsmoosCkidsGames.js
- * @description 
- * 🌟 THE PINNACLE OF EXPORTS 🌟
- * 
- * Every creation (Nivra) must be registered here to cross from 
- * the abstract blueprint into the physical realm.
- * The monolithic file has been shattered into highly organized sub-modules.
+ * @description Chapter 2: The public gate opens only the lean barrel.
  */
-
-export * from './exports/index.js?v=player-gltf-root-cap-20260527';
+export * from './exports/index.js?v=lean-l1-20260528-bh6';
 export class ok {}

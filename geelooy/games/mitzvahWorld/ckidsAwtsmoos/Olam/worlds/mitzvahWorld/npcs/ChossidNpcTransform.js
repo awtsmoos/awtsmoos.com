@@ -103,6 +103,9 @@ export function applyChossidNpcTransform(npc, def, olam = null) {
   npc.nivraAwtsmoos = nivraBridge;
   npc.userData.mitzvahWorldNpcRoot = true;
   npc.userData.isNpc = true;
+  npc.userData.isLiving = true;
+  npc.userData.skipOctree = true;
+  npc.userData.noOctree = true;
   npc.userData.nefeshType = "chossidNpc";
   npc.userData.nefeshId = npc.name;
   npc.userData.displayName = def.displayName || npc.name;
@@ -121,6 +124,9 @@ export function applyChossidNpcTransform(npc, def, olam = null) {
     child.userData.ownerNpc = npc.name;
     child.userData.interactable = true;
     child.userData.isNpcPart = true;
+    child.userData.isLiving = true;
+    child.userData.skipOctree = true;
+    child.userData.noOctree = true;
     child.userData.inventory = inventory;
 
     if (child.isMesh) {

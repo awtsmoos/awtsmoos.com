@@ -29,14 +29,21 @@ export default class EntranceAssembler {
         if (!logic) return;
 
         // 2. Prepare the Sefirotic context (Variables)
+        const hinge = NivraAssembler.evaluate(logic, { room, ent });
+        const offset = Array.isArray(roomOffset) ? roomOffset : [0, 0, 0];
+        hinge.hx = (Number(hinge.hx) || 0) + (Number(offset[0]) || 0);
+        hinge.hy = (Number(hinge.hy) || 0) + (Number(offset[1]) || 0);
+        hinge.hz = (Number(hinge.hz) || 0) + (Number(offset[2]) || 0);
+
         const context = {
             building,
             room,
             ent,
             idSuffix,
             roomOffset,
+            parent: building,
             // Pre-calculate the hinge position data using JSONEvaluator
-            hinge: NivraAssembler.evaluate(logic, { room, ent })
+            hinge
         };
 
         // 3. Command the manifestation

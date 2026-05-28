@@ -13,6 +13,15 @@
  */
 import { createVector3 } from '../../../graphics/ThreeBridge.js';
 
+const RESERVED_ENTITY_KEYS = new Set([
+    "type",
+    "name",
+    "position",
+    "rotation",
+    "golem",
+    "emanations"
+]);
+
 export default {
     /**
      * @method processBlueprint
@@ -54,10 +63,14 @@ export default {
         // 4. Resolve parameters (golem, name, etc)
         const name = this.evaluate(entityNode.name || "Nivra");
         const golem = this.evaluate(entityNode.golem || {});
+        const extras = {};
+        for (const [key, value] of Object.entries(entityNode)) {
+            if (!RESERVED_ENTITY_KEYS.has(key)) extras[key] = this.evaluate(value);
+        }
         
         // 5. THE SACRED BRIYAH (Creation)
         const op = {
-            ...entityNode, // Keep any raw flags
+            ...extras,
             name,
             type,
             position: { x: posVec.x, y: posVec.y, z: posVec.z },

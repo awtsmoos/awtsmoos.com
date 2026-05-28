@@ -26,9 +26,18 @@ export default class InteractiveNpc extends Medabeir {
         op.proximity = op.proximity || 4.5; 
         op.interactable = true;
         op.heesHawveh = true;
+        op.visualHeight = op.visualHeight || 2.0;
         
-        // B"H: Share the same sacred garment as the Chossid player
-        op.path = op.path || "https://models-3122d.web.app/chossid.glb?k=2";
+        if (op.simpleGuide) {
+            op.golem = op.golem || {
+                guf: { CylinderGeometry: [0.35, 0.35, 1.8, 10] },
+                toyr: { MeshLambertMaterial: { color: 0xffd166, emissive: 0x442200 } }
+            };
+            op.path = null;
+        } else {
+            // B"H: Share the same sacred garment as the Chossid player
+            op.path = op.path || "https://models-3122d.web.app/chossid.glb?k=2";
+        }
 
         super(op, olam);
         this.options = op || {}; 

@@ -10,12 +10,13 @@ const MAX_EVENT_TEXT = 1200;
  *
  * Visible text flows live. Non-message packets are summarized into tiny event
  * capsules instead of keeping full raw provider/tool payloads in RAM until the
- * stream ends. The extension ledger remains the durable byte store; the page
- * keeps only what it needs to paint and finish the assistant vessel.
+ * stream ends. Failed sends now throw real errors so the visible loading bubble
+ * aborts instead of sitting forever as "incoming sparks".
  */
 export async function logStream(response, callback, context = {}) {
   const emit = typeof callback === "function" ? callback : () => {};
-  if (!response.ok) return { message: "Something happened" };
+  if (!response?.ok) throw await streamHttpError(response);
+  if (!response.body?.getReader) throw new Error("ChatGPT response had no readable stream body.");
   const streamId = response.id || response.streamId || response.metadata?.streamId;
   const reader = response.body.getReader();
   const decoder = new TextDecoder("utf-8");
@@ -79,4 +80,14 @@ function compactEvent(raw = {}) {
   const conversation_id = raw.conversation_id || raw.conversationId || null;
   if (!type && !id && !text) return null;
   return { type, id, text, conversation_id };
+}
+
+async function streamHttpError(response) {
+  const status = response?.status || 0;
+  let body = "";
+  try { body = await response?.text?.() || ""; } catch {}
+  const err = new Error(`ChatGPT send failed: HTTP ${status || "unknown"}${body ? ` - ${String(body).slice(0, 500)}` : ""}`);
+  err.status = status;
+  err.responseBody = body;
+  return err;
 }

@@ -2,47 +2,38 @@
 /**
  * @file visuals.js
  * @description
- * Chapter 2: The Untouched Cloak.
+ * Chapter 2: The Cloak Returned To The Living Vessel.
  *
- * The Chossid player receives the same chossid.glb as NPCs through the same
- * loader path. This module refuses to repaint, hide, scale, remap, or dress
- * the GLB. The capsule moves; the GLB follows as pure visible form.
+ * The player keeps the capsule collider as the body of motion, while
+ * chossid.glb stays the visible garment riding above it. This module delegates
+ * garment visibility to a small helper and leaves the collider untouched.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
+import { applyPlayerGarments } from './visuals/garments.js';
 
 export default {
     minimapPos: false,
     lastPos: new THREE.Vector3(),
 
-    /**
-     * Disabled minimap shader bridge retained as a safe no-op.
-     * @returns {void}
-     */
-    postProcessing() {
-        return;
-    },
+    /** @returns {void} Retained as a no-op shader hook. */
+    postProcessing() { return; },
+
+    /** @returns {void} Retained as a no-op camera hook. */
+    adjustDOF() { return; },
 
     /**
-     * Disabled depth-of-field adjustment retained as a safe no-op.
-     * @returns {void}
-     */
-    adjustDOF() {
-        return;
-    },
-
-    /**
-     * Player GLB appearance is immutable after loading.
+     * Reveals equipped or data-defined clothes on the player GLB.
+     *
      * @returns {void}
      */
     updateAppearance() {
-        return;
+        applyPlayerGarments(this);
     },
 
     /**
-     * Player GLB randomization is forbidden; NPCs may randomize elsewhere.
+     * Keeps the player deterministic; inventory and explicit clothes drive style.
+     *
      * @returns {void}
      */
-    randomizeAppearance() {
-        return;
-    }
+    randomizeAppearance() { return; }
 };

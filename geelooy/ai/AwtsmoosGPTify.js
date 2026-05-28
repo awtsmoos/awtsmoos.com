@@ -135,6 +135,26 @@ async function getAwtsmoosAudioStream(options) {
   return await getLegacyAwtsmoosAudioStream(fetcher, options);
 }
 
+function latestSettledAssistantNode(convo = {}) {
+  const mapping = convo?.mapping || {};
+  let nodeId = convo?.current_node;
+  const seen = new Set();
+  while (nodeId && !seen.has(nodeId)) {
+    seen.add(nodeId);
+    const node = mapping[nodeId];
+    const message = node?.message;
+    if (message?.author?.role === "assistant" && hasSettledAssistantContent(message)) return nodeId;
+    nodeId = node?.parent || message?.parent || message?.metadata?.parent_id || null;
+  }
+  return null;
+}
+
+function hasSettledAssistantContent(message = {}) {
+  const content = message.content || {};
+  return Boolean(content.parts?.length || content.text || content.thoughts?.length || message.status === "finished_successfully");
+}
+
+
 function debug(label, payload) {
   if (DEBUG) console.debug(`B"H ChatGPT ${label}`, payload);
 }

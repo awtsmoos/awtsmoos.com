@@ -25,8 +25,10 @@ const DESERT_TEST_WORLD = {
       {
         name: "The Chossid",
         height: 1.5,
-        speed: 6,
+        visualHeight: 1.85,
+        speed: 120,
         interactable: false,
+        path: "https://models-3122d.web.app/chossid.glb?k=2",
         position: { x: 0, y: 5, z: 10 },
         on: {
           ready(n) {
@@ -55,12 +57,12 @@ const DESERT_TEST_WORLD = {
     InteractiveNpc: [
       {
         name: "Desert Guide",
-        position: { x: -8, y: 4, z: 16 },
+        position: { x: -8, y: 0, z: 16 },
         dialogues: ["B\\\"H. This tiny desert is here for fast testing."]
       },
       {
         name: "House Keeper",
-        position: { x: 8, y: 4, z: 16 },
+        position: { x: 8, y: 0, z: 16 },
         dialogues: ["Three houses, two NPCs, one clear path."]
       }
     ]

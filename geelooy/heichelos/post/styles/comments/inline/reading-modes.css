@@ -1,0 +1,77 @@
+/* B"H
+   Chapter 20: Three chambers open in the margin. The Awtsmoos lets one design
+   become compact for speed, scholarly for thought, and immersive for deep fire.
+   These selectors are optional hooks; default readers keep the calm baseline.
+*/
+
+.post-reader-localized-context {
+    --inline-mode-border: rgba(197, 138, 26, 0.36);
+    --inline-mode-card-bg: linear-gradient(180deg, rgba(255,255,255,.99), rgba(251,247,239,.96));
+    --inline-mode-gate-bg: linear-gradient(135deg, #080706, #17120d 58%, #050505);
+    --inline-mode-header-tracking: .08em;
+}
+
+.post-reader-localized-context[data-inline-mode="scholar"] {
+    --inline-reading-measure: 74ch;
+    --inline-mode-border: rgba(109, 77, 26, 0.42);
+    --inline-mode-card-bg: linear-gradient(180deg, rgba(255,253,247,.99), rgba(247,239,224,.96));
+    --inline-mode-gate-bg: linear-gradient(135deg, #20170b, #4d3511 52%, #120c05);
+    --inline-mode-header-tracking: .12em;
+}
+
+.post-reader-localized-context[data-inline-mode="discussion"] {
+    --inline-reading-measure: 62ch;
+    --inline-mode-border: rgba(99, 102, 241, 0.36);
+    --inline-mode-card-bg: linear-gradient(180deg, rgba(255,255,255,.99), rgba(241,245,249,.96));
+    --inline-mode-gate-bg: linear-gradient(135deg, #111827, #312e81 58%, #020617);
+    --inline-mode-header-tracking: .055em;
+}
+
+.post-reader-localized-context[data-inline-mode="manuscript"] {
+    --inline-reading-measure: 70ch;
+    --inline-mode-border: rgba(110, 18, 55, 0.38);
+    --inline-mode-card-bg: radial-gradient(circle at 15% 8%, rgba(197,138,26,.10), transparent 32%), linear-gradient(180deg, #fffaf0, #f7ead1);
+    --inline-mode-gate-bg: linear-gradient(135deg, #42091f, #1d0b11 58%, #050001);
+    --inline-mode-header-tracking: .14em;
+}
+
+.post-reader-localized-context[data-inline-mode] .awtsmoos-inline-trigger,
+.post-reader-localized-context[data-inline-mode] .commentator.inline-holder .inline-summary-btn {
+    background: var(--inline-mode-gate-bg) !important;
+}
+
+.post-reader-localized-context[data-inline-mode] .awtsmoos-inline-commentary-root {
+    background: var(--inline-mode-card-bg) !important;
+    border-color: var(--inline-mode-border) !important;
+}
+
+.post-reader-localized-context[data-inline-mode] .awtsmoos-inline-trigger-title,
+.post-reader-localized-context[data-inline-mode] .awtsmoos-inline-trigger-meta {
+    letter-spacing: var(--inline-mode-header-tracking) !important;
+}
+
+.post-reader-localized-context[data-inline-mode="discussion"] .awtsmoos-inline-card-header {
+    background: linear-gradient(135deg, rgba(99,102,241,.14), rgba(14,165,233,.10)) !important;
+}
+
+.post-reader-localized-context[data-inline-mode="scholar"] .awtsmoos-inline-commentary-root .comment-body-vessel {
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: clamp(1rem, 1.65vw, 1.11rem) !important;
+}
+
+.post-reader-localized-context[data-inline-mode="manuscript"] .awtsmoos-inline-commentary-root::after {
+    content: "✥" !important;
+    background: linear-gradient(180deg, #6e1237, #2b0715) !important;
+}
+
+.post-reader-localized-context[data-inline-density="compact"] .awtsmoos-inline-trigger-preview {
+    -webkit-line-clamp: 1 !important;
+}
+
+.post-reader-localized-context[data-inline-density="comfortable"] .comments-holder-inline {
+    gap: clamp(.9rem, 2vw, 1.25rem) !important;
+}
+
+.post-reader-localized-context[data-inline-density="immersive"] .awtsmoos-inline-trigger-preview {
+    -webkit-line-clamp: 3 !important;
+}

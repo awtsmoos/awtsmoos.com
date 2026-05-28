@@ -1,0 +1,197 @@
+/* B"H
+   Chapter 18: The Awtsmoos threads commentary back into the page. This layer is
+   calm, editorial, keyboard-visible, RTL-aware, dark-aware, and reduced-motion
+   safe. It does not decorate randomly; it teaches the margin to disclose its
+   meaning before the reader opens the chamber.
+*/
+
+.post-reader-localized-context {
+    --inline-radius-xl: clamp(20px, 3vw, 30px);
+    --inline-radius-md: clamp(14px, 2vw, 20px);
+    --inline-gap: clamp(0.85rem, 1.8vw, 1.22rem);
+    --inline-thread: color-mix(in srgb, var(--inline-gold, #c58a1a) 68%, transparent);
+    --inline-focus-wash: color-mix(in srgb, var(--inline-gold, #c58a1a) 13%, transparent);
+    --inline-premium-shadow: 0 24px 70px rgba(37, 24, 9, 0.13);
+    --inline-reading-measure: 68ch;
+}
+
+.post-reader-localized-context .awtsmoos-inline-anchor-linked::after {
+    content: "" !important;
+    position: absolute !important;
+    inset-block-start: 2.1rem !important;
+    inset-inline-start: -1.55rem !important;
+    width: 1.35rem !important;
+    height: 2px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, transparent, var(--inline-thread)) !important;
+    box-shadow: 0 0 18px color-mix(in srgb, var(--inline-gold, #c58a1a) 25%, transparent) !important;
+    pointer-events: none !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-anchor-linked::after,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-anchor-linked::after {
+    inset-inline-start: auto !important;
+    inset-inline-end: -1.55rem !important;
+    background: linear-gradient(270deg, transparent, var(--inline-thread)) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-source-vessel {
+    transition: background-color .22s ease, box-shadow .22s ease, border-radius .22s ease !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-source-focused {
+    border-radius: var(--inline-radius-md) !important;
+    background: var(--inline-focus-wash) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--inline-gold, #c58a1a) 18%, transparent) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger {
+    min-height: 5.25rem !important;
+    align-items: flex-start !important;
+    text-align: start !important;
+    outline: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger:focus-visible,
+.post-reader-localized-context .awtsmoos-inline-focus:focus-visible,
+.post-reader-localized-context .awtsmoos-inline-commentary-root:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 72%, white) !important;
+    outline-offset: 4px !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger-copy {
+    gap: .16rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger-preview {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    max-width: min(100%, var(--inline-reading-measure)) !important;
+    margin-block-start: .28rem !important;
+    overflow: hidden !important;
+    color: rgba(255,255,255,.82) !important;
+    font-size: clamp(.86rem, 1.7vw, .98rem) !important;
+    font-weight: 600 !important;
+    line-height: 1.42 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger-meta {
+    color: rgba(255,255,255,.62) !important;
+    font-size: .76rem !important;
+    font-weight: 850 !important;
+    letter-spacing: .04em !important;
+    text-transform: uppercase !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .awtsmoos-inline-trigger-preview {
+    color: rgba(255,255,255,.9) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell.awtsmoos-inline-reading-focus .awtsmoos-inline-trigger {
+    box-shadow: 0 24px 58px rgba(110, 18, 55, .25), inset 0 1px 0 rgba(255,255,255,.18) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-nearby-muted {
+    opacity: .48 !important;
+    filter: saturate(.7) !important;
+    transition: opacity .18s ease, filter .18s ease !important;
+}
+
+.post-reader-localized-context .comments-holder-inline > .awtsmoos-inline-commentary-root + .awtsmoos-inline-commentary-root {
+    margin-block-start: clamp(.15rem, 1vw, .45rem) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root {
+    contain: layout paint !important;
+    max-width: min(100%, 78ch) !important;
+    box-shadow: var(--inline-premium-shadow) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header strong,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .commentTitle {
+    overflow-wrap: anywhere !important;
+    hyphens: auto !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
+    font-size: clamp(.98rem, 1.65vw, 1.08rem) !important;
+    text-wrap: pretty !important;
+    unicode-bidi: plaintext !important;
+}
+
+.post-reader-localized-context .heb .awtsmoos-inline-trigger,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-trigger,
+.post-reader-localized-context .heb .awtsmoos-inline-commentary-root,
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-commentary-root {
+    direction: rtl !important;
+    text-align: start !important;
+}
+
+.post-reader-localized-context[data-inline-density="compact"] {
+    --inline-gap: .65rem;
+}
+
+.post-reader-localized-context[data-inline-density="compact"] .awtsmoos-inline-commentary-root .comment-body-vessel {
+    padding-block: clamp(1.25rem, 3vw, 2rem) !important;
+    min-height: auto !important;
+}
+
+.post-reader-localized-context[data-inline-density="immersive"] .marginal-gloss-shelter {
+    padding: clamp(1.2rem, 3vw, 2rem) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    .post-reader-localized-context {
+        --inline-ink: #f8fafc;
+        --inline-cream: #15110d;
+        --inline-focus-wash: rgba(197, 138, 26, 0.16);
+    }
+
+    .post-reader-localized-context .marginal-gloss-shelter,
+    .post-reader-localized-context .awtsmoos-inline-shelter-v2 {
+        background:
+            radial-gradient(circle at 0% 0%, rgba(197,138,26,.13), transparent 28%),
+            linear-gradient(145deg, rgba(15,23,42,.94), rgba(30,27,21,.88)) !important;
+        border-color: rgba(214,170,79,.22) !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-commentary-root {
+        color: #f8fafc !important;
+        background: linear-gradient(180deg, rgba(15,23,42,.98), rgba(28,25,23,.94)) !important;
+        border-color: rgba(214,170,79,.34) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .post-reader-localized-context .awtsmoos-inline-trigger,
+    .post-reader-localized-context .awtsmoos-inline-commentary-root,
+    .post-reader-localized-context .awtsmoos-inline-source-vessel,
+    .post-reader-localized-context .comments-holder-inline {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-trigger:hover,
+    .post-reader-localized-context .awtsmoos-inline-commentary-root:hover {
+        transform: none !important;
+    }
+}
+
+@media (max-width: 760px) {
+    .post-reader-localized-context .awtsmoos-inline-trigger {
+        min-height: 4.75rem !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-trigger-sigil {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-trigger-preview {
+        -webkit-line-clamp: 3 !important;
+    }
+}

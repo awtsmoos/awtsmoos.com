@@ -1,0 +1,108 @@
+/* B"H
+   Chapter 21: The margin learns geometry. The Awtsmoos measures not with a cold
+   ruler but with living proportion: dense threads breathe wider, tiny notes do
+   not pretend to be monuments, and mobile vessels stop pinching the reader.
+*/
+
+.post-reader-localized-context {
+    --inline-cluster-indent: clamp(.45rem, 1.4vw, .95rem);
+    --inline-card-offset: clamp(.18rem, .9vw, .5rem);
+    --inline-mobile-touch: 44px;
+}
+
+.post-reader-localized-context .marginal-gloss-shelter:has(.awtsmoos-inline-commentary-root:nth-of-type(2)),
+.post-reader-localized-context .awtsmoos-inline-shelter-v2:has(.awtsmoos-inline-commentary-root:nth-of-type(2)) {
+    padding-block-end: clamp(1.1rem, 2.6vw, 1.85rem) !important;
+}
+
+.post-reader-localized-context .comments-holder-inline {
+    position: relative !important;
+    gap: clamp(.7rem, 1.6vw, 1rem) !important;
+}
+
+.post-reader-localized-context .comments-holder-inline::before {
+    content: "" !important;
+    position: absolute !important;
+    inset-block: .35rem .8rem !important;
+    inset-inline-start: calc(var(--inline-cluster-indent) * -1) !important;
+    width: 1px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, transparent, var(--inline-thread, rgba(197,138,26,.48)), transparent) !important;
+    opacity: .68 !important;
+    pointer-events: none !important;
+}
+
+.post-reader-localized-context .heb .comments-holder-inline::before,
+.post-reader-localized-context [dir="rtl"] .comments-holder-inline::before {
+    inset-inline-start: auto !important;
+    inset-inline-end: calc(var(--inline-cluster-indent) * -1) !important;
+}
+
+.post-reader-localized-context .comments-holder-inline > .awtsmoos-inline-commentary-root:nth-child(even) {
+    margin-inline-start: var(--inline-card-offset) !important;
+}
+
+.post-reader-localized-context .heb .comments-holder-inline > .awtsmoos-inline-commentary-root:nth-child(even),
+.post-reader-localized-context [dir="rtl"] .comments-holder-inline > .awtsmoos-inline-commentary-root:nth-child(even) {
+    margin-inline-start: 0 !important;
+    margin-inline-end: var(--inline-card-offset) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root:only-child {
+    max-width: min(100%, 72ch) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header {
+    min-height: 4.2rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-trigger,
+.post-reader-localized-context .awtsmoos-inline-focus {
+    min-width: var(--inline-mobile-touch) !important;
+    min-height: var(--inline-mobile-touch) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-status[data-kind="empty"] {
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    align-items: center !important;
+    gap: .75rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-status[data-kind="empty"]::before {
+    content: "○" !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+    border-radius: 999px !important;
+    border: 1px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 38%, transparent) !important;
+    color: var(--inline-gold, #c58a1a) !important;
+}
+
+@media (min-width: 1040px) {
+    .post-reader-localized-context .marginal-gloss-shelter,
+    .post-reader-localized-context .awtsmoos-inline-shelter-v2 {
+        max-width: min(92%, 980px) !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-inline-anchor-linked {
+        margin-inline-start: clamp(.25rem, 1.2vw, .8rem) !important;
+    }
+}
+
+@media (max-width: 760px) {
+    .post-reader-localized-context .comments-holder-inline {
+        padding-inline: .15rem !important;
+    }
+
+    .post-reader-localized-context .comments-holder-inline::before,
+    .post-reader-localized-context .awtsmoos-inline-anchor-linked::after {
+        display: none !important;
+    }
+
+    .post-reader-localized-context .comments-holder-inline > .awtsmoos-inline-commentary-root:nth-child(even),
+    .post-reader-localized-context .heb .comments-holder-inline > .awtsmoos-inline-commentary-root:nth-child(even) {
+        margin-inline: 0 !important;
+    }
+}

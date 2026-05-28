@@ -10,6 +10,92 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 import Nivra from "../../nivra.js";
 
+/**
+ * B"H
+ * Separates living vessels from static geometry. Living render models are
+ * never fed to world or interactive octree baking; their capsules/proxies carry
+ * gameplay while the GLB stays a visual garment.
+ *
+ * @param {object} nivra
+ * Entity instance.
+ *
+ * @returns {boolean}
+ * True for player/NPC/mobile living objects.
+ */
+function isLivingNivra(nivra) {
+    return nivra?.type === "chossid" ||
+        nivra?.type === "chai" ||
+        nivra?.type === "medabeir" ||
+        nivra?.type === "customNpc" ||
+        nivra?.type === "interactiveNpc";
+}
+
+/**
+ * B"H
+ * Marks a tree as visual-only living matter so octree intake can reject every
+ * descendant without needing to understand game classes.
+ *
+ * @param {THREE.Object3D} mesh
+ * Render root.
+ *
+ * @returns {void}
+ */
+function markLivingTree(mesh) {
+    if (!mesh) return;
+    if (!mesh.userData) mesh.userData = {};
+    mesh.userData.isLiving = true;
+    mesh.userData.skipOctree = true;
+    mesh.userData.noOctree = true;
+    mesh.traverse?.(child => {
+        if (!child.userData) child.userData = {};
+        child.userData.isLiving = true;
+        child.userData.skipOctree = true;
+        child.userData.noOctree = true;
+    });
+}
+
+/**
+ * B"H
+ * Fits any loaded living GLB to its capsule-scale body once. This keeps NPCs
+ * and the player from entering the world at the remote model's native giant
+ * dimensions while preserving the collision capsule as the only physics body.
+ *
+ * @param {THREE.Object3D} mesh
+ * Living render root.
+ *
+ * @param {object} nivra
+ * Entity that owns the render root.
+ *
+ * @returns {void}
+ */
+function fitLivingTreeToHeight(mesh, nivra) {
+    if (!mesh?.isObject3D) return;
+    if (!mesh.userData) mesh.userData = {};
+    if (mesh.userData.livingModelFitted) return;
+
+    const targetHeight = Number(nivra?.visualHeight) ||
+        Number(nivra?.originalOptions?.visualHeight) ||
+        Number(nivra?.height) ||
+        1.85;
+
+    mesh.updateWorldMatrix(true, true);
+    const box = new THREE.Box3().setFromObject(mesh);
+    const size = box.getSize(new THREE.Vector3());
+    if (Number.isFinite(size.y) && size.y > 0.001 && targetHeight > 0) {
+        const scalar = targetHeight / size.y;
+        if (Number.isFinite(scalar) && scalar > 0.00001 && scalar < 1000) {
+            mesh.scale.multiplyScalar(scalar);
+        }
+    }
+
+    mesh.updateWorldMatrix(true, true);
+    const fittedBox = new THREE.Box3().setFromObject(mesh);
+    const rootY = mesh.getWorldPosition(new THREE.Vector3()).y;
+    const offset = rootY - fittedBox.min.y;
+    mesh.userData.visualGroundOffsetY = Number.isFinite(offset) ? offset : 0;
+    mesh.userData.livingModelFitted = true;
+}
+
 export default {
     async heescheel(olam, info) {
         this.olam = olam;
@@ -68,13 +154,11 @@ export default {
             await olam.hoyseef(this);
             this.mesh.visible = this.visible;
 
-            const isLiving = this.type === "chossid" || 
-                           this.type === "chai" || 
-                           this.type === "medabeir" ||
-                           this.type === "customNpc";
+            const isLiving = isLivingNivra(this);
 
             if (isLiving) {
-                 this.mesh.userData.isLiving = true; 
+                fitLivingTreeToHeight(this.mesh, this);
+                markLivingTree(this.mesh);
             } else {
                 if (this.isSolid && olam.worldOctree) {
                     olam.worldOctree.addObject(this.mesh);
@@ -84,7 +168,11 @@ export default {
             if (this.interactable && !isLiving && olam.interactiveOctree) {
                 // B"H: Static interactables may enter the interactive octree.
                 // Living beings keep their render mesh separate from spatial baking.
-                olam.interactiveOctree.addObject(this.mesh);
+                if (this.mesh?.isMesh && this.mesh?.geometry) {
+                    olam.interactiveOctree.addObject(this.mesh);
+                } else if (olam.interactiveOctree.fromGraphNode) {
+                    olam.interactiveOctree.fromGraphNode(this.mesh);
+                }
             }
 
             return true;

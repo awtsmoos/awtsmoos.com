@@ -10,13 +10,13 @@
  * divine gift of Bechirah (Free Will). When this button is pressed, 
  * the veil lifts not to the world itself, but to the Realm of Choices 
  * (the Level Select screen), where one can choose between the Emerald Void 
- * or the populated Villages.
+ * or the Desert Ladder sublevels.
  */
 import mitzvahBtn from "../resources/mitzvahBtn.js";
 
 export default function playButton(gameUiHTML) {
     return mitzvahBtn({
-        text: "Play / Enter Realms",
+        text: "Desert World",
         onclick(e, $, ui, me) {
             // B"H: silent
 
