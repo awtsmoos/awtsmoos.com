@@ -2,15 +2,10 @@
 /**
  * @module ManagerOfAllWorlds
  * @description
- * THE OVERSEER OF ALL DIMENSIONS.
- *
- * "He builds worlds and destroys them." This class does both.
- *
- * TIKKUN: The serviceWorkerPath param passed here (oyvedEdom.js) is now
- * properly used to register the service worker - its actual purpose.
+ * Chapter 6: The manager opens the fresh UI and direct worker flow.
  */
 import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
-import UIManager from "../uiManager/index.js";
+import UIManager from "../uiManager/index.js?v=lean-l1-20260528-bh9";
 import StartWorldFlow from "./StartWorldFlow.js";
 import SocketHandler from "./SocketHandler.js";
 import ServiceWorkerInit from "./ServiceWorkerInit.js";
@@ -18,48 +13,22 @@ import SwitchDestroyLogic from "./SwitchDestroyLogic.js";
 import DomHelpers from "./DomHelpers.js";
 
 export default class ManagerOfAllWorlds {
-    gameState = {};
-    started = false;
-    ikarUI = null;
+  gameState = {};
+  started = false;
+  ikarUI = null;
 
-    /**
-     * @constructor
-     * @param {string} serviceWorkerPath - Path to the service worker (oyvedEdom.js).
-     */
-    constructor(serviceWorkerPath) {
-        DomHelpers.setupGlobalFunctions();
-
-        var self = this;
-        var uiManager = new UIManager();
-        this.uiManager = uiManager;
-
-        var ui = uiManager.UI({
-            onstart(ob) {
-                // B"H: silent
-
-                self.startWorld(ob);
-            }
-        });
-
-        this.ui = ui;
-
-        // B"H: Register the service worker - actual purpose of this param
-        if (serviceWorkerPath && typeof serviceWorkerPath === "string") {
-            this.registerServiceWorker(serviceWorkerPath);
-        }
-
-        var h = ui.$g("ikar");
-        if (!h) {
-            // B"H: silent
-
-        }
-    }
+  constructor(serviceWorkerPath) {
+    DomHelpers.setupGlobalFunctions();
+    const uiManager = new UIManager();
+    this.uiManager = uiManager;
+    this.ui = uiManager.UI({ onstart: ob => this.startWorld(ob) });
+    if (serviceWorkerPath && typeof serviceWorkerPath === "string") this.registerServiceWorker(serviceWorkerPath);
+  }
 }
 
-// B"H - Grafting the modular limbs onto the Overseer with Divine Emanation
 ChasveiAwtsmoos.emanate(ManagerOfAllWorlds.prototype, [
-    StartWorldFlow,
-    SocketHandler,
-    ServiceWorkerInit,
-    SwitchDestroyLogic
+  StartWorldFlow,
+  SocketHandler,
+  ServiceWorkerInit,
+  SwitchDestroyLogic
 ]);

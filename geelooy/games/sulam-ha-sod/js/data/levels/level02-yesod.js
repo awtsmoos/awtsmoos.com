@@ -23,7 +23,7 @@ export const level02 = L(
   [E(780, 371, 760, 875, 80, 'husk', 'mirror husk'), E(1530, 326, 1480, 1640, 105, 'watcher', 'first watching eye')],
   [
     G(1110, 250, 80, 100, 'A bridge fades when rushed.', { platforms: [P(1380, 250, 90, 18)] }),
-    G(1510, 270, 95, 100, 'The reflected coin line calls down teeth.', { spikes: [{ x: 1605, y: 130, w: 90, h: 24, warning: 0.7, duration: 1.2, fallSpeed: 390, safe: 80 }] }),
+    G(1510, 270, 95, 100, 'The reflected coin line calls down teeth.', { spikes: [{ x: 1605, y: 120, w: 68, h: 22, warning: 0.6, duration: 1.05, fallSpeed: 350, safe: 80 }, { x: 1685, y: 148, w: 70, h: 22, warning: 0.72, duration: 1.05, fallSpeed: 375, safe: 80 }, { x: 1768, y: 176, w: 72, h: 22, warning: 0.84, duration: 1.05, fallSpeed: 400, safe: 80 }] }),
     G(2200, 220, 100, 100, 'The mirror accepts your climb.', { openExit: true })
   ],
   ['Not every glowing floor remains loyal.', 'Patience creates safe timing.', 'A real-looking coin can be the mirror wearing a blade.'],

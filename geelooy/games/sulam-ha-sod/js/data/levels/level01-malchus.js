@@ -24,7 +24,7 @@ export const level01 = L(
   [E(1510, 386, 1320, 1545, 80, 'husk', 'dust tax collector')],
   [
     G(620, 390, 90, 90, 'Dust remembers every careless jump.', { coins: [C(710, 360)] }),
-    G(1235, 290, 90, 100, 'A ceiling spike curtain falls only if you sprint blindly.', { spikes: [{ x: 1375, y: 165, w: 76, h: 24, warning: 0.65, duration: 1.1, fallSpeed: 360, safe: 72 }] }),
+    G(1235, 290, 90, 100, 'A ceiling spike curtain falls only if you sprint blindly.', { spikes: [{ x: 1375, y: 135, w: 64, h: 22, warning: 0.58, duration: 1.05, fallSpeed: 320, safe: 72 }, { x: 1455, y: 160, w: 66, h: 22, warning: 0.7, duration: 1.05, fallSpeed: 340, safe: 72 }, { x: 1538, y: 185, w: 68, h: 22, warning: 0.82, duration: 1.05, fallSpeed: 360, safe: 72 }] }),
     G(1800, 320, 120, 120, 'The gate begins listening.', { openExit: true })
   ],
   ['The first rung should feel fair, but not sleepy.', 'Greed creates the first spikes.', 'The first real coin-lie is drawn like every other coin.'],

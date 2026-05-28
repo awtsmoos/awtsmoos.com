@@ -3,32 +3,38 @@ import { coinKind } from '../systems/currency.js';
 import { enemyMask } from '../systems/enemyArchetypes.js';
 import { visibleBodies, visiblePoints } from '../systems/renderCulling.js';
 import { DeathBurstRenderer } from '../render/deathBurstRenderer.js';
+import { CanvasViewport } from './viewport.js';
 
 /**
- * Renderer paints the visible lie and the death witness.
+ * Renderer paints the visible lie without browser stretch-blur.
  *
- * The Awtsmoos reveals and conceals: coins that are spikes, platforms that are
- * ghosts, and an explosion that must be seen before the overlay arrives. During
- * death the camera locks to the old shatter site, the prompt fades in slowly,
- * and the UI becomes a glassy Hebrew-letter memorial instead of an instant mask.
+ * The Awtsmoos gives every device its own vessel. The old renderer assumed a
+ * fixed 960×540 backing store, so a tall mobile viewport stretched the whole
+ * scene and made text soft. This renderer syncs the canvas to its real CSS size,
+ * caps DPR for speed, caches stars, and draws the world in crisp logical pixels.
  */
 export class Renderer {
   constructor(canvas) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
+    this.ctx = canvas.getContext('2d', { alpha: false });
+    this.viewport = new CanvasViewport(canvas);
+    this.view = { width: 960, height: 540, worldY: 0 };
     this.camera = { x: 0 };
     this.metrics = { drawn: 0, total: 0 };
     this.deathBursts = new DeathBurstRenderer();
+    this.stars = Array.from({ length: 70 }, (_, i) => ({ x: (i * 83) % 1200, y: (i * 47) % 420, s: i % 5 === 0 ? 2 : 1 }));
   }
 
   draw(world) {
     const c = this.ctx;
     if (!c || !world?.player) return;
+    const synced = this.viewport.sync(c);
+    this.view = { width: synced.width, height: synced.height, worldY: Math.max(0, Math.min(140, synced.height - 560)) };
     this.camera.x = this.cameraX(world);
     this.background(c);
     this.hudText(c, world);
     c.save();
-    c.translate(-this.camera.x, 0);
+    c.translate(-this.camera.x, this.view.worldY);
     const view = this.collectView(world);
     this.metrics = { drawn: view.totalDrawn, total: (world.performance?.totalPlatforms || 0) + view.enemies.length + view.coins.length + view.fakeCoins.length + view.trickCoins.length + view.keys.length + (world.spikes?.traps?.length || 0) + 2 };
     world.renderMetrics = this.metrics;
@@ -52,27 +58,47 @@ export class Renderer {
 
   cameraX(world) {
     if (world.deathPause?.cameraX !== undefined) return world.deathPause.cameraX;
-    return Math.max(0, Math.min(Math.max(0, world.width - 960), world.player.x - 430));
+    const visibleWidth = Math.max(360, this.view.width);
+    const lead = Math.max(180, Math.min(430, visibleWidth * 0.44));
+    return Math.max(0, Math.min(Math.max(0, world.width - visibleWidth), world.player.x - lead));
   }
 
   collectView(world) {
     const x = this.camera.x;
-    const platforms = visibleBodies(world.level.platforms || [], x);
-    const tricks = visibleBodies(world.tricks.visualBodies ? world.tricks.visualBodies() : world.tricks.bodies(), x);
-    const ghosts = world.tricks.hazardBodies ? visibleBodies(world.tricks.hazardBodies(), x) : [];
-    const rotors = visibleBodies(world.rotors.bodies(), x);
-    const warnings = visibleBodies([...(world.spikes.warning()), ...(world.momentumCurse?.warning?.() || [])], x);
-    const active = visibleBodies([...(world.spikes.active()), ...(world.momentumCurse?.active?.() || [])], x);
-    const enemies = visibleBodies(world.enemies || [], x);
-    const coins = visiblePoints(world.coins || [], x);
-    const fakeCoins = visiblePoints(world.fakeCoins || [], x);
-    const trickCoins = visiblePoints(world.trickCoins?.coins || [], x);
-    const keys = visiblePoints(world.keys || [], x);
+    const width = this.view.width;
+    const platforms = visibleBodies(world.level.platforms || [], x, width);
+    const tricks = visibleBodies(world.tricks.visualBodies ? world.tricks.visualBodies() : world.tricks.bodies(), x, width);
+    const ghosts = world.tricks.hazardBodies ? visibleBodies(world.tricks.hazardBodies(), x, width) : [];
+    const rotors = visibleBodies(world.rotors.bodies(), x, width);
+    const warnings = visibleBodies([...(world.spikes.warning()), ...(world.momentumCurse?.warning?.() || [])], x, width);
+    const active = visibleBodies([...(world.spikes.active()), ...(world.momentumCurse?.active?.() || [])], x, width);
+    const enemies = visibleBodies(world.enemies || [], x, width);
+    const coins = visiblePoints(world.coins || [], x, width);
+    const fakeCoins = visiblePoints(world.fakeCoins || [], x, width);
+    const trickCoins = visiblePoints(world.trickCoins?.coins || [], x, width);
+    const keys = visiblePoints(world.keys || [], x, width);
     return { platforms, tricks, ghosts, rotors, warnings, active, enemies, coins, fakeCoins, trickCoins, keys, totalDrawn: platforms.length + tricks.length + ghosts.length + rotors.length + warnings.length + active.length + enemies.length + coins.length + fakeCoins.length + trickCoins.length + keys.length + 2 };
   }
 
-  background(c) { c.clearRect(0, 0, 960, 540); const g = c.createLinearGradient(0, 0, 0, 540); g.addColorStop(0, '#24114f'); g.addColorStop(0.55, '#130727'); g.addColorStop(1, '#06020d'); c.fillStyle = g; c.fillRect(0, 0, 960, 540); c.fillStyle = '#ffffff22'; for (let i = 0; i < 80; i += 1) c.fillRect((i * 83) % 960, (i * 47) % 300, 2, 2); }
-  hudText(c, w) { c.fillStyle = '#fff7ff'; c.font = '18px system-ui, sans-serif'; c.fillText(w.message || w.level?.law || '', 24, 34); c.fillStyle = '#9df7ff'; c.font = '13px system-ui, sans-serif'; c.fillText(`draw ${this.metrics.drawn}/${this.metrics.total} · checks ${w.performance.platformChecks}/${w.performance.totalPlatforms}`, 24, 56); }
+  background(c) {
+    const { width, height } = this.view;
+    c.clearRect(0, 0, width, height);
+    const g = c.createLinearGradient(0, 0, 0, height);
+    g.addColorStop(0, '#24114f'); g.addColorStop(0.55, '#130727'); g.addColorStop(1, '#06020d');
+    c.fillStyle = g; c.fillRect(0, 0, width, height);
+    c.fillStyle = '#ffffff24';
+    const drift = (this.camera.x * 0.08) % 1200;
+    for (const star of this.stars) c.fillRect((star.x - drift + width) % width, star.y + 74, star.s, star.s);
+  }
+
+  hudText(c, w) {
+    const compact = this.view.width < 560;
+    c.fillStyle = '#fff7ff'; c.font = `800 ${compact ? 15 : 18}px system-ui, sans-serif`;
+    c.fillText(w.message || w.level?.law || '', 16, compact ? 28 : 34, Math.max(280, this.view.width - 32));
+    c.fillStyle = '#9df7ff'; c.font = `700 ${compact ? 11 : 13}px system-ui, sans-serif`;
+    c.fillText(`draw ${this.metrics.drawn}/${this.metrics.total} · checks ${w.performance.platformChecks}/${w.performance.totalPlatforms}`, 16, compact ? 48 : 56);
+  }
+
   rect(c, r, fill, stroke) { c.fillStyle = fill; c.strokeStyle = stroke; c.lineWidth = 3; c.fillRect(r.x, r.y, r.w, r.h); c.strokeRect(r.x, r.y, r.w, r.h); }
   rotor(c, r) { c.save(); c.translate(r.x + r.w / 2, r.y + r.h / 2); c.rotate((r.tilt || 0) * 0.32); this.rect(c, { x: -r.w / 2, y: -r.h / 2, w: r.w, h: r.h }, '#255272', '#ffe28a'); c.restore(); }
 
@@ -101,31 +127,21 @@ export class Renderer {
     const pause = world.deathPause;
     const alpha = Math.max(0, Math.min(1, pause?.promptAlpha || 0));
     if (!alpha) return;
-    c.save();
-    c.globalAlpha = alpha;
-    const panel = c.createLinearGradient(0, 120, 0, 410);
-    panel.addColorStop(0, '#05010dcc');
-    panel.addColorStop(0.45, '#1b0738dd');
-    panel.addColorStop(1, '#05010dcc');
-    c.fillStyle = panel;
-    c.fillRect(120, 130, 720, 250);
-    c.strokeStyle = '#9df7ff';
-    c.lineWidth = 2;
-    c.strokeRect(132, 142, 696, 226);
-    c.fillStyle = '#ffd36a';
-    c.font = '42px serif';
-    c.textAlign = 'center';
-    c.fillText('ש ב י ר ה', 480, 195);
-    c.fillStyle = '#fff7ff';
-    c.font = '24px system-ui, sans-serif';
-    c.fillText('The vessel shattered into Hebrew letters.', 480, 245);
-    c.font = '17px system-ui, sans-serif';
-    c.fillStyle = pause?.ready ? '#9df7ff' : '#ffffffaa';
-    c.fillText(pause?.ready ? 'Press any key · tap · joystick OK' : 'Watch the fragments finish speaking...', 480, 292);
-    c.font = '14px system-ui, sans-serif';
-    c.fillStyle = '#ffffff99';
-    c.fillText(world.market?.message || world.message || '', 480, 330);
-    c.textAlign = 'start';
-    c.restore();
+    const { width, height } = this.view;
+    const panelW = Math.min(720, width - 32);
+    const panelH = Math.min(250, height - 120);
+    const x = (width - panelW) / 2;
+    const y = Math.max(90, (height - panelH) / 2);
+    c.save(); c.globalAlpha = alpha;
+    const panel = c.createLinearGradient(0, y, 0, y + panelH);
+    panel.addColorStop(0, '#05010dcc'); panel.addColorStop(0.45, '#1b0738dd'); panel.addColorStop(1, '#05010dcc');
+    c.fillStyle = panel; c.fillRect(x, y, panelW, panelH);
+    c.strokeStyle = '#9df7ff'; c.lineWidth = 2; c.strokeRect(x + 10, y + 10, panelW - 20, panelH - 20);
+    c.textAlign = 'center'; c.fillStyle = '#ffd36a'; c.font = `${width < 560 ? 32 : 42}px serif`; c.fillText('ש ב י ר ה', width / 2, y + 64);
+    c.fillStyle = '#fff7ff'; c.font = `${width < 560 ? 17 : 24}px system-ui, sans-serif`; c.fillText('The vessel shattered into Hebrew letters.', width / 2, y + 112, panelW - 40);
+    c.font = `${width < 560 ? 13 : 17}px system-ui, sans-serif`; c.fillStyle = pause?.ready ? '#9df7ff' : '#ffffffaa';
+    c.fillText(pause?.ready ? 'Press any key · tap · joystick OK' : 'Watch the fragments finish speaking...', width / 2, y + 158, panelW - 40);
+    c.font = '13px system-ui, sans-serif'; c.fillStyle = '#ffffff99'; c.fillText(world.market?.message || world.message || '', width / 2, y + 196, panelW - 40);
+    c.textAlign = 'start'; c.restore();
   }
 }

@@ -2,24 +2,18 @@
 /**
  * @file ikar.js
  * @description
- * Chapter 2: The direct ladder gate.
- *
- * This main-thread starter accepts only `ladder-N.js` deep links, imports the
- * authored level directly, and hands the world data to the worker. No Blob
- * loader, no menu world generator, no old procedural route.
+ * Chapter 6: The direct ladder gate with fresh cache keys.
  */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh6";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh9";
 
-const VERSION = "lean-l1-20260528-bh6";
+const VERSION = "lean-l1-20260528-bh9";
 
-/** Creates the one world manager for this page. */
 function createManager() {
   const manager = new ManagerOfAllWorlds(null);
   window.mana = manager;
   return manager;
 }
 
-/** Finds UI elements without forcing old menus to boot. */
 function getUI() {
   const ui = window.mana?.ui;
   const ikar = typeof ui?.$g === "function" ? ui.$g("ikar") : null;
@@ -28,7 +22,6 @@ function getUI() {
   return { ikar, menu, loading };
 }
 
-/** Loads only authored desert ladder modules. */
 async function loadLadderLevel(path) {
   const clean = String(path || "").split("/").pop();
   if (!/^ladder-\d+\.js$/.test(clean)) throw new Error("Only Desert Ladder level paths are enabled right now.");
@@ -36,7 +29,6 @@ async function loadLadderLevel(path) {
   return { id: clean, data: module.default };
 }
 
-/** Waits until the generated UI has a start target. */
 function waitForIkar(maxAttempts = 200) {
   return new Promise((resolve, reject) => {
     let attempts = 0;
@@ -56,7 +48,6 @@ function waitForIkar(maxAttempts = 200) {
   });
 }
 
-/** Toggles small loading/menu state. */
 function setLoadingState(loadingOn) {
   const { menu, loading } = getUI();
   menu?.classList.toggle("hidden", loadingOn);
@@ -65,7 +56,6 @@ function setLoadingState(loadingOn) {
   loading?.classList.toggle("hidden", !loadingOn);
 }
 
-/** Clears old service-worker/cache ghosts before booting. */
 async function clearOldCaches() {
   try {
     const regs = await navigator.serviceWorker?.getRegistrations?.() || [];
@@ -77,7 +67,6 @@ async function clearOldCaches() {
   }
 }
 
-/** Starts the deep-linked ladder level. */
 async function handleAutoLoad() {
   const path = new URLSearchParams(window.location.search).get("path");
   if (!path) return;
@@ -86,11 +75,7 @@ async function handleAutoLoad() {
     setLoadingState(true);
     const loaded = await loadLadderLevel(path);
     ikar.dispatchEvent(new CustomEvent("start", {
-      detail: {
-        worldDayuh: loaded.data,
-        sourcePath: loaded.id,
-        gameUiHTML: window.awtsmoosGameUI
-      }
+      detail: { worldDayuh: loaded.data, sourcePath: loaded.id, gameUiHTML: window.awtsmoosGameUI }
     }));
   } catch (error) {
     console.error("B\"H Auto-load failed:", error);
@@ -99,7 +84,6 @@ async function handleAutoLoad() {
   }
 }
 
-/** Boots the lean page flow. */
 async function bootIkar() {
   if (window.invalid) return;
   await clearOldCaches();

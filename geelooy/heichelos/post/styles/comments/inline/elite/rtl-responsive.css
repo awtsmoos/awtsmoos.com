@@ -1,0 +1,52 @@
+/* B"H
+   RTL and responsive excellence: Hebrew, English, and mixed script are not
+   afterthoughts. Mobile selectors carry a body context so responsive overrides
+   never share the exact base selector/property key.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root[data-script-direction="rtl"],
+.post-reader-localized-context .awtsmoos-inline-commentary-root[data-script-direction="mixed"] {
+    text-align: start !important;
+    unicode-bidi: plaintext !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root[data-script-direction="rtl"] .awtsmoos-inline-card-header,
+.post-reader-localized-context [dir="rtl"] .comments-holder-inline,
+.post-reader-localized-context .heb .comments-holder-inline {
+    direction: rtl !important;
+}
+
+.post-reader-localized-context [dir="rtl"] .comments-holder-inline,
+.post-reader-localized-context .heb .comments-holder-inline {
+    padding-inline-start: 0 !important;
+    padding-inline-end: clamp(.35rem, .9vw, .75rem) !important;
+}
+
+.post-reader-localized-context [dir="rtl"] .comments-holder-inline::before,
+.post-reader-localized-context .heb .comments-holder-inline::before {
+    inset-inline-start: auto !important;
+    inset-inline-end: .05rem !important;
+}
+
+.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-commentary-root::before,
+.post-reader-localized-context .heb .awtsmoos-inline-commentary-root::before {
+    inset-inline-start: auto !important;
+    inset-inline-end: -.73rem !important;
+}
+
+@media (max-width: 760px) {
+    body .post-reader-localized-context .awtsmoos-inline-shell[data-anchor-label] .awtsmoos-inline-trigger::after {
+        position: static !important;
+        max-width: 100% !important;
+        margin-inline-start: 3.25rem !important;
+        margin-block-start: .35rem !important;
+    }
+
+    body .post-reader-localized-context .comments-holder-inline {
+        padding-inline-start: .4rem !important;
+    }
+
+    body .post-reader-localized-context .awtsmoos-inline-commentary-root[data-reading-length="long"] .comment-body-vessel {
+        max-height: none !important;
+    }
+}

@@ -1,0 +1,53 @@
+/* B"H
+   Elite cards: each comment becomes a lucid marginal tile, dense with meaning
+   but gentle to read, like a small chamber where the Awtsmoos sharpens thought.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root {
+    position: relative !important;
+    border-radius: var(--inline-elite-card-radius) !important;
+    box-shadow: var(--inline-elite-shadow) !important;
+    transform-origin: top center !important;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(14,165,233,.14), transparent 32%),
+        linear-gradient(145deg, rgba(255,255,255,.98), rgba(248,250,252,.94)) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root:hover,
+.post-reader-localized-context .awtsmoos-inline-commentary-root:focus-visible {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 30px 86px rgba(15,23,42,.19) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header {
+    padding-block: clamp(.86rem, 1.8vw, 1.08rem) !important;
+    background:
+        linear-gradient(135deg, rgba(124,58,237,.13), rgba(14,165,233,.10)) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header strong {
+    color: var(--inline-elite-ink) !important;
+    font-size: clamp(.98rem, 1.65vw, 1.08rem) !important;
+    letter-spacing: -.015em !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-body,
+.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
+    max-width: var(--inline-elite-measure) !important;
+    color: var(--inline-elite-ink) !important;
+    font-kerning: normal !important;
+    line-height: 1.72 !important;
+    text-wrap: pretty !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root[data-reading-length="long"] .comment-body-vessel {
+    padding-block: clamp(1.15rem, 2.4vw, 1.55rem) !important;
+    max-height: min(54vh, 34rem) !important;
+    overflow: auto !important;
+    scrollbar-gutter: stable !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root[data-reading-length="brief"] .comment-body-vessel {
+    font-size: clamp(1.02rem, 1.7vw, 1.12rem) !important;
+    line-height: 1.62 !important;
+}

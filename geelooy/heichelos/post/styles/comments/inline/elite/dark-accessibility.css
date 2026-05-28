@@ -1,0 +1,47 @@
+/* B"H
+   Dark and accessibility layer: night mode keeps the text clear, focus visible,
+   and motion humble. Dark selectors carry an explicit html context so no active
+   rule fights the light-mode base selector/property pair.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-trigger:focus-visible,
+.post-reader-localized-context .awtsmoos-inline-focus:focus-visible,
+.post-reader-localized-context .awtsmoos-inline-commentary-root:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 72%, white) !important;
+    outline-offset: 4px !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-nearby-muted {
+    opacity: .46 !important;
+    filter: saturate(.7) contrast(.95) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    html .post-reader-localized-context {
+        --inline-elite-ink: #f8fafc;
+        --inline-elite-muted: rgba(226,232,240,.62);
+        --inline-elite-paper: rgba(15,23,42,.94);
+        --inline-elite-glass: rgba(15,23,42,.72);
+        --inline-elite-shadow: 0 30px 86px rgba(0,0,0,.38);
+    }
+
+    html .post-reader-localized-context .marginal-gloss-shelter {
+        background:
+            radial-gradient(circle at 0% 0%, rgba(197,138,26,.13), transparent 28%),
+            linear-gradient(145deg, rgba(15,23,42,.94), rgba(30,27,21,.88)) !important;
+    }
+
+    html .post-reader-localized-context .awtsmoos-inline-commentary-root {
+        color: #f8fafc !important;
+        background:
+            radial-gradient(circle at 100% 0%, rgba(124,58,237,.18), transparent 34%),
+            linear-gradient(180deg, rgba(15,23,42,.98), rgba(28,25,23,.94)) !important;
+        border-color: rgba(214,170,79,.34) !important;
+    }
+
+    html .post-reader-localized-context .awtsmoos-inline-card-header strong,
+    html .post-reader-localized-context .awtsmoos-inline-body,
+    html .post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
+        color: #f8fafc !important;
+    }
+}

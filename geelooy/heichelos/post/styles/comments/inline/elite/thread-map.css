@@ -1,0 +1,43 @@
+/* B"H
+   Thread map: every note receives a filament back to the source paragraph. The
+   line is quiet until focus, then the Awtsmoos lets it glow like a whispered map.
+*/
+
+.post-reader-localized-context .comments-holder-inline {
+    position: relative !important;
+    gap: var(--inline-elite-gap) !important;
+    padding-inline-start: clamp(.35rem, .9vw, .75rem) !important;
+}
+
+.post-reader-localized-context .comments-holder-inline::before {
+    content: "" !important;
+    position: absolute !important;
+    inset-block: .35rem .35rem !important;
+    inset-inline-start: .05rem !important;
+    width: 1px !important;
+    background: linear-gradient(180deg, transparent, var(--inline-elite-line), transparent) !important;
+    opacity: .78 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root::before {
+    content: "" !important;
+    position: absolute !important;
+    inset-block-start: 1.6rem !important;
+    inset-inline-start: -.73rem !important;
+    width: .45rem !important;
+    height: .45rem !important;
+    border-radius: 999px !important;
+    background: var(--inline-elite-purple) !important;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--inline-elite-purple) 16%, transparent) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-reading-focus .comments-holder-inline::before {
+    width: 2px !important;
+    opacity: 1 !important;
+    box-shadow: 0 0 18px var(--inline-elite-line) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-source-focused {
+    outline: 1px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 24%, transparent) !important;
+    outline-offset: .25rem !important;
+}

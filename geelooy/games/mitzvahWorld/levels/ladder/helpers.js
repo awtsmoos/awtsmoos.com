@@ -2,25 +2,23 @@
 /**
  * @file helpers.js
  * @description
- * Chapter 2: The desert refuses every false guest.
+ * Chapter 6: The desert ladder is authored by small, data-only sparks.
  *
- * The Awtsmoos reveals Level 1 through a tiny authored vocabulary only. No
- * NPC factories, no moving platforms, no trap doors, no greedy coins, no old
- * settlement sparks. Every helper below maps directly to an allowed Level 1
- * vessel, so importing this file cannot quietly revive heavy systems.
+ * These helpers keep Level 1 pure: terrain, Chossid, solid platforms, coins,
+ * simple doors, spikes, and fall reset. The platforms now carry texture seeds,
+ * and the spike floor is generated as data so no hidden procedural world wakes.
  */
 
-/** @returns {object} A still platform block. */
 export const platform = (name, x, y, z, width, depth, color = 0xc6aa62) => ({
   name,
   width,
   height: 1,
   depth,
   color,
+  textureSeed: name,
   position: { x, y, z }
 });
 
-/** @returns {object} A collectible Perutah. */
 export const coin = (name, x, y, z, value = 1) => ({
   name,
   value,
@@ -28,7 +26,6 @@ export const coin = (name, x, y, z, value = 1) => ({
   position: { x, y, z }
 });
 
-/** @returns {object} A small global bonus coin. */
 export const bonus = (name, x, y, z, globalValue = 3) => ({
   name,
   value: 1,
@@ -37,17 +34,16 @@ export const bonus = (name, x, y, z, globalValue = 3) => ({
   position: { x, y, z }
 });
 
-/** @returns {object} A simple stationary spike hazard. */
-export const spike = (name, x, y, z, penalty = 5, radius = 1.05) => ({
+export const spike = (name, x, y, z, penalty = 0, radius = 1.15) => ({
   name,
   radius,
-  height: 1.6,
-  proximity: 1.25,
+  height: 1.55,
+  proximity: 1.65,
   penalty,
+  resetDelayMs: 999999,
   position: { x, y, z }
 });
 
-/** @returns {object} The minimal SimpleDoor-compatible door. */
 export const door = (name, x, y, z, next = null) => ({
   name,
   label: name,
@@ -59,7 +55,6 @@ export const door = (name, x, y, z, next = null) => ({
   position: { x, y, z }
 });
 
-/** @returns {object} One simple terrain floor. */
 export const terrain = (name, textureType = "sand") => ({
   name,
   width: 180,
@@ -71,19 +66,16 @@ export const terrain = (name, textureType = "sand") => ({
   position: { x: 22, y: -3, z: 0 }
 });
 
-/** @returns {object} A lean player that avoids GLB/default Awduhm loading. */
 export const player = (x = -8, y = 5, z = 0) => ({
   name: "The Chossid",
-  leanBody: true,
-  visualHeight: 1.85,
-  height: 2.0,
-  radius: 0.42,
-  speed: 10,
+  height: 1.5,
+  speed: 65,
+  jumpHeight: 15,
   interactable: true,
+  path: "https://models-3122d.web.app/chossid.glb?k=2",
   position: { x, y, z }
 });
 
-/** @returns {object} The reset volume under the authored course. */
 export const resetPit = (name, x, y, z, width, depth) => ({
   name,
   width,
@@ -95,7 +87,19 @@ export const resetPit = (name, x, y, z, width, depth) => ({
   position: { x, y, z }
 });
 
-/** @returns {object} Whole level data. */
+export const spikeFloor = ({ minX, maxX, minZ, maxZ, y, step = 3.2 }) => {
+  const out = [];
+  let count = 0;
+  for (let x = minX; x <= maxX; x += step) {
+    for (let z = minZ; z <= maxZ; z += step) {
+      const jitter = ((Math.sin((x * 13.7) + (z * 8.1)) + 1) * 0.18) - 0.18;
+      out.push(spike(`spike_floor_${String(count).padStart(3, "0")}`, x, y + jitter, z, 0, 1.05));
+      count += 1;
+    }
+  }
+  return out;
+};
+
 export const level = (shaym, requiredPerutos, nextLevel, nivrayim) => ({
   shaym,
   requiredPerutos,

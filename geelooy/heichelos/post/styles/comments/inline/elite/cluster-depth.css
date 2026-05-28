@@ -1,0 +1,33 @@
+/* B"H
+   Cluster depth: a single note whispers; a cluster becomes a constellation. The
+   Awtsmoos lets density emerge from real data attributes instead of guessing.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-shell[data-cluster-tone="single"] .comments-holder-inline::before {
+    opacity: .48 !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell[data-cluster-tone="clustered"] .awtsmoos-inline-trigger-count,
+.post-reader-localized-context .awtsmoos-inline-shell[data-cluster-tone="deep"] .awtsmoos-inline-trigger-count {
+    background: linear-gradient(135deg, rgba(124,58,237,.42), rgba(197,138,26,.26)) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell[data-cluster-tone="deep"] .comments-holder-inline {
+    gap: clamp(.58rem, 1.1vw, .82rem) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell[data-cluster-tone="deep"] .awtsmoos-inline-commentary-root {
+    margin-inline-start: calc((var(--inline-cluster-index, 0) % 2) * .7rem) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell[data-cluster-tone="deep"] .awtsmoos-inline-card-header {
+    padding-block: .78rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-shell[data-cluster-tone="deep"] .comment-body-vessel {
+    line-height: 1.62 !important;
+}
+
+.post-reader-localized-context[data-inline-density="compact"] .awtsmoos-inline-shell[data-cluster-tone="deep"] .awtsmoos-inline-commentary-root {
+    margin-inline-start: 0 !important;
+}

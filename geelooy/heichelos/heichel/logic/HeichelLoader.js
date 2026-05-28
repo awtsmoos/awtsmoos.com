@@ -2,9 +2,9 @@
  * B"H
  * @module HeichelLoader
  * @description
- * The Great Seder Histalshelus (Order of Evolution) begins here.
- * This is the central consciousness of the Heichel. It ties the API, 
- * the Data purification, and the DOM manifestation together.
+ * The central loading consciousness of the Heichel. It now speaks every title,
+ * breadcrumb, empty message, and description as text, never casual HTML, so the
+ * heichel can display data without displaying or executing script vessels.
  */
 
 import { HeichelState } from "./HeichelState.js";
@@ -14,9 +14,87 @@ import { CardBuilder } from "./CardBuilder.js";
 import { AdminControls } from "./AdminControls.js";
 import { TabController } from "./TabController.js";
 
-window.goto = (url) => {
-    location.href = url;
-};
+window.goto = url => { location.href = url; };
+
+function setText(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = StringPurifier.purify(value);
+    return element;
+}
+
+function clearAndText(element, value) {
+    if (!element) return;
+    element.textContent = StringPurifier.purify(value);
+}
+
+function makeBreadcrumbLink(series) {
+    const rawName = StringPurifier.purify(series?.prateem?.name || series?.name || "");
+    if (!rawName) return null;
+    const link = document.createElement("a");
+    link.href = location.pathname + "?" + new URLSearchParams({ view: HeichelState.view, series: series.id });
+    link.textContent = rawName;
+    link.addEventListener("click", event => { event.preventDefault(); window.goto(link.href); });
+    return { link, nameKey: rawName.toLowerCase() };
+}
+
+function appendBreadcrumbSeparator(parent) {
+    const separator = document.createElement("span");
+    separator.className = "crumb-separator";
+    separator.textContent = " / ";
+    parent.appendChild(separator);
+}
+
+async function renderBreadcrumb(seriesId) {
+    const parent = document.getElementById("parentS");
+    if (!parent) return;
+    parent.classList.remove("hidden");
+    parent.replaceChildren();
+    const breadcrumb = await HeichelAPI.getBreadcrumb(HeichelState.heichelID, seriesId);
+    window.breadcrumb = breadcrumb;
+
+    const seenNames = new Set();
+    let added = 0;
+    for (let i = breadcrumb.length - 1; i >= 0; i--) {
+        const made = makeBreadcrumbLink(breadcrumb[i]);
+        if (!made || seenNames.has(made.nameKey)) continue;
+        seenNames.add(made.nameKey);
+        if (added > 0) appendBreadcrumbSeparator(parent);
+        parent.appendChild(made.link);
+        added++;
+    }
+}
+
+async function renderSeriesHeader(seriesId, root) {
+    setText("seriesNm", root?.prateem?.name || "");
+    setText("seriesDesc", root?.prateem?.description || "");
+    if (seriesId !== "root") document.getElementById("seriesNameAndInfo")?.classList.remove("hidden");
+}
+
+async function renderPosts(seriesId, root) {
+    const propertyMap = { content: 256, title: true, postId: true, author: true, id: true, seriesId: true, indexInSeries: true };
+    const posts = await HeichelAPI.getPostsDetails(HeichelState.heichelID, root.id, propertyMap);
+    const postsList = document.getElementById("postsList");
+    if (!postsList) return [];
+    postsList.replaceChildren();
+    if (posts.length) {
+        postsList.appendChild(CardBuilder.build(posts, "post", seriesId, root));
+        if (HeichelState.view !== "series") document.getElementById("postsTab")?.click();
+    } else clearAndText(postsList, "No posts here yet!");
+    document.querySelector(".loadingPosts")?.classList.add("hidden");
+    return posts;
+}
+
+async function renderSeries(seriesId, root, posts) {
+    const series = await HeichelAPI.getSubSeriesDetails(HeichelState.heichelID, seriesId, root.subSeries);
+    const seriesList = document.getElementById("seriesList");
+    if (!seriesList) return;
+    seriesList.replaceChildren();
+    if (series.length) {
+        seriesList.appendChild(CardBuilder.build(series, "series", seriesId, root));
+        if (!posts.length) document.getElementById("seriesTab")?.click();
+    } else clearAndText(seriesList, "No series here yet!");
+    document.querySelector(".loadingSeries")?.classList.add("hidden");
+}
 
 export async function start() {
     if (HeichelState.heichelID === "undefined" || !HeichelState.heichelID) {
@@ -24,116 +102,33 @@ export async function start() {
         location.href = "/";
         return;
     }
-
     TabController.init();
     await load(HeichelState.series);
 }
 
-async function load(ss) {
+async function load(seriesId) {
     window.heichel = await HeichelAPI.getHeichel(HeichelState.heichelID);
-    
-    // Check ownership
     window.curAlias = window.curAlias || localStorage.getItem("lastAliasUsed") || null;
     window.ownsIt = await HeichelAPI.doesOwn(window.curAlias, HeichelState.heichelID);
-    
-    if (window.ownsIt) {
-        AdminControls.addSubmitButtons();
-    }
+    if (window.ownsIt) AdminControls.addSubmitButtons();
 
-    const parentS = document.getElementById("parentS");
-    if (parentS) {
-        parentS.classList.remove("hidden");
-        const breadcrumb = await HeichelAPI.getBreadcrumb(HeichelState.heichelID, ss);
-        window.breadcrumb = breadcrumb;
-        parentS.innerHTML = "";
-
-        // B"H - Deduplicating the Breadcrumb Trail of Light
-        const seenNames = new Set();
-        let crumbsAdded = 0;
-
-        for (let i = breadcrumb.length - 1; i >= 0; i--) {
-            const w = breadcrumb[i];
-            
-            // Purify the name and prepare for logic checks
-            const rawName = StringPurifier.purify(w?.prateem?.name || w?.name || "");
-            if (!rawName) continue;
-            
-            // Prevent duplicated names like "Root / ... / Root"
-            const nameKey = rawName.toLowerCase();
-            if (seenNames.has(nameKey)) continue;
-            seenNames.add(nameKey);
-
-            if (crumbsAdded > 0) {
-                const separator = document.createElement("span");
-                separator.className = "crumb-separator";
-                separator.innerHTML = " / ";
-                parentS.appendChild(separator);
-            }
-
-            const a = document.createElement("a");
-            a.href = location.pathname + "?" + new URLSearchParams({ view: HeichelState.view, series: w.id });
-            a.onclick = (e) => { e.preventDefault(); window.goto(a.href); };
-            
-            a.innerHTML = rawName;
-            parentS.appendChild(a);
-            
-            crumbsAdded++;
-        }
-    }
-
-    const root = await HeichelAPI.getSeriesDetails(HeichelState.heichelID, ss);
+    await renderBreadcrumb(seriesId);
+    const root = await HeichelAPI.getSeriesDetails(HeichelState.heichelID, seriesId);
     if (!root || !Array.isArray(root.posts)) {
-        if (ss === "root") return;
-        alert("Path not found: " + ss);
+        if (seriesId !== "root") alert("Path not found: " + seriesId);
         return;
     }
 
-    // B"H Purify and display header details
-    const seriesNm = document.getElementById("seriesNm");
-    const seriesDesc = document.getElementById("seriesDesc");
-    const seriesNameAndInfo = document.getElementById("seriesNameAndInfo");
-
-    if (seriesNm) seriesNm.innerHTML = StringPurifier.purify(root.prateem.name);
-    if (seriesDesc) seriesDesc.innerText = StringPurifier.purify(root.prateem.description);
-    if (ss !== "root" && seriesNameAndInfo) seriesNameAndInfo.classList.remove("hidden");
-
-    // Load Posts
-    const propertyMap = { content: 256, title: true, postId: true, author: true, id: true, seriesId: true, indexInSeries: true };
-    const pjs = await HeichelAPI.getPostsDetails(HeichelState.heichelID, root.id, propertyMap);
-    
-    const postsList = document.getElementById('postsList');
-    if (pjs.length) {
-        const frag = CardBuilder.build(pjs, "post", ss, root);
-        postsList.innerHTML = "";
-        postsList.appendChild(frag);
-        if (HeichelState.view !== "series") document.getElementById('postsTab')?.click();
-    } else {
-        postsList.innerHTML = "No posts here yet!";
-    }
-    document.querySelector(".loadingPosts")?.classList.add("hidden");
-
-    // Load Series
-    const sjs = await HeichelAPI.getSubSeriesDetails(HeichelState.heichelID, ss, root.subSeries);
-    const seriesList = document.getElementById('seriesList');
-    
-    if (sjs.length) {
-        const frag = CardBuilder.build(sjs, "series", ss, root);
-        seriesList.innerHTML = "";
-        seriesList.appendChild(frag);
-        if (!pjs.length) document.getElementById('seriesTab')?.click();
-    } else {
-        seriesList.innerHTML = "No series here yet!";
-    }
-    document.querySelector(".loadingSeries")?.classList.add("hidden");
+    await renderSeriesHeader(seriesId, root);
+    const posts = await renderPosts(seriesId, root);
+    await renderSeries(seriesId, root, posts);
 }
 
-// B"H Listen to alias changes
-window.addEventListener("awtsmoosAliasChange", async e => {
-    window.curAlias = e?.detail?.id;
+window.addEventListener("awtsmoosAliasChange", async event => {
+    window.curAlias = event?.detail?.id;
     window.ownsIt = await HeichelAPI.doesOwn(window.curAlias, HeichelState.heichelID);
     AdminControls.removeAdminButtons();
-    if(window.ownsIt) AdminControls.addSubmitButtons();
+    if (window.ownsIt) AdminControls.addSubmitButtons();
 });
 
-// B"H Boot the process
 document.addEventListener("DOMContentLoaded", start);

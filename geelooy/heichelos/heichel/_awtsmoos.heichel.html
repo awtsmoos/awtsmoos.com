@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heichel Initializing...</title>
-    
-    <!-- B"H - The Forged Laws of Form (Now Modular) -->
+
     <link rel="stylesheet" href="/style/heichelos/revamped-partials/variables.css" type="text/css">
     <link rel="stylesheet" href="/style/heichelos/revamped-partials/base.css" type="text/css">
     <link rel="stylesheet" href="/style/heichelos/revamped-partials/layout.css" type="text/css">
@@ -14,114 +13,17 @@
     <link rel="stylesheet" href="/style/heichelos/revamped-partials/content.css" type="text/css">
     <link rel="stylesheet" href="/style/heichelos/revamped-partials/overlays.css" type="text/css">
     <link rel="stylesheet" href="/style/heichelos/revamped-partials/responsive.css" type="text/css">
+    <link rel="stylesheet" href="/style/heichelos/revamped-partials/live-main.css" type="text/css">
 
-    <!-- The Scribe's Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- The Spark of Consciousness for the Library -->
     <script type="module" src="/heichelos/heichel/app.js"></script>
 </head>
 <body>
-
 <div class="all awtsmoospage">
     <?<script> return $a("nav/header.html") </script>?>
-    
-    <div class="main">
-        <div class="heichel-page-container">
-            <div class="main-content-wrapper">
-                <button id="sidebar-toggle-btn" class="sidebar-toggle" title="Collapse Sidebar">›</button>
-
-                <header class="heichel-header">
-                    <h1 id="heichel-main-title">The Entire Torah</h1>
-                    
-                    <div class="heichel-search-wrapper">
-                        <input type="text" id="heichel-search-input" placeholder="Search this expanse...">
-                    </div>
-
-                    <div id="seriesNameAndInfo" class="hidden">
-                         <h2 id="seriesNm"></h2>
-                         <p id="seriesDesc"></p>
-                         <div id="seriesControls"></div>
-                     </div>
-                </header>
-
-                <div class="heichel-content-panel">
-                    <nav class="content-tabs">
-                        <button id="seriesTab" class="tab">Series</button>
-                        <button id="postsTab" class="tab Active">Posts</button>
-                    </nav>
-
-                    <div class="content-views">
-                        <div class="view series hidden">
-                            <div class="grid-container" id="seriesList"></div>
-                            <div class="loading-spinner hidden" id="loadingSeries">Loading...</div>
-                        </div>
-
-                        <div class="view posts">
-                            <div class="grid-container" id="postsList"></div>
-                            <div class="loading-spinner hidden" id="loadingPosts">Loading...</div>
-                        </div>
-                    </div>
-                </div>
-
-                <aside class="heichel-sidebar">
-                    <div id="breadcrumb-container"></div>
-                    
-                    <h2 id="sidebar-title">About: The Entire Torah</h2>
-                    <div id="author-name"></div>
-                    
-                    <div class="editor-controls-area">
-                        <div class="controls-header" id="editorControlsHeader">
-                            <div class="controls-name">Controls</div>
-                            <div class="controls-arrow"></div>
-                        </div>
-                        <div class="controls-container">
-                            <div class="series-controls" id="seriesControls"></div>
-                            <div class="posts-controls hidden"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="editors-section">
-                        <div class="editors-header" id="editorsHeader">
-                            <div class="editors-title">Editors: <span id="editorNum"></span></div>
-                            <div class="controls-arrow" id="editorHeaderArrow"></div>
-                        </div>
-                        <div class="editors-holder"></div>
-                    </div>
-                    <p id="sidebar-description">The Entire Torah that Moishe and prophets got from the Creator...</p>
-                </aside>
-            </div>
-            
-            <div id="toast-container"></div>
-            
-            <div id="bulk-actions-bar" class="hidden">
-                <span id="selection-count"></span>
-                <div class="actions">
-                    <button id="bulk-delete-btn" class="danger">Delete</button>
-                </div>
-                <button id="exit-selection-mode-btn">Done</button>
-            </div>
-            
-            <div id="creation-modal" class="modal-hidden">
-                <div class="modal-backdrop"></div>
-                <div class="modal-content">
-                    <h3 id="modal-title"></h3>
-                    <form id="creation-form">
-                        <input type="text" id="modal-input-title" required placeholder="Title">
-                        <textarea id="modal-input-description" placeholder="Description (optional)"></textarea>
-                        <input type="text" id="modal-input-id" placeholder="Custom ID (optional)">
-                        <div class="modal-actions">
-                            <button type="button" id="modal-cancel-btn">Cancel</button>
-                            <button type="submit" id="modal-submit-btn">Create</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="main"></div>
 </div>
-
 </body>
 </html>

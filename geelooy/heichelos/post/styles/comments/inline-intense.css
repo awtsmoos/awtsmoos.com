@@ -1,23 +1,8 @@
 /* B"H
-   Inline commentary style hub. Each imported vessel is intentionally small:
-   shelter, gate, card, text, focus, responsive polish, editorial intelligence,
-   reading modes, geometry, typography, motion, and source presence. The
-   Awtsmoos reveals a system by ordered layers, not clutter.
+   Inline commentary style hub. The Awtsmoos now routes inline commentary through
+   one coherent elite editorial system, not overlapping historical layers. Older
+   modules remain in the repository for reference, but this active cascade has a
+   single source of truth to prevent selector/property conflicts.
 */
 
-@import url("./inline/shelter.css");
-@import url("./inline/gate.css");
-@import url("./inline/card.css");
-@import url("./inline/text.css");
-@import url("./inline/focus.css");
-@import url("./inline/responsive.css");
-@import url("./inline/polished-scroll-stage.css");
-@import url("./inline/polished-ornaments.css");
-@import url("./inline/polished-summary-pill.css");
-@import url("./inline/polished-marginalia-links.css");
-@import url("./inline/editorial-intelligence.css");
-@import url("./inline/reading-modes.css");
-@import url("./inline/adaptive-geometry.css");
-@import url("./inline/typography-rtl.css");
-@import url("./inline/motion-polish.css");
-@import url("./inline/source-presence.css");
+@import url("./inline/elite-editorial-reading.css");

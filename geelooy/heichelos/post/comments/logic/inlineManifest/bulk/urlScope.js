@@ -2,9 +2,10 @@
  * B"H
  * @module InlineUrlScope
  * @description
- * Chapter 3: The Awtsmoos seals the visible gate. Verse section zero is a real
- * chamber, not root. Only missing coordinates become root; `idx=0` remains the
- * first verse vessel, and `sub=1` narrows that vessel to its named paragraph.
+ * The Awtsmoos seals the visible gate without exiling real commentary. A verse
+ * level comment may belong inside a focused paragraph view, exactly as the
+ * sidebar already permits. Therefore `sub=` narrows to paragraph-specific notes
+ * while still allowing main/root verse notes to appear as contextual marginalia.
  */
 
 /**
@@ -28,9 +29,17 @@ export function getRequestedSubSection() {
 }
 
 /**
+ * @param {unknown} sub Candidate subsection marker.
+ * @returns {boolean} True when the comment is verse-level/main/root context.
+ */
+export function isMainSubsection(sub) {
+    return sub === undefined || sub === null || sub === "" || sub === "main" || sub === "root";
+}
+
+/**
  * Checks whether a spark belongs to the currently visible URL coordinates.
  * @param {object} spark Comment spark after coordinate normalization.
- * @returns {boolean} True only when verse and subsection constraints match.
+ * @returns {boolean} True when verse matches and subsection is exact or main/root.
  */
 export function sparkMatchesUrlScope(spark) {
     const requestedVerse = getRequestedVerseSection();
@@ -39,12 +48,12 @@ export function sparkMatchesUrlScope(spark) {
     const sub = spark?.dayuh?.subSection ?? spark?.subSection ?? spark?.sub ?? null;
 
     if (requestedVerse !== null && String(verse) !== requestedVerse) return false;
-    if (requestedSub !== null && (sub === null || String(sub) !== requestedSub)) return false;
-    return true;
+    if (requestedSub === null) return true;
+    return String(sub) === requestedSub || isMainSubsection(sub);
 }
 
 /**
- * Filters converged sparks to the exact visible verse/subsection scope.
+ * Filters converged sparks to the visible verse/subsection scope.
  * @param {Array<object>} sparks Unique comment sparks.
  * @returns {Array<object>} Sparks allowed in the current URL scope.
  */

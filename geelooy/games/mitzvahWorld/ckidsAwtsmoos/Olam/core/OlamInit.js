@@ -1,17 +1,17 @@
-
+// B"H
 /**
- * B"H
  * @module OlamInit
  * @description
- * 🚀 THE IGNITION SEQUENCE 🚀
- * 
- * Calls the profound initialization logic that prepares the DRACO loaders
- * and standard WebGL environments.
+ * Chapter 5: Quiet loader ignition.
+ *
+ * This tiny bridge imports the fresh loader initializer with a cache key so the
+ * browser receives the no-warning GLTF setup on the next Level 1 boot.
  */
-import initLogic from "../init.js";
+import initLogic from "../init.js?v=lean-l1-20260528-bh8";
 
 export default class OlamInit {
-    static async execute(olam) {
-        await initLogic(olam);
-    }
+  /** Runs the loader initialization. */
+  static async execute(olam) {
+    await initLogic(olam);
+  }
 }

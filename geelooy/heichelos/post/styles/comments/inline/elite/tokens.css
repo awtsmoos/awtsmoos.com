@@ -1,0 +1,32 @@
+/* B"H
+   Elite tokens: the Awtsmoos opens a cabinet of measured light. These values
+   make the mockup real without random decoration: ink, thread, glass, depth,
+   rhythm, and scholarly measure.
+*/
+
+.post-reader-localized-context {
+    --inline-elite-ink: color-mix(in srgb, var(--inline-ink, #1f2937) 92%, #020617);
+    --inline-elite-muted: color-mix(in srgb, var(--inline-ink, #475569) 58%, transparent);
+    --inline-elite-paper: color-mix(in srgb, var(--inline-cream, #fffaf0) 88%, white);
+    --inline-elite-glass: color-mix(in srgb, var(--inline-elite-paper) 72%, transparent);
+    --inline-elite-line: color-mix(in srgb, var(--inline-gold, #c58a1a) 36%, transparent);
+    --inline-elite-glow: color-mix(in srgb, var(--inline-gold, #c58a1a) 18%, transparent);
+    --inline-elite-purple: color-mix(in srgb, #7c3aed 68%, var(--inline-gold, #c58a1a));
+    --inline-elite-blue: color-mix(in srgb, #0ea5e9 72%, var(--inline-gold, #c58a1a));
+    --inline-elite-radius: clamp(1.25rem, 2.6vw, 1.9rem);
+    --inline-elite-card-radius: clamp(1rem, 2vw, 1.45rem);
+    --inline-elite-gap: clamp(.72rem, 1.35vw, 1.1rem);
+    --inline-elite-measure: min(76ch, 100%);
+    --inline-elite-shadow: 0 28px 88px rgba(15, 23, 42, .16);
+    --inline-elite-soft-shadow: 0 18px 48px rgba(15, 23, 42, .11);
+}
+
+.post-reader-localized-context[data-inline-density="compact"] {
+    --inline-elite-gap: .55rem;
+    --inline-elite-card-radius: 1rem;
+}
+
+.post-reader-localized-context[data-inline-density="immersive"] {
+    --inline-elite-gap: clamp(1rem, 2vw, 1.45rem);
+    --inline-elite-measure: min(82ch, 100%);
+}

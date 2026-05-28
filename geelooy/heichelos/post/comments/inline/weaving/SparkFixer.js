@@ -3,10 +3,10 @@
  * @module SparkFixer
  * @chapter Fixing the Vessels in the World of Action
  * @description
- * Weaves inline comments with status, deterministic cleanup, live count updates,
- * and editorial reading intelligence. The Awtsmoos does not throw sparks into a
- * heap; each spark is seated beside its paragraph, bound to a gate, and given a
- * preview so collapsed commentary remains meaningful.
+ * The Awtsmoos does not throw sparks into a heap. Each inline comment is seated
+ * beside its source passage, bound to a gate, protected from duplicates, and now
+ * polished with semantic direction, anchor intelligence, keyboard rhythm,
+ * cluster metrics, and editorial reading metadata after it becomes real DOM.
  */
 
 import { makeInlineComment } from "/heichelos/post/comments/render/core.js";
@@ -18,6 +18,11 @@ import {
     connectShelterToVessel,
     hydrateGateSummary
 } from "/heichelos/post/comments/inline/weaving/ThreadIntelligence.js";
+import {
+    polishCard,
+    polishGate,
+    refreshGatePolish
+} from "/heichelos/post/comments/inline/weaving/polish/EditorialReadingPolish.js";
 
 function escapeForAttr(value) {
     const str = String(value);
@@ -50,7 +55,7 @@ function getOrCreateGate(shelter, alias, coords) {
 }
 
 function getPageShelters() {
-    return Array.from(document.querySelectorAll('.marginal-gloss-shelter'));
+    return Array.from(document.querySelectorAll(".marginal-gloss-shelter"));
 }
 
 function rememberGateComment(gate, spark) {
@@ -61,15 +66,17 @@ function rememberGateComment(gate, spark) {
     hydrateGateSummary(gate, gate.__awtsmoosInlineComments);
 }
 
+function findInlineSections() {
+    return document.querySelectorAll(".post-reader-localized-context .section, .section[data-awtsmoos-idx], .section[data-idx]");
+}
+
 export class SparkFixer {
     static showLoading(alias) {
-        const shelters = getPageShelters();
-        shelters.forEach(shelter => ShelterArchitect.setStatus(shelter, `Loading inline comments for @${alias}…`, "info"));
+        getPageShelters().forEach(shelter => ShelterArchitect.setStatus(shelter, `Loading inline comments for @${alias}…`, "info"));
     }
 
     static showEmpty(alias) {
-        const sections = document.querySelectorAll('.post-reader-localized-context .section, .section[data-awtsmoos-idx], .section[data-idx]');
-        const first = sections[0];
+        const first = findInlineSections()[0];
         if (!first) return;
         const shelter = ShelterArchitect.secureShelter(first);
         ShelterArchitect.setStatus(shelter, `No inline comments found for @${alias} on the rendered text.`, "empty");
@@ -83,7 +90,6 @@ export class SparkFixer {
         }
 
         console.log(`%c B"H - [SparkFixer] Re-evaluating ${sparks.length} sparks for @${alias}.`, "color: #ff00ff;");
-
         const touchedGates = new Set();
 
         sparks.forEach(spark => {
@@ -103,12 +109,16 @@ export class SparkFixer {
             ShelterArchitect.clearStatus(shelter);
             connectShelterToVessel(shelter, vessel, coords);
 
-            const alreadyExists = shelter.querySelector(`[data-cid="${escapeForAttr(sparkIdStr)}"]`);
             const gate = getOrCreateGate(shelter, alias, coords);
             bindReadingFocus(gate, vessel);
+            polishGate(gate, vessel, coords);
             touchedGates.add(gate);
             rememberGateComment(gate, spark);
-            if (alreadyExists) { stats.duplicates++; return; }
+
+            if (shelter.querySelector(`[data-cid="${escapeForAttr(sparkIdStr)}"]`)) {
+                stats.duplicates++;
+                return;
+            }
 
             const list = gate.querySelector(".comments-holder-inline");
             if (!list) { stats.missing++; return; }
@@ -118,12 +128,16 @@ export class SparkFixer {
             const card = makeInlineComment(spark);
             card.dataset.fromAlias = alias;
             card.dataset.cid = sparkIdStr;
+            polishCard(card, spark, list.children.length);
             list.appendChild(card);
+            refreshGatePolish(gate);
             stats.inserted++;
         });
 
-        touchedGates.forEach(gate => GuardianGate.updateCount(gate));
-
+        touchedGates.forEach(gate => {
+            GuardianGate.updateCount(gate);
+            refreshGatePolish(gate);
+        });
         if (stats.inserted === 0 && stats.duplicates === 0) this.showEmpty(alias);
         if (stats.inserted > 0) {
             console.log(`%c B"H - [SparkFixer] Anchored ${stats.inserted} unique insights into the margins for @${alias}.`, "color: #00ff00; font-weight: bold;");

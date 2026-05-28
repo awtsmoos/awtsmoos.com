@@ -1,54 +1,43 @@
-
+// B"H
 /**
- * B"H
  * @module Stage1Data
  * @description
- * Before the physical manifestation begins, the spiritual DNA (data) must be assembled.
- * This module unites the system decrees, the player's history, and the innate physical 
- * constants into one unified essence ready for the Tzimtzum.
+ * Chapter 3: The Blob gate is sealed.
+ *
+ * Level 1 must be driven only by the already-imported `worldDayuh` object from
+ * the direct ladder module. This stage refuses `worldDayuhURL` entirely, so an
+ * old menu/custom-world Blob script cannot merge enemy/NPC desert data into the
+ * clean pipeline after the worker starts.
  */
 import defaultConfig from "../../../../../defaultConfig.js";
 
 export default class Stage1Data {
-    /**
-     * @async
-     * @function merge
-     * @description Fuses the various data streams into a single source of truth.
-     * @param {Object} systemInfo - Base engine parameters.
-     * @param {Object} userInfo - Player-specific state and inventory.
-     * @returns {Promise<Object>} The consolidated world data.
-     */
-    static async merge(systemInfo = {}, userInfo = {}) {
-        // B"H: silent
-
-        let info = { ...systemInfo, ...userInfo };
-
-        if (typeof info.worldDayuhURL === "string") {
-            try {
-                // B"H: silent
-
-                const f = await import(info.worldDayuhURL);
-                if (f?.default) {
-                    Object.assign(info, f.default);
-                    Object.assign(userInfo, f.default);
-                }
-            } catch (e) {
-                console.error("B\"H - ⚡ INTENSE ERROR: Failed to import world URL:", info.worldDayuhURL, e);
-            }
-        }
-
-        if (defaultConfig && defaultConfig.components) {
-            info.components = {
-                ...defaultConfig.components,
-                ...(info.components || {})
-            };
-        }
-
-        if (!info.nivrayim) {
-            console.warn("B\"H - ⚡ INTENSE WARNING: No nivrayim found. Generating empty void.");
-            info.nivrayim = {};
-        }
-
-        return info;
+  /**
+   * Merges system and user data without importing arbitrary world modules.
+   *
+   * @param {object} systemInfo Engine information.
+   * @param {object} userInfo Direct world data and player state.
+   * @returns {Promise<object>} Consolidated world information.
+   */
+  static async merge(systemInfo = {}, userInfo = {}) {
+    const info = { ...systemInfo, ...userInfo };
+    if (typeof info.worldDayuhURL === "string") {
+      console.warn('B"H - worldDayuhURL ignored in clean Level 1 pipeline:', info.worldDayuhURL);
+      delete info.worldDayuhURL;
     }
+
+    if (defaultConfig?.components) {
+      info.components = {
+        ...defaultConfig.components,
+        ...(info.components || {})
+      };
+    }
+
+    if (!info.nivrayim) {
+      console.warn('B"H - No nivrayim found. Generating empty void.');
+      info.nivrayim = {};
+    }
+
+    return info;
+  }
 }

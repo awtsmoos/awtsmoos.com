@@ -2,215 +2,77 @@
 /**
  * @class UIManager
  * @description
- * THE TIKKUN OF THE ETERNAL RETRY LOOP.
+ * Chapter 6: The UI receives fresh styling and reset effects.
  *
- * The old initializeForFirstTime() received gameUiHTML but NEVER called
- * ui.html(gameUiHTML). The #gameID/.gameUi vessel never entered the DOM.
- * makeGameMenu() searched for it every 500ms forever — an infinite loop
- * that prevented the game from EVER loading.
- *
- * THE FIX: Call ui.html(gameUiHTML) right after canvas creation.
- * The vessel is born. makeGameMenu() finds it on the first attempt.
- * The loop is dissolved. The world loads.
+ * The clean Level 1 UI still refuses Blob/custom-world starts, while the style
+ * vessel is cache-busted so the repaired inventory and action bar CSS loads.
  */
-
 import UI from "/scripts/awtsmoos/ui/index.js";
-import style from "./ui/style.js";
+import style from "./ui/style.js?v=lean-l1-20260528-bh9";
 import mainMenu from "./ui/mainMenu/index.js";
 
 export default class UIManager {
-    /** @constructor — empty vessel, awaiting UI() to begin creation */
-    constructor() {}
+  constructor() {}
 
-    /**
-     * @function UI
-     * @description Forges the DOM vessels, attaches event listeners, appends to body.
-     * @param {Object} opts
-     * @param {Function} opts.onstart
-     * @returns {UI}
-     */
-    UI(opts = {}) {
-        var self = this;
-        var onstart = opts.onstart;
-        var ui = new UI();
-        this.ui = ui;
+  UI(opts = {}) {
+    const ui = new UI();
+    this.ui = ui;
+    const h = ui.html({ shaym: "ikar", children: [style, ...mainMenu] });
+    h?.addEventListener("start", event => this.initializeForFirstTime(event, {
+      onstart: opts.onstart,
+      onerror: error => this.showStartError(ui, error)
+    }));
+    h?.addEventListener("olamPeula", peula => this.forwardOlamPeula(peula));
+    document.body.appendChild(h);
+    return ui;
+  }
 
-        var h = ui.html({
-            shaym: "ikar",
-            children: [style, ...mainMenu]
-        });
+  showStartError(ui, error) {
+    alert("There was an error " + error);
+    ui.htmlAction({ shaym: "loading", properties: { innerHTML: "There was an error. Check console." } });
+  }
 
-        var first = false;
+  forwardOlamPeula(peula) {
+    const det = peula.detail;
+    const manager = window.mana;
+    if (manager?.socket?.eved && det) {
+      Object.keys(det).forEach(key => manager.socket.eved.postMessage({ [key]: det[key] }));
+      return;
+    }
+    console.warn('B"H - UI_MANAGER: Cannot post to Worker. socket or eved missing.');
+  }
 
-        h?.addEventListener("start", async e => {
-            if (!first) {
-                first = true;
-                self.initializeForFirstTime(e, {
-                    onstart,
-                    onerror(err) {
-                        alert("There was an error " + err);
-                        ui.htmlAction({
-                            shaym: "loading",
-                            properties: {
-                                innerHTML: "There was an error. Check console, contact Coby."
-                            }
-                        });
-                    }
-                });
-            } else {
-                self.initializeForFirstTime(e, { onstart });
-            }
-        });
+  initializeForFirstTime(event, opts = {}) {
+    const ui = this.ui;
+    ui.html({ shaym: "main av", className: "mainAv" });
+    const av = ui.html({ shaym: "av", style: { position: "relative" }, className: "mapAvBasic", parent: "main av", attributes: { awts: 2 } });
+    this.parentForCanvas = av;
+    ui.html({ parent: av, tag: "canvas", shaym: "canvasEssence" });
 
-        h?.addEventListener("olamPeula", peula => {
-            var det = peula.detail;
-            // B"H: silent
-
-            
-            // B"H: The ManagerOfAllWorlds is stored globally as window.mana
-            const manager = window.mana;
-            
-            if (manager && manager.socket && manager.socket.eved && det) {
-                Object.keys(det).forEach(w => {
-                    // B"H: silent
-
-                    manager.socket.eved.postMessage({ [w]: det[w] });
-                });
-            } else {
-                console.warn('B"H - ⚠️ [UI_MANAGER]: Cannot post to Worker. socket or eved missing!', { 
-                    mana: !!window.mana, 
-                    socket: !!(manager && manager.socket)
-                });
-            }
-        });
-
-
-
-        document.body.appendChild(h);
-        return ui;
+    const detail = event.detail || {};
+    if (detail.worldDayuhURL) console.warn('B"H - Refused worldDayuhURL start payload:', detail.worldDayuhURL);
+    if (!detail.worldDayuh || typeof detail.worldDayuh !== "object") {
+      alert("No direct ladder world data provided.");
+      return false;
     }
 
-    /**
-     * @function initializeForFirstTime
-     * @description
-     * THE CRITICAL TIKKUN IS HERE.
-     *
-     * After creating the canvas, this now calls ui.html(gameUiHTML) to
-     * physically manifest the #gameID / .gameUi element into the DOM.
-     *
-     * Previously this call DID NOT EXIST. makeGameMenu() looped forever.
-     * Now the vessel is born before onstart fires. The loop ends.
-     *
-     * @param {CustomEvent} e
-     * @param {Object} opts
-     */
-    initializeForFirstTime(e, opts = {}) {
-        var onstart = opts.onstart;
-        var ui = this.ui;
+    const gameUiHTML = detail.gameUiHTML || window.awtsmoosGameUI;
+    if (gameUiHTML && typeof gameUiHTML === "object" && !ui.$g("gameID")) ui.html(gameUiHTML);
+    this.onerror = opts.onerror;
+    if (this.started) return true;
+    this.started = true;
+    opts.onstart?.({ ...detail, gameUiHTML, worldDayuh: detail.worldDayuh });
+    return true;
+  }
 
-        ui.html({ shaym: "main av", className: "mainAv" });
+  makeGameMenu() {
+    if (this.ui.$g("menu")) return;
+    const par = this.ui.$g("gameID") || document.querySelector(".gameUi");
+    if (!par) return;
+    import("./ui/gameUI/MainMenu/index.js")
+      .then(({ MainMenu }) => this.ui.html({ ...MainMenu, parent: par }))
+      .catch(error => console.error('B"H: Failed to lazy-load in-game menu', error));
+  }
 
-        var av = ui.html({
-            shaym: "av",
-            style: { position: "relative" },
-            className: "mapAvBasic",
-            parent: "main av",
-            attributes: { awts: 2 }
-        });
-
-        this.parentForCanvas = av;
-        this.ui = ui;
-
-        ui.html({
-            parent: this.parentForCanvas,
-            tag: "canvas",
-            shaym: "canvasEssence"
-        });
-
-        var worldDayuhURL = e.detail.worldDayuhURL;
-        var worldDayuh = e.detail.worldDayuh;
-
-        if (!worldDayuh && !worldDayuhURL) {
-            alert("No world data provided!");
-            return false;
-        }
-
-        var gameUiHTML = e.detail.gameUiHTML || window.awtsmoosGameUI;
-
-        // ================================================================
-        // B"H: THE FIX - RENDER gameUiHTML INTO THE DOM RIGHT NOW.
-        //
-        // This creates #gameID / .gameUi that makeGameMenu() needs.
-        // Previously this call DID NOT EXIST causing the infinite loop.
-        // ================================================================
-        if (gameUiHTML && typeof gameUiHTML === "object" && !ui.$g("gameID")) {
-            // B"H: silent
-
-            ui.html(gameUiHTML);
-        }
-
-        var ob = { ...e.detail, gameUiHTML };
-        if (worldDayuh) ob.worldDayuh = worldDayuh;
-        if (worldDayuhURL) ob.worldDayuhURL = worldDayuhURL;
-
-        this.onerror = opts.onerror;
-
-        if (!this.started) {
-            this.started = true;
-            onstart(ob);
-        }
-    }
-
-    /**
-     * @function makeGameMenu
-     * @description
-     * Summons the in-game menu. With the TIKKUN applied above,
-     * #gameID/.gameUi already exists. No more infinite loops.
-     */
-    makeGameMenu() {
-        if (!this.ui) {
-            console.error('B"H: UI not initialized in UIManager');
-            return;
-        }
-
-        if (this.ui.$g("menu")) {
-            // B"H: silent
-
-            return;
-        }
-
-        var par = this.ui.$g("gameID") || document.querySelector(".gameUi");
-
-        if (!par) {
-            var fallback = window.awtsmoosGameUI;
-            if (fallback) {
-                console.warn('B"H: makeGameMenu - #gameID missing! Emergency-manifesting...');
-                this.ui.html(fallback);
-                par = this.ui.$g("gameID") || document.querySelector(".gameUi");
-            }
-        }
-
-        if (!par) {
-            console.warn('B"H: Parent gameID (.gameUi) not found. Retrying in 500ms...');
-            setTimeout(() => this.makeGameMenu(), 500);
-            return;
-        }
-        // B"H: Load the in-game pause/menu UI only when actually requested.
-        import("./ui/gameUI/MainMenu/index.js")
-            .then(({ MainMenu }) => {
-                this.ui.html({
-                    ...MainMenu,
-                    parent: par
-                });
-            })
-            .catch(error => console.error('B"H: Failed to lazy-load in-game menu', error));
-    }
-
-    /**
-     * @function gameMenuItem
-     * @deprecated Use MainMenu component instead.
-     */
-    gameMenuItem(opts = {}) {
-        // No longer used
-    }
+  gameMenuItem() {}
 }
