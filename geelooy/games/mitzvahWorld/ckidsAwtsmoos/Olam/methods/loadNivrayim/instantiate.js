@@ -8,7 +8,7 @@
  * makes grounded SpikeHazard, counting Coin, and fresh UI-safe entities the real
  * classes used by Level 1, not stale browser memory.
  */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh17';
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh18';
 import Utils from '../../../utils.js';
 
 const instantiate = {

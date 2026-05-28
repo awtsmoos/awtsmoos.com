@@ -4,8 +4,8 @@
  * @description Chapter 12: Manager opens bh17 UI and bh17 worker flow.
  */
 import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
-import UIManager from "../uiManager/index.js?v=lean-l1-20260528-bh17";
-import StartWorldFlow from "./StartWorldFlow.js?v=lean-l1-20260528-bh17";
+import UIManager from "../uiManager/index.js?v=lean-l1-20260528-bh18";
+import StartWorldFlow from "./StartWorldFlow.js?v=lean-l1-20260528-bh18";
 import SocketHandler from "./SocketHandler.js";
 import ServiceWorkerInit from "./ServiceWorkerInit.js";
 import SwitchDestroyLogic from "./SwitchDestroyLogic.js";

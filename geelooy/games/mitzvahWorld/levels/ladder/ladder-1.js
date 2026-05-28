@@ -1,35 +1,18 @@
 // B"H
-/**
- * @file ladder-1.js
- * @description Chapter 12: Dust Gate with bh17 helpers.
- */
-import {
-  bonus,
-  coin,
-  door,
-  level,
-  platform,
-  player,
-  resetPit,
-  sky,
-  spikeFloor,
-  terrain
-} from './helpers.js?v=lean-l1-20260528-bh17';
+import { bonus, coin, door, level, platform, player, resetPit, sky, spikeFloor, stairs, terrain } from './helpers.js?v=lean-l1-20260528-bh17';
 
 const solids = [
-  platform('ground_return_01', -18, -2.0, 5, 8, 5, 0xd2b878),
-  platform('ground_return_02', -14, -1.0, 3, 8, 5, 0xd0b06a),
-  platform('ground_return_03', -10, 0.0, 1, 8, 5, 0xcaa15a),
-  platform('start_slab', -6, 0, 0, 13, 9, 0xd6b46b),
-  platform('climb_back_low', 1, 1.0, -4, 5, 4, 0xbfa75d),
-  platform('jump_01', 8, 2.0, -5, 7, 4, 0xc6aa62),
-  platform('climb_back_mid', 14, 3.1, -1, 5, 3, 0xd1a95e),
-  platform('jump_02', 20, 4.0, 4, 7, 4, 0xb98f4a),
-  platform('wide_rest', 31, 5.2, 0, 10, 5, 0xb9954f),
-  platform('gate_landing', 44, 6.4, 0, 12, 8, 0xa77d3d)
+  platform('start_slab', -6, 0, 0, 10, 8, 0xd6b46b),
+  stairs('starter_steps', -0.5, 0.45, -3.8, 5, 2.2, 4),
+  platform('jump_01', 8, 2.6, -5, 6, 4, 0xc6aa62),
+  stairs('mid_steps', 14, 3.0, -1.2, 4, 1.8, 3),
+  platform('jump_02', 20, 4.6, 4, 6, 4, 0xb98f4a),
+  platform('wide_rest', 31, 5.8, 0, 9, 5, 0xb9954f),
+  stairs('final_steps', 39, 6.1, 0, 4, 1.6, 3),
+  platform('gate_landing', 46, 7.4, 0, 10, 8, 0xa77d3d)
 ];
 
-const spikes = spikeFloor({ minX: -20, maxX: 52, minZ: -14, maxZ: 14, step: 2.15 });
+const spikes = spikeFloor({ minX: -20, maxX: 55, minZ: -14, maxZ: 14, step: 2.15 });
 
 export default level('Desert_Dust_Gate', 7, 'ladder-2.js', {
   ProceduralSky: { brightDesertSky: sky() },
@@ -38,15 +21,15 @@ export default level('Desert_Dust_Gate', 7, 'ladder-2.js', {
   SolidBlock: solids,
   SpikeHazard: spikes,
   Coin: [
-    coin('p1', -1, 1.4, -2),
-    coin('p2', 4, 2.2, -4),
-    coin('p3', 8, 3.3, -5),
-    coin('p4', 15, 4.2, -1),
-    coin('p5', 20, 5.2, 4),
-    coin('p6', 31, 6.4, 0),
-    coin('p7', 43, 7.6, 0),
-    bonus('optional_global_sela', 46, 7.8, 2.8, 3)
+    coin('p1', -1, 2.1, -2),
+    coin('p2', 4, 3.1, -4),
+    coin('p3', 8, 4.3, -5),
+    coin('p4', 15, 5.0, -1),
+    coin('p5', 20, 6.0, 4),
+    coin('p6', 31, 7.2, 0),
+    coin('p7', 43, 8.2, 0),
+    bonus('optional_global_sela', 47, 8.5, 2.8, 3)
   ],
-  InteractiveDoor: [door('Gate to Mirror Dunes', 50, 9.1, 0, 'ladder-2.js')],
+  InteractiveDoor: [door('Gate to Mirror Dunes', 52, 10, 0, 'ladder-2.js')],
   FallResetTrigger: [resetPit('fall_reset_under_world', 20, -12, 0, 140, 120)]
 });

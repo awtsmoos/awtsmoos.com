@@ -3,7 +3,7 @@
  * @file index.js
  * @description Chapter 12: Page gate opens bh17 coin/spike/UI repair.
  */
-const IKAR_VERSION = "lean-l1-20260528-bh17";
+const IKAR_VERSION = "lean-l1-20260528-bh18";
 
 function storeLastError(details) {
   if (typeof window !== "undefined") window.__AWTSMOOS_LAST_ERROR__ = details;

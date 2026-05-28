@@ -6,7 +6,7 @@
 import OlamWorkerManager from "../ikarOyvedManager.js";
 
 const WORLD_FLOW_PATHS = Object.freeze({
-  WORKER_ENTRY: "../oyved/index.js?v=lean-l1-20260528-bh17",
+  WORKER_ENTRY: "../oyved/index.js?v=lean-l1-20260528-bh18",
   PLAYER_DATA: "desktop.folder/game data.folder/playerData.json"
 });
 

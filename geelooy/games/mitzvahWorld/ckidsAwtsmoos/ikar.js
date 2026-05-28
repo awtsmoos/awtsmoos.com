@@ -3,9 +3,9 @@
  * @file ikar.js
  * @description Chapter 12: Direct ladder gate with bh17 coin/spike/UI cache.
  */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh17";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh18";
 
-const VERSION = "lean-l1-20260528-bh17";
+const VERSION = "lean-l1-20260528-bh18";
 
 function createManager() {
   const manager = new ManagerOfAllWorlds(null);
