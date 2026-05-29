@@ -20,8 +20,8 @@
 /* 3. THE LAYOUT (The Dimensions of Space) */
 @import url("./layout/scaffolding.css");
 @import url("./layout/sidebar.css");
-@import url("./layout/sidebar-breadcrumbs.css"); 
-@import url("./layout/resizer.css"); 
+@import url("./layout/sidebar-breadcrumbs.css");
+@import url("./layout/resizer.css");
 @import url("./layout/polished-shell.css");
 @import url("./layout/polished-sidebar.css");
 @import url("./layout/polished-resizer.css");
@@ -36,8 +36,8 @@
 @import url("./components/polished-inputs.css");
 @import url("./components/polished-action-surfaces.css");
 @import url("./components/cards.css");
-@import url("./components/verse-menu.css"); 
-@import url("./components/floating-orbs.css"); 
+@import url("./components/verse-menu.css");
+@import url("./components/floating-orbs.css");
 
 /* 5. THE MODULES (Aggregated Spheres of Logic) */
 @import url("./modules/settings.css");
@@ -59,13 +59,13 @@
 @import url("./modules/image-upload.css");
 
 /* 6. THE CONTENT (The Word Made Physical) */
-@import url("./content/body-text.css");     
+@import url("./content/body-text.css");
 @import url("./content/text.css");
 @import url("./content/scroll.css");
 @import url("./content/marginalia.css");
-@import url("./content/verse-numbers.css"); 
-@import url("./content/paragraphs.css");    
-@import url("./content/titles.css");        
+@import url("./content/verse-numbers.css");
+@import url("./content/paragraphs.css");
+@import url("./content/titles.css");
 @import url("./content/entry-cushion.css");
 @import url("./content/polished-reading-column.css");
 @import url("./content/polished-title-vessel.css");
@@ -80,11 +80,14 @@
 @import url("./themes/animations.css");
 
 /* 8. COMMENTARY STYLES */
-@import url("./comments/titles.css");       
-@import url("./comments/toolbars.css");     
+@import url("./comments/titles.css");
+@import url("./comments/toolbars.css");
 @import url("./comments/inputs.css");
 @import url("./comments/editor.css");
 @import url("./comments/inline-intense.css");
 @import url("./comments/sidebar-intense.css");
 @import url("./comments/sidebar-premium.css");
 @import url("./reader-runtime-polish.css");
+
+/* 9. FINAL FOREVER REPAIRS */
+@import url("./forever-ui-fixes.css");

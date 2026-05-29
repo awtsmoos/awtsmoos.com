@@ -6,7 +6,11 @@ const { safePath, assertNotSecret } = require("./pathGuard.js");
 
 /**
  * B"H
- * Makes a sha256 seal for bytes so edits can be guarded from stale overwrite.
+ * Chapter 6: The Awtsmoos sealed the scroll before the scribe touched ink.
+ *
+ * The hash is the quiet witness of the previous world. Before a file is
+ * rewritten, its old letters must answer truthfully; only then may the new
+ * letters descend without trampling another agent's living work.
  *
  * @param {Buffer|string} data Data to hash.
  * @returns {string} Hex sha256.
@@ -27,7 +31,6 @@ async function fileHashes(config, payload = {}) {
   const paths = Array.isArray(payload.paths) && payload.paths.length
     ? payload.paths
     : [payload.path || payload.p || "."];
-
   const maxFiles = Math.max(1, Math.min(Number(payload.maxFiles || 50), 200));
   const results = {};
 
@@ -36,25 +39,13 @@ async function fileHashes(config, payload = {}) {
       const full = safePath(config, p);
       assertNotSecret(config, full);
       const buf = await fsp.readFile(full);
-      results[p] = {
-        ok: true,
-        path: p,
-        absolutePath: full,
-        bytes: buf.length,
-        sha256: sha256(buf)
-      };
+      results[p] = { ok: true, path: p, absolutePath: full, bytes: buf.length, sha256: sha256(buf) };
     } catch (e) {
       results[p] = { ok: false, path: p, error: e.message };
     }
   }
 
-  return {
-    ok: Object.values(results).every(x => x.ok),
-    action: "fileHashes",
-    count: Object.keys(results).length,
-    partial: paths.length > maxFiles,
-    results
-  };
+  return { ok: Object.values(results).every(x => x.ok), action: "fileHashes", count: Object.keys(results).length, partial: paths.length > maxFiles, results };
 }
 
 /**
@@ -70,14 +61,13 @@ async function writeIfHash(config, payload = {}) {
 
   const p = payload.path || payload.p;
   const expected = String(payload.expectedSha256 || payload.sha256 || "").toLowerCase();
-  content = String(payload.content || "");
+  const content = String(payload.content ?? "");
 
   if (!p) return { ok: false, action: "writeIfHash", error: "missing_path" };
   if (!expected) return { ok: false, action: "writeIfHash", error: "missing_expectedSha256" };
 
   const full = safePath(config, p);
   assertNotSecret(config, full);
-
   const before = await fsp.readFile(full);
   const actual = sha256(before);
 
@@ -87,16 +77,7 @@ async function writeIfHash(config, payload = {}) {
 
   await fsp.mkdir(path.dirname(full), { recursive: true });
   await fsp.writeFile(full, content, "utf8");
-
-  return {
-    ok: true,
-    action: "writeIfHash",
-    path: p,
-    absolutePath: full,
-    beforeSha256: actual,
-    afterSha256: sha256(Buffer.from(content, "utf8")),
-    bytes: Buffer.byteLength(content, "utf8")
-  };
+  return { ok: true, action: "writeIfHash", path: p, absolutePath: full, beforeSha256: actual, afterSha256: sha256(Buffer.from(content, "utf8")), bytes: Buffer.byteLength(content, "utf8") };
 }
 
 /**
@@ -109,27 +90,20 @@ async function writeIfHash(config, payload = {}) {
  */
 async function bulkWriteIfHashes(config, payload = {}) {
   const files = payload.files && typeof payload.files === "object" ? payload.files : {};
-  const entries = Object.entries(files);
+  const writes = Array.isArray(payload.writes)
+    ? Object.fromEntries(payload.writes.map(x => [x.path || x.p, x]).filter(([p]) => p))
+    : files;
+  const entries = Object.entries(writes);
   const results = {};
   let okCount = 0;
 
   for (const [p, spec] of entries) {
-    const res = await writeIfHash(config, {
-      path: p,
-      expectedSha256: spec.expectedSha256 || spec.sha256,
-      content: spec.content || ""
-    });
+    const res = await writeIfHash(config, { path: p, expectedSha256: spec.expectedSha256 || spec.sha256, content: spec.content ?? "" });
     results[p] = res;
     if (res.ok) okCount++;
   }
 
-  return {
-    ok: okCount === entries.length,
-    action: "bulkWriteIfHashes",
-    count: entries.length,
-    okCount,
-    results
-  };
+  return { ok: okCount === entries.length, action: "bulkWriteIfHashes", count: entries.length, okCount, results };
 }
 
 module.exports = { sha256, fileHashes, writeIfHash, bulkWriteIfHashes };

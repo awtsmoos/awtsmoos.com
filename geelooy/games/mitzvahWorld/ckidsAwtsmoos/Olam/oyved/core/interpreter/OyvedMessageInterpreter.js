@@ -3,8 +3,8 @@
  * @module OyvedMessageInterpreter
  * @description Chapter 20: Routes genesis and continuous worker messages through bh24.
  */
-import { GenesisRoute } from './GenesisRoute.js?v=lean-l1-20260528-bh28';
-import { ContinuousRoute } from './ContinuousRoute.js?v=lean-l1-20260528-bh28';
+import { GenesisRoute } from './GenesisRoute.js?v=lean-l1-20260528-bh37';
+import { ContinuousRoute } from './ContinuousRoute.js?v=lean-l1-20260528-bh37';
 
 export class OyvedMessageInterpreter {
   /** Directs the initial creation message or delegates ongoing events. */

@@ -1,5 +1,5 @@
 // B"H
-import { collectCurrency } from '../systems/currency.js';
+import { coinKind } from '../systems/currency.js';
 import { SpikeOracle } from '../systems/spikes.js';
 import { enemyMask, steerEnemy } from '../systems/enemyArchetypes.js';
 import { RotatingPlatformField } from '../systems/rotatingPlatforms.js';
@@ -24,10 +24,9 @@ const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a
 /**
  * PhysicsWorld is the living chamber of Sulam HaSod.
  *
- * The Awtsmoos recreates every frame, but the engine must not recreate needless
- * garbage. This world now keeps reusable broadphase arrays, query buffers, and
- * hash courts, while resets explicitly clear transient run-memory unless the
- * player is inside the death pause where the shatter must remain visible.
+ * The Awtsmoos now separates banked wealth from run-wealth. Coins collected in
+ * a chamber enter runCurrency only. They become permanent only when the door is
+ * finished. Death or menu-forfeit returns the run purse to nothing.
  */
 export class PhysicsWorld {
   constructor(level) {
@@ -67,7 +66,9 @@ export class PhysicsWorld {
     this.enemyCoinTotal = (level.enemies || []).filter(enemy => enemy.dropCoin).length;
     this.realCoinTotal = this.coins.length + this.enemyCoinTotal;
     this.realCoinsCollected = 0;
+    this.runCurrency = { perutah: 0, dinar: 0, sela: 0, maneh: 0, shefa: 0, chain: 0, bestChain: 0 };
     this.runShefaCollected = 0;
+    this.levelElapsed = 0;
     this.fakeCoins = clone(level.fakeCoins || []);
     this.keys = clone(level.keys || []);
     this.enemies = clone(level.enemies || []);
@@ -100,6 +101,7 @@ export class PhysicsWorld {
   step(input, dt) {
     if (input.restart && !this.deathPause) this.load(this.sourceLevel);
     if (this.deathPause) return this.stepDeathPause(dt);
+    this.levelElapsed += dt;
     this.deathBursts = stepBursts(this.deathBursts, dt);
     this.moveEnemies(dt);
     this.trickCoins.step(dt, this);
@@ -201,11 +203,9 @@ export class PhysicsWorld {
 
   collectStaticCoins() {
     this.collect(this.coins, 26, coin => {
-      const kind = collectCurrency(this.currency, coin);
-      this.runShefaCollected += kind.value;
+      const kind = this.collectRunCurrency(coin);
       this.realCoinsCollected += 1;
-      this.score = this.currency.shefa;
-      this.message = `${kind.kind} joins the chain. Coins ${this.realCoinsCollected}/${this.realCoinTotal}.`;
+      this.message = `${kind.kind} is unbanked until the door. Coins ${this.realCoinsCollected}/${this.realCoinTotal}.`;
       this.queueSound('coin');
     });
   }
@@ -213,13 +213,21 @@ export class PhysicsWorld {
   collectTrickCoins() {
     const coin = this.trickCoins.collect(this.player);
     if (coin) {
-      const kind = collectCurrency(this.currency, coin);
-      this.runShefaCollected += kind.value;
-      this.score = this.currency.shefa;
-      this.message = `The fleeing ${kind.kind} finally surrendered.`;
+      const kind = this.collectRunCurrency(coin);
+      this.message = `The fleeing ${kind.kind} is unbanked until victory.`;
       this.queueSound('coin');
     }
     if (this.trickCoins.touchFake(this.player)) this.loseMoneyAndReset('The fleeing treasure was a spike all along.');
+  }
+
+  collectRunCurrency(coin) {
+    const kind = coinKind(coin);
+    this.runCurrency[kind.kind] = (this.runCurrency[kind.kind] || 0) + 1;
+    this.runCurrency.shefa = (this.runCurrency.shefa || 0) + kind.value;
+    this.runCurrency.chain = (this.runCurrency.chain || 0) + 1;
+    this.runCurrency.bestChain = Math.max(this.runCurrency.bestChain || 0, this.runCurrency.chain);
+    this.runShefaCollected += kind.value;
+    return kind;
   }
 
   collectKeys() { this.collect(this.keys, 28, () => { this.keyCount += 1; this.message = this.allRealCoinsCollected() ? 'The key remembers the door.' : `The key waits for every real coin: ${this.realCoinsCollected}/${this.realCoinTotal}.`; this.queueSound('key'); }); }
@@ -257,8 +265,8 @@ export class PhysicsWorld {
   dropEnemyCoin(enemy) { this.coins.push({ x: enemy.x + enemy.w / 2 - 13, y: Math.max(40, enemy.y - 30), kind: enemy.dropCoin }); this.queueSound('key'); }
 
   touchSpike() {
-    for (const spike of this.spikes.active()) if (hit(this.player, spike)) { this.loseMoneyAndReset('Spikes burst: Shefa spilled into the floor.'); return true; }
-    for (const spike of this.momentumCurse.active()) if (hit(this.player, spike)) { this.loseMoneyAndReset('Spikes burst: Shefa spilled into the floor.'); return true; }
+    for (const spike of this.spikes.active()) if (hit(this.player, spike)) { this.loseMoneyAndReset('Spikes burst: unbanked Shefa spilled into the floor.'); return true; }
+    for (const spike of this.momentumCurse.active()) if (hit(this.player, spike)) { this.loseMoneyAndReset('Spikes burst: unbanked Shefa spilled into the floor.'); return true; }
     const ghostMessage = this.tricks.touchGhost?.(this.player);
     if (ghostMessage) { this.loseMoneyAndReset(ghostMessage); return true; }
     return false;
@@ -289,7 +297,7 @@ export class PhysicsWorld {
     const loss = this.deathLoss();
     this.currency.shefa = Math.max(0, (this.currency.shefa || 0) - loss);
     this.currency.chain = 0;
-    this.market.message = `${reason} ${deathPenaltyReceipt(loss, runShefa, progress)}`;
+    this.market.message = `${reason} ${deathPenaltyReceipt(loss, runShefa, progress)} Lost ${runShefa} unbanked run Shefa.`;
     this.queueSound('death');
     this.load(this.sourceLevel, { preserveDeath: true });
   }

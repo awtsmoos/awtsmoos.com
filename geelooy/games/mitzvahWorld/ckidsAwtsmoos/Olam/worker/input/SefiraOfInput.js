@@ -1,87 +1,51 @@
-
 // B"H
 /**
  * @file SefiraOfInput.js
  * @description
- * ⚖️ THE CHAPTER OF DISCERNMENT (BINAH) ⚖️
- * 
- * Chapter 3: The Boundaries of Interactivity.
- * 
- * "And G-d separated the Light from the Darkness." 
- * To have a functional world, we must distinguish between the 
- * Interactive Garment (UI) and the Essential Space (3D World).
- * 
- * This module provides the logic to detect if a physical touch 
- * is landing on an actionable vessel (Button, Input, Joystick) 
- * or if it is landing in the "Open Space" of the UI layer, 
- * which should be treated as a direct touch on the 3D void.
+ * Chapter 28: UI touch vessels are sacred boundaries.
+ *
+ * The Awtsmoos separates world-drag from menu-touch. Inventory, bag, action
+ * dock, context menu, equipment slots, and close buttons are all hard UI. Touch
+ * on them must never become camera rotation or right-mouse gaze.
  */
- 
 export default class SefiraOfInput {
- 
-    /**
-     * @method isUI
-     * @description
-     * Determines if a DOM element is part of the "Active UI" or just 
-     * a transparent container layer.
-     * 
-     * @param {HTMLElement|EventTarget} el - The element to judge.
-     * @returns {boolean} True if the element should block world interactions.
-     */
-    static isUI(el) {
-        if (!el || !el.closest) return false;
+  /** Returns true when an element should capture touch/click for UI only. */
+  static isUI(el) {
+    if (!el || !el.closest) return false;
+    const markers = [
+      'button', 'a', 'input', 'select', 'textarea', '[role="button"]',
+      '[awtsmoosClick]', '[data-awts-ui]', '[shaym="inventoryScreen"]',
+      '#inventoryScreen', '.awtsmoosInventoryViewer', '.awtsmoosContextMenu',
+      '#itemContextMenu', '.ctx-btn', '.inventory-slot', '.equipment-slot',
+      '.slot', '.slots', '.actionSlot', '.bag-slot', '#actionBar',
+      '.awtsmoosAction', '.compact-action-dock', '.dock-arrow', '.slotBtn',
+      '.innerSlot', '.close', '.back-inv-btn', '#joystick-container',
+      '#joystick-base', '#joystick-thumb', '.controller-button',
+      '.awtsmoosBtn', '.mitzvahBtn', '.gameMenu', '.store-container',
+      '.quest-log', '.characterDesigner'
+    ];
+    return !!el.closest(markers.join(', '));
+  }
 
-        // B"H: The Decree of Actionable Vessels.
-        // If the element (or its parents) matches these markers, it is a UI event.
-        const UI_MARKERS = [
-            'button', 'a', 'input', 'select', 'textarea',
-            '.awtsmoosBtn', '.mitzvahBtn', '.controller-button', 
-            '.ctx-btn', '#joystick-container', '.inventory-slot',
-            '.gameMenu', '.store-container', '.quest-log'
-        ];
-
-        // Search upward through the Seder Hishtalshelus of the DOM
-        return !!el.closest(UI_MARKERS.join(', '));
+  /** Converts DOM events into worker-safe packets. */
+  static cleanseEvent(e) {
+    if (!e) return null;
+    const packet = { type: e.type, timeStamp: e.timeStamp, isOverUI: this.isUI(e.target) };
+    if (e.clientX !== undefined || (e.touches && e.touches.length)) {
+      const src = (e.touches && e.touches.length) ? e.touches[0] : e;
+      packet.clientX = src.clientX;
+      packet.clientY = src.clientY;
+      packet.pageX = src.pageX;
+      packet.pageY = src.pageY;
+      packet.button = e.button !== undefined ? e.button : 0;
+      packet.movementX = e.movementX || 0;
+      packet.movementY = e.movementY || 0;
     }
- 
-    /**
-     * @method cleanseEvent
-     * @description
-     * Transforms a heavy, un-serializable DOM event into a pure light 
-     * of JSON data safe for the Tzimtzum of postMessage.
-     */
-    static cleanseEvent(e) {
-        if (!e) return null;
- 
-        const packet = {
-            type: e.type,
-            timeStamp: e.timeStamp,
-            isOverUI: this.isUI(e.target)
-        };
- 
-        // 1. Physical Coordinates (Mouse/Touch)
-        if (e.clientX !== undefined || (e.touches && e.touches.length)) {
-            const src = (e.touches && e.touches.length) ? e.touches[0] : e;
-            packet.clientX = src.clientX;
-            packet.clientY = src.clientY;
-            packet.pageX = src.pageX;
-            packet.pageY = src.pageY;
-            packet.button = e.button !== undefined ? e.button : 0;
-            packet.movementX = e.movementX || 0;
-            packet.movementY = e.movementY || 0;
-        }
- 
-        // 2. Intellectual Input (Keyboard)
-        if (e.code !== undefined) {
-            packet.code = e.code;
-            packet.key = e.key;
-        }
- 
-        // 3. Depth Alteration (Wheel)
-        if (e.deltaY !== undefined) {
-            packet.deltaY = e.deltaY;
-        }
- 
-        return packet;
+    if (e.code !== undefined) {
+      packet.code = e.code;
+      packet.key = e.key;
     }
+    if (e.deltaY !== undefined) packet.deltaY = e.deltaY;
+    return packet;
+  }
 }

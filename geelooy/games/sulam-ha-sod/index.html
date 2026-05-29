@@ -14,12 +14,13 @@
 
     <section class="hud glass" aria-label="game status overlay">
       <div class="hudButtons">
-        <button id="menuBtn" class="tiny">Menu</button>
-        <button id="actionsBtn" class="tiny" aria-haspopup="true" aria-expanded="false">Actions</button>
-        <div id="actionsMenu" class="actionsMenu glass" hidden>
-          <button id="fullscreenBtn">Fullscreen</button>
-          <button id="webcamBtn">Enable Webcam Bubble</button>
-        </div>
+        <button id="actionsBtn" class="hamburger" aria-label="Actions menu" aria-haspopup="true" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+      <div id="actionsMenu" class="actionsMenu glass" hidden>
+        <button id="mainMenuAction">Main Menu</button>
+        <button id="fullscreenBtn">Fullscreen</button>
+        <button id="webcamBtn">Enable Webcam Bubble</button>
+        <label class="zoomRow" for="cameraZoom"><span>Camera Zoom</span><output id="cameraZoomValue">100%</output><input id="cameraZoom" type="range" min="0.75" max="1.55" step="0.05" value="1"></label>
       </div>
       <div class="hudMain">
         <div class="titleRow"><b>Sulam HaSod</b><span id="levelName"> —</span><span id="difficulty" class="pill">D1</span></div>
@@ -40,7 +41,8 @@
         <b>How to play</b><br>
         Desktop: ← → or A/D to move, Space/W to jump.<br>
         Mobile: hold Left or Right, then tap Jump. The hit zones extend upward.<br>
-        Actions: Fullscreen expands the game. Webcam Bubble asks for video only and paints a small circular camera buffer above the player.
+        Coins collected inside a level are unbanked until the door is finished. Leaving to the menu forfeits the run purse.<br>
+        Actions: ☰ opens Main Menu, Fullscreen, Webcam Bubble, and Camera Zoom. Webcam asks for video only.
       </article>
       <section class="menuPanel"><h2>Level Selector</h2><div id="levelGrid" class="levelGrid"></div></section>
       <section class="menuPanel marketPanel">
@@ -49,6 +51,18 @@
         <div id="marketWallet" class="marketWallet" aria-label="coin wallet breakdown"></div>
         <div id="shopGrid" class="shopGrid"></div>
       </section>
+    </section>
+
+    <section id="exitConfirm" class="confirmModal glass" hidden>
+      <h2>Exit to Main Menu?</h2>
+      <p id="exitLossText">Unbanked level coins will be lost.</p>
+      <div><button id="confirmExitBtn">Yes, forfeit run</button><button id="cancelExitBtn" class="ghost">Keep climbing</button></div>
+    </section>
+
+    <section id="successBurst" class="successBurst" hidden>
+      <div class="starSeal"><i></i><i></i><i></i></div>
+      <b id="successTitle">Level Complete</b>
+      <span id="successBonus">Bonus +0 Shefa</span>
     </section>
 
     <section class="touch" aria-label="mobile controls"><div class="movePad" aria-label="movement controls"><button id="leftBtn" class="moveBtn leftBtn">Left</button><button id="rightBtn" class="moveBtn rightBtn">Right</button></div><button id="jump" class="jump">Jump</button></section>

@@ -1,22 +1,6 @@
 /* B"H
-   Chapter 21: Buttons and small controls become engraved action seals.
+   Legacy shim: the final ideal UI now owns action surfaces through focused
+   modules (`floating-rail`, `global-actions`, `sidebar-panels`, and inline
+   comment styles). This broad button layer is silent to prevent global button
+   paint from colliding with mobile drawer controls, student rows, and chrome.
 */
-
-.post-reader-localized-context button:not(.awtsmoos-chrome-btn):not(.focus-trigger),
-.post-reader-localized-context .btn,
-.post-reader-localized-context .awtsmoos-action-btn {
-    border-radius: 999px !important;
-    border: 1px solid rgba(83, 52, 15, 0.22) !important;
-    background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(235,221,196,0.92)) !important;
-    color: var(--codex-ink, #1d140e) !important;
-    box-shadow: 0 8px 18px rgba(45, 28, 10, 0.10) !important;
-}
-
-.post-reader-localized-context button:not(.awtsmoos-chrome-btn):not(.focus-trigger):hover,
-.post-reader-localized-context .btn:hover,
-.post-reader-localized-context .awtsmoos-action-btn:hover {
-    transform: translateY(-1px) !important;
-    background: linear-gradient(135deg, var(--codex-wine, #6e1237), #16080d) !important;
-    color: #fff7e9 !important;
-    box-shadow: 0 16px 34px rgba(78, 16, 40, 0.20) !important;
-}

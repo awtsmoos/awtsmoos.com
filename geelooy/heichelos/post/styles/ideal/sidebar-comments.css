@@ -1,0 +1,96 @@
+/* B"H
+   Chapter 31: The comment constellations.
+   Sidebar comments become compact night-cards, each line readable, each author
+   clear, each reply tucked into a clean tributary of light.
+*/
+
+.post-reader-localized-context .awtsmoos-comments-timeline {
+    display: grid !important;
+    gap: 10px !important;
+}
+
+.post-reader-localized-context .sidebar-comment-list {
+    display: grid !important;
+    gap: 10px !important;
+    padding: 2px !important;
+}
+
+.post-reader-localized-context .comment-content {
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    border-radius: var(--ideal-radius-md) !important;
+    background: linear-gradient(180deg, var(--ideal-sidebar-card), #111b2a) !important;
+    color: var(--ideal-sidebar-text) !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    transform: translateZ(0) !important;
+}
+
+.post-reader-localized-context .comment-meta-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 9px 10px !important;
+    border-bottom: 1px solid var(--ideal-sidebar-line) !important;
+    background: rgba(255, 255, 255, .035) !important;
+}
+
+.post-reader-localized-context .comment-author-link {
+    color: #f8fafc !important;
+    font: 850 13px/1.15 var(--font-ui, system-ui) !important;
+    text-decoration: none !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context .comment-content .comment-text-root {
+    padding: 11px 12px !important;
+    display: grid !important;
+    gap: 8px !important;
+}
+
+.post-reader-localized-context .comment-content .awtsmoos-comment-paragraph {
+    margin: 0 !important;
+    color: #dbe7f5 !important;
+    font: 500 14px/1.58 var(--font-content, serif) !important;
+    text-transform: none !important;
+    overflow-wrap: anywhere !important;
+}
+
+.post-reader-localized-context .comment-content .commentTitle {
+    padding: 9px 11px !important;
+    background: rgba(255, 255, 255, .05) !important;
+    border-bottom: 1px solid var(--ideal-sidebar-line) !important;
+    color: #f8fafc !important;
+    font: 850 13px/1.2 var(--font-ui, system-ui) !important;
+    text-transform: none !important;
+}
+
+.post-reader-localized-context .children-slot {
+    margin-inline-start: 12px !important;
+    padding-inline-start: 10px !important;
+    border-inline-start: 1px solid rgba(148, 163, 184, .26) !important;
+    display: grid !important;
+    gap: 10px !important;
+}
+
+.post-reader-localized-context .reply-toggle-btn {
+    width: max-content !important;
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, .06) !important;
+    color: #e5edf8 !important;
+    padding: 6px 9px !important;
+    font: 800 12px/1 var(--font-ui, system-ui) !important;
+    box-shadow: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-empty-placeholder {
+    border: 1px dashed var(--ideal-sidebar-line) !important;
+    border-radius: var(--ideal-radius-md) !important;
+    padding: 18px !important;
+    color: var(--ideal-sidebar-muted) !important;
+    background: rgba(255, 255, 255, .035) !important;
+    text-align: center !important;
+    font: 750 13px/1.4 var(--font-ui, system-ui) !important;
+}

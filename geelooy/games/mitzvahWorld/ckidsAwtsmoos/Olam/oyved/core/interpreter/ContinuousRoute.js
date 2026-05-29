@@ -3,7 +3,7 @@
  * @module ContinuousRoute
  * @description Chapter 20: Ongoing worker route with bh24 local-reset router.
  */
-import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=lean-l1-20260528-bh28';
+import { ContinuousEventRouter } from '../ContinuousEventRouter.js?v=lean-l1-20260528-bh37';
 
 export class ContinuousRoute {
   /** Routes all ongoing event keys into the event router. */

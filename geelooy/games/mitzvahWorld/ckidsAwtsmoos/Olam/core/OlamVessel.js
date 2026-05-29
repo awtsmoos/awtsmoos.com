@@ -5,10 +5,10 @@
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGrafting.js?v=lean-l1-20260528-bh28";
+import OlamGrafting from "./OlamGrafting.js?v=lean-l1-20260528-bh37";
 import OlamProperties from "../properties/index.js";
-import OlamInit from "./OlamInit.js?v=lean-l1-20260528-bh28";
-import Ayin from "../camera/index.js?v=lean-l1-20260528-bh28";
+import OlamInit from "./OlamInit.js?v=lean-l1-20260528-bh37";
+import Ayin from "../camera/index.js?v=lean-l1-20260528-bh37";
 import UserProgressManager from "../../systems/UserProgressManager.js";
 import Yichud from "../interaction/Yichud.js";
 import PlacementManager from "../interaction/PlacementManager.js";

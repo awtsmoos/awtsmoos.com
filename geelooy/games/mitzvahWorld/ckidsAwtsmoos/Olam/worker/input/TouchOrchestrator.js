@@ -2,43 +2,42 @@
 /**
  * @file TouchOrchestrator.js
  * @description
- * Chapter 16: The thumb walks; the empty sky turns.
+ * Chapter 28: The thumb walks, the open desert turns, and UI remains clickable.
  *
- * The Awtsmoos separates two kinds of touch. A thumb on the joystick is not a
- * neck, so it does not rotate the Chossid. It sends W/S for forward/back and
- * Q/E for left/right stride. A finger dragged across open world-space rotates
- * the camera/player gaze like right-mouse desktop control. Two fingers pinch
- * the distance of the eye.
+ * Inventory and action-bar touches are no longer stolen by the gaze drag. A UI
+ * touch returns immediately, allowing browser click/tap handlers to open bags,
+ * context menus, equipment slots, and close buttons. Only open world-space
+ * touches rotate the camera; joystick touches remain W/S/Q/E stride movement.
  */
-import SefiraOfInput from './SefiraOfInput.js';
+import SefiraOfInput from './SefiraOfInput.js?v=lean-l1-20260528-bh37';
 
 const WALK_KEYS = ['KeyW', 'KeyS', 'KeyQ', 'KeyE'];
 const DEAD_ZONE = 10;
 const MAX_THUMB = 48;
 
-const isMobileLike = () => {
-  if (typeof navigator === 'undefined') return false;
-  return /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
-};
-
+const isMobileLike = () => typeof navigator !== 'undefined' && /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
 const touchList = list => Array.from(list || []);
 const byId = (touches, id) => touchList(touches).find(t => t.identifier === id);
 const dist = (a, b) => Math.hypot(a.pageX - b.pageX, a.pageY - b.pageY);
 const post = (worker, type, payload) => worker.postMessage({ [type]: payload });
 const releaseWalk = worker => WALK_KEYS.forEach(code => post(worker, 'keyup', { code }));
 
-const moveThumb = (dx, dy) => {
+function isJoystickTouch(touch) {
+  return !!touch?.target?.closest?.('#joystick-container, #joystick-base, #joystick-thumb');
+}
+
+function moveThumb(dx, dy) {
   const thumb = document.getElementById('joystick-thumb');
   if (!thumb) return;
   const angle = Math.atan2(dy, dx);
   const amount = Math.min(MAX_THUMB, Math.hypot(dx, dy));
   thumb.style.transform = `translate(${Math.cos(angle) * amount}px, ${Math.sin(angle) * amount}px)`;
-};
+}
 
-const resetThumb = () => {
+function resetThumb() {
   const thumb = document.getElementById('joystick-thumb');
   if (thumb) thumb.style.transform = 'translate(0, 0)';
-};
+}
 
 function driveJoystick(worker, origin, touch) {
   const dx = touch.pageX - origin.x;
@@ -50,10 +49,6 @@ function driveJoystick(worker, origin, touch) {
   if (dy > DEAD_ZONE) post(worker, 'keydown', { code: 'KeyS' });
   if (dx < -DEAD_ZONE) post(worker, 'keydown', { code: 'KeyQ' });
   if (dx > DEAD_ZONE) post(worker, 'keydown', { code: 'KeyE' });
-}
-
-function isJoystickTouch(touch) {
-  return !!touch?.target?.closest?.('#joystick-container, #joystick-base');
 }
 
 export default class TouchOrchestrator {
@@ -77,7 +72,7 @@ export default class TouchOrchestrator {
           event.preventDefault();
           continue;
         }
-        if (SefiraOfInput.isUI(touch.target)) continue;
+        if (SefiraOfInput.isUI(touch.target)) return;
         if (gazeId === null) {
           gazeId = touch.identifier;
           gazeLast = { x: touch.pageX, y: touch.pageY };
@@ -92,6 +87,7 @@ export default class TouchOrchestrator {
     }, { passive: false });
 
     window.addEventListener('touchmove', event => {
+      if ([...touchList(event.touches), ...touchList(event.changedTouches)].some(t => SefiraOfInput.isUI(t.target) && !isJoystickTouch(t))) return;
       const joy = byId(event.touches, joystickId);
       if (joy && joystickOrigin) driveJoystick(worker, joystickOrigin, joy);
 

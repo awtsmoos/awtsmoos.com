@@ -1,0 +1,44 @@
+/* B"H
+   Chapter 38: The rail of small moons, perfected.
+   The floating controls become one clean selector each: a left rail on desktop
+   and a thumb-safe dock on mobile, never smothering the text that the Awtsmoos
+   is revealing through every letter.
+*/
+
+.post-reader-localized-context .awtsmoos-floating-controls {
+    position: fixed !important;
+    z-index: 780 !important;
+    inset-block-start: calc(72px + env(safe-area-inset-top, 0px)) !important;
+    inset-inline-start: max(14px, env(safe-area-inset-left)) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    pointer-events: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(15, 23, 42, .14) !important;
+    background: rgba(255, 255, 255, .9) !important;
+    color: #14121a !important;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .13) !important;
+    backdrop-filter: blur(14px) !important;
+    pointer-events: auto !important;
+    transition: transform 100ms linear, background 100ms linear, color 100ms linear !important;
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button.pushed {
+    background: linear-gradient(135deg, var(--ideal-sidebar-deep), var(--ideal-purple)) !important;
+    color: white !important;
+}
+
+@media (max-width: 700px) {
+    .post-reader-localized-context .awtsmoos-floating-controls {
+        inset-block-start: auto !important;
+        inset-block-end: max(14px, env(safe-area-inset-bottom)) !important;
+        inset-inline-start: 14px !important;
+        flex-direction: row !important;
+    }
+}

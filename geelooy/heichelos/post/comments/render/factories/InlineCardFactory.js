@@ -1,11 +1,10 @@
 ﻿/**
  * B"H
  * @module InlineCardFactory
- * @chapter The Secret Note in the Margin
  * @description
- * The Awtsmoos shapes each inline card as a readable vessel. Coordinate labels
- * obey the same oath as placement: only real `dayuh.subSection` earns a
- * paragraph label; top-level subsection echoes remain silent ash.
+ * Chapter 22: The inline card becomes a true reading vessel. The header bows
+ * smaller, the body grows large enough to breathe, and the Awtsmoos lets the
+ * Hebrew letters stand wide and native instead of trapped in tiny poster text.
  */
 
 import { BlueprintManifestor } from "../../logic/manifestation/BlueprintManifestor.js";
@@ -28,49 +27,61 @@ function getCoordinateLabel(comment) {
     const parts = [];
     if (verse !== undefined && verse !== null && verse !== "root") parts.push(`Verse ${Number(verse) + 1}`);
     if (sub !== null) parts.push(`Paragraph ${Number(sub) + 1}`);
-    return parts.length ? parts.join(" · ") : "Post-wide insight";
+    return parts.length ? parts.join(" · ") : "Verse insight";
 }
 
 function cardStyle() {
     return [
         "position:relative", "overflow:hidden", "border-radius:18px",
-        "border:1px solid rgba(148,163,184,.20)",
-        "background:linear-gradient(135deg, rgba(255,255,255,.98), rgba(248,250,252,.94))",
-        "box-shadow:0 10px 24px rgba(15,23,42,.10)", "color:#0f172a",
-        "padding:0", "isolation:isolate", "max-width:min(100%, 46rem)",
+        "border:1px solid rgba(148,163,184,.18)",
+        "background:linear-gradient(135deg, rgba(255,255,255,.99), rgba(248,250,252,.96))",
+        "box-shadow:0 8px 18px rgba(15,23,42,.08)", "color:#0f172a",
+        "padding:0", "isolation:isolate", "max-width:min(100%, 52rem)",
         "margin-inline:auto"
     ].join(";");
 }
 
 function headerStyle() {
     return [
-        "display:flex", "align-items:center", "gap:10px", "padding:12px 14px",
-        "background:linear-gradient(135deg, rgba(99,102,241,.09), rgba(14,165,233,.07))",
-        "border-bottom:1px solid rgba(148,163,184,.16)"
+        "display:flex", "align-items:center", "gap:8px", "padding:8px 10px",
+        "background:linear-gradient(135deg, rgba(99,102,241,.07), rgba(14,165,233,.05))",
+        "border-bottom:1px solid rgba(148,163,184,.12)", "min-height:42px"
     ].join(";");
 }
 
 function avatarStyle() {
     return [
-        "width:32px", "height:32px", "border-radius:999px", "display:flex",
+        "width:26px", "height:26px", "border-radius:999px", "display:flex",
         "align-items:center", "justify-content:center",
         "background:linear-gradient(135deg,#7c3aed,#06b6d4)", "color:white",
-        "font-weight:900", "box-shadow:0 6px 14px rgba(124,58,237,.20)",
+        "font-weight:900", "font-size:13px", "box-shadow:0 4px 10px rgba(124,58,237,.16)",
         "flex:0 0 auto"
     ].join(";");
 }
 
 function focusButtonStyle() {
     return [
-        "border:0", "border-radius:999px", "padding:7px 10px", "background:#0f172a",
-        "color:white", "font-weight:800", "cursor:pointer",
-        "box-shadow:0 6px 14px rgba(15,23,42,.18)",
-        "transition:transform .18s ease, box-shadow .18s ease"
+        "border:0", "border-radius:999px", "padding:5px 8px", "background:#0f172a",
+        "color:white", "font-weight:800", "font-size:12px", "cursor:pointer",
+        "box-shadow:0 4px 10px rgba(15,23,42,.14)",
+        "transition:transform .16s ease, box-shadow .16s ease"
     ].join(";");
 }
 
 function bodyStyle() {
-    return "padding:14px 16px;font-size:15px;line-height:1.72;max-width:42rem;margin-inline:auto;text-align:start;";
+    return [
+        "padding:18px 18px 20px", "font-size:clamp(20px, 4.8vw, 28px)",
+        "line-height:1.78", "max-width:48rem", "margin-inline:auto",
+        "text-align:start", "letter-spacing:.005em"
+    ].join(";");
+}
+
+function titleStyle() {
+    return "font-size:13px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:850;";
+}
+
+function metaStyle() {
+    return "font-size:10px;color:#475569;font-weight:700;margin-top:2px;letter-spacing:.04em;";
 }
 
 export function makeInlineComment(comment) {
@@ -81,7 +92,7 @@ export function makeInlineComment(comment) {
     const blueprint = {
         tag: "article",
         attr: {
-            class: "inline-comment intense-marginalia awtsmoos-inline-commentary-root awtsmoos-inline-card-v2",
+            class: "inline-comment intense-marginalia awtsmoos-inline-commentary-root awtsmoos-inline-card-v2 awtsmoos-readable-inline-card",
             "data-cid": comment.id,
             "data-alias": alias,
             style: cardStyle()
@@ -89,14 +100,14 @@ export function makeInlineComment(comment) {
         children: [
             { tag: "header", attr: { class: "awtsmoos-inline-card-header", style: headerStyle() }, children: [
                 { tag: "div", attr: { class: "awtsmoos-inline-avatar", style: avatarStyle() }, children: [String(alias).charAt(0).toUpperCase()] },
-                { tag: "div", attr: { style: "display:flex;flex-direction:column;min-width:0;flex:1;" }, children: [
-                    { tag: "strong", attr: { style: "font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" }, children: [title] },
-                    { tag: "span", attr: { style: "font-size:12px;color:#475569;font-weight:700;margin-top:3px;" }, children: [`@${alias} · ${coordinate}`] }
+                { tag: "div", attr: { class: "awtsmoos-inline-card-heading", style: "display:flex;flex-direction:column;min-width:0;flex:1;" }, children: [
+                    { tag: "strong", attr: { style: titleStyle() }, children: [title] },
+                    { tag: "span", attr: { style: metaStyle() }, children: [`@${alias} · ${coordinate}`] }
                 ] },
                 { tag: "button", attr: { class: "focus-trigger awtsmoos-inline-focus", title: "Open this comment in the sidebar", style: focusButtonStyle() }, children: ["↗"], events: {
-                    mouseenter: e => e.currentTarget.style.transform = "translateY(-1px) scale(1.04)",
-                    mouseleave: e => e.currentTarget.style.transform = "translateY(0) scale(1)",
-                    click: e => handleMarginalFocus(e, comment)
+                    mouseenter: event => event.currentTarget.style.transform = "translateY(-1px) scale(1.03)",
+                    mouseleave: event => event.currentTarget.style.transform = "translateY(0) scale(1)",
+                    click: event => handleMarginalFocus(event, comment)
                 } }
             ] },
             { tag: "div", attr: { class: "comment-body-vessel awtsmoos-inline-body", style: bodyStyle() }, ref: "body" }
@@ -119,6 +130,6 @@ async function handleMarginalFocus(event, comment) {
         expandPathToComment(target);
         target.scrollIntoView({ behavior: "smooth", block: "center" });
         target.classList.add("pulse-of-light");
-        setTimeout(() => target.classList.remove("pulse-of-light"), 2000);
-    }, 400);
+        setTimeout(() => target.classList.remove("pulse-of-light"), 1600);
+    }, 120);
 }

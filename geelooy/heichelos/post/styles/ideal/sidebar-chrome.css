@@ -1,0 +1,68 @@
+/* B"H
+   Chapter 41: The crown of the night inspector.
+   The Awtsmoos places a precise crown on the sidebar: title, close, fullscreen,
+   and breadcrumbs all sharpened into one dark chrome, never inherited from old
+   orange ghosts or heavy header ruins.
+*/
+
+.post-reader-localized-context .awtsmoos-sidebar-header-chrome {
+    flex: 0 0 auto !important;
+    padding: 12px 12px 8px !important;
+    background: rgba(7, 12, 22, .82) !important;
+    border-bottom: 1px solid var(--ideal-sidebar-line) !important;
+    box-shadow: 0 12px 28px rgba(2, 6, 23, .18) !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.post-reader-localized-context .awtsmoos-current-view-title {
+    margin: 0 !important;
+    min-width: 0 !important;
+    color: var(--ideal-sidebar-text) !important;
+    font: 900 15px/1.1 var(--font-ui, system-ui) !important;
+    letter-spacing: .01em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn {
+    width: 32px !important;
+    height: 32px !important;
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    border-radius: 999px !important;
+    display: inline-grid !important;
+    place-items: center !important;
+    background: rgba(255, 255, 255, .055) !important;
+    color: #edf4ff !important;
+    box-shadow: none !important;
+    font: 900 15px/1 var(--font-ui, system-ui) !important;
+    cursor: pointer !important;
+}
+
+.post-reader-localized-context .awtsmoos-chrome-btn.close {
+    color: #fecaca !important;
+    background: rgba(239, 68, 68, .12) !important;
+    border-color: rgba(248, 113, 113, .28) !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
+    margin-top: 8px !important;
+    min-height: 18px !important;
+    color: var(--ideal-sidebar-muted) !important;
+    font: 750 11px/1.2 var(--font-ui, system-ui) !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+}
+
+.post-reader-localized-context .sidebar.fullscreen-mode {
+    width: min(100vw, 980px) !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+}

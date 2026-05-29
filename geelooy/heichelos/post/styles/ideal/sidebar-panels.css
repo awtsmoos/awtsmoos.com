@@ -1,0 +1,218 @@
+/* B"H
+   Chapter 30: The council inside the night panel.
+   Tabs, search, students, and actions become one dark instrument: sharp enough
+   to move instantly, soft enough that every click feels already answered.
+*/
+
+.post-reader-localized-context .awtsmoos-ideal-sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: 12px !important;
+    background: transparent !important;
+    color: var(--ideal-sidebar-text) !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    border-bottom: 1px solid var(--ideal-sidebar-line) !important;
+    padding: 0 0 10px !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-tab-btn {
+    border: 0 !important;
+    border-radius: var(--ideal-radius-sm) !important;
+    background: transparent !important;
+    color: #dbe7f5 !important;
+    display: grid !important;
+    gap: 3px !important;
+    place-items: center !important;
+    padding: 9px 6px !important;
+    font: 800 11px/1.05 var(--font-ui, system-ui) !important;
+    text-transform: uppercase !important;
+    letter-spacing: .035em !important;
+    cursor: pointer !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-tab-btn.is-active {
+    color: white !important;
+    background: rgba(255, 255, 255, .075) !important;
+    box-shadow: inset 0 -2px 0 var(--ideal-purple), 0 8px 20px rgba(2, 6, 23, .14) !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-tab-btn strong {
+    color: inherit !important;
+    font-size: 11px !important;
+    opacity: .9 !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    min-height: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-panel[hidden] {
+    display: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-search {
+    display: grid !important;
+    grid-template-columns: 1fr 42px !important;
+    gap: 8px !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-search-input {
+    width: 100% !important;
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    border-radius: var(--ideal-radius-sm) !important;
+    background: rgba(255, 255, 255, .07) !important;
+    color: #f8fafc !important;
+    padding: 11px 12px !important;
+    font-size: 14px !important;
+    outline: none !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04) !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-filter-btn {
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    border-radius: var(--ideal-radius-sm) !important;
+    background: rgba(255, 255, 255, .07) !important;
+    color: #f8fafc !important;
+    display: grid !important;
+    place-items: center !important;
+}
+
+.post-reader-localized-context .keepers-assembly.awtsmoos-students-list {
+    display: grid !important;
+    gap: 8px !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-row {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    border-radius: var(--ideal-radius-md) !important;
+    background: linear-gradient(180deg, var(--ideal-sidebar-card), #111c2b) !important;
+    padding: 10px !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .035) !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-open {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    text-align: start !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-avatar {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 999px !important;
+    display: grid !important;
+    place-items: center !important;
+    background: linear-gradient(135deg, #6d5dfc, #10b981) !important;
+    color: white !important;
+    font-weight: 900 !important;
+    box-shadow: 0 8px 18px rgba(2, 6, 23, .22) !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-copy {
+    display: grid !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-name {
+    overflow: hidden !important;
+    color: #f8fafc !important;
+    font: 850 14px/1.1 var(--font-ui, system-ui) !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-location {
+    color: var(--ideal-sidebar-muted) !important;
+    font-size: 12px !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-controls {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.post-reader-localized-context .awtsmoos-mini-inline-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, .07) !important;
+    color: #dbe7f5 !important;
+    padding: 6px 9px !important;
+    font: 800 11px/1 var(--font-ui, system-ui) !important;
+    cursor: pointer !important;
+}
+
+.post-reader-localized-context .awtsmoos-mini-inline-toggle.is-inline {
+    background: rgba(16, 185, 129, .22) !important;
+    border-color: rgba(52, 211, 153, .5) !important;
+    color: #dcfce7 !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-favorite {
+    border: 0 !important;
+    background: transparent !important;
+    color: #fbbf24 !important;
+    font-size: 21px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-actions {
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    border-radius: var(--ideal-radius-md) !important;
+    background: rgba(255, 255, 255, .045) !important;
+    padding: 10px !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-actions h4 {
+    color: white !important;
+    font: 850 13px/1.1 var(--font-ui, system-ui) !important;
+    margin: 0 0 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: .04em !important;
+}
+
+.post-reader-localized-context .awtsmoos-action-row {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    border: 0 !important;
+    border-radius: var(--ideal-radius-sm) !important;
+    background: transparent !important;
+    color: #e5edf8 !important;
+    padding: 9px 8px !important;
+    text-align: start !important;
+    font: 750 13px/1.2 var(--font-ui, system-ui) !important;
+    cursor: pointer !important;
+}
+
+.post-reader-localized-context .awtsmoos-action-row:hover {
+    background: rgba(255, 255, 255, .065) !important;
+}

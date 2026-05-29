@@ -1,24 +1,5 @@
 /* B"H
-   Chapter 11: Desktop rhythm. The commentary chamber should float beside the
-   text, not crush against it.
+   Legacy shim: desktop sidebar rhythm moved to ideal tokens and shell modules.
+   This file is intentionally silent so the desktop inspector cannot inherit old
+   width, padding, or position assumptions.
 */
-
-@media (min-width: 900px) {
-    .post-reader-localized-context .main {
-        gap: clamp(1rem, 2vw, 2rem) !important;
-        padding-inline: clamp(0.8rem, 2vw, 1.8rem) !important;
-        padding-block-end: 1rem !important;
-    }
-
-    .post-reader-localized-context .scroll-view-wrapper {
-        border-radius: 32px !important;
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
-        box-shadow: 0 24px 74px rgba(44, 28, 10, 0.12) !important;
-    }
-
-    .post-reader-localized-context .sidebar {
-        border-radius: 32px 0 0 32px !important;
-        margin-block: 1rem !important;
-    }
-}

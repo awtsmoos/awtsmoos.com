@@ -1,8 +1,6 @@
 /* B"H
-   Inline commentary style hub. The Awtsmoos now routes inline commentary through
-   one coherent elite editorial system, not overlapping historical layers. Older
-   modules remain in the repository for reference, but this active cascade has a
-   single source of truth to prevent selector/property conflicts.
+   Legacy shim: inline commentary visuals are now owned only by
+   `styles/ideal/inline-comments.css`. The older elite cascade remains in the
+   repository for reference, but this active import is intentionally silent so
+   comment body size, headers, and RTL rules cannot conflict.
 */
-
-@import url("./inline/elite-editorial-reading.css");

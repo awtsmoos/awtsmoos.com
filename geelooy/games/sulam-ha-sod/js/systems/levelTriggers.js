@@ -1,42 +1,27 @@
 // B"H
 const NON_SOLID = new Set(['ghostSpike', 'falseSpike', 'phantom']);
 const HAZARDS = new Set(['ghostSpike', 'falseSpike', 'commitSpike']);
+const MIN_TRIGGER_WARNING = 0.95;
 const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 const clone = value => JSON.parse(JSON.stringify(value));
 
 /**
- * LevelTriggerField remembers invisible authored trap regions.
+ * Chapter 6: The Awtsmoos made triggered laws speak before they struck.
  *
- * The Awtsmoos hides story inside coordinates: cross an innocent line and a
- * spike curtain descends, an enemy enters, or a regular-looking platform reveals
- * it was only a question. Nothing here is generated; triggers only execute the
- * hand-authored objects already placed inside each level file.
+ * Triggered spikes used to enter the oracle as instant active damage. Now every
+ * spawned spike is prepared as a warning first. The trap can still be cruel, but
+ * it must be readable, dodgeable, and re-created in the open air of justice.
  */
 export class LevelTriggerField {
-  /** @param {Array<object>} triggers invisible law regions. */
-  constructor(triggers = []) {
-    this.triggers = triggers.map((trigger, index) => ({ ...trigger, id: index, done: false }));
-  }
-
-  /** @param {object} world mutable PhysicsWorld vessel. */
-  step(world) {
-    for (const trigger of this.triggers) {
-      if (trigger.once !== false && trigger.done) continue;
-      if (!hit(world.player, trigger)) continue;
-      trigger.done = true;
-      applyTrigger(world, trigger);
-    }
-  }
-
-  /** @returns {number} activated trigger count. */
+  /** @param {Array<object>} triggers Invisible law regions. */
+  constructor(triggers = []) { this.triggers = triggers.map((trigger, index) => ({ ...trigger, id: index, done: false })); }
+  /** @param {object} world Mutable PhysicsWorld vessel. @returns {void} */
+  step(world) { for (const trigger of this.triggers) { if (trigger.once !== false && trigger.done) continue; if (!hit(world.player, trigger)) continue; trigger.done = true; applyTrigger(world, trigger); } }
+  /** @returns {number} Activated trigger count. */
   activated() { return this.triggers.filter(trigger => trigger.done).length; }
 }
 
-/**
- * Applies a trigger to the mutable world.
- * @param {object} world mutable PhysicsWorld vessel.
- * @param {object} trigger hand-authored trigger payload.
- */
+/** @param {object} world Mutable PhysicsWorld vessel. @param {object} trigger Trigger payload. @returns {void} */
 export function applyTrigger(world, trigger) {
   if (trigger.message) world.message = trigger.message;
   if (trigger.shefa) world.currency.shefa = Math.max(0, (world.currency.shefa || 0) + trigger.shefa);
@@ -54,37 +39,24 @@ export function applyTrigger(world, trigger) {
   world.reindex?.();
 }
 
+/** @param {object} world Mutable world. @param {Array<object>} rotors Rotor payloads. */
 function pushRotors(world, rotors) {
   const start = world.rotors.platforms.length;
   world.rotors.platforms.push(...clone(rotors).map((p, i) => ({ ...p, id: start + i, angle: 0, phase: p.phase || i * 0.7 })));
 }
 
+/** @param {object} world Mutable world. @param {Array<object>} tricks Trick payloads. */
 function pushTricks(world, tricks) {
   const start = world.tricks.platforms.length;
-  world.tricks.platforms.push(...clone(tricks).map((p, i) => ({
-    ...p,
-    id: start + i,
-    baseX: p.x,
-    baseY: p.y,
-    t: 0,
-    broken: 0,
-    cooldown: p.delay || 0,
-    armed: true,
-    alpha: 1,
-    solid: !NON_SOLID.has(p.kind),
-    hazardous: HAZARDS.has(p.kind)
-  })));
+  world.tricks.platforms.push(...clone(tricks).map((p, i) => ({ ...p, id: start + i, warn: p.kind, baseX: p.x, baseY: p.y, t: 0, broken: 0, cooldown: p.delay || 0, armed: true, alpha: 1, shifted: false, solid: !NON_SOLID.has(p.kind), hazardous: HAZARDS.has(p.kind) })));
 }
 
+/** @param {object} world Mutable world. @param {Array<object>} spikes Spike payloads. */
 function pushSpikes(world, spikes) {
   const start = world.spikes.traps.length;
-  world.spikes.traps.push(...clone(spikes).map((s, i) => ({
-    ...s,
-    id: start + i,
-    baseX: s.x,
-    baseY: s.y,
-    cooldown: s.delay || 0.35,
-    warn: s.instant ? 0 : (s.warning || 0.45),
-    active: s.instant ? (s.duration || 0.9) : 0
-  })));
+  const prepared = clone(spikes).map((spike, i) => {
+    const raw = { ...spike, id: start + i, instant: false, showDormant: spike.showDormant !== false, warning: Math.max(Number(spike.warning ?? MIN_TRIGGER_WARNING), MIN_TRIGGER_WARNING), warn: Math.max(Number(spike.warning ?? MIN_TRIGGER_WARNING), MIN_TRIGGER_WARNING), active: 0 };
+    return world.spikes.prepareTrap ? world.spikes.prepareTrap(raw, start + i) : raw;
+  });
+  world.spikes.traps.push(...prepared);
 }

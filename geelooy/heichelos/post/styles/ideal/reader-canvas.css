@@ -1,0 +1,69 @@
+/* B"H
+   Chapter 39: The parchment sea, perfected.
+   The reading canvas breathes once per selector. The Awtsmoos stretches warm
+   vellum under morning fire: calmer columns, cleaner header, and no cramped
+   mobile breath.
+*/
+
+.post-reader-localized-context .main {
+    background:
+        radial-gradient(circle at 18% 4%, rgba(255, 255, 255, .92), transparent 28rem),
+        linear-gradient(180deg, var(--ideal-page-soft), var(--ideal-page)) !important;
+    color: var(--ideal-ink) !important;
+}
+
+.post-reader-localized-context .content {
+    max-width: var(--ideal-reading-width) !important;
+    margin-inline: auto !important;
+    padding-inline: var(--ideal-reading-pad) !important;
+    padding-block: clamp(1rem, 3vw, 2.2rem) !important;
+}
+
+.post-reader-localized-context .realPost,
+.post-reader-localized-context #realPost {
+    scroll-behavior: smooth !important;
+    scrollbar-gutter: stable both-edges !important;
+    overscroll-behavior: contain !important;
+}
+
+.post-reader-localized-context .awtsmoos-integrated-header {
+    background: rgba(255, 250, 241, .88) !important;
+    border-bottom: 1px solid var(--ideal-line) !important;
+    box-shadow: 0 8px 28px rgba(77, 53, 24, .08) !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+.post-reader-localized-context .section {
+    position: relative !important;
+    margin-block: clamp(1rem, 2.8vw, 2.4rem) !important;
+    padding-block: .35rem !important;
+}
+
+.post-reader-localized-context .section .toichen {
+    max-width: min(100%, 48rem) !important;
+    margin-inline: auto !important;
+}
+
+.post-reader-localized-context .awtsmoos-section-header {
+    display: flex !important;
+    justify-content: center !important;
+    margin-block-end: .35rem !important;
+}
+
+.post-reader-localized-context .awtsmoos-verse-number {
+    min-width: 2rem !important;
+    height: 2rem !important;
+    border-radius: 999px !important;
+    display: inline-grid !important;
+    place-items: center !important;
+    color: var(--ideal-muted) !important;
+    background: rgba(255, 255, 255, .58) !important;
+    border: 1px solid var(--ideal-line) !important;
+    font: 850 .82rem/1 var(--font-ui, system-ui) !important;
+}
+
+@media (max-width: 700px) {
+    .post-reader-localized-context .content {
+        padding-bottom: 7rem !important;
+    }
+}

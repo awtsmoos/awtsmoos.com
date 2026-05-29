@@ -1,0 +1,48 @@
+/* B"H
+   Chapter 34: The floating river-button.
+   Auto-scroll leaves every menu and becomes its own violet comet, always near
+   the thumb, never covering the word, toggling the descent of the page itself.
+*/
+
+.post-reader-localized-context .awtsmoos-auto-scroll-floating {
+    position: fixed !important;
+    right: var(--ideal-auto-right) !important;
+    bottom: var(--ideal-auto-bottom) !important;
+    z-index: 820 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    width: 58px !important;
+    min-height: 58px !important;
+    padding: 8px !important;
+    border: 1px solid rgba(255, 255, 255, .22) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, var(--ideal-purple), #7c3aed) !important;
+    color: white !important;
+    font: 900 10px/1 var(--font-ui, system-ui) !important;
+    box-shadow: 0 16px 34px rgba(91, 44, 160, .34) !important;
+    backdrop-filter: blur(12px) !important;
+    transform: translateZ(0) !important;
+    will-change: transform !important;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-on {
+    background: linear-gradient(135deg, #111827, #10b981) !important;
+    color: white !important;
+    border-color: rgba(255, 255, 255, .28) !important;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-icon {
+    font-size: 20px !important;
+    line-height: 1 !important;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-label {
+    font-size: 9px !important;
+    line-height: 1 !important;
+    letter-spacing: .02em !important;
+}

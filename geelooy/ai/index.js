@@ -9,17 +9,19 @@ import { syncBackgroundAutomation, hasBackgroundAutomationBridge } from "./js/au
 import { mountBackgroundAutomationMirror } from "./js/automation/backgroundStreamMirror.js";
 import { ConversationController } from "./js/app/conversationController.js";
 import { getConversationId, updateSearchParams } from "./js/app/urlState.js";
+import { mountMobileScenes, openConversationDrawer } from "./js/app/mobileDrawers.js";
+import { wireTransportStatus } from "./js/app/transportStatus.js";
 import { LayoutController } from "./js/layout/layoutController.js";
 import { AttachmentTray } from "./js/attachments/attachmentTray.js";
 import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
 import { downloadCurrentChatHtml, downloadCurrentChatJson } from "./js/export/chatHtmlExporter.js";
 
 /**
- * Chapter 115: The Cockpit Remembers The Current Conversation.
+ * Chapter 32: The cockpit learned mercy for the small glass shore.
  *
- * Automation settings are per chat. Every navigation rebinds the right panel so
- * a checked switch in one conversation does not awaken another. The sender still
- * uses the exact same `controller.send(prompt)` vessel as the Send button.
+ * The Awtsmoos breathes through one page: conversation drawers no longer hide
+ * beneath automation, transport install help appears without waiting for a
+ * failed send, and the Send button still uses the same verified controller path.
  */
 document.addEventListener("DOMContentLoaded", async () => {
   scheduleIdle(() => resetRenderWorkerStores());
@@ -51,21 +53,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     conversationId: getConversationId(),
     onDownloadChat: () => downloadCurrentChatHtml(renderer),
     onDownloadJson: () => downloadCurrentChatJson(renderer),
-    onChange: async settings => {
-      const conversationId = getConversationId();
-      const owner = await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId, chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
-      if (owner?.owner === "page") await pipeline?.onSettingsChanged(settings);
-      else pipeline?.reset(conversationId);
-    }
+    onChange: async settings => onAutomationChange({ settings, panel, pipeline, aiHandler })
   });
   pipeline = new AutomationPipeline({
     settingsStore: store,
     getSettings: conversationId => panel.getSettings(conversationId),
-    sendPrompt: async prompt => {
-      let finalReply = "";
-      const result = await controller.send(prompt, { ondone: reply => { if (reply) finalReply = reply; } });
-      return finalReply || result || "";
-    },
+    sendPrompt: async prompt => sendAutomationPrompt({ controller, prompt }),
     report: text => panel.report(text),
     onWaiting: state => showAutomationWait(state)
   });
@@ -74,74 +67,98 @@ document.addEventListener("DOMContentLoaded", async () => {
     onDone: reply => { if (!hasBackgroundAutomationBridge()) pipeline.afterAssistantReply(reply); }
   });
   new LayoutController(dom).mount();
+  const mobileScenes = mountMobileScenes(dom);
+  const mobileScenes = mountMobileScenes(dom);
   wireTransportStatus(dom);
-
   wireChrome({ dom, controller, aiHandler, pipeline, panel, attachments, sendFromText });
   mountBackgroundAutomationMirror({ renderer, controller, panel, getConversationId });
   dom.conversationList.innerHTML = `<li class="is-loading">Loading conversations…</li>`;
   dom.chatBox.innerHTML = `<div class="render-loading"><i></i><span>Preparing Awtsmoos cockpit…</span></div>`;
   const bootedConversation = await bootstrapFromUrl({ dom, aiHandler, controller, panel });
-  scheduleIdle(() => {
-    rebindAutomation(getConversationId());
-    if (!hasBackgroundAutomationBridge()) pipeline.resumeActiveRuns();
-    else panel.report("automation owner: extension background");
-    if (!bootedConversation) resumeVisibleStreams();
-  });
+  scheduleIdle(() => bootAutomation({ panel, pipeline, bootedConversation, resumeVisibleStreams }));
 
   async function sendFromText(text = dom.messageInput.value) {
     const prompt = String(text || "").trim();
     if (!prompt) return null;
     dom.messageInput.value = "";
-    return await controller.send(prompt, { attachments: attachments.consume(), ondone: async (reply, meta) => {
-      rebindAutomation(meta?.conversationId || getConversationId());
-      if (!hasBackgroundAutomationBridge()) return pipeline.afterAssistantReply(reply, meta);
-      if (panel.getSettings(meta?.conversationId).enabled) await syncBackgroundAutomation({ settings: panel.getSettings(meta?.conversationId), graph: panel.getGraph(), conversationId: meta?.conversationId || getConversationId(), chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
-    } });
+    return await controller.send(prompt, { attachments: attachments.consume(), ondone: async (reply, meta) => afterUserSend({ reply, meta, panel, pipeline, aiHandler, rebindAutomation }) });
   }
 
   window.sendMessageToAi = sendFromText;
 });
 
 function collectDom() {
-  return { chatBox: id("chat-box"), newChat: id("new-chat"), messageInput: id("message-input"), sendButton: id("send-button"), sidebar: id("sidebar"), toggleSidebar: id("toggle-sidebar"), conversationList: id("conversation-items"), refreshButton: id("refresh-conversations"), serviceSelect: id("ai-service-select"), chatgptModeWrap: id("chatgpt-mode-wrap"), chatgptModeSelect: id("chatgpt-mode-select"), automationPanel: id("automation-panel"), leftResizer: id("left-resizer"), rightResizer: id("right-resizer"), composerResizer: id("composer-resizer"), attachmentTray: id("attachment-tray"), attachmentInput: id("attachment-input"), transportStatus: id("transport-status") };
+  return { main: document.querySelector(".main"), chatBox: id("chat-box"), newChat: id("new-chat"), messageInput: id("message-input"), sendButton: id("send-button"), sidebar: id("sidebar"), toggleSidebar: id("toggle-sidebar"), conversationList: id("conversation-items"), refreshButton: id("refresh-conversations"), serviceSelect: id("ai-service-select"), chatgptModeWrap: id("chatgpt-mode-wrap"), chatgptModeSelect: id("chatgpt-mode-select"), automationPanel: id("automation-panel"), leftResizer: id("left-resizer"), rightResizer: id("right-resizer"), composerResizer: id("composer-resizer"), attachmentTray: id("attachment-tray"), attachmentInput: id("attachment-input"), transportStatus: id("transport-status") };
 }
 function id(value) { return document.getElementById(value); }
 
 function wireChrome({ dom, controller, aiHandler, pipeline, panel, sendFromText }) {
   if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
   dom.refreshButton.onclick = () => controller.refreshList(dom.conversationList);
-  dom.newChat.onclick = async () => { pipeline.reset(); await controller.newConversation(); panel.setConversationId(null); };
+  dom.newChat.onclick = async () => { pipeline.reset(); await controller.newConversation(); panel.setConversationId(null); openConversationDrawer(dom); };
+  window.addEventListener("awtsmoos-ai-conversation-action", async event => handleConversationAction({ action: event.detail?.action, dom, controller }));
   dom.sendButton.onclick = () => sendFromText();
-  dom.messageInput.addEventListener("keydown", event => {
-    if (event.key !== "Enter") return;
-    const mobile = isMobileInputDevice();
-    const commandSend = event.ctrlKey || event.metaKey;
-    const desktopPlainSend = !mobile && !event.shiftKey && !event.altKey;
-    if (!commandSend && !desktopPlainSend) return;
-    event.preventDefault();
-    sendFromText();
-  });
+  dom.messageInput.addEventListener("keydown", event => maybeSendFromKeyboard(event, sendFromText));
   dom.chatgptModeSelect.value = aiHandler.chatgptMode || "regular";
   syncChatGptModeChrome(dom);
-  dom.chatgptModeSelect.onchange = async event => {
-    aiHandler.setChatGPTMode(event.target.value);
-    updateSearchParams({ awtsmoosChatGPTMode: event.target.value, awtsmoosConversation: null });
-    await controller.newConversation();
-    panel.setConversationId(null);
-    await controller.refreshList(dom.conversationList);
-  };
-  dom.serviceSelect.onchange = async event => {
-    aiHandler.switchService(event.target.value);
-    syncChatGptModeChrome(dom);
-    updateSearchParams({ awtsmoosAi: event.target.value, awtsmoosConversation: null });
-    await controller.newConversation();
-    panel.setConversationId(null);
-    await controller.refreshList(dom.conversationList);
-  };
+  document.querySelector(".mobile-nav-chat")?.addEventListener("click", () => mobileScenes.openChat());
+  document.querySelector(".mobile-nav-conversations")?.addEventListener("click", () => mobileScenes.openConversationDrawer());
+  document.querySelector(".mobile-nav-automation")?.addEventListener("click", () => mobileScenes.openAutomationDrawer());
+  document.querySelector(".mobile-nav-chat")?.addEventListener("click", () => mobileScenes.openChat());
+  document.querySelector(".mobile-nav-conversations")?.addEventListener("click", () => mobileScenes.openConversationDrawer());
+  document.querySelector(".mobile-nav-automation")?.addEventListener("click", () => mobileScenes.openAutomationDrawer());
+  dom.chatgptModeSelect.onchange = async event => resetForServiceMode({ value: event.target.value, aiHandler, controller, panel, dom, mode: true });
+  dom.serviceSelect.onchange = async event => resetForServiceMode({ value: event.target.value, aiHandler, controller, panel, dom, mode: false });
 }
 
-function isMobileInputDevice() { return matchMedia?.("(pointer: coarse)")?.matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || ""); }
+async function handleConversationAction({ action, dom, controller }) {
+  if (action === "open") return openConversationDrawer(dom);
+  if (action === "refresh") { openConversationDrawer(dom); return controller.refreshList(dom.conversationList); }
+  if (action === "new") { openConversationDrawer(dom); return dom.newChat.click(); }
+}
+function maybeSendFromKeyboard(event, sendFromText) {
+  if (event.key !== "Enter") return;
+  const mobile = matchMedia?.("(pointer: coarse)")?.matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
+  const commandSend = event.ctrlKey || event.metaKey;
+  const desktopPlainSend = !mobile && !event.shiftKey && !event.altKey;
+  if (!commandSend && !desktopPlainSend) return;
+  event.preventDefault();
+  sendFromText();
+}
+async function resetForServiceMode({ value, aiHandler, controller, panel, dom, mode }) {
+  if (mode) aiHandler.setChatGPTMode(value);
+  else aiHandler.switchService(value);
+  syncChatGptModeChrome(dom);
+  updateSearchParams({ [mode ? "awtsmoosChatGPTMode" : "awtsmoosAi"]: value, awtsmoosConversation: null });
+  await controller.newConversation();
+  panel.setConversationId(null);
+  await controller.refreshList(dom.conversationList);
+}
 function syncChatGptModeChrome(dom) { dom.chatgptModeWrap.hidden = dom.serviceSelect.value !== "chatgpt"; }
+
+async function onAutomationChange({ settings, panel, pipeline, aiHandler }) {
+  const conversationId = getConversationId();
+  const owner = await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId, chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
+  if (owner?.owner === "page") await pipeline?.onSettingsChanged(settings);
+  else pipeline?.reset(conversationId);
+}
+async function sendAutomationPrompt({ controller, prompt }) {
+  let finalReply = "";
+  const result = await controller.send(prompt, { ondone: reply => { if (reply) finalReply = reply; } });
+  return finalReply || result || "";
+}
+async function afterUserSend({ reply, meta, panel, pipeline, aiHandler, rebindAutomation }) {
+  rebindAutomation(meta?.conversationId || getConversationId());
+  if (!hasBackgroundAutomationBridge()) return pipeline.afterAssistantReply(reply, meta);
+  const settings = panel.getSettings(meta?.conversationId);
+  if (settings.enabled) await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId: meta?.conversationId || getConversationId(), chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
+}
+function bootAutomation({ panel, pipeline, bootedConversation, resumeVisibleStreams }) {
+  panel.setConversationId(getConversationId());
+  if (!hasBackgroundAutomationBridge()) pipeline.resumeActiveRuns();
+  else panel.report("automation owner: extension background");
+  if (!bootedConversation) resumeVisibleStreams();
+}
 
 function createAutomationWaitBubble(chatBox) {
   let node = null;
@@ -158,37 +175,6 @@ function createAutomationWaitBubble(chatBox) {
     chatBox.scrollTop = chatBox.scrollHeight;
   };
 }
-
-function wireTransportStatus(dom) {
-  const el = dom.transportStatus;
-  if (!el) return;
-  const renderReady = detail => {
-    el.hidden = false;
-    el.className = `transport-status is-${detail.kind || detail.transport || "ready"}`;
-    el.innerHTML = `<strong>Transport:</strong> ${escapeInline(detail.label || detail.transport || "ready")}`;
-  };
-  const renderFeedback = detail => {
-    const error = String(detail.error || "");
-    if (/Response not found|already consumed/i.test(error)) return;
-    const type = String(detail.type || "extension issue");
-    el.hidden = false;
-    el.className = `transport-status is-${type.replace(/[^a-z0-9_-]+/gi, "-").toLowerCase() || "missing"}`;
-    el.innerHTML = `<strong>Transport feedback:</strong> ${escapeInline(type)} ${error ? `<span class="transport-error-text">${escapeInline(error)}</span>` : ""}`;
-  };
-  const renderMissing = help => {
-    el.hidden = false;
-    el.className = "transport-status is-missing";
-    el.innerHTML = `<strong>Awtsmoos transport needed.</strong><span>Use the Chrome server extension or run the local Node relay.</span><a href="${help.extensionUrl}" target="_blank" rel="noreferrer">Extension zip</a><button type="button" data-copy="mac">Copy macOS/Linux relay command</button><button type="button" data-copy="win">Copy Windows relay command</button>`;
-    el.querySelector('[data-copy="mac"]')?.addEventListener("click", () => navigator.clipboard?.writeText(help.macLinux));
-    el.querySelector('[data-copy="win"]')?.addEventListener("click", () => navigator.clipboard?.writeText(help.windows));
-  };
-  window.addEventListener("awtsmoos-ai-transport", event => renderReady(event.detail || {}));
-  window.addEventListener("awtsmoos-server-ready", () => renderReady({ kind: "extension", label: "Awtsmoos Chrome Server Extension" }));
-  window.addEventListener("awtsmoos-server-feedback", event => renderFeedback(event.detail || {}));
-  window.addEventListener("awtsmoos-ai-transport-error", event => renderMissing(event.detail || {}));
-}
-
-function escapeInline(text) { return String(text || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
 async function bootstrapFromUrl({ dom, aiHandler, controller, panel }) {
   const params = new URLSearchParams(location.search);
@@ -210,7 +196,6 @@ async function bootstrapFromUrl({ dom, aiHandler, controller, panel }) {
   refreshSidebarSoon();
   return false;
 }
-
 function scheduleIdle(task) {
   const runner = () => Promise.resolve().then(task).catch(error => console.warn("Deferred AI boot task failed", error));
   if (typeof requestIdleCallback === "function") return requestIdleCallback(runner, { timeout: 1500 });

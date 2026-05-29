@@ -1,0 +1,128 @@
+/* B"H
+   Chapter 29: The inspector chamber.
+   The sidebar is a dark right palace on desktop and a bottom drawer on mobile.
+   Every movement rides compositor transforms; resize has no shadow-drag tax.
+*/
+
+.post-reader-localized-context .sidebar {
+    position: fixed !important;
+    inset: var(--ideal-sidebar-top) var(--ideal-sidebar-right) var(--ideal-sidebar-bottom) var(--ideal-sidebar-left) !important;
+    width: var(--ideal-sidebar-width) !important;
+    height: var(--ideal-sidebar-height) !important;
+    z-index: var(--z-sidebar, 500) !important;
+    background: linear-gradient(180deg, var(--ideal-sidebar-deep), var(--ideal-sidebar)) !important;
+    border-radius: var(--ideal-sidebar-radius) !important;
+    box-shadow: var(--ideal-shadow-sidebar) !important;
+    overflow: hidden !important;
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+    transition: transform var(--ideal-sidebar-speed) linear, opacity var(--ideal-sidebar-speed) linear !important;
+    backface-visibility: hidden !important;
+    will-change: transform, opacity !important;
+    contain: layout paint style !important;
+}
+
+.post-reader-localized-context .sidebar.hidden-comments {
+    pointer-events: none !important;
+    opacity: 0 !important;
+    transform: translate3d(var(--ideal-sidebar-hide-x), var(--ideal-sidebar-hide-y), 0) !important;
+}
+
+.post-reader-localized-context .sidebar.is-resizing {
+    transition: none !important;
+    box-shadow: none !important;
+    user-select: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-shell {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    background: transparent !important;
+    color: var(--ideal-sidebar-text) !important;
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-resizer {
+    position: absolute !important;
+    z-index: 6 !important;
+    touch-action: none !important;
+    background: transparent !important;
+    cursor: ew-resize !important;
+}
+
+.post-reader-localized-context .awtsmoos-slide-viewport {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: transparent !important;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view {
+    background: transparent !important;
+    transform: translate3d(100%, 0, 0) !important;
+    transition: transform var(--ideal-tab-speed) linear, opacity var(--ideal-tab-speed) linear !important;
+    backface-visibility: hidden !important;
+    will-change: transform, opacity !important;
+    contain: layout paint style !important;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view.active-view {
+    transform: translate3d(0, 0, 0) !important;
+    opacity: 1 !important;
+}
+
+.post-reader-localized-context .awtsmoos-slide-view.slide-out-left {
+    transform: translate3d(-8%, 0, 0) !important;
+    opacity: .35 !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-header {
+    min-height: 48px !important;
+    padding: 10px 14px !important;
+    background: rgba(9, 16, 28, .92) !important;
+    border-bottom: 1px solid var(--ideal-sidebar-line) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-title-text {
+    color: #f8fafc !important;
+    font: 850 14px/1.1 var(--font-ui, system-ui) !important;
+    letter-spacing: .01em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.post-reader-localized-context .awtsmoos-back-btn {
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, .045) !important;
+    color: #e2e8f0 !important;
+    border: 1px solid var(--ideal-sidebar-line) !important;
+    box-shadow: none !important;
+    width: 32px !important;
+    height: 32px !important;
+}
+
+@media (max-width: 900px) {
+    .post-reader-localized-context .awtsmoos-sidebar-resizer {
+        top: 0 !important;
+        left: 0 !important;
+        width: var(--ideal-sidebar-resizer-width) !important;
+        height: 22px !important;
+        cursor: ns-resize !important;
+    }
+}
+
+@media (min-width: 901px) {
+    .post-reader-localized-context .awtsmoos-sidebar-resizer {
+        top: 0 !important;
+        left: -5px !important;
+        width: var(--ideal-sidebar-resizer-width) !important;
+        height: 100% !important;
+    }
+}

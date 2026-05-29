@@ -7,7 +7,7 @@ import { cloneDefaultAutomationGraph, cloneStudioExampleGraph } from "./graphDef
 import { automationArchiveStore, downloadTextFile } from "./messageArchive.js";
 import { renderGraphFields, captureGraphFormsFromRoot, createGraphNode } from "./graphEditorUi.js";
 
-const TAB_LABELS = { automation: "Automation", graph: "Graph", archive: "Archive", settings: "Settings", trace: "Trace filters" };
+const TAB_LABELS = { conversations: "Conversations", automation: "Automation", graph: "Graph", archive: "Archive", settings: "Settings", trace: "Trace filters" };
 
 /**
  * Chapter 114: The Right Panel Learns Which Chat It Serves.
@@ -48,6 +48,7 @@ export class AutomationPanel {
     this.bindTabs();
     this.bindAutomation();
     this.bindAutomationActions();
+    this.bindConversationActions();
     this.bindGraph();
     this.bindArchive();
     this.bindSettingsActions();
@@ -60,6 +61,7 @@ export class AutomationPanel {
   }
 
   body() {
+    if (this.tab === "conversations") return this.conversationFields();
     if (this.tab === "settings") return `<h3 class="panel-section-label">B"H Cockpit Settings</h3><p class="panel-note">The right drawer is a compact multi-panel vessel.</p>${this.exportFields()}${this.relayFields()}${this.visibilityFields()}`;
     if (this.tab === "trace") return `<h3 class="panel-section-label">Message Trace Filters</h3><p class="panel-note">Disable noisy trace families without deleting them from history.</p>${this.visibilityFields()}`;
     if (this.tab === "graph") return this.graphFields();
@@ -81,6 +83,10 @@ export class AutomationPanel {
       <div class="automation-status" id="automation-status">${this.settings.enabled ? "automation armed for this chat" : "automation off for this chat"}</div>`;
   }
 
+  conversationFields() {
+    return `<section class="automation-card conversation-portal-card"><h3 class="panel-section-label">Conversations</h3><p class="panel-note">Open the left conversation drawer from this mobile menu, then choose history, refresh, or begin a new chat.</p><div class="conversation-portal-actions"><button type="button" data-conversation-action="open">Open conversations drawer</button><button type="button" data-conversation-action="new">New chat</button><button type="button" data-conversation-action="refresh">Refresh list</button></div><div class="automation-status" id="conversation-status">conversation controls ready</div></section>`;
+  }
+
   graphFields() { return renderGraphFields(this.graph); }
   exportFields() { return `<section class="automation-card chat-export-card"><h3>Chat export</h3><p class="panel-note">Download the loaded RAM conversation as readable HTML, or full debug JSON.</p><div class="relay-actions"><button type="button" data-settings-action="download-chat-html">Download chat HTML</button><button type="button" data-settings-action="download-chat-json">Download debug JSON</button></div><div class="automation-status" id="settings-status">ready</div></section>`; }
   archiveFields() { return `<section class="automation-archive-panel"><h3 class="panel-section-label">Automation Archive</h3><p class="panel-note">Assistant replies are stored for graph runs.</p><div class="graph-toolbar"><button type="button" data-archive-action="download">Download archive JSON</button><button type="button" data-archive-action="clear">Clear archive</button><button type="button" data-archive-action="count">Count messages</button></div><div class="automation-status" id="archive-status">archive ready</div></section>`; }
@@ -90,6 +96,7 @@ export class AutomationPanel {
   bindTabs() { this.root.querySelectorAll("[data-tab]").forEach(btn => btn.onclick = () => { this.tab = btn.dataset.tab; this.render(); }); }
   bindAutomation() { this.root.querySelectorAll("[data-auto]").forEach(input => { const handler = () => this.captureAutomation(); input.oninput = handler; input.onchange = handler; }); }
   bindAutomationActions() { this.root.querySelectorAll("[data-auto-action]").forEach(button => button.onclick = () => { if (button.dataset.autoAction !== "stop") return; const enabled = this.root.querySelector('[data-auto="enabled"]'); if (enabled) enabled.checked = false; this.captureAutomation(); this.report("automation stop requested for this chat"); }); }
+  bindConversationActions() { this.root.querySelectorAll("[data-conversation-action]").forEach(button => button.onclick = () => this.handleConversationAction(button.dataset.conversationAction)); }
   bindVisibility() { this.root.querySelectorAll("[data-event-type]").forEach(input => input.onchange = () => this.captureVisibility()); }
   bindGraph() { this.root.querySelectorAll("[data-graph-action]").forEach(button => button.onclick = () => this.handleGraphAction(button.dataset.graphAction)); }
   bindArchive() { this.root.querySelectorAll("[data-archive-action]").forEach(button => button.onclick = () => this.handleArchiveAction(button.dataset.archiveAction)); }
@@ -118,6 +125,16 @@ export class AutomationPanel {
     } catch (error) { status && (status.textContent = `graph error: ${error.message || error}`); }
   }
 
+  handleConversationAction(action) {
+    const status = this.root.querySelector("#conversation-status");
+    this.root.dispatchEvent(new CustomEvent("awtsmoos-ai-conversation-action", { bubbles: true, detail: { action } }));
+    if (status) status.textContent = action === "open" ? "opening conversations drawer" : `${action} requested`;
+  }
+  handleConversationAction(action) {
+    const status = this.root.querySelector("#conversation-status");
+    this.root.dispatchEvent(new CustomEvent("awtsmoos-ai-conversation-action", { bubbles: true, detail: { action } }));
+    if (status) status.textContent = action === "open" ? "opening conversations drawer" : `${action} requested`;
+  }
   captureGraphForms() { return captureGraphFormsFromRoot(this.root, this.graph); }
   handleSettingsAction(action) { const status = this.root.querySelector("#settings-status"); if (action === "download-chat-html") { this.onDownloadChat?.(); status && (status.textContent = "chat HTML downloaded"); } if (action === "download-chat-json") { this.onDownloadJson?.(); status && (status.textContent = "debug JSON downloaded"); } }
   async handleArchiveAction(action) { const status = this.root.querySelector("#archive-status"); if (action === "download") { downloadTextFile("BH_automation_archive.json", await automationArchiveStore.exportJson()); status.textContent = "archive downloaded"; } if (action === "clear") { await automationArchiveStore.clear(); status.textContent = "archive cleared"; } if (action === "count") { status.textContent = `${(await automationArchiveStore.list()).length} archived message(s)`; } }

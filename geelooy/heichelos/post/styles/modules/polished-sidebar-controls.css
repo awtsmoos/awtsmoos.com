@@ -1,35 +1,4 @@
 /* B"H
-   Chapter 8: The controls become small instruments, black ink and gold rim,
-   easy to read, easy to press, no longer crude square machinery.
+   Legacy shim: sidebar controls are styled by the ideal sidebar modules.
+   Silent by design to prevent duplicate button/header rules.
 */
-
-.post-reader-localized-context .awtsmoos-sidebar-header-chrome {
-    padding: 0.7rem 0.9rem !important;
-    border-bottom: 1px solid rgba(119, 75, 18, 0.22) !important;
-    background:
-        linear-gradient(135deg, rgba(255,255,255,0.74), rgba(246,236,218,0.88)) !important;
-    box-shadow: 0 10px 26px rgba(52, 34, 12, 0.08) !important;
-}
-
-.post-reader-localized-context .awtsmoos-current-view-title {
-    color: #21170f !important;
-    font-size: clamp(0.88rem, 1.8vw, 1rem) !important;
-    letter-spacing: 0.01em !important;
-}
-
-.post-reader-localized-context .awtsmoos-chrome-btn {
-    width: 2.15rem !important;
-    height: 2.15rem !important;
-    border: 1px solid rgba(33, 23, 15, 0.78) !important;
-    border-radius: 999px !important;
-    background: linear-gradient(135deg, #fffaf0, #eadbc0) !important;
-    box-shadow: 0 8px 18px rgba(45, 28, 10, 0.14) !important;
-    color: #21170f !important;
-}
-
-.post-reader-localized-context .awtsmoos-chrome-btn:hover {
-    color: #fffaf0 !important;
-    background: linear-gradient(135deg, #6e1237, #13080d) !important;
-    border-color: #dca637 !important;
-    transform: translateY(-1px) !important;
-}

@@ -1,0 +1,74 @@
+/* B"H
+   Chapter 37: Tokens refined under the blade of light.
+   The Awtsmoos gives every surface one name, every radius one breath, and every
+   mobile drawer one quiet measurement so the CSS does not quarrel with itself.
+*/
+
+.post-reader-localized-context {
+    --ideal-ink: #15120e;
+    --ideal-muted: #6b7280;
+    --ideal-faint: #94a3b8;
+    --ideal-page: #fff8ed;
+    --ideal-page-soft: #fffef9;
+    --ideal-line: rgba(120, 92, 51, .16);
+    --ideal-gold: #dca642;
+    --ideal-gold-soft: rgba(252, 211, 77, .22);
+    --ideal-purple: #5b2ca0;
+    --ideal-purple-glow: rgba(91, 44, 160, .22);
+    --ideal-card: rgba(255, 255, 255, .97);
+    --ideal-card-edge: rgba(120, 92, 51, .2);
+    --ideal-sidebar: #101a28;
+    --ideal-sidebar-deep: #0b1220;
+    --ideal-sidebar-card: #162335;
+    --ideal-sidebar-card-soft: rgba(255, 255, 255, .055);
+    --ideal-sidebar-line: rgba(226, 232, 240, .12);
+    --ideal-sidebar-text: #edf4ff;
+    --ideal-sidebar-muted: #a8b5c7;
+    --ideal-radius-sm: 10px;
+    --ideal-radius-md: 14px;
+    --ideal-radius-lg: 18px;
+    --ideal-radius-xl: 24px;
+    --ideal-shadow-card: 0 18px 46px rgba(77, 53, 24, .13);
+    --ideal-shadow-sidebar: -18px 0 54px rgba(2, 6, 23, .24);
+    --ideal-shadow-soft: 0 10px 24px rgba(15, 23, 42, .1);
+    --ideal-reading-width: min(100%, 72rem);
+    --ideal-reading-pad: clamp(1.2rem, 5vw, 4.6rem);
+    --ideal-sidebar-top: 0;
+    --ideal-sidebar-right: 0;
+    --ideal-sidebar-bottom: 0;
+    --ideal-sidebar-left: auto;
+    --ideal-sidebar-width: min(440px, 42vw);
+    --ideal-sidebar-height: 100dvh;
+    --ideal-sidebar-radius: 0;
+    --ideal-sidebar-hide-x: 104%;
+    --ideal-sidebar-hide-y: 0;
+    --ideal-sidebar-resizer-width: 10px;
+    --ideal-auto-right: max(18px, env(safe-area-inset-right));
+    --ideal-auto-bottom: max(78px, calc(env(safe-area-inset-bottom) + 68px));
+    --ideal-inline-body-size: clamp(1.24rem, 4.3vw, 1.7rem);
+    --ideal-inline-hebrew-size: clamp(1.5rem, 5.2vw, 2.08rem);
+    --ideal-sidebar-speed: 88ms;
+    --ideal-tab-speed: 78ms;
+}
+
+@media (max-width: 900px) {
+    .post-reader-localized-context {
+        --ideal-reading-width: 100%;
+        --ideal-reading-pad: clamp(.8rem, 4.6vw, 1.15rem);
+        --ideal-sidebar-top: auto;
+        --ideal-sidebar-right: 0;
+        --ideal-sidebar-bottom: 0;
+        --ideal-sidebar-left: 0;
+        --ideal-sidebar-width: 100%;
+        --ideal-sidebar-height: min(76dvh, 640px);
+        --ideal-sidebar-radius: 24px 24px 0 0;
+        --ideal-sidebar-hide-x: 0;
+        --ideal-sidebar-hide-y: 108%;
+        --ideal-shadow-sidebar: 0 -18px 54px rgba(2, 6, 23, .28);
+        --ideal-sidebar-resizer-width: 100%;
+        --ideal-auto-right: 16px;
+        --ideal-auto-bottom: max(82px, calc(env(safe-area-inset-bottom) + 72px));
+        --ideal-inline-body-size: clamp(1.2rem, 5.5vw, 1.76rem);
+        --ideal-inline-hebrew-size: clamp(1.42rem, 6.6vw, 2.04rem);
+    }
+}

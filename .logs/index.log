@@ -1,0 +1,42 @@
+Starting instance of email
+Warning: Could not load DKIM file. Checking Env...
+Task Runner: Starting background polling for generic jobs...
+Task Runner: Initialized and will start processing immediately, recurring every 10 seconds.
+B"H
+
+
+
+ Server running at http://127.0.0.1:8080/
+Time:  1779979952534
+Email server running
+node:events:486
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8080
+    at Server.setupListenHandle [as _listen2] (node:net:2008:16)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at go (/storage/emulated/0/Documents/git/awtsmoos.com/index.js:52:16)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:2044:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 8080
+}
+
+Node.js v25.8.2
+)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at AwtsMail.shoymayuh (/storage/emulated/0/Documents/git/awtsmoos.com/ayzarim/email/email.js:121:21)
+    at go (/storage/emulated/0/Documents/git/awtsmoos.com/index.js:58:14) {
+  code: 'EACCES',
+  errno: -13,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 25
+}

@@ -1,120 +1,114 @@
 ﻿/**
  * B"H
  * @module KeeperRowFactory
- * @chapter Forging the Seats of the Council
  * @description
- * A clear inline-comment control: no mystery checkbox, no silent state. The row
- * announces loading, empty, shown, and hidden based on the mutator result.
+ * Chapter 24: Each student row becomes a calm dark-card doorway. The Awtsmoos
+ * gives every commentator an avatar, a tiny location line, a favorite star, and
+ * a dedicated inline switch that no longer fights the main row click.
  */
 
 import { BlueprintManifestor } from "../../../logic/manifestation/BlueprintManifestor.js";
 import { isAliasInline } from "../../state.js";
 import { toggleInlineForComments } from "../../inline.js";
 
-export function createKeeperRow(alias, triggerAliasTab) {
-    const isInline = isAliasInline(alias);
-    const validAlias = alias || "guest";
-    const initial = validAlias.charAt(0).toUpperCase();
+function initialFor(alias) {
+    return String(alias || "?").trim().charAt(0).toUpperCase() || "?";
+}
 
-    const blueprint = {
-        tag: 'div',
-        attr: { class: 'keeper-row awtsmoos-list-item', 'data-alias': validAlias },
-        children:[
-            {
-                tag: 'button',
-                attr: { class: 'keeper-portal-trigger', title: `Read sidebar insights of @${validAlias}`, type: 'button' },
-                children:[
-                    { tag: 'div', attr: { class: 'commentator-avatar' }, children:[initial] },
-                    { tag: 'span', attr: { class: 'commentator-name' }, children: [`@${validAlias}`] }
-                ],
-                events: {
-                    click: (e) => {
-                        e.stopPropagation();
-                        triggerAliasTab(validAlias);
-                    }
-                }
-            },
-            {
-                tag: 'div',
-                attr: { class: 'keeper-controls' },
-                children:[
-                    createInlineToggle(validAlias, isInline),
-                    { tag: 'span', attr: { class: 'keeper-arrow' }, children: ['→'] }
-                ]
-            }
-        ]
+function titleFor(alias) {
+    const value = String(alias || "guest").trim();
+    return value.startsWith("@") ? value.slice(1) : value;
+}
+
+function locationText() {
+    const idx = new URLSearchParams(location.search).get("idx");
+    if (idx === null || idx === "root") return "On this scroll";
+    return `On ${Number(idx) + 1}`;
+}
+
+function favoriteButton(alias) {
+    return {
+        tag: "button",
+        attr: { class: "awtsmoos-student-favorite", type: "button", title: `Favorite @${alias}`, "aria-label": `Favorite @${alias}` },
+        children: ["☆"],
+        events: { click: event => event.stopPropagation() }
     };
-
-    return BlueprintManifestor.manifest(blueprint);
 }
 
 function labelFor(result, fallbackVisible = false) {
-    if (result?.hidden) return 'Show inline';
-    if (result?.error) return 'Inline error';
-    if (result?.empty) return 'No inline yet';
-    if (result?.visible) return `Shown inline${result.inserted ? ` (${result.inserted})` : ''}`;
-    return fallbackVisible ? 'Hide inline' : 'Show inline';
+    if (result?.hidden) return "Show inline";
+    if (result?.error) return "Inline error";
+    if (result?.empty) return "No inline";
+    if (result?.visible) return result.inserted ? `Inline ${result.inserted}` : "Inline on";
+    return fallbackVisible ? "Hide inline" : "Show inline";
 }
 
 function setButtonState(button, result, fallbackVisible = false) {
     const visible = result?.visible ?? fallbackVisible;
-    button.classList.remove('is-working', 'is-empty', 'is-error');
-    button.classList.toggle('is-inline', !!visible && !result?.empty && !result?.error);
-    button.classList.toggle('is-empty', !!result?.empty);
-    button.classList.toggle('is-error', !!result?.error);
-    button.setAttribute('aria-pressed', String(!!visible));
-    const text = button.querySelector('.inline-toggle-text');
+    button.classList.remove("is-working", "is-empty", "is-error");
+    button.classList.toggle("is-inline", !!visible && !result?.empty && !result?.error);
+    button.classList.toggle("is-empty", !!result?.empty);
+    button.classList.toggle("is-error", !!result?.error);
+    button.setAttribute("aria-pressed", String(!!visible));
+    const text = button.querySelector(".inline-toggle-text");
     if (text) text.textContent = labelFor(result, fallbackVisible);
-    const detail = button.querySelector('.inline-toggle-detail');
-    if (detail) {
-        detail.textContent = result?.error
-            ? 'Could not load'
-            : result?.empty
-                ? 'Nothing found on page'
-                : result?.visible
-                    ? 'Inserted into text'
-                    : 'Sidebar only';
-    }
 }
 
 function createInlineToggle(alias, isInline) {
-    const labelText = isInline ? 'Hide inline' : 'Show inline';
-
     return {
-        tag: 'button',
+        tag: "button",
         attr: {
-            class: `inline-toggle-altar ${isInline ? 'is-inline' : ''}`,
-            title: `${labelText} comments for @${alias}`,
-            type: 'button',
-            'aria-pressed': String(isInline)
+            class: `inline-toggle-altar awtsmoos-mini-inline-toggle ${isInline ? "is-inline" : ""}`,
+            title: `${isInline ? "Hide" : "Show"} inline comments for @${alias}`,
+            type: "button",
+            "aria-pressed": String(isInline)
         },
-        children:[
-            {
-                tag: 'span',
-                attr: { class: 'inline-toggle-switch', 'aria-hidden': 'true' },
-                children: [{ tag: 'span', attr: { class: 'inline-toggle-knob' } }]
-            },
-            {
-                tag: 'span',
-                attr: { class: 'inline-toggle-copy' },
-                children: [
-                    { tag: 'span', attr: { class: 'inline-toggle-text' }, children: [labelText] },
-                    { tag: 'span', attr: { class: 'inline-toggle-detail' }, children: [isInline ? 'Inserted into text' : 'Sidebar only'] }
-                ]
-            }
+        children: [
+            { tag: "span", attr: { class: "inline-toggle-switch", "aria-hidden": "true" }, children: [{ tag: "span", attr: { class: "inline-toggle-knob" } }] },
+            { tag: "span", attr: { class: "inline-toggle-text" }, children: [isInline ? "Inline on" : "Inline"] }
         ],
-        events: {
-            click: async (e) => {
-                e.stopPropagation();
-                const button = e.currentTarget;
-                button.classList.add('is-working');
-                const text = button.querySelector('.inline-toggle-text');
-                const detail = button.querySelector('.inline-toggle-detail');
-                if (text) text.textContent = 'Loading…';
-                if (detail) detail.textContent = 'Finding anchors';
-                const result = await toggleInlineForComments([], alias);
-                setButtonState(button, result);
-            }
-        }
+        events: { click: async event => {
+            event.stopPropagation();
+            const button = event.currentTarget;
+            button.classList.add("is-working");
+            const text = button.querySelector(".inline-toggle-text");
+            if (text) text.textContent = "Loading";
+            const result = await toggleInlineForComments([], alias);
+            setButtonState(button, result);
+        } }
     };
+}
+
+/**
+ * Creates one student/commentator row.
+ * @param {string} alias Alias id.
+ * @param {Function} triggerAliasTab Opens this student's sidebar comments.
+ * @returns {Element} Row element.
+ */
+export function createKeeperRow(alias, triggerAliasTab) {
+    const validAlias = titleFor(alias);
+    const isInline = isAliasInline(validAlias);
+    const blueprint = {
+        tag: "article",
+        attr: { class: "keeper-row awtsmoos-list-item awtsmoos-student-row", "data-alias": validAlias },
+        children: [
+            {
+                tag: "button",
+                attr: { class: "keeper-portal-trigger awtsmoos-student-open", title: `Read @${validAlias}`, type: "button" },
+                children: [
+                    { tag: "div", attr: { class: "commentator-avatar awtsmoos-student-avatar" }, children: [initialFor(validAlias)] },
+                    { tag: "div", attr: { class: "awtsmoos-student-copy" }, children: [
+                        { tag: "strong", attr: { class: "commentator-name awtsmoos-student-name" }, children: [validAlias] },
+                        { tag: "span", attr: { class: "awtsmoos-student-location" }, children: [locationText()] }
+                    ] }
+                ],
+                events: { click: event => {
+                    event.stopPropagation();
+                    triggerAliasTab(validAlias);
+                } }
+            },
+            { tag: "div", attr: { class: "keeper-controls awtsmoos-student-controls" }, children: [createInlineToggle(validAlias, isInline), favoriteButton(validAlias)] }
+        ]
+    };
+    return BlueprintManifestor.manifest(blueprint);
 }

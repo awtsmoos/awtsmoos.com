@@ -2,13 +2,12 @@
 /**
  * @module SidebarMenu
  * @description
- * Chapter 14: The Awtsmoos opens the main gate with portals and actions. The
- * reader can summon insights, details, approvals, and now a living downward
- * current that carries the scroll gently without freezing the hand.
+ * Chapter 20: The root menu returns to portals only. Auto-scroll has been lifted
+ * out of this chamber into a global floating control, so the sidebar no longer
+ * hides the reader's movement ritual behind a menu.
  */
 
 import { GenesisEngine } from "../../functions/dom/GenesisEngine.js";
-import { toggleAutoScrollDown } from "../../actions/AutoScrollDown.js";
 
 function createMenuPortal(title, desc, icon, onClick) {
     return {
@@ -26,38 +25,8 @@ function createMenuPortal(title, desc, icon, onClick) {
     };
 }
 
-function createSection(title, children) {
-    return {
-        tag: "section",
-        attr: { class: "post-root-menu-section" },
-        children: [
-            { tag: "h3", attr: { class: "post-root-menu-section-title" }, text: title },
-            { tag: "div", attr: { class: "post-root-menu-section-grid" }, children }
-        ]
-    };
-}
-
-function updateAutoScrollButton(event, active) {
-    const btn = event?.currentTarget;
-    if (!btn) return;
-    btn.classList.toggle("is-active", active);
-    const title = btn.querySelector(".menu-portal-title");
-    const desc = btn.querySelector(".menu-portal-desc");
-    if (title) title.textContent = active ? "Stop Auto Scroll" : "Auto Scroll Down";
-    if (desc) desc.textContent = active ? "Pause the gentle descent" : "Hands-free downward reading";
-}
-
-function createActionsSection() {
-    return createSection("Actions", [
-        createMenuPortal("Auto Scroll Down", "Hands-free downward reading", "⬇️", event => {
-            const active = toggleAutoScrollDown({ speed: 0.95 });
-            updateAutoScrollButton(event, active);
-        })
-    ]);
-}
-
-function createPortalsSection(tabRefs) {
-    return createSection("Portals", [
+function createPortals(tabRefs) {
+    return [
         createMenuPortal("Insights", "The Living Commentary", "💬", () => tabRefs.insights.open()),
         createMenuPortal("Scroll Details", "Heichel, Author, & Path", "📜", () => tabRefs.details.open()),
         createMenuPortal("AI Oracle", "Consult the Awtsmoos AI", "✨", async () => {
@@ -66,7 +35,7 @@ function createPortalsSection(tabRefs) {
         }),
         createMenuPortal("Approval Queue", "Review submitted insights", "✅", () => tabRefs.approvals.open()),
         createMenuPortal("Saved Sparks", "Your bookmarked verses", "🔖", () => tabRefs.bookmarks.open())
-    ]);
+    ];
 }
 
 /**
@@ -81,7 +50,7 @@ export function populateRootMenu(actualTab, post, tabRefs) {
     const blueprint = {
         tag: "div",
         attr: { class: "post-root-menu-grid" },
-        children: [createActionsSection(post), createPortalsSection(tabRefs)]
+        children: createPortals(tabRefs)
     };
     actualTab.appendChild(GenesisEngine.manifest(blueprint));
 }

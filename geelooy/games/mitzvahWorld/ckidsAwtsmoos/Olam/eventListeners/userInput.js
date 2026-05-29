@@ -1,74 +1,61 @@
-
+// B"H
 /**
- * B"H
- * Listens for the impulses of the player, translated from the physical keypress to the spiritual event.
+ * @file userInput.js
+ * @description
+ * Chapter 30: The RUNNING input is a real mode, not a forgotten bit.
+ *
+ * The Awtsmoos ties the dock's walk/run moon into the same input vessel used by
+ * keyboard and joystick movement. Reset can restore run mode, and the player no
+ * longer wakes from spikes walking when the level began running.
  */
 import PointerUpdater from "../methods/interaction/PointerUpdater.js";
 
-export default function() {
-    var c;
-    this.on("keydown", peula => {
-        c = peula.code;
-        if(!this.keyStates[peula.code]) {
-            this.ayshPeula("keypressed", peula);
-        }
-        this.keyStates[peula.code] = true;
-        
-        if(this.keyBindings[c]) {
-            this.inputs[this.keyBindings[c]] = true;
-        }
-    });
+export default function userInputEvents() {
+  let c;
+  this.on("keydown", peula => {
+    c = peula.code;
+    if (!this.keyStates[peula.code]) this.ayshPeula("keypressed", peula);
+    this.keyStates[peula.code] = true;
+    if (this.keyBindings[c]) this.inputs[this.keyBindings[c]] = true;
+  });
 
-    this.on("setInput", peula => {
-        var c = peula.code;
-        if(this.keyBindings[c]) {
-            this.inputs[this.keyBindings[c]] = true;
-        }
-    })
+  this.on("setInput", peula => {
+    c = peula.code;
+    if (this.keyBindings[c]) this.inputs[this.keyBindings[c]] = true;
+  });
 
-    this.on("setInputOut", peula => {
-        var c = peula.code;
-        if(this.keyBindings[c]) {
-            this.inputs[this.keyBindings[c]] = false;
-        }
-    })
+  this.on("setInputOut", peula => {
+    c = peula.code;
+    if (this.keyBindings[c]) this.inputs[this.keyBindings[c]] = false;
+  });
 
-    this.on("keyup", peula => {
-        c = peula.code;
-        this.keyStates[peula.code] = false;
+  this.on("setRunMode", peula => {
+    const running = peula?.running !== false;
+    this.inputs.RUNNING = running;
+    this.ayshPeula("ui event", "effectsOverlay", { text: running ? "Run Mode" : "Walk Mode", color: running ? "#76ff8a" : "#ffd966" });
+  });
 
-        if(this.keyBindings[c]) {
-            this.inputs[this.keyBindings[c]] = false;
-        }
-    });
+  this.on("keyup", peula => {
+    c = peula.code;
+    this.keyStates[peula.code] = false;
+    if (this.keyBindings[c]) this.inputs[this.keyBindings[c]] = false;
+  });
 
-    this.on("presskey", peula => {
-        // B"H: silent
+  this.on("presskey", () => {});
 
-    })
+  this.on("mousedown", peula => {
+    if (peula.clientX !== undefined && peula.clientY !== undefined) PointerUpdater.update(this, peula.clientX, peula.clientY);
+    this.ayin.onMouseDown(peula);
+    this.mouseDown = true;
+  });
 
-    this.on("mousedown", peula => {
-        // B"H: The immediate alignment of the gaze!
-        // Before we process the click, we MUST update the pointer coordinates
-        // so that any subsequent interaction checks know exactly where to look.
-        if (peula.clientX !== undefined && peula.clientY !== undefined) {
-            PointerUpdater.update(this, peula.clientX, peula.clientY);
-        }
+  this.on("mouseup", peula => {
+    this.ayshPeula("mouseRelease", true);
+    this.ayin.onMouseUp(peula);
+    this.mouseDown = false;
+  });
 
-        this.ayin.onMouseDown(peula);
-        this.mouseDown = true;
-    });
-
-    this.on("mouseup", peula => {
-        this.ayshPeula("mouseRelease", true);
-        this.ayin.onMouseUp(peula);
-        this.mouseDown = false;
-    });
-
-    // B"H: The Universal Zoom Hub!
-    this.on("wheel", peula => {
-        if (this.ayin && typeof this.ayin.zoom === 'function') {
-            this.ayin.zoom(peula.deltaY);
-        }
-    });
+  this.on("wheel", peula => {
+    if (this.ayin && typeof this.ayin.zoom === 'function') this.ayin.zoom(peula.deltaY);
+  });
 }

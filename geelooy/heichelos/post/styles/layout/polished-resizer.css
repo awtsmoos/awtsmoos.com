@@ -1,26 +1,5 @@
 /* B"H
-   Chapter 10: The resize seam becomes visible like a brass hinge between
-   manuscript and commentary apparatus.
+   Legacy shim: the resize seam is now drawn only by
+   `styles/ideal/sidebar-shell.css` so there are no duplicate pseudo-elements or
+   hover transitions on the same handle.
 */
-
-@media (min-width: 901px) {
-    .post-reader-localized-context .awtsmoos-sidebar-resizer::after {
-        content: "" !important;
-        position: absolute !important;
-        left: 50% !important;
-        top: 10% !important;
-        transform: translateX(-50%) !important;
-        width: 6px !important;
-        height: 80% !important;
-        border-radius: 999px !important;
-        background: linear-gradient(180deg, rgba(255,212,106,0.92), rgba(110,18,55,0.92)) !important;
-        box-shadow: 0 0 18px rgba(184,124,22,0.42) !important;
-        opacity: 0.38 !important;
-        transition: opacity 140ms ease, transform 140ms ease !important;
-    }
-
-    .post-reader-localized-context .awtsmoos-sidebar-resizer:hover::after {
-        opacity: 0.9 !important;
-        transform: translateX(-50%) scaleY(1.03) !important;
-    }
-}

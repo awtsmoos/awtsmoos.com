@@ -3,7 +3,7 @@
  * @file index.js
  * @description Chapter 17: Page gate opens bh21 reset overlay, compact HUD, and retractable inventory.
  */
-const IKAR_VERSION = "lean-l1-20260528-bh28";
+const IKAR_VERSION = "lean-l1-20260528-bh42";
 
 function storeLastError(details) {
   if (typeof window !== "undefined") window.__AWTSMOOS_LAST_ERROR__ = details;

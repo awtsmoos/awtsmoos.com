@@ -8,7 +8,46 @@
     const VirtualConsole = consoleMod.VirtualConsole;
     const VirtualFetch = fetchMod.VirtualFetch;
     const VirtualWebGLBoxRenderer = boxRendererMod.VirtualWebGLBoxRenderer;
-    const BrowserRenderPipeline = pipelineMod.BrowserRenderPipeline;
+    const BrowserRenderPipeline = pipelineMod.BrowserRenderPipeline || fallbackPipeline();
+
+    /**
+     * B"H
+     * Chapter 2: The Awtsmoos found the missing painter behind the veil.
+     *
+     * In CommonJS the retained paint pipeline arrives by require. In UMD smoke
+     * tests, a browser page may load VirtualWindow before the optional painter.
+     * This fallback keeps the synthetic browser alive, preserves canvas/WebGL
+     * commands, and marks the missing phase honestly instead of shattering with
+     * a constructor error.
+     *
+     * @returns {Function} A minimal render-pipeline class.
+     */
+    function fallbackPipeline() {
+        return class BrowserRenderPipelineFallback {
+            constructor(window, options = {}) {
+                this.window = window;
+                this.renderer = options.renderer;
+                this.viewport = options.viewport || { width: 760, height: 560 };
+            }
+
+            render() {
+                if (this.renderer && this.window.document.body) {
+                    this.renderer.paintElement(this.window.document.body, 0, 0, this.viewport.width, this.viewport.height);
+                }
+                const snapshot = this.window.document.textureArena.snapshot();
+                return {
+                    ...snapshot,
+                    pipeline: {
+                        architecture: 'merkava-executor-fallback-pipeline-v1',
+                        phases: ['fallback-paint', 'native-gpu-stream'],
+                        viewport: this.viewport,
+                        warning: 'BrowserRenderPipeline was not loaded before VirtualWindow.',
+                        commandCount: snapshot.commands.length
+                    }
+                };
+            }
+        };
+    }
 
     class VirtualWindow {
         constructor({ files = {}, graph = null, url = 'http://127.0.0.1:8080/' } = {}) {

@@ -8,11 +8,11 @@ import { buyLevelUnlock, buySkin, equipSkin } from '../systems/market.js';
 const COIN_META = Object.freeze([['perutah', 'P'], ['dinar', 'D'], ['sela', 'S'], ['maneh', 'M']]);
 
 /**
- * Game orchestrates chambers, persistence, shop, and HUD without layout churn.
+ * Game orchestrates chambers, persistence, shop, HUD, and banking.
  *
- * The Awtsmoos lets the HUD speak every frame, but the DOM should only be
- * touched when the words actually change. Wallet pills are built once and then
- * updated as text, reducing mobile jank during cruel late-campaign rooms.
+ * The Awtsmoos made the run-purse fragile: coins collected inside a level are
+ * only candidates until the door is reached. The Game banks them with a time
+ * bonus on completion, or forfeits them when the player returns to menu.
  */
 export class Game {
   constructor({ input, renderer, hud, onProgress, onLevelComplete }) {
@@ -71,7 +71,6 @@ export class Game {
     this.playWorldSounds();
     this.renderer.draw(this.world);
     this.paintHud();
-    this.progress.syncFromWorld(this.world);
     requestAnimationFrame(this.loop);
   }
 
@@ -80,16 +79,49 @@ export class Game {
 
   advance() {
     const completed = this.index;
+    const reward = this.bankCompletionReward(this.world);
     this.progress.syncFromWorld(this.world);
     this.progress.unlock(completed + 1);
     this.index = Math.min(LEVELS.length - 1, this.index + 1);
     this.world = this.createWorld(this.index);
-    this.world.message = 'A higher chamber opens. Menu may choose your next rung.';
+    this.world.message = `A higher chamber opens. Banked ${reward.banked} Shefa + ${reward.bonus} speed bonus.`;
     this.sound.play('continue');
     this.resetHudCache();
     this.pause();
     this.onProgress(this);
-    this.onLevelComplete(completed, this.index);
+    this.onLevelComplete(completed, this.index, reward);
+  }
+
+  /** @param {PhysicsWorld} world completed world @returns {object} reward summary */
+  bankCompletionReward(world) {
+    const run = world.runCurrency || {};
+    for (const key of ['perutah', 'dinar', 'sela', 'maneh']) world.currency[key] = (world.currency[key] || 0) + (run[key] || 0);
+    const banked = run.shefa || 0;
+    const bonus = this.timeBonus(world);
+    world.currency.shefa = (world.currency.shefa || 0) + banked + bonus;
+    world.currency.chain = 0;
+    world.currency.bestChain = Math.max(world.currency.bestChain || 0, run.bestChain || 0);
+    world.market.message = `Completed in ${this.formatTime(world.levelElapsed)}. Banked ${banked}, speed bonus ${bonus}.`;
+    return { banked, bonus, elapsed: world.levelElapsed, total: banked + bonus };
+  }
+
+  /** @param {PhysicsWorld} world completed world @returns {number} speed reward */
+  timeBonus(world) {
+    const difficulty = world.performance?.difficulty || 1;
+    const target = Math.max(35, 95 + difficulty * 7 + world.realCoinTotal * 1.5);
+    const ratio = Math.max(0, Math.min(1, (target - world.levelElapsed) / target));
+    return Math.round((15 + difficulty * 4 + world.realCoinTotal) * ratio + Math.max(0, world.realCoinTotal - world.levelElapsed / 10));
+  }
+
+  /** Forfeits current run and returns to main menu without banking. */
+  exitToMenu() {
+    const lost = this.world?.runCurrency?.shefa || 0;
+    this.pause();
+    this.world = this.createWorld(this.index);
+    this.world.message = lost ? `Returned to menu. Lost ${lost} unbanked Shefa.` : 'Returned to menu.';
+    this.resetHudCache();
+    this.onProgress(this);
+    return { lost };
   }
 
   paintHud() {
@@ -106,7 +138,7 @@ export class Game {
     this.setText('progressText', this.hud.progressText, `${runProgress}%`);
     this.setStyle('coinPct', this.hud.coinRing.style, '--coinPct', String(coinPct));
     this.setText('coinText', this.hud.coinText, `${collected}/${total}`);
-    this.setText('stats', this.hud.stats, open ? 'Door open' : `Need ${Math.max(0, total - collected)} coins`);
+    this.setText('stats', this.hud.stats, `${this.formatTime(w.levelElapsed)} · Run +${w.runCurrency?.shefa || 0}${open ? ' · Door open' : ''}`);
     this.paintKeyBadge(hasKey);
     this.paintShefaPills(w.currency || {});
   }
@@ -144,6 +176,13 @@ export class Game {
       this.walletNodes[key].textContent = value;
       this.hudCache[`wallet:${key}`] = value;
     }
+  }
+
+  formatTime(seconds = 0) {
+    const total = Math.max(0, Math.floor(seconds));
+    const mins = String(Math.floor(total / 60)).padStart(2, '0');
+    const secs = String(total % 60).padStart(2, '0');
+    return `${mins}:${secs}`;
   }
 
   setText(key, node, value) { if (this.hudCache[key] !== value) { node.textContent = value; this.hudCache[key] = value; } }

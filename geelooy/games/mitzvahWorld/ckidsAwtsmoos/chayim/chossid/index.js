@@ -10,14 +10,14 @@
  * player so spike freeze/reset flags are honored by the actual loaded class.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
-import Chai from "../chai/index.js?v=lean-l1-20260528-bh27";
+import Chai from "../chai/index.js?v=lean-l1-20260528-bh36";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js';
-import controlMethods from './methods/controls.js?v=lean-l1-20260528-bh27';
-import interactionMethods from './methods/interaction.js?v=lean-l1-20260528-bh27';
-import lifecycleMethods from './methods/lifecycle.js?v=lean-l1-20260528-bh27';
-import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh27';
-import updateMethods from './methods/update.js?v=lean-l1-20260528-bh27';
-import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh27';
+import controlMethods from './methods/controls.js?v=lean-l1-20260528-bh36';
+import interactionMethods from './methods/interaction.js?v=lean-l1-20260528-bh36';
+import lifecycleMethods from './methods/lifecycle.js?v=lean-l1-20260528-bh36';
+import visualMethods from './methods/visuals.js?v=lean-l1-20260528-bh36';
+import updateMethods from './methods/update.js?v=lean-l1-20260528-bh36';
+import inventorySetupMethods from './methods/inventory-setup.js?v=lean-l1-20260528-bh36';
 
 function leanGolem() {
   return { guf: { BoxGeometry: [0.9, 1.8, 0.55] }, toyr: { MeshLambertMaterial: { color: 0x1f6fff } } };

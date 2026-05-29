@@ -16,6 +16,18 @@ const { connectedFiles } = require("../connectedFiles.js");
 const { astOutline } = require("../astOutline.js");
 const { bulkSearch } = require("../pagedSearch.js");
 
+/**
+ * B"H
+ * Chapter 7: The Awtsmoos wrapped the raw letter in a garment of fire.
+ *
+ * A Markdown action must not merely read; it must clothe the text in a fenced
+ * vessel so another mind can behold it without losing language, shape, or
+ * edge. The return order is therefore sacred: raw read metadata first, fenced
+ * content last, so the garment is not overwritten by the naked spark.
+ *
+ * @param {string} value User pattern text.
+ * @returns {string} Regex-safe text.
+ */
 function safeRegexText(value) {
   return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -25,7 +37,6 @@ async function selectStringFile(config, payload) {
   const full = safePath(config, p);
   const pattern = payload.pattern || payload.query || payload.find;
   if (!pattern) return { ok: false, action: "selectStringFile", error: "pattern_required" };
-
   const rx = new RegExp(safeRegexText(pattern), payload.caseSensitive ? "g" : "gi");
   const text = await fs.readFile(full, "utf8");
   const results = [];
@@ -41,9 +52,7 @@ async function selectStringFile(config, payload) {
 
 /**
  * B"H
- * Chapter 5: Duplicate gates melted from the wall. Each read action now stands
- * once, with one name and one covenant, so the registry does not echo like a
- * cave while the Awtsmoos asks it for a single living answer.
+ * Builds read/search/outline handlers from fresh config and payload.
  *
  * @param {object} ctx Fresh tunnel action context.
  * @returns {object} Read/search/outline action handlers.
@@ -72,7 +81,7 @@ function buildReadActions(ctx) {
     async md() {
       const got = await readText(config, p, maxChars, offsetChars);
       const lang = path.extname(p).replace(".", "");
-      return { ok: true, action, root: config.root, path: p, content: "```" + lang + "\n" + got.content + "\n```", ...got };
+      return { ok: true, action, root: config.root, path: p, absolutePath: safePath(config, p), ...got, content: "```" + lang + "\n" + got.content + "\n```" };
     },
     async bulk() { return await readBulk(config, payload); },
     async grep() { return await grep(config, payload); },
@@ -92,4 +101,4 @@ function buildReadActions(ctx) {
   };
 }
 
-module.exports = { buildReadActions };
+module.exports = { buildReadActions, safeRegexText, selectStringFile };

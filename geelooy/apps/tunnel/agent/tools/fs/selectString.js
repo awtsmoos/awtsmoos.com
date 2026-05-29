@@ -4,8 +4,19 @@ const path = require("path");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 
 const SKIP_DIRS = new Set(["node_modules", ".git", ".next", "dist", "build", ".cache", ".awtsmoos-repo"]);
-const DEFAULT_EXTS = [".js", ".cjs", ".mjs", ".ps1", ".sh", ".json"];
+const DEFAULT_EXTS = [".js", ".cjs", ".mjs", ".ts", ".tsx", ".jsx", ".json", ".html", ".css", ".md", ".txt", ".sh", ".ps1", ".yml", ".yaml"];
 
+/**
+ * B"H
+ * Chapter 8: The Awtsmoos widened the lantern over plain text.
+ *
+ * A search action that cannot see `.txt` is a torch with a covered eye. This
+ * helper turns comma strings or arrays into trimmed vessels, so the default
+ * search field can include normal prose, configs, scripts, and source files.
+ *
+ * @param {string|string[]} value Raw list value.
+ * @returns {string[]} Normalized list.
+ */
 function listOf(value) {
   if (Array.isArray(value)) return value.map(String).map(x => x.trim()).filter(Boolean);
   return String(value || "").split(",").map(x => x.trim()).filter(Boolean);
@@ -46,6 +57,14 @@ async function walkFiles(config, dir, out, options) {
   }
 }
 
+/**
+ * B"H
+ * Searches text-like files for one or more patterns.
+ *
+ * @param {object} config Agent config.
+ * @param {object} payload Search payload.
+ * @returns {Promise<object>} Search result.
+ */
 async function selectString(config, payload = {}) {
   const root = safePath(config, payload.path || payload.p || ".");
   const { terms, matcher } = buildMatcher(payload);
@@ -74,14 +93,7 @@ async function selectString(config, payload = {}) {
       if (results.length >= options.maxResults) return;
       if (!matcher.test(line)) { matcher.lastIndex = 0; return; }
       matcher.lastIndex = 0;
-      results.push({
-        path: path.relative(config.root, file).replace(/\\/g, "/"),
-        lineNumber: index + 1,
-        line,
-        preview: line.slice(0, 500),
-        sizeBytes: stat.size,
-        mtimeMs: stat.mtimeMs
-      });
+      results.push({ path: path.relative(config.root, file).replace(/\\/g, "/"), lineNumber: index + 1, line, preview: line.slice(0, 500), sizeBytes: stat.size, mtimeMs: stat.mtimeMs });
     });
   }
 
@@ -95,9 +107,10 @@ async function selectString(config, payload = {}) {
     scannedFiles: files.length,
     skippedFiles,
     returnedResults: results.length,
+    count: results.length,
     partial: files.length >= options.maxFiles || results.length >= options.maxResults,
     results
   };
 }
 
-module.exports = { selectString };
+module.exports = { selectString, DEFAULT_EXTS };

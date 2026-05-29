@@ -3,7 +3,7 @@
  * Campaign index for Sulam HaSod.
  *
  * No generated overlay lives here. Every cruelty remains inspectable and rooted
- * in authored geometry. The Awtsmoos now raises thirty-three explicit chambers,
+ * in authored geometry. The Awtsmoos now raises fifty-one explicit chambers,
  * then grafts high-sky side-thoughts onto each one: optional ascents, rotating
  * saw ladders, fake-safe spikes, collapsing greed corridors, and falling iron.
  */
@@ -41,13 +41,33 @@ import { level30 } from './levels/level30-sky-oath.js';
 import { level31 } from './levels/level31-echo-orchard.js';
 import { level32 } from './levels/level32-cave-of-breath.js';
 import { level33 } from './levels/level33-last-ladder.js';
+import { level34 } from './levels/level34-thorn-contract.js';
+import { level35 } from './levels/level35-mirror-abattoir.js';
+import { level36 } from './levels/level36-sky-tax-court.js';
+import { level37 } from './levels/level37-saw-mikveh.js';
+import { level38 } from './levels/level38-crown-of-teeth.js';
+import { level39 } from './levels/level39-abyss-ledger.js';
+import { level40 } from './levels/level40-iron-echo-court.js';
+import { level41 } from './levels/level41-glass-sitra.js';
+import { level42 } from './levels/level42-snow-knife-parliament.js';
+import { level43 } from './levels/level43-thunder-shekel-mine.js';
+import { level44 } from './levels/level44-last-tooth-of-atzilus.js';
+import { level45 } from './levels/level45-blue-fire-beis-din.js';
+import { level46 } from './levels/level46-bone-rain-covenant.js';
+import { level47 } from './levels/level47-river-of-latches.js';
+import { level48 } from './levels/level48-cinder-shofar-vault.js';
+import { level49 } from './levels/level49-ash-mazal-gear.js';
+import { level50 } from './levels/level50-emerald-noose-garden.js';
+import { level51 } from './levels/level51-black-rainbow-gate.js';
 
 const RAW_LEVELS = [
   level01, level02, level03, level04, level05, level06, level07, level08,
   level09, level10, level11, level12, level13, level14, level15, level16,
   level17, level18, level19, level20, level21, level22, level23, level24,
   level25, level26, level27, level28, level29, level30, level31, level32,
-  level33
+  level33, level34, level35, level36, level37, level38, level39, level40,
+  level41, level42, level43, level44, level45, level46, level47, level48,
+  level49, level50, level51
 ];
 
 /**

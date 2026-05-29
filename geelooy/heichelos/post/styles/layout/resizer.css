@@ -1,45 +1,5 @@
-
-/* B"H - THE GATES OF RESIZING
-   The physical handles that allow the seeker to expand the Sidebar.
+/* B"H
+   Legacy shim: active resizer geometry and cursors are owned only by
+   `styles/ideal/sidebar-shell.css`. This file is silent to prevent resize
+   handle duplication and mobile/desktop cursor conflicts.
 */
-
-.post-reader-localized-context .awtsmoos-sidebar-resizer {
-    position: absolute;
-    z-index: 2000;
-    background: transparent;
-    touch-action: none !important; 
-}
-
-@media (min-width: 901px) {
-    .post-reader-localized-context .awtsmoos-sidebar-resizer {
-        top: 0; bottom: 0;
-        left: -15px; 
-        width: 30px;
-        cursor: col-resize;
-    }
-}
-
-@media (max-width: 900px) {
-    .post-reader-localized-context .awtsmoos-sidebar-resizer {
-        top: -30px; left: 0; right: 0;
-        height: 60px; 
-        width: 100%;
-        cursor: row-resize;
-        display: flex; align-items: center; justify-content: center;
-    }
-    
-    .post-reader-localized-context .awtsmoos-sidebar-resizer::after {
-        content: ''; width: 80px; height: 8px;
-        background: var(--color-ink);
-        border: 2px solid var(--bg-surface);
-        border-radius: 4px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-}
-
-/* B"H - Safely localized cursor override during resize! */
-.post-reader-localized-context.resizing-active,
-.post-reader-localized-context.resizing-active * {
-    cursor: grabbing !important;
-    user-select: none !important;
-}

@@ -5,8 +5,8 @@
  */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
-import setupDomEvents from "./worker/domEvents.js?v=lean-l1-20260528-bh28";
-import setupMessageHandler from "./worker/messageHandler.js?v=lean-l1-20260528-bh28";
+import setupDomEvents from "./worker/domEvents.js?v=lean-l1-20260528-bh35";
+import setupMessageHandler from "./worker/messageHandler.js?v=lean-l1-20260528-bh35";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
 import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js";

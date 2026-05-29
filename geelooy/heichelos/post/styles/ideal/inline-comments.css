@@ -1,0 +1,102 @@
+/* B"H
+   Chapter 32: The margin flame.
+   Inline cards become quiet parchment vessels: a tiny crown-header, a massive
+   readable body, one violet line, and enough air for Hebrew to breathe.
+*/
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root {
+    max-width: min(100%, 54rem) !important;
+    border: 1px solid var(--ideal-card-edge) !important;
+    border-radius: var(--ideal-radius-lg) !important;
+    background: linear-gradient(135deg, var(--ideal-card), var(--ideal-page-soft)) !important;
+    box-shadow: var(--ideal-shadow-card) !important;
+    color: var(--ideal-ink) !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-commentary-root::before {
+    content: "" !important;
+    position: absolute !important;
+    inset-block: 58px 18px !important;
+    inset-inline-start: 0 !important;
+    width: 4px !important;
+    border-radius: 0 999px 999px 0 !important;
+    background: linear-gradient(180deg, var(--ideal-purple), #8b5cf6) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header {
+    min-height: 42px !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+    background: rgba(255, 255, 255, .62) !important;
+    border-bottom: 1px solid rgba(120, 92, 51, .13) !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-avatar {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 12px !important;
+    box-shadow: 0 6px 14px var(--ideal-purple-glow) !important;
+    background: linear-gradient(135deg, var(--ideal-purple), #7c3aed) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header strong {
+    font: 850 clamp(.78rem, 2.15vw, .94rem)/1.15 var(--font-ui, system-ui) !important;
+    color: var(--ideal-ink) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-card-header span {
+    font-size: clamp(.62rem, 1.75vw, .74rem) !important;
+    line-height: 1.15 !important;
+    color: var(--ideal-muted) !important;
+}
+
+.post-reader-localized-context .awtsmoos-inline-focus {
+    min-width: 30px !important;
+    min-height: 28px !important;
+    padding: 4px 7px !important;
+    font-size: 12px !important;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, .14) !important;
+}
+
+.post-reader-localized-context .comment-body-vessel:is(.awtsmoos-inline-body) {
+    max-width: min(100%, 49rem) !important;
+    margin-inline: auto !important;
+    padding: clamp(1.05rem, 3vw, 1.55rem) clamp(1.05rem, 3.2vw, 1.75rem) !important;
+    color: var(--ideal-ink) !important;
+    font-size: var(--ideal-inline-body-size) !important;
+    line-height: 1.82 !important;
+    text-align: start !important;
+}
+
+.post-reader-localized-context .comment-body-vessel .awtsmoos-comment-paragraph {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    color: inherit !important;
+    margin-block: .45em !important;
+    text-align: inherit !important;
+}
+
+.post-reader-localized-context .heb .comment-body-vessel:is(.awtsmoos-inline-body) {
+    direction: rtl !important;
+    font-size: var(--ideal-inline-hebrew-size) !important;
+    line-height: 1.9 !important;
+    word-spacing: .045em !important;
+}
+
+.post-reader-localized-context [dir="rtl"] .comment-body-vessel:is(.awtsmoos-inline-body) {
+    direction: rtl !important;
+    font-size: var(--ideal-inline-hebrew-size) !important;
+    line-height: 1.9 !important;
+    word-spacing: .045em !important;
+}
+
+@media (max-width: 700px) {
+    .post-reader-localized-context .awtsmoos-inline-commentary-root {
+        border-radius: 16px !important;
+        box-shadow: 0 12px 28px rgba(77, 53, 24, .12) !important;
+    }
+}
