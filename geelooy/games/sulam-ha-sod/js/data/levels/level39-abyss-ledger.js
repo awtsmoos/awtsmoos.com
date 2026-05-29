@@ -2,28 +2,153 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Abyss Ledger of Borrowed Teeth.
+ * Abyss Ledger of Borrowed Teeth is rewritten by hand as a harsher but fair late-game court.
  *
- * Chapter 1: The Awtsmoos opened a black book under the ladder, and every line
- * of ink became a platform that could run away, a spike that could forgive, or
- * a coin that charged interest in bloodless light. This chamber is brutal but
- * counted: every fall teaches, every tooth returns, every carrier pays a real
- * coin before the door agrees to exist.
+ * Chapter 39: The Awtsmoos tears certainty open like iron cloth. Fake coins
+ * glitter with room to refuse them, fake platforms move with visible intent,
+ * safe-spike bridges teach reversal, proximity teeth warn before judgment, and
+ * every carrier enemy holds a counted spark. The chamber is sharper now, but
+ * the route stays readable.
  */
 export const level39 = L(
   '39 · Abyss Ledger of Borrowed Teeth',
-  23400,
+  22840,
   { x: 60, y: 420 },
-  P(23000, 78, 44, 90),
-  'The ledger balances only after safe spikes, fake coins, and enemy debts are paid.',
-  [P(0,505,360,35),P(820,430,130,20),P(1560,350,135,20),P(2340,270,140,20),P(3160,190,145,20),P(4020,110,150,20),P(4920,190,155,20),P(5860,270,160,20),P(6840,350,165,20),P(7860,270,170,20),P(8920,190,175,20),P(10020,110,180,20),P(11160,190,185,20),P(12340,270,190,20),P(13560,350,195,20),P(14820,270,200,20),P(16120,190,210,20),P(17460,110,220,20),P(18860,150,240,20),P(21680,164,430,20)],
-  [R(1300,402,102,14,5.7,1060),R(6600,242,120,14,-6.6,1200),R(12020,162,132,14,6.9,1320),R(18040,86,142,14,-7.2,1400)],
-  [T(1760,334,92,16,'baitShift',{shiftX:160,range:220}),T(2640,254,94,16,'falseSpike'),T(3520,174,96,16,'safeSpike'),T(4420,94,98,16,'oneWay'),T(5360,174,100,16,'phantom'),T(6320,254,102,16,'commitDrop',{reform:3.45}),T(7320,334,104,16,'reverseBooster',{dir:1,boost:1380}),T(8360,254,106,16,'magnet',{pull:900}),T(9440,174,108,16,'antiJump'),T(10560,94,110,16,'falseSpike'),T(11720,174,112,16,'booster',{dir:-1,boost:1520,lift:62}),T(12920,254,114,16,'ice',{duration:2.55}),T(14160,334,116,16,'fakeCheckpoint'),T(15440,254,118,16,'phantom'),T(16760,174,120,16,'safeSpike'),T(18120,94,124,16,'antiSpeed'),T(19540,134,128,16,'falseSpike'),T(20640,144,132,16,'baitShift',{shiftX:-185,range:225})],
-  [C(360,460),C(860,390),C(1600,310,'dinar'),C(2380,230),C(3200,150,'sela'),C(4060,70),C(4960,150,'maneh'),C(5900,230),C(6880,310,'dinar'),C(7900,230),C(8960,150,'sela'),C(10060,70),C(11200,150,'dinar'),C(12380,230),C(13600,310,'maneh'),C(14860,230),C(16160,150,'sela'),C(17500,70),C(18900,110,'dinar'),C(21740,124,'maneh')],
-  [C(22860,103,'dinar')],
-  [S(660,481,90,24,1.45,1,2),S(6320,481,100,24,2.2,1,2.2),S(11840,481,110,24,2.7,1,2.2),S(17400,481,120,24,2.4,1,2.1),S(20980,481,130,24,3,1,2.2),{x:9680,y:146,w:68,h:22,proximity:true,range:122,instant:true,duration:.92}],
-  [E(3200,156,3140,3360,164,'golem','ledger porter',{dropCoin:'dinar'}),E(6880,316,6820,7060,172,'watcher','ink eye'),E(11200,156,11100,11440,170,'leaper','debt jumper',{dropCoin:'sela'}),E(14860,236,14740,15180,184,'herder','balance shepherd'),E(18900,116,18740,19180,168,'baitGuard','false accountant'),E(21740,130,21640,22020,160,'feign','sleeping debt',{dropCoin:'maneh'})],
-  [G(1760,230,130,130,'The ledger moves the first rung before your landing.',{}),G(4420,40,150,130,'One-way ink catches only a falling vessel.',{}),G(10020,40,150,130,'Three debt teeth descend in order.',{spikes:[{x:10160,y:12,w:76,h:24,warning:.55,duration:1.1,fallSpeed:560},{x:10260,y:44,w:80,h:24,warning:.7,duration:1.1,fallSpeed:590},{x:10366,y:76,w:84,h:24,warning:.85,duration:1.1,fallSpeed:620}]}),G(13600,280,150,130,'The ledger checkpoint is just painted mercy.',{}),G(21020,98,170,130,'The ledger opens when the sleepers surrender their coins.',{openExit:true})],
-  ['Every debt is a platform until it moves.', 'Some teeth are stairs because the Awtsmoos writes truth in reversal.', 'The ledger cannot be rushed.'],
-  {fakeCoins:[F(1780,295,'dinar','The ledger coin bit like inked iron.'),F(10480,62,'maneh','The debt crown fell as teeth.'),F(18160,62,'sela','The quiet receipt lied.')],trickCoins:[{x:3200,y:150,kind:'reverseRunner',speed:530,min:3060,max:3400},{x:8960,y:150,kind:'trapBait',baitX:10020,speed:380,min:8800,max:10100},{x:12380,y:230,kind:'shyVanish',safeSide:'right'},{x:16760,y:150,kind:'fakeRunner',min:16600,max:17080}]}
+  P(22560, 112, 52, 90),
+  'The ledger balances only after every enemy debt is paid.',
+  [
+  P(0, 505, 400, 35),
+  P(620, 444, 210, 24),
+  P(1090, 374, 234, 24),
+  P(1598, 304, 258, 24),
+  P(2144, 234, 282, 24),
+  P(2614, 164, 210, 24),
+  P(3122, 94, 234, 24),
+  P(3668, 174, 258, 24),
+  P(4138, 254, 282, 24),
+  P(4646, 334, 210, 24),
+  P(5192, 264, 234, 24),
+  P(5662, 194, 258, 24),
+  P(6170, 124, 282, 24),
+  P(6716, 204, 210, 24),
+  P(7186, 284, 234, 24),
+  P(7694, 354, 258, 24),
+  P(8240, 284, 282, 24),
+  P(8710, 214, 210, 24),
+  P(9218, 144, 234, 24),
+  P(9764, 184, 258, 24),
+  P(10234, 224, 282, 24),
+  P(10742, 164, 210, 24),
+  P(11288, 204, 234, 24),
+  P(11758, 244, 258, 24),
+  P(12266, 214, 282, 24),
+  P(12812, 184, 210, 24),
+  P(13282, 154, 234, 24),
+  P(21980, 236, 300, 24),
+  P(22390, 206, 330, 24)
+],
+  [
+  R(880, 416, 104, 14, 3.6, 680),
+  R(3920, 346, 112, 14, -4.1, 760),
+  R(7240, 298, 120, 14, 4.4, 830),
+  R(21360, 190, 126, 14, -4.7, 900)
+],
+  [
+  T(1120, 356, 118, 16, 'magnet', { pull: 520 }),
+  T(1970, 286, 118, 16, 'antiJump', {}),
+  T(2700, 216, 118, 16, 'booster', { dir: -1, boost: 1020, lift: 36 }),
+  T(3550, 146, 118, 16, 'fakeCheckpoint', {}),
+  T(4280, 76, 118, 16, 'phantom', {}),
+  T(5130, 156, 118, 16, 'antiSpeed', {}),
+  T(5860, 236, 104, 16, 'safeSpike', {}),
+  T(6710, 316, 118, 16, 'baitShift', { shiftX: -150, range: 220 }),
+  T(7440, 246, 96, 16, 'falseSpike', {}),
+  T(8290, 176, 118, 16, 'baitShift', { shiftX: -150, range: 220 }),
+  T(9020, 106, 96, 16, 'falseSpike', {}),
+  T(9870, 186, 104, 16, 'safeSpike', {}),
+  T(10600, 266, 118, 16, 'oneWay', {}),
+  T(11450, 336, 118, 16, 'phantom', {}),
+  T(12180, 266, 118, 16, 'commitDrop', { reform: 2.65 }),
+  T(13030, 196, 118, 16, 'reverseBooster', { dir: -1, boost: 970 })
+],
+  [
+  C(280, 460),
+  C(660, 398),
+  C(1130, 328, 'maneh'),
+  C(1638, 258, 'dinar'),
+  C(2184, 188),
+  C(2654, 118, 'dinar'),
+  C(3162, 48),
+  C(3708, 128, 'sela'),
+  C(4178, 208),
+  C(4686, 288, 'maneh'),
+  C(5232, 218, 'dinar'),
+  C(5702, 148),
+  C(6210, 78, 'dinar'),
+  C(6756, 158),
+  C(7226, 238, 'sela'),
+  C(7734, 308),
+  C(8280, 238, 'maneh'),
+  C(8750, 168, 'dinar'),
+  C(9258, 98),
+  C(9804, 138, 'dinar'),
+  C(10274, 178),
+  C(10782, 118, 'sela'),
+  C(11328, 158),
+  C(11798, 198, 'maneh'),
+  C(12306, 168, 'dinar'),
+  C(12852, 138),
+  C(13322, 108, 'dinar'),
+  C(22140, 186, 'sela'),
+  C(22510, 158, 'maneh')
+],
+  [
+  C(22280, 164, 'dinar'),
+  C(22610, 166, 'sela')
+],
+  [
+  S(450, 481, 100, 24, 1, 1, 2),
+  S(3200, 481, 112, 24, 1.75, 1, 2.15),
+  S(6400, 481, 124, 24, 2.25, 1, 2.25),
+  S(9600, 481, 136, 24, 1.95, 1, 2.15),
+  S(21600, 481, 148, 24, 2.5, 1, 2.25),
+  { x: 21160, y: 481, w: 92, h: 24, proximity: true, range: 140, warning: 0.96, duration: 1.05 }
+],
+  [
+  E(2100, 130, 1980, 2320, 132, 'watcher', 'Abyss Ledger debt-eye', { dropCoin: 'dinar' }),
+  E(4520, 300, 4400, 4740, 144, 'scroll', 'Abyss Ledger false clerk'),
+  E(6420, 108, 6280, 6660, 146, 'leaper', 'Abyss Ledger coin-jailer', { dropCoin: 'sela' }),
+  E(8540, 230, 8400, 8800, 154, 'herder', 'Abyss Ledger return herder'),
+  E(21040, 198, 20900, 21320, 146, 'baitGuard', 'Abyss Ledger final deceiver'),
+  E(21880, 170, 21760, 22140, 138, 'feign', 'Abyss Ledger sleeping debt', { dropCoin: 'maneh' })
+],
+  [
+  G(1080, 274, 190, 130, 'The first bridge runs when trusted; wait for its confession.', {}),
+  G(2100, 70, 210, 145, 'A visible carrier holds a required coin above the broad shelf.', {}),
+  G(5600, 74, 210, 145, 'The upper route is hard, optional, and fully readable.', {}),
+  G(7080, 212, 200, 135, 'The falling teeth show a full warning breath before judgment.', { spikes: [{ x: 7240, y: 82, w: 80, h: 24, warning: 0.96, duration: 1.12, fallSpeed: 450 }, { x: 7345, y: 114, w: 84, h: 24, warning: 1.04, duration: 1.12, fallSpeed: 480 }, { x: 7455, y: 146, w: 88, h: 24, warning: 1.12, duration: 1.12, fallSpeed: 510 }] }),
+  G(21820, 154, 210, 135, 'The final fake coin is loud enough to be refused.', {}),
+  G(22200, 130, 240, 145, 'The door opens only after every honest coin, key, and carrier debt.', { openExit: true })
+],
+  [
+  'Abyss Ledger is hard because it teaches before it strikes.',
+  'The Awtsmoos leaves fake coins, fake platforms, spike-bridges, and proximity teeth in readable space.',
+  'Every required spark is reachable by a broad route or a warned upper detour.'
+],
+  {
+    fakeCoins: [
+      F(1180, 320, 'dinar', 'The first coin laughed with teeth.'),
+      F(3580, 282, 'sela', 'The center shine was a hook.'),
+      F(7440, 182, 'maneh', 'The warned crown was bait.'),
+      F(21720, 152, 'dinar', 'The late bargain wore a knife.'),
+      F(22020, 150, 'sela', 'The final discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1960, y: 120, kind: 'reverseRunner', speed: 340, min: 1780, max: 2280 },
+      { x: 3440, y: 260, kind: 'trapBait', baitX: 3860, speed: 265, min: 3240, max: 4000 },
+      { x: 5480, y: 116, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8460, y: 220, kind: 'fakeRunner', min: 8260, max: 8740 },
+      { x: 21760, y: 184, kind: 'trapBait', baitX: 22080, speed: 275, min: 21600, max: 22190 }
+]
+  }
 );

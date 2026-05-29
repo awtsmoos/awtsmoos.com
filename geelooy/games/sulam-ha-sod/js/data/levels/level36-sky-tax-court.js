@@ -2,26 +2,153 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Sky Tax Court of Vanishing Mercy.
+ * Sky Tax Court of Vanishing Mercy is rewritten by hand as a harsher but fair late-game court.
  *
- * The Awtsmoos raises a court above the court. Every fee is paid by patience:
- * bait ledges flee, safe spikes become receipts, and proximity teeth appear
- * only when the player comes near enough to confess motion.
+ * Chapter 36: The Awtsmoos tears certainty open like iron cloth. Fake coins
+ * glitter with room to refuse them, fake platforms move with visible intent,
+ * safe-spike bridges teach reversal, proximity teeth warn before judgment, and
+ * every carrier enemy holds a counted spark. The chamber is sharper now, but
+ * the route stays readable.
  */
 export const level36 = L(
   '36 · Sky Tax Court of Vanishing Mercy',
-  21000,
+  20920,
   { x: 60, y: 420 },
-  P(20620, 90, 44, 90),
-  'The sky court taxes speed, fear, and fake certainty.',
-  [P(0,505,360,35),P(700,435,130,20),P(1320,355,135,20),P(1980,275,140,20),P(2680,195,145,20),P(3420,115,150,20),P(4200,195,155,20),P(5020,275,160,20),P(5880,355,165,20),P(6780,275,170,20),P(7720,195,175,20),P(8700,115,180,20),P(9720,195,185,20),P(10780,275,190,20),P(11880,355,195,20),P(13020,275,200,20),P(14200,195,210,20),P(15420,115,220,20),P(16700,155,240,20),P(19260,175,380,20)],
-  [R(1100,408,96,14,-5.1,1000),R(5740,248,114,14,6,1140),R(10500,168,126,14,-6.3,1260),R(16080,92,136,14,6.7,1340)],
-  [T(1560,339,92,16,'falseSpike'),T(2300,259,94,16,'baitShift',{shiftX:-145,range:195}),T(3040,179,96,16,'safeSpike'),T(3800,99,98,16,'oneWay'),T(4600,179,100,16,'phantom'),T(5420,259,102,16,'commitDrop',{reform:3.3}),T(6280,339,104,16,'reverseBooster',{dir:1,boost:1320}),T(7180,259,106,16,'magnet',{pull:840}),T(8120,179,108,16,'antiJump'),T(9100,99,110,16,'falseSpike'),T(10120,179,112,16,'booster',{dir:-1,boost:1460,lift:56}),T(11180,259,114,16,'ice',{duration:2.4}),T(12280,339,116,16,'fakeCheckpoint'),T(13420,259,118,16,'phantom'),T(14600,179,120,16,'safeSpike'),T(15820,99,124,16,'antiSpeed'),T(17140,139,128,16,'falseSpike'),T(18120,149,132,16,'baitShift',{shiftX:165,range:205})],
-  [C(300,460),C(740,395),C(1360,315,'dinar'),C(2020,235),C(2720,155,'sela'),C(3460,75),C(4240,155,'maneh'),C(5060,235),C(5920,315,'dinar'),C(6820,235),C(7760,155,'sela'),C(8740,75),C(9760,155,'dinar'),C(10820,235),C(11920,315,'maneh'),C(13060,235),C(14240,155,'sela'),C(15460,75),C(16740,115,'dinar'),C(19320,135,'maneh')],
-  [C(20480,115,'dinar')],
-  [S(600,481,90,24,1.3,1,2),S(5600,481,100,24,2.05,1,2.2),S(10520,481,110,24,2.55,1,2.2),S(15480,481,120,24,2.25,1,2.1),S(18580,481,130,24,2.85,1,2.2),{x:8420,y:151,w:64,h:22,proximity:true,range:116,instant:true,duration:.86}],
-  [E(2720,161,2660,2880,158,'golem','tax collector',{dropCoin:'dinar'}),E(5920,321,5860,6100,166,'watcher','court eye'),E(9760,161,9660,9980,164,'leaper','fee jumper',{dropCoin:'sela'}),E(13060,241,12940,13340,178,'herder','audit shepherd'),E(16740,121,16580,17000,162,'baitGuard','false clerk'),E(19320,141,19220,19580,154,'feign','sleeping tax',{dropCoin:'maneh'})],
-  [G(1560,235,130,130,'The first fee is hidden under a normal ledge.',{}),G(3800,45,150,130,'The sky court accepts one-way testimony.',{}),G(8700,45,150,130,'Three receipts fall as teeth.',{spikes:[{x:8840,y:12,w:74,h:24,warning:.55,duration:1.1,fallSpeed:530},{x:8934,y:44,w:78,h:24,warning:.7,duration:1.1,fallSpeed:560},{x:9034,y:76,w:82,h:24,warning:.85,duration:1.1,fallSpeed:590}]}),G(11920,280,150,130,'The checkpoint is taxable fiction.',{}),G(18620,98,170,130,'The court opens after every hidden fee returns.',{openExit:true})],
-  ['The sky court charges certainty.', 'A moving platform is a receipt with legs.', 'The spike bridge is the honest clerk.'],
-  {fakeCoins:[F(1580,300,'dinar','The tax coin billed your hand.'),F(9120,70,'maneh','The court crown was iron paperwork.'),F(15860,70,'sela','The mercy spark charged interest.')],trickCoins:[{x:2720,y:155,kind:'reverseRunner',speed:500,min:2580,max:2920},{x:7760,y:155,kind:'trapBait',baitX:8700,speed:350,min:7600,max:8780},{x:10820,y:235,kind:'shyVanish',safeSide:'right'},{x:14600,y:155,kind:'fakeRunner',min:14440,max:14880}]}
+  P(20640, 112, 52, 90),
+  'The court taxes speed, greed, and fake certainty.',
+  [
+  P(0, 505, 400, 35),
+  P(620, 444, 210, 24),
+  P(1090, 374, 234, 24),
+  P(1598, 304, 258, 24),
+  P(2144, 234, 282, 24),
+  P(2614, 164, 210, 24),
+  P(3122, 94, 234, 24),
+  P(3668, 174, 258, 24),
+  P(4138, 254, 282, 24),
+  P(4646, 334, 210, 24),
+  P(5192, 264, 234, 24),
+  P(5662, 194, 258, 24),
+  P(6170, 124, 282, 24),
+  P(6716, 204, 210, 24),
+  P(7186, 284, 234, 24),
+  P(7694, 354, 258, 24),
+  P(8240, 284, 282, 24),
+  P(8710, 214, 210, 24),
+  P(9218, 144, 234, 24),
+  P(9764, 184, 258, 24),
+  P(10234, 224, 282, 24),
+  P(10742, 164, 210, 24),
+  P(11288, 204, 234, 24),
+  P(11758, 244, 258, 24),
+  P(12266, 214, 282, 24),
+  P(12812, 184, 210, 24),
+  P(13282, 154, 234, 24),
+  P(20060, 236, 300, 24),
+  P(20470, 206, 330, 24)
+],
+  [
+  R(880, 416, 104, 14, 3.6, 680),
+  R(3920, 346, 112, 14, -4.1, 760),
+  R(7240, 298, 120, 14, 4.4, 830),
+  R(19440, 190, 126, 14, -4.7, 900)
+],
+  [
+  T(1120, 356, 118, 16, 'phantom', {}),
+  T(1970, 286, 118, 16, 'commitDrop', { reform: 2.65 }),
+  T(2700, 216, 118, 16, 'reverseBooster', { dir: 1, boost: 930 }),
+  T(3550, 146, 118, 16, 'magnet', { pull: 520 }),
+  T(4280, 76, 118, 16, 'antiJump', {}),
+  T(5130, 156, 118, 16, 'booster', { dir: 1, boost: 1020, lift: 36 }),
+  T(5860, 236, 118, 16, 'fakeCheckpoint', {}),
+  T(6710, 316, 118, 16, 'phantom', {}),
+  T(7440, 246, 118, 16, 'antiSpeed', {}),
+  T(8290, 176, 104, 16, 'safeSpike', {}),
+  T(9020, 106, 118, 16, 'baitShift', { shiftX: 135, range: 210 }),
+  T(9870, 186, 96, 16, 'falseSpike', {}),
+  T(10600, 266, 118, 16, 'baitShift', { shiftX: 135, range: 210 }),
+  T(11450, 336, 96, 16, 'falseSpike', {}),
+  T(12180, 266, 104, 16, 'safeSpike', {}),
+  T(13030, 196, 118, 16, 'oneWay', {})
+],
+  [
+  C(280, 460),
+  C(660, 398, 'dinar'),
+  C(1130, 328),
+  C(1638, 258, 'sela'),
+  C(2184, 188),
+  C(2654, 118, 'maneh'),
+  C(3162, 48, 'dinar'),
+  C(3708, 128),
+  C(4178, 208, 'dinar'),
+  C(4686, 288),
+  C(5232, 218, 'sela'),
+  C(5702, 148),
+  C(6210, 78, 'maneh'),
+  C(6756, 158, 'dinar'),
+  C(7226, 238),
+  C(7734, 308, 'dinar'),
+  C(8280, 238),
+  C(8750, 168, 'sela'),
+  C(9258, 98),
+  C(9804, 138, 'maneh'),
+  C(10274, 178, 'dinar'),
+  C(10782, 118),
+  C(11328, 158, 'dinar'),
+  C(11798, 198),
+  C(12306, 168, 'sela'),
+  C(12852, 138),
+  C(13322, 108, 'maneh'),
+  C(20220, 186, 'sela'),
+  C(20590, 158, 'maneh')
+],
+  [
+  C(20360, 164, 'dinar'),
+  C(20690, 166, 'sela')
+],
+  [
+  S(450, 481, 100, 24, 1, 1, 2),
+  S(3200, 481, 112, 24, 1.75, 1, 2.15),
+  S(6400, 481, 124, 24, 2.25, 1, 2.25),
+  S(9600, 481, 136, 24, 1.95, 1, 2.15),
+  S(19680, 481, 148, 24, 2.5, 1, 2.25),
+  { x: 19240, y: 481, w: 92, h: 24, proximity: true, range: 140, warning: 0.96, duration: 1.05 }
+],
+  [
+  E(2100, 130, 1980, 2320, 132, 'watcher', 'Sky Tax Court debt-eye', { dropCoin: 'dinar' }),
+  E(4520, 300, 4400, 4740, 144, 'scroll', 'Sky Tax Court false clerk'),
+  E(6420, 108, 6280, 6660, 146, 'leaper', 'Sky Tax Court coin-jailer', { dropCoin: 'sela' }),
+  E(8540, 230, 8400, 8800, 154, 'herder', 'Sky Tax Court return herder'),
+  E(19120, 198, 18980, 19400, 146, 'baitGuard', 'Sky Tax Court final deceiver'),
+  E(19960, 170, 19840, 20220, 138, 'feign', 'Sky Tax Court sleeping debt', { dropCoin: 'maneh' })
+],
+  [
+  G(1080, 274, 190, 130, 'The first bridge runs when trusted; wait for its confession.', {}),
+  G(2100, 70, 210, 145, 'A visible carrier holds a required coin above the broad shelf.', {}),
+  G(5600, 74, 210, 145, 'The upper route is hard, optional, and fully readable.', {}),
+  G(7080, 212, 200, 135, 'The falling teeth show a full warning breath before judgment.', { spikes: [{ x: 7240, y: 82, w: 80, h: 24, warning: 0.96, duration: 1.12, fallSpeed: 450 }, { x: 7345, y: 114, w: 84, h: 24, warning: 1.04, duration: 1.12, fallSpeed: 480 }, { x: 7455, y: 146, w: 88, h: 24, warning: 1.12, duration: 1.12, fallSpeed: 510 }] }),
+  G(19900, 154, 210, 135, 'The final fake coin is loud enough to be refused.', {}),
+  G(20280, 130, 240, 145, 'The door opens only after every honest coin, key, and carrier debt.', { openExit: true })
+],
+  [
+  'Sky Tax Court is hard because it teaches before it strikes.',
+  'The Awtsmoos leaves fake coins, fake platforms, spike-bridges, and proximity teeth in readable space.',
+  'Every required spark is reachable by a broad route or a warned upper detour.'
+],
+  {
+    fakeCoins: [
+      F(1180, 320, 'dinar', 'The first coin laughed with teeth.'),
+      F(3580, 282, 'sela', 'The center shine was a hook.'),
+      F(7440, 182, 'maneh', 'The warned crown was bait.'),
+      F(19800, 152, 'dinar', 'The late bargain wore a knife.'),
+      F(20100, 150, 'sela', 'The final discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1960, y: 120, kind: 'reverseRunner', speed: 340, min: 1780, max: 2280 },
+      { x: 3440, y: 260, kind: 'trapBait', baitX: 3860, speed: 265, min: 3240, max: 4000 },
+      { x: 5480, y: 116, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8460, y: 220, kind: 'fakeRunner', min: 8260, max: 8740 },
+      { x: 19840, y: 184, kind: 'trapBait', baitX: 20160, speed: 275, min: 19680, max: 20270 }
+]
+  }
 );

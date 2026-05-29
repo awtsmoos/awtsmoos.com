@@ -2,33 +2,138 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Hidden Manna forces vertical greed and enemy mercy.
+ * Hidden Manna Treasury Above the Teeth is rewritten by hand as a fair late-game chamber.
  *
- * The Awtsmoos hides required coins above the comfortable horizon and inside
- * living guards. The player must climb, wait for the camera to breathe upward,
- * stomp the coin-swallowing watchers, and then descend without trusting the
- * platforms that look most centered.
+ * Chapter 19: The Awtsmoos breathes a broad road into the stone, then lets
+ * sparks of money, keys, and deception hang above it like letters of creation.
+ * Nothing required is buried in a cramped throat; the hazards show their teeth
+ * before biting; the upper road is a crown for players who read instead of
+ * rushing.
  */
 export const level19 = L(
-  '19 · Hidden Manna Above the Teeth',
-  11200,
+  '19 · Hidden Manna Treasury Above the Teeth',
+  11600,
   { x: 60, y: 420 },
-  P(10880, 160, 44, 90),
-  'Some coins are above sight; some are inside enemies. All are required.',
-  [P(0, 505, 350, 35), P(520, 450, 120, 20), P(880, 385, 120, 20), P(1220, 315, 120, 20), P(1580, 245, 130, 20), P(1970, 175, 130, 20), P(2380, 260, 140, 20), P(2820, 340, 150, 20), P(3260, 420, 150, 20), P(3720, 350, 155, 20), P(4180, 280, 155, 20), P(4660, 210, 160, 20), P(5160, 300, 160, 20), P(5680, 390, 170, 20), P(6200, 320, 170, 20), P(6720, 250, 180, 20), P(7260, 170, 180, 20), P(7840, 260, 185, 20), P(8400, 350, 190, 20), P(9000, 280, 190, 20), P(9600, 210, 200, 20), P(10240, 175, 230, 20)],
-  [R(700, 424, 82, 14, 3.2, 620), R(3560, 392, 94, 14, -3.7, 760), R(7420, 226, 105, 14, 4.1, 860)],
-  [T(1040, 369, 90, 16, 'falseSpike'), T(1420, 299, 90, 16, 'ice', { duration: 1.45 }), T(1810, 229, 92, 16, 'booster', { dir: 1, boost: 980, lift: 34 }), T(2220, 159, 92, 16, 'phantom'), T(2640, 244, 95, 16, 'commitDrop', { reform: 2.4 }), T(3060, 324, 96, 16, 'reverseBooster', { dir: 1, boost: 900 }), T(4500, 264, 98, 16, 'falseSpike'), T(4940, 194, 100, 16, 'magnet', { pull: 520 }), T(5440, 284, 100, 16, 'antiJump'), T(5940, 374, 102, 16, 'booster', { dir: -1, boost: 980, lift: 28 }), T(6480, 304, 105, 16, 'phantom'), T(7000, 234, 105, 16, 'ice', { duration: 1.5 }), T(7600, 154, 110, 16, 'falseSpike'), T(8140, 244, 110, 16, 'commitDrop', { reform: 2.3 }), T(8760, 334, 112, 16, 'fakeCheckpoint'), T(9340, 264, 114, 16, 'reverseBooster', { dir: -1, boost: 960 }), T(9900, 194, 116, 16, 'booster', { dir: 1, boost: 1080, lift: 30 })],
-  [C(260, 460), C(555, 410), C(915, 345, 'dinar'), C(1255, 275), C(1615, 205, 'sela'), C(2005, 135, 'dinar'), C(2420, 220), C(2860, 300, 'sela'), C(3300, 380), C(3760, 310, 'dinar'), C(4220, 240), C(4700, 170, 'sela'), C(5200, 260), C(5720, 350, 'dinar'), C(6240, 280), C(6760, 210, 'sela'), C(7300, 130, 'maneh'), C(7880, 220), C(8440, 310, 'dinar'), C(9040, 240), C(9640, 170, 'sela'), C(10300, 135, 'maneh')],
-  [C(10640, 135, 'dinar')],
-  [S(390, 481, 90, 24, 1, 1, 2), S(3120, 481, 100, 24, 1.7, 1, 2.2), S(5600, 481, 110, 24, 2.2, 1, 2.2), S(8300, 481, 120, 24, 1.8, 1, 2.1), S(10100, 481, 130, 24, 2.4, 1, 2.2)],
-  [E(2360, 226, 2320, 2500, 125, 'scroll', 'manna scroll', { dropCoin: 'dinar' }), E(4700, 176, 4640, 4820, 140, 'watcher', 'coin-eyed watcher', { dropCoin: 'sela' }), E(6240, 286, 6180, 6380, 130, 'leaper', 'high leaper'), E(8440, 316, 8380, 8580, 130, 'feign', 'manna corpse', { dropCoin: 'dinar' }), E(9640, 176, 9580, 9780, 145, 'herder', 'summit shepherd')],
+  P(11340, 110, 52, 90),
+  'The manna is visible once you climb; the swallowed coins require mercy and a stomp.',
   [
-    G(1160, 240, 140, 130, 'The first high coin is not decoration. Climb.', {}),
-    G(3160, 300, 120, 120, 'The reverse boost blocks autopilot ascent.', {}),
-    G(5200, 220, 120, 120, 'A swallowed coin requires a stomp, not a sprint.', {}),
-    G(7600, 110, 130, 120, 'The summit drops a three-tooth warning.', { spikes: [{ x: 7730, y: 58, w: 72, h: 24, warning: 0.56, duration: 1.1, fallSpeed: 430 }, { x: 7815, y: 88, w: 76, h: 24, warning: 0.7, duration: 1.1, fallSpeed: 460 }, { x: 7905, y: 118, w: 80, h: 24, warning: 0.84, duration: 1.1, fallSpeed: 490 }] }),
-    G(10200, 120, 160, 130, 'The hidden manna opens the door only when all coins are seen.', { openExit: true })
-  ],
-  ['Hidden coins make the camera matter.', 'A living enemy can be a locked coin chest.', 'The correct route climbs, stomps, descends, and refuses centered bait.'],
-  { fakeCoins: [F(1080, 330, 'dinar', 'The lower manna was a spike.'), F(7600, 120, 'maneh', 'The summit reward wore teeth.'), F(9360, 230, 'sela', 'The reverse path coin was a blade.')], trickCoins: [{ x: 1700, y: 200, kind: 'trapBait', baitX: 1940, speed: 240, min: 1600, max: 1980 }, { x: 4380, y: 235, kind: 'reverseRunner', speed: 360, min: 4260, max: 4580 }, { x: 6940, y: 210, kind: 'shyVanish', safeSide: 'left' }, { x: 9400, y: 230, kind: 'fakeRunner', min: 9300, max: 9620 }] }
+  P(0, 505, 380, 35),
+  P(560, 450, 190, 22),
+  P(980, 390, 208, 22),
+  P(1430, 330, 226, 22),
+  P(1910, 270, 244, 22),
+  P(2330, 210, 190, 22),
+  P(2780, 150, 208, 22),
+  P(3260, 230, 226, 22),
+  P(3680, 310, 244, 22),
+  P(4130, 390, 190, 22),
+  P(4610, 325, 208, 22),
+  P(5030, 255, 226, 22),
+  P(5480, 185, 244, 22),
+  P(5960, 265, 190, 22),
+  P(6380, 345, 208, 22),
+  P(6830, 280, 226, 22),
+  P(7310, 215, 244, 22),
+  P(7730, 145, 190, 22),
+  P(8180, 225, 208, 22),
+  P(8660, 305, 226, 22),
+  P(9080, 240, 244, 22),
+  P(9530, 170, 190, 22),
+  P(10010, 190, 208, 22),
+  P(10840, 225, 260, 22),
+  P(11180, 200, 300, 22)
+],
+  [
+  R(760, 420, 96, 14, 2.8, 560),
+  R(3440, 362, 104, 14, -3.2, 640),
+  R(6380, 312, 110, 14, 3.4, 700),
+  R(10220, 186, 116, 14, -3.6, 760)
+],
+  [
+  T(1040, 372, 112, 16, 'antiJump', {}),
+  T(1860, 312, 112, 16, 'booster', { dir: -1, boost: 900, lift: 28 }),
+  T(2600, 252, 112, 16, 'fakeCheckpoint', {}),
+  T(3420, 192, 112, 16, 'phantom', {}),
+  T(4160, 132, 112, 16, 'antiSpeed', {}),
+  T(4980, 212, 92, 16, 'falseSpike', {}),
+  T(5720, 292, 112, 16, 'reverseBooster', { dir: 1, boost: 820 }),
+  T(6540, 372, 112, 16, 'ice', { duration: 1.35 }),
+  T(7280, 307, 112, 16, 'booster', { dir: 1, boost: 900, lift: 28 }),
+  T(8100, 237, 112, 16, 'phantom', {}),
+  T(8840, 167, 112, 16, 'commitDrop', { reform: 2.4 }),
+  T(9660, 247, 112, 16, 'magnet', { pull: 440 })
+],
+  [
+  C(260, 460),
+  C(600, 406, 'dinar'),
+  C(1020, 346),
+  C(1470, 286, 'sela'),
+  C(1950, 226),
+  C(2370, 166, 'maneh'),
+  C(2820, 106),
+  C(3300, 186, 'dinar'),
+  C(3720, 266),
+  C(4170, 346, 'sela'),
+  C(4650, 281),
+  C(5070, 211, 'maneh'),
+  C(5520, 141),
+  C(6000, 221, 'dinar'),
+  C(6420, 301),
+  C(6870, 236, 'sela'),
+  C(7350, 171),
+  C(7770, 101, 'maneh'),
+  C(8220, 181),
+  C(8700, 261, 'dinar'),
+  C(9120, 196),
+  C(9570, 126, 'sela'),
+  C(10050, 146),
+  C(10960, 180, 'sela'),
+  C(11300, 155, 'maneh')
+],
+  [
+  C(11080, 158, 'dinar'),
+  C(11390, 160, 'sela')
+],
+  [
+  S(410, 481, 96, 24, 1, 1, 2),
+  S(2780, 481, 108, 24, 1.6, 1, 2.1),
+  S(5660, 481, 118, 24, 2.1, 1, 2.2),
+  S(8420, 481, 126, 24, 1.8, 1, 2.1),
+  S(10500, 481, 138, 24, 2.3, 1, 2.2)
+],
+  [
+  E(1880, 176, 1780, 2080, 118, 'watcher', 'Hidden Manna Treasury patience watcher', { dropCoin: 'dinar' }),
+  E(4040, 356, 3940, 4240, 128, 'feign', 'Hidden Manna Treasury sleeping account'),
+  E(5740, 151, 5640, 5940, 130, 'scroll', 'Hidden Manna Treasury scroll keeper', { dropCoin: 'sela' }),
+  E(7580, 246, 7480, 7820, 140, 'leaper', 'Hidden Manna Treasury readable leaper'),
+  E(9940, 191, 9840, 10180, 132, 'baitGuard', 'Hidden Manna Treasury final guard')
+],
+  [
+  G(980, 286, 170, 130, 'The glitter is low, but the safe route is broad and above it.', {}),
+  G(1900, 96, 190, 130, 'A visible enemy carries a real coin. Stomp from the wide shelf.', {}),
+  G(5480, 94, 190, 130, 'The upper route is optional, readable, and fully collectible.', {}),
+  G(6560, 220, 180, 130, 'The warned teeth fall after a full breath, not instantly.', { spikes: [{ x: 6700, y: 88, w: 76, h: 24, warning: 0.95, duration: 1.1, fallSpeed: 420 }, { x: 6795, y: 118, w: 80, h: 24, warning: 1.02, duration: 1.1, fallSpeed: 450 }, { x: 6895, y: 148, w: 84, h: 24, warning: 1.08, duration: 1.1, fallSpeed: 480 }] }),
+  G(10720, 145, 190, 130, 'The last reversal is shown before it is demanded.', {}),
+  G(11040, 124, 220, 140, 'The door opens only after every honest coin and key is gathered.', { openExit: true })
+],
+  [
+  'Hidden Manna Treasury widens the path but sharpens the choice.',
+  'The Awtsmoos hides no required item in a cramped slot.',
+  'Every fake shine is warned by spacing, shape, or silence.'
+],
+  {
+    fakeCoins: [
+      F(1120, 330, 'dinar', 'The first low bargain was teeth.'),
+      F(3620, 320, 'sela', 'The centered prize was a blade in a robe.'),
+      F(6940, 190, 'maneh', 'The warned crown glittered falsely.'),
+      F(10820, 145, 'sela', 'The final discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1760, y: 172, kind: 'reverseRunner', speed: 300, min: 1620, max: 2040 },
+      { x: 3180, y: 286, kind: 'trapBait', baitX: 3440, speed: 230, min: 3040, max: 3540 },
+      { x: 5320, y: 142, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8060, y: 236, kind: 'fakeRunner', min: 7900, max: 8320 },
+      { x: 10620, y: 178, kind: 'trapBait', baitX: 10880, speed: 240, min: 10480, max: 10980 }
+]
+  }
 );

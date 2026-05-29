@@ -12,8 +12,9 @@
 
     /**
      * B"H
-     * Builds and runs a virtual runtime while keeping the living runtime vessel visible
-     * to higher Merkava service layers for probes, interactions, and final snapshots.
+     * Chapter 11: The dynamic module was no longer a shadow. It was fetched
+     * from the same localhost river the browser drinks from, lowered into
+     * bytecode, and allowed to fail with its own face, its own stack, its own cry.
      */
     class RuntimeAssembler {
         constructor(options = {}) { this.options = options; this.files = options.files || {}; this.graph = new RuntimeGraph(); }
@@ -33,7 +34,9 @@
                 ? new VirtualNodeRuntime({ files: this.files, env: this.options.env || {} })
                 : new SyntheticBrowserRuntime({ files: this.files, graph: this.graph, url: this.options.url || this.options.origin });
             const globals = runtime.globals ? runtime.globals() : {};
+            runtime.__merkavaGlobals = globals;
             installProbeCapture(globals, runtime);
+            installDynamicImport(globals, runtime, this.graph, this.options, this.files);
 
             let result;
             if (entry.endsWith('.html')) result = await this.runHTML(assembly.html, runtime, globals);
@@ -54,7 +57,8 @@
                 else last = await runtime.executeFunction(makeExecutor(code, 'browser'));
                 if (!last.ok) return last;
             }
-            return last || await runtime.executeFunction(async () => null);
+            const lifecycle = await dispatchBrowserLifecycle(runtime, this.options.waitMs || 75);
+            return lifecycle || last || await runtime.executeFunction(async () => null);
         }
     }
 
@@ -66,6 +70,92 @@
         };
         globals.__merkavaProbeCapture = capture;
         if (globals.window) globals.window.__merkavaProbeCapture = capture;
+    }
+
+    function installDynamicImport(globals, runtime, graph, options, seedFiles) {
+        const loader = createDynamicModuleLoader({ globals, runtime, graph, options, seedFiles });
+        globals.__merkavaDynamicImport = loader;
+        if (globals.window) globals.window.__merkavaDynamicImport = loader;
+    }
+
+    function createDynamicModuleLoader({ globals, runtime, graph, options, seedFiles }) {
+        const cache = new Map();
+        const pageUrl = safeUrl(options.url || runtime.window?.location?.href || options.origin || 'http://localhost/');
+        return specifier => {
+            const spec = String(specifier || '');
+            const href = safeUrl(spec, pageUrl.href)?.href || spec;
+            graph?.event?.('module.dynamicImport', { specifier: spec, href });
+            return (async () => {
+                if (!href) throw new Error('Dynamic import received an empty module specifier.');
+                if (cache.has(href)) return cache.get(href);
+                const env = await collectDynamicModuleEnv(href, pageUrl, seedFiles, graph, options);
+                const result = await runModuleFile({ files: env.files, entry: env.entry, globals, runtime: 'browser', graph });
+                if (result?.exports) cache.set(href, result.exports);
+                return result?.exports || {};
+            })();
+        };
+    }
+
+    async function collectDynamicModuleEnv(href, pageUrl, seedFiles, graph, options) {
+        const files = { ...(seedFiles || {}) };
+        const queue = [{ href, key: keyForUrl(safeUrl(href), pageUrl) }];
+        const seen = new Set();
+        const maxFiles = Number(options.maxDynamicFiles || options.maxFiles || 80);
+        while (queue.length && seen.size < maxFiles) {
+            const job = queue.shift();
+            if (!job?.href || seen.has(job.href)) continue;
+            seen.add(job.href);
+            const got = await fetchText(job.href);
+            files[job.key] = got;
+            files['/' + job.key.replace(/^\//, '')] = got;
+            graph?.event?.('module.dynamicImport.fetch', { href: job.href, key: job.key });
+            for (const ref of staticModuleRefs(got)) {
+                const next = safeUrl(ref, job.href);
+                if (!next || (pageUrl && next.origin !== pageUrl.origin)) continue;
+                const key = keyForUrl(next, pageUrl);
+                if (!seen.has(next.href) && files[key] === undefined) queue.push({ href: next.href, key });
+            }
+        }
+        return { entry: keyForUrl(safeUrl(href), pageUrl), files };
+    }
+
+    async function fetchText(href) {
+        const response = await fetch(href, { headers: { accept: 'text/javascript,*/*' } });
+        if (!response.ok) throw new Error(`Dynamic module fetch failed: ${href} (${response.status})`);
+        return await response.text();
+    }
+
+    function staticModuleRefs(source) {
+        const refs = [];
+        for (const match of String(source || '').matchAll(/import\s+[^('";]+?\s+from\s+["']([^"']+)["']/g)) refs.push(match[1]);
+        for (const match of String(source || '').matchAll(/export\s+[^"']*?\s+from\s+["']([^"']+)["']/g)) refs.push(match[1]);
+        return refs;
+    }
+
+    function keyForUrl(url, pageUrl) {
+        const pageDir = pageUrl ? pageUrl.pathname.replace(/\/[^/]*$/, '/') : '/';
+        const pathname = decodeURIComponent(url.pathname || '').replace(/^\/+/, '');
+        const base = pageDir.replace(/^\/+/, '');
+        return pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
+    }
+
+    function safeUrl(spec, base) {
+        try { return new URL(spec, base); } catch (_) { return null; }
+    }
+
+    async function dispatchBrowserLifecycle(runtime, waitMs) {
+        if (!runtime.window || !runtime.window.document) return null;
+        return await runtime.executeFunction(async globals => {
+            const win = globals.window;
+            const doc = globals.document;
+            const make = type => new globals.Event(type, { bubbles: false, cancelable: false });
+            doc.readyState = 'interactive';
+            doc.dispatchEvent(make('DOMContentLoaded'));
+            doc.readyState = 'complete';
+            win.dispatchEvent(make('load'));
+            await new Promise(resolve => globals.setTimeout(resolve, Number(waitMs || 75)));
+            return { lifecycle: ['DOMContentLoaded', 'load'] };
+        });
     }
 
     function makeExecutor(source, runtime) {

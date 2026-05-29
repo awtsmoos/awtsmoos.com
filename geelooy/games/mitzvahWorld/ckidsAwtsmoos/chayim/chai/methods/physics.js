@@ -1,15 +1,13 @@
 // B"H
 /**
  * @file physics.js
- * @description
- * Chapter 32: The emergency gate drinks from fresh bh35 physics.
- *
- * The Awtsmoos keeps the spike-death collider seal, but the underlying physics
- * river now uses the current cache chain. No stale bh29 import remains hidden
- * beneath the living Chossid.
+ * @description Chapter 63: the cache gate is repaired. The wrapper installs
+ * every base physics limb onto the living player before calling the base loop,
+ * so `_solveDynamicBodies` can never vanish from `this` again.
  */
-import basePhysics from "./physics/index.js?v=lean-l1-20260528-bh37";
+import basePhysics from "./physics/index.js?v=lean-l1-20260528-bh63";
 
+/** @param {object} entity Chossid-like body. */
 function holdVisibleBody(entity) {
   if (!entity?.mesh || !entity?.collider?.start) return;
   entity.mesh.position.copy(entity.collider.start);
@@ -20,18 +18,23 @@ function holdVisibleBody(entity) {
     entity.modelMesh.position.y += Number(entity.modelMesh.userData?.visualGroundOffsetY || 0);
     entity.modelMesh.rotation.y = (entity.rotation?.y || 0) + (entity.rotateOffset || 0);
   }
-  if (entity.emptyCopy) entity.emptyCopy.position.copy(entity.mesh.position);
-  if (entity.nonRotatingEmptyForMovement) entity.nonRotatingEmptyForMovement.position.copy(entity.mesh.position);
+  entity.emptyCopy?.position?.copy?.(entity.mesh.position);
+  entity.nonRotatingEmptyForMovement?.position?.copy?.(entity.mesh.position);
 }
 
-export default {
+/** @param {object} entity Runtime player instance. */
+function ensureBaseLimbs(entity) {
+  for (const [key, value] of Object.entries(basePhysics)) {
+    if (typeof value === "function" && typeof entity[key] !== "function") entity[key] = value;
+  }
+}
+
+const wrappedPhysics = {
   ...basePhysics,
 
-  /**
-   * Stops every collider-related system during spike death/reset countdown.
-   * @param {number} dt frame delta
-   */
+  /** @param {number} dt Frame delta. */
   heesHawvoos(dt) {
+    ensureBaseLimbs(this);
     if (this.__spikeColliderDisabled) {
       this.velocity?.set?.(0, 0, 0);
       this.moving = {};
@@ -44,3 +47,5 @@ export default {
     return basePhysics.heesHawvoos.call(this, dt);
   }
 };
+
+export default wrappedPhysics;

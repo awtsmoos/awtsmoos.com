@@ -22,11 +22,7 @@ function createDefaultHost(rootScope = {}) {
     return findMethod(klass.superClass, name);
   };
 
-  const makeSyncPromise = value => ({
-    __kind: 'syncPromise',
-    value,
-    then(fn) { return makeSyncPromise(callFunction(fn, value)); }
-  });
+  const makeSyncPromise = value => ({ __kind: 'syncPromise', value, then(fn) { return makeSyncPromise(callFunction(fn, value)); } });
   const nativePromise = { resolve: value => makeSyncPromise(value) };
 
   const read = (name, scope = {}) => {
@@ -60,7 +56,6 @@ function createDefaultHost(rootScope = {}) {
     if (typeof node !== 'object') return node;
     if (node.const !== undefined) return node.const;
     if (node.get) return read(node.get, scope);
-    if (node.op === 'set') return write(node.name, interpretNode(node.value, scope), scope);
     if (node.op === 'set') return write(node.name, interpretNode(node.value, scope), scope);
     if (node.op === 'add') return interpretNode(node.args[0], scope) + interpretNode(node.args[1], scope);
     if (node.op === 'sub') return interpretNode(node.args[0], scope) - interpretNode(node.args[1], scope);
@@ -98,14 +93,6 @@ function createDefaultHost(rootScope = {}) {
       }
       return out;
     }
-    if (node.op === 'objectMerge') {
-      const out = {};
-      for (const part of node.parts || []) {
-        if (part.spread) Object.assign(out, interpretNode(part.spread, scope) || {});
-        else out[part.key] = interpretNode(part.value, scope);
-      }
-      return out;
-    }
     if (node.op === 'typedArray') {
       const values = (node.items || []).map(item => interpretNode(item, scope));
       const Ctor = globalThis[node.kind] || Uint8Array;
@@ -119,9 +106,7 @@ function createDefaultHost(rootScope = {}) {
         const catchScope = Object.create(scope || null);
         if (node.catchParam) catchScope[node.catchParam] = error;
         evalBlock(node.catchBody || [], catchScope);
-      } finally {
-        evalBlock(node.finallyBody || [], scope);
-      }
+      } finally { evalBlock(node.finallyBody || [], scope); }
       return undefined;
     }
     if (node.op === 'class') return defineClass(node.descriptor, interpretNode(node.descriptor.superClass, scope));
@@ -137,30 +122,14 @@ function createDefaultHost(rootScope = {}) {
     if (node.op === 'setProp') return setProp(interpretNode(node.object, scope), interpretNode(node.prop, scope), interpretNode(node.value, scope));
     if (node.op === 'callFunction') return callFunction(interpretNode(node.fn, scope), ...(node.args || []).map(arg => interpretNode(arg, scope)));
     if (node.op === 'conditional') return interpretNode(node.test, scope) ? interpretNode(node.consequent, scope) : interpretNode(node.alternate, scope);
-    if (node.op === 'optionalGetProp') {
-      const object = interpretNode(node.object, scope);
-      if (object == null) return undefined;
-      return object[interpretNode(node.prop, scope)];
-    }
-    if (node.op === 'optionalGetProp') {
-      const object = interpretNode(node.object, scope);
-      if (object == null) return undefined;
-      return object[interpretNode(node.prop, scope)];
-    }
+    if (node.op === 'optionalGetProp') { const object = interpretNode(node.object, scope); return object == null ? undefined : object[interpretNode(node.prop, scope)]; }
     if (node.op === 'if') return evalBlock(interpretNode(node.test, scope) ? (node.consequent || []) : (node.alternate || []), scope);
     if (node.op === 'forOf') {
       const values = interpretNode(node.right, scope) || [];
-      for (const value of values) {
-        scope[node.left] = value;
-        evalBlock(node.body || [], scope);
-      }
+      for (const value of values) { scope[node.left] = value; evalBlock(node.body || [], scope); }
       return undefined;
     }
-    if (node.op === 'while') {
-      let guard = 10000;
-      while (interpretNode(node.test, scope) && guard-- > 0) evalBlock(node.body || [], scope);
-      return undefined;
-    }
+    if (node.op === 'while') { let guard = 10000; while (interpretNode(node.test, scope) && guard-- > 0) evalBlock(node.body || [], scope); return undefined; }
     if (node.op === 'switch') {
       const value = interpretNode(node.discriminant, scope);
       const cases = node.cases || [];
@@ -168,31 +137,13 @@ function createDefaultHost(rootScope = {}) {
       for (const item of cases.slice(start)) evalBlock(item.body || [], scope);
       return undefined;
     }
-    if (node.op === 'switch') {
-      const value = interpretNode(node.discriminant, scope);
-      const cases = node.cases || [];
-      const start = Math.max(0, cases.findIndex(item => item.test == null || interpretNode(item.test, scope) === value));
-      for (const item of cases.slice(start)) evalBlock(item.body || [], scope);
-      return undefined;
-    }
-    if (node.op === 'while') {
-      let guard = 10000;
-      while (interpretNode(node.test, scope) && guard-- > 0) evalBlock(node.body || [], scope);
-      return undefined;
-    }
     if (node.op === 'superConstructor') return scope.super || null;
-    if (node.op === 'superConstructor') return scope.super || null;
-    if (node.op === 'block') return evalBlock(node.body || [], scope);
     if (node.op === 'block') return evalBlock(node.body || [], scope);
     return node;
   };
 
   const makeFunction = (descriptor, closureScope = {}) => ({
-    __kind: 'function',
-    name: descriptor.name || '',
-    params: descriptor.params || [],
-    body: descriptor.body || [],
-    closure: closureScope,
+    __kind: 'function', name: descriptor.name || '', params: descriptor.params || [], body: descriptor.body || [], closure: closureScope,
     call(args = [], thisArg = undefined) {
       const scope = Object.create(this.closure || null);
       scope.this = thisArg;
@@ -206,38 +157,39 @@ function createDefaultHost(rootScope = {}) {
     }
   });
 
+  /**
+   * B"H
+   * Native JavaScript functions and Merkava function vessels both expose `.call`.
+   * The Awtsmoos separates them here: vessels are invoked with their structured
+   * argument array, while native hooks like `__merkavaDynamicImport(spec)` receive
+   * real positional arguments exactly like browser JavaScript.
+   */
+  const callFunction = (fn, ...args) => {
+    if (fn && fn.__kind === 'function') return fn.call(args);
+    if (typeof fn === 'function') return fn(...args);
+    if (fn && typeof fn.call === 'function') return fn.call(args);
+    return undefined;
+  };
+
   const callMethod = (receiver, method, ...args) => {
     if (receiver && receiver.__kind === 'iterator' && method === 'next') return receiver.next();
     if (receiver && receiver.__kind === 'compactInstance') return callCompactMethod(receiver, method, args, rootScope);
-    if (receiver && receiver.__kind === 'compactInstance') return callCompactMethod(receiver, method, args, rootScope);
-    if (receiver && receiver[method]?.__kind === 'function') {
-      return receiver[method].call(args, receiver);
-    }
-    if (receiver && receiver[method]?.__kind === 'function') {
-      return receiver[method].call(args, receiver);
-    }
+    if (receiver && receiver[method]?.__kind === 'function') return receiver[method].call(args, receiver);
     if (receiver && typeof receiver[method] === 'function' && receiver.__kind !== 'instance') {
       const bridged = args.map(arg => arg && arg.__kind === 'function' ? (...inner) => callFunction(arg, ...inner) : arg);
       return receiver[method](...bridged);
     }
     const klass = receiver?.__selfClass || receiver?.__class;
     const found = findMethod(klass, method);
-    if (!found) {
-      const protoFn = klass?.prototype?.[method];
-      if (protoFn?.call) return protoFn.call(args, receiver);
-      return undefined;
-    }
+    if (!found) { const protoFn = klass?.prototype?.[method]; return protoFn?.call ? protoFn.call(args, receiver) : undefined; }
     const superReceiver = found.owner.superClass ? { __kind: 'instance', __class: found.owner.superClass, __selfClass: found.owner.superClass, fields: receiver.fields || {} } : null;
     const scope = { this: receiver, super: superReceiver, arguments: args, __class: found.owner };
     (found.params || []).forEach((name, index) => { scope[name] = args[index]; });
     return interpretNode(found.body, scope);
   };
-  const makeGenerator = values => ({ __kind: 'generatorFactory', call: () => {
-    let index = 0;
-    return { __kind: 'iterator', next: () => index < values.length ? { value: values[index++], done: false } : { value: undefined, done: true } };
-  } });
+
+  const makeGenerator = values => ({ __kind: 'generatorFactory', call: () => { let index = 0; return { __kind: 'iterator', next: () => index < values.length ? { value: values[index++], done: false } : { value: undefined, done: true } }; } });
   const makeAsyncVessel = result => ({ __kind: 'asyncFunction', call: () => interpretNode(result, {}) });
-  const callFunction = (fn, ...args) => fn?.call ? fn.call(args) : (typeof fn === 'function' ? fn(...args) : undefined);
   const getProp = (obj, prop) => obj == null ? undefined : obj[prop];
   const setProp = (obj, prop, value) => { if (obj != null) obj[prop] = value; return value; };
 
@@ -250,11 +202,7 @@ function createDefaultHost(rootScope = {}) {
     25: makeAsyncVessel,
     26: callFunction,
     27: (...items) => items,
-    28: (...flat) => {
-      const out = {};
-      for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1];
-      return out;
-    },
+    28: (...flat) => { const out = {}; for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1]; return out; },
     29: (kind, ...items) => new (globalThis[kind] || Uint8Array)(items || []),
     30: node => interpretNode(node, Object.create(rootScope)),
     31: setProp,
@@ -262,22 +210,14 @@ function createDefaultHost(rootScope = {}) {
     33: (op, a, b) => interpretNode({ op, args: [{ const: a }, { const: b }] }),
     34: (op, value) => interpretNode({ op, value: { const: value } }),
     35: (test, consequent, alternate) => test ? consequent : alternate,
-    36: (...flat) => {
-      const out = {};
-      for (let i = 0; i < flat.length;) {
-        if (flat[i++] === true) Object.assign(out, flat[i++] || {});
-        else out[flat[i++]] = flat[i++];
-      }
-      return out;
-    },
+    36: (...flat) => { const out = {}; for (let i = 0; i < flat.length;) { if (flat[i++] === true) Object.assign(out, flat[i++] || {}); else out[flat[i++]] = flat[i++]; } return out; },
     37: value => value && value.__kind === 'syncPromise' ? value.value : value,
     38: (obj, prop) => obj == null ? undefined : obj[prop],
     39: message => new Error(message),
     40: node => interpretNode(node, Object.create(rootScope)),
     41: node => interpretNode(node, Object.create(rootScope)),
     42: node => interpretNode(node, Object.create(rootScope)),
-    60: (classes) => installCompactClasses(classes, rootScope),
-    60: (classes) => installCompactClasses(classes, rootScope)
+    60: classes => installCompactClasses(classes, rootScope)
   };
 }
 

@@ -2,26 +2,153 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Saw Mikveh of the Upside-Down Step.
+ * Saw Mikveh of the Upside-Down Step is rewritten by hand as a harsher but fair late-game court.
  *
- * The Awtsmoos purifies by reversal here. To descend, climb; to survive, step
- * on spikes; to reach the door, let platforms flee once, then return with the
- * memory of their betrayal burning cleanly in the hand.
+ * Chapter 37: The Awtsmoos tears certainty open like iron cloth. Fake coins
+ * glitter with room to refuse them, fake platforms move with visible intent,
+ * safe-spike bridges teach reversal, proximity teeth warn before judgment, and
+ * every carrier enemy holds a counted spark. The chamber is sharper now, but
+ * the route stays readable.
  */
 export const level37 = L(
   '37 · Saw Mikveh of the Upside-Down Step',
-  21800,
+  21560,
   { x: 60, y: 420 },
-  P(21420, 85, 44, 90),
+  P(21280, 112, 52, 90),
   'Purification begins when the safe-looking route becomes unclean.',
-  [P(0,505,360,35),P(740,430,130,20),P(1400,350,135,20),P(2100,270,140,20),P(2840,190,145,20),P(3620,110,150,20),P(4440,190,155,20),P(5300,270,160,20),P(6200,350,165,20),P(7140,270,170,20),P(8120,190,175,20),P(9140,110,180,20),P(10200,190,185,20),P(11300,270,190,20),P(12440,350,195,20),P(13620,270,200,20),P(14840,190,210,20),P(16100,110,220,20),P(17420,150,240,20),P(20100,170,400,20)],
-  [R(1180,402,98,14,5.3,1020),R(6000,242,116,14,-6.2,1160),R(10920,162,128,14,6.5,1280),R(16620,86,138,14,-6.9,1360)],
-  [T(1620,334,92,16,'baitShift',{shiftX:150,range:200}),T(2400,254,94,16,'falseSpike'),T(3180,174,96,16,'safeSpike'),T(3980,94,98,16,'oneWay'),T(4820,174,100,16,'phantom'),T(5680,254,102,16,'commitDrop',{reform:3.35}),T(6580,334,104,16,'reverseBooster',{dir:1,boost:1340}),T(7520,254,106,16,'magnet',{pull:860}),T(8500,174,108,16,'antiJump'),T(9520,94,110,16,'falseSpike'),T(10580,174,112,16,'booster',{dir:-1,boost:1480,lift:58}),T(11680,254,114,16,'ice',{duration:2.45}),T(12820,334,116,16,'fakeCheckpoint'),T(14000,254,118,16,'phantom'),T(15220,174,120,16,'safeSpike'),T(16480,94,124,16,'antiSpeed'),T(17840,134,128,16,'falseSpike'),T(18860,144,132,16,'baitShift',{shiftX:-170,range:210})],
-  [C(320,460),C(780,390),C(1440,310,'dinar'),C(2140,230),C(2880,150,'sela'),C(3660,70),C(4480,150,'maneh'),C(5340,230),C(6240,310,'dinar'),C(7180,230),C(8160,150,'sela'),C(9180,70),C(10240,150,'dinar'),C(11340,230),C(12480,310,'maneh'),C(13660,230),C(14880,150,'sela'),C(16140,70),C(17460,110,'dinar'),C(20160,130,'maneh')],
-  [C(21280,110,'dinar')],
-  [S(620,481,90,24,1.35,1,2),S(5840,481,100,24,2.1,1,2.2),S(10960,481,110,24,2.6,1,2.2),S(16120,481,120,24,2.3,1,2.1),S(19380,481,130,24,2.9,1,2.2),{x:8740,y:146,w:64,h:22,proximity:true,range:118,instant:true,duration:.88}],
-  [E(2880,156,2820,3040,160,'watcher','mikveh eye',{dropCoin:'dinar'}),E(6240,316,6180,6420,168,'scroll','purifying scroll'),E(10240,156,10140,10480,166,'leaper','saw jumper',{dropCoin:'sela'}),E(13660,236,13540,13940,180,'gravity','falling drop'),E(17460,116,17300,17740,164,'baitGuard','unclean guard'),E(20160,136,20060,20420,156,'feign','sleeping drop',{dropCoin:'maneh'})],
-  [G(1620,230,130,130,'The mikveh moves the step you trusted.',{}),G(3980,40,150,130,'Fall through the rung and rise purified.',{}),G(9140,40,150,130,'Three saw-drops fall in order.',{spikes:[{x:9280,y:12,w:74,h:24,warning:.55,duration:1.1,fallSpeed:540},{x:9376,y:44,w:78,h:24,warning:.7,duration:1.1,fallSpeed:570},{x:9478,y:76,w:82,h:24,warning:.85,duration:1.1,fallSpeed:600}]}),G(12480,280,150,130,'The false checkpoint reflects impurity.',{}),G(19420,98,170,130,'The mikveh door opens after the carriers are emptied.',{openExit:true})],
-  ['The mikveh requires reversal.', 'A spike bridge can be clean.', 'A returning platform teaches timing.'],
-  {fakeCoins:[F(1640,295,'dinar','The mikveh coin was a blade.'),F(9540,62,'maneh','The purity crown cut downward.'),F(16520,62,'sela','The clean spark lied.')],trickCoins:[{x:2880,y:150,kind:'reverseRunner',speed:510,min:2740,max:3080},{x:8160,y:150,kind:'trapBait',baitX:9140,speed:360,min:8000,max:9220},{x:11340,y:230,kind:'shyVanish',safeSide:'right'},{x:15220,y:150,kind:'fakeRunner',min:15060,max:15520}]}
+  [
+  P(0, 505, 400, 35),
+  P(620, 444, 210, 24),
+  P(1090, 374, 234, 24),
+  P(1598, 304, 258, 24),
+  P(2144, 234, 282, 24),
+  P(2614, 164, 210, 24),
+  P(3122, 94, 234, 24),
+  P(3668, 174, 258, 24),
+  P(4138, 254, 282, 24),
+  P(4646, 334, 210, 24),
+  P(5192, 264, 234, 24),
+  P(5662, 194, 258, 24),
+  P(6170, 124, 282, 24),
+  P(6716, 204, 210, 24),
+  P(7186, 284, 234, 24),
+  P(7694, 354, 258, 24),
+  P(8240, 284, 282, 24),
+  P(8710, 214, 210, 24),
+  P(9218, 144, 234, 24),
+  P(9764, 184, 258, 24),
+  P(10234, 224, 282, 24),
+  P(10742, 164, 210, 24),
+  P(11288, 204, 234, 24),
+  P(11758, 244, 258, 24),
+  P(12266, 214, 282, 24),
+  P(12812, 184, 210, 24),
+  P(13282, 154, 234, 24),
+  P(20700, 236, 300, 24),
+  P(21110, 206, 330, 24)
+],
+  [
+  R(880, 416, 104, 14, 3.6, 680),
+  R(3920, 346, 112, 14, -4.1, 760),
+  R(7240, 298, 120, 14, 4.4, 830),
+  R(20080, 190, 126, 14, -4.7, 900)
+],
+  [
+  T(1120, 356, 118, 16, 'commitDrop', { reform: 2.65 }),
+  T(1970, 286, 118, 16, 'reverseBooster', { dir: -1, boost: 970 }),
+  T(2700, 216, 118, 16, 'magnet', { pull: 520 }),
+  T(3550, 146, 118, 16, 'antiJump', {}),
+  T(4280, 76, 118, 16, 'booster', { dir: -1, boost: 1020, lift: 36 }),
+  T(5130, 156, 118, 16, 'fakeCheckpoint', {}),
+  T(5860, 236, 118, 16, 'phantom', {}),
+  T(6710, 316, 118, 16, 'antiSpeed', {}),
+  T(7440, 246, 104, 16, 'safeSpike', {}),
+  T(8290, 176, 118, 16, 'baitShift', { shiftX: -150, range: 220 }),
+  T(9020, 106, 96, 16, 'falseSpike', {}),
+  T(9870, 186, 118, 16, 'baitShift', { shiftX: -150, range: 220 }),
+  T(10600, 266, 96, 16, 'falseSpike', {}),
+  T(11450, 336, 104, 16, 'safeSpike', {}),
+  T(12180, 266, 118, 16, 'oneWay', {}),
+  T(13030, 196, 118, 16, 'phantom', {})
+],
+  [
+  C(280, 460),
+  C(660, 398),
+  C(1130, 328, 'sela'),
+  C(1638, 258),
+  C(2184, 188, 'maneh'),
+  C(2654, 118, 'dinar'),
+  C(3162, 48),
+  C(3708, 128, 'dinar'),
+  C(4178, 208),
+  C(4686, 288, 'sela'),
+  C(5232, 218),
+  C(5702, 148, 'maneh'),
+  C(6210, 78, 'dinar'),
+  C(6756, 158),
+  C(7226, 238, 'dinar'),
+  C(7734, 308),
+  C(8280, 238, 'sela'),
+  C(8750, 168),
+  C(9258, 98, 'maneh'),
+  C(9804, 138, 'dinar'),
+  C(10274, 178),
+  C(10782, 118, 'dinar'),
+  C(11328, 158),
+  C(11798, 198, 'sela'),
+  C(12306, 168),
+  C(12852, 138, 'maneh'),
+  C(13322, 108, 'dinar'),
+  C(20860, 186, 'sela'),
+  C(21230, 158, 'maneh')
+],
+  [
+  C(21000, 164, 'dinar'),
+  C(21330, 166, 'sela')
+],
+  [
+  S(450, 481, 100, 24, 1, 1, 2),
+  S(3200, 481, 112, 24, 1.75, 1, 2.15),
+  S(6400, 481, 124, 24, 2.25, 1, 2.25),
+  S(9600, 481, 136, 24, 1.95, 1, 2.15),
+  S(20320, 481, 148, 24, 2.5, 1, 2.25),
+  { x: 19880, y: 481, w: 92, h: 24, proximity: true, range: 140, warning: 0.96, duration: 1.05 }
+],
+  [
+  E(2100, 130, 1980, 2320, 132, 'watcher', 'Saw Mikveh debt-eye', { dropCoin: 'dinar' }),
+  E(4520, 300, 4400, 4740, 144, 'scroll', 'Saw Mikveh false clerk'),
+  E(6420, 108, 6280, 6660, 146, 'leaper', 'Saw Mikveh coin-jailer', { dropCoin: 'sela' }),
+  E(8540, 230, 8400, 8800, 154, 'herder', 'Saw Mikveh return herder'),
+  E(19760, 198, 19620, 20040, 146, 'baitGuard', 'Saw Mikveh final deceiver'),
+  E(20600, 170, 20480, 20860, 138, 'feign', 'Saw Mikveh sleeping debt', { dropCoin: 'maneh' })
+],
+  [
+  G(1080, 274, 190, 130, 'The first bridge runs when trusted; wait for its confession.', {}),
+  G(2100, 70, 210, 145, 'A visible carrier holds a required coin above the broad shelf.', {}),
+  G(5600, 74, 210, 145, 'The upper route is hard, optional, and fully readable.', {}),
+  G(7080, 212, 200, 135, 'The falling teeth show a full warning breath before judgment.', { spikes: [{ x: 7240, y: 82, w: 80, h: 24, warning: 0.96, duration: 1.12, fallSpeed: 450 }, { x: 7345, y: 114, w: 84, h: 24, warning: 1.04, duration: 1.12, fallSpeed: 480 }, { x: 7455, y: 146, w: 88, h: 24, warning: 1.12, duration: 1.12, fallSpeed: 510 }] }),
+  G(20540, 154, 210, 135, 'The final fake coin is loud enough to be refused.', {}),
+  G(20920, 130, 240, 145, 'The door opens only after every honest coin, key, and carrier debt.', { openExit: true })
+],
+  [
+  'Saw Mikveh is hard because it teaches before it strikes.',
+  'The Awtsmoos leaves fake coins, fake platforms, spike-bridges, and proximity teeth in readable space.',
+  'Every required spark is reachable by a broad route or a warned upper detour.'
+],
+  {
+    fakeCoins: [
+      F(1180, 320, 'dinar', 'The first coin laughed with teeth.'),
+      F(3580, 282, 'sela', 'The center shine was a hook.'),
+      F(7440, 182, 'maneh', 'The warned crown was bait.'),
+      F(20440, 152, 'dinar', 'The late bargain wore a knife.'),
+      F(20740, 150, 'sela', 'The final discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1960, y: 120, kind: 'reverseRunner', speed: 340, min: 1780, max: 2280 },
+      { x: 3440, y: 260, kind: 'trapBait', baitX: 3860, speed: 265, min: 3240, max: 4000 },
+      { x: 5480, y: 116, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8460, y: 220, kind: 'fakeRunner', min: 8260, max: 8740 },
+      { x: 20480, y: 184, kind: 'trapBait', baitX: 20800, speed: 275, min: 20320, max: 20910 }
+]
+  }
 );

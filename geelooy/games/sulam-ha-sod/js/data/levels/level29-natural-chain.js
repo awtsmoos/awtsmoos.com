@@ -2,25 +2,138 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Natural Chain V: Root Crown.
+ * Natural Chain Root Crown Ledger is rewritten by hand as a broad natural-chain chamber.
  *
- * The Awtsmoos ties river, orchard, mountain, and cave into roots. The final
- * natural chain asks for backtracking, enemy-held coins, and tested surfaces.
+ * Chapter 29: The Awtsmoos draws river, wind, stone, cave, root, sky, echo,
+ * and breath into one living ladder. The main road is wide enough for a human
+ * rhythm, the upper road is a readable invitation, and every false coin shines
+ * with room around it so trickery becomes lesson instead of claustrophe.
  */
 export const level29 = L(
-  '29 · Natural Chain V: Root Crown',
-  16000,
+  '29 · Natural Chain Root Crown Ledger',
+  14880,
   { x: 60, y: 420 },
-  P(15640, 90, 44, 90),
-  'The root crown opens only when every natural lie has been tested.',
-  [P(0,505,360,35),P(600,435,130,20),P(1080,355,135,20),P(1600,275,140,20),P(2160,195,145,20),P(2760,115,150,20),P(3400,195,155,20),P(4080,275,160,20),P(4800,355,165,20),P(5560,275,170,20),P(6360,195,175,20),P(7200,115,180,20),P(8080,195,185,20),P(9000,275,190,20),P(9960,355,195,20),P(10960,275,200,20),P(12000,195,210,20),P(13080,115,220,20),P(14200,155,230,20),P(15400,170,260,20)],
-  [R(860,408,88,14,3.9,840),R(5160,328,110,14,-4.5,960),R(9560,328,118,14,5,1080),R(13680,168,124,14,-5.2,1140)],
-  [T(1280,339,92,16,'falseSpike'),T(1920,259,94,16,'ice',{duration:1.9}),T(2560,179,96,16,'booster',{dir:1,boost:1280,lift:56}),T(3240,99,98,16,'oneWay'),T(3960,179,100,16,'phantom'),T(4720,259,102,16,'commitDrop',{reform:2.9}),T(5520,339,104,16,'reverseBooster',{dir:1,boost:1160}),T(6360,259,106,16,'magnet',{pull:700}),T(7240,179,108,16,'antiJump'),T(8160,99,110,16,'falseSpike'),T(9120,179,112,16,'booster',{dir:-1,boost:1280,lift:40}),T(10120,259,114,16,'ice',{duration:2}),T(11160,339,116,16,'fakeCheckpoint'),T(12240,259,118,16,'phantom'),T(13360,179,120,16,'oneWay'),T(14520,99,124,16,'antiSpeed'),T(15300,154,126,16,'falseSpike')],
-  [C(260,460),C(640,395),C(1120,315,'dinar'),C(1640,235),C(2200,155,'sela'),C(2800,75),C(3440,155,'maneh'),C(4120,235),C(4840,315,'dinar'),C(5600,235),C(6400,155,'sela'),C(7240,75),C(8120,155,'dinar'),C(9040,235),C(10000,315,'maneh'),C(11000,235),C(12040,155,'sela'),C(13120,75),C(14240,115,'dinar')],
-  [C(15540,120,'dinar')],
-  [S(480,481,90,24,1.1,1,2),S(4540,481,100,24,1.8,1,2.2),S(8740,481,110,24,2.3,1,2.2),S(12960,481,120,24,2,1,2.1),S(15060,481,130,24,2.6,1,2.2)],
-  [E(2200,161,2140,2340,142,'watcher','root eye',{dropCoin:'dinar'}),E(4840,321,4780,5000,150,'scroll','root ledger'),E(8120,161,8040,8300,148,'leaper','root jumper',{dropCoin:'sela'}),E(11000,241,10920,11220,160,'herder','root herder'),E(14240,121,14140,14440,144,'baitGuard','crown root guard')],
-  [G(1280,235,130,130,'The first root is a spike pretending to hold you.',{}),G(3240,45,150,130,'The root-ladder catches only your descent.',{}),G(7200,45,150,130,'The root crown sheds three falling thorns.',{spikes:[{x:7340,y:18,w:72,h:24,warning:.55,duration:1.1,fallSpeed:470},{x:7430,y:50,w:76,h:24,warning:.7,duration:1.1,fallSpeed:500},{x:7525,y:82,w:80,h:24,warning:.85,duration:1.1,fallSpeed:530}]}),G(10000,280,150,130,'The honest coin sits after the false checkpoint, not before.',{}),G(15160,100,170,130,'The Natural Chain closes only after every carried coin drops.',{openExit:true})],
-  ['Roots remember every previous natural lie.','The crown is not final until it sends you backward.','The Awtsmoos reveals truth in the tested surface.'],
-  {fakeCoins:[F(1300,300,'dinar','The root coin had teeth.'),F(8180,70,'maneh','The root crown was a falling thorn.'),F(14540,70,'sela','The final green sparkle lied.')],trickCoins:[{x:2200,y:155,kind:'reverseRunner',speed:440,min:2060,max:2380},{x:6400,y:155,kind:'trapBait',baitX:7200,speed:300,min:6240,max:7260},{x:9040,y:235,kind:'shyVanish',safeSide:'right'},{x:13360,y:155,kind:'fakeRunner',min:13200,max:13600}]}
+  P(14610, 112, 52, 90),
+  'The roots remember every previous lie and widen only for complete attention.',
+  [
+  P(0, 505, 390, 35),
+  P(580, 448, 198, 22),
+  P(1020, 384, 218, 22),
+  P(1494, 320, 238, 22),
+  P(2002, 256, 258, 22),
+  P(2442, 192, 198, 22),
+  P(2916, 128, 218, 22),
+  P(3424, 208, 238, 22),
+  P(3864, 288, 258, 22),
+  P(4338, 368, 198, 22),
+  P(4846, 304, 218, 22),
+  P(5286, 240, 238, 22),
+  P(5760, 176, 258, 22),
+  P(6268, 256, 198, 22),
+  P(6708, 336, 218, 22),
+  P(7182, 272, 238, 22),
+  P(7690, 208, 258, 22),
+  P(8130, 144, 198, 22),
+  P(8604, 224, 218, 22),
+  P(9112, 304, 238, 22),
+  P(9552, 240, 258, 22),
+  P(10026, 168, 198, 22),
+  P(10534, 188, 218, 22),
+  P(14080, 232, 270, 22),
+  P(14450, 204, 310, 22)
+],
+  [
+  R(800, 418, 98, 14, 3.1, 600),
+  R(3640, 354, 106, 14, -3.4, 680),
+  R(6740, 304, 112, 14, 3.7, 740),
+  R(13460, 188, 118, 14, -3.9, 800)
+],
+  [
+  T(1080, 366, 114, 16, 'oneWay', {}),
+  T(1890, 302, 114, 16, 'phantom', {}),
+  T(2600, 238, 114, 16, 'commitDrop', { reform: 2.45 }),
+  T(3410, 174, 114, 16, 'reverseBooster', { dir: -1, boost: 900 }),
+  T(4120, 110, 114, 16, 'magnet', { pull: 470 }),
+  T(4930, 190, 114, 16, 'antiJump', {}),
+  T(5640, 270, 114, 16, 'booster', { dir: 1, boost: 940, lift: 30 }),
+  T(6450, 350, 114, 16, 'fakeCheckpoint', {}),
+  T(7160, 286, 114, 16, 'phantom', {}),
+  T(7970, 222, 114, 16, 'antiSpeed', {}),
+  T(8680, 158, 94, 16, 'falseSpike', {}),
+  T(9490, 238, 114, 16, 'ice', { duration: 1.55 }),
+  T(10200, 318, 114, 16, 'booster', { dir: 1, boost: 940, lift: 30 })
+],
+  [
+  C(260, 460),
+  C(620, 404, 'dinar'),
+  C(1060, 340),
+  C(1534, 276, 'sela'),
+  C(2042, 212),
+  C(2482, 148, 'maneh'),
+  C(2956, 84),
+  C(3464, 164),
+  C(3904, 244, 'dinar'),
+  C(4378, 324),
+  C(4886, 260, 'sela'),
+  C(5326, 196),
+  C(5800, 132, 'maneh'),
+  C(6308, 212),
+  C(6748, 292),
+  C(7222, 228, 'dinar'),
+  C(7730, 164),
+  C(8170, 100, 'sela'),
+  C(8644, 180),
+  C(9152, 260, 'maneh'),
+  C(9592, 196),
+  C(10066, 124),
+  C(10574, 144, 'dinar'),
+  C(14210, 184, 'sela'),
+  C(14570, 158, 'maneh')
+],
+  [
+  C(14340, 162, 'dinar'),
+  C(14660, 164, 'sela')
+],
+  [
+  S(430, 481, 98, 24, 1, 1, 2),
+  S(2980, 481, 110, 24, 1.7, 1, 2.1),
+  S(5960, 481, 120, 24, 2.2, 1, 2.2),
+  S(8940, 481, 130, 24, 1.9, 1, 2.1),
+  S(13700, 481, 140, 24, 2.4, 1, 2.2)
+],
+  [
+  E(1980, 158, 1880, 2180, 122, 'watcher', 'Root Crown Chain watcher', { dropCoin: 'dinar' }),
+  E(4240, 334, 4140, 4460, 132, 'scroll', 'Root Crown Chain scroll'),
+  E(5960, 142, 5860, 6180, 134, 'leaper', 'Root Crown Chain leaper', { dropCoin: 'sela' }),
+  E(7920, 238, 7800, 8160, 144, 'herder', 'Root Crown Chain herder'),
+  E(13180, 194, 13060, 13440, 136, 'baitGuard', 'Root Crown Chain final guard')
+],
+  [
+  G(1020, 280, 180, 130, 'The low shine is readable bait; the broad shelf above is honest.', {}),
+  G(1980, 82, 200, 140, 'A visible carrier holds one real coin. Stomp from the wide route.', {}),
+  G(5580, 86, 200, 140, 'The upper route is optional, wide, and collectible.', {}),
+  G(6820, 216, 190, 130, 'The falling teeth show a full warning breath.', { spikes: [{ x: 6960, y: 86, w: 78, h: 24, warning: 0.95, duration: 1.1, fallSpeed: 430 }, { x: 7060, y: 118, w: 82, h: 24, warning: 1.03, duration: 1.1, fallSpeed: 460 }, { x: 7165, y: 150, w: 86, h: 24, warning: 1.1, duration: 1.1, fallSpeed: 490 }] }),
+  G(13960, 150, 200, 130, 'The final reversal is announced before it is required.', {}),
+  G(14300, 128, 230, 140, 'The door opens only after every honest coin and key is gathered.', { openExit: true })
+],
+  [
+  'Root Crown Chain turns natural scenery into readable choice.',
+  'The Awtsmoos leaves no required spark in a cramped throat.',
+  'Every hazard is visible, warned, or spaced away from mandatory treasure.'
+],
+  {
+    fakeCoins: [
+      F(1160, 326, 'dinar', 'The first natural glitter had teeth.'),
+      F(3860, 316, 'sela', 'The centered reward was a blade in bark.'),
+      F(7160, 186, 'maneh', 'The warned crown glittered falsely.'),
+      F(14060, 148, 'sela', 'The final natural discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1860, y: 148, kind: 'reverseRunner', speed: 315, min: 1700, max: 2140 },
+      { x: 3380, y: 276, kind: 'trapBait', baitX: 3660, speed: 240, min: 3220, max: 3780 },
+      { x: 5380, y: 132, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8300, y: 228, kind: 'fakeRunner', min: 8120, max: 8560 },
+      { x: 13860, y: 182, kind: 'trapBait', baitX: 14140, speed: 250, min: 13720, max: 14240 }
+]
+  }
 );

@@ -2,25 +2,138 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Natural Chain II: Wind Orchard.
+ * Natural Chain Wind Orchard of Reversals is rewritten by hand as a broad natural-chain chamber.
  *
- * The Awtsmoos bends branches into verdicts. Wind platforms push, fruit coins
- * lie, and the correct route climbs above the obvious orchard road.
+ * Chapter 26: The Awtsmoos draws river, wind, stone, cave, root, sky, echo,
+ * and breath into one living ladder. The main road is wide enough for a human
+ * rhythm, the upper road is a readable invitation, and every false coin shines
+ * with room around it so trickery becomes lesson instead of claustrophe.
  */
 export const level26 = L(
-  '26 · Natural Chain II: Wind Orchard',
-  14500,
+  '26 · Natural Chain Wind Orchard of Reversals',
+  13620,
   { x: 60, y: 420 },
-  P(14140, 100, 44, 90),
-  'The orchard path is obvious, therefore suspicious.',
-  [P(0,505,360,35),P(540,435,130,20),P(960,355,135,20),P(1420,275,140,20),P(1920,195,145,20),P(2460,275,150,20),P(3040,355,155,20),P(3660,435,160,20),P(4320,355,165,20),P(5020,275,170,20),P(5760,195,175,20),P(6540,275,180,20),P(7360,355,185,20),P(8220,275,190,20),P(9120,195,195,20),P(10060,275,200,20),P(11040,355,210,20),P(12060,275,220,20),P(13120,195,230,20),P(13900,185,260,20)],
-  [R(780,408,84,14,-3.6,780),R(4040,408,104,14,4.2,890),R(8740,248,112,14,-4.7,1000),R(12460,248,118,14,4.9,1060)],
-  [T(1160,339,92,16,'falseSpike'),T(1660,259,94,16,'booster',{dir:1,boost:1160,lift:48}),T(2200,179,96,16,'ice',{duration:1.75}),T(2760,259,98,16,'phantom'),T(3360,339,100,16,'oneWay'),T(4000,419,102,16,'reverseBooster',{dir:1,boost:1080}),T(4680,339,104,16,'commitDrop',{reform:2.6}),T(5400,259,106,16,'magnet',{pull:640}),T(6160,179,108,16,'falseSpike'),T(6960,259,110,16,'antiJump'),T(7800,339,112,16,'booster',{dir:-1,boost:1180,lift:34}),T(8680,259,114,16,'ice',{duration:1.85}),T(9600,179,116,16,'fakeCheckpoint'),T(10560,259,118,16,'phantom'),T(11560,339,120,16,'antiSpeed'),T(12600,259,124,16,'oneWay'),T(13680,179,126,16,'falseSpike')],
-  [C(260,460),C(580,395),C(1000,315,'dinar'),C(1460,235),C(1960,155,'sela'),C(2500,235),C(3080,315,'dinar'),C(3700,395),C(4360,315,'maneh'),C(5060,235),C(5800,155,'sela'),C(6580,235),C(7400,315,'dinar'),C(8260,235),C(9160,155,'maneh'),C(10100,235),C(11080,315,'sela'),C(12100,235),C(13160,155,'dinar')],
-  [C(14020,130,'dinar')],
-  [S(420,481,90,24,1.1,1,2),S(3840,481,100,24,1.7,1,2.2),S(7380,481,110,24,2.2,1,2.2),S(10940,481,120,24,1.9,1,2.1),S(13560,481,130,24,2.5,1,2.2)],
-  [E(1960,161,1900,2100,136,'scroll','branch scribe',{dropCoin:'dinar'}),E(4360,321,4300,4520,144,'watcher','apple eye'),E(7400,321,7320,7560,142,'leaper','wind hopper',{dropCoin:'sela'}),E(10100,241,10020,10300,154,'gravity','falling branch'),E(13160,161,13060,13360,138,'baitGuard','orchard guard')],
-  [G(1160,235,130,130,'The bark platform has teeth beneath its rings.',{}),G(3360,280,150,130,'A one-way branch is climbed through, not blocked by.',{}),G(5760,90,150,130,'Three apples fall as spikes.',{spikes:[{x:5900,y:36,w:72,h:24,warning:.55,duration:1.1,fallSpeed:440},{x:5990,y:68,w:76,h:24,warning:.7,duration:1.1,fallSpeed:470},{x:6085,y:100,w:80,h:24,warning:.85,duration:1.1,fallSpeed:500}]}),G(9160,110,150,130,'The high fruit is honest only after the wind reverses.',{}),G(13720,110,170,130,'The orchard gate counts every natural link.',{openExit:true})],
-  ['Branches lie by bending just enough.','The chain climbs through wind, not against it.','Fruit becomes reward only after patience.'],
-  {fakeCoins:[F(1180,300,'dinar','The bark fruit had iron seeds.'),F(9620,140,'maneh','The high fruit was painted teeth.'),F(13700,140,'sela','The gate-fruit was bait.')],trickCoins:[{x:1960,y:155,kind:'reverseRunner',speed:410,min:1820,max:2140},{x:5800,y:155,kind:'trapBait',baitX:6160,speed:285,min:5640,max:6220},{x:8260,y:235,kind:'shyVanish',safeSide:'left'},{x:11560,y:315,kind:'fakeRunner',min:11400,max:11800}]}
+  P(13350, 112, 52, 90),
+  'The orchard bends with mercy, but its fruit demands patient direction.',
+  [
+  P(0, 505, 390, 35),
+  P(580, 448, 198, 22),
+  P(1020, 384, 218, 22),
+  P(1494, 320, 238, 22),
+  P(2002, 256, 258, 22),
+  P(2442, 192, 198, 22),
+  P(2916, 128, 218, 22),
+  P(3424, 208, 238, 22),
+  P(3864, 288, 258, 22),
+  P(4338, 368, 198, 22),
+  P(4846, 304, 218, 22),
+  P(5286, 240, 238, 22),
+  P(5760, 176, 258, 22),
+  P(6268, 256, 198, 22),
+  P(6708, 336, 218, 22),
+  P(7182, 272, 238, 22),
+  P(7690, 208, 258, 22),
+  P(8130, 144, 198, 22),
+  P(8604, 224, 218, 22),
+  P(9112, 304, 238, 22),
+  P(9552, 240, 258, 22),
+  P(10026, 168, 198, 22),
+  P(10534, 188, 218, 22),
+  P(12820, 232, 270, 22),
+  P(13190, 204, 310, 22)
+],
+  [
+  R(800, 418, 98, 14, 3.1, 600),
+  R(3640, 354, 106, 14, -3.4, 680),
+  R(6740, 304, 112, 14, 3.7, 740),
+  R(12200, 188, 118, 14, -3.9, 800)
+],
+  [
+  T(1080, 366, 94, 16, 'falseSpike', {}),
+  T(1890, 302, 114, 16, 'ice', { duration: 1.55 }),
+  T(2600, 238, 114, 16, 'booster', { dir: 1, boost: 940, lift: 30 }),
+  T(3410, 174, 114, 16, 'oneWay', {}),
+  T(4120, 110, 114, 16, 'phantom', {}),
+  T(4930, 190, 114, 16, 'commitDrop', { reform: 2.45 }),
+  T(5640, 270, 114, 16, 'reverseBooster', { dir: 1, boost: 860 }),
+  T(6450, 350, 114, 16, 'magnet', { pull: 470 }),
+  T(7160, 286, 114, 16, 'antiJump', {}),
+  T(7970, 222, 114, 16, 'booster', { dir: -1, boost: 940, lift: 30 }),
+  T(8680, 158, 114, 16, 'fakeCheckpoint', {}),
+  T(9490, 238, 114, 16, 'phantom', {}),
+  T(10200, 318, 114, 16, 'antiSpeed', {})
+],
+  [
+  C(260, 460),
+  C(620, 404, 'maneh'),
+  C(1060, 340),
+  C(1534, 276),
+  C(2042, 212, 'dinar'),
+  C(2482, 148),
+  C(2956, 84, 'sela'),
+  C(3464, 164),
+  C(3904, 244, 'maneh'),
+  C(4378, 324),
+  C(4886, 260),
+  C(5326, 196, 'dinar'),
+  C(5800, 132),
+  C(6308, 212, 'sela'),
+  C(6748, 292),
+  C(7222, 228, 'maneh'),
+  C(7730, 164),
+  C(8170, 100),
+  C(8644, 180, 'dinar'),
+  C(9152, 260),
+  C(9592, 196, 'sela'),
+  C(10066, 124),
+  C(10574, 144, 'maneh'),
+  C(12950, 184, 'sela'),
+  C(13310, 158, 'maneh')
+],
+  [
+  C(13080, 162, 'dinar'),
+  C(13400, 164, 'sela')
+],
+  [
+  S(430, 481, 98, 24, 1, 1, 2),
+  S(2980, 481, 110, 24, 1.7, 1, 2.1),
+  S(5960, 481, 120, 24, 2.2, 1, 2.2),
+  S(8940, 481, 130, 24, 1.9, 1, 2.1),
+  S(12440, 481, 140, 24, 2.4, 1, 2.2)
+],
+  [
+  E(1980, 158, 1880, 2180, 122, 'watcher', 'Wind Orchard Chain watcher', { dropCoin: 'dinar' }),
+  E(4240, 334, 4140, 4460, 132, 'scroll', 'Wind Orchard Chain scroll'),
+  E(5960, 142, 5860, 6180, 134, 'leaper', 'Wind Orchard Chain leaper', { dropCoin: 'sela' }),
+  E(7920, 238, 7800, 8160, 144, 'herder', 'Wind Orchard Chain herder'),
+  E(11920, 194, 11800, 12180, 136, 'baitGuard', 'Wind Orchard Chain final guard')
+],
+  [
+  G(1020, 280, 180, 130, 'The low shine is readable bait; the broad shelf above is honest.', {}),
+  G(1980, 82, 200, 140, 'A visible carrier holds one real coin. Stomp from the wide route.', {}),
+  G(5580, 86, 200, 140, 'The upper route is optional, wide, and collectible.', {}),
+  G(6820, 216, 190, 130, 'The falling teeth show a full warning breath.', { spikes: [{ x: 6960, y: 86, w: 78, h: 24, warning: 0.95, duration: 1.1, fallSpeed: 430 }, { x: 7060, y: 118, w: 82, h: 24, warning: 1.03, duration: 1.1, fallSpeed: 460 }, { x: 7165, y: 150, w: 86, h: 24, warning: 1.1, duration: 1.1, fallSpeed: 490 }] }),
+  G(12700, 150, 200, 130, 'The final reversal is announced before it is required.', {}),
+  G(13040, 128, 230, 140, 'The door opens only after every honest coin and key is gathered.', { openExit: true })
+],
+  [
+  'Wind Orchard Chain turns natural scenery into readable choice.',
+  'The Awtsmoos leaves no required spark in a cramped throat.',
+  'Every hazard is visible, warned, or spaced away from mandatory treasure.'
+],
+  {
+    fakeCoins: [
+      F(1160, 326, 'dinar', 'The first natural glitter had teeth.'),
+      F(3860, 316, 'sela', 'The centered reward was a blade in bark.'),
+      F(7160, 186, 'maneh', 'The warned crown glittered falsely.'),
+      F(12800, 148, 'sela', 'The final natural discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1860, y: 148, kind: 'reverseRunner', speed: 315, min: 1700, max: 2140 },
+      { x: 3380, y: 276, kind: 'trapBait', baitX: 3660, speed: 240, min: 3220, max: 3780 },
+      { x: 5380, y: 132, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8300, y: 228, kind: 'fakeRunner', min: 8120, max: 8560 },
+      { x: 12600, y: 182, kind: 'trapBait', baitX: 12880, speed: 250, min: 12460, max: 12980 }
+]
+  }
 );

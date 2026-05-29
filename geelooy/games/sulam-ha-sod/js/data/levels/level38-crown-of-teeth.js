@@ -2,26 +2,153 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Crown of Teeth Above the Locked Beginning.
+ * Crown of Teeth Above the Locked Beginning is rewritten by hand as a harsher but fair late-game court.
  *
- * The Awtsmoos crowns the new block with a chamber that opens only after the
- * player distrusts every symbol. The needed bridges are spikes, the greedy
- * shortcuts shift, and enemy-held coins drag the route backward through memory.
+ * Chapter 38: The Awtsmoos tears certainty open like iron cloth. Fake coins
+ * glitter with room to refuse them, fake platforms move with visible intent,
+ * safe-spike bridges teach reversal, proximity teeth warn before judgment, and
+ * every carrier enemy holds a counted spark. The chamber is sharper now, but
+ * the route stays readable.
  */
 export const level38 = L(
   '38 · Crown of Teeth Above the Locked Beginning',
-  22600,
+  22200,
   { x: 60, y: 420 },
-  P(22220, 80, 44, 90),
+  P(21920, 112, 52, 90),
   'The crown is made of teeth, and some teeth are stairs.',
-  [P(0,505,360,35),P(780,430,130,20),P(1480,350,135,20),P(2220,270,140,20),P(3000,190,145,20),P(3820,110,150,20),P(4680,190,155,20),P(5580,270,160,20),P(6520,350,165,20),P(7500,270,170,20),P(8520,190,175,20),P(9580,110,180,20),P(10680,190,185,20),P(11820,270,190,20),P(13000,350,195,20),P(14220,270,200,20),P(15480,190,210,20),P(16780,110,220,20),P(18140,150,240,20),P(20920,165,420,20)],
-  [R(1240,402,100,14,-5.5,1040),R(6280,242,118,14,6.4,1180),R(11420,162,130,14,-6.7,1300),R(17200,86,140,14,7.1,1380)],
-  [T(1680,334,92,16,'baitShift',{shiftX:-155,range:210}),T(2520,254,94,16,'falseSpike'),T(3360,174,96,16,'safeSpike'),T(4220,94,98,16,'oneWay'),T(5120,174,100,16,'phantom'),T(6040,254,102,16,'commitDrop',{reform:3.4}),T(7000,334,104,16,'reverseBooster',{dir:1,boost:1360}),T(8000,254,106,16,'magnet',{pull:880}),T(9040,174,108,16,'antiJump'),T(10120,94,110,16,'falseSpike'),T(11240,174,112,16,'booster',{dir:-1,boost:1500,lift:60}),T(12400,254,114,16,'ice',{duration:2.5}),T(13600,334,116,16,'fakeCheckpoint'),T(14840,254,118,16,'phantom'),T(16120,174,120,16,'safeSpike'),T(17440,94,124,16,'antiSpeed'),T(18860,134,128,16,'falseSpike'),T(19920,144,132,16,'baitShift',{shiftX:180,range:220})],
-  [C(340,460),C(820,390),C(1520,310,'dinar'),C(2260,230),C(3040,150,'sela'),C(3860,70),C(4720,150,'maneh'),C(5620,230),C(6560,310,'dinar'),C(7540,230),C(8560,150,'sela'),C(9620,70),C(10720,150,'dinar'),C(11860,230),C(13040,310,'maneh'),C(14260,230),C(15520,150,'sela'),C(16820,70),C(18180,110,'dinar'),C(20980,125,'maneh')],
-  [C(22080,105,'dinar')],
-  [S(640,481,90,24,1.4,1,2),S(6080,481,100,24,2.15,1,2.2),S(11400,481,110,24,2.65,1,2.2),S(16760,481,120,24,2.35,1,2.1),S(20180,481,130,24,2.95,1,2.2),{x:9360,y:146,w:66,h:22,proximity:true,range:120,instant:true,duration:.9}],
-  [E(3040,156,2980,3200,162,'golem','crown porter',{dropCoin:'dinar'}),E(6560,316,6500,6740,170,'watcher','tooth eye'),E(10720,156,10620,10960,168,'leaper','crown jumper',{dropCoin:'sela'}),E(14260,236,14140,14560,182,'herder','return judge'),E(18180,116,18020,18460,166,'baitGuard','crown deceiver'),E(20980,131,20880,21260,158,'feign','sleeping crown',{dropCoin:'maneh'})],
-  [G(1680,230,130,130,'The crown moves the step before your foot arrives.',{}),G(4220,40,150,130,'The one-way tooth accepts only descent.',{}),G(9580,40,150,130,'The crown drops three royal teeth.',{spikes:[{x:9720,y:12,w:76,h:24,warning:.55,duration:1.1,fallSpeed:550},{x:9818,y:44,w:80,h:24,warning:.7,duration:1.1,fallSpeed:580},{x:9922,y:76,w:84,h:24,warning:.85,duration:1.1,fallSpeed:610}]}),G(13040,280,150,130,'The checkpoint is only a painted throne.',{}),G(20220,98,170,130,'The crown opens after the sleepers surrender their coins.',{openExit:true})],
-  ['The final crown is not mercy.', 'Required spikes carry the safest truth.', 'The beginning stays locked until the far sky is paid.'],
-  {fakeCoins:[F(1700,295,'dinar','The crown coin bit like a king.'),F(10040,62,'maneh','The royal crown fell as teeth.'),F(17480,62,'sela','The quiet throne-spark lied.')],trickCoins:[{x:3040,y:150,kind:'reverseRunner',speed:520,min:2900,max:3240},{x:8560,y:150,kind:'trapBait',baitX:9580,speed:370,min:8400,max:9660},{x:11860,y:230,kind:'shyVanish',safeSide:'right'},{x:16120,y:150,kind:'fakeRunner',min:15960,max:16440}]}
+  [
+  P(0, 505, 400, 35),
+  P(620, 444, 210, 24),
+  P(1090, 374, 234, 24),
+  P(1598, 304, 258, 24),
+  P(2144, 234, 282, 24),
+  P(2614, 164, 210, 24),
+  P(3122, 94, 234, 24),
+  P(3668, 174, 258, 24),
+  P(4138, 254, 282, 24),
+  P(4646, 334, 210, 24),
+  P(5192, 264, 234, 24),
+  P(5662, 194, 258, 24),
+  P(6170, 124, 282, 24),
+  P(6716, 204, 210, 24),
+  P(7186, 284, 234, 24),
+  P(7694, 354, 258, 24),
+  P(8240, 284, 282, 24),
+  P(8710, 214, 210, 24),
+  P(9218, 144, 234, 24),
+  P(9764, 184, 258, 24),
+  P(10234, 224, 282, 24),
+  P(10742, 164, 210, 24),
+  P(11288, 204, 234, 24),
+  P(11758, 244, 258, 24),
+  P(12266, 214, 282, 24),
+  P(12812, 184, 210, 24),
+  P(13282, 154, 234, 24),
+  P(21340, 236, 300, 24),
+  P(21750, 206, 330, 24)
+],
+  [
+  R(880, 416, 104, 14, 3.6, 680),
+  R(3920, 346, 112, 14, -4.1, 760),
+  R(7240, 298, 120, 14, 4.4, 830),
+  R(20720, 190, 126, 14, -4.7, 900)
+],
+  [
+  T(1120, 356, 118, 16, 'reverseBooster', { dir: 1, boost: 930 }),
+  T(1970, 286, 118, 16, 'magnet', { pull: 520 }),
+  T(2700, 216, 118, 16, 'antiJump', {}),
+  T(3550, 146, 118, 16, 'booster', { dir: 1, boost: 1020, lift: 36 }),
+  T(4280, 76, 118, 16, 'fakeCheckpoint', {}),
+  T(5130, 156, 118, 16, 'phantom', {}),
+  T(5860, 236, 118, 16, 'antiSpeed', {}),
+  T(6710, 316, 104, 16, 'safeSpike', {}),
+  T(7440, 246, 118, 16, 'baitShift', { shiftX: 135, range: 210 }),
+  T(8290, 176, 96, 16, 'falseSpike', {}),
+  T(9020, 106, 118, 16, 'baitShift', { shiftX: 135, range: 210 }),
+  T(9870, 186, 96, 16, 'falseSpike', {}),
+  T(10600, 266, 104, 16, 'safeSpike', {}),
+  T(11450, 336, 118, 16, 'oneWay', {}),
+  T(12180, 266, 118, 16, 'phantom', {}),
+  T(13030, 196, 118, 16, 'commitDrop', { reform: 2.65 })
+],
+  [
+  C(280, 460),
+  C(660, 398, 'sela'),
+  C(1130, 328),
+  C(1638, 258, 'maneh'),
+  C(2184, 188, 'dinar'),
+  C(2654, 118),
+  C(3162, 48, 'dinar'),
+  C(3708, 128),
+  C(4178, 208, 'sela'),
+  C(4686, 288),
+  C(5232, 218, 'maneh'),
+  C(5702, 148, 'dinar'),
+  C(6210, 78),
+  C(6756, 158, 'dinar'),
+  C(7226, 238),
+  C(7734, 308, 'sela'),
+  C(8280, 238),
+  C(8750, 168, 'maneh'),
+  C(9258, 98, 'dinar'),
+  C(9804, 138),
+  C(10274, 178, 'dinar'),
+  C(10782, 118),
+  C(11328, 158, 'sela'),
+  C(11798, 198),
+  C(12306, 168, 'maneh'),
+  C(12852, 138, 'dinar'),
+  C(13322, 108),
+  C(21500, 186, 'sela'),
+  C(21870, 158, 'maneh')
+],
+  [
+  C(21640, 164, 'dinar'),
+  C(21970, 166, 'sela')
+],
+  [
+  S(450, 481, 100, 24, 1, 1, 2),
+  S(3200, 481, 112, 24, 1.75, 1, 2.15),
+  S(6400, 481, 124, 24, 2.25, 1, 2.25),
+  S(9600, 481, 136, 24, 1.95, 1, 2.15),
+  S(20960, 481, 148, 24, 2.5, 1, 2.25),
+  { x: 20520, y: 481, w: 92, h: 24, proximity: true, range: 140, warning: 0.96, duration: 1.05 }
+],
+  [
+  E(2100, 130, 1980, 2320, 132, 'watcher', 'Crown Teeth debt-eye', { dropCoin: 'dinar' }),
+  E(4520, 300, 4400, 4740, 144, 'scroll', 'Crown Teeth false clerk'),
+  E(6420, 108, 6280, 6660, 146, 'leaper', 'Crown Teeth coin-jailer', { dropCoin: 'sela' }),
+  E(8540, 230, 8400, 8800, 154, 'herder', 'Crown Teeth return herder'),
+  E(20400, 198, 20260, 20680, 146, 'baitGuard', 'Crown Teeth final deceiver'),
+  E(21240, 170, 21120, 21500, 138, 'feign', 'Crown Teeth sleeping debt', { dropCoin: 'maneh' })
+],
+  [
+  G(1080, 274, 190, 130, 'The first bridge runs when trusted; wait for its confession.', {}),
+  G(2100, 70, 210, 145, 'A visible carrier holds a required coin above the broad shelf.', {}),
+  G(5600, 74, 210, 145, 'The upper route is hard, optional, and fully readable.', {}),
+  G(7080, 212, 200, 135, 'The falling teeth show a full warning breath before judgment.', { spikes: [{ x: 7240, y: 82, w: 80, h: 24, warning: 0.96, duration: 1.12, fallSpeed: 450 }, { x: 7345, y: 114, w: 84, h: 24, warning: 1.04, duration: 1.12, fallSpeed: 480 }, { x: 7455, y: 146, w: 88, h: 24, warning: 1.12, duration: 1.12, fallSpeed: 510 }] }),
+  G(21180, 154, 210, 135, 'The final fake coin is loud enough to be refused.', {}),
+  G(21560, 130, 240, 145, 'The door opens only after every honest coin, key, and carrier debt.', { openExit: true })
+],
+  [
+  'Crown Teeth is hard because it teaches before it strikes.',
+  'The Awtsmoos leaves fake coins, fake platforms, spike-bridges, and proximity teeth in readable space.',
+  'Every required spark is reachable by a broad route or a warned upper detour.'
+],
+  {
+    fakeCoins: [
+      F(1180, 320, 'dinar', 'The first coin laughed with teeth.'),
+      F(3580, 282, 'sela', 'The center shine was a hook.'),
+      F(7440, 182, 'maneh', 'The warned crown was bait.'),
+      F(21080, 152, 'dinar', 'The late bargain wore a knife.'),
+      F(21380, 150, 'sela', 'The final discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1960, y: 120, kind: 'reverseRunner', speed: 340, min: 1780, max: 2280 },
+      { x: 3440, y: 260, kind: 'trapBait', baitX: 3860, speed: 265, min: 3240, max: 4000 },
+      { x: 5480, y: 116, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8460, y: 220, kind: 'fakeRunner', min: 8260, max: 8740 },
+      { x: 21120, y: 184, kind: 'trapBait', baitX: 21440, speed: 275, min: 20960, max: 21550 }
+]
+  }
 );

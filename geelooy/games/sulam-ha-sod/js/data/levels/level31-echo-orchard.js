@@ -2,26 +2,138 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Echo Orchard of Borrowed Floors.
+ * Echo Orchard of Borrowed Floors is rewritten by hand as a broad natural-chain chamber.
  *
- * The Awtsmoos plants fruit that repeats the player's mistake. Branches become
- * one-way rungs, apples become fake coins, and the safe route requires stopping
- * under a ceiling that looks calm until ambition wakes it.
+ * Chapter 31: The Awtsmoos draws river, wind, stone, cave, root, sky, echo,
+ * and breath into one living ladder. The main road is wide enough for a human
+ * rhythm, the upper road is a readable invitation, and every false coin shines
+ * with room around it so trickery becomes lesson instead of claustrophe.
  */
 export const level31 = L(
   '31 · Echo Orchard of Borrowed Floors',
-  17400,
+  15720,
   { x: 60, y: 420 },
-  P(17020, 100, 44, 90),
-  'Every branch repeats you. Move softly or the orchard answers loudly.',
-  [P(0,505,360,35),P(600,435,130,20),P(1120,355,135,20),P(1680,275,140,20),P(2280,195,145,20),P(2920,115,150,20),P(3600,195,155,20),P(4320,275,160,20),P(5080,355,165,20),P(5880,275,170,20),P(6720,195,175,20),P(7600,115,180,20),P(8520,195,185,20),P(9480,275,190,20),P(10480,355,195,20),P(11520,275,200,20),P(12600,195,210,20),P(13720,115,220,20),P(14920,175,230,20),P(16480,185,300,20)],
-  [R(900,408,88,14,-4.2,900),R(4720,248,106,14,5.2,1020),R(9000,168,118,14,-5.5,1140),R(14200,92,128,14,5.9,1220)],
-  [T(1320,339,92,16,'falseSpike'),T(1980,259,94,16,'booster',{dir:1,boost:1340,lift:56}),T(2620,179,96,16,'ice',{duration:2.05}),T(3300,99,98,16,'oneWay'),T(4020,179,100,16,'phantom'),T(4780,259,102,16,'commitDrop',{reform:2.9}),T(5580,339,104,16,'reverseBooster',{dir:1,boost:1200}),T(6420,259,106,16,'magnet',{pull:740}),T(7300,179,108,16,'antiJump'),T(8220,99,110,16,'falseSpike'),T(9180,179,112,16,'booster',{dir:-1,boost:1340,lift:44}),T(10180,259,114,16,'ice',{duration:2.15}),T(11220,339,116,16,'fakeCheckpoint'),T(12300,259,118,16,'phantom'),T(13420,179,120,16,'oneWay'),T(14580,99,124,16,'antiSpeed'),T(15840,159,128,16,'falseSpike')],
-  [C(260,460),C(640,395),C(1160,315,'dinar'),C(1720,235),C(2320,155,'sela'),C(2960,75),C(3640,155,'maneh'),C(4360,235),C(5120,315,'dinar'),C(5920,235),C(6760,155,'sela'),C(7640,75),C(8560,155,'dinar'),C(9520,235),C(10520,315,'maneh'),C(11560,235),C(12640,155,'sela'),C(13760,75),C(14960,135,'dinar')],
-  [C(16880,125,'dinar')],
-  [S(520,481,90,24,1.15,1,2),S(4600,481,100,24,1.85,1,2.2),S(8760,481,110,24,2.35,1,2.2),S(12980,481,120,24,2.05,1,2.1),S(16080,481,130,24,2.65,1,2.2)],
-  [E(2320,161,2260,2480,146,'scroll','echo apple',{dropCoin:'dinar'}),E(5120,321,5060,5300,154,'watcher','orchard eye'),E(8560,161,8460,8780,152,'leaper','branch echo',{dropCoin:'sela'}),E(11560,241,11460,11820,166,'gravity','falling fruit'),E(14960,141,14820,15140,150,'feign','sleeping branch')],
-  [G(1320,235,130,130,'The first apple platform is actually a spike.',{}),G(3300,45,150,130,'The borrowed branch is one-way: enter from below, land from above.',{}),G(7600,45,150,130,'Three fruit-teeth fall when you rush the orchard.',{spikes:[{x:7740,y:14,w:72,h:24,warning:.55,duration:1.1,fallSpeed:485},{x:7830,y:46,w:76,h:24,warning:.7,duration:1.1,fallSpeed:520},{x:7925,y:78,w:80,h:24,warning:.85,duration:1.1,fallSpeed:550}]}),G(10520,280,150,130,'The low fruit is bait; the high branch is the receipt.',{}),G(16020,105,170,130,'The orchard gate opens after the echo has been paid.',{openExit:true})],
-  ['The orchard repeats your arrogance.', 'An apple may be a coin, a tooth, or both.', 'The safest branch is sometimes entered from below.'],
-  {fakeCoins:[F(1340,300,'dinar','The apple had metal seeds.'),F(8240,70,'maneh','The echo crown was teeth.'),F(14620,70,'sela','The quiet fruit was bait.')],trickCoins:[{x:2320,y:155,kind:'reverseRunner',speed:455,min:2180,max:2520},{x:6760,y:155,kind:'trapBait',baitX:7600,speed:310,min:6600,max:7680},{x:9520,y:235,kind:'shyVanish',safeSide:'left'},{x:13420,y:155,kind:'fakeRunner',min:13260,max:13680}]}
+  P(15450, 112, 52, 90),
+  'Every branch repeats your habit, so break the habit before it breaks you.',
+  [
+  P(0, 505, 390, 35),
+  P(580, 448, 198, 22),
+  P(1020, 384, 218, 22),
+  P(1494, 320, 238, 22),
+  P(2002, 256, 258, 22),
+  P(2442, 192, 198, 22),
+  P(2916, 128, 218, 22),
+  P(3424, 208, 238, 22),
+  P(3864, 288, 258, 22),
+  P(4338, 368, 198, 22),
+  P(4846, 304, 218, 22),
+  P(5286, 240, 238, 22),
+  P(5760, 176, 258, 22),
+  P(6268, 256, 198, 22),
+  P(6708, 336, 218, 22),
+  P(7182, 272, 238, 22),
+  P(7690, 208, 258, 22),
+  P(8130, 144, 198, 22),
+  P(8604, 224, 218, 22),
+  P(9112, 304, 238, 22),
+  P(9552, 240, 258, 22),
+  P(10026, 168, 198, 22),
+  P(10534, 188, 218, 22),
+  P(14920, 232, 270, 22),
+  P(15290, 204, 310, 22)
+],
+  [
+  R(800, 418, 98, 14, 3.1, 600),
+  R(3640, 354, 106, 14, -3.4, 680),
+  R(6740, 304, 112, 14, 3.7, 740),
+  R(14300, 188, 118, 14, -3.9, 800)
+],
+  [
+  T(1080, 366, 114, 16, 'commitDrop', { reform: 2.45 }),
+  T(1890, 302, 114, 16, 'reverseBooster', { dir: -1, boost: 900 }),
+  T(2600, 238, 114, 16, 'magnet', { pull: 470 }),
+  T(3410, 174, 114, 16, 'antiJump', {}),
+  T(4120, 110, 114, 16, 'booster', { dir: 1, boost: 940, lift: 30 }),
+  T(4930, 190, 114, 16, 'fakeCheckpoint', {}),
+  T(5640, 270, 114, 16, 'phantom', {}),
+  T(6450, 350, 114, 16, 'antiSpeed', {}),
+  T(7160, 286, 94, 16, 'falseSpike', {}),
+  T(7970, 222, 114, 16, 'ice', { duration: 1.55 }),
+  T(8680, 158, 114, 16, 'booster', { dir: 1, boost: 940, lift: 30 }),
+  T(9490, 238, 114, 16, 'oneWay', {}),
+  T(10200, 318, 114, 16, 'phantom', {})
+],
+  [
+  C(260, 460),
+  C(620, 404, 'sela'),
+  C(1060, 340),
+  C(1534, 276, 'maneh'),
+  C(2042, 212),
+  C(2482, 148),
+  C(2956, 84, 'dinar'),
+  C(3464, 164),
+  C(3904, 244, 'sela'),
+  C(4378, 324),
+  C(4886, 260, 'maneh'),
+  C(5326, 196),
+  C(5800, 132),
+  C(6308, 212, 'dinar'),
+  C(6748, 292),
+  C(7222, 228, 'sela'),
+  C(7730, 164),
+  C(8170, 100, 'maneh'),
+  C(8644, 180),
+  C(9152, 260),
+  C(9592, 196, 'dinar'),
+  C(10066, 124),
+  C(10574, 144, 'sela'),
+  C(15050, 184, 'sela'),
+  C(15410, 158, 'maneh')
+],
+  [
+  C(15180, 162, 'dinar'),
+  C(15500, 164, 'sela')
+],
+  [
+  S(430, 481, 98, 24, 1, 1, 2),
+  S(2980, 481, 110, 24, 1.7, 1, 2.1),
+  S(5960, 481, 120, 24, 2.2, 1, 2.2),
+  S(8940, 481, 130, 24, 1.9, 1, 2.1),
+  S(14540, 481, 140, 24, 2.4, 1, 2.2)
+],
+  [
+  E(1980, 158, 1880, 2180, 122, 'watcher', 'Echo Orchard Chain watcher', { dropCoin: 'dinar' }),
+  E(4240, 334, 4140, 4460, 132, 'scroll', 'Echo Orchard Chain scroll'),
+  E(5960, 142, 5860, 6180, 134, 'leaper', 'Echo Orchard Chain leaper', { dropCoin: 'sela' }),
+  E(7920, 238, 7800, 8160, 144, 'herder', 'Echo Orchard Chain herder'),
+  E(14020, 194, 13900, 14280, 136, 'baitGuard', 'Echo Orchard Chain final guard')
+],
+  [
+  G(1020, 280, 180, 130, 'The low shine is readable bait; the broad shelf above is honest.', {}),
+  G(1980, 82, 200, 140, 'A visible carrier holds one real coin. Stomp from the wide route.', {}),
+  G(5580, 86, 200, 140, 'The upper route is optional, wide, and collectible.', {}),
+  G(6820, 216, 190, 130, 'The falling teeth show a full warning breath.', { spikes: [{ x: 6960, y: 86, w: 78, h: 24, warning: 0.95, duration: 1.1, fallSpeed: 430 }, { x: 7060, y: 118, w: 82, h: 24, warning: 1.03, duration: 1.1, fallSpeed: 460 }, { x: 7165, y: 150, w: 86, h: 24, warning: 1.1, duration: 1.1, fallSpeed: 490 }] }),
+  G(14800, 150, 200, 130, 'The final reversal is announced before it is required.', {}),
+  G(15140, 128, 230, 140, 'The door opens only after every honest coin and key is gathered.', { openExit: true })
+],
+  [
+  'Echo Orchard Chain turns natural scenery into readable choice.',
+  'The Awtsmoos leaves no required spark in a cramped throat.',
+  'Every hazard is visible, warned, or spaced away from mandatory treasure.'
+],
+  {
+    fakeCoins: [
+      F(1160, 326, 'dinar', 'The first natural glitter had teeth.'),
+      F(3860, 316, 'sela', 'The centered reward was a blade in bark.'),
+      F(7160, 186, 'maneh', 'The warned crown glittered falsely.'),
+      F(14900, 148, 'sela', 'The final natural discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1860, y: 148, kind: 'reverseRunner', speed: 315, min: 1700, max: 2140 },
+      { x: 3380, y: 276, kind: 'trapBait', baitX: 3660, speed: 240, min: 3220, max: 3780 },
+      { x: 5380, y: 132, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8300, y: 228, kind: 'fakeRunner', min: 8120, max: 8560 },
+      { x: 14700, y: 182, kind: 'trapBait', baitX: 14980, speed: 250, min: 14560, max: 15080 }
+]
+  }
 );

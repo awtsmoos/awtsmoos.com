@@ -3,8 +3,9 @@ const path = require('path');
 const { compileJsToJson } = require('./MerkavaJsCompiler.js');
 const { runJsonCode } = require('./MerkavaJsonRunner.js');
 
+function stripQuery(value = '') { return String(value || '').split(/[?#]/)[0]; }
 function canonicalModulePath(value = '') {
-  const raw = String(value || '').replace(/\\/g, '/');
+  const raw = stripQuery(value).replace(/\\/g, '/');
   const absolute = raw.startsWith('/');
   const normalized = path.posix.normalize(raw || '.');
   const cleaned = normalized === '.' ? '' : normalized.replace(/^\.\//, '');
@@ -18,85 +19,88 @@ function moduleAliases(key = '') {
 
 function normalizeFiles(files = {}) {
   const out = {};
-  for (const [key, value] of Object.entries(files)) {
-    for (const alias of moduleAliases(key)) out[alias] = value;
-  }
+  for (const [key, value] of Object.entries(files)) for (const alias of moduleAliases(key)) out[alias] = value;
   return out;
 }
+
 function resolveSpecifier(specifier, from = '') {
   const raw = String(specifier || '').replace(/\\/g, '/');
-  if (/^[a-z]+:/i.test(raw)) return raw;
+  if (/^[a-z]+:/i.test(raw)) return canonicalModulePath(new URL(raw).pathname);
   if (raw.startsWith('/')) return `/${canonicalModulePath(raw).replace(/^\//, '')}`;
   const base = from && from.includes('/') ? from.split('/').slice(0, -1).join('/') : '';
-  const joined = base ? `${base}/${raw}` : raw;
-  return `/${canonicalModulePath(joined).replace(/^\//, '')}`;
+  return `/${canonicalModulePath(base ? `${base}/${raw}` : raw).replace(/^\//, '')}`;
 }
+
+/**
+ * B"H
+ * Absolute browser paths sometimes include the app mount
+ * `/games/mitzvahWorld/...`, while the URL collector stores the same fetched
+ * file relative to the page root. This matcher lets the Awtsmoos recognize the
+ * same spark even when wrapped in a different path garment.
+ */
+function findExistingKey(files, requested) {
+  for (const alias of moduleAliases(requested)) if (files[alias] !== undefined) return alias;
+  const clean = canonicalModulePath(requested).replace(/^\//, '');
+  const keys = Object.keys(files || {});
+  return keys.find(key => clean.endsWith(canonicalModulePath(key).replace(/^\//, ''))) || null;
+}
+
 function parseImports(source, from) {
   const imports = [];
-  const re = /import\s+([^'";]+?)\s+from\s+['"]([^'"]+)['"]\s*;?/g;
+  const re = /import\s+([^'";(]+?)\s+from\s+['"]([^'"]+)['"]\s*;?/g;
   for (const match of source.matchAll(re)) {
     const body = match[1].trim();
     const names = [];
-    if (body.startsWith('{')) {
-      names.push(...parseNamedImports(body.replace(/^\{|\}$/g, '')));
-    } else {
+    if (body.startsWith('{')) names.push(...parseNamedImports(body.replace(/^\{|\}$/g, '')));
+    else {
       const [defaultName, namedBlock] = body.split(/,\s*(?=\{)/);
       if (defaultName?.trim()) names.push({ imported: 'default', local: defaultName.trim() });
       if (namedBlock) names.push(...parseNamedImports(namedBlock.replace(/^\{|\}$/g, '')));
     }
-    imports.push({
-      specifier: match[2],
-      resolved: resolveSpecifier(match[2], from),
-      names
-    });
+    imports.push({ specifier: match[2], resolved: resolveSpecifier(match[2], from), names });
   }
   return imports;
 }
+
 function parseNamedImports(body) {
   return body.split(',').map(part => {
     const [imported, local] = part.trim().split(/\s+as\s+/);
     return { imported: imported.trim(), local: (local || imported).trim() };
   }).filter(item => item.imported);
 }
-function stripImports(source) {
-  return source.replace(/import\s+[^'";]+?\s+from\s+['"][^'"]+['"]\s*;?/g, '');
-}
+
+function stripImports(source) { return source.replace(/import\s+[^'";(]+?\s+from\s+['"][^'"]+['"]\s*;?/g, ''); }
+
+/**
+ * B"H
+ * Chapter 10: Static imports are removed as declarations, but dynamic imports
+ * are rewritten to a real VM-visible hook. Query strings are garments of HTTP;
+ * the module vessel itself is addressed by its clean path.
+ */
 function stripExports(source) {
   const names = new Set();
   let defaultName = null;
-  let code = stripImports(source);
-  code = code.replace(/export\s+default\s+function\s+([A-Za-z_$][\w$]*)/g, (_, name) => {
-    defaultName = name;
-    return `function ${name}`;
-  });
-  code = code.replace(/export\s+default\s+class\s+([A-Za-z_$][\w$]*)/g, (_, name) => {
-    defaultName = name;
-    return `class ${name}`;
-  });
-  code = code.replace(/export\s+default\s+([^;\n]+)\s*;?/g, (_, expression) => {
-    defaultName = '__merkavaDefaultExport';
-    return `const ${defaultName} = ${expression};`;
-  });
+  let code = rewriteDynamicImport(stripImports(source));
+  code = code.replace(/export\s+default\s+function\s+([A-Za-z_$][\w$]*)/g, (_, name) => { defaultName = name; return `function ${name}`; });
+  code = code.replace(/export\s+default\s+class\s+([A-Za-z_$][\w$]*)/g, (_, name) => { defaultName = name; return `class ${name}`; });
+  code = code.replace(/export\s+default\s+([^;\n]+)\s*;?/g, (_, expression) => { defaultName = '__merkavaDefaultExport'; return `const ${defaultName} = ${expression};`; });
   code = code.replace(/export\s+(const|let|var)\s+([A-Za-z_$][\w$]*)/g, (_, kind, name) => { names.add(name); return `${kind} ${name}`; });
   code = code.replace(/export\s+class\s+([A-Za-z_$][\w$]*)/g, (_, name) => { names.add(name); return `class ${name}`; });
   code = code.replace(/export\s+async\s+function\s*\*\s*([A-Za-z_$][\w$]*)/g, (_, name) => { names.add(name); return `async function* ${name}`; });
   code = code.replace(/export\s+function\s*\*\s*([A-Za-z_$][\w$]*)/g, (_, name) => { names.add(name); return `function* ${name}`; });
   code = code.replace(/export\s+async\s+function\s+([A-Za-z_$][\w$]*)/g, (_, name) => { names.add(name); return `async function ${name}`; });
   code = code.replace(/export\s+function\s+([A-Za-z_$][\w$]*)/g, (_, name) => { names.add(name); return `function ${name}`; });
-  code = code.replace(/export\s*\{([^}]+)\}\s*;?/g, (_, body) => {
-    for (const part of body.split(',')) {
-      const [local, exported] = part.trim().split(/\s+as\s+/);
-      if (local) names.add((exported || local).trim());
-    }
-    return '';
-  });
+  code = code.replace(/export\s*\{([^}]+)\}\s*;?/g, (_, body) => { for (const part of body.split(',')) { const [local, exported] = part.trim().split(/\s+as\s+/); if (local) names.add((exported || local).trim()); } return ''; });
   return { code, exportNames: [...names], defaultName };
 }
+
+function rewriteDynamicImport(source) { return String(source || '').replace(/import\.meta\.url/g, '"merkava://module"').replace(/\bimport\s*\(/g, '__merkavaDynamicImport('); }
+
 function createVirtualNodeGlobals(files) {
   const fs = {
-    readFileSync(path, encoding = 'utf8') { return files[path] ?? files['/' + path] ?? files['./' + path] ?? ''; },
-    writeFileSync(path, value) { files[path] = String(value); files['/' + path.replace(/^\//, '')] = String(value); return undefined; },
-    existsSync(path) { return files[path] != null || files['/' + path] != null || files['./' + path] != null; }
+    readFileSync(file) { return files[file] ?? files['/' + file] ?? files['./' + file] ?? ''; },
+    writeFileSync(file, value) { files[file] = String(value); files['/' + file.replace(/^\//, '')] = String(value); return undefined; },
+    existsSync(file) { return files[file] != null || files['/' + file] != null || files['./' + file] != null; }
   };
   return { api: { fs }, fs };
 }
@@ -112,9 +116,7 @@ async function executeVmFiles({ files = {}, entry = '/main.js', globals = {}, ru
 
   async function load(file) {
     const resolvedFile = resolveSpecifier(file, '/');
-    const key = moduleAliases(resolvedFile).find(alias => allFiles[alias] !== undefined)
-      || moduleAliases(file).find(alias => allFiles[alias] !== undefined)
-      || resolvedFile;
+    const key = findExistingKey(allFiles, resolvedFile) || findExistingKey(allFiles, file) || resolvedFile;
     if (cache.has(key)) return cache.get(key);
     const source = allFiles[key];
     if (source == null) throw new Error(`VM module not found: ${file} resolved as ${resolvedFile}`);
@@ -140,4 +142,4 @@ async function executeVmFiles({ files = {}, entry = '/main.js', globals = {}, ru
   return { ok: true, entry, exports, files: allFiles, modules: Object.fromEntries(cache.entries()) };
 }
 
-module.exports = { executeVmFiles, normalizeFiles, parseImports, stripExports, resolveSpecifier, canonicalModulePath, moduleAliases, createVirtualNodeGlobals };
+module.exports = { executeVmFiles, normalizeFiles, parseImports, stripExports, rewriteDynamicImport, resolveSpecifier, canonicalModulePath, moduleAliases, createVirtualNodeGlobals, stripQuery, findExistingKey };

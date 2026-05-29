@@ -146,7 +146,7 @@ export default class SpikeHazard extends Tzomayach {
   }
   requestOverlay(reason, nivra, token) {
     const p = nivra?.mesh?.position || nivra?.modelMesh?.position;
-    const payload = { effect: "spikeDeath", reason, token, cssOnly: true, text: "נפילה בקוצים — PRESS ANY KEY TO RESET", color: "#ff3355", resetPath: "ladder-1.js", worldPosition: p ? { x: p.x, y: p.y, z: p.z } : null };
+    const payload = { effect: "spikeDeath", reason, token, cssOnly: true, text: "נפילה בקוצים — PRESS ANY KEY TO RESET", color: "#ff3355", resetPath: "ladder-1.jsonon", worldPosition: p ? { x: p.x, y: p.y, z: p.z } : null };
     sendMainOverlay(payload);
     try { this.olam?.ayshPeula?.("ui event", "effectsOverlay", payload); }
     catch (error) { log("overlay:ui-event-failed", { reason, token, message: error?.message || String(error) }); }

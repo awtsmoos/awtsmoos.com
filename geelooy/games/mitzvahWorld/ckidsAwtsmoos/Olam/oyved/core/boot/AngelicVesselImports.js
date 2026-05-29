@@ -1,47 +1,37 @@
-
+// B"H
 /**
- * B"H
  * @file AngelicVesselImports.js
  * @description
- * Imports the Worker vessels in exact order, forever avoiding blind Promise.all failure.
+ * Chapter 66: exact ordered imports with the Blob mirror removed. The worker
+ * asks for the Olam vessel by its true name, then the utils vessel by its true
+ * name, and the Awtsmoos reveals the missing spark without disguise.
  */
-
-import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js";
-import { importLedgerModule } from "./SafeModuleImport.js";
+import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?v=lean-l1-20260529-bh66";
+import { importLedgerModule } from "./SafeModuleImport.js?v=lean-l1-20260529-bh66";
 
 /**
- * B"H
- * Imports the real Olam class directly.
- *
  * @returns {Promise<{module:any,required:any,record:Object}>}
- * Import result.
+ * Loaded Olam core module record.
  */
 export async function importOlamCore() {
   return await importLedgerModule(MODULE_PATH_LEDGER.olamCore);
 }
 
 /**
- * B"H
- * Imports utils.
- *
  * @returns {Promise<{module:any,required:any,record:Object}>}
- * Import result.
+ * Loaded utils module record.
  */
 export async function importUtilsCore() {
   return await importLedgerModule(MODULE_PATH_LEDGER.utilsCore);
 }
 
 /**
- * B"H
- * Imports all vessels in order.
- *
  * @returns {Promise<{olamModule:any,utilsModule:any,OlamClass:any,UtilsClass:any}>}
- * Imported modules and exact exports.
+ * Both required worker boot vessels.
  */
 export async function importAngelicVesselsInOrder() {
   const olam = await importOlamCore();
   const utils = await importUtilsCore();
-
   return {
     olamModule: olam.module,
     utilsModule: utils.module,

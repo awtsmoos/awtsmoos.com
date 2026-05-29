@@ -1,42 +1,19 @@
-
+// B"H
 /**
- * B"H
  * @file OlamDynamicBoot.js
- * @description
- * Stable boot bridge.
- *
- * Exports both:
- * - function invokeAngelicVessels
- * - class OlamDynamicBoot
- *
- * This protects older code and newer split modules at the same time.
+ * @description Chapter 65: the boot bridge pulls the fresh angelic invoker,
+ * carrying the MIME-fallback import path into the worker vessel.
  */
+import { AngelicInvoker } from "./AngelicInvoker.js?v=lean-l1-20260528-bh65";
 
-import { AngelicInvoker } from "./AngelicInvoker.js";
-
-/**
- * B"H
- * Invokes Worker vessels.
- *
- * @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>}
- * Boot result.
- */
+/** @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>} Boot result. */
 export async function invokeAngelicVessels() {
   return await AngelicInvoker.invoke();
 }
 
-/**
- * B"H
- * Legacy compatibility class.
- */
+/** Legacy compatibility class. */
 export class OlamDynamicBoot {
-  /**
-   * B"H
-   * Legacy static method.
-   *
-   * @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>}
-   * Boot result.
-   */
+  /** @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>} Boot result. */
   static async invokeAngelicVessels() {
     return await invokeAngelicVessels();
   }

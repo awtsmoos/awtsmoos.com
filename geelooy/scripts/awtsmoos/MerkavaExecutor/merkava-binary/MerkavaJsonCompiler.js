@@ -16,8 +16,40 @@ function pushConst(bytes, constants, value) { bytes.push(0x13); u16(bytes, addCo
 function load(bytes, constants, name) { bytes.push(0x22); u16(bytes, addConst(constants, name)); }
 function store(bytes, constants, name) { bytes.push(0x23); u16(bytes, addConst(constants, name)); }
 function propArg(prop) {
-  if (prop && typeof prop === 'object' && (prop.op || prop.get || prop.const !== undefined)) return prop;
+  if (prop && typeof prop === 'object' && (prop.op || prop.get || prop.const !== undefined || prop.value !== undefined)) return normalizeNode(prop);
   return { const: prop };
+}
+
+/**
+ * B"H
+ * Chapter 2: The compiler met a veiled spark named `value`.
+ *
+ * Some parser/lowerer routes wrap expressions as `{ op: undefined, value: x }`.
+ * JSON hides the undefined op, but Object.keys still sees it. The Awtsmoos
+ * reveals the living value beneath that empty garment before opcode emission.
+ */
+function normalizeNode(node) {
+  if (!node || typeof node !== 'object' || Array.isArray(node)) return node;
+  const meaningful = Object.keys(node).filter(key => node[key] !== undefined);
+  if (meaningful.length === 1 && meaningful[0] === 'value') return normalizeNode(node.value);
+  return node;
+}
+
+/**
+ * B"H
+ * Chapter 3: The hidden rooms were swept before the king arrived.
+ *
+ * Function bodies, loop descriptors, and switch descriptors are stored as
+ * constants, then compiled later by host syscalls. This recursively removes
+ * parser-only value veils inside those delayed scrolls too.
+ */
+function normalizeTree(node) {
+  const got = normalizeNode(node);
+  if (!got || typeof got !== 'object') return got;
+  if (Array.isArray(got)) return got.map(normalizeTree);
+  const out = {};
+  for (const [key, value] of Object.entries(got)) if (value !== undefined) out[key] = normalizeTree(value);
+  return out;
 }
 
 /**
@@ -29,7 +61,7 @@ function propArg(prop) {
 function compileJsonCode(program = {}) {
   const constants = [], bytecode = [];
   const emitSys = (id, args) => { for (const arg of args || []) emit(arg); bytecode.push(0x90, id, (args || []).length); };
-  const emitConstSys = (id, rawArgs) => { for (const arg of rawArgs || []) pushConst(bytecode, constants, arg); bytecode.push(0x90, id, (rawArgs || []).length); };
+  const emitConstSys = (id, rawArgs) => { for (const arg of rawArgs || []) pushConst(bytecode, constants, normalizeTree(arg)); bytecode.push(0x90, id, (rawArgs || []).length); };
 
   const emitBlock = body => {
     for (const step of body || []) {
@@ -55,14 +87,15 @@ function compileJsonCode(program = {}) {
 
   const patchRelative = patchAt => patch16(bytecode, patchAt, bytecode.length - (patchAt + 2));
 
-  const emit = node => {
+  const emit = rawNode => {
+    const node = normalizeNode(rawNode);
     if (typeof node === 'number' || typeof node === 'string' || typeof node === 'boolean' || node == null) return pushConst(bytecode, constants, node);
     if (node.get) return load(bytecode, constants, node.get);
     if (node.const !== undefined) return pushConst(bytecode, constants, node.const);
     if (BIN[node.op]) { emit(node.args[0]); emit(node.args[1]); bytecode.push(BIN[node.op]); return; }
     if (node.op === 'set') { emit(node.value); store(bytecode, constants, node.name); load(bytecode, constants, node.name); return; }
     if (node.op === 'syscall') return emitSys(node.id || 0, node.args || []);
-    if (node.op === 'class') return emitSys(SYS.class, [{ const: node.descriptor }, node.descriptor.superClass || { const: null }]);
+    if (node.op === 'class') return emitSys(SYS.class, [{ const: normalizeTree(node.descriptor) }, node.descriptor.superClass || { const: null }]);
     if (node.op === 'new') return emitSys(SYS.new, [node.class, ...(node.args || [])]);
     if (node.op === 'callMethod') return emitSys(SYS.callMethod, [node.object, { const: node.method }, ...(node.args || [])]);
     if (node.op === 'getProp') return emitSys(SYS.getProp, [node.object, propArg(node.prop)]);
@@ -75,9 +108,9 @@ function compileJsonCode(program = {}) {
     if (node.op === 'await') return emitSys(SYS.awaitValue, [node.value]);
     if (node.op === 'newError') return emitSys(SYS.newError, [node.message || { const: '' }]);
     if (node.op === 'throw') { emit(node.value); bytecode.push(0x91); return; }
-    if (node.op === 'forOf') return emitSys(SYS.forOf, [{ const: node }]);
-    if (node.op === 'while') return emitSys(SYS.whileLoop, [{ const: node }]);
-    if (node.op === 'switch') return emitSys(SYS.switchStmt, [{ const: node }]);
+    if (node.op === 'forOf') return emitSys(SYS.forOf, [{ const: normalizeTree(node) }]);
+    if (node.op === 'while') return emitSys(SYS.whileLoop, [{ const: normalizeTree(node) }]);
+    if (node.op === 'switch') return emitSys(SYS.switchStmt, [{ const: normalizeTree(node) }]);
     if (node.op === 'if') {
       const falsePatch = emitJumpIfFalse(node.test);
       emitBlock(node.consequent || []);
@@ -133,4 +166,4 @@ function compileJsonCode(program = {}) {
 }
 
 function compileJsonToSang(program) { return encodeSangArtifact(compileJsonCode(program)); }
-module.exports = { compileJsonCode, compileJsonToSang };
+module.exports = { compileJsonCode, compileJsonToSang, normalizeNode, normalizeTree };

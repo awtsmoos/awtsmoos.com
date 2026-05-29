@@ -2,26 +2,153 @@
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
 /**
- * Last Ladder of the Laughing Door.
+ * Last Ladder of the Laughing Door is rewritten by hand as a harsher but fair late-game court.
  *
- * The Awtsmoos lets the final new chamber mock certainty. The door appears
- * close enough to insult the player, then demands a huge side climb, returning
- * descent, enemy-held coins, and a final test of which spike is secretly floor.
+ * Chapter 33: The Awtsmoos tears certainty open like iron cloth. Fake coins
+ * glitter with room to refuse them, fake platforms move with visible intent,
+ * safe-spike bridges teach reversal, proximity teeth warn before judgment, and
+ * every carrier enemy holds a counted spark. The chamber is sharper now, but
+ * the route stays readable.
  */
 export const level33 = L(
   '33 · Last Ladder of the Laughing Door',
-  18800,
+  19000,
   { x: 60, y: 420 },
-  P(18420, 100, 44, 90),
-  'The last ladder laughs because the beginning was never behind you.',
-  [P(0,505,360,35),P(640,435,130,20),P(1200,355,135,20),P(1800,275,140,20),P(2440,195,145,20),P(3120,115,150,20),P(3840,195,155,20),P(4600,275,160,20),P(5400,355,165,20),P(6240,275,170,20),P(7120,195,175,20),P(8040,115,180,20),P(9000,195,185,20),P(10000,275,190,20),P(11040,355,195,20),P(12120,275,200,20),P(13240,195,210,20),P(14400,115,220,20),P(15600,155,230,20),P(17680,185,340,20)],
-  [R(980,408,92,14,-4.4,940),R(5280,248,110,14,5.4,1060),R(9660,168,122,14,-5.8,1180),R(14940,92,132,14,6.2,1260)],
-  [T(1440,339,92,16,'falseSpike'),T(2140,259,94,16,'booster',{dir:1,boost:1380,lift:62}),T(2840,179,96,16,'ice',{duration:2.2}),T(3560,99,98,16,'oneWay'),T(4320,179,100,16,'phantom'),T(5100,259,102,16,'commitDrop',{reform:3.1}),T(5920,339,104,16,'reverseBooster',{dir:1,boost:1240}),T(6780,259,106,16,'magnet',{pull:780}),T(7680,179,108,16,'antiJump'),T(8620,99,110,16,'falseSpike'),T(9600,179,112,16,'booster',{dir:-1,boost:1380,lift:48}),T(10620,259,114,16,'ice',{duration:2.25}),T(11680,339,116,16,'fakeCheckpoint'),T(12780,259,118,16,'phantom'),T(13920,179,120,16,'oneWay'),T(15100,99,124,16,'antiSpeed'),T(16360,139,128,16,'falseSpike'),T(17280,149,130,16,'falseSpike')],
-  [C(260,460),C(680,395),C(1240,315,'dinar'),C(1840,235),C(2480,155,'sela'),C(3160,75),C(3880,155,'maneh'),C(4640,235),C(5440,315,'dinar'),C(6280,235),C(7160,155,'sela'),C(8080,75),C(9040,155,'dinar'),C(10040,235),C(11080,315,'maneh'),C(12160,235),C(13280,155,'sela'),C(14440,75),C(15640,115,'dinar'),C(17720,145,'maneh')],
-  [C(18300,125,'dinar')],
-  [S(560,481,90,24,1.2,1,2),S(5080,481,100,24,1.95,1,2.2),S(9600,481,110,24,2.45,1,2.2),S(14180,481,120,24,2.15,1,2.1),S(16980,481,130,24,2.75,1,2.2)],
-  [E(2480,161,2420,2640,150,'watcher','laughing eye',{dropCoin:'dinar'}),E(5440,321,5380,5620,158,'scroll','door receipt'),E(9040,161,8940,9260,156,'leaper','last jumper',{dropCoin:'sela'}),E(12160,241,12040,12420,170,'herder','return shepherd'),E(15640,121,15480,15880,154,'baitGuard','laughing lock'),E(17720,151,17620,17980,146,'feign','sleeping final coin',{dropCoin:'maneh'})],
-  [G(1440,235,130,130,'The laughing door begins with a floor-shaped spike.',{}),G(3560,45,150,130,'The ladder is one-way only when you are falling back from pride.',{}),G(8040,45,150,130,'The door laughs and drops three teeth.',{spikes:[{x:8180,y:10,w:72,h:24,warning:.55,duration:1.1,fallSpeed:500},{x:8270,y:42,w:76,h:24,warning:.7,duration:1.1,fallSpeed:535},{x:8365,y:74,w:80,h:24,warning:.85,duration:1.1,fallSpeed:565}]}),G(11080,280,150,130,'The checkpoint is theater. The return is real.',{}),G(17020,98,170,130,'The final door opens only after the sleeping coin is stomped awake.',{openExit:true})],
-  ['The last ladder is a joke told by the first floor.', 'A spike may be the bridge, and a bridge may be teeth.', 'The door laughs until every carrier has paid.'],
-  {fakeCoins:[F(1460,300,'dinar','The laughing coin bit first.'),F(8620,70,'maneh','The final crown was a falling tooth.'),F(15120,70,'sela','The quiet end-spark lied.')],trickCoins:[{x:2480,y:155,kind:'reverseRunner',speed:470,min:2340,max:2680},{x:7160,y:155,kind:'trapBait',baitX:8040,speed:320,min:7000,max:8120},{x:10040,y:235,kind:'shyVanish',safeSide:'right'},{x:13920,y:155,kind:'fakeRunner',min:13760,max:14200}]}
+  P(18720, 112, 52, 90),
+  'The door laughs until every fake floor has been tested twice.',
+  [
+  P(0, 505, 400, 35),
+  P(620, 444, 210, 24),
+  P(1090, 374, 234, 24),
+  P(1598, 304, 258, 24),
+  P(2144, 234, 282, 24),
+  P(2614, 164, 210, 24),
+  P(3122, 94, 234, 24),
+  P(3668, 174, 258, 24),
+  P(4138, 254, 282, 24),
+  P(4646, 334, 210, 24),
+  P(5192, 264, 234, 24),
+  P(5662, 194, 258, 24),
+  P(6170, 124, 282, 24),
+  P(6716, 204, 210, 24),
+  P(7186, 284, 234, 24),
+  P(7694, 354, 258, 24),
+  P(8240, 284, 282, 24),
+  P(8710, 214, 210, 24),
+  P(9218, 144, 234, 24),
+  P(9764, 184, 258, 24),
+  P(10234, 224, 282, 24),
+  P(10742, 164, 210, 24),
+  P(11288, 204, 234, 24),
+  P(11758, 244, 258, 24),
+  P(12266, 214, 282, 24),
+  P(12812, 184, 210, 24),
+  P(13282, 154, 234, 24),
+  P(18140, 236, 300, 24),
+  P(18550, 206, 330, 24)
+],
+  [
+  R(880, 416, 104, 14, 3.6, 680),
+  R(3920, 346, 112, 14, -4.1, 760),
+  R(7240, 298, 120, 14, 4.4, 830),
+  R(17520, 190, 126, 14, -4.7, 900)
+],
+  [
+  T(1120, 356, 96, 16, 'falseSpike', {}),
+  T(1970, 286, 104, 16, 'safeSpike', {}),
+  T(2700, 216, 118, 16, 'oneWay', {}),
+  T(3550, 146, 118, 16, 'phantom', {}),
+  T(4280, 76, 118, 16, 'commitDrop', { reform: 2.65 }),
+  T(5130, 156, 118, 16, 'reverseBooster', { dir: -1, boost: 970 }),
+  T(5860, 236, 118, 16, 'magnet', { pull: 520 }),
+  T(6710, 316, 118, 16, 'antiJump', {}),
+  T(7440, 246, 118, 16, 'booster', { dir: -1, boost: 1020, lift: 36 }),
+  T(8290, 176, 118, 16, 'fakeCheckpoint', {}),
+  T(9020, 106, 118, 16, 'phantom', {}),
+  T(9870, 186, 118, 16, 'antiSpeed', {}),
+  T(10600, 266, 104, 16, 'safeSpike', {}),
+  T(11450, 336, 118, 16, 'baitShift', { shiftX: -150, range: 220 }),
+  T(12180, 266, 96, 16, 'falseSpike', {}),
+  T(13030, 196, 118, 16, 'baitShift', { shiftX: -150, range: 220 })
+],
+  [
+  C(280, 460),
+  C(660, 398, 'maneh'),
+  C(1130, 328, 'dinar'),
+  C(1638, 258),
+  C(2184, 188, 'dinar'),
+  C(2654, 118),
+  C(3162, 48, 'sela'),
+  C(3708, 128),
+  C(4178, 208, 'maneh'),
+  C(4686, 288, 'dinar'),
+  C(5232, 218),
+  C(5702, 148, 'dinar'),
+  C(6210, 78),
+  C(6756, 158, 'sela'),
+  C(7226, 238),
+  C(7734, 308, 'maneh'),
+  C(8280, 238, 'dinar'),
+  C(8750, 168),
+  C(9258, 98, 'dinar'),
+  C(9804, 138),
+  C(10274, 178, 'sela'),
+  C(10782, 118),
+  C(11328, 158, 'maneh'),
+  C(11798, 198, 'dinar'),
+  C(12306, 168),
+  C(12852, 138, 'dinar'),
+  C(13322, 108),
+  C(18300, 186, 'sela'),
+  C(18670, 158, 'maneh')
+],
+  [
+  C(18440, 164, 'dinar'),
+  C(18770, 166, 'sela')
+],
+  [
+  S(450, 481, 100, 24, 1, 1, 2),
+  S(3200, 481, 112, 24, 1.75, 1, 2.15),
+  S(6400, 481, 124, 24, 2.25, 1, 2.25),
+  S(9600, 481, 136, 24, 1.95, 1, 2.15),
+  S(17760, 481, 148, 24, 2.5, 1, 2.25),
+  { x: 17320, y: 481, w: 92, h: 24, proximity: true, range: 140, warning: 0.96, duration: 1.05 }
+],
+  [
+  E(2100, 130, 1980, 2320, 132, 'watcher', 'Last Ladder debt-eye', { dropCoin: 'dinar' }),
+  E(4520, 300, 4400, 4740, 144, 'scroll', 'Last Ladder false clerk'),
+  E(6420, 108, 6280, 6660, 146, 'leaper', 'Last Ladder coin-jailer', { dropCoin: 'sela' }),
+  E(8540, 230, 8400, 8800, 154, 'herder', 'Last Ladder return herder'),
+  E(17200, 198, 17060, 17480, 146, 'baitGuard', 'Last Ladder final deceiver'),
+  E(18040, 170, 17920, 18300, 138, 'feign', 'Last Ladder sleeping debt', { dropCoin: 'maneh' })
+],
+  [
+  G(1080, 274, 190, 130, 'The first bridge runs when trusted; wait for its confession.', {}),
+  G(2100, 70, 210, 145, 'A visible carrier holds a required coin above the broad shelf.', {}),
+  G(5600, 74, 210, 145, 'The upper route is hard, optional, and fully readable.', {}),
+  G(7080, 212, 200, 135, 'The falling teeth show a full warning breath before judgment.', { spikes: [{ x: 7240, y: 82, w: 80, h: 24, warning: 0.96, duration: 1.12, fallSpeed: 450 }, { x: 7345, y: 114, w: 84, h: 24, warning: 1.04, duration: 1.12, fallSpeed: 480 }, { x: 7455, y: 146, w: 88, h: 24, warning: 1.12, duration: 1.12, fallSpeed: 510 }] }),
+  G(17980, 154, 210, 135, 'The final fake coin is loud enough to be refused.', {}),
+  G(18360, 130, 240, 145, 'The door opens only after every honest coin, key, and carrier debt.', { openExit: true })
+],
+  [
+  'Last Ladder is hard because it teaches before it strikes.',
+  'The Awtsmoos leaves fake coins, fake platforms, spike-bridges, and proximity teeth in readable space.',
+  'Every required spark is reachable by a broad route or a warned upper detour.'
+],
+  {
+    fakeCoins: [
+      F(1180, 320, 'dinar', 'The first coin laughed with teeth.'),
+      F(3580, 282, 'sela', 'The center shine was a hook.'),
+      F(7440, 182, 'maneh', 'The warned crown was bait.'),
+      F(17880, 152, 'dinar', 'The late bargain wore a knife.'),
+      F(18180, 150, 'sela', 'The final discount snapped shut.')
+],
+    trickCoins: [
+      { x: 1960, y: 120, kind: 'reverseRunner', speed: 340, min: 1780, max: 2280 },
+      { x: 3440, y: 260, kind: 'trapBait', baitX: 3860, speed: 265, min: 3240, max: 4000 },
+      { x: 5480, y: 116, kind: 'shyVanish', safeSide: 'right' },
+      { x: 8460, y: 220, kind: 'fakeRunner', min: 8260, max: 8740 },
+      { x: 17920, y: 184, kind: 'trapBait', baitX: 18240, speed: 275, min: 17760, max: 18350 }
+]
+  }
 );
