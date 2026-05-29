@@ -3,7 +3,7 @@
  * @file stream-client.js
  * @brief OpenAI-compatible SSE river parser for MiniMax/Groq/OpenRouter.
  *
- * CHAPTER 232: THE RIVER UNDERSTOOD BOTH STRICT SSE AND BROKEN NEWLINE STREAMS.
+ * CHAPTER 265: THE TOOL WAS ASSEMBLED EVEN WHEN NO ONE WAS WATCHING.
  */
 
 export function parseSSEDataLine(line) {
@@ -104,7 +104,8 @@ function createStreamState(providerId, callbacks, reasoningExtractor) {
     handleTools(delta = {}) {
       const list = delta.tool_calls || delta.toolCalls || [];
       if (!Array.isArray(list) || !list.length) return;
-      callbacks.onToolCall?.(this.toolAssembler.accept(list), { partial: true });
+      const calls = this.toolAssembler.accept(list);
+      callbacks.onToolCall?.(calls, { partial: true });
     },
     metrics() { return { providerId, usage: this.usage, finishReason: this.finishReason, toolCalls: this.toolAssembler.calls(), textChars: this.text.length, reasoningChars: this.reasoning.length }; },
     complete() {

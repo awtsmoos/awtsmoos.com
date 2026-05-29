@@ -1,11 +1,12 @@
 B"H
-1.0.18
+1.0.20
 main.js
 
 lib/config.js
 lib/local-api.js
 lib/log.js
 lib/open.js
+lib/tool-schema-catalog.js
 lib/ws.js
 main.js
 manifest.json

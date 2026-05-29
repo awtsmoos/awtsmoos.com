@@ -1,15 +1,14 @@
 #!/usr/bin/env sh
 # B"H
-# Chapter 15: The Unix River Reached The City.
-# The Awtsmoos downloads the split-browser manifest, places every module in one
-# local folder, checks Node, then starts `node index.js` so /control and /chatgpt
-# actually belong to the relay the human asked for.
+# Chapter 18: The Unix River Dropped The Unused Bridge.
+# This installer downloads only the modules the running split-browser server
+# needs, then starts the real local /control relay with `node index.js`.
 set -eu
 
 BASE_URL="https://awtsmoos.com/ai/relay/split-browser"
 AWTSMOOS_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/awtsmoos/chatgpt-relay/split-browser"
-MANIFEST_FILE="$AWTSMOOS_HOME/manifest.json"
 PORT="${AWTSMOOS_SPLIT_BROWSER_PORT:-38488}"
+RELAY_FILES="authState.cjs autoLogin.cjs automation.cjs bodyPolicy.cjs bodyTransform.cjs browserRewrite.cjs browserShim.cjs cdpChrome.cjs clientDiagnostics.cjs clientState.cjs config.cjs controlPage.cjs cookieJar.cjs debugApi.cjs debugClient.cjs headerMap.cjs http.cjs index.js jsPreamble.cjs logger.cjs originPolicy.cjs proxy.cjs relayApi.cjs rewriteHtml.cjs rewriteText.cjs routeNormalize.cjs server.cjs urlMap.cjs"
 
 say() { printf '%s\n' "B\"H Awtsmoos split relay :: $*"; }
 has() { command -v "$1" >/dev/null 2>&1; }
@@ -37,9 +36,11 @@ install_node_if_missing() {
 
 install_relay() {
   mkdir -p "$AWTSMOOS_HOME"
-  say "Downloading manifest to $MANIFEST_FILE"
-  fetch "$BASE_URL/manifest.json" "$MANIFEST_FILE"
-  node -e "const fs=require('fs'),https=require('https'),path=require('path');const home=process.argv[1],base=process.argv[2],manifest=JSON.parse(fs.readFileSync(path.join(home,'manifest.json'),'utf8'));function get(file){return new Promise((resolve,reject)=>{const out=fs.createWriteStream(path.join(home,file));https.get(base+'/'+file,res=>{if(res.statusCode!==200)return reject(new Error(file+' HTTP '+res.statusCode));res.pipe(out);out.on('finish',()=>out.close(resolve));}).on('error',reject);});}(async()=>{for(const file of manifest.files){console.log('B\\\"H download '+file);await get(file);}if(!fs.existsSync(path.join(home,manifest.entry)))throw new Error('entry missing');})().catch(e=>{console.error(e.stack||e.message);process.exit(1);});" "$AWTSMOOS_HOME" "$BASE_URL"
+  for file in $RELAY_FILES; do
+    say "Downloading $file"
+    fetch "$BASE_URL/$file" "$AWTSMOOS_HOME/$file"
+  done
+  test -f "$AWTSMOOS_HOME/index.js" || { say "Relay entry was not downloaded."; exit 1; }
   chmod +x "$AWTSMOOS_HOME/index.js"
 }
 

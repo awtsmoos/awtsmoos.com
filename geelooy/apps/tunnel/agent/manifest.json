@@ -1,7 +1,7 @@
 {
   "BH": "B\"H",
-  "version": "1.5.61",
-  "previousVersion": "1.5.60",
+  "version": "1.5.62",
+  "previousVersion": "1.5.61",
   "entry": "main.js",
   "files": [
     {
@@ -11,8 +11,8 @@
     },
     {
       "path": "lib/local-api.js",
-      "bytes": 6727,
-      "sha256": "e3750f44efa8d56a1ffa7672cea2c0161503d395788955b83dfccd49bb73e672"
+      "bytes": 7252,
+      "sha256": "9d464524dd00785af77443d4e8c618e0ba8ba7016ca7065d2bccbb85e543dfa8"
     },
     {
       "path": "lib/log.js",
@@ -23,6 +23,11 @@
       "path": "lib/open.js",
       "bytes": 1275,
       "sha256": "2061926582af667e32e6674f4145cbb3a955f1f769de03fb729e84c140dffc3c"
+    },
+    {
+      "path": "lib/tool-schema-catalog.js",
+      "bytes": 9849,
+      "sha256": "156aa421522e273bb6c4c8ed31517c4ccac5580cba6c0d34f46364470727427a"
     },
     {
       "path": "lib/ws.js",

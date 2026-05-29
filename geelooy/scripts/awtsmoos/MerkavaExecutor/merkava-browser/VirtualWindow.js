@@ -16,9 +16,10 @@
 
   /**
    * B"H
-   * The browser-window vessel now exposes Chrome-like primitives with real
-   * observable state: UUIDs, structured clone, microtasks, mutation records,
-   * timers, storage, network, input, and render snapshots.
+   * Chapter 85: The synthetic window became a steadier lantern.
+   * It gives VirtualFetch the current page URL, so relative fetches can resolve
+   * through browser-shaped aliases; it also exposes the same Chrome-like globals
+   * that tests inspect through snapshots, console, network, mouse, and keyboard.
    */
   class VirtualWindow {
     constructor({ files = {}, graph = null, url = 'http://127.0.0.1:8080/' } = {}) {
@@ -32,7 +33,7 @@
       this.history = { stack: [this.location.href], pushState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack.push(this.location.href); }, replaceState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack[this.history.stack.length - 1] = this.location.href; } };
       this.performance = { now: () => Date.now() };
       this.__timers = new Map();
-      this.__network = new VirtualFetch({ files, graph });
+      this.__network = new VirtualFetch({ files, graph, baseUrl: this.location.href });
       this.fetch = this.__network.fetch.bind(this.__network);
       this.Event = events.VirtualEvent;
       this.CustomEvent = events.VirtualCustomEvent;
