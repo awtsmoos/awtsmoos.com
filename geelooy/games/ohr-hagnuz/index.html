@@ -3,28 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>B"H - Ohr HaGnuz - The Hidden Light</title>
+  <title>B&quot;H - Ohr HaGnuz - The Hidden Light</title>
   <style>
+    /**
+     * B"H
+     * Chapter 2: The Vessel Learns To Breathe Inside A Small Glass Sky.
+     * The Awtsmoos has no body and no form; these rules only shape the finite
+     * chamber where pixels receive room, air, and mercy on phone and desktop.
+     */
     :root {
       --gold: #fff176;
       --violet: #7e57c2;
       --cyan: #4dd0e1;
       --deep: #050510;
-      --shell-w: min(100vw - 16px, 1066px);
-      --shell-h: min(100dvh - 16px, calc(var(--shell-w) * .75));
+      --safe-top: max(6px, env(safe-area-inset-top));
+      --safe-right: max(6px, env(safe-area-inset-right));
+      --safe-bottom: max(6px, env(safe-area-inset-bottom));
+      --safe-left: max(6px, env(safe-area-inset-left));
+      --frame-w: min(calc(100vw - var(--safe-left) - var(--safe-right)), 1180px);
+      --frame-h: min(calc(100dvh - var(--safe-top) - var(--safe-bottom)), calc(var(--frame-w) * .75));
     }
 
     * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
-      min-width: 100%;
+      width: 100%;
       min-height: 100%;
       overflow: hidden;
       background:
-        radial-gradient(circle at 50% 42%, rgba(126, 87, 194, .22), transparent 38%),
-        radial-gradient(circle at 20% 80%, rgba(77, 208, 225, .16), transparent 32%),
-        linear-gradient(135deg, #020207, #09091f 44%, #03060a);
+        radial-gradient(circle at 50% 22%, rgba(126, 87, 194, .28), transparent 36%),
+        radial-gradient(circle at 20% 86%, rgba(77, 208, 225, .18), transparent 34%),
+        linear-gradient(135deg, #020207, #09091f 46%, #03060a);
       color: #fffde7;
       font-family: "Share Tech Mono", "Courier New", monospace;
       touch-action: none;
@@ -33,9 +43,10 @@
 
     body {
       min-height: 100dvh;
-      display: grid;
-      place-items: center;
-      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
     }
 
     body::before {
@@ -44,8 +55,8 @@
       inset: 0;
       display: grid;
       place-items: center;
-      font: 700 clamp(34px, 8vw, 88px) serif;
-      letter-spacing: clamp(7px, 2vw, 18px);
+      font: 700 clamp(28px, 7vw, 94px) serif;
+      letter-spacing: clamp(6px, 2vw, 18px);
       color: rgba(255, 255, 255, .035);
       transform: rotate(-8deg);
       pointer-events: none;
@@ -54,13 +65,13 @@
 
     #game-shell {
       position: relative;
-      width: var(--shell-w);
-      height: var(--shell-h);
-      max-height: calc(var(--shell-w) * .75);
+      width: var(--frame-w);
+      height: var(--frame-h);
+      aspect-ratio: 4 / 3;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(255, 241, 118, .56);
-      border-radius: clamp(12px, 3vw, 24px);
+      border: 1px solid rgba(255, 241, 118, .62);
+      border-radius: clamp(10px, 2.6vw, 22px);
       box-shadow: 0 0 42px rgba(126, 87, 194, .35), inset 0 0 40px rgba(255, 255, 255, .05);
       background: rgba(0, 0, 0, .32);
       overflow: hidden;
@@ -87,13 +98,22 @@
 
     @media (orientation: portrait) {
       :root {
-        --shell-w: min(100vw - 12px, calc((100dvh - 12px) * 1.3333));
-        --shell-h: calc(var(--shell-w) * .75);
+        --frame-w: min(calc(100vw - var(--safe-left) - var(--safe-right)), calc((100dvh - var(--safe-top) - var(--safe-bottom)) * 1.3333));
+        --frame-h: calc(var(--frame-w) * .75);
+      }
+
+      body {
+        align-items: flex-start;
+        padding-top: max(var(--safe-top), 10px);
       }
     }
 
-    @media (min-width: 1100px) {
-      :root { --shell-w: 1040px; }
+    @media (min-width: 980px) and (min-height: 760px) {
+      :root { --frame-w: min(96vw, 1120px); }
+    }
+
+    @media (min-width: 1280px) and (min-height: 900px) {
+      :root { --frame-w: min(92vw, 1240px); }
       .vessel-layer { image-rendering: auto; }
     }
 

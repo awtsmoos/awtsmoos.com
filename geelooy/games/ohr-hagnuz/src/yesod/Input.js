@@ -1,12 +1,15 @@
 import { State } from '../binah/State.js';
 import { Logic } from './Logic.js';
+import { moveIndexAt } from '../tiferet/render/BattleMoveLayout.js';
 
 /**
  * B"H
  * @class Input
- * @description Binds keyboard and pointer intent to the Ohr HaGnuz runtime.
- * A finger descends upon glass; no body or form of the Awtsmoos is caught there,
- * only the renewed letter of intention, filtered safely into movement and debate choice.
+ *
+ * Chapter 16: The Finger And The Painted Gate Became One Witness.
+ * The Awtsmoos has no body and no form; still, if a button is drawn in one
+ * place and touched in another, the vessel is false. This input class now asks
+ * the same layout oracle the renderer uses, so mobile battles become exact.
  */
 export class Input {
   static bound = false;
@@ -14,11 +17,10 @@ export class Input {
   static bind() {
     if (this.bound) return;
     this.bound = true;
-    const map = { ArrowUp: 'U', w: 'U', W: 'U', ArrowDown: 'D', s: 'D', S: 'D', ArrowLeft: 'L', a: 'L', A: 'L', ArrowRight: 'R', d: 'R', D: 'R', z: 'A', Z: 'A', Enter: 'A', ' ': 'A', x: 'B', X: 'B', Escape: 'B' };
+    const map = { ArrowUp:'U', w:'U', W:'U', ArrowDown:'D', s:'D', S:'D', ArrowLeft:'L', a:'L', A:'L', ArrowRight:'R', d:'R', D:'R', z:'A', Z:'A', Enter:'A', ' ':'A', x:'B', X:'B', Escape:'B' };
     window.addEventListener('keydown', e => this.keyDown(e, map));
     window.addEventListener('keyup', e => this.keyUp(e, map));
     this.pointer();
-    console.log('B"H - Input bound: arrows/WASD, click-to-move, F1-F4 presets.');
   }
 
   static keyDown(e, map) {
@@ -28,13 +30,11 @@ export class Input {
       e.preventDefault();
       return;
     }
-    const presets = { F1: 'door', F2: 'forest', F3: 'trainer', F4: 'grass' };
-    if (presets[e.key]) { window.OhrTest?.preset(presets[e.key]); e.preventDefault(); return; }
     const k = map[e.key];
     if (!k) return;
     window.AwtsmoosIntents[k] = 1;
-    if (['U', 'D', 'L', 'R'].includes(k)) Logic.cancelPath('manual-key');
-    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) e.preventDefault();
+    if (['U','D','L','R'].includes(k)) Logic.cancelPath('manual-key');
+    e.preventDefault?.();
   }
 
   static keyUp(e, map) {
@@ -49,22 +49,21 @@ export class Input {
   }
 
   static pointerDown(e, c) {
-    if (e.button !== undefined && e.button !== 0) return;
-    if (e.isPrimary === false) return;
     e.preventDefault?.();
-    if (e.pointerId !== undefined) c.setPointerCapture?.(e.pointerId);
     if (State.ActiveRealm === 'DEBATE') {
       const i = this.debateIndex(e, c);
-      if (i !== null) { State.Debate.cursor = i; Logic.selectDebateMove(i); }
+      if (i !== null) {
+        State.Debate.cursor = i;
+        Logic.selectDebateMove(i);
+      }
       return;
     }
-    const t = this.tile(e, c);
-    if (t) Logic.setPathTo(t.x, t.y);
+    const tile = this.tile(e, c);
+    if (tile) Logic.setPathTo(tile.x, tile.y);
   }
 
   static tile(e, c) {
     const r = c.getBoundingClientRect();
-    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return null;
     const x = (e.clientX - r.left) * (c.width / r.width);
     const y = (e.clientY - r.top) * (c.height / r.height);
     const res = State.Resolution;
@@ -77,13 +76,6 @@ export class Input {
     const r = c.getBoundingClientRect();
     const x = (e.clientX - r.left) * (c.width / r.width);
     const y = (e.clientY - r.top) * (c.height / r.height);
-    const slots = [
-      { x: 52, y: 448, w: 312, h: 34, i: 0 },
-      { x: 52, y: 490, w: 312, h: 34, i: 1 },
-      { x: 410, y: 448, w: 312, h: 34, i: 2 },
-      { x: 410, y: 490, w: 312, h: 34, i: 3 }
-    ];
-    const hit = slots.find(s => x >= s.x && x <= s.x + s.w && y >= s.y && y <= s.y + s.h);
-    return hit ? hit.i : null;
+    return moveIndexAt(x, y, c.width, r.width);
   }
 }

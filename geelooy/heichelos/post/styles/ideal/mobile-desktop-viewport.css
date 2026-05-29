@@ -1,0 +1,129 @@
+/* B"H
+   Chapter 47a: The viewport gate.
+   The Awtsmoos breathes through dynamic viewport units, safe areas, and flex
+   minima. This file owns only page geometry and scroll-chain survival, so no
+   drawer or card selector quarrels with the older reader vision scroll.
+*/
+
+.all.post-reader-localized-context.awtsmoos-reader-vision {
+    min-height: 100dvh !important;
+    height: auto !important;
+    overflow-x: clip !important;
+    overflow-y: auto !important;
+    isolation: isolate !important;
+    --reader-safe-top: env(safe-area-inset-top, 0px);
+    --reader-safe-right: env(safe-area-inset-right, 0px);
+    --reader-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --reader-safe-left: env(safe-area-inset-left, 0px);
+    --reader-panel-gutter: clamp(10px, 3vw, 18px);
+    --reader-touch-target: 44px;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision *,
+.all.post-reader-localized-context.awtsmoos-reader-vision *::before,
+.all.post-reader-localized-context.awtsmoos-reader-vision *::after {
+    box-sizing: border-box !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-integrated-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: var(--z-header) !important;
+    min-height: var(--reader-touch-target) !important;
+    max-width: 100% !important;
+    overflow: clip !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision > .main {
+    position: relative !important;
+    align-items: stretch !important;
+    overflow: visible !important;
+    min-width: 0 !important;
+    min-height: calc(100dvh - var(--reader-mobile-header-space, 78px)) !important;
+    max-width: 100% !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost.content,
+.all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision button,
+.all.post-reader-localized-context.awtsmoos-reader-vision [role="button"],
+.all.post-reader-localized-context.awtsmoos-reader-vision input,
+.all.post-reader-localized-context.awtsmoos-reader-vision select,
+.all.post-reader-localized-context.awtsmoos-reader-vision textarea,
+.all.post-reader-localized-context.awtsmoos-reader-vision .comment-chip-action {
+    min-height: var(--reader-touch-target) !important;
+    touch-action: manipulation !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-tabs {
+    display: flex !important;
+    grid-template-columns: none !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin !important;
+    flex-wrap: nowrap !important;
+    scroll-snap-type: x proximity !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .tab-buttons,
+.all.post-reader-localized-context.awtsmoos-reader-vision .tabs,
+.all.post-reader-localized-context.awtsmoos-reader-vision [role="tablist"] {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin !important;
+    flex-wrap: nowrap !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-tab-btn {
+    flex: 0 0 auto !important;
+    min-width: max(92px, 28vw) !important;
+    min-height: var(--reader-touch-target) !important;
+    scroll-snap-align: start !important;
+}
+
+@media (max-width: 900px) {
+    html,
+    body {
+        min-height: 100dvh !important;
+        overflow-x: clip !important;
+    }
+
+    body .all.post-reader-localized-context.awtsmoos-reader-vision {
+        --reader-mobile-header-space: clamp(52px, 14vw, 68px);
+        --reader-mobile-bottom-space: calc(var(--ideal-dock-height) + var(--reader-safe-bottom) + 74px);
+    }
+
+    body .all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-integrated-header {
+        min-height: 52px !important;
+        max-height: 68px !important;
+    }
+
+    body .all.post-reader-localized-context.awtsmoos-reader-vision > .main {
+        display: block !important;
+        min-height: calc(100dvh - var(--reader-mobile-header-space)) !important;
+        padding-bottom: var(--reader-mobile-bottom-space) !important;
+    }
+
+    body .all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container.awtsmoos-virtual-scroll {
+        padding-bottom: calc(var(--reader-mobile-bottom-space) + 3rem) !important;
+    }
+}
+
+@media (min-width: 901px) {
+    html body .all.post-reader-localized-context.awtsmoos-reader-vision > .main {
+        padding-inline-end: calc(var(--ideal-sidebar-width) + 18px) !important;
+    }
+}

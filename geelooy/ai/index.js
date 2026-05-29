@@ -133,10 +133,14 @@ async function sendAutomationPrompt({ controller, prompt }) {
 async function afterUserSend({ reply, meta, panel, pipeline, aiHandler, controller, rebindAutomation }) {
   const conversationId = meta?.conversationId || getConversationId();
   rebindAutomation(conversationId);
+  const settings = panel.getSettings(conversationId);
+  if (settings.enabled) return await continueThroughRegularAutomation({ reply, meta, settings, panel, pipeline, aiHandler, conversationId });
   if (meta?.nextStep?.needed) return await sendRequestedNextStep({ nextStep: meta.nextStep, controller, panel });
   if (!hasBackgroundAutomationBridge()) return pipeline.afterAssistantReply(reply, meta);
-  const settings = panel.getSettings(conversationId);
-  if (settings.enabled) await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId, chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
+}
+async function continueThroughRegularAutomation({ reply, meta, settings, panel, pipeline, aiHandler, conversationId }) {
+  if (!hasBackgroundAutomationBridge()) return pipeline.afterAssistantReply(reply, meta);
+  return await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId, chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
 }
 async function sendRequestedNextStep({ nextStep, controller, panel }) {
   const prompt = String(nextStep?.prompt || DEFAULT_NEXT_STEP_PROMPT).trim() || DEFAULT_NEXT_STEP_PROMPT;

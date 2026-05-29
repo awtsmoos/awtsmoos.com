@@ -1,0 +1,9 @@
+/* B"H
+   Chapter 47: The Covenant of Viewports.
+   This scroll is now a tiny gatekeeper. It imports two smaller owners: viewport
+   structure and overlay behavior. The split keeps every vessel readable, below
+   the line-limit flame, and clear enough that future CSS cannot ambush it.
+*/
+
+@import url("./mobile-desktop-viewport.css");
+@import url("./mobile-desktop-overlays.css");
