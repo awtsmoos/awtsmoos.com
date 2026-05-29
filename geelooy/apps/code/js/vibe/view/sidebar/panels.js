@@ -11,7 +11,8 @@ export const VibeSidebarPanels = {
             'tree': container.querySelector('#vibe-tree-container'),
             'manifest': container.querySelector('#vibe-manifest-container'),
             'timeline': container.querySelector('#vibe-timeline-container'),
-            'chats': container.querySelector('#vibe-chats-container')
+            'chats': container.querySelector('#vibe-chats-container'),
+            'aichat': container.querySelector('#vibe-aichat-container')
         };
 
         Object.entries(views).forEach(([id, el]) => {
@@ -28,6 +29,10 @@ export const VibeSidebarPanels = {
             // B"H - Trigger the rendering of the Project Chats Ledger
             if (id === 'chats' && isVisible) {
                 import('./chats-ui.js').then(m => m.ChatsUI.render(el, tab, controller));
+            }
+            // B"H - Trigger AI Chat panel
+            if (id === 'aichat' && isVisible) {
+                import('./ai-chat-panel.js').then(m => m.AIChatPanel.render(el, tab, controller));
             }
         });
 

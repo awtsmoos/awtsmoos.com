@@ -40,6 +40,7 @@ export const VibeManagerUI = {
         const openaiKey = ModelManager.getKey('openai') || "";
         const xaiKey = ModelManager.getKey('xai') || "";
         const togetherKey = ModelManager.getKey('together') || "";
+        const minimaxKey = ModelManager.getKey('minimax') || "";
         const customPrompt = ModelManager.getCustomPrompt() || PromptBuilder.getDefaultSystemBase();
         const models = ModelManager.availableModels;
         
@@ -77,7 +78,7 @@ export const VibeManagerUI = {
                                 {
                                     className: 'vibe-manager-column',
                                     children: [
-                                        GatekeeperBox.build(gKey, orKey, groqKey, cerebrasKey, openaiKey, xaiKey, togetherKey, models),
+                                        GatekeeperBox.build(gKey, orKey, groqKey, cerebrasKey, openaiKey, xaiKey, togetherKey, minimaxKey, models),
                                         ModelLimitsBox.build(),
                                         DirectiveBox.build(customPrompt)
                                     ]

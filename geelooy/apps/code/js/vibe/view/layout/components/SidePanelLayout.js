@@ -27,6 +27,7 @@ export const SidePanelLayout = {
                                 { className: 'vibe-sb-tab', dataset: { tab: 'manifest' }, text: 'External' },
                                 { className: 'vibe-sb-tab', dataset: { tab: 'timeline' }, text: 'Timeline' },
                                 { className: 'vibe-sb-tab', dataset: { tab: 'chats' }, text: 'Chats' },
+                                { className: 'vibe-sb-tab', dataset: { tab: 'aichat' }, text: '⚡ AI' },
                                 { className: 'vibe-tab-spacer' },
                                 {
                                     className: 'vibe-header-actions',
@@ -41,6 +42,7 @@ export const SidePanelLayout = {
                         { id: 'vibe-manifest-container', className: 'vibe-manifest-view', style: { display: 'none' } },
                         { id: 'vibe-timeline-container', className: 'vibe-timeline-view', style: { display: 'none' } },
                         { id: 'vibe-chats-container', className: 'vibe-context-list', style: { display: 'none' } },
+                        { id: 'vibe-aichat-container', className: 'vibe-context-list', style: { display: 'none' } },
                         { className: 'vibe-settings-area', children: [{ id: 'vibe-model-badge', text: '...' }] }
                     ]
                 }

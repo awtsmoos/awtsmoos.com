@@ -9,6 +9,16 @@
  * code editor AI, and local agent scripts can drink from the same source.
  */
 export const AI_PROVIDERS = Object.freeze({
+  minimax: {
+    id: "minimax",
+    name: "MiniMax",
+    apiKeyUrl: "https://platform.minimax.io/docs/api-reference/text-openai-api",
+    envKey: "MINIMAX_API_KEY",
+    storageKey: "minimax",
+    endpoint: "https://api.minimax.io/v1/chat/completions",
+    defaultModel: "MiniMax-M2.7",
+    extraBody: { reasoning_split: true }
+  },
   openrouter: {
     id: "openrouter",
     name: "OpenRouter",

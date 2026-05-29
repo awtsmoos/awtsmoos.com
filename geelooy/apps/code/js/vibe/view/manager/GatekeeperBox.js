@@ -12,7 +12,7 @@ export const GatekeeperBox = {
     /**
      * B"H - Constructs the API Credentials Sphere.
      */
-    build(gKey, orKey, groqKey, cerebrasKey, openaiKey, xaiKey, togetherKey, models) {
+    build(gKey, orKey, groqKey, cerebrasKey, openaiKey, xaiKey, togetherKey, minimaxKey, models) {
         return {
             className: 'vibe-manager-box gatekeepers',
             children: [
@@ -37,6 +37,8 @@ export const GatekeeperBox = {
                 this._credentialPalace('xAI (Grok)', 'xai-...', xaiKey, 'mgr-api-key-xai', 'mgr-save-key-xai', 'https://console.x.ai'),
                 // Together Section
                 this._credentialPalace('Together AI', 'together-...', togetherKey, 'mgr-api-key-together', 'mgr-save-key-together', 'https://api.together.xyz/settings/api-keys'),
+                // MiniMax Section
+                this._credentialPalace('MiniMax', 'sk-cp-...', ModelManager.getKey('minimax') || '', 'mgr-api-key-minimax', 'mgr-save-key-minimax', 'https://api.minimax.io/'),
                 
                 // Model Selection Sphere
                 {
@@ -119,6 +121,9 @@ export const GatekeeperBox = {
 
         const togetherBtn = container.querySelector('#mgr-save-key-together');
         if (togetherBtn) togetherBtn.onclick = () => bindKey('#mgr-api-key-together', 'together');
+
+        const minimaxBtn = container.querySelector('#mgr-save-key-minimax');
+        if (minimaxBtn) minimaxBtn.onclick = () => bindKey('#mgr-api-key-minimax', 'minimax');
 
         const sel = container.querySelector('#mgr-model-select');
         if (sel) {

@@ -1,13 +1,13 @@
 // B"H
-import { buildChatPayload, extractAssistantText, normalizeMessages } from "./payload.js";
-
 /**
- * B"H
- * Chapter 19: The stream split into sparks, yet each spark remembered the sea.
- *
- * This client works in browser and Node fetch worlds. It can stream SSE chunks
- * or fall back to one JSON response, keeping provider code centralized.
+ * @file streamClient.js
+ * @brief OpenAI-compatible stream client for geelooy/ai.
+ * Now uses the shared streaming module from geelooy/shared/streaming/.
  */
+
+import { buildChatPayload, extractAssistantText, normalizeMessages } from "./payload.js";
+import { readSSEStream } from "../../../shared/streaming/index.js";
+
 export class OpenAICompatibleStreamClient {
   constructor({ provider, apiKey, fetchImpl = fetch } = {}) {
     this.provider = provider;
@@ -16,10 +16,16 @@ export class OpenAICompatibleStreamClient {
   }
 
   async complete({ messages, prompt, model, tools, stream = false, onDelta } = {}) {
-    const payload = buildChatPayload({ model: model || this.provider.defaultModel, messages: normalizeMessages(messages || prompt), tools, stream });
+    const payload = buildChatPayload({
+      model: model || this.provider.defaultModel,
+      messages: normalizeMessages(messages || prompt),
+      tools,
+      stream,
+      extraBody: this.provider.extraBody
+    });
     const response = await this.fetchImpl(this.provider.endpoint, this.request(payload));
     if (!response.ok) throw new Error(await this.errorText(response));
-    if (stream && response.body) return await this.readStream(response, onDelta);
+    if (stream && response.body) return this._readStream(response, onDelta);
     const json = await response.json();
     return { text: extractAssistantText(json), json };
   }
@@ -33,27 +39,15 @@ export class OpenAICompatibleStreamClient {
     return `${this.provider.name} error ${response.status}: ${text}`;
   }
 
-  async readStream(response, onDelta) {
+  async _readStream(response, onDelta) {
     const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let text = "";
-    for (;;) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      for (const line of decoder.decode(value, { stream: true }).split(/\r?\n/)) {
-        const delta = this.parseLine(line);
-        if (!delta) continue;
-        text += delta;
-        onDelta?.(delta, text);
+    let fullText = '';
+    const result = await readSSEStream(reader, this.provider.id, {
+      onChunk: (chunk) => {
+        fullText += chunk;
+        onDelta?.(chunk, fullText);
       }
-    }
-    return { text };
-  }
-
-  parseLine(line) {
-    if (!line.startsWith("data:")) return "";
-    const data = line.slice(5).trim();
-    if (!data || data === "[DONE]") return "";
-    try { return JSON.parse(data)?.choices?.[0]?.delta?.content || ""; } catch (_) { return ""; }
+    });
+    return { text: fullText || result.text, reasoning: result.reasoning, toolCalls: result.tools };
   }
 }
