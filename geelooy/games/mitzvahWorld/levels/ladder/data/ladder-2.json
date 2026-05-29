@@ -1,36 +1,40 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "ladder-2.json",
-  "shaym": "Yesod_Mirror_Causeway",
-  "title": "Mirror Dunes",
-  "requiredPerutos": 8,
+  "shaym": "Beis_Timing_and_False_Gold",
+  "title": "Beis Timing and False Gold",
+  "requiredPerutos": 9,
   "nextLevel": "ladder-3.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
-    "ProceduralSky": {
-      "name": "Clean_Desert_Sky",
-      "timeOfDay": 10,
-      "timeMultiplier": 0,
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
+    "ProceduralSky": [
+      {
+        "name": "beis_timing_sky",
+        "timeOfDay": 10,
+        "timeMultiplier": 0,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
       }
-    },
-    "ProceduralTerrain": {
-      "name": "calm_desert_underlay",
-      "width": 210,
-      "depth": 120,
-      "thickness": 3,
-      "segments": 4,
-      "isSolid": true,
-      "textureType": "sand",
-      "position": {
-        "x": 45,
-        "y": -3,
-        "z": 0
+    ],
+    "ProceduralTerrain": [
+      {
+        "name": "beis_basin_below",
+        "width": 120,
+        "depth": 70,
+        "thickness": 2.4,
+        "segments": 6,
+        "isSolid": false,
+        "textureType": "desert",
+        "position": {
+          "x": 18,
+          "y": -5.4,
+          "z": 0
+        }
       }
-    },
+    ],
     "Chossid": [
       {
         "name": "The Chossid",
@@ -43,380 +47,402 @@
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
-          "x": -8,
-          "y": 4,
-          "z": 0
+          "x": -9,
+          "y": 5.2,
+          "z": -1.2
         }
       }
     ],
     "SolidBlock": [
       {
-        "name": "safe_step_2_0",
-        "width": 9,
-        "height": 1,
-        "depth": 7,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "beis_start_narrow",
+        "width": 6.4,
+        "height": 0.85,
+        "depth": 4.4,
+        "color": 14070366,
+        "textureSeed": "beis_start_narrow",
         "position": {
-          "x": -8,
+          "x": -9,
           "y": 0,
-          "z": -1.3099999999999998
+          "z": -1.2
         },
         "safeRect": {
-          "x": -8,
-          "z": -1.3099999999999998,
-          "width": 9,
-          "depth": 7
+          "x": -9,
+          "z": -1.2,
+          "width": 6.4,
+          "depth": 4.4
         }
       },
       {
-        "name": "safe_step_2_1",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "left_choice_safe",
+        "width": 1.85,
+        "height": 0.85,
+        "depth": 1.45,
+        "color": 14070366,
+        "textureSeed": "left_choice_safe",
         "position": {
-          "x": -2.5999999999999996,
-          "y": 0,
-          "z": 0.09
+          "x": -3.8,
+          "y": 0.85,
+          "z": 1.7
         },
         "safeRect": {
-          "x": -2.5999999999999996,
-          "z": 0.09,
-          "width": 5.4,
-          "depth": 4.6
+          "x": -3.8,
+          "z": 1.7,
+          "width": 1.85,
+          "depth": 1.45
         }
       },
       {
-        "name": "safe_step_2_2",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "right_choice_coin",
+        "width": 1.65,
+        "height": 0.85,
+        "depth": 1.35,
+        "color": 14070366,
+        "textureSeed": "right_choice_coin",
         "position": {
-          "x": 2.8000000000000007,
-          "y": 0,
-          "z": 1.49
+          "x": 0.4,
+          "y": 1.55,
+          "z": -1.8
         },
         "safeRect": {
-          "x": 2.8000000000000007,
-          "z": 1.49,
-          "width": 5.4,
-          "depth": 4.6
+          "x": 0.4,
+          "z": -1.8,
+          "width": 1.65,
+          "depth": 1.35
         }
       },
       {
-        "name": "safe_step_2_3",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "timing_rest_stone",
+        "width": 2.35,
+        "height": 0.85,
+        "depth": 1.7,
+        "color": 14070366,
+        "textureSeed": "timing_rest_stone",
         "position": {
-          "x": 8.200000000000003,
-          "y": 0,
-          "z": -1.3099999999999998
+          "x": 8.9,
+          "y": 2.75,
+          "z": 0
         },
         "safeRect": {
-          "x": 8.200000000000003,
-          "z": -1.3099999999999998,
-          "width": 5.4,
-          "depth": 4.6
+          "x": 8.9,
+          "z": 0,
+          "width": 2.35,
+          "depth": 1.7
         }
       },
       {
-        "name": "safe_step_2_4",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "narrow_gate_approach",
+        "width": 3.1,
+        "height": 0.85,
+        "depth": 1.8,
+        "color": 14070366,
+        "textureSeed": "narrow_gate_approach",
         "position": {
-          "x": 13.600000000000001,
-          "y": 0,
-          "z": 0.09
+          "x": 24.8,
+          "y": 5.1,
+          "z": -0.7
         },
         "safeRect": {
-          "x": 13.600000000000001,
-          "z": 0.09,
-          "width": 5.4,
-          "depth": 4.6
+          "x": 24.8,
+          "z": -0.7,
+          "width": 3.1,
+          "depth": 1.8
         }
       },
       {
-        "name": "safe_step_2_5",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
+        "name": "beis_gate_island",
+        "width": 7.8,
+        "height": 0.85,
+        "depth": 5.3,
+        "color": 14794085,
+        "textureSeed": "beis_gate_island",
         "position": {
-          "x": 19,
-          "y": 0.55,
-          "z": 1.49
+          "x": 31.2,
+          "y": 5.85,
+          "z": 0
         },
         "safeRect": {
-          "x": 19,
-          "z": 1.49,
-          "width": 5.4,
-          "depth": 4.6
+          "x": 31.2,
+          "z": 0,
+          "width": 7.8,
+          "depth": 5.3
         }
       },
       {
-        "name": "low_bridge_2_5",
-        "width": 2.6,
-        "height": 0.45,
-        "depth": 2.4,
-        "color": 13284443,
-        "textureSeed": "thin_safe_bridge",
-        "position": {
-          "x": 16.3,
-          "y": 0.47000000000000003,
-          "z": 0.745
-        },
-        "safeRect": {
-          "x": 16.3,
-          "z": 0.745,
-          "width": 2.6,
-          "depth": 2.4
-        }
-      },
-      {
-        "name": "safe_step_2_6",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 24.400000000000006,
-          "y": 0.55,
-          "z": -1.3099999999999998
-        },
-        "safeRect": {
-          "x": 24.400000000000006,
-          "z": -1.3099999999999998,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_2_7",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 14140267,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 29.800000000000004,
-          "y": 0.55,
-          "z": 0.09
-        },
-        "safeRect": {
-          "x": 29.800000000000004,
-          "z": 0.09,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "safe_step_2_8",
-        "width": 5.4,
-        "height": 1,
-        "depth": 4.6,
-        "color": 13481054,
-        "textureSeed": "warm_sandstone_safe",
-        "position": {
-          "x": 35.2,
-          "y": 0.55,
-          "z": 1.49
-        },
-        "safeRect": {
-          "x": 35.2,
-          "z": 1.49,
-          "width": 5.4,
-          "depth": 4.6
-        }
-      },
-      {
-        "name": "sand_leg_left_2",
-        "width": 0.7,
-        "height": 1.6,
-        "depth": 0.7,
-        "color": 14140267,
-        "textureSeed": "sand_rescue_leg",
-        "position": {
-          "x": 9.700000000000003,
-          "y": 0.9,
-          "z": -3.0599999999999996
-        },
-        "safeRect": {
-          "x": 9.700000000000003,
-          "z": -3.0599999999999996,
-          "width": 0.7,
-          "depth": 0.7
-        }
-      },
-      {
-        "name": "sand_leg_right_2",
-        "width": 0.7,
-        "height": 1.6,
-        "depth": 0.7,
-        "color": 14140267,
-        "textureSeed": "sand_rescue_leg",
-        "position": {
-          "x": 11.100000000000003,
-          "y": 0.9,
-          "z": -3.0599999999999996
-        },
-        "safeRect": {
-          "x": 11.100000000000003,
-          "z": -3.0599999999999996,
-          "width": 0.7,
-          "depth": 0.7
-        }
-      },
-      {
-        "name": "gate_floor_2",
-        "width": 7,
-        "height": 1,
-        "depth": 6,
-        "color": 14337898,
-        "textureSeed": "gold_gate_floor",
-        "position": {
-          "x": 14.500000000000004,
-          "y": 0.8999999999999999,
-          "z": -3.0599999999999996
-        },
-        "safeRect": {
-          "x": 14.500000000000004,
-          "z": -3.0599999999999996,
-          "width": 7,
-          "depth": 6
-        }
-      },
-      {
-        "name": "gate_left_pillar_2",
+        "name": "beis_left_post",
         "width": 0.8,
-        "height": 4.2,
+        "height": 4.4,
         "depth": 0.8,
-        "color": 14075258,
-        "textureSeed": "gold_gate_pillar",
+        "color": 14329946,
+        "textureSeed": "beis_left_post",
         "position": {
-          "x": 16.300000000000004,
-          "y": 3,
-          "z": -5.26
+          "x": 33.7,
+          "y": 8.05,
+          "z": -2.1
         },
         "safeRect": {
-          "x": 16.300000000000004,
-          "z": -5.26,
+          "x": 33.7,
+          "z": -2.1,
           "width": 0.8,
           "depth": 0.8
         }
       },
       {
-        "name": "gate_right_pillar_2",
+        "name": "beis_right_post",
         "width": 0.8,
-        "height": 4.2,
+        "height": 4.4,
         "depth": 0.8,
-        "color": 14075258,
-        "textureSeed": "gold_gate_pillar",
+        "color": 14329946,
+        "textureSeed": "beis_right_post",
         "position": {
-          "x": 16.300000000000004,
-          "y": 3,
-          "z": -0.8599999999999994
+          "x": 33.7,
+          "y": 8.05,
+          "z": 2.1
         },
         "safeRect": {
-          "x": 16.300000000000004,
-          "z": -0.8599999999999994,
+          "x": 33.7,
+          "z": 2.1,
           "width": 0.8,
           "depth": 0.8
         }
       },
       {
-        "name": "gate_lintel_2",
-        "width": 1,
-        "height": 0.7,
-        "depth": 5.4,
-        "color": 14929784,
-        "textureSeed": "gold_lintel",
+        "name": "beis_gate_lintel",
+        "width": 0.9,
+        "height": 0.85,
+        "depth": 4.8,
+        "color": 15386734,
+        "textureSeed": "beis_gate_lintel",
         "position": {
-          "x": 16.300000000000004,
-          "y": 5.3,
-          "z": -3.0599999999999996
+          "x": 33.7,
+          "y": 10.35,
+          "z": 0
         },
         "safeRect": {
-          "x": 16.300000000000004,
-          "z": -3.0599999999999996,
-          "width": 1,
-          "depth": 5.4
+          "x": 33.7,
+          "z": 0,
+          "width": 0.9,
+          "depth": 4.8
+        }
+      }
+    ],
+    "MovingPlatform": [
+      {
+        "name": "beis_long_moving_lab_bridge",
+        "width": 2.15,
+        "height": 0.72,
+        "depth": 1.45,
+        "axis": "x",
+        "distance": 4.840000000000001,
+        "speed": 1.3080000000000003,
+        "position": {
+          "x": 4.4,
+          "y": 2.05,
+          "z": 1.4
+        },
+        "phase": 0,
+        "size": {
+          "x": 2.15,
+          "y": 0.72,
+          "z": 1.45
+        },
+        "dimensions": {
+          "x": 2.15,
+          "y": 0.72,
+          "z": 1.45
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "beis_return_mover_over_fire",
+        "width": 2.15,
+        "height": 0.72,
+        "depth": 1.45,
+        "axis": "z",
+        "distance": 4.44,
+        "speed": 1.4080000000000004,
+        "position": {
+          "x": 17.1,
+          "y": 4.1,
+          "z": -1.2
+        },
+        "phase": 1.8,
+        "size": {
+          "x": 2.15,
+          "y": 0.72,
+          "z": 1.45
+        },
+        "dimensions": {
+          "x": 2.15,
+          "y": 0.72,
+          "z": 1.45
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "BetrayalPlatform": [
+      {
+        "name": "beis_pretty_platform_that_lies",
+        "width": 2.25,
+        "height": 0.72,
+        "depth": 1.55,
+        "color": 9334271,
+        "textureSeed": "beis_pretty_platform_that_lies",
+        "proximity": 1.55,
+        "dropDelayMs": 210,
+        "shardCount": 22,
+        "position": {
+          "x": 12.9,
+          "y": 3.35,
+          "z": 1.6
+        },
+        "safeRect": {
+          "x": 12.9,
+          "z": 1.6,
+          "width": 2.25,
+          "depth": 1.55
+        }
+      }
+    ],
+    "TrapdoorPlatform": [
+      {
+        "name": "beis_trapdoor_after_lie",
+        "width": 2.3,
+        "height": 0.72,
+        "depth": 1.5,
+        "delayMs": 390,
+        "position": {
+          "x": 20.8,
+          "y": 4.72,
+          "z": 1.35
+        }
+      }
+    ],
+    "SlipperyPlatform": [
+      {
+        "name": "beis_slippery_coin_shelf",
+        "width": 2.45,
+        "height": 0.72,
+        "depth": 1.5,
+        "axis": "x",
+        "slidePower": 8.2,
+        "position": {
+          "x": 27.2,
+          "y": 5.45,
+          "z": -1.3
         }
       }
     ],
     "SpikeField": [
       {
-        "name": "lava_under_level_2",
-        "groundY": -2.75,
-        "height": 0.36,
-        "pad": 0.08,
+        "name": "beis_lava_with_two_lanes",
+        "groundY": -2.55,
+        "height": 0.46,
+        "pad": 0.04,
         "lava": true,
+        "resetDelayMs": 3000,
         "bounds": {
-          "minX": -18,
-          "maxX": 26.500000000000004,
-          "minZ": -18,
-          "maxZ": 18
+          "minX": -17,
+          "maxX": 40,
+          "minZ": -17,
+          "maxZ": 17
         },
         "position": {
-          "x": 4.250000000000002,
-          "y": -2.57,
+          "x": 11.5,
+          "y": -2.32,
           "z": 0
         }
       }
     ],
     "SpikedBallHazard": [
       {
-        "name": "lava_orb_2",
-        "axis": "x",
-        "amplitude": 1.2,
-        "speed": 0.75,
-        "radius": 0.72,
-        "hitRadius": 0.58,
+        "name": "beis_sweeper_at_choice",
+        "axis": "z",
+        "amplitude": 2,
+        "speed": 1.096,
+        "radius": 0.62,
+        "hitRadius": 0.434,
         "position": {
-          "x": 10.400000000000002,
-          "y": 2.05,
-          "z": -3.0599999999999996
+          "x": -1.7,
+          "y": 2.25,
+          "z": 0.3
+        }
+      },
+      {
+        "name": "beis_middle_lava_lab",
+        "axis": "x",
+        "amplitude": 2,
+        "speed": 1.2060000000000002,
+        "radius": 0.62,
+        "hitRadius": 0.434,
+        "position": {
+          "x": 10.2,
+          "y": 4.25,
+          "z": 0.2
+        }
+      },
+      {
+        "name": "beis_gate_sentinel",
+        "axis": "z",
+        "amplitude": 1.75,
+        "speed": 1.2760000000000002,
+        "radius": 0.62,
+        "hitRadius": 0.434,
+        "position": {
+          "x": 28.2,
+          "y": 6.6,
+          "z": 0.1
         }
       }
     ],
     "MovingPushBlock": [
       {
-        "name": "exact_push_block_2",
+        "name": "beis_push_block_forces_jump",
         "axis": "z",
-        "amplitude": 1.2,
-        "speed": 0.85,
+        "amplitude": 2.0300000000000002,
+        "speed": 1.2400000000000002,
         "size": {
-          "x": 2.2,
-          "y": 1.1,
-          "z": 0.9
+          "x": 1.55,
+          "y": 1.05,
+          "z": 1.55
         },
         "position": {
-          "x": 14.700000000000001,
-          "y": 1.55,
-          "z": 0.09
+          "x": 22.9,
+          "y": 5.75,
+          "z": -0.1
+        }
+      }
+    ],
+    "CoinMimicHazard": [
+      {
+        "name": "beis_fake_coin_teaches_suspicion",
+        "penalty": 5,
+        "radius": 0.85,
+        "height": 1.2,
+        "position": {
+          "x": 13,
+          "y": 4.65,
+          "z": 1.6
         }
       }
     ],
     "Coin": [
       {
-        "name": "perutah_2_1",
+        "name": "beis_coin_start_left",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": -2.5999999999999996,
-          "y": 1.45,
-          "z": 1.04
+          "x": -8.4,
+          "y": 1.55,
+          "z": 0.9
         },
         "golem": {
           "guf": {
@@ -431,20 +457,20 @@
             "MeshStandardMaterial": {
               "color": 16766282,
               "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "metalness": 0.9,
+              "roughness": 0.2
             }
           }
         }
       },
       {
-        "name": "perutah_2_2",
+        "name": "beis_coin_choice_left",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": -2.5999999999999996,
-          "y": 1.45,
-          "z": -0.86
+          "x": -3.8,
+          "y": 2.3,
+          "z": 1.7
         },
         "golem": {
           "guf": {
@@ -459,20 +485,20 @@
             "MeshStandardMaterial": {
               "color": 16766282,
               "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "metalness": 0.9,
+              "roughness": 0.2
             }
           }
         }
       },
       {
-        "name": "perutah_2_3",
+        "name": "beis_coin_choice_right",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 2.8000000000000007,
-          "y": 1.45,
-          "z": 2.44
+          "x": 0.4,
+          "y": 3,
+          "z": -1.8
         },
         "golem": {
           "guf": {
@@ -487,20 +513,20 @@
             "MeshStandardMaterial": {
               "color": 16766282,
               "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "metalness": 0.9,
+              "roughness": 0.2
             }
           }
         }
       },
       {
-        "name": "perutah_2_4",
+        "name": "beis_coin_on_mover",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 2.8000000000000007,
-          "y": 1.45,
-          "z": 0.54
+          "x": 4.4,
+          "y": 3.45,
+          "z": 1.4
         },
         "golem": {
           "guf": {
@@ -515,20 +541,20 @@
             "MeshStandardMaterial": {
               "color": 16766282,
               "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "metalness": 0.9,
+              "roughness": 0.2
             }
           }
         }
       },
       {
-        "name": "perutah_2_5",
+        "name": "beis_coin_rest",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 8.200000000000003,
-          "y": 1.45,
-          "z": -0.3599999999999999
+          "x": 8.9,
+          "y": 4.1,
+          "z": 0
         },
         "golem": {
           "guf": {
@@ -543,20 +569,20 @@
             "MeshStandardMaterial": {
               "color": 16766282,
               "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "metalness": 0.9,
+              "roughness": 0.2
             }
           }
         }
       },
       {
-        "name": "perutah_2_6",
+        "name": "beis_coin_after_false_gold",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 8.200000000000003,
-          "y": 1.45,
-          "z": -2.26
+          "x": 16.9,
+          "y": 5.35,
+          "z": -1.2
         },
         "golem": {
           "guf": {
@@ -571,20 +597,20 @@
             "MeshStandardMaterial": {
               "color": 16766282,
               "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "metalness": 0.9,
+              "roughness": 0.2
             }
           }
         }
       },
       {
-        "name": "perutah_2_7",
+        "name": "beis_coin_trapdoor",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 13.600000000000001,
-          "y": 1.45,
-          "z": 1.04
+          "x": 20.8,
+          "y": 6.05,
+          "z": 1.35
         },
         "golem": {
           "guf": {
@@ -599,20 +625,20 @@
             "MeshStandardMaterial": {
               "color": 16766282,
               "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "metalness": 0.9,
+              "roughness": 0.2
             }
           }
         }
       },
       {
-        "name": "perutah_2_8",
+        "name": "beis_coin_slippery",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 13.600000000000001,
-          "y": 1.45,
-          "z": -0.86
+          "x": 27.2,
+          "y": 6.8,
+          "z": -1.3
         },
         "golem": {
           "guf": {
@@ -627,55 +653,84 @@
             "MeshStandardMaterial": {
               "color": 16766282,
               "emissive": 11171584,
-              "metalness": 0.8,
-              "roughness": 0.25
+              "metalness": 0.9,
+              "roughness": 0.2
             }
           }
         }
-      }
-    ],
-    "InteractiveDoor": [
+      },
       {
-        "name": "Inside Mezuzah",
-        "label": "Inside Mezuzah",
-        "next": "ladder-3.json",
-        "destination": "ladder-3.json",
-        "isSolid": false,
-        "interactable": true,
-        "proximity": 2.4,
-        "requiresAllCoins": true,
-        "requiresTzedakah": true,
-        "manualOnly": true,
+        "name": "beis_coin_gate",
+        "value": 1,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 15.820000000000004,
-          "y": 3.55,
-          "z": -1.3399999999999996
+          "x": 30.4,
+          "y": 7.25,
+          "z": 1.45
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              24
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 16766282,
+              "emissive": 11171584,
+              "metalness": 0.9,
+              "roughness": 0.2
+            }
+          }
         }
       }
     ],
     "TzedakahBox": [
       {
-        "name": "tzedakah_box_2",
+        "name": "pushkuh_on_gate_island_level_2",
         "requiresAllCoins": true,
         "position": {
-          "x": 14.900000000000004,
-          "y": 1.95,
-          "z": -1.7099999999999995
+          "x": 30.1,
+          "y": 6.5,
+          "z": 1.65
+        }
+      }
+    ],
+    "InteractiveDoor": [
+      {
+        "name": "Inside Right Doorpost Mezuzah",
+        "label": "Inside Right Doorpost Mezuzah",
+        "next": "ladder-3.json",
+        "destination": "ladder-3.json",
+        "isSolid": false,
+        "interactable": true,
+        "proximity": 2.8,
+        "requiresAllCoins": true,
+        "requiresTzedakah": true,
+        "manualOnly": true,
+        "position": {
+          "x": 34.15,
+          "y": 8.45,
+          "z": 2.15
         }
       }
     ],
     "FallResetTrigger": [
       {
-        "name": "fall_reset_2",
-        "width": 180,
+        "name": "deep_reset_level_2",
+        "width": 110,
         "height": 0.4,
-        "depth": 120,
-        "proximity": 6,
+        "depth": 70,
+        "proximity": 7,
         "penalty": 0,
         "color": 3342336,
+        "resetDelayMs": 3000,
         "position": {
-          "x": 35,
-          "y": -14,
+          "x": 20,
+          "y": -13.5,
           "z": 0
         }
       }

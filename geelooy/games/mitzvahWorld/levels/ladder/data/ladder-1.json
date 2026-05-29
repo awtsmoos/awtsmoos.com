@@ -1,15 +1,15 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "ladder-1.json",
-  "shaym": "Molten_Desert_Dust_Gate",
-  "title": "Molten Dust Gate",
-  "requiredPerutos": 9,
+  "shaym": "Aleph_Sparks_Over_Lava",
+  "title": "Aleph Sparks Over Lava",
+  "requiredPerutos": 7,
   "nextLevel": "ladder-2.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
     "ProceduralSky": [
       {
-        "name": "Calm_Desert_Sky",
+        "name": "aleph_sparks_sky",
         "timeOfDay": 10,
         "timeMultiplier": 0,
         "position": {
@@ -21,16 +21,16 @@
     ],
     "ProceduralTerrain": [
       {
-        "name": "cracked_desert_basin_under_molten_floor",
-        "width": 190,
-        "depth": 112,
+        "name": "low_sand_seen_below_lava",
+        "width": 120,
+        "depth": 70,
         "thickness": 2.4,
-        "segments": 8,
+        "segments": 6,
         "isSolid": false,
         "textureType": "desert",
         "position": {
-          "x": 22,
-          "y": -4.85,
+          "x": 18,
+          "y": -5.4,
           "z": 0
         }
       }
@@ -48,432 +48,293 @@
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
         "position": {
           "x": -8,
-          "y": 5,
+          "y": 4.8,
           "z": 0
         }
       }
     ],
     "SolidBlock": [
       {
-        "name": "start_slab",
-        "width": 8.8,
-        "height": 1,
-        "depth": 7.2,
-        "color": 12887101,
-        "textureSeed": "desert_start_slab_cracked_sandstone",
+        "name": "wide_start_island",
+        "width": 7.5,
+        "height": 0.85,
+        "depth": 5.5,
+        "color": 14070366,
+        "textureSeed": "wide_start_island",
         "position": {
-          "x": -6,
+          "x": -8,
           "y": 0,
           "z": 0
         },
         "safeRect": {
-          "x": -6,
+          "x": -8,
           "z": 0,
-          "width": 8.8,
-          "depth": 7.2
+          "width": 7.5,
+          "depth": 5.5
         }
       },
       {
-        "name": "crumb_one",
-        "width": 3.9,
-        "height": 1,
-        "depth": 3.15,
-        "color": 13742995,
-        "textureSeed": "desert_crumb_chipped_sandstone",
+        "name": "tiny_step_one",
+        "width": 2.1,
+        "height": 0.85,
+        "depth": 1.65,
+        "color": 14070366,
+        "textureSeed": "tiny_step_one",
         "position": {
-          "x": 1.8,
-          "y": 0.2,
+          "x": -1.8,
+          "y": 0.75,
+          "z": -1.15
+        },
+        "safeRect": {
+          "x": -1.8,
+          "z": -1.15,
+          "width": 2.1,
+          "depth": 1.65
+        }
+      },
+      {
+        "name": "tiny_step_two",
+        "width": 1.8,
+        "height": 0.85,
+        "depth": 1.5,
+        "color": 14070366,
+        "textureSeed": "tiny_step_two",
+        "position": {
+          "x": 2.4,
+          "y": 1.45,
+          "z": 1.25
+        },
+        "safeRect": {
+          "x": 2.4,
+          "z": 1.25,
+          "width": 1.8,
+          "depth": 1.5
+        }
+      },
+      {
+        "name": "coin_perch_before_mover",
+        "width": 2.15,
+        "height": 0.85,
+        "depth": 1.55,
+        "color": 14070366,
+        "textureSeed": "coin_perch_before_mover",
+        "position": {
+          "x": 6.5,
+          "y": 2.2,
+          "z": -1.35
+        },
+        "safeRect": {
+          "x": 6.5,
+          "z": -1.35,
+          "width": 2.15,
+          "depth": 1.55
+        }
+      },
+      {
+        "name": "gate_island_with_right_post",
+        "width": 7.2,
+        "height": 0.85,
+        "depth": 5.4,
+        "color": 14794085,
+        "textureSeed": "gate_island_with_right_post",
+        "position": {
+          "x": 25.5,
+          "y": 4.8,
+          "z": 0
+        },
+        "safeRect": {
+          "x": 25.5,
+          "z": 0,
+          "width": 7.2,
+          "depth": 5.4
+        }
+      },
+      {
+        "name": "left_gate_post",
+        "width": 0.8,
+        "height": 4.2,
+        "depth": 0.8,
+        "color": 14329946,
+        "textureSeed": "left_gate_post",
+        "position": {
+          "x": 27.7,
+          "y": 7,
           "z": -2.2
         },
         "safeRect": {
-          "x": 1.8,
+          "x": 27.7,
           "z": -2.2,
-          "width": 3.9,
-          "depth": 3.15
-        }
-      },
-      {
-        "name": "coin_walk_one",
-        "width": 4.35,
-        "height": 1,
-        "depth": 3.05,
-        "color": 14338155,
-        "textureSeed": "coin_walk_sun_cut_sandstone",
-        "position": {
-          "x": 7.2,
-          "y": 1.05,
-          "z": 1.8
-        },
-        "safeRect": {
-          "x": 7.2,
-          "z": 1.8,
-          "width": 4.35,
-          "depth": 3.05
-        }
-      },
-      {
-        "name": "spike_gap_rescue",
-        "width": 4.05,
-        "height": 1,
-        "depth": 2.65,
-        "color": 13282610,
-        "textureSeed": "rescue_sandstone_thin_cracked",
-        "position": {
-          "x": 12.5,
-          "y": 2.05,
-          "z": -1.6
-        },
-        "safeRect": {
-          "x": 12.5,
-          "z": -1.6,
-          "width": 4.05,
-          "depth": 2.65
-        }
-      },
-      {
-        "name": "lava_ball_left_leg",
-        "width": 0.8,
-        "height": 1.7,
-        "depth": 0.8,
-        "color": 13875867,
-        "textureSeed": "sand_rescue_leg_shadowed",
-        "position": {
-          "x": 15.2,
-          "y": 2.9,
-          "z": -1.9
-        },
-        "safeRect": {
-          "x": 15.2,
-          "z": -1.9,
           "width": 0.8,
           "depth": 0.8
         }
       },
       {
-        "name": "lava_ball_right_leg",
+        "name": "right_gate_post",
         "width": 0.8,
-        "height": 1.7,
+        "height": 4.2,
         "depth": 0.8,
-        "color": 13875867,
-        "textureSeed": "sand_rescue_leg_shadowed",
+        "color": 14329946,
+        "textureSeed": "right_gate_post",
         "position": {
-          "x": 17,
-          "y": 2.9,
-          "z": -1.9
+          "x": 27.7,
+          "y": 7,
+          "z": 2.2
         },
         "safeRect": {
-          "x": 17,
-          "z": -1.9,
+          "x": 27.7,
+          "z": 2.2,
           "width": 0.8,
           "depth": 0.8
-        }
-      },
-      {
-        "name": "moving_block_runup",
-        "width": 4.9,
-        "height": 1,
-        "depth": 3.2,
-        "color": 14139471,
-        "textureSeed": "moving_runup_lava_scorched_sandstone",
-        "position": {
-          "x": 19.4,
-          "y": 3.1,
-          "z": 0.8
-        },
-        "safeRect": {
-          "x": 19.4,
-          "z": 0.8,
-          "width": 4.9,
-          "depth": 3.2
-        }
-      },
-      {
-        "name": "push_block_track",
-        "width": 6.65,
-        "height": 1,
-        "depth": 3.75,
-        "color": 14339415,
-        "textureSeed": "push_block_track_gold_dusted_sandstone",
-        "position": {
-          "x": 25,
-          "y": 4.35,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 25,
-          "z": 0,
-          "width": 6.65,
-          "depth": 3.75
-        }
-      },
-      {
-        "name": "safe_after_push",
-        "width": 4.9,
-        "height": 1,
-        "depth": 3.3,
-        "color": 13941174,
-        "textureSeed": "safe_after_push_cracked_gold_edge",
-        "position": {
-          "x": 32.5,
-          "y": 5.2,
-          "z": 1.7
-        },
-        "safeRect": {
-          "x": 32.5,
-          "z": 1.7,
-          "width": 4.9,
-          "depth": 3.3
-        }
-      },
-      {
-        "name": "gate_approach",
-        "width": 7.25,
-        "height": 1,
-        "depth": 4.15,
-        "color": 14270829,
-        "textureSeed": "gate_approach_scorched_sand_gold",
-        "position": {
-          "x": 39,
-          "y": 6,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 39,
-          "z": 0,
-          "width": 7.25,
-          "depth": 4.15
-        }
-      },
-      {
-        "name": "gate_floor",
-        "width": 8,
-        "height": 1,
-        "depth": 6.2,
-        "color": 14732403,
-        "textureSeed": "GOLD_gate_floor_deep_carved",
-        "position": {
-          "x": 45.2,
-          "y": 6,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 45.2,
-          "z": 0,
-          "width": 8,
-          "depth": 6.2
-        }
-      },
-      {
-        "name": "gate_left_pillar",
-        "width": 0.9,
-        "height": 4.4,
-        "depth": 0.9,
-        "color": 14272379,
-        "textureSeed": "GOLD_gate_pillar_deep_carved",
-        "position": {
-          "x": 46.6,
-          "y": 8.2,
-          "z": -2.55
-        },
-        "safeRect": {
-          "x": 46.6,
-          "z": -2.55,
-          "width": 0.9,
-          "depth": 0.9
-        }
-      },
-      {
-        "name": "gate_right_pillar",
-        "width": 0.9,
-        "height": 4.4,
-        "depth": 0.9,
-        "color": 14272379,
-        "textureSeed": "GOLD_gate_pillar_deep_carved",
-        "position": {
-          "x": 46.6,
-          "y": 8.2,
-          "z": 2.55
-        },
-        "safeRect": {
-          "x": 46.6,
-          "z": 2.55,
-          "width": 0.9,
-          "depth": 0.9
         }
       },
       {
         "name": "gate_lintel",
-        "width": 1.1,
-        "height": 0.75,
-        "depth": 5.9,
-        "color": 15062142,
-        "textureSeed": "GOLD_lintel_sun_gate",
+        "width": 0.9,
+        "height": 0.85,
+        "depth": 4.9,
+        "color": 15386734,
+        "textureSeed": "gate_lintel",
         "position": {
-          "x": 46.6,
-          "y": 10.55,
+          "x": 27.7,
+          "y": 9.25,
           "z": 0
         },
         "safeRect": {
-          "x": 46.6,
+          "x": 27.7,
           "z": 0,
-          "width": 1.1,
-          "depth": 5.9
+          "width": 0.9,
+          "depth": 4.9
+        }
+      }
+    ],
+    "MovingPlatform": [
+      {
+        "name": "first_moving_lava_lab",
+        "width": 5,
+        "height": 1,
+        "depth": 7,
+        "axis": "z",
+        "distance": 3.2,
+        "speed": 0.95,
+        "position": {
+          "x": 10.9,
+          "y": 2.85,
+          "z": 1.1
+        },
+        "phase": 0,
+        "size": {
+          "x": 5,
+          "y": 1,
+          "z": 7
+        },
+        "dimensions": {
+          "x": 5,
+          "y": 1,
+          "z": 7
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "BetrayalPlatform": [
+      {
+        "name": "first_cracking_coin_slab",
+        "width": 2.45,
+        "height": 0.72,
+        "depth": 1.7,
+        "color": 9334271,
+        "textureSeed": "first_cracking_coin_slab",
+        "proximity": 1.55,
+        "dropDelayMs": 260,
+        "shardCount": 22,
+        "position": {
+          "x": 15.1,
+          "y": 3.55,
+          "z": -1.2
+        },
+        "safeRect": {
+          "x": 15.1,
+          "z": -1.2,
+          "width": 2.45,
+          "depth": 1.7
+        }
+      }
+    ],
+    "DisappearingPlatform": [
+      {
+        "name": "blink_before_gate",
+        "width": 2.2,
+        "height": 0.72,
+        "depth": 1.55,
+        "vanishMs": 560,
+        "position": {
+          "x": 19.2,
+          "y": 4.15,
+          "z": 1.15
         }
       }
     ],
     "SpikeField": [
       {
-        "name": "wide_molten_floor_under_first_desert_gate",
-        "groundY": -2.45,
-        "height": 0.56,
-        "pad": 0.08,
+        "name": "main_aleph_lava_sea",
+        "groundY": -2.55,
+        "height": 0.46,
+        "pad": 0.04,
         "lava": true,
+        "resetDelayMs": 3000,
         "bounds": {
-          "minX": -28,
-          "maxX": 66,
-          "minZ": -30,
-          "maxZ": 30
+          "minX": -16,
+          "maxX": 34,
+          "minZ": -16,
+          "maxZ": 16
         },
         "position": {
-          "x": 19,
-          "y": -2.17,
+          "x": 9,
+          "y": -2.32,
           "z": 0
-        }
-      },
-      {
-        "name": "front_lava_warning_shelf",
-        "groundY": -1.95,
-        "height": 0.32,
-        "pad": 0.04,
-        "lava": true,
-        "bounds": {
-          "minX": -2,
-          "maxX": 36,
-          "minZ": 4.75,
-          "maxZ": 9.5
-        },
-        "position": {
-          "x": 17,
-          "y": -1.79,
-          "z": 7.125
-        }
-      },
-      {
-        "name": "back_lava_warning_shelf",
-        "groundY": -1.95,
-        "height": 0.32,
-        "pad": 0.04,
-        "lava": true,
-        "bounds": {
-          "minX": -2,
-          "maxX": 36,
-          "minZ": -9.5,
-          "maxZ": -4.75
-        },
-        "position": {
-          "x": 17,
-          "y": -1.79,
-          "z": -7.125
         }
       }
     ],
     "SpikedBallHazard": [
       {
-        "name": "start_lava_globe_sweeper",
+        "name": "slow_lava_ball_teaches_waiting",
         "axis": "z",
-        "amplitude": 1.55,
-        "speed": 0.86,
-        "radius": 0.58,
-        "hitRadius": 0.44,
-        "position": {
-          "x": 4.35,
-          "y": 2.2,
-          "z": 0.15
-        }
-      },
-      {
-        "name": "textured_lava_orb_trial",
-        "axis": "x",
-        "amplitude": 1.85,
-        "speed": 0.92,
-        "radius": 0.72,
-        "hitRadius": 0.52,
-        "position": {
-          "x": 16.1,
-          "y": 4.4,
-          "z": -1.9
-        }
-      },
-      {
-        "name": "push_track_lava_globe",
-        "axis": "z",
-        "amplitude": 1.75,
-        "speed": 1.05,
+        "amplitude": 1.45,
+        "speed": 0.8600000000000001,
         "radius": 0.62,
-        "hitRadius": 0.46,
+        "hitRadius": 0.434,
         "position": {
-          "x": 27.65,
-          "y": 6,
-          "z": 0
+          "x": 4.2,
+          "y": 2.5,
+          "z": 0.1
         }
       },
       {
-        "name": "gate_approach_lava_globe",
-        "axis": "x",
-        "amplitude": 1.55,
-        "speed": 0.88,
-        "radius": 0.64,
-        "hitRadius": 0.48,
-        "position": {
-          "x": 39,
-          "y": 7.45,
-          "z": -1.15
-        }
-      }
-    ],
-    "MovingPushBlock": [
-      {
-        "name": "exact_push_block_trial",
-        "axis": "z",
-        "amplitude": 1.85,
-        "speed": 1.18,
-        "size": {
-          "x": 2.45,
-          "y": 1.25,
-          "z": 1
-        },
-        "position": {
-          "x": 25.4,
-          "y": 5.45,
-          "z": 0
-        }
-      },
-      {
-        "name": "late_gate_push_block_trial",
+        "name": "gate_guard_lava_ball",
         "axis": "x",
         "amplitude": 1.35,
         "speed": 0.96,
-        "size": {
-          "x": 1.65,
-          "y": 1.15,
-          "z": 1.85
-        },
+        "radius": 0.62,
+        "hitRadius": 0.434,
         "position": {
-          "x": 35.8,
-          "y": 6.45,
-          "z": 1.7
+          "x": 21.8,
+          "y": 5.35,
+          "z": -0.9
         }
       }
     ],
     "Coin": [
       {
-        "name": "p1",
+        "name": "aleph_coin_start",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": -1,
-          "y": 2.1,
-          "z": -2
+          "x": -5.8,
+          "y": 1.55,
+          "z": 1.5
         },
         "golem": {
           "guf": {
@@ -495,13 +356,13 @@
         }
       },
       {
-        "name": "p2",
+        "name": "aleph_coin_tiny_one",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 3,
-          "y": 2.3,
-          "z": -2.3
+          "x": -1.8,
+          "y": 2.25,
+          "z": -1.15
         },
         "golem": {
           "guf": {
@@ -523,12 +384,68 @@
         }
       },
       {
-        "name": "p3",
+        "name": "aleph_coin_tiny_two",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 7.2,
-          "y": 3,
+          "x": 2.4,
+          "y": 2.9,
+          "z": 1.25
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              24
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 16766282,
+              "emissive": 11171584,
+              "metalness": 0.9,
+              "roughness": 0.2
+            }
+          }
+        }
+      },
+      {
+        "name": "aleph_coin_perch",
+        "value": 1,
+        "rotationSpeed": 0.03,
+        "position": {
+          "x": 6.5,
+          "y": 3.65,
+          "z": -1.35
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              24
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 16766282,
+              "emissive": 11171584,
+              "metalness": 0.9,
+              "roughness": 0.2
+            }
+          }
+        }
+      },
+      {
+        "name": "aleph_coin_mover",
+        "value": 1,
+        "rotationSpeed": 0.03,
+        "position": {
+          "x": 10.9,
+          "y": 4.25,
           "z": 1.1
         },
         "golem": {
@@ -551,13 +468,13 @@
         }
       },
       {
-        "name": "p4",
+        "name": "aleph_coin_shatter_bait",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 12.5,
-          "y": 4,
-          "z": -1
+          "x": 15.1,
+          "y": 4.95,
+          "z": -1.2
         },
         "golem": {
           "guf": {
@@ -579,12 +496,12 @@
         }
       },
       {
-        "name": "p5",
+        "name": "aleph_coin_gate",
         "value": 1,
-        "rotationSpeed": 0.025,
+        "rotationSpeed": 0.03,
         "position": {
-          "x": 22.5,
-          "y": 5.25,
+          "x": 23.2,
+          "y": 6.25,
           "z": 1.4
         },
         "golem": {
@@ -605,162 +522,51 @@
             }
           }
         }
-      },
+      }
+    ],
+    "TzedakahBox": [
       {
-        "name": "p6",
-        "value": 1,
-        "rotationSpeed": 0.025,
+        "name": "pushkuh_on_gate_island_level_1",
+        "requiresAllCoins": true,
         "position": {
-          "x": 32.5,
-          "y": 7,
-          "z": 0.9
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "p7",
-        "value": 1,
-        "rotationSpeed": 0.025,
-        "position": {
-          "x": 39,
-          "y": 7.65,
-          "z": -1.4
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "p8",
-        "value": 1,
-        "rotationSpeed": 0.028,
-        "position": {
-          "x": 27.3,
-          "y": 6.25,
-          "z": -1.35
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "p9",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 43,
-          "y": 7.7,
-          "z": -1.35
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
+          "x": 24.4,
+          "y": 5.45,
+          "z": 1.7
         }
       }
     ],
     "InteractiveDoor": [
       {
-        "name": "Inside Mezuzah",
-        "label": "Inside Mezuzah",
+        "name": "Inside Right Doorpost Mezuzah",
+        "label": "Inside Right Doorpost Mezuzah",
         "next": "ladder-2.json",
         "destination": "ladder-2.json",
         "isSolid": false,
         "interactable": true,
-        "proximity": 2.4,
+        "proximity": 2.8,
         "requiresAllCoins": true,
         "requiresTzedakah": true,
         "manualOnly": true,
         "position": {
-          "x": 46.05,
-          "y": 8.75,
-          "z": 2.1
-        }
-      }
-    ],
-    "TzedakahBox": [
-      {
-        "name": "tzedakah_box_dust_gate",
-        "requiresAllCoins": true,
-        "position": {
-          "x": 44.25,
-          "y": 6.55,
-          "z": 1.55
+          "x": 28.15,
+          "y": 7.35,
+          "z": 2.25
         }
       }
     ],
     "FallResetTrigger": [
       {
-        "name": "fall_reset_under_desert_gate",
-        "width": 150,
+        "name": "deep_reset_level_1",
+        "width": 110,
         "height": 0.4,
-        "depth": 90,
-        "proximity": 6,
+        "depth": 70,
+        "proximity": 7,
         "penalty": 0,
         "color": 3342336,
+        "resetDelayMs": 3000,
         "position": {
           "x": 20,
-          "y": -14,
+          "y": -13.5,
           "z": 0
         }
       }

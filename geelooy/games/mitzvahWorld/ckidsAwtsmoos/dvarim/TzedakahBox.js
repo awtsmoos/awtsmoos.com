@@ -4,15 +4,18 @@ import * as THREE from "/games/scripts/build/three.module.js";
 
 /**
  * @file TzedakahBox.js
- * @description Chapter 61: a textured little charity chest, tight and clickable.
- * It glows green when all perutos are gathered, then gold after the giving is
- * checked. It never opens the door; it only blesses the mezuzah.
+ * @description Chapter 64: the pushkuh is a blue box of deed becoming gold.
+ * When the player brings every perutah, the Awtsmoos shows the coin-slot ready;
+ * when clicked, the box blesses every inside-right-post mezuzah so it turns
+ * gold and becomes the only proper gate to the next level.
  */
 const clamp = n => Math.max(0, Math.min(255, Math.round(n)));
+const COLORS = Object.freeze({ waiting: 0xffffff, ready: 0x3cff86, given: 0xffd54a });
 
 /** @param {number} base Base RGB. @returns {THREE.DataTexture} */
 function boxTexture(base = 0x2f79a8) {
-  const size = 48, data = new Uint8Array(size * size * 4);
+  const size = 48;
+  const data = new Uint8Array(size * size * 4);
   for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
     const i = (y * size + x) * 4;
     const seam = x % 12 === 0 || y % 12 === 0;
@@ -31,7 +34,7 @@ function boxTexture(base = 0x2f79a8) {
 export default class TzedakahBox extends Domem {
   type = "tzedakahBox";
   heesHawveh = true;
-  static itemName = "Tzedakah Box";
+  static itemName = "Pushkuh";
 
   /** @param {object} op JSON data. @param {object} olam Runtime world. */
   constructor(op = {}, olam) {
@@ -56,14 +59,14 @@ export default class TzedakahBox extends Domem {
   makeBox() {
     const root = new THREE.Group();
     root.name = `${this.name || "TzedakahBox"}_Root`;
-    this.caseMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, map: boxTexture(0x2e7aac) });
+    this.caseMaterial = new THREE.MeshLambertMaterial({ color: COLORS.waiting, map: boxTexture(0x2e7aac) });
     this.slotMaterial = new THREE.MeshBasicMaterial({ color: 0x07121f });
-    this.glowMaterial = new THREE.MeshBasicMaterial({ color: 0xffd54a });
+    this.glowMaterial = new THREE.MeshBasicMaterial({ color: COLORS.given });
     this.addPart(root, "body", [0, 0, 0], [0.72, 0.82, 0.52], this.caseMaterial);
     this.addPart(root, "slot", [0, 0.44, -0.27], [0.44, 0.065, 0.032], this.slotMaterial);
     this.addPart(root, "coin", [0, 0.57, -0.3], [0.2, 0.2, 0.032], this.glowMaterial);
     root.nivraAwtsmoos = this;
-    root.traverse(child => { child.nivraAwtsmoos = this; });
+    root.traverse(child => { child.nivraAwtsmoos = this; child.userData.skipRaycast = false; });
     return root;
   }
 
@@ -72,18 +75,18 @@ export default class TzedakahBox extends Domem {
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), mat);
     mesh.name = `${this.name || "TzedakahBox"}_${name}`;
     mesh.position.set(...pos);
-    mesh.userData.skipRaycast = false;
     mesh.userData.addToOctree = false;
     root.add(mesh);
   }
 
   /** @returns {void} Color changes when coins are ready, final gold after checked. */
   heesHawvoos() {
-    const color = this._given ? 0xffd54a : this.hasAllCoins() ? 0x3cff86 : 0xffffff;
+    const color = this._given ? COLORS.given : this.hasAllCoins() ? COLORS.ready : COLORS.waiting;
     if (this.caseMaterial && color !== this._color) {
       this._color = color;
       this.caseMaterial.color.setHex(color);
     }
+    if (this.mesh) this.mesh.rotation.y = this._given ? Math.sin(Date.now() / 190) * 0.1 : 0;
   }
 
   /** @returns {boolean} True when all level coins are collected. */
@@ -96,20 +99,29 @@ export default class TzedakahBox extends Domem {
   /** @param {string} peula Interaction. @param {object} actor Player. */
   ayshPeula(peula, actor) {
     if (peula !== "accepted interaction") return super.ayshPeula?.(peula, actor);
-    if (!this.hasAllCoins()) return this.say("Bring every perutah first", "#72fff4");
+    if (!this.hasAllCoins()) return this.say("אסוף כל פרוטה ואז שים צדקה", "#72fff4");
     this._given = true;
     this.olam.__tzedakahBlessed = true;
+    this.awakenAllMezuzahs();
     this.olam?.ayshPeula?.("ui event", "effectsOverlay", {
       effect: "tzedakahBlessing",
-      text: "Tzedakah given — the mezuzah is ready",
+      text: "צדקה ניתנה — המזוזה זהובה ומוכנה",
       color: "#ffd54a"
     });
+    actor?.ayshPeula?.("tzedakah given", { source: this.name });
     return true;
+  }
+
+  /** @returns {void} Pushes gold into every registered mezuzah vessel. */
+  awakenAllMezuzahs() {
+    const mezuzahs = this.olam?.__insideRightPostMezuzahs || [];
+    for (const mezuzah of mezuzahs) mezuzah?.awakenColor?.(COLORS.given);
   }
 
   /** @param {string} text Message. @param {string} color Color. */
   say(text, color) {
     this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color });
+    this.olam?.ayshPeula?.("ui event", "toast", { message: text, type: "info" });
     return false;
   }
 }

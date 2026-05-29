@@ -5,7 +5,7 @@ const { ROOT, assert, test } = require("./assert.cjs");
 
 async function run() {
   const results = [];
-  results.push(await test("streaming-text-keeps-stable-dom-selection", async () => {
+  results.push(await test("streaming-text-appends-only-and-freezes-markdown-once", async () => {
     const mod = await fresh("js/render/runtime/liveTextRuntime.js");
     const bubble = fakeBubble();
     const record = { streaming: true, bubble };
@@ -16,11 +16,12 @@ async function run() {
     assert(bubble.innerHTMLSetCount === 0, "streaming update must not use bubble innerHTML", bubble);
     assert(bubble.childNodes[0] === first, "streaming text node must stay stable", bubble);
     assert(first.textContent.includes("plus"), "stable node should receive new text", first);
-    assert(preview?._innerHTML?.includes("<h1>") && preview?._innerHTML?.includes("<strong>world</strong>"), "streaming markdown preview must render incoming markdown", preview);
+    assert(!preview, "streaming must not render a markdown preview on the main thread", bubble);
     record.streaming = false;
     mod.updateLiveText({}, record, "# hello");
     assert(bubble.innerHTMLSetCount === 1, "final non-streaming update may render markdown once", bubble);
-    return { innerHTMLSetCount: bubble.innerHTMLSetCount, stable: true, liveMarkdown: true };
+    assert(bubble._innerHTML.includes("<h1>hello</h1>"), "final markdown should render after stream ends", bubble);
+    return { innerHTMLSetCount: bubble.innerHTMLSetCount, stable: true, liveMarkdown: false };
   }));
 
   results.push(await test("stream-resume-store-active-prunes-done-ghosts", async () => {

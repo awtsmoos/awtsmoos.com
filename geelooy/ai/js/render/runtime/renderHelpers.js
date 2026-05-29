@@ -14,19 +14,29 @@ export function button(className) {
 export function dedupeEvents(events = []) {
   const seen = new Set();
   return events.filter(event => {
-    const raw = event?.raw || event;
-    const text = event?.text || raw?.dataNoJSON || raw?.message?.content?.parts?.join?.("\n") || "";
-    const key = [event?.kind, event?.label, raw?.id || raw?.message?.id || raw?.event || "", String(text).replace(/\s+/g, " ").slice(0, 240)].join("::");
+    const key = eventMergeKey(event);
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
 }
 
+/**
+ * Chapter 188: The Same Completion Id No Longer Ate Its Own Children.
+ *
+ * MiniMax reuses one completion id for every SSE chunk. If the renderer keyed
+ * by that id alone, later packets replaced earlier packets and the event rail
+ * blinked like a broken vessel. Provider stream events now carry sequence/text
+ * identity so every real drop remains visible in order.
+ */
 export function eventMergeKey(event = {}) {
   const streamKey = streamingToolKey(event);
   if (streamKey) return streamKey;
   const raw = event.raw || event;
+  const packet = raw.packet || {};
+  if (event.kind === "provider_stream" || raw.type === "provider_stream") {
+    return [event.kind, event.label, packet.id || "", packet.sequence || "", packet.finish_reason || "", packet.text || ""].join("::");
+  }
   if (raw.groupedThoughtEnvelope) return raw.groupKey || [event.kind, "thought-envelope"].join("::");
   const msg = raw.message || raw.input_message || raw.data?.message || raw;
   const stable = msg.id || raw.id || raw.message_id || raw.parent || raw.type || raw.event;
@@ -37,7 +47,7 @@ export function eventMergeKey(event = {}) {
 export function mergeEvents(current = [], next = []) {
   const keyed = new Map();
   for (const event of [...current, ...next]) keyed.set(eventMergeKey(event), event);
-  return dedupeEvents([...keyed.values()].sort(eventOrderSort)).slice(-140);
+  return dedupeEvents([...keyed.values()].sort(eventOrderSort)).slice(-180);
 }
 
 function eventOrderSort(a = {}, b = {}) {

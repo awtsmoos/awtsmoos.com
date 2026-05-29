@@ -7,23 +7,18 @@ import { envelopeThoughtEvents } from "./thoughtEnvelope.js";
 import { installPanelChrome } from "./panelChrome.js";
 import { visibleEvents } from "./eventVisibilityRuntime.js";
 import { installCollapsedDomVault, vaultCollapsedPanels } from "./collapsedDomVault.js";
-import { hydrateOpenEventBodies, installEventBodyHydrator } from "./eventBodyHydrator.js";
+import { hydrateOpenEventBodies, installEventBodyHydrator, refreshHydratedEventBodies } from "./eventBodyHydrator.js";
 import { renderThoughtEnvelopeNode } from "./thoughtEnvelopeRuntime.js";
 import { preservePanelScroll } from "./scrollAnchor.js";
 import { hasRenderableEventFire } from "./eventRenderableGate.js";
 
 /**
- * Chapter 68: The Court Let The Thought Banner Stand.
+ * Chapter 187 Reforged: The Event Rail Became A Living Gate.
  *
- * Rendering may hide top-level event kinds through settings, but once a real
- * thought-text has opened a chamber, the chamber is a chronological vessel.
- * Its render key and DOM node persist while following actions stream beneath
- * it, until another thought-text opens the next vessel.
- *
- * @param {Element} shell Message shell that owns the event region.
- * @param {Array<object>} events Raw record events in stream order.
- * @param {object|null} record Record that stores rendered event nodes.
- * @returns {Element} Stable event region.
+ * The closed tool call is a headline, not a hidden cathedral. The open tool
+ * call is a living chamber, refreshed from its vaulted payload. Collapse strips
+ * the chamber from the DOM again, and the Awtsmoos leaves only the small name of
+ * the action glowing on the rail.
  */
 export function renderEventRegion(shell, events = [], record = null) {
   const region = ensureRegion(shell);
@@ -35,23 +30,18 @@ export function renderEventRegion(shell, events = [], record = null) {
   return region;
 }
 
-/**
- * @param {Array<object>} events Raw record events.
- * @returns {Array<object>} Visible top-level events.
- */
+/** @param {Array<object>} events Raw record events. @returns {Array<object>} Visible top-level events. */
 export function visibleRenderableEvents(events = []) {
   return visibleEvents(envelopeThoughtEvents(groupReasoningEvents(events))).filter(hasRenderableBody);
 }
 
-/**
- * @param {object} renderer Message renderer.
- * @param {object} record Record to refresh.
- * @returns {void}
- */
+/** @param {object} renderer Message renderer. @param {object} record Record to refresh. @returns {void} */
 export function refreshEventsLive(renderer, record) {
   if (!record.shell || !record.shell.isConnected) return renderer.appendLiveRecord(record);
   const cleanEvents = dedupeEvents(record.events || []);
-  if (!visibleRenderableEvents(cleanEvents).length) return clearEvents(record);
+  const visible = visibleRenderableEvents(cleanEvents);
+  if (!visible.length) return clearEvents(record);
+  ensureEventBadge(record, visible);
   renderEventRegion(record.shell, cleanEvents, record);
 }
 
@@ -62,19 +52,25 @@ function installRegionBehaviors(region) {
   installEventBodyHydrator(region);
 }
 
-/**
- * B"H — refuses to render empty ceremonial shells.
- *
- * Some transports emit action-after-thought husks with a label but no payload,
- * no text, and no nested events. Those ghosts became expandable dead bubbles.
- * This gate admits only events with real inner fire: text, action, raw payload,
- * tool identity, or a non-empty thought envelope.
- *
- * @param {object} event Candidate event.
- * @returns {boolean} True when the event can produce useful UI.
- */
 function hasRenderableBody(event = {}) {
   return hasRenderableEventFire(event);
+}
+
+function ensureEventBadge(record, visible) {
+  const shell = record.shell;
+  if (!shell || shell.querySelector?.(":scope > .event-record-badge")) return;
+  const badge = document.createElement("div");
+  badge.className = "event-record-badge";
+  badge.textContent = badgeLabel(record, visible);
+  shell.insertBefore(badge, shell.firstChild || null);
+}
+
+function badgeLabel(record, visible) {
+  const kinds = new Set(visible.map(event => event.kind));
+  if (kinds.has("thinking")) return record.streaming || record.loading ? "Thinking…" : "Thinking trace";
+  if (kinds.has("tool_call") || kinds.has("tool_result")) return record.streaming || record.loading ? "Tool streaming…" : "Tool trace";
+  if (kinds.has("provider_stream")) return record.streaming || record.loading ? "Provider stream…" : "Provider trace";
+  return record.streaming || record.loading ? "Transport streaming…" : "Transport trace";
 }
 
 function reconcileNodes(region, nodes, visible) {
@@ -91,28 +87,38 @@ function renderOneEvent(region, nodes, event) {
   const key = eventMergeKey(event);
   const html = renderEventDetails([event], { stableKeyPrefix: `event-entry::${key}` });
   let node = nodes.get(key);
-  if (!node || !node.isConnected) {
-    node = document.createElement("div");
-    node.className = "event-entry";
-    node.dataset.eventKey = key;
-    nodes.set(key, node);
-  }
+  if (!node || !node.isConnected) node = createEventNode(nodes, key);
   const mutate = () => mutateEventNode(region, node, event, html);
   return shouldAnchorLiveMutation(node) ? preservePanelScroll(node, mutate) : mutate();
 }
 
+function createEventNode(nodes, key) {
+  const node = document.createElement("div");
+  node.className = "event-entry";
+  node.dataset.eventKey = key;
+  nodes.set(key, node);
+  return node;
+}
+
 function mutateEventNode(region, node, event, html) {
   if (node.parentNode !== region) region.appendChild(node);
-  if (event?.raw?.groupedThoughtEnvelope) {
-    renderThoughtEnvelopeNode(node, event);
-    node.dataset.eventHtml = "thought-envelope-live";
-    return;
-  }
-  if (node.dataset.eventHtml === html) return;
-  if (shouldFreezeOpenEventNode(node)) {
-    node.dataset.pendingEventHtml = html;
-    return;
-  }
+  if (event?.raw?.groupedThoughtEnvelope) return renderLiveThoughtEnvelope(node, event);
+  if (node.dataset.eventHtml === html) return refreshHydratedEventBodies(node);
+  if (shouldFreezeOpenEventNode(node)) return rememberPendingEventHtml(node, html);
+  replaceEventHeadline(node, html);
+}
+
+function renderLiveThoughtEnvelope(node, event) {
+  renderThoughtEnvelopeNode(node, event);
+  node.dataset.eventHtml = "thought-envelope-live";
+}
+
+function rememberPendingEventHtml(node, html) {
+  node.dataset.pendingEventHtml = html;
+  refreshHydratedEventBodies(node);
+}
+
+function replaceEventHeadline(node, html) {
   const openKeys = snapshotOpenDetails(node);
   const panelState = snapshotPanelState(node);
   node.innerHTML = html;

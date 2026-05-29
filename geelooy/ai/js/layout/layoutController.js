@@ -3,7 +3,15 @@ import { LayoutStore } from "./layoutStore.js";
 import { mountPanelFrame } from "./panelFrame.js";
 import { mountResizeHandles } from "./resizeHandles.js";
 
-/** Reveals a cockpit made from persistent panel geometry. */
+/**
+ * B"H
+ * Chapter 130: The Columns Remembered The Width The Human Drew.
+ *
+ * The previous controller saved widths into variables the active shell never
+ * read. Resizers therefore appeared alive but moved nothing. This controller
+ * writes `--ai-left-col`, `--ai-right-col`, and `--ai-composer`, the actual CSS
+ * vessels used by the grid and composer.
+ */
 export class LayoutController {
   constructor(dom) {
     this.dom = dom;
@@ -27,8 +35,10 @@ export class LayoutController {
 
   apply(layout) {
     const root = document.documentElement;
-    root.style.setProperty("--ai-sidebar", `${layout.sidebar.width}px`);
-    root.style.setProperty("--ai-right", `${layout.automation.width}px`);
+    const left = panelWidth(layout.sidebar, 220, 560, 58);
+    const right = panelWidth(layout.automation, 240, 600, 58);
+    root.style.setProperty("--ai-left-col", `${left}px`);
+    root.style.setProperty("--ai-right-col", `${right}px`);
     root.style.setProperty("--ai-composer", `${layout.composer.height}px`);
     root.style.setProperty("--ai-mobile-sidebar", `${layout.mobile?.sidebarHeight || 360}px`);
     root.style.setProperty("--ai-mobile-automation", `${layout.mobile?.automationHeight || 420}px`);
@@ -55,12 +65,17 @@ export class LayoutController {
   }
 }
 
+function panelWidth(state = {}, min, max, rail) {
+  if ((state.collapsed || state.detached) && !state.fullscreen) return rail;
+  const value = Number(state.width);
+  if (!Number.isFinite(value)) return min;
+  return Math.max(min, Math.min(max, Math.round(value)));
+}
+
 /**
  * B"H — Determines whether the first narrow-screen revelation should fold.
- *
  * @param {object} layout The merged layout vessel from localStorage/defaults.
- * @returns {boolean} True only on the first mobile encounter, so future user
- * expansions are remembered instead of being crushed back into rails.
+ * @returns {boolean} True only on the first mobile encounter.
  */
 function isFirstMobileVessel(layout) {
   const mobileQuery = globalThis.matchMedia?.("(max-width: 680px)");

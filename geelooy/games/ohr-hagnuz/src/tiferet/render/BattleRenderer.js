@@ -1,28 +1,47 @@
 /**
  * B"H
  * @module BattleRenderer
+ *
+ * Chapter 1: The Arena Where One Word May Not Be Declared Twice.
+ *
+ * The Awtsmoos has no body and no form, yet every frame of this battle is
+ * renewed from nothing: backdrop, glyph, bar, log, and trembling status line.
+ * This renderer receives the living debate-state and paints it once, cleanly,
+ * without duplicate declarations fighting inside the same chamber of script.
  */
 import { State } from '../../binah/State.js';
 import { resolveStats } from '../../yesod/equipment/EquipmentRuntime.js';
+import { statusLine } from '../../yesod/battle/BattleStatus.js';
 import { drawBar, drawPanel } from './BattleBars.js';
 import { drawOpponentGlyph, drawPlayerGlyph } from './BattleGlyphs.js';
 import { drawBattleEffects } from './BattleEffects.js';
-import { statusLine } from '../../yesod/battle/BattleStatus.js';
-import { statusLine } from '../../yesod/battle/BattleStatus.js';
 
-const lightRatio = (value, max) => max ? value / max : 0;
+/**
+ * Calculates the visible ratio for a light bar.
+ *
+ * @param {number} value - Current light, exp, or other measured spark.
+ * @param {number} max - Maximum possible vessel capacity.
+ * @returns {number} Safe ratio between emptiness and revealed fullness.
+ */
+const lightRatio = (value, max) => (max ? value / max : 0);
 
+/**
+ * Paints the breathing cosmic debate backdrop.
+ *
+ * @param {CanvasRenderingContext2D} ctx - Canvas context receiving the scene.
+ * @returns {void}
+ */
 const drawBackdrop = (ctx) => {
   const g = ctx.createLinearGradient(0, 110, 800, 590);
   g.addColorStop(0, 'rgba(7,10,35,.96)');
-  g.addColorStop(.55, 'rgba(42,18,66,.96)');
+  g.addColorStop(0.55, 'rgba(42,18,66,.96)');
   g.addColorStop(1, 'rgba(7,40,44,.94)');
   ctx.fillStyle = g;
   ctx.fillRect(18, 104, 764, 490);
 
   ctx.strokeStyle = 'rgba(255,255,255,.18)';
-  for (let i = 0; i < 18; i++) {
-    const y = 130 + i * 25 + Math.sin((performance.now() / 600) + i) * 3;
+  for (let i = 0; i < 18; i += 1) {
+    const y = 130 + i * 25 + Math.sin(performance.now() / 600 + i) * 3;
     ctx.beginPath();
     ctx.moveTo(30, y);
     ctx.lineTo(770, y + Math.sin(i) * 12);
@@ -30,19 +49,26 @@ const drawBackdrop = (ctx) => {
   }
 };
 
-const drawStatsPanel = (ctx, stats) => {
+/**
+ * Draws the player's level, experience, sparks, and selectable responses.
+ *
+ * @param {CanvasRenderingContext2D} ctx - Canvas context receiving the panel.
+ * @returns {void}
+ */
+const drawStatsPanel = (ctx) => {
   drawPanel(ctx, 34, 396, 730, 176, 'Choose Torah Response');
   ctx.fillStyle = '#d7ccc8';
   ctx.font = '13px monospace';
   ctx.fillText(`Level ${State.Stats.level} | EXP ${State.Stats.exp}/${State.Stats.nextExp} | Sparks ${State.Stats.sparks}`, 52, 424);
-  drawBar(ctx, 52, 438, 270, 18, State.Stats.exp / State.Stats.nextExp, 'EXP', '#29b6f6');
+  drawBar(ctx, 52, 438, 270, 18, lightRatio(State.Stats.exp, State.Stats.nextExp), 'EXP', '#29b6f6');
 
   State.Debate.moves.forEach((move, i) => {
     const x = i < 2 ? 52 : 410;
     const y = 472 + (i % 2) * 42;
-    ctx.fillStyle = i === State.Debate.cursor ? 'rgba(255,235,59,.32)' : 'rgba(255,255,255,.10)';
+    const isChosenSpark = i === State.Debate.cursor;
+    ctx.fillStyle = isChosenSpark ? 'rgba(255,235,59,.32)' : 'rgba(255,255,255,.10)';
     ctx.fillRect(x, y - 24, 312, 34);
-    ctx.strokeStyle = i === State.Debate.cursor ? '#fff176' : 'rgba(255,255,255,.16)';
+    ctx.strokeStyle = isChosenSpark ? '#fff176' : 'rgba(255,255,255,.16)';
     ctx.strokeRect(x, y - 24, 312, 34);
     ctx.fillStyle = '#fffde7';
     ctx.font = 'bold 15px monospace';
@@ -50,6 +76,12 @@ const drawStatsPanel = (ctx, stats) => {
   });
 };
 
+/**
+ * Draws the recent debate log in a clipped, readable vessel.
+ *
+ * @param {CanvasRenderingContext2D} ctx - Canvas context receiving log lines.
+ * @returns {void}
+ */
 const drawLog = (ctx) => {
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,.45)';
@@ -59,12 +91,18 @@ const drawLog = (ctx) => {
   ctx.font = '13px monospace';
   ctx.fillStyle = '#e1bee7';
   State.Debate.log.slice(0, 4).forEach((line, i) => {
-    const clipped = line.length > 72 ? line.slice(0, 69) + '...' : line;
+    const clipped = line.length > 72 ? `${line.slice(0, 69)}...` : line;
     ctx.fillText(clipped, 274, 262 + i * 24);
   });
   ctx.restore();
 };
 
+/**
+ * Renders one battle frame: opponent, player, logs, move panel, and effects.
+ *
+ * @param {CanvasRenderingContext2D} ctx - Canvas context for the game screen.
+ * @returns {void}
+ */
 export const renderBattle = (ctx) => {
   const D = State.Debate;
   const stats = resolveStats();
@@ -85,12 +123,10 @@ export const renderBattle = (ctx) => {
   ctx.fillText(`Chochmah ${stats.chochmah} | Binah ${stats.binah} | Daat ${stats.daat}`, 64, 336);
   ctx.fillStyle = '#f8bbd0';
   ctx.fillText(statusLine(), 64, 354);
-  ctx.fillStyle = '#f8bbd0';
-  ctx.fillText(statusLine(), 64, 354);
   drawPlayerGlyph(ctx, stats, 166, 224, 108);
 
   drawLog(ctx);
-  drawStatsPanel(ctx, stats);
+  drawStatsPanel(ctx);
   drawBattleEffects(ctx);
 
   ctx.fillStyle = '#b2dfdb';

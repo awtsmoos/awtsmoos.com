@@ -1,5 +1,11 @@
 // B"H
-
+/**
+ * @file simulateRuntime.js
+ * @description The public runtime gate. Browser URLs now default to a real
+ * Chrome/CDP witness; explicit Merkava/MD2 requests still descend into bytecode.
+ * Thus the Awtsmoos has two vessels: living browser proof and compiled Merkava
+ * execution, each named honestly.
+ */
 import RuntimeAssemblerModule from "../../merkava-runtime/RuntimeAssembler.js";
 const { RuntimeAssembler } = RuntimeAssemblerModule;
 import { executeWorkflow } from "../flow/executeWorkflow.js";
@@ -7,6 +13,7 @@ import { createActionRegistry } from "../actions/actionRegistry.js";
 import { normalizeRuntimeResult } from "../snapshots/normalizeRuntimeResult.js";
 import { instrumentSource } from "../instrumentation/instrumentSource.js";
 import { applyInteractions } from "../interactions/applyInteractions.js";
+import { simulateRealBrowserRuntime, wantsRealBrowser } from "./realBrowserRuntime.js";
 
 function decodeJsonMaybe(value, fallback) {
   if (!value) return fallback;
@@ -31,6 +38,12 @@ function normalizeBrowserActionInput(options) {
   );
 }
 
+function normalizeList(value) {
+  const decoded = decodeJsonMaybe(value, value || []);
+  if (Array.isArray(decoded)) return decoded;
+  return String(decoded || "").split(",").map(item => item.trim()).filter(Boolean);
+}
+
 function extractRequestedValues(raw, runOptions = {}) {
   const runtime = raw?.runtime;
   const windowObj = runtime?.window || null;
@@ -47,15 +60,18 @@ function extractRequestedValues(raw, runOptions = {}) {
 }
 
 export function normalizeOptions(options = {}) {
+  const values = normalizeList(options.returnValues || options.values || options.returnValues64 || options.values64);
   return {
     ...options,
     runtime: options.runtime || "browser",
-    engine: options.engine || "merkava",
+    engine: options.engine || options.provider || options.mode || (options.url ? "real-browser" : "merkava"),
     entry: options.entry || "index.html",
     files: decodeJsonMaybe(options.files, options.files || {}),
     workflow: decodeJsonMaybe(options.workflow, options.workflow || null),
     probes: decodeJsonMaybe(options.probes, options.probes || []),
-    interactions: normalizeBrowserActionInput(options)
+    interactions: normalizeBrowserActionInput(options),
+    returnValues: values,
+    values
   };
 }
 
@@ -72,7 +88,6 @@ async function runOnce(runOptions) {
   const raw = await assembler.run(runOptions.entry);
   let interactionLog = [];
   let interactionError = null;
-
   try {
     interactionLog = await applyInteractions(raw.runtime, runOptions.interactions || []);
   } catch (error) {
@@ -80,7 +95,6 @@ async function runOnce(runOptions) {
     raw.ok = false;
     raw.result = { ...(raw.result || {}), ok: false, error: error.message, stack: error.stack || "" };
   }
-
   if (raw.runtime?.snapshot) raw.result.snapshot = raw.runtime.snapshot();
   const result = normalizeRuntimeResult({ ...raw, interactionLog }, { ...runOptions, files });
   const extracted = extractRequestedValues(raw, runOptions);
@@ -96,7 +110,8 @@ async function runOnce(runOptions) {
 
 export async function simulateRuntime(options = {}) {
   const normalized = normalizeOptions(options);
-  if (normalized.engine === "merkava" || normalized.engine === "md2" || normalized.bytecode === "merkava" || normalized.bytecode === "md2" || normalized.mode === "merkava" || normalized.mode === "md2") {
+  if (wantsRealBrowser(normalized)) return simulateRealBrowserRuntime(normalized);
+  if (isMerkavaMode(normalized)) {
     const { simulateMerkavaRuntime } = await import("../merkava/merkavaRuntime.js");
     return simulateMerkavaRuntime(normalized);
   }
@@ -107,6 +122,11 @@ export async function simulateRuntime(options = {}) {
     return ctx.result || workflowResult || { ok: true, workflow: true };
   }
   return runOnce(normalized);
+}
+
+function isMerkavaMode(options = {}) {
+  const value = String(options.engine || options.bytecode || options.mode || "").toLowerCase();
+  return ["merkava", "md2", "bytecode"].includes(value) || options.bytecode === true;
 }
 
 export async function runtimeWorkflow(options = {}) { return simulateRuntime(options); }

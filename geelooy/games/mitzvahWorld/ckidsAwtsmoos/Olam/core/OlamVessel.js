@@ -1,14 +1,16 @@
 // B"H
 /**
  * @module OlamVessel
- * @description Chapter 17: The world vessel imports the bh21 spike-reset body.
+ * @description Chapter 70: the root vessel refuses stale grafts. The Awtsmoos
+ * refreshes the OlamGrafting import itself, so render-fatal-once logic, moving
+ * platform dimension guards, and clean user errors actually enter the world.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGrafting.js?v=lean-l1-20260528-bh37";
+import OlamGrafting from "./OlamGrafting.js?v=render-stop-user-error-20260529-bh70";
 import OlamProperties from "../properties/index.js";
-import OlamInit from "./OlamInit.js?v=lean-l1-20260528-bh37";
-import Ayin from "../camera/index.js?v=lean-l1-20260528-bh37";
+import OlamInit from "./OlamInit.js?v=render-stop-user-error-20260529-bh70";
+import Ayin from "../camera/index.js?v=render-stop-user-error-20260529-bh70";
 import UserProgressManager from "../../systems/UserProgressManager.js";
 import Yichud from "../interaction/Yichud.js";
 import PlacementManager from "../interaction/PlacementManager.js";
@@ -31,7 +33,7 @@ export default class Olam extends Nivra {
     });
   }
 
-  /** Finishes non-blocking constructor setup after method grafting. */
+  /** @returns {void} Finishes non-blocking constructor setup after method grafting. */
   finishConstructorSetup() {
     try {
       this.worldOctree.olam = this;
@@ -53,7 +55,7 @@ export default class Olam extends Nivra {
     }
   }
 
-  /** Creates only a non-invasive fallback background and dim ambient candle. */
+  /** @returns {void} Creates a non-invasive fallback background and ambient candle. */
   installBaseVisibility() {
     if (!this.scene) return;
     this.scene.background = new THREE.Color(SAFE_SKY);
@@ -70,6 +72,7 @@ export default class Olam extends Nivra {
   get camera() { return this.activeCamera || this.ayin.camera; }
   set pixelRatio(pixelRatio) { if (this.renderer) this.renderer.setPixelRatio(pixelRatio); }
 
+  /** @returns {Promise<void>} Initializes the Olam vessel. */
   async init() {
     await this._facultiesGrafted;
     await OlamInit.execute(this);

@@ -1,6 +1,6 @@
 /*B"H
-  Chapter 33: The Awtsmoos cleans the glass until the words stand alive.
-  Every size and color begins here, before any component receives shape.
+  Chapter 124: The Measures Were Given Back To The Human Hand.
+  Wide worlds get full panels, narrow worlds get rails, and no text is crushed.
 */
 :root{
   color-scheme:dark;
@@ -9,15 +9,23 @@
   --awt-line:rgba(125,211,252,.25);--awt-line-soft:rgba(148,163,184,.18);--awt-line-strong:rgba(45,212,191,.55);
   --awt-input:#06101e;--awt-inset:inset 0 1px 0 rgba(255,255,255,.10);--awt-shadow-lg:0 30px 90px rgba(0,0,0,.48);--awt-shadow-md:0 16px 42px rgba(0,0,0,.30);--awt-ring:0 0 0 1px rgba(45,212,191,.28),0 0 40px rgba(34,230,196,.16);
   --awt-bg-radial:radial-gradient(circle at 18% -10%,rgba(20,184,166,.22),transparent 31%),radial-gradient(circle at 82% 0,rgba(37,99,235,.20),transparent 34%),linear-gradient(180deg,#030816,#01040c);
-  --awt-font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--awt-gap:10px;--awt-left:292px;--awt-right:324px;--awt-shell-pad:10px;--awt-main-border:1px solid var(--awt-line);--awt-main-min:0;--awt-main-radius:28px;--awt-panel-radius:28px;
-  --awt-shell-cols:var(--ai-left-col,var(--awt-left)) minmax(0,1fr) var(--ai-right-col,var(--awt-right));--awt-shell-areas:"left main right";--awt-panel-pos:relative;--awt-panel-top:auto;--awt-panel-bottom:auto;--awt-sidebar-left:auto;--awt-auto-right:auto;--awt-panel-z:auto;--awt-panel-h:auto;--awt-panel-max-h:100%;
-  --awt-topbar-min:60px;--awt-topbar-h:auto;--awt-topbar-pad:12px 14px;--awt-topbar-justify:space-between;--awt-title-size:1rem;--awt-action-size:38px;--awt-chat-pad:24px 20px 132px;--awt-chat-gap:16px;--awt-message-max:min(760px,92%);--awt-message-pad:14px 16px;--awt-message-radius:21px;
-  --awt-transport-min:48px;--awt-transport-pad:12px 18px;--awt-transport-size:1rem;--awt-chat-line-width:min(560px,80%);--awt-chat-line-opacity:.65;--awt-input-cols:minmax(0,1fr) 118px;--awt-input-min:92px;--awt-input-pad:14px 16px 16px;--awt-textarea-min:58px;--awt-send-min:58px;--awt-attach-pad:9px 13px;--awt-attach-size:1rem;
-  --awt-tools-bottom:92px;--awt-tools-right:22px;--awt-automation-cols:repeat(3,minmax(0,1fr));--awt-right-tabs-pos:absolute;--awt-brand-size:.76rem;--awt-row-min:60px;--awt-row-radius:17px;--awt-service-pad:11px;--awt-body-pos:static;--awt-body-inset:auto;--awt-rail-size:54px;
+  --awt-font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --awt-gap:10px;--awt-left:292px;--awt-right:324px;--awt-resizer:7px;--awt-shell-pad:10px;
+  --awt-main-border:1px solid var(--awt-line);--awt-main-min:0;--awt-main-radius:28px;--awt-panel-radius:28px;
+  --awt-shell-cols:var(--ai-left-col,var(--awt-left)) var(--awt-resizer) minmax(0,1fr) var(--awt-resizer) var(--ai-right-col,var(--awt-right));
+  --awt-shell-areas:"left leftResize main rightResize right";
+  --awt-panel-pos:relative;--awt-panel-top:auto;--awt-panel-bottom:auto;--awt-sidebar-left:auto;--awt-auto-right:auto;--awt-panel-z:auto;--awt-panel-h:auto;--awt-panel-max-h:100%;
+  --awt-topbar-min:60px;--awt-topbar-h:auto;--awt-topbar-pad:12px 14px;--awt-topbar-justify:space-between;--awt-title-size:1rem;--awt-action-size:38px;
+  --awt-chat-pad:24px 20px 132px;--awt-chat-gap:16px;--awt-message-max:min(760px,92%);--awt-message-pad:14px 16px;--awt-message-radius:21px;
+  --awt-transport-min:48px;--awt-transport-pad:12px 18px;--awt-transport-size:1rem;--awt-chat-line-width:min(560px,80%);--awt-chat-line-opacity:.65;
+  --awt-input-cols:minmax(0,1fr) 118px;--awt-input-min:96px;--awt-input-pad:14px 16px 16px;--awt-textarea-min:58px;--awt-send-min:58px;
+  --awt-attach-pad:9px 13px;--awt-attach-size:1rem;--awt-tools-bottom:92px;--awt-tools-right:22px;
+  --awt-automation-cols:repeat(3,minmax(0,1fr));--awt-right-tabs-pos:absolute;--awt-brand-size:.76rem;--awt-row-min:60px;--awt-row-radius:17px;--awt-service-pad:11px;
+  --awt-body-pos:static;--awt-body-inset:auto;--awt-rail-size:58px;
 }
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;background:var(--awt-bg);color:var(--awt-text);font-family:var(--awt-font);overflow:hidden}body{position:var(--awt-body-pos);inset:var(--awt-body-inset);overscroll-behavior:none}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}a{color:#67f8df}[hidden]{display:none!important}::selection{background:rgba(34,230,196,.35)}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--awt-hot);outline-offset:2px}
 ::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:rgba(2,6,23,.30)}::-webkit-scrollbar-thumb{background:rgba(125,211,252,.30);border-radius:999px;border:2px solid rgba(2,6,23,.55)}
+@media(max-width:1100px){:root{--awt-left:58px;--awt-right:58px;--awt-resizer:0px;--awt-gap:8px;--awt-shell-pad:8px;--awt-chat-pad:18px 16px 132px;--awt-message-max:min(720px,94%)}}
 @media(max-width:760px){:root{--awt-body-pos:fixed;--awt-body-inset:0;--awt-gap:0;--awt-shell-pad:0;--awt-main-radius:0;--awt-main-border:0;--awt-main-min:100dvh;--awt-panel-radius:24px;--awt-shell-cols:minmax(0,1fr);--awt-shell-areas:"main";--awt-panel-pos:fixed;--awt-panel-top:max(8px,env(safe-area-inset-top));--awt-panel-bottom:max(84px,env(safe-area-inset-bottom));--awt-sidebar-left:8px;--awt-auto-right:8px;--awt-panel-z:50;--awt-panel-h:auto;--awt-panel-max-h:none;--awt-left:calc(100dvw - 16px);--awt-right:calc(100dvw - 16px);--awt-topbar-min:54px;--awt-topbar-h:54px;--awt-topbar-pad:8px 10px;--awt-title-size:.9rem;--awt-action-size:38px;--awt-chat-pad:14px 12px 168px;--awt-chat-gap:12px;--awt-message-max:94%;--awt-message-pad:12px 13px;--awt-message-radius:18px;--awt-transport-min:42px;--awt-transport-pad:10px 12px;--awt-transport-size:.82rem;--awt-chat-line-width:64%;--awt-chat-line-opacity:.45;--awt-input-cols:1fr;--awt-input-min:152px;--awt-input-pad:12px 12px max(12px,env(safe-area-inset-bottom));--awt-textarea-min:72px;--awt-send-min:56px;--awt-attach-pad:8px 11px;--awt-attach-size:.82rem;--awt-tools-bottom:168px;--awt-tools-right:14px;--awt-automation-cols:1fr;--awt-right-tabs-pos:static;--awt-brand-size:.7rem;--awt-row-min:57px;--awt-row-radius:16px;--awt-service-pad:10px;--awt-rail-size:48px}}
-@media(min-width:761px) and (max-width:1080px){:root{--awt-left:74px;--awt-right:74px;--awt-topbar-justify:center}}
 @media(min-width:1380px){:root{--awt-left:320px;--awt-right:350px}}

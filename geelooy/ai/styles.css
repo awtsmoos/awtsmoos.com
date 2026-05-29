@@ -1,5 +1,9 @@
-/*B"H — explicit cascade order; one river, sealed vessels.*/
-@layer awt.tokens, awt.shell, awt.sidebar, awt.chat, awt.composer, awt.automation, awt.mobile;
+/*B"H
+  Chapter 182: One Cascade For Every AI River.
+  Ideal cockpit layers hold the page; prompt controls, relay installer jewels,
+  and unified event cards arrive last so every provider receives a clear vessel.
+*/
+@layer awt.tokens, awt.shell, awt.sidebar, awt.chat, awt.composer, awt.automation, awt.mobile, awt.polish, awt.events;
 @import "./css/ideal/tokens.css" layer(awt.tokens);
 @import "./css/ideal/shell.css" layer(awt.shell);
 @import "./css/ideal/sidebar.css" layer(awt.sidebar);
@@ -7,3 +11,6 @@
 @import "./css/ideal/composer.css" layer(awt.composer);
 @import "./css/ideal/automation.css" layer(awt.automation);
 @import "./css/ideal/mobile.css" layer(awt.mobile);
+@import "./css/automation-form-polish.css" layer(awt.polish);
+@import "./css/relay-install.css" layer(awt.polish);
+@import "./css/unified-events.css" layer(awt.events);

@@ -10,6 +10,8 @@ export const DEFAULT_AUTOMATION_SETTINGS = Object.freeze({
   mode: "continue",
   maxTurns: 3,
   delayMs: MIN_DELAY_MS,
+  delayMinMs: MIN_DELAY_MS,
+  delayMaxMs: MIN_DELAY_MS,
   streamSettleMs: MIN_STREAM_SETTLE_MS,
   prompt: "continue with the next precise verified step",
   promptMode: "single",
@@ -18,13 +20,13 @@ export const DEFAULT_AUTOMATION_SETTINGS = Object.freeze({
 });
 
 /**
- * Chapter 111: Each Conversation Receives Its Own Flame.
+ * B"H
+ * Chapter 137: Each Chat Received A Private Clock.
  *
- * Automation is no longer a single global switch haunting every chat. Each
- * conversation id stores its own settings, defaulting off, so two browser tabs
- * can carry two separate vessels while the UI always reflects the currently
- * visible chat. The Awtsmoos heals old saved settings into this map without
- * turning future chats on by accident.
+ * Automation settings live per conversation. The delay is now a small gate with
+ * a minimum and maximum; every continuation draws a fresh random number between
+ * those two stones, so the visible page breathes like a human hand and not a
+ * machine stamping one fixed second into the floor.
  */
 export class AutomationSettingsStore {
   constructor({ storage = globalThis.localStorage } = {}) {
@@ -63,12 +65,11 @@ export class AutomationSettingsStore {
   migrateOldSettings() {
     try {
       const oldRaw = JSON.parse(this.storage.getItem(OLD_KEY) || "{}");
-      const all = oldRaw && Object.keys(oldRaw).length ? { [FALLBACK_ID]: normalizeSettings({ ...DEFAULT_AUTOMATION_SETTINGS, ...oldRaw, enabled: false }) } : {};
+      const old = normalizeSettings({ ...DEFAULT_AUTOMATION_SETTINGS, ...oldRaw, enabled: false });
+      const all = oldRaw && Object.keys(oldRaw).length ? { [FALLBACK_ID]: old } : {};
       this.storage.setItem(KEY, JSON.stringify(all));
       return all;
-    } catch {
-      return {};
-    }
+    } catch { return {}; }
   }
 }
 
@@ -77,25 +78,32 @@ export function normalizeAutomationSettings(settings = {}) {
 }
 
 export function parsePromptList(settings = {}) {
-  return String(settings.promptListText || "")
-    .split(/\r?\n+/)
-    .map(item => item.trim())
-    .filter(Boolean);
+  return String(settings.promptListText || "").split(/\r?\n+/).map(item => item.trim()).filter(Boolean);
+}
+
+export function randomDelayMs(settings = {}) {
+  const min = Math.max(MIN_DELAY_MS, Number(settings.delayMinMs ?? settings.delayMs ?? MIN_DELAY_MS));
+  const max = Math.max(min, Number(settings.delayMaxMs ?? settings.delayMs ?? min));
+  return Math.round(min + Math.random() * (max - min));
 }
 
 function normalizeSettings(settings = {}) {
   const promptMode = ["single", "cycle", "random"].includes(settings.promptMode) ? settings.promptMode : "single";
-  const promptListText = String(settings.promptListText || DEFAULT_AUTOMATION_SETTINGS.promptListText);
+  const legacyDelay = Number(settings.delayMs || DEFAULT_AUTOMATION_SETTINGS.delayMs);
+  const delayMinMs = Math.max(MIN_DELAY_MS, Number(settings.delayMinMs ?? legacyDelay));
+  const delayMaxMs = Math.max(delayMinMs, Number(settings.delayMaxMs ?? legacyDelay));
   return {
     ...settings,
     enabled: Boolean(settings.enabled),
     mode: String(settings.mode || "continue"),
     maxTurns: Math.max(1, Number(settings.maxTurns || DEFAULT_AUTOMATION_SETTINGS.maxTurns)),
-    delayMs: Math.max(MIN_DELAY_MS, Number(settings.delayMs || DEFAULT_AUTOMATION_SETTINGS.delayMs)),
+    delayMs: delayMinMs,
+    delayMinMs,
+    delayMaxMs,
     streamSettleMs: Math.max(MIN_STREAM_SETTLE_MS, Number(settings.streamSettleMs || DEFAULT_AUTOMATION_SETTINGS.streamSettleMs)),
     prompt: String(settings.prompt || DEFAULT_AUTOMATION_SETTINGS.prompt),
     promptMode,
-    promptListText,
+    promptListText: String(settings.promptListText || DEFAULT_AUTOMATION_SETTINGS.promptListText),
     stopOnError: settings.stopOnError !== false
   };
 }

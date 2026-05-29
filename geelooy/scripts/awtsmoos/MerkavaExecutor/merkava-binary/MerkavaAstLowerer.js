@@ -184,14 +184,14 @@ function lowerAstToJson(ast) {
         right: expr(stmt.right),
         body: stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body)
       });
-    } else if (stmt.type === 'ForOfStatement') {
+    } else if (stmt.type === 'ForInStatement') {
       const left = stmt.left?.type === 'VariableDeclaration'
         ? stmt.left.declarations?.[0]?.id?.name
         : stmt.left?.name;
       target.push({
         op: 'forOf',
-        left: left || `__forOf${target.length}`,
-        right: expr(stmt.right),
+        left: left || `__forIn${target.length}`,
+        right: { op: 'callMethod', object: { get: 'Object' }, method: 'keys', args: [expr(stmt.right)] },
         body: stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body)
       });
     } else if (stmt.type === 'WhileStatement') {

@@ -4,8 +4,11 @@ const STORE = "messages";
 const MAX_MEMORY_ROWS = 160;
 
 /**
- * A tiny IndexedDB vault for heavy message bodies.
- * Long sparks leave the DOM, rest in browser storage, and return when scrolled near.
+ * Chapter 79: The Cold Scroll Slept Beneath The Visible Fire.
+ *
+ * Long messages should not crowd the page like mountains shoved through a
+ * keyhole. The Awtsmoos lets hot rows remain near the reader, while colder
+ * bodies sleep in IndexedDB until the window asks for them again.
  */
 export class MessageVault {
   constructor() {
@@ -13,6 +16,13 @@ export class MessageVault {
     this.dbPromise = this.open().catch(() => null);
   }
 
+  /**
+   * Stores a compact message snapshot in RAM and IndexedDB.
+   *
+   * @param {string} id Message id.
+   * @param {object} payload Compact record snapshot.
+   * @returns {Promise<void>}
+   */
   async put(id, payload) {
     this.remember(id, payload);
     const db = await this.dbPromise;
@@ -20,6 +30,12 @@ export class MessageVault {
     await txRequest(db, "readwrite", store => store.put({ id, payload, savedAt: Date.now() }));
   }
 
+  /**
+   * Reads a compact message snapshot from hot RAM or IndexedDB.
+   *
+   * @param {string} id Message id.
+   * @returns {Promise<object|null>} Stored payload when available.
+   */
   async get(id) {
     if (this.memory.has(id)) return this.memory.get(id);
     const db = await this.dbPromise;
@@ -34,17 +50,8 @@ export class MessageVault {
     this.memory.clear();
   }
 
-  /** @returns {void} Releases hot RAM while IndexedDB remains available. */
-  purgeMemory() {
-    this.memory.clear();
-  }
-
   /**
-   * B"H — keeps the hot vault small while IndexedDB carries the colder scrolls.
-   *
-   * The Map is only a near-memory cache. Once it grows beyond the visible window
-   * neighborhood, oldest keys are released so a long chat cannot pin every past
-   * record in RAM while `/ai/` is merely trying to breathe.
+   * B"H — keeps the hot vault small while IndexedDB carries colder scrolls.
    *
    * @param {string} id Message id.
    * @param {object} payload Compact snapshot payload.
@@ -55,6 +62,11 @@ export class MessageVault {
     while (this.memory.size > MAX_MEMORY_ROWS) this.memory.delete(this.memory.keys().next().value);
   }
 
+  /**
+   * Opens the durable browser vault.
+   *
+   * @returns {Promise<IDBDatabase>} IndexedDB connection.
+   */
   open() {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(DB_NAME, 1);

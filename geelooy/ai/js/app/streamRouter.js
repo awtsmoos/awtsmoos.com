@@ -1,16 +1,16 @@
 //B"H
 import { normalizeMessage } from "../render/messageNormalizer.js";
+import { visibleRenderableEvents } from "../render/runtime/eventRuntime.js";
 import { isDonePacket, looksLikeUserEcho } from "./stream/packetState.js";
 import { withoutFinalReplayEvents } from "./stream/livePacketSanitizer.js";
 
 /**
- * Chapter 97: The Stream Refused To Die From A Rumor.
+ * Chapter 126: The Blank Assistant Was Judged And Released.
  *
- * Route packets may include status-only end markers before the visible answer is
- * fully mirrored into `/ai`. Only finish() closes the vessel, or a literal
- * `[DONE]` routed after actual text. Empty/status-only packets can add events but
- * cannot create a dead blank assistant bubble like the one shown in the pasted
- * trace.
+ * The stream may carry hidden system packets, resume tokens, and status embers
+ * before any real assistant words arrive. The Awtsmoos now refuses to leave a
+ * dead empty bubble alive: only visible text or truly renderable event fire may
+ * finish a turn; otherwise the user sees a clear transport failure.
  */
 export class StreamRouter {
   constructor(renderer) {
@@ -22,19 +22,9 @@ export class StreamRouter {
     this.queue = Promise.resolve();
   }
 
-  open() {
-    return this.ensureAssistantRecord();
-  }
-
-  route(packet) {
-    this.queue = this.queue.then(() => this.routeNow(packet)).catch(error => this.fail(error));
-    return this.queue;
-  }
-
-  finish(packet) {
-    this.queue = this.queue.then(() => this.finishNow(packet)).catch(error => this.fail(error));
-    return this.queue;
-  }
+  open() { return this.ensureAssistantRecord(); }
+  route(packet) { this.queue = this.queue.then(() => this.routeNow(packet)).catch(error => this.fail(error)); return this.queue; }
+  finish(packet) { this.queue = this.queue.then(() => this.finishNow(packet)).catch(error => this.fail(error)); return this.queue; }
 
   async routeNow(packet) {
     const normalized = normalizeMessage(packet);
@@ -47,16 +37,17 @@ export class StreamRouter {
       const safePacket = withoutFinalReplayEvents(packet);
       await this.routeNormalized(safePacket, normalizeMessage(safePacket));
     }
-    if (this.hasVisibleText || this.hasUsefulEvents()) this.finishDone();
+    if (this.hasVisibleText || this.hasRenderableEvents()) return this.finishDone();
+    return this.abort(new Error("The provider finished without visible assistant text. The hidden/status packets were cleared instead of leaving a stuck blank response."));
   }
 
   async routeNormalized(packet, normalized) {
     const record = this.ensureAssistantRecord();
     if (normalized.events?.length) this.renderer.setRecordEvents(record.id, normalized.events);
-    if (normalized.text?.trim() && normalized.role === "assistant" && !looksLikeUserEcho(this.renderer, normalized.text)) {
-      this.hasVisibleText = true;
-      await this.renderer.updateRecord(record.id, packet, "assistant");
-    }
+    if (!isAssistantText(normalized)) return;
+    if (looksLikeUserEcho(this.renderer, normalized.text)) return;
+    this.hasVisibleText = true;
+    await this.renderer.updateRecord(record.id, packet, "assistant");
   }
 
   ensureAssistantRecord() {
@@ -66,8 +57,8 @@ export class StreamRouter {
     return this.record;
   }
 
-  hasUsefulEvents() {
-    return Boolean(this.record?.events?.length);
+  hasRenderableEvents() {
+    return Boolean(visibleRenderableEvents(this.record?.events || []).length);
   }
 
   abort(error) {
@@ -91,6 +82,10 @@ export class StreamRouter {
     console.warn("Stream router failed", error);
     this.abort(error);
   }
+}
+
+function isAssistantText(normalized = {}) {
+  return normalized.role === "assistant" && String(normalized.text || "").trim();
 }
 
 function friendlyStreamError(error) {

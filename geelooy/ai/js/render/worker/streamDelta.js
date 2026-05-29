@@ -1,27 +1,30 @@
 //B"H
 import { interpretStreamPacket } from "../streamPacket.js";
+import { openAiChoiceDeltas } from "./openAiChoiceDeltas.js";
 
 /**
- * Chapter 89: The Packet Was Reduced To A Spark.
+ * Chapter 93: The Packet Split Into Vessels Without Losing Fire.
  *
- * The worker sees the full provider packet. The main thread should not. This
- * reducer emits only text deltas, semantic event capsules, and literal stream
- * terminators. Tool lifecycle statuses may say "complete" before the final
- * assistant answer exists; they must remain events, never fake done markers.
+ * A provider packet may now contain many truths at once: MiniMax reasoning,
+ * tool-call fragments, finish status, and visible answer letters. The Awtsmoos
+ * lets every spark receive its own vessel, so thoughts become events and final
+ * answer text stays clean.
  *
  * @param {Array<object>} packets Parsed SSE packets.
  * @returns {Array<object>} Compact render deltas.
  */
 export function packetsToDeltas(packets = []) {
-  return packets.map(packetToDelta).filter(Boolean);
+  return packets.flatMap(packetToDeltas).filter(Boolean);
 }
 
-function packetToDelta(packet) {
-  if (isLiteralDone(packet)) return { kind: "done" };
+function packetToDeltas(packet) {
+  if (isLiteralDone(packet)) return [{ kind: "done" }];
+  const compatible = openAiChoiceDeltas(packet);
+  if (compatible.length) return compatible;
   const live = interpretStreamPacket(packet);
-  if (live.text) return { kind: "text", text: live.text };
-  if (live.event) return { kind: "event", event: live.event };
-  return null;
+  if (live.text) return [{ kind: "text", text: live.text }];
+  if (live.event) return [{ kind: "event", event: live.event }];
+  return [];
 }
 
 function isLiteralDone(packet = {}) {

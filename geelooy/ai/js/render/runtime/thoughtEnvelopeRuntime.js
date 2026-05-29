@@ -8,13 +8,11 @@ import { displayableThoughtInnerEvents } from "./thoughtInnerEvents.js";
 const LIVE_INNER_WINDOW = 80;
 
 /**
- * Chapter 79: The Chamber Key Became A Bone That Did Not Melt.
+ * Chapter 122: The Live Thought Gate Stopped Hiding Its Sparks.
  *
- * While streaming, a thought group receives more inner sparks. Its DOM card and
- * vault payload must keep the same identity, or an already-open panel may ask
- * yesterday's key for today's body and find only silence. The Awtsmoos gives
- * each group a stable key from its timeline head, and this runtime updates the
- * payload behind that same key until the group is complete.
+ * Streaming thought groups now keep a stable vault key, open the inner timeline
+ * by default, and reconcile only the visible live window. The Awtsmoos reveals
+ * debugging fire without forcing every heavy payload body into the DOM.
  *
  * @param {Element} node Stable .event-entry vessel.
  * @param {object} event Grouped thought-envelope event.
@@ -22,10 +20,7 @@ const LIVE_INNER_WINDOW = 80;
  */
 export function renderThoughtEnvelopeNode(node, event = {}) {
   const inner = displayableThoughtInnerEvents(Array.isArray(event.raw?.events) ? event.raw.events : []);
-  if (!inner.length) {
-    node.remove();
-    return;
-  }
+  if (!inner.length) return node.remove();
   const fingerprint = thoughtEnvelopeFingerprint(event, inner);
   if (node.dataset.thoughtEnvelopeFingerprint === fingerprint) return;
   node.dataset.thoughtEnvelopeFingerprint = fingerprint;
@@ -71,6 +66,7 @@ function ensureInnerPanel(card) {
   if (panel) return panel;
   panel = document.createElement("details");
   panel.className = "thought-envelope-events";
+  panel.open = true;
   panel.append(document.createElement("summary"));
   card.append(panel);
   return panel;
@@ -94,17 +90,8 @@ function reconcileLiveInnerWindow(panel, inner = []) {
   if (userReading) end = clamp(Number(panel.dataset.thoughtWindowEnd || end), 0, inner.length);
   const start = Math.max(0, end - LIVE_INNER_WINDOW);
   panel.dataset.thoughtWindowEnd = String(end);
-  const windowed = inner.slice(start, end);
-  reconcileThoughtInnerEvents(panel, windowed);
+  reconcileThoughtInnerEvents(panel, inner.slice(start, end));
   syncMoreButton(panel, start, Math.max(0, inner.length - end));
-}
-
-function isInnerNearBottom(body) {
-  return body.scrollHeight - body.scrollTop - body.clientHeight <= 36;
-}
-
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, Number.isFinite(value) ? value : max));
 }
 
 function syncMoreButton(panel, start, offset) {
@@ -141,6 +128,14 @@ function thoughtGroupTitle(event = {}, inner = []) {
   const thought = [...inner].reverse().find(item => item?.kind === "thinking" && String(item.text || "").trim());
   if (thought) return `Thinking · ${String(thought.text).trim().slice(0, 80)}`;
   return event.label || "Thoughts";
+}
+
+function isInnerNearBottom(body) {
+  return body.scrollHeight - body.scrollTop - body.clientHeight <= 36;
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, Number.isFinite(value) ? value : max));
 }
 
 function setTextIfChanged(node, value) {

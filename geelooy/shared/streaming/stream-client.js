@@ -3,28 +3,17 @@
  * @file stream-client.js
  * @brief Shared SSE streaming client — usable in browser and Node.js.
  *
- * CHAPTER 29: THE SHARED STREAM — One river, two shores.
+ * CHAPTER 182: THE RIVER REPORTED EVERY DROP BEFORE IT JOINED THE SEA.
  */
 
 export function parseSSEDataLine(line) {
   const trimmed = line.trim();
-  if (!trimmed || trimmed === 'data:[DONE]' || trimmed === 'data: [DONE]') return null;
-  if (!trimmed.startsWith('data: ')) return null;
-  try {
-    return JSON.parse(trimmed.substring(6));
-  } catch (_) { return null; }
+  if (!trimmed || trimmed === "data:[DONE]" || trimmed === "data: [DONE]") return null;
+  if (!trimmed.startsWith("data:")) return null;
+  try { return JSON.parse(trimmed.replace(/^data:\s*/, "")); }
+  catch (_) { return null; }
 }
 
-/**
- * B"H
- * Extracts separated thought text from OpenAI-compatible stream deltas.
- *
- * MiniMax with `reasoning_split` uses `reasoning_details`, while other
- * compatible providers commonly use `reasoning` or `reasoning_content`.
- *
- * @param {object} delta Provider stream delta.
- * @returns {string} Reasoning text, or an empty string.
- */
 export function extractReasoningDelta(delta = {}) {
   if (delta.reasoning) return delta.reasoning;
   if (delta.reasoning_content) return delta.reasoning_content;
@@ -33,92 +22,108 @@ export function extractReasoningDelta(delta = {}) {
 }
 
 /**
- * Reads a streaming fetch response, calling back for each logical event.
+ * B"H
+ * Reads provider SSE into text, reasoning, tool deltas, usage, finish state, and
+ * now raw parsed SSE data callbacks. The Awtsmoos gives every packet a witness.
  *
- * @param {ReadableStreamDefaultReader} reader — From response.body.getReader()
- * @param {string} providerId
- * @param {object} callbacks — { onActive, onChunk, onReasoning, onToolCall, onComplete, onError }
- * @param {Function} [reasoningExtractor] — (delta) => string|null for non-standard reasoning fields
+ * @param {ReadableStreamDefaultReader} reader Response body reader.
+ * @param {string} providerId Provider label for diagnostics.
+ * @param {object} callbacks Stream callbacks.
+ * @param {Function|null} reasoningExtractor Optional reasoning extractor.
+ * @returns {Promise<object>} Final stream summary.
  */
-export async function readSSEStream(reader, providerId, {
-  onActive,
-  onChunk,
-  onReasoning,
-  onToolCall,
-  onComplete,
-  onError
-}, reasoningExtractor = null) {
-  const decoder = new TextDecoder();
-  let fullText = '';
-  let fullReasoning = '';
-  let buffer = '';
-  let activeToolCalls = [];
-  let isActiveFired = false;
-
+export async function readSSEStream(reader, providerId, callbacks = {}, reasoningExtractor = null) {
+  const state = createStreamState(providerId, callbacks, reasoningExtractor);
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
+    state.receive(value);
+  }
+  state.flushTail();
+  return state.complete();
+}
 
-    if (onActive && !isActiveFired) { isActiveFired = true; onActive(); }
-
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split(/\r?\n/);
-    buffer = lines.pop();
-
-    let hasToolUpdate = false;
-    for (const line of lines) {
+function createStreamState(providerId, callbacks, reasoningExtractor) {
+  const decoder = new TextDecoder();
+  const toolAssembler = new ToolCallAssembler();
+  const state = {
+    providerId,
+    callbacks,
+    reasoningExtractor,
+    text: "",
+    reasoning: "",
+    buffer: "",
+    usage: null,
+    finishReason: null,
+    active: false,
+    receive(value) {
+      if (!this.active) { this.active = true; this.callbacks.onActive?.(); }
+      this.buffer += decoder.decode(value, { stream: true });
+      const lines = this.buffer.split(/\r?\n/);
+      this.buffer = lines.pop() || "";
+      lines.forEach(line => this.handleLine(line));
+    },
+    flushTail() { if (this.buffer.trim()) this.handleLine(this.buffer); this.buffer = ""; },
+    handleLine(line) {
       const data = parseSSEDataLine(line);
-      if (!data) continue;
-      if (data.error) {
-        if (onError) onError(data.error);
-        return { text: fullText, reasoning: fullReasoning, tools: activeToolCalls.filter(Boolean) };
-      }
-
-      const delta = data.choices?.[0]?.delta || {};
-
-      // Text delta — shared by all providers
-      if (delta.content) {
-        fullText += delta.content;
-        if (onChunk) onChunk(delta.content);
-      }
-
-      // Reasoning — custom extractor for non-standard providers (e.g. MiniMax reasoning_details)
-      const reasonText = reasoningExtractor ? reasoningExtractor(delta) : extractReasoningDelta(delta);
-      if (reasonText) {
-        fullReasoning += reasonText;
-        if (onReasoning) onReasoning(reasonText);
-      }
-
-      // Tool calls — shared by all OpenAI-compatible providers
-      if (delta.tool_calls) {
-        hasToolUpdate = true;
-        delta.tool_calls.forEach(tc => {
-          const toolIndex = Number.isInteger(tc.index) ? tc.index : activeToolCalls.length;
-          if (!activeToolCalls[toolIndex]) {
-            activeToolCalls[toolIndex] = {
-              id: tc.id || ('call_' + Math.random().toString(36).substr(2, 9)),
-              type: tc.type || 'function',
-              function: { name: tc.function?.name || '', arguments: tc.function?.arguments || '' }
-            };
-          }
-          if (tc.id) activeToolCalls[toolIndex].id = tc.id;
-          if (tc.type) activeToolCalls[toolIndex].type = tc.type;
-          if (tc.function?.name) activeToolCalls[toolIndex].function.name = tc.function.name;
-          if (typeof tc.function?.arguments === 'string' && tc.function.arguments.length > 0) {
-            activeToolCalls[toolIndex].function.arguments += tc.function.arguments;
-          }
-        });
-      }
+      if (!data) return;
+      this.callbacks.onData?.(data);
+      if (data.error) return this.callbacks.onError?.(data.error);
+      this.usage = data.usage || this.usage;
+      const choice = data.choices?.[0] || {};
+      this.finishReason = choice.finish_reason || this.finishReason;
+      const delta = choice.delta || {};
+      this.handleText(delta);
+      this.handleReasoning(delta);
+      this.handleTools(delta, toolAssembler);
+      this.callbacks.onMeta?.(this.metrics());
+    },
+    handleText(delta) {
+      if (!delta.content) return;
+      this.text += delta.content;
+      this.callbacks.onChunk?.(delta.content, this.text);
+    },
+    handleReasoning(delta) {
+      const fn = this.reasoningExtractor || extractReasoningDelta;
+      const value = fn(delta);
+      if (!value) return;
+      this.reasoning += value;
+      this.callbacks.onReasoning?.(value, this.reasoning);
+    },
+    handleTools(delta, assembler) {
+      if (!Array.isArray(delta.tool_calls)) return;
+      const calls = assembler.accept(delta.tool_calls);
+      this.callbacks.onToolCall?.(calls, { partial: true });
+    },
+    metrics() {
+      return { providerId: this.providerId, usage: this.usage, finishReason: this.finishReason, toolCalls: toolAssembler.calls(), textChars: this.text.length, reasoningChars: this.reasoning.length };
+    },
+    complete() {
+      const tools = toolAssembler.calls();
+      this.callbacks.onComplete?.(this.text, this.reasoning, tools, this.metrics());
+      return { text: this.text, reasoning: this.reasoning, tools, usage: this.usage, finishReason: this.finishReason };
     }
+  };
+  return state;
+}
 
-    if (hasToolUpdate && onToolCall) onToolCall(activeToolCalls.filter(Boolean));
+class ToolCallAssembler {
+  constructor() { this.slots = []; }
+  accept(toolDeltas = []) {
+    toolDeltas.forEach(delta => this.merge(delta));
+    return this.calls();
   }
-
-  const finalized = activeToolCalls.filter(Boolean);
-  if (!fullText && !fullReasoning && finalized.length === 0) {
-    if (onError) onError(new Error(`${providerId} stream completed without text, reasoning, or tool calls.`));
-    return { text: fullText, reasoning: fullReasoning, tools: finalized };
+  merge(delta = {}) {
+    const index = Number.isInteger(delta.index) ? delta.index : this.slots.length;
+    const current = this.slots[index] || this.empty(delta);
+    if (delta.id) current.id = delta.id;
+    if (delta.type) current.type = delta.type;
+    if (delta.function?.name) current.function.name = delta.function.name;
+    if (typeof delta.function?.arguments === "string") current.function.arguments += delta.function.arguments;
+    this.slots[index] = current;
   }
-  if (onComplete) onComplete(fullText, fullReasoning, finalized);
-  return { text: fullText, reasoning: fullReasoning, tools: finalized };
+  empty(delta = {}) {
+    return { id: delta.id || `call_${Math.random().toString(36).slice(2)}`, type: delta.type || "function", function: { name: delta.function?.name || "", arguments: delta.function?.arguments || "" } };
+  }
+  calls() { return this.slots.filter(Boolean).map(call => ({ ...call, function: { ...call.function } })); }
 }

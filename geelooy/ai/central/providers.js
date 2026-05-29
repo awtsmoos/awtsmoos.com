@@ -1,12 +1,11 @@
 // B"H
-
 /**
  * B"H
- * Chapter 16: The Awtsmoos gathered many model rivers into one basin.
+ * Chapter 159: Each Model River Was Given A Measured Shore.
  *
- * Provider definitions are data, not scattered conditionals. Each model gate
- * receives endpoint, key storage, and default model from here, so browser AI,
- * code editor AI, and local agent scripts can drink from the same source.
+ * Provider definitions are data, not scattered conditionals. Context windows,
+ * endpoints, keys, models, and stream quirks all live here so every caller can
+ * trim memory and render progress with the same truth.
  */
 export const AI_PROVIDERS = Object.freeze({
   minimax: {
@@ -17,6 +16,7 @@ export const AI_PROVIDERS = Object.freeze({
     storageKey: "minimax",
     endpoint: "https://api.minimax.io/v1/chat/completions",
     defaultModel: "MiniMax-M2.7",
+    contextWindow: 196000,
     extraBody: { reasoning_split: true }
   },
   openrouter: {
@@ -26,7 +26,8 @@ export const AI_PROVIDERS = Object.freeze({
     envKey: "OPENROUTER_API_KEY",
     storageKey: "openrouter",
     endpoint: "https://openrouter.ai/api/v1/chat/completions",
-    defaultModel: "openai/gpt-4o-mini"
+    defaultModel: "openai/gpt-4o-mini",
+    contextWindow: 128000
   },
   groq: {
     id: "groq",
@@ -35,14 +36,13 @@ export const AI_PROVIDERS = Object.freeze({
     envKey: "GROQ_API_KEY",
     storageKey: "groq",
     endpoint: "https://api.groq.com/openai/v1/chat/completions",
-    defaultModel: "llama-3.3-70b-versatile"
+    defaultModel: "llama-3.3-70b-versatile",
+    contextWindow: 128000
   }
 });
 
 /**
- * B"H
- * Returns provider metadata or throws a clear error.
- *
+ * B"H — returns provider metadata or throws a clear error.
  * @param {string} id Provider id.
  * @returns {object} Provider config.
  */
@@ -53,9 +53,7 @@ export function getProvider(id = "openrouter") {
 }
 
 /**
- * B"H
- * Lists provider configs for settings UIs and tests.
- *
+ * B"H — lists provider configs for settings UIs and tests.
  * @returns {object[]} Provider configs.
  */
 export function listProviders() {

@@ -1,22 +1,15 @@
 // B"H
 const path = require("path");
 
-const MAX_URL_FILES = 80;
-const MAX_URL_BYTES = 512000;
+const MAX_URL_FILES = 220;
+const MAX_URL_BYTES = 1024 * 1024;
 
 /**
- * B"H
- * Chapter 1: The Awtsmoos breathed through a URL, and the distant page
- * became near, letter by letter, like rain gathered into one cup.
- *
- * Collects a browser-facing URL into the same file map used by the Merkava
- * runtime. The page itself becomes `index.html`; same-origin scripts, styles,
- * modules, import-map entries, and CSS imports become deterministic virtual
- * files. Import-map JSON is preserved for dependency discovery, then removed
- * from executable HTML because a browser does not run it as JavaScript.
- *
- * @param {object} payload Runtime action payload containing a `url` string.
- * @returns {Promise<object|null>} Virtual env or null when no URL collection is needed.
+ * @file runtimeUrlEnv.js
+ * @description Chapter 72: the URL collector learns to follow living imports.
+ * The Awtsmoos does not stop at static script tags; it also recognizes safe
+ * dynamic import module constants, literal template imports, and same-origin
+ * absolute module paths so Merkava receives the real app, not only its gate.
  */
 async function buildRuntimeUrlEnv(payload = {}) {
   if (!shouldCollectUrl(payload)) return null;
@@ -24,23 +17,19 @@ async function buildRuntimeUrlEnv(payload = {}) {
   const files = {};
   const seen = new Set();
   const queue = [{ url: pageUrl.href, key: "index.html", kind: "html" }];
-
+  const diagnostics = [];
   while (queue.length && Object.keys(files).length < maxFiles(payload)) {
     const job = queue.shift();
     if (seen.has(job.url) || files[job.key] !== undefined) continue;
     seen.add(job.url);
     const got = await fetchBrowserText(job.url, payload);
-    if (!got.ok) continue;
-    const refs = refsFrom(got.text, job.key, job.url, job.kind);
-    files[job.key] = normalizeFetchedText(got.text, job.kind);
-    enqueueRefs({ refs, pageUrl, files, queue, seen, payload });
+    if (!got.ok) { diagnostics.push({ kind: "fetch-skip", url: job.url, status: got.status, tooLarge: got.tooLarge }); continue; }
+    const normalized = normalizeFetchedText(got.text, job.kind);
+    files[job.key] = normalized;
+    enqueueRefs({ refs: refsFrom(normalized, job.key, job.url, job.kind), pageUrl, files, queue, seen, payload });
   }
-
-  if (!files["index.html"]) {
-    return { entry: "index.html", files: {}, source: "url", error: "url_entry_not_loaded", diagnostics: [], ok: false };
-  }
-
-  return { entry: "index.html", files, source: "url", rootUrl: pageUrl.href, diagnostics: [], ok: true };
+  if (!files["index.html"]) return { entry: "index.html", files: {}, source: "url", error: "url_entry_not_loaded", diagnostics, ok: false };
+  return { entry: "index.html", files, source: "url", rootUrl: pageUrl.href, diagnostics, ok: true };
 }
 
 function enqueueRefs({ refs, pageUrl, files, queue, seen, payload }) {
@@ -75,7 +64,7 @@ function refsFrom(text, fromKey, fromUrl, kind) {
   for (const spec of htmlRefs(text, kind)) push(spec);
   for (const spec of jsRefs(text, kind)) push(spec);
   for (const spec of cssRefs(text, kind)) push(spec);
-  return refs;
+  return uniqueRefs(refs);
 }
 
 function htmlRefs(text, kind) {
@@ -88,12 +77,41 @@ function htmlRefs(text, kind) {
 
 function jsRefs(text, kind) {
   if (kind !== "js" && kind !== "html") return [];
-  const refs = [];
   const source = String(text || "");
+  const refs = [];
   for (const match of source.matchAll(/\bimport\s+(?:[^('";]+?\s+from\s+)?["']([^"']+)["']/g)) refs.push(match[1]);
   for (const match of source.matchAll(/\bexport\s+[^;"']*?\s+from\s+["']([^"']+)["']/g)) refs.push(match[1]);
   for (const match of source.matchAll(/\bimport\(\s*["']([^"']+)["']\s*\)/g)) refs.push(match[1]);
+  for (const match of source.matchAll(/\bimport\(\s*`([^`$]+)(?:\?[^`$]*)?`\s*\)/g)) refs.push(match[1]);
+  refs.push(...constantDynamicImports(source));
+  refs.push(...safeAbsoluteModuleRefs(source));
   return refs;
+}
+
+function constantDynamicImports(source) {
+  const constants = new Map();
+  const refs = [];
+  for (const match of source.matchAll(/\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*([`'"])([\s\S]*?)\2\s*;/g)) {
+    constants.set(match[1], match[3].split("?")[0]);
+  }
+  for (const match of source.matchAll(/\bimport\(\s*([A-Za-z_$][\w$]*)\s*\)/g)) {
+    const spec = constants.get(match[1]);
+    if (looksLikeModuleSpec(spec)) refs.push(spec);
+  }
+  return refs;
+}
+
+function safeAbsoluteModuleRefs(source) {
+  const refs = [];
+  for (const match of String(source || "").matchAll(/["'`]([^"'`]*\.(?:mjs|js|css|json)(?:\?[^"'`]*)?)["'`]/g)) {
+    const spec = match[1].split("?")[0];
+    if (looksLikeModuleSpec(spec)) refs.push(spec);
+  }
+  return refs;
+}
+
+function looksLikeModuleSpec(spec) {
+  return typeof spec === "string" && (/^\.{1,2}\//.test(spec) || /^\//.test(spec)) && /\.(?:mjs|js|css|json)$/i.test(spec.split(/[?#]/)[0]);
 }
 
 function cssRefs(text, kind) {
@@ -125,7 +143,18 @@ function keyFor(spec, fromKey, url) {
   return slash(path.normalize(path.join(path.dirname(fromKey), cleanSpec || "index.html")));
 }
 
+function uniqueRefs(refs) {
+  const seen = new Set();
+  return refs.filter(ref => {
+    const key = ref.url;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function kindFor(pathname) {
+  if (/\.json$/i.test(pathname)) return "json";
   if (/\.m?js$/i.test(pathname)) return "js";
   if (/\.css$/i.test(pathname)) return "css";
   if (/\.html?$/i.test(pathname) || !path.extname(pathname)) return "html";
@@ -138,11 +167,12 @@ function sameOrigin(root, candidate) {
 }
 
 function acceptFor(url) {
-  return /\.css$/i.test(url) ? "text/css,*/*" : /\.m?js$/i.test(url) ? "text/javascript,*/*" : "text/html,*/*";
+  if (/\.json(?:[?#]|$)/i.test(url)) return "application/json,*/*";
+  return /\.css(?:[?#]|$)/i.test(url) ? "text/css,*/*" : /\.m?js(?:[?#]|$)/i.test(url) ? "text/javascript,*/*" : "text/html,*/*";
 }
 
 function maxFiles(payload) { return Number(payload.maxFiles || payload.fileLimit || MAX_URL_FILES); }
 function maxBytes(payload) { return Number(payload.maxBytes || payload.byteLimit || MAX_URL_BYTES); }
 function slash(value) { return String(value || "").replace(/\\/g, "/"); }
 
-module.exports = { buildRuntimeUrlEnv, shouldCollectUrl };
+module.exports = { buildRuntimeUrlEnv, shouldCollectUrl, refsFrom };

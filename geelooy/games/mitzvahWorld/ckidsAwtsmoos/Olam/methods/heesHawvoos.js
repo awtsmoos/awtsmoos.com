@@ -1,30 +1,23 @@
 // B"H
 /**
  * @file heesHawvoos.js
- * @description
- * Chapter 26: The worker render loop refuses browser-only vanity geometry.
- *
- * The Awtsmoos showed the blue-screen secret: after spike reset, a LineSegments
- * / helper geometry entered the OffscreenCanvas render river and Three touched
- * `window` from inside worker rendering. The cure is not another collider spell;
- * the cure is to continuously exile worker-hostile vanity nodes before every
- * render, without logging raw Three objects into DevTools.
+ * @description Chapter 70: the render river stops when poison is found. The
+ * Awtsmoos reports one fatal error to the user, exiles bad matrices, catches
+ * async renderer promises, and stops the pulsator so Three cannot keep chanting
+ * the same NaN into the console after the diagnosis is known.
  */
 import UniversePulsator from '../oyved/UniversePulsator.js';
 import RenderTrace from './canvas/RenderTrace.js';
 
 const FOCUS_MOVING_EPSILON_SQ = 0.0001;
 const VANITY_TYPES = new Set(['LineSegments', 'Line', 'Points', 'AxesHelper', 'GridHelper', 'BoxHelper']);
+const MAX_ENTITY_WARNINGS = 10;
 
 function shouldDriveOctreeFocus(nivra, self) {
   if (!nivra) return false;
   if (nivra === self.chossid || nivra === self.player || nivra.type === 'chossid') return true;
   const moving = nivra.moving || {};
-  const hasIntent = Boolean(
-    moving.forward || moving.backward || moving.stridingLeft || moving.stridingRight ||
-    moving.turningLeft || moving.turningRight || moving.jump || nivra.movingAutomatically ||
-    nivra.navTarget || nivra.currentPath || nivra._isMoving
-  );
+  const hasIntent = Boolean(moving.forward || moving.backward || moving.stridingLeft || moving.stridingRight || moving.turningLeft || moving.turningRight || moving.jump || nivra.movingAutomatically || nivra.navTarget || nivra.currentPath || nivra._isMoving);
   return hasIntent || ((nivra.velocity?.lengthSq?.() || 0) > FOCUS_MOVING_EPSILON_SQ);
 }
 
@@ -33,8 +26,7 @@ function isWorkerHostileRenderNode(node) {
   if (node.isLine || node.isLineSegments || node.isPoints) return true;
   if (VANITY_TYPES.has(node.type)) return true;
   const geometryType = String(node.geometry?.type || '');
-  if (geometryType.includes('BufferGeometry') && (node.material?.isLineBasicMaterial || node.material?.isPointsMaterial)) return true;
-  return false;
+  return geometryType.includes('BufferGeometry') && (node.material?.isLineBasicMaterial || node.material?.isPointsMaterial);
 }
 
 function purgeWorkerHostileRenderNodes(scene) {
@@ -58,128 +50,134 @@ function safeRenderTrace(name, data) {
 }
 
 function compactError(error) {
-  return {
-    name: error?.name || 'Error',
-    message: error?.message || String(error),
-    stack: String(error?.stack || '').split('\n').slice(0, 5).join(' | ')
-  };
+  return { name: error?.name || 'Error', message: error?.message || String(error), stack: String(error?.stack || '').split('\n').slice(0, 5).join(' | ') };
+}
+
+function numberOk(value) { return Number.isFinite(Number(value)); }
+function vectorOk(v) { return !v || (numberOk(v.x) && numberOk(v.y) && numberOk(v.z)); }
+function matrixOk(m) { return !m?.elements || m.elements.every(numberOk); }
+function nodeOwnerName(node) { return node?.nivraAwtsmoos?.name || node?.parent?.nivraAwtsmoos?.name || node?.name || '(unnamed)'; }
+function copyVector(v) { return v ? { x: Number(v.x), y: Number(v.y), z: Number(v.z) } : null; }
+
+function inspectBadRenderNodes(scene, limit = 8) {
+  const bad = [];
+  scene?.traverse?.(node => {
+    if (bad.length >= limit) return;
+    const invalid = !vectorOk(node.position) || !vectorOk(node.scale) || !vectorOk(node.rotation) || !matrixOk(node.matrix) || !matrixOk(node.matrixWorld);
+    if (!invalid) return;
+    bad.push({ name: nodeOwnerName(node), type: node.type, objectName: node.name, position: copyVector(node.position), scale: copyVector(node.scale) });
+  });
+  return bad;
+}
+
+function exileBadRenderNodes(scene) {
+  let count = 0;
+  scene?.traverse?.(node => {
+    const invalid = !vectorOk(node.position) || !vectorOk(node.scale) || !vectorOk(node.rotation) || !matrixOk(node.matrix) || !matrixOk(node.matrixWorld);
+    if (!invalid) return;
+    node.visible = false;
+    node.userData ||= {};
+    node.userData.awtsmoosRenderExiled = true;
+    count += 1;
+  });
+  return count;
+}
+
+function reportFatalOnce(self, key, payload) {
+  self.__renderFatalReports ||= new Set();
+  if (self.__renderFatalReports.has(key)) return false;
+  self.__renderFatalReports.add(key);
+  console.error('B"H | AWTSMOOS_RENDER_FATAL_ONCE', payload);
+  safeRenderTrace('heesHawvoos:render_fatal_once', payload);
+  self.ayshPeula?.('ui event', 'effectsOverlay', { text: `Render error: ${payload.message}`, color: '#ff6b6b', fatal: true, details: payload.badNodes });
+  globalThis.postMessage?.({ type: 'awtsmoosRenderFatal', payload });
+  return true;
+}
+
+function stopRenderLoop(self) {
+  self.__renderPausedAfterFatal = true;
+  self.pulsator?.stop?.();
+  self.renderer?.setAnimationLoop?.(null);
+}
+
+function handleRenderFailure(self, loopCounter, error) {
+  if (self.__renderPausedAfterFatal) return;
+  const compact = compactError(error);
+  const badNodes = inspectBadRenderNodes(self.scene);
+  const exiled = exileBadRenderNodes(self.scene) + purgeWorkerHostileRenderNodes(self.scene);
+  const key = `${compact.name}:${compact.message}:${badNodes.map(n => n.name).join('|')}`;
+  stopRenderLoop(self);
+  reportFatalOnce(self, key, { frame: loopCounter, ...compact, badNodes, exiled, paused: true, stopped: true });
+}
+
+function warnOncePerEntity(self, nivra, error) {
+  self.__entityLoopWarnings ||= new Set();
+  const key = `${nivra?.type}:${nivra?.name}:${error?.message || error}`;
+  if (self.__entityLoopWarnings.size >= MAX_ENTITY_WARNINGS || self.__entityLoopWarnings.has(key)) return;
+  self.__entityLoopWarnings.add(key);
+  console.warn('B"H | ENTITY_LOOP_FAILED_ONCE', { type: nivra?.type, name: nivra?.name, ...compactError(error) });
 }
 
 export default class HeesHawvoosManager {
   async heesHawvoos() {
     const self = this;
-    let confirmedGaze = false;
     let loopCounter = 0;
-    safeRenderTrace('heesHawvoos:ignite', {
-      hasRenderer: Boolean(self.renderer),
-      hasScene: Boolean(self.scene),
-      hasAyin: Boolean(self.ayin),
-      hasCamera: Boolean(self.activeCamera || self.ayin?.camera),
-      sceneChildren: self.scene?.children?.length || 0,
-      nivrayim: self.nivrayim?.length || 0
-    });
-
+    safeRenderTrace('heesHawvoos:ignite', { hasRenderer: Boolean(self.renderer), hasScene: Boolean(self.scene), hasAyin: Boolean(self.ayin), hasCamera: Boolean(self.activeCamera || self.ayin?.camera), sceneChildren: self.scene?.children?.length || 0, nivrayim: self.nivrayim?.length || 0 });
     this.updateStep = (dt) => {
+      if (self.__renderPausedAfterFatal) return;
       loopCounter += 1;
-      const shouldLog = loopCounter <= 3 || (loopCounter % 1000 === 0);
-      if (loopCounter <= 5) {
-        safeRenderTrace('heesHawvoos:frame_state', {
-          frame: loopCounter,
-          dt,
-          hasRenderer: Boolean(self.renderer),
-          hasScene: Boolean(self.scene),
-          hasCamera: Boolean(self.activeCamera || self.ayin?.camera),
-          sceneChildren: self.scene?.children?.length || 0,
-          nivrayim: self.nivrayim?.length || 0
-        });
-      }
-
-      try {
-        if (self.shlichusHandler) self.shlichusHandler.update(dt);
-        if (self.environment) self.environment.update(dt);
-        if (self.placementManager) self.placementManager.update(dt);
-      } catch (e) {
-        if (shouldLog) console.error('B"H | HEES_SYSTEM_FAILED', compactError(e));
-      }
-
-      try {
-        if (self.worldOctree) {
-          const foci = [];
-          if (self.chossid?.mesh?.position && self.chossid?.velocity && !self.chossid.__spikeColliderDisabled) {
-            foci.push({ position: self.chossid.mesh.position, velocity: self.chossid.velocity });
-          } else if (self.player?.mesh?.position && self.player?.velocity && !self.player.__spikeColliderDisabled) {
-            foci.push({ position: self.player.mesh.position, velocity: self.player.velocity });
-          }
-          if (self.nivrayim) {
-            for (const n of self.nivrayim) {
-              if (n !== self.chossid && n !== self.player && n?.velocity && n?.mesh?.position && n?.onFloor !== undefined && n?.isReady && shouldDriveOctreeFocus(n, self) && !n.__spikeColliderDisabled) {
-                foci.push({ position: n.mesh.position, velocity: n.velocity });
-              }
-            }
-          }
-          if (foci.length > 0) self.worldOctree.update(foci, null);
-        }
-      } catch (e) {
-        if (shouldLog) console.error('B"H | HEES_OCTREE_FAILED', compactError(e));
-      }
-
-      try {
-        const len = self.nivrayim ? self.nivrayim.length : 0;
-        for (let i = 0; i < len; i += 1) {
-          const nivra = self.nivrayim[i];
-          if (nivra?.isReady && nivra?.heesHawveh && typeof nivra.heesHawvoos === 'function') {
-            try { nivra.heesHawvoos(dt); }
-            catch (err) { if (loopCounter <= 20) console.warn('B"H | ENTITY_LOOP_FAILED', { type: nivra.type, name: nivra.name, ...compactError(err) }); }
-          }
-        }
-      } catch (e) {
-        if (shouldLog) console.error('B"H | HEES_ENTITY_LOOP_FAILED', compactError(e));
-      }
-
-      try { if (self.combatManager) self.combatManager.update(dt); }
-      catch (e) { if (shouldLog) console.error('B"H | HEES_COMBAT_FAILED', compactError(e)); }
-
-      try { if (self.ayin?.update) self.ayin.update(dt); }
-      catch (e) { if (shouldLog) console.error('B"H | HEES_CAMERA_FAILED', compactError(e)); }
-
+      const shouldLog = loopCounter <= 3 || loopCounter % 1000 === 0;
+      if (loopCounter <= 5) safeRenderTrace('heesHawvoos:frame_state', { frame: loopCounter, dt, hasRenderer: Boolean(self.renderer), hasScene: Boolean(self.scene), hasCamera: Boolean(self.activeCamera || self.ayin?.camera), sceneChildren: self.scene?.children?.length || 0, nivrayim: self.nivrayim?.length || 0 });
+      try { self.shlichusHandler?.update?.(dt); self.environment?.update?.(dt); self.placementManager?.update?.(dt); }
+      catch (e) { if (shouldLog) console.error('B"H | HEES_SYSTEM_FAILED_ONCE', compactError(e)); }
+      try { this.updateOctreeFoci(self); }
+      catch (e) { if (shouldLog) console.error('B"H | HEES_OCTREE_FAILED_ONCE', compactError(e)); }
+      try { this.updateNivrayim(self, dt); }
+      catch (e) { if (shouldLog) console.error('B"H | HEES_ENTITY_LOOP_FAILED_ONCE', compactError(e)); }
+      try { self.combatManager?.update?.(dt); }
+      catch (e) { if (shouldLog) console.error('B"H | HEES_COMBAT_FAILED_ONCE', compactError(e)); }
+      try { self.ayin?.update?.(dt); }
+      catch (e) { if (shouldLog) console.error('B"H | HEES_CAMERA_FAILED_ONCE', compactError(e)); }
       const exiled = purgeWorkerHostileRenderNodes(self.scene);
-      if (exiled > 0 && (loopCounter <= 10 || loopCounter % 120 === 0)) {
-        console.warn('B"H | WORKER_RENDER_EXILED_VANITY', { frame: loopCounter, exiled });
-      }
-
-      if (self.renderer && self.scene) {
-        const activeEye = self.activeCamera || self.ayin?.camera || null;
-        if (activeEye) {
-          try {
-            if (typeof self.renderer.renderAsync === 'function') self.renderer.renderAsync(self.scene, activeEye);
-            else self.renderer.render(self.scene, activeEye);
-            if (!confirmedGaze && loopCounter > 3) {
-              confirmedGaze = true;
-              safeRenderTrace('heesHawvoos:first_render_confirmed', {
-                frame: loopCounter,
-                sceneChildren: self.scene?.children?.length || 0,
-                cameraPosition: activeEye.position ? { x: activeEye.position.x, y: activeEye.position.y, z: activeEye.position.z } : null
-              });
-              if (self.ayshPeula) self.ayshPeula('rendered first time');
-            }
-          } catch (renderErr) {
-            console.error('B"H | HEES_RENDER_FAILED_COMPACT', compactError(renderErr));
-            const exiledAfterFailure = purgeWorkerHostileRenderNodes(self.scene);
-            safeRenderTrace('heesHawvoos:render_failed', {
-              frame: loopCounter,
-              exiledAfterFailure,
-              message: renderErr?.message || String(renderErr)
-            });
-          }
-        } else if (loopCounter <= 5) {
-          safeRenderTrace('heesHawvoos:no_active_camera', { frame: loopCounter, hasAyin: Boolean(self.ayin), hasAyinCamera: Boolean(self.ayin?.camera) });
-        }
-      } else if (loopCounter <= 5) {
-        safeRenderTrace('heesHawvoos:no_renderer_or_scene', { frame: loopCounter, hasRenderer: Boolean(self.renderer), hasScene: Boolean(self.scene) });
-      }
+      if (exiled > 0 && (loopCounter <= 10 || loopCounter % 120 === 0)) console.warn('B"H | WORKER_RENDER_EXILED_VANITY', { frame: loopCounter, exiled });
+      this.renderFrame(self, loopCounter);
     };
-
     this.pulsator = new UniversePulsator(this);
     this.pulsator.ignite();
+  }
+
+  updateOctreeFoci(self) {
+    if (!self.worldOctree) return;
+    const foci = [];
+    const p = self.chossid || self.player;
+    if (p?.mesh?.position && p?.velocity && !p.__spikeColliderDisabled) foci.push({ position: p.mesh.position, velocity: p.velocity });
+    for (const n of self.nivrayim || []) {
+      if (n !== self.chossid && n !== self.player && n?.velocity && n?.mesh?.position && n?.onFloor !== undefined && n?.isReady && shouldDriveOctreeFocus(n, self) && !n.__spikeColliderDisabled) foci.push({ position: n.mesh.position, velocity: n.velocity });
+    }
+    if (foci.length > 0) self.worldOctree.update(foci, null);
+  }
+
+  updateNivrayim(self, dt) {
+    for (const nivra of self.nivrayim || []) {
+      if (nivra?.isReady && nivra?.heesHawveh && typeof nivra.heesHawvoos === 'function') {
+        try { nivra.heesHawvoos(dt); }
+        catch (err) { warnOncePerEntity(self, nivra, err); }
+      }
+    }
+  }
+
+  renderFrame(self, loopCounter) {
+    if (!self.renderer || !self.scene) return loopCounter <= 5 && safeRenderTrace('heesHawvoos:no_renderer_or_scene', { frame: loopCounter, hasRenderer: Boolean(self.renderer), hasScene: Boolean(self.scene) });
+    const activeEye = self.activeCamera || self.ayin?.camera || null;
+    if (!activeEye) return loopCounter <= 5 && safeRenderTrace('heesHawvoos:no_active_camera', { frame: loopCounter, hasAyin: Boolean(self.ayin), hasAyinCamera: Boolean(self.ayin?.camera) });
+    try {
+      const result = typeof self.renderer.renderAsync === 'function' ? self.renderer.renderAsync(self.scene, activeEye) : self.renderer.render(self.scene, activeEye);
+      if (result?.catch) result.catch(error => handleRenderFailure(self, loopCounter, error));
+      if (loopCounter > 3 && !self.__firstRenderConfirmed) {
+        self.__firstRenderConfirmed = true;
+        safeRenderTrace('heesHawvoos:first_render_confirmed', { frame: loopCounter, sceneChildren: self.scene?.children?.length || 0, cameraPosition: activeEye.position ? copyVector(activeEye.position) : null });
+        self.ayshPeula?.('rendered first time');
+      }
+    } catch (renderErr) { handleRenderFailure(self, loopCounter, renderErr); }
   }
 }

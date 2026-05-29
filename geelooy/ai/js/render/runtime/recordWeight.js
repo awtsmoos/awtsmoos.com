@@ -5,7 +5,7 @@ export function recordWeight(record = {}) {
   const kinds = new Set((record.events || []).map(event => event.kind));
   if (kinds.has("thinking") || kinds.has("hidden")) return 0.75;
   if (kinds.has("tool_call") || kinds.has("tool_result")) return 0.25;
-  if (kinds.has("status") || kinds.has("oauth") || kinds.has("raw")) return 0.2;
+  if (kinds.has("provider_stream") || kinds.has("status") || kinds.has("oauth") || kinds.has("raw")) return 0.2;
   return 0.5;
 }
 

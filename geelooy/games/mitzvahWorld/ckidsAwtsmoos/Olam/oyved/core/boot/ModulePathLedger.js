@@ -1,11 +1,11 @@
 // B"H
 /**
  * @file ModulePathLedger.js
- * @description
- * Chapter 66: one cache river for the worker boot. The Awtsmoos gives every
- * import a name, every name a path, and every path a visible expectation.
+ * @description Chapter 70: the worker boot river receives the newest vessel.
+ * The Awtsmoos changes the root cache key so the browser cannot summon the old
+ * OlamVessel, old grafts, old render loop, or old moving-platform NaN path.
  */
-export const MODULE_BOOT_VERSION = "lean-l1-20260529-bh66";
+export const MODULE_BOOT_VERSION = "render-stop-user-error-20260529-bh70";
 
 export const MODULE_PATH_LEDGER = Object.freeze({
   olamCore: Object.freeze({

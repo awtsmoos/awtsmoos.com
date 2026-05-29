@@ -4,20 +4,23 @@ import * as THREE from "/games/scripts/build/three.module.js";
 
 /**
  * @file SimpleDoor.js
- * @description Chapter 60: the mezuzah refuses premature gold. Coins prepare
- * the tzedakah box; checked tzedakah awakens the mezuzah; clicked mezuzah opens
- * the next JSON vessel.
+ * @description Chapter 64: the right doorpost becomes a living mezuzah. The
+ * Awtsmoos, without body or form, breathes through the tiny case: turquoise
+ * while waiting, green when every perutah is gathered, gold only after tzedakah
+ * enters the pushkuh. Then one click tears open the next level cleanly.
  */
+const READY_COLORS = Object.freeze({ waiting: 0x72fff4, coins: 0x3cff86, blessed: 0xffd54a });
+
 export default class SimpleDoor extends Domem {
   type = "interactiveDoor";
   heesHawveh = true;
-  static itemName = "Door";
+  static itemName = "Inside Right Doorpost Mezuzah";
 
   /** @param {object} op Door data. @param {object} olam Runtime world. */
   constructor(op = {}, olam) {
     super({ ...op, golem: null, isSolid: false, interactable: true }, olam);
     this.next = String(op.next || op.target || op.destination || "").replace(/\.js$/i, ".json") || null;
-    this.label = op.label || op.name || "Mezuzah";
+    this.label = op.label || op.name || "Inside Right Doorpost Mezuzah";
     this.requiresAllCoins = op.requiresAllCoins !== false;
     this.requiresTzedakah = op.requiresTzedakah !== false;
     this._navigated = false;
@@ -33,18 +36,21 @@ export default class SimpleDoor extends Domem {
     this.mesh.userData.addToOctree = false;
     await olam.hoyseef(this);
     this.isReady = true;
+    this.registerMezuzahVessel();
   }
 
-  /** @returns {THREE.Group} Clickable mezuzah group. */
+  /** @returns {THREE.Group} Clickable mezuzah group on the inside right post. */
   buildMezuzahTrigger() {
     const root = new THREE.Group();
-    root.name = `${this.name || "Door"}_Manual_Mezuzah`;
-    this.caseMaterial = new THREE.MeshBasicMaterial({ color: 0x72fff4 });
+    root.name = `${this.name || "Door"}_Inside_Right_Post_Mezuzah`;
+    this.caseMaterial = new THREE.MeshBasicMaterial({ color: READY_COLORS.waiting });
     this.scrollMaterial = new THREE.MeshBasicMaterial({ color: 0x102d2c });
-    this.addBox(root, "case", [0, 0, 0], [0.26, 1.35, 0.18], this.caseMaterial);
-    this.addBox(root, "scroll", [0, 0, -0.095], [0.12, 0.88, 0.045], this.scrollMaterial);
+    this.glowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.28 });
+    this.addBox(root, "outer_case", [0, 0, 0], [0.28, 1.42, 0.2], this.caseMaterial);
+    this.addBox(root, "inner_scroll", [0, 0, -0.105], [0.13, 0.9, 0.05], this.scrollMaterial);
+    this.addBox(root, "ready_aura", [0, 0, -0.13], [0.36, 1.58, 0.035], this.glowMaterial);
     root.nivraAwtsmoos = this;
-    root.traverse(child => { child.nivraAwtsmoos = this; });
+    root.traverse(child => { child.nivraAwtsmoos = this; child.userData.skipRaycast = false; });
     return root;
   }
 
@@ -53,17 +59,29 @@ export default class SimpleDoor extends Domem {
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(...s), mat);
     mesh.name = `${this.name || "Door"}_${name}`;
     mesh.position.set(...p);
-    mesh.userData.skipRaycast = false;
     mesh.userData.addToOctree = false;
     root.add(mesh);
   }
 
+  /** @returns {void} Gives pushkuh code a direct list of mezuzahs to awaken. */
+  registerMezuzahVessel() {
+    const list = this.olam.__insideRightPostMezuzahs || [];
+    if (!list.includes(this)) list.push(this);
+    this.olam.__insideRightPostMezuzahs = list;
+  }
+
   /** @returns {void} Updates readiness color only; never auto-opens. */
   heesHawvoos() {
-    const color = this.canOpen() ? 0xffd54a : this.hasAllCoins() ? 0x3cff86 : 0x72fff4;
-    if (color === this._readyColor || !this.caseMaterial) return;
+    const color = this.canOpen() ? READY_COLORS.blessed : this.hasAllCoins() ? READY_COLORS.coins : READY_COLORS.waiting;
+    if (this.caseMaterial && color !== this._readyColor) this.awakenColor(color);
+    if (this.mesh) this.mesh.rotation.z = this.canOpen() ? Math.sin(Date.now() / 180) * 0.04 : 0;
+  }
+
+  /** @param {number} color Hex color. @returns {void} */
+  awakenColor(color) {
     this._readyColor = color;
     this.caseMaterial.color.setHex(color);
+    if (this.glowMaterial) this.glowMaterial.color.setHex(color);
   }
 
   /** @returns {boolean} True when the level coin count is complete. */
@@ -73,10 +91,8 @@ export default class SimpleDoor extends Domem {
     return !this.requiresAllCoins || collected >= required;
   }
 
-  /** @returns {boolean} True after tzedakah box was checked. */
-  hasTzedakahBlessing() {
-    return !this.requiresTzedakah || this.olam?.__tzedakahBlessed === true;
-  }
+  /** @returns {boolean} True after tzedakah box was clicked with all coins. */
+  hasTzedakahBlessing() { return !this.requiresTzedakah || this.olam?.__tzedakahBlessed === true; }
 
   /** @returns {boolean} True when the mezuzah can open. */
   canOpen() { return this.hasAllCoins() && this.hasTzedakahBlessing(); }
@@ -84,23 +100,29 @@ export default class SimpleDoor extends Domem {
   /** @param {string} peula Interaction name. @param {object} actor Interactor. */
   ayshPeula(peula, actor) {
     if (peula !== "accepted interaction") return super.ayshPeula?.(peula, actor);
-    if (!this.hasAllCoins()) return this.say("Collect every coin first", "#72fff4");
-    if (!this.hasTzedakahBlessing()) return this.say("Check the tzedakah box first", "#3cff86");
-    this.openNextLevel();
+    if (!this.hasAllCoins()) return this.say("אסוף את כל הפרוטות תחילה", "#72fff4");
+    if (!this.hasTzedakahBlessing()) return this.say("שים צדקה בפושקע ואז המזוזה תזהיב", "#3cff86");
+    this.openNextLevel(actor);
     return true;
   }
 
   /** @param {string} text Text. @param {string} color CSS color. */
   say(text, color) {
     this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text, color });
+    this.olam?.ayshPeula?.("ui event", "toast", { message: text, type: "info" });
     return false;
   }
 
-  /** @returns {void} Navigates once. */
-  openNextLevel() {
+  /** @param {object} actor Player. @returns {void} Navigates once with fallbacks. */
+  openNextLevel(actor) {
     if (!this.next || this._navigated) return;
     this._navigated = true;
-    this.olam?.ayshPeula?.("ui event", "effectsOverlay", { text: "Mezuzah opened", color: "#ffd54a" });
-    this.olam?.ayshPeula?.("ui event", "navigateLevel", { next: this.next, label: this.label, source: "manual-mezuzah" });
+    const payload = { next: this.next, levelId: this.next, id: this.next, label: this.label, source: "inside-right-post-mezuzah" };
+    this.say("המזוזה נפתחה — עולים שלב!", "#ffd54a");
+    this.olam?.ayshPeula?.("ui event", "navigateLevel", payload);
+    this.olam?.ayshPeula?.("navigateLevel", payload);
+    this.olam?.ayshPeula?.("load level", this.next);
+    globalThis.dispatchEvent?.(new CustomEvent("awtsmoos:navigateLevel", { detail: payload }));
+    actor?.ayshPeula?.("entered next level", payload);
   }
 }

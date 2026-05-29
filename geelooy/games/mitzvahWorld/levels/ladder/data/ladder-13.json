@@ -470,8 +470,126 @@
         }
       }
     ],
-    "SpikedBallHazard": [],
-    "MovingPushBlock": [],
+    "SpikedBallHazard": [
+      {
+        "name": "bh_letter_lava_orb_cross_13_a",
+        "axis": "z",
+        "amplitude": 2.84,
+        "speed": 1.6870000000000003,
+        "radius": 0.7,
+        "hitRadius": 0.504,
+        "position": {
+          "x": 31.400000000000002,
+          "y": 5.18,
+          "z": -1.8
+        }
+      },
+      {
+        "name": "bh_letter_lava_orb_cross_13_b",
+        "axis": "x",
+        "amplitude": 2.5100000000000002,
+        "speed": 1.7220000000000004,
+        "radius": 0.7,
+        "hitRadius": 0.504,
+        "position": {
+          "x": 39.6,
+          "y": 5.93,
+          "z": 1.6
+        }
+      },
+      {
+        "name": "bh_letter_lava_orb_cross_13_a",
+        "axis": "z",
+        "amplitude": 2.84,
+        "speed": 1.6870000000000003,
+        "radius": 0.7,
+        "hitRadius": 0.504,
+        "position": {
+          "x": 31.400000000000002,
+          "y": 5.18,
+          "z": -1.8
+        }
+      },
+      {
+        "name": "bh_letter_lava_orb_cross_13_b",
+        "axis": "x",
+        "amplitude": 2.5100000000000002,
+        "speed": 1.7220000000000004,
+        "radius": 0.7,
+        "hitRadius": 0.504,
+        "position": {
+          "x": 39.6,
+          "y": 5.93,
+          "z": 1.6
+        }
+      }
+    ],
+    "MovingPushBlock": [
+      {
+        "name": "hard_push_block_z_13",
+        "axis": "z",
+        "amplitude": 3.12,
+        "speed": 1.795,
+        "size": {
+          "x": 2.2,
+          "y": 1.1,
+          "z": 1.35
+        },
+        "position": {
+          "x": 34.8,
+          "y": 5.55,
+          "z": 0
+        }
+      },
+      {
+        "name": "hard_push_block_x_13",
+        "axis": "x",
+        "amplitude": 2.66,
+        "speed": 1.75,
+        "size": {
+          "x": 1.7,
+          "y": 1.15,
+          "z": 1.85
+        },
+        "position": {
+          "x": 43,
+          "y": 6.76,
+          "z": -1.2
+        }
+      },
+      {
+        "name": "hard_push_block_z_13",
+        "axis": "z",
+        "amplitude": 3.12,
+        "speed": 1.795,
+        "size": {
+          "x": 2.2,
+          "y": 1.1,
+          "z": 1.35
+        },
+        "position": {
+          "x": 34.8,
+          "y": 5.55,
+          "z": 0
+        }
+      },
+      {
+        "name": "hard_push_block_x_13",
+        "axis": "x",
+        "amplitude": 2.66,
+        "speed": 1.75,
+        "size": {
+          "x": 1.7,
+          "y": 1.15,
+          "z": 1.85
+        },
+        "position": {
+          "x": 43,
+          "y": 6.76,
+          "z": -1.2
+        }
+      }
+    ],
     "Coin": [
       {
         "name": "perutah_13_1",
@@ -1008,31 +1126,31 @@
     ],
     "InteractiveDoor": [
       {
-        "name": "Inside Mezuzah",
-        "label": "Inside Mezuzah",
+        "name": "Inside Right Doorpost Mezuzah",
+        "label": "Inside Right Doorpost Mezuzah",
         "next": "ladder-14.json",
         "destination": "ladder-14.json",
         "isSolid": false,
         "interactable": true,
-        "proximity": 2.4,
+        "proximity": 2.8,
         "requiresAllCoins": true,
         "requiresTzedakah": true,
         "manualOnly": true,
         "position": {
-          "x": 72.32000000000001,
-          "y": 3.75,
-          "z": 3.03
+          "x": 73.65,
+          "y": 9.17,
+          "z": 2.45
         }
       }
     ],
     "TzedakahBox": [
       {
-        "name": "tzedakah_box_13",
+        "name": "pushkuh_before_inside_mezuzah_13",
         "requiresAllCoins": true,
         "position": {
-          "x": 71.40000000000002,
-          "y": 2.1500000000000004,
-          "z": 2.66
+          "x": 71.70000000000002,
+          "y": 7.07,
+          "z": 1.45
         }
       }
     ],
@@ -1049,6 +1167,239 @@
           "x": 35,
           "y": -14,
           "z": 0
+        },
+        "resetDelayMs": 3000
+      }
+    ],
+    "MovingPlatform": [
+      {
+        "name": "thin_moving_platform_13_a",
+        "width": 2.62,
+        "height": 0.75,
+        "depth": 1.63,
+        "axis": "x",
+        "distance": 5.15,
+        "speed": 1.6969999999999998,
+        "position": {
+          "x": 33.6,
+          "y": 4.5200000000000005,
+          "z": 2.7
+        },
+        "phase": 0,
+        "size": {
+          "x": 2.62,
+          "y": 0.75,
+          "z": 1.63
+        },
+        "dimensions": {
+          "x": 2.62,
+          "y": 0.75,
+          "z": 1.63
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "thin_moving_platform_13_b",
+        "width": 2.62,
+        "height": 0.75,
+        "depth": 1.63,
+        "axis": "z",
+        "distance": 4.82,
+        "speed": 1.777,
+        "position": {
+          "x": 39.3,
+          "y": 5.62,
+          "z": -2.6
+        },
+        "phase": 1.8,
+        "size": {
+          "x": 2.62,
+          "y": 0.75,
+          "z": 1.63
+        },
+        "dimensions": {
+          "x": 2.62,
+          "y": 0.75,
+          "z": 1.63
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "thin_moving_platform_13_a",
+        "width": 2.62,
+        "height": 0.75,
+        "depth": 1.63,
+        "axis": "x",
+        "distance": 5.15,
+        "speed": 1.6969999999999998,
+        "position": {
+          "x": 33.6,
+          "y": 4.5200000000000005,
+          "z": 2.7
+        },
+        "phase": 3.6,
+        "size": {
+          "x": 2.62,
+          "y": 0.75,
+          "z": 1.63
+        },
+        "dimensions": {
+          "x": 2.62,
+          "y": 0.75,
+          "z": 1.63
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "thin_moving_platform_13_b",
+        "width": 2.62,
+        "height": 0.75,
+        "depth": 1.63,
+        "axis": "z",
+        "distance": 4.82,
+        "speed": 1.777,
+        "position": {
+          "x": 39.3,
+          "y": 5.62,
+          "z": -2.6
+        },
+        "phase": 5.4,
+        "size": {
+          "x": 2.62,
+          "y": 0.75,
+          "z": 1.63
+        },
+        "dimensions": {
+          "x": 2.62,
+          "y": 0.75,
+          "z": 1.63
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "DisappearingPlatform": [
+      {
+        "name": "blink_platform_13_a",
+        "width": 2.8,
+        "height": 0.72,
+        "depth": 2.05,
+        "vanishMs": 470,
+        "position": {
+          "x": 31,
+          "y": 6.0600000000000005,
+          "z": 2.1
+        }
+      },
+      {
+        "name": "blink_platform_13_a",
+        "width": 2.8,
+        "height": 0.72,
+        "depth": 2.05,
+        "vanishMs": 470,
+        "position": {
+          "x": 31,
+          "y": 6.0600000000000005,
+          "z": 2.1
+        }
+      }
+    ],
+    "TrapdoorPlatform": [
+      {
+        "name": "trapdoor_platform_13_a",
+        "width": 2.8,
+        "height": 0.72,
+        "depth": 2.05,
+        "delayMs": 420,
+        "position": {
+          "x": 35,
+          "y": 6.3999999999999995,
+          "z": -2.2
+        }
+      },
+      {
+        "name": "trapdoor_platform_13_a",
+        "width": 2.8,
+        "height": 0.72,
+        "depth": 2.05,
+        "delayMs": 420,
+        "position": {
+          "x": 35,
+          "y": 6.3999999999999995,
+          "z": -2.2
+        }
+      }
+    ],
+    "SlipperyPlatform": [
+      {
+        "name": "slippery_sandstone_13_a",
+        "width": 2.8,
+        "height": 0.72,
+        "depth": 2.05,
+        "axis": "x",
+        "slidePower": 8.5,
+        "position": {
+          "x": 39,
+          "y": 6.7,
+          "z": 1.5
+        }
+      },
+      {
+        "name": "slippery_sandstone_13_a",
+        "width": 2.8,
+        "height": 0.72,
+        "depth": 2.05,
+        "axis": "x",
+        "slidePower": 8.5,
+        "position": {
+          "x": 39,
+          "y": 6.7,
+          "z": 1.5
+        }
+      }
+    ],
+    "FastPusherPlatform": [
+      {
+        "name": "sudden_ruach_push_13",
+        "width": 2.4,
+        "height": 0.6,
+        "depth": 2.2,
+        "axis": "z",
+        "direction": 1,
+        "blastSpeed": 37,
+        "position": {
+          "x": 41,
+          "y": 7.1,
+          "z": -1.2
+        }
+      },
+      {
+        "name": "sudden_ruach_push_13",
+        "width": 2.4,
+        "height": 0.6,
+        "depth": 2.2,
+        "axis": "z",
+        "direction": 1,
+        "blastSpeed": 37,
+        "position": {
+          "x": 41,
+          "y": 7.1,
+          "z": -1.2
         }
       }
     ]

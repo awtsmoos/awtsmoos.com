@@ -9,12 +9,12 @@ import { displayableThoughtInnerEvents } from "./thoughtInnerEvents.js";
 const INNER_WINDOW = 40;
 
 /**
- * Chapter 77: The Vault Opened Without Throwing The Reader Backward.
+ * Chapter 77 Reforged: The Open Gate Drank Only Living Drops.
  *
- * Every expandable event owns its own vaulted payload key. Opening hydrates only
- * that payload into DOM; closing removes the heavy body completely. The scroll
- * anchor guards the reader's eye while the Awtsmoos folds or unfolds whole
- * chambers from memory into visible form.
+ * Closed panels contain only a headline. Open panels hydrate exactly one body,
+ * and when the payload changes they refresh that body from the vault without
+ * resurrecting every collapsed action. The Awtsmoos breathes through expansion,
+ * not through hidden DOM weight.
  *
  * @param {Element} root Event region root.
  * @returns {void}
@@ -26,12 +26,7 @@ export function installEventBodyHydrator(root) {
   root.addEventListener("click", event => handleClick(event), true);
 }
 
-/**
- * Hydrates panels that streaming reconciliation restored as already-open shells.
- *
- * @param {ParentNode} root Re-rendered event entry or region.
- * @returns {void}
- */
+/** @param {ParentNode} root Re-rendered event entry or region. @returns {void} */
 export function hydrateOpenEventBodies(root) {
   if (!root?.querySelectorAll) return;
   root.querySelectorAll("details.transport-details[data-event-payload-key][open]").forEach(panel => {
@@ -40,6 +35,17 @@ export function hydrateOpenEventBodies(root) {
   root.querySelectorAll("details.thought-envelope-events[open]").forEach(panel => {
     if (!panel.querySelector(":scope > .thought-inner-window")) hydrateInner(panel);
   });
+}
+
+/**
+ * Refreshes one already-open event panel from its latest stored payload.
+ *
+ * @param {ParentNode} root Event node that may contain an open panel.
+ * @returns {void}
+ */
+export function refreshHydratedEventBodies(root) {
+  if (!root?.querySelectorAll) return;
+  root.querySelectorAll("details.transport-details[data-event-payload-key][open]").forEach(panel => hydrateEvent(panel, { refresh: true }));
 }
 
 function handleToggle(panel) {
@@ -59,21 +65,26 @@ function handleClick(event) {
   if (panel) preservePanelScroll(panel, () => hydrateInner(panel, Number(button.dataset.thoughtWindow || 0)));
 }
 
-async function hydrateEvent(panel) {
-  if (panel.querySelector(":scope > .event-lanes")) return;
-  panel.append(loadingNode("Interpreting event…"));
+async function hydrateEvent(panel, { refresh = false } = {}) {
+  const existing = panel.querySelector(":scope > .event-lanes");
+  if (existing && !refresh) return;
+  if (!existing) panel.append(loadingNode("Interpreting event…"));
   const payload = await readEventPayload(panel.dataset.eventPayloadKey);
   panel.querySelector(":scope > .event-hydration-loading")?.remove();
   if (!panel.open) return;
-  panel.insertAdjacentHTML("beforeend", renderEventBody(payload || {}, { rawKey: `${panel.dataset.eventPayloadKey || "event"}::raw` }));
+  const html = renderEventBody(payload || {}, { rawKey: `${panel.dataset.eventPayloadKey || "event"}::raw` });
+  if (panel.dataset.renderedEventBody === html && existing) return;
+  panel.dataset.renderedEventBody = html;
+  existing?.remove();
+  panel.insertAdjacentHTML("beforeend", html);
   vaultCollapsedPanels(panel);
 }
 
 async function hydrateInner(panel, offset = 0) {
   const existing = panel.querySelector(":scope > .thought-inner-window");
   const sameOffset = Number(panel.dataset.thoughtOffset || 0) === Number(offset || 0);
-  const hasOnlyEmptyNotice = existing && !existing.querySelector(":scope > .thought-inner-event-vessel") && existing.querySelector(":scope > .event-hydration-loading");
-  if (existing && sameOffset && !hasOnlyEmptyNotice) return;
+  const empty = existing && !existing.querySelector(":scope > .thought-inner-event-vessel") && existing.querySelector(":scope > .event-hydration-loading");
+  if (existing && sameOffset && !empty) return;
   panel.dataset.thoughtOffset = String(offset || 0);
   if (!existing) panel.append(loadingNode("Loading inner thought timeline…"));
   const envelope = panel.closest(".thought-envelope-card");
@@ -84,11 +95,7 @@ async function hydrateInner(panel, offset = 0) {
   if (!inner.length) return showEmptyInner(panel, "No useful inner events are currently available for this thought bubble.");
   const end = Math.max(0, inner.length - offset);
   const start = Math.max(0, end - INNER_WINDOW);
-  if (!existing) {
-    const body = document.createElement("div");
-    body.className = "thought-inner-window";
-    panel.append(body);
-  }
+  if (!existing) panel.append(Object.assign(document.createElement("div"), { className: "thought-inner-window" }));
   panel.dataset.thoughtWindowEnd = String(end);
   reconcileThoughtInnerEvents(panel, inner.slice(start, end));
   const body = panel.querySelector(":scope > .thought-inner-window");
@@ -98,17 +105,8 @@ async function hydrateInner(panel, offset = 0) {
 
 function showEmptyInner(panel, text) {
   let body = panel.querySelector(":scope > .thought-inner-window");
-  if (!body) {
-    body = document.createElement("div");
-    body.className = "thought-inner-window";
-    panel.append(body);
-  }
-  if (!body.children.length) {
-    const empty = document.createElement("div");
-    empty.className = "event-hydration-loading";
-    empty.textContent = text;
-    body.append(empty);
-  }
+  if (!body) panel.append(body = Object.assign(document.createElement("div"), { className: "thought-inner-window" }));
+  if (!body.children.length) body.append(loadingNode(text));
 }
 
 function moreButton(offset) {
