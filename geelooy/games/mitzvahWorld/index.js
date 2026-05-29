@@ -1,9 +1,9 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 17: Page gate opens bh21 reset overlay, compact HUD, and retractable inventory.
+ * @description Chapter 69: Page gate opens fresh molten ladder data.
  */
-const IKAR_VERSION = "lean-l1-20260528-bh42";
+const IKAR_VERSION = "lean-l1-20260529-bh69";
 
 function storeLastError(details) {
   if (typeof window !== "undefined") window.__AWTSMOOS_LAST_ERROR__ = details;

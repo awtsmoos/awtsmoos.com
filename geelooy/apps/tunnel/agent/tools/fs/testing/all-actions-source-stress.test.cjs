@@ -91,7 +91,7 @@ async function assertWorkflowRuntimeCommandFamily() {
   const sim = await runFs("simulateRuntime", { runtime: "browser", entry: "index.html" });
   assert.equal(sim.ok, true);
   assert.equal(sim.score, 100);
-  const cmd = await handleCommand({ action: "command", command: "printf BH-command-alias", cwd: repoRoot, timeoutMs: 20000 });
+  const cmd = await handleCommand({ action: "command", command: "node -e \"process.stdout.write('BH-command-alias')\"", cwd: repoRoot, timeoutMs: 20000 });
   assert.equal(cmd.ok, true);
   assert.ok(cmd.stdout.includes("BH-command-alias"));
 }

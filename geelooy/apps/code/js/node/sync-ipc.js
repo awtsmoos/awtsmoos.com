@@ -16,6 +16,30 @@
 import { FileSystemProvider } from '../fs-provider.js';
 import { PathResolver } from '../utils/path-resolver.js';
 
+function bytesToBase64(bytes) {
+    let binary = "";
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+}
+
+async function encodeReadContent(content) {
+    if (content instanceof Blob) {
+        return "__B64__" + bytesToBase64(new Uint8Array(await content.arrayBuffer()));
+    }
+    if (content instanceof ArrayBuffer) return "__B64__" + bytesToBase64(new Uint8Array(content));
+    if (ArrayBuffer.isView(content)) return "__B64__" + bytesToBase64(new Uint8Array(content.buffer, content.byteOffset, content.byteLength));
+    return String(content);
+}
+
+function decodeWriteContent(content) {
+    const text = String(content ?? "");
+    if (!text.startsWith("__B64__")) return text;
+    const binary = atob(text.slice(7));
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return new Blob([bytes]);
+}
+
 export const SyncIpcHandler = {
     /**
      * B"H
@@ -32,10 +56,10 @@ export const SyncIpcHandler = {
 
             if (data.type === 'sync-read') {
                 const content = await FileSystemProvider.read(item);
-                resultString = (content instanceof Blob) ? await content.text() : String(content);
+                resultString = await encodeReadContent(content);
             } 
             else if (data.type === 'sync-write') {
-                await FileSystemProvider.write(item, data.content);
+                await FileSystemProvider.write(item, decodeWriteContent(data.content));
                 resultString = "OK";
             }
             else if (data.type === 'sync-stat') {
@@ -79,6 +103,7 @@ export const SyncIpcHandler = {
     async _sendChunks(process, strData) {
         const bytes = new TextEncoder().encode(strData);
         let offset = 0;
+        Atomics.store(process.controlView, 4, 0);
         if (bytes.length === 0) {
             Atomics.store(process.controlView, 1, 0);
             Atomics.store(process.controlView, 2, 1); // isLast

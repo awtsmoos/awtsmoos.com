@@ -45,6 +45,9 @@ export function makeToolSchemas(actions = []) {
  * Default safe starter tools for agents before full discovery.
  */
 export const DEFAULT_SAFE_ACTIONS = Object.freeze([
-  "list", "tree", "read", "read64", "bulk", "grep", "find", "astOutline",
-  "simulateRuntime", "commandTreeRun", "write", "bulkWrite", "fileHashes"
+  "list", "tree", "read", "readLines", "readManyLines", "read64",
+  "bulk", "grep", "find", "selectString", "fileHashes", "astOutline",
+  "symbolOutline", "connectedFiles", "getContext", "contextPack",
+  "aiContextPack", "lazyContextPack",
+  "simulateRuntime", "commandTreeRun", "write", "bulkWrite"
 ]);

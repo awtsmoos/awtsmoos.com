@@ -33,9 +33,12 @@ export const NodeWorkerSource = (coreModulesMap) => `
      * @returns {string|null} The resolved essence.
      */
     self._syncOp = function(type, payload) {
-        self.postMessage({ type: type, ...payload });
         let content = "";
         const controlView = new Int32Array(controlSAB);
+        Atomics.store(controlView, 1, 0);
+        Atomics.store(controlView, 2, 0);
+        Atomics.store(controlView, 4, 0);
+        self.postMessage({ type: type, ...payload });
         
         while(true) {
             Atomics.wait(controlView, 0, 0);

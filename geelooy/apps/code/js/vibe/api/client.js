@@ -7,6 +7,7 @@
 
 import { ApiUtils } from './utils.js';
 import { TokenCounter } from './token-counter.js';
+import { MiniMaxProvider } from './minimax-provider.js';
 import { GoogleProvider } from './google-provider.js';
 import { OpenRouterProvider } from './openrouter-provider.js';
 import { GroqProvider } from './groq-provider.js';
@@ -20,6 +21,7 @@ import { AgentCapabilities } from '../agent/logic/AgentCapabilities.js';
 
 export const VibeAPI = {
     _providers: {
+        minimax: MiniMaxProvider,
         google: GoogleProvider,
         openrouter: OpenRouterProvider,
         groq: GroqProvider,
@@ -197,6 +199,7 @@ export const VibeAPI = {
         UI.showToast(`Model failover: ${fromModelId} → ${toModelId} (${reason})`, 'info');
     },
 
+    fetchMiniMaxModels: (k) => MiniMaxProvider.fetchModels(k),
     fetchGoogleModels: (k) => GoogleProvider.fetchModels(k),
     fetchOpenRouterModels: (k) => OpenRouterProvider.fetchModels(k),
     fetchGroqModels: (k) => GroqProvider.fetchModels(k),

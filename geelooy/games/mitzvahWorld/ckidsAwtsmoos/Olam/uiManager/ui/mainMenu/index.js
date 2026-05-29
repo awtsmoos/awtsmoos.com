@@ -9,7 +9,7 @@ import titleBuilder from "./titleBuilder.js";
 import playButton from "./playButton.js";
 import loading from "../loading.js";
 import errorScreen from "../errorScreen.js";
-import uiGame from "../gameUI.js?v=lean-l1-20260528-bh52";
+import uiGame from "../gameUI.js?v=lean-l1-20260529-bh69";
 import levelSelectScreen from "../screens/levelSelect.js";
 
 const gameUiHTML = { shaym: "gameID", className: "gameUi", children: [...uiGame] };

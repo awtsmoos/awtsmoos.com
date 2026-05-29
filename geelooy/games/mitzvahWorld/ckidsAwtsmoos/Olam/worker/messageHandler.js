@@ -5,7 +5,7 @@
  */
 import coreHandlers from "./handlers/core.js";
 import htmlHandlers from "./handlers/html.js";
-import uiHandlers from "./handlers/ui.js?v=lean-l1-20260528-bh42";
+import uiHandlers from "./handlers/ui.js?v=lean-l1-20260529-bh69";
 import worldHandlers from "./handlers/world.js";
 import inputHandlers from "./handlers/input.js?v=lean-l1-20260528-bh42";
 

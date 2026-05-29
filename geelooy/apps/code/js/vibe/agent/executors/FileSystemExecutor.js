@@ -38,7 +38,7 @@ export const FileSystemExecutor = {
             case "set_working_directory": {
                 const abs = resolvePath(args.directory_path || '/');
                 const dirItem = { ...itemArgs, path: abs, kind: 'directory' };
-                await FileSystemProvider.readDir(dirItem);
+                await FileSystemProvider.list(dirItem);
                 const rel = toRel(abs);
                 setCwd(rel);
                 return `[B"H Success] Working directory set to ${rel}`;
@@ -59,7 +59,8 @@ export const FileSystemExecutor = {
 
                 if (cmd === 'ls') {
                     const abs = resolveFromCwd(subPath);
-                    const dir = await FileSystemProvider.readDir({ ...itemArgs, path: abs, kind: 'directory' });
+                    const listed = await FileSystemProvider.list({ ...itemArgs, path: abs, kind: 'directory' });
+                    const dir = Array.isArray(listed) ? listed : (listed.entries || []);
                     return dir.map(d => `${d.kind === 'directory' ? 'd' : 'f'} ${d.name}`).join('\n');
                 }
 

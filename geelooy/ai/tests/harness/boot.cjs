@@ -44,7 +44,7 @@ async function run() {
   results.push(await test("automation-bridge-detection-cannot-block-conversation-list", () => {
     const detection = between(files.backgroundBridge, "export function hasBackgroundAutomationBridge", "export async function getBackgroundAutomationStatus");
     assert(!/await|checkNodeRelay|automationBridge\(/.test(detection), "sync bridge detection must not probe relay or await");
-    assert(/scheduleIdle\(\(\) => \{[\s\S]*hasBackgroundAutomationBridge\(\)/.test(files.index), "automation bridge detection must be deferred after boot");
+    assert(/scheduleIdle\(\(\) => bootAutomation/.test(files.index) && /function bootAutomation[\s\S]*hasBackgroundAutomationBridge\(\)/.test(files.index), "automation bridge detection must be deferred after boot");
     return { nonBlocking:true };
   }));
   results.push(await test("audio-controls-cannot-throw-during-conversation-load", () => {

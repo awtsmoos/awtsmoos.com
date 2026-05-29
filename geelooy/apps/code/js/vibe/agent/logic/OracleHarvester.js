@@ -26,7 +26,9 @@ export const OracleHarvester = {
         const harvests = keys.map(async (keyObj) => {
             try {
                 let fetched = [];
-                if (keyObj.provider === 'google') {
+                if (keyObj.provider === 'minimax') {
+                    fetched = await VibeAPI.fetchMiniMaxModels(keyObj.key);
+                } else if (keyObj.provider === 'google') {
                     fetched = await VibeAPI.fetchGoogleModels(keyObj.key);
                 } else if (keyObj.provider === 'openrouter') {
                     fetched = await VibeAPI.fetchOpenRouterModels(keyObj.key);

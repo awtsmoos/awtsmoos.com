@@ -37,7 +37,8 @@ async function run() {
     assert(count(forms, /\.input-area\.is-fullscreen\s*\{/g) === 1, "composer fullscreen CSS must not duplicate blocks");
     assert(!/min-height:\s*42px/.test(forms), "mobile send button must not regress below 44px touch target");
     assert(uniqueCssImports(styles), "styles.css must not contain duplicate @import entries");
-    assert(count(styles, /live-scroll-follow\.css/g) === 1, "live scroll follow CSS must be imported exactly once");
+    assert(count(styles, /css\/ideal\/chat\.css/g) === 1, "ideal chat CSS must be imported exactly once");
+    assert(count(styles, /css\/ideal\/mobile\.css/g) === 1, "ideal mobile CSS must be imported exactly once");
     assert(!/classList\.toggle\("hidden"\)/.test(index + appMain), "raw hidden sidebar toggle returned");
     assert(!/!options\.force\s*&&\s*!isNearBottom/.test(scroll), "auto-follow must not pin merely because content growth moved the bottom");
     assert(/liveFollowButton/.test(renderer) && /forceScrollDown\(\)/.test(renderer), "renderer must expose a live bottom button that re-enables auto-follow");
@@ -66,7 +67,7 @@ function collectFiles(dir, re, out = []) {
   }
   return out;
 }
-function uniqueCssImports(text) { const imports = [...text.matchAll(/^@import\s+["']([^"']+)["'];/gm)].map(match => match[1]); return imports.length === new Set(imports).size; }
+function uniqueCssImports(text) { const imports = [...text.matchAll(/^@import\s+["']([^"']+)["'](?:\s+layer\([^)]+\))?;/gm)].map(match => match[1]); return imports.length === new Set(imports).size; }
 function duplicateNamedImports(text) { return duplicatesFromMatches(text, /^import\s+([^;]+?)\s+from\s+["'][^"']+["'];?/gm, clause => importedNamesFromClause(clause)); }
 function duplicateExportedNames(text) { return duplicatesFromMatches(text, /^export\s+(?:async\s+)?(?:function|class|const|let|var)\s+([A-Za-z_$][\w$]*)/gm, name => [name]); }
 function duplicateLocalFunctions(text) { return duplicatesFromMatches(text, /^(?!export\s)(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(/gm, name => [name]); }

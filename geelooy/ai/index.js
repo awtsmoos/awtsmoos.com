@@ -68,9 +68,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   new LayoutController(dom).mount();
   const mobileScenes = mountMobileScenes(dom);
-  const mobileScenes = mountMobileScenes(dom);
   wireTransportStatus(dom);
-  wireChrome({ dom, controller, aiHandler, pipeline, panel, attachments, sendFromText });
+  wireChrome({ dom, controller, aiHandler, pipeline, panel, mobileScenes, sendFromText });
   mountBackgroundAutomationMirror({ renderer, controller, panel, getConversationId });
   dom.conversationList.innerHTML = `<li class="is-loading">Loading conversations…</li>`;
   dom.chatBox.innerHTML = `<div class="render-loading"><i></i><span>Preparing Awtsmoos cockpit…</span></div>`;
@@ -92,7 +91,7 @@ function collectDom() {
 }
 function id(value) { return document.getElementById(value); }
 
-function wireChrome({ dom, controller, aiHandler, pipeline, panel, sendFromText }) {
+function wireChrome({ dom, controller, aiHandler, pipeline, panel, mobileScenes, sendFromText }) {
   if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
   dom.refreshButton.onclick = () => controller.refreshList(dom.conversationList);
   dom.newChat.onclick = async () => { pipeline.reset(); await controller.newConversation(); panel.setConversationId(null); openConversationDrawer(dom); };
@@ -101,9 +100,6 @@ function wireChrome({ dom, controller, aiHandler, pipeline, panel, sendFromText 
   dom.messageInput.addEventListener("keydown", event => maybeSendFromKeyboard(event, sendFromText));
   dom.chatgptModeSelect.value = aiHandler.chatgptMode || "regular";
   syncChatGptModeChrome(dom);
-  document.querySelector(".mobile-nav-chat")?.addEventListener("click", () => mobileScenes.openChat());
-  document.querySelector(".mobile-nav-conversations")?.addEventListener("click", () => mobileScenes.openConversationDrawer());
-  document.querySelector(".mobile-nav-automation")?.addEventListener("click", () => mobileScenes.openAutomationDrawer());
   document.querySelector(".mobile-nav-chat")?.addEventListener("click", () => mobileScenes.openChat());
   document.querySelector(".mobile-nav-conversations")?.addEventListener("click", () => mobileScenes.openConversationDrawer());
   document.querySelector(".mobile-nav-automation")?.addEventListener("click", () => mobileScenes.openAutomationDrawer());

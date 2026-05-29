@@ -1,6 +1,6 @@
 //B"H
 import { AwtsmoosPrompt } from "./prompt.js";
-import { getProvider, OpenAICompatibleStreamClient } from "./central/index.js";
+import { getBrowserLocalTunnelBridge, getProvider, MultiPassToolAgent, OpenAICompatibleStreamClient } from "./central/index.js";
 
 /**
  * B"H
@@ -24,6 +24,20 @@ export function makeOpenAICompatibleService(owner, providerId) {
     async promptFunction(userMessage, options = {}) {
       const apiKey = await getProviderKey(owner, provider);
       const client = new OpenAICompatibleStreamClient({ provider, apiKey });
+      const bridge = options.localTunnel === false ? null : await getBrowserLocalTunnelBridge();
+      if (bridge) {
+        const agent = new MultiPassToolAgent({ client, bridge });
+        const agentResult = await agent.run({
+          prompt: userMessage,
+          messages: options.messages,
+          model: options.model || provider.defaultModel,
+          stream: false
+        });
+        const text = agentResult.text || "";
+        options.onstream?.(text);
+        options.ondone?.(text);
+        return { awtsmoos: { otherEvents: agentResult.trace || [] }, content: { parts: [text] }, text };
+      }
       const result = await client.complete({
         prompt: userMessage,
         model: options.model || provider.defaultModel,

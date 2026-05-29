@@ -4,7 +4,7 @@
  * @description Chapter 65: the world starts a fresh bh65 worker shell, leaving
  * stale bh50/bh64 worker imports behind.
  */
-import OlamWorkerManager from "../ikarOyvedManager.js?v=lean-l1-20260528-bh65";
+import OlamWorkerManager from "../ikarOyvedManager.js?v=lean-l1-20260529-bh69";
 
 const WORLD_FLOW_PATHS = Object.freeze({
   WORKER_ENTRY: "../oyved/index.js?v=lean-l1-20260528-bh65",

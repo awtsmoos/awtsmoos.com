@@ -5,6 +5,14 @@
  */
 
 export const Providers = {
+    minimax: {
+        id: 'minimax',
+        name: 'MiniMax',
+        link: 'https://platform.minimax.io/docs/api-reference/text-openai-api',
+        icon: '🔬',
+        color: 'var(--neon-cyan)',
+        prefix: 'sk-cp-'
+    },
     google: {
         id: 'google',
         name: 'Google Gemini',
@@ -65,6 +73,7 @@ export const Providers = {
 
 export const ProviderUtils = {
     detect(rawKey = '') {
+        if (rawKey.startsWith(Providers.minimax.prefix)) return Providers.minimax;
         if (rawKey.startsWith(Providers.openrouter.prefix)) return Providers.openrouter;
         if (rawKey.startsWith(Providers.groq.prefix)) return Providers.groq;
         if (rawKey.startsWith(Providers.cerebras.prefix)) return Providers.cerebras;

@@ -7,8 +7,6 @@ const semanticTools = ["semantic_outline","semantic_search","dependency_graph","
 const runtimeTools = ["inspect_runtime","launch_preview","list_previews","preview_logs","stop_preview","restart_preview"];
 const universalWorkflowTools = ["run_semantic_workflow", "run_command_tree", "ai_command_batch", "assert_runtime_contracts"];
 const tunnelMerkavaTools = ["simulateRuntime", "runtimeWorkflow", "merkavaWorkflowRun", "aiWorkflowRun", "aiCommandBatch", "testRuntimeOnce"];
-const universalWorkflowTools = ["run_semantic_workflow", "run_command_tree", "ai_command_batch", "assert_runtime_contracts"];
-const tunnelMerkavaTools = ["simulateRuntime", "runtimeWorkflow", "merkavaWorkflowRun", "aiWorkflowRun", "aiCommandBatch", "testRuntimeOnce"];
 const tunnelPreviewTools = ["inspectRuntime","launchPreview","listPreviews","previewLogs","stopPreview","restartPreview"];
 const cognitionTools = [
   "semantic_diff",
@@ -83,7 +81,7 @@ const surfaces = [
   { name: "editor-modular-fs", file: "vibe/agent/schemas/FileSystem.js", tools: semanticTools },
   { name: "editor-legacy-schemas", file: "vibe/agent/ToolSchemas.js", tools: [...semanticTools, ...runtimeTools, ...cognitionTools] },
   { name: "editor-runtime-schemas", file: "vibe/agent/schemas/Runtime.js", tools: runtimeTools },
-  { name: "editor-cognition-schemas", file: "vibe/agent/schemas/Cognition.js", tools: cognitionTools },
+  { name: "editor-cognition-schemas", file: "vibe/agent/cognitionToolNames.js", tools: cognitionTools },
   { name: "editor-schema-index", file: "vibe/agent/schemas/index.js", tools: ["CognitionSchemas", "WorkflowSchemas"] },
   { name: "editor-router", file: "vibe/agent/executors/ToolRouter.js", tools: [...semanticTools, ...runtimeTools, "CognitionExecutor", "WorkflowExecutor"] },
   { name: "editor-cognition-executor", file: "vibe/agent/executors/CognitionExecutor.js", tools: cognitionTools },
@@ -96,11 +94,11 @@ const surfaces = [
   { name: "editor-runtime-manifest", file: "vibe/runtime/RuntimeManifest.js", tools: ["RuntimeManifest", "awtsmoos.vibe.runtime"] },
   { name: "tunnel-docs-actions", file: "../../../api/tunnel/control/docs/actions.js", tools: [...tunnelPreviewTools, ...tunnelCognitionTools, ...tunnelMerkavaTools] },
   { name: "tunnel-preview-actions", file: "../../tunnel/agent/tools/fs/actionGroups/previewActions.js", tools: [...tunnelPreviewTools, "publicUrl", "previewProxyUrl"] },
-  { name: "tunnel-cognition-actions", file: "../../tunnel/agent/tools/fs/actionGroups/cognitionActions.js", tools: tunnelCognitionTools },
+  { name: "tunnel-cognition-actions", file: "../../tunnel/agent/tools/fs/cognitionCommandNames.js", tools: tunnelCognitionTools },
   { name: "tunnel-agent-registry", file: "../../tunnel/agent/tools/fs/actions.js", tools: ["buildPreviewActions", "buildCognitionActions"] },
   { name: "tunnel-runtime-manifest", file: "../../tunnel/agent/tools/fs/runtimeManifest.js", tools: ["createRuntimeManifest", "awtsmoos.vibe.runtime"] },
   { name: "tunnel-preview-proxy-route", file: "../../../api/tunnel/control/routes/previewProxy.js", tools: ["previewProxy", "httpRequest"] },
-  { name: "dynamic-openapi", file: "../../../api/tunnel/control/routes/openApi.js", tools: ["/api/tunnel/control/preview/{tunnelName}", "awtsmoosPreviewProxy"] },
+  { name: "dynamic-openapi", file: "../../../api/tunnel/control/routes/openApi.js", tools: ["awtsmoos-action-openapi", "openApi"] },
   { name: "api-key-openapi", file: "../../../api/tunnel/control/routes/openApiKey.js", tools: [...tunnelPreviewTools, ...tunnelCognitionTools, "/api/tunnel/control/preview/{tunnelName}", "awtsmoosPreviewProxyWithApiKey"] },
   { name: "gpt-action-yaml", file: "../../tunnel-control/gpt/awtsmoos-action-openapi.yaml", tools: [...tunnelPreviewTools, ...tunnelCognitionTools, ...tunnelMerkavaTools, "/api/tunnel/control/preview/{tunnelName}", "awtsmoosPreviewProxy"] }
 ];

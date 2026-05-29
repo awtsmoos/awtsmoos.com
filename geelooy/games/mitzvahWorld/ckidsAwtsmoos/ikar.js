@@ -1,12 +1,12 @@
 // B"H
 /**
  * @file ikar.js
- * @description Chapter 59: Desert levels are fetched as JSON vessels. No level
+ * @description Chapter 69: Desert levels are fetched as fresh JSON vessels. No level
  * JavaScript is imported; the Awtsmoos interpreter receives pure data only.
  */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh53";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260529-bh69";
 
-const IKAR_VERSION = "lean-json-levels-20260528-bh59";
+const IKAR_VERSION = "lean-json-levels-20260529-bh69";
 const LADDER_JSON = /^ladder-\d+\.json$/;
 const LADDER_JS = /^ladder-\d+\.js$/;
 

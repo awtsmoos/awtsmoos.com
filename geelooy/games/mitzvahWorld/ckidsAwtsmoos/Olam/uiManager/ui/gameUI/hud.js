@@ -2,11 +2,11 @@
 /**
  * @file hud.js
  * @description
- * Chapter 46: The Perutah tablet climbs to the top of the world.
+ * Chapter 68: The Perutah tablet obeys the fresh level goal first.
  * The Awtsmoos gives the player breath: progress belongs in the top safe band,
  * not across the middle of the desert where movement and vision must live.
  */
-const DEFAULT_REQUIRED = 7;
+const DEFAULT_REQUIRED = 9;
 function readGlobalCoins() { try { return Number(globalThis.localStorage?.getItem("awtsmoosMitzvahGlobalCoins") || 0); } catch { return 0; } }
 function writeGlobalCoins(value) { try { globalThis.localStorage?.setItem("awtsmoosMitzvahGlobalCoins", String(value)); } catch {} }
 function numberFrom(value, fallback = 0) { const n = Number(value); return Number.isFinite(n) ? n : fallback; }
@@ -16,7 +16,7 @@ function pick($, name) { try { return typeof $ === "function" ? $(name) : null; 
 function paint(host, $, data = {}) {
   const actualHost = host?.dataset ? host : find("gameHUD") || document.body;
   const ds = datasetOf(actualHost);
-  const required = numberFrom(data.requiredPerutos || ds.requiredPerutos, DEFAULT_REQUIRED) || DEFAULT_REQUIRED;
+  const required = numberFrom(data.requiredPerutos ?? ds.requiredPerutos, DEFAULT_REQUIRED) || DEFAULT_REQUIRED;
   const oldCollected = numberFrom(ds.collectedPerutos, 0);
   const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : oldCollected + numberFrom(data.added, 0);
   const globalCoins = Number.isFinite(Number(data.globalCoins)) ? Number(data.globalCoins) : readGlobalCoins() + numberFrom(data.globalAdded, 0);
@@ -53,7 +53,7 @@ export default {
   children: [
     { className: "desert-progress-card", style: cardStyle, children: [
       { shaym: "hud-perutah-status", style: { fontWeight: "800", letterSpacing: ".02em", color: "#ffeab0", fontSize: "12px", whiteSpace: "nowrap" }, textContent: "Collect Perutos" },
-      { shaym: "hud-perutah-goal", style: { fontWeight: "900", fontSize: "17px", color: "#fff8d8", textShadow: "0 2px 6px #000", textAlign: "right", minWidth: "42px" }, textContent: "0/7" },
+      { shaym: "hud-perutah-goal", style: { fontWeight: "900", fontSize: "17px", color: "#fff8d8", textShadow: "0 2px 6px #000", textAlign: "right", minWidth: "42px" }, textContent: "0/9" },
       { className: "hud-bar-container", style: { gridColumn: "1 / 3", height: "6px", background: "rgba(255,255,255,.15)", borderRadius: "999px", overflow: "hidden" }, children: [
         { shaym: "hud-perutah-bar", className: "hud-bar", style: { width: "0%", height: "100%", background: "linear-gradient(90deg,#f4a500,#fff176)", transition: "width .25s" } }
       ] },

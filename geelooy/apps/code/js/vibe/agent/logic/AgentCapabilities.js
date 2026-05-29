@@ -25,7 +25,7 @@ export const AgentCapabilities = {
      */
     isFree(model) {
         if (!model) return false;
-        if (['google', 'groq', 'cerebras'].includes(model.provider)) return true;
+        if (['google', 'groq', 'cerebras', 'minimax'].includes(model.provider)) return true;
         if (model.isFreeTier === true) return true;
         const promptCost = this.toNumericCost(model.costPrompt);
         const completionCost = this.toNumericCost(model.costCompletion);
@@ -44,14 +44,14 @@ export const AgentCapabilities = {
         const toolFamilies = [
             'claude-3', 'gpt-4', 'gpt-3.5', 'gemini-1.5', 'gemini-pro',
             'mistral-large', 'mixtral-8x22b', 'llama-3.1', 'llama-3.2', 'llama-3.3',
-            'qwen-2.5', 'deepseek-chat', 'deepseek-v3'
+            'qwen-2.5', 'deepseek-chat', 'deepseek-v3', 'minimax-m'
         ];
         return toolFamilies.some(f => id.includes(f)) || (model.description || "").toLowerCase().includes('tool use');
     },
 
     isReasoning(model) {
         const id = model?.id?.toLowerCase() || "";
-        return id.includes('r1') || id.includes('o1-') || id.includes('reasoning');
+        return id.includes('r1') || id.includes('o1-') || id.includes('reasoning') || id.includes('minimax-m');
     },
 
     /**

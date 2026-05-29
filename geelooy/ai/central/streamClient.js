@@ -6,7 +6,7 @@
  */
 
 import { buildChatPayload, extractAssistantText, normalizeMessages } from "./payload.js";
-import { readSSEStream } from "../../../shared/streaming/index.js";
+import { readSSEStream } from "../../shared/streaming/index.js";
 
 export class OpenAICompatibleStreamClient {
   constructor({ provider, apiKey, fetchImpl = fetch } = {}) {

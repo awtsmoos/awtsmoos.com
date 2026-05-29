@@ -12,35 +12,40 @@ async function run() {
     const read = file => fs.readFileSync(path.join(ROOT, file), "utf8");
     const count = (text, re) => (text.match(re) || []).length;
     const styles = read("styles.css");
-    const mobileShell = read("css/mobile/shell.css");
-    const mobilePanels = read("css/mobile/panels.css");
-    const mobileComposer = read("css/mobile/composer.css");
-    const mobileRails = read("css/mobile/panel-rails.css");
-    const chatCss = read("css/chat.css");
+    const idealTokens = read("css/ideal/tokens.css");
+    const idealShell = read("css/ideal/shell.css");
+    const idealChat = read("css/ideal/chat.css");
+    const idealComposer = read("css/ideal/composer.css");
+    const idealMobile = read("css/ideal/mobile.css");
     const promptJs = read("prompt.js");
-    const imports = [...styles.matchAll(/@import\s+"([^"]+)";/g)].map(m => m[1]);
+    const imports = [...styles.matchAll(/@import\s+"([^"]+)"(?:\s+layer\([^)]+\))?;/g)].map(m => m[1]);
+    const idealImports = [
+      "./css/ideal/tokens.css",
+      "./css/ideal/shell.css",
+      "./css/ideal/sidebar.css",
+      "./css/ideal/chat.css",
+      "./css/ideal/composer.css",
+      "./css/ideal/automation.css",
+      "./css/ideal/mobile.css"
+    ];
     const missing = imports.filter(p => !fs.existsSync(path.join(ROOT, p)));
     const cssBalanced = imports.every(p => count(read(p), /\{/g) === count(read(p), /\}/g));
     const index = read("index.js");
     const appMain = read("app-main.js");
     const bg = fs.readFileSync(path.join(ROOT, "../scripts/tricks/extensions/server/background.js"), "utf8");
-    assert(styles.split(/\r?\n/).filter(l => l.trim() && !l.startsWith("/*") && !l.startsWith("@import")).length === 0, "styles.css must remain import-only");
-    assert(imports.at(-1) === "./css/mobile-vessel.css", "mobile CSS must be last import", { imports });
-    assert(imports.includes("./css/boundary-guard.css"), "boundary guard CSS must be imported");
+    assert(styles.split(/\r?\n/).filter(l => l.trim() && !l.startsWith("/*") && !l.startsWith("@import") && !l.startsWith("@layer")).length === 0, "styles.css must remain a cascade manifest");
+    assert(JSON.stringify(imports) === JSON.stringify(idealImports), "ideal CSS imports must remain ordered", { imports });
     assert(missing.length === 0, "CSS import missing", { missing });
     assert(cssBalanced, "Imported CSS braces must be balanced");
-    assert(/env\(safe-area-inset-top\)/.test(mobileShell), "mobile shell must respect safe-area top inset");
-    assert(/grid-template-areas:\s*\"left\" \"leftResize\" \"main\" \"rightResize\" \"right\"/.test(mobileShell), "mobile shell must keep both side panels and resize rails in-flow and reachable");
-    assert(/\.sidebar,[\s\S]*\.automation-panel[\s\S]*display:\s*grid\s*!important/.test(mobilePanels), "mobile panels must override desktop display:none collapse");
-    assert(/body:not\(\[data-automation-collapsed="true"\]\) \.automation-panel/.test(mobilePanels), "mobile automation panel must be expandable/reachable");
-    assert(/env\(safe-area-inset-bottom\)/.test(mobileShell + mobilePanels), "mobile surfaces must respect safe-area bottom inset");
-    assert(/#send-button,\s*\n\s*\.attachment-tools button/.test(mobileComposer), "mobile composer controls must share touch target rule");
-    assert(/min-height:\s*44px/.test(mobileComposer) && /min-width:\s*44px/.test(mobileComposer), "mobile composer controls must preserve 44px touch targets");
+    assert(/env\(safe-area-inset-top\)/.test(idealTokens + idealMobile), "mobile shell must respect safe-area top inset");
+    assert(/position:\s*fixed!important/.test(idealMobile) && /mobile-scene-active/.test(idealMobile), "mobile panels must use reachable scene drawers");
+    assert(/mobile-bottom-dock/.test(idealMobile), "mobile dock must be present");
+    assert(/env\(safe-area-inset-bottom\)/.test(idealTokens + idealMobile), "mobile surfaces must respect safe-area bottom inset");
+    assert(/--awt-send-min:\s*5[6-9]px/.test(idealTokens) && /#send-button\{min-height:var\(--awt-send-min\)/.test(idealComposer), "send button touch target must stay above 44px");
     assert(/@media\(max-width:680px\)/.test(promptJs) && /font-size:16px/.test(promptJs), "install prompt inline CSS must be mobile-safe and avoid browser zoom");
-    assert(/writing-mode:\s*horizontal-tb/.test(mobileRails), "collapsed mobile labels must remain horizontal");
-    assert(/touch-action:\s*none/.test(mobileRails) && /#left-resizer/.test(mobileRails), "mobile resize rails must stay touch interactive");
-    assert(/grid-template-rows:\s*auto 14px minmax\(0, 1fr\) 14px auto/.test(mobileShell), "mobile shell must give left/right resize rails real grid rows");
-    assert(/overscroll-behavior:\s*contain/.test(chatCss), "chat surfaces must contain overscroll bounce");
+    assert(/grid-template-areas:var\(--awt-shell-areas\)/.test(idealShell), "shell layout must remain token-driven");
+    assert(/overscroll-behavior:\s*none/.test(idealTokens), "body must contain mobile overscroll bounce");
+    assert(/scrollbar-gutter:\s*stable/.test(idealChat), "chat scroll surface must reserve scrollbar gutter");
     assert(!/classList\.toggle\("hidden"\)/.test(index + appMain), "raw hidden sidebar toggle returned");
     assert(count(index, /controller\.sendAutomation/g) === 0, "index automation must not use special sendAutomation path");
     assert(/sendPrompt:[\s\S]*controller\.send\(prompt/.test(index), "index automation must send through the same controller.send path as the Send button");

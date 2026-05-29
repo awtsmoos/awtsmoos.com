@@ -1,7 +1,7 @@
 // B"H
 /**
  * @module uiHandlers
- * @description Chapter 60: the charity box sings through Web Audio and throws
+ * @description Chapter 68: the charity box sings while the HUD obeys level data.
  * Hebrew letters like golden sparks before the mezuzah receives permission.
  */
 import VeilController from "../../uiManager/logic/VeilController.js";
@@ -14,7 +14,7 @@ const writeGlobalCoins = value => { try { localStorage.setItem("awtsmoosMitzvahG
 
 function updatePerutahHud(data = {}) {
   const host = hudHost(), ds = host.dataset || (host.dataset = {});
-  const required = n(ds.requiredPerutos || data.requiredPerutos, 7) || 7;
+  const required = n(data.requiredPerutos ?? ds.requiredPerutos, 9) || 9;
   const old = n(ds.collectedPerutos, 0);
   const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : old + n(data.added, 0);
   const globalCoins = Number.isFinite(Number(data.globalCoins)) ? Number(data.globalCoins) : readGlobalCoins() + n(data.globalAdded, 0);
@@ -28,7 +28,7 @@ function updatePerutahHud(data = {}) {
 
 function setLevelGoal(data = {}) {
   const host = hudHost(), ds = host.dataset || (host.dataset = {});
-  ds.requiredPerutos = String(n(data.requiredPerutos, 7) || 7); ds.collectedPerutos = "0";
+  ds.requiredPerutos = String(n(data.requiredPerutos, 9) || 9); ds.collectedPerutos = "0";
   updatePerutahHud({ requiredPerutos: ds.requiredPerutos, collected: 0, globalCoins: readGlobalCoins() });
 }
 

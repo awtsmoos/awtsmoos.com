@@ -54,4 +54,4 @@ async function handleChrome(payload = {}) {
   };
 }
 
-module.exports = { handleChrome };
+module.exports = { handleChrome, ACTIONS };

@@ -1,36 +1,40 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "ladder-1.json",
-  "shaym": "Desert_Dust_Gate",
-  "title": "Dust Gate",
-  "requiredPerutos": 7,
+  "shaym": "Molten_Desert_Dust_Gate",
+  "title": "Molten Dust Gate",
+  "requiredPerutos": 9,
   "nextLevel": "ladder-2.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
-    "ProceduralSky": {
-      "name": "Calm_Desert_Sky",
-      "timeOfDay": 10,
-      "timeMultiplier": 0,
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
+    "ProceduralSky": [
+      {
+        "name": "Calm_Desert_Sky",
+        "timeOfDay": 10,
+        "timeMultiplier": 0,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
       }
-    },
-    "ProceduralTerrain": {
-      "name": "desert_sand_under_lava_edges",
-      "width": 150,
-      "depth": 70,
-      "thickness": 2,
-      "segments": 4,
-      "isSolid": false,
-      "textureType": "sand",
-      "position": {
-        "x": 22,
-        "y": -4.4,
-        "z": 0
+    ],
+    "ProceduralTerrain": [
+      {
+        "name": "cracked_desert_basin_under_molten_floor",
+        "width": 190,
+        "depth": 112,
+        "thickness": 2.4,
+        "segments": 8,
+        "isSolid": false,
+        "textureType": "desert",
+        "position": {
+          "x": 22,
+          "y": -4.85,
+          "z": 0
+        }
       }
-    },
+    ],
     "Chossid": [
       {
         "name": "The Chossid",
@@ -52,11 +56,11 @@
     "SolidBlock": [
       {
         "name": "start_slab",
-        "width": 10,
+        "width": 8.8,
         "height": 1,
-        "depth": 8,
-        "color": 13019746,
-        "textureSeed": "desert_start_slab",
+        "depth": 7.2,
+        "color": 12887101,
+        "textureSeed": "desert_start_slab_cracked_sandstone",
         "position": {
           "x": -6,
           "y": 0,
@@ -65,17 +69,17 @@
         "safeRect": {
           "x": -6,
           "z": 0,
-          "width": 10,
-          "depth": 8
+          "width": 8.8,
+          "depth": 7.2
         }
       },
       {
         "name": "crumb_one",
-        "width": 4.5,
+        "width": 3.9,
         "height": 1,
-        "depth": 3.8,
-        "color": 14073197,
-        "textureSeed": "desert_crumb",
+        "depth": 3.15,
+        "color": 13742995,
+        "textureSeed": "desert_crumb_chipped_sandstone",
         "position": {
           "x": 1.8,
           "y": 0.2,
@@ -84,17 +88,17 @@
         "safeRect": {
           "x": 1.8,
           "z": -2.2,
-          "width": 4.5,
-          "depth": 3.8
+          "width": 3.9,
+          "depth": 3.15
         }
       },
       {
         "name": "coin_walk_one",
-        "width": 5.2,
+        "width": 4.35,
         "height": 1,
-        "depth": 3.6,
-        "color": 14270573,
-        "textureSeed": "coin_walk",
+        "depth": 3.05,
+        "color": 14338155,
+        "textureSeed": "coin_walk_sun_cut_sandstone",
         "position": {
           "x": 7.2,
           "y": 1.05,
@@ -103,17 +107,17 @@
         "safeRect": {
           "x": 7.2,
           "z": 1.8,
-          "width": 5.2,
-          "depth": 3.6
+          "width": 4.35,
+          "depth": 3.05
         }
       },
       {
         "name": "spike_gap_rescue",
-        "width": 4.6,
+        "width": 4.05,
         "height": 1,
-        "depth": 3.2,
-        "color": 13481054,
-        "textureSeed": "rescue_sandstone",
+        "depth": 2.65,
+        "color": 13282610,
+        "textureSeed": "rescue_sandstone_thin_cracked",
         "position": {
           "x": 12.5,
           "y": 2.05,
@@ -122,8 +126,8 @@
         "safeRect": {
           "x": 12.5,
           "z": -1.6,
-          "width": 4.6,
-          "depth": 3.2
+          "width": 4.05,
+          "depth": 2.65
         }
       },
       {
@@ -131,8 +135,8 @@
         "width": 0.8,
         "height": 1.7,
         "depth": 0.8,
-        "color": 14140267,
-        "textureSeed": "sand_rescue_leg",
+        "color": 13875867,
+        "textureSeed": "sand_rescue_leg_shadowed",
         "position": {
           "x": 15.2,
           "y": 2.9,
@@ -150,8 +154,8 @@
         "width": 0.8,
         "height": 1.7,
         "depth": 0.8,
-        "color": 14140267,
-        "textureSeed": "sand_rescue_leg",
+        "color": 13875867,
+        "textureSeed": "sand_rescue_leg_shadowed",
         "position": {
           "x": 17,
           "y": 2.9,
@@ -166,11 +170,11 @@
       },
       {
         "name": "moving_block_runup",
-        "width": 5.8,
+        "width": 4.9,
         "height": 1,
-        "depth": 3.8,
-        "color": 14073964,
-        "textureSeed": "moving_runup",
+        "depth": 3.2,
+        "color": 14139471,
+        "textureSeed": "moving_runup_lava_scorched_sandstone",
         "position": {
           "x": 19.4,
           "y": 3.1,
@@ -179,17 +183,17 @@
         "safeRect": {
           "x": 19.4,
           "z": 0.8,
-          "width": 5.8,
-          "depth": 3.8
+          "width": 4.9,
+          "depth": 3.2
         }
       },
       {
         "name": "push_block_track",
-        "width": 7.5,
+        "width": 6.65,
         "height": 1,
-        "depth": 4.6,
-        "color": 14206063,
-        "textureSeed": "push_block_track",
+        "depth": 3.75,
+        "color": 14339415,
+        "textureSeed": "push_block_track_gold_dusted_sandstone",
         "position": {
           "x": 25,
           "y": 4.35,
@@ -198,17 +202,17 @@
         "safeRect": {
           "x": 25,
           "z": 0,
-          "width": 7.5,
-          "depth": 4.6
+          "width": 6.65,
+          "depth": 3.75
         }
       },
       {
         "name": "safe_after_push",
-        "width": 5.8,
+        "width": 4.9,
         "height": 1,
-        "depth": 4,
-        "color": 14272112,
-        "textureSeed": "safe_after_push",
+        "depth": 3.3,
+        "color": 13941174,
+        "textureSeed": "safe_after_push_cracked_gold_edge",
         "position": {
           "x": 32.5,
           "y": 5.2,
@@ -217,17 +221,17 @@
         "safeRect": {
           "x": 32.5,
           "z": 1.7,
-          "width": 5.8,
-          "depth": 4
+          "width": 4.9,
+          "depth": 3.3
         }
       },
       {
         "name": "gate_approach",
-        "width": 8.5,
+        "width": 7.25,
         "height": 1,
-        "depth": 5.2,
-        "color": 14337898,
-        "textureSeed": "gate_approach",
+        "depth": 4.15,
+        "color": 14270829,
+        "textureSeed": "gate_approach_scorched_sand_gold",
         "position": {
           "x": 39,
           "y": 6,
@@ -236,8 +240,8 @@
         "safeRect": {
           "x": 39,
           "z": 0,
-          "width": 8.5,
-          "depth": 5.2
+          "width": 7.25,
+          "depth": 4.15
         }
       },
       {
@@ -246,7 +250,7 @@
         "height": 1,
         "depth": 6.2,
         "color": 14732403,
-        "textureSeed": "gold_gate_floor",
+        "textureSeed": "GOLD_gate_floor_deep_carved",
         "position": {
           "x": 45.2,
           "y": 6,
@@ -265,7 +269,7 @@
         "height": 4.4,
         "depth": 0.9,
         "color": 14272379,
-        "textureSeed": "gold_gate_pillar",
+        "textureSeed": "GOLD_gate_pillar_deep_carved",
         "position": {
           "x": 46.6,
           "y": 8.2,
@@ -284,7 +288,7 @@
         "height": 4.4,
         "depth": 0.9,
         "color": 14272379,
-        "textureSeed": "gold_gate_pillar",
+        "textureSeed": "GOLD_gate_pillar_deep_carved",
         "position": {
           "x": 46.6,
           "y": 8.2,
@@ -303,7 +307,7 @@
         "height": 0.75,
         "depth": 5.9,
         "color": 15062142,
-        "textureSeed": "gold_lintel",
+        "textureSeed": "GOLD_lintel_sun_gate",
         "position": {
           "x": 46.6,
           "y": 10.55,
@@ -319,30 +323,79 @@
     ],
     "SpikeField": [
       {
-        "name": "molten_floor_under_desert_gate",
-        "groundY": -3.05,
-        "height": 0.42,
-        "pad": 0.15,
+        "name": "wide_molten_floor_under_first_desert_gate",
+        "groundY": -2.45,
+        "height": 0.56,
+        "pad": 0.08,
         "lava": true,
         "bounds": {
-          "minX": -18,
-          "maxX": 58,
-          "minZ": -16,
-          "maxZ": 16
+          "minX": -28,
+          "maxX": 66,
+          "minZ": -30,
+          "maxZ": 30
         },
         "position": {
-          "x": 20,
-          "y": -2.84,
+          "x": 19,
+          "y": -2.17,
           "z": 0
+        }
+      },
+      {
+        "name": "front_lava_warning_shelf",
+        "groundY": -1.95,
+        "height": 0.32,
+        "pad": 0.04,
+        "lava": true,
+        "bounds": {
+          "minX": -2,
+          "maxX": 36,
+          "minZ": 4.75,
+          "maxZ": 9.5
+        },
+        "position": {
+          "x": 17,
+          "y": -1.79,
+          "z": 7.125
+        }
+      },
+      {
+        "name": "back_lava_warning_shelf",
+        "groundY": -1.95,
+        "height": 0.32,
+        "pad": 0.04,
+        "lava": true,
+        "bounds": {
+          "minX": -2,
+          "maxX": 36,
+          "minZ": -9.5,
+          "maxZ": -4.75
+        },
+        "position": {
+          "x": 17,
+          "y": -1.79,
+          "z": -7.125
         }
       }
     ],
     "SpikedBallHazard": [
       {
+        "name": "start_lava_globe_sweeper",
+        "axis": "z",
+        "amplitude": 1.55,
+        "speed": 0.86,
+        "radius": 0.58,
+        "hitRadius": 0.44,
+        "position": {
+          "x": 4.35,
+          "y": 2.2,
+          "z": 0.15
+        }
+      },
+      {
         "name": "textured_lava_orb_trial",
         "axis": "x",
-        "amplitude": 1.15,
-        "speed": 0.72,
+        "amplitude": 1.85,
+        "speed": 0.92,
         "radius": 0.72,
         "hitRadius": 0.52,
         "position": {
@@ -350,23 +403,65 @@
           "y": 4.4,
           "z": -1.9
         }
+      },
+      {
+        "name": "push_track_lava_globe",
+        "axis": "z",
+        "amplitude": 1.75,
+        "speed": 1.05,
+        "radius": 0.62,
+        "hitRadius": 0.46,
+        "position": {
+          "x": 27.65,
+          "y": 6,
+          "z": 0
+        }
+      },
+      {
+        "name": "gate_approach_lava_globe",
+        "axis": "x",
+        "amplitude": 1.55,
+        "speed": 0.88,
+        "radius": 0.64,
+        "hitRadius": 0.48,
+        "position": {
+          "x": 39,
+          "y": 7.45,
+          "z": -1.15
+        }
       }
     ],
     "MovingPushBlock": [
       {
         "name": "exact_push_block_trial",
         "axis": "z",
-        "amplitude": 1.15,
-        "speed": 0.82,
+        "amplitude": 1.85,
+        "speed": 1.18,
         "size": {
-          "x": 2.25,
-          "y": 1.1,
-          "z": 0.9
+          "x": 2.45,
+          "y": 1.25,
+          "z": 1
         },
         "position": {
           "x": 25.4,
           "y": 5.45,
           "z": 0
+        }
+      },
+      {
+        "name": "late_gate_push_block_trial",
+        "axis": "x",
+        "amplitude": 1.35,
+        "speed": 0.96,
+        "size": {
+          "x": 1.65,
+          "y": 1.15,
+          "z": 1.85
+        },
+        "position": {
+          "x": 35.8,
+          "y": 6.45,
+          "z": 1.7
         }
       }
     ],
@@ -547,6 +642,62 @@
           "x": 39,
           "y": 7.65,
           "z": -1.4
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              24
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 16766282,
+              "emissive": 11171584,
+              "metalness": 0.9,
+              "roughness": 0.2
+            }
+          }
+        }
+      },
+      {
+        "name": "p8",
+        "value": 1,
+        "rotationSpeed": 0.028,
+        "position": {
+          "x": 27.3,
+          "y": 6.25,
+          "z": -1.35
+        },
+        "golem": {
+          "guf": {
+            "CylinderGeometry": [
+              0.42,
+              0.42,
+              0.1,
+              24
+            ]
+          },
+          "toyr": {
+            "MeshStandardMaterial": {
+              "color": 16766282,
+              "emissive": 11171584,
+              "metalness": 0.9,
+              "roughness": 0.2
+            }
+          }
+        }
+      },
+      {
+        "name": "p9",
+        "value": 1,
+        "rotationSpeed": 0.03,
+        "position": {
+          "x": 43,
+          "y": 7.7,
+          "z": -1.35
         },
         "golem": {
           "guf": {

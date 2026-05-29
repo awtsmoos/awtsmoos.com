@@ -8,13 +8,14 @@
  * OpenAI-compatible chat payload without knowing whether the river is Groq,
  * OpenRouter, or a future provider.
  */
-export function buildChatPayload({ model, messages, tools, stream = true } = {}) {
+export function buildChatPayload({ model, messages, tools, stream = true, extraBody = null } = {}) {
   const safeMessages = Array.isArray(messages) && messages.length
     ? messages
     : [{ role: "user", content: "B'H" }];
   const payload = { model, messages: safeMessages, stream: !!stream };
   if (Array.isArray(tools) && tools.length) payload.tools = tools;
   if (payload.tools) payload.tool_choice = "auto";
+  if (extraBody && typeof extraBody === "object") payload.extra_body = extraBody;
   return payload;
 }
 
@@ -38,5 +39,17 @@ export function normalizeMessages(input) {
  * @returns {string} Assistant text.
  */
 export function extractAssistantText(json = {}) {
-  return json?.choices?.map(choice => choice?.message?.content || "").join("") || "";
+  const text = json?.choices?.map(choice => choice?.message?.content || "").join("") || "";
+  return stripThinkingBlocks(text);
+}
+
+/**
+ * B"H
+ * Removes provider reasoning wrappers from non-stream responses.
+ *
+ * @param {string} text Raw assistant text.
+ * @returns {string} User-visible answer.
+ */
+export function stripThinkingBlocks(text = "") {
+  return String(text || "").replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
 }

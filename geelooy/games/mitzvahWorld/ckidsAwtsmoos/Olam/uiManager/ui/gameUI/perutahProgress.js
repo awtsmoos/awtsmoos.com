@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file perutahProgress.js
- * @description Chapter 41: Perutos update the same compact HUD language.
+ * @description Chapter 68: Perutos follow the current level's compact HUD goal.
  */
 function readGlobalCoins() { try { return Number(globalThis.localStorage?.getItem("awtsmoosMitzvahGlobalCoins") || 0); } catch { return 0; } }
 function writeGlobalCoins(value) { try { globalThis.localStorage?.setItem("awtsmoosMitzvahGlobalCoins", String(value)); } catch {} }
@@ -15,7 +15,7 @@ function funnyPop(text) {
   setTimeout(() => el.remove(), 900);
 }
 function paintHud(data, host) {
-  const required = numberFrom(host.dataset.requiredPerutos || data.requiredPerutos, 7);
+  const required = numberFrom(data.requiredPerutos ?? host.dataset.requiredPerutos, 9);
   const oldCollected = numberFrom(host.dataset.collectedPerutos, 0);
   const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : oldCollected + numberFrom(data.added, 1);
   const globalCoins = Number.isFinite(Number(data.globalCoins)) ? Number(data.globalCoins) : readGlobalCoins() + numberFrom(data.globalAdded, 0);

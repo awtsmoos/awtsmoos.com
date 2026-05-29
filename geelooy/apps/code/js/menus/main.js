@@ -27,6 +27,7 @@ export const MainMenu = {
             { label: "New File", action: "new-temp-file", icon: "file" },
             { label: "Open File...", action: "open-file", icon: "folder" },
             { label: "Open Local Browser", action: "open-browser-tab", icon: "globe" }, // B"H - Added Browser Gateway
+            { label: "Open AI Chat", action: "open-generic-ai-chat", icon: "brain-circuit" },
             { isSeparator: true }
         ];
 

@@ -16,6 +16,13 @@ export const fsModule = `
 const { Buffer } = require('buffer');
 const EventEmitter = require('events');
 
+function decodeSyncRead(value) {
+    if (typeof value === 'string' && value.startsWith('__B64__')) {
+        return Buffer.from(value.slice(7), 'base64');
+    }
+    return Buffer.from(value);
+}
+
 class ReadStreamMock extends EventEmitter {
     constructor(path, options) {
         super();
@@ -61,7 +68,7 @@ module.exports = {
     readFileSync(path, enc) {
         const res = self._syncRead(path);
         if (res === null) throw new Error("ENOENT: no such file or directory, open '" + path + "'");
-        const buf = Buffer.from(res);
+        const buf = decodeSyncRead(res);
         return enc ? buf.toString(enc) : buf;
     },
     

@@ -4,6 +4,7 @@ const http = require("http");
 const https = require("https");
 const { loadConfig, ROOT, HOME } = require("./lib/config.js");
 const { makeLogger } = require("./lib/log.js");
+const { startLocalApiServer } = require("./lib/local-api.js");
 const { openHostedControl } = require("./lib/open.js");
 const { TinyWebSocket } = require("./lib/ws.js");
 const { handleFs } = require("./tools/fs/index.js");
@@ -273,6 +274,7 @@ function main() {
   log("Tunnel name:", config.tunnelName);
   log("Project root:", config.root || HOME);
   log("Limits:", JSON.stringify({ MAX_INFLIGHT, MAX_QUEUE, REQUEST_MAX_AGE_MS, MAX_RESPONSE_BYTES, MAX_PROXY_BYTES }));
+  startLocalApiServer({ log });
   if (process.argv.includes("--open-control")) openHostedControl(config);
   connect();
 }

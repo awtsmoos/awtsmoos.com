@@ -32,6 +32,11 @@ const FALLBACK_ACTIONS = {
         const m = await import('../browser/index.js');
         return m.BrowserManager.open();
     },
+    'open-generic-ai-chat': async () => {
+        const m = await import('../browser/index.js');
+        const url = new URL('/geelooy/ai/?awtsmoosAi=minimax', location.origin).toString();
+        return m.BrowserManager.open(url, { name: 'AI Chat' });
+    },
     'open-devtools': async (ctx) => {
         // B"H - The high-level command to open inspection vessels.
         // It can now handle standard previews AND the new browser tabs.

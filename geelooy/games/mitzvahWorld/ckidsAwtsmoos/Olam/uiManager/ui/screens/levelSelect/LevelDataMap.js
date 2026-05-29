@@ -1,10 +1,10 @@
 // B"H
 /**
  * @module LevelDataMap
- * @description Chapter 59: menu entries point to JSON level vessels only.
+ * @description Chapter 68: menu entries point to fresh molten JSON vessels.
  */
 export const LevelDataMap = [
-  { id: "ladder-1.json", icon: "DESERT", title: "1. Dust Gate", desc: "Coins, lava globe, moving block, and mezuzah gate.", locked: false },
+  { id: "ladder-1.json", icon: "DESERT", title: "1. Molten Dust Gate", desc: "Nine coins, lava seas, moving globes, push blocks, and a hotter mezuzah gate.", locked: false },
   { id: "ladder-2.json", icon: "LOCK", title: "2. Mirror Dunes", desc: "Mirrored jumps and false coin pressure.", locked: true },
   { id: "ladder-3.json", icon: "LOCK", title: "3. Argument Ruins", desc: "Shelf ruins, footnote traps, faster lies.", locked: true },
   { id: "ladder-4.json", icon: "LOCK", title: "4. Garden of Teeth", desc: "Green beauty hiding spike verdicts.", locked: true },

@@ -6,7 +6,7 @@
  * CHAPTER 29: THE SHARED STREAM — MiniMax joins the single SSE river.
  */
 
-import { readSSEStream } from '../../../shared/streaming/index.js';
+import { readSSEStream } from '../../../../../shared/streaming/index.js';
 
 const MINIMAX_ENDPOINT = 'https://api.minimax.io/v1/chat/completions';
 const MODELS = [

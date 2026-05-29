@@ -10,10 +10,10 @@ import { Tabs } from '../tabs/index.js';
 import { BrowserRuntime } from './runtime/BrowserRuntime.js';
 
 export const BrowserManager = {
-    async open(initialUrl = 'http://localhost:3000') {
+    async open(initialUrl = 'http://localhost:3000', options = {}) {
         const item = {
             id: `browser-tab-${Date.now()}`,
-            name: 'Browser',
+            name: options.name || 'Browser',
             path: 'browser-realm',
             type: 'browser',
             kind: 'file'

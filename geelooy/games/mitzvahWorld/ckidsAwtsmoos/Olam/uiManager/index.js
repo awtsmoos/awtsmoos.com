@@ -5,7 +5,7 @@
  */
 import UI from "/scripts/awtsmoos/ui/index.js";
 import style from "./ui/style.js?v=lean-l1-20260528-bh47";
-import mainMenu from "./ui/mainMenu/index.js?v=lean-l1-20260528-bh53";
+import mainMenu from "./ui/mainMenu/index.js?v=lean-l1-20260529-bh69";
 
 export default class UIManager {
   constructor() {}

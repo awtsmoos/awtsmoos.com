@@ -6,6 +6,7 @@ export const PALETTE_COMMANDS = [
     { id: 'new-file', label: 'File: New File', action: 'new-temp-file', icon: 'file' },
     { id: 'open-file', label: 'File: Open Local File', action: 'open-file', icon: 'folder' },
     { id: 'open-browser', label: 'View: Open Local Browser', action: 'open-browser-tab', icon: 'globe' },
+    { id: 'open-ai-chat', label: 'Tool: Open AI Chat', action: 'open-generic-ai-chat', icon: 'brain-circuit' },
     { id: 'search-global', label: 'Search: Global Search', action: 'show-search', icon: 'search' },
     { id: 'search-scope-file', label: 'Search: Set Scope to Current Folder', action: 'scope-to-active', icon: 'search' },
     { id: 'search-scope-clear', label: 'Search: Clear Search Scope', action: 'scope-clear', icon: 'x' },

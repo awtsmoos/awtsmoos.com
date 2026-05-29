@@ -57,6 +57,22 @@ export function setupCoreListeners() {
             }
         };
 
+        let aiChatBtn = document.getElementById('global-ai-chat-btn');
+        if (!aiChatBtn) {
+            aiChatBtn = document.createElement('button');
+            aiChatBtn.id = 'global-ai-chat-btn';
+            aiChatBtn.className = 'icon-button';
+            aiChatBtn.title = 'Open AI Chat';
+            aiChatBtn.style.color = 'var(--neon-magenta)';
+            aiChatBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-brain-circuit"></use></svg>';
+            menuBar.appendChild(aiChatBtn);
+        }
+
+        aiChatBtn.onclick = (e) => {
+            e.stopPropagation();
+            Actions.handle('open-generic-ai-chat');
+        };
+
         // B"H - Refresh Preview Button
         let refreshBtn = document.getElementById('global-refresh-preview-btn');
         if (!refreshBtn) {

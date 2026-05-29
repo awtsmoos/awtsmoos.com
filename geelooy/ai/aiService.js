@@ -36,6 +36,7 @@ class AIServiceHandler {
     return {
       chatgpt: makeChatGPTService(this),
       gemini: makeGeminiService(this),
+      minimax: makeOpenAICompatibleService(this, "minimax"),
       openrouter: makeOpenAICompatibleService(this, "openrouter"),
       groq: makeOpenAICompatibleService(this, "groq")
     };

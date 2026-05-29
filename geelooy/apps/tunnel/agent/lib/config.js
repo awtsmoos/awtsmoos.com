@@ -28,6 +28,11 @@ const DEFAULTS = {
   allowSecrets: true,
   allowCommands: true,
   enableLocalHttpProxy: true,
+  localApi: {
+    enabled: true,
+    host: "127.0.0.1",
+    port: 3977
+  },
   tools: {
     fsList: true,
     fsTree: true,
@@ -118,6 +123,7 @@ function normalizeConfig(old = {}) {
   const tools = old.tools || {};
   const command = old.command || {};
   const chrome = old.chrome || {};
+  const localApi = old.localApi || {};
   const chromePath = chrome.chromePath || chrome.path || "";
 
   return {
@@ -130,6 +136,12 @@ function normalizeConfig(old = {}) {
     allowSecrets: boolOrDefault(old.allowSecrets, true),
     allowCommands: boolOrDefault(old.allowCommands, true),
     enableLocalHttpProxy: boolOrDefault(old.enableLocalHttpProxy, true),
+
+    localApi: {
+      enabled: boolOrDefault(localApi.enabled, DEFAULTS.localApi.enabled),
+      host: localApi.host || DEFAULTS.localApi.host,
+      port: numberOrDefault(localApi.port, DEFAULTS.localApi.port, 1, 65535)
+    },
 
     tools: {
       fsList: boolOrDefault(tools.fsList, true),
@@ -202,6 +214,7 @@ function saveConfigPatch(patch = {}) {
     ...patch,
     tools: { ...current.tools, ...(patch.tools || {}) },
     command: { ...current.command, ...(patch.command || patch.commandConfig || {}) },
+    localApi: { ...current.localApi, ...(patch.localApi || {}) },
     chrome: { ...current.chrome, ...(patch.chrome || {}) }
   };
 
