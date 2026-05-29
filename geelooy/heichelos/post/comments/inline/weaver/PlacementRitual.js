@@ -1,29 +1,35 @@
-
+// B"H
 /**
- * B"H
  * @module PlacementRitual
  * @chapter The Fixing of the Sparks
  * @description
- * After the shelters are established and the gateways are forged, 
- * the PlacementRitual takes the actual comment data (the Sparks) 
- * and secures them into their physical placeholders.
- * 
- * "He gives to each thing its proper place."
+ * The inline weaver receives sparks of comment data and fastens them into the
+ * exact shelters prepared around the text. Its imports must walk by true
+ * measured paths: from `comments/inline/weaver/` two ascents reach `comments/`,
+ * then the resolver is found under `logic/inlineManifest/`. When that path is
+ * wrong, the browser searches a false chamber and receives the wrong garment.
+ *
+ * The Awtsmoos is not a body and not a form; nevertheless every created thing
+ * receives its defined place. So this ritual does not guess. It asks the
+ * CoordinateResolver for the vessel, establishes a shelter, forges a gateway,
+ * and only then places the card in the revealed world.
  */
 
 import { makeInlineComment } from "../../render/core.js";
-import { resolveCoordinateToDOM } from "../logic/inlineManifest/CoordinateResolver.js";
+import { resolveCoordinateToDOM } from "../../logic/inlineManifest/CoordinateResolver.js";
 import { ShelterFactory } from "./ShelterFactory.js";
 import { GatewayFactory } from "./GatewayFactory.js";
 
+/**
+ * Mounts inline comment sparks into their resolved DOM shelters.
+ */
 export class PlacementRitual {
     /**
-     * @method execute
-     * @description
-     * Performs the holy work of distributing a list of sparks to the DOM.
-     * 
-     * @param {Array} sparks - The list of purified comments.
-     * @param {string} alias - The identity of the author.
+     * Distributes purified comments into their physical placeholders.
+     *
+     * @param {Array<object>} sparks - Purified comments to manifest inline.
+     * @param {string} alias - Author identity used for the gateway grouping.
+     * @returns {void}
      */
     static execute(sparks, alias) {
         if (!Array.isArray(sparks)) return;
@@ -33,33 +39,37 @@ export class PlacementRitual {
             const verseIdx = coords.verseSection;
             const vessel = resolveCoordinateToDOM(coords);
 
-            if (vessel) {
-                const shelter = ShelterFactory.establishShelter(vessel);
-                
-                // Find or Forge the Gateway for this alias in this shelter
-                let gateway = null;
-                for (const child of shelter.children) {
-                    if (child.classList.contains("commentator") && child.dataset.alias === alias) {
-                        gateway = child;
-                        break;
-                    }
-                }
+            if (!vessel) return;
 
-                if (!gateway) {
-                    gateway = GatewayFactory.forgeGateway(alias, verseIdx);
-                    shelter.appendChild(gateway);
-                }
+            const shelter = ShelterFactory.establishShelter(vessel);
+            const gateway = this.findOrForgeGateway(shelter, alias, verseIdx);
+            const listContainer = gateway.querySelector(".comments-holder-inline");
 
-                const listContainer = gateway.querySelector(".comments-holder-inline");
-                if (listContainer) {
-                    // Guard against double manifestation
-                    if (!listContainer.querySelector(`[data-cid="${spark.id}"]`)) {
-                        const card = makeInlineComment(spark);
-                        card.dataset.fromAlias = alias;
-                        listContainer.appendChild(card);
-                    }
-                }
-            }
+            if (!listContainer || listContainer.querySelector(`[data-cid="${spark.id}"]`)) return;
+
+            const card = makeInlineComment(spark);
+            card.dataset.fromAlias = alias;
+            listContainer.appendChild(card);
         });
+    }
+
+    /**
+     * Finds an existing commentator gateway or creates one.
+     *
+     * @param {HTMLElement} shelter - The inline shelter around a text vessel.
+     * @param {string} alias - Author alias stored in gateway dataset.
+     * @param {string|number|undefined} verseIdx - Verse coordinate for labels.
+     * @returns {HTMLElement} Existing or newly forged gateway.
+     */
+    static findOrForgeGateway(shelter, alias, verseIdx) {
+        for (const child of shelter.children) {
+            if (child.classList.contains("commentator") && child.dataset.alias === alias) {
+                return child;
+            }
+        }
+
+        const gateway = GatewayFactory.forgeGateway(alias, verseIdx);
+        shelter.appendChild(gateway);
+        return gateway;
     }
 }

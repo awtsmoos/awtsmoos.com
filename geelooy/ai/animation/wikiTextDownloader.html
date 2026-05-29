@@ -1,3 +1,101 @@
+<!--B"H legacy page garment: the Awtsmoos gives the fragment a complete vessel.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awtsmoos Wiki Text Downloader</title>
+  <link rel="stylesheet" href="../css/legacy-pages.css">
+</head>
+<body class="legacy-script-page">
+  <main class="card"><h1>Awtsmoos Wiki Text Downloader</h1><p>This legacy helper is preserved as runnable source.</p><pre><code>//B"H
+var p = new DOMParser()
+var ap = p =&gt; `/w/api.php?action=parse&amp;format=json&amp;page=${
+    p
+}`;
+
+async function start(id) {
+    var mef = await gd(ap(`מ"ג_${id}`), 1);
+    var tx = mef.parse.text["*"];
+    var dc = p.parseFromString(tx, "text/html");
+    
+    console.log(window.a = dc);
+    var ind = await gd(ap(
+        id+"/טעמים"
+    ), 1);
+
+    var txi = ind.parse.text["*"];
+    var dci = p.parseFromString(txi, "text/html");
+
+
+    
+    var rp = getPerek(dci);
+    
+    var pair = parsePerekHtml(rp);
+    
+    return {
+        m:getMefarshim(dc)
+            ,
+        ind:pair 
+    }
+}
+
+function getPerek(p) {
+    var v = (
+        p.querySelector(".mw-content-rtl.mw-parser-output div[lang='hbo'] p")
+    )
+    return v.innerHTML
+}
+function getMefarshim(m) {
+    var p = m.querySelectorAll(".mw-content-rtl.mw-parser-output ul a")
+    var a = Array.from(p)
+    var m = a.map(q=&gt;({
+        href:q.href,
+        name: q.innerText
+    }))
+    return m;
+}
+
+
+
+
+// --- HOW TO USE ---
+// Assume `perekHtmlContent` is a variable holding the HTML string from perek.html
+// const perekHtmlContent = `... your HTML string ...`;
+// const jsonData = parsePerekHtml(perekHtmlContent);
+// console.log(JSON.stringify(jsonData, null, 2));
+async function gd(url, isJ) {
+    
+    var t = await (await fetch(url))[
+        isJ ? "json" : "text"
+    ]();
+    if(isJ) return t;
+    var d = p.parseFromString(
+        t, "text/html"
+    )
+    return d;
+}
+
+
+
+
+
+//path for yonasan targum
+///wiki/%D7%AA%D7%A8%D7%92%D7%95%D7%9D_%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%9E%D7%99_(%D7%99%D7%95%D7%A0%D7%AA%D7%9F)/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA/%D7%92
+
+//path for onkelos for entire efer at a time
+
+///wiki/%D7%AA%D7%A8%D7%92%D7%95%D7%9D_%D7%90%D7%95%D7%A0%D7%A7%D7%9C%D7%95%D7%A1_(%D7%AA%D7%90%D7%92%27)/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA
+
+
+//path example for ENTIRE SEIFER in one page (very useful! use this!)
+///wiki/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA/%D7%98%D7%A2%D7%9E%D7%99%D7%9D
+
+
+//source to get ENTIRE Rashi (and other ocmmentaries mostly) in ONE PAGE
+///wiki/%D7%A8%D7%A9%22%D7%99_%D7%9E%D7%A0%D7%95%D7%A7%D7%93_%D7%A2%D7%9C_%D7%94%D7%9E%D7%A7%D7%A8%D7%90/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA
+
+a=await start("בראשית_א")</code></pre><script type="module">
 //B"H
 var p = new DOMParser()
 var ap = p => `/w/api.php?action=parse&format=json&page=${
@@ -86,3 +184,6 @@ async function gd(url, isJ) {
 ///wiki/%D7%A8%D7%A9%22%D7%99_%D7%9E%D7%A0%D7%95%D7%A7%D7%93_%D7%A2%D7%9C_%D7%94%D7%9E%D7%A7%D7%A8%D7%90/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA
 
 a=await start("בראשית_א")
+</script></main>
+</body>
+</html>

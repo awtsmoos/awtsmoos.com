@@ -1,69 +1,107 @@
 // B"H
 /**
- * This is the main server script for our application, serving as the "Sefer Torah" of our server's operation.
- * It uses the built-in http, fs, path, url, and querystring modules from Node.js, akin to the foundational Sefirot.
- * Along with a custom template processing module (awtsmoosProcessor.js) and a custom database module (DosDB.js),
- * these comprise the "Tree of Life" of our server's functionality.
- *  
- * @fileoverview Main server script, the "Sefer Torah" of our application.
- * @requires http
- * @requires fs
- * @requires path
- * @requires url
+ * @file index.js
+ * @description
+ * Chapter 8: The Gatekeeper Learns Not To Shatter.
+ *
+ * This is the server entry. The old gate could crash when another Awtsmoos
+ * instance already held port 8080. The log then screamed `EADDRINUSE`, even
+ * though that usually means a server is already guarding the gate. This entry
+ * now catches server listen errors and reports them as clear state instead of
+ * an unhandled rupture.
+ *
+ * The Awtsmoos has no body and no form, yet every local server needs a vessel:
+ * HTTP, WebSocket upgrade, dynamic routes, and optional mail. Each vessel is
+ * guarded so a failure in one chamber does not tear the whole palace apart.
+ */
 
- */ 
+const http = require("http");
+const AwtsMail = require("./ayzarim/email/email.js");
+const AwtsServer = require("./ayzarim/awtsmoosDynamicServer/index.js");
+const AwtsSocket = require("./ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js");
 
-var http = require('http');
+const DEFAULT_PORT = 8080;
 
 /**
- * @optional
- * email server support
+ * Boots the Awtsmoos HTTP, dynamic, websocket, and optional mail vessels.
+ *
+ * @returns {Promise<void>} Resolves after startup attempt is complete.
  */
-var AwtsMail = require("./ayzarim/email/email.js");
-var mail = new AwtsMail(); 
-
-var awts = require("./ayzarim/awtsmoosDynamicServer/index.js");
-
-// B"H - Require the new WebSocket Handler
-var AwtsSocket = require("./ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js");
-
 async function go() {
-    var serv = new awts(__dirname, mail);
-    
-    // 1. Create WS
-    var wsServer = new AwtsSocket();
-    
-    // 2. Attach to serv
-    serv.ws = wsServer;
-    
-    // 3. NOW init (which binds the mail handler)
-    await serv.init(); 
+    const mail = new AwtsMail();
+    const dynamicServer = new AwtsServer(__dirname, mail);
+    const wsServer = new AwtsSocket();
 
-    // 3. Create HTTP
-    var httpServer = http.createServer(async (request, response) => { 
-        await serv.onRequest(request, response);
+    dynamicServer.ws = wsServer;
+    await dynamicServer.init();
+
+    const httpServer = createHttpServer(dynamicServer, wsServer);
+    await listenSafely(httpServer, Number(process.env.PORT) || DEFAULT_PORT);
+    startMailSafely(mail);
+}
+
+/**
+ * Creates the HTTP server and upgrade bridge.
+ *
+ * @param {object} dynamicServer - Awtsmoos dynamic server instance.
+ * @param {object} wsServer - WebSocket handler.
+ * @returns {import("http").Server} Configured HTTP server.
+ */
+function createHttpServer(dynamicServer, wsServer) {
+    const httpServer = http.createServer(async (request, response) => {
+        await dynamicServer.onRequest(request, response);
     });
-    
-    // 4. Handle Upgrade
-    httpServer.on('upgrade', (request, socket, head) => {
+
+    httpServer.on("upgrade", (request, socket, head) => {
         wsServer.handleUpgrade(request, socket, head);
     });
 
-    httpServer.listen(8080);
+    return httpServer;
+}
 
-    console.log('B"H\n\n\n\n', 'Server running at http://127.0.0.1:8080/');
-    console.log("Time: ", Date.now());
+/**
+ * Listens without allowing EADDRINUSE to become an unhandled crash.
+ *
+ * @param {import("http").Server} httpServer - Server to bind.
+ * @param {number} port - Port to listen on.
+ * @returns {Promise<void>} Resolves when listening or when port is occupied.
+ */
+function listenSafely(httpServer, port) {
+    return new Promise(resolve => {
+        httpServer.once("error", error => {
+            if (error.code === "EADDRINUSE") {
+                console.log(`B"H - Port ${port} is already in use; another server instance may already be alive.`);
+                resolve();
+                return;
+            }
 
+            console.error("B\"H - HTTP server failed to listen:", error);
+            resolve();
+        });
+
+        httpServer.listen(port, () => {
+            console.log("B\"H\n\n\n\n", `Server running at http://127.0.0.1:${port}/`);
+            console.log("Time: ", Date.now());
+            resolve();
+        });
+    });
+}
+
+/**
+ * Starts optional mail handling without tearing down the web server.
+ *
+ * @param {object} mail - AwtsMail instance.
+ * @returns {void}
+ */
+function startMailSafely(mail) {
     try {
         mail.shoymayuh();
-        console.log("Email server running")
-    } catch(e) {
-        console.log("Could not start email server", e);
+        console.log("Email server running");
+    } catch (error) {
+        console.log("Could not start email server", error);
     }
 }
 
-try {
-    go();
-} catch(e) {
-    console.log(e);
-}
+go().catch(error => {
+    console.error("B\"H - Startup rupture:", error);
+});

@@ -1,0 +1,27 @@
+/*B"H
+  Chapter 45e: The small sparks were filed smooth.
+
+  The Awtsmoos hides in polish: a scroll gutter, an unclipped button, a panel
+  that no longer claws through its neighbor.
+*/
+@media(max-width:900px){
+  .sidebar .panel-topbar,
+  .automation-panel .panel-topbar,
+  .main .transport-status{min-height:48px}
+
+  .conversation-list,
+  .automation-panel-content,
+  .right-panel-body{
+    max-height:100%;
+    overflow:auto;
+    scrollbar-gutter:stable;
+  }
+
+  .message,.transport-details{max-width:100%;width:100%}
+  .message-shell.end-flow,.message-shell.start-flow{align-items:stretch}
+  .audio-offer{max-width:100%}
+  .audio-offer-actions{grid-template-columns:1fr 1fr}
+  .file-change-row{grid-template-columns:1fr auto auto}
+  .file-change-actions{display:none}
+  #jump-to-bottom,.jump-to-bottom{display:none!important}
+}

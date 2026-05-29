@@ -1,79 +1,114 @@
-
+// B"H
 /**
- * B"H
  * @module UIAggregator
- * @description 
- * Uniting all specialized UI Sefirot. 
- * This is the public interface through which the Navigator 
- * interacts with the manifest world.
+ * @description
+ * Chapter 5: The Public Mouth Of The Library.
+ *
+ * The Heichel has many hands: renderers, controls, toasts, context menus,
+ * selection tools. This file is the mouth that speaks one stable API to the
+ * Navigator. A previous path tried to summon selection behavior from the owner
+ * render controls, but selection lives in `ui/controls.js`. Wrong chambers can
+ * make the browser ask for a scroll that is not there, and the server may dress
+ * absence as JSON. Here the map is explicit.
+ *
+ * The Awtsmoos has no body and no form, yet every finite vessel must know its
+ * gate. Render controls reveal ownership. Legacy controls keep selection. The
+ * aggregator unites them without pretending they are the same organ.
  */
 
-import { appState } from './state.js';
-import { manifestWorld as _manifestWorld } from './ui/render.js';
-import * as Render from './ui/render.js';
-import * as Controls from './ui/render/controls.js';
+import { appState } from "./state.js";
+import { manifestWorld as renderedManifestWorld } from "./ui/render.js";
+import * as Render from "./ui/render.js";
+import * as OwnerControls from "./ui/render/controls.js";
+import { toggleSelectionMode as toggleSelectionModeCore } from "./ui/controls.js";
 
-// --- Direct Re-exports ---
-export const manifestWorld = _manifestWorld;
-export { notify } from './ui/render/toast.js';
-export { showContextMenu } from './ui/contextmenu.js';
+export const manifestWorld = renderedManifestWorld;
+export { notify } from "./ui/render/toast.js";
+export { showContextMenu } from "./ui/contextmenu.js";
 
 /**
- * @function updateHeichelHeader
- * @description Updates basic realm identity.
+ * Updates the Heichel identity header.
+ *
+ * @param {object} data - Heichel details payload.
+ * @returns {void}
  */
 export function updateHeichelHeader(data) {
     Render.updateHeichelHeader(data);
 }
 
 /**
- * @function renderBreadcrumb
+ * Renders breadcrumb navigation.
+ *
+ * @param {Array<object>} data - Breadcrumb path.
+ * @param {object} navigator - Heichel navigator.
+ * @returns {void}
  */
-export function renderBreadcrumb(data, nav) {
-    Render.renderBreadcrumb(data, nav);
+export function renderBreadcrumb(data, navigator) {
+    Render.renderBreadcrumb(data, navigator);
 }
 
 /**
- * @function renderSeriesInfo
+ * Renders series title and description.
+ *
+ * @param {object} data - Series payload.
+ * @param {object} heichel - Current Heichel payload.
+ * @param {string} id - Current series id.
+ * @returns {Promise<void>} Resolves after render.
  */
 export async function renderSeriesInfo(data, heichel, id) {
     await Render.renderSeriesInfo(data, heichel, id);
 }
 
 /**
- * @function renderOwnerControls
+ * Renders owner-only controls.
+ *
+ * @param {Array<object>} breadcrumb - Breadcrumb path.
+ * @param {object} navigator - Heichel navigator.
+ * @returns {void}
  */
-export function renderOwnerControls(breadcrumb, nav) {
-    Controls.renderOwnerControls(breadcrumb, nav, appState);
+export function renderOwnerControls(breadcrumb, navigator) {
+    OwnerControls.renderOwnerControls(breadcrumb, navigator, appState);
 }
 
 /**
- * @function renderContentGrids
+ * Renders posts and sub-series grids.
+ *
+ * @param {object} content - Content grouped by posts and subSeries.
+ * @param {object} navigator - Heichel navigator.
+ * @param {object} state - Current app state.
+ * @returns {void}
  */
-export function renderContentGrids(content, nav, state) {
-    Render.renderContentGrids(content, nav, state);
+export function renderContentGrids(content, navigator, state) {
+    Render.renderContentGrids(content, navigator, state);
+}
+
+/** @returns {void} Shows all loading vessels. */
+export function showLoading() {
+    Render.showLoading();
+}
+
+/** @returns {void} Hides all loading vessels. */
+export function hideLoading() {
+    Render.hideLoading();
 }
 
 /**
- * @function showLoading
- */
-export function showLoading() { Render.showLoading(); }
-
-/**
- * @function hideLoading
- */
-export function hideLoading() { Render.hideLoading(); }
-
-/**
- * @function updateActiveTab
+ * Updates active content tab.
+ *
+ * @param {string} view - Either `posts` or `series`.
+ * @returns {void}
  */
 export function updateActiveTab(view) {
     Render.updateActiveTab(view, appState);
 }
 
 /**
- * @function toggleSelectionMode
+ * Toggles bulk selection behavior from the correct legacy control module.
+ *
+ * @param {boolean} isActive - Whether selection mode should be active.
+ * @param {object} navigator - Heichel navigator.
+ * @returns {void}
  */
 export function toggleSelectionMode(isActive, navigator) {
-    import('./ui/render/controls.js').then(m => m.toggleSelectionMode(isActive, navigator, appState));
+    toggleSelectionModeCore(isActive, navigator, appState);
 }

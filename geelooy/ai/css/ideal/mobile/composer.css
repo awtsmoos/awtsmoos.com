@@ -1,0 +1,72 @@
+/*B"H
+  Chapter 45d: The mouth of the chat returned.
+
+  The composer is the place where silence becomes a command. It stays above
+  the browser floor, never under the scene menu, never under another panel.
+*/
+@media(max-width:900px){
+  .main .transport-status{
+    position:absolute;
+    top:8px;
+    left:12px;
+    right:12px;
+    min-height:42px;
+    border-radius:18px;
+    font-size:.78rem;
+    padding:8px 12px;
+    z-index:60;
+    background:rgba(4,12,24,.82);
+    border:1px solid rgba(125,211,252,.16);
+    box-shadow:0 12px 30px rgba(0,0,0,.28);
+  }
+
+  .chat-box{
+    padding-top:62px!important;
+    padding-bottom:172px!important;
+    scroll-padding-bottom:180px;
+  }
+
+  .input-area{
+    position:absolute!important;
+    left:10px;
+    right:10px;
+    bottom:calc(8px + var(--mobile-composer-bottom));
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) 82px;
+    gap:10px;
+    align-items:end;
+    padding:10px!important;
+    border-radius:22px!important;
+    background:rgba(3,8,17,.96)!important;
+    border:1px solid rgba(45,212,191,.24)!important;
+    box-shadow:0 18px 46px rgba(0,0,0,.46),0 0 0 1px rgba(34,230,196,.08) inset;
+    backdrop-filter:blur(18px);
+    z-index:70;
+  }
+
+  #message-input{
+    min-height:46px!important;
+    max-height:118px!important;
+    border-radius:16px!important;
+    padding:12px 14px!important;
+    font-size:16px!important;
+  }
+
+  #send-button{
+    min-height:46px!important;
+    border-radius:16px!important;
+    font-weight:950!important;
+    box-shadow:0 12px 26px rgba(47,120,255,.28);
+  }
+
+  .attachment-tools{
+    position:absolute;
+    left:14px;
+    right:14px;
+    bottom:calc(78px + var(--mobile-composer-bottom));
+    z-index:69;
+    border-radius:18px;
+    background:rgba(2,8,20,.66);
+    backdrop-filter:blur(12px);
+  }
+}

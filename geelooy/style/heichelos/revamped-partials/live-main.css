@@ -1,14 +1,21 @@
 /* B"H
-   Live Heichel main menu polish. These selectors target the actual JSON
-   blueprint classes rendered by modules/ui/blueprints/main-layout.js, not the
-   older abandoned class names. The page should feel like a calm premium library,
-   not an unstyled void.
-*/
+ * @chapter 7: The Ink Refuses To Vanish
+ *
+ * The Heichel UI is generated from JSON blueprints. These selectors match the
+ * live blueprint classes, not the abandoned older shells. Every button, tab,
+ * card, loading glyph, and empty state receives explicit foreground and
+ * background colors so no Aleph, no Yud, no "A", and no "I" can disappear into
+ * its own vessel.
+ *
+ * The Awtsmoos has no body and no form, yet finite UI needs clear garments:
+ * dark ink on pale glass, pale ink on dark fire, and loading states that either
+ * vanish when hidden or speak visibly when revealed.
+ */
 
 .heichel-sovereign-wrapper {
     min-height: 100vh;
     padding: clamp(1rem, 3vw, 2rem);
-    color: var(--color-ink);
+    color: #221f29;
     background:
         radial-gradient(circle at 12% 0%, rgba(255, 179, 71, .16), transparent 30%),
         linear-gradient(135deg, #fffaf2 0%, #f3eadb 48%, #eef4ff 100%);
@@ -35,9 +42,10 @@
 .heichel-library-sidebar {
     border: 1px solid rgba(42, 37, 30, .16);
     border-radius: clamp(1.2rem, 3vw, 2rem);
-    background: rgba(255, 255, 255, .74);
+    background: rgba(255, 255, 255, .82);
     box-shadow: 0 26px 80px rgba(42, 37, 30, .12), inset 0 1px 0 rgba(255,255,255,.8);
     backdrop-filter: blur(16px);
+    color: #221f29;
 }
 
 .heichel-arch-header {
@@ -51,37 +59,64 @@
     line-height: .95;
     letter-spacing: -.05em;
     text-transform: none;
-    color: #23202a;
+    color: #221f29;
 }
 
-.search-altar { margin-top: clamp(1rem, 2vw, 1.5rem); }
+.search-altar {
+    margin-top: clamp(1rem, 2vw, 1.5rem);
+}
+
 .search-altar input {
     min-height: 3.25rem;
     border-radius: 999px;
     border: 1px solid rgba(42,37,30,.2);
+    background: #fffdfa;
+    color: #221f29;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.75), 0 12px 34px rgba(42,37,30,.08);
+}
+
+.search-altar input::placeholder {
+    color: rgba(34, 31, 41, .58);
 }
 
 #seriesNameAndInfo {
     margin-top: 1rem;
     padding: 1rem;
     border-radius: 1.25rem;
-    background: rgba(255,255,255,.58);
+    background: rgba(255,255,255,.7);
     border: 1px solid rgba(138,43,6,.16);
+    color: #221f29;
 }
 
 #seriesNameAndInfo h2,
-#seriesNameAndInfo p { margin: 0; }
-#seriesNameAndInfo p { margin-top: .45rem; line-height: 1.65; color: var(--color-ink-secondary); }
+#seriesNameAndInfo p {
+    margin: 0;
+}
 
-.heichel-viewport-panel { padding: clamp(.85rem, 2vw, 1.25rem); }
+#seriesNameAndInfo p {
+    margin-top: .45rem;
+    line-height: 1.65;
+    color: #5f574e;
+}
+
+.heichel-viewport-panel {
+    padding: clamp(.85rem, 2vw, 1.25rem);
+}
+
 .tab-gates {
     display: flex;
     gap: .5rem;
     padding: .35rem;
     margin-bottom: 1rem;
     border-radius: 999px;
-    background: rgba(42,37,30,.06);
+    background: rgba(42,37,30,.08);
+}
+
+.tab-gates .tab,
+.heichel-sovereign-wrapper button,
+.heichel-sovereign-wrapper .btn {
+    color: #221f29;
+    text-shadow: none;
 }
 
 .tab-gates .tab {
@@ -90,24 +125,68 @@
     border: 0;
     border-radius: 999px;
     box-shadow: none;
-    background: transparent;
-    color: rgba(42,37,30,.62);
+    background: #fffdfa;
     font-size: .9rem;
     letter-spacing: .06em;
 }
 
 .tab-gates .tab.Active {
-    color: #fff;
+    color: #ffffff;
     background: linear-gradient(135deg, #231f2d, #8a2b06);
     box-shadow: 0 14px 30px rgba(35,31,45,.22);
 }
 
-.grid-realms, .viewport { min-width: 0; }
-.viewport.hidden, .hidden, .hidden-void, .modal-gate-hidden { display: none !important; }
+.grid-realms,
+.viewport {
+    min-width: 0;
+}
+
+.viewport.hidden,
+.hidden,
+.hidden-void,
+.modal-gate-hidden {
+    display: none !important;
+}
+
 .dynamic-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
     gap: clamp(.85rem, 2vw, 1.25rem);
+}
+
+.sacred-loading {
+    min-height: 7rem;
+    display: grid;
+    place-items: center;
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, .72);
+    color: #221f29;
+    font-weight: 900;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.sacred-loading::before {
+    content: "";
+    width: 2.35rem;
+    height: 2.35rem;
+    border: .35rem solid rgba(34, 31, 41, .24);
+    border-top-color: #0ea5e9;
+    border-radius: 999px;
+    animation: heichelSpin .85s linear infinite;
+}
+
+@keyframes heichelSpin {
+    to { transform: rotate(360deg); }
+}
+
+.empty-glow-msg {
+    padding: 1.25rem;
+    border-radius: 1.1rem;
+    background: #fffdfa;
+    color: #221f29;
+    font-weight: 800;
+    box-shadow: inset 0 0 0 1px rgba(42,37,30,.12);
 }
 
 .card-wrapper.awtsmoos-card {
@@ -116,8 +195,8 @@
     overflow: hidden;
     border: 1px solid rgba(42,37,30,.16);
     border-radius: 1.35rem;
-    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,250,242,.88));
-    color: var(--color-ink);
+    background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,250,242,.92));
+    color: #221f29;
     box-shadow: 0 18px 48px rgba(42,37,30,.11);
     cursor: pointer;
     transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
@@ -129,18 +208,22 @@
     box-shadow: 0 28px 70px rgba(42,37,30,.16);
 }
 
-.card-wrapper .post-card { padding: clamp(1rem, 2vw, 1.25rem); }
+.card-wrapper .post-card {
+    padding: clamp(1rem, 2vw, 1.25rem);
+}
+
 .card-wrapper h2 {
     margin: 0;
     font-size: clamp(1.25rem, 2.5vw, 1.8rem);
     line-height: 1.08;
     letter-spacing: -.035em;
+    color: #221f29;
     overflow-wrap: anywhere;
 }
 
 .card-wrapper p {
     margin: .75rem 0 0;
-    color: var(--color-ink-secondary);
+    color: #5f574e;
     line-height: 1.65;
     overflow-wrap: anywhere;
 }
@@ -155,7 +238,8 @@
     width: 2rem;
     height: 2rem;
     border-radius: 999px;
-    background: rgba(255,255,255,.84);
+    background: #fffdfa;
+    color: #221f29;
     border: 1px solid rgba(42,37,30,.12);
 }
 
@@ -169,16 +253,49 @@
     padding: clamp(1rem, 2vw, 1.25rem);
 }
 
-.heichel-library-sidebar h2 { margin: 0; font-size: 1.55rem; letter-spacing: -.04em; }
-.breadcrumb-trail { display: flex; flex-wrap: wrap; gap: .45rem; }
-.realm-whisper { margin: 0; color: var(--color-ink-secondary); line-height: 1.65; }
+.heichel-library-sidebar h2 {
+    margin: 0;
+    font-size: 1.55rem;
+    letter-spacing: -.04em;
+    color: #221f29;
+}
+
+.breadcrumb-trail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+}
+
+.realm-whisper {
+    margin: 0;
+    color: #5f574e;
+    line-height: 1.65;
+}
 
 .owner-action-vessels,
 .guardians-chamber {
     padding: .9rem;
     border: 1px solid rgba(42,37,30,.13);
     border-radius: 1rem;
-    background: rgba(255,255,255,.52);
+    background: rgba(255,255,255,.66);
+    color: #221f29;
+}
+
+.owner-action-vessels button,
+.guardians-chamber button,
+.sidebar-toggle-btn,
+.ritual-btn {
+    background: #fffdfa;
+    color: #221f29;
+    border: 1px solid rgba(34, 31, 41, .38);
+}
+
+.owner-action-vessels button:hover,
+.guardians-chamber button:hover,
+.sidebar-toggle-btn:hover,
+.ritual-btn:hover {
+    background: #f0d8a8;
+    color: #221f29;
 }
 
 .sidebar-toggle-btn {
@@ -191,7 +308,24 @@
     border-radius: 999px;
 }
 
+.void-error,
+.fatal-error {
+    margin: 2rem auto;
+    max-width: 44rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #fffdfa;
+    color: #8a1206;
+    font-weight: 900;
+}
+
 @media (max-width: 920px) {
-    .main-content-flow { grid-template-columns: 1fr; }
-    .heichel-library-sidebar { position: static; max-height: none; }
+    .main-content-flow {
+        grid-template-columns: 1fr;
+    }
+
+    .heichel-library-sidebar {
+        position: static;
+        max-height: none;
+    }
 }

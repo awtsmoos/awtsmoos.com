@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>B"H - Ohr HaGnuz - The Hidden Light</title>
   <style>
     :root {
@@ -11,26 +10,32 @@
       --violet: #7e57c2;
       --cyan: #4dd0e1;
       --deep: #050510;
+      --shell-w: min(100vw - 16px, 1066px);
+      --shell-h: min(100dvh - 16px, calc(var(--shell-w) * .75));
     }
 
     * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
       overflow: hidden;
       background:
-        radial-gradient(circle at 50% 42%, rgba(126,87,194,.20), transparent 38%),
-        radial-gradient(circle at 20% 80%, rgba(77,208,225,.16), transparent 32%),
+        radial-gradient(circle at 50% 42%, rgba(126, 87, 194, .22), transparent 38%),
+        radial-gradient(circle at 20% 80%, rgba(77, 208, 225, .16), transparent 32%),
         linear-gradient(135deg, #020207, #09091f 44%, #03060a);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      color: #fffde7;
       font-family: "Share Tech Mono", "Courier New", monospace;
       touch-action: none;
-      color: #fffde7;
+      overscroll-behavior: none;
+    }
+
+    body {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
     }
 
     body::before {
@@ -39,9 +44,9 @@
       inset: 0;
       display: grid;
       place-items: center;
-      font: 700 72px serif;
-      letter-spacing: 18px;
-      color: rgba(255,255,255,.035);
+      font: 700 clamp(34px, 8vw, 88px) serif;
+      letter-spacing: clamp(7px, 2vw, 18px);
+      color: rgba(255, 255, 255, .035);
       transform: rotate(-8deg);
       pointer-events: none;
       animation: drift 14s linear infinite alternate;
@@ -49,32 +54,48 @@
 
     #game-shell {
       position: relative;
-      width: min(96vw, 960px);
-      aspect-ratio: 4 / 3;
+      width: var(--shell-w);
+      height: var(--shell-h);
+      max-height: calc(var(--shell-w) * .75);
       display: grid;
       place-items: center;
-      border: 2px solid rgba(255,241,118,.45);
-      border-radius: 22px;
-      box-shadow:
-        0 0 42px rgba(126,87,194,.35),
-        inset 0 0 40px rgba(255,255,255,.05);
-      background: rgba(0,0,0,.30);
+      border: 1px solid rgba(255, 241, 118, .56);
+      border-radius: clamp(12px, 3vw, 24px);
+      box-shadow: 0 0 42px rgba(126, 87, 194, .35), inset 0 0 40px rgba(255, 255, 255, .05);
+      background: rgba(0, 0, 0, .32);
       overflow: hidden;
+      isolation: isolate;
     }
 
     .vessel-layer {
       position: absolute;
-      width: min(92vw, 800px);
-      height: auto;
-      max-height: 92vh;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
       image-rendering: pixelated;
-      border-radius: 16px;
-      filter: drop-shadow(0 0 12px rgba(255,241,118,.12));
+      image-rendering: crisp-edges;
+      border-radius: inherit;
+      filter: drop-shadow(0 0 10px rgba(255, 241, 118, .10));
+      touch-action: none;
+      user-select: none;
     }
 
     #layer-bg { z-index: 10; }
     #layer-obj { z-index: 20; }
-    #layer-over { z-index: 30; }
+    #layer-over { z-index: 30; pointer-events: none; }
+
+    @media (orientation: portrait) {
+      :root {
+        --shell-w: min(100vw - 12px, calc((100dvh - 12px) * 1.3333));
+        --shell-h: calc(var(--shell-w) * .75);
+      }
+    }
+
+    @media (min-width: 1100px) {
+      :root { --shell-w: 1040px; }
+      .vessel-layer { image-rendering: auto; }
+    }
 
     @keyframes drift {
       from { transform: rotate(-8deg) translateY(-10px); }

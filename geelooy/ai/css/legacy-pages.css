@@ -1,0 +1,77 @@
+/*B"H
+  Chapter 47: The abandoned HTML pages received garments.
+
+  The Awtsmoos finds even an old demo page in the dust and clothes it in a
+  night-blue robe. This stylesheet is deliberately broad, gentle, and small:
+  it gives every legacy HTML page readable spacing without fighting its own
+  inline experiment code.
+*/
+:root{
+  color-scheme:dark;
+  --legacy-bg:#020611;
+  --legacy-panel:rgba(8,19,34,.88);
+  --legacy-panel-strong:rgba(13,30,52,.96);
+  --legacy-text:#eef8ff;
+  --legacy-soft:#b9d0e8;
+  --legacy-line:rgba(125,211,252,.24);
+  --legacy-hot:#22e6c4;
+  --legacy-blue:#2f78ff;
+  --legacy-shadow:0 28px 80px rgba(0,0,0,.45);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0;background:var(--legacy-bg);color:var(--legacy-text)}
+body{
+  padding:clamp(12px,2.5vw,28px);
+  background:
+    radial-gradient(circle at 12% 0%,rgba(34,230,196,.18),transparent 34%),
+    radial-gradient(circle at 92% 8%,rgba(47,120,255,.18),transparent 36%),
+    linear-gradient(180deg,#030816,#01040c 72%);
+  overflow-x:hidden;
+}
+
+body>*{max-width:min(1180px,100%);margin-inline:auto}
+main,section,article,form,.container,.panel,.controls,.output,.scene,.card{
+  border:1px solid var(--legacy-line);
+  border-radius:22px;
+  background:linear-gradient(180deg,var(--legacy-panel-strong),var(--legacy-panel));
+  box-shadow:var(--legacy-shadow),inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+main,section,article,.container,.panel,.controls,.output,.scene,.card{padding:clamp(14px,2vw,24px)}
+h1,h2,h3{color:var(--legacy-text);line-height:1.1;margin:0 0 .75rem}
+p,li,label,small{color:var(--legacy-soft);line-height:1.55}
+a{color:#67f8df}
+canvas,video,img,svg{max-width:100%;height:auto;border-radius:18px}
+pre,code,textarea,input,select{font:inherit}
+pre,code{white-space:pre-wrap;overflow:auto}
+
+button,input,select,textarea{
+  border:1px solid rgba(148,163,184,.24);
+  border-radius:14px;
+  background:#06101e;
+  color:var(--legacy-text);
+  padding:.72rem .86rem;
+}
+
+button,input[type="button"],input[type="submit"]{
+  cursor:pointer;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--legacy-hot),var(--legacy-blue));
+  border-color:rgba(167,243,208,.36);
+  color:#fff;
+  box-shadow:0 14px 30px rgba(47,120,255,.22);
+}
+
+button:hover,input[type="button"]:hover,input[type="submit"]:hover{filter:brightness(1.08)}
+textarea{width:100%;min-height:9rem;resize:vertical}
+table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:16px}
+th,td{border:1px solid rgba(148,163,184,.18);padding:.65rem;text-align:left;vertical-align:top}
+
+@media(max-width:900px){
+  body{padding:10px}
+  body>*{width:100%}
+  main,section,article,.container,.panel,.controls,.output,.scene,.card{border-radius:18px;padding:14px}
+  button,input,select,textarea{width:100%;max-width:100%}
+}

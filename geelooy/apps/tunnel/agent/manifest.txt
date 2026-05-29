@@ -1,5 +1,5 @@
 B"H
-1.0.20
+1.0.22
 main.js
 
 lib/config.js
