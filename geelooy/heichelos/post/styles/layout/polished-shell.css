@@ -1,35 +1,53 @@
 /* B"H
-   Chapter 6: The reader shell becomes a vellum chamber. The Awtsmoos softens
-   the iron borders into gold rails and quiet depth, without touching header law.
+   Chapter 46: The scroll chamber becomes night-glass.
+   This owner shapes the true scroll vessel: smooth depth, gold scroll rails,
+   stable gutters, and enough mobile breath that controls never eat the text.
 */
 
-.post-reader-localized-context {
+.post-reader-localized-context .scroll-view-wrapper {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+    z-index: var(--z-content) !important;
+    scroll-behavior: auto !important;
+    scrollbar-gutter: stable !important;
     background:
-        radial-gradient(circle at 12% 8%, rgba(255, 184, 28, 0.10), transparent 30%),
-        linear-gradient(135deg, #f8f2e8, #eee8dd 58%, #fdf9f0) !important;
+        linear-gradient(90deg, rgba(255,255,255,.055), transparent 18%, transparent 82%, rgba(244,197,107,.05)),
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), transparent 42%) !important;
 }
 
-.post-reader-localized-context .scroll-view-wrapper {
-    background:
-        linear-gradient(90deg, rgba(255,255,255,0.26), transparent 18%, transparent 82%, rgba(0,0,0,0.035)),
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.48), transparent 38%) !important;
-    scrollbar-gutter: stable !important;
+.post-reader-localized-context .scroll-view-wrapper::before {
+    content: "" !important;
+    position: sticky !important;
+    top: 0 !important;
+    display: block !important;
+    height: 1px !important;
+    z-index: 4 !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, .42) !important;
 }
 
 .post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar,
 .post-reader-localized-context .sidebar *::-webkit-scrollbar {
-    width: 12px !important;
-    height: 12px !important;
+    width: 10px !important;
+    height: 10px !important;
 }
 
 .post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar-track,
 .post-reader-localized-context .sidebar *::-webkit-scrollbar-track {
-    background: rgba(77, 48, 20, 0.06) !important;
+    background: rgba(255, 255, 255, .04) !important;
 }
 
 .post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar-thumb,
 .post-reader-localized-context .sidebar *::-webkit-scrollbar-thumb {
-    border: 3px solid rgba(255,255,255,0.45) !important;
+    border: 2px solid rgba(7, 11, 19, .72) !important;
     border-radius: 999px !important;
-    background: linear-gradient(180deg, #a56d12, #6e1237) !important;
+    background: linear-gradient(180deg, var(--ideal-gold), var(--ideal-gold-deep)) !important;
+    box-shadow: inset 0 0 10px rgba(255,255,255,.18) !important;
+}
+
+@media (max-width: 900px) {
+    .post-reader-localized-context .scroll-view-wrapper {
+        padding-bottom: calc(var(--ideal-dock-height) + 1.2rem) !important;
+    }
 }

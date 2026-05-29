@@ -1,8 +1,8 @@
 // B"H
-/** @file ikar.js @description Chapter 49 boots no-texture lava and visible gate. */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh49";
+/** @file ikar.js @description Chapter 56 boots static-floor plus dynamic-mover split. */
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=lean-l1-20260528-bh53";
 
-const VERSION = "lean-l1-20260528-bh49";
+const VERSION = "lean-l1-20260528-bh56";
 function createManager() { const manager = new ManagerOfAllWorlds(null); window.mana = manager; return manager; }
 function getUI() { const ui = window.mana?.ui; const ikar = typeof ui?.$g === "function" ? ui.$g("ikar") : null; const menu = typeof ui?.$g === "function" ? ui.$g("menu") || ui.$g("main menu") : document.querySelector(".gameMenu,.menu"); const loading = typeof ui?.$g === "function" ? ui.$g("loading") : document.querySelector(".loading"); return { ikar, menu, loading }; }
 async function loadLadderLevel(path) { const clean = String(path || "").split("/").pop(); if (!/^ladder-\d+\.js$/.test(clean)) throw new Error("Only Desert Ladder level paths are enabled right now."); const module = await import(`../levels/ladder/${clean}?v=${VERSION}`); return { id: clean, data: module.default }; }

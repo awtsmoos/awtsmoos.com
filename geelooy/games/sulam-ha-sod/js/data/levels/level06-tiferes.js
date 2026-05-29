@@ -1,33 +1,48 @@
 // B"H
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
-/**
- * Tiferes is beautiful only when balance defeats autopilot.
- *
- * The Awtsmoos sets a prism of readable lies: matching platforms do not share
- * truth, pretty coins may be spikes, and the safest line requires a brief left
- * correction before the final ice. Every betrayal has a shimmer, a gap, or a
- * trigger message so the chamber is hard but not impossible.
- */
+/** Tiferes: broad balance shelves, visible sky path, and a hand-made side ladder to the high enriched coin. */
 export const level06 = L(
-  '6 · Tiferes Balance Prism',
-  4200,
-  { x: 60, y: 420 },
-  P(3980, 260, 44, 90),
-  'Tiferes balances beauty against betrayal: symmetry is bait.',
-  [P(0, 505, 380, 35), P(520, 450, 130, 20), P(780, 390, 130, 20), P(1030, 330, 130, 20), P(1280, 270, 140, 20), P(1570, 340, 150, 20), P(1860, 405, 150, 20), P(2160, 340, 150, 20), P(2460, 280, 150, 20), P(2760, 350, 160, 20), P(3100, 420, 180, 20), P(3460, 350, 170, 20), P(3780, 320, 170, 20)],
-  [R(670, 425, 70, 14, 1.6, 320), R(1740, 375, 80, 14, -2.1, 360), R(3300, 390, 85, 14, 2.3, 420)],
-  [T(920, 374, 80, 16, 'ice', { duration: 1.1 }), T(1190, 314, 70, 16, 'falseSpike'), T(1460, 254, 85, 16, 'booster', { dir: 1, boost: 700, lift: 20 }), T(1740, 326, 75, 16, 'falseSpike'), T(2040, 390, 80, 16, 'phantom'), T(2340, 292, 86, 16, 'commitDrop', { reform: 2.3 }), T(2640, 262, 80, 16, 'vanish', { reform: 1.4 }), T(2920, 334, 80, 16, 'phantom'), T(3400, 404, 92, 16, 'reverseBooster', { dir: 1, boost: 720 }), T(3660, 334, 90, 16, 'ice', { duration: 1.2 })],
-  [C(250, 460), C(555, 410), C(815, 350, 'dinar'), C(1065, 290, 'sela'), C(1320, 230), C(1605, 300, 'dinar'), C(1900, 365), C(2200, 300, 'sela'), C(2500, 240), C(3140, 380, 'dinar'), C(3820, 280, 'maneh')],
-  [C(3510, 310, 'dinar')],
-  [S(430, 481, 80, 24, 1.4, 1.2, 2.8), S(1680, 481, 80, 24, 1.8, 1.2, 2.5), S(2320, 316, 70, 24, 2.1, 1.3, 2.6), S(3380, 481, 90, 24, 2.4, 1.2, 2.5), S(3920, 486, 75, 24, 1.2, 1, 2.1)],
-  [E(2180, 306, 2160, 2300, 100, 'ayin', 'balance eye'), E(3180, 386, 3100, 3290, 120, 'leaper', 'prism leaper')],
+  '6 · Tiferes Balance Prism', 4300, { x: 60, y: 420 }, P(4020, 300, 44, 90),
+  'Tiferes balances beauty against betrayal: symmetry is bait, spacing is mercy.',
   [
-    G(1280, 210, 120, 110, 'Balance is not safety; it is aim.', {}),
-    G(2500, 230, 120, 100, 'A perfect-looking rung disappears after trust.', {}),
-    G(2960, 260, 110, 120, 'The prism drops teeth on the centered route.', { spikes: [{ x: 3060, y: 126, w: 70, h: 24, warning: 0.62, duration: 1.1, fallSpeed: 380 }, { x: 3140, y: 150, w: 74, h: 24, warning: 0.74, duration: 1.1, fallSpeed: 405 }, { x: 3225, y: 174, w: 78, h: 24, warning: 0.86, duration: 1.1, fallSpeed: 430 }] }),
-    G(3600, 280, 130, 110, 'The prism accepts the balanced route.', { openExit: true })
+    P(0,505,500,35), P(580,445,190,20), P(850,385,190,20), P(1120,325,200,20),
+    P(1390,265,210,20), P(1660,335,210,20), P(1940,395,215,20), P(2220,335,220,20),
+    P(2500,275,220,20), P(2780,335,220,20), P(3060,395,230,20), P(3360,335,230,20),
+    P(3660,300,240,20), P(560,340,170,18), P(780,270,180,18), P(1000,200,190,18),
+    P(1220,130,200,18), P(1440,60,210,18), P(1660,-10,220,18), P(1880,-80,230,18),
+    P(2100,-150,240,18), P(1040,40,180,18), P(1040,-80,180,18), P(1040,-200,180,18),
+    P(1040,-300,180,18)
   ],
-  ['Tiferes gives the prettiest traps the clearest tells.', 'Beauty becomes playable when it is honest.', 'The correct route crosses beauty, reverses once, and refuses the centered coin.'],
-  { fakeCoins: [F(1225, 280, 'sela', 'Beauty wore a spike-mask.'), F(3200, 380, 'dinar', 'A bright coin snapped shut.'), F(3680, 294, 'sela', 'The final prism coin was a blade.')], trickCoins: [{ x: 2470, y: 240, kind: 'shyVanish', safeSide: 'right' }, { x: 3150, y: 380, kind: 'trapBait', baitX: 3370, speed: 210, min: 3060, max: 3420 }] }
+  [R(520,425,76,14,1.0,180), R(1840,370,84,14,-1.2,200), R(3200,370,88,14,1.2,210)],
+  [
+    T(930,369,86,16,'ice',{duration:1.0}), T(1180,309,90,16,'falseSpike'),
+    T(1450,249,92,16,'booster',{dir:1,boost:620,lift:28}), T(2300,319,86,16,'phantom'),
+    T(2580,259,92,16,'vanish',{reform:2.0}), T(3180,379,96,16,'reverseBooster',{dir:1,boost:620,lift:20}),
+    T(1700,-28,104,16,'safeSpike'), T(1980,-98,104,16,'commitDrop',{reform:2.3}), T(2860,319,104,16,'baitShift',{shiftX:120,range:160,reset:1.8}), T(3460,319,104,16,'dodgePlatform',{slide:-115,range:150,panicTime:0.72}), T(3700,284,110,16,'oneWay'), T(2860,319,104,16,'baitShift',{shiftX:120,range:160,reset:1.8}), T(3460,319,104,16,'dodgePlatform',{slide:-115,range:150,panicTime:0.72}), T(3700,284,110,16,'oneWay')
+  ],
+  [
+    C(250,460), C(630,405), C(900,345,'dinar'), C(1175,285,'sela'), C(1450,225),
+    C(1725,295,'dinar'), C(2000,355,'sela'), C(2280,295), C(2560,235,'sela'),
+    C(2840,295), C(3125,355,'dinar'), C(3420,295), C(3720,260,'maneh'),
+    C(820,228), C(1265,88,'sela'), C(1710,-52,'dinar')
+  ],
+  [C(3740,260,'dinar')],
+  [
+    S(410,481,76,22,1.8,1.3,3.0), S(1730,481,78,22,2.1,1.4,3.2),
+    S(2550,251,66,22,2.4,1.4,3.2), S(3340,481,80,22,2.7,1.4,3.5),
+    {x:760,y:472,w:30,h:30,cycle:true,showDormant:true,moveX:60,moveRate:2.1,period:3.4,duty:0.42,warning:1.05},
+    {x:1920,y:-123,w:30,h:30,cycle:true,showDormant:true,orbitR:48,orbitX:1920,orbitY:-101,orbitRate:1.7,period:3.6,duty:0.38,warning:1.1}
+  ],
+  [E(2000,361,1940,2150,80,'ayin','balance eye'), E(3120,361,3060,3290,96,'leaper','prism leaper')],
+  [
+    G(1040,250,120,105,'Tiferes: the beautiful route still has a broad landing.',{}),
+    G(1660,80,120,120,'The high prism path is optional and visible.',{}),
+    G(2800,245,120,120,'The centered route warns before teeth fall.',{spikes:[
+      {x:2920,y:110,w:68,h:22,warning:1.15,duration:1.0,fallSpeed:230,safe:150,showDormant:true},
+      {x:3010,y:140,w:70,h:22,warning:1.4,duration:1.0,fallSpeed:250,safe:150,showDormant:true}]}),
+    G(3620,260,130,120,'The prism accepts a balanced route.',{openExit:true})
+  ],
+  ['Tiferes is readable beauty.','The false platform looks honest on purpose.','Balance means stopping before the boost finishes speaking.'],
+  { fakeCoins:[F(1230,285,'sela','Beauty wore a spike-mask.'), F(3185,355,'dinar','The bright coin snapped shut.'), F(3520,295,'sela','The balanced fake waited on a dodging shelf.'), F(3520,295,'sela','The balanced fake waited on a dodging shelf.')], trickCoins:[{x:2470,y:235,kind:'shyVanish',safeSide:'right'},{x:2865,y:295,kind:'trapBait',baitX:3100,speed:180,min:2780,max:3180},{x:3465,y:295,kind:'runner',speed:210,min:3360,max:3600}] }
 );

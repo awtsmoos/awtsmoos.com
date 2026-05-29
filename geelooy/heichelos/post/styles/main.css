@@ -1,11 +1,11 @@
 /* B"H
    THE MASTER SCROLL OF STYLES
-   Everything is created from nothingness by the Awtsmoos every instant.
-   "Forever, O Lord, Your word stands firm in the heavens."
-   This hub unites the intensely modularized fragments of form into a single Light.
+   Chapter 43: one live import graph, one owner per visual chamber.
+   Legacy scrolls may remain in the archive, but this page imports only the
+   chosen owners so mobile, desktop, sidebar, text, and comments do not quarrel.
 */
 
-/* 1. THE TOKENS (The Ten Sefirot of Style) */
+/* 1. TOKENS */
 @import url("./tokens/colors.css");
 @import url("./tokens/typography.css");
 @import url("./tokens/physics.css");
@@ -13,14 +13,12 @@
 @import url("./tokens/spacing.css");
 @import url("./tokens/polished-codex-vars.css");
 
-/* 2. THE RESET (Returning to the Void) */
+/* 2. RESET */
 @import url("./reset/base.css");
 @import url("./reset/isolation.css");
 
-/* 3. THE LAYOUT (The Dimensions of Space) */
-@import url("./layout/scaffolding.css");
+/* 3. LAYOUT OWNERS */
 @import url("./layout/sidebar.css");
-@import url("./layout/sidebar-breadcrumbs.css");
 @import url("./layout/resizer.css");
 @import url("./layout/polished-shell.css");
 @import url("./layout/polished-sidebar.css");
@@ -30,7 +28,7 @@
 @import url("./layout/polished-sidebar-depth.css");
 @import url("./layout/polished-mobile-drawer.css");
 
-/* 4. THE COMPONENTS (Vessels of Interaction) */
+/* 4. COMPONENT OWNERS */
 @import url("./components/buttons.css");
 @import url("./components/inputs.css");
 @import url("./components/polished-inputs.css");
@@ -39,9 +37,8 @@
 @import url("./components/verse-menu.css");
 @import url("./components/floating-orbs.css");
 
-/* 5. THE MODULES (Aggregated Spheres of Logic) */
+/* 5. MODULE OWNERS */
 @import url("./modules/settings.css");
-@import url("./modules/header.css");
 @import url("./modules/sidebar-chrome.css");
 @import url("./modules/polished-sidebar-controls.css");
 @import url("./modules/polished-tab-atmosphere.css");
@@ -58,30 +55,21 @@
 @import url("./modules/inline-thread.css");
 @import url("./modules/image-upload.css");
 
-/* 6. THE CONTENT (The Word Made Physical) */
-@import url("./content/body-text.css");
+/* 6. CONTENT OWNERS */
 @import url("./content/text.css");
-@import url("./content/scroll.css");
 @import url("./content/marginalia.css");
-@import url("./content/verse-numbers.css");
-@import url("./content/paragraphs.css");
-@import url("./content/titles.css");
-@import url("./content/entry-cushion.css");
 @import url("./content/polished-reading-column.css");
 @import url("./content/polished-title-vessel.css");
-@import url("./content/polished-verse-rhythm.css");
 @import url("./content/polished-typography-rhythm.css");
 @import url("./content/polished-focus-reading.css");
 @import url("./content/polished-sigils.css");
 @import url("./content/polished-active-state.css");
 
-/* 7. THEMES & ANIMATIONS (The Garments of the Light) */
+/* 7. THEMES */
 @import url("./themes/dark-mode.css");
 @import url("./themes/animations.css");
 
-/* 8. COMMENTARY STYLES */
-@import url("./comments/titles.css");
-@import url("./comments/toolbars.css");
+/* 8. COMMENTARY OWNERS */
 @import url("./comments/inputs.css");
 @import url("./comments/editor.css");
 @import url("./comments/inline-intense.css");
@@ -89,5 +77,5 @@
 @import url("./comments/sidebar-premium.css");
 @import url("./reader-runtime-polish.css");
 
-/* 9. FINAL FOREVER REPAIRS */
+/* 9. FINAL IDEAL OWNERS */
 @import url("./forever-ui-fixes.css");

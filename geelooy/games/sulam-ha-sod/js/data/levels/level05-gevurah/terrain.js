@@ -2,34 +2,33 @@
 import { P, R, T } from '../../levelPrimitives.js';
 
 /**
- * Gevurah terrain scroll.
+ * Gevurah terrain: judgment with clear appeal.
  *
- * The Awtsmoos writes judgment into stone: shove platforms, icy verdicts,
- * phantom appeals, and a high side argument that forces the player to stop,
- * reverse, and climb instead of holding right like a sleeping machine.
+ * The Awtsmoos keeps force platforms severe but readable. Each shove points to
+ * a broad landing, and the upper argument is an optional staircase, not a hidden
+ * requirement squeezed between ceilings. A side appeal ladder reaches the high
+ * enriched coin without touching shared generation code.
  */
 export const gevurahPlatforms = [
-  P(0, 505, 360, 35), P(500, 455, 130, 20), P(760, 395, 120, 20),
-  P(1010, 335, 120, 20), P(1260, 280, 130, 20), P(1540, 350, 160, 20),
-  P(1840, 420, 160, 20), P(2120, 360, 160, 20), P(2420, 300, 150, 20),
-  P(2720, 245, 150, 20), P(3060, 330, 170, 20), P(3400, 380, 180, 20),
-  P(1540, 190, 120, 18), P(1780, 130, 115, 18), P(2040, 185, 120, 18)
+  P(0, 505, 500, 35), P(580, 445, 190, 20), P(850, 385, 190, 20),
+  P(1120, 325, 200, 20), P(1390, 265, 210, 20), P(1660, 335, 210, 20),
+  P(1940, 395, 215, 20), P(2220, 335, 220, 20), P(2500, 275, 220, 20),
+  P(2780, 215, 220, 20), P(3070, 300, 230, 20), P(3380, 360, 210, 20),
+  P(560, 340, 170, 18), P(780, 270, 180, 18), P(1000, 200, 190, 18),
+  P(1220, 130, 200, 18), P(1440, 60, 210, 18), P(1660, -10, 220, 18),
+  P(1880, -80, 230, 18), P(2100, -150, 240, 18),
+  P(1040, 40, 180, 18), P(1040, -80, 180, 18), P(1040, -200, 180, 18),
+  P(1040, -300, 180, 18)
 ];
 
-export const gevurahRotors = [
-  R(640, 430, 70, 14, 1.8, 300),
-  R(1780, 395, 78, 14, -2.1, 360),
-  R(2920, 300, 80, 14, 2.2, 390)
-];
+export const gevurahRotors = [R(520, 425, 76, 14, 1.0, 180), R(1840, 370, 84, 14, -1.2, 200), R(2920, 276, 84, 14, 1.2, 205)];
 
 export const gevurahTricks = [
-  T(900, 375, 70, 16, 'falseSpike'),
-  T(1160, 320, 80, 16, 'booster', { dir: 1, boost: 760, lift: 30 }),
-  T(1430, 260, 80, 16, 'ice', { duration: 0.9 }),
-  T(2290, 340, 80, 16, 'phantom'),
-  T(3220, 305, 85, 16, 'booster', { dir: -1, boost: 690, lift: 20 }),
-  T(1380, 258, 70, 16, 'phantom'),
-  T(2140, 340, 75, 16, 'falseSpike'),
-  T(3000, 314, 90, 16, 'reverseBooster', { dir: 1, boost: 780 }),
-  T(1700, 172, 80, 16, 'commitDrop', { reform: 2.2 })
+  T(930, 369, 86, 16, 'falseSpike'),
+  T(1180, 309, 92, 16, 'booster', { dir: 1, boost: 620, lift: 34 }),
+  T(1450, 249, 90, 16, 'ice', { duration: 1.0 }),
+  T(2300, 319, 86, 16, 'phantom'),
+  T(3180, 284, 96, 16, 'reverseBooster', { dir: 1, boost: 620, lift: 20 }),
+  T(1700, -28, 104, 16, 'safeSpike'),
+  T(1980, -98, 104, 16, 'commitDrop', { reform: 2.3 })
 ];

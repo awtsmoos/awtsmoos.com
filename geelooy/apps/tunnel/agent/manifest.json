@@ -1,6 +1,7 @@
 {
   "BH": "B\"H",
-  "version": "1.5.58",
+  "version": "1.5.60",
+  "previousVersion": null,
   "entry": "main.js",
   "files": [
     {
@@ -314,14 +315,14 @@
       "sha256": "a5eb537b61ad9efda58b987ba2445d981cfa768bdab7d236ad4c72f751284d99"
     },
     {
-      "path": "tools/fs/jsWriteVerifier.js",
-      "bytes": 3678,
-      "sha256": "5e1402d7a04addbf7a182af50fe4d452d9821374417cc744adedff19418baf76"
-    },
-    {
       "path": "tools/fs/jsonTools.js",
       "bytes": 2225,
       "sha256": "a141b666357dd2b81ef589682cc57befdd36ca81719165e57896d05886e55f03"
+    },
+    {
+      "path": "tools/fs/jsWriteVerifier.js",
+      "bytes": 3678,
+      "sha256": "5e1402d7a04addbf7a182af50fe4d452d9821374417cc744adedff19418baf76"
     },
     {
       "path": "tools/fs/lineBatch.js",

@@ -2,25 +2,25 @@
 import { P, G } from '../../levelPrimitives.js';
 
 /**
- * Yesod story and trigger law.
+ * Yesod story: the mirror warns before it bites.
  *
- * The Awtsmoos makes reflection into a sentence: the shelf fades when rushed,
- * the coin-line calls down teeth, and the mirror accepts only a learned climb.
+ * The Awtsmoos keeps reflection as a lesson in timing. No ceiling tooth falls
+ * from nowhere; the player sees a message, sees the red warning, and has room
+ * to choose patience instead of panic.
  */
 export const yesodTriggers = [
-  G(1110, 250, 80, 100, 'A bridge fades when rushed.', { platforms: [P(1380, 250, 90, 18)] }),
-  G(1510, 270, 95, 100, 'The reflected coin line calls down teeth.', {
+  G(1060, 260, 100, 110, 'A mirror bridge appears ahead, not behind you.', { platforms: [P(1540, 250, 110, 18)] }),
+  G(1500, 250, 110, 110, 'The reflected coin line calls down visible teeth.', {
     spikes: [
-      { x: 1605, y: 120, w: 68, h: 22, warning: 0.6, duration: 1.05, fallSpeed: 350, safe: 80 },
-      { x: 1685, y: 148, w: 70, h: 22, warning: 0.72, duration: 1.05, fallSpeed: 375, safe: 80 },
-      { x: 1768, y: 176, w: 72, h: 22, warning: 0.84, duration: 1.05, fallSpeed: 400, safe: 80 }
+      { x: 1620, y: 110, w: 66, h: 22, warning: 1.15, duration: 1.0, fallSpeed: 220, safe: 150, showDormant: true },
+      { x: 1710, y: 140, w: 68, h: 22, warning: 1.4, duration: 1.0, fallSpeed: 240, safe: 150, showDormant: true }
     ]
   }),
-  G(2200, 220, 100, 100, 'The mirror accepts your climb.', { openExit: true })
+  G(2200, 190, 120, 115, 'The mirror accepts your clear climb.', { openExit: true })
 ];
 
 export const yesodLore = [
   'Not every glowing floor remains loyal.',
   'Patience creates safe timing.',
-  'A real-looking coin can be the mirror wearing a blade.'
+  'A reflected coin must never demand a hidden jump.'
 ];

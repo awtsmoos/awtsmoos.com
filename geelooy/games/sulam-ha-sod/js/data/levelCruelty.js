@@ -10,18 +10,6 @@ import { addDevilDeceptions } from './enrichment/devilDeceptions.js';
 import { addLegacyHardening } from './enrichment/legacyHardening.js';
 import { applyHumanFairness } from './enrichment/fairness.js';
 
-/**
- * Chapter 16: The Awtsmoos convened every cruelty before the human court.
- *
- * The handmade level speaks first. The ascent, vault, hazards, anti-autopilot,
- * devil layers, legacy hardening, and triggers speak after. But the last voice
- * is human fairness: enough headroom to jump, enough warning to dodge, enough
- * visible law that difficulty remains revelation rather than ambush.
- *
- * @param {object} level Handmade level data.
- * @param {number} index Zero-based campaign index.
- * @returns {object} Enriched handmade level clone.
- */
 export function enrichLevel(level, index) {
   const clone = structuredClone(level);
   const frame = enrichmentFrame(clone, index);

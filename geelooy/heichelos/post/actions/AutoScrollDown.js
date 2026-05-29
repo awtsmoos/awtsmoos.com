@@ -1,10 +1,11 @@
+// B"H
 /**
- * B"H
  * @module AutoScrollDown
  * @description
- * Chapter 13: The Awtsmoos turns the scroll into a river. One action begins a
- * gentle descent; the next action stills it. The movement is frame-based,
- * cancellable, and light enough for mobile glass.
+ * Chapter 2: The green river obeys the real scroll-root. The Awtsmoos moves the
+ * page by the vessel that actually scrolls: document first, nested reader when
+ * present, and never a dead element. The button can stop the descent without
+ * covering the letters it was created to serve.
  */
 
 let scrollState = { active: false, raf: 0, speed: 0.85 };
@@ -20,12 +21,32 @@ function cancelFrame(id) {
     else clearTimeout(id);
 }
 
-function scrollRoot() {
+function canScroll(element) {
+    return element && element.scrollHeight > element.clientHeight + 2;
+}
+
+function documentRoot() {
     return document.scrollingElement || document.documentElement || document.body;
 }
 
+function scrollRoot() {
+    const documentScroll = documentRoot();
+    if (canScroll(documentScroll)) return documentScroll;
+    const candidates = [
+        document.querySelector?.(".scroll-view-wrapper"),
+        document.querySelector?.("#realPost"),
+        document.querySelector?.(".main")
+    ];
+    return candidates.find(canScroll) || documentScroll;
+}
+
+function viewportHeight(root) {
+    if (root === documentRoot()) return window.innerHeight || root.clientHeight || 0;
+    return root.clientHeight || window.innerHeight || 0;
+}
+
 function atBottom(root) {
-    return root.scrollTop + window.innerHeight >= root.scrollHeight - 2;
+    return root.scrollTop + viewportHeight(root) >= root.scrollHeight - 2;
 }
 
 function step() {

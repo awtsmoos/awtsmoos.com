@@ -1,6 +1,6 @@
 // B"H
-/** @file instantiate.js @description Chapter 49 alternate loader gate. */
-import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh49';
+/** @file instantiate.js @description Chapter 56 alternate separated-mover loader. */
+import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh56';
 import Utils from '../../../utils.js';
 
 const instantiate = {

@@ -2,26 +2,25 @@
 import { P, G } from '../../levelPrimitives.js';
 
 /**
- * Hod story and trigger law.
+ * Hod story: the argument moves in visible steps.
  *
- * The Awtsmoos makes the library argue in falling punctuation. The hidden shelf
- * appears only when the player reads slowly, and the final gate unlocks when the
- * argument has been answered with movement instead of panic.
+ * The Awtsmoos lets the library shift, but not behind the player's back. Every
+ * new shelf appears ahead, and every falling punctuation mark warns before it
+ * becomes a hazard.
  */
 export const hodTriggers = [
-  G(1100, 260, 100, 100, 'The library shifts a hidden shelf.', { platforms: [P(1370, 245, 100, 18)] }),
-  G(1680, 300, 95, 110, 'The paragraph above you becomes falling punctuation.', {
+  G(1080, 245, 110, 110, 'The library shifts a visible shelf forward.', { platforms: [P(1515, 235, 110, 18)] }),
+  G(1660, 245, 120, 115, 'The paragraph above becomes warning punctuation.', {
     spikes: [
-      { x: 1770, y: 122, w: 68, h: 22, warning: 0.6, duration: 1.08, fallSpeed: 360, safe: 90 },
-      { x: 1850, y: 150, w: 70, h: 22, warning: 0.72, duration: 1.08, fallSpeed: 385, safe: 90 },
-      { x: 1934, y: 178, w: 72, h: 22, warning: 0.84, duration: 1.08, fallSpeed: 410, safe: 90 }
+      { x: 1780, y: 110, w: 66, h: 22, warning: 1.15, duration: 1.0, fallSpeed: 225, safe: 150, showDormant: true },
+      { x: 1870, y: 140, w: 68, h: 22, warning: 1.4, duration: 1.0, fallSpeed: 245, safe: 150, showDormant: true }
     ]
   }),
-  G(2450, 250, 100, 100, 'The argument ends. The gate unlocks.', { openExit: true })
+  G(2500, 220, 125, 115, 'The argument ends. The gate unlocks.', { openExit: true })
 ];
 
 export const hodLore = [
-  'Hod should confuse, not overlap nonsense.',
+  'Hod should confuse the eye, not trap the body.',
   'Every hazard must be readable.',
   'The safe shelf is the one that does not flatter greed.'
 ];

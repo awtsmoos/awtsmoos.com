@@ -2,40 +2,35 @@
 import { C, S, E, F } from '../../levelPrimitives.js';
 
 /**
- * Gevurah actors and reward scroll.
+ * Gevurah actors: verdicts that can be read.
  *
- * The Awtsmoos makes the court breathe: coins testify, fake coins accuse,
- * enemies carry verdicts in their bodies, and one living scroll must be stomped
- * before the exit can believe the player's claim.
+ * The Awtsmoos places court teeth in visible lanes. Coins testify from above
+ * landings, enemies patrol broad surfaces, and required progress never hides in
+ * a cramped pocket.
  */
 export const gevurahCoins = [
-  C(250, 460), C(535, 420), C(800, 355, 'dinar'), C(1060, 295, 'sela'),
-  C(1300, 240), C(1585, 150, 'dinar'), C(1830, 90, 'sela'),
-  C(2075, 145, 'dinar'), C(1880, 380), C(2240, 300, 'sela'),
-  C(2460, 260), C(3095, 290, 'maneh')
+  C(250, 460), C(630, 405), C(900, 345, 'dinar'), C(1175, 285, 'sela'),
+  C(1450, 225), C(1725, 295, 'dinar'), C(2000, 355, 'sela'), C(2280, 295),
+  C(2560, 235, 'sela'), C(2840, 175), C(3135, 260, 'maneh'), C(3440, 320),
+  C(820, 228), C(1265, 88, 'sela'), C(1710, -52, 'dinar')
 ];
 
-export const gevurahKeys = [C(3460, 340, 'dinar')];
+export const gevurahKeys = [C(3460, 320, 'dinar')];
 
 export const gevurahSpikes = [
-  S(370, 481, 80, 24, 1.2, 1.1, 2.4),
-  S(1730, 481, 85, 24, 1.8, 1.2, 2.8),
-  S(2550, 276, 70, 24, 2.1, 1.2, 2.6),
-  S(3340, 481, 90, 24, 2.5, 1.1, 2.2),
-  S(2940, 486, 70, 24, 1.3, 1, 2.2)
+  S(370, 481, 76, 22, 1.8, 1.3, 3.0), S(1730, 481, 78, 22, 2.1, 1.4, 3.2),
+  S(2550, 251, 66, 22, 2.4, 1.4, 3.2), S(3340, 481, 80, 22, 2.7, 1.4, 3.5),
+  { x: 760, y: 472, w: 30, h: 30, cycle: true, showDormant: true, moveX: 60, moveRate: 2.1, period: 3.4, duty: 0.42, warning: 1.05 },
+  { x: 1920, y: -123, w: 30, h: 30, cycle: true, showDormant: true, orbitR: 48, orbitX: 1920, orbitY: -101, orbitRate: 1.7, period: 3.6, duty: 0.38, warning: 1.1 }
 ];
 
 export const gevurahEnemies = [
-  E(1860, 386, 1840, 1990, 80, 'golem', 'iron verdict'),
-  E(2060, 151, 2020, 2150, 95, 'scroll', 'coin-swallowing scroll', { dropCoin: 'dinar' }),
-  E(3060, 296, 3000, 3180, 130, 'herder', 'court bailiff')
+  E(2000, 361, 1940, 2150, 80, 'golem', 'iron verdict'),
+  E(2280, 301, 2220, 2440, 90, 'scroll', 'appeal scroll', { dropCoin: 'dinar' }),
+  E(3120, 266, 3070, 3300, 110, 'herder', 'court bailiff')
 ];
 
 export const gevurahExtra = {
-  fakeCoins: [
-    F(920, 335, 'dinar', 'The verdict coin was a tooth.'),
-    F(2500, 260, 'sela', 'The court taxed your curiosity.'),
-    F(3040, 284, 'dinar', 'The straight-line reward was sentencing bait.')
-  ],
-  trickCoins: [{ x: 2450, y: 260, kind: 'trapBait', baitX: 2920, speed: 230, min: 2400, max: 2960 }]
+  fakeCoins: [F(940, 345, 'dinar', 'The verdict coin was a tooth.'), F(2600, 235, 'sela', 'The court taxed curiosity.'), F(3185, 260, 'dinar', 'The straight reward was bait.')],
+  trickCoins: [{ x: 2570, y: 235, kind: 'trapBait', baitX: 2920, speed: 220, min: 2500, max: 2980 }]
 };

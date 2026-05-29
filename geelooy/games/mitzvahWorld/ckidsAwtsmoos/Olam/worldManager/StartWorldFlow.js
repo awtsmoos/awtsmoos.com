@@ -1,8 +1,8 @@
 // B"H
-/** @file StartWorldFlow.js @description Chapter 49 worker cache gate. */
-import OlamWorkerManager from "../ikarOyvedManager.js?v=lean-l1-20260528-bh49";
+/** @file StartWorldFlow.js @description Chapter 50 worker cache gate. */
+import OlamWorkerManager from "../ikarOyvedManager.js?v=lean-l1-20260528-bh50";
 
-const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY: "../oyved/index.js?v=lean-l1-20260528-bh49", PLAYER_DATA: "desktop.folder/game data.folder/playerData.json" });
+const WORLD_FLOW_PATHS = Object.freeze({ WORKER_ENTRY: "../oyved/index.js?v=lean-l1-20260528-bh50", PLAYER_DATA: "desktop.folder/game data.folder/playerData.json" });
 const StartWorldFlow = {
   async startWorld(ob = {}) {
     const { worldDayuh, gameUiHTML, sourcePath } = ob;

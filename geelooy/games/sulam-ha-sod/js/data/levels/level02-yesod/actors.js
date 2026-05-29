@@ -2,32 +2,37 @@
 import { C, S, E, F } from '../../levelPrimitives.js';
 
 /**
- * Yesod actors and rewards.
+ * Yesod actors: mirrors with space around them.
  *
- * The Awtsmoos reflects sparks through husks and watchers. Coins sit where the
- * mirror flatters the eye; enemies pace where the reflection must be tested.
+ * The Awtsmoos lets reflected coins tempt the eye, yet every real reward sits
+ * above an actual landing. Moving teeth are visible side pressure, not surprise
+ * damage hidden in a mandatory jump.
  */
 export const yesodCoins = [
-  C(250, 460), C(560, 420), C(805, 370, 'dinar'), C(1020, 315),
-  C(1260, 260, 'sela'), C(1770, 265), C(2290, 260, 'maneh')
+  C(250, 460), C(625, 410), C(875, 355, 'dinar'), C(1135, 300),
+  C(1395, 245, 'sela'), C(1670, 305), C(1935, 250, 'dinar'),
+  C(2215, 195), C(2405, 255, 'maneh'), C(820, 238), C(1265, 98, 'sela'),
+  C(1710, -42, 'dinar')
 ];
 
-export const yesodKeys = [C(2060, 205, 'dinar')];
+export const yesodKeys = [C(2225, 190, 'dinar')];
 
 export const yesodSpikes = [
-  S(1360, 481, 70, 24, 1.7, 1.5, 3),
-  S(2140, 481, 70, 24, 2.5, 1.2, 2.4)
+  S(1295, 481, 66, 22, 2.1, 1.5, 3.4),
+  S(2115, 481, 70, 22, 2.7, 1.4, 3.2),
+  { x: 720, y: 472, w: 30, h: 30, cycle: true, showDormant: true, moveX: 58, moveRate: 2.1, period: 3.4, duty: 0.42, warning: 1.05 },
+  { x: 1880, y: -112, w: 30, h: 30, cycle: true, showDormant: true, orbitR: 44, orbitX: 1880, orbitY: -90, orbitRate: -1.6, period: 3.6, duty: 0.38, warning: 1.1 }
 ];
 
 export const yesodEnemies = [
-  E(780, 371, 760, 875, 80, 'husk', 'mirror husk'),
-  E(1530, 326, 1480, 1640, 105, 'watcher', 'first watching eye')
+  E(870, 361, 830, 1010, 70, 'husk', 'mirror husk'),
+  E(1660, 311, 1610, 1810, 85, 'watcher', 'watching reflection')
 ];
 
 export const yesodExtra = {
   fakeCoins: [
-    F(1325, 252, 'sela', 'The reflected sela was a spike.'),
-    F(1845, 246, 'perutah', 'The ordinary coin split into teeth.')
+    F(1325, 245, 'sela', 'The reflected sela was a spike.'),
+    F(2050, 250, 'perutah', 'The ordinary coin split into teeth.')
   ],
-  trickCoins: [{ x: 1040, y: 315, kind: 'trapBait', baitX: 1385, speed: 190, min: 980, max: 1420 }]
+  trickCoins: [{ x: 1145, y: 300, kind: 'trapBait', baitX: 1360, speed: 180, min: 1080, max: 1420 }]
 };

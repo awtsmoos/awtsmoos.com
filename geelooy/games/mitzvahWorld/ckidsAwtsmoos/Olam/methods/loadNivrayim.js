@@ -1,10 +1,10 @@
 // B"H
 /**
  * @file loadNivrayim.js
- * @description Chapter 49: Legacy loader drinks the textureless lava gate.
+ * @description Chapter 56: Legacy loader drinks the separated mover river.
  */
 import Utils from '../../utils.js';
-import * as AWTSMOOS from '../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh49';
+import * as AWTSMOOS from '../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh56';
 
 export default class {
   async addObject(type, options) {
@@ -30,7 +30,7 @@ export default class {
         this.nivrayimGroup.add(mesh);
       }
     }
-    this.nivrayim.push(nivra); await nivra.ready(); await nivra.afterBriyah(); return nivra;
+    this.nivrayim.push(nivra); await nivra.ready?.(); await nivra.afterBriyah?.(); return nivra;
   }
 
   async loadNivrayim(nivrayim) {

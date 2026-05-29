@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file gameUI.js
- * @description Chapter 46: The top UI gate speaks the new name so the phone
- * receives the ghostless dock and the top Perutah tablet.
+ * @description Chapter 52: The top UI gate includes the missing dialogue prompt
+ * so `approach npc msg` exists again and the console stops bleeding.
  */
-export { default } from "./gameUI/index.js?v=lean-l1-20260528-bh46";
+export { default } from "./gameUI/index.js?v=lean-l1-20260528-bh52";

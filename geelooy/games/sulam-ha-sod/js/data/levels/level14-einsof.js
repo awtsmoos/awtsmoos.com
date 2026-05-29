@@ -1,32 +1,55 @@
 // B"H
 import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
 
-/**
- * Ein Sof is precise infinity, not clutter.
- *
- * The Awtsmoos makes the last original spiral hard by restraint: each boost has
- * escape space, each fake platform has a tell, and the player must break the
- * final rightward rhythm with a late reversal. Duplicate trick coin data is gone.
- */
+/** Ein Sof Last Clean Spiral: precise infinity, not clutter. */
 export const level14 = L(
   '14 · Ein Sof Last Clean Spiral',
-  8000,
+  8100,
   { x: 60, y: 420 },
-  P(7700, 170, 44, 90),
-  'Ein Sof is the hardest route, but every danger has room to breathe.',
-  [P(0, 505, 320, 35), P(520, 455, 110, 20), P(840, 400, 110, 20), P(1160, 345, 115, 20), P(1480, 290, 120, 20), P(1820, 235, 125, 20), P(2180, 300, 140, 20), P(2560, 365, 140, 20), P(2940, 425, 145, 20), P(3340, 360, 150, 20), P(3740, 295, 150, 20), P(4140, 230, 150, 20), P(4560, 300, 160, 20), P(4980, 370, 160, 20), P(5420, 310, 170, 20), P(5860, 250, 170, 20), P(6320, 320, 190, 20), P(6780, 260, 200, 20), P(7240, 220, 210, 20)],
-  [R(700, 430, 80, 14, 3, 520), R(2380, 338, 85, 14, -3.2, 600), R(3960, 272, 92, 14, 3.5, 680), R(6120, 292, 100, 14, -3.7, 740)],
-  [T(980, 384, 80, 16, 'booster', { dir: 1, boost: 1050, lift: 30 }), T(1320, 329, 90, 16, 'falseSpike'), T(1660, 274, 85, 16, 'ice', { duration: 1.45 }), T(2020, 219, 90, 16, 'phantom'), T(2760, 349, 90, 16, 'booster', { dir: 1, boost: 1120, lift: 35 }), T(3180, 404, 84, 16, 'falseSpike'), T(3540, 344, 90, 16, 'falseSpike'), T(4360, 214, 95, 16, 'ice', { duration: 1.5 }), T(5200, 354, 90, 16, 'booster', { dir: 1, boost: 1180, lift: 25 }), T(6060, 234, 95, 16, 'phantom'), T(6200, 304, 92, 16, 'phantom'), T(6580, 304, 100, 16, 'booster', { dir: 1, boost: 1220, lift: 22 }), T(7040, 244, 95, 16, 'falseSpike'), T(7480, 204, 100, 16, 'ice', { duration: 1.55 }), T(7340, 204, 92, 16, 'reverseBooster', { dir: 1, boost: 900 })],
-  [C(230, 460), C(560, 415), C(880, 360, 'dinar'), C(1200, 305), C(1520, 250, 'sela'), C(1860, 195), C(2220, 260, 'dinar'), C(2600, 325), C(2980, 385, 'sela'), C(3380, 320), C(3780, 255, 'dinar'), C(4180, 190), C(5020, 330), C(5460, 270, 'sela'), C(5900, 210), C(6360, 280, 'dinar'), C(6820, 220), C(7280, 180, 'sela'), C(7620, 130, 'maneh')],
-  [C(7420, 150, 'dinar')],
-  [S(350, 481, 80, 24, 1, 1, 2), S(2100, 481, 90, 24, 1.3, 1, 2.2), S(3160, 481, 90, 24, 1.7, 1, 2.3), S(4740, 481, 90, 24, 2, 1.1, 2.4), S(6260, 481, 100, 24, 2.3, 1.1, 2.3), S(7140, 481, 100, 24, 2.5, 1.1, 2.2), S(7540, 486, 100, 24, 1.1, 1.0, 1.9)],
-  [E(2600, 331, 2560, 2700, 165, 'ayin', 'infinite eye'), E(5020, 336, 4980, 5140, 120, 'gravity', 'infinite reverser'), E(6820, 226, 6780, 6950, 100, 'golem', 'final shell'), E(7300, 186, 7240, 7460, 145, 'watcher', 'infinite watcher')],
+  P(7800, 200, 44, 90),
+  'Ein Sof is the hardest route here, but every danger still has room to breathe.',
   [
-    G(1260, 285, 130, 120, 'Ein Sof: every fake thing is placed with escape space.', {}),
-    G(5200, 310, 150, 120, 'The last boosts are cruel but not cluttered.', {}),
-    G(6500, 240, 110, 120, 'Infinity drops three teeth if you sprint without seeing.', { spikes: [{ x: 6620, y: 118, w: 72, h: 24, warning: 0.56, duration: 1.1, fallSpeed: 430 }, { x: 6705, y: 148, w: 76, h: 24, warning: 0.7, duration: 1.1, fallSpeed: 460 }, { x: 6795, y: 178, w: 80, h: 24, warning: 0.84, duration: 1.1, fallSpeed: 490 }] }),
-    G(7220, 190, 150, 120, 'The infinite gate opens cleanly.', { openExit: true })
+    P(0,505,520,35), P(620,445,190,20), P(900,385,195,20), P(1180,325,200,20),
+    P(1460,265,210,20), P(1760,205,210,20), P(2060,285,220,20), P(2360,365,220,20),
+    P(2660,425,230,20), P(2980,365,230,20), P(3300,305,230,20), P(3620,245,240,20),
+    P(3960,185,240,20), P(4320,255,250,20), P(4680,325,250,20), P(5060,265,260,20),
+    P(5440,205,260,20), P(5840,275,270,20), P(6260,335,280,20), P(6700,275,280,20),
+    P(7140,215,290,20), P(7480,190,260,20), P(7480,190,260,20), P(560,340,170,18), P(780,270,180,18), P(1000,200,190,18),
+    P(1220,130,200,18), P(1440,60,210,18), P(1660,-10,220,18), P(1880,-80,230,18),
+    P(2100,-150,240,18), P(1040,40,180,18), P(1040,-80,180,18), P(1040,-200,180,18),
+    P(1040,-300,180,18), P(2770,-430,230,18), P(3030,-195,230,18), P(3230,-270,230,18), P(3300,-350,230,18), P(4060,-430,260,18), P(4300,-585,260,18), P(2770,-430,230,18), P(3030,-195,230,18), P(3230,-270,230,18), P(3300,-350,230,18), P(4060,-430,260,18), P(4300,-585,260,18)
   ],
-  ['Ein Sof is not messy. It is precise infinity.', 'The final lesson is readable chaos.', 'The clean spiral is won by pausing before the last apparent gift.'],
-  { fakeCoins: [F(1360, 290, 'sela', 'Infinity glittered falsely.'), F(7100, 205, 'maneh', 'The final treasure had teeth.'), F(7440, 180, 'dinar', 'The cleanest coin was the last lie.')], trickCoins: [{ x: 900, y: 330, kind: 'runner', speed: 240, min: 820, max: 1180 }, { x: 2500, y: 300, kind: 'panicRunner', speed: 340, min: 2400, max: 2900 }, { x: 3600, y: 240, kind: 'iceRunner', speed: 420, dir: 1, min: 3500, max: 4100 }, { x: 5200, y: 250, kind: 'fakeRunner', min: 5150, max: 5450 }] }
+  [R(540,425,80,14,1.0,180), R(2240,340,88,14,-1.25,210), R(3840,260,92,14,1.3,230), R(6040,300,96,14,-1.35,240), R(7380,230,100,14,1.4,260)],
+  [
+    T(1010,369,92,16,'booster',{dir:1,boost:720,lift:30}), T(1300,309,96,16,'falseSpike'),
+    T(1580,249,98,16,'ice',{duration:1.35}), T(1880,189,98,16,'phantom'), T(2480,349,104,16,'booster',{dir:1,boost:780,lift:34}),
+    T(2780,409,104,16,'falseSpike'), T(3380,289,104,16,'baitShift',{shiftX:120,range:170,reset:1.75}),
+    T(4020,169,106,16,'oneWay'), T(4740,309,108,16,'reverseBooster',{dir:1,boost:740,lift:18}),
+    T(5220,249,110,16,'phantom'), T(5900,259,112,16,'dodgePlatform',{slide:-125,range:165,panicTime:0.75}),
+    T(6740,259,116,16,'safeSpike'), T(7200,199,116,16,'antiSpeed',{duration:0.95})
+  ],
+  [
+    C(260,460), C(675,405), C(955,345,'dinar'), C(1235,285), C(1515,225,'sela'),
+    C(1815,165), C(2120,245,'dinar'), C(2420,325), C(2725,385,'sela'), C(3040,325),
+    C(3360,265,'dinar'), C(3680,205), C(4020,145,'sela'), C(4380,215), C(4740,285),
+    C(5120,225,'sela'), C(5500,165), C(5900,235,'dinar'), C(6320,295), C(6760,235),
+    C(7200,175,'sela'), C(7500,160,'maneh'), C(820,228), C(1265,88,'sela'), C(1710,-52,'dinar')
+  ],
+  [C(7520,160,'dinar')],
+  [
+    S(420,481,76,22,1.6,1.2,2.9), S(1900,481,80,22,2.1,1.3,3.1), S(3100,481,82,22,2.4,1.4,3.2), S(4580,481,86,22,2.7,1.4,3.3), S(7060,481,90,22,2.8,1.3,3.2),
+    {x:760,y:472,w:30,h:30,cycle:true,showDormant:true,moveX:62,moveRate:2.2,period:3.3,duty:0.42,warning:1.05},
+    {x:2140,y:-123,w:30,h:30,cycle:true,showDormant:true,orbitR:48,orbitX:2140,orbitY:-101,orbitRate:1.8,period:3.5,duty:0.38,warning:1.1}
+  ],
+  [E(2420,331,2360,2580,92,'ayin','infinite eye'), E(4380,221,4320,4570,108,'gravity','infinite reverser'), E(6760,241,6700,6980,120,'golem','final shell')],
+  [
+    G(1300,280,130,110,'Ein Sof: every fake thing has escape space.',{}),
+    G(3380,260,140,120,'The clean spiral moves, but the landing is wide.',{}),
+    G(6500,230,130,120,'Infinity drops teeth only after warning.',{spikes:[
+      {x:6640,y:105,w:68,h:22,warning:1.2,duration:1.0,fallSpeed:240,safe:150,showDormant:true},
+      {x:6730,y:135,w:70,h:22,warning:1.45,duration:1.0,fallSpeed:260,safe:150,showDormant:true}]}),
+    G(7140,190,150,120,'The infinite gate opens cleanly.',{openExit:true})
+  ],
+  ['Ein Sof is precise, not messy.','The final clean spiral is won by patience.','Every coin path has a landing.'],
+  { fakeCoins:[F(1340,285,'sela','Infinity glittered falsely.'),F(4800,285,'dinar','The reverse jewel lied.'),F(7240,175,'maneh','The cleanest coin was the last lie.')], trickCoins:[{x:3385,y:265,kind:'trapBait',baitX:3620,speed:190,min:3300,max:3860},{x:5905,y:235,kind:'reverseRunner',speed:230,min:5840,max:6260},{x:7205,y:175,kind:'shyVanish',safeSide:'left'}] }
 );

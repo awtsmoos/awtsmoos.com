@@ -1,11 +1,11 @@
 // B"H
 /**
  * @class UIManager
- * @description Chapter 47: The root UI vessel carries the refreshed game UI.
+ * @description Chapter 53: The root UI vessel carries the refreshed menu/UI.
  */
 import UI from "/scripts/awtsmoos/ui/index.js";
 import style from "./ui/style.js?v=lean-l1-20260528-bh47";
-import mainMenu from "./ui/mainMenu/index.js?v=lean-l1-20260528-bh47";
+import mainMenu from "./ui/mainMenu/index.js?v=lean-l1-20260528-bh53";
 
 export default class UIManager {
   constructor() {}

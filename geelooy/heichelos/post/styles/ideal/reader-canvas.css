@@ -1,22 +1,55 @@
 /* B"H
-   Chapter 39: The parchment sea, perfected.
-   The reading canvas breathes once per selector. The Awtsmoos stretches warm
-   vellum under morning fire: calmer columns, cleaner header, and no cramped
-   mobile breath.
+   Chapter 46: The obsidian reader canvas.
+   The Awtsmoos folds the page into a cosmic mobile chamber: dark vellum, gold
+   breathing edges, soft depth, and a reader shell that feels inevitable instead
+   of assembled from fragments.
 */
 
-.post-reader-localized-context .main {
+.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    z-index: var(--z-base) !important;
+    direction: ltr !important;
     background:
-        radial-gradient(circle at 18% 4%, rgba(255, 255, 255, .92), transparent 28rem),
-        linear-gradient(180deg, var(--ideal-page-soft), var(--ideal-page)) !important;
+        radial-gradient(circle at 76% 2%, rgba(93, 70, 255, .22), transparent 20rem),
+        radial-gradient(circle at 16% 16%, rgba(244, 197, 107, .14), transparent 22rem),
+        linear-gradient(180deg, #02050b, var(--ideal-page) 42%, #050812) !important;
     color: var(--ideal-ink) !important;
+}
+
+.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision::before {
+    content: "" !important;
+    position: fixed !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,.04), transparent 35%, rgba(244,197,107,.05)),
+        radial-gradient(circle at 50% 110%, rgba(244,197,107,.13), transparent 24rem) !important;
+    z-index: 0 !important;
+}
+
+.post-reader-localized-context .main {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    direction: ltr !important;
+    color: var(--ideal-ink) !important;
+    background: transparent !important;
 }
 
 .post-reader-localized-context .content {
     max-width: var(--ideal-reading-width) !important;
     margin-inline: auto !important;
     padding-inline: var(--ideal-reading-pad) !important;
-    padding-block: clamp(1rem, 3vw, 2.2rem) !important;
+    padding-block: clamp(1rem, 3vw, 2.4rem) !important;
 }
 
 .post-reader-localized-context .realPost,
@@ -27,10 +60,10 @@
 }
 
 .post-reader-localized-context .awtsmoos-integrated-header {
-    background: rgba(255, 250, 241, .88) !important;
-    border-bottom: 1px solid var(--ideal-line) !important;
-    box-shadow: 0 8px 28px rgba(77, 53, 24, .08) !important;
-    backdrop-filter: blur(14px) !important;
+    background: rgba(4, 8, 16, .72) !important;
+    border-bottom: 1px solid rgba(244, 197, 107, .20) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .42) !important;
+    backdrop-filter: var(--ideal-glass-blur) !important;
 }
 
 .post-reader-localized-context .section {
@@ -51,19 +84,26 @@
 }
 
 .post-reader-localized-context .awtsmoos-verse-number {
-    min-width: 2rem !important;
-    height: 2rem !important;
+    min-width: 2.25rem !important;
+    height: 2.25rem !important;
     border-radius: 999px !important;
     display: inline-grid !important;
     place-items: center !important;
-    color: var(--ideal-muted) !important;
-    background: rgba(255, 255, 255, .58) !important;
-    border: 1px solid var(--ideal-line) !important;
+    color: var(--ideal-gold) !important;
+    background: rgba(244, 197, 107, .10) !important;
+    border: 1px solid rgba(244, 197, 107, .32) !important;
+    box-shadow: inset 0 0 18px rgba(244, 197, 107, .08) !important;
     font: 850 .82rem/1 var(--font-ui, system-ui) !important;
+}
+
+@media (min-width: 900px) {
+    .post-reader-localized-context .main {
+        flex-direction: row !important;
+    }
 }
 
 @media (max-width: 700px) {
     .post-reader-localized-context .content {
-        padding-bottom: 7rem !important;
+        padding-bottom: calc(var(--ideal-dock-height) + 4.5rem) !important;
     }
 }

@@ -1,5 +1,8 @@
-
-/* B"H - THE PURIFICATION OF THE CANVAS (SAFE RESET) */
+/* B"H
+   Chapter 7: The reset becomes a true reset.
+   It now owns only canvas rhythm and anti-uppercase covenant through grouped
+   :where() selectors, without stealing component-specific selector names.
+*/
 
 .post-reader-localized-context {
     margin: 0 !important;
@@ -7,51 +10,46 @@
     font-family: var(--font-ui) !important;
     background-color: var(--bg-vellum) !important;
     color: var(--color-ink) !important;
-    direction: ltr !important; 
+    direction: ltr !important;
     text-align: left !important;
 }
 
-.post-reader-localized-context h1, 
-.post-reader-localized-context h2, 
-.post-reader-localized-context h3, 
-.post-reader-localized-context h4 {
+.post-reader-localized-context :where(h1, h2, h3, h4) {
     margin: 0 !important;
     font-family: var(--font-heading) !important;
 }
 
-.post-reader-localized-context p {
+.post-reader-localized-context :where(p) {
     margin: 0 0 1rem 0 !important;
 }
 
-.post-reader-localized-context a {
+.post-reader-localized-context :where(a) {
     color: var(--color-primary) !important;
     text-decoration: none !important;
 }
 
-/* B"H - ABSOLUTE PURIFICATION OF FORCED CAPITALIZATION 
-   The true names of things must be displayed exactly as entered.
-   We strip the Uppercase shell from all UI elements globally within the context.
-*/
-.post-reader-localized-context .awtsmoos-view-title-text,
-.post-reader-localized-context .commentator-name,
-.post-reader-localized-context .keeper-name,
-.post-reader-localized-context .awtsmoos-crumb-link,
-.post-reader-localized-context .awtsmoos-back-btn,
-.post-reader-localized-context .awtsmoos-current-view-title,
-.post-reader-localized-context .ai-title,
-.post-reader-localized-context .card-title,
-.post-reader-localized-context .post-title,
-.post-reader-localized-context .series-name,
-.post-reader-localized-context .commentTitle,
-.post-reader-localized-context .inline-summary-btn,
-.post-reader-localized-context .awtsmoos-list-item,
-.post-reader-localized-context .btn,
-.post-reader-localized-context .awtsmoos-hero-btn,
-.post-reader-localized-context .label,
-.post-reader-localized-context .sidebar h2,
-.post-reader-localized-context .sidebar h3,
-.post-reader-localized-context .ai-role-tag,
-.post-reader-localized-context .awtsmoos-integrated-header *,
-.post-reader-localized-context .awtsmoos-massive-menu-btn * {
+.post-reader-localized-context :where(
+    .awtsmoos-view-title-text,
+    .commentator-name,
+    .keeper-name,
+    .awtsmoos-crumb-link,
+    .awtsmoos-back-btn,
+    .awtsmoos-current-view-title,
+    .ai-title,
+    .card-title,
+    .post-title,
+    .series-name,
+    .commentTitle,
+    .inline-summary-btn,
+    .awtsmoos-list-item,
+    .btn,
+    .awtsmoos-hero-btn,
+    .label,
+    .sidebar h2,
+    .sidebar h3,
+    .ai-role-tag,
+    .awtsmoos-integrated-header *,
+    .awtsmoos-massive-menu-btn *
+) {
     text-transform: none !important;
 }

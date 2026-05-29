@@ -1,72 +1,78 @@
-
-/* B"H - THE ABSOLUTE WALLS OF ISOLATION 
-   "NEVER EVER make css that modifies entire body, html or * elements. ALWAYS localize it."
-   Every rule here is explicitly guarded by the localized context class.
+/* B"H
+   Chapter 7: Isolation without selector theft.
+   This wall owns box sizing and shared scrollbar atoms through :where(), so
+   domain files can own their named surfaces without exact-selector conflict.
 */
 
-/* Strict Box Sizing explicitly declared for specific known elements, avoiding the '*' wildcard */
-.post-reader-localized-context,
-.post-reader-localized-context div,
-.post-reader-localized-context span,
-.post-reader-localized-context button,
-.post-reader-localized-context input,
-.post-reader-localized-context textarea,
-.post-reader-localized-context select,
-.post-reader-localized-context p,
-.post-reader-localized-context h1,
-.post-reader-localized-context h2,
-.post-reader-localized-context h3,
-.post-reader-localized-context h4,
-.post-reader-localized-context a,
-.post-reader-localized-context ul,
-.post-reader-localized-context li {
+.post-reader-localized-context :where(
+    div,
+    span,
+    button,
+    input,
+    textarea,
+    select,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    a,
+    ul,
+    li
+) {
     box-sizing: border-box !important;
 }
 
-/* Localized scrollbar aesthetics ONLY for our specific scrollable areas! */
-.post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar,
-.post-reader-localized-context .sidebar::-webkit-scrollbar,
-.post-reader-localized-context .awtsmoos-slide-view::-webkit-scrollbar,
-.post-reader-localized-context .thread-scroll-area::-webkit-scrollbar,
-.post-reader-localized-context .typography-content::-webkit-scrollbar,
-.post-reader-localized-context .ai-messages::-webkit-scrollbar {
+.post-reader-localized-context :where(
+    .scroll-view-wrapper,
+    .sidebar,
+    .awtsmoos-slide-view,
+    .thread-scroll-area,
+    .typography-content,
+    .ai-messages
+)::-webkit-scrollbar {
     width: 14px !important;
     height: 14px !important;
 }
 
-.post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar-track,
-.post-reader-localized-context .sidebar::-webkit-scrollbar-track,
-.post-reader-localized-context .awtsmoos-slide-view::-webkit-scrollbar-track,
-.post-reader-localized-context .thread-scroll-area::-webkit-scrollbar-track,
-.post-reader-localized-context .typography-content::-webkit-scrollbar-track,
-.post-reader-localized-context .ai-messages::-webkit-scrollbar-track {
+.post-reader-localized-context :where(
+    .scroll-view-wrapper,
+    .sidebar,
+    .awtsmoos-slide-view,
+    .thread-scroll-area,
+    .typography-content,
+    .ai-messages
+)::-webkit-scrollbar-track {
     background: var(--bg-vellum) !important;
     border-left: 2px solid var(--color-ink) !important;
 }
 
-.post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar-thumb,
-.post-reader-localized-context .sidebar::-webkit-scrollbar-thumb,
-.post-reader-localized-context .awtsmoos-slide-view::-webkit-scrollbar-thumb,
-.post-reader-localized-context .thread-scroll-area::-webkit-scrollbar-thumb,
-.post-reader-localized-context .typography-content::-webkit-scrollbar-thumb,
-.post-reader-localized-context .ai-messages::-webkit-scrollbar-thumb {
+.post-reader-localized-context :where(
+    .scroll-view-wrapper,
+    .sidebar,
+    .awtsmoos-slide-view,
+    .thread-scroll-area,
+    .typography-content,
+    .ai-messages
+)::-webkit-scrollbar-thumb {
     background: var(--color-ink) !important;
     border: 3px solid var(--bg-vellum) !important;
-    border-radius: 0 !important; /* Brutalist sharp edges */
+    border-radius: 0 !important;
 }
 
-.post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar-thumb:hover,
-.post-reader-localized-context .sidebar::-webkit-scrollbar-thumb:hover,
-.post-reader-localized-context .awtsmoos-slide-view::-webkit-scrollbar-thumb:hover,
-.post-reader-localized-context .thread-scroll-area::-webkit-scrollbar-thumb:hover,
-.post-reader-localized-context .typography-content::-webkit-scrollbar-thumb:hover,
-.post-reader-localized-context .ai-messages::-webkit-scrollbar-thumb:hover {
+.post-reader-localized-context :where(
+    .scroll-view-wrapper,
+    .sidebar,
+    .awtsmoos-slide-view,
+    .thread-scroll-area,
+    .typography-content,
+    .ai-messages
+)::-webkit-scrollbar-thumb:hover {
     background: var(--color-primary) !important;
 }
 
-/* Enforcing boundary behavior so overflowing content doesn't break the page */
 .post-reader-localized-context {
     max-width: 100vw !important;
     overflow-x: hidden !important;
-    font-size: 18px; /* Safe, localized base font size */
+    font-size: 18px;
 }

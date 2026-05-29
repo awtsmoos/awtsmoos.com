@@ -2,24 +2,22 @@
 import { S, G } from '../../levelPrimitives.js';
 
 /**
- * Gevurah story and trigger scroll.
+ * Gevurah story: force speaks before it sentences.
  *
- * The Awtsmoos speaks in verdicts. Each invisible threshold is not cheap chaos:
- * it names the lesson, then opens falling judgment only after the player has
- * chosen the line of force.
+ * The Awtsmoos makes each verdict visible. Boosters, ceiling teeth, and exit law
+ * are announced before the player is committed to danger.
  */
 export const gevurahTriggers = [
-  G(1040, 260, 120, 100, 'The court launches you where it wants.', {}),
-  G(1660, 100, 120, 120, 'The high verdict is optional-looking, but required.', {}),
-  G(2420, 220, 110, 110, 'A normal-looking platform may be judgment itself.', { spikes: [S(2880, 481, 70, 24, 0.4, 1, 2)] }),
-  G(2820, 170, 110, 120, 'The ceiling gives three verdicts if you chase the straight coin line.', {
+  G(1040, 250, 120, 105, 'The court launches you toward a broad landing.', {}),
+  G(1660, 80, 120, 120, 'The high verdict is optional and visible.', {}),
+  G(2420, 200, 120, 110, 'A normal-looking platform may be judgment itself.', { spikes: [S(2880, 481, 70, 22, 1.1, 1.4, 2.8)] }),
+  G(2820, 150, 120, 120, 'The ceiling gives warning verdicts before falling.', {
     spikes: [
-      { x: 2940, y: 130, w: 70, h: 24, warning: 0.6, duration: 1.1, fallSpeed: 420 },
-      { x: 3020, y: 150, w: 74, h: 24, warning: 0.72, duration: 1.1, fallSpeed: 440 },
-      { x: 3105, y: 170, w: 78, h: 24, warning: 0.84, duration: 1.1, fallSpeed: 460 }
+      { x: 2940, y: 110, w: 68, h: 22, warning: 1.15, duration: 1.0, fallSpeed: 235, safe: 150, showDormant: true },
+      { x: 3030, y: 140, w: 70, h: 22, warning: 1.4, duration: 1.0, fallSpeed: 255, safe: 150, showDormant: true }
     ]
   }),
-  G(3300, 300, 120, 110, 'Gevurah signs the exit decree.', { openExit: true })
+  G(3300, 280, 130, 120, 'Gevurah signs the exit decree.', { openExit: true })
 ];
 
 export const gevurahLore = [

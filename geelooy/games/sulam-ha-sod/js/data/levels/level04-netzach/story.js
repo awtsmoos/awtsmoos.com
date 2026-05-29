@@ -2,21 +2,25 @@
 import { C, G } from '../../levelPrimitives.js';
 
 /**
- * Netzach trigger scripture.
+ * Netzach story: momentum with warning.
  *
- * The Awtsmoos writes warning into the garden before punishment arrives. Every
- * trigger tells the player what kind of attention is required, then lets the
- * cruel canvas judge whether the lesson was heard.
+ * The Awtsmoos lets the garden shove, but never without air to recover. Trigger
+ * messages tell the player whether to brake, wait, or continue.
  */
 export const netzachTriggers = [
-  G(820, 330, 110, 100, 'Netzach: ice keeps the direction you chose.', { coins: [C(930, 350, 'dinar')] }),
-  G(1480, 330, 120, 90, 'The gold arrow is a shove, not a suggestion.', {}),
-  G(1900, 230, 110, 120, 'The garden ceiling falls if momentum becomes autopilot.', { spikes: [{ x: 2020, y: 120, w: 68, h: 22, warning: 0.6, duration: 1.08, fallSpeed: 370, safe: 88 }, { x: 2102, y: 148, w: 70, h: 22, warning: 0.72, duration: 1.08, fallSpeed: 395, safe: 88 }, { x: 2188, y: 176, w: 72, h: 22, warning: 0.84, duration: 1.08, fallSpeed: 420, safe: 88 }] }),
-  G(2860, 320, 120, 110, 'Persistence opens the garden gate.', { openExit: true })
+  G(820, 320, 110, 110, 'Netzach: ice keeps the direction you chose.', { coins: [C(940, 350, 'dinar')] }),
+  G(1480, 315, 120, 105, 'The gold arrow is a shove, not a suggestion.', {}),
+  G(1900, 210, 120, 115, 'The garden ceiling warns before it falls.', {
+    spikes: [
+      { x: 2020, y: 100, w: 66, h: 22, warning: 1.15, duration: 1.0, fallSpeed: 230, safe: 150, showDormant: true },
+      { x: 2110, y: 130, w: 68, h: 22, warning: 1.4, duration: 1.0, fallSpeed: 250, safe: 150, showDormant: true }
+    ]
+  }),
+  G(2860, 300, 125, 115, 'Persistence opens the garden gate.', { openExit: true })
 ];
 
 export const netzachLore = [
   'Netzach is not speed; it is refusal to stop.',
-  'The first false platform looks honest on purpose.',
-  'The garden rewards braking before the ice finishes speaking.'
+  'The false platform looks honest on purpose.',
+  'The garden rewards braking before ice finishes speaking.'
 ];

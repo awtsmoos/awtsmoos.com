@@ -1,7 +1,7 @@
 /* B"H
    Final ideal UI owner. Each vessel owns one visual domain so the interface is
    beautiful without selector warfare: canvas, rail, sidebar, chrome, panels,
-   comments, focus, inline cards, and global actions.
+   comments, focus, inline cards, global actions, and the mobile reader vision.
 */
 
 @import url("./ideal/tokens.css");
@@ -14,3 +14,4 @@
 @import url("./ideal/sidebar-comments.css");
 @import url("./ideal/reading-focus.css");
 @import url("./ideal/inline-comments.css");
+@import url("./ideal/mobile-reader-vision.css");
