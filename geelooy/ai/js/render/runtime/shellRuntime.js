@@ -4,18 +4,15 @@ import { VISIBLE_TEXT_LIMIT } from "./renderConstants.js";
 import { dedupeEvents } from "./renderHelpers.js";
 import { primaryRecordKind, recordKinds } from "./recordWeight.js";
 import { updateLiveText } from "./liveTextRuntime.js";
+import { ensureStreamStatus, removeStreamStatus } from "./streamStatsRuntime.js";
 import { toolHeadline } from "../event-ui/toolHeadline.js";
 
 /**
- * Chapter 53: The Shell Held Still While Letters Fell.
+ * Chapter 203: The Stream Rail Refused To Be Erased By Falling Letters.
  *
- * The message shell is a stable vessel. It may receive text, event chambers,
- * and loading sparks, but it must not reorder its inner reality wildly while
- * the stream is alive.
- *
- * @param {object} renderer Message renderer.
- * @param {object} record Message record.
- * @returns {HTMLElement} Message shell.
+ * Every bubble refresh now also refreshes the independent stream status rail.
+ * The rail is never inside the markdown preview, so parsing live markdown cannot
+ * delete elapsed seconds, token count, or progress width.
  */
 export function createShell(renderer, record) {
   const shell = document.createElement("div");
@@ -29,6 +26,7 @@ export function createShell(renderer, record) {
     shell.classList.add("is-render-suppressed");
     return shell;
   }
+  refreshStreamRail(record);
   if (!record.text && visible.length) shell.append(eventBadge({ ...record, events: visible }));
   if (visible.length) renderEventRegion(shell, visible, record);
   if (record.text) shell.append(createCombinedBubble(renderer, record));
@@ -45,6 +43,7 @@ export function createCombinedBubble(renderer, record) {
 }
 
 export function updateBubbleHtml(renderer, record) {
+  refreshStreamRail(record);
   if (!record.bubble) return;
   const text = String(record.text || "");
   const tooLong = text.length > VISIBLE_TEXT_LIMIT && !record.expanded;
@@ -60,6 +59,7 @@ export function updateBubbleHtml(renderer, record) {
 export function refreshEventBadge(record) {
   const badge = record.shell?.querySelector?.(":scope > .event-record-badge");
   if (badge) badge.textContent = activeEventLabel(record);
+  refreshStreamRail(record);
 }
 
 export function eventBadge(record) {
@@ -88,6 +88,12 @@ export function loadingBubble() {
   return bubble;
 }
 
+function refreshStreamRail(record) {
+  if (!record?.shell) return;
+  if (record.streaming || record.loading) ensureStreamStatus(record.shell, record);
+  else removeStreamStatus(record.shell);
+}
+
 function activeEventLabel(record) {
   const events = record.events || [];
   const activeTool = [...events].reverse().find(event => /tool|awtsmoos/i.test(event.kind || ""));
@@ -98,7 +104,7 @@ function activeEventLabel(record) {
     return `${prefix}: ${info.action}${target}`;
   }
   const kinds = recordKinds(record);
-  if (kinds.includes("thinking")) return record.streaming || record.loading ? "Thinking…" : "Thinking trace";
+  if (kinds.includes("thinking")) return record.streaming || record.loading ? "Thinking live…" : "Thinking trace";
   if (kinds.includes("status")) return record.streaming || record.loading ? "Status streaming…" : "Status trace";
   return record.streaming || record.loading ? "Transport streaming…" : "Transport trace";
 }

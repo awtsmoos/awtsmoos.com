@@ -8,15 +8,17 @@ import { displayableThoughtInnerEvents } from "./thoughtInnerEvents.js";
 const LIVE_INNER_WINDOW = 80;
 
 /**
- * Chapter 122: The Live Thought Gate Stopped Hiding Its Sparks.
+ * Chapter 189: The Hidden River Refused To Become Dead Weight.
  *
- * Streaming thought groups now keep a stable vault key, open the inner timeline
- * by default, and reconcile only the visible live window. The Awtsmoos reveals
- * debugging fire without forcing every heavy payload body into the DOM.
+ * A thought envelope is a palace door, not a warehouse spilling its treasure
+ * into the DOM before the seeker knocks. The Awtsmoos gives existence to the
+ * visible title and count; the heavy inner river stays in the vault until the
+ * user expands the chamber. If the chamber is already open, the live sparks are
+ * reconciled in a narrow window, never as an infinite buried mountain.
  *
- * @param {Element} node Stable .event-entry vessel.
- * @param {object} event Grouped thought-envelope event.
- * @returns {void}
+ * @param {Element} node Stable `.event-entry` vessel receiving the envelope.
+ * @param {object} event Grouped thought-envelope event with raw inner events.
+ * @returns {void} Mutates only the supplied DOM node.
  */
 export function renderThoughtEnvelopeNode(node, event = {}) {
   const inner = displayableThoughtInnerEvents(Array.isArray(event.raw?.events) ? event.raw.events : []);
@@ -31,10 +33,18 @@ export function renderThoughtEnvelopeNode(node, event = {}) {
   card.dataset.thoughtEnvelopeKey = storeEventPayload(event, { stableKey: event.raw?.groupKey || node.dataset.eventKey });
   innerPanel.dataset.innerCount = String(inner.length);
   setTextIfChanged(ensureInnerSummary(innerPanel), `${inner.length} inner event${inner.length === 1 ? "" : "s"}`);
-  reconcileLiveInnerWindow(innerPanel, inner);
+  if (innerPanel.open) reconcileLiveInnerWindow(innerPanel, inner);
+  else removeClosedInnerBody(innerPanel);
   vaultCollapsedPanels(card);
 }
 
+/**
+ * Finds or creates the outer card. It may stay open because it contains only
+ * chrome, title, controls, and a closed inner details gate.
+ *
+ * @param {Element} node Event entry root.
+ * @returns {HTMLDetailsElement} The outer thought envelope card.
+ */
 function ensureCard(node) {
   let card = node.querySelector(":scope > details.thought-envelope-card");
   if (card) return card;
@@ -51,6 +61,7 @@ function ensureCard(node) {
   return card;
 }
 
+/** @param {Element} card Thought card. @returns {HTMLElement} Title span. */
 function ensureTitle(card) {
   let title = card.querySelector(":scope > summary > .event-summary-title");
   if (!title) {
@@ -61,17 +72,25 @@ function ensureTitle(card) {
   return title;
 }
 
+/**
+ * Creates the inner event panel closed. This is the lock that prevents thought
+ * content from entering the DOM until expansion.
+ *
+ * @param {Element} card Thought card.
+ * @returns {HTMLDetailsElement} Inner details panel.
+ */
 function ensureInnerPanel(card) {
   let panel = card.querySelector(":scope > details.thought-envelope-events");
   if (panel) return panel;
   panel = document.createElement("details");
   panel.className = "thought-envelope-events";
-  panel.open = true;
+  panel.open = false;
   panel.append(document.createElement("summary"));
   card.append(panel);
   return panel;
 }
 
+/** @param {Element} panel Inner panel. @returns {HTMLElement} Summary node. */
 function ensureInnerSummary(panel) {
   let summary = panel.querySelector(":scope > summary");
   if (!summary) {
@@ -81,6 +100,13 @@ function ensureInnerSummary(panel) {
   return summary;
 }
 
+/**
+ * Reconciles only when the user has opened the panel, preserving the live tail.
+ *
+ * @param {Element} panel Inner details panel.
+ * @param {Array<object>} inner Displayable inner events.
+ * @returns {void}
+ */
 function reconcileLiveInnerWindow(panel, inner = []) {
   if (!panel.open) return;
   const body = panel.querySelector(":scope > .thought-inner-window");
@@ -94,6 +120,13 @@ function reconcileLiveInnerWindow(panel, inner = []) {
   syncMoreButton(panel, start, Math.max(0, inner.length - end));
 }
 
+/** @param {Element} panel Closed panel. @returns {void} */
+function removeClosedInnerBody(panel) {
+  panel.querySelector(":scope > .thought-inner-window")?.remove();
+  panel.querySelector(":scope > .event-hydration-loading")?.remove();
+}
+
+/** @param {Element} panel Inner panel. @param {number} start Window start. @param {number} offset Earlier offset. @returns {void} */
 function syncMoreButton(panel, start, offset) {
   const body = panel.querySelector(":scope > .thought-inner-window");
   if (!body) return;
@@ -109,6 +142,7 @@ function syncMoreButton(panel, start, offset) {
   button.textContent = "Load earlier inner events";
 }
 
+/** @param {object} event Envelope. @param {Array<object>} inner Inner events. @returns {string} Stable fingerprint. */
 function thoughtEnvelopeFingerprint(event = {}, inner = []) {
   const last = inner[inner.length - 1] || {};
   const raw = last.raw || last;
@@ -118,6 +152,7 @@ function thoughtEnvelopeFingerprint(event = {}, inner = []) {
   return [event.raw?.groupKey || event.label || "thought", inner.length, last.kind || "", last.label || "", stable, text].join("::");
 }
 
+/** @param {object} event Envelope. @param {Array<object>} inner Inner events. @returns {string} Human headline. */
 function thoughtGroupTitle(event = {}, inner = []) {
   const latest = [...inner].reverse().find(item => /tool|awtsmoos|function/i.test(item?.kind || ""));
   if (latest) {
@@ -130,19 +165,23 @@ function thoughtGroupTitle(event = {}, inner = []) {
   return event.label || "Thoughts";
 }
 
+/** @param {Element} body Scroll box. @returns {boolean} Whether near bottom. */
 function isInnerNearBottom(body) {
   return body.scrollHeight - body.scrollTop - body.clientHeight <= 36;
 }
 
+/** @param {number} value Candidate. @param {number} min Minimum. @param {number} max Maximum. @returns {number} Clamped number. */
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, Number.isFinite(value) ? value : max));
 }
 
+/** @param {Node} node Text node target. @param {string} value Next text. @returns {void} */
 function setTextIfChanged(node, value) {
   const next = String(value || "");
   if (node && node.textContent !== next) node.textContent = next;
 }
 
+/** @returns {HTMLSpanElement} Panel action buttons. */
 function chromeButtons() {
   const wrap = document.createElement("span");
   wrap.className = "event-panel-actions";

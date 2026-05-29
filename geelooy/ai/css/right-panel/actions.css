@@ -1,0 +1,83 @@
+/*B"H
+  Chapter 222: The Buttons Became Gates Again.
+  Action stacks stay vertical, but their faces regain the clear active style the
+  panel needs. No squeezing, no transforms, no hidden height.
+*/
+#automation-panel .relay-actions,
+#automation-panel .graph-toolbar,
+#automation-panel .automation-actions,
+#automation-panel .conversation-portal-actions,
+#automation-panel .prompt-action-row,
+#automation-panel .relay-install-buttons,
+#automation-panel .compact-provider-actions{
+  position:static!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:12px!important;
+  width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+}
+#automation-panel button,
+#automation-panel .provider-import-button{
+  position:static!important;
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:46px!important;
+  height:auto!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:11px 14px!important;
+  transform:none!important;
+  white-space:normal!important;
+  line-height:1.25!important;
+  text-align:center!important;
+  text-decoration:none!important;
+  border:1px solid rgba(167,243,208,.36)!important;
+  border-radius:14px!important;
+  background:linear-gradient(135deg,rgba(34,230,196,.94),rgba(47,109,246,.92))!important;
+  color:#fff!important;
+  font-weight:900!important;
+  box-shadow:none!important;
+}
+#automation-panel .automation-stop-button,
+#automation-panel button[data-provider-chat-action="clear-all"]{
+  background:linear-gradient(135deg,rgba(216,59,86,.96),rgba(94,23,42,.94))!important;
+  border-color:rgba(248,113,113,.48)!important;
+}
+#automation-panel .provider-chat-list{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:8px!important;
+  max-height:260px!important;
+  overflow:auto!important;
+  padding:4px!important;
+}
+#automation-panel .provider-chat-row{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  gap:10px!important;
+}
+#automation-panel .provider-chat-row span{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#automation-panel code{
+  display:block!important;
+  width:100%!important;
+  border:1px solid var(--rp-line)!important;
+  border-radius:12px!important;
+  background:rgba(0,5,14,.72)!important;
+  padding:11px!important;
+  white-space:pre-wrap!important;
+  overflow-wrap:anywhere!important;
+  line-height:1.45!important;
+}

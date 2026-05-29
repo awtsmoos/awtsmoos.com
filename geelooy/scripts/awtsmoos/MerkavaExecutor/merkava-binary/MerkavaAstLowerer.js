@@ -1,7 +1,7 @@
 // B"H
 const OP = { '+': 'add', '-': 'sub', '*': 'mul', '/': 'div', '%': 'mod', '==': 'eq', '===': 'seq', '!=': 'neq', '!==': 'sneq', '<': 'lt', '<=': 'lte', '>': 'gt', '>=': 'gte' };
 const LOGICAL = { '&&': 'and', '||': 'or' };
-const UNARY = { '!': 'not', '-': 'neg', '+': 'pos' };
+const UNARY = { '!': 'not', '-': 'neg', '+': 'pos', typeof: 'typeof', void: 'void' };
 
 /**
  * Lowers a growing AST subset into raw Merkava JSON code.
@@ -39,19 +39,25 @@ function lowerAstToJson(ast) {
 
   const methodDescriptor = method => ({
     name: method.key.name,
-    params: (method.value.params || []).map(p => p.name),
+    params: (method.value.params || []).map(paramName),
     body: { op: 'block', body: blockSteps(method.value.body) }
+  });
+
+  const fieldDescriptor = field => ({
+    name: propName(field.key),
+    value: field.value ? expr(field.value) : { const: undefined }
   });
 
   const classDescriptor = node => ({
     name: node.id.name,
     superClass: node.superClass ? { get: node.superClass.name } : null,
-    methods: (node.body?.body || []).map(methodDescriptor)
+    methods: (node.body?.body || []).filter(member => member.type === 'MethodDefinition').map(methodDescriptor),
+    fields: (node.body?.body || []).filter(member => member.type === 'PropertyDefinition' || member.type === 'FieldDefinition').map(fieldDescriptor)
   });
 
   const propName = node => node?.type === 'Identifier' ? node.name : node?.type === 'Literal' ? node.value : expr(node);
 
-  const paramName = p => p?.type === 'RestElement' ? { rest: p.argument.name } : p?.name;
+  const paramName = p => p?.type === 'RestElement' ? { rest: p.argument.name } : p?.type === 'AssignmentPattern' ? { name: p.left.name, default: expr(p.right) } : p?.name;
   const fnBody = node => node.body?.type === 'BlockStatement' ? blockSteps(node.body) : [{ op: 'return', value: expr(node.body) }];
   const fnDescriptor = node => ({
     op: 'function',
@@ -73,8 +79,10 @@ function lowerAstToJson(ast) {
 
   const expr = node => {
     if (!node) return { const: null };
+    if (node.type === 'Literal' && node.regex) return { const: new RegExp(node.regex.pattern, node.regex.flags || '') };
     if (node.type === 'Literal') return { const: node.value };
     if (node.type === 'TemplateLiteral') return templateLiteral(node);
+    if (node.type === 'TaggedTemplateExpression') return templateLiteral(node.quasi);
     if (node.type === 'MetaProperty') {
       const meta = node.meta?.name || node.meta?.value || "meta";
       const property = node.property?.name || node.property?.value || "";
@@ -144,6 +152,7 @@ function lowerAstToJson(ast) {
   };
 
   const lowerStmt = (stmt, target = steps) => {
+    if (stmt.type === 'EmptyStatement') return null;
     if (stmt.type === 'VariableDeclaration') {
       for (const d of stmt.declarations) {
         if (d.id.type === 'ArrayPattern') {
@@ -160,13 +169,6 @@ function lowerAstToJson(ast) {
       target.push(expr(stmt.expression));
     } else if (stmt.type === 'ReturnStatement') {
       return { result: expr(stmt.argument) };
-    } else if (stmt.type === 'IfStatement') {
-      target.push({
-        op: 'if',
-        test: expr(stmt.test),
-        consequent: stmt.consequent?.type === 'BlockStatement' ? blockSteps(stmt.consequent) : statementSteps(stmt.consequent),
-        alternate: stmt.alternate ? (stmt.alternate.type === 'BlockStatement' ? blockSteps(stmt.alternate) : statementSteps(stmt.alternate)) : []
-      });
     } else if (stmt.type === 'IfStatement') {
       target.push({
         op: 'if',
@@ -232,7 +234,7 @@ function lowerAstToJson(ast) {
       target.push({ op: 'set', name: stmt.id.name, value: { op: 'class', descriptor: classDescriptor(stmt) } });
     } else if (stmt.type === 'FunctionDeclaration') {
       if (stmt.generator) target.push({ op: 'set', name: stmt.id.name, value: { op: 'generator', values: yieldsOf(stmt.body) } });
-      else if (stmt.async) target.push({ op: 'set', name: stmt.id.name, value: { op: 'asyncFunction', result: returnExpr(stmt.body) } });
+      else if (stmt.async) target.push({ op: 'set', name: stmt.id.name, value: fnDescriptor(stmt) });
       else target.push({ op: 'set', name: stmt.id.name, value: fnDescriptor(stmt) });
     } else if (stmt.type === 'ContinueStatement' || stmt.type === 'BreakStatement') {
       return null;

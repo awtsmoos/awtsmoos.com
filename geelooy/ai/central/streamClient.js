@@ -5,12 +5,12 @@ import { readSSEStream } from "../../shared/streaming/index.js";
 
 /**
  * B"H
- * Chapter 186: The MiniMax River Kept Its Counted Footsteps.
+ * Chapter 200: The MiniMax Tool Sparks Were Seen Before They Were Complete.
  *
- * Visible letters, reasoning, tool-call fragments, raw SSE packets, usage, and
- * finish reasons now leave this client as live callbacks. Each provider event
- * receives a sequence so the renderer never overwrites a previous spark just
- * because MiniMax reused the same completion id.
+ * Text, thinking, raw provider chunks, partial tool-call deltas, complete tool
+ * calls, metrics, and finish reasons stream outward immediately. The final
+ * visible bubble still strips `<think>` caves, but the thought itself remains
+ * in the live thought panel.
  */
 export class OpenAICompatibleStreamClient {
   constructor({ provider, apiKey, fetchImpl = null } = {}) {
@@ -65,8 +65,9 @@ export class OpenAICompatibleStreamClient {
         fullReasoning = full;
         callbacks.onReasoning?.(chunk, full);
       },
-      onToolCall: tools => {
+      onToolCall: (tools, meta) => {
         fullTools = tools;
+        callbacks.onToolCall?.(tools, meta || { partial: true });
         lastVisibleToolKey = emitCompleteTools(tools, lastVisibleToolKey, callbacks);
       },
       onMeta: meta => {

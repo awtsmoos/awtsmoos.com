@@ -1,0 +1,45 @@
+/*B"H
+  Chapter 213: The Menu Remained The Only Floating Thing.
+  The tabs may open as a popover; everything else must stay in normal flow.
+*/
+#automation-panel .right-menu{
+  position:relative!important;
+  z-index:20!important;
+  margin:12px 12px 0!important;
+}
+#automation-panel .right-menu>summary{
+  min-height:48px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  padding:10px 14px!important;
+  list-style:none!important;
+  border:1px solid rgba(74,222,222,.36)!important;
+  border-radius:16px!important;
+  cursor:pointer!important;
+}
+#automation-panel .right-menu>summary::-webkit-details-marker{display:none!important}
+#automation-panel .hamburger-bars{font-size:1.2rem!important;line-height:1!important}
+#automation-panel .right-menu-current{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+#automation-panel .right-menu>summary::after{content:"›";margin-left:auto}
+#automation-panel .right-tabs{
+  position:absolute!important;
+  top:calc(100% + 8px)!important;
+  right:0!important;
+  z-index:60!important;
+  width:min(360px,calc(100vw - 38px))!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:8px!important;
+  padding:10px!important;
+  border-radius:16px!important;
+}
+#automation-panel .right-menu:not([open]) .right-tabs{display:none!important}
+#automation-panel .right-tabs button{
+  min-height:42px!important;
+  padding:0 12px!important;
+  text-align:left!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}

@@ -1,8 +1,11 @@
+//B"H
 import { State } from '../binah/State.js';
 import { WorldData, groundGlyph, tileMeta } from '../data/WorldData.js';
 import { Ground } from './render/Ground.js';
 import { Human } from './render/Human.js';
 import { drawGlyphObject } from './render/GlyphRenderer.js';
+import { PlayerRenderer, FootstepParticle } from './render/PlayerRenderer.js';
+import { PathVisualizer } from '../chochmah/PathVisualizer.js';
 import { equipmentLine } from '../yesod/equipment/EquipmentRuntime.js';
 import { skillLine } from '../yesod/skills/SkillRuntime.js';
 import { dexLine } from '../yesod/musag/MusagDex.js';
@@ -11,6 +14,9 @@ import { renderBattle } from './render/BattleRenderer.js';
 
 export class Projector {
   static Caches = {};
+
+  // Camera smoothing state
+  static _camSmooth = { x: 0, y: 0 };
 
   static warmup() {
     ['layer-bg', 'layer-obj', 'layer-over'].forEach(id => {
@@ -23,11 +29,19 @@ export class Projector {
   }
 
   static camX() {
-    return Math.floor(State.Hero.dx - 800 / 2 + State.Resolution / 2);
+    // Smooth camera lerp (keeps player centered without jitter)
+    const targetX = State.Hero.dx - 800 / 2 + State.Resolution / 2;
+    this._camSmooth.x += (targetX - this._camSmooth.x) * 0.15;
+    return Math.floor(this._camSmooth.x);
   }
 
   static camY() {
-    return Math.floor(State.Hero.dy - 600 / 2 + State.Resolution / 2);
+    const targetY = State.Hero.dy - 600 / 2 + State.Resolution / 2;
+    this.
+      
+  _camSmooth
+  _camSmooth.y += (targetY - this._camSmooth.y) * 0.15;
+    return Math.floor(this._camSmooth.y);
   }
 
   static project() {
@@ -35,23 +49,36 @@ export class Projector {
     const obj = this.Caches['layer-obj'];
     const over = this.Caches['layer-over'];
     if (!bg || !obj || !over) return;
-
     bg.fillStyle = '#050505';
     bg.fillRect(0, 0, bg.canvas.width, bg.canvas.height);
     obj.clearRect(0, 0, obj.canvas.width, obj.canvas.height);
     over.clearRect(0, 0, over.canvas.width, over.canvas.height);
-
     const queue = [];
     this.drawWorld(bg, obj, queue);
     queue.sort((a, b) => a.y - b.y).forEach(item => item.draw());
 
-    Human.draw(
+    // Draw path visualization first (under player)
+    const tick = State.Hero.stepTick || 0;
+    PathVisualizer.draw(obj, tick);
+
+    // Update and draw particles
+    FootstepParticle.update();
+    FootstepParticle.draw(obj);
+
+    // Draw player with enhanced renderer
+    const isMoving = State.PathTarget !== null || State.Hero.pathLength > 0;
+    PlayerRenderer.draw(
       obj,
       State.Hero.dx - this.camX(),
       State.Hero.dy - this.camY(),
       State.Resolution,
-      State.Hero.dir,
-      State.Hero.stepTick
+      {
+        tick: State.Hero.stepTick || 0,
+        dir: State.Hero.dir || 'd',
+        moving: isMoving,
+        hp: State.Stats?.light || 100,
+        light: State.Stats?.light || 100
+      }
     );
 
     if (State.PathTarget) this.pathTarget(over);
@@ -75,7 +102,7 @@ export class Projector {
 
         if (meta.kind === 'edge') this.portal(obj, x, y, res, meta.edge);
         else if (meta.kind !== 'floor' && meta.kind !== 'grass' && meta.kind !== 'road') {
-          queue.push({ y: y + res, draw: () => drawGlyphObject(obj, glyph, x, y, res, meta) });
+          queue.push({ y: y + res, draw: () => drawGlyphObject(obj, { meta, glyph, x, y, rx, ry, seed: rx * ry }, res) });
         }
       }
     }

@@ -2,15 +2,15 @@
 import { AwtsmoosPrompt } from "./prompt.js";
 import { getBrowserLocalTunnelBridge, getProvider, MultiPassToolAgent, OpenAICompatibleStreamClient } from "./central/index.js";
 import { ProviderChatStore, providerUserMessage, providerAssistantMessage } from "./central/providerChatStore.js";
-import { normalizeTraceEvents, providerStreamEvent, reasoningEvent, toolCallEvent } from "./central/providerEvents.js";
+import { reasoningEvent, toolCallEvent } from "./central/providerEvents.js";
 
 /**
  * B"H
- * Chapter 189: The Foreign River Kept Every Numbered Spark In RAM And DOM.
+ * Chapter 224: The First Place Of A Growing Thought Stayed First.
  *
- * Provider text, reasoning, raw SSE chunks, partial tool calls, local tunnel
- * requests, tool results, context metrics, and finish packets all stream through
- * one assistant packet shape. Sequenced provider events are no longer collapsed.
+ * Direct provider and local-tool streams both preserve the birth order of an
+ * existing semantic event when replacing its content. This prevents later full
+ * thought chunks from being sorted below already-rendered tool groups.
  */
 export function makeOpenAICompatibleService(owner, providerId) {
   const provider = getProvider(providerId);
@@ -55,9 +55,7 @@ async function runWithLocalTools({ client, bridge, provider, options, conversati
     onMetrics,
     onDelta: (_delta, fullText) => { latest = fullText || latest; streamPacket(); }
   });
-  events = mergeProviderEvents(events, normalizeTraceEvents(agentResult.trace || [], provider.id));
-  const text = agentResult.text || latest || "";
-  const packet = assistantPacket(text, events, conversationId, metrics);
+  const packet = assistantPacket(agentResult.text || latest || "", events, conversationId, metrics);
   options.onstream?.(packet);
   options.ondone?.(packet);
   return packet;
@@ -78,19 +76,25 @@ async function runDirectProvider({ client, provider, options, conversationId }) 
     signal: options.signal,
     onMetrics,
     onDelta: (_delta, fullText) => { latest = fullText || latest; streamPacket(); },
-    onEvent: event => addEvents([providerStreamEvent(event, provider.id)]),
-    onReasoning: (_chunk, full) => addEvents([reasoningEvent(full, provider.id)]),
+    onReasoning: (_chunk, full) => addEvents([reasoningEvent(full, provider.id, "direct")]),
     onToolCall: tools => addEvents(tools.map(tool => toolCallEvent(tool, provider.id)))
   });
-  const text = result.text || latest || "";
-  const packet = assistantPacket(text, events, conversationId, metrics);
+  const packet = assistantPacket(result.text || latest || "", events, conversationId, metrics);
   options.onstream?.(packet);
   options.ondone?.(packet);
   return packet;
 }
 
 function assistantPacket(text = "", events = [], conversationId = null, metrics = null) {
-  return { role: "assistant", text, conversation_id: conversationId, data: { conversation_id: conversationId }, awtsmoos: { otherEvents: events, metrics }, content: { parts: [text] }, message: { author: { role: "assistant" }, content: { parts: [text] } } };
+  return {
+    role: "assistant",
+    text,
+    conversation_id: conversationId,
+    data: { conversation_id: conversationId },
+    awtsmoos: { otherEvents: events, metrics },
+    content: { parts: [text] },
+    message: { author: { role: "assistant" }, content: { parts: [text] } }
+  };
 }
 
 export async function getProviderKey(owner, provider) {
@@ -114,13 +118,18 @@ function toOpenAIMessages(messages = []) {
 function roleOf(item = {}) { const role = item.role || item.message?.author?.role || "assistant"; return role === "model" ? "assistant" : role; }
 function textOf(item = {}) { return item.text || item.message?.content?.parts?.join?.("\n") || item.content?.parts?.join?.("\n") || ""; }
 function mergeProviderEvents(oldEvents = [], newEvents = []) {
-  const keyed = new Map();
-  [...oldEvents, ...newEvents].filter(Boolean).forEach(event => keyed.set(providerEventKey(event), event));
+  const keyed = new Map(oldEvents.filter(Boolean).map(event => [providerEventKey(event), event]));
+  for (const event of newEvents.filter(Boolean)) {
+    const key = providerEventKey(event);
+    if (!key) continue;
+    const old = keyed.get(key);
+    keyed.set(key, old ? { ...event, order: old.order } : event);
+  }
   return [...keyed.values()];
 }
 function providerEventKey(event = {}) {
-  const packet = event.raw?.packet || {};
-  if (event.kind === "provider_stream") return [event.kind, event.label, packet.id || "", packet.sequence || "", packet.finish_reason || "", packet.text || ""].join("::");
+  if (event.kind === "provider_stream") return "";
+  if (event.kind === "thinking" && event.raw?.type === "provider_reasoning") return `${event.kind}:${event.raw.streamKey || event.raw.providerId || "provider"}`;
   if (event.raw?.tool_call_id) return `${event.kind}:${event.raw.tool_call_id}`;
   return [event.kind, event.label, String(event.text || "").replace(/\s+/g, " ").slice(0, 220)].join("::");
 }

@@ -1,41 +1,26 @@
 // B"H
 /**
  * @file AngelicVesselImports.js
- * @description
- * Chapter 66: exact ordered imports with the Blob mirror removed. The worker
- * asks for the Olam vessel by its true name, then the utils vessel by its true
- * name, and the Awtsmoos reveals the missing spark without disguise.
+ * @description Chapter 75: exact ordered imports with no stale ledger. The
+ * Awtsmoos summons the Olam vessel by its true current name, so dimensions are
+ * not interpreted by yesterday's tiny-cube boot path.
  */
-import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?v=lean-l1-20260529-bh66";
-import { importLedgerModule } from "./SafeModuleImport.js?v=lean-l1-20260529-bh66";
+import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { importLedgerModule } from "./SafeModuleImport.js?v=wide-platform-real-boot-chain-20260529-bh75";
 
-/**
- * @returns {Promise<{module:any,required:any,record:Object}>}
- * Loaded Olam core module record.
- */
+/** @returns {Promise<{module:any,required:any,record:Object}>} Loaded Olam core module record. */
 export async function importOlamCore() {
   return await importLedgerModule(MODULE_PATH_LEDGER.olamCore);
 }
 
-/**
- * @returns {Promise<{module:any,required:any,record:Object}>}
- * Loaded utils module record.
- */
+/** @returns {Promise<{module:any,required:any,record:Object}>} Loaded utils module record. */
 export async function importUtilsCore() {
   return await importLedgerModule(MODULE_PATH_LEDGER.utilsCore);
 }
 
-/**
- * @returns {Promise<{olamModule:any,utilsModule:any,OlamClass:any,UtilsClass:any}>}
- * Both required worker boot vessels.
- */
+/** @returns {Promise<{olamModule:any,utilsModule:any,OlamClass:any,UtilsClass:any}>} Both worker boot vessels. */
 export async function importAngelicVesselsInOrder() {
   const olam = await importOlamCore();
   const utils = await importUtilsCore();
-  return {
-    olamModule: olam.module,
-    utilsModule: utils.module,
-    OlamClass: olam.required,
-    UtilsClass: utils.required
-  };
+  return { olamModule: olam.module, utilsModule: utils.module, OlamClass: olam.required, UtilsClass: utils.required };
 }

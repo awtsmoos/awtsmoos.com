@@ -210,9 +210,9 @@
     "MovingPlatform": [
       {
         "name": "first_moving_lava_lab",
-        "width": 5,
+        "width": 2.5,
         "height": 1,
-        "depth": 7,
+        "depth": 2.5,
         "axis": "z",
         "distance": 3.2,
         "speed": 0.95,
@@ -223,14 +223,14 @@
         },
         "phase": 0,
         "size": {
-          "x": 5,
+          "x": 2.5,
           "y": 1,
-          "z": 7
+          "z": 2.5
         },
         "dimensions": {
-          "x": 5,
+          "x": 2.5,
           "y": 1,
-          "z": 7
+          "z": 2.5
         },
         "scale": {
           "x": 1,
@@ -543,15 +543,16 @@
         "destination": "ladder-2.json",
         "isSolid": false,
         "interactable": true,
-        "proximity": 2.8,
+        "proximity": 3.2,
         "requiresAllCoins": true,
         "requiresTzedakah": true,
         "manualOnly": true,
         "position": {
-          "x": 28.15,
+          "x": 27.22,
           "y": 7.35,
-          "z": 2.25
-        }
+          "z": 1.72
+        },
+        "visibleDebug": true
       }
     ],
     "FallResetTrigger": [

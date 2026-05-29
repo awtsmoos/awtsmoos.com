@@ -1,16 +1,17 @@
 // B"H
 /**
  * @module mainMenuIndex
- * @description Chapter 53: The menu imports the refreshed UI vessel explicitly,
- * so the dialogue prompt and fast textured gate do not hide in cache mist.
+ * @description Chapter 75: The menu imports the refreshed UI vessel explicitly.
+ * The Awtsmoos ensures the menu-held gameUiHTML and the autoload dispatch both
+ * belong to the same worker/platform-size boot chain.
  */
-import animations from "./animations.js";
-import titleBuilder from "./titleBuilder.js";
-import playButton from "./playButton.js";
-import loading from "../loading.js";
-import errorScreen from "../errorScreen.js";
-import uiGame from "../gameUI.js?v=lean-l1-20260529-bh69";
-import levelSelectScreen from "../screens/levelSelect.js";
+import animations from "./animations.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import titleBuilder from "./titleBuilder.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import playButton from "./playButton.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import loading from "../loading.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import errorScreen from "../errorScreen.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import uiGame from "../gameUI.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import levelSelectScreen from "../screens/levelSelect.js?v=wide-platform-real-boot-chain-20260529-bh75";
 
 const gameUiHTML = { shaym: "gameID", className: "gameUi", children: [...uiGame] };
 if (typeof window !== "undefined") window.awtsmoosGameUI = gameUiHTML;

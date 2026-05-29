@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 # B"H
-# Chapter 1: The Unix River Dug A Hidden Channel.
-# The Awtsmoos places the relay under a fixed home, asks the machine for Node,
-# and then starts the local bridge that Geelooy AI can drink from.
+# Chapter 2: The Unix River Found The Public Gate.
+# The Awtsmoos downloads the relay from /ai, places it in a fixed local home,
+# asks the machine for Node, and starts the bridge Geelooy AI can drink from.
 set -eu
 
-RELAY_URL="https://awtsmoos.com/geelooy/ai/relay/chatgpt-node-relay.cjs"
+RELAY_URL="https://awtsmoos.com/ai/relay/chatgpt-node-relay.cjs"
 AWTSMOOS_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/awtsmoos/chatgpt-relay"
 RELAY_FILE="$AWTSMOOS_HOME/chatgpt-node-relay.cjs"
 PORT="${AWTSMOOS_CHATGPT_RELAY_PORT:-38487}"

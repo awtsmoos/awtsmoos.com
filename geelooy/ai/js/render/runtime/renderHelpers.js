@@ -22,32 +22,37 @@ export function dedupeEvents(events = []) {
 }
 
 /**
- * Chapter 188: The Same Completion Id No Longer Ate Its Own Children.
+ * Chapter 223: Updating A Thought Did Not Change Its Birthplace.
  *
- * MiniMax reuses one completion id for every SSE chunk. If the renderer keyed
- * by that id alone, later packets replaced earlier packets and the event rail
- * blinked like a broken vessel. Provider stream events now carry sequence/text
- * identity so every real drop remains visible in order.
+ * Streaming replacements must preserve the original order of the node they grow.
+ * Otherwise a later full-text update can drag an old thought below tool groups.
+ * The first event's order is sacred; updates only replace contents.
  */
 export function eventMergeKey(event = {}) {
+  const raw = event.raw || event;
+  if (raw.timelineKey) return raw.timelineKey;
   const streamKey = streamingToolKey(event);
   if (streamKey) return streamKey;
-  const raw = event.raw || event;
   const packet = raw.packet || {};
+  if (event.kind === "thinking" && raw.type === "provider_reasoning") return `${event.kind}:${raw.streamKey || raw.providerId || "provider"}`;
   if (event.kind === "provider_stream" || raw.type === "provider_stream") {
     return [event.kind, event.label, packet.id || "", packet.sequence || "", packet.finish_reason || "", packet.text || ""].join("::");
   }
   if (raw.groupedThoughtEnvelope) return raw.groupKey || [event.kind, "thought-envelope"].join("::");
   const msg = raw.message || raw.input_message || raw.data?.message || raw;
-  const stable = msg.id || raw.id || raw.message_id || raw.parent || raw.type || raw.event;
+  const stable = raw.tool_call_id || msg.id || raw.id || raw.message_id || raw.parent || raw.type || raw.event;
   if (stable) return [event.kind, event.label, stable].join("::");
   return [event.kind, event.label, String(event.text || "").replace(/\s+/g, " ").slice(0, 160)].join("::");
 }
 
 export function mergeEvents(current = [], next = []) {
   const keyed = new Map();
-  for (const event of [...current, ...next]) keyed.set(eventMergeKey(event), event);
-  return dedupeEvents([...keyed.values()].sort(eventOrderSort)).slice(-180);
+  for (const event of [...current, ...next].filter(Boolean)) {
+    const key = eventMergeKey(event);
+    const old = keyed.get(key);
+    keyed.set(key, old ? { ...event, order: old.order } : event);
+  }
+  return dedupeEvents([...keyed.values()].sort(eventOrderSort)).slice(-240);
 }
 
 function eventOrderSort(a = {}, b = {}) {

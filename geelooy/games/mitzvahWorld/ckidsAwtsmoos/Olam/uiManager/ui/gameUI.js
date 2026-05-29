@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file gameUI.js
- * @description Chapter 52: The top UI gate includes the missing dialogue prompt
- * so `approach npc msg` exists again and the console stops bleeding.
+ * @description Chapter 75: The top UI gate points at the refreshed HUD river,
+ * keeping menu autoload and worker start in one wide-platform cache covenant.
  */
-export { default } from "./gameUI/index.js?v=lean-l1-20260529-bh69";
+export { default } from "./gameUI/index.js?v=wide-platform-real-boot-chain-20260529-bh75";

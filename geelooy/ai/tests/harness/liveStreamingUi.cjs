@@ -5,23 +5,25 @@ const { ROOT, assert, test } = require("./assert.cjs");
 
 async function run() {
   const results = [];
-  results.push(await test("streaming-text-appends-only-and-freezes-markdown-once", async () => {
+  results.push(await test("streaming-text-prewrap-and-live-markdown-preview-stay-stable", async () => {
     const mod = await fresh("js/render/runtime/liveTextRuntime.js");
     const bubble = fakeBubble();
     const record = { streaming: true, bubble };
     mod.updateLiveText({}, record, "# hello **world**");
     const first = bubble.childNodes[0];
+    const firstPreview = bubble.childNodes[1];
     mod.updateLiveText({}, record, "# hello **world** plus");
     const preview = bubble.childNodes.find(n => n.className === "message-live-markdown-preview");
-    assert(bubble.innerHTMLSetCount === 0, "streaming update must not use bubble innerHTML", bubble);
-    assert(bubble.childNodes[0] === first, "streaming text node must stay stable", bubble);
-    assert(first.textContent.includes("plus"), "stable node should receive new text", first);
-    assert(!preview, "streaming must not render a markdown preview on the main thread", bubble);
+    assert(bubble.innerHTMLSetCount === 0, "streaming update must not replace bubble innerHTML", bubble);
+    assert(bubble.childNodes[0] === first, "streaming raw text node must stay stable", bubble);
+    assert(preview === firstPreview, "streaming markdown preview node must stay stable", bubble);
+    assert(first.textContent.includes("plus"), "stable raw actor should receive new text", first);
+    assert(preview.innerHTML.includes("<strong>world</strong>"), "streaming markdown should parse live", preview);
     record.streaming = false;
     mod.updateLiveText({}, record, "# hello");
     assert(bubble.innerHTMLSetCount === 1, "final non-streaming update may render markdown once", bubble);
     assert(bubble._innerHTML.includes("<h1>hello</h1>"), "final markdown should render after stream ends", bubble);
-    return { innerHTMLSetCount: bubble.innerHTMLSetCount, stable: true, liveMarkdown: false };
+    return { innerHTMLSetCount: bubble.innerHTMLSetCount, stable: true, liveMarkdown: true };
   }));
 
   results.push(await test("stream-resume-store-active-prunes-done-ghosts", async () => {

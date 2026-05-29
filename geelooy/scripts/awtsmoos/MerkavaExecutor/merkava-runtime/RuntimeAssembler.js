@@ -11,10 +11,11 @@
     const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 
     /**
-     * B"H
-     * Chapter 11: The dynamic module was no longer a shadow. It was fetched
-     * from the same localhost river the browser drinks from, lowered into
-     * bytecode, and allowed to fail with its own face, its own stack, its own cry.
+     * @class RuntimeAssembler
+     * @description Chapter 81: the dynamic import gate becomes Chrome-like
+     * inside Merkava. It fetches, lowers, runs, catches rejections, catches
+     * `then()` callback errors, and records them in the virtual runtime instead
+     * of letting Node consume the process.
      */
     class RuntimeAssembler {
         constructor(options = {}) { this.options = options; this.files = options.files || {}; this.graph = new RuntimeGraph(); }
@@ -45,7 +46,10 @@
             } else {
                 result = await runtime.executeFunction(this.options.execute || makeExecutor(this.files[entry] || '', this.options.runtime));
             }
-            return { ok: result.ok, assembly, result, runtime, graph: this.graph.toJSON(), console: result.snapshot?.window?.console || result.snapshot?.logs || [] };
+            await settleMerkavaTasks(runtime, Number(this.options.waitMs || 75));
+            const snapshot = runtime.snapshot ? runtime.snapshot() : result.snapshot;
+            if (snapshot && result) result.snapshot = snapshot;
+            return { ok: result.ok && !(runtime.errors || []).length, assembly, result, runtime, graph: this.graph.toJSON(), console: snapshot?.window?.console || result.snapshot?.logs || [] };
         }
 
         async runHTML(html, runtime, globals) {
@@ -60,6 +64,23 @@
             const lifecycle = await dispatchBrowserLifecycle(runtime, this.options.waitMs || 75);
             return lifecycle || last || await runtime.executeFunction(async () => null);
         }
+    }
+
+    function recordRuntimeError(runtime, error, phase, extra = {}) {
+        const row = { message: error?.message || String(error), stack: error?.stack || '', code: error?.code || null, trace: error?.trace || null, phase, ...extra };
+        runtime.errors = runtime.errors || [];
+        runtime.errors.push(row);
+        if (runtime.window) {
+            runtime.window.__AWTSMOOS_CAPTURED_ERRORS__ = runtime.window.__AWTSMOOS_CAPTURED_ERRORS__ || [];
+            runtime.window.__AWTSMOOS_CAPTURED_ERRORS__.push(row);
+        }
+        return row;
+    }
+
+    async function settleMerkavaTasks(runtime, waitMs) {
+        const ms = Number(waitMs || 0);
+        if (ms <= 0) return;
+        await new Promise(resolve => setTimeout(resolve, Math.min(ms, 1200)));
     }
 
     function installProbeCapture(globals, runtime) {
@@ -85,7 +106,7 @@
             const spec = String(specifier || '');
             const href = safeUrl(spec, pageUrl.href)?.href || spec;
             graph?.event?.('module.dynamicImport', { specifier: spec, href });
-            return (async () => {
+            const promise = (async () => {
                 if (!href) throw new Error('Dynamic import received an empty module specifier.');
                 if (cache.has(href)) return cache.get(href);
                 const env = await collectDynamicModuleEnv(href, pageUrl, seedFiles, graph, options);
@@ -93,7 +114,28 @@
                 if (result?.exports) cache.set(href, result.exports);
                 return result?.exports || {};
             })();
+            return makeSafeThenable(promise, runtime, href);
         };
+    }
+
+    function makeSafeThenable(promise, runtime, href) {
+        const safe = promise.catch(error => {
+            recordRuntimeError(runtime, error, 'dynamicImport', { href });
+            return {};
+        });
+        safe.then = function(onFulfilled, onRejected) {
+            const chained = promise.then(value => {
+                try { return typeof onFulfilled === 'function' ? onFulfilled(value) : value; }
+                catch (error) { recordRuntimeError(runtime, error, 'dynamicImport.then', { href }); return {}; }
+            }, error => {
+                recordRuntimeError(runtime, error, 'dynamicImport.reject', { href });
+                try { return typeof onRejected === 'function' ? onRejected(error) : {}; }
+                catch (inner) { recordRuntimeError(runtime, inner, 'dynamicImport.catch', { href }); return {}; }
+            });
+            return makeSafeThenable(chained, runtime, href);
+        };
+        safe.catch = function(onRejected) { return safe.then(undefined, onRejected); };
+        return safe;
     }
 
     async function collectDynamicModuleEnv(href, pageUrl, seedFiles, graph, options) {
@@ -105,7 +147,7 @@
             const job = queue.shift();
             if (!job?.href || seen.has(job.href)) continue;
             seen.add(job.href);
-            const got = await fetchText(job.href);
+            const got = files[job.key] ?? files['/' + job.key.replace(/^\//, '')] ?? files['./' + job.key.replace(/^\//, '')] ?? await fetchText(job.href, pageUrl);
             files[job.key] = got;
             files['/' + job.key.replace(/^\//, '')] = got;
             graph?.event?.('module.dynamicImport.fetch', { href: job.href, key: job.key });
@@ -119,15 +161,26 @@
         return { entry: keyForUrl(safeUrl(href), pageUrl), files };
     }
 
-    async function fetchText(href) {
-        const response = await fetch(href, { headers: { accept: 'text/javascript,*/*' } });
-        if (!response.ok) throw new Error(`Dynamic module fetch failed: ${href} (${response.status})`);
-        return await response.text();
+    async function fetchText(href, pageUrl = null) {
+        const candidates = [href];
+        try {
+            const url = new URL(href);
+            if (pageUrl && url.pathname.startsWith('/') && !url.pathname.startsWith(pageUrl.pathname.replace(/\/[^/]*$/, '/'))) {
+                candidates.push(new URL(url.pathname.replace(/^\//, ''), pageUrl.href).href);
+            }
+        } catch (_) {}
+        let lastStatus = 0;
+        for (const candidate of [...new Set(candidates)]) {
+            const response = await fetch(candidate, { headers: { accept: 'text/javascript,*/*' } }).catch(() => null);
+            if (response?.ok) return await response.text();
+            lastStatus = response?.status || 0;
+        }
+        throw new Error(`Dynamic module fetch failed: ${href} (${lastStatus})`);
     }
 
     function staticModuleRefs(source) {
         const refs = [];
-        for (const match of String(source || '').matchAll(/import\s+[^('";]+?\s+from\s+["']([^"']+)["']/g)) refs.push(match[1]);
+        for (const match of String(source || '').matchAll(/import\s+(?!\()[^'";]*?(?:from\s+)?["']([^"']+)["']/g)) refs.push(match[1]);
         for (const match of String(source || '').matchAll(/export\s+[^"']*?\s+from\s+["']([^"']+)["']/g)) refs.push(match[1]);
         return refs;
     }

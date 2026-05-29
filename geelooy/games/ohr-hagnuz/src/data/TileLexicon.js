@@ -47,7 +47,8 @@ const CoreTiles = {
 
 export const TileLexicon = { ...CoreTiles, ...MidgameTiles };
 
-export const tileMeta = (glyph) => TileLexicon[glyph] || TileLexicon['0'];
+// FIX: Safe fallback that always returns a valid object, never undefined
+export const tileMeta = (glyph) => TileLexicon[glyph] || { kind: 'floor', pass: true, ground: '.' };
 export const isPassableGlyph = (glyph) => !!tileMeta(glyph).pass;
 export const groundGlyph = (glyph) => tileMeta(glyph).ground || glyph;
 export const isDoorGlyph = (glyph) => tileMeta(glyph).kind === 'door';

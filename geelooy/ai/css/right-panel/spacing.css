@@ -1,0 +1,137 @@
+/*B"H
+  Chapter 205: The Fields Were Given Separate Footsteps.
+  This shard is the law against overlap. Grids collapse to one clear column,
+  controls become static, and every label holds its own children in peace.
+*/
+#automation-panel .automation-grid,
+#automation-panel .timing-grid,
+#automation-panel .event-filter-grid,
+#automation-panel .relay-actions,
+#automation-panel .graph-toolbar,
+#automation-panel .automation-actions,
+#automation-panel .conversation-portal-actions,
+#automation-panel .prompt-action-row,
+#automation-panel .relay-install-buttons,
+#automation-panel .compact-provider-actions{
+  position:static!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:12px!important;
+  width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+}
+#automation-panel .automation-field,
+#automation-panel .automation-toggle-row,
+#automation-panel .event-filter,
+#automation-panel .provider-chat-row,
+#automation-panel .relay-install-card{
+  position:static!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:9px!important;
+  width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:13px 14px!important;
+  overflow:visible!important;
+  border:1px solid var(--rp-line)!important;
+  border-radius:14px!important;
+  background:var(--rp-field)!important;
+  box-shadow:none!important;
+  transform:none!important;
+  white-space:normal!important;
+  line-height:1.35!important;
+}
+#automation-panel .automation-toggle-row,
+#automation-panel .event-filter{
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+}
+#automation-panel .event-filter{
+  justify-content:flex-start!important;
+  gap:12px!important;
+}
+#automation-panel input,
+#automation-panel select,
+#automation-panel textarea,
+#automation-panel button,
+#automation-panel .provider-import-button,
+#automation-panel code{
+  position:static!important;
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  margin:0!important;
+  transform:none!important;
+  white-space:normal!important;
+}
+#automation-panel input:not([type="checkbox"]),
+#automation-panel select,
+#automation-panel textarea{
+  padding:11px 12px!important;
+  border:1px solid rgba(184,222,255,.18)!important;
+  border-radius:12px!important;
+  background:rgba(2,8,18,.72)!important;
+  box-shadow:none!important;
+  color:var(--rp-text)!important;
+  line-height:1.35!important;
+}
+#automation-panel textarea{
+  min-height:120px!important;
+  resize:vertical!important;
+}
+#automation-panel input[type="checkbox"]{
+  flex:0 0 auto!important;
+  width:20px!important;
+  min-width:20px!important;
+  height:20px!important;
+  min-height:20px!important;
+  max-width:20px!important;
+  appearance:auto!important;
+  accent-color:#22d3ee!important;
+}
+#automation-panel .automation-toggle-row input[type="checkbox"]{
+  appearance:none!important;
+  width:50px!important;
+  min-width:50px!important;
+  max-width:50px!important;
+  height:28px!important;
+  min-height:28px!important;
+  border:1px solid rgba(184,222,255,.24)!important;
+  border-radius:999px!important;
+  background:rgba(5,13,26,.88)!important;
+}
+#automation-panel button,
+#automation-panel .provider-import-button{
+  min-height:46px!important;
+  padding:11px 14px!important;
+  line-height:1.25!important;
+  text-align:center!important;
+  overflow:visible!important;
+}
+#automation-panel code{
+  padding:12px!important;
+  overflow-wrap:anywhere!important;
+  white-space:pre-wrap!important;
+  line-height:1.45!important;
+}
+#automation-panel input:focus,
+#automation-panel select:focus,
+#automation-panel textarea:focus{
+  outline:2px solid rgba(45,212,191,.35)!important;
+  outline-offset:1px!important;
+  border-color:var(--rp-strong)!important;
+}

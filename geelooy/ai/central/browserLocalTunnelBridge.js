@@ -1,39 +1,55 @@
 // B"H
-import { DEFAULT_SAFE_ACTIONS, makeToolSchemas } from "./toolSchemas.js";
+import { DEFAULT_SAFE_ACTIONS, describeTool, makeBridgeToolSchemas, toolCallName, toolDetailName } from "./toolSchemas.js";
+import { sanitizeToolArguments } from "./toolArgumentSanitizer.js";
 
 const DEFAULT_BASE_URL = "http://127.0.0.1:3977";
-const DEFAULT_TOOL_LIMIT = 500;
 let cachedBridge = null;
 
 /**
  * B"H
- * Chapter 155: The Tool Constellation Was No Longer Cropped.
+ * Chapter 229: The Tunnel Gate Washed Write Arguments Before Letting Them Pass.
  *
- * The bridge discovers every local action the Awtsmoos tunnel exposes and keeps
- * the whole catalog unless the user explicitly lowers the limit in localStorage.
+ * The model may stream perfect intent through imperfect provider/browser cloth.
+ * Before any write-like action reaches the local tunnel, this bridge strips
+ * markdown fences, stray thinking tags, and DevTools ghosts like `<Author:` so
+ * source files are not poisoned by UI metadata.
  */
 export class BrowserLocalTunnelBridge {
-  constructor({ baseUrl = readSetting("awtsmoos.localTunnelApiUrl", DEFAULT_BASE_URL), toolLimit = readNumber("awtsmoos.localTunnelToolLimit", DEFAULT_TOOL_LIMIT), fetchImpl = null } = {}) {
+  constructor({ baseUrl = readSetting("awtsmoos.localTunnelApiUrl", DEFAULT_BASE_URL), fetchImpl = null } = {}) {
     this.baseUrl = String(baseUrl || DEFAULT_BASE_URL).replace(/\/+$/, "");
-    this.toolLimit = toolLimit;
     this.fetchImpl = safeFetch(fetchImpl);
     this.actions = [...DEFAULT_SAFE_ACTIONS];
+    this.allActions = [...DEFAULT_SAFE_ACTIONS];
     this.available = false;
   }
 
   async init() {
     const data = await this.get("/actions");
     const discovered = flattenActions(data.actions);
-    this.actions = prioritizeActions(discovered.length ? discovered : DEFAULT_SAFE_ACTIONS, this.toolLimit);
+    this.allActions = unique(discovered.length ? discovered : DEFAULT_SAFE_ACTIONS);
+    this.actions = essentialActions(this.allActions);
     this.available = true;
     return this;
   }
 
-  schemas() { return makeToolSchemas(this.actions); }
+  schemas() { return makeBridgeToolSchemas(this.actions, this.allActions); }
 
   async call(name, args = {}) {
-    const action = String(name || args.action || "").replace(/^[^.]+\./, "");
-    return await this.post("/tool", { name: action, arguments: { ...args, action } });
+    const requested = String(name || args.name || args.action || "").replace(/^[^.]+\./, "");
+    if (requested === toolDetailName()) return this.toolDetails(args);
+    if (requested === toolCallName()) return await this.call(String(args.name || args.action || ""), args.arguments || args.args || {});
+    const clean = sanitizeToolArguments(requested, args);
+    const result = await this.post("/tool", { name: requested, arguments: { ...clean.args, action: requested } });
+    return attachSanitizerWarnings(result, clean.warnings);
+  }
+
+  toolDetails(args = {}) {
+    const requested = Array.isArray(args.names) ? args.names.map(String) : [];
+    const query = String(args.query || "").trim().toLowerCase();
+    const matches = requested.length
+      ? requested.filter(name => this.allActions.includes(name))
+      : this.allActions.filter(name => !query || name.toLowerCase().includes(query)).slice(0, 40);
+    return { ok: true, essential: this.actions, count: this.allActions.length, names: this.allActions, matches, details: matches.map(describeTool) };
   }
 
   async get(path) {
@@ -62,6 +78,14 @@ export async function getBrowserLocalTunnelBridge() {
   catch (_e) { cachedBridge = null; return null; }
 }
 
+function attachSanitizerWarnings(result, warnings = []) {
+  if (!warnings.length) return result;
+  return { ...(result || {}), awtsmoosSanitizerWarnings: warnings };
+}
+function essentialActions(actions = []) {
+  const available = new Set(actions);
+  return DEFAULT_SAFE_ACTIONS.filter(name => available.has(name));
+}
 function safeFetch(fetchImpl) {
   if (typeof fetchImpl === "function") return fetchImpl.bind?.(globalThis) || fetchImpl;
   if (typeof globalThis.fetch === "function") return globalThis.fetch.bind(globalThis);
@@ -72,9 +96,5 @@ function flattenActions(actions) {
   if (!actions || typeof actions !== "object") return [];
   return Object.values(actions).flat(Infinity).filter(value => typeof value === "string");
 }
-function prioritizeActions(actions, limit) {
-  const unique = [...new Set([...DEFAULT_SAFE_ACTIONS, ...actions])].filter(Boolean);
-  return unique.slice(0, Math.max(DEFAULT_SAFE_ACTIONS.length, limit));
-}
+function unique(values = []) { return [...new Set(values.filter(Boolean).map(String))]; }
 function readSetting(key, fallback) { try { return localStorage.getItem(key) || fallback; } catch (_e) { return fallback; } }
-function readNumber(key, fallback) { const value = Number(readSetting(key, fallback)); return Number.isFinite(value) ? Math.max(1, Math.floor(value)) : fallback; }

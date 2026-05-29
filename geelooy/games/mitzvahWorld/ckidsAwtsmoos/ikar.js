@@ -1,19 +1,16 @@
 // B"H
 /**
  * @file ikar.js
- * @description Chapter 72: the ikar starter becomes a visible ladder of boot
- * phases. The Awtsmoos records every step — manager import, cache cleanup,
- * manager creation, UI wait, JSON fetch, and start dispatch — so no runtime can
- * hang in silence while the player sees black.
+ * @description Chapter 80: the first inner gate uses true filenames only. The
+ * Awtsmoos builds the manager, waits for the UI vessel, fetches JSON, and lets
+ * the living code prove the bridge by geometry rather than by cache charms.
  */
-import ManagerOfAllWorlds from "./Olam/worldManager/index.js?v=boot-now-json-20260529-bh72";
+import ManagerOfAllWorlds from "./Olam/worldManager/index.js";
 
-const IKAR_VERSION = "boot-now-json-20260529-bh72";
 const LADDER_JSON = /^ladder-\d+\.json$/;
 const LADDER_JS = /^ladder-\d+\.js$/;
-const scope = typeof window !== "undefined" ? window : globalThis;
+const scope = window;
 
-/** @param {string} phase Phase name. @param {object} data Phase data. */
 function markPhase(phase, data = {}) {
   scope.__AWTSMOOS_IKAR_PHASES__ ||= [];
   const row = { phase, at: new Date().toISOString(), ...data };
@@ -22,7 +19,6 @@ function markPhase(phase, data = {}) {
   return row;
 }
 
-/** @param {unknown} value Any thrown value. @param {number} depth Depth. @returns {unknown} */
 function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";
   if (value == null || ["string", "number", "boolean"].includes(typeof value)) return value;
@@ -36,17 +32,6 @@ function safeClone(value, depth = 0) {
   return String(value);
 }
 
-/** @param {unknown} error Error object. @param {object} context Trace context. */
-function describeAwtsmoosError(error, context = {}) {
-  const details = { context: safeClone(context), thrown: safeClone(error), at: new Date().toISOString(), phases: scope.__AWTSMOOS_IKAR_PHASES__ || [] };
-  console.error(`B"H - ${context.label || "Runtime error"} JSON`, JSON.stringify(details, null, 2));
-  scope.__AWTSMOOS_LAST_ERROR__ = details;
-  scope.__AWTSMOOS_LAST_ERROR_JSON__ = JSON.stringify(details, null, 2);
-  renderErrorPanel(details);
-  return details;
-}
-
-/** @param {object} details Details. */
 function renderErrorPanel(details) {
   const root = document.getElementById("ikar") || document.body;
   if (!root) return;
@@ -60,120 +45,94 @@ function renderErrorPanel(details) {
   panel.textContent = `B\"H — Mitzvah World boot error\n\n${JSON.stringify(details, null, 2)}`;
 }
 
-/** @returns {ManagerOfAllWorlds} Main manager. */
-function createManager() {
-  markPhase("manager:create:start");
-  const manager = new ManagerOfAllWorlds(null);
-  scope.mana = manager;
-  markPhase("manager:create:done", { hasUi: Boolean(manager.ui) });
-  return manager;
+function reportError(error, context = {}) {
+  const details = { context: safeClone(context), thrown: safeClone(error), phases: scope.__AWTSMOOS_IKAR_PHASES__ || [], at: new Date().toISOString() };
+  scope.__AWTSMOOS_LAST_ERROR__ = details;
+  scope.__AWTSMOOS_LAST_ERROR_JSON__ = JSON.stringify(details, null, 2);
+  console.error(`B"H - ${context.label || "Runtime error"} JSON`, scope.__AWTSMOOS_LAST_ERROR_JSON__);
+  renderErrorPanel(details);
+  return details;
 }
 
-/** @returns {{ikar:HTMLElement|null,menu:HTMLElement|null,loading:HTMLElement|null}} UI roots. */
-function getUI() {
-  const ui = scope.mana?.ui;
-  const ikar = typeof ui?.$g === "function" ? ui.$g("ikar") : document.getElementById("ikar");
-  const menu = typeof ui?.$g === "function" ? ui.$g("menu") || ui.$g("main menu") : document.querySelector(".gameMenu,.menu");
-  const loading = typeof ui?.$g === "function" ? ui.$g("loading") : document.querySelector(".loading");
-  return { ikar, menu, loading };
-}
-
-/** @param {string} raw Requested level id. @returns {string} JSON level id. */
 function normalizeLevelId(raw) {
   const clean = String(raw || "").split("/").pop();
   if (LADDER_JS.test(clean)) return clean.replace(/\.js$/i, ".json");
   if (LADDER_JSON.test(clean)) return clean;
-  throw new Error("Only Desert Ladder JSON level paths are enabled right now.");
+  throw new Error("Only ladder-N.json level paths are enabled here.");
 }
 
-/** @param {string} path Level path/id. */
-async function loadLadderLevel(path) {
-  const id = normalizeLevelId(path);
-  const url = new URL(`../levels/ladder/data/${id}?v=${IKAR_VERSION}`, import.meta.url);
+async function clearOldCaches() {
+  markPhase("cache:cleanup:start");
+  const cleanup = (async () => {
+    const regs = await navigator.serviceWorker?.getRegistrations?.() || [];
+    await Promise.all(regs.map(reg => reg.unregister()));
+    const keys = await caches?.keys?.() || [];
+    await Promise.all(keys.map(key => caches.delete(key)));
+    return "done";
+  })().catch(error => ({ error: error?.message || String(error) }));
+  const result = await Promise.race([cleanup, new Promise(resolve => setTimeout(() => resolve("timeout"), 900))]);
+  markPhase("cache:cleanup:done", { result: safeClone(result) });
+}
+
+function createManager() {
+  markPhase("manager:create:start");
+  scope.mana = new ManagerOfAllWorlds(null);
+  markPhase("manager:create:done", { hasUi: Boolean(scope.mana?.ui) });
+}
+
+function uiRoots() {
+  const ui = scope.mana?.ui;
+  return { ikar: ui?.$g?.("ikar") || document.getElementById("ikar"), menu: ui?.$g?.("menu") || ui?.$g?.("main menu"), loading: ui?.$g?.("loading") };
+}
+
+async function waitForGameUi() {
+  markPhase("ui:wait:start");
+  for (let attempts = 1; attempts <= 160; attempts += 1) {
+    const { ikar } = uiRoots();
+    if (ikar && scope.awtsmoosGameUI) {
+      markPhase("ui:wait:done", { attempts, hasGameUi: true });
+      return ikar;
+    }
+    await new Promise(resolve => setTimeout(resolve, 80));
+  }
+  throw new Error("UI readiness timed out before level autoload.");
+}
+
+async function fetchLevel(id) {
+  const url = new URL(`../levels/ladder/data/${id}`, import.meta.url);
   markPhase("level:fetch:start", { id, url: url.href });
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error(`JSON level fetch failed: ${id} (${response.status})`);
   const data = await response.json();
   if (data?.format !== "awtsmoos-level-json-v1" || !data?.nivrayim) throw new Error(`Invalid JSON level vessel: ${id}`);
   markPhase("level:fetch:done", { id, nivraTypes: Object.keys(data.nivrayim).length });
-  return { id, data };
+  return data;
 }
 
-/** @param {number} maxAttempts Poll attempts. */
-function waitForIkar(maxAttempts = 120) {
-  markPhase("ui:wait:start");
-  return new Promise((resolve, reject) => {
-    let attempts = 0;
-    const interval = setInterval(() => {
-      attempts += 1;
-      const { ikar } = getUI();
-      if (ikar && scope.awtsmoosGameUI) {
-        clearInterval(interval);
-        markPhase("ui:wait:done", { attempts, hasGameUi: true });
-        resolve(ikar);
-      }
-      if (attempts > maxAttempts) {
-        clearInterval(interval);
-        reject(new Error(`UI readiness timed out after ${attempts} attempts. ikar=${Boolean(ikar)} gameUI=${Boolean(scope.awtsmoosGameUI)}`));
-      }
-    }, 100);
-  });
-}
-
-/** @param {boolean} loadingOn Loading visible. */
-function setLoadingState(loadingOn) {
-  const { menu, loading } = getUI();
-  menu?.classList.toggle("hidden", loadingOn);
-  menu?.classList.toggle("offscreen", loadingOn);
-  menu?.classList.toggle("onscreen", !loadingOn);
-  loading?.classList.toggle("hidden", !loadingOn);
-}
-
-/** @returns {Promise<void>} Clears old browser caches with a short cap. */
-async function clearOldCaches() {
-  markPhase("cache:cleanup:start");
-  const timeout = new Promise(resolve => setTimeout(() => resolve("timeout"), 1200));
-  const cleanup = (async () => {
-    const regs = await navigator.serviceWorker?.getRegistrations?.() || [];
-    await Promise.all(regs.map(reg => reg.unregister()));
-    const keys = await globalThis.caches?.keys?.() || [];
-    await Promise.all(keys.map(key => caches.delete(key)));
-    return "done";
-  })().catch(error => ({ error: error?.message || String(error) }));
-  const result = await Promise.race([cleanup, timeout]);
-  markPhase("cache:cleanup:done", { result: safeClone(result) });
-}
-
-/** @returns {Promise<void>} Starts level from query param. */
-async function handleAutoLoad() {
+async function autoloadFromQuery() {
   const path = new URLSearchParams(location.search).get("path");
   markPhase("autoload:start", { path });
-  if (!path) return;
-  try {
-    const ikar = await waitForIkar();
-    setLoadingState(true);
-    const loaded = await loadLadderLevel(path);
-    markPhase("autoload:dispatch:start", { id: loaded.id });
-    ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh: loaded.data, sourcePath: loaded.id, gameUiHTML: scope.awtsmoosGameUI } }));
-    markPhase("autoload:dispatch:done", { id: loaded.id });
-  } catch (error) {
-    describeAwtsmoosError(error, { label: "JSON level load failed", phase: "fetch level data" });
-    setLoadingState(false);
-  }
+  if (!path) return markPhase("autoload:skipped", { reason: "no path" });
+  const id = normalizeLevelId(path);
+  const ikar = await waitForGameUi();
+  const { menu, loading } = uiRoots();
+  menu?.classList.add("hidden", "offscreen");
+  loading?.classList.remove("hidden");
+  const data = await fetchLevel(id);
+  markPhase("autoload:dispatch:start", { id });
+  ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh: data, sourcePath: id, gameUiHTML: scope.awtsmoosGameUI } }));
+  markPhase("autoload:dispatch:done", { id });
 }
 
-/** @returns {Promise<void>} Boots the game shell. */
-async function bootIkar() {
-  if (scope.invalid) return;
-  markPhase("boot:start", { readyState: document.readyState, version: IKAR_VERSION });
+async function boot() {
+  markPhase("module:evaluated");
+  markPhase("boot:start", { readyState: document.readyState });
   await clearOldCaches();
   createManager();
-  if (document.readyState === "complete") handleAutoLoad();
-  else window.addEventListener("load", handleAutoLoad, { once: true });
-  markPhase("boot:scheduled-autoload", { readyState: document.readyState });
+  await autoloadFromQuery();
+  markPhase("boot:done");
 }
 
-window.addEventListener("error", event => describeAwtsmoosError(event.error || event.message, { label: "Global error", phase: "window.error", moduleURL: event.filename, line: event.lineno, column: event.colno }));
-window.addEventListener("unhandledrejection", event => describeAwtsmoosError(event.reason, { label: "Unhandled promise rejection", phase: "window.unhandledrejection" }));
-markPhase("module:evaluated", { version: IKAR_VERSION });
-bootIkar().catch(error => describeAwtsmoosError(error, { label: "Boot error" }));
+window.addEventListener("error", event => reportError(event.error || event.message, { label: "Global error", phase: "window.error", moduleURL: event.filename, line: event.lineno, column: event.colno }));
+window.addEventListener("unhandledrejection", event => reportError(event.reason, { label: "Unhandled promise rejection", phase: "window.unhandledrejection" }));
+boot().catch(error => reportError(error, { label: "Boot error" }));

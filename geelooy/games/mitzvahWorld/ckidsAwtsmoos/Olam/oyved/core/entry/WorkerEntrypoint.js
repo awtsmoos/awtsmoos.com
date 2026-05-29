@@ -1,17 +1,19 @@
 // B"H
 /**
  * @file WorkerEntrypoint.js
- * @description Chapter 65: real worker entrypoint with fresh core-module path.
+ * @description Chapter 75: real worker entrypoint with the platform-size boot
+ * key. The Awtsmoos refuses to let bh65 resurrect the old Olam while the level
+ * cries for a wide bridge over lava.
  */
-import { postPlainWorkerError } from "./PlainWorkerPost.js?v=lean-l1-20260528-bh65";
-import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js?v=lean-l1-20260528-bh65";
-import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js?v=lean-l1-20260528-bh65";
-import { createWorkerBootState } from "./WorkerBootState.js?v=lean-l1-20260528-bh65";
-import { startWorkerBoot } from "./WorkerBootRunner.js?v=lean-l1-20260528-bh65";
-import { loadWorkerCoreModules } from "./WorkerCoreModules.js?v=lean-l1-20260528-bh65";
-import { installWorkerMessageListener } from "./WorkerListenerInstaller.js?v=lean-l1-20260528-bh65";
-import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js?v=lean-l1-20260528-bh65";
-import { postWorkerProgress } from "../protocol/WorkerProtocol.js?v=lean-l1-20260528-bh65";
+import { postPlainWorkerError } from "./PlainWorkerPost.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { createWorkerBootState } from "./WorkerBootState.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { startWorkerBoot } from "./WorkerBootRunner.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { loadWorkerCoreModules } from "./WorkerCoreModules.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { installWorkerMessageListener } from "./WorkerListenerInstaller.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js?v=wide-platform-real-boot-chain-20260529-bh75";
 
 /** @returns {Promise<void>} */
 export async function startOyvedEntrypoint() {

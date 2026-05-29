@@ -154,7 +154,7 @@ function compileJsonCode(program = {}) {
     }
     if (node.op === 'typedArray') return emitSys(SYS.typedArray, [{ const: node.kind }, ...(node.items || [])]);
     if (['eq','seq','neq','sneq','lt','lte','gt','gte','and','or'].includes(node.op)) return emitSys(SYS.binary, [{ const: node.op }, node.args[0], node.args[1]]);
-    if (['not','neg','pos'].includes(node.op)) return emitSys(SYS.unary, [{ const: node.op }, node.value]);
+    if (['not','neg','pos','typeof','void'].includes(node.op)) return emitSys(SYS.unary, [{ const: node.op }, node.value]);
     if (node.op === 'conditional') return emitSys(SYS.conditional, [node.test, node.consequent, node.alternate]);
     throw new Error(`Unsupported Merkava JSON node: ${JSON.stringify(node)}`);
   };

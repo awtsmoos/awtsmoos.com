@@ -1,11 +1,12 @@
 // B"H
 /**
  * @file ModulePathLedger.js
- * @description Chapter 70: the worker boot river receives the newest vessel.
- * The Awtsmoos changes the root cache key so the browser cannot summon the old
- * OlamVessel, old grafts, old render loop, or old moving-platform NaN path.
+ * @description Chapter 75: the worker boot river is no longer allowed to carry
+ * an old vessel beneath a new sky. The Awtsmoos names one cache key for the
+ * entire platform-size revelation, so the Olam core, grafts, loader, and moving
+ * platform constructor arrive in the same living instant.
  */
-export const MODULE_BOOT_VERSION = "render-stop-user-error-20260529-bh70";
+export const MODULE_BOOT_VERSION = "wide-platform-real-boot-chain-20260529-bh75";
 
 export const MODULE_PATH_LEDGER = Object.freeze({
   olamCore: Object.freeze({

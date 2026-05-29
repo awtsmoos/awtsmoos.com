@@ -1,9 +1,11 @@
 // B"H
 /**
  * @file physics/index.js
- * @description Chapter 62: the player breathes through stable capsule physics,
- * then the Awtsmoos lets lightweight dynamic bodies answer exactly once before
- * ground correction and once after. The method exists on the exported vessel.
+ * @description Chapter 85: moving platforms enter the law before jumping.
+ * The Awtsmoos revealed the bug: static octree ground is checked before jump,
+ * but moving platforms were solved only after movement, too late for `jump` and
+ * too late for ordinary grounded acceleration. Now dynamic floors answer right
+ * after static ground detection, then again after motion for final correction.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Utils from "../../../../utils.js";
@@ -14,7 +16,6 @@ const groundRay = new THREE.Ray();
 const MOVING_EPSILON_SQ = 0.0001;
 const steepSlopeY = () => Math.cos(THREE.MathUtils.degToRad(50));
 
-/** @param {object} entity Living entity. @returns {boolean} */
 function needsOctreePhysics(entity) {
   if (!entity) return false;
   if (entity.type === "chossid" || entity.olam?.chossid === entity || entity.olam?.player === entity) return true;
@@ -22,7 +23,6 @@ function needsOctreePhysics(entity) {
   return Boolean(moving.forward || moving.backward || moving.stridingLeft || moving.stridingRight || moving.turningLeft || moving.turningRight || moving.jump || entity.movingAutomatically || entity.navTarget || entity.currentPath || entity._isMoving || ((entity.velocity?.lengthSq?.() || 0) > MOVING_EPSILON_SQ));
 }
 
-/** @param {object} player Chossid. @param {number} dt Delta. */
 function syncVisual(player, dt) {
   player.mesh.position.copy(player.collider.start);
   player.mesh.position.y -= player.radius;
@@ -104,13 +104,13 @@ export default {
       return;
     }
     this._checkGround();
+    this._solveDynamicBodies("pre-forces");
     this._applyPhysicsForces(deltaTime, isWorldBusy);
     this._calculateMovementVelocity(deltaTime);
     this._handleJump();
     this._executeMovement(deltaTime);
-    this._solveDynamicBodies();
     this._resolveGroundCollision();
-    this._solveDynamicBodies();
+    this._solveDynamicBodies("post-motion");
     this._checkAbyss();
     this._updateAnimationState(deltaTime);
     this._syncMesh(deltaTime);
@@ -118,11 +118,18 @@ export default {
     Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
   },
 
-  _solveDynamicBodies() {
-    if (this.__spikeColliderDisabled) return;
+  _solveDynamicBodies(phase = "unknown") {
+    if (this.__spikeColliderDisabled) return false;
     const bodies = this.olam?.dynamicBodies;
-    if (!Array.isArray(bodies) || bodies.length === 0) return;
-    for (const body of bodies) if (body?.type === "movingBlock") solveMovingSolid(body, this);
+    if (!Array.isArray(bodies) || bodies.length === 0) return false;
+    let supported = false;
+    for (const body of bodies) {
+      if (body?.type !== "movingBlock") continue;
+      const result = solveMovingSolid(body, this);
+      supported ||= Boolean(result?.hit && String(result.type || "").startsWith("top"));
+    }
+    this.__lastDynamicSolvePhase = phase;
+    return supported;
   },
 
   _checkNaNAndReset() {
@@ -185,6 +192,8 @@ export default {
   _handleJump() {
     if (this.onFloor && this.moving.jump) {
       this.jumped = true; this.velocity.y = this.jumpHeight;
+      this.__supportedByDynamicBody = null;
+      this.__dynamicCarrierFrames = 0;
       if (!this.didJump) { this.didJump = true; this.ayshPeula("jumped", this); }
     } else if (this.didJump) this.didJump = false;
   },

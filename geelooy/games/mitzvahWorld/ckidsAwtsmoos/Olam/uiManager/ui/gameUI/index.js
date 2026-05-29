@@ -1,21 +1,20 @@
 // B"H
 /**
  * @file index.js
- * @description
- * Chapter 69: The HUD river receives fresh level goals.
- * The Awtsmoos stops the console wound by restoring dialogues beside the HUD,
- * dock, inventory, joystick, and sacred interaction prompt.
+ * @description Chapter 75: The HUD river receives the wide-platform boot key.
+ * The Awtsmoos keeps the visible UI in the same refreshed chain as the worker
+ * start event so no old UI vessel whispers stale module names.
  */
-import hud from "./hud.js?v=lean-l1-20260529-bh69";
-import effectsOverlay from "../components/effectsOverlay.js?v=lean-l1-20260528-bh52";
-import joystick from "../joystick.js?v=lean-l1-20260528-bh52";
-import ActionBar from "./actionBar.js?v=lean-l1-20260528-bh52";
-import InventoryScreen from "./inventory/index.js?v=lean-l1-20260528-bh52";
-import InventoryStyle from "./inventory/style.js?v=lean-l1-20260528-bh52";
-import dialogues from "./dialogues.js?v=lean-l1-20260528-bh52";
-import { Toast } from "./components/Toast.js";
-import { InteractionPrompt } from "./components/InteractionPrompt.js";
-import { PerutahProgress } from "./perutahProgress.js?v=lean-l1-20260529-bh69";
+import hud from "./hud.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import effectsOverlay from "../components/effectsOverlay.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import joystick from "../joystick.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import ActionBar from "./actionBar.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import InventoryScreen from "./inventory/index.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import InventoryStyle from "./inventory/style.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import dialogues from "./dialogues.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { Toast } from "./components/Toast.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { InteractionPrompt } from "./components/InteractionPrompt.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { PerutahProgress } from "./perutahProgress.js?v=wide-platform-real-boot-chain-20260529-bh75";
 
 const isMobileLike = typeof navigator !== "undefined" && /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
 const vessels = [hud, PerutahProgress, ActionBar, InventoryStyle, InventoryScreen, ...dialogues, effectsOverlay, Toast, InteractionPrompt];

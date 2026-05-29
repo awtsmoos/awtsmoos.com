@@ -1,21 +1,25 @@
 // B"H
 /**
  * @file ikarOyvedManager.js
- * @description Chapter 16: Thin modular main-thread Worker manager with bh20 touch/UI handler.
+ * @description Chapter 75: thin modular main-thread Worker manager with the
+ * wide-platform boot key. The Awtsmoos keeps message handling, DOM routing,
+ * worker creation, and progress watching in one current river so the worker
+ * that renders the platform is not born from stale manager imports.
  */
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
-import setupDomEvents from "./worker/domEvents.js?v=lean-l1-20260528-bh35";
-import setupMessageHandler from "./worker/messageHandler.js?v=lean-l1-20260529-bh69";
-import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js";
-import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js";
-import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js";
-import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js";
-import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js";
-import { startWorkerProgressWatchdog } from "./ikarOyvedManager/watch/WorkerProgressWatchdog.js";
+import setupDomEvents from "./worker/domEvents.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import setupMessageHandler from "./worker/messageHandler.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { startWorkerProgressWatchdog } from "./ikarOyvedManager/watch/WorkerProgressWatchdog.js?v=wide-platform-real-boot-chain-20260529-bh75";
 
 export default class OlamWorkerManager {
+  /** @param {string} workerPath Worker URL. @param {object} options Hooks. @param {HTMLCanvasElement} canvasElement Canvas. @param {object} ui UI. */
   constructor(workerPath, options = {}, canvasElement, ui) {
     this.workerPath = workerPath;
     this.customTawfeekeem = options;

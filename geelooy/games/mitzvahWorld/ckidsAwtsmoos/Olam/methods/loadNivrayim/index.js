@@ -1,19 +1,22 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 17: LoadNivrayim pulls bh21 constructors through instantiate.
+ * @description Chapter 82: the loader repents from stealing `size`. The
+ * Awtsmoos showed that some nivrayim use `size` as sacred geometry while this
+ * loader used it as asset byte-count dust. Now asset weight lives in
+ * `assetSize`, and the bridge may keep its dimensions unbroken.
  */
-import instantiate from "./instantiate.js?v=lean-l1-20260528-bh37";
+import instantiate from "./instantiate.js";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 
 export default class LoadNivrayim {
-  /** Adds one object after world birth. */
+  /** @param {string} type Nivra type. @param {object} options Config. @returns {Promise<object|null>} Created object. */
   async addObject(type, options) {
     return await instantiate.addObject.call(this, type, options);
   }
 
-  /** Loads all initial nivrayim from pure level data. */
+  /** @param {object} nivrayim Pure level data. @returns {Promise<object[]>} Loaded nivrayim. */
   async loadNivrayim(nivrayim) {
     try {
       TimeTracker.start("LOAD_NIVRAYIM");
@@ -21,9 +24,10 @@ export default class LoadNivrayim {
       let totalSize = 0;
       for (const nivra of nivrayimMade) {
         nivra.olam = this;
-        const s = typeof nivra.getSize === 'function' ? await nivra.getSize() : 0;
-        totalSize += s;
-        nivra.size = s;
+        const assetSize = typeof nivra.getSize === "function" ? await nivra.getSize() : 0;
+        totalSize += assetSize;
+        nivra.assetSize = assetSize;
+        nivra.loadingAssetSize = assetSize;
       }
       this.totalSize = totalSize;
       await lifecycle.runHeescheel.call(this, nivrayimMade);
@@ -32,7 +36,7 @@ export default class LoadNivrayim {
       await lifecycle.runReady.call(this, nivrayimMade);
       await lifecycle.runAfterBriyah.call(this, nivrayimMade);
       this.ayshPeula("updateProgress", { loadedNivrayim: Date.now() });
-      if (!this.enlightened && typeof this.ohr === 'function') {
+      if (!this.enlightened && typeof this.ohr === "function") {
         try { this.ohr(); }
         catch (e) { console.error("B\"H - ⚠️ Lighting resistance encountered:", e); }
       }

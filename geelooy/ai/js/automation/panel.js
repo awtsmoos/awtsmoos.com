@@ -10,14 +10,7 @@ import { createProviderChatAdmin } from "./providerChatAdmin.js";
 import { menu, automationFields, conversationFields, exportFields, archiveFields, relayFields, visibilityFields, providerArchiveFields, PROMPT_EXAMPLES, promptLines } from "./panelMarkup.js";
 import { handleRelayInstallAction, copyRelayCommand } from "./relayInstallActions.js";
 
-/**
- * B"H
- * Chapter 180: The Panel Became A Steward Of Smaller Flames.
- *
- * The Awtsmoos does not stuff a mountain into one vessel. Relay downloads,
- * graph work, archives, and prompt quivers each receive their own small gate,
- * while this class conducts the visible cockpit without hiding dead buttons.
- */
+/** B"H — Chapter 184: The Panel Hid The Long Ledger From Settings. */
 export class AutomationPanel {
   constructor({ root, store, onChange, onDownloadChat = null, onDownloadJson = null, conversationId = null }) {
     Object.assign(this, { root, store, onChange, onDownloadChat, onDownloadJson, conversationId, tab: "automation", providerGroups: [] });
@@ -50,7 +43,7 @@ export class AutomationPanel {
   }
   body() {
     if (this.tab === "conversations") return conversationFields();
-    if (this.tab === "settings") return `<h3 class="panel-section-label">B"H Cockpit Settings</h3>${exportFields()}${providerArchiveFields(this.providerGroups)}${relayFields(this.relaySettings)}${this.visibilityMarkup()}`;
+    if (this.tab === "settings") return `<h3 class="panel-section-label">B"H Cockpit Settings</h3>${exportFields()}${providerArchiveFields(this.providerGroups, true)}${relayFields(this.relaySettings)}${this.visibilityMarkup()}`;
     if (this.tab === "trace") return `<h3 class="panel-section-label">Message Trace Filters</h3><p class="panel-note">Disable noisy trace families without deleting history.</p>${this.visibilityMarkup()}`;
     if (this.tab === "graph") return renderGraphFields(this.graph);
     if (this.tab === "archive") return `${archiveFields()}${providerArchiveFields(this.providerGroups)}`;
@@ -74,11 +67,7 @@ export class AutomationPanel {
     this.providerReport(`${action} complete`); await this.refreshProviderGroups();
   }
   async handleProviderImport(file) { if (!file) return; const count = await (await createProviderChatAdmin()).importJson(file); this.providerReport(`imported ${count} provider chat(s)`); await this.refreshProviderGroups(); }
-  handleGraphAction(action) {
-    const status = this.root.querySelector("#graph-status");
-    try { this.graph = graphNext(action, this.root, this.graph); if (action === "download-json") downloadTextFile("BH_automation_graph.json", JSON.stringify(this.graph, null, 2)); status && (status.textContent = "graph saved"); this.render(); }
-    catch (error) { status && (status.textContent = `graph error: ${error.message || error}`); }
-  }
+  handleGraphAction(action) { const status = this.root.querySelector("#graph-status"); try { this.graph = graphNext(action, this.root, this.graph); if (action === "download-json") downloadTextFile("BH_automation_graph.json", JSON.stringify(this.graph, null, 2)); status && (status.textContent = "graph saved"); this.render(); } catch (error) { status && (status.textContent = `graph error: ${error.message || error}`); } }
   handleConversationAction(action) { this.root.dispatchEvent(new CustomEvent("awtsmoos-ai-conversation-action", { bubbles: true, detail: { action } })); const status = this.root.querySelector("#conversation-status"); if (status) status.textContent = action === "open" ? "opening conversations drawer" : `${action} requested`; }
   async handleArchiveAction(action) { const status = this.root.querySelector("#archive-status"); if (action === "download") { downloadTextFile("BH_automation_archive.json", await automationArchiveStore.exportJson()); status.textContent = "archive downloaded"; } if (action === "clear") { await automationArchiveStore.clear(); status.textContent = "archive cleared"; } if (action === "count") status.textContent = `${(await automationArchiveStore.list()).length} archived message(s)`; }
   handleSettingsAction(action) { const status = this.root.querySelector("#settings-status"); if (action === "download-chat-html") { this.onDownloadChat?.(); status && (status.textContent = "chat HTML downloaded"); } if (action === "download-chat-json") { this.onDownloadJson?.(); status && (status.textContent = "debug JSON downloaded"); } }

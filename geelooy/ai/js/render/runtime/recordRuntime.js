@@ -4,14 +4,11 @@ import { interpretStreamPacket, mergeStreamText } from "../streamPacket.js";
 import { mergeEvents } from "./renderHelpers.js";
 
 /**
- * Chapter 52: The Record Became A Living Scroll.
+ * Chapter 199: The Record Remembered Metrics While It Was Still Alive.
  *
- * A record starts as a vessel for loading, text, or hidden events. While stream
- * packets arrive it is marked `streaming`; when the router finishes, the record
- * freezes into normal markdown history without losing its raw traces.
- *
- * @param {object} input Raw message input.
- * @returns {object} Mutable render record.
+ * A record starts as loading, text, or events. Live packets may carry text,
+ * reasoning/tool events, and stream metrics. All three must survive refreshes,
+ * reload snapshots, and final markdown freezing.
  */
 export function makeRecord(input) {
   const msg = normalizeMessage(input);
@@ -21,24 +18,18 @@ export function makeRecord(input) {
     role: msg.role,
     text: msg.text || "",
     events: mergeEvents(streamEvent ? [streamEvent] : (msg.events || []), input?.awtsmoosFoldedEvents || []),
+    metrics: input?.awtsmoos?.metrics || null,
     raw: msg.raw,
     prepared: null,
     shell: null,
     expanded: false,
     loading: Boolean(input?.awtsmoosLoading),
     streaming: Boolean(input?.awtsmoosLoading),
+    streamStartedAt: Date.now(),
     message: msg
   };
 }
 
-/**
- * Applies a live packet to a record without replacing the whole record object.
- *
- * @param {object} record Existing record.
- * @param {object|string} input Incoming packet.
- * @param {string} role Render role.
- * @returns {void}
- */
 export function applyPacket(record, input, role) {
   const live = interpretStreamPacket(input);
   const normalized = typeof input === "string" ? null : normalizeMessage(input);
@@ -46,17 +37,21 @@ export function applyPacket(record, input, role) {
   if (nextText) record.text = mergeStreamText(record.text, nextText);
   const events = [live.event, ...(normalized?.events || [])].filter(Boolean);
   if (events.length) record.events = mergeEvents(record.events, events);
+  if (input?.awtsmoos?.metrics) record.metrics = input.awtsmoos.metrics;
   record.role = role;
   record.loading = false;
   record.streaming = true;
+  record.streamStartedAt ||= Date.now();
 }
 
-/**
- * @param {object} record Record to snapshot.
- * @returns {{text:string,events:Array,role:string,raw:object}} Serializable record snapshot.
- */
 export function snapshotRecord(record) {
-  return { text: record.text, events: record.events, role: record.role, raw: summarizeRawForVault(record.raw) };
+  return {
+    text: record.text,
+    events: record.events,
+    role: record.role,
+    metrics: record.metrics,
+    raw: summarizeRawForVault(record.raw)
+  };
 }
 
 /**
@@ -65,9 +60,6 @@ export function snapshotRecord(record) {
  * Raw packets can contain vast event forests. The renderer keeps the living text
  * and semantic events; the vault needs only enough raw shape for diagnostics,
  * not a second hidden copy of every extension payload.
- *
- * @param {*} raw Raw normalized message payload.
- * @returns {object|null} Compact diagnostic shape.
  */
 function summarizeRawForVault(raw) {
   if (!raw || typeof raw !== "object") return null;

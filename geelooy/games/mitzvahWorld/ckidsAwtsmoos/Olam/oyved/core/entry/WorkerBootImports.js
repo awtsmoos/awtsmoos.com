@@ -1,12 +1,14 @@
 // B"H
 /**
  * @file WorkerBootImports.js
- * @description Chapter 65: worker boot imports fresh boot/interpreter modules.
+ * @description Chapter 75: worker boot imports current boot/interpreter modules.
+ * The Awtsmoos lifts the entire worker chain together so the platform is not
+ * judged by an ancient module while the level speaks fresh dimensions.
  */
-import { postPlainWorkerText } from "./PlainWorkerPost.js?v=lean-l1-20260528-bh65";
-import { plainWorkerErrorText } from "./PlainWorkerErrorText.js?v=lean-l1-20260528-bh65";
+import { postPlainWorkerText } from "./PlainWorkerPost.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { plainWorkerErrorText } from "./PlainWorkerErrorText.js?v=wide-platform-real-boot-chain-20260529-bh75";
 
-/** @param {string} path Module path. @param {string} label Human label. */
+/** @param {string} path Module path. @param {string} label Human label. @returns {Promise<any>} */
 export async function importWorkerDependency(path, label) {
   postPlainWorkerText("worker_text_log", `Worker importing dependency || label=${label} || path=${path}`);
   try {
@@ -22,9 +24,9 @@ export async function importWorkerDependency(path, label) {
 }
 
 export function importBootModule() {
-  return importWorkerDependency("../boot/OlamDynamicBoot.js?v=lean-l1-20260528-bh65", "OlamDynamicBoot");
+  return importWorkerDependency("../boot/OlamDynamicBoot.js?v=wide-platform-real-boot-chain-20260529-bh75", "OlamDynamicBoot");
 }
 
 export function importInterpreterModule() {
-  return importWorkerDependency("../interpreter/OyvedMessageInterpreter.js?v=lean-l1-20260528-bh65", "OyvedMessageInterpreter");
+  return importWorkerDependency("../interpreter/OyvedMessageInterpreter.js?v=wide-platform-real-boot-chain-20260529-bh75", "OyvedMessageInterpreter");
 }

@@ -1,12 +1,11 @@
 // B"H
 /**
  * @module ExportsHub
- * @description Chapter 71: the hub breathes again. The Awtsmoos opens every
- * export gate with a fresh query path so the browser cannot cling to yesterday's
- * bridge whose dimensions dissolved into undefined ash.
+ * @description Chapter 80: the hub breathes with plain filenames. The Awtsmoos
+ * binds Chayim, Dvarim, systems, nature, and architecture without query masks.
  */
-export * from './ChayimExports.js?v=finite-moving-platform-matrix-20260529-bh71';
-export * from './DvarimExports.js?v=finite-moving-platform-matrix-20260529-bh71';
-export * from './SystemExports.js?v=finite-moving-platform-matrix-20260529-bh71';
-export * from './NatureExports.js?v=finite-moving-platform-matrix-20260529-bh71';
-export * from './ArchitectureExports.js?v=finite-moving-platform-matrix-20260529-bh71';
+export * from './ChayimExports.js';
+export * from './DvarimExports.js';
+export * from './SystemExports.js';
+export * from './NatureExports.js';
+export * from './ArchitectureExports.js';

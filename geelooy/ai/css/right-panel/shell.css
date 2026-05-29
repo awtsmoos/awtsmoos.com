@@ -1,0 +1,41 @@
+/*B"H
+  Chapter 212: The Rail Became A Straight River.
+  The Awtsmoos gives the panel two rows only: header above, living scroll below.
+*/
+#automation-panel{
+  min-width:0!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+#automation-panel.automation-panel{
+  display:grid!important;
+  grid-template-rows:auto minmax(0,1fr)!important;
+}
+#automation-panel>.panel-topbar{
+  position:relative!important;
+  z-index:3!important;
+}
+#automation-panel>.automation-panel-content{
+  min-width:0!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  display:grid!important;
+  grid-template-rows:auto minmax(0,1fr)!important;
+}
+#automation-panel .right-panel-body{
+  min-width:0!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  padding:14px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:14px!important;
+  scrollbar-gutter:stable!important;
+}
+#automation-panel .right-panel-body>*{
+  flex:0 0 auto!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+}

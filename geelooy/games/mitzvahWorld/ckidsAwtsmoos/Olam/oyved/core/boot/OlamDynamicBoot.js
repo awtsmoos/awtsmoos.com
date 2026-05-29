@@ -1,10 +1,10 @@
 // B"H
 /**
  * @file OlamDynamicBoot.js
- * @description Chapter 65: the boot bridge pulls the fresh angelic invoker,
- * carrying the MIME-fallback import path into the worker vessel.
+ * @description Chapter 75: the boot bridge pulls the fresh angelic invoker.
+ * The Awtsmoos refuses a worker boot that remembers the 1x1 platform shadow.
  */
-import { AngelicInvoker } from "./AngelicInvoker.js?v=lean-l1-20260528-bh65";
+import { AngelicInvoker } from "./AngelicInvoker.js?v=wide-platform-real-boot-chain-20260529-bh75";
 
 /** @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>} Boot result. */
 export async function invokeAngelicVessels() {

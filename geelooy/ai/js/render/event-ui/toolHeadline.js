@@ -2,30 +2,34 @@
 import { resolveToolName, resolveToolPayload, resolveToolPreview } from "../normalizer/toolNameResolver.js";
 
 /**
- * Chapter 40: The Tool Header Became A True Crown.
+ * Chapter 218: The Provider Tool Spoke Its Own Name.
  *
- * A preview may know only the namespace, while the completed result knows the
- * action, command, path, cwd, status, and output. This headline searches all of
- * them in order, so streaming cards keep sharpening instead of freezing with a
- * vague duplicate namespace.
- *
- * @param {object} event Classified event capsule.
- * @returns {{action:string,target:string,host:string,meta:string}}
+ * Provider-normalized tool events carry `raw.call.name`, `raw.request`, and
+ * `raw.response`. The old headline only searched ChatGPT transport shapes, so
+ * MiniMax tools appeared as the useless label `tool_call`. This crown now reads
+ * provider events first, then falls back to the older transport resolvers.
  */
 export function toolHeadline(event = {}) {
   const raw = event.raw || event;
+  const provider = providerTool(raw);
+  if (provider) return provider;
   const msg = raw.message || raw.input_message || raw.data?.message || raw;
   const payload = resolveToolPayload(raw, msg) || parsePayload(contentText(msg.content)) || raw;
   const preview = resolveToolPreview(raw, msg);
   const response = responsePayload(payload, raw);
   const action = firstValue(response.action, payload.action, preview?.params?.action, preview?.operation, raw.action, resolveToolName(raw, msg));
   const host = hostName(event, raw, msg, preview);
-  return {
-    action: actionLabel(event, action),
-    target: targetFor(action, payload, response, preview),
-    host,
-    meta: metaFor(payload, response, preview)
-  };
+  return { action: actionLabel(event, action), target: targetFor(action, payload, response, preview), host, meta: metaFor(payload, response, preview) };
+}
+
+function providerTool(raw = {}) {
+  if (!raw.providerEvent || !/tool|function/i.test(String(raw.type || ""))) return null;
+  const call = raw.call || {};
+  const args = raw.request || call.arguments || call.function?.arguments || {};
+  const response = raw.response || {};
+  const name = firstValue(call.name, call.function?.name, raw.name, raw.tool_call_id, raw.type);
+  const action = /result/i.test(String(raw.type || "")) ? `response · ${name}` : name;
+  return { action, target: targetFor(name, args, response, {}), host: raw.providerId || "provider", meta: metaFor(args, response, {}) };
 }
 
 function actionLabel(event, action) {
@@ -33,14 +37,7 @@ function actionLabel(event, action) {
 }
 
 function hostName(event, raw, msg, preview) {
-  return firstUseful(
-    msg.author?.name,
-    raw.author?.name,
-    event.label,
-    preview?.operation,
-    resolveToolName(raw, msg),
-    raw.type
-  ) || "tool";
+  return firstUseful(msg.author?.name, raw.author?.name, event.label, preview?.operation, resolveToolName(raw, msg), raw.type) || "tool";
 }
 
 function responsePayload(payload = {}, raw = {}) {
@@ -76,7 +73,7 @@ function metaFor(payload = {}, raw = {}, preview = {}) {
 
 function contentText(content = {}) {
   if (typeof content.text === "string") return content.text;
-  if (Array.isArray(content.parts)) return content.parts.map(part => typeof part === "string" ? part : part?.text || "").filter(Boolean).join("\n");
+  if (Array.isArray(content.parts)) return content.parts.map(part => typeof part === "string" ? part : part?.text || part?.summary || "").filter(Boolean).join("\n");
   return "";
 }
 

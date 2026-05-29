@@ -1,20 +1,112 @@
 /*B"H*/
+/*
+  Chapter 204: The Live Markdown Wore Garments While It Was Still Becoming.
+  Raw live text stays as a stable pre-wrap source, markdown previews update in
+  place, and the independent stream rail shows seconds/tokens/progress without
+  being erased by bubble refreshes.
+*/
+.message.is-streaming-markdown{
+  white-space:normal;
+}
+
 .message.is-streaming-markdown .message-live-text{
-  position:absolute!important;
-  width:1px!important;
-  height:1px!important;
-  padding:0!important;
-  margin:-1px!important;
-  overflow:hidden!important;
-  clip:rect(0 0 0 0)!important;
+  display:block!important;
   white-space:pre-wrap!important;
-  border:0!important;
+  text-wrap:pretty;
+  overflow-wrap:anywhere!important;
+  min-width:0!important;
+  opacity:.52;
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  font-size:.82em;
+  max-height:7.5rem;
+  overflow:auto;
+  border:1px solid rgba(125,210,255,.16);
+  border-radius:12px;
+  padding:.55rem .7rem;
+  margin:0 0 .65rem;
+  background:rgba(3,12,24,.28);
 }
 
 .message-live-markdown-preview{
-  display:block;
+  display:block!important;
   min-width:0;
+  white-space:normal;
+  overflow-wrap:anywhere;
 }
 
 .message-live-markdown-preview > :first-child{margin-top:0!important}
 .message-live-markdown-preview > :last-child{margin-bottom:0!important}
+
+.message.has-pending-markdown-freeze .message-live-text::after,
+.message.is-streaming-markdown .message-live-markdown-preview::after{
+  content:"";
+  display:inline-block;
+  width:.42em;
+  height:1em;
+  margin-left:.12em;
+  border-radius:999px;
+  background:currentColor;
+  opacity:.55;
+  vertical-align:-.12em;
+  animation:awtsmoos-stream-caret 1s ease-in-out infinite;
+}
+
+.stream-status-rail{
+  align-self:stretch;
+  margin:.35rem 0 .55rem;
+  padding:.55rem .75rem;
+  border:1px solid rgba(65,225,210,.22);
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(12,34,56,.72),rgba(8,17,30,.64));
+  box-shadow:0 0 24px rgba(31,212,205,.08) inset;
+  color:#d8fbff;
+  font-size:.82rem;
+}
+
+.stream-status-line{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  flex-wrap:wrap;
+}
+
+.stream-status-dot{
+  width:.55rem;
+  height:.55rem;
+  border-radius:999px;
+  background:#38f2d6;
+  box-shadow:0 0 14px #38f2d6;
+  animation:awtsmoos-stream-pulse 1.2s ease-in-out infinite;
+}
+
+.stream-status-time,.stream-status-tokens{
+  color:#a9daf0;
+  font-variant-numeric:tabular-nums;
+}
+
+.stream-status-bar{
+  height:.32rem;
+  margin-top:.42rem;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(157,211,255,.16);
+}
+
+.stream-status-fill{
+  display:block;
+  height:100%;
+  min-width:7%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#24dccb,#3e83ff,#9b72ff);
+  transition:width .22s ease;
+}
+
+@keyframes awtsmoos-stream-caret{
+  0%,100%{opacity:.25;transform:scaleY(.72)}
+  50%{opacity:.8;transform:scaleY(1)}
+}
+
+@keyframes awtsmoos-stream-pulse{
+  0%,100%{opacity:.45;transform:scale(.86)}
+  50%{opacity:1;transform:scale(1.08)}
+}

@@ -1,17 +1,24 @@
 // B"H
-/** @module ManagerOfAllWorlds @description Chapter 53 refreshed UI and texture gate. */
+/**
+ * @module ManagerOfAllWorlds
+ * @description Chapter 80: the world manager uses true filenames. The Awtsmoos
+ * removes query masks from the start river so the blue bridge must stand by
+ * honest module identity.
+ */
 import ChasveiAwtsmoos from "../../utils/ChasveiAwtsmoos.js";
-import UIManager from "../uiManager/index.js?v=lean-l1-20260529-bh69";
-import StartWorldFlow from "./StartWorldFlow.js?v=lean-l1-20260529-bh69";
-import SocketHandler from "./SocketHandler.js?v=lean-l1-20260528-bh50";
-import ServiceWorkerInit from "./ServiceWorkerInit.js?v=lean-l1-20260528-bh50";
-import SwitchDestroyLogic from "./SwitchDestroyLogic.js?v=lean-l1-20260528-bh50";
-import DomHelpers from "./DomHelpers.js?v=lean-l1-20260528-bh50";
+import UIManager from "../uiManager/index.js";
+import StartWorldFlow from "./StartWorldFlow.js";
+import SocketHandler from "./SocketHandler.js";
+import ServiceWorkerInit from "./ServiceWorkerInit.js";
+import SwitchDestroyLogic from "./SwitchDestroyLogic.js";
+import DomHelpers from "./DomHelpers.js";
 
 export default class ManagerOfAllWorlds {
   gameState = {};
   started = false;
   ikarUI = null;
+
+  /** @param {string} serviceWorkerPath Optional service worker path. */
   constructor(serviceWorkerPath) {
     DomHelpers.setupGlobalFunctions();
     const uiManager = new UIManager();
@@ -20,4 +27,5 @@ export default class ManagerOfAllWorlds {
     if (serviceWorkerPath && typeof serviceWorkerPath === "string") this.registerServiceWorker(serviceWorkerPath);
   }
 }
+
 ChasveiAwtsmoos.emanate(ManagerOfAllWorlds.prototype, [StartWorldFlow, SocketHandler, ServiceWorkerInit, SwitchDestroyLogic]);

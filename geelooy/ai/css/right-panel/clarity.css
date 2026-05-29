@@ -1,0 +1,113 @@
+/*B"H
+  Chapter 204: The Right Rail Stopped Eating Its Children.
+  The Awtsmoos gives every section its own breath. This shard defines the
+  quiet surface and the scroll river; `spacing.css` completes the law of flow.
+*/
+#automation-panel{
+  --rp-bg:#06111f;
+  --rp-section:rgba(255,255,255,.035);
+  --rp-field:rgba(255,255,255,.055);
+  --rp-line:rgba(184,222,255,.15);
+  --rp-strong:rgba(94,234,212,.40);
+  --rp-text:#edf8ff;
+  --rp-muted:#9fb6c9;
+  background:var(--rp-bg)!important;
+  color:var(--rp-text)!important;
+}
+#automation-panel *,
+#automation-panel *::before,
+#automation-panel *::after{
+  box-sizing:border-box!important;
+}
+#automation-panel .automation-panel-content,
+#automation-panel .right-panel-body{
+  min-width:0!important;
+  min-height:0!important;
+  width:100%!important;
+}
+#automation-panel .right-panel-body{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:16px!important;
+  padding:14px 16px 26px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  scrollbar-color:rgba(94,234,212,.38) transparent!important;
+}
+#automation-panel .right-panel-body>*{
+  position:static!important;
+  flex:0 0 auto!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  transform:none!important;
+}
+#automation-panel .right-panel-body::-webkit-scrollbar{width:9px!important}
+#automation-panel .right-panel-body::-webkit-scrollbar-thumb{
+  background:rgba(94,234,212,.30)!important;
+  border:3px solid transparent!important;
+  border-radius:999px!important;
+  background-clip:padding-box!important;
+}
+#automation-panel .panel-section-label{
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  color:#bff8ff!important;
+  font-size:.72rem!important;
+  letter-spacing:.20em!important;
+  line-height:1.25!important;
+}
+#automation-panel .panel-note,
+#automation-panel small,
+#automation-panel p{
+  display:block!important;
+  margin:0!important;
+  color:var(--rp-muted)!important;
+  font-weight:650!important;
+  line-height:1.45!important;
+  white-space:normal!important;
+}
+#automation-panel .automation-card,
+#automation-panel .automation-archive-panel,
+#automation-panel .graph-node,
+#automation-panel .graph-canvas,
+#automation-panel .chat-scope-pill,
+#automation-panel .automation-status{
+  position:static!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:12px!important;
+  width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:14px!important;
+  overflow:visible!important;
+  border:1px solid var(--rp-line)!important;
+  border-radius:16px!important;
+  background:var(--rp-section)!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+#automation-panel .automation-card::before,
+#automation-panel .automation-card::after,
+#automation-panel .graph-node::before,
+#automation-panel .graph-node::after{
+  content:none!important;
+  display:none!important;
+}
+#automation-panel h3,
+#automation-panel h4,
+#automation-panel b{
+  margin:0!important;
+  color:var(--rp-text)!important;
+  line-height:1.3!important;
+  white-space:normal!important;
+}

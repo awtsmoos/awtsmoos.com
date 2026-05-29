@@ -1,52 +1,59 @@
 // B"H
 /**
  * @file loadNivrayim.js
- * @description Chapter 56: Legacy loader drinks the separated mover river.
+ * @description Chapter 87: the legacy loader also drinks from plain filenames.
+ * If any older graft path reaches this vessel, the Awtsmoos still ensures the
+ * current export hub births `InteractiveDoor` as the visible mezuzah, and never
+ * steals `size` for asset byte-count bookkeeping.
  */
 import Utils from '../../utils.js';
-import * as AWTSMOOS from '../../awtsmoosCkidsGames.js?v=lean-l1-20260528-bh56';
+import * as AWTSMOOS from '../../awtsmoosCkidsGames.js';
 
-export default class {
-  async addObject(type, options) {
-    if (!AWTSMOOS[type]) { console.error(`B"H - Olam.addObject: Type "${type}" does not exist.`); return null; }
-    const nivra = new AWTSMOOS[type](options, this);
-    let mesh;
-    if (options.golem) {
-      mesh = await this.generateThreeJsMesh(options.golem, this);
-      mesh.name = nivra.name; nivra.mesh = mesh; mesh.nivraAwtsmoos = nivra; mesh.userData ||= {};
-      if (options.position) mesh.position.copy(options.position);
-      if (options.rotation) { const r = options.rotation; mesh.rotation.set(Number(r.x) || 0, Number(r.y) || 0, Number(r.z) || 0); }
-      if (options.scale) mesh.scale.copy(options.scale);
-      if (options.itemData) mesh.userData.itemData = options.itemData;
-      if (options.isSolid) mesh.userData.isSolid = true;
-      if (type === 'InteractiveNpc' || type === 'Chossid' || type === 'Medabeir' || type === 'CustomNpc') { mesh.userData.isLiving = true; mesh.userData.skipOctree = true; mesh.userData.noOctree = true; }
-      mesh.updateMatrixWorld(true);
-      let physicsSuccess = true;
-      if (options.isSolid) { physicsSuccess = this.worldOctree.addObject(mesh); if (!physicsSuccess) { console.error(`B"H Error: Failed to add ${mesh.name} to Physics. Aborting.`); return null; } }
-      if (physicsSuccess) {
-        mesh.traverse(child => { if (child.isMesh) { child.userData ||= {}; if (options.itemData) child.userData.itemData = options.itemData; if (options.isSolid) child.userData.isSolid = true; child.nivraAwtsmoos = nivra; } });
-        if (options.interactable && type !== 'CustomNpc' && type !== 'Chossid' && type !== 'Medabeir' && type !== 'InteractiveNpc') this.interactiveOctree.fromGraphNode(mesh);
-        if (options.interactable && this.interactableNivrayim && !this.interactableNivrayim.includes(nivra)) this.interactableNivrayim.push(nivra);
-        this.nivrayimGroup.add(mesh);
-      }
+export default class LegacyLoadNivrayim {
+  /** @param {string} type Constructor key. @param {object} options Config. @returns {Promise<object|null>} */
+  async addObject(type, options = {}) {
+    const Ctor = AWTSMOOS[type];
+    if (!Ctor) {
+      console.error(`B"H - Olam.addObject: Type "${type}" does not exist.`, { available: Object.keys(AWTSMOOS) });
+      return null;
     }
-    this.nivrayim.push(nivra); await nivra.ready?.(); await nivra.afterBriyah?.(); return nivra;
+    const nivra = new Ctor(options, this);
+    if (!this.nivrayim.includes(nivra)) this.nivrayim.push(nivra);
+    if (nivra.heescheel) await nivra.heescheel(this);
+    if (nivra.ready) await nivra.ready();
+    if (nivra.afterBriyah) await nivra.afterBriyah();
+    return nivra;
   }
 
+  /** @param {object} nivrayim JSON buckets. @returns {Promise<object[]>} */
   async loadNivrayim(nivrayim) {
     try {
       const nivrayimMade = [];
       for (const [type, nivraOptions] of Object.entries(nivrayim || {})) {
-        const isAr = Array.isArray(nivraOptions), ar = isAr ? nivraOptions : Object.entries(nivraOptions);
-        for (const entry of ar) {
-          const name = isAr ? entry.name : entry[0];
-          const options = isAr ? entry : entry[1];
-          try { const evaledObject = Utils.evalStringifiedFunctions(options); const Ctor = AWTSMOOS[type]; if (Ctor && typeof Ctor === "function") nivrayimMade.push(new Ctor({ name, ...evaledObject }, this)); }
-          catch (error) { console.error("B\"H - Error instantiating legacy nivra", options, error); }
+        const isArray = Array.isArray(nivraOptions);
+        const entries = isArray ? nivraOptions : Object.entries(nivraOptions || {});
+        for (const entry of entries) {
+          const name = isArray ? entry.name : entry[0];
+          const options = isArray ? entry : entry[1];
+          try {
+            const evaledObject = Utils.evalStringifiedFunctions(options);
+            const Ctor = AWTSMOOS[type];
+            if (Ctor && typeof Ctor === "function") {
+              if (type === 'InteractiveDoor') console.info('B"H | LEGACY_INSTANTIATE_MEZUZAH_TYPE', { constructor: Ctor.name, name, position: evaledObject?.position });
+              nivrayimMade.push(new Ctor({ name, ...evaledObject }, this));
+            } else console.warn('B"H | LEGACY_INSTANTIATE_MISSING_TYPE', { type, available: Object.keys(AWTSMOOS) });
+          } catch (error) {
+            console.error("B\"H - Error instantiating legacy nivra", options, error);
+          }
         }
       }
       let totalSize = 0;
-      for (const nivra of nivrayimMade) { nivra.olam = this; const s = typeof nivra.getSize === 'function' ? await nivra.getSize() : 0; totalSize += s; nivra.size = s; }
+      for (const nivra of nivrayimMade) {
+        nivra.olam = this;
+        const assetSize = typeof nivra.getSize === 'function' ? await nivra.getSize() : 0;
+        totalSize += assetSize;
+        nivra.assetSize = assetSize;
+      }
       this.totalSize = totalSize;
       for (const nivra of nivrayimMade) if (typeof nivra.heescheel === "function") await nivra.heescheel(this, { nivrayimMade });
       for (const nivra of nivrayimMade) if (nivra.madeAll) await nivra.madeAll(this);
@@ -55,6 +62,9 @@ export default class {
       for (const nivra of nivrayimMade) if (nivra.afterBriyah) await nivra.afterBriyah();
       if (!this.enlightened && typeof this.ohr === 'function') this.ohr();
       return nivrayimMade || [];
-    } catch (error) { console.error("B\"H - LEGACY LOAD FAILED: ", error); return []; }
+    } catch (error) {
+      console.error("B\"H - LEGACY LOAD FAILED: ", error);
+      return [];
+    }
   }
 }

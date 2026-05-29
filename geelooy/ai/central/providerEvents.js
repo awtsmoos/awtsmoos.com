@@ -1,42 +1,62 @@
 // B"H
+let PROVIDER_EVENT_SEQUENCE = 0;
+
 /**
  * B"H
- * Chapter 185: No Spark Was Allowed To Hide Behind The Old Raw Curtain.
+ * Chapter 220: Each Thought Received Its Own Chamber In Time.
  *
- * OpenAI-compatible providers stream native tool calls, fallback JSON calls,
- * local tunnel requests, raw SSE chunks, finish packets, and local tunnel
- * results. These helpers wrap that fire in event kinds the renderer keeps
- * visible even when generic raw transport noise is hidden by settings.
+ * A provider round can grow one thought card, but after a tool group the next
+ * reasoning stream must become a new thought card. The Awtsmoos therefore gives
+ * every event a birth order and lets callers name the active thought segment.
  */
 export function providerEvent(kind, label, raw = {}, text = "") {
-  return { kind, label, text, raw: { providerEvent: true, ...raw } };
+  const sequence = ++PROVIDER_EVENT_SEQUENCE;
+  return {
+    kind,
+    label,
+    text,
+    order: Date.now() * 1000 + sequence,
+    raw: { providerEvent: true, providerSequence: sequence, ...raw }
+  };
 }
 
-export function reasoningEvent(text = "", providerId = "provider") {
-  return providerEvent("thinking", `${providerId} reasoning`, { type: "provider_reasoning", providerId }, text);
+export function reasoningEvent(text = "", providerId = "provider", segmentKey = "default") {
+  const cleanSegment = String(segmentKey || "default");
+  return providerEvent("thinking", `${providerId} live thinking`, {
+    type: "provider_reasoning",
+    providerId,
+    standaloneThoughtText: true,
+    streamKey: `${providerId}:reasoning:${cleanSegment}`,
+    segmentKey: cleanSegment
+  }, text);
 }
 
 export function providerStreamEvent(event = {}, providerId = "provider") {
   const compact = compactProviderEvent(event);
-  const label = `${providerId} stream · ${compact.label}`;
-  return providerEvent("provider_stream", label, { type: "provider_stream", providerId, packet: compact }, compact.text);
+  return providerEvent("provider_stream", `${providerId} stream · ${compact.label}`, {
+    type: "provider_stream",
+    providerId,
+    packet: compact
+  }, compact.text);
 }
 
 export function toolCallEvent(call = {}, providerId = "provider") {
-  return providerEvent("tool_call", `${providerId} tool call · ${call.name || call.function?.name || call.id || "tool"}`, {
+  const name = call.name || call.function?.name || call.id || "tool";
+  return providerEvent("tool_call", `${providerId} tool call · ${name}`, {
     type: "tool_call",
     providerId,
-    tool_call_id: call.id,
+    tool_call_id: call.id || `${name}:${safeString(call.arguments || call.function?.arguments || {})}`,
     call,
     request: call.arguments || call.function?.arguments || {}
   }, JSON.stringify(call.arguments || call.function?.arguments || {}, null, 2));
 }
 
 export function toolResultEvent(call = {}, result = {}, providerId = "provider") {
-  return providerEvent("tool_result", `${providerId} tool result · ${call.name || call.function?.name || call.id || "tool"}`, {
+  const name = call.name || call.function?.name || call.id || "tool";
+  return providerEvent("tool_result", `${providerId} tool result · ${name}`, {
     type: "tool_result",
     providerId,
-    tool_call_id: call.id,
+    tool_call_id: call.id || `${name}:${safeString(call.arguments || call.function?.arguments || {})}`,
     call,
     response: result
   }, safeString(result));

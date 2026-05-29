@@ -1,11 +1,11 @@
 # B"H
 <#
-Chapter 1: The Windows River Found Its Fixed Vessel.
-The Awtsmoos reveals the relay in a local folder, checks for Node, asks Windows
-package keepers for help when Node is missing, then starts the ChatGPT relay.
+Chapter 2: The Windows River Found The Public Gate.
+The Awtsmoos reveals the relay from /ai, places it in a fixed local folder,
+checks for Node, asks Windows package keepers for help, then starts the bridge.
 #>
 $ErrorActionPreference = "Stop"
-$RelayUrl = "https://awtsmoos.com/geelooy/ai/relay/chatgpt-node-relay.cjs"
+$RelayUrl = "https://awtsmoos.com/ai/relay/chatgpt-node-relay.cjs"
 $AwtsmoosHome = Join-Path $env:LOCALAPPDATA "Awtsmoos\ChatGPTRelay"
 $RelayFile = Join-Path $AwtsmoosHome "chatgpt-node-relay.cjs"
 $Port = if ($env:AWTSMOOS_CHATGPT_RELAY_PORT) { $env:AWTSMOOS_CHATGPT_RELAY_PORT } else { "38487" }
@@ -24,7 +24,7 @@ function Install-Node-IfMissing {
     throw "Node is required. Install Node LTS, or install winget/choco, then rerun this script."
   }
   $env:Path = [Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [Environment]::GetEnvironmentVariable("Path", "User")
-  if (-not (Has-Command "node")) { throw "Node installation finished but node is not on PATH yet. Open a new PowerShell and rerun this script." }
+  if (-not (Has-Command "node")) { throw "Node installed, but node is not on PATH yet. Open a new PowerShell and rerun this script." }
 }
 
 function Install-Relay {

@@ -15,9 +15,11 @@ function installRuntimeNatives(memory) {
       return {
         __kind: 'syncPromise',
         value,
-        then(fn) { return memory.globals.Promise.resolve(typeof fn === 'function' ? fn(value) : value); }
+        then(fn) { return memory.globals.Promise.resolve(typeof fn === 'function' ? fn(value) : value); },
+        catch() { return this; }
       };
-    }
+    },
+    reject(reason) { throw reason; }
   };
   memory.globals.Map = memory.globals.Map || Map;
   memory.globals.Set = memory.globals.Set || Set;
@@ -25,9 +27,13 @@ function installRuntimeNatives(memory) {
 }
 
 /**
- * Runs SANG through the Merkava VM only. No user source string is evaluated.
- * The Awtsmoos compresses thought into bytes, and this runner lets those
- * bytes climb the VM stack until a result is revealed.
+ * B"H
+ * Chapter 105: the bytecode no longer hides the scream.
+ *
+ * SANG remains the executable body, but when its thread crashes the returned
+ * object now carries the stored crash soul: message, IP, bytecode length, trace,
+ * stack summary, and the raw VM stack. Higher layers can decompile from this
+ * metadata instead of flattening everything into "module failed".
  */
 function runSang(buffer, options = {}) {
   loadMerkavaVm();
@@ -43,6 +49,9 @@ function runSang(buffer, options = {}) {
     thread.step();
     if (thread.environment) Object.assign(memory.globals, thread.environment);
   }
+  const crash = thread.status === 'CRASHED'
+    ? (thread.lastError || { message: 'Merkava thread crashed without stored error', trace: thread.getDivineTrace?.() || [] })
+    : null;
   return {
     ok: thread.status === 'COMPLETED',
     status: thread.status,
@@ -50,7 +59,10 @@ function runSang(buffer, options = {}) {
     stack: thread.stack.slice(),
     globals: { ...memory.globals, ...(thread.environment || {}) },
     environment: thread.environment || {},
-    artifact
+    artifact,
+    crash,
+    error: crash ? crash.message : null,
+    trace: crash ? crash.trace : null
   };
 }
 

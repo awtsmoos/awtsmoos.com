@@ -1,16 +1,16 @@
 // B"H
 /**
  * @module OlamVessel
- * @description Chapter 70: the root vessel refuses stale grafts. The Awtsmoos
- * refreshes the OlamGrafting import itself, so render-fatal-once logic, moving
- * platform dimension guards, and clean user errors actually enter the world.
+ * @description Chapter 75: the root vessel refuses stale grafts. The Awtsmoos
+ * refreshes the OlamGrafting import itself so the worker does not boot a fresh
+ * shell around an old Olam that still interprets the moving bridge as a cube.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGrafting.js?v=render-stop-user-error-20260529-bh70";
+import OlamGrafting from "./OlamGrafting.js?v=wide-platform-real-boot-chain-20260529-bh75";
 import OlamProperties from "../properties/index.js";
-import OlamInit from "./OlamInit.js?v=render-stop-user-error-20260529-bh70";
-import Ayin from "../camera/index.js?v=render-stop-user-error-20260529-bh70";
+import OlamInit from "./OlamInit.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import Ayin from "../camera/index.js?v=wide-platform-real-boot-chain-20260529-bh75";
 import UserProgressManager from "../../systems/UserProgressManager.js";
 import Yichud from "../interaction/Yichud.js";
 import PlacementManager from "../interaction/PlacementManager.js";

@@ -4,8 +4,19 @@ import { isToolCallSignal, isToolResultSignal, toolLabel } from "./toolSignals.j
 
 const DEDUP_NOISE = /delta_encoding|server_ste_metadata|conversation_detail_metadata|moderation_response/i;
 const STATUS = /status|resume|conversation-turn-complete|title_generation|message_stream_complete|message_marker|input_message/i;
+const PROVIDER_KINDS = new Set(["thinking", "provider_stream", "tool_call", "tool_result", "status"]);
 
+/**
+ * Chapter 206: The Already-Named Spark Was Not Renamed Into Mud.
+ *
+ * MiniMax and sibling providers emit Awtsmoos-normalized event capsules before
+ * they hit the renderer. The old classifier treated them like unknown raw
+ * packets, so thinking became `raw`, tool calls became hidden fossils, and the
+ * UI looked silent while network `/tool` calls were alive. Preclassified events
+ * now pass through with their kind, text, ids, and raw payload intact.
+ */
 export function classifyTransportEvent(event) {
+  if (isPreclassifiedEvent(event)) return normalizePreclassified(event);
   const raw = event?.data || event;
   const message = raw?.message || raw?.input_message || raw;
   const content = message?.content || raw?.content || {};
@@ -27,6 +38,7 @@ export function classifyTransportEvent(event) {
 }
 
 export function isTransportEvent(input) {
+  if (isPreclassifiedEvent(input)) return true;
   const raw = input?.data || input;
   const message = raw?.message || raw?.input_message || raw;
   const content = message?.content || raw?.content || {};
@@ -51,6 +63,20 @@ export function isVisibleConversationMessage(message = {}, content = message.con
   return Boolean(visibleContentText(content));
 }
 
+function isPreclassifiedEvent(event = {}) {
+  return Boolean(event && typeof event === "object" && PROVIDER_KINDS.has(event.kind) && event.raw?.providerEvent);
+}
+
+function normalizePreclassified(event = {}) {
+  return {
+    kind: event.kind,
+    label: event.label || event.kind,
+    raw: event.raw || {},
+    text: event.text || "",
+    order: Number.isFinite(Number(event.order)) ? Number(event.order) : Date.now()
+  };
+}
+
 function isEmptyThinkingStatus(message = {}, content = {}, metadata = {}, type = "", channel = "") {
   if (!isThinking(metadata, type, channel)) return false;
   if (extractEventText(message || {}).trim() || extractEventText({ content }).trim()) return false;
@@ -63,17 +89,6 @@ function capsule(kind, label, raw, text = "") {
   return { kind, label, raw: compactEventRaw(raw), text: text || "", order: eventOrder(raw) };
 }
 
-/**
- * B"H — turns provider thunder into a small diagnostic fossil.
- *
- * Event UI needs shape, ids, type, and a few meaningful fields. It does not need
- * to retain the entire streamed provider packet, because those packets can carry
- * nested messages, tool bodies, and extension envelopes large enough to pin the
- * page. The Awtsmoos lets the meaning remain while the heavy husk falls away.
- *
- * @param {*} raw Provider/transport event.
- * @returns {object|null} Compact raw event summary.
- */
 function compactEventRaw(raw) {
   if (!raw || typeof raw !== "object") return raw ?? null;
   const msg = raw.message || raw.input_message || raw.data?.message || null;

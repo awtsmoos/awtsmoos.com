@@ -1,24 +1,22 @@
 //B"H
 import { renderEventDetails } from "../eventDetails.js";
+import { escapeHtml } from "../escapeHtml.js";
 import { dedupeEvents, eventMergeKey } from "./renderHelpers.js";
 import { installRawJsonHydrator } from "./rawJsonHydrator.js";
-import { groupReasoningEvents } from "./reasoningGrouper.js";
-import { envelopeThoughtEvents } from "./thoughtEnvelope.js";
-import { installPanelChrome } from "./panelChrome.js";
 import { visibleEvents } from "./eventVisibilityRuntime.js";
+import { buildEventTimeline, isTimelineToolGroup } from "./eventTimeline.js";
+import { installPanelChrome } from "./panelChrome.js";
 import { installCollapsedDomVault, vaultCollapsedPanels } from "./collapsedDomVault.js";
 import { hydrateOpenEventBodies, installEventBodyHydrator, refreshHydratedEventBodies } from "./eventBodyHydrator.js";
-import { renderThoughtEnvelopeNode } from "./thoughtEnvelopeRuntime.js";
 import { preservePanelScroll } from "./scrollAnchor.js";
 import { hasRenderableEventFire } from "./eventRenderableGate.js";
 
 /**
- * Chapter 187 Reforged: The Event Rail Became A Living Gate.
+ * Chapter 219: The Open Tool Group Kept Streaming While The Reader Watched.
  *
- * The closed tool call is a headline, not a hidden cathedral. The open tool
- * call is a living chamber, refreshed from its vaulted payload. Collapse strips
- * the chamber from the DOM again, and the Awtsmoos leaves only the small name of
- * the action glowing on the rail.
+ * Open panels no longer freeze merely because they are open. Only active text
+ * selection or maximized/fullscreen states pause mutation. This lets expanded
+ * tool groups keep receiving new calls/results in chronological order.
  */
 export function renderEventRegion(shell, events = [], record = null) {
   const region = ensureRegion(shell);
@@ -30,12 +28,11 @@ export function renderEventRegion(shell, events = [], record = null) {
   return region;
 }
 
-/** @param {Array<object>} events Raw record events. @returns {Array<object>} Visible top-level events. */
 export function visibleRenderableEvents(events = []) {
-  return visibleEvents(envelopeThoughtEvents(groupReasoningEvents(events))).filter(hasRenderableBody);
+  const semantic = visibleEvents(events).filter(hasRenderableBody);
+  return buildEventTimeline(semantic).filter(hasRenderableBody);
 }
 
-/** @param {object} renderer Message renderer. @param {object} record Record to refresh. @returns {void} */
 export function refreshEventsLive(renderer, record) {
   if (!record.shell || !record.shell.isConnected) return renderer.appendLiveRecord(record);
   const cleanEvents = dedupeEvents(record.events || []);
@@ -53,7 +50,7 @@ function installRegionBehaviors(region) {
 }
 
 function hasRenderableBody(event = {}) {
-  return hasRenderableEventFire(event);
+  return isTimelineToolGroup(event) || hasRenderableEventFire(event);
 }
 
 function ensureEventBadge(record, visible) {
@@ -67,10 +64,9 @@ function ensureEventBadge(record, visible) {
 
 function badgeLabel(record, visible) {
   const kinds = new Set(visible.map(event => event.kind));
+  if (kinds.has("tool_group")) return record.streaming || record.loading ? "Tools streaming…" : "Tool trace";
   if (kinds.has("thinking")) return record.streaming || record.loading ? "Thinking…" : "Thinking trace";
-  if (kinds.has("tool_call") || kinds.has("tool_result")) return record.streaming || record.loading ? "Tool streaming…" : "Tool trace";
-  if (kinds.has("provider_stream")) return record.streaming || record.loading ? "Provider stream…" : "Provider trace";
-  return record.streaming || record.loading ? "Transport streaming…" : "Transport trace";
+  return record.streaming || record.loading ? "Trace streaming…" : "Trace";
 }
 
 function reconcileNodes(region, nodes, visible) {
@@ -85,32 +81,35 @@ function reconcileNodes(region, nodes, visible) {
 
 function renderOneEvent(region, nodes, event) {
   const key = eventMergeKey(event);
-  const html = renderEventDetails([event], { stableKeyPrefix: `event-entry::${key}` });
+  const html = isTimelineToolGroup(event) ? renderToolGroup(event, key) : renderEventDetails([event], { stableKeyPrefix: `event-entry::${key}` });
   let node = nodes.get(key);
-  if (!node || !node.isConnected) node = createEventNode(nodes, key);
-  const mutate = () => mutateEventNode(region, node, event, html);
+  if (!node || !node.isConnected) node = createEventNode(nodes, key, event);
+  const mutate = () => mutateEventNode(region, node, html);
   return shouldAnchorLiveMutation(node) ? preservePanelScroll(node, mutate) : mutate();
 }
 
-function createEventNode(nodes, key) {
+function createEventNode(nodes, key, event) {
   const node = document.createElement("div");
-  node.className = "event-entry";
+  node.className = `event-entry ${isTimelineToolGroup(event) ? "event-entry-tool-group" : ""}`;
   node.dataset.eventKey = key;
   nodes.set(key, node);
   return node;
 }
 
-function mutateEventNode(region, node, event, html) {
+function renderToolGroup(event, key) {
+  const events = event.raw?.events || [];
+  const latest = escapeHtml(event.text || "tools are running");
+  return `<details class="transport-details event-kind-tool_group tool-call-group" data-persist-key="${escapeHtml(key)}">
+    <summary><span class="event-title-wrap"><span class="event-kind-pill">calling tools</span><b>${escapeHtml(event.label || "Calling tools")}</b><span class="event-tool-target">${latest}</span></span>${panelActions()}</summary>
+    <div class="tool-call-group-body">${renderEventDetails(events, { nested: true, stableKeyPrefix: `${key}::tool` })}</div>
+  </details>`;
+}
+
+function mutateEventNode(region, node, html) {
   if (node.parentNode !== region) region.appendChild(node);
-  if (event?.raw?.groupedThoughtEnvelope) return renderLiveThoughtEnvelope(node, event);
   if (node.dataset.eventHtml === html) return refreshHydratedEventBodies(node);
   if (shouldFreezeOpenEventNode(node)) return rememberPendingEventHtml(node, html);
   replaceEventHeadline(node, html);
-}
-
-function renderLiveThoughtEnvelope(node, event) {
-  renderThoughtEnvelopeNode(node, event);
-  node.dataset.eventHtml = "thought-envelope-live";
 }
 
 function rememberPendingEventHtml(node, html) {
@@ -129,10 +128,14 @@ function replaceEventHeadline(node, html) {
   vaultCollapsedPanels(node);
 }
 
+function panelActions() {
+  return `<span class="event-panel-actions"><button type="button" data-panel-action="minimize" title="Collapse">−</button><button type="button" data-panel-action="maximize" title="Maximize">□</button><button type="button" data-panel-action="fullscreen" title="Fullscreen">⛶</button></span>`;
+}
+
 function shouldFreezeOpenEventNode(node) {
   return Boolean(
     selectionTouches(node)
-    || node?.querySelector?.("details[open], .transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen")
+    || node?.querySelector?.(".transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen")
   );
 }
 

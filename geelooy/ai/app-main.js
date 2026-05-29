@@ -12,9 +12,13 @@ import { ComposerAutosize } from "./js/forms/composerAutosize.js";
 import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
 
 /**
- * Chapter 1: The cockpit gathers its organs in order.
- * The Awtsmoos gives each module its own vessel, then breathes one flow into
- * them: layout, attachments, composer, renderer, controller, automation.
+ * B"H
+ * Chapter 191: The Right Rail Learned The Name Of Every Chamber.
+ *
+ * The Awtsmoos gives one light to the whole cockpit, yet each conversation is
+ * a distinct vessel. Automation follows that covenant: when the visible chat
+ * changes, the panel changes its storage key before any toggle can leak into a
+ * neighboring room.
  */
 document.addEventListener("DOMContentLoaded", async () => {
   const aiHandler = new AIServiceHandler();
@@ -29,19 +33,35 @@ document.addEventListener("DOMContentLoaded", async () => {
   composerAutosize.mount();
 
   const renderer = new MessageRenderer({ chatBox: dom.chatBox });
-  let resumeVisibleStreams = () => {};
-  const stopVisibleStreams = () => resumeStoredStreams.stopActive?.();
-  const controller = new ConversationController({ aiHandler, renderer, serviceSelect: dom.serviceSelect, onConversationChanging: () => stopVisibleStreams(), onConversationLoaded: () => resumeVisibleStreams() });
   const store = new AutomationSettingsStore();
-  const panel = new AutomationPanel({ root: dom.automationPanel, store });
-  const pipeline = new AutomationPipeline({ settingsStore: store, getSettings: () => panel.getSettings(), sendPrompt: (prompt, context = {}) => controller.sendAutomation(prompt, { conversationId: context.conversationId, ondone: (reply, meta) => pipeline.afterAssistantReply(reply, meta) }), report: text => panel.report(text) });
+  const panel = new AutomationPanel({ root: dom.automationPanel, store, conversationId: getConversationId() });
+  let resumeVisibleStreams = () => {};
+  const syncPanelConversation = id => panel.setConversationId?.(id || getConversationId() || null);
+  const stopVisibleStreams = id => { syncPanelConversation(id); resumeStoredStreams.stopActive?.(); };
+  const pipeline = new AutomationPipeline({
+    settingsStore: store,
+    getSettings: conversationId => panel.getSettings(conversationId),
+    sendPrompt: (prompt, context = {}) => controller.sendAutomation(prompt, {
+      conversationId: context.conversationId,
+      ondone: (reply, meta) => pipeline.afterAssistantReply(reply, meta)
+    }),
+    report: text => panel.report(text)
+  });
+  const controller = new ConversationController({
+    aiHandler,
+    renderer,
+    serviceSelect: dom.serviceSelect,
+    onConversationChanging: id => stopVisibleStreams(id),
+    onConversationLoaded: id => { syncPanelConversation(id); return resumeVisibleStreams(); }
+  });
 
   resumeVisibleStreams = () => resumeStoredStreams(renderer, {
     getActiveConversationId: () => getConversationId(),
     onDone: (reply, meta) => pipeline.afterAssistantReply(reply, meta)
   });
-  wireChrome({ dom, controller, aiHandler, pipeline, sendFromText });
-  await bootstrapFromUrl({ dom, aiHandler, controller });
+  wireChrome({ dom, controller, aiHandler, pipeline, sendFromText, syncPanelConversation });
+  await bootstrapFromUrl({ dom, aiHandler, controller, syncPanelConversation });
+  syncPanelConversation(getConversationId());
   resumeVisibleStreams();
 
   async function sendFromText(text = dom.messageInput.value) {
@@ -49,7 +69,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!prompt) return null;
     dom.messageInput.value = "";
     composerAutosize.resize();
-    return await controller.send(prompt, { attachments: attachments.consume(), ondone: (reply, meta) => pipeline.afterAssistantReply(reply, meta) });
+    return await controller.send(prompt, {
+      attachments: attachments.consume(),
+      ondone: (reply, meta) => { syncPanelConversation(meta?.conversationId); return pipeline.afterAssistantReply(reply, meta); }
+    });
   }
 
   window.sendMessageToAi = sendFromText;
@@ -68,10 +91,10 @@ function collectDom() {
   };
 }
 
-function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText }) {
+function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText, syncPanelConversation }) {
   if (dom.toggleSidebar) dom.toggleSidebar.onclick = () => dom.sidebar.querySelector?.("[data-panel-action='toggle']")?.click();
   dom.refreshButton.onclick = () => controller.refreshList(dom.conversationList);
-  dom.newChat.onclick = () => { pipeline.reset(); controller.newConversation(); };
+  dom.newChat.onclick = () => { pipeline.reset(); controller.newConversation(); syncPanelConversation(null); };
   dom.sendButton.onclick = () => sendFromText();
   dom.messageInput.addEventListener("keydown", event => {
     if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) sendFromText();
@@ -80,15 +103,17 @@ function wireChrome({ dom, controller, aiHandler, pipeline, sendFromText }) {
     aiHandler.switchService(event.target.value);
     updateSearchParams({ awtsmoosAi: event.target.value, awtsmoosConversation: null });
     await controller.newConversation();
+    syncPanelConversation(null);
     await controller.refreshList(dom.conversationList);
   };
 }
 
-async function bootstrapFromUrl({ dom, aiHandler, controller }) {
+async function bootstrapFromUrl({ dom, aiHandler, controller, syncPanelConversation }) {
   const params = new URLSearchParams(location.search);
   const selected = params.get("awtsmoosAi");
   if (selected) { dom.serviceSelect.value = selected; aiHandler.switchService(selected); }
   const convo = getConversationId();
+  syncPanelConversation(convo);
   if (convo) await controller.loadConversation(convo);
   await controller.refreshList(dom.conversationList);
 }
