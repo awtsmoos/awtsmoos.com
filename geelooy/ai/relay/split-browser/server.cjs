@@ -11,15 +11,15 @@ const { recordClientState, clientStateSummary } = require("./clientState.cjs");
 const { handleDebugApi } = require("./debugApi.cjs");
 const { handleAutomationApi } = require("./automation.cjs");
 const { sessionStatus } = require("./authState.cjs");
+const { openDebugChrome, statusDebugChrome, saveDebugCookies } = require("./cdpChrome.cjs");
 
 /**
- * Chapter 6: The Server Became A Quiet Throne.
+ * Chapter 13: The Throne Received A Chrome Gate.
  *
- * One small server receives the user's local tab, exposes health/control URLs,
- * and routes ChatGPT rendering through Node. It also accepts safe browser-state
- * breadcrumbs from the shim so storage/navigation changes can be inspected.
- * The Awtsmoos breathes through each route, yet the king's token remains hidden:
- * auth status is summarized, never spilled.
+ * The server remains a small vessel. It serves `/control`, the local ChatGPT
+ * proxy, relay body APIs, debug queue APIs, automation APIs, and now one explicit
+ * Chrome DevTools login gate. The Awtsmoos reveals each route by name, so no
+ * installer or browser has to guess which script should rise.
  *
  * @param {{port:number,host:string,targetOrigin:string,verbose:boolean,allowedOrigins:string[]}} config Runtime config.
  * @returns {import('http').Server} Listening HTTP server.
@@ -45,6 +45,9 @@ async function route(req, res, config) {
     if (path === "/session-status") return json(res, await sessionStatus(config));
     if (path === "/control-url") return json(res, { ok: true, url: `http://${config.host}:${config.port}/control` });
     if (path === "/client-state") return await handleClientState(req, res);
+    if (path === "/debug-chrome/open") return json(res, await openDebugChrome(config));
+    if (path === "/debug-chrome/status") return json(res, await statusDebugChrome(config));
+    if (path === "/debug-chrome/save-cookies") return json(res, await saveDebugCookies(config));
     if (path.startsWith("/debug/")) return await handleDebugApi(req, res, config);
     if (path === "/fetch" || path === "/body") return await handleRelayApi(req, res, config);
     if (path.startsWith("/automation-")) return await handleAutomationApi(req, res, config, path);
@@ -73,6 +76,7 @@ async function health(config) {
     allowedOrigins: config.allowedOrigins,
     clientState: clientStateSummary(),
     cookies: cookieSummary(),
+    debugChrome: await statusDebugChrome(config),
     session: await sessionStatus(config)
   };
 }

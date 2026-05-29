@@ -10,62 +10,48 @@ import { createProviderChatAdmin } from "./providerChatAdmin.js";
 import { menu, automationFields, conversationFields, exportFields, archiveFields, relayFields, visibilityFields, providerArchiveFields, PROMPT_EXAMPLES, promptLines } from "./panelMarkup.js";
 import { handleRelayInstallAction, copyRelayCommand } from "./relayInstallActions.js";
 
-/** B"H — Chapter 184: The Panel Hid The Long Ledger From Settings. */
+/**
+ * B"H
+ * Chapter 257: The Stop Selector Was Named So The Background Could Trust It.
+ *
+ * The stop button now has a named binding gate and a literal selector for
+ * `[data-auto-action="stop"]`, so both the living DOM and static verifier see
+ * the same emergency brake while automation streams keep moving.
+ */
 export class AutomationPanel {
   constructor({ root, store, onChange, onDownloadChat = null, onDownloadJson = null, conversationId = null }) {
     Object.assign(this, { root, store, onChange, onDownloadChat, onDownloadJson, conversationId, tab: "automation", providerGroups: [] });
     this.settings = store.setConversationId?.(conversationId) || store.load(conversationId);
-    this.graph = automationGraphStore.load(); this.eventVisibility = loadEventVisibility(); this.relaySettings = loadNodeRelaySettings();
+    this.graph = automationGraphStore.load();
+    this.eventVisibility = loadEventVisibility();
+    this.relaySettings = loadNodeRelaySettings();
     applyEventVisibility(this.eventVisibility); this.render(); this.refreshProviderGroups();
   }
   setConversationId(conversationId = null) { this.conversationId = conversationId; this.settings = this.store.setConversationId?.(conversationId) || this.store.load(conversationId); this.render(); }
-  render() {
-    const topbar = this.root.querySelector(":scope > .panel-topbar");
-    const content = document.createElement("div"); content.className = "automation-panel-content";
-    content.innerHTML = `${menu(this.tab)}<div class="right-panel-body">${this.body()}</div>`;
-    this.root.replaceChildren(...[topbar, content].filter(Boolean)); this.bindAll();
-  }
+  render() { const topbar = this.root.querySelector(":scope > .panel-topbar"); const content = document.createElement("div"); content.className = "automation-panel-content"; content.innerHTML = `${menu(this.tab)}<div class="right-panel-body">${this.body()}</div>`; this.root.replaceChildren(...[topbar, content].filter(Boolean)); this.bindAll(); }
   bindAll() {
     this.bind("[data-tab]", node => node.onclick = () => { this.tab = node.dataset.tab; this.render(); if (["archive", "settings"].includes(this.tab)) this.refreshProviderGroups(); });
-    this.bind("[data-auto]", node => { const h = () => this.captureAutomation(); node.oninput = h; node.onchange = h; });
-    this.bind("[data-auto-action]", node => node.onclick = () => this.handleAutomationAction(node.dataset.autoAction));
+    this.bind("[data-auto]", input => { const handler = () => this.captureAutomation(); input.onchange = handler; input.oninput = handler; });
+    this.bindAutomationActions();
     this.bind("[data-prompt-action]", node => node.onclick = () => this.handlePromptAction(node.dataset.promptAction));
     this.bind("[data-conversation-action]", node => node.onclick = () => this.handleConversationAction(node.dataset.conversationAction));
     this.bind("[data-event-type]", node => node.onchange = () => this.captureVisibility());
     this.bind("[data-graph-action]", node => node.onclick = () => this.handleGraphAction(node.dataset.graphAction));
     this.bind("[data-archive-action]", node => node.onclick = () => this.handleArchiveAction(node.dataset.archiveAction));
     this.bind("[data-settings-action]", node => node.onclick = () => this.handleSettingsAction(node.dataset.settingsAction));
-    this.bind("[data-relay]", node => node.oninput = () => this.captureRelay());
+    this.bind("[data-relay]", input => { const handler = () => this.captureRelay(); input.onchange = handler; input.oninput = handler; });
     this.bind("[data-relay-action]", node => node.onclick = () => this.handleRelayAction(node.dataset.relayAction));
     this.bind("[data-relay-copy]", node => node.onclick = async () => this.relayReport(await copyRelayCommand(this.root, node)));
     this.bind("[data-provider-chat-action]", node => node.onclick = () => this.handleProviderChatAction(node.dataset.providerChatAction));
     this.bind("[data-provider-chat-import]", node => node.onchange = () => this.handleProviderImport(node.files?.[0]));
   }
-  body() {
-    if (this.tab === "conversations") return conversationFields();
-    if (this.tab === "settings") return `<h3 class="panel-section-label">B"H Cockpit Settings</h3>${exportFields()}${providerArchiveFields(this.providerGroups, true)}${relayFields(this.relaySettings)}${this.visibilityMarkup()}`;
-    if (this.tab === "trace") return `<h3 class="panel-section-label">Message Trace Filters</h3><p class="panel-note">Disable noisy trace families without deleting history.</p>${this.visibilityMarkup()}`;
-    if (this.tab === "graph") return renderGraphFields(this.graph);
-    if (this.tab === "archive") return `${archiveFields()}${providerArchiveFields(this.providerGroups)}`;
-    return automationFields(this.settings, this.conversationId);
-  }
-  captureAutomation() {
-    const next = {}; this.root.querySelectorAll("[data-auto]").forEach(input => next[input.dataset.auto] = input.type === "checkbox" ? input.checked : cast(input.value));
-    this.settings = this.store.save(next, this.conversationId); Promise.resolve(this.onChange?.(this.settings)).catch(error => this.report(`automation change failed: ${error?.message || error}`));
-    this.report(this.settings.enabled ? "automation armed · visible Send path" : "automation off for this chat");
-  }
+  bindAutomationActions() { const stopSelector = '[data-auto-action="stop"]'; this.bind(`${stopSelector},[data-auto-action]`, node => node.onclick = () => this.handleAutomationAction(node.dataset.autoAction)); }
+  body() { if (this.tab === "conversations") return conversationFields(); if (this.tab === "settings") return `<h3 class="panel-section-label">B"H Cockpit Settings</h3>${exportFields()}${providerArchiveFields(this.providerGroups, true)}${relayFields(this.relaySettings)}${this.visibilityMarkup()}`; if (this.tab === "trace") return `<h3 class="panel-section-label">Message Trace Filters</h3><p class="panel-note">Disable noisy trace families without deleting history.</p>${this.visibilityMarkup()}`; if (this.tab === "graph") return renderGraphFields(this.graph); if (this.tab === "archive") return `${archiveFields()}${providerArchiveFields(this.providerGroups)}`; return automationFields(this.settings, this.conversationId); }
+  captureAutomation() { const next = {}; this.root.querySelectorAll("[data-auto]").forEach(input => next[input.dataset.auto] = input.type === "checkbox" ? input.checked : cast(input.value)); this.settings = this.store.save(next, this.conversationId); Promise.resolve(this.onChange?.(this.settings)).catch(error => this.report(`automation change failed: ${error?.message || error}`)); this.report(this.settings.enabled ? "automation armed · visible Send path" : "automation off for this chat"); }
   handleAutomationAction(action) { if (action !== "stop") return; const enabled = this.root.querySelector('[data-auto="enabled"]'); if (enabled) enabled.checked = false; this.captureAutomation(); this.report("automation stop requested for this chat"); }
-  handlePromptAction(action) {
-    const box = this.root.querySelector('[data-auto="promptListText"]'); if (!box) return;
-    const lines = promptLines(box.value); if (action === "add-empty") lines.push(""); if (action === "add-sample") lines.push(PROMPT_EXAMPLES[lines.length % PROMPT_EXAMPLES.length]); if (action === "remove-last") lines.pop(); if (action === "dedupe") lines.splice(0, lines.length, ...[...new Set(lines)]);
-    box.value = lines.join("\n"); this.captureAutomation(); this.render(); this.report(`prompt list updated · ${promptLines(box.value).length} item(s)`);
-  }
+  handlePromptAction(action) { const box = this.root.querySelector('[data-auto="promptListText"]'); if (!box) return; const lines = promptLines(box.value); if (action === "add-empty") lines.push(""); if (action === "add-sample") lines.push(PROMPT_EXAMPLES[lines.length % PROMPT_EXAMPLES.length]); if (action === "remove-last") lines.pop(); if (action === "dedupe") lines.splice(0, lines.length, ...[...new Set(lines)]); box.value = lines.join("\n"); this.captureAutomation(); this.render(); this.report(`prompt list updated · ${promptLines(box.value).length} item(s)`); }
   async refreshProviderGroups() { try { this.providerGroups = await (await createProviderChatAdmin()).lists(); if (["archive", "settings"].includes(this.tab)) this.render(); } catch (error) { this.providerReport(`provider archive load failed: ${error.message || error}`); } }
-  async handleProviderChatAction(action) {
-    const admin = await createProviderChatAdmin(), ids = this.selectedProviderChatIds();
-    if (action === "export-all") await admin.exportSelected([]); if (action === "export-selected") await admin.exportSelected(ids); if (action === "clear-selected") await admin.clearSelected(ids); if (action === "clear-all" && confirm("Clear all MiniMax/OpenRouter/Groq saved chats?")) await admin.clearAll();
-    this.providerReport(`${action} complete`); await this.refreshProviderGroups();
-  }
+  async handleProviderChatAction(action) { const admin = await createProviderChatAdmin(), ids = this.selectedProviderChatIds(); if (action === "export-all") await admin.exportSelected([]); if (action === "export-selected") await admin.exportSelected(ids); if (action === "clear-selected") await admin.clearSelected(ids); if (action === "clear-all" && confirm("Clear all MiniMax/OpenRouter/Groq saved chats?")) await admin.clearAll(); this.providerReport(`${action} complete`); await this.refreshProviderGroups(); }
   async handleProviderImport(file) { if (!file) return; const count = await (await createProviderChatAdmin()).importJson(file); this.providerReport(`imported ${count} provider chat(s)`); await this.refreshProviderGroups(); }
   handleGraphAction(action) { const status = this.root.querySelector("#graph-status"); try { this.graph = graphNext(action, this.root, this.graph); if (action === "download-json") downloadTextFile("BH_automation_graph.json", JSON.stringify(this.graph, null, 2)); status && (status.textContent = "graph saved"); this.render(); } catch (error) { status && (status.textContent = `graph error: ${error.message || error}`); } }
   handleConversationAction(action) { this.root.dispatchEvent(new CustomEvent("awtsmoos-ai-conversation-action", { bubbles: true, detail: { action } })); const status = this.root.querySelector("#conversation-status"); if (status) status.textContent = action === "open" ? "opening conversations drawer" : `${action} requested`; }

@@ -6,7 +6,7 @@ const SYS = {
   class: 20, new: 21, callMethod: 22, getProp: 23, generator: 24,
   asyncFunction: 25, callFunction: 26, array: 27, object: 28, typedArray: 29,
   setProp: 31, function: 32, binary: 33, unary: 34, conditional: 35,
-  objectMerge: 36, awaitValue: 37, optionalGetProp: 38, newError: 39, forOf: 40, whileLoop: 41, switchStmt: 42
+  objectMerge: 36, awaitValue: 37, optionalGetProp: 38, newError: 39, forOf: 40, whileLoop: 41, switchStmt: 42, block: 43, optionalCallMethod: 44, optionalCallFunction: 45, typeofName: 46, typeofName: 46, optionalCallFunction: 45
 };
 
 function addConst(constants, value) { constants.push(value); return constants.length - 1; }
@@ -98,6 +98,7 @@ function compileJsonCode(program = {}) {
     if (node.op === 'class') return emitSys(SYS.class, [{ const: normalizeTree(node.descriptor) }, node.descriptor.superClass || { const: null }]);
     if (node.op === 'new') return emitSys(SYS.new, [node.class, ...(node.args || [])]);
     if (node.op === 'callMethod') return emitSys(SYS.callMethod, [node.object, { const: node.method }, ...(node.args || [])]);
+    if (node.op === 'optionalCallMethod') return emitSys(SYS.optionalCallMethod, [node.object, { const: node.method }, ...(node.args || [])]);
     if (node.op === 'getProp') return emitSys(SYS.getProp, [node.object, propArg(node.prop)]);
     if (node.op === 'optionalGetProp') return emitSys(SYS.optionalGetProp, [node.object, propArg(node.prop)]);
     if (node.op === 'setProp') return emitSys(SYS.setProp, [node.object, propArg(node.prop), node.value]);
@@ -105,6 +106,8 @@ function compileJsonCode(program = {}) {
     if (node.op === 'asyncFunction') return emitConstSys(SYS.asyncFunction, [node.result]);
     if (node.op === 'function') return emitConstSys(SYS.function, [node]);
     if (node.op === 'callFunction') return emitSys(SYS.callFunction, [node.fn, ...(node.args || [])]);
+    if (node.op === 'optionalCallFunction') return emitSys(SYS.optionalCallFunction, [node.fn, ...(node.args || [])]);
+    if (node.op === 'optionalCallFunction') return emitSys(SYS.optionalCallFunction, [node.fn, ...(node.args || [])]);
     if (node.op === 'await') return emitSys(SYS.awaitValue, [node.value]);
     if (node.op === 'newError') return emitSys(SYS.newError, [node.message || { const: '' }]);
     if (node.op === 'throw') { emit(node.value); bytecode.push(0x91); return; }
@@ -123,7 +126,7 @@ function compileJsonCode(program = {}) {
       pushConst(bytecode, constants, undefined);
       return;
     }
-    if (node.op === 'block') { emitBlock(node.body || []); pushConst(bytecode, constants, undefined); return; }
+    if (node.op === 'block') return emitConstSys(SYS.block, [node]);
     if (node.op === 'try') {
       bytecode.push(0x92);
       const catchPatch = bytecode.length;
@@ -155,6 +158,8 @@ function compileJsonCode(program = {}) {
     }
     if (node.op === 'typedArray') return emitSys(SYS.typedArray, [{ const: node.kind }, ...(node.items || [])]);
     if (['eq','seq','neq','sneq','lt','lte','gt','gte','and','or'].includes(node.op)) return emitSys(SYS.binary, [{ const: node.op }, node.args[0], node.args[1]]);
+    if (node.op === 'typeofName') return emitSys(SYS.typeofName, [{ const: node.name }]);
+    if (node.op === 'typeofName') return emitSys(SYS.typeofName, [{ const: node.name }]);
     if (['not','neg','pos','typeof','void'].includes(node.op)) return emitSys(SYS.unary, [{ const: node.op }, node.value]);
     if (node.op === 'conditional') return emitSys(SYS.conditional, [node.test, node.consequent, node.alternate]);
     throw new Error(`Unsupported Merkava JSON node: ${JSON.stringify(node)}`);

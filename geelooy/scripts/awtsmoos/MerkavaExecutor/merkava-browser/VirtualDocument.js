@@ -1,30 +1,69 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualElement.js'), require('./VirtualWebGLTextureArena.js'), require('./VirtualFontAtlas.js'), require('./VirtualCssEngine.js'));
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualDocument = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualDocument; }
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory(require('./VirtualElement.js'), require('./VirtualWebGLTextureArena.js'), require('./VirtualFontAtlas.js'), require('./VirtualCssEngine.js'));
+  } else {
+    root.Merkava = root.Merkava || {};
+    root.Merkava.VirtualDocument = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualDocument;
+  }
 })(typeof self !== 'undefined' ? self : this, function(elements, arenaMod, fontMod, cssMod) {
-    const VirtualElement = elements.VirtualElement;
-    const VirtualWebGLTextureArena = arenaMod.VirtualWebGLTextureArena;
-    const VirtualFontAtlas = fontMod.VirtualFontAtlas;
-    const VirtualCssEngine = cssMod.VirtualCssEngine;
-    class VirtualDocument {
-        constructor() {
-            this.textureArena = new VirtualWebGLTextureArena();
-            this.fontAtlas = new VirtualFontAtlas();
-            this.cssEngine = new VirtualCssEngine();
-            this.journal = []; this.activeElement = null;
-            this.documentElement = new VirtualElement('html', this); this.head = new VirtualElement('head', this); this.body = new VirtualElement('body', this);
-            this.documentElement.appendChild(this.head); this.documentElement.appendChild(this.body);
-        }
-        createElement(tagName) { return new VirtualElement(tagName, this); }
-        createDocumentFragment() { return new VirtualElement('#fragment', this); }
-        createTextNode(text) { const node = new VirtualElement('#text', this); node.textContent = String(text); return node; }
-        getElementById(id) { return this.documentElement.querySelector('#' + id); }
-        querySelector(selector) { return this.documentElement.querySelector(selector); }
-        querySelectorAll(selector) { return this.documentElement.querySelectorAll(selector); }
-        addEventListener(type, handler) { this.documentElement.addEventListener(type, handler); }
-        dispatchEvent(event) { return this.documentElement.dispatchEvent(event); }
-        toJSON() { return { activeElement: this.activeElement?.id || this.activeElement?.tagName || null, documentElement: this.documentElement.toJSON(), journal: this.journal }; }
+  const VirtualElement = elements.VirtualElement;
+  const VirtualWebGLTextureArena = arenaMod.VirtualWebGLTextureArena;
+  const VirtualFontAtlas = fontMod.VirtualFontAtlas;
+  const VirtualCssEngine = cssMod.VirtualCssEngine;
+
+  /**
+   * B"H
+   * The document is the palace floor: every live node walks with an id,
+   * mutation records are preserved, and selector queries return the actual
+   * vessels being touched by the runtime rather than pass/fail smoke.
+   */
+  class VirtualDocument {
+    constructor() {
+      this.textureArena = new VirtualWebGLTextureArena();
+      this.fontAtlas = new VirtualFontAtlas();
+      this.cssEngine = new VirtualCssEngine();
+      this.journal = [];
+      this.activeElement = null;
+      this.readyState = 'loading';
+      this.title = '';
+      this.__nextNodeId = 1;
+      this.__mutationObservers = new Set();
+      this.documentElement = new VirtualElement('html', this);
+      this.head = new VirtualElement('head', this);
+      this.body = new VirtualElement('body', this);
+      this.documentElement.appendChild(this.head);
+      this.documentElement.appendChild(this.body);
     }
-    return { VirtualDocument };
+
+    createElement(tagName) { return new VirtualElement(tagName, this); }
+    createDocumentFragment() { return new VirtualElement('#fragment', this); }
+    createTextNode(text) { const node = new VirtualElement('#text', this); node.textContent = String(text); return node; }
+    getElementById(id) { return this.documentElement.querySelector('#' + id); }
+    querySelector(selector) { return this.documentElement.querySelector(selector); }
+    querySelectorAll(selector) { return this.documentElement.querySelectorAll(selector); }
+    addEventListener(type, handler, options) { this.documentElement.addEventListener(type, handler, options); }
+    removeEventListener(type, handler, options) { this.documentElement.removeEventListener(type, handler, options); }
+    dispatchEvent(event) { return this.documentElement.dispatchEvent(event); }
+
+    __registerMutationObserver(observer) { this.__mutationObservers.add(observer); }
+    __unregisterMutationObserver(observer) { this.__mutationObservers.delete(observer); }
+    __notifyMutation(record) {
+      const enriched = { ...record, at: Date.now() };
+      this.journal.push(enriched);
+      for (const observer of this.__mutationObservers) observer.__enqueue(enriched);
+    }
+
+    toJSON() {
+      return {
+        activeElement: this.activeElement?.id || this.activeElement?.tagName || null,
+        readyState: this.readyState,
+        title: this.title,
+        documentElement: this.documentElement.toJSON(),
+        journal: this.journal
+      };
+    }
+  }
+
+  return { VirtualDocument };
 });

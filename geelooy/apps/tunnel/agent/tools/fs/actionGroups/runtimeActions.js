@@ -17,35 +17,46 @@ function jsonMaybe(value, fallback) {
   try { return JSON.parse(String(value)); } catch (_) { return fallback; }
 }
 
+function firstJson(payload, names, fallback) {
+  for (const name of names) {
+    const value = payload[name];
+    if (value != null && value !== "") return jsonMaybe(value, fallback);
+  }
+  for (const name of names.map(name => name + "64")) {
+    const value = payload[name];
+    if (value != null && value !== "") return json64(value, fallback);
+  }
+  return fallback;
+}
+
 /**
  * B"H
- * Chapter 16: The runner stood at the gate of two worlds.
- *
- * Local files are stone tablets under the hand; URLs are rivers of fire moving
- * through localhost and distant hosts. This collector lets both enter the same
- * Merkava vessel, so the Awtsmoos-hidden letters can be tested where they
- * actually appear: in files, inline scrolls, or a living browser URL.
+ * The tunnel runner stands at the gate of two worlds: URL rivers and local
+ * files. It now accepts Puppeteer-shaped action scrolls (`actions`,
+ * `browserActions`, `pageActions`, `actionsJson`, plus base64 forms) and sends
+ * them into Merkava's synthetic browser without invoking Chromium.
  */
 async function collectOptions(payload = {}, config = {}) {
   const env = await collectRuntimeEnv(payload, config);
+  const actions = browserActionsFrom(payload);
   return {
     runtime: payload.runtime || "browser",
-    engine: payload.engine || "merkava",
+    engine: "merkava",
     entry: env.entry || payload.entry || payload.path || payload.p || payload.target || "index.html",
     files: Object.keys(env.files || {}).length ? env.files : jsonMaybe(payload.files, json64(payload.files64, {})),
     virtualEnv: env,
     workflow: jsonMaybe(payload.workflow, payload.steps && payload.steps.length ? { steps: payload.steps } : json64(payload.workflow64, null)),
-    probes: jsonMaybe(payload.probes, json64(payload.probes64, [])),
-    interactions: jsonMaybe(payload.interactions, json64(payload.interactions64, [])),
-    browserActions: browserActionsFrom(payload),
-    pageActions: browserActionsFrom(payload),
+    probes: firstJson(payload, ["probes"], []),
+    interactions: actions || firstJson(payload, ["interactions"], []),
+    browserActions: actions,
+    pageActions: actions,
     origin: payload.origin || runtimeOrigin(payload),
     url: payload.url || process.env.AWTSMOOS_BASE_URL || "https://awtsmoos.com",
     headless: payload.headless !== false,
     waitMs: Number(payload.waitMs || 800),
     timeoutMs: Number(payload.timeoutMs || 30000),
-    returnValues: jsonMaybe(payload.returnValues, json64(payload.returnValues64, [])),
-    values: jsonMaybe(payload.values, json64(payload.values64, []))
+    returnValues: firstJson(payload, ["returnValues", "values"], []),
+    values: firstJson(payload, ["values", "returnValues"], [])
   };
 }
 
@@ -56,24 +67,13 @@ async function collectRuntimeEnv(payload, config) {
 }
 
 function runtimeOrigin(payload = {}) {
-  if (payload.url) {
-    try { return new URL(String(payload.url)).origin; } catch (_) {}
-  }
+  if (payload.url) { try { return new URL(String(payload.url)).origin; } catch (_) {} }
   return process.env.AWTSMOOS_BASE_URL || "https://awtsmoos.com";
 }
 
-/**
- * B"H
- * Chapter 17: Browser action scrolls crossed the sea without being dropped.
- *
- * @param {object} payload The action payload from the tunnel.
- * @returns {Array|object|null} Parsed action instructions for the virtual page.
- */
-function browserActionsFrom(payload) {
-  return jsonMaybe(
-    payload.browserActions || payload.pageActions || payload.actionsJson,
-    payload.browserActions || payload.pageActions || payload.actions || json64(payload.browserActions64, null)
-  );
+/** @param {object} payload Tunnel payload. @returns {Array|object|null} */
+function browserActionsFrom(payload = {}) {
+  return firstJson(payload, ["browserActions", "pageActions", "actionsJson", "actions", "steps"], null);
 }
 
 function resolveMerkavaServiceUrl(payload = {}) {
@@ -82,24 +82,20 @@ function resolveMerkavaServiceUrl(payload = {}) {
 }
 
 const moduleCache = new Map();
-
 async function fetchText(url) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Failed loading remote Merkava module ${url}: HTTP ${response.status}`);
   return await response.text();
 }
-
 function rewriteImports(source, baseUrl) {
   return String(source || "").replace(/(import\s+[^"']*?["']|export\s+[^"']*?from\s+["'])(\.{1,2}\/[^"']+)(["'])/g, (_, prefix, rel, suffix) => `${prefix}${new URL(rel, baseUrl).href}${suffix}`);
 }
-
 function collectRemoteDeps(source, baseUrl) {
   const deps = new Set();
   for (const match of String(source || "").matchAll(/(?:import|export)\s+[^"']*?["'](https?:\/\/[^"']+)["']/g)) deps.add(match[1]);
   for (const match of String(source || "").matchAll(/require\(["'](\.{1,2}\/[^"']+)["']\)/g)) deps.add(new URL(match[1], baseUrl).href);
   return [...deps];
 }
-
 async function importHttpModule(url) {
   if (moduleCache.has(url)) { const cached = await moduleCache.get(url); return cached.module || cached; }
   const pending = (async () => {
@@ -129,17 +125,14 @@ function findLocalMerkavaService(start) {
   }
   return candidates.find(file => fs.existsSync(file)) || null;
 }
-
 async function loadMerkavaService(payload = {}, config = {}) {
   const localPath = findLocalMerkavaService(config.root || process.cwd());
   if (localPath) return await import(pathToFileURL(localPath).href + "?awtsmoos=" + Date.now());
   return await importHttpModule(resolveMerkavaServiceUrl(payload));
 }
-
 async function fallback(error, payload) {
-  return { ok: false, engine: "merkava", error: "merkava_runtime_failed", message: error?.message || String(error), stack: error?.stack || "", retryWith: "chrome", chromeRecommended: true, suggestion: { action: "simulateRuntime", engine: "chrome", reason: "Merkava runtime failed; retry with browser-backed runtime." }, options: await collectOptions(payload, {}) };
+  return { ok: false, engine: "merkava", error: "merkava_runtime_failed", message: error?.message || String(error), stack: error?.stack || "", chromeRecommended: false, suggestion: { action: "simulateRuntime", engine: "merkava", reason: "Synthetic Merkava runtime failed before completion." }, options: await collectOptions(payload, {}) };
 }
-
 async function runService(payload, method, config = {}) {
   const options = await collectOptions(payload, config);
   if (options.virtualEnv && options.virtualEnv.ok === false) return { ok: false, action: method, engine: "merkava", error: "runtime_preflight_failed", diagnostics: options.virtualEnv.diagnostics || [], virtualEnv: options.virtualEnv, options };

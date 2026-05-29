@@ -7,11 +7,11 @@ import { withAgentSystemInstructions } from "./central/agentSystemInstructions.j
 
 /**
  * B"H
- * Chapter 235: The Provider Key Stopped Wearing A ChatGPT Mask.
+ * Chapter 254: The Custom River Returned Its Continuation Lamp In Metadata.
  *
- * MiniMax, OpenRouter, and Groq are their own rivers. They need provider keys,
- * not the ChatGPT extension prompt. The Awtsmoos separates the gates so the
- * human never sees transport install buttons while entering a provider secret.
+ * MiniMax/OpenRouter/Groq now surface awtsmoos_needs_next_step through the same
+ * packet used for streaming and done. The text stays the final answer; the lamp
+ * rides in awtsmoos.nextStep for the page controller to act on after paint.
  */
 export function makeOpenAICompatibleService(owner, providerId) {
   const provider = getProvider(providerId);
@@ -57,7 +57,7 @@ async function runWithLocalTools({ client, bridge, provider, options, conversati
     onMetrics,
     onDelta: (_delta, fullText) => { latest = fullText || latest; streamPacket(); }
   });
-  const packet = assistantPacket(agentResult.text || latest || "", events, conversationId, metrics);
+  const packet = assistantPacket(agentResult.text || latest || "", events, conversationId, metrics, agentResult.nextStep);
   options.onstream?.(packet);
   options.ondone?.(packet);
   return packet;
@@ -81,40 +81,36 @@ async function runDirectProvider({ client, provider, options, conversationId }) 
     onReasoning: (_chunk, full) => addEvents([reasoningEvent(full, provider.id, "direct")]),
     onToolCall: tools => addEvents(tools.map(tool => toolCallEvent(tool, provider.id)))
   });
-  const packet = assistantPacket(result.text || latest || "", events, conversationId, metrics);
+  const packet = assistantPacket(result.text || latest || "", events, conversationId, metrics, result.awtsmoosNextStep || null);
   options.onstream?.(packet);
   options.ondone?.(packet);
   return packet;
 }
 
-function assistantPacket(text = "", events = [], conversationId = null, metrics = null) {
-  return { role: "assistant", text, conversation_id: conversationId, data: { conversation_id: conversationId }, awtsmoos: { otherEvents: events, metrics }, content: { parts: [text] }, message: { author: { role: "assistant" }, content: { parts: [text] } } };
+function assistantPacket(text = "", events = [], conversationId = null, metrics = null, nextStep = null) {
+  return {
+    role: "assistant",
+    text,
+    conversation_id: conversationId,
+    data: { conversation_id: conversationId },
+    awtsmoos: { otherEvents: events, metrics, nextStep: nextStep?.needed ? nextStep : null },
+    content: { parts: [text] },
+    message: { author: { role: "assistant" }, content: { parts: [text] } }
+  };
 }
 
 export async function getProviderKey(owner, provider) {
   if (!owner?.dbHandler?.db) await owner?.dbHandler?.init?.();
   let key = await owner.dbHandler.read("api-keys", provider.storageKey);
   if (!key) {
-    key = await AwtsmoosPrompt.go({
-      title: `B"H — ${provider.name} API Key`,
-      headerTxt: `What's your <a href='${provider.apiKeyUrl}' target='_blank' rel='noreferrer'>${provider.name} API key</a>?`,
-      placeholderTxt: `${provider.name} API key`,
-      showExtensionActions: false,
-      okText: "Save key"
-    });
+    key = await AwtsmoosPrompt.go({ headerTxt: `What's your <a href='${provider.apiKeyUrl}'>${provider.name} API key</a>?` });
     await owner.dbHandler.write("api-keys", provider.storageKey, key);
   }
   return key;
 }
 
-async function newConversationId(chatStore, userMessage) {
-  const chat = await chatStore.begin({ title: String(userMessage || "Provider chat").slice(0, 80) });
-  return chat.id;
-}
-
-function toOpenAIMessages(messages = []) {
-  return messages.map(item => ({ role: roleOf(item), content: textOf(item) })).filter(item => item.content || item.role === "tool");
-}
+async function newConversationId(chatStore, userMessage) { const chat = await chatStore.begin({ title: String(userMessage || "Provider chat").slice(0, 80) }); return chat.id; }
+function toOpenAIMessages(messages = []) { return messages.map(item => ({ role: roleOf(item), content: textOf(item) })).filter(item => item.content || item.role === "tool"); }
 function roleOf(item = {}) { const role = item.role || item.message?.author?.role || "assistant"; return role === "model" ? "assistant" : role; }
 function textOf(item = {}) { return item.text || item.message?.content?.parts?.join?.("\n") || item.content?.parts?.join?.("\n") || ""; }
 function mergeProviderEvents(oldEvents = [], newEvents = []) {

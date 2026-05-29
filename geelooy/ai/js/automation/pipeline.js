@@ -13,12 +13,12 @@ const MIN_STREAM_SETTLE_MS = 1500;
 
 /**
  * B"H
- * Chapter 139: Automation Put On The User's Cloak.
+ * Chapter 247: The Test Clock And The Human Clock Each Kept Their Covenant.
  *
- * The pipeline never speaks to providers directly. It chooses timing and text,
- * then calls the same sendPrompt callback used by the visible Send button path.
- * Randomized delay min/max keeps the march alive without breaking the covenant
- * of one honest user-message route.
+ * Production automation keeps its human delay floor. Harnesses and explicitly
+ * constructed fast pipelines may set minDelayMs/minStreamSettleMs to zero, and
+ * this class now honors that override instead of secretly resurrecting the
+ * global five-second floor through randomDelayMs().
  */
 export class AutomationPipeline {
   constructor({ settingsStore, getSettings, sendPrompt, report, onWaiting = null, minDelayMs = MIN_DELAY_MS, minStreamSettleMs = MIN_STREAM_SETTLE_MS, runStore = automationRunStore, graphStore = automationGraphStore, archiveStore = automationArchiveStore }) {
@@ -50,14 +50,13 @@ export class AutomationPipeline {
     this.report(conversationId ? "automation reset for this chat" : "automation reset");
   }
 
-  onSettingsChanged(settings = {}) {
+  async onSettingsChanged(settings = {}) {
     const conversationId = getCurrentConversationId();
     if (!settings.enabled) return this.report("automation off for this chat");
     this.report("automation armed for this chat");
-    if (conversationId) {
-      this.runStore.remove(conversationId);
-      this.afterAssistantReply("", { conversationId, manualKick: true, allowEmpty: true });
-    }
+    if (!conversationId) return;
+    this.runStore.remove(conversationId);
+    return await this.afterAssistantReply("", { conversationId, manualKick: true, allowEmpty: true });
   }
 
   async afterAssistantReply(replyText = "", context = {}) {
@@ -114,8 +113,10 @@ export class AutomationPipeline {
   }
 
   async waitBeforeTurn(conversationId, nextTurn, settings = {}) {
-    await this.waitWithClock(conversationId, Math.max(this.minStreamSettleMs, Number(settings.streamSettleMs || 0)), `settling stream before turn ${nextTurn}`);
-    await this.waitWithClock(conversationId, Math.max(this.minDelayMs, randomDelayMs(settings)), `random delay before turn ${nextTurn}`);
+    const settle = this.minStreamSettleMs === 0 ? Math.max(0, Number(settings.streamSettleMs || 0)) : Math.max(this.minStreamSettleMs, Number(settings.streamSettleMs || 0));
+    const delay = this.minDelayMs === 0 ? Math.max(0, Number(settings.delayMs || settings.delayMinMs || 0)) : Math.max(this.minDelayMs, randomDelayMs(settings));
+    await this.waitWithClock(conversationId, settle, `settling stream before turn ${nextTurn}`);
+    await this.waitWithClock(conversationId, delay, `random delay before turn ${nextTurn}`);
   }
 
   waitWithClock(conversationId, ms, label = "waiting") {
@@ -159,5 +160,5 @@ function selectPrompt(settings = {}, fallback = "continue", turn = 1) {
   if (settings.promptMode === "random") return prompts[Math.floor(Math.random() * prompts.length)] || fallback;
   return prompts[(Math.max(1, Number(turn || 1)) - 1) % prompts.length] || fallback;
 }
-function getCurrentConversationId() { try { return new URLSearchParams(location.search).get("awtsmoosConversation") || window.curConversationId || null; } catch { return null; } }
+function getCurrentConversationId() { try { return new URLSearchParams(location.search).get("awtsmoosConversation") || globalThis.curConversationId || globalThis.window?.curConversationId || null; } catch { return null; } }
 function promptSummaryFromRun(run = {}) { return String(run.lastReply || run.lastPrompt || "").trim(); }

@@ -1,125 +1,109 @@
 // B"H
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) module.exports = factory(require('./VirtualDocument.js'), require('./VirtualStorage.js'), require('./VirtualConsole.js'), require('./VirtualFetch.js'), require('./VirtualEvents.js'), require('./VirtualMouse.js'), require('./VirtualKeyboard.js'), require('./VirtualInteractions.js'), require('./RuntimeProbe.js'), require('./VirtualWebGLBoxRenderer.js'), require('./BrowserRenderPipeline.js'));
-    else { root.Merkava = root.Merkava || {}; root.Merkava.VirtualWindow = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualWindow; }
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory(require('./VirtualDocument.js'), require('./VirtualStorage.js'), require('./VirtualConsole.js'), require('./VirtualFetch.js'), require('./VirtualEvents.js'), require('./VirtualMouse.js'), require('./VirtualKeyboard.js'), require('./VirtualInteractions.js'), require('./RuntimeProbe.js'), require('./VirtualWebGLBoxRenderer.js'), require('./BrowserRenderPipeline.js'));
+  } else {
+    root.Merkava = root.Merkava || {};
+    root.Merkava.VirtualWindow = factory(root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava, root.Merkava).VirtualWindow;
+  }
 })(typeof self !== 'undefined' ? self : this, function(docMod, storageMod, consoleMod, fetchMod, events, mouseMod, keyboardMod, interactionMod, probeMod, boxRendererMod, pipelineMod) {
-    const VirtualDocument = docMod.VirtualDocument;
-    const VirtualStorage = storageMod.VirtualStorage;
-    const VirtualConsole = consoleMod.VirtualConsole;
-    const VirtualFetch = fetchMod.VirtualFetch;
-    const VirtualWebGLBoxRenderer = boxRendererMod.VirtualWebGLBoxRenderer;
-    const BrowserRenderPipeline = pipelineMod.BrowserRenderPipeline || fallbackPipeline();
+  const VirtualDocument = docMod.VirtualDocument;
+  const VirtualStorage = storageMod.VirtualStorage;
+  const VirtualConsole = consoleMod.VirtualConsole;
+  const VirtualFetch = fetchMod.VirtualFetch;
+  const VirtualWebGLBoxRenderer = boxRendererMod.VirtualWebGLBoxRenderer;
+  const BrowserRenderPipeline = pipelineMod.BrowserRenderPipeline || class { constructor(window) { this.window = window; } render() { return this.window.document.textureArena.snapshot(); } };
 
-    /**
-     * B"H
-     * Chapter 2: The Awtsmoos found the missing painter behind the veil.
-     *
-     * In CommonJS the retained paint pipeline arrives by require. In UMD smoke
-     * tests, a browser page may load VirtualWindow before the optional painter.
-     * This fallback keeps the synthetic browser alive, preserves canvas/WebGL
-     * commands, and marks the missing phase honestly instead of shattering with
-     * a constructor error.
-     *
-     * @returns {Function} A minimal render-pipeline class.
-     */
-    function fallbackPipeline() {
-        return class BrowserRenderPipelineFallback {
-            constructor(window, options = {}) {
-                this.window = window;
-                this.renderer = options.renderer;
-                this.viewport = options.viewport || { width: 760, height: 560 };
-            }
-
-            render() {
-                if (this.renderer && this.window.document.body) {
-                    this.renderer.paintElement(this.window.document.body, 0, 0, this.viewport.width, this.viewport.height);
-                }
-                const snapshot = this.window.document.textureArena.snapshot();
-                return {
-                    ...snapshot,
-                    pipeline: {
-                        architecture: 'merkava-executor-fallback-pipeline-v1',
-                        phases: ['fallback-paint', 'native-gpu-stream'],
-                        viewport: this.viewport,
-                        warning: 'BrowserRenderPipeline was not loaded before VirtualWindow.',
-                        commandCount: snapshot.commands.length
-                    }
-                };
-            }
-        };
+  /**
+   * B"H
+   * The browser-window vessel now exposes Chrome-like primitives with real
+   * observable state: UUIDs, structured clone, microtasks, mutation records,
+   * timers, storage, network, input, and render snapshots.
+   */
+  class VirtualWindow {
+    constructor({ files = {}, graph = null, url = 'http://127.0.0.1:8080/' } = {}) {
+      this.graph = graph;
+      this.document = new VirtualDocument();
+      this.console = new VirtualConsole(graph);
+      this.localStorage = new VirtualStorage();
+      this.sessionStorage = new VirtualStorage();
+      this.location = new URL(url);
+      this.navigator = { userAgent: 'MerkavaSyntheticChrome/1.0', onLine: true, language: 'en-US', platform: 'Merkava' };
+      this.history = { stack: [this.location.href], pushState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack.push(this.location.href); }, replaceState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack[this.history.stack.length - 1] = this.location.href; } };
+      this.performance = { now: () => Date.now() };
+      this.__timers = new Map();
+      this.__network = new VirtualFetch({ files, graph });
+      this.fetch = this.__network.fetch.bind(this.__network);
+      this.Event = events.VirtualEvent;
+      this.CustomEvent = events.VirtualCustomEvent;
+      this.KeyboardEvent = events.VirtualKeyboardEvent;
+      this.MouseEvent = events.VirtualMouseEvent;
+      this.InputEvent = events.VirtualInputEvent;
+      this.Blob = typeof Blob !== 'undefined' ? Blob : class Blob { constructor(parts = []) { this.parts = parts; } };
+      this.File = class File extends this.Blob { constructor(parts, name) { super(parts); this.name = name; } };
+      this.FormData = class FormData { constructor() { this.items = []; } append(k, v) { this.items.push([k, v]); } };
+      this.URL = URL;
+      this.URLSearchParams = URLSearchParams;
+      this.structuredClone = value => JSON.parse(JSON.stringify(value));
+      this.queueMicrotask = fn => Promise.resolve().then(fn);
+      this.crypto = { getRandomValues: arr => { for (let i = 0; i < arr.length; i++) arr[i] = Math.floor(Math.random() * 256); return arr; }, randomUUID: () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3) | 8).toString(16); }) };
+      this.MutationObserver = makeMutationObserver(this.document);
+      this.ResizeObserver = this.MutationObserver;
+      this.IntersectionObserver = this.MutationObserver;
+      this.Worker = class { postMessage(){} terminate(){} };
+      this.mouse = new mouseMod.VirtualMouse(this);
+      this.keyboard = new keyboardMod.VirtualKeyboard(this);
+      this.interactions = new interactionMod.VirtualInteractions(this);
+      this.probe = new probeMod.RuntimeProbe();
+      this.webglRenderer = new VirtualWebGLBoxRenderer(this.document.textureArena);
+      this.renderPipeline = new BrowserRenderPipeline(this, { renderer: this.webglRenderer, viewport: { width: 760, height: 560 } });
+      this.renderWebGLDom = () => this.renderPipeline.render();
+      this.requestAnimationFrame = cb => this.setTimeout(() => cb(this.performance.now()), 16);
+      this.cancelAnimationFrame = id => this.clearTimeout(id);
+      this.showDirectoryPicker = async () => ({ kind: 'directory', name: 'virtual-root', values: async function*(){} });
+      this.showOpenFilePicker = async () => [];
+      this.getComputedStyle = element => { const computed = this.document.cssEngine.compute(element); return { ...computed, getPropertyValue: name => computed[String(name).replace(/[A-Z]/g, c => '-' + c.toLowerCase())] || '' }; };
+      this.addStyleSheet = cssText => this.document.cssEngine.parseStyleSheet(cssText);
     }
 
-    class VirtualWindow {
-        constructor({ files = {}, graph = null, url = 'http://127.0.0.1:8080/' } = {}) {
-            this.graph = graph;
-            this.document = new VirtualDocument();
-            this.console = new VirtualConsole(graph);
-            this.localStorage = new VirtualStorage();
-            this.sessionStorage = new VirtualStorage();
-            this.location = new URL(url);
-            this.navigator = { userAgent: 'MerkavaSyntheticChrome/1.0', onLine: true, language: 'en-US' };
-            this.history = { stack: [url], pushState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack.push(this.location.href); } };
-            this.performance = { now: () => Date.now() };
-            this.__timers = new Map();
-            this.__network = new VirtualFetch({ files, graph });
-            this.fetch = this.__network.fetch.bind(this.__network);
+    setTimeout(fn, ms = 0, ...args) { const id = setTimeout(fn, ms, ...args); this.__timers.set(id, { kind: 'timeout', ms }); return id; }
+    clearTimeout(id) { this.__timers.delete(id); clearTimeout(id); }
+    setInterval(fn, ms = 0, ...args) { const id = setInterval(fn, ms, ...args); this.__timers.set(id, { kind: 'interval', ms }); return id; }
+    clearInterval(id) { this.__timers.delete(id); clearInterval(id); }
+    addEventListener(type, handler, options) { this.document.addEventListener(type, handler, options); }
+    removeEventListener(type, handler, options) { this.document.removeEventListener(type, handler, options); }
+    dispatchEvent(event) { return this.document.dispatchEvent(event); }
 
-            this.Event = events.VirtualEvent;
-            this.CustomEvent = events.VirtualCustomEvent;
-            this.KeyboardEvent = events.VirtualKeyboardEvent;
-            this.MouseEvent = events.VirtualMouseEvent;
-            this.InputEvent = events.VirtualInputEvent;
-            this.Blob = typeof Blob !== 'undefined' ? Blob : class Blob { constructor(parts = []) { this.parts = parts; } };
-            this.File = class File extends this.Blob { constructor(parts, name) { super(parts); this.name = name; } };
-            this.FormData = class FormData { constructor() { this.items = []; } append(k, v) { this.items.push([k, v]); } };
-            this.URL = URL;
-            this.URLSearchParams = URLSearchParams;
-            this.crypto = { getRandomValues: arr => { for (let i = 0; i < arr.length; i++) arr[i] = Math.floor(Math.random() * 256); return arr; } };
-            this.MutationObserver = class { observe(){} disconnect(){} takeRecords(){ return []; } };
-            this.ResizeObserver = this.MutationObserver;
-            this.IntersectionObserver = this.MutationObserver;
-            this.Worker = class { postMessage(){} terminate(){} };
-
-            this.mouse = new mouseMod.VirtualMouse(this);
-            this.keyboard = new keyboardMod.VirtualKeyboard(this);
-            this.interactions = new interactionMod.VirtualInteractions(this);
-            this.probe = new probeMod.RuntimeProbe();
-            this.webglRenderer = new VirtualWebGLBoxRenderer(this.document.textureArena);
-            this.renderPipeline = new BrowserRenderPipeline(this, { renderer: this.webglRenderer, viewport: { width: 760, height: 560 } });
-            this.renderWebGLDom = () => this.renderPipeline.render();
-
-            this.requestAnimationFrame = cb => this.setTimeout(() => cb(this.performance.now()), 16);
-            this.cancelAnimationFrame = id => this.clearTimeout(id);
-            this.showDirectoryPicker = async () => ({ kind: 'directory', name: 'virtual-root', values: async function*(){} });
-            this.showOpenFilePicker = async () => [];
-            this.getComputedStyle = element => {
-                const computed = this.document.cssEngine.compute(element);
-                return { ...computed, getPropertyValue: name => computed[String(name).replace(/[A-Z]/g, c => '-' + c.toLowerCase())] || '' };
-            };
-            this.addStyleSheet = cssText => this.document.cssEngine.parseStyleSheet(cssText);
-        }
-
-        setTimeout(fn, ms = 0, ...args) { const id = setTimeout(fn, ms, ...args); this.__timers.set(id, { kind: 'timeout', ms }); return id; }
-        clearTimeout(id) { this.__timers.delete(id); clearTimeout(id); }
-        setInterval(fn, ms = 0, ...args) { const id = setInterval(fn, ms, ...args); this.__timers.set(id, { kind: 'interval', ms }); return id; }
-        clearInterval(id) { this.__timers.delete(id); clearInterval(id); }
-        addEventListener(type, handler) { this.document.addEventListener(type, handler); }
-        dispatchEvent(event) { return this.document.dispatchEvent(event); }
-
-        snapshot() {
-            return {
-                location: this.location.href,
-                navigator: this.navigator,
-                document: this.document.toJSON(),
-                localStorage: this.localStorage.toJSON(),
-                network: this.__network.toJSON(),
-                console: this.console.toJSON(),
-                timers: Array.from(this.__timers.values()),
-                mouse: this.mouse.toJSON(),
-                keyboard: this.keyboard.toJSON(),
-                probes: this.probe.toJSON()
-            };
-        }
+    snapshot() {
+      return {
+        location: this.location.href,
+        navigator: this.navigator,
+        document: this.document.toJSON(),
+        localStorage: this.localStorage.toJSON(),
+        sessionStorage: this.sessionStorage.toJSON(),
+        network: this.__network.toJSON(),
+        console: this.console.toJSON(),
+        timers: Array.from(this.__timers.values()),
+        mouse: this.mouse.toJSON(),
+        keyboard: this.keyboard.toJSON(),
+        probes: this.probe.toJSON()
+      };
     }
-    return { VirtualWindow };
+  }
+
+  function makeMutationObserver(document) {
+    return class MutationObserver {
+      constructor(callback) { this.callback = callback; this.records = []; this.options = null; }
+      observe(target, options = {}) { this.target = target; this.options = options; document.__registerMutationObserver(this); }
+      disconnect() { document.__unregisterMutationObserver(this); }
+      takeRecords() { const got = this.records.slice(); this.records.length = 0; return got; }
+      __enqueue(record) {
+        this.records.push(record);
+        if (typeof this.callback === 'function') this.callback([record], this);
+        else if (this.callback && typeof this.callback.call === 'function') this.callback.call([[record], this]);
+      }
+    };
+  }
+
+  return { VirtualWindow };
 });

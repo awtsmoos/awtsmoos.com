@@ -31,8 +31,8 @@ function createDefaultHost(rootScope = {}) {
     return findMethod(klass.superClass, name);
   };
   const newInstance = (klass, args = []) => {
-    if (!klass) throw new TypeError('Merkava cannot construct undefined as a class');
-    if (!klass) throw new TypeError('Merkava cannot construct undefined as a class');
+    if (!klass) throw new TypeError('undefined is not a constructor');
+    if (!klass) throw new TypeError('undefined is not a constructor');
     const instance = { __kind: 'instance', __class: klass, fields: {} };
     for (const field of klass.fields || []) instance[field.name] = interpretNode(field.value, Object.assign(Object.create(klass.closure || null), { this: instance }));
     for (const field of klass.fields || []) instance[field.name] = interpretNode(field.value, Object.assign(Object.create(klass.closure || null), { this: instance }));
@@ -127,6 +127,8 @@ function createDefaultHost(rootScope = {}) {
         catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; }
       }
       if (node.op === 'void') return void interpretNode(node.value, scope, depth + 1);
+      if (node.op === 'typeofName') { try { return typeof read(node.name, scope); } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }
+      if (node.op === 'typeofName') { try { return typeof read(node.name, scope); } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }
       if (node.op === 'await') { const value = interpretNode(node.value, scope, depth + 1); return value && value.__kind === 'syncPromise' ? value.value : value; }
       if (node.op === 'array') return (node.items || []).map(item => interpretNode(item, scope, depth + 1));
       if (node.op === 'object') { const out = {}; for (const prop of node.props || []) out[prop.key] = interpretNode(prop.value, scope, depth + 1); return out; }
@@ -139,9 +141,12 @@ function createDefaultHost(rootScope = {}) {
       if (node.op === 'new') { const klass = interpretNode(node.class, scope, depth + 1); const args = (node.args || []).map(arg => interpretNode(arg, scope, depth + 1)); if (typeof klass === 'function') return new klass(...args); return klass?.__kind === 'compactClass' ? newCompactInstance(klass, args, rootScope) : newInstance(klass, args); }
       if (node.op === 'function') return makeFunction(node, scope);
       if (node.op === 'callMethod') return callMethod(interpretNode(node.object, scope, depth + 1), node.method, ...(node.args || []).map(arg => interpretNode(arg, scope, depth + 1)));
+      if (node.op === 'optionalCallMethod') return optionalCallMethod(interpretNode(node.object, scope, depth + 1), node.method, ...(node.args || []).map(arg => interpretNode(arg, scope, depth + 1)));
       if (node.op === 'getProp') return getProp(interpretNode(node.object, scope, depth + 1), interpretNode(node.prop, scope, depth + 1));
       if (node.op === 'setProp') return setProp(interpretNode(node.object, scope, depth + 1), interpretNode(node.prop, scope, depth + 1), interpretNode(node.value, scope, depth + 1));
       if (node.op === 'callFunction') return callFunction(interpretNode(node.fn, scope, depth + 1), ...(node.args || []).map(arg => interpretNode(arg, scope, depth + 1)));
+      if (node.op === 'optionalCallFunction') { const fn = interpretNode(node.fn, scope, depth + 1); return fn == null ? undefined : callFunction(fn, ...(node.args || []).map(arg => interpretNode(arg, scope, depth + 1))); }
+      if (node.op === 'optionalCallFunction') { const fn = interpretNode(node.fn, scope, depth + 1); return fn == null ? undefined : callFunction(fn, ...(node.args || []).map(arg => interpretNode(arg, scope, depth + 1))); }
       if (node.op === 'conditional') return interpretNode(node.test, scope, depth + 1) ? interpretNode(node.consequent, scope, depth + 1) : interpretNode(node.alternate, scope, depth + 1);
       if (node.op === 'optionalGetProp') { const object = interpretNode(node.object, scope, depth + 1); return object == null ? undefined : getProp(object, interpretNode(node.prop, scope, depth + 1)); }
       if (node.op === 'if') return evalBlock(interpretNode(node.test, scope, depth + 1) ? (node.consequent || []) : (node.alternate || []), scope);
@@ -159,7 +164,7 @@ function createDefaultHost(rootScope = {}) {
         if (parent?.fields) Object.assign(scope.this.fields || (scope.this.fields = {}), parent.fields);
         return scope.this;
       }
-      if (node.op === 'block') return evalBlock(node.body || [], scope);
+      if (node.op === 'block') return evalBlock(node.body || [], Object.create(scope || null));
       return node;
     } finally {
       trace.pop();
@@ -185,6 +190,7 @@ function createDefaultHost(rootScope = {}) {
     throw new TypeError(String(fn) + ' is not a function');
   };
   const callMethod = (receiver, method, ...args) => {
+    if (receiver == null) throw new TypeError(String(receiver) + ' has no method ' + String(method));
     if (receiver && receiver.__kind === 'iterator' && method === 'next') return receiver.next();
     if (receiver && receiver.__kind === 'compactInstance') return callCompactMethod(receiver, method, args, rootScope);
     if (receiver && receiver[method]?.__kind === 'function') return receiver[method].call(args, receiver);
@@ -194,17 +200,23 @@ function createDefaultHost(rootScope = {}) {
     }
     const klass = receiver?.__selfClass || receiver?.__class;
     const found = findMethod(klass, method);
-    if (!found) { const protoFn = klass?.prototype?.[method]; return protoFn?.call ? protoFn.call(args, receiver) : undefined; }
+    if (!found) { const protoFn = klass?.prototype?.[method]; if (protoFn?.call) return protoFn.call(args, receiver); throw new TypeError(String(method) + ' is not a function'); }
     const superReceiver = found.owner.superClass ? { __kind: 'instance', __class: found.owner.superClass, __selfClass: found.owner.superClass, fields: receiver.fields || {} } : null;
     const scope = Object.assign(Object.create(found.owner.closure || null), { this: receiver, super: superReceiver, arguments: args, __class: found.owner });
     bindParams(scope, found.params || [], args);
     const value = interpretNode(found.body, scope);
     return isReturn(value) ? value.value : value;
   };
+  const optionalCallMethod = (receiver, method, ...args) => {
+    if (receiver == null) return undefined;
+    const value = getProp(receiver, method);
+    if (value == null) return undefined;
+    return callMethod(receiver, method, ...args);
+  };
   const makeGenerator = values => ({ __kind: 'generatorFactory', call: () => { let index = 0; return { __kind: 'iterator', next: () => index < values.length ? { value: values[index++], done: false } : { value: undefined, done: true } }; } });
   const makeAsyncVessel = result => ({ __kind: 'asyncFunction', call: () => interpretNode(result, {}) });
   const getProp = (obj, prop) => {
-    if (obj == null) return undefined;
+    if (obj == null) throw new TypeError('Cannot read properties of ' + String(obj) + " (reading '" + String(prop) + "')");
     if (Object.prototype.hasOwnProperty.call(obj, prop)) return obj[prop];
     if (obj.__kind === 'instance') {
       const found = findMethod(obj.__class, prop);
@@ -217,7 +229,7 @@ function createDefaultHost(rootScope = {}) {
   const setProp = (obj, prop, value) => { if (obj != null) obj[prop] = value; return value; };
 
   return {
-    20: defineClass, 21: (klass, ...args) => typeof klass === 'function' ? new klass(...args) : (klass?.__kind === 'compactClass' ? newCompactInstance(klass, args, rootScope) : newInstance(klass, args)), 22: callMethod, 23: getProp, 24: makeGenerator, 25: makeAsyncVessel, 26: callFunction, 27: (...items) => items, 28: (...flat) => { const out = {}; for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1]; return out; }, 29: (kind, ...items) => new (globalThis[kind] || Uint8Array)(items || []), 30: node => interpretNode(node, Object.create(rootScope)), 31: setProp, 32: node => makeFunction(node, rootScope), 33: (op, a, b) => interpretNode({ op, args: [{ const: a }, { const: b }] }), 34: (op, value) => interpretNode({ op, value: { const: value } }), 35: (test, consequent, alternate) => test ? consequent : alternate, 36: (...flat) => { const out = {}; for (let i = 0; i < flat.length;) { if (flat[i++] === true) Object.assign(out, flat[i++] || {}); else out[flat[i++]] = flat[i++]; } return out; }, 37: value => value && value.__kind === 'syncPromise' ? value.value : value, 38: (obj, prop) => obj == null ? undefined : obj[prop], 39: message => new Error(message), 40: node => interpretNode(node, Object.create(rootScope)), 41: node => interpretNode(node, Object.create(rootScope)), 42: node => interpretNode(node, Object.create(rootScope)), 60: classes => installCompactClasses(classes, rootScope)
+    20: defineClass, 21: (klass, ...args) => typeof klass === 'function' ? new klass(...args) : (klass?.__kind === 'compactClass' ? newCompactInstance(klass, args, rootScope) : newInstance(klass, args)), 22: callMethod, 23: getProp, 24: makeGenerator, 25: makeAsyncVessel, 26: callFunction, 27: (...items) => items, 28: (...flat) => { const out = {}; for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1]; return out; }, 29: (kind, ...items) => new (globalThis[kind] || Uint8Array)(items || []), 30: node => interpretNode(node, Object.create(rootScope)), 31: setProp, 32: node => makeFunction(node, rootScope), 33: (op, a, b) => interpretNode({ op, args: [{ const: a }, { const: b }] }), 34: (op, value) => interpretNode({ op, value: { const: value } }), 35: (test, consequent, alternate) => test ? consequent : alternate, 36: (...flat) => { const out = {}; for (let i = 0; i < flat.length;) { if (flat[i++] === true) Object.assign(out, flat[i++] || {}); else out[flat[i++]] = flat[i++]; } return out; }, 37: value => value && value.__kind === 'syncPromise' ? value.value : value, 38: (obj, prop) => obj == null ? undefined : getProp(obj, prop), 39: message => new Error(message), 40: node => interpretNode(node, Object.create(rootScope)), 41: node => interpretNode(node, Object.create(rootScope)), 42: node => interpretNode(node, Object.create(rootScope)), 43: node => interpretNode({ op: 'block', body: node.body || [] }, Object.create(rootScope)), 44: (receiver, method, ...args) => optionalCallMethod(receiver, method, ...args), 45: (fn, ...args) => fn == null ? undefined : callFunction(fn, ...args), 46: name => { try { return typeof read(name, rootScope); } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }, 60: classes => installCompactClasses(classes, rootScope)
   };
 }
 module.exports = { createDefaultHost };

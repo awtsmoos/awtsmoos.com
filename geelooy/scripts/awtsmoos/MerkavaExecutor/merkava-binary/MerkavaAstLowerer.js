@@ -9,14 +9,26 @@ const UNARY = { '!': 'not', '-': 'neg', '+': 'pos', typeof: 'typeof', void: 'voi
  */
 function lowerAstToJson(ast) {
   const steps = [];
+  const lexicalScopeStack = [];
+
+  const lexicalNamesOf = body => new Set((body?.body || [])
+    .filter(stmt => stmt.type === 'VariableDeclaration' && (stmt.kind === 'let' || stmt.kind === 'const'))
+    .flatMap(stmt => (stmt.declarations || []).map(d => d.id?.name).filter(Boolean)));
+
+  const isLexicalNameInCurrentScope = name => lexicalScopeStack.length > 0 && lexicalScopeStack[lexicalScopeStack.length - 1].has(name);
 
   const blockSteps = body => {
     const out = [];
-    for (const stmt of body?.body || []) {
-      const lowered = lowerStmt(stmt, out);
-      if (lowered?.result) out.push({ op: 'return', value: lowered.result });
+    lexicalScopeStack.push(lexicalNamesOf(body));
+    try {
+      for (const stmt of body?.body || []) {
+        const lowered = lowerStmt(stmt, out);
+        if (lowered?.result) out.push({ op: 'return', value: lowered.result });
+      }
+      return out;
+    } finally {
+      lexicalScopeStack.pop();
     }
-    return out;
   };
 
   const statementSteps = stmt => {
@@ -96,7 +108,10 @@ function lowerAstToJson(ast) {
     if (node.type === 'AwaitExpression') return { op: 'await', value: expr(node.argument) };
     if (node.type === 'YieldExpression') return expr(node.argument);
     if (node.type === 'SpreadElement') return expr(node.argument);
-    if (node.type === 'UnaryExpression') return { op: UNARY[node.operator], value: expr(node.argument) };
+    if (node.type === 'UnaryExpression') {
+      if (node.operator === 'typeof' && node.argument?.type === 'Identifier' && !isLexicalNameInCurrentScope(node.argument.name)) return { op: 'typeofName', name: node.argument.name };
+      return { op: UNARY[node.operator], value: expr(node.argument) };
+    }
     if (node.type === 'LogicalExpression') return { op: LOGICAL[node.operator], args: [expr(node.left), expr(node.right)] };
     if (node.type === 'ConditionalExpression') return { op: 'conditional', test: expr(node.test), consequent: expr(node.consequent), alternate: expr(node.alternate) };
     if (node.type === 'BinaryExpression') return { op: LOGICAL[node.operator] || OP[node.operator], args: [expr(node.left), expr(node.right)] };
@@ -145,7 +160,9 @@ function lowerAstToJson(ast) {
       const args = (node.arguments || []).map(expr);
       if (node.callee.type === 'Super') return { op: 'superConstructor', args };
       if (node.callee.type === 'Identifier') return { op: 'callFunction', fn: expr(node.callee), args };
-      if (node.callee.type === 'MemberExpression') return { op: 'callMethod', object: expr(node.callee.object), method: propName(node.callee.property), args };
+      if (node.callee.type === 'MemberExpression') return { op: (node.optional || node.callee.optional) ? 'optionalCallMethod' : 'callMethod', object: expr(node.callee.object), method: propName(node.callee.property), args };
+      if (node.optional || node.callee.type === 'ChainExpression') return { op: 'optionalCallFunction', fn: expr(node.callee), args };
+      if (node.optional || node.callee.type === 'ChainExpression') return { op: 'optionalCallFunction', fn: expr(node.callee), args };
       return { op: 'callFunction', fn: expr(node.callee), args };
     }
     throw new Error(`Unsupported JS AST expression: ${node.type}`);
@@ -245,11 +262,21 @@ function lowerAstToJson(ast) {
     return null;
   };
 
-  for (const stmt of ast.body || []) {
-    const returned = lowerStmt(stmt);
-    if (returned) return { steps, ...returned };
+  lexicalScopeStack.push(lexicalNamesOf(ast));
+  try {
+    lexicalScopeStack.push(lexicalNamesOf(ast));
+  try {
+    for (const stmt of ast.body || []) {
+      const returned = lowerStmt(stmt);
+      if (returned) return { steps, ...returned };
+    }
+    return { steps };
+  } finally {
+    lexicalScopeStack.pop();
   }
-  return { steps };
+  } finally {
+    lexicalScopeStack.pop();
+  }
 }
 
 module.exports = { lowerAstToJson };

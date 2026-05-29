@@ -1,12 +1,11 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 82: the loader repents from stealing `size`. The
- * Awtsmoos showed that some nivrayim use `size` as sacred geometry while this
- * loader used it as asset byte-count dust. Now asset weight lives in
- * `assetSize`, and the bridge may keep its dimensions unbroken.
+ * @description Chapter 94: the loader now drinks from the fresh mezuzah-direct
+ * instantiator. The Awtsmoos bypasses stale public `instantiate.js` so
+ * `InteractiveDoor` can no longer disappear from the export table.
  */
-import instantiate from "./instantiate.js";
+import instantiate from "./instantiateMezuzahDirect.js";
 import lifecycle from "./lifecycle.js";
 import TimeTracker from "../../../utils/TimeTracker.js";
 
@@ -38,7 +37,7 @@ export default class LoadNivrayim {
       this.ayshPeula("updateProgress", { loadedNivrayim: Date.now() });
       if (!this.enlightened && typeof this.ohr === "function") {
         try { this.ohr(); }
-        catch (e) { console.error("B\"H - ⚠️ Lighting resistance encountered:", e); }
+        catch (error) { console.error("B\"H - ⚠️ Lighting resistance encountered:", error); }
       }
       TimeTracker.finish("LOAD_NIVRAYIM", "All souls solidified and linked.");
       return nivrayimMade || [];

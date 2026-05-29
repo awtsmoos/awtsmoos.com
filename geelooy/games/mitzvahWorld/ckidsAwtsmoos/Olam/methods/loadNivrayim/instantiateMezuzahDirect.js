@@ -1,26 +1,26 @@
 // B"H
 /**
- * @file instantiate.js
- * @description Chapter 93: the mezuzah no longer depends on a stale export
- * river. The Awtsmoos revealed the live worker had no `InteractiveDoor` export,
- * so this loader now carries the doorway class directly and logs every gate
- * birth with position, constructor, and registration intent.
+ * @file instantiateMezuzahDirect.js
+ * @description Chapter 94: a fresh loader vessel for the most important gate.
+ * The Awtsmoos bypasses stale public `instantiate.js` and stale export hubs by
+ * importing `SimpleDoor.js` directly for JSON `InteractiveDoor` entries. Every
+ * step logs loudly so the console says whether the mezuzah was created, added,
+ * registered, and made visible.
  */
 import * as AWTSMOOS from '../../../awtsmoosCkidsGames.js';
 import Utils from '../../../utils.js';
 import InteractiveDoorDirect from '../../../dvarim/SimpleDoor.js';
 
 function resolveSoulType(type) {
-  if (type === 'InteractiveDoor') return InteractiveDoorDirect;
-  return AWTSMOOS[type] || null;
-}
-
-function logMissing(type) {
-  console.warn('B"H | INSTANTIATE_MISSING_TYPE', { type, available: Object.keys(AWTSMOOS), hasDirectInteractiveDoor: Boolean(InteractiveDoorDirect) });
+  return type === 'InteractiveDoor' ? InteractiveDoorDirect : AWTSMOOS[type] || null;
 }
 
 function logMezuzah(stage, data = {}) {
   console.info('B"H | MEZUZAH_INSTANTIATE_DIRECT', { stage, ...data });
+}
+
+function logMissing(type) {
+  console.warn('B"H | INSTANTIATE_MISSING_TYPE', { type, available: Object.keys(AWTSMOOS), hasDirectInteractiveDoor: Boolean(InteractiveDoorDirect) });
 }
 
 function makeNivra(context, type, options) {
@@ -33,20 +33,18 @@ function makeNivra(context, type, options) {
   return new SoulType(options, context);
 }
 
-const instantiate = {
-  /** @param {string} type Constructor key. @param {object} options Level config. @returns {Promise<object|null>} Created nivra. */
+const instantiateMezuzahDirect = {
   async addObject(type, options) {
     const nivra = makeNivra(this, type, options);
     if (!nivra) return null;
     if (!this.nivrayim.includes(nivra)) this.nivrayim.push(nivra);
     if (nivra.heescheel) await nivra.heescheel(this);
-    if (type === 'InteractiveDoor') logMezuzah('heescheel-finished', { name: nivra.name, hasMesh: Boolean(nivra.mesh), interactableCount: this.interactableNivrayim?.length, sceneChildren: this.scene?.children?.length });
+    if (type === 'InteractiveDoor') logMezuzah('heescheel-finished', { name: nivra.name, hasMesh: Boolean(nivra.mesh), meshName: nivra.mesh?.name, interactableCount: this.interactableNivrayim?.length, mezuzahRegistryCount: this.__insideRightPostMezuzahs?.length });
     if (nivra.ready) await nivra.ready();
     if (nivra.afterBriyah) await nivra.afterBriyah();
     return nivra;
   },
 
-  /** @param {object} nivrayim Pure JSON nivra buckets. @returns {object[]} Constructed nivrayim. */
   parseDefinitions(nivrayim) {
     const list = [];
     if (!nivrayim) return list;
@@ -64,4 +62,4 @@ const instantiate = {
   }
 };
 
-export default instantiate;
+export default instantiateMezuzahDirect;

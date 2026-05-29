@@ -1,17 +1,19 @@
 // B"H
 import { parseFallbackToolCalls, normalizeNativeToolCalls } from "./toolCallParser.js";
 import { reasoningEvent, statusEvent, toolCallEvent, toolResultEvent } from "./providerEvents.js";
+import { DEFAULT_NEXT_STEP_PROMPT } from "./nextStepTool.js";
 
 const TOOL_WARN_MS = 1200;
 const TOOL_TIMEOUT_MS = 65000;
 
 /**
  * B"H
- * Chapter 229: The Tool Runner Stopped Killing The Gate Too Early.
+ * Chapter 253: The Final Answer Could Leave A Lamp Behind It.
  *
- * The local tunnel may read real files from a phone, a desktop, or a waking
- * relay. Eighteen seconds was a guillotine. Now the Awtsmoos gives tools a full
- * breath, emits status while they work, and only then records failure.
+ * Providers may call awtsmoos_needs_next_step before their final reply. The call
+ * is handled like any other tool in the transcript, but its result is captured
+ * as page metadata so the browser can send exactly one continuation after the
+ * visible final message has landed.
  */
 export class MultiPassToolAgent {
   constructor({ client, bridge, providerId = "provider", maxRounds = 6, emitEvent = null } = {}) {
@@ -20,9 +22,11 @@ export class MultiPassToolAgent {
     this.providerId = providerId;
     this.maxRounds = maxRounds;
     this.emitEvent = emitEvent || (() => {});
+    this.nextStepIntent = null;
   }
 
   async run({ prompt, messages, model, stream = true, signal, onDelta, onMetrics } = {}) {
+    this.nextStepIntent = null;
     const history = Array.isArray(messages) ? [...messages] : [{ role: "user", content: this.instructions(prompt) }];
     const trace = [];
     let final = null;
@@ -37,14 +41,20 @@ export class MultiPassToolAgent {
       for (const call of calls) history.push(await this.toolMessage(call, signal));
     }
     if (!final) final = await this.forceFinal({ history, model, stream, signal, onDelta, onMetrics, trace });
-    return { ok: !!final, text: final?.text || "", final, trace, rounds: trace.length };
+    if (final) final.awtsmoosNextStep = this.nextStepIntent;
+    return { ok: !!final, text: final?.text || "", final, trace, rounds: trace.length, nextStep: this.nextStepIntent };
   }
 
   async round({ round, history, model, stream, signal, onMetrics }) {
     const segment = `round-${round}`;
     const vessel = { text: "", emittedPreToolText: false, sawTool: false };
     const response = await this.client.complete({
-      messages: history, model, tools: this.bridge.schemas(), stream, signal, onMetrics,
+      messages: history,
+      model,
+      tools: this.bridge.schemas(),
+      stream,
+      signal,
+      onMetrics,
       onDelta: stream ? (_delta, fullText) => this.captureRoundText(vessel, segment, fullText) : null,
       onReasoning: (_chunk, full) => this.emitEvent(reasoningEvent(full, this.providerId, `${segment}:reasoning`)),
       onToolCall: tools => this.captureToolCalls(vessel, segment, tools)
@@ -82,7 +92,7 @@ export class MultiPassToolAgent {
   }
 
   instructions(prompt = "") {
-    return `${prompt}\n\nB'H TOOL PROTOCOL: Use direct essential tool calls when available. Use repo-relative paths. For rare actions, call awtsmoos_tool_details, then awtsmoos_tool_call with {name, arguments}. If native tool_calls are unavailable, respond only with JSON: {"awtsmoos_tool_calls":[{"name":"tool_name","arguments":{}}]}. After tool results, answer normally.`;
+    return `${prompt}\n\nB'H TOOL PROTOCOL: Use direct essential tool calls when available. Use repo-relative paths. For rare actions, call awtsmoos_tool_details, then awtsmoos_tool_call with {name, arguments}. If any useful work remains after your final visible answer, call awtsmoos_needs_next_step with {"needed":true,"prompt":"optional exact next prompt"} immediately before the final answer. If native tool_calls are unavailable, respond only with JSON: {"awtsmoos_tool_calls":[{"name":"tool_name","arguments":{}}]}. After tool results, answer normally.`;
   }
 
   callsFrom(response = {}) {
@@ -99,6 +109,7 @@ export class MultiPassToolAgent {
   async toolMessage(call, signal) {
     this.emitEvent(toolCallEvent(call, this.providerId));
     const result = await this.safeToolResult(call, signal);
+    this.recordNextStep(result);
     this.emitEvent(toolResultEvent(call, result, this.providerId));
     return { role: "tool", tool_call_id: call.id, name: call.name, content: JSON.stringify(result) };
   }
@@ -108,6 +119,12 @@ export class MultiPassToolAgent {
     try { return await withToolTimeout(this.bridge.call(call.name, call.arguments || {}), call, signal); }
     catch (error) { return { ok: false, action: call.name, timedOut: /timed out|Timeout/i.test(error?.message || error?.name || ""), error: error?.message || String(error), stack: error?.stack || "", localTunnel: error?.localTunnel || null }; }
     finally { clearTimeout(pending); }
+  }
+
+  recordNextStep(result = {}) {
+    const intent = result?.nextStep;
+    if (!intent?.needed) return;
+    this.nextStepIntent = { needed: true, prompt: intent.prompt || DEFAULT_NEXT_STEP_PROMPT, reason: intent.reason || "", source: intent.source || result.action || "awtsmoos_needs_next_step" };
   }
 
   normalizeOne(tool = {}) { return normalizeNativeToolCalls([tool])[0] || tool; }

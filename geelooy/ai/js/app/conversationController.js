@@ -11,85 +11,40 @@ import { beginVisibleConversation, isCurrentNavigation, setVisibleConversationId
 
 /**
  * B"H
- * Chapter 236: The ChatGPT Warning Learned Its Own Name.
+ * Chapter 255: The Done Hook Received The Hidden Continuation Lamp.
  *
- * Conversation loading serves many rivers. Only ChatGPT needs the transport
- * extension warning; MiniMax, Gemini, OpenRouter, and Groq should not inherit a
- * ChatGPT-shaped error while their own provider gates remain available.
+ * The final text still flows as plain text. Metadata now carries the packet and
+ * awtsmoos.nextStep intent so page automation can decide, after paint, whether
+ * exactly one automatic next-step prompt should be sent.
  */
 export class ConversationController {
-  constructor({ aiHandler, renderer, serviceSelect, onConversationLoaded = null, onConversationChanging = null } = {}) {
-    this.aiHandler = aiHandler;
-    this.renderer = renderer;
-    this.serviceSelect = serviceSelect;
-    this.onConversationLoaded = onConversationLoaded;
-    this.onConversationChanging = onConversationChanging;
-    this.listPager = new ConversationListPager({ controller: this, limit: 26 });
-  }
-
+  constructor({ aiHandler, renderer, serviceSelect, onConversationLoaded = null, onConversationChanging = null } = {}) { this.aiHandler = aiHandler; this.renderer = renderer; this.serviceSelect = serviceSelect; this.onConversationLoaded = onConversationLoaded; this.onConversationChanging = onConversationChanging; this.listPager = new ConversationListPager({ controller: this, limit: 26 }); }
   async getService() { return await this.aiHandler.getActiveService(); }
   async refreshList(list) { try { await this.listPager.reset(list); } catch (error) { this.renderListError(list, error); } }
-  async loadConversationListWithRetries(list, page = {}) {
-    let lastError;
-    for (let attempt = 0; attempt < 6; attempt++) {
-      try { const service = await this.getService(); return service.getConversationsFnc ? await withTimeout(service.getConversationsFnc(page), { ms: 12000, label: "Conversation list request" }) : null; }
-      catch (error) { lastError = error; if (isMissingTransportError(error)) break; list.innerHTML = `<li class="is-loading">Reconnecting conversations… ${attempt + 1}/6</li>`; await new Promise(resolve => setTimeout(resolve, 400 * (attempt + 1))); }
-    }
-    throw lastError;
-  }
-
-  renderEmptyList(list, response) {
-    if (response?.awtsmoosAuth?.requiresSignIn) { list.innerHTML = `<li class="is-error">${escapeHtml(response.awtsmoosAuth.message)} <a href="https://chatgpt.com/" target="_blank" rel="noreferrer">Open ChatGPT</a></li>`; return; }
-    list.innerHTML = `<li class="is-empty">No conversations returned.</li>`;
-  }
-
-  renderListError(list, error) {
-    const text = this.chatGptTransportMessage(error, "Conversation list could not load");
-    list.innerHTML = `<li class="is-error">${escapeHtml(text)}</li>`;
-    if (this.shouldSurfaceErrorDialog(error)) this.renderer.showError?.("Conversation list error", error);
-    console.warn("Conversation refresh failed", error);
-  }
+  async loadConversationListWithRetries(list, page = {}) { let lastError; for (let attempt = 0; attempt < 6; attempt++) { try { const service = await this.getService(); return service.getConversationsFnc ? await withTimeout(service.getConversationsFnc(page), { ms: 12000, label: "Conversation list request" }) : null; } catch (error) { lastError = error; if (isMissingTransportError(error)) break; list.innerHTML = `<li class="is-loading">Reconnecting conversations… ${attempt + 1}/6</li>`; await new Promise(resolve => setTimeout(resolve, 400 * (attempt + 1))); } } throw lastError; }
+  renderEmptyList(list, response) { if (response?.awtsmoosAuth?.requiresSignIn) { list.innerHTML = `<li class="is-error">${escapeHtml(response.awtsmoosAuth.message)} <a href="https://chatgpt.com/" target="_blank" rel="noreferrer">Open ChatGPT</a></li>`; return; } list.innerHTML = `<li class="is-empty">No conversations returned.</li>`; }
+  renderListError(list, error) { const text = this.chatGptTransportMessage(error, "Conversation list could not load"); list.innerHTML = `<li class="is-error">${escapeHtml(text)}</li>`; if (this.shouldSurfaceErrorDialog(error)) this.renderer.showError?.("Conversation list error", error); console.warn("Conversation refresh failed", error); }
 
   async loadConversation(conversationId) {
     const navigation = beginVisibleConversation(conversationId);
     try {
       this.onConversationChanging?.(conversationId);
       updateSearchParams({ awtsmoosConversation: conversationId, awtsmoosAi: this.serviceSelect.value });
-      this.renderer.clear();
-      showLoadState(this.renderer.chatBox, "Opening conversation…", "loading");
-      const service = await this.getService();
-      if (!isCurrentNavigation(navigation)) return;
+      this.renderer.clear(); showLoadState(this.renderer.chatBox, "Opening conversation…", "loading");
+      const service = await this.getService(); if (!isCurrentNavigation(navigation)) return;
       showLoadState(this.renderer.chatBox, "Fetching messages…", "loading");
       const messages = service.getConversation ? await service.getConversation(conversationId) : [];
       if (!isCurrentNavigation(navigation)) return;
-      if (this.renderer.loadMessages) await this.renderer.loadMessages(messages);
-      else messages.forEach(message => this.renderer.add(message));
+      if (this.renderer.loadMessages) await this.renderer.loadMessages(messages); else messages.forEach(message => this.renderer.add(message));
       if (!isCurrentNavigation(navigation)) return;
       streamResumeStore.removeStaleForConversation(conversationId, { keepRecentMs: 30000 });
-      this.mountLoadedAudioOffer({ messages, conversationId });
-      this.renderer.forceScrollDown?.({ rerender: false });
+      this.mountLoadedAudioOffer({ messages, conversationId }); this.renderer.forceScrollDown?.({ rerender: false });
       await this.onConversationLoaded?.(conversationId);
-    } catch (error) {
-      if (isCurrentNavigation(navigation)) {
-        if (this.shouldSurfaceErrorDialog(error)) this.renderer.showError?.("Conversation load error", error);
-        else showLoadState(this.renderer.chatBox, this.chatGptTransportMessage(error, "Conversation load error"), "error");
-      }
-      throw error;
-    }
+    } catch (error) { if (isCurrentNavigation(navigation)) { if (this.shouldSurfaceErrorDialog(error)) this.renderer.showError?.("Conversation load error", error); else showLoadState(this.renderer.chatBox, this.chatGptTransportMessage(error, "Conversation load error"), "error"); } throw error; }
   }
 
-  shouldSurfaceErrorDialog(error) {
-    if (!isMissingTransportError(error)) return true;
-    return this.serviceSelect?.value === "chatgpt";
-  }
-
-  chatGptTransportMessage(error, prefix) {
-    const raw = error?.message || String(error || "");
-    if (!isMissingTransportError(error)) return `${prefix}: ${raw}`;
-    if (this.serviceSelect?.value === "chatgpt") return `${prefix}: ChatGPT transport is offline. You can still switch to MiniMax, Gemini, OpenRouter, or Groq while you set up the extension or Node relay.`;
-    return `${prefix}: ${this.serviceSelect?.value || "Selected AI"} is available without the ChatGPT transport. ${raw}`;
-  }
-
+  shouldSurfaceErrorDialog(error) { if (!isMissingTransportError(error)) return true; return this.serviceSelect?.value === "chatgpt"; }
+  chatGptTransportMessage(error, prefix) { const raw = error?.message || String(error || ""); if (!isMissingTransportError(error)) return `${prefix}: ${raw}`; if (this.serviceSelect?.value === "chatgpt") return `${prefix}: ChatGPT transport is offline. You can still switch to MiniMax, Gemini, OpenRouter, or Groq while you set up the extension or Node relay.`; return `${prefix}: ${this.serviceSelect?.value || "Selected AI"} is available without the ChatGPT transport. ${raw}`; }
   async newConversation() { beginVisibleConversation(null); this.onConversationChanging?.(null); this.renderer.clear(); updateSearchParams({ awtsmoosConversation: null, awtsmoosAi: this.serviceSelect.value }); setVisibleConversationId(null); await window?.aiHandler?.newConversation?.(); }
   async send(userMessage, hooks = {}) { return await this.sendWithVisibility(userMessage, { ...hooks, paintUser: true, paintAssistant: true }); }
   async sendAutomation(userMessage, hooks = {}) { const targetConversationId = hooks.conversationId || getConversationId(); const visible = Boolean(targetConversationId && targetConversationId === getConversationId()); return await this.sendWithVisibility(userMessage, { ...hooks, conversationId: targetConversationId, paintUser: visible, paintAssistant: visible, automation: false }); }
@@ -100,16 +55,9 @@ export class ConversationController {
     const attachments = hooks.attachments || [];
     const stream = hooks.paintAssistant ? new StreamRouter(this.renderer) : null;
     if (hooks.paintUser) this.renderer.add({ message: { author: { role: "user" }, content: { parts: [userMessage + describeAttachments(attachments)] } } });
-    if (stream) stream.open();
-    this.renderer.forceScrollDownSoon?.();
+    if (stream) stream.open(); this.renderer.forceScrollDownSoon?.();
     try { return await this.sendThroughService(userMessage, attachments, stream, hooks); }
-    catch (error) {
-      const cid = hooks.conversationId || getConversationId();
-      if (cid) streamResumeStore.removeStaleForConversation(cid, { keepRecentMs: 0 });
-      if (isAbort(error)) { if (stream?.assistant) stream.abort?.(new Error("Stream stopped by user.")); return ""; }
-      if (hooks.paintAssistant !== false) { if (stream?.assistant) stream.abort?.(error); else this.renderSendError(error); }
-      throw error;
-    }
+    catch (error) { const cid = hooks.conversationId || getConversationId(); if (cid) streamResumeStore.removeStaleForConversation(cid, { keepRecentMs: 0 }); if (isAbort(error)) { if (stream?.assistant) stream.abort?.(new Error("Stream stopped by user.")); return ""; } if (hooks.paintAssistant !== false) { if (stream?.assistant) stream.abort?.(error); else this.renderSendError(error); } throw error; }
   }
 
   async sendThroughService(userMessage, attachments, stream, hooks) {
@@ -117,10 +65,7 @@ export class ConversationController {
     const targetConversationId = hooks.conversationId ?? getConversationId();
     const startedOnBlankConversation = !targetConversationId;
     const response = await service.promptFunction(userMessage, {
-      conversationId: targetConversationId,
-      remember: true,
-      attachments,
-      signal: hooks.signal,
+      conversationId: targetConversationId, remember: true, attachments, signal: hooks.signal,
       streamContext: { conversationId: targetConversationId, title: userMessage.slice(0, 80) || "Streaming chat", automation: false },
       onmetrics: metrics => hooks.onmetrics?.(metrics),
       onstream: packet => { if (stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation)) return stream.route(packet); },
@@ -128,7 +73,7 @@ export class ConversationController {
         const cid = extractConversationId(packet) || targetConversationId;
         const finalText = extractAssistantText(packet);
         const finish = stream && isVisibleStreamPacket(packet, targetConversationId, startedOnBlankConversation) ? stream.finish(packet) : Promise.resolve();
-        return finish.then(() => hooks.ondone?.(finalText, { conversationId: cid, automation: false }));
+        return finish.then(() => hooks.ondone?.(finalText, { conversationId: cid, automation: false, nextStep: extractNextStep(packet), packet }));
       }
     });
     if (stream?.queue) await stream.queue;
@@ -155,7 +100,8 @@ function extractMessageText(input = {}) { const message = input?.message || inpu
 function extractConversationId(packet) { return packet?.data?.conversation_id || packet?.conversation_id || packet?.awtsmoos?.otherEvents?.find?.(event => event.conversation_id)?.conversation_id || null; }
 function extractMessageId(packet) { return packet?.id || packet?.message?.id || packet?.data?.message?.id || packet?.awtsmoos?.otherEvents?.find?.(event => event?.message?.id)?.message?.id || null; }
 function extractAssistantText(packet) { if (typeof packet === "string") return packet; return packet?.content?.parts?.[0] || packet?.message?.content?.parts?.[0] || packet?.data?.message?.content?.parts?.[0] || packet?.text || ""; }
-function summarizeResponseForDebug(response) { const text = extractAssistantText(response); return { kind: response === null ? "null" : Array.isArray(response) ? "array" : typeof response, conversationId: extractConversationId(response), messageId: extractMessageId(response), textLength: String(text || "").length, keys: response && typeof response === "object" ? Object.keys(response).slice(0, 16) : [] }; }
+function extractNextStep(packet) { const intent = packet?.awtsmoos?.nextStep || packet?.data?.awtsmoos?.nextStep || null; return intent?.needed ? intent : null; }
+function summarizeResponseForDebug(response) { const text = extractAssistantText(response); return { kind: response === null ? "null" : Array.isArray(response) ? "array" : typeof response, conversationId: extractConversationId(response), messageId: extractMessageId(response), textLength: String(text || "").length, nextStep: Boolean(extractNextStep(response)), keys: response && typeof response === "object" ? Object.keys(response).slice(0, 16) : [] }; }
 function mountAudioOfferLazy(options) { mountAwtsmoosAudioOffer(options); }
 function parseErrorBody(body = "") { const text = typeof body === "string" ? body : JSON.stringify(body, null, 2); if (!text) return ""; try { return JSON.stringify(JSON.parse(text), null, 2); } catch { return text; } }
 function escapeHtml(text) { return String(text || "").replace(/[&<>\"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }

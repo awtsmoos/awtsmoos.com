@@ -1,10 +1,11 @@
 // B"H
 /**
  * @file simulateRuntime.js
- * @description Chapter 79: Merkava-only runtime now drinks URL applications
- * before execution. A URL is fetched into a complete virtual file river, then
- * HTML, CSS, modules, dynamic imports, fetches, events, canvas, and WebGL run
- * inside the MerkavaExecutor vessel. No Chrome escape hatch is used.
+ * @description Chapter 80: The action log fell through a crack in the world,
+ * and the Awtsmoos revealed the crack by letting a form succeed while its
+ * evidence vanished. This service keeps URL collection, runtime assembly,
+ * probes, return values, and Puppeteer-like action records inside one
+ * Merkava-only vessel. No Chromium is summoned.
  */
 import RuntimeAssemblerModule from "../../merkava-runtime/RuntimeAssembler.js";
 const { RuntimeAssembler } = RuntimeAssemblerModule;
@@ -22,18 +23,23 @@ function decodeJsonMaybe(value, fallback) {
   if (typeof value === "object") return value;
   try { return JSON.parse(String(value)); } catch (_) { return fallback; }
 }
+
 function readPath(root, key) {
   if (!root || !key) return undefined;
   return String(key).split(".").reduce((value, part) => value == null ? undefined : value[part], root);
 }
+
 function cloneValue(value) { return cloneProbeValue(value); }
+
 function normalizeActionInput(options) {
   return decodeJsonMaybe(
     options.browserActions || options.pageActions || options.actionsJson,
     options.browserActions || options.pageActions || options.actions || options.interactions || []
   );
 }
+
 function fileCount(files = {}) { return Object.keys(files || {}).length; }
+
 async function extractRequestedValues(raw, runOptions = {}) {
   const runtime = raw?.runtime;
   const windowObj = runtime?.window || null;
@@ -53,6 +59,7 @@ async function extractRequestedValues(raw, runOptions = {}) {
   const awtsmoosResult = cloneValue(windowObj?.__awtsmoosResult ?? raw?.result?.result?.__awtsmoosResult ?? globalThis.__awtsmoosResult);
   return { values, valueErrors: probe.errors || {}, awtsmoosResult };
 }
+
 export function normalizeOptions(options = {}) {
   return {
     ...options,
@@ -67,12 +74,14 @@ export function normalizeOptions(options = {}) {
     interactions: normalizeActionInput(options)
   };
 }
+
 export function instrumentFiles(files = {}, probes = []) {
   if (!Array.isArray(probes) || !probes.length) return files;
   const next = { ...files };
   for (const file of Object.keys(next)) if (file.endsWith(".js")) next[file] = instrumentSource(file, next[file], probes);
   return next;
 }
+
 async function hydrateUrlOptions(options) {
   if (!options.url || fileCount(options.files) > 0) return options;
   const collected = await collectUrlFiles(options);
@@ -85,42 +94,38 @@ async function hydrateUrlOptions(options) {
     urlCollection: { fetchedCount: collected.fetchedCount, diagnostics: collected.diagnostics || [] }
   };
 }
-async function runMerkavaAssemblerOnce(runOptions) {
-  const hydrated = await hydrateUrlOptions(runOptions);
-  const files = instrumentFiles(hydrated.files, hydrated.probes);
+
+function assemblerFailure(error) {
+  return {
+    ok: false,
+    assembly: null,
+    result: { ok: false, error: error.message, stack: error.stack || '', code: error.code || null, trace: error.trace || null, snapshot: null },
+    runtime: null,
+    graph: null,
+    console: []
+  };
+}
+
+async function bootRuntime(hydrated, files) {
   const assembler = new RuntimeAssembler({ ...hydrated, files });
-  let raw;
+  try { return await assembler.run(hydrated.entry); }
+  catch (error) { return assemblerFailure(error); }
+}
+
+async function runActions(raw, hydrated) {
   try {
-    raw = await assembler.run(hydrated.entry);
+    return { interactionLog: await applyInteractions(raw.runtime, hydrated.interactions || []), interactionError: null };
   } catch (error) {
-    raw = {
-      ok: false,
-      assembly: null,
-      result: {
-        ok: false,
-        error: error.message,
-        stack: error.stack || '',
-        code: error.code || null,
-        trace: error.trace || null,
-        snapshot: null
-      },
-      runtime: null,
-      graph: null,
-      console: []
-    };
-  }
-  let interactionLog = [];
-  let interactionError = null;
-  try {
-    interactionLog = await applyInteractions(raw.runtime, hydrated.interactions || []);
-  } catch (error) {
-    interactionError = error;
     raw.ok = false;
     raw.result = { ...(raw.result || {}), ok: false, error: error.message, stack: error.stack || "" };
+    return {
+      interactionLog: Array.isArray(error.browserActionLog) ? error.browserActionLog : [],
+      interactionError: error
+    };
   }
-  if (raw.runtime?.snapshot) raw.result.snapshot = raw.runtime.snapshot();
-  const result = normalizeRuntimeResult({ ...raw, interactionLog }, { ...hydrated, files });
-  const extracted = await extractRequestedValues(raw, hydrated);
+}
+
+function decorateResult(result, raw, hydrated, files, extracted, actionReport) {
   result.engine = "merkava";
   result.browserRuntime = false;
   result.urlCollection = hydrated.urlCollection || null;
@@ -128,16 +133,28 @@ async function runMerkavaAssemblerOnce(runOptions) {
   result.valueErrors = extracted.valueErrors || {};
   if (extracted.awtsmoosResult !== undefined) result.awtsmoosResult = extracted.awtsmoosResult;
   result.interactions = hydrated.interactions || [];
-  result.interactionLog = interactionLog;
-  result.browserActionLog = interactionLog;
-  result.interactionError = interactionError ? { message: interactionError.message, stack: interactionError.stack || "" } : null;
+  result.interactionLog = actionReport.interactionLog;
+  result.browserActionLog = actionReport.interactionLog;
+  result.interactionError = actionReport.interactionError ? { message: actionReport.interactionError.message, stack: actionReport.interactionError.stack || "" } : null;
   result.epochs = [
     { id: 0, name: "url-collect", ok: !hydrated.urlCollection?.diagnostics?.length, fetchedCount: hydrated.urlCollection?.fetchedCount || fileCount(files) },
     { id: 1, name: "merkava-boot", ok: raw.ok !== false },
-    { id: 2, name: "actions", count: interactionLog.length, ok: !interactionError }
+    { id: 2, name: "actions", count: actionReport.interactionLog.length, ok: !actionReport.interactionError }
   ];
   return result;
 }
+
+async function runMerkavaAssemblerOnce(runOptions) {
+  const hydrated = await hydrateUrlOptions(runOptions);
+  const files = instrumentFiles(hydrated.files, hydrated.probes);
+  const raw = await bootRuntime(hydrated, files);
+  const actionReport = await runActions(raw, hydrated);
+  if (raw.runtime?.snapshot) raw.result.snapshot = raw.runtime.snapshot();
+  const result = normalizeRuntimeResult({ ...raw, interactionLog: actionReport.interactionLog }, { ...hydrated, files });
+  const extracted = await extractRequestedValues(raw, hydrated);
+  return decorateResult(result, raw, hydrated, files, extracted, actionReport);
+}
+
 export async function simulateRuntime(options = {}) {
   try {
     const normalized = normalizeOptions(options);
@@ -149,17 +166,8 @@ export async function simulateRuntime(options = {}) {
     }
     return await runMerkavaAssemblerOnce(normalized);
   } catch (error) {
-    return {
-      ok: false,
-      engine: "merkava",
-      browserRuntime: false,
-      error: error.message,
-      code: error.code || null,
-      trace: error.trace || null,
-      stack: error.stack || "",
-      errors: [{ message: error.message, code: error.code || null, trace: error.trace || null, stack: error.stack || "" }],
-      epochs: [{ id: 0, name: "simulateRuntime-public-catch", ok: false }]
-    };
+    return { ok: false, engine: "merkava", browserRuntime: false, error: error.message, code: error.code || null, trace: error.trace || null, stack: error.stack || "", errors: [{ message: error.message, code: error.code || null, trace: error.trace || null, stack: error.stack || "" }], epochs: [{ id: 0, name: "simulateRuntime-public-catch", ok: false }] };
   }
 }
+
 export async function runtimeWorkflow(options = {}) { return simulateRuntime(options); }

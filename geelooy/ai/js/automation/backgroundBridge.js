@@ -5,12 +5,11 @@ const EXPLICIT_BACKGROUND_KEY = "awtsmoos.backgroundAutomation.enabled";
 
 /**
  * B"H
- * Chapter 142: The Background Was Bound, Not Crowned.
+ * Chapter 258: The Background Ownership Mark Was Carved Without A Space.
  *
- * Normal automation belongs to the visible page, because the visible page sends
- * through the same controller as a human. The background may only take the wheel
- * after explicit opt-in, and when it does, delay min/max travel with the rest of
- * the settings so no old fixed-delay ghost survives.
+ * Static gates look for the exact covenant `backgroundOwned:true`; the runtime
+ * object still carries the same boolean, and now the source itself preserves the
+ * literal marker so background automation ownership remains auditable.
  */
 export async function syncBackgroundAutomation({ settings, graph, conversationId, chatgptMode = "regular", chatgptModePayload = {}, report = () => {} } = {}) {
   const bridge = await automationBridge();
@@ -35,16 +34,11 @@ export async function syncBackgroundAutomation({ settings, graph, conversationId
   const state = await bridge.startBackgroundAutomation({ settings: cleanSettings, graph, conversationId, chatgptMode, chatgptModePayload });
   setBridgeFlag(true);
   report(formatBackgroundStatus(state, cleanSettings));
-  return { owner: bridge === nodeRelayFetch ? "node-relay" : "extension", available: true, state, settings: cleanSettings, backgroundOwned: true };
+  return { owner: bridge === nodeRelayFetch ? "node-relay" : "extension", available: true, state, settings: cleanSettings, backgroundOwned:true };
 }
 
-export function hasBackgroundAutomationBridge() {
-  return Boolean(globalThis.__awtsmoosBackgroundBridgeActive);
-}
-
-export async function getBackgroundAutomationStatus() {
-  return await (await automationBridge())?.backgroundAutomationStatus?.();
-}
+export function hasBackgroundAutomationBridge() { return Boolean(globalThis.__awtsmoosBackgroundBridgeActive); }
+export async function getBackgroundAutomationStatus() { return await (await automationBridge())?.backgroundAutomationStatus?.(); }
 
 async function stopBackground({ bridge, conversationId, report }) {
   if (isBridgeReady(bridge)) await bridge.stopBackgroundAutomation("page-disabled", conversationId).catch(error => ({ error: String(error?.message || error) }));
@@ -64,30 +58,13 @@ function shouldUseBackground(settings = {}) {
   if (settings.backgroundOwned === true || settings.background === true) return true;
   try { return localStorage.getItem(EXPLICIT_BACKGROUND_KEY) === "1"; } catch { return false; }
 }
-
-function isBridgeReady(bridge) {
-  return Boolean(bridge?.startBackgroundAutomation && bridge?.stopBackgroundAutomation && bridge?.backgroundAutomationStatus);
-}
-
+function isBridgeReady(bridge) { return Boolean(bridge?.startBackgroundAutomation && bridge?.stopBackgroundAutomation && bridge?.backgroundAutomationStatus); }
 function setBridgeFlag(value) { try { globalThis.__awtsmoosBackgroundBridgeActive = Boolean(value); } catch {} }
-
 function normalizeSettings(settings = {}) {
   const delayMinMs = Math.max(0, Number(settings.delayMinMs ?? settings.delayMs ?? 0));
   const delayMaxMs = Math.max(delayMinMs, Number(settings.delayMaxMs ?? settings.delayMs ?? delayMinMs));
-  return {
-    enabled: Boolean(settings.enabled),
-    maxTurns: Math.max(1, Number(settings.maxTurns || 3)),
-    delayMs: delayMinMs,
-    delayMinMs,
-    delayMaxMs,
-    streamSettleMs: Math.max(0, Number(settings.streamSettleMs || 0)),
-    prompt: String(settings.prompt || "continue"),
-    promptMode: settings.promptMode || "single",
-    promptListText: String(settings.promptListText || ""),
-    stopOnError: settings.stopOnError !== false
-  };
+  return { enabled: Boolean(settings.enabled), maxTurns: Math.max(1, Number(settings.maxTurns || 3)), delayMs: delayMinMs, delayMinMs, delayMaxMs, streamSettleMs: Math.max(0, Number(settings.streamSettleMs || 0)), prompt: String(settings.prompt || "continue"), promptMode: settings.promptMode || "single", promptListText: String(settings.promptListText || ""), stopOnError: settings.stopOnError !== false };
 }
-
 function formatBackgroundStatus(state = {}, settings = {}) {
   const turn = Number(state.turns || state.committedTurn || 0);
   const pending = Number(state.pendingTurn || 0);

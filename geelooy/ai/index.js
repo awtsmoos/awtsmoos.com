@@ -16,14 +16,15 @@ import { LayoutController } from "./js/layout/layoutController.js";
 import { AttachmentTray } from "./js/attachments/attachmentTray.js";
 import { resumeStoredStreams } from "./js/chatgpt/stream/streamResumer.js";
 import { downloadCurrentChatHtml, downloadCurrentChatJson } from "./js/export/chatHtmlExporter.js";
+import { DEFAULT_NEXT_STEP_PROMPT } from "./central/nextStepTool.js";
 
 /**
  * B"H
- * Chapter 168: The Cockpit Booted Even After The Door Had Already Opened.
+ * Chapter 256: The Page Honored The Continuation Lamp Without Double-Sending.
  *
- * Module scripts sometimes arrive after DOMContentLoaded. The Awtsmoos does not
- * let the page miss its one trumpet blast; if the document is ready, the boot
- * ritual starts immediately, otherwise it waits for the event exactly once.
+ * When a provider calls awtsmoos_needs_next_step, the page waits until the final
+ * message paints, sends one visible follow-up prompt, and skips the ordinary
+ * automation trigger for that final reply so two clocks never fire at once.
  */
 const bootAwtsmoosAiCockpit = once(async () => {
   scheduleIdle(() => resetRenderWorkerStores());
@@ -67,7 +68,7 @@ const bootAwtsmoosAiCockpit = once(async () => {
         signal,
         attachments: attachments.consume(),
         onmetrics: metrics => sendState.update(metrics),
-        ondone: async (reply, meta) => afterUserSend({ reply, meta, panel, pipeline, aiHandler, rebindAutomation })
+        ondone: async (reply, meta) => afterUserSend({ reply, meta, panel, pipeline, aiHandler, controller, rebindAutomation })
       });
     } finally { sendState.end(); }
   }
@@ -109,16 +110,13 @@ function maybeSendFromKeyboard(event, sendFromText) {
   const mobile = matchMedia?.("(pointer: coarse)")?.matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
   const shouldSend = event.ctrlKey || event.metaKey || (!mobile && !event.shiftKey && !event.altKey);
   if (!shouldSend) return;
-  event.preventDefault();
-  sendFromText();
+  event.preventDefault(); sendFromText();
 }
 async function resetForServiceMode({ value, aiHandler, controller, panel, dom, mode }) {
   if (mode) aiHandler.setChatGPTMode(value); else aiHandler.switchService(value);
   syncChatGptModeChrome(dom);
   updateSearchParams({ [mode ? "awtsmoosChatGPTMode" : "awtsmoosAi"]: value, awtsmoosConversation: null });
-  await controller.newConversation();
-  panel.setConversationId(null);
-  await controller.refreshList(dom.conversationList);
+  await controller.newConversation(); panel.setConversationId(null); await controller.refreshList(dom.conversationList);
 }
 function syncChatGptModeChrome(dom) { dom.chatgptModeWrap.hidden = dom.serviceSelect.value !== "chatgpt"; }
 
@@ -132,11 +130,18 @@ async function sendAutomationPrompt({ controller, prompt }) {
   const result = await controller.send(prompt, { ondone: reply => { if (reply) finalReply = reply; } });
   return finalReply || result || "";
 }
-async function afterUserSend({ reply, meta, panel, pipeline, aiHandler, rebindAutomation }) {
-  rebindAutomation(meta?.conversationId || getConversationId());
+async function afterUserSend({ reply, meta, panel, pipeline, aiHandler, controller, rebindAutomation }) {
+  const conversationId = meta?.conversationId || getConversationId();
+  rebindAutomation(conversationId);
+  if (meta?.nextStep?.needed) return await sendRequestedNextStep({ nextStep: meta.nextStep, controller, panel });
   if (!hasBackgroundAutomationBridge()) return pipeline.afterAssistantReply(reply, meta);
-  const settings = panel.getSettings(meta?.conversationId);
-  if (settings.enabled) await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId: meta?.conversationId || getConversationId(), chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
+  const settings = panel.getSettings(conversationId);
+  if (settings.enabled) await syncBackgroundAutomation({ settings, graph: panel.getGraph(), conversationId, chatgptMode: aiHandler.chatgptMode, chatgptModePayload: aiHandler.getChatGPTModePayload?.(), report: text => panel.report(text) });
+}
+async function sendRequestedNextStep({ nextStep, controller, panel }) {
+  const prompt = String(nextStep?.prompt || DEFAULT_NEXT_STEP_PROMPT).trim() || DEFAULT_NEXT_STEP_PROMPT;
+  panel?.report?.(`needs next step · sending: ${prompt.slice(0, 80)}`);
+  return await sendAutomationPrompt({ controller, prompt });
 }
 function bootAutomation({ panel, pipeline, bootedConversation, resumeVisibleStreams }) {
   panel.setConversationId(getConversationId());
@@ -149,28 +154,20 @@ function createAutomationWaitBubble(chatBox) {
     if (!chatBox) return;
     if (state?.done) { node?.remove?.(); node = null; return; }
     if (!node?.isConnected) { node = document.createElement("div"); node.className = "automation-countdown message assistant-message"; node.setAttribute("aria-live", "polite"); chatBox.append(node); }
-    node.textContent = state?.text || "⌛ automation waiting…";
-    chatBox.scrollTop = chatBox.scrollHeight;
+    node.textContent = state?.text || "⌛ automation waiting…"; chatBox.scrollTop = chatBox.scrollHeight;
   };
 }
 async function bootstrapFromUrl({ dom, aiHandler, controller, panel }) {
   const params = new URLSearchParams(location.search);
-  const selected = params.get("awtsmoosAi");
-  const mode = params.get("awtsmoosChatGPTMode");
+  const selected = params.get("awtsmoosAi"); const mode = params.get("awtsmoosChatGPTMode");
   if (mode) aiHandler.setChatGPTMode(mode);
   if (selected) { dom.serviceSelect.value = selected; aiHandler.switchService(selected); }
   dom.chatgptModeSelect.value = aiHandler.chatgptMode || "regular";
   syncChatGptModeChrome(dom);
-  const convo = getConversationId();
-  panel.setConversationId(convo);
+  const convo = getConversationId(); panel.setConversationId(convo);
   const refreshSidebarSoon = () => scheduleIdle(() => controller.refreshList(dom.conversationList));
   if (convo) { await controller.loadConversation(convo); refreshSidebarSoon(); return true; }
   if (dom.chatBox.textContent.includes("Preparing Awtsmoos cockpit")) dom.chatBox.innerHTML = `<div class="render-loading idle"><span>Select a conversation or start a new chat.</span></div>`;
-  refreshSidebarSoon();
-  return false;
+  refreshSidebarSoon(); return false;
 }
-function scheduleIdle(task) {
-  const runner = () => Promise.resolve().then(task).catch(error => console.warn("Deferred AI boot task failed", error));
-  if (typeof requestIdleCallback === "function") return requestIdleCallback(runner, { timeout: 1500 });
-  return setTimeout(runner, 0);
-}
+function scheduleIdle(task) { const runner = () => Promise.resolve().then(task).catch(error => console.warn("Deferred AI boot task failed", error)); if (typeof requestIdleCallback === "function") return requestIdleCallback(runner, { timeout: 1500 }); return setTimeout(runner, 0); }

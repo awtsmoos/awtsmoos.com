@@ -7,6 +7,8 @@ function cloneProbeValue(value) {
   try { return JSON.parse(JSON.stringify(value)); } catch (_) { return String(value); }
 }
 
+function fallbackStructuredClone(value) { return JSON.parse(JSON.stringify(value)); }
+
 function buildProbeGlobals(windowObj) {
   const document = windowObj?.document;
   return {
@@ -18,6 +20,8 @@ function buildProbeGlobals(windowObj) {
     navigator: windowObj?.navigator,
     URL: windowObj?.URL || URL,
     URLSearchParams: windowObj?.URLSearchParams || URLSearchParams,
+    crypto: windowObj?.crypto || globalThis.crypto,
+    structuredClone: windowObj?.structuredClone || globalThis.structuredClone || fallbackStructuredClone,
     JSON,
     Object,
     Array,
@@ -32,12 +36,9 @@ function buildProbeGlobals(windowObj) {
 
 /**
  * B"H
- * Chapter 106: probes also ride the chariot.
- *
- * Return values are JavaScript expressions, not dotted-property wishes. Each
- * requested expression is lowered into Merkava JSON and executed through SANG
- * against the live virtual window, so optional chains, calls, unary `!!`, and
- * method bindings are tested by the same runtime being diagnosed.
+ * Probes ride the same Merkava chariot as page code. Expressions execute
+ * against the live virtual window with browser globals present, so returned
+ * values are concrete runtime evidence and failures include real errors.
  */
 async function evaluateMerkavaProbeExpressions({ windowObj, expressions = [] } = {}) {
   const values = {};

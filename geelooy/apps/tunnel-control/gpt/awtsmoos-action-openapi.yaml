@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions Live Agent Surface
-  version: 5.5.0-generated
-  description: B"H. Generated from the local tunnel agent action registry. GET-only transport with UTF-8 query parameters. Use finishAndContinue at the end of an autonomous run to return the configured continuation prompt as finalInstruction.
+  version: 5.6.0-generated
+  description: B"H. Generated from the local tunnel agent action registry. GET-only transport with UTF-8 query parameters. simulateRuntime is Merkava-backed by default: pass url to collect a same-origin page into the synthetic DOM, and pass actions/browserActions/pageActions/actionsJson for Puppeteer-like operations without launching Chromium.
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -24,7 +24,7 @@ paths:
     get:
       operationId: awtsmoosTunnelAction
       summary: Unified tunnel action endpoint.
-      description: B"H. Run one tunnel action. For long autonomous loops, call finishAndContinue after finishing; then continue with the returned finalInstruction.content when appropriate.
+      description: B"H. Run one tunnel action. For simulateRuntime, use url/html/files plus actions/browserActions/pageActions/actionsJson to run Puppeteer-like actions in Merkava's synthetic browser. For long autonomous loops, call finishAndContinue after finishing.
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
         - name: action
@@ -125,6 +125,7 @@ paths:
               - configSet
               - connectedFiles
               - consoleErrorTriage
+              - contextPack
               - copyFile
               - copyTree
               - coverageRunner
@@ -171,6 +172,7 @@ paths:
               - functionPatchDryRun
               - generateRepairPlan
               - generateTestUniverse
+              - getContext
               - getPostMismatchScan
               - gitBranchDoctor
               - gitConflictExplainer
@@ -422,6 +424,7 @@ paths:
         - { name: path, in: query, schema: { type: string } }
         - { name: paths, in: query, schema: { type: string } }
         - { name: files, in: query, schema: { type: string } }
+        - { name: files64, in: query, schema: { type: string } }
         - { name: writes, in: query, schema: { type: string } }
         - { name: edits, in: query, schema: { type: string } }
         - { name: from, in: query, schema: { type: string } }
@@ -444,11 +447,27 @@ paths:
         - { name: html, in: query, schema: { type: string } }
         - { name: testCode, in: query, schema: { type: string } }
         - { name: workflow, in: query, schema: { type: string } }
+        - { name: workflow64, in: query, schema: { type: string } }
         - { name: workflowName, in: query, schema: { type: string } }
         - { name: steps, in: query, schema: { type: string } }
+        - { name: steps64, in: query, schema: { type: string } }
         - { name: params, in: query, schema: { type: string } }
         - { name: probes, in: query, schema: { type: string } }
+        - { name: probes64, in: query, schema: { type: string } }
         - { name: interactions, in: query, schema: { type: string } }
+        - { name: interactions64, in: query, schema: { type: string } }
+        - { name: actions, in: query, schema: { type: string } }
+        - { name: actions64, in: query, schema: { type: string } }
+        - { name: actionsJson, in: query, schema: { type: string } }
+        - { name: actionsJson64, in: query, schema: { type: string } }
+        - { name: browserActions, in: query, schema: { type: string } }
+        - { name: browserActions64, in: query, schema: { type: string } }
+        - { name: pageActions, in: query, schema: { type: string } }
+        - { name: pageActions64, in: query, schema: { type: string } }
+        - { name: returnValues, in: query, schema: { type: string } }
+        - { name: returnValues64, in: query, schema: { type: string } }
+        - { name: values, in: query, schema: { type: string } }
+        - { name: values64, in: query, schema: { type: string } }
         - { name: url, in: query, schema: { type: string } }
         - { name: urlPath, in: query, schema: { type: string } }
         - { name: method, in: query, schema: { type: string, default: "GET" } }
@@ -484,6 +503,7 @@ paths:
         - { name: maxSteps, in: query, schema: { type: integer, default: 50 } }
         - { name: maxIterations, in: query, schema: { type: integer, default: 20 } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
+        - { name: waitMs, in: query, schema: { type: integer, default: 800 } }
         - { name: checkSyntax, in: query, schema: { type: boolean, default: true } }
         - { name: runtimeCheck, in: query, schema: { type: boolean, default: false } }
         - { name: regex, in: query, schema: { type: boolean, default: false } }
