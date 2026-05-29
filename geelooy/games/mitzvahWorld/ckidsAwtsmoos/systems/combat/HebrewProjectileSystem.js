@@ -1,237 +1,138 @@
-/**
- * B"H
- * ════════════════════════════════════════════════════════════════════════
- *   THE PROJECTILE MANIFESTOR — HebrewProjectileSystem.js
- *   ──────────────────────────────────────────────────────────────────
- *
- *   📜 CHAPTER: THE FLIGHT OF THE HOLY LETTERS
- *   When the Chossid swings his sword or draws his bow,
- *   The Hebrew letters burst forth from the weapon,
- *   Each letter a universe of light hurled at the forces of darkness.
- *
- *   The letters are created as TextGeometry sprites that fly through
- *   the 3D world, colliding with Mazzikim and dealing Torah-powered damage.
- *
- *   @module HebrewProjectileSystem
- *   @description Manages the lifecycle of Hebrew letter projectiles.
- * ════════════════════════════════════════════════════════════════════════
- */
-
+// B"H
 import * as THREE from '/games/scripts/build/three.module.js';
 import { getRandomLetter, getLetterByIndex } from './WeaponRegistry.js';
 
 /**
- * B"H
- * @class HebrewProjectileSystem
- * @description Spawns, updates, and resolves Hebrew letter projectiles.
+ * @file HebrewProjectileSystem.js
+ * @description Chapter 90: the projectile vessel no longer whispers a phantom
+ * `Olam/olamDynamic.js` path inside JSDoc. The Awtsmoos keeps the import graph
+ * pure for mobile Chrome and for every seer that follows string paths.
  */
+function makeLetterSprite(letter, color, size) {
+  if (typeof document === 'undefined') {
+    const material = new THREE.MeshBasicMaterial({ color: new THREE.Color(color) });
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(size * 0.3, size * 0.3, size * 0.3), material);
+    mesh.userData.letter = letter;
+    return mesh;
+  }
+  const canvas = document.createElement('canvas');
+  canvas.width = 128;
+  canvas.height = 128;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 128, 128);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 96px serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(letter, 64, 64);
+  const texture = new THREE.CanvasTexture(canvas);
+  const material = new THREE.SpriteMaterial({ map: texture, color: new THREE.Color(color), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+  const sprite = new THREE.Sprite(material);
+  sprite.scale.set(size, size, size);
+  return sprite;
+}
+
 export default class HebrewProjectileSystem {
-    constructor(olam) {
-        /** @type {import('../../Olam/olamDynamic.js').default} */
-        this.olam = olam;
+  /** @param {object} olam Runtime world vessel. */
+  constructor(olam) {
+    this.olam = olam;
+    this.projectiles = [];
+    this.projectileGroup = new THREE.Group();
+    this.projectileGroup.name = 'HebrewProjectiles';
+    if (olam.scene) olam.scene.add(this.projectileGroup);
+  }
 
-        /** @type {Array<Object>} Active projectiles in flight */
-        this.projectiles = [];
+  /** @param {object} weaponDef Weapon definition. @param {THREE.Vector3} origin Origin. @param {THREE.Vector3} direction Direction. @returns {void} */
+  fire(weaponDef, origin, direction) {
+    if (!weaponDef?.projectile) return;
+    const proj = weaponDef.projectile;
+    const burstCount = proj.burst || 1;
+    for (let i = 0; i < burstCount; i += 1) this.spawnProjectile(weaponDef, proj, burstCount, i, origin, direction);
+  }
 
-        /** @type {THREE.Group} Container for all projectile meshes */
-        this.projectileGroup = new THREE.Group();
-        this.projectileGroup.name = "HebrewProjectiles";
+  spawnProjectile(weaponDef, proj, burstCount, index, origin, direction) {
+    const letter = proj.letter === 'ALL' ? getLetterByIndex(index) : (burstCount > 1 ? getRandomLetter() : proj.letter);
+    const mesh = makeLetterSprite(letter, proj.color, proj.size);
+    mesh.position.copy(origin);
+    const dir = this.spreadDirection(direction, proj.spread || 0);
+    this.projectileGroup.add(mesh);
+    this.projectiles.push({ mesh, velocity: dir.multiplyScalar(proj.speed), damage: weaponDef.damage, lifetime: proj.lifetime, age: 0, letter });
+  }
 
-        if (olam.scene) {
-            olam.scene.add(this.projectileGroup);
-        }
+  spreadDirection(direction, spread) {
+    const dir = direction.clone();
+    if (spread <= 0) return dir;
+    const axis = new THREE.Vector3(0, 1, 0);
+    dir.applyAxisAngle(axis, (Math.random() - 0.5) * spread);
+    const horizAxis = new THREE.Vector3().crossVectors(dir, axis).normalize();
+    if (horizAxis.length() > 0.01) dir.applyAxisAngle(horizAxis, (Math.random() - 0.5) * spread * 0.3);
+    return dir;
+  }
+
+  /** @param {number} dt Delta seconds. @param {Array<object>} enemies Enemies. @returns {void} */
+  update(dt, enemies = []) {
+    const toRemove = [];
+    for (let i = 0; i < this.projectiles.length; i += 1) {
+      const p = this.projectiles[i];
+      p.age += dt;
+      if (p.age >= p.lifetime) { toRemove.push(i); continue; }
+      p.mesh.position.add(p.velocity.clone().multiplyScalar(dt));
+      this.fadeProjectile(p);
+      if (this.hitAnyEnemy(p, enemies)) toRemove.push(i);
     }
+    for (let i = toRemove.length - 1; i >= 0; i -= 1) this.removeAt(toRemove[i]);
+  }
 
-    /**
-     * B"H - Fires Hebrew letter projectiles from the player.
-     * @param {Object} weaponDef - The weapon definition from WeaponRegistry.
-     * @param {THREE.Vector3} origin - The world position to fire from.
-     * @param {THREE.Vector3} direction - The normalized direction of fire.
-     */
-    fire(weaponDef, origin, direction) {
-        if (!weaponDef || !weaponDef.projectile) return;
+  fadeProjectile(p) {
+    const ratio = p.age / p.lifetime;
+    if (p.mesh.material) p.mesh.material.opacity = Math.max(0, 1 - ratio * ratio);
+    const pulse = 1 + Math.sin(p.age * 15) * 0.2;
+    const last = p.mesh.userData.lastPulse || 1;
+    p.mesh.scale.multiplyScalar(pulse / last);
+    p.mesh.userData.lastPulse = pulse;
+  }
 
-        const proj = weaponDef.projectile;
-        const burstCount = proj.burst || 1;
-
-        for (let i = 0; i < burstCount; i++) {
-            const letter = proj.letter === "ALL"
-                ? getLetterByIndex(i)
-                : (burstCount > 1 ? getRandomLetter() : proj.letter);
-
-            // B"H - Create the letter mesh using canvas texture
-            const canvas = document.createElement('canvas');
-            canvas.width = 128;
-            canvas.height = 128;
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 128, 128);
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 96px serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(letter, 64, 64);
-
-            const texture = new THREE.CanvasTexture(canvas);
-            const material = new THREE.SpriteMaterial({
-                map: texture,
-                color: new THREE.Color(proj.color),
-                transparent: true,
-                blending: THREE.AdditiveBlending,
-                depthWrite: false
-            });
-
-            const sprite = new THREE.Sprite(material);
-            sprite.scale.set(proj.size, proj.size, proj.size);
-            sprite.position.copy(origin);
-
-            // B"H - Apply spread for burst weapons
-            const dir = direction.clone();
-            if (proj.spread > 0) {
-                const spreadAngle = (Math.random() - 0.5) * proj.spread;
-                const axis = new THREE.Vector3(0, 1, 0);
-                dir.applyAxisAngle(axis, spreadAngle);
-                // Also slight vertical spread
-                const vertSpread = (Math.random() - 0.5) * proj.spread * 0.3;
-                const horizAxis = new THREE.Vector3().crossVectors(dir, axis).normalize();
-                if (horizAxis.length() > 0.01) {
-                    dir.applyAxisAngle(horizAxis, vertSpread);
-                }
-            }
-
-            this.projectileGroup.add(sprite);
-
-            this.projectiles.push({
-                mesh: sprite,
-                velocity: dir.multiplyScalar(proj.speed),
-                damage: weaponDef.damage,
-                lifetime: proj.lifetime,
-                age: 0,
-                letter: letter
-            });
-        }
+  hitAnyEnemy(p, enemies) {
+    for (const enemy of enemies) {
+      if (!enemy?.mesh || !enemy.isReady || enemy.hp <= 0) continue;
+      if (p.mesh.position.distanceTo(enemy.mesh.position) >= 2) continue;
+      enemy.takeDamage?.(p.damage);
+      this.spawnHitEffect(p.mesh.position.clone(), p.letter);
+      return true;
     }
+    return false;
+  }
 
-    /**
-     * B"H - Updates all projectiles. Called every frame.
-     * @param {number} dt - Delta time in seconds.
-     * @param {Array} enemies - Array of entities that can be hit.
-     */
-    update(dt, enemies = []) {
-        const toRemove = [];
+  spawnHitEffect(position, letter) {
+    const mesh = makeLetterSprite(letter, '#ffff00', 1.5);
+    mesh.position.copy(position);
+    this.projectileGroup.add(mesh);
+    let age = 0;
+    const flashUpdate = () => {
+      age += 0.016;
+      mesh.scale.multiplyScalar(1.05);
+      if (mesh.material) mesh.material.opacity = Math.max(0, 1 - age * 4);
+      if (age > 0.3) this.disposeMesh(mesh);
+      else if (typeof requestAnimationFrame === 'function') requestAnimationFrame(flashUpdate);
+    };
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(flashUpdate);
+  }
 
-        for (let i = 0; i < this.projectiles.length; i++) {
-            const p = this.projectiles[i];
-            p.age += dt;
+  removeAt(index) {
+    const p = this.projectiles[index];
+    if (p?.mesh) this.disposeMesh(p.mesh);
+    this.projectiles.splice(index, 1);
+  }
 
-            if (p.age >= p.lifetime) {
-                toRemove.push(i);
-                continue;
-            }
+  disposeMesh(mesh) {
+    this.projectileGroup.remove(mesh);
+    mesh.material?.map?.dispose?.();
+    mesh.material?.dispose?.();
+    mesh.geometry?.dispose?.();
+  }
 
-            // B"H - Move the letter through the world
-            p.mesh.position.add(p.velocity.clone().multiplyScalar(dt));
-
-            // B"H - Fade out near end of life
-            const lifeRatio = p.age / p.lifetime;
-            p.mesh.material.opacity = 1.0 - (lifeRatio * lifeRatio);
-
-            // B"H - Pulsating glow effect
-            const pulse = 1.0 + Math.sin(p.age * 15) * 0.2;
-            p.mesh.scale.set(
-                p.mesh.scale.x * pulse / (p.mesh._lastPulse || 1),
-                p.mesh.scale.y * pulse / (p.mesh._lastPulse || 1),
-                1
-            );
-            p.mesh._lastPulse = pulse;
-
-            // B"H - Collision detection against enemies
-            for (const enemy of enemies) {
-                if (!enemy || !enemy.mesh || !enemy.isReady) continue;
-                if (enemy.hp <= 0) continue;
-
-                const dist = p.mesh.position.distanceTo(enemy.mesh.position);
-                if (dist < 2.0) {
-                    // HIT!
-                    if (enemy.takeDamage) {
-                        enemy.takeDamage(p.damage);
-                    }
-
-                    // B"H - Spawn hit flash
-                    this._spawnHitEffect(p.mesh.position.clone(), p.letter);
-
-                    toRemove.push(i);
-                    break;
-                }
-            }
-        }
-
-        // B"H - Remove expired/hit projectiles (reverse order)
-        for (let i = toRemove.length - 1; i >= 0; i--) {
-            const idx = toRemove[i];
-            const p = this.projectiles[idx];
-            if (p && p.mesh) {
-                this.projectileGroup.remove(p.mesh);
-                p.mesh.material.dispose();
-                p.mesh.material.map?.dispose();
-            }
-            this.projectiles.splice(idx, 1);
-        }
-    }
-
-    /**
-     * B"H - Creates a brief flash of the letter at the hit point.
-     * @param {THREE.Vector3} position
-     * @param {string} letter
-     */
-    _spawnHitEffect(position, letter) {
-        const canvas = document.createElement('canvas');
-        canvas.width = 64;
-        canvas.height = 64;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ff0';
-        ctx.font = 'bold 48px serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(letter, 32, 32);
-
-        const tex = new THREE.CanvasTexture(canvas);
-        const mat = new THREE.SpriteMaterial({
-            map: tex, transparent: true,
-            blending: THREE.AdditiveBlending, depthWrite: false
-        });
-        const sprite = new THREE.Sprite(mat);
-        sprite.position.copy(position);
-        sprite.scale.set(1.5, 1.5, 1.5);
-        this.projectileGroup.add(sprite);
-
-        // B"H - Auto-remove after flash
-        let age = 0;
-        const flashUpdate = () => {
-            age += 0.016;
-            sprite.scale.multiplyScalar(1.05);
-            mat.opacity = Math.max(0, 1.0 - age * 4);
-            if (age > 0.3) {
-                this.projectileGroup.remove(sprite);
-                mat.dispose();
-                tex.dispose();
-            } else {
-                requestAnimationFrame(flashUpdate);
-            }
-        };
-        requestAnimationFrame(flashUpdate);
-    }
-
-    /**
-     * B"H - Cleanup all projectiles.
-     */
-    dispose() {
-        for (const p of this.projectiles) {
-            if (p.mesh) {
-                this.projectileGroup.remove(p.mesh);
-                p.mesh.material.dispose();
-                p.mesh.material.map?.dispose();
-            }
-        }
-        this.projectiles = [];
-    }
+  dispose() {
+    for (const p of this.projectiles) if (p.mesh) this.disposeMesh(p.mesh);
+    this.projectiles = [];
+  }
 }

@@ -14,4 +14,5 @@ const changes = collectFileChanges([call, result]);
 const html = renderFileChangeReview([call, result]);
 console.log(JSON.stringify({ changes, html }, null, 2));
 if (changes.length !== 1 || changes[0].path !== "a.js") throw new Error("file change review did not collect write path");
+if (changes[0].plus !== 6) throw new Error(`file change review double counted plus: ${changes[0].plus}`);
 if (!/diff-plus/.test(html) || !/Review changes/.test(html)) throw new Error("review html missing codex shelf");

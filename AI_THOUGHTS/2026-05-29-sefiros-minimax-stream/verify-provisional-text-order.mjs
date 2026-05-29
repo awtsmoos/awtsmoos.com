@@ -24,8 +24,10 @@ const client = {
 const agent = new MultiPassToolAgent({ client, bridge, providerId: "minimax", emitEvent: event => emitted.push(event) });
 const result = await agent.run({ messages: [{ role: "user", content: "go" }], stream: true });
 const timeline = buildEventTimeline(emitted);
-console.log(JSON.stringify({ result, emitted: emitted.map(e => ({ kind: e.kind, text: e.text, key: e.raw?.streamKey || e.raw?.tool_call_id })), timeline: timeline.map(e => ({ kind: e.kind, text: e.text, group: e.raw?.events?.map(x => x.kind) })) }, null, 2));
+const group = timeline.find(item => item.kind === "tool_group");
+console.log(JSON.stringify({ result, emitted: emitted.map(e => ({ kind: e.kind, text: e.text, key: e.raw?.streamKey || e.raw?.tool_call_id })), timeline: timeline.map(e => ({ kind: e.kind, text: e.text, group: e.raw?.events?.map(x => e.kind === "tool_group" ? `${x.kind}:${x.raw?.tool_call_id}` : x.kind) })) }, null, 2));
 const shape = timeline.map(e => e.kind).join(">");
 if (shape !== "thinking>tool_group") throw new Error(`bad provisional shape ${shape}`);
 if (!timeline[0].text.includes("Let me inspect first")) throw new Error("pre-tool text was not converted to thought before tools");
 if (result.text !== "Final answer.") throw new Error("final answer missing");
+if (!group || group.raw.events.filter(e => e.kind === "tool_call").length !== 1) throw new Error("duplicate tool_call shadows survived in group");

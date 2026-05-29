@@ -61,9 +61,10 @@ function createDefaultHost(rootScope = {}) {
     const key = typeof name === 'symbol' ? name : String(name);
     if (scope && key in scope) return scope[key];
     if (Object.prototype.hasOwnProperty.call(rootScope, key)) return rootScope[key];
+    if (key === 'undefined') return undefined;
     if (key === 'Promise') return nativePromise;
     if (Object.prototype.hasOwnProperty.call(globalThis, key)) return globalThis[key];
-    return undefined;
+    throw new ReferenceError(String(key) + ' is not defined');
   };
   const write = (name, value, scope = {}) => {
     const key = String(name);
@@ -121,7 +122,10 @@ function createDefaultHost(rootScope = {}) {
       if (node.op === 'not') return !interpretNode(node.value, scope, depth + 1);
       if (node.op === 'neg') return -interpretNode(node.value, scope, depth + 1);
       if (node.op === 'pos') return +interpretNode(node.value, scope, depth + 1);
-      if (node.op === 'typeof') return typeof interpretNode(node.value, scope, depth + 1);
+      if (node.op === 'typeof') {
+        try { return typeof interpretNode(node.value, scope, depth + 1); }
+        catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; }
+      }
       if (node.op === 'void') return void interpretNode(node.value, scope, depth + 1);
       if (node.op === 'await') { const value = interpretNode(node.value, scope, depth + 1); return value && value.__kind === 'syncPromise' ? value.value : value; }
       if (node.op === 'array') return (node.items || []).map(item => interpretNode(item, scope, depth + 1));
@@ -178,7 +182,7 @@ function createDefaultHost(rootScope = {}) {
     if (fn && fn.__kind === 'function') return fn.call(args);
     if (typeof fn === 'function') return fn(...args);
     if (fn && typeof fn.call === 'function') return fn.call(args);
-    return undefined;
+    throw new TypeError(String(fn) + ' is not a function');
   };
   const callMethod = (receiver, method, ...args) => {
     if (receiver && receiver.__kind === 'iterator' && method === 'next') return receiver.next();

@@ -1,117 +1,88 @@
-/* B"H */
-/*
-  Chapter 44: The Letters Sat In Their Proper Seats.
-  Markdown is the public face of the stream. These rules make paragraphs,
-  code, quote blocks, and window gates feel intentional without changing any
-  render logic.
+/* B"H
+  Chapter 230: The Markdown Table Received Its Own Riverbed.
+  The Awtsmoos lets prose breathe, code shine, quotes lean into the light, and
+  pipe maps become scrollable tables instead of shattered inline gravel.
 */
-.message h1,
-.message h2,
-.message h3,
-.event-markdown-rendered h1,
-.event-markdown-rendered h2,
-.event-markdown-rendered h3 {
-  margin: .35em 0 .45em;
-  line-height: 1.18;
-  letter-spacing: -.02em;
+.message h1,.message h2,.message h3,
+.event-markdown-rendered h1,.event-markdown-rendered h2,.event-markdown-rendered h3{
+  margin:.35em 0 .45em;
+  line-height:1.18;
+  letter-spacing:-.02em;
 }
-
-.message blockquote,
-.event-markdown-rendered blockquote {
-  margin: .65em 0;
-  padding: .55em .8em;
-  border-left: 3px solid rgba(103,232,249,.54);
-  border-radius: 12px;
-  background: rgba(14,165,233,.08);
-  color: #d9ecf7;
+.message blockquote,.event-markdown-rendered blockquote{
+  margin:.65em 0;
+  padding:.55em .8em;
+  border-left:3px solid rgba(103,232,249,.54);
+  border-radius:12px;
+  background:rgba(14,165,233,.08);
+  color:#d9ecf7;
 }
-
-.message :not(pre) > code,
-.event-markdown-rendered :not(pre) > code {
-  padding: .12em .38em;
-  border: 1px solid rgba(125,211,252,.22);
-  border-radius: 7px;
-  background: rgba(2,8,23,.42);
-  color: #bae6fd;
-  font-size: .92em;
+.message :not(pre)>code,.event-markdown-rendered :not(pre)>code{
+  padding:.12em .38em;
+  border:1px solid rgba(125,211,252,.22);
+  border-radius:7px;
+  background:rgba(2,8,23,.42);
+  color:#bae6fd;
+  font-size:.92em;
 }
-
-.md-code-block {
-  position: relative;
-  isolation: isolate;
+.md-code-block{position:relative;isolation:isolate}
+.md-code-block::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(103,232,249,.7),transparent);
+  opacity:.74;
+  pointer-events:none;
 }
-
-.md-code-block::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(103,232,249,.7), transparent);
-  opacity: .74;
-  pointer-events: none;
+.md-code{tab-size:2;scrollbar-gutter:stable}
+.md-code code,.event-code-block code{display:block;min-width:max-content;line-height:1.55}
+.md-code-copy{transition:transform .12s ease,border-color .12s ease,background .12s ease}
+.md-code-copy:hover{transform:translateY(-1px);border-color:rgba(103,232,249,.72)}
+.md-table-wrap{
+  max-width:100%;
+  margin:.75em 0;
+  overflow-x:auto;
+  border:1px solid rgba(125,211,252,.20);
+  border-radius:14px;
+  background:rgba(2,8,23,.28);
 }
-
-.md-code {
-  tab-size: 2;
-  scrollbar-gutter: stable;
+.md-table-wrap table{
+  width:100%;
+  min-width:520px;
+  border-collapse:collapse;
 }
-
-.md-code code,
-.event-code-block code {
-  display: block;
-  min-width: max-content;
-  line-height: 1.55;
+.md-table-wrap th,.md-table-wrap td{
+  padding:.62em .75em;
+  border-bottom:1px solid rgba(125,211,252,.16);
+  vertical-align:top;
 }
-
-.md-code-copy {
-  transition: transform .12s ease, border-color .12s ease, background .12s ease;
+.md-table-wrap th{
+  color:#cffafe;
+  font-weight:900;
+  background:rgba(14,165,233,.12);
 }
-
-.md-code-copy:hover {
-  transform: translateY(-1px);
-  border-color: rgba(103,232,249,.72);
+.md-table-wrap tr:last-child td{border-bottom:0}
+.message-window-spacer{
+  border:1px dashed rgba(103,232,249,.42);
+  border-radius:999px;
+  background:linear-gradient(135deg,rgba(8,47,73,.72),rgba(30,41,59,.68));
+  color:#e0f7ff;
+  padding:8px 13px;
+  font-weight:850;
+  letter-spacing:.01em;
+  box-shadow:0 10px 28px rgba(2,8,23,.22);
 }
-
-.message-window-spacer {
-  border: 1px dashed rgba(103,232,249,.42);
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(8,47,73,.72), rgba(30,41,59,.68));
-  color: #e0f7ff;
-  padding: 8px 13px;
-  font-weight: 850;
-  letter-spacing: .01em;
-  box-shadow: 0 10px 28px rgba(2,8,23,.22);
+.message-window-spacer:not([hidden]):hover{filter:brightness(1.12);transform:translateY(-1px)}
+.message[data-markdown="active"] :is(p,li,blockquote),
+.message.is-streaming-markdown :is(p,li,blockquote){white-space:pre-wrap}
+.message[data-markdown="active"] table,.event-markdown-rendered table{
+  max-width:100%;
+  border-collapse:collapse;
 }
-
-.message-window-spacer:not([hidden]):hover {
-  filter: brightness(1.12);
-  transform: translateY(-1px);
-}
-
-@media (max-width: 640px) {
-  .md-code-toolbar {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .md-code-copy {
-    width: 100%;
-  }
-
-  .message :is(h1, h2, h3) {
-    overflow-wrap: anywhere;
-  }
-}
-
-.message[data-markdown="active"] :is(p, li, blockquote),
-.message.is-streaming-markdown :is(p, li, blockquote) {
-  white-space: pre-wrap;
-}
-
-.message[data-markdown="active"] table,
-.event-markdown-rendered table {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
-  border-collapse: collapse;
+@media (max-width:640px){
+  .md-code-toolbar{align-items:stretch;flex-direction:column}
+  .md-code-copy{width:100%}
+  .message :is(h1,h2,h3){overflow-wrap:anywhere}
+  .md-table-wrap table{min-width:460px}
 }

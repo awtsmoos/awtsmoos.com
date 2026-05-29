@@ -1,14 +1,13 @@
 // B"H
 /**
  * @module OlamVessel
- * @description Chapter 88: the root Olam vessel now imports by true filenames.
- * The Awtsmoos repaired the exact worker fatality from mobile Chrome: no query
- * string may stand between the worker and OlamVessel's living JavaScript. Only
- * after this vessel awakens can the inside-right-post mezuzah be born.
+ * @description Chapter 92: the root Olam vessel imports the fresh public graft
+ * file. The Awtsmoos bypasses stale public OlamGrafting/loading/AssetCache paths
+ * so mobile Chrome can birth the world and then the mezuzah.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGrafting.js";
+import OlamGrafting from "./OlamGraftingPlain.js";
 import OlamProperties from "../properties/index.js";
 import OlamInit from "./OlamInit.js";
 import Ayin from "../camera/index.js";
@@ -34,7 +33,6 @@ export default class Olam extends Nivra {
     });
   }
 
-  /** @returns {void} Finishes non-blocking constructor setup after method grafting. */
   finishConstructorSetup() {
     try {
       this.worldOctree.olam = this;
@@ -56,7 +54,6 @@ export default class Olam extends Nivra {
     }
   }
 
-  /** @returns {void} Creates a non-invasive fallback background and ambient candle. */
   installBaseVisibility() {
     if (!this.scene) return;
     this.scene.background = new THREE.Color(SAFE_SKY);
@@ -73,7 +70,6 @@ export default class Olam extends Nivra {
   get camera() { return this.activeCamera || this.ayin.camera; }
   set pixelRatio(pixelRatio) { if (this.renderer) this.renderer.setPixelRatio(pixelRatio); }
 
-  /** @returns {Promise<void>} Initializes the Olam vessel. */
   async init() {
     await this._facultiesGrafted;
     await OlamInit.execute(this);

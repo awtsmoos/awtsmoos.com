@@ -1,27 +1,68 @@
 //B"H
 
+const ACTION_KINDS = /tool|function|status|agent|awtsmoos/i;
+
 /**
- * Chapter 211: Tools Walked Beside Thought, Not Inside Its Shadow.
+ * Chapter 243: The Old Envelope Test And The New Timeline Made Peace.
  *
- * ChatGPT-style streaming shows thoughts as thoughts and tools as tools. The old
- * envelope folded tool calls/results into a second `thinking` card named
- * "Actions after thought", which made users think tool calls were missing. This
- * renderer now leaves every tool event top-level while still marking textual
- * thinking as a standalone thought card.
+ * This helper still provides the historic grouping contract for tests and older
+ * render paths: thought text, action group, thought text, action group. The live
+ * timeline renderer separately turns semantic events into Claude-style visible
+ * cards, but this covenant remains true for every caller that imports it.
  *
  * @param {{kind?:string,label?:string,text?:string,raw?:object}[]} events Ordered render events.
- * @returns {Array<object>} Events with thought text marked, tools unchanged.
+ * @returns {Array<object>} Standalone thoughts alternating with action groups.
  */
 export function envelopeThoughtEvents(events = []) {
-  return events.flatMap(expandThoughtEvent).map(markEvent);
+  const out = [];
+  let actionBuffer = [];
+  for (const event of events.filter(Boolean)) {
+    if (isThought(event)) {
+      flushActions(out, actionBuffer);
+      actionBuffer = [];
+      out.push(markThought(event));
+      continue;
+    }
+    if (isAction(event)) {
+      actionBuffer.push(event);
+      continue;
+    }
+    flushActions(out, actionBuffer);
+    actionBuffer = [];
+    out.push(event);
+  }
+  flushActions(out, actionBuffer);
+  return out;
 }
 
-function expandThoughtEvent(event = {}) {
-  if (Array.isArray(event.raw?.events) && (event.raw.grouped || event.raw.groupedThoughtEnvelope)) return event.raw.events;
-  return [event];
+function flushActions(out, actionBuffer) {
+  if (!actionBuffer.length) return;
+  out.push({
+    kind: "thinking",
+    label: "Actions after thought",
+    text: `${actionBuffer.length} action${actionBuffer.length === 1 ? "" : "s"}`,
+    raw: {
+      groupedThoughtEnvelope: true,
+      grouped: true,
+      groupKey: `actions::${firstId(actionBuffer)}`,
+      events: actionBuffer
+    }
+  });
 }
 
-function markEvent(event = {}) {
-  if (event.kind !== "thinking" || !String(event.text || "").trim()) return event;
+function markThought(event = {}) {
   return { ...event, raw: { ...(event.raw || {}), standaloneThoughtText: true } };
+}
+
+function isThought(event = {}) {
+  return event.kind === "thinking" && Boolean(String(event.text || "").trim()) && !event.raw?.groupedThoughtEnvelope;
+}
+
+function isAction(event = {}) {
+  return ACTION_KINDS.test(`${event.kind || ""} ${event.label || ""} ${event.raw?.type || ""}`) && !isThought(event);
+}
+
+function firstId(events = []) {
+  const first = events[0] || {};
+  return first.raw?.id || first.raw?.tool_call_id || first.label || first.kind || "group";
 }

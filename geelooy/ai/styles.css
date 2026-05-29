@@ -1,53 +1,8 @@
-/*B"H
-  Chapter 238: The Cascade Received The Diff Mirror.
-  The Awtsmoos renews every pixel from nothing, and each import now enters its
-  own gate. The right panel override is imported last, split into many small
-  files, so no earlier legacy shimmer can crush Automation or Settings again.
-*/
-@layer awt.tokens, awt.shell, awt.sidebar, awt.chat, awt.composer, awt.automation, awt.mobile, awt.panels, awt.events, awt.polish, awt.rightPanelFinal;
-
-@import "./css/ideal/tokens.css" layer(awt.tokens);
-@import "./css/ideal/shell.css" layer(awt.shell);
-@import "./css/ideal/sidebar.css" layer(awt.sidebar);
-@import "./css/ideal/chat.css" layer(awt.chat);
-@import "./css/ideal/composer.css" layer(awt.composer);
-@import "./css/ideal/automation.css" layer(awt.automation);
-@import "./css/ideal/settings.css" layer(awt.automation);
-@import "./css/ideal/mobile.css" layer(awt.mobile);
-
-@import "./css/panels/base.css" layer(awt.panels);
-@import "./css/panels/collapsed.css" layer(awt.panels);
-@import "./css/panels/resizers.css" layer(awt.panels);
-@import "./css/panels/windowing.css" layer(awt.panels);
-@import "./css/panels.css" layer(awt.panels);
-@import "./css/panel-controls.css" layer(awt.panels);
-@import "./css/panel-action-rail.css" layer(awt.panels);
-
-@import "./css/unified-events.css" layer(awt.events);
-@import "./css/event-cockpit.css" layer(awt.events);
-@import "./css/event-loading.css" layer(awt.events);
-@import "./css/event-responsive.css" layer(awt.events);
-@import "./css/event-visibility.css" layer(awt.events);
-@import "./css/thinking-window.css" layer(awt.events);
-@import "./css/thought-freeze-polish.css" layer(awt.events);
-@import "./css/stream-polish.css" layer(awt.events);
-@import "./css/stream-resume-hardening.css" layer(awt.events);
-@import "./css/stream-selection-stability.css" layer(awt.events);
-@import "./css/live-stream-markdown.css" layer(awt.events);
-@import "./css/live-scroll-follow.css" layer(awt.events);
-@import "./css/markdown-polish.css" layer(awt.events);
-@import "./css/transport.css" layer(awt.events);
-@import "./css/transport-error-polish.css" layer(awt.events);
-@import "./css/boundary-guard.css" layer(awt.events);
-@import "./css/file-change-review.css" layer(awt.events);
-
-@import "./css/attachments.css" layer(awt.polish);
-@import "./css/focus-accessibility.css" layer(awt.polish);
-@import "./css/final-alignment.css" layer(awt.polish);
-@import "./css/hover-affordance-polish.css" layer(awt.polish);
-@import "./css/mobile-vessel.css" layer(awt.polish);
-@import "./css/relay-install.css" layer(awt.polish);
-@import "./css/right-panel-menu.css" layer(awt.polish);
-@import "./css/visual.css" layer(awt.polish);
-
-@import "./css/right-panel/manifest.css" layer(awt.rightPanelFinal);
+/*B"H*/
+@import "./css/ideal/tokens.css";
+@import "./css/ideal/shell.css";
+@import "./css/ideal/sidebar.css";
+@import "./css/ideal/chat.css";
+@import "./css/ideal/composer.css";
+@import "./css/ideal/automation.css";
+@import "./css/ideal/mobile.css";

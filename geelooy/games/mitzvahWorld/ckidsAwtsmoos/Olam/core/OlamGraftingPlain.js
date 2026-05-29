@@ -1,9 +1,9 @@
 // B"H
 /**
- * @module OlamGrafting
- * @description Chapter 91: the graft chain uses the fresh boot-safe loading
- * vessel. The Awtsmoos bypasses stale public `loading.js` entirely so the worker
- * never touches AssetCache during Olam birth.
+ * @module OlamGraftingPlain
+ * @description Chapter 92: a fresh public graft vessel. The Awtsmoos bypasses
+ * stale public `OlamGrafting.js` and stale `loading.js` by using a new filename
+ * that imports the boot-safe `loadingPlain.js` vessel directly.
  */
 import loading from "../methods/loadingPlain.js";
 import entityLogic from "../methods/entityLogic.js";
@@ -16,7 +16,7 @@ import hoyseef from "../methods/hoyseef.js";
 import sealayk from "../methods/sealayk.js";
 import bindAllListeners from "../eventListeners/index.js";
 
-export default class OlamGrafting {
+export default class OlamGraftingPlain {
   /** @param {object} olam Runtime world. @returns {Promise<void>} */
   static async graft(olam) {
     const isWorker = typeof document === "undefined";

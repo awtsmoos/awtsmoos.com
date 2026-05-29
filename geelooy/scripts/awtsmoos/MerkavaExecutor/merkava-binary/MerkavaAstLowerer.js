@@ -153,6 +153,7 @@ function lowerAstToJson(ast) {
 
   const lowerStmt = (stmt, target = steps) => {
     if (stmt.type === 'EmptyStatement') return null;
+    if (stmt.type === 'BlockStatement') { target.push({ op: 'block', body: blockSteps(stmt) }); return null; }
     if (stmt.type === 'VariableDeclaration') {
       for (const d of stmt.declarations) {
         if (d.id.type === 'ArrayPattern') {

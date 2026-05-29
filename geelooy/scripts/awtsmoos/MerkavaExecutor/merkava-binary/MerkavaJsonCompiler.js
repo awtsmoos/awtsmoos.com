@@ -16,7 +16,7 @@ function pushConst(bytes, constants, value) { bytes.push(0x13); u16(bytes, addCo
 function load(bytes, constants, name) { bytes.push(0x22); u16(bytes, addConst(constants, name)); }
 function store(bytes, constants, name) { bytes.push(0x23); u16(bytes, addConst(constants, name)); }
 function propArg(prop) {
-  if (prop && typeof prop === 'object' && (prop.op || prop.get || prop.const !== undefined || prop.value !== undefined)) return normalizeNode(prop);
+  if (prop && typeof prop === 'object' && (prop.op || prop.get || Object.prototype.hasOwnProperty.call(prop, 'const') || prop.value !== undefined)) return normalizeNode(prop);
   return { const: prop };
 }
 
@@ -91,7 +91,7 @@ function compileJsonCode(program = {}) {
     const node = normalizeNode(rawNode);
     if (typeof node === 'number' || typeof node === 'string' || typeof node === 'boolean' || node == null) return pushConst(bytecode, constants, node);
     if (node.get) return load(bytecode, constants, node.get);
-    if (node.const !== undefined) return pushConst(bytecode, constants, node.const);
+    if (Object.prototype.hasOwnProperty.call(node, 'const')) return pushConst(bytecode, constants, node.const);
     if (BIN[node.op]) { emit(node.args[0]); emit(node.args[1]); bytecode.push(BIN[node.op]); return; }
     if (node.op === 'set') { emit(node.value); store(bytecode, constants, node.name); load(bytecode, constants, node.name); return; }
     if (node.op === 'syscall') return emitSys(node.id || 0, node.args || []);
@@ -123,6 +123,7 @@ function compileJsonCode(program = {}) {
       pushConst(bytecode, constants, undefined);
       return;
     }
+    if (node.op === 'block') { emitBlock(node.body || []); pushConst(bytecode, constants, undefined); return; }
     if (node.op === 'try') {
       bytecode.push(0x92);
       const catchPatch = bytecode.length;

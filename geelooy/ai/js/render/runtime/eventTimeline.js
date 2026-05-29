@@ -7,11 +7,12 @@ const TOOL_KINDS = new Set([
 ]);
 
 /**
- * Chapter 227: The Tool Group Counted Souls, Not Echoes.
+ * Chapter 242: The Tool Group Held One Living Call, Not Its Shadows.
  *
- * Provider streams may emit partial tool-call deltas, final assembled calls, and
- * tunnel result echoes. The group must show the number of unique calls, not the
- * number of packets. Chronology remains append-only; counting becomes sane.
+ * Provider streams often emit the same call first as a partial delta, then as a
+ * completed call, then as a tunnel request. The timeline keeps chronology but
+ * merges duplicate call shadows inside the current group, preserving the first
+ * position and replacing the content with the most complete version.
  */
 export function buildEventTimeline(events = []) {
   const timeline = [];
@@ -37,7 +38,7 @@ function appendThought(timeline, event) {
 function appendTool(timeline, event) {
   const last = timeline[timeline.length - 1];
   if (last?.raw?.timelineToolGroup) {
-    last.raw.events.push(event);
+    last.raw.events = mergeToolGroupEvents(last.raw.events || [], [event]);
     last.text = groupText(last.raw.events);
     return;
   }
@@ -45,24 +46,41 @@ function appendTool(timeline, event) {
 }
 
 function makeToolGroup(events, index) {
+  const clean = mergeToolGroupEvents([], events);
   return {
     kind: "tool_group",
     label: "Calling tools",
-    text: groupText(events),
-    order: events[0]?.order || Number.MAX_SAFE_INTEGER,
-    raw: { timelineToolGroup: true, timelineKey: `tool-group::${index}`, events }
+    text: groupText(clean),
+    order: clean[0]?.order || Number.MAX_SAFE_INTEGER,
+    raw: { timelineToolGroup: true, timelineKey: `tool-group::${index}`, events: clean }
   };
 }
 
 function finalizeTimelineItem(item, index) {
   if (!item.raw?.timelineToolGroup) return item;
-  const events = item.raw.events || [];
+  const events = mergeToolGroupEvents([], item.raw.events || []);
   return {
     ...item,
     label: toolGroupLabel(events),
     text: groupText(events),
-    raw: { ...item.raw, timelineKey: item.raw.timelineKey || `tool-group::${index}` }
+    raw: { ...item.raw, events, timelineKey: item.raw.timelineKey || `tool-group::${index}` }
   };
+}
+
+function mergeToolGroupEvents(current = [], next = []) {
+  const keyed = new Map();
+  for (const event of [...current, ...next].filter(Boolean)) {
+    const key = groupEventKey(event);
+    const old = keyed.get(key);
+    keyed.set(key, old ? { ...event, order: old.order } : event);
+  }
+  return [...keyed.values()].sort(eventOrderSort);
+}
+
+function groupEventKey(event = {}) {
+  const raw = event.raw || {};
+  const id = raw.tool_call_id || raw.call?.id || raw.call?.name || event.label || event.kind;
+  return `${event.kind}:${id}`;
 }
 
 function toolGroupLabel(events = []) {
@@ -114,4 +132,10 @@ function isToolEvent(event = {}) {
 function isToolStatus(event = {}) {
   if (event.kind !== "status") return false;
   return /tool|running|call|function/i.test(`${event.label || ""} ${event.text || ""}`);
+}
+
+function eventOrderSort(a = {}, b = {}) {
+  const ao = Number.isFinite(Number(a.order)) ? Number(a.order) : Number.MAX_SAFE_INTEGER;
+  const bo = Number.isFinite(Number(b.order)) ? Number(b.order) : Number.MAX_SAFE_INTEGER;
+  return ao - bo;
 }

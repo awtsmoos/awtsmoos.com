@@ -1,15 +1,15 @@
 // B"H
 let cachedInstructions = null;
 
-const AGENT_FILES = Object.freeze(["./agents.nd", "./agents.md"]);
+const AGENT_FILES = Object.freeze(["../agents.nd", "../agents.md"]);
 
 /**
  * B"H
- * Chapter 239: The Scroll Could Be Read In Browser Or Node.
+ * Chapter 240: The Scroll Was One Directory Above The Gate.
  *
- * In the browser the scroll arrives by fetch. In Node tests, file URLs cannot be
- * fetched by default, so the reader opens the same URL through fs. The Awtsmoos
- * lets one instruction stream enter every custom provider from either world.
+ * The provider gate lives in `central/`, while agents.md lives in `ai/`. The
+ * path now climbs one rung before seeking the scroll, so browser and Node both
+ * inject the covenant as the first system message for every custom AI.
  *
  * @returns {Promise<string>} System instructions from agents.nd or agents.md.
  */
