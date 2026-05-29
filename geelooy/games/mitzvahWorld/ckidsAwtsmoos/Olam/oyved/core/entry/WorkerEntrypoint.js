@@ -1,19 +1,19 @@
 // B"H
 /**
  * @file WorkerEntrypoint.js
- * @description Chapter 75: real worker entrypoint with the platform-size boot
- * key. The Awtsmoos refuses to let bh65 resurrect the old Olam while the level
- * cries for a wide bridge over lava.
+ * @description Chapter 88: the worker entrypoint enters through plain static
+ * filenames. The Awtsmoos turns the fatal mobile import chain into ordinary JS
+ * modules so OlamVessel, then the mezuzah, may materialize.
  */
-import { postPlainWorkerError } from "./PlainWorkerPost.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { createWorkerBootState } from "./WorkerBootState.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { startWorkerBoot } from "./WorkerBootRunner.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { loadWorkerCoreModules } from "./WorkerCoreModules.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { installWorkerMessageListener } from "./WorkerListenerInstaller.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { postWorkerProgress } from "../protocol/WorkerProtocol.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { postPlainWorkerError } from "./PlainWorkerPost.js";
+import { plainWorkerErrorText, isPlainImportError } from "./PlainWorkerErrorText.js";
+import { installWorkerGlobalErrors } from "./WorkerGlobalErrors.js";
+import { createWorkerBootState } from "./WorkerBootState.js";
+import { startWorkerBoot } from "./WorkerBootRunner.js";
+import { loadWorkerCoreModules } from "./WorkerCoreModules.js";
+import { installWorkerMessageListener } from "./WorkerListenerInstaller.js";
+import { runWorkerStage, runWorkerStageSync } from "./WorkerProgressTry.js";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js";
 
 /** @returns {Promise<void>} */
 export async function startOyvedEntrypoint() {

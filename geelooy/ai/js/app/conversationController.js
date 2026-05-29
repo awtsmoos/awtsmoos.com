@@ -11,11 +11,11 @@ import { beginVisibleConversation, isCurrentNavigation, setVisibleConversationId
 
 /**
  * B"H
- * Chapter 164: The Send Gate Accepted A Stop Signal.
+ * Chapter 236: The ChatGPT Warning Learned Its Own Name.
  *
- * Manual sends, automation sends, MiniMax, ChatGPT, and every future river pass
- * through this one controller. Abort signals and token metrics travel beside
- * the same visible stream packets.
+ * Conversation loading serves many rivers. Only ChatGPT needs the transport
+ * extension warning; MiniMax, Gemini, OpenRouter, and Groq should not inherit a
+ * ChatGPT-shaped error while their own provider gates remain available.
  */
 export class ConversationController {
   constructor({ aiHandler, renderer, serviceSelect, onConversationLoaded = null, onConversationChanging = null } = {}) {
@@ -42,7 +42,13 @@ export class ConversationController {
     if (response?.awtsmoosAuth?.requiresSignIn) { list.innerHTML = `<li class="is-error">${escapeHtml(response.awtsmoosAuth.message)} <a href="https://chatgpt.com/" target="_blank" rel="noreferrer">Open ChatGPT</a></li>`; return; }
     list.innerHTML = `<li class="is-empty">No conversations returned.</li>`;
   }
-  renderListError(list, error) { list.innerHTML = `<li class="is-error">Conversation list could not load: ${escapeHtml(error?.message || error)}</li>`; this.renderer.showError?.("Conversation list error", error); console.warn("Conversation refresh failed", error); }
+
+  renderListError(list, error) {
+    const text = this.chatGptTransportMessage(error, "Conversation list could not load");
+    list.innerHTML = `<li class="is-error">${escapeHtml(text)}</li>`;
+    if (this.shouldSurfaceErrorDialog(error)) this.renderer.showError?.("Conversation list error", error);
+    console.warn("Conversation refresh failed", error);
+  }
 
   async loadConversation(conversationId) {
     const navigation = beginVisibleConversation(conversationId);
@@ -63,7 +69,25 @@ export class ConversationController {
       this.mountLoadedAudioOffer({ messages, conversationId });
       this.renderer.forceScrollDown?.({ rerender: false });
       await this.onConversationLoaded?.(conversationId);
-    } catch (error) { if (isCurrentNavigation(navigation)) this.renderer.showError?.("Conversation load error", error); throw error; }
+    } catch (error) {
+      if (isCurrentNavigation(navigation)) {
+        if (this.shouldSurfaceErrorDialog(error)) this.renderer.showError?.("Conversation load error", error);
+        else showLoadState(this.renderer.chatBox, this.chatGptTransportMessage(error, "Conversation load error"), "error");
+      }
+      throw error;
+    }
+  }
+
+  shouldSurfaceErrorDialog(error) {
+    if (!isMissingTransportError(error)) return true;
+    return this.serviceSelect?.value === "chatgpt";
+  }
+
+  chatGptTransportMessage(error, prefix) {
+    const raw = error?.message || String(error || "");
+    if (!isMissingTransportError(error)) return `${prefix}: ${raw}`;
+    if (this.serviceSelect?.value === "chatgpt") return `${prefix}: ChatGPT transport is offline. You can still switch to MiniMax, Gemini, OpenRouter, or Groq while you set up the extension or Node relay.`;
+    return `${prefix}: ${this.serviceSelect?.value || "Selected AI"} is available without the ChatGPT transport. ${raw}`;
   }
 
   async newConversation() { beginVisibleConversation(null); this.onConversationChanging?.(null); this.renderer.clear(); updateSearchParams({ awtsmoosConversation: null, awtsmoosAi: this.serviceSelect.value }); setVisibleConversationId(null); await window?.aiHandler?.newConversation?.(); }

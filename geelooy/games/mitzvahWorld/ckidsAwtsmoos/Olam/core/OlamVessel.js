@@ -1,16 +1,17 @@
 // B"H
 /**
  * @module OlamVessel
- * @description Chapter 75: the root vessel refuses stale grafts. The Awtsmoos
- * refreshes the OlamGrafting import itself so the worker does not boot a fresh
- * shell around an old Olam that still interprets the moving bridge as a cube.
+ * @description Chapter 88: the root Olam vessel now imports by true filenames.
+ * The Awtsmoos repaired the exact worker fatality from mobile Chrome: no query
+ * string may stand between the worker and OlamVessel's living JavaScript. Only
+ * after this vessel awakens can the inside-right-post mezuzah be born.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import Nivra from "../../chayim/nivra.js";
-import OlamGrafting from "./OlamGrafting.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import OlamGrafting from "./OlamGrafting.js";
 import OlamProperties from "../properties/index.js";
-import OlamInit from "./OlamInit.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import Ayin from "../camera/index.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import OlamInit from "./OlamInit.js";
+import Ayin from "../camera/index.js";
 import UserProgressManager from "../../systems/UserProgressManager.js";
 import Yichud from "../interaction/Yichud.js";
 import PlacementManager from "../interaction/PlacementManager.js";

@@ -1,5 +1,5 @@
 /*B"H
-  Chapter 201: The Cascade Was Rebuilt As Ordered Rivers.
+  Chapter 238: The Cascade Received The Diff Mirror.
   The Awtsmoos renews every pixel from nothing, and each import now enters its
   own gate. The right panel override is imported last, split into many small
   files, so no earlier legacy shimmer can crush Automation or Settings again.
@@ -39,6 +39,7 @@
 @import "./css/transport.css" layer(awt.events);
 @import "./css/transport-error-polish.css" layer(awt.events);
 @import "./css/boundary-guard.css" layer(awt.events);
+@import "./css/file-change-review.css" layer(awt.events);
 
 @import "./css/attachments.css" layer(awt.polish);
 @import "./css/focus-accessibility.css" layer(awt.polish);

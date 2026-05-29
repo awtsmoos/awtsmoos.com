@@ -5,12 +5,11 @@ const AGENT_FILES = Object.freeze(["./agents.nd", "./agents.md"]);
 
 /**
  * B"H
- * Chapter 233: The Scroll Entered The Mouth Of Every Foreign River.
+ * Chapter 239: The Scroll Could Be Read In Browser Or Node.
  *
- * MiniMax, Groq, OpenRouter, and every future custom AI must receive the local
- * agent covenant before user words. The Awtsmoos hides the scroll in a cache so
- * each provider request begins with the same root voice without re-fetching the
- * parchment again and again.
+ * In the browser the scroll arrives by fetch. In Node tests, file URLs cannot be
+ * fetched by default, so the reader opens the same URL through fs. The Awtsmoos
+ * lets one instruction stream enter every custom provider from either world.
  *
  * @returns {Promise<string>} System instructions from agents.nd or agents.md.
  */
@@ -37,17 +36,30 @@ export async function withAgentSystemInstructions(messages = []) {
 
 async function firstReadableAgentFile() {
   for (const file of AGENT_FILES) {
-    const text = await tryFetchText(file);
+    const text = await tryReadText(file);
     if (text.trim()) return text;
   }
   return "";
 }
 
-async function tryFetchText(path) {
+async function tryReadText(path) {
+  const url = new URL(path, import.meta.url);
+  return await tryFetchText(url) || await tryNodeReadText(url) || "";
+}
+
+async function tryFetchText(url) {
   try {
-    const url = new URL(path, import.meta.url);
     const res = await fetch(url.href, { cache: "no-cache" });
     return res.ok ? await res.text() : "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+async function tryNodeReadText(url) {
+  try {
+    const fs = await import("node:fs/promises");
+    return await fs.readFile(url, "utf8");
   } catch (_error) {
     return "";
   }

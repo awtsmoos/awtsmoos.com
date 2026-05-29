@@ -1,12 +1,12 @@
 // B"H
 /**
  * @file AngelicVesselImports.js
- * @description Chapter 75: exact ordered imports with no stale ledger. The
- * Awtsmoos summons the Olam vessel by its true current name, so dimensions are
- * not interpreted by yesterday's tiny-cube boot path.
+ * @description Chapter 88: vessel imports read the plain static ledger. The
+ * Awtsmoos summons OlamVessel and utils by exact filenames so mobile Chrome
+ * receives JavaScript, not JSON error bodies.
  */
-import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { importLedgerModule } from "./SafeModuleImport.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js";
+import { importLedgerModule } from "./SafeModuleImport.js";
 
 /** @returns {Promise<{module:any,required:any,record:Object}>} Loaded Olam core module record. */
 export async function importOlamCore() {

@@ -1,12 +1,11 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 75: thin worker shell with the wide-platform boot key.
- * The Awtsmoos begins the worker with a single current name so no bh65 shell
- * can secretly summon the old tiny moving platform interpreter.
+ * @description Chapter 88: the worker shell enters by exact static filename.
+ * The Awtsmoos removes the mobile-fatal query URL so the worker can fetch
+ * JavaScript instead of a server error vessel.
  */
 const BH = `B"H`;
-const ENTRY_VERSION = "wide-platform-real-boot-chain-20260529-bh75";
 
 function shellPost(type, text) {
   try { self.postMessage({ type, text: String(text), message: String(text), details: String(text), errorText: String(text) }); }
@@ -18,7 +17,7 @@ function shellErrorText(error) {
   return String(error);
 }
 
-shellPost("worker_text_log", `OYVED_SHELL loaded ${ENTRY_VERSION}`);
+shellPost("worker_text_log", "OYVED_SHELL loaded plain static worker shell");
 self.addEventListener("error", event => {
   const text = ["OYVED_SHELL runtime error", `message=${event.message || "unknown"}`, `filename=${event.filename || "unknown"}`, `line=${event.lineno || 0}`, `column=${event.colno || 0}`].join(" || ");
   console.error(`${BH} | ${text}`);
@@ -30,10 +29,10 @@ self.addEventListener("unhandledrejection", event => {
   shellPost("ERROR_TEXT", text);
 });
 
-import(`./core/entry/WorkerEntrypoint.js?v=${ENTRY_VERSION}`)
+import("./core/entry/WorkerEntrypoint.js")
   .then(module => {
     if (!module || typeof module.startOyvedEntrypoint !== "function") throw new Error("WorkerEntrypoint.js loaded but did not export startOyvedEntrypoint");
-    shellPost("worker_text_log", `OYVED_SHELL imported WorkerEntrypoint.js ${ENTRY_VERSION}`);
+    shellPost("worker_text_log", "OYVED_SHELL imported WorkerEntrypoint.js");
     module.startOyvedEntrypoint();
   })
   .catch(error => {

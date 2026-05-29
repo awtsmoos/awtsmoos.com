@@ -1,12 +1,12 @@
 // B"H
 /**
  * @file WorkerBootImports.js
- * @description Chapter 75: worker boot imports current boot/interpreter modules.
- * The Awtsmoos lifts the entire worker chain together so the platform is not
- * judged by an ancient module while the level speaks fresh dimensions.
+ * @description Chapter 88: worker boot imports only exact static filenames.
+ * The Awtsmoos repairs the mobile worker fatality by refusing query-string
+ * module URLs for the boot and interpreter vessels.
  */
-import { postPlainWorkerText } from "./PlainWorkerPost.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { plainWorkerErrorText } from "./PlainWorkerErrorText.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { postPlainWorkerText } from "./PlainWorkerPost.js";
+import { plainWorkerErrorText } from "./PlainWorkerErrorText.js";
 
 /** @param {string} path Module path. @param {string} label Human label. @returns {Promise<any>} */
 export async function importWorkerDependency(path, label) {
@@ -24,9 +24,9 @@ export async function importWorkerDependency(path, label) {
 }
 
 export function importBootModule() {
-  return importWorkerDependency("../boot/OlamDynamicBoot.js?v=wide-platform-real-boot-chain-20260529-bh75", "OlamDynamicBoot");
+  return importWorkerDependency("../boot/OlamDynamicBoot.js", "OlamDynamicBoot");
 }
 
 export function importInterpreterModule() {
-  return importWorkerDependency("../interpreter/OyvedMessageInterpreter.js?v=wide-platform-real-boot-chain-20260529-bh75", "OyvedMessageInterpreter");
+  return importWorkerDependency("../interpreter/OyvedMessageInterpreter.js", "OyvedMessageInterpreter");
 }

@@ -10,9 +10,8 @@ import { makeGeminiService } from "./js/services/geminiService.js";
 /**
  * B"H — Thin AI service registry.
  *
- * Provider behavior lives in small provider modules. ChatGPT history loading now
- * preserves every node from the conversation mapping, including thinking,
- * status, tool calls, tool results, OAuth/raw packets, and final text.
+ * Provider behavior lives in small provider modules. Provider key prompts now
+ * remain provider key prompts; they do not summon the ChatGPT extension gate.
  */
 class AIServiceHandler {
   geminiChatCache = null;
@@ -73,7 +72,13 @@ class AIServiceHandler {
     let key = await this.dbHandler.read("api-keys", "gemini");
     window.geminiApiKey = key;
     if (!window.geminiApiKey) {
-      window.geminiApiKey = await AwtsmoosPrompt.go({ headerTxt: "What's your <a href='https://aistudio.google.com/apikey'>Gemini API key</a>?" });
+      window.geminiApiKey = await AwtsmoosPrompt.go({
+        title: "B\"H — Gemini API Key",
+        headerTxt: "What's your <a href='https://aistudio.google.com/apikey' target='_blank' rel='noreferrer'>Gemini API key</a>?",
+        placeholderTxt: "Gemini API key",
+        showExtensionActions: false,
+        okText: "Save key"
+      });
       await this.dbHandler.write("api-keys", "gemini", window.geminiApiKey);
     }
     return window.geminiApiKey;

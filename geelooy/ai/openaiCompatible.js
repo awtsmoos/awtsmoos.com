@@ -3,14 +3,15 @@ import { AwtsmoosPrompt } from "./prompt.js";
 import { getBrowserLocalTunnelBridge, getProvider, MultiPassToolAgent, OpenAICompatibleStreamClient } from "./central/index.js";
 import { ProviderChatStore, providerUserMessage, providerAssistantMessage } from "./central/providerChatStore.js";
 import { reasoningEvent, toolCallEvent } from "./central/providerEvents.js";
+import { withAgentSystemInstructions } from "./central/agentSystemInstructions.js";
 
 /**
  * B"H
- * Chapter 224: The First Place Of A Growing Thought Stayed First.
+ * Chapter 235: The Provider Key Stopped Wearing A ChatGPT Mask.
  *
- * Direct provider and local-tool streams both preserve the birth order of an
- * existing semantic event when replacing its content. This prevents later full
- * thought chunks from being sorted below already-rendered tool groups.
+ * MiniMax, OpenRouter, and Groq are their own rivers. They need provider keys,
+ * not the ChatGPT extension prompt. The Awtsmoos separates the gates so the
+ * human never sees transport install buttons while entering a provider secret.
  */
 export function makeOpenAICompatibleService(owner, providerId) {
   const provider = getProvider(providerId);
@@ -28,7 +29,8 @@ export function makeOpenAICompatibleService(owner, providerId) {
       const client = new OpenAICompatibleStreamClient({ provider, apiKey });
       const bridge = options.localTunnel === false ? null : await getBrowserLocalTunnelBridge();
       await chatStore.append(conversationId, [providerUserMessage(userMessage)], { title: userMessage.slice(0, 80) });
-      const messages = options.messages || toOpenAIMessages([...history, providerUserMessage(userMessage)]);
+      const baseMessages = options.messages || toOpenAIMessages([...history, providerUserMessage(userMessage)]);
+      const messages = await withAgentSystemInstructions(baseMessages);
       const packet = bridge
         ? await runWithLocalTools({ client, bridge, provider, options: { ...options, messages }, conversationId })
         : await runDirectProvider({ client, provider, options: { ...options, messages }, conversationId });
@@ -86,22 +88,20 @@ async function runDirectProvider({ client, provider, options, conversationId }) 
 }
 
 function assistantPacket(text = "", events = [], conversationId = null, metrics = null) {
-  return {
-    role: "assistant",
-    text,
-    conversation_id: conversationId,
-    data: { conversation_id: conversationId },
-    awtsmoos: { otherEvents: events, metrics },
-    content: { parts: [text] },
-    message: { author: { role: "assistant" }, content: { parts: [text] } }
-  };
+  return { role: "assistant", text, conversation_id: conversationId, data: { conversation_id: conversationId }, awtsmoos: { otherEvents: events, metrics }, content: { parts: [text] }, message: { author: { role: "assistant" }, content: { parts: [text] } } };
 }
 
 export async function getProviderKey(owner, provider) {
   if (!owner?.dbHandler?.db) await owner?.dbHandler?.init?.();
   let key = await owner.dbHandler.read("api-keys", provider.storageKey);
   if (!key) {
-    key = await AwtsmoosPrompt.go({ headerTxt: `What's your <a href='${provider.apiKeyUrl}'>${provider.name} API key</a>?` });
+    key = await AwtsmoosPrompt.go({
+      title: `B"H — ${provider.name} API Key`,
+      headerTxt: `What's your <a href='${provider.apiKeyUrl}' target='_blank' rel='noreferrer'>${provider.name} API key</a>?`,
+      placeholderTxt: `${provider.name} API key`,
+      showExtensionActions: false,
+      okText: "Save key"
+    });
     await owner.dbHandler.write("api-keys", provider.storageKey, key);
   }
   return key;

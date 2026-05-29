@@ -1,6 +1,7 @@
 //B"H
 import { renderEventDetails } from "../eventDetails.js";
 import { escapeHtml } from "../escapeHtml.js";
+import { renderFileChangeReview } from "../event-ui/fileChangeReview.js";
 import { dedupeEvents, eventMergeKey } from "./renderHelpers.js";
 import { installRawJsonHydrator } from "./rawJsonHydrator.js";
 import { visibleEvents } from "./eventVisibilityRuntime.js";
@@ -12,11 +13,11 @@ import { preservePanelScroll } from "./scrollAnchor.js";
 import { hasRenderableEventFire } from "./eventRenderableGate.js";
 
 /**
- * Chapter 219: The Open Tool Group Kept Streaming While The Reader Watched.
+ * Chapter 236: The Tool Group Gained A Codex Mirror Beneath Its Armor.
  *
- * Open panels no longer freeze merely because they are open. Only active text
- * selection or maximized/fullscreen states pause mutation. This lets expanded
- * tool groups keep receiving new calls/results in chronological order.
+ * The chronological trace stays Claude-like, but every collapsed tool group now
+ * also carries a bottom review shelf: files touched, added characters, removed
+ * characters when known, and a clean place to inspect the change storm.
  */
 export function renderEventRegion(shell, events = [], record = null) {
   const region = ensureRegion(shell);
@@ -72,10 +73,7 @@ function badgeLabel(record, visible) {
 function reconcileNodes(region, nodes, visible) {
   const liveKeys = new Set(visible.map(eventMergeKey));
   for (const [key, node] of nodes) {
-    if (!liveKeys.has(key)) {
-      node.remove();
-      nodes.delete(key);
-    }
+    if (!liveKeys.has(key)) { node.remove(); nodes.delete(key); }
   }
 }
 
@@ -97,12 +95,25 @@ function createEventNode(nodes, key, event) {
 }
 
 function renderToolGroup(event, key) {
-  const events = event.raw?.events || [];
+  const events = compactToolEvents(event.raw?.events || []);
   const latest = escapeHtml(event.text || "tools are running");
+  const review = renderFileChangeReview(events);
   return `<details class="transport-details event-kind-tool_group tool-call-group" data-persist-key="${escapeHtml(key)}">
     <summary><span class="event-title-wrap"><span class="event-kind-pill">calling tools</span><b>${escapeHtml(event.label || "Calling tools")}</b><span class="event-tool-target">${latest}</span></span>${panelActions()}</summary>
-    <div class="tool-call-group-body">${renderEventDetails(events, { nested: true, stableKeyPrefix: `${key}::tool` })}</div>
+    <div class="tool-call-group-body">${renderEventDetails(events, { nested: true, stableKeyPrefix: `${key}::tool` })}${review}</div>
   </details>`;
+}
+
+function compactToolEvents(events = []) {
+  const keyed = new Map();
+  for (const event of events) keyed.set(compactToolKey(event), event);
+  return [...keyed.values()];
+}
+
+function compactToolKey(event = {}) {
+  const raw = event.raw || {};
+  const id = raw.tool_call_id || raw.call?.id || raw.call?.name || event.label || event.kind;
+  return `${event.kind}:${id}`;
 }
 
 function mutateEventNode(region, node, html) {
@@ -133,10 +144,7 @@ function panelActions() {
 }
 
 function shouldFreezeOpenEventNode(node) {
-  return Boolean(
-    selectionTouches(node)
-    || node?.querySelector?.(".transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen")
-  );
+  return Boolean(selectionTouches(node) || node?.querySelector?.(".transport-details.is-maximized, .transport-details.is-fullscreen, .thought-envelope-card.is-maximized, .thought-envelope-card.is-fullscreen"));
 }
 
 function shouldAnchorLiveMutation(node) {
@@ -146,11 +154,7 @@ function shouldAnchorLiveMutation(node) {
 
 function ensureRegion(shell) {
   let region = shell.querySelector(":scope > .event-region");
-  if (!region) {
-    region = document.createElement("div");
-    region.className = "event-region";
-    shell.appendChild(region);
-  }
+  if (!region) { region = document.createElement("div"); region.className = "event-region"; shell.appendChild(region); }
   return region;
 }
 
@@ -193,8 +197,7 @@ function selectionTouches(node) {
     if (!selection || selection.isCollapsed || !selection.rangeCount) return false;
     for (let index = 0; index < selection.rangeCount; index++) {
       const range = selection.getRangeAt(index);
-      if (range?.intersectsNode?.(node)) return true;
-      if (node.contains?.(range.commonAncestorContainer)) return true;
+      if (range?.intersectsNode?.(node) || node.contains?.(range.commonAncestorContainer)) return true;
     }
   } catch {}
   return false;

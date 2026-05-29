@@ -1,14 +1,14 @@
 // B"H
 /**
  * @file AngelicInvoker.js
- * @description Chapter 75: the invoker summons the current vessel loaders. The
- * Awtsmoos stands at the worker threshold with exact paths, exact exports, and
- * a fresh key that prevents the old tiny-platform world from resurrecting.
+ * @description Chapter 88: the invoker summons static boot vessels. The
+ * Awtsmoos removes query URLs from every import in the path that mobile Chrome
+ * reported as fatal, so the mezuzah world can actually start.
  */
-import { ErrorHandler } from "./ErrorHandler.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { importAngelicVesselsInOrder } from "./AngelicVesselImports.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { makeSystemCore } from "./SystemCoreValidator.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import { postWorkerProtocol, postWorkerProgress } from "../protocol/WorkerProtocol.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { ErrorHandler } from "./ErrorHandler.js";
+import { importAngelicVesselsInOrder } from "./AngelicVesselImports.js";
+import { makeSystemCore } from "./SystemCoreValidator.js";
+import { postWorkerProtocol, postWorkerProgress } from "../protocol/WorkerProtocol.js";
 
 export class AngelicInvoker {
   /** @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>} */

@@ -1,30 +1,20 @@
 // B"H
-
 const TOOL_DETAIL_NAME = "awtsmoos_tool_details";
 const TOOL_CALL_NAME = "awtsmoos_tool_call";
 
 /**
  * B"H
- * Chapter 205: The Tool Names Became A Small Door Instead Of A Flood.
+ * Chapter 228: The Manifest Became A Compass, Not A Fog.
  *
- * Non-ChatGPT providers should not receive hundreds of huge schemas. Essential
- * tools are direct; the rest are discoverable by name/query through one details
- * tool and runnable through one dispatcher.
+ * The Awtsmoos tunnel tools now tell models exactly how to address files: use
+ * repo-relative paths first, chunk reads, set timeouts, and route rare actions
+ * through the catalog gate instead of hallucinating broken absolute homes.
  */
 export function makeAwtsmoosToolSchema(name) {
-  return {
-    type: "function",
-    function: {
-      name,
-      description: `Run Awtsmoos tunnel action: ${name}`,
-      parameters: genericActionParameters()
-    }
-  };
+  return { type: "function", function: { name, description: toolDescription(name), parameters: genericActionParameters(name) } };
 }
 
-export function makeToolSchemas(actions = []) {
-  return unique(actions).map(makeAwtsmoosToolSchema);
-}
+export function makeToolSchemas(actions = []) { return unique(actions).map(makeAwtsmoosToolSchema); }
 
 export function makeBridgeToolSchemas(essential = [], allActions = []) {
   const names = unique(allActions.length ? allActions : essential);
@@ -33,89 +23,51 @@ export function makeBridgeToolSchemas(essential = [], allActions = []) {
 }
 
 export function makeToolDetailsSchema(names = []) {
-  return {
-    type: "function",
-    function: {
-      name: TOOL_DETAIL_NAME,
-      description: `Search/get details for Awtsmoos tunnel tools. Catalog sample: ${compactNames(names)}. Use query for unknown tools.`,
-      parameters: {
-        type: "object",
-        additionalProperties: false,
-        properties: {
-          names: { type: "array", items: { type: "string" }, description: "Exact tool names to describe." },
-          query: { type: "string", description: "Search text to find matching tool names." }
-        }
-      }
-    }
-  };
+  return { type: "function", function: { name: TOOL_DETAIL_NAME, description: `Search/get details for Awtsmoos tunnel tools. Catalog sample: ${compactNames(names)}.`, parameters: { type: "object", additionalProperties: false, properties: { names: { type: "array", items: { type: "string" } }, query: { type: "string" } } } } };
 }
 
 export function makeToolCallSchema(names = []) {
-  return {
-    type: "function",
-    function: {
-      name: TOOL_CALL_NAME,
-      description: `Run any Awtsmoos tunnel tool by name. Catalog sample: ${compactNames(names)}. Use awtsmoos_tool_details before rare tools.`,
-      parameters: {
-        type: "object",
-        additionalProperties: false,
-        required: ["name", "arguments"],
-        properties: {
-          name: { type: "string", description: "Exact Awtsmoos tool/action name." },
-          arguments: { type: "object", additionalProperties: true, description: "Arguments for that action." }
-        }
-      }
-    }
-  };
+  return { type: "function", function: { name: TOOL_CALL_NAME, description: `Run any Awtsmoos tunnel tool by exact name. Use repo-relative paths such as geelooy/games/app/index.html; avoid invented /data paths. Catalog sample: ${compactNames(names)}.`, parameters: { type: "object", additionalProperties: false, required: ["name", "arguments"], properties: { name: { type: "string" }, arguments: { type: "object", additionalProperties: true } } } } };
 }
 
-export function isCatalogToolName(name = "") {
-  return name === TOOL_DETAIL_NAME || name === TOOL_CALL_NAME;
-}
-
+export function isCatalogToolName(name = "") { return name === TOOL_DETAIL_NAME || name === TOOL_CALL_NAME; }
 export function toolDetailName() { return TOOL_DETAIL_NAME; }
 export function toolCallName() { return TOOL_CALL_NAME; }
 
 export function describeTool(name = "") {
-  return {
-    name,
-    directSchema: makeAwtsmoosToolSchema(name),
-    callVia: TOOL_CALL_NAME,
-    commonArguments: Object.keys(genericActionParameters().properties),
-    note: `Use ${TOOL_CALL_NAME} with {"name":"${name}","arguments":{...}} when this tool is not directly exposed.`
-  };
+  return { name, directSchema: makeAwtsmoosToolSchema(name), callVia: TOOL_CALL_NAME, commonArguments: Object.keys(genericActionParameters(name).properties), note: `Prefer direct ${name} when exposed; otherwise call ${TOOL_CALL_NAME} with {"name":"${name}","arguments":{...}}.` };
 }
 
 export const DEFAULT_SAFE_ACTIONS = Object.freeze([
-  "list", "tree", "read", "readLines", "readManyLines", "read64",
-  "bulk", "rg", "grep", "find", "selectString", "bulkSearch",
-  "fileHashes", "connectedFiles", "aiContextPack", "simulateRuntime",
-  "nodeCheckFiles", "nodeCheckFile", "command", "write", "bulkWrite", "mkdirp"
+  "list", "tree", "read", "readLines", "readManyLines", "read64", "bulk", "rg",
+  "grep", "find", "selectString", "bulkSearch", "fileHashes", "connectedFiles",
+  "aiContextPack", "simulateRuntime", "nodeCheckFiles", "nodeCheckFile", "command",
+  "write", "bulkWrite", "mkdirp", "stat", "textStats"
 ]);
 
-function genericActionParameters() {
-  return {
-    type: "object",
-    additionalProperties: true,
-    properties: {
-      action: { type: "string", description: "Optional action override." },
-      path: { type: "string", description: "File or workspace path." },
-      p: { type: "string", description: "Short path alias." },
-      query: { type: "string", description: "Search or command query." },
-      content: { type: "string", description: "Complete file content." },
-      command: { type: "string", description: "Shell command when using command-like actions." },
-      names: { type: "array", items: { type: "string" }, description: "Names for catalog/detail tools." }
-    }
-  };
+function genericActionParameters(name = "") {
+  return { type: "object", additionalProperties: true, properties: {
+    action: { type: "string", description: "Optional action override; usually omit." },
+    path: { type: "string", description: "Repo-relative file/path. Prefer this over absolute /data or C:\\ paths." },
+    p: { type: "string", description: "Short repo-relative path alias for actions that use p." },
+    paths: { type: "string", description: "Newline-separated repo-relative paths for bulk reads/checks." },
+    cwd: { type: "string", description: "Repo-relative working directory for command/test actions." },
+    query: { type: "string", description: "Search text or grep query." },
+    content: { type: "string", description: "Complete full file content for write-like actions." },
+    command: { type: "string", description: "Shell command for command action." },
+    maxChars: { type: "integer", description: "Read cap; increase only for targeted files." },
+    totalMaxChars: { type: "integer", description: "Bulk read cap." },
+    timeoutMs: { type: "integer", description: "Timeout for slow mobile relay calls." },
+    names: { type: "array", items: { type: "string" }, description: "Tool names for catalog/detail calls." }
+  }, required: requiredFor(name) };
 }
 
-function unique(values = []) {
-  return [...new Set(values.filter(Boolean).map(String))];
+function toolDescription(name = "") {
+  const base = `Run Awtsmoos tunnel action: ${name}. Use repo-relative paths and chunk large reads.`;
+  if (/read|list|tree|bulk/.test(name)) return `${base} If a mobile relay aborts, retry with smaller maxChars or readLines/read64.`;
+  if (/write/.test(name)) return `${base} Send the complete target file content only, never a partial patch.`;
+  return base;
 }
-
-function compactNames(names = []) {
-  const uniqueNames = unique(names);
-  const head = uniqueNames.slice(0, 90).join(", ");
-  const suffix = uniqueNames.length > 90 ? ` … plus ${uniqueNames.length - 90} more` : "";
-  return `${head}${suffix}`;
-}
+function requiredFor(name = "") { if (name === "write") return ["path", "content"]; if (name === "command") return ["command"]; return []; }
+function unique(values = []) { return [...new Set(values.filter(Boolean).map(String))]; }
+function compactNames(names = []) { const u = unique(names); return `${u.slice(0, 90).join(", ")}${u.length > 90 ? ` … plus ${u.length - 90} more` : ""}`; }

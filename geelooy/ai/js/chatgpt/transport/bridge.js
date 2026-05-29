@@ -10,9 +10,9 @@ let missingBridgeNotice = null;
 /**
  * B"H — Reveals the best available ChatGPT fetch vessel.
  *
- * First comes the extension bridge. If the user switched to the localhost Node
- * relay, the relay becomes the fetcher. No caller receives a non-function; the
- * gate either returns a living fetch or raises a clear installation message.
+ * This file is only for ChatGPT. The Awtsmoos keeps this warning out of
+ * MiniMax, Gemini, OpenRouter, and Groq so provider chats can keep flowing while
+ * ChatGPT transport sleeps.
  *
  * @param {{quiet?:boolean,timeout?:number}} options Prompt and wait controls.
  * @returns {Promise<Function>} Live extension or Node relay fetcher.
@@ -99,24 +99,26 @@ function waitForBridge(timeout = 12000) {
 }
 
 /**
- * B"H — Shows one missing-transport flame without chaining callers to it.
- *
- * The Awtsmoos lets the sidebar fail gracefully while the human still receives
- * the bridge instructions. Reconnection retries must not stack modal worlds.
- *
+ * B"H — Shows one missing-transport flame without stacking modal worlds.
  * @param {string} reason Transport failure reason shown in the help body.
  * @returns {void}
  */
 function showMissingBridgeNotice(reason = "") {
   if (missingBridgeNotice) return;
-  missingBridgeNotice = Promise.resolve(AwtsmoosPrompt.go({ isAlert: true, headerTxt: installHelp(reason) }))
-    .finally(() => { missingBridgeNotice = null; });
+  missingBridgeNotice = Promise.resolve(AwtsmoosPrompt.go({
+    isAlert: true,
+    title: "B\"H — ChatGPT Transport Needed",
+    okText: "Keep using other AIs",
+    headerTxt: installHelp(reason),
+    extensionHelpTxt: "Use these buttons whenever you want ChatGPT conversation history and ChatGPT sending. MiniMax, Gemini, OpenRouter, and Groq can still work independently with their API keys."
+  })).finally(() => { missingBridgeNotice = null; });
 }
 
 function installHelp(reason = "") {
   return `
-    <p><b>Conversation load error:</b> no ChatGPT transport is visible yet.</p>
+    <p><b>ChatGPT transport is not visible yet.</b></p>
     ${reason ? `<p><code>${reason}</code></p>` : ""}
-    <p>Use the Settings panel to install/switch to the localhost Node relay, or reload the unpacked extension from <code>geelooy/scripts/tricks/extensions/server</code> and refresh this tab.</p>
+    <p>This only blocks ChatGPT conversation loading/sending. You can switch to MiniMax, Gemini, OpenRouter, or Groq and keep using them in the meantime.</p>
+    <p>To enable ChatGPT later, use the Settings panel Node relay, or download/load the Awtsmoos Server Extension from <code>geelooy/scripts/tricks/extensions/server</code> and refresh this tab.</p>
   `;
 }

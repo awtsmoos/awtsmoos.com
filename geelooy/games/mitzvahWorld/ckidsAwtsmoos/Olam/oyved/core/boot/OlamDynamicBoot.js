@@ -1,10 +1,11 @@
 // B"H
 /**
  * @file OlamDynamicBoot.js
- * @description Chapter 75: the boot bridge pulls the fresh angelic invoker.
- * The Awtsmoos refuses a worker boot that remembers the 1x1 platform shadow.
+ * @description Chapter 88: the dynamic boot bridge pulls the angelic invoker
+ * by exact static filename. The Awtsmoos removes query-masks from the worker
+ * fatal path so the Olam can awaken and spawn the mezuzah.
  */
-import { AngelicInvoker } from "./AngelicInvoker.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { AngelicInvoker } from "./AngelicInvoker.js";
 
 /** @returns {Promise<{OlamClass:any,UtilsClass:any,isReady:boolean}>} Boot result. */
 export async function invokeAngelicVessels() {

@@ -1,11 +1,10 @@
 // B"H
 /**
  * @file WorkerCoreModules.js
- * @description Chapter 75: loads the fresh boot import bridge. The Awtsmoos
- * makes one current chain so worker-created Olam reads MovingPlatform as the
- * authored wide bridge, not as an old cached cube.
+ * @description Chapter 88: core worker modules are imported through static
+ * filenames. The Awtsmoos keeps the boot chain small, plain, and fetchable.
  */
-import { importBootModule, importInterpreterModule } from "./WorkerBootImports.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import { importBootModule, importInterpreterModule } from "./WorkerBootImports.js";
 
 /** @param {any} module Module. @param {string} exportName Export name. @param {string} label Label. @returns {any} */
 function requireNamedExport(module, exportName, label) {
