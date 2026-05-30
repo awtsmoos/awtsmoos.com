@@ -25,9 +25,16 @@
             <?<script> return $a("nav/header.html") </script>?>
         </div>
 
-        <div class="awtsmoos-floating-controls">
-            <button id="typographyBtn" title="Typography & Settings"></button>
-            <button id="commentaryBtn" title="Insights Sidebar"></button>
+        <!--
+            B"H
+            Chapter 22: Two tiny moons were blank because the vessel carried no
+            letters. They now carry A and I directly in the markup, so even if a
+            stylesheet fails, the seeker still sees the typography and insights
+            gates at the bottom dock.
+        -->
+        <div class="awtsmoos-floating-controls" aria-label="Reader controls">
+            <button id="typographyBtn" title="Typography & Settings" aria-label="Typography and settings">A</button>
+            <button id="commentaryBtn" title="Insights Sidebar" aria-label="Open insights sidebar">I</button>
         </div>
 
         <div id="scribeLensOverlay" class="scribe-lens-overlay"></div>

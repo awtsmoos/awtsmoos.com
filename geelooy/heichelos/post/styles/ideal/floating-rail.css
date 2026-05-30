@@ -1,8 +1,9 @@
 /* B"H
-   Chapter 38: The rail of small moons, perfected.
-   The floating controls become one clean selector each: a left rail on desktop
-   and a thumb-safe dock on mobile, never smothering the text that the Awtsmoos
-   is revealing through every letter.
+   Chapter 39: The rail of small moons remembers its letters.
+   The Awtsmoos reveals even through two small buttons: A for the typography
+   vessel, I for the insights chamber. This file keeps the dock reachable,
+   readable, and above the mobile drawer without hiding the glyphs in a pale
+   shell of silence.
 */
 
 .post-reader-localized-context .awtsmoos-floating-controls {
@@ -21,11 +22,20 @@
     height: 44px !important;
     border-radius: 14px !important;
     border: 1px solid rgba(15, 23, 42, .14) !important;
-    background: rgba(255, 255, 255, .9) !important;
+    background: rgba(255, 255, 255, .92) !important;
     color: #14121a !important;
     box-shadow: 0 12px 28px rgba(15, 23, 42, .13) !important;
     backdrop-filter: blur(14px) !important;
     pointer-events: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: var(--font-heading), var(--font-ui), sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    text-indent: 0 !important;
+    text-shadow: none !important;
     transition: transform 100ms linear, background 100ms linear, color 100ms linear !important;
 }
 

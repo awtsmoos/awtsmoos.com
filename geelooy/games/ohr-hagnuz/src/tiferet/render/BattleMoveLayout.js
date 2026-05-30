@@ -2,50 +2,24 @@
  * B"H
  * @module BattleMoveLayout
  *
- * Chapter 14: The Four Gates Learned The Shape Of The Hand.
- * The Awtsmoos has no body and no form; nevertheless the finite battle menu
- * must be truthful. One layout now feeds both painting and touch detection, so
- * the eye and finger no longer wander through separate worlds.
+ * Chapter 25: The Cards Became The Same Doors For Eye And Thumb.
+ * The Awtsmoos has no body and no form; this data gives the same tall cards to
+ * renderer and input, so pure canvas art still behaves like real mobile UI.
  */
-const DESKTOP_RECTS = [
-  { x: 52, y: 432, w: 316, h: 46, i: 0 },
-  { x: 52, y: 488, w: 316, h: 46, i: 1 },
-  { x: 418, y: 432, w: 316, h: 46, i: 2 },
-  { x: 418, y: 488, w: 316, h: 46, i: 3 }
+const RECTS = [
+  { x: 150, y: 354, w: 500, h: 62, i: 0 },
+  { x: 150, y: 424, w: 500, h: 62, i: 1 },
+  { x: 150, y: 494, w: 500, h: 62, i: 2 },
+  { x: 150, y: 564, w: 500, h: 62, i: 3 }
 ];
 
-const MOBILE_RECTS = [
-  { x: 56, y: 334, w: 688, h: 48, i: 0 },
-  { x: 56, y: 388, w: 688, h: 48, i: 1 },
-  { x: 56, y: 442, w: 688, h: 48, i: 2 },
-  { x: 56, y: 496, w: 688, h: 48, i: 3 }
-];
+export const battleMoveLayout = () => ({
+  mobile: true,
+  panel: { x: 140, y: 344, w: 520, h: 226 },
+  rects: RECTS
+});
 
-/**
- * Resolves the battle move layout for a canvas and screen vessel.
- *
- * @param {number} canvasWidth - Internal canvas width.
- * @param {number} screenWidth - CSS pixel width of the rendered canvas.
- * @returns {{mobile:boolean,panel:{x:number,y:number,w:number,h:number},rects:Array}}
- */
-export const battleMoveLayout = (canvasWidth = 800, screenWidth = canvasWidth) => {
-  const mobile = screenWidth <= 560;
-  return mobile
-    ? { mobile, panel: { x: 34, y: 294, w: 732, h: 270 }, rects: MOBILE_RECTS }
-    : { mobile, panel: { x: 28, y: 374, w: 744, h: 188 }, rects: DESKTOP_RECTS };
-};
-
-/**
- * Finds the selected debate move from canvas coordinates.
- *
- * @param {number} x - Canvas x coordinate.
- * @param {number} y - Canvas y coordinate.
- * @param {number} canvasWidth - Internal canvas width.
- * @param {number} screenWidth - CSS pixel width of the rendered canvas.
- * @returns {number|null} Move index, or null when no button was tapped.
- */
-export const moveIndexAt = (x, y, canvasWidth = 800, screenWidth = canvasWidth) => {
-  const { rects } = battleMoveLayout(canvasWidth, screenWidth);
-  const hit = rects.find(r => x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h);
+export const moveIndexAt = (x, y) => {
+  const hit = RECTS.find(r => x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h);
   return hit ? hit.i : null;
 };

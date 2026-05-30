@@ -1,0 +1,132 @@
+/* B"H
+   Chapter 40: The mobile palace accepts the picture into law.
+   The Awtsmoos does not leave the design as a dream-image. These selectors turn
+   the bottom drawer into a glassy, thumb-safe, realistic chamber: gold title,
+   soft menu cards, circular icon rings, visible A/I dock glyphs, and gentle
+   motion for the seeker touching the living commentary.
+*/
+
+@media (max-width: 900px) {
+    .post-reader-localized-context {
+        --mobile-menu-blue: #7ab8ff;
+        --mobile-menu-glass: rgba(12, 22, 38, .78);
+        --mobile-menu-line: rgba(148, 163, 184, .20);
+        --mobile-menu-glow: 0 18px 44px rgba(0, 0, 0, .30);
+    }
+
+    .post-reader-localized-context .sidebar.awtsmoos-sidebar-open {
+        background:
+            radial-gradient(circle at 20% 0%, rgba(122, 184, 255, .13), transparent 18rem),
+            linear-gradient(180deg, rgba(9, 16, 30, .96), rgba(5, 10, 19, .98)) !important;
+        border: 1px solid rgba(148, 163, 184, .18) !important;
+        border-bottom: 0 !important;
+        box-shadow: 0 -28px 80px rgba(0, 0, 0, .58) !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-sidebar-header-chrome {
+        padding: 18px 22px 14px !important;
+        background: rgba(8, 14, 26, .76) !important;
+        border-bottom: 1px solid rgba(148, 163, 184, .16) !important;
+        backdrop-filter: blur(18px) saturate(1.2) !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-current-view-title {
+        color: var(--ideal-gold) !important;
+        font: 900 1.02rem/1.1 var(--font-ui, system-ui) !important;
+        letter-spacing: .01em !important;
+        text-shadow: 0 0 22px rgba(244, 197, 107, .22) !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
+        color: #f8fafc !important;
+        font: 700 .96rem/1.35 var(--font-ui, system-ui) !important;
+        opacity: .94 !important;
+        padding-top: 8px !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-view-header {
+        background: transparent !important;
+        border-bottom: 0 !important;
+        padding: 16px 28px 8px !important;
+        min-height: auto !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-view-title-text {
+        color: var(--mobile-menu-blue) !important;
+        font: 900 1.15rem/1.1 var(--font-ui, system-ui) !important;
+        letter-spacing: .015em !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-view-content {
+        padding: 6px 18px calc(env(safe-area-inset-bottom) + 122px) !important;
+    }
+
+    .post-reader-localized-context .post-root-menu-grid {
+        gap: 12px !important;
+        padding: 0 0 10px !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-massive-menu-btn {
+        min-height: 76px !important;
+        border-radius: 18px !important;
+        border: 1px solid var(--mobile-menu-line) !important;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .025)),
+            var(--mobile-menu-glass) !important;
+        box-shadow: var(--mobile-menu-glow), inset 0 1px 0 rgba(255, 255, 255, .10) !important;
+        padding: 11px 16px 11px 12px !important;
+        gap: 14px !important;
+        backdrop-filter: blur(16px) saturate(1.15) !important;
+        transform: translateZ(0) !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-massive-menu-btn:active {
+        transform: scale(.985) translateY(1px) !important;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-massive-menu-btn:hover {
+        background: linear-gradient(180deg, rgba(122, 184, 255, .12), rgba(255, 255, 255, .035)) !important;
+        border-color: rgba(122, 184, 255, .32) !important;
+        box-shadow: 0 18px 42px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255, 255, 255, .13) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    .post-reader-localized-context .menu-icon-vessel {
+        width: 54px !important;
+        height: 54px !important;
+        border-radius: 999px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 54px !important;
+        font-size: 1.38rem !important;
+        background: rgba(3, 8, 18, .74) !important;
+        border: 1px solid rgba(122, 184, 255, .54) !important;
+        box-shadow: inset 0 0 18px rgba(122, 184, 255, .10), 0 0 22px rgba(122, 184, 255, .12) !important;
+        filter: none !important;
+    }
+
+    .post-reader-localized-context .awtsmoos-massive-menu-btn:nth-child(2) .menu-icon-vessel { border-color: rgba(244, 197, 107, .62) !important; }
+    .post-reader-localized-context .awtsmoos-massive-menu-btn:nth-child(3) .menu-icon-vessel { border-color: rgba(168, 85, 247, .62) !important; }
+    .post-reader-localized-context .awtsmoos-massive-menu-btn:nth-child(4) .menu-icon-vessel { border-color: rgba(74, 222, 128, .62) !important; }
+    .post-reader-localized-context .awtsmoos-massive-menu-btn:nth-child(5) .menu-icon-vessel { border-color: rgba(248, 113, 113, .62) !important; }
+
+    .post-reader-localized-context .menu-portal-title {
+        color: #f8fafc !important;
+        font: 900 1.22rem/1.05 var(--font-ui, system-ui) !important;
+        letter-spacing: -.015em !important;
+    }
+
+    .post-reader-localized-context .menu-portal-desc {
+        color: #b8c2d4 !important;
+        font: 650 .88rem/1.25 var(--font-ui, system-ui) !important;
+    }
+
+    .post-reader-localized-context .menu-arrow {
+        color: #f8fafc !important;
+        font-size: 1.58rem !important;
+        opacity: .92 !important;
+        text-shadow: none !important;
+    }
+}

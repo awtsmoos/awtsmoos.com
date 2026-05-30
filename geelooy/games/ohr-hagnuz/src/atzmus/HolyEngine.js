@@ -1,5 +1,5 @@
-
 import { Projector } from '../tiferet/Projector.js';
+import { MobileControls } from '../tiferet/ui/MobileControls.js';
 import { Logic } from '../yesod/Logic.js';
 import { Input } from '../yesod/Input.js';
 import { State } from '../binah/State.js';
@@ -7,33 +7,27 @@ import { State } from '../binah/State.js';
 /**
  * B"H
  * @class HolyEngine
- * The Divine Will that ignites the game world.
+ *
+ * Chapter 19: The Pulse Grew Hands Without Becoming A Body.
+ * The Awtsmoos has no body and no form; the engine only binds vessels: canvas,
+ * input, mobile controls, state, and the endless requestAnimationFrame river.
  */
 export class HolyEngine {
   static ignite() {
     console.log('B"H - HolyEngine igniting...');
-    
-    // Initialize display canvases
     Projector.warmup();
-    console.log('B"H - Projector warmed up.');
-    
-    // Bind input handlers
+    MobileControls.mount();
     Input.bind();
-    console.log('B"H - Input bound to DOM.');
-    
-    // Initialize game state
-    State.Message = 'B"H - The world awakens. Click to walk. Press F1-F4 for test presets.';
+    State.Message = 'B"H - The world awakens. Walk, talk, and reveal hidden light.';
     State.MessageTTL = 600;
-    console.log('B"H - State initialized:', State.MapId, 'at', State.Hero.cx, State.Hero.cy);
-    
-    // Main game loop
+
     const pulse = () => {
       Logic.process();
       Projector.project();
+      MobileControls.update();
       requestAnimationFrame(pulse);
     };
-    
-    console.log('B"H - HolyEngine pulse started.');
+
     pulse();
   }
 }
