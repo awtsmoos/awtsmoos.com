@@ -11,11 +11,11 @@
     const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 
     /**
-     * @class RuntimeAssembler
-     * @description Chapter 81: the dynamic import gate becomes Chrome-like
-     * inside Merkava. It fetches, lowers, runs, catches rejections, catches
-     * `then()` callback errors, and records them in the virtual runtime instead
-     * of letting Node consume the process.
+     * B"H
+     * Chapter 34: Classic scripts received one shared browser sky.
+     * Chrome lets bare ids, `var`, functions, and top-level script declarations
+     * speak across old script tags. Merkava now installs named elements and
+     * lowers classic declarations into globals while module code remains sealed.
      */
     class RuntimeAssembler {
         constructor(options = {}) { this.options = options; this.files = options.files || {}; this.graph = new RuntimeGraph(); }
@@ -54,11 +54,23 @@
 
         async runHTML(html, runtime, globals) {
             hydrateHTML(runtime.window?.document, this.files[html.entry] || '');
+            syncNamedElements(globals, runtime.window?.document);
             let last = null;
+            let inlineModuleIndex = 0;
             for (const step of html.executionPlan) {
+                syncNamedElements(globals, runtime.window?.document);
                 const code = step.inline ? step.code : this.files[step.resolved] || '';
-                if (step.type === 'module') last = await runtime.executeFunction(() => runModuleFile({ files: this.files, entry: step.resolved || step.from, globals, runtime: this.options.runtime || 'browser', graph: this.graph }));
-                else last = await runtime.executeFunction(makeExecutor(code, 'browser'));
+                if (step.type === 'module') {
+                    if (step.inline) {
+                        const inlineEntry = inlineModuleKey(html.entry, ++inlineModuleIndex);
+                        const moduleFiles = { ...this.files, [inlineEntry]: code };
+                        last = await runtime.executeFunction(() => runModuleFile({ files: moduleFiles, entry: inlineEntry, globals, runtime: this.options.runtime || 'browser', graph: this.graph }));
+                    } else {
+                        last = await runtime.executeFunction(() => runModuleFile({ files: this.files, entry: step.resolved, globals, runtime: this.options.runtime || 'browser', graph: this.graph }));
+                    }
+                } else {
+                    last = await runtime.executeFunction(makeExecutor(code, 'browser'));
+                }
                 if (!last.ok) return last;
             }
             const lifecycle = await dispatchBrowserLifecycle(runtime, this.options.waitMs || 75);
@@ -66,38 +78,33 @@
         }
     }
 
+    function inlineModuleKey(htmlEntry, index) { const clean = String(htmlEntry || 'index.html').replace(/\\/g, '/'); const slash = clean.lastIndexOf('/'); const dir = slash >= 0 ? clean.slice(0, slash + 1) : ''; return `${dir}__merkava_inline_module_${index}.js`; }
+
+    function syncNamedElements(globals, document) {
+        if (!globals || !document?.documentElement) return;
+        const nodes = document.documentElement.querySelectorAll('[id]');
+        for (const node of nodes) {
+            const id = node.id;
+            if (!id || !isIdentifier(id)) continue;
+            if (globals[id] === undefined) globals[id] = node;
+            if (globals.window && globals.window[id] === undefined) globals.window[id] = node;
+        }
+    }
+
+    function isIdentifier(value) { return /^[A-Za-z_$][\w$]*$/.test(String(value || '')); }
+
     function recordRuntimeError(runtime, error, phase, extra = {}) {
         const row = { message: error?.message || String(error), stack: error?.stack || '', code: error?.code || null, trace: error?.trace || null, phase, ...extra };
         runtime.errors = runtime.errors || [];
         runtime.errors.push(row);
-        if (runtime.window) {
-            runtime.window.__AWTSMOOS_CAPTURED_ERRORS__ = runtime.window.__AWTSMOOS_CAPTURED_ERRORS__ || [];
-            runtime.window.__AWTSMOOS_CAPTURED_ERRORS__.push(row);
-        }
+        if (runtime.window) { runtime.window.__AWTSMOOS_CAPTURED_ERRORS__ = runtime.window.__AWTSMOOS_CAPTURED_ERRORS__ || []; runtime.window.__AWTSMOOS_CAPTURED_ERRORS__.push(row); }
         return row;
     }
 
-    async function settleMerkavaTasks(runtime, waitMs) {
-        const ms = Number(waitMs || 0);
-        if (ms <= 0) return;
-        await new Promise(resolve => setTimeout(resolve, Math.min(ms, 1200)));
-    }
+    async function settleMerkavaTasks(runtime, waitMs) { const ms = Number(waitMs || 0); if (ms <= 0) return; await new Promise(resolve => setTimeout(resolve, Math.min(ms, 1200))); }
 
-    function installProbeCapture(globals, runtime) {
-        const capture = (label, value) => {
-            if (runtime.window?.probe?.capture) return runtime.window.probe.capture(label, value);
-            if (runtime.probe?.capture) return runtime.probe.capture(label, value);
-            return value;
-        };
-        globals.__merkavaProbeCapture = capture;
-        if (globals.window) globals.window.__merkavaProbeCapture = capture;
-    }
-
-    function installDynamicImport(globals, runtime, graph, options, seedFiles) {
-        const loader = createDynamicModuleLoader({ globals, runtime, graph, options, seedFiles });
-        globals.__merkavaDynamicImport = loader;
-        if (globals.window) globals.window.__merkavaDynamicImport = loader;
-    }
+    function installProbeCapture(globals, runtime) { const capture = (label, value) => runtime.window?.probe?.capture ? runtime.window.probe.capture(label, value) : runtime.probe?.capture ? runtime.probe.capture(label, value) : value; globals.__merkavaProbeCapture = capture; if (globals.window) globals.window.__merkavaProbeCapture = capture; }
+    function installDynamicImport(globals, runtime, graph, options, seedFiles) { const loader = createDynamicModuleLoader({ globals, runtime, graph, options, seedFiles }); globals.__merkavaDynamicImport = loader; if (globals.window) globals.window.__merkavaDynamicImport = loader; }
 
     function createDynamicModuleLoader({ globals, runtime, graph, options, seedFiles }) {
         const cache = new Map();
@@ -119,19 +126,9 @@
     }
 
     function makeSafeThenable(promise, runtime, href) {
-        const safe = promise.catch(error => {
-            recordRuntimeError(runtime, error, 'dynamicImport', { href });
-            return {};
-        });
+        const safe = promise.catch(error => { recordRuntimeError(runtime, error, 'dynamicImport', { href }); return {}; });
         safe.then = function(onFulfilled, onRejected) {
-            const chained = promise.then(value => {
-                try { return typeof onFulfilled === 'function' ? onFulfilled(value) : value; }
-                catch (error) { recordRuntimeError(runtime, error, 'dynamicImport.then', { href }); return {}; }
-            }, error => {
-                recordRuntimeError(runtime, error, 'dynamicImport.reject', { href });
-                try { return typeof onRejected === 'function' ? onRejected(error) : {}; }
-                catch (inner) { recordRuntimeError(runtime, inner, 'dynamicImport.catch', { href }); return {}; }
-            });
+            const chained = promise.then(value => { try { return typeof onFulfilled === 'function' ? onFulfilled(value) : value; } catch (error) { recordRuntimeError(runtime, error, 'dynamicImport.then', { href }); return {}; } }, error => { recordRuntimeError(runtime, error, 'dynamicImport.reject', { href }); try { return typeof onRejected === 'function' ? onRejected(error) : {}; } catch (inner) { recordRuntimeError(runtime, inner, 'dynamicImport.catch', { href }); return {}; } });
             return makeSafeThenable(chained, runtime, href);
         };
         safe.catch = function(onRejected) { return safe.then(undefined, onRejected); };
@@ -148,78 +145,45 @@
             if (!job?.href || seen.has(job.href)) continue;
             seen.add(job.href);
             const got = files[job.key] ?? files['/' + job.key.replace(/^\//, '')] ?? files['./' + job.key.replace(/^\//, '')] ?? await fetchText(job.href, pageUrl);
-            files[job.key] = got;
-            files['/' + job.key.replace(/^\//, '')] = got;
+            files[job.key] = got; files['/' + job.key.replace(/^\//, '')] = got;
             graph?.event?.('module.dynamicImport.fetch', { href: job.href, key: job.key });
-            for (const ref of staticModuleRefs(got)) {
-                const next = safeUrl(ref, job.href);
-                if (!next || (pageUrl && next.origin !== pageUrl.origin)) continue;
-                const key = keyForUrl(next, pageUrl);
-                if (!seen.has(next.href) && files[key] === undefined) queue.push({ href: next.href, key });
-            }
+            for (const ref of staticModuleRefs(got)) { const next = safeUrl(ref, job.href); if (!next || (pageUrl && next.origin !== pageUrl.origin)) continue; const key = keyForUrl(next, pageUrl); if (!seen.has(next.href) && files[key] === undefined) queue.push({ href: next.href, key }); }
         }
         return { entry: keyForUrl(safeUrl(href), pageUrl), files };
     }
 
     async function fetchText(href, pageUrl = null) {
         const candidates = [href];
-        try {
-            const url = new URL(href);
-            if (pageUrl && url.pathname.startsWith('/') && !url.pathname.startsWith(pageUrl.pathname.replace(/\/[^/]*$/, '/'))) {
-                candidates.push(new URL(url.pathname.replace(/^\//, ''), pageUrl.href).href);
-            }
-        } catch (_) {}
+        try { const url = new URL(href); if (pageUrl && url.pathname.startsWith('/') && !url.pathname.startsWith(pageUrl.pathname.replace(/\/[^/]*$/, '/'))) candidates.push(new URL(url.pathname.replace(/^\//, ''), pageUrl.href).href); } catch (_) {}
         let lastStatus = 0;
-        for (const candidate of [...new Set(candidates)]) {
-            const response = await fetch(candidate, { headers: { accept: 'text/javascript,*/*' } }).catch(() => null);
-            if (response?.ok) return await response.text();
-            lastStatus = response?.status || 0;
-        }
+        for (const candidate of [...new Set(candidates)]) { const response = await fetch(candidate, { headers: { accept: 'text/javascript,*/*' } }).catch(() => null); if (response?.ok) return await response.text(); lastStatus = response?.status || 0; }
         throw new Error(`Dynamic module fetch failed: ${href} (${lastStatus})`);
     }
 
-    function staticModuleRefs(source) {
-        const refs = [];
-        for (const match of String(source || '').matchAll(/import\s+(?!\()[^'";]*?(?:from\s+)?["']([^"']+)["']/g)) refs.push(match[1]);
-        for (const match of String(source || '').matchAll(/export\s+[^"']*?\s+from\s+["']([^"']+)["']/g)) refs.push(match[1]);
-        return refs;
-    }
-
-    function keyForUrl(url, pageUrl) {
-        const pageDir = pageUrl ? pageUrl.pathname.replace(/\/[^/]*$/, '/') : '/';
-        const pathname = decodeURIComponent(url.pathname || '').replace(/^\/+/, '');
-        const base = pageDir.replace(/^\/+/, '');
-        return pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
-    }
-
-    function safeUrl(spec, base) {
-        try { return new URL(spec, base); } catch (_) { return null; }
-    }
+    function staticModuleRefs(source) { const refs = []; for (const match of String(source || '').matchAll(/import\s+(?!\()[^'";]*?(?:from\s+)?["']([^"']+)["']/g)) refs.push(match[1]); for (const match of String(source || '').matchAll(/export\s+[^"']*?\s+from\s+["']([^"']+)["']/g)) refs.push(match[1]); return refs; }
+    function keyForUrl(url, pageUrl) { const pageDir = pageUrl ? pageUrl.pathname.replace(/\/[^/]*$/, '/') : '/'; const pathname = decodeURIComponent(url.pathname || '').replace(/^\/+/, ''); const base = pageDir.replace(/^\/+/, ''); return pathname.startsWith(base) ? pathname.slice(base.length) : pathname; }
+    function safeUrl(spec, base) { try { return new URL(spec, base); } catch (_) { return null; } }
 
     async function dispatchBrowserLifecycle(runtime, waitMs) {
         if (!runtime.window || !runtime.window.document) return null;
-        return await runtime.executeFunction(async globals => {
-            const win = globals.window;
-            const doc = globals.document;
-            const make = type => new globals.Event(type, { bubbles: false, cancelable: false });
-            doc.readyState = 'interactive';
-            doc.dispatchEvent(make('DOMContentLoaded'));
-            doc.readyState = 'complete';
-            win.dispatchEvent(make('load'));
-            await new Promise(resolve => globals.setTimeout(resolve, Number(waitMs || 75)));
-            return { lifecycle: ['DOMContentLoaded', 'load'] };
-        });
+        return await runtime.executeFunction(async globals => { const win = globals.window; const doc = globals.document; const make = type => new globals.Event(type, { bubbles: false, cancelable: false }); doc.readyState = 'interactive'; doc.dispatchEvent(make('DOMContentLoaded')); doc.readyState = 'complete'; win.dispatchEvent(make('load')); await new Promise(resolve => globals.setTimeout(resolve, Number(waitMs || 75))); return { lifecycle: ['DOMContentLoaded', 'load'] }; });
     }
 
     function makeExecutor(source, runtime) {
         if (!source.trim()) return async () => null;
-        return runtime === 'node'
-            ? async api => AsyncFunction('api', 'with(api){' + source + '\n}')(api)
-            : async globals => AsyncFunction('globals', 'with(globals){' + source + '\n}')(globals);
+        if (runtime === 'node') return async api => AsyncFunction('api', 'with(api){' + source + '\n}')(api);
+        return async globals => AsyncFunction('globals', 'with(globals){\n' + lowerClassicScript(source) + '\n}')(globals);
     }
-    async function runModuleFile(options) {
-        if (typeof executeVmFiles === 'function') return executeVmFiles(options);
-        return new ModuleExecutor(options).execute(options.entry);
+
+    function lowerClassicScript(source) {
+        let code = String(source || '');
+        code = code.replace(/^\s*function\s+([A-Za-z_$][\w$]*)\s*\(/gm, 'globals.$1 = function $1(');
+        code = code.replace(/^\s*async\s+function\s+([A-Za-z_$][\w$]*)\s*\(/gm, 'globals.$1 = async function $1(');
+        code = code.replace(/^\s*class\s+([A-Za-z_$][\w$]*)\s*/gm, 'globals.$1 = class $1 ');
+        code = code.replace(/^\s*(var|let|const)\s+([A-Za-z_$][\w$]*)\s*=/gm, 'globals.$2 =');
+        return code;
     }
+
+    async function runModuleFile(options) { if (typeof executeVmFiles === 'function') return executeVmFiles(options); return new ModuleExecutor(options).execute(options.entry); }
     return { RuntimeAssembler };
 });

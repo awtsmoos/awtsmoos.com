@@ -2,15 +2,11 @@
 /**
  * @module SoulLoader
  * @description
- * Chapter 3: The postbuild army is banished from Dust Gate.
- *
- * This worker loader now does one thing for the clean Level 1 pipeline: it
- * loads the explicit `nivrayim` manifest that arrived from `ladder-1.js`.
- * It does not import MitzvahWorldPostBuild, GeneratedBattleLayer, NPC role
- * repairs, house repairs, or any automatic population script. Those postbuild
- * systems were the hidden doorway that could add enemies/NPCs after the level
- * data itself was already clean.
+ * Chapter 109: after the souls appear, the earth claims them. The Awtsmoos
+ * loads only explicit level manifests, snaps every eligible non-player entity
+ * to the ground by its real mesh bounds, then warns only about true invaders.
  */
+import { autoGroundNivrayim } from "./AutoGrounder.js?v=village-ground-20260531-bh109";
 
 export class SoulLoader {
   /**
@@ -25,31 +21,33 @@ export class SoulLoader {
     const nivrayimData = worldData.nivrayim || {};
     const loadStart = performance.now();
     const nivrayim = await olam.loadNivrayim(nivrayimData);
+    const grounded = autoGroundNivrayim(nivrayim);
     const loadTime = (performance.now() - loadStart).toFixed(2);
-
-    console.log(`B"H - Souls materialized in ${loadTime}ms. Postbuild injection skipped.`);
+    console.log(`B"H - Souls materialized in ${loadTime}ms. Auto-grounded ${grounded.snapped}/${grounded.checked}.`);
     reportForbiddenIfPresent(nivrayim, worldData);
     return nivrayim;
   }
 }
 
+function allowedVillageGuide(nivra, worldData) {
+  return worldData?.id === "village.json" && nivra?.type === "interactiveNpc" && /Village Challenge Guide/i.test(nivra?.name || "");
+}
+
+function forbiddenNivra(nivra, worldData) {
+  if (allowedVillageGuide(nivra, worldData)) return false;
+  if (["customNpc", "medabeir", "mazik", "proceduralBuilding", "ProceduralBuilding"].includes(nivra?.type)) return true;
+  return /enemy|husk/i.test(nivra?.name || "");
+}
+
 /**
- * Logs loudly if anything forbidden appears after the explicit manifest load.
+ * Logs only true forbidden souls after explicit manifest load.
  *
  * @param {any[]} nivrayim Loaded entities.
  * @param {object} worldData Direct level data.
  * @returns {void}
  */
 function reportForbiddenIfPresent(nivrayim = [], worldData = {}) {
-  const forbiddenTypes = new Set([
-    "interactiveNpc",
-    "customNpc",
-    "medabeir",
-    "mazik",
-    "proceduralBuilding",
-    "ProceduralBuilding"
-  ]);
-  const bad = nivrayim.filter(nivra => forbiddenTypes.has(nivra?.type) || /npc|enemy|husk/i.test(nivra?.name || ""));
+  const bad = nivrayim.filter(nivra => forbiddenNivra(nivra, worldData));
   if (!bad.length) return;
   console.warn('B"H - Forbidden injected Nivrayim detected after load:', {
     source: worldData?.shaym,

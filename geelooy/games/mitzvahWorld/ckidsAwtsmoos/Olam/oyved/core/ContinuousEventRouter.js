@@ -1,14 +1,14 @@
 // B"H
 /**
  * @file ContinuousEventRouter.js
- * @description Chapter 86: Reset is one clean placement, not a fall and a
- * second correction. The Awtsmoos sets the chossid into a visible spawn vessel,
- * freezes controls/collider during countdown, reveals every child mesh, and on
- * enable clears falling memory so the player does not briefly tumble before the
- * world remembers the starting island.
+ * @description
+ * Chapter 89: ongoing worker messages now include a true world-unload decree.
+ * The Awtsmoos preserves the worker flame while the active Olam is told to stop,
+ * dispose, forget falling memory, and answer `destroyed` before new creation.
  */
 import * as THREE from "/games/scripts/build/three.module.js";
 import RenderTrace from "../../methods/canvas/RenderTrace.js";
+import { rememberCanvasPayload } from "./CanvasMemory.js";
 
 const START = Object.freeze({ x: -8, y: 4.8, z: 0 });
 const findPlayer = olam => olam?.chossid || olam?.nivrayim?.find?.(q => q.type === "chossid");
@@ -31,31 +31,15 @@ function clearInput(olam, player, run = true) {
 }
 
 function stablePlayerFlags(player, frozen) {
-  Object.assign(player, {
-    __spikeDefeated: frozen,
-    __spikeDeathControlsFrozen: frozen,
-    __spikeColliderDisabled: frozen,
-    __spikeResetCountdown: frozen,
-    onFloor: true,
-    isOnGround: true,
-    onGround: true,
-    grounded: true,
-    jumped: false,
-    didJump: false,
-    fallingFrames: 0,
-    startedWalking: false,
-    isWalking: false,
-    isTurning: false
-  });
+  Object.assign(player, { __spikeDefeated: frozen, __spikeDeathControlsFrozen: frozen, __spikeColliderDisabled: frozen, __spikeResetCountdown: frozen, onFloor: true, isOnGround: true, onGround: true, grounded: true, jumped: false, didJump: false, fallingFrames: 0, startedWalking: false, isWalking: false, isTurning: false });
 }
 
 function resetPlayerPhysics(player, pos) {
-  const v = new THREE.Vector3(pos.x, pos.y, pos.z);
   if (player.collider?.start && player.collider?.end) {
     player.collider.start.set(pos.x, pos.y + player.height / 2, pos.z);
     player.collider.end.set(pos.x, pos.y + player.height, pos.z);
     player.collider.radius = player.radius;
-  } else if (typeof player.setPosition === "function") player.setPosition(v);
+  } else if (typeof player.setPosition === "function") player.setPosition(new THREE.Vector3(pos.x, pos.y, pos.z));
   player.isTeleporting = false;
   player.velocity?.set?.(0, 0, 0);
   player.acceleration?.set?.(0, 0, 0);
@@ -85,11 +69,32 @@ function revealPlayerRoots(player) {
   player.playChaweeyoos?.(player.getChaweeyoos?.("idle"));
 }
 
+function disposeThreeObject(root) {
+  root?.traverse?.(child => {
+    child.geometry?.dispose?.();
+    const mats = Array.isArray(child.material) ? child.material : [child.material];
+    mats.forEach(mat => { Object.values(mat || {}).forEach(v => v?.isTexture && v.dispose?.()); mat?.dispose?.(); });
+  });
+}
+
+function destroyWorld(olam) {
+  let disposed = 0;
+  try {
+    olam?.ayshPeula?.("destroy");
+    olam?.nivrayim?.forEach?.(nivra => { disposeThreeObject(nivra?.mesh || nivra?.model || nivra?.object3D); nivra?.mixer?.stopAllAction?.(); disposed += 1; });
+    disposeThreeObject(olam?.scene);
+    olam?.renderer?.renderLists?.dispose?.();
+    olam?.worldOctree?.clear?.();
+    if (Array.isArray(olam?.nivrayim)) olam.nivrayim.length = 0;
+  } finally {
+    self.postMessage({ destroyed: true, disposed });
+  }
+}
+
 function resetAfterSpikeDeath(olam, payload = {}) {
   const player = findPlayer(olam);
   const pos = { ...START, ...(payload.position || {}) };
   const forceRun = payload.forceRunMode !== false;
-  console.info("B\"H | SPIKE_RESET_TRACE", { stage: "worker-reset-entered", hasPlayer: Boolean(player), pos, keepColliderDisabled: true, forceRun });
   if (!player) return void self.postMessage({ type: "spikeResetComplete", payload: { ok: false, reason: "missing-player" } });
   olam.__spikeDeathActive = true;
   olam.__spikeDeathToken = (olam.__spikeDeathToken || 0) + 1;
@@ -117,19 +122,20 @@ function enableAfterSpikeReset(olam) {
 export class ContinuousEventRouter {
   static actionMap = {
     takeInCanvas: async (olam, payload) => {
+      rememberCanvasPayload(payload);
       RenderTrace.speak("worker_route:takeInCanvas_received", { width: payload?.width, height: payload?.height, hasOlam: Boolean(olam), hasAyin: Boolean(olam?.ayin), hasCamera: Boolean(olam?.activeCamera || olam?.ayin?.camera) });
       olam.takeInCanvas(payload.canvas, payload.devicePixelRatio);
-      RenderTrace.speak("worker_route:takeInCanvas_after_renderer", { hasRenderer: Boolean(olam.renderer), hasScene: Boolean(olam.scene), sceneChildren: olam.scene?.children?.length || 0 });
       if (typeof olam.setSize === "function") await olam.setSize(payload.width, payload.height);
       if (typeof olam.heesHawvoos === "function") olam.heesHawvoos();
       self.postMessage({ type: "canvas_transferred", payload: { width: payload.width, height: payload.height, devicePixelRatio: payload.devicePixelRatio, rendererReady: Boolean(olam.renderer), hasCamera: Boolean(olam.activeCamera || olam.ayin?.camera), sceneChildren: olam.scene?.children?.length || 0 } });
     },
+    destroyWorld,
     resize: async (olam, payload) => { if (typeof olam.setSize === "function") await olam.setSize(payload.width, payload.height); olam.ayshPeula("resize", payload); },
     cameraDrag: (olam, payload) => { if (olam.ayin?.rotateAroundTarget) olam.ayin.rotateAroundTarget(payload.dx, payload.dy); },
     resetAfterSpikeDeath,
     enableAfterSpikeReset,
     olamPeula: (olam, payload) => { for (const p in payload) olam.ayshPeula(p, payload[p]); },
-    awtsCode: (olam, payload) => { try { const me = { olam }; eval(payload); } catch (e) { console.error("B\"H - 🚨 [AWTS_CODE] Execution error:", e); } },
+    awtsCode: (olam, payload) => { try { const me = { olam }; eval(payload); } catch (e) { console.error("B\"H - AWTS_CODE error:", e); } },
     keydown: (olam, payload) => olam.ayshPeula("keydown", payload),
     keyup: (olam, payload) => olam.ayshPeula("keyup", payload),
     mousedown: (olam, payload) => { if (olam.yichud) olam.yichud.handleEvent(payload, true); olam.ayshPeula("mousedown", payload); },

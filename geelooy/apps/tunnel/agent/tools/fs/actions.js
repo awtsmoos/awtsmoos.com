@@ -16,6 +16,7 @@ const { buildCognitionActions } = require("./actionGroups/cognitionActions.js");
 const { buildQualityActions } = require("./actionGroups/qualityActions.js");
 const { buildCommandPresetActions } = require("./actionGroups/commandPresetActions.js");
 const { buildAiTemplateActions } = require("./actionGroups/aiTemplateActions.js");
+const { buildAiAgentActions } = require("./actionGroups/aiAgentActions.js");
 const { buildActionHistoryActions } = require("./actionGroups/actionHistoryActions.js");
 const ledger = require("./actionLedger.js");
 
@@ -23,7 +24,11 @@ const AGENT_VERSION = "split-agent-1.5.0";
 
 /**
  * B"H
- * Builds the filesystem/data action map each request so config is always fresh.
+ * Chapter 332: The Action Map Became A Palace Of Delegates.
+ *
+ * Every request rebuilds the living action registry from fresh config. Into
+ * that registry the Awtsmoos now sets an AI-agent council: list the delegates,
+ * grant provider keys, and send messages through the shared streaming river.
  *
  * @param {object} config Current config.
  * @param {object} payload Incoming payload.
@@ -45,6 +50,7 @@ function buildActions(config, payload, ws) {
     ...buildCognitionActions(ctx),
     ...buildCommandPresetActions(ctx, buildActions),
     ...buildAiTemplateActions(ctx, buildActions),
+    ...buildAiAgentActions(ctx, buildActions),
     ...buildActionHistoryActions(ctx, buildActions),
     ...buildPreviewActions(ctx),
     ...buildRuntimeActions(ctx),

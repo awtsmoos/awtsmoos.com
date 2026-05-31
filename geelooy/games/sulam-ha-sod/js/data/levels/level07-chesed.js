@@ -1,56 +1,43 @@
 // B"H
-import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
+import { P, C, F, S, E, R, T, G, L } from '../levelPrimitives.js';
 
 /**
- * Chesed: generous spacing, brakeable boosts, and a hand-made upper side ladder.
+ * Chesed: overflowing kindness with treacherous excess.
  *
- * Chapter 7: The Awtsmoos pours kindness like glass-water through the chamber.
- * The flood still shoves, shines, and deceives, but the blessings now arrive on
- * ledges wide enough for choice instead of panic.
+ * Chapter 7: The Awtsmoos poured rivers of green light through the cistern, and
+ * the water itself became a question. Real blessings stand on broad banks. Fake
+ * blessings float over transparent generosity, teaching that not every overflow
+ * is a path and not every shine is mercy.
  */
 export const level07 = L(
   '7 · Chesed Flood of Glass', 4700, { x: 60, y: 420 }, P(4440, 300, 44, 90),
-  'Chesed overflows; too much kindness becomes slippery, but never unreadable.',
+  'Chesed overflows; follow the broad stream and ignore coins over glass lies.',
   [
-    P(0,505,500,35), P(580,445,205,20), P(850,385,205,20), P(1120,325,215,20),
-    P(1400,265,225,20), P(1680,335,225,20), P(1960,395,230,20), P(2240,335,235,20),
-    P(2520,275,235,20), P(2800,215,235,20), P(3090,295,240,20), P(3390,365,245,20),
-    P(3710,305,255,20), P(4040,345,255,20), P(550,346,205,18), P(765,280,215,18),
-    P(985,214,225,18), P(1205,148,235,18), P(1425,82,245,18), P(1645,20,255,18),
-    P(1698,-20,190,18), P(1888,-215,190,18), P(2078,-305,190,18), P(1870,-40,260,18),
-    P(2090,-98,270,18), P(1040,44,195,18), P(1040,-64,195,18), P(1040,-172,195,18),
-    P(1040,-270,195,18)
+    P(0, 505, 580, 35), P(680, 455, 265, 22), P(1070, 405, 250, 22),
+    P(1460, 355, 240, 22), P(1850, 305, 230, 22), P(2240, 355, 230, 22),
+    P(2630, 405, 230, 22), P(3020, 355, 230, 22), P(3410, 305, 230, 22),
+    P(3800, 345, 270, 22), P(4200, 300, 300, 22), P(1580, 280, 165, 18),
+    P(3160, 280, 165, 18)
   ],
-  [R(520,425,76,14,0.9,170), R(1840,370,84,14,-1.05,185), R(3240,335,88,14,1.1,195)],
+  [R(600, 480, 92, 14, 0.58, 115), R(2200, 330, 96, 14, -0.62, 120), R(3760, 320, 96, 14, 0.6, 115)],
   [
-    T(930,369,90,16,'ice',{duration:1.0}), T(1190,309,92,16,'booster',{dir:1,boost:560,lift:28}),
-    T(1465,249,86,16,'falseSpike'), T(2300,319,90,16,'ice',{duration:1.0}),
-    T(2580,259,92,16,'commitDrop',{reform:2.3}), T(2860,199,90,16,'phantom'),
-    T(3500,349,96,16,'booster',{dir:1,boost:560,lift:22}), T(1756,2,92,16,'safeSpike'),
-    T(3160,279,108,16,'magnet',{pull:0.42}), T(3450,349,106,16,'antiSpeed',{duration:1.05}),
-    T(3820,289,110,16,'oneWay')
+    T(950, 438, 100, 16, 'phantom'), T(985, 439, 104, 16, 'oneWay'),
+    T(1330, 388, 100, 16, 'ghostSpike'), T(1760, 288, 100, 16, 'phantom'),
+    T(2170, 339, 104, 16, 'oneWay'), T(2580, 388, 104, 16, 'falseSpike'),
+    T(3730, 289, 110, 16, 'oneWay'), T(4070, 318, 105, 16, 'phantom')
   ],
   [
-    C(250,460), C(630,405), C(900,345,'dinar'), C(1175,285), C(1460,225,'sela'),
-    C(1745,295), C(2020,355,'dinar'), C(2300,295), C(2580,235,'sela'), C(2860,175),
-    C(3150,255,'dinar'), C(3450,325), C(3770,265,'sela'), C(4110,305,'maneh'),
-    C(825,238), C(1275,106,'sela'), C(1724,-16,'dinar')
+    C(260, 460), C(750, 415), C(1140, 365, 'dinar'), C(1530, 315),
+    C(1920, 265, 'sela'), C(2310, 315), C(2700, 365, 'dinar'),
+    C(3090, 315), C(3480, 265, 'sela'), C(3870, 305), C(4260, 260, 'maneh')
   ],
-  [C(4120,305,'dinar')],
+  [C(4310, 260, 'dinar')],
+  [S(600, 483, 48, 22, 2.9, 1.2, 4.5), S(1335, 483, 92, 25, 1.2, 1.0, 2.3), S(2585, 483, 95, 25, 1.4, 1.0, 2.5), S(2940, 483, 48, 22, 3.0, 1.2, 4.6)],
+  [E(1540, 321, 1480, 1720, 64, 'husk', 'kind echo'), E(3890, 311, 3810, 4070, 66, 'scroll', 'glass scroll')],
   [
-    S(410,481,70,22,1.9,1.3,3.1), S(1740,481,72,22,2.2,1.4,3.3),
-    S(2550,251,62,22,2.5,1.4,3.3), S(4020,481,74,22,2.8,1.4,3.6),
-    {x:760,y:472,w:30,h:30,cycle:true,showDormant:true,moveX:56,moveRate:1.9,period:3.6,duty:0.38,warning:1.15},
-    {x:2045,y:-150,w:30,h:30,cycle:true,showDormant:true,orbitR:36,orbitX:2045,orbitY:-126,orbitRate:-1.05,period:4.2,duty:0.34,warning:1.35}
+    G(1080, 350, 140, 100, 'Chesed gives too much; the fake river has no bank.', {}),
+    G(3900, 290, 150, 110, 'The real blessing settles into the door.', { openExit: true })
   ],
-  [E(2020,361,1960,2170,78,'gilgul','overflow echo'), E(3420,331,3390,3620,90,'herder','kind shove')],
-  [
-    G(1100,250,120,105,'Chesed pushes, but the landing is visible.',{}),
-    G(2300,260,120,115,'Too much gift warns before judgment falls.',{spikes:[
-      {x:2440,y:110,w:64,h:22,warning:1.25,duration:1.0,fallSpeed:210,safe:160,showDormant:true},
-      {x:2530,y:140,w:66,h:22,warning:1.45,duration:1.0,fallSpeed:220,safe:160,showDormant:true}]}),
-    G(3980,285,130,120,'The flood becomes a door when you brake.',{openExit:true})
-  ],
-  ['Chesed gives more ground than you can control.','Generosity can shove you into judgment.','The correct mercy is to stop before the gift finishes sliding.'],
-  { fakeCoins:[F(1530,225,'sela','The kind coin was hiding a thorn.'),F(3560,325,'dinar','Too much gift became teeth.'),F(3830,265,'sela','The one-way gift was optional.')], trickCoins:[{x:2060,y:355,kind:'reverseRunner',speed:260,min:1960,max:2220},{x:3170,y:255,kind:'shyVanish',safeSide:'left'},{x:3460,y:325,kind:'trapBait',baitX:3680,speed:165,min:3390,max:3710}] }
+  ['Chesed gives enough ground to learn.', 'Fake coins mark the flood that cannot hold you.', 'Mercy is generous, not blind.'],
+  { fakeCoins: [F(955, 398), F(1338, 350, 'dinar'), F(1780, 250, 'sela'), F(2588, 350, 'dinar'), F(4085, 280, 'maneh')], trickCoins: [] }
 );

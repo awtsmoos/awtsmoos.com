@@ -1,9 +1,11 @@
 // B"H
 /**
  * @file StartWorldFlow.js
- * @description Chapter 80: the world starts the worker by true filename. The
- * Awtsmoos strips off import masks so the moving platform bug must be solved in
- * the class and solver, not hidden behind changing version names.
+ * @description
+ * Chapter 89: level changes no longer summon a new worker every time. The
+ * Awtsmoos keeps one white-hot worker breathing, asks the current world to
+ * dissolve, then sends the next `pawsawch` payload into the same thread. The
+ * canvas is transferred only once; later levels reuse that vessel.
  */
 import OlamWorkerManager from "../ikarOyvedManager.js";
 
@@ -21,22 +23,59 @@ const StartWorldFlow = {
       return false;
     }
     if (sourcePath) this._rectifyHistory(sourcePath);
-    const systemInfo = { html: { ...(worldDayuh.html || {}), ...(gameUiHTML || {}) }, gameState: this.gameState, set: { playerSettings: await this._getPersistentSettings(), curAlias: window.curAlias || null } };
+    const systemInfo = await this._buildSystemInfo(worldDayuh, gameUiHTML);
     const userInfo = { ...worldDayuh };
     const canvas = this.ui.$g("canvasEssence");
     if (!canvas) {
       console.error('B"H - Canvas "canvasEssence" NOT FOUND!');
       return false;
     }
+    this._prepareCanvas(canvas);
+    if (this.socket?.eved) return await this._restartInsideExistingWorker({ userInfo, systemInfo });
+    return await this._startFreshWorker(canvas, { userInfo, systemInfo });
+  },
+
+  /** @param {object} worldDayuh World data. @param {object} gameUiHTML UI data. @returns {Promise<object>} */
+  async _buildSystemInfo(worldDayuh, gameUiHTML) {
+    return {
+      html: { ...(worldDayuh.html || {}), ...(gameUiHTML || {}) },
+      gameState: this.gameState,
+      set: { playerSettings: await this._getPersistentSettings(), curAlias: window.curAlias || null }
+    };
+  },
+
+  /** @param {HTMLCanvasElement} canvas Canvas vessel. @returns {void} */
+  _prepareCanvas(canvas) {
     canvas.style.display = "block";
     canvas.style.visibility = "visible";
     canvas.style.opacity = "1";
+  },
+
+  /** @param {HTMLCanvasElement} canvas Canvas. @param {object} payload Payload. @returns {Promise<boolean>} */
+  async _startFreshWorker(canvas, payload) {
     const workerUrl = new URL(WORLD_FLOW_PATHS.WORKER_ENTRY, import.meta.url).href;
     if (this.uiManager) this.uiManager.started = false;
-    const manager = new OlamWorkerManager(workerUrl, { async pawsawch() { manager.postMessage({ type: "pawsawch", payload: { userInfo, systemInfo } }); } }, canvas, this.ui);
+    const manager = new OlamWorkerManager(workerUrl, { async pawsawch() { manager.postMessage({ type: "pawsawch", payload }); } }, canvas, this.ui);
     manager._managerOfAllWorlds = this;
     this.socket = manager;
     this.setOnmessage();
+    this._warnIfWorkerStalls(manager);
+    return true;
+  },
+
+  /** @param {object} payload Fresh world payload. @returns {Promise<boolean>} */
+  async _restartInsideExistingWorker(payload) {
+    await this.destroyWorld({ keepWorker: true });
+    const manager = this.socket;
+    manager.customTawfeekeem.pawsawch = async () => manager.postMessage({ type: "pawsawch", payload });
+    manager.runtime.pawsawchDispatched = false;
+    manager.runtime.worldLoaded = false;
+    manager._pawsawchDispatched = false;
+    manager._worldLoaded = false;
+    manager.runtime.opened = true;
+    manager.opened = true;
+    manager.processQueue();
+    manager.postMessage({ type: "pawsawch", payload });
     this._warnIfWorkerStalls(manager);
     return true;
   },

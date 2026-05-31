@@ -2,94 +2,84 @@
  * B"H
  * @module PlayerHead
  *
- * Chapter 8: The Face Turned Away And Became A Back, Not A Mask Rotated.
- * The Awtsmoos has no body and no form; the traveler is finite, so each view
- * gets its own visible truth: front eyes, side nose, back hair and kippah.
+ * Chapter 68: The face stopped fighting the body.
+ * The Awtsmoos has no body and no form; this head is simple, readable pixel art:
+ * front, back, and side are separate truths, with kippah and hair held calmly
+ * instead of a beard-mask twisting across the sprite.
  */
-const SKIN = '#ffdbac';
-const HAIR = '#2d2d2d';
+const SKIN = '#ffd7a8';
+const SKIN_SHADE = '#e8b989';
+const HAIR = '#10131a';
+const BEARD = '#1a2028';
 
-/** @param {CanvasRenderingContext2D} ctx @param {number} size @param {object} pose @returns {void} */
-const drawHeadShape = (ctx, size, pose) => {
-  const side = pose.view.includes('Side');
-  const x = side ? pose.mirror * size / 14 : 0;
-  ctx.fillStyle = SKIN;
-  ctx.beginPath();
-  ctx.ellipse(x, 0, side ? size / 5.6 : size / 5, size / 5.45, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillRect(-size / 15, size / 6, size / 7.5, size / 8);
-};
+const side = pose => pose.view === 'side';
+const back = pose => pose.view === 'back';
 
-/** @param {CanvasRenderingContext2D} ctx @param {number} size @param {object} pose @returns {void} */
-const drawKippahAndHair = (ctx, size, pose) => {
-  const back = pose.view.startsWith('back');
-  ctx.fillStyle = back ? HAIR : '#1a1a1a';
-  ctx.beginPath();
-  ctx.ellipse(0, -size / 6, size / 4.3, size / 10, 0, 0, Math.PI * 2);
-  ctx.fill();
-  if (!back) return;
-  ctx.fillStyle = HAIR;
-  [-1, 1].forEach(side => {
-    ctx.beginPath();
-    ctx.ellipse(side * size / 5.5, -size / 20, size / 18, size / 7, side * 0.18, 0, Math.PI * 2);
-    ctx.fill();
-  });
-};
-
-/** @param {CanvasRenderingContext2D} ctx @param {number} size @param {object} pose @returns {void} */
-const drawFace = (ctx, size, pose) => {
-  const side = pose.view.includes('Side');
-  if (pose.view.startsWith('back')) return;
-  ctx.fillStyle = '#333';
-  if (side) {
-    const mx = pose.mirror;
-    ctx.beginPath();
-    ctx.ellipse(mx * size / 7, -size / 35, 2.3, 3, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#e8c4a0';
-    ctx.beginPath();
-    ctx.ellipse(mx * size / 4.8, size / 26, size / 26, size / 18, 0, 0, Math.PI * 2);
-    ctx.fill();
-    return;
-  }
-  ctx.fillRect(-size / 8 - 2, -size / 35, 4, 3);
-  ctx.fillRect(size / 8 - 2, -size / 35, 4, 3);
-  ctx.fillStyle = '#e8c4a0';
-  ctx.beginPath();
-  ctx.ellipse(0, size / 20, size / 25, size / 20, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = '#a67c52';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.arc(0, size / 10, size / 15, 0.1, Math.PI - 0.1);
-  ctx.stroke();
-};
-
-/** @param {CanvasRenderingContext2D} ctx @param {number} size @returns {void} */
-const drawBeard = (ctx, size) => {
-  ctx.fillStyle = HAIR;
-  ctx.beginPath();
-  ctx.moveTo(-size / 6, size / 15);
-  ctx.quadraticCurveTo(-size / 8, size / 4, 0, size / 3);
-  ctx.quadraticCurveTo(size / 8, size / 4, size / 6, size / 15);
-  ctx.quadraticCurveTo(0, size / 8, -size / 6, size / 15);
-  ctx.fill();
-};
-
-/**
- * Draws a true directional head, never a rotated front face.
- *
- * @param {CanvasRenderingContext2D} ctx - Canvas context.
- * @param {number} size - Tile size.
- * @param {object} pose - Resolved pose.
- * @returns {void}
- */
 export const drawHead = (ctx, size, pose) => {
   ctx.save();
-  ctx.translate(0, -size / 2.5);
-  drawHeadShape(ctx, size, pose);
-  drawKippahAndHair(ctx, size, pose);
-  drawFace(ctx, size, pose);
-  if (pose.view === 'front') drawBeard(ctx, size);
+  ctx.translate(0, -size * .42);
+  if (back(pose)) drawBackHead(ctx, size);
+  else if (side(pose)) drawSideHead(ctx, size);
+  else drawFrontHead(ctx, size);
   ctx.restore();
+};
+
+const drawFrontHead = (ctx, size) => {
+  const w = size * .4;
+  const h = size * .35;
+  ctx.fillStyle = SKIN_SHADE;
+  ctx.fillRect(-w / 2, -h / 2 + 3, w, h);
+  ctx.fillStyle = SKIN;
+  ctx.fillRect(-w / 2 + 2, -h / 2, w - 4, h - 3);
+  drawHair(ctx, size, 0, false);
+  ctx.fillStyle = '#17202b';
+  ctx.fillRect(-size * .105, -size * .025, 4, 4);
+  ctx.fillRect(size * .075, -size * .025, 4, 4);
+  ctx.fillStyle = BEARD;
+  ctx.fillRect(-size * .13, size * .075, size * .26, size * .1);
+  ctx.fillStyle = '#fff1d6';
+  ctx.fillRect(-size * .045, size * .092, size * .09, 2);
+};
+
+const drawSideHead = (ctx, size) => {
+  const w = size * .34;
+  const h = size * .34;
+  ctx.fillStyle = SKIN_SHADE;
+  ctx.fillRect(-w * .42, -h / 2 + 3, w, h);
+  ctx.fillStyle = SKIN;
+  ctx.fillRect(-w * .42 + 2, -h / 2, w - 4, h - 3);
+  drawHair(ctx, size, size * .02, false);
+  ctx.fillStyle = '#17202b';
+  ctx.fillRect(size * .08, -size * .02, 4, 4);
+  ctx.fillStyle = SKIN_SHADE;
+  ctx.fillRect(size * .13, size * .03, size * .06, 3);
+  ctx.fillStyle = BEARD;
+  ctx.fillRect(-size * .02, size * .09, size * .16, size * .06);
+};
+
+const drawBackHead = (ctx, size) => {
+  const w = size * .4;
+  const h = size * .34;
+  ctx.fillStyle = SKIN_SHADE;
+  ctx.fillRect(-w / 2, -h / 2 + 3, w, h);
+  ctx.fillStyle = SKIN;
+  ctx.fillRect(-w / 2 + 2, -h / 2, w - 4, h - 3);
+  drawHair(ctx, size, 0, true);
+};
+
+const drawHair = (ctx, size, x, isBack) => {
+  ctx.fillStyle = HAIR;
+  ctx.fillRect(x - size * .21, -size * .22, size * .42, size * .09);
+  if (isBack) ctx.fillRect(x - size * .19, -size * .14, size * .38, size * .2);
+  else {
+    ctx.fillRect(x - size * .2, -size * .14, size * .07, size * .12);
+    ctx.fillRect(x + size * .13, -size * .14, size * .07, size * .12);
+  }
+  ctx.fillStyle = '#05070d';
+  ctx.beginPath();
+  ctx.ellipse(x, -size * .25, size * .15, size * .05, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#3e5dff';
+  ctx.lineWidth = 1;
+  ctx.stroke();
 };

@@ -1,57 +1,44 @@
 // B"H
-import { P, C, S, E, R, T, G, L, F } from '../levelPrimitives.js';
+import { P, C, F, S, E, R, T, G, L } from '../levelPrimitives.js';
 
 /**
- * Binah: hidden floors, but never hidden body-space.
+ * Binah: hidden rooms that show their seams.
  *
- * Chapter 8: The Awtsmoos hides a chamber inside a question. Yet the question is
- * not a trapdoor without language: each secret floor now gives enough width and
- * warning for the player to understand what was concealed.
+ * Chapter 8: The Awtsmoos opened the womb of questions and the walls breathed
+ * violet frost. Every true platform now has a rung-like body; every false idea
+ * flickers as a phantom shelf. The player can walk the whole thought, while
+ * fake Hebrew coins lure only those who refuse to read the vessel.
  */
 export const level08 = L(
   '8 · Binah Womb of Hidden Floors', 5100, { x: 60, y: 420 }, P(4840, 260, 44, 90),
-  'Binah hides structure until you test it; the test still has room to stand.',
+  'Binah hides structure, but false floors now reveal their suspicious seams.',
   [
-    P(0,505,500,35), P(580,445,205,20), P(850,385,205,20), P(1120,325,215,20),
-    P(1400,265,225,20), P(1680,335,225,20), P(1960,395,230,20), P(2240,335,235,20),
-    P(2520,275,235,20), P(2800,215,235,20), P(3090,275,240,20), P(3390,345,245,20),
-    P(3710,285,255,20), P(4040,225,255,20), P(4380,285,260,20), P(550,346,205,18),
-    P(765,280,215,18), P(985,214,225,18), P(1205,148,235,18), P(1425,82,245,18),
-    P(1645,20,255,18), P(1698,-20,190,18), P(1888,-215,190,18), P(2078,-305,190,18),
-    P(1870,-40,260,18), P(2090,-98,270,18), P(1040,44,195,18), P(1040,-64,195,18),
-    P(1040,-172,195,18), P(1040,-270,195,18)
+    P(0, 505, 600, 35), P(700, 455, 270, 22), P(1100, 405, 255, 22),
+    P(1500, 355, 245, 22), P(1900, 305, 235, 22), P(2300, 355, 235, 22),
+    P(2700, 405, 235, 22), P(3100, 355, 235, 22), P(3500, 305, 235, 22),
+    P(3900, 245, 250, 22), P(4310, 285, 270, 22), P(4680, 260, 250, 22),
+    P(1630, 280, 175, 18), P(3250, 280, 175, 18)
   ],
-  [R(520,425,76,14,0.9,170), R(1840,370,84,14,-1.05,185), R(3240,315,88,14,1.1,195)],
+  [R(620, 480, 94, 14, 0.55, 115), R(2260, 330, 98, 14, -0.62, 120), R(3860, 280, 98, 14, 0.6, 115)],
   [
-    T(930,369,90,16,'phantom'), T(1190,309,90,16,'ice',{duration:1.0}),
-    T(1465,249,86,16,'falseSpike'), T(2260,319,92,16,'booster',{dir:1,boost:560,lift:28}),
-    T(2580,259,92,16,'commitDrop',{reform:2.3}), T(2860,199,90,16,'vanish',{reform:1.7}),
-    T(3500,329,96,16,'phantom'), T(4300,209,96,16,'booster',{dir:1,boost:560,lift:22}),
-    T(1756,2,92,16,'safeSpike'), T(3180,259,104,16,'baitShift',{shiftX:-100,range:150,reset:2.05}),
-    T(3760,269,108,16,'dodgePlatform',{slide:100,range:145,panicTime:0.85}), T(4460,269,110,16,'oneWay')
+    T(980, 438, 104, 16, 'phantom'), T(1020, 439, 104, 16, 'oneWay'),
+    T(1380, 388, 104, 16, 'ghostSpike'), T(1810, 288, 104, 16, 'phantom'),
+    T(2225, 339, 104, 16, 'oneWay'), T(2660, 388, 108, 16, 'falseSpike'),
+    T(4240, 269, 110, 16, 'oneWay'), T(4580, 260, 104, 16, 'phantom')
   ],
   [
-    C(250,460), C(630,405), C(900,345,'dinar'), C(1175,285), C(1460,225,'sela'),
-    C(1745,295), C(2020,355,'dinar'), C(2300,295), C(2580,235,'sela'), C(2860,175),
-    C(3150,235,'dinar'), C(3450,305), C(3770,245,'sela'), C(4110,185), C(4450,245,'maneh'),
-    C(825,238), C(1275,106,'sela'), C(1724,-16,'dinar')
+    C(270, 460), C(770, 415), C(1170, 365, 'dinar'), C(1570, 315),
+    C(1970, 265, 'sela'), C(2370, 315), C(2770, 365, 'dinar'),
+    C(3170, 315), C(3570, 265, 'sela'), C(3970, 205), C(4380, 245),
+    C(4740, 220, 'maneh')
   ],
-  [C(4460,245,'dinar')],
+  [C(4765, 220, 'dinar')],
+  [S(620, 483, 48, 22, 3.0, 1.2, 4.6), S(1385, 483, 96, 25, 1.2, 1.0, 2.3), S(2665, 483, 100, 25, 1.4, 1.0, 2.5), S(3020, 483, 48, 22, 3.2, 1.2, 4.8), S(4585, 483, 88, 25, 1.5, 1.0, 2.5)],
+  [E(1580, 321, 1510, 1780, 64, 'watcher', 'understanding eye'), E(4380, 251, 4310, 4590, 66, 'scroll', 'womb scroll')],
   [
-    S(410,481,70,22,1.9,1.3,3.1), S(1740,481,72,22,2.2,1.4,3.3),
-    S(2550,251,62,22,2.5,1.4,3.3), S(4380,481,74,22,2.8,1.4,3.6),
-    {x:760,y:472,w:30,h:30,cycle:true,showDormant:true,moveX:56,moveRate:1.9,period:3.6,duty:0.38,warning:1.15},
-    {x:2045,y:-150,w:30,h:30,cycle:true,showDormant:true,orbitR:36,orbitX:2045,orbitY:-126,orbitRate:1.05,period:4.2,duty:0.34,warning:1.35}
+    G(1100, 350, 150, 100, 'Binah reveals the real floor through bright top rims.', {}),
+    G(4380, 235, 150, 110, 'Understanding opens only after every real coin.', { openExit: true })
   ],
-  [E(2300,301,2240,2460,82,'gravity','understanding beast'), E(4140,191,4040,4280,90,'watcher','hidden watcher')],
-  [
-    G(920,300,120,110,'Binah shows a floor, but the next landing is real.',{}),
-    G(2240,270,130,100,'The push is aimed at a visible shelf. Jump late.',{}),
-    G(3340,250,120,120,'The absent floor warns before ceiling teeth fall.',{spikes:[
-      {x:3460,y:120,w:64,h:22,warning:1.25,duration:1.0,fallSpeed:210,safe:160,showDormant:true},
-      {x:3550,y:150,w:66,h:22,warning:1.45,duration:1.0,fallSpeed:220,safe:160,showDormant:true}]}),
-    G(4300,220,130,120,'Understanding becomes a door.',{openExit:true})
-  ],
-  ['Binah makes absence visible.','Phantom floors teach distrust without clutter.','The real path is the high thought, not the low coin line.'],
-  { fakeCoins:[F(1580,225,'sela','Binah asked: was that coin born yet?'),F(3650,305,'dinar','The hidden coin bit back.'),F(4470,245,'sela','The final visible floor lied only if chased.')], trickCoins:[{x:2420,y:295,kind:'shyVanish',safeSide:'left'},{x:3185,y:235,kind:'trapBait',baitX:3420,speed:165,min:3090,max:3480},{x:3765,y:245,kind:'reverseRunner',speed:190,min:3710,max:3950}] }
+  ['Binah makes absence readable.', 'Fake coins trace the wrong theorem.', 'All required coins live on the main path.'],
+  { fakeCoins: [F(985, 398), F(1388, 350, 'dinar'), F(1830, 250, 'sela'), F(2668, 350, 'dinar'), F(4588, 222, 'maneh')], trickCoins: [] }
 );

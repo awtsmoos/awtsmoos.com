@@ -5,10 +5,10 @@
 })(typeof self !== 'undefined' ? self : this, function() {
     /**
      * B"H
-     * Chapter 86: The fetch river learned suffix constellations.
-     * A directory app may store files under long repo-relative keys while code
-     * requests short browser-relative URLs. The fetch mirror now checks exact
-     * aliases first, then safe suffix matches, while logging every candidate.
+     * Chapter 22: The fetch river learned the data-url spring.
+     * Files still resolve through exact aliases and suffix constellations, but
+     * `data:` now blooms locally like Chrome: text, JSON, base64, media type,
+     * and status all travel in one small synthetic response.
      */
     class VirtualFetch {
         constructor({ files = {}, graph = null, baseUrl = 'http://127.0.0.1:8080/' } = {}) {
@@ -22,6 +22,7 @@
             const request = { url: String(url), method: options.method || 'GET', at: new Date().toISOString(), ok: false, candidates: [] };
             this.requests.push(request);
             this.graph?.event?.('network.request', request);
+            if (/^data:/i.test(request.url)) return this.respondDataUrl(request);
             const hit = this.findFile(request.url, request);
             if (hit) {
                 request.ok = true;
@@ -32,6 +33,16 @@
             request.error = 'virtual network miss';
             this.graph?.event?.('network.response', { url: request.url, status: 404 });
             return response(404, 'Not Found: ' + request.url, request.url);
+        }
+
+        respondDataUrl(request) {
+            const parsed = parseDataUrl(request.url);
+            request.ok = parsed.ok;
+            request.dataUrl = true;
+            request.mime = parsed.mime;
+            if (!parsed.ok) request.error = parsed.error;
+            this.graph?.event?.('network.response', { url: request.url, status: parsed.ok ? 200 : 400, dataUrl: true });
+            return response(parsed.ok ? 200 : 400, parsed.body, request.url, parsed.mime);
         }
 
         findFile(rawUrl, request) {
@@ -46,6 +57,28 @@
         toJSON() { return { requests: this.requests }; }
     }
 
+    function parseDataUrl(raw) {
+        try {
+            const bodyStart = String(raw).indexOf(',');
+            if (bodyStart < 0) return { ok: false, error: 'malformed data URL', body: '', mime: 'text/plain' };
+            const meta = String(raw).slice(5, bodyStart);
+            const encoded = String(raw).slice(bodyStart + 1);
+            const parts = meta.split(';').filter(Boolean);
+            const mime = parts[0] || 'text/plain;charset=US-ASCII';
+            const isBase64 = parts.some(x => x.toLowerCase() === 'base64');
+            const body = isBase64 ? bufferDecode(encoded, 'base64') : decodeURIComponent(encoded);
+            return { ok: true, body, mime };
+        } catch (error) {
+            return { ok: false, error: error.message, body: '', mime: 'text/plain' };
+        }
+    }
+
+    function bufferDecode(value, encoding) {
+        if (typeof Buffer !== 'undefined') return Buffer.from(value, encoding).toString('utf8');
+        if (typeof atob !== 'undefined') return atob(value);
+        return value;
+    }
+
     function has(files, key) { return Object.prototype.hasOwnProperty.call(files, key); }
 
     function suffixHit(files, candidates) {
@@ -58,8 +91,24 @@
         return null;
     }
 
-    function response(status, body, url) {
-        return { ok: status >= 200 && status < 300, status, url: String(url || ''), text: async () => String(body), json: async () => JSON.parse(String(body)) };
+    function response(status, body, url, mime = 'text/plain') {
+        const headers = { get(name) { return String(name).toLowerCase() === 'content-type' ? mime : null; } };
+        return {
+            ok: status >= 200 && status < 300,
+            status,
+            url: String(url || ''),
+            headers,
+            text: async () => String(body),
+            json: async () => JSON.parse(String(body)),
+            blob: async () => ({ size: String(body).length, type: mime, text: async () => String(body) }),
+            arrayBuffer: async () => {
+                const text = String(body);
+                const buf = new ArrayBuffer(text.length);
+                const view = new Uint8Array(buf);
+                for (let i = 0; i < text.length; i++) view[i] = text.charCodeAt(i) & 255;
+                return buf;
+            }
+        };
     }
 
     function fileCandidates(rawUrl, baseUrl) {
@@ -91,5 +140,5 @@
         return clean;
     }
 
-    return { VirtualFetch, fileCandidates };
+    return { VirtualFetch, fileCandidates, parseDataUrl };
 });

@@ -1,15 +1,15 @@
 // B"H
 /**
  * @file ikar.js
- * @description Chapter 80: the first inner gate uses true filenames only. The
- * Awtsmoos builds the manager, waits for the UI vessel, fetches JSON, and lets
- * the living code prove the bridge by geometry rather than by cache charms.
+ * @description
+ * Chapter 108: the boot gate stops rejecting the village it was born to open.
+ * The Awtsmoos accepts village.json, ?path without a value, and ladder-N.json;
+ * it fetches only known JSON vessels and reports errors without hiding the road.
  */
 import ManagerOfAllWorlds from "./Olam/worldManager/index.js";
 
-const LADDER_JSON = /^ladder-\d+\.json$/;
-const LADDER_JS = /^ladder-\d+\.js$/;
 const scope = window;
+const LEVELS = new Set(["village.json", "ladder-1.json", "ladder-2.json", "ladder-3.json", "ladder-4.json", "ladder-5.json"]);
 
 function markPhase(phase, data = {}) {
   scope.__AWTSMOOS_IKAR_PHASES__ ||= [];
@@ -34,7 +34,6 @@ function safeClone(value, depth = 0) {
 
 function renderErrorPanel(details) {
   const root = document.getElementById("ikar") || document.body;
-  if (!root) return;
   let panel = document.getElementById("awtsmoosBootErrorPanel");
   if (!panel) {
     panel = document.createElement("pre");
@@ -55,10 +54,13 @@ function reportError(error, context = {}) {
 }
 
 function normalizeLevelId(raw) {
-  const clean = String(raw || "").split("/").pop();
-  if (LADDER_JS.test(clean)) return clean.replace(/\.js$/i, ".json");
-  if (LADDER_JSON.test(clean)) return clean;
-  throw new Error("Only ladder-N.json level paths are enabled here.");
+  const rawText = String(raw ?? "").trim();
+  const clean = rawText ? rawText.split(/[?#]/)[0].split("/").pop() : "village.json";
+  const json = clean.replace(/\.js$/i, ".json");
+  if (LEVELS.has(json)) return json;
+  const ladder = json.match(/^ladder-(\d+)\.json$/i);
+  if (ladder && Number(ladder[1]) >= 1 && Number(ladder[1]) <= 5) return json.toLowerCase();
+  throw new Error("Only village.json and ladder-N.json level paths are enabled here.");
 }
 
 async function clearOldCaches() {
@@ -110,9 +112,10 @@ async function fetchLevel(id) {
 }
 
 async function autoloadFromQuery() {
-  const path = new URLSearchParams(location.search).get("path");
+  const params = new URLSearchParams(location.search);
+  const path = params.has("path") ? params.get("path") : null;
   markPhase("autoload:start", { path });
-  if (!path) return markPhase("autoload:skipped", { reason: "no path" });
+  if (path === null) return markPhase("autoload:skipped", { reason: "no path" });
   const id = normalizeLevelId(path);
   const ikar = await waitForGameUi();
   const { menu, loading } = uiRoots();

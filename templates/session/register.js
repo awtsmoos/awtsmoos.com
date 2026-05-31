@@ -1,117 +1,155 @@
+<?Awtsmoos
 // B"H
-//<?Awtsmoos
-/** 
- * This script is responsible for registering new users in our system.
- * It uses a custom database object, `DosDB`, for storing user data,
- * and includes logic to limit the number of new accounts that can be
- * created from a single IP address.
- *
- * @fileoverview User registration script.
- * @requires sodos
- * @requires DosDB
- * @requires crypto
- */
-
-var crypto = require("crypto");
-// Import the password hashing functions from sodos.js.
-var sodos = require("../tools/sodos.js");
-// Import the DosDB database object.
-var DosDB = require("../DosDB/index.js");
-// Create a new DosDB instance, pointing it to our user database.
-var db = new DosDB(process.awtsmoosDbPath);
 
 /**
- * This function handles new user registration requests.
- * It expects a POST request with a username and password.
- * It checks if the user has exceeded the limit of new accounts,
- * then hashes the password and stores the new user in the database.
+ * B"H
+ * Chapter 3: The Name-Vessel at the Second Gate.
  *
- * @function
- * @name handleRegistration
- * @param {Object} $_POST - The incoming HTTP $_POST params
- *   taken automatically from request.
+ * Registration is the moment a new account name descends from possibility into
+ * a stored vessel. The Awtsmoos has no body and no form, yet every username is
+ * a finite container in the database; therefore this handler guards the name,
+ * rate limit, password salt, and token without trusting loose paths or stale
+ * globals.
  */
-async function handleRegistration(request,$_POST,secret) {
-    // Get the client's IP address.
-    // We use 'x-forwarded-for' to get the original IP if our app is behind a proxy (like Nginx or Heroku).
-    var ip = request.headers['x-forwarded-for'] || request.socket.remoteAddress;
-ip = ip.replace(/:/g, '-');
 
+/**
+ * Makes an IP safe for a DosDB path.
+ *
+ * @param {object} request Incoming request.
+ * @returns {string} Safe IP-ish key.
+ */
+function safeIpKey(request) {
+  var raw =
+    request.headers["x-forwarded-for"] ||
+    request.socket?.remoteAddress ||
+    request.connection?.remoteAddress ||
+    "unknown";
 
-var  username  = $_POST.username;
-var password = $_POST.password;
+  return String(raw).split(",")[0].trim().replace(/[.$#[\]/:]/g, "_");
+}
 
-if (username && password) {
-    console.log("userN?",username)
-    // Get current time
-    var now = Date.now();
+/**
+ * Normalizes and validates account names.
+ *
+ * @param {unknown} value Raw username.
+ * @returns {{ok:boolean, username?:string, message?:string}} Result.
+ */
+function cleanUsername(value) {
+  var username = String(value || "").trim();
 
-    // Get the info for this IP address
-    let ipInfo = await db.get("/ipAddresses/" + ip + "/register") || 
-	{ registerAttempts: 0, nextRegisterTime: 0, registerCount:0 };
+  if (!username) return { ok: false, message: "Please enter a username." };
+  if (username.length < 3) return { ok: false, message: "Username must be at least 3 characters." };
+  if (username.length > 32) return { ok: false, message: "Username must be 32 characters or less." };
+  if (!/^[A-Za-z0-9_-]+$/.test(username)) {
+    return { ok: false, message: "Username can use letters, numbers, underscores, and dashes." };
+  }
 
-	
-	if(isNaN(ipInfo.nextRegisterTime)) {
-		ipInfo.nextRegisterTime = 0;
-	}
-	
-	if(isNaN(ipInfo.registerCount)) {
-		ipInfo.registerCount = 0;
-	}
-	
-	
-	if(isNaN(ipInfo.registerAttempts)) {
-		ipInfo.registerAttempts = 0;
-	}
-    // Check if the current time is before the next allowed registration time
-    if (now < ipInfo.nextRegisterTime) {
-        // If it is, inform the user when they can register next
-        var nextRegisterDate = new Date(ipInfo.nextRegisterTime).toISOString();
-        return { status: "error", message: `Sorry, you've exceeded the limit for new accounts. Please try again at ${nextRegisterDate}.`};
-    }
+  return { ok: true, username };
+}
 
-    // Check if the user has exhausted their attempts
-    if (ipInfo.registerAttempts >= 5) {
-        // If so, set next registration time to 24 hours (or any other period) from now
-        var registerPeriodMillis = 24 * 60 * 60 * 1000; // 24 hours
-        ipInfo.nextRegisterTime = now + registerPeriodMillis;
-        ipInfo.registerAttempts = 0; // reset register attempts
-    } else {
-        // If not, increment register attempts
-        ipInfo.registerAttempts += 1;
-    }
-        
-        // Hash the user's password using our custom password hashing function.
-        var salt = sodos.generateSalt(16);
+/**
+ * Validates password shape before the database is touched.
+ *
+ * @param {unknown} value Raw password.
+ * @returns {{ok:boolean, password?:string, message?:string}} Result.
+ */
+function cleanPassword(value) {
+  var password = String(value || "");
 
-        var hashedPassword = sodos.hashPassword(password, salt);
-        console.log("Getting",username)
-        var exists = await db.get("/users/"+username+"/account");
-        if(exists) {
-            return { attempts:ipInfo.registerAttempts, nextRegisterTime:ipInfo.nextRegisterTime,
-                status: "error", message: "That username already exists! Choose another one, if u dare."};
-        }
-        console.log("Got",exists)
-        
-        
-        // Increment the user count for this IP address.
-       //await db.update(ip+"_info/register", userCount + 1);
+  if (!password) return { ok: false, message: "Please enter a password." };
+  if (password.length < 8) return { ok: false, message: "Password must be at least 8 characters." };
+  if (password.length > 256) return { ok: false, message: "Password is too long." };
 
-        var token = sodos.createToken(username,secret);
+  return { ok: true, password };
+}
 
-        // Add the new user to the database, storing the hashed password and the salt.
-        var res = await db.create("/users/"+username+"/account", { password: hashedPassword, salt });
-    
-        // Increment the user count for this IP address.
-        ipInfo.registerCount++;
-        await db.write("../ipAddresses/"+ip+"/register", ipInfo);
+/**
+ * Reads and repairs the registration throttle record.
+ *
+ * @param {string} path DosDB rate path.
+ * @returns {Promise<object>} Mutable rate record.
+ */
+async function getRegisterInfo(path) {
+  var info = await db.get(path);
+  if (!info || typeof info !== "object") info = {};
 
+  info.registerAttempts = Number(info.registerAttempts) || 0;
+  info.nextRegisterTime = Number(info.nextRegisterTime) || 0;
+  info.registerCount = Number(info.registerCount) || 0;
+  return info;
+}
 
-        return { status: "success", message: "Successfully created new user!", token: token,
-        attempts:ipInfo.registerAttempts, nextRegisterTime:ipInfo.nextRegisterTime};
-    } else {
-        return { status: "neutral", message: "Please fill out the form to register."};
-    }
+/**
+ * Handles new user registration.
+ *
+ * @param {object} request Incoming HTTP request.
+ * @param {object} post Parsed POST values.
+ * @param {string} secret Token secret.
+ * @returns {Promise<object>} Registration result.
+ */
+async function handleRegistration(request, post, secret) {
+  if (!post || !post.username || !post.password) {
+    return { status: "neutral", message: "Please fill out the form to create an account." };
+  }
+
+  var userCheck = cleanUsername(post.username);
+  if (!userCheck.ok) return { status: "error", message: userCheck.message };
+
+  var passCheck = cleanPassword(post.password);
+  if (!passCheck.ok) return { status: "error", message: passCheck.message };
+
+  var username = userCheck.username;
+  var password = passCheck.password;
+  var ip = safeIpKey(request);
+  var registerPath = "/ipAddresses/" + ip + "/register";
+  var info = await getRegisterInfo(registerPath);
+  var now = Date.now();
+
+  if (now < info.nextRegisterTime) {
+    return {
+      status: "error",
+      message: "Too many accounts were created from here. Try again after " + new Date(info.nextRegisterTime).toLocaleString() + "."
+    };
+  }
+
+  if (info.registerAttempts >= 5) {
+    info.nextRegisterTime = now + 24 * 60 * 60 * 1000;
+    info.registerAttempts = 0;
+    await db.write(registerPath, info);
+    return {
+      status: "error",
+      message: "Too many registration attempts. Please try again tomorrow."
+    };
+  }
+
+  info.registerAttempts += 1;
+
+  var accountPath = "/users/" + username + "/account";
+  var existing = await db.get(accountPath);
+  if (existing) {
+    await db.write(registerPath, info);
+    return { status: "error", message: "That username already exists. Please choose another." };
+  }
+
+  var salt = sodos.generateSalt(16);
+  var passwordHash = sodos.hashPassword(password, salt);
+  var token = sodos.createToken(username, secret);
+
+  await db.create(accountPath, {
+    password: passwordHash,
+    salt,
+    createdAt: now
+  });
+
+  info.registerCount += 1;
+  await db.write(registerPath, info);
+
+  return {
+    status: "success",
+    message: "Successfully created new user!",
+    token,
+    username
+  };
 }
 
 module.exports.handleRegistration = handleRegistration;

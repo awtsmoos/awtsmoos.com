@@ -2,85 +2,101 @@
  * B"H
  * @module PlayerBodyParts
  *
- * Chapter 7: Shoulders, Sleeves, Feet, And The Secret Of A True Silhouette.
- * The Awtsmoos has no body and no form; still, every finite pixel receives a
- * truthful contour. Side is narrow, back hides the face, front reveals it.
+ * Chapter 67: The traveler became a readable top-down RPG sprite.
+ * The Awtsmoos has no body and no form; these body pieces reject awkward
+ * mannequin bends and instead use stable pixel proportions, clear sleeves,
+ * grounded shoes, and a calm walking cycle like the mockup's little hero.
  */
-const COLORS = { shirt: '#1565c0', skin: '#ffdbac', pants: '#1e2430', shoe: '#2d2d2d' };
+const COLORS = {
+  shirt: '#1565c0', shirtDark: '#0b3b79', shirtLight: '#2b88d8',
+  skin: '#ffd7a8', pants: '#172331', shoe: '#07080c'
+};
 
-/** @param {CanvasRenderingContext2D} ctx @param {number} size @returns {void} */
 export const drawShadow = (ctx, size) => {
   ctx.save();
-  ctx.globalAlpha = 0.32;
-  ctx.fillStyle = '#000';
+  const g = ctx.createRadialGradient(0, size * .4, 0, 0, size * .4, size * .4);
+  g.addColorStop(0, 'rgba(0,0,0,.38)');
+  g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = g;
   ctx.beginPath();
-  ctx.ellipse(0, size / 2.45, size / 3.1, size / 8.5, 0, 0, Math.PI * 2);
+  ctx.ellipse(0, size * .4, size * .33, size * .1, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 };
 
-/** @param {CanvasRenderingContext2D} ctx @param {number} size @param {object} pose @param {object} cycle @returns {void} */
 export const drawLegs = (ctx, size, pose, cycle) => {
-  const side = pose.view.includes('Side');
-  const swing = cycle.leg * size / 13;
+  const side = pose.view === 'side';
+  const walk = cycle.leg * size * .045;
   ctx.fillStyle = COLORS.pants;
   if (side) {
-    ctx.fillRect(-size / 11, size / 8 + swing / 3, size / 6, size / 3.2);
-    ctx.globalAlpha = 0.62;
-    ctx.fillRect(-size / 12, size / 10 - swing / 3, size / 7, size / 3.4);
+    ctx.fillRect(-size * .07 + walk, size * .1, size * .13, size * .3);
+    ctx.globalAlpha = .7;
+    ctx.fillRect(-size * .04 - walk, size * .1, size * .11, size * .27);
     ctx.globalAlpha = 1;
-    ctx.fillStyle = COLORS.shoe;
-    ctx.fillRect(-size / 10, size / 2.35, size / 4.2, size / 12);
+    drawShoe(ctx, -size * .09 + walk, size * .38, size * .19, size);
     return;
   }
-  ctx.fillRect(-size / 4.8 + swing, size / 8, size / 7, size / 3.2);
-  ctx.fillRect(size / 12 - swing, size / 8, size / 7, size / 3.2);
-  ctx.fillStyle = COLORS.shoe;
-  ctx.fillRect(-size / 4.6 + swing, size / 2.35, size / 5.8, size / 11);
-  ctx.fillRect(size / 12 - swing, size / 2.35, size / 5.8, size / 11);
+  ctx.fillRect(-size * .18 + walk, size * .1, size * .13, size * .29);
+  ctx.fillRect(size * .05 - walk, size * .1, size * .13, size * .29);
+  drawShoe(ctx, -size * .2 + walk, size * .37, size * .17, size);
+  drawShoe(ctx, size * .03 - walk, size * .37, size * .17, size);
 };
 
-/** @param {CanvasRenderingContext2D} ctx @param {number} size @param {object} pose @param {object} cycle @returns {void} */
+const drawShoe = (ctx, x, y, w, size) => {
+  ctx.fillStyle = COLORS.shoe;
+  ctx.fillRect(x, y, w, size * .06);
+  ctx.fillStyle = 'rgba(255,255,255,.1)';
+  ctx.fillRect(x + 1, y, w * .45, 1.5);
+};
+
 export const drawTorso = (ctx, size, pose, cycle) => {
-  const side = pose.view.includes('Side');
-  const back = pose.view.startsWith('back');
-  const torsoW = side ? size / 3.4 : size / 2.12;
+  const side = pose.view === 'side';
+  const back = pose.view === 'back';
+  const w = side ? size * .36 : size * .48;
+  const h = size * .48;
   ctx.save();
   ctx.scale(1, cycle.breath);
-  ctx.fillStyle = COLORS.shirt;
+  const g = ctx.createLinearGradient(-w / 2, -size * .24, w / 2, size * .24);
+  g.addColorStop(0, COLORS.shirtDark);
+  g.addColorStop(.52, COLORS.shirtLight);
+  g.addColorStop(1, COLORS.shirtDark);
+  ctx.fillStyle = g;
   ctx.beginPath();
-  ctx.roundRect(-torsoW / 2, -size / 4, torsoW, size / 2, size / 12);
+  ctx.roundRect(-w / 2, -size * .27, w, h, size * .07);
   ctx.fill();
-  ctx.fillStyle = back ? '#0d47a1' : '#fff';
-  if (side) ctx.fillRect(pose.mirror * size / 16 - size / 24, -size / 4, size / 12, size / 2.2);
-  else {
-    ctx.beginPath();
-    ctx.moveTo(-size / 10, -size / 4);
-    ctx.lineTo(0, -size / 6);
-    ctx.lineTo(size / 10, -size / 4);
-    ctx.closePath();
-    ctx.fill();
-  }
+  ctx.fillStyle = back ? COLORS.shirtDark : '#e9fbff';
+  if (side) ctx.fillRect(size * .02, -size * .24, size * .06, size * .4);
+  else drawCollar(ctx, size);
   ctx.restore();
 };
 
-/** @param {CanvasRenderingContext2D} ctx @param {number} size @param {object} pose @param {object} cycle @param {boolean} front @returns {void} */
+const drawCollar = (ctx, size) => {
+  ctx.beginPath();
+  ctx.moveTo(-size * .08, -size * .27);
+  ctx.lineTo(0, -size * .18);
+  ctx.lineTo(size * .08, -size * .27);
+  ctx.closePath();
+  ctx.fill();
+};
+
 export const drawArm = (ctx, size, pose, cycle, front) => {
-  const side = pose.view.includes('Side');
-  const x = side ? pose.mirror * size / 7 : (front ? size / 4.5 : -size / 4.5);
-  const swing = (front ? -cycle.arm : cycle.arm) * size / 12;
-  ctx.save();
-  ctx.translate(x, -size / 8 + swing / 4);
-  ctx.rotate(side ? pose.mirror * 0.12 : (front ? 0.26 : -0.26));
-  ctx.globalAlpha = !front && side ? 0.48 : 1;
-  ctx.fillStyle = COLORS.shirt;
-  ctx.fillRect(-size / 22, -size / 7, size / 11, size / 3.2);
+  const side = pose.view === 'side';
+  const walk = cycle.arm * size * .04;
+  if (side) return drawSideArm(ctx, size, walk, front);
+  const x = front ? size * .25 : -size * .25;
+  const swing = (front ? -walk : walk);
+  ctx.fillStyle = front ? COLORS.shirtLight : COLORS.shirtDark;
+  ctx.fillRect(x - size * .045, -size * .21 + swing, size * .09, size * .3);
   ctx.fillStyle = COLORS.skin;
-  ctx.fillRect(-size / 28, size / 12, size / 14, size / 5.2);
-  if (front) {
-    ctx.beginPath();
-    ctx.arc(0, size / 3.7, size / 13, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  ctx.restore();
+  ctx.fillRect(x - size * .035, size * .07 + swing, size * .07, size * .1);
+};
+
+const drawSideArm = (ctx, size, walk, front) => {
+  const x = front ? size * .17 : -size * .08;
+  ctx.globalAlpha = front ? 1 : .55;
+  ctx.fillStyle = front ? COLORS.shirtLight : COLORS.shirtDark;
+  ctx.fillRect(x - size * .04, -size * .21 - walk, size * .08, size * .3);
+  ctx.fillStyle = COLORS.skin;
+  ctx.fillRect(x - size * .03, size * .07 - walk, size * .06, size * .1);
+  ctx.globalAlpha = 1;
 };

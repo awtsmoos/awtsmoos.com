@@ -1,76 +1,77 @@
-
 /**
  * B"H
- * @class Ground
- * @chapter The Garments of the Field
+ * @module Ground
+ *
+ * Chapter 66: The grass stopped shouting in rectangles.
+ * The Awtsmoos has no body and no form; each tile now carries a calmer pixel
+ * garden: broad coherent greens, small blades, rare flowers, and road dust that
+ * supports the mockup instead of fighting it.
  */
+import { WORLD_COLORS as C, pick, seeded } from './world/WorldPalette.js';
+import { flower, glow, grassBlade, pixel, stone } from './world/WorldPrimitives.js';
+
 export class Ground {
-    static draw(ctx, x, y, size, char, seed) {
-        const fx = Math.floor(x);
-        const fy = Math.floor(y);
-        const fS = size + 1;
-        const s = Math.abs(seed);
+  static draw(ctx, x, y, size, char, seed) {
+    const fx = Math.floor(x);
+    const fy = Math.floor(y);
+    const s = Math.max(8, Math.floor(size + 1));
+    if (char === '2' || ['⇧', '⇩', '⇦', '⇨'].includes(char)) this.drawPath(ctx, fx, fy, s, seed);
+    else if (char === '.' || char === ' ') this.drawFloor(ctx, fx, fy, s, seed);
+    else this.drawGrass(ctx, fx, fy, s, seed);
+  }
 
-        if (char === '1' || char === '🌿') {
-            this._drawGrass(ctx, fx, fy, fS, s, char === '🌿');
-        } else if (char === '2' || ['⇧','⇩','⇦','⇨'].includes(char)) {
-            this._drawPath(ctx, fx, fy, fS, s);
-        } else if (char === '.' || char === ' ') {
-            ctx.fillStyle = '#1b5e20'; // Base Forest Floor
-            ctx.fillRect(fx, fy, fS, fS);
-        }
+  static drawGrass(ctx, x, y, size, seed) {
+    pixel(ctx, x, y, size, size, pick(C.grass, seed));
+    this.softShade(ctx, x, y, size);
+    this.smallMoss(ctx, x, y, size, seed);
+    for (let i = 0; i < 4; i += 1) this.blade(ctx, x, y, size, seed + i * 13);
+    if (seeded(seed + 44) > .9) flower(ctx, x + size * .55, y + size * .6, size, seed);
+    if (seeded(seed + 77) > .965) glow(ctx, x + size * .55, y + size * .35, size * .22, 'rgba(255,236,130,.22)');
+  }
+
+  static drawFloor(ctx, x, y, size, seed) {
+    pixel(ctx, x, y, size, size, '#143125');
+    this.softShade(ctx, x, y, size);
+    for (let i = 0; i < 3; i += 1) this.smallMoss(ctx, x, y, size, seed + i * 7);
+    if (seeded(seed + 5) > .82) stone(ctx, x + size * .55, y + size * .58, size * .24, seed);
+  }
+
+  static drawPath(ctx, x, y, size, seed) {
+    pixel(ctx, x, y, size, size, C.path);
+    const g = ctx.createLinearGradient(x, y, x, y + size);
+    g.addColorStop(0, 'rgba(255,230,170,.12)');
+    g.addColorStop(.7, 'rgba(0,0,0,0)');
+    g.addColorStop(1, 'rgba(40,22,10,.18)');
+    ctx.fillStyle = g;
+    ctx.fillRect(x, y, size, size);
+    for (let i = 0; i < 8; i += 1) {
+      const px = x + seeded(seed + i * 3) * size;
+      const py = y + seeded(seed + i * 5) * size;
+      pixel(ctx, px, py, 1 + (i % 2), 1 + (i % 3 === 0 ? 1 : 0), i % 2 ? C.pathDark : C.pathLight);
     }
+  }
 
-    static _drawGrass(ctx, x, y, size, s, detailed) {
-        // LAYER 1: The Soil
-        ctx.fillStyle = '#1b4d3e'; 
-        ctx.fillRect(x, y, size, size);
+  static softShade(ctx, x, y, size) {
+    const g = ctx.createLinearGradient(x, y, x + size, y + size);
+    g.addColorStop(0, 'rgba(255,255,255,.04)');
+    g.addColorStop(.65, 'rgba(0,0,0,0)');
+    g.addColorStop(1, 'rgba(0,0,0,.13)');
+    ctx.fillStyle = g;
+    ctx.fillRect(x, y, size, size);
+  }
 
-        // LAYER 2: Texture Noise
-        ctx.globalAlpha = 0.3;
-        ctx.fillStyle = (s % 2 === 0) ? '#2e7d32' : '#1b5e20';
-        for(let i = 0; i < 4; i++) {
-            const rx = x + ((s * i * 11) % size);
-            const ry = y + ((s * i * 7) % size);
-            ctx.fillRect(rx, ry, size/2, size/2);
-        }
-        ctx.globalAlpha = 1.0;
+  static smallMoss(ctx, x, y, size, seed) {
+    const w = size * (.12 + seeded(seed) * .12);
+    const h = size * (.08 + seeded(seed + 1) * .1);
+    const px = x + seeded(seed + 2) * (size - w);
+    const py = y + seeded(seed + 3) * (size - h);
+    ctx.fillStyle = seeded(seed + 4) > .5 ? 'rgba(90,150,82,.2)' : 'rgba(8,40,30,.16)';
+    ctx.fillRect(px, py, w, h);
+  }
 
-        // LAYER 3: Tufts
-        const tufts = detailed ? 8 : 3;
-        ctx.lineWidth = 1.5;
-        ctx.lineCap = 'round';
-        for(let t = 0; t < tufts; t++) {
-            const tx = x + ((s * t * 13) % (size - 10)) + 5;
-            const ty = y + ((s * t * 19) % (size - 10)) + 5;
-            const h = 5 + (t % 5);
-            ctx.strokeStyle = (t % 2 === 0) ? '#43a047' : '#2e7d32';
-            ctx.beginPath();
-            ctx.moveTo(tx, ty);
-            ctx.lineTo(tx - 2, ty - h);
-            ctx.moveTo(tx, ty);
-            ctx.lineTo(tx + 2, ty - h);
-            ctx.stroke();
-        }
-    }
-
-    static _drawPath(ctx, x, y, size, s) {
-        ctx.fillStyle = '#8d6e63';
-        ctx.fillRect(x, y, size, size);
-
-        // --- THE GRAVEL (Procedural Sparks) ---
-        ctx.fillStyle = 'rgba(0,0,0,0.15)';
-        for (let i = 0; i < 8; i++) {
-            const px = x + ((s * i * 3) % (size - 4));
-            const py = y + ((s * i * 5) % (size - 4));
-            ctx.fillRect(px, py, 2 + (i % 2), 2);
-        }
-        
-        ctx.fillStyle = 'rgba(255,255,255,0.05)';
-        for (let i = 0; i < 4; i++) {
-            const px = x + ((s * i * 17) % (size - 4));
-            const py = y + ((s * i * 23) % (size - 4));
-            ctx.fillRect(px, py, 2, 2);
-        }
-    }
+  static blade(ctx, x, y, size, seed) {
+    const bx = x + 7 + seeded(seed) * (size - 14);
+    const by = y + 10 + seeded(seed + 1) * (size - 14);
+    grassBlade(ctx, bx, by, 3 + seeded(seed + 2) * 5, seeded(seed + 3) > .5 ? C.leaf : C.leafLight);
+  }
 }

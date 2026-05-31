@@ -1,24 +1,62 @@
 // B"H
 /**
  * @module uiHandlers
- * @description Chapter 68: the charity box sings while the HUD obeys level data.
- * Hebrew letters like golden sparks before the mezuzah receives permission.
+ * @description
+ * Chapter 109: Level buttons now call the actual world manager directly. The
+ * Awtsmoos refuses silent DOM-event misses: clicking Level 1 fetches JSON,
+ * closes the NPC overlay, and invokes startWorld on the living manager that
+ * owns the worker, preserving the white worker while switching worlds.
  */
 import VeilController from "../../uiManager/logic/VeilController.js";
 
+const DIRECT_EVENTS = new Set(["openNpcChallengeOverlay", "openLevelSelect", "navigateLevel", "tzedakahBlessing"]);
+const LADDER_LEVELS = Object.freeze([
+  ["ladder-1.json", "Level 1"], ["ladder-2.json", "Level 2"], ["ladder-3.json", "Level 3"], ["ladder-4.json", "Level 4"], ["ladder-5.json", "Level 5"]
+]);
+const LEVEL_BASE = "/games/mitzvahWorld/levels/ladder/data/";
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const q = name => document.querySelector(`[shaym="${name}"], [data-shaym="${name}"], #${name}, .${name}`);
-const hudHost = () => q("gameHUD") || q("desert-progress-card") || document.body;
-const readGlobalCoins = () => { try { return n(localStorage.getItem("awtsmoosMitzvahGlobalCoins"), 0); } catch { return 0; } };
-const writeGlobalCoins = value => { try { localStorage.setItem("awtsmoosMitzvahGlobalCoins", String(value)); } catch {} };
+const esc = s => String(s || "").replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
+
+function readGlobalCoins() { try { return n(localStorage.getItem("awtsmoosMitzvahGlobalCoins"), 0); } catch { return 0; } }
+function writeGlobalCoins(value) { try { localStorage.setItem("awtsmoosMitzvahGlobalCoins", String(value)); } catch {} }
+function hudHost() { return q("gameHUD") || q("desert-progress-card") || document.body; }
+function closeNpcOverlay() { document.getElementById("awtsmoos-npc-overlay")?.remove(); }
+function lineHtml(lines = []) { return (Array.isArray(lines) ? lines : [String(lines)]).slice(0, 3).map(line => `<p>${esc(line)}</p>`).join(""); }
+function buttonsHtml() { return LADDER_LEVELS.map(([id, label]) => `<button data-level-id="${id}" style="padding:12px 14px;border:0;border-radius:14px;background:#5b3cff;color:white;font:inherit">${label}</button>`).join(""); }
+
+async function fetchLevel(id) {
+  const clean = String(id || "").trim().replace(/\.js$/i, ".json");
+  const res = await fetch(LEVEL_BASE + encodeURIComponent(clean), { cache: "no-store" });
+  if (!res.ok) throw new Error(`Could not fetch ${clean}`);
+  const data = await res.json();
+  if (data?.format !== "awtsmoos-level-json-v1" || !data?.nivrayim) throw new Error(`Bad level ${clean}`);
+  return { id: clean, data };
+}
+
+async function launchLevel(manager, id) {
+  const { id: clean, data } = await fetchLevel(id);
+  q("loading")?.classList.remove("hidden");
+  const owner = manager?._managerOfAllWorlds || window.mana;
+  if (owner?.startWorld) {
+    await owner.startWorld({ worldDayuh: data, sourcePath: clean, gameUiHTML: window.awtsmoosGameUI });
+    return true;
+  }
+  const ikar = q("ikar") || document.getElementById("ikar") || document.body.querySelector("[shaym='ikar']");
+  if (!ikar) throw new Error("ikar element missing and manager unavailable");
+  ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh: data, sourcePath: clean, gameUiHTML: window.awtsmoosGameUI } }));
+  return true;
+}
 
 function updatePerutahHud(data = {}) {
-  const host = hudHost(), ds = host.dataset || (host.dataset = {});
+  const host = hudHost();
+  const ds = host.dataset || (host.dataset = {});
   const required = n(data.requiredPerutos ?? ds.requiredPerutos, 9) || 9;
-  const old = n(ds.collectedPerutos, 0);
-  const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : old + n(data.added, 0);
+  const collected = Number.isFinite(Number(data.collected)) ? Number(data.collected) : n(ds.collectedPerutos, 0) + n(data.added, 0);
   const globalCoins = Number.isFinite(Number(data.globalCoins)) ? Number(data.globalCoins) : readGlobalCoins() + n(data.globalAdded, 0);
-  ds.requiredPerutos = String(required); ds.collectedPerutos = String(collected); writeGlobalCoins(globalCoins);
+  ds.requiredPerutos = String(required);
+  ds.collectedPerutos = String(collected);
+  writeGlobalCoins(globalCoins);
   const goal = q("hud-perutah-goal"), bar = q("hud-perutah-bar"), status = q("hud-perutah-status"), global = q("hud-global-coins");
   if (goal) goal.textContent = `${collected}/${required}`;
   if (bar) bar.style.width = `${Math.min(100, required ? collected / required * 100 : 0)}%`;
@@ -27,18 +65,37 @@ function updatePerutahHud(data = {}) {
 }
 
 function setLevelGoal(data = {}) {
-  const host = hudHost(), ds = host.dataset || (host.dataset = {});
-  ds.requiredPerutos = String(n(data.requiredPerutos, 9) || 9); ds.collectedPerutos = "0";
+  const host = hudHost();
+  const ds = host.dataset || (host.dataset = {});
+  ds.requiredPerutos = String(n(data.requiredPerutos, 9) || 9);
+  ds.collectedPerutos = "0";
   updatePerutahHud({ requiredPerutos: ds.requiredPerutos, collected: 0, globalCoins: readGlobalCoins() });
 }
 
-function navigateLevel(data = {}) {
+function openLevelSelect(manager, data = {}) {
+  openNpcChallengeOverlay(manager, { title: data.title || "Choose Levels", lines: ["Pick a challenge."], chooserOpen: true });
+}
+
+function openNpcChallengeOverlay(manager, data = {}) {
+  closeNpcOverlay();
+  const overlay = document.createElement("div");
+  overlay.id = "awtsmoos-npc-overlay";
+  overlay.style.cssText = "position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:2147483200;width:min(560px,92vw);font-family:Fredoka One,system-ui,sans-serif;color:#1f1508;pointer-events:auto;";
+  const choose = data.chatOnly ? "" : `<button data-npc-choose style="flex:1;padding:13px 16px;border:0;border-radius:16px;background:#5b3cff;color:white;font:inherit;box-shadow:0 8px 22px rgba(0,0,0,.25)">Choose levels</button>`;
+  const chooser = data.chooserOpen ? `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px">${buttonsHtml()}</div>` : "";
+  overlay.innerHTML = `<div style="background:rgba(255,248,220,.96);border:3px solid rgba(96,66,25,.34);border-radius:22px;padding:16px 18px;box-shadow:0 16px 52px rgba(0,0,0,.34)"><div style="font-size:22px;margin-bottom:8px">${esc(data.title || data.fromNpc || "NPC")}</div><div style="font:600 15px/1.35 system-ui,sans-serif">${lineHtml(data.lines || [])}</div>${chooser}<div style="display:flex;gap:10px;margin-top:14px"><button data-npc-close style="padding:13px 16px;border:0;border-radius:16px;background:#76521e;color:white;font:inherit">Close</button>${choose}</div></div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector("[data-npc-close]")?.addEventListener("click", closeNpcOverlay);
+  overlay.querySelector("[data-npc-choose]")?.addEventListener("click", () => openLevelSelect(manager, { title: data.selectorTitle || "NPC CHALLENGES" }));
+  overlay.querySelectorAll("[data-level-id]").forEach(btn => btn.addEventListener("click", async () => {
+    try { closeNpcOverlay(); await launchLevel(manager, btn.dataset.levelId); }
+    catch (error) { console.error('B"H - NPC level launch failed', error); alert("Could not load that level yet."); }
+  }));
+}
+
+function navigateLevel(manager, data = {}) {
   const next = String(data.next || data.path || "").trim().replace(/\.js$/i, ".json");
-  if (!next) return;
-  const url = new URL(window.location.href);
-  url.searchParams.set("path", next);
-  console.info('B"H | DOOR_NAV_TRACE', { next, href: url.href, source: data.source || "ui" });
-  window.location.href = url.href;
+  if (next) launchLevel(manager, next).catch(error => console.error('B"H - direct level navigation failed', error));
 }
 
 function dispatchInventory(ob = {}) {
@@ -46,110 +103,47 @@ function dispatchInventory(ob = {}) {
   document.getElementById("inventoryScreen")?.dispatchEvent(new CustomEvent("awtsInventoryOpen", { bubbles: true }));
 }
 
-function playTzedakahChord() {
-  try {
-    const Ctx = window.AudioContext || window.webkitAudioContext, ctx = new Ctx();
-    const master = ctx.createGain(); master.gain.value = 0.12; master.connect(ctx.destination);
-    [392, 494, 587, 784].forEach((freq, i) => {
-      const osc = ctx.createOscillator(), gain = ctx.createGain();
-      osc.type = i % 2 ? "triangle" : "sine"; osc.frequency.value = freq; gain.gain.value = 0;
-      osc.connect(gain); gain.connect(master); osc.start(ctx.currentTime + i * 0.045);
-      gain.gain.linearRampToValueAtTime(0.9, ctx.currentTime + i * 0.045 + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.05 + i * 0.08);
-      osc.stop(ctx.currentTime + 1.35 + i * 0.08);
-    });
-    setTimeout(() => ctx.close?.(), 1700);
-  } catch {}
-}
-
-function letterBit(text) {
-  const bit = document.createElement("b"); bit.textContent = text;
-  bit.style.cssText = "position:absolute;left:0;top:0;font:bold 26px Arial;color:#ffd54a;text-shadow:0 0 16px #3cff86,0 0 8px #000;opacity:.98;transform:translate(-12px,-12px) scale(1);transition:transform 1100ms cubic-bezier(.14,.72,.26,1),opacity 1100ms linear;will-change:transform,opacity;";
-  return bit;
-}
-
 function tzedakahLetters(data = {}) {
-  playTzedakahChord();
-  const host = document.createElement("div"), letters = "צדקהתצילממותשערנפתח";
-  host.style.cssText = "position:fixed;left:50%;top:43%;width:1px;height:1px;z-index:2147483646;pointer-events:none;contain:layout style paint;";
-  document.body.appendChild(host);
-  for (let i = 0; i < 44; i += 1) {
-    const bit = letterBit(letters[i % letters.length]), angle = Math.PI * 2 * i / 44, distance = 70 + (i % 7) * 20;
-    host.appendChild(bit);
-    requestAnimationFrame(() => { bit.style.transform = `translate(${Math.cos(angle) * distance}px,${Math.sin(angle) * distance - 65}px) scale(.35) rotate(${i * 31}deg)`; bit.style.opacity = "0"; });
-  }
-  const msg = document.createElement("div"); msg.textContent = data.text || "צדקה תציל ממות — Giving opens the gate";
+  const msg = document.createElement("div");
+  msg.textContent = data.text || "צדקה תציל ממות — Giving opens the gate";
   msg.style.cssText = "position:fixed;left:50%;top:32%;transform:translate(-50%,-50%);z-index:2147483647;font:bold 24px Arial;color:#ffd54a;text-align:center;text-shadow:0 0 18px #3cff86,0 0 10px #000;pointer-events:none;";
-  document.body.appendChild(msg); setTimeout(() => { host.remove(); msg.remove(); }, 1400);
+  document.body.appendChild(msg);
+  setTimeout(() => msg.remove(), 1400);
 }
 
-function finishCountdown(manager, veil) {
-  manager?.eved?.postMessage?.({ enableAfterSpikeReset: { reason: "countdown-complete" } });
-  if (!veil) return; veil.style.opacity = "0"; veil.style.transition = "opacity .18s ease"; setTimeout(() => veil.remove(), 190);
-}
-
-function startResetCountdown(manager) {
-  const veil = document.getElementById("awtsmoos-spike-reset-veil"), text = veil?.querySelector?.("[data-spike-countdown]"), hint = veil?.querySelector?.("[data-spike-hint]");
-  let count = 3; if (text) { text.hidden = false; text.textContent = String(count); } if (hint) hint.textContent = "Resetting fast…";
-  const timer = setInterval(() => { count -= 1; if (text) text.textContent = count > 0 ? String(count) : "GO"; if (count <= 0) { clearInterval(timer); setTimeout(() => finishCountdown(manager, veil), 260); } }, 300);
-}
-
-function postLocalReset(manager) {
-  const veil = document.getElementById("awtsmoos-spike-reset-veil"); if (veil?.dataset.resetting === "true") return; if (veil) veil.dataset.resetting = "true";
-  manager?.eved?.postMessage?.({ resetAfterSpikeDeath: { position: { x: -8, y: 5, z: 0 }, keepColliderDisabled: true, forceRunMode: true, resetLevelCollectibles: true } });
-  document.getElementById("awtsmoos-css-spike-burst")?.remove(); updatePerutahHud({ collected: 0, globalCoins: readGlobalCoins() }); startResetCountdown(manager);
-}
-
-function makeParticle(text) {
-  const bit = document.createElement("i"); bit.textContent = text;
-  bit.style.cssText = "position:absolute;left:0;top:0;font:bold 22px Arial;background:#ff5a18;color:#ffd447;padding:2px 5px;border-radius:3px;box-shadow:0 0 14px #ff2a00;opacity:.95;transform:translate(-9px,-9px) scale(1);transition:transform 720ms cubic-bezier(.14,.72,.26,1),opacity 720ms linear;will-change:transform,opacity;";
-  return bit;
-}
-
-function makeCssBurst() {
-  if (document.getElementById("awtsmoos-css-spike-burst")) return;
-  const host = document.createElement("div"), letters = "אבטסמוסLAVA"; host.id = "awtsmoos-css-spike-burst";
-  host.style.cssText = "position:fixed;left:50%;top:45%;width:1px;height:1px;z-index:2147483646;pointer-events:none;contain:layout style paint;"; document.body.appendChild(host);
-  for (let i = 0; i < 32; i += 1) { const bit = makeParticle(letters[i % letters.length]), angle = Math.PI * 2 * i / 32, distance = 95 + (i % 5) * 32; host.appendChild(bit); requestAnimationFrame(() => { bit.style.transform = `translate(${Math.cos(angle) * distance}px,${Math.sin(angle) * distance - 55}px) scale(.25) rotate(${i * 47}deg)`; bit.style.opacity = "0"; }); }
-  setTimeout(() => host.remove(), 850);
-}
-
-function showSpikeResetOverlay(manager, data = {}) { makeCssBurst(); if (document.getElementById("awtsmoos-spike-reset-veil")) return; setTimeout(() => installSpikeResetGate(manager, data), n(data.overlayDelayMs, 3000) || 3000); }
-function installSpikeResetGate(manager, data = {}) {
-  if (document.getElementById("awtsmoos-spike-reset-veil")) return;
-  const veil = document.createElement("div"); veil.id = "awtsmoos-spike-reset-veil"; veil.setAttribute("shaym", "awtsmoos-spike-reset-veil");
-  veil.style.cssText = "position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);color:#fff;text-align:center;font-family:Arial,sans-serif;pointer-events:auto;touch-action:none;";
-  veil.innerHTML = `<div style="padding:24px 30px;border:2px solid #ffcc55;border-radius:18px;background:rgba(20,0,0,.84);box-shadow:0 0 38px #f33;max-width:88vw"><div style="font-size:30px;margin-bottom:8px;color:#ffdd66">${data.title || "LAVA HIT"}</div><div style="font-size:20px;letter-spacing:1px">HIT ANY KEY TO CONTINUE</div><div data-spike-countdown hidden style="font-size:54px;margin-top:12px;color:#76ff8a;line-height:1">3</div><div data-spike-hint style="font-size:13px;margin-top:8px;color:#ffd9d9">tap / click / key to reset</div></div>`;
-  document.body.appendChild(veil); const reset = e => { e?.preventDefault?.(); e?.stopPropagation?.(); postLocalReset(manager); };
-  window.addEventListener("keydown", reset, { once: true, capture: true }); window.addEventListener("mousedown", reset, { once: true, capture: true }); window.addEventListener("touchstart", reset, { once: true, capture: true, passive: false }); veil.addEventListener("click", reset, { once: true }); veil.addEventListener("touchstart", reset, { once: true, passive: false });
-}
-
-function floatingText(data = {}) {
-  if (!data.text || data.effect === "spikeDeath") return;
-  const el = document.createElement("div"); el.textContent = data.text;
-  el.style.cssText = `position:fixed;left:50%;top:34%;z-index:2147483646;transform:translate(-50%,-50%);font:bold 24px Arial;color:${data.color || "#fff"};text-shadow:0 0 12px #000;pointer-events:none;`;
-  document.body.appendChild(el); setTimeout(() => el.remove(), 900);
-}
+function showSpikeResetOverlay(manager) { manager?.eved?.postMessage?.({ resetAfterSpikeDeath: { position: { x: -8, y: 5, z: 0 }, keepColliderDisabled: true, forceRunMode: true, resetLevelCollectibles: true } }); }
+function floatingText(data = {}) { if (!data.text || data.effect === "spikeDeath") return; const el = document.createElement("div"); el.textContent = data.text; el.style.cssText = `position:fixed;left:50%;top:34%;z-index:2147483646;transform:translate(-50%,-50%);font:bold 24px Arial;color:${data.color || "#fff"};text-shadow:0 0 12px #000;pointer-events:none;`; document.body.appendChild(el); setTimeout(() => el.remove(), 900); }
 
 function directFallback(manager, shaym, ob) {
-  if (shaym === "levelGoal") setLevelGoal(ob); if (shaym === "perutahProgress") updatePerutahHud(ob); if (shaym === "inventoryScreen") dispatchInventory(ob); if (shaym === "navigateLevel") navigateLevel(ob); if (shaym === "tzedakahBlessing") tzedakahLetters(ob);
-  if (shaym === "effectsOverlay") { if (ob?.effect === "tzedakahBlessing") tzedakahLetters(ob); floatingText(ob); if (ob?.effect === "spikeDeath") showSpikeResetOverlay(manager, ob); }
+  if (shaym === "openNpcChallengeOverlay") openNpcChallengeOverlay(manager, ob);
+  if (shaym === "openLevelSelect") openLevelSelect(manager, ob);
+  if (shaym === "levelGoal") setLevelGoal(ob);
+  if (shaym === "perutahProgress") updatePerutahHud(ob);
+  if (shaym === "inventoryScreen") dispatchInventory(ob);
+  if (shaym === "navigateLevel") navigateLevel(manager, ob);
+  if (shaym === "tzedakahBlessing") tzedakahLetters(ob);
+  if (shaym === "effectsOverlay") { if (ob?.effect === "tzedakahBlessing") tzedakahLetters(ob); floatingText(ob); if (ob?.effect === "spikeDeath") showSpikeResetOverlay(manager); }
 }
 
 export default function uiHandlers(manager) {
   return {
-    forceSpikeResetOverlay(data) { showSpikeResetOverlay(manager, data); }, spikeResetComplete() {}, spikeEnableComplete() {},
+    forceSpikeResetOverlay() { showSpikeResetOverlay(manager); }, spikeResetComplete() {}, spikeEnableComplete() {},
     hideLoadingScreen() { VeilController.lift(); document.body.style.overflow = "hidden"; },
     increasedOlamLoading(data) {
-      const percent = (data?.amount || 0) + "%"; manager.myUi.htmlAction({ shaym: "loading bar", properties: { style: { width: percent } } });
+      const percent = (data?.amount || 0) + "%";
+      manager.myUi.htmlAction({ shaym: "loading bar", properties: { style: { width: percent } } });
       const bar = document.getElementById("genesisProgressBar"); if (bar) bar.style.width = percent;
       const text = document.getElementById("genesisActionText") || document.querySelector('[shaym="action loading"]'); if (text && data?.action) text.textContent = data.action;
     },
     resetPercentage() { const bar = document.getElementById("genesisProgressBar"); if (bar) bar.style.width = "0%"; },
     sendUiEvent(data) {
       const { shaym, ob, id } = data || {};
-      try { if (shaym && manager.myUi) manager.myUi.peula(shaym, ob, id); } catch (error) { console.warn('B"H - UI peula fallback engaged', shaym, error); }
-      directFallback(manager, shaym, ob); if (id && manager.eved) manager.eved.postMessage({ type: "uiEvented", id });
+      if (DIRECT_EVENTS.has(shaym)) directFallback(manager, shaym, ob);
+      else {
+        try { if (shaym && manager.myUi) manager.myUi.peula(shaym, ob, id); } catch (error) { console.warn('B"H - UI peula fallback engaged', shaym, error); }
+        directFallback(manager, shaym, ob);
+      }
+      if (id && manager.eved) manager.eved.postMessage({ type: "uiEvented", id });
     }
   };
 }

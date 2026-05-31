@@ -1,36 +1,43 @@
 // B"H
-import { C, S, E, F } from '../../levelPrimitives.js';
+import { C, F, S, E } from '../../levelPrimitives.js';
 
 /**
- * Gevurah actors: verdicts that can be read.
+ * Gevurah actors: real coins, fake coins, honest consequences.
  *
- * Chapter 5 continues: the Awtsmoos keeps the court severe, but not obscure.
- * Coins testify over real floor, enemies patrol visible benches, and the high
- * hazard announces itself with enough mercy for a living hand.
+ * Chapter 5 continues: the Awtsmoos returned Hebrew letters to the treasure,
+ * but let several gold faces become witnesses against greed. Real coins sit on
+ * the walkable verdict. Fake coins hang over false platforms and spike-mouths,
+ * bright enough to tempt, suspicious enough to teach.
+ *
+ * @constant {Array<object>} gevurahCoins
  */
 export const gevurahCoins = [
-  C(250, 460), C(630, 405), C(900, 345, 'dinar'), C(1175, 285, 'sela'),
-  C(1450, 225), C(1725, 295, 'dinar'), C(2000, 355, 'sela'), C(2280, 295),
-  C(2560, 235, 'sela'), C(2840, 175), C(3135, 260, 'maneh'), C(3440, 320),
-  C(825, 238), C(1275, 106, 'sela'), C(1724, -16, 'dinar')
+  C(250, 460), C(760, 415), C(1120, 365, 'dinar'), C(1500, 315),
+  C(1880, 265, 'sela'), C(2260, 315), C(2640, 365, 'dinar'),
+  C(3020, 315), C(3400, 265, 'sela'), C(3585, 260, 'maneh')
 ];
 
-export const gevurahKeys = [C(3460, 320, 'dinar')];
+/** @constant {Array<object>} gevurahKeys */
+export const gevurahKeys = [C(3610, 260, 'dinar')];
 
+/** @constant {Array<object>} gevurahSpikes */
 export const gevurahSpikes = [
-  S(370, 481, 76, 22, 1.8, 1.3, 3.0), S(1730, 481, 78, 22, 2.1, 1.4, 3.2),
-  S(2550, 251, 66, 22, 2.4, 1.4, 3.2), S(3340, 481, 80, 22, 2.7, 1.4, 3.5),
-  { x: 760, y: 472, w: 30, h: 30, cycle: true, showDormant: true, moveX: 60, moveRate: 2.1, period: 3.4, duty: 0.42, warning: 1.05 },
-  { x: 2045, y: -150, w: 30, h: 30, cycle: true, showDormant: true, orbitR: 36, orbitX: 2045, orbitY: -126, orbitRate: 1.05, period: 4.2, duty: 0.34, warning: 1.35 }
+  S(540, 483, 48, 22, 2.7, 1.3, 4.2), S(1160, 483, 90, 26, 1.2, 1.1, 2.2),
+  S(1735, 483, 48, 22, 2.9, 1.3, 4.4), S(2500, 483, 100, 26, 1.4, 1.1, 2.5),
+  S(3250, 483, 48, 22, 3.1, 1.3, 4.6)
 ];
 
+/** @constant {Array<object>} gevurahEnemies */
 export const gevurahEnemies = [
-  E(2000, 361, 1940, 2150, 80, 'golem', 'iron verdict'),
-  E(2280, 301, 2220, 2440, 90, 'scroll', 'appeal scroll', { dropCoin: 'dinar' }),
-  E(3120, 266, 3070, 3300, 110, 'herder', 'court bailiff')
+  E(1130, 371, 1080, 1320, 60, 'scroll', 'slow appeal'),
+  E(2650, 371, 2580, 2850, 62, 'husk', 'court echo')
 ];
 
+/** @constant {object} gevurahExtra */
 export const gevurahExtra = {
-  fakeCoins: [F(940, 345, 'dinar', 'The verdict coin was a tooth.'), F(2600, 235, 'sela', 'The court taxed curiosity.'), F(3185, 260, 'dinar', 'The straight reward was bait.')],
-  trickCoins: [{ x: 2570, y: 235, kind: 'trapBait', baitX: 2920, speed: 210, min: 2500, max: 2980 }]
+  fakeCoins: [
+    F(990, 392, 'dinar'), F(1325, 350, 'sela'), F(1695, 292, 'maneh'),
+    F(2505, 352, 'dinar'), F(3225, 292, 'sela')
+  ],
+  trickCoins: []
 };

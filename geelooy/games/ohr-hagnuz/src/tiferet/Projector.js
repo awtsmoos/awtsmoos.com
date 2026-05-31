@@ -7,14 +7,16 @@ import { PlayerRenderer, FootstepParticle } from './render/PlayerRenderer.js';
 import { PathVisualizer } from '../chochmah/PathVisualizer.js';
 import { renderBattle } from './render/BattleRenderer.js';
 import { drawHud } from './render/HudRenderer.js';
+import { drawWorldAmbience } from './render/world/WorldAmbience.js';
 
 /**
  * B"H
  * @class Projector
- * Chapter 4: The Three Canvases Became Three Silent Witnesses.
- * The Awtsmoos has no body and no form; this class only orders the vessels:
- * ground below, souls in the middle, guidance above. Debate now receives the
- * whole overlay instead of fighting the HUD for the same breath.
+ *
+ * Chapter 47: The world received atmosphere after receiving shape.
+ * The Awtsmoos has no body and no form; this projector measures live mobile
+ * space, draws ground and objects, then breathes ambience over the generated
+ * world before HUD or battle rises above it.
  */
 export class Projector {
   static Caches = {};
@@ -28,13 +30,26 @@ export class Projector {
       ctx.imageSmoothingEnabled = false;
       this.Caches[id] = ctx;
     });
+    this.resizeCanvases();
+  }
+
+  static resizeCanvases() {
+    Object.values(this.Caches).forEach(ctx => {
+      const box = ctx.canvas.getBoundingClientRect();
+      const w = Math.max(320, Math.round(box.width || window.innerWidth || 390));
+      const h = Math.max(480, Math.round(box.height || window.innerHeight || 844));
+      if (ctx.canvas.width === w && ctx.canvas.height === h) return;
+      ctx.canvas.width = w;
+      ctx.canvas.height = h;
+      ctx.imageSmoothingEnabled = false;
+    });
   }
 
   static size(ctx) {
-    return { w: ctx?.canvas?.width || 800, h: ctx?.canvas?.height || 600 };
+    return { w: ctx?.canvas?.width || 390, h: ctx?.canvas?.height || 844 };
   }
 
-  static camera(view = { w: 800, h: 600 }) {
+  static camera(view = { w: 390, h: 844 }) {
     const res = State.Resolution;
     const target = { x: State.Hero.dx - view.w / 2 + res / 2, y: State.Hero.dy - view.h / 2 + res / 2 };
     if (!this.camSmooth.ready) this.camSmooth = { ...target, ready: true };
@@ -48,6 +63,7 @@ export class Projector {
     const obj = this.Caches['layer-obj'];
     const over = this.Caches['layer-over'];
     if (!bg || !obj || !over) return;
+    this.resizeCanvases();
     const cam = this.camera(this.size(obj));
     this.clear(bg, obj, over);
     const queue = [];
@@ -57,6 +73,7 @@ export class Projector {
     FootstepParticle.update();
     FootstepParticle.draw(obj);
     this.drawHero(obj, cam);
+    if (State.ActiveRealm !== 'DEBATE') drawWorldAmbience(over, performance.now());
     if (State.PathTarget) this.pathTarget(over, cam);
     if (State.ActiveRealm === 'DEBATE') renderBattle(over);
     else drawHud(over);
@@ -96,9 +113,7 @@ export class Projector {
     const meta = tileMeta(glyph);
     Ground.draw(bg, x, y, res, groundGlyph(glyph), rx * 13 + ry * 7);
     if (meta.kind === 'edge') this.portal(obj, x, y, res, meta.edge);
-    else if (!['floor', 'grass', 'road'].includes(meta.kind)) {
-      queue.push({ y: y + res, draw: () => drawGlyphObject(obj, { meta, glyph, x, y, rx, ry, seed: rx * ry }, res) });
-    }
+    else if (!['floor', 'grass', 'road'].includes(meta.kind)) queue.push({ y: y + res, draw: () => drawGlyphObject(obj, { meta, glyph, x, y, rx, ry, seed: rx * ry + 1 }, res) });
   }
 
   static pathTarget(ctx, cam) {

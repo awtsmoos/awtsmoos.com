@@ -1,11 +1,12 @@
 // B"H
 /**
  * @module ChayimExports
- * @description Chapter 64: living sparks refreshed so the Chossid receives the
- * repaired physics wrapper and dynamic-body method in the browser cache river.
+ * @description
+ * Chapter 108: living sparks get a fresh river name so stale browser modules
+ * stop whispering old tool text into the village. The Chossid walks clean.
  */
-export { default as Nivra } from "../chayim/nivra.js?v=lean-l1-20260528-bh64";
-export { default as Domem } from "../chayim/domem/index.js?v=lean-l1-20260528-bh64";
-export { default as Tzomayach } from "../chayim/tzomayach.js?v=lean-l1-20260528-bh64";
-export { default as Chai } from "../chayim/chai/index.js?v=lean-l1-20260528-bh64";
-export { default as Chossid } from "../chayim/chossid/index.js?v=lean-l1-20260528-bh64";
+export { default as Nivra } from "../chayim/nivra.js?v=village-fix-20260531-bh108";
+export { default as Domem } from "../chayim/domem/index.js?v=village-fix-20260531-bh108";
+export { default as Tzomayach } from "../chayim/tzomayach.js?v=village-fix-20260531-bh108";
+export { default as Chai } from "../chayim/chai/index.js?v=village-fix-20260531-bh108";
+export { default as Chossid } from "../chayim/chossid/index.js?v=village-fix-20260531-bh108";

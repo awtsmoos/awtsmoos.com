@@ -16,10 +16,9 @@
 
   /**
    * B"H
-   * Chapter 85: The synthetic window became a steadier lantern.
-   * It gives VirtualFetch the current page URL, so relative fetches can resolve
-   * through browser-shaped aliases; it also exposes the same Chrome-like globals
-   * that tests inspect through snapshots, console, network, mouse, and keyboard.
+   * Chapter 32: The virtual window learned more of Chrome's household names.
+   * Images load as soft synthetic boxes, AudioContext breathes harmlessly, and
+   * the page keeps enough living APIs for games to begin without source edits.
    */
   class VirtualWindow {
     constructor({ files = {}, graph = null, url = 'http://127.0.0.1:8080/' } = {}) {
@@ -29,6 +28,9 @@
       this.localStorage = new VirtualStorage();
       this.sessionStorage = new VirtualStorage();
       this.location = new URL(url);
+      this.innerWidth = 1024;
+      this.innerHeight = 768;
+      this.devicePixelRatio = 1;
       this.navigator = { userAgent: 'MerkavaSyntheticChrome/1.0', onLine: true, language: 'en-US', platform: 'Merkava' };
       this.history = { stack: [this.location.href], pushState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack.push(this.location.href); }, replaceState: (_s, _t, next) => { this.location = new URL(next, this.location.href); this.history.stack[this.history.stack.length - 1] = this.location.href; } };
       this.performance = { now: () => Date.now() };
@@ -43,6 +45,10 @@
       this.Blob = typeof Blob !== 'undefined' ? Blob : class Blob { constructor(parts = []) { this.parts = parts; } };
       this.File = class File extends this.Blob { constructor(parts, name) { super(parts); this.name = name; } };
       this.FormData = class FormData { constructor() { this.items = []; } append(k, v) { this.items.push([k, v]); } };
+      this.Image = makeImageClass(this);
+      this.AudioContext = makeAudioContextClass(this);
+      this.webkitAudioContext = this.AudioContext;
+      this.Audio = class Audio { constructor(src = '') { this.src = src; this.currentTime = 0; this.paused = true; } play() { this.paused = false; return Promise.resolve(); } pause() { this.paused = true; } load() {} };
       this.URL = URL;
       this.URLSearchParams = URLSearchParams;
       this.structuredClone = value => JSON.parse(JSON.stringify(value));
@@ -51,7 +57,7 @@
       this.MutationObserver = makeMutationObserver(this.document);
       this.ResizeObserver = this.MutationObserver;
       this.IntersectionObserver = this.MutationObserver;
-      this.Worker = class { postMessage(){} terminate(){} };
+      this.Worker = class { constructor() { this.onmessage = null; } postMessage(){} terminate(){} addEventListener(){} removeEventListener(){} };
       this.mouse = new mouseMod.VirtualMouse(this);
       this.keyboard = new keyboardMod.VirtualKeyboard(this);
       this.interactions = new interactionMod.VirtualInteractions(this);
@@ -67,9 +73,9 @@
       this.addStyleSheet = cssText => this.document.cssEngine.parseStyleSheet(cssText);
     }
 
-    setTimeout(fn, ms = 0, ...args) { const id = setTimeout(fn, ms, ...args); this.__timers.set(id, { kind: 'timeout', ms }); return id; }
+    setTimeout(fn, ms = 0, ...args) { const id = setTimeout(() => safeCall(fn, args, this), ms); this.__timers.set(id, { kind: 'timeout', ms }); return id; }
     clearTimeout(id) { this.__timers.delete(id); clearTimeout(id); }
-    setInterval(fn, ms = 0, ...args) { const id = setInterval(fn, ms, ...args); this.__timers.set(id, { kind: 'interval', ms }); return id; }
+    setInterval(fn, ms = 0, ...args) { const id = setInterval(() => safeCall(fn, args, this), ms); this.__timers.set(id, { kind: 'interval', ms }); return id; }
     clearInterval(id) { this.__timers.delete(id); clearInterval(id); }
     addEventListener(type, handler, options) { this.document.addEventListener(type, handler, options); }
     removeEventListener(type, handler, options) { this.document.removeEventListener(type, handler, options); }
@@ -92,17 +98,42 @@
     }
   }
 
+  function safeCall(fn, args, win) { try { if (typeof fn === 'function') fn(...args); } catch (error) { win.__AWTSMOOS_CAPTURED_ERRORS__ = win.__AWTSMOOS_CAPTURED_ERRORS__ || []; win.__AWTSMOOS_CAPTURED_ERRORS__.push({ message: error.message, stack: error.stack, phase: 'timer' }); } }
+
+  function makeImageClass(win) {
+    return class Image {
+      constructor(width = 0, height = 0) { this.width = width || 0; this.height = height || 0; this.complete = false; this.onload = null; this.onerror = null; this.__src = ''; }
+      set src(value) { this.__src = String(value || ''); this.complete = true; win.setTimeout(() => this.onload && this.onload(new win.Event('load')), 0); }
+      get src() { return this.__src; }
+      decode() { return Promise.resolve(); }
+      addEventListener(type, handler) { if (type === 'load') this.onload = handler; if (type === 'error') this.onerror = handler; }
+      removeEventListener() {}
+    };
+  }
+
+  function makeAudioContextClass(win) {
+    return class AudioContext {
+      constructor() { this.currentTime = 0; this.state = 'running'; this.destination = {}; this.sampleRate = 44100; }
+      createOscillator() { return audioNode({ start(){}, stop(){}, frequency: { value: 440 } }); }
+      createGain() { return audioNode({ gain: { value: 1 } }); }
+      createBuffer() { return {}; }
+      createBufferSource() { return audioNode({ buffer: null, start(){}, stop(){} }); }
+      resume() { this.state = 'running'; return Promise.resolve(); }
+      suspend() { this.state = 'suspended'; return Promise.resolve(); }
+      close() { this.state = 'closed'; return Promise.resolve(); }
+      decodeAudioData(data) { return Promise.resolve(data || {}); }
+    };
+  }
+
+  function audioNode(extra = {}) { return { connect(){ return this; }, disconnect(){ return this; }, ...extra }; }
+
   function makeMutationObserver(document) {
     return class MutationObserver {
       constructor(callback) { this.callback = callback; this.records = []; this.options = null; }
       observe(target, options = {}) { this.target = target; this.options = options; document.__registerMutationObserver(this); }
       disconnect() { document.__unregisterMutationObserver(this); }
       takeRecords() { const got = this.records.slice(); this.records.length = 0; return got; }
-      __enqueue(record) {
-        this.records.push(record);
-        if (typeof this.callback === 'function') this.callback([record], this);
-        else if (this.callback && typeof this.callback.call === 'function') this.callback.call([[record], this]);
-      }
+      __enqueue(record) { this.records.push(record); if (typeof this.callback === 'function') this.callback([record], this); else if (this.callback && typeof this.callback.call === 'function') this.callback.call([[record], this]); }
     };
   }
 

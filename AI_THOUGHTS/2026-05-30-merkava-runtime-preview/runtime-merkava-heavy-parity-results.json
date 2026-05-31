@@ -1,0 +1,133 @@
+{
+  "summary": {
+    "ok": true,
+    "total": 8,
+    "merkavaPassed": 8,
+    "merkavaFailed": 0,
+    "chromeCompared": 0,
+    "chromeSkipped": 8,
+    "chromeSkipReason": "chrome_executable_not_found"
+  },
+  "results": [
+    {
+      "name": "massive-dom-and-query-loop",
+      "marker": "DOM:500:124750",
+      "merkava": {
+        "pass": true,
+        "ok": true,
+        "score": 100,
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    },
+    {
+      "name": "event-cascade-input-click-change",
+      "marker": "EVENTS:input:click:change:done",
+      "merkava": {
+        "pass": true,
+        "ok": true,
+        "score": 100,
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    },
+    {
+      "name": "canvas-webgl-2d-pressure",
+      "marker": "CANVAS:true",
+      "merkava": {
+        "pass": true,
+        "ok": true,
+        "score": 100,
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    },
+    {
+      "name": "promise-microtask-timeout-order",
+      "marker": "ORDER:sync,micro,timeout",
+      "merkava": {
+        "pass": true,
+        "ok": true,
+        "score": 100,
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    },
+    {
+      "name": "localstorage-sessionstorage-json",
+      "marker": "STORAGE:377",
+      "merkava": {
+        "pass": true,
+        "ok": true,
+        "score": 100,
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    },
+    {
+      "name": "fetch-data-url-and-json-parse",
+      "marker": "FETCH:13:Awtsmoos",
+      "merkava": {
+        "pass": true,
+        "ok": true,
+        "score": 100,
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    },
+    {
+      "name": "module-importmap-skip-and-module-run",
+      "marker": "MODULE:importmap-safe:21",
+      "merkava": {
+        "pass": true,
+        "ok": true,
+        "score": 100,
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    },
+    {
+      "name": "shadow-dom-template-fragment",
+      "marker": "SHADOW:sealed:3",
+      "merkava": {
+        "pass": true,
+        "ok": true,
+        "score": 100,
+        "errors": []
+      },
+      "chrome": {
+        "skipped": true,
+        "reason": "chrome_executable_not_found"
+      },
+      "parity": "chrome-skipped"
+    }
+  ]
+}

@@ -1,15 +1,15 @@
 import { State } from '../binah/State.js';
 import { Logic } from './Logic.js';
-import { moveIndexAt } from '../tiferet/render/BattleMoveLayout.js';
+import { battleMoveLayout, moveIndexAt } from '../tiferet/render/BattleMoveLayout.js';
 
 /**
  * B"H
  * @class Input
  *
- * Chapter 16: The Finger And The Painted Gate Became One Witness.
- * The Awtsmoos has no body and no form; still, if a button is drawn in one
- * place and touched in another, the vessel is false. This input class now asks
- * the same layout oracle the renderer uses, so mobile battles become exact.
+ * Chapter 55: The finger finally touched the same card the eye could see.
+ * The Awtsmoos has no body and no form; this input vessel now measures the
+ * live canvas correctly, feeds the same battle layout used by rendering, and
+ * keeps overworld walking separate from Torah-response tapping.
  */
 export class Input {
   static bound = false;
@@ -25,15 +25,14 @@ export class Input {
 
   static keyDown(e, map) {
     if (State.ActiveRealm === 'DEBATE' && /^[1-4]$/.test(e.key)) {
-      State.Debate.cursor = Number(e.key) - 1;
-      Logic.selectDebateMove(State.Debate.cursor);
+      this.commitDebate(Number(e.key) - 1);
       e.preventDefault();
       return;
     }
     const k = map[e.key];
     if (!k) return;
     window.AwtsmoosIntents[k] = 1;
-    if (['U','D','L','R'].includes(k)) Logic.cancelPath('manual-key');
+    if (['U', 'D', 'L', 'R'].includes(k)) Logic.cancelPath('manual-key');
     e.preventDefault?.();
   }
 
@@ -43,39 +42,49 @@ export class Input {
   }
 
   static pointer() {
-    const c = document.getElementById('layer-obj');
-    if (!c) return;
-    c.addEventListener('pointerdown', e => this.pointerDown(e, c));
+    const shell = document.getElementById('game-shell');
+    const canvas = document.getElementById('layer-obj');
+    const target = shell || canvas;
+    if (!target || !canvas) return;
+    target.addEventListener('pointerdown', e => this.pointerDown(e, canvas));
   }
 
-  static pointerDown(e, c) {
+  static pointerDown(e, canvas) {
+    if (e.target?.closest?.('button')) return;
     e.preventDefault?.();
     if (State.ActiveRealm === 'DEBATE') {
-      const i = this.debateIndex(e, c);
-      if (i !== null) {
-        State.Debate.cursor = i;
-        Logic.selectDebateMove(i);
-      }
+      const i = this.debateIndex(e, canvas);
+      if (i !== null) this.commitDebate(i);
       return;
     }
-    const tile = this.tile(e, c);
+    const tile = this.tile(e, canvas);
     if (tile) Logic.setPathTo(tile.x, tile.y);
   }
 
-  static tile(e, c) {
-    const r = c.getBoundingClientRect();
-    const x = (e.clientX - r.left) * (c.width / r.width);
-    const y = (e.clientY - r.top) * (c.height / r.height);
-    const res = State.Resolution;
-    const camX = State.Hero.dx - c.width / 2 + res / 2;
-    const camY = State.Hero.dy - c.height / 2 + res / 2;
-    return { x: Math.floor((x + camX) / res), y: Math.floor((y + camY) / res) };
+  static commitDebate(index) {
+    State.Debate.cursor = index;
+    Logic.selectDebateMove(index);
   }
 
-  static debateIndex(e, c) {
-    const r = c.getBoundingClientRect();
-    const x = (e.clientX - r.left) * (c.width / r.width);
-    const y = (e.clientY - r.top) * (c.height / r.height);
-    return moveIndexAt(x, y, c.width, r.width);
+  static point(e, canvas) {
+    const r = canvas.getBoundingClientRect();
+    return {
+      x: (e.clientX - r.left) * (canvas.width / r.width),
+      y: (e.clientY - r.top) * (canvas.height / r.height)
+    };
+  }
+
+  static tile(e, canvas) {
+    const p = this.point(e, canvas);
+    const res = State.Resolution;
+    const camX = State.Hero.dx - canvas.width / 2 + res / 2;
+    const camY = State.Hero.dy - canvas.height / 2 + res / 2;
+    return { x: Math.floor((p.x + camX) / res), y: Math.floor((p.y + camY) / res) };
+  }
+
+  static debateIndex(e, canvas) {
+    const p = this.point(e, canvas);
+    const layout = battleMoveLayout(canvas.width, canvas.height);
+    return moveIndexAt(p.x, p.y, layout);
   }
 }

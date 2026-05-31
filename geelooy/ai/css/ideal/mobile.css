@@ -1,19 +1,20 @@
 /*B"H
-  Chapter 45: The Mobile Scroll Was Split Into Gates.
+  Chapter 273: The mobile gates lined up beneath the crown.
 
-  The Awtsmoos does not crowd revelation into one jar. Each mobile law is now
-  a smaller vessel: measures, scenes, crown, composer, and tiny refinements.
-  This spine keeps the reachable-scene covenant visible for static guardians,
-  while the deeper rules live in smaller imported chambers.
+  The Awtsmoos does not squeeze revelation through a broken slit. Measure,
+  scenes, crown, composer, polish, and the final revamp now descend in order:
+  first the world is sized, then the rooms move, then speech rises above the
+  browser abyss where the Send button can finally be seen and touched.
 */
 @import "./mobile/measure.css";
 @import "./mobile/scenes.css";
 @import "./mobile/crown.css";
 @import "./mobile/composer.css";
 @import "./mobile/polish.css";
+@import "./mobile/revamp.css";
 
 @media(max-width:900px){
   .main,.sidebar,.automation-panel{position:fixed!important}
   .mobile-scene-active{pointer-events:auto!important;opacity:1!important}
-  .mobile-bottom-dock{display:grid}
+  .mobile-bottom-dock{display:grid!important}
 }

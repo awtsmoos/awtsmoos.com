@@ -2,34 +2,43 @@
 import { C, S, E, F } from '../../levelPrimitives.js';
 
 /**
- * Netzach actors: speed that can be understood.
+ * Netzach actors: speed that still lets the thumb recover.
  *
- * Chapter 4 continues: the Awtsmoos does not cancel the chase; it gives the eye
- * time to see the chase. Coins sit over landings, and the top orbit moves like
- * a warning bell instead of a hidden executioner.
+ * Chapter 4 continues: the Awtsmoos makes the garden run, yet each coin glows
+ * above a full ledge. The enemies patrol like wind in a fence, not like invisible
+ * verdicts falling from a sky the player cannot inspect.
+ *
+ * @constant {Array<object>} netzachCoins
  */
 export const netzachCoins = [
-  C(260, 460), C(630, 410), C(900, 355, 'dinar'), C(1175, 300),
-  C(1455, 360, 'sela'), C(1735, 300), C(2020, 245, 'dinar'),
-  C(2300, 305), C(2590, 250), C(2890, 320, 'maneh'), C(825, 242),
-  C(1275, 110, 'sela'), C(1724, -12, 'dinar')
+  C(270, 460),
+  C(785, 410),
+  C(1110, 355, 'dinar'),
+  C(1435, 300),
+  C(1765, 355, 'sela'),
+  C(2095, 300),
+  C(2425, 245, 'dinar'),
+  C(2755, 300),
+  C(3090, 355, 'maneh')
 ];
 
-export const netzachKeys = [C(3180, 340, 'dinar')];
+/** @constant {Array<object>} netzachKeys */
+export const netzachKeys = [C(3185, 355, 'dinar')];
 
+/** @constant {Array<object>} netzachSpikes */
 export const netzachSpikes = [
-  S(740, 481, 66, 22, 2.0, 1.4, 3.2), S(2320, 321, 66, 22, 2.2, 1.4, 3.2),
-  S(3100, 481, 76, 22, 2.6, 1.4, 3.4),
-  { x: 760, y: 472, w: 30, h: 30, cycle: true, showDormant: true, moveX: 60, moveRate: 2.1, period: 3.4, duty: 0.42, warning: 1.05 },
-  { x: 2045, y: -146, w: 30, h: 30, cycle: true, showDormant: true, orbitR: 36, orbitX: 2045, orbitY: -122, orbitRate: -1.05, period: 4.2, duty: 0.34, warning: 1.35 }
+  S(555, 483, 54, 22, 2.4, 1.6, 3.8),
+  S(2290, 318, 50, 20, 2.5, 1.7, 3.9)
 ];
 
+/** @constant {Array<object>} netzachEnemies */
 export const netzachEnemies = [
-  E(1450, 366, 1400, 1610, 90, 'thief', 'garden thief'),
-  E(2300, 311, 2240, 2460, 90, 'watcher', 'sliding eye')
+  E(1760, 361, 1710, 1940, 65, 'thief', 'garden thief'),
+  E(2760, 306, 2695, 2940, 65, 'watcher', 'sliding eye')
 ];
 
+/** @constant {object} netzachExtra */
 export const netzachExtra = {
-  fakeCoins: [F(2180, 305, 'sela', 'The garden coin was a thorn.'), F(2700, 250, 'dinar', 'The sliding reward was a hidden spike.')],
-  trickCoins: [{ x: 1745, y: 300, kind: 'reverseRunner', speed: 240, min: 1680, max: 1900 }]
+  fakeCoins: [F(2185, 300, 'sela', 'The garden coin was a thorn.')],
+  trickCoins: []
 };

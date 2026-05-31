@@ -1,137 +1,109 @@
-
+// B"H
 /**
- * B"H
- * HTML Worker Handlers
- * Handles creation, modification, and deletion of DOM elements via worker commands.
- * 
- * TIKKUN: Fixed the DataCloneError in htmlActions by unwrapping the Promises 
- * before returning them across the thread boundary!
+ * @file html.js
+ * @description
+ * Chapter 108: the worker HTML bridge stops screaming when ancient dialogue
+ * vessels are missing. Village NPCs now use direct HTML overlays; legacy
+ * dialogue-vessel actions are swallowed as harmless ghosts instead of console
+ * wounds, while real DOM commands still pass through.
  */
 import Utils from "../../../utils.js";
 
+const QUIET_MISSING_SHAYM = new Set(["dialogue-vessel", "openNpcChallengeOverlay", "levelSelectScreen"]);
+
+function quietMissing(shaym) {
+  return QUIET_MISSING_SHAYM.has(String(shaym || ""));
+}
+
 export default function htmlHandlers(manager) {
-    const { eved, myUi } = manager;
+  const { eved, myUi } = manager;
+  return {
+    async htmlAction(dayuh, noSocket) {
+      if (typeof dayuh !== "object" || !dayuh) return null;
+      const parsed = Utils.evalStringifiedFunctions(dayuh);
+      const { shaym, selector, properties, methods, id } = parsed;
+      let ac = null;
+      try {
+        ac = myUi.htmlAction({ shaym, selector, properties, methods });
+      } catch (error) {
+        if (quietMissing(shaym)) return { htmlActioned: { shaym, selector, id, quietMissing: true } };
+        throw error;
+      }
+      if (!ac) {
+        const res = { htmlActioned: { shaym, selector, id, missing: true } };
+        if (!noSocket) eved.postMessage(res);
+        return res;
+      }
+      const ps = ac.propertiesSet ? Utils.stringifyFunctions(ac.propertiesSet) : null;
+      const mc = ac.methodsCalled ? Utils.stringifyFunctions(ac.methodsCalled) : null;
+      const res = { htmlActioned: { shaym, methodsCalled: mc, propertiesSet: ps, selector, id } };
+      if (!noSocket) eved.postMessage(res);
+      return res;
+    },
 
-    return {
-        async htmlAction(dayuh, noSocket) {
-            if (typeof dayuh !== "object" || !dayuh) return null;
-            
-            const parsed = Utils.evalStringifiedFunctions(dayuh);
-            const { shaym, selector, properties, methods, id } = parsed;
+    async htmlActions(dayuh) {
+      const { ar, id } = dayuh || {};
+      const done = [];
+      if (Array.isArray(ar)) for (const m of ar.filter(Boolean)) done.push(await manager.tawfeekim.htmlAction(m, true));
+      eved.postMessage({ htmlActioned: { ar, done, id } });
+    },
 
-            const ac = myUi.htmlAction({ shaym, selector, properties, methods });
-            if (!ac) return null;
+    htmlCreate(info) {
+      try {
+        const parsed = Utils.evalStringifiedFunctions(info || {});
+        myUi.html(parsed);
+        eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id } });
+      } catch (error) {
+        if (!quietMissing(info?.shaym)) console.error("B\"H Error in htmlCreate handler:", error);
+        eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id, error: quietMissing(info?.shaym) ? null : error.toString() } });
+      }
+    },
 
-            const ps = ac.propertiesSet ? Utils.stringifyFunctions(ac.propertiesSet) : null;
-            const mc = ac.methodsCalled ? Utils.stringifyFunctions(ac.methodsCalled) : null;
+    htmlDelete(info) {
+      const { shaym, id } = info || {};
+      const result = myUi.deleteHtml(shaym);
+      eved.postMessage({ htmlDeleted: { shaym, result, id } });
+    },
 
-            const res = {
-                htmlActioned: {
-                    shaym, methodsCalled: mc, propertiesSet: ps, selector, id
-                }
-            };
+    htmlGet(data) {
+      const { shaym, properties = {}, methods = {}, id } = data || {};
+      const html = myUi.getHtml(shaym);
+      if (!html) return;
+      const getProperties = (el, propsObj) => {
+        const result = {};
+        for (const prop in propsObj) if (Object.hasOwn(propsObj, prop)) result[prop] = typeof propsObj[prop] === "object" && propsObj[prop] !== null ? getProperties(el[prop], propsObj[prop]) : el[prop];
+        return result;
+      };
+      const executeMethods = (el, methodsObj) => {
+        const results = {};
+        for (const methodName in methodsObj) if (Object.hasOwn(methodsObj, methodName) && typeof el[methodName] === "function") results[methodName] = el[methodName](...methodsObj[methodName]);
+        return results;
+      };
+      eved.postMessage({ htmlGot: { shaym, propertiesGot: Utils.stringifyFunctions(getProperties(html, properties)), methodsGot: Utils.stringifyFunctions(executeMethods(html, methods)), id } });
+    },
 
-            if (!noSocket) eved.postMessage(res);
-            return res;
-        },
+    setHtml(data) {
+      const { shaym, dayuh } = data || {};
+      const parsed = Utils.evalStringifiedFunctions(dayuh || {});
+      myUi.setHtmlByShaym(shaym, parsed);
+      eved.postMessage({ htmlSet: { shaym } });
+    },
 
-        async htmlActions(dayuh) {
-            const { ar, id } = dayuh || {};
-            const done =[];
-            if (Array.isArray(ar)) {
-                // B"H: We MUST await the promises individually to prevent sending 
-                // raw Promises to postMessage, which causes a fatal DataCloneError!
-                for (const m of ar.filter(Boolean)) {
-                    const result = await manager.tawfeekim.htmlAction(m, true);
-                    done.push(result);
-                }
-            }
-            eved.postMessage({ htmlActioned: { ar, done, id } });
-        },
+    htmlSet(data) { this.setHtml(data); },
+    htmlActioned() {},
 
-        htmlCreate(info) {
-             try {
-                 const parsed = Utils.evalStringifiedFunctions(info || {});
-                 myUi.html(parsed);
-                 eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id } });
-             } catch (e) {
-                 console.error("B\"H Error in htmlCreate handler:", e);
-                 eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id, error: e.toString() } });
-             }
-        },
-        
-        htmlDelete(info) {
-            const { shaym, id } = info || {};
-            const result = myUi.deleteHtml(shaym);
-            eved.postMessage({ htmlDeleted: { shaym, result, id } });
-        },
-        
-        htmlGet(data) {
-            const { shaym, properties = {}, methods = {}, id } = data || {};
-            const html = myUi.getHtml(shaym);
-            if (!html) return;
+    htmlPeula(obj) {
+      if (!obj) return;
+      for (const k in obj) manager.olam.ayshPeula("htmlPeula " + k, obj[k]);
+    },
 
-            function getProperties(htmlElement, propsObj) {
-                const result = {};
-                for (const prop in propsObj) {
-                    if (propsObj.hasOwnProperty(prop)) {
-                        if (typeof propsObj[prop] === 'object' && propsObj[prop] !== null) {
-                            result[prop] = getProperties(htmlElement[prop], propsObj[prop]);
-                        } else {
-                            result[prop] = htmlElement[prop];
-                        }
-                    }
-                }
-                return result;
-            }
-
-            function executeMethods(htmlElement, methodsObj) {
-                const results = {};
-                for (const methodName in methodsObj) {
-                    if (methodsObj.hasOwnProperty(methodName) && typeof htmlElement[methodName] === 'function') {
-                        const args = methodsObj[methodName];
-                        results[methodName] = htmlElement[methodName](...args);
-                    }
-                }
-                return results;
-            }
-
-            let propertiesGot = getProperties(html, properties);
-            let methodsGot = executeMethods(html, methods);
-
-            propertiesGot = Utils.stringifyFunctions(propertiesGot);
-            methodsGot = Utils.stringifyFunctions(methodsGot);
-
-            eved.postMessage({ htmlGot: { shaym, propertiesGot, methodsGot, id } });
-        },
-        
-        setHtml(data) {
-             const {shaym, dayuh} = data || {};
-             const parsed = Utils.evalStringifiedFunctions(dayuh || {});
-             myUi.setHtmlByShaym(shaym, parsed);
-             eved.postMessage({ htmlSet: { shaym } });
-        },
-        
-        htmlSet(data) {
-             this.setHtml(data);
-        },
-        
-        htmlActioned(info) {},
-
-        htmlPeula(obj) {
-            if(!obj) return;
-            for(var k in obj) {
-                 manager.olam.ayshPeula("htmlPeula " + k, obj[k]);
-            }
-        },
-
-        htmlAppend(data) {
-            const {shaym, child} = data || {};
-            if(child && typeof(child) === "object") {
-                var parsed = Utils.evalStringifiedFunctions(child);
-                parsed.parent = shaym;
-                myUi.html(parsed);
-            }
-        },
-    };
+    htmlAppend(data) {
+      const { shaym, child } = data || {};
+      if (child && typeof child === "object") {
+        const parsed = Utils.evalStringifiedFunctions(child);
+        parsed.parent = shaym;
+        myUi.html(parsed);
+      }
+    }
+  };
 }

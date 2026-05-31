@@ -43,8 +43,9 @@
 
   /**
    * B"H
-   * A living DOM node: it mutates, bubbles, captures, serializes, and reports
-   * exact element handles so tests can inspect vessels instead of shadows.
+   * Chapter 24: The element became a cave with hidden rooms. Shadow roots and
+   * template contents are now real fragments, so browser-shaped component tests
+   * can walk where the old synthetic DOM had no doorway.
    */
   class VirtualElement {
     constructor(tagName = 'div', ownerDocument = null) {
@@ -72,11 +73,16 @@
       this.tabIndex = -1;
       this.hidden = false;
       this.disabled = false;
+      this.shadowRoot = null;
+      this.host = null;
+      this.mode = null;
       this.classList = new VirtualClassList(this);
+      if (this.localName === 'template') this.__templateContent = this.__newFragment();
     }
 
     get textContent() { return this.nodeType === 3 ? this._textContent : (this._textContent || this.children.map(child => child.textContent || '').join('')); }
     set textContent(value) { this._textContent = String(value ?? ''); if (this.nodeType !== 3) this.replaceChildren(); }
+    get content() { if (this.localName !== 'template') return undefined; return this.__templateContent || (this.__templateContent = this.__newFragment()); }
     get firstChild() { return this.children[0] || null; }
     get lastChild() { return this.children[this.children.length - 1] || null; }
     get parentElement() { return this.parentNode?.nodeType === 1 ? this.parentNode : null; }
@@ -85,14 +91,26 @@
     get firstElementChild() { return this.children.find(x => x.nodeType === 1) || null; }
     get childElementCount() { return this.children.filter(x => x.nodeType === 1).length; }
 
+    __newFragment() { const f = new VirtualElement('#fragment', this.ownerDocument); f.host = this; return f; }
     __notify(kind, extra = {}) { this.ownerDocument?.__notifyMutation?.({ kind, target: this.__handle(), ...extra }); }
     __handle() { return { nodeId: this.__nodeId, tagName: this.tagName, id: this.id, className: this.className, textContent: this.textContent, value: this.value }; }
+
+    attachShadow(options = {}) {
+      if (this.shadowRoot) throw new Error('Shadow root already attached');
+      const root = this.__newFragment();
+      root.mode = options.mode || 'open';
+      root.host = this;
+      this.shadowRoot = root;
+      this.__notify('shadowRoot', { mode: root.mode });
+      return root;
+    }
 
     appendChild(child) {
       if (child.nodeType === 11) { while (child.firstChild) this.appendChild(child.firstChild); return child; }
       if (child.parentNode) child.parentNode.removeChild(child);
       child.parentNode = this;
       this.children.push(child);
+      this.childNodes = this.children;
       this.__notify('childList', { addedNodes: [child.__handle()], removedNodes: [] });
       return child;
     }
@@ -116,7 +134,17 @@
     }
     replaceChild(newChild, oldChild) { this.insertBefore(newChild, oldChild); this.removeChild(oldChild); return oldChild; }
     replaceChildren(...nodes) { while (this.firstChild) this.removeChild(this.firstChild); nodes.forEach(node => this.appendChild(node)); }
-    cloneNode(deep = false) { const copy = new VirtualElement(this.localName, this.ownerDocument); for (const [k, v] of Object.entries(this.attributes)) copy.setAttribute(k, v); copy.textContent = this._textContent; if (deep) this.children.forEach(c => copy.appendChild(c.cloneNode(true))); return copy; }
+    cloneNode(deep = false) {
+      const copy = new VirtualElement(this.localName, this.ownerDocument);
+      for (const [k, v] of Object.entries(this.attributes)) copy.setAttribute(k, v);
+      copy._textContent = this._textContent;
+      copy.value = this.value;
+      copy.checked = this.checked;
+      copy.selected = this.selected;
+      if (deep) this.children.forEach(c => copy.appendChild(c.cloneNode(true)));
+      if (deep && this.localName === 'template') this.content.children.forEach(c => copy.content.appendChild(c.cloneNode(true)));
+      return copy;
+    }
     contains(node) { for (let cur = node; cur; cur = cur.parentNode) if (cur === this) return true; return false; }
 
     setAttribute(name, value) {
@@ -146,17 +174,26 @@
     addEventListener(type, handler, options = false) { if (handler) (this.listeners[type] = this.listeners[type] || []).push({ handler, capture: isCapture(options), once: !!options?.once }); }
     removeEventListener(type, handler, options = false) { const cap = isCapture(options); this.listeners[type] = (this.listeners[type] || []).filter(item => item.handler !== handler || item.capture !== cap); }
     __invoke(event, capture) { for (const item of (this.listeners[event.type] || []).slice()) { if (item.capture !== capture) continue; event.currentTarget = this; item.handler.call(this, event); if (item.once) this.removeEventListener(event.type, item.handler, { capture }); if (event.__immediateStopped) break; } }
-    dispatchEvent(rawEvent) { const event = typeof rawEvent === 'string' ? new VirtualEvent(rawEvent) : rawEvent; if (!event.type) throw new Error('Event missing type'); event.target ||= this; const path = []; for (let n = this; n; n = n.parentNode) path.push(n); event.__path = path.slice(); for (let i = path.length - 1; i > 0 && !event.cancelBubble; i--) { event.eventPhase = 1; path[i].__invoke(event, true); } if (!event.cancelBubble) { event.eventPhase = 2; this.__invoke(event, true); if (!event.__immediateStopped) this.__invoke(event, false); } if (event.bubbles) for (let i = 1; i < path.length && !event.cancelBubble; i++) { event.eventPhase = 3; path[i].__invoke(event, false); } event.eventPhase = 0; event.currentTarget = null; return !event.defaultPrevented; }
+    dispatchEvent(rawEvent) { const event = typeof rawEvent === 'string' ? new VirtualEvent(rawEvent) : rawEvent; if (!event.type) throw new Error('Event missing type'); event.target ||= this; const path = []; for (let n = this; n; n = n.parentNode || n.host) path.push(n); event.__path = path.slice(); for (let i = path.length - 1; i > 0 && !event.cancelBubble; i--) { event.eventPhase = 1; path[i].__invoke?.(event, true); } if (!event.cancelBubble) { event.eventPhase = 2; this.__invoke(event, true); if (!event.__immediateStopped) this.__invoke(event, false); } if (event.bubbles) for (let i = 1; i < path.length && !event.cancelBubble; i++) { event.eventPhase = 3; path[i].__invoke?.(event, false); } event.eventPhase = 0; event.currentTarget = null; return !event.defaultPrevented; }
 
     matches(selector) { return matchesSelector(this, selector); }
-    closest(selector) { for (let cur = this; cur; cur = cur.parentNode) if (cur.matches?.(selector)) return cur; return null; }
+    closest(selector) { for (let cur = this; cur; cur = cur.parentNode || cur.host) if (cur.matches?.(selector)) return cur; return null; }
     querySelector(selector) { return this.querySelectorAll(selector)[0] || null; }
-    querySelectorAll(selector) { const out = []; const walk = node => { if (node.nodeType === 1 && node.matches(selector)) out.push(node); node.children.forEach(walk); }; this.children.forEach(walk); return out; }
+    querySelectorAll(selector) {
+      const out = [];
+      const walk = node => {
+        if (node.nodeType === 1 && node.matches(selector)) out.push(node);
+        node.children.forEach(walk);
+        if (node.shadowRoot) walk(node.shadowRoot);
+      };
+      this.children.forEach(walk);
+      return out;
+    }
     get innerHTML() { return html().serializeChildren(this); }
     set innerHTML(value) { html().parseInto(this, value); this.__notify('childList', { html: String(value ?? '') }); }
     get outerHTML() { return html().serialize(this); }
-    getContext(kind) { const type = String(kind || '').toLowerCase(); if (this.tagName !== 'CANVAS') return null; if (type === '2d') return this.__canvas2dContext ||= new canvas2dMod.VirtualCanvas2DContext(this, this.ownerDocument?.textureArena); if (type === 'webgl' || type === 'webgl2') return this.__webglContext ||= new webglMod.VirtualWebGLContext(this, this.ownerDocument?.textureArena); return null; }
-    toJSON() { return { ...this.__handle(), nodeType: this.nodeType, name: this.name, type: this.type, checked: this.checked, selected: this.selected, attributes: this.attributes, dataset: this.dataset, style: this.style.toJSON(), webgl: this.__webglContext?.snapshot?.() || null, children: this.children.map(c => c.toJSON()) }; }
+    getContext(kind) { const type = String(kind || '').toLowerCase(); if (this.tagName !== 'CANVAS') return null; if (type === '2d') return this.__canvas2dContext ||= new canvas2dMod.VirtualCanvas2DContext(this, this.ownerDocument?.textureArena); if (type === 'webgl' || type === 'webgl2' || type === 'experimental-webgl') return this.__webglContext ||= new webglMod.VirtualWebGLContext(this, this.ownerDocument?.textureArena); return null; }
+    toJSON() { return { ...this.__handle(), nodeType: this.nodeType, name: this.name, type: this.type, checked: this.checked, selected: this.selected, attributes: this.attributes, dataset: this.dataset, style: this.style.toJSON(), webgl: this.__webglContext?.snapshot?.() || null, shadowRoot: this.shadowRoot?.toJSON?.() || null, children: this.children.map(c => c.toJSON()) }; }
   }
 
   return { VirtualElement };

@@ -1,0 +1,4148 @@
+{
+  "summary": {
+    "generatedAt": "2026-05-31T03:31:54.161Z",
+    "total": 30,
+    "merkavaPassed": 6,
+    "merkavaFailed": 24,
+    "nodeOrPreflightFailed": 0,
+    "chrome": {
+      "available": false,
+      "reason": "no Chrome/Chromium binary found in PATH"
+    },
+    "failedGames": [
+      {
+        "game": "KAVANAH",
+        "entry": "geelooy/games/KAVANAH/index.html",
+        "errors": [
+          "VM module failed: geelooy/games/KAVANAH/js/main.js: Cannot read properties of null (reading 'getContext')",
+          "VM module failed: geelooy/games/KAVANAH/js/main.js: Cannot read properties of null (reading 'getContext')"
+        ]
+      },
+      {
+        "game": "Merkava",
+        "entry": "geelooy/games/Merkava/index.html",
+        "errors": [
+          "Cannot use import statement outside a module",
+          "Cannot use import statement outside a module"
+        ]
+      },
+      {
+        "game": "Nachash",
+        "entry": "geelooy/games/Nachash/index.html",
+        "errors": [
+          "Cannot set properties of null (setting 'textContent')",
+          "Cannot set properties of null (setting 'textContent')"
+        ]
+      },
+      {
+        "game": "cards",
+        "entry": "geelooy/games/cards/index.html",
+        "errors": [
+          "VM module failed: geelooy/games/cards/js/main.js: Cannot read properties of null (reading 'addEventListener')",
+          "VM module failed: geelooy/games/cards/js/main.js: Cannot read properties of null (reading 'addEventListener')"
+        ]
+      },
+      {
+        "game": "chess/debug",
+        "entry": "geelooy/games/chess/debug/index.html",
+        "errors": [
+          "Cannot set properties of null (setting 'value')",
+          "Cannot set properties of null (setting 'value')"
+        ]
+      },
+      {
+        "game": "chess",
+        "entry": "geelooy/games/chess/index.html",
+        "errors": [
+          "Cannot read properties of null (reading 'getContext')",
+          "Cannot read properties of null (reading 'getContext')"
+        ]
+      },
+      {
+        "game": "dove",
+        "entry": "geelooy/games/dove/index.html",
+        "errors": [
+          "VM module failed: geelooy/games/dove/dove.js: Image is not defined",
+          "VM module failed: geelooy/games/dove/dove.js: Image is not defined"
+        ]
+      },
+      {
+        "game": "emojis",
+        "entry": "geelooy/games/emojis/index.html",
+        "errors": [
+          "Cannot read properties of null (reading 'getContext')",
+          "Cannot read properties of null (reading 'getContext')"
+        ]
+      },
+      {
+        "game": "root",
+        "entry": "geelooy/games/index.html",
+        "errors": [
+          "$a is not defined",
+          "$a is not defined"
+        ]
+      },
+      {
+        "game": "kabbalah-shooter",
+        "entry": "geelooy/games/kabbalah-shooter/index.html",
+        "errors": [
+          "VM module failed: geelooy/games/kabbalah-shooter/main.js: Cannot read properties of null (reading 'addEventListener')",
+          "VM module failed: geelooy/games/kabbalah-shooter/main.js: Cannot read properties of null (reading 'addEventListener')"
+        ]
+      },
+      {
+        "game": "neshama-quest",
+        "entry": "geelooy/games/neshama-quest/index.html",
+        "errors": [
+          "Cannot read properties of null (reading 'getContext')",
+          "Cannot read properties of null (reading 'getContext')"
+        ]
+      },
+      {
+        "game": "ohr-hagnuz",
+        "entry": "geelooy/games/ohr-hagnuz/index.html",
+        "errors": [
+          "Cannot read properties of undefined (reading 'ignite')",
+          "Cannot read properties of undefined (reading 'ignite')"
+        ]
+      },
+      {
+        "game": "pong",
+        "entry": "geelooy/games/pong/index.html",
+        "errors": [
+          "Cannot read properties of null (reading 'getContext')",
+          "Cannot read properties of null (reading 'getContext')"
+        ]
+      },
+      {
+        "game": "rambam/kiddushHachodesh/12",
+        "entry": "geelooy/games/rambam/kiddushHachodesh/12/index.html",
+        "errors": [
+          "Cannot use import statement outside a module",
+          "Cannot use import statement outside a module"
+        ]
+      },
+      {
+        "game": "rebbe-runner",
+        "entry": "geelooy/games/rebbe-runner/index.html",
+        "errors": [
+          "canvas is not defined",
+          "canvas is not defined"
+        ]
+      },
+      {
+        "game": "scribe-journey",
+        "entry": "geelooy/games/scribe-journey/index.html",
+        "errors": [
+          "VM module failed: geelooy/games/scribe-journey/js/data/quests.js: generateDailyQuest is not a function",
+          "VM module failed: geelooy/games/scribe-journey/js/data/quests.js: generateDailyQuest is not a function"
+        ]
+      },
+      {
+        "game": "shema-strike",
+        "entry": "geelooy/games/shema-strike/index.html",
+        "errors": [
+          "Cannot read properties of null (reading 'clientWidth')",
+          "Cannot read properties of null (reading 'clientWidth')"
+        ]
+      },
+      {
+        "game": "soul-jump",
+        "entry": "geelooy/games/soul-jump/index.html",
+        "errors": [
+          "ctx.save is not a function",
+          "ctx.save is not a function"
+        ]
+      },
+      {
+        "game": "sulam-ha-sod",
+        "entry": "geelooy/games/sulam-ha-sod/index.html",
+        "errors": [
+          "VM module failed: geelooy/games/sulam-ha-sod/js/data/levels.js: enrichLevel is not a function",
+          "VM module failed: geelooy/games/sulam-ha-sod/js/data/levels.js: enrichLevel is not a function"
+        ]
+      },
+      {
+        "game": "tests/1",
+        "entry": "geelooy/games/tests/1/index.html",
+        "errors": [
+          "VM module not found: /geelooy/games/scripts/build/three.core.js resolved as /geelooy/games/scripts/build/three.core.js",
+          "VM module not found: /geelooy/games/scripts/build/three.core.js resolved as /geelooy/games/scripts/build/three.core.js"
+        ]
+      },
+      {
+        "game": "tests/2",
+        "entry": "geelooy/games/tests/2/index.html",
+        "errors": [
+          "Cannot use import statement outside a module",
+          "Cannot use import statement outside a module"
+        ]
+      },
+      {
+        "game": "tests/3",
+        "entry": "geelooy/games/tests/3/index.html",
+        "errors": [
+          "THREE is not defined",
+          "THREE is not defined"
+        ]
+      },
+      {
+        "game": "tests/tree",
+        "entry": "geelooy/games/tests/tree/index.html",
+        "errors": [
+          "Cannot use import statement outside a module",
+          "Cannot use import statement outside a module"
+        ]
+      },
+      {
+        "game": "tetris",
+        "entry": "geelooy/games/tetris/index.html",
+        "errors": [
+          "Cannot read properties of null (reading 'addEventListener')",
+          "Cannot read properties of null (reading 'addEventListener')"
+        ]
+      }
+    ]
+  },
+  "results": [
+    {
+      "game": "KAVANAH",
+      "entry": "geelooy/games/KAVANAH/index.html",
+      "files": 10,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/KAVANAH/js/main.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/KAVANAH/js/state.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/KAVANAH/js/drawing.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/KAVANAH/js/controls.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/KAVANAH/js/entities.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/KAVANAH/js/constants.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/KAVANAH/js/classes/Entity.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/KAVANAH/js/classes/Particle.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "VM module failed: geelooy/games/KAVANAH/js/main.js: Cannot read properties of null (reading 'getContext')",
+          "VM module failed: geelooy/games/KAVANAH/js/main.js: Cannot read properties of null (reading 'getContext')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 10
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "Merkava",
+      "entry": "geelooy/games/Merkava/index.html",
+      "files": 9,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/Merkava/Atzilus.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/Merkava/Beriah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/Merkava/Yetzirah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/Merkava/Assiyah/index.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/Merkava/Assiyah/KaChaBaD.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/Merkava/Assiyah/ChaGaS.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/Merkava/Assiyah/NeHY.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/Merkava/Assiyah/Malchus.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot use import statement outside a module",
+          "Cannot use import statement outside a module"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 9
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "Nachash",
+      "entry": "geelooy/games/Nachash/index.html",
+      "files": 3,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/Nachash/main.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot set properties of null (setting 'textContent')",
+          "Cannot set properties of null (setting 'textContent')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 3
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "adventure",
+      "entry": "geelooy/games/adventure/index.html",
+      "files": 1,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": []
+      },
+      "merkava": {
+        "ok": true,
+        "score": 100,
+        "errors": [],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 1
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": true
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "brick-blast",
+      "entry": "geelooy/games/brick-blast/index.html",
+      "files": 61,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/brick-blast/index.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/main.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/injector.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ui.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/audio.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/persistence.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/game-orchestrator.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/ui-manager.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/event-listeners.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/global.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/components.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/level-complete.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/screens/main-menu.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/screens/level-grids.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/screens/level-editor.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/screens/game.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/screens/results.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/styles/screens/modals.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ui/common.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ui/screens.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ui/game-ui.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ui/level-select.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ui/store-ui.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ui/inventory.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ui/editor-ui.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/db.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/game.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/constants.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/level-loader.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/store/index.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/ui/ai-generator.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/ui/editor.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/ui/purchase-tuner.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/listeners/navigation.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/listeners/game.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/listeners/editor.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/brick-factory.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/input.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/physics.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/renderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/background.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/particle.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/levels/brick.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/levels/01-10.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/levels/11-20.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/levels/21-30.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/levels/31-40.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/levels/41-50.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/levels/51-60.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/store/upgrades.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/store/consumables.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/store/probabilities.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/store/songs.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ai/ai-manager.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/modules/ui/health-tuner.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/gematria.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ai/gemini-provider.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ai/openai-provider.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ai/claude-provider.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/brick-blast/js/ai/error-handler.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": true,
+        "score": 100,
+        "errors": [],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 61
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": true
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "cards",
+      "entry": "geelooy/games/cards/index.html",
+      "files": 7,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/cards/js/main.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/cards/js/engine/renderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/cards/js/games/blackjack.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/cards/js/engine/deck.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/cards/js/engine/ai/blackjackAI.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "VM module failed: geelooy/games/cards/js/main.js: Cannot read properties of null (reading 'addEventListener')",
+          "VM module failed: geelooy/games/cards/js/main.js: Cannot read properties of null (reading 'addEventListener')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 7
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "chess/debug",
+      "entry": "geelooy/games/chess/debug/index.html",
+      "files": 2,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/chess/debug/debug_tool.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot set properties of null (setting 'value')",
+          "Cannot set properties of null (setting 'value')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 2
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "chess",
+      "entry": "geelooy/games/chess/index.html",
+      "files": 4,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/chess/main.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/chess/teachings.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot read properties of null (reading 'getContext')",
+          "Cannot read properties of null (reading 'getContext')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 4
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "connect4",
+      "entry": "geelooy/games/connect4/index.html",
+      "files": 3,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/connect4/main.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": true,
+        "score": 100,
+        "errors": [],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 3
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": true
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "dove",
+      "entry": "geelooy/games/dove/index.html",
+      "files": 8,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/dove/game.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/dove/constants.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/dove/dove.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/dove/obstacle.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/dove/controls.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/dove/background.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "VM module failed: geelooy/games/dove/dove.js: Image is not defined",
+          "VM module failed: geelooy/games/dove/dove.js: Image is not defined"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 8
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "emojis",
+      "entry": "geelooy/games/emojis/index.html",
+      "files": 1,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": []
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot read properties of null (reading 'getContext')",
+          "Cannot read properties of null (reading 'getContext')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 1
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "root",
+      "entry": "geelooy/games/index.html",
+      "files": 2,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": []
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "$a is not defined",
+          "$a is not defined"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 2
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "kabbalah-shooter",
+      "entry": "geelooy/games/kabbalah-shooter/index.html",
+      "files": 33,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/kabbalah-shooter/main.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/game.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/systems/render_system.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/systems/input_system.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/systems/ui_system.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/math.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/entities/player.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/entities/projectiles.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/entities/particles.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/audio.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/constants.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/systems/spawner.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/systems/collision.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/features/extreme_features.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/features/redemption.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/features/luminosity.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/features/pasach_eliyahu.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/features/tachlit_chochmah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/graphics/renderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/config/settings.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/config/sprites.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/config/colors.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/data/worlds.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/data/sefirot.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/data/spells.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/data/hebrew.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/core/audio_data.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/entities/enemy.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/entities/metatron.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/entities/pickups.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/graphics/shaders.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/kabbalah-shooter/js/graphics/atlas.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "VM module failed: geelooy/games/kabbalah-shooter/main.js: Cannot read properties of null (reading 'addEventListener')",
+          "VM module failed: geelooy/games/kabbalah-shooter/main.js: Cannot read properties of null (reading 'addEventListener')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 33
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "migdol",
+      "entry": "geelooy/games/migdol/index.html",
+      "files": 11,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/migdol/js/script.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/migdol/js/config.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/migdol/js/tower.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/migdol/js/enemy.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/migdol/js/wave.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/migdol/js/ui.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/migdol/js/effects.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/migdol/js/projectile.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/migdol/js/utils.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": true,
+        "score": 100,
+        "errors": [],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 11
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": true
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "mitzvahWorld/documentation",
+      "entry": "geelooy/games/mitzvahWorld/documentation/index.html",
+      "files": 5,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": []
+      },
+      "merkava": {
+        "ok": true,
+        "score": 100,
+        "errors": [],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 5
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": true
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "mitzvahWorld",
+      "entry": "geelooy/games/mitzvahWorld/index.html",
+      "files": 3,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/mitzvahWorld/index.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": true,
+        "score": 100,
+        "errors": [],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 3
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": true
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "neshama-quest",
+      "entry": "geelooy/games/neshama-quest/index.html",
+      "files": 7,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/neshama-quest/config.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/neshama-quest/maze.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/neshama-quest/entities.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/neshama-quest/input.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/neshama-quest/game.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot read properties of null (reading 'getContext')",
+          "Cannot read properties of null (reading 'getContext')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 7
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "ohr-hagnuz",
+      "entry": "geelooy/games/ohr-hagnuz/index.html",
+      "files": 86,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/index.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/atzmus/HolyEngine.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/Projector.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/ui/MobileControls.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/Logic.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/Input.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/binah/State.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/WorldData.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/Ground.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/GlyphRenderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/PlayerRenderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/chochmah/PathVisualizer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/BattleRenderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/HudRenderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/ui/MobileControlSchema.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/OhrWorld.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/OhrDebate.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/OhrEncounter.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/OhrTestHarness.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/BattleMoveLayout.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/WorldMaps.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/PortalIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/EncounterIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/QuestIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/TileLexicon.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/Human.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/Architecture.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/player/PlayerPose.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/player/PlayerBodyParts.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/player/PlayerHead.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/player/FootstepParticle.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/EquipmentRuntime.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/BattleEffects.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/battle/BattleTheme.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/battle/BattleCards.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/battle/BattleStage.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/battle/BattleCombatants.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/tiferet/render/battle/BattleMoveCards.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/OhrQuest.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/abilities/AbilityRuntime.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/battle/BattleRank.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/battle/BattleStatus.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/skills/SkillRuntime.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/musag/MusagDex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/story/OhrStory.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/books/TorahBooks.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/holy/HolyPlaces.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/EquipmentTestApi.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/WorldMapsVillage.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/WorldMapsWild.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/WorldMapsHidden.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/WorldMapsQuestlands.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/WorldMapsMidgame.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/PortalIndexBase.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/PortalIndexExtra.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/PortalIndexMidgame.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/EncounterIndexMidgame.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/QuestIndexMidgame.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/QuestIndexShlichus.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/TileLexiconMidgame.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/EquipmentState.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/InventoryOps.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/StatResolver.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/EquipmentSummary.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/DebateGarmentEffects.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/GarmentRewards.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/abilities/AbilityIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/skills/SkillIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/skills/SkillDefaults.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/stories/StoryIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/books/BookIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/GarmentAccess.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/EquipmentDefaults.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/yesod/equipment/StatMath.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/stories/StoryIndexMidgame.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/GarmentIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/WhiteLinen.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/DarkRobe.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/GoldRobe.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/TzitzitOfLight.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/KittelOfPurity.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/GartelOfSeparation.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/CloakOfHitbonenus.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/MantleOfNehi.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/ohr-hagnuz/src/data/garments/CrownThread.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot read properties of undefined (reading 'ignite')",
+          "Cannot read properties of undefined (reading 'ignite')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 86
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "pong",
+      "entry": "geelooy/games/pong/index.html",
+      "files": 7,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/pong/js/particles.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/pong/js/ball.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/pong/js/paddle.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/pong/js/ui.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/pong/js/main.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot read properties of null (reading 'getContext')",
+          "Cannot read properties of null (reading 'getContext')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 7
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "rambam/kiddushHachodesh/12",
+      "entry": "geelooy/games/rambam/kiddushHachodesh/12/index.html",
+      "files": 1,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": []
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot use import statement outside a module",
+          "Cannot use import statement outside a module"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 1
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "rebbe-runner",
+      "entry": "geelooy/games/rebbe-runner/index.html",
+      "files": 4,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/rebbe-runner/assets.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/rebbe-runner/game.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "canvas is not defined",
+          "canvas is not defined"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 4
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "scribe-journey",
+      "entry": "geelooy/games/scribe-journey/index.html",
+      "files": 179,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/scribe-journey/js/main.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/input.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/ui.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/render.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/gameWorker.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/ui/renderers.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/database.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/rendering/tileVisualResolver.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/world.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/combat.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/botSystem.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/systems/time.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/systems/weather.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/systems/farming.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/systems/calendar.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/systems/triggers.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/systems/ui_actions.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/gates_features.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/gates_37.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/features_666.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/musagim.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/moves.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/malkuth_main.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/malkuth_interiors.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/netzach_wilds.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/hod_academy.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/caverns.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/sefiros.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/gevurah_fortress.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/chesed_ocean.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/binah_palace.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/qliphoth_depths.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/keter.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/chanukah/caves.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/chanukah/citadel.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/sechirut.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/maamar/hub.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/maamar/matbea.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/maamar/tvia.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/maamar/dibbur.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/maamar/ratzon.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/tanya/hub.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/tanya/kelipah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/tanya/kedushah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/tribes/camp_hub.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/tribes/judah_camp.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/tribes/dan_camp.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/crown_heights.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/binah_50_gates.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/seven_seventy.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/gan_eden.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/gehinnom.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/expansion_maps.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/midbar.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/kotel.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/babel.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/expansion_2.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/taryag_maps.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/maps/aleph_bet.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/insanity_expansion.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/chanukah_massive.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/labyrinth_67.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/map_parser.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/world/movement.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/world/interaction.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/world/dialogue.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/combat/core.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/combat/utils.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bots.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/player_quest_system.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/library/parshas.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/mitzvahs.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/crafting.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/index.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/moves/physical.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/moves/mystical.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/moves/amalek_moves.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/moves/expansion_moves.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/moves/letters.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/moves/the_66_moves.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/moves/digital_moves.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/consumables.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/kelim.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/tomes.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/quest_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/artifacts.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/holiday_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/sechirut_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/yud_tet_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/maamar_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/tanya_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/tribe_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/library_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/mivtzoim_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/gan_eden_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/gehinnom_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/food_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/judaica_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/midbar_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/expansion_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/taryag_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/library/sparks.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/clothing.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/ingredients.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/expansion_555.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/digital_items.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/eats_33.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/main_story.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/tractate_nezikin.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/tractate_moed.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/side_stories.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/tractate_nashim.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/tractate_kodashim.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/holiday_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/sechirut_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/yud_tet_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/daily.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/maamar/matbea_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/maamar/tvia_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/maamar/dibbur_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/maamar/ratzon_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/tanya.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/tribes.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/gan_eden_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/expansion_quests.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/quests/shlichus_campaigns.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/map-parser/ParsedEntityIndex.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/map-parser/placementResolver.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/procedural/world_generator.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/world/entity/occupancy.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/shop.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/procedural/map_generator.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/combat/actions.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/types.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/evolutions.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/workers/combat/debateEffects.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/mitzvahs/sefer_hamada.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/items/crafting.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/malkuth.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/gevurah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/chesed.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/binah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/qliphoth.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/keter.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/chokhmah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/zeraim.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/tanya.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/tribes.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/amalek.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/letters.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/midbar.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/sechirut.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/chanukah_beasts.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/gehinnom.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/gan_eden.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/yud_tet_kislev.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/expansion_1.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/expansion_2.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/taryag_beasts.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/evolved.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/the_66.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/bestiary/digital.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/map-parser/entityGlyph.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/procedural/biome_data.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/recipes/cooking.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/recipes/scribing.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scribe-journey/js/data/recipes/smithing.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "VM module failed: geelooy/games/scribe-journey/js/data/quests.js: generateDailyQuest is not a function",
+          "VM module failed: geelooy/games/scribe-journey/js/data/quests.js: generateDailyQuest is not a function"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 179
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "shema-strike",
+      "entry": "geelooy/games/shema-strike/index.html",
+      "files": 4,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/shema-strike/js/controls.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/shema-strike/js/main.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot read properties of null (reading 'clientWidth')",
+          "Cannot read properties of null (reading 'clientWidth')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 4
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "soul-jump",
+      "entry": "geelooy/games/soul-jump/index.html",
+      "files": 2,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/soul-jump/main.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "ctx.save is not a function",
+          "ctx.save is not a function"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 2
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "sulam-ha-sod",
+      "entry": "geelooy/games/sulam-ha-sod/index.html",
+      "files": 115,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/main.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/core/input.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/core/renderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/core/game.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/webcamBubble.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/market.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/ui/cameraZoom.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levelCruelty.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level01-malchus.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level02-yesod.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level03-hod.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level04-netzach.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level05-gevurah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level06-tiferes.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level07-chesed.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level08-binah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level09-chochmah.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level10-keter.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level11-daas.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level12-ayin.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level13-atika.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level14-einsof.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level15-razor-ayin.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level16-trust-breaker.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level17-bait-vault.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level18-no-autopilot.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level19-hidden-manna.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level20-crown-of-return.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level21-shattered-ledger.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level22-mirror-market.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level23-vertical-vault.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level24-crown-auction.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level25-natural-chain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level26-natural-chain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level27-natural-chain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level28-natural-chain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level29-natural-chain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level30-sky-oath.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level31-echo-orchard.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level32-cave-of-breath.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level33-last-ladder.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level34-thorn-contract.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level35-mirror-abattoir.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level36-sky-tax-court.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level37-saw-mikveh.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level38-crown-of-teeth.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level39-abyss-ledger.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level40-iron-echo-court.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level41-glass-sitra.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level42-snow-knife-parliament.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level43-thunder-shekel-mine.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level44-last-tooth-of-atzilus.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level45-blue-fire-beis-din.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level46-bone-rain-covenant.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level47-river-of-latches.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level48-cinder-shofar-vault.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level49-ash-mazal-gear.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level50-emerald-noose-garden.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level51-black-rainbow-gate.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/currency.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/enemyArchetypes.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/renderCulling.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/render/deathBurstRenderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/render/playerRenderer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/core/viewport.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/core/cameraRig.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/core/physics.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/soundEffects.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/progression.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/geometry.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/ascent.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/vault.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/hazards.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/triggers.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/antiAutopilot.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/devilLayer.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/devilDeceptions.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/legacyHardening.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/fairness.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levelPrimitives.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level01-malchus/terrain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level01-malchus/actors.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level01-malchus/story.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level02-yesod/terrain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level02-yesod/actors.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level02-yesod/story.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level03-hod/terrain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level03-hod/actors.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level03-hod/story.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level04-netzach/terrain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level04-netzach/actors.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level04-netzach/story.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level05-gevurah/terrain.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level05-gevurah/actors.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/levels/level05-gevurah/story.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/spikes.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/rotatingPlatforms.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/trickPlatforms.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/levelTriggers.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/spatialHash.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/sacredRandom.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/trickCoins.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/momentumCurse.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/deathBursts.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/systems/deathPenalty.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/sulam-ha-sod/js/data/enrichment/builders.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "VM module failed: geelooy/games/sulam-ha-sod/js/data/levels.js: enrichLevel is not a function",
+          "VM module failed: geelooy/games/sulam-ha-sod/js/data/levels.js: enrichLevel is not a function"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 115
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "tests/1",
+      "entry": "geelooy/games/tests/1/index.html",
+      "files": 5,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/tests/1/ikar.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scripts/build/three.module.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scripts/jsm/loaders/GLTFLoader.js",
+            "ok": true,
+            "message": ""
+          },
+          {
+            "file": "geelooy/games/scripts/jsm/utils/BufferGeometryUtils.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "VM module not found: /geelooy/games/scripts/build/three.core.js resolved as /geelooy/games/scripts/build/three.core.js",
+          "VM module not found: /geelooy/games/scripts/build/three.core.js resolved as /geelooy/games/scripts/build/three.core.js"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 5
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "tests/2",
+      "entry": "geelooy/games/tests/2/index.html",
+      "files": 1,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": []
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot use import statement outside a module",
+          "Cannot use import statement outside a module"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 1
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "tests/3",
+      "entry": "geelooy/games/tests/3/index.html",
+      "files": 1,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": []
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "THREE is not defined",
+          "THREE is not defined"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 1
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "tests/tree",
+      "entry": "geelooy/games/tests/tree/index.html",
+      "files": 1,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": []
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot use import statement outside a module",
+          "Cannot use import statement outside a module"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 1
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    },
+    {
+      "game": "tetris",
+      "entry": "geelooy/games/tetris/index.html",
+      "files": 3,
+      "preflight": {
+        "ok": true,
+        "diagnostics": []
+      },
+      "node": {
+        "ok": true,
+        "checks": [
+          {
+            "file": "geelooy/games/tetris/main.js",
+            "ok": true,
+            "message": ""
+          }
+        ]
+      },
+      "merkava": {
+        "ok": false,
+        "score": 40,
+        "errors": [
+          "Cannot read properties of null (reading 'addEventListener')",
+          "Cannot read properties of null (reading 'addEventListener')"
+        ],
+        "epochs": [
+          {
+            "id": 0,
+            "name": "url-collect",
+            "ok": true,
+            "fetchedCount": 3
+          },
+          {
+            "id": 1,
+            "name": "merkava-boot",
+            "ok": false
+          },
+          {
+            "id": 2,
+            "name": "actions",
+            "count": 0,
+            "ok": true
+          }
+        ]
+      },
+      "chrome": {
+        "ok": null,
+        "skipped": true,
+        "reason": "no Chrome/Chromium binary found in PATH"
+      }
+    }
+  ]
+}

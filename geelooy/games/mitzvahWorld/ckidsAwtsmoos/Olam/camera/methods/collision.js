@@ -1,10 +1,11 @@
 // B"H
 /**
  * @file collision.js
- * @description Chapter 86: the Kav refuses NaN geometry. The Awtsmoos lets the
- * mouse ray seek only finite, interactive vessels; broken buffer attributes are
- * sealed once and skipped, preventing the message handler from burning half a
- * second on corrupted hover intersections.
+ * @description
+ * Chapter 96: the Kav refuses to stare into every eyelash of an NPC model.
+ * The Awtsmoos appoints one humble proxy-box as the interaction vessel, so
+ * mobile raycasting remains light, finite, and honest. Model meshes are garments;
+ * ray targets are simple signs.
  */
 function geometryIsFinite(geometry) {
   const arr = geometry?.attributes?.position?.array;
@@ -32,19 +33,26 @@ function raycastTargetIsFinite(object) {
   return ok;
 }
 
-function safeIntersect(raycaster, object) {
+function safeIntersect(raycaster, object, recursive = false) {
   if (!object || object.userData?.skipRaycast || !raycastTargetIsFinite(object)) return [];
-  try {
-    return raycaster.intersectObject(object, true);
-  } catch (error) {
-    markUnsafe(object, error?.message || "raycast-error");
-    return [];
-  }
+  try { return raycaster.intersectObject(object, recursive); }
+  catch (error) { markUnsafe(object, error?.message || "raycast-error"); return []; }
+}
+
+function isNpcLike(nivra) {
+  return nivra?.type === "interactiveNpc" || nivra?.type === "customNpc" || nivra?.type === "medabeir";
+}
+
+function targetForNivra(nivra) {
+  if (!nivra || nivra.type === 'chossid' || nivra.type === 'spikeHazard' || nivra.type === 'proceduralTerrain') return null;
+  if (nivra.raycastMesh) return nivra.raycastMesh;
+  if (nivra.interactionMesh) return nivra.interactionMesh;
+  if (isNpcLike(nivra)) return null;
+  return nivra.mesh || nivra.modelMesh || null;
 }
 
 function validNivraTarget(nivra) {
-  if (!nivra || nivra.type === 'chossid' || nivra.type === 'spikeHazard' || nivra.type === 'proceduralTerrain') return false;
-  const mesh = nivra.modelMesh || nivra.mesh;
+  const mesh = targetForNivra(nivra);
   return !!mesh && !mesh.userData?.skipRaycast;
 }
 
@@ -58,7 +66,7 @@ export default {
     const isSceneChanged = this.isSceneChanged();
     for (const obj of this.objectsInScene) {
       if (!obj || obj.userData?.skipRaycast) continue;
-      const collisionResults = isSceneChanged || !this.previousResults.has(obj) ? safeIntersect(this.raycaster, obj) : this.previousResults.get(obj);
+      const collisionResults = isSceneChanged || !this.previousResults.has(obj) ? safeIntersect(this.raycaster, obj, true) : this.previousResults.get(obj);
       this.previousResults.set(obj, collisionResults);
       if (collisionResults.length > 0) {
         const distanceToObject = collisionResults[0].distance - this.offsetFromWall;
@@ -78,8 +86,9 @@ export default {
     if (this.olam.interactableNivrayim) {
       for (const nivra of this.olam.interactableNivrayim) {
         if (!validNivraTarget(nivra)) continue;
-        const targetMesh = nivra.modelMesh || nivra.mesh;
-        const hits = safeIntersect(this.mouseRaycaster, targetMesh);
+        const targetMesh = targetForNivra(nivra);
+        const recursive = !targetMesh.userData?.awtsmoosRayProxy && !isNpcLike(nivra);
+        const hits = safeIntersect(this.mouseRaycaster, targetMesh, recursive);
         if (hits.length > 0) {
           const hit = hits[0];
           if (!closest || hit.distance < closest.distance) closest = { distance: hit.distance, point: hit.point, object: hit.object, nivraAwtsmoos: nivra };

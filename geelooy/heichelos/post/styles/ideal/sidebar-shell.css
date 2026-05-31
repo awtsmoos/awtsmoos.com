@@ -1,7 +1,8 @@
 /* B"H
-   Chapter 29: The inspector chamber.
-   The sidebar is a dark right palace on desktop and a bottom drawer on mobile.
-   Every movement rides compositor transforms; resize has no shadow-drag tax.
+   Chapter 50: The chamber stops being a stack of shadows.
+   The Awtsmoos, without body or form, gives every tab a physical law: the
+   viewport is relative, every chamber is absolute, inactive chambers cannot
+   steal clicks, and the active chamber alone receives breath, scroll, and touch.
 */
 
 .post-reader-localized-context .sidebar {
@@ -54,14 +55,26 @@
 }
 
 .post-reader-localized-context .awtsmoos-slide-viewport {
+    position: relative !important;
     flex: 1 1 auto !important;
     min-height: 0 !important;
     overflow: hidden !important;
     background: transparent !important;
+    isolation: isolate !important;
 }
 
 .post-reader-localized-context .awtsmoos-slide-view {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
     background: transparent !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
     transform: translate3d(100%, 0, 0) !important;
     transition: transform var(--ideal-tab-speed) linear, opacity var(--ideal-tab-speed) linear !important;
     backface-visibility: hidden !important;
@@ -72,14 +85,19 @@
 .post-reader-localized-context .awtsmoos-slide-view.active-view {
     transform: translate3d(0, 0, 0) !important;
     opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 2 !important;
 }
 
 .post-reader-localized-context .awtsmoos-slide-view.slide-out-left {
-    transform: translate3d(-8%, 0, 0) !important;
-    opacity: .35 !important;
+    transform: translate3d(-10%, 0, 0) !important;
+    opacity: .18 !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
 }
 
 .post-reader-localized-context .awtsmoos-view-header {
+    flex: 0 0 auto !important;
     min-height: 48px !important;
     padding: 10px 14px !important;
     background: rgba(9, 16, 28, .92) !important;
@@ -87,6 +105,15 @@
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
+}
+
+.post-reader-localized-context .awtsmoos-view-content {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
 }
 
 .post-reader-localized-context .awtsmoos-view-title-text {

@@ -2,12 +2,8 @@
 /**
  * @module Chossid
  * @description
- * Chapter 23: The living walker drinks bh27 controls, not stale bh17 breath.
- *
- * The Awtsmoos found another buried cache-chain: the Chossid class still pulled
- * old control methods. This full vessel rewrite keeps the lean platformer body,
- * inventory, and visuals, while forcing fresh control/update modules into the
- * player so spike freeze/reset flags are honored by the actual loaded class.
+ * Chapter 103: the walker no longer shouts editor-tool text into the village.
+ * The Awtsmoos lets gameplay stay quiet unless a true interaction speaks.
  */
 import InventoryManager from '../../systems/InventoryManager.js';
 import Chai from "../chai/index.js?v=lean-l1-20260528-bh36";
@@ -43,7 +39,6 @@ export default class Chossid extends Chai {
       options.golem ||= leanGolem();
       options.skipDefaultInventory = true;
     } else if (!Object.prototype.hasOwnProperty.call(options, "path")) options.path = "awtsmoos://awduhm";
-
     options.height ||= 1.5;
     options.radius ||= 0.45;
     options.speed ||= lean ? 16 : 18;
@@ -93,10 +88,7 @@ export default class Chossid extends Chai {
   }
 
   resetPreviewRotation() { this.placementRotation = 0; }
-
-  shoot() {
-    this.olam?.ayshPeula("ui event", "gameHUD", { tooltip: { show: true, text: "No active tool selected." } });
-  }
+  shoot() {}
 
   rememberApproach(entity) {
     if (!this.approachedEntities.includes(entity)) this.approachedEntities.unshift(entity);

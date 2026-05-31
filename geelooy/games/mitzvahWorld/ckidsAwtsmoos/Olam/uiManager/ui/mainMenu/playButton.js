@@ -1,35 +1,50 @@
-
 // B"H
 /**
  * @file playButton.js
  * @description
- * ⚡ THE IGNITION OF WORLDS — THE PLAY BUTTON ⚡
- * 
- * Chapter 44: The Moment of Choice
- * Instead of plunging blindly into the abyss, the soul is now given the 
- * divine gift of Bechirah (Free Will). When this button is pressed, 
- * the veil lifts not to the world itself, but to the Realm of Choices 
- * (the Level Select screen), where one can choose between the Emerald Void 
- * or the Desert Ladder sublevels.
+ * Chapter 95: "Enter World" now loads a real 3D village JSON vessel. No more
+ * painted village overlay. The Awtsmoos sends the player into an actual Olam,
+ * where a real NPC stands under sky and opens challenges by interaction.
  */
 import mitzvahBtn from "../resources/mitzvahBtn.js";
 
-export default function playButton(gameUiHTML) {
-    return mitzvahBtn({
-        text: "Desert World",
-        onclick(e, $, ui, me) {
-            // B"H: silent
+const VILLAGE_ID = "village.json";
+const LEVEL_BASE = "../../../../../levels/ladder/data/";
 
-            
-            // The sacred vessel that holds the world options
-            const ls = $("levelSelectScreen");
-            
-            if (ls) {
-                // We dispatch a divine peula (action) to open the selection screen
-                ui.peula(ls, { open: true });
-            } else {
-                console.error('B"H - ⚠️ [playButton] levelSelectScreen not found! The realm is sealed.');
-            }
-        }
-    });
+/** @param {string} id JSON level id. @returns {Promise<object>} */
+async function fetchLevelData(id) {
+  const url = new URL(LEVEL_BASE + id, import.meta.url);
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw new Error(`JSON level fetch failed: ${id}`);
+  const data = await response.json();
+  if (data?.format !== "awtsmoos-level-json-v1" || !data?.nivrayim) throw new Error(`Invalid JSON level vessel: ${id}`);
+  return data;
+}
+
+/**
+ * Launches the real 3D village world from the main menu.
+ *
+ * @param {object} gameUiHTML
+ * Game UI vessel for the world HUD.
+ *
+ * @returns {object}
+ * Button vessel.
+ */
+export default function playButton(gameUiHTML) {
+  return mitzvahBtn({
+    text: "Enter World 🌎🌍",
+    async onclick(e, $, ui) {
+      const ikar = $("ikar"), mainMenu = $("main menu"), loading = $("loading");
+      try {
+        if (loading) loading.classList.remove("hidden");
+        const worldDayuh = await fetchLevelData(VILLAGE_ID);
+        mainMenu?.classList.add("hidden", "offscreen");
+        ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh, sourcePath: VILLAGE_ID, gameUiHTML } }));
+      } catch (error) {
+        console.error('B"H - Real village load failed:', error);
+        alert("B\"H\nThe 3D village could not load yet.");
+        if (loading) loading.classList.add("hidden");
+      }
+    }
+  });
 }

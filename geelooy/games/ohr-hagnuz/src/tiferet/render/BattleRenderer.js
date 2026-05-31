@@ -2,65 +2,71 @@
  * B"H
  * @module BattleRenderer
  *
- * Chapter 26: The Battle Became The Picture.
- * The Awtsmoos has no body and no form; this canvas now imitates the mockup's
- * order: two stat cards, a VS seal, glowing combatants, and four tall answers.
+ * Chapter 38: The bottom became a command deck, not a traffic jam.
+ * The Awtsmoos has no body and no form; this renderer now trusts the taller
+ * canvas, keeps footer hints small, and gives the response cards their own
+ * lower kingdom instead of crushing them under floating mobile buttons.
  */
 import { State } from '../../binah/State.js';
 import { resolveStats } from '../../yesod/equipment/EquipmentRuntime.js';
-import { drawOpponentGlyph, drawPlayerGlyph } from './BattleGlyphs.js';
 import { drawBattleEffects } from './BattleEffects.js';
 import { battleMoveLayout } from './BattleMoveLayout.js';
 import { BATTLE_THEME as T } from './battle/BattleTheme.js';
 import { drawStatCard } from './battle/BattleCards.js';
-import { drawBattleStage, drawAura } from './battle/BattleStage.js';
+import { drawBattleStage } from './battle/BattleStage.js';
+import { drawCombatantShowcase } from './battle/BattleCombatants.js';
 import { drawMoveCard, drawMovePrompt } from './battle/BattleMoveCards.js';
 
 const enemyName = () => State.Debate.enemy?.name || 'Wild Musag';
+const canvasSize = ctx => ({ w: ctx.canvas?.width || 390, h: ctx.canvas?.height || 844 });
 
-const playerCard = stats => ({
-  x: 34, y: 34, w: 280, h: 118, title: 'Ohr Chozer', level: State.Stats.level,
-  light: State.Stats.light, maxLight: State.Stats.maxLight, fill: '#66bb6a',
-  sub: `SPARKS ${State.Stats.sparks}/30  |  Ch ${stats.chochmah} Bi ${stats.binah}`
+const playerCard = (layout, stats) => ({
+  rect: layout.playerCard,
+  title: 'Ohr Chozer',
+  level: State.Stats.level,
+  light: State.Stats.light,
+  maxLight: State.Stats.maxLight,
+  fill: T.colors.green,
+  sub: `${State.Stats.sparks}/30 sparks`
 });
 
-const enemyCard = () => ({
-  x: 486, y: 34, w: 280, h: 118, title: enemyName(), level: State.Stats.level,
-  light: State.Debate.enemyLight, maxLight: State.Debate.enemyMaxLight, fill: '#c62828',
-  sub: `Glyph ${State.Debate.enemy?.glyph || '?'} | ${State.Debate.enemy?.kind || 'Wild Musag'}`
+const enemyCard = layout => ({
+  rect: layout.enemyCard,
+  title: enemyName(),
+  level: State.Debate.enemy?.level || State.Stats.level,
+  light: State.Debate.enemyLight,
+  maxLight: State.Debate.enemyMaxLight,
+  fill: T.colors.red,
+  sub: State.Debate.enemy?.kind || 'Wild Musag'
 });
 
-const drawCombatants = (ctx, stats) => {
-  drawAura(ctx, 210, 278, T.playerGlow);
-  drawAura(ctx, 588, 278, T.enemyGlow);
-  drawPlayerGlyph(ctx, stats, 210, 264, 92);
-  drawOpponentGlyph(ctx, State.Debate.enemy?.glyph, 588, 264, 96);
+const drawMoves = (ctx, layout) => {
+  drawMovePrompt(ctx, layout.prompt);
+  State.Debate.moves.forEach((move, i) => drawMoveCard(ctx, move, layout.rects[i], i === State.Debate.cursor));
 };
 
-const drawMoves = ctx => {
-  const { rects } = battleMoveLayout();
-  drawMovePrompt(ctx);
-  State.Debate.moves.forEach((move, i) => drawMoveCard(ctx, move, rects[i], i === State.Debate.cursor));
-};
-
-const drawFooterHints = ctx => {
+const drawFooterHints = (ctx, layout) => {
   ctx.save();
-  ctx.fillStyle = T.sub;
-  ctx.font = '12px monospace';
-  ctx.fillText('Flee', 52, 552);
-  ctx.fillText('Items', 700, 552);
+  ctx.fillStyle = T.colors.muted;
+  ctx.font = `800 12px ${T.fonts.ui}`;
+  ctx.textAlign = 'center';
+  ctx.globalAlpha = .78;
+  ctx.fillText('Flee', layout.margin + 20, layout.footer.y + layout.footer.h * .55);
+  ctx.fillText('Items', layout.w - layout.margin - 24, layout.footer.y + layout.footer.h * .55);
   ctx.restore();
 };
 
 export const renderBattle = ctx => {
   const stats = resolveStats();
+  const size = canvasSize(ctx);
+  const layout = battleMoveLayout(size.w, size.h);
   ctx.save();
-  drawBattleStage(ctx);
-  drawStatCard(ctx, playerCard(stats));
-  drawStatCard(ctx, enemyCard());
-  drawCombatants(ctx, stats);
-  drawMoves(ctx);
-  drawFooterHints(ctx);
+  drawBattleStage(ctx, layout);
+  drawStatCard(ctx, playerCard(layout, stats));
+  drawStatCard(ctx, enemyCard(layout));
+  drawCombatantShowcase(ctx, layout, stats, State.Debate.enemy);
+  drawMoves(ctx, layout);
+  drawFooterHints(ctx, layout);
   drawBattleEffects(ctx);
   ctx.restore();
 };

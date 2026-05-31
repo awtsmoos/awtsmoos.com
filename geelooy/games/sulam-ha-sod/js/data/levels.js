@@ -2,10 +2,10 @@
 /**
  * Campaign index for Sulam HaSod.
  *
- * No generated overlay lives here. Every cruelty remains inspectable and rooted
- * in authored geometry. The Awtsmoos now raises fifty-one explicit chambers,
- * then grafts high-sky side-thoughts onto each one: optional ascents, rotating
- * saw ladders, fake-safe spikes, collapsing greed corridors, and falling iron.
+ * Chapter 4: The Awtsmoos held the ladder while gates five through nine were
+ * remade into honest chambers. Gates 1-9 now keep their human-authored shapes
+ * without the enrichment fire adding extra cruelty; from gate 10 onward the old
+ * storm may still roar.
  */
 import { enrichLevel } from './levelCruelty.js';
 import { level01 } from './levels/level01-malchus.js';
@@ -61,20 +61,25 @@ import { level50 } from './levels/level50-emerald-noose-garden.js';
 import { level51 } from './levels/level51-black-rainbow-gate.js';
 
 const RAW_LEVELS = [
-  level01, level02, level03, level04, level05, level06, level07, level08,
-  level09, level10, level11, level12, level13, level14, level15, level16,
-  level17, level18, level19, level20, level21, level22, level23, level24,
-  level25, level26, level27, level28, level29, level30, level31, level32,
-  level33, level34, level35, level36, level37, level38, level39, level40,
-  level41, level42, level43, level44, level45, level46, level47, level48,
-  level49, level50, level51
+  level01, level02, level03, level04, level05, level06, level07, level08, level09,
+  level10, level11, level12, level13, level14, level15, level16, level17,
+  level18, level19, level20, level21, level22, level23, level24, level25,
+  level26, level27, level28, level29, level30, level31, level32, level33,
+  level34, level35, level36, level37, level38, level39, level40, level41,
+  level42, level43, level44, level45, level46, level47, level48, level49,
+  level50, level51
 ];
 
-/**
- * Every level receives optional side adventures and reactive cruelty.
- *
- * The main routes stay solvable. The extra upper chambers tempt the player into
- * voluntary danger with better treasure, moving saw bridges, false-safe spike
- * runs, and trigger-driven ceiling traps.
- */
-export const LEVELS = RAW_LEVELS.map((level, index) => enrichLevel(level, index));
+const HUMAN_AUTHORED_CLEAR_GATES = 9;
+const clone = value => structuredClone(value);
+
+/** @param {object} level Raw authored level. @returns {object} Safe copied level. */
+function keepHumanGate(level) { return clone(level); }
+
+/** @param {object} level Raw authored level. @param {number} index Zero-based campaign index. @returns {object} Playable campaign level. */
+function revealPlayableGate(level, index) {
+  return index < HUMAN_AUTHORED_CLEAR_GATES ? keepHumanGate(level) : enrichLevel(level, index);
+}
+
+/** @constant {Array<object>} LEVELS */
+export const LEVELS = RAW_LEVELS.map(revealPlayableGate);

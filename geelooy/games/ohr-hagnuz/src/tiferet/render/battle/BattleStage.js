@@ -2,36 +2,71 @@
  * B"H
  * @module BattleStage
  *
- * Chapter 22: The Floor Became A Night Grid Under The Sparks.
- * The Awtsmoos has no body and no form; the arena is only a painted vessel,
- * a quiet geometry where choice can descend into pixels without clutter.
+ * Chapter 30: The arena stopped being a box and became a sky under glass.
+ * The Awtsmoos has no body and no form; this renderer paints only a hint of
+ * depth, a midnight floor where choices can descend without stealing the soul
+ * of the duel from the combatants.
  */
 import { BATTLE_THEME as T } from './BattleTheme.js';
 
-export const drawBattleStage = ctx => {
-  const g = ctx.createLinearGradient(0, 0, 800, 600);
-  g.addColorStop(0, T.bgA); g.addColorStop(.48, T.bgB); g.addColorStop(1, T.bgC);
-  ctx.fillStyle = g;
-  ctx.fillRect(14, 14, 772, 572);
-  ctx.strokeStyle = 'rgba(245,215,110,.76)';
-  ctx.strokeRect(14.5, 14.5, 771, 571);
-  ctx.strokeStyle = T.grid;
-  for (let y = 250; y < 530; y += 28) { ctx.beginPath(); ctx.moveTo(60, y); ctx.lineTo(740, y); ctx.stroke(); }
-  for (let x = 80; x < 740; x += 56) { ctx.beginPath(); ctx.moveTo(x, 250); ctx.lineTo(x - 42, 530); ctx.stroke(); }
-  ctx.fillStyle = T.gold;
-  ctx.font = 'bold 40px serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('VS', 400, 120);
-  ctx.font = '18px serif';
-  ctx.fillText('←  ◇  →', 400, 146);
-  ctx.textAlign = 'left';
+export const drawBattleStage = (ctx, layout) => {
+  const c = T.colors;
+  const bg = ctx.createLinearGradient(0, 0, 0, layout.h);
+  bg.addColorStop(0, c.nightTop);
+  bg.addColorStop(.48, c.nightMid);
+  bg.addColorStop(1, c.nightLow);
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, layout.w, layout.h);
+  ctx.fillStyle = 'rgba(255,255,255,.035)';
+  ctx.fillRect(layout.margin, layout.margin, layout.w - layout.margin * 2, layout.h - layout.margin * 2);
+  ctx.strokeStyle = c.lineGold;
+  ctx.lineWidth = 1.2;
+  ctx.strokeRect(layout.margin + .5, layout.margin + .5, layout.w - layout.margin * 2, layout.h - layout.margin * 2);
+  drawFloorGrid(ctx, layout.stage);
+  drawVsSeal(ctx, layout.vs);
 };
 
-export const drawAura = (ctx, x, y, color) => {
-  const g = ctx.createRadialGradient(x, y, 0, x, y, 92);
-  g.addColorStop(0, color); g.addColorStop(.45, color.replace('.72', '.25')); g.addColorStop(1, 'rgba(0,0,0,0)');
+const drawFloorGrid = (ctx, stage) => {
+  ctx.save();
+  ctx.strokeStyle = T.colors.grid;
+  ctx.lineWidth = 1;
+  const base = stage.y + stage.h * .55;
+  for (let y = base; y < stage.y + stage.h; y += stage.h / 9) {
+    ctx.beginPath();
+    ctx.moveTo(stage.x + 8, y);
+    ctx.lineTo(stage.x + stage.w - 8, y);
+    ctx.stroke();
+  }
+  for (let x = stage.x + stage.w * .08; x < stage.x + stage.w; x += stage.w / 8) {
+    ctx.beginPath();
+    ctx.moveTo(x, base);
+    ctx.lineTo(x - stage.w * .11, stage.y + stage.h);
+    ctx.stroke();
+  }
+  ctx.restore();
+};
+
+const drawVsSeal = (ctx, vs) => {
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = T.colors.gold;
+  ctx.shadowColor = T.glow.selected;
+  ctx.shadowBlur = 24;
+  ctx.font = `800 42px ${T.fonts.display}`;
+  ctx.fillText('VS', vs.x, vs.y);
+  ctx.shadowBlur = 0;
+  ctx.font = `700 18px ${T.fonts.display}`;
+  ctx.fillText('←  ◇  →', vs.x, vs.y + 25);
+  ctx.restore();
+};
+
+export const drawAura = (ctx, x, y, radius, color) => {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
+  g.addColorStop(0, color);
+  g.addColorStop(.48, color.replace('.72', '.24'));
+  g.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = g;
   ctx.beginPath();
-  ctx.arc(x, y, 92, 0, Math.PI * 2);
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
   ctx.fill();
 };

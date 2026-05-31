@@ -1,73 +1,146 @@
 <!--B"H-->
 <?Awtsmoos
-        return getT("bh.html");
-    ?>
-<html>
+  /**
+   * B"H
+   * Keeps the create-account gate fresh, never stale.
+   *
+   * The Awtsmoos is renewing every instant; this page should not be frozen in
+   * a phone browser cache while the account gate has already changed.
+   *
+   * @returns {string} Empty text for clean HTML output.
+   */
+  function setRegisterFreshnessHeaders() {
+    setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+    setHeader("Pragma", "no-cache");
+    setHeader("Expires", "0");
+    return "";
+  }
+
+  return setRegisterFreshnessHeaders();
+?>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Register to Awtsmoos</title>
-    
-    <link href="../style/forms.css" type="text/css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <meta http-equiv="Cache-Control" content="no-store, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Create Awtsmoos Account</title>
+  <link href="/style/bh.css" type="text/css" rel="stylesheet">
+  <link href="/style/forms.css" type="text/css" rel="stylesheet">
 </head>
-<body>
-    
-  <div class="login">
-    <h2>Register</h2>
+<body class="login-page register-page">
+  <div id="BH" aria-label="Boruch Hashem">B"H</div>
+  <main class="login-shell" aria-labelledby="registerTitle">
+    <section class="login-card register-card">
+      <div class="login-card__glow" aria-hidden="true"></div>
+      <p class="login-kicker">B"H · New vessel</p>
+      <h1 id="registerTitle">Create account</h1>
+      <p class="login-subtitle">
+        Choose a clean username and a strong password. The gate accepts names made for peace.
+      </p>
 
-    <a href="/login">Login</a>
-    <form action="/register/" method="POST">
+      <a class="secondary-link" href="/login">Already have an account? Log in</a>
 
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+      <form class="login-form register-form" action="/register/" method="POST" novalidate>
+        <div class="field-stack">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" minlength="3" maxlength="32" pattern="[A-Za-z0-9_-]+" placeholder="letters_numbers-dashes">
+          <p class="field-help">3–32 characters: letters, numbers, underscores, or dashes.</p>
         </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+
+        <div class="field-stack">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8" placeholder="At least 8 characters">
+          <p class="field-help">Use at least 8 characters. Longer is stronger.</p>
         </div>
-        <div class="buttons">
-            <button type="submit">Register</button>
-        </div>
-    </form>
-    <div id="serverMessage">
-        <?<script>
-             if(cookies.awtsmoosKey) {
-                var msg = $a("signinmessage.html", {
-                    message: "You are already signed in!<br>"+
-                    "Press \"B\"H to return to home page.",
-                    logout:true
-                })
-                olam.replace = msg;
-                return "123";
-            }
-            
-            var registrar = await getT("session/register.js");
-            
-            var result = await registrar.handleRegistration(this.request,$_POST,
-            server.secret)
 
-            if(result.token) {
-                var encoded = encodeURIComponent(result.token);
-                setHeader(
-                    "set-cookie",
-                    `awtsmoosKey=${encoded}; HttpOnly; `+
-                    "max-age="+(60*60*24*365) + "; "
-                    + "Path=/;"
-                );
-                result.token = undefined;
-                var msg = $a("message.html", {
-                    message: "You have successfully registered the account "
-                        +$_POST.username+". Press \"B\"H\" to go to home.",
-                    redirect: 6
-                })
-                olam.replace = msg;
-                return;
+        <button type="submit">Create account</button>
+      </form>
 
-            }
-            return result.message;
+      <div id="serverMessage" class="server-message" aria-live="polite">
+        <?Awtsmoos
+          /**
+           * B"H
+           * Escapes visible text before it enters the page.
+           *
+           * A username may be a small vessel, but the screen must never receive
+           * a blade. The Awtsmoos gives life to the letter; this function gives
+           * the letter a safe HTML garment.
+           *
+           * @param {unknown} value Raw value.
+           * @returns {string} HTML-safe text.
+           */
+          function esc(value) {
+            return String(value ?? "")
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#39;");
+          }
 
-       
-       </script>?>
-    </div>
-  </div>
+          function messagePage(title, body, href, linkText) {
+            return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>${esc(title)}</title>
+  <link href="/style/forms.css" type="text/css" rel="stylesheet">
+</head>
+<body class="login-page register-page">
+  <main class="login-shell">
+    <section class="login-card register-card">
+      <p class="login-kicker">B&quot;H · New vessel</p>
+      <h1>${esc(title)}</h1>
+      <p class="login-subtitle">${esc(body)}</p>
+      <a class="secondary-link" href="${esc(href)}">${esc(linkText)}</a>
+    </section>
+  </main>
+</body>
+</html>`;
+          }
+
+          if (request.user || cookies.awtsmoosKey) {
+            olam.replace = messagePage(
+              "Already signed in",
+              "You are already signed in.",
+              "/",
+              "Return home"
+            );
+            return;
+          }
+
+          var registrar = await getT("session/register.js");
+          if (!registrar || typeof registrar.handleRegistration !== "function") {
+            return "Account creation is warming up. Please refresh in a moment.";
+          }
+
+          var result = await registrar.handleRegistration(this.request, $_POST, server.secret);
+
+          if (result && result.token) {
+            setHeader(
+              "set-cookie",
+              `awtsmoosKey=${encodeURIComponent(result.token)}; HttpOnly; max-age=${60 * 60 * 24 * 365}; Path=/; SameSite=Lax; Secure`
+            );
+            result.token = undefined;
+
+            olam.replace = messagePage(
+              "Account created",
+              "You have successfully registered the account " + String(result.username || $_POST.username || "") + ".",
+              "/",
+              "Enter Awtsmoos"
+            );
+            return;
+          }
+
+          return esc(result && result.message ? result.message : "Please fill out the form to create an account.");
+        ?>
+      </div>
+    </section>
+  </main>
+  <script src="/scripts/awtsmoos/bh.js"></script>
 </body>
 </html>

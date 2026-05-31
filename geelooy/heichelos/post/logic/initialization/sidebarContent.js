@@ -2,129 +2,170 @@
 /**
  * @module SidebarMenu
  * @description
- * Chapter 21: The menu buttons stopped pretending to be painted doors.
- * Each portal now receives a real event, stops the bubbling storm, verifies the
- * chamber exists, opens it through the TabManager, and leaves a visible error in
- * the menu if the Awtsmoos exposes a broken reference. The code is plain and
- * practical; the metaphor is only the lamp around it.
+ * Chapter 49: The root menu becomes a real covenant of doors. Each row is a
+ * button with state, label, portal key, and failure flare. When the seeker taps
+ * Insights, the Awtsmoos does not allow the tap to drown in a dim overlay; the
+ * registered chamber opens, the menu yields, and the visible world changes.
  */
-
 import { GenesisEngine } from "../../functions/dom/GenesisEngine.js";
 
+const TAB_PORTALS = [
+    { title: "Insights", desc: "The Living Commentary", icon: "💬", name: "insights" },
+    { title: "Scroll Details", desc: "Heichel, Author, & Path", icon: "📜", name: "details" },
+    { title: "AI Oracle", desc: "Consult the Awtsmoos AI", icon: "✨", name: "oracle", type: "oracle" },
+    { title: "Approval Queue", desc: "Review submitted insights", icon: "✅", name: "approvals" },
+    { title: "Saved Sparks", desc: "Your bookmarked verses", icon: "🔖", name: "bookmarks" }
+];
+
 /**
- * Writes a small failure flare without breaking the rest of the sidebar.
- * @param {Element|null} source The portal button that was clicked.
- * @param {string} message A concise error message for the user.
+ * Finds the button that invoked a portal ritual.
+ * @param {Event} event Original DOM event.
+ * @returns {HTMLButtonElement|null} Button source when present.
+ */
+function getPortalButton(event) {
+    return event?.currentTarget || event?.target?.closest?.("button") || null;
+}
+
+/**
+ * Shows a small visible error in the portal row.
+ * @param {Element|null} source Clicked portal.
+ * @param {string} message User-facing failure text.
  * @returns {void}
  */
 function revealPortalFailure(source, message) {
     if (!source) return;
+    source.classList.remove("awtsmoos-portal-opening");
     source.classList.add("awtsmoos-portal-failed");
-    source.setAttribute("aria-disabled", "true");
+    source.removeAttribute("aria-busy");
     const desc = source.querySelector(".menu-portal-desc");
     if (desc) desc.textContent = message;
 }
 
 /**
- * Opens a TabManager chamber from the root menu with full click hygiene.
- * @param {object} tabRefs The registered tab references.
- * @param {string} name The tab key to open.
- * @param {Event} event The original click event.
- * @returns {Promise<void>} Resolves once the tab has opened or failed visibly.
+ * Marks one portal as the active chosen chamber.
+ * @param {Element|null} source Active button.
+ * @returns {void}
  */
-async function openRegisteredPortal(tabRefs, name, event) {
+function markActivePortal(source) {
+    const grid = source?.closest?.(".post-root-menu-grid");
+    grid?.querySelectorAll?.(".awtsmoos-massive-menu-btn").forEach(button => {
+        const active = button === source;
+        button.classList.toggle("awtsmoos-portal-active", active);
+        button.setAttribute("aria-current", active ? "page" : "false");
+    });
+}
+
+/**
+ * Prevents touch/click duplicate firing on mobile glass.
+ * @param {Element|null} portal Source portal.
+ * @returns {boolean} True when this event may proceed.
+ */
+function claimPortalTap(portal) {
+    if (!portal) return true;
+    if (portal.dataset.tapLock === "true") return false;
+    portal.dataset.tapLock = "true";
+    setTimeout(() => { delete portal.dataset.tapLock; }, 420);
+    return true;
+}
+
+/**
+ * Creates a consistent event boundary for taps and clicks.
+ * @param {Event} event Original event.
+ * @returns {HTMLButtonElement|null|false} Source portal, or false if locked.
+ */
+function beginPortalOpening(event) {
     event?.preventDefault?.();
     event?.stopPropagation?.();
-
-    const portal = event?.currentTarget || event?.target?.closest?.("button");
-    const tab = tabRefs?.[name];
-    if (!tab || typeof tab.open !== "function") {
-        revealPortalFailure(portal, "Portal unavailable");
-        return;
-    }
-
+    const portal = getPortalButton(event);
+    if (!claimPortalTap(portal)) return false;
+    portal?.classList.remove("awtsmoos-portal-failed");
     portal?.classList.add("awtsmoos-portal-opening");
+    portal?.setAttribute("aria-busy", "true");
+    return portal;
+}
+
+/**
+ * Ends the temporary loading state.
+ * @param {Element|null} portal Source portal.
+ * @returns {void}
+ */
+function finishPortalOpening(portal) {
+    portal?.classList.remove("awtsmoos-portal-opening");
+    portal?.removeAttribute("aria-busy");
+}
+
+/**
+ * Opens a TabManager chamber by registry key.
+ * @param {object} tabRefs Registered tab references.
+ * @param {string} name Tab key.
+ * @param {Event} event Original event.
+ * @returns {Promise<void>} Opens or visibly fails.
+ */
+async function openRegisteredPortal(tabRefs, name, event) {
+    const portal = beginPortalOpening(event);
+    if (portal === false) return;
     try {
-        await tab.open();
+        const tab = tabRefs?.[name];
+        if (tab?.open) await tab.open();
+        else if (window.tabManager?.openByName) await window.tabManager.openByName(name);
+        else throw new Error("Portal unavailable");
+        markActivePortal(portal);
     } catch (error) {
         console.error(`B"H - Portal ${name} failed to open:`, error);
         revealPortalFailure(portal, error?.message || "Could not open");
     } finally {
-        portal?.classList.remove("awtsmoos-portal-opening");
+        finishPortalOpening(portal);
     }
 }
 
 /**
- * Opens the AI chat vessel as a lazy module so the reader loads quickly.
- * @param {Event} event The original click event.
- * @returns {Promise<void>} Resolves once the chat opener has been invoked.
+ * Opens the AI chat vessel as a lazy module.
+ * @param {Event} event Original event.
+ * @returns {Promise<void>} Resolves after invoking the oracle.
  */
 async function openOraclePortal(event) {
-    event?.preventDefault?.();
-    event?.stopPropagation?.();
-    const portal = event?.currentTarget || event?.target?.closest?.("button");
-    portal?.classList.add("awtsmoos-portal-opening");
+    const portal = beginPortalOpening(event);
+    if (portal === false) return;
     try {
         const { openAIChat } = await import("/heichelos/post/ai/chat.js");
         openAIChat();
+        markActivePortal(portal);
     } catch (error) {
         console.error("B\"H - AI Oracle portal failed:", error);
         revealPortalFailure(portal, error?.message || "Oracle unavailable");
     } finally {
-        portal?.classList.remove("awtsmoos-portal-opening");
+        finishPortalOpening(portal);
     }
 }
 
 /**
- * Creates one root menu portal from a pure data blueprint.
- * @param {string} title The main visible title.
- * @param {string} desc Supporting description.
- * @param {string} icon The emoji or glyph shown at the left edge.
- * @param {Function} onClick Click ritual for this portal.
+ * Builds one root menu portal from a pure data blueprint.
+ * @param {object} portal Portal data.
+ * @param {object} tabRefs Registered tab references.
  * @returns {object} GenesisEngine blueprint.
  */
-function createMenuPortal(title, desc, icon, onClick) {
+function createMenuPortal(portal, tabRefs) {
+    const onClick = portal.type === "oracle"
+        ? openOraclePortal
+        : event => openRegisteredPortal(tabRefs, portal.name, event);
     return {
         tag: "button",
         attr: {
             class: "awtsmoos-massive-menu-btn",
             type: "button",
-            "aria-label": title
+            "data-portal": portal.name,
+            "aria-label": `${portal.title}: ${portal.desc}`
         },
-        events: { click: onClick },
+        events: { click: onClick, pointerup: onClick },
         children: [
-            { tag: "div", attr: { class: "menu-icon-vessel", "aria-hidden": "true" }, text: icon },
+            { tag: "div", attr: { class: "menu-icon-vessel", "aria-hidden": "true" }, text: portal.icon },
             { tag: "div", attr: { class: "menu-text-vessel" }, children: [
-                { tag: "span", attr: { class: "menu-portal-title" }, text: title },
-                { tag: "span", attr: { class: "menu-portal-desc" }, text: desc }
+                { tag: "span", attr: { class: "menu-portal-title" }, text: portal.title },
+                { tag: "span", attr: { class: "menu-portal-desc" }, text: portal.desc }
             ] },
             { tag: "div", attr: { class: "menu-arrow", "aria-hidden": "true" }, text: "→" }
         ]
     };
-}
-
-/**
- * Builds all root portals from one declarative list.
- * @param {object} tabRefs Registered TabManager chambers.
- * @returns {object[]} Portal blueprints.
- */
-function createPortals(tabRefs) {
-    const tabPortals = [
-        ["Insights", "The Living Commentary", "💬", "insights"],
-        ["Scroll Details", "Heichel, Author, & Path", "📜", "details"],
-        ["Approval Queue", "Review submitted insights", "✅", "approvals"],
-        ["Saved Sparks", "Your bookmarked verses", "🔖", "bookmarks"]
-    ];
-
-    return [
-        ...tabPortals.slice(0, 2).map(([title, desc, icon, name]) => (
-            createMenuPortal(title, desc, icon, event => openRegisteredPortal(tabRefs, name, event))
-        )),
-        createMenuPortal("AI Oracle", "Consult the Awtsmoos AI", "✨", openOraclePortal),
-        ...tabPortals.slice(2).map(([title, desc, icon, name]) => (
-            createMenuPortal(title, desc, icon, event => openRegisteredPortal(tabRefs, name, event))
-        ))
-    ];
 }
 
 /**
@@ -137,10 +178,9 @@ function createPortals(tabRefs) {
 export function populateRootMenu(actualTab, post, tabRefs) {
     if (!actualTab) return;
     actualTab.innerHTML = "";
-    const blueprint = {
+    actualTab.appendChild(GenesisEngine.manifest({
         tag: "div",
-        attr: { class: "post-root-menu-grid" },
-        children: createPortals(tabRefs)
-    };
-    actualTab.appendChild(GenesisEngine.manifest(blueprint));
+        attr: { class: "post-root-menu-grid", role: "menu", "aria-label": "Divine Context portals" },
+        children: TAB_PORTALS.map(portal => createMenuPortal(portal, tabRefs))
+    }));
 }

@@ -1,0 +1,307 @@
+{
+  "format": "awtsmoos-level-json-v1",
+  "id": "village.json",
+  "shaym": "Grounded_Picture_Matched_Village_108",
+  "title": "Grounded Picture Village",
+  "requiredPerutos": 0,
+  "nextLevel": "ladder-1.json",
+  "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
+  "nivrayim": {
+    "ProceduralSky": [
+      {
+        "name": "picture_gold_sky",
+        "timeOfDay": 16.6,
+        "timeMultiplier": 0,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
+    ],
+    "ProceduralTerrain": [
+      {
+        "name": "picture_grass_floor",
+        "width": 84,
+        "depth": 66,
+        "thickness": 2,
+        "segments": 2,
+        "isSolid": true,
+        "textureType": "grass",
+        "position": {
+          "x": 0,
+          "y": -1.2,
+          "z": 0
+        }
+      }
+    ],
+    "Chossid": [
+      {
+        "name": "Village Chossid",
+        "height": 1.5,
+        "radius": 0.45,
+        "dynamicSolidRadius": 0.28,
+        "speed": 52,
+        "speedScale": 1.6,
+        "jumpHeight": 10,
+        "interactable": true,
+        "path": "https://models-3122d.web.app/chossid.glb?k=2",
+        "position": {
+          "x": -7.5,
+          "y": 1.15,
+          "z": 7
+        }
+      }
+    ],
+    "VillagePictureProp": [
+      {
+        "name": "new_clustered_anchor_tree",
+        "kind": "pictureAnchorTree",
+        "scale": 1.62,
+        "groundLift": 0,
+        "position": {
+          "x": -14.8,
+          "z": 4.6
+        }
+      },
+      {
+        "name": "field_detail_left_right",
+        "kind": "meadowDetail",
+        "groundLift": 0,
+        "position": {
+          "x": 0,
+          "z": 0
+        }
+      },
+      {
+        "name": "actual_blended_dirt_path",
+        "kind": "pictureDirtPath",
+        "groundLift": 0.01,
+        "position": {
+          "x": -1,
+          "z": 4.8
+        },
+        "rotation": {
+          "y": -0.05
+        }
+      },
+      {
+        "name": "actual_raised_stone_terrace",
+        "kind": "pictureTerraceWall",
+        "groundLift": 0,
+        "position": {
+          "x": 8.4,
+          "z": -4.9
+        },
+        "rotation": {
+          "y": -0.08
+        }
+      },
+      {
+        "name": "actual_right_stone_steps",
+        "kind": "pictureStoneSteps",
+        "groundLift": 0,
+        "position": {
+          "x": 14.3,
+          "z": 0.6
+        },
+        "rotation": {
+          "y": -1.35
+        }
+      },
+      {
+        "name": "actual_main_gable_house",
+        "kind": "gableHouse",
+        "scale": 1.18,
+        "groundLift": 0.02,
+        "position": {
+          "x": 9.2,
+          "z": -8.8
+        },
+        "rotation": {
+          "y": -0.3
+        }
+      },
+      {
+        "name": "actual_left_gable_house",
+        "kind": "gableHouse",
+        "scale": 0.86,
+        "groundLift": 0.02,
+        "position": {
+          "x": -16,
+          "z": -7.9
+        },
+        "rotation": {
+          "y": 0.38
+        }
+      },
+      {
+        "name": "actual_green_portal_pergola",
+        "kind": "pergolaPortal",
+        "groundLift": 0,
+        "position": {
+          "x": 5.7,
+          "z": -3.6
+        },
+        "rotation": {
+          "y": -0.05
+        }
+      },
+      {
+        "name": "actual_foreground_lantern",
+        "kind": "lantern",
+        "groundLift": 0,
+        "position": {
+          "x": -12.5,
+          "z": 6
+        }
+      },
+      {
+        "name": "actual_portal_lantern",
+        "kind": "lantern",
+        "groundLift": 0,
+        "position": {
+          "x": 3.25,
+          "z": -3.85
+        }
+      },
+      {
+        "name": "actual_tree_bench",
+        "kind": "bench",
+        "groundLift": 0,
+        "position": {
+          "x": -10.3,
+          "z": 9.1
+        },
+        "rotation": {
+          "y": 0.32
+        }
+      },
+      {
+        "name": "actual_stone_well",
+        "kind": "well",
+        "groundLift": 0,
+        "position": {
+          "x": 15.7,
+          "z": -2.4
+        }
+      },
+      {
+        "name": "actual_left_fence",
+        "kind": "fence",
+        "count": 7,
+        "groundLift": 0,
+        "position": {
+          "x": -20,
+          "z": 2.2
+        },
+        "rotation": {
+          "y": 0.16
+        }
+      },
+      {
+        "name": "actual_back_fence",
+        "kind": "fence",
+        "count": 9,
+        "groundLift": 0,
+        "position": {
+          "x": 1.5,
+          "z": -15.8
+        },
+        "rotation": {
+          "y": 1.57
+        }
+      },
+      {
+        "name": "actual_front_flowers",
+        "kind": "flowerPatch",
+        "groundLift": 0,
+        "position": {
+          "x": -7.2,
+          "z": 8.8
+        }
+      },
+      {
+        "name": "actual_house_flowers",
+        "kind": "flowerPatch",
+        "groundLift": 0,
+        "position": {
+          "x": 7.3,
+          "z": -5.5
+        }
+      },
+      {
+        "name": "actual_path_rock_one",
+        "kind": "rock",
+        "groundLift": 0,
+        "position": {
+          "x": -5.4,
+          "z": 4.1
+        }
+      },
+      {
+        "name": "actual_path_rock_two",
+        "kind": "rock",
+        "sx": 0.42,
+        "sy": 0.22,
+        "sz": 0.34,
+        "groundLift": 0,
+        "position": {
+          "x": 2.1,
+          "z": 2.2
+        }
+      },
+      {
+        "name": "actual_tree_rock",
+        "kind": "rock",
+        "sx": 0.75,
+        "sy": 0.28,
+        "sz": 0.55,
+        "groundLift": 0,
+        "position": {
+          "x": -17.6,
+          "z": 8.8
+        }
+      }
+    ],
+    "InteractiveNpc": [
+      {
+        "name": "Village Challenge Guide",
+        "simpleGuide": false,
+        "opensLevelSelect": true,
+        "selectorTitle": "NPC CHALLENGES",
+        "proximity": 5.2,
+        "visualHeight": 1.65,
+        "dialogue": [
+          "Shalom! I guard the challenge path.",
+          "Tap choose levels and I will open the ladder board.",
+          "The village is only the beginning."
+        ],
+        "position": {
+          "x": -1.8,
+          "y": -0.2,
+          "z": 6.2
+        }
+      }
+    ],
+    "InteractiveDoor": [
+      {
+        "name": "Challenge Gate Mezuzah",
+        "label": "Challenge Gate Mezuzah",
+        "next": "ladder-1.json",
+        "destination": "ladder-1.json",
+        "isSolid": false,
+        "interactable": true,
+        "proximity": 3.2,
+        "requiresAllCoins": false,
+        "manualOnly": true,
+        "position": {
+          "x": 5.85,
+          "y": 0.95,
+          "z": -3.68
+        },
+        "visibleDebug": true
+      }
+    ]
+  }
+}

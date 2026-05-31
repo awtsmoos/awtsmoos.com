@@ -1,15 +1,16 @@
 // B"H
 /**
  * @file messageHandler.js
- * @description Chapter 75: Worker dispatcher drinks from current UI/input
- * handlers. The Awtsmoos keeps reset and enable messages in the same boot
- * covenant as the platform-size repair.
+ * @description
+ * Chapter 108: the browser cache river is cut fresh. The worker dispatcher now
+ * imports the newest UI handler so NPC overlays, direct level launches, and
+ * quiet DevTools arrive in the actual runtime instead of yesterday's ghost.
  */
-import coreHandlers from "./handlers/core.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import htmlHandlers from "./handlers/html.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import uiHandlers from "./handlers/ui.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import worldHandlers from "./handlers/world.js?v=wide-platform-real-boot-chain-20260529-bh75";
-import inputHandlers from "./handlers/input.js?v=wide-platform-real-boot-chain-20260529-bh75";
+import coreHandlers from "./handlers/core.js?v=village-fix-20260531-bh108";
+import htmlHandlers from "./handlers/html.js?v=village-fix-20260531-bh108";
+import uiHandlers from "./handlers/ui.js?v=village-fix-20260531-bh108";
+import worldHandlers from "./handlers/world.js?v=village-fix-20260531-bh108";
+import inputHandlers from "./handlers/input.js?v=village-fix-20260531-bh108";
 
 export default function setupMessageHandler(manager) {
   const promiseMap = new Map();

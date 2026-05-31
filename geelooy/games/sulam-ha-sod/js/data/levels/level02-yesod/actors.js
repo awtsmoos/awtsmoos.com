@@ -2,37 +2,41 @@
 import { C, S, E, F } from '../../levelPrimitives.js';
 
 /**
- * Yesod actors: mirrors with space around them.
+ * Yesod actors: reflection without betrayal of reach.
  *
- * Chapter 2 continues: the Awtsmoos lets reflected coins tempt the eye, yet the
- * real rewards now hover above breathable landings. The upper orbit still sings
- * danger, but slower, farther, and loud enough to be understood.
+ * Chapter 2 continues: the Awtsmoos places the mirror coins where the player
+ * can land, gather, and breathe. Required collection follows the main causeway;
+ * deception sits to the side and announces its lesson.
+ *
+ * @constant {Array<object>} yesodCoins
  */
 export const yesodCoins = [
-  C(250, 460), C(625, 410), C(875, 355, 'dinar'), C(1135, 300),
-  C(1395, 245, 'sela'), C(1670, 305), C(1935, 250, 'dinar'),
-  C(2215, 195), C(2405, 255, 'maneh'), C(825, 244), C(1275, 112, 'sela'),
-  C(1720, -10, 'dinar')
+  C(260, 460),
+  C(760, 410),
+  C(1075, 355, 'dinar'),
+  C(1385, 300),
+  C(1705, 245, 'sela'),
+  C(2025, 300),
+  C(2320, 355, 'maneh')
 ];
 
-export const yesodKeys = [C(2225, 190, 'dinar')];
+/** @constant {Array<object>} yesodKeys */
+export const yesodKeys = [C(2395, 355, 'dinar')];
 
+/** @constant {Array<object>} yesodSpikes */
 export const yesodSpikes = [
-  S(1295, 481, 66, 22, 2.1, 1.5, 3.4),
-  S(2115, 481, 70, 22, 2.7, 1.4, 3.2),
-  { x: 720, y: 472, w: 30, h: 30, cycle: true, showDormant: true, moveX: 58, moveRate: 2.1, period: 3.4, duty: 0.42, warning: 1.05 },
-  { x: 2035, y: -142, w: 30, h: 30, cycle: true, showDormant: true, orbitR: 36, orbitX: 2035, orbitY: -118, orbitRate: -1.05, period: 4.2, duty: 0.34, warning: 1.35 }
+  S(535, 483, 54, 22, 2.4, 1.6, 3.8),
+  S(1885, 263, 50, 20, 2.5, 1.7, 3.9)
 ];
 
+/** @constant {Array<object>} yesodEnemies */
 export const yesodEnemies = [
-  E(870, 361, 830, 1010, 70, 'husk', 'mirror husk'),
-  E(1660, 311, 1610, 1810, 85, 'watcher', 'watching reflection')
+  E(1120, 361, 1030, 1230, 50, 'husk', 'mirror husk'),
+  E(2020, 306, 1970, 2190, 55, 'watcher', 'watching reflection')
 ];
 
+/** @constant {object} yesodExtra */
 export const yesodExtra = {
-  fakeCoins: [
-    F(1325, 245, 'sela', 'The reflected sela was a spike.'),
-    F(2050, 250, 'perutah', 'The ordinary coin split into teeth.')
-  ],
-  trickCoins: [{ x: 1145, y: 300, kind: 'trapBait', baitX: 1360, speed: 180, min: 1080, max: 1420 }]
+  fakeCoins: [F(1275, 300, 'sela', 'The reflected sela was a spike.')],
+  trickCoins: []
 };

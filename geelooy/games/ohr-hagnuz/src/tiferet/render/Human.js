@@ -1,128 +1,86 @@
-
 /**
  * B"H
- * @class Human
- * @chapter The Mirror of the Tzelem
- * @description
- * Draws the human vessel. It dynamically shifts its geometry 
- * between Front, Back, and Side profiles to ensure the Tzaddik 
- * maintains their physical dignity in every dimension.
+ * @module Human
+ *
+ * Chapter 57: The villagers received kinder proportions.
+ * The Awtsmoos has no body and no form; every NPC is still generated from
+ * canvas primitives, but now the face, kippah, shirt, shoes, and idle bob feel
+ * like inhabitants of the same polished world as the player.
  */
 export class Human {
-    static draw(ctx, x, y, size, progress, dir) {
-        ctx.save();
-        ctx.translate(x + size / 2, y + size / 2);
-
-        const isSide = dir === 'l' || dir === 'r';
-        const phase = Math.sin(progress * Math.PI * 2);
-        const bob = Math.abs(phase) * (size / 18);
-        ctx.translate(0, -bob);
-
-        const skin = '#ffdbac';
-        const shirt = '#1565c0';
-        const pants = '#1e2430';
-        const swing = phase * (size / 4);
-
-        // Order of Appearance (The Seder of Layers)
-        
-        // 1. BACK ARM (Hidden if side-view unless swinging)
-        if (isSide) {
-            ctx.globalAlpha = 0.5;
-            this._drawArm(ctx, size, -swing, shirt, skin, dir === 'r', true);
-            ctx.globalAlpha = 1.0;
-        } else {
-            this._drawArm(ctx, size, -swing, shirt, skin, false, false);
-        }
-
-        // 2. LEGS
-        ctx.fillStyle = pants;
-        if (isSide) {
-            // Overlapping legs for profile
-            ctx.fillRect(-size/10 + swing, size/8, size/6, size/3);
-            ctx.globalAlpha = 0.6;
-            ctx.fillRect(-size/10 - swing, size/8, size/6, size/3);
-            ctx.globalAlpha = 1.0;
-        } else {
-            ctx.fillRect(-size/4, size/8, size/6, size/3 + (dir === 'd' ? swing : -swing));
-            ctx.fillRect(size/10, size/8, size/6, size/3 + (dir === 'd' ? -swing : swing));
-        }
-
-        // 3. TORSO
-        ctx.fillStyle = shirt;
-        const torsoW = isSide ? size / 3 : size / 2;
-        ctx.beginPath();
-        ctx.roundRect(-torsoW / 2, -size / 4, torsoW, size / 2, size / 12);
-        ctx.fill();
-
-        // 4. FRONT ARM
-        if (isSide) {
-            this._drawArm(ctx, size, swing, shirt, skin, dir === 'l', true);
-        } else {
-            this._drawArm(ctx, size, swing, shirt, skin, true, false); // FIXED: isFlipped is now true!
-        }
-
-        // 5. HEAD
-        this._drawHead(ctx, size, dir, skin);
-
-        ctx.restore();
-    }
-
-    static _drawHead(ctx, size, dir, skin) {
-        const hr = size / 5;
-        const hy = -size / 2.5;
-        const isSide = dir === 'l' || dir === 'r';
-
-        ctx.fillStyle = skin;
-        ctx.beginPath();
-        // Slightly offset head in side view
-        const hx = isSide ? (dir === 'l' ? -2 : 2) : 0;
-        ctx.arc(hx, hy, hr, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Kippah (The Crown)
-        ctx.fillStyle = '#000';
-        ctx.beginPath();
-        const kw = isSide ? hr * 0.7 : hr * 0.8;
-        ctx.ellipse(hx, hy - hr + 2, kw, hr * 0.3, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Eyes (Panim)
-        if (dir === 'd' || isSide) {
-            ctx.fillStyle = '#000';
-            const eyeX = isSide ? (dir === 'l' ? -hr/1.5 : hr/1.5) : hr/2.5;
-            if (!isSide) {
-                ctx.fillRect(-eyeX, hy, 2, 2);
-                ctx.fillRect(eyeX - 2, hy, 2, 2);
-            } else {
-                ctx.fillRect(hx + (dir === 'l' ? -hr/2 : hr/2-2), hy, 2, 2);
-            }
-        }
-    }
-
-    static _drawArm(ctx, size, swing, shirt, skin, isFlipped, isSide) {
-        ctx.save();
-        
-        // Side offset logic
-        let side = isSide ? 0 : (isFlipped ? size / 3 : -size / 3);
-        if (isSide) ctx.translate(swing, 0);
-
-        ctx.lineWidth = size / 8;
-        ctx.lineCap = 'round';
-        
-        // Sleeve
-        ctx.strokeStyle = shirt;
-        ctx.beginPath();
-        ctx.moveTo(side, -size / 6);
-        ctx.lineTo(side, size / 10 + (isSide ? 0 : swing));
-        ctx.stroke();
-
-        // Hand
-        ctx.strokeStyle = skin;
-        ctx.beginPath();
-        ctx.moveTo(side, size / 10 + (isSide ? 0 : swing));
-        ctx.lineTo(side, size / 6 + (isSide ? 0 : swing));
-        ctx.stroke();
-        
-        ctx.restore();
-    }
+  static draw(ctx, x, y, size, progress = 0, dir = 'd') {
+    const phase = Math.sin(progress * Math.PI * 2);
+    const bob = Math.abs(phase) * size * .035;
+    ctx.save();
+    ctx.translate(x + size / 2, y + size / 2 - bob);
+    drawShadow(ctx, size);
+    drawLegs(ctx, size, phase);
+    drawBody(ctx, size, dir);
+    drawArms(ctx, size, phase);
+    drawHead(ctx, size, dir);
+    ctx.restore();
+  }
 }
+
+const drawShadow = (ctx, size) => {
+  ctx.fillStyle = 'rgba(0,0,0,.34)';
+  ctx.beginPath();
+  ctx.ellipse(0, size * .42, size * .3, size * .09, 0, 0, Math.PI * 2);
+  ctx.fill();
+};
+
+const drawLegs = (ctx, size, phase) => {
+  const swing = phase * size * .04;
+  ctx.fillStyle = '#1a2533';
+  ctx.fillRect(-size * .16 + swing, size * .08, size * .11, size * .28);
+  ctx.fillRect(size * .05 - swing, size * .08, size * .11, size * .28);
+  ctx.fillStyle = '#08090d';
+  ctx.fillRect(-size * .18 + swing, size * .35, size * .16, size * .055);
+  ctx.fillRect(size * .03 - swing, size * .35, size * .16, size * .055);
+};
+
+const drawBody = (ctx, size, dir) => {
+  const back = dir === 'u';
+  const g = ctx.createLinearGradient(-size * .23, -size * .22, size * .23, size * .22);
+  g.addColorStop(0, '#0d4e91');
+  g.addColorStop(.55, '#2586d7');
+  g.addColorStop(1, '#0a3768');
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.roundRect(-size * .24, -size * .25, size * .48, size * .44, size * .075);
+  ctx.fill();
+  ctx.fillStyle = back ? '#0b3b79' : '#e8fbff';
+  ctx.beginPath();
+  ctx.moveTo(-size * .08, -size * .25);
+  ctx.lineTo(0, -size * .16);
+  ctx.lineTo(size * .08, -size * .25);
+  ctx.closePath();
+  ctx.fill();
+};
+
+const drawArms = (ctx, size, phase) => {
+  [-1, 1].forEach((side, i) => {
+    const swing = phase * size * .04 * (i ? -1 : 1);
+    ctx.fillStyle = '#0d4e91';
+    ctx.fillRect(side * size * .24 - size * .045, -size * .2 + swing, size * .09, size * .29);
+    ctx.fillStyle = '#ffd7a8';
+    ctx.fillRect(side * size * .24 - size * .036, size * .07 + swing, size * .072, size * .12);
+  });
+};
+
+const drawHead = (ctx, size, dir) => {
+  const back = dir === 'u';
+  ctx.fillStyle = '#ffd7a8';
+  ctx.fillRect(-size * .19, -size * .53, size * .38, size * .31);
+  ctx.fillStyle = '#11151c';
+  ctx.fillRect(-size * .21, -size * .56, size * .42, size * .09);
+  if (back) ctx.fillRect(-size * .18, -size * .48, size * .36, size * .18);
+  ctx.fillStyle = '#05070d';
+  ctx.beginPath();
+  ctx.ellipse(0, -size * .58, size * .14, size * .045, 0, 0, Math.PI * 2);
+  ctx.fill();
+  if (back) return;
+  ctx.fillStyle = '#17202b';
+  ctx.fillRect(-size * .09, -size * .39, 3, 3);
+  ctx.fillRect(size * .08, -size * .39, 3, 3);
+};

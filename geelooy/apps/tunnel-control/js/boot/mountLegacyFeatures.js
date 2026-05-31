@@ -1,4 +1,3 @@
-
 // B"H
 
 import { mountFeatureVessels } from "./mountFeatureVessels.js";
@@ -12,15 +11,16 @@ import { mountChrome } from "../features/chrome.js";
 import { mountTerminal } from "../features/terminal.js";
 import { mountPrompt } from "../features/prompt.js";
 import { mountUsage } from "../features/usage.js";
+import { mountAiAgents } from "../features/aiAgents.js";
 import { safeMount } from "./safeMount.js";
 
 /**
  * B"H
- * Chapter 3 continued: Retiring the Rival Thrones.
+ * Chapter 338: The New Chamber Received Its Nerves.
  *
- * The old shell builders are no longer mounted here. This function now creates
- * feature vessels, then binds behavior to those controls. The visible palace is
- * owned by shell/mountShell.js alone.
+ * The hidden vessels are mounted first; then each control receives its breath.
+ * The AI-agent council is wired after usage so provider keys, list calls, and
+ * delegate messages can flow through the same tunnel name reader.
  *
  * @param {Function} getTunnelName Tunnel reader.
  * @returns {Promise<void>} Resolves after feature behavior is attached.
@@ -37,5 +37,6 @@ export async function mountLegacyFeatures(getTunnelName) {
   await safeMount("terminal", () => mountTerminal());
   await safeMount("prompt", () => mountPrompt());
   await safeMount("usage", () => mountUsage());
+  await safeMount("aiAgents", () => mountAiAgents(getTunnelName));
   await safeMount("chrome", () => mountChrome(getTunnelName));
 }

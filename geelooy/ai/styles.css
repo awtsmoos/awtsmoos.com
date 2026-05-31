@@ -1,8 +1,16 @@
-/*B"H*/
+/*B"H
+  Chapter 272: The live stylesheet became a river with all gates open.
+
+  The Awtsmoos hides in order. Tokens are the first breath, panels receive
+  their vessels, the right-side settings palace receives its real organs, and
+  mobile comes last as the crown that prevents the small screen from drowning.
+*/
 @import "./css/ideal/tokens.css";
 @import "./css/ideal/shell.css";
 @import "./css/ideal/sidebar.css";
 @import "./css/ideal/chat.css";
 @import "./css/ideal/composer.css";
 @import "./css/ideal/automation.css";
+@import "./css/ideal/settings.css";
+@import "./css/right-panel/manifest.css";
 @import "./css/ideal/mobile.css";

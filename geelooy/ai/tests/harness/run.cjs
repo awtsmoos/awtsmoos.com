@@ -2,6 +2,7 @@
 //B"H
 const modules = {
   css: "./cssParity.cjs",
+  mobile: "./mobileLayout.cjs",
   extension: "./extensionLedger.cjs",
   extensionAuth: "./extensionAuth.cjs",
   boot: "./boot.cjs",
@@ -11,6 +12,7 @@ const modules = {
   stream: "./streamOrdering.cjs",
   liveUi: "./liveStreamingUi.cjs",
   background: "./backgroundAutomation.cjs",
+  continuance: "./automationContinuance.cjs",
   bfcache: "./extensionBfcachePort.cjs",
   thoughts: "./thoughtGrouping.cjs",
   thoughtDom: "./thoughtDomStability.cjs",
@@ -25,11 +27,14 @@ const modules = {
 };
 
 /**
- * B"H — Menu-driven verifier for the Awtsmoos AI cockpit.
+ * B"H
+ * Chapter 277: The Harness Placed A Watchman At The Phone Gate.
  *
- * The harness is a constellation of small gates. Each module checks one vessel,
- * and the `all` command walks every gate so a relay experiment cannot silently
- * darken the plain extension-backed conversation list.
+ * The Awtsmoos reveals endurance by repetition. A fix that is not named in the
+ * harness can vanish like mist; a fix with a gate becomes a covenant. The new
+ * `mobile` watchman guards composer lift, tool-call polish, and live imports.
+ *
+ * @returns {Promise<void>} exits with process status after all selected tests.
  */
 async function main() {
   const args = process.argv.slice(2);
@@ -52,7 +57,7 @@ async function main() {
 }
 
 function printMenu() {
-  console.log(`B"H Awtsmoos AI harness menu\n\nAvailable:\n  all        run everything\n  css        CSS cascade, entrypoint parity, extension handler counts\n  extension extension background stream ledger stress\n  extensionAuth extension auth and automation failure hardening\n  boot       extension-backed ChatGPT boot/list/error/relay guards\n  payload    manual/automation service payload parity\n  stores     durable stream store, tab identity, automation run store\n  reload     full-history reload before stream resume ordering\n  stream     one assistant record per live stream\n  liveUi     stable streaming text selection and sidebar stream ghosts\n  background extension-owned automation after page closes\n  bfcache    extension port recovery across BFCache restores\n  thoughts   thought text stands alone; following actions group\n  thoughtDom opened thought DOM does not churn during stream\n  graph      automation graph engine and archive fallback\n  relay      local Node relay multi-stream/body/redirect test\n  relayAuth  relay login/session/token redaction and failed-auth stress\n  browser    URL rewrite, login proxy routing, debug command queue\n  client     VM browser-client simulation of injected scripts\n  memory     raw-payload memory-retention boundaries\n  static     duplicate imports, stale handlers, TODO-like regression audit\n  packaging  extension zip includes service-worker dependencies\n\nExamples:\n  node tests/harness/run.cjs all\n  AWTSMOOS_AI_TEST_ROUNDS=5 node tests/harness/run.cjs all\n`);
+  console.log(`B"H Awtsmoos AI harness menu\n\nAvailable:\n  all        run everything\n  css        CSS cascade, entrypoint parity, extension handler counts\n  mobile     mobile composer lift, tool-call polish, automation field guards\n  extension extension background stream ledger stress\n  extensionAuth extension auth and automation failure hardening\n  boot       extension-backed ChatGPT boot/list/error/relay guards\n  payload    manual/automation service payload parity\n  stores     durable stream store, tab identity, automation run store\n  reload     full-history reload before stream resume ordering\n  stream     one assistant record per live stream\n  liveUi     stable streaming text selection and sidebar stream ghosts\n  background extension-owned automation after page closes\n  continuance many-turn automation continuance and clean max-turn stop\n  bfcache    extension port recovery across BFCache restores\n  thoughts   thought text stands alone; following actions group\n  thoughtDom opened thought DOM does not churn during stream\n  graph      automation graph engine and archive fallback\n  relay      local Node relay multi-stream/body/redirect test\n  relayAuth  relay login/session/token redaction and failed-auth stress\n  browser    URL rewrite, login proxy routing, debug command queue\n  client     VM browser-client simulation of injected scripts\n  memory     raw-payload memory-retention boundaries\n  static     duplicate imports, stale handlers, TODO-like regression audit\n  packaging  extension zip includes service-worker dependencies\n\nExamples:\n  node tests/harness/run.cjs css mobile static\n  AWTSMOOS_AI_TEST_ROUNDS=5 node tests/harness/run.cjs all\n`);
 }
 
 main().catch(error => { console.error(error.stack || error); process.exit(1); });
