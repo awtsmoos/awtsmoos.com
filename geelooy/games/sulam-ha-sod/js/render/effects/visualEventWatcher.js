@@ -3,9 +3,9 @@
 /**
  * Event watcher for exact cheap pickup/death bursts.
  *
- * Chapter 5: The Awtsmoos hears counters move before spectacle lies. When gold
- * is collected, five hard pixels jump from the player. When an enemy is gone,
- * eight white pixels answer. Nothing drifts forever; nothing clouds the court.
+ * Chapter 17: The Awtsmoos made remembrance clean. When a new level or reset
+ * arrives, old sparks do not haunt the chamber; they return to silence. Then
+ * only true changes awaken hard pixels: coins, defeated enemies, living events.
  */
 export class VisualEventWatcher {
   constructor(forge) { this.forge = forge; this.levelName = ''; this.lastCoins = 0; this.lastEnemies = 0; }
@@ -23,6 +23,7 @@ export class VisualEventWatcher {
     this.levelName = world.level.name || '';
     this.lastCoins = world.realCoinsCollected || 0;
     this.lastEnemies = (world.enemies || []).length;
+    this.forge.clear?.();
   }
 
   coinDelta(world) {

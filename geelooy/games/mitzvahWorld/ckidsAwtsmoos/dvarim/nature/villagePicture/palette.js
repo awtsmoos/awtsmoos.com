@@ -2,21 +2,21 @@
 /**
  * @file palette.js
  * @description
- * Chapter 102: every color is a small candle. The Awtsmoos gathers stone,
- * roof, wood, lantern, flower, and portal tones into one vessel so the village
- * can look deliberate instead of scattered.
+ * Chapter 4: Realism enters as disciplined earth. The Awtsmoos lowers the
+ * colors from toy-bright shouting into sun-warmed stone, dusty wood, softened
+ * flowers, and lamp-fire that feels held by evening air.
  */
 export const PICTURE_COLORS = Object.freeze({
-  stone: 0xbfae8a,
-  stoneDark: 0x8f826f,
-  roof: 0xa83118,
-  roofDark: 0x6f1c12,
-  wood: 0x6c4324,
-  darkWood: 0x25170f,
-  warm: 0xffb45b,
-  portal: 0x4cffb0,
-  leafVine: 0x2d7a32,
-  yellowFlower: 0xffd84d,
-  pinkFlower: 0xcf6dff,
-  rock: 0x85827a
+  stone: 0xc8b994,
+  stoneDark: 0x7b6d5a,
+  roof: 0x9d341e,
+  roofDark: 0x5a2118,
+  wood: 0x6b4528,
+  darkWood: 0x2d2117,
+  warm: 0xffb86b,
+  portal: 0x46d98c,
+  leafVine: 0x2f6f32,
+  yellowFlower: 0xeac84a,
+  pinkFlower: 0xb974c9,
+  rock: 0x817d72
 });

@@ -12,11 +12,13 @@ import { handleRelayInstallAction, copyRelayCommand } from "./relayInstallAction
 
 /**
  * B"H
- * Chapter 257: The Stop Selector Was Named So The Background Could Trust It.
+ * Chapter 286: The Tab Gate Learned To Close Its Own Mouth.
  *
- * The stop button now has a named binding gate and a literal selector for
- * `[data-auto-action="stop"]`, so both the living DOM and static verifier see
- * the same emergency brake while automation streams keep moving.
+ * The Awtsmoos reveals an interface as a treaty between state and space. A tab
+ * click changes the room; therefore the menu that chose the room must close
+ * before the new room is born. Without that mercy, the old floating chooser can
+ * hang over the fresh form like a translucent shard and make the store look
+ * broken even when the data is clean.
  */
 export class AutomationPanel {
   constructor({ root, store, onChange, onDownloadChat = null, onDownloadJson = null, conversationId = null }) {
@@ -30,7 +32,7 @@ export class AutomationPanel {
   setConversationId(conversationId = null) { this.conversationId = conversationId; this.settings = this.store.setConversationId?.(conversationId) || this.store.load(conversationId); this.render(); }
   render() { const topbar = this.root.querySelector(":scope > .panel-topbar"); const content = document.createElement("div"); content.className = "automation-panel-content"; content.innerHTML = `${menu(this.tab)}<div class="right-panel-body">${this.body()}</div>`; this.root.replaceChildren(...[topbar, content].filter(Boolean)); this.bindAll(); }
   bindAll() {
-    this.bind("[data-tab]", node => node.onclick = () => { this.tab = node.dataset.tab; this.render(); if (["archive", "settings"].includes(this.tab)) this.refreshProviderGroups(); });
+    this.bind("[data-tab]", node => node.onclick = () => this.chooseTab(node.dataset.tab));
     this.bind("[data-auto]", input => { const handler = () => this.captureAutomation(); input.onchange = handler; input.oninput = handler; });
     this.bindAutomationActions();
     this.bind("[data-prompt-action]", node => node.onclick = () => this.handlePromptAction(node.dataset.promptAction));
@@ -45,6 +47,8 @@ export class AutomationPanel {
     this.bind("[data-provider-chat-action]", node => node.onclick = () => this.handleProviderChatAction(node.dataset.providerChatAction));
     this.bind("[data-provider-chat-import]", node => node.onchange = () => this.handleProviderImport(node.files?.[0]));
   }
+  chooseTab(tab) { this.closeOpenMenu(); this.tab = tab || "automation"; this.render(); if (["archive", "settings"].includes(this.tab)) this.refreshProviderGroups(); }
+  closeOpenMenu() { const menuNode = this.root.querySelector(".right-menu[open]"); if (menuNode) menuNode.open = false; }
   bindAutomationActions() { const stopSelector = '[data-auto-action="stop"]'; this.bind(`${stopSelector},[data-auto-action]`, node => node.onclick = () => this.handleAutomationAction(node.dataset.autoAction)); }
   body() { if (this.tab === "conversations") return conversationFields(); if (this.tab === "settings") return `<h3 class="panel-section-label">B"H Cockpit Settings</h3>${exportFields()}${providerArchiveFields(this.providerGroups, true)}${relayFields(this.relaySettings)}${this.visibilityMarkup()}`; if (this.tab === "trace") return `<h3 class="panel-section-label">Message Trace Filters</h3><p class="panel-note">Disable noisy trace families without deleting history.</p>${this.visibilityMarkup()}`; if (this.tab === "graph") return renderGraphFields(this.graph); if (this.tab === "archive") return `${archiveFields()}${providerArchiveFields(this.providerGroups)}`; return automationFields(this.settings, this.conversationId); }
   captureAutomation() { const next = {}; this.root.querySelectorAll("[data-auto]").forEach(input => next[input.dataset.auto] = input.type === "checkbox" ? input.checked : cast(input.value)); this.settings = this.store.save(next, this.conversationId); Promise.resolve(this.onChange?.(this.settings)).catch(error => this.report(`automation change failed: ${error?.message || error}`)); this.report(this.settings.enabled ? "automation armed · visible Send path" : "automation off for this chat"); }

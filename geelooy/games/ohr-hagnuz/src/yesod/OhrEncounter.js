@@ -2,12 +2,11 @@
  * B"H
  * @module OhrEncounter
  *
- * Chapter 2: The Gate That Refused to Echo Itself.
- *
- * The Awtsmoos, beyond body and form, renews every arrival tile from nothing:
- * door, grass, book, synagogue, mitzvah, NPC, and hidden quest-spark. This
- * module keeps that arrival-order clear, so a book is learned once, a holy
- * place heals once, and no duplicate import declares the same vessel twice.
+ * Chapter 79: No button returned empty-handed.
+ * The Awtsmoos, beyond body and form, renews every facing tile from nothing:
+ * door, grass, book, synagogue, mitzvah, NPC, musag, and ordinary road. This
+ * module makes Talk and Interact always answer, so the player never wonders if
+ * the living world heard his hand.
  */
 import { State } from '../binah/State.js';
 import { tileMeta } from '../data/WorldData.js';
@@ -19,70 +18,32 @@ import { tellStory } from './story/OhrStory.js';
 import { learnBook } from './books/TorahBooks.js';
 import { doMitzvah, healAtSynagogue } from './holy/HolyPlaces.js';
 
-/**
- * Tells the story bound to an encountered glyph.
- *
- * @param {string} glyph - Tile glyph whose letters are being encountered.
- * @param {{ label?: string }} meta - Tile metadata with display label.
- * @returns {void}
- */
 const maybeStory = (glyph, meta) => tellStory(glyph, meta.label || 'NPC');
 
-/**
- * Runs a quest interaction before the ordinary tile reward when present.
- *
- * @param {object} meta - Tile metadata that may carry a quest marker.
- * @returns {void}
- */
-const interactQuestIfPresent = (meta) => {
+const interactQuestIfPresent = meta => {
   if (meta.quest) interactQuest(meta);
 };
 
-/**
- * Handles arrival on a book tile.
- *
- * @param {object} meta - Tile metadata containing a book id.
- * @returns {boolean} Whether this handler consumed the arrival.
- */
-const handleBookArrival = (meta) => {
+const handleBookArrival = meta => {
   if (!meta.book) return false;
   interactQuestIfPresent(meta);
   learnBook(meta.book);
   return true;
 };
 
-/**
- * Handles arrival on a synagogue tile.
- *
- * @param {object} meta - Tile metadata for the holy healing place.
- * @returns {boolean} Whether this handler consumed the arrival.
- */
-const handleSynagogueArrival = (meta) => {
+const handleSynagogueArrival = meta => {
   if (meta.kind !== 'synagogue') return false;
   interactQuestIfPresent(meta);
   healAtSynagogue(meta.label);
   return true;
 };
 
-/**
- * Handles arrival on a mitzvah tile.
- *
- * @param {object} meta - Tile metadata describing the mitzvah action.
- * @returns {boolean} Whether this handler consumed the arrival.
- */
-const handleMitzvahArrival = (meta) => {
+const handleMitzvahArrival = meta => {
   if (meta.kind !== 'mitzvah') return false;
   doMitzvah(meta.label);
   return true;
 };
 
-/**
- * Handles arrival on a portal tile.
- *
- * @param {string} glyph - Actual tile glyph under the hero.
- * @param {object} meta - Tile metadata describing door or edge behavior.
- * @returns {boolean} Whether this handler consumed the arrival.
- */
 const handlePortalArrival = (glyph, meta) => {
   if (meta.kind !== 'door' && meta.kind !== 'edge') return false;
   const portal = portalAt(State.Hero.cx, State.Hero.cy, glyph);
@@ -90,13 +51,6 @@ const handlePortalArrival = (glyph, meta) => {
   return true;
 };
 
-/**
- * Handles arrival on a speaking or debating presence.
- *
- * @param {string} glyph - Tile glyph of the presence.
- * @param {object} meta - Tile metadata for story, quest, and encounter.
- * @returns {boolean} Whether this handler consumed the arrival.
- */
 const handlePresenceArrival = (glyph, meta) => {
   if (meta.kind !== 'npc' && meta.kind !== 'musag') return false;
   if (meta.quest) {
@@ -107,9 +61,19 @@ const handlePresenceArrival = (glyph, meta) => {
   return true;
 };
 
+const describeQuietTile = meta => {
+  const labels = {
+    grass: 'The grass rustles. Face a person, door, spark, book, or mitzvah station, then press Talk or Interact.',
+    road: 'The road waits. The Village Guide beside the starting road begins the story.',
+    floor: 'The room is quiet. Step toward a sefer or doorway and press Interact.',
+    tree: 'The tree is solid and silent. Walk around it.'
+  };
+  State.say(labels[meta.kind] || 'Nothing responds here yet. Face a glowing vessel and try again.', 220);
+};
+
 /**
- * Responds to the hero stepping onto the current tile.
- *
+ * B"H
+ * @description Responds to the hero stepping onto the current tile.
  * @returns {void}
  */
 export const handleArrival = () => {
@@ -134,12 +98,12 @@ export const handleArrival = () => {
 };
 
 /**
- * Responds to the action button against the tile in front of the hero.
- *
- * @param {{ tile: string, x: number, y: number }} front - Facing tile data.
+ * B"H
+ * @description Responds to Talk or Interact against the tile in front.
+ * @param {{ tile: string, x: number, y: number }} front Facing tile data.
  * @returns {void}
  */
-export const handleActionFacing = (front) => {
+export const handleActionFacing = front => {
   const meta = tileMeta(front.tile);
 
   if (meta.quest || meta.questItem) {
@@ -151,15 +115,31 @@ export const handleActionFacing = (front) => {
   if (meta.kind === 'door') {
     const portal = portalAt(front.x, front.y, front.tile);
     if (portal) transfer(portal);
-  } else if (meta.kind === 'npc' || meta.kind === 'musag') {
+    else State.say(`${meta.label || 'Door'} is closed for now.`, 220);
+    return;
+  }
+
+  if (meta.kind === 'npc' || meta.kind === 'musag') {
     maybeStory(front.tile, meta);
     if (meta.encounter) startDebate(encounterById(meta.encounter));
-  } else if (meta.kind === 'object') {
+    return;
+  }
+
+  if (meta.kind === 'object') {
     if (meta.book) learnBook(meta.book);
     else State.say(`${meta.label}: its letters glow softly.`, 360);
-  } else if (meta.kind === 'synagogue') {
-    healAtSynagogue(meta.label);
-  } else if (meta.kind === 'mitzvah') {
-    doMitzvah(meta.label);
+    return;
   }
+
+  if (meta.kind === 'synagogue') {
+    healAtSynagogue(meta.label);
+    return;
+  }
+
+  if (meta.kind === 'mitzvah') {
+    doMitzvah(meta.label);
+    return;
+  }
+
+  describeQuietTile(meta);
 };

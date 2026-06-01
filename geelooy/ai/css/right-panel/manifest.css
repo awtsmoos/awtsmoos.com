@@ -1,8 +1,10 @@
 /*B"H
-  Chapter 218: The Right Panel Was Split Into Living Organs.
+  Chapter 284: The Right Panel Was Split Into Living Organs And Sealed On Mobile.
+
   Tokens, shell, menu, sections, fields, toggles, actions, and responsive law
   each speak in their own file. The Awtsmoos does not stack emergency shadows;
-  it gives every vessel one clear task.
+  it gives every vessel one clear task, then sends the mobile overlap guard last
+  so no narrow-screen ghost can cover the living controls.
 */
 @import "./tokens.css";
 @import "./shell.css";
@@ -13,3 +15,4 @@
 @import "./actions.css";
 @import "./fullscreen.css";
 @import "./responsive.css";
+@import "./mobile-overlap-kill.css";

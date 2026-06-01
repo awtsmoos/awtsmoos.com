@@ -4,10 +4,10 @@ import { P, C, F, S, E, R, T, G, L } from '../levelPrimitives.js';
 /**
  * Binah: hidden rooms that show their seams.
  *
- * Chapter 8: The Awtsmoos opened the womb of questions and the walls breathed
- * violet frost. Every true platform now has a rung-like body; every false idea
- * flickers as a phantom shelf. The player can walk the whole thought, while
- * fake Hebrew coins lure only those who refuse to read the vessel.
+ * Chapter 22: The Awtsmoos opened the womb and removed the cramped false
+ * ceiling. Understanding should be layered, not suffocating. The route now
+ * breathes between arches, while half-formed thoughts still hover as deceptive
+ * shelves outside the player's required body path.
  */
 export const level08 = L(
   '8 · Binah Womb of Hidden Floors', 5100, { x: 60, y: 420 }, P(4840, 260, 44, 90),
@@ -16,12 +16,11 @@ export const level08 = L(
     P(0, 505, 600, 35), P(700, 455, 270, 22), P(1100, 405, 255, 22),
     P(1500, 355, 245, 22), P(1900, 305, 235, 22), P(2300, 355, 235, 22),
     P(2700, 405, 235, 22), P(3100, 355, 235, 22), P(3500, 305, 235, 22),
-    P(3900, 245, 250, 22), P(4310, 285, 270, 22), P(4680, 260, 250, 22),
-    P(1630, 280, 175, 18), P(3250, 280, 175, 18)
+    P(3900, 245, 250, 22), P(4310, 285, 270, 22), P(4680, 260, 250, 22)
   ],
   [R(620, 480, 94, 14, 0.55, 115), R(2260, 330, 98, 14, -0.62, 120), R(3860, 280, 98, 14, 0.6, 115)],
   [
-    T(980, 438, 104, 16, 'phantom'), T(1020, 439, 104, 16, 'oneWay'),
+    T(980, 438, 104, 16, 'phantom'), T(930, 439, 104, 16, 'oneWay'),
     T(1380, 388, 104, 16, 'ghostSpike'), T(1810, 288, 104, 16, 'phantom'),
     T(2225, 339, 104, 16, 'oneWay'), T(2660, 388, 108, 16, 'falseSpike'),
     T(4240, 269, 110, 16, 'oneWay'), T(4580, 260, 104, 16, 'phantom')

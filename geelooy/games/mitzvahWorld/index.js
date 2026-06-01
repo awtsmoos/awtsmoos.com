@@ -1,9 +1,10 @@
 // B"H
 /**
  * @file index.js
- * @description Chapter 80: the outer gate stops wearing query-string masks.
- * The Awtsmoos enters by true filenames only; if the bridge is wrong, the code
- * must confess by its own body, not by a cache-name storm.
+ * @description
+ * Chapter 4: The outer gate carries a newer seal so stale modules cannot wear
+ * yesterday's body. The Awtsmoos keeps boot truthful: current code, current
+ * errors, current village, current ground beneath every foot.
  */
 let bootStarted = false;
 
@@ -11,7 +12,7 @@ function safeClone(value, depth = 0) {
   if (depth > 4) return "[MaxDepth]";
   if (value == null || ["string", "number", "boolean"].includes(typeof value)) return value;
   if (typeof value === "function") return `[Function ${value.name || "anonymous"}]`;
-  if (value instanceof Error) return { kind: "Error", name: value.name, message: value.message, stack: value.stack, cause: safeClone(value.cause, depth + 1) };
+  if (value instanceof Error) return { name: value.name, message: value.message, stack: value.stack, cause: safeClone(value.cause, depth + 1) };
   if (Array.isArray(value)) return value.slice(0, 40).map(item => safeClone(item, depth + 1));
   if (typeof value === "object") {
     const out = { kind: value?.constructor?.name || "Object", string: String(value) };
@@ -50,7 +51,7 @@ function bootIkarNow() {
   if (bootStarted || typeof window === "undefined" || !window.document) return;
   bootStarted = true;
   window.__AWTSMOOS_BOOT_STARTED__ = { at: new Date().toISOString(), readyState: document.readyState };
-  const ikarModuleURL = "./ckidsAwtsmoos/ikar.js";
+  const ikarModuleURL = "./ckidsAwtsmoos/ikar.js?bh=auto-ground-realism-4";
   import(ikarModuleURL).then(module => {
     window.__AWTSMOOS_BOOT_LOADED__ = { at: new Date().toISOString(), keys: Object.keys(module || {}) };
     console.log("B\"H - Mitzvah World ikar boot loaded", window.__AWTSMOOS_BOOT_LOADED__);

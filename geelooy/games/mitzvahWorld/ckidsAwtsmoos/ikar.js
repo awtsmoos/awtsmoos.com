@@ -2,9 +2,9 @@
 /**
  * @file ikar.js
  * @description
- * Chapter 108: the boot gate stops rejecting the village it was born to open.
- * The Awtsmoos accepts village.json, ?path without a value, and ladder-N.json;
- * it fetches only known JSON vessels and reports errors without hiding the road.
+ * Chapter 3: The path gate learns restraint. A bare `?path` is no longer a
+ * command to drag the player into a world. The Awtsmoos opens only the named
+ * vessel; silence remains silence, and choice remains choice.
  */
 import ManagerOfAllWorlds from "./Olam/worldManager/index.js";
 
@@ -50,16 +50,14 @@ function reportError(error, context = {}) {
   scope.__AWTSMOOS_LAST_ERROR_JSON__ = JSON.stringify(details, null, 2);
   console.error(`B"H - ${context.label || "Runtime error"} JSON`, scope.__AWTSMOOS_LAST_ERROR_JSON__);
   renderErrorPanel(details);
-  return details;
 }
 
 function normalizeLevelId(raw) {
   const rawText = String(raw ?? "").trim();
-  const clean = rawText ? rawText.split(/[?#]/)[0].split("/").pop() : "village.json";
-  const json = clean.replace(/\.js$/i, ".json");
+  if (!rawText) return null;
+  const clean = rawText.split(/[?#]/)[0].split("/").pop();
+  const json = clean.replace(/\.js$/i, ".json").toLowerCase();
   if (LEVELS.has(json)) return json;
-  const ladder = json.match(/^ladder-(\d+)\.json$/i);
-  if (ladder && Number(ladder[1]) >= 1 && Number(ladder[1]) <= 5) return json.toLowerCase();
   throw new Error("Only village.json and ladder-N.json level paths are enabled here.");
 }
 
@@ -88,20 +86,16 @@ function uiRoots() {
 }
 
 async function waitForGameUi() {
-  markPhase("ui:wait:start");
   for (let attempts = 1; attempts <= 160; attempts += 1) {
     const { ikar } = uiRoots();
-    if (ikar && scope.awtsmoosGameUI) {
-      markPhase("ui:wait:done", { attempts, hasGameUi: true });
-      return ikar;
-    }
+    if (ikar && scope.awtsmoosGameUI) return ikar;
     await new Promise(resolve => setTimeout(resolve, 80));
   }
   throw new Error("UI readiness timed out before level autoload.");
 }
 
 async function fetchLevel(id) {
-  const url = new URL(`../levels/ladder/data/${id}`, import.meta.url);
+  const url = new URL(`../levels/ladder/data/${id}?bh=grounded-village-3`, import.meta.url);
   markPhase("level:fetch:start", { id, url: url.href });
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error(`JSON level fetch failed: ${id} (${response.status})`);
@@ -113,23 +107,21 @@ async function fetchLevel(id) {
 
 async function autoloadFromQuery() {
   const params = new URLSearchParams(location.search);
-  const path = params.has("path") ? params.get("path") : null;
-  markPhase("autoload:start", { path });
-  if (path === null) return markPhase("autoload:skipped", { reason: "no path" });
-  const id = normalizeLevelId(path);
+  const rawPath = params.has("path") ? params.get("path") : null;
+  const id = normalizeLevelId(rawPath);
+  markPhase("autoload:start", { rawPath, id });
+  if (!id) return markPhase("autoload:skipped", { reason: "empty or absent path" });
   const ikar = await waitForGameUi();
   const { menu, loading } = uiRoots();
   menu?.classList.add("hidden", "offscreen");
   loading?.classList.remove("hidden");
   const data = await fetchLevel(id);
-  markPhase("autoload:dispatch:start", { id });
   ikar.dispatchEvent(new CustomEvent("start", { detail: { worldDayuh: data, sourcePath: id, gameUiHTML: scope.awtsmoosGameUI } }));
   markPhase("autoload:dispatch:done", { id });
 }
 
 async function boot() {
   markPhase("module:evaluated");
-  markPhase("boot:start", { readyState: document.readyState });
   await clearOldCaches();
   createManager();
   await autoloadFromQuery();

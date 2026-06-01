@@ -4,10 +4,10 @@ import { P, C, F, S, E, R, T, G, L } from '../levelPrimitives.js';
 /**
  * Tiferes: balance sharpened by visible deception.
  *
- * Chapter 6: The Awtsmoos bent beauty into a prism and the prism screamed with
- * color. Some coins sing from safe stone; some shine over hollow platforms like
- * honey on a blade. The true staircase stays walkable, but every shortcut now
- * asks the eye whether harmony is truth or only painted air.
+ * Chapter 20: The Awtsmoos removed cramped prism shelves and let symmetry
+ * breathe. Beauty is not a ceiling pressing down on the climber; beauty is a
+ * clean route where every true ledge has air and every fractured reflection is
+ * visibly false. The prism remains fast, flat, readable, and fair.
  */
 export const level06 = L(
   '6 · Tiferes Balance Prism', 4300, { x: 60, y: 420 }, P(4020, 300, 44, 90),
@@ -16,11 +16,11 @@ export const level06 = L(
     P(0, 505, 560, 35), P(640, 455, 245, 22), P(1000, 405, 235, 22),
     P(1370, 355, 225, 22), P(1740, 305, 215, 22), P(2120, 355, 215, 22),
     P(2500, 405, 215, 22), P(2880, 355, 215, 22), P(3260, 305, 215, 22),
-    P(3640, 300, 330, 22), P(1510, 280, 160, 18), P(3060, 280, 160, 18)
+    P(3640, 300, 330, 22)
   ],
   [R(570, 480, 92, 14, 0.62, 120), R(2080, 330, 96, 14, -0.62, 120), R(3480, 282, 90, 14, 0.58, 115)],
   [
-    T(900, 438, 95, 16, 'phantom'), T(940, 439, 96, 16, 'oneWay'),
+    T(900, 438, 95, 16, 'phantom'), T(850, 439, 96, 16, 'oneWay'),
     T(1260, 388, 98, 16, 'ghostSpike'), T(1665, 288, 90, 16, 'phantom'),
     T(2430, 389, 96, 16, 'oneWay'), T(2760, 388, 100, 16, 'falseSpike'),
     T(3580, 284, 110, 16, 'oneWay')

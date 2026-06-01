@@ -4,10 +4,10 @@ import { P, R, T } from '../../levelPrimitives.js';
 /**
  * Gevurah terrain: verdicts that lie in public.
  *
- * Chapter 5: The Awtsmoos struck the courtroom floor until the stone confessed:
- * some platforms are bodies and some are only smoke wearing geometry. Real
- * ledges keep bright rims; phantom ledges drift over spike-law and teach the
- * eye to distrust easy gold without hiding the walkable route.
+ * Chapter 19: The Awtsmoos separated lie from ladder. The broken scaffold and
+ * ghost-spike warning now sit beside the true route, not inside it, so the
+ * fortress teaches deception by language instead of invisible collision mess.
+ * Real stone remains readable; false scaffolding remains suspicious.
  *
  * @constant {Array<object>} gevurahPlatforms
  */
@@ -28,7 +28,7 @@ export const gevurahRotors = [
 /** @constant {Array<object>} gevurahTricks */
 export const gevurahTricks = [
   T(960, 430, 92, 16, 'phantom'), T(990, 439, 92, 16, 'oneWay'),
-  T(1320, 388, 96, 16, 'ghostSpike'), T(1360, 389, 92, 16, 'oneWay'),
-  T(1690, 330, 105, 16, 'phantom'), T(2500, 390, 105, 16, 'falseSpike'),
+  T(1240, 388, 96, 16, 'ghostSpike'), T(1360, 389, 92, 16, 'oneWay'),
+  T(1690, 330, 105, 16, 'phantom'), T(2420, 390, 105, 16, 'falseSpike'),
   T(2880, 389, 92, 16, 'oneWay'), T(3220, 330, 105, 16, 'phantom')
 ];

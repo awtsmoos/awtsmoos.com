@@ -1,38 +1,25 @@
 {
   "format": "awtsmoos-level-json-v1",
   "id": "ladder-1.json",
-  "shaym": "Aleph_Sparks_Over_Lava",
-  "title": "Aleph Sparks Over Lava",
+  "shaym": "Aleph_Garden_Path",
+  "title": "Aleph Garden Path",
   "requiredPerutos": 7,
   "nextLevel": "ladder-2.json",
   "globalCoinStorageKey": "awtsmoosMitzvahGlobalCoins",
   "nivrayim": {
     "ProceduralSky": [
-      {
-        "name": "aleph_sparks_sky",
-        "timeOfDay": 10,
-        "timeMultiplier": 0,
-        "position": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        }
-      }
+      { "name": "aleph_warm_sky", "timeOfDay": 16.5, "timeMultiplier": 0, "position": { "x": 0, "y": 0, "z": 0 } }
     ],
     "ProceduralTerrain": [
       {
-        "name": "low_sand_seen_below_lava",
-        "width": 120,
-        "depth": 70,
-        "thickness": 2.4,
-        "segments": 6,
-        "isSolid": false,
-        "textureType": "desert",
-        "position": {
-          "x": 18,
-          "y": -5.4,
-          "z": 0
-        }
+        "name": "aleph_flat_grass",
+        "width": 64,
+        "depth": 36,
+        "thickness": 2,
+        "segments": 1,
+        "isSolid": true,
+        "textureType": "grass",
+        "position": { "x": 0, "y": -1.05, "z": 0 }
       }
     ],
     "Chossid": [
@@ -41,499 +28,35 @@
         "height": 1.5,
         "radius": 0.45,
         "dynamicSolidRadius": 0.28,
-        "speed": 65,
-        "speedScale": 2,
-        "jumpHeight": 15,
+        "speed": 50,
+        "speedScale": 1.4,
+        "jumpHeight": 8,
         "interactable": true,
         "path": "https://models-3122d.web.app/chossid.glb?k=2",
-        "position": {
-          "x": -8,
-          "y": 4.8,
-          "z": 0
-        }
+        "position": { "x": -14, "y": 1.25, "z": 5.5 }
       }
     ],
-    "SolidBlock": [
-      {
-        "name": "wide_start_island",
-        "width": 7.5,
-        "height": 0.85,
-        "depth": 5.5,
-        "color": 14070366,
-        "textureSeed": "wide_start_island",
-        "position": {
-          "x": -8,
-          "y": 0,
-          "z": 0
-        },
-        "safeRect": {
-          "x": -8,
-          "z": 0,
-          "width": 7.5,
-          "depth": 5.5
-        }
-      },
-      {
-        "name": "tiny_step_one",
-        "width": 2.1,
-        "height": 0.85,
-        "depth": 1.65,
-        "color": 14070366,
-        "textureSeed": "tiny_step_one",
-        "position": {
-          "x": -1.8,
-          "y": 0.75,
-          "z": -1.15
-        },
-        "safeRect": {
-          "x": -1.8,
-          "z": -1.15,
-          "width": 2.1,
-          "depth": 1.65
-        }
-      },
-      {
-        "name": "tiny_step_two",
-        "width": 1.8,
-        "height": 0.85,
-        "depth": 1.5,
-        "color": 14070366,
-        "textureSeed": "tiny_step_two",
-        "position": {
-          "x": 2.4,
-          "y": 1.45,
-          "z": 1.25
-        },
-        "safeRect": {
-          "x": 2.4,
-          "z": 1.25,
-          "width": 1.8,
-          "depth": 1.5
-        }
-      },
-      {
-        "name": "coin_perch_before_mover",
-        "width": 2.15,
-        "height": 0.85,
-        "depth": 1.55,
-        "color": 14070366,
-        "textureSeed": "coin_perch_before_mover",
-        "position": {
-          "x": 6.5,
-          "y": 2.2,
-          "z": -1.35
-        },
-        "safeRect": {
-          "x": 6.5,
-          "z": -1.35,
-          "width": 2.15,
-          "depth": 1.55
-        }
-      },
-      {
-        "name": "gate_island_with_right_post",
-        "width": 7.2,
-        "height": 0.85,
-        "depth": 5.4,
-        "color": 14794085,
-        "textureSeed": "gate_island_with_right_post",
-        "position": {
-          "x": 25.5,
-          "y": 4.8,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 25.5,
-          "z": 0,
-          "width": 7.2,
-          "depth": 5.4
-        }
-      },
-      {
-        "name": "left_gate_post",
-        "width": 0.8,
-        "height": 4.2,
-        "depth": 0.8,
-        "color": 14329946,
-        "textureSeed": "left_gate_post",
-        "position": {
-          "x": 27.7,
-          "y": 7,
-          "z": -2.2
-        },
-        "safeRect": {
-          "x": 27.7,
-          "z": -2.2,
-          "width": 0.8,
-          "depth": 0.8
-        }
-      },
-      {
-        "name": "right_gate_post",
-        "width": 0.8,
-        "height": 4.2,
-        "depth": 0.8,
-        "color": 14329946,
-        "textureSeed": "right_gate_post",
-        "position": {
-          "x": 27.7,
-          "y": 7,
-          "z": 2.2
-        },
-        "safeRect": {
-          "x": 27.7,
-          "z": 2.2,
-          "width": 0.8,
-          "depth": 0.8
-        }
-      },
-      {
-        "name": "gate_lintel",
-        "width": 0.9,
-        "height": 0.85,
-        "depth": 4.9,
-        "color": 15386734,
-        "textureSeed": "gate_lintel",
-        "position": {
-          "x": 27.7,
-          "y": 9.25,
-          "z": 0
-        },
-        "safeRect": {
-          "x": 27.7,
-          "z": 0,
-          "width": 0.9,
-          "depth": 4.9
-        }
-      }
-    ],
-    "MovingPlatform": [
-      {
-        "name": "first_moving_lava_lab",
-        "width": 2.5,
-        "height": 1,
-        "depth": 2.5,
-        "axis": "z",
-        "distance": 3.2,
-        "speed": 0.95,
-        "position": {
-          "x": 10.9,
-          "y": 2.85,
-          "z": 1.1
-        },
-        "phase": 0,
-        "size": {
-          "x": 2.5,
-          "y": 1,
-          "z": 2.5
-        },
-        "dimensions": {
-          "x": 2.5,
-          "y": 1,
-          "z": 2.5
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      }
-    ],
-    "BetrayalPlatform": [
-      {
-        "name": "first_cracking_coin_slab",
-        "width": 2.45,
-        "height": 0.72,
-        "depth": 1.7,
-        "color": 9334271,
-        "textureSeed": "first_cracking_coin_slab",
-        "proximity": 1.55,
-        "dropDelayMs": 260,
-        "shardCount": 22,
-        "position": {
-          "x": 15.1,
-          "y": 3.55,
-          "z": -1.2
-        },
-        "safeRect": {
-          "x": 15.1,
-          "z": -1.2,
-          "width": 2.45,
-          "depth": 1.7
-        }
-      }
-    ],
-    "DisappearingPlatform": [
-      {
-        "name": "blink_before_gate",
-        "width": 2.2,
-        "height": 0.72,
-        "depth": 1.55,
-        "vanishMs": 560,
-        "position": {
-          "x": 19.2,
-          "y": 4.15,
-          "z": 1.15
-        }
-      }
-    ],
-    "SpikeField": [
-      {
-        "name": "main_aleph_lava_sea",
-        "groundY": -2.55,
-        "height": 0.46,
-        "pad": 0.04,
-        "lava": true,
-        "resetDelayMs": 3000,
-        "bounds": {
-          "minX": -16,
-          "maxX": 34,
-          "minZ": -16,
-          "maxZ": 16
-        },
-        "position": {
-          "x": 9,
-          "y": -2.32,
-          "z": 0
-        }
-      }
-    ],
-    "SpikedBallHazard": [
-      {
-        "name": "slow_lava_ball_teaches_waiting",
-        "axis": "z",
-        "amplitude": 1.45,
-        "speed": 0.8600000000000001,
-        "radius": 0.62,
-        "hitRadius": 0.434,
-        "position": {
-          "x": 4.2,
-          "y": 2.5,
-          "z": 0.1
-        }
-      },
-      {
-        "name": "gate_guard_lava_ball",
-        "axis": "x",
-        "amplitude": 1.35,
-        "speed": 0.96,
-        "radius": 0.62,
-        "hitRadius": 0.434,
-        "position": {
-          "x": 21.8,
-          "y": 5.35,
-          "z": -0.9
-        }
-      }
+    "VillagePictureProp": [
+      { "name": "aleph_low_path", "kind": "pictureDirtPath", "groundY": 0, "groundLift": 0.01, "position": { "x": -4.2, "z": 4.4 }, "rotation": { "y": -0.06 } },
+      { "name": "aleph_small_house", "kind": "gableHouse", "scale": 0.72, "groundY": 0, "groundLift": 0, "position": { "x": 11, "z": -6.8 }, "rotation": { "y": -0.32 } },
+      { "name": "aleph_short_bench", "kind": "bench", "groundY": 0, "groundLift": 0, "position": { "x": -8.2, "z": 7.1 }, "rotation": { "y": 0.28 } },
+      { "name": "aleph_lamp_left", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": -11.8, "z": 6 } },
+      { "name": "aleph_lamp_goal", "kind": "lantern", "groundY": 0, "groundLift": 0, "position": { "x": 7.5, "z": -2.3 } },
+      { "name": "aleph_ground_flowers", "kind": "flowerPatch", "groundY": 0, "groundLift": 0, "position": { "x": -5, "z": 6.5 } },
+      { "name": "aleph_goal_flowers", "kind": "flowerPatch", "groundY": 0, "groundLift": 0, "position": { "x": 7.2, "z": -4.8 } },
+      { "name": "aleph_path_rock", "kind": "rock", "groundY": 0, "groundLift": 0, "position": { "x": -2.8, "z": 4.1 } }
     ],
     "Coin": [
-      {
-        "name": "aleph_coin_start",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": -5.8,
-          "y": 1.55,
-          "z": 1.5
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "aleph_coin_tiny_one",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": -1.8,
-          "y": 2.25,
-          "z": -1.15
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "aleph_coin_tiny_two",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 2.4,
-          "y": 2.9,
-          "z": 1.25
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "aleph_coin_perch",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 6.5,
-          "y": 3.65,
-          "z": -1.35
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "aleph_coin_mover",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 10.9,
-          "y": 4.25,
-          "z": 1.1
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "aleph_coin_shatter_bait",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 15.1,
-          "y": 4.95,
-          "z": -1.2
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      },
-      {
-        "name": "aleph_coin_gate",
-        "value": 1,
-        "rotationSpeed": 0.03,
-        "position": {
-          "x": 23.2,
-          "y": 6.25,
-          "z": 1.4
-        },
-        "golem": {
-          "guf": {
-            "CylinderGeometry": [
-              0.42,
-              0.42,
-              0.1,
-              24
-            ]
-          },
-          "toyr": {
-            "MeshStandardMaterial": {
-              "color": 16766282,
-              "emissive": 11171584,
-              "metalness": 0.9,
-              "roughness": 0.2
-            }
-          }
-        }
-      }
+      { "name": "aleph_coin_1", "value": 1, "rotationSpeed": 0.03, "position": { "x": -12.2, "y": 1.2, "z": 5.3 } },
+      { "name": "aleph_coin_2", "value": 1, "rotationSpeed": 0.03, "position": { "x": -8.8, "y": 1.2, "z": 5.1 } },
+      { "name": "aleph_coin_3", "value": 1, "rotationSpeed": 0.03, "position": { "x": -5.4, "y": 1.2, "z": 4.8 } },
+      { "name": "aleph_coin_4", "value": 1, "rotationSpeed": 0.03, "position": { "x": -2.1, "y": 1.2, "z": 4.3 } },
+      { "name": "aleph_coin_5", "value": 1, "rotationSpeed": 0.03, "position": { "x": 1.3, "y": 1.2, "z": 3.2 } },
+      { "name": "aleph_coin_6", "value": 1, "rotationSpeed": 0.03, "position": { "x": 4.6, "y": 1.2, "z": 1.2 } },
+      { "name": "aleph_coin_7", "value": 1, "rotationSpeed": 0.03, "position": { "x": 7.4, "y": 1.2, "z": -2.2 } }
     ],
     "TzedakahBox": [
-      {
-        "name": "pushkuh_on_gate_island_level_1",
-        "requiresAllCoins": true,
-        "position": {
-          "x": 24.4,
-          "y": 5.45,
-          "z": 1.7
-        }
-      }
+      { "name": "pushkuh_by_goal_lamp", "requiresAllCoins": true, "position": { "x": 8.2, "y": 0.9, "z": -3.9 } }
     ],
     "InteractiveDoor": [
       {
@@ -543,34 +66,16 @@
         "destination": "ladder-2.json",
         "isSolid": false,
         "interactable": true,
-        "proximity": 3.2,
+        "proximity": 3,
         "requiresAllCoins": true,
         "requiresTzedakah": true,
         "manualOnly": true,
-        "position": {
-          "x": 27.22,
-          "y": 7.35,
-          "z": 1.72
-        },
+        "position": { "x": 9.2, "y": 0.95, "z": -5.1 },
         "visibleDebug": true
       }
     ],
     "FallResetTrigger": [
-      {
-        "name": "deep_reset_level_1",
-        "width": 110,
-        "height": 0.4,
-        "depth": 70,
-        "proximity": 7,
-        "penalty": 0,
-        "color": 3342336,
-        "resetDelayMs": 3000,
-        "position": {
-          "x": 20,
-          "y": -13.5,
-          "z": 0
-        }
-      }
+      { "name": "below_ground_reset", "width": 70, "height": 0.25, "depth": 45, "proximity": 7, "penalty": 0, "color": 3342336, "opacity": 0.01, "resetDelayMs": 1800, "position": { "x": 0, "y": -10, "z": 0 } }
     ]
   }
 }

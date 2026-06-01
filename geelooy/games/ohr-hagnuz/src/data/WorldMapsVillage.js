@@ -1,6 +1,11 @@
 /**
  * B"H
  * @module WorldMapsVillage
+ *
+ * Chapter 76: The guide moved one tile from destiny.
+ * The Awtsmoos has no body and no form; still, a story needs a first neighbor,
+ * close enough that the player sees whom to ask. These maps place the Village
+ * Guide beside the hero so Talk and Interact begin the path immediately.
  */
 export const VillageMaps = {
   Overworld_Main: [
@@ -11,7 +16,7 @@ export const VillageMaps = {
     "T11W000W111122221111W000W11T",
     "T11W0ד0W111122221111W0ה0W11T",
     "T110⌂00011112222111100✡0011T",
-    "←←222222222222222222222222→→",
+    "←←222222222ג22222222222222→→",
     "←←22222222נ22222222ס222222→→",
     "T11111111111222211111111111T",
     "T1111מ111111222211111ן1111T",

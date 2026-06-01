@@ -2,14 +2,18 @@
  * B"H
  * @class State
  * @description Live state for the current Ohr HaGnuz runtime.
- * A finite registry for the flowing game world: pixels move, paths resolve, debates awaken,
- * and the Awtsmoos renews every object without taking body or form.
+ *
+ * Chapter 74: The first voice stood beside the road.
+ * The Awtsmoos has no body and no form; nevertheless the world needs a memory
+ * vessel so the first guide can keep speaking in order. This state holds feet,
+ * panels, story beats, quest counters, and the soft command that every button
+ * must answer the player with a visible result.
  */
 export class State {
   static ActiveRealm = 'OVERWORLD';
   static MapId = 'Overworld_Main';
   static Resolution = 64;
-  static Speed = 8;
+  static Speed = 4;
 
   static Hero = { cx: 12, cy: 7, dx: 12 * 64, dy: 7 * 64, dir: 'd', moving: false, stepTick: 0 };
 
@@ -22,8 +26,11 @@ export class State {
   static Quests = { active: {}, completed: {}, counters: { spark: 0, scroll: 0, debateWon: 0, wildWon: 0, chest: 0, key: 0 } };
   static HeroPath = [];
   static PathTarget = null;
-  static Message = 'Click a square to walk. Doors, quests, garments, and Torah debates respond.';
-  static MessageTTL = 360;
+  static UiPanel = null;
+  static VisitedMaps = { Overworld_Main: true };
+  static Story = { beats: {}, active: 'Village Guide', chapter: 1 };
+  static Message = 'Talk to the Village Guide beside you. He will begin the hidden-light story.';
+  static MessageTTL = 720;
   static BattleFx = [];
 
   static Debate = {
@@ -68,6 +75,41 @@ export class State {
     this.Hero = { cx: x, cy: y, dx: x * r, dy: y * r, dir, moving: false, stepTick: 0 };
     this.HeroPath = [];
     this.PathTarget = null;
+    this.rememberMap(this.MapId);
+  }
+
+  /**
+   * B"H
+   * @description Records a visited map so the map panel becomes truthful.
+   * @param {string} mapId Active map identifier.
+   * @returns {void}
+   */
+  static rememberMap(mapId) {
+    if (mapId) this.VisitedMaps[mapId] = true;
+  }
+
+  /**
+   * B"H
+   * @description Opens or closes a named UI panel.
+   * @param {string|null} panel Panel key or null to close.
+   * @returns {void}
+   */
+  static openPanel(panel) {
+    this.UiPanel = this.UiPanel === panel ? null : panel;
+    if (panel) this.say(`${panel[0].toUpperCase()}${panel.slice(1)} vessel opened.`, 90);
+  }
+
+  /**
+   * B"H
+   * @description Advances a sequential story key and returns the next index.
+   * @param {string} key Persistent story key.
+   * @param {number} total Total lines available.
+   * @returns {number} Index to read now.
+   */
+  static nextStoryBeat(key, total) {
+    const current = this.Story.beats[key] || 0;
+    this.Story.beats[key] = Math.min(current + 1, total);
+    return Math.min(current, Math.max(0, total - 1));
   }
 
   static say(message, ttl = 360) {

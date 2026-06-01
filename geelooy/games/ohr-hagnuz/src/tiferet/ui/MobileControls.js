@@ -2,10 +2,10 @@
  * B"H
  * @module MobileControls
  *
- * Chapter 60: The buttons learned to survive a fast human tap.
- * The Awtsmoos has no body and no form; this controller now turns brief mortal
- * touches into a few frames of intent, so Talk, Interact, and Flee do not vanish
- * between ticks, while held movement still flows continuously.
+ * Chapter 72: The buttons became rooms instead of echoes.
+ * The Awtsmoos has no body and no form; touch vessels must still answer with
+ * usable worlds. This controller converts thumb-presses into movement, panels,
+ * and clear mobile guidance without stealing the canvas from the walking soul.
  */
 import { State } from '../../binah/State.js';
 import { BATTLE_BUTTONS, DIRECTION_BUTTONS, OVERWORLD_BUTTONS } from './MobileControlSchema.js';
@@ -28,6 +28,48 @@ const questHtml = () => `
     <b>✦ Guidance</b><span data-ohr-message>B"H - Walk, talk, and reveal hidden light.</span>
   </aside>`;
 
+const row = (label, value) => `<p><b>${label}</b><span>${value}</span></p>`;
+const countKeys = obj => Object.keys(obj || {}).length;
+const titleCase = key => key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+const PANEL_BUILDERS = {
+  menu: () => ({
+    title: 'Menu',
+    intro: 'The traveler stands in a living world. Continue walking, seek sparks, and answer every place with purpose.',
+    rows: [
+      ['Light', `${State.Stats.light}/${State.Stats.maxLight}`],
+      ['Level', State.Stats.level],
+      ['Experience', `${State.Stats.exp}/${State.Stats.nextExp}`],
+      ['Garment', titleCase(State.Equipment.garment)]
+    ]
+  }),
+  map: () => ({
+    title: 'Map',
+    intro: `Current realm: ${titleCase(State.MapId)}. Tap a reachable square to walk with the new slower stride.`,
+    rows: [
+      ['Position', `${State.Hero.cx}, ${State.Hero.cy}`],
+      ['Facing', State.Hero.dir.toUpperCase()],
+      ['Visited maps', Object.keys(State.VisitedMaps).map(titleCase).join(', ') || 'None yet'],
+      ['Path tiles', State.HeroPath.length]
+    ]
+  }),
+  journal: () => ({
+    title: 'Journal',
+    intro: 'Seek the hidden light. Every NPC, door, debate, and garment is part of the shlichus path.',
+    rows: [
+      ['Active quests', countKeys(State.Quests.active)],
+      ['Completed quests', countKeys(State.Quests.completed)],
+      ['Debates won', State.Stats.debatesWon],
+      ['Wild victories', State.Quests.counters.wildWon]
+    ]
+  }),
+  items: () => ({
+    title: 'Items',
+    intro: 'Your vessels are counted here so the inventory button finally reveals something real.',
+    rows: Object.entries(State.Inventory.items).map(([k, v]) => [titleCase(k), v])
+  })
+};
+
 export class MobileControls {
   static root = null;
   static bound = false;
@@ -48,12 +90,14 @@ export class MobileControls {
       <section class="ohr-right-rail">${OVERWORLD_BUTTONS.slice(1, 3).map(buttonHtml).join('')}</section>
       <section class="ohr-bottom-actions">${OVERWORLD_BUTTONS.slice(3).map(buttonHtml).join('')}</section>
       <section class="ohr-menu-action">${buttonHtml(OVERWORLD_BUTTONS[0])}</section>
-      <section class="ohr-battle-actions">${BATTLE_BUTTONS.map(buttonHtml).join('')}</section>`;
+      <section class="ohr-battle-actions">${BATTLE_BUTTONS.map(buttonHtml).join('')}</section>
+      <section class="ohr-panel-shell" data-ohr-panel></section>`;
   }
 
   static bind() {
     this.root.querySelectorAll('[data-intent]').forEach(node => this.bindIntent(node));
     this.root.querySelectorAll('[data-action]').forEach(node => node.addEventListener('click', e => this.action(e, node.dataset.action)));
+    this.root.querySelector('[data-ohr-panel]')?.addEventListener('click', e => this.panelClick(e));
     window.addEventListener('blur', () => this.releaseAll());
     window.addEventListener('pagehide', () => this.releaseAll());
   }
@@ -92,8 +136,11 @@ export class MobileControls {
   static action(e, action) {
     if (!action) return;
     e.preventDefault();
-    const lines = { menu: 'Menu vessel coming soon.', map: `Map: ${State.MapId}`, journal: 'Journal: seek the hidden light.', items: 'Items will open after inventory expands.' };
-    State.say(lines[action] || 'The button shines quietly.', 120);
+    State.openPanel(action);
+  }
+
+  static panelClick(e) {
+    if (e.target?.closest?.('[data-close-panel]')) State.openPanel(null);
   }
 
   static update() {
@@ -102,6 +149,20 @@ export class MobileControls {
     this.tickPulses();
     const message = this.root.querySelector('[data-ohr-message]');
     if (message) message.textContent = State.Message || 'Walk, talk, and discover.';
+    this.renderPanel();
+  }
+
+  static renderPanel() {
+    const shell = this.root.querySelector('[data-ohr-panel]');
+    if (!shell) return;
+    const panel = State.UiPanel && PANEL_BUILDERS[State.UiPanel]?.();
+    shell.innerHTML = panel ? this.panelHtml(panel) : '';
+    shell.dataset.open = panel ? 'true' : 'false';
+  }
+
+  static panelHtml(panel) {
+    const rows = panel.rows.map(([label, value]) => row(label, value)).join('');
+    return `<article class="ohr-panel"><button data-close-panel aria-label="Close panel">×</button><h2>${panel.title}</h2><div>${panel.intro}</div><section>${rows}</section></article>`;
   }
 
   static tickPulses() {
